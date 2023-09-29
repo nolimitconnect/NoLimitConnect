@@ -1,0 +1,19 @@
+=== NoLimitConnect Build Prerequisites ====
+External Prerequisites to build/install No Limit Connect 
+<Qt Version> = qt version.. for this document 6.3.2
+<Java Version> = Java Version.. for this document JDK 11
+
+These instructions are not up to date
+==== Prerequisite tools required to build nolimitconnect ======
+1.) sudo apt-get install build-essential
+2.) sudo apt-get install nasm
+3.) uuid required but may be missing in your linux version
+	sudo apt-get install uuid-dev
+4.) Open Gl
+	sudo apt-get install libglu1-mesa-dev
+5.) Needed by Qt or may have compile failure even if git already works
+	sudo apt-get install git	
+
+
+
+

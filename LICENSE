@@ -1,0 +1,14 @@
+
+Mostly GPL and MIT type Licences. All source code licences are open source licenses
+
+Qt is free for open source projects can be used for Linux/Android/Windows developent 
+but requires registraion and license aggreement. 
+Qt is used for GUI on all operatiing system and is required to build No Limit Connect
+Qt is available at https://www.qt.io/download (The open source use version is at bottom of web page)
+
+Visual Studio 2019 Community Edition can be used for No Limit Connect windows developement
+and is free but requires registraion and license aggreement.  
+
+
+All other tools used to build No Limit Connect DO NOT require registraion.
+

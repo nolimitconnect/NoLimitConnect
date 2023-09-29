@@ -1,0 +1,47 @@
+
+cmake_minimum_required (VERSION 3.22.1)
+
+project(fribidi, LANGUAGES C CXX)
+
+set(fribidi_SOURCES)
+
+list(APPEND fribidi_SOURCES 
+    lib/fribidi-arabic.c
+    lib/fribidi-bidi-types.c
+    lib/fribidi-bidi.c
+    lib/fribidi-deprecated.c
+    lib/fribidi-joining-types.c
+    lib/fribidi-joining.c
+    lib/fribidi-mem.c
+    lib/fribidi-mirroring.c
+    lib/fribidi-run.c
+    lib/fribidi-shape.c
+    lib/fribidi.c
+    charset/fribidi-char-sets.c
+    charset/fribidi-char-sets-cap-rtl.c
+    charset/fribidi-char-sets-cp1255.c
+    charset/fribidi-char-sets-cp1256.c
+    charset/fribidi-char-sets-iso8859-6.c
+    charset/fribidi-char-sets-iso8859-8.c
+    charset/fribidi-char-sets-utf8.c
+)
+
+add_library(fribidi STATIC ${fribidi_SOURCES})
+
+target_include_directories(fribidi
+  PRIVATE
+    lib
+    charset
+)
+
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+    if(CI_PIPELINE)
+        # remove *.o and *.d files to avoid gitlab docker size restriction
+        add_custom_command(POST_BUILD TARGET fribidi
+            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+            COMMAND find . -type f -name '*.o' -print -delete
+            COMMAND find . -type f -name '*.d' -print -delete
+        )
+    endif()
+endif()
+

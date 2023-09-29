@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppDefs.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppProfile.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSettings.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\LogMgr.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\LogWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\MyIcons.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonTest.cpp">
+      <Filter>TestCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\SoundMgr.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppDisplay.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppStyle.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppTheme.cpp" />
+    <ClCompile Include="..\..\main.cpp">
+      <Filter>TestCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiParams.cpp" />
+    <ClCompile Include="..\..\EchoCancelTestMainWindow.cpp">
+      <Filter>TestCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppTranslate.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxSndInstance.cpp" />
+    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp">
+      <Filter>GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AppInterface\OsAndroid\IAndroid.cpp">
+      <Filter>GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AppInterface\OsApple\IApple.cpp">
+      <Filter>GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AppInterface\OsLinux\ILinux.cpp">
+      <Filter>GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\ILog.cpp">
+      <Filter>GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AppInterface\OsWin32\IWin32.cpp">
+      <Filter>GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxResourceToRealFile.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioBitrate.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioEchoCancel.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioEchoCancelImpl.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioInIo.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioIoMgr.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioLoopback.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioLoopbackFrame.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioMasterClock.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioMixer.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioMixerFrame.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioOutIo.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioSampleBuf.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioSpeakerBuf.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioTestGenerator.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\soundio\AudioUtils.cpp">
+      <Filter>soundio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\config_libgotvptop.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\MyIcons.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\MyIconsDefs.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiActivityInterface.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiFileXferInterface.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiHardwareControlInterface.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiThumbUpdateInterface.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiUserUpdateInterface.h" />
+    <ClInclude Include="..\..\..\AppTargetOsConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppCpuArchDefines.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppCompilerConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppDependLibrariesConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
+      <Filter>TestCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\SoundDefs.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VxAppStyle.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiParams.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioDefs.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsAndroid\IAndroid.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsApple\IApple.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioInterface.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsLinux\ILinux.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ILog.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IScan.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IToGui.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsWin32\IWin32.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VxResourceToRealFile.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioBitrate.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AudioBuffer.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioLoopbackFrame.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioMixerFrame.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioMixerInterface.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioSampleBuf.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioSpeakerBuf.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\soundio\AudioUtils.h">
+      <Filter>soundio</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\LogWidget.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\LogMgr.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommonTest.h">
+      <Filter>TestCommon</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\SoundMgr.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxAppDisplay.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxAppTheme.h" />
+    <QtMoc Include="..\..\EchoCancelTestMainWindow.h">
+      <Filter>TestCommon</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxSndInstance.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioEchoCancel.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioEchoCancelImpl.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioInIo.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioIoMgr.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioLoopback.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioMasterClock.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioMixer.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioOutIo.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\soundio\AudioTestGenerator.h">
+      <Filter>soundio</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\..\..\CommonSrc\Forms\EchoCancelTestMainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\LogWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\TitleBarWidget.ui">
+      <Filter>QtBuild</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\config_compiler.pri">
+      <Filter>QtBuild</Filter>
+    </None>
+    <None Include="..\..\..\config_deploy.pri">
+      <Filter>QtBuild</Filter>
+    </None>
+    <None Include="..\..\..\config_gradle.pri">
+      <Filter>QtBuild</Filter>
+    </None>
+    <None Include="..\..\..\config_link.pri">
+      <Filter>QtBuild</Filter>
+    </None>
+    <None Include="..\..\..\config_opensslp_include.pri">
+      <Filter>QtBuild</Filter>
+    </None>
+    <None Include="..\..\..\config_os_detect.pri">
+      <Filter>QtBuild</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CompilerConfig">
+      <UniqueIdentifier>{8b609495-22c0-498e-9173-46fd4a535c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{6544abef-4d2d-4150-8bc6-a8d82973160b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QtBuild">
+      <UniqueIdentifier>{0c6f0654-0b8d-43ec-9f44-a9e493d5376d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e46b7d1d-070b-43d2-8dc4-a465a5111936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCommon">
+      <UniqueIdentifier>{7949195e-3f3e-4a2e-b2c5-adf9837cbf7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiInterface">
+      <UniqueIdentifier>{cde21af1-4c1e-4d0d-997f-0076395237de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="soundio">
+      <UniqueIdentifier>{cca11f29-5dd3-402a-9804-d29a4f9da293}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\CommonSrc\Resources\CreditsArt.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>

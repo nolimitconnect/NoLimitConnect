@@ -1,0 +1,76 @@
+//============================================================================
+// Copyright (C) 2022 Brett R. Jones
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include "VxSktStatRecord.h"
+
+#include <CoreLib/VxTime.h>
+
+//============================================================================
+VxSktStatRecord::VxSktStatRecord( SOCKET skt )
+	: m_SktHandle( skt )
+{
+	m_TimeMs = GetGmtTimeMs();
+}
+
+//============================================================================
+VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr )
+	: m_SktHandle( skt )
+	, m_IpAddr( ipAddr )
+{
+	m_TimeMs = GetGmtTimeMs();
+}
+
+//============================================================================
+VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr, ESktType sktType )
+	: m_SktHandle( skt )
+	, m_SktType( sktType )
+	, m_IpAddr( ipAddr )
+{
+	m_TimeMs = GetGmtTimeMs();
+}
+
+//============================================================================
+VxSktStatRecord::VxSktStatRecord( SOCKET skt, ESktType sktType, std::string& ipAddr, VxGUID signatureId )
+: m_SktHandle( skt )
+, m_SktType( sktType )
+, m_IpAddr( ipAddr )
+, m_SignatureId( signatureId )
+{
+	m_TimeMs = GetGmtTimeMs();
+}
+
+//============================================================================
+VxSktStatRecord::VxSktStatRecord( const VxSktStatRecord& rhs )
+	: m_SktHandle( rhs.m_SktHandle )
+	, m_SktType( rhs.m_SktType )
+	, m_IpAddr( rhs.m_IpAddr )
+	, m_TimeMs( rhs.m_TimeMs )
+	, m_SignatureId( rhs.m_SignatureId )
+{
+}
+
+//============================================================================
+VxSktStatRecord& VxSktStatRecord::operator=( const VxSktStatRecord& rhs )
+{
+	if( this != &rhs )
+	{
+		m_SktHandle = rhs.m_SktHandle;
+		m_SktType = rhs.m_SktType;
+		m_IpAddr = rhs.m_IpAddr;
+		m_TimeMs = rhs.m_TimeMs;
+		m_SignatureId = rhs.m_SignatureId;
+	}
+
+	return *this;
+}

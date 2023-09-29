@@ -1,0 +1,28 @@
+No Limit Connect in purple color
+Font Cooper Black
+
+Dark Purple Color html 4c2bc3
+0-255 range
+R-76 G-43 B-195
+percent LCH
+R-31.0 G-88.3 B-301.6
+
+Light Purple Color html b6a3de
+0-255 range
+R-182 G-163 B-222
+
+link
+Font Nirmala UI Bold
+
+
+website colors
+green
+  --clr-primary-200: rgb(233, 251, 248); # almost white
+  --clr-primary-300: rgb(0, 199, 162); # bright green
+  --clr-primary-400: rgb(0, 133, 108); # mid green
+  --clr-primary-500: rgb(0, 82, 67); # darker green
+blue
+  --clr-primary-200: rgb(233, 244, 251); # almost white
+  --clr-primary-300: rgb(0, 152, 219); # bright green
+  --clr-primary-400: rgb(0, 98, 143); # mid green
+  --clr-primary-500: rgb(0, 57, 92); # darker green  

@@ -1,0 +1,82 @@
+A general explanation of terms and design
+
+Applet - A small applet or application built into No Limit Connect.
+Kodi Applet - Kodi built into application as a "Applet". For more info visit https://kodi.wiki/view/Main_Page
+    NOTE: Kodi is not currently enabled as a feature.
+
+Offer - a offer from a user to video chat or join a host etc.
+Video Chat - built in plugin for Video Chat between users
+Messenger - built in plugin for Text messages, Pictures, Video etc. between users ( similar to phones text messaging )
+File Share - built in plugin to serve files to self or users with sufficient permission level
+Cam Server - built in plugin to serve streaming video from camera. Has built in motion detection and recording security cam features
+Truth Or Dare - built in game plugin to play video chat truth or dare game
+Relay Service - Foreword or "Relay" packets from one user to another for users that cannot connect directly to each other
+    Relay Service is provided by any Host Service except Network Host
+Voice Phone - built in plugin for voice communication (VOIP) between users.
+Push To Talk - built in pugin for walkie talkie style one button press voice transmit to another user.
+
+Library - Applet that manages local media that a user may play/share/delete etc.
+Personal Notes - Applet for taking text, voice, or video notes for personal use.
+
+
+
+User - end user. may or may not have joined goup(s)
+    1.) User level permissions allow/disallow offers and/or users media access via "Friendship Level"
+
+Group User - A user that has joined a Group, Chat Room or Random Connect Host.
+
+Friendship Level - although named differently for "Users" and "Group Host" etc. the permission level 
+   uses the same mechanisim of permission ( per plugin or per user )
+    1.) None - resource is completely disabled and no access is allowed at all or if is user then user is added to ignore list
+    2.) Anonymous - allow resource access to anyone
+    3.) Guest - allow access to user granted "Guest" permission to group or user resources with 
+        Permission Level Guest or Annonymous
+        NOTE: When you join a group or host then the other users that joined that group or host
+        are temporarily elevated from anonymous to guest if they are currently anonymous.
+    4.) Friend - allow access to user granted "Friend" permission to group or user resources with
+         Permission Level Friend or Guest or Annonymous 
+    5.) Admin - allow access to user granted "Admin" permission to group or user resources with
+         Permission Level Admin or Friend or Guest or Annonymous  
+
+NoLimitConnect - This application 
+
+Host - Group, Chat Room or Random Connect services for a group of users.
+    1.) Admin of permissions to join hosted group or remove user from group
+    2.) Relay of data services for when users cannot connect directly
+    3.) Search Service to search for people or resources within hosted group 
+    4.) Help provide direct connections between users
+    5.) Can provide Open Port Connection Test if admin desires.
+           
+Network Host
+    1.) Allow search for Group Hosts, Chat Hosts and Random Connect Hosts for end users to find "Groups" with similar interests    
+    2.) Provides connection information for Group, Chat Room and Random Connect hosts.
+    3.) Provides Open Port Connection Test service.  
+    4.) Does NOT provide relay services.
+    5.) Maintains a list of active hosts that were announced to Network Host. This list is queried when user uses
+        Join Group, Join Chat Room or Join Random Connect applets. 
+    6.) The default network host is ptop://nolimitconnect.net:45124 but can be changed in Network Settings if 
+        you wish to setup an independent No Limit Connect network
+    7.) Network Host and Connection Test URLs do not require a domain name like nolimitconnect.net
+        Instead you can use the IP address. For Example at the time of this writing you could 
+        enter ptop://103.214.110.169:45124 as the Network Host URL (The IP may change in the future so please use the domain name instead of the IP Address)
+
+Network Key
+    Used as part of data traffic encryption. All users/hosts/network hosts have to use the same key or cannot connect to each other.
+
+Listen Port (Also sometimes called an Open Port)
+    TCP protocol port that application listens for incomming connections. 
+    If port is blocked then relay services of host will be required in most cases.
+    Network Host, Group, Chat Room and Random Connect hosting all require an open listen port.
+    NOTE: Users with an open port will allow other friends to connect directly without joining a host.
+    NOTE: Some VPN services provide port forwarding (an open port). See VPN_Setup_For_NoLimitConnect.txt for details
+
+Fixed IP Address
+    An IP Address that does not change.
+    Internet Providers can change your IP Address at any time.
+    Most internet providers will provide an fixed ip address at additional cost.
+    A Fixed IP address or use of a domain name is suggested if you setup an independent network so users will not have to 
+    change thier network settings if the host ip address changes.
+
+
+
+          

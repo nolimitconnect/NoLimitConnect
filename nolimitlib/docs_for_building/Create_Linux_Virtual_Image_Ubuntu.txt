@@ -1,0 +1,441 @@
+Instructions to create a virtual box Linux Ubuntu 20.04 Image for NoLimitConnect developement
+NOTE: Upgrade to Ubuntu 22.04 worked without issue. 
+NOTE: Linux Mint/Cinimmon should also work with these instructions.
+
+<Virtual Box Version> = oracal virtual box version. At time of writing the Virtual Box version was 6.1
+<Qt Version> = qt version.. for this document 6.3.2
+<Java Version> = Java Version.. for this document JDK 11
+This document assumes the logged in user name is nolimit. 
+
+=== KNOWN ISSUES ===
+1.) The issue of turning on 3D acceleration in VBox causes Qt Creator to crash seems to have been fixed in in the latest Qt tools
+
+=== after install you might need to give user write access to files if they were installed as root ===
+cd ~/nolimitapp
+sudo chown -hR nolimit *
+sudo chgrp -hR nolimit *
+can verify change with ll -a
+
+=== Setup Linux in VirtualBox ===
+NOTE: Skip to "Setup Linux in VPS" section if setting up in VPS
+
+1.) Download Ubuntu - 64 Bit ( cannot use 32 Bit because of android build requirements )
+2.) Create New Image In Virtual Box using the iso and OS Linux/Ubuntu 64Bit
+3.) The virtual drive should be at least 120GB and dynamic
+4.) Open Install Linux by right click->open of optic disk on linux desktop
+5.) check install install third party software for graphics and additional media formats
+6.) user name nolimit, password <Your Password> 
+7.) Choose NOT to have to enter password on boot (Select radio button log in automatically)
+8.) Change the optical drive iso to Devices->Insert Guest Additions CD Image and reboot
+9.) Open termninal and sudo passwd ( first time use only.. this will set the root password )
+10.) type nolimitpass 3 times.. once for sudo and the next 2 times for root password
+12.) Install guest utils - You might be able gnore below steps a-c.. virtual box now has install guest additions from virtual box.. see virtual box website
+	Devices->Insert Guest Additions CD Image and if does not autorun then open terminal and 
+	a.) cd /media/nolimit/VBox_Gas_6.1.40
+	b.) sudo ./VBoxLinuxAdditions.run
+	c.) Enter the root password if required and let it install
+13.) From Linux menu shutdown linux
+14.) Virtual Box->Settings->Advanced Tab enable Shared Clipboard and Drag'n'Drop
+15.) Setting->Display make
+	Video Memory 128MB and scaling as desired
+	Enable 3d acceleration
+16.) Power up linux image and Optionally in First steps create system snapshot
+17.) Software Updater install updates till no more available
+18.) Optional - Turn off screen lockout
+	Right click desktop->settings
+	a.) Select Power
+	b.) Change Blank Screen combo box to Never		
+19.) Optional - if get permission errors when accessing shared folder sf_YourSharedFolder then fix it with
+	sudo adduser $USER vboxsf
+	or 
+    sudo usermod -aG vboxsf $(whoami)
+	restart linux
+	
+=== Setup Linux in VPS ===
+NOTE: if building with QCreator you will probably need at least 4GB of RAM to build/link a release build or 6GB RAM to build/link debug build.
+A VPS usually have a linux server version with no gui/desktop
+1.) install gui for ubuntu if needed
+	sudo apt update && sudo apt upgrade
+	sudo apt install ubuntu-desktop
+	reboot
+
+2.) Create user instead of being root
+a. Settings->Users .. fewer issues if done through gui. log in as root and add the user
+b. Add user to sudo
+sudo usermod -aG sudo <User Name>
+or if already root
+usermod -aG sudo <User Name>
+
+	
+==== Optional setup VPN ====
+Without a VPN you will probably not be able to connect from the virtual box image to the host computer
+In general a VPN with Port Forwarding (Open A Port To Allow Incomming Connection) support is recommended for developers and users
+1.) Optional but recommended. Setup a VPN with an open incomming port through the VPN. See VPN_Setup_For_NoLimitConnect.txt for information
+		
+==== Optional - some usefull tools for developers ======
+1.) Meld - File Difference comparison tool
+	sudo apt-get install meld
+2.) gitk - git revision history viewer supported by Qt
+	sudo apt-get install gitk
+3.) git-gui - git gui interface for git commits supported by Qt
+	sudo apt-get install git-gui
+4.) sudo apt install apt-file // optional for installed header dependency search
+5.) My favorite text editor (But very large)
+	sudo apt-get install notepad++	
+
+==== Prerequisite tools required to build nolimitconnect ======
+1.) sudo apt-get install g++
+2.) sudo apt-get install nasm
+3.) uuid required but may be missing in your linux version
+	sudo apt-get install uuid-dev
+4.) Open Gl
+	sudo apt-get install libglu1-mesa-dev
+5.) Needed by Qt or may have compile failure even if git already works
+	sudo apt install git	
+6.) Other Qt specifically required for online installer
+	a. sudo apt-get install build-essential
+	b. sudo apt-get install -y libxcb-xinerama0
+	
+=== compile enviroment issues ===
+NOTE: on Ubuntu you will likely see these errors. if packages are not found you are probably not running x11 and is normal
+1.) ~/nolimitapp/nolimitlib/DependLibs/ffmpeg/libavdevice/x11grab.c:58: error: X11/extensions/shape.h: No such file or directory
+	a.) apt-file search X11/extensions/shape.h
+	b.) sudo apt install libxext-dev
+2.)  ~/nolimitapp/nolimitconnect/DependLibs/ffmpeg/libavdevice/x11grab.c:59: error: X11/extensions/Xfixes.h: No such file or directory
+	a.) apt-file search X11/extensions/Xfixes.h
+	b.) sudo apt install libxfixes-dev	
+
+//======= checkout no limit connect source code ======//
+cd ~
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+//======= install Qt <Qt Version> ======//
+1.) Download the qt installer from https://www.qt.io/download-qt-installer 
+2.) cd ~
+3.) mv ~/Downloads/qt-unified-linux-x64-4.5.0-online.run .
+2.) chmod 777 ~/qt-unified-linux-x64-4.3.0.1-online.run
+4.) ./qt-unified-linux-x64-4.3.0.1-online.run
+5.) In Qt Installer enter email and password for Qt account
+6.) Install custom with defaults except install Qt 6.3.2 (This version may change as code is updated)
+7.) a. If installing on system with minimal resources then uncheck all but desktop and additional libraries in the Qt 6.3.2 section
+	b. If installing on system with minimal resources then uncheck any boxes in Tools section
+8.)	after reboot run $qmake --version
+	should show
+	QMake version <QMake Version>
+	Using Qt version<Qt Version> in <Your Qt Install Path>
+	
+	
+===== Qt Creator Editor settings to match No Limit Connect code style =====
+1.) Set Tab Size to 4
+	In QCreator->tools->options->Text Editor change Tab Size to 4
+		
+	
+//======= checkout no limit connect source code ======//
+1.) a.) cd ~
+	b.) git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+	
+	=== useful git commands ===
+	use editor to edit .gitignore and add directories and file extentions like objs/ and .o
+	git status
+	git commit -m "descriptive commit message"
+	git commit -m
+	git push https://brettrjones-gitlab:<Git Lab Password>@gitlab.com/nolimitconnectapps/nolimitapp.git
+
+=== if compiling for linux ===
+1.) In Qt Creator open 	~/nolimitapp/nolimitlib/BuildNoLimitApp_All.pro then compile
+2.) For minimal resource enviroments compile separately instead of as one project in the following order
+	a.) ~/nolimitapp/nolimitlib/BuildNlc1_NlcDependLibs.pro
+	b.) ~/nolimitapp/nolimitlib/BuildNlc2_NlcCore.pro
+	c.) ~/nolimitapp/nolimitgui/NoLimitConnectApp.pro
+	NOTE: Disable QML Debugging and Qt Quick Compiler in project settings for faster builds and use less memory
+		In Separate Debug Info combo box set to Leave At Default 
+	NOTE: If QCreator disappears during compile on low resource machine
+		Uncheck all boxes in Qt Plugins sections Code Analyzer, Device Support, Other Languages, Qt Quick, Utilities and Version control
+		In Qt Plugins section C++ uncheck ClangCodeModel
+		In Projects->Make for NoLimitConnectApp.pro
+			In Make Details change Parallel jobs to 1
+		In Projects->Make for BuildNlc1_NlcDependLibs.pro and BuildNlc2_NlcCore.pro
+			In Make Details change Parallel jobs to 2 (at least that worked for me.. you may want to set it to 1)
+	NOTE: If you get an error about deploy for BuildNlc1_NlcDependLibs.pro or BuildNlc2_NlcCore.pro
+		You can ignore or disable deploy step if it is available in build step details
+	NOTE: If you get an error about "ld terminated with signal 9" then your device does not have 
+		enough memory for linking the project .. you can try a release build instead of debug build if possible
+	
+	
+=== if compiling for android ===
+Same instructions as the section "if compiling for linux"
+Except with these extra notes
+
+NOTE: If possible use android NDK Version: 22.1.7171670 because version NDK Version: 21.3.6528147
+	causes build of BuildNlc1_NlcDependLib and BuildNlc2_NlcCore to error with failed to deploy for every library
+
+NOTE: for BuildNlc1_NlcDependLibs and BuildNlc2_NlcCore go to Build Settings
+		and expand Build Steps and Disable Build Android APK step to avoid
+		annoying build failure (It builds correctly but cannot deploy because is just static libraries)
+
+
+
+====================================================================
+==== Optional - setup Qt in linux to compile Android No Limit Connect ====
+====================================================================
+NOTE: instructions below are old and may not work
+
+==== install android studio ====
+NOTE: use uppercase Android in ~/nolimitapp/nolimitgui/Android because that is the default install directory for android studio
+After many tries the only way I could get android studio installed correctly was by using Mint software manager
+1.) install Android Studio using Linux Software Manager
+2.) When Launch Android Studio Install choose All the defaults.. now the sdk dirctory should be /home/nolimit/Android/Sdk
+3.) Do not actually open Android Studio.. instead Open QCreator->tool/options/Devices Android Tab
+4.) The Android SDK location should be /home/nolimit/Android/Sdk
+5.) Click Button Set Up SDK and choose defaults
+6.) Android SDK Platform 31 should be the only one required for build.. might change as revisions progress
+7.) Qt should choose the correct NDK.. press Apply and ok
+	NOTE: ndk was 22.1.7171670 at the time of writing this document
+
+8.) In Manage kits and when configuring us the Clang arm64 for android
+	NOTE: other cps like x86_64 for android should also compile but are not tested
+9.) For Projects BuildNlc1_NlcDependLibs.pro and BuildNlc2_NlcCore.pro
+    In Projects->Build And Run click the cancel icon in step 
+    ""Build Android APK"" or will get error: No rule to make target 'install'.      
+    After the libraries are built
+
+====================================================================
+======= Optional Additional Media Applications for comparison ======
+====================================================================	
+	
+======= Build VLC for android ======
+
+instructions for building vlc for android
+https://wiki.videolan.org/AndroidCompile
+
+0.1) make sure you installed java 
+
+1.) from software manager install yasm nasm cmake
+
+2.) install required tools
+sudo apt-get install automake ant autopoint cmake build-essential libtool patch pkg-config protobuf-compiler ragel unzip git flex python wget
+
+3.) If you are running a 64-bit version of Ubuntu, you need to install some 32-bit libraries with the following command:
+sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+
+// This step does not seem to be required
+//4.) If you are running a 64-bit linux
+//sudo dpkg --add-architecture i386
+//sudo apt-get update
+//sudo apt-get install zlib1g:i386 libstdc++6:i386 libc6:i386
+	
+
+5.) create directory /home/nolimit/nolimitarchives/ ( to save off downloaded archives and programs for developement )
+					/home/nolimit/nolimittools/
+					/home/nolimit/Android/ 					
+				    /home/nolimit/Android/Ndk/android-ndk-r18b ( where to put the unziped ndk )
+					/home/nolimit/project_sources/nolimitconnect
+					/home/nolimit/project_sources/vlc_sources/vlc_android
+		
+	
+//7.) If android says hardware accel is available follow the hardware accel
+//	a.) sudo apt-get install cpu-checker
+//	b.) egrep -c '(vmx|svm)' /proc/cpuinfo
+//	c.) if 0 then sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils ia32-libs-multiarch
+
+
+6.) Setup android env variables 
+edit ~/.profile
+and add at bottom
+
+export ANDROID_SDK=~/Android/Sdk
+export ANDROID_NDK=~/Android/Ndk/android-ndk-r18b
+export PATH=$PATH:$ANDROID_SDK/platform-tools:$ANDROID_SDK/tools
+
+check if enviroment is correct by opening new terminal and issue command printenv
+
+
+10.) Setup vlc sources
+	a.) mkdir ~/project_sources
+	b.) mkdir ~/project_sources/vlc_sources
+	c.) cd ~/project_sources/vlc_sources
+	d.) git clone https://code.videolan.org/videolan/vlc-android.git
+	
+11.) setup vlc compile
+	a.) cd ~/project_sources/vlc_sources/vlc-android
+	b.) sh compile.sh -a arm
+	
+
+12.) If get error Unrecognized syntax identifier proto3 
+	a.) cd ~/project_sources/
+	b.) mkdir protobuf_source
+	c.) cd protobuf_source
+	d.) git clone https://github.com/protocolbuffers/protobuf.git
+	e.) cd protobuf
+	f.) git submodule update --init --recursive
+	g.) ./autogen.sh
+	h.) ./configure
+	i.) make
+	j.) make check
+	k.) If "make check" fails, you can still install, but it is likely that some features of this library will not work correctly on your system. Proceed at your own risk.
+	l.) sudo make install
+	m.) sudo ldconfig # refresh shared library cache.
+	n.) rerun step 11.
+	o.) if success then clean up protobuf with 
+		cd ~/project_sources/protobuf_source/protobuf	
+		make clean
+
+==== setup Android Studio to debug VLC ===
+1.) this would be a very good time to make a backup image clone	
+2.) Open android studio
+3.) In Tools->AVD Manager create a arm android device with
+	a.) Maximum of sdk version 18 ( 
+	a.) 1024 MB of memory and internal space and sdcard space and start it
+4.) File->Open browse to /home/nolimit/project_sources/vlc_sources/vlc-android
+5.) Click Ok and let vlc-android sync
+6.) Build->Make Project
+7.) Attach external device.. the emulator seems broken
+
+==== build kodi on linux mint ===
+
+1.) mkdir ~/project_sources/kodi_source
+2.) cd ~/project_sources/kodi_source
+3.) sudo apt-get install git-core -y
+4.) sudo apt-get install automake autopoint bison build-essential ccache cmake curl cvs default-jre fp-compiler gawk gdc gettext git-core gperf libasound2-dev libass-dev libavcodec-dev libavfilter-dev libavformat-dev libavutil-dev libbluetooth-dev libbluray-dev libbluray1 libboost-dev libboost-thread-dev libbz2-dev libcap-dev libcdio-dev libcec-dev libcurl3 libcurl4-gnutls-dev libcwiid-dev libcwiid1 libdbus-1-dev libenca-dev libflac-dev libfontconfig-dev libfreetype6-dev libfribidi-dev libglew-dev libiso9660-dev libjasper-dev libjpeg-dev libltdl-dev liblzo2-dev libmad0-dev libmicrohttpd-dev libmodplug-dev libmp3lame-dev libmpeg2-4-dev libmpeg3-dev libmysqlclient-dev libnfs-dev libogg-dev libpcre3-dev libplist-dev libpng-dev libpostproc-dev libpulse-dev libsamplerate-dev libsdl-dev libsdl-gfx1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libshairport-dev libsmbclient-dev libsqlite3-dev libssh-dev libssl-dev libswscale-dev libtiff-dev libtinyxml-dev libtool libudev-dev libusb-dev libva-dev libva-egl1 libva-tpi1 libvdpau-dev libvorbisenc2 libxml2-dev libxmu-dev libxrandr-dev libxrender-dev libxslt1-dev libxt-dev libyajl-dev mesa-utils nasm pmount python-dev python-imaging python-sqlite swig unzip yasm zip zlib1g-dev
+
+sudo apt-get install uuid-dev
+
+3.) git clone --single-branch -b Krypton git://github.com/xbmc/xbmc.git Branch_17.6-Kr 
+    or for windows git clone --single-branch -b Krypton https://github.com/xbmc/xbmc.git Branch_17.6-Kr 
+4.) sudo apt-get build-dep kodi
+5.) cd xbmc
+6.) ./bootstrap
+7.) ./configure
+8.) make
+9.) If get error configure: error: libdcadec not found then
+	a.) sudo add-apt-repository ppa:team-xbmc/xbmc-nightly
+	b.) sudo apt-get update
+	c.) sudo apt-get install dcadec-dev
+10.) If get error configure: error: crossguid not found	
+	sudo make -C tools/depends/target/crossguid PREFIX=/usr/local
+	
+11.) make -j4
+
+12.) sudo make install
+
+When this completes you are done!
+You may either go into a terminal session or press Alt+F2. Then type 'kodi'
+
+13.) NOTE: On certain versions of Ubuntu, you may get a segmentation fault due to libcurl. This is resolved by creating a symbolic link in /usr/lib
+cd /usr/lib
+sudo ln -s libcurl-gnutls.so.4 libcurl.so.4
+
+14.) On running kod I got "Your version 1.2.2 of Python cryptography module is to old". See https://kodi.wiki/view/Linux
+	a.) remove python-cryptography from mint using Software Manager
+	b.) mkdir ~/project_sources/python-cryptography
+	c.) cd ~/project_sources/python-cryptography
+	d.) wget http://launchpadlibrarian.net/299484105/python-cryptography_1.7.1-2_amd64.deb
+	e.) wget http://launchpadlibrarian.net/292839640/python-openssl_16.2.0-1_all.deb
+	f.) sudo apt-get install python-setuptools
+	g.) sudo dpkg -i python-cryptography_1.7.1-2_amd64.deb
+	h.) sudo dpkg -i python-openssl_16.2.0-1_all.deb
+
+15.) Kodi should now work..
+	kodi
+	
+
+====== build ffmpeg for linux mint =====
+instructions for building ffmpeg for linux mint are at:
+https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
+
+1.) Create directories
+/home/nolimit/ffmpeg_sources – Where the source files will be downloaded. This can be deleted if desired when finished with the guide.
+/home/nolimit/ffmpeg_build – Where the files will be built and libraries installed. This can be deleted if desired when finished with the guide.
+/home/nolimit/bin – Where the resulting binaries (ffmpeg, ffplay, ffprobe, x264, x265) will be installed. 
+
+2.) Install tool for compiling ffmpeg
+These are packages required for compiling, but you can remove them when you are done if you prefer:
+sudo apt-get update -qq && sudo apt-get -y install autoconf automake build-essential cmake git-core libass-dev libfreetype6-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo wget zlib1g-dev
+
+3.) NASM - An assembler used by some libraries.
+cd ~/ffmpeg_sources && wget https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/nasm-2.13.03.tar.bz2 && tar xjvf nasm-2.13.03.tar.bz2 && cd nasm-2.13.03 && ./autogen.sh && PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" && make && make install
+
+3.) Yasm - An assembler used by some libraries.
+If your repository provides yasm version ≥ 1.2.0 then you can install that instead of compiling:
+sudo apt-get install yasm
+
+Otherwise you can compile:
+
+cd ~/ffmpeg_sources && wget -O yasm-1.3.0.tar.gz https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz && tar xzvf yasm-1.3.0.tar.gz && cd yasm-1.3.0 && ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" && make && make install
+
+4.) libx264 -H.264 video encoder. See the H.264 Encoding Guide for more information and usage examples.
+Requires ffmpeg to be configured with --enable-gpl --enable-libx264.
+
+If your repository provides libx264-dev version ≥ 118 then you can install that instead of compiling:
+sudo apt-get install libx264-dev
+
+Otherwise you can compile:
+
+cd ~/ffmpeg_sources && git -C x264 pull 2> /dev/null || git clone --depth 1 https://git.videolan.org/git/x264 && cd x264 && PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static --enable-pic && PATH="$HOME/bin:$PATH" make && make install
+
+5.) libx265 -H.265/HEVC video encoder. See the H.265 Encoding Guide for more information and usage examples.
+If your repository provides libx265-dev version ≥ 68 then you can install that instead of compiling:
+sudo apt-get install libx265-dev libnuma-dev
+
+Otherwise you can compile:
+
+sudo apt-get install mercurial libnuma-dev && cd ~/ffmpeg_sources && if cd x265 2> /dev/null; then hg pull && hg update; else hg clone https://bitbucket.org/multicoreware/x265; fi && cd x265/build/linux && PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED=off ../../source && PATH="$HOME/bin:$PATH" make && make install
+
+6.) libvpx - VP8/VP9 video encoder/decoder. See the VP9 Video Encoding Guide for more information and usage examples.
+Requires ffmpeg to be configured with --enable-libvpx.
+If your repository provides libvpx-dev version ≥ 1.4.0 then you can install that instead of compiling:
+sudo apt-get install libvpx-dev
+
+Otherwise you can compile:
+
+cd ~/ffmpeg_sources && git -C libvpx pull 2> /dev/null || git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git && cd libvpx && PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm && PATH="$HOME/bin:$PATH" make && make install
+
+7.) libfdk-aac - AAC audio encoder. See the AAC Audio Encoding Guide for more information and usage examples.
+Requires ffmpeg to be configured with --enable-libfdk-aac (and --enable-nonfree if you also included --enable-gpl).
+If your repository provides libfdk-aac-dev then you can install that instead of compiling:
+sudo apt-get install libfdk-aac-dev
+
+Otherwise you can compile:
+
+cd ~/ffmpeg_sources && git -C fdk-aac pull 2> /dev/null || git clone --depth 1 https://github.com/mstorsjo/fdk-aac && cd fdk-aac && autoreconf -fiv && ./configure --prefix="$HOME/ffmpeg_build" --disable-shared && make && make install
+
+8.) libmp3lame - MP3 audio encoder.
+Requires ffmpeg to be configured with --enable-libmp3lame.
+If your repository provides libmp3lame-dev version ≥ 3.98.3 then you can install that instead of compiling:
+sudo apt-get install libmp3lame-dev
+
+Otherwise you can compile:
+
+cd ~/ffmpeg_sources && wget -O lame-3.100.tar.gz https://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz && tar xzvf lame-3.100.tar.gz && cd lame-3.100 &&  PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --disable-shared --enable-nasm && PATH="$HOME/bin:$PATH" make && make install
+
+9.) libopus - Opus audio decoder and encoder.
+Requires ffmpeg to be configured with --enable-libopus.
+If your repository provides libopus-dev version ≥ 1.1 then you can install that instead of compiling:
+sudo apt-get install libopus-dev
+
+Otherwise you can compile:
+
+cd ~/ffmpeg_sources && git -C opus pull 2> /dev/null || git clone --depth 1 https://github.com/xiph/opus.git && cd opus && ./autogen.sh && ./configure --prefix="$HOME/ffmpeg_build" --disable-shared && make && make install
+
+10.) libaom - AV1 video encoder/decoder:
+cd ~/ffmpeg_sources && git -C aom pull 2> /dev/null || git clone --depth 1 https://aomedia.googlesource.com/aom && mkdir aom_build && cd aom_build && PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED=off -DENABLE_NASM=on ../aom && PATH="$HOME/bin:$PATH" make && make install
+
+11a.) FFmpeg - with libfdk-aac
+cd ~/ffmpeg_sources && wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && tar xjvf ffmpeg-snapshot.tar.bz2 && cd ffmpeg &&  PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure  --prefix="$HOME/ffmpeg_build"   --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --extra-libs="-lpthread -lm" --bindir="$HOME/bin" --enable-gpl --enable-libaom --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-nonfree && PATH="$HOME/bin:$PATH" make && make install && hash -r
+
+11b.) FFmpeg - without libfdk-aac ( uses built in ffmpeg aac decoder )
+cd ~/ffmpeg_sources && wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && tar xjvf ffmpeg-snapshot.tar.bz2 && cd ffmpeg &&  PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure  --prefix="$HOME/ffmpeg_build"   --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --extra-libs="-lpthread -lm" --bindir="$HOME/bin" --enable-gpl --enable-libaom --enable-libass --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-nonfree && PATH="$HOME/bin:$PATH" make && make install && hash -r
+
+12.) after build you should be in directory ~/ffmpeg_sources
+run command source ~/.profile so that ffmpeg can be located from terminal
+
+13.) A good place to get basic ffmpeg commands is
+https://www.tecmint.com/ffmpeg-commands-for-video-audio-and-image-conversion-in-linux/
+
+14.) Test that ffmpeg works by extracting audio from a video file
+cd ~/TestMedia/video && ffmpeg -i MJPEGWithAAC.avi -vn -ar 44100 -ac 2 -ab 192000 -f mp3 extractAudioTest.mp3
+
+15.) now would be a good time to make a Virtual Image Clone or Time Snapshot
+
+END
+

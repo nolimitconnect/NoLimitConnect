@@ -1,0 +1,47 @@
+
+cmake_minimum_required (VERSION 3.22.1)
+
+project(iconv, LANGUAGES C CXX)
+
+set(iconv_SOURCES)
+
+list(APPEND iconv_SOURCES 
+    iconv_iconv.c
+    localcharset_iconv.c
+    relocatable_iconv.c
+)
+
+add_library(iconv STATIC ${iconv_SOURCES})
+
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(iconv
+      PRIVATE
+        WINDOWS
+        USING_STATIC_LIBICONV
+    )
+endif()
+
+if(DEFINED TARGET_OS_LINUX)
+    target_compile_definitions(iconv
+      PRIVATE
+        USING_STATIC_LIBICONV
+    )
+endif()
+
+if(DEFINED TARGET_OS_ANDROID)
+    target_compile_definitions(iconv
+      PRIVATE
+        USING_STATIC_LIBICONV
+    )
+endif()
+
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+    if(CI_PIPELINE)
+        # remove *.o and *.d files to avoid gitlab docker size restriction
+        add_custom_command(POST_BUILD TARGET iconv
+            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+            COMMAND find . -type f -name '*.o' -print -delete
+            COMMAND find . -type f -name '*.d' -print -delete
+        )
+    endif()
+endif()

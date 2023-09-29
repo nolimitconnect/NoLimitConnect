@@ -1,0 +1,9 @@
+prefix=/home/nolimit/ffmpeg_build
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libdav1d
+Description: AV1 decoding library
+Version: 1.1.0
+Libs: -L${libdir} -ldav1d -pthread -ldl
+Cflags: -I${includedir} -pthread

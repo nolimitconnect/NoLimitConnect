@@ -1,0 +1,163 @@
+//============================================================================
+// Copyright (C) 2010 Brett R. Jones
+// Issued to MIT style license by Brett R. Jones in 2017
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include "SoundMgr.h"
+#include "VxSndInstance.h"
+#include "AppCommon.h"
+
+#include <CoreLib/VxDebug.h>
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
+#include <QDebug>
+#include <QMessageBox>
+
+//============================================================================
+SoundMgr& GetSndMgrInstance( void )
+{
+	return GetAppInstance().getSoundMgr();
+}
+
+//============================================================================
+SoundMgr::SoundMgr( AppCommon& app )
+	: MiniAudioMgr( app, app, &app )
+{
+}
+
+//============================================================================ 
+void SoundMgr::slotStartPhoneRinging( void )
+{
+	playSnd( eSndDefPhoneRing1, true );
+}
+
+//============================================================================ 
+void SoundMgr::slotStopPhoneRinging( void )
+{
+	if( m_CurSndPlaying 
+		&& ( eSndDefPhoneRing1 == m_CurSndPlaying->getSndDef() ) )
+	{
+		m_CurSndPlaying->stopPlay();
+	}
+}
+
+//============================================================================
+void SoundMgr::slotPlayNotifySound( void )
+{
+	playSnd( eSndDefNotify1, true );
+}
+
+//============================================================================
+void SoundMgr::slotPlayShredderSound( void )
+{
+	playSnd( eSndDefPaperShredder, true );
+}
+
+//============================================================================
+void SoundMgr::mutePhoneRing( bool bMute )
+{
+	m_MutePhoneRing = bMute;
+	if( bMute )
+	{
+		slotStopPhoneRinging();
+	}
+}
+
+//============================================================================
+void SoundMgr::muteNotifySound( bool bMute )
+{
+	m_MuteNotifySnd = bMute;
+}
+
+//============================================================================
+bool SoundMgr::sndMgrStartup( void )
+{
+    for( int i = 0; i < eMaxSndDef; i++ )
+    {
+        VxSndInstance* sndInstance = new VxSndInstance( (ESndDef)i, this );
+        connect( sndInstance, SIGNAL(signalSndFinished(VxSndInstance*)), this, SLOT(slotSndFinished(VxSndInstance*)) );
+        m_SndList.push_back( sndInstance );
+    }
+
+	audioIoSystemStartup();
+
+	m_MyApp.wantToGuiHardwareCtrlCallbacks( this, true );
+	return true;
+}
+
+
+//============================================================================
+bool SoundMgr::sndMgrShutdown( void )
+{
+	m_MyApp.wantToGuiHardwareCtrlCallbacks( this, false );
+	audioIoSystemShutdown();
+	return true;
+}
+
+//============================================================================
+VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
+{
+
+#ifdef DISABLE_AUDIO
+    return 0;
+#endif // DISABLE_AUDIO
+
+	if( m_MutePhoneRing 
+		&& ( eSndDefPhoneRing1 == sndDef ) )
+	{
+		return m_SndList[ eSndDefNone ];
+	}
+
+	if( m_MuteNotifySnd 
+		&& ( ( eSndDefNotify1 == sndDef ) || ( eSndDefNotify2 == sndDef ) ) )
+	{
+		return m_SndList[ eSndDefNone ];
+	}
+
+    if( ( sndDef < m_SndList.size() )
+		&& ( 0 <= sndDef ) )
+	{
+		if( m_CurSndPlaying )
+		{
+			m_CurSndPlaying->stopPlay();
+		}
+
+		m_CurSndPlaying = m_SndList[ sndDef ];
+		m_CurSndPlaying->startPlay( loopContinuous );
+		return m_CurSndPlaying;
+	}
+	else
+	{
+		return m_SndList[ eSndDefNone ];
+	}
+}
+
+//============================================================================
+void SoundMgr::stopSnd( ESndDef sndDef )
+{
+	if( m_CurSndPlaying 
+		&& ( sndDef == m_CurSndPlaying->getSndDef() ) )
+	{
+		m_CurSndPlaying->stopPlay();
+		m_CurSndPlaying = 0;
+	}
+}
+
+//============================================================================
+void SoundMgr::slotSndFinished( VxSndInstance * sndInstance )
+{
+	if( m_CurSndPlaying == sndInstance )
+	{
+		m_CurSndPlaying = 0;
+	}
+}

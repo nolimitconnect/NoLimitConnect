@@ -1,0 +1,50 @@
+
+#if defined(CONFIG_FFMPEG_H)
+
+static const URLProtocol * const url_protocols[] = {
+    &ff_async_protocol,
+    &ff_cache_protocol,
+    &ff_concat_protocol,
+    &ff_concatf_protocol,
+    &ff_crypto_protocol,
+    &ff_data_protocol,
+    &ff_fd_protocol,
+#if CONFIG_FFRTMPHTTP_PROTOCOL
+    &ff_ffrtmphttp_protocol,
+#endif // CONFIG_FFRTMPHTTP_PROTOCOL
+    &ff_file_protocol,
+    &ff_ftp_protocol,
+    &ff_gopher_protocol,
+    &ff_gophers_protocol,
+    &ff_hls_protocol,
+    &ff_http_protocol,
+    &ff_httpproxy_protocol,
+    &ff_https_protocol,
+    &ff_icecast_protocol,
+    &ff_mmsh_protocol,
+    &ff_mmst_protocol,
+    &ff_md5_protocol,
+    &ff_pipe_protocol,
+    &ff_prompeg_protocol,
+#if CONFIG_RTMP_PROTOCOL
+    &ff_rtmp_protocol,
+    &ff_rtmps_protocol,
+    &ff_rtmpt_protocol,
+    &ff_rtmpts_protocol,
+#endif // CONFIG_RTMP_PROTOCOL
+    &ff_rtp_protocol,
+    &ff_srtp_protocol,
+    &ff_subfile_protocol,
+    &ff_tee_protocol,
+    &ff_tcp_protocol,
+#if CONFIG_LIBTLS
+    &ff_tls_protocol,
+#endif // CONFIG_LIBTLS
+    &ff_udp_protocol,
+    &ff_udplite_protocol,
+    &ff_unix_protocol,
+    &ff_ipfs_gateway_protocol,
+    &ff_ipns_gateway_protocol,
+    NULL };
+
+#endif // defined(CONFIG_FFMPEG_H)

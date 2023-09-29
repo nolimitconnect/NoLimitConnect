@@ -1,0 +1,102 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2010 Brett R. Jones 
+// Issued to MIT style license by Brett R. Jones in 2017
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include "ActivityBase.h"
+#include "ui_ActivityBrowseFiles.h"
+#include "FileItemInfo.h"
+#include "ToGuiFileXferInterface.h"
+
+#include <CoreLib/VxTimer.h>
+
+class FileShareItemWidget;
+class FromGuiInterface;
+class FromEngineInterface;
+class P2PEngine;
+class QTimer;
+
+class ActivityBrowseFiles : public ActivityBase, public ToGuiFileXferInterface
+{
+	Q_OBJECT
+public:
+
+	ActivityBrowseFiles( AppCommon& app, EFileFilterType fileFilter, ActivityBase* parent = nullptr, bool isSelectAFileMode = false );
+	virtual ~ActivityBrowseFiles();
+
+    // overrides required for dialogs with there own title bar and bottom bar widgets
+    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
+    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+
+public:
+	void						setFileFilter( EFileFilterType eFileFilter );
+	void						setCurrentBrowseDir( QString browseDir );
+
+	FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
+	void						updateListEntryWidget( FileShareItemWidget* item );
+
+	bool						getWasFileSelected( void )						{ return m_FileWasSelected; }
+	FileInfo&					getSelectedFileInfo( void )						{ return m_SelectedFileInfo; }
+
+protected slots:
+    void						slotHomeButtonClicked( void ) override;
+	void						slotUpDirectoryClicked( void );
+	void						slotBrowseButtonClicked( void );
+
+	void						slotRequestFileList( void );
+	void						slotApplyFileFilter( unsigned char fileMask );
+
+	void						slotListItemClicked( QListWidgetItem* item );
+	void						slotListItemDoubleClicked( QListWidgetItem* item );
+	void						slotListFileIconClicked( QListWidgetItem* item );
+	void						slotListShareFileIconClicked( QListWidgetItem* item );
+	void						slotListLibraryIconClicked( QListWidgetItem* item );
+	void						slotListPlayIconClicked( QListWidgetItem* item );
+	void						slotListShredIconClicked( QListWidgetItem* item );
+	void						slotAddAllButtonClicked( void );
+	
+protected:
+    virtual void				showEvent( QShowEvent* ev ) override;
+    virtual void				hideEvent( QHideEvent* ev ) override;
+
+	virtual void				callbackToGuiFileList( FileInfo& fileInfo ) override;
+	virtual void				callbackToGuiFileListCompleted( void ) override;
+
+	void						fromListWidgetRequestFileList( void );
+	
+	void						setActionEnable( bool enable );
+	void						addFile( FileInfo& fileInfo );
+
+	void						clearFileList( void );
+	void						setDefaultCurrentDir( EFileFilterType eFileFilterType );
+	std::string					getDefaultDir( int eFileFilterType );
+
+	void						showAddAllToLibrary( bool visible );
+
+	Ui::BrowseFilesWidget		ui;
+
+	std::string					m_CurBrowseDirectory;
+	QTimer *					m_WidgetClickEventFixTimer;
+	VxTimer						m_ClickToFastTimer;
+
+	bool						m_bFetchInProgress{ false };
+	bool						m_IsSelectAFileMode{ false };
+	bool						m_FileWasSelected{ false };
+	FileInfo					m_SelectedFileInfo;
+
+	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
+	uint8_t						m_FileFilterMask{ 0 };
+};
+
+

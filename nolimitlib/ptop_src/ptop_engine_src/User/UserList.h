@@ -1,0 +1,38 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2021 Brett R. Jones
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include "User.h"
+
+#include <CoreLib/VxMutex.h>
+
+class UserList
+{
+public:
+    UserList() = default;
+    UserList( const UserList& rhs );
+	virtual ~UserList() = default;
+
+    /*
+    User					    findUser( VxGUID& userId );
+    */
+    void 				        addOrUpdateUser( User& user );
+    void 				        removeUser( VxGUID& onlineId, VxGUID& sessionId );
+
+protected:
+
+	//=== vars ===//
+    VxMutex                     m_UserListMutex;
+	std::vector<User>		    m_UserList;
+};

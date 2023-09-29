@@ -1,0 +1,84 @@
+=== How to open port in Windows 10 firewall ===
+
+Hopefully by the time NoLimitConnect is published this will be automated by applicaion
+and these steps will not be required
+
+1.) Open Windows Settings
+2.) Click Network & Internet
+3.) Click Windows Firewall
+4.) Click Advanced Settings
+5.) Click Inbound Rules
+6.) Click New Rule
+7.) Select Program then next
+8.) Use the browse button to browse to NoLimitConnect.exe then next
+9.) select Allow the connection then click Next
+10.) check all boxes then click Next
+11.) Give the rule a name like No Limit Connect Inbound Rule then finish
+12.) VERY IMPORTANT: After rule is created select the rule from the list and click Properties
+13.) In Advanced Tab change Edge Transverse to Allow edge transversal
+14.) Apply and close out of dialogs
+
+PureVPN has a extensive list of how to unblock an application
+https://support.purevpn.com/how-to-disable-vpn-block-on-windows-firewall
+
+2.) When Follow instructions for Change Allow app settings
+	When selecting Public or Private check the box for both Public and Private
+
+	
+	
+
+UPDATE: It seems that the above instructions did not work in all cases so here is a setup
+that seems to always work (May have to restart computer after setup)
+1.) follow steps 1 through 5 above to get to inbound rules
+NOTE: for the following PATH_TO_APP means full path to application
+	ie something like F:\nolimitconnect\bin-Windows\NoLimitConnect.exe
+2.) Create the following Inbound rule
+	General
+		Name: NoLimitConnect (TCP-In-No Edge)
+		Enabled: checked
+		Action: Allow the Connection
+	
+	Programs and Services
+		This Program: PATH_TO_APP
+		Compartments: All compartments
+		
+	Protocols and Ports
+		Protocol Type: TCP
+		Local port: All Ports
+		Remote port: All Ports
+	
+	Advanced
+		Domain: checked
+		Private: checked
+		Public: checked
+		Edge transversal: Allow edge transversal
+		
+3.) Create another inbound rule same as above except
+	General	
+		Name: NoLimitConnect (TCP-In-Yes Edge)
+		
+	Advanced
+		Edge transversal: Block edge transversal
+		
+4.) Create Outbound Rule
+	General
+		Name: NoLimitConnect (TCP-Out)
+		Enabled: checked
+		Action: Allow the Connection
+	
+	Programs and Services
+		This Program: PATH_TO_APP
+		Compartments: All compartments
+		
+	Protocols and Ports
+		Protocol Type: TCP
+		Local port: All Ports
+		Remote port: All Ports
+	
+	Advanced
+		Domain: checked
+		Private: checked
+		Public: checked
+5.) Click Ok and exit Windows Defender Firewall
+	May have to restart device for settings to take effect
+

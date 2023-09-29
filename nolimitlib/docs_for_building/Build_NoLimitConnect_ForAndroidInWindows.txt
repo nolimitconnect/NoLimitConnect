@@ -1,0 +1,86 @@
+This document is outdated
+
+=== Build NoLimitConnect for android in windows ====
+NOTES: ( some hard earned lessons )
+1.) Cannot build multiple .pro projects in same build unless all the same DESTDIR etc
+2.) BuildAll.pro may hang because of it's size unless you have a awesome computer so is better to build individualy
+	Build1_xxx Build2_xxx etc
+3.) For Qt the projects must be built in a certain order which is why they are named Build1_xxx Build2_xxx etc
+4.)	For projects with only libraries you can get rid of the Error ""Cannot set up Android, not building an APK.""
+	by disabling the Build Android APK step in Projects->Build & Run->Build
+
+=== Build Prerequisites ====
+Follow instructions in docs_for_building/BuildForWindowsPrerequisitesInstructions.txt
+tested with:
+	NDK version 18b
+	Qt version 5.12.3 
+	JDK version oracle JDK 1.8.0
+	Android Studio 3.3.1 ( android studio may be optional )
+	NOTE: the latest Android Studio seems incompatable with Qt 5.12.3 so may be best to stay with a older version and not update it
+
+Android NDK Target api is Api 21 and Sdk Android 5.0 but built with sdk version android-28
+
+=== android studio ===
+After installing Android studio there are some modifications required to get Qt 5.13.0 to work on windows
+Ignore this fix if using a 5.12.3 Qt version
+if you get error about Execution failed for task ':compileDebugAidl'.
+then
+1.) In Android Studio->Tools->SDK Manager
+	In tab SDK Tools remove Android Build Tools 29.0.0RC1
+2.) Using your path add a new windows enviroment variable GRADLE_USER_HOME = C:\Users\yourusername\.gradle
+3.) Go into theQT project/app's folder and edit the gradle.properties file... change the line to:
+	androidBuildToolsVersion=28.0.3
+
+
+==== Android usb debugging ====
+1.) If debugger does not stop at breakpoint 
+	Look at log in Qcreator->Window->Views->Debugger Log
+	In my case qt was using a old version of python 2.7 and had some weak reference errors
+	I removed python directory from eviroment variable PATH and rebooted
+//2.) If QtCreator-Debugger does not display any content of my std::string-variable
+//	Then try Tools -> Options -> Debugger
+//	Check the option (Load system GDB pretty printers)
+
+
+install the usb driver so can attach/debug android devices
+from command prompt
+1.) cd F:/android/android-sdk/tools/bin
+2.) sdkmanager.bat "extras;google;usb_driver"
+3.) from windows explorer browse to F:\android\android-sdk\extras\google\usb_driver
+4.) right click android_winusb.inf and choose install
+5.) reboot computer
+6.) extract android ndk 18b to F:\android\ndk-windows-x86_64\android-ndk-r18b
+
+
+=== windows enviroment variables ===
+These are my enviroment variables.. your paths will be different
+ANDROID_HOME F:\android\android-sdk
+ANDROID_SDK_ROOT F:\android\android-sdk
+ANDROID_NDK_ROOT F:\android\ndk-windows-x86-64\android-ndk-r18b
+ANDROID_NDK_PLATFORM android-21
+JAVA_HOME F:\android\jdk1.8.0_131
+JRE_HOME F:\android\jre1.8.0_131
+
+=== qt settings ===
+1.) In Qt Creator Tools > Options > Devices > Android 
+  a.) JDK location - F:\android\jdk1.8.0_131
+  b.) Android SDK Location - F:\android\android-sdk
+  c.) Android NDK Location - F:\android\ndk-windows-x86_64\android-ndk-r18b
+  d.) In SDK Manager install sdk packages for Android 5.0 and Android 9
+  if get error about .android\repositories.cfg could not be loaded then create a empty file for it using text editor
+  
+2.) Configure Android for armebi-v7a
+	a.) change Buid Android APK to android-28 or whatever is the highest sdk installed
+	b.) In Build Enviroment change ANDROID_NDK_PLATFORM from android-16 to android-21
+	c.) In Build Settings->Build Steps you can uncheck Enable QML debugging and Enable Qt Quick Compiler. 
+		There is no dependencies on QtQuick
+
+3.) Generate keystore
+Instructions at https://doc.qt.io/qtcreator/creator-deploying-android.html#specifying-settings-for-packages
+
+  
+  
+ ==== Android Manifest Permissions required ====
+ 
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> 
+ 

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\..\config_ffmpeg_android.asm">
+      <Filter>FfmpegConfig</Filter>
+    </None>
+    <None Include="..\..\..\config_ffmpeg_linux.asm">
+      <Filter>FfmpegConfig</Filter>
+    </None>
+    <None Include="..\..\..\config_ffmpeg_w64.asm">
+      <Filter>FfmpegConfig</Filter>
+    </None>
+    <None Include="..\..\audiotoolbox.m" />
+    <None Include="..\..\avfoundation.m" />
+    <None Include="..\..\libavdevice.v" />
+    <None Include="..\..\Makefile">
+      <Filter>FfmpegConfig</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="QtPri">
+      <UniqueIdentifier>{d61edbde-1cec-4382-9f45-b95f1b49ef6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FfmpegConfig">
+      <UniqueIdentifier>{32bf4a97-73d8-40db-8e05-2fcb5f901bfe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\common_ffmpeg.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\config_components.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\config_ffmpeg.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\alsa.h" />
+    <ClInclude Include="..\..\avdevice.h" />
+    <ClInclude Include="..\..\decklink_common.h" />
+    <ClInclude Include="..\..\decklink_common_c.h" />
+    <ClInclude Include="..\..\decklink_dec.h" />
+    <ClInclude Include="..\..\decklink_enc.h" />
+    <ClInclude Include="..\..\dshow_capture.h" />
+    <ClInclude Include="..\..\fbdev_common.h" />
+    <ClInclude Include="..\..\internal_avdevice.h" />
+    <ClInclude Include="..\..\opengl_enc_shaders.h" />
+    <ClInclude Include="..\..\oss.h" />
+    <ClInclude Include="..\..\pulse_audio_common.h" />
+    <ClInclude Include="..\..\sndio.h" />
+    <ClInclude Include="..\..\timefilter.h" />
+    <ClInclude Include="..\..\v4l2-common.h" />
+    <ClInclude Include="..\..\version.h" />
+    <ClInclude Include="..\..\version_major.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\alldevices.c" />
+    <ClCompile Include="..\..\alsa.c" />
+    <ClCompile Include="..\..\alsa_dec.c" />
+    <ClCompile Include="..\..\alsa_enc.c" />
+    <ClCompile Include="..\..\android_camera.c" />
+    <ClCompile Include="..\..\avdevice.c" />
+    <ClCompile Include="..\..\bktr.c" />
+    <ClCompile Include="..\..\caca.c" />
+    <ClCompile Include="..\..\decklink_common.cpp" />
+    <ClCompile Include="..\..\decklink_dec.cpp" />
+    <ClCompile Include="..\..\decklink_dec_c.c" />
+    <ClCompile Include="..\..\decklink_enc.cpp" />
+    <ClCompile Include="..\..\decklink_enc_c.c" />
+    <ClCompile Include="..\..\dshow.c" />
+    <ClCompile Include="..\..\dshow_common.c" />
+    <ClCompile Include="..\..\dshow_crossbar.c" />
+    <ClCompile Include="..\..\dshow_enummediatypes.c" />
+    <ClCompile Include="..\..\dshow_enumpins.c" />
+    <ClCompile Include="..\..\dshow_filter.c" />
+    <ClCompile Include="..\..\dshow_pin.c" />
+    <ClCompile Include="..\..\fbdev_common.c" />
+    <ClCompile Include="..\..\fbdev_dec.c" />
+    <ClCompile Include="..\..\fbdev_enc.c" />
+    <ClCompile Include="..\..\file_open.c" />
+    <ClCompile Include="..\..\gdigrab.c" />
+    <ClCompile Include="..\..\iec61883.c" />
+    <ClCompile Include="..\..\indev_list.c" />
+    <ClCompile Include="..\..\jack.c" />
+    <ClCompile Include="..\..\kmsgrab.c" />
+    <ClCompile Include="..\..\lavfi.c" />
+    <ClCompile Include="..\..\libcdio.c" />
+    <ClCompile Include="..\..\libdc1394.c" />
+    <ClCompile Include="..\..\openal-dec.c" />
+    <ClCompile Include="..\..\opengl_enc.c" />
+    <ClCompile Include="..\..\oss.c" />
+    <ClCompile Include="..\..\oss_dec.c" />
+    <ClCompile Include="..\..\oss_enc.c" />
+    <ClCompile Include="..\..\outdev_list.c" />
+    <ClCompile Include="..\..\pulse_audio_common.c" />
+    <ClCompile Include="..\..\pulse_audio_dec.c" />
+    <ClCompile Include="..\..\pulse_audio_enc.c" />
+    <ClCompile Include="..\..\reverse.c" />
+    <ClCompile Include="..\..\sdl2.c" />
+    <ClCompile Include="..\..\sndio.c" />
+    <ClCompile Include="..\..\sndio_dec.c" />
+    <ClCompile Include="..\..\sndio_enc.c" />
+    <ClCompile Include="..\..\timefilter.c" />
+    <ClCompile Include="..\..\utils.c" />
+    <ClCompile Include="..\..\v4l2.c" />
+    <ClCompile Include="..\..\v4l2-common.c" />
+    <ClCompile Include="..\..\v4l2enc.c" />
+    <ClCompile Include="..\..\version.c" />
+    <ClCompile Include="..\..\vfwcap.c" />
+    <ClCompile Include="..\..\xcbgrab.c" />
+    <ClCompile Include="..\..\xv.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt">
+      <Filter>QtPri</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

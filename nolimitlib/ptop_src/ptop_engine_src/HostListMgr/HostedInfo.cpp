@@ -1,0 +1,179 @@
+//============================================================================
+// Copyright (C) 2021 Brett R. Jones 
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software 
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include "HostedInfo.h"
+
+#include <PktLib/PktsHostInvite.h>
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxPtopUrl.h>
+
+//============================================================================
+HostedInfo::HostedInfo( EHostType hostType, VxGUID& onlineId, std::string& hostUrl, VxGUID& thumbId )
+    : m_HostedId( onlineId, hostType )
+    , m_HostInviteUrl( hostUrl )
+    , m_ThumbId( thumbId )
+{
+}
+
+//============================================================================
+HostedInfo::HostedInfo( const HostedInfo& rhs )
+    : m_HostedId( rhs.m_HostedId )
+    , m_ConnectedTimestampMs( rhs.m_ConnectedTimestampMs )
+    , m_JoinedTimestampMs( rhs.m_JoinedTimestampMs )
+    , m_HostInfoTimestampMs( rhs.m_HostInfoTimestampMs )
+    , m_IsFavorite( rhs.m_IsFavorite )
+    , m_HostInviteUrl( rhs.m_HostInviteUrl )
+    , m_HostTitle( rhs.m_HostTitle )
+    , m_HostDesc( rhs.m_HostDesc )
+    , m_ThumbId( rhs.m_ThumbId )
+{
+}
+
+//============================================================================
+HostedInfo& HostedInfo::operator=( const HostedInfo& rhs ) 
+{	
+	if( this != &rhs )
+	{
+        m_HostedId = rhs.m_HostedId;
+        m_ConnectedTimestampMs = rhs.m_ConnectedTimestampMs;
+        m_JoinedTimestampMs = rhs.m_JoinedTimestampMs;
+        m_HostInfoTimestampMs = rhs.m_HostInfoTimestampMs;
+        m_IsFavorite = rhs.m_IsFavorite;
+        m_HostInviteUrl = rhs.m_HostInviteUrl;
+        m_HostTitle = rhs.m_HostTitle;
+        m_HostDesc = rhs.m_HostDesc;
+        m_ThumbId = rhs.m_ThumbId;
+    }
+
+	return *this;
+}
+
+//============================================================================
+bool HostedInfo::shouldSaveToDb( void )
+{
+    return m_IsFavorite || m_JoinedTimestampMs;
+}
+
+//============================================================================
+bool HostedInfo::isValidForGui( void )
+{
+    return !m_HostInviteUrl.empty() && !m_HostTitle.empty() && !m_HostDesc.empty();
+}
+
+//============================================================================
+int HostedInfo::getSearchBlobSpaceRequirement( void )
+{
+    // the +3 is for string \0 terminators
+    return sizeof( int64_t ) + m_HostInviteUrl.length() + m_HostTitle.length() + m_HostDesc.length() + 3 * 5; // each string requires null terminator and 4 byte length of data in the blob
+}
+
+//============================================================================
+bool HostedInfo::fillSearchBlob( PktBlobEntry& blobEntry )
+{
+    bool result{ true };
+    if( getSearchBlobSpaceRequirement() <= blobEntry.getRemainingStorageLen() )
+    {
+        result &= blobEntry.setValue( m_HostInfoTimestampMs );
+        result &= blobEntry.setValue( m_HostInviteUrl );
+        result &= blobEntry.setValue( m_HostTitle );
+        result &= blobEntry.setValue( m_HostDesc );  
+        result &= blobEntry.setValue( m_ThumbId );
+    }
+    else
+    {
+        result = false;
+    }
+
+    return result;
+}
+
+//============================================================================
+bool HostedInfo::extractFromSearchBlob( PktBlobEntry& blobEntry )
+{
+    bool result = blobEntry.getValue( m_HostInfoTimestampMs );
+    result &= blobEntry.getValue( m_HostInviteUrl );
+    result &= blobEntry.getValue( m_HostTitle );
+    result &= blobEntry.getValue( m_HostDesc );
+    result &= blobEntry.getValue( m_ThumbId );
+    if( result )
+    {
+        VxPtopUrl hostUrl( m_HostInviteUrl );
+        result = hostUrl.isValid() && m_HostInfoTimestampMs && !m_HostTitle.empty() && !m_HostDesc.empty();
+        if( result )
+        {
+            setHostOnlineId( hostUrl.getOnlineId() );
+            if( eHostTypeUnknown != hostUrl.getHostType() )
+            {
+                setHostType( hostUrl.getHostType() );
+            }
+        }
+    }
+
+    return result;
+}
+
+//============================================================================
+bool HostedInfo::fillFromHostInvite( PktHostInviteAnnounceReq* hostAnn )
+{
+    std::string hostInviteUrl;
+    std::string hostTitle;
+    std::string hostDesc;
+    int64_t hostTimestampMs{ 0 };
+    VxGUID thumbId;
+
+    if( hostAnn->getHostInviteInfo( hostInviteUrl, hostTitle, hostDesc, hostTimestampMs, thumbId ) )
+    {
+        VxPtopUrl hostUrl( hostInviteUrl );
+        if( hostUrl.isValid() && hostTimestampMs && !hostTitle.empty() && !hostDesc.empty() )
+        {
+            setHostOnlineId( hostUrl.getOnlineId() );
+            setHostType( hostAnn->getHostType() );
+            setHostInviteUrl( hostInviteUrl );
+            setHostTitle( hostTitle );
+            setHostDescription( hostDesc );
+            setHostInfoTimestamp( hostTimestampMs );
+            setThumbId( thumbId );
+            return true;
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "HostedInfo::fillFromHostInvite extract failed" );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "HostedInfo::fillFromHostInvite extract failed");
+    }
+
+    return false;
+}
+
+//============================================================================
+bool HostedInfo::isHostInviteValid( void )
+{
+    return m_HostedId.isValid() && m_HostInfoTimestampMs && !m_HostInviteUrl.empty() && !m_HostTitle.empty() && !m_HostDesc.empty();
+}
+
+
+//============================================================================
+EPluginType HostedInfo::getHostPluginType( void )
+{
+    return HostTypeToHostPlugin( m_HostedId.getHostType() );
+}
+
+//============================================================================
+EPluginType HostedInfo::getClientPluginType( void )
+{
+    return HostTypeToClientPlugin( m_HostedId.getHostType() );
+}

@@ -1,0 +1,17 @@
+=== NoLimitConnect Build Prerequisites ====
+External Prerequisites to build/install No Limit Connect or KodiP2P
+<Qt Version> = qt version.. for this document 6.3.2
+<Java Version> = Java Version.. for this document JDK 11
+
+These instructions are not up to date
+In general you should be able to just
+1.) Install NASM. NASM is used for all assembly except for Android cross-compile from https://www.nasm.us/ 
+2.) Install Visual Studio 2019 ( Community edition is fine )
+3.) Copy nasm.exe (probably in C:\Program Files\NASM) to Visual Studio path (mine is C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC)
+4.) Install Qt Sdk and <Qt Version> sdk component (Be sure to install Android tools if you plan to build Android on windows)
+5.) Open <No Limit Source Code Root>/build/VS2019/NoLimitConnectAll.sln
+6.) Select either x64 Debug or x64 Release build configuration
+7.) Select NoLimitConnect as startup project
+8.) Build and run
+
+

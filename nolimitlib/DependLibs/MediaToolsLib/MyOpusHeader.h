@@ -1,0 +1,44 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2015 Brett R. Jones
+// Issued to MIT style license by Brett R. Jones in 2017
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include <NlcDependLibrariesConfig.h>
+#include "SndDefs.h"
+
+#define	    NO_LIMIT_OPUS_SIGNITURE "nolimitconnect.org v"
+#define	    NO_LIMIT_OPUS_SIGNITURE_LEN 20
+#define	    NO_LIMIT_OPUS_SIGNITURE_OFFS 0x99
+
+class MyOpusHeader 
+{
+public:
+	MyOpusHeader();
+
+	uint8_t							m_Version{ 1 };
+	uint8_t							m_Channels{ 1 };			// Number of channels: 1..255 
+	uint16_t						m_Preskip{ 0 };			// calculated from look ahead and 
+	uint32_t						m_InputSampleRate{ MY_OPUS_SAMPLE_RATE };	// rate in frequency
+	uint16_t						m_Gain{ 0 };				// in dB S7.8 should be zero whenever possible 
+	uint8_t							m_ChannelMapping{ 0 };
+	// These used only used if channel_mapping != 0 
+	uint8_t							m_StreamCnt{ 1 };
+	uint8_t							m_CoupledCnt{ 0 };
+	uint8_t							m_StreamMap[255];
+	// Other required for ogg stream etc
+	int32_t							m_MaxOpusPktSize{ (1275 * 3 + 7) * MY_OPUS_CHANNELS };
+	int32_t							m_LookAhead{ 0 };			// from OPUS_GET_LOOKAHEAD
+	int32_t							m_ExtraOut{ 0 };
+	int32_t							m_OpusFrameSize{ MY_OPUS_FRAME_SAMPLE_CNT };
+};

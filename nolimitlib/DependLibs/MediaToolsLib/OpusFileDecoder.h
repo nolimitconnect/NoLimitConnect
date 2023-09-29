@@ -1,0 +1,125 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2015 Brett R. Jones
+// Issued to MIT style license by Brett R. Jones in 2017
+//
+// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
+// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
+//
+// This code is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include <config_appcorelibs.h>
+
+#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include "OpusCallbackInterface.h"
+#include "SndDefs.h"
+#include "MyOpusHeader.h"
+
+#include <opus.h>
+#include <opus_multistream.h>
+#include <libogg/include/ogg/ogg.h>
+
+#include "opus_defines.h"
+#include "OpusTools/speex_resampler.h"
+
+#include <string>
+
+typedef struct shapestate shapestate;
+struct shapestate 
+{
+	float * b_buf;
+	float * a_buf;
+	int fs;
+	int mute;
+};
+
+class OpusAudioDecoder;
+class OggStream;
+class P2PEngine;
+class MediaProcessor;
+
+class OpusFileDecoder : public MediaCallbackInterface
+{
+public:
+	OpusFileDecoder( P2PEngine& engine, MediaProcessor& mediaProcessor );
+	virtual ~OpusFileDecoder();
+ 
+	bool						beginFileDecode( const char* fileName, VxGUID& assetId, int pos0to100000 );
+	int							decodedNextFrame( uint8_t * frameBuffer, int frameBufferLen );
+	void						finishFileDecode( bool abortedByUser = false );
+
+	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
+
+protected:
+	void						moveOpusFramesToOutput( uint8_t * outBuffer );
+	bool						processOggFileHeader( MyOpusHeader& header, ogg_packet *op, float manualGain );
+	// TODO remove function. system only uses pcm now
+	//int							opusFloatOutputToPcm(	float *			opusOutput, 
+	//													int				channels, 
+	//													int				frame_size, 
+	//													SpeexResamplerState *resampler,
+	//													int *			skip, 
+	//													opus_int64		maxout );
+
+	int							opusPcmOutputToPcm( int16_t*		opusOutput,
+													int				channels,
+													int				frame_size,
+													SpeexResamplerState* resampler,
+													int*			skip,
+													opus_int64		maxout );
+
+	bool						seekOpusFile( FILE * fileHandle, int pos0to100000 );
+	bool						readTotalSndFrames( FILE * fileHandle );
+	bool						seekFile( FILE * fileHandle, uint64_t filePosition );
+
+	int							calculateFileProgress( void );
+	void						clearDecodedFrames( void );
+	void						enableSpaceAvailCallback( bool enableCallback, bool lockResources );
+
+	//=== vars ===//
+	P2PEngine&					m_Engine;
+	MediaProcessor&				m_MediaProcessor;
+	OpusDecoder *				m_OpusDecoder;
+	std::string					m_FileName;
+	VxGUID						m_AssetId; 
+	uint64_t					m_FileLen{ 0 };
+	uint64_t					m_FilePos{ 0 };
+	FILE *						m_FileHandle{ nullptr };
+	uint64_t					m_TotalSndFramesInFile{ 0 };
+	uint64_t					m_ConsumedSndFrames{ 0 };
+	bool						m_DecoderInitialized{ false };
+	bool						m_InputInitialized{ false };
+
+	MyOpusHeader				m_MyOpusHeader;
+	ogg_sync_state				m_OggSyncState;		// oy;
+	ogg_stream_state			m_StreamState;		// os
+	ogg_packet					m_OggPkt;			// op;
+	ogg_page					m_OggPage;			// og
+	bool						m_StreamInit{ false };
+	int							m_HasOpusStream{ 0 };
+	int							m_HasTagsPacket{ 0 };
+	ogg_int32_t					m_OpusSerialNum{ 0 };
+	int							m_Eos{ 0 };
+	int							m_PacketCount{ 0 };
+	opus_int64					m_LinkOut{ 0 };
+	float						m_ManualGain{ 0 };
+	int							m_Channels{ MY_OPUS_CHANNELS };
+	int							m_Rate{ MY_OPUS_SAMPLE_RATE };
+	int							m_Preskip{ 0 };
+	int 						m_GranOffset{ 0 };
+	SpeexResamplerState *		m_Resampler{ nullptr };
+	int16_t*					m_OpusOutput{ nullptr };
+	int							m_DecodedSampleCnt;
+	std::vector<char *>			m_DecodedFrames;
+	bool						m_FirstDecodedFrame{ false };
+	bool						m_HeaderHasBeenRead{ false };
+	VxMutex						m_ResourceMutex;
+	bool						m_SpaceAvailCallbackEnabled{ false };
+};
+
