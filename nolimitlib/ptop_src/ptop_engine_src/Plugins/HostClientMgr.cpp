@@ -28,6 +28,7 @@
 #include <PktLib/PktsHostUser.h>
 
 #include <CoreLib/VxTime.h>
+#include <NetLib/VxSktBase.h>
 
 //============================================================================
 HostClientMgr::HostClientMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, PluginBase& pluginBase )
@@ -36,7 +37,7 @@ HostClientMgr::HostClientMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIden
 }
 
 //============================================================================
-void HostClientMgr::onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostJoinReply* hostReply = ( PktHostJoinReply* )pktHdr;
     if( hostReply->isValidPkt() )
@@ -74,7 +75,7 @@ void HostClientMgr::onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, Vx
 }
 
 //============================================================================
-void HostClientMgr::onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostLeaveReply* hostReply = ( PktHostLeaveReply* )pktHdr;
     if( hostReply->isValidPkt() )
@@ -112,7 +113,7 @@ void HostClientMgr::onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr, V
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUnJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostUnJoinReply* hostReply = ( PktHostUnJoinReply* )pktHdr;
     if( hostReply->isValidPkt() )
@@ -150,7 +151,7 @@ void HostClientMgr::onPktHostUnJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 }
 
 //============================================================================
-void HostClientMgr::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostSearchReply* hostReply = ( PktHostSearchReply* )pktHdr;
     ECommErr commErr = hostReply->getCommError();
@@ -186,7 +187,7 @@ void HostClientMgr::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 }
 
 //============================================================================
-void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     m_ServerListMutex.lock();
     m_ServerList.insert( groupieId );
@@ -198,7 +199,7 @@ void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, 
 }
 
 //============================================================================
-void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     m_ServerListMutex.lock();
     m_ServerList.insert( groupieId );
@@ -239,7 +240,7 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, VxSktBase* sktB
 }
 
 //============================================================================
-void HostClientMgr::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     m_ServerListMutex.lock();
     m_ServerList.erase( groupieId );
@@ -250,7 +251,7 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, Vx
 }
 
 //============================================================================
-void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     m_ServerListMutex.lock();
     m_ServerList.erase( groupieId );
@@ -309,7 +310,7 @@ void HostClientMgr::removeSession( VxGUID& sessionId, EConnectReason connectReas
 }
 
 //============================================================================
-void HostClientMgr::onContactDisconnected( VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostClientMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
 {
     GroupieId groupieId( m_Engine.getMyOnlineId(), onlineId, getHostType() );
     m_ServerList.erase( groupieId );
@@ -317,7 +318,7 @@ void HostClientMgr::onContactDisconnected( VxGUID& sessionId, VxSktBase* sktBase
 }
 
 //============================================================================
-bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
 {
     bool result{ false };
     if( isSearchConnectReason( connectReason ) )
@@ -382,7 +383,7 @@ bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionI
 }
 
 //============================================================================
-void HostClientMgr::startHostDetailSession( PktHostSearchReply* hostReply, VxSktBase* sktBase, VxNetIdent* netIdent )
+void HostClientMgr::startHostDetailSession( PktHostSearchReply* hostReply, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     EHostType hostType = hostReply->getHostType();
     VxGUID sessionId = hostReply->getSearchSessionId();
@@ -441,7 +442,7 @@ void HostClientMgr::startHostDetailSession( PktHostSearchReply* hostReply, VxSkt
 }
 
 //============================================================================
-bool HostClientMgr::stopHostSearch( EHostType hostType, VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId )
+bool HostClientMgr::stopHostSearch( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId )
 {
     m_Engine.getToGui().toGuiHostSearchStatus( hostType, onlineId, eHostSearchCompleted );
     m_Engine.getToGui().toGuiHostSearchComplete( hostType, onlineId );
@@ -453,7 +454,7 @@ bool HostClientMgr::stopHostSearch( EHostType hostType, VxGUID& sessionId, VxSkt
 }
 
 //============================================================================
-void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     VxGUID sessionId;
     sessionId.initializeWithNewVxGUID();
@@ -464,7 +465,7 @@ void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, 
 }
 
 //============================================================================
-void HostClientMgr::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     VxGUID sessionId;
     sessionId.initializeWithNewVxGUID();
@@ -475,7 +476,7 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, Vx
 }
 
 //============================================================================
-void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     VxGUID sessionId;
     sessionId.initializeWithNewVxGUID();
@@ -486,7 +487,7 @@ void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase
 }
 
 //============================================================================
-void HostClientMgr::onGroupRelayedUserAnnounce( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void HostClientMgr::onGroupRelayedUserAnnounce( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     LogMsg( LOG_VERBOSE, "HostClientMgr::onGroupRelayedUserAnnounce from %s id %s hosted by %s id %s groupieId %s",
             netIdent->getOnlineName(), netIdent->getMyOnlineId().describeVxGUID().c_str(), sktBase->getPeerOnlineName().c_str(),
@@ -502,35 +503,35 @@ void HostClientMgr::onGroupRelayedUserAnnounce( GroupieId& groupieId, VxSktBase*
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReq" );
 
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserStatusReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReq" );
 
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReply" );
 
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserListReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReq" );
 
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReply" );
     PktHostUserListReply* pktReply = (PktHostUserListReply*)pktHdr;
@@ -559,19 +560,19 @@ void HostClientMgr::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserListMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReq" );
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserListMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReply" );
 }
 
 //============================================================================
-void HostClientMgr::requestHostUserInfo( VxSktBase* sktBase, VxNetIdent* netIdentHost, VxGUID& onlineId, VxGUID& sessionId )
+void HostClientMgr::requestHostUserInfo( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, VxGUID& onlineId, VxGUID& sessionId )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
@@ -597,7 +598,7 @@ void HostClientMgr::requestHostUserInfo( VxSktBase* sktBase, VxNetIdent* netIden
 }
 
 //============================================================================
-void HostClientMgr::sendNextUserInfoRequest( VxSktBase* sktBase, VxNetIdent* netIdentHost, VxGUID& onlineId, VxGUID& sessionId )
+void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, VxGUID& onlineId, VxGUID& sessionId )
 {
     PktHostUserInfoReq pktReq;
     GroupieId groupieId( onlineId, getHostId() );
@@ -631,7 +632,7 @@ void HostClientMgr::clearUserInfoRequests( void )
 }
 
 //============================================================================
-void HostClientMgr::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReply" );
     PktHostUserInfoReply* pktReply = (PktHostUserInfoReply*)pktHdr;
@@ -661,7 +662,7 @@ void HostClientMgr::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void HostClientMgr::announceUserInfo( VxSktBase* sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, bool fromHostUserInfo )
+void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, bool fromHostUserInfo )
 {
     if( fromHostUserInfo )
     {

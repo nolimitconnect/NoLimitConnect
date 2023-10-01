@@ -24,39 +24,41 @@ VxClientMgr::VxClientMgr()
 
 //============================================================================
 //! make a new socket... give derived classes a chance to override
-VxSktBase* VxClientMgr::makeNewSkt( void )
+std::shared_ptr<VxSktBase> VxClientMgr::makeNewSkt( void )
 { 
-	return new VxSktConnect(); 
+	std::shared_ptr<VxSktBase> sharedSkt( new VxSktConnect() );
+	sharedSkt->setThisSkt( sharedSkt ); // so skt can do callbacks without look up in manager
+	return sharedSkt;
 }
 
 //============================================================================
 //! Connect to ip or url and return socket.. if cannot connect return NULL
-VxSktConnect * VxClientMgr::connectTo(	const char*	pIpOrUrl,				// remote ip or url 
-										uint16_t		u16Port,				// port to connect to
-										int				iTimeoutMilliSeconds )	// milli seconds before connect attempt times out
+std::shared_ptr<VxSktBase> VxClientMgr::connectTo(	const char*		pIpOrUrl,				// remote ip or url 
+													uint16_t		u16Port,				// port to connect to
+													int				iTimeoutMilliSeconds )	// milli seconds before connect attempt times out
 {
 	if( NULL ==  m_pfnUserReceive )
 	{
-		LogMsg( LOG_INFO, "VxClientMgr::VxConnectTo: you must call setReceiveCallback first\n" );
+		LogMsg( LOG_INFO, "VxClientMgr::VxConnectTo: you must call setReceiveCallback first" );
 		vx_assert( m_pfnUserReceive );
 	}
 
-	VxSktConnect * sktBase	= (VxSktConnect *)makeNewSkt();
+	std::shared_ptr<VxSktBase> sktBase = makeNewSkt();
 	sktBase->m_SktMgr		= this;
 	RCODE rc = sktBase->connectTo(	m_LclIp,
 									pIpOrUrl, 
 									u16Port, 
 									iTimeoutMilliSeconds );
-
 	if( rc )
 	{
-#ifdef DEBUG_SKTS
-		LogMsg( LOG_INFO, "VxClientMgr::VxConnectTo: error %d\n", rc );
-#endif // DEBUG_SKTS
-		delete sktBase;
-		return NULL;
+		LogModule( eLogSkt, LOG_INFO, "VxClientMgr::VxConnectTo: error %d\n", rc );
+
+		sktBase.reset();
+	}
+	else
+	{
+		addSkt( sktBase );
 	}
 
-	addSkt( sktBase );
 	return sktBase;
 }

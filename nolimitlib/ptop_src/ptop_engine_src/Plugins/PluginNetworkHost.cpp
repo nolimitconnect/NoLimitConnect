@@ -32,7 +32,7 @@ PluginNetworkHost::PluginNetworkHost( P2PEngine& engine, PluginMgr& pluginMgr, V
 }
 
 //============================================================================
-void PluginNetworkHost::onPktHostInviteAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginNetworkHost::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteAnnounceReq* hostAnn = ( PktHostInviteAnnounceReq*)pktHdr;
     std::string identName = netIdent && netIdent->getOnlineName() ? netIdent->getOnlineName() : "";
@@ -84,7 +84,7 @@ void PluginNetworkHost::onPktHostInviteAnnReq( VxSktBase* sktBase, VxPktHdr* pkt
 }
 
 //============================================================================
-void PluginNetworkHost::updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginNetworkHost::updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     m_HostServerMgr.updateHostSearchList( hostType, hostAnn, netIdent, sktBase );
 }
@@ -102,25 +102,25 @@ void PluginNetworkHost::fromGuiListAction( EListAction listAction )
 }
 
 //============================================================================
-void PluginNetworkHost::onPktHostInviteSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginNetworkHost::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostServerMgr.onPktHostInviteSearchReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginNetworkHost::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginNetworkHost::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     handlePktHostInviteSearchReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginNetworkHost::onPktHostInviteMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginNetworkHost::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostServerMgr.onPktHostInviteMoreReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginNetworkHost::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginNetworkHost::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     handlePktHostInviteMoreReply( sktBase, pktHdr, netIdent );
 }

@@ -52,26 +52,26 @@ public:
     virtual void				announceAssetRemoved( AssetBaseInfo* assetInfo ) override;
     virtual void				announceAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param ) override;
 
-    virtual void				queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EHostType hostType );
-    virtual void				queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-    virtual void				queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EHostType hostType, VxGUID& thumbId, int64_t thumbModifiedTime );
-    virtual void				queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId, int64_t thumbModifiedTime );
+    virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EHostType hostType );
+    virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+    virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EHostType hostType, VxGUID& thumbId, int64_t thumbModifiedTime );
+    virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId, int64_t thumbModifiedTime );
 
     // packet handlers
-    virtual void				onPktThumbGetReq            ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbGetReply          ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbSendReq           ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbSendReply         ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbChunkReq          ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbChunkReply        ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbGetCompleteReq    ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbGetCompleteReply  ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbSendCompleteReq   ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbSendCompleteReply ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbXferErr           ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetCompleteReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetCompleteReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
-    virtual bool                ptopEngineRequestPluginThumb( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId );
-    virtual bool                requestThumbs( VxSktBase* sktBase, VxNetIdent* netIdent );
+    virtual bool                ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId );
+    virtual bool                requestThumbs( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
 protected:
     virtual bool				addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAsset ) override;

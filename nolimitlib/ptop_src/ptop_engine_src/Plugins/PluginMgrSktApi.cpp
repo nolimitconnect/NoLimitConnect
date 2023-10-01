@@ -23,15 +23,15 @@
 bool PluginMgr::pluginApiSktConnectTo(		EPluginType			pluginType,	// plugin id
 											VxNetIdentBase *	netIdent,		// identity of contact to connect to
 											int					pvUserData,		// plugin defined data
-											VxSktBase**		    ppoRetSkt, 		// returned Socket
+											std::shared_ptr<VxSktBase>&		    ppoRetSkt, 		// returned Socket
 											EConnectReason		connectReason )
 {
-	VxSktBase* sktBase = nullptr;
-	* ppoRetSkt = nullptr;
+	std::shared_ptr<VxSktBase> sktBase( nullptr );
+	ppoRetSkt.reset();
 	bool newConnection = false;
-	if( true == m_Engine.connectToContact( netIdent->getConnectInfo(), &sktBase, newConnection, connectReason ) )
+	if( true == m_Engine.connectToContact( netIdent->getConnectInfo(), sktBase, newConnection, connectReason ) )
 	{
-		* ppoRetSkt = sktBase;
+		ppoRetSkt = sktBase;
 		return true;
 	}
 
@@ -40,14 +40,14 @@ bool PluginMgr::pluginApiSktConnectTo(		EPluginType			pluginType,	// plugin id
 
 //============================================================================
 //! close socket connection
-void PluginMgr::pluginApiSktClose( ESktCloseReason closeReason, VxSktBase* sktBase )
+void PluginMgr::pluginApiSktClose( ESktCloseReason closeReason, std::shared_ptr<VxSktBase>& sktBase )
 {
 	sktBase->closeSkt(closeReason);
 }
 
 //============================================================================
 //! close socket immediate.. don't bother to flush buffer
-void PluginMgr::pluginApiSktCloseNow( ESktCloseReason closeReason, VxSktBase* sktBase )
+void PluginMgr::pluginApiSktCloseNow( ESktCloseReason closeReason, std::shared_ptr<VxSktBase>& sktBase )
 {
 	sktBase->closeSkt(closeReason,  false);
 }
@@ -55,7 +55,7 @@ void PluginMgr::pluginApiSktCloseNow( ESktCloseReason closeReason, VxSktBase* sk
 //============================================================================
 bool PluginMgr::pluginApiTxPacket(  EPluginType			pluginType,
                                     const VxGUID&       onlineId,
-                                    VxSktBase*          sktBase,
+                                    std::shared_ptr<VxSktBase>&          sktBase,
                                     VxPktHdr*           pktHdr,
                                     bool				bDisconnectAfterSend,
                                     EPluginType         overridePlugin )

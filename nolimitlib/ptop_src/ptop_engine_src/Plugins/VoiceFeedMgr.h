@@ -20,14 +20,16 @@
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxGUIDList.h>
 
+#include <memory>
+
 class P2PEngine;
+class PktVoiceReq;
 class PluginBase;
 class PluginMgr;
 class PluginSessionMgr;
 class VxNetIdent;
 class VxSktBase;
 class VxPktHdr;
-class PktVoiceReq;
 
 class VoiceFeedMgr
 {
@@ -37,8 +39,8 @@ public:
 	virtual void				fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent = nullptr, bool wantAudioCapture = true );
 	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent = nullptr, bool wantAudioCapture = true );
 
-	virtual void				onPktVoiceReq				( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktVoiceReply				( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
 	virtual void				callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio );
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );

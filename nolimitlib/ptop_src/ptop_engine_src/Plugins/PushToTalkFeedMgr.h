@@ -20,6 +20,8 @@
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxGUIDList.h>
 
+#include <memory>
+
 class P2PEngine;
 class PluginBase;
 class PluginMgr;
@@ -34,29 +36,29 @@ class PushToTalkFeedMgr
 public:
 	PushToTalkFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr );
 
-	virtual bool				fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk, VxSktBase* sktBase );
+	virtual bool				fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk, std::shared_ptr<VxSktBase>& sktBase );
 
-	virtual void				onPktPushToTalkReq					( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktPushToTalkReply				( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktPushToTalkStart				( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktPushToTalkStop                 ( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktPushToTalkReq					( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktPushToTalkReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktPushToTalkStart				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktPushToTalkStop                 ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
-	virtual void				onPktVoiceReq						( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktVoiceReply						( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktVoiceReq						( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktVoiceReply						( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
     virtual void				callbackOpusPkt( void * userData, PktVoiceReq* pktOpusAudio );
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
-	virtual bool				addPushToTalkUser( VxNetIdent* netIdent, VxSktBase* sktBase, bool rxOnly = false );
+	virtual bool				addPushToTalkUser( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly = false );
 	virtual bool				removePushToTalkUser( VxGUID& onlineId, bool txOnly = false );
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase );
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
-	virtual bool				sendPushToTalkStart( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual bool				sendPushToTalkStop( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual bool				sendPushToTalkReq( VxNetIdent* netIdent, VxSktBase* sktBase );
+	virtual bool				sendPushToTalkStart( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual bool				sendPushToTalkStop( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual bool				sendPushToTalkReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
 protected:
-	bool						enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, VxSktBase* sktBase );
+	bool						enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase );
 	void						updatePushToTalkStatus( VxGUID& onlineId );
 
     P2PEngine&                  m_Engine;

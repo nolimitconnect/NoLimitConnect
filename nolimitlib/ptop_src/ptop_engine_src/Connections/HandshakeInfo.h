@@ -17,6 +17,8 @@
 
 #include <CoreLib/VxGUID.h>
 
+#include <memory>
+
 class P2PEngine;
 class IConnectRequestCallback;
 class VxSktBase;
@@ -25,7 +27,7 @@ class HandshakeInfo
 {
 public:
     HandshakeInfo() = default;
-    HandshakeInfo( VxSktBase* sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, uint64_t timeStamp );
+    HandshakeInfo( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, uint64_t timeStamp );
     HandshakeInfo( const HandshakeInfo& rhs );
     virtual ~HandshakeInfo() = default;
 
@@ -38,7 +40,7 @@ public:
     uint64_t                    getTimeStamp( void ) const      { return m_TimeStamp; }
     VxGUID&                     getSocketId( void )             { return m_SocketId; }
     VxGUID&                     getSessionId( void )            { return m_SessionId; }
-    VxSktBase*                  getSktBase( void )              { return m_SktBase; }
+    std::shared_ptr<VxSktBase>& getSktBase( void )              { return m_SktBase; }
     IConnectRequestCallback*    getCallback( void )             { return m_Callback; }
     EConnectReason              getConnectReason( void )        { return m_ConnectReason; }
 
@@ -48,7 +50,7 @@ public:
     void                        onSktDisconnected( void );
 
 protected:
-    VxSktBase*                  m_SktBase{ nullptr };
+    std::shared_ptr<VxSktBase>  m_SktBase;
     VxGUID                      m_SocketId;
     VxGUID                      m_SessionId;
     VxGUID                      m_OnlineId;

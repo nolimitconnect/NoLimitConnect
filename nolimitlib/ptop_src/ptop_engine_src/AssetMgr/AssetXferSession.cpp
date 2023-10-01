@@ -24,34 +24,26 @@
 AssetXferSession::AssetXferSession( P2PEngine& engine )
 : m_Engine( engine )
 , m_FileXferInfo()
-, m_iPercentComplete(0)
-, m_Skt(NULL)
-, m_Ident(NULL)
-, m_Error( 0 )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-AssetXferSession::AssetXferSession( P2PEngine& engine, VxSktBase* sktBase, VxNetIdent* netIdent )
+AssetXferSession::AssetXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 : m_Engine( engine )
 , m_FileXferInfo()
-, m_iPercentComplete(0)
 , m_Skt( sktBase )
 , m_Ident( netIdent )
-, m_Error( 0 )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-AssetXferSession::AssetXferSession( P2PEngine& engine, VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+AssetXferSession::AssetXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 : m_Engine( engine )
 , m_FileXferInfo( lclSessionId )
-, m_iPercentComplete(0)
 , m_Skt( sktBase )
 , m_Ident( netIdent )
-, m_Error( 0 )
 {
 	initLclSessionId();
 }

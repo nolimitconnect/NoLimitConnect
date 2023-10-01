@@ -264,145 +264,145 @@ EXferError PluginBaseFiles::fromGuiFileXferControl( VxNetIdent* netIdent, EXferA
 }
 
 //============================================================================
-void PluginBaseFiles::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktPluginOfferReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileGetReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileGetReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileSendReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileSendReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileChunkReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileChunkReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileGetCompleteReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileGetCompleteReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileGetCompleteReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileGetCompleteReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFindFileReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFindFileReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFindFileReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFindFileReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFindFileReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFindFileReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileListReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileListReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFileListReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileShareErr( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//m_FileInfoXferMgr.onPktFileShareErr( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseFiles::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void PluginBaseFiles::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
 }
 
 //============================================================================
-void PluginBaseFiles::onConnectionLost( VxSktBase* sktBase )
+void PluginBaseFiles::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_PluginSessionMgr.onConnectionLost( sktBase );
 }
 
 //============================================================================
-void PluginBaseFiles::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginBaseFiles::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//m_Engine.getFileInfoListMgr().onPktFileInfoInfoReq( sktBase, pktHdr, netIdent, getCommAccessState( netIdent ), this );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//m_Engine.getFileInfoListMgr().onPktFileInfoInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//m_Engine.getFileInfoListMgr().onPktFileInfoAnnReq( sktBase, pktHdr, netIdent, getCommAccessState( netIdent ), this );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//m_Engine.getFileInfoListMgr().onPktFileInfoAnnReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	LogMsg( LOG_VERBOSE, "PluginBaseFiles::onPktFileInfoSearchReq rxed" );
 
@@ -472,7 +472,7 @@ void PluginBaseFiles::onPktFileInfoSearchReq( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktFileInfoSearchReply* pktReply = ( PktFileInfoSearchReply* )pktHdr;
 
@@ -527,7 +527,7 @@ void PluginBaseFiles::onPktFileInfoSearchReply( VxSktBase* sktBase, VxPktHdr* pk
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktFileInfoMoreReq* pktReq = ( PktFileInfoMoreReq* )pktHdr;
 	if( pktReq && pktReq->isValidPkt() )
@@ -593,7 +593,7 @@ void PluginBaseFiles::onPktFileInfoMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void PluginBaseFiles::onPktFileInfoMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseFiles::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktFileInfoMoreReply* pktReply = ( PktFileInfoMoreReply* )pktHdr;
 	if( pktReply && pktReply->isValidPkt() )
@@ -635,7 +635,7 @@ void PluginBaseFiles::onPktFileInfoMoreReply( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxGUID& hostOnlineId, VxSktBase* sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int fileInfoCount )
+bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxGUID& hostOnlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int fileInfoCount )
 {
 	// assumes blobEntry.resetRead(); has been called and any procceeding values like search text has been extracted
 	bool result{ true };
@@ -662,7 +662,7 @@ bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxG
 }
 
 //============================================================================
-bool PluginBaseFiles::requestMoreFileInfoFromServer(  VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& nextFileInfoAssetId, std::string& searchText )
+bool PluginBaseFiles::requestMoreFileInfoFromServer(  VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextFileInfoAssetId, std::string& searchText )
 {
 	PktFileInfoMoreReq pktReq;
 	pktReq.setSearchSessionId( searchSessionId );
@@ -673,13 +673,13 @@ bool PluginBaseFiles::requestMoreFileInfoFromServer(  VxGUID& searchSessionId, V
 }
 
 //============================================================================
-ECommErr PluginBaseFiles::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, VxSktBase* sktBase, VxNetIdent* netIdent )
+ECommErr PluginBaseFiles::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	return m_FileInfoMgr.searchRequest( pktReply, specificAssetId, searchStr, searchFileTypes, sktBase, netIdent );
 }
 
 //============================================================================
-ECommErr PluginBaseFiles::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, VxSktBase* sktBase, VxNetIdent* netIdent )
+ECommErr PluginBaseFiles::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	return m_FileInfoMgr.searchMoreRequest( pktReply, nextFileAssetId, searchStr, searchFileTypes, sktBase, netIdent );
 }

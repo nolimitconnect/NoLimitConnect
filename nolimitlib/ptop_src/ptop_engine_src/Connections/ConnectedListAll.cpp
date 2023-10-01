@@ -142,7 +142,7 @@ void ConnectedListAll::removeConnectedInfo( const VxGUID& socketId, const VxGUID
 }
 
 //============================================================================
-bool ConnectedListAll::removeConnectedReason( VxGUID& sessionId, VxGUID& onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, std::vector<VxSktBase*>& retUnusedSkts )
+bool ConnectedListAll::removeConnectedReason( VxGUID& sessionId, VxGUID& onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, std::vector<std::shared_ptr<VxSktBase>>& retUnusedSkts )
 {
     retUnusedSkts.clear();
     lockConnectedList();
@@ -153,8 +153,8 @@ bool ConnectedListAll::removeConnectedReason( VxGUID& sessionId, VxGUID& onlineI
             ConnectedInfo* connectedInfo = iter->second;
             if( connectedInfo  )
             {
-                VxSktBase* sktBase{ nullptr };
-                if( connectedInfo->removeConnectReason( sessionId, callback, connectReason, &sktBase ) )
+                std::shared_ptr<VxSktBase> sktBase( nullptr );
+                if( connectedInfo->removeConnectReason( sessionId, callback, connectReason, sktBase ) )
                 {
                     if( sktBase )
                     {

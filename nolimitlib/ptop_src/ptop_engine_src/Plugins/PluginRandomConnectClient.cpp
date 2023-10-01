@@ -63,75 +63,75 @@ void PluginRandomConnectClient::fromGuiSearchHost( EHostType hostType, SearchPar
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostJoinReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginRandomConnectClient got join request" );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginRandomConnectClient got join reply" );
     m_HostClientMgr.onPktHostJoinReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginRandomConnectClient got search reply" );
     m_HostClientMgr.onPktHostSearchReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginRandomConnectClient got join offer request" );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginRandomConnectClient got join offer reply" );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     handlePktHostInviteSearchReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     handlePktHostInviteMoreReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostLeaveReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserListReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostUserListMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserListMoreReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserInfoReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginRandomConnectClient::onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginRandomConnectClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
 }

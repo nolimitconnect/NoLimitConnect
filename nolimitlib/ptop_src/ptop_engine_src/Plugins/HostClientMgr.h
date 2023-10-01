@@ -34,46 +34,46 @@ public:
     virtual void                removeSession( VxGUID& sessionId, EConnectReason connectReason = eConnectReasonUnknown ) override;
     virtual void                sendHostSearchToNetworkHost( VxGUID& sessionId, SearchParams& searchParams, EConnectReason connectReason );
 
-    virtual void                onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void                onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void                onPktHostUnJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void                onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void                onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void                onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void                onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void                onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-    virtual void				onPktHostUserInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void				onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void				onPktHostUserStatusReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void				onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-    virtual void				onPktHostUserListReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void				onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void				onPktHostUserListMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-    virtual void				onPktHostUserListMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-    virtual void                onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent );
-    virtual void                onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
-    virtual void                onUserJoinHostGranted( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
-    virtual void                onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent );
-    virtual void                onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
-    virtual void                onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent );
-    virtual void                onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    virtual void                onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+    virtual void                onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    virtual void                onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    virtual void                onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+    virtual void                onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    virtual void                onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+    virtual void                onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
 
-    virtual void                onGroupRelayedUserAnnounce( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent );
+    virtual void                onGroupRelayedUserAnnounce( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
 protected:
-    virtual bool                onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason ) override;
-    virtual void                onContactDisconnected( VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason = eConnectReasonUnknown ) override;
+    virtual bool                onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason ) override;
+    virtual void                onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason = eConnectReasonUnknown ) override;
 
-    virtual void                startHostDetailSession( PktHostSearchReply* hostReply, VxSktBase* sktBase, VxNetIdent* netIdent );
-    virtual bool                stopHostSearch( EHostType hostType, VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId );
+    virtual void                startHostDetailSession( PktHostSearchReply* hostReply, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+    virtual bool                stopHostSearch( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId );
 
     void                        addPluginRxSession( VxGUID& sessionId, PluginIdList& pluginIdList );
     void                        removePluginRxSession( VxGUID& sessionId );
 
     void                        clearUserInfoRequests( void );
     bool                        shouldRequestUserInfo( void );
-    virtual void                requestHostUserInfo( VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
-    virtual void                sendNextUserInfoRequest( VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
-    void                        announceUserInfo( VxSktBase* sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, bool fromHostUserInfo = false );
+    virtual void                requestHostUserInfo( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
+    virtual void                sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
+    void                        announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, bool fromHostUserInfo = false );
 
     VxMutex                     m_ClientMutex;
     VxGUIDList                  m_UserInfoReqList;

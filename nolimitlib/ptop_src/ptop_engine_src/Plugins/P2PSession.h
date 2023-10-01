@@ -19,8 +19,8 @@
 class P2PSession : public PluginSessionBase
 {
 public:
-	P2PSession( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-	P2PSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	P2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	P2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
 	virtual ~P2PSession();
 
 	void						setOutstandingAckCnt( int cnt )				{ m_iOutstandingAckCnt = cnt; }

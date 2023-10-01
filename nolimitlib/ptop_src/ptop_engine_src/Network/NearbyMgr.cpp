@@ -20,7 +20,7 @@
 
 namespace
 {
-    void NetworkMulticastCallbackHandler( VxSktBase*  sktBase, void * pvUserCallbackData )
+    void NetworkMulticastCallbackHandler( std::shared_ptr<VxSktBase>&  sktBase, void * pvUserCallbackData )
     {
     	if( pvUserCallbackData )
     	{
@@ -218,7 +218,7 @@ bool NearbyMgr::setBroadcastEnable( bool enable )
 }
 
 //============================================================================
-void NearbyMgr::handleMulticastSktCallback( VxSktBase* sktBase )
+void NearbyMgr::handleMulticastSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
     if( VxIsAppShuttingDown() )
     {
@@ -281,7 +281,7 @@ void NearbyMgr::callbackNetAvailStatusChanged( ENetAvailStatus netAvalilStatus )
 }
 
 //============================================================================
-void NearbyMgr::multicastPktAnnounceAvail( VxSktBase* skt, PktAnnounce* pktAnnounce )
+void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktAnnounce* pktAnnounce )
 {
     LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr::multicastPktAnnounceAvail" );
     if( !pktAnnounce->getMyOnlineId().isVxGUIDValid() )
@@ -372,9 +372,9 @@ void NearbyMgr::multicastPktAnnounceAvail( VxSktBase* skt, PktAnnounce* pktAnnou
 
         LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr attempting connect on lan to %s ", netIdent->getOnlineName() );
 
-        VxSktBase* sktBase = nullptr;
+        std::shared_ptr<VxSktBase> sktBase( nullptr );
         bool newConnection = false;
-        if( true == m_Engine.connectToContact( netIdent->getConnectInfo(), &sktBase, newConnection, eConnectReasonNearbyLan ) )
+        if( true == m_Engine.connectToContact( netIdent->getConnectInfo(), sktBase, newConnection, eConnectReasonNearbyLan ) )
         {
             LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr SUCCESS connect on lan to %s ", netIdent->getOnlineName() );
         }
@@ -386,7 +386,7 @@ void NearbyMgr::multicastPktAnnounceAvail( VxSktBase* skt, PktAnnounce* pktAnnou
 }
 
 //============================================================================
-void NearbyMgr::onConnectionLost( VxSktBase* sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
+void NearbyMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
     bool isIgnored = false;
     BigListInfo* hisInfo = m_Engine.getBigListMgr().findBigListInfo( peerOnlineId );
@@ -418,7 +418,7 @@ void NearbyMgr::onNearbyUserUpdated( VxNetIdent* netIdent, int64_t timestamp )
 }
 
 //============================================================================
-void NearbyMgr::handleTcpLanConnectSuccess( BigListInfo* bigListInfo, VxSktBase* sktBase, bool isNewConnection, EConnectReason connectReason )
+void NearbyMgr::handleTcpLanConnectSuccess( BigListInfo* bigListInfo, std::shared_ptr<VxSktBase>& sktBase, bool isNewConnection, EConnectReason connectReason )
 {
     if( bigListInfo )
     {

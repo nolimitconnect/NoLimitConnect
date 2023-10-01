@@ -40,13 +40,13 @@ public:
     static ENetCmdType			netCmdStringToEnum( const char* netCmd );
 	static const char*			netCmdEnumToString( ENetCmdType	eNetCmdType );
 
-	EPluginType					parseHttpNetServiceUrl( VxSktBase* sktBase, NetServiceHdr& netServiceHdr );
+	EPluginType					parseHttpNetServiceUrl( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 	EPluginType					parseHttpNetServiceHdr( char * dataBuf, int dataLen, NetServiceHdr& netServiceHdr );
 	bool						getNetServiceUrlContent( std::string& netServiceUrl, std::string& retFromClientContent );
 
-	int							getIndexOfCrLfCrLf( VxSktBase* sktBase );
+	int							getIndexOfCrLfCrLf( std::shared_ptr<VxSktBase>& sktBase );
 
-	RCODE						buildAndSendCmd( VxSktBase* sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
+	RCODE						buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
     RCODE                       buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
     
     bool						buildIsMyPortOpenUrl( VxSktConnectSimple * netServConn, std::string& strHttpUrl, uint16_t u16Port );
@@ -62,7 +62,7 @@ public:
     int							buildNetCmdHeader( std::string& retResult, ENetCmdType netCmd, std::string& netServChallengeHash, int contentLength, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
 
     static void					generateNetServiceChallengeHash(	std::string&			strKey,
-                                                                    VxSktBase*				skt,
+                                                                    std::shared_ptr<VxSktBase>&				skt,
                                                                     std::string             netKey);
     static void					generateNetServiceChallengeHash(	std::string&			strKey,
                                                                     VxSktConnectSimple *	skt,
@@ -73,7 +73,7 @@ public:
     static void					generateNetServiceCryptoKey(		VxKey&					key,
                                                                     uint16_t				clientPort,
                                                                     std::string             netKey);
-	static bool					verifyAllDataArrivedOfNetServiceUrl( VxSktBase* sktBase );
+	static bool					verifyAllDataArrivedOfNetServiceUrl( std::shared_ptr<VxSktBase>& sktBase );
 	// returns content length or -1 if invalid url
 	static int					getTotalLengthFromNetServiceUrl(  char * dataBuf, int dataLen );
 

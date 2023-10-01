@@ -65,7 +65,7 @@ public:
 	virtual void				onPktAnnUpdated( void );
 	virtual void				onOncePerSecond( void );
 
-	virtual	void				handleTcpSktCallback( VxSktBase* sktBase );
+	virtual	void				handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase );
 	virtual	void				handleSktMgrStatusCallback( char* statParam, void* statValue );
 
 protected:

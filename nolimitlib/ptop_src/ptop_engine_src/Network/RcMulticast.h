@@ -19,7 +19,7 @@
 class IMulticastListenCallback
 {
 public:
-	virtual void				multicastPktAnnounceAvail( VxSktBase* skt, PktAnnounce* pktAnnounce ) = 0;
+	virtual void				multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktAnnounce* pktAnnounce ) = 0;
 };
 
 class NetworkMgr;
@@ -46,7 +46,7 @@ public:
 
 	bool 						multicastEnable( bool enable );
 
-	virtual void				doUdpDataCallback( VxSktBase* skt );
+	virtual void				doUdpDataCallback( std::shared_ptr<VxSktBase>& skt );
 
 	virtual void				onPktAnnUpdated( void );
 	virtual void				onOncePerSecond( void );
@@ -54,7 +54,7 @@ public:
 protected:
 	void						sendMulticast( void );
 
-	void						attemptDecodePktAnnounce( VxSktBase* skt, unsigned char* data, int dataLen );
+	void						attemptDecodePktAnnounce( std::shared_ptr<VxSktBase>& skt, unsigned char* data, int dataLen );
 
 	NetworkMgr&					m_NetworkMgr;
 	P2PEngine&					m_Engine;

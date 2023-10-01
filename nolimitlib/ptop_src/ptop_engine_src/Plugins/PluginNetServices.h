@@ -26,16 +26,16 @@ public:
     PluginNetServices() = delete; // don't allow default constructor
     PluginNetServices( const PluginNetServices& ) = delete; // don't allow copy constructor
 
-	virtual RCODE				handlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr );
+	virtual RCODE				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 
 	void						testIsMyPortOpen( void );
 
 protected:
-	RCODE						internalHandlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr );
+	RCODE						internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 
-	virtual void				replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )	{};
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )	{};
-	virtual void				onConnectionLost( VxSktBase* sktBase )	{};
+	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )	{};
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )	{};
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )	{};
 
 	//=== vars ===//
 	NetServicesMgr&				m_NetServicesMgr;

@@ -47,25 +47,25 @@ public:
 
 	void						onIdentDelete( VxNetIdent* netIdent );
 
-	virtual void				onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual void				onConnectionLost( VxSktBase* sktBase );	
+	virtual void				onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );	
 	//! called when new better connection from user
-	void						replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt );
+	void						replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
-	void						onPktScanReq( VxNetIdent* netIdent, VxSktBase* sktBase, PktScanReq* poPkt );
-	void						onPktScanReply( VxNetIdent* netIdent, VxSktBase* sktBase, PktScanReply * poPkt );
-	void						onPktFindFileReq( VxNetIdent* netIdent, VxSktBase* sktBase, PktFindFileReq* poPkt );
-	void						onPktFindFileReply( VxNetIdent* netIdent, VxSktBase* sktBase, PktFindFileReply * poPkt );
+	void						onPktScanReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktScanReq* poPkt );
+	void						onPktScanReply( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktScanReply * poPkt );
+	void						onPktFindFileReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktFindFileReq* poPkt );
+	void						onPktFindFileReply( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktFindFileReply * poPkt );
 
 	virtual void				onScanResultProfilePic(	VxNetIdent*	netIdent, 
-															VxSktBase*		sktBase, 
+															std::shared_ptr<VxSktBase>&		sktBase, 
 															uint8_t *			pu8JpgData, 
 															uint32_t				u32JpgDataLen );
 
 	virtual void				onScanResultError(	EScanType			eScanType,
 														VxNetIdent*		netIdent, 
-														VxSktBase*			sktBase, 
+														std::shared_ptr<VxSktBase>&			sktBase, 
 														uint32_t					errCode ); 
 
 	void						scanComplete( void );

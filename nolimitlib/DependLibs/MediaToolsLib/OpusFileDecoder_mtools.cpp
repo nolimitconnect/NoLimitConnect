@@ -52,6 +52,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/IsBigEndianCpu.h>
+#include <CoreLib/VxTimer.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 

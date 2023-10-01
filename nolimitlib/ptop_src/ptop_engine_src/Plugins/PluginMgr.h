@@ -87,7 +87,7 @@ public:
 
     virtual bool                pluginApiTxPacket(  EPluginType			pluginType,
 													const VxGUID&		onlineId,
-                                                    VxSktBase*			sktBase,
+                                                    std::shared_ptr<VxSktBase>&			sktBase,
                                                     VxPktHdr*			poPkt,
                                                     bool				bDisconnectAfterSend = false,
                                                     EPluginType         overridePlugin = ePluginTypeInvalid );
@@ -105,10 +105,10 @@ public:
 	virtual bool				pluginApiSktConnectTo(	EPluginType			pluginType,		// plugin id
 														VxNetIdentBase *	netIdent,			// identity of contact to connect to
 														int					pvUserData,			// plugin defined data
-														VxSktBase* *		ppoRetSkt, 			// returned Socket
+														std::shared_ptr<VxSktBase>&		ppoRetSkt, 			// returned Socket
 														EConnectReason		connectReason = eConnectReasonPlugin );	
-	virtual void				pluginApiSktClose( ESktCloseReason closeReason, VxSktBase* sktBase );
-	virtual void				pluginApiSktCloseNow( ESktCloseReason closeReason, VxSktBase* sktBase );
+	virtual void				pluginApiSktClose( ESktCloseReason closeReason, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				pluginApiSktCloseNow( ESktCloseReason closeReason, std::shared_ptr<VxSktBase>& sktBase );
 	void						pluginApiToGuiSessionEnded(	EPluginType		pluginType,		// plugin
 															VxNetIdent*		netIdent,			// identity of friend
 															int				pvUserData,			// plugin defined data
@@ -128,9 +128,9 @@ public:
     virtual void				onThreadOncePer15Minutes( void );
 	virtual void				onAfterUserLogOnThreaded( void );
 
-	virtual void				onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual void				onConnectionLost( VxSktBase* sktBase );	
+	virtual void				onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );	
 	virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount ); 
 	virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo );
 	virtual bool				fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() );
@@ -142,10 +142,10 @@ public:
 	//! return true if access ok
 	bool						canAccessPlugin( EPluginType pluginType, VxNetIdent* netIdent );
 
-	void						replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt );
+	void						replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
-	void						handleNonSystemPackets( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	void						handleFirstNetServiceConnection( VxSktBase* sktBase );
+	void						handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	void						handleFirstNetServiceConnection( std::shared_ptr<VxSktBase>& sktBase );
 
 	PluginBase*				    findPlugin( EPluginType pluginType );
     PluginBase*				    findHostClientPlugin( EHostType hostType );

@@ -25,7 +25,7 @@ public:
     EHostType                   getHostType( void ) override        { return m_HostType; }
     HostedId&                   getHostedId( void )                 { return m_HostedId; }
 
-    void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorOnlineId, VxSktBase* sktBaseRequester = nullptr );
+    void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester );
 
 protected:
     EConnectReason              getHostAnnounceConnectReason( void );

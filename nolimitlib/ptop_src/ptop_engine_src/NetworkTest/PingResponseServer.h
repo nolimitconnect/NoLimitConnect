@@ -24,7 +24,7 @@ public:
 	PingResponseServer( IsPortOpenTest& isPortOpenTest );
 	~PingResponseServer();
 
-	void						handleTcpSktCallback( VxSktBase* sktBase );
+	void						handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase );
 
 private:
 	IsPortOpenTest&				m_IsPortOpenTest;

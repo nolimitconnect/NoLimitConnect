@@ -16,6 +16,8 @@
 #include "ConnectedListBase.h"
 #include <GuiInterface/IDefs.h>
 
+#include <memory>
+
 class BigListInfo;
 class IConnectRequestCallback;
 class P2PEngine;
@@ -32,7 +34,7 @@ public:
     ConnectedInfo*              getAnyConnectedInfo( const VxGUID& onlineId );
     void                        removeConnectedInfo( const VxGUID& socketId, const VxGUID& onlineId, bool isLockedList = false );
 
-    bool                        removeConnectedReason( VxGUID& sessionId, VxGUID& onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, std::vector<VxSktBase*>& retUnusedSkts );
+    bool                        removeConnectedReason( VxGUID& sessionId, VxGUID& onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, std::vector<std::shared_ptr<VxSktBase>>& retUnusedSkts );
 
     void                        onSktDisconnected( const VxGUID& socketId );
 

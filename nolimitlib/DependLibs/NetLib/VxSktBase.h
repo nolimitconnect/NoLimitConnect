@@ -39,6 +39,7 @@
 #endif
 
 #include <set>
+#include <memory>
 
 enum EConnectionType
 {
@@ -60,17 +61,14 @@ class FileXferInfo
 {
 public:
 	FileXferInfo()
-		: m_hFile(0)
-		, m_u64FileOffs(0)
-		, m_u64FileLen(0)
 	{
 	}
 
 	char						m_as8RemoteFileName[ 512 ];
 	char						m_as8LocalFileName[ 512 ];
-	FILE *						m_hFile;
-	uint64_t					m_u64FileOffs;
-	uint64_t					m_u64FileLen;
+	FILE*						m_hFile{ nullptr };
+	uint64_t					m_u64FileOffs{ 0 };
+	uint64_t					m_u64FileLen{ 0 };
 };
 
 class VxSktBase : public VxSktBuf, public VxSktThrottle
@@ -79,11 +77,16 @@ public:
 	VxSktBase();
 	virtual ~VxSktBase() override;
 
-    virtual int					getSktNumber( void )                            { return m_SktNumber; }		// socket number incremented each socket created
-    virtual VxGUID&             getSocketId( void )                             { return m_ConnectionId; }	// socket unique identifier GUID
+	virtual	void				shutdownSkt( bool closingFromDestructor = false ); ///< normally called just before socket is destroyed.. closes socket and kills threads etc
+
+	virtual void				setThisSkt( std::shared_ptr<VxSktBase>& thisSkt ) { m_ThisSkt = thisSkt; }
+	virtual std::shared_ptr<VxSktBase>& getThisSkt( void )						{ return  m_ThisSkt; }
+
+    virtual int					getSktNumber( void )                            { return m_SktNumber; }		///< socket number incremented each socket created
+    virtual VxGUID&             getSocketId( void )                             { return m_ConnectionId; }	///< socket unique identifier GUID
 
 	virtual void				setSktHandle( SOCKET sktHandle )				{ m_Socket = sktHandle; }
-	virtual SOCKET				getSktHandle( void )							{ return m_Socket; }		// socket os system handle
+	virtual SOCKET				getSktHandle( void )							{ return m_Socket; }		///< socket os system handle
 
 	virtual void				setSktType( ESktType sktType )					{ m_eSktType = sktType; }
 	virtual ESktType			getSktType( void )								{ return m_eSktType; }
@@ -307,8 +310,7 @@ public:
 	int64_t	    				m_ToDeleteTimeGmtMs{ 0 };
 
 	VxThread					m_SktRxThread;			        // thread for handling socket receive
-	VxThread					m_SktTxThread;			        // thread for handling socket transmit
-	VxSemaphore					m_SktTxSemaphore;		        // semaphore for tx 
+
 	VxMutex						m_CryptoMutex;			        // mutex
 	bool						m_bClosingFromRxThread{ false };   // if true then call to close function was made by receive thread
 	bool						m_bClosingFromDestructor{ false };  // if true then call to close function was made by destructor
@@ -349,6 +351,8 @@ protected:
 	std::set<GroupieId>			m_GroupieSet;
 
 	EConnectReason				m_ConnectReason{ eConnectReasonUnknown };
+	bool						m_HasBeenShutdown{ false };
+	std::shared_ptr<VxSktBase>  m_ThisSkt;
 
     static int					m_TotalCreatedSktCnt;	            // total number of sockets created since program started
     static int					m_CurrentSktCnt;		            // current number of sockets exiting in memory

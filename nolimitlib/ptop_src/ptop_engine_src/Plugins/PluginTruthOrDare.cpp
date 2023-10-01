@@ -42,7 +42,7 @@ PluginTruthOrDare::PluginTruthOrDare( P2PEngine& engine, PluginMgr& pluginMgr, V
 }
 
 //============================================================================
-P2PSession* PluginTruthOrDare::createP2PSession( VxSktBase* sktBase, VxNetIdent* netIdent)
+P2PSession* PluginTruthOrDare::createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent)
 {
     return new TodGameSession( sktBase, netIdent, getPluginType() );
 }
@@ -144,14 +144,14 @@ bool PluginTruthOrDare::fromGuiSetGameActionVar( VxNetIdent* netIdent, int32_t a
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktChatReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktChatReq * pkt = (PktChatReq *)pktHdr;
 	IToGui::getToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)pkt->getDataPayload() );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktTodGameStats( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameStats * poPkt = (PktTodGameStats *)pktHdr;
 	for( int i = 0; i < eMaxTodGameStatId; ++i )
@@ -163,57 +163,57 @@ void PluginTruthOrDare::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktHdr,
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktTodGameAction( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktTodGameAction( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameAction * poPkt = (PktTodGameAction *)pktHdr;
 	IToGui::getToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getActionVarId(), poPkt->getActionVarValue() );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktTodGameValue( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameValue * poPkt = (PktTodGameValue *)pktHdr;
 	IToGui::getToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getValueVarId(), poPkt->getValueVar() );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PluginSessionMgr.onPktPluginOfferReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PluginSessionMgr.onPktPluginOfferReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVideoFeedReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedStatus( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPic( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPicChunk( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPicAck( sktBase, pktHdr, netIdent );
 }
@@ -243,19 +243,19 @@ void PluginTruthOrDare::callbackVideoPktPicChunk( void * userData, VxGUID& onlin
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PluginSessionMgr.onPktSessionStopReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VoiceFeedMgr.onPktVoiceReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginTruthOrDare::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginTruthOrDare::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VoiceFeedMgr.onPktVoiceReply( sktBase, pktHdr, netIdent );
 }
@@ -278,13 +278,13 @@ void PluginTruthOrDare::onSessionEnded( PluginSessionBase* session, bool pluginI
 }
 
 //============================================================================
-void PluginTruthOrDare::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void PluginTruthOrDare::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
 }
 
 //============================================================================
-void PluginTruthOrDare::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginTruthOrDare::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent );
 	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent );
@@ -293,7 +293,7 @@ void PluginTruthOrDare::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* s
 }
 
 //============================================================================
-void PluginTruthOrDare::onConnectionLost( VxSktBase* sktBase )
+void PluginTruthOrDare::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_PluginSessionMgr.onConnectionLost( sktBase );
 }

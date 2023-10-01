@@ -31,6 +31,7 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxSha1Hash.h>
 #include <CoreLib/VxFileShredder.h>
+#include <CoreLib/VxTimer.h>
 
 //============================================================================
 FileInfoBaseMgr::FileInfoBaseMgr( P2PEngine& engine, PluginBase& plugin, FileInfoDb& fileInfoDb )
@@ -808,7 +809,7 @@ bool FileInfoBaseMgr::findFileAsset( VxGUID& fileAssetId, FileInfo& fileInfo)
 }
 
 //============================================================================
-ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, VxSktBase* sktBase, VxNetIdent* netIdent )
+ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	ECommErr searchErr = m_FilesInitialized ? eCommErrNone : eCommErrPluginNotEnabled;
 	if( eCommErrNone == searchErr )
@@ -905,7 +906,7 @@ ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUI
 }
 
 //============================================================================
-ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, VxSktBase* sktBase, VxNetIdent* netIdent )
+ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	ECommErr searchErr = m_FilesInitialized ? eCommErrNone : eCommErrPluginNotEnabled;
 	if( eCommErrNone == searchErr && !nextFileAssetId.isVxGUIDValid() )
@@ -977,13 +978,13 @@ ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxG
 }
 
 //============================================================================
-bool FileInfoBaseMgr::startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+bool FileInfoBaseMgr::startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 return m_FileInfoXferMgr.startDownload( fileInfo, searchSessionId, sktBase, netIdent );
 }
 
 //============================================================================
-bool FileInfoBaseMgr::onFileDownloadComplete( VxNetIdent* netIdent, VxSktBase* sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
+bool FileInfoBaseMgr::onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
 	LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::onFileDownloadComplete %s", fileName.c_str() );
 	return m_Plugin.onFileDownloadComplete( netIdent, sktBase, lclSessionId, fileName, assetId, sha11Hash );

@@ -19,6 +19,7 @@
 #include <ptop_src/ptop_engine_src/User/User.h>
 
 #include <CoreLib/VxTime.h>
+#include <NetLib/VxSktBase.h>
 
 #include <time.h>
 
@@ -194,13 +195,13 @@ void UserOnlineMgr::announceUserSessionState( User* user, bool isInSession )
 }
 
 //============================================================================
-void UserOnlineMgr::onUserOnline( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================
-bool UserOnlineMgr::onUserOnline( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+bool UserOnlineMgr::onUserOnline( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     bool wasAdded = false;
     lockResources();
@@ -223,49 +224,49 @@ bool UserOnlineMgr::onUserOnline( GroupieId& groupieId, VxSktBase* sktBase, VxNe
 }
 
 //============================================================================
-void UserOnlineMgr::onHostJoinRequestedByUser( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( sktBase, netIdent, sessionInfo ); 
 }
 
 //============================================================================
-void UserOnlineMgr::onHostJoinedByUser( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================
-void UserOnlineMgr::onHostLeftByUser( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( sktBase, netIdent, sessionInfo, true );
 }
 
 //============================================================================
-void UserOnlineMgr::onUserJoinedHost( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onUserJoinedHost( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================
-void UserOnlineMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( groupieId, sktBase, netIdent, sessionInfo, false );
 }
 
 //============================================================================
-void UserOnlineMgr::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( groupieId, sktBase, netIdent, sessionInfo, true );
 }
 
 //============================================================================
-void UserOnlineMgr::onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     updateUserSession( groupieId, sktBase, netIdent, sessionInfo, true );
 }
 
 //============================================================================
-void UserOnlineMgr::updateUserSession( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost )
+void UserOnlineMgr::updateUserSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost )
 {
     if( IsHostPluginType( sessionInfo.getHostPluginType() ) )
     {
@@ -278,7 +279,7 @@ void UserOnlineMgr::updateUserSession( VxSktBase* sktBase, VxNetIdent* netIdent,
 }
 
 //============================================================================
-void UserOnlineMgr::updateUserSession( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost )
+void UserOnlineMgr::updateUserSession( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost )
 {
     bool wasAdded = false;
     bool wasInSession = false;
@@ -342,7 +343,7 @@ User* UserOnlineMgr::findUser( VxGUID& onlineId )
 }
 
 //============================================================================
-void UserOnlineMgr::onConnectionLost( VxSktBase* sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
+void UserOnlineMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
     // TODO BRJ handle disconnect
 }

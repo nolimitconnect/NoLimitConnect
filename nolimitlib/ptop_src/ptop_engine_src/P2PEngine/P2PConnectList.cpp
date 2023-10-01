@@ -72,7 +72,7 @@ void P2PConnectList::fromGuiChangeMyFriendshipToHim(	const VxGUID&	oOnlineId,
 }
 
 //============================================================================
-RcConnectInfo * P2PConnectList::addConnection( VxSktBase* sktBase, BigListInfo * poBigListInfo, bool bNewContact )
+RcConnectInfo * P2PConnectList::addConnection( std::shared_ptr<VxSktBase>& sktBase, BigListInfo * poBigListInfo, bool bNewContact )
 {
 	if( NULL != poBigListInfo )
 	{
@@ -119,8 +119,8 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 				poInfo->m_BigListInfo->isMyRelay()
 				);
 #endif // DEBUG_CONNECT_LIST
-			VxSktBase*	poNewSkt = poInfoIn->m_SktBase;
-			VxSktBase*	poOldSkt = poInfo->m_SktBase;
+			std::shared_ptr<VxSktBase>&	poNewSkt = poInfoIn->m_SktBase;
+			std::shared_ptr<VxSktBase>&	poOldSkt = poInfo->m_SktBase;
 			if( poNewSkt != poOldSkt )
 			{
 				poInfo->m_SktBase = poNewSkt;
@@ -233,7 +233,7 @@ RcConnectInfo * P2PConnectList::findConnection( const VxGUID& oOnlineId, bool is
 }
 
 //============================================================================
-void P2PConnectList::removeSocket( VxSktBase* sktBase, bool isLocked )
+void P2PConnectList::removeSocket( std::shared_ptr<VxSktBase>& sktBase, bool isLocked )
 {
 	if( !sktBase )
 	{
@@ -269,7 +269,7 @@ void P2PConnectList::removeSocket( VxSktBase* sktBase, bool isLocked )
 }
 
 //============================================================================
-void P2PConnectList::onConnectionLost( VxSktBase* sktBase )
+void P2PConnectList::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	removeSocket( sktBase, false );
 }        

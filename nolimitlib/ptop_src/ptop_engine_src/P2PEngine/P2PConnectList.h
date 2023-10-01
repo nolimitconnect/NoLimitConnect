@@ -37,7 +37,7 @@ public:
 	{
 	}
 
-	RcConnectInfo( VxSktBase* sktBase, BigListInfo * poBigListInfo, bool bIsRelayClient = false, bool bIsRelayServer = false  )
+	RcConnectInfo( std::shared_ptr<VxSktBase>& sktBase, BigListInfo * poBigListInfo, bool bIsRelayClient = false, bool bIsRelayServer = false  )
 		: m_SktBase(sktBase)
 		, m_BigListInfo(poBigListInfo)
 		, m_bIsRelayClient(bIsRelayClient)
@@ -52,9 +52,9 @@ public:
 	bool						isRelayClient( void )							{ return m_bIsRelayClient; }
 	void						setIsRelayClient( bool bIsClient )				{ m_bIsRelayClient = bIsClient; }
 	BigListInfo	*				getBigListInfo( void )							{ return m_BigListInfo; }
-	VxSktBase	*				getSkt( void )									{ return m_SktBase; }
+	std::shared_ptr<VxSktBase>&	getSkt( void )									{ return m_SktBase; }
 
-	VxSktBase*					m_SktBase;
+	std::shared_ptr<VxSktBase>	m_SktBase;
 	BigListInfo	*				m_BigListInfo;		
 	bool						m_bIsRelayClient;
 	bool						m_bIsRelayServer;
@@ -76,18 +76,18 @@ public:
 																EFriendState	eMyFriendshipToHim,
 																EFriendState	eHisFriendshipToMe );
 
-	void						onConnectionLost( VxSktBase* sktBase );
+	void						onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 
     bool						isContactConnected( const VxGUID&	onlineId );
 	bool						isRelayRequired( void )								{ return m_bRequireRelayService; }
 	void						setIsRelayRequired( bool bRequireRelayService )		{ m_bRequireRelayService = bRequireRelayService; }
 	bool						isMyRelayAvailable( void )							{ return m_RelayServiceConnection?1:0; }
 
-	RcConnectInfo *				addConnection( VxSktBase* sktBase, BigListInfo * poBigListInfo, bool bNewContact = false );
+	RcConnectInfo *				addConnection( std::shared_ptr<VxSktBase>& sktBase, BigListInfo * poBigListInfo, bool bNewContact = false );
     RcConnectInfo *				addConnection( const VxGUID& oOnlineId, RcConnectInfo * poInfo, bool bNewContact = false );
     RcConnectInfo *				findConnection( const VxGUID& oOnlineId, bool listIsLocked );
     void						removeConnection( const VxGUID& oOnlineId );
-	void						removeSocket( VxSktBase* sktBase, bool listIsLocked );
+	void						removeSocket( std::shared_ptr<VxSktBase>& sktBase, bool listIsLocked );
 
 	void						removeContactInfo( VxConnectInfo& contactInfo );
 	

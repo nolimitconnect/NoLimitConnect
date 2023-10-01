@@ -50,34 +50,34 @@ public:
 	// handle case where BigListInfo is about to be deleted
 	void						onIdentDelete( VxNetIdent* netIdent );
 
-	virtual void				onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase );
-	virtual void				onConnectionLost( VxSktBase* sktBase );	
+	virtual void				onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );	
 	//! called when new better connection from user
-	void						replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt );
+	void						replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
-	void						addMatchedConnection( VxNetIdent* netIdent, VxSktBase* sktBase );
+	void						addMatchedConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
 	void						doSearchResultActions( void );
 
 	virtual void				onScanResultProfilePic(	VxNetIdent*	netIdent, 
-															VxSktBase*		sktBase, 
+															std::shared_ptr<VxSktBase>&		sktBase, 
 															uint8_t *			pu8JpgData, 
 															uint32_t				u32JpgDataLen );
 
 	virtual void				onScanResultError(	EScanType			eScanType,
 														VxNetIdent*		netIdent, 
-														VxSktBase*			sktBase, 
+														std::shared_ptr<VxSktBase>&			sktBase, 
 														uint32_t				errCode ); 
 protected:
 	void						startSearchActionThread( void );
 	void						stopSearchActionThread( void );
 
-	void						searchActionPeopleSearch( VxNetIdent* netIdent, VxSktBase* sktBase );
-	void						searchActionMoodMsgSearch( VxNetIdent* netIdent, VxSktBase* sktBase );
-	void						searchActionFileSearch( VxNetIdent* netIdent, VxSktBase* sktBase );
+	void						searchActionPeopleSearch( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	void						searchActionMoodMsgSearch( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	void						searchActionFileSearch( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
-	bool						getNextActionConnection( VxNetIdent** netIdent, VxSktBase** sktBase );
+	bool						getNextActionConnection( VxNetIdent** netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	
 	void						setShouldSendNext( bool next )				{ m_bNextScan = next; }
 	bool						getShouldSendNext( void )					{ return m_bNextScan; }

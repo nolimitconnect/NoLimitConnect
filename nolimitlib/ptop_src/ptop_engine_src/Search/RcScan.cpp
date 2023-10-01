@@ -85,7 +85,7 @@ void RcScan::onIdentDelete( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void RcScan::onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScan::onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( m_bIsScanning 
 		&& m_IdentsSentSearchPktList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
@@ -96,20 +96,20 @@ void RcScan::onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase )
 }
 
 //============================================================================
-void RcScan::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScan::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_ScanAction.onContactWentOffline( netIdent, sktBase );
 }
 
 //============================================================================
-void RcScan::onConnectionLost( VxSktBase* sktBase )
+void RcScan::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_ScanAction.onConnectionLost( sktBase );
 }
 
 //============================================================================
 //! called when new better connection from user
-void RcScan::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void RcScan::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	m_ScanAction.replaceConnection( netIdent, poOldSkt, poNewSkt );
 }
@@ -189,7 +189,7 @@ void RcScan::fromGuiStopScan( EScanType eScanType )
 }
 
 //============================================================================
-void RcScan::onPktScanReq( VxNetIdent* netIdent, VxSktBase* sktBase, PktScanReq* poPkt )
+void RcScan::onPktScanReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktScanReq* poPkt )
 {
 	unsigned int iMatchesFound = 0;
 	unsigned int iNotMatchesFound = 0;
@@ -272,7 +272,7 @@ void RcScan::onPktScanReq( VxNetIdent* netIdent, VxSktBase* sktBase, PktScanReq*
 }
 
 //============================================================================
-void RcScan::onPktScanReply( VxNetIdent* netIdent, VxSktBase* sktBase, PktScanReply * poPkt )
+void RcScan::onPktScanReply( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktScanReply * poPkt )
 {
 	if( m_bIsScanning )
 	{
@@ -309,25 +309,25 @@ void RcScan::onPktScanReply( VxNetIdent* netIdent, VxSktBase* sktBase, PktScanRe
 }
 
 //============================================================================
-void RcScan::onPktFindFileReq( VxNetIdent* netIdent, VxSktBase* sktBase, PktFindFileReq* poPkt )
+void RcScan::onPktFindFileReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktFindFileReq* poPkt )
 {
 
 }
 
 //============================================================================
-void RcScan::onPktFindFileReply( VxNetIdent* netIdent, VxSktBase* sktBase, PktFindFileReply * poPkt )
+void RcScan::onPktFindFileReply( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, PktFindFileReply * poPkt )
 {
 
 }
 
 //============================================================================
-void RcScan::onScanResultError( EScanType eScanType, VxNetIdent* netIdent, VxSktBase* sktBase,  uint32_t errCode )
+void RcScan::onScanResultError( EScanType eScanType, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase,  uint32_t errCode )
 {
 	m_ScanAction.onScanResultError( eScanType, netIdent, sktBase, errCode );
 }
 
 //============================================================================
-void RcScan::onScanResultProfilePic( VxNetIdent* netIdent, VxSktBase* sktBase, uint8_t* pu8JpgData, uint32_t u32JpgDataLen )
+void RcScan::onScanResultProfilePic( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, uint8_t* pu8JpgData, uint32_t u32JpgDataLen )
 {
 	m_ScanAction.onScanResultProfilePic( netIdent, sktBase, pu8JpgData, u32JpgDataLen );
 }

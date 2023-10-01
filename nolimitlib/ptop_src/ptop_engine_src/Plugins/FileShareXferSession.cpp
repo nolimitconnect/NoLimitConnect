@@ -31,7 +31,7 @@ FileShareXferSession::FileShareXferSession()
 }
 
 //============================================================================
-FileShareXferSession::FileShareXferSession( VxSktBase* sktBase, VxNetIdent* netIdent )
+FileShareXferSession::FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 : m_FilesToXferList()
 , m_FilesXferedList()
 , m_FileXferInfo()
@@ -44,7 +44,7 @@ FileShareXferSession::FileShareXferSession( VxSktBase* sktBase, VxNetIdent* netI
 }
 
 //============================================================================
-FileShareXferSession::FileShareXferSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+FileShareXferSession::FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 : m_FilesToXferList()
 , m_FilesXferedList()
 , m_FileXferInfo( lclSessionId )

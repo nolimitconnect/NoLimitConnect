@@ -18,6 +18,7 @@
 #include <NetLib/VxHttpParse.h>
 
 #include <vector>
+#include <memory>
 
 class UpnpDevice;
 class UpnpService;
@@ -32,7 +33,7 @@ public:
 	UpnpParser();
 	virtual ~UpnpParser(){};
 
-	void						setParserData(  VxSktBase* sktBase, const char* pDataBuf );
+	void						setParserData(  std::shared_ptr<VxSktBase>& sktBase, const char* pDataBuf );
 	void						setLclIp( std::string& strIp );
 	void						setRmtIpAndPort( std::string& strIp, uint16_t u16Port );
 	void						setTimeStamp( uint32_t time );

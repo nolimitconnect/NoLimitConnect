@@ -18,7 +18,9 @@
 
 #include <CoreLib/VxMutex.h>
 #include <PktLib/GroupieId.h>
+
 #include <map>
+#include <memory>
 
 // client side manager of user join to host service states
 
@@ -42,12 +44,12 @@ public:
 
     void                        addUserJoinMgrClient( UserJoinCallbackInterface * client, bool enable );
 
-    void                        onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
-    void                        onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    void                        onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    void                        onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
     void                        onUserLeftHost( GroupieId& groupieId );
-    void                        onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
+    void                        onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
 
-    virtual void                onConnectionLost( VxSktBase* sktBase, VxGUID& connectionId, VxGUID& peerOnlineId );
+    virtual void                onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId );
 
     virtual void				announceUserJoinRequested( UserJoinInfo* userHostInfo );
     virtual void				announceUserJoinUpdated( UserJoinInfo * userJoinInfo );

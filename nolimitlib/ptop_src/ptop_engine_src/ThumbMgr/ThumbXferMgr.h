@@ -29,17 +29,17 @@ public:
 
     virtual void				sendToGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override {}; // dont send so is not in uploads/downloads
 
-    virtual void				onPktThumbGetReq			( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbGetReply			( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbSendReq			( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktThumbSendReply			( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktThumbChunkReq			( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktThumbChunkReply		( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbGetCompleteReq	( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-    virtual void				onPktThumbGetCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktThumbSendCompleteReq	( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktThumbSendCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	virtual void				onPktThumbXferErr			( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktThumbSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktThumbChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktThumbChunkReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+    virtual void				onPktThumbGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktThumbSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktThumbSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktThumbXferErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
     virtual PktBaseGetReq*			    createPktBaseGetReq( void ) override;
     virtual PktBaseGetReply*			createPktBaseGetReply( void ) override;
@@ -53,7 +53,7 @@ public:
     virtual PktBaseSendCompleteReply*	createPktBaseSendCompleteReply( void ) override;
     virtual PktBaseXferErr*			    createPktBaseXferErr( void ) override;
 
-    virtual bool				        requestPluginThumb( VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& thumbId );
+    virtual bool				        requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId );
 };
 
 

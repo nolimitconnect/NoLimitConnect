@@ -25,6 +25,7 @@
 #include <PktLib/PktsHostInvite.h>
 
 #include <CoreLib/VxFileUtil.h>
+#include <NetLib/VxSktBase.h>
 
 //============================================================================
 std::string PluginBase::getThumbXferDbName( EPluginType pluginType )
@@ -209,7 +210,7 @@ void PluginBase::onSessionStart( PluginSessionBase* poSession, bool pluginIsLock
 }
 
 //============================================================================
-bool PluginBase::txPacket( VxNetIdent* netIdent, VxSktBase* sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend )
+bool PluginBase::txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend )
 {
 	if( nullptr == sktBase )
 	{
@@ -221,7 +222,7 @@ bool PluginBase::txPacket( VxNetIdent* netIdent, VxSktBase* sktBase, VxPktHdr* p
 }
 
 //============================================================================
-bool PluginBase::txPacket( const VxGUID& onlineId, VxSktBase* sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend, EPluginType overridePlugin )
+bool PluginBase::txPacket( const VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend, EPluginType overridePlugin )
 {
     if( nullptr == sktBase )
     {
@@ -273,7 +274,7 @@ EPluginAccess PluginBase::canAcceptNewSession( VxNetIdent* netIdent )
 }
 
 //============================================================================ 
-P2PSession* PluginBase::createP2PSession( VxSktBase* sktBase, VxNetIdent* netIdent )
+P2PSession* PluginBase::createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     P2PSession* p2pSession = new P2PSession( sktBase, netIdent, m_ePluginType );
 	p2pSession->setPluginType( m_ePluginType );
@@ -281,7 +282,7 @@ P2PSession* PluginBase::createP2PSession( VxSktBase* sktBase, VxNetIdent* netIde
 }
 
 //============================================================================ 
-P2PSession* PluginBase::createP2PSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+P2PSession* PluginBase::createP2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     P2PSession* p2pSession = new P2PSession( lclSessionId, sktBase, netIdent, m_ePluginType );
 	p2pSession->setPluginType( m_ePluginType );
@@ -289,7 +290,7 @@ P2PSession* PluginBase::createP2PSession( VxGUID& lclSessionId, VxSktBase* sktBa
 }
 
 //============================================================================ 
-RxSession *	PluginBase::createRxSession( VxSktBase* sktBase, VxNetIdent* netIdent )
+RxSession *	PluginBase::createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     RxSession * rxSession = new RxSession( sktBase, netIdent, m_ePluginType );
 	rxSession->setPluginType( m_ePluginType );
@@ -297,7 +298,7 @@ RxSession *	PluginBase::createRxSession( VxSktBase* sktBase, VxNetIdent* netIden
 }
 
 //============================================================================ 
-RxSession *	PluginBase::createRxSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+RxSession *	PluginBase::createRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     RxSession * rxSession =  new RxSession( lclSessionId, sktBase, netIdent, m_ePluginType );
 	rxSession->setPluginType( m_ePluginType );
@@ -305,7 +306,7 @@ RxSession *	PluginBase::createRxSession( VxGUID& lclSessionId, VxSktBase* sktBas
 }
 
 //============================================================================ 
-TxSession *	PluginBase::createTxSession( VxSktBase* sktBase, VxNetIdent* netIdent )
+TxSession *	PluginBase::createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     TxSession * txSession = new TxSession( sktBase, netIdent, m_ePluginType );
 	txSession->setPluginType( m_ePluginType );
@@ -313,7 +314,7 @@ TxSession *	PluginBase::createTxSession( VxSktBase* sktBase, VxNetIdent* netIden
 }
 
 //============================================================================ 
-TxSession *	PluginBase::createTxSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+TxSession *	PluginBase::createTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     TxSession * txSession = new TxSession( lclSessionId, sktBase, netIdent, m_ePluginType );
 	txSession->setPluginType( m_ePluginType );
@@ -472,7 +473,7 @@ EPluginAccess PluginBase::getPluginAccessState( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void PluginBase::logCommError( ECommErr commErr, const char* desc, VxSktBase* sktBase, VxNetIdent* netIdent )
+void PluginBase::logCommError( ECommErr commErr, const char* desc, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     LogMsg( LOG_ERROR, "%s %s from %s %s", desc, DescribeCommError( commErr ), netIdent->getOnlineName(), sktBase->describeSktConnection().c_str() );
 }
@@ -548,7 +549,7 @@ void PluginBase::handleToGuiOfferResponse( VxNetIdent* netIdent, PktPluginOfferR
 }
 
 //============================================================================
-void PluginBase::handlePktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBase::handlePktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteSearchReply* pktReply = (PktHostInviteSearchReply*)pktHdr;
     if( pktReply->getCommError() )
@@ -576,7 +577,7 @@ void PluginBase::handlePktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* p
 }
 
 //============================================================================
-void PluginBase::handlePktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBase::handlePktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteMoreReply* pktReply = (PktHostInviteMoreReply*)pktHdr;
     if( pktReply->getCommError() )
@@ -604,7 +605,7 @@ void PluginBase::handlePktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pkt
 }
 
 //============================================================================
-void PluginBase::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
+void PluginBase::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
 {
     LogModule( eLogHostSearch, LOG_DEBUG, "PluginBase::updateFromHostInviteSearchBlob rxed %d hosts", hostInfoCount );
     blobEntry.resetRead();
@@ -629,7 +630,7 @@ void PluginBase::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& sea
 }
 
 //============================================================================
-bool PluginBase::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& nextHostOnlineId )
+bool PluginBase::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextHostOnlineId )
 {
     LogModule( eLogHostSearch, LOG_DEBUG, "PluginBase::requestMoreHostInvitesFromNetworkHost" );
     PktHostInviteMoreReq pktReq;

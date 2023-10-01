@@ -17,6 +17,8 @@
 
 #include <CoreLib/VxMutex.h>
 
+#include <memory>
+
 class ConnectInfo;
 class ConnectCallbackInterface;
 class P2PEngine;
@@ -31,7 +33,7 @@ public:
 	virtual ~ConnectMgr() = default;
 
     void                        fromGuiUserLoggedOn( void );
-    bool                        isConnectedToHost( enum EHostType hostType, VxPtopUrl& hostUrl, VxSktBase*& sktBase );
+    bool                        isConnectedToHost( enum EHostType hostType, VxPtopUrl& hostUrl, std::shared_ptr<VxSktBase>& sktBase );
 
     void                        addConnectMgrClient( ConnectCallbackInterface * client, bool enable );
 

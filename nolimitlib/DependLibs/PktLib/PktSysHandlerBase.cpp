@@ -209,7 +209,7 @@ PktHandlerBase::PktHandlerBase()
 
 //============================================================================
 //! Handle Incoming packet.. use function jump table for speed
-void PktHandlerBase::handlePkt( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::handlePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     if( VxIsAppShuttingDown() || !sktBase->isConnected() )
     {
@@ -227,576 +227,576 @@ void PktHandlerBase::handlePkt( VxSktBase* sktBase, VxPktHdr* pktHdr )
 
 //=== packet handlers ===//
 //============================================================================
-void PktHandlerBase::onPktUnhandled( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktUnhandled( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 }
 
 //============================================================================
-void PktHandlerBase::onPktInvalid( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktInvalid( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogMsg( LOG_ERROR, "PktHandlerBase::onPktInvalid type 0x%x len 0x%x\n", pktHdr->getPktType(), pktHdr->getPktLength() );
 }
 
 //============================================================================
-void PktHandlerBase::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktChatReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktChatReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktChatReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVideoFeedReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFindFileReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFindFileReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFindFileReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFindFileReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileListReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}	
-
-//============================================================================
-void PktHandlerBase::onPktFileSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktFileSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktFileGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktFileGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileShareErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktAssetGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-    onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-    onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-    onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-    onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktAssetXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktMultiSessionReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktMultiSessionReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktSessionStartReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktSessionStartReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
-{
-	onPktUnhandled( sktBase, pktHdr );
-}
-
-//============================================================================
-void PktHandlerBase::onPktSessionStopReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktAnnounce( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+    onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+    onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+    onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+    onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktAssetXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktMultiSessionReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktSessionStartReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktSessionStartReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktSessionStopReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktAnnList( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktHostUnJoinReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktAnnList( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktHostUnJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUnJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktScanReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktScanReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktScanReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktMyPicSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktScanReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktMyPicSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktMyPicSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktWebServerPicChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktMyPicSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktWebServerPicChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktWebServerPicChunkTx( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktWebServerGetChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktWebServerPicChunkAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktWebServerGetChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktWebServerGetChunkTx( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktWebServerPutChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktWebServerGetChunkAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktWebServerPutChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktWebServerPutChunkTx( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktWebServerPutChunkAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktTodGameAction( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktTodGameStats( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktTodGameValue( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktTodGameAction( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktTcpPunch( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktPingReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktTcpPunch( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktPingReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPingReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktImAliveReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }	
 
 //============================================================================
-void PktHandlerBase::onPktImAliveReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}	
+
+//============================================================================
+void PktHandlerBase::onPktImAliveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktBlobXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktBlobXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostJoinReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostLeaveReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFriendOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFriendOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFriendOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFriendOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktThumbXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
@@ -804,277 +804,277 @@ void PktHandlerBase::onPktThumbXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
 // offers
 
 //============================================================================
-void PktHandlerBase::onPktOfferSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktOfferSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktOfferChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktOfferChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktOfferSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktOfferSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktOfferXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktOfferXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
     onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktPushToTalkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktPushToTalkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPushToTalkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktPushToTalkStart( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktPushToTalkStop( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktPushToTalkStop( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktMembershipReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktMembershipReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktMembershipReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktMembershipReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInviteAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInviteAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInviteAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInviteSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInviteMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktGroupieMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktFileInfoMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktRelayUserDisconnect( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktRelayUserDisconnect( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserStatusReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserListReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserListMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }
 
 //============================================================================
-void PktHandlerBase::onPktHostUserListMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PktHandlerBase::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }

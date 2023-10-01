@@ -23,6 +23,7 @@
 #include <CoreLib/VxSemaphore.h>
 
 #include <vector>
+#include <memory>
 
 class P2PEngine;
 class BigListMgr;
@@ -47,20 +48,20 @@ public:
 	void						netConnectorShutdown( void );
 	void						stayConnectedShutdown( void );
 
-	bool						connectToContact(	VxConnectInfo&		connectInfo, 
-													VxSktBase**			ppoRetSkt,
-													bool&				retIsNewConnection,
-													EConnectReason		connectReason );
+	bool						connectToContact(	VxConnectInfo&				connectInfo, 
+													std::shared_ptr<VxSktBase>&	ppoRetSkt,
+													bool&						retIsNewConnection,
+													EConnectReason				connectReason );
 
-	RCODE						directConnectTo(	VxConnectInfo&			connectInfo,		 
-													VxSktBase**				ppoRetSkt,		 
-													EConnectReason			connectReason );
+	RCODE						directConnectTo(	VxConnectInfo&				connectInfo,		 
+													std::shared_ptr<VxSktBase>&	ppoRetSkt,		 
+													EConnectReason				connectReason );
 												
-	bool						sendMyPktAnnounce(  VxGUID&					destinationId,
-													VxSktBase*				sktBase, 
-													bool					requestAnnReply = false,
-													bool					requestReverseConnection = false,
-													bool					requestSTUN = false );
+	bool						sendMyPktAnnounce(  VxGUID&						destinationId,
+													std::shared_ptr<VxSktBase>&	sktBase, 
+													bool						requestAnnReply = false,
+													bool						requestReverseConnection = false,
+													bool						requestSTUN = false );
 
 	//void						handleAnnounceResults( HostList * anchorList, EConnectReason connectReason = eConnectReasonAnnouncePing );
 	//void						handleRandomConnectResults( HostList * anchorList );
@@ -70,29 +71,28 @@ public:
 
 	bool						doConnectRequest( ConnectRequest& connectRequest, bool ignoreToSoonToConnectAgain = false );
 
-	void						closeIfAnnonymous( ESktCloseReason closeReason, VxGUID& onlineId, VxSktBase* skt, BigListInfo * poInfo = NULL );
-	void						closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, VxSktBase* skt, BigListInfo * poInfo = NULL );
+	void						closeIfAnnonymous( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo = NULL );
+	void						closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo = NULL );
 	void						addConnectRequestToQue( VxConnectInfo& connectInfo, EConnectReason connectReason = eConnectReasonStayConnected, bool addToHeadOfQue = false, bool replaceExisting = true );
 
-	void						handleConnectSuccess(  BigListInfo * bigListInfo, VxSktBase* skt, bool isNewConnection, EConnectReason connectReason );
+	void						handleConnectSuccess(  BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
 	//void						handlePossibleRelayConnect(	VxConnectInfo&		connectInfo, 
-	//														VxSktBase*			sktBase,
+	//														std::shared_ptr<VxSktBase>&			sktBase,
 	//														bool				retIsNewConnection,
 	//														EConnectReason		connectReason );
 
 protected:
-	bool						connectUsingTcp(	VxConnectInfo&		connectInfo, 
-													VxSktBase**			ppoRetSkt,
-													EConnectReason		connectReason );
+	bool						connectUsingTcp(	VxConnectInfo&				connectInfo, 
+													std::shared_ptr<VxSktBase>&	ppoRetSkt,
+													EConnectReason				connectReason );
 
-	bool						tryIPv6Connect(	VxConnectInfo&		connectInfo, 
-												VxSktBase**			ppoRetSkt );
+	bool						tryIPv6Connect(	VxConnectInfo&				connectInfo, 
+												std::shared_ptr<VxSktBase>&	ppoRetSkt );
 
-	bool						txPacket(	VxGUID&				destinationId, 
-											VxSktBase*			sktBase, 
-											VxPktHdr*			poPkt );
+	bool						txPacket(	VxGUID&						destinationId, 
+											std::shared_ptr<VxSktBase>&	sktBase, 
+											VxPktHdr*					poPkt );
 
-	bool						connectToContact( ConnectRequest& connectRequest, bool replaceExisting = true );
 	void						addConnectRequestToQue( ConnectRequest& connectRequest, bool addToHeadOfQue = false, bool replaceExisting = true );
 
 	//=== vars ===//

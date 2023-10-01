@@ -33,10 +33,10 @@ public:
 	//! can accept a new connection/session
 	virtual EPluginAccess		canAcceptNewSession( VxNetIdent* netIdent );	
 
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase ) {};
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) {};
 	//! called when new better connection from user
-	virtual void				replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt ){};
-	virtual void				onConnectionLost( VxSktBase* sktBase ) {}; 
+	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ){};
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) {}; 
 
 	//=== methods ===//
 	virtual	void				fromGuiStartPluginSession( PluginSessionBase* poOffer ) {};

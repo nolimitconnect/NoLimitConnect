@@ -227,17 +227,17 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 }
 
 //============================================================================
-void VideoFeedMgr::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VideoFeedMgr::onPktVideoFeedReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void VideoFeedMgr::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VideoFeedMgr::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void VideoFeedMgr::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VideoFeedMgr::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktVideoFeedPicAck oPkt;
 	m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
@@ -319,7 +319,7 @@ void VideoFeedMgr::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNe
 }
 
 //============================================================================
-void VideoFeedMgr::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VideoFeedMgr::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktVideoFeedPicAck oPkt;
 	m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
@@ -377,7 +377,7 @@ void VideoFeedMgr::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr,
 }
 
 //============================================================================
-void VideoFeedMgr::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VideoFeedMgr::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_AUTOPLUGIN_LOCK
     LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicAck autoLock start" );

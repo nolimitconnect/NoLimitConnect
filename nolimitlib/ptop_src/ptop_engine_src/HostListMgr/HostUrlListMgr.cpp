@@ -101,7 +101,7 @@ bool HostUrlListMgr::getHostUrls( EHostType hostType, std::vector<HostUrlInfo>& 
 
 //============================================================================
 /// return false if one time use and packet has been sent. Connect Manager will disconnect if nobody else needs the connection
-bool HostUrlListMgr::onContactConnected( VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason ) 
+bool HostUrlListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason ) 
 { 
     if( eConnectReasonRequestIdentity == connectReason )
     {
@@ -127,7 +127,7 @@ void HostUrlListMgr::requestIdentity( std::string& url )
         // just make up any session.. we only care about the identity then will disconnect
         VxGUID sessionId;
         sessionId.initializeWithNewVxGUID();
-        VxSktBase* sktBase{ nullptr };
+        std::shared_ptr<VxSktBase> sktBase( nullptr );
         m_Engine.getConnectionMgr().requestConnection( sessionId, ptopUrl.getUrl(), ptopUrl.getOnlineId(), this, sktBase, eConnectReasonRequestIdentity );
     }
 }

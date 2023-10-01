@@ -16,6 +16,7 @@
 #include "P2PEngine.h"
 
 #include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktBase.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -86,7 +87,7 @@ void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,
 void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,			    
                                 EHackerReason   hackerReason,
                                 VxPktHdr*       pktHdr,		
-                                VxSktBase*      sktBase,
+                                std::shared_ptr<VxSktBase>&      sktBase,
                                 const char*	    pMsg, ... )				// message about the offense
 {
     char szBuffer[4096];

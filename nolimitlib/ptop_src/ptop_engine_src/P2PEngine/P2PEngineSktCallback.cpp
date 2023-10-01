@@ -29,7 +29,7 @@
 #include <string.h>
 
 //============================================================================
-void P2PEngine::handleTcpData( VxSktBase* sktBase )
+void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( VxIsAppShuttingDown() )
 	{
@@ -329,7 +329,7 @@ void P2PEngine::handleTcpData( VxSktBase* sktBase )
 }
 
 //============================================================================
-void P2PEngine::handleIncommingRelayData( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::handleIncommingRelayData( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	getRelayMgr().handleRelayPkt( sktBase, pktHdr );
 	/*
@@ -380,7 +380,7 @@ void P2PEngine::handleIncommingRelayData( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::handleMulticastData( VxSktBase* sktBase )
+void P2PEngine::handleMulticastData( std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( VxIsAppShuttingDown() )
 	{

@@ -18,6 +18,7 @@
 
 #include <NetLib/VxFileXferInfo.h>
 
+#include <memory>
 #include <vector>
 
 class VxSktBase;
@@ -27,14 +28,14 @@ class FileShareXferSession
 {
 public:
 	FileShareXferSession();
-	FileShareXferSession( VxSktBase* sktBase, VxNetIdent* netIdent );
-	FileShareXferSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent );
+	FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
 	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
 	VxNetIdent*					getIdent( void )							{ return m_Ident; }
 
-	void						setSkt( VxSktBase* skt )					{ m_Skt = skt; }
-	VxSktBase*					getSkt( void )								{ return m_Skt; }
+	void						setSkt( std::shared_ptr<VxSktBase>& skt )	{ m_Skt = skt; }
+	std::shared_ptr<VxSktBase>&	getSkt( void )								{ return m_Skt; }
 
 	void						setLclSessionId( VxGUID& lclId )			{ m_FileXferInfo.setLclSessionId( lclId ); }
 	VxGUID&						getLclSessionId( void )						{ return m_FileXferInfo.getLclSessionId(); }
@@ -66,7 +67,7 @@ public:
 protected:
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
 	int							m_iPercentComplete{ 0 };
-	VxSktBase*					m_Skt{ nullptr };
+	std::shared_ptr<VxSktBase> m_Skt;
 	VxNetIdent*					m_Ident{ nullptr };
 	uint32_t					m_Error{ 0 };
 

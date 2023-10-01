@@ -61,7 +61,7 @@ void ConnectMgr::fromGuiUserLoggedOn( void )
 }
 
 //============================================================================
-bool ConnectMgr::isConnectedToHost( enum EHostType hostType, VxPtopUrl& hostUrl, VxSktBase*& sktBase )
+bool ConnectMgr::isConnectedToHost( enum EHostType hostType, VxPtopUrl& hostUrl, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool isConnected = false;
     if( hostUrl.getOnlineId() == m_Engine.getMyOnlineId() )

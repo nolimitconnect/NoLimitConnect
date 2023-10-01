@@ -20,6 +20,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <memory>
 
 class P2PEngine;
 class IConnectRequestCallback;
@@ -38,12 +39,12 @@ public:
     bool                        operator==( const ConnectedInfo& rhs );
 
     P2PEngine&                  getEngine()             { return m_Engine; }
-    VxSktBase*                  getSktBase( void );
+    std::shared_ptr<VxSktBase>  getSktBase( void );
     VxGUID&                     getSocketId( void )     { return m_SocketId; }
 
     void                        onHandshakeComplete( HandshakeInfo& shakeInfo );
     void                        addConnectReason( HandshakeInfo& shakeInfo );
-    bool                        removeConnectReason( VxGUID& sessionId, IConnectRequestCallback* callback, EConnectReason connectReason, VxSktBase** retSktBaseIfDisconnected );
+    bool                        removeConnectReason( VxGUID& sessionId, IConnectRequestCallback* callback, EConnectReason connectReason, std::shared_ptr<VxSktBase>& retSktBaseIfDisconnected );
 
     void                        onSktDisconnected( const VxGUID& socketId );
     void                        aboutToDelete( void );

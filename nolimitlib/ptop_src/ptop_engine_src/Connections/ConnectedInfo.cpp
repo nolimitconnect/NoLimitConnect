@@ -71,14 +71,14 @@ bool ConnectedInfo::operator==( const ConnectedInfo& rhs )
 }
 
 //============================================================================
-VxSktBase* ConnectedInfo::getSktBase( void )
+std::shared_ptr<VxSktBase> ConnectedInfo::getSktBase( void )
 {
     if( m_CallbackList.size() )
     {
         return m_CallbackList[0].getSktBase();
     }
 
-    return nullptr;
+    return std::shared_ptr<VxSktBase>(nullptr);
 }
 
 //============================================================================
@@ -94,7 +94,7 @@ void ConnectedInfo::onHandshakeComplete( HandshakeInfo& shakeInfo )
 }
 
 //============================================================================
-bool ConnectedInfo::removeConnectReason( VxGUID& sessionId, IConnectRequestCallback* callback, EConnectReason connectReason, VxSktBase** retSktBaseIfDisconnected )
+bool ConnectedInfo::removeConnectReason( VxGUID& sessionId, IConnectRequestCallback* callback, EConnectReason connectReason, std::shared_ptr<VxSktBase>& retSktBaseIfDisconnected )
 {
     bool sktDisconnected{ false };
     std::vector<HandshakeInfo>  completedList;
@@ -120,7 +120,7 @@ bool ConnectedInfo::removeConnectReason( VxGUID& sessionId, IConnectRequestCallb
         {
             // return skt so caller can close it if disconnected to avoid mutex deadlock
             sktDisconnected = true;
-            *retSktBaseIfDisconnected = shakeInfo.getSktBase();
+            retSktBaseIfDisconnected = shakeInfo.getSktBase();
         }
     }
 

@@ -26,7 +26,7 @@
 
 namespace
 {
-	void VxPeerMgrRxCallbackHandler( VxSktBase*  sktBase, void * pvUserCallbackData )
+	void VxPeerMgrRxCallbackHandler( std::shared_ptr<VxSktBase>&  sktBase, void * pvUserCallbackData )
 	{
 		VxPeerMgr * peerMgr = ( VxPeerMgr * )pvUserCallbackData;
 		if( peerMgr )
@@ -91,22 +91,24 @@ void VxPeerMgr::setLocalIp( InetAddress& newLocalIp )
 
 //============================================================================
 //! make a new socket... give derived classes a chance to override
-VxSktBase* VxPeerMgr::makeNewSkt( void )
+std::shared_ptr<VxSktBase> VxPeerMgr::makeNewSkt( void )
 { 
-	return new VxSktConnect(); 
+	std::shared_ptr<VxSktBase> sharedSkt( new VxSktConnect() );
+	sharedSkt->setThisSkt( sharedSkt ); // so skt can do callbacks without look up in manager
+	return sharedSkt;
 }
 
 //============================================================================
 // find a socket.. assumes list has been locked
-VxSktBase* VxPeerMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
+std::shared_ptr<VxSktBase>& VxPeerMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
 {
 	if( !connectId.isVxGUIDValid() )
 	{
 		LogMsg( LOG_ERROR, "VxPeerMgr::findSktBase invalid connectId" );
-		return nullptr;
+		return  std::make_shared<VxSktBase>();
 	}
 
-	VxSktBase* sktBase = VxSktBaseMgr::findSktBase( connectId, acceptSktsOnly );
+	std::shared_ptr<VxSktBase>& sktBase = VxSktBaseMgr::findSktBase( connectId, acceptSktsOnly );
 	if( !sktBase )
 	{
 		sktBase = m_ClientMgr.findSktBase( connectId, acceptSktsOnly );
@@ -117,7 +119,7 @@ VxSktBase* VxPeerMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly 
 
 //============================================================================
 //! Connect to ip or url and return socket.. if cannot connect return NULL
-VxSktConnect * VxPeerMgr::connectTo(	const char*	pIpOrUrl,				// remote ip or url 
+std::shared_ptr<VxSktBase> VxPeerMgr::connectTo(	const char*	pIpOrUrl,				// remote ip or url 
 										uint16_t		u16Port,				// port to connect to
 										int				iTimeoutMilliSeconds )	// milli seconds before connect attempt times out
 {
@@ -127,7 +129,7 @@ VxSktConnect * VxPeerMgr::connectTo(	const char*	pIpOrUrl,				// remote ip or ur
 		vx_assert( m_pfnUserReceive );
 	}
 		
-	VxSktConnect * sktBase	= (VxSktConnect *)makeNewSkt();
+	std::shared_ptr<VxSktBase> sktBase	= makeNewSkt();
 	sktBase->m_SktMgr		= this;
 	sktBase->setReceiveCallback( m_pfnOurReceive, this );
 	sktBase->setTransmitCallback( m_pfnOurTransmit, this );
@@ -137,16 +139,18 @@ VxSktConnect * VxPeerMgr::connectTo(	const char*	pIpOrUrl,				// remote ip or ur
 									iTimeoutMilliSeconds );
 	if( rc )
 	{
-		delete sktBase;
-		return NULL;
+		sktBase.reset();
+	}
+	else
+	{
+		addSkt( sktBase );
 	}
 
-	addSkt( sktBase );
 	return sktBase;
 }
 
 //============================================================================
-VxSktConnect * VxPeerMgr::createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port )
+std::shared_ptr<VxSktBase> VxPeerMgr::createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port )
 {
 	if( NULL ==  m_pfnUserReceive )
 	{
@@ -154,24 +158,24 @@ VxSktConnect * VxPeerMgr::createConnectionUsingSocket( SOCKET skt, const char* r
 		vx_assert( m_pfnUserReceive );
 	}
 
-	VxSktConnect * sktBase	= (VxSktConnect *)makeNewSkt();
+	std::shared_ptr<VxSktBase> sktBase	= makeNewSkt();
 	sktBase->m_SktMgr		= this;
 	//VxVerifyCodePtr( m_pfnOurReceive );
 	sktBase->setReceiveCallback( m_pfnOurReceive, this );
 	sktBase->setTransmitCallback( m_pfnOurTransmit, this );
-	sktBase->createConnectionUsingSocket(	skt, rmtIp, port );
+	sktBase->createConnectionUsingSocket( skt, rmtIp, port );
 	addSkt( sktBase );
 	LogMsg( LOG_INFO, "VxPeerMgr::createConnectionUsingSocket: done skt id %d rmt ip %s port %d", sktBase->getSktNumber(), rmtIp, port  );
 	return sktBase;
 }
 
 //============================================================================
-void VxPeerMgr::handleSktCallback( VxSktBase* sktBase )
+void VxPeerMgr::handleSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 }
 
 //============================================================================
-bool VxPeerMgr::txPacket(	VxSktBase*			sktBase,
+bool VxPeerMgr::txPacket(	std::shared_ptr<VxSktBase>&			sktBase,
 							const VxGUID&		destOnlineId,
 							VxPktHdr*			pktHdr, 				
 							bool				bDisconnect )
@@ -181,7 +185,7 @@ bool VxPeerMgr::txPacket(	VxSktBase*			sktBase,
 }
 
 //============================================================================
-bool VxPeerMgr::txPacketWithDestId(	VxSktBase*			sktBase,
+bool VxPeerMgr::txPacketWithDestId(	std::shared_ptr<VxSktBase>&			sktBase,
 									VxPktHdr*			pktHdr, 		
 									bool				bDisconnect )
 {

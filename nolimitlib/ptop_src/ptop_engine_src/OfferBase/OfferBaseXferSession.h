@@ -30,8 +30,8 @@ class OfferBaseXferSession
 {
 public:
 	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr );
-	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxSktBase* sktBase, VxNetIdent* netIdent );
-	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent );
+	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 	virtual ~OfferBaseXferSession() = default;
 
 	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
@@ -40,8 +40,8 @@ public:
 	void						setOfferInfo( OfferBaseInfo& assetInfo )	{ m_OfferBaseInfo = assetInfo; }
 	OfferBaseInfo&				getOfferInfo( void )						{ return m_OfferBaseInfo; }
 
-	void						setSkt( VxSktBase* skt )					{ m_Skt = skt; }
-	VxSktBase*					getSkt( void )								{ return m_Skt; }
+	void						setSkt( std::shared_ptr<VxSktBase>& skt )					{ m_Skt = skt; }
+	std::shared_ptr<VxSktBase>&					getSkt( void )								{ return m_Skt; }
 
 	void						setLclSessionId( VxGUID& lclId )			{ m_FileXferInfo.setLclSessionId( lclId ); }
 	VxGUID&						getLclSessionId( void )						{ return m_FileXferInfo.getLclSessionId(); }
@@ -75,7 +75,7 @@ protected:
     OfferBaseMgr&               m_OfferMgr;
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
     int							m_iPercentComplete{ 0 };
-	VxSktBase*					m_Skt{ nullptr };
+	std::shared_ptr<VxSktBase>	m_Skt;
 	VxNetIdent*					m_Ident{ nullptr };
 	uint32_t					m_Error{ 0 };
 	OfferBaseInfo				m_OfferBaseInfo;

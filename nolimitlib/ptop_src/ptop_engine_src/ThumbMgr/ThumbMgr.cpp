@@ -363,7 +363,7 @@ std::string ThumbMgr::fromGuiGetThumbFile( VxGUID& thumbId )
 }
 
 //============================================================================
-void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EHostType hostType )
+void ThumbMgr::queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EHostType hostType )
 {
     if( eHostTypeUnknown != hostType && netIdent->hasThumbId( hostType ) )
     {
@@ -372,7 +372,7 @@ void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EHo
 }
 
 //============================================================================
-void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType )
+void ThumbMgr::queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
 {
     EHostType hostType = PluginTypeToHostType( pluginType );
     if( eHostTypeUnknown != hostType && netIdent->hasThumbId( hostType ) )
@@ -382,7 +382,7 @@ void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EPl
 }
 
 //============================================================================
-void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EHostType hostType, VxGUID &thumbId, int64_t thumbModifiedTime )
+void ThumbMgr::queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EHostType hostType, VxGUID &thumbId, int64_t thumbModifiedTime )
 {
     if( !lookupThumbInfo( thumbId, thumbModifiedTime ) )
     {
@@ -395,7 +395,7 @@ void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EHo
 }
 
 //============================================================================
-void ThumbMgr::queryThumbIfNeeded( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID &thumbId, int64_t thumbModifiedTime )
+void ThumbMgr::queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID &thumbId, int64_t thumbModifiedTime )
 {
     if( !lookupThumbInfo( thumbId, thumbModifiedTime ) )
     {
@@ -415,57 +415,57 @@ bool ThumbMgr::saveToDatabase( ThumbInfo& thumbInfo )
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void ThumbMgr::onPktThumbXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void ThumbMgr::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
@@ -506,7 +506,7 @@ bool ThumbMgr::fromGuiRequestPluginThumb( VxNetIdent* netIdent, EPluginType plug
 }
 
 //============================================================================
-bool ThumbMgr::ptopEngineRequestPluginThumb( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId )
+bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId )
 {
     if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isVxGUIDValid() )
     {
@@ -538,7 +538,7 @@ bool ThumbMgr::ptopEngineRequestPluginThumb( VxSktBase* sktBase, VxNetIdent* net
 }
 
 //============================================================================
-bool ThumbMgr::requestThumbs( VxSktBase* sktBase, VxNetIdent* netIdent )
+bool ThumbMgr::requestThumbs( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     if( !sktBase || !netIdent || netIdent->isIgnored() )
     {

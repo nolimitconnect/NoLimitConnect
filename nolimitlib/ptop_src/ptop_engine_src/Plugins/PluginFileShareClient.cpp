@@ -19,6 +19,7 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
+#include <NetLib/VxSktBase.h>
 
 //============================================================================
 PluginFileShareClient::PluginFileShareClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
@@ -50,7 +51,7 @@ void PluginFileShareClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t 
 }
 
 //============================================================================
-bool PluginFileShareClient::onFileDownloadComplete( VxNetIdent* netIdent, VxSktBase* sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
+bool PluginFileShareClient::onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
 	bool result = netIdent && sktBase && lclSessionId.isVxGUIDValid() && !fileName.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
 	if( result )
@@ -266,7 +267,7 @@ bool PluginFileShareClient::fromGuiCancelWebPage( EWebPageType webPageType, VxGU
 }
 
 //============================================================================
-bool PluginFileShareClient::onConnectForFileListDownload( VxSktBase* sktBase, VxNetIdent* netIdent )
+bool PluginFileShareClient::onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	lockSearchFileList();
 	m_SearchFileInfoList.clear();
@@ -275,7 +276,7 @@ bool PluginFileShareClient::onConnectForFileListDownload( VxSktBase* sktBase, Vx
 }
 
 //============================================================================
-bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, FileInfo& fileInfo )
+bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, FileInfo& fileInfo )
 {
 	bool result{ false };
 	if( fileInfo.determineFullFileName( m_DownloadFileFolder ) )
@@ -294,7 +295,7 @@ bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, VxSkt
 }
 
 //============================================================================
-void PluginFileShareClient::fileInfoSearchCompleted( VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, ECommErr commErr )
+void PluginFileShareClient::fileInfoSearchCompleted( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
 {
 	if( commErr == eCommErrNone )
 	{
@@ -344,7 +345,7 @@ void PluginFileShareClient::cancelDownload( void )
 }
 
 //============================================================================
-bool PluginFileShareClient::startDownload( VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+bool PluginFileShareClient::startDownload( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	bool result{ false };
 	lockSearchFileList();

@@ -25,6 +25,7 @@
 #include <ptop_src/ptop_engine_src/Plugins/PluginBaseHostService.h>
 
 #include <CoreLib/VxPtopUrl.h>
+#include <NetLib/VxSktBase.h>
 #include <PktLib/PktsHostInvite.h>
 #include <PktLib/PktsHostInfo.h>
 #include <PktLib/PktsGroupie.h>
@@ -93,7 +94,7 @@ void HostedListMgr::updateHosted( EHostType hostType, VxGUID& onlineId, std::str
 }
 
 //============================================================================
-void HostedListMgr::updateHostedList( VxNetIdent* netIdent, VxSktBase* sktBase )
+void HostedListMgr::updateHostedList( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     if( !netIdent || !sktBase )
     {
@@ -278,7 +279,7 @@ void HostedListMgr::announceHostInfoSearchComplete( EHostType hostType, VxGUID& 
 }
 
 //============================================================================
-void HostedListMgr::updateAndRequestInfoIfNeeded( EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, VxSktBase* sktBase )
+void HostedListMgr::updateAndRequestInfoIfNeeded( EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool requiresSendHostInfoRequest{ false };
     bool requiresAnnounceUpdate{ false };
@@ -464,7 +465,7 @@ bool HostedListMgr::updateHostTitleAndDescription( EHostType hostType, VxGUID& o
 }
 
 //============================================================================
-bool HostedListMgr::requestHostedInfo( EHostType hostType, VxGUID& onlineId, VxNetIdent* netIdent, VxSktBase* sktBase )
+bool HostedListMgr::requestHostedInfo( EHostType hostType, VxGUID& onlineId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool result{ false };
     // only hosts that announce to network respond to Host Info requests
@@ -483,7 +484,7 @@ bool HostedListMgr::requestHostedInfo( EHostType hostType, VxGUID& onlineId, VxN
 }
 
 //============================================================================
-void HostedListMgr::onPktHostInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
+void HostedListMgr::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
 {
     bool result{ false };
     PktHostInfoReply* pktReply = (PktHostInfoReply *)pktHdr;
@@ -585,7 +586,7 @@ bool HostedListMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, 
             }
         }
 
-        VxSktBase* sktBase{ nullptr };
+        std::shared_ptr<VxSktBase> sktBase( nullptr );
         EConnectStatus connectStatus = m_Engine.getConnectionMgr().requestConnection( m_SearchSessionId, netHostUrl.getUrl(), netHostUrl.getOnlineId(), this, sktBase, eConnectReasonNetworkHostListSearch );
         if( sktBase && eConnectStatusReady == connectStatus )
         {
@@ -606,7 +607,7 @@ bool HostedListMgr::fromGuiQueryGroupiesFromHosted( VxPtopUrl& netHostUrl, EHost
         m_SearchHostType = hostType;
         m_SearchSpecificOnlineId = onlineIdIfNullThenAll;
         m_SearchSessionId.initializeWithNewVxGUID();
-        VxSktBase* sktBase{ nullptr };
+        std::shared_ptr<VxSktBase> sktBase( nullptr );
         EConnectReason connectReason{ eConnectReasonUnknown };
         switch( hostType )
         {
@@ -638,7 +639,7 @@ bool HostedListMgr::fromGuiQueryGroupiesFromHosted( VxPtopUrl& netHostUrl, EHost
 }
 
 //============================================================================
-bool HostedListMgr::onContactConnected( VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostedListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
 {
     if( eConnectReasonNetworkHostListSearch == connectReason )
     {
@@ -742,7 +743,7 @@ void HostedListMgr::addToListInJoinedTimestampOrder( std::vector<HostedInfo>& ho
 }
 
 //============================================================================
-void HostedListMgr::hostSearchResult( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, HostedInfo& hostedInfo )
+void HostedListMgr::hostSearchResult( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, HostedInfo& hostedInfo )
 {
     HostedInfo resultInfo;
     if( updateHostInfo( hostType, hostedInfo, netIdent, sktBase, true, &resultInfo ) )
@@ -752,7 +753,7 @@ void HostedListMgr::hostSearchResult( EHostType hostType, VxGUID& searchSessionI
 }
 
 //============================================================================
-void HostedListMgr::hostSearchCompleted( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, ECommErr commErr )
+void HostedListMgr::hostSearchCompleted( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
 {
     if( commErr )
     {
@@ -768,14 +769,14 @@ void HostedListMgr::hostSearchCompleted( EHostType hostType, VxGUID& searchSessi
 }
 
 //============================================================================
-void HostedListMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, VxSktBase* sktBase )
+void HostedListMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceAdded %s from %s ", DescribeHostType( hostType), netIdent->getOnlineName() );
     updateHostInfo( hostType, hostedInfo, netIdent, sktBase );
 }
 
 //============================================================================
-void HostedListMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, VxSktBase* sktBase, bool infoChanged )
+void HostedListMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged )
 {
     LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceUpdated %s from %s ", DescribeHostType( hostType ), netIdent->getOnlineName() );
     updateHostInfo( hostType, hostedInfo, netIdent, sktBase, infoChanged );
@@ -783,7 +784,7 @@ void HostedListMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo&
 
 //============================================================================
 // returns true if retHostedInfo was filled
-bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, VxSktBase* sktBase, bool infoChanged, HostedInfo* retResultInfo )
+bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged, HostedInfo* retResultInfo )
 {
     VxPtopUrl ptopUrl( hostedInfo.getHostInviteUrl() );
     if( !ptopUrl.isValid() )

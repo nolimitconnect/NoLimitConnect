@@ -17,6 +17,8 @@
 #include "VxNetIdentBase.h"
 #include <GuiInterface/IDefs.h>
 
+#include <memory>
+
 class VxSktBase;
 
 //! \public enumerated application State
@@ -159,7 +161,7 @@ void VxSetHackReportCallback( IHackReportCallbackInterface* hackReportCallback )
 ///						HackerReason hackerReason		// reason hack reported
 ///						ipAddr							// ip address of hacker
 ///						hackDescription					// description of hack attempt
-RCODE VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, VxSktBase* sktBase, const char* hackDescription, ... );
+RCODE VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* hackDescription, ... );
 RCODE VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* hackDescription, ... );
 
 

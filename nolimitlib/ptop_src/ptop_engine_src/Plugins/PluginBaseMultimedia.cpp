@@ -82,7 +82,7 @@ bool PluginBaseMultimedia::fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInf
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktSessionStopReq start" );
 	m_PluginSessionMgr.onPktSessionStopReq( sktBase, pktHdr, netIdent );
@@ -266,7 +266,7 @@ void PluginBaseMultimedia::callbackVideoPktPicChunk( void * /*userData*/, VxGUID
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktPluginOfferReq start\n" );
 	m_PluginSessionMgr.onPktPluginOfferReq( sktBase, pktHdr, netIdent );
@@ -274,7 +274,7 @@ void PluginBaseMultimedia::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pk
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktPluginOfferReply start\n" );
 	m_PluginSessionMgr.onPktPluginOfferReply( sktBase, pktHdr, netIdent );
@@ -282,49 +282,49 @@ void PluginBaseMultimedia::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* 
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVideoFeedReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedStatus( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPic( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPicChunk( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPicAck( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VoiceFeedMgr.onPktVoiceReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VoiceFeedMgr.onPktVoiceReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetSendReq start" );
@@ -336,7 +336,7 @@ void PluginBaseMultimedia::onPktAssetSendReq( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetSendReply start" );
@@ -348,7 +348,7 @@ void PluginBaseMultimedia::onPktAssetSendReply( VxSktBase* sktBase, VxPktHdr* pk
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetChunkReq start" );
@@ -360,7 +360,7 @@ void PluginBaseMultimedia::onPktAssetChunkReq( VxSktBase* sktBase, VxPktHdr* pkt
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetChunkReply start" );
@@ -372,7 +372,7 @@ void PluginBaseMultimedia::onPktAssetChunkReply( VxSktBase* sktBase, VxPktHdr* p
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetSendCompleteReq start" );
@@ -384,7 +384,7 @@ void PluginBaseMultimedia::onPktAssetSendCompleteReq( VxSktBase* sktBase, VxPktH
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetSendCompleteReply start" );
@@ -396,7 +396,7 @@ void PluginBaseMultimedia::onPktAssetSendCompleteReply( VxSktBase* sktBase, VxPk
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktAssetXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktAssetXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_SEND_ASSET
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktAssetXferErr start" );
@@ -408,7 +408,7 @@ void PluginBaseMultimedia::onPktAssetXferErr( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktMultiSessionReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktMultiSessionReq * pktReq			= (PktMultiSessionReq *)pktHdr;
 	EMSessionAction eMSessionAction		= ( EMSessionAction )pktReq->getMSessionAction();
@@ -476,7 +476,7 @@ void PluginBaseMultimedia::onPktMultiSessionReq( VxSktBase* sktBase, VxPktHdr* p
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktMultiSessionReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktMultiSessionReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReply start" );
 	PktMultiSessionReply * pktReply = (PktMultiSessionReply *)pktHdr;
@@ -486,7 +486,7 @@ void PluginBaseMultimedia::onPktMultiSessionReply( VxSktBase* sktBase, VxPktHdr*
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktTodGameStats( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameStats * poPkt = (PktTodGameStats *)pktHdr;
 	for( int i = 0; i < eMaxTodGameStatId; ++i )
@@ -498,14 +498,14 @@ void PluginBaseMultimedia::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktTodGameAction( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktTodGameAction( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameAction * poPkt = (PktTodGameAction *)pktHdr;
 	IToGui::getToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getActionVarId(), poPkt->getActionVarValue() );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onPktTodGameValue( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseMultimedia::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameValue * poPkt = (PktTodGameValue *)pktHdr;
 	IToGui::getToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getValueVarId(), poPkt->getValueVar() );
@@ -531,7 +531,7 @@ void PluginBaseMultimedia::onSessionEnded( PluginSessionBase* session, bool plug
 }
 
 //============================================================================
-void PluginBaseMultimedia::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void PluginBaseMultimedia::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 #ifdef DEBUG_SKT_CONNECTIONS
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::replaceConnection start" );
@@ -544,7 +544,7 @@ void PluginBaseMultimedia::replaceConnection( VxNetIdent* netIdent, VxSktBase* p
 }
 
 //============================================================================
-void PluginBaseMultimedia::onConnectionLost( VxSktBase* sktBase )
+void PluginBaseMultimedia::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 #ifdef DEBUG_SKT_CONNECTIONS
     LogMsg( LOG_INFO, "PluginBaseMultimedia::onConnectionLost start" );
@@ -557,13 +557,13 @@ void PluginBaseMultimedia::onConnectionLost( VxSktBase* sktBase )
 }
 
 //============================================================================
-void PluginBaseMultimedia::onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginBaseMultimedia::onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_AssetXferMgr.onContactWentOnline( netIdent, sktBase );
 }
 
 //============================================================================
-void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline start" );
 	m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent );

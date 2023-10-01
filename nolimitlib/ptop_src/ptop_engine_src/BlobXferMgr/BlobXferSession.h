@@ -30,18 +30,18 @@ class BlobXferSession
 {
 public:
 	BlobXferSession( P2PEngine& engine );
-	BlobXferSession( P2PEngine& engine, VxSktBase* sktBase, VxNetIdent* netIdent );
-	BlobXferSession( P2PEngine& engine, VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent );
-	virtual ~BlobXferSession();
+	BlobXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	BlobXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	virtual ~BlobXferSession() = default;
 
 	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
-	VxNetIdent*				getIdent( void )							{ return m_Ident; }
+	VxNetIdent*					getIdent( void )							{ return m_Ident; }
 
 	void						setBlobInfo( BlobInfo& assetInfo )	        { m_BlobInfo = assetInfo; }
 	BlobInfo&				    getBlobInfo( void )						    { return m_BlobInfo; }
 
-	void						setSkt( VxSktBase* skt )					{ m_Skt = skt; }
-	VxSktBase*					getSkt( void )								{ return m_Skt; }
+	void						setSkt( std::shared_ptr<VxSktBase>& skt )	{ m_Skt = skt; }
+	std::shared_ptr<VxSktBase>&	getSkt( void )								{ return m_Skt; }
 
 	void						setLclSessionId( VxGUID& lclId )			{ m_FileXferInfo.setLclSessionId( lclId ); }
 	VxGUID&						getLclSessionId( void )						{ return m_FileXferInfo.getLclSessionId(); }
@@ -73,10 +73,10 @@ public:
 protected:
 	P2PEngine&					m_Engine; 
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
-	int							m_iPercentComplete;
-	VxSktBase*					m_Skt;
-	VxNetIdent*				m_Ident;
-	uint32_t					m_Error;
+	int							m_iPercentComplete{ 0 };
+	std::shared_ptr<VxSktBase>	m_Skt;
+	VxNetIdent*					m_Ident{ nullptr };
+	uint32_t					m_Error{ 0 };
 	BlobInfo				    m_BlobInfo;
 
 private:

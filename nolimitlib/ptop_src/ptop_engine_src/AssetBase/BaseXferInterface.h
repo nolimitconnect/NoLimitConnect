@@ -26,7 +26,7 @@ class BaseXferInterface
 public:
     virtual VxMutex&            getAssetXferMutex( void ) = 0;
     virtual EPluginType         getPluginType( void ) = 0;
-    virtual bool                txPacket( VxNetIdent* netIdent, VxSktBase* sktBase, VxPktHdr* pktHdr, bool bDisconnectAfterSend = false ) = 0;
+    virtual bool                txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, bool bDisconnectAfterSend = false ) = 0;
 
 };
 

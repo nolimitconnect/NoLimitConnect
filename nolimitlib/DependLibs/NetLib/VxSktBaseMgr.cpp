@@ -26,7 +26,7 @@
 namespace
 {
 	//============================================================================
-	void VxSktBaseMgrReceiveFunction(  VxSktBase* sktBase, void * pvUserData )
+	void VxSktBaseMgrReceiveFunction(  std::shared_ptr<VxSktBase>& sktBase, void * pvUserData )
 	{
 		vx_assert( sktBase );
 		vx_assert( sktBase->m_SktMgr );
@@ -34,7 +34,7 @@ namespace
 	}
 
 	////============================================================================
-	//void VxSktBaseMgrTransmitFunction(  VxSktBase* sktBase, void * pvUserData )
+	//void VxSktBaseMgrTransmitFunction(  std::shared_ptr<VxSktBase>& sktBase, void * pvUserData )
 	//{
 	//	vx_assert( sktBase );
 	//	vx_assert( sktBase->m_SktMgr );
@@ -59,7 +59,7 @@ VxSktBaseMgr::~VxSktBaseMgr()
 
 //============================================================================
 // find a socket.. assumes list has been locked
-VxSktBase* VxSktBaseMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
+std::shared_ptr<VxSktBase>& VxSktBaseMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
 {
     if( connectId.isVxGUIDValid() && ( !acceptSktsOnly || eSktMgrTypeTcpAccept == m_eSktMgrType ) )
     {
@@ -72,7 +72,7 @@ VxSktBase* VxSktBaseMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOn
         }
     }
 
-    return nullptr;
+    return std::shared_ptr<VxSktBase>();
 }
 
 //============================================================================
@@ -91,11 +91,6 @@ void VxSktBaseMgr::sktMgrShutdown( void )
 //============================================================================
 void VxSktBaseMgr::deleteAllSockets()
 {
-	for( auto iter = m_aoSktsToDelete.begin(); iter != m_aoSktsToDelete.end(); ++iter )
-	{
-		delete (*iter);
-	}
-
 	m_aoSktsToDelete.clear();
 }
 
@@ -129,45 +124,49 @@ void VxSktBaseMgr::sktBaseMgrUnlock( void )
 
 //============================================================================
 //! add a new socket to manage
-void VxSktBaseMgr::addSkt( VxSktBase* sktBase )
+void VxSktBaseMgr::addSkt( std::shared_ptr<VxSktBase>& sktBase )
 {
 	//LogMsg( LOG_INFO, "Adding %s to VxSktBaseMgr skt list\n", sktBase->describeSktType().c_str() );
 	sktBaseMgrLock();
-	m_aoSkts.push_back( sktBase );
+	m_aoSkts.emplace_back( sktBase );
 	sktBaseMgrUnlock();
 }
 
 //============================================================================
 //! remove a socket from management
-RCODE VxSktBaseMgr::removeSkt(  VxSktBase*	sktBase,		// skt to remove
+RCODE VxSktBaseMgr::removeSkt(  std::shared_ptr<VxSktBase>&	sktBase,		// skt to remove
 								bool		bDelete )	// if true delete the skt
 {
-	//LogMsg( LOG_INFO, "Removing Skt ID %d  type %s from VxSktBaseMgr skt list\n", sktBase->getSktNumber(), sktBase->describeSktType().c_str() );
 	RCODE rc = -1;
-	sktBaseMgrLock();
-	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+	if( sktBase.get() )
 	{
-		if( (*iter) == sktBase )
-		{
-			// found it in our list
-			m_aoSkts.erase( iter );
-			rc = 0;
-			break;
-		}
-	}
+		//LogMsg( LOG_INFO, "Removing Skt ID %d  type %s from VxSktBaseMgr skt list\n", sktBase->getSktNumber(), sktBase->describeSktType().c_str() );
 
-	sktBaseMgrUnlock();
-	if( bDelete )
+		sktBaseMgrLock();
+		for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+		{
+			if( (iter->get()) == sktBase.get() )
+			{
+				// found it in our list
+				LogMsg( LOG_VERBOSE, "%s Deleting Skt ID %d type %s from VxSktBaseMgr skt list", __func__, sktBase->getSktNumber(), sktBase->describeSktType().c_str() );
+				m_aoSkts.erase( iter );
+				rc = 0;
+				break;
+			}
+		}
+
+		sktBaseMgrUnlock();
+	}
+	else
 	{
-        LogMsg( LOG_VERBOSE, "Deleting Skt ID %d type %s from VxSktBaseMgr skt list", sktBase->getSktNumber(), sktBase->describeSktType().c_str() );
-		delete sktBase;
+		 LogMsg( LOG_ERROR, "VxSktBaseMgr %s null sktBase", __func__ );
 	}
 
 	return rc;
 }
 
 //============================================================================
-bool VxSktBaseMgr::isSktActive( VxSktBase* sktBase )
+bool VxSktBaseMgr::isSktActive( std::shared_ptr<VxSktBase>& sktBase )
 {
     if( !sktBase )
     {
@@ -182,9 +181,8 @@ bool VxSktBaseMgr::isSktActive( VxSktBase* sktBase )
         return true;
     }
 
-	std::vector<VxSktBase*>::iterator iter;
 	sktBaseMgrLock();
-	for( iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		if( (*iter) == sktBase )
 		{
@@ -203,11 +201,10 @@ bool VxSktBaseMgr::isSktActive( VxSktBase* sktBase )
 void VxSktBaseMgr::sendToAll(	char * pData,			// data to send
 								int iDataLen )			// length of data
 {
-	std::vector<VxSktBase*>::iterator iter;
 	sktBaseMgrLock();
-	for( iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
-		VxSktBase* skt = (*iter);
+		std::shared_ptr<VxSktBase>& skt = (*iter);
 		if( skt->isTxCryptoKeySet() )
 		{
 			skt->txEncrypted( pData, iDataLen );
@@ -230,9 +227,9 @@ void VxSktBaseMgr::sendToAll(	char * pData,			// data to send
 int VxSktBaseMgr::getConnectedCount( void )
 {
 	int iConnectedCnt = 0;
-	std::vector<VxSktBase*>::iterator iter;
+
 	sktBaseMgrLock();
-	for( iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		if( (*iter)->isConnected() )
 		{
@@ -248,9 +245,8 @@ int VxSktBaseMgr::getConnectedCount( void )
 //! close all sockets
 void VxSktBaseMgr::closeAllSkts( void )
 {
-	std::vector<VxSktBase*>::iterator iter;
 	sktBaseMgrLock();
-	for( iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		if( (*iter)->isConnected() )
 		{
@@ -262,26 +258,28 @@ void VxSktBaseMgr::closeAllSkts( void )
 }
 
 //============================================================================
-VxSktBase*	VxSktBaseMgr::makeNewSkt( void )					
+std::shared_ptr<VxSktBase>	VxSktBaseMgr::makeNewSkt( void )					
 { 
-	return new VxSktBase(); 
+	return  std::shared_ptr<VxSktBase>();
 }
 
 //============================================================================
-VxSktBase* VxSktBaseMgr::makeNewAcceptSkt( void )				
+std::shared_ptr<VxSktBase> VxSktBaseMgr::makeNewAcceptSkt( void )				
 { 
-	return new VxSktAccept(); 
+    std::shared_ptr<VxSktBase> sharedSkt( new VxSktAccept() );
+	sharedSkt->setThisSkt( sharedSkt ); // so skt can do callbacks without look up in manager
+	return sharedSkt;
 }
 
 //============================================================================
 //! handle transmit callbacks from sockets
-void VxSktBaseMgr::doTransmitCallback( VxSktBase* sktBase )
+void VxSktBaseMgr::doTransmitCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	TxedPkt( sktBase->m_iLastTxLen );
 }
 
 //============================================================================
-void VxSktBaseMgr::doReceiveCallback( VxSktBase* sktBase )
+void VxSktBaseMgr::doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	ESktCallbackReason eCallbackReason = sktBase->getCallbackReason();
 	m_pfnUserReceive( sktBase, m_pvRxCallbackUserData );
@@ -292,12 +290,12 @@ void VxSktBaseMgr::doReceiveCallback( VxSktBase* sktBase )
 }
 
 //============================================================================
-void VxSktBaseMgr::handleSktCloseEvent( VxSktBase* sktBase )
+void VxSktBaseMgr::handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase )
 {
 	//LogMsg( LOG_INFO, "VxSktBaseMgr::handleSktCloseEvent: for skt %d 0x%x \n", sktBase->m_SktNumber, sktBase );
     sktBaseMgrLock();
     uint64_t timeNow = GetTimeStampMs();
-    for( VxSktBase* sktBase : m_aoSkts )
+    for( auto& sktBase : m_aoSkts )
     {
         if( sktBase )
         {
@@ -323,15 +321,15 @@ void VxSktBaseMgr::handleSktCloseEvent( VxSktBase* sktBase )
 void VxSktBaseMgr::doSktDeleteCleanup()
 {
     int64_t timeNowMs = GetGmtTimeMs();
-    std::vector<VxSktBase*> deleteSktList;
+    std::vector<std::shared_ptr<VxSktBase>> deleteSktList;
 
     bool deletedSkt = true;
     while( deletedSkt )
     {
-        VxSktBase* sktToDelete = nullptr;
+        std::shared_ptr<VxSktBase> sktToDelete;
         deletedSkt = false;
         sktBaseMgrLock();
-        std::vector<VxSktBase*>::iterator iter = m_aoSktsToDelete.begin();
+        auto iter = m_aoSktsToDelete.begin();
         // to be deleted sockets delete after 10 seconds
         while( iter != m_aoSktsToDelete.end() )
         {
@@ -355,7 +353,7 @@ void VxSktBaseMgr::doSktDeleteCleanup()
                 }
                 else
                 {
-                    deleteSktList.push_back( sktToDelete );
+                    deleteSktList.emplace_back( sktToDelete );
                     iter = m_aoSktsToDelete.erase( iter );
                     deletedSkt = true;
                     break;
@@ -372,28 +370,65 @@ void VxSktBaseMgr::doSktDeleteCleanup()
 
     for( auto sktBase : deleteSktList )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "deleting skt %s", sktBase->describeSktConnection().c_str() );
-        delete sktBase;
+        LogModule( eLogConnect, LOG_VERBOSE, "%s deleting skt %s", __func__, sktBase->describeSktConnection().c_str() );
+		sktBase->getThisSkt().reset(); // clear self reference so when the last shared pointer is deleted the socket will be deleted.
+		if( sktBase->getThisSkt().use_count() > 1 )
+		{
+			LogMsg( LOG_ERROR, "*** %s skt %d handle %d still has %d references %s ", __func__, sktBase->getSktNumber(), 
+					sktBase->getSktHandle(), sktBase.use_count(), sktBase->describeSktConnection().c_str() );
+		}
     }
+
+	deleteSktList.clear();
 }
 
 //============================================================================
 //! move to erase/delete when safe to do so
-void VxSktBaseMgr::moveToEraseList( VxSktBase* sktBase )
+void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase )
 {
-    m_SktMgrMutex.lock( __FILE__, __LINE__ ); // dont let other threads mess with array while we remove the socket
-    for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
-    {
-        if( *iter == sktBase )
-        {
-            m_aoSkts.erase( iter );
-            break;
-        }
-    }
+	bool found{ false };
+	if( sktBase )
+	{
+		m_SktMgrMutex.lock( __FILE__, __LINE__ ); // dont let other threads mess with array while we remove the socket
 
-    sktBase->setToDeleteTimeMs( GetGmtTimeMs() + 30000 );
-    m_aoSktsToDelete.push_back( sktBase );
-    m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+		// make sure not allready in the lists to be deleted or will get deleted twice
+		for( auto& toDeleteSkt : m_aoSktsToDelete  )
+		{
+			if( toDeleteSkt.get() == sktBase.get() )
+			{
+				LogMsg( LOG_ERROR, "%s socket %d handle %d alredy in to delete list", __func__, sktBase->getSktNumber(), sktBase->getSktHandle() );
+				m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+				return;
+			}
+		}
+
+		for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
+		{
+			if( *iter == sktBase )
+			{
+				found = true;
+				std::shared_ptr<VxSktBase> sktCopy = *iter; // make copy first so destructor is not called before cleanup can be done
+				sktCopy->setToDeleteTimeMs( GetGmtTimeMs() + 30000 );
+				m_aoSktsToDelete.emplace_back( sktCopy );
+				sktCopy->shutdownSkt(); // shutdown threads etc.. do not handle packets after this point
+				m_aoSkts.erase( iter );
+				break;
+			}
+		}
+
+		if( !found )
+		{
+			LogMsg( LOG_ERROR, "%s socket %d %p was not found in mgr list", __func__, sktBase->getSktNumber(), sktBase.get() );
+		    sktBase->setToDeleteTimeMs( GetGmtTimeMs() + 30000 );
+			m_aoSktsToDelete.emplace_back( sktBase );
+		}
+
+		m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "%s called with null socket", __func__ );
+	}
 }
 
 //============================================================================
@@ -406,7 +441,7 @@ void VxSktBaseMgr::dumpSocketStats( const char* reason, bool fullDump )
         int sktCnt = 0;
         uint64_t timeNow = GetTimeStampMs();
         m_SktMgrMutex.lock( __FILE__, __LINE__ ); 
-        for( VxSktBase* sktBase : m_aoSkts )
+        for( auto& sktBase : m_aoSkts )
         {
             sktCnt++;
             if( sktBase )
@@ -429,7 +464,7 @@ bool VxSktBaseMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReas
 	bool wasClosed{ false };
 	if( connectId.isVxGUIDValid() )
 	{
-		VxSktBase* sktBase{ nullptr };
+		std::shared_ptr<VxSktBase> sktBase( nullptr );
 		sktBaseMgrLock();
 		for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 		{

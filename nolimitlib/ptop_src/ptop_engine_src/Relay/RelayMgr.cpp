@@ -17,6 +17,7 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
 
+#include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>
 
 //============================================================================
@@ -26,7 +27,7 @@ RelayMgr::RelayMgr( P2PEngine& engine )
 }
 
 //============================================================================
-bool RelayMgr::handleRelayPkt( VxSktBase* sktBase, VxPktHdr* pktHdr )
+bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	if( pktHdr->getDestOnlineId() == m_Engine.getMyOnlineId() )
 	{
@@ -47,7 +48,7 @@ bool RelayMgr::handleRelayPkt( VxSktBase* sktBase, VxPktHdr* pktHdr )
 		return true;
 	}
 
-	VxSktBase* sktBaseRelay = m_Engine.getConnectIdListMgr().findRelayMemberConnection( destOnlineId );
+	std::shared_ptr<VxSktBase>& sktBaseRelay = m_Engine.getConnectIdListMgr().findRelayMemberConnection( destOnlineId );
 	if( !sktBaseRelay )
 	{
 		sendRelayError( srcOnlineId, sktBase, eRelayErrUserNotOnline );
@@ -81,7 +82,7 @@ bool RelayMgr::isJoinedToRelayHost( VxGUID& onlineId )
 }
 
 //============================================================================
-bool RelayMgr::requestRelayConnection( VxSktBase* sktBase, GroupieInfo& groupieInfo )
+bool RelayMgr::requestRelayConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieInfo& groupieInfo )
 {
     bool sentAnn{false};
     VxGUID destOnlineId = groupieInfo.getUserOnlineId();
@@ -110,7 +111,7 @@ bool RelayMgr::requestRelayConnection( VxSktBase* sktBase, GroupieInfo& groupieI
 }
 
 //============================================================================
-bool RelayMgr::sendRequestedReplyPktAnnIfNeeded( PktAnnounce* hisPktAnn, VxSktBase* sktBase, VxNetIdent* netIdent )
+bool RelayMgr::sendRequestedReplyPktAnnIfNeeded( PktAnnounce* hisPktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	if( hisPktAnn && hisPktAnn->getIsPktAnnReplyRequested() )
 	{
@@ -135,13 +136,13 @@ bool RelayMgr::sendRequestedReplyPktAnnIfNeeded( PktAnnounce* hisPktAnn, VxSktBa
 }
 
 //============================================================================
-void RelayMgr::onRelayPktAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, VxNetIdent* netIdent )
+void RelayMgr::onRelayPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	LogMsg( LOG_VERBOSE, "RelayMgr::onRelayPktAnnounce %s", netIdent->getOnlineName() );
 }
 
 //============================================================================
-bool RelayMgr::sendRelayError( VxGUID& onlineId, VxSktBase* sktBase, ERelayErr relayErr )
+bool RelayMgr::sendRelayError( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, ERelayErr relayErr )
 {
 	PktRelayUserDisconnect pktReply;
 	pktReply.setSrcOnlineId( m_Engine.getMyOnlineId() );

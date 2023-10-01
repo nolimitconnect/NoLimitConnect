@@ -47,13 +47,14 @@
 #include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
 
 #include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
-
-#include <NetLib/VxSktUtil.h>
-#include <NetLib/VxPeerMgr.h>
+#include "VxSktLoopback.h"
 
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/AppErr.h>
+
+#include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktUtil.h>
 
 #include <PktLib/PktsBaseXfer.h>
 
@@ -121,11 +122,13 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
 	, m_UserJoinMgr( *new UserJoinMgr( *this, "UserJoinMgrDb.db3", "UserJoinedLastDb.db3" ) )
 	, m_UserOnlineMgr( *new UserOnlineMgr( *this, "UserOnlineMgrDb.db3", "UserOnlineStateDb.db3" ) )
 	, m_WebPageMgr( *new WebPageMgr( *this ) )
-    , m_SktLoopback( *this )
+    , m_SktLoopback( new VxSktLoopback( *this ) )
     , m_RcScan( *this, m_ConnectionList )
 {
+	m_SktLoopback->setThisSkt( m_SktLoopback ); // so skt can do callbacks without look up in manager
+
 	VxSetSktStatCallback( &m_PeerMgr );
-    m_PeerMgr.setSktLoopback( &m_SktLoopback );
+    m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
     vx_assert( 142 == maxPktType ); // just to make sure our packet types are not mismatched
@@ -553,7 +556,7 @@ bool P2PEngine::validateIdent( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void P2PEngine::onFirstPktAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, BigListInfo* bigListInfo )
+void P2PEngine::onFirstPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo )
 {
 	if( pktAnn && pktAnn->getMyOnlineId() != getMyOnlineId() && sktBase && bigListInfo )
 	{

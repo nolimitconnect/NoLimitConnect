@@ -35,35 +35,35 @@ public:
 	virtual void				unlockSktList( void ) override								{ m_SktListMutex.unlock(); m_ClientMgr.unlockSktList(); }
 
 	// find a socket.. assumes list has been locked
-	virtual VxSktBase*			findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false ) override;
+	virtual std::shared_ptr<VxSktBase>&			findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false ) override;
 
     virtual void				setReceiveCallback( VX_SKT_CALLBACK pfnReceive, void* pvUserData ) override;
 	virtual void				setSktMgrStatusCallback( VX_SKT_MGR_STATUS_CALLBACK pfnSktMgrStatus, void* pvUserData ) override;
 
 	void						setLocalIp( InetAddress& newLocalIp );
 
-    virtual VxSktBase*			makeNewSkt( void ) override;
+    virtual std::shared_ptr<VxSktBase>			makeNewSkt( void ) override;
 
-	virtual	void				handleSktCallback( VxSktBase* sktBase );
+	virtual	void				handleSktCallback( std::shared_ptr<VxSktBase>& sktBase );
 
 	//! Connect to ip or URL and return socket.. if cannot connect return NULL
-	virtual VxSktConnect *		connectTo(	const char*		pIpOrUrl,						// remote ip or url 
+	virtual std::shared_ptr<VxSktBase>		connectTo(	const char*		pIpOrUrl,						// remote ip or url 
 											uint16_t		u16Port,						// port to connect to
 											int				iTimeoutMilliSeconds = 1000 );	// seconds before connect attempt times out
-	virtual VxSktConnect *		createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port );
+	virtual std::shared_ptr<VxSktBase>		createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port );
 
-	virtual bool				txPacket(	VxSktBase*			sktBase,
+	virtual bool				txPacket(	std::shared_ptr<VxSktBase>&			sktBase,
 											const VxGUID&		destOnlineId,			    // online id of destination user
 											VxPktHdr*			pktHdr, 				    // packet to send
 											bool				bDisconnect = false );	    // if true disconnect after send
 
-	virtual bool				txPacketWithDestId(	VxSktBase*		sktBase,
+	virtual bool				txPacketWithDestId(	std::shared_ptr<VxSktBase>&		sktBase,
 													VxPktHdr*		pktHdr, 				// packet to send
 													bool			bDisconnect = false );	// if true disconnect after send
 
     virtual void                dumpSocketStats( const char* reason = nullptr, bool fullDump = false ) override;
 
-    virtual void                setSktLoopback( VxSktBase* sktLoopback ) override          { m_SktLoopback = sktLoopback; m_ClientMgr.setSktLoopback( sktLoopback ); }
+    virtual void                setSktLoopback( std::shared_ptr<VxSktBase>& sktLoopback ) override          { m_SktLoopback = sktLoopback; m_ClientMgr.setSktLoopback( sktLoopback ); }
 
 	virtual bool				closeConnection( VxGUID& socketId, ESktCloseReason closeReason ) override;
 

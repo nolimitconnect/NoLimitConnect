@@ -102,7 +102,7 @@ public:
 	bool						getFileFullName( VxGUID& assetId, VxSha1Hash& fileHashId, std::string& retFileFullName );
 	bool						getFileHashId( std::string& fileFullName, VxSha1Hash& retFileHashId );
 
-	virtual bool				onFileDownloadComplete( VxNetIdent* netIdent, VxSktBase* sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash);
+	virtual bool				onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash);
 
 	bool						loadAboutMePageStaticAssets( void );
 	bool						loadStoryboardPageFileAssets( void );
@@ -110,10 +110,10 @@ public:
 	// virtual void				fromGuiUserLoggedOn( void ) override;
 	virtual void				onAfterUserLogOnThreaded( void );
 
-	ECommErr					searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, VxSktBase* sktBase, VxNetIdent* netIdent );
-	ECommErr					searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, VxSktBase* sktBase, VxNetIdent* netIdent );
+	ECommErr					searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	ECommErr					searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
-	bool						startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent );
+	bool						startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
 	virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId );
 	virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId, EOfferResponse offerResponse );

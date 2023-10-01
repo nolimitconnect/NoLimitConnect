@@ -40,7 +40,7 @@
 
 namespace
 {
-	void NetworkPeerSktCallbackHandler( VxSktBase*  sktBase, void * pvUserCallbackData )
+	void NetworkPeerSktCallbackHandler( std::shared_ptr<VxSktBase>&  sktBase, void * pvUserCallbackData )
 	{
         if( pvUserCallbackData )
 		{
@@ -180,7 +180,7 @@ void NetworkMgr::onOncePerSecond( void )
 }
 
 //============================================================================
-void NetworkMgr::handleTcpSktCallback( VxSktBase* sktBase )
+void NetworkMgr::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( VxIsAppShuttingDown() )
 	{

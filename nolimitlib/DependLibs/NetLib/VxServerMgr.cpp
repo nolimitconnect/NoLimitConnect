@@ -118,9 +118,11 @@ bool VxServerMgr::checkWatchdog( void )
 }
 
 //============================================================================
-VxSktBase* VxServerMgr::makeNewAcceptSkt( void )				
+std::shared_ptr<VxSktBase> VxServerMgr::makeNewAcceptSkt( void )				
 { 
-	return new VxSktAccept(); 
+    std::shared_ptr<VxSktBase> sharedSkt( new VxSktAccept() );
+	sharedSkt->setThisSkt( sharedSkt ); // so skt can do callbacks without look up in manager
+	return sharedSkt;
 }
 
 //============================================================================
@@ -436,9 +438,9 @@ static int dumpSktStatsCnt = 0;
     }
 
 	// add a skt to our list	
-	VxSktAccept * sktBase = (VxSktAccept *)this->makeNewAcceptSkt();
+	std::shared_ptr<VxSktBase> sktBase = makeNewAcceptSkt();
 	m_SktMgrMutex.lock(__FILE__, __LINE__); // dont let other threads mess with array while we add
-	m_aoSkts.push_back( sktBase );
+	m_aoSkts.emplace_back( sktBase );
 	// do tell skt to do accept stuff
 	sktBase->m_Socket = oAcceptSkt;
 	sktBase->setReceiveCallback( m_pfnOurReceive, this );
@@ -447,7 +449,7 @@ static int dumpSktStatsCnt = 0;
 
     LogModule( eLogListen, LOG_INFO, "VxServerMgr: doing accept skt %d skt id %d thread 0x%x", sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
-    RCODE rcAccept = sktBase->doAccept( this, *(( struct sockaddr * )&acceptAddr) );
+    RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *(( struct sockaddr * )&acceptAddr) );
 	if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == oListenSkt )
 	{
 		sktBase->closeSkt(eSktCloseAcceptFailed);

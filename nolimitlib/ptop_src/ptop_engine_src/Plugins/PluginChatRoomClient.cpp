@@ -72,75 +72,75 @@ void PluginChatRoomClient::fromGuiSearchHost( EHostType hostType, SearchParams& 
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostJoinReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginChatRoomClient got join request" );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginChatRoomClient got join reply" );
     m_HostClientMgr.onPktHostJoinReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginChatRoomClient got search reply" );
     m_HostClientMgr.onPktHostSearchReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginChatRoomClient got join offer request" );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogMsg( LOG_DEBUG, "PluginChatRoomClient got join offer reply" );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     handlePktHostInviteSearchReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     handlePktHostInviteMoreReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostLeaveReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserListReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostUserListMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserListMoreReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserInfoReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginChatRoomClient::onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginChatRoomClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
 }

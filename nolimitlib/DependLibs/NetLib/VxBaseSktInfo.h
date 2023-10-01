@@ -17,6 +17,7 @@
 #include "VxFileXferInfo.h"
 
 #include <vector>
+#include <memory>
 
 class VxSktBase;
 class VxNetIdentBase;
@@ -36,19 +37,17 @@ public:
 	void queFileToSend( const char* pLclFileName, const char* pRmtFileName );
 
 protected:
-	VxSktBase*					m_Skt;			// socket
-	uint32_t							m_u32PeerIp;		// peer's ip in binary form
-	char						m_as8PeerIp[16];	// peer's ip in ascii form
-	uint32_t							m_u32LocalIp;		// our ip in binary form
-	char						m_as8LocalIp[16];	// our ip in ascii form
-	uint32_t							m_u32LastRxTime;	// last time received a packet
+	std::shared_ptr<VxSktBase>	m_Skt;					// socket
+	uint32_t					m_u32PeerIp{0};			// peer's ip in binary form
+	uint32_t					m_u32LocalIp{0};		// our ip in binary form
+	uint32_t					m_u32LastRxTime{0};		// last time received a packet
 	//=== identity vars ===//
-	VxNetIdentBase *			m_Ident;			// network identity
-	std::string					m_csUserName;		// users login name
+	VxNetIdentBase *			m_Ident;				// network identity
+	std::string					m_csUserName;			// users login name
 
 	//=== file tx/rx vars ===//
-	VxFileXferInfo				m_TxFileInfo;		// file being transmitted
-	VxFileXferInfo				m_RxFileInfo;		// file being received
+	VxFileXferInfo				m_TxFileInfo;			// file being transmitted
+	VxFileXferInfo				m_RxFileInfo;			// file being received
 	std::vector<std::string>	m_astrFilesToSend;		// list of files to send
 	std::vector<std::string>	m_astrFilesSent;		// list of files sent
 	std::vector<std::string>	m_astrFilesReceived;	// list of files received

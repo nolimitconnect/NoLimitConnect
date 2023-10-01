@@ -359,7 +359,7 @@ void PluginMgr::pluginApiLog( EPluginType pluginType, const char* pMsg, ... )
 }
 
 //============================================================================
-void PluginMgr::handleFirstNetServiceConnection( VxSktBase* sktBase )
+void PluginMgr::handleFirstNetServiceConnection( std::shared_ptr<VxSktBase>& sktBase )
 {
 	int iSktDataLen = sktBase->getSktBufDataLen();
 	if( iSktDataLen < NET_SERVICE_HDR_LEN )
@@ -526,7 +526,7 @@ void PluginMgr::handleFirstNetServiceConnection( VxSktBase* sktBase )
 
 //============================================================================
 //! this is called for all valid packets that are not sys packets
-void PluginMgr::handleNonSystemPackets( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void PluginMgr::handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	//LogMsg( LOG_INFO, "PluginMgr::handleNonSystemPackets" );
 	uint8_t u8PluginNum = pktHdr->getPluginNum();
@@ -750,7 +750,7 @@ void PluginMgr::onAfterUserLogOnThreaded( void )
 }
 
 //============================================================================
-void PluginMgr::onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginMgr::onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	std::vector<PluginBase* >::iterator iter;
 	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
@@ -760,7 +760,7 @@ void PluginMgr::onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase )
 }
 
 //============================================================================
-void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	std::vector<PluginBase* >::iterator iter;
 	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
@@ -770,7 +770,7 @@ void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
 }
 
 //============================================================================
-void PluginMgr::onConnectionLost( VxSktBase* sktBase )
+void PluginMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	for( auto iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
 	{
@@ -1092,7 +1092,7 @@ VxNetIdent* PluginMgr::pluginApiOnlineIdToIdentity( VxGUID& oOnlineId )
 }
 
 //============================================================================
-void PluginMgr::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void PluginMgr::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	for( auto pluginBase : m_aoPlugins )
 	{

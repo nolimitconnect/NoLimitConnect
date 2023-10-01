@@ -170,7 +170,7 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppMo
 }
 
 //============================================================================
-void VoiceFeedMgr::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	if( false == m_Enabled )
 	{
@@ -278,7 +278,7 @@ void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 }
 
 //============================================================================
-void VoiceFeedMgr::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VoiceFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 

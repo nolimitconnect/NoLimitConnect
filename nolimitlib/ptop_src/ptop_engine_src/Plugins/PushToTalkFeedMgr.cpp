@@ -42,13 +42,13 @@ PushToTalkFeedMgr::PushToTalkFeedMgr( P2PEngine& engine, PluginBase& plugin, Plu
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk, VxSktBase* sktBase )
+bool PushToTalkFeedMgr::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk, std::shared_ptr<VxSktBase>& sktBase )
 {
 	return enableAudioCapture( enableTalk, netIdent, eAppModulePushToTalk, sktBase );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, VxSktBase* sktBase )
+bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( enable && sktBase )
 	{
@@ -136,7 +136,7 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onPktPushToTalkReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PushToTalkFeedMgr::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	bool allowed = netIdent->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && netIdent->isHisAccessAllowedFromMe( ePluginTypePushToTalk );
 	if( !allowed )
@@ -168,12 +168,12 @@ void PushToTalkFeedMgr::onPktPushToTalkReq( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onPktPushToTalkReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PushToTalkFeedMgr::onPktPushToTalkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onPktPushToTalkStart( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PushToTalkFeedMgr::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	if( addPushToTalkUser( netIdent, sktBase, true ) )
 	{
@@ -183,7 +183,7 @@ void PushToTalkFeedMgr::onPktPushToTalkStart( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onPktPushToTalkStop( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PushToTalkFeedMgr::onPktPushToTalkStop( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	if( removePushToTalkUser( netIdent->getMyOnlineId() ) )
 	{
@@ -192,7 +192,7 @@ void PushToTalkFeedMgr::onPktPushToTalkStop( VxSktBase* sktBase, VxPktHdr* pktHd
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	bool allowed = netIdent->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && netIdent->isHisAccessAllowedFromMe( ePluginTypePushToTalk );
 	if( !allowed )
@@ -258,7 +258,7 @@ void PushToTalkFeedMgr::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxN
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PushToTalkFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktPushToTalkReply( sktBase, pktHdr, netIdent );
 }
@@ -295,7 +295,7 @@ void PushToTalkFeedMgr::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusA
 }
 
 //============================================================================
-void PushToTalkFeedMgr::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PushToTalkFeedMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	removePushToTalkUser( netIdent->getMyOnlineId() );
 	//m_PushToTalkFeedMgr.onContactWentOffline( netIdent, sktBase );
@@ -304,7 +304,7 @@ void PushToTalkFeedMgr::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* s
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::addPushToTalkUser( VxNetIdent* netIdent, VxSktBase* sktBase, bool rxOnly )
+bool PushToTalkFeedMgr::addPushToTalkUser( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly )
 {
 	bool userAdded{ false };
 	if( m_RxOnlineIdList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
@@ -382,21 +382,21 @@ bool PushToTalkFeedMgr::removePushToTalkUser( VxGUID& onlineId, bool txOnly )
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::sendPushToTalkStart( VxNetIdent* netIdent, VxSktBase* sktBase )
+bool PushToTalkFeedMgr::sendPushToTalkStart( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	PktPushToTalkStart pktStop;
 	return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktStop );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::sendPushToTalkStop( VxNetIdent* netIdent, VxSktBase* sktBase )
+bool PushToTalkFeedMgr::sendPushToTalkStop( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	PktPushToTalkStop pktStop;
 	return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktStop );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::sendPushToTalkReq( VxNetIdent* netIdent, VxSktBase* sktBase )
+bool PushToTalkFeedMgr::sendPushToTalkReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	PktPushToTalkReq pktReq;
 	return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq );

@@ -37,7 +37,7 @@ HostServerSearchMgr::HostServerSearchMgr( P2PEngine& engine, PluginMgr& pluginMg
 }
 
 //============================================================================
-void HostServerSearchMgr::updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, VxSktBase* sktBase )
+void HostServerSearchMgr::updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     if( netIdent->requiresRelay() )
     {
@@ -99,7 +99,7 @@ void HostServerSearchMgr::updateHostSearchList( EHostType hostType, PktHostInvit
 }
 
 //============================================================================
-ECommErr HostServerSearchMgr::searchRequest( SearchParams& searchParams, PktHostSearchReply& searchReply, std::string& searchStr, VxSktBase* sktBase, VxNetIdent* netIdent )
+ECommErr HostServerSearchMgr::searchRequest( SearchParams& searchParams, PktHostSearchReply& searchReply, std::string& searchStr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     EHostType hostType = searchParams.getHostType();
     ECommErr searchErr = haveHostAnnList(hostType) ? eCommErrNone : eCommErrInvalidHostType;
@@ -137,7 +137,7 @@ ECommErr HostServerSearchMgr::searchRequest( SearchParams& searchParams, PktHost
 }
 
 //============================================================================
-ECommErr HostServerSearchMgr::settingsRequest( PluginId& pluginId, PktPluginSettingReply& settingReply, VxSktBase* sktBase, VxNetIdent* netIdent )
+ECommErr HostServerSearchMgr::settingsRequest( PluginId& pluginId, PktPluginSettingReply& settingReply, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     /*
     EHostType hostType = settingReply.getHostType();
@@ -322,7 +322,7 @@ bool HostServerSearchMgr::extractSearchBlobToHostedInfo( PktBlobEntry& blobEntry
 }
 
 //============================================================================
-bool HostServerSearchMgr::onPktHostInviteSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteSearchReply pktReply;
     PktHostInviteSearchReq* pktReq = ( PktHostInviteSearchReq* )pktHdr;
@@ -401,7 +401,7 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( VxSktBase* sktBase, VxPktHdr
 }
 
 //============================================================================
-void HostServerSearchMgr::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostServerSearchMgr::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteSearchReply* pktReply = ( PktHostInviteSearchReply* )pktHdr;
     if( pktReply->getCommError() )
@@ -429,7 +429,7 @@ void HostServerSearchMgr::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktH
 }
 
 //============================================================================
-bool HostServerSearchMgr::onPktHostInviteMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+bool HostServerSearchMgr::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteMoreReply pktReply;
     PktHostInviteMoreReq* pktReq = ( PktHostInviteMoreReq* )pktHdr;
@@ -493,7 +493,7 @@ bool HostServerSearchMgr::onPktHostInviteMoreReq( VxSktBase* sktBase, VxPktHdr* 
 }
 
 //============================================================================
-void HostServerSearchMgr::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void HostServerSearchMgr::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostInviteMoreReply* pktReply = ( PktHostInviteMoreReply* )pktHdr;
     if( pktReply->getCommError() )
@@ -521,13 +521,13 @@ void HostServerSearchMgr::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr
 }
 
 //============================================================================
-void HostServerSearchMgr::logCommError( ECommErr commErr, const char* desc, VxSktBase* sktBase, VxNetIdent* netIdent )
+void HostServerSearchMgr::logCommError( ECommErr commErr, const char* desc, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     LogMsg( LOG_ERROR, "%s %s from %s %s", desc, DescribeCommError( commErr ), netIdent->getOnlineName(), sktBase->describeSktConnection().c_str() );
 }
 
 //============================================================================
-void HostServerSearchMgr::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
+void HostServerSearchMgr::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
 {
     LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::updateFromHostInviteSearchBlob rxed %d hosts", hostInfoCount );
     blobEntry.resetRead();
@@ -552,7 +552,7 @@ void HostServerSearchMgr::updateFromHostInviteSearchBlob( EHostType hostType, Vx
 }
 
 //============================================================================
-bool HostServerSearchMgr::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& nextHostOnlineId )
+bool HostServerSearchMgr::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextHostOnlineId )
 {
     PktHostInviteMoreReq pktReq;
     pktReq.setHostType( hostType );
@@ -564,14 +564,14 @@ bool HostServerSearchMgr::requestMoreHostInvitesFromNetworkHost( EHostType hostT
 }
 
 //============================================================================
-void HostServerSearchMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, VxSktBase* sktBase )
+void HostServerSearchMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     // NOTE: search mutex is still locked
     m_Engine.getHostedListMgr().onHostInviteAnnounceAdded( hostType, hostedInfo, netIdent, sktBase );
 }
 
 //============================================================================
-void HostServerSearchMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, VxSktBase* sktBase, bool infoChanged )
+void HostServerSearchMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged )
 {
     // NOTE: search mutex is still locked
     m_Engine.getHostedListMgr().onHostInviteAnnounceUpdated( hostType, hostedInfo, netIdent, sktBase, infoChanged );

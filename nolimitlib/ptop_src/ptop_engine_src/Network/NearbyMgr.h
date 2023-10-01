@@ -50,17 +50,17 @@ public:
 
     std::vector<std::pair<VxGUID, int64_t>>& getIdentList()         { return m_NearbyIdentList; };
 
-    virtual	void				handleMulticastSktCallback( VxSktBase* sktBase );
-    void						handleTcpLanConnectSuccess( BigListInfo* bigListInfo, VxSktBase* skt, bool isNewConnection, EConnectReason connectReason );
+    virtual	void				handleMulticastSktCallback( std::shared_ptr<VxSktBase>& sktBase );
+    void						handleTcpLanConnectSuccess( BigListInfo* bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
 
     virtual void                onNearbyUserUpdated( VxNetIdent* netIdent, int64_t timestamp = 0);
-    void                        onConnectionLost( VxSktBase* sktBase, VxGUID& connectionId, VxGUID& peerOnlineId );
+    void                        onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId );
 
 protected:
     void						setBroadcastPort( uint16_t u16Port );
     bool						setBroadcastEnable( bool enable );
 
-    virtual void				multicastPktAnnounceAvail( VxSktBase* skt, PktAnnounce* pktAnnounce ) override;
+    virtual void				multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktAnnounce* pktAnnounce ) override;
 
     VxMutex                     m_ListMutex;
     std::vector<std::pair<VxGUID, int64_t>> m_NearbyIdentList;

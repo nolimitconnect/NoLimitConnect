@@ -12,7 +12,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "VxSktLoopback.h"
 #include "P2PEngine.h"
+
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
@@ -101,7 +103,7 @@ void VxSktLoopback::executeSktLoopbackRxThreadFunc( void )
             if( pktHdr )
             {
                 lastTimePktProcessed = GetHighResolutionTimeMs();
-                m_Engine.handlePkt( this, pktHdr );
+                m_Engine.handlePkt( getThisSkt(), pktHdr);
                 delete pktHdr;
             }
         }

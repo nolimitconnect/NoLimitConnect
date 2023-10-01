@@ -34,7 +34,7 @@ void PluginNetServices::testIsMyPortOpen( void )
 }
 
 //============================================================================
-RCODE PluginNetServices::handlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr )
+RCODE PluginNetServices::handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
 	//if( false == m_NetServiceUtil.isAllHttpContentArrived( sktBase ) )
 	//{
@@ -55,7 +55,7 @@ RCODE PluginNetServices::handlePtopConnection( VxSktBase* sktBase, NetServiceHdr
 }
 
 //============================================================================
-RCODE PluginNetServices::internalHandlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr )
+RCODE PluginNetServices::internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
 	switch( netServiceHdr.m_NetCmdType )
 	{

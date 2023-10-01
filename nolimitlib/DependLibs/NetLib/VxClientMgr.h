@@ -25,11 +25,11 @@ public:
 	VxClientMgr();
 	virtual ~VxClientMgr() = default;
 
-	virtual VxSktBase*		makeNewSkt( void );
+	virtual std::shared_ptr<VxSktBase>	makeNewSkt( void );
 
 	//! Connect to ip or URL and return socket.. if cannot connect return NULL
-	virtual VxSktConnect *	connectTo(	const char*	pIpOrUrl,						// remote ip or url 
-										uint16_t	    u16Port,						// port to connect to
-										int				iTimeoutMilliSeconds = 1000 );	// seconds before connect attempt times out
+	virtual std::shared_ptr<VxSktBase>	connectTo(	const char*	pIpOrUrl,			// remote ip or url 
+										uint16_t	u16Port,						// port to connect to
+										int			iTimeoutMilliSeconds = 1000 );	// seconds before connect attempt times out
 };
 

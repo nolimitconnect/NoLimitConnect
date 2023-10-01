@@ -27,8 +27,8 @@ public:
 	virtual ~PluginConnectionTestHost() override = default;
 
     void                        testIsMyPortOpen( void );
-    RCODE                       handlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr ) override;
-    RCODE                       internalHandlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr );
+    RCODE                       handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr ) override;
+    RCODE                       internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 
 protected:
     NetServicesMgr&				m_NetServicesMgr;

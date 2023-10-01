@@ -18,6 +18,8 @@
 
 #include <CoreLib/VxMutex.h>
 
+#include <memory>
+
 class P2PEngine;
 class PluginBase;
 class PluginMgr;
@@ -48,9 +50,9 @@ public:
 
 	bool						isPluginSingleSession( void );
 
-	virtual void				replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt ) = 0;
-	virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase ) = 0;
-	virtual void				onConnectionLost( VxSktBase* sktBase ) = 0;
+	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) = 0;
+	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) = 0;
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) = 0;
 
 
 protected:

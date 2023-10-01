@@ -21,6 +21,7 @@
 #include <NetLib/VxPeerMgr.h>
 
 #include <CoreLib/VxPtopUrl.h>
+#include <NetLib/VxSktBase.h>
 #include <PktLib/SearchParams.h>
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsGroupie.h>
@@ -108,8 +109,8 @@ bool PluginBaseHostClient::fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGU
 {
     if( netIdent && thumbId.isVxGUIDValid() )
     {
-        VxSktBase* sktBase = 0;
-        m_PluginMgr.pluginApiSktConnectTo( getPluginType(), netIdent, 0, &sktBase );
+        std::shared_ptr<VxSktBase> sktBase( nullptr );
+        m_PluginMgr.pluginApiSktConnectTo( getPluginType(), netIdent, 0, sktBase );
         if( sktBase && sktBase->isConnected() )
         {
             // the netIdent from gui is not the same one as in big list
@@ -125,37 +126,37 @@ bool PluginBaseHostClient::fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGU
 }
 
 //============================================================================
-bool PluginBaseHostClient::ptopEngineRequestPluginThumb( VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& thumbId )
+bool PluginBaseHostClient::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId )
 {
     return m_ThumbXferMgr.requestPluginThumb( sktBase, netIdent, thumbId );
 }
 
 //============================================================================
-void PluginBaseHostClient::onPktHostInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseHostClient::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_Engine.getHostedListMgr().onPktHostInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
-void PluginBaseHostClient::onPktGroupieInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseHostClient::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_Engine.getGroupieListMgr().onPktGroupieInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
-void PluginBaseHostClient::onPktGroupieAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseHostClient::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_Engine.getGroupieListMgr().onPktGroupieAnnReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
-void PluginBaseHostClient::onPktGroupieSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseHostClient::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_Engine.getGroupieListMgr().onPktGroupieSearchReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
-void PluginBaseHostClient::onPktGroupieMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginBaseHostClient::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_Engine.getGroupieListMgr().onPktGroupieMoreReply( sktBase, pktHdr, netIdent, this );
 }
@@ -177,7 +178,7 @@ bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
     LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostClient::sendLeaveHost groupie %s my online id %s",
                groupieId.describeGroupieId().c_str(), m_Engine.getMyOnlineId().describeVxGUID().c_str());
     bool pktSent{ false };
-    VxSktBase* sktBase =  m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
+    std::shared_ptr<VxSktBase>& sktBase =  m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
     if( sktBase )
     {
         PktHostLeaveReq leaveReq;
@@ -216,7 +217,7 @@ void PluginBaseHostClient::sendUnJoinHost( EHostType hostType, VxGUID& sessionId
 bool PluginBaseHostClient::sendUnJoinHost( GroupieId& groupieId )
 {
     bool pktSent{ false };
-    VxSktBase* sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
+    std::shared_ptr<VxSktBase>& sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
     if( sktBase )
     {
         PktHostUnJoinReq leaveReq;
@@ -244,7 +245,7 @@ bool PluginBaseHostClient::sendUnJoinHost( GroupieId& groupieId )
 bool PluginBaseHostClient::queryUserListFromHost( GroupieId& groupieId )
 {
     bool pktSent{ false };
-    VxSktBase* sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
+    std::shared_ptr<VxSktBase>& sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
     if( sktBase )
     {
         PktGroupieSearchReq pktReq;
@@ -268,26 +269,26 @@ bool PluginBaseHostClient::queryUserListFromHost( GroupieId& groupieId )
 }
 
 //============================================================================
-void PluginBaseHostClient::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void PluginBaseHostClient::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 
     m_HostClientMgr.onUserJoinedHost( groupieId, sktBase, netIdent );
 }
 
 //============================================================================
-void PluginBaseHostClient::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void PluginBaseHostClient::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onUserLeftHost( groupieId, sktBase, netIdent );
 }
 
 //============================================================================
-void PluginBaseHostClient::onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void PluginBaseHostClient::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onUserUnJoinedHost( groupieId, sktBase, netIdent );
 }
 
 //============================================================================
-void PluginBaseHostClient::onGroupRelayedUserAnnounce( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent )
+void PluginBaseHostClient::onGroupRelayedUserAnnounce( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onGroupRelayedUserAnnounce( groupieId, sktBase, netIdent );
 }

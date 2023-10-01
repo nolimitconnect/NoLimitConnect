@@ -18,6 +18,7 @@
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
 #include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListMgr.h>
 
+#include <NetLib/VxSktBase.h>
 #include <PktLib/PktsFileInfo.h>
 
 //============================================================================
@@ -37,7 +38,7 @@ bool PluginBaseFilesClient::connectForWebPageDownload( VxGUID& onlineId )
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );	// id of friend to look for
     if( netIdent )
     {
-        VxSktBase* sktBase = m_Engine.getConnectIdListMgr().findBestOnlineConnection( onlineId );
+        std::shared_ptr<VxSktBase>& sktBase = m_Engine.getConnectIdListMgr().findBestOnlineConnection( onlineId );
         if( sktBase )
         {
             result = onConnectForWebPageDownload( sktBase, netIdent );
@@ -61,7 +62,7 @@ bool PluginBaseFilesClient::connectForWebPageDownload( VxGUID& onlineId )
 }
 
 //============================================================================
-bool PluginBaseFilesClient::onConnectForWebPageDownload( VxSktBase* sktBase, VxNetIdent* netIdent )
+bool PluginBaseFilesClient::onConnectForWebPageDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     m_HisIdent = netIdent;
     m_HisOnlineId = netIdent->getMyOnlineId();
@@ -85,7 +86,7 @@ bool PluginBaseFilesClient::connectForFileListDownload( VxGUID& onlineId )
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );	// id of friend to look for
     if( netIdent )
     {
-        VxSktBase* sktBase = m_Engine.getConnectIdListMgr().findBestOnlineConnection( onlineId );
+        std::shared_ptr<VxSktBase>& sktBase = m_Engine.getConnectIdListMgr().findBestOnlineConnection( onlineId );
         if( sktBase )
         {
             result = onConnectForFileListDownload( sktBase, netIdent );
@@ -109,7 +110,7 @@ bool PluginBaseFilesClient::connectForFileListDownload( VxGUID& onlineId )
 }
 
 //============================================================================
-bool PluginBaseFilesClient::onConnectForFileListDownload( VxSktBase* sktBase, VxNetIdent* netIdent )
+bool PluginBaseFilesClient::onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     m_HisIdent = netIdent;
     m_HisOnlineId = netIdent->getMyOnlineId();

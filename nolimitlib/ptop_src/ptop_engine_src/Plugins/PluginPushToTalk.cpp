@@ -111,7 +111,7 @@ bool PluginPushToTalk::fromGuiInstMsg(	VxNetIdent*	netIdent,
 //============================================================================
 bool PluginPushToTalk::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk )
 {
-	VxSktBase* sktBase;
+	std::shared_ptr<VxSktBase> sktBase( nullptr );
 	bool isMyself = (netIdent->getMyOnlineId() == m_PluginMgr.getEngine().getMyOnlineId());
 	if( isMyself )
 	{
@@ -128,7 +128,7 @@ bool PluginPushToTalk::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk 
 		if( !sktBase )
 		{
 			bool isNewConnection;
-			m_Engine.connectToContact( netIdent->getConnectInfo(), &sktBase, isNewConnection, eConnectReasonPushToTalk );
+			m_Engine.connectToContact( netIdent->getConnectInfo(), sktBase, isNewConnection, eConnectReasonPushToTalk );
 		}
 
 		if( sktBase )
@@ -137,7 +137,8 @@ bool PluginPushToTalk::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk 
 		}
 		else
 		{
-			return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, false, nullptr );
+			std::shared_ptr<VxSktBase> sktBaseNull( nullptr );
+			return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, false, sktBaseNull );
 		}
 	}
 	else
@@ -162,61 +163,61 @@ void PluginPushToTalk::callbackAudioOutSpaceAvail( int freeSpaceLen )
 }
 
 //============================================================================
-void PluginPushToTalk::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PluginSessionMgr.onPktPluginOfferReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PluginSessionMgr.onPktPluginOfferReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PluginSessionMgr.onPktSessionStopReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktPushToTalkReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PushToTalkFeedMgr.onPktPushToTalkReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktPushToTalkReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktPushToTalkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PushToTalkFeedMgr.onPktPushToTalkReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktPushToTalkStart( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PushToTalkFeedMgr.onPktPushToTalkStart( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktPushToTalkStop( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktPushToTalkStop( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PushToTalkFeedMgr.onPktPushToTalkStop( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PushToTalkFeedMgr.onPktVoiceReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_PushToTalkFeedMgr.onPktVoiceReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginPushToTalk::onPktChatReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginPushToTalk::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktChatReq* poPkt = (PktChatReq *)pktHdr;
 	PluginBase::AutoPluginLock pluginMutexLock( this );
@@ -241,19 +242,19 @@ void PluginPushToTalk::onSessionEnded( PluginSessionBase* session, bool pluginIs
 }
 
 //============================================================================
-void PluginPushToTalk::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void PluginPushToTalk::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	//m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
 }
 
 //============================================================================
-void PluginPushToTalk::onConnectionLost( VxSktBase* sktBase )
+void PluginPushToTalk::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	//m_PushToTalkFeedMgr.onConnectionLost( sktBase );
 }
 
 //============================================================================
-void PluginPushToTalk::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginPushToTalk::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_PushToTalkFeedMgr.onContactWentOffline( netIdent, sktBase );
 	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, netIdent );

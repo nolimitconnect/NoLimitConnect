@@ -15,6 +15,8 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include <memory>
+
 class GroupieInfo;
 class P2PEngine;
 class PktAnnounce;
@@ -30,14 +32,14 @@ public:
 	RelayMgr( P2PEngine& engine );
 	virtual ~RelayMgr() = default;
 
-	bool						handleRelayPkt( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	bool						handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    bool						requestRelayConnection( VxSktBase* sktBase, GroupieInfo& groupieInfo );
-	bool                        sendRequestedReplyPktAnnIfNeeded( PktAnnounce* hisPktAnn, VxSktBase* sktBase, VxNetIdent* netIdent );
+    bool						requestRelayConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieInfo& groupieInfo );
+	bool                        sendRequestedReplyPktAnnIfNeeded( PktAnnounce* hisPktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
-	virtual void				onRelayPktAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, VxNetIdent* netIdent );
+	virtual void				onRelayPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 	bool						isJoinedToRelayHost( VxGUID& onlineId );
-	bool						sendRelayError( VxGUID& onlineId, VxSktBase* sktBase, ERelayErr relayErr );
+	bool						sendRelayError( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, ERelayErr relayErr );
 
 	//=== vars ====//
 	P2PEngine&					m_Engine;

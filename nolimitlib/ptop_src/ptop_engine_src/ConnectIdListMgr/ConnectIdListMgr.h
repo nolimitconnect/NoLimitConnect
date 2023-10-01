@@ -19,6 +19,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <memory>
 
 // maintains a list of online users
 class ConnectIdListCallbackInterface;
@@ -46,16 +47,16 @@ public:
 
     bool                        getConnections( HostedId& hostId, std::set<ConnectId>& retConnectIdSet, std::set<ConnectId>& relayConnectIdSet );
 
-    VxSktBase*                  findHostConnection( GroupieId& groupieId, bool tryPeerFirst = false );
-    VxSktBase*                  findRelayMemberConnection( VxGUID& onlineId );
-    VxSktBase*                  findPeerConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findHostConnection( GroupieId& groupieId, bool tryPeerFirst = false );
+    std::shared_ptr<VxSktBase> findRelayMemberConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findPeerConnection( VxGUID& onlineId );
 
-    VxSktBase*                  findAnyOnlineConnection( VxGUID& onlineId );
-    VxSktBase*                  findBestOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findAnyOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findBestOnlineConnection( VxGUID& onlineId );
 
     virtual bool                findConnectionId( GroupieId& groupieId, VxGUID& retSktConnectId );
     virtual bool                findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );
-    VxSktBase*                  findSktBase( VxGUID& connectId );
+    std::shared_ptr<VxSktBase> findSktBase( VxGUID& connectId );
 
     void                        addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed );
     void                        removeConnection( VxGUID& sktConnectId, GroupieId& groupieId );
@@ -65,8 +66,8 @@ public:
     void                        disconnectIfIsOnlyUser( GroupieId& groupieId );
 
     virtual void                onConnectionLost( VxGUID& sktConnectId );
-    virtual void                onGroupUserAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, VxNetIdent* netIdent, bool relayed );
-    void                        onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, VxNetIdent* netIdent );
+    virtual void                onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool relayed );
+    void                        onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
     void                        wantConnectIdListCallback( ConnectIdListCallbackInterface* client, bool enable );
 

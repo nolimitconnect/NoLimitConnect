@@ -52,7 +52,7 @@ std::string NetServiceUtils::getNetworkKey( void )
 }
 
 //============================================================================
-bool NetServiceUtils::verifyAllDataArrivedOfNetServiceUrl( VxSktBase* sktBase )
+bool NetServiceUtils::verifyAllDataArrivedOfNetServiceUrl( std::shared_ptr<VxSktBase>& sktBase )
 {
 	//ptop://GET /Crypto Key/total length of data/ 
 	// 12 + 32 + 1 + MAX_CONTENT_LEN_DIGITS + 1
@@ -253,7 +253,7 @@ bool NetServiceUtils::buildNetCmd( uint16_t cryptoKeyPort, std::string& retResul
 }
 
 //============================================================================
-EPluginType NetServiceUtils::parseHttpNetServiceUrl( VxSktBase* sktBase, NetServiceHdr& netServiceHdr )
+EPluginType NetServiceUtils::parseHttpNetServiceUrl( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
 	netServiceHdr.m_NetCmdType = eNetCmdUnknown;
 
@@ -542,7 +542,7 @@ const char*  NetServiceUtils::netCmdEnumToString( ENetCmdType	eNetCmdType )
 }
 
 //============================================================================
-int  NetServiceUtils::getIndexOfCrLfCrLf( VxSktBase* sktBase )
+int  NetServiceUtils::getIndexOfCrLfCrLf( std::shared_ptr<VxSktBase>& sktBase )
 {
 	int indexOfCrLfCrLf = -1;
 	int iDataLen = sktBase->getSktBufDataLen();
@@ -564,7 +564,7 @@ int  NetServiceUtils::getIndexOfCrLfCrLf( VxSktBase* sktBase )
 }
 
 //============================================================================
-RCODE NetServiceUtils::buildAndSendCmd( VxSktBase* sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
+RCODE NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
 {
 	std::string retResult;
 	std::string netServChallengeHash;
@@ -587,7 +587,7 @@ RCODE NetServiceUtils::buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdTyp
 
 //============================================================================
 void NetServiceUtils::generateNetServiceChallengeHash(	std::string&			strKey,	
-                                                        VxSktBase*				skt,
+                                                        std::shared_ptr<VxSktBase>&				skt,
                                                         std::string             netKey)
 {
 	uint16_t clientPort;

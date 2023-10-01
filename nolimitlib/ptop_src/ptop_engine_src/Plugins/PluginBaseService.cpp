@@ -19,8 +19,9 @@
 #include "TxSession.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <NetLib/VxPeerMgr.h>
 
+#include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktBase.h>
 #include <CoreLib/VxFileUtil.h>
 
 //============================================================================
@@ -32,7 +33,7 @@ PluginBaseService::PluginBaseService( P2PEngine& engine, PluginMgr& pluginMgr, V
 }
 
 //============================================================================
-void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorOnlineId, VxSktBase* sktBaseRequester )
+void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester )
 {
     if( pktHdr && pktHdr->isValidPkt() )
     {
@@ -50,7 +51,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorO
             for( auto& connectId : connectIdSet )
             {
                 m_Engine.getPeerMgr().lockSktList();
-                VxSktBase* sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
+                std::shared_ptr<VxSktBase>& sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
                 if( sktBase && sktBase->isConnected() )
                 {
                     if( txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr ) )

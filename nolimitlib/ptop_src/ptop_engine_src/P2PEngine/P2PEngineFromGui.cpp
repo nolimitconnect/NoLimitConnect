@@ -1648,7 +1648,7 @@ bool P2PEngine::fromGuiQueryIdentity( GroupieInfo& groupieInfo, VxNetIdent& retN
         myGroupieId.setUserOnlineId(getMyOnlineId());
     }
 
-    VxSktBase* sktBase = getConnectIdListMgr().findHostConnection( myGroupieId );
+    std::shared_ptr<VxSktBase>& sktBase = getConnectIdListMgr().findHostConnection( myGroupieId );
 	if( sktBase )
 	{
 		// if the url is valid try a direct connection first

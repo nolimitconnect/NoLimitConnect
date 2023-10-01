@@ -31,7 +31,7 @@
 #include <memory.h>
 
 //============================================================================
-void P2PEngine::handlePkt( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::handlePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	// relay packets will call handleIncommingRelayPkt so the check here should not be needed
 	//if( getRelayMgr().handleRelayPkt( sktBase, pktHdr ) )
@@ -43,20 +43,26 @@ void P2PEngine::handlePkt( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktUnhandled( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktUnhandled( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogMsg( LOG_ERROR, "onPktUnhandled pkt type %d", pktHdr->getPktType() );
 }
 
 //============================================================================
-void P2PEngine::onPktInvalid( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktInvalid( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogMsg( LOG_ERROR, "onPktInvalid pkt type %d", pktHdr->getPktType() );
 }
 
 //============================================================================
-void P2PEngine::onPktAnnounce( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
+	if( !sktBase || !sktBase->isConnected() )
+	{
+		LogMsg( LOG_ERROR, "%s null or invalid param  ", __func__ );
+		return;
+	}
+
 	PktAnnounce* pkt = (PktAnnounce *)pktHdr;
 	VxGUID contactOnlineId = pkt->getMyOnlineId();
 	if( contactOnlineId == getMyOnlineId() )
@@ -140,32 +146,35 @@ void P2PEngine::onPktAnnounce( VxSktBase* sktBase, VxPktHdr* pktHdr )
 		}
 	}
 
-	if( pkt->getTTL() > 0 )
+	if( sktBase && sktBase->isConnected() )
 	{
-		pkt->setTTL( pkt->getTTL() - 1 );
-		pkt->setIsPktAnnReplyRequested( false );
-		pkt->setIsPktAnnStunRequested( false );
+		if( pkt->getTTL() > 0 )
+		{
+			pkt->setTTL( pkt->getTTL() - 1 );
+			pkt->setIsPktAnnReplyRequested( false );
+			pkt->setIsPktAnnStunRequested( false );
+		}
+
+		if( !sktBase->getIsPeerPktAnnSet() )
+		{
+			if( sktBase->setPeerPktAnn( *pkt ) )
+			{
+				getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == updateType) );
+				getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
+			}
+			else
+			{
+				getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == updateType) );
+			}
+		}
 	}
 
-	if( !sktBase->getIsPeerPktAnnSet() )
-	{
-		if( sktBase->setPeerPktAnn( *pkt ) )
-		{
-			getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == updateType) );
-			getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
-		}
-		else
-		{
-			getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == updateType) );
-		}
-	}
 
-
-    if( isFirstAnnounce && pkt->getIsPktAnnRevConnectRequested() )
+    if( sktBase && sktBase->isConnected() && isFirstAnnounce && pkt->getIsPktAnnRevConnectRequested() )
 	{
 		LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s reverse connect requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str() );
-		VxSktBase* poNewSkt = 0;
-		m_NetConnector.directConnectTo( pkt->getConnectInfo(), &poNewSkt, eConnectReasonReverseConnectRequested );
+		std::shared_ptr<VxSktBase> poNewSkt;
+		m_NetConnector.directConnectTo( pkt->getConnectInfo(), poNewSkt, eConnectReasonReverseConnectRequested );
 		if( poNewSkt )
 		{
 			LogModule( eLogConnect, LOG_VERBOSE, "sendMyPktAnnounce 6" );
@@ -193,28 +202,31 @@ void P2PEngine::onPktAnnounce( VxSktBase* sktBase, VxPktHdr* pktHdr )
 		}
 	}
 
-    if( isFirstAnnounce )
-    {
-		updateOnFirstConnect( sktBase, bigListInfo, false );
-        onFirstPktAnnounce( pkt, sktBase, bigListInfo );
-    }
-	else if( pkt->getDestOnlineId() != getMyOnlineId() )
+	if( sktBase && sktBase->isConnected() )
 	{
-		getRelayMgr().onRelayPktAnnounce( pkt, sktBase, bigListInfo->getVxNetIdent() );
-	}
-	else
-	{
-        if( getRelayMgr().sendRequestedReplyPktAnnIfNeeded( pkt, sktBase, bigListInfo->getVxNetIdent()) )
-        {
-            getConnectIdListMgr().onGroupUserAnnounce( pkt, sktBase, bigListInfo->getVxNetIdent(), true );
-        }
+		if( isFirstAnnounce )
+		{
+			updateOnFirstConnect( sktBase, bigListInfo, false );
+			onFirstPktAnnounce( pkt, sktBase, bigListInfo );
+		}
+		else if( pkt->getDestOnlineId() != getMyOnlineId() )
+		{
+			getRelayMgr().onRelayPktAnnounce( pkt, sktBase, bigListInfo->getVxNetIdent() );
+		}
 		else
 		{
-			getConnectList().onConnectionLost( sktBase );
+			if( getRelayMgr().sendRequestedReplyPktAnnIfNeeded( pkt, sktBase, bigListInfo->getVxNetIdent()) )
+			{
+				getConnectIdListMgr().onGroupUserAnnounce( pkt, sktBase, bigListInfo->getVxNetIdent(), true );
+			}
+			else
+			{
+				getConnectList().onConnectionLost( sktBase );
+			}
 		}
 	}
 
-	if( sktBase->isConnected() )
+	if( sktBase && sktBase->isConnected() )
 	{
 		PktPingReq pktPingReq;
 		pktPingReq.setSrcOnlineId( m_PktAnn.getSrcOnlineId() );
@@ -228,13 +240,13 @@ void P2PEngine::onPktAnnounce( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAnnList( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAnnList( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAnnList" );
 }
 	
 //============================================================================
-void P2PEngine::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPluginOfferReq" );
 
@@ -242,7 +254,7 @@ void P2PEngine::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPluginOfferReply" );
 
@@ -250,7 +262,7 @@ void P2PEngine::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktChatReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktChatReq" );
 
@@ -258,7 +270,7 @@ void P2PEngine::onPktChatReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktChatReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktChatReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktChatReply" );
 
@@ -266,7 +278,7 @@ void P2PEngine::onPktChatReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVoiceReq" );
 
@@ -274,7 +286,7 @@ void P2PEngine::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVoiceReply" );
 
@@ -282,7 +294,7 @@ void P2PEngine::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVideoFeedReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVideoFeedReq" );
 
@@ -290,7 +302,7 @@ void P2PEngine::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVideoFeedStatus" );
 
@@ -298,7 +310,7 @@ void P2PEngine::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVideoFeedPic" );
 
@@ -306,7 +318,7 @@ void P2PEngine::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVideoFeedPicChunk" );
 
@@ -314,7 +326,7 @@ void P2PEngine::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktVideoFeedPicAck" );
 
@@ -322,7 +334,7 @@ void P2PEngine::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileGetReq" );
 
@@ -330,7 +342,7 @@ void P2PEngine::onPktFileGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileGetReply" );
 
@@ -338,7 +350,7 @@ void P2PEngine::onPktFileGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileSendReq" );
 
@@ -346,7 +358,7 @@ void P2PEngine::onPktFileSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileSendReply" );
 
@@ -354,7 +366,7 @@ void P2PEngine::onPktFileSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileListReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileListReq" );
 
@@ -362,7 +374,7 @@ void P2PEngine::onPktFileListReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileListReply" );
 
@@ -370,7 +382,7 @@ void P2PEngine::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoReq" );
 
@@ -378,7 +390,7 @@ void P2PEngine::onPktFileInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileChunkReq" );
 
@@ -386,7 +398,7 @@ void P2PEngine::onPktFileChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileChunkReply" );
 
@@ -394,7 +406,7 @@ void P2PEngine::onPktFileChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileSendCompleteReq" );
 
@@ -402,7 +414,7 @@ void P2PEngine::onPktFileSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileSendCompleteReply" );
 
@@ -410,7 +422,7 @@ void P2PEngine::onPktFileSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void P2PEngine::onPktFileGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileGetCompleteReq" );
 
@@ -418,7 +430,7 @@ void P2PEngine::onPktFileGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileGetCompleteReply" );
 
@@ -426,7 +438,7 @@ void P2PEngine::onPktFileGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktFileShareErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileShareErr" );
 
@@ -434,7 +446,7 @@ void P2PEngine::onPktFileShareErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetGetReq" );
 
@@ -442,7 +454,7 @@ void P2PEngine::onPktAssetGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetGetReply" );
 
@@ -450,7 +462,7 @@ void P2PEngine::onPktAssetGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetSendReq" );
 
@@ -458,7 +470,7 @@ void P2PEngine::onPktAssetSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetSendReply" );
 
@@ -466,7 +478,7 @@ void P2PEngine::onPktAssetSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetChunkReq" );
 
@@ -474,7 +486,7 @@ void P2PEngine::onPktAssetChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetChunkReply" );
 
@@ -482,7 +494,7 @@ void P2PEngine::onPktAssetChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetGetCompleteReq" );
 
@@ -490,7 +502,7 @@ void P2PEngine::onPktAssetGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktAssetGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetGetCompleteReply" );
 
@@ -498,7 +510,7 @@ void P2PEngine::onPktAssetGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void P2PEngine::onPktAssetSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetSendCompleteReq" );
 
@@ -506,7 +518,7 @@ void P2PEngine::onPktAssetSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktAssetSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetSendCompleteReply" );
 
@@ -514,7 +526,7 @@ void P2PEngine::onPktAssetSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHd
 }
 
 //============================================================================
-void P2PEngine::onPktAssetXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktAssetXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktAssetXferErr" );
 
@@ -522,7 +534,7 @@ void P2PEngine::onPktAssetXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktMultiSessionReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMultiSessionReq" );
 
@@ -530,7 +542,7 @@ void P2PEngine::onPktMultiSessionReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktMultiSessionReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktMultiSessionReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMultiSessionReply" );
 
@@ -538,7 +550,7 @@ void P2PEngine::onPktMultiSessionReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktSessionStartReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktSessionStartReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktSessionStartReq" );
 
@@ -546,7 +558,7 @@ void P2PEngine::onPktSessionStartReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktSessionStartReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktSessionStartReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktSessionStartReply" );
 
@@ -554,7 +566,7 @@ void P2PEngine::onPktSessionStartReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktSessionStopReq" );
 
@@ -562,7 +574,7 @@ void P2PEngine::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktSessionStopReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktSessionStopReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktSessionStopReply" );
 
@@ -570,7 +582,7 @@ void P2PEngine::onPktSessionStopReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktMyPicSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktMyPicSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMyPicSendReq" );
 
@@ -578,7 +590,7 @@ void P2PEngine::onPktMyPicSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktMyPicSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktMyPicSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMyPicSendReply" );
 
@@ -586,7 +598,7 @@ void P2PEngine::onPktMyPicSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktWebServerPicChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktWebServerPicChunkTx( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktWebServerPicChunkTx" );
 
@@ -594,7 +606,7 @@ void P2PEngine::onPktWebServerPicChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktWebServerPicChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktWebServerPicChunkAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktWebServerPicChunkAck" );
 
@@ -602,7 +614,7 @@ void P2PEngine::onPktWebServerPicChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktWebServerGetChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktWebServerGetChunkTx( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktWebServerGetChunkTx" );
 
@@ -610,7 +622,7 @@ void P2PEngine::onPktWebServerGetChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktWebServerGetChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktWebServerGetChunkAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktWebServerGetChunkAck" );
 
@@ -618,7 +630,7 @@ void P2PEngine::onPktWebServerGetChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktWebServerPutChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktWebServerPutChunkTx( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktWebServerPutChunkTx" );
 
@@ -626,7 +638,7 @@ void P2PEngine::onPktWebServerPutChunkTx( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktWebServerPutChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktWebServerPutChunkAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktWebServerPutChunkAck" );
 
@@ -634,7 +646,7 @@ void P2PEngine::onPktWebServerPutChunkAck( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktTodGameStats( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTodGameStats" );
 
@@ -642,7 +654,7 @@ void P2PEngine::onPktTodGameStats( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktTodGameAction( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktTodGameAction( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTodGameAction" );
 
@@ -650,7 +662,7 @@ void P2PEngine::onPktTodGameAction( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktTodGameValue( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTodGameValue" );
 
@@ -658,16 +670,16 @@ void P2PEngine::onPktTodGameValue( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktTcpPunch( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktTcpPunch( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTcpPunch" );
 
 	PktTcpPunch * pktPunch = ( PktTcpPunch * )pktHdr;
-	VxSktBase* poNewSkt = 0;
-	if( 0 == m_NetConnector.directConnectTo( pktPunch->m_ConnectInfo, &poNewSkt, eConnectReasonPktTcpPunch ) )
+	std::shared_ptr<VxSktBase> poNewSkt;
+	if( 0 == m_NetConnector.directConnectTo( pktPunch->m_ConnectInfo, poNewSkt, eConnectReasonPktTcpPunch ) )
 	{
 		LogMsg( LOG_INFO, "P2PEngine:: TcpPunch SUCCESS" );
-		if( 0 != poNewSkt )
+		if( nullptr != poNewSkt )
 		{
 			LogMsg( LOG_INFO, "sendMyPktAnnounce 7" ); 
 			m_NetConnector.sendMyPktAnnounce(	pktPunch->m_ConnectInfo.getMyOnlineId(), 
@@ -684,7 +696,7 @@ void P2PEngine::onPktTcpPunch( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPingReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPingReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPingReq" );
 
@@ -696,7 +708,7 @@ void P2PEngine::onPktPingReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPingReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPingReply" );
 
@@ -721,7 +733,7 @@ void P2PEngine::onPktPingReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 
 
 //============================================================================
-void P2PEngine::onPktImAliveReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReq" );
 
@@ -734,7 +746,7 @@ void P2PEngine::onPktImAliveReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktImAliveReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktImAliveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReply" );
 
@@ -742,7 +754,7 @@ void P2PEngine::onPktImAliveReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktBlobSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobSendReq" );
 
@@ -750,7 +762,7 @@ void P2PEngine::onPktBlobSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktBlobSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobSendReply" );
 
@@ -758,7 +770,7 @@ void P2PEngine::onPktBlobSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktBlobChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobChunkReq" );
 
@@ -766,7 +778,7 @@ void P2PEngine::onPktBlobChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktBlobChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobChunkReply" );
 
@@ -774,7 +786,7 @@ void P2PEngine::onPktBlobChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktBlobSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobSendCompleteReq" );
 
@@ -782,7 +794,7 @@ void P2PEngine::onPktBlobSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktBlobSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobSendCompleteReply" );
 
@@ -790,7 +802,7 @@ void P2PEngine::onPktBlobSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void P2PEngine::onPktBlobXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktBlobXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktBlobXferErr" );
 
@@ -798,49 +810,49 @@ void P2PEngine::onPktBlobXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostJoinReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostJoinReq" );
     m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
 
 //============================================================================
-void P2PEngine::onPktHostJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostJoinReply" );
     m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
 
 //============================================================================
-void P2PEngine::onPktHostLeaveReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostLeaveReq" );
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
 
 //============================================================================
-void P2PEngine::onPktHostLeaveReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostLeaveReply" );
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
 
 //============================================================================
-void P2PEngine::onPktHostUnJoinReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUnJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUnJoinReq" );
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
 
 //============================================================================
-void P2PEngine::onPktHostUnJoinReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUnJoinReply" );
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
 
 //============================================================================
-void P2PEngine::onPktHostSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostSearchReq" );
 
@@ -848,7 +860,7 @@ void P2PEngine::onPktHostSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostSearchReply" );
 
@@ -856,7 +868,7 @@ void P2PEngine::onPktHostSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostOfferReq" );
 
@@ -864,7 +876,7 @@ void P2PEngine::onPktHostOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostOfferReply" );
 
@@ -872,7 +884,7 @@ void P2PEngine::onPktHostOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFriendOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFriendOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFriendOfferReq" );
 
@@ -880,7 +892,7 @@ void P2PEngine::onPktFriendOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFriendOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFriendOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFriendOfferReply" );
 
@@ -888,7 +900,7 @@ void P2PEngine::onPktFriendOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbGetReq" );
 
@@ -896,7 +908,7 @@ void P2PEngine::onPktThumbGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbGetReply" );
 
@@ -904,7 +916,7 @@ void P2PEngine::onPktThumbGetReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbSendReq" );
 
@@ -912,7 +924,7 @@ void P2PEngine::onPktThumbSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbSendReply" );
 
@@ -920,7 +932,7 @@ void P2PEngine::onPktThumbSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbChunkReq" );
 
@@ -928,7 +940,7 @@ void P2PEngine::onPktThumbChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbChunkReply" );
 
@@ -936,7 +948,7 @@ void P2PEngine::onPktThumbChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbGetCompleteReq" );
 
@@ -944,7 +956,7 @@ void P2PEngine::onPktThumbGetCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktThumbGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbGetCompleteReply" );
 
@@ -952,7 +964,7 @@ void P2PEngine::onPktThumbGetCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void P2PEngine::onPktThumbSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbSendCompleteReq" );
 
@@ -960,7 +972,7 @@ void P2PEngine::onPktThumbSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktThumbSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbSendCompleteReply" );
 
@@ -968,7 +980,7 @@ void P2PEngine::onPktThumbSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHd
 }
 
 //============================================================================
-void P2PEngine::onPktThumbXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktThumbXferErr" );
 
@@ -977,7 +989,7 @@ void P2PEngine::onPktThumbXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
 
 // offers
 //============================================================================
-void P2PEngine::onPktOfferSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferSendReq" );
 
@@ -985,7 +997,7 @@ void P2PEngine::onPktOfferSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktOfferSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferSendReply" );
 
@@ -993,7 +1005,7 @@ void P2PEngine::onPktOfferSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktOfferChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferChunkReq" );
 
@@ -1001,7 +1013,7 @@ void P2PEngine::onPktOfferChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktOfferChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferChunkReply" );
 
@@ -1009,7 +1021,7 @@ void P2PEngine::onPktOfferChunkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktOfferSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferSendCompleteReq" );
 
@@ -1017,7 +1029,7 @@ void P2PEngine::onPktOfferSendCompleteReq( VxSktBase* sktBase, VxPktHdr* pktHdr 
 }
 
 //============================================================================
-void P2PEngine::onPktOfferSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferSendCompleteReply" );
 
@@ -1025,7 +1037,7 @@ void P2PEngine::onPktOfferSendCompleteReply( VxSktBase* sktBase, VxPktHdr* pktHd
 }
 
 //============================================================================
-void P2PEngine::onPktOfferXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktOfferXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktOfferXferErr" );
 
@@ -1033,7 +1045,7 @@ void P2PEngine::onPktOfferXferErr( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPushToTalkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPushToTalkReq" );
 
@@ -1041,7 +1053,7 @@ void P2PEngine::onPktPushToTalkReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPushToTalkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPushToTalkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPushToTalkReply" );
 
@@ -1049,7 +1061,7 @@ void P2PEngine::onPktPushToTalkReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPushToTalkStart( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPushToTalkStart" );
 
@@ -1057,7 +1069,7 @@ void P2PEngine::onPktPushToTalkStart( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktPushToTalkStop( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktPushToTalkStop( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktPushToTalkStop" );
 
@@ -1066,7 +1078,7 @@ void P2PEngine::onPktPushToTalkStop( VxSktBase* sktBase, VxPktHdr* pktHdr )
 
 
 //============================================================================
-void P2PEngine::onPktMembershipReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktMembershipReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMembershipReq" );
 
@@ -1089,7 +1101,7 @@ void P2PEngine::onPktMembershipReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktMembershipReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktMembershipReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMembershipReply" );
 
@@ -1150,7 +1162,7 @@ EMembershipState P2PEngine::getMembershipState( PktAnnounce& myPktAnn, VxNetIden
 }
 
 //============================================================================
-void P2PEngine::onPktHostInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInfoReq" );
 
@@ -1158,7 +1170,7 @@ void P2PEngine::onPktHostInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInfoReply" );
 
@@ -1166,7 +1178,7 @@ void P2PEngine::onPktHostInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostInviteAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteAnnReq" );
 
@@ -1174,7 +1186,7 @@ void P2PEngine::onPktHostInviteAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostInviteAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInviteAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteAnnReply" );
 
@@ -1182,7 +1194,7 @@ void P2PEngine::onPktHostInviteAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostInviteSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteSearchReq" );
 
@@ -1190,7 +1202,7 @@ void P2PEngine::onPktHostInviteSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteSearchReply" );
 
@@ -1198,7 +1210,7 @@ void P2PEngine::onPktHostInviteSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void P2PEngine::onPktHostInviteMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteMoreReq" );
 
@@ -1206,7 +1218,7 @@ void P2PEngine::onPktHostInviteMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteMoreReply" );
 
@@ -1214,7 +1226,7 @@ void P2PEngine::onPktHostInviteMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieInfoReq" );
 
@@ -1222,7 +1234,7 @@ void P2PEngine::onPktGroupieInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieInfoReply" );
 
@@ -1230,7 +1242,7 @@ void P2PEngine::onPktGroupieInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieAnnReq" );
 
@@ -1238,7 +1250,7 @@ void P2PEngine::onPktGroupieAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieAnnReply" );
 
@@ -1246,7 +1258,7 @@ void P2PEngine::onPktGroupieAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieSearchReq" );
 
@@ -1254,7 +1266,7 @@ void P2PEngine::onPktGroupieSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieSearchReply" );
 
@@ -1262,7 +1274,7 @@ void P2PEngine::onPktGroupieSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieMoreReq" );
 
@@ -1270,7 +1282,7 @@ void P2PEngine::onPktGroupieMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktGroupieMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieMoreReply" );
 
@@ -1278,7 +1290,7 @@ void P2PEngine::onPktGroupieMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoInfoReq" );
 
@@ -1286,7 +1298,7 @@ void P2PEngine::onPktFileInfoInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoInfoReply" );
 
@@ -1294,7 +1306,7 @@ void P2PEngine::onPktFileInfoInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoAnnReq" );
 
@@ -1302,7 +1314,7 @@ void P2PEngine::onPktFileInfoAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoAnnReply" );
 
@@ -1310,7 +1322,7 @@ void P2PEngine::onPktFileInfoAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoSearchReq" );
 
@@ -1318,7 +1330,7 @@ void P2PEngine::onPktFileInfoSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoSearchReply" );
 
@@ -1326,7 +1338,7 @@ void P2PEngine::onPktFileInfoSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoMoreReq" );
 
@@ -1334,7 +1346,7 @@ void P2PEngine::onPktFileInfoMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFileInfoMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoMoreReply" );
 
@@ -1342,7 +1354,7 @@ void P2PEngine::onPktFileInfoMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReq" );
 
@@ -1350,7 +1362,7 @@ void P2PEngine::onPktHostUserInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReply" );
 
@@ -1358,7 +1370,7 @@ void P2PEngine::onPktHostUserInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserStatusReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReq" );
 
@@ -1366,7 +1378,7 @@ void P2PEngine::onPktHostUserStatusReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReply" );
 
@@ -1374,7 +1386,7 @@ void P2PEngine::onPktHostUserStatusReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserListReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReq" );
 
@@ -1382,7 +1394,7 @@ void P2PEngine::onPktHostUserListReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReply" );
 
@@ -1390,7 +1402,7 @@ void P2PEngine::onPktHostUserListReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserListMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReq" );
 
@@ -1398,7 +1410,7 @@ void P2PEngine::onPktHostUserListMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktHostUserListMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReply" );
 

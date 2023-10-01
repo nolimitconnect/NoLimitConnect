@@ -19,7 +19,7 @@
 #include <PktLib/VxCommon.h>
 
 //============================================================================
-void P2PEngine::onPktScanReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktScanReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	VxNetIdent* netIdent = m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
 	if( netIdent )
@@ -36,7 +36,7 @@ void P2PEngine::onPktScanReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktScanReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktScanReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	VxNetIdent* netIdent = m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
 	if( netIdent )
@@ -53,7 +53,7 @@ void P2PEngine::onPktScanReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFindFileReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFindFileReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	VxNetIdent* netIdent = m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
 	if( netIdent )
@@ -69,7 +69,7 @@ void P2PEngine::onPktFindFileReq( VxSktBase* sktBase, VxPktHdr* pktHdr )
 }
 
 //============================================================================
-void P2PEngine::onPktFindFileReply( VxSktBase* sktBase, VxPktHdr* pktHdr )
+void P2PEngine::onPktFindFileReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	VxNetIdent* netIdent = m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
 	if( netIdent )

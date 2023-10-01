@@ -19,12 +19,9 @@
 
 
 //============================================================================
-RcScanMatchedConnection::RcScanMatchedConnection( VxNetIdent* netIdent, VxSktBase* sktBase )
+RcScanMatchedConnection::RcScanMatchedConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 : m_Ident( netIdent )
 , m_Skt( sktBase )
-, m_ActionStartTimeMs( 0 )
-, m_u8JpgData( 0 )
-, m_u32JpgDataLen( 0 )
 {
 }
 

@@ -19,11 +19,11 @@ class RcScanPic
 public:
 	//=== vars ===//
 	VxNetIdent*		m_Ident; 
-	VxSktBase*			m_Skt;
+	std::shared_ptr<VxSktBase>&			m_Skt;
 	uint8_t *				m_u8JpgData;
 	uint32_t					m_u32JpgDataLen;
 
-	RcScanPic( VxNetIdent* netIdent, VxSktBase* sktBase, uint8_t * u8JpgData, uint32_t u32JpgDataLen )
+	RcScanPic( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, uint8_t * u8JpgData, uint32_t u32JpgDataLen )
 		: m_Ident(netIdent)
 		, m_Skt(sktBase)
 		, m_u8JpgData(u8JpgData)

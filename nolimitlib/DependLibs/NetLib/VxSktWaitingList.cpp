@@ -20,18 +20,8 @@
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================
-VxSktWaitReason::VxSktWaitReason()
-: m_Skt(0)
-, m_Pkt(0)
-, m_u64TimeExpires(0)
-, m_u32WaitReason(0)
-{
-}
-
-//============================================================================
-VxSktWaitReason::VxSktWaitReason( VxSktBase* sktBase, uint32_t u32WaitReason, uint64_t u32TimeExpiresSysTimeMs, VxPktHdr* poPkt, void * pvWaitReason )
+VxSktWaitReason::VxSktWaitReason( std::shared_ptr<VxSktBase>& sktBase, uint32_t u32WaitReason, uint64_t u32TimeExpiresSysTimeMs, VxPktHdr* poPkt, void * pvWaitReason )
 : m_Skt(sktBase)
-, m_Pkt(0)
 , m_u64TimeExpires( u32TimeExpiresSysTimeMs )
 , m_u32WaitReason( u32WaitReason )
 , m_pvWaitInstance( pvWaitReason )
@@ -52,7 +42,7 @@ VxSktWaitReason::VxSktWaitReason( const VxSktWaitReason& rhs )
 VxSktWaitReason::~VxSktWaitReason()
 {
 	delete m_Pkt;
-	m_Pkt = 0;
+	m_Pkt = nullptr;
 }
 
 //============================================================================
@@ -145,7 +135,7 @@ void VxSktWaitingList::onOncePerSecond( void )
 }
 
 //============================================================================
-void VxSktWaitingList::onConnectionLost( VxSktBase* sktBase )
+void VxSktWaitingList::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( m_SktWaitList.size() )
 	{
@@ -188,7 +178,7 @@ void VxSktWaitingList::onConnectionLost( VxSktBase* sktBase )
 }
 
 //============================================================================
-void VxSktWaitingList::addWaiting(	VxSktBase*		sktBase, 
+void VxSktWaitingList::addWaiting(	std::shared_ptr<VxSktBase>&		sktBase, 
 									uint32_t				u32WaitReason, 
 									uint64_t				u64TimeExpiresSysTimeMs, 
 									VxPktHdr*		poPkt, 
@@ -204,7 +194,7 @@ void VxSktWaitingList::addWaiting(	VxSktBase*		sktBase,
 }
 
 //============================================================================
-void VxSktWaitingList::removeWaiting( VxSktBase* sktBase, uint32_t u32WaitReason, void * pvWaitInstance )
+void VxSktWaitingList::removeWaiting( std::shared_ptr<VxSktBase>& sktBase, uint32_t u32WaitReason, void * pvWaitInstance )
 {
 	if( m_SktWaitList.size() )
 	{

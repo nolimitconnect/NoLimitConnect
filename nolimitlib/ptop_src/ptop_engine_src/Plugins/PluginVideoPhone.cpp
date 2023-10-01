@@ -138,14 +138,14 @@ bool PluginVideoPhone::fromGuiInstMsg(	VxNetIdent*	netIdent,
 }
 
 //============================================================================
-void PluginVideoPhone::onPktChatReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktChatReq * pkt = (PktChatReq *)pktHdr;
 	IToGui::getToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)pkt->getDataPayload() );
 }
 
 //============================================================================
-void PluginVideoPhone::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onPktPluginOfferReq %s start", netIdent->getOnlineName() );
@@ -157,7 +157,7 @@ void PluginVideoPhone::onPktPluginOfferReq( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void PluginVideoPhone::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onPktPluginOfferReply %s start", netIdent->getOnlineName() );
@@ -169,7 +169,7 @@ void PluginVideoPhone::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVideoFeedReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_INFO, "PluginVideoPhone::onPktVideoFeedReq %s start\n", netIdent->getOnlineName() );
 	m_VideoFeedMgr.onPktVideoFeedReq( sktBase, pktHdr, netIdent );
@@ -177,13 +177,13 @@ void PluginVideoPhone::onPktVideoFeedReq( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVideoFeedStatus( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedStatus( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_INFO, "PluginVideoPhone::onPktVideoFeedPic %s start\n", netIdent->getOnlineName() );
 	m_VideoFeedMgr.onPktVideoFeedPic( sktBase, pktHdr, netIdent );
@@ -191,19 +191,19 @@ void PluginVideoPhone::onPktVideoFeedPic( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVideoFeedPicChunk( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPicChunk( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVideoFeedPicAck( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VideoFeedMgr.onPktVideoFeedPicAck( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
-void PluginVideoPhone::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onPktSessionStopReq %s start", netIdent->getOnlineName() );
@@ -215,7 +215,7 @@ void PluginVideoPhone::onPktSessionStopReq( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_INFO, "PluginVideoPhone::onPktVoiceReq %s start\n", netIdent->getOnlineName() );
 	m_VoiceFeedMgr.onPktVoiceReq( sktBase, pktHdr, netIdent );
@@ -223,7 +223,7 @@ void PluginVideoPhone::onPktVoiceReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNe
 }
 
 //============================================================================
-void PluginVideoPhone::onPktVoiceReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginVideoPhone::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_VoiceFeedMgr.onPktVoiceReply( sktBase, pktHdr, netIdent );
 }
@@ -285,19 +285,19 @@ void PluginVideoPhone::onSessionEnded( PluginSessionBase* session, bool pluginIs
 }
 
 //============================================================================
-void PluginVideoPhone::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void PluginVideoPhone::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
 }
 
 //============================================================================
-void PluginVideoPhone::onConnectionLost( VxSktBase* sktBase )
+void PluginVideoPhone::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_PluginSessionMgr.onConnectionLost( sktBase );
 }
 
 //============================================================================
-void PluginVideoPhone::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void PluginVideoPhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, netIdent );
 	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, netIdent );

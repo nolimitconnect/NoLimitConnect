@@ -178,6 +178,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_PlayerMgr( *this )
 , m_PluginMgr( *this )
 , m_WebPageMgr( *this )
+
 , m_MyIcons( *this )
 , m_AppTheme( *this )
 , m_AppStyle( *this, m_AppTheme )

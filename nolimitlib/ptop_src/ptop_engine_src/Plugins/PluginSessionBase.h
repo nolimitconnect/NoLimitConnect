@@ -44,8 +44,8 @@ class PluginSessionBase
 {
 public:
 	PluginSessionBase();
-	PluginSessionBase( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-	PluginSessionBase( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
 	virtual ~PluginSessionBase();
 
 	virtual void				setPluginType( EPluginType pluginType );
@@ -54,8 +54,8 @@ public:
 	virtual VxNetIdent*			getIdent( void );
 	virtual const char*			getOnlineName( void );
 	virtual VxGUID&				getOnlineId( void );
-	virtual void				setSkt( VxSktBase* sktBase );
-	virtual VxSktBase*			getSkt( void );
+	virtual void				setSkt( std::shared_ptr<VxSktBase>& sktBase );
+	virtual std::shared_ptr<VxSktBase>&			getSkt( void );
 	virtual void				setSessionType( EPluginSessionType sessionType );
 	virtual EPluginSessionType	getSessionType( void );
 	virtual OpusAudioDecoder *	getAudioDecoder( void ); // will create decoder if doesn't already exist
@@ -94,19 +94,19 @@ public:
 
 protected:
 	//=== vars ===//
-	EPluginType					m_ePluginType;
-	VxNetIdent*					m_Ident;
-	VxSktBase*					m_Skt;
-	EPluginSessionType			m_ePluginSessionType;
-	bool						m_bSessionStarted;
-	bool						m_bRmtInitiatedSession;
-	bool						m_bTest;
+	EPluginType					m_ePluginType{ ePluginTypeInvalid };
+	VxNetIdent* 				m_Ident{ nullptr };
+	std::shared_ptr<VxSktBase>	m_Skt;
+	EPluginSessionType			m_ePluginSessionType{ ePluginSessionTypeUnknown };
+	bool						m_bSessionStarted{ false };
+	bool						m_bRmtInitiatedSession{ false };
+	bool						m_bTest{ false };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
 	OfferBaseInfo				m_OfferInfo;
-	EOfferResponse				m_eOfferResponse;
-	OpusAudioDecoder *			m_AudioDecoder;
+	EOfferResponse				m_eOfferResponse{ eOfferResponseNotSet };
+	OpusAudioDecoder *			m_AudioDecoder{ nullptr };
 	AudioJitterBuffer			m_JitterBuffer;
 
 	VxSemaphore					m_TestSemaphore; // semaphore used for synchronous tests

@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #define SKT_ALIVE_TIMEOUT (2 * 60 * 1000)
 
@@ -46,16 +47,16 @@ public:
 
 
 	//! make a new socket... give derived classes a chance to override
-	virtual VxSktBase*			makeNewSkt( void );
+	virtual std::shared_ptr<VxSktBase>			makeNewSkt( void );
 	//! make a new socket... give derived classes a chance to override
-	virtual VxSktBase*			makeNewAcceptSkt( void );
+	virtual std::shared_ptr<VxSktBase>			makeNewAcceptSkt( void );
 
 
 	//! User must Set Receive Callback
 	virtual void				setReceiveCallback( VX_SKT_CALLBACK pfnReceive, void* pvUserData = nullptr );
 	virtual void				setSktMgrStatusCallback( VX_SKT_MGR_STATUS_CALLBACK pfnSktMgrStatus, void* pvUserData = nullptr );
 
-	virtual void				handleSktCloseEvent( VxSktBase* sktBase );
+	virtual void				handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase );
 	
 	//! Send to all connections.. if crypto is set send encrypted else send raw
 	virtual void				sendToAll(	char * pvData,			// data to send
@@ -71,39 +72,39 @@ public:
 
 	//=== functions that should only be called by derived classes ===//
 	//! handle callbacks from sockets
-	virtual	void				doReceiveCallback( VxSktBase* sktBase );
+	virtual	void				doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase );
 	//! handle transmit callbacks from sockets
-	virtual	void				doTransmitCallback( VxSktBase* sktBase );
+	virtual	void				doTransmitCallback( std::shared_ptr<VxSktBase>& sktBase );
 	//! lock access from other threads
 	virtual void				sktBaseMgrLock( void );
 	//! unlock access from other threads
 	virtual void				sktBaseMgrUnlock( void );
 	//! add a new socket to manage
-	virtual void				addSkt( VxSktBase* sktBase );
+	virtual void				addSkt( std::shared_ptr<VxSktBase>& sktBase );
 	//! remove a socket from management
-	virtual RCODE				removeSkt(	VxSktBase*	sktBase,				// skt to remove
+	virtual RCODE				removeSkt(	std::shared_ptr<VxSktBase>&	sktBase,				// skt to remove
 											bool		bDelete = true );	    // if true delete the skt
-	virtual bool				isSktActive( VxSktBase* sktBase );
+	virtual bool				isSktActive( std::shared_ptr<VxSktBase>& sktBase );
 
     //! move to erase/delete when safe to do so
-    virtual void				moveToEraseList( VxSktBase* sktBase );
+    virtual void				moveToEraseList( std::shared_ptr<VxSktBase>& sktBase );
 
 	virtual void				lockSktList( void )								{ m_SktListMutex.lock(); }
     virtual void				unlockSktList( void )							{ m_SktListMutex.unlock(); }
 	// find a socket.. assumes list has been locked
-	virtual VxSktBase*			findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false );
+	virtual std::shared_ptr<VxSktBase>&			findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false );
 
     virtual void                dumpSocketStats( const char* reason = nullptr, bool fullDump = false );
 
-    virtual void                setSktLoopback( VxSktBase* sktLoopback )       { m_SktLoopback = sktLoopback; }
+    virtual void                setSktLoopback( std::shared_ptr<VxSktBase>& sktLoopback )       { m_SktLoopback = sktLoopback; }
 
 	virtual bool				closeConnection( VxGUID& connectId, ESktCloseReason closeReason );
 
 	//=== vars ===//
 	RCODE						m_rcLastError{ 0 };
     ESktMgrType					m_eSktMgrType{ eSktMgrTypeNone };   // type of sockets we manage
-	std::vector<VxSktBase*>		m_aoSkts;					        // array of sockets to manage
-	std::vector<VxSktBase*>		m_aoSktsToDelete;			        // skts that will be deleted after 10 sec 
+	std::vector<std::shared_ptr<VxSktBase>>		m_aoSkts;					        // array of sockets to manage
+	std::vector<std::shared_ptr<VxSktBase>>		m_aoSktsToDelete;			        // skts that will be deleted after 10 sec 
 	VxMutex						m_SktMgrMutex;			            // thread mutex
 	VxMutex						m_SktListMutex;			            // thread mutex
 
@@ -126,6 +127,6 @@ protected:
     virtual void                doSktDeleteCleanup( void );
 	virtual void				deleteAllSockets( void );
 
-    VxSktBase*					m_SktLoopback{ nullptr };	        
+    std::shared_ptr<VxSktBase>	m_SktLoopback;	        
 };
 

@@ -40,7 +40,7 @@ void PluginConnectionTestHost::testIsMyPortOpen( void )
 }
 
 //============================================================================
-RCODE PluginConnectionTestHost::handlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr )
+RCODE PluginConnectionTestHost::handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
     //if( false == m_NetServiceUtil.isAllHttpContentArrived( sktBase ) )
     //{
@@ -61,7 +61,7 @@ RCODE PluginConnectionTestHost::handlePtopConnection( VxSktBase* sktBase, NetSer
 }
 
 //============================================================================
-RCODE PluginConnectionTestHost::internalHandlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr )
+RCODE PluginConnectionTestHost::internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
     switch( netServiceHdr.m_NetCmdType )
     {

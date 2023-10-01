@@ -30,18 +30,18 @@ class AssetXferSession
 {
 public:
 	AssetXferSession( P2PEngine& engine );
-	AssetXferSession( P2PEngine& engine, VxSktBase* sktBase, VxNetIdent* netIdent );
-	AssetXferSession( P2PEngine& engine, VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent );
+	AssetXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	AssetXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 	virtual ~AssetXferSession();
 
 	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
-	VxNetIdent*				getIdent( void )							{ return m_Ident; }
+	VxNetIdent*					getIdent( void )							{ return m_Ident; }
 
 	void						setAssetInfo( AssetInfo& assetInfo )		{ m_AssetInfo = assetInfo; }
 	AssetInfo&					getAssetInfo( void )						{ return m_AssetInfo; }
 
-	void						setSkt( VxSktBase* skt )					{ m_Skt = skt; }
-	VxSktBase*					getSkt( void )								{ return m_Skt; }
+	void						setSkt( std::shared_ptr<VxSktBase>& skt )	{ m_Skt = skt; }
+	std::shared_ptr<VxSktBase>&	getSkt( void )								{ return m_Skt; }
 
 	void						setLclSessionId( VxGUID& lclId )			{ m_FileXferInfo.setLclSessionId( lclId ); }
 	VxGUID&						getLclSessionId( void )						{ return m_FileXferInfo.getLclSessionId(); }
@@ -73,10 +73,10 @@ public:
 protected:
 	P2PEngine&					m_Engine; 
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
-	int							m_iPercentComplete;
-	VxSktBase*					m_Skt;
-	VxNetIdent*				m_Ident;
-    uint32_t					m_Error;
+	int							m_iPercentComplete{ 0 };
+	std::shared_ptr<VxSktBase>	m_Skt;
+	VxNetIdent*					m_Ident{ nullptr };
+	uint32_t					m_Error{ 0 };
 	AssetInfo					m_AssetInfo;
 
 private:

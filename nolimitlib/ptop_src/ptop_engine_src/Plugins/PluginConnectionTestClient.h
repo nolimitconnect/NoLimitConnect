@@ -25,16 +25,16 @@ public:
     PluginConnectionTestClient() = delete; // don't allow default constructor
     PluginConnectionTestClient( const PluginConnectionTestClient& ) = delete; // don't allow copy constructor
 
-    virtual RCODE				handlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr ) override;
+    virtual RCODE				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr ) override;
 
     void						testIsMyPortOpen( void );
 
 protected:
-    RCODE						internalHandlePtopConnection( VxSktBase* sktBase, NetServiceHdr& netServiceHdr );
+    RCODE						internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 
-    virtual void				replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt ) override	{};
-    virtual void				onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase ) override	{};
-    virtual void				onConnectionLost( VxSktBase* sktBase ) override {};
+    virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override	{};
+    virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override	{};
+    virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override {};
 
     //=== vars ===//
     NetServicesMgr&				m_NetServicesMgr;

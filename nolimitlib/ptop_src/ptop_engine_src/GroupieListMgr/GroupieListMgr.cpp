@@ -22,6 +22,7 @@
 #include <ptop_src/ptop_engine_src/Plugins/PluginBaseHostService.h>
 
 #include <CoreLib/VxPtopUrl.h>
+#include <NetLib/VxSktBase.h>
 #include <PktLib/PktsGroupie.h>
 #include <PktLib/GroupieId.h>
 
@@ -95,7 +96,7 @@ void GroupieListMgr::updateGroupie( VxGUID& groupieOnlineId, VxGUID& hostOnlineI
 }
 
 //============================================================================
-void GroupieListMgr::updateGroupieList( VxNetIdent* netIdent, VxSktBase* sktBase )
+void GroupieListMgr::updateGroupieList( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     if( !netIdent || !sktBase )
     {
@@ -242,7 +243,7 @@ void GroupieListMgr::announceGroupieInfoSearchResult( GroupieInfo* groupieInfo, 
 }
 
 //============================================================================
-void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& nodeUrl, VxNetIdent* netIdent, VxSktBase* sktBase )
+void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool requiresSendGroupieInfoRequest{ false };
     bool requiresAnnounceUpdate{ false };
@@ -425,7 +426,7 @@ bool GroupieListMgr::updateGroupieUrlAndTitleAndDescription( VxGUID& groupieOnli
 }
 
 //============================================================================
-bool GroupieListMgr::requestGroupieInfo( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, VxNetIdent* netIdent, VxSktBase* sktBase )
+bool GroupieListMgr::requestGroupieInfo( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool result{ false };
     // only hosts that announce to network respond to Host Info requests
@@ -478,7 +479,7 @@ bool GroupieListMgr::fromGuiQueryGroupieInfoList( EHostType hostType, std::vecto
 }
 
 //============================================================================
-bool GroupieListMgr::onContactConnected( VxGUID& sessionId, VxSktBase* sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool GroupieListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
 {
     if( eConnectReasonNetworkHostListSearch == connectReason )
     {
@@ -579,7 +580,7 @@ void GroupieListMgr::addToListInJoinedTimestampOrder( std::vector<GroupieInfo>& 
 }
 
 //============================================================================
-void GroupieListMgr::groupieSearchResult( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, GroupieInfo& groupieInfo )
+void GroupieListMgr::groupieSearchResult( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, GroupieInfo& groupieInfo )
 {
     GroupieInfo resultInfo;
     if( updateGroupieInfo( hostType, groupieInfo, netIdent, sktBase, &resultInfo ) )
@@ -590,7 +591,7 @@ void GroupieListMgr::groupieSearchResult( EHostType hostType, VxGUID& searchSess
 }
 
 //============================================================================
-void GroupieListMgr::groupieSearchCompleted( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, ECommErr commErr )
+void GroupieListMgr::groupieSearchCompleted( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
 {
     if( commErr )
     {
@@ -605,14 +606,14 @@ void GroupieListMgr::groupieSearchCompleted( EHostType hostType, VxGUID& searchS
 }
 
 //============================================================================
-void GroupieListMgr::onGroupieAnnounceAdded( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, VxSktBase* sktBase )
+void GroupieListMgr::onGroupieAnnounceAdded( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     LogMsg( LOG_VERBOSE, "GroupieListMgr::onGroupieAnnounceAdded %s from %s ", DescribeHostType( hostType), netIdent->getOnlineName() );
     updateGroupieInfo( hostType, groupieInfo, netIdent, sktBase );
 }
 
 //============================================================================
-void GroupieListMgr::onGroupieAnnounceUpdated( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, VxSktBase* sktBase )
+void GroupieListMgr::onGroupieAnnounceUpdated( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     LogMsg( LOG_VERBOSE, "GroupieListMgr::onGroupieAnnounceUpdated %s from %s ", DescribeHostType( hostType ), netIdent->getOnlineName() );
     updateGroupieInfo( hostType, groupieInfo, netIdent, sktBase );
@@ -620,7 +621,7 @@ void GroupieListMgr::onGroupieAnnounceUpdated( EHostType hostType, GroupieInfo& 
 
 //============================================================================
 // returns true if retGroupieInfo was filled
-bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, VxSktBase* sktBase, GroupieInfo* retResultInfo )
+bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, GroupieInfo* retResultInfo )
 {
     VxPtopUrl ptopUrl( groupieInfo.getGroupieUrl() );
     if( !ptopUrl.isValid() )
@@ -753,7 +754,7 @@ bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupie
 
 
 //============================================================================
-void GroupieListMgr::onHostJoinedByUser( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void GroupieListMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), sessionInfo.getHostType() );
 
@@ -767,13 +768,13 @@ void GroupieListMgr::onHostJoinedByUser( VxSktBase* sktBase, VxNetIdent* netIden
 }
 
 //============================================================================
-void GroupieListMgr::onHostLeftByUser( VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void GroupieListMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     // probably could be removed. host join state is managed by HostJoinMgr
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
 {
     LogMsg( LOG_VERBOSE, "PluginBaseHostService got groupie info request" );
     PktGroupieInfoReq* pktReq = ( PktGroupieInfoReq* )pktHdr;
@@ -809,7 +810,7 @@ void GroupieListMgr::onPktGroupieInfoReq( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
+void GroupieListMgr::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
 {
     bool result{ false };
     PktGroupieInfoReply* pktReply = ( PktGroupieInfoReply* )pktHdr;
@@ -867,7 +868,7 @@ void GroupieListMgr::onPktGroupieInfoReply( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
 {
     PktGroupieAnnounceReq* pktReq = ( PktGroupieAnnounceReq* )pktHdr;
     PktGroupieAnnounceReply pktReply;
@@ -909,13 +910,13 @@ void GroupieListMgr::onPktGroupieAnnReq( VxSktBase* sktBase, VxPktHdr* pktHdr, V
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieAnnReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
+void GroupieListMgr::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
 {
     // nothing to do I think
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
 {
     LogMsg( LOG_DEBUG, "PluginBaseHostService onPktGroupieSearchReq" );
     PktGroupieSearchReq* pktReq = ( PktGroupieSearchReq* )pktHdr;
@@ -1057,7 +1058,7 @@ void GroupieListMgr::onPktGroupieSearchReq( VxSktBase* sktBase, VxPktHdr* pktHdr
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieSearchReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
+void GroupieListMgr::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
 {
     PktGroupieSearchReply* pktReply = ( PktGroupieSearchReply* )pktHdr;
     if( pktReply->getCommError() )
@@ -1083,7 +1084,7 @@ void GroupieListMgr::onPktGroupieSearchReply( VxSktBase* sktBase, VxPktHdr* pktH
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
 {
     PktGroupieMoreReq* pktReq = ( PktGroupieMoreReq* )pktHdr;
     PktGroupieMoreReply pktReply;
@@ -1134,7 +1135,7 @@ void GroupieListMgr::onPktGroupieMoreReq( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieMoreReply( VxSktBase* sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
+void GroupieListMgr::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin )
 {
     PktGroupieMoreReply* pktReply = ( PktGroupieMoreReply* )pktHdr;
     if( pktReply->getCommError() )
@@ -1209,13 +1210,13 @@ bool GroupieListMgr::getGroupieUrlAndTitleAndDescription( GroupieId& groupieId, 
 }
 
 //============================================================================
-void GroupieListMgr::logCommError( ECommErr commErr, const char* desc, VxSktBase* sktBase, VxNetIdent* netIdent )
+void GroupieListMgr::logCommError( ECommErr commErr, const char* desc, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     LogMsg( LOG_ERROR, "%s %s from %s %s", desc, DescribeCommError( commErr ), netIdent->getOnlineName(), sktBase->describeSktConnection().c_str() );
 }
 
 //============================================================================
-void GroupieListMgr::updateFromGroupieSearchBlob( EHostType hostType, VxGUID& searchSessionId, VxGUID& hostOnlineId, VxSktBase* sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
+void GroupieListMgr::updateFromGroupieSearchBlob( EHostType hostType, VxGUID& searchSessionId, VxGUID& hostOnlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
 {
     blobEntry.resetRead();
     for( int i = 0; i < hostInfoCount; i++ )
@@ -1237,7 +1238,7 @@ void GroupieListMgr::updateFromGroupieSearchBlob( EHostType hostType, VxGUID& se
 }
 
 //============================================================================
-bool GroupieListMgr::requestMoreGroupiesFromHost( EHostType hostType, VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, VxGUID& nextGroupieOnlineId, PluginBase* plugin )
+bool GroupieListMgr::requestMoreGroupiesFromHost( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextGroupieOnlineId, PluginBase* plugin )
 {
     PktHostInviteMoreReq pktReq;
     pktReq.setHostType( hostType );
@@ -1256,7 +1257,7 @@ void GroupieListMgr::connectToGroupieIfPossible( GroupieInfo& groupieInfo, EConn
         {
             VxGUID sessionId;
             sessionId.initializeWithNewVxGUID();
-            VxSktBase* sktBase = nullptr;
+            std::shared_ptr<VxSktBase> sktBase( nullptr );
             m_Engine.getConnectionMgr().requestConnection( sessionId, ptopUrl.getUrl(), ptopUrl.getOnlineId(), this, sktBase, connectReason );
         }     
     }

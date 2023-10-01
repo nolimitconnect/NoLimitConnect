@@ -39,7 +39,7 @@ public:
 
 	// overrides SktMgrBase
 	//! make a new socket... give derived classes a chance to override
-	virtual VxSktBase*			makeNewAcceptSkt( void );
+	virtual std::shared_ptr<VxSktBase> makeNewAcceptSkt( void );
 
 	virtual bool				isReadyToAcceptConnections( void )			{ return m_IsReadyToAcceptConnections; }
     virtual bool				isListening( void );
@@ -57,7 +57,7 @@ public:
 
 public:
     VxThread					m_ListenVxThread;		// thread to listen for incoming connections
-    int							m_iMgrId = 0;									// unique id for this manager
+    int							m_iMgrId{ 0 };									// unique id for this manager
 
 protected:
     RCODE						internalStartListen( void );

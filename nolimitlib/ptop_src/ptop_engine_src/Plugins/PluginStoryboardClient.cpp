@@ -19,6 +19,7 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
+#include <NetLib/VxSktBase.h>
 
 //============================================================================
 PluginStoryboardClient::PluginStoryboardClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
@@ -50,7 +51,7 @@ void PluginStoryboardClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t
 }
 
 //============================================================================
-bool PluginStoryboardClient::onFileDownloadComplete( VxNetIdent* netIdent, VxSktBase* sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
+bool PluginStoryboardClient::onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
 	bool result = netIdent && sktBase && lclSessionId.isVxGUIDValid() && !fileName.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
 	if( result )
@@ -230,7 +231,7 @@ bool PluginStoryboardClient::fromGuiCancelWebPage( EWebPageType webPageType, VxG
 
 
 //============================================================================
-bool PluginStoryboardClient::fileInfoSearchResult( VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, FileInfo& fileInfo )
+bool PluginStoryboardClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, FileInfo& fileInfo )
 {
 	bool result{ false };
 	if( fileInfo.determineFullFileName( m_DownloadFileFolder ) )
@@ -248,7 +249,7 @@ bool PluginStoryboardClient::fileInfoSearchResult( VxGUID& searchSessionId, VxSk
 }
 
 //============================================================================
-void PluginStoryboardClient::fileInfoSearchCompleted( VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, ECommErr commErr )
+void PluginStoryboardClient::fileInfoSearchCompleted( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
 {
 	if( commErr == eCommErrNone )
 	{
@@ -321,7 +322,7 @@ void PluginStoryboardClient::cancelDownload( void )
 }
 
 //============================================================================
-bool PluginStoryboardClient::startDownload( VxGUID& searchSessionId, VxSktBase* sktBase, VxNetIdent* netIdent )
+bool PluginStoryboardClient::startDownload( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
 	bool result{ false };
 	lockSearchFileList();

@@ -14,6 +14,7 @@
 //============================================================================
 
 #include <vector>
+#include <memory>
 
 class VxSktBase;
 
@@ -21,6 +22,6 @@ class IConnectedCallback
 {
 public:
     /// return true if have use for this connection
-    virtual bool                onContactConnected( VxSktBase* sktBase ) = 0;
-    virtual void                onContactDisconnected( VxSktBase* sktBase ) = 0;
+    virtual bool                onContactConnected( std::shared_ptr<VxSktBase>& sktBase ) = 0;
+    virtual void                onContactDisconnected( std::shared_ptr<VxSktBase>& sktBase ) = 0;
 };

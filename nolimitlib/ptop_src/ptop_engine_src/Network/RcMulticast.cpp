@@ -28,7 +28,7 @@ namespace
 	const int MULTICAST_BROADCAST_INTERVAL_SEC = 5;
 
 
-	void RcMulticastListenSktCallbackHandler( VxSktBase* sktBase, void* pvRxCallbackUserData )
+	void RcMulticastListenSktCallbackHandler( std::shared_ptr<VxSktBase>& sktBase, void* pvRxCallbackUserData )
 	{
 		if( eSktCallbackReasonData == sktBase->getCallbackReason() )
 		{
@@ -139,7 +139,7 @@ bool RcMulticast::multicastEnable( bool enable )
 }
 
 //============================================================================
-void RcMulticast::doUdpDataCallback( VxSktBase* skt )
+void RcMulticast::doUdpDataCallback( std::shared_ptr<VxSktBase>& skt )
 {
 	if( !VxIsAppShuttingDown() )
 	{
@@ -153,7 +153,7 @@ void RcMulticast::doUdpDataCallback( VxSktBase* skt )
 }
 
 //============================================================================
-void RcMulticast::attemptDecodePktAnnounce( VxSktBase* skt, unsigned char* data, int dataLen )
+void RcMulticast::attemptDecodePktAnnounce( std::shared_ptr<VxSktBase>& skt, unsigned char* data, int dataLen )
 {
 	if( VxIsAppShuttingDown() )
 	{

@@ -21,7 +21,6 @@
 #include <CoreLib/VxParse.h>
 
 //============================================================================
-
 VxSktAccept::VxSktAccept()
 {
 	m_eSktType = eSktTypeTcpAccept;
@@ -65,7 +64,7 @@ RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
 
     // tell user we connecting
 	//VerifyCodePtr( m_pfnReceive );
-	m_pfnReceive( this, getRxCallbackUserData() );
+	m_pfnReceive( m_ThisSkt, getRxCallbackUserData() );
 	// make a useful thread name
 	std::string strVxThreadName;
 	StdStringFormat( strVxThreadName, "VxSktBaseAccept%d", m_SktNumber );

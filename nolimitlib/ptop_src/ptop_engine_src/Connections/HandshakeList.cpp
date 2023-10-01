@@ -78,7 +78,7 @@ void HandshakeList::removeHandshakeSession( const VxGUID& sessionId )
 }
 
 //============================================================================
-void HandshakeList::addHandshake( VxSktBase* sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason )
+void HandshakeList::addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason )
 {
     uint64_t timeNow = GetTimeStampMs();
     HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow );
@@ -99,7 +99,7 @@ void HandshakeList::onSktDisconnected( const VxGUID& socketId )
 }
 
 //============================================================================
-void HandshakeList::getAndRemoveHandshakeInfo( VxSktBase* sktBase, std::vector<HandshakeInfo>& disconnectedList )
+void HandshakeList::getAndRemoveHandshakeInfo( std::shared_ptr<VxSktBase>& sktBase, std::vector<HandshakeInfo>& disconnectedList )
 {
     std::vector<std::pair<VxGUID,VxGUID>> removeList;
     for( auto iter = m_ShakeList.begin(); iter != m_ShakeList.end(); ++iter )

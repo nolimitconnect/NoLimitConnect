@@ -53,14 +53,14 @@ public:
     EHostJoinStatus             lookupOrQueryJoinId( VxGUID& sessionId, std::string hostUrl, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
     EHostSearchStatus           lookupOrQuerySearchId( VxGUID& sessionId, std::string hostUrl, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
 
-    EConnectStatus              requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, VxSktBase*& retSktBase, 
+    EConnectStatus              requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, 
                                                    enum EConnectReason connectReason = eConnectReasonUnknown );
     void                        doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
     // if failed to connect we will not have a socket id
     void                        doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason );
 
-    void                        onSktConnectedWithPktAnn( VxSktBase* sktBase, BigListInfo* bigListInfo );
-    void                        onSktDisconnected( VxSktBase* sktBase );
+    void                        onSktConnectedWithPktAnn( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo );
+    void                        onSktDisconnected( std::shared_ptr<VxSktBase>& sktBase );
 
     void						doNetConnectionsThread( void );
     void						doStayConnectedThread( void );
@@ -90,19 +90,19 @@ protected:
     /// keep a cache of urls to online id to avoid time consuming query host id
     void                        updateUrlCache( std::string& hostUrl, VxGUID& onlineId );
     bool                        urlCacheOnlineIdLookup( std::string& hostUrl, VxGUID& onlineId );
-    EConnectStatus              attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, VxSktBase*& retSktBase, EConnectReason connectReason );
+    EConnectStatus              attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason );
 
     //=== connection low level ===/
     EConnectStatus              directConnectTo(    std::string                 url,
                                                     VxGUID&                     onlineId,
                                                     IConnectRequestCallback*    callback,
-                                                    VxSktBase*&                 retSktBase,
+                                                    std::shared_ptr<VxSktBase>&                 retSktBase,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
                                                     int					        iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT );  // how long to attempt connect
 
     EConnectStatus				directConnectTo(	VxConnectInfo&			    connectInfo,		 
-                                                    VxSktBase*&			    ppoRetSkt,		
+                                                    std::shared_ptr<VxSktBase>&			    ppoRetSkt,		
                                                     VxGUID                      sessionId,
                                                     int						    iConnectTimeout = DIRECT_CONNECT_TIMEOUT,	 
                                                     bool					    useLanIp = false,
@@ -113,7 +113,7 @@ protected:
     EConnectStatus              directConnectTo(    std::string                 ipAddr,
                                                     uint16_t                    port,
                                                     VxGUID                      onlineId,
-                                                    VxSktBase*&                 retSktBase,
+                                                    std::shared_ptr<VxSktBase>&                 retSktBase,
                                                     IConnectRequestCallback*    callback,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
@@ -122,23 +122,23 @@ protected:
     void                        addConnectRequestToQue( VxConnectInfo& connectInfo, enum EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting );
     void                        addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting );
     bool                        connectToContact(   VxConnectInfo&		connectInfo,
-                                                    VxSktBase*&		ppoRetSkt,
+                                                    std::shared_ptr<VxSktBase>&		ppoRetSkt,
                                                     VxGUID&             sessionId,
                                                     bool&				retIsNewConnection );
-    bool                        connectUsingTcp( VxConnectInfo& connectInfo, VxSktBase*& ppoRetSkt, VxGUID& sessionId );
-    bool                        tryIPv6Connect( VxConnectInfo& connectInfo, VxSktBase*& ppoRetSkt );
+    bool                        connectUsingTcp( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt, VxGUID& sessionId );
+    bool                        tryIPv6Connect( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt );
 
     bool                        sendMyPktAnnounce(  VxGUID&				destinationId,
-                                                    VxSktBase*			sktBase,
+                                                    std::shared_ptr<VxSktBase>&			sktBase,
                                                     bool				requestAnnReply,
                                                     bool				requestReverseConnection,
                                                     bool				requestSTUN );
     bool                        txPacket( VxGUID&				destinationId,
-                                          VxSktBase*			sktBase,
+                                          std::shared_ptr<VxSktBase>&			sktBase,
                                           VxPktHdr*			poPkt );
 
-    void                        handleConnectSuccess( BigListInfo * bigListInfo, VxSktBase* skt, bool isNewConnection, EConnectReason connectReason );
-    void                        closeConnection( enum ESktCloseReason closeReason, VxGUID& onlineId, VxSktBase* skt, BigListInfo * poInfo );
+    void                        handleConnectSuccess( BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
+    void                        closeConnection( enum ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo );
 
     bool                        doConnectRequest( ConnectReqInfo& connectRequest, bool ignoreToSoonToConnectAgain );
 

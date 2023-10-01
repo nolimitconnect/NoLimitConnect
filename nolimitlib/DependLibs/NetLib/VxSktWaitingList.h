@@ -19,6 +19,7 @@
 #include <CoreLib/VxMutex.h>
 
 #include <vector>
+#include <memory>
 
 class VxSktBase;
 class VxPktHdr;
@@ -26,7 +27,7 @@ class VxPktHdr;
 class IVxSktWaitingCallback
 {
 public:
-	virtual	void					onSktWaitExpired(	VxSktBase*		sktBase, 
+	virtual	void					onSktWaitExpired(	std::shared_ptr<VxSktBase>&		sktBase, 
 														uint32_t		u32WaitReason, 
 														VxPktHdr*		poPkt,
 														void *			pvWaitInstance,
@@ -36,18 +37,18 @@ public:
 class VxSktWaitReason
 {
 public:
-	VxSktWaitReason();
-	VxSktWaitReason( VxSktBase* sktBase, uint32_t waitReason, uint64_t timeExpiresSysTimeMs, VxPktHdr* poPkt, void * pvWaitInstance );
+	VxSktWaitReason() = default;
+	VxSktWaitReason( std::shared_ptr<VxSktBase>& sktBase, uint32_t waitReason, uint64_t timeExpiresSysTimeMs, VxPktHdr* poPkt, void * pvWaitInstance );
 	VxSktWaitReason( const VxSktWaitReason& rhs );
 	virtual ~VxSktWaitReason();
 
 	VxSktWaitReason& operator =( const VxSktWaitReason& rhs );
 
-	VxSktBase*					m_Skt;
-	VxPktHdr*					m_Pkt;
-	uint64_t					m_u64TimeExpires; 
-	uint32_t					m_u32WaitReason;
-	void *						m_pvWaitInstance;
+	std::shared_ptr<VxSktBase>	m_Skt;
+	VxPktHdr*					m_Pkt{ nullptr };
+	uint64_t					m_u64TimeExpires{ 0 };
+	uint32_t					m_u32WaitReason{ 0 };
+	void *						m_pvWaitInstance{ nullptr };
 };
 
 class VxSktWaitingList
@@ -59,14 +60,14 @@ public:
 	void						setSktWaitCallback( IVxSktWaitingCallback * sktWaitCallback );
 
 	virtual void				onOncePerSecond( void );		
-	virtual void				onConnectionLost( VxSktBase* sktBase );	
+	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );	
 
-	virtual void				addWaiting(		VxSktBase*		sktBase, 
+	virtual void				addWaiting(		std::shared_ptr<VxSktBase>&		sktBase, 
 												uint32_t		u32WaitReason, 
 												uint64_t		u64TimeExpiresSysTimeMs, 
 												VxPktHdr*		poPkt = 0, 
 												void *			pvWaitInstance = 0 );		
-	virtual void				removeWaiting( VxSktBase* sktBase, uint32_t waitReason, void * pvWaitInstance = 0 );		
+	virtual void				removeWaiting( std::shared_ptr<VxSktBase>& sktBase, uint32_t waitReason, void * pvWaitInstance = 0 );		
 	virtual void				clearAllWaiting( void );
 
 protected:

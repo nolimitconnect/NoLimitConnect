@@ -26,6 +26,7 @@
 
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
+#include <NetLib/VxSktBase.h>
 
 namespace
 {
@@ -133,7 +134,7 @@ void RcScanAction::searchConnectionsTimedOut( void )
 }
 
 //============================================================================
-void RcScanAction::addMatchedConnection( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScanAction::addMatchedConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	/* TODO reimplement scan
 	m_SearchActionMutex.lock();
@@ -194,7 +195,7 @@ void RcScanAction::doSearchResultActions( void )
 }
 
 //============================================================================
-bool RcScanAction::getNextActionConnection( VxNetIdent** ppoIdent, VxSktBase** ppoSkt )
+bool RcScanAction::getNextActionConnection( VxNetIdent** ppoIdent, std::shared_ptr<VxSktBase>& ppoSkt )
 {
 	while( m_MatchedConnectionsList.size() )
 	{
@@ -205,7 +206,7 @@ bool RcScanAction::getNextActionConnection( VxNetIdent** ppoIdent, VxSktBase** p
 			&& matchedConn.m_Skt->isConnected() )
 		{
 			* ppoIdent	= matchedConn.m_Ident;
-			* ppoSkt	= matchedConn.m_Skt;
+			ppoSkt	= matchedConn.m_Skt;
 			validConnection = true;
 		}
 
@@ -228,8 +229,8 @@ void RcScanAction::nextCamServerToGui()
 	if( getShouldSendNext() )
 	{
 		VxNetIdent* netIdent;
-		VxSktBase* sktBase;
-		while( getNextActionConnection( &netIdent, &sktBase ) )
+		std::shared_ptr<VxSktBase> sktBase( nullptr );
+		while( getNextActionConnection( &netIdent, sktBase ) )
 		{
 			//if( searchActionWebCamServer( netIdent, sktBase) )
 			{
@@ -242,13 +243,13 @@ void RcScanAction::nextCamServerToGui()
 
 
 //============================================================================
-void RcScanAction::searchActionPeopleSearch( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScanAction::searchActionPeopleSearch( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	// send this person to gui
 }
 
 //============================================================================
-void RcScanAction::searchActionFileSearch( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScanAction::searchActionFileSearch( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 
 }
@@ -285,7 +286,7 @@ RcScanMatchedConnection *  RcScanAction::findMatchedConnection( VxNetIdent* netI
 //============================================================================
 void RcScanAction::onScanResultError(	EScanType			eScanType,
 										VxNetIdent*		netIdent,
-										VxSktBase*			sktBase,  
+										std::shared_ptr<VxSktBase>&			sktBase,  
 										uint32_t					errCode )
 {
 	removeIdent( netIdent );
@@ -293,7 +294,7 @@ void RcScanAction::onScanResultError(	EScanType			eScanType,
 
 //============================================================================
 void RcScanAction::onScanResultProfilePic(	VxNetIdent*	netIdent, 
-												VxSktBase*		sktBase, 
+												std::shared_ptr<VxSktBase>&		sktBase, 
 												uint8_t *			pu8JpgData, 
 												uint32_t				u32JpgDataLen )
 {
@@ -328,12 +329,12 @@ void RcScanAction::removeIdent( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void RcScanAction::onContactWentOnline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScanAction::onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 }
 
 //============================================================================
-void RcScanAction::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBase )
+void RcScanAction::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	std::vector<RcScanMatchedConnection>::iterator iter;
 	m_SearchActionMutex.lock();
@@ -352,7 +353,7 @@ void RcScanAction::onContactWentOffline( VxNetIdent* netIdent, VxSktBase* sktBas
 
 //============================================================================
 //! called when connection is lost
-void RcScanAction::onConnectionLost( VxSktBase* sktBase )
+void RcScanAction::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_SearchActionMutex.lock();
  
@@ -374,7 +375,7 @@ void RcScanAction::onConnectionLost( VxSktBase* sktBase )
 
 //============================================================================
 //! called when new better connection from user
-void RcScanAction::replaceConnection( VxNetIdent* netIdent, VxSktBase* poOldSkt, VxSktBase* poNewSkt )
+void RcScanAction::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
 	std::vector<RcScanMatchedConnection>::iterator iter;
 	m_SearchActionMutex.lock();

@@ -24,50 +24,27 @@ namespace
 
 //============================================================================
 PluginSessionBase::PluginSessionBase()
-: m_ePluginType( ePluginTypeInvalid )
-, m_Ident(0)
-, m_Skt(0)
-, m_ePluginSessionType( ePluginSessionTypeUnknown )
-, m_bSessionStarted( false )
-, m_bRmtInitiatedSession( false )
-, m_LclSessionId()
-, m_RmtSessionId()
-, m_AudioDecoder( 0 )
-, m_JitterBuffer( AUDIO_JITTER_QUEUE_DEPTH )
+: m_JitterBuffer( AUDIO_JITTER_QUEUE_DEPTH )
 {
 }
 
 //============================================================================
-PluginSessionBase::PluginSessionBase( VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType )
+PluginSessionBase::PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
 : m_ePluginType( pluginType )
 , m_Ident( netIdent )
 , m_Skt( sktBase )
-, m_bSessionStarted( false )
-, m_bRmtInitiatedSession( false )
-, m_bTest( false )
-, m_LclSessionId()
-, m_RmtSessionId()
-, m_AssetId()
-, m_eOfferResponse( eOfferResponseNotSet )
-, m_AudioDecoder( 0 )
 , m_JitterBuffer( AUDIO_JITTER_QUEUE_DEPTH )
 {
 	m_LclSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
-PluginSessionBase::PluginSessionBase( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent, EPluginType pluginType )
+PluginSessionBase::PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
 : m_ePluginType( pluginType )
 , m_Ident( netIdent )
 , m_Skt( sktBase )
-, m_bSessionStarted( false )
-, m_bRmtInitiatedSession( false )
-, m_bTest( false )
 , m_LclSessionId( lclSessionId )
-, m_RmtSessionId()
-, m_AssetId()
 , m_eOfferResponse( eOfferResponseNotSet )
-, m_AudioDecoder( 0 )
 , m_JitterBuffer( AUDIO_JITTER_QUEUE_DEPTH )
 {
 }
@@ -81,7 +58,7 @@ PluginSessionBase::~PluginSessionBase()
 //============================================================================
 OpusAudioDecoder *	PluginSessionBase::getAudioDecoder( void )		
 { 
-	if( 0 == m_AudioDecoder )
+	if( nullptr == m_AudioDecoder )
 	{
 		m_AudioDecoder = new OpusAudioDecoder();
 	}
@@ -126,13 +103,13 @@ VxGUID& PluginSessionBase::getOnlineId( void )
 }
 
 //============================================================================
-void PluginSessionBase::setSkt( VxSktBase* sktBase )		
+void PluginSessionBase::setSkt( std::shared_ptr<VxSktBase>& sktBase )		
 { 
 	m_Skt = sktBase; 
 }
 
 //============================================================================
-VxSktBase* PluginSessionBase::getSkt( void )
+std::shared_ptr<VxSktBase>& PluginSessionBase::getSkt( void )
 { 
 	return m_Skt; 
 }

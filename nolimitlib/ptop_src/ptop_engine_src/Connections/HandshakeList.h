@@ -19,6 +19,7 @@
 #include <CoreLib/VxMutex.h>
 
 #include <map>
+#include <memory>
 
 class HandshakeInfo;
 class VxSktBase;
@@ -30,14 +31,14 @@ public:
     HandshakeList() = default;
     virtual ~HandshakeList() = default;
 
-    void                        addHandshake( VxSktBase* sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason );
+    void                        addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason );
     void                        getAndRemoveHandshakeInfo( const VxGUID& socketId, const VxGUID& onlineId, std::vector<HandshakeInfo>& shakeList, std::vector<HandshakeInfo>& timedOutList );
     void                        removeHandshakeInfo( const VxGUID& socketId, const VxGUID& sessionId );
     void                        removeHandshakeSession( const VxGUID& sessionId );
     void                        onSktDisconnected( const VxGUID& socketId );
 
 protected:
-    void                        getAndRemoveHandshakeInfo( VxSktBase* sktBase, std::vector<HandshakeInfo>& disconnectedList );
+    void                        getAndRemoveHandshakeInfo( std::shared_ptr<VxSktBase>& sktBase, std::vector<HandshakeInfo>& disconnectedList );
 
     //=== vars ===//
     std::map<std::pair<VxGUID,VxGUID>, HandshakeInfo> m_ShakeList; // pair is sockedId and sessionId.. NOT onlineId

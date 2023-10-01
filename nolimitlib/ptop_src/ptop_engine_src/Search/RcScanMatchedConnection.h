@@ -16,13 +16,15 @@
 
 #include <CoreLib/VxDefs.h>
 
+#include <memory>
+
 class VxSktBase;
 class VxNetIdent;
 
 class RcScanMatchedConnection
 {
 public:
-	RcScanMatchedConnection( VxNetIdent* netIdent, VxSktBase* sktBase );
+	RcScanMatchedConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	virtual ~RcScanMatchedConnection() = default;
 
 	RcScanMatchedConnection( const RcScanMatchedConnection& rhs );
@@ -40,11 +42,11 @@ public:
 	void						deleteResources( void );
 
 	//=== vars ===//
-	VxNetIdent*				m_Ident;
-	VxSktBase*					m_Skt;
-	uint64_t					m_ActionStartTimeMs;
-	uint8_t *					m_u8JpgData;
-	uint32_t					m_u32JpgDataLen;
-	bool						m_ActionHadError;
-	bool						m_ActionComplete;
+	VxNetIdent*					m_Ident{ nullptr };
+	std::shared_ptr<VxSktBase>	m_Skt;
+	uint64_t					m_ActionStartTimeMs{ 0 };
+	uint8_t *					m_u8JpgData{ nullptr };
+	uint32_t					m_u32JpgDataLen{ 0 };
+	bool						m_ActionHadError{ false };
+	bool						m_ActionComplete{ false };
 };

@@ -189,7 +189,7 @@ EHostSearchStatus ConnectionMgr::lookupOrQuerySearchId( VxGUID& sessionId, std::
 
 
 //============================================================================
-void ConnectionMgr::onSktConnectedWithPktAnn( VxSktBase* sktBase, BigListInfo * bigListInfo )
+void ConnectionMgr::onSktConnectedWithPktAnn( std::shared_ptr<VxSktBase>& sktBase, BigListInfo * bigListInfo )
 {
     std::vector<HandshakeInfo> shakeList;
     std::vector<HandshakeInfo> timedOutList;
@@ -251,7 +251,7 @@ void ConnectionMgr::onSktConnectedWithPktAnn( VxSktBase* sktBase, BigListInfo * 
 }
 
 //============================================================================
-void ConnectionMgr::onSktDisconnected( VxSktBase* sktBase )
+void ConnectionMgr::onSktDisconnected( std::shared_ptr<VxSktBase>& sktBase )
 {
     m_HandshakeMutex.lock();
     m_HandshakeList.onSktDisconnected( sktBase->getSocketId() );
@@ -448,7 +448,7 @@ int ConnectionMgr::getQueryIdFailedCount( EHostType hostType )
 }
 
 //============================================================================
-EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, VxSktBase*& retSktBase, EConnectReason connectReason )
+EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason )
 {
     if( !onlineId.isVxGUIDValid() )
     {
@@ -475,7 +475,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
 
     LogMsg( LOG_DEBUG, "ConnectionMgr::requestConnection %s", DescribeConnectReason( connectReason ) );
     // first see if we already have a connection to the requested onlineId
-    VxSktBase* sktBase = nullptr;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     bool isDisconnected = false;
 
     // see if we already have a connection for a different reason
@@ -546,7 +546,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
 }
 
 //============================================================================
-EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, VxSktBase*& retSktBase, EConnectReason connectReason )
+EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason )
 {
     EConnectStatus connectStatus = eConnectStatusConnecting;
     VxUrl connectUrl( url.c_str() );
@@ -576,12 +576,12 @@ void ConnectionMgr::doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUI
     m_HandshakeMutex.unlock();
 
     bool sktDisconnected{ false };
-    VxSktBase* sktBase{ nullptr };
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     lockConnectionList();
     ConnectedInfo* connectInfo = m_AllList.getConnectedInfo( socketId, onlineId );
     if( connectInfo )
     {
-        sktDisconnected = connectInfo->removeConnectReason( sessionId, callback, connectReason, &sktBase );
+        sktDisconnected = connectInfo->removeConnectReason( sessionId, callback, connectReason, sktBase );
     }
 
     unlockConnectionList();
@@ -607,7 +607,7 @@ void ConnectionMgr::doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConn
     m_HandshakeMutex.unlock();
 
     bool sktDisconnected{ false };
-    std::vector<VxSktBase*> sktList;
+    std::vector<std::shared_ptr<VxSktBase>> sktList;
     lockConnectionList();
     m_AllList.removeConnectedReason( sessionId, onlineId, callback, connectReason, sktList );
     unlockConnectionList();
@@ -698,7 +698,7 @@ bool ConnectionMgr::urlCacheOnlineIdLookup( std::string& hostUrl, VxGUID& online
 EConnectStatus ConnectionMgr::directConnectTo(  std::string                 url,
                                                 VxGUID&                     onlineId,
                                                 IConnectRequestCallback*    callback,
-                                                VxSktBase*&                 retSktBase,
+                                                std::shared_ptr<VxSktBase>&                 retSktBase,
                                                 VxGUID                      sessionId,
                                                 EConnectReason              connectReason,
                                                 int					        iConnectTimeoutMs )
@@ -718,7 +718,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 url,
 
 //============================================================================-
 EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectInfo,
-                                                VxSktBase*&		        ppoRetSkt,		// return pointer to socket if not null
+                                                std::shared_ptr<VxSktBase>&		        ppoRetSkt,		// return pointer to socket if not null
                                                 VxGUID                      sessionId, 
                                                 int					        iConnectTimeoutMs,// how long to attempt connect
                                                 bool				        bUseUdpIp,
@@ -747,7 +747,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectI
 EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAddr,
                                                 uint16_t                    port,
                                                 VxGUID                      onlineId,
-                                                VxSktBase*&                 retSktBase,
+                                                std::shared_ptr<VxSktBase>& retSktBase,
                                                 IConnectRequestCallback*    callback,
                                                 VxGUID                      sessionId, 
                                                 EConnectReason              connectReason,
@@ -756,7 +756,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
     EConnectStatus connectStatus = eConnectStatusConnecting;
 
     lockConnectionList();
-    VxSktConnect * sktBase = m_PeerMgr.connectTo(	ipAddr.c_str(),			// remote ip or url 
+    std::shared_ptr<VxSktBase> sktBase = m_PeerMgr.connectTo(	ipAddr.c_str(),			// remote ip or url 
                                                     port,	                // port to connect to
                                                     iConnectTimeoutMs );	// milli seconds before connect attempt times out
     if( sktBase )
@@ -792,7 +792,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         m_HandshakeList.addHandshake(sktBase, sessionId, onlineId, callback, connectReason);
         m_HandshakeMutex.unlock();
         connectStatus = eConnectStatusHandshaking;
-        retSktBase = (VxSktBase*)sktBase;
+        retSktBase = (std::shared_ptr<VxSktBase>&)sktBase;
         
     }
     else
@@ -857,7 +857,7 @@ void ConnectionMgr::addConnectRequestToQue( ConnectReqInfo& connectRequest, bool
 
 //============================================================================
 bool ConnectionMgr::connectToContact(	VxConnectInfo&		connectInfo, 
-                                        VxSktBase*&		    ppoRetSkt,
+                                        std::shared_ptr<VxSktBase>&		    ppoRetSkt,
                                         VxGUID&             sessionId,
                                         bool&				retIsNewConnection )
 {
@@ -905,10 +905,10 @@ bool ConnectionMgr::connectToContact(	VxConnectInfo&		connectInfo,
 }
 
 //============================================================================
-bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, VxSktBase*& ppoRetSkt, VxGUID& sessionId )
+bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt, VxGUID& sessionId )
 {
     ppoRetSkt = nullptr;
-    VxSktBase* sktBase = nullptr;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     if( false == connectInfo.m_DirectConnectId.isVxGUIDValid() )
     {
         LogMsg( LOG_ERROR, "connectUsingTcp: User invalid online id\n" );
@@ -1026,7 +1026,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, VxSktBase*& ppo
 }
 
 //============================================================================
-bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, VxSktBase*& ppoRetSkt )
+bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt )
 {
     bool connectSuccess = false;
     if( m_PktAnn.getMyOnlineIPv6().isValid()
@@ -1038,7 +1038,7 @@ bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, VxSktBase*& ppoR
         SOCKET skt = ::VxConnectToIPv6( ipv6.c_str(), connectInfo.getOnlinePort() );
         if( INVALID_SOCKET != skt )
         {
-            VxSktBase* sktBase = m_PeerMgr.createConnectionUsingSocket( skt, ipv6.c_str(), connectInfo.getOnlinePort() );
+            std::shared_ptr<VxSktBase>& sktBase = m_PeerMgr.createConnectionUsingSocket( skt, ipv6.c_str(), connectInfo.getOnlinePort() );
             connectSuccess = ( nullptr != sktBase );
             if( connectSuccess )
             {
@@ -1053,7 +1053,7 @@ bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, VxSktBase*& ppoR
 //============================================================================
 //! encrypt and send my PktAnnounce to someone of whom we have no recored except from anchor announce
 bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
-                                        VxSktBase*			sktBase, 
+                                        std::shared_ptr<VxSktBase>&			sktBase, 
                                         bool				requestAnnReply,
                                         bool				requestReverseConnection,
                                         bool				requestSTUN )
@@ -1077,7 +1077,7 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
 
 //============================================================================
 bool ConnectionMgr::txPacket(	VxGUID&				destinationId, 
-                                VxSktBase*			sktBase, 
+                                std::shared_ptr<VxSktBase>&			sktBase, 
                                 VxPktHdr*			poPkt )
 {
     bool bSendSuccess = false;
@@ -1147,7 +1147,7 @@ void ConnectionMgr::doNetConnectionsThread( void )
 }
 
 //============================================================================
-void ConnectionMgr::handleConnectSuccess(  BigListInfo * bigListInfo, VxSktBase* skt, bool isNewConnection, EConnectReason connectReason )
+void ConnectionMgr::handleConnectSuccess(  BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason )
 {
     if( 0 != bigListInfo )
     {
@@ -1162,7 +1162,7 @@ void ConnectionMgr::handleConnectSuccess(  BigListInfo * bigListInfo, VxSktBase*
 }
 
 //============================================================================
-void ConnectionMgr::closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, VxSktBase* sktBase, BigListInfo* poInfo )
+void ConnectionMgr::closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, BigListInfo* poInfo )
 {
     if( nullptr == poInfo )
     {
@@ -1212,7 +1212,7 @@ void ConnectionMgr::doStayConnectedThread( void )
     int iSize;
     BigListInfo * poInfo;
 
-    VxSktBase* sktBase;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     while( ( false == m_StayConnectedThread.isAborted() )
         && ( false == VxIsAppShuttingDown() ) )
     {
@@ -1243,7 +1243,7 @@ void ConnectionMgr::doStayConnectedThread( void )
                     if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC < ( GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs() ) )
                     {
                         bool isNewConnection = false;
-                        if( m_Engine.connectToContact( poInfo->getConnectInfo(), &sktBase, isNewConnection, eConnectReasonStayConnected ) )
+                        if( m_Engine.connectToContact( poInfo->getConnectInfo(), sktBase, isNewConnection, eConnectReasonStayConnected ) )
                         {
                             poInfo->contactWasAttempted( true );
                         }
@@ -1311,9 +1311,9 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
         bigListInfo->setTimeLastConnectAttemptMs( timeNow );
     }
 
-    VxSktBase* retSktBase = NULL;
+    std::shared_ptr<VxSktBase> retSktBase;
     bool isNewConnection = false;
-    if( m_Engine.connectToContact( connectInfo, &retSktBase, isNewConnection, connectRequest.getConnectReason() ) )
+    if( m_Engine.connectToContact( connectInfo, retSktBase, isNewConnection, connectRequest.getConnectReason() ) )
     {
         // handle success connect
 #ifdef DEBUG_CONNECTIONS

@@ -24,6 +24,7 @@
 #include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
 
 #include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktBase.h>
 
 //============================================================================
 ConnectIdListMgr::ConnectIdListMgr( P2PEngine& engine )
@@ -420,16 +421,16 @@ void ConnectIdListMgr::disconnectIfIsOnlyUser( GroupieId& groupieId )
 }
 
 //============================================================================
-VxSktBase* ConnectIdListMgr::findHostConnection( GroupieId& groupieId, bool tryPeerFirst )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findHostConnection( GroupieId& groupieId, bool tryPeerFirst )
 {
     // host connection can only be a direct connection
     if( !groupieId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::findHostConnection invalid id" );
-        return nullptr;
+        return std::shared_ptr<VxSktBase>();
     }
 
-    VxSktBase* sktBase = nullptr;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     if( groupieId.isValid() )
     {
         if( groupieId.getHostOnlineId() == m_Engine.getMyOnlineId() && groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
@@ -460,12 +461,12 @@ VxSktBase* ConnectIdListMgr::findHostConnection( GroupieId& groupieId, bool tryP
 }
 
 //============================================================================
-VxSktBase* ConnectIdListMgr::findRelayMemberConnection( VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::findUserConnection invalid id" );
-        return nullptr;
+        return std::shared_ptr<VxSktBase>();
     }
 
     if( onlineId == m_Engine.getMyOnlineId() )
@@ -473,7 +474,7 @@ VxSktBase* ConnectIdListMgr::findRelayMemberConnection( VxGUID& onlineId )
         return m_Engine.getSktLoopback();
     }
 
-    VxSktBase* sktBase = nullptr;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     lockList();
     for( auto& connectIdConst : m_ConnectIdList )
     {
@@ -510,7 +511,7 @@ VxSktBase* ConnectIdListMgr::findRelayMemberConnection( VxGUID& onlineId )
 }
 
 //============================================================================
-VxSktBase* ConnectIdListMgr::findPeerConnection( VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findPeerConnection( VxGUID& onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
@@ -518,7 +519,7 @@ VxSktBase* ConnectIdListMgr::findPeerConnection( VxGUID& onlineId )
         return nullptr;
     }
 
-    VxSktBase* sktBase = nullptr;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     GroupieId groupieIdDirect( onlineId, onlineId, eHostTypePeerUserDirect );
 
     VxGUID connectId;
@@ -598,10 +599,10 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
 }
 
 //============================================================================
-VxSktBase* ConnectIdListMgr::findSktBase( VxGUID& connectId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID& connectId )
 {
     m_Engine.getPeerMgr().lockSktList();
-    VxSktBase* sktBase = m_Engine.getPeerMgr().findSktBase( connectId );
+    std::shared_ptr<VxSktBase>& sktBase = m_Engine.getPeerMgr().findSktBase( connectId );
     if( sktBase )
     {
         sktBase = sktBase->isConnected() ? sktBase : nullptr;
@@ -612,7 +613,7 @@ VxSktBase* ConnectIdListMgr::findSktBase( VxGUID& connectId )
 }
 
 //============================================================================
-VxSktBase* ConnectIdListMgr::findAnyOnlineConnection( VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyOnlineConnection( VxGUID& onlineId )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
@@ -642,7 +643,7 @@ VxSktBase* ConnectIdListMgr::findAnyOnlineConnection( VxGUID& onlineId )
 
     unlockList();
 
-    VxSktBase* sktBase = nullptr;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
     for( auto sktConnectId : sktConnectIdList )
     {
         sktBase = findSktBase( sktConnectId );
@@ -657,7 +658,7 @@ VxSktBase* ConnectIdListMgr::findAnyOnlineConnection( VxGUID& onlineId )
 
 
 //============================================================================
-VxSktBase* ConnectIdListMgr::findBestOnlineConnection( VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestOnlineConnection( VxGUID& onlineId )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
@@ -829,7 +830,7 @@ void ConnectIdListMgr::announceConnectionLost( VxGUID& sktConnectId )
 }
 
 //============================================================================
-void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, VxNetIdent* netIdent, bool relayed )
+void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool relayed )
 {
     if( relayed )
     {
@@ -890,7 +891,7 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, VxSktBase* sktB
 }
 
 //============================================================================
-void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, VxSktBase* sktBase, VxNetIdent* netIdent )
+void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     VxGUID onlineId = netIdent->getMyOnlineId();
     VxGUID socketId = sktBase->getSocketId();

@@ -151,7 +151,7 @@ RCODE VxSktUdp::udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, boo
 	m_eSktCallbackReason = eSktCallbackReasonConnecting;
 	if( m_pfnReceive )
 	{
-		m_pfnReceive( this, getRxCallbackUserData() );
+		m_pfnReceive( m_ThisSkt, getRxCallbackUserData() );
 	}
 
 	m_Socket = socket( AF_INET, SOCK_DGRAM, 0 );
@@ -164,7 +164,7 @@ RCODE VxSktUdp::udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, boo
 		m_eSktCallbackReason = eSktCallbackReasonConnectError;
 		if( m_pfnReceive )
 		{
-			m_pfnReceive( this, getRxCallbackUserData() );
+			m_pfnReceive( m_ThisSkt, getRxCallbackUserData() );
 		}
 
 		return m_rcLastSktError;
@@ -305,7 +305,7 @@ RCODE VxSktUdp::udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port
 		m_eSktCallbackReason = eSktCallbackReasonConnectError;
 		if( m_pfnReceive )
 		{
-			m_pfnReceive( this, getRxCallbackUserData() );
+			m_pfnReceive( getThisSkt(), getRxCallbackUserData());
 		}
 
 		closeSkt( eSktCloseUdpCreate );
@@ -325,7 +325,7 @@ RCODE VxSktUdp::udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port
 		m_eSktCallbackReason = eSktCallbackReasonConnectError;
 		if( m_pfnReceive )
 		{
-			m_pfnReceive( this, getRxCallbackUserData() );
+			m_pfnReceive( getThisSkt(), getRxCallbackUserData() );
 		}
 
 		closeSkt( eSktCloseUdpCreate );
@@ -396,7 +396,7 @@ RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addr
 		LogMsg( LOG_ERROR, "VxSktBase::udpOpen: socket create error %s", VxDescribeSktError( m_rcLastSktError ) );
 		if( m_pfnReceive )
 		{
-			m_pfnReceive( this, getRxCallbackUserData() );
+			m_pfnReceive( getThisSkt(), getRxCallbackUserData() );
 		}
 
 		return m_rcLastSktError;
@@ -425,7 +425,7 @@ void VxSktUdp::startReceive( void )
 	{
 		// tell user we connected
 		//vx_assert( m_pfnReceive );
-		m_pfnReceive( this, getRxCallbackUserData() );
+		m_pfnReceive( getThisSkt(), getRxCallbackUserData() );
 
 		// make a useful thread name
 		std::string strThreadName;

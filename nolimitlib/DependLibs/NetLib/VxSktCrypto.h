@@ -19,6 +19,7 @@
 #include <CoreLib/VxDefs.h>
 
 #include <string>
+#include <memory>
 
 class VxConnectId;
 class VxKey;
@@ -27,16 +28,16 @@ class VxSktConnectSimple;
 class VxGUID;
 
 //! generate key from net identity and connection data and place int sockets m_RxKey and initialize its crypto
-RCODE GenerateRxConnectionKey(	VxSktBase*				sktBase,			// pointer to VxSktBase
+RCODE GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&				sktBase,			// pointer to VxSktBase
 								VxConnectId *			poConnectId, 		// network identity
 								const char*			networkName );
                              
 //! generate key from net identity and connection data and place int sockets m_TxKey and initialize its crypto
-RCODE GenerateTxConnectionKey(	VxSktBase*				sktBase,			// pointer to VxSktBase
+RCODE GenerateTxConnectionKey(	std::shared_ptr<VxSktBase>&				sktBase,			// pointer to VxSktBase
 								VxConnectId *			poConnectId,		// announce packet
 								const char*			networkName );
 
-RCODE GenerateTxConnectionKey(  VxSktBase*				sktBase,
+RCODE GenerateTxConnectionKey(  std::shared_ptr<VxSktBase>&				sktBase,
                                 std::string             ipAddr,
                                 uint16_t                port,
                                 VxGUID                  onlineId,

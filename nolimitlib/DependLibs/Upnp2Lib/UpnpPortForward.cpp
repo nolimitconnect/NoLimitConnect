@@ -37,7 +37,7 @@ namespace
 	const char*	UPNP_GROUP_IP				= "239.255.255.250";
 
 	//============================================================================
-	void SSPDSearchResponseSktCallbackHandler( VxSktBase*  sktBase, void * pvUserData )
+	void SSPDSearchResponseSktCallbackHandler( std::shared_ptr<VxSktBase>&  sktBase, void * pvUserData )
 	{
 		if( eSktCallbackReasonData == sktBase->getCallbackReason() )
 		{
@@ -239,7 +239,7 @@ void UpnpPortForward::sendUpnpDeviceSearchBroadcast( void )
 }
 
 //============================================================================
-void UpnpPortForward::doSearchResponseCallback( VxSktBase* sktBase )
+void UpnpPortForward::doSearchResponseCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( shouldAbort() )
 	{

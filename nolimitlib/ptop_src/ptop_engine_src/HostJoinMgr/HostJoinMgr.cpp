@@ -21,10 +21,10 @@
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
 #include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
 
-#include <PktLib/PktAnnounce.h>
-
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
+#include <NetLib/VxSktBase.h>
+#include <PktLib/PktAnnounce.h>
 
 //============================================================================
 HostJoinMgr::HostJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName )
@@ -180,7 +180,7 @@ void HostJoinMgr::clearHostJoinInfoList( void )
 }
 
 //============================================================================
-void HostJoinMgr::onHostJoinRequestedByUser( VxSktBase* sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     bool wasAdded = false;
     GroupieId groupieId( sessionInfo.getGroupieId() );
@@ -232,7 +232,7 @@ void HostJoinMgr::onHostJoinRequestedByUser( VxSktBase* sktBase, VxNetIdent* net
 }
 
 //============================================================================
-void HostJoinMgr::onHostUnJoinRequestedByUser( VxSktBase* sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( sessionInfo.getGroupieId() );
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
@@ -271,7 +271,7 @@ void HostJoinMgr::onHostUnJoinRequestedByUser( VxSktBase* sktBase, VxNetIdent* n
 }
 
 //============================================================================
-void HostJoinMgr::onHostJoinedByUser( VxSktBase* sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostJoinMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     bool wasAdded = false;
     GroupieId groupieId( sessionInfo.getGroupieId() );
@@ -323,7 +323,7 @@ void HostJoinMgr::onHostJoinedByUser( VxSktBase* sktBase, VxNetIdent* netIdentHo
 }
 
 //============================================================================
-void HostJoinMgr::onHostLeftByUser( VxSktBase* sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostJoinMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( sessionInfo.getGroupieId() );
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
@@ -361,7 +361,7 @@ void HostJoinMgr::onHostLeftByUser( VxSktBase* sktBase, VxNetIdent* netIdentHost
 }
 
 //============================================================================
-void HostJoinMgr::onHostUnJoinedByUser( VxSktBase* sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostJoinMgr::onHostUnJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( sessionInfo.getGroupieId() );
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
@@ -547,7 +547,7 @@ EMembershipState HostJoinMgr::fromGuiQueryMembership( EHostType hostType, VxNetI
 }
 
 //============================================================================
-void HostJoinMgr::onConnectionLost( VxSktBase* sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
+void HostJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
     // TODO BRJ handle disconnect
 }

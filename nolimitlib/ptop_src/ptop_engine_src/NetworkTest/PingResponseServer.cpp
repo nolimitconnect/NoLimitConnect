@@ -20,7 +20,7 @@
 
 namespace
 {
-	void PingResponseCallbackHandler( VxSktBase*  sktBase, void * pvUserCallbackData )
+	void PingResponseCallbackHandler( std::shared_ptr<VxSktBase>&  sktBase, void * pvUserCallbackData )
 	{
 		PingResponseServer * peerMgr = ( PingResponseServer * )pvUserCallbackData;
 		if( peerMgr )
@@ -43,7 +43,7 @@ PingResponseServer::~PingResponseServer()
 }
 
 //============================================================================
-void PingResponseServer::handleTcpSktCallback( VxSktBase* sktBase )
+void PingResponseServer::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	switch( sktBase->getCallbackReason() )
 	{

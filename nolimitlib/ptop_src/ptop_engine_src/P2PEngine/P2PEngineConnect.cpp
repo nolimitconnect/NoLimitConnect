@@ -37,7 +37,7 @@
 
 //============================================================================
 bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo, 
-									VxSktBase**		ppoRetSkt,
+									std::shared_ptr<VxSktBase>&	ppoRetSkt,
 									bool&				retIsNewConnection,
 									EConnectReason		connectReason )
 {
@@ -64,10 +64,10 @@ bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo,
 			if( bigListInfo )
 			{
                 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::connectToContact: success %s", bigListInfo->getOnlineName() );
-				m_NetConnector.handleConnectSuccess( bigListInfo, *ppoRetSkt, retIsNewConnection, connectReason );
+				m_NetConnector.handleConnectSuccess( bigListInfo, ppoRetSkt, retIsNewConnection, connectReason );
 
                 // nearby elevate to guest permission
-                updateOnFirstConnect( *ppoRetSkt, bigListInfo, eConnectReasonNearbyLan == connectReason
+                updateOnFirstConnect( ppoRetSkt, bigListInfo, eConnectReasonNearbyLan == connectReason
                                     || eConnectReasonSameExternalIp == connectReason );
 			}
 			else
@@ -82,7 +82,7 @@ bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo,
 
 //============================================================================
 bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
-								VxSktBase*			sktBase, 
+								std::shared_ptr<VxSktBase>&			sktBase, 
 								VxPktHdr*			poPkt, 
 								bool				bDisconnectAfterSend )
 {
@@ -132,7 +132,7 @@ bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 
 //============================================================================
 bool P2PEngine::txImAlivePkt(	VxGUID&				destOnlineId, 
-								VxSktBase*			sktBase )
+								std::shared_ptr<VxSktBase>&			sktBase )
 {
 	return txSystemPkt( destOnlineId, sktBase, &m_PktImAliveReq, false );
 }
@@ -151,7 +151,7 @@ void P2PEngine::broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo )
 
 //============================================================================
 bool P2PEngine::txSystemPkt(	VxNetIdentBase *	netIdent, 
-								VxSktBase*			sktBase, 
+								std::shared_ptr<VxSktBase>&			sktBase, 
 								VxPktHdr*			poPkt, 
 								bool				bDisconnectAfterSend )
 {
@@ -161,7 +161,7 @@ bool P2PEngine::txSystemPkt(	VxNetIdentBase *	netIdent,
 //============================================================================
 bool P2PEngine::txPluginPkt( 	EPluginType			pluginType, 
 								VxNetIdentBase *	netIdent, 
-								VxSktBase*			sktBase, 
+								std::shared_ptr<VxSktBase>&			sktBase, 
 								VxPktHdr*			poPkt, 
 								bool				bDisconnectAfterSend )
 {
@@ -203,8 +203,8 @@ bool P2PEngine::txPluginPkt( 	EPluginType			pluginType,
 //============================================================================
 void P2PEngine::attemptConnectionToRelayService( BigListInfo * poInfo )
 {
-	VxSktBase* sktBase = nullptr;
-	m_NetConnector.directConnectTo( poInfo->getConnectInfo(), &sktBase, eConnectReasonRelayService );
+	std::shared_ptr<VxSktBase> sktBase( nullptr );
+	m_NetConnector.directConnectTo( poInfo->getConnectInfo(), sktBase, eConnectReasonRelayService );
 }
 
 //============================================================================
@@ -278,7 +278,7 @@ std::string P2PEngine::describeContact( ConnectRequest& connectRequest )
 }
 
 //============================================================================
-void P2PEngine::updateOnFirstConnect( VxSktBase* sktBase, BigListInfo* poInfo, bool nearbyLanConnected )
+void P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* poInfo, bool nearbyLanConnected )
 {
 	if( !sktBase || !poInfo )
 	{

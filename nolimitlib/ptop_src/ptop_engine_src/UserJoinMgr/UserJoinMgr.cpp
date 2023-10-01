@@ -26,6 +26,7 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxPtopUrl.h>
+#include <NetLib/VxSktBase.h>
 
 //============================================================================
 UserJoinMgr::UserJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName )
@@ -206,7 +207,7 @@ void UserJoinMgr::clearUserJoinInfoList( void )
 }
 
 //============================================================================
-void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     if( !groupieId.isValid() )
     {
@@ -271,7 +272,7 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, Vx
 }
 
 //============================================================================
-void UserJoinMgr::onUserLeftHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserJoinMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     bool wasAdded = false;
     lockResources();
@@ -323,7 +324,7 @@ void UserJoinMgr::onUserLeftHost( GroupieId& groupieId )
 }
 
 //============================================================================
-void UserJoinMgr::onUserUnJoinedHost( GroupieId& groupieId, VxSktBase* sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+void UserJoinMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     lockResources();
     UserJoinInfo* joinInfo = findUserJoinInfo( groupieId );
@@ -453,7 +454,7 @@ void UserJoinMgr::removeFromJoinedLastDatabase( GroupieId& groupieId, bool resou
 }
 
 //============================================================================
-void UserJoinMgr::onConnectionLost( VxSktBase* sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
+void UserJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
     // TODO BRJ handle disconnect
 }

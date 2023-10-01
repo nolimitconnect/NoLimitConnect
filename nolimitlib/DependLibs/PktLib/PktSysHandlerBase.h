@@ -16,6 +16,8 @@
  
 #include "PktTypes.h"
 
+#include <memory>
+
 class VxSktBase;
 class VxPktHdr;
 
@@ -25,189 +27,189 @@ public:
 	PktHandlerBase();
 	virtual ~PktHandlerBase() = default;
 
-	virtual void				handlePkt				    ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				handlePkt				    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 	//=== packet handlers ===//
-	virtual void				onPktUnhandled				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktInvalid				( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktUnhandled				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktInvalid				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktAnnounce				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAnnList				( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAnnounce				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAnnList				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktHostUnJoinReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUnJoinReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUnJoinReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUnJoinReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktScanReq				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktScanReply			    ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktScanReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktScanReply			    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktPluginOfferReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktPluginOfferReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPluginOfferReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPluginOfferReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktChatReq				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktChatReply				( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktChatReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktChatReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktVoiceReq				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktVoiceReply				( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktVideoFeedReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktVideoFeedStatus		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktVideoFeedPic			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktVideoFeedPicChunk		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktVideoFeedPicAck		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVideoFeedReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVideoFeedStatus		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVideoFeedPic			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVideoFeedPicChunk		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktVideoFeedPicAck		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktFileGetReq				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileGetReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileSendReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileSendReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFindFileReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFindFileReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileListReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileListReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileGetReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFindFileReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFindFileReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileListReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileListReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktFileInfoReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktFileChunkReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileChunkReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileSendCompleteReq	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileSendCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileGetCompleteReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileGetCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileShareErr			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileChunkReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileGetCompleteReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    virtual void				onPktAssetGetReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktAssetGetReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetSendReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetSendReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetChunkReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetChunkReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktAssetGetCompleteReq	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktAssetGetCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetSendCompleteReq	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetSendCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktAssetXferErr			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktAssetGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktAssetGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetChunkReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktAssetGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktAssetGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktAssetXferErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktMultiSessionReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktMultiSessionReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktMultiSessionReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktMultiSessionReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktSessionStartReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktSessionStartReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktSessionStopReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktSessionStopReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktSessionStartReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktSessionStartReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktSessionStopReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktSessionStopReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktMyPicSendReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktMyPicSendReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktWebServerPicChunkTx	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktWebServerPicChunkAck	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktWebServerGetChunkTx	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktWebServerGetChunkAck	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktWebServerPutChunkTx	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktWebServerPutChunkAck	( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktMyPicSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktMyPicSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktWebServerPicChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktWebServerPicChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktWebServerGetChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktWebServerGetChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktWebServerPutChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktWebServerPutChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktTodGameStats			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktTodGameAction			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktTodGameValue			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTodGameStats			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTodGameAction			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTodGameValue			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktTcpPunch				( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTcpPunch				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktPingReq				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktPingReply				( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPingReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPingReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktImAliveReq				( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktImAliveReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktImAliveReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktImAliveReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    virtual void				onPktBlobSendReq            ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktBlobSendReply          ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktBlobChunkReq           ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktBlobChunkReply         ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktBlobSendCompleteReq    ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktBlobSendCompleteReply  ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktBlobXferErr            ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobSendReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobSendReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobChunkReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobChunkReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobSendCompleteReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobSendCompleteReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktBlobXferErr            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    virtual void				onPktHostJoinReq            ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktHostJoinReply          ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostLeaveReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostLeaveReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktHostJoinReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktHostJoinReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostLeaveReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostLeaveReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    virtual void				onPktHostSearchReq          ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktHostSearchReply        ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktHostOfferReq           ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktHostOfferReply         ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktFriendOfferReq         ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktFriendOfferReply       ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktHostSearchReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktHostSearchReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktHostOfferReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktHostOfferReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktFriendOfferReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktFriendOfferReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    virtual void				onPktThumbGetReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbGetReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbSendReq           ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbSendReply         ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbChunkReq          ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbChunkReply        ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbGetCompleteReq	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbGetCompleteReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbSendCompleteReq   ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbSendCompleteReply ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktThumbXferErr           ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktThumbXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    virtual void				onPktOfferSendReq           ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktOfferSendReply         ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktOfferChunkReq          ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktOfferChunkReply        ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktOfferSendCompleteReq   ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktOfferSendCompleteReply ( VxSktBase* sktBase, VxPktHdr* pktHdr );
-    virtual void				onPktOfferXferErr           ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+    virtual void				onPktOfferXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktPushToTalkReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktPushToTalkReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktPushToTalkStart		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktPushToTalkStop         ( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPushToTalkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPushToTalkReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPushToTalkStart		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktPushToTalkStop         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktMembershipReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktMembershipReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktMembershipReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktMembershipReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktHostInfoReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostInfoReply			( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInfoReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInfoReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktHostInviteAnnReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostInviteAnnReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostInviteSearchReq	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostInviteSearchReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostInviteMoreReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostInviteMoreReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInviteAnnReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInviteAnnReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInviteSearchReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInviteSearchReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInviteMoreReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostInviteMoreReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktGroupieInfoReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktGroupieInfoReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieInfoReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieInfoReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktGroupieAnnReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktGroupieAnnReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktGroupieSearchReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktGroupieSearchReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktGroupieMoreReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktGroupieMoreReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieAnnReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieAnnReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieSearchReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieSearchReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieMoreReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktGroupieMoreReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktFileInfoInfoReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileInfoInfoReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoInfoReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoInfoReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktFileInfoAnnReq			( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileInfoAnnReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileInfoSearchReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileInfoSearchReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileInfoMoreReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktFileInfoMoreReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoAnnReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoAnnReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoSearchReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoSearchReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoMoreReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktFileInfoMoreReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktRelayUserDisconnect	( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktRelayUserDisconnect	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktHostUserInfoReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUserInfoReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUserStatusReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUserStatusReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserInfoReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserInfoReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserStatusReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserStatusReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-	virtual void				onPktHostUserListReq		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUserListReply		( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUserListMoreReq	( VxSktBase* sktBase, VxPktHdr* pktHdr );
-	virtual void				onPktHostUserListMoreReply	( VxSktBase* sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserListReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserListReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserListMoreReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktHostUserListMoreReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 
 	//packet type 250 and greater not allowed
-	typedef void (PktHandlerBase::*RC_SYS_BASE_PKT_FUNCTION)( VxSktBase*, VxPktHdr* );  
+	typedef void (PktHandlerBase::*RC_SYS_BASE_PKT_FUNCTION)( std::shared_ptr<VxSktBase>&, VxPktHdr* );  
 protected:
 	//=== vars ====//
 	RC_SYS_BASE_PKT_FUNCTION m_aBaseSysPktFuncTable[ MAX_PKT_TYPE_CNT + 2 ];

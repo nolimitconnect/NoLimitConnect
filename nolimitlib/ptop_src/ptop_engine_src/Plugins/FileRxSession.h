@@ -20,8 +20,8 @@ class FileRxSession : public FileShareXferSession
 {
 public:
 	FileRxSession();
-	FileRxSession( VxSktBase* sktBase, VxNetIdent* netIdent );
-	FileRxSession( VxGUID& lclSessionId, VxSktBase* sktBase, VxNetIdent* netIdent );
+	FileRxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	FileRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 	virtual ~FileRxSession();
 
 	void cancelDownload( VxGUID& lclSessionId );
