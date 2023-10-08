@@ -602,7 +602,7 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID& connectId )
 {
     m_Engine.getPeerMgr().lockSktList();
-    std::shared_ptr<VxSktBase>& sktBase = m_Engine.getPeerMgr().findSktBase( connectId );
+    std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( connectId );
     if( sktBase )
     {
         sktBase = sktBase->isConnected() ? sktBase : nullptr;

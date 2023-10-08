@@ -1262,7 +1262,11 @@ ENetAvailStatus P2PEngine::fromGuiGetNetAvailStatus( void )
 //============================================================================
 bool P2PEngine::fromGuiNearbyBroadcastEnable( bool enable )
 {
+#if ENABLE_COMPONENT_NEARBY
 	return m_NetworkMgr.getNearbyMgr().fromGuiNearbyBroadcastEnable( enable );
+#else
+	return false;
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================
@@ -1648,7 +1652,7 @@ bool P2PEngine::fromGuiQueryIdentity( GroupieInfo& groupieInfo, VxNetIdent& retN
         myGroupieId.setUserOnlineId(getMyOnlineId());
     }
 
-    std::shared_ptr<VxSktBase>& sktBase = getConnectIdListMgr().findHostConnection( myGroupieId );
+    std::shared_ptr<VxSktBase> sktBase = getConnectIdListMgr().findHostConnection( myGroupieId );
 	if( sktBase )
 	{
 		// if the url is valid try a direct connection first

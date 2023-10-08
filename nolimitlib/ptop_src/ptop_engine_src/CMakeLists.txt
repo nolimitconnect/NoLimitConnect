@@ -118,7 +118,6 @@ list(APPEND ptopengine_SOURCES
     OfferBase/OfferBaseXferMgr.cpp
     OfferBase/OfferBaseXferSession.cpp
     OfferBase/OfferMgr.cpp
-    P2PEngine/BrowserHttpConnection.cpp
     P2PEngine/ContactList.cpp
     P2PEngine/EngineParams.cpp
     P2PEngine/EngineSettings.cpp

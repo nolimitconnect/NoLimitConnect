@@ -16,6 +16,8 @@
 
 #include <NetLib/VxXferDefs.h>
 
+#define ENABLE_COMPONENT_NEARBY 0 // enable/disable nearby users discovery 
+
 #define AUDIO_SAMPLE_RATE       16000
 #define AUDIO_CHUNK_SIZE        1280
 
@@ -971,8 +973,6 @@ enum ENetCmdType
     eNetCmdIsMyPortOpenReply			= 4,			
     eNetCmdQueryHostOnlineIdReq         = 5,
     eNetCmdQueryHostOnlineIdReply       = 6,
-    eNetCmdHostPingReq                  = 7,
-    eNetCmdHostPingReply                = 8,
 
     eMaxNetCmdType
 };
@@ -1193,6 +1193,7 @@ enum ESktCloseReason
     eSktCloseNetSrvHostPingReplySent,
     eSktCloseTxFailed,
     eSktClosePktPingRequestIsFirstPkt,
+    eSktCloseNetServiceHandled,
 
     eMaxSktCloseReason			// always last
 };

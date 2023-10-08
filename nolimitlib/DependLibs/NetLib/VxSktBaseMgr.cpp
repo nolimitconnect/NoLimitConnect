@@ -32,14 +32,6 @@ namespace
 		vx_assert( sktBase->m_SktMgr );
 		sktBase->m_SktMgr->doReceiveCallback( sktBase );
 	}
-
-	////============================================================================
-	//void VxSktBaseMgrTransmitFunction(  std::shared_ptr<VxSktBase>& sktBase, void * pvUserData )
-	//{
-	//	vx_assert( sktBase );
-	//	vx_assert( sktBase->m_SktMgr );
-	//	sktBase->m_SktMgr->doTransmitCallback( sktBase );
-	//}
 }
 
 //============================================================================
@@ -56,10 +48,9 @@ VxSktBaseMgr::~VxSktBaseMgr()
 	deleteAllSockets();
 }
 
-
 //============================================================================
 // find a socket.. assumes list has been locked
-std::shared_ptr<VxSktBase>& VxSktBaseMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
+std::shared_ptr<VxSktBase> VxSktBaseMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
 {
     if( connectId.isVxGUIDValid() && ( !acceptSktsOnly || eSktMgrTypeTcpAccept == m_eSktMgrType ) )
     {
@@ -72,7 +63,8 @@ std::shared_ptr<VxSktBase>& VxSktBaseMgr::findSktBase( const VxGUID& connectId, 
         }
     }
 
-    return std::shared_ptr<VxSktBase>();
+    std::shared_ptr<VxSktBase> nullSktBase;
+    return nullSktBase;
 }
 
 //============================================================================
@@ -285,7 +277,7 @@ void VxSktBaseMgr::doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase )
 	m_pfnUserReceive( sktBase, m_pvRxCallbackUserData );
 	if( eSktCallbackReasonClosed == eCallbackReason )
 	{
-		//LogMsg( LOG_INFO, "VxSktBaseMgr::doReceiveCallback: closed %s \n", sktBase->describeSktType().c_str() );
+		LogModule( eLogSkt, LOG_VERBOSE, "VxSktBaseMgr::doReceiveCallback: closed %s num %d", sktBase->describeSktType().c_str(), sktBase->getSktNumber() );
 	}
 }
 

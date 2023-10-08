@@ -279,8 +279,6 @@ namespace
         "Net Cmd: Is Port Open Reply ",
         "Net Cmd: Query Host Id Req ",
         "Net Cmd: Query Host Id Reply ",
-        "Net Cmd: Host Ping Req ",
-        "Net Cmd: Host Ping Reply ",
     };
 
     const char* NetCmdErrorEnumStrings[] =
@@ -596,6 +594,7 @@ namespace
         "Skt Close Host Ping Reply Sent ",
         "Skt Close Tx Failed ",
         "Skt Close Pkt Ping Is First Packet ",
+        "Skt Close Net Service Handled ",
 
         "eMaxSktCloseReason "
     };

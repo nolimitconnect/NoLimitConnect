@@ -203,6 +203,14 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 	m_aBaseSysPktFuncTable[ PKT_TYPE_HOST_USER_LIST_REPLY ]				= &PktPluginHandlerBase::onPktHostUserListReply;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_HOST_USER_LIST_MORE_REQ ]			= &PktPluginHandlerBase::onPktHostUserListMoreReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_HOST_USER_LIST_MORE_REPLY ]		= &PktPluginHandlerBase::onPktHostUserListMoreReply;
+	
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_TEST_REQ ]				= &PktPluginHandlerBase::onPktTestConnTestReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_TEST_REPLY ]				= &PktPluginHandlerBase::onPktTestConnTestReply;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REPLY ]				= &PktPluginHandlerBase::onPktTestConnPingReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_HOST_USER_LIST_REQ ]				= &PktPluginHandlerBase::onPktTestConnPingReply;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REQ ]				= &PktPluginHandlerBase::onPktQueryHostUrlReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REPLY ]				= &PktPluginHandlerBase::onPktQueryHostUrlReply;
 }
 
 //============================================================================
@@ -1060,6 +1068,42 @@ void PktPluginHandlerBase::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>&
 
 //============================================================================
 void PktPluginHandlerBase::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktTestConnTestReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktTestConnTestReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktTestConnPingReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktQueryHostUrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktQueryHostUrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktUnhandled( sktBase, pktHdr, netIdent );
 }

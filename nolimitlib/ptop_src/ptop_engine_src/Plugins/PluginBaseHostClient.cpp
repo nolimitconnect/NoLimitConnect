@@ -178,7 +178,7 @@ bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
     LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostClient::sendLeaveHost groupie %s my online id %s",
                groupieId.describeGroupieId().c_str(), m_Engine.getMyOnlineId().describeVxGUID().c_str());
     bool pktSent{ false };
-    std::shared_ptr<VxSktBase>& sktBase =  m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
+    std::shared_ptr<VxSktBase> sktBase =  m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
     if( sktBase )
     {
         PktHostLeaveReq leaveReq;
@@ -217,7 +217,7 @@ void PluginBaseHostClient::sendUnJoinHost( EHostType hostType, VxGUID& sessionId
 bool PluginBaseHostClient::sendUnJoinHost( GroupieId& groupieId )
 {
     bool pktSent{ false };
-    std::shared_ptr<VxSktBase>& sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
+    std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
     if( sktBase )
     {
         PktHostUnJoinReq leaveReq;
@@ -245,7 +245,7 @@ bool PluginBaseHostClient::sendUnJoinHost( GroupieId& groupieId )
 bool PluginBaseHostClient::queryUserListFromHost( GroupieId& groupieId )
 {
     bool pktSent{ false };
-    std::shared_ptr<VxSktBase>& sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
+    std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
     if( sktBase )
     {
         PktGroupieSearchReq pktReq;

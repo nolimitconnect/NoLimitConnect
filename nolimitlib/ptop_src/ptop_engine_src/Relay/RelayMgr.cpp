@@ -48,7 +48,7 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return true;
 	}
 
-	std::shared_ptr<VxSktBase>& sktBaseRelay = m_Engine.getConnectIdListMgr().findRelayMemberConnection( destOnlineId );
+    std::shared_ptr<VxSktBase> sktBaseRelay = m_Engine.getConnectIdListMgr().findRelayMemberConnection( destOnlineId );
 	if( !sktBaseRelay )
 	{
 		sendRelayError( srcOnlineId, sktBase, eRelayErrUserNotOnline );

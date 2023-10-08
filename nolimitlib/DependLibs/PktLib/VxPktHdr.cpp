@@ -19,12 +19,6 @@
 
 #include <memory.h>
 
-//from ascii chart
-// h=0x68 t=0x74 p=0x70
-// http = 0x68747470
-    #define PKT_TYPE_NET_SERVICES						0x6874
-    #define PKT_LENGTH_NET_SERVICES						0x7470
-
 
 //============================================================================
 VxPktHdrPrefix::VxPktHdrPrefix( const VxPktHdrPrefix& rhs )
@@ -103,8 +97,13 @@ bool VxPktHdrPrefix::isValidPkt( void )
 //============================================================================
 bool VxPktHdrPrefix::isNetServicePkt( void )
 {
-    return PKT_TYPE_NET_SERVICES == getPktType()
-            && PKT_LENGTH_NET_SERVICES == getPktLength();
+    uint16_t u16PktType = getPktType();
+    return PKT_TYPE_TEST_CONN_TEST_REQ == u16PktType ||
+        PKT_TYPE_TEST_CONN_PING_REQ == u16PktType ||
+        PKT_TYPE_TEST_CONN_PING_REPLY == u16PktType ||
+        PKT_TYPE_TEST_CONN_TEST_REPLY == u16PktType ||
+        PKT_TYPE_QUERY_HOST_URL_REQ == u16PktType ||
+        PKT_TYPE_QUERY_HOST_URL_REPLY == u16PktType;
 }
 
 //============================================================================

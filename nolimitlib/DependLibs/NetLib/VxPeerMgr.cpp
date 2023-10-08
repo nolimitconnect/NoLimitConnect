@@ -100,15 +100,16 @@ std::shared_ptr<VxSktBase> VxPeerMgr::makeNewSkt( void )
 
 //============================================================================
 // find a socket.. assumes list has been locked
-std::shared_ptr<VxSktBase>& VxPeerMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
+std::shared_ptr<VxSktBase> VxPeerMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
 {
 	if( !connectId.isVxGUIDValid() )
 	{
-		LogMsg( LOG_ERROR, "VxPeerMgr::findSktBase invalid connectId" );
-		return  std::make_shared<VxSktBase>();
+        LogMsg( LOG_ERROR, "VxPeerMgr::findSktBase invalid connectId" );
+        std::shared_ptr<VxSktBase> nullSktBase;
+        return nullSktBase;
 	}
 
-	std::shared_ptr<VxSktBase>& sktBase = VxSktBaseMgr::findSktBase( connectId, acceptSktsOnly );
+	std::shared_ptr<VxSktBase> sktBase = VxSktBaseMgr::findSktBase( connectId, acceptSktsOnly );
 	if( !sktBase )
 	{
 		sktBase = m_ClientMgr.findSktBase( connectId, acceptSktsOnly );

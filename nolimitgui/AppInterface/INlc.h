@@ -554,7 +554,9 @@ public:
     virtual bool				fromGuiTestCmd( IFromGui::ETestParam1		eTestParam1,
                                                 int							testParam2 = 0,
                                                 const char*				testParam3 = NULL );
+#if ENABLE_COMPONENT_NEARBY
     virtual bool				fromGuiNearbyBroadcastEnable( bool enable );
+#endif // ENABLE_COMPONENT_NEARBY
     virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName = NULL );
     virtual void				fromGuiSendLog( uint32_t u32LogFlags );
 

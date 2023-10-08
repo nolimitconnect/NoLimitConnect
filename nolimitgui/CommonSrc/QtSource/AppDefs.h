@@ -13,8 +13,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#define ENABLE_COMPONENT_NEARBY 1 // enable/disable nearby users discovery 
-
+#include <GuiInterface/IDefs.h>
 #include "MyIconsDefs.h"
 
 #include <QString>

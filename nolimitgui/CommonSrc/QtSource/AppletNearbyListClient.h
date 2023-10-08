@@ -14,10 +14,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <GuiInterface/IDefs.h>
+#if ENABLE_COMPONENT_NEARBY
+
 #include "AppletClientBase.h"
 #include "GuiUserUpdateCallback.h"
 
-#include <GuiInterface/IDefs.h>
 #include <ptop_src/ptop_engine_src/PluginSettings/PluginSetting.h>
 
 #include <QString>
@@ -86,3 +88,5 @@ protected:
     Ui::AppletNearbyListClientUi ui;
     EUserViewType             m_FriendListType{ eUserViewTypeFriends };
 };
+
+#endif // ENABLE_COMPONENT_NEARBY

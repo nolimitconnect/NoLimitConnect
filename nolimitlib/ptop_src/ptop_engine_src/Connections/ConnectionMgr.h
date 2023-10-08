@@ -96,13 +96,13 @@ protected:
     EConnectStatus              directConnectTo(    std::string                 url,
                                                     VxGUID&                     onlineId,
                                                     IConnectRequestCallback*    callback,
-                                                    std::shared_ptr<VxSktBase>&                 retSktBase,
+                                                    std::shared_ptr<VxSktBase>& retSktBase,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
                                                     int					        iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT );  // how long to attempt connect
 
     EConnectStatus				directConnectTo(	VxConnectInfo&			    connectInfo,		 
-                                                    std::shared_ptr<VxSktBase>&			    ppoRetSkt,		
+                                                    std::shared_ptr<VxSktBase>& ppoRetSkt,		
                                                     VxGUID                      sessionId,
                                                     int						    iConnectTimeout = DIRECT_CONNECT_TIMEOUT,	 
                                                     bool					    useLanIp = false,
@@ -133,9 +133,10 @@ protected:
                                                     bool				requestAnnReply,
                                                     bool				requestReverseConnection,
                                                     bool				requestSTUN );
-    bool                        txPacket( VxGUID&				destinationId,
-                                          std::shared_ptr<VxSktBase>&			sktBase,
-                                          VxPktHdr*			poPkt );
+
+    bool                        txPacket( VxGUID&				        destinationId,
+                                          std::shared_ptr<VxSktBase>&	sktBase,
+                                          VxPktHdr*			            poPkt );
 
     void                        handleConnectSuccess( BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
     void                        closeConnection( enum ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo );

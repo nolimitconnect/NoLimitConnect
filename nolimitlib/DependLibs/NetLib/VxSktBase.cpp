@@ -652,7 +652,7 @@ void VxSktBase::doCloseThisSocketHandle( bool bFlushThenClose )
 
 //============================================================================
 //! send data without encrypting
-RCODE VxSktBase::sendData(	const char*	pData,					// data to send
+RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 							int				iDataLen,				// length of data	
 							bool			bDisconnectAfterSend )	// if true disconnect after data is sent
 {
@@ -661,7 +661,6 @@ RCODE VxSktBase::sendData(	const char*	pData,					// data to send
         LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::sendData: Attempted send on disconnected skt %s", this->describeSktType().c_str() );
 		vx_assert( m_Socket > 0 );
 	}
-
 
 	if( false == isConnected() )
 	{

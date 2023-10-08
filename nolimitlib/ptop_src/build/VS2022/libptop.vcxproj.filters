@@ -109,9 +109,6 @@
     <ClCompile Include="..\..\ptop_engine_src\NetworkMonitor\NetworkMonitor.cpp">
       <Filter>Source Files\NetworkMonitor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ptop_engine_src\P2PEngine\BrowserHttpConnection.cpp">
-      <Filter>Source Files\P2PEngine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\ContactList.cpp">
       <Filter>Source Files\P2PEngine</Filter>
     </ClCompile>
@@ -846,9 +843,6 @@
     <ClInclude Include="..\..\ptop_engine_src\NetworkMonitor\NetworkMonitor.h">
       <Filter>Source Files\NetworkMonitor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\P2PEngine\BrowserHttpConnection.h">
-      <Filter>Source Files\P2PEngine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\P2PEngine\ContactList.h">
       <Filter>Source Files\P2PEngine</Filter>
     </ClInclude>
@@ -1478,21 +1472,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="system">
-      <UniqueIdentifier>{9f51ef4d-9f96-46e9-8baa-1fe55d6aafad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system\shaders">
-      <UniqueIdentifier>{1899668d-13b8-49b8-9cf9-f4ebf8b32a22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tools">
-      <UniqueIdentifier>{28d49eb3-4aa9-4364-b6fc-263e03d17c64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tools\codegenerator">
-      <UniqueIdentifier>{baa4d4a1-7f59-43c5-92ed-3f96f49c49b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tools\windows">
-      <UniqueIdentifier>{16628d55-e49a-4f48-a48a-c8506c589ef8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="QtBuild">
       <UniqueIdentifier>{0921fc77-19ec-4125-8b2f-00cc5b3f5e56}</UniqueIdentifier>
     </Filter>

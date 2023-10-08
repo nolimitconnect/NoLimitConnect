@@ -604,11 +604,13 @@ bool INlc::fromGuiTestCmd( IFromGui::ETestParam1		eTestParam1,
     return getPtoP().fromGuiTestCmd( eTestParam1, testParam2, testParam3 );
 }
 
+#if ENABLE_COMPONENT_NEARBY
 //============================================================================
 bool INlc::fromGuiNearbyBroadcastEnable( bool enable )
 {
     return getPtoP().fromGuiNearbyBroadcastEnable( enable );
 }
+#endif // ENABLE_COMPONENT_NEARBY
 
 //============================================================================
 void INlc::fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName )

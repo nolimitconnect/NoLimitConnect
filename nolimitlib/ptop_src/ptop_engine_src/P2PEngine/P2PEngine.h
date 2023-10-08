@@ -696,6 +696,14 @@ public:
     virtual void				onPktHostUserListReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
     virtual void				onPktHostUserListMoreReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
     virtual void				onPktHostUserListMoreReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    
+	virtual void				onPktTestConnTestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	virtual void				onPktTestConnTestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	virtual void				onPktTestConnPingReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	virtual void				onPktTestConnPingReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+
+	virtual void				onPktQueryHostUrlReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	virtual void				onPktQueryHostUrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 

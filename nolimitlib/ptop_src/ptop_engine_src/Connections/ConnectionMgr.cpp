@@ -1038,12 +1038,8 @@ bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, std::shared_ptr<
         SOCKET skt = ::VxConnectToIPv6( ipv6.c_str(), connectInfo.getOnlinePort() );
         if( INVALID_SOCKET != skt )
         {
-            std::shared_ptr<VxSktBase>& sktBase = m_PeerMgr.createConnectionUsingSocket( skt, ipv6.c_str(), connectInfo.getOnlinePort() );
-            connectSuccess = ( nullptr != sktBase );
-            if( connectSuccess )
-            {
-                ppoRetSkt = sktBase;
-            }
+            ppoRetSkt = m_PeerMgr.createConnectionUsingSocket( skt, ipv6.c_str(), connectInfo.getOnlinePort() );
+            connectSuccess = ( nullptr != ppoRetSkt );
         }
     }
 

@@ -35,9 +35,9 @@ GuiThumbMgr::GuiThumbMgr( AppCommon& app )
 //============================================================================
 void GuiThumbMgr::onAppCommonCreated( void )
 {
-    connect( this, SIGNAL( signalInternalThumbAdded( ThumbInfo ) ),	    this, SLOT( slotInternalThumbAdded( ThumbInfo ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalThumbUpdated( ThumbInfo ) ),      this, SLOT( slotInternalThumbUpdated( ThumbInfo ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalThumbRemoved(VxGUID) ),	        this, SLOT( slotInternalThumbRemoved(VxGUID) ), Qt::QueuedConnection );
+    connect( this, SIGNAL( signalInternalThumbAdded(ThumbInfo) ),	this, SLOT( slotInternalThumbAdded(ThumbInfo) ), Qt::QueuedConnection );
+    connect( this, SIGNAL( signalInternalThumbUpdated(ThumbInfo) ), this, SLOT( slotInternalThumbUpdated(ThumbInfo) ), Qt::QueuedConnection );
+    connect( this, SIGNAL( signalInternalThumbRemoved(VxGUID) ),	this, SLOT( slotInternalThumbRemoved(VxGUID) ), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getThumbMgr().addThumbMgrClient( this, true );
     std::vector<VxGUID>& emoticonList = m_MyApp.getEngine().getThumbMgr().getEmoticonIdList();

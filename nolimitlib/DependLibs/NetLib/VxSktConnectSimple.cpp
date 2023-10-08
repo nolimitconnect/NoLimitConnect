@@ -21,6 +21,7 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxThread.h>
+#include <PktLib/VxPktHdr.h>
 
 #include <memory.h>
 
@@ -198,20 +199,34 @@ SOCKET VxSktConnectSimple::connectTo( const char*  lclAdapterIp,					// local ad
 //============================================================================
 RCODE VxSktConnectSimple::sendData(	const char*		pData,					// data to send
 									int				iDataLen,				// length of data
-									int				iTimeoutSeconds )		// seconds before send attempt times out
+									int				timeoutMs )		        // milliseconds before send attempt times out
 {
+    RCODE rc = -1;
+    setLastError( rc );
 	if( false == this->isConnected() )
 	{
 		LogMsg( LOG_INFO, "VxSktConnectSimple::sendData: attempted send on disconnected socket thread 0x%x", VxGetCurrentThreadId() );
-		return -1;
+		return rc;
 	}
 
-	RCODE rc = VxSendSktData( m_Socket, pData, iDataLen, iTimeoutSeconds );
-	if( rc || (INVALID_SOCKET == m_Socket) )
-	{
-		closeSkt(8689);		
-	}
+    if( isRxCryptoKeySet() && iDataLen >= sizeof( VxPktHdr ) )
+    {
+        if( encryptAndSendTxData( pData, iDataLen, timeoutMs ) )
+        {
+            rc = 0;
+        }
+    }
+    else
+    {
+	    rc = VxSendSktData( m_Socket, pData, iDataLen, timeoutMs );
 
+	    if( rc || (INVALID_SOCKET == m_Socket) )
+	    {
+		    closeSkt(8689);		
+	    }
+    }
+
+    setLastError( rc );
 	return rc;
 }
 		
@@ -225,11 +240,16 @@ RCODE VxSktConnectSimple::recieveData(	char *			pRetBuf,				// buffer to receive
 										bool *			pbRetGotCrLfCrLf )		// if received \r\n\r\n set to true
 {
 	RCODE rc = VxReceiveSktData( m_Socket, pRetBuf, iBufLenIn, iRetBytesReceived, iTimeoutMilliSeconds, bAbortIfCrLfCrLf, pbRetGotCrLfCrLf );
+    setLastError( rc );
     if( VxIsFatalSktError( rc ) )
     {
         LogMsg( LOG_INFO, "VxSktConnectSimple::recieveData: skt %d failed length %d timeout %d error %s", 
             getSktHandle(), iBufLenIn, iTimeoutMilliSeconds, VxDescribeSktError( rc ) );
         closeSkt( 8690 );
+    }
+    else if( isRxCryptoKeySet() && *iRetBytesReceived >= sizeof( VxPktHdr ) )
+    {
+
     }
 
     return rc;
@@ -275,6 +295,7 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
 											int					iConnectTimeoutMs )
 {
 	closeSkt( 99 );
+    setLastError( 0 );
 	m_bIsConnected	= false;
 	m_Socket = VxConnectToWebsite( m_LclIp, m_RmtIp, pWebsiteUrl, strHost, strFile, u16Port, iConnectTimeoutMs );
 	strResolveIpAddr = m_RmtIp.toStdString();
@@ -289,6 +310,7 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
 
         if( rc )
         {
+            setLastError( rc );
             m_bIsConnected = false;
             VxCloseSktNow( m_Socket );
             m_Socket = INVALID_SOCKET;
@@ -306,6 +328,138 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
 
 	return m_bIsConnected;
 }
+
+
+//============================================================================
+void VxSktConnectSimple::setTxCryptoPassword( const char* data, int len )
+{
+	m_TxKey.m_bIsSet = true;
+	m_TxCrypto.setPassword( data, len );
+}
+
+//============================================================================
+void VxSktConnectSimple::setRxCryptoPassword( const char* data, int len )
+{
+	m_RxKey.m_bIsSet = true;
+	m_RxCrypto.setPassword( data, len );
+}
+
+//============================================================================
+bool VxSktConnectSimple::isTxCryptoKeySet( void )
+{
+	return m_TxKey.m_bIsSet;
+}
+
+//============================================================================
+bool VxSktConnectSimple::isRxCryptoKeySet( void )
+{
+	return m_RxKey.m_bIsSet;
+}
+
+//============================================================================
+bool VxSktConnectSimple::encryptAndSendTxData( const char* pDataIn, int iDataLen, int timeoutMs )
+{
+    if( !pDataIn )
+    {
+        LogMsg( LOG_ERROR, "VxSktConnectSimple::encryptTxData null data");
+
+        vx_assert( pDataIn );
+        return false;
+    }
+
+    if( !iDataLen )
+    {
+        LogMsg( LOG_ERROR, "VxSktConnectSimple::encryptTxData invalid data len %d", iDataLen);
+
+        vx_assert( pDataIn );
+        return false;
+    }
+
+	if( !isConnected() )
+	{
+		LogMsg( LOG_VERBOSE, "VxSktConnectSimple::encryptTxData skt is already disconnected" );
+		return false;
+	}
+
+	if( 0 != (iDataLen & 0x0f) )
+	{
+		LogMsg( LOG_ERROR, "VxSktConnectSimple::encryptTxData invalid pkt len %d (pkt type %d)", iDataLen, ((VxPktHdr*)pDataIn)->getPktType() );
+
+        vx_assert( 0 == (iDataLen & 0x0f) );
+        return false;
+	}
+
+    if( !m_TxCrypto.isKeyValid() )
+    {
+        LogMsg( LOG_ERROR, "VxSktConnectSimple::encryptTxData invalid crypto key");
+        vx_assert( m_TxCrypto.isKeyValid() );
+
+        return false;
+    }
+
+    bool status{ false };
+
+	// make copy of data so data is not destroyed
+	uint8_t * pu8Data = new uint8_t[ iDataLen ];
+	memcpy( pu8Data, pDataIn, iDataLen );
+
+	// encrypt
+	RCODE rc =	m_TxCrypto.encrypt( pu8Data, iDataLen );
+	if( rc )
+	{
+		LogMsg( LOG_ERROR, "VxSktConnectSimple::encryptTxData: crypto error %d", rc );
+        setLastError( rc );
+		vx_assert( 0 == rc );
+	}
+	else
+	{
+		// send
+        rc = VxSendSktData( m_Socket, (const char *)pu8Data, iDataLen, timeoutMs );
+	    if( rc || (INVALID_SOCKET == m_Socket) )
+	    {
+            setLastError( rc );
+		    closeSkt(8690);		
+	    }
+        else
+        {
+            status = true;
+        }
+	}
+
+	delete[] pu8Data;
+
+	return status;
+}
+
+
+//============================================================================
+bool VxSktConnectSimple::decryptReceiveData( char* data, int iDataLen )
+{
+	if( false == isRxEncryptionKeySet() )
+	{
+		// no key to decrypt with
+		LogMsg( LOG_INFO, "%s No Rx Crypto Key Set", __func__ );
+		return false;
+	}
+
+    uint32_t u32Datalen = iDataLen;
+    if( 0 != (u32Datalen & 0x0f ) )
+    {
+        LogMsg( LOG_INFO, "%s Invalid data len not a multiple of 16", __func__ );
+        return false;
+    }
+
+    if( !u32Datalen )
+    {
+        LogMsg( LOG_INFO, "%s Invalid data len is 0", __func__ );
+        return false;
+    }
+
+	m_RxCrypto.decrypt( (uint8_t *)data, u32Datalen );
+
+	return true;
+}
+
 
 //============================================================================
 void VxSktConnectSimple::dumpConnectionInfo( void )
@@ -341,3 +495,4 @@ void VxSktConnectSimple::dumpConnectionInfo( void )
             lclPort, VxGetCurrentThreadId() );
     }
 }
+

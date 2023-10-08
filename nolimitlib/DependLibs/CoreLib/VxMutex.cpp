@@ -55,7 +55,7 @@ VxMutex::~VxMutex( void )
 int VxMutex::lock( int iInstance )
 {
 #ifdef SHOW_LOCKS
-	LogMsg( LOG_INFO, "Unlocking VxMutex ..instance %d\n", iInstance );
+	LogMsg( LOG_INFO, "Unlocking VxMutex ..instance %d", iInstance );
 #endif
 	return this->lock();
 }
@@ -64,7 +64,7 @@ int VxMutex::lock( int iInstance )
 int VxMutex::unlock( int iInstance )
 {
 #ifdef SHOW_LOCKS
-	LogMsg( LOG_INFO, "Unlocking VxMutex ..instance %d\n", iInstance );
+	LogMsg( LOG_INFO, "Unlocking VxMutex ..instance %d", iInstance );
 #endif
 	return this->unlock();
 }
@@ -91,11 +91,11 @@ int VxMutex::lock( void )
 
 	if( 0xFFFFFFFF == dwResult )
 	{
-		LogMsg( LOG_INFO, "VxMutex Lock failure %d\n", GetLastError() );
+		LogMsg( LOG_INFO, "VxMutex Lock failure %d", GetLastError() );
 	}
 	else
 	{
-		LogMsg( LOG_INFO, "VxMutex Lock failure %d result %d\n", GetLastError(), dwResult );
+		LogMsg( LOG_INFO, "VxMutex Lock failure %d result %d", GetLastError(), dwResult );
 	}
 
 	vx_assert( false );
@@ -110,10 +110,10 @@ int VxMutex::lock( void )
 #ifdef DEBUG_VX_MUTEX
 		DoMutexError( this, pthread_self(), iError );
 #endif// DEBUG_VX_MUTEX
-		LogMsg( LOG_INFO, "VxMutex Lock failure %d\n", iError );
+		LogMsg( LOG_INFO, "VxMutex Lock failure %d", iError );
 		if( iError != EDEADLK )
 		{
-			LogMsg( LOG_INFO, "VxMutex was not Deadlocked\n");
+			LogMsg( LOG_INFO, "VxMutex was not Deadlocked");
 		}
 		vx_assert( false );
 	}
@@ -131,7 +131,7 @@ int VxMutex::unlock( void )
 	if( false == SetEvent( m_hAccessLock ) )
 	{
 		int iLastErr = GetLastError();
-		LogMsg( LOG_INFO, "VxMutex Unlock failure %d\n", iLastErr );
+		LogMsg( LOG_INFO, "VxMutex Unlock failure %d", iLastErr );
 		vx_assert( false );
 		return iLastErr;
 	}
@@ -140,7 +140,7 @@ int VxMutex::unlock( void )
 	int err;
 	if( 0 != (err = pthread_mutex_unlock( &m_Lock ) ) )
 	{
-		LogMsg( LOG_INFO, "VxMutex Unlock failure %d\n", err );
+		LogMsg( LOG_INFO, "VxMutex Unlock failure %d", err );
 		vx_assert( false );
 	}
 
@@ -162,9 +162,9 @@ int VxMutex::lock( const char* file, int line )
 			VxMutexDebug * pgMutDbg = &m_agMutexThreadIds[ i ];
 			if( 0 != pgMutDbg->m_iLockCnt )
 			{
-				LogMsg( LOG_INFO, "VxMutex: LockCnt %d file %s line %d\n", pgMutDbg->m_iLockCnt, file, line );
-				LogMsg( LOG_INFO, "VxMutex: Prev lock file %s line %d\n", pgMutDbg->m_pLastLockFile, pgMutDbg->m_iLastLockLine );
-				LogMsg( LOG_INFO, "VxMutex: Prev Unock file %s line %d\n", pgMutDbg->m_pLastUnlockFile, pgMutDbg->m_iLastUnlockLine );
+				LogMsg( LOG_INFO, "VxMutex: LockCnt %d file %s line %d", pgMutDbg->m_iLockCnt, file, line );
+				LogMsg( LOG_INFO, "VxMutex: Prev lock file %s line %d", pgMutDbg->m_pLastLockFile, pgMutDbg->m_iLastLockLine );
+				LogMsg( LOG_INFO, "VxMutex: Prev Unock file %s line %d", pgMutDbg->m_pLastUnlockFile, pgMutDbg->m_iLastUnlockLine );
 				vx_assert( false );
 			}
 			pgMutDbg->m_iLockCnt++;
@@ -190,7 +190,7 @@ int VxMutex::lock( const char* file, int line )
 
 	if( false == bFound )
 	{
-		LogMsg( LOG_INFO, "VxMutex: Ran out of thread ids file %s line %d\n", file, line );
+		LogMsg( LOG_INFO, "VxMutex: Ran out of thread ids file %s line %d", file, line );
 		vx_assert( false );
 	}
 #endif // DEBUG_VX_MUTEX
@@ -212,9 +212,9 @@ int VxMutex::unlock( const char* file, int line )
 			VxMutexDebug * pgMutDbg = &m_agMutexThreadIds[ i ];
 			if( 1 != pgMutDbg->m_iLockCnt )
 			{
-				LogMsg( LOG_INFO, "VxMutex: UnlockCnt %d file %s line %d\n", pgMutDbg->m_iLockCnt, file, line );
-				LogMsg( LOG_INFO, "VxMutex: Prev lock file %s line %d\n", pgMutDbg->m_pLastLockFile, pgMutDbg->m_iLastLockLine );
-				LogMsg( LOG_INFO, "VxMutex: Prev Unock file %s line %d\n", pgMutDbg->m_pLastUnlockFile, pgMutDbg->m_iLastUnlockLine );
+				LogMsg( LOG_INFO, "VxMutex: UnlockCnt %d file %s line %d", pgMutDbg->m_iLockCnt, file, line );
+				LogMsg( LOG_INFO, "VxMutex: Prev lock file %s line %d", pgMutDbg->m_pLastLockFile, pgMutDbg->m_iLastLockLine );
+				LogMsg( LOG_INFO, "VxMutex: Prev Unock file %s line %d", pgMutDbg->m_pLastUnlockFile, pgMutDbg->m_iLastUnlockLine );
 				vx_assert( false );
 			}
 			pgMutDbg->m_u32ThreadId = 0;
@@ -225,7 +225,7 @@ int VxMutex::unlock( const char* file, int line )
 
 	if( false == bFound )
 	{
-		LogMsg( LOG_INFO, "VxMutex: Unlock without lock attempted by thread 0x%x file %s line %d\n", u32ThreadId, file, line );
+		LogMsg( LOG_INFO, "VxMutex: Unlock without lock attempted by thread 0x%x file %s line %d", u32ThreadId, file, line );
 		vx_assert( false );
 	}
 #endif // DEBUG_VX_MUTEX

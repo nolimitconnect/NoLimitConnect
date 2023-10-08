@@ -127,7 +127,7 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_GenKeyButton, SIGNAL( clicked() ), this, SLOT( slotGenKeyButtonClicked() ) );
     connect( ui.m_ListActionButton, SIGNAL( clicked() ), this, SLOT( slotListActionButtonClicked() ) );
     connect( ui.m_HostClientTestButton, SIGNAL( clicked() ), this, SLOT( slotHostClientTestButtonClicked() ) );
-    connect( ui.m_PingRemoteUrlButton, SIGNAL( clicked() ), this, SLOT( slotPingRemoteUrlButtonClicked() ) );
+
     connect( ui.m_PurgeEverythingButton, SIGNAL( clicked() ), this, SLOT( slotPurgeEverythingButtonClicked() ) );
 
     connect( ui.m_BrowseDownloadsButton, SIGNAL( clicked() ), this, SLOT( slotBrowseDownloadsButtonClicked() ) );
@@ -531,12 +531,6 @@ void AppletTestAndDebug::slotListActionButtonClicked( void )
 void AppletTestAndDebug::slotHostClientTestButtonClicked( void )
 {
     m_MyApp.launchApplet( eAppletTestHostClient, getContentFrameOfOppositePageFrame() );
-}
-
-//============================================================================
-void AppletTestAndDebug::slotPingRemoteUrlButtonClicked( void )
-{
-    startUrlTest( eNetCmdHostPingReq );
 }
 
 //============================================================================

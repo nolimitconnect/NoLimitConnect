@@ -58,7 +58,7 @@ public:
 	void						exportToAsciiString( std::string& exportedKey );
 	//! make encryption key from password
 	RCODE						setKeyFromPassword( const char*	pPassword,			// password
-													int				iPasswordLen,		// length of password
+													int			iPasswordLen,		// length of password
 													const char*	pSalt = "NoLm" );	// salt
 	//! make encryption key from user name and password 
 	RCODE						setKeyFromPassword( const char*	pUserName,			// user name

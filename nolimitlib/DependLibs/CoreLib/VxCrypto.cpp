@@ -361,9 +361,9 @@ RCODE VxSymEncrypt( VxKey *		poKey,			// Symmetric key must be 16 bytes long
 
 	VxCrypto oCrypto;
 	oCrypto.importKey( poKey );
-	oCrypto.encrypt( (uint8_t *)pDataOut, iDataLen );
-	return 0;
+	return oCrypto.encrypt( (uint8_t *)pDataOut, iDataLen );
 }
+
 //============================================================================
 //! decrypt data with VxCryptoo
 RCODE VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
@@ -383,7 +383,6 @@ RCODE VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
 
 	VxCrypto oCrypto;
 	oCrypto.importKey( poKey );
-	oCrypto.decrypt( (uint8_t *)pDataOut, iDataLen );
-	return 0;
+	return oCrypto.decrypt( (uint8_t *)pDataOut, iDataLen );
 }
 

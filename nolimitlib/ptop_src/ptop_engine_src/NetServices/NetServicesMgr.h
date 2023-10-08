@@ -30,15 +30,22 @@
 # include <ptop_src/ptop_engine_src/Network/Firewall.h>
 #endif // TARGET_OS_WINDOWS
 
-class VxSktBase;
-class VxGUID;
-class P2PEngine;
 class EngineSettings;
-class PktAnnounce;
-class NetworkMgr;
 class HostList;
+class NetworkMgr;
+class P2PEngine;
+class PktAnnounce;
+class VxGUID;
+class VxSktBase;
+class VxPktHdr;
+class PktTestConnTestReq;
+class PktTestConnTestReply;
+class PktTestConnPingReq;
+class PktTestConnPingReply;
+class PktQueryHostUrlReq;
+class PktQueryHostUrlReply;
 
-typedef void (*MY_PORT_OPEN_CALLBACK_FUNCTION )( void *, ENetCmdError, std::string& );
+typedef void ( *MY_PORT_OPEN_CALLBACK_FUNCTION )( void *, ENetCmdError, std::string& );
 typedef void( *QUERY_HOST_ID_CALLBACK_FUNCTION )( void *, ENetCmdError, VxGUID& );
 
 class NetServicesMgr
@@ -58,8 +65,29 @@ public:
     EngineSettings&				getEngineSettings( void )	{ return m_EngineSettings; }
 	NetServiceUtils&			getNetUtils( void )			{ return m_NetServiceUtils; }
 
-    std::string                 getNetworkKey( void );
 	VxGUID&						getMyOnlineId( void );
+
+    std::string                 getNetworkKey( void );
+	uint16_t					getRxNetServicePort( void );
+	std::string					getRxNetIpAddress( void );
+
+	void                        setIsTestConnectionActive( bool isActive )      { m_TestConnectionActive = isActive; }
+    bool                        getIsTestConnectionActive( void )               { return m_TestConnectionActive; }
+	void                        setIsQueryUrlActive( bool isActive )			{ m_QueryUrlActive = isActive; }
+    bool                        getIsQueryUrlActive( void )						{ return m_QueryUrlActive; }
+
+	bool                        shouldHandleNetServicePacket( void );
+
+	bool						getNetPktRxCryptoPassword( std::string& retPwd, std::shared_ptr<VxSktBase>& sktBase );
+
+	bool						handlePktNetService( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, bool& permissionError );
+
+	bool						handlePktConnTestReq( std::shared_ptr<VxSktBase>& sktBase, PktTestConnTestReq* pkt, bool& permissionError);
+	bool						handlePktConnTestReply( std::shared_ptr<VxSktBase>& sktBase, PktTestConnTestReply* pkt, bool& permissionError );
+	bool						handlePktConnPingReq( std::shared_ptr<VxSktBase>& sktBase, PktTestConnPingReq* pkt, bool& permissionError );
+	bool						handlePktConnPingReply( std::shared_ptr<VxSktBase>& sktBase, PktTestConnPingReply* pkt, bool& permissionError );
+	bool						handlePktQueryHostUrlReq( std::shared_ptr<VxSktBase>& sktBase, PktQueryHostUrlReq* pkt, bool& permissionError );
+	bool						handlePktQueryHostUrlReply( std::shared_ptr<VxSktBase>& sktBase, PktQueryHostUrlReply* pkt, bool& permissionError );
 
 	void						netServicesStartup( void );
 	void						netServicesShutdown( void );
@@ -75,6 +103,7 @@ public:
 	RCODE						handleNetCmdPing( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 	RCODE						handleNetCmdPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 	RCODE						handleNetCmdIsMyPortOpenReq( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
+	RCODE						handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, std::string& fromClientNetCmdContent );
 	RCODE						handleNetCmdIsMyPortOpenReply( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
     RCODE						handleNetCmdQueryHostIdReq( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
     RCODE						handleNetCmdQueryHostIdReply( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
@@ -96,18 +125,27 @@ public:
 															std::string&			retMyExternalIp,
 															bool					sendMsgToUser,
 															int						sendRecieveTimeout = IS_PORT_OPEN_RX_DATA_TIMEOUT );
+
 	ENetCmdError                sendAndRecieveQueryHostId( VxTimer&				portTestTimer,
                                                            VxSktConnectSimple *	netServConn,
                                                            VxGUID&			    retHostId,
                                                            bool					sendMsgToUser );
+
 	bool						sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple& toClientConn, std::string& retPong, int receiveTimeout = 4000 );
 
 	bool						fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std::string& retExternIpAddr, int receiveTimeout = 6000 );
 
+	bool                        sendNetServicePacket(   ENetCmdType         netCmdType, ///< which type of net service to send
+                                                        std::shared_ptr<VxSktBase>& sktBase, 
+                                                        std::string&        netCmd,
+                                                        int                 txDataTimeout );
 protected:
 	void						addNetActionCommand( NetActionBase * netActionBase );
 	bool						isActionQued( ENetActionType eNetActionType );
 	RCODE						sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
+
+	bool						buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase );
+	bool						buildAndSendPktQueryUrlReply( std::shared_ptr<VxSktBase>& sktBase );
 
 	//=== vars ===//
 #ifdef TARGET_OS_WINDOWS
@@ -136,6 +174,9 @@ protected:
     void *						m_QueryHostIdCallbackUserData{ nullptr };
 
 	VxSktConnectSimple			m_SktToHost;
+
+    bool                        m_TestConnectionActive{ false };
+	bool						m_QueryUrlActive{ false };
 };
 
 

@@ -67,7 +67,6 @@ protected slots:
     void                        slotPurgeCacheButtonClicked( void );
     void                        slotListActionButtonClicked( void );
     void                        slotHostClientTestButtonClicked( void );
-    void                        slotPingRemoteUrlButtonClicked( void );
 
     void                        slotPurgeEverythingButtonClicked( void );
 

@@ -272,7 +272,6 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
     switch( netCmdType )
     {
     case eNetCmdPing:
-    case eNetCmdHostPingReq:
     case eNetCmdIsMyPortOpenReq:
     case eNetCmdQueryHostOnlineIdReq:
         break;
@@ -313,12 +312,6 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         rxCmdHeaderTimeout = PING_TEST_RX_HDR_TIMEOUT;
         rxCmdDataTimeout = PING_TEST_RX_DATA_TIMEOUT;
         m_NetServiceUtils.buildPingTestUrl( &netServConn, strNetActionUrl );
-        break;
-
-    case eNetCmdHostPingReq:
-        rxCmdHeaderTimeout = PING_TEST_RX_HDR_TIMEOUT;
-        rxCmdDataTimeout = PING_TEST_RX_DATA_TIMEOUT;
-        m_NetServiceUtils.buildHostPingReqUrl( &netServConn, strNetActionUrl );
         break;
 
     case eNetCmdIsMyPortOpenReq:
@@ -368,7 +361,8 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 	char rxBuf[ 513 ];
     rxBuf[ 0 ] = 0;
 	NetServiceHdr netServiceHdr;
-	if( false == m_NetServiceUtils.rxNetServiceCmd( &netServConn, 
+	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdQueryHostOnlineIdReply,
+                                                    &netServConn, 
 													rxBuf, 
 													sizeof( rxBuf ) - 1, 
 													netServiceHdr, 
@@ -441,17 +435,6 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
                 urlAction.getResultInterface()->callbackPingSuccess( urlAction, strMyIP.c_str() );
             }
         }
-    }
-    else if( eNetCmdHostPingReq == netCmdType )
-    {
-        if( strPayload.empty() || strPayload.length() < 5 )
-        {
-            LogModule( eLogRunTest, LOG_ERROR, "RunUrlAction no content" );
-            sendRunTestStatus( urlAction, actionName, eRunTestStatusInvalidResponse, netServiceHdr.getError(), "%s No HOST PING REPLY content", actionName.c_str() );
-            return doRunTestFailed( urlAction, actionName, eRunTestStatusInvalidResponse, netServiceHdr.getError() );
-        }
-
-        sendTestLog( urlAction, actionName, "%s HOST PING REPLY Content (%s)", actionName.c_str(), strPayload.c_str() );
     }
     else if( eNetCmdQueryHostOnlineIdReq == netCmdType )
     {

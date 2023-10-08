@@ -61,25 +61,48 @@ public:
 
 	virtual RCODE				sendData(	const char*		pData,							// data to send
 											int				iDataLen,						// length of data	
-											int				iTimeoutMilliSeconds = SKT_SEND_TIMEOUT );	// timeout attempt to send ( 0 = don't timeout )
+											int				timeoutMs = SKT_SEND_TIMEOUT );	// timeout attempt to send ( 0 = don't timeout )
 
 	//! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
 	virtual RCODE				recieveData(	char *		pRetDataBuf,					// data buffer to read into
 												int			iBufLen,						// length of data	
 												int *		iRetBytesReceived,				// number of bytes actually received
-												int			iTimeoutMilliSeconds = SKT_SEND_TIMEOUT,	// timeout attempt to received
+												int			timeoutMs = SKT_SEND_TIMEOUT,	// timeout attempt to received
 												bool		bAbortIfCrLfCrLf = false,		// if true then abort receive when \r\n\r\n is received
 												bool *		pbRetGotCrLfCrLf = NULL );		// if received \r\n\r\n set to true
 
 	virtual void				closeSkt( int iInstance = 0 );
 
 	void						dumpConnectionInfo( void );
+	
+	/// return true if transmit encryption key is set
+	virtual bool				isTxEncryptionKeySet( void )        { return m_TxKey.isKeySet(); }
+	/// return true if receive encryption key is set
+	virtual bool				isRxEncryptionKeySet( void )        { return m_RxKey.isKeySet(); }
+	void						setTxCryptoPassword( const char* data, int len );
+	void						setRxCryptoPassword( const char* data, int len );
+	bool						isTxCryptoKeySet( void );
+	bool						isRxCryptoKeySet( void );
+
+	bool						encryptAndSendTxData( const char* data, int len, int timeoutMs );
+	/// decrypt data .. data is decrypted in place 
+	bool						decryptReceiveData( char* data, int iDataLen );
+
+	RCODE						setLastError( RCODE rc )			{ m_LastError = rc; return rc; }
+	RCODE						getLastError( void )				{ return m_LastError; }
 
 	//=== vars ===//
+	RCODE						m_LastError{ 0 };
 	SOCKET						m_Socket;				// handle to socket
 	bool						m_bIsConnected;			// return true if is connected
 
 	InetAddrAndPort				m_LclIp;				// local ip address
 	InetAddrAndPort				m_RmtIp;				// remote (peer) ip address
+
+
+	VxKey						m_RxKey;				        // encryption key for receive
+	VxCrypto					m_RxCrypto;			            // encryption object for receive
+	VxKey						m_TxKey;				        // encryption key for transmit
+	VxCrypto					m_TxCrypto;			            // encryption object for transmit
 };
 

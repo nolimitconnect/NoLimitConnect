@@ -98,6 +98,9 @@ public:
     static void                 uint64ToHexAscii( char * retBuf, const uint64_t& val );
     static char                 nibbleToHex( uint8_t val );
 
+	// fill wie random data which is faster but does NOT make it unique
+	void						fillRandom( void );
+
 protected:
     uint64_t					m_u64HiPart{ 0 };
 	uint64_t					m_u64LoPart{ 0 };

@@ -14,6 +14,8 @@
 //============================================================================
 
 #include "AppletNearbyListClient.h"
+#if ENABLE_COMPONENT_NEARBY
+
 #include "ActivityInformation.h"
 
 #include "AppCommon.h"
@@ -378,3 +380,5 @@ void AppletNearbyListClient::updateFriendList( EUserViewType listType, std::vect
         updateUser( listType, identTime.first );
     }
 }
+
+#endif // ENABLE_COMPONENT_NEARBY

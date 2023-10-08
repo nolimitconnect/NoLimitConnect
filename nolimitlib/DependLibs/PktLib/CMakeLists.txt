@@ -41,10 +41,12 @@ list(APPEND pktlib_SOURCES
     PktsPing.cpp
     PktsPluginOffer.cpp
     PktsPushToTalk.cpp
+    PktsQueryHostUrl.cpp
     PktsRelay.cpp
 	PktsScan.cpp
 	PktsSearch.cpp
     PktsSession.cpp
+    PktsTestConnection.cpp
     PktsThumbXfer.cpp
     PktsTodGame.cpp
     PktsVideoFeed.cpp

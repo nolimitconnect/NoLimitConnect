@@ -210,10 +210,12 @@
     <ClInclude Include="..\..\PktsPing.h" />
     <ClInclude Include="..\..\PktsPluginOffer.h" />
     <ClInclude Include="..\..\PktsPushToTalk.h" />
+    <ClInclude Include="..\..\PktsQueryHostUrl.h" />
     <ClInclude Include="..\..\PktsRelay.h" />
     <ClInclude Include="..\..\PktsScan.h" />
     <ClInclude Include="..\..\PktsSearch.h" />
     <ClInclude Include="..\..\PktsSession.h" />
+    <ClInclude Include="..\..\PktsTestConnection.h" />
     <ClInclude Include="..\..\PktsThumbXfer.h" />
     <ClInclude Include="..\..\PktsTodGame.h" />
     <ClInclude Include="..\..\PktsVideoFeed.h" />
@@ -269,10 +271,12 @@
     <ClCompile Include="..\..\PktsPing.cpp" />
     <ClCompile Include="..\..\PktsPluginOffer.cpp" />
     <ClCompile Include="..\..\PktsPushToTalk.cpp" />
+    <ClCompile Include="..\..\PktsQueryHostUrl.cpp" />
     <ClCompile Include="..\..\PktsRelay.cpp" />
     <ClCompile Include="..\..\PktsScan.cpp" />
     <ClCompile Include="..\..\PktsSearch.cpp" />
     <ClCompile Include="..\..\PktsSession.cpp" />
+    <ClCompile Include="..\..\PktsTestConnection.cpp" />
     <ClCompile Include="..\..\PktsThumbXfer.cpp" />
     <ClCompile Include="..\..\PktsTodGame.cpp" />
     <ClCompile Include="..\..\PktsVideoFeed.cpp" />

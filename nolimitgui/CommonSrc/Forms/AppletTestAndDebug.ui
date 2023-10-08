@@ -206,13 +206,6 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QPushButton" name="m_PingRemoteUrlButton">
-          <property name="text">
-           <string>Ping Remote Url</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="m_QueryHostIdButton">
           <property name="text">
            <string>Query Host ID </string>

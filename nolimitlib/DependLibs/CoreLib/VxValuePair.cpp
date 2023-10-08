@@ -16,12 +16,6 @@
 #include "VxValuePair.h"
 #include "VxParse.h"
 
-//namespace
-//{
-//	const char LF = '\n';
-//	const char CR = '\r';
-//}
-
 //============================================================================
 VxValuePair::VxValuePair( const char* pStr )
 {

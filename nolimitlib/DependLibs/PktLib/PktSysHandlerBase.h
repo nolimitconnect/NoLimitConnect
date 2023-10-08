@@ -207,6 +207,13 @@ public:
 	virtual void				onPktHostUserListMoreReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 	virtual void				onPktHostUserListMoreReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
+	virtual void				onPktTestConnTestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTestConnTestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTestConnPingReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktTestConnPingReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
+	virtual void				onPktQueryHostUrlReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktQueryHostUrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 	//packet type 250 and greater not allowed
 	typedef void (PktHandlerBase::*RC_SYS_BASE_PKT_FUNCTION)( std::shared_ptr<VxSktBase>&, VxPktHdr* );  

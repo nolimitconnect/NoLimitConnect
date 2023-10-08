@@ -184,6 +184,12 @@
     <ClInclude Include="..\..\HostUserSessionId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\PktsTestConnection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PktsQueryHostUrl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\PktAnnList.cpp">
@@ -349,6 +355,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HostUserSessionId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PktsTestConnection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PktsQueryHostUrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

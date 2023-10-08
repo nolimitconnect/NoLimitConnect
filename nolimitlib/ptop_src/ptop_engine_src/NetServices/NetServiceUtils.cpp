@@ -18,12 +18,17 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
 #include <ptop_src/ptop_engine_src/NetServices/NetServiceHdr.h>
+#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
 
-#include <PktLib/PktAnnounce.h>
-#include <NetLib/VxSktBase.h>
-#include <NetLib/VxSktConnectSimple.h>
 #include <CoreLib/VxParse.h>
+#include <NetLib/VxSktConnectSimple.h>
+#include <NetLib/VxSktBase.h>
+#include <PktLib/PktAnnounce.h>
+#include <PktLib/PktsTestConnection.h>
+#include <PktLib/PktsQueryHostUrl.h>
 
+#include <array>
+#include <memory>
 #include <stdlib.h>
 #include <string.h>
 
@@ -83,7 +88,7 @@ bool NetServiceUtils::verifyAllDataArrivedOfNetServiceUrl( std::shared_ptr<VxSkt
 
 //============================================================================
 // returns content length or -1 if invalid url
-int  NetServiceUtils::getTotalLengthFromNetServiceUrl(  char * dataBuf, int dataLen )
+int  NetServiceUtils::getTotalLengthFromNetServiceUrl( char * dataBuf, int dataLen )
 {
 	//                     			32
 	//ptop://GET /url version/Crypto Key/total length of data/Net service command/VxGUID/cmd version/error code/content"
@@ -219,14 +224,6 @@ bool NetServiceUtils::buildPingTestUrl( VxSktConnectSimple * netServConn, std::s
 }
 
 //============================================================================
-bool NetServiceUtils::buildHostPingReqUrl( VxSktConnectSimple* netServConn, std::string& strNetCmdHttpUrl )
-{
-	std::string strContent = "PING";
-
-	return buildNetCmd( netServConn, strNetCmdHttpUrl, eNetCmdHostPingReq, strContent );
-}
-
-//============================================================================
 bool NetServiceUtils::buildNetCmd( VxSktConnectSimple * netServConn, std::string& retResult, ENetCmdType netCmd, std::string& strContent, ENetCmdError errCode, int version )
 {
     if( netServConn && netServConn->isConnected() )
@@ -289,6 +286,27 @@ bool NetServiceUtils::isValidHexString( const char* hexString, int dataLen )
 	}
 
 	return true;
+}
+
+//============================================================================
+EPluginType NetServiceUtils::parseHttpNetService( char* dataBuf, int dataLen, NetServiceHdr& netServiceHdr, std::string& netCmdContent )
+{
+	netCmdContent.clear();
+	EPluginType pluginType = parseHttpNetServiceHdr( dataBuf, dataLen, netServiceHdr );
+	if( ePluginTypeInvalid != pluginType )
+	{
+		int contentLen = dataLen - NET_SERVICE_HDR_LEN;
+		if( contentLen > 1 )
+		{
+			char* contentBuf = new char[contentLen + 1];
+			strncpy( contentBuf, &dataBuf[NET_SERVICE_HDR_LEN], contentLen );
+			contentBuf[contentLen] = 0;
+			netCmdContent = contentBuf;
+			delete[] contentBuf;
+		}
+	}
+
+	return pluginType;
 }
 
 //============================================================================
@@ -426,7 +444,7 @@ EPluginType NetServiceUtils::parseHttpNetServiceHdr( char * dataBuf, int dataLen
 }
 
 //============================================================================
-int  NetServiceUtils::getNextPartOfUrl( char * buf, std::string& strValue )
+int NetServiceUtils::getNextPartOfUrl( char * buf, std::string& strValue )
 {
 	strValue = "";
 	int len = 0;
@@ -439,6 +457,7 @@ int  NetServiceUtils::getNextPartOfUrl( char * buf, std::string& strValue )
 		*pTemp = cSave;
 		len = (int)strValue.length();
 	}
+
 	return len;
 }
 
@@ -499,14 +518,6 @@ ENetCmdType  NetServiceUtils::netCmdStringToEnum( const char* netCmd )
     {
         return eNetCmdQueryHostOnlineIdReply;
     }
-	else if( 0 == strcmp( NET_CMD_HOST_PING_REQ, netCmd ) )
-	{
-		return eNetCmdHostPingReq;
-	}
-	else if( 0 == strcmp( NET_CMD_HOST_PING_REPLY, netCmd ) )
-	{
-		return eNetCmdHostPingReply;
-	}
 	else
 	{
 		return eNetCmdUnknown;
@@ -530,10 +541,6 @@ const char*  NetServiceUtils::netCmdEnumToString( ENetCmdType	eNetCmdType )
         return NET_CMD_HOST_ID_REQ;
     case eNetCmdQueryHostOnlineIdReply:
         return NET_CMD_HOST_ID_REPLY;
-	case eNetCmdHostPingReq:
-		return NET_CMD_HOST_PING_REQ;
-	case eNetCmdHostPingReply:
-		return NET_CMD_HOST_PING_REPLY;
 
 	case eNetCmdUnknown:
 	default:
@@ -564,31 +571,62 @@ int  NetServiceUtils::getIndexOfCrLfCrLf( std::shared_ptr<VxSktBase>& sktBase )
 }
 
 //============================================================================
-RCODE NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
+bool NetServiceUtils::buildCmd( std::string& retCmd, std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
 {
-	std::string retResult;
+	retCmd.clear();
 	std::string netServChallengeHash;
     generateNetServiceChallengeHash( netServChallengeHash, sktBase, m_NetworkMgr.getNetworkKey() );
-	buildNetCmd( retResult, netCmd, netServChallengeHash, cmdContent, errCode, version );
 
-	return sktBase->sendData( retResult.c_str(), (int)retResult.length() );
+	buildNetCmd( retCmd, netCmd, netServChallengeHash, cmdContent, errCode, version );
+	return !retCmd.empty() && sktBase->isConnected();
+}
+
+//============================================================================
+bool NetServiceUtils::buildCmd( std::string& retCmd, VxSktConnectSimple* sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
+{
+	retCmd.clear();
+	std::string netServChallengeHash;
+    generateNetServiceChallengeHash( netServChallengeHash, sktBase, m_NetworkMgr.getNetworkKey() );
+	buildNetCmd( retCmd, netCmd, netServChallengeHash, cmdContent, errCode, version );
+	return !retCmd.empty() && sktBase->isConnected();
+}
+
+//============================================================================
+RCODE NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
+{
+	RCODE rc = -1;
+	std::string retResult;
+	if( buildCmd( retResult, sktBase, netCmd, cmdContent, errCode, version ) && isAllAscii( retResult ) )
+	{
+		if( GetPtoPEngine().getNetServicesMgr().sendNetServicePacket( netCmd, sktBase, retResult, errCode ) )
+		{
+			rc = 0;
+		}
+	}
+
+	return rc;
 }
 
 //============================================================================
 RCODE NetServiceUtils::buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
 {
+	RCODE rc = -1;
     std::string retResult;
-    std::string netServChallengeHash;
-    generateNetServiceChallengeHash( netServChallengeHash, sktBase, m_NetworkMgr.getNetworkKey() );
-    buildNetCmd( retResult, netCmd, netServChallengeHash, cmdContent, errCode, version );
+	if( buildCmd( retResult, sktBase, netCmd, cmdContent, errCode, version ) && isAllAscii( retResult ) )
+	{
+		if( sendNetServiceRequest( netCmd, sktBase, retResult, errCode ) )
+		{
+			rc = 0;
+		}
+	}
 
-    return sktBase->sendData( retResult.c_str(), ( int )retResult.length() );
+	return rc;
 }
 
 //============================================================================
-void NetServiceUtils::generateNetServiceChallengeHash(	std::string&			strKey,	
-                                                        std::shared_ptr<VxSktBase>&				skt,
-                                                        std::string             netKey)
+void NetServiceUtils::generateNetServiceChallengeHash(	std::string&				strKey,	
+                                                        std::shared_ptr<VxSktBase>&	skt,
+                                                        std::string					netKey)
 {
 	uint16_t clientPort;
 	if( skt->isAcceptSocket() )
@@ -640,6 +678,28 @@ void NetServiceUtils::generateNetServiceCryptoKey( VxKey& key, uint16_t clientPo
 }
 
 //============================================================================
+bool NetServiceUtils::generateNetPktCryptoPassword( std::string& retPwd, std::string netKey, uint16_t port, std::string ip )
+{
+	retPwd.clear();
+	if( netKey.empty() || !port || ip.empty() )
+	{
+		LogMsg( LOG_ERROR, " NetServicesMgr::%s Invalid param", __func__ );
+		return false;
+	}
+
+	std::string strPwd;
+    StdStringFormat( strPwd, "yz%sAYAj%dk89%sBM67uzm",
+						ip.c_str(),
+						port,
+						netKey.c_str() );
+
+    VxKey key;
+	key.setKeyFromPassword( strPwd.c_str(), (int)strPwd.size() );
+	key.exportToAsciiString( retPwd );
+	return true;
+}
+
+//============================================================================
 bool NetServiceUtils::decryptNetServiceContent( char * content, int contentDataLen, uint16_t clientPort )
 {
 	if( ( 0 == contentDataLen )
@@ -657,35 +717,219 @@ bool NetServiceUtils::decryptNetServiceContent( char * content, int contentDataL
 }
 
 //============================================================================
-bool NetServiceUtils::rxNetServiceCmd( VxSktConnectSimple* netServConn, char * rxBuf, int rxBufLen, NetServiceHdr& netServiceHdr, int rxHdrTimeout, int rxDataTimeout )
+bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///< which type of net service to request
+											 VxSktConnectSimple* netServConn,
+											 std::string& netCmd,
+											 int txDataTimeout )
+{
+	std::unique_ptr<VxPktHdr> pktPtr;
+	std::string cryptoPwd;
+	generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), "0.0.0.0" );
+
+	if( eNetCmdPing == netCmdRequestType )
+	{
+		PktTestConnPingReq* pkt = new PktTestConnPingReq();
+		pkt->setNetCmd( netCmd );
+		pktPtr.reset( pkt );
+	}
+	else if( eNetCmdIsMyPortOpenReq == netCmdRequestType )
+	{
+		PktTestConnTestReq* pkt = new PktTestConnTestReq();
+		pkt->setNetCmd( netCmd );
+		pktPtr.reset( pkt );
+	}
+	else if( eNetCmdQueryHostOnlineIdReq == netCmdRequestType )
+	{
+		PktQueryHostUrlReq* pkt = new PktQueryHostUrlReq();
+		pkt->setNetCmd( netCmd );
+		pktPtr.reset( pkt );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: unknown net cmd request %d", netCmdRequestType );
+		return false;
+	}
+
+	bool wasSent{ false };
+	int pktLen = pktPtr->getPktLength();
+	if( pktLen && !cryptoPwd.empty() )
+	{
+		uint8_t* pktData = (uint8_t*)pktPtr.get();
+		std::unique_ptr<VxCrypto> txCrypto = std::make_unique<VxCrypto>();
+		txCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
+		if(0 == txCrypto->encrypt( pktData, pktLen ) )
+		{
+			wasSent = 0 == netServConn->sendData( (char *)pktData, pktLen, txDataTimeout );
+		}
+	}
+
+	return wasSent;
+}
+
+//============================================================================
+bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which type of net service response to recieve
+									   VxSktConnectSimple* netServConn, 
+									   char* rxBuf, int rxBufLen, 
+									   NetServiceHdr& netServiceHdr, 
+									   int rxHdrTimeout, 
+									   int rxDataTimeout )
 {
 	vx_assert( rxBufLen > NET_SERVICE_HDR_LEN );
 
-	int iRxed = 0;
-	bool bGotCrLfCrLf = false;
-    VxTimer rxCmdTimer;
-	netServConn->recieveData(		rxBuf,					// data buffer to read into
-									NET_SERVICE_HDR_LEN,	// length of data	
-									&iRxed,					// number of bytes actually received
-									rxHdrTimeout,			// timeout attempt to receive
-									false, 					// if true then abort receive when \r\n\r\n is received
-									&bGotCrLfCrLf );	
+	if( eNetCmdPong != expectedRxNetCmd && eNetCmdIsMyPortOpenReply != expectedRxNetCmd && eNetCmdQueryHostOnlineIdReply  != expectedRxNetCmd ) 
+	{
+		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: unknown net cmd request %d", expectedRxNetCmd );
+		return false;
+	}
+
 	if( !netServConn->isConnected() )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d connection to %s:%d closed abruptly", 
-			netServConn->getSktHandle(), netServConn->getRemoteIpAddress().c_str(), netServConn->getRemotePort() );
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d connection to %s:%d closed abruptly",
+				netServConn->getSktHandle(), netServConn->getRemoteIpAddress().c_str(), netServConn->getRemotePort() );
 		return false;
 	}
 
-	if( iRxed != NET_SERVICE_HDR_LEN )
+	std::unique_ptr<VxCrypto> rxCrypto = std::make_unique<VxCrypto>();
+	std::string cryptoPwd;
+
+	generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), netServConn->getRemoteIpAddress() );
+
+	rxCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
+
+	// first get enough to get the total length of pkt then get remaining data
+	int pktHdrLen = ROUND_TO_16BYTE_BOUNDRY( sizeof( VxPktHdr ) );
+	std::array<char, MAX_PKT_LEN> rxPktBuf;
+
+	int iRxed{ 0 };
+
+	VxTimer rxCmdTimer;
+	netServConn->recieveData( rxPktBuf.data(),					// data buffer to read into
+							  pktHdrLen,				// length of data	
+							  &iRxed,					// number of bytes actually received
+							  rxHdrTimeout,				// timeout attempt to receive
+							  false, 					// if true then abort receive when \r\n\r\n is received
+							  nullptr );
+
+	if( !netServConn->isConnected() )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f sec rxed data len %d", 
-			netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), iRxed );
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d connection to %s:%d closed abruptly",
+				netServConn->getSktHandle(), netServConn->getRemoteIpAddress().c_str(), netServConn->getRemotePort() );
 		return false;
 	}
 
-	rxBuf[ NET_SERVICE_HDR_LEN ] = 0;
-	if( ePluginTypeNetServices != parseHttpNetServiceHdr( rxBuf, NET_SERVICE_HDR_LEN, netServiceHdr ) )
+	if( iRxed != pktHdrLen )
+	{
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f sec rxed data len %d",
+				netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), iRxed );
+		return false;
+	}
+
+	// decrypt the pkt header
+	if( 0 != rxCrypto->decrypt( (uint8_t*)rxPktBuf.data(), iRxed ) )
+	{
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f failed to decrypt pkt hdr len %d",
+				netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), iRxed );
+		return false;
+	}
+
+	VxPktHdr* pktHdr = (VxPktHdr*)rxPktBuf.data();
+	int pktLen = pktHdr->getPktLength();
+	int remainingLen = pktLen - iRxed;
+	int pktType = pktHdr->getPktType();
+
+	if( pktLen & 0x0f || pktLen < pktHdrLen || pktLen > MAX_PKT_LEN || remainingLen < 0 || remainingLen & 0x0f )
+	{
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d timeout %3.3f invalid pkt len %d", 
+			netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), pktLen );
+		return false;
+	}
+
+	bool isExpectedPktType{ false };
+	switch( expectedRxNetCmd )
+	{
+	case eNetCmdPong:
+		isExpectedPktType = PKT_TYPE_TEST_CONN_PING_REPLY == pktType;
+		break;
+	case eNetCmdIsMyPortOpenReply:
+		isExpectedPktType = PKT_TYPE_TEST_CONN_TEST_REPLY == pktType;
+		break;
+	case eNetCmdQueryHostOnlineIdReply:
+		isExpectedPktType = PKT_TYPE_QUERY_HOST_URL_REPLY == pktType;
+		break;
+	default:
+		break;
+	}
+
+	if( !isExpectedPktType )
+	{
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d timeout %3.3f unexpected pkt type %d for net cmd %d", 
+			netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), pktType, expectedRxNetCmd );
+		return false;
+	}
+	
+	if( remainingLen )
+	{
+		// get the remaing pkt data
+		int rxedLen2{ 0 };
+		netServConn->recieveData(	&rxPktBuf.data()[iRxed],		// data buffer to read into
+									remainingLen,			// length of data	
+									&rxedLen2,				// number of bytes actually received
+									rxDataTimeout,			// timeout attempt to receive
+									false, 					// if true then abort receive when \r\n\r\n is received
+									nullptr );	
+		if( rxedLen2 != remainingLen )
+		{
+			LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d timeout %3.3f failed to get remaining pkt len %d", 
+			netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), remainingLen );
+			return false;
+		}
+
+		// decrypt remaining
+		if( 0 != rxCrypto->decrypt( (uint8_t*)(&rxPktBuf.data()[iRxed]), remainingLen ) )
+		{
+			LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f failed to decrypt pkt remaining len %d",
+					netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), remainingLen );
+			return false;
+		}
+	}
+
+	std::string strCmd;
+	switch( expectedRxNetCmd )
+	{
+	case eNetCmdPong:
+	{
+		PktTestConnPingReply* pkt = (PktTestConnPingReply *)pktHdr;
+		pkt->getNetCmd( strCmd );
+		break;
+	}
+	case eNetCmdIsMyPortOpenReply:
+	{
+		PktTestConnTestReply* pkt = (PktTestConnTestReply*)pktHdr;
+		pkt->getNetCmd( strCmd );
+		break;
+	}
+	case eNetCmdQueryHostOnlineIdReply:
+	{
+		PktQueryHostUrlReply* pkt = (PktQueryHostUrlReply *)pktHdr;
+		pkt->getNetCmd( strCmd );
+		break;
+	}
+	default:
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f invalid expected cmd type %d",
+		netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), expectedRxNetCmd );
+		return false;
+	}
+
+	if( strCmd.length() < NET_SERVICE_HDR_LEN )
+	{
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f failed to retrieve net cmd",
+					netServConn->getSktHandle(), rxCmdTimer.elapsedSec() );
+		return false;
+	}
+
+	std::vector<char> netCmd(strCmd.begin(), strCmd.end() );
+
+	if( ePluginTypeNetServices != parseHttpNetServiceHdr( netCmd.data(), NET_SERVICE_HDR_LEN, netServiceHdr) )
 	{
 		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr parse error", netServConn->getSktHandle() );
 		return false;
@@ -704,23 +948,42 @@ bool NetServiceUtils::rxNetServiceCmd( VxSktConnectSimple* netServConn, char * r
 	}
 
 	int contentLen = netServiceHdr.m_TotalDataLen - NET_SERVICE_HDR_LEN;
-    VxTimer rxTimer;
-	netServConn->recieveData(		rxBuf,					// data buffer to read into
-									contentLen,				// length of data	
-									&iRxed,					// number of bytes actually received
-									rxDataTimeout,			// timeout attempt to receive
-									false, 					// if true then abort receive when \r\n\r\n is received
-									&bGotCrLfCrLf );	
-	if( contentLen != iRxed )
+	if( contentLen <= 0 || contentLen >= rxBufLen )
 	{
 		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d timeout %3.3f sec recieving content len %d", 
-			netServConn->getSktHandle(), rxTimer.elapsedSec(), contentLen );
+			netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), contentLen );
 		return false;
 	}
 
 	netServiceHdr.m_ContentDataLen = contentLen;
+	memcpy( rxBuf, &netCmd[NET_SERVICE_HDR_LEN], contentLen );
 	rxBuf[ contentLen ] = 0;
 	LogModule( eLogNetService, LOG_DEBUG, "### SUCCESS NetServiceUtils::rxNetServiceCmd: skt %d success recieving content len %d in %3.3f sec", 
-			   netServConn->getSktHandle(), contentLen, rxTimer.elapsedSec() );
+			   netServConn->getSktHandle(), contentLen, rxCmdTimer.elapsedSec() );
 	return true;
+}
+
+//============================================================================
+bool NetServiceUtils::isAllAscii( std::string& netCmd )
+{
+	if( netCmd.empty() )
+	{
+		LogModule( eLogNetService, LOG_DEBUG, "### SUCCESS NetServiceUtils::isAllAscii: empty string" );
+		return false;
+	}
+
+
+	// check if all ascii
+	bool isAscii = true;
+	for( auto& character : netCmd )
+	{
+		if( ( character < 2 ) || ( character > 127 ) )
+		{
+			LogModule( eLogNetService, LOG_DEBUG, "### SUCCESS NetServiceUtils::isAllAscii: not and ascii string" );
+			isAscii = false;
+			break;
+		}
+	}
+
+	return isAscii;
 }

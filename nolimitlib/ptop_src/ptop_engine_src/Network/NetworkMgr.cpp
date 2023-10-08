@@ -49,7 +49,7 @@ namespace
 		}
 	}
 
-	void NetworkSktMgrStatusCallbackHandler( char* statParam, void* statValue, void* pvUserCallbackData )
+	void NetworkSktMgrStatusCallbackHandler( const char* statParam, void* statValue, void* pvUserCallbackData )
 	{
 		if( pvUserCallbackData )
 		{
@@ -70,7 +70,9 @@ NetworkMgr::NetworkMgr( P2PEngine&		engine,
 , m_PeerMgr( peerMgr )
 , m_BigListMgr( bigListMgr )
 , m_ConnectList( connectionList )
+#if ENABLE_COMPONENT_NEARBY
 , m_NearbyMgr( engine, *this )
+#endif // ENABLE_COMPONENT_NEARBY
 {
 	VxSetNetworkLoopbackAllowed( false );
 
@@ -81,13 +83,17 @@ NetworkMgr::NetworkMgr( P2PEngine&		engine,
 //============================================================================
 void NetworkMgr::networkMgrStartup( void )
 {
+#if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.networkMgrStartup();
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================
 void NetworkMgr::networkMgrShutdown( void )
 {
+#if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.networkMgrShutdown();
+#endif // ENABLE_COMPONENT_NEARBY
 	m_PeerMgr.sktMgrShutdown();
 }
 
@@ -131,14 +137,18 @@ void NetworkMgr::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetw
 		m_Engine.getMyPktAnnounce().getLanIPv4().setToInvalid();
 	}
 
+#if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.fromGuiNetworkAvailable( lclIp, isCellularNetwork );
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================
 void NetworkMgr::fromGuiNetworkLost( void )
 {
 	m_bNetworkAvailable =  false ;
-	m_NearbyMgr.fromGuiNetworkLost();;
+#if ENABLE_COMPONENT_NEARBY
+	m_NearbyMgr.fromGuiNetworkLost();
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================
@@ -165,7 +175,9 @@ ENetLayerState NetworkMgr::fromGuiGetNetLayerState( ENetLayerType netLayer )
 //============================================================================
 void NetworkMgr::onPktAnnUpdated( void )
 {
+#if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.onPktAnnUpdated();
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================
@@ -176,7 +188,9 @@ void NetworkMgr::onOncePerSecond( void )
 		return;
 	}
 	
+#if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.onOncePerSecond();
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================
@@ -233,7 +247,7 @@ void NetworkMgr::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 }
 
 //============================================================================
-void NetworkMgr::handleSktMgrStatusCallback( char* statParam, void* statValue )
+void NetworkMgr::handleSktMgrStatusCallback( const char* statParam, void* statValue )
 {
 	if( statParam )
 	{

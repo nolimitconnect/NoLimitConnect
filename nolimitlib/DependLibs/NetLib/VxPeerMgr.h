@@ -35,7 +35,7 @@ public:
 	virtual void				unlockSktList( void ) override								{ m_SktListMutex.unlock(); m_ClientMgr.unlockSktList(); }
 
 	// find a socket.. assumes list has been locked
-	virtual std::shared_ptr<VxSktBase>&			findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false ) override;
+    virtual std::shared_ptr<VxSktBase>	findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false ) override;
 
     virtual void				setReceiveCallback( VX_SKT_CALLBACK pfnReceive, void* pvUserData ) override;
 	virtual void				setSktMgrStatusCallback( VX_SKT_MGR_STATUS_CALLBACK pfnSktMgrStatus, void* pvUserData ) override;

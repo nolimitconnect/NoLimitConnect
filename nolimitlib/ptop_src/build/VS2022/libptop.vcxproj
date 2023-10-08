@@ -592,7 +592,6 @@
     <ClCompile Include="..\..\ptop_engine_src\OfferBase\OfferBaseXferMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\OfferBase\OfferBaseXferSession.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\OfferBase\OfferMgr.cpp" />
-    <ClCompile Include="..\..\ptop_engine_src\P2PEngine\BrowserHttpConnection.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\ContactList.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\EngineParams.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\EngineSettings.cpp">
@@ -861,7 +860,6 @@
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferBaseXferSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferMgr.h" />
-    <ClInclude Include="..\..\ptop_engine_src\P2PEngine\BrowserHttpConnection.h" />
     <ClInclude Include="..\..\ptop_engine_src\P2PEngine\ContactList.h" />
     <ClInclude Include="..\..\ptop_engine_src\P2PEngine\EngineParams.h" />
     <ClInclude Include="..\..\ptop_engine_src\P2PEngine\EngineSettings.h" />

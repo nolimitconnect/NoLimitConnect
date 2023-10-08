@@ -746,7 +746,9 @@ void NetConnector::handleConnectSuccess( BigListInfo * bigListInfo, std::shared_
 		}
 		else if( eConnectReasonNearbyLan == connectReason || eConnectReasonSameExternalIp == connectReason )
 		{
+#if ENABLE_COMPONENT_NEARBY
 			m_Engine.getNetworkMgr().getNearbyMgr().handleTcpLanConnectSuccess( bigListInfo, sktBase, isNewConnection, connectReason );
+#endif // ENABLE_COMPONENT_NEARBY
 		}
 	}
 }

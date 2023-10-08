@@ -92,7 +92,7 @@ public:
 	virtual void				lockSktList( void )								{ m_SktListMutex.lock(); }
     virtual void				unlockSktList( void )							{ m_SktListMutex.unlock(); }
 	// find a socket.. assumes list has been locked
-	virtual std::shared_ptr<VxSktBase>&			findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false );
+	virtual std::shared_ptr<VxSktBase>	findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false );
 
     virtual void                dumpSocketStats( const char* reason = nullptr, bool fullDump = false );
 

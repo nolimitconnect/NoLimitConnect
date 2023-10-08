@@ -14,12 +14,14 @@
 //============================================================================
 
 #include "P2PEngine.h"
+
+#include "NetServices/NetServicesMgr.h"
 #include "P2PConnectList.h"
 
-#include <ptop_src/ptop_engine_src/Network/NetworkDefs.h> 
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
+#include "Network/NetworkDefs.h" 
+#include "Network/NetworkMgr.h"
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include "BigListLib/BigListInfo.h"
 #include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
 
 #include <NetLib/VxSktBase.h>
@@ -49,7 +51,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
     }
 
 	int	iDataLen =	sktBase->getSktBufDataLen();
-	if( iDataLen < 32 )
+	if( iDataLen < sizeof(VxPktHdr) || iDataLen & 0x0f )
 	{
 		return;
 	}
@@ -57,55 +59,70 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 	VxGUID firstPktSignature;
 	uint32_t u32UsedLen = 0;
 	// app should get the buffer ( this also locks it from being modified by threads )
-	// then read the data then call Amount read
+	// then read the data then call sktBufAmountRead ( releases mutex )
     uint8_t * pSktBuf = (uint8_t *)sktBase->getSktReadBuf();
 	VxPktHdr* pktHdr = (VxPktHdr*)pSktBuf;
 	if( sktBase->isFirstRxPacket() )
 	{
 		if( false == sktBase->isRxEncryptionKeySet() )
 		{
-			if( iDataLen < 32 )
+			// first packet can be PKT_ANNOUNCE or a NetService req/reply
+			// check for NetService first
+			bool wasNetServiceRequest{ false };
+			if( getNetServicesMgr().shouldHandleNetServicePacket() )
 			{
-				return;
-			}
-
-			// check if all ascii
-			bool bIsAscii = true;
-			for( int i = 0; i < 32; i++ )
-			{
-				if( (pSktBuf[i] < 2) || (pSktBuf[i] > 127) )
+				bool permissionError{ false };
+				std::string cryptoPwd;
+				if( getNetServicesMgr().getNetPktRxCryptoPassword( cryptoPwd, sktBase ) )
 				{
-					bIsAscii = false;
-					break;
-				}
-			}
+					std::unique_ptr<VxCrypto> netServCrypto = std::make_unique<VxCrypto>();
 
-			if( bIsAscii )
-			{
-				pSktBuf[ iDataLen ] = 0;
-				sktBase->sktBufAmountRead( 0 ); // release mutex
-				
-                if( ( iDataLen > 7 ) && ( 0 == strncmp( ( char * )pSktBuf, "ptop://", 7 ) ) )
-				{
-					LogModule( eLogTcpData, LOG_DEBUG, "Rxed net url %s", pSktBuf );
-					// probably net services
-					if( NetServiceUtils::verifyAllDataArrivedOfNetServiceUrl( sktBase ) )
+					netServCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.size() );
+
+					// use copy of data because encyption key is different for net services
+					uint8_t* bufCopy = new uint8_t[iDataLen];
+					memcpy( bufCopy, pSktBuf, iDataLen );
+					if( 0 == netServCrypto->decrypt( bufCopy, iDataLen ) )
 					{
-						m_PluginMgr.handleFirstNetServiceConnection( sktBase );
+						VxPktHdr* pktHdrNetServ = (VxPktHdr*)bufCopy;
+						if( pktHdrNetServ->isValidPkt() && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
+						{
+							wasNetServiceRequest = getNetServicesMgr().handlePktNetService( sktBase, pktHdrNetServ, permissionError );
+						}
 					}
+
+					delete[] bufCopy;
 				}
 				else
 				{
-					LogModule( eLogTcpData, LOG_DEBUG, "Rxed ascii %s", pSktBuf );
+					// make a signature in case it needs to be recorded as hacker
 					firstPktSignature.fromRawData( pSktBuf );
-					hackerOffense( eHackerLevelMedium, eHackerReasonHttpAttack, sktBase->getRemoteIpBinary(), firstPktSignature, "Hacker invalid ascii attack from ip %s", sktBase->getRemoteIp().c_str() );
-					sktBase->closeSkt( eSktClosePtopUrlInvalid );
 				}
 
-				return;
-			}	
-			else
+				if( permissionError )
+				{
+					firstPktSignature.fromRawData( pSktBuf );
+					hackerOffense( eHackerLevelMedium, eHackerReasonAccessDenied, sktBase->getRemoteIpBinary(), firstPktSignature, "Hacker attempted disabled net service ip %s", sktBase->getRemoteIp().c_str() );
+				}
+				else if( wasNetServiceRequest )
+				{
+					sktBase->sktBufAmountRead( iDataLen );  // release mutex
+					sktBase->setIsFirstRxPacket( false );
+					return;
+				}
+				else
+				{
+					// make a signature in case it needs to be recorded as hacker
+					firstPktSignature.fromRawData( pSktBuf );
+				}
+			}
+			
+			if( wasNetServiceRequest )
 			{
+				return;
+			}
+			else
+			{	
 				// make a signature in case it needs to be recorded as hacker
 				firstPktSignature.fromRawData( pSktBuf );
 			}

@@ -607,3 +607,13 @@ std::string	VxGUID::describeVxGUID( bool asOnlineId )
 
 	return strId;
 }
+
+//============================================================================
+void VxGUID::fillRandom( void )
+{
+    int32_t* guidBuf =	(int32_t*) &m_u64HiPart;
+    for( int i = 0; i < 4; i++ )
+    {
+        guidBuf[i] = rand();
+    }
+}

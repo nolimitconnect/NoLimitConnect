@@ -349,7 +349,8 @@ void NetworkStateAvail::runNetworkState( void )
 	}
 
     m_Engine.getNetStatusAccum().setNearbyAvailable( true );
-
+#if ENABLE_COMPONENT_NEARBY
     m_NetworkStateMachine.getNetworkMgr().getNearbyMgr().onPktAnnUpdated();
+#endif // ENABLE_COMPONENT_NEARBY
 }
 

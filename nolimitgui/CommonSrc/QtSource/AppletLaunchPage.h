@@ -26,12 +26,12 @@ public:
 
 
 protected slots:
-	void						slotPowerButtonClicked( void );
+    void						slotPowerButtonClicked( void ) override;
 
 protected:
-	virtual void				showEvent( QShowEvent* );
-	//virtual void				hideEvent( QHideEvent* );
-	void						resizeEvent( QResizeEvent* );
+	void						showEvent( QShowEvent* ) override;
+
+	void						resizeEvent( QResizeEvent* )  override;
 
 private:
 	void						setupAppletLaunchPage( void );

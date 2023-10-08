@@ -135,7 +135,8 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
 	char rxBuf[ 513 ];
     rxBuf[ 0 ] = 0;
 	NetServiceHdr netServiceHdr;
-	if( false == m_NetServiceUtils.rxNetServiceCmd( &netServConn, 
+	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdQueryHostOnlineIdReply,
+													&netServConn, 
 													rxBuf, 
 													sizeof( rxBuf ) - 1, 
 													netServiceHdr, 
