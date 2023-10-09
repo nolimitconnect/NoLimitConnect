@@ -271,7 +271,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 
     switch( netCmdType )
     {
-    case eNetCmdPing:
+    case eNetCmdHostPing:
     case eNetCmdIsMyPortOpenReq:
     case eNetCmdQueryHostOnlineIdReq:
         break;
@@ -308,7 +308,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 
     switch( netCmdType )
     {
-    case eNetCmdPing:
+    case eNetCmdHostPing:
         rxCmdHeaderTimeout = PING_TEST_RX_HDR_TIMEOUT;
         rxCmdDataTimeout = PING_TEST_RX_DATA_TIMEOUT;
         m_NetServiceUtils.buildPingTestUrl( &netServConn, strNetActionUrl );
@@ -345,11 +345,11 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
     connectTime = testTimer.elapsedSec();
     LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: action url %s", strNetActionUrl.c_str() );
 
-	RCODE rc = netServConn.sendData( strNetActionUrl.c_str(), (int)strNetActionUrl.length() );
-	if( rc )
+	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( netCmdType, &netServConn, strNetActionUrl, 4000 );
+	if( !wasSent )
 	{
         netServConn.closeSkt();
-        LogModule( eLogRunTest, LOG_ERROR, "RunUrlAction: sendData error %d", rc );
+        LogModule( eLogRunTest, LOG_ERROR, "RunUrlAction: sendData error %d", netServConn.getLastError() );
         sendRunTestStatus( urlAction, actionName, eRunTestStatusConnectionDropped, eNetCmdErrorTxFailed,
 			"Connected to %s but connection was dropped (wrong network key ?) %s", nodeUrl.c_str(), m_Engine.getNetworkMgr().getNetworkKey() );
 		return doRunTestFailed( urlAction, actionName, eRunTestStatusConnectionDropped, eNetCmdErrorTxFailed );
@@ -408,7 +408,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         return doRunTestFailed( urlAction, actionName, eRunTestStatusInvalidResponse, netServiceHdr.getError() );
     }
 
-    if( eNetCmdPing == netCmdType )
+    if( eNetCmdHostPing == netCmdType )
     {
         if( strPayload.empty() || strPayload.length() < 5  )
         {

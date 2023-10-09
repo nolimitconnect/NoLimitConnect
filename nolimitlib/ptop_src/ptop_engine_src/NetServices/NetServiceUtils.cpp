@@ -220,7 +220,7 @@ bool NetServiceUtils::buildPingTestUrl( VxSktConnectSimple * netServConn, std::s
 {
     std::string strContent = "PING";
 
-    return buildNetCmd( netServConn, strNetCmdHttpUrl, eNetCmdPing, strContent );
+    return buildNetCmd( netServConn, strNetCmdHttpUrl, eNetCmdHostPing, strContent );
 }
 
 //============================================================================
@@ -494,13 +494,21 @@ bool  NetServiceUtils::getNetServiceUrlContent( std::string& netServiceUrl, std:
 //============================================================================
 ENetCmdType  NetServiceUtils::netCmdStringToEnum( const char* netCmd )
 {
-	if( 0 == strcmp( NET_CMD_PING, netCmd ) )
+	if( 0 == strcmp( NET_CMD_HOST_PING, netCmd ) )
 	{
-		return eNetCmdPing;
+		return eNetCmdHostPing;
 	}
-	else if( 0 == strcmp( NET_CMD_PONG, netCmd ) )
+	else if( 0 == strcmp( NET_CMD_HOST_PONG, netCmd ) )
 	{
-		return eNetCmdPong;
+		return eNetCmdHostPong;
+	}
+	else if( 0 == strcmp( NET_CMD_CLIENT_PING, netCmd ) )
+	{
+		return eNetCmdClientPing;
+	}
+	else if( 0 == strcmp( NET_CMD_CLIENT_PONG, netCmd ) )
+	{
+		return eNetCmdClientPong;
 	}
 	else if( 0 == strcmp( NET_CMD_PORT_TEST_REQ, netCmd ) )
 	{
@@ -529,10 +537,14 @@ const char*  NetServiceUtils::netCmdEnumToString( ENetCmdType	eNetCmdType )
 {
 	switch( eNetCmdType )
 	{
-	case eNetCmdPing:
-		return NET_CMD_PING;
-	case eNetCmdPong:
-		return NET_CMD_PONG;
+	case eNetCmdHostPing:
+		return NET_CMD_HOST_PING;
+	case eNetCmdHostPong:
+		return NET_CMD_HOST_PONG;
+	case eNetCmdClientPing:
+		return NET_CMD_CLIENT_PING;
+	case eNetCmdClientPong:
+		return NET_CMD_CLIENT_PONG;
 	case eNetCmdIsMyPortOpenReq:
 		return NET_CMD_PORT_TEST_REQ;
 	case eNetCmdIsMyPortOpenReply:
@@ -724,9 +736,18 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 {
 	std::unique_ptr<VxPktHdr> pktPtr;
 	std::string cryptoPwd;
-	generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), "0.0.0.0" );
+	if( eNetCmdClientPing == netCmdRequestType )
+	{
+		std::string strRetIp;
+		m_Engine.getMyPktAnnounce().getMyOnlineIPv4( strRetIp );
+		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getMyOnlinePort(), strRetIp.c_str() );
+	}
+	else
+	{
+		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), "0.0.0.0" );
+	}
 
-	if( eNetCmdPing == netCmdRequestType )
+	if( eNetCmdHostPing == netCmdRequestType ||  eNetCmdClientPing == netCmdRequestType )
 	{
 		PktTestConnPingReq* pkt = new PktTestConnPingReq();
 		pkt->setNetCmd( netCmd );
@@ -776,7 +797,8 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 {
 	vx_assert( rxBufLen > NET_SERVICE_HDR_LEN );
 
-	if( eNetCmdPong != expectedRxNetCmd && eNetCmdIsMyPortOpenReply != expectedRxNetCmd && eNetCmdQueryHostOnlineIdReply  != expectedRxNetCmd ) 
+	if( eNetCmdHostPong != expectedRxNetCmd && eNetCmdClientPong != expectedRxNetCmd &&
+		eNetCmdIsMyPortOpenReply != expectedRxNetCmd && eNetCmdQueryHostOnlineIdReply  != expectedRxNetCmd ) 
 	{
 		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: unknown net cmd request %d", expectedRxNetCmd );
 		return false;
@@ -792,7 +814,16 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	std::unique_ptr<VxCrypto> rxCrypto = std::make_unique<VxCrypto>();
 	std::string cryptoPwd;
 
-	generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), netServConn->getRemoteIpAddress() );
+	if( eNetCmdClientPong == expectedRxNetCmd )
+	{
+		std::string strRetIp;
+		m_Engine.getMyPktAnnounce().getMyOnlineIPv4( strRetIp );
+		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getMyOnlinePort(), strRetIp.c_str() );
+	}
+	else
+	{
+		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), netServConn->getRemoteIpAddress() );
+	}
 
 	rxCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
 
@@ -803,7 +834,7 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	int iRxed{ 0 };
 
 	VxTimer rxCmdTimer;
-	netServConn->recieveData( rxPktBuf.data(),					// data buffer to read into
+	netServConn->recieveData( rxPktBuf.data(),			// data buffer to read into
 							  pktHdrLen,				// length of data	
 							  &iRxed,					// number of bytes actually received
 							  rxHdrTimeout,				// timeout attempt to receive
@@ -847,7 +878,9 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	bool isExpectedPktType{ false };
 	switch( expectedRxNetCmd )
 	{
-	case eNetCmdPong:
+	case eNetCmdHostPong:
+
+	case eNetCmdClientPong:
 		isExpectedPktType = PKT_TYPE_TEST_CONN_PING_REPLY == pktType;
 		break;
 	case eNetCmdIsMyPortOpenReply:
@@ -896,7 +929,9 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	std::string strCmd;
 	switch( expectedRxNetCmd )
 	{
-	case eNetCmdPong:
+	case eNetCmdHostPong:
+
+	case eNetCmdClientPong:
 	{
 		PktTestConnPingReply* pkt = (PktTestConnPingReply *)pktHdr;
 		pkt->getNetCmd( strCmd );

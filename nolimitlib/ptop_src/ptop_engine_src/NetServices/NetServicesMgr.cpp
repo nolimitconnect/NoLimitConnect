@@ -229,16 +229,16 @@ void NetServicesMgr::runNetActions( void )
 //============================================================================
 RCODE NetServicesMgr::handleNetCmdPing( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
-	return  sendPong( sktBase, netServiceHdr );
+	return  sendPong( sktBase, netServiceHdr, netServiceHdr.m_NetCmdType == eNetCmdClientPing );
 }
 
 //============================================================================
-RCODE NetServicesMgr::sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+RCODE NetServicesMgr::sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, bool isClientPing )
 {
     LogModule( eLogIsPortOpenTest, LOG_INFO, "Got ping from %s ", sktBase->getRemoteIp().c_str(), VxGetCurrentThreadId() );
 	std::string content;
     StdStringFormat( content, "PONG-%s", sktBase->getRemoteIp().c_str() );
-	return m_NetServiceUtils.buildAndSendCmd( sktBase, eNetCmdPong, content );
+	return m_NetServiceUtils.buildAndSendCmd( sktBase, isClientPing ? eNetCmdClientPong : eNetCmdHostPong, content );
 }
 
 //============================================================================
@@ -303,7 +303,7 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktB
     LogModule( eLogIsPortOpenTest, LOG_ERROR, "handleNetCmdIsMyPortOpenReq: Attempting ping ip %s port %d", strRmtAddr.c_str(), u16Port );
 	VxTimer cmdTimer;
 	std::string retPong;
-	bool pingSuccess = doNetCmdPing( strRmtAddr.c_str(), u16Port, retPong );
+	bool pingSuccess = doNetCmdPing( strRmtAddr.c_str(), u16Port, retPong, true );
 	if( false == pingSuccess )
 	{
         LogModule( eLogIsPortOpenTest, LOG_ERROR, "handleNetCmdIsMyPortOpenReq: FAILED PING ip %s port %d %3.3f sec", strRmtAddr.c_str(), u16Port, cmdTimer.elapsedMs() );
@@ -318,7 +318,7 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktB
 }
 
 //============================================================================
-bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std::string& retPong )
+bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std::string& retPong, bool isClientPing )
 {
 	VxTimer	pingTimer;
 
@@ -328,7 +328,7 @@ bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std:
 	{
 		double connectTime = pingTimer.elapsedSec();
 		LogModule( eLogIsPortOpenTest, LOG_INFO, "##P NetServicesMgr::doNetCmdPing connected to %s:%d in %3.3f sec thread 0x%x", ipAddress, u16Port, connectTime, VxGetCurrentThreadId() );
-		bool sndPingResult = sendAndRecievePing( pingTimer, toClientConn, retPong, PONG_RX_TIMEOUT );
+		bool sndPingResult = sendAndRecievePing( pingTimer, toClientConn, retPong, isClientPing, PONG_RX_TIMEOUT );
 		double totalTime = pingTimer.elapsedSec();
 		if( sndPingResult )
 		{
@@ -348,23 +348,25 @@ bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std:
 }
 
 //============================================================================
-bool NetServicesMgr::sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple& toClientConn, std::string& retPong, int receiveTimeout )
+bool NetServicesMgr::sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple& toClientConn, std::string& retPong, bool isClientPing, int receiveTimeout )
 {	
 	std::string strNetCmd;
 	std::string strPing = "PING";
+	ENetCmdType netCmdPingType = isClientPing ? eNetCmdClientPing : eNetCmdHostPing;
+	ENetCmdType netCmdPongType = isClientPing ? eNetCmdClientPong : eNetCmdHostPong;
 	
 	std::string netServChallengeHash;
 	uint16_t cryptoKeyPort = toClientConn.getCryptoKeyPort();
     m_NetServiceUtils.generateNetServiceChallengeHash(netServChallengeHash, cryptoKeyPort, getNetworkKey() );
 
-	m_NetServiceUtils.buildNetCmd( strNetCmd, eNetCmdPing, netServChallengeHash, strPing );
+	m_NetServiceUtils.buildNetCmd( strNetCmd, netCmdPingType, netServChallengeHash, strPing );
 
     LogModule( eLogIsPortOpenTest, LOG_ERROR, "##P NetServicesMgr::sendAndRecievePing: skt %d cypto port %d strNetCmd(%s) thread 0x%x", toClientConn.getSktHandle(),
 		cryptoKeyPort, strNetCmd.c_str(), VxGetCurrentThreadId() );
 
     // startSendTime is also the time it took to connect
 	double startSendTime = pingTimer.elapsedSec();
-	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( eNetCmdPing, &toClientConn, strNetCmd, 8000 );
+	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( netCmdPingType, &toClientConn, strNetCmd, 8000 );
 	if( !wasSent )
 	{
 		double failSendTime = pingTimer.elapsedSec();
@@ -378,7 +380,7 @@ bool NetServicesMgr::sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple&
 	char rxBuf[ 513 ];
 	rxBuf[0] = 0;
 	NetServiceHdr netServiceHdr;
-	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdPong, &toClientConn, rxBuf, sizeof( rxBuf ) - 1, netServiceHdr, receiveTimeout, receiveTimeout )  )
+	if( false == m_NetServiceUtils.rxNetServiceCmd( netCmdPongType, &toClientConn, rxBuf, sizeof( rxBuf ) - 1, netServiceHdr, receiveTimeout, receiveTimeout )  )
 	{
 		double failResponseTime = pingTimer.elapsedSec();
 		LogModule( eLogIsPortOpenTest, LOG_ERROR, "##P NetServicesMgr::sendAndRecievePing: skt %d no response with timeout spec %d and times connect %3.3f sec send %3.3f sec fail respond %3.3f sec thread 0x%x",
@@ -1109,9 +1111,9 @@ bool NetServicesMgr::fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std:
 	std::string netServChallengeHash;
 	uint16_t cryptoKeyPort = sktSimple->getCryptoKeyPort();
 	m_NetServiceUtils.generateNetServiceChallengeHash( netServChallengeHash, cryptoKeyPort, getNetworkKey() );
-	m_NetServiceUtils.buildNetCmd( strNetCmd, eNetCmdPing, netServChallengeHash, strPing );
+	m_NetServiceUtils.buildNetCmd( strNetCmd, eNetCmdHostPing, netServChallengeHash, strPing );
 
-	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( eNetCmdPing, sktSimple, strNetCmd, 8000 );
+	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( eNetCmdHostPing, sktSimple, strNetCmd, 8000 );
 	if( !wasSent )
 	{
         LogMsg( LOG_VERBOSE, "fetchExternalIpAddress sendData error" );
@@ -1121,7 +1123,7 @@ bool NetServicesMgr::fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std:
 	char rxBuf[513];
 	rxBuf[0] = 0;
 	NetServiceHdr netServiceHdr;
-	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdPong, sktSimple, rxBuf, sizeof( rxBuf ) - 1, netServiceHdr, receiveTimeout, receiveTimeout ) )
+	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdHostPing, sktSimple, rxBuf, sizeof( rxBuf ) - 1, netServiceHdr, receiveTimeout, receiveTimeout ) )
 	{
 		LogMsg( LOG_VERBOSE, "fetchExternalIpAddress failed recieve response" );
 		return false;
@@ -1283,9 +1285,9 @@ bool NetServicesMgr::handlePktConnPingReq( std::shared_ptr<VxSktBase>& sktBase, 
 	{
 		NetServiceHdr netServiceHdr;
 		EPluginType pluginType = NetServiceUtils::parseHttpNetServiceHdr( (char *)netCmd.c_str(), (int)netCmd.length(), netServiceHdr );
-        if( eNetCmdPing == netServiceHdr.m_NetCmdType )
+        if( eNetCmdHostPing == netServiceHdr.m_NetCmdType || eNetCmdClientPing == netServiceHdr.m_NetCmdType)
 		{
-			status = buildAndSendPktTestConnPingReply( sktBase );
+			status = buildAndSendPktTestConnPingReply( sktBase,  eNetCmdClientPing == netServiceHdr.m_NetCmdType );
 		}
 		else
 		{
@@ -1344,7 +1346,7 @@ bool NetServicesMgr::handlePktQueryHostUrlReply( std::shared_ptr<VxSktBase>& skt
 }
 
 //============================================================================
-bool NetServicesMgr::buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase )
+bool NetServicesMgr::buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase, bool isClientPing )
 {
 	bool status{ false };
 
@@ -1352,10 +1354,12 @@ bool NetServicesMgr::buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase
 	std::string content;
     StdStringFormat( content, "PONG-%s", sktBase->getRemoteIp().c_str() );
 
+	ENetCmdType cmdType = isClientPing ? eNetCmdClientPong : eNetCmdHostPong;
+
 	std::string newCmd;
-	if( getNetUtils().buildCmd( newCmd, sktBase, eNetCmdPong, content ) )
+	if( getNetUtils().buildCmd( newCmd, sktBase, cmdType, content ) )
 	{
-		status = sendNetServicePacket( eNetCmdPong, sktBase, newCmd, 5000 );
+		status = sendNetServicePacket( cmdType, sktBase, newCmd, 5000 );
 	}
 
 	return status;
@@ -1384,24 +1388,42 @@ bool NetServicesMgr::buildAndSendPktQueryUrlReply( std::shared_ptr<VxSktBase>& s
 }
 
 //============================================================================
-bool NetServicesMgr::sendNetServicePacket( ENetCmdType         netCmdRequestType, ///< which type of net service to request
-											 std::shared_ptr<VxSktBase>& sktBase,
-											 std::string&		 netCmd,
-											 int                 txDataTimeout )
+bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType, ///< which type of net service to request
+											std::shared_ptr<VxSktBase>& sktBase,
+											std::string&		 netCmd,
+											int                 txDataTimeout )
 {
 	std::unique_ptr<VxPktHdr> pktPtr;
 	std::string cryptoPwd;
 	uint16_t keyPort = sktBase->isAcceptSocket() ? getRxNetServicePort() : sktBase->getRemotePort();
 	std::string keyIpAddr = sktBase->isAcceptSocket() ? getRxNetIpAddress()  : sktBase->getRemoteIpAddress();
+	if( eNetCmdClientPong == netCmdRequestType )
+	{
+		keyIpAddr = m_Engine.getNetworkStateMachine().getNetServiceIp();
+		keyPort = m_Engine.getNetworkStateMachine().getNetServicePort();
+	}
+
 	NetServiceUtils::generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), keyPort, keyIpAddr );
 
-	if( eNetCmdPing == netCmdRequestType )
+	if( eNetCmdHostPing == netCmdRequestType ||  eNetCmdClientPing == netCmdRequestType )
 	{
 		PktTestConnPingReq* pkt = new PktTestConnPingReq();
 		pkt->setNetCmd( netCmd );
 		pktPtr.reset( pkt );
 	}
-	if( eNetCmdPong == netCmdRequestType )
+	else if( eNetCmdHostPong == netCmdRequestType || eNetCmdClientPong == netCmdRequestType )
+	{
+		PktTestConnPingReply* pkt = new PktTestConnPingReply();
+		pkt->setNetCmd( netCmd );
+		pktPtr.reset( pkt );
+	}
+	else if( eNetCmdClientPing == netCmdRequestType )
+	{
+		PktTestConnPingReq* pkt = new PktTestConnPingReq();
+		pkt->setNetCmd( netCmd );
+		pktPtr.reset( pkt );
+	}
+	else if( eNetCmdClientPong == netCmdRequestType )
 	{
 		PktTestConnPingReply* pkt = new PktTestConnPingReply();
 		pkt->setNetCmd( netCmd );

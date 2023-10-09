@@ -19,8 +19,10 @@
 #define NET_SERVICE_HDR_LEN 96
 
 #define NET_CMD_UNKNOWN				"CMD_UNKNOWN        "
-#define NET_CMD_PING				"CMD_PING           "
-#define NET_CMD_PONG				"CMD_PONG           "
+#define NET_CMD_HOST_PING			"CMD_HOST_PING      "
+#define NET_CMD_HOST_PONG			"CMD_HOST_PONG      "
+#define NET_CMD_CLIENT_PING			"CMD_CLIENT_PING    "
+#define NET_CMD_CLIENT_PONG			"CMD_CLIENT_PONG    "
 #define NET_CMD_PORT_TEST_REQ		"CMD_PORT_TEST_REQ  "
 #define NET_CMD_PORT_TEST_REPLY		"CMD_PORT_TEST_REPLY"
 #define NET_CMD_HOST_ID_REQ		    "CMD_HOST_ID_REQ    "

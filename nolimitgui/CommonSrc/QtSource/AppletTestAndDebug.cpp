@@ -194,7 +194,7 @@ void AppletTestAndDebug::slotNewUrlSelected( int comboBoxIdx )
 //============================================================================
 void AppletTestAndDebug::slotPingTestButtonClicked( void )
 {
-    startUrlTest( eNetCmdPing );
+    startUrlTest( eNetCmdHostPing );
 }
 
 //============================================================================

@@ -38,8 +38,6 @@ namespace
     const int NET_INTERNET_ATTEMPT_CONNECT_TIMEOUT_MS = 5 * 60 * 1000;
     const int NET_INTERNET_VERIFY_ACITIVE_TIMEOUT_MS = 5 * 60 * 1000;
 
-    const char* NET_TEST_WEB_CONNECTION_HOST = "www.google.com";
-
     //============================================================================
     static void * NetworkMonitorThreadFunc( void * pvContext )
     {
@@ -453,16 +451,18 @@ std::string NetworkMonitor::determineLocalIp( void )
         connectToGoogleCnt++;
         if( connectToGoogleCnt < 100 && !lastLocalIp.empty() )
         {
-            // only use google as last resort..
             return lastLocalIp;
         }
 
+        // connect to connection test service
         connectToGoogleCnt = 0;
-        LogModule( eLogNetworkState, LOG_WARNING, "Attempting conection to http://%s:%d", NET_TEST_WEB_CONNECTION_HOST, 80 );
+        std::string connTestServiceIp = m_Engine.getNetworkStateMachine().getNetServiceIp();
+        uint16_t connTestServicePort = m_Engine.getNetworkStateMachine().getNetServicePort();
+        LogModule( eLogNetworkState, LOG_WARNING, "Attempting conection to  ptop://%s:%d", connTestServiceIp.c_str(), connTestServicePort);
 
-        // try using google.. a really bad idea but since we have no official site we can connect to this should be reliable
-        SOCKET skt = sktConnect.connectTo( NET_TEST_WEB_CONNECTION_HOST,		// remote ip or url
-                                           80,						// port to connect to
+        // try using net connection service
+        SOCKET skt = sktConnect.connectTo( connTestServiceIp.c_str(),		// remote ip or url
+                                           connTestServicePort,				// port to connect to
                                            NET_MONITOR_CONNECT_TO_HOST_TIMOUT_MS );	// timeout attempt to connect
         if( INVALID_SOCKET != skt )
         {
@@ -503,7 +503,7 @@ std::string NetworkMonitor::determineLocalIp( void )
 
             if( localIp.empty() )
             {
-                LogModule( eLogNetworkState, LOG_WARNING, "Failed verify internet conection to http://%s:%d", NET_TEST_WEB_CONNECTION_HOST, 80 );
+                LogModule( eLogNetworkState, LOG_WARNING, "Failed verify internet conection to http://%s:%d", connTestServiceIp.c_str(), connTestServicePort);
             }
             else
             {

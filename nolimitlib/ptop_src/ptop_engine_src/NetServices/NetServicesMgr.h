@@ -115,7 +115,7 @@ public:
 	VxSktConnectSimple *		actionReqConnectToHost( void );
 	bool						actionReqConnectToHost( VxSktConnectSimple& sktSimple );
 
-	bool						doNetCmdPing( const char* ipAddress, uint16_t u16Port, std::string& retPong );
+	bool						doNetCmdPing( const char* ipAddress, uint16_t u16Port, std::string& retPong, bool isClientPing );
 
 	ENetCmdError				doIsMyPortOpen( std::string& retMyExternalIp, bool testLoopbackFirst = false );
 	bool						testLoobackPing( std::string localIP, uint16_t tcpListenPort );
@@ -131,7 +131,7 @@ public:
                                                            VxGUID&			    retHostId,
                                                            bool					sendMsgToUser );
 
-	bool						sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple& toClientConn, std::string& retPong, int receiveTimeout = 4000 );
+	bool						sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple& toClientConn, std::string& retPong, bool isClientPing, int receiveTimeout = 6000 );
 
 	bool						fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std::string& retExternIpAddr, int receiveTimeout = 6000 );
 
@@ -142,9 +142,9 @@ public:
 protected:
 	void						addNetActionCommand( NetActionBase * netActionBase );
 	bool						isActionQued( ENetActionType eNetActionType );
-	RCODE						sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
+	RCODE						sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, bool isClientPing );
 
-	bool						buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase );
+	bool						buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase, bool isClientPing );
 	bool						buildAndSendPktQueryUrlReply( std::shared_ptr<VxSktBase>& sktBase );
 
 	//=== vars ===//

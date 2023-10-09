@@ -73,11 +73,11 @@ RCODE PluginConnectionTestClient::internalHandlePtopConnection( std::shared_ptr<
     //    LogMsg( LOG_ERROR, "PluginNetServices::handlePtopConnection: invalid cmd  eNetCmdStoryboardPage\n" );
     //    return -1;
 
-    case eNetCmdPing:
+    case eNetCmdHostPing:
         //LogMsg( LOG_INFO, "PluginNetServices::handlePtopConnection: eNetCmdPing\n" );
         return m_NetServicesMgr.handleNetCmdPing( sktBase, netServiceHdr );
 
-    case eNetCmdPong:
+    case eNetCmdHostPong:
         //LogMsg( LOG_INFO, "PluginNetServices::handlePtopConnection: eNetCmdPong\n" );
         return m_NetServicesMgr.handleNetCmdPong( sktBase, netServiceHdr );
 

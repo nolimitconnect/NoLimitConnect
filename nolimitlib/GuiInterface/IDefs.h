@@ -967,12 +967,14 @@ enum ENetAvailStatus
 enum ENetCmdType
 {
     eNetCmdUnknown						= 0,
-    eNetCmdPing							= 1,		
-    eNetCmdPong							= 2,		
-    eNetCmdIsMyPortOpenReq				= 3,		
-    eNetCmdIsMyPortOpenReply			= 4,			
-    eNetCmdQueryHostOnlineIdReq         = 5,
-    eNetCmdQueryHostOnlineIdReply       = 6,
+    eNetCmdHostPing						= 1,		
+    eNetCmdHostPong						= 2,		
+    eNetCmdClientPing					= 3,		
+    eNetCmdClientPong					= 4,
+    eNetCmdIsMyPortOpenReq				= 5,		
+    eNetCmdIsMyPortOpenReply			= 6,			
+    eNetCmdQueryHostOnlineIdReq         = 7,
+    eNetCmdQueryHostOnlineIdReply       = 8,
 
     eMaxNetCmdType
 };

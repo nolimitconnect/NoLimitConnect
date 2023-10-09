@@ -273,8 +273,10 @@ namespace
     const char* NetCmdTypeEnumStrings[] =
     {
         "Net Cmd: Unknown ",
-        "Net Cmd: Ping ",
-        "Net Cmd: Pong ",
+        "Net Cmd: Host Ping ",
+        "Net Cmd: Host Pong ",
+        "Net Cmd: Client Ping ",
+        "Net Cmd: Client Pong ",
         "Net Cmd: Is Port Open Req ",
         "Net Cmd: Is Port Open Reply ",
         "Net Cmd: Query Host Id Req ",
