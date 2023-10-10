@@ -1399,7 +1399,6 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
 	std::string keyIpAddr = sktBase->isAcceptSocket() ? getRxNetIpAddress()  : sktBase->getRemoteIpAddress();
 	if( eNetCmdClientPong == netCmdRequestType )
 	{
-		keyIpAddr = m_Engine.getNetworkStateMachine().getNetServiceIp();
 		keyPort = m_Engine.getNetworkStateMachine().getNetServicePort();
 	}
 

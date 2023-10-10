@@ -808,9 +808,7 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 
 	if( eNetCmdClientPong == expectedRxNetCmd )
 	{
-		std::string strRetIp;
-		m_Engine.getMyPktAnnounce().getMyOnlineIPv4( strRetIp );
-		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getMyOnlinePort(), strRetIp.c_str() );
+		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getMyOnlinePort(), "0.0.0.0" );
 	}
 	else
 	{
