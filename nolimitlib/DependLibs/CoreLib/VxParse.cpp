@@ -32,6 +32,10 @@
 #include <locale>
 #include <iostream>
 #include <algorithm>
+#include <array>
+
+const int FMT_BUF_SIZE = 4096
+;
 using namespace std;
 
 // templated version of case insensitive equal so it could work with both char and wchar_t
@@ -322,14 +326,16 @@ void StdStringFormat(	std::string & csStr,	// std::string to return formated res
 						const char* pFormat,	// string with format chars etc		
 						... )					// vars
 {
-	char szBuffer[4096];
+
+	std::array<char, FMT_BUF_SIZE> fmtBuf;
 
     va_list argList;
     va_start(argList, pFormat);
-	vsnprintf( szBuffer, sizeof( szBuffer ), pFormat, argList );
+	vsnprintf( fmtBuf.data(), FMT_BUF_SIZE, pFormat, argList);
     va_end(argList);
 
-    csStr = szBuffer;
+	fmtBuf.data()[FMT_BUF_SIZE - 1] = 0;
+    csStr = fmtBuf.data();
 }
 
 //============================================================================
@@ -340,14 +346,15 @@ void StdStringFormat(	std::wstring & csStr,	// std::string to return formated re
 {
 	std::wstring strWFormat = pFormat;
 	std::string strAFormat = WideToAscii( strWFormat );
-	char szBuffer[4096];
+	std::array<char, FMT_BUF_SIZE> fmtBuf;
 
 	va_list argList;
 	va_start(argList, pFormat);
-	vsnprintf( szBuffer, sizeof( szBuffer ), strAFormat.c_str(), argList );
+	vsnprintf( fmtBuf.data(), FMT_BUF_SIZE, strAFormat.c_str(), argList );
 	va_end(argList);
 
-	std::string strAResult = szBuffer;
+	fmtBuf.data()[FMT_BUF_SIZE - 1] = 0;
+	std::string strAResult = fmtBuf.data();
 
 	csStr = AsciiToWide( strAResult );
 }

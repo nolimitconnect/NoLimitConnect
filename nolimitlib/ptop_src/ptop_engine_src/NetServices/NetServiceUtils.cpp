@@ -736,16 +736,8 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 {
 	std::unique_ptr<VxPktHdr> pktPtr;
 	std::string cryptoPwd;
-	if( eNetCmdClientPing == netCmdRequestType )
-	{
-		std::string strRetIp;
-		m_Engine.getMyPktAnnounce().getMyOnlineIPv4( strRetIp );
-		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getMyOnlinePort(), strRetIp.c_str() );
-	}
-	else
-	{
-		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), "0.0.0.0" );
-	}
+
+	generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), "0.0.0.0" );
 
 	if( eNetCmdHostPing == netCmdRequestType ||  eNetCmdClientPing == netCmdRequestType )
 	{

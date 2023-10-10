@@ -1123,7 +1123,7 @@ bool NetServicesMgr::fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std:
 	char rxBuf[513];
 	rxBuf[0] = 0;
 	NetServiceHdr netServiceHdr;
-	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdHostPing, sktSimple, rxBuf, sizeof( rxBuf ) - 1, netServiceHdr, receiveTimeout, receiveTimeout ) )
+	if( false == m_NetServiceUtils.rxNetServiceCmd( eNetCmdHostPong, sktSimple, rxBuf, sizeof( rxBuf ) - 1, netServiceHdr, receiveTimeout, receiveTimeout ) )
 	{
 		LogMsg( LOG_VERBOSE, "fetchExternalIpAddress failed recieve response" );
 		return false;

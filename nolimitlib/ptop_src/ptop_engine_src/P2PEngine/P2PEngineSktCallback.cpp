@@ -89,6 +89,10 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 						{
 							wasNetServiceRequest = getNetServicesMgr().handlePktNetService( sktBase, pktHdrNetServ, permissionError );
 						}
+						else
+						{
+							LogMsg( LOG_ERROR, "P2PEngine::handleTcpData Bad Encryption for Rx net service packet or is really PKT_ANNOUNCE from ip %s", sktBase->getRemoteIp().c_str() );
+						}
 					}
 
 					delete[] bufCopy;
