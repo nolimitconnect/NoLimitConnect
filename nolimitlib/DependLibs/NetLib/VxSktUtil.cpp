@@ -1511,16 +1511,42 @@ bool VxIsIPv6Address( const char*addr )
 
 
 //============================================================================
-bool VxIsIPv4Address( const char*addr )
+bool VxIsIPv4Address( const char* addr, bool checkNoLocal )
 {
 	if ( NULL == addr )
 	{
 		return false;
 	}
+
 	int strLen = strlen( addr );
+	if ( strLen < 7 )
+	{
+		return false;
+	}
+
+	int dotCount{ 0 };
 	for ( int i = 0; i < strLen; i++ )
 	{
 		if ( !isdigit( addr[ i ] ) && ( '.' != addr[ i ] ) )
+		{
+			return false;
+		}
+
+		if( '.' == addr[i] )
+		{
+			dotCount++;
+		}
+	}
+
+	if( dotCount != 3 )
+	{
+		return false;
+	}
+
+	if( checkNoLocal )
+	{
+		std::string ip( addr );
+		if( ip == "0.0.0.0" || ip == "127.0.0.1" )
 		{
 			return false;
 		}
@@ -1547,27 +1573,27 @@ int VxGetIPv6ScopeID( const char*addr )
 }
 
 //============================================================================	
-RCODE VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr )
+RCODE VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpleSkt )
 {
 	// Get the IP address of the the remote side of connection
 	RCODE rc = 0;
-	struct sockaddr oSktAddr;
-	socklen_t iSktAddrLen = sizeof( oSktAddr );
-	memset( &oSktAddr, 0, sizeof( oSktAddr ) );
+	struct sockaddr sktAddr;
+	socklen_t sktAddrLen = sizeof( sktAddr );
+	memset( &sktAddr, 0, sizeof( sktAddr ) );
 
-	if( getpeername( sktHandle, ( struct sockaddr* )&oSktAddr, &iSktAddrLen ) )
+	if( getpeername( sktHandle, ( struct sockaddr* )&sktAddr, &sktAddrLen ) )
 	{
 		// error occurred
 		oRetAddr.setToInvalid();
 		rc = VxGetLastError();
 
-        //if( IsLogEnabled( eLogSkt ) )
-            LogMsg( LOG_DEBUG, "VxGetRmtAddress: skt handle %d error %d %s", sktHandle, rc, VxDescribeSktError( rc ) );
+        LogModule( eLogSkt,  LOG_DEBUG, "VxGetRmtAddress: skt handle %d error %d %s", sktHandle, rc, VxDescribeSktError( rc ) );
 	}
 	else
 	{
-		oRetAddr.setIpAndPort( oSktAddr );
-		if( g_SktStatCallback )
+		oRetAddr.setIpAndPort( sktAddr );
+		// dont attempt to set skt rmt address if is simple socket.. else will log error when cannot find the skt handle
+		if( g_SktStatCallback && !isSimpleSkt )
 		{
 			g_SktStatCallback->sktSetRemoteAddr( sktHandle, oRetAddr.toStdString() );
 		}

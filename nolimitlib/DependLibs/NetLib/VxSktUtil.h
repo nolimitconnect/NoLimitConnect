@@ -93,10 +93,10 @@ std::string                     VxSktAddrToString( struct sockaddr* sktAddr, int
 
 RCODE							VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr );
 std::string						VxGetLclIpAddress( SOCKET sktHandle, uint16_t *	retPort = nullptr );
-RCODE							VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr );
+RCODE							VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpleSkt = false );
 
 bool							VxIsIPv6Address( const char*addr );
-bool							VxIsIPv4Address( const char*addr );
+bool							VxIsIPv4Address( const char*addr, bool checkNoLocal = false );
 int								VxGetIPv6ScopeID( const char*addr );
 
 void							VxRefreshDefaultIps( void );

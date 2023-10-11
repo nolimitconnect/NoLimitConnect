@@ -272,7 +272,7 @@ void NetworkStateIpChange::runNetworkState( void )
 	}
     else
     {
-        m_Engine.getNetStatusAccum().setIpAddress( directConnectTestResults.m_MyIpAddr );
+        m_Engine.getNetStatusAccum().setExternalIpAddress( directConnectTestResults.m_MyIpAddr );
     }
 
     bool canDirectConnect = false;

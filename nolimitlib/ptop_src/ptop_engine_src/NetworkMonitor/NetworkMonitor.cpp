@@ -428,11 +428,11 @@ std::string NetworkMonitor::determineLocalIp( void )
         std::string newIpAddr;
         if( m_Engine.getNetServicesMgr().fetchExternalIpAddress( &sktConnect, newIpAddr ) && !newIpAddr.empty() )
         {
-            std::string oldIpAddr = m_Engine.getNetStatusAccum().getIpAddress();
+            std::string oldIpAddr = m_Engine.getNetStatusAccum().getExternalIpAddress();
             if( newIpAddr != oldIpAddr )
             {
                 m_Engine.getNetworkStateMachine().externalIpAddressHasChanged( oldIpAddr, newIpAddr );
-                m_Engine.getNetStatusAccum().setIpAddress( newIpAddr );
+                m_Engine.getNetStatusAccum().setExternalIpAddress( newIpAddr );
             }
         }
 

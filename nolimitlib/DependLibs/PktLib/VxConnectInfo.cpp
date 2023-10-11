@@ -105,7 +105,7 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType )
     }
     else
     {
-        LogMsg( LOG_VERBOSE, " Invite::appendHostTypeSuffix( hostType %d, myUrl %s ); Unknown", hostType, DescribeHostType( hostType ),
+        LogMsg( LOG_VERBOSE, " Invite::appendHostTypeSuffix( hostType %d-%s, myUrl %s ); Unknown", hostType, DescribeHostType( hostType ),
             myUrl.c_str() );
         Invite::appendHostTypeSuffix( hostType, myUrl );
     }

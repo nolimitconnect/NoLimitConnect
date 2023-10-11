@@ -94,8 +94,7 @@ public:
     void                        setDirectConnectTested( bool isTested, bool requiresRelay, std::string& myExternalIp );
     void                        setQueryHostOnlineId( bool noError, VxGUID& onlineId );
     void                        setConnectToRelay( bool connectedToRelay );
-    void                        setIpAddress( std::string ipAddr );
-    void                        setIpPort( uint16_t ipPort );
+
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
     void                        setWebsiteUrlsResolved( bool resolved );
 
@@ -108,7 +107,10 @@ public:
     bool                        requiresRelay( void )               { return m_RequriesRelay; };
     void                        getNodeUrl( std::string& retNodeUrl );
 
-    std::string                 getIpAddress( void );
+    void                        setExternalIpAddress( std::string ipAddr );
+    std::string                 getExternalIpAddress( void );
+
+    void                        setIpPort( uint16_t ipPort );
     uint16_t                    getIpPort( void );
 
     EInternetStatus             getInternetStatus( void )           { return m_InternetStatus; }
@@ -146,6 +148,8 @@ protected:
     bool                        m_GroupListHostAvail{ false };
     bool                        m_GroupHostAvail{ false };
     bool                        m_IsConnectedGroupHost{ false };
+    bool                        m_IsExternalIpValid{ false };
+
     std::string                 m_IpAddr;
     uint16_t                    m_IpPort{ 0 };
     bool                        m_NetHostIdAvail{ false };

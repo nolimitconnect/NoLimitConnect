@@ -780,7 +780,7 @@ void StdStringSplit( const std::string & csStr, const char cToken, std::vector<s
 			{
 				*pTemp = 0;
 				std::string strTok = pStrBuf;
-				aoRetTokens.push_back( strTok );
+				aoRetTokens.emplace_back( strTok );
 				pStrBuf = pTemp + 1;			
 			}
 			pTemp++;
@@ -788,8 +788,9 @@ void StdStringSplit( const std::string & csStr, const char cToken, std::vector<s
 		if( 0 != *pStrBuf )
 		{
 			std::string strTok = pStrBuf;
-			aoRetTokens.push_back( strTok );
+			aoRetTokens.emplace_back( strTok );
 		}
+
 		delete pBufToDelete;
 	}
 }
@@ -810,7 +811,7 @@ void StdStringSplit( const std::wstring & csStr, const wchar_t cToken, std::vect
 			{
 				*pTemp = 0;
 				std::wstring strTok = pStrBuf;
-				aoRetTokens.push_back( strTok );
+				aoRetTokens.emplace_back( strTok );
 				pStrBuf = pTemp + 1;			
 			}
 			pTemp++;
@@ -818,8 +819,9 @@ void StdStringSplit( const std::wstring & csStr, const wchar_t cToken, std::vect
 		if( 0 != *pStrBuf )
 		{
 			std::wstring strTok = pStrBuf;
-			aoRetTokens.push_back( strTok );
+			aoRetTokens.emplace_back( strTok );
 		}
+
 		delete pBufToDelete;
 	}
 }

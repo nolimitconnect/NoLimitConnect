@@ -723,16 +723,7 @@ static int uint16_t = 0;
                                                             tcpListenPort,
                                                             retMyExternalIp,
                                                             isCellDataNetwork,
-															6000);
-			if( portOpenTestError == eNetCmdErrorResponseTimedOut )
-			{
-				portOpenTestError = sendAndRecieveIsMyPortOpen( portTestTimer,
-					&portOpenConn1,
-					tcpListenPort,
-					retMyExternalIp,
-					isCellDataNetwork,
-					20000 );
-			}
+															20000);
 
             portOpenConn1.closeSkt();
         }
@@ -830,7 +821,7 @@ ENetCmdError NetServicesMgr::sendAndRecieveIsMyPortOpen( VxTimer&				portTestTim
 	LogMsg( LOG_INFO, "Is Port %d Open Connected in  %3.3f sec now Sending data thread 0x%x", tcpListenPort, portTestTimer.elapsedSec(), VxGetCurrentThreadId() );
 	portTestTimer.startTimer();
 	setIsTestConnectionActive( true );
-	bool wasSent = getNetUtils().buildAndSendCmd( netServConn, eNetCmdIsMyPortOpenReq, strNetActionUrl );
+	bool wasSent = 0 == getNetUtils().buildAndSendCmd( netServConn, eNetCmdIsMyPortOpenReq, strNetActionUrl );
 	if( !wasSent )
 	{
 		LogMsg( LOG_ERROR, "Is TCP Port %d Open Send Command Error (%3.3f sec) thread 0x%x", tcpListenPort, portTestTimer.elapsedSec(), VxGetCurrentThreadId() );
@@ -1162,13 +1153,14 @@ bool NetServicesMgr::fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std:
 		return false;
 	}
 
-	if( !VxIsIPv4Address( ipAddr.c_str() ) )
+	if( !VxIsIPv4Address( ipAddr.c_str(), true ) )
 	{
 		LogMsg( LOG_VERBOSE, "fetchExternalIpAddress Invalid ip v4 addr %s", ipAddr.c_str() );
 		return false;
 	}
 
 	retExternIpAddr = ipAddr;
+	m_Engine.getNetStatusAccum().setExternalIpAddress( ipAddr );
 	return true;
 }
 
@@ -1468,8 +1460,23 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
 		txCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
 		if( 0 == txCrypto->encrypt( pktData, pktLen ) )
 		{
-			wasSent = 0 == sktBase->sendData( (char *)pktData, pktLen, txDataTimeout );
+			RCODE rc = sktBase->sendData( (char *)pktData, pktLen, txDataTimeout );
+			wasSent = 0 == rc;
+			if( !wasSent )
+			{
+				LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: sendData failed timout %d error %d %s", txDataTimeout, rc, VxDescribeSktError( rc ) );
+			}
 		}
+		else
+		{
+			LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: could not encrypt len %d", pktLen );
+			return false;
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: invalid pkt len %d or cryptoPwdEmpty", pktLen );
+		return false;
 	}
 
 	LogModule( eLogNetService, LOG_VERBOSE, "NetServicesMgr::sendNetServicePacket: wasSent %d for port %d ip %s cmd %s", wasSent, keyPort, keyIpAddr.c_str(), netCmd.c_str());

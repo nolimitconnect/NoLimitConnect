@@ -427,12 +427,22 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         else
         {
             std::string strMyIP = strPayload.substr( 5, strPayload.length() - 5 );
-            LogModule( eLogRunTest, LOG_VERBOSE, "%s PING test success .. My IP is %s", actionName.c_str(), strMyIP.c_str() );
-            sendTestLog( urlAction, actionName, "Success. PONG returned My IP (%s)", strMyIP.c_str() );
-            sendTestLog( urlAction, actionName, "Elapsed Seconds Connect %3.3f sec Send %3.3f sec Respond %3.3f sec", connectTime, sendTime - connectTime, reponseTime - sendTime );
-            if( urlAction.getResultInterface() )
+            if( !VxIsIPv4Address( strMyIP.c_str(), true ) )
+	        {
+		        LogMsg( LOG_VERBOSE, "fetchExternalIpAddress Invalid ip v4 addr %s", strMyIP.c_str() );
+		        return doRunTestFailed( urlAction, actionName, eRunTestStatusInvalidResponse, netServiceHdr.getError() );
+	        }
+            else
             {
-                urlAction.getResultInterface()->callbackPingSuccess( urlAction, strMyIP.c_str() );
+                LogModule( eLogRunTest, LOG_VERBOSE, "%s PING test success .. My IP is %s", actionName.c_str(), strMyIP.c_str() );
+                sendTestLog( urlAction, actionName, "Success. PONG returned My IP (%s)", strMyIP.c_str() );
+                sendTestLog( urlAction, actionName, "Elapsed Seconds Connect %3.3f sec Send %3.3f sec Respond %3.3f sec", connectTime, sendTime - connectTime, reponseTime - sendTime );
+                if( urlAction.getResultInterface() )
+                {
+                    urlAction.getResultInterface()->callbackPingSuccess( urlAction, strMyIP.c_str() );
+                }
+
+                m_Engine.getNetStatusAccum().setExternalIpAddress( strMyIP );
             }
         }
     }

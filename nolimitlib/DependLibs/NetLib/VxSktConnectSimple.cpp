@@ -156,7 +156,7 @@ SOCKET VxSktConnectSimple::connectTo( const char*  lclAdapterIp,					// local ad
                 rc = VxGetLclAddress( skt, m_LclIp );
                 if( !rc )
                 {
-                    rc = VxGetRmtAddress( skt, m_RmtIp );
+                    rc = VxGetRmtAddress( skt, m_RmtIp, true );
                 }
 
                 if( !rc )

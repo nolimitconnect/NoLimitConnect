@@ -615,6 +615,10 @@ RCODE NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENe
 			rc = 0;
 		}
 	}
+	else
+	{
+		LogMsg( LOG_ERROR, "NetServiceUtils::buildAndSendCmd build failed for VxSktBase" );
+	}
 
 	return rc;
 }
@@ -630,6 +634,10 @@ RCODE NetServiceUtils::buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdTyp
 		{
 			rc = 0;
 		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "NetServiceUtils::buildAndSendCmd build failed for simiple socket" );
 	}
 
 	return rc;
@@ -772,8 +780,23 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 		txCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
 		if(0 == txCrypto->encrypt( pktData, pktLen ) )
 		{
-			wasSent = 0 == netServConn->sendData( (char *)pktData, pktLen, txDataTimeout );
+			RCODE rc = netServConn->sendData( (char *)pktData, pktLen, txDataTimeout );
+			wasSent = 0 == rc;
+			if( !wasSent )
+			{
+				LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: simple sendData failed timout %d error %d %s", txDataTimeout, rc, VxDescribeSktError( rc ) );
+			}
 		}
+		else
+		{
+			LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: simple could not encrypt len %d", pktLen );
+			return false;
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: simple invalid pkt len %d or cryptoPwdEmpty", pktLen );
+		return false;
 	}
 
 	return wasSent;
@@ -962,13 +985,13 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 
     if( netServiceHdr.m_TotalDataLen <= NET_SERVICE_HDR_LEN )
     {
-        LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d too smal netServiceHdr.m_TotalDataLen %d", netServConn->getSktHandle(), netServiceHdr.m_TotalDataLen );
+        LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d too small netServiceHdr.m_TotalDataLen %d", netServConn->getSktHandle(), netServiceHdr.m_TotalDataLen );
         return false;
     }
 
 	if( netServiceHdr.m_TotalDataLen > rxBufLen )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd:skt %d  too large netServiceHdr.m_TotalDataLen %d", netServConn->getSktHandle(), netServiceHdr.m_TotalDataLen );
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd:skt %d too large netServiceHdr.m_TotalDataLen %d", netServConn->getSktHandle(), netServiceHdr.m_TotalDataLen );
 		return false;
 	}
 

@@ -70,7 +70,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		// it is ourself
         LogMsg( LOG_ERROR, "onPktAnnounce Cannot send a packet to ourself  " );
         std::string rmAddr = sktBase->getRemoteIpAddress() ? sktBase->getRemoteIpAddress() : "";
-        std::string ourAddr = getNetStatusAccum().getIpAddress();
+        std::string ourAddr = getNetStatusAccum().getExternalIpAddress();
         if( rmAddr.empty() || sktBase->getRemoteIpAddress() != ourAddr )
         {
             // remote attack.. serious
