@@ -1006,8 +1006,8 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	netServiceHdr.m_ContentDataLen = contentLen;
 	memcpy( rxBuf, &netCmd[NET_SERVICE_HDR_LEN], contentLen );
 	rxBuf[ contentLen ] = 0;
-	LogModule( eLogNetService, LOG_DEBUG, "### SUCCESS NetServiceUtils::rxNetServiceCmd: skt %d success recieving content len %d in %3.3f sec", 
-			   netServConn->getSktHandle(), contentLen, rxCmdTimer.elapsedSec() );
+	LogModule( eLogNetService, LOG_DEBUG, "### SUCCESS NetServiceUtils::rxNetServiceCmd: skt %d success recieving netcmd %s content %s len %d in %3.3f sec from IP %s", 
+			   netServConn->getSktHandle(), DescribeNetCmdType( expectedRxNetCmd ), rxBuf, contentLen, rxCmdTimer.elapsedSec(), netServConn->getRemoteIpAddress().c_str() );
 	return true;
 }
 

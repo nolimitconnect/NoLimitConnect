@@ -105,8 +105,8 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
 		strResolveIp,
 		NETSERVICE_CONNECT_TIMEOUT ) )
 	{
-        sendRunTestStatus( eRunTestStatusConnectFail, "%s Could not connected to %s IP %s..Please check settings",
-                        getTestName().c_str(), nodeUrl.c_str(), strResolveIp.c_str() );
+        sendRunTestStatus( eRunTestStatusConnectFail, "%s Could not connect to %s IP %s..tried %3.3f seconds Please check settings", 
+                        getTestName().c_str(), nodeUrl.c_str(), strResolveIp.c_str(), testTimer.elapsedSec() );
 
 		doRunTestFailed();
 

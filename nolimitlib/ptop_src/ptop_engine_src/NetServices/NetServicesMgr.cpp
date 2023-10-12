@@ -1392,6 +1392,7 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
 	if( eNetCmdClientPong == netCmdRequestType )
 	{
 		keyPort = m_Engine.getNetworkStateMachine().getNetServicePort();
+		keyIpAddr = "0.0.0.0";
 	}
 
 	NetServiceUtils::generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), keyPort, keyIpAddr );

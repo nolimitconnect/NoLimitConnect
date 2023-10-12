@@ -292,8 +292,8 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
                                                 resolveIp,
 		                                        NETSERVICE_CONNECT_TIMEOUT ) )
 	{
-        sendRunTestStatus( urlAction, actionName, eRunTestStatusConnectFail, eNetCmdErrorConnectFailed, "Could not connected to %s IP %s..Please check settings",
-                            nodeUrl.c_str(), resolveIp.c_str() );
+        sendRunTestStatus( urlAction, actionName, eRunTestStatusConnectFail, eNetCmdErrorConnectFailed, "Could not connect to %s IP %s..tried %3.3f seconds Please check settings", 
+                            nodeUrl.c_str(), resolveIp.c_str(), testTimer.elapsedSec() );
 
 		doRunTestFailed( urlAction, actionName, eRunTestStatusConnectFail, eNetCmdErrorConnectFailed );
 
