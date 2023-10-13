@@ -324,9 +324,6 @@
     <ClInclude Include="VxHackRecord.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\NetLib.pro" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -864,7 +864,7 @@ std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool in
 //============================================================================
 SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs, RCODE * retSktErr)
 {
-	const int MAX_CONNECT_SECONDS = 50;
+	const int MAX_CONNECT_SECONDS = 20;
 
     if( INVALID_SOCKET == sktHandle )
     {

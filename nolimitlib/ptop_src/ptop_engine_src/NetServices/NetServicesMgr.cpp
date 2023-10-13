@@ -815,13 +815,12 @@ ENetCmdError NetServicesMgr::sendAndRecieveIsMyPortOpen( VxTimer&				portTestTim
 		return eNetCmdErrorConnectFailed;
 	}
 
-	std::string strNetActionUrl;
-	m_NetServiceUtils.buildIsMyPortOpenUrl( netServConn, strNetActionUrl, tcpListenPort );
+	std::string cmdContent =  std::to_string( tcpListenPort );
 
 	LogMsg( LOG_INFO, "Is Port %d Open Connected in  %3.3f sec now Sending data thread 0x%x", tcpListenPort, portTestTimer.elapsedSec(), VxGetCurrentThreadId() );
 	portTestTimer.startTimer();
 	setIsTestConnectionActive( true );
-	bool wasSent = 0 == getNetUtils().buildAndSendCmd( netServConn, eNetCmdIsMyPortOpenReq, strNetActionUrl );
+	bool wasSent = 0 == getNetUtils().buildAndSendCmd( netServConn, eNetCmdIsMyPortOpenReq, cmdContent );
 	if( !wasSent )
 	{
 		LogMsg( LOG_ERROR, "Is TCP Port %d Open Send Command Error (%3.3f sec) thread 0x%x", tcpListenPort, portTestTimer.elapsedSec(), VxGetCurrentThreadId() );
@@ -1385,6 +1384,12 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
 											std::string&		 netCmd,
 											int                 txDataTimeout )
 {
+	if( netCmd.length() < MIN_NET_CMD_LEN || netCmd.length() > MAX_NET_CMD_LEN )
+	{
+		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: invalid net cmd len %d type %s cmd %s", netCmd.length(), DescribeNetCmdType( netCmdRequestType ), netCmd.c_str() );
+		return false;
+	}
+
 	std::unique_ptr<VxPktHdr> pktPtr;
 	std::string cryptoPwd;
 	uint16_t keyPort = sktBase->isAcceptSocket() ? getRxNetServicePort() : sktBase->getRemotePort();

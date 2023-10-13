@@ -228,11 +228,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\NetLib.pro">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="..\..\CMakeLists.txt">
       <Filter>Qt</Filter>
     </Text>

@@ -437,6 +437,12 @@ EPluginType NetServiceUtils::parseHttpNetServiceHdr( char * dataBuf, int dataLen
         pluginType = ePluginTypeHostConnectTest;
     }
 
+	if(  netServiceHdr.m_TotalDataLen < MIN_NET_CMD_LEN ||  netServiceHdr.m_TotalDataLen > MAX_NET_CMD_LEN )
+	{
+		LogMsg( LOG_ERROR, "NetActionAnnounce::parseHttpNetServiceUrl: invalid net cmd len %d type %s",  netServiceHdr.m_TotalDataLen, DescribeNetCmdType( netServiceHdr.m_NetCmdType ) );
+		return ePluginTypeInvalid;
+	}
+
     LogModule( eLogNetService, LOG_VERBOSE, "parseHttpNetServiceUrl: cmd %s plugin %s %s", netCmdEnumToString( netServiceHdr.m_NetCmdType ), 
 		DescribePluginType( pluginType ), DescribeNetCmdError( netServiceHdr.m_CmdError ) );
 
@@ -742,6 +748,12 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 											 std::string& netCmd,
 											 int txDataTimeout )
 {
+	if( netCmd.length() < MIN_NET_CMD_LEN || netCmd.length() > MAX_NET_CMD_LEN )
+	{
+		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: invalid net cmd len %d type %s cmd %s", netCmd.length(), DescribeNetCmdType( netCmdRequestType ), netCmd.c_str() );
+		return false;
+	}
+
 	std::unique_ptr<VxPktHdr> pktPtr;
 	std::string cryptoPwd;
 
