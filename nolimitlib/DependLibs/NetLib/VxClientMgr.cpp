@@ -23,6 +23,12 @@ VxClientMgr::VxClientMgr()
 }
 
 //============================================================================
+void VxClientMgr::sktMgrStartup( void )
+{
+	// empty
+}
+
+//============================================================================
 //! make a new socket... give derived classes a chance to override
 std::shared_ptr<VxSktBase> VxClientMgr::makeNewSkt( void )
 { 

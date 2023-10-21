@@ -43,13 +43,15 @@ signals:
     void                        signalInfoMsg( const QString& logMsg );
 
 protected slots:
-    void						gotoWebsite( void );
+
     void                        slotShowLogButtonClick( void );
     void                        slotShowAppInfoButtonClick( void );
     void                        slotLogMsg( const QString& text );
     void                        slotInfoMsg( const QString& text );
 
-    void                        slotCopyMyUrlToClipboardClicked( void );
+    void                        slotCopyMyUrlIpv4ToClipboardClicked( void );
+    void                        slotCopyMyUrlIpv6ToClipboardClicked( void );
+
     void                        slotCopyTestUrlToClipboardClicked( void );
     void                        slotCopyResultToClipboardClicked( void );
     void                        slotClearResultsButtonClicked( void );

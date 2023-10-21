@@ -39,7 +39,7 @@ public:
     void                        setGuiUser( GuiUser* guiUser )              { if( m_GuiHosted && guiUser ) m_GuiHosted->setUser( guiUser ); }
     GuiUser*                    getGuiUser( void )                          { return m_GuiHosted ? m_GuiHosted->getUser() : nullptr; }
 
-    std::string                 getHostUrl( void );
+    std::string                 getHostUrl( bool ipv6 );
     std::string                 getHostTitle( void );
     std::string                 getHostDescription( void );
 

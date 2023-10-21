@@ -307,7 +307,7 @@ void P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 	{
 		// see if broadcast addresses match
 		std::string hisLanIp = poInfo->getLanIPv4().toStdString();
-		std::string myLanIp = getNetStatusAccum().getLanIpAddr();
+		std::string myLanIp = getNetStatusAccum().getLanIpAddress( false );
 		std::string hisBroadcast;
 		std::string myBroadcast;
 		if( VxMakeBroadcastIp( hisLanIp, hisBroadcast ) && VxMakeBroadcastIp( myLanIp, myBroadcast )

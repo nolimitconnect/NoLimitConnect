@@ -115,13 +115,13 @@ void HostedListMgr::updateHostedList( VxNetIdent* netIdent, std::shared_ptr<VxSk
             return;
         }
 
-        std::string nodeUrl = netIdent->getMyOnlineUrl();
+        std::string nodeUrlIpv4 = netIdent->getMyOnlineUrl( false );
         for( int i = eHostTypeUnknown + 1; i < eMaxHostType; ++i )
         {
             EHostType hostType = ( EHostType )i;
             if( netIdent->canRequestJoin( hostType ) )
             {
-                updateAndRequestInfoIfNeeded( hostType, onlineId, nodeUrl, netIdent, sktBase );
+                updateAndRequestInfoIfNeeded( false, hostType, onlineId, nodeUrlIpv4, netIdent, sktBase );
             }
         }
     }
@@ -279,7 +279,7 @@ void HostedListMgr::announceHostInfoSearchComplete( EHostType hostType, VxGUID& 
 }
 
 //============================================================================
-void HostedListMgr::updateAndRequestInfoIfNeeded( EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+void HostedListMgr::updateAndRequestInfoIfNeeded( bool ipv6, EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool requiresSendHostInfoRequest{ false };
     bool requiresAnnounceUpdate{ false };
@@ -297,10 +297,10 @@ void HostedListMgr::updateAndRequestInfoIfNeeded( EHostType hostType, VxGUID& on
                 requiresSendHostInfoRequest = true;
             }
 
-            if( nodeUrl != iter->getHostInviteUrl() )
+            if( nodeUrl != iter->getHostInviteUrl( ipv6 ) )
             {
                 urlChanged = true;
-                iter->setHostInviteUrl( nodeUrl );
+                iter->setHostInviteUrl( ipv6, nodeUrl );
                 if( !requiresSendHostInfoRequest && iter->isValidForGui() )
                 {
                     requiresAnnounceUpdate = true;
@@ -330,7 +330,11 @@ void HostedListMgr::updateAndRequestInfoIfNeeded( EHostType hostType, VxGUID& on
     {
         requiresSendHostInfoRequest = true;
         VxGUID thumbId = netIdent->getHostThumbId( hostType, true );
-        HostedInfo hostedInfo( hostType, onlineId, nodeUrl, thumbId );
+
+        std::string otherNodeUrl = netIdent->getMyOnlineUrl( !ipv6 );
+        
+        HostedInfo hostedInfo( hostType, onlineId, ipv6 ? otherNodeUrl : nodeUrl, ipv6 ? nodeUrl : otherNodeUrl, thumbId );
+
         hostedInfo.setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
         m_HostedInfoList.push_back( hostedInfo );
     }
@@ -786,8 +790,22 @@ void HostedListMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo&
 // returns true if retHostedInfo was filled
 bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged, HostedInfo* retResultInfo )
 {
-    VxPtopUrl ptopUrl( hostedInfo.getHostInviteUrl() );
-    if( !ptopUrl.isValid() )
+    VxPtopUrl ptopUrlIpv4( hostedInfo.getHostInviteUrl( false ) );
+    VxPtopUrl ptopUrlIpv6( hostedInfo.getHostInviteUrl( true ) );
+    bool ipv6{ false };
+    VxGUID onlineId;
+
+    if( ptopUrlIpv4.isValid() )
+    {
+        onlineId = ptopUrlIpv4.getOnlineId();
+    }
+    else if( ptopUrlIpv6.isValid() )
+    {
+        onlineId = ptopUrlIpv6.getOnlineId();
+        ipv6 = true;
+    }
+    
+    if( !onlineId.isVxGUIDValid() )
     {
         LogMsg( LOG_ERROR, "HostedListMgr::hostSearchResult INVALID url" );
         return false;
@@ -798,7 +816,7 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
     if( !netIdent )
     {
         VxNetIdent hostIdent;
-        BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( ptopUrl.getOnlineId() );
+        BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
         if( bigListInfo )
         {
             netIdent = bigListInfo->getVxNetIdent();
@@ -806,12 +824,12 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
         else
         {
             needsIdentityReq = true;
-            m_Engine.getHostUrlListMgr().requestIdentity( hostedInfo.getHostInviteUrl() );
+            m_Engine.getHostUrlListMgr().requestIdentity( hostedInfo.getHostInviteUrl( ipv6 ) );
         }
     }
 
     LogMsg( LOG_VERBOSE, "HostedListMgr::hostSearchResult title %s desc %s time %lld host url %s", 
-        hostedInfo.getHostTitle().c_str(), hostedInfo.getHostDescription().c_str(), hostedInfo.getHostInfoTimestamp(), hostedInfo.getHostInviteUrl().c_str() );
+        hostedInfo.getHostTitle().c_str(), hostedInfo.getHostDescription().c_str(), hostedInfo.getHostInfoTimestamp(), hostedInfo.getHostInviteUrl( ipv6 ).c_str() );
 
     bool alreadyExisted{ false };
     bool hostedInfoUpdated{ false };
@@ -829,15 +847,15 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
                 iter->setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
             }
 
-            if( iter->getHostInviteUrl() != hostedInfo.getHostInviteUrl() || infoChanged )
+            if( iter->getHostInviteUrl( ipv6 ) != hostedInfo.getHostInviteUrl( ipv6 ) || infoChanged )
             {
                 // url has changed. just update
-                iter->setHostInviteUrl( hostedInfo.getHostInviteUrl() );
+                iter->setHostInviteUrl( ipv6, hostedInfo.getHostInviteUrl( ipv6 ) );
                 // update our url list also
-                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostedInfo.getHostOnlineId(), hostedInfo.getHostInviteUrl() );
+                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostedInfo.getHostOnlineId(), hostedInfo.getHostInviteUrl( false ), hostedInfo.getHostInviteUrl( true ) );
                 if( iter->shouldSaveToDb() )
                 {
-                    m_HostedInfoListDb.updateHostUrl( iter->getHostType(), iter->getHostOnlineId(), hostedInfo.getHostInviteUrl() );
+                    m_HostedInfoListDb.updateHostUrl( ipv6, iter->getHostType(), iter->getHostOnlineId(), hostedInfo.getHostInviteUrl( ipv6 )  );
                 }
                 // TODO do we need to update if just url changed ?
             }

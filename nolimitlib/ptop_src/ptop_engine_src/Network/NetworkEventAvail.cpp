@@ -55,16 +55,24 @@ void NetworkEventAvail::runNetworkEvent( void )
 	m_NetworkStateMachine.resolveWebsiteUrls();
     uint16_t listenPort = m_Engine.getEngineSettings().getTcpIpPort();
     m_Engine.getNetStatusAccum().setIpPort( listenPort );
-    if( !m_Engine.getPeerMgr().isListening() || ( listenPort != m_Engine.getPeerMgr().getListenPort() ) )
-    {
-        m_Engine.getPeerMgr().startListening( m_Engine.getEngineSettings().getTcpIpPort(), m_LclIp.c_str() );
-    }
 
-	//m_PktAnn.getLanIPv4().setIp( m_LclIp.c_str() );
-    if( listenPort != m_PktAnn.getOnlinePort() )
+	bool ipv6{ false };
+	if( VxIsIpValid( m_LclIp ) )
+	{
+		ipv6 = VxIsIPv6Address( m_LclIp.c_str() );
+		m_Engine.getNetStatusAccum().setLanIpAddress( ipv6, m_LclIp );
+	}
+
+	if( listenPort != m_PktAnn.getOnlinePort() )
     {
         m_PktAnn.setOnlinePort( listenPort );
         m_Engine.getToGui().toGuiUpdateMyIdent( &m_PktAnn );
+    }
+
+    if( !m_Engine.getPeerMgr().isListening( false ) || ( listenPort != m_Engine.getPeerMgr().getListenPort() ) )
+    {
+
+        m_Engine.getPeerMgr().startListening( ipv6, m_Engine.getEngineSettings().getTcpIpPort() );
     }
 
     LogModule( eLogNetworkState, LOG_VERBOSE, "NetworkEventAvail::runNetworkEvent done" );

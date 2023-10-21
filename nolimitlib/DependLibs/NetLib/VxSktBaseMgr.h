@@ -42,7 +42,8 @@ public:
 	virtual void				setTxCallbackUserData( void* pvData )			{ m_pvTxCallbackUserData = pvData; }
 	virtual void *				getTxCallbackUserData( void )					{ return m_pvTxCallbackUserData; }
 
-	virtual void				sktMgrSetLocalIp( InetAddress& oLclIp );
+	//virtual void				sktMgrSetLocalIp( InetAddress& oLclIp );
+	virtual void				sktMgrStartup( void ) = 0;
 	virtual void				sktMgrShutdown( void );
 
 

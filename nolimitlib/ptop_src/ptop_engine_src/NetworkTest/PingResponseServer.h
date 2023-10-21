@@ -22,9 +22,11 @@ class PingResponseServer : public VxServerMgr
 {
 public:
 	PingResponseServer( IsPortOpenTest& isPortOpenTest );
-	~PingResponseServer();
+	virtual ~PingResponseServer() = default;
 
 	void						handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase );
+
+	RCODE						startListeningThreads( void ) override;
 
 private:
 	IsPortOpenTest&				m_IsPortOpenTest;

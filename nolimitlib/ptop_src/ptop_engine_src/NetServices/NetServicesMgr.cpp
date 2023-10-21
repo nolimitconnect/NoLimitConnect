@@ -95,7 +95,7 @@ uint16_t NetServicesMgr::getRxNetServicePort( void )
 std::string NetServicesMgr::getRxNetIpAddress( void )
 {
 	std::string strRetIp;
-    m_Engine.getMyPktAnnounce().getMyOnlineIPv4(strRetIp);
+    m_Engine.getMyPktAnnounce().getMyOnlineIpAddress( false, strRetIp );
 	return strRetIp;
 }
 
@@ -1071,15 +1071,6 @@ RCODE NetServicesMgr::handleNetCmdQueryHostIdReply( std::shared_ptr<VxSktBase>& 
 //============================================================================
 void NetServicesMgr::netActionResultQueryHostId( ENetCmdError eAppErr, VxGUID& hostId )
 {
-    if( eAppErr == eNetCmdErrorNone )
-    {
-        m_Engine.getNetStatusAccum().setQueryHostOnlineId( true, hostId );
-    }
-    else
-    {
-        m_Engine.getNetStatusAccum().setQueryHostOnlineId( false, hostId );
-    }
-
     if( m_pfuncQueryHostIdCallbackHandler )
     {
         m_pfuncQueryHostIdCallbackHandler( m_QueryHostIdCallbackUserData, eAppErr, hostId );
@@ -1159,7 +1150,7 @@ bool NetServicesMgr::fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std:
 	}
 
 	retExternIpAddr = ipAddr;
-	m_Engine.getNetStatusAccum().setExternalIpAddress( ipAddr );
+	m_Engine.getNetStatusAccum().setExternalIpAddress( false, ipAddr );
 	return true;
 }
 

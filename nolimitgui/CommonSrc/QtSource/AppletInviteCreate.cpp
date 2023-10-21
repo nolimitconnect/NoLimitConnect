@@ -156,7 +156,7 @@ void AppletInviteCreate::updateUrls( void )
     bool canDirectConnect = m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen();
     VxNetIdent myIdent;
     m_FromGui.fromGuiQueryMyIdent( &myIdent );
-    QString myUrl( myIdent.getMyOnlineUrl().c_str() );
+    QString myUrl( myIdent.getMyOnlineUrl(false).c_str() );
     ui.m_MyUrlEdit->setText( myUrl );
 
     std::string connectedGroupUrl = m_MyApp.getEngine().getNetStatusAccum().getConnectedHostUrl(eHostTypeGroup);

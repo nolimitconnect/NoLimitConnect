@@ -28,20 +28,20 @@ class VxSktConnectSimple;
 class VxGUID;
 
 //! generate key from net identity and connection data and place int sockets m_RxKey and initialize its crypto
-RCODE GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&				sktBase,			// pointer to VxSktBase
-								VxConnectId *			poConnectId, 		// network identity
-								const char*			networkName );
+bool GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&	sktBase,			// pointer to VxSktBase
+								VxConnectId *			    poConnectId, 		// network identity
+								const char*			        networkName );
                              
 //! generate key from net identity and connection data and place int sockets m_TxKey and initialize its crypto
-RCODE GenerateTxConnectionKey(	std::shared_ptr<VxSktBase>&				sktBase,			// pointer to VxSktBase
-								VxConnectId *			poConnectId,		// announce packet
-								const char*			networkName );
+bool GenerateTxConnectionKey(	std::shared_ptr<VxSktBase>&	sktBase,			// pointer to VxSktBase
+								VxConnectId *			    poConnectId,		// announce packet
+								const char*			        networkName );
 
-RCODE GenerateTxConnectionKey(  std::shared_ptr<VxSktBase>&				sktBase,
-                                std::string             ipAddr,
-                                uint16_t                port,
-                                VxGUID                  onlineId,
-                                std::string			    networkName );
+bool GenerateTxConnectionKey(   std::shared_ptr<VxSktBase>&	sktBase,
+                                std::string                 ipAddr,
+                                uint16_t                    port,
+                                VxGUID                      onlineId,
+                                std::string			        networkName );
                           
 unsigned char * GetVxSktRandData( int iRandDataIdx );
 

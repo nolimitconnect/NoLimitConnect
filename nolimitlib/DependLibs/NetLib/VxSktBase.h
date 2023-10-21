@@ -91,6 +91,9 @@ public:
 	virtual void				setSktType( ESktType sktType )					{ m_eSktType = sktType; }
 	virtual ESktType			getSktType( void )								{ return m_eSktType; }
 
+	virtual void				setIsIpv6Connection( bool ipv6 )				{ m_IsIpv6Connection = ipv6; }
+	virtual bool				getIsIpv6Connection( void )						{ return m_IsIpv6Connection; }
+
 	virtual void				setLastSktError( RCODE rc );
 	virtual RCODE				getLastSktError( void )							{ return m_rcLastSktError; }
 
@@ -353,6 +356,8 @@ protected:
 	EConnectReason				m_ConnectReason{ eConnectReasonUnknown };
 	bool						m_HasBeenShutdown{ false };
 	std::shared_ptr<VxSktBase>  m_ThisSkt;
+
+	bool						m_IsIpv6Connection{ false };
 
     static int					m_TotalCreatedSktCnt;	            // total number of sockets created since program started
     static int					m_CurrentSktCnt;		            // current number of sockets exiting in memory

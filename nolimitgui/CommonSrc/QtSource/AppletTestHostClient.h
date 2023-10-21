@@ -51,7 +51,7 @@ protected:
     void                        fillHostList( EHostType hostType, QComboBox* comboBox );
     void                        setNetworkHostIdFromNetHostComboBoxSelection( void );
     void                        updateHostType( EHostType hostType );
-    bool                        updateHostedUrlComboBox( std::string& hostUrl );
+    bool                        updateHostedUrlComboBox( std::string& hostUrlipv4, std::string& hostUrlipv6 );
     void                        updateHostedIdent( GuiHosted* guiHosted );
 
     Ui::AppletTestHostClientUi  ui;

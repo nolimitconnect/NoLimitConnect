@@ -20,6 +20,7 @@
 #include <PktLib/PktBlobEntry.h>
 
 #include <string>
+#include <array>
 
 #ifdef TARGET_OS_WINDOWS
 	#include "Winsock2.h"
@@ -49,7 +50,7 @@
 #include <stdio.h>
 
 #define IP4_PREFIX 0x0000ffff00000000ULL
-#define INET6_MAX_STR_LEN 68
+
 //============================================================================
 // InetAddrIPv4
 //============================================================================
@@ -282,7 +283,7 @@ uint16_t InetAddrIPv4::setIp( struct sockaddr_storage& oAddr )
 		break;
 
 	case AF_INET6:
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::setIp tried to set IPv6 address\n" );
+		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::setIp tried to set IPv6 address" );
 		setToInvalid();
 		break;
 
@@ -1225,22 +1226,27 @@ int InetAddress::fillAddress( struct sockaddr_in6& oIPv6Addr, uint16_t u16Port )
 std::string InetAddress::toStdString( void )
 {
 	std::string retIpAddress;
-	char as8Buf[ INET6_MAX_STR_LEN ];
-	as8Buf[0] = 0; 
+	std::array<char, INET6_MAX_STR_LEN> as8Buf;
+	as8Buf.data()[0] = 0; 
 
 	if( isValid() )
 	{
 		if( isIPv4() )
 		{
 			uint32_t u32Ip = getIPv4AddressInNetOrder();
-            VxIPv4_ntop( &u32Ip, as8Buf, sizeof( as8Buf ), false );
+            VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
 			//LogMsg( LOG_INFO, "InetAddress::toStdString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
 		}
 		else
 		{
-			VxIPv6_ntop( this, as8Buf, sizeof( as8Buf ) );
+			VxIPv6_ntop( this, as8Buf.data(), as8Buf.size());
 		}
-		retIpAddress = as8Buf;
+
+		retIpAddress = as8Buf.data();
+		if( retIpAddress.empty() )
+		{
+			retIpAddress = "";
+		}
 	}
 	else
 	{
@@ -1252,27 +1258,28 @@ std::string InetAddress::toStdString( void )
 
 //============================================================================
 //! returns port in host order
-uint16_t	InetAddress::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
+uint16_t InetAddress::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
 {
 	uint16_t u16Port = 0;
-	char as8Addr[ INET6_MAX_STR_LEN ];
+	std::array<char, INET6_MAX_STR_LEN> as8Addr;
     switch(sa->sa_family)
     {
 		case AF_INET:
-			VxIPv4_ntop(&(((struct sockaddr_in *)sa)->sin_addr), as8Addr, sizeof(as8Addr), true );
+			VxIPv4_ntop(&(((struct sockaddr_in *)sa)->sin_addr), as8Addr.data(), as8Addr.size(), true);
 			u16Port = ntohs( (((struct sockaddr_in *)sa)->sin_port) );
 			break;
 
 		case AF_INET6:
-			VxIPv6_ntop( &(((struct sockaddr_in6 *)sa)->sin6_addr), as8Addr, sizeof(as8Addr));
+			VxIPv6_ntop( &(((struct sockaddr_in6 *)sa)->sin6_addr), as8Addr.data(), as8Addr.size() );
 			u16Port = ntohs( (((struct sockaddr_in6 *)sa)->sin6_port) );
 			break;
 
 		default:
-			strcpy(as8Addr, "Unknown AF");
+			strcpy(as8Addr.data(), "Unknown AF");
             return 0;
 	}
-    retStr = as8Addr;
+
+    retStr = as8Addr.data();
 	return u16Port;
 }
 

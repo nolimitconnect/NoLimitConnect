@@ -52,9 +52,9 @@ public:
 	void						setNetworkHostUrl( std::string& strWebsiteUrl );
 	void						getNetworkHostUrl( std::string& strWebsiteUrl );
 
-    void						setUserSpecifiedExternIpAddr( std::string& externIp );
-    void						getUserSpecifiedExternIpAddr( std::string& externIp );
-    std::string                 getUserSpecifiedExternIpAddr( void );
+    void						setUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 = false );
+    void						getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 = false );
+    std::string                 getUserSpecifiedExternIpAddr( bool ipv6 = false );
 
     void						setUseUpnp( bool useUpnp );
     bool						getUseUpnp( void );

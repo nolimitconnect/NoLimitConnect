@@ -61,7 +61,7 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
         return;
     }
     
-    url = m_Engine.getUrlMgr().resolveUrl(url);
+    url = m_Engine.getUrlMgr().resolveUrl(false, url);
 
     if( m_Engine.getMyPktAnnounce().requiresRelay() )
     {

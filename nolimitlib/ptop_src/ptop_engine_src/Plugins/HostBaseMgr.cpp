@@ -123,35 +123,33 @@ EConnectReason HostBaseMgr::getSearchConnectReason( EHostType hostType )
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void HostBaseMgr::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : m_ConnectionMgr.getDefaultHostUrl( hostType );
-
-    if( ptopUrl.empty() || hostType == eHostTypeUnknown )
+    if( ptopUrlIpv4.empty() || hostType == eHostTypeUnknown )
     {
         m_Engine.getToGui().toGuiHostAnnounceStatus( hostType, sessionId, eHostAnnounceInvalidUrl );
         return;
     }
 
-    connectToHost( hostType, sessionId, url, HostTypeToConnectAnnounceReason( hostType ) );
+    connectToHost( hostType, sessionId, ptopUrlIpv4, HostTypeToConnectAnnounceReason( hostType ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void HostBaseMgr::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrl, HostTypeToConnectJoinReason( hostType ) );
+    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectJoinReason( hostType ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void HostBaseMgr::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrl, HostTypeToConnectLeaveReason( hostType ) );
+    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectLeaveReason( hostType ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void HostBaseMgr::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrl, HostTypeToConnectUnJoinReason( hostType ) );
+    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectUnJoinReason( hostType ) );
 }
 
 //============================================================================
@@ -864,10 +862,21 @@ EMembershipState HostBaseMgr::getMembershipState( VxNetIdent* netIdent, EHostTyp
 }
 
 //============================================================================
-bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl, EConnectReason connectReason )
+bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, EConnectReason connectReason )
 {
-    std::string url = ptopUrl.empty() ? m_ConnectionMgr.getDefaultHostUrl( hostType ) : ptopUrl;
-    if( url.empty() || hostType == eHostTypeUnknown )
+    VxPtopUrl hostUrlIpv4( ptopUrlIpv4 );
+    VxPtopUrl hostUrlIpv6( ptopUrlIpv6 );
+    VxGUID onlineId;
+    if( hostUrlIpv4.isValid() )
+    {
+        onlineId = hostUrlIpv4.getOnlineId();
+    }
+    else if( hostUrlIpv6.isValid() )
+    {
+        onlineId = hostUrlIpv6.getOnlineId();
+    }
+
+    if( !onlineId.isVxGUIDValid() || hostType == eHostTypeUnknown )
     {
         LogMsg( LOG_ERROR, "HostBaseMgr::connectToHostByPtopUrlAndReason invalid param" );
         m_Engine.getToGui().toGuiHostJoinStatus( hostType, sessionId, eHostJoinInvalidUrl );
@@ -875,37 +884,37 @@ bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& s
     }
 
     bool result{ false };
-    VxPtopUrl hostUrl( url );
-    if( hostUrl.isValid() )
+
+    if( hostUrlIpv4.isValid() )
     {
         std::shared_ptr<VxSktBase> sktBase( nullptr );
-        if( m_Engine.getConnectMgr().isConnectedToHost( hostType, hostUrl, sktBase ) )
+        if( m_Engine.getConnectMgr().isConnectedToHost( hostType, hostUrlIpv4, sktBase ) )
         {
             // handle already connected
             result = true;
-            onConnectToHostSuccess( hostType, sessionId, sktBase, hostUrl.getOnlineId(), connectReason );
+            onConnectToHostSuccess( hostType, sessionId, sktBase, onlineId, connectReason );
         }
         else
         {
             // try lookup by groupie id
-            GroupieId groupieId( m_Engine.getMyOnlineId(), hostUrl.getOnlineId(), hostType );
+            GroupieId groupieId( m_Engine.getMyOnlineId(), onlineId, hostType );
             sktBase = m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
             if( sktBase )
             {
                 result = true;
-                onConnectToHostSuccess( hostType, sessionId, sktBase, hostUrl.getOnlineId(), connectReason );
+                onConnectToHostSuccess( hostType, sessionId, sktBase, onlineId, connectReason );
             }
             else
             {
                 // connect without having to query host id
-                result = connectToHost( hostType, sessionId, ptopUrl, connectReason );
+                result = connectToHost( hostType, sessionId, ptopUrlIpv4, connectReason );
             }
         }
     }
     else
     {
         // the url may not have online id and will have to be queried from host
-        result = connectToHost( hostType, sessionId, url, connectReason );
+        result = connectToHost( hostType, sessionId, ptopUrlIpv4, connectReason );
     }
 
     return result;
@@ -924,7 +933,7 @@ bool HostBaseMgr::connectToHost( EHostType hostType, VxGUID& sessionId, std::str
     }
     else
     {
-        url = m_Engine.getUrlMgr().resolveUrl( urlIn );
+        url = m_Engine.getUrlMgr().resolveUrl( false, urlIn );
     }
 
     if( !url.empty() )

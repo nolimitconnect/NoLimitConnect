@@ -29,14 +29,15 @@ PktHostInviteAnnounceReq::PktHostInviteAnnounceReq()
 }
 
 //============================================================================
-bool PktHostInviteAnnounceReq::setHostInviteInfo( std::string& inviteUrl, std::string& hostTitle, std::string& hostDesc, int64_t& lastModifiedTime, VxGUID& thumbId )
+bool PktHostInviteAnnounceReq::setHostInviteInfo( std::string& inviteUrlIpv4, std::string& inviteUrlIpv6, std::string& hostTitle, std::string& hostDesc, int64_t& lastModifiedTime, VxGUID& thumbId )
 {
-    bool result = lastModifiedTime && !inviteUrl.empty() && !hostTitle.empty() && !hostDesc.empty();
+    bool result = lastModifiedTime && ( !inviteUrlIpv4.empty() || !inviteUrlIpv6.empty() ) && !hostTitle.empty() && !hostDesc.empty();
     if( result )
     {
         m_BlobEntry.resetWrite();
         result &= m_BlobEntry.setValue( lastModifiedTime );
-        result &= m_BlobEntry.setValue( inviteUrl );
+        result &= m_BlobEntry.setValue( inviteUrlIpv4 );
+        result &= m_BlobEntry.setValue( inviteUrlIpv6 );
         result &= m_BlobEntry.setValue( hostTitle );
         result &= m_BlobEntry.setValue( hostDesc );
         result &= m_BlobEntry.setValue( thumbId );
@@ -47,16 +48,17 @@ bool PktHostInviteAnnounceReq::setHostInviteInfo( std::string& inviteUrl, std::s
 }
 
 //============================================================================
-bool PktHostInviteAnnounceReq::getHostInviteInfo( std::string& inviteUrl, std::string& hostTitle, std::string& hostDesc, int64_t& lastModifiedTime, VxGUID& thumbId )
+bool PktHostInviteAnnounceReq::getHostInviteInfo( std::string& inviteUrlIpv4, std::string& inviteUrlIpv6, std::string& hostTitle, std::string& hostDesc, int64_t& lastModifiedTime, VxGUID& thumbId )
 {
     m_BlobEntry.resetRead();
     bool result = m_BlobEntry.getValue( lastModifiedTime );
-    result &= m_BlobEntry.getValue( inviteUrl );
+    result &= m_BlobEntry.getValue( inviteUrlIpv4 );
+    result &= m_BlobEntry.getValue( inviteUrlIpv6 );
     result &= m_BlobEntry.getValue( hostTitle );
     result &= m_BlobEntry.getValue( hostDesc );  
     result &= m_BlobEntry.getValue( thumbId );
     
-    return result && lastModifiedTime && !inviteUrl.empty() && !hostTitle.empty() && !hostDesc.empty();
+    return result && lastModifiedTime && ( !inviteUrlIpv4.empty() || !inviteUrlIpv6.empty() ) && !hostTitle.empty() && !hostDesc.empty();
 }
 
 //============================================================================

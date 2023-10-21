@@ -56,9 +56,9 @@ public:
 
     void                        wantHostedListCallbacks( GuiHostedListCallback* client, bool enable );
 
-    void                        setJoinOnStartup( std::string& hostUrl, bool enable );
+    void                        setJoinOnStartup( std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool enable );
     std::string&                getJoinOnStartup( void )                            { return m_FavoriteHostGroup; }
-    bool                        isJoinOnStartup( std::string& hostUrl );
+    bool                        isJoinOnStartup( std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
 
 signals:
     void				        signalMyIdentUpdated( GuiHosted* guiHosted );

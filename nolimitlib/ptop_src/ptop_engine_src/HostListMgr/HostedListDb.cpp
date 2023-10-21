@@ -25,14 +25,15 @@ namespace
 {
 	const int			COLUMN_IDX_ONLINE_ID			= 0;
 	const int			COLUMN_IDX_HOST_TYPE			= 1;
-	const int			COLUMN_IDX_HOST_URL				= 2;
-	const int			COLUMN_IDX_HOST_TITLE			= 3;
-	const int			COLUMN_IDX_HOST_DESC			= 4;
-	const int			COLUMN_IDX_IS_FAVORITE			= 5;
-	const int			COLUMN_IDX_CONNECT_TIME			= 6;
-	const int			COLUMN_IDX_JOIN_TIME			= 7;
-	const int			COLUMN_IDX_HOST_INFO_TIME		= 8;
-	const int			COLUMN_IDX_THUMB_ID				= 9;
+	const int			COLUMN_IDX_HOST_URL_IPV4		= 2;
+	const int			COLUMN_IDX_HOST_URL_IPV6		= 3;
+	const int			COLUMN_IDX_HOST_TITLE			= 4;
+	const int			COLUMN_IDX_HOST_DESC			= 5;
+	const int			COLUMN_IDX_IS_FAVORITE			= 6;
+	const int			COLUMN_IDX_CONNECT_TIME			= 7;
+	const int			COLUMN_IDX_JOIN_TIME			= 8;
+	const int			COLUMN_IDX_HOST_INFO_TIME		= 9;
+	const int			COLUMN_IDX_THUMB_ID				= 10;
 }
 
 //============================================================================
@@ -57,7 +58,7 @@ RCODE HostedListDb::hostedListDbShutdown( void )
 //============================================================================
 RCODE HostedListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblHosted (online_id TEXT, host_type INTEGER, host_url TEXT, host_title TEXT, host_desc TEXT, favorite INTEGER, connect_time BIGINT, join_time BIGINT, info_time BIGINT, thumb_id TEXT)" );
+	RCODE rc = sqlExec( "CREATE TABLE tblHosted (online_id TEXT, host_type INTEGER, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT, host_title TEXT, host_desc TEXT, favorite INTEGER, connect_time BIGINT, join_time BIGINT, info_time BIGINT, thumb_id TEXT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -83,7 +84,8 @@ void HostedListDb::getAllHosteds( std::vector<HostedInfo>& hostedList )
 
 			hostInfo.getHostOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_ONLINE_ID ) );
 			hostInfo.setHostType( (EHostType)cursor->getS32( COLUMN_IDX_HOST_TYPE ) );
-			hostInfo.setHostInviteUrl( cursor->getString( COLUMN_IDX_HOST_URL ) );
+			hostInfo.setHostInviteUrl( false, cursor->getString( COLUMN_IDX_HOST_URL_IPV4 ) );
+			hostInfo.setHostInviteUrl( true, cursor->getString( COLUMN_IDX_HOST_URL_IPV6 ) );
 			hostInfo.setHostTitle( cursor->getString( COLUMN_IDX_HOST_TITLE ) );
 			hostInfo.setHostDescription( cursor->getString( COLUMN_IDX_HOST_DESC ) );
 			hostInfo.setIsFavorite( cursor->getS32( COLUMN_IDX_IS_FAVORITE ) );
@@ -210,7 +212,7 @@ bool HostedListDb::updateLastJoined( EHostType hostType, VxGUID& onlineId, int64
 }
 
 //============================================================================
-bool HostedListDb::updateHostUrl( EHostType hostType, VxGUID& onlineId, std::string& hostUrl )
+bool HostedListDb::updateHostUrl( bool ipv6, EHostType hostType, VxGUID& onlineId, std::string& hostUrl )
 {
 	std::string onlineHexStr;
 	bool result = doesHostInfoExist( hostType, onlineId, onlineHexStr );
@@ -221,7 +223,16 @@ bool HostedListDb::updateHostUrl( EHostType hostType, VxGUID& onlineId, std::str
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblHosted SET host_url=? WHERE online_id=? AND host_type=?", bindList );
+		RCODE rc{ 0 };
+		if( ipv6 )
+		{
+			RCODE rc = sqlExec( "UPDATE tblHosted SET host_url=? WHERE online_id=? AND host_type=?", bindList );
+		}
+		else
+		{
+
+		}
+		
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -269,7 +280,10 @@ bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 
 	DbBindList bindList( onlineId.c_str() );
 	bindList.add( ( int )hostedInfo.getHostType() );
-	bindList.add( hostedInfo.getHostInviteUrl().c_str() );
+
+	bindList.add( hostedInfo.getHostInviteUrl( false ).c_str() );
+	bindList.add( hostedInfo.getHostInviteUrl( true ).c_str() );
+
 	bindList.add( hostedInfo.getHostTitle().c_str() );
 	bindList.add( hostedInfo.getHostDescription().c_str() );
 
@@ -281,7 +295,7 @@ bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 	bindList.add( hostedInfo.getThumbId().toHexString().c_str() );
 
 	// insert new record
-	RCODE rc = sqlExec( "INSERT INTO tblHosted (online_id, host_type, host_url, host_title, host_desc, favorite, connect_time, join_time, info_time, thumb_id) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
+	RCODE rc = sqlExec( "INSERT INTO tblHosted (online_id, host_type, hostUrlIpv4, hostUrlIpv6, host_title, host_desc, favorite, connect_time, join_time, info_time, thumb_id) VALUES(?,?,?,?,?,?,?,?,?,?,?)", bindList );
 
 	if( rc )
 	{

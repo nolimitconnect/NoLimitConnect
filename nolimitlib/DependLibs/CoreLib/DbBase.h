@@ -100,7 +100,7 @@ public:
 	//! return float from column
 	double						getF64( int iColumnIdx );
 	//! return string from column
-	const char*				getString(int iColumnIdx );
+	const char*					getString(int iColumnIdx );
 	//! return blob from column.. 
 	//! if( piMaxLen != null ) then return length of blob in piMaxLen 
 	void *						getBlob( int iColumnIdx, int * piMaxLen = NULL );

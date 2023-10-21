@@ -61,9 +61,9 @@ GuiHostSession& GuiHostSession::operator =( const GuiHostSession &rhs )
 }
 
 //============================================================================
-std::string GuiHostSession::getHostUrl( void )
+std::string GuiHostSession::getHostUrl( bool ipv6 )
 {
-    return m_HostIdent->getMyOnlineUrl();
+    return m_HostIdent->getMyOnlineUrl( ipv6 );
 }
 
 //============================================================================
@@ -75,7 +75,7 @@ std::string GuiHostSession::getHostDescription( void )
     }
     else
     {
-        return getHostUrl();
+        return getHostUrl( false );
     }
 }
 

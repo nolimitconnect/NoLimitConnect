@@ -38,31 +38,27 @@ PluginChatRoomClient::PluginChatRoomClient( P2PEngine& engine, PluginMgr& plugin
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginChatRoomClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiAnnounceHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiAnnounceHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginChatRoomClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiJoinHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginChatRoomClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiUnJoinHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiUnJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginChatRoomClient::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiLeaveHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiLeaveHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================

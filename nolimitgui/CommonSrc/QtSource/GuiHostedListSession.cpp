@@ -54,11 +54,11 @@ GuiHostedListSession& GuiHostedListSession::operator =( const GuiHostedListSessi
 }
 
 //============================================================================
-std::string GuiHostedListSession::getHostUrl( void )
+std::string GuiHostedListSession::getHostUrl( bool ipv6 )
 {
     if( m_GuiHosted )
     {
-        return m_GuiHosted->getHostInviteUrl();
+        return m_GuiHosted->getHostInviteUrl( ipv6 );
     }
 
     return "";

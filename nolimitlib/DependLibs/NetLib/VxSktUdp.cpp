@@ -197,7 +197,7 @@ RCODE VxSktUdp::udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, boo
 	// set up destination address
 	memset( &m_MulticastRxAddr, 0, sizeof( m_MulticastRxAddr ) );
 	m_MulticastRxAddr.sin_family = AF_INET;
-	m_MulticastRxAddr.sin_addr.s_addr = htonl( INADDR_ANY );
+	m_MulticastRxAddr.sin_addr.s_addr = INADDR_ANY;
 	m_MulticastRxAddr.sin_port = htons( u16Port );
 
 	// bind to receive address ( a must for udp recvfrom )
@@ -293,7 +293,7 @@ RCODE VxSktUdp::udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port
 	// set up destination address
 	memset( &m_MulticastRxAddr, 0, sizeof( m_MulticastRxAddr ) );
 	m_MulticastRxAddr.sin_family = AF_INET;
-	m_MulticastRxAddr.sin_addr.s_addr = htonl( INADDR_ANY ); // differs from sender
+	m_MulticastRxAddr.sin_addr.s_addr = INADDR_ANY; // differs from sender
 	m_MulticastRxAddr.sin_port = htons( u16Port );
 
 	// bind to receive address
@@ -316,7 +316,7 @@ RCODE VxSktUdp::udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port
 
 	struct ip_mreq mreq;
 	mreq.imr_multiaddr.s_addr = inet_addr( m_MulticastGroupIp.c_str() );
-	mreq.imr_interface.s_addr = htonl( INADDR_ANY );
+	mreq.imr_interface.s_addr = INADDR_ANY;
 	if( 0 > setsockopt( m_Socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, ( char* )&mreq, sizeof( mreq ) ) )
 	{
 		m_rcLastSktError = VxGetLastError();
@@ -436,9 +436,9 @@ void VxSktUdp::startReceive( void )
 
 //============================================================================
 //! send data to given ip 
-RCODE  VxSktUdp::sendTo(	const char*	pData,		// data to send
+RCODE  VxSktUdp::sendTo(	const char*		pData,		// data to send
 							int				iDataLen,	// data len
-							const char*	pRmtIp, 	// destination ip in dotted format
+							const char*		pRmtIp, 	// destination ip in dotted format
 							uint16_t		u16Port )	// port to send to ( if 0 then port specified when opened )
 {
 	InetAddress oAddr( pRmtIp );
@@ -447,9 +447,9 @@ RCODE  VxSktUdp::sendTo(	const char*	pData,		// data to send
 
 //============================================================================
 //! send data to given ip 
-RCODE  VxSktUdp::sendToMulticast(	const char*	pData,				// data to send
+RCODE  VxSktUdp::sendToMulticast(	const char*		pData,				// data to send
 									int				iDataLen,			// data len
-									const char*	muliticastGroupIp, 	// destination multicast group ip in dotted format
+									const char*		muliticastGroupIp, 	// destination multicast group ip in dotted format
 									uint16_t		u16Port )			// port to send to ( if 0 then port specified when opened )
 {
 	InetAddress oAddr( muliticastGroupIp );
@@ -457,7 +457,7 @@ RCODE  VxSktUdp::sendToMulticast(	const char*	pData,				// data to send
 	/*
 	struct ip_mreq mreq = {};
 	mreq.imr_multiaddr.s_addr = inet_addr( muliticastGroupIp );
-	mreq.imr_interface.s_addr = htonl( INADDR_ANY );
+	mreq.imr_interface.s_addr = INADDR_ANY;
 	if( setsockopt( m_Socket, IPPROTO_IP, IP_ADD_MEMBERSHIP,(char*)&mreq, sizeof(mreq)) < 0)
 	{
 		m_rcLastSktError = VxGetLastError();
@@ -470,7 +470,7 @@ RCODE  VxSktUdp::sendToMulticast(	const char*	pData,				// data to send
 
 //============================================================================
 //! send data to given ip 
-RCODE VxSktUdp::sendTo(		const char*	pData,		// data to send
+RCODE VxSktUdp::sendTo(		const char*		pData,		// data to send
 							int				iDataLen,	// data len
 							InetAddress&	oRmtIp, 	// destination ip in host ordered u32
 							uint16_t		u16Port )	// port to send to ( if 0 then port specified when opened )

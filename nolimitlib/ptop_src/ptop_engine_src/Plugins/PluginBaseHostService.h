@@ -85,9 +85,10 @@ protected:
     //=== vars ===//
     HostServerMgr               m_HostServerMgr;
 
-    std::string                 m_HostInviteUrl{ "" };
-    std::string                 m_HostTitle{ "" };
-    std::string                 m_HostDescription{ "" };
+    std::string                 m_HostInviteUrlIpv4;
+    std::string                 m_HostInviteUrlIpv6;
+    std::string                 m_HostTitle;
+    std::string                 m_HostDescription;
     int64_t                     m_HostInfoModifiedTime{ 0 };
     bool                        m_PktHostInviteIsValid{ false };
     PktHostInviteAnnounceReq    m_PktHostInviteAnnounceReq;

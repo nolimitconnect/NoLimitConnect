@@ -85,7 +85,7 @@ public:
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
 
-    std::string                 getMyOnlineUrl( EHostType hostType = eHostTypeUnknown );
+    std::string                 getMyOnlineUrl( bool ipv6, EHostType hostType = eHostTypeUnknown );
 
 	void						setMyOnlineId( uint64_t u64HiPart, uint64_t u64LoPart );
 	VxGUID&						getMyOnlineId();
@@ -93,22 +93,23 @@ public:
     std::string				    getMyOnlineIdHexString( void )  { return m_DirectConnectId.toHexString(); }
     uint64_t					getMyOnlineIdLoPart();
 	uint64_t					getMyOnlineIdHiPart();
+
 	void						setMyOnlinePort( uint16_t port );
 	uint16_t					getMyOnlinePort( void );
 
-	void						getMyOnlineIPv4( std::string& strRetIp );
-	void						getMyOnlineIPv6( std::string& strRetIp );
+	bool						getMyOnlineIpAddress( bool ipv6, std::string& strRetIp );
+
 	InetAddrIPv4&				getMyOnlineIPv4( void );
 	InetAddress&				getMyOnlineIPv6( void );
 
     void                        setLanIPv4( InetAddrIPv4& ipV4 )    { m_LanIPv4 = ipV4; }
 	InetAddrIPv4&				getLanIPv4( void )					{ return m_LanIPv4; }
 
-	InetAddress					getOnlineIpAddress( void );
+	InetAddress					getOnlineIpAddress( bool ipv6 );
 
     bool						setOnlineIpAddress( InetAddress& oIp );
-	bool						setOnlineIpAddress( const char* pIp ); // return true if changed
-    bool						isOnlineIpAddressValid( void );
+	bool						setOnlineIpAddress( bool ipv6, const char* pIp );
+    bool						isOnlineIpAddressValid( bool ipv6 );
 
 	uint16_t					getOnlinePort( void );
 	void						getOnlinePort( std::string& strRetPort );

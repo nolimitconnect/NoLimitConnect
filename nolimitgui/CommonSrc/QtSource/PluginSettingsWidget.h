@@ -30,8 +30,8 @@ public:
 
     void						setupSettingsWidget( EApplet applet, EPluginType pluginType );
 
-    virtual QLabel *            getServiceUrlLabel()        { return ui.m_UrlDescriptionLabel; }
-    virtual QLineEdit *         getServiceUrlEdit()         { return ui.m_UrlEdit; }
+    virtual QLabel *            getServiceUrlLabel( bool ipv6 )        { return ipv6 ? ui.m_UrlDescriptionLabelIpv4 : ui.m_UrlDescriptionLabelIpv6; }
+    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 )         { return ipv6 ? ui.m_UrlEditIpv4 : ui.m_UrlEditIpv6; }
 
     virtual QLineEdit *         getServiceTitleEdit()       { return ui.m_ServiceTitleEdit; }
 

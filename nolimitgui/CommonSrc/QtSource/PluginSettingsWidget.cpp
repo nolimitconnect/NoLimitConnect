@@ -43,8 +43,11 @@ void PluginSettingsWidget::setupSettingsWidget( EApplet applet, EPluginType plug
     m_EAppletType = applet;
     m_PluginType = pluginType;
 
-    getServiceUrlLabel()->setVisible( false );
-    getServiceUrlEdit()->setVisible( false );
+    getServiceUrlLabel( false )->setVisible( false );
+    getServiceUrlLabel( true )->setVisible( false );
+    getServiceUrlEdit( false )->setVisible( false );
+    getServiceUrlEdit( true )->setVisible( false );
+
     getStartButton()->setVisible( false );
     getStopButton()->setVisible( false );
     getInformationWidget()->setVisible( false );
@@ -125,7 +128,8 @@ void PluginSettingsWidget::loadUiFromSetting()
     {
         ui.m_ContentRatingComboBox->setCurrentIndex( GuiHelpers::contentRatingToIndex( m_PluginSetting.getContentRating() ) );
         ui.m_LanguageComboBox->setCurrentIndex( GuiHelpers::languageToIndex( m_PluginSetting.getLanguage() ) );
-        ui.m_UrlEdit->setText( m_PluginSetting.getPluginUrl().c_str() );
+        ui.m_UrlEditIpv4->setText( m_PluginSetting.getPluginUrl( false ).c_str() );
+        ui.m_UrlEditIpv6->setText( m_PluginSetting.getPluginUrl( true ).c_str() );
         ui.m_ServiceTitleEdit->setText( m_PluginSetting.getTitle().c_str() );
         ui.m_DescriptionEdit->appendPlainText( m_PluginSetting.getDescription().c_str() );
         ui.m_ThumbnailChooseWidget->loadThumbnail( m_PluginSetting.getThumnailId(), m_PluginSetting.getThumbnailIsCircular() );
@@ -139,7 +143,8 @@ void PluginSettingsWidget::saveUiToSetting()
     {
         m_PluginSetting.setContentRating( ( EContentRating)ui.m_ContentRatingComboBox->currentIndex() );
         m_PluginSetting.setLanguage( ( ELanguageType )ui.m_LanguageComboBox->currentIndex() );
-        m_PluginSetting.setPluginUrl( ui.m_UrlEdit->text().toUtf8().constData() );
+        m_PluginSetting.setPluginUrl( false,  ui.m_UrlEditIpv4->text().toUtf8().constData() );
+        m_PluginSetting.setPluginUrl( true,  ui.m_UrlEditIpv6->text().toUtf8().constData() );
         m_PluginSetting.setTitle( ui.m_ServiceTitleEdit->text().toUtf8().constData() );
         m_PluginSetting.setThumnailId( ui.m_ThumbnailChooseWidget->getThumbnailId(), ui.m_ThumbnailChooseWidget->getThumbnailIsCircular() );
 

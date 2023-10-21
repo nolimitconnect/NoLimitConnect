@@ -96,6 +96,6 @@ void AppletHostChatRoomStatus::slotUpdateStatusTimeout()
     //int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeChatRoomSearchList );
     //ui.m_GroupListCountLabel->setText( QString::number( availGroupsCnt ) );
     std::string url;
-    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );
+    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
     ui.m_UrlText->setText( url.c_str() );
 }

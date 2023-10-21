@@ -25,7 +25,9 @@ public:
 	VxClientMgr();
 	virtual ~VxClientMgr() = default;
 
-	virtual std::shared_ptr<VxSktBase>	makeNewSkt( void );
+	void								sktMgrStartup( void ) override;
+
+    virtual std::shared_ptr<VxSktBase>	makeNewSkt( void ) override;
 
 	//! Connect to ip or URL and return socket.. if cannot connect return NULL
 	virtual std::shared_ptr<VxSktBase>	connectTo(	const char*	pIpOrUrl,			// remote ip or url 

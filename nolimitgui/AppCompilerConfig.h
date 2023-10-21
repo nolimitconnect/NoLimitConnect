@@ -269,6 +269,8 @@ n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 //============================================================================
 // NOTE: these disables really slow down then visual studio compiler
 # pragma warning( disable : 4100 ) // ignore warning "unreferenced formal parameter" ( too annoying to not turn off )
+# pragma warning( disable : 4267 ) // 'function': conversion from 'size_t' to 'int', possible loss of data
+# pragma warning( disable : 4244 ) // conversion from 'double' to 'float', possible loss of data
 
 //# pragma warning( disable : 4018 ) // '<' : signed/unsigned mismatch
 //# pragma warning( disable : 4090 ) //  different 'const' qualifiers
@@ -277,8 +279,7 @@ n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 //# pragma warning( disable : 4146 ) // unary minus operator applied to unsigned type, result still unsigned
 //# pragma warning( disable : 4167 ) // 'function': conversion from 'size_t' to 'uint16_t', possible loss of data
 //# pragma warning( disable : 4221 ) // This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-//# pragma warning( disable : 4244 ) // conversion from 'double' to 'float', possible loss of data
-//# pragma warning( disable : 4267 ) // 'function': conversion from 'size_t' to 'uint16_t', possible loss of data
+
 //# pragma warning( disable : 4305 ) // initializing': truncation from '__int64' to 'double'
 //# pragma warning( disable : 4355 ) // 'this' : used in base member initializer list
 //# pragma warning( disable : 4503 ) //  decorated name length exceeded, name was truncated ( safe to ignore )

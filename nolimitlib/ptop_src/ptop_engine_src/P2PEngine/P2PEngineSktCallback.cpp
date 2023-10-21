@@ -107,6 +107,8 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 				{
 					firstPktSignature.fromRawData( pSktBuf );
 					hackerOffense( eHackerLevelMedium, eHackerReasonAccessDenied, sktBase->getRemoteIpBinary(), firstPktSignature, "Hacker attempted disabled net service ip %s", sktBase->getRemoteIp().c_str() );
+					sktBase->closeSkt( eSktCloseNetServiceHandled );
+					return;
 				}
 				else if( wasNetServiceRequest )
 				{

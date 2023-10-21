@@ -21,12 +21,13 @@ namespace
 {
     std::string 		TABLE_USER_HOST = "tblUserJoinedLast";
 
-    std::string 		CREATE_COLUMNS_JOINED_LAST = " (onlineId TEXT, hostType INTEGER, lastJoinMs BIGINT, hostUrl TEXT) ";
+    std::string 		CREATE_COLUMNS_JOINED_LAST = " (onlineId TEXT, hostType INTEGER, lastJoinMs BIGINT, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT ) ";
 
     const int			COLUMN_ONLINE_ID = 0;
     const int			COLUMN_PLUGIN_TYPE = 1;
     const int			COLUMN_LAST_JOIN_MS = 2;
-    const int			COLUMN_HOST_URL = 3;
+    const int			COLUMN_HOST_URL_IPV4 = 3;
+     const int			COLUMN_HOST_URL_IPV6 = 4;
 
     std::string 		TABLE_LAST_HOST_TYPE = "tbLastHostType";
     std::string 		CREATE_COLUMNS_LAST_HOST_TYPE = " (hostType INTEGER) ";
@@ -140,7 +141,7 @@ void UserJoinedLastDb::removeJoinedLast( EHostType hostType )
 }
 
 //============================================================================
-bool UserJoinedLastDb::setJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t lastJoinMs, std::string hostUrl )
+bool UserJoinedLastDb::setJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t lastJoinMs, std::string hostUrlIpv4, std::string hostUrlIpv6 )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
@@ -157,9 +158,10 @@ bool UserJoinedLastDb::setJoinedLast( EHostType hostType, VxGUID& onlineId, int6
     DbBindList bindList( onlineIdStr.c_str() );
     bindList.add( (int)hostType );
     bindList.add( lastJoinMs ); 
-    bindList.add( hostUrl.c_str() );
+    bindList.add( hostUrlIpv4.c_str() );
+    bindList.add( hostUrlIpv6.c_str() );
 
-    RCODE rc = sqlExec( "INSERT INTO tblUserJoinedLast (onlineId, hostType, lastJoinMs, hostUrl) values(?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblUserJoinedLast (onlineId, hostType, lastJoinMs, hostUrlIpv4, hostUrlIpv6 ) values(?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )
@@ -172,7 +174,7 @@ bool UserJoinedLastDb::setJoinedLast( EHostType hostType, VxGUID& onlineId, int6
 }
 
 //============================================================================
-bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t& lastJoinMs, std::string& hostUrl )
+bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t& lastJoinMs, std::string hostUrlIpv4, std::string hostUrlIpv6 )
 {
     bool result{ false };
 
@@ -193,8 +195,9 @@ bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int6
             else
             {
                 lastJoinMs = cursor->getS64( COLUMN_LAST_JOIN_MS );
-                hostUrl = cursor->getString( COLUMN_HOST_URL );
-                result = onlineId.isVxGUIDValid() && lastJoinMs && !hostUrl.empty();
+                hostUrlIpv4 = cursor->getString( COLUMN_HOST_URL_IPV4 );
+                hostUrlIpv6 = cursor->getString( COLUMN_HOST_URL_IPV6 );
+                result = onlineId.isVxGUIDValid() && lastJoinMs && ( !hostUrlIpv4.empty() || !hostUrlIpv6.empty() );
                 if( !result )
                 {
                     LogMsg( LOG_ERROR, "UserJoinedLastDb::getJoinedLast invalid data" );

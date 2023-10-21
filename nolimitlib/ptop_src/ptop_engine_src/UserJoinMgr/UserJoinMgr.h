@@ -40,7 +40,7 @@ public:
 	virtual ~UserJoinMgr() = default;
 
     void                        fromGuiUserLoggedOn( void );
-    bool                        getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrl );
+    bool                        getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrlIpv4, std::string& retHostUrlIpv6 );
 
     void                        addUserJoinMgrClient( UserJoinCallbackInterface * client, bool enable );
 

@@ -295,15 +295,17 @@ void AppletJoinBase::slotMenuButtonClicked( GuiHostedListSession* hostSession, G
 void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, GuiHostedListItem* hostItem )
 {
 	LogMsg( LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked" );
-	std::string ptopUrl = hostSession->getHostUrl();
-	m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrl );
+	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
+	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
+	m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
 void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession, GuiHostedListItem* hostItem )
 {
 	LogMsg( LOG_VERBOSE, "AppletJoinBase::slotConnectButtonClicked" );
-	std::string ptopUrl = hostSession->getHostUrl();
+	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
+	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
 	GroupieId groupieId( m_MyApp.getMyOnlineId(), hostSession->getHostedId() );
 	GuiUserJoin* userJoin = m_MyApp.getUserJoinMgr().getUserJoin( groupieId );
 	EJoinState joinState{ eJoinStateNone };
@@ -314,11 +316,11 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
 
 	if( joinState == eJoinStateJoinIsGranted )
 	{
-		m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrl );
+		m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 	}
 	else
 	{
-		m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrl );
+		m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 	}
 }
 
@@ -328,8 +330,9 @@ void AppletJoinBase::slotKickButtonClicked( GuiHostedListSession* hostSession, G
 	LogMsg( LOG_VERBOSE, "AppletJoinBase::slotKickButtonClicked" );
 	if( yesNoMessageBox( QObject::tr( "Revoke Membership" ), QObject::tr( "Are You Sure You Want To Revoke Membership?" ) ) )
 	{
-		std::string ptopUrl = hostSession->getHostUrl();
-		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrl );
+		std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
+		std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
+		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 	}
 }
 
@@ -343,7 +346,7 @@ void AppletJoinBase::slotIgnoreButtonClicked( GuiHostedListSession* hostSession,
 		return;
 	}
 
-	if( m_MyApp.getEngine().getIgnoreListMgr().addHostIgnore( guiHosted->getHostOnlineId(), guiHosted->getHostInviteUrl(),
+	if( m_MyApp.getEngine().getIgnoreListMgr().addHostIgnore( guiHosted->getHostOnlineId(), guiHosted->getHostInviteUrl(false), guiHosted->getHostInviteUrl(true),
 		guiHosted->getHostTitle(), guiHosted->getThumbId(), guiHosted->getHostDescription() ) )
 	{
 		ui.m_GuiHostedListWidget->removeItemWidget( hostItem );

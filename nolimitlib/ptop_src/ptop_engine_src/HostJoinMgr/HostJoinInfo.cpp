@@ -40,7 +40,8 @@ HostJoinInfo::HostJoinInfo( const HostJoinInfo& rhs )
     , m_FriendState( rhs.m_FriendState )
     , m_HostFlags( rhs.m_HostFlags )
     , m_GroupieId( rhs.m_GroupieId )
-    , m_UserUrl( rhs.m_UserUrl )
+    , m_UserUrlIpv6( rhs.m_UserUrlIpv6 )
+    , m_UserUrlIpv4( rhs.m_UserUrlIpv4 )
     , m_ConnectionId( rhs.m_ConnectionId )
     , m_SessionId( rhs.m_SessionId )    
 {
@@ -56,7 +57,8 @@ HostJoinInfo& HostJoinInfo::operator=( const HostJoinInfo& rhs )
         m_FriendState = rhs.m_FriendState;
         m_HostFlags = rhs.m_HostFlags;
         m_GroupieId = rhs.m_GroupieId;
-        m_UserUrl = rhs.m_UserUrl;
+        m_UserUrlIpv6 = rhs.m_UserUrlIpv6;
+        m_UserUrlIpv4 = rhs.m_UserUrlIpv4;
         m_ConnectionId = rhs.m_ConnectionId;
         m_SessionId = rhs.m_SessionId;
     }
@@ -65,8 +67,8 @@ HostJoinInfo& HostJoinInfo::operator=( const HostJoinInfo& rhs )
 }
 
 //============================================================================
-bool HostJoinInfo::isUrlValid( void )
+bool HostJoinInfo::isUrlValid( bool ipv6 )
 {
-    VxPtopUrl ptopUrl( m_UserUrl );
+    VxPtopUrl ptopUrl( ipv6 ? m_UserUrlIpv6 : m_UserUrlIpv4 );
     return ptopUrl.isValid() && ptopUrl.getOnlineId() == getOnlineId();
 }

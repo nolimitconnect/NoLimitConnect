@@ -63,7 +63,7 @@ public:
 	bool						isP2POnline( void );
 
 	bool						isUserLoggedOn( void )							{ return m_bUserLoggedOn; }
-	std::string					getLocalNetworkIp( void )						{ return m_LocalNetworkIp; }
+
 	bool						isCellularNetwork( void )						{ return m_bIsCellNetwork; }
 	void						setIsRelayServiceConnected( bool connected )	{ m_bRelayServiceConnected = connected; }
 	bool						isRelayServiceConnected( void )					{ return m_bRelayServiceConnected; }
@@ -106,7 +106,7 @@ public:
     void                        setNetLayerState( ENetLayerType layerType, ENetLayerState layerState );
     ENetLayerState              getNetLayerState( ENetLayerType layerType );
 
-	void						externalIpAddressHasChanged( std::string& oldIpAddress, std::string& newIpAddress );
+	void						externalIpAddressHasChanged( bool ipv6, std::string& oldIpAddress, std::string& newIpAddress );
 
 protected:
 	void						destroyNetworkStates( void );

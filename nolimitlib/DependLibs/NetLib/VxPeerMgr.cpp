@@ -61,11 +61,17 @@ VxPeerMgr::~VxPeerMgr()
 }
 
 //============================================================================
+void VxPeerMgr::sktMgrStartup( void )
+{
+	m_ClientMgr.sktMgrStartup();
+	VxServerMgr::sktMgrStartup();
+}
+
+//============================================================================
 void VxPeerMgr::sktMgrShutdown( void )
 {
-	stopListening();
 	m_ClientMgr.sktMgrShutdown();
-	VxSktBaseMgr::sktMgrShutdown();
+	VxServerMgr::sktMgrShutdown();
 }
 
 //============================================================================
@@ -80,13 +86,6 @@ void VxPeerMgr::setSktMgrStatusCallback( VX_SKT_MGR_STATUS_CALLBACK pfnSktMgrSta
 {
 	VxServerMgr::setSktMgrStatusCallback( pfnSktMgrStatus, pvUserData );
 	m_ClientMgr.setSktMgrStatusCallback( pfnSktMgrStatus, pvUserData );
-}
-
-//============================================================================
-void VxPeerMgr::setLocalIp( InetAddress& newLocalIp )
-{
-	sktMgrSetLocalIp( newLocalIp );
-	m_ClientMgr.sktMgrSetLocalIp( newLocalIp );
 }
 
 //============================================================================
@@ -120,9 +119,9 @@ std::shared_ptr<VxSktBase> VxPeerMgr::findSktBase( const VxGUID& connectId, bool
 
 //============================================================================
 //! Connect to ip or url and return socket.. if cannot connect return NULL
-std::shared_ptr<VxSktBase> VxPeerMgr::connectTo(	const char*	pIpOrUrl,				// remote ip or url 
-										uint16_t		u16Port,				// port to connect to
-										int				iTimeoutMilliSeconds )	// milli seconds before connect attempt times out
+std::shared_ptr<VxSktBase> VxPeerMgr::connectTo(	const char*		pIpOrUrl,				// remote ip or url 
+													uint16_t		u16Port,				// port to connect to
+													int				iTimeoutMilliSeconds )	// milli seconds before connect attempt times out
 {
 	if( NULL ==  m_pfnUserReceive )
 	{
@@ -247,4 +246,24 @@ bool VxPeerMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReason 
 	}
 
 	return wasClosed;
+}
+
+//============================================================================
+void VxPeerMgr::startListening( bool ipv6, uint16_t port )
+{
+	setListenEnable( ipv6, false );
+	setListenPort( port );
+	setListenEnable( ipv6, true );
+}
+
+//============================================================================
+void VxPeerMgr::stopListening( bool ipv6 )
+{
+	setListenEnable( ipv6, false );
+}
+
+//============================================================================
+bool VxPeerMgr::isReadyToAcceptConnections( bool ipv6 )
+{
+	return isListening( ipv6 );
 }

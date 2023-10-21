@@ -429,7 +429,6 @@ public:
     virtual const char*		    fromGuiGetAppNameNoSpaces( void );
 
     virtual void				fromGuiAppStartup( const char* assetDir, const char* rootDataDir );
-    virtual void				fromGuiKickWatchdog( void );
 
     virtual void				fromGuiSetUserXferDir( const char* userDir );
     virtual void				fromGuiSetUserSpecificDir( const char* userDir );
@@ -481,10 +480,10 @@ public:
     virtual void				fromGuiNetworkLost( void );
     virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet );
 
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl );
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl );
-    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl );
-    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl );
+    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
     virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId );
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
     virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId );

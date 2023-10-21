@@ -95,6 +95,6 @@ void AppletHostRandomConnectStatus::slotUpdateStatusTimeout()
     //int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeRandomConnectSearchList );
     //ui.m_GroupListCountLabel->setText( QString::number( availGroupsCnt ) );
     std::string url;
-    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );
+    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
     ui.m_UrlText->setText( url.c_str() );
 }

@@ -85,29 +85,45 @@ VxConnectBaseInfo& VxConnectBaseInfo::operator =( const VxConnectBaseInfo &rhs )
 }
 
 //============================================================================
-std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType )
+std::string VxConnectBaseInfo::getMyOnlineUrl( bool ipv6, EHostType hostType )
 {
-    std::string strIPv4; 
-    m_DirectConnectId.getIPv4(strIPv4);
-    std::string strIPv6; 
-    m_DirectConnectId.getIPv6(strIPv6);
-    std::string myIp = VxIsIpValid( strIPv6 ) ? strIPv6  : strIPv4;
-
     std::string myUrl;
-    StdStringFormat( myUrl, "ptop://%s:%d/%s", myIp.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
-    if( hostType != eHostTypeUnknown )
+    std::string strIP; 
+    bool validIp = m_DirectConnectId.getIpAddress( ipv6, strIP );
+    if( validIp )
     {
-        Invite::appendHostTypeSuffix( hostType, myUrl );
-    }
-    else if( !requiresRelay() )
-    {
-        Invite::appendHostTypeSuffix( eHostTypePeerUserDirect, myUrl );
+        StdStringFormat( myUrl, "ptop://%s:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
+        if( hostType != eHostTypeUnknown )
+        {
+            Invite::appendHostTypeSuffix( hostType, myUrl );
+        }
+        else if( !requiresRelay() )
+        {
+            Invite::appendHostTypeSuffix( eHostTypePeerUserDirect, myUrl );
+        }
+        else
+        {
+            static int64_t lastLogTime = 0;
+            int64_t timeNow = GetTimeStampMs();
+            if( 10000 < timeNow - lastLogTime )
+            {
+                lastLogTime = timeNow;
+                LogMsg( LOG_VERBOSE, " Invite::appendHostTypeSuffix( hostType %d-%s, myUrl %s ); Unknown", hostType, DescribeHostType( hostType ),
+                    myUrl.c_str() );
+            }
+
+            Invite::appendHostTypeSuffix( hostType, myUrl );
+        }
     }
     else
     {
-        LogMsg( LOG_VERBOSE, " Invite::appendHostTypeSuffix( hostType %d-%s, myUrl %s ); Unknown", hostType, DescribeHostType( hostType ),
-            myUrl.c_str() );
-        Invite::appendHostTypeSuffix( hostType, myUrl );
+        static int64_t lastLogTime = 0;
+        int64_t timeNow = GetTimeStampMs();
+        if( 10000 < timeNow - lastLogTime )
+        {
+            lastLogTime = timeNow;
+            LogMsg( LOG_VERBOSE, "  VxConnectBaseInfo::getMyOnlineUrl invalid ip %s", ipv6 ? "IPV6" : "IPV4" );
+        }
     }
 
     return myUrl;
@@ -129,30 +145,32 @@ bool			VxConnectBaseInfo::getMyOnlineId( std::string& strRetId )		{ return m_Dir
 uint64_t		VxConnectBaseInfo::getMyOnlineIdLoPart()						{ return m_DirectConnectId.getVxGUIDLoPart(); }
 uint64_t		VxConnectBaseInfo::getMyOnlineIdHiPart()						{ return m_DirectConnectId.getVxGUIDHiPart(); }
 
-void			VxConnectBaseInfo::getMyOnlineIPv4( std::string& strRetIp )		{ strRetIp = m_DirectConnectId.m_IPv4OnlineIp.toStdString(); }
-void			VxConnectBaseInfo::getMyOnlineIPv6( std::string& strRetIp )		{ m_DirectConnectId.getIPv6( strRetIp );}
-InetAddrIPv4&	VxConnectBaseInfo::getMyOnlineIPv4( void )						{ return m_DirectConnectId.m_IPv4OnlineIp; }
-InetAddress&	VxConnectBaseInfo::getMyOnlineIPv6( void )						{ return m_DirectConnectId.m_IPv6OnlineIp;}
 void			VxConnectBaseInfo::setMyOnlinePort( uint16_t port )				{ m_DirectConnectId.setPort( port ); }		
 uint16_t		VxConnectBaseInfo::getMyOnlinePort( void )						{ return m_DirectConnectId.getPort(); }
 
+bool			VxConnectBaseInfo::getMyOnlineIpAddress( bool ipv6, std::string& strRetIp )	{ return m_DirectConnectId.getIpAddress( ipv6, strRetIp ); }
+
+InetAddrIPv4&	VxConnectBaseInfo::getMyOnlineIPv4( void )						{ return m_DirectConnectId.m_IPv4OnlineIp; }
+InetAddress&	VxConnectBaseInfo::getMyOnlineIPv6( void )						{ return m_DirectConnectId.m_IPv6OnlineIp;}
+
+
 //============================================================================
 //! get ip based on if we can connect ipv6 or ipv4 if not
-InetAddress	VxConnectBaseInfo::getOnlineIpAddress( void )
+InetAddress	VxConnectBaseInfo::getOnlineIpAddress( bool ipv6 )
 {
-	return m_DirectConnectId.m_IPv4OnlineIp.toInetAddress();
+	return ipv6 ? m_DirectConnectId.m_IPv6OnlineIp : m_DirectConnectId.m_IPv4OnlineIp.toInetAddress();
 }
 
 //============================================================================
-bool VxConnectBaseInfo::setOnlineIpAddress( const char* pIp )			
+bool VxConnectBaseInfo::setOnlineIpAddress( bool ipv6, const char* pIp)			
 { 
-	return m_DirectConnectId.setIpAddress( pIp ); 
+	return m_DirectConnectId.setIpAddress( ipv6, pIp ); 
 }
 
 //============================================================================
-bool VxConnectBaseInfo::isOnlineIpAddressValid( void )
+bool VxConnectBaseInfo::isOnlineIpAddressValid( bool ipv6 )
 {
-    return m_DirectConnectId.isIpAddressValid();
+    return m_DirectConnectId.isIpAddressValid( ipv6 );
 }
 
 //============================================================================
@@ -178,7 +196,7 @@ uint16_t	VxConnectBaseInfo::getOnlinePort( void )
 //============================================================================
 void VxConnectBaseInfo::getOnlinePort( std::string& strRetPort )	
 { 
-	StdStringFormat( strRetPort, "%d", m_DirectConnectId.getPort() ); 
+    strRetPort = std::to_string( m_DirectConnectId.getPort() );
 }
 
 //============================================================================

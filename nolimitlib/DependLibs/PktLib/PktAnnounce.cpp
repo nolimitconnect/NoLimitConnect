@@ -415,21 +415,24 @@ void PktAnnounce::DebugDump( void )
 {
 	std::string strName;
 	std::string strDesc;
-	std::string strIp;
+	std::string strIp4;
+    std::string strIp6;
 	std::string strId;
 
 	this->getMyOnlineId( strId );
-	this->getMyOnlineIPv4( strIp );
+	this->getMyOnlineIpAddress( false, strIp4 );
+    this->getMyOnlineIpAddress( true, strIp6 );
 	uint16_t u16Port = this->getOnlinePort();
 	strName = this->getOnlineName();
 	strDesc = this->getOnlineDescription();
 	//strNetwork = this->getNetworkKey();
 
-	LogMsg( LOG_INFO, "PktAnnounce Len %d Version #%d name %s Ip %s Port %d desc %s",
+	LogMsg( LOG_INFO, "PktAnnounce Len %d Version #%d name %s Ip4 %s Ip6 %s Port %d desc %s",
 			getPktLength(),		// packet length
 			getPktVersionNum(),		// version of program
 			strName.c_str(),		
-			strIp.c_str(),		// IP of announcer
+			strIp4.c_str(),		// IPv4 of announcer
+            strIp6.c_str(),		// IPv6 of announcer
 			u16Port,			// Port announcer listens on
 			strDesc.c_str()
 			);		

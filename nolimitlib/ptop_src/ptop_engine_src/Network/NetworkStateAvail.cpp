@@ -67,7 +67,7 @@ void NetworkStateAvail::runNetworkState( void )
 
     std::string netServiceUrl;
     m_Engine.getEngineSettings().getConnectTestUrl( netServiceUrl );
-    netServiceUrl = m_Engine.getUrlMgr().resolveUrl( netServiceUrl );
+    netServiceUrl = m_Engine.getUrlMgr().resolveUrl( false, netServiceUrl );
 
 	// NOTE: it seems that while upnp is communicating with router the router may temporarily stop accepting incoming connections
 	// so startup order has been changed. 
@@ -135,7 +135,7 @@ void NetworkStateAvail::runNetworkState( void )
 	//LogMsg( LOG_INFO, "111 NetworkStateAvail::runNetworkState checking listen ready %3.3f\n", availTimer.elapsedSec() );
 	int waitForListenCnt = 0;
 	while( ( false == m_NetworkStateMachine.checkAndHandleNetworkEvents() )
-		&& ( false == m_Engine.getPeerMgr().isReadyToAcceptConnections() ) )
+		&& ( false == m_Engine.getPeerMgr().isReadyToAcceptConnections( false ) ) )
 	{
 		VxSleep( 1000 );
 		waitForListenCnt++;
@@ -171,7 +171,7 @@ void NetworkStateAvail::runNetworkState( void )
             break;
         }
 
-        if( m_Engine.getPeerMgr().isListening() )
+        if( m_Engine.getPeerMgr().isListening( false ) )
         {
             // already listening
             LogMsg( LOG_INFO, "Listening on port %d at time %3.3f", m_Engine.getPeerMgr().getListenPort(), availTimer.elapsedSec() );
@@ -273,7 +273,7 @@ void NetworkStateAvail::runNetworkState( void )
 	}
     else
     {
-        m_Engine.getNetStatusAccum().setExternalIpAddress( directConnectTestResults.m_MyIpAddr );
+        m_Engine.getNetStatusAccum().setExternalIpAddress( false, directConnectTestResults.m_MyIpAddr );
     }
 
 	if( ( false == directConnectTestResults.getCanDirectConnect() )

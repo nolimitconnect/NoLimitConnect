@@ -30,8 +30,8 @@ public:
 
     virtual QLabel *            getServiceTitle() { return ui.m_ServiceTitleLabel; }
 
-    virtual QLabel *            getServiceUrlLabel() { return ui.m_UrlDescriptionLabel; }
-    virtual QLineEdit *         getServiceUrlEdit() { return ui.m_UrlEdit; }
+    virtual QLabel *            getServiceUrlLabel( bool ipv6 ) { return ipv6 ? ui.m_UrlDescriptionLabelIpv6 : ui.m_UrlDescriptionLabelIpv4; }
+    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 ) { return ipv6 ? ui.m_UrlEditIpv6 : ui.m_UrlEditIpv4; }
 
     virtual QLabel *            getServiceNameLabel() { return ui.m_UserDisplayedNameLabel; }
     virtual QLineEdit *         getServiceNameEdit() { return ui.m_NameEdit; }

@@ -44,12 +44,13 @@ protected:
     bool						addHostJoin( GroupieId& groupieId,
                                                 VxGUID&			thumbId,
                                                 uint64_t		infoModTime,                             
-                                                enum EJoinState      joinState,
+                                                enum EJoinState joinState,
                                                 uint64_t		lastConnectMs,
                                                 uint64_t		lastJoinMs,
                                                 enum EFriendState    friendState,
                                                 uint32_t        hostFlags,
-                                                std::string     hostUrl
+                                                std::string     hostUrlIpv6,
+                                                std::string     hostUrlIpv4
                                             );
 
     virtual RCODE				onCreateTables( int iDbVersion );

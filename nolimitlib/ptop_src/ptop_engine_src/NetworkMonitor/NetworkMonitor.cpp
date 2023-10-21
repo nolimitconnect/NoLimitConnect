@@ -358,7 +358,7 @@ void NetworkMonitor::triggerDetermineIp( void )
                 m_ConnectAttemptCompleted = true;
 
                 m_Engine.getNetStatusAccum().setInternetAvail( true );
-                m_Engine.getNetStatusAccum().setLanIpAddr( lclIp );
+                m_Engine.getNetStatusAccum().setLanIpAddress( false, lclIp );
                 m_Engine.getNetStatusAccum().setNetHostAvail( true );
 
                 return;
@@ -416,7 +416,7 @@ std::string NetworkMonitor::determineLocalIp( void )
             else
             {
                 lastLocalIp = localIp;
-                m_Engine.getNetStatusAccum().setLanIpAddr( localIp );
+                m_Engine.getNetStatusAccum().setLanIpAddress( false, localIp );
                 m_Engine.getNetStatusAccum().setNetHostAvail( true );
             }
         }
@@ -428,11 +428,11 @@ std::string NetworkMonitor::determineLocalIp( void )
         std::string newIpAddr;
         if( m_Engine.getNetServicesMgr().fetchExternalIpAddress( &sktConnect, newIpAddr ) && !newIpAddr.empty() )
         {
-            std::string oldIpAddr = m_Engine.getNetStatusAccum().getExternalIpAddress();
+            std::string oldIpAddr = m_Engine.getNetStatusAccum().getExternalIpAddress( false );
             if( newIpAddr != oldIpAddr )
             {
-                m_Engine.getNetworkStateMachine().externalIpAddressHasChanged( oldIpAddr, newIpAddr );
-                m_Engine.getNetStatusAccum().setExternalIpAddress( newIpAddr );
+                m_Engine.getNetworkStateMachine().externalIpAddressHasChanged( false, oldIpAddr, newIpAddr );
+                m_Engine.getNetStatusAccum().setExternalIpAddress( false, newIpAddr );
             }
         }
 
@@ -481,7 +481,7 @@ std::string NetworkMonitor::determineLocalIp( void )
                 else
                 {
                     lastLocalIp = localIp;
-                    m_Engine.getNetStatusAccum().setLanIpAddr( localIp );
+                    m_Engine.getNetStatusAccum().setLanIpAddress( false, localIp );
                 }
             }
 

@@ -246,11 +246,11 @@ bool AccountDb::getUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfile 
 
 	DbCursor * cursor = startQueryInsecure("SELECT greeting,about,picture,url1,url2,url3,donation FROM account_profile WHERE online_id='%s'",
 		strOnlineIdHex.c_str() );
-	if( NULL != cursor )
+	if( nullptr != cursor )
 	{
 		if( cursor->getNextRow() )
 		{
-			if( 0 != cursor->getString(0) )
+			if( strlen( cursor->getString(0) ) )
 			{
 				oProfile.m_strGreeting = cursor->getString(0);
 				if( 0 == oProfile.m_strGreeting.length() )
@@ -263,59 +263,12 @@ bool AccountDb::getUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfile 
 				oProfile.m_strGreeting = oUserAccount.getOnlineDescription();
 			}
 
-			if( 0 != cursor->getString(1) )
-			{
-				oProfile.m_strAboutMe = cursor->getString(1);
-			}
-			else
-			{
-				oProfile.m_strAboutMe = "";
-			}
-
-			if( 0 != cursor->getString(2) )
-			{
-				oProfile.m_strPicturePath = cursor->getString(2);
-			}
-			else
-			{
-				oProfile.m_strPicturePath = "";
-			}
-
-			if( 0 != cursor->getString(3) )
-			{
-				oProfile.m_strUrl1 = cursor->getString(3);
-			}
-			else
-			{
-				oProfile.m_strUrl1 = "";
-			}
-
-			if( 0 != cursor->getString(4) )
-			{
-				oProfile.m_strUrl2 = cursor->getString(4);
-			}
-			else
-			{
-				oProfile.m_strUrl2 = "";
-			}
-
-			if( 0 != cursor->getString(5) )
-			{
-				oProfile.m_strUrl3 = cursor->getString(5);
-			}
-			else
-			{
-				oProfile.m_strUrl3 = "";
-			}
-
-            if( 0 != cursor->getString( 6 ) )
-            {
-                oProfile.m_strDonation = cursor->getString( 6 );
-            }
-            else
-            {
-                oProfile.m_strDonation = "";
-            }
+			oProfile.m_strAboutMe = cursor->getString(1);
+			oProfile.m_strPicturePath = cursor->getString(2);
+			oProfile.m_strUrl1 = cursor->getString(3);
+			oProfile.m_strUrl2 = cursor->getString(4);
+			oProfile.m_strUrl3 = cursor->getString(5);
+            oProfile.m_strDonation = cursor->getString( 6 );
 
 			bResult = true;
 		}

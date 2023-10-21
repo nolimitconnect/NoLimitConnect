@@ -43,10 +43,10 @@ public:
     virtual HostedId&           getHostId( void )       { return m_HostId; }
 
     //=== hosting ===//
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl );
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl );
-    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl );
-    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl );
+    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
+    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
+    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
+    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
 
     virtual EPluginAccess	    getPluginAccessState( VxNetIdent* netIdent );
@@ -54,7 +54,7 @@ public:
     virtual EMembershipState	getMembershipState( VxNetIdent* netIdent, EHostType hostType );
     virtual EConnectReason      getSearchConnectReason( EHostType hostType );
 
-    virtual bool                connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl, EConnectReason connectReason );
+    virtual bool                connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, EConnectReason connectReason );
     virtual bool                connectToHost( EHostType hostType, VxGUID& sessionId, std::string& url, EConnectReason connectReason );
     virtual void                removeSession( VxGUID& sessionId, EConnectReason connectReason = eConnectReasonUnknown ) {};
 

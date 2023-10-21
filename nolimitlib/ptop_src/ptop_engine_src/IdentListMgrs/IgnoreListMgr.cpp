@@ -148,12 +148,12 @@ bool IgnoreListMgr::isHostIgnored( VxGUID& onlineId )
 }
 
 //============================================================================
-bool IgnoreListMgr::addHostIgnore( VxGUID& onlineId, std::string hostUrl, std::string hostTitle, VxGUID& thumbId, std::string hostDescription )
+bool IgnoreListMgr::addHostIgnore( VxGUID& onlineId, std::string hostUrlIpv4, std::string hostUrlIpv6, std::string hostTitle, VxGUID& thumbId, std::string hostDescription )
 {
     bool wasAdded{ false };
     if( onlineId.isVxGUIDValid() )
     {
-        IgnoredHostInfo hostInfo( onlineId, thumbId, hostUrl, hostTitle, hostDescription, GetGmtTimeMs() );
+        IgnoredHostInfo hostInfo( onlineId, thumbId, hostUrlIpv4, hostUrlIpv6, hostTitle, hostDescription, GetGmtTimeMs() );
 
         m_IgnoredHostsMutex.lock();
         m_IgnoredHostList[ onlineId ] = hostInfo;

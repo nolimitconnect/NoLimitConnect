@@ -54,11 +54,11 @@ GuiGroupieListSession& GuiGroupieListSession::operator =( const GuiGroupieListSe
 }
 
 //============================================================================
-std::string GuiGroupieListSession::getGroupieUrl( void )
+std::string GuiGroupieListSession::getGroupieUrl( bool ipv6 )
 {
     if( m_GuiGroupie )
     {
-        return m_GuiGroupie->getGroupieUrl();
+        return m_GuiGroupie->getGroupieUrl( ipv6 );
     }
 
     return "";

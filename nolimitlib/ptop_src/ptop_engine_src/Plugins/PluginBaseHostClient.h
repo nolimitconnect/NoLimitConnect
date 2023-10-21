@@ -32,10 +32,10 @@ public:
 	virtual ~PluginBaseHostClient() override = default;
 
     //=== hosting ===//
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl ) override;
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl ) override;
-    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl ) override;
-    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl ) override;
+    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
+    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
+    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
+    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
 
     virtual bool				fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGUID& thumbId ) override;
@@ -67,8 +67,8 @@ protected:
 
     virtual void                buildHostAnnounce( PluginSetting& pluginSetting ) {};
     virtual void				sendHostAnnounce( void ) {};
-    virtual void				sendLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl );
-    virtual void				sendUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl );
+    virtual void				sendLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
+    virtual void				sendUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
 
 
     virtual void				onContactWentOnline         ( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};

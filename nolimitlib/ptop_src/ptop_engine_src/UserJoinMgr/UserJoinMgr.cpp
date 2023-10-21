@@ -230,7 +230,9 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     int64_t timeNowMs = GetTimeStampMs();
     joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
     joinInfo->setJoinState( eJoinStateJoinIsGranted );
-    joinInfo->setHostUrl( netIdent->getMyOnlineUrl() );
+
+    joinInfo->setHostUrl( false, netIdent->getMyOnlineUrl( false ) );
+    joinInfo->setHostUrl( true, netIdent->getMyOnlineUrl( true ) );
 
     joinInfo->setConnectionId( sktBase->getSocketId() );
     joinInfo->setSessionId( sessionInfo.getSessionId() );
@@ -290,7 +292,8 @@ void UserJoinMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBas
     int64_t timeNowMs = GetTimeStampMs();
     joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
     joinInfo->setJoinState( eJoinStateJoinLeaveHost );
-    joinInfo->setHostUrl( netIdent->getMyOnlineUrl() );
+    joinInfo->setHostUrl( false, netIdent->getMyOnlineUrl( false ) );
+    joinInfo->setHostUrl( true, netIdent->getMyOnlineUrl( true ) );
 
     joinInfo->setConnectionId( sktBase->getSocketId() );
     joinInfo->setSessionId( sessionInfo.getSessionId() );
@@ -334,7 +337,8 @@ void UserJoinMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
         int64_t timeNowMs = GetTimeStampMs();
         joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostPluginType() ) );
         joinInfo->setJoinState( eJoinStateJoinLeaveHost );
-        joinInfo->setHostUrl( netIdent->getMyOnlineUrl() );
+        joinInfo->setHostUrl( false,  netIdent->getMyOnlineUrl( false ) );
+        joinInfo->setHostUrl( true, netIdent->getMyOnlineUrl( true ) );
 
         joinInfo->setConnectionId( sktBase->getSocketId() );
         joinInfo->setSessionId( sessionInfo.getSessionId() );
@@ -380,12 +384,24 @@ bool UserJoinMgr::saveToDatabase( UserJoinInfo* joinInfo, bool isLocked )
         lockResources();
     }
 
-    VxPtopUrl ptopUrl( joinInfo->getHostUrl() );
-    if( ptopUrl.isValid() )
+    VxGUID onlineId;
+    VxPtopUrl ptopUrlIpv4( joinInfo->getHostUrl( false ) );
+    if( ptopUrlIpv4.isValid() )
+    {
+        onlineId = ptopUrlIpv4.getOnlineId();
+    }
+
+    VxPtopUrl ptopUrlIpv6( joinInfo->getHostUrl( true ) );
+    if( ptopUrlIpv6.isValid() )
+    {
+        onlineId = ptopUrlIpv6.getOnlineId();
+    }
+
+    if( onlineId.isVxGUIDValid() )
     {
         result = m_UserJoinInfoDb.addUserJoin( joinInfo );
 
-        result &= m_UserJoinedLastDb.setJoinedLast( joinInfo->getHostType(), ptopUrl.getOnlineId(), joinInfo->getLastJoinTime(), joinInfo->getHostUrl() );
+        result &= m_UserJoinedLastDb.setJoinedLast( joinInfo->getHostType(), onlineId, joinInfo->getLastJoinTime(), joinInfo->getHostUrl( false ), joinInfo->getHostUrl( true ) );
 
         result &= m_UserJoinedLastDb.setJoinedLastHostType( joinInfo->getHostType() );
     }
@@ -460,15 +476,16 @@ void UserJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID&
 }
 
 //============================================================================
-bool UserJoinMgr::getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrl )
+bool UserJoinMgr::getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrlIpv4, std::string& retHostUrlIpv6 )
 {
     VxGUID onlineId;
     int64_t lastJoinMs;
-    bool result = m_UserJoinedLastDb.getJoinedLast( hostType, onlineId, lastJoinMs, retHostUrl );
+    bool result = m_UserJoinedLastDb.getJoinedLast( hostType, onlineId, lastJoinMs, retHostUrlIpv4, retHostUrlIpv6 );
     if( result )
     {
-        VxPtopUrl ptopUrl( retHostUrl );
-        result = ptopUrl.isValid();
+        VxPtopUrl ptopUrlIpv4( retHostUrlIpv4 );
+        VxPtopUrl ptopUrlIpv6( retHostUrlIpv6 );
+        result = ptopUrlIpv4.isValid() || ptopUrlIpv6.isValid();
         if( !result )
         {
             LogMsg( LOG_ERROR, "UserJoinMgr::getLastJoinedHostUrl invalid url for host type %d", hostType );

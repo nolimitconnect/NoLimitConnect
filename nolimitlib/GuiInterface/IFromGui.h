@@ -120,8 +120,6 @@ public:
 
 	/// First call to engine should send path to assets ( game and app resources ) and path to root of where to write application data
 	virtual void				fromGuiAppStartup( const char* assetsDir, const char* rootDataDir ) = 0;
-	/// not currently used except for debug.. tells engine application is still running
-	virtual void				fromGuiKickWatchdog( void ) = 0;
 
 	/// Second call to engine should send path where to write login name specific application data 
 	virtual void				fromGuiSetUserSpecificDir( const char* userSpecificDir ) = 0;
@@ -225,10 +223,10 @@ public:
     /// Run test on the given url
     virtual void				fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType ) = 0;
 
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) = 0;
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) = 0;
-	virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) = 0;
-	virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) = 0;
+    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) = 0;
+    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) = 0;
+	virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) = 0;
+	virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) = 0;
 	virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId ) = 0;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) = 0;
 	virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) = 0;
@@ -365,7 +363,7 @@ public:
 	virtual uint16_t			fromGuiGetRandomTcpPort( void ) = 0;
 
     /// Get url for this node
-    virtual void                fromGuiGetNodeUrl( std::string& nodeUrl ) = 0;
+    virtual void                fromGuiGetNodeUrl( bool ipv6, std::string& nodeUrl ) = 0;
     /// Get internet status
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) = 0;
     /// Get network status

@@ -21,7 +21,7 @@ namespace
 {
     std::string 		TABLE_USER_HOST	 				= "tblUserJoin";
 
-    std::string 		CREATE_COLUMNS_USER_HOST		= " (onlineId TEXT, thumbId TEXT, infoModMs BIGINT, pluginType INTEGER, friendState INTEGER, joinState INTEGER, lastConnMs BIGINT, lastJoinMs BIGINT, hostFlags INTEGER, hostUrl TEXT) ";
+    std::string 		CREATE_COLUMNS_USER_HOST		= " (onlineId TEXT, thumbId TEXT, infoModMs BIGINT, pluginType INTEGER, friendState INTEGER, joinState INTEGER, lastConnMs BIGINT, lastJoinMs BIGINT, hostFlags INTEGER, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT) ";
 
     const int			COLUMN_ONLINE_ID			    = 0;
     const int			COLUMN_HOST_THUMB_ID			= 1;
@@ -32,11 +32,12 @@ namespace
     const int			COLUMN_LAST_CONN_MS				= 6;
     const int			COLUMN_LAST_JOIN_MS			    = 7;
     const int			COLUMN_HOST_FLAGS			    = 8;
-    const int			COLUMN_HOST_URL			        = 9;
+    const int			COLUMN_HOST_URL_IPV4			= 9;
+    const int			COLUMN_HOST_URL_IPV6			= 10;
 }
 
 //============================================================================
-UserJoinInfoDb::UserJoinInfoDb( P2PEngine& engine, UserJoinMgr& hostListMgr, const char*dbName  )
+UserJoinInfoDb::UserJoinInfoDb( P2PEngine& engine, UserJoinMgr& hostListMgr, const char* dbName )
     : DbBase( dbName )
     , m_Engine( engine )
     , m_UserJoinMgr( hostListMgr )
@@ -100,7 +101,8 @@ bool UserJoinInfoDb::addUserJoin(   GroupieId&      groupieId,
                                     uint64_t		lastJoinMs,
                                     EFriendState    friendState,
                                     uint32_t        hostFlags,
-                                    std::string     hostUrl
+                                    std::string     hostUrlIpv4,
+                                    std::string     hostUrlIpv6
                                    )
 {
     // always change is granted to was granted so when loaded the app knows have not rejoined yet
@@ -119,9 +121,10 @@ bool UserJoinInfoDb::addUserJoin(   GroupieId&      groupieId,
     bindList.add( lastConnectMs );
     bindList.add( lastJoinMs ); 
     bindList.add( (int)hostFlags );
-    bindList.add( hostUrl.c_str() );
+    bindList.add( hostUrlIpv4.c_str() );
+    bindList.add( hostUrlIpv6.c_str() );
    
-    RCODE rc = sqlExec( "INSERT INTO tblUserJoin (onlineId, thumbId, infoModMs, pluginType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, hostUrl) values(?,?,?,?,?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblUserJoin (onlineId, thumbId, infoModMs, pluginType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, hostUrlIpv4, hostUrlIpv6) values(?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )
@@ -143,7 +146,8 @@ bool UserJoinInfoDb::addUserJoin( UserJoinInfo* hostInfo )
                         hostInfo->BaseJoinInfo::getLastJoinTime(),
                         hostInfo->getFriendState(),
                         hostInfo->getHostFlags(),
-                        hostInfo->getHostUrl()
+                        hostInfo->getHostUrl( false ),
+                        hostInfo->getHostUrl( true )
                         );
 }
 
@@ -167,13 +171,26 @@ void UserJoinInfoDb::getAllUserJoins( std::map<GroupieId, UserJoinInfo*>& UserJo
             hostInfo->setLastConnectTime( (uint64_t)cursor->getS64( COLUMN_LAST_CONN_MS ) );
             hostInfo->setLastJoinTime(  (uint64_t)cursor->getS64( COLUMN_LAST_JOIN_MS ) ); 
             hostInfo->setHostFlags( (uint32_t)cursor->getS32( COLUMN_HOST_FLAGS ) );
-            hostInfo->setHostUrl( cursor->getString( COLUMN_HOST_URL ) );
+            hostInfo->setHostUrl( false, cursor->getString( COLUMN_HOST_URL_IPV4 ) );
+            hostInfo->setHostUrl( true, cursor->getString( COLUMN_HOST_URL_IPV6 ) );
 
             vx_assert( hostInfo->isValid() );
-            VxPtopUrl ptopUrl( hostInfo->getHostUrl() );
-            if( ptopUrl.isValid() && hostInfo->getOnlineId().isVxGUIDValid() )
+
+            VxGUID onlineId;
+            VxPtopUrl ptopUrlIpv4( hostInfo->getHostUrl( false ) );
+            VxPtopUrl ptopUrlIpv6( hostInfo->getHostUrl( true ) );
+            if( ptopUrlIpv4.isValid() )
             {
-                GroupieId groupieId( hostInfo->getOnlineId(), ptopUrl.getOnlineId(), hostInfo->getHostType() );
+                onlineId = ptopUrlIpv4.getOnlineId();
+            }
+            else if( ptopUrlIpv6.isValid() )
+            {
+                onlineId = ptopUrlIpv6.getOnlineId();
+            }
+
+            if( onlineId.isVxGUIDValid() && ( ptopUrlIpv4.isValid() || ptopUrlIpv6.isValid() ) && hostInfo->getOnlineId().isVxGUIDValid() )
+            {
+                GroupieId groupieId( hostInfo->getOnlineId(), onlineId, hostInfo->getHostType() );
                 hostInfo->setGroupieId( groupieId );
                 insertUserJoinInTimeOrder( hostInfo, UserJoinUserJoinList );
             }

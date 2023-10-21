@@ -1065,7 +1065,7 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
         {
             if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
             {
-                getMyPktAnnounce().setOnlineIpAddress( netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
+				getMyPktAnnounce().setOnlineIpAddress( false, netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
                 setPktAnnLastModTime( GetTimeStampMs() );
 				haveFixedIp = true;
             }
@@ -1073,17 +1073,17 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 
         if( origSettings.getTcpPort() != netHostSetting.getTcpPort() )
         {
-            getPeerMgr().stopListening();
+            getPeerMgr().stopListening( false );
             getMyPktAnnounce().setMyOnlinePort( netHostSetting.getTcpPort() );
             setPktAnnLastModTime( GetTimeStampMs() );
             getNetStatusAccum().setIpPort( netHostSetting.getTcpPort() );
-            getPeerMgr().startListening( netHostSetting.getTcpPort() );   
+            getPeerMgr().startListening( false, netHostSetting.getTcpPort() );   
         }
 
 		if( haveFixedIp )
 		{
-            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl();
-            getUrlMgr().setMyOnlineNodeUrl( myOnlineUrl );
+            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl( false );
+            getUrlMgr().setMyOnlineNodeUrl( false, myOnlineUrl );
 		}
 
         if( origSettings.getNetworkHostUrl() != netHostSetting.getNetworkHostUrl() )
@@ -1240,9 +1240,9 @@ uint16_t P2PEngine::fromGuiGetRandomTcpPort( void )
 
 /// Get url for this node
 //============================================================================
-void P2PEngine::fromGuiGetNodeUrl( std::string& nodeUrl )
+void P2PEngine::fromGuiGetNodeUrl( bool ipv6, std::string& nodeUrl )
 {
-    nodeUrl = getMyOnlineUrl();
+    nodeUrl = getMyOnlineUrl( ipv6 );
 }
 
 //============================================================================
@@ -1270,13 +1270,13 @@ bool P2PEngine::fromGuiNearbyBroadcastEnable( bool enable )
 }
 
 //============================================================================
-void P2PEngine::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void P2PEngine::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
 {
     //assureUserSpecificDirIsSet( "P2PEngine::fromGuiAnnounceHost" );
     PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
     if( plugin )
     {
-        plugin->fromGuiAnnounceHost( hostType, sessionId, ptopUrl );
+        plugin->fromGuiAnnounceHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
     }
     else
     {
@@ -1285,13 +1285,13 @@ void P2PEngine::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std:
 }
 
 //============================================================================
-void P2PEngine::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void P2PEngine::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiJoinHost" );
     PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
     if( plugin )
     {
-        plugin->fromGuiJoinHost( hostType, sessionId, hostUrl );
+        plugin->fromGuiJoinHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
     }
     else
     {
@@ -1300,13 +1300,13 @@ void P2PEngine::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::str
 }
 
 //============================================================================
-void P2PEngine::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void P2PEngine::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiJoinHost" );
 	PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
 	if( plugin )
 	{
-		plugin->fromGuiLeaveHost( hostType, sessionId, hostUrl );
+		plugin->fromGuiLeaveHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
 	}
 	else
 	{
@@ -1315,13 +1315,13 @@ void P2PEngine::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::st
 }
 
 //============================================================================
-void P2PEngine::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void P2PEngine::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiJoinHost" );
 	PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
 	if( plugin )
 	{
-		plugin->fromGuiUnJoinHost( hostType, sessionId, hostUrl );
+		plugin->fromGuiUnJoinHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
 	}
 	else
 	{
@@ -1332,13 +1332,14 @@ void P2PEngine::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::s
 //============================================================================
 void P2PEngine::fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId )
 {
-	std::string hostUrl;
-	if( getUserJoinMgr().getLastJoinedHostUrl( hostType, hostUrl ) )
+	std::string hostUrlIpv4;
+	std::string hostUrlIpv6;
+	if( getUserJoinMgr().getLastJoinedHostUrl( hostType, hostUrlIpv4, hostUrlIpv6) )
 	{
 		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
 		if( plugin )
 		{
-			plugin->fromGuiJoinHost( hostType, sessionId, hostUrl );
+			plugin->fromGuiJoinHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
 		}
 		else
 		{
@@ -1587,7 +1588,7 @@ std::string P2PEngine::fromGuiQueryDefaultUrl( EHostType hostType )
 	}
 
 	std::string defaultUrl = getEngineSettings().fromGuiQueryDefaultUrl( hostType );
-	return getUrlMgr().resolveUrl( defaultUrl );
+	return getUrlMgr().resolveUrl( false, defaultUrl );
 }
 
 //============================================================================

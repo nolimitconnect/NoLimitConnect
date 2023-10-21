@@ -81,7 +81,7 @@ protected:
     void						removeHostedInfo( EHostType hostType, VxGUID& onlineId );
     void						clearHostedInfoList( void );
 
-    void                        updateAndRequestInfoIfNeeded( enum EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+    void                        updateAndRequestInfoIfNeeded( bool ipv6, enum EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
     bool                        updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, bool isFavorite );
     bool                        updateLastConnected( enum EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime );

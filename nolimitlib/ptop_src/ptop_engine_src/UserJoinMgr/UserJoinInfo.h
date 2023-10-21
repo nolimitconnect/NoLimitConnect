@@ -45,8 +45,8 @@ public:
     void                        setGroupieId( GroupieId& groupieId )                { m_GroupieId = groupieId; }
     GroupieId&                  getGroupieId( void )                                { return m_GroupieId; }
 
-    virtual void			    setHostUrl( std::string hostUrl )                   { m_HostUrl = hostUrl; }
-    virtual std::string&	    getHostUrl( void )                                  { return m_HostUrl; }
+    virtual void			    setHostUrl( bool ipv6, std::string hostUrl )        { ipv6 ? m_HostUrlIpv6 = hostUrl : m_HostUrlIpv4 = hostUrl; }
+    virtual std::string&	    getHostUrl( bool ipv6 )                             { return ipv6 ? m_HostUrlIpv6 : m_HostUrlIpv4; }
     virtual void			    setFriendState( EFriendState friendshipToHim )      { m_FriendState = friendshipToHim; }
     virtual EFriendState	    getFriendState( void )                              { return m_FriendState; }
 
@@ -62,7 +62,8 @@ protected:
     EFriendState                m_FriendState{ eFriendStateIgnore };
     uint32_t                    m_HostFlags{ 0 };
     GroupieId                   m_GroupieId;
-    std::string                 m_HostUrl{ "" };
+    std::string                 m_HostUrlIpv4;
+    std::string                 m_HostUrlIpv6;
 
     // temporaries
     VxGUID                      m_ConnectionId;

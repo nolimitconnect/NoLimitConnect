@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <array>
 
 #ifdef _MSC_VER
 # pragma warning(disable: 4355) //'this' : used in base member initializer list
@@ -87,23 +88,23 @@ void NetworkTestBase::stopNetworkTest( void )
 //============================================================================
 void NetworkTestBase::sendRunTestStatus( ERunTestStatus eStatus, const char* msg, ... )
 {
-    char as8Buf[ 1024 ];
+    std::array<char, 1024> as8Buf;
     va_list argList;
     va_start( argList, msg );
-    vsnprintf( as8Buf, sizeof( as8Buf ), msg, argList );
-    as8Buf[ sizeof( as8Buf ) - 1 ] = 0;
+    vsnprintf( as8Buf.data(), as8Buf.size(), msg, argList);
+    as8Buf[ as8Buf.size() - 1 ] = 0;
     va_end( argList );
-    IToGui::getToGui().toGuiRunTestStatus( getTestName().c_str(), eStatus, as8Buf );
+    IToGui::getToGui().toGuiRunTestStatus( getTestName().c_str(), eStatus, as8Buf.data() );
 }
 
 //============================================================================
 void NetworkTestBase::sendTestLog( const char* msg, ... )
 {
-    char as8Buf[ 1024 ];
+    std::array<char, 1024> as8Buf;
     va_list argList;
     va_start( argList, msg );
-    vsnprintf( as8Buf, sizeof( as8Buf ), msg, argList );
-    as8Buf[ sizeof( as8Buf ) - 1 ] = 0;
+    vsnprintf( as8Buf.data(), as8Buf.size(), msg, argList);
+    as8Buf[ as8Buf.size() - 1 ] = 0;
     va_end( argList );
-    IToGui::getToGui().toGuiRunTestStatus( getTestName().c_str(), eRunTestStatusLogMsg, as8Buf );
+    IToGui::getToGui().toGuiRunTestStatus( getTestName().c_str(), eRunTestStatusLogMsg, as8Buf.data() );
 }

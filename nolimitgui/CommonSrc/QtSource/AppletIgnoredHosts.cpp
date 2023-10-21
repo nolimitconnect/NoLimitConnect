@@ -71,15 +71,18 @@ void AppletIgnoredHosts::insertIntoHostList( IgnoredHostInfo& hostInfo )
 {
 	VxGUID sessionId;
 	sessionId.initializeWithNewVxGUID();
-	VxPtopUrl ptopUrl( hostInfo.getHostUrl() );
-	HostedId hostedId( hostInfo.getOnlineId(), ptopUrl.getHostType() );
+	VxPtopUrl ptopUrlIpv4( hostInfo.getHostUrl(false) );
+	VxPtopUrl ptopUrlIpv6( hostInfo.getHostUrl(true) );
+	EHostType hostType = ptopUrlIpv4.isValid() ? ptopUrlIpv4.getHostType() : ptopUrlIpv6.getHostType();
+	HostedId hostedId( hostInfo.getOnlineId(), hostType );
 
 	GuiHosted* guiHosted = new GuiHosted( m_MyApp );
 	guiHosted->setParent( this );
 	guiHosted->setHostedId( hostedId );
 	guiHosted->setThumbId( hostInfo.getThumbId() );
 	guiHosted->setHostInfoTimestamp( hostInfo.getTimestampMs() );
-	guiHosted->setHostInviteUrl( hostInfo.getHostUrl() );
+	guiHosted->setHostInviteUrl( false, hostInfo.getHostUrl( false ) );
+	guiHosted->setHostInviteUrl( true, hostInfo.getHostUrl( true ) );
 	guiHosted->setHostTitle( hostInfo.getHostTitle() );
 	guiHosted->setHostDescription( hostInfo.getHostDescription() );
 	guiHosted->setIsIgnored( true );

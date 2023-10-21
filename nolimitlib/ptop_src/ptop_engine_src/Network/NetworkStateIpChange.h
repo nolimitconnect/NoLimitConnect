@@ -21,7 +21,7 @@ class DirectConnectTester;
 class NetworkStateIpChange : public NetworkStateBase
 {
 public:
-	NetworkStateIpChange( NetworkStateMachine& stateMachine, std::string oldIp, std::string newIp );
+	NetworkStateIpChange( bool ipv6, NetworkStateMachine& stateMachine, std::string oldIp, std::string newIp );
 
 	virtual void				enterNetworkState( void );
 	void						runNetworkState( void );
@@ -29,8 +29,9 @@ public:
 protected:
 	//=== vars ===//
 	DirectConnectTester&		m_DirectConnectTester;
-	std::string					m_OldIp{ "" };
-	std::string					m_NewIp{ "" };
+	bool						m_Ipv6{ false };
+	std::string					m_OldIp;
+	std::string					m_NewIp;
 };
 
 

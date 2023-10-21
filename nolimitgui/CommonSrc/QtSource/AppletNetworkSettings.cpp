@@ -241,7 +241,7 @@ void AppletNetworkSettings::applyEngineSettingsFromHostSetting( NetHostSetting& 
 {
     if( 1 == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
     {
-        m_MyApp.getAppGlobals().getMyNetIdent()->setOnlineIpAddress( netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
+        m_MyApp.getAppGlobals().getMyNetIdent()->setOnlineIpAddress( false, netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
     }
 
     if( m_Engine.getMyNetIdent()->getMyOnlinePort() != netHostSetting.getTcpPort() )

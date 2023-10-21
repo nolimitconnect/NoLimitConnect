@@ -171,10 +171,10 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
         }
     }
 
-    if( m_MyApp.getHostedListMgr().isJoinOnStartup( guiHosted->getHostInviteUrl() ) )
+    if( m_MyApp.getHostedListMgr().isJoinOnStartup( guiHosted->getHostInviteUrl( false ), guiHosted->getHostInviteUrl( true ) ) )
     {
         // make sure the saved favorite host url is up to data
-        m_MyApp.getHostedListMgr().setJoinOnStartup( guiHosted->getHostInviteUrl(), true );
+        m_MyApp.getHostedListMgr().setJoinOnStartup( guiHosted->getHostInviteUrl( false ), guiHosted->getHostInviteUrl( true ), true );
     }
 
     EJoinState joinState{ eJoinStateNone };

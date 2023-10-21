@@ -34,23 +34,30 @@ void UrlInfo::updateOnlineId( VxGUID& onlineId )
     }
 
     m_OnlineId = onlineId;
+
+    updateUrl( false );
+    updateUrl( true );
+}
+
+//============================================================================
+void UrlInfo::updateUrl( bool ipv6 )
+{
     std::string url( "ptop://" );
-    if( m_Url.size() > 7 && 0 == strncmp( m_Url.c_str(), "http://", 7 ) )
+    if( ipv6 ? m_UrlIpv6.size() > 7 && 0 == strncmp( m_UrlIpv6.c_str(), "http://", 7 ) :  m_UrlIpv4.size() > 7 && 0 == strncmp( m_UrlIpv4.c_str(), "http://", 7 ) )
     {
         url = "http://";
     }
 
-    url += m_IpAddr;
+    std::string& ipAddr = ipv6 ? m_IpAddrIpv6 : m_IpAddrIpv4;
+
+    url += ipAddr;
     url += ":";
-    char as8Buf[32];
-    sprintf( as8Buf, "%d", m_Port );
-    url += as8Buf;
+    url += std::to_string( m_Port );
     url += "/";
-    url += onlineId.toOnlineIdString();
+    url += m_OnlineId.toOnlineIdString();
 
-    m_Url = url;
+    ipv6 ? m_UrlIpv6 = url : m_UrlIpv4 = url;
 }
-
 
 //============================================================================
 bool UrlMgr::lookupOnlineId( std::string& hostUrl, VxGUID& onlineId )
@@ -72,19 +79,17 @@ bool UrlMgr::lookupOnlineId( std::string& hostUrl, VxGUID& onlineId )
 }
 
 //============================================================================
-void UrlMgr::setMyOnlineNodeUrl( std::string& myNodeUrl )
+void UrlMgr::setMyOnlineNodeUrl( bool ipv6, std::string& myNodeUrl )
 {
-    UrlInfo urlInfo;
-    if( fillUrlInfo( myNodeUrl, urlInfo ) )
+    if( fillUrlInfo( ipv6, myNodeUrl, m_MyUrlInfo ) )
     {
-        m_MyNodeUrl = myNodeUrl;
-        m_MyUrlInfo = urlInfo;
+        ipv6 ? m_MyNodeUrlIpv6 = myNodeUrl : m_MyNodeUrlIpv4 = myNodeUrl;
         m_UrlMutex.lock();
         for( auto iter = m_UrlMap.begin(); iter != m_UrlMap.end(); ++iter )
         {
             if( !iter->second.m_OnlineId.isVxGUIDValid() )
             {
-                if( iter->second.m_Port == m_MyUrlInfo.m_Port && iter->second.m_IpAddr == m_MyUrlInfo.m_IpAddr )
+                if( iter->second.m_Port == m_MyUrlInfo.m_Port && iter->second.m_IpAddrIpv6 == m_MyUrlInfo.m_IpAddrIpv6 || iter->second.m_IpAddrIpv4 == m_MyUrlInfo.m_IpAddrIpv4  )
                 {
                     iter->second.updateOnlineId( m_MyUrlInfo.m_OnlineId );
                 }
@@ -96,19 +101,19 @@ void UrlMgr::setMyOnlineNodeUrl( std::string& myNodeUrl )
 }
 
 //============================================================================
-std::string UrlMgr::resolveUrl( std::string& hostUrl )
+std::string UrlMgr::resolveUrl( bool ipv6, std::string& hostUrl )
 {
-    std::string url("");
     if( hostUrl.empty() )
     {
-        return url;
+        return hostUrl;
     }
 
+    std::string url;
     m_UrlMutex.lock();
     auto iter = m_UrlMap.find( hostUrl );
     if( iter != m_UrlMap.end() )
     {
-        url = iter->second.m_Url;
+        url = ipv6 ? iter->second.m_UrlIpv6 : iter->second.m_UrlIpv4;
         m_UrlMutex.unlock();
         return url;
     }
@@ -116,9 +121,9 @@ std::string UrlMgr::resolveUrl( std::string& hostUrl )
     m_UrlMutex.unlock();
 
     UrlInfo urlInfo;
-    if( fillUrlInfo( hostUrl, urlInfo ) )
+    if( fillUrlInfo( ipv6, hostUrl, urlInfo ) )
     {
-        url = urlInfo.m_Url;
+        url = ipv6 ? urlInfo.m_UrlIpv6 : urlInfo.m_UrlIpv4;
 
         m_UrlMutex.lock();
         m_UrlMap[hostUrl] = urlInfo;
@@ -129,7 +134,7 @@ std::string UrlMgr::resolveUrl( std::string& hostUrl )
 }
 
 //============================================================================
-void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
+void UrlMgr::updateUrlCache( bool ipv6, std::string& hostUrl, VxGUID& onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
@@ -139,7 +144,7 @@ void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
     std::string ipAddr;
     uint16_t tcpPort{ 0 };
 
-    bool result = VxResolveUrl( hostUrl, tcpPort, ipAddr );
+    bool result = VxResolveUrl( hostUrl, tcpPort, ipAddr, ipv6 );
 
     bool foundUrl = false;
     m_UrlMutex.lock();
@@ -155,7 +160,7 @@ void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
 
     for( auto iter = m_UrlMap.begin(); iter != m_UrlMap.end(); ++iter )
     {
-        if( !iter->second.m_OnlineId.isVxGUIDValid() && iter->second.m_Port == tcpPort && iter->second.m_IpAddr == ipAddr )
+        if( !iter->second.m_OnlineId.isVxGUIDValid() && iter->second.m_Port == tcpPort && ipv6 ? iter->second.m_IpAddrIpv6 == ipAddr : iter->second.m_IpAddrIpv4 == ipAddr)
         {
             iter->second.updateOnlineId( onlineId );
         }
@@ -165,16 +170,16 @@ void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
 
     if( !foundUrl )
     {
-        addUrlAndOnlineId( hostUrl, onlineId );
+        addUrlAndOnlineId( ipv6, hostUrl, onlineId );
     }
 }
 
 //============================================================================
-bool UrlMgr::addUrl( std::string& hostUrl )
+bool UrlMgr::addUrl( bool ipv6, std::string& hostUrl )
 {
     bool urlAdded{ false };
     UrlInfo urlInfo;
-    if( fillUrlInfo( hostUrl, urlInfo ) )
+    if( fillUrlInfo( ipv6, hostUrl, urlInfo ) )
     {
         m_UrlMutex.lock();
         m_UrlMap[hostUrl] = urlInfo;
@@ -186,11 +191,11 @@ bool UrlMgr::addUrl( std::string& hostUrl )
 }
 
 //============================================================================
-bool UrlMgr::addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId )
+bool UrlMgr::addUrlAndOnlineId( bool ipv6, std::string& hostUrl, VxGUID& onlineId )
 {
     bool urlAdded{ false };
     UrlInfo urlInfo;
-    if( fillUrlInfo( hostUrl, urlInfo ) )
+    if( fillUrlInfo( ipv6, hostUrl, urlInfo ) )
     {
         urlInfo.updateOnlineId( onlineId );
         m_UrlMutex.lock();
@@ -203,7 +208,7 @@ bool UrlMgr::addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId )
 }
 
 //============================================================================
-bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
+bool UrlMgr::fillUrlInfo( bool ipv6, std::string& hostUrl, UrlInfo& urlInfo )
 {
     std::string strHost;
     std::string strFile;
@@ -214,13 +219,17 @@ bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
     {
         InetAddress inetAddr;
         urlInfo.m_Port = tcpPort;
-        if( VxIsIPv4Address( strHost.c_str() ) || VxIsIPv6Address( strHost.c_str() ) )
+        if( VxIsIPv4Address( strHost.c_str() ) )
         {
-            urlInfo.m_IpAddr = strHost;
+            urlInfo.m_IpAddrIpv4 = strHost;
         }
-        else if( VxResolveUrl( strHost.c_str(), tcpPort, inetAddr ) )
+        else if( VxIsIPv6Address( strHost.c_str() ) )
         {
-            urlInfo.m_IpAddr = inetAddr.toStdString();
+            urlInfo.m_IpAddrIpv4 = strHost;
+        }
+        else if( VxResolveUrl( strHost.c_str(), tcpPort, inetAddr, ipv6 ) )
+        {
+           ipv6 ?  urlInfo.m_IpAddrIpv6 = inetAddr.toStdString() : urlInfo.m_IpAddrIpv4 = inetAddr.toStdString();
         }
         else
         {
@@ -239,7 +248,7 @@ bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
                 hadOnlineId = true;
             }
         }
-        else if( urlInfo.m_Port == m_MyUrlInfo.m_Port && urlInfo.m_IpAddr == m_MyUrlInfo.m_IpAddr )
+        else if( urlInfo.m_Port == m_MyUrlInfo.m_Port && ipv6 ? urlInfo.m_IpAddrIpv6 == m_MyUrlInfo.m_IpAddrIpv6 : urlInfo.m_IpAddrIpv4 == m_MyUrlInfo.m_IpAddrIpv4 )
         {
             urlInfo.m_OnlineId = m_MyUrlInfo.m_OnlineId;
             strFile = urlInfo.m_OnlineId.toOnlineIdString();
@@ -252,18 +261,16 @@ bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
             url = "http://";
         }
 
-        url += urlInfo.m_IpAddr;
+        url += ipv6 ? urlInfo.m_IpAddrIpv6 : urlInfo.m_IpAddrIpv4;
         url += ":";
-        char as8Buf[32];
-        sprintf( as8Buf, "%d", tcpPort );
-        url += as8Buf;
+        url += std::to_string( tcpPort );
         if( hadOnlineId )
         {
             url += "/";
             url += strFile;
         }
 
-        urlInfo.m_Url = url;
+        ipv6 ? urlInfo.m_UrlIpv6 = url : urlInfo.m_UrlIpv4 = url;
     }
 
     return result;

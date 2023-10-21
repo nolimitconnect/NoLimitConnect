@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <array>
 
 //============================================================================
 void P2PEngine::hackerOffense(  EHackerLevel	hackerLevel,
@@ -29,19 +30,19 @@ void P2PEngine::hackerOffense(  EHackerLevel	hackerLevel,
                                 VxGUID          signatureGuid,		// users identity info ( may be null if not known then use ipAddress )
                                 const char*     pMsg, ... )			// message about the offense
 {
-    char szBuffer[ 4096 ];
-    szBuffer[ 0 ] = 0;
+    std::array< char, 4096 > szBuffer;
+    szBuffer.data()[ 0 ] = 0;
     if( pMsg )
     {
         va_list argList;
         va_start( argList, pMsg );
-        vsnprintf( szBuffer, sizeof( szBuffer ), pMsg, argList );
-        szBuffer[ sizeof( szBuffer ) - 1 ] = 0;
+        vsnprintf( szBuffer.data(), szBuffer.size(), pMsg, argList);
+        szBuffer[ szBuffer.size() - 1 ] = 0;
         va_end( argList );
     }
 
     std::string strIp = ipAddr.toStdString();
-    LogModule( eLogHackers, LOG_SEVERE, "%s %s: ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ), strIp.c_str(), szBuffer );
+    LogModule( eLogHackers, LOG_SEVERE, "%s %s: ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ), strIp.c_str(), szBuffer.data() );
     if( hackerLevel >= eHackerLevelMedium )
     {
         getPeerMgr().addHackOffense( hackerLevel, hackerReason, strIp, signatureGuid );
@@ -56,25 +57,25 @@ void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,
 								InetAddress		IpAddr,					// ip address if identity not known
 								const char*	    pMsg, ... )				// message about the offense
 {
-	char szBuffer[4096];
-    szBuffer[0] = 0;
+	std::array< char, 4096 > szBuffer;
+    szBuffer.data()[0] = 0;
     if( pMsg )
     {
         va_list argList;
         va_start( argList, pMsg );
-        vsnprintf( szBuffer, sizeof( szBuffer ), pMsg, argList );
-        szBuffer[sizeof( szBuffer ) - 1] = 0;
+        vsnprintf( szBuffer.data(), szBuffer.size(), pMsg, argList);
+        szBuffer[ szBuffer.size() - 1 ] = 0;
         va_end( argList );
     }
 
     InetAddress oIpAddr = IpAddr;
     if( poContactIdent )
     {
-        oIpAddr = poContactIdent->getOnlineIpAddress();
+        oIpAddr = poContactIdent->getOnlineIpAddress( false );
     }
 
 	std::string strIp = oIpAddr.toStdString();
-    LogModule( eLogHackers, LOG_SEVERE, "%s %s: ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ), strIp.c_str(), szBuffer );
+    LogModule( eLogHackers, LOG_SEVERE, "%s %s: ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ), strIp.c_str(), szBuffer.data() );
     if( hackerLevel >= eHackerLevelMedium )
     {
         VxGUID emptyGuid;
@@ -90,18 +91,18 @@ void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,
                                 std::shared_ptr<VxSktBase>&      sktBase,
                                 const char*	    pMsg, ... )				// message about the offense
 {
-    char szBuffer[4096];
-    szBuffer[0] = 0;
+	std::array< char, 4096 > szBuffer;
+    szBuffer.data()[0] = 0;
     if( pMsg )
     {
         va_list argList;
         va_start( argList, pMsg );
-        vsnprintf( szBuffer, sizeof( szBuffer ), pMsg, argList );
-        szBuffer[sizeof( szBuffer ) - 1] = 0;
+        vsnprintf( szBuffer.data(), szBuffer.size(), pMsg, argList);
+        szBuffer[ szBuffer.size() - 1 ] = 0;
         va_end( argList );
     }
 
-    LogModule( eLogHackers, LOG_SEVERE, "%s %s: %s", DescribeHackerLevel( hackerLevel ),  DescribeHackerReason( hackerReason ), szBuffer );
+    LogModule( eLogHackers, LOG_SEVERE, "%s %s: %s", DescribeHackerLevel( hackerLevel ),  DescribeHackerReason( hackerReason ), szBuffer.data() );
 
     if( hackerLevel >= eHackerLevelMedium )
     {

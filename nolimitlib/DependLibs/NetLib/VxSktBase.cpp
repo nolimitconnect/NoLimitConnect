@@ -273,7 +273,7 @@ RCODE VxSktBase::joinMulticastGroup( InetAddress& oLclAddress, const char* mulit
 
 	struct ip_mreq mreq = {};
 	mreq.imr_multiaddr.s_addr = inet_addr( muliticastGroupIp );
-	mreq.imr_interface.s_addr = htonl( INADDR_ANY );
+	mreq.imr_interface.s_addr = INADDR_ANY;
 	if( setsockopt( m_Socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, ( char* )&mreq, sizeof( mreq ) ) < 0 )
 	{
 		m_rcLastSktError = VxGetLastError();
@@ -1164,7 +1164,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 							struct sockaddr_in addr;
 							memset( &addr, 0, sizeof( addr ) );
 							addr.sin_family = AF_INET;
-							addr.sin_addr.s_addr = htonl( INADDR_ANY ); // differs from sender
+							addr.sin_addr.s_addr = INADDR_ANY; // differs from sender
 							addr.sin_port = htons( sktBase->getMulticastPort() );
 
 							iSktAddrLen = sizeof( addr );

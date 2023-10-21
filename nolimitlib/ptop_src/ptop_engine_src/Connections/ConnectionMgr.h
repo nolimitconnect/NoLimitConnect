@@ -49,9 +49,9 @@ public:
     void                        setDefaultHostOnlineId( enum EHostType hostType, VxGUID& hostOnlineId );
     bool                        getDefaultHostOnlineId( enum EHostType hostType, VxGUID& retHostOnlineId );
 
-    EHostAnnounceStatus         lookupOrQueryAnnounceId( enum EHostType hostType, VxGUID& sessionId, std::string hostUrl, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
-    EHostJoinStatus             lookupOrQueryJoinId( VxGUID& sessionId, std::string hostUrl, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
-    EHostSearchStatus           lookupOrQuerySearchId( VxGUID& sessionId, std::string hostUrl, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
+    EHostAnnounceStatus         lookupOrQueryAnnounceId( enum EHostType hostType, VxGUID& sessionId, std::string hostUrlIpv4, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
+    EHostJoinStatus             lookupOrQueryJoinId( VxGUID& sessionId, std::string hostUrlIpv4, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
+    EHostSearchStatus           lookupOrQuerySearchId( VxGUID& sessionId, std::string hostUrlIpv4, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
 
     EConnectStatus              requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, 
                                                    enum EConnectReason connectReason = eConnectReasonUnknown );
@@ -93,13 +93,14 @@ protected:
     EConnectStatus              attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason );
 
     //=== connection low level ===/
-    EConnectStatus              directConnectTo(    std::string                 url,
-                                                    VxGUID&                     onlineId,
-                                                    IConnectRequestCallback*    callback,
-                                                    std::shared_ptr<VxSktBase>& retSktBase,
-                                                    VxGUID                      sessionId,
-                                                    enum EConnectReason         connectReason,
-                                                    int					        iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT );  // how long to attempt connect
+    EConnectStatus              directConnectTo( std::string                 url,
+                                                 VxGUID&                     onlineId,
+                                                 IConnectRequestCallback*    callback,
+                                                 std::shared_ptr<VxSktBase>& retSktBase,
+                                                 VxGUID                      sessionId,
+                                                 enum EConnectReason         connectReason,
+                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT,
+                                                 bool                        ipv6 = false );  
 
     EConnectStatus				directConnectTo(	VxConnectInfo&			    connectInfo,		 
                                                     std::shared_ptr<VxSktBase>& ppoRetSkt,		
@@ -108,7 +109,8 @@ protected:
                                                     bool					    useLanIp = false,
                                                     bool					    useUdpIp = false,
                                                     IConnectRequestCallback*    callback = nullptr,                                                
-                                                    enum EConnectReason         connectReason = eConnectReasonUnknown );
+                                                    enum EConnectReason         connectReason = eConnectReasonUnknown,
+                                                    bool                        ipv6 = false );
 
     EConnectStatus              directConnectTo(    std::string                 ipAddr,
                                                     uint16_t                    port,
@@ -117,7 +119,8 @@ protected:
                                                     IConnectRequestCallback*    callback,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
-                                                    int					        iConnectTimeoutMs );
+                                                    int					        iConnectTimeoutMs,
+                                                    bool                        ipv6 = false );
 
     void                        addConnectRequestToQue( VxConnectInfo& connectInfo, enum EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting );
     void                        addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting );

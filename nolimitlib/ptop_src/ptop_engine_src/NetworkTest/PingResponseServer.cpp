@@ -17,6 +17,7 @@
 #include "IsPortOpenTest.h"
 
 #include <NetLib/VxSktBase.h>
+#include <CoreLib/VxParse.h>
 
 namespace
 {
@@ -38,11 +39,6 @@ PingResponseServer::PingResponseServer( IsPortOpenTest& isPortOpenTest )
 }
 
 //============================================================================
-PingResponseServer::~PingResponseServer()
-{
-}
-
-//============================================================================
 void PingResponseServer::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	switch( sktBase->getCallbackReason() )
@@ -60,4 +56,26 @@ void PingResponseServer::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBa
 	default:
 		break;
 	}
+}
+
+//============================================================================
+RCODE PingResponseServer::startListeningThreads( void )
+{
+#if 0 // TODO BRJ is this even needed? was used to test ports other than the listen port
+    std::string ipv4ThreadName;
+    StdStringFormat( ipv4ThreadName, "PingResponse%dIPv4", m_iMgrId );
+    RCODE rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)PingResponseCallbackHandler, this, ipv4ThreadName.c_str() );
+#if ENABLE_IPV6
+    if( 0 == rc )
+    {
+        std::string ipv6ThreadName;
+        StdStringFormat( ipv4ThreadName, "PingResponse%dIPv6", m_iMgrId );
+        rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)PingResponseCallbackHandler, this, ipv4ThreadName.c_str() );
+    }
+#endif // ENABLE_IPV6
+    return rc;
+
+#else
+	return 0;
+#endif // 0 
 }

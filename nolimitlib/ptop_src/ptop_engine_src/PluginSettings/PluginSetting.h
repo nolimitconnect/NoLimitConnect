@@ -128,8 +128,9 @@ public:
     //! set to default values for case use has not set anything but has enabled the plugin
     bool                        setDefaultValues( P2PEngine& engine, EPluginType pluginType );
 
-    void                        setPluginUrl( std::string url )                     { m_PluginUrl = url.empty() ? "" : url; }
-    std::string&                getPluginUrl( void )                                { return m_PluginUrl; }
+    void                        setPluginUrl( bool ipv6, std::string url )          { ipv6 ? (m_PluginUrlIpv6 = url.empty() ? "" : url) :  (m_PluginUrlIpv4 = url.empty() ? "" : url); }
+    std::string&                getPluginUrl( bool ipv6 )                           { return ipv6 ? m_PluginUrlIpv6 : m_PluginUrlIpv4; }
+
     void                        setTitle( std::string title )                       { m_PluginTitle = title.empty() ? "" : title; }
     std::string&                getTitle( void )                                    { return m_PluginTitle; }
     void                        setDescription( std::string desc )                  { m_PluginDesc = desc.empty() ? "" : desc; }
@@ -140,8 +141,7 @@ public:
     std::string&                getRejectMsg( void )                                { return m_RejectMsg; }
     void                        setKeyWords( std::string keys )                     { m_KeyWords = keys.empty() ? "" : keys; }
     std::string&                getKeyWords( void )                                 { return m_KeyWords; }
-    void                        setSecondaryUrl( std::string  url )                 { m_SecondaryUrl = url.empty() ? "" : url; }
-    std::string&                getSecondaryUrl( void )                             { return m_SecondaryUrl; }
+
     void                        setRes1( std::string res )                          { m_Res1 = res.empty() ? "" : res; }
     std::string&                getRes1( void )                                     { return m_Res1; }
 
@@ -158,12 +158,12 @@ public:
 protected:
 
     //=== vars ===//
-    std::string                 m_PluginUrl;
+    std::string                 m_PluginUrlIpv6;
+    std::string                 m_PluginUrlIpv4;
     std::string                 m_PluginTitle;
     std::string                 m_PluginDesc;
     std::string                 m_GreetingMsg;
     std::string                 m_RejectMsg;
     std::string                 m_KeyWords;
-    std::string                 m_SecondaryUrl;
     std::string                 m_Res1;
 };

@@ -35,7 +35,7 @@ public:
     bool                        updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, bool isFavorite );
     bool                        updateLastConnected( enum EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime );
     bool                        updateLastJoined( enum EHostType hostType, VxGUID& onlineId, int64_t lastJoinedTime );
-    bool						updateHostUrl(enum  EHostType hostType, VxGUID& onlineId, std::string& hostUrl );
+    bool						updateHostUrl( bool ipv6, enum  EHostType hostType, VxGUID& onlineId, std::string& hostUrl );
     bool                        updateHostTitleAndDescription( enum EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxGUID& thumbId );
 
 

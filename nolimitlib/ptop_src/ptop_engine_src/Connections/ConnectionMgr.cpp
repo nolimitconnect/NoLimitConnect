@@ -123,16 +123,17 @@ bool ConnectionMgr::getDefaultHostOnlineId( EHostType hostType, VxGUID& retHostO
 }
 
 //============================================================================
-EHostAnnounceStatus ConnectionMgr::lookupOrQueryAnnounceId( EHostType hostType, VxGUID& sessionId, std::string hostUrl, 
+EHostAnnounceStatus ConnectionMgr::lookupOrQueryAnnounceId( EHostType hostType, VxGUID& sessionId, std::string hostUrlIpv4, 
     VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason )
 {
     EHostAnnounceStatus hostStatus = eHostAnnounceUnknown;
-    if( urlCacheOnlineIdLookup( hostUrl, hostGuid ) )
+    if( urlCacheOnlineIdLookup( hostUrlIpv4, hostGuid ) )
     {
         hostStatus = eHostAnnounceQueryIdSuccess;
         if( hostType != eHostTypeUnknown )
         {
-            m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostGuid, hostUrl );
+            std::string emptyUrl;
+            m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostGuid, hostUrlIpv4, emptyUrl );
         }
     }
     else if( getQueryIdFailedCount( hostType ) > 2 )
@@ -143,8 +144,8 @@ EHostAnnounceStatus ConnectionMgr::lookupOrQueryAnnounceId( EHostType hostType, 
     else
     {
         hostStatus = eHostAnnounceQueryIdInProgress;
-        std::string myUrl = m_Engine.getMyOnlineUrl();
-        m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, hostUrl.c_str(), myUrl.c_str(), this, callback, hostType, connectReason );
+        std::string myUrl = m_Engine.getMyOnlineUrl( false );
+        m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, hostUrlIpv4.c_str(), myUrl.c_str(), this, callback, hostType, connectReason );
     }
 
     return hostStatus;
@@ -161,9 +162,9 @@ EHostJoinStatus ConnectionMgr::lookupOrQueryJoinId( VxGUID& sessionId, std::stri
     else
     {
         joinStatus = eHostJoinQueryIdInProgress;
-        std::string myUrl = m_Engine.getMyOnlineUrl();
+        std::string myUrl = m_Engine.getMyOnlineUrl( false );
         m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, 
-            m_Engine.getUrlMgr().resolveUrl(hostUrl).c_str(), myUrl.c_str(), this, callback, eHostTypeUnknown, connectReason );
+            m_Engine.getUrlMgr().resolveUrl(false, hostUrl).c_str(), myUrl.c_str(), this, callback, eHostTypeUnknown, connectReason );
     }
 
     return joinStatus;
@@ -180,7 +181,7 @@ EHostSearchStatus ConnectionMgr::lookupOrQuerySearchId( VxGUID& sessionId, std::
     else
     {
         joinStatus = eHostSearchQueryIdInProgress;
-        std::string myUrl = m_Engine.getMyOnlineUrl();
+        std::string myUrl = m_Engine.getMyOnlineUrl(false);
         m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, hostUrl.c_str(), myUrl.c_str(), this, callback, eHostTypeUnknown, connectReason );
     }
 
@@ -314,22 +315,24 @@ void ConnectionMgr::resetDefaultHostUrl( EHostType hostType )
 //============================================================================
 void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUrlIn )
 {
+    std::string emptyUrl;
+
     if( m_Engine.getIsMyHostServiceEnabled( hostType ) )
     {
         // I am the host
-        std::string myUrl = m_Engine.getMyOnlineUrl();
+        std::string myUrlIpv4 = m_Engine.getMyOnlineUrl( false );
         lockConnectionList();
-        m_DefaultHostUrlList[ hostType ] = myUrl;
+        m_DefaultHostUrlList[ hostType ] = myUrlIpv4;
         m_DefaultHostIdList[ hostType ] = m_Engine.getMyOnlineId();
         unlockConnectionList();
 
-        updateUrlCache( myUrl, m_Engine.getMyOnlineId() );
-        m_Engine.getUrlMgr().updateUrlCache( myUrl, m_Engine.getMyOnlineId() );
-        m_Engine.getHostUrlListMgr().updateHostUrl( hostType, m_Engine.getMyOnlineId(), myUrl );
+        updateUrlCache( myUrlIpv4, m_Engine.getMyOnlineId() );
+        m_Engine.getUrlMgr().updateUrlCache( false, myUrlIpv4, m_Engine.getMyOnlineId() );
+        m_Engine.getHostUrlListMgr().updateHostUrl( hostType, m_Engine.getMyOnlineId(), myUrlIpv4, emptyUrl );
         return;
     }
 
-    std::string hostUrl = m_Engine.getUrlMgr().resolveUrl( hostUrlIn );
+    std::string hostUrl = m_Engine.getUrlMgr().resolveUrl( false, hostUrlIn );
 
     lockConnectionList();
     m_DefaultHostUrlList[hostType] = hostUrl;
@@ -348,11 +351,11 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
             m_DefaultHostIdList[hostType] = onlineId;  
             unlockConnectionList();
             updateUrlCache( hostUrl, onlineId );   
-            m_Engine.getUrlMgr().updateUrlCache( hostUrl, onlineId );
+            m_Engine.getUrlMgr().updateUrlCache( false, hostUrl, onlineId );
             if( hostType != eHostTypeUnknown )
             {
-                std::string resolvedUrl = m_Engine.getUrlMgr().resolveUrl( hostUrl );
-                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, onlineId, resolvedUrl );
+                std::string resolvedUrl = m_Engine.getUrlMgr().resolveUrl( false, hostUrl );
+                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, onlineId, resolvedUrl, emptyUrl );
             }
         }
 
@@ -362,7 +365,7 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
             m_DefaultHostRequiresOnlineId[hostType] = hostUrl;
             unlockConnectionList();
 
-            std::string myUrl = m_Engine.getMyOnlineUrl();
+            std::string myUrl = m_Engine.getMyOnlineUrl( false );
             static VxGUID sessionId;
             VxGUID::generateNewVxGUID( sessionId );
             m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, hostUrl.c_str(), myUrl.c_str(), this, nullptr, hostType );
@@ -373,6 +376,8 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
 //============================================================================
 void ConnectionMgr::callbackQueryIdSuccess( UrlActionInfo& actionInfo, VxGUID onlineId )
 {
+    std::string emptyUrl;
+
     if( eHostTypeUnknown != actionInfo.getHostType() )
     {
         lockConnectionList();
@@ -385,8 +390,8 @@ void ConnectionMgr::callbackQueryIdSuccess( UrlActionInfo& actionInfo, VxGUID on
     updateUrlCache( hostUrl, onlineId );
     if( actionInfo.getHostType() != eHostTypeUnknown )
     {
-        std::string resolvedUrl = m_Engine.getUrlMgr().resolveUrl( hostUrl );
-        m_Engine.getHostUrlListMgr().updateHostUrl( actionInfo.getHostType(), onlineId, resolvedUrl );
+        std::string resolvedUrl = m_Engine.getUrlMgr().resolveUrl( false, hostUrl );
+        m_Engine.getHostUrlListMgr().updateHostUrl( actionInfo.getHostType(), onlineId, resolvedUrl, emptyUrl );
     }
 
     if( actionInfo.getConnectReqInterface() )
@@ -631,7 +636,7 @@ void ConnectionMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
     {
         // there should be only one online id per ip and port however the ip may change
         // only keep the latest url
-        m_Engine.getUrlMgr().updateUrlCache( hostUrl, onlineId );
+        m_Engine.getUrlMgr().updateUrlCache( false, hostUrl, onlineId );
         lockConnectionList();
         for( auto iter = m_UrlCache.begin(); iter != m_UrlCache.end(); ++iter )
         {
@@ -698,17 +703,18 @@ bool ConnectionMgr::urlCacheOnlineIdLookup( std::string& hostUrl, VxGUID& online
 EConnectStatus ConnectionMgr::directConnectTo(  std::string                 url,
                                                 VxGUID&                     onlineId,
                                                 IConnectRequestCallback*    callback,
-                                                std::shared_ptr<VxSktBase>&                 retSktBase,
+                                                std::shared_ptr<VxSktBase>& retSktBase,
                                                 VxGUID                      sessionId,
                                                 EConnectReason              connectReason,
-                                                int					        iConnectTimeoutMs )
+                                                int					        iConnectTimeoutMs,
+                                                bool                        ipv6 )
 {
     VxUrl connectUrl( url.c_str() );
     std::string ipAddr = connectUrl.getHostString();
     uint16_t port = connectUrl.getPort();
     if( !ipAddr.empty() && port )
     {
-        return directConnectTo( ipAddr, port, onlineId, retSktBase, callback, sessionId, connectReason, iConnectTimeoutMs );
+        return directConnectTo( ipAddr, port, onlineId, retSktBase, callback, sessionId, connectReason, iConnectTimeoutMs, ipv6 );
     }
     else
     {
@@ -718,13 +724,14 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 url,
 
 //============================================================================-
 EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectInfo,
-                                                std::shared_ptr<VxSktBase>&		        ppoRetSkt,		// return pointer to socket if not null
+                                                std::shared_ptr<VxSktBase>& ppoRetSkt,		// return pointer to socket if not null
                                                 VxGUID                      sessionId, 
                                                 int					        iConnectTimeoutMs,// how long to attempt connect
                                                 bool				        bUseUdpIp,
                                                 bool				        bUseLanIp,
                                                 IConnectRequestCallback*    callback,
-                                                EConnectReason              connectReason)
+                                                EConnectReason              connectReason,
+                                                bool                        ipv6 )
 {
     ppoRetSkt = nullptr;
 
@@ -737,7 +744,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectI
     }
     else
     {
-        connectInfo.m_DirectConnectId.getIpAddress( ipAddr );
+        connectInfo.m_DirectConnectId.getIpAddress( ipv6, ipAddr );
     }
 
     return directConnectTo( ipAddr, connectInfo.getOnlinePort(), connectInfo.getMyOnlineId(), ppoRetSkt, callback, sessionId, connectReason, iConnectTimeoutMs );
@@ -751,14 +758,15 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
                                                 IConnectRequestCallback*    callback,
                                                 VxGUID                      sessionId, 
                                                 EConnectReason              connectReason,
-                                                int					        iConnectTimeoutMs )
+                                                int					        iConnectTimeoutMs,
+                                                bool                        ipv6 )
 {
     EConnectStatus connectStatus = eConnectStatusConnecting;
 
     lockConnectionList();
     std::shared_ptr<VxSktBase> sktBase = m_PeerMgr.connectTo(	ipAddr.c_str(),			// remote ip or url 
-                                                    port,	                // port to connect to
-                                                    iConnectTimeoutMs );	// milli seconds before connect attempt times out
+                                                                port,	                // port to connect to
+                                                                iConnectTimeoutMs );	// milli seconds before connect attempt times out
     if( sktBase )
     {
         if( sktBase->getConnectReason() == eConnectReasonUnknown )
@@ -974,7 +982,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
         return tryIPv6Connect( connectInfo, ppoRetSkt );
     }
 
-    connectInfo.m_DirectConnectId.getIpAddress( strDirectConnectIp );
+    connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
 
     //LogMsg( LOG_INFO, "User %s requires proxy? %d",  connectInfo.m_as8OnlineName, requiresRelay );
     if( false == requiresRelay )

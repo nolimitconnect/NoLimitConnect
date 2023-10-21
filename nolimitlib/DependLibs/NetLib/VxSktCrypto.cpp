@@ -39,76 +39,76 @@ unsigned char * GetVxSktRandData( int iRandDataIdx )
 
 //============================================================================
 //! generate key from net identity and connection data and place int sockets m_RxKey and initialize its crypto
-RCODE GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&				sktBase,			
-								VxConnectId *			poConnectId,		
-								const char*			networkName )
+bool GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&		sktBase,			
+								VxConnectId *					poConnectId,		
+								const char*						networkName )
 								
 {
-	RCODE rc = 0;
+	bool result{ false };
 	sktBase->lockCryptoAccess();
 	if( false == sktBase->m_RxKey.isKeySet() )
 	{
-		rc = GenerateConnectionKey(	&sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName );
-		if( 0 == rc )
+		result = GenerateConnectionKey( sktBase->getIsIpv6Connection(), &sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName);
+		if( result )
 		{
             // LogMsg( LOG_VERBOSE, "GenerateRxConnectionKey %s skt %d id %d", sktBase->m_RxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );
 			sktBase->m_RxCrypto.importKey( &sktBase->m_RxKey );
 		}
 
-		vx_assert( 0 == rc );
+		vx_assert( result );
 	}
 
 	sktBase->unlockCryptoAccess();
-	return rc;
+	return result;
 }
 
 //============================================================================
 //! generate key from net identity and connection data and place int sockets m_TxKey and initialize its crypto
-RCODE GenerateTxConnectionKey(	std::shared_ptr<VxSktBase>&			sktBase,			
-								VxConnectId *		poConnectId,		
-								const char*		networkName )
+bool GenerateTxConnectionKey(	std::shared_ptr<VxSktBase>&		sktBase,			
+								VxConnectId *					poConnectId,		
+								const char*						networkName )
 {
-	RCODE rc = 0;
+	bool result{ false };
 	sktBase->lockCryptoAccess();
 	if( false == sktBase->m_TxKey.isKeySet() )
 	{
-		rc = GenerateConnectionKey(	&sktBase->m_TxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName );
-		if( 0 == rc )
+		result = GenerateConnectionKey(	sktBase->getIsIpv6Connection(), &sktBase->m_TxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName );
+		if( result )
 		{
             // LogMsg( LOG_VERBOSE, "GenerateTxConnectionKey %s skt %d id %d", sktBase->m_TxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );
 			sktBase->m_TxCrypto.importKey( &sktBase->m_TxKey );
 		}
 		
-		vx_assert( 0 == rc );
+		vx_assert( result );
 	}
 
 	sktBase->unlockCryptoAccess();
-	return rc;
+	return result;
 }
 
 //============================================================================
 //! generate key from net identity and connection data and place int sockets m_RxKey and initialize its crypto
-RCODE GenerateTxConnectionKey(  std::shared_ptr<VxSktBase>&				sktBase,
-                                std::string             ipAddr,
-                                uint16_t                port, 
-                                VxGUID                  onlineId,
-                                std::string		        networkName )
+bool GenerateTxConnectionKey(  std::shared_ptr<VxSktBase>&	sktBase,
+                                std::string					ipAddr,
+                                uint16_t					port, 
+                                VxGUID						onlineId,
+                                std::string					networkName )
 {
-    RCODE rc = 0;
+	bool result{ false };
     sktBase->lockCryptoAccess();
     std::string strNetworkName = networkName;
     if( false == sktBase->m_TxKey.isKeySet() )
     {
-        rc = GenerateConnectionKey(	&sktBase->m_TxKey, ipAddr, port, onlineId, sktBase->getCryptoKeyPort(), strNetworkName );
-        if( 0 == rc )
+        result = GenerateConnectionKey(	sktBase->getIsIpv6Connection(), &sktBase->m_TxKey, ipAddr, port, onlineId, sktBase->getCryptoKeyPort(), strNetworkName );
+        if (result )
         {
             // LogMsg( LOG_VERBOSE, "GenerateTxConnectionKey %s skt %d id %d", sktBase->m_TxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );
             sktBase->m_TxCrypto.importKey( &sktBase->m_TxKey );
         }
-
-        vx_assert( 0 == rc );
+		 
+        vx_assert( result );
     }
 
     sktBase->unlockCryptoAccess();
-    return rc;
+    return result;
 }

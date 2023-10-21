@@ -66,8 +66,8 @@ public:
     virtual void			    setHostInfoTimestamp( int64_t timestampMs ) { m_HostInfoTimestampMs = timestampMs; }
     virtual int64_t             getHostInfoTimestamp( void )    { return m_HostInfoTimestampMs; }
 
-    virtual void			    setHostInviteUrl( std::string hostUrl ) { m_HostInviteUrl = hostUrl; }
-    virtual std::string&        getHostInviteUrl( void )        { return m_HostInviteUrl; }
+    virtual void			    setHostInviteUrl( bool ipv6, std::string hostUrl )  { ipv6 ? m_HostInviteUrlIpv6 = hostUrl : m_HostInviteUrlIpv4 = hostUrl; }
+    virtual std::string&        getHostInviteUrl( bool ipv6 )                       { return ipv6 ? m_HostInviteUrlIpv6 : m_HostInviteUrlIpv4; }
 
     virtual void                setHostTitle( std::string hostTitle ) { m_HostTitle = hostTitle; }
     virtual std::string&        getHostTitle( void )            { return m_HostTitle; }
@@ -94,8 +94,9 @@ protected:
     int64_t                     m_ConnectedTimestampMs{ 0 };
     int64_t                     m_JoinedTimestampMs{ 0 };
     int64_t                     m_HostInfoTimestampMs{ 0 };
-    std::string                 m_HostInviteUrl{ "" };
-    std::string                 m_HostTitle{ "" };
-    std::string                 m_HostDesc{ "" };
+    std::string                 m_HostInviteUrlIpv4;
+    std::string                 m_HostInviteUrlIpv6;
+    std::string                 m_HostTitle;
+    std::string                 m_HostDesc;
     VxGUID                      m_ThumbId;
 };

@@ -63,14 +63,16 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
+	bool ipv6 = sktBase->getIsIpv6Connection();
 	PktAnnounce* pkt = (PktAnnounce *)pktHdr;
 	VxGUID contactOnlineId = pkt->getMyOnlineId();
 	if( contactOnlineId == getMyOnlineId() )
 	{
 		// it is ourself
         LogMsg( LOG_ERROR, "onPktAnnounce Cannot send a packet to ourself  " );
+
         std::string rmAddr = sktBase->getRemoteIpAddress() ? sktBase->getRemoteIpAddress() : "";
-        std::string ourAddr = getNetStatusAccum().getExternalIpAddress();
+        std::string ourAddr = getNetStatusAccum().getExternalIpAddress( ipv6 );
         if( rmAddr.empty() || sktBase->getRemoteIpAddress() != ourAddr )
         {
             // remote attack.. serious

@@ -39,21 +39,23 @@ void VxSetHackReportCallback( IHackReportCallbackInterface* hackReportCallback )
 
 //============================================================================
 //! generate connection key from network identity
-RCODE GenerateConnectionKey( VxKey *				poRetKey,		// set this key
+bool GenerateConnectionKey(  bool					ipv6,	
+							 VxKey *				poRetKey,		// set this key
                              VxConnectId *			poConnectId,	// network identity
                              uint16_t				cryptoPort,
                              const char*			networkName )
 {
     std::string strNetName = networkName;
-    std::string strIPv4;
-    poConnectId->getIPv4( strIPv4 );
+    std::string strIP;
+    poConnectId->getIpAddress( ipv6, strIP );
     uint16_t u16Port = poConnectId->getPort();
 
-    return GenerateConnectionKey( poRetKey, strIPv4, u16Port, poConnectId->getOnlineId(), cryptoPort, strNetName );
+    return GenerateConnectionKey( ipv6, poRetKey, strIP, u16Port, poConnectId->getOnlineId(), cryptoPort, strNetName );
 }
 
 //============================================================================
-RCODE GenerateConnectionKey( VxKey *					poRetKey,		// set this key
+bool GenerateConnectionKey(  bool						ipv6,	
+							 VxKey *					poRetKey,		// set this key
                              std::string&               ipAddr,
                              uint16_t                   port,
                              VxGUID&                    onlineId,
@@ -64,7 +66,7 @@ RCODE GenerateConnectionKey( VxKey *					poRetKey,		// set this key
     //vx_assert( u64IdLowPart );
     uint64_t u64IdHiPart = onlineId.getVxGUIDHiPart();
     //vx_assert( u64IdHiPart );
-    std::string strIPv4 = ipAddr;
+    std::string strIP = ipAddr;
     vx_assert( port );
 
     std::string strPwd;
@@ -73,13 +75,13 @@ RCODE GenerateConnectionKey( VxKey *					poRetKey,		// set this key
         u64IdLowPart,
         u64IdHiPart,
         networkName.c_str(),
-        strIPv4.c_str(),
+        strIP.c_str(),
         cryptoPort
     );
 
     // LogModule( eLogTcpData, LOG_VERBOSE, "GenerateConnectionKey: setting Key %s for %s:%d %d", strPwd.c_str(), strIPv4.c_str(), port, cryptoPort );
     poRetKey->setKeyFromPassword( strPwd.c_str(), (int)strPwd.size() );
-    return 0;
+    return !strIP.empty() && cryptoPort;
 }
 
 //============================================================================
@@ -512,9 +514,9 @@ bool VxNetIdent::canJoinImmediate( EHostType hostType ) // request to join will 
 void VxNetIdent::debugDumpIdent( void )
 {
 	std::string strIPv4; 
-	m_DirectConnectId.getIPv4(strIPv4);
+	m_DirectConnectId.getIpAddress( false, strIPv4 );
 	std::string strIPv6; 
-	m_DirectConnectId.getIPv6(strIPv6);
+	m_DirectConnectId.getIpAddress( true, strIPv6 );
 
 	LogMsg( LOG_INFO, "Ident %s id %s my friendship %s his friendship %s search 0x%x ipv4 %s ipv6 %s port %d proxy flags 0x%x ",
 		getOnlineName(),

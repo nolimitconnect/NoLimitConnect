@@ -80,12 +80,6 @@ void INlc::fromGuiAppStartup( const char* assetDir, const char* rootDataDir )
 }
 
 //============================================================================
-void INlc::fromGuiKickWatchdog( void )
-{
-    getPtoP().fromGuiKickWatchdog();
-}
-
-//============================================================================
 void INlc::fromGuiSetUserXferDir( const char* userDir )
 {
     //LogMsg( LOG_DEBUG, "INlc::fromGuiSetUserXferDir %s\n", userDir );
@@ -321,27 +315,27 @@ void INlc::fromGuiRunIsPortOpenTest( uint16_t port )
 }
 
 //============================================================================
-void INlc::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void INlc::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    getPtoP().fromGuiAnnounceHost( hostType, sessionId, hostUrl );
+    getPtoP().fromGuiAnnounceHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void INlc::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    getPtoP().fromGuiJoinHost( hostType, sessionId, hostUrl );
+    getPtoP().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void INlc::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    getPtoP().fromGuiLeaveHost( hostType, sessionId, hostUrl );
+    getPtoP().fromGuiLeaveHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void INlc::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    getPtoP().fromGuiUnJoinHost( hostType, sessionId, hostUrl );
+    getPtoP().fromGuiUnJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================

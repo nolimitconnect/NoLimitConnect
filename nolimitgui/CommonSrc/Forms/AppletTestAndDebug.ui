@@ -66,7 +66,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="leftMargin">
        <number>5</number>
@@ -80,19 +80,6 @@
       <property name="bottomMargin">
        <number>5</number>
       </property>
-      <item>
-       <widget class="QPushButton" name="gotoWebsiteButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>visit https://nolimitconnect.com</string>
-        </property>
-       </widget>
-      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -121,21 +108,46 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="m_MyUrlLabel">
+         <widget class="QLabel" name="m_MyUrlLabelIpv4">
           <property name="text">
-           <string>My URL:</string>
+           <string>My URL IPv4:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="m_MyUrlEdit">
+         <widget class="QLineEdit" name="m_MyUrlEditIpv4">
           <property name="enabled">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_CopyMyUrlButton">
+         <widget class="QPushButton" name="m_CopyMyUrlButtonIpv4">
+          <property name="text">
+           <string>Copy To Clipboard</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_34">
+        <item>
+         <widget class="QLabel" name="m_MyUrlLabelIpv6">
+          <property name="text">
+           <string>My URL IPv6:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="m_MyUrlEditIpv6">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_CopyMyUrlButtonIpv6">
           <property name="text">
            <string>Copy To Clipboard</string>
           </property>

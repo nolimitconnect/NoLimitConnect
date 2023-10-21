@@ -186,7 +186,7 @@ RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime,
 	}
 
 	std::string strHexOnlineId = onlineId.toHexString();
-    sprintf(SQL_Statement, "UPDATE BigList SET ConnectTime=" PRId64 " WHERE online_id = '%s'", lastSessionTime, strHexOnlineId.c_str() );
+    sprintf(SQL_Statement, "UPDATE BigList SET ConnectTime=%lld WHERE online_id = '%s'", lastSessionTime, strHexOnlineId.c_str() );
 	retval = sqlite3_prepare( m_Db, SQL_Statement, (int)strlen(SQL_Statement), &pStatement, NULL );
 	if( !( SQLITE_OK == retval ) )
 	{

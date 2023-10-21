@@ -35,10 +35,9 @@ PluginBaseHostClient::PluginBaseHostClient( P2PEngine& engine, PluginMgr& plugin
 }
 
 //============================================================================
-void PluginBaseHostClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginBaseHostClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : m_ConnectionMgr.getDefaultHostUrl( hostType );
-    if( !url.empty() )
+    if( !ptopUrlIpv4.empty() || !ptopUrlIpv6.empty() )
     {
         //VxGUID hostGuid;
         //EHostJoinStatus joinStatus = m_ConnectionMgr.lookupOrQueryId( hostType, url.c_str(), hostGuid, this);
@@ -50,10 +49,9 @@ void PluginBaseHostClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sess
 }
 
 //============================================================================
-void PluginBaseHostClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginBaseHostClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : m_ConnectionMgr.getDefaultHostUrl( hostType );
-    if( !url.empty() )
+    if(  !ptopUrlIpv4.empty() || !ptopUrlIpv6.empty()  )
     {
         //VxGUID hostGuid;
         //EHostJoinStatus joinStatus = m_ConnectionMgr.lookupOrQueryId( hostType, url.c_str(), hostGuid, this);
@@ -65,22 +63,20 @@ void PluginBaseHostClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionI
 }
 
 //============================================================================
-void PluginBaseHostClient::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginBaseHostClient::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : m_ConnectionMgr.getDefaultHostUrl( hostType );
-    if( !url.empty() )
+    if(  !ptopUrlIpv4.empty() || !ptopUrlIpv6.empty()  )
     {
-        sendLeaveHost( hostType, sessionId, url );
+        sendLeaveHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
     }
 }
 
 //============================================================================
-void PluginBaseHostClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginBaseHostClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId,std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : m_ConnectionMgr.getDefaultHostUrl( hostType );
-    if( !url.empty() )
+    if( ptopUrlIpv4.empty() || !ptopUrlIpv6.empty()  )
     {
-        sendUnJoinHost( hostType, sessionId, url );
+        sendUnJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
     }
     else
     {
@@ -162,12 +158,12 @@ void PluginBaseHostClient::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sk
 }
 
 //============================================================================
-void PluginBaseHostClient::sendLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void PluginBaseHostClient::sendLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    VxPtopUrl ptopUrl( hostUrl );
-    if( ptopUrl.isValid() )
+    VxGUID hostOnlineId = m_Engine.getOnlineIdFromUrl( ptopUrlIpv4, ptopUrlIpv6 );
+    if( hostOnlineId.isVxGUIDValid() )
     {
-        GroupieId groupieId( m_Engine.getMyOnlineId(), ptopUrl.getOnlineId(), hostType );
+        GroupieId groupieId( m_Engine.getMyOnlineId(), hostOnlineId, hostType );
         sendLeaveHost( groupieId );
     }
 }
@@ -203,12 +199,12 @@ bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
 }
 
 //============================================================================
-void PluginBaseHostClient::sendUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl )
+void PluginBaseHostClient::sendUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    VxPtopUrl ptopUrl( hostUrl );
-    if( ptopUrl.isValid() )
+    VxGUID hostOnlineId = m_Engine.getOnlineIdFromUrl( ptopUrlIpv4, ptopUrlIpv6 );
+    if( hostOnlineId.isVxGUIDValid() )
     {
-        GroupieId groupieId( m_Engine.getMyOnlineId(), ptopUrl.getOnlineId(), hostType );
+        GroupieId groupieId( m_Engine.getMyOnlineId(), hostOnlineId, hostType );
         sendUnJoinHost( groupieId );
     }
 }

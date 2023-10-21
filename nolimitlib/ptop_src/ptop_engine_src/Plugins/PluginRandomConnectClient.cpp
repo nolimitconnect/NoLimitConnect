@@ -29,31 +29,27 @@ PluginRandomConnectClient::PluginRandomConnectClient( P2PEngine& engine, PluginM
     setPluginType( ePluginTypeClientRandomConnect );
 }
 //============================================================================
-void PluginRandomConnectClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginRandomConnectClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiAnnounceHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiAnnounceHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginRandomConnectClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiJoinHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginRandomConnectClient::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiLeaveHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiLeaveHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginRandomConnectClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiUnJoinHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiUnJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================

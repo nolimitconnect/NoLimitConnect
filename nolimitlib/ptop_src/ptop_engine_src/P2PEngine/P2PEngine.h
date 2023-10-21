@@ -173,7 +173,7 @@ public:
     int64_t                     getPktAnnLastModTime( void )                    { return m_PktAnnLastModTime; }
 
     VxGUID&						getMyOnlineId( void )							{ return m_MyOnlineId; }
-    std::string					getMyOnlineUrl( EHostType hostType = eHostTypeUnknown )	{ m_AnnouncePktMutex.lock(); std::string myUrl( m_PktAnn.getMyOnlineUrl( hostType ) ); m_AnnouncePktMutex.unlock(); return myUrl; }
+    std::string					getMyOnlineUrl( bool ipv6, EHostType hostType = eHostTypeUnknown ) { m_AnnouncePktMutex.lock(); std::string myUrl( m_PktAnn.getMyOnlineUrl( ipv6, hostType ) ); m_AnnouncePktMutex.unlock(); return myUrl; }
     VxNetIdent*				    getMyNetIdent( void )						    { return &m_PktAnn; }
     bool						addMyIdentToBlob( PktBlobEntry& blobEntry );
 
@@ -208,7 +208,6 @@ public:
     virtual const char*		    fromGuiGetAppNameNoSpaces( void ) override;
     virtual void				fromGuiAppStartup( const char* assetDir, const char* rootDataDir  ) override;
 
-    virtual void				fromGuiKickWatchdog( void ) override;
     virtual void				fromGuiSetUserSpecificDir( const char* userSpecificDir  ) override;
     virtual void				fromGuiSetUserXferDir( const char* userXferDir  ) override;
     virtual uint64_t			fromGuiGetDiskFreeSpace( void  ) override;
@@ -266,10 +265,10 @@ public:
 
     virtual void				fromGuiNetworkSettingsChanged( void ) override;
 
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) override;
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) override;
-    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) override;
-    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrl ) override;
+    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
+    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
+    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
+    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
     virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId ) override;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
     virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) override;
@@ -339,7 +338,7 @@ public:
 
     virtual uint16_t			fromGuiGetRandomTcpPort( void ) override;
     /// Get url for this node
-    virtual void                fromGuiGetNodeUrl( std::string& nodeUrl ) override;
+    virtual void                fromGuiGetNodeUrl( bool ipv6, std::string& nodeUrl ) override;
     /// Get internet status
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) override;
     /// Get network status
@@ -710,6 +709,9 @@ public:
     void                        executeAfterLogOnThreadFunctions( void );
 
     void                        onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort );
+
+    /// extract online id from either url if url is valid
+    static VxGUID               getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
 
 protected:
     //========================================================================

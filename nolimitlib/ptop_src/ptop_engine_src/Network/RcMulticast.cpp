@@ -93,7 +93,7 @@ bool RcMulticast::multicastEnable( bool enable )
 			// RCODE rc = m_SktUdp.udpOpenMulticast( m_MulticastGroupIp, m_MulticastPort, true );
 
 			// get local ip and use 255 as last part for broadcast
-			std::string localIp = m_Engine.getNetStatusAccum().getLanIpAddr();
+			std::string localIp = m_Engine.getNetStatusAccum().getLanIpAddress( false );
 			std::string broadcastIp;
 			if( VxMakeBroadcastIp( localIp, broadcastIp ) )
 			{
@@ -192,7 +192,7 @@ void RcMulticast::attemptDecodePktAnnounce( std::shared_ptr<VxSktBase>& skt, uns
 //============================================================================
 void RcMulticast::onPktAnnUpdated( void )
 {
-	if( m_Engine.getNetStatusAccum().getNearbyAvailable() && !m_Engine.getNetStatusAccum().getLanIpAddr().empty() )
+	if( m_Engine.getNetStatusAccum().getNearbyAvailable() && !m_Engine.getNetStatusAccum().getLanIpAddress( false ).empty() )
 	{
 		if( m_NetworkNameKey.empty() )
 		{
@@ -212,7 +212,7 @@ void RcMulticast::onPktAnnUpdated( void )
 
 		// normally it is a bad idea to announce our lan ip but we do in multicast so can connect on local network
 		InetAddrIPv4 ipV4;
-		ipV4.setIp( m_Engine.getNetStatusAccum().getLanIpAddr().c_str() );
+		ipV4.setIp( m_Engine.getNetStatusAccum().getLanIpAddress( false ).c_str() );
 		m_PktAnnEncrypted.setLanIPv4( ipV4 );
 
 		if( !m_NetworkNameKey.empty() )

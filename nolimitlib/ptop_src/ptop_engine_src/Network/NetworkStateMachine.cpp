@@ -429,7 +429,7 @@ void NetworkStateMachine::fromGuiNetworkAvailable( const char* lclIp, bool isCel
 void NetworkStateMachine::fromGuiNetworkLost( void )
 {
     LogModule( eLogNetworkState, LOG_INFO, "NetworkStateMachine::fromGuiNetworkLost" );
-	m_Engine.getPeerMgr().stopListening();
+	m_Engine.getPeerMgr().stopListening( false );
 	m_LocalNetworkIp = "";
 	m_NetworkStateMutex.lock();
 	m_NetworkEventList.push_back( new NetworkEventLost( *this ) );
@@ -745,11 +745,11 @@ void NetworkStateMachine::onOncePerHour( void )
 }
 
 //============================================================================
-void NetworkStateMachine::externalIpAddressHasChanged( std::string& oldIpAddress, std::string& newIpAddress )
+void NetworkStateMachine::externalIpAddressHasChanged( bool ipv6, std::string& oldIpAddress, std::string& newIpAddress )
 {
-	m_Engine.getPeerMgr().restartListening();
+	m_Engine.getNetStatusAccum().setExternalIpAddress( ipv6, newIpAddress );
 	m_LocalNetworkIp = "";
 	m_NetworkStateMutex.lock();
-	m_NetworkStateList.push_back( new NetworkStateIpChange( *this, oldIpAddress, newIpAddress ) );
+	m_NetworkStateList.push_back( new NetworkStateIpChange( ipv6, *this, oldIpAddress, newIpAddress ) );
 	m_NetworkStateMutex.unlock();
 }

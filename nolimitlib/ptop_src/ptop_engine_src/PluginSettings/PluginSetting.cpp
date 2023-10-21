@@ -62,11 +62,12 @@ bool PluginSetting::addToBlob( PktBlobEntry& blob )
 
     result &= blob.setValue( m_PluginTitle );
     result &= blob.setValue( m_PluginDesc );
-    result &= blob.setValue( m_PluginUrl );
+    result &= blob.setValue( m_PluginUrlIpv4 );
+    result &= blob.setValue( m_PluginUrlIpv6 );
     result &= blob.setValue( m_GreetingMsg );
     result &= blob.setValue( m_RejectMsg );
     result &= blob.setValue( m_KeyWords );
-    result &= blob.setValue( m_SecondaryUrl );
+
     result &= blob.setValue( m_Res1 );
     uint8_t stopMagicNum = 96;
     result &= blob.setValue( stopMagicNum );
@@ -121,11 +122,12 @@ bool PluginSetting::extractFromBlob( PktBlobEntry& blob )
 
     result &= blob.getValue( m_PluginTitle );
     result &= blob.getValue( m_PluginDesc );
-    result &= blob.getValue( m_PluginUrl );
+    result &= blob.getValue( m_PluginUrlIpv4 );
+    result &= blob.getValue( m_PluginUrlIpv6 );
     result &= blob.getValue( m_GreetingMsg );
     result &= blob.getValue( m_RejectMsg );
     result &= blob.getValue( m_KeyWords );
-    result &= blob.getValue( m_SecondaryUrl );
+
     result &= blob.getValue( m_Res1 );
 
     uint8_t stopMagicNum;
@@ -176,11 +178,12 @@ bool PluginSetting::toBinary( BinaryBlob& binaryBlob, bool networkOrder )
 
     result &= binaryBlob.setValue( m_PluginTitle );
     result &= binaryBlob.setValue( m_PluginDesc );
-    result &= binaryBlob.setValue( m_PluginUrl );
+    result &= binaryBlob.setValue( m_PluginUrlIpv4 );
+    result &= binaryBlob.setValue( m_PluginUrlIpv6 );
     result &= binaryBlob.setValue( m_GreetingMsg );
     result &= binaryBlob.setValue( m_RejectMsg );
     result &= binaryBlob.setValue( m_KeyWords );
-    result &= binaryBlob.setValue( m_SecondaryUrl );
+
     result &= binaryBlob.setValue( m_Res1 );
 
     if( !result )
@@ -227,11 +230,11 @@ bool PluginSetting::fromBinary( BinaryBlob& binaryBlob, bool networkOrder )
 
     result &= binaryBlob.getValue( m_PluginTitle );
     result &= binaryBlob.getValue( m_PluginDesc );
-    result &= binaryBlob.getValue( m_PluginUrl );
+    result &= binaryBlob.getValue( m_PluginUrlIpv4 );
+    result &= binaryBlob.getValue( m_PluginUrlIpv6 );
     result &= binaryBlob.getValue( m_GreetingMsg );
     result &= binaryBlob.getValue( m_RejectMsg );
     result &= binaryBlob.getValue( m_KeyWords );
-    result &= binaryBlob.getValue( m_SecondaryUrl );
     result &= binaryBlob.getValue( m_Res1 );
 
     if( !result )
@@ -250,7 +253,6 @@ bool PluginSetting::fillSearchStrings( std::vector<std::string>& searchStrings )
     searchStrings.push_back( m_GreetingMsg );
     searchStrings.push_back( m_RejectMsg );
     searchStrings.push_back( m_KeyWords );
-    searchStrings.push_back( m_SecondaryUrl );
     searchStrings.push_back( m_Res1 );
     return true;
 }
@@ -258,7 +260,8 @@ bool PluginSetting::fillSearchStrings( std::vector<std::string>& searchStrings )
 //============================================================================
 bool PluginSetting::isValid()
 {
-    return ePluginTypeInvalid != getPluginType() && !getTitle().empty() && !m_PluginDesc.empty() && !m_PluginUrl.empty();
+    return ePluginTypeInvalid != getPluginType() && !getTitle().empty() && !m_PluginDesc.empty() && 
+        (!m_PluginUrlIpv6.empty() || !m_PluginUrlIpv4.empty());
 }
 
 //============================================================================
@@ -271,15 +274,16 @@ bool PluginSetting::setDefaultValues( P2PEngine& engine, EPluginType pluginType 
     engine.copyMyPktAnnounce(pktAnn);
     std::string onlineName = pktAnn.getOnlineName();
     std::string onlineDesc = pktAnn.getOnlineDescription();
-    std::string myUrl = pktAnn.getMyOnlineUrl();
-    m_PluginUrl = myUrl;
+    m_PluginUrlIpv4 = pktAnn.getMyOnlineUrl( false );
+    m_PluginUrlIpv6 = pktAnn.getMyOnlineUrl( true );
+
     m_PluginTitle = DescribePluginType( pluginType );
     m_PluginTitle += " - ";
     m_PluginTitle += onlineName;
     m_PluginDesc = DescribePluginType( pluginType );
     m_PluginDesc += " - ";
     m_PluginDesc += onlineDesc;
-    return true;
+    return !m_PluginUrlIpv4.empty() || !m_PluginUrlIpv6.empty();
 }
 
 //============================================================================

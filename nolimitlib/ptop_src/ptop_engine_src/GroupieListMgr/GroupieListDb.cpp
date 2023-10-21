@@ -26,13 +26,14 @@ namespace
 	const int			COLUMN_IDX_GROUPIE_ONLINE_ID	= 0;
 	const int			COLUMN_IDX_HOST_ONLINE_ID		= 1;
 	const int			COLUMN_IDX_HOST_TYPE			= 2;
-	const int			COLUMN_IDX_HOST_URL				= 3;
-	const int			COLUMN_IDX_HOST_TITLE			= 4;
-	const int			COLUMN_IDX_HOST_DESC			= 5;
-	const int			COLUMN_IDX_IS_FAVORITE			= 6;
-	const int			COLUMN_IDX_CONNECT_TIME			= 7;
-	const int			COLUMN_IDX_JOIN_TIME			= 8;
-	const int			COLUMN_IDX_HOST_INFO_TIME		= 9;
+	const int			COLUMN_IDX_HOST_URL_IPV4		= 3;
+	const int			COLUMN_IDX_HOST_URL_IPV6		= 4;
+	const int			COLUMN_IDX_HOST_TITLE			= 5;
+	const int			COLUMN_IDX_HOST_DESC			= 6;
+	const int			COLUMN_IDX_IS_FAVORITE			= 7;
+	const int			COLUMN_IDX_CONNECT_TIME			= 8;
+	const int			COLUMN_IDX_JOIN_TIME			= 9;
+	const int			COLUMN_IDX_HOST_INFO_TIME		= 10;
 }
 
 //============================================================================
@@ -62,7 +63,7 @@ RCODE GroupieListDb::groupieListDbShutdown( void )
 //============================================================================
 RCODE GroupieListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblGroupie (groupieOnlineId TEXT, hostOnlineId TEXT, hostType INTEGER, groupieUrl TEXT, groupieTitle TEXT, groupieDesc TEXT, favorite INTEGER, connectTime BIGINT, joinTime BIGINT, infoTime BIGINT)" );
+	RCODE rc = sqlExec( "CREATE TABLE tblGroupie (groupieOnlineId TEXT, hostOnlineId TEXT, hostType INTEGER, groupieUrlIpv4 TEXT, groupieUrlIpv6 TEXT, groupieTitle TEXT, groupieDesc TEXT, favorite INTEGER, connectTime BIGINT, joinTime BIGINT, infoTime BIGINT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -89,7 +90,8 @@ void GroupieListDb::getAllGroupies( std::vector<GroupieInfo>& groupieList )
 			hostInfo.getUserOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_GROUPIE_ONLINE_ID ) );
 			hostInfo.getHostOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_HOST_ONLINE_ID ) );
 			hostInfo.setHostType( (EHostType)cursor->getS32( COLUMN_IDX_HOST_TYPE ) );
-			hostInfo.setGroupieUrl( cursor->getString( COLUMN_IDX_HOST_URL ) );
+			hostInfo.setGroupieUrl( false, cursor->getString( COLUMN_IDX_HOST_URL_IPV4 ) );
+			hostInfo.setGroupieUrl( true, cursor->getString( COLUMN_IDX_HOST_URL_IPV6 ) );
 			hostInfo.setGroupieTitle( cursor->getString( COLUMN_IDX_HOST_TITLE ) );
 			hostInfo.setGroupieDescription( cursor->getString( COLUMN_IDX_HOST_DESC ) );
 			hostInfo.setIsFavorite( cursor->getS32( COLUMN_IDX_IS_FAVORITE ) );
@@ -245,13 +247,13 @@ bool GroupieListDb::updateLastJoined( VxGUID& groupieOnlineId, VxGUID& hostOnlin
 }
 
 //============================================================================
-bool GroupieListDb::updateGroupieUrl( GroupieId& groupieId, std::string& hostUrl )
+bool GroupieListDb::updateGroupieUrl( bool ipv6, GroupieId& groupieId, std::string& hostUrl )
 {
-	return updateGroupieUrl( groupieId.getUserOnlineId(), groupieId.getHostOnlineId(), groupieId.getHostType(), hostUrl );
+	return updateGroupieUrl( ipv6, groupieId.getUserOnlineId(), groupieId.getHostOnlineId(), groupieId.getHostType(), hostUrl );
 }
 
 //============================================================================
-bool GroupieListDb::updateGroupieUrl( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& hostUrl )
+bool GroupieListDb::updateGroupieUrl( bool ipv6, VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& hostUrl )
 {
 	std::string groupieOnlineHexStr;
 	std::string hostOnlineHexStr;
@@ -263,8 +265,17 @@ bool GroupieListDb::updateGroupieUrl( VxGUID& groupieOnlineId, VxGUID& hostOnlin
 		bindList.add( hostOnlineHexStr.c_str() );
 		bindList.add( ( int )hostType );
 
+		RCODE rc{ 0 };
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblGroupie SET host_url=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		if( ipv6 )
+		{
+			rc = sqlExec( "UPDATE tblGroupie SET groupieUrlIpv6=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		}
+		else
+		{
+			rc = sqlExec( "UPDATE tblGroupie SET groupieUrlIpv4=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		}
+
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -327,7 +338,8 @@ bool GroupieListDb::saveGroupie( GroupieInfo& hostedInfo )
 	DbBindList bindList( groupieOnlineId.c_str() );
 	bindList.add( hostOnlineId.c_str() );
 	bindList.add( ( int )hostedInfo.getHostType() );
-	bindList.add( hostedInfo.getGroupieUrl().c_str() );
+	bindList.add( hostedInfo.getGroupieUrl(false).c_str() );
+	bindList.add( hostedInfo.getGroupieUrl(true).c_str() );
 	bindList.add( hostedInfo.getGroupieTitle().c_str() );
 	bindList.add( hostedInfo.getGroupieDescription().c_str() );
 
@@ -338,7 +350,7 @@ bool GroupieListDb::saveGroupie( GroupieInfo& hostedInfo )
 	bindList.add( hostedInfo.getGroupieInfoTimestamp() );
 
 	// insert new record
-	RCODE rc = sqlExec( "INSERT INTO tblGroupie (groupieOnlineId, hostOnlineId, hostType, groupieUrl, groupieTitle, groupieDesc, favorite, connectTime, joinTime, infoTime) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
+	RCODE rc = sqlExec( "INSERT INTO tblGroupie (groupieOnlineId, hostOnlineId, hostType, groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, favorite, connectTime, joinTime, infoTime) VALUES(?,?,?,?,?,?,?,?,?,?,?)", bindList );
 
 	if( rc )
 	{

@@ -366,26 +366,26 @@ void EngineSettings::getChatRoomHostUrl( std::string& strWebsiteUrl )
 }
 
 //============================================================================
-void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp )
+void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 )
 {
     m_SettingsDbMutex.lock();
-    setIniValue( MY_SETTINGS_KEY, "ExternIpAddr", externIp );
+    setIniValue( MY_SETTINGS_KEY, ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp );
     m_SettingsDbMutex.unlock();
 }
 
 //============================================================================
-void EngineSettings::getUserSpecifiedExternIpAddr( std::string& externIp )
+void EngineSettings::getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6)
 {
     m_SettingsDbMutex.lock();
-    getIniValue( MY_SETTINGS_KEY, "ExternIpAddr", externIp, "" );
+    getIniValue( MY_SETTINGS_KEY, ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp, "" );
     m_SettingsDbMutex.unlock();
 }
 
 //============================================================================
-std::string EngineSettings::getUserSpecifiedExternIpAddr(  )
+std::string EngineSettings::getUserSpecifiedExternIpAddr( bool ipv6  )
 {
     std::string externIp;
-    getUserSpecifiedExternIpAddr( externIp );
+    getUserSpecifiedExternIpAddr( externIp, ipv6 );
     return externIp;
 }
 

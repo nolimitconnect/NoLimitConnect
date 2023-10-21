@@ -22,7 +22,7 @@ class HostUrlListDb : public DbBase
 {
 public:
 	HostUrlListDb();
-	virtual ~HostUrlListDb();
+	virtual ~HostUrlListDb() = default;
 
 	RCODE						hostUrlListDbStartup( int dbVersion, const char* dbFileName );
 	RCODE						hostUrlListDbShutdown( void );

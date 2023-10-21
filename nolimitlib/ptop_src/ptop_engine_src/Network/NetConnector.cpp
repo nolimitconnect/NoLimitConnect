@@ -368,7 +368,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 		return tryIPv6Connect( connectInfo, ppoRetSkt );
 	}
 
-	connectInfo.m_DirectConnectId.getIpAddress( strDirectConnectIp );
+	connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
 
 	//LogMsg( LOG_INFO, "User %s requires proxy? %d",  connectInfo.m_as8OnlineName, requiresRelay );
 	if( false == requiresRelay )
@@ -462,7 +462,7 @@ RCODE NetConnector::directConnectTo(	VxConnectInfo&		connectInfo,
 	}
 	else
 	{
-		connectInfo.m_DirectConnectId.getIpAddress( connectIpAddress );
+		connectInfo.m_DirectConnectId.getIpAddress( false, connectIpAddress );
 		if( eConnectReasonRelayService == connectReason )
 		{
 			iConnectTimeout = MY_PROXY_CONNECT_TIMEOUT;

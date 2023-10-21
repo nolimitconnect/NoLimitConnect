@@ -22,14 +22,15 @@ namespace
 {
     std::string 		TABLE_IGNORE_HOST	 			= "tblIgnoreHost";
 
-    std::string 		CREATE_COLUMNS_HOST_IGNORE		= " (onlineId TEXT, thumbId TEXT, hostUrl TEXT, hostTitle TEXT, hostDescription TEXT, timestampdMs BIGINT) ";
+    std::string 		CREATE_COLUMNS_HOST_IGNORE		= " (onlineId TEXT, thumbId TEXT, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT, hostTitle TEXT, hostDescription TEXT, timestampdMs BIGINT) ";
 
     const int			COLUMN_ONLINE_ID			    = 0;
     const int			COLUMN_HOST_THUMB_ID			= 1;
-    const int			COLUMN_HOST_URL                 = 2;
-    const int			COLUMN_HOST_TITLE               = 3;
-    const int			COLUMN_HOST_DESC                = 4;
-    const int			COLUMN_TIMESTAMP_MS				= 5;
+    const int			COLUMN_HOST_URLIPV4             = 2;
+    const int			COLUMN_HOST_URLIPV6             = 3;
+    const int			COLUMN_HOST_TITLE               = 4;
+    const int			COLUMN_HOST_DESC                = 5;
+    const int			COLUMN_TIMESTAMP_MS				= 6;
 }
 
 //============================================================================
@@ -81,12 +82,13 @@ bool IgnoredHostsDb::saveToDatabase( IgnoredHostInfo& hostInfo )
 
     DbBindList bindList( onlineIdStr.c_str() );
     bindList.add( thumbIdStr.c_str() );
-    bindList.add( hostInfo.getHostUrl().c_str() );
+    bindList.add( hostInfo.getHostUrl(false).c_str() );
+    bindList.add( hostInfo.getHostUrl(true).c_str() );
     bindList.add( hostInfo.getHostTitle().c_str() );
     bindList.add( hostInfo.getHostDescription().c_str() );
     bindList.add( hostInfo.getTimestampMs() );  
    
-    RCODE rc = sqlExec( "INSERT INTO tblIgnoreHost (onlineId, thumbId, hostUrl, hostTitle, hostDescription, timestampdMs) values(?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblIgnoreHost (onlineId, thumbId, hostUrlIpv4, hostUrlIpv6, hostTitle, hostDescription, timestampdMs) values(?,?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )
@@ -112,7 +114,8 @@ bool IgnoredHostsDb::restoreFromDatabase( std::map<VxGUID, IgnoredHostInfo>& ign
             thumbId.fromVxGUIDHexString( cursor->getString( COLUMN_HOST_THUMB_ID ) );
 
             IgnoredHostInfo ignoredHostInfo( onlineId, thumbId,
-                cursor->getString( COLUMN_HOST_URL ),
+                cursor->getString( COLUMN_HOST_URLIPV4 ),
+                cursor->getString( COLUMN_HOST_URLIPV6 ),
                 cursor->getString( COLUMN_HOST_TITLE ),
                 cursor->getString( COLUMN_HOST_DESC ),
                 cursor->getS64( COLUMN_TIMESTAMP_MS ) );

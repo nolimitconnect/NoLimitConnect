@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>471</width>
+    <width>500</width>
     <height>672</height>
    </rect>
   </property>
@@ -138,18 +138,28 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="m_UrlDescriptionLabel">
+    <widget class="QLabel" name="m_UrlDescriptionLabelIpv4">
      <property name="text">
-      <string>Service URL or IP Address</string>
+      <string>IPv4 Service URL or IP Address </string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="m_UrlEdit">
+    <widget class="QLineEdit" name="m_UrlEditIpv4">
      <property name="maxLength">
       <number>63</number>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="m_UrlDescriptionLabelIpv6">
+     <property name="text">
+      <string>IPv6 Service URL or IP Address </string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="m_UrlEditIpv6"/>
    </item>
    <item>
     <widget class="QLabel" name="m_UserDisplayedNameLabel">

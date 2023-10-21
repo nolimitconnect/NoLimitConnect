@@ -68,13 +68,6 @@ std::shared_ptr<VxSktBase> VxSktBaseMgr::findSktBase( const VxGUID& connectId, b
 }
 
 //============================================================================
-void VxSktBaseMgr::sktMgrSetLocalIp( InetAddress& oLclIp )
-{
-	m_LclIp = oLclIp;
-}
-
-
-//============================================================================
 void VxSktBaseMgr::sktMgrShutdown( void )
 {
 	closeAllSkts();

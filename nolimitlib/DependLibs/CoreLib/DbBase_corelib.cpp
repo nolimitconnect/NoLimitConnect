@@ -433,7 +433,7 @@ int DbBase::readDatabaseVersion( void )
 	int iResult = sqlite3_prepare_v2( m_Db, prepString.c_str(), (int)( prepString.length() + 1 ), &poSqlStatement, NULL );
 	if( SQLITE_OK != iResult ) 
 	{
-		handleSqlError( 0, "DbBase::readDatabaseVersion: error %s", sqlite3_errmsg(m_Db) );
+		handleSqlError( 0, "DbBase::readDatabaseVersion: error %s db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
 		return 0;
 	}
 
@@ -613,7 +613,7 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 					break;
 
                 default:
-                    LogMsg( LOG_ERROR,"DbBase::sqlExec UNKNOWN bind type");
+                    LogMsg( LOG_ERROR,"DbBase::sqlExec UNKNOWN bind type db %s", m_strDbFileName.c_str());
                     dbClose();
                     return -1;
 				}
@@ -639,7 +639,7 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 			retVal = -1;
 			if( SQLITE_DONE != sqlite3_step(pSqlStatement) )
 			{
-				LogMsg( LOG_ERROR, "DbBase::finalizeIniSetTransaction:ERROR %s while stepping", sqlite3_errmsg(m_Db) );
+				LogMsg( LOG_ERROR, "DbBase::finalizeIniSetTransaction:ERROR %s while stepping db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
 			}
 			else
 			{
@@ -650,7 +650,7 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "DbBase::finalizeIniSetTransaction:ERROR %s in finalize", sqlite3_errmsg(m_Db) );
+					LogMsg( LOG_ERROR, "DbBase::finalizeIniSetTransaction:ERROR %s in finalize db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
 				}
 			}
 
@@ -733,7 +733,7 @@ RCODE DbBase::sqlExec( const char* SQL_Statement )
 		retval = sqlite3_exec( m_Db, SQL_Statement, NULL, NULL, &SQL_Error );
 		if (!(SQLITE_OK == retval))
 		{
-			handleSqlError( 0, "DbBase:sqlite3_exec: error %s executing %s", SQL_Error, SQL_Statement );
+			handleSqlError( 0, "DbBase:sqlite3_exec: error %s executing %s db %s", SQL_Error, SQL_Statement, m_strDbFileName.c_str() );
 		
 			sqlite3_free(SQL_Error);
 			dbClose();
@@ -771,7 +771,7 @@ DbCursor * DbBase::startQuery( const char* pSqlString )
 		if( SQLITE_OK != iResult ) 
 		{
 			const char* sqliteErrMsg = sqlite3_errmsg(m_Db);
-			handleSqlError( LOG_ERROR, "DbBase::StartDataQuery: error %s statement %s", sqliteErrMsg, pSqlString );
+			handleSqlError( LOG_ERROR, "DbBase::StartDataQuery: error %s statement %s db %s", sqliteErrMsg, pSqlString, m_strDbFileName.c_str() );
 			return NULL;
 		}
 		DbCursor * poCursor = new DbCursor();
@@ -818,12 +818,12 @@ DbCursor* DbBase::startQuery( const char* pSqlString, const char* textParam )
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT %s", srcStr, sqlite3_errmsg( m_Db ) );
+				LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT %s db %s", srcStr, sqlite3_errmsg( m_Db ), m_strDbFileName.c_str() );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "ERROR: %s %s statement %s", srcStr, sqlite3_errmsg( m_Db ), pSqlString );
+			LogMsg( LOG_ERROR, "ERROR: %s %s statement %s db %s", srcStr, sqlite3_errmsg( m_Db ), pSqlString, m_strDbFileName.c_str() );
 		}
 	}
 
@@ -871,17 +871,17 @@ DbCursor* DbBase::startQuery( const char* pSqlString, const char* textParam, int
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "ERROR: %s BIND INTEGER %s", srcStr, sqlite3_errmsg( m_Db ) );
+					LogMsg( LOG_ERROR, "ERROR: %s BIND INTEGER %s db %s", srcStr, sqlite3_errmsg( m_Db ), m_strDbFileName.c_str() );
 				}
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT %s", srcStr, sqlite3_errmsg( m_Db ) );
+				LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT %s db %s", srcStr, sqlite3_errmsg( m_Db ), m_strDbFileName.c_str() );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "ERROR: %s %s statement %s", srcStr, sqlite3_errmsg( m_Db ), pSqlString );
+			LogMsg( LOG_ERROR, "ERROR: %s %s statement %s db %s", srcStr, sqlite3_errmsg( m_Db ), pSqlString, m_strDbFileName.c_str() );
 		}
 	}
 
@@ -937,22 +937,22 @@ DbCursor* DbBase::startQuery( const char* pSqlString, const char* textParam1, co
 					}
 					else
 					{
-						LogMsg( LOG_ERROR, "ERROR: %s BIND INTEGER %s", srcStr, sqlite3_errmsg( m_Db ) );
+						LogMsg( LOG_ERROR, "ERROR: %s BIND INTEGER %s db %s", srcStr, sqlite3_errmsg( m_Db ), m_strDbFileName.c_str() );
 					}
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT2 %s", srcStr, sqlite3_errmsg( m_Db ) );
+					LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT2 %s db %s", srcStr, sqlite3_errmsg( m_Db ), m_strDbFileName.c_str() );
 				}
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT1 %s", srcStr, sqlite3_errmsg( m_Db ) );
+				LogMsg( LOG_ERROR, "ERROR: %s BIND TEXT1 %s db %s", srcStr, sqlite3_errmsg( m_Db ), m_strDbFileName.c_str() );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "ERROR: %s %s statement %s", srcStr, sqlite3_errmsg( m_Db ), pSqlString );
+			LogMsg( LOG_ERROR, "ERROR: %s %s statement %s db %s", srcStr, sqlite3_errmsg( m_Db ), pSqlString, m_strDbFileName.c_str() );
 		}
 	}
 
@@ -1001,7 +1001,7 @@ void DbCursor::close( void )
 
 	if( SQLITE_OK != iResult ) 
 	{
-		LogMsg( LOG_ERROR, "DatabaseClass::CloseQuery: error %s", sqlite3_errmsg(m_DbBase->m_Db) );
+		LogMsg( LOG_ERROR, "DatabaseClass::CloseQuery: error %s db %s", sqlite3_errmsg(m_DbBase->m_Db), m_DbBase->m_strDbFileName.c_str() );
 	}
 
 	vx_assert( ( DbBase* )0 != m_DbBase );
@@ -1022,7 +1022,7 @@ bool DbCursor::getNextRow( void )
 		return false;
 		break;
 	default:
-		LogMsg( LOG_ERROR, "DbBase::GetDbRow: error %s", sqlite3_errmsg(m_DbBase->m_Db) );
+		LogMsg( LOG_ERROR, "DbBase::GetDbRow: error %s db %s", sqlite3_errmsg(m_DbBase->m_Db), m_DbBase->m_strDbFileName.c_str() );
 		break;
 	}
 	return false;
@@ -1061,7 +1061,14 @@ double DbCursor::getF64( int iColumnIdx )
 //============================================================================
 const char* DbCursor::getString(int iColumnIdx )
 {
-	return (const char*)sqlite3_column_text( m_Stmt, iColumnIdx );
+	const char* charStr = (const char *)sqlite3_column_text( m_Stmt, iColumnIdx );
+	if( !charStr )
+	{
+		LogMsg( LOG_ERROR, "DbCursor::getString: error %s db %s", sqlite3_errmsg(m_DbBase->m_Db), m_DbBase->m_strDbFileName.c_str() );
+		return "";
+	}
+
+	return charStr;
 }
 
 //============================================================================
@@ -1069,12 +1076,19 @@ const char* DbCursor::getString(int iColumnIdx )
 //! if( piMaxLen != null ) then return length of blob in piMaxLen 
 void *	 DbCursor::getBlob( int iColumnIdx, int * piRetLen )
 {
-	if( NULL != piRetLen )
+	if( nullptr != piRetLen )
 	{
 		*piRetLen =  sqlite3_column_bytes( m_Stmt, iColumnIdx );
 	}
 
-	return (void *)sqlite3_column_blob( m_Stmt, iColumnIdx );
+
+	void * voidPtr = (void *)sqlite3_column_blob( m_Stmt, iColumnIdx );
+	if( !voidPtr )
+	{
+		LogMsg( LOG_ERROR, "DbCursor::getBlob: error %s db %s", sqlite3_errmsg(m_DbBase->m_Db), m_DbBase->m_strDbFileName.c_str() );
+	}
+
+	return voidPtr;
 }
 
 

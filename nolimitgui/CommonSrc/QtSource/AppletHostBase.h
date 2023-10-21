@@ -59,7 +59,8 @@ protected:
     ESearchType                 m_SearchType{ eSearchNone };
     GuiUserMultiListWidget*     m_UserMultiList{ nullptr };
     GuiUserListWidget*          m_UserList{ nullptr };
-    std::string                 m_HostUrl;
+    std::string                 m_HostUrlIpv4;
+    std::string                 m_HostUrlIpv6;
     VxGUID                      m_HostSessionId;
 };
 

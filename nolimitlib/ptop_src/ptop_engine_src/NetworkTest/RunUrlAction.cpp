@@ -80,7 +80,7 @@ UrlActionInfo::UrlActionInfo( P2PEngine& engine, EHostType hostType, VxGUID& ses
 {
     if( nullptr == myUrl )
     {
-        m_MyUrl.setUrl( m_Engine.getMyOnlineUrl() );
+        m_MyUrl.setUrl( m_Engine.getMyOnlineUrl( false ) );
     }
 }
 
@@ -442,7 +442,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
                     urlAction.getResultInterface()->callbackPingSuccess( urlAction, strMyIP.c_str() );
                 }
 
-                m_Engine.getNetStatusAccum().setExternalIpAddress( strMyIP );
+                m_Engine.getNetStatusAccum().setExternalIpAddress( false, strMyIP );
             }
         }
     }
@@ -490,7 +490,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         else
         {
             sendRunTestStatus(  urlAction, actionName, eRunTestStatusMyPortIsClosed, netServiceHdr.getError(), "My ip %s port %d is NOT open (Relay will be required)", retMyExternalIp.c_str(), myPort );
-            if( m_Engine.getNetworkStateMachine().getLocalNetworkIp().length()
+            if( m_Engine.getNetStatusAccum().getLanIpAddress( false ).length()
                 && m_Engine.getNetworkStateMachine().isCellularNetwork() )
             {
                 sendTestLog(  urlAction, actionName, "Cellular data network. Cell phone providers block all ports. Consider using a VPN with port forward feature");

@@ -200,7 +200,7 @@ void VxThread::dumpRunningThreads( void )
 #ifdef ENABLE_THREAD_INFO
 	//if ( false == VxIsAppShuttingDown() )
 	{
-		LogMsg( LOG_INFO, "Threads running %d time now %s\n", g_RuningThreadList.size(), VxTimeUtil::getLocalDateAndTimeWithNumberMonths(true).c_str() );
+		LogMsg( LOG_INFO, "Threads running %d time now %s", g_RuningThreadList.size(), VxTimeUtil::getLocalDateAndTimeWithNumberMonths(true).c_str() );
 
 		std::vector<VxThread*>::iterator iter;
 		g_DebugThreadsMutex.lock();
@@ -242,7 +242,7 @@ void VxThread::abortThreadRun( bool bAbort )
 	else
 		m_u8ThreadFlags &= ~VX_FLAG_THREAD_ABORT;
 #if defined(DEBUG_THREADS)
-    LogMsg( LOG_INFO, "$$$VxThread::abortThreadRun %s\n", getThreadName() );
+    LogMsg( LOG_INFO, "$$$VxThread::abortThreadRun %s", getThreadName() );
     dumpRunningThreads();
 #endif // DEBUG_THREADS
 }
@@ -252,7 +252,7 @@ void VxThread::abortThreadRun( bool bAbort )
 void VxThread::setThreadStartCallback( VX_THREAD_START_CALLBACK_T func )
 {
 #if defined(DEBUG_THREADS)
-	    LogMsg( LOG_INFO, "$$$VxThread::setThreadStartCallback\n" );
+	    LogMsg( LOG_INFO, "$$$VxThread::setThreadStartCallback" );
 #endif // DEBUG_THREADS
 
 	m_funcStartCallback = func;
@@ -263,7 +263,7 @@ void VxThread::setThreadStartCallback( VX_THREAD_START_CALLBACK_T func )
 void VxThread::setThreadExitCallback( VX_THREAD_EXIT_CALLBACK_T func )
 {
 #if defined(DEBUG_THREADS)
-	    LogMsg( LOG_INFO, "$$$VxThread::setThreadExitCallback\n" );
+	    LogMsg( LOG_INFO, "$$$VxThread::setThreadExitCallback" );
 #endif // DEBUG_THREADS
 
 	m_funcExitCallback = func;
@@ -272,7 +272,7 @@ void VxThread::setThreadExitCallback( VX_THREAD_EXIT_CALLBACK_T func )
 //============================================================================
 RCODE VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function that thread calls
 								void *					pvUserParam, 		// caller defined param
-								const char*			pThreadName,		// thread name
+								const char*				pThreadName,		// thread name
 								int						iExtraStackSpace )	// will be added to minimum stack size	
 {
     if( this->isThreadRunning() )
@@ -309,7 +309,7 @@ RCODE VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function t
 		if( NULL == m_hThread )
 		{
 			m_u8ThreadFlags = 0;
-			AppErr( eAppErrThreadCreateFailed, "VxThread:: ERROR.. FAILED TO CREATE THREAD\n" );
+			AppErr( eAppErrThreadCreateFailed, "VxThread:: ERROR.. FAILED TO CREATE THREAD" );
 			abort();
 			return -1;
 		}
@@ -337,7 +337,7 @@ RCODE VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function t
 				else
 				{
                     #if defined(DEBUG_THREADS)
-                        LogMsg( LOG_INFO, "VxThread:Created Thread %s min stack size %d\n", m_strThreadName.c_str(), sizetStackSize );
+                        LogMsg( LOG_INFO, "VxThread:Created Thread %s min stack size %d", m_strThreadName.c_str(), sizetStackSize );
                     #endif // DEBUG_THREADS
 					sizetStackSize += iExtraStackSpace;
 					iErr = pthread_attr_setstacksize( &m_ThreadAttr, sizetStackSize );
@@ -374,7 +374,7 @@ RCODE VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function t
 #endif
 
 #if defined(DEBUG_THREADS)
-	    LogMsg( LOG_VERBOSE, "VxThread: created thread %s with id %d\n", getThreadName(), getThreadTid() );
+	    LogMsg( LOG_VERBOSE, "VxThread: created thread %s with id %d", getThreadName(), getThreadTid() );
 #endif // DEBUG_THREADS
 
 	g_ThreadCreateCnt++;
@@ -478,7 +478,7 @@ void VxThread::setIsThreadRunning( bool bIsRunning, bool calledFromStartedThread
 			{
 				if( (*iter) == this )
 				{
-					LogMsg( LOG_ERROR, "Running Thread %s already in info list\n", m_strThreadName.c_str() );
+					LogMsg( LOG_ERROR, "Running Thread %s already in info list", m_strThreadName.c_str() );
 					foundOurself = true;
 					break;
 				}
@@ -537,7 +537,7 @@ void VxThread::threadAboutToExit( bool bExitThreadNow )
 		}
 
 		g_DebugThreadsMutex.unlock();
-		LogMsg( LOG_INFO, "Thread %s tid %d exit done total running %d\n", m_strThreadName.c_str(), thisThreadId, g_RuningThreadList.size() );
+		LogMsg( LOG_INFO, "Thread %s tid %d exit done total running %d", m_strThreadName.c_str(), thisThreadId, g_RuningThreadList.size() );
 	}
 #endif // ENABLE_THREAD_INFO
 	

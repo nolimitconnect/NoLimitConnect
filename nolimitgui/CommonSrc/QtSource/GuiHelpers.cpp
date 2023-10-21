@@ -1393,7 +1393,8 @@ bool GuiHelpers::widgetToPluginSettings( EPluginType pluginType, PluginSettingsW
         pluginSetting.setLanguage( (ELanguageType)settingsWidget->getLanguageComboBox()->currentIndex() );
         pluginSetting.setGender( (EGenderType)settingsWidget->getGenderComboBox()->currentIndex() );
         pluginSetting.setAgeType( (EAgeType)settingsWidget->getAgeComboBox()->currentIndex() );
-        pluginSetting.setPluginUrl( settingsWidget->getServiceUrlEdit()->text().toUtf8().constData() );
+        pluginSetting.setPluginUrl( false, settingsWidget->getServiceUrlEdit( false )->text().toUtf8().constData() );
+        pluginSetting.setPluginUrl( true, settingsWidget->getServiceUrlEdit( true )->text().toUtf8().constData() );
         pluginSetting.setTitle( settingsWidget->getServiceTitleEdit()->text().toUtf8().constData() );
         pluginSetting.setGreetingMsg( settingsWidget->getGreetingEdit()->toPlainText().toUtf8().constData() );
         pluginSetting.setRejectMsg( settingsWidget->getRejectEdit()->toPlainText().toUtf8().constData() );
@@ -1427,7 +1428,9 @@ bool GuiHelpers::pluginSettingsToWidget( EPluginType pluginType, PluginSetting& 
         settingsWidget->getContentRatingComboBox()->setCurrentIndex( GuiHelpers::contentRatingToIndex( pluginSetting.getContentRating() ) );
         settingsWidget->getLanguageComboBox()->setCurrentIndex( GuiHelpers::languageToIndex( pluginSetting.getLanguage() ) );
 
-        settingsWidget->getServiceUrlEdit()->setText( pluginSetting.getPluginUrl().c_str() );
+        settingsWidget->getServiceUrlEdit( false )->setText( pluginSetting.getPluginUrl( false ).c_str() );
+        settingsWidget->getServiceUrlEdit( true )->setText( pluginSetting.getPluginUrl( true ).c_str() );
+
         settingsWidget->getServiceTitleEdit()->setText( pluginSetting.getTitle().c_str() );
         settingsWidget->getServiceDescriptionEdit()->appendPlainText( pluginSetting.getDescription().c_str() );
         settingsWidget->getGreetingEdit()->appendPlainText( pluginSetting.getGreetingMsg().c_str() );

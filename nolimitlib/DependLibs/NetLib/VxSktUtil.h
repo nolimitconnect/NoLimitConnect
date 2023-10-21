@@ -37,6 +37,8 @@
 
 #define VX_MAX_HOST_IPS             10 //maximum host ips returned by VxGetLocalIps
 
+const int INET6_MAX_STR_LEN = 68 + 6; // plus 6 in case port is appended
+
 #ifdef __cplusplus
 
 #include "InetAddress.h"
@@ -46,7 +48,10 @@ class ISktStatCallbackInterface;
 //! initialize sockets
 RCODE							VxSocketsStartup( void );
 
+bool                            VxIsPortValid( uint16_t port );
 bool                            VxIsIpValid( std::string& ipAddr );
+bool                            VxIsIpv6Address( std::string& ipAddr );
+
 std::string						VxGetRemoteIpAddress( SOCKET skt );
 std::string						VxGetRmtHostName( SOCKET& skt );
 //! split host name from website file path
@@ -65,9 +70,9 @@ InetAddress						VxGetMyGlobalIPv6Address( void );
 InetAddress						VxGetDefaultIPv4Address( void );
 InetAddress						VxGetDefaultIPv6Address( void );
 bool							VxTestConnectionOnSpecificLclAddress( InetAddress &oLclAddr );
-bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& oRetAddr );
-bool							VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr );
-bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp ); // assumes pUrl is just host name
+bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& oRetAddr, bool ipv6Only = false );
+bool							VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, bool ipv6Only = false );
+bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, bool ipv6Only = false ); // assumes pUrl is just host name
 
 //! return true if ip is in list of local ips
 bool							VxLocalIpExists( std::string& strIpAddress );
@@ -118,6 +123,12 @@ bool							VxMakeBroadcastIp( std::string localIp, std::string& retBroadcastIp )
 
 void							VxSetSktStatCallback( ISktStatCallbackInterface* sktStatCallback );
 ISktStatCallbackInterface*		VxGetSktStatCallback( void );
+
+
+socklen_t						VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddr, uint16_t sktPort = 0 );
+socklen_t						VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddr, std::string ipAddr, uint16_t sktPort );
+bool							VxSktAddrGetParams( bool ipv6, struct sockaddr_storage& sockAddr, std::string& retIp, uint16_t& retPort );
+
 #endif // __cplusplus
 
 //============================================================================
@@ -138,9 +149,7 @@ RCODE							VxSendSktData( SOCKET			oSkt,
 											   int				iDataLen,				// length of data
 											   int				iTimeoutSeconds ); // = SKT_SEND_TIMEOUT // seconds before send attempt times out
 
-
-
-void							VxSetSktAllowReusePort( SOCKET skt );
+bool							VxSetSktAllowReusePort( SOCKET skt );
 
 uint16_t						VxGetRmtPort( SOCKET skt );
 

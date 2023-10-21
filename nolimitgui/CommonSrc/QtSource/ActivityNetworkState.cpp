@@ -50,7 +50,7 @@ void ActivityNetworkState::setupActivityNetworkState( void )
 }
 
 //============================================================================
-void  ActivityNetworkState::gotoWebsite( void )
+void ActivityNetworkState::gotoWebsite( void )
 {
 	QDesktopServices::openUrl( QUrl("https://nolimitconnect.com/") );
 }
@@ -60,11 +60,11 @@ void ActivityNetworkState::slotNetworkStateChanged( ENetworkStateType eNetworkSt
 {
     VxNetIdent myIdent;
 	m_FromGui.fromGuiQueryMyIdent( &myIdent );
-	std::string strOnlineIp = myIdent.getOnlineIpAddress().toStdString();
+	std::string strOnlineIp = myIdent.getOnlineIpAddress(false).toStdString();
 	uint16_t tcpPort = myIdent.getMyOnlinePort();
 	ui.m_IPAddressValueLabel->setText( strOnlineIp.c_str() );
 	ui.m_TcpPortValueLabel->setText( QString("%1").arg( tcpPort ) );
-	ui.m_MyNodeUrlValueLabel->setText( QString("My Node Url: http://%1:%2").arg( strOnlineIp.c_str() ).arg(tcpPort) );
+	ui.m_MyNodeUrlValueLabel->setText( QString("My IPv4 Url: http://%1:%2").arg( strOnlineIp.c_str() ).arg(tcpPort) );
 
 	bool networkConnected = true;
 	switch( eNetworkState )

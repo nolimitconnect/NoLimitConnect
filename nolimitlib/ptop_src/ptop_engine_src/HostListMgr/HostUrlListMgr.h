@@ -38,7 +38,7 @@ public:
     void                        lockList( void )    { m_HostUrlsMutex.lock(); }
     void                        unlockList( void )  { m_HostUrlsMutex.unlock(); }
 
-    void                        updateHostUrl( enum EHostType hostType, VxGUID& hostGuid, std::string& hostUrl, int64_t timestampMs = 0 );
+    void                        updateHostUrl( enum EHostType hostType, VxGUID& hostGuid, std::string& hostUrlIpv4, std::string& hostUrlIpv6, int64_t timestampMs = 0 );
     bool                        getHostUrls( enum EHostType hostType, std::vector<HostUrlInfo>& retHostUrls );
 
     void                        requestIdentity( std::string& url );

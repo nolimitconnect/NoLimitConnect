@@ -81,54 +81,71 @@ bool VxConnectId::operator !=( const VxConnectId &rhs )  const
 }
 
 //============================================================================
-bool VxConnectId::setIpAddress( const char* pIp )		
+bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasChanged  )		
 {
-    bool changed = false;
-	InetAddress oAddr;
-	oAddr.setIp( pIp );
-	if( oAddr.isValid() && oAddr.isIPv6() )
+	if( ipAddr.empty() )
 	{
-		m_IPv6OnlineIp = oAddr; 
-	}
-	else if( oAddr.isValid() )
-	{
-        changed = m_IPv4OnlineIp.setIp( oAddr.getIPv4AddressInNetOrder() );
-	}
-	else
-	{
-		vx_assert( false );
+		return false;
 	}
 
-    return changed;
+	if( retIpHasChanged )
+	{
+		*retIpHasChanged = false;
+	}
+
+    bool valid = false;
+	InetAddress inetAddr;
+	inetAddr.setIp( ipAddr.c_str() );
+	if( inetAddr.isValid() )
+	{
+		if( inetAddr.isIPv6() && ipv6 )
+		{
+			if( retIpHasChanged )
+			{
+				m_IPv6OnlineIp.toStdString() != ipAddr;
+				*retIpHasChanged = true;
+			}
+
+			m_IPv6OnlineIp = inetAddr; 
+			valid = m_IPv6OnlineIp.isValid();
+		}
+		else
+		{
+			bool changed = m_IPv4OnlineIp.setIp( inetAddr.getIPv4AddressInNetOrder() );
+			valid = m_IPv4OnlineIp.isValid();
+			if( retIpHasChanged && changed && valid )
+			{
+				*retIpHasChanged = true;
+			}
+		}
+	}
+
+	vx_assert( valid );
+    return valid;
 };
 
 //============================================================================
-void VxConnectId::getIpAddress( std::string& retString )
+bool VxConnectId::getIpAddress( bool ipv6, std::string& retString )
 {
-	if( m_IPv6OnlineIp.isValid() && VxCanConnectUsingIPv6() )
+	if( ipv6 && m_IPv6OnlineIp.isValid() && VxCanConnectUsingIPv6() )
 	{
 		retString = m_IPv6OnlineIp.toStdString();
+		return true;
+	}
+	else if( m_IPv4OnlineIp.isValid() )
+	{
+		retString = m_IPv4OnlineIp.toStdString(); 
+		return true;
 	}
 
-	retString = m_IPv4OnlineIp.toStdString(); 
+	retString.clear();
+	return false;
 };
 
 //============================================================================
-bool VxConnectId::isIpAddressValid( void )
+bool VxConnectId::isIpAddressValid( bool ipv6 )
 {
-	return m_IPv4OnlineIp.isValid() || m_IPv6OnlineIp.isValid();
-}
-
-//============================================================================
-void VxConnectId::getIPv4( std::string& retString )	
-{ 
-	retString = m_IPv4OnlineIp.toStdString(); 
-};
-
-//============================================================================
-void VxConnectId::getIPv6( std::string& retString )
-{
-	retString = m_IPv6OnlineIp.toStdString(); 
+	return ipv6 ? m_IPv6OnlineIp.isValid() : m_IPv4OnlineIp.isValid();
 }
 
 //============================================================================

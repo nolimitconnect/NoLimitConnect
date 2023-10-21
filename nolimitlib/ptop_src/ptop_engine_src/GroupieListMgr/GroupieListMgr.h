@@ -46,8 +46,8 @@ public:
 
     void                        addGroupieListMgrClient( GroupieListCallbackInterface* client, bool enable );
 
-    bool                        setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
-    bool                        getGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& nodeUrlIpv4, std::string& nodeUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        getGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& nodeUrlIpv4, std::string& nodeUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
 
     bool                        fromGuiQueryMyGroupieInfo( enum EHostType hostType, std::vector<GroupieInfo>& groupieInfoList );
     bool                        fromGuiQueryGroupieInfoList( enum EHostType hostType, std::vector<GroupieInfo>& groupieInfoList, VxGUID& hostIdIfNullThenAll );
@@ -94,7 +94,7 @@ protected:
     void						removeGroupieInfo( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType );
     void						clearGroupieInfoList( void );
 
-    void                        updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+    void                        updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& nodeUrlIpv4, std::string& nodeUrlIpv6, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
     bool                        updateIsFavorite( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, bool isFavorite );
     bool                        updateLastConnected( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, int64_t lastConnectedTime );

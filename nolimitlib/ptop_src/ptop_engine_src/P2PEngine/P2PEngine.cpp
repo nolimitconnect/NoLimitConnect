@@ -49,9 +49,10 @@
 #include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
 #include "VxSktLoopback.h"
 
+#include <CoreLib/AppErr.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
-#include <CoreLib/AppErr.h>
+#include <CoreLib/VxPtopUrl.h>
 
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktUtil.h>
@@ -131,14 +132,13 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
     m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 142 == maxPktType ); // just to make sure our packet types are not mismatched
+    vx_assert( 148 == maxPktType ); // just to make sure our packet types are not mismatched
 	m_IsEngineCreated = true;
 }
 
 //============================================================================
 P2PEngine::~P2PEngine()
 {
-	m_PeerMgr.stopListening();
 	m_PluginMgr.pluginMgrShutdown();
 }
 
@@ -167,6 +167,7 @@ void P2PEngine::startupEngine()
 
 	m_NetworkStateMachine.stateMachineStartup();
 	m_PluginMgr.onAppStartup();
+	m_IsPortOpenTest.isPortOpenTestStartup();
 }
 
 //============================================================================
@@ -190,14 +191,17 @@ void P2PEngine::iniitializePtoPEngine( void )
 void P2PEngine::shutdownEngine( void )
 {
 	VxSetAppIsShuttingDown( true );
+	
+	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: shutdown IsPortOpen" );
+	m_IsPortOpenTest.isPortOpenTestShutdown();
+
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: stop listening" );
-	m_PeerMgr.stopListening();
+	m_PeerMgr.stopListening( false );
+	m_PeerMgr.stopListening( true );
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: remove asset client" );
 	//m_AssetMgr.addAssetMgrClient( this, false );
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: shutdown media processor" );
 	m_MediaProcessor.shutdownMediaProcessor();
-	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: shutdown IsPortOpen" );
-	m_IsPortOpenTest.isPortOpenShutdown();
 	//VxUpdateSystemTime();
 	//m_NetworkMgr.networkMgrShutdown();
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_PeerMgr.sktMgrShutdown" );
@@ -247,12 +251,6 @@ void P2PEngine::shutdownEngine( void )
 	m_PluginFileShareServer		= 0;
 	m_PluginNetServices		= 0;
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: done" );
-}
-
-//============================================================================
-void P2PEngine::fromGuiKickWatchdog( void )
-{
-	m_PeerMgr.fromGuiKickWatchdog();
 }
 
 //============================================================================
@@ -599,4 +597,23 @@ bool P2PEngine::isMemberGuest( EPluginType pluginType, VxGUID& onlineId )
 {
 	// TODO BRJ determine if user is a guest member of either my hosted service or a hosted service I joined
 	return true;
+}
+
+//============================================================================
+VxGUID P2PEngine::getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+{
+	VxGUID onlineId;
+	VxPtopUrl hostUrlIpv4( ptopUrlIpv4 );
+    VxPtopUrl hostUrlIpv6( ptopUrlIpv6 );
+
+    if( hostUrlIpv4.isValid() )
+    {
+        onlineId = hostUrlIpv4.getOnlineId();
+    }
+    else if( hostUrlIpv6.isValid() )
+    {
+        onlineId = hostUrlIpv6.getOnlineId();
+    }
+
+	return onlineId;
 }

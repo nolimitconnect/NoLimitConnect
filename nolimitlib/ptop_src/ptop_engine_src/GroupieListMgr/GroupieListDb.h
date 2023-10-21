@@ -38,8 +38,8 @@ public:
     bool                        updateLastConnected( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, int64_t lastConnectedTime );
 	bool                        updateLastJoined( GroupieId& groupieId, int64_t lastJoinedTime );
     bool                        updateLastJoined( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, int64_t lastJoinedTime );
-	bool						updateGroupieUrl( GroupieId& groupieId, std::string& hostUrl );
-    bool						updateGroupieUrl( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, std::string& groupieUrl );
+	bool						updateGroupieUrl( bool ipv6, GroupieId& groupieId, std::string& hostUrl );
+    bool						updateGroupieUrl( bool ipv6, VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, std::string& groupieUrl );
 	bool                        updateGroupieTitleAndDescription( GroupieId& groupieId, std::string& title, std::string& description, int64_t lastDescUpdateTime );
     bool                        updateGroupieTitleAndDescription( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, std::string& title, std::string& description, int64_t lastDescUpdateTime );
 

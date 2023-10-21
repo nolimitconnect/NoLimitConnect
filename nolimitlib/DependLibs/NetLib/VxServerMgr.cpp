@@ -28,6 +28,11 @@
 #include <memory.h>
 #include <time.h>
 
+#if defined(TARGET_OS_WINDOWS)
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif // defined(TARGET_OS_WINDOWS)
+
 //#define DEBUG_VXSERVER_MGR
 #define DISABLE_WATCHDOG 1
 
@@ -38,23 +43,32 @@ namespace
 {
     const int INACTIVE_LISTEN_RESTART_MS = 15 * 60 * 1000; // if no listen activity for 15 minutes reopen listen socke
 
-    void * VxServerMgrVxThreadFunc(  void * pvContext )
+    void * VxServerMgrVxThreadFunc( void * pvContext )
 	{
         if( pvContext )
         {
-            VxThread* poVxThread = (VxThread*)pvContext;
-            poVxThread->setIsThreadRunning( true );
-            VxServerMgr * poMgr = (VxServerMgr *)poVxThread->getThreadUserParam();
-            if( poMgr )
+            VxThread* vxThread = (VxThread*)pvContext;
+            vxThread->setIsThreadRunning( true );
+            std::string threadName = vxThread->getThreadName();
+            if( !threadName.empty() )
             {
-                LogModule( eLogListen, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread started thread 0x%x", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId() );
-                poMgr->listenForConnectionsToAccept( poVxThread );
-                // quitting
-                LogModule( eLogListen, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread 0x%x tid %d quiting", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId(), poVxThread->getThreadTid() );
+                bool ipv6 = threadName.find( "IPv6" ) != std::string::npos;
+                VxServerMgr* poMgr = (VxServerMgr*)vxThread->getThreadUserParam();
+                if( poMgr )
+                {
+                    LogModule( eLogListen, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread started thread 0x%x", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId() );
+                    poMgr->listenForConnectionsToAccept( ipv6, vxThread );
+                    // quitting
+                    LogModule( eLogListen, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread 0x%x tid %d quiting", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId(), vxThread->getThreadTid() );
+                }
+            }
+            else
+            {
+                 LogMsg( LOG_ERROR, "#### thread  thread 0x%x tid %d has empty thread name", VxGetCurrentThreadId(), vxThread->getThreadTid() );
             }
 
             //! VxThread calls this just before exit
-            poVxThread->threadAboutToExit();
+            vxThread->threadAboutToExit();
         }
         return nullptr;
 	}
@@ -71,215 +85,97 @@ VxServerMgr::VxServerMgr()
 	m_iAcceptMgrCnt++;
 	m_iMgrId = m_iAcceptMgrCnt;
 	m_eSktMgrType = eSktMgrTypeTcpAccept;
-	memset( m_aoListenSkts, 0, sizeof( m_aoListenSkts ) );
 }
 
 //============================================================================
-VxServerMgr::~VxServerMgr()
+void VxServerMgr::sktMgrStartup( void )
 {
-	stopListening();
+	startListeningThreads();
 }
 
 //============================================================================
-// overrides VxSktBaseMgr
 void VxServerMgr::sktMgrShutdown( void )
 {
-	stopListening();
+	stopListeningThreads();
 	VxSktBaseMgr::sktMgrShutdown();
 }
 
 //============================================================================
-void VxServerMgr::fromGuiKickWatchdog( void )
+RCODE VxServerMgr::startListeningThreads( void )
 {
-	//LogMsg( LOG_SKT, "VxServerMgr: fromGuiKickWatchdog\n" );
-	m_LastWatchdogKickMs = GetTimeStampMs();
+    std::string ipv4ThreadName;
+    StdStringFormat( ipv4ThreadName, "VxServerMgr%dIPv4", m_iMgrId );
+    RCODE rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, ipv4ThreadName.c_str() );
+#if ENABLE_IPV6
+    if( 0 == rc )
+    {
+        std::string ipv6ThreadName;
+        StdStringFormat( ipv4ThreadName, "VxServerMgr%dIPv6", m_iMgrId );
+        rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, ipv4ThreadName.c_str() );
+    }
+#endif // ENABLE_IPV6
+    return rc;
 }
 
 //============================================================================
-bool VxServerMgr::checkWatchdog( void )
+void VxServerMgr::stopListeningThreads( void )
 {
-	// there is an issue with android.. in some cases it can leave the listen socket open even though the
-	// app is stopped or crashed. this watchdog is used to force the listen socket to close
-	// and terminate the app if it is unresponsive.
-#ifdef _DEBUG
-	return true; // if we are debugging don't timeout because we are on a breakpoint
-#endif 
-#ifdef DISABLE_WATCHDOG
-	return true; // if we are debugging don't timeout because we are on a breakpoint
-#endif 
+    setIsReadyToAcceptConnections( false, false );
+    m_ListenThreadIpv4.abortThreadRun( true );
+    listenSettingsUpdated( false, true );
+    setIsReadyToAcceptConnections( false , false );
+#if ENABLE_IPV6
+    m_ListenThreadIpv4.abortThreadRun( true );
+    listenSettingsUpdated( true, true );
+    setIsReadyToAcceptConnections( true, false );
+#endif // ENABLE_IPV6
+     
+    if( m_ListenThreadIpv4.isThreadRunning() )
+    {
+        m_ListenThreadIpv4.killThread();
+        SOCKET skt = getListenSkt( false );
+        if( INVALID_SOCKET != skt )
+        {
+            ::VxCloseSktNow( skt );
+        }
+    }
 
-	if( ( GetTimeStampMs() - m_LastWatchdogKickMs ) < 4000 )
-	{
-		return true;
-	}
+#if ENABLE_IPV6
 
-	LogMsg( LOG_INFO, "Listen Watchdog Timeout" );
-	return false;
+    if( m_ListenThreadIpv6.isThreadRunning() )
+    {
+        m_ListenThreadIpv6.killThread();
+        SOCKET skt = getListenSkt( true );
+        if( INVALID_SOCKET != skt )
+        {
+            ::VxCloseSktNow( skt );
+        }
+    }
+#endif // ENABLE_IPV6
 }
 
 //============================================================================
-std::shared_ptr<VxSktBase> VxServerMgr::makeNewAcceptSkt( void )				
+std::shared_ptr<VxSktBase> VxServerMgr::makeNewAcceptSkt( bool ipv6 )				
 { 
     std::shared_ptr<VxSktBase> sharedSkt( new VxSktAccept() );
+    sharedSkt->setIsIpv6Connection( ipv6 );
 	sharedSkt->setThisSkt( sharedSkt ); // so skt can do callbacks without look up in manager
 	return sharedSkt;
 }
 
 //============================================================================
-bool VxServerMgr::isListening( void )							
+bool VxServerMgr::isListening( bool ipv6 )							
 { 
-    return m_u16ListenPort && m_ListenVxThread.isThreadRunning() && m_aoListenSkts[ 0 ] != INVALID_SOCKET;
-}
-
-//============================================================================
-bool VxServerMgr::restartListening( void )
-{
-    bool result{ false };
-    if( isListening() )
-    {
-        LogModule( eLogListen, LOG_VERBOSE, "restartListen thread will restart port 0x%x", m_u16ListenPort );
-        m_RestartListen = true;
-        result = true;
-    }
-    else if( m_u16ListenPort != 0 )
-    {
-        LogModule( eLogListen, LOG_VERBOSE, "restartListen start listen on port 0x%x", m_u16ListenPort );
-        result = startListening( m_u16ListenPort, nullptr );
-    }
-    else
-    {
-        LogModule( eLogListen, LOG_ERROR, "restartListen listen not running and invalid port %d", m_u16ListenPort );
-    }
-
-    return result;
-}
-
-//============================================================================
-bool VxServerMgr::startListening( uint16_t u16ListenPort, const char* ip )
-{
-    stopListening();
-
-    if( VxIsAppShuttingDown() )
+    if( !m_u16ListenPort || !getListenEnable( ipv6 ) )
     {
         return false;
     }
 
-    if( 0 == u16ListenPort )
-    {
-        AppErr( eAppErrBadParameter, "VxServerMgr::startListening Bad param port %d", u16ListenPort );
-        return false;
-    }
-
-    m_LastWatchdogKickMs = GetTimeStampMs();
-    m_u16ListenPort = u16ListenPort;
-    m_IsReadyToAcceptConnections = false;
-
-    if( 0 != internalStartListen() )
-    {
-        LogModule( eLogListen, LOG_ERROR, "ipv4 listen() internalStartListen failed" );
-        return false;
-    }
-    
-    // wait for thread to open the socket
-    bool isReady = false;
-    int waitCnt = 0;
-    while( !isReady && waitCnt < 40 )
-    {
-        isReady = m_IsReadyToAcceptConnections;
-        if( !isReady )
-        {
-            VxSleep( 200 );
-            waitCnt++;
-        }
-    }
-
-    if( !isReady )
-    {
-        LogMsg( LOG_SEVERE, "ipv4 listen() open listen port failed" );
-        return false;
-    }
-
-    return true;
+    return ipv6 ? m_ListenThreadIpv6.isThreadRunning() : m_ListenThreadIpv4.isThreadRunning();
 }
 
 //============================================================================
-RCODE VxServerMgr::internalStartListen( void )
-{
-	// make a useful thread name
-	std::string strVxThreadName;
-	StdStringFormat( strVxThreadName, "VxServerMgr%d", m_iMgrId );
-    return m_ListenVxThread.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, strVxThreadName.c_str() );
-}
-
-//============================================================================
-void VxServerMgr::closeAndAbortListenSocket( void )
-{
-    if( m_iActiveListenSktCnt )
-    {
-        m_ListenVxThread.abortThreadRun( true );
-
-        m_ListenSktIsBoundToIp = false;
-        m_IsReadyToAcceptConnections = false;
-        LogModule( eLogListen, LOG_DEBUG, "### VxServerMgr: Mgr %d stop listening %d skt cnt %d thread 0x%x", m_iMgrId, m_u16ListenPort, m_iActiveListenSktCnt, VxGetCurrentThreadId() );
-        m_u16ListenPort = 0;
-
-        // kill previous thread if running
-        m_ListenVxThread.abortThreadRun( true );
-        m_ListenMutex.lock();
-        for( int i = 0; i < m_iActiveListenSktCnt; i++ )
-        {
-            if( INVALID_SOCKET != m_aoListenSkts[ i ] )
-            {
-                LogModule( eLogListen, LOG_INFO, "VxServerMgr: Mgr %d closing listen skt %d", m_iMgrId, i );
-
-                // closing the thread should release it so it can exit
-                SOCKET sktToClose = m_aoListenSkts[ i ];
-                m_aoListenSkts[ i ] = INVALID_SOCKET;
-                ::VxCloseSktNow( sktToClose );
-                if( m_pfnSktMgrStatus )
-                {
-                    m_pfnSktMgrStatus( "ListenClose", (void*)sktToClose, m_pvSktMgrStatusCallbackUserData );
-                }
-            }
-            else
-            {
-                LogModule( eLogListen, LOG_ERROR, "VxServerMgr:stopListening skt idx %d had invalid socket", i );
-            }
-        }
-
-        m_iActiveListenSktCnt = 0;
-        m_ListenMutex.unlock();
-        if( m_ListenVxThread.isThreadRunning() )
-        {
-            m_ListenVxThread.killThread();
-        }
-    }
-    else
-    {
-        LogModule( eLogListen, LOG_DEBUG, "VxServerMgr:stopListening called with no listen sockets" );
-    }
-}
-
-//============================================================================
-RCODE VxServerMgr::stopListening( void )
-{
-    if( !isListening() )
-    {
-        return 0; // not listening
-    }
-
-    closeAndAbortListenSocket();
-
-    m_ListenMutex.lock();
-    m_u16ListenPort = 0;
-    m_LclIp.setIpAndPort( "", m_u16ListenPort );
-    m_ListenMutex.unlock();
-
-	return 0;
-}
-
-//============================================================================
-RCODE VxServerMgr::acceptConnection( VxThread* poVxThread, SOCKET oListenSkt )
+RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET oListenSkt )
 {
 	RCODE rc = 0;
 	if( INVALID_SOCKET == oListenSkt )
@@ -288,9 +184,9 @@ RCODE VxServerMgr::acceptConnection( VxThread* poVxThread, SOCKET oListenSkt )
 		return -2;
 	}
 
-	if( VxIsAppShuttingDown() )
+	if( shouldListenAbort( ipv6 ) || !getListenEnable(ipv6) || getIsListenParamsChanged(ipv6) )
 	{
-        LogModule( eLogListen, LOG_ERROR, "VxServerMgr::acceptConnection App Shutting down thread 0x%x", VxGetCurrentThreadId() );
+        LogModule( eLogListen, LOG_ERROR, "VxServerMgr::acceptConnection aborted accept thread 0x%x", VxGetCurrentThreadId() );
         return -3;
 	}
 
@@ -304,20 +200,17 @@ RCODE VxServerMgr::acceptConnection( VxThread* poVxThread, SOCKET oListenSkt )
 
 	// perform accept
 	// setup address
-    struct  sockaddr acceptAddr;
-    socklen_t acceptAddrLen = sizeof( struct  sockaddr );
-    memset( &acceptAddr, 0, sizeof( struct sockaddr ) );
+    struct sockaddr_storage acceptAddr;
+    socklen_t acceptAddrLen = VxSktAddrInit( ipv6, acceptAddr );
 
-#if defined( TARGET_OS_WINDOWS ) || defined( TARGET_OS_ANDROID )
     // NOTE: in android the return to blocking on listen doesn't work so we just set it once before start listening so accept does not get hung
-    SOCKET oAcceptSkt = accept( oListenSkt, &acceptAddr, &acceptAddrLen );
-#else //LINUX
-	// NOTE: accept can hang waiting for connection in linux or android if
-	// connection is dropped before the accept happens so set to non blocking.. the reason it hangs is it will wait until next connection occures	
-	VxSetSktBlocking( oListenSkt, false );
-    SOCKET oAcceptSkt = accept( oListenSkt, &acceptAddr, &acceptAddrLen );
-	VxSetSktBlocking( oListenSkt, true );
-#endif // LINUX
+    SOCKET oAcceptSkt = accept( oListenSkt, (sockaddr *) &acceptAddr, &acceptAddrLen);
+
+    if( shouldListenAbort( ipv6 ) || !getListenEnable(ipv6) || getIsListenParamsChanged(ipv6) )
+	{
+        LogModule( eLogListen, LOG_ERROR, "VxServerMgr::acceptConnection aborted accept2 thread 0x%x", VxGetCurrentThreadId() );
+        return -4;
+	}
 
 static int acceptErrCnt = 0;
 static int dumpSktStatsCnt = 0;
@@ -414,14 +307,14 @@ static int dumpSktStatsCnt = 0;
 		return 0; // keep running until number of connections clear up
 	}
 
-    struct sockaddr_in sktAddr;
-    socklen_t sktAddrLen = sizeof( sktAddr );
-    memset( &sktAddr, 0, sizeof( sktAddr ) );
+    struct sockaddr_storage sktAddr;
+    socklen_t sktAddrLen = VxSktAddrInit( ipv6, sktAddr );
 
     std::string rmtIp;
+    uint16_t rmtPort{ 0 };
     if( 0 == getpeername( oAcceptSkt, (struct sockaddr*)&sktAddr, &sktAddrLen ) )
     {
-        rmtIp = inet_ntoa( sktAddr.sin_addr );
+        VxSktAddrGetParams( ipv6, sktAddr, rmtIp, rmtPort );
     }
 
     if( rmtIp.empty() )
@@ -438,7 +331,7 @@ static int dumpSktStatsCnt = 0;
     }
 
 	// add a skt to our list	
-	std::shared_ptr<VxSktBase> sktBase = makeNewAcceptSkt();
+	std::shared_ptr<VxSktBase> sktBase = makeNewAcceptSkt( ipv6 );
 	m_SktMgrMutex.lock(__FILE__, __LINE__); // dont let other threads mess with array while we add
 	m_aoSkts.emplace_back( sktBase );
 	// do tell skt to do accept stuff
@@ -456,7 +349,7 @@ static int dumpSktStatsCnt = 0;
 		LogMsg( LOG_ERROR, "VxServerMgr: error %d doing accept skt %d skt id %d thread 0x%x", rc, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
         moveToEraseList( sktBase );
 
-        rc = -5;
+        rc = -7;
 	}
     else
     {
@@ -470,47 +363,53 @@ static int dumpSktStatsCnt = 0;
 }
 
 //============================================================================
-void VxServerMgr::listenForConnectionsToAccept( VxThread* poVxThread )
+void VxServerMgr::listenForConnectionsToAccept( bool ipv6, VxThread* poVxThread )
 {
 #ifdef DEBUG_SKT_CONNECTIONS
 	//LogMsg( LOG_INFO, "111 IN THREAD VxServerMgr::listenForConnectionsToAccept started\n" ); 
 	//LogMsg( LOG_INFO, "111 IN THREAD VxServerMgr::listen port %d ip %s skt %d\n", m_LclIp.getPort(), m_LclIp.toStdString().c_str(), m_aoListenSkts[0] ); 
 #endif // DEBUG_SKT_CONNECTIONS
 
-    uint16_t listenPort = m_u16ListenPort;
-    if( listenPort < 80 )
+start_over:
+    closeListenSocket( ipv6 );
+
+    waitForValidListenSettings( ipv6 );
+
+    if( shouldListenAbort( ipv6 ) )
     {
-        LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket invalid listen port %d", listenPort );
         return;
     }
 
-    closeListenSocket();
+    setIsListenParamsChanged( ipv6, false );
 
     SOCKET listenSock = INVALID_SOCKET;
-    if( !createNewListenSocket( listenPort, listenSock ) )
+    if( !createNewListenSocket( ipv6, getListenPort(), listenSock, getLocalIp(ipv6) ) )
     {
-        LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket failed create listen socket for port %d", listenPort );
+        LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket failed create listen socket for ip %s port %d", getLocalIp(ipv6).c_str(), getListenPort() );
         return;
     }
 
-    m_aoListenSkts[0] = listenSock;
-    m_iActiveListenSktCnt = 1;
+    setListenSkt( ipv6, listenSock );
 
-    m_IsReadyToAcceptConnections = true;
+    if( shouldListenAbort( ipv6 ) )
+    {
+        return;
+    }
 
     m_LastListenActivityMs = GetGmtTimeMs();
 
-	// for some unknown reason code that works on mac/windows/linux to use select does not work on android
+	// for some unknown reason select code that works on mac/windows/linux does not work on android
 	// on android when use select the select seems to work but in the accept it gets error 22 (invalid param) .. so do this crap
-	while( !shouldListenAbort() && ( checkWatchdog() ) )
+	while( !shouldListenAbort( ipv6 ) )
 	{
-        RCODE rc = 0;
-        if( m_RestartListen || GetGmtTimeMs() - m_LastListenActivityMs > INACTIVE_LISTEN_RESTART_MS )
+        if( getIsListenParamsChanged( ipv6 ) )
         {
-            refreshListenSocket( listenPort );
+            goto start_over;
         }
 
-        int listenResult = listen( m_aoListenSkts[0], 8 );
+        RCODE rc = 0;
+
+        int listenResult = listen( listenSock, MAX_LISTEN_BACKLOG );
         if( 0 > listenResult )
 		{
             rc = VxGetLastError();
@@ -520,14 +419,18 @@ void VxServerMgr::listenForConnectionsToAccept( VxThread* poVxThread )
                 rc = EAGAIN;
             }
 #endif // defined(TARGET_OS_WINDOWS)
-		}
-		
+		}	
 
-		if( shouldListenAbort() )
+		if( shouldListenAbort( ipv6 ) )
 		{
             LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: aborting1" );
 			break;
 		}
+
+        if( getIsListenParamsChanged( ipv6 ) )
+        {
+            goto start_over;
+        }
 		
         if( rc )
         {
@@ -538,11 +441,11 @@ void VxServerMgr::listenForConnectionsToAccept( VxThread* poVxThread )
                 if( listenErrCnt > 50 )
                 {
                     listenErrCnt = 0;
-                    LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: try again: listen ip %s port %d skt %d error %d thread 0x%x", m_LclIp.toStdString().c_str(), m_u16ListenPort, m_aoListenSkts[0], rc, VxGetCurrentThreadId() );
+                    LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: try again: listen ip %s port %d skt %d error %d thread 0x%x", m_LclIp.toStdString().c_str(), m_u16ListenPort, getListenSkt( ipv6 ), rc, VxGetCurrentThreadId());
                 }
 
                 VxSleep( 200 );
-                if( shouldListenAbort() )
+                if( shouldListenAbort( ipv6 ) )
                 {
                     LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: aborting2" );
                     break;
@@ -555,57 +458,54 @@ void VxServerMgr::listenForConnectionsToAccept( VxThread* poVxThread )
                 LogMsg( LOG_DEBUG, "listen: ERROR %s", VxDescribeSktError( rc ) );
 
                 VxSleep( 500 );
-                if( shouldListenAbort() )
+                if( shouldListenAbort( ipv6 ) )
                 {
                     LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: aborting3" );
                     break;
                 }
 
                 // probably we lost internet connection for some reason.. create a new socket and try again
-                refreshListenSocket( listenPort );
-                continue;
+                goto start_over;
             }
         }
 
-		acceptConnection( poVxThread, m_aoListenSkts[0] );
+		acceptConnection( ipv6, poVxThread, listenSock );
 	}	
 	
-	m_IsReadyToAcceptConnections = false;
+	setIsReadyToAcceptConnections( ipv6, false );
 
-    closeListenSocket();
-
-	if( (false == VxIsAppShuttingDown() )
-		&& ( false == checkWatchdog() ) )
-	{
-        LogModule( eLogListen, LOG_ERROR, "Listen Failed Watchdog" );
-		std::terminate();
-	}
+    closeListenSocket( ipv6 );
 
     LogModule( eLogConnect, LOG_INFO, "Listen Thread is exiting thread 0x%x", VxGetCurrentThreadId() );
 }
 
 //============================================================================
-bool VxServerMgr::createNewListenSocket( uint16_t listenPort, SOCKET& retListenSock )
+bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET& retListenSock, std::string lclIp )
 {
-    SOCKET listenSock = socket( AF_INET, SOCK_STREAM, 0 );               // creates IP based TCP socket
+    // some vpns get confused if the same socket number is reused after closed so make a dummy socket so socket number is incremented
+    SOCKET dummySock = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0 );               // creates IP based TCP socket
+    if( dummySock < 0 )
+    {
+        LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket failed" );
+        return false;
+    }
+
+    SOCKET listenSock = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0 );               // creates IP based TCP socket
     if( listenSock < 0 )
     {
         LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket failed" );
+        VxCloseSkt( dummySock );
         return false;
     }
 
     // don't know why reuse port doesn't work
     VxSetSktAllowReusePort( listenSock );
 
-    struct sockaddr_in serverAddr;
-    memset( &serverAddr, 0, sizeof( struct sockaddr_in ) );
-
-    serverAddr.sin_family = AF_INET;                    // sets listen socket protocol type
-    serverAddr.sin_addr.s_addr = htonl( INADDR_ANY );   // sets our local IP address
-    serverAddr.sin_port = htons( listenPort );          // sets the listen port number 
+    struct sockaddr_storage sockAddr;
+    socklen_t sockAddrLen = VxSktAddrInit( ipv6, sockAddr, lclIp, listenPort );
 
     // Bind Socket
-    int bindStatus = bind( listenSock, ( struct sockaddr* )&serverAddr, sizeof( struct sockaddr ) );
+    int bindStatus = bind( listenSock, (struct sockaddr*)&sockAddr, sockAddrLen );
     int retryCnt = 0;
     while( bindStatus < 0 )
     {
@@ -617,14 +517,11 @@ bool VxServerMgr::createNewListenSocket( uint16_t listenPort, SOCKET& retListenS
         }
 
         VxSleep( 1000 );
-        bindStatus = bind( listenSock, ( struct sockaddr* )&serverAddr, sizeof( struct sockaddr ) );
+        bindStatus = bind( listenSock,  (struct sockaddr*)&sockAddr, sockAddrLen );
     }
 
-    // don't know why reuse port doesn't work
-    VxSetSktAllowReusePort( listenSock );
-
     // android set listen skt back to blocking doesn't work so just set to non blocking always ( part of accept hang fix ) 
-    VxSetSktBlocking( listenSock, false );
+    //  VxSetSktBlocking( listenSock, false );
 
     if( m_pfnSktMgrStatus )
     {
@@ -637,15 +534,23 @@ bool VxServerMgr::createNewListenSocket( uint16_t listenPort, SOCKET& retListenS
         VxGetSktStatCallback()->sktConnected3( listenSock, VxGetLclIpAddress( listenSock ), eSktTypeListen );
     }
 
+    VxCloseSkt( dummySock );
     return true;
 }
 
 //============================================================================
-bool VxServerMgr::shouldListenAbort( void )
+bool VxServerMgr::shouldListenAbort( bool ipv6 )
 {
-    if( m_ListenVxThread.isAborted()
-        || VxIsAppShuttingDown()
-        || (0 >= m_iActiveListenSktCnt) )
+    if( VxIsAppShuttingDown() )
+    {
+        return true;
+    }
+
+    if( ipv6 && m_ListenThreadIpv6.isAborted() )
+    {
+        return true;
+    }
+    else if( !ipv6 && m_ListenThreadIpv4.isAborted() )
     {
         return true;
     }
@@ -654,14 +559,20 @@ bool VxServerMgr::shouldListenAbort( void )
 }
 
 //============================================================================
-void VxServerMgr::closeListenSocket( void )
+void VxServerMgr::closeListenSocket( bool ipv6 )
 {
-    if( INVALID_SOCKET != m_aoListenSkts[ 0 ] )
+    SOCKET sktToClose = getListenSkt( ipv6 );
+    if( INVALID_SOCKET != sktToClose )
     {
-        SOCKET sktToClose = m_aoListenSkts[ 0 ];
+        setListenSkt( ipv6, INVALID_SOCKET );
         LogModule( eLogListen, LOG_INFO, "VxServerMgr:listenForConnectionsToAccept closing listen skt %d", sktToClose );
-        m_aoListenSkts[ 0 ] = INVALID_SOCKET;
-        ::VxCloseSktNow( sktToClose );
+        
+        // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
+        // until the system has completely cleaned it up
+        char setTrue = 1;
+        setsockopt( sktToClose, SOL_SOCKET, SO_REUSEADDR, &setTrue, sizeof( char ) );
+
+        ::VxCloseSkt( sktToClose );
         if( m_pfnSktMgrStatus )
         {
             m_pfnSktMgrStatus( "ListenClose", (void*)sktToClose, m_pvSktMgrStatusCallbackUserData );
@@ -670,26 +581,248 @@ void VxServerMgr::closeListenSocket( void )
 }
 
 //============================================================================
-bool VxServerMgr::refreshListenSocket( uint16_t listenPort )
+void VxServerMgr::setListenPort( uint16_t port )
 {
-    closeListenSocket();
-
-    // better to create a first new socket before or we get the same socket handle back which may be confusing to VPN
-    SOCKET junkSock = socket( AF_INET, SOCK_STREAM, 0 );
-
-    SOCKET listenSock = INVALID_SOCKET;
-    if( !createNewListenSocket( listenPort, listenSock ) )
+    bool changed{ false };
+    lockListenSettings();
+    if( m_u16ListenPort != port )
     {
-        LogMsg( LOG_ERROR, "Thread createListenSocket failed create listen socket for port %d ", listenPort );
-        return false;
+        m_u16ListenPort = port;
+        changed = true;
     }
 
-    LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: created new socket to listen on" );
-    m_aoListenSkts[ 0 ] = listenSock;
-    m_iActiveListenSktCnt = 1;
+    unlockListenSettings();
+    if( changed )
+    {
+        onListenSettingsChanged( false );
+        onListenSettingsChanged( true );
+    }
+}
 
-    m_LastListenActivityMs = GetGmtTimeMs();
+//============================================================================
+uint16_t VxServerMgr::getListenPort( void )
+{
+    lockListenSettings();
+    uint16_t port = m_u16ListenPort;
+    unlockListenSettings();
 
-    VxCloseSkt( junkSock );
+    return port;
+}
+
+//============================================================================
+void VxServerMgr::setLocalIp( bool ipv6, std::string& newLocalIp )
+{
+    bool changed{ false };
+    lockListenSettings();
+    if( ipv6 )
+    {
+        if( m_LclAddressIpv6 != newLocalIp )
+        {
+            m_LclAddressIpv6 = newLocalIp;
+            changed = true;
+        }
+    }
+    else
+    {
+        if( m_LclAddressIpv4 != newLocalIp )
+        {
+            m_LclAddressIpv4 = newLocalIp;
+            changed = true;
+        }
+    }
+
+    unlockListenSettings();
+    if( changed )
+    {
+        onListenSettingsChanged( ipv6 );
+    }
+}
+
+//============================================================================
+std::string VxServerMgr::getLocalIp( bool ipv6, bool* retIsValid )
+{
+    lockListenSettings();
+    std::string localIp = ipv6 ? m_LclAddressIpv6 : m_LclAddressIpv4;
+    unlockListenSettings();
+
+    if( retIsValid )
+    {
+        *retIsValid = VxIsIpValid( localIp );
+    }
+
+    return localIp;
+}
+
+
+//============================================================================
+void VxServerMgr::setListenEnable( bool ipv6, bool enable )
+{
+    bool changed{ false };
+    lockListenSettings();
+    if( ipv6 )
+    {
+        if( m_ListenEnabledIpv6 != enable )
+        {
+            m_ListenEnabledIpv6 = enable;
+            changed = true;
+        }
+    }
+    else
+    {
+        if( m_ListenEnabledIpv4 != enable )
+        {
+            m_ListenEnabledIpv4 = enable;
+            changed = true;
+        }
+    }
+
+    unlockListenSettings();
+    if( changed )
+    {
+        onListenSettingsChanged( ipv6 );
+    }
+}
+
+//============================================================================
+bool VxServerMgr::getListenEnable( bool ipv6 )
+{
+    lockListenSettings();
+    bool listenEnabled = ipv6 ? m_ListenEnabledIpv6 : m_ListenEnabledIpv4;
+    unlockListenSettings();
+
+    return listenEnabled;
+}
+
+//============================================================================
+void VxServerMgr::setListenSkt( bool ipv6, SOCKET skt )       
+{ 
+    lockListenSettings();
+    ipv6 ? m_ListenSktIpv6 = skt :  m_ListenSktIpv4 = skt; 
+    unlockListenSettings();
+}
+
+//============================================================================
+SOCKET VxServerMgr::getListenSkt( bool ipv6, bool setExistingSktToInvalid )
+{
+    lockListenSettings();
+    SOCKET skt = ipv6 ? m_ListenSktIpv6 : m_ListenSktIpv4;
+    if( setExistingSktToInvalid )
+    {
+        ipv6 ? m_ListenSktIpv6 = INVALID_SOCKET : m_ListenSktIpv4 = INVALID_SOCKET;
+    }
+
+    unlockListenSettings();
+
+    return skt;
+}
+
+//============================================================================
+void VxServerMgr::onListenSettingsChanged( bool ipv6 )
+{
+    setIsListenParamsChanged( ipv6, true );
+}
+
+//============================================================================
+void VxServerMgr::setIsListenParamsChanged( bool ipv6, bool isChanged )
+{
+    lockListenSettings();
+    ipv6 ? m_SettingsChangedIpv6 = isChanged : m_SettingsChangedIpv4 = isChanged;
+    if( isChanged )
+    {
+        // force close of listen skt so thread is released to rebuild listen
+        SOCKET skt = ipv6 ? m_ListenSktIpv6 : m_ListenSktIpv4;
+        ipv6 ? m_ListenSktIpv6 = INVALID_SOCKET : m_ListenSktIpv4 = INVALID_SOCKET;
+  
+        if( skt != INVALID_SOCKET )
+        {
+            VxSetSktBlocking( skt, false );
+            
+            LogModule( eLogListen, LOG_INFO, "VxServerMgr:listenForConnectionsToAccept closing listen skt %d", skt );
+        
+            // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
+            // until the system has completely cleaned it up
+            char setTrue = 1;
+            setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, &setTrue, sizeof( char ) );
+
+            ::VxCloseSkt( skt );
+            if( m_pfnSktMgrStatus )
+            {
+                m_pfnSktMgrStatus( "ListenClose", (void*)skt, m_pvSktMgrStatusCallbackUserData );
+            }
+        }
+    }
+
+    unlockListenSettings();
+}
+
+//============================================================================
+bool VxServerMgr::getIsListenParamsChanged( bool ipv6 )
+{
+    lockListenSettings();
+    bool changed = ipv6 ? m_SettingsChangedIpv6 : m_SettingsChangedIpv4;
+    unlockListenSettings();
+
+    return changed;
+}
+
+//============================================================================
+bool VxServerMgr::isListenParamsValid( bool ipv6 )
+{
+    lockListenSettings();
+    bool valid = VxIsPortValid( m_u16ListenPort );
+    if( valid )
+    {
+        valid &= ipv6 ? VxIsIpValid( m_LclAddressIpv6 ) : VxIsIpValid( m_LclAddressIpv4 );
+    }
+
+    unlockListenSettings();
+
+    return valid;
+}
+
+//============================================================================
+void VxServerMgr::setIsReadyToAcceptConnections( bool ipv6, bool isReady )
+{ 
+    lockListenSettings();
+    ipv6 ? m_IsReadyToAcceptConnectionsIpv6 = isReady : m_IsReadyToAcceptConnectionsIpv4 = isReady;
+    unlockListenSettings();
+}
+
+//============================================================================
+bool VxServerMgr::getIsReadyToAcceptConnections( bool ipv6 )
+{ 
+    lockListenSettings();
+    bool isReadyToAccept = ipv6 ? m_IsReadyToAcceptConnectionsIpv6 : m_IsReadyToAcceptConnectionsIpv4;
+    unlockListenSettings();
+
+    return isReadyToAccept;
+}
+
+//============================================================================
+bool VxServerMgr::waitForValidListenSettings( bool ipv6 )
+{
+    while( !getListenEnable( ipv6 ) || !isListenParamsValid( ipv6 ) )
+    {
+        if( shouldListenAbort( ipv6 ) )
+        {
+            return false;
+        }
+
+        VxSleep( 1000 );
+
+        if( shouldListenAbort( ipv6 ) )
+        {
+            return false;
+        }
+    }
+
     return true;
+}
+
+//============================================================================
+void VxServerMgr::listenSettingsUpdated( bool ipv6, bool forceListenSktRelease )
+{
+    // we need to release the listen thread so will update
+    // not sure how well this will work
+    setIsListenParamsChanged( ipv6, true );
 }

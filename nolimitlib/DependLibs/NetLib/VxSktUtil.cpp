@@ -33,6 +33,7 @@
 #include <time.h>
 #include <errno.h>
 #include <memory.h>
+#include <array>
 
 #ifdef TARGET_OS_WINDOWS
     // helpers for adapter info
@@ -108,8 +109,19 @@ RCODE VxSocketsStartup( void )
 }
 
 //============================================================================
+bool VxIsPortValid( uint16_t port )
+{
+	return port > 79;
+}
+
+//============================================================================
 bool VxIsIpValid( std::string& ipAddr )
 {
+	if( ipAddr.empty() )
+	{
+		return false;
+	}
+
     static const std::string nullIpV4 = "0.0.0.0";
     static const std::string loopBackIpV4 = "127.0.0.1";
     static const std::string loopBackIp1V6 = "0000:0000:0000:0000:0000:0000:0000:0001/128";
@@ -120,6 +132,18 @@ bool VxIsIpValid( std::string& ipAddr )
         ipAddr != loopBackIp1V6 &&
         ipAddr != loopBackIp2V6 &&
         ( ipAddr.find('.') != std::string::npos || ipAddr.find(':') != std::string::npos );
+}
+
+//============================================================================
+bool VxIsIpv6Address( std::string& ipAddr )
+{
+	if( !VxIsIpValid( ipAddr ) )
+	{
+		return false;
+	}
+
+	int colonCount = std::count(ipAddr.begin(), ipAddr.end(), ':');
+	return colonCount >= 2;
 }
 
 //============================================================================
@@ -167,12 +191,13 @@ std::string	VxIpToString( struct sockaddr * addr )
 	}
 	else if( AF_INET6 == addr->sa_family )
 	{
-		char ip6Buf[64];
-		ip6Buf[0] = 0;
-		VxIP_ntop( AF_INET6, &((sockaddr_in6 *)(addr))->sin6_addr, ip6Buf, sizeof( ip6Buf ), true );
-		return std::string( ip6Buf );
+		std::array<char, INET6_MAX_STR_LEN> ip6Buf;
+		ip6Buf.data()[0] = 0;
+		VxIP_ntop( AF_INET6, &((sockaddr_in6 *)(addr))->sin6_addr, ip6Buf.data(), ip6Buf.size(), true);
+		return std::string( ip6Buf.data() );
 	}
 
+	vx_assert( false );
 	return std::string( "UNKNOWN" );
 }
 
@@ -219,7 +244,8 @@ void VxIPv4_ntop( void * pvBinary, char * pBuf, int iBufLen, bool isHostOrder )
 		pTemp = (uint8_t *)pvBinary;
 	}
 
-    sprintf( pBuf, "%i.%i.%i.%i", pTemp[3], pTemp[2], pTemp[1], pTemp[0] );
+    snprintf( pBuf, iBufLen-1, "%i.%i.%i.%i", pTemp[3], pTemp[2], pTemp[1], pTemp[0] );
+	pBuf[iBufLen - 1] = 0;
 }
 
 //============================================================================
@@ -272,6 +298,8 @@ void VxIPv6_ntop( void * pvBinary, char * pBuf, int iBufLen )
 			}
 		}
 	}
+
+	vx_assert( strlen( pBuf ) < iBufLen );
 }
 
 //============================================================================
@@ -310,39 +338,57 @@ void VxIPv4_pton( const char* pIpStr, void * pvBinary, bool wantHostOrder )
 }
 
 //============================================================================
-void VxIPv6_pton( const char* pIpStringIn,  void * pvBinary )
+void VxIPv6_pton( const char* pIpStringIn,  void* pvBinary )
 {
+	if( !pIpStringIn || !pvBinary )
+	{
+		LogMsg( LOG_ERROR, "VxIPv6_pton invalid param" );
+		vx_assert( false );
+	}
+
+	size_t iStrLen = strlen( pIpStringIn );
+	if( iStrLen < 6 )
+	{
+		LogMsg( LOG_ERROR, "VxIPv6_pton invalid ip string len" );
+		vx_assert( false );
+	}
+
+
 	uint16_t * pBinary = (uint16_t *)pvBinary; 
 	std::vector<uint16_t> aoValues;
-	size_t iStrLen = strlen( pIpStringIn );
-	char * pIpString = new char[iStrLen + 1];
-	strcpy( pIpString, pIpStringIn );
+	
+	std::vector<char> ipVec;
+	ipVec.reserve( iStrLen + 1 );
 
-	while( 0 != pIpString[0] )
+	strcpy( ipVec.data(), pIpStringIn);
+
+	int ipIdx{ 0 };
+	while( 0 != ipVec[ipIdx] )
 	{
-		if( ':' == pIpString[0] )
+		if( ':' == ipVec[ipIdx] )
 		{
 			aoValues.push_back(0);
-			pIpString += 1;
+			ipIdx += 1;
 		}
 		else 
 		{
 			uint16_t u16Value;
-			if( strchr( pIpString, ':') )
+			if( strchr( &ipVec[ ipIdx ], ':') )
 			{
-				char * pValue = strtok( (char *)pIpString, ":");
+				char * pValue = strtok( (char *)&ipVec[ ipIdx ], ":");
 				if( pValue )
 				{
-					u16Value = (uint16_t)strtol( pIpString, NULL, 16 );
+					u16Value = (uint16_t)strtol( &ipVec[ ipIdx ], NULL, 16 );
 					aoValues.push_back( htons( u16Value ) );
-					pIpString += strlen( pValue );
+					ipIdx += strlen( pValue );
 				}
-				pIpString += + 1;
+
+				ipIdx += + 1;
 				
 			}
 			else
 			{
-				u16Value = (uint16_t)strtol( pIpString, NULL, 16 );
+				u16Value = (uint16_t)strtol(  &ipVec[ ipIdx ], NULL, 16 );
 				aoValues.push_back( htons( u16Value ) );
 				break;
 			}
@@ -712,17 +758,18 @@ bool VxSplitHostAndFile(	const char* pFullUrl,		// full url.. example http://www
 }
 
 //============================================================================
-void VxSetSktAllowReusePort( SOCKET skt )
+bool VxSetSktAllowReusePort( SOCKET skt )
 {
-#ifndef TARGET_OS_WINDOWS 
 	// on windows need to don't do this or will allow binding to a port that is in use
 	// on Linux this just lets you bind right after it has been released
-	int reusePort = 1;
-	if( SOCKET_ERROR == setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, &reusePort, sizeof(int)) ) 
+	char reusePort = 1;
+	if( SOCKET_ERROR == setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, &reusePort, sizeof(reusePort)) ) 
 	{
 		LogMsg( LOG_ERROR,  "VxSktBase::setReuseSocket error %d", VxGetLastError() );
+		return false;
 	}
-#endif // TARGET_OS_WINDOWS 
+
+	return true;
 }
 
 //============================================================================
@@ -735,6 +782,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 
     SOCKET			sktHandle = INVALID_SOCKET;
 	std::string		strRmtIp = rmtIp.toStdString();
+	bool ipv6 = rmtIp.isIPv6();
 
 	RCODE rc = 0;
 
@@ -781,17 +829,10 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
     }
 #else
     struct sockaddr_storage sktAddrStorage;
-    memset( &sktAddrStorage, 0, sizeof( struct sockaddr_storage ) );
-
-    struct sockaddr_in *sktAddrIn = ( struct sockaddr_in* )&sktAddrStorage;
-    sktAddrIn->sin_family = AF_INET;
-    sktAddrIn->sin_port = htons( ( unsigned short )( u16Port & 0xFFFF ) );
-    sktAddrIn->sin_addr.s_addr = inet_addr( strRmtIp.c_str() );
-    socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
-    struct sockaddr *sktAddr = ( struct sockaddr* )&sktAddrStorage;
+	socklen_t sktAddrLen = VxSktAddrInit( ipv6, sktAddrStorage, strRmtIp, u16Port );
 
 	RCODE sktErr = 0;
-    sktHandle = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
+    sktHandle = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP );
     if( INVALID_SOCKET != sktHandle )
     {		
         if( g_SktStatCallback )
@@ -799,7 +840,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
             g_SktStatCallback->sktConnected( sktHandle );
         }
 
-        sktHandle = VxConnectToAddr( sktHandle, sktAddr, sktAddrLen, iConnectTimeoutMs, retSktErr ? retSktErr : &sktErr );
+        sktHandle = VxConnectToAddr( sktHandle, (struct sockaddr*)&sktAddrStorage, sktAddrLen, iConnectTimeoutMs, retSktErr ? retSktErr : &sktErr );
 		if( retSktErr )
 		{
 			rc = *retSktErr;
@@ -843,12 +884,26 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 //============================================================================
 std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool includePort )
 {
-    std::string ipAndPort = "0.0.0.0:0";
+    std::string ipAndPort;
     if( sktAddr )
     {
-        struct sockaddr_in *sktAddrIn = ( struct sockaddr_in* )sktAddr;
-        if( sktAddrIn->sin_family == AF_INET )
+		if( sktAddr->sa_family == AF_INET6 )
         {
+			struct sockaddr_in6* sktAddrIn = (struct sockaddr_in6*)sktAddr;
+			std::array<char, INET6_ADDRSTRLEN> ipData{};
+			VxIPv6_ntop( &sktAddrIn->sin6_addr, ipData.data(), ipData.size() );
+
+			ipAndPort = ipData.data();
+			
+			if( ipAndPort.length() && includePort )
+			{
+				ipAndPort += ":";
+				ipAndPort += std::to_string( ntohs( sktAddrIn->sin6_port ) );
+			}
+        }
+		else if( sktAddr->sa_family == AF_INET )
+        {
+			struct sockaddr_in* sktAddrIn = (struct sockaddr_in*)sktAddr;
             ipAndPort = inet_ntoa( sktAddrIn->sin_addr );
 			if( includePort )
 			{
@@ -856,7 +911,17 @@ std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool in
 				ipAndPort += std::to_string( ntohs( sktAddrIn->sin_port ) );
 			}
         }
+		else
+		{
+			LogModule( eLogConnect, LOG_ERROR, "VxSktAddrToString: unknown sa_family" );
+			vx_assert( false );
+		}
     }
+
+	if( ipAndPort.empty() )
+	{
+		ipAndPort = ""; // make sure string is empty string instead of nullptr
+	}
 
     return ipAndPort;
 }
@@ -1433,10 +1498,10 @@ bool VxTestConnectionOnSpecificLclAddress( InetAddress& oLclAddr )
 }
 
 //============================================================================
-bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr )
+bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr, bool ipv6Only )
 {
 	std::string resolvedIp;
-	if( VxResolveUrl( pUrl, u16Port, resolvedIp ) )
+	if( VxResolveUrl( pUrl, u16Port, resolvedIp, ipv6Only ) )
 	{
 		retInetAddr.setIp( resolvedIp.c_str() );
 		return true;
@@ -1449,7 +1514,7 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr 
 }
 
 //============================================================================
-bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr )
+bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, bool ipv6Only  )
 {
 	std::string strHost;
 	std::string strFile;
@@ -1457,11 +1522,11 @@ bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr
 
 	bool result = VxSplitHostAndFile( urlIn.c_str(), strHost, strFile, tcpPort );
 	retPort = tcpPort;
-    return result && VxResolveUrl( strHost.c_str(), tcpPort, retIpAddr );
+    return result && VxResolveUrl( strHost.c_str(), tcpPort, retIpAddr, ipv6Only );
 }
 
 //============================================================================
-bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp ) // assumes pUrl is just host name
+bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, bool ipv6Only  ) // assumes pUrl is just host name
 {
 	if( !pUrl || strlen( pUrl ) < 5 )
 	{
@@ -1484,7 +1549,7 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp )
 
 	memset( &Hints, 0, sizeof( Hints ) );
 
-	Hints.ai_family = PF_UNSPEC;
+	Hints.ai_family = ipv6Only ? PF_INET6 : PF_UNSPEC;
 	Hints.ai_socktype = SOCK_STREAM;
 	Hints.ai_protocol = IPPROTO_TCP;
 
@@ -1536,6 +1601,7 @@ bool VxIsIPv6Address( const char*addr )
 	{
 		return true;
 	}
+
 	return false;
 }
 
@@ -1586,7 +1652,7 @@ bool VxIsIPv4Address( const char* addr, bool checkNoLocal )
 }
 
 //============================================================================
-int VxGetIPv6ScopeID( const char*addr )
+int VxGetIPv6ScopeID( const char* addr )
 {
 	if ( false == VxIsIPv6Address( addr ) )
 	{
@@ -2631,7 +2697,6 @@ const char* VxDescribeSktError( int iErr )
 #endif // TARGET_OS_WINDOWS
 }
 
-//============================================================================
 bool VxIsFatalSktError( int iErr )
 {
 	if( !iErr )
@@ -2669,3 +2734,110 @@ bool VxIsFatalSktError( int iErr )
 
 NLC_END_CDECLARES
 
+
+//============================================================================
+socklen_t VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddrStorage, uint16_t sktPort )
+{
+	memset( &sockAddrStorage, 0, sizeof( sockAddrStorage ) );
+	if( ipv6 )
+	{
+		if( sktPort )
+		{
+			// port specified set family and port
+			struct sockaddr_in6* addrIn = (struct sockaddr_in6*) & sockAddrStorage;
+			addrIn->sin6_family = AF_INET6;
+			addrIn->sin6_port = htons(sktPort);
+		}
+
+		return sizeof( struct sockaddr_in6 );
+	}
+	else
+	{
+		if( sktPort )
+		{
+			// port specified set family and port
+			struct sockaddr_in* addrIn = (struct sockaddr_in*) & sockAddrStorage;
+			addrIn->sin_family = AF_INET;
+			addrIn->sin_port = htons(sktPort);
+		}
+
+		return sizeof( struct sockaddr_in );
+	}
+}
+
+//============================================================================
+socklen_t VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddrStorage, std::string ipAddr, uint16_t sktPort )
+{
+	if( sktPort < 80 )
+	{
+		LogMsg( LOG_ERROR, "VxSktAddrInit Invalid Port %d", sktPort );
+	}
+
+	memset( &sockAddrStorage, 0, sizeof( sockAddrStorage ) );
+	if( ipv6 )
+	{
+		struct sockaddr_in6* addrIn = (struct sockaddr_in6*) & sockAddrStorage;
+		addrIn->sin6_family = AF_INET6;
+		addrIn->sin6_port = htons(sktPort);
+
+		if( !ipAddr.empty() )
+		{
+			inet_pton( AF_INET6, ipAddr.c_str(), &addrIn->sin6_addr );
+		}
+
+		return sizeof( struct sockaddr_in6 );
+	}
+	else
+	{
+		struct sockaddr_in* addrIn = (struct sockaddr_in*) & sockAddrStorage;
+		addrIn->sin_family = AF_INET;
+		addrIn->sin_port = htons(sktPort);
+		if( !ipAddr.empty() )
+		{
+			addrIn->sin_addr.s_addr = inet_addr( ipAddr.c_str() );
+		}
+		else
+		{
+			addrIn->sin_addr.s_addr = INADDR_ANY;
+		}
+
+		return sizeof( struct sockaddr_in );
+	}
+}
+
+
+//============================================================================
+bool VxSktAddrGetParams( bool ipv6, struct sockaddr_storage& sockAddrStorage, std::string& retIp, uint16_t& retPort )
+{
+	retIp.clear();
+	retPort = 0;
+	std::array<char, INET6_MAX_STR_LEN> ipAddr{};
+	if( ipv6 )
+	{
+		struct sockaddr_in6* sktInAddr = (struct sockaddr_in6*) &sockAddrStorage;
+		if( sktInAddr->sin6_family != AF_INET6 )
+		{
+			LogMsg( LOG_ERROR, "VxSktAddrGetParams: Expected  AF_INET6 %d Got %d", AF_INET6, sktInAddr->sin6_family );
+			return false;
+		}
+
+		VxIPv6_ntop( &sktInAddr->sin6_addr, ipAddr.data(), ipAddr.size() );
+		retIp = ipAddr.data();
+		retPort = ntohs( sktInAddr->sin6_port );
+	}
+	else
+	{
+		struct sockaddr_in* sktInAddr = (struct sockaddr_in*) &sockAddrStorage;
+		if( sktInAddr->sin_family != AF_INET )
+		{
+			LogMsg( LOG_ERROR, "VxSktAddrGetParams: Expected  AF_INET %d Got %d", AF_INET6, sktInAddr->sin_family );
+			return false;
+		}
+
+		VxIPv4_ntop( &sktInAddr->sin_addr, ipAddr.data(), ipAddr.size(), false );
+		retIp = ipAddr.data();
+		retPort = ntohs( sktInAddr->sin_port );
+	}
+	
+	return true;
+}

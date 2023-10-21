@@ -33,24 +33,21 @@ PluginPeerUserClient::PluginPeerUserClient( P2PEngine& engine, PluginMgr& plugin
 }
 
 //============================================================================
-void PluginPeerUserClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginPeerUserClient::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiAnnounceHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiAnnounceHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginPeerUserClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginPeerUserClient::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiJoinHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void PluginPeerUserClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrl )
+void PluginPeerUserClient::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    std::string url = !ptopUrl.empty() ? ptopUrl : "";
-    m_HostClientMgr.fromGuiUnJoinHost( hostType, sessionId, url );
+    m_HostClientMgr.fromGuiUnJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================

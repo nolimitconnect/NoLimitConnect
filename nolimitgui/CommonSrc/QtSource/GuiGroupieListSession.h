@@ -36,7 +36,7 @@ public:
     VxGUID&                     getHostOnlineId( void )                   { return m_GroupieId.getHostOnlineId(); }
     EHostType                   getHostType( void )                         { return m_GroupieId.getHostType(); }
 
-    std::string                 getGroupieUrl( void );
+    std::string                 getGroupieUrl( bool ipv6 );
     std::string                 getGroupieTitle( void );
     std::string                 getGroupieDescription( void );
 

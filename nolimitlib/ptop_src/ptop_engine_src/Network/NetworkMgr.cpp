@@ -83,6 +83,7 @@ NetworkMgr::NetworkMgr( P2PEngine&		engine,
 //============================================================================
 void NetworkMgr::networkMgrStartup( void )
 {
+	m_PeerMgr.sktMgrStartup();
 #if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.networkMgrStartup();
 #endif // ENABLE_COMPONENT_NEARBY
@@ -91,10 +92,10 @@ void NetworkMgr::networkMgrStartup( void )
 //============================================================================
 void NetworkMgr::networkMgrShutdown( void )
 {
+	m_PeerMgr.sktMgrShutdown();
 #if ENABLE_COMPONENT_NEARBY
 	m_NearbyMgr.networkMgrShutdown();
 #endif // ENABLE_COMPONENT_NEARBY
-	m_PeerMgr.sktMgrShutdown();
 }
 
 //============================================================================
@@ -126,11 +127,12 @@ void NetworkMgr::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetw
 	m_LocalIp.setIp( lclIp );
     m_bNetworkAvailable = true;
 
-	m_PeerMgr.setLocalIp( m_LocalIp );
-
 	if( m_LocalIp.isIPv4() && m_LocalIp.isValid() )
 	{
+#if ENABLE_COMPONENT_NEARBY
 		m_Engine.getMyPktAnnounce().getLanIPv4().setIp( lclIp );
+#endif // ENABLE_COMPONENT_NEARBY
+		m_Engine.getNetStatusAccum().setLanIpAddress( false, m_LocalIp.toStdString() );
 	}
 	else
 	{

@@ -92,7 +92,7 @@ public:
     void                        setNetHostAvail( bool avail );
     void                        setConnectionTestAvail( bool avail );
     void                        setDirectConnectTested( bool isTested, bool requiresRelay, std::string& myExternalIp );
-    void                        setQueryHostOnlineId( bool noError, VxGUID& onlineId );
+
     void                        setConnectToRelay( bool connectedToRelay );
 
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
@@ -105,21 +105,22 @@ public:
     bool                        isP2PAvailable( void )              { return m_FixedIpAddr || ( m_DirectConnectTested && (!m_RequriesRelay || m_ConnectedToRelay) ); };
     bool                        isRxPortOpen( void )                { return m_FixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
     bool                        requiresRelay( void )               { return m_RequriesRelay; };
-    void                        getNodeUrl( std::string& retNodeUrl );
+    void                        getNodeUrl( bool ipv6, std::string& retNodeUrl );
 
-    void                        setExternalIpAddress( std::string ipAddr );
-    std::string                 getExternalIpAddress( void );
-
-    void                        setIpPort( uint16_t ipPort );
+    void                        setIpPort( uint16_t ipPort);
     uint16_t                    getIpPort( void );
+
+    void                        setExternalIpAddress( bool ipv6 , std::string ipAddr );
+    std::string                 getExternalIpAddress( bool ipv6 );
+
+    void                        setLanIpAddress( bool ipv6, std::string ipAddr );
+    std::string                 getLanIpAddress( bool ipv6 );
 
     EInternetStatus             getInternetStatus( void )           { return m_InternetStatus; }
     ENetAvailStatus             getNetAvailStatus( void )           { m_AccumMutex.lock(); ENetAvailStatus status = m_NetAvailStatus;  m_AccumMutex.unlock(); return status;  }
 
     void                        setNearbyAvailable( bool avail )    { m_NearbyAvailable = avail; }
-    bool                        getNearbyAvailable( void )          { return m_NearbyAvailable && (!m_IpAddr.empty() || !m_LanIpAddr.empty() ); }
-    void                        setLanIpAddr( std::string ip )      { m_LanIpAddr = ip; }
-    std::string                 getLanIpAddr( void )                { return m_LanIpAddr; }
+    bool                        getNearbyAvailable( void )          { return m_NearbyAvailable && (!m_LanIpAddrIpv4.empty() || !m_LanIpAddrIpv4.empty() ); }
 
     void                        setJoinedHost( EHostType hostType, std::string hostUrl, VxGUID& connectId );
     bool                        isConnectedToHost( EHostType hostType );
@@ -135,7 +136,6 @@ protected:
     std::vector<NetAvailStatusCallbackInterface*> m_CallbackList;
 
     bool                        m_NearbyAvailable{ false };
-    std::string                 m_LanIpAddr;
 
     bool                        m_FixedIpAddr{ false };
 
@@ -150,8 +150,13 @@ protected:
     bool                        m_IsConnectedGroupHost{ false };
     bool                        m_IsExternalIpValid{ false };
 
-    std::string                 m_IpAddr;
     uint16_t                    m_IpPort{ 0 };
+    std::string                 m_ExternAddrIpv6;
+    std::string                 m_ExternAddrIpv4;
+
+    std::string                 m_LanIpAddrIpv6;
+    std::string                 m_LanIpAddrIpv4;
+
     bool                        m_NetHostIdAvail{ false };
     VxGUID                      m_NetNostOnlineId;
 
