@@ -34,6 +34,7 @@
 #include <errno.h>
 #include <memory.h>
 #include <array>
+#include <algorithm>
 
 #ifdef TARGET_OS_WINDOWS
     // helpers for adapter info
