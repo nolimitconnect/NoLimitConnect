@@ -8,6 +8,7 @@
 
 #pragma once
 
+#if defined(ENABLE_DX)
 #include "GUIColorManager.h"
 #include "utils/ColorUtils.h"
 #include "utils/Geometry.h"
@@ -291,3 +292,5 @@ private:
   Microsoft::WRL::ComPtr<ID3DBlob> m_PSBuffer;
   Microsoft::WRL::ComPtr<ID3D11PixelShader> m_PS;
 };
+
+#endif// defined(ENABLE_DX)

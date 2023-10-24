@@ -208,6 +208,7 @@
     <ClCompile Include="..\..\VxHttpValuePair.cpp" />
     <ClCompile Include="..\..\VxParseUrlComponents.cpp" />
     <ClCompile Include="..\..\VxPeerMgr.cpp" />
+    <ClCompile Include="..\..\VxPortForward.cpp" />
     <ClCompile Include="..\..\VxProxy.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -300,6 +301,7 @@
     <ClInclude Include="..\..\VxHttpValuePair.h" />
     <ClInclude Include="..\..\VxParseUrlComponents.h" />
     <ClInclude Include="..\..\VxPeerMgr.h" />
+    <ClInclude Include="..\..\VxPortForward.h" />
     <ClInclude Include="..\..\VxProxy.h" />
     <ClInclude Include="..\..\VxResolveHost.h" />
     <ClInclude Include="..\..\VxServerMgr.h" />

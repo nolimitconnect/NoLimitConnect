@@ -6,14 +6,11 @@ include(ConfigStaticDependLib)
 add_subdirectory(ffmpeg)
 
 add_subdirectory(CoreLib)
-#add_subdirectory(EasyHook) # not used
-#add_subdirectory(Effects11) # not used
 add_subdirectory(MediaToolsLib)
 #add_subdirectory(MiniZip) # not used
 add_subdirectory(NetLib)
 add_subdirectory(PktLib)
 #add_subdirectory(Python-2.7.14) # not used directly but headers are used
-add_subdirectory(Upnp2Lib)
 add_subdirectory(VxVideoLib)
 #add_subdirectory(androidNdk) # not used
 add_subdirectory(bzlib)
@@ -63,6 +60,7 @@ add_subdirectory(libmdnsresponder)
 add_subdirectory(libmfx)
 add_subdirectory(libmicrohttpd)
 add_subdirectory(libminiaudio)
+add_subdirectory(libminiupnpc)
 add_subdirectory(libnfs)
 add_subdirectory(libogg)
 add_subdirectory(libopencore-amr)
@@ -80,9 +78,7 @@ endif()
 
 #add_subdirectory(libptools) # not used
 #add_subdirectory(librapidjson) # not used
-#add_subdirectory(librsvg) # not used
 #add_subdirectory(librtmp) # not used
-#add_subdirectory(libsdl) # not used
 #add_subdirectory(libshairplay) # not used
 add_subdirectory(libshine)
 #add_subdirectory(libsmb) # not used
@@ -95,8 +91,6 @@ add_subdirectory(libtheora)
 add_subdirectory(libtinyxml)
 add_subdirectory(libtwolame)
 #add_subdirectory(libunrarx) # not used
-#add_subdirectory(libva) # not used
-#add_subdirectory(libvmaf) # not used
 add_subdirectory(libvorbis)
 if(DEFINED TARGET_OS_WINDOWS)
 #add_subdirectory(libvpx-win64) # windows only

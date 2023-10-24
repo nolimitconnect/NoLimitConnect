@@ -36,6 +36,7 @@
 #include <NetLib/VxSktUtil.h>
 #include <NetLib/VxResolveHost.h>
 #include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxPortForward.h>
 
 #include <time.h>
 #include <atomic>
@@ -81,7 +82,7 @@ NetworkStateMachine::NetworkStateMachine(	P2PEngine& engine,
 , m_NetServicesMgr( engine.getNetServicesMgr() )
 , m_NetConnector( engine.getNetConnector() )
 , m_StateMachineInitialized( false )
-, m_NetPortForward( *this )
+//, m_NetPortForward( *this )
 , m_DirectConnectTester( *this )
 , m_bUserLoggedOn( false )
 , m_bIsCellNetwork( false )
@@ -156,7 +157,7 @@ void NetworkStateMachine::stateMachineShutdown( void )
 //============================================================================
 void NetworkStateMachine::shutdownNetworkModules( void )
 {
-	m_NetPortForward.netPortForwardShutdown();
+	//m_NetPortForward.netPortForwardShutdown();
 	m_NetConnector.stayConnectedShutdown();
 	m_NetConnector.netConnectorShutdown();
 	m_NetServicesMgr.netServicesShutdown();
@@ -358,6 +359,8 @@ void NetworkStateMachine::updateFromEngineSettings( EngineSettings& engineSettin
 	m_PktAnn.setOnlinePort( u16TcpPort );
 
     m_Engine.getNetStatusAccum().setIpPort( u16TcpPort );
+	m_Engine.getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );
+
 	EFirewallTestType firewallTestType = engineSettings.getFirewallTestSetting();
 	m_Engine.getNetStatusAccum().setFirewallTestType( firewallTestType );
 	if( eFirewallTestAssumeNoFirewall == firewallTestType )
@@ -407,6 +410,8 @@ void NetworkStateMachine::fromGuiNetworkAvailable( const char* lclIp, bool isCel
 
     if( hasChanged )
     {
+		m_Engine.getPeerMgr().setUpnpEnable( m_Engine.getEngineSettings().getUseUpnpPortForward() );
+
         m_LocalNetworkIp = lclIp;
         m_bIsCellNetwork = isCellularNetwork;
         VxSetLclIpAddress( lclIp );
@@ -574,9 +579,14 @@ void NetworkStateMachine::startUpnpOpenPort( void )
 				m_LastUpnpForwardTime	= timeNow;
 				m_LastUpnpForwardPort	= u16Port;
 				m_LastUpnpForwardIp		= lclIp;
-
-				m_NetPortForward.beginPortForward( u16Port, lclIp.c_str() );
 				m_PortForwardTimer.startTimer();
+				m_PortForwardCompleted = false;
+				m_PortForwardSucces = false;
+
+				// m_NetPortForward.beginPortForward( u16Port, lclIp.c_str() );
+				m_PortForwardSucces = VxPortForward::addPortForward( false, lclIp, u16Port );
+
+				m_PortForwardCompleted = true;
 			}
 		}
 	}
@@ -596,13 +606,15 @@ bool NetworkStateMachine::hasUpnpOpenPortFinished( void )
 		return true;
 	}
 
-	return m_NetPortForward.hasPortForwardCompleted();
+	return m_PortForwardCompleted;
+	// return m_NetPortForward.hasPortForwardCompleted();
 }
 
 //============================================================================
 bool NetworkStateMachine::didUpnpOpenPortSucceed( void )
 {
-	return m_NetPortForward.didUpnpPortOpen();
+	//return m_NetPortForward.didUpnpPortOpen();
+	return m_PortForwardSucces;
 }
 
 //============================================================================

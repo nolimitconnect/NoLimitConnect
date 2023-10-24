@@ -30,6 +30,8 @@ VxSktUdp::VxSktUdp()
 : VxSktBase()
 {
 	m_eSktType = eSktTypeUdp;
+	vx_assert( false );
+	// TODO.. needs to setThisSkt to new VxSktUdp and do everything through the shared pointer
 }
 
 //============================================================================

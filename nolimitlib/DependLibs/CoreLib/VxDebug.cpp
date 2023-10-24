@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <string>
 #include <string.h>
+#include <array>
 
 //#define ENABLE_LOG_LIST 1 // define if want stored log list capabilities
 #if defined(ENABLE_LOG_LIST)
@@ -49,7 +50,7 @@ NLC_END_CDECLARES
 namespace
 {
 #if defined(DEBUG)
-    uint32_t g_ModuleEnableLoggingFlags = (uint32_t)(
+    uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
         // eLogMulticast
         // | eLogConnect
@@ -70,7 +71,7 @@ namespace
         // | eLogTcpData
         //| eLogUdpData
         //| eLogAcceptConn
-        //| eLogNetworkRelay
+        //| eLogPortForward
         // | eLogNetService
         // | eLogRunTest
         // | eLogHostConnect
@@ -85,12 +86,12 @@ namespace
 
 
 #else
-    uint32_t g_ModuleEnableLoggingFlags = (uint32_t)eLogHackers;
+    uint64_t g_ModuleEnableLoggingFlags = (uint64_t)eLogHackers;
 #endif // defined(DEBUG)
 
     VxMutex						g_oLogMutex;
     VxMutex						g_oFileLogMutex;
-    unsigned long				g_u32LogFlags = LOG_PRIORITY_MASK;
+    uint32_t				    g_u32LogFlags = LOG_PRIORITY_MASK;
     void* g_pvUserData = nullptr;
 
     int							g_iLogNameLen = 0;
@@ -98,7 +99,7 @@ namespace
 
 #if ENABLE_LOG_LIST
     std::vector<LogEntry>		g_LogEntryList;
-    void						AddLogEntry( unsigned long flags, const char* text )
+    void						AddLogEntry( uint32_t flags, const char* text )
     {
         g_oFileLogMutex.lock();
         g_LogEntryList.push_back( LogEntry( flags, text ) );
@@ -202,17 +203,31 @@ bool IsLogEnabled( ELogModule logModule )
 }
 
 //============================================================================
+void VxSetLogModuleEnable( ELogModule logModule, bool enable )
+{
+    uint64_t modFlag = (uint64_t)logModule;
+    if( enable )
+    {
+        g_ModuleEnableLoggingFlags |= modFlag;
+    }
+    else
+    {
+        g_ModuleEnableLoggingFlags &= ~modFlag;
+    }
+}
+
+//============================================================================
 NLC_BEGIN_CDECLARES
 void LogAppendLineFeed( char* buf, size_t sizeOfBuf );
 void                    default_log_output( void* userData, uint32_t u32MsgType, const char* pLogMsg );
-void                    vx_error( unsigned long u32MsgType, const char* msg, ... );
+void                    vx_error( uint32_t u32MsgType, const char* msg, ... );
 
 static LOG_FUNCTION		g_pfuncLogHandler = ExtendLogHandler;
 static bool             g_enableDefaultHandler = true;
 NLC_END_CDECLARES
 
 //============================================================================
-void LogModule( ELogModule eLog, unsigned long u32MsgType, const char* msg, ... )
+void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... )
 {
     if( LOG_FATAL != u32MsgType )
     {
@@ -232,22 +247,21 @@ void LogModule( ELogModule eLog, unsigned long u32MsgType, const char* msg, ... 
         }
     }
 
-    std::string strData;
-    strData.reserve( MAX_ERR_MSG_SIZE );
+    std::array<char, MAX_ERR_MSG_SIZE> strData;
 
     va_list argList;
     va_start( argList, msg );
-    vsnprintf( (char*)strData.c_str(), MAX_ERR_MSG_SIZE, msg, argList );
-    ((char*)strData.c_str())[MAX_ERR_MSG_SIZE - 2] = 0;
+    vsnprintf( strData.data(), MAX_ERR_MSG_SIZE, msg, argList );
+    strData.data()[MAX_ERR_MSG_SIZE - 2] = 0;
 
-    LogAppendLineFeed( (char*)strData.c_str(), MAX_ERR_MSG_SIZE - 2 );
+    LogAppendLineFeed( strData.data(), MAX_ERR_MSG_SIZE - 2 );
     va_end( argList );
 
-    VxHandleLogMsg( u32MsgType, (char*)strData.c_str() );
+    VxHandleLogMsg( u32MsgType, strData.data() );
 }
 
 //============================================================================
-void LogModule2( ELogModule eLog, unsigned long u32MsgType, const char* msg )
+void LogModule2( ELogModule eLog, uint32_t u32MsgType, const char* msg )
 {
     if( LOG_FATAL != u32MsgType )
     {
@@ -271,7 +285,42 @@ void LogModule2( ELogModule eLog, unsigned long u32MsgType, const char* msg )
 }
 
 //============================================================================
-void VxGetLogMessages( unsigned long u32MsgTypes, std::vector<LogEntry>& retMsgs )
+/// a version of LogModule that can be called from c code
+void LogCModule( int logModuleType, uint32_t u32MsgType, const char* msg, ... )
+{
+    if( LOG_FATAL != u32MsgType )
+    {
+        if( !VxGetDebugLoggingEnable() )
+        {
+            return;
+        }
+
+        if( 0 == (g_u32LogFlags && u32MsgType) )
+        {
+            return; // don't log
+        }
+
+        if( !IsLogEnabled( (ELogModule)logModuleType ) )
+        {
+            return;
+        }
+    }
+
+    std::array<char, MAX_ERR_MSG_SIZE> strData;
+
+    va_list argList;
+    va_start( argList, msg );
+    vsnprintf( strData.data(), MAX_ERR_MSG_SIZE, msg, argList );
+    strData.data()[MAX_ERR_MSG_SIZE - 2] = 0;
+
+    LogAppendLineFeed( strData.data(), MAX_ERR_MSG_SIZE - 2 );
+    va_end( argList );
+
+    VxHandleLogMsg( u32MsgType, strData.data() );
+}
+
+//============================================================================
+void VxGetLogMessages( uint32_t u32MsgTypes, std::vector<LogEntry>& retMsgs )
 {
 #if ENABLE_LOG_LIST
     retMsgs.clear();
@@ -299,7 +348,7 @@ NLC_BEGIN_CDECLARES
 //============================================================================
 
 //============================================================================
-void VxSetLogFlags( unsigned long u32LogFlags )
+void VxSetLogFlags( uint32_t u32LogFlags )
 {
     g_u32LogFlags = u32LogFlags;
 }
@@ -313,13 +362,13 @@ void VxEnableDefaultLogHandler( bool enableDefaultHandler )
 
 //============================================================================
 //============================================================================
-uint32_t VxGetModuleLogFlags( void )
+uint64_t VxGetModuleLogFlags( void )
 {
     return g_ModuleEnableLoggingFlags;
 }
 
 //============================================================================
-void  VxSetModuleLogFlags( uint32_t flags )
+void  VxSetModuleLogFlags( uint64_t flags )
 {
     g_ModuleEnableLoggingFlags = flags;
 }
@@ -395,7 +444,7 @@ void LogAppendLineFeed( char* buf, size_t sizeOfBuf )
 
 //============================================================================
 // This function is called by vx_assert() when the assertion fails.
-void  vx_error_output( unsigned long u32MsgType, char* exp, char* file, int line )
+void  vx_error_output( uint32_t u32MsgType, char* exp, char* file, int line )
 {
     vx_error( u32MsgType, "** VX ASSERTION **\r\n expression: %s\r\n file: %s\r\n line: %d\r\n", exp, file, line );
     AppErr( eAppErrBadParameter, "ASSERTION: %s\r\n file: %s\r\n line: %d\r\n", exp, file, line );
@@ -403,7 +452,7 @@ void  vx_error_output( unsigned long u32MsgType, char* exp, char* file, int line
 
 //============================================================================
 // This function is called by vx_assert2() when the assertion fails.
-void vx_error_output2( unsigned long u32MsgType, char* exp, char* msg, char* file, int line )
+void vx_error_output2( uint32_t u32MsgType, char* exp, char* msg, char* file, int line )
 {
     vx_error( u32MsgType, "** VX ASSERTION ***\r\n programmer says: %s\r\nexpression: %s\r\n file: %s\r\n line: %d\r\n", msg, exp, file, line );
     AppErr( eAppErrBadParameter, "ASSERTION: %s\r\n expression: %s\r\n file: %s\r\n line: %d\r\n", msg, exp, file, line );
@@ -412,7 +461,7 @@ void vx_error_output2( unsigned long u32MsgType, char* exp, char* msg, char* fil
 //============================================================================
 // This function is called when a serious situation is encountered which
 // requires abortion of the program.
-void vx_error( unsigned long u32MsgType, const char* msg, ... )
+void vx_error( uint32_t u32MsgType, const char* msg, ... )
 {
     std::string strData;
     strData.reserve( MAX_ERR_MSG_SIZE );
@@ -476,7 +525,7 @@ void default_log_output( void* userData, uint32_t u32MsgType, const char* pLogMs
 }
 
 //============================================================================
-void LogMsgVarg( unsigned long u32MsgType, const char* fmt, va_list argList )
+void LogMsgVarg( uint32_t u32MsgType, const char* fmt, va_list argList )
 {
     if( !VxGetDebugLoggingEnable() )
     {
@@ -500,7 +549,7 @@ void LogMsgVarg( unsigned long u32MsgType, const char* fmt, va_list argList )
 }
 
 //============================================================================
-void LogMsg( unsigned long u32MsgType, const char* msg, ... )
+void LogMsg( uint32_t u32MsgType, const char* msg, ... )
 {
     if( u32MsgType != LOG_FATAL )
     {
@@ -530,7 +579,7 @@ void LogMsg( unsigned long u32MsgType, const char* msg, ... )
 }
 
 //============================================================================
-void LogMsg2( unsigned long u32MsgType, const char* msg )
+void LogMsg2( uint32_t u32MsgType, const char* msg )
 {
     if( u32MsgType != LOG_FATAL )
     {
@@ -550,7 +599,7 @@ void LogMsg2( unsigned long u32MsgType, const char* msg )
 
 
 //============================================================================
-void VxHandleLogMsg( unsigned long u32MsgType, const char* logMsg )
+void VxHandleLogMsg( uint32_t u32MsgType, const char* logMsg )
 {
     if( g_iLogNameLen )
     {
@@ -586,7 +635,7 @@ void VxHandleLogMsg( unsigned long u32MsgType, const char* logMsg )
 }
 
 //============================================================================
-static void DumpMsg( unsigned long u32MsgType, int instance, int sampleCnt, char* msg )
+static void DumpMsg( uint32_t u32MsgType, int instance, int sampleCnt, char* msg )
 {
     if( msg && strlen( msg ) )
     {
@@ -595,7 +644,7 @@ static void DumpMsg( unsigned long u32MsgType, int instance, int sampleCnt, char
 }
 
 //============================================================================
-void HexDump( unsigned long u32MsgType, unsigned char* data, int dataLen, int instance, char* msg )
+void HexDump( uint32_t u32MsgType, unsigned char* data, int dataLen, int instance, char* msg )
 {
     DumpMsg( u32MsgType, instance, dataLen, msg );
     char buf[132];
@@ -647,7 +696,7 @@ void HexDump( unsigned long u32MsgType, unsigned char* data, int dataLen, int in
     }
 }
 
-void DumpInt8( unsigned long u32MsgType, int8_t* data, int dataLen, int instance, char* msg )
+void DumpInt8( uint32_t u32MsgType, int8_t* data, int dataLen, int instance, char* msg )
 {
     int sampleCnt = dataLen / sizeof( int8_t );
     DumpMsg( u32MsgType, instance, sampleCnt, msg );
@@ -685,7 +734,7 @@ void DumpInt8( unsigned long u32MsgType, int8_t* data, int dataLen, int instance
     }
 }
 
-void DumpInt16( unsigned long u32MsgType, int16_t* data, int dataLen, int instance, char* msg )
+void DumpInt16( uint32_t u32MsgType, int16_t* data, int dataLen, int instance, char* msg )
 {
     int sampleCnt = dataLen / sizeof( int16_t );
     DumpMsg( u32MsgType, instance, sampleCnt, msg );
@@ -723,7 +772,7 @@ void DumpInt16( unsigned long u32MsgType, int16_t* data, int dataLen, int instan
     }
 }
 
-void DumpFloat( unsigned long u32MsgType, float* data, int dataLen, int instance, char* msg )
+void DumpFloat( uint32_t u32MsgType, float* data, int dataLen, int instance, char* msg )
 {
     int sampleCnt = dataLen / sizeof( float );
     DumpMsg( u32MsgType, instance, sampleCnt, msg );

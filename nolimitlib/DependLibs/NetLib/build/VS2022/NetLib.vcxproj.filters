@@ -109,6 +109,9 @@
     <ClCompile Include="..\..\VxSktStatRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\VxPortForward.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\InetAddress.h">
@@ -224,6 +227,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ISktStatCallbackInterface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VxPortForward.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

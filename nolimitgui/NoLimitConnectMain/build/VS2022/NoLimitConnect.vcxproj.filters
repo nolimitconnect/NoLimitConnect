@@ -108,6 +108,9 @@
     <Filter Include="SandboxRef">
       <UniqueIdentifier>{7ba800c2-31ec-473a-8d8e-ddb89dd12529}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\miniaudioio\Qt">
+      <UniqueIdentifier>{81aaf2b7-9cfd-4772-8468-3b78e87e108e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
@@ -2981,6 +2984,9 @@
     </Text>
     <Text Include="..\..\..\sandboxqt\Assembly1234TestApp\Assembly1234QtApp\CMakeLists.txt">
       <Filter>SandboxRef</Filter>
+    </Text>
+    <Text Include="..\..\..\..\nolimitlib\DependLibs\libminiaudio\CMakeLists.txt">
+      <Filter>Source Files\miniaudioio\Qt</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

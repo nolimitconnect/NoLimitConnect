@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
+    <width>487</width>
     <height>648</height>
    </rect>
   </property>
@@ -642,7 +642,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Enable UPNP to open router port </string>
+         <string>Enable UPNP port forward</string>
         </property>
        </widget>
       </item>
@@ -796,7 +796,7 @@
         <item>
          <widget class="QPushButton" name="m_CopyToClipboardButton">
           <property name="text">
-           <string>Copy My URL To Clipboard</string>
+           <string>Copy To Clipboard</string>
           </property>
          </widget>
         </item>
@@ -852,6 +852,13 @@
          <widget class="QPushButton" name="m_TestIsPortOpenButton">
           <property name="text">
            <string>Test Is My Port Open</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_TestUpnpButton">
+          <property name="text">
+           <string>Test UPNP</string>
           </property>
          </widget>
         </item>

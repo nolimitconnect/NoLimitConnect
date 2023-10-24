@@ -18,6 +18,8 @@
 #include "VxServerMgr.h"
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
+#include "VxPortForward.h"
+
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/AppErr.h>
@@ -816,6 +818,16 @@ bool VxServerMgr::waitForValidListenSettings( bool ipv6 )
         }
     }
 
+    if( getUpnpEnable() )
+    {
+        doPortForward( ipv6, true );
+    }
+
+    if( shouldListenAbort( ipv6 ) )
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -825,4 +837,38 @@ void VxServerMgr::listenSettingsUpdated( bool ipv6, bool forceListenSktRelease )
     // we need to release the listen thread so will update
     // not sure how well this will work
     setIsListenParamsChanged( ipv6, true );
+}
+
+//============================================================================
+void VxServerMgr::setUpnpEnable( bool enable )
+{
+    if( enable != VxPortForward::getEnablePortForward() )
+    {
+        VxPortForward::setEnablePortForward( enable );
+        if( enable )
+        {
+            setIsListenParamsChanged( false, true );
+            setIsListenParamsChanged( true, true );
+        }
+    }
+}
+
+//============================================================================
+bool VxServerMgr::getUpnpEnable( void )
+{
+    return VxPortForward::getEnablePortForward();
+}
+
+//============================================================================
+bool VxServerMgr::doPortForward( bool ipv6, bool addPort )
+{
+    uint16_t port = getListenPort();
+    if( addPort )
+    {
+        return VxPortForward::addPortForward( ipv6, getLocalIp( ipv6 ), port );
+    }
+    else
+    {
+        return VxPortForward::removePortForward( ipv6, port );
+    }
 }

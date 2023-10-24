@@ -21,6 +21,7 @@ list(APPEND netlib_SOURCES
     VxHttpValuePair.cpp
     VxParseUrlComponents.cpp
     VxPeerMgr.cpp
+    VxPortForward.cpp
     VxProxy.cpp
     VxResolveHost.cpp
     VxServerMgr.cpp

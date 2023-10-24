@@ -154,6 +154,8 @@ void P2PEngine::fromGuiSendLog(	uint32_t u32LogFlags )
 //============================================================================
 void P2PEngine::updateFromEngineSettings( EngineSettings& engineSettings )
 {
+	getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );
+
     std::string netHostUrl;
     engineSettings.getNetworkHostUrl( netHostUrl );
 
@@ -1053,7 +1055,8 @@ void P2PEngine::fromGuiGetNetSettings( NetSettings& netSettings )
 //============================================================================
 void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 {
-    //assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetNetSettings" );
+	getPeerMgr().setUpnpEnable( netHostSetting.getUseUpnpPortForward() );
+
     NetHostSetting origSettings;
     m_EngineSettings.getNetHostSettings( origSettings );
 

@@ -57,7 +57,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogClients: return QObject::tr( "Log Clients" );
     case eLogGroups: return QObject::tr( "Log Groups" );
 
-    case eLogNetworkRelay: return QObject::tr( "Log Network Relay" );
+    case eLogPortForward: return QObject::tr( "Log Port Forward" );
     case eLogIsPortOpenTest: return QObject::tr( "Log Is Port Open Test" );
     case eLogRunTest: return QObject::tr( "Log Run Test" );
     case eLogHostConnect: return QObject::tr( "Log Host Connect" );

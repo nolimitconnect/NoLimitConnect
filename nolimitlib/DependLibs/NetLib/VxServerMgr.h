@@ -49,6 +49,9 @@ public:
 
     virtual bool				isListening( bool ipv6 );
 
+    void						setUpnpEnable( bool enable );
+    bool						getUpnpEnable( void );
+
     void						setListenPort( uint16_t port );
 	uint16_t					getListenPort( void );
 
@@ -91,6 +94,8 @@ protected:
     void                        closeListenSocket( bool ipv6 );
 
     bool                        shouldListenAbort( bool ipv6 );
+
+    bool                        doPortForward( bool ipv6, bool addPort );
 
     static constexpr size_t     m_u32MaxConnections = 30000;
     static int					m_iAcceptMgrCnt;				    // number of managers created

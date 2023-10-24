@@ -23,9 +23,7 @@
 #define _BZLIB_H
 
 #include <NlcDependLibrariesConfig.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 #define BZ_RUN               0
 #define BZ_FLUSH             1
@@ -45,6 +43,10 @@ extern "C" {
 #define BZ_UNEXPECTED_EOF    (-7)
 #define BZ_OUTBUFF_FULL      (-8)
 #define BZ_CONFIG_ERROR      (-9)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef 
    struct {

@@ -88,7 +88,6 @@ list(APPEND ptopengine_SOURCES
     Network/Firewall.cpp
     Network/NearbyMgr.cpp
     Network/NetConnector.cpp
-    Network/NetPortForward.cpp
     Network/NetworkEventAvail.cpp
     Network/NetworkEventBase.cpp
     Network/NetworkEventLost.cpp

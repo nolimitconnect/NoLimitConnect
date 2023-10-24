@@ -27,6 +27,7 @@
 #include <NetLib/InetAddress.h>
 #include <NetLib/VxSktUtil.h>
 #include <NetLib/VxSktConnectSimple.h>
+#include <NetLib/VxSktBase.h>
 
 #include <vector>
 #include <time.h>

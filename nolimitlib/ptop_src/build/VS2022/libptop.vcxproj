@@ -568,7 +568,6 @@
     <ClCompile Include="..\..\ptop_engine_src\Network\Firewall.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Network\NearbyMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Network\NetConnector.cpp" />
-    <ClCompile Include="..\..\ptop_engine_src\Network\NetPortForward.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Network\NetworkEventAvail.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Network\NetworkEventBase.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Network\NetworkEventLost.cpp" />
@@ -834,7 +833,6 @@
     <ClInclude Include="..\..\ptop_engine_src\Network\Firewall.h" />
     <ClInclude Include="..\..\ptop_engine_src\Network\NearbyMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Network\NetConnector.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Network\NetPortForward.h" />
     <ClInclude Include="..\..\ptop_engine_src\Network\NetworkDefs.h" />
     <ClInclude Include="..\..\ptop_engine_src\Network\NetworkEventAvail.h" />
     <ClInclude Include="..\..\ptop_engine_src\Network\NetworkEventBase.h" />

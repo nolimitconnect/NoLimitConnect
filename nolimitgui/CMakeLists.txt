@@ -1074,7 +1074,6 @@ if (DEFINED TARGET_OS_LINUX)
         xslt
         yajl
         zvbi
-        upnp2lib
         # end of these are nomally combined into one library depends
         ogg
         ssh
@@ -1098,6 +1097,7 @@ if (DEFINED TARGET_OS_LINUX)
         bz2
         aecm-webrtc
         miniaudio
+        miniupnpc
         pthread
         dl
         GLU
@@ -1167,7 +1167,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
         xslt
         yajl
         zvbi
-        upnp2lib
         # end of these are nomally combined into one library depends
         ogg
         ssh
@@ -1191,6 +1190,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
         bz2
         aecm-webrtc
         miniaudio
+        miniupnpc
         dl
         m
         EGL
@@ -1297,6 +1297,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         bz2
         aecm-webrtc
         miniaudio
+        miniupnpc
         opengl32
         glu32
         ole32

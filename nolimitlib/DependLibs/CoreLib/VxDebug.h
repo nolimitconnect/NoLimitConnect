@@ -68,7 +68,7 @@ enum ELogModule
 	eLogNetService		= 0x8000, // 16
 
 	eLogIsPortOpenTest 	= 0x00010000, // 17
-	eLogNetworkRelay	= 0x00020000, // 18
+	eLogPortForward		= 0x00020000, // 18
 	eLogHostConnect		= 0x00040000, // 19
 	eLogRunTest			= 0x00080000, // 20
 
@@ -90,12 +90,14 @@ enum ELogModule
     eMaxLogModule
 };
 
-void LogModule( ELogModule eLog, unsigned long u32MsgType, const char* msg, ... );
+void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... );
 /// @brief no vargs version
-void LogModule2( ELogModule eLog, unsigned long u32MsgType, const char* msg );
+void LogModule2( ELogModule eLog, uint32_t u32MsgType, const char* msg );
 
 /// @brief return true if should log the given module
 bool IsLogEnabled( ELogModule logModule );
+/// @brief enable/disable the given module
+void VxSetLogModuleEnable( ELogModule logModule, bool enable );
 
 /// @brief enable/disable ALL logging
 void VxSetDebugLoggingEnable( bool enableDebug );
@@ -116,7 +118,7 @@ public:
 		: m_LogFlags( 0 )
 		, m_LogText( "" )
 	{}
-	LogEntry(unsigned long flags, const char* text )
+	LogEntry(uint32_t flags, const char* text )
 		: m_LogFlags( flags )
 		, m_LogText( text )
 	{}
@@ -138,7 +140,7 @@ public:
 	}
 
 	//=== vars ===//
-	unsigned long			m_LogFlags;
+	uint32_t				m_LogFlags;
 	std::string				m_LogText;
 };
 
@@ -146,7 +148,7 @@ public:
 // uncomment to enable log listing for retrieval
 //#define ENABLE_LOG_LIST 1
 
-void							VxGetLogMessages( unsigned long u32MsgTypes, std::vector<LogEntry>& retMsgs );
+void							VxGetLogMessages( uint32_t u32MsgTypes, std::vector<LogEntry>& retMsgs );
 // add a log handler
 void							VxAddLogHandler( ILogCallbackInterface * logHandler );
 // remove a log handler
@@ -164,25 +166,29 @@ void                            VxSetLogPriorityMask( uint32_t flags );
 uint32_t                        VxGetLogPriorityMask( void );
 
 // get module enable logging flags defined above
-void                            VxSetModuleLogFlags( uint32_t flags );
-uint32_t                        VxGetModuleLogFlags( void );
+void                            VxSetModuleLogFlags( uint64_t flags );
+uint64_t                        VxGetModuleLogFlags( void );
 
 // enable log to file
 void							VxSetLogToFile( const char* pFileName );
-void							VxSetLogFlags( unsigned long u32LogFlags );
+void							VxSetLogFlags( uint32_t u32LogFlags );
 
 // enable/disable default log handler
 void                            VxEnableDefaultLogHandler( bool enableDefaultHandler );
 
-void							LogMsg( unsigned long u32MsgType, const char* msg, ...);
+void							LogMsg( uint32_t u32MsgType, const char* msg, ...);
+
+/// a version of LogModule that can be called from c code
+void							LogCModule( int logModuleType, uint32_t u32MsgType, const char* msg, ...);
+
 /// @brief no vargs version
-void							LogMsg2( unsigned long u32MsgType, const char* msg );
-void							LogMsgVarg(unsigned long u32MsgType, const char*fmt, va_list vargs);
-void							VxHandleLogMsg(unsigned long u32MsgType, const char * msg);
-void							HexDump( unsigned long u32MsgType, unsigned char* data, int dataLen, int instance, char * msg );
-void							DumpInt8( unsigned long u32MsgType, int8_t* data, int dataLen, int instance, char * msg );
-void							DumpInt16( unsigned long u32MsgType, int16_t* data, int dataLen, int instance, char * msg );
-void							DumpFloat( unsigned long u32MsgType, float* data, int dataLen, int instance, char * msg );
+void							LogMsg2( uint32_t u32MsgType, const char* msg );
+void							LogMsgVarg(uint32_t u32MsgType, const char*fmt, va_list vargs);
+void							VxHandleLogMsg(uint32_t u32MsgType, const char * msg);
+void							HexDump( uint32_t u32MsgType, unsigned char* data, int dataLen, int instance, char * msg );
+void							DumpInt8( uint32_t u32MsgType, int8_t* data, int dataLen, int instance, char * msg );
+void							DumpInt16( uint32_t u32MsgType, int16_t* data, int dataLen, int instance, char * msg );
+void							DumpFloat( uint32_t u32MsgType, float* data, int dataLen, int instance, char * msg );
 
 // Convenience macros for logging
 #define LogVerboseMsg(msg, ...) LogMsg(LOG_VERBOSE, (msg), __VA_ARGS__)
@@ -196,7 +202,7 @@ void							DumpFloat( unsigned long u32MsgType, float* data, int dataLen, int in
 
 #if defined( _DEBUG ) || defined( DEBUG )
 	/// This function is called by vx_assert() when the assertion fails.
-	void  vx_error_output( unsigned long u32LogLevel, char* exp, char * file, int line);
+	void  vx_error_output( uint32_t u32LogLevel, char* exp, char * file, int line);
 
 	// debug mode throws message if expression is false
 	#define vx_assert(exp) { if (!(exp)) vx_error_output(LOG_ASSERT,(char*)#exp,(char*)__FILE__,__LINE__); }

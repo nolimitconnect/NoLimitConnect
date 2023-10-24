@@ -128,7 +128,7 @@ logger_log(logger_t *logger, int level, const char *fmt, ...)
 		logger->callback(logger->cls, level, buffer);
 		MUTEX_UNLOCK(logger->cb_mutex);
 	} else {
-		char *local;
+		//char *local;
 		MUTEX_UNLOCK(logger->cb_mutex);
 		//local = logger_utf8_to_local(buffer);
 		//if (local) {

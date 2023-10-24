@@ -70,9 +70,6 @@
     <ClCompile Include="..\..\ptop_engine_src\Network\NetConnector.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ptop_engine_src\Network\NetPortForward.cpp">
-      <Filter>Source Files\Network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ptop_engine_src\Network\NetworkEventAvail.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
@@ -799,9 +796,6 @@
       <Filter>Source Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\Network\NetConnector.h">
-      <Filter>Source Files\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\Network\NetPortForward.h">
       <Filter>Source Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\Network\NetworkDefs.h">

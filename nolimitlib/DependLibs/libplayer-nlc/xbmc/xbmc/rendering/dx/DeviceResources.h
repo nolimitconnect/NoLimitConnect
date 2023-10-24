@@ -8,6 +8,7 @@
 
 #pragma once
 #if defined(TARGET_OS_WINDOWS)
+#if defined(ENABLE_DX)
 
 #include <wrl.h>
 #include <wrl/client.h>
@@ -166,4 +167,5 @@ namespace DX
   };
 }
 
+#endif // defined(ENABLE_DX)
 #endif // defined(TARGET_OS_WINDOWS)

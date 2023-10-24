@@ -35,6 +35,7 @@ protected slots:
     void						slotGoToNetHostSettingsButtonClick( void );
     void						slotRandomPortButtonClick( void );
     void						slotTestIsMyPortOpenButtonClick( void );
+    void						slotTestUpnpButtonClick( void );
 
     void						slotAutoDetectProxyClick( void );
     void						slotNoProxyClick( void );
@@ -80,6 +81,8 @@ protected:
     NetHostSetting              m_OriginalSettings;
     QTimer *                    m_UpdateTimer{ nullptr };
     QString                     m_OriginalNetworkKey;
+
+    bool                        m_OrigLogPortForward{ false };
 };
 
 
