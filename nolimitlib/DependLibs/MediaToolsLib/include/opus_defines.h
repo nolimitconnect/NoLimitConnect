@@ -64,7 +64,9 @@ extern "C" {
 
 #define EMBEDDED_ARM 0
 
+#if !defined(OPUS_EXPORT)
 #define OPUS_EXPORT // Not defined because we build a Static Lib
+#endif // !defined(OPUS_EXPORT)
 
 //#ifndef OPUS_EXPORT
 //# if defined(WIN32)

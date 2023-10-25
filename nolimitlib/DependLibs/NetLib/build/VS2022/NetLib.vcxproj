@@ -199,7 +199,6 @@
     <ClCompile Include="..\..\VxBaseSktInfo.cpp" />
     <ClCompile Include="..\..\VxClientMgr.cpp" />
     <ClCompile Include="..\..\VxFileXferInfo.cpp" />
-    <ClCompile Include="..\..\VxGetExternalIps.cpp" />
     <ClCompile Include="..\..\VxGetRandomPort.cpp" />
     <ClCompile Include="..\..\VxHackerMgr.cpp" />
     <ClCompile Include="..\..\VxHackerRecord.cpp" />
@@ -292,7 +291,6 @@
     <ClInclude Include="..\..\VxBaseSktInfo.h" />
     <ClInclude Include="..\..\VxClientMgr.h" />
     <ClInclude Include="..\..\VxFileXferInfo.h" />
-    <ClInclude Include="..\..\VxGetExternalIps.h" />
     <ClInclude Include="..\..\VxGetRandomPort.h" />
     <ClInclude Include="..\..\VxHackerMgr.h" />
     <ClInclude Include="..\..\VxHackerRecord.h" />

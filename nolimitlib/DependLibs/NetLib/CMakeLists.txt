@@ -12,7 +12,6 @@ list(APPEND netlib_SOURCES
     VxBaseSktInfo.cpp
     VxClientMgr.cpp
     VxFileXferInfo.cpp
-    VxGetExternalIps.cpp
     VxGetRandomPort.cpp
 	VxHackerMgr.cpp
 	VxHackerRecord.cpp
