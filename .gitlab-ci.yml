@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: brettrjonesdocker/nolimitappimage
-  IMAGE_TAG: nlcdevimage-1.0.3
+  IMAGE_TAG: nlcdevimage-1.0.5
 
 
 stages:

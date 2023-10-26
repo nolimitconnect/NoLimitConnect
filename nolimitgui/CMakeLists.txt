@@ -3,7 +3,7 @@ project(nolimitconnect, LANGUAGES CXX)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 
 #=== INCLUSION OF Qt ===#
-#set(minQtVersion 6.4.3)
+#set(minQtVersion 6.6.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

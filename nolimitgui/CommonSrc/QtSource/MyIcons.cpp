@@ -13,7 +13,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "MyIcons.h"
 #include "AppCommon.h"
 #include "VxAppTheme.h"

@@ -17,8 +17,10 @@
 #include "MyIconsDefs.h"
 
 #include <GuiInterface/IDefs.h>
+
 #include <QIcon>
 
+#include <vector>
 
 class AppCommon;
 class OfferBaseInfo;
@@ -73,7 +75,7 @@ public:
     void                        drawIcon( enum EMyIcons eIcon, QPainter* painter, const QRect& rect, QColor& iconColor );
 
 
-	std::vector< QIcon >		m_aoIcons;
+    std::vector<QIcon>          m_aoIcons;
 
 private:
 	AppCommon&					m_MyApp;

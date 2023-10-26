@@ -136,7 +136,7 @@ typedef int socklen_t;
 #endif
 
 /* most of the time closing a socket is just closing an fd */
-#if !HAVE_CLOSESOCKET
+#if !HAVE_CLOSESOCKET && !defined(closesocket)
 #define closesocket close
 #endif
 
