@@ -120,7 +120,7 @@ std::string VxSha1Hash::toString( void ) const
 		buf[ idx ] = highNibbleChar( byte );
 		idx++;
 		buf[ idx ] = lowNibbleChar( byte );
-		idx;
+        idx++;
 	}
 
 	buf[ idx ] = 0;

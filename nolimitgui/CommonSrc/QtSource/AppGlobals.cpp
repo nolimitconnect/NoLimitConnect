@@ -28,6 +28,7 @@
 #include <QUrl>
 
 #include <stdio.h>
+#include <array>
 
 ////============================================================================
 GuiParams& GetGuiParams()
@@ -103,15 +104,15 @@ void UpdateHasPicture( P2PEngine& engine, int bHasPicture )
 void ErrMsgBox( QWidget* parent, int infoLevel, const char* pMsg, ... )
 {
 	//build message on stack so no out of memory issue
-	char szBuffer[4096];
+	std::array<char, 4096> szBuffer;
 	va_list arg_ptr;
 	va_start(arg_ptr, pMsg);
-    vsnprintf(szBuffer, 4096, pMsg, arg_ptr);
-	szBuffer[4095] = 0;
+    vsnprintf(szBuffer.data(), szBuffer.size(), pMsg, arg_ptr);
 	va_end(arg_ptr);
+	szBuffer[szBuffer.size() - 1] = 0;
 
 	QMessageBox msgBox( parent );
-	msgBox.setText( szBuffer );
+	msgBox.setText( szBuffer.data() );
 	msgBox.exec();
 }
 

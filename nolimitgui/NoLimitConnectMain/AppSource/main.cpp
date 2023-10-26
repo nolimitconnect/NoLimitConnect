@@ -97,27 +97,9 @@ const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
 
 #endif
 
-int main(int argc, char **argv)
+
+int runApplication( QApplication* myApp, int argc, char** argv )
 {
-    VxSetGuiThreadId();
-    LogMsg( LOG_DEBUG, "Creating QApplication" );
-
-    QCoreApplication::addLibraryPath(".");
-    QApplication::setAttribute( Qt::AA_ShareOpenGLContexts );
-    QApplication::setAttribute( Qt::AA_DontCheckOpenGLContextThreadAffinity );
-#if !defined(TARGET_OS_ANDROID) // on android AA_EnableHighDpiScaling causes main page to be quarter size
-    //if( myApp->screens().at( 0 )->geometry().width() > 1090 )
-    //{
-    //    QGuiApplication::setAttribute( Qt::AA_EnableHighDpiScaling, true );
-    //}
-    //else 
-    //{
-    //    QGuiApplication::setAttribute( Qt::AA_EnableHighDpiScaling, false );
-    //}
-#endif // !defined(TARGET_OS_ANDROID)
-
-    // for some reason QApplication must be newed or does not initialize
-    QApplication* myApp = new QApplication( argc, argv );
 
 #if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
     //Request requiered permissions at runtime.. does not seem to work with Qt 6.2.0
@@ -216,3 +198,59 @@ int main(int argc, char **argv)
 }
 
 #endif // BUILD_NLC_APP
+
+#if !defined(TARGET_OS_WINDOWS)
+#include <unistd.h>
+#include <signal.h>
+#include <pthread.h>
+#include <sys/syscall.h>
+
+void signal_handler(int signum, siginfo_t *info, void *extra)
+{
+    LogMsg( LOG_ERROR, "Signal Handler signum %d thread ID: %d ", signum, syscall(SYS_gettid));
+}
+
+void set_signal_handler( void )
+{
+   static struct sigaction action;
+
+    action.sa_flags = SA_SIGINFO;
+    action.sa_sigaction = signal_handler;
+    sigaction( SIGINT, &action, NULL );
+}
+
+#endif // !defined(TARGET_OS_WINDOWS)
+
+int main( int argc, char** argv )
+{
+    int retVal{ 0 };
+
+#if !defined(TARGET_OS_WINDOWS)
+    set_signal_handler();
+#endif // !defined(TARGET_OS_WINDOWS)
+
+    VxSetGuiThreadId();
+    LogMsg( LOG_DEBUG, "Creating QApplication" );
+
+    QCoreApplication::addLibraryPath( "." );
+    //QApplication::setAttribute( Qt::AA_ShareOpenGLContexts );
+    //QApplication::setAttribute( Qt::AA_DontCheckOpenGLContextThreadAffinity );
+
+    // for some reason QApplication must be newed or does not initialize
+    QApplication* myApp = new QApplication( argc, argv );
+
+    try
+    {
+        retVal = runApplication( myApp, argc, argv );
+    }
+    catch( ... )
+    {
+        // clean up here, e.g. save the session
+        // and close all config files.
+        LogMsg( LOG_ERROR, "ERROR Application threw and exception" );
+
+        return EXIT_FAILURE; // exit the application
+    }
+
+    return retVal;
+}

@@ -343,5 +343,6 @@
         <file>Resources/eye-announced-chat-rooms.svg</file>
         <file>Resources/networking.svg</file>
         <file>Resources/player-media.svg</file>
+        <file>Resources/offer-eye.svg</file>
     </qresource>
 </RCC>
