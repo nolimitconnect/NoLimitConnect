@@ -639,6 +639,12 @@ void AppletMgr::removeApplet( EApplet applet )
 		if( applet == ( *iter )->getAppletType() )
 		{
             m_ActivityList.erase( iter );
+            AppSettings& appSettings = m_MyApp.getAppSettings();
+            if( appSettings.getLastAppletLaunched() == applet )
+            {
+                appSettings.setLastAppletLaunched( eAppletUnknown );
+            }
+
 			break;
 		}
 	}
@@ -653,6 +659,12 @@ void AppletMgr::removeApplet( ActivityBase* activity )
         if( activity == ( *iter ) )
         {
             m_ActivityList.erase( iter );
+            AppSettings& appSettings = m_MyApp.getAppSettings();
+            if( appSettings.getLastAppletLaunched() == activity->getAppletType() )
+            {
+                appSettings.setLastAppletLaunched( eAppletUnknown );
+            }
+
             break;
         }
     }
