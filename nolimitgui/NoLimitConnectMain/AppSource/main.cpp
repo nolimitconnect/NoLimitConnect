@@ -234,7 +234,7 @@ int main( int argc, char** argv )
 
     QCoreApplication::addLibraryPath( "." );
     //QApplication::setAttribute( Qt::AA_ShareOpenGLContexts );
-    //QApplication::setAttribute( Qt::AA_DontCheckOpenGLContextThreadAffinity );
+    QApplication::setAttribute( Qt::AA_DontCheckOpenGLContextThreadAffinity );
 
     // for some reason QApplication must be newed or does not initialize
     QApplication* myApp = new QApplication( argc, argv );
