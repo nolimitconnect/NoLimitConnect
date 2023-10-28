@@ -1,0 +1,59 @@
+
+=== Windows Compile In Visual Studio ===
+Code Checkout
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+Compile In Visual Studio
+In Visual Studio open nolimitapp/nolimitgui/build/VS2022/NoLimitConnectAll.sln
+Right Click NoLimitConnect and Set As Startup Project
+Compile
+
+
+Depending on your preference do one of the following for Android Or Linux 
+
+=== Compile in Qt Creator ===
+Code Checkout
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+In Qt Creator open nolimitapp/CMakeList.txt
+Configure and Compile
+
+=== Compile from command line in Linux ===
+Code Checkout
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+cd nolimitapp/build
+mkdir nlc_build
+cd nlc_build
+rm -rf *
+
+If compiling for Linux
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true
+
+If cross compiling for Android in Linux
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true
+
+make
+
+=== Compile using Docker Image ===
+
+Login to Docker
+
+docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.5 bash
+
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+cd nolimitapp/build
+mkdir nlc_build
+cd nlc_build
+rm -rf *
+
+If compiling for Linux
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI
+
+If cross compiling for Android
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI
+
+make
+
+

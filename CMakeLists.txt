@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.22.1)
 
 #=== application version and info ===#
 set(PROJECT_MAINTAINER bjones.engineer@gmail.com)
-set(PROJECT_WEBSITE_URL nolimitconnect.org)
-set(PROJECT_VENDOR nolimitconnect.org)
+set(PROJECT_WEBSITE_URL nolimitconnect.com)
+set(PROJECT_VENDOR nolimitconnect.com)
 set(NLC_NAME "nolimitconnect")
 set(NLC_VERSION "1.0.0")
 set(NLC_VERSION_MAJOR "1")
@@ -13,8 +13,11 @@ set(NLC_VERSION_PATCH "0")
 
 # Target OS can be TARGET_OS_WINDOWS or TARGET_OS_LINUX or TARGET_OS_ANDROID
 # example cmake command line
-# cd ~/nolimitapp/build/cmake
+# cd ~/nolimitapp/build
+# mkdir nlc_build
+# cd nlc_build
 # cmake  -S ../.. -B . -DCMAKE_BUILD_TYPE=Debug -DTARGET_OS_LINUX=true
+# make
 
 # print command line parameters
 get_cmake_property(CacheVars CACHE_VARIABLES)
