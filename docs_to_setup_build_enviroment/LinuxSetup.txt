@@ -1,0 +1,60 @@
+These instructions assume Ubuntu 20.4 but should work for most linux distributions
+Note: Using Ubuntu 22.4 there seems to be some qt ssl issuses when configuring so 20.4 is recommended then update to 22.4 later if desired
+
+==== Prerequisite tools required to build nolimitconnect ======
+1.) sudo apt-get install g++
+2.) sudo apt-get install nasm
+3.) uuid required but may be missing in your linux version
+	sudo apt-get install uuid-dev
+4.) Open Gl
+	sudo apt-get install libglu1-mesa-dev
+5.) Needed by Qt or may have compile failure even if git already works
+	sudo apt install git	
+6.) Other Qt specifically required for online installer
+	a. sudo apt-get install build-essential
+	b. sudo apt-get install -y libxcb-xinerama0
+7.) Optional if you plan on compiling using the docker image
+	sudo apt-get install docker
+	
+Install Qt Online Installer from https://www.qt.io/download
+Look closely. You may have to hunt around for the open source version instead of the free trial.
+
+Run the installer.
+When you see the installation folder dialog leave the path at default by check developement boxes
+
+You may need to run the maintenance tool and install the appropriate qt versions. 
+At the time of this writing Qt 6.4.3 is supported and Qt 6.6.0 is planned for future 
+	
+=== compile enviroment issues ===
+NOTE: on Ubuntu you will likely see these errors. if packages are not found you are probably not running x11 and is normal
+1.) ~/nolimitapp/nolimitlib/DependLibs/ffmpeg/libavdevice/x11grab.c:58: error: X11/extensions/shape.h: No such file or directory
+	a.) apt-file search X11/extensions/shape.h
+	b.) sudo apt install libxext-dev
+2.)  ~/nolimitapp/nolimitconnect/DependLibs/ffmpeg/libavdevice/x11grab.c:59: error: X11/extensions/Xfixes.h: No such file or directory
+	a.) apt-file search X11/extensions/Xfixes.h
+	b.) sudo apt install libxfixes-dev
+3.) if error "Could NOT find XKB (missing: XKB_LIBRARY XKB_INCLUDE_DIR)"
+	sudo apt install libx11-dev
+4.) if error Could not load the Qt platform plugin "xcb" in "" even though it was found.
+	sudo apt install libxcb-* 
+
+=== To build Android on Linux ===
+Java must be installed first and JAVA_HOME enviroment variable set
+According to qt the openjdk version can be from 11 or higher but really 11 breaks the qt configure so use 17
+
+mkdir Android
+sudo apt-get install openjdk-17-jdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+make JAVA_HOME permanent by adding export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 to your ~/.bashrc or appropriate file 
+
+The preferred method of setting up Android is within QCreator
+In QCreator pick a project from the Welcome screen (opengl2 is preferred as it will test that opengl works)
+In the configure page you will see Android has a yellow triangle.
+click android Details then click button Configure
+It should auto configure but if not you will have to try the manual steps you can find at the qt website
+
+
+
+
+
+

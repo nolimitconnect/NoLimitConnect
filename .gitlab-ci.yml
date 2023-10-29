@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: brettrjonesdocker/nolimitappimage
-  IMAGE_TAG: nlcdevimage-1.0.5
+  IMAGE_TAG: nlcdevimage-1.0.3 # for Qt 6.0.0 use nlcdevimage-1.0.5 instead of nlcdevimage-1.0.3 which is for Qt 6.4.3
 
 
 stages:
@@ -51,7 +51,7 @@ compile_nlc_linux:
 
     - rm -rf *
     - rm -rf ../../package/android
-    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI
+    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_4_3
 
     - echo 'start make'
     - make -j$(nproc)
@@ -64,7 +64,7 @@ compile_nlc_linux:
 
     - rm -rf *
     - rm -rf ../../package/linux
-    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI
+    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI  -DQT_VERSION=6_4_3
     - make -j$(nproc)
     - cpack -C CPackConfig.cmake
       

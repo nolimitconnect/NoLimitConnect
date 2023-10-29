@@ -1,2 +1,0 @@
-building android on windows (Qt 5.12.2) has bug QTBUG-69255
-this file is part of the workaround of that bug

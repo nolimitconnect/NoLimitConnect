@@ -31,7 +31,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.6.0_msvc2019_64</QtInstall>
+    <QtInstall>6.4.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;opengl;svg;multimedia;multimediawidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -1103,6 +1103,12 @@ libUPnP.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetyp
     <QtUic Include="..\..\..\CommonSrc\Forms\VlcWidget.ui" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\.gitlab-ci.yml" />
+    <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake" />
+    <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake" />
+    <None Include="..\..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake" />
+    <None Include="..\..\..\..\cmake\cmake_helpers\NlcAssembler.cmake" />
+    <None Include="..\..\..\..\cmake\cmake_helpers\OsDetect.cmake" />
     <None Include="..\..\..\..\nolimitlib\bin-Android\build.gradle" />
     <None Include="..\..\..\..\nolimitlib\bin-Android\gradle.properties" />
     <None Include="..\..\..\..\nolimitlib\bin-Android\gradlew" />
@@ -1117,6 +1123,10 @@ libUPnP.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetyp
     <Xml Include="..\..\..\..\nolimitlib\bin-Android\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\..\..\..\CMakeLists.txt" />
+    <Text Include="..\..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt" />
+    <Text Include="..\..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt" />
+    <Text Include="..\..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt" />
     <Text Include="..\..\..\..\nolimitlib\DependLibs\libminiaudio\CMakeLists.txt" />
     <Text Include="..\..\..\CMakeLists.txt" />
     <Text Include="..\..\..\CommonSrc\Resources\CreditsArt.txt" />

@@ -1,2 +1,0 @@
-Todo
-Integrate something like TrueCrypt for user data storage security

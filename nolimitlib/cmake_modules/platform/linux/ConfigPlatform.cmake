@@ -1,3 +1,0 @@
-set(TARGET gles)
-set(PLATFORM_REQUIRED_DEPS OpenGLES EGL Zip)
-set(APP_RENDER_SYSTEM gles)

@@ -28,10 +28,14 @@ cd nlc_build
 rm -rf *
 
 If compiling for Linux
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true, -DQT_VERSION=6_6_0
+or
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true, -DQT_VERSION=6_4_3
 
 If cross compiling for Android in Linux
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_0
+or
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_4_3
 
 make
 
@@ -39,8 +43,9 @@ make
 
 Login to Docker
 
-docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.5 bash
 
+== If compiling with Qt 6.0.0 then ==
+docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.5 bash
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 
 cd nolimitapp/build
@@ -49,10 +54,27 @@ cd nlc_build
 rm -rf *
 
 If compiling for Linux
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI, -DQT_VERSION=6_6_0
 
 If cross compiling for Android
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI, -DQT_VERSION=6_6_0
+
+make
+
+== If compiling with Qt 6.4.3 then ==
+docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.3 bash
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+cd nolimitapp/build
+mkdir nlc_build
+cd nlc_build
+rm -rf *
+
+If compiling for Linux
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI, -DQT_VERSION=6_4_3
+
+If cross compiling for Android
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI, -DQT_VERSION=6_4_3
 
 make
 

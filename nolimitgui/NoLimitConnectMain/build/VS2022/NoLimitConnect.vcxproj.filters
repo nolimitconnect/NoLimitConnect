@@ -111,6 +111,18 @@
     <Filter Include="Source Files\miniaudioio\Qt">
       <UniqueIdentifier>{81aaf2b7-9cfd-4772-8468-3b78e87e108e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="docs_to_compile_app">
+      <UniqueIdentifier>{59827377-1ab1-46d1-9620-829750d4c710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs_to_setup_build_enviroment">
+      <UniqueIdentifier>{ed55f924-9808-41d8-84f9-f23d771591e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RootCmake">
+      <UniqueIdentifier>{87f1cf85-5a07-488d-91be-b78aedfd0bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmake_helpers">
+      <UniqueIdentifier>{b3ccd291-3db7-4f12-a49e-026f0d1854c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
@@ -2964,6 +2976,24 @@
     <None Include="..\..\..\..\nolimitlib\bin-Android\gradlew">
       <Filter>Android Files</Filter>
     </None>
+    <None Include="..\..\..\..\.gitlab-ci.yml">
+      <Filter>docs_to_compile_app</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\NlcAssembler.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\OsDetect.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\CommonSrc\QtSource\NoLimitConnect.rc">
@@ -2987,6 +3017,18 @@
     </Text>
     <Text Include="..\..\..\..\nolimitlib\DependLibs\libminiaudio\CMakeLists.txt">
       <Filter>Source Files\miniaudioio\Qt</Filter>
+    </Text>
+    <Text Include="..\..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt">
+      <Filter>docs_to_compile_app</Filter>
+    </Text>
+    <Text Include="..\..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt">
+      <Filter>docs_to_setup_build_enviroment</Filter>
+    </Text>
+    <Text Include="..\..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt">
+      <Filter>docs_to_setup_build_enviroment</Filter>
+    </Text>
+    <Text Include="..\..\..\..\CMakeLists.txt">
+      <Filter>RootCmake</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
