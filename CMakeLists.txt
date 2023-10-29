@@ -357,7 +357,7 @@ if(CI_PIPELINE)
             set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
         else()
             set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.4.3/android_arm64_v8a")
-            set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/23.1.7779620")
+            set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
         endif()
         
         list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
