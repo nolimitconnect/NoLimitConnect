@@ -143,8 +143,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libopenmpt-full", "..\..\..\nolimitlib\DependLibs\libopenmpt\build\VS2022\libopenmpt-full.vcxproj", "{76C962AD-C957-46C2-9B66-B74E476ECABC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libxpm", "..\..\..\nolimitlib\DependLibs\libxpm\build\VS2022\libxpm.vcxproj", "{5DC29C20-FE21-47EF-AC7D-641BD7DDD962}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "..\..\..\nolimitlib\DependLibs\libdca\build\VS2022\libdca.vcxproj", "{B371A932-3499-409E-9712-21D009F3644C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libplist", "..\..\..\nolimitlib\DependLibs\libplist\build\VS2022\libplist.vcxproj", "{1E52C022-CBD4-4FED-A265-5299E5042CD6}"
