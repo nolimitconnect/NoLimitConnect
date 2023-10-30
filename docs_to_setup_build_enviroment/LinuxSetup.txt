@@ -14,7 +14,13 @@ Note: Using Ubuntu 22.4 there seems to be some qt ssl issuses when configuring s
 	a. sudo apt-get install build-essential
 	b. sudo apt-get install -y libxcb-xinerama0
 7.) Optional if you plan on compiling using the docker image
-	sudo apt-get install docker
+	a. sudo apt-get install docker
+	Give current user docker login privileges (optional)
+	b. sudo groupadd docker
+	c. sudo usermod -aG docker ${USER}
+	Test docker after log out/in or reboot (optional)
+	d. docker run hello-world
+	
 	
 Install Qt Online Installer from https://www.qt.io/download
 Look closely. You may have to hunt around for the open source version instead of the free trial.
