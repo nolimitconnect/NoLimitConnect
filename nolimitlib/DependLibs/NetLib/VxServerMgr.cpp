@@ -517,6 +517,7 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
 #endif // !defined(TARGET_OS_WINDOWS)
 
     bool useAddrInfoBind{true};
+#if 0 // seems that VPNs work better without the bind to a specific address
     char hostName[256]; // hostname max length is 255
 
     if( gethostname( hostName, sizeof(hostName) )  < 0 )
@@ -561,6 +562,9 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
             freeaddrinfo (ai);
         }
     }
+#endif // 0;
+    lclIp.clear();
+    useAddrInfoBind = false;
 
     if( !useAddrInfoBind )
     {

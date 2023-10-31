@@ -455,7 +455,7 @@ bool EngineSettings::getUseUpnpPortForward( void )
 {
 	bool bUseUpnp = true;
     m_SettingsDbMutex.lock();
-	getIniValue( MY_SETTINGS_KEY, "UseUpnp", bUseUpnp, false );
+	getIniValue( MY_SETTINGS_KEY, "UseUpnp", bUseUpnp, true );
     m_SettingsDbMutex.unlock();
 
 	return bUseUpnp;

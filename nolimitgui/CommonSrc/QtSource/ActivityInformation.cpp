@@ -288,6 +288,8 @@ QString ActivityInformation::m_ConnectTestUrl( QObject::tr(
 QString ActivityInformation::m_ConnectTestSettings( QObject::tr(
     "=== Enable UPNP check box ===\n"
     "If enabled then UPNP protocol will be used to attempt to open a port to your devcice\n"
+    "UPNP works well with Hide.me VPN\n"
+    "If you are not using a VPN with Port Forwarding you can try to configure Port Forward on your Router\n"
     "Because of the various implementations of router firmware this only sometimes is succesfull in opening your port  \n"
     "Consult your router specific instructions for how to forward a port to your device or visit\n"
     "https://www.wikihow.com/Open-Ports\n\n"
@@ -303,7 +305,7 @@ QString ActivityInformation::m_ConnectTestSettings( QObject::tr(
     "\n"
     "Option 3 - Always assume your device's port is blocked.\n"
     "This option is only recommended for users that always use mobile data service and do not use a VPN.\n"
-    "It will somewhat speed up searches for relay services by not attempting to open port or testing your connection\n"
+    "It will bypass testing your connection\n"
     "\n"
     "\n"
 ) );

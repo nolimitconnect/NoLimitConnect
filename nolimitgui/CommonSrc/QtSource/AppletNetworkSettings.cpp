@@ -485,7 +485,7 @@ void AppletNetworkSettings::slotTestUpnpButtonClick( void )
     }
     else
     {
-        QMessageBox::information( this, tr( "Error" ), tr( "UPNP must be andabled and Listen Port cannot be zero." ) );
+        QMessageBox::information( this, tr( "Error" ), tr( "UPNP must be enabled and Listen Port cannot be zero." ) );
     }
 }
 
