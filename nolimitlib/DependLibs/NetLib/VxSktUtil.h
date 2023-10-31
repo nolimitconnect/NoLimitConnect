@@ -149,7 +149,7 @@ RCODE							VxSendSktData( SOCKET			oSkt,
 											   int				iDataLen,				// length of data
 											   int				iTimeoutSeconds ); // = SKT_SEND_TIMEOUT // seconds before send attempt times out
 
-bool							VxSetSktAllowReusePort( SOCKET skt );
+bool							VxSetSktAllowReuseAddress( SOCKET skt );
 
 uint16_t						VxGetRmtPort( SOCKET skt );
 

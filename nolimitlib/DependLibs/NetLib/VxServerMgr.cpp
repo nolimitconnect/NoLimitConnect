@@ -486,44 +486,103 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
 {
     // some vpns get confused if the same socket number is reused after closed so make a dummy socket so socket number is incremented
     SOCKET dummySock = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0 );               // creates IP based TCP socket
-    if( dummySock < 0 )
+    if( dummySock <= 0 )
     {
         LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket failed" );
         return false;
     }
 
     SOCKET listenSock = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0 );               // creates IP based TCP socket
-    if( listenSock < 0 )
+    if( listenSock <= 0 )
     {
         LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket failed" );
         VxCloseSkt( dummySock );
         return false;
     }
 
-    // don't know why reuse port doesn't work
-    VxSetSktAllowReusePort( listenSock );
-
-    struct sockaddr_storage sockAddr;
-    socklen_t sockAddrLen = VxSktAddrInit( ipv6, sockAddr, lclIp, listenPort );
-
-    // Bind Socket
-    int bindStatus = bind( listenSock, (struct sockaddr*)&sockAddr, sockAddrLen );
-    int retryCnt = 0;
-    while( bindStatus < 0 )
+    if( !lclIp.empty() && !VxIsIpValid(lclIp) )
     {
-        retryCnt++;
-        if( retryCnt >= 3 )
-        {
-            LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket bind socket %d failed event after %d tries", listenSock, retryCnt );
-            break;
-        }
-
-        VxSleep( 1000 );
-        bindStatus = bind( listenSock,  (struct sockaddr*)&sockAddr, sockAddrLen );
+        LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket invalid local ip %s", lclIp.c_str() );
+        lclIp.clear();
     }
 
-    // android set listen skt back to blocking doesn't work so just set to non blocking always ( part of accept hang fix ) 
-    //  VxSetSktBlocking( listenSock, false );
+    if( !lclIp.empty() )
+    {
+        LogMsg( LOG_VERBOSE, "VxServerMgr::createListenSocket using local ip %s", lclIp.c_str() );
+        lclIp.clear();
+    }
+
+#if !defined(TARGET_OS_WINDOWS)
+    lclIp.clear();
+#endif // !defined(TARGET_OS_WINDOWS)
+
+    bool useAddrInfoBind{true};
+    char hostName[256]; // hostname max length is 255
+
+    if( gethostname( hostName, sizeof(hostName) )  < 0 )
+    {
+        useAddrInfoBind = false;
+        lclIp.clear();
+        LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket gethostname failed %s", strerror(errno) );
+    }
+    else
+    {
+        char portStr[6];
+        struct addrinfo *ai;
+        struct addrinfo hints;
+        memset( &hints, 0, sizeof(struct addrinfo) );
+
+        hints.ai_flags = AI_PASSIVE;
+        hints.ai_socktype = SOCK_STREAM;
+
+        snprintf(portStr, 6, "%d", listenPort);
+
+        int rc = getaddrinfo(hostName, portStr, &hints, &ai);
+        if (rc != 0)
+        {
+            useAddrInfoBind = false;
+            lclIp.clear();
+
+            LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket error Resolving %s: %s", hostName, gai_strerror(rc));
+        }
+        else
+        {
+            if (bind(listenSock, ai->ai_addr, ai->ai_addrlen) != 0)
+            {
+                useAddrInfoBind = false;
+                lclIp.clear();
+
+                LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket error Binding to %s:%d: %s",
+                              hostName,
+                              listenPort,
+                              strerror(errno));
+            }
+
+            freeaddrinfo (ai);
+        }
+    }
+
+    if( !useAddrInfoBind )
+    {
+        struct sockaddr_storage sockAddr;
+        socklen_t sockAddrLen = VxSktAddrInit( ipv6, sockAddr, lclIp, listenPort );
+
+        // Bind Socket
+        int bindStatus = bind( listenSock, (struct sockaddr*)&sockAddr, sockAddrLen );
+        int retryCnt = 0;
+        while( bindStatus < 0 )
+        {
+            retryCnt++;
+            if( retryCnt >= 3 )
+            {
+                LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket bind socket %d failed event after %d tries", listenSock, retryCnt );
+                break;
+            }
+
+            VxSleep( 1000 );
+            bindStatus = bind( listenSock,  (struct sockaddr*)&sockAddr, sockAddrLen );
+        }
+    }
 
     if( m_pfnSktMgrStatus )
     {

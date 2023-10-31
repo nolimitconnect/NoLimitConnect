@@ -179,7 +179,7 @@ RCODE VxSktUdp::udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, boo
     }
 
 	// allow multiple sockets to use the same PORT number
-    VxSetSktAllowReusePort( m_Socket );
+    VxSetSktAllowReuseAddress( m_Socket );
     m_rcLastSktError = VxGetLastError();
     if( m_rcLastSktError)
     {

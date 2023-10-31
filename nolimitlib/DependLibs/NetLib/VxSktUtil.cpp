@@ -759,14 +759,14 @@ bool VxSplitHostAndFile(	const char* pFullUrl,		// full url.. example http://www
 }
 
 //============================================================================
-bool VxSetSktAllowReusePort( SOCKET skt )
+bool VxSetSktAllowReuseAddress( SOCKET skt )
 {
 	// on windows need to don't do this or will allow binding to a port that is in use
 	// on Linux this just lets you bind right after it has been released
-	char reusePort = 1;
-	if( SOCKET_ERROR == setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, &reusePort, sizeof(reusePort)) ) 
+    int reuseOpt = 1;
+    if( setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, (char *)&reuseOpt, sizeof(reuseOpt)) < 0 )
 	{
-		LogMsg( LOG_ERROR,  "VxSktBase::setReuseSocket error %d", VxGetLastError() );
+        LogMsg( LOG_ERROR,  "VxSktBase::setReuseSocket error %d %s", VxGetLastError(), strerror(errno) );
 		return false;
 	}
 
@@ -1210,7 +1210,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 			return sktHandle;
 		}
 
-		VxSetSktAllowReusePort( sktHandle );
+        VxSetSktAllowReuseAddress( sktHandle );
 		if( iConnectTimeoutMs )
 		{
 			//LogMsg( LOG_SKT, "VxConnectTo: timeout %d skt handle %d connect no block ip %s port %d", iConnectTimeoutMs, sktHandle, strRmtIp.c_str(), u16Port );
