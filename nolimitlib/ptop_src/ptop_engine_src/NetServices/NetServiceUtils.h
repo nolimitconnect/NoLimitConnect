@@ -40,6 +40,8 @@ public:
     static ENetCmdType			netCmdStringToEnum( const char* netCmd );
 	static const char*			netCmdEnumToString( ENetCmdType	eNetCmdType );
 
+    static bool                 isRequestTypeNetCmd( ENetCmdType eNetCmdType );
+
     bool                        sendNetServiceRequest(  ENetCmdType         netCmdRequestType, ///< which type of net service to request
                                                         VxSktConnectSimple* netServConn, 
                                                         std::string&        netCmd,

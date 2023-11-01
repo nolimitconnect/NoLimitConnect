@@ -589,6 +589,24 @@ int  NetServiceUtils::getIndexOfCrLfCrLf( std::shared_ptr<VxSktBase>& sktBase )
 }
 
 //============================================================================
+bool NetServiceUtils::isRequestTypeNetCmd( ENetCmdType eNetCmdType )
+{
+    bool isRequest{false};
+    switch( eNetCmdType )
+    {
+    case eNetCmdIsMyPortOpenReq:
+    case eNetCmdIsMyPortOpenReply:
+    case eNetCmdQueryHostOnlineIdReq:
+        isRequest = true;
+
+    default:
+        break;
+    }
+
+    return isRequest;
+}
+
+//============================================================================
 bool NetServiceUtils::buildCmd( std::string& retCmd, std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
 {
 	retCmd.clear();
@@ -758,6 +776,12 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 	std::string cryptoPwd;
 
 	generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), netServConn->getRemotePort(), "0.0.0.0" );
+
+	if( netCmd.empty() )
+	{
+		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: empty crypto key. Is network name not set?" );
+		return false;
+	}
 
 	if( eNetCmdHostPing == netCmdRequestType ||  eNetCmdClientPing == netCmdRequestType )
 	{

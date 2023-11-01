@@ -47,12 +47,14 @@ public:
 	std::string&				getNetworkHostUrl( void )								    { return m_NetworkHostUrl; }
     void						setConnectTestUrl( const char* netServiceUrl )		        { m_NetConnectTestUrl = netServiceUrl; }
     std::string&				getConnectTestUrl( void )								    { return m_NetConnectTestUrl; }
+
     void						setRandomConnectUrl( const char* netServiceUrl )		    { m_NetRandomConnectUrl = netServiceUrl; }
     std::string&				getRandomConnectUrl( void )								    { return m_NetRandomConnectUrl; }
     void						setGroupHostUrl( const char* netServiceUrl )		        { m_GroupHostUrl = netServiceUrl; }
     std::string&				getGroupHostUrl( void )								        { return m_GroupHostUrl; }
     void						setChatRoomHostUrl( const char* netServiceUrl )		    { m_ChatRoomHostUrl = netServiceUrl; }
     std::string&				getChatRoomHostUrl( void )								    { return m_ChatRoomHostUrl; }
+
     void						setUserSpecifiedExternIpAddr( const char* ipAddr )		    { m_ExternIpAddr = ipAddr; }
     std::string&				getUserSpecifiedExternIpAddr( void )						{ return m_ExternIpAddr; }
     void                        setPreferredNetworkAdapterIp( const char* preferredAdaptIp ) { m_PreferredNetworkAdapterIp = preferredAdaptIp; }

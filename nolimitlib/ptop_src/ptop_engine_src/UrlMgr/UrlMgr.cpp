@@ -114,6 +114,7 @@ std::string UrlMgr::resolveUrl( bool ipv6, std::string& hostUrl )
     if( iter != m_UrlMap.end() )
     {
         url = ipv6 ? iter->second.m_UrlIpv6 : iter->second.m_UrlIpv4;
+
         m_UrlMutex.unlock();
         return url;
     }

@@ -807,7 +807,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
     {
         connectStatus = eConnectStatusConnectFailed;
 
-        //LogMsg( LOG_INFO, "NetConnector::directConnectTo: connect FAIL to %s:%d\n", strIpAddress.c_str(), connectInfo.getOnlinePort() );
+        //LogMsg( LOG_INFO, "NetConnector::directConnectTo: connect FAIL to %s:%d", strIpAddress.c_str(), connectInfo.getOnlinePort() );
         LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::DirectConnectTo: failed" );
     }
 
@@ -890,7 +890,7 @@ bool ConnectionMgr::connectToContact(	VxConnectInfo&		connectInfo,
 #ifdef DEBUG_CONNECTIONS
         std::string strId;
         connectInfo.getMyOnlineId(strId);
-        LogMsg( LOG_SKT, "connectToContact: User is already connected %s id %s\n", 
+        LogMsg( LOG_SKT, "connectToContact: User is already connected %s id %s", 
             m_Engine.knownContactNameFromId( connectInfo.getMyOnlineId() ),
             strId.c_str() );
 #endif // DEBUG_CONNECTIONS
@@ -1101,24 +1101,24 @@ bool ConnectionMgr::txPacket(	VxGUID&				destinationId,
             }
             else
             {
-                LogMsg( LOG_ERROR, "NetConnector::txPacket: %s error %d\n", sktBase->describeSktType().c_str(), rc );
+                LogMsg( LOG_ERROR, "NetConnector::txPacket: %s error %d", sktBase->describeSktType().c_str(), rc );
             }
         }
         else
         {
             if( false == sktBase->isConnected() )
             {
-                LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d not connected\n", sktBase->m_SktNumber );
+                LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d not connected", sktBase->m_SktNumber );
             }
             else
             {
-                LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d has no encryption key\n", sktBase->m_SktNumber );
+                LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d has no encryption key", sktBase->m_SktNumber );
             }
         }
     }
     else
     {
-        LogMsg( LOG_ERROR, "P2PEngine::txPluginPkt: Invalid system Packet length %d type %d\n", 
+        LogMsg( LOG_ERROR, "P2PEngine::txPluginPkt: Invalid system Packet length %d type %d", 
             poPkt->getPktLength(),
             poPkt->getPktType() );
     }
@@ -1303,7 +1303,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
         && connectRequest.isTooSoonToAttemptConnectAgain() )
     {
 #ifdef DEBUG_CONNECTIONS
-        LogMsg( LOG_INFO, "NetConnector::doConnectRequest: to soon to connect again %s\n", m_Engine.describeContact( connectRequest ).c_str() );
+        LogMsg( LOG_INFO, "NetConnector::doConnectRequest: to soon to connect again %s", m_Engine.describeContact( connectRequest ).c_str() );
 #endif // DEBUG_CONNECTIONS
         return false;
     }
@@ -1321,7 +1321,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
     {
         // handle success connect
 #ifdef DEBUG_CONNECTIONS
-        LogMsg( LOG_INFO, "NetConnector::doConnectRequest: success  %s\n", m_Engine.describeContact( connectInfo ).c_str() );
+        LogMsg( LOG_INFO, "NetConnector::doConnectRequest: success  %s", m_Engine.describeContact( connectInfo ).c_str() );
 #endif // DEBUG_CONNECTIONS
         if( 0 == bigListInfo )
         {
@@ -1336,7 +1336,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
 #ifdef DEBUG_CONNECTIONS
         else
         {
-            LogMsg( LOG_INFO, "NetConnector::doConnectRequest: No BigList for connected  %s\n", m_Engine.describeContact( connectInfo ).c_str() );
+            LogMsg( LOG_INFO, "NetConnector::doConnectRequest: No BigList for connected  %s", m_Engine.describeContact( connectInfo ).c_str() );
         }
 #endif // DEBUG_CONNECTIONS
 
@@ -1345,7 +1345,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
 
     // handle fail connect
 #ifdef DEBUG_CONNECTIONS
-    LogMsg( LOG_INFO, "NetConnector::doConnectRequest: connect fail  %s\n", m_Engine.describeContact( connectInfo ).c_str() );
+    LogMsg( LOG_INFO, "NetConnector::doConnectRequest: connect fail  %s", m_Engine.describeContact( connectInfo ).c_str() );
 #endif // DEBUG_CONNECTIONS
     return false;
 }

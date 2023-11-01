@@ -23,6 +23,7 @@
 #include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
 #include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
 #include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
+#include <ptop_src/ptop_engine_src/NetServices/NetServiceUtils.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
@@ -161,7 +162,7 @@ void RunUrlAction::runUrlAction( VxGUID& sessionId, ENetCmdType netCmdType, cons
 {
     UrlActionInfo urlAction( getEngine(), hostType, sessionId, netCmdType, ptopUrl, myUrl, cbInterface, cbConnectRequest, connectReason );
     std::string actionName = urlAction.getTestName();
-    if( !urlAction.getMyVxUrl().validateUrl( true ) )
+    if( eNetCmdQueryHostOnlineIdReq != netCmdType && !urlAction.getMyVxUrl().validateUrl( true ) )
     {
         // if have callback interface then no need to send testing message
         LogModule( eLogRunTest, LOG_DEBUG, "RunUrlAction::runUrlAction Local URL is invalid" );

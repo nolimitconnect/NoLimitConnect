@@ -1571,53 +1571,8 @@
     <Filter Include="Source Files\WebPageMgr">
       <UniqueIdentifier>{bee4bc25-082e-4a6b-94f9-532895b6b153}</UniqueIdentifier>
     </Filter>
-    <Filter Include="docs_for_building">
-      <UniqueIdentifier>{2433938b-0e6b-4d84-837d-2b29cf9a7a15}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\docs_for_building\AdditionalSetupVS2019AndQt.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Build_NoLimitConnect_ForAndroidInVBoxImage.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Build_NoLimitConnect_ForAndroidInWindows.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Build_NoLimitConnect_ForLinuxInVBoxImage.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Build_NoLimitConnect_ForWindows.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Build_NoLimitConnect_ForWindowsPrerequisitesInstructions.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\CreatingTranslations.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\DeployLinux.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Nlc_Windows_Android_Qt6.2.2_Setup.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\NoLimitConnect_Terminology.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Open_Port_In_Firewall_Windows10.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\READ_ME_FIRST.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\VPN_Setup_For_NoLimitConnect.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
-    <Text Include="..\..\..\docs_for_building\Create_Linux_Virtual_Image_Ubuntu.txt">
-      <Filter>docs_for_building</Filter>
-    </Text>
     <Text Include="..\..\ptop_engine_src\CMakeLists.txt">
       <Filter>QtBuild</Filter>
     </Text>
