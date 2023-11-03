@@ -7,6 +7,8 @@
  */
 
 // python.h should always be included first before any other includes
+#ifdef HAS_PYTHON
+
 #include <Python.h>
 #include <osdefs.h>
 
@@ -112,3 +114,5 @@ const char* CAddonPythonInvoker::getInitializationScript() const
 {
   return RUNSCRIPT_COMPLIANT;
 }
+
+#endif // HAS_PYTHON

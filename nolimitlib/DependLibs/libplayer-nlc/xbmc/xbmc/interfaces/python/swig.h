@@ -9,6 +9,7 @@
 #pragma once
 
 #include "config_kodi.h"
+#ifdef HAS_PYTHON
 
 #include <Python.h>
 #include <string>
@@ -199,3 +200,5 @@ namespace PythonBindings
     }
   };
 }
+
+#endif // HAS_PYTHON

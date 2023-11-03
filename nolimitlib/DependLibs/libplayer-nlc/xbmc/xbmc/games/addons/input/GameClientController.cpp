@@ -18,7 +18,7 @@
  *
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if ENABLE_GAMES
 
 #include "GameClientController.h"

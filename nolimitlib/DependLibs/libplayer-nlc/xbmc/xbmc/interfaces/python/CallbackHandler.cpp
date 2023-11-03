@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#ifdef HAS_PYTHON
+
 #include "CallbackHandler.h"
 #include "LanguageHook.h"
 
@@ -62,3 +64,5 @@ namespace XBMCAddon
     }
   }
 }
+
+#endif // HAS_PYTHON

@@ -8,6 +8,8 @@
 
 #pragma once
 
+#ifdef HAS_PYTHON
+
 #include <map>
 #include <string>
 #include <vector>
@@ -72,3 +74,5 @@ private:
 
   static CCriticalSection s_critical;
 };
+
+#endif // HAS_PYTHON

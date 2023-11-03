@@ -373,7 +373,7 @@ int AE_parentStates[] = {
     5, //TOP_CONFIGURED_PLAY
 };
 
-char * describeActiveAEState( int state )
+const char * describeActiveAEState( int state )
 {
     switch( state )
     {
@@ -400,7 +400,7 @@ char * describeActiveAEState( int state )
     }
 }
 
-char * describeActiveAEControlOutSignal( int signal )
+const char * describeActiveAEControlOutSignal( int signal )
 {
     switch( signal )
     {
@@ -455,7 +455,7 @@ char * describeActiveAEControlOutSignal( int signal )
     }
 };
 
-char * describeActiveAEDataSignal( int signal )
+const char * describeActiveAEDataSignal( int signal )
 {
     switch( signal )
     {
@@ -479,7 +479,7 @@ char * describeActiveAEDataSignal( int signal )
 
 };
 
-char * describeActiveAESinkDataSignal( int signal )
+const char * describeActiveAESinkDataSignal( int signal )
 {
     switch( signal )
     {

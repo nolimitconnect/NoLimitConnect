@@ -7,7 +7,7 @@
  */
 
 #pragma once
-
+#ifdef HAS_PYTHON
 #include <Python.h>
 
 #include "interfaces/legacy/LanguageHook.h"
@@ -87,3 +87,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAS_PYTHON

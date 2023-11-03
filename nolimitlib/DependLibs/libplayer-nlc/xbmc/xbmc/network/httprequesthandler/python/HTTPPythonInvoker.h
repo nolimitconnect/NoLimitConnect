@@ -8,6 +8,8 @@
 
 #pragma once
 
+#ifdef HAS_PYTHON
+
 #include "interfaces/python/PythonInvoker.h"
 #include "network/httprequesthandler/python/HTTPPythonRequest.h"
 
@@ -30,3 +32,5 @@ protected:
   HTTPPythonRequest* m_request;
   bool m_internalError = false;
 };
+
+#endif // HAS_PYTHON

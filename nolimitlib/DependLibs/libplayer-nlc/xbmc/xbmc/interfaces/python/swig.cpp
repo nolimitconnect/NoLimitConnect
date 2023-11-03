@@ -6,6 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
+#ifdef HAS_PYTHON
 #include "LanguageHook.h"
 #include "swig.h"
 #include "utils/StringUtils.h"
@@ -384,3 +385,4 @@ namespace PythonBindings
 
 }
 
+#endif // HAS_PYTHON

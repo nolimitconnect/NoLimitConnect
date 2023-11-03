@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#ifdef HAS_PYTHON
+
 #include "HTTPPythonInvoker.h"
 
 #include "CompileInfo.h"
@@ -70,3 +72,5 @@ void CHTTPPythonInvoker::onError(const std::string& exceptionType /* = "" */, co
 
   m_request->responseData = "<html><head><title>" + std::string(CCompileInfo::GetAppName()) + ": python error</title></head><body>" + output + "</body></html>";
 }
+
+#endif // HAS_PYTHON

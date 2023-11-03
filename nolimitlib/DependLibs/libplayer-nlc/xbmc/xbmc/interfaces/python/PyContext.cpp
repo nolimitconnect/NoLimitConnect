@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#ifdef HAS_PYTHON
+
 #include <Python.h>
 
 #include "PyContext.h"
@@ -114,3 +116,5 @@ namespace XBMCAddon
     }
   }
 }
+
+#endif // HAS_PYTHON

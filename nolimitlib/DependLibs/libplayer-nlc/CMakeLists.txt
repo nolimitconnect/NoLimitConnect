@@ -1503,9 +1503,7 @@ target_include_directories(player-nlc
     ../libUPnP/Neptune/Source/Core
     ../libpcre
     ../libfreetype/include
-    ../libpthread
-    ../Python-2.7.14/Include  
-    ../Python-2.7.14  
+    ../libpthread 
 )
 
 target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)

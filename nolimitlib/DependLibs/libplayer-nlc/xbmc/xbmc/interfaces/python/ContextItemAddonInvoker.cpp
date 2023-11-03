@@ -7,6 +7,7 @@
  */
 
 // python.h should always be included first before any other includes
+#ifdef HAS_PYTHON
 #include <Python.h>
 #include <osdefs.h>
 
@@ -39,3 +40,5 @@ void CContextItemAddonInvoker::onPythonModuleInitialization(void* moduleDict)
     }
   }
 }
+
+#endif // HAS_PYTHON

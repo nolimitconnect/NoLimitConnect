@@ -6,6 +6,9 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+#if ENABLE_PERIPHERALS
+
 #include "EventLockHandle.h"
 
 using namespace PERIPHERALS;
@@ -19,3 +22,5 @@ CEventLockHandle::~CEventLockHandle(void)
 {
   m_callback.ReleaseLock(*this);
 }
+
+#endif // ENABLE_PERIPHERALS

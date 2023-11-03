@@ -80,8 +80,13 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 		mediaTestFilesPath = "F:/";
 	#elif defined(TARGET_OS_LINUX)
 		mediaTestFilesPath = "/home/nolimit/";
-	#elif defined(TARGET_OS_ANDROID)
-		mediaTestFilesPath = "/storage/41B0-1007/";
+    #elif defined(TARGET_OS_ANDROID)
+    # if defined(TABLET_K117)
+        mediaTestFilesPath = "/storage/41B0-1007/";
+    # else
+        mediaTestFilesPath = "/storage/emulated/0/NoLimitConnectData/";
+    # endif
+
 	#endif // defined(TARGET_OS_WINDOWS)
 
 	std::vector<std::string> mediaTestFiles;
