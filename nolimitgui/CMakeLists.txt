@@ -1012,9 +1012,7 @@ if (DEFINED TARGET_OS_LINUX)
         Qt::CorePrivate
         Qt::Gui
         Qt::Multimedia
-        Qt::MultimediaWidgets
         Qt::OpenGL
-        Qt::OpenGLWidgets
         Qt::Widgets
         Qt::Svg
         # static nlc libraries

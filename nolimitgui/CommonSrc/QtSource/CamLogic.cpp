@@ -19,10 +19,10 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
-# include <QMediaDevices>
-# include <QVideoWidget>
-# include <QAudioInput>
-# include <QAudioOutput>
+#include <QMediaDevices>
+//# include <QVideoWidget>
+#include <QAudioInput>
+#include <QAudioOutput>
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
