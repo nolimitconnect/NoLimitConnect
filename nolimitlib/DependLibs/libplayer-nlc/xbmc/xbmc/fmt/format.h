@@ -28,7 +28,7 @@
 #ifndef FMT_FORMAT_H_
 #define FMT_FORMAT_H_
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #include <cassert>
 #include <clocale>

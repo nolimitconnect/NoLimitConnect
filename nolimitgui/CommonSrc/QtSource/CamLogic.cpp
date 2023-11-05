@@ -20,7 +20,6 @@
 #include "GuiParams.h"
 
 #include <QMediaDevices>
-//# include <QVideoWidget>
 #include <QAudioInput>
 #include <QAudioOutput>
 

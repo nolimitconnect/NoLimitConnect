@@ -2972,30 +2972,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\powermanagement\PowerManager.cpp">
       <Filter>powermanagement</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmc.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcaddon.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcdrm.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcgui.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcplugin.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcvfs.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\interfaces\python\generated\AddonModuleXbmcwsgi.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcwsgi.i.cpp">
-      <Filter>swig</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\profiles\ProfileManager.cpp">
       <Filter>profiles</Filter>
     </ClCompile>
@@ -8036,9 +8012,6 @@
     <Filter Include="guilib\guiinfo">
       <UniqueIdentifier>{6552bc15-a5ac-4665-93bd-7289d539d9f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="swig">
-      <UniqueIdentifier>{eab052de-3a7a-4103-8b13-a7da294420e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="addons\addoninfo">
       <UniqueIdentifier>{dc1d74df-8770-46a0-af38-193f176c8f4f}</UniqueIdentifier>
     </Filter>
@@ -8084,29 +8057,6 @@
     <Filter Include="imagefiles">
       <UniqueIdentifier>{88cd081a-5c62-436f-b434-6f2a14606113}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmc.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcaddon.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcdrm.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcgui.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcplugin.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcvfs.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcwsgi.i.xml">
-      <Filter>swig</Filter>
-    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\xbmc\xbmc\addons\AddonBindings.cmake" />

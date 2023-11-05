@@ -6,6 +6,9 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+#if ENABLE_BLURAY
+
 #include "BlurayCallback.h"
 
 #include "FileItem.h"
@@ -156,3 +159,5 @@ int64_t CBlurayCallback::file_write(BD_FILE_H *file, const uint8_t *buf, int64_t
 {
   return static_cast<int64_t>(static_cast<CFile*>(file->internal)->Write(buf, static_cast<size_t>(size)));
 }
+
+#endif // ENABLE_BLURAY

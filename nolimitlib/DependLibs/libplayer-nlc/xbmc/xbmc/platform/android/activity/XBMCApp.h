@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_kodi.h"
+
 #include <math.h>
 #include <libpthread/pthread.h>
 #include <string>

@@ -12,7 +12,7 @@
  //
  //////////////////////////////////////////////////////////////////////
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #include "Event.h"
 #include "threads/ThreadImpl.h"
@@ -27,7 +27,7 @@
 #include <thread>
 
 #if defined(TARGET_OS_WINDOWS)
-typedef DWORD ThreadIdentifierKodi;
+#include "threads/platform/win/ThreadImpl.h"
 #else
 typedef pthread_t ThreadIdentifierKodi;
 #endif

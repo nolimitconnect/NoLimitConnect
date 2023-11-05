@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_kodi.h"
+
 #include "RenderCapture.h"
 #include "ServiceBroker.h"
 #include "utils/log.h"

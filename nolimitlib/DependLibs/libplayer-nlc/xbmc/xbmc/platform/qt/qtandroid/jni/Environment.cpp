@@ -18,6 +18,8 @@
  *
  */
 
+#include "config_kodi.h"
+
 #include "Environment.h"
 #include "File.h"
 #include "jutils/jutils-details.hpp"

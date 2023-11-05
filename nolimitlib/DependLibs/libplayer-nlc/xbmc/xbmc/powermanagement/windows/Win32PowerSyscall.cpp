@@ -18,7 +18,7 @@
  *
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifdef TARGET_OS_WINDOWS
 #include "Win32PowerSyscall.h"
 #include "platform/win32/WIN32Util.h"

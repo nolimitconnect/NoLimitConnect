@@ -29,8 +29,8 @@
 //
 //------------------------------------------------------------------------
 
-#include <libp8platform/config_libp8platform.h>
 #ifdef HAVE_PLATFORM_LIB
+#include <libp8platform/config_libp8platform.h>
 // already have more extensive StrungUtils in platform lib
 # include <utils/VxStringUtils.h>
 #else

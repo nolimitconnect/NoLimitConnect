@@ -6,7 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if defined(HAS_GL) || defined(HAS_GLES)  || defined(HAVE_QT_GUI)
 #if defined(TARGET_OS_WINDOWS)
 # include <libglew/include/GL/glew.h>

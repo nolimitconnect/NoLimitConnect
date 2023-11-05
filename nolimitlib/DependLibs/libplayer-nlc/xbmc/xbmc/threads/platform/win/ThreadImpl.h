@@ -8,8 +8,9 @@
 
 #pragma once
 
-#include <windows.h>
+#include "config_components_kodi.h"
 
+#include <windows.h>
 
 struct threadOpaque
 {
@@ -18,7 +19,6 @@ struct threadOpaque
 
 typedef DWORD ThreadIdentifierKodi;
 typedef threadOpaque ThreadOpaque;
-#define THREADFUNC unsigned __stdcall
 
 namespace XbmcThreads
 {

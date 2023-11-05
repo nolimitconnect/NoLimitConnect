@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_kodi.h"
+
 #include "PlatformDefs.h"
 #include "LinuxResourceCounter.h"
 #include "utils/log.h"

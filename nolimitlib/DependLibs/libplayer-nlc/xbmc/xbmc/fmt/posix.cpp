@@ -7,7 +7,7 @@
  For the license information refer to format.h.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 // Disable bogus MSVC warnings.
 #ifndef _CRT_SECURE_NO_WARNINGS

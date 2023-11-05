@@ -6,7 +6,7 @@
 
  For the license information refer to format.h.
  */
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #include "fmt/ostream.h"
 

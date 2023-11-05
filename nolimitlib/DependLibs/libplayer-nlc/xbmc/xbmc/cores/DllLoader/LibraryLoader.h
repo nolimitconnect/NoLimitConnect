@@ -11,7 +11,7 @@
 #ifndef LIBRARY_LOADER
 #define LIBRARY_LOADER
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #include <string>
 

@@ -17,7 +17,7 @@
  *  <http://www.gnu.org/licenses/>.
  *
  */
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if defined(HAVE_QT_GUI)
 #if defined(TARGET_OS_WINDOWS)
 # include <libglew/include/GL/glew.h>

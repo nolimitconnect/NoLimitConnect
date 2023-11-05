@@ -21,7 +21,7 @@
 #ifndef STAT_UTF8_H__
 #define STAT_UTF8_H__
 
-#include <config_kodi.h>
+#include <config_components_kodi.h>
 
 #define stat64 __stat64
 

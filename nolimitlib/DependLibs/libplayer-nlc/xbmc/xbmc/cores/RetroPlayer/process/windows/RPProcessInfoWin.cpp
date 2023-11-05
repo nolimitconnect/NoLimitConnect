@@ -6,10 +6,10 @@
  *  See LICENSES/README.md for more information.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if ENABLE_GAMES
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifndef HAVE_QT_GUI
 
 #include "RPProcessInfoWin.h"

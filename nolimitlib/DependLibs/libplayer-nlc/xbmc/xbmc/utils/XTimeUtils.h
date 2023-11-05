@@ -12,7 +12,7 @@
 #include <string>
 #include <thread>
 
-#if !defined(TARGET_WINDOWS)
+#if !defined(TARGET_OS_WINDOWS)
 #include "PlatformDefs.h"
 #else
 // This is needed, a forward declaration of FILETIME

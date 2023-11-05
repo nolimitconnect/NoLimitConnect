@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_kodi.h"
+
 #include "HDRStatus.h"
 #include "OSScreenSaver.h"
 #include "Resolution.h"

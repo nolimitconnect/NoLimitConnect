@@ -22,7 +22,7 @@
  *  Declarations of std::u16string and std::u32string for systems without those declarations
  */
 #pragma once
-#include <config_kodi.h>
+#include <config_components_kodi.h>
 #ifndef TARGET_OS_WINDOWS
 
 #include <string>

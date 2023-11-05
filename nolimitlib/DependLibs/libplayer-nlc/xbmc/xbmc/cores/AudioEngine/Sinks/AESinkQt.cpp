@@ -18,7 +18,7 @@
  *
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifdef HAVE_QT_GUI
 
 #include "AESinkQt.h"

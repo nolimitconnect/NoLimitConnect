@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_BLURAY
+
 #include <libbluray/src/libbluray/filesystem.h>
 
 class CBlurayCallback
@@ -29,3 +32,5 @@ private:
   CBlurayCallback() = default;
   ~CBlurayCallback() = default;
 };
+
+#endif // ENABLE_BLURAY

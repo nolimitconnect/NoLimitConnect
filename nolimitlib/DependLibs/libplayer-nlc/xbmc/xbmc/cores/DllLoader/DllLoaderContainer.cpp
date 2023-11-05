@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_kodi.h"
+
 #include "DllLoaderContainer.h"
 #ifdef TARGET_POSIX
 #include "SoLoader.h"

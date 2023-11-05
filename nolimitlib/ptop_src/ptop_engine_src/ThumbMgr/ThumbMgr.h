@@ -21,6 +21,8 @@
 
 #include <CoreLib/VxMutex.h>
 
+#include <memory>
+
 class PktFileListReply;
 
 class ThumbInfo;

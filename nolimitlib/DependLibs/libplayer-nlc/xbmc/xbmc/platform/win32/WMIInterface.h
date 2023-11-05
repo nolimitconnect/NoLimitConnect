@@ -20,7 +20,7 @@
  *
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifdef TARGET_OS_WINDOWS
 
 #include <vector>

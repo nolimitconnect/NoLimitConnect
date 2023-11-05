@@ -1043,7 +1043,7 @@ if (DEFINED TARGET_OS_LINUX)
         speex
         lame
         vorbis2
-        microhttpd
+        # microhttpd
         gnu
         # these are nomally combined into one library depends for command line length issue when build on windows
         ass
@@ -1057,7 +1057,7 @@ if (DEFINED TARGET_OS_LINUX)
         iconv
         ilbc
         jpg
-        mdnssd
+        # mdnssd
         vxvideolib
         openjpeg
         shine
@@ -1066,7 +1066,6 @@ if (DEFINED TARGET_OS_LINUX)
         tag
         theora
         twolame
-        UPnP
         wavepack
         webp
         xslt
@@ -1136,7 +1135,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
         speex
         lame
         vorbis2
-        microhttpd
+        # microhttpd
         gnu
         # these are nomally combined into one library depends for command line length issue when build on windows
         ass
@@ -1150,7 +1149,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
         iconv
         ilbc
         jpg
-        mdnssd
+        # mdnssd
         vxvideolib
         openjpeg
         shine
@@ -1159,7 +1158,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
         tag
         theora
         twolame
-        UPnP
         wavepack
         webp
         xslt
@@ -1202,9 +1200,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
         Qt::CorePrivate
         Qt::Gui
         Qt::Multimedia
-        Qt::MultimediaWidgets
         Qt::OpenGL
-        Qt::OpenGLWidgets
         Qt::Widgets
         Qt::Svg
     )
@@ -1240,7 +1236,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         speex
         lame
         vorbis2
-        microhttpd
+        # microhttpd
         gnu
         # these are nomally combined into one library depends for command line length issue when build on windows
         ass
@@ -1254,7 +1250,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         iconv
         ilbc
         jpg
-        mdnssd
+        # mdnssd
         vxvideolib
         openjpeg
         shine
@@ -1263,13 +1259,11 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         tag
         theora
         twolame
-        UPnP
         wavepack
         webp
         xslt
         yajl
         zvbi
-        upnp2lib
         # end of these are nomally combined into one library depends
         ogg
         ssh
@@ -1306,12 +1300,9 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         Qt::CorePrivate
         Qt::Gui
         Qt::Multimedia
-        Qt::MultimediaWidgets
         Qt::OpenGL
-        Qt::OpenGLWidgets
         Qt::Widgets
         Qt::Svg
-
     )
 
 else()
@@ -1325,16 +1316,14 @@ if(DEFINED TARGET_OS_LINUX)
 
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
 
-    #find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia MultimediaWidgets OpenGL OpenGLWidgets Svg Widgets)
+    #find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
     add_custom_command(POST_BUILD TARGET nolimitconnect
         WORKING_DIRECTORY "${PROJECT_BIN_DIR}"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Core.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Core.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Gui.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Multimedia.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6MultimediaWidgets.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6OpenGL.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6OpenGLWidgets.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Svg.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Widgets.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND_EXPAND_LISTS

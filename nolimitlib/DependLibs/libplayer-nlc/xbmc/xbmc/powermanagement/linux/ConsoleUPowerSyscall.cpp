@@ -17,7 +17,7 @@
  *  <http://www.gnu.org/licenses/>.
  *
  */
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if defined (TARGET_OS_LINUX)
 #include "ConsoleUPowerSyscall.h"
 #include <utils/log.h>

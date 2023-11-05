@@ -14,7 +14,7 @@
  * Contributor(s):
  *   James Willcox <jwillcox@mozilla.com>
  */
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if !defined(HAVE_QT_GUI)
 
 #include "DllGraphicBuffer.h"

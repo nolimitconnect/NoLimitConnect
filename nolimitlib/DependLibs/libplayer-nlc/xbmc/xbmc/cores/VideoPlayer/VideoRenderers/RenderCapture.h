@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #ifdef HAS_DX
   #include "guilib/D3DResource.h"

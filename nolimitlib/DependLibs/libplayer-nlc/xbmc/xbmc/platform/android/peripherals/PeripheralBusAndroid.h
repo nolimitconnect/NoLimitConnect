@@ -7,6 +7,9 @@
  */
 
 #pragma once
+
+#include "config_components_kodi.h"
+#if ENABLE_PERIPHERALS
  
 #include <memory>
 #include <string>
@@ -67,3 +70,5 @@ namespace PERIPHERALS
   };
   using PeripheralBusAndroidPtr = std::shared_ptr<CPeripheralBusAndroid>;
 }
+
+#endif // ENABLE_PERIPHERALS

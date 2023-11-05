@@ -17,8 +17,10 @@
 
 #include <string>
 
+#include "config_components_kodi.h"
+#if ENABLE_BLURAY
 #include <libbluray/src/libbluray/bluray-version.h>
-//#include <libbluray/src/libblurayy/bluray.h>
+#endif // ENABLE_BLURAY
 
 using namespace KODI::MESSAGING;
 
@@ -30,6 +32,7 @@ CDiscSettings& CDiscSettings::GetInstance()
 
 void CDiscSettings::OnSettingChanged(const std::shared_ptr<const CSetting>& setting)
 {
+#if ENABLE_BLURAY
 #if HAS_OPTICAL_DRIVE
 #if (BLURAY_VERSION >= BLURAY_VERSION_CODE(1,0,1))
   if (setting == NULL)
@@ -61,4 +64,5 @@ void CDiscSettings::OnSettingChanged(const std::shared_ptr<const CSetting>& sett
   }
 #endif
 #endif // HAS_OPTICAL_DRIVE
+#endif // ENABLE_BLURAY
 }

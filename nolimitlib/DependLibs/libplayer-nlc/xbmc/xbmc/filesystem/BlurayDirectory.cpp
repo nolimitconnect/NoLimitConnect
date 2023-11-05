@@ -5,6 +5,10 @@
  *  SPDX-License-Identifier: GPL-2.0-or-later
  *  See LICENSES/README.md for more information.
  */
+
+#include "config_components_kodi.h"
+#if ENABLE_BLURAY
+
 #include "BlurayDirectory.h"
 #include "NlcUrl.h"
 
@@ -346,3 +350,5 @@ std::vector<BLURAY_TITLE_INFO*> CBlurayDirectory::GetUserPlaylists()
 }
 
 } /* namespace XFILE */
+
+#endif // ENABLE_BLURAY

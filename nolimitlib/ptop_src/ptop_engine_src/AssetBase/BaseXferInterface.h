@@ -17,6 +17,8 @@
 
 #include <CoreLib/VxMutex.h>
 
+#include <memory>
+
 class VxNetIdent;
 class VxPktHdr;
 class VxSktBase;

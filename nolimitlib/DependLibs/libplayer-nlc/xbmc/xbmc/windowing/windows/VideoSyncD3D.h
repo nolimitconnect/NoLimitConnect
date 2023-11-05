@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_kodi.h"
+
 #include "windowing/VideoSync.h"
 #include "guilib/DispResource.h"
 #include "threads/Event.h"

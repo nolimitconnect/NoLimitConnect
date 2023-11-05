@@ -7,7 +7,7 @@
 */
 #include "config_kodi.h"
 
-#ifdef TARGET_WINDOWS
+#ifdef TARGET_OS_WINDOWS
 #include "Win32Directory.h"
 #include "FileItem.h"
 #include "platform/win32/WIN32Util.h"

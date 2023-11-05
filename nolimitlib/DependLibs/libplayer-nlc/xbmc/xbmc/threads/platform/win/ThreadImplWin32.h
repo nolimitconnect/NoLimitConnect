@@ -34,6 +34,6 @@ typedef threadOpaque ThreadOpaque;
 
 namespace XbmcThreads
 {
-  NLC_INLINE static void ThreadSleep(unsigned int millis) { Sleep(millis); }
+  static void ThreadSleep(unsigned int millis) { Sleep(millis); }
 }
 

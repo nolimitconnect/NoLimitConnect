@@ -20,7 +20,7 @@
  *
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if defined (TARGET_OS_LINUX)
 
 #include "LogindUPowerSyscall.h"

@@ -7,7 +7,7 @@
  */
 
 #pragma once
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #include "guilib/guiinfo/AddonsGUIInfo.h"
 #include "guilib/guiinfo/GUIControlsGUIInfo.h"

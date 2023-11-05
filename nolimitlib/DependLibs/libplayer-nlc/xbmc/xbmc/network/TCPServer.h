@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifdef TARGET_OS_WINDOWS
 # include "platform/win32/sys/socket.h"
 #endif // TARGET_OS_WINDOWS

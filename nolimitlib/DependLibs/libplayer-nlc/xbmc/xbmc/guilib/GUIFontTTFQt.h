@@ -19,7 +19,7 @@
  */
 
 #pragma once
-#include <libplayer-nlc/xbmc/xbmc/config_kodi.h>
+#include <libplayer-nlc/xbmc/xbmc/config_components_kodi.h>
 
 #include <string>
 #include <vector>

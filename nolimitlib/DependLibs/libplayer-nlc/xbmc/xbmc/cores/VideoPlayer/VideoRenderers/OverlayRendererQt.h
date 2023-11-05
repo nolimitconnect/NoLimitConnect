@@ -20,7 +20,7 @@
  */
 
 #pragma once
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #include "OverlayRenderer.h"
 #include "system_gl.h"
 

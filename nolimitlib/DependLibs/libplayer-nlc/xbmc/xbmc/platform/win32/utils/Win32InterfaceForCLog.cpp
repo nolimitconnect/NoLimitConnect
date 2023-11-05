@@ -6,9 +6,9 @@
  *  See LICENSES/README.md for more information.
 */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
-#ifndef TARGET_WINDOWS
+#ifndef TARGET_OS_WINDOWS
 #error This file is for win32 platforms only
 #endif //!TARGET_WINDOWS
 

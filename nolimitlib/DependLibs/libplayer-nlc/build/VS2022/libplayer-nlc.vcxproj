@@ -667,7 +667,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\WindowDialog3.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\WindowDialogMixin3.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\WindowXML3.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\interfaces\python\generated\AddonModuleXbmcwsgi.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\LangInfoKodi.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\MediaPlayerNlc.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\music\ContextMenus4.cpp" />
@@ -792,13 +791,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\storage\DetectDVDType.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\storage\IoSupport.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\storage\MediaManager.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmc.i.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcaddon.i.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcdrm.i.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcgui.i.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcplugin.i.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcvfs.i.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcwsgi.i.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\threads\Atomics.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\threads\Event.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\threads\platform\win\ThreadImplWin32.cpp" />
@@ -31204,15 +31196,6 @@
     <None Include="..\..\xbmc\xbmc\powermanagement\Makefile" />
     <None Include="..\..\xbmc\xbmc\pvr\guilib\GUIEPGGridContainer.dox" />
     <None Include="..\..\xbmc\xbmc\storage\Makefile" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmc.i.xml" />
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcaddon.i.xml" />
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcdrm.i.xml" />
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcgui.i.xml" />
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcplugin.i.xml" />
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcvfs.i.xml" />
-    <Xml Include="..\..\xbmc\xbmc\swig\AddonModuleXbmcwsgi.i.xml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

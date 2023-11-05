@@ -19,7 +19,7 @@
  */
 #include "config_kodi.h"
 
-#if defined(TARGET_WINDOWS)
+#if defined(TARGET_OS_WINDOWS)
 #include <memory>
 
 #include "CharsetConverter.h"

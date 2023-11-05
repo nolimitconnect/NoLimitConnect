@@ -6,6 +6,9 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include "JSONVariantWriter.h"
 
 #include <librapidjson/include/rapidjson/prettywriter.h>
@@ -90,3 +93,5 @@ bool CJSONVariantWriter::Write(const CVariant &value, std::string& output, bool 
   output = stringBuffer.GetString();
   return true;
 }
+
+#endif // ENABLE_JSON

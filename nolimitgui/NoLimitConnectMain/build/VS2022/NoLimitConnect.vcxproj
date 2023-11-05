@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.4.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;opengl;svg;multimedia;multimediawidgets</QtModules>
+    <QtModules>core;gui;widgets;opengl;svg;multimedia;</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -74,21 +74,17 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\nolimitlib\build-sharedlibs\Windows\$(Platform)\;$(ProjectDir)..\..\..\..\nolimitlib\build-staticlibs\Windows\$(Platform)\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libminiupnpcD.lib;libdav1dD.lib;libx264D.lib;libx265D.lib;libfdk-aacD.lib;libplayer-nlcD.lib;libdnssdD.lib;libasprintfD.lib;
+      <AdditionalDependencies>libminiupnpcD.lib;libdav1dD.lib;libx264D.lib;libx265D.lib;libfdk-aacD.lib;libplayer-nlcD.lib;libasprintfD.lib;
 libassD.lib;
 libexifD.lib
 ;libcdioD.lib;libcrocoD.lib
 ;libcurlD.lib;
 libcpluffD.lib;
 libopenjpegD.lib
-;libmicrohttpdD.lib
 ;libnfsD.lib
-;libp8-platformD.lib
 ;libpngD.lib
 ;libpcreD.lib
-;libshairplayD.lib
-;libsshD.lib;
-libUPnPD.lib;libtagD.lib;libaecm-webrtcD.lib;libminiaudioD.lib;libsslD.lib;libfreetypeD.lib;libfribidiD.lib;libptopengineD.lib;glu32.lib;opengl32.lib;libpthreadD.lib;ole32.lib;winmm.lib;Rpcrt4.lib;libopenmpt-fullD.lib;libnfsD.lib;VxVideoLibD.lib;libexpatD.lib;libzipD.lib;libopencore-amrD.lib;libfaacD.lib;libxavsD.lib;Secur32.lib;librtmpD.lib;CoreLibD.lib;FfmpegAvCodecLibD.lib;FfmpegAvDeviceLibD.lib;FfmpegAvFilterLibD.lib;FfmpegAvFormatLibD.lib;FfmpegAvUtilLibD.lib;FfmpegPostProcLibD.lib;FfmpegSwResampleLibD.lib;FfmpegSwScaleLibD.lib;glew64sd.lib;libarmrwbencD.lib;libbzip2D.lib;libcrossguidD.lib;libcrystalhdD.lib;libffmpegopusD.lib;libflacD.lib;libgnuD.lib;libgsmD.lib;libiconvD.lib;libilbcD.lib;libjpgD.lib;liblameD.lib;liblzmaD.lib;liblzoD.lib;liboggD.lib;libshineD.lib;libsnappyD.lib;libspeexD.lib;libtheoraD.lib;libtinyxmlD.lib;libtwolameD.lib;libvorbisD.lib;libvpxD.lib;libwavepackD.lib;libwebpD.lib;libwelsdecD.lib;libxml2D.lib;libxsltD.lib;libxvidD.lib;libyajlD.lib;libzlibD.lib;libzvbiD.lib;MediaToolsLibD.lib;NetLibD.lib;PktLibD.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+;libsshD.lib;libtagD.lib;libaecm-webrtcD.lib;libminiaudioD.lib;libsslD.lib;libfreetypeD.lib;libfribidiD.lib;libptopengineD.lib;glu32.lib;opengl32.lib;libpthreadD.lib;ole32.lib;winmm.lib;Rpcrt4.lib;libopenmpt-fullD.lib;libnfsD.lib;VxVideoLibD.lib;libexpatD.lib;libzipD.lib;libopencore-amrD.lib;libfaacD.lib;libxavsD.lib;Secur32.lib;CoreLibD.lib;FfmpegAvCodecLibD.lib;FfmpegAvDeviceLibD.lib;FfmpegAvFilterLibD.lib;FfmpegAvFormatLibD.lib;FfmpegAvUtilLibD.lib;FfmpegPostProcLibD.lib;FfmpegSwResampleLibD.lib;FfmpegSwScaleLibD.lib;glew64sd.lib;libarmrwbencD.lib;libbzip2D.lib;libcrossguidD.lib;libcrystalhdD.lib;libffmpegopusD.lib;libflacD.lib;libgnuD.lib;libgsmD.lib;libiconvD.lib;libilbcD.lib;libjpgD.lib;liblameD.lib;liblzmaD.lib;liblzoD.lib;liboggD.lib;libshineD.lib;libsnappyD.lib;libspeexD.lib;libtheoraD.lib;libtinyxmlD.lib;libtwolameD.lib;libvorbisD.lib;libvpxD.lib;libwavepackD.lib;libwebpD.lib;libwelsdecD.lib;libxml2D.lib;libxsltD.lib;libxvidD.lib;libyajlD.lib;libzlibD.lib;libzvbiD.lib;MediaToolsLibD.lib;NetLibD.lib;PktLibD.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -106,14 +102,11 @@ libexif.lib
 ;libcurl.lib;
 libcpluff.lib;
 libopenjpeg.lib
-;libmicrohttpd.lib
 ;libnfs.lib
-;libp8-platform.lib
 ;libpng.lib
 ;libpcre.lib
 ;libshairplay.lib
-;libssh.lib;
-libUPnP.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetype.lib;libfribidi.lib;libptopengine.lib;glu32.lib;opengl32.lib;libpthread.lib;ole32.lib;winmm.lib;Rpcrt4.lib;libopenmpt-full.lib;libnfs.lib;Vfw32.lib;VxVideoLib.lib;libexpat.lib;libzip.lib;libopencore-amr.lib;libfaac.lib;libxavs.lib;Secur32.lib;librtmp.lib;CoreLib.lib;FfmpegAvCodecLib.lib;FfmpegAvDeviceLib.lib;FfmpegAvFilterLib.lib;FfmpegAvFormatLib.lib;FfmpegAvUtilLib.lib;FfmpegPostProcLib.lib;FfmpegSwResampleLib.lib;FfmpegSwScaleLib.lib;glew64s.lib;libarmrwbenc.lib;libbzip2.lib;libcrossguid.lib;libcrystalhd.lib;libffmpegopus.lib;libflac.lib;libgnu.lib;libgsm.lib;libiconv.lib;libilbc.lib;libjpg.lib;liblame.lib;liblzma.lib;liblzo.lib;libogg.lib;libshine.lib;libsnappy.lib;libspeex.lib;libtheora.lib;libtinyxml.lib;libtwolame.lib;libvorbis.lib;libvpx.lib;libwavepack.lib;libwebp.lib;libwelsdec.lib;libxml2.lib;libxslt.lib;libxvid.lib;libyajl.lib;libzlib.lib;libzvbi.lib;MediaToolsLib.lib;NetLib.lib;PktLib.lib;d3d11.lib;DInput8.lib;DSound.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+;libssh.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetype.lib;libfribidi.lib;libptopengine.lib;glu32.lib;opengl32.lib;libpthread.lib;ole32.lib;winmm.lib;Rpcrt4.lib;libopenmpt-full.lib;libnfs.lib;Vfw32.lib;VxVideoLib.lib;libexpat.lib;libzip.lib;libopencore-amr.lib;libfaac.lib;libxavs.lib;Secur32.lib;CoreLib.lib;FfmpegAvCodecLib.lib;FfmpegAvDeviceLib.lib;FfmpegAvFilterLib.lib;FfmpegAvFormatLib.lib;FfmpegAvUtilLib.lib;FfmpegPostProcLib.lib;FfmpegSwResampleLib.lib;FfmpegSwScaleLib.lib;glew64s.lib;libarmrwbenc.lib;libbzip2.lib;libcrossguid.lib;libcrystalhd.lib;libffmpegopus.lib;libflac.lib;libgnu.lib;libgsm.lib;libiconv.lib;libilbc.lib;libjpg.lib;liblame.lib;liblzma.lib;liblzo.lib;libogg.lib;libshine.lib;libsnappy.lib;libspeex.lib;libtheora.lib;libtinyxml.lib;libtwolame.lib;libvorbis.lib;libvpx.lib;libwavepack.lib;libwebp.lib;libwelsdec.lib;libxml2.lib;libxslt.lib;libxvid.lib;libyajl.lib;libzlib.lib;libzvbi.lib;MediaToolsLib.lib;NetLib.lib;PktLib.lib;d3d11.lib;DInput8.lib;DSound.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\nolimitlib\build-sharedlibs\Windows\$(Platform)\;$(ProjectDir)..\..\..\..\nolimitlib\build-staticlibs\Windows\$(Platform)\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -544,6 +537,11 @@ libUPnP.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetyp
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\NlcRenderFrame.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\OsInterface\AssetDirectoryList.hh" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\OsInterface\OsInterface.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcCommonConfig.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcCompilerConfig.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcCpuArchDefines.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcDependLibrariesConfig.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcTargetOsConfig.h" />
     <ClInclude Include="..\..\..\AppCompilerConfig.h" />
     <ClInclude Include="..\..\..\AppCpuArchDefines.h" />
     <ClInclude Include="..\..\..\AppDependLibrariesConfig.h" />
@@ -1128,6 +1126,7 @@ libUPnP.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetyp
     <Text Include="..\..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt" />
     <Text Include="..\..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt" />
     <Text Include="..\..\..\..\nolimitlib\DependLibs\libminiaudio\CMakeLists.txt" />
+    <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt" />
     <Text Include="..\..\..\CMakeLists.txt" />
     <Text Include="..\..\..\CommonSrc\Resources\CreditsArt.txt" />
     <Text Include="..\..\..\sandboxqt\Assembly1234TestApp\Assembly1234QtApp\CMakeLists.txt" />

@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+
 #include "AddonDatabase.h"
 
 #include "XBDateTime.h"
@@ -112,6 +114,7 @@ CVariant CAddonDatabaseSerializer::SerializeExtensions(const CAddonExtensions& a
 void CAddonDatabaseSerializer::DeserializeMetadata(const std::string& document,
                                                    CAddonInfoBuilderFromDB& builder)
 {
+#if ENABLE_JSON
   CVariant variant;
   if (!CJSONVariantParser::Parse(document, variant))
     return;
@@ -185,7 +188,7 @@ void CAddonDatabaseSerializer::DeserializeExtensions(const CVariant& variant,
     addonType.m_children.emplace_back(id, childExt);
   }
 
-  return;
+#endif // ENABLE_JSON
 }
 
 CAddonDatabase::CAddonDatabase() = default;
@@ -316,11 +319,13 @@ void CAddonDatabase::UpdateTables(int version)
     m_pDS->exec("DROP INDEX IF EXISTS idxBlack");
     m_pDS->exec("DROP TABLE blacklist");
   }
+#if ENABLE_JASON
   if (version < 33)
   {
     m_pDS->query(PrepareSQL("SELECT * FROM addons"));
     while (!m_pDS->eof())
     {
+
       const int id = m_pDS->fv("id").get_asInt();
       const std::string metadata = m_pDS->fv("metadata").get_asString();
 
@@ -380,6 +385,7 @@ void CAddonDatabase::UpdateTables(int version)
     }
     m_pDS->close();
   }
+#endif // ENABLE_JASON
 }
 
 void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids,

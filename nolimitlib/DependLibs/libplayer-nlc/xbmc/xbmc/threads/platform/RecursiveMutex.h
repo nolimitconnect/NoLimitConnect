@@ -7,7 +7,7 @@
  */
 
 #pragma once
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #include <mutex>
 
 #if defined(TARGET_OS_WINDOWS)

@@ -1,4 +1,7 @@
 
+#include "config_components_kodi.h"
+#if ENABLE_SHAREPLAY
+
 #include "DllLibShairplay.h"
 #include <CoreLib/VxDebug.h>
 
@@ -66,3 +69,5 @@ void DllLibShairplay::raop_destroy( raop_t *raop )
 }
 
 #endif // USE_STATIC_LIBS
+
+#endif // ENABLE_SHAREPLAY

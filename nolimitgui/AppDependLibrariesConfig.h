@@ -73,17 +73,6 @@ echo Nlc Compiler Config error no os defined
 // #define HAS_LIBSTAGEFRIGHT 1     // android only
 // #define HAS_MMAL 1               // hardware
 
-#ifdef HAVE_LIBMICROHTTPD
-# define HAS_WEB_SERVER     1
-# define HAS_WEB_INTERFACE  1
-#endif // HAVE_LIBMICROHTTPD
-
-#if defined(HAVE_LIBMDNSEMBEDDED)
-# define HAS_ZEROCONF
-# define HAS_MDNS
-# define HAS_MDNS_EMBEDDED
-#endif // defined(HAVE_LIBMDNSEMBEDDED)
-
 #if defined(HAVE_LIBGIF)
 # define HAS_GIFLIB
 #endif // defined(HAVE_LIBGIF)
@@ -114,73 +103,6 @@ echo Nlc Compiler Config error no os defined
 # define HAS_GLES 1
 #endif // HAVE_LIBGLES
 
-#ifdef HAVE_LIBNFS
-# define HAS_FILESYSTEM_NFS
-#endif // HAVE_LIBNFS
-
-#if defined(HAS_MDNS_EMBEDDED) && defined( TARGET_OS_WINDOWS)
-# define HAS_MDNS           1 
-#endif // HAS_MDNS_EMBEDDED
-
-//#define HAS_MYSQL 1 // uses sqlite3 instead
-
-#define HAS_UPNP            1 
-#if !defined(TARGET_OS_ANDROID) && !defined(TARGET_OS_LINUX) // TODO implement existing zero config for android
-# define HAS_ZEROCONF        1
-#endif // TARGET_OS_ANDROID
-
-//#define HAS_JSONRPC
-
-//#define HAS_FILESYSTEM    1
-//#define HAS_FILESYSTEM_CDDA   1
-//#define HAS_FILESYSTEM_SAP
-//#define HAS_FILESYSTEM_SFTP 1 
-
-#ifdef HAVE_LIBSMBCLIENT
-# define HAS_FILESYSTEM_SMB
-#endif // HAVE_LIBSMBCLIENT
-
-#ifdef HAVE_MYSQL
-# define HAS_MYSQL // we use sqlite3 instead for database
-#endif // HAVE_MYSQL
-
-
-/*! @note Define "USE_DEMUX" at compile time if demuxing in the PVR add-on is used.
- *        Also XBMC's "DVDDemuxPacket.h" file must be in the include path of the add-on,
- *        and the add-on should set bHandlesDemuxing to true.
- */
-//#define USE_DEMUX 1
-#define HAS_DVDPLAYER 0         // define to 1 if have dvd player support
-// #define HAS_OPTICAL_DRIVE        // uncomment to support dvd/bluray drives
-// #define HAS_CDDA_RIPPER      // uncomment to play cd disks
-
-#define HAS_ADSPADDONS          1
-#define HAS_DVD_SWSCALE         1
-#define HAS_EVENT_SERVER        1
-#define HAS_PYTHON              1
-#define HAS_PVRCLIENTS          1
-#define HAS_SCREENSAVER         1
-#define HAS_VIDEOPLAYER         1
-#define HAS_VIDEO_PLAYBACK      1
-#define HAS_VISUALISATION       1
-
-
-// #define HAS_AIRPLAY          // uncomment for apple airplay support.. has dependencies on proprietary apple crap
-// #define HAVE_LIBSHAIRPLAY    // cannot get to link without official apple crap ( sdp_get_connection(sdp_t *sdp) etc )
-// #if defined(HAVE_LIBSHAIRPLAY)
-// # define HAS_AIRTUNES        // air tunes requires libshareplay
-// #endif
-
-//============================================================================
-//=== Non-free Components ===//
-//============================================================================
-#if defined(TARGET_OS_WINDOWS)
-# define HAS_FILESYSTEM_RAR
-#else
-# if defined(HAVE_XBMC_NONFREE)
-#  define HAS_FILESYSTEM_RAR
-# endif // defined(HAVE_XBMC_NONFREE)
-#endif
 
 //#define HAS_WIN32_NETWORK     // defined in AppCompilerConfig.h
 //#define HAS_AUDIO 1           // defined in AppCompilerConfig.h
@@ -240,12 +162,6 @@ extern "C" {
 //#define HAS_AUDIO 1           // defined in AppCompilerConfig.h
 //#define HAS_FILESYSTEM_SMB 1  // defined in AppCompilerConfig.h
 
-//#define HAS_SDL_JOYSTICK  // define for joystick control
-# ifndef HAVE_QT_GUI
-#  ifndef HAS_DX
-#   define HAS_DX 1
-#  endif // HAS_DX
-# endif // HAVE_QT_GUI
 
 //============================================================================
 //=== Android Specific ===//

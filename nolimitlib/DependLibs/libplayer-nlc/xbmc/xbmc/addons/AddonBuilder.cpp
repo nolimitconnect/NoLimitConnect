@@ -6,7 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #include "addons/AddonBuilder.h"
 
 #include "ServiceBroker.h"

@@ -14,6 +14,8 @@
  *  Refined, updated, enhanced and modified for XBMC by Karlson2k.
  */
 
+#include "config_kodi.h"
+
 #include "Environment.h"
 #include <stdlib.h>
 

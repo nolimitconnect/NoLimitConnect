@@ -1457,12 +1457,17 @@ bool CJSONServiceDescription::prepareDescription(std::string &description, CVari
   if (description.at(0) != '{')
     description = StringUtils::Format("{{{:s}}}", description);
 
+#if ENABLE_JSON
   // Make sure the method description actually exists and represents an object
   if (!CJSONVariantParser::Parse(description, descriptionObject) || !descriptionObject.isObject())
   {
     CLog::Log(LOGERROR, "JSONRPC: Unable to parse JSON Schema definition for \"%s\"", name.c_str());
     return false;
   }
+#else
+    CLog::Log(LOGERROR, "JSONRPC: Unable to parse JSON Schema (ENABLE_JSON false) definition for \"%s\"", name.c_str());
+    return false;
+#endif // ENABLE_JSON
 
   CVariant::const_iterator_map member = descriptionObject.begin_map();
   if (member != descriptionObject.end_map())

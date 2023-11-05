@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_kodi.h"
+
 #include "Win32StorageProvider.h"
 
 #include "guilib/LocalizeStrings.h"

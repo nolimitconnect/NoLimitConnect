@@ -18,7 +18,7 @@
  * not required.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if ENABLE_RADIO
 
 #include "VideoPlayerRadioRDS.h"

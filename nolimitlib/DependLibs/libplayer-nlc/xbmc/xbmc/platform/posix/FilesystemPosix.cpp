@@ -6,7 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #include "platform/Filesystem.h"
 #include "filesystem/SpecialProtocol.h"
 #include "utils/URIUtils.h"

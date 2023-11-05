@@ -18,13 +18,13 @@
 #include <direct.h>
 #include <process.h>
 #else
-#if !defined(TARGET_DARWIN) && !defined(TARGET_FREEBSD)
+#if !defined(TARGET_OS_APPLE) && !defined(TARGET_FREEBSD)
 #include <mntent.h>
 #endif
 #endif
 #include <sys/stat.h>
 #include <sys/types.h>
-#if !defined(TARGET_FREEBSD) && (!defined(TARGET_ANDROID) && defined(__LP64__))
+#if !defined(TARGET_FREEBSD) && (!defined(TARGET_OS_ANDROID) && defined(__LP64__))
 #include <sys/timeb.h>
 #endif
 #ifdef HAS_OPTICAL_DRIVE

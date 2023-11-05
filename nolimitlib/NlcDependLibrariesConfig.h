@@ -51,15 +51,10 @@ echo Nlc Compiler Config error no os defined
 # define HAVE_LIBNETTLE      1 /* nettle is enabled */
 #endif // defined(HAVE_X86_ASM)
 
-#define HAVE_LIBNFS 
 // #define HAVE_LIBNSL
 #define HAVE_LIBPLIST       1
 #define HAVE_LIBPTHREAD		1	// simulated in vs with libpthread
-// #define HAVE_LIBPULSE
-// #define HAVE_LIBRTMP
-// #define HAVE_LIBSOCKET
-// #define HAVE_LIBSHAIRPLAY    // cannot get to link without official apple crap ( sdp_get_connection(sdp_t *sdp) etc )
-// #define HAVE_LIBSMBCLIENT
+
 #define HAVE_LIBSSL         1
 // #define HAVE_LIBUDEV
 #define HAVE_LIBVORBISENC   1
@@ -68,6 +63,24 @@ echo Nlc Compiler Config error no os defined
 #define HAVE_OPENSSL        1    
 
 #define HAVE_LCMS2          1 
+
+// EGL detected. Dont use GLX!
+#ifdef HAVE_LIBEGL
+# undef HAS_GLX
+# define HAS_EGL
+#endif // HAVE_LIBEGL
+
+// GLES2.0 detected. Dont use GL!
+#ifdef HAVE_LIBGLESV2
+# undef HAS_GL
+# define HAS_GLES 2
+#endif // HAVE_LIBGLESV2
+
+// GLES1.0 detected. Dont use GL!
+#ifdef HAVE_LIBGLES
+# undef HAS_GL
+# define HAS_GLES 1
+#endif // HAVE_LIBGLES
 
 //============================================================================
 //=== Non-free Components ===//
@@ -137,13 +150,6 @@ extern "C" {
 //#define HAS_WIN32_NETWORK     // defined in NlcCompilerConfig.h
 //#define HAS_AUDIO 1           // defined in NlcCompilerConfig.h
 //#define HAS_FILESYSTEM_SMB 1  // defined in NlcCompilerConfig.h
-
-//#define HAS_SDL_JOYSTICK  // define for joystick control
-# ifndef HAVE_QT_GUI
-#  ifndef HAS_DX
-#   define HAS_DX 1
-#  endif // HAS_DX
-# endif // HAVE_QT_GUI
 
 //============================================================================
 //=== Android Specific ===//

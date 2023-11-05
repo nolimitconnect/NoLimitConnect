@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if ENABLE_RSS
 
 #include "GUIControl.h"

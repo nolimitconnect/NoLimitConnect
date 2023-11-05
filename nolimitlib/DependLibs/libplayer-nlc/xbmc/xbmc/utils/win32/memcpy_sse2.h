@@ -19,7 +19,7 @@
 */
 #pragma once
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if defined(HAVE_SSE2)
 #include <emmintrin.h>
 #endif

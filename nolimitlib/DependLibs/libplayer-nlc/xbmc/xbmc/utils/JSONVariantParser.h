@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include <string>
 
 #include "utils/Variant.h"
@@ -20,3 +23,5 @@ public:
   static bool Parse(const char* json, CVariant& data);
   static bool Parse(const std::string& json, CVariant& data);
 };
+
+#endif // ENABLE_JSON

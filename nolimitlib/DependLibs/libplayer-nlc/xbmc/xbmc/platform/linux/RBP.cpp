@@ -6,7 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifdef TARGET_OS_APPLE
 
 #include "RBP.h"

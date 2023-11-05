@@ -19,7 +19,7 @@
 // if not it's just an empty inline stub, and thus won't affect performance
 // and will be optimized out.
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #include "system_gl.h"
 #if defined(HAS_GL) || defined(HAS_GLES) || defined(HAVE_QT_GUI) 
 

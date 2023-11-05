@@ -17,10 +17,10 @@
  *  <http://www.gnu.org/licenses/>.
  *
  */
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #ifdef HAVE_QT_GUI
 
-#ifdef TARGET_WINDOWS_DESKTOP
+#ifdef TARGET_OS_WINDOWS
 HWND g_hWnd;
 #endif
 

@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+
 #include "ApplicationBuiltins.h"
 
 #include "ServiceBroker.h"
@@ -76,11 +78,16 @@ static int NotifyAll(const std::vector<std::string>& params)
   CVariant data;
   if (params.size() > 2)
   {
+#if ENABLE_JSON
     if (!CJSONVariantParser::Parse(params[2], data))
     {
       CLog::Log(LOGERROR, "NotifyAll failed to parse data: %s", params[2].c_str());
       return -3;
     }
+#else
+      CLog::Log(LOGERROR, "NotifyAll failed (ENABLE_JSON false) to parse data: %s", params[2].c_str());
+      return -3;
+#endif ENABLE_JSON
   }
 
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Other, params[0].c_str(), params[1].c_str(), data);

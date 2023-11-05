@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_PERIPHERALS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/PeripheralUtils.h"
 #include "threads/CriticalSection.h"
 
@@ -93,3 +96,5 @@ namespace PERIPHERALS
     std::vector<kodi::addon::PeripheralEvent> m_digitalEvents;
   };
 }
+
+#endif // ENABLE_PERIPHERALS

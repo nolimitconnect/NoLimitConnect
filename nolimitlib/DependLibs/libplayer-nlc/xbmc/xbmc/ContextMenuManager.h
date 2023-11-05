@@ -7,7 +7,7 @@
  */
 
 #pragma once
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 
 #include "ContextMenuItem.h"
 #include "threads/CriticalSection.h"

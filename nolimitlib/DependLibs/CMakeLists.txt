@@ -7,28 +7,21 @@ add_subdirectory(ffmpeg)
 
 add_subdirectory(CoreLib)
 add_subdirectory(MediaToolsLib)
-#add_subdirectory(MiniZip) # not used
 add_subdirectory(NetLib)
 add_subdirectory(PktLib)
-#add_subdirectory(Python-2.7.14) # not used directly but headers are used
 add_subdirectory(VxVideoLib)
-#add_subdirectory(androidNdk) # not used
+#add_subdirectory(androidNdk) # not used as library but used in android builds
 add_subdirectory(bzlib)
-#add_subdirectory(externlibs) # not used
 #add_subdirectory(flatbuffers) # not used directly but headers are used
-#add_subdirectory(googletest) # not used
-add_subdirectory(libUPnP)
+#add_subdirectory(libUPnP) # used if enabled in player-nlc
 add_subdirectory(libaemc-webrtc)
 #add_subdirectory(libaom) # not used
 add_subdirectory(libarmrwbenc)
 add_subdirectory(libasprintf)
 add_subdirectory(libass)
 #add_subdirectory(libbento4) # not used
-#add_subdirectory(libbluray) # not used
 add_subdirectory(libbzip2)
 add_subdirectory(libcdio)
-#add_subdirectory(libcec) # not used
-#add_subdirectory(libcelt) # not used
 add_subdirectory(libcpluff)
 add_subdirectory(libcroco)
 add_subdirectory(libcrossguid)
@@ -51,14 +44,13 @@ add_subdirectory(libgsm)
 add_subdirectory(libiconv)
 add_subdirectory(libilbc)
 add_subdirectory(libjpg)
-#add_subdirectory(libkvazaar) # not used
 add_subdirectory(liblame)
 #add_subdirectory(liblcms2) # not used but headers needed for avcodec
 add_subdirectory(liblzma)
 add_subdirectory(liblzo)
-add_subdirectory(libmdnsresponder)
+#add_subdirectory(libmdnsresponder) # only needed if enabled in player-nlc
 add_subdirectory(libmfx)
-add_subdirectory(libmicrohttpd)
+#add_subdirectory(libmicrohttpd) # only needed if enabled in player-nlc
 add_subdirectory(libminiaudio)
 add_subdirectory(libminiupnpc)
 add_subdirectory(libnfs)
@@ -67,7 +59,6 @@ add_subdirectory(libopencore-amr)
 #add_subdirectory(libopenh264) # not used yet
 add_subdirectory(libopenjpeg)
 add_subdirectory(libopenmpt)
-#add_subdirectory(libp8platform) # not used
 add_subdirectory(libpcre)
 add_subdirectory(libplayer-nlc)
 #add_subdirectory(libplist) # not used ?? pretty sure it is needed
@@ -76,21 +67,16 @@ if(DEFINED TARGET_OS_WINDOWS)
     add_subdirectory(libpthread) # only needed on windows
 endif()
 
-#add_subdirectory(libptools) # not used
-#add_subdirectory(librapidjson) # not used
-#add_subdirectory(librtmp) # not used
-#add_subdirectory(libshairplay) # not used
+#add_subdirectory(librapidjson) # used by player-nlc but does not need built
+
 add_subdirectory(libshine)
-#add_subdirectory(libsmb) # not used
 add_subdirectory(libsnappy)
 add_subdirectory(libspeex)
 add_subdirectory(libssh)
 add_subdirectory(libtag)
 add_subdirectory(libtheora)
-#add_subdirectory(libtiff) # not used
 add_subdirectory(libtinyxml)
 add_subdirectory(libtwolame)
-#add_subdirectory(libunrarx) # not used
 add_subdirectory(libvorbis)
 if(DEFINED TARGET_OS_WINDOWS)
 #add_subdirectory(libvpx-win64) # windows only
@@ -107,7 +93,6 @@ add_subdirectory(libx264)
 add_subdirectory(libx265)
 #add_subdirectory(libxavs) # not used
 add_subdirectory(libxml2)
-#add_subdirectory(libxpm) # not used
 add_subdirectory(libxslt)
 #add_subdirectory(libxvid) # not used
 add_subdirectory(libyajl)

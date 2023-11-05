@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_BLURAY
+
 #include "IDirectory.h"
 #include "NlcUrl.h"
 
@@ -51,3 +54,5 @@ private:
 };
 
 }
+
+#endif // ENABLE_BLURAY

@@ -20,7 +20,7 @@
  *
  */
 
-#include "PlatformLib/config_kodi.h"
+#include "PlatformLib/config_components_kodi.h"
 
 #ifdef TARGET_OS_WINDOWS
 #include <powermanagement/IPowerSyscall.h>

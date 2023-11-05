@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+
 #include <pthread.h>
 #include <unistd.h>
 
@@ -18,7 +20,6 @@ struct threadOpaque
 
 typedef pthread_t ThreadIdentifierKodi;
 typedef threadOpaque ThreadOpaque;
-typedef int THREADFUNC;
 
 namespace XbmcThreads
 {

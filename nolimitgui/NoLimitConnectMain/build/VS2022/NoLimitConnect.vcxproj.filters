@@ -2442,6 +2442,21 @@
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioDefs.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcCommonConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcCompilerConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcCpuArchDefines.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcDependLibrariesConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\NlcTargetOsConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc">
@@ -3029,6 +3044,9 @@
     </Text>
     <Text Include="..\..\..\..\CMakeLists.txt">
       <Filter>RootCmake</Filter>
+    </Text>
+    <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt">
+      <Filter>CompilerConfig</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

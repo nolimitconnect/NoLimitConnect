@@ -12,7 +12,8 @@
 |   includes
 +---------------------------------------------------------------------*/
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
+#if ENABLE_UPNP
 
 #include <limits>
 #include <libUPnP/Neptune/Source/Core/NptDebug.h>
@@ -528,3 +529,4 @@ NPT_File::GetInfo(const char* path, NPT_FileInfo* info)
     return NPT_SUCCESS;
 }
 
+#endif // ENABLE_UPNP

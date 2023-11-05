@@ -6,7 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if !defined(TARGET_OS_ANDROID)
 
 #include "dll_tracker_file.h"

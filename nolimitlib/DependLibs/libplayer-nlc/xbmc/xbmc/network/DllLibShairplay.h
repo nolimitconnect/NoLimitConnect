@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_SHAREPLAY
+
 #include "DynamicDll.h"
 
 #include <libshairplay/raop.h>
@@ -77,3 +80,5 @@ public:
 };
 
 #endif // !USE_STATIC_LIBS
+
+#endif // ENABLE_SHAREPLAY

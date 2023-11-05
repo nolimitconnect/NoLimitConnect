@@ -8,6 +8,8 @@
 
 #if defined(TARGET_OS_WINDOWS)
 
+#include "config_kodi.h"
+
 #include "utils/XTimeUtils.h"
 
 #include "platform/win32/CharsetConverter.h"

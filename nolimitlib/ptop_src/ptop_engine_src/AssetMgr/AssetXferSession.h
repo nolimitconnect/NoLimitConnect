@@ -20,6 +20,7 @@
 
 #include <NetLib/VxFileXferInfo.h>
 
+#include <memory>
 #include <vector>
 
 class VxSktBase;

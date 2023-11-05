@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <config_kodi.h>
+#include <config_components_kodi.h>
 #include "interfaces/IActionListener.h"
 #include "settings/lib/ISettingCallback.h"
 #include "threads/CriticalSection.h"

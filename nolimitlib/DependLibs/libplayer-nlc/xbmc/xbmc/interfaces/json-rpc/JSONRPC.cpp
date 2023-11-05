@@ -6,6 +6,8 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+
 #include "JSONRPC.h"
 
 #include "FileItem.h"
@@ -243,7 +245,7 @@ std::string CJSONRPC::MethodCall(const std::string &inputString, ITransportLayer
   bool hasResponse = false;
 
   CLog::Log(LOGDEBUG, LOGJSONRPC, "JSONRPC: Incoming request: %s", inputString.c_str());
-
+#if ENABLE_JSON
   if (CJSONVariantParser::Parse(inputString, inputroot) && !inputroot.isNull())
   {
     if (inputroot.isArray())
@@ -272,6 +274,7 @@ std::string CJSONRPC::MethodCall(const std::string &inputString, ITransportLayer
       hasResponse = HandleMethodCall(inputroot, outputroot, transport, client);
   }
   else
+#endif // ENABLE_JSON
   {
     CLog::Log(LOGERROR, "JSONRPC: Failed to parse '%s'\n", inputString.c_str());
     BuildResponse(inputroot, ParseError, CVariant(), outputroot);

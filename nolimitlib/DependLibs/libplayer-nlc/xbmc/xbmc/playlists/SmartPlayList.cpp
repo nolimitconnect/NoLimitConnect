@@ -1276,6 +1276,7 @@ bool CSmartPlaylist::LoadFromXML(const TiXmlNode *root, const std::string &encod
 
 bool CSmartPlaylist::LoadFromJson(const std::string &json)
 {
+#if ENABLE_JSON
   if (json.empty())
     return false;
 
@@ -1284,6 +1285,9 @@ bool CSmartPlaylist::LoadFromJson(const std::string &json)
     return false;
 
   return Load(obj);
+#else
+    return false;
+#endif // ENABLE_JSON
 }
 
 bool CSmartPlaylist::Save(const std::string &path) const

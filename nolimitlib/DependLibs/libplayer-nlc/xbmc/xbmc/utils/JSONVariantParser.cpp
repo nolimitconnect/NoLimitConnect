@@ -6,6 +6,9 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include "JSONVariantParser.h"
 
 #include <librapidjson/include/rapidjson/reader.h>
@@ -213,3 +216,5 @@ bool CJSONVariantParser::Parse(const std::string& json, CVariant& data)
 {
   return Parse(json.c_str(), data);
 }
+
+#endif // ENABLE_JSON

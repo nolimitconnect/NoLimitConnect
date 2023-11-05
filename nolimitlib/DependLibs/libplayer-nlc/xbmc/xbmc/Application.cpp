@@ -896,7 +896,9 @@ bool CApplication::Initialize()
     uiInitializationFinished = true;
   }
 
+  #if ENABLE_JSON
   CJSONRPC::Initialize();
+  #endif // ENABLE_JSON
 
   #if ENABLE_SPEECH_RECOGNITION 
   CServiceBroker::RegisterSpeechRecognition(speech::ISpeechRecognition::CreateInstance());

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #if defined(HAVE_LCMS2)
 # include "libopenjpeg/thirdparty/liblcms2/include/lcms2.h"
 #endif
