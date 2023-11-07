@@ -278,9 +278,9 @@ unsigned int CAESinkQt::AddPackets( uint8_t **data, unsigned int frames, unsigne
     }
 #endif
 
-    // LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt toGuiPlayAudio %d bytes", totalBytes );
+    // LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt toGuiPlayerNlcAudio %d bytes", totalBytes );
 
-    int wrote = m_INlc.toGuiPlayAudio( eAppModulePlayerNlc, (float *)audioBuffer, totalBytes );
+    int wrote = m_INlc.toGuiPlayerNlcAudio( eAppModulePlayerNlc, (float *)audioBuffer, totalBytes );
     if( wrote < 0 )
     {
         CLog::Log( LOGERROR, "CAESinkQt::AddPackets - Failed to write" );

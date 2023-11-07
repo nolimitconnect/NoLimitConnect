@@ -13,16 +13,9 @@
 //============================================================================
 #pragma once
 
-#include <QThread>
-#include <QMutex>
-#include <QWaitCondition>
-#include <QElapsedTimer>
-#include <QWidget>
-
 #include "AudioEchoCancel.h"
-#include "AudioFrameBuf.h"
 #include "AudioMasterClock.h"
-#include "AudioMixer.h"
+#include "AudioMixerBuf.h"
 #include "AudioSampleBuf.h"
 #include "AudioTestGenerator.h"
 #include "MiniAudioOut.h"
@@ -32,6 +25,11 @@
 #include <GuiInterface/IAudioInterface.h>
 
 #include <CoreLib/VxGUID.h>
+#include <CoreLib/VxMutex.h>
+#include <CoreLib/VxSemaphore.h>
+#include <CoreLib/VxThread.h>
+
+#include <QWidget>
 
 #include <atomic>
 #include <utility>
@@ -67,7 +65,7 @@ public:
     QAudioFormat&               getAudioOutFormat( void )                   { return m_AudioOutFormat; }
     QAudioFormat&               getAudioInFormat( void )                    { return m_AudioInFormat; }
 
-    AudioMixer&                 getAudioOutMixer( void )                    { return m_AudioOutMixer; }
+    //AudioMixer&                 getAudioOutMixer( void )                    { return m_AudioOutMixer; }
     MiniAudioIn&                getAudioInIo( void )                        { return m_AudioInIo; }
     MiniAudioOut&               getAudioOutIo( void )                       { return m_AudioOutIo; }
 
@@ -143,21 +141,19 @@ public:
     // enable disable sound out
     virtual void				toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput ) override;
     // add audio data to play.. assumes pcm mono 16000 Hz of mixer buffer length
-    virtual int				    toGuiPlayAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
     // enable disable microphone for specific user communicaion (usually push to talk)
     virtual void				toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput ) override;
     // enable disable speaker for specific user communicaion (usually push to talk)
     virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
-    virtual int				    toGuiPlayAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes ) override;
+
+    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes ) override;
 
     virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
 
     virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) override;
 
     virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) override;
-
-#endif // defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 
     void						fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnts, bool isSilence );
     virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
@@ -188,21 +184,28 @@ public:
     void                        setOutSampleRate( int actualRate )      { m_AudioOutFormat.setSampleRate( actualRate ); }
 
     void                        callbackAudioDeviceWrite( int16_t* pcmData, int sampleCnt );
-    void                        callbackAudioDeviceRead( int16_t* pcmData, int sampleCnt );
+    void                        callbackToSpeakerRead( int16_t* pcmData, int sampleCnt );
 
     void                        processAudioThreaded( void );
+    void                        processToSpeakerThreaded( void );
 
     void                        addReadSpeakerCount( int readCnt )              { m_SpeakerReadSampleCnt += readCnt; }
     void                        subtractReadSpeakerCount( int processedCnt ) 
                                     { int val = m_SpeakerReadSampleCnt; if( val >= processedCnt ) m_SpeakerReadSampleCnt -= processedCnt; else m_SpeakerReadSampleCnt = 0; }
     int                         getReadSpeakerCount( void )                     { return m_SpeakerReadSampleCnt; }
 
-    void                        lockMixer( void )                               { m_AudioOutMixer.lockMixer(); }
-    void                        unlockMixer( void )                             { m_AudioOutMixer.unlockMixer(); }
-
     void                        addEchoCanceledSamples( int16_t* pcmData, int sampleCnt );
 
     void                        clearAllBuffers();
+
+    void                        lockToSpeaker( void )                               { m_ToSpeakerMutex.lock(); }
+    void                        unlockToSpeaker( void )                             { m_ToSpeakerMutex.unlock(); }
+
+    void                        lockSpeakerRead( void )                             { m_SpeakerReadMutex.lock(); }
+    void                        unlockSpeakerRead( void )                           { m_SpeakerReadMutex.unlock(); }
+
+    void                        lockPlayerCache( void )                             { m_PlayerCacheMutex.lock(); }
+    void                        unlockPlayerCache( void )                           { m_PlayerCacheMutex.unlock(); }
 
 signals:
     void                        signalNeedMoreAudioData( int requiredLen );
@@ -216,7 +219,7 @@ protected slots:
 protected:
     void                        aboutToDestroy();
     // update speakers to current mode and output
-    void                        enableSpeakers( bool enable );
+    void                        enableSpeakers( EAppModule appModule, bool enable );
     // update microphone output
     void                        enableMicrophone( bool enable );
 
@@ -229,9 +232,9 @@ protected:
     bool                        handleAudioTestResult( int64_t soundOutTimeMs, int64_t soundDetectTimeMs, int peakVal0to100 );
 
     void                        resetMicrophoneBuffers( void );
-    void                        resetSpeakerBuffers( void );
+    void                        resetSpeakerBuffers( EAppModule appModule );
 
-    void                        processMixerFrames( void );
+    AudioMixerBuf&              getAudioMixerBuf( EAppModule appModule );
 
     AppCommon&                  m_MyApp;
 
@@ -307,12 +310,14 @@ protected:
     AudioSampleBuf              m_AudioWriteBuf;
     VxMutex                     m_AudioWriteMutex;
 
-    AudioSampleBuf              m_AudioReadBuf;
-    VxMutex                     m_AudioReadMutex;
+    AudioSampleBuf              m_SpeakerReadBuf;
+    VxMutex                     m_SpeakerReadMutex;
 
-    AudioMixer                  m_AudioOutMixer;
-    AudioFrameBuf               m_AudioMixerBuf;
-    VxMutex                     m_AudioMixerMutex;
+    std::map<EAppModule, AudioMixerBuf> m_AppModuleToSpeakerMap;
+    VxMutex                     m_ToSpeakerMutex;
+
+    AudioSampleBuf              m_PlayerCacheBuf;
+    VxMutex                     m_PlayerCacheMutex;
 
     AudioSampleBuf              m_EchoCanceledBuf;
     VxMutex                     m_EchoCanceledBufMutex;
@@ -324,9 +329,5 @@ protected:
 
     bool                        m_PlayerNlcActive{ false };
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
-    AudioSampleBuf              m_PlayerNlcCache;
-    VxMutex                     m_PlayerNlcMutex;
-#endif // defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     bool                        m_LastSpeakerRequestWasFullfilled{false};
 };

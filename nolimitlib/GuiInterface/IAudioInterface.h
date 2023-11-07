@@ -51,11 +51,11 @@ public:
     virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) = 0;
 
     // add audio data to play.. assumes pcm mono 
-    virtual int				    toGuiPlayAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;
+    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;
 
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     // add audio data to play.. assumes float 2 channel 48000 Hz
-    virtual int				    toGuiPlayAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) = 0;
+    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) = 0;
 
     virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) = 0;
 

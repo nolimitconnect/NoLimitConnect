@@ -484,9 +484,9 @@ public:
     // enable disable speaker for specific user communicaion (usually push to talk)
     virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
-    virtual int				    toGuiPlayAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
-    virtual int				    toGuiPlayAudio( EAppModule appModule, float* audioDataFload, int audioDataLenInBytes ) override;
+    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFload, int audioDataLenInBytes ) override;
 
     virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
 

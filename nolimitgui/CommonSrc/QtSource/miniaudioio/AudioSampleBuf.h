@@ -18,34 +18,38 @@
 
 #include <inttypes.h>
 
+#include <vector>
+
 class AudioSampleBuf
 {
 public:
 	static const int MAX_SAMPLES_BUFFER_SIZE = AUDIO_BUF_SIZE; // max samples before truncates beginning to make room at end of buffer
 
-	AudioSampleBuf() = default;
-	AudioSampleBuf( const AudioSampleBuf& rhs ) = delete;
+	AudioSampleBuf();
+	AudioSampleBuf( const AudioSampleBuf& rhs );
 	~AudioSampleBuf() = default;
 
-	AudioSampleBuf& operator = ( const AudioSampleBuf& rhs ) = delete;
+	AudioSampleBuf& operator = ( const AudioSampleBuf& rhs );
 
-	void						clear( void )							{ m_SampleCnt = 0; }
+	void						clear( void )							{ m_SampleCnt = 0; m_NotSilentCnt = 0; }
 	bool						empty( void )							{ return 0 == m_SampleCnt; }
 	int							freeSpaceSampleCount( void )			{ return m_MaxSamples - m_SampleCnt; }
 
-	void						setMaxSamples( int maxSamples )			{ m_MaxSamples = maxSamples; } // cannot be more than 4 * AUDIO_SAMPLES_PER_FRAME
+	bool						isSilent( void )						{ return 0 == m_NotSilentCnt; }
+
+	void						setMaxSamples( int maxSamples ); // also resizes m_PcmData
 	int							getMaxSamples( void )					{ return m_MaxSamples; }
 
 	void						setSampleCnt( int sampleCnt )			{ m_SampleCnt = sampleCnt; }
 	int							getSampleCnt( void )					{ return m_SampleCnt; }
 
-	int16_t*					getSampleBuffer( void )					{ return m_PcmData; }
+	int16_t*					getSampleBuffer( bool atCurIdx = false ) { return atCurIdx ? &m_PcmData[ m_SampleCnt ] :  m_PcmData.data(); }
 
-	int							writeSamples( int16_t* retSamplesBuf, int sampleCnt );
-	void						samplesWereWritten( int sampleCnt );
+	virtual int					writeSamples( int16_t* samplesBuf, int sampleCnt, bool isSilent = false );
+	void						samplesWereWritten( int sampleCnt, bool isSilent = false );
 
-	int							readSamples( int16_t* srcSamplesBuf, int sampleCnt );
-	void						samplesWereRead( int samplesRead ); // move remainder samples to begining of buffer and decrement sample count
+	virtual int					readSamples( int16_t* srcSamplesBuf, int sampleCnt );
+	virtual void				samplesWereRead( int samplesRead ); // move remainder samples to begining of buffer and decrement sample count
 
 	int16_t						getLastSample( void );
 
@@ -53,8 +57,10 @@ public:
 
 	void						truncateSamples( int sampleCnt ); // if contains more samples than this then limit to sampleCnt
 
-	int16_t					    m_PcmData[ MAX_SAMPLES_BUFFER_SIZE ];
+private:
+	std::vector<int16_t>		m_PcmData;
 
 	int							m_MaxSamples{ MAX_SAMPLES_BUFFER_SIZE };
 	int							m_SampleCnt{ 0 };
+	int							m_NotSilentCnt{ 0 };
 };

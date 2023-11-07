@@ -1712,11 +1712,11 @@ void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen )
 	m_MixerBufferMutex.lock();
 	if( !m_MixerBufUsed || m_MuteSpeaker )
 	{
-		IToGui::getAudioRequests().toGuiPlayAudioFrame( eAppModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE, true );
+		IToGui::getAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE, true );
 	}
 	else
 	{
-		IToGui::getAudioRequests().toGuiPlayAudioFrame( eAppModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE, false );
+		IToGui::getAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE, false );
 	}
 
 	m_MixerBufUsed = false;

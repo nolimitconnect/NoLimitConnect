@@ -97,16 +97,16 @@ void INlc::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bo
 }
 
 //============================================================================
-int INlc::toGuiPlayAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
+int INlc::toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
 {
-    return getAppCommon().toGuiPlayAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
+    return getAppCommon().getSoundMgr().toGuiModuleAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
 }
 
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
-int INlc::toGuiPlayAudio( EAppModule appModule, float* audioSamples48000, int dataLenInBytes )
+int INlc::toGuiPlayerNlcAudio( EAppModule appModule, float* audioSamples48000, int dataLenInBytes )
 {
-    return getAppCommon().getSoundMgr().toGuiPlayAudio( appModule, audioSamples48000, dataLenInBytes );
+    return getAppCommon().getSoundMgr().toGuiPlayerNlcAudio( appModule, audioSamples48000, dataLenInBytes );
 }
 
 //============================================================================

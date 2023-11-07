@@ -51,7 +51,7 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWi
     , m_MiniAudioDevices()
     , m_MyApp( app )
     , m_AudioCallbacks( audioCallbacks )
-    , m_AudioOutMixer( *this, audioCallbacks, this )
+    //, m_AudioOutMixer( *this, audioCallbacks, this )
     , m_AudioInIo( *this, this )
     , m_AudioOutIo( *this,this )
     , m_AudioEchoCancel( app, *this, this )
@@ -59,6 +59,8 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWi
     , m_AudioMasterClock( *this, this )
 {
     memset( m_SilenceBuf, 0, sizeof( m_SilenceBuf ) );
+
+    m_PlayerCacheBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME * PLAYER_CACHE_FRAMES_CNT );
 
     m_AudioTestTimer->setInterval( 1200 );
     connect( m_AudioTestTimer, SIGNAL(timeout()), this, SLOT(slotAudioTestTimer()) );
@@ -187,34 +189,26 @@ void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onli
     if( ( enableSpeaker != m_WantSpeakerOutput ) && isSpeakerDeviceAvailable() )
     {
         m_WantSpeakerOutput = enableSpeaker;
-        enableSpeakers( m_WantSpeakerOutput );
+        enableSpeakers( appModule, m_WantSpeakerOutput );
     }
 }
 
 //============================================================================
 // enable disable sound out
-void MiniAudioMgr::enableSpeakers( bool enable )
+void MiniAudioMgr::enableSpeakers( EAppModule appModule, bool enable )
 {
     if( enable )
     {
-        resetSpeakerBuffers();
+        resetSpeakerBuffers(appModule);
     }
 
     m_AudioOutIo.wantSpeakerOutput( enable );
 
     if( !enable )
     {
-        resetSpeakerBuffers();
+        resetSpeakerBuffers(appModule);
     }
 }
-
-//============================================================================
-int MiniAudioMgr::toGuiPlayAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence )
-{
-    // assumes must be 80 ms of pcm mono
-    vx_assert( pcmDataLenInBytes == AUDIO_BUF_SIZE)
-    return m_AudioOutMixer.toGuiAudioFrameThreaded( appModule, pu16PcmData, isSilence );
- }
 
 //============================================================================
 void MiniAudioMgr::audioIoSystemStartup()
@@ -459,7 +453,7 @@ void MiniAudioMgr::setAudioTestState( EAudioTestState audioTestState )
         m_DelayTestDetectList.clear();
         setAudioTestSentTime( 0 );
         resetMicrophoneBuffers();
-        resetSpeakerBuffers();
+        resetSpeakerBuffers( eAppModuleAll );
     }
 
     emit signalAudioTestState( audioTestState );
@@ -656,7 +650,7 @@ void MiniAudioMgr::callbackAudioDeviceWrite( int16_t* pcmDataMic, int sampleCntM
 }
 
 //============================================================================
-void MiniAudioMgr::callbackAudioDeviceRead( int16_t* pcmData, int sampleRequestCnt )
+void MiniAudioMgr::callbackToSpeakerRead( int16_t* pcmData, int sampleRequestCnt )
 {
     if( !isAudioInitialized() )
     {
@@ -665,11 +659,11 @@ void MiniAudioMgr::callbackAudioDeviceRead( int16_t* pcmData, int sampleRequestC
 
     addReadSpeakerCount( sampleRequestCnt );
 
-    m_AudioReadMutex.lock();
-    int availableCnt = m_AudioReadBuf.getSampleCnt();
+    lockSpeakerRead();
+    int availableCnt = m_SpeakerReadBuf.getSampleCnt();
     if( availableCnt >= sampleRequestCnt)
     {
-        m_AudioReadBuf.readSamples( pcmData, sampleRequestCnt );
+        m_SpeakerReadBuf.readSamples( pcmData, sampleRequestCnt );
         // LogMsg( LOG_ERROR, "MiniAudioMgr::callbackAudioDeviceRead full read %d samples", sampleRequestCnt );
     }
     else
@@ -680,7 +674,7 @@ void MiniAudioMgr::callbackAudioDeviceRead( int16_t* pcmData, int sampleRequestC
             int samplesToRead = std::min( sampleRequestCnt, availableCnt );
             if( samplesToRead )
             {
-                m_AudioReadBuf.readSamples( pcmData, samplesToRead );
+                m_SpeakerReadBuf.readSamples( pcmData, samplesToRead );
 
                 if( samplesToRead < sampleRequestCnt )
                 {
@@ -695,7 +689,7 @@ void MiniAudioMgr::callbackAudioDeviceRead( int16_t* pcmData, int sampleRequestC
         }
     }
 
-    m_AudioReadMutex.unlock();
+    unlockSpeakerRead();
 
     if( getEnableSpeakerTestTone() )
     {
@@ -753,7 +747,7 @@ void MiniAudioMgr::audioTestDetectTestSound( int16_t* sampleInData, int inSample
     int samplePosVal = 0;
     int64_t sampleTimeMs = 0;
 
-    int16_t sampCompareValue = 32768 / 10;
+    constexpr int16_t sampCompareValue = 32768 / 10;
 
     for( int i = 0; i < inSampleCnt; i++ )
     {
@@ -794,7 +788,7 @@ void MiniAudioMgr::processAudioThreaded( void )
     while( false == m_ProcessAudioThread.isAborted() )
     {
         m_ProcessAudioSemaphore.wait();
-        if( m_ProcessAudioThread.isAborted() )
+        if( m_ProcessAudioThread.isAborted() || VxIsAppShuttingDown() )
         {
             LogMsg( LOG_VERBOSE, "AudioLoopback::processAudioLoopbackThreaded aborting" );
             break;
@@ -806,9 +800,9 @@ void MiniAudioMgr::processAudioThreaded( void )
             int micSamples = m_AudioWriteBuf.getSampleCnt();
             if( micSamples )
             {
-                m_AudioReadMutex.lock();
-                m_AudioReadBuf.writeSamples( m_AudioWriteBuf.getSampleBuffer(), micSamples );
-                m_AudioReadMutex.unlock();
+                lockSpeakerRead();
+                m_SpeakerReadBuf.writeSamples( m_AudioWriteBuf.getSampleBuffer(), micSamples );
+                unlockSpeakerRead();
 
                 m_AudioWriteBuf.samplesWereRead( micSamples );
             }
@@ -841,18 +835,6 @@ void MiniAudioMgr::processAudioThreaded( void )
             m_AudioWriteMutex.lock();
             if( m_AudioWriteBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
             {
-                //int16_t tempBuf[ AUDIO_SAMPLES_PER_FRAME ];
-                //memcpy( tempBuf, m_AudioWriteBuf.getSampleBuffer(), sizeof( tempBuf ) );
-                //int16_t maxVal = -32000;
-                //int16_t minVal = 32000;
-                //for( int i = 0; i < AUDIO_SAMPLES_PER_FRAME; i++ )
-                //{
-                //    minVal = std::min( minVal, tempBuf[ i ] );
-                //    maxVal = std::max( maxVal, tempBuf[ i ] );
-                //}
-
-                //LogMsg( LOG_ERROR, "MiniAudioMgr::processAudioThreaded min %d max %d", minVal, maxVal );
-
                 fromGuiEchoCanceledSamplesThreaded( m_AudioWriteBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
                 m_AudioWriteBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
             }
@@ -860,115 +842,8 @@ void MiniAudioMgr::processAudioThreaded( void )
             m_AudioWriteMutex.unlock();
         }
 
-        if( getReadSpeakerCount() >= AUDIO_SAMPLES_PER_FRAME )
-        {
-            // there is enough room to process another mixer frame
-            subtractReadSpeakerCount( AUDIO_SAMPLES_PER_FRAME );
-            processMixerFrames();
-            if( getPlayerNlcActive() )
-            {
-                m_PlayerNlcMutex.lock();
-                if( m_PlayerNlcCache.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
-                {
-                    toGuiPlayAudioFrame( eAppModulePlayerNlc, m_PlayerNlcCache.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE,
-                        isSilentSamples( m_PlayerNlcCache.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME ) );
-                    m_PlayerNlcCache.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
-                }
-
-                m_PlayerNlcMutex.unlock();
-            }
-
-            fromGuiAudioOutSpaceAvaiThreaded( AUDIO_SAMPLES_PER_FRAME );
-        }
+        processToSpeakerThreaded();
     }
-
-        /*
-        if( getAudioTimingDebugEnable() )
-        {
-            static int64_t lastTime = 0;
-            int64_t timeNow = GetHighResolutionTimeMs();
-            int timeElapsed = lastTime ? (int)(timeNow - lastTime) : 0;
-            lastTime = timeNow;
-
-            static int64_t lastSpaceAvailableTime{ 0 };
-            static int funcCallCnt{ 0 };
-            funcCallCnt++;
-            if( lastSpaceAvailableTime )
-            {
-                int timeInterval = (int)(timeNow - lastSpaceAvailableTime);
-                LogMsg( LOG_VERBOSE, "processAudioOutSpaceAvailableThreaded %d elapsed %d ms app %d ms", funcCallCnt, (int)timeInterval, (int)m_MyApp.elapsedMilliseconds() );
-            }
-
-            lastSpaceAvailableTime = timeNow;
-        }
-
-        static int16_t prevFrameSample = 0;
-
-        // make current frame ready for read by speakers
-        lockMixer();
-        AudioLoopbackFrame& audioFrame = getAudioWriteFrame();
-        audioFrame.processFrameForSpeakerOutputThreaded( prevFrameSample );
-        prevFrameSample = audioFrame.getLastEchoSample();
-
-        // LogMsg( LOG_VERBOSE, " AudioLoopback::processAudioLoopbackThreaded speaker buf m_ProcessedBufMutex.lock()" );
-        m_ProcessedBufMutex.lock();
-
-        if( audioFrame.echoSamplesAvailable() != AUDIO_SAMPLES_PER_FRAME )
-        {
-            LogMsg( LOG_ERROR, "P Frame %d AudioLoopback::processAudioLoopbackThreaded incorrect buffer processing should have %d samples but has %d samples elapsed %d ms",
-                audioFrame.getFrameIndex(), AUDIO_SAMPLES_PER_FRAME, audioFrame.echoSamplesAvailable(), timeElapsed );
-        }
-
-        if( audioFrame.echoSamplesAvailable() * AUDIO_FRAME_TO_DEVICE_RATE_MULTIPLIER != audioFrame.speakerSamplesAvailable() )
-        {
-            LogMsg( LOG_ERROR, "P Frame %d AudioLoopback::processAudioLoopbackThreaded incorrect upsampling should be %d samples is %d samples elapsed %d ms",
-                audioFrame.getFrameIndex(), audioFrame.echoSamplesAvailable() * AUDIO_FRAME_TO_DEVICE_RATE_MULTIPLIER, audioFrame.speakerSamplesAvailable(), timeElapsed );
-        }
-
-        if( m_AudioIoMgr.getBitrateDebugEnable() )
-        {
-            m_ProcessFrameBitrate.addSamplesAndInterval( audioFrame.echoSamplesAvailable(), timeElapsed );
-            m_ProcessSpeakerBitrate.addSamplesAndInterval( audioFrame.speakerSamplesAvailable(), timeElapsed );
-        }
-
-        if( m_AudioIoMgr.getSampleCntDebugEnable() )
-        {
-            m_AudioIoMgr.getAudioMasterClock().audioSpeakerReadSampleCnt( audioFrame.speakerSamplesAvailable() );
-        }
-
-        m_SpeakerProcessedBuf.writeSamples( audioFrame.getSpeakerSampleBuf(), audioFrame.speakerSamplesAvailable() );
-        // LogMsg( LOG_VERBOSE, " AudioLoopback::processAudioLoopbackThreaded speaker buf m_ProcessedBufMutex.unlock()" );
-        m_ProcessedBufMutex.unlock();
-        m_EchoProcessedBuf.writeSamples( audioFrame.getEchoSampleBuf(), audioFrame.echoSamplesAvailable() );
-
-        if( m_AudioIoMgr.getSampleCntDebugEnable() )
-        {
-            LogMsg( LOG_ERROR, "P Frame %d AudioLoopback::processAudioLoopbackThreaded processed samples available echo %d speaker %d elapsed %d ms",
-                audioFrame.getFrameIndex(), m_EchoProcessedBuf.getSampleCnt(), m_SpeakerProcessedBuf.getSampleCnt(), timeElapsed );
-        }
-
-        // move to next frame and clear it so is ready to write to
-        incrementMixerWriteIndex();
-        AudioLoopbackFrame& nextAudioFrame = getAudioWriteFrame();
-        nextAudioFrame.clearFrame( false );
-        incrementMixerReadIndex();
-        unlockMixer();
-
-        // let the echo canceler unlock the processed speaker samples as soon as possible to avoid
-        // stalling the qt audio device read or write call
-        m_AudioIoMgr.getAudioEchoCancel().processEchoCancelThreaded( m_EchoProcessedBuf, m_ProcessedBufMutex );
-
-        // do output space available processing
-        processOutSpaceAvailable();
-
-
-        if( m_ProcessAudioLoopbackThread.isAborted() )
-        {
-            LogMsg( LOG_VERBOSE, "AudioLoopback::processAudioLoopbackThreaded aborting3" );
-            break;
-        }
-    }
-    */
 
     LogMsg( LOG_VERBOSE, "AudioLoopback::processAudioLoopbackThreaded leaving function" );
 }
@@ -984,42 +859,137 @@ void MiniAudioMgr::resetMicrophoneBuffers( void )
 }
 
 //============================================================================
-void MiniAudioMgr::resetSpeakerBuffers( void )
+void MiniAudioMgr::resetSpeakerBuffers( EAppModule appModule )
 {
-    m_AudioReadMutex.lock();
-    m_AudioReadBuf.clear();
-    m_AudioReadMutex.unlock();
+    lockSpeakerRead();
+    m_SpeakerReadBuf.clear();
+    unlockSpeakerRead();
 
-    m_AudioMixerMutex.lock();
-    m_AudioMixerBuf.clear();
-    m_AudioOutMixer.resetMixer();
+    lockToSpeaker();
+    if( eAppModuleInvalid != appModule )
+    {
+        if( eAppModuleAll == appModule )
+        {
+            for( auto& buf : m_AppModuleToSpeakerMap )
+            {
+                buf.second.clear();
+            }
+        }
+        else
+        {
+            AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+            mixerBuf.clear();
+        }
+    }
+
+    unlockToSpeaker();
+
     m_SpeakerReadSampleCnt = 0;
-    m_AudioMixerMutex.unlock();
 
     getAudioEchoCancel().resetSpeakerBuffers();
 }
 
 //============================================================================
-void MiniAudioMgr::processMixerFrames( void )
+void MiniAudioMgr::processToSpeakerThreaded( void )
 {
-    lockMixer();
-    AudioMixerFrame& audioFrame = m_AudioOutMixer.getAudioReadFrame();
-    if( audioFrame.audioSamplesInUse() >= AUDIO_SAMPLES_PER_FRAME )
+    lockSpeakerRead();
+    if( m_SpeakerReadBuf.freeSpaceSampleCount() < AUDIO_SAMPLES_PER_FRAME )
     {
-        m_AudioReadMutex.lock();
-        m_AudioReadBuf.writeSamples( audioFrame.getMixerBuf(), audioFrame.audioSamplesInUse() );
-        m_AudioReadMutex.unlock();
+        // not enough room to fit a frame
+        unlockSpeakerRead();
 
-        audioFrame.clearFrame( true );
-        m_AudioOutMixer.incrementMixerReadIndex();
-        m_AudioOutMixer.incrementMixerWriteIndex();
+        // move what we can from player buf to mixer buf
+        lockToSpeaker();
+        AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
+        int mixerSamplesSpace = mixerBuf.freeSpaceSampleCount();
+        if( mixerSamplesSpace )
+        {
+            int16_t* mixerData = mixerBuf.getSampleBuffer();
+ 
+            lockPlayerCache();
+            int playerCacheSampleCnt = m_PlayerCacheBuf.getSampleCnt();
+            if( playerCacheSampleCnt )
+            {
+                // minimize the time the player cache is locked or playback will stutter
+                int16_t* cacheBuf = m_PlayerCacheBuf.getSampleBuffer();
+
+                int samplesToXfer = std::min(mixerSamplesSpace, playerCacheSampleCnt );
+                if( samplesToXfer > 0 )
+                {
+                    mixerBuf.writeSamples( cacheBuf, samplesToXfer );
+                    m_PlayerCacheBuf.samplesWereRead( samplesToXfer );
+                }       
+            }
+
+            unlockPlayerCache();
+        }
+        
+        unlockToSpeaker();
+
+        return;
     }
-    else
+
+    unlockSpeakerRead();
+
+    std::array<int16_t, AUDIO_SAMPLES_PER_FRAME> mixBuf{};
+    bool firstFrameSet = false;
+
+    lockToSpeaker();
+
+    for( auto& mapEntry : m_AppModuleToSpeakerMap )
     {
-        LogMsg( LOG_ERROR, "P Frame %d MiniAudioMgr::processMixerFrames buffer processing should have %d samples but has %d samples",
-            audioFrame.getFrameIndex(), AUDIO_SAMPLES_PER_FRAME, audioFrame.audioSamplesInUse() );
-        m_AudioMixerBuf.writeSamples( m_SilenceBuf, AUDIO_SAMPLES_PER_FRAME );
+        auto& speakerBuf = mapEntry.second;
+
+        if( eAppModulePlayerNlc == mapEntry.first )
+        {
+            if( m_PlayerCacheBuf.getSampleCnt() )
+            {
+                // minimize the time the player cache is locked or playback will stutter
+                int16_t* cacheBuf = m_PlayerCacheBuf.getSampleBuffer();
+                int16_t* mixerBuf = speakerBuf.getSampleBuffer();
+
+                lockPlayerCache();
+                int samplesToXfer = std::min(speakerBuf.freeSpaceSampleCount(), m_PlayerCacheBuf.getSampleCnt() );
+                if( samplesToXfer > 0 )
+                {
+                    speakerBuf.writeSamples( cacheBuf, samplesToXfer );
+                    m_PlayerCacheBuf.samplesWereRead( samplesToXfer );
+                }
+
+                unlockPlayerCache();
+            }
+        }
+
+        if( speakerBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
+        {
+            if( !speakerBuf.isSilent() )
+            {
+                if( firstFrameSet )
+                {
+                    AudioUtils::mixPcmAudio( mixBuf.data(), speakerBuf.getSampleBuffer(), AUDIO_BUF_SIZE );
+                }
+                else
+                {
+                    memcpy( mixBuf.data(), speakerBuf.getSampleBuffer(), AUDIO_BUF_SIZE );
+                    firstFrameSet = true;
+                }
+
+            }
+
+            speakerBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
+        }
     }
+
+    unlockToSpeaker();
+
+    lockSpeakerRead();
+
+    m_SpeakerReadBuf.writeSamples( mixBuf.data(), AUDIO_SAMPLES_PER_FRAME, !firstFrameSet );
+
+    unlockSpeakerRead();
+
+    fromGuiAudioOutSpaceAvaiThreaded( AUDIO_SAMPLES_PER_FRAME );
+
     /*
     AudioLoopbackFrame& audioFrame = getAudioWriteFrame();
     audioFrame.processFrameForSpeakerOutputThreaded( prevFrameSample );
@@ -1068,7 +1038,7 @@ void MiniAudioMgr::processMixerFrames( void )
     nextAudioFrame.clearFrame( false );
     incrementMixerReadIndex();
     */
-    unlockMixer();
+
 }
 
 //============================================================================
@@ -1107,20 +1077,41 @@ void MiniAudioMgr::setPlayerNlcActive( bool isActive )
         m_PlayerNlcActive = isActive;
         if( m_PlayerNlcActive )
         {
-            m_PlayerNlcMutex.lock();
-            m_PlayerNlcCache.clear();
-            m_PlayerNlcMutex.unlock();
-            clearAllBuffers();
+            lockPlayerCache();
+
+            m_PlayerCacheBuf.clear();
+
+            unlockPlayerCache();
+
+            lockToSpeaker();
+
+            AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
+            mixerBuf.clear();
+
+            unlockToSpeaker();
         }
         
         toGuiWantSpeakerOutput( eAppModulePlayerNlc, m_PlayerNlcActive );
     }
 }
 
-
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
-int MiniAudioMgr::toGuiPlayAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
+void  MiniAudioMgr::clearAllBuffers()
+{
+    m_AudioWriteMutex.lock();
+    m_AudioWriteBuf.clear();
+    m_AudioWriteMutex.unlock();
+
+    m_EchoCanceledBufMutex.lock();
+    m_EchoCanceledBuf.clear();
+    m_EchoCanceledBufMutex.unlock();
+
+    resetSpeakerBuffers( eAppModuleAll );
+
+}
+
+//============================================================================
+int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
 {
     // this assumes 20ms of stereo 48000 hz at a time from kodi based player
     // unfortunately there is no good way to down sample stereo to mono so we have to pick a channel 
@@ -1130,7 +1121,7 @@ int MiniAudioMgr::toGuiPlayAudio( EAppModule appModule, float* audioDataFloat, i
 
     if( VxIsAppShuttingDown() || !audioDataLenInBytes || !audioDataFloat )
     {
-        LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayAudio ignored len %d", audioDataLenInBytes );
+        LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio ignored len %d", audioDataLenInBytes );
         return 0;
     }
 
@@ -1142,17 +1133,18 @@ int MiniAudioMgr::toGuiPlayAudio( EAppModule appModule, float* audioDataFloat, i
         int skipCnt = AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
         int pcmSampleCnt = kodiSampleCnt / skipCnt;
 
-        m_PlayerNlcMutex.lock();
-        if( pcmSampleCnt > m_PlayerNlcCache.freeSpaceSampleCount() )
+        lockPlayerCache();
+
+        if( pcmSampleCnt > m_PlayerCacheBuf.freeSpaceSampleCount() )
         {
-            m_PlayerNlcMutex.unlock();
-            LogMsg( LOG_ERROR, "MiniAudioMgr::toGuiPlayAudio overrun PlayerNlc" );
+            unlockPlayerCache();
+            LogMsg( LOG_ERROR, "MiniAudioMgr::toGuiPlayerNlcAudio overrun PlayerNlc" );
             return 0;
         }
 
 
-        int16_t* pcmBuf = m_PlayerNlcCache.getSampleBuffer();
-        pcmBuf += m_PlayerNlcCache.getSampleCnt();
+        int16_t* pcmBuf = m_PlayerCacheBuf.getSampleBuffer();
+        pcmBuf += m_PlayerCacheBuf.getSampleCnt();
         int totalSamples{ 0 };
         for( int i = 0; i < audioDataLenInBytes / sizeof( float ); i += skipCnt )
         {
@@ -1160,20 +1152,22 @@ int MiniAudioMgr::toGuiPlayAudio( EAppModule appModule, float* audioDataFloat, i
             totalSamples++;
         }
 
-        m_PlayerNlcCache.samplesWereWritten( totalSamples );
-        m_PlayerNlcMutex.unlock();
+        m_PlayerCacheBuf.samplesWereWritten( totalSamples );
+
+        unlockPlayerCache();
+
         if( IsLogEnabled( eLogAudioIo ) )
         {
             float cachedTime = toGuiGetAudioDelaySeconds( appModule );
             float totalCache = toGuiGetAudioCacheTotalSeconds( appModule );
 
-            LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayAudio player-nlc samples %d cached sec %3.3f total cache %3.3f sec percent %d", 
+            LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio player-nlc samples %d cached sec %3.3f total cache %3.3f sec percent %d", 
                        totalSamples, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
         }
     }
     else
     {
-        LogMsg( LOG_ERROR, "MiniAudioMgr::toGuiPlayAudio unknown module %s ", DescribeAppModule( appModule ) );
+        LogMsg( LOG_ERROR, "MiniAudioMgr::toGuiPlayerNlcAudio unknown module %s ", DescribeAppModule( appModule ) );
     }
 
     return audioDataLenInBytes;
@@ -1187,9 +1181,23 @@ float MiniAudioMgr::toGuiGetAudioDelaySeconds( EAppModule appModule )
         return 0;
     }
 
-    m_PlayerNlcMutex.lock();
-    int usedPcmSamples = m_PlayerNlcCache.getSampleCnt();
-    m_PlayerNlcMutex.unlock();
+    if( eAppModulePlayerNlc == appModule )
+    {
+        lockPlayerCache();
+
+        int cachedPcmSamples = m_PlayerCacheBuf.getSampleCnt();
+
+        unlockPlayerCache();
+        return calculateMsOfSamples( cachedPcmSamples ) * 1000;
+    }
+
+    lockToSpeaker();
+
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+    int usedPcmSamples = mixerBuf.getSampleCnt();
+
+    unlockToSpeaker();
+
     return calculateMsOfSamples( usedPcmSamples ) * 1000;
 }
 
@@ -1201,11 +1209,24 @@ float MiniAudioMgr::toGuiGetAudioCacheFreeSpace( EAppModule appModule )
         return 0;
     }
 
-    // return total bytes available for kodi to write to
-    m_PlayerNlcMutex.lock();
-    int availablePcmSampleSpace = m_PlayerNlcCache.freeSpaceSampleCount();
-    m_PlayerNlcMutex.unlock();
-    return availablePcmSampleSpace * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
+    if( eAppModulePlayerNlc == appModule )
+    {
+        lockPlayerCache();
+
+        int availPcmSamplesCache = m_PlayerCacheBuf.freeSpaceSampleCount();
+
+        unlockPlayerCache();
+        return availPcmSamplesCache * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
+    }
+
+    lockToSpeaker();
+
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+    int availablePcmSampleSpace = mixerBuf.freeSpaceSampleCount();
+
+    unlockToSpeaker();
+
+    return availablePcmSampleSpace;
 }
 
 //============================================================================
@@ -1216,28 +1237,57 @@ float MiniAudioMgr::toGuiGetAudioCacheTotalSeconds( EAppModule appModule )
         return 0;
     }
 
-    return calculateMsOfSamples( m_PlayerNlcCache.getMaxSamples() ) * 1000;
+    if( eAppModulePlayerNlc == appModule )
+    {
+        lockPlayerCache();
+
+        int maxPcmSamplesCache = m_PlayerCacheBuf.getMaxSamples();
+
+        unlockPlayerCache();
+        return calculateMsOfSamples( maxPcmSamplesCache ) * 1000;
+    }
+
+    lockToSpeaker();
+
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+    float maxTotal = calculateMsOfSamples( mixerBuf.getMaxSamples() ) * 1000;
+
+    unlockToSpeaker();
+
+    return maxTotal;
 }
 
-#endif // ENABLE_KODI
+//============================================================================
+int MiniAudioMgr::toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence )
+{
+    // assumes must be 80 ms of pcm mono
+    vx_assert( pcmDataLenInBytes == AUDIO_BUF_SIZE)
+    lockToSpeaker();
 
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+    int wroteSamples = mixerBuf.writeSamples( pu16PcmData, pcmDataLenInBytes / 2, isSilence );
+
+    unlockToSpeaker();
+    return wroteSamples * 2;
+ }
 
 //============================================================================
-void  MiniAudioMgr::clearAllBuffers()
+AudioMixerBuf& MiniAudioMgr::getAudioMixerBuf( EAppModule appModule )
 {
-    m_AudioWriteMutex.lock();
-    m_AudioWriteBuf.clear();
-    m_AudioWriteMutex.unlock();
+    auto iter = m_AppModuleToSpeakerMap.find( appModule );
+    if( iter != m_AppModuleToSpeakerMap.end() ) 
+    {
+        // found
+        return iter->second;
+    }
 
-    m_AudioReadMutex.lock();
-    m_AudioReadBuf.clear();
-    m_AudioReadMutex.unlock();
+    // not found
+    AudioMixerBuf mixBuf;
+    mixBuf.setAudioIoMgr( this );
+    mixBuf.setAppModule( appModule );
+    m_AppModuleToSpeakerMap.insert( std::make_pair(appModule, mixBuf ));
 
-    m_AudioMixerMutex.lock();
-    m_AudioMixerBuf.clear();
-    m_AudioMixerMutex.unlock();
+    auto newIter = m_AppModuleToSpeakerMap.find( appModule );
 
-    m_EchoCanceledBufMutex.lock();
-    m_EchoCanceledBuf.clear();
-    m_EchoCanceledBufMutex.unlock();
+    return newIter->second;
 }

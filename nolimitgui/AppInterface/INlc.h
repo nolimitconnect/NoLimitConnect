@@ -283,10 +283,10 @@ public:
     virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
     // add audio data to play.. assumes pcm mono 16000 Hz
-    virtual int				    toGuiPlayAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
 
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
-    virtual int				    toGuiPlayAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) override;
+    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) override;
 
     virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
 

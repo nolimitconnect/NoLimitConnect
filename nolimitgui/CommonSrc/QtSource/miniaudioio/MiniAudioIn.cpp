@@ -16,7 +16,7 @@
 #include "AppCommon.h"
 #include "MiniAudioIn.h"
 #include "MiniAudioMgr.h"
-#include "AudioMixer.h"
+
 #include "AudioUtils.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>

@@ -145,27 +145,27 @@ void AppCommon::slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID o
 
 //============================================================================
 //! playback audio
-int AppCommon::toGuiPlayAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
+int AppCommon::toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
-    return m_SoundMgr.toGuiPlayAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
+    return m_SoundMgr.toGuiModuleAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
 }
 
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
 //! playback audio
-int AppCommon::toGuiPlayAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
+int AppCommon::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0;
 	}
 
-	return m_SoundMgr.toGuiPlayAudio( appModule, audioDataFloat, audioDataLenInBytes );
+	return m_SoundMgr.toGuiPlayerNlcAudio( appModule, audioDataFloat, audioDataLenInBytes );
 }
 
 //============================================================================

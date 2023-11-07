@@ -354,10 +354,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/miniaudioio/AudioEchoBuf.h
     CommonSrc/QtSource/miniaudioio/AudioEchoCancel.h
     CommonSrc/QtSource/miniaudioio/AudioEchoCancelImpl.h
-    CommonSrc/QtSource/miniaudioio/AudioFrameBuf.h
     CommonSrc/QtSource/miniaudioio/AudioMasterClock.h
-    CommonSrc/QtSource/miniaudioio/AudioMixer.h
-    CommonSrc/QtSource/miniaudioio/AudioMixerFrame.h
+    CommonSrc/QtSource/miniaudioio/AudioMixerBuf.h
     CommonSrc/QtSource/miniaudioio/AudioMixerInterface.h
     CommonSrc/QtSource/miniaudioio/AudioSampleBuf.h
     CommonSrc/QtSource/miniaudioio/AudioTestGenerator.h
@@ -738,10 +736,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/miniaudioio/AudioEchoBuf.cpp
     CommonSrc/QtSource/miniaudioio/AudioEchoCancel.cpp
     CommonSrc/QtSource/miniaudioio/AudioEchoCancelImpl.cpp
-    CommonSrc/QtSource/miniaudioio/AudioFrameBuf.cpp
     CommonSrc/QtSource/miniaudioio/AudioMasterClock.cpp
-    CommonSrc/QtSource/miniaudioio/AudioMixer.cpp
-    CommonSrc/QtSource/miniaudioio/AudioMixerFrame.cpp
+    CommonSrc/QtSource/miniaudioio/AudioMixerBuf.cpp
     CommonSrc/QtSource/miniaudioio/AudioSampleBuf.cpp
     CommonSrc/QtSource/miniaudioio/AudioTestGenerator.cpp
     CommonSrc/QtSource/miniaudioio/AudioUtils.cpp

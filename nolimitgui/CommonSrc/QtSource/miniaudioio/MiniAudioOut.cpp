@@ -183,7 +183,7 @@ int MiniAudioOut::callbackAudioRead( int16_t* pcmData, int sampleCnt )
         return sampleCnt;
     }
 
-    m_AudioIoMgr.callbackAudioDeviceRead( pcmData, sampleCnt );
+    m_AudioIoMgr.callbackToSpeakerRead( pcmData, sampleCnt );
     return sampleCnt;
 
     /*

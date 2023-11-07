@@ -23,6 +23,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxThread.h>
+#include <CoreLib/VxTimer.h>
 
 # if defined(TARGET_OS_APPLE)
 #  include <OpenGLES/ES2/gl.h>
@@ -54,9 +55,13 @@ void RenderGlLogic::aboutToDestroy()
     setRenderPlayerNlcThreadShouldRun( false );
     if( m_RenderPlayerNlcThread  )
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waiting for thread" );
+        VxTimer waitTimer;
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
         m_RenderPlayerNlcThread->wait();
-        delete m_RenderPlayerNlcThread;
+        LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waited for thread %3.3fms", waitTimer.elapsedMs() );
+        //delete m_RenderPlayerNlcThread;
+        m_RenderPlayerNlcThread->deleteLater();
         m_RenderPlayerNlcThread = nullptr;
     }
 }

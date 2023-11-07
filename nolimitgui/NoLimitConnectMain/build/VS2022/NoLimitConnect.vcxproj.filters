@@ -998,9 +998,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.h">
       <Filter>Source Files\miniaudioio</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixer.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h">
       <Filter>Source Files\miniaudioio</Filter>
     </QtMoc>
@@ -2113,12 +2110,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.cpp">
       <Filter>Source Files\miniaudioio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixer.cpp">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerFrame.cpp">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioSampleBuf.cpp">
       <Filter>Source Files\miniaudioio</Filter>
     </ClCompile>
@@ -2146,9 +2137,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOutDevice.cpp">
       <Filter>Source Files\miniaudioio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioFrameBuf.cpp">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VlcWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2157,6 +2145,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderPlayerNlcThread.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2421,9 +2412,6 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.h">
       <Filter>Source Files\miniaudioio</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerFrame.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerInterface.h">
       <Filter>Source Files\miniaudioio</Filter>
     </ClInclude>
@@ -2434,9 +2422,6 @@
       <Filter>Source Files\miniaudioio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioDevices.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioFrameBuf.h">
       <Filter>Source Files\miniaudioio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioDefs.h">
@@ -2456,6 +2441,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\NlcTargetOsConfig.h">
       <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.h">
+      <Filter>Source Files\miniaudioio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

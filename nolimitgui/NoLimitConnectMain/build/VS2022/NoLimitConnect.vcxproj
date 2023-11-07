@@ -431,10 +431,8 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancel.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancelImpl.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioFrameBuf.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixer.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerFrame.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioSampleBuf.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioUtils.cpp" />
@@ -688,9 +686,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancel.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancelImpl.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixer.h" />
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioFrameBuf.h" />
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerFrame.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioSampleBuf.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h" />
