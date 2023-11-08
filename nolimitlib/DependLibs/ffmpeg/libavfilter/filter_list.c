@@ -468,7 +468,7 @@ static const AVFilter * const filter_list[] = {
     &ff_vf_tonemap,
 #if CONFIG_VAAPI
     &ff_vf_tonemap_vaapi,
-#endif CONFIG_VAAPI
+#endif // CONFIG_VAAPI
 #endif // CONFIG_TONEMAP_FILTER
     &ff_vf_tpad,
     &ff_vf_transpose,

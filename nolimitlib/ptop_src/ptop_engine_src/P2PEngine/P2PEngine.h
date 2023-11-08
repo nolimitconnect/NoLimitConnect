@@ -57,6 +57,8 @@
 #include <PktLib/PktSysHandlerBase.h>
 #include <PktLib/PktsImAlive.h>
 
+#include <memory.h>
+
 class AssetMgr;
 class BlobMgr;
 class ConnectMgr;
@@ -107,7 +109,6 @@ public:
 	IFromGui&					getFromGuiInterface( void )						{ return *this; }
     IAudioRequests&			    getAudioRequest( void );
     AssetMgr&					getAssetMgr( void )								{ return m_AssetMgr; }
-   
     BigListMgr&					getBigListMgr( void )							{ return m_BigListMgr; }
     ConnectionMgr&              getConnectionMgr( void )                        { return m_ConnectionMgr; }
     ConnectMgr&                 getConnectMgr( void )                           { return m_ConnectMgr; }

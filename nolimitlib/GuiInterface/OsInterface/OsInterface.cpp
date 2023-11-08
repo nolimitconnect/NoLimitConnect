@@ -92,7 +92,7 @@ bool CopyIfRequiredAssetFile( std::string assetFileName, std::string destFile, b
         }
         else
         {
-            LogMsg( LOG_ERROR, "%s asset file %s does not exisst", __func__, destFile.c_str() );
+            LogMsg( LOG_ERROR, "%s asset file %s does not exist", __func__, destFile.c_str() );
         }
 
         if( ( 0 != assetLength ) && !VxFileUtil::fileExists( destFile.c_str() ) )

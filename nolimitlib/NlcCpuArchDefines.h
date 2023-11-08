@@ -23,9 +23,8 @@
 #define ARCH_RISCV						0
 #define ARCH_SPARC						0
 
-#ifdef TARGET_OS_WINDOWS
+#if defined(TARGET_OS_WINDOWS)
 # define NLC_ARCH_LITTLE_ENDIAN			1
-# define NLC_ARCH_BIG_ENDIAN			0
 
 # define ARCH_ARM                       0
 # define AARCH64                        0 // the other arm type android cpu
@@ -76,7 +75,6 @@
 
 #elif defined(TARGET_OS_ANDROID)
 # define NLC_ARCH_LITTLE_ENDIAN			1
-# define NLC_ARCH_BIG_ENDIAN			0
 
 # if defined(TARGET_CPU_ARM)
 #  define TARGET_CPU_ARM				1  // general cpu type
@@ -129,8 +127,8 @@
 
 #elif defined(TARGET_OS_LINUX)
 
-# define NLC_ARCH_LITTLE_ENDIAN			1
-# define NLC_ARCH_BIG_ENDIAN			0
+# define NLC_ARCH_LITTLE_ENDIAN         1
+
 // only 64bit x86 linux is supported
 # define TARGET_CPU_X86_64			    1  // general cpu type
 
@@ -147,22 +145,9 @@
 # define ARCH_32_BITS					0
 # define ARCH_64_BITS                   1
 
-
-#if ARCH_32_BITS
-# define ARCH_X86_32 1
-# define ARCH_X86_64 0
-#else
-# define ARCH_X86_32 0
-# define ARCH_X86_64 1
-# ifndef __x86_64__
-#  define __x86_64__ // needed for libgnu
-# endif // __x86_64__
-#endif // ARCH_32_BITS
-
 #elif defined(TARGET_OS_APPLE)
 echo error apple and ppc processors not supported
 # define NLC_ARCH_LITTLE_ENDIAN			0
-# define NLC_ARCH_BIG_ENDIAN			1
 # define TARGET_CPU_PPC					1 // general cpu type
 
 # define ARCH_ALPHA		                0
@@ -184,7 +169,6 @@ echo error apple and ppc processors not supported
 #if defined(__MIPSEL__)
 echo error mips processors not supported
 # define NLC_ARCH_LITTLE_ENDIAN				1
-# define NLC_ARCH_BIG_ENDIAN				0
 # define TARGET_CPU_MIPS					1
 # define ARCH_64_BITS						1
 # define ARCH_MIPS                          0
@@ -192,7 +176,6 @@ echo error mips processors not supported
 #elif defined(TARGET_OS_APPLE) || ARCH_PPC
 echo error ppc processors not supported
 # define NLC_ARCH_LITTLE_ENDIAN				0
-# define NLC_ARCH_BIG_ENDIAN				1
 
 #elif defined(__aarch64__)
 echo error aarch64 processors not supported
@@ -203,28 +186,10 @@ echo error aarch64 processors not supported
 #else
 echo unknown processor types are not supported
 #endif // error type for unsupported processor
-
-#endif // determine CPU type and number of bits and endianess
-
-// another way to determine endianess.. keep around in case is a better way
-///* Define NLC_ARCH_BIGENDIAN to 1 if your processor stores words with the most
-//significant byte first (like Motorola and SPARC, unlike Intel). */
-//#if defined AC_APPLE_UNIVERSAL_BUILD
-//# if defined __BIG_ENDIAN__
-//#  define NLC_ARCH_BIGENDIAN 1
-//# endif
-//#else
-//# ifndef NLC_ARCH_BIGENDIAN
-///* #  undef NLC_ARCH_BIGENDIAN */
-//# endif
-//#endif
-
-
-#define HAVE_BIGENDIAN					NLC_ARCH_BIG_ENDIAN
-#define NLC_ARCH_BIGENDIAN				NLC_ARCH_BIG_ENDIAN
+#endif // defined(TARGET_OS_APPLE)
 
 #if !ARCH_X86 && !ARCH_ARM && !ARCH_AARCH64
-# define HAVE_BIGENDIAN		1
+# define NLC_ARCH_LITTLE_ENDIAN				1
 echo Nlc CPU Arch Defines error no cpu target defined
 //#define ARCH_AARCH		1
 //#define ARCH_ALPHA		1
@@ -254,6 +219,17 @@ echo Nlc CPU Arch Defines error no cpu target defined
 
 #endif // !ARCH_X86 && !ARCH_ARM
 
+#if ARCH_32_BITS
+# define ARCH_X86_32 1
+# define ARCH_X86_64 0
+#else
+# define ARCH_X86_32 0
+# define ARCH_X86_64 1
+# ifndef __x86_64__
+#  define __x86_64__ // needed for libgnu
+# endif // __x86_64__
+#endif // ARCH_32_BITS
+
 //============================================================================
 //============================================================================
 //=== cpu features ===//
@@ -268,6 +244,16 @@ echo Nlc CPU Arch Defines error no cpu target defined
 #  define ARCH_64_BITS 0
 # endif // defined(TARGET_CPU_X86)
 
+#if !defined(NLC_ARCH_LITTLE_ENDIAN)
+echo error NLC_ARCH_LITTLE_ENDIAN  is not defined
+#else
+
+# if NLC_ARCH_LITTLE_ENDIAN // has been set to 1
+// just leave HAVE_BIGENDIANv undefined
+# else
+#  define HAVE_BIGENDIAN // is a big endian cpu
+# endif // NLC_ARCH_LITTLE_ENDIAN
+#endif // !defined(NLC_ARCH_LITTLE_ENDIAN)
 
 // ONLY INTEL HAS AVX ?
 # define HAVE_AVX 1
@@ -366,18 +352,6 @@ echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 # define __SSE2__ 1
 #endif // HAVE_SSE
 
-// size of native types 
-#if ARCH_32_BITS
-# define SIZEOF_VOID_P 4
-# define SIZEOF_UNSIGNED_LONG_INT 4
-# define SIZEOF_UNSIGNED_INT 4
-# define SIZEOF_INT 4
-# define SIZEOF_CHAR_P 4
-# define SIZEOF_LONG 4
-#else
-# define SIZEOF_VOID_P 8
-# define SIZEOF_CHAR_P 8
-
 # if defined(TARGET_OS_WINDOWS) && defined(_MSC_VER)
 #  define SIZEOF_UNSIGNED_INT 4
 #  define SIZEOF_UNSIGNED_LONG_INT 4
@@ -390,7 +364,9 @@ echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 #  define SIZEOF_LONG 8 // everybody else uses long size the same as arch size
 # endif // TARGET_OS_LINUX
 
-#endif // ARCH_32_BITS
+// only 64Bit cpus supported so pointer size is always 8
+# define SIZEOF_VOID_P 8
+# define SIZEOF_CHAR_P 8
 
 /* The size of `short', as computed by sizeof. */
 #define SIZEOF_SHORT 2
@@ -400,9 +376,6 @@ echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 #define SIZEOF_LONG_LONG 8
 /* The size of `__int64', as computed by sizeof. */
 #define SIZEOF___INT64 8
-
-
-
 
 
 

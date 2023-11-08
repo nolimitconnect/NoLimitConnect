@@ -446,6 +446,19 @@ bool CApplication::Create()
 
     m_ServiceManager.reset( new CServiceManager() );
 
+    if( IsLogEnabled( eLogPlayerNlc ) )
+    {
+        CSpecialProtocol::LogPaths();
+    }
+
+    // copy required files (guisettings.xml must exist before InitStageOne() is called)
+#if ENABLE_RSS
+    CopyUserDataIfNeeded( "special://masterprofile/", "RssFeeds.xml" );
+#endif // ENABLE_RSS
+    // CopyUserDataIfNeeded( "special://masterprofile/", "favourites.xml" );
+    // CopyUserDataIfNeeded( "special://masterprofile/", "Lircmap.xml" );
+    CopyUserDataIfNeeded( "special://masterprofile/", "guisettings.xml" );
+
     if( !m_ServiceManager->InitStageOne() )
     {
         return false;
@@ -457,16 +470,6 @@ bool CApplication::Create()
     appMessenger->RegisterReceiver( &CServiceBroker::GetPlaylistPlayer() );
     appMessenger->SetGUIThread( CThread::GetCurrentThreadId() );
     appMessenger->SetProcessThread( CThread::GetCurrentThreadId() );
-
-    // copy required files
-#if ENABLE_RSS
-    CopyUserDataIfNeeded( "special://masterprofile/", "RssFeeds.xml" );
-#endif // ENABLE_RSS
-    CopyUserDataIfNeeded( "special://masterprofile/", "favourites.xml" );
-    CopyUserDataIfNeeded( "special://masterprofile/", "Lircmap.xml" );
-    CopyUserDataIfNeeded( "special://masterprofile/", "guisettings.xml" );
-
-    //CServiceBroker::GetLogging().Initialize(CSpecialProtocol::TranslatePath("special://logpath"));
 
 #ifdef TARGET_POSIX //! @todo Win32 has no special://home/ mapping by default, so we
   //!       must create these here. Ideally this should be using special://home/ and
