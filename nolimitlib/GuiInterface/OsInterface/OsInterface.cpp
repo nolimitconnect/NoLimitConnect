@@ -442,7 +442,21 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     // root of where we can write files
     std::string appStorageDir = VxGetRootDataStorageDirectory();
 
+    // determine where we can copy assets from
+    // this is a special hack for running in linux from qcreator directly when built into nolimitgui/bin-OsName directory
+    // the executable is built into a subdirectory of nolimitgui/bin-OsName directory
     std::string kodiExeAssetsPath = exePath + "assets/kodi";
+    std::string assetTest1 = kodiExeAssetsPath + "/userdata/guisettings.xml";
+    if( !VxFileUtil::fileExists( assetTest1.c_str() ) )
+    {
+        std::string kodiTestAssetPath = VxFileUtil::moveUpADirectory(exePath);
+        kodiTestAssetPath += "assets/kodi";
+        std::string assetTest2 = kodiTestAssetPath + "/userdata/guisettings.xml";
+        if( VxFileUtil::fileExists( assetTest2.c_str() ) )
+        {
+            kodiExeAssetsPath = kodiTestAssetPath;
+        }
+    }
 
     std::string kodiBinLibStoragePath = kodiExeAssetsPath + "/libs";
     VxFileUtil::makeDirectory( kodiBinLibStoragePath );
@@ -468,7 +482,7 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     std::string pythonPath = exePath + "\\assets\\kodi\\system\\Python";
     std::string pythonPathWithSlash = pythonPath + "\\";
 #else
-    std::string pythonPath = exePath + "/assets/kodi/system/Python";
+    std::string pythonPath = kodiExeAssetsPath + "/system/Python";
     std::string pythonPathWithSlash = pythonPath + "/";
 #endif // TARGET_OS_WINDOWS
     VxSetPythonExeDirectory( pythonPath.c_str() );

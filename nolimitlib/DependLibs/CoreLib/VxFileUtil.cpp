@@ -268,6 +268,39 @@ bool VxFileUtil::isDotDotDirectory( const wchar_t * fileName )
 }
 
 //============================================================================
+// strip last directory in string
+std::string VxFileUtil::moveUpADirectory( std::string& folderPathIn )
+{
+    if( folderPathIn.empty() )
+    {
+        LogMsg( LOG_ERROR, "VxFileUtil::moveUpADirectory: empty folderPathIn" );
+        return folderPathIn;
+    }
+
+    std::string folderPathOut = folderPathIn;
+    bool hasTrailingSlash = '/' == folderPathOut[ folderPathOut.length() - 1 ];
+    if( hasTrailingSlash )
+    {
+        folderPathOut = folderPathOut.substr( 0, folderPathOut.length() - 1 );
+    }
+
+    size_t lastSlashPos = folderPathOut.find_last_of('/');
+    if( lastSlashPos == std::string::npos )
+    {
+        LogMsg( LOG_ERROR, "VxFileUtil::moveUpADirectory: no directory to move up to" );
+        return folderPathIn;
+    }
+
+    folderPathOut = folderPathOut.substr( 0, lastSlashPos );
+    if( hasTrailingSlash )
+    {
+        folderPathOut += '/';
+    }
+
+    return folderPathOut;
+}
+
+//============================================================================
 // append file name to path.. account for url etc
 std::string VxFileUtil::addFileToFolder( std::string& strFolder,  std::string& strFile)
 {
@@ -309,7 +342,7 @@ RCODE VxFileUtil::getCurrentWorkingDirectory( std::string strRetDir )
 #endif
 	{
 		strRetDir = "";
-		LogMsg( LOG_INFO, "getCurrentWorkingDirectory: getcwd error\n" );
+        LogMsg( LOG_INFO, "getCurrentWorkingDirectory: getcwd error" );
 		return -1;
 	}
 	else
@@ -352,7 +385,7 @@ uint64_t VxFileUtil::fileExists( const char* pFileName )
 #if defined(DEBUG)
         int errCode = VxGetLastError();
         LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
-#endif // defined(DEBUG)
+#endif // defined(DEBUG)etCurrentWorkingDirectory
 		return 0;
 	}
 	else
