@@ -117,7 +117,6 @@
 # endif // defined(__ARMEL__)
 
 # define ARCH_ALPHA		                0
-# define AARCH64                        0 // the other arm type android cpu
 # define ARCH_ALPHA                     0
 # define ARCH_SPARC                     0
 # define ARCH_MIPS                      0
@@ -219,6 +218,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 
 #endif // !ARCH_X86 && !ARCH_ARM
 
+#if !TARGET_CPU_ARM
 #if ARCH_32_BITS
 # define ARCH_X86_32 1
 # define ARCH_X86_64 0
@@ -229,6 +229,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 #  define __x86_64__ // needed for libgnu
 # endif // __x86_64__
 #endif // ARCH_32_BITS
+#endif // !TARGET_CPU_ARM
 
 //============================================================================
 //============================================================================
@@ -313,8 +314,13 @@ echo Nlc CPU Config error mips processors not supported
 //#define HAVE_MIPS64R6				1
 
 #elif defined(TARGET_OS_ANDROID)
-# define HAVE_SSE           0
-# define HAVE_SSE2          0
+# if TARGET_CPU_ARM
+#  define HAVE_SSE           0
+#  define HAVE_SSE2          0
+# else
+#  define HAVE_SSE           1
+#  define HAVE_SSE2          1
+# endif // TARGET_CPU_ARM
 #else
 echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 // don't know what these are

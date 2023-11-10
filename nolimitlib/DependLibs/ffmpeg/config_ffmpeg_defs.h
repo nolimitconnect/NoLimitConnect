@@ -79,6 +79,7 @@
 #if defined(TARGET_OS_ANDROID)
 # define ARCH_X86 0
 # define ARCH_X86_32 0
+# undef ARCH_X86_64
 # define ARCH_X86_64 0
 # define HAVE_ARMV5TE 0
 # define HAVE_ARMV6 0
