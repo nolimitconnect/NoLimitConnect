@@ -124,14 +124,14 @@ namespace
 }
 
 //============================================================================
-AppCommon& CreateAppInstance( INlc& gotv, QApplication* myApp )
+AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp )
 {
 static AppSettings appSettings;
 static AccountMgr accountMgr;
     if( !g_AppCommon )
     {
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, gotv );
+        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc );
     }
 
     return *g_AppCommon;
@@ -264,7 +264,7 @@ void AppCommon::loadWithoutThread( void )
     // after user has logged into account
 
     uint64_t loadingMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "LoadSettings %" PRId64 " ms alive ms %" PRId64 "", loadingMs - startMs, loadingMs );
+    LogMsg( LOG_DEBUG, "LoadSettings %" PRIu64 " ms alive ms %" PRIu64 "", loadingMs - startMs, loadingMs );
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
@@ -275,7 +275,7 @@ void AppCommon::loadWithoutThread( void )
     m_MyIcons.myIconsStartup();
 
     uint64_t iconsMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Load Icons %" PRId64 " ms alive ms %" PRId64 "", iconsMs - loadingMs, iconsMs );
+    LogMsg( LOG_DEBUG, "Load Icons %" PRIu64 " ms alive ms %" PRIu64 "", iconsMs - loadingMs, iconsMs );
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
@@ -287,7 +287,7 @@ void AppCommon::loadWithoutThread( void )
 	m_PlayerMgr.playerMgrStartup();
 
     uint64_t styleMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Setup Style %" PRId64 " ms alive ms %" PRId64 "", styleMs - iconsMs, styleMs );
+    LogMsg( LOG_DEBUG, "Setup Style %" PRIu64 " ms alive ms %" PRIu64 "", styleMs - iconsMs, styleMs );
 
 	// make sure the engine has been created
 	int retryCnt = 0;
@@ -323,7 +323,7 @@ void AppCommon::loadWithoutThread( void )
     m_HomePage.show();
 
     uint64_t homePageMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Initialize Home Page %" PRId64 " ms alive ms %" PRId64 "", homePageMs - styleMs, homePageMs );
+    LogMsg( LOG_DEBUG, "Initialize Home Page %" PRIu64 " ms alive ms %" PRIu64 "", homePageMs - styleMs, homePageMs );
 }
 
 //============================================================================

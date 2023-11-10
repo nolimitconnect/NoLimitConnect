@@ -55,7 +55,7 @@ bool MiniAudioInDevice::initializeAudioInDevice( int& deviceIndex, int preferred
     }
     else
     {
-        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::initializeAudioInDevice FAIL index %d rate %d", deviceIndex, preferredRate );
+        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::initializeAudioInDevice FAIL index %d rate %d.. will try 48000Hz", deviceIndex, preferredRate );
     }
 
     // most devices can at least run at 48000 .. this seems to be android's default
@@ -126,7 +126,7 @@ bool MiniAudioInDevice::initalizeDevice( int deviceIndex, int sampleRate )
     m_MaDeviceConfig.dataCallback = MiniAudioInCallback;
     m_MaDeviceConfig.pUserData = this;
 
-    // m_MaDeviceConfig.periodSizeInMilliseconds = AUDIO_MS_PER_FRAME;
+    m_MaDeviceConfig.periodSizeInMilliseconds = AUDIO_MS_PER_FRAME % 3 ? AUDIO_MS_PER_FRAME / 2 : AUDIO_MS_PER_FRAME / 3;
 
     ma_result result = ma_device_init( NULL, &m_MaDeviceConfig, &m_MaDevice );
     if( result != MA_SUCCESS ) 

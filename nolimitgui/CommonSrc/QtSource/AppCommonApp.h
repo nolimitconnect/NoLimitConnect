@@ -948,7 +948,7 @@ protected:
 //    KodiThread *                m_KodiThread;
 };
 
-AppCommon& CreateAppInstance( INlc& gotv, QApplication* myApp );
+AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp );
 
 AppCommon& GetAppInstance( void );
 

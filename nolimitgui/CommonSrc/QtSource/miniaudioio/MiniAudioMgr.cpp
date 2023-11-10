@@ -590,30 +590,48 @@ void MiniAudioMgr::callbackAudioDeviceWrite( int16_t* pcmDataMic, int sampleCntM
 
     int16_t* pcmData = pcmDataMic;
     int sampleCnt = sampleCntMic;
-    /*
+    
     int dnSampleDivide = getAudioInIo().getDivideSamplesCount();
-
-    if( dnSampleDivide != 1 )
+    if( !dnSampleDivide )
     {
-        int resampledCnt = sampleCntMic / dnSampleDivide;
-        static int16_t* sampleOutData = nullptr;
-        static int lastMicWriteSamples = 0;
-        if( !sampleOutData || sampleCnt != lastMicWriteSamples )
+        LogMsg( LOG_FATAL, "MiniAudioMgr::callbackAudioDeviceWrite dnSampleDivide cannot be zero" );
+        return;
+    }
+
+    static std::vector<int16_t> downSampled;
+    static int lastMicWriteSamples = 0;
+
+    if( 1 == dnSampleDivide )
+    {
+        if( sampleCnt != lastMicWriteSamples )
         {
             // first time or device changed or sample count changed
             lastMicWriteSamples = sampleCnt;
 
-            delete[] sampleOutData;
-            sampleOutData = new int16_t[ resampledCnt + 1 ]; // plus one for remainder sample if needed
+            calculateMicWriteBufferSize( sampleCnt );
+        }
+    }
+    else
+    {
+        int resampledCnt = sampleCntMic / dnSampleDivide;
+
+        if( sampleCnt != lastMicWriteSamples )
+        {
+            // first time or device changed or sample count changed
+            lastMicWriteSamples = sampleCnt;
+
+            downSampled.resize( resampledCnt + 1 );
 
             setEchoCancelerNeedsReset( true ); // tell echo canceler parameters have changed and need to restart
+
+            calculateMicWriteBufferSize( resampledCnt );
         }
 
-        AudioUtils::dnsamplePcmAudio( pcmDataMic, resampledCnt, dnSampleDivide, sampleOutData );
-        pcmData = sampleOutData;
+        pcmData = downSampled.data();
+        AudioUtils::dnsamplePcmAudio( pcmDataMic, resampledCnt, dnSampleDivide, pcmData );
+        
         sampleCnt = resampledCnt;
     }
-    */
 
     if( getEchoCancelEnable() )
     {
@@ -1290,4 +1308,40 @@ AudioMixerBuf& MiniAudioMgr::getAudioMixerBuf( EAppModule appModule )
     auto newIter = m_AppModuleToSpeakerMap.find( appModule );
 
     return newIter->second;
+}
+
+//============================================================================
+void MiniAudioMgr::calculateMicWriteBufferSize( int micSampleCnt )
+{
+    // ideally the mic would write AUDIO_SAMPLES_PER_FRAME each write to minimize delay
+    // but some platforms do not let you change the amount of samples each write
+    if( !micSampleCnt )
+    {
+        LogMsg( LOG_FATAL, "calculateMicWriteBufferSize micSampleCnt cannot be zeor" );
+        return;
+    }
+
+    if( micSampleCnt > AUDIO_SAMPLES_PER_FRAME )
+    {
+        // if the mic is writing more than AUDIO_SAMPLES_PER_FRAME 
+        // the buffer must be at to hold the max of 2 mic writes or 2 AUDIO_SAMPLES_PER_FRAME
+        int bufSampleCnt = std::max( micSampleCnt * 2, AUDIO_SAMPLES_PER_FRAME * 2 );
+        lockMicWriteBuffer();
+        m_AudioWriteBuf.setMaxSamples( bufSampleCnt );
+        unlockMicWriteBuffer();
+    }
+    else if( AUDIO_SAMPLES_PER_FRAME % micSampleCnt )
+    {
+        // AUDIO_SAMPLES_PER_FRAME is not an even multiple of micSampleCnt
+        int bufSampleCnt = AUDIO_SAMPLES_PER_FRAME + ( micSampleCnt * 2 );
+        lockMicWriteBuffer();
+        m_AudioWriteBuf.setMaxSamples( bufSampleCnt );
+        unlockMicWriteBuffer();
+    }
+    else
+    {
+        lockMicWriteBuffer();
+        m_AudioWriteBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME + micSampleCnt );
+        unlockMicWriteBuffer();
+    }
 }

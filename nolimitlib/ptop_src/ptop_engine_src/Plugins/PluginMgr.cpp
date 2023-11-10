@@ -507,7 +507,7 @@ void PluginMgr::handleFirstNetServiceConnection( std::shared_ptr<VxSktBase>& skt
 }
 
 //============================================================================
-//! this is called for all valid packets that are not sys packets
+//! this is called for all valid packets that are not net service packets
 void PluginMgr::handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	//LogMsg( LOG_INFO, "PluginMgr::handleNonSystemPackets" );
@@ -522,7 +522,7 @@ void PluginMgr::handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxP
 			{
 				plugin->handlePkt( sktBase, pktHdr, netIdent );
 			}
-			else
+			else if( !netIdent->isMyself() )
 			{
 				VxReportHack( eHackerLevelSuspicious, eHackerReasonAccessDenied, sktBase, netIdent->getOnlineName() );
 			}

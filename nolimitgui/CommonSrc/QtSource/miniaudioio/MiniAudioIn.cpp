@@ -179,7 +179,7 @@ void MiniAudioIn::wantMicrophoneInput( bool enableInput )
 //============================================================================
 int MiniAudioIn::callbackAudioWrite( int16_t* pcmData, int sampleCnt )
 {
-    LogMsg( LOG_VERBOSE, "MiniAudioIn::callbackAudioWrite %d ", sampleCnt );
+    // LogMsg( LOG_VERBOSE, "MiniAudioIn::callbackAudioWrite %d ", sampleCnt );
 
     if( VxIsAppShuttingDown() )
     {

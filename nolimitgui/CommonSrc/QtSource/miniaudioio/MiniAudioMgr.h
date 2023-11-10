@@ -207,6 +207,9 @@ public:
     void                        lockPlayerCache( void )                             { m_PlayerCacheMutex.lock(); }
     void                        unlockPlayerCache( void )                           { m_PlayerCacheMutex.unlock(); }
 
+    void                        lockMicWriteBuffer( void )                          { m_AudioWriteMutex.lock(); }
+    void                        unlockMicWriteBuffer( void )                        { m_AudioWriteMutex.unlock(); }
+
 signals:
     void                        signalNeedMoreAudioData( int requiredLen );
     void                        signalAudioTestState( EAudioTestState audioTestState );
@@ -235,6 +238,8 @@ protected:
     void                        resetSpeakerBuffers( EAppModule appModule );
 
     AudioMixerBuf&              getAudioMixerBuf( EAppModule appModule );
+
+    void                        calculateMicWriteBufferSize( int micSampleCnt );
 
     AppCommon&                  m_MyApp;
 

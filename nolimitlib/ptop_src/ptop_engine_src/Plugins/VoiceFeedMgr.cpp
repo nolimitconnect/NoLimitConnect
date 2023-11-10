@@ -30,7 +30,7 @@
 
 #include <memory.h>
 
-#define DEBUG_AUTOPLUGIN_LOCK 1
+//#define DEBUG_AUTOPLUGIN_LOCK 0 // define to enable lock logging
 
 //============================================================================
 VoiceFeedMgr::VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr )
