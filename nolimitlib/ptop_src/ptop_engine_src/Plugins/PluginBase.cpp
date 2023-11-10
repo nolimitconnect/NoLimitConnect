@@ -185,7 +185,6 @@ bool PluginBase::isAccessAllowed( VxNetIdent* netIdent, bool logAccessError, con
         {
             LogMsg( LOG_WARN, "%s %s Access Not Allowed to %s %s %s", DescribePluginType( getPluginType() ), accessReason,
                 netIdent->getMyOnlineId().describeVxGUID().c_str(), DescribeFriendState( netIdent->getMyFriendshipToHim() ), netIdent->getOnlineName() );
-
         }
         else
         {

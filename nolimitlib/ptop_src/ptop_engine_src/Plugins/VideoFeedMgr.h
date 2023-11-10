@@ -53,7 +53,7 @@ public:
 	void						stopAllSessions( EAppModule appModule, EPluginType pluginType );
 
 protected:
-	void						enableVideoCapture( bool bStart, VxNetIdent* netIdent, EAppModule appModule, bool wantCamCapture = true );
+	void						enableVideoCapture( bool bStart, VxNetIdent* netIdent, EAppModule appModule, bool wantCamCapture );
 
     P2PEngine&                  m_Engine;
 	PluginBase&					m_Plugin;

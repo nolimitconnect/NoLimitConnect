@@ -106,7 +106,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 	// kind of a strange way of handling the problem of which video to enable
 	// if there are any myIdents in requests for eMediaInputVideoPkts then vid capture will be enabled but others
 	// in that list allow processing of incoming packets without enabling video capture for the case of cam server client which does not require video capture
-	bool isMyself = ( netIdent->getMyOnlineId() == m_Engine.getMyOnlineId() ); 
+	bool isMyself = netIdent->isMyself(); 
 	if( enable )
 	{
 		if( m_GuidList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
@@ -217,10 +217,10 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 				//}
 			}
 		}
-		else
-		{
-            LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture false GUID not found %s", netIdent->getOnlineName() );
-		}
+		//else
+		//{
+  //          LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture false GUID not found %s", netIdent->getOnlineName() );
+		//}
 	}
 
     LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture %d done %s", enable, netIdent->getOnlineName() );

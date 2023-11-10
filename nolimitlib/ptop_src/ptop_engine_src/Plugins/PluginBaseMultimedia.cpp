@@ -565,10 +565,12 @@ void PluginBaseMultimedia::onContactWentOnline( VxNetIdent* netIdent, std::share
 //============================================================================
 void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline start" );
-	m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent );
-	m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent );
-	m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), &getEngine().getMyPktAnnounce() );
-	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
-    LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline done" );
+	if( !netIdent->isMyself() )
+	{
+		LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline start" );
+		m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent );
+		m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent );
+		m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
+		LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline done" );
+	}
 }

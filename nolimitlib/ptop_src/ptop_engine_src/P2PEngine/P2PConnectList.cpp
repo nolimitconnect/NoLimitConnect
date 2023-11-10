@@ -74,7 +74,7 @@ void P2PConnectList::fromGuiChangeMyFriendshipToHim(	const VxGUID&	oOnlineId,
 //============================================================================
 RcConnectInfo * P2PConnectList::addConnection( std::shared_ptr<VxSktBase>& sktBase, BigListInfo * poBigListInfo, bool bNewContact )
 {
-	if( NULL != poBigListInfo )
+	if( poBigListInfo )
 	{
 		return addConnection( poBigListInfo->getMyOnlineId(), new RcConnectInfo( sktBase, poBigListInfo), bNewContact );
 	}
@@ -253,8 +253,8 @@ void P2PConnectList::removeSocket( std::shared_ptr<VxSktBase>& sktBase, bool isL
 		if( connectInfo->m_SktBase == sktBase )
 		{
 			m_Engine.onContactDisconnected( connectInfo, true );
-			delete connectInfo;
 			iter = m_ConnectList.erase( iter );
+			delete connectInfo;
 		}
 		else
 		{
