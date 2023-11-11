@@ -508,7 +508,7 @@ void default_log_output( void* userData, uint32_t u32MsgType, const char* pLogMs
         break;
 
     case LOG_VERBOSE:
-        __android_log_write( ANDROID_LOG_DEBUG, MY_LOG_TAG, pLogMsg );
+        __android_log_write( ANDROID_LOG_VERBOSE, MY_LOG_TAG, pLogMsg );
         break;
 
     default:

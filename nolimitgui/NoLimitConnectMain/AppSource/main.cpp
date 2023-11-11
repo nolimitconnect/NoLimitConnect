@@ -51,6 +51,30 @@ using namespace XFILE;
 
 
 namespace{
+    void qtLogMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+    {
+        QByteArray localMsg = msg.toLocal8Bit();
+        const char *file = context.file ? context.file : "";
+        const char *function = context.function ? context.function : "";
+        switch (type) {
+        case QtDebugMsg:
+            LogMsg( LOG_DEBUG, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
+            break;
+        case QtInfoMsg:
+            //LogMsg( LOG_INFO, "Info: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
+            break;
+        case QtWarningMsg:
+            LogMsg( LOG_WARN, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
+            break;
+        case QtCriticalMsg:
+            LogMsg( LOG_SEVERE, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
+            break;
+        case QtFatalMsg:
+            LogMsg( LOG_FATAL, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
+            break;
+        }
+    }
+
     void setupRootStorageDirectory()
     {
         std::string strRootUserDataDir;
@@ -150,8 +174,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
     QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
 
-    // is this needed ? Q_INIT_RESOURCE( gotvcommon );
-
     // TODO allow user to change where the data is stored
     setupRootStorageDirectory();
 
@@ -223,6 +245,18 @@ void set_signal_handler( void )
 
 int main( int argc, char** argv )
 {
+    // filter out gralloc4: messages
+
+    // THIS SHOULD WORK BUT DOES NOT
+    // turn off android log messages except critical
+    // QLoggingCategory::setFilterRules("*.debug=false\n"
+    //                                  "*.info=false\n"
+    //                                  "*.warning=false\n"
+    //                                  "*.critical=true");
+
+    // THIS ALSO DOES NOT WORK.. must be a logcat thing
+    //qInstallMessageHandler(qtLogMessageOutput);
+
     int retVal{ 0 };
 
 #if !defined(TARGET_OS_WINDOWS)
