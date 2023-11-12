@@ -21,9 +21,9 @@
 
 //============================================================================
 AppletClientAvatarImage::AppletClientAvatarImage( AppCommon& app, QWidget* parent )
-: AppletClientBase( OBJNAME_APPLET_CLIENT_AVATAR_IMAGE, app, parent )
+: AppletClientBase( OBJNAME_APPLET_AVATAR_IMAGE_CLIENT, app, parent )
 {
-	setAppletType( eAppletClientAvatarImage );
+	setAppletType( eAppletAvatarImageClient );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet()) );
 

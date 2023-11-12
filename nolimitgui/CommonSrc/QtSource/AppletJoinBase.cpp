@@ -253,9 +253,9 @@ bool AppletJoinBase::launchClientApplet( GuiHosted* guiHosted )
             switch( guiHosted->getHostType() )
             {
             case eHostTypeChatRoom:
-                if( !m_MyApp.getAppletMgr().isAppletLaunched( eAppletClientChatRoom ) )
+                if( !m_MyApp.getAppletMgr().isAppletLaunched( eAppletChatRoomClient ) )
                 {
-                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletClientChatRoom, getParentPageFrame() ));
+                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomClient, getParentPageFrame() ));
                 }
 
                 break;

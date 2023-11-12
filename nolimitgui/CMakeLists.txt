@@ -111,6 +111,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletGalleryEmoticon.h  
     CommonSrc/QtSource/AppletGalleryThumb.h
     CommonSrc/QtSource/AppletGetStarted.h
+    CommonSrc/QtSource/AppletGroupClient.h
     CommonSrc/QtSource/AppletGroupHostAdmin.h
     CommonSrc/QtSource/AppletGroupJoinSearch.h
     CommonSrc/QtSource/AppletGroupJoin.h
@@ -319,9 +320,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/LogMgr.h
     CommonSrc/QtSource/LogoRenderer.h
     CommonSrc/QtSource/LogWidget.h
-    CommonSrc/QtSource/MenuDefs.h
-	CommonSrc/QtSource/MenuBase.h
-	CommonSrc/QtSource/MenuCam.h
     CommonSrc/QtSource/MessengerPage.h
     CommonSrc/QtSource/MyIcons.h
     CommonSrc/QtSource/MyIconsDefs.h
@@ -500,6 +498,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletGalleryEmoticon.cpp
     CommonSrc/QtSource/AppletGalleryThumb.cpp
     CommonSrc/QtSource/AppletGetStarted.cpp
+    CommonSrc/QtSource/AppletGroupClient.cpp
     CommonSrc/QtSource/AppletGroupHostAdmin.cpp
     CommonSrc/QtSource/AppletGroupJoin.cpp
     CommonSrc/QtSource/AppletGroupJoinSearch.cpp
@@ -698,8 +697,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/LogMgr.cpp
     CommonSrc/QtSource/LogWidget.cpp
     CommonSrc/QtSource/LogoRenderer.cpp
-    CommonSrc/QtSource/MenuBase.cpp
-    CommonSrc/QtSource/MenuCam.cpp
     CommonSrc/QtSource/MessengerPage.cpp
     CommonSrc/QtSource/MultiSessionState.cpp
     CommonSrc/QtSource/MyIcons.cpp
@@ -838,6 +835,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletGalleryEmoticon.ui
     CommonSrc/Forms/AppletGalleryThumb.ui
     CommonSrc/Forms/AppletGetStarted.ui
+    CommonSrc/Forms/AppletGroupClient.ui
     CommonSrc/Forms/AppletGroupJoinSearch.ui
     CommonSrc/Forms/AppletGroupListClient.ui
     CommonSrc/Forms/AppletGroupListLocalView.ui

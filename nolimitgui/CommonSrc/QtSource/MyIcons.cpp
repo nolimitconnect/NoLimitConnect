@@ -222,11 +222,11 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconFriendBroadcast:
 		return ":/AppRes/Resources/friend-broadcast.svg";
 
-    case eMyIconClientChatRoom:
+    case eMyIconChatRoomClient:
         return ":/AppRes/Resources/client-chat-room.svg";
-    case eMyIconClientGroup:
+    case eMyIconGroupClient:
         return ":/AppRes/Resources/client-group.svg";
-    case eMyIconClientRandomConnect:
+    case eMyIconRandomConnectClient:
         return ":/AppRes/Resources/client-random-connect.svg";
     case eMyIconClientWebCam:
 		return ":/AppRes/Resources/client-webcam.svg";
@@ -1678,11 +1678,11 @@ EMyIcons MyIcons::getHostTypeClientIcon( enum EHostType hostType )
 	case eHostTypeNetwork:
 		return eMyIconServiceHostNetwork;
 	case eHostTypeGroup:
-		return eMyIconClientGroup;
+		return eMyIconGroupClient;
 	case eHostTypeChatRoom:
-		return eMyIconClientChatRoom;
+		return eMyIconChatRoomClient;
 	case eHostTypeRandomConnect:
-		return eMyIconClientRandomConnect;
+		return eMyIconRandomConnectClient;
 	case eHostTypePeerUserDirect:
 		return eMyIconDirectConnected;
 	default:

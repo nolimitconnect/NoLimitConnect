@@ -51,6 +51,7 @@
 #include "AppletGalleryThumb.h"
 #include "AppletGetStarted.h"
 
+#include "AppletGroupClient.h"
 #include "AppletGroupHostAdmin.h"
 #include "AppletGroupJoin.h"
 #include "AppletGroupJoinSearch.h"
@@ -394,7 +395,10 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletPlayerCamClip:              if( launchAppletAllowed( eAppletPlayerCamClip ) ) appletDialog = new AppletPlayerCamClip( m_MyApp, parent, assetId ); break;
     case eAppletCamSettings:                if( launchAppletAllowed( eAppletCamSettings ) ) appletDialog = new AppletCamSettings( m_MyApp, parent ); break;
-    case eAppletClientChatRoom:             if( launchAppletAllowed( eAppletClientChatRoom ) ) appletDialog = new AppletChatRoomClient( m_MyApp, parent ); break;
+        
+        
+    case eAppletGroupClient:                if( launchAppletAllowed( eAppletGroupClient ) ) appletDialog = new AppletGroupClient( m_MyApp, parent ); break;
+    case eAppletChatRoomClient:             if( launchAppletAllowed( eAppletChatRoomClient ) ) appletDialog = new AppletChatRoomClient( m_MyApp, parent ); break;
     case eAppletRandomConnectClient:        if( launchAppletAllowed( eAppletRandomConnectClient ) ) appletDialog = new AppletRandomConnectClient( m_MyApp, parent ); break;
 
     case eAppletFriendListClient:           if( launchAppletAllowed( eAppletFriendListClient ) ) appletDialog = new AppletFriendListClient( m_MyApp, parent ); break;
@@ -578,10 +582,10 @@ void AppletMgr::bringAppletToFront( ActivityBase* appletDialog )
         {
             appletDialog->show();
         }
+
+        appletDialog->activateWindow();
+        appletDialog->raise();
     }
-
-
-    // TODO force window to front
 }
 
 //============================================================================

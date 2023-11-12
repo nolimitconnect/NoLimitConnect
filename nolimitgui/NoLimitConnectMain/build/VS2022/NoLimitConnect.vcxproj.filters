@@ -123,6 +123,9 @@
     <Filter Include="cmake_helpers">
       <UniqueIdentifier>{b3ccd291-3db7-4f12-a49e-026f0d1854c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TitleAndBottomAndAvatarBar">
+      <UniqueIdentifier>{bc65c609-eba9-4de8-bb03-2aaf500ad8ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
@@ -446,12 +449,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetVoiceWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AvatarBar.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\CamLogic.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -548,12 +545,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\LogWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\MenuBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\MenuCam.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\MessengerPage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -618,9 +609,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ThumbnailViewWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\TodGameLogic.h">
@@ -1025,6 +1013,18 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderPlayerNlcThread.h">
       <Filter>Source Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.h">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.h">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AvatarBar.h">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -1345,12 +1345,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppTranslate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AvatarBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\CamLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1427,12 +1421,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\LogWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\MenuBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\MenuCam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\MessengerPage.cpp">
@@ -1532,9 +1520,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ThumbnailViewWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameDefs.cpp">
@@ -2148,6 +2133,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.cpp">
       <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.cpp">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.cpp">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AvatarBar.cpp">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2966,6 +2963,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerNlc.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletGroupClient.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

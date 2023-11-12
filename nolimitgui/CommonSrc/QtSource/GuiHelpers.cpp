@@ -198,10 +198,10 @@ bool GuiHelpers::isAppletAService( EApplet applet )
 bool GuiHelpers::isAppletAClient( EApplet applet )
 {
     return ( ( eAppletAboutMeClient == applet )
-             || ( eAppletClientAvatarImage == applet )
-             || ( eAppletClientConnectionTest == applet )
-             || ( eAppletClientHostGroup == applet )
-             || ( eAppletClientHostGroupListing == applet )
+             || ( eAppletAvatarImageClient == applet )
+             || ( eAppletConnectionTestClient == applet )
+             || ( eAppletGroupClient == applet )
+             || ( eAppletHostGroupListingClient == applet )
              || ( eAppletRandomConnectClient == applet )
              || ( eAppletClientShareFiles == applet )
              || ( eAppletCamClient == applet )
@@ -217,11 +217,11 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
     {
     case eAppletAboutMeClient:              return ePluginTypeAboutMePageClient;
     case eAppletCamClient:                  return ePluginTypeCamServer;
-    case eAppletClientAvatarImage:          return ePluginTypeClientPeerUser;
-    case eAppletClientConnectionTest:       return ePluginTypeClientConnectTest;
-    case eAppletClientHostGroup:            return ePluginTypeHostGroup;
-    case eAppletClientHostGroupListing:     return ePluginTypeNetworkSearchList;
-    case eAppletClientHostNetwork:          return ePluginTypeHostNetwork;
+    case eAppletAvatarImageClient:          return ePluginTypeClientPeerUser;
+    case eAppletConnectionTestClient:       return ePluginTypeClientConnectTest;
+    case eAppletGroupClient:            return ePluginTypeHostGroup;
+    case eAppletHostGroupListingClient:     return ePluginTypeNetworkSearchList;
+    case eAppletHostNetworkClient:          return ePluginTypeHostNetwork;
     case eAppletRandomConnectClient:        return ePluginTypeClientRandomConnect;
     case eAppletClientShareFiles:           return ePluginTypeFileShareServer;
 

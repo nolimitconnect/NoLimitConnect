@@ -13,9 +13,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletMgr.h"
 #include "TitleBarWidget.h"
 
+#include "AppletMgr.h"
 #include "AppCommon.h"
 #include "AppletPopupMenu.h"
 #include "GuiOfferMgr.h"

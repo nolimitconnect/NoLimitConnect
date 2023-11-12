@@ -54,24 +54,25 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletPlayerNlc:			        return eMyIconVlc;
 
     case eAppletChatRoomJoinSearch:	        return eMyIconSearchJoinChatRoom;
-    case eAppletChatRoomJoin:	            return eMyIconClientChatRoom;
+    case eAppletChatRoomJoin:	            return eMyIconChatRoomClient;
     case eAppletChatRoomListLocalView:	    return eMyIconEyeAnnouncedChatRooms;
-    case eAppletClientAvatarImage:          return eMyIconAvatarImage;
-    case eAppletClientChatRoom:             return eMyIconClientChatRoom;
+    case eAppletAvatarImageClient:          return eMyIconAvatarImage;
+    case eAppletChatRoomClient:             return eMyIconChatRoomClient;
     case eAppletRandomConnectClient:	    return eMyIconSearchRandomConnect;
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
     case eAppletFriendListClient:	        return eMyIconFriendJoined;
     case eAppletGetStarted:                 return eMyIconInformation;
 
-    case eAppletGroupHostAdmin:	            return eMyIconClientGroup;
+    case eAppletGroupClient:                return eMyIconGroupClient;
+    case eAppletGroupHostAdmin:	            return eMyIconGroupClient;
 
-    case eAppletGroupJoin:                  return eMyIconClientGroup;
+    case eAppletGroupJoin:                  return eMyIconGroupClient;
     case eAppletGroupJoinSearch:	        return eMyIconSearchJoinGroup;
     case eAppletGroupListClient:	        return eMyIconGroupJoined;
     case eAppletGroupListLocalView:	        return eMyIconEyeAnnouncedGroups;
 
     case eAppletHomePage:				    return eMyIconHome;
-    case eAppletHostChatRoomAdmin:	        return eMyIconClientChatRoom;
+    case eAppletHostChatRoomAdmin:	        return eMyIconChatRoomClient;
     case eAppletHostChatRoomStatus:	        return eMyIconChatRoomInfo;
     case eAppletHostGroupStatus:	        return eMyIconGroupInfo;
     case eAppletHostNetworkStatus:	        return eMyIconNetworkInfo;
@@ -90,7 +91,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletNetHostingPage:             return eMyIconServiceHostNetwork;
     case eAppletNetworkSettings:	        return eMyIconNetworkSettings;
     case eAppletPersonalRecorder:		    return eMyIconNotepadNormal;
-    case eAppletRandomConnectJoin:	        return eMyIconClientRandomConnect;
+    case eAppletRandomConnectJoin:	        return eMyIconRandomConnectClient;
     case eAppletRandomConnectListLocalView:	return eMyIconEyeAnnouncedRandomConnect;
     case eAppletSettingsPage:		        return eMyIconSettingsGear;
    
@@ -236,9 +237,9 @@ QString DescribeApplet( EApplet applet )
     case eAppletChatRoomJoinSearch:			return QObject::tr( "Search For Chat Room To Join" );
     case eAppletChatRoomListLocalView:		return QObject::tr( "Chat Room Hosts Announced To Network" );
     case eAppletChooseThumbnail:		    return QObject::tr( "Choose Thumbnail" );
-    case eAppletClientChatRoom:		        return QObject::tr( "Chat Room" );
-    case eAppletRandomConnectClient:		return QObject::tr( "Connect With Random Person" );
-    case eAppletClientAvatarImage:          return QObject::tr( "Get Persons Avatar Image For Contact List" );
+    case eAppletChatRoomClient:		        return QObject::tr( "Chat Room" );
+    case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );
+    case eAppletAvatarImageClient:          return QObject::tr( "Get Persons Avatar Image For Contact List" );
     case eAppletCreateAccount:			    return QObject::tr( "Create Account" );
     case eAppletFriendListClient:	        return QObject::tr( "Friend List" );
     case eAppletGalleryEmoticon:			return QObject::tr( "Emoticon Gallery" );
@@ -246,6 +247,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletGalleryThumb:			    return QObject::tr( "Thumbnail Gallery" );
     case eAppletGetStarted:			        return QObject::tr( "Get Started" );
 
+    case eAppletGroupClient:                return QObject::tr( "Group Client" );
     case eAppletGroupHostAdmin:             return QObject::tr( "Group Host Admin" );
     case eAppletGroupJoin:                  return QObject::tr( "Join Group" );
     case eAppletGroupJoinSearch:			return QObject::tr( "Search For Group To Join" );

@@ -12,50 +12,48 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletChatRoomClient.h"
+#include "AppletGroupClient.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "MyIcons.h"
 
+#include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================
-AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
-: AppletClientBase( OBJNAME_APPLET_CHAT_ROOM_CLIENT, app, parent )
+AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
+: AppletClientBase( OBJNAME_APPLET_GROUP_CLIENT, app, parent )
 {
-	setAppletType( eAppletChatRoomClient );
-    setHostType( eHostTypeChatRoom );
-	ui.setupUi( getContentItemsFrame() );
+    setAppletType( eAppletGroupClient );
+    setHostType( eHostTypeGroup );
+    ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
-	setPluginType( ePluginTypeClientChatRoom );
+    setPluginType( ePluginTypeClientGroup );
 
-	manageUsers( ui.m_UserListWidget );
+    ui.m_SessionWidget->setAppModule( eAppModuleChatRoomClient );
+    ui.m_SessionWidget->setPluginType( ePluginTypeClientGroup );
 
-	ui.m_ChatRoomWidget->setAppModule( eAppModuleChatRoomClient );
-	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientChatRoom );
-	ui.m_ChatRoomWidget->setIdents( m_MyApp.getUserMgr().getMyIdent(), m_MyApp.getUserMgr().getMyIdent() );
-
-	connect( this,					SIGNAL(signalBackButtonClicked()),		this, SLOT(closeApplet()) );
-	connect( ui.m_UserListWidget,	SIGNAL(signalSetSessionVisible(bool)),	this, SLOT(slotSetSessionVisible(bool)) );
+    connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
+    connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
 
 	m_MyApp.activityStateChange( this, true );
 }
 
 //============================================================================
-AppletChatRoomClient::~AppletChatRoomClient()
+AppletGroupClient::~AppletGroupClient()
 {
     m_MyApp.activityStateChange( this, false );
 }
 
 //============================================================================
-void AppletChatRoomClient::slotSetSessionVisible( bool makeVisible )
+void AppletGroupClient::showEvent( QShowEvent* ev )
 {
-	ui.m_ChatRoomWidget->setVisible( makeVisible );
+    ActivityBase::showEvent( ev );
+    ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 }
 
 //============================================================================
-void AppletChatRoomClient::showEvent( QShowEvent* ev )
+void AppletGroupClient::slotSetSessionVisible( bool visible )
 {
-	AppletClientBase::showEvent( ev );
-	ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
+    ui.m_SessionWidget->setVisible( visible );
 }

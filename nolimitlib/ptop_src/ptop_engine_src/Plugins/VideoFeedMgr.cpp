@@ -93,7 +93,7 @@ void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule app
 	if( false == pluginIsLocked )
 	{ 
 		#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::fromGuiStopPluginSession sessions done\n" );
+        LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::fromGuiStopPluginSession sessions done" );
 		#endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.unlock(); 
 	}

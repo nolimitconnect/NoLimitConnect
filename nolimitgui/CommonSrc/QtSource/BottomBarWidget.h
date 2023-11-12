@@ -14,7 +14,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
+#include "GuiHostJoinCallback.h"
 
 #include "ui_BottomBarWidget.h"
 
@@ -24,7 +24,7 @@ class QLabel;
 class AppCommon;
 class MyIcons;
 
-class BottomBarWidget : public QWidget
+class BottomBarWidget : public QWidget, public GuiHostJoinCallback
 {
 	Q_OBJECT
 
@@ -35,6 +35,10 @@ public:
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
 	MyIcons&					getMyIcons( void );
     VxMenuButton *              getMenuButton( void );
+
+	virtual void				callbackJoinRequestCount( int requestCnt ) override;
+	virtual void				callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+	virtual void				callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
 
 	//=== bottom bar functions ===// 
 	virtual void				setPlayProgressPlayedTime( int timeSec );
@@ -109,7 +113,14 @@ protected slots:
 	virtual void				slotMenuBottomButtonClicked( void );
 	virtual void				slotExpandWindowButtonClicked( void );
 
+	virtual void				slotMessengerButtonClicked( void );
+	virtual void				slotGroupHostButtonClicked( void );
+	virtual void				slotChatRoomHostButtonClicked( void );
+	virtual void				slotRandomConnectHostButtonClicked( void );
+
 protected:
+	QWidget*				    getParentPageFrame( void ); // get home page frame ( Launch or Messenger Page )
+
 	Ui::BottomBarWidgetClass	ui;
 	AppCommon&					m_MyApp;
 };

@@ -157,12 +157,14 @@ enum EApplet
     eAppletPlayerPhoto,
     eAppletPlayerVideo,
 
-    eAppletClientAvatarImage,	    // get users avatar imaage from other user
-    eAppletClientChatRoom,	        // use chat room
-    eAppletClientConnectionTest,    // network test service for users to test if they have a open port
-    eAppletClientHostGroup,	        // hosts a group. provide search and relay services for group users
-    eAppletClientHostGroupListing,  // group listing host service for group hosts. provide search for groups to join, provide ip address etc
-    eAppletClientHostNetwork,       // network host service for a nolimitconnect network.. requires fixed ip address, group list hosts announce to network host
+    eAppletAvatarImageClient,	    // get users avatar imaage from other user
+
+    eAppletConnectionTestClient,    // network test service for users to test if they have a open port
+    eAppletHostGroupListingClient,  // group listing host service for group hosts. provide search for groups to join, provide ip address etc
+    eAppletHostNetworkClient,       // network host service for a nolimitconnect network.. requires fixed ip address, group list hosts announce to network host
+
+    eAppletGroupClient,	            // client of joined group host. provide search and relay services for group users
+    eAppletChatRoomClient,	        // use chat room
     eAppletRandomConnectClient,     // connect to random person relay service for users without a open port
 
     eAppletClientRelay,             // network relay service for users without a open port
@@ -201,7 +203,6 @@ enum EApplet
     eAppletTestHostService,
 
     eAppletLog,                     // logging window.. shown in other frame
-    // app icon easter egg appletes
     eAppletLogSettings,
     eAppletLogView,
 

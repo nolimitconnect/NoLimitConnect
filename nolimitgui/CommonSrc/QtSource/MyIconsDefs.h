@@ -78,9 +78,9 @@ enum EMyIcons
 	eMyIconFriendBroadcast,
 	eMyIconFriendJoined,
 
-    eMyIconClientChatRoom,
-    eMyIconClientGroup,
-    eMyIconClientRandomConnect,
+    eMyIconChatRoomClient,
+    eMyIconGroupClient,
+    eMyIconRandomConnectClient,
     eMyIconClientWebCam,
 
 	eMyIconProfile,

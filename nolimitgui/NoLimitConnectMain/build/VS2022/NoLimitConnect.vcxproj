@@ -217,6 +217,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryThumb.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGetStarted.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupHostAdmin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHackerList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomAdmin.cpp" />
@@ -424,8 +425,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ListWidgetBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\LogMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\LogWidget.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\MenuBase.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\MenuCam.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\MessengerPage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioBitrate.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.cpp" />
@@ -610,6 +609,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSocketList.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -772,8 +772,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\NetAvailStatusWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\MultiSessionState.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\MessengerPage.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\MenuCam.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\MenuBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\LogWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\LogMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\InstMsgWidget.h" />
@@ -974,6 +972,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryImage.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryThumb.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGetStarted.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletGroupClient.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGroupJoinSearch.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGroupListClient.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGroupListLocalView.ui" />

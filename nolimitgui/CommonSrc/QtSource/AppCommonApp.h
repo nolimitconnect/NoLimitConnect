@@ -16,8 +16,6 @@
 
 #include <QWidget> // must be declared first or linux Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
-#if !defined(SANDBOX_APP)
-
 #include "AppDefs.h"
 #include "AppGlobals.h"
 #include "CamLogic.h"
@@ -953,4 +951,4 @@ AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp );
 AppCommon& GetAppInstance( void );
 
 void DestroyAppInstance( );
-#endif // !defined(SANDBOX_APP)
+

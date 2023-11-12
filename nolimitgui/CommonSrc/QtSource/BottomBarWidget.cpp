@@ -15,8 +15,11 @@
 
 
 #include "BottomBarWidget.h"
-#include "MyIcons.h"
+
+#include "AppletMgr.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
+#include "MyIcons.h"
 
 //============================================================================
 BottomBarWidget::BottomBarWidget( QWidget* parent )
@@ -36,6 +39,16 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	ui.m_MediaRepeatButton->setFixedSize( eButtonSizeSmall );
 	ui.m_MenuBottomButton->setFixedSize( eButtonSizeSmall );
 	ui.m_ExpandButton->setFixedSize( eButtonSizeSmall );
+
+	ui.m_MessengerButton->setFixedSize( eButtonSizeSmall );
+    ui.m_GroupHostButton->setFixedSize( eButtonSizeSmall );
+	ui.m_ChatRoomButton->setFixedSize( eButtonSizeSmall );
+    ui.m_RandomConnectHostButton->setFixedSize( eButtonSizeSmall );
+
+	ui.m_MessengerButton->setIcon( eMyIconMessenger );
+	ui.m_GroupHostButton->setIcon( eMyIconGroupClient );
+	ui.m_ChatRoomButton->setIcon( eMyIconChatRoomClient );
+	ui.m_RandomConnectHostButton->setIcon( eMyIconRandomConnectClient );
 
 	setArrowLeftButtonIcon();
 	set30SecBackwardButtonIcon();
@@ -62,17 +75,22 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	setMenuBottomVisibility( false );
 	setExpandWindowVisibility( true );
 
-	connect( ui.m_ArrowLeftButton,			SIGNAL(clicked()),		this, SLOT(slotArrowLeftButtonClicked()) );
-	connect( ui.m_30SecBackButton,			SIGNAL( clicked() ),	this, SLOT( slot30SecBackwardButtonClicked() ) );
-	connect( ui.m_MediaPlayButton,			SIGNAL( clicked() ),	this, SLOT( slotMediaPlayButtonClicked() ) );
-	connect( ui.m_MediaTrashButton,			SIGNAL(clicked()),		this, SLOT(slotMediaTrashButtonClicked()) );
-	connect( ui.m_MediaFileShareButton,		SIGNAL(clicked()),		this, SLOT(slotMediaFileShareClicked()) );
-	connect( ui.m_MediaLibraryButton,		SIGNAL(clicked()),		this, SLOT(slotMediaLibraryButtonClicked()) );
-	connect( ui.m_30SecForwardButton,		SIGNAL(clicked()),		this, SLOT(slot30SecForwardButtonClicked()) );
-	connect( ui.m_ArrowRightButton,			SIGNAL( clicked() ), this, SLOT( slotArrowRightButtonClicked() ) );
-	connect( ui.m_MediaRepeatButton,		SIGNAL( clicked() ), this, SLOT( slotMediaRepeatButtonClicked() ) );
-	connect( ui.m_MenuBottomButton,			SIGNAL( clicked() ), this, SLOT( slotMenuBottomButtonClicked() ) );
-	connect( ui.m_ExpandButton,				SIGNAL( clicked() ), this, SLOT( slotExpandWindowButtonClicked() ) );
+	connect( ui.m_ArrowLeftButton,			SIGNAL(clicked()),	this, SLOT(slotArrowLeftButtonClicked()) );
+	connect( ui.m_30SecBackButton,			SIGNAL(clicked()),	this, SLOT(slot30SecBackwardButtonClicked()) );
+	connect( ui.m_MediaPlayButton,			SIGNAL(clicked()),	this, SLOT(slotMediaPlayButtonClicked()) );
+	connect( ui.m_MediaTrashButton,			SIGNAL(clicked()),	this, SLOT(slotMediaTrashButtonClicked()));
+	connect( ui.m_MediaFileShareButton,		SIGNAL(clicked()),	this, SLOT(slotMediaFileShareClicked()));
+	connect( ui.m_MediaLibraryButton,		SIGNAL(clicked()),	this, SLOT(slotMediaLibraryButtonClicked()) );
+	connect( ui.m_30SecForwardButton,		SIGNAL(clicked()),	this, SLOT(slot30SecForwardButtonClicked()) );
+	connect( ui.m_ArrowRightButton,			SIGNAL(clicked()),	this, SLOT(slotArrowRightButtonClicked()) );
+	connect( ui.m_MediaRepeatButton,		SIGNAL(clicked()),	this, SLOT(slotMediaRepeatButtonClicked()) );
+	connect( ui.m_MenuBottomButton,			SIGNAL(clicked()),	this, SLOT(slotMenuBottomButtonClicked()) );
+	connect( ui.m_ExpandButton,				SIGNAL(clicked()),	this, SLOT(slotExpandWindowButtonClicked()) );
+
+	connect( ui.m_MessengerButton,			SIGNAL(clicked()), this, SLOT(slotMessengerButtonClicked()) );
+	connect( ui.m_GroupHostButton,			SIGNAL(clicked()), this, SLOT(slotGroupHostButtonClicked()) );
+	connect( ui.m_ChatRoomButton,			SIGNAL(clicked()), this, SLOT(slotChatRoomHostButtonClicked()) );
+	connect( ui.m_RandomConnectHostButton,	SIGNAL(clicked()), this, SLOT(slotRandomConnectHostButtonClicked()) );
 }
 
 //============================================================================
@@ -96,18 +114,18 @@ void BottomBarWidget::setPlayProgressTotalTime( int timeSec )
 //============================================================================
 //=== bottom bar button visibility ===// 
 //============================================================================
-void BottomBarWidget::setPlayProgressBarVisibility( bool visible ) { ui.m_PlayProgressFrame->setVisible( visible ); }
-void BottomBarWidget::setArrowLeftVisibility( bool visible ){ ui.m_ArrowLeftButton->setVisible( visible ); }
-void BottomBarWidget::set30SecBackwardVisibility( bool visible ){ ui.m_30SecBackButton->setVisible( visible ); }
-void BottomBarWidget::setMediaPlayVisibility( bool visible ){ ui.m_MediaPlayButton->setVisible( visible ); }
-void BottomBarWidget::setMediaTrashVisibility( bool visible ){ ui.m_MediaTrashButton->setVisible( visible ); }
-void BottomBarWidget::setMediaFileShareVisibility( bool visible ){ ui.m_MediaFileShareButton->setVisible( visible ); }
-void BottomBarWidget::setMediaLibraryVisibility( bool visible ){ ui.m_MediaLibraryButton->setVisible( visible ); }
-void BottomBarWidget::set30SecForwardVisibility( bool visible ){ ui.m_30SecForwardButton->setVisible( visible ); }
-void BottomBarWidget::setArrowRightVisibility( bool visible ){ ui.m_ArrowRightButton->setVisible( visible ); }
-void BottomBarWidget::setMediaRepeatVisibility( bool visible ){ ui.m_MediaRepeatButton->setVisible( visible ); }
-void BottomBarWidget::setMenuBottomVisibility( bool visible ){ ui.m_MenuBottomButton->setVisible( visible ); }
-void BottomBarWidget::setExpandWindowVisibility( bool visible ){ ui.m_ExpandButton->setVisible( visible ); }
+void BottomBarWidget::setPlayProgressBarVisibility( bool visible )	{ ui.m_PlayProgressFrame->setVisible( visible ); }
+void BottomBarWidget::setArrowLeftVisibility( bool visible )		{ ui.m_ArrowLeftButton->setVisible( visible ); }
+void BottomBarWidget::set30SecBackwardVisibility( bool visible )	{ ui.m_30SecBackButton->setVisible( visible ); }
+void BottomBarWidget::setMediaPlayVisibility( bool visible )		{ ui.m_MediaPlayButton->setVisible( visible ); }
+void BottomBarWidget::setMediaTrashVisibility( bool visible )		{ ui.m_MediaTrashButton->setVisible( visible ); }
+void BottomBarWidget::setMediaFileShareVisibility( bool visible )	{ ui.m_MediaFileShareButton->setVisible( visible ); }
+void BottomBarWidget::setMediaLibraryVisibility( bool visible )		{ ui.m_MediaLibraryButton->setVisible( visible ); }
+void BottomBarWidget::set30SecForwardVisibility( bool visible )		{ ui.m_30SecForwardButton->setVisible( visible ); }
+void BottomBarWidget::setArrowRightVisibility( bool visible )		{ ui.m_ArrowRightButton->setVisible( visible ); }
+void BottomBarWidget::setMediaRepeatVisibility( bool visible )		{ ui.m_MediaRepeatButton->setVisible( visible ); }
+void BottomBarWidget::setMenuBottomVisibility( bool visible )		{ ui.m_MenuBottomButton->setVisible( visible ); }
+void BottomBarWidget::setExpandWindowVisibility( bool visible )		{ ui.m_ExpandButton->setVisible( visible ); }
 
 //============================================================================
 MyIcons&  BottomBarWidget::getMyIcons( void )
@@ -323,4 +341,53 @@ void BottomBarWidget::slotMenuBottomButtonClicked( void )
 void BottomBarWidget::slotExpandWindowButtonClicked( void )
 {
 	emit signalExpandWindowButtonClicked();
+}
+
+//============================================================================
+void BottomBarWidget::callbackJoinRequestCount( int requestCnt )
+{
+
+}
+
+//============================================================================
+void BottomBarWidget::callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
+{
+
+}
+
+//============================================================================
+void BottomBarWidget::callbackGuiHostJoinLeaveHost( GroupieId& groupieId )
+{
+
+}
+
+//============================================================================
+// get home page activity ( Launch or Messenger Page )
+QWidget* BottomBarWidget::getParentPageFrame( void )
+{
+    return GuiHelpers::getParentPageFrame( this );
+}
+
+//============================================================================
+void BottomBarWidget::slotMessengerButtonClicked( void )
+{
+	m_MyApp.getAppletMgr().launchApplet( eAppletMultiMessenger, getParentPageFrame() );
+}
+
+//============================================================================
+void BottomBarWidget::slotGroupHostButtonClicked( void )
+{
+	m_MyApp.getAppletMgr().launchApplet( eAppletGroupClient, getParentPageFrame() );
+}
+
+//============================================================================
+void BottomBarWidget::slotChatRoomHostButtonClicked( void )
+{
+	m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomClient, getParentPageFrame() );
+}
+
+//============================================================================
+void BottomBarWidget::slotRandomConnectHostButtonClicked( void )
+{
+	m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
 }
