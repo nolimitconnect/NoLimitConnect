@@ -198,6 +198,8 @@
 #define OBJNAME_APPLET_HACKER_LIST				        "AppletHackerList"
 #define OBJNAME_APPLET_SOCKET_LIST				        "AppletSocketList"
 
+#define OBJNAME_APPLET_USER_CONNECTIONS				    "AppletUserConnections"
+
 #define OBJNAME_FRAME_LAUNCH_PAGE						"FrameLaunchPage" // layout frame for launch page
 #define OBJNAME_FRAME_MESSAGER_PAGE						"FrameMessengerPage" // layout frame for messenger page
 #define OBJNAME_FILE_ACTION_MENU						"FileActionMenu"

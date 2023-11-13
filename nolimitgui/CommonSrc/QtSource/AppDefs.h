@@ -92,6 +92,7 @@ enum EApplet
     eAppletCamSettings,
     eAppletPermissionList,          // list of all users plugin permission levels
     eAppletTestAndDebug,
+    eAppletUserConnections,
     eAppletSocketList,
     eAppletHackerList,
 

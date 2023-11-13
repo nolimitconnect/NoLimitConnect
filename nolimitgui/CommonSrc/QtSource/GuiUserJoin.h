@@ -36,7 +36,7 @@ public:
 
     GuiUserJoinMgr&             getUserJoinMgr( void )                  { return m_UserJoinMgr; }
 
-    void                        setUser( GuiUser* guiUser )                { m_GuiUser = guiUser; }
+    void                        setUser( GuiUser* guiUser )             { m_GuiUser = guiUser; }
     GuiUser*                    getUser( void )                         { return m_GuiUser; }
 
     void                        setGroupieId( GroupieId& groupieId )    { m_GroupieId = groupieId; }

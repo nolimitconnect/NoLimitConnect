@@ -51,9 +51,9 @@ AppletHostJoinRequestList::AppletHostJoinRequestList( AppCommon& app,  QWidget* 
 	connect( ui.m_HostJoinRequestList, SIGNAL( signalAcceptButtonClicked( GuiHostJoinSession *, HostJoinRequestListItem * ) ), this, SLOT( slotAcceptButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ) );
 	connect( ui.m_HostJoinRequestList, SIGNAL( signalRejectButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ), this, SLOT( slotRejectButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ) );
 
-	connect( ui.m_RequestStateComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotJoinComboBoxSelectionChange( int ) ) );
-	connect( ui.m_InviteCreateButton, SIGNAL( clicked() ), this, SLOT( slotInviteCreateButtonClicked() ) );
-	connect( ui.m_InviteAcceptButton, SIGNAL( clicked() ), this, SLOT( slotInviteAcceptButtonClicked() ) );
+	connect( ui.m_RequestStateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotJoinComboBoxSelectionChange(int)) );
+	connect( ui.m_InviteCreateButton, SIGNAL(clicked()), this, SLOT(slotInviteCreateButtonClicked()) );
+	connect( ui.m_InviteAcceptButton, SIGNAL(clicked()), this, SLOT(slotInviteAcceptButtonClicked()) );
 
 	updateJoinList();
 

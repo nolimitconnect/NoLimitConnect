@@ -51,7 +51,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletPlayerCamClip:	            return eMyIconVideo;
     case eAppletPlayerPhoto:	            return eMyIconPhoto;
     case eAppletPlayerVideo:			    return eMyIconVideo;
-    case eAppletPlayerNlc:			        return eMyIconVlc;
+    case eAppletPlayerNlc:			        return eMyIconPlayerNlc;
 
     case eAppletChatRoomJoinSearch:	        return eMyIconSearchJoinChatRoom;
     case eAppletChatRoomJoin:	            return eMyIconChatRoomClient;
@@ -194,6 +194,8 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletSocketList:	                return eMyIconNetworking;
     case eAppletIsPortOpenTest:	            return eMyIconNetworking;
 
+    case eAppletUserConnections:	        return eMyIconUserConnections;
+
     // case eAppletStreamViewerVideo:		return eMyIconVideoStreamViewer;
     // case eAppletStreamViewerCam:		return eMyIconCamStreamViewer;
     // case eAppletStreamViewerMusic:		return eMyIconMusicStreamPlayer;
@@ -294,6 +296,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletTestHostService:			return QObject::tr( "Test Host Service" );
 	case eAppletTheme:					    return QObject::tr( "Theme" );
 
+    case eAppletUserConnections:			return QObject::tr( "User Connections" );
     case eAppletUserIdentity:			    return QObject::tr( "User Identity" );
     case eAppletUserPreferences:            return QObject::tr( "User Settings" );
 

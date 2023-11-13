@@ -316,6 +316,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestHostService.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTheme.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUploads.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppProfile.cpp" />
@@ -489,7 +490,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VlcWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppDisplay.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppStyle.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppTheme.cpp" />
@@ -610,6 +610,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -720,7 +721,6 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiUserUpdateInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\UserProfile.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VlcWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxAppStyle.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxResourceToRealFile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxTilePositioner.h" />
@@ -1033,6 +1033,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestHostService.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTheme.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUploads.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletUserConnections.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUserIdentity.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUserPreferences.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AssetFaceWidget.ui" />

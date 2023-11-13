@@ -448,7 +448,9 @@ enum EMyIcons
 
 	eMyIconNetworking,
 
-	eMyIconVlc,
+	eMyIconUserConnections,
+
+	eMyIconPlayerNlc,
 
 	eMaxMyIcon	// must be last
 };

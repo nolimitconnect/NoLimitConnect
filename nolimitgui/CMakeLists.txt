@@ -208,6 +208,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletTestHostService.h
     CommonSrc/QtSource/AppletTheme.h
     CommonSrc/QtSource/AppletUploads.h
+    CommonSrc/QtSource/AppletUserConnections.h
     CommonSrc/QtSource/AppletUserIdentity.h
     CommonSrc/QtSource/AppletUserPreferences.h
 	CommonSrc/QtSource/AppTranslate.h
@@ -595,6 +596,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletTestHostService.cpp
     CommonSrc/QtSource/AppletTheme.cpp
     CommonSrc/QtSource/AppletUploads.cpp
+    CommonSrc/QtSource/AppletUserConnections.cpp
     CommonSrc/QtSource/AppletUserIdentity.cpp
     CommonSrc/QtSource/AppletUserPreferences.cpp
     CommonSrc/QtSource/AppTranslate.cpp
@@ -893,6 +895,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletTestHostService.ui
     CommonSrc/Forms/AppletTheme.ui
     CommonSrc/Forms/AppletUploads.ui
+    CommonSrc/Forms/AppletUserConnections.ui
     CommonSrc/Forms/AppletUserIdentity.ui
     CommonSrc/Forms/AppletUserPreferences.ui
     CommonSrc/Forms/AssetFaceWidget.ui

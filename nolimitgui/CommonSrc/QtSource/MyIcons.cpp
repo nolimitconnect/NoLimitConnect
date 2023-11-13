@@ -863,8 +863,11 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconNetworking:
 		return ":/AppRes/Resources/networking.svg";
 
-	case eMyIconVlc:
+	case eMyIconPlayerNlc:
 		return ":/AppRes/Resources/player-media.svg";
+
+	case eMyIconUserConnections:
+		return ":/AppRes/Resources/user-connections.svg";
 
 	default:
 		return ":/AppRes/Resources/question-mark.svg";// Icon with question mark

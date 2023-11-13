@@ -36,7 +36,7 @@ public:
     bool                        removeUserJoin( GuiUserJoin* guiUserJoin );
     bool						removeUserJoin( VxGUID& thumbId );
 
-    GuiUserJoin*					findUserJoin( VxGUID& thumbId );
+    GuiUserJoin*				findUserJoin( VxGUID& thumbId );
 
 	// returns false if guid already exists
 	bool						addUserJoinIfDoesntExist( GuiUserJoin* guiUserJoin );
@@ -45,9 +45,9 @@ public:
 
 	void						clearList( void );
 
-	std::vector<GuiUserJoin*>&		getUserJoinList( void )					{ return m_UserJoinList; }
+	std::vector<GuiUserJoin*>&	getUserJoinList( void )					{ return m_UserJoinList; }
 	void						copyTo( GuiUserJoinList& destUserJoinList );
 
 protected:
-	std::vector<GuiUserJoin*>		m_UserJoinList;
+	std::vector<GuiUserJoin*>	m_UserJoinList;
 };

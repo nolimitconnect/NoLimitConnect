@@ -117,6 +117,10 @@ void UserOnlineMgr::announceUserOnlineAdded( User * userInfo, BaseSessionInfo& s
 	    {
 		    UserOnlineCallbackInterface * client = *iter;
 		    client->callbackUserOnlineAdded( userHostInfo );
+            if( sessionInfo.isValid() )
+            {
+                client->callbackUserSessionAdded( userHostInfo, sessionInfo );
+            }
 	    }
 
 	    unlockClientList();
@@ -140,6 +144,10 @@ void UserOnlineMgr::announceUserOnlineUpdated( User * userInfo, BaseSessionInfo&
         {
             UserOnlineCallbackInterface * client = *iter;
             client->callbackUserOnlineUpdated( userHostInfo );
+            if( sessionInfo.isValid() )
+            {
+                client->callbackUserSessionUpdated( userHostInfo, sessionInfo );
+            }
         }
 
         unlockClientList();
@@ -379,6 +387,5 @@ void UserOnlineMgr::onUserOffline( VxGUID& onlineId )
 
         unlockClientList();
         unlockResources();
-
     }
 }

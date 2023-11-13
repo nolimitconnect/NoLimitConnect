@@ -161,6 +161,7 @@
 #include "AppletFileShareServerViewMine.h"
 #include "AppletStoryboardServerViewMine.h"
 
+#include "AppletUserConnections.h"
 #include "AppletUserIdentity.h"
 #include "AppletUserPreferences.h"
 
@@ -497,6 +498,9 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletIsPortOpenTest:             if( launchAppletAllowed( eAppletIsPortOpenTest ) ) appletDialog = new AppletIsPortOpenTest( m_MyApp, parent ); break;
     case eAppletHackerList:                 if( launchAppletAllowed( eAppletHackerList ) ) appletDialog = new AppletHackerList( m_MyApp, parent ); break;
     case eAppletSocketList:                 if( launchAppletAllowed( eAppletSocketList ) ) appletDialog = new AppletSocketList( m_MyApp, parent ); break;
+
+    case eAppletUserConnections:            if( launchAppletAllowed( eAppletUserConnections ) ) appletDialog = new AppletUserConnections( m_MyApp, parent ); break;
+
 //	case eAppletPlayerMusic:
 //		m_MyApp.errMessageBox( appletMissingTitle, "MusicPlayer Not Implemented" );
 //		return;

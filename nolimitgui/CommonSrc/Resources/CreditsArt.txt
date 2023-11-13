@@ -132,7 +132,6 @@ persons-offer-list.svg (modified)
 pin-pinned.svg
 pin-unpinned.svg
 player-media.svg
-player-media-vlc.svg
 plugin.svg
 push-to-talk-off.svg 
 push-to-talk-on.svg (modified) 
@@ -168,6 +167,7 @@ thumbs-up.svg
 thumbs-down.svg (modified)
 unknown-person.svg (modified) 
 user-preferences.svg (modified) 
+user-connections.svg (modified) 
 video-chat-settings.svg (modified)
 window-expand.svg
 window-shrink.svg

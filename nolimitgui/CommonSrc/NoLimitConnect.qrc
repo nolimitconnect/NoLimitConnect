@@ -344,5 +344,6 @@
         <file>Resources/networking.svg</file>
         <file>Resources/player-media.svg</file>
         <file>Resources/offer-eye.svg</file>
+        <file>Resources/user-connections.svg</file>
     </qresource>
 </RCC>
