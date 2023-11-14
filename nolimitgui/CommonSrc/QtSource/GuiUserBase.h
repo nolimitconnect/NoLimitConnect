@@ -91,6 +91,8 @@ public:
     bool                        isChatRoomHosted( void )                { return m_HostSet.find( eHostTypeChatRoom ) != m_HostSet.end(); }
     bool                        isRandomConnectHosted( void )           { return m_HostSet.find( eHostTypeRandomConnect ) != m_HostSet.end(); }
 
+    QString				        describeHosts( void );
+
     bool                        isInSession( void );
 
     uint32_t                    getTruthCount( void )                   { return m_NetIdent.getTruthCount(); }
@@ -110,6 +112,8 @@ public:
     int                         hostTypeCount( void )                   { return m_HostSet.size(); }
 
     void						emitUserUpdated( void )                 { emit signalUserUpdated(); };
+
+    virtual QString             describeUser( bool verbose = false );
 
 signals:
     void						signalUserUpdated( void );

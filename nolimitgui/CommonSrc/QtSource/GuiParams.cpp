@@ -1341,6 +1341,45 @@ QString GuiParams::describePluginOffer( EPluginType pluginType )
 }
 
 //============================================================================
+QString GuiParams::describePushToTalkStatus( EPushToTalkStatus pushToTalkStatus )
+{
+    QString talkStatus;
+    switch( pushToTalkStatus )
+    {
+
+    case ePushToTalkStatusInvalid:
+        talkStatus = QObject::tr(" Invalid " );
+        break;
+
+    case ePushToTalkStatusNotActive:
+        talkStatus = QObject::tr( " Not Active " );
+        break;
+
+    case ePushToTalkStatusTxEnabled:
+        talkStatus = QObject::tr(" Tx Enabled " );
+        break;
+
+    case ePushToTalkStatusRxEnabled:
+        talkStatus = QObject::tr(" Rx Enabled " );
+        break;
+
+    case ePushToTalkStatusDuplexEnabled:
+        talkStatus = QObject::tr(" Duplex Enabled " );
+        break;
+
+    case ePushToTalStatuskNoConnection:
+        talkStatus = QObject::tr(" No Connection " );
+        break;
+
+    default:
+        talkStatus = QObject::tr("Unknown PushToTalkStatus");
+        LogMsg( LOG_ERROR, "GuiParams::describePushToTalkStatus: unrecognized state %d", pushToTalkStatus );
+    }
+
+    return talkStatus;
+}
+
+//============================================================================
 QString GuiParams::describeResponse( EOfferResponse offerResponse )
 {
     switch( offerResponse )

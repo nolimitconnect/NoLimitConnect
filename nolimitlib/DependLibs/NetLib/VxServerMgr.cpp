@@ -562,11 +562,12 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
             freeaddrinfo (ai);
         }
     }
-#endif // 0;
-    lclIp.clear();
-    useAddrInfoBind = false;
 
-    if( !useAddrInfoBind )
+    #endif // 0;
+    lclIp.clear();
+    useAddrInfoBind = true;
+
+    if( useAddrInfoBind )
     {
         struct sockaddr_storage sockAddr;
         socklen_t sockAddrLen = VxSktAddrInit( ipv6, sockAddr, lclIp, listenPort );
@@ -577,7 +578,7 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
         while( bindStatus < 0 )
         {
             retryCnt++;
-            if( retryCnt >= 3 )
+            if( retryCnt >= 2 )
             {
                 LogMsg( LOG_ERROR, "VxServerMgr::createListenSocket bind socket %d failed event after %d tries", listenSock, retryCnt );
                 break;
@@ -586,6 +587,8 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
             VxSleep( 1000 );
             bindStatus = bind( listenSock,  (struct sockaddr*)&sockAddr, sockAddrLen );
         }
+
+        VxSetSktAllowReuseAddress( listenSock );
     }
 
     if( m_pfnSktMgrStatus )

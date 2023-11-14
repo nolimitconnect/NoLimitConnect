@@ -761,8 +761,6 @@ bool VxSplitHostAndFile(	const char* pFullUrl,		// full url.. example http://www
 //============================================================================
 bool VxSetSktAllowReuseAddress( SOCKET skt )
 {
-	// on windows need to don't do this or will allow binding to a port that is in use
-	// on Linux this just lets you bind right after it has been released
     int reuseOpt = 1;
     if( setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, (char *)&reuseOpt, sizeof(reuseOpt)) < 0 )
 	{

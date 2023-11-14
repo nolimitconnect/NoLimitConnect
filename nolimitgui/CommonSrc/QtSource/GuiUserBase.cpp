@@ -201,3 +201,36 @@ void GuiUserBase::addHostType( EHostType hostType )
         m_HostSet.insert( hostType );
     }
 }
+
+//============================================================================
+QString GuiUserBase::describeHosts( void )
+{
+    QString hosts;
+    for( auto hostType : m_HostSet )
+    {
+        hosts += " ";
+        hosts += GuiParams::describeHostType( hostType );
+    }
+
+    return hosts;
+}
+
+//============================================================================
+QString GuiUserBase::describeUser( bool verbose )
+{
+    QString descUser( m_NetIdent.getOnlineName() );
+    descUser += " -> ";
+    descUser += describeMyFriendshipToHim( false );
+    descUser += " <- ";
+    descUser += describeHisFriendshipToMe( false );
+    if( verbose )
+    {
+        if( isHosted() )
+        {
+            descUser += " h(s) ";
+            descUser += describeHosts();
+        }
+    }
+
+    return descUser;
+}

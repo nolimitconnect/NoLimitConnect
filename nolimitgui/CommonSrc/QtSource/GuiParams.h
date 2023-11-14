@@ -102,6 +102,9 @@ public:
     static QString				describePluginType( EPluginType pluginType );
     static std::string			describePlugin( EPluginType pluginType, bool rmtInitiated );
     static QString				describePluginOffer( EPluginType pluginType );
+
+    static QString				describePushToTalkStatus( EPushToTalkStatus pushToTalkStatus );
+
     static QString				describeEXferState( EXferState xferState );
     static QString				describeEXferError( EXferError xferError );
     static QString				describeFileLength( uint64_t fileLen );
