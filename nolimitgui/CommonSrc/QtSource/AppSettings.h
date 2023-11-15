@@ -150,6 +150,12 @@ public:
 	void						setSendMicInToSpeaker( bool enable );
 	bool						getSendMicInToSpeaker( void );
 
+	void						setLastUserConnectionsConnectType( int comboIdx );
+	int							getLastUserConnectionsConnectType( void );
+
+	void						setLastUserConnectionsHostType( int comboIdx );
+	int							getLastUserConnectionsHostType( void );
+
 protected:
 	bool						appModeSettingsAreInitialize( void );
 	void						setupAppModeSettings( EDefaultAppMode appDefaultMode );

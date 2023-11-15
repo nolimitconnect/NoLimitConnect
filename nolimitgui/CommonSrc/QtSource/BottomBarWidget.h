@@ -118,6 +118,8 @@ protected slots:
 	virtual void				slotChatRoomHostButtonClicked( void );
 	virtual void				slotRandomConnectHostButtonClicked( void );
 
+	virtual void				slotSettingsButtonClicked( void );
+
 protected:
 	QWidget*				    getParentPageFrame( void ); // get home page frame ( Launch or Messenger Page )
 

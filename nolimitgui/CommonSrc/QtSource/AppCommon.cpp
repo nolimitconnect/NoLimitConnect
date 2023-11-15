@@ -201,11 +201,11 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 {
     g_AppCommon = this; // need a global instance that can accessed immediately with GetAppInstance() for objects created in ui files
 
-#if defined(TARGET_OS_LINUX)
+#if !defined(TARGET_OS_WINDOWS)
 	// make your application ignore SIGPIPE. that sometimes happens when socket connection is broken
 	// If you ignore the SIGPIPE signal, then the functions will return EPIPE erro
 	signal( SIGPIPE, SIG_IGN );
-#endif //  defined(TARGET_OS_LINUX)
+#endif // !defined(TARGET_OS_WINDOWS)
 
 	// set application short name used for directory paths
 	VxSetApplicationNameNoSpaces( m_AppShortName.toUtf8().constData() );

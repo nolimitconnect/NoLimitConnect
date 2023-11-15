@@ -39,6 +39,7 @@ public:
     EUserViewType               getUserViewType( void )                 { return m_ViewType; };
 
     void                        clearUserList( void );
+    void                        disconnectUserUpdates( void );
 
     void                        addSessionToList( EHostType hostType, VxGUID& sessionId, GuiUser* userIdent );
     GuiUserListItem*            addOrUpdateSession( GuiUserSessionBase* userSession );

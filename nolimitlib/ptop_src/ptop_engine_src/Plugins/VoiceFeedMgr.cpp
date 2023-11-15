@@ -60,113 +60,111 @@ void VoiceFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule app
 //============================================================================
 void VoiceFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, bool wantAudioCapture )
 {
-	if( enable != m_Enabled )
+	bool isMyself = ( netIdent->getMyOnlineId() == m_PluginMgr.getEngine().getMyOnlineId() ); 
+	if( enable )
 	{
-		m_Enabled = enable;
-		bool isMyself = ( netIdent->getMyOnlineId() == m_PluginMgr.getEngine().getMyOnlineId() ); 
-		if( enable )
+		if( m_GuidList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
 		{
-			if( m_GuidList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
+			m_Enabled = true;
+
+			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
 			{
-				if( ePluginTypeCamServer == m_Plugin.getPluginType() )
+				if( isMyself )
 				{
-					if( isMyself )
+					// web cam server.. need audio packets to send out but not mixer input
+					m_CamServerEnabled = true;
+					if( !m_AudioPktsRequested )
 					{
-						// web cam server.. need audio packets to send out but not mixer input
-						m_CamServerEnabled = true;
-						if( !m_AudioPktsRequested )
-						{
-							m_AudioPktsRequested = true;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
-						}
-					}
-					else
-					{
-						if( !m_MixerInputRequesed )
-						{
-							m_MixerInputRequesed = true;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, true );
-						}
+						m_AudioPktsRequested = true;
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
 					}
 				}
 				else
 				{
-					if( wantAudioCapture && !m_AudioPktsRequested )
-					{
-						//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
-						m_AudioPktsRequested = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
-					}
-
-					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
 					if( !m_MixerInputRequesed )
 					{
 						m_MixerInputRequesed = true;
 						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, true );
-						//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture done\n" );
 					}
 				}
 			}
 			else
 			{
-                LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", netIdent->getOnlineName() );
+				if( wantAudioCapture && !m_AudioPktsRequested )
+				{
+					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
+					m_AudioPktsRequested = true;
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
+				}
+
+				//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
+				if( !m_MixerInputRequesed )
+				{
+					m_MixerInputRequesed = true;
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, true );
+					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture done\n" );
+				}
 			}
 		}
 		else
 		{
-			if( m_GuidList.removeGuid( netIdent->getMyOnlineId() ) )
+            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", netIdent->getOnlineName() );
+		}
+	}
+	else
+	{
+		if( m_GuidList.removeGuid( netIdent->getMyOnlineId() ) )
+		{
+			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
 			{
-				if( ePluginTypeCamServer == m_Plugin.getPluginType() )
+				if( isMyself )
 				{
-					if( isMyself )
+					m_CamServerEnabled = false;
+					// web cam server.. need audio packets to send out but not mixer input
+					if( m_AudioPktsRequested && ( 0 == m_GuidList.size() ) )
 					{
-						m_CamServerEnabled = false;
-						// web cam server.. need audio packets to send out but not mixer input
-						if( m_AudioPktsRequested && ( 0 == m_GuidList.size() ) )
-						{
-							m_AudioPktsRequested = false;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, false );
-						}
-					}
-					else
-					{
-						if( m_MixerInputRequesed )
-						{
-							if(  ( 0 == m_GuidList.size() ) 
-								|| ( m_CamServerEnabled && ( 1 == m_GuidList.size() ) ) )
-							{
-								m_MixerInputRequesed = false;
-								m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, false );
-							}
-						}
+						m_AudioPktsRequested = false;
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, false );
 					}
 				}
 				else
 				{
-					if(  0 == m_GuidList.size() ) 
+					if( m_MixerInputRequesed )
 					{
-                        LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputAudioPkts %d", enable );
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, false );
-						m_AudioPktsRequested = false;
-                        LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputMixer %d", enable );
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, false );
-						m_MixerInputRequesed = false;
-                        LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false done" );
-					}
-					else
-					{
-                        LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", netIdent->getOnlineName() );
+						if(  ( 0 == m_GuidList.size() ) 
+							|| ( m_CamServerEnabled && ( 1 == m_GuidList.size() ) ) )
+						{
+							m_MixerInputRequesed = false;
+							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, false );
+						}
 					}
 				}
 			}
 			else
 			{
-                LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", netIdent->getOnlineName() );
+				if( 0 == m_GuidList.size() ) 
+				{
+					m_Enabled = false;
+
+                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputAudioPkts %d", enable );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, false );
+					m_AudioPktsRequested = false;
+                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputMixer %d", enable );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, false );
+					m_MixerInputRequesed = false;
+                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false done" );
+				}
+				else
+				{
+                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", netIdent->getOnlineName() );
+				}
 			}
 		}
+		else
+		{
+            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", netIdent->getOnlineName() );
+		}
 	}
-
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture %d done %s", enable, netIdent->getOnlineName() );
 }
 
 //============================================================================

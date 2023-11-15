@@ -45,10 +45,14 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	ui.m_ChatRoomButton->setFixedSize( eButtonSizeSmall );
     ui.m_RandomConnectHostButton->setFixedSize( eButtonSizeSmall );
 
+	ui.m_SettingsButton->setFixedSize( eButtonSizeSmall );
+
 	ui.m_MessengerButton->setIcon( eMyIconMessenger );
 	ui.m_GroupHostButton->setIcon( eMyIconGroupClient );
 	ui.m_ChatRoomButton->setIcon( eMyIconChatRoomClient );
 	ui.m_RandomConnectHostButton->setIcon( eMyIconRandomConnectClient );
+
+	ui.m_SettingsButton->setIcon( eMyIconSettingsGear );
 
 	setArrowLeftButtonIcon();
 	set30SecBackwardButtonIcon();
@@ -91,6 +95,8 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	connect( ui.m_GroupHostButton,			SIGNAL(clicked()), this, SLOT(slotGroupHostButtonClicked()) );
 	connect( ui.m_ChatRoomButton,			SIGNAL(clicked()), this, SLOT(slotChatRoomHostButtonClicked()) );
 	connect( ui.m_RandomConnectHostButton,	SIGNAL(clicked()), this, SLOT(slotRandomConnectHostButtonClicked()) );
+
+	connect( ui.m_SettingsButton,			SIGNAL(clicked()), this, SLOT(slotSettingsButtonClicked()) );
 }
 
 //============================================================================
@@ -390,4 +396,10 @@ void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 void BottomBarWidget::slotRandomConnectHostButtonClicked( void )
 {
 	m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
+}
+
+//============================================================================
+void BottomBarWidget::slotSettingsButtonClicked( void )
+{
+	m_MyApp.getAppletMgr().launchApplet( eAppletSettingsPage, getParentPageFrame() );
 }

@@ -73,6 +73,9 @@ VxSktBase::VxSktBase()
 	m_RmtIp.setToInvalid();
 
 	LogModule( eLogSkt, LOG_VERBOSE, "skt %d created", m_SktNumber );
+#if !defined(TARGET_OS_WINDOWS)
+	signal(SIGPIPE, SIG_IGN);
+#endif // !defined(TARGET_OS_WINDOWS)
 }
 
 //============================================================================
@@ -1055,6 +1058,10 @@ void VxSktBase::setLastSktError( RCODE rc )
 //============================================================================
 void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 {
+#if !defined(TARGET_OS_WINDOWS)
+	signal(SIGPIPE, SIG_IGN);
+#endif // !defined(TARGET_OS_WINDOWS)
+
 	VxThread* poVxThread = (VxThread*)pvContext;
 	VxSktBase* sktBase{ nullptr };
     if( !poVxThread->isAborted() )

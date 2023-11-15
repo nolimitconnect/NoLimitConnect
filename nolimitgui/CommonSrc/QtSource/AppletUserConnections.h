@@ -19,12 +19,23 @@
 #include "GuiUserJoinCallback.h"
 #include "GuiHostJoinCallback.h"
 
+enum EUpdateType
+{
+    eUpdateTypeUserAny,
+    eUpdateTypeClient,
+    eUpdateTypeHost,
+};
+
 class AppletUserConnections : public AppletClientBase, public GuiUserJoinCallback, public GuiHostJoinCallback
 {
 	Q_OBJECT
 public:
     AppletUserConnections( AppCommon& app, QWidget* parent );
 	virtual ~AppletUserConnections() override;
+
+    EHostType                   getSelectedHostType( void );
+    EConnectType                getSelectedConnectType( void );
+
 
 protected slots:
     void                        slotConnectTypeSelectionChange( int comboIdx );
@@ -62,6 +73,10 @@ protected:
     void				        callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
     void				        callbackGuiHostUnJoin( GroupieId& groupieId ) override;
     void				        callbackGuiHostJoinRemoved( GroupieId& groupieId ) override;
+
+
+    void                        refreshList( void );
+    void                        refreshUserList( bool directConnectOnly );
 
     //=== vars ===//
     Ui::AppletUserConnectionsUi	ui;

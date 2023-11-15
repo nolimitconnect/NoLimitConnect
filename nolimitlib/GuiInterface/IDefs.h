@@ -192,6 +192,17 @@ enum EConnectStatus
     eMaxConnectStatus
 };
 
+enum EConnectType
+{
+    eConnectTypeAny = 0,
+
+    eConnectTypeHost,
+    eConnectTypeClient,
+    eConnectTypeDirect,
+
+    eMaxConnectType
+};
+
 enum EContentRating
 {
     eContentRatingUnspecified = 0,
@@ -1277,6 +1288,7 @@ enum EXferAction
 const char* DescribeAppModule( enum EAppModule appModule );
 const char* DescribeAge( enum EAgeType ageType );
 const char* DescribeCommError( enum ECommErr commErr );
+
 const char* DescribeConnectReason( enum EConnectReason connectReason );
 bool         IsConnectReasonAnnounce( enum EConnectReason connectReason );
 bool         IsConnectReasonJoin( enum EConnectReason connectReason );
@@ -1284,6 +1296,8 @@ bool         IsConnectReasonLeave( enum EConnectReason connectReason );
 bool         IsConnectReasonUnJoin( enum EConnectReason connectReason );
 bool         IsConnectReasonSearch( enum EConnectReason connectReason );
 const char* DescribeConnectStatus( enum EConnectStatus connectStatus );
+const char* DescribeConnectType( enum EConnectType connectType );
+
 //! describe friend state
 const char* DescribeFriendState( enum EFriendState eFriendState );
 const char* DescribeGroupieViewType( enum EGroupieViewType groupieViewType );
@@ -1295,8 +1309,7 @@ const char* DescribeHostAnnounceStatus( enum EHostAnnounceStatus hostStatus );
 const char* DescribeHostJoinStatus( enum EHostJoinStatus hostStatus );
 //! Host search status as text
 const char* DescribeHostSearchStatus( enum EHostSearchStatus hostStatus );
-//! Host connection test state as text
-// const char* DescribeHostTestStatus( EHostTestStatus eHostStatus );
+
 //! Host type as text
 const char* DescribeHostType( enum EHostType hostType );
 

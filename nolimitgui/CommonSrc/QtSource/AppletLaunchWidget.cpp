@@ -51,12 +51,17 @@ void AppletLaunchWidget::slotAppletIconPressed( void )
         || ( eAppletPlayerCamClip == m_AppletType )
         || ( eAppletPlayerPhoto == m_AppletType )
         || ( eAppletPlayerVideo == m_AppletType )
-        || ( eAppletPlayerNlc == m_AppletType )
-//        || ( eAppletPlayerMusic == m_AppletType )
-//        
+        || ( eAppletPlayerNlc == m_AppletType )      
         )
     {
-        m_MyApp.launchApplet( m_AppletType, m_MyApp.getAppletFrame( m_AppletType ) );
+        if( eAppletUserConnections == m_AppletType )
+        {
+             m_MyApp.launchApplet( m_AppletType, m_AppletLaunchPage->getParentPageFrame() );
+        }
+        else
+        {
+            m_MyApp.launchApplet( m_AppletType, m_MyApp.getAppletFrame( m_AppletType ) );
+        }
     }
     else
     {

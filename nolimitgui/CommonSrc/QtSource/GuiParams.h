@@ -40,7 +40,7 @@ class GuiUser;
 class GuiParams
 {
 public:
-    GuiParams();
+    GuiParams() = default;
     virtual ~GuiParams() = default;
 
     static const int            MIN_TITLE_BAR_BUTTON_SIZE = 30;
@@ -82,6 +82,9 @@ public:
     static QString				describeAge( int age );
 
     static QString				describeCommError( ECommErr commErr );
+
+    static QString				describeConnectType( EConnectType connectType );
+
     static QString				describeContentCatagory( EContentCatagory content );
     static QString				describeContentRating( EContentRating content );
     static QString				describeFriendState( EFriendState eFriendState );

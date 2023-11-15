@@ -127,7 +127,7 @@ bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasCha
 //============================================================================
 bool VxConnectId::getIpAddress( bool ipv6, std::string& retString )
 {
-	if( ipv6 && m_IPv6OnlineIp.isValid() && VxCanConnectUsingIPv6() )
+	if( ipv6 && m_IPv6OnlineIp.isValid() )
 	{
 		retString = m_IPv6OnlineIp.toStdString();
 		return true;

@@ -50,11 +50,6 @@ int GuiParams::m_MediumPushButtonSize{ MEDIUM_PUSHBUTTON_SIZE };
 int GuiParams::m_LargePushButtonSize{ LARGE_PUSHBUTTON_SIZE };
 
 //============================================================================
-GuiParams::GuiParams()
-{
-}
-
-//============================================================================
 void GuiParams::initGuiParams(int defaultFontHeight)
 {
     m_DefaultFontHeight = defaultFontHeight;
@@ -2098,5 +2093,23 @@ QString GuiParams::describeOfferViewType( enum EOfferViewType offerViewType )
 
     default:
         return QObject::tr( "Unknown Offer View Type " );
+    }
+}
+
+//============================================================================
+QString GuiParams::describeConnectType( enum EConnectType connectType )
+{
+    switch( connectType )
+    {
+    case eConnectTypeAny:	
+        return QObject::tr( "Any Connection " );
+    case eConnectTypeHost:		
+        return QObject::tr( "Host Connection " );
+    case eConnectTypeClient:	
+        return QObject::tr( "Client Connection " );
+    case eConnectTypeDirect:		
+        return QObject::tr( "Direct Connection " );
+    default:
+        return QObject::tr( "Unknown Connect Type " );
     }
 }

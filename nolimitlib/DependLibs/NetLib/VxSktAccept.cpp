@@ -20,6 +20,10 @@
 
 #include <CoreLib/VxParse.h>
 
+#if !defined(TARGET_OS_WINDOWS)
+#include <sys/signal.h>
+#endif // !defined(TARGET_OS_WINDOWS)
+
 //============================================================================
 VxSktAccept::VxSktAccept()
 {
@@ -45,6 +49,10 @@ RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
         m_Socket = INVALID_SOCKET;
         return rc;
     }
+
+#if !defined(TARGET_OS_WINDOWS)
+    signal(SIGPIPE, SIG_IGN);
+#endif // !defined(TARGET_OS_WINDOWS)
 
 	m_strLclIp = m_LclIp.toStdString();
 	m_strRmtIp = m_RmtIp.toStdString();

@@ -101,11 +101,27 @@ void GuiUserListWidget::clearUserList( void )
     m_UserCache.clear();
     for( int i = 0; i < count(); ++i )
     {
-        QListWidgetItem* userItem = item( i );
-        delete ( ( GuiUserListItem* )userItem );
+        QListWidgetItem* listItem = item( i );
+        GuiUserListItem* userItem = dynamic_cast<GuiUserListItem*>(listItem);
+        if( userItem )
+        {
+            GuiUserSessionBase* userSession = userItem->getUserSession();
+            if( userSession )
+            {
+                userSession->deleteLater();
+            }
+
+            userItem->deleteLater();
+        }
     }
 
     clear();
+}
+
+//============================================================================
+void GuiUserListWidget::disconnectUserUpdates( void )
+{
+     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, false );
 }
 
 //============================================================================
@@ -140,8 +156,7 @@ GuiUserSessionBase* GuiUserListWidget::widgetToSession( GuiUserListItem * item )
 void GuiUserListWidget::updateUser( GuiUser* guiUser )
 {
     if( guiUser )
-    {
-        
+    {       
         GuiUserSessionBase* userSession = nullptr;
         auto iter = m_UserCache.find( guiUser->getMyOnlineId() );
         if( iter == m_UserCache.end() )

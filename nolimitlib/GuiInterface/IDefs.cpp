@@ -756,11 +756,38 @@ const char* DescribeConnectStatus( enum  EConnectStatus eConnectStatus )
     return ConnectStatusEnumStrings[ eConnectStatus ];
 }
 
+//============================================================================
+const char* DescribeConnectType( enum EConnectType connectType )
+{
+    if( connectType < 0 || eMaxConnectType <= connectType )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( connectType )
+    {
+    case eConnectTypeAny:	
+        return "Any Connection ";
+    case eConnectTypeHost:		
+        return "Host Connection ";
+    case eConnectTypeClient:	
+        return "Client Connection ";
+    case eConnectTypeDirect:		
+        return "Direct Connection ";
+    default:
+        return "Unknown Connect Type ";
+    }
+}
 
 //============================================================================
 //! describe friend state
 const char* DescribeFriendState( enum EFriendState eFriendState )
 {
+    if( eFriendState < 0 || eFriendStateAdmin < eFriendState )
+    {
+        return ENUM_BAD_PARM;
+    }
+
     switch( eFriendState )
     {
     case eFriendStateAnonymous:	// anonymous user

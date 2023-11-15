@@ -211,19 +211,9 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 					m_VideoPktsRequested = false;
 					//LogMsg( LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoPkts false done %s\n", netIdent->getOnlineName() );
 				}
-				//else
-				//{
-				//	LogMsg( LOG_INFO, "VideoFeedMgr::enableCapture false GUID list not empty %s\n", netIdent->getOnlineName() );
-				//}
 			}
 		}
-		//else
-		//{
-  //          LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture false GUID not found %s", netIdent->getOnlineName() );
-		//}
 	}
-
-    LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture %d done %s", enable, netIdent->getOnlineName() );
 }
 
 //============================================================================
