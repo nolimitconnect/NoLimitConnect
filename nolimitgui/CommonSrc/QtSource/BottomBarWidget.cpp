@@ -13,7 +13,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "BottomBarWidget.h"
 
 #include "AppletMgr.h"

@@ -1611,3 +1611,4 @@ bool VxSktBase::isFatalSocketError( RCODE rc )
 {
 	return VxIsFatalSktError( rc );
 }
+
