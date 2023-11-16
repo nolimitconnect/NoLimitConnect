@@ -35,6 +35,7 @@
 #ifdef TARGET_OS_WINDOWS
 	#include "Mswsock.h"
 #else
+    #include <sys/signal.h>
 	#include <sys/ioctl.h>
 #endif // TARGET_OS_WINDOWS
 
@@ -1610,3 +1611,4 @@ bool VxSktBase::isFatalSocketError( RCODE rc )
 {
 	return VxIsFatalSktError( rc );
 }
+
