@@ -37,7 +37,7 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 {
 	ui.setupUi( this );
 
-    setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 4 );
+    setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
     ui.m_NoLimitAppButton->setFixedSize( eButtonSizeSmall );
     ui.m_PowerOffButton->setFixedSize( eButtonSizeSmall );
     ui.m_HomeButton->setFixedSize( eButtonSizeSmall );

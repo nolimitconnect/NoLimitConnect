@@ -672,20 +672,6 @@ void ActivityBase::repositionToParent( void )
 }
 
 //============================================================================
-//=== bottom bar functions ====//
-//============================================================================
-void ActivityBase::setPlayProgressPlayedTime( int timeSec )
-{
-	ui.m_BottomBarWidget->setPlayProgressPlayedTime( timeSec );
-}
-
-//============================================================================
-void ActivityBase::setPlayProgressTotalTime( int timeSec )
-{
-	ui.m_BottomBarWidget->setPlayProgressTotalTime( timeSec );
-}
-
-//============================================================================
 //=== title bar button visiblility ====//
 //============================================================================
 void ActivityBase::setPowerButtonVisibility( bool visible )
@@ -784,11 +770,6 @@ void ActivityBase::setBackButtonVisibility( bool visible )
 }
 
 //=== bottom bar button visibility ===// 
-//============================================================================
-void ActivityBase::setPlayProgressBarVisibility( bool visible )
-{
-	ui.m_BottomBarWidget->setPlayProgressBarVisibility( visible );
-}
 
 //============================================================================
 void ActivityBase::setArrowLeftVisibility( bool visible )

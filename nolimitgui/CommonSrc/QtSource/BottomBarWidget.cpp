@@ -23,11 +23,10 @@
 
 //============================================================================
 BottomBarWidget::BottomBarWidget( QWidget* parent )
-: QWidget( parent )
+: QFrame( parent )
 , m_MyApp( GetAppInstance() )
 {
-	ui.setupUi( this );
-	setFixedHeight( GuiParams::getButtonSize(eButtonSizeSmall).height() + 6 );
+    ui.setupUi( this );
 	ui.m_ArrowLeftButton->setFixedSize( eButtonSizeSmall );
 	ui.m_30SecBackButton->setFixedSize( eButtonSizeSmall );
 	ui.m_MediaPlayButton->setFixedSize( eButtonSizeSmall );
@@ -66,7 +65,6 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	setMenuBottomButtonIcon();
 	setExpandWindowButtonIcon();
 
-	setPlayProgressBarVisibility( false );
 	setArrowLeftVisibility( false );
 	set30SecBackwardVisibility( false );
 	setMediaPlayVisibility( false );
@@ -97,30 +95,13 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	connect( ui.m_RandomConnectHostButton,	SIGNAL(clicked()), this, SLOT(slotRandomConnectHostButtonClicked()) );
 
 	connect( ui.m_SettingsButton,			SIGNAL(clicked()), this, SLOT(slotSettingsButtonClicked()) );
-}
 
-//============================================================================
-BottomBarWidget::~BottomBarWidget()
-{
-}
-//============================================================================
-//=== bottom bar functions ===// 
-//============================================================================
-void BottomBarWidget::setPlayProgressPlayedTime( int timeSec )
-{
-	ui.m_PlayProgressBar->setValue( timeSec );
-}
-
-//============================================================================
-void BottomBarWidget::setPlayProgressTotalTime( int timeSec )
-{
-	ui.m_PlayProgressBar->setRange( 0, timeSec );
+    setFixedHeight( GuiParams::getButtonSize(eButtonSizeSmall).height() + 6 );
 }
 
 //============================================================================
 //=== bottom bar button visibility ===// 
 //============================================================================
-void BottomBarWidget::setPlayProgressBarVisibility( bool visible )	{ ui.m_PlayProgressFrame->setVisible( visible ); }
 void BottomBarWidget::setArrowLeftVisibility( bool visible )		{ ui.m_ArrowLeftButton->setVisible( visible ); }
 void BottomBarWidget::set30SecBackwardVisibility( bool visible )	{ ui.m_30SecBackButton->setVisible( visible ); }
 void BottomBarWidget::setMediaPlayVisibility( bool visible )		{ ui.m_MediaPlayButton->setVisible( visible ); }

@@ -139,10 +139,6 @@ public:
 	void						setTitleStatusBarMsg( QString statusMsg );
 	QLabel *					getTitleStatusBarLabel( void );
 
-	//=== bottom bar functions ====//
-	virtual void				setPlayProgressPlayedTime( int timeSec );
-	virtual void				setPlayProgressTotalTime( int timeSec );
-
 	//=== title bar button visiblility ====//
 	void						setPowerButtonVisibility( bool visible );
 	void						setHomeButtonVisibility( bool visible );
@@ -160,8 +156,8 @@ public:
 	void						setMenuTopButtonVisibility( bool visible );
 	void						setMenuListButtonVisibility( bool visible );
 	void						setBackButtonVisibility( bool visible );
+
 	//=== bottom bar button visibility ===// 
-	void						setPlayProgressBarVisibility( bool visible );
 	void						setArrowLeftVisibility( bool visible );
 	void						set30SecBackwardVisibility( bool visible );
 	void						setMediaPlayVisibility( bool visible );

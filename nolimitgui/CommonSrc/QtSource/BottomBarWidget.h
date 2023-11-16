@@ -14,6 +14,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QFrame>
+
 #include "GuiHostJoinCallback.h"
 
 #include "ui_BottomBarWidget.h"
@@ -24,13 +26,13 @@ class QLabel;
 class AppCommon;
 class MyIcons;
 
-class BottomBarWidget : public QWidget, public GuiHostJoinCallback
+class BottomBarWidget : public QFrame, public GuiHostJoinCallback
 {
 	Q_OBJECT
 
 public:
 	BottomBarWidget( QWidget* parent = nullptr );
-	virtual ~BottomBarWidget();
+	virtual ~BottomBarWidget() {};
 
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
 	MyIcons&					getMyIcons( void );
@@ -40,12 +42,7 @@ public:
 	virtual void				callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
 	virtual void				callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
 
-	//=== bottom bar functions ===// 
-	virtual void				setPlayProgressPlayedTime( int timeSec );
-	virtual void				setPlayProgressTotalTime( int timeSec );
-
 	//=== bottom bar button visibility ===// 
-	void						setPlayProgressBarVisibility( bool visible );
 	void						setArrowLeftVisibility( bool visible );
 	void						set30SecBackwardVisibility( bool visible );
 	void						setMediaPlayVisibility( bool visible );
