@@ -525,7 +525,7 @@ public:
     virtual void				fromGuiRefreshContactList( int maxContactsToSend );
 
     virtual void				fromGuiRequireRelay( bool bRequireRelay );
-    virtual void				fromGuiUseRelay( VxGUID& onlineId, bool bUseAsRelay = true );
+
     virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount );
 
     virtual void				fromGuiStartScan( EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern = "" );

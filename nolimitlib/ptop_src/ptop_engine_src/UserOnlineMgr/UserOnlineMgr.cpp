@@ -351,6 +351,21 @@ User* UserOnlineMgr::findUser( VxGUID& onlineId )
 }
 
 //============================================================================
+bool UserOnlineMgr::isUserOnline( VxGUID& onlineId )
+{
+    bool isOnline{ false };
+    lockResources();
+    User* user = findUser( onlineId );
+    if( user )
+    {
+        isOnline = true;
+    }
+
+    unlockResources();
+    return isOnline;
+}
+
+//============================================================================
 void UserOnlineMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
     // TODO BRJ handle disconnect

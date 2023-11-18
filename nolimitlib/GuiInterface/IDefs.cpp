@@ -1662,7 +1662,7 @@ bool IsPluginARelayForUser( enum EPluginType pluginType )
 
 //============================================================================
 //! return true if host can act as relay for user
-bool IsHostARelayForUser( enum EHostType hostType )
+bool IsHostARelayForUsers( enum EHostType hostType )
 {
     return eHostTypeGroup == hostType ||
         eHostTypeChatRoom == hostType ||

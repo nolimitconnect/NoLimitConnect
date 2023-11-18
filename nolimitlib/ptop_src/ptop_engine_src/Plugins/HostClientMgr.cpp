@@ -505,35 +505,34 @@ void HostClientMgr::onGroupRelayedUserAnnounce( GroupieId& groupieId, std::share
 //============================================================================
 void HostClientMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReq" );
-
+    LogModule( eLogPkt, LOG_ERROR, "HostClientMgr::onPktHostUserInfoReq" ); // should not recieve this.. should we do hack attempt?
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReq" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReq" );
 
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReply" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReply" );
 
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReq" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReq" );
 
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReply" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReply" );
     PktHostUserListReply* pktReply = (PktHostUserListReply*)pktHdr;
     if( pktReply->isValidPkt() )
     {
@@ -562,13 +561,13 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
 //============================================================================
 void HostClientMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReq" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReq" );
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReply" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReply" );
 }
 
 //============================================================================
@@ -634,7 +633,7 @@ void HostClientMgr::clearUserInfoRequests( void )
 //============================================================================
 void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReply" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserInfoReply" );
     PktHostUserInfoReply* pktReply = (PktHostUserInfoReply*)pktHdr;
     if( pktReply->isValidPkt() )
     {
@@ -651,7 +650,7 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
         bool readResult = pktAnn.extractFromBlob( blobEntry );
         if( readResult )
         {
-            announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), true );
+            announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), pktReply->getHostType() );
         }
 
         if( !userInfoReqListEmpty )
@@ -662,32 +661,50 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
 }
 
 //============================================================================
-void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, bool fromHostUserInfo )
+void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, EHostType hostType )
 {
-    if( fromHostUserInfo )
+    if( m_Engine.getMyOnlineId() == pktAnn->getMyOnlineId() )
+    {
+        LogMsg( LOG_VERBOSE, "HostClientMgr::announceUserInfo got myself.. ERROR ?" );
+        return;
+    }
+
+    if( m_Engine.getBigListMgr().isUserIgnored( pktAnn->getMyOnlineId() ) )
+    {
+        LogMsg( LOG_VERBOSE, "HostClientMgr::announceUserInfo ignored user %s %s", pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str() );
+        return;
+    }
+
+    if( IsHostARelayForUsers( hostType ) )
     {
         // this is someone not in our database so start with guest friendships because is a member of the host we joined to
-        pktAnn->setMyFriendshipToHim( eFriendStateGuest );
-        pktAnn->setHisFriendshipToMe( eFriendStateGuest );
     
         BigListInfo* bigListInfo = 0;
-        EPktAnnUpdateType updateType = m_Engine.getBigListMgr().updatePktAnn( pktAnn,				// announcement pkt received
-            &bigListInfo );		// return pointer to all we know about this contact
+        EPktAnnUpdateType updateType = m_Engine.getBigListMgr().updatePktAnn( pktAnn, &bigListInfo, hostType );		
         if( !bigListInfo || !bigListInfo->isValidNetIdent() )
         {
             LogMsg( LOG_ERROR, "HostClientMgr::announceUserInfo INVALID" );
             return;
         }
 
-        if( ePktAnnUpdateTypeIgnored == updateType )
+        if( !m_Engine.getUserOnlineMgr().isUserOnline( pktAnn->getMyOnlineId() ) )
         {
-            LogModule( eLogConnect, LOG_VERBOSE, "Ignoring %s ip %s id %s",
-                pktAnn->getOnlineName(),
-                sktBase->getRemoteIp().c_str(),
-                bigListInfo->getMyOnlineId().toHexString().c_str() );
-            return;
-        }
+            // we need to exchange PktAnn to get current friendship from peer user
+            // if possible connect directly
+            if( pktAnn->canDirectConnectToUser() )
+            {
+                std::shared_ptr<VxSktBase> sktBase;
+                VxGUID sessionId;
+                sessionId.initializeWithNewVxGUID();
 
+                m_Engine.getConnectionMgr().connectUsingTcp( pktAnn->getConnectInfo(), sktBase, sessionId );
+            }
+            else
+            {
+                // send our pkt ann through host to peer user and request response pkt ann
+                m_Engine.getConnectionMgr().sendMyPktAnnounce( pktAnn->getMyOnlineId(), sktBase, true, false, false );
+            }
+        }
 
         pktAnn = bigListInfo;
     }

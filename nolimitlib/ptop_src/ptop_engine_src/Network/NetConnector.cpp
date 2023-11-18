@@ -97,7 +97,7 @@ void NetConnector::netConnectorStartup( void )
 	m_NetConnectThread.abortThreadRun( true );
 	while( m_NetConnectThread.isThreadRunning() )
 	{
-		LogMsg( LOG_INFO, "NetConnector::startup waiting for old connect thread to die\n" );
+		LogMsg( LOG_INFO, "NetConnector::startup waiting for old connect thread to die" );
 		m_WaitForConnectWorkSemaphore.signal();
 		VxSleep( 200 );
 	}
@@ -111,13 +111,13 @@ void NetConnector::stayConnectedStartup( void )
 	m_StayConnectedThread.abortThreadRun( true );
 	while( m_StayConnectedThread.isThreadRunning() )
 	{
-		LogMsg( LOG_INFO, "NetConnector::startup waiting for stay connected thread to die\n" );
+		LogMsg( LOG_INFO, "NetConnector::startup waiting for stay connected thread to die" );
 		VxSleep( 200 );
 	}
 
 	m_StayConnectedThread.startThread( (VX_THREAD_FUNCTION_T)StayConnectedThreadFunction, this, "StayConnectedThread" ); 
 
-	//LogMsg( LOG_INFO, "NetConnector::startup done\n" );
+	//LogMsg( LOG_INFO, "NetConnector::startup done" );
 }
 
 //============================================================================
@@ -144,7 +144,7 @@ void NetConnector::stayConnectedShutdown( void )
 //{
 //	if( 0 == anchorList->m_EntryCount )
 //	{
-//		LogMsg( LOG_INFO, "handleAnnounceResults: no entries from anchor\n" );
+//		LogMsg( LOG_INFO, "handleAnnounceResults: no entries from anchor" );
 //	}
 //
 //	// the list is in time order.. do oldest to newest so newest replace oldest
@@ -304,13 +304,15 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 	ppoRetSkt.reset();
 	if( false == connectInfo.m_DirectConnectId.isVxGUIDValid() )
 	{
-		LogMsg( LOG_ERROR, "connectUsingTcp: User invalid online id\n" );
+		LogMsg( LOG_ERROR, "connectUsingTcp: User invalid online id" );
 		return false;
 	}
 
 	std::string strDirectConnectIp;
 	std::shared_ptr<VxSktBase> sktBase( nullptr );
 	bool requiresRelay = connectInfo.requiresRelay();
+
+	VxGUID peerOnlineId = connectInfo.getMyOnlineId();
 
 	if( ( connectInfo.getMyOnlineIPv4() == m_PktAnn.getMyOnlineIPv4() // uses same external ip
 		|| connectReason == eConnectReasonNearbyLan || eConnectReasonSameExternalIp == connectReason ) // on same lan network
@@ -332,15 +334,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 			requiresRelay = false;
 			ppoRetSkt = sktBase;
 
-			m_PktAnn.setAppAliveTimeSec( GetApplicationAliveSec() );
-			PktAnnounce pktAnn;
-			m_Engine.copyMyPktAnnounce( pktAnn );
-
-			pktAnn.setMyFriendshipToHim( eFriendStateGuest );
-			pktAnn.setHisFriendshipToMe( eFriendStateGuest );
-            pktAnn.setIsNearby( true );
-
-			return txPacket( connectInfo.getMyOnlineId(), sktBase, &pktAnn );
+			return sendMyPktAnnounce( peerOnlineId, sktBase, true, false, false );
 		}
 		else
 		{
@@ -351,10 +345,8 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 		}
 	}
 
-	std::string debugClientOnlineId;
-	connectInfo.getMyOnlineId(debugClientOnlineId);
 	LogModule( eLogConnect, LOG_VERBOSE, "connectUsingTcp %s id %s ip %s", connectInfo.getOnlineName(),
-				debugClientOnlineId.c_str(), strDirectConnectIp.c_str() );
+				peerOnlineId.toOnlineIdString().c_str(), strDirectConnectIp.c_str());
 
 	// verify proxy if proxy required
 	if( requiresRelay )
@@ -381,7 +373,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 #endif // DEBUG_CONNECTIONS
 		if( 0 == directConnectTo( connectInfo, sktBase, connectReason ) )
 		{
-			//LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: success\n" );
+			//LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: success" );
 			// direct connection success
 #ifdef DEBUG_CONNECTIONS
 			LogMsg( LOG_SKT, "connectUsingTcp: SUCCESS skt %d direct connect to %s ip %s port %d",
@@ -411,7 +403,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 	}
 
 #ifdef DEBUG_CONNECTIONS
-	//LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: returning skt 0x%x\n", *ppoRetSkt );
+	//LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: returning skt 0x%x", *ppoRetSkt );
 #endif // DEBUG_CONNECTIONS
 	if( ppoRetSkt )
 	{
@@ -444,9 +436,9 @@ bool NetConnector::tryIPv6Connect(	VxConnectInfo&				connectInfo,
 }
 
 //============================================================================-
-RCODE NetConnector::directConnectTo(	VxConnectInfo&		connectInfo,
-										std::shared_ptr<VxSktBase>&		ppoRetSkt,		// return pointer to socket if not null
-										EConnectReason		connectReason )
+RCODE NetConnector::directConnectTo(	VxConnectInfo&				connectInfo,
+										std::shared_ptr<VxSktBase>&	ppoRetSkt,		// return pointer to socket if not null
+										EConnectReason				connectReason )
 {
 	RCODE rc = -1;
 	ppoRetSkt.reset();
@@ -483,7 +475,7 @@ RCODE NetConnector::directConnectTo(	VxConnectInfo&		connectInfo,
 
 		if( false == sendMyPktAnnounce( connectInfo.getMyOnlineId(), sktBase, true ) )
 		{
-            LogModule( eLogConnect, LOG_DEBUG, "NetworkMgr::DirectConnectTo: connect failed sending announce" );
+            LogModule( eLogConnect, LOG_DEBUG, "NetConnector::DirectConnectTo: connect failed sending announce" );
 			return -1;
 		}
 
@@ -495,21 +487,21 @@ RCODE NetConnector::directConnectTo(	VxConnectInfo&		connectInfo,
 	}
 	else
 	{
-        LogModule( eLogConnect, LOG_DEBUG, "NetworkMgr::DirectConnectTo: failed to %s:%d", connectIpAddress.c_str(), connectInfo.getOnlinePort() );
+        LogModule( eLogConnect, LOG_DEBUG, "NetConnector::DirectConnectTo: failed to %s:%d", connectIpAddress.c_str(), connectInfo.getOnlinePort() );
 	}
 
-    LogModule( eLogConnect, LOG_DEBUG, "NetworkMgr::DirectConnectTo: done" );
+    LogModule( eLogConnect, LOG_DEBUG, "NetConnector::DirectConnectTo: done" );
 
 	return rc;
 }
 
 //============================================================================
 //! encrypt and send my PktAnnounce to someone of whom we have no recored except from anchor announce
-bool NetConnector::sendMyPktAnnounce(  VxGUID&				destinationId,
-									   std::shared_ptr<VxSktBase>&			sktBase, 
-									   bool					requestAnnReply,
-									   bool					requestReverseConnection,
-									   bool					requestSTUN )
+bool NetConnector::sendMyPktAnnounce(  VxGUID&						destinationId,
+									   std::shared_ptr<VxSktBase>&	sktBase, 
+									   bool							requestAnnReply,
+									   bool							requestReverseConnection,
+									   bool							requestSTUN )
 {
 	m_PktAnn.setAppAliveTimeSec( GetApplicationAliveSec() );
 	PktAnnounce pktAnn;
@@ -524,6 +516,11 @@ bool NetConnector::sendMyPktAnnounce(  VxGUID&				destinationId,
 
 	pktAnn.setMyFriendshipToHim( eMyFriendshipToHim );
 	pktAnn.setHisFriendshipToMe( eHisFriendshipToMe );
+
+	LogModule( eLogConnect, LOG_DEBUG, "NetConnector::sendMyPktAnnounce: my friendship %s his friendship %s id %s",
+			   DescribeFriendState( eMyFriendshipToHim ),
+			   DescribeFriendState( eMyFriendshipToHim ),
+			   destinationId.toOnlineIdString().c_str() );
 
 	return txPacket( destinationId, sktBase, &pktAnn );	
 }
@@ -596,9 +593,9 @@ void NetConnector::doStayConnectedThread( void )
 
 		if( 0 != friendList.size() )
 		{
-			//LogMsg( LOG_ERROR, "doStayConnected attempt lock\n" );
+			//LogMsg( LOG_ERROR, "doStayConnected attempt lock" );
 			poListMutex->lock();
-			//LogMsg( LOG_ERROR, "doStayConnected attempt lock success\n" );
+			//LogMsg( LOG_ERROR, "doStayConnected attempt lock success" );
 			iSize = (int)friendList.size();
 			if( iSize )
 			{
@@ -689,7 +686,7 @@ bool NetConnector::doConnectRequest( ConnectRequest& connectRequest, bool ignore
 	if( ( false == ignoreToSoonToConnectAgain )
 		&& connectRequest.isTooSoonToAttemptConnectAgain() )
 	{
-        LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: to soon to connect again %s\n", m_Engine.describeContact( connectRequest ).c_str() );
+        LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: to soon to connect again %s", m_Engine.describeContact( connectRequest ).c_str() );
 
 		return false;
 	}
@@ -706,7 +703,7 @@ bool NetConnector::doConnectRequest( ConnectRequest& connectRequest, bool ignore
 	if( m_Engine.connectToContact( connectInfo, retSktBase, isNewConnection, connectRequest.getConnectReason() ) )
 	{
 		// handle success connect
-        LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: success  %s\n", m_Engine.describeContact( connectInfo ).c_str() );
+        LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: success  %s", m_Engine.describeContact( connectInfo ).c_str() );
 
 		if( 0 == bigListInfo )
 		{
@@ -720,14 +717,14 @@ bool NetConnector::doConnectRequest( ConnectRequest& connectRequest, bool ignore
 		}
 		else
 		{
-            LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: No BigList for connected  %s\n", m_Engine.describeContact( connectInfo ).c_str() );
+            LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: No BigList for connected  %s", m_Engine.describeContact( connectInfo ).c_str() );
 		}
 
 		return true;
 	}
 
 	// handle fail connect
-    LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: connect fail  %s\n", m_Engine.describeContact( connectInfo ).c_str() );
+    LogModule( eLogConnect,  LOG_VERBOSE, "NetConnector::doConnectRequest: connect fail  %s", m_Engine.describeContact( connectInfo ).c_str() );
 
 	return false;
 }
@@ -776,31 +773,6 @@ void NetConnector::handleConnectSuccess( BigListInfo * bigListInfo, std::shared_
 //		handleConnectSuccess( bigListInfo, sktBase, isNewConnection, connectReason );
 //	}
 //}
-
-//============================================================================
-void NetConnector::closeIfAnnonymous( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo )
-{
-	bool isAnonymouse = true;
-	if( NULL == poInfo )
-	{
-		poInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
-	}
-
-	if( poInfo )
-	{
-		if( ( eFriendStateAnonymous < poInfo->getHisFriendshipToMe() )
-			|| poInfo->isMyPreferedRelay()
-			|| poInfo->isMyRelay() )
-		{
-			isAnonymouse = false;
-		}
-	}
-
-	if( isAnonymouse )
-	{
-		closeConnection( closeReason, onlineId, skt, poInfo );
-	}
-}
 
 //============================================================================
 void  NetConnector::closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo )

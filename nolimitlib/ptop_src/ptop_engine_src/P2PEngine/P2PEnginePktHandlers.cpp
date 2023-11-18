@@ -107,8 +107,8 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	// TODO validate if really nearby
 
 	BigListInfo * bigListInfo = 0;
-	EPktAnnUpdateType updateType = m_BigListMgr.updatePktAnn(	pkt,				// announcement pkt received
-																&bigListInfo );		// return pointer to all we know about this contact
+	EHostType hostType{ eHostTypeUnknown };
+	EPktAnnUpdateType updateType = m_BigListMgr.updatePktAnn( pkt, &bigListInfo, hostType );		
 	if( !bigListInfo->isValidNetIdent() )
 	{
 		LogMsg( LOG_ERROR, "PktAnnounce updatePktAnn INVALID" );
@@ -120,7 +120,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		LogModule( eLogConnect, LOG_VERBOSE, "Ignoring %s ip %s id %s",
 			pkt->getOnlineName(),
             sktBase->getRemoteIp().c_str(),
-			contactOnlineId.toHexString().c_str() );
+			contactOnlineId.toOnlineIdString().c_str() );
         // if is the first announce and ignored we can close the connection
         // if not first announce then was relayed through host and do not close the connection
         if( isFirstAnnounce )
@@ -132,7 +132,26 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
-    if( isFirstAnnounce && pkt->getIsPktAnnReplyRequested() )
+	if( !isFirstAnnounce )
+	{
+		if( sktBase->getIsPeerPktAnnSet() )
+		{
+			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s %s through relay %s %s ip %s",
+					   pkt->getOnlineName(),
+                       pkt->getMyOnlineId().toOnlineIdString().c_str(),
+                       sktBase->getPeerOnlineName().c_str(),
+					   sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
+					   sktBase->getRemoteIp().c_str() );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "P2PEngine::onPktAnnounce not first PktAnd and peer PktAnn not set ip %s",
+					sktBase->getRemoteIp().c_str() );
+			// what should we do here. Hacker attempt or bad programming?
+		}
+	}
+
+    if( pkt->getIsPktAnnReplyRequested() )
 	{
         LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s relay %d reply requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str(), pkt->requiresRelay() );
 		if( !m_NetConnector.sendMyPktAnnounce( pkt->getMyOnlineId(),
@@ -141,7 +160,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 				false,
 				false ) )
 		{
-			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::sendMyPktAnnounce failed to %s at %s reply requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str() );
+			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce failed to %s at %s reply requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str() );
 			sktBase->closeSkt( eSktClosePktAnnSendFail );
             getConnectList().onConnectionLost( sktBase );
 			return;

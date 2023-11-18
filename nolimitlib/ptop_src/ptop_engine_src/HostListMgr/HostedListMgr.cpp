@@ -437,6 +437,24 @@ bool HostedListMgr::updateIsFavorite( EHostType hostType, VxGUID& onlineId, bool
 }
 
 //============================================================================
+bool HostedListMgr::getIsFavorite( VxGUID& onlineId )
+{
+    bool result{ false };
+    lockList();
+    for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
+    {
+        if( iter->getHostOnlineId() == onlineId && iter->getIsFavorite() )
+        {
+            result = true;
+            break;
+        }
+    }
+
+    unlockList();
+    return result;
+}
+
+//============================================================================
 bool HostedListMgr::updateHostTitleAndDescription( EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxNetIdent* netIdent )
 {
     bool result{ false };

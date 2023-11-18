@@ -512,16 +512,6 @@ void NetworkStateMachine::fromGuiNetworkSettingsChanged( void )
 }
 
 //============================================================================
-void NetworkStateMachine::fromGuiUseRelay( VxConnectInfo& connectInfo, bool useRelay )
-{
-	std::vector< NetworkStateBase * >::iterator iter;
-	for( iter = m_NetworkStateList.begin(); iter != m_NetworkStateList.end(); ++iter )
-	{
-		(*iter)->fromGuiUseRelay( connectInfo, useRelay );
-	}
-}
-
-//============================================================================
 void NetworkStateMachine::onPktRelayServiceReply( std::shared_ptr<VxSktBase>& sktBase, PktRelayServiceReply * poPkt )
 {
 	m_CurNetworkState->onPktRelayServiceReply( sktBase, poPkt );

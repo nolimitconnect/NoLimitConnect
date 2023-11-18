@@ -46,8 +46,6 @@ public:
 	virtual void				fromGuiNetworkLost( void )									{};
     virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet ) { return eNetLayerStateUndefined; }
 
-	virtual void				fromGuiUseRelay( VxConnectInfo& connectInfo, bool useRelay ) {}; // so if searching for relay can try immediately 
-
 	virtual void				onPktRelayServiceReply( std::shared_ptr<VxSktBase>& sktBase, PktRelayServiceReply * pkt ) {};
 
 	virtual void				checkAndHandleNetworkEvents( void );

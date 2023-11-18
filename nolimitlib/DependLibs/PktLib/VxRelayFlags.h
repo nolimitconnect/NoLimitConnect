@@ -38,8 +38,6 @@ public:
 
 	void						setRequiresRelay( bool bRequiresRelay );
 	bool						requiresRelay( void );
-	void						setIsMyPreferedRelay( bool bRequiresRelay );
-	bool						isMyPreferedRelay( void );
 
 	//=== vars ===//
     uint8_t						m_u8RelayFlags{ 0 };

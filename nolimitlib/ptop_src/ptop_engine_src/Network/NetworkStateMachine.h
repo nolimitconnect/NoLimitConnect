@@ -80,7 +80,6 @@ public:
 	virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet );
 
 	void						fromGuiNetworkSettingsChanged( void );
-	void						fromGuiUseRelay( VxConnectInfo& connectInfo, bool useRelay ); // so if searching for relay can try immediately 
 
 	void						onOncePerHour( void );
 	void						onPktRelayServiceReply( std::shared_ptr<VxSktBase>& sktBase, PktRelayServiceReply* pkt );

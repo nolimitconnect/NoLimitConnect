@@ -604,7 +604,7 @@ bool HostJoinMgr::isUserJoinedToRelayHost( VxGUID& onlineId )
     for( auto hostPair : m_HostJoinInfoList )
     {
         GroupieId& groupieId = const_cast<GroupieId&>(hostPair.first);
-        if( groupieId.getUserOnlineId() == onlineId && IsHostARelayForUser( groupieId.getHostType() ) )
+        if( groupieId.getUserOnlineId() == onlineId && IsHostARelayForUsers( groupieId.getHostType() ) )
         {
             if( hostPair.second->getJoinState() == eJoinStateJoinWasGranted || hostPair.second->getJoinState() == eJoinStateJoinIsGranted )
             {

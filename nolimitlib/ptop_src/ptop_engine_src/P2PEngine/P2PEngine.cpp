@@ -287,18 +287,14 @@ bool P2PEngine::shouldInfoBeInDatabase( BigListInfo * poInfo )
 	}
 
 	EFriendState friendState =	poInfo->getMyFriendshipToHim();
-	if( poInfo->isMyRelay() 
-		|| poInfo->isMyPreferedRelay()
-		|| ( eFriendStateAnonymous != friendState ) )
+	if( eFriendStateGuest < friendState )
 	{
-		LogMsg( LOG_INFO, "%s belongs in database. is my proxy %d preferred proxy %d\n", 
-						poInfo->getOnlineName(), 
-						poInfo->isMyRelay(), 
-						poInfo->isMyPreferedRelay() );
+		LogMsg( LOG_INFO, "%s belongs in database. ", 
+						poInfo->getOnlineName() );
 		return true;
 	}
 
-	//LogMsg( LOG_INFO, "%s does not belong in database\n", poInfo->getOnlineName() );
+	//LogMsg( LOG_INFO, "%s does not belong in database", poInfo->getOnlineName() );
 	return false;
 }
 
@@ -316,7 +312,7 @@ void P2PEngine::onBigListInfoRestored( BigListInfo * poInfo )
 //============================================================================
 void P2PEngine::onBigListInfoDelete( BigListInfo * poInfo )
 {
-	LogMsg( LOG_INFO, "onBigListInfoDelete\n");
+	LogMsg( LOG_INFO, "onBigListInfoDelete");
 	poInfo->debugDumpIdent();
     getToGui().toGuiContactRemoved( poInfo->getConnectIdent().getMyOnlineId() );
 	if( poInfo->isMyRelay() )

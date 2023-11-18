@@ -364,18 +364,21 @@ EHostType HostBaseMgr::connectReasonToHostType( EConnectReason connectReason )
     case eConnectReasonGroupJoin:
     case eConnectReasonGroupLeave:
     case eConnectReasonGroupUnJoin:
+    case eConnectReasonGroupUserConnect:
         hostType = eHostTypeGroup;
         break;
 
     case eConnectReasonChatRoomJoin:
     case eConnectReasonChatRoomLeave:
     case eConnectReasonChatRoomUnJoin:
+    case eConnectReasonChatRoomUserConnect:
         hostType = eHostTypeChatRoom;
         break;
 
     case eConnectReasonRandomConnectJoin:
     case eConnectReasonRandomConnectLeave:
     case eConnectReasonRandomConnectUnJoin:
+    case eConnectReasonRandomConnectUserConnect:
         hostType = eHostTypeRandomConnect;
         break;
 

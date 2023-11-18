@@ -992,19 +992,6 @@ void P2PEngine::fromGuiRequireRelay( bool bRequireRelay )
 }
 
 //============================================================================
-//! request proxy service from this contact
-void P2PEngine::fromGuiUseRelay( VxGUID& oOnlineId, bool bUseAsRelay ) 
-{
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiUseRelay" );
-	BigListInfo * poInfo = m_BigListMgr.findBigListInfo( oOnlineId );
-	if( poInfo )
-	{
-		poInfo->setIsMyPreferedRelay( bUseAsRelay );
-		m_BigListMgr.updateBigListDatabase( poInfo, getNetworkMgr().getNetworkKey() );
-	}
-}
-
-//============================================================================
 void P2PEngine::fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiRelayPermissionCount" );
@@ -1663,7 +1650,7 @@ bool P2PEngine::fromGuiQueryIdentity( GroupieInfo& groupieInfo, VxNetIdent& retN
     // see if we have connection to host.. if so request relay connection which is
     // really just send our PktAnnounce to other user using the host as a relay
     GroupieId myGroupieId(groupieInfo.getGroupieId());
-    if( IsHostARelayForUser(myGroupieId.getHostType()) && getMyOnlineId() != myGroupieId.getUserOnlineId())
+    if( IsHostARelayForUsers(myGroupieId.getHostType()) && getMyOnlineId() != myGroupieId.getUserOnlineId())
     {
         myGroupieId.setUserOnlineId(getMyOnlineId());
     }

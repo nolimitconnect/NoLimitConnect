@@ -76,7 +76,6 @@ ConnectionMgr::ConnectionMgr( P2PEngine& engine )
     : m_Engine( engine )
     , m_BigListMgr( engine.getBigListMgr() )
     , m_AllList( engine )
-    , m_PktAnn( engine.getMyPktAnnounce() )
     , m_PeerMgr( engine.getPeerMgr() )
 {
 }
@@ -783,7 +782,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
 
         LogModule( eLogTcpData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating rx key" );
 
-        GenerateRxConnectionKey( sktBase, &m_PktAnn.m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey() );
+        GenerateRxConnectionKey( sktBase, &m_Engine.getMyPktAnnounce().m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey() );
 
         LogModule( eLogTcpData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. sending announce" );
 
@@ -871,7 +870,7 @@ bool ConnectionMgr::connectToContact(	VxConnectInfo&		connectInfo,
 {
     bool gotConnected	= false;
     retIsNewConnection	 = false;
-    if( connectInfo.getMyOnlineId() == m_PktAnn.getMyOnlineId() )
+    if( connectInfo.getMyOnlineId() == m_Engine.getMyOnlineId() )
     {
         LogMsg( LOG_ERROR, "NetConnector::connectToContact: cannot connect to ourself" );  
         return false;
@@ -925,11 +924,11 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
 
     std::string strDirectConnectIp;
  
-    if( ( connectInfo.getMyOnlineIPv4() == m_PktAnn.getMyOnlineIPv4() )
+    if( ( connectInfo.getMyOnlineIPv4() == m_Engine.getMyPktAnnounce().getMyOnlineIPv4())
         && connectInfo.getMyOnlineIPv4().isValid()
         && connectInfo.getLanIPv4().isValid() )
     {
-        if( connectInfo.getMyOnlinePort() == m_PktAnn.getMyOnlinePort() )
+        if( connectInfo.getMyOnlinePort() == m_Engine.getMyPktAnnounce().getMyOnlinePort() )
         {
             LogMsg( LOG_ERROR, "ERROR connectUsingTcp: attempting connect to our ip and port for different id %s", connectInfo.getOnlineName() );
             return false;
@@ -1037,7 +1036,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
 bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt )
 {
     bool connectSuccess = false;
-    if( m_PktAnn.getMyOnlineIPv6().isValid()
+    if( m_Engine.getMyPktAnnounce().getMyOnlineIPv6().isValid()
         && connectInfo.getMyOnlineIPv6().isValid() )
     {
         std::string ipv6;
@@ -1062,9 +1061,10 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
                                         bool				requestReverseConnection,
                                         bool				requestSTUN )
 {
-    m_PktAnn.setAppAliveTimeSec( GetApplicationAliveSec() );
     PktAnnounce pktAnn;
-    memcpy( &pktAnn, &m_PktAnn, sizeof(PktAnnounce) );
+    m_Engine.copyMyPktAnnounce(pktAnn);
+    pktAnn.setAppAliveTimeSec( GetApplicationAliveSec() );
+
     pktAnn.setIsPktAnnReplyRequested( requestAnnReply );
     pktAnn.setIsPktAnnRevConnectRequested( requestReverseConnection );
     pktAnn.setIsPktAnnStunRequested( requestSTUN );
@@ -1080,12 +1080,12 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
 }
 
 //============================================================================
-bool ConnectionMgr::txPacket(	VxGUID&				destinationId, 
-                                std::shared_ptr<VxSktBase>&			sktBase, 
-                                VxPktHdr*			poPkt )
+bool ConnectionMgr::txPacket(	VxGUID&				        destinationId, 
+                                std::shared_ptr<VxSktBase>&	sktBase, 
+                                VxPktHdr*			        poPkt )
 {
     bool bSendSuccess = false;
-    poPkt->setSrcOnlineId( m_PktAnn.getMyOnlineId() );
+    poPkt->setSrcOnlineId( m_Engine.getMyOnlineId() );
     vx_assert( poPkt->getPktType() == PKT_TYPE_ANNOUNCE );
 
     if( 0 == (poPkt->getPktLength() & 0xf ) )

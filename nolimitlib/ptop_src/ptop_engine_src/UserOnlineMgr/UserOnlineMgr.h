@@ -54,6 +54,7 @@ public:
     virtual void                onUserOffline( VxGUID& onlineId );
 
     User*                       findUser( VxGUID& onlineId );
+    bool                        isUserOnline( VxGUID& onlineId );
 
 protected:
     void				        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;

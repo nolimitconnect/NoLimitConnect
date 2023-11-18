@@ -58,6 +58,7 @@ public:
 
     void						setGroupieId( GroupieId& groupie )  { m_GroupieId = groupie; }
     GroupieId&                  getGroupieId( void )                { return m_GroupieId; }
+    EHostType                   getHostType( void )                 { return m_GroupieId.getHostType(); }
 
     void                        setCommError( enum ECommErr commError ) { m_CommError = ( uint8_t )commError; }
     ECommErr                    getCommError( void ) const          { return ( ECommErr )m_CommError; }

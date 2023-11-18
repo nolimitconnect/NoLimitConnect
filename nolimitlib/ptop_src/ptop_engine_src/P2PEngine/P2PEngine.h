@@ -316,7 +316,7 @@ public:
     virtual void				fromGuiRefreshContactList( int maxContactsToSend ) override;
 
     virtual void				fromGuiRequireRelay( bool bRequireRelay ) override;
-    virtual void				fromGuiUseRelay( VxGUID& onlineId, bool bUseAsRelay = true ) override;
+
     virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount );
 
     virtual void				fromGuiStartScan( EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern = "" ) override;

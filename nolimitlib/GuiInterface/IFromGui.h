@@ -273,8 +273,6 @@ public:
 
 	/// If true then network direct connect test failed and communication requires relay service from another node
 	virtual void				fromGuiRequireRelay( bool bRequireRelay ) = 0;
-	/// Set contact as preferred provider of relay service ( relay search will attempt relay service from this contact first ) 
-	virtual void				fromGuiUseRelay( VxGUID& onlineId, bool bUseAsRelay = true ) = 0;
 
 	//! Send to GUI all contacts for given view type selection
 	virtual void				fromGuiSendContactList( EFriendViewType eFriendView, int MaxContactsToSend ) = 0;

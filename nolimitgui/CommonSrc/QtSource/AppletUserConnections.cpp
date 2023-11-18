@@ -341,7 +341,7 @@ void AppletUserConnections::refreshList( void )
 			ui.m_UserListWidget->updateUser( user );
 		}
 	}
-	else
+	else if( eConnectTypeClient == connectType )
 	{
 		std::map<GroupieId, GuiUserJoin*> & hostJoinList = m_MyApp.getUserJoinMgr().getUserJoinList();
 		for( auto userJoinPair : hostJoinList )
@@ -349,6 +349,10 @@ void AppletUserConnections::refreshList( void )
 			GuiUser* user = userJoinPair.second->getUser();
 			ui.m_UserListWidget->updateUser( user );
 		}
+	}
+	else
+	{
+		refreshUserList( false );
 	}
 }
 

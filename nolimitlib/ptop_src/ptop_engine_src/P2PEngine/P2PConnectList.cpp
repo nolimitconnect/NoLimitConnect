@@ -324,13 +324,10 @@ void P2PConnectList::broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& guidList, bo
 		VxGUID&		destOnlineId = bigListInfo->getMyOnlineId();
 		if( guidList.addGuidIfDoesntExist( destOnlineId ) )
 		{
-			if( onlyIncludeMyContacts && !bigListInfo->isMyRelay() && !bigListInfo->isMyPreferedRelay() )
+			if( bigListInfo->getMyFriendshipToHim() < eFriendStateGuest )
 			{
-				if( bigListInfo->getMyFriendshipToHim() < eFriendStateGuest )
-				{
-					// anonymous or lower
-					continue;
-				}
+				// anonymous or lower
+				continue;
 			}
 
 			m_Engine.txSystemPkt( destOnlineId, connectInfo->m_SktBase, pkt );

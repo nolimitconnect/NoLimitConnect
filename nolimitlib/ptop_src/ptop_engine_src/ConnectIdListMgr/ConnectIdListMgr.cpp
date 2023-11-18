@@ -113,7 +113,7 @@ bool ConnectIdListMgr::isHosted( VxGUID& onlineId )
     for( auto& connectId : m_ConnectIdList )
     {
         ConnectId& noConstConnectId = const_cast< ConnectId& >( connectId );
-        if( noConstConnectId.getUserOnlineId() == onlineId && IsHostARelayForUser( noConstConnectId.getHostType() ) )
+        if( noConstConnectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( noConstConnectId.getHostType() ) )
         {
             isHosted = true;
             break;
@@ -125,7 +125,7 @@ bool ConnectIdListMgr::isHosted( VxGUID& onlineId )
         for( auto& connectId : m_RelayedIdList )
         {
             ConnectId& noConstConnectId = const_cast<ConnectId&>(connectId);
-            if( noConstConnectId.getUserOnlineId() == onlineId && IsHostARelayForUser( noConstConnectId.getHostType() ) )
+            if( noConstConnectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( noConstConnectId.getHostType() ) )
             {
                 isHosted = true;
                 break;
@@ -479,7 +479,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
     for( auto& connectIdConst : m_ConnectIdList )
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-        if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUser( connectId.getHostType() ) )
+        if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
         {
             sktBase = findSktBase( connectId.getSocketId() );
             if( sktBase )
@@ -494,7 +494,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
         for( auto& connectIdConst : m_RelayedIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-            if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUser( connectId.getHostType() ) )
+            if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
             {
                 sktBase = findSktBase( connectId.getSocketId() );
                 if( sktBase )
@@ -852,7 +852,7 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr
             for( auto& connectIdConst : m_ConnectIdList )
             {
                 ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-                if( IsHostARelayForUser( connectId.getHostType() ) )
+                if( IsHostARelayForUsers( connectId.getHostType() ) )
                 {
                     if( connectId.getHostedId().getHostOnlineId() == hostOnlineId )
                     {
@@ -910,7 +910,7 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
             for( auto& connectIdConst : m_ConnectIdList )
             {
                 ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-                if( connectId.getSocketId() == socketId && IsHostARelayForUser( connectId.getHostType() ) )
+                if( connectId.getSocketId() == socketId && IsHostARelayForUsers( connectId.getHostType() ) )
                 {
                     if( connectId.getHostedId().getHostOnlineId() == hostOnlineId )
                     {

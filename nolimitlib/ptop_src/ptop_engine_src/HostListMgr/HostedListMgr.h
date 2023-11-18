@@ -84,6 +84,8 @@ protected:
     void                        updateAndRequestInfoIfNeeded( bool ipv6, enum EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
     bool                        updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, bool isFavorite );
+    bool                        getIsFavorite( VxGUID& groupieOnlineId );
+
     bool                        updateLastConnected( enum EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime );
     bool                        updateLastJoined( enum EHostType hostType, VxGUID& onlineId, int64_t lastJoinedTime );
     bool                        updateHostTitleAndDescription( enum EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxNetIdent* netIdent = nullptr );

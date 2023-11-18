@@ -406,6 +406,24 @@ bool GroupieListMgr::updateIsFavorite( VxGUID& groupieOnlineId, VxGUID& hostOnli
 }
 
 //============================================================================
+bool GroupieListMgr::getIsFavorite( VxGUID& onlineId )
+{
+    bool result{ false };
+    lockList();
+    for( auto iter = m_GroupieInfoList.begin(); iter != m_GroupieInfoList.end(); ++iter)
+    {
+        if( iter->getHostOnlineId() == onlineId && iter->getIsFavorite() )
+        {
+            result = true;
+            break;
+        }
+    }
+
+    unlockList();
+    return result;
+}
+
+//============================================================================
 bool GroupieListMgr::updateGroupieUrlAndTitleAndDescription( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxNetIdent* netIdent )
 {
     bool result{ false };

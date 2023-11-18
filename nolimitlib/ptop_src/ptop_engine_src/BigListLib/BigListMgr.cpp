@@ -36,6 +36,24 @@
 #endif //_MSC_VER
 
 //============================================================================
+const char* DescribePktAnnUpdateType( EPktAnnUpdateType pktAnnUpdateType )
+{
+	switch( pktAnnUpdateType )
+	{
+	case ePktAnnUpdateTypeIgnored:
+		return "ePktAnnUpdateTypeIgnored";
+	case ePktAnnUpdateTypeNewContact:
+		return "ePktAnnUpdateTypeNewContact";
+	case ePktAnnUpdateTypeContactIsSame:
+		return "ePktAnnUpdateTypeContactIsSame";
+	case ePktAnnUpdateTypeContactChanged:
+		return "ePktAnnUpdateTypeContactChanged";
+	default:
+		return "PktAnnUpdate Type Unknown";
+	}
+}
+
+//============================================================================
 BigListMgr::BigListMgr( P2PEngine& engine )
 : BigListDb( engine, *this )
 {	
@@ -92,9 +110,7 @@ RCODE BigListMgr::updateBigListDatabase( BigListInfo * poInfo, const char* netwo
 }
 
 //============================================================================
-bool BigListMgr::getFriendships( VxGUID& hisOnlineId,
-	EFriendState& retMyFriendshipToHim,
-	EFriendState& retHisFriendshipToMe )
+bool BigListMgr::getFriendships( VxGUID& hisOnlineId, EFriendState& retMyFriendshipToHim, EFriendState& retHisFriendshipToMe )
 {
 	retMyFriendshipToHim = eFriendStateAnonymous;
 	retHisFriendshipToMe = eFriendStateAnonymous;
@@ -106,6 +122,19 @@ bool BigListMgr::getFriendships( VxGUID& hisOnlineId,
 		retMyFriendshipToHim = poInfo->getMyFriendshipToHim();
 		retHisFriendshipToMe = poInfo->getHisFriendshipToMe();
 		return true;
+	}
+
+	return false;
+}
+
+//============================================================================
+bool BigListMgr::isUserIgnored( VxGUID& hisOnlineId )
+{
+	EFriendState myFriendshipToHim{ eFriendStateAnonymous };
+	EFriendState hisFriendshipToMe{ eFriendStateAnonymous };
+	if( getFriendships( hisOnlineId, myFriendshipToHim, hisFriendshipToMe ) )
+	{
+		return myFriendshipToHim == eFriendStateIgnore;
 	}
 
 	return false;
@@ -128,102 +157,114 @@ bool BigListMgr::getOnlineName( VxGUID& hisOnlineId, std::string& onlineName )
 
 //============================================================================
 //! add a or update remote friend.. return true 
-EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,				// announcement pkt received
-											BigListInfo **		ppoRetInfo )				// return pointer to all we know about this contact
+EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,	
+											BigListInfo **		ppoRetInfo,
+											EHostType			hostType )	
 {
 	BigListAutoLock bigListAutoLock( *this );
 	EPktAnnUpdateType eUpdateType = ePktAnnUpdateTypeContactIsSame;
+	bool hostedUserUpdate = IsHostARelayForUsers( hostType ); // update is from host.. do not lower his friendship to you
+	bool isMySelf = poPktAnnIn->getMyOnlineId() == m_Engine.getMyOnlineId();
+	if( isMySelf )
+	{
+		poPktAnnIn->setMyFriendshipToHim( eFriendStateFriend );
+		poPktAnnIn->setHisFriendshipToMe( eFriendStateFriend );
+		LogMsg( LOG_WARNING, "updatePktAnn updating myself" );
+	}
+	else
+	{
+		LogMsg( LOG_WARNING, "updatePktAnn updating %s", poPktAnnIn->getOnlineName() );
+	}
 
 	BigListInfo * poInfo = findBigListInfo( poPktAnnIn->getMyOnlineId(), true );	// id of friend to look for
 	if( poInfo )
 	{
-		LogMsg( LOG_INFO, "Found BigListInfo for %s isMyRelay %d", poInfo->getOnlineName(),  poInfo->isMyRelay() );
-		// set flag in pkt announce so gui can read if is my proxy or not
-		poPktAnnIn->setIsMyPreferedRelay( poInfo->isMyRelay() );
+		if( !isMySelf )
+		{
+			if( poInfo->isIgnored() )
+			{
+				// ignore this person
+				poPktAnnIn->setMyFriendshipToHim( eFriendStateIgnore );
+				return ePktAnnUpdateTypeIgnored;
+			}
 
-		if( poInfo->isIgnored() )
-		{
-			// ignore this person
-			poPktAnnIn->setMyFriendshipToHim( eFriendStateIgnore );
-			return ePktAnnUpdateTypeIgnored;
-		}
+			poPktAnnIn->setLastSessionTimeMs( poInfo->getLastSessionTimeMs() );
+			// update permission levels to guest if needed
+			bool friendshipChanged = false;
+			if( hostedUserUpdate && poInfo->isAnonymous() )
+			{
+				poPktAnnIn->setMyFriendshipToHim( eFriendStateGuest );
+				poInfo->makeGuest();
+				updateVectorList( eFriendStateGuest, poInfo );
+				friendshipChanged = true;
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
+			else
+			{
+				poPktAnnIn->setMyFriendshipToHim( poInfo->getMyFriendshipToHim() );
+			}
 
-		poPktAnnIn->setLastSessionTimeMs( poInfo->getLastSessionTimeMs() );
-		// update permission levels to guest if needed
-		bool friendshipChanged = false;
-		if( poPktAnnIn->isGuest() && poInfo->isAnonymous() )
-		{
-			poPktAnnIn->setMyFriendshipToHim( eFriendStateGuest );
-			poInfo->makeGuest();
-			updateVectorList( eFriendStateGuest, poInfo );
-			friendshipChanged = true;
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
-		else
-		{
-			poPktAnnIn->setMyFriendshipToHim( poInfo->getMyFriendshipToHim() );
-		}
+			if( poPktAnnIn->getHisFriendshipToMe() != poInfo->getHisFriendshipToMe() )
+			{
+				poInfo->setHisFriendshipToMe( poPktAnnIn->getHisFriendshipToMe() );
+				friendshipChanged = true;
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
 
-		if( poPktAnnIn->getHisFriendshipToMe() != poInfo->getHisFriendshipToMe() )
-		{
-			poInfo->setHisFriendshipToMe( poPktAnnIn->getHisFriendshipToMe() );
-			friendshipChanged = true;
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
-
-		if( friendshipChanged )
-		{
-			GetPtoPEngine().toGuiContactHisFriendshipChange( poInfo );
-		}
+			if( friendshipChanged )
+			{
+				m_Engine.toGuiContactHisFriendshipChange( poInfo );
+			}
 
 
-        poPktAnnIn->getOnlineName()[ MAX_ONLINE_NAME_LEN - 1 ] = 0;
-		if( 0 != strcmp( poPktAnnIn->getOnlineName(), poInfo->getOnlineName() ) )
-		{
-			memcpy( poInfo->getOnlineName(), poPktAnnIn->getOnlineName(), MAX_ONLINE_NAME_LEN );
-			GetPtoPEngine().toGuiContactNameChange( poInfo );
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
+			poPktAnnIn->getOnlineName()[ MAX_ONLINE_NAME_LEN - 1 ] = 0;
+			if( 0 != strcmp( poPktAnnIn->getOnlineName(), poInfo->getOnlineName() ) )
+			{
+				memcpy( poInfo->getOnlineName(), poPktAnnIn->getOnlineName(), MAX_ONLINE_NAME_LEN );
+				m_Engine.toGuiContactNameChange( poInfo );
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
 
-		poPktAnnIn->getOnlineDescription()[ MAX_ONLINE_DESC_LEN - 1 ] = 0;
-		if( 0 != strcmp( poPktAnnIn->getOnlineDescription(), poInfo->getOnlineDescription() ) )
-		{
-			memcpy( poInfo->getOnlineDescription(), poPktAnnIn->getOnlineDescription(), MAX_ONLINE_DESC_LEN );
-			GetPtoPEngine().toGuiContactDescChange( poInfo );
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
+			poPktAnnIn->getOnlineDescription()[ MAX_ONLINE_DESC_LEN - 1 ] = 0;
+			if( 0 != strcmp( poPktAnnIn->getOnlineDescription(), poInfo->getOnlineDescription() ) )
+			{
+				memcpy( poInfo->getOnlineDescription(), poPktAnnIn->getOnlineDescription(), MAX_ONLINE_DESC_LEN );
+				m_Engine.toGuiContactDescChange( poInfo );
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
 
-		if( poPktAnnIn->getSearchFlags() != poInfo->getSearchFlags() )
-		{
-			poInfo->setSearchFlags( poPktAnnIn->getSearchFlags() );
-			GetPtoPEngine().toGuiContactSearchFlagsChange( poInfo );
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
+			if( poPktAnnIn->getSearchFlags() != poInfo->getSearchFlags() )
+			{
+				poInfo->setSearchFlags( poPktAnnIn->getSearchFlags() );
+				m_Engine.toGuiContactSearchFlagsChange( poInfo );
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
 
-		if( 0 != memcmp( poPktAnnIn->getPluginPermissions(), poInfo->getPluginPermissions(), PERMISSION_ARRAY_SIZE ) )
-		{
-			memcpy( poInfo->getPluginPermissions(), poPktAnnIn->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
-			GetPtoPEngine().toGuiPluginPermissionChange( poInfo );
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
+			if( 0 != memcmp( poPktAnnIn->getPluginPermissions(), poInfo->getPluginPermissions(), PERMISSION_ARRAY_SIZE ) )
+			{
+				memcpy( poInfo->getPluginPermissions(), poPktAnnIn->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
+				m_Engine.toGuiPluginPermissionChange( poInfo );
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
 
-		bool contactInfoChanged = false;
-		if( ( poPktAnnIn->m_DirectConnectId != poInfo->m_DirectConnectId ) ||
-			( poPktAnnIn->m_u8RelayFlags != poInfo->m_u8RelayFlags ) )
-		{
-			contactInfoChanged = true;
-			eUpdateType = ePktAnnUpdateTypeContactChanged;
-		}
+			bool contactInfoChanged = false;
+			if( ( poPktAnnIn->m_DirectConnectId != poInfo->m_DirectConnectId ) ||
+				( poPktAnnIn->m_u8RelayFlags != poInfo->m_u8RelayFlags ) )
+			{
+				contactInfoChanged = true;
+				eUpdateType = ePktAnnUpdateTypeContactChanged;
+			}
 
-		memcpy( poInfo, poPktAnnIn, sizeof( VxNetIdent ) );
-		if( contactInfoChanged )
-		{
-			GetPtoPEngine().toGuiContactConnectionChange( poInfo );
-		}
+			memcpy( poInfo, poPktAnnIn, sizeof( VxNetIdent ) );
+			if( contactInfoChanged )
+			{
+				m_Engine.toGuiContactConnectionChange( poInfo );
+			}
 
-		if( ePktAnnUpdateTypeContactIsSame != eUpdateType )
-		{
-			GetPtoPEngine().toGuiContactAnythingChange( poInfo );
+			if( ePktAnnUpdateTypeContactIsSame != eUpdateType )
+			{
+				m_Engine.toGuiContactAnythingChange( poInfo );
+			}
 		}
 	}
 	else
@@ -231,19 +272,24 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,				// ann
 		if( true == canAddFriend() )
 		{
 			// new friend
-			poPktAnnIn->setMyFriendshipToHim( eFriendStateAnonymous );
+			if( !isMySelf )
+			{
+				poPktAnnIn->setMyFriendshipToHim( eFriendStateAnonymous );
+			}
+
 			poInfo = new BigListInfo();
 			memcpy( poInfo, poPktAnnIn, sizeof( PktAnnounce ) );
 			//LogMsg( LOG_INFO, "BigListMgr::updatePktAnn: new contact %s Hi 0x%llX, Lo 0x%llX\n", poInfo->getOnlineName(), poInfo->getMyOnlineId().getVxGUIDHiPart(), poInfo->getMyOnlineId().getVxGUIDLoPart() );
 			poInfo->setIsConnected( true );
 			bigInsertInfo( poInfo->getMyOnlineId(), poInfo, true );
-			updateBigListDatabase( poInfo, GetPtoPEngine().getNetworkMgr().getNetworkKey() );
+			updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey() );
+
 			//! notify new contact found
 			eUpdateType = ePktAnnUpdateTypeNewContact;
 		}
 		else
 		{
-			LogMsg( LOG_INFO, "Could not add %s to BigList\n", poPktAnnIn->getOnlineName() );
+			LogMsg( LOG_ERROR, "Could not add %s to BigList", poPktAnnIn->getOnlineName() );
 			eUpdateType = ePktAnnUpdateTypeIgnored;
 		}
 	}
@@ -251,6 +297,11 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,				// ann
 	if( ppoRetInfo )
 	{
 		*ppoRetInfo = poInfo;
+	}
+
+	if( ePktAnnUpdateTypeContactIsSame != eUpdateType )
+	{
+		LogMsg( LOG_DEBUG, "Update BigListInfo %s for %s", DescribePktAnnUpdateType( eUpdateType ),  poInfo->getOnlineName() );
 	}
 
 	return eUpdateType;
@@ -308,7 +359,7 @@ RCODE BigListMgr::FillAnnList(	PktAnnList * poPktAnnList,
 			{
 			
 				if( ( false == bIncludeThisNode ) 
-					&& ( GetPtoPEngine().getMyPktAnnounce().getMyOnlineId() == poInfo->getMyOnlineId() ) )
+					&& ( m_Engine.getMyPktAnnounce().getMyOnlineId() == poInfo->getMyOnlineId() ) )
 				{
 					// don't include ourself
 					continue;

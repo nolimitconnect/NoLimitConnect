@@ -489,12 +489,6 @@ void INlc::fromGuiRequireRelay( bool bRequireRelay )
 }
 
 //============================================================================
-void INlc::fromGuiUseRelay( VxGUID& oOnlineId, bool bUseAsRelay )
-{
-    getPtoP().fromGuiUseRelay( oOnlineId, bUseAsRelay );
-}
-
-//============================================================================
 void INlc::fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount )
 {
     getPtoP().fromGuiRelayPermissionCount( userPermittedCount, anonymousCount );

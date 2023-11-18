@@ -26,7 +26,7 @@
 
 namespace
 {
-    const int64_t           g_u64NearbyUdpTimeoutMs       = 60000;		// if haven't received udp broadcast in these milli seconds then user is no longer nearby
+    const int64_t           g_u64NearbyUdpTimeoutMs       = 60000;	// if haven't received udp broadcast in these milli seconds then user is no longer nearby
     const int64_t           g_u64OnlineStatusTimeoutMs    = 600000;	// if haven't had udp or tcp activity in these milli seconds then user is no longer online
 }
 
@@ -383,16 +383,20 @@ bool PktAnnounce::isOnlineStatusExpired( void )
 //! determine if udp timeout has expired ( used for guest permissions and nearby status )
 bool PktAnnounce::isNearbyStatusExpired( void )
 {
+#if ENABLE_COMPONENT_NEARBY
 	if( g_u64NearbyUdpTimeoutMs <= ( GetGmtTimeMs() - getTimeLastTcpContactMs() ) )
 	{
 		return true;
 	}
+#endif // ENABLE_COMPONENT_NEARBY
+
 	return false;
 }
 //============================================================================
 //! if nearby then make permissions at least guest
 void PktAnnounce::updateNearbyPermissions( void )
 {
+#if ENABLE_COMPONENT_NEARBY
 	if( false == isNearbyStatusExpired() )
 	{
 		if( false == isIgnored() )
@@ -407,6 +411,7 @@ void PktAnnounce::updateNearbyPermissions( void )
 			}
 		}
 	}
+#endif // ENABLE_COMPONENT_NEARBY
 }
 
 //============================================================================

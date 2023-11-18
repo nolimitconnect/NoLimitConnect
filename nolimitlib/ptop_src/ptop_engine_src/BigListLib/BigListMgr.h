@@ -14,8 +14,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
 #include "BigListDb.h"
+
+#include <GuiInterface/IDefs.h>
 
 class IToGui;
 class P2PEngine;
@@ -30,6 +31,8 @@ enum EPktAnnUpdateType
 	ePktAnnUpdateTypeContactIsSame,
 	ePktAnnUpdateTypeContactChanged,
 };
+
+const char* DescribePktAnnUpdateType( EPktAnnUpdateType pktAnnUpdateType );
 
 class P2PEngine;
 
@@ -48,11 +51,14 @@ public:
 	//=== add/remove functions ===//
 	//! add a or update remote friend
 	EPktAnnUpdateType			updatePktAnn(	PktAnnounce *	poPktAnn, 
-												BigListInfo **	ppoRetInfo = 0 );	// return pointer to all we know about this contact
+												BigListInfo **	ppoRetInfo,
+												EHostType		hostType );	
 
-	bool						getFriendships( 	VxGUID&		hisOnlineId,
-													EFriendState&	retMyFriendshipToHim,
-													EFriendState&	retHisFriendshipToMe );
+	bool						getFriendships( VxGUID&			hisOnlineId,
+												EFriendState&	retMyFriendshipToHim,
+												EFriendState&	retHisFriendshipToMe );
+	bool						isUserIgnored( VxGUID& hisOnlineId );
+
 	bool						getOnlineName( VxGUID& hisOnlineId, std::string& onlineName );
 	//! return true if can add friend to list
 	bool						canAddFriend( void );

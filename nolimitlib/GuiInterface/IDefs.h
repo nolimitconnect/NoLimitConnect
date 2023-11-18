@@ -1402,9 +1402,12 @@ bool IsAnnounceHostOrClientHostType( enum EHostType hostType );
 bool PluginShouldAnnounceToNetwork( enum EPluginType pluginType );
 //! return true if host should announce to network host
 bool HostShouldAnnounceToNetwork( enum EHostType hostType );
+
 //! return true if plugin can act as relay for user
 bool IsPluginARelayForUser( enum EPluginType pluginType );
+
 //! return true if host can act as relay for user
-bool IsHostARelayForUser( enum EHostType hostType );
+bool IsHostARelayForUsers( enum EHostType hostType ); // also used to determine if is hosted type Group, ChatRoom or RandomConnect
+
 //! return true if only one user can access at a time. example ePluginTypeVideoPhone
 bool IsPluginSingleSession( EPluginType pluginType );

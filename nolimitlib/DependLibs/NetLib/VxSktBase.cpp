@@ -935,6 +935,36 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
 		setLastSessionTimeMs( timestamp );
 	}
 
+	if( PKT_TYPE_ANNOUNCE == pktType )
+	{
+		PktAnnounce* pktAnn = (PktAnnounce*)pktHdr;
+		if( getIsPeerPktAnnSet() )
+		{
+			bool isAnnToPeer = pktHdr->getDestOnlineId() != getPeerOnlineId();
+			if( isAnnToPeer )
+			{
+				LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::txPacketWithDestId tx PktAnn %s to %s through relay %s %s", 
+						DescribeFriendState( pktAnn->getMyFriendshipToHim() ),
+						pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
+						getPeerOnlineName().c_str(),
+						getPeerOnlineId().toOnlineIdString().c_str() );
+			}
+			else
+			{
+				LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::txPacketWithDestId tx PktAnn %s to %s %s", 
+						DescribeFriendState( pktAnn->getMyFriendshipToHim() ),
+						getPeerOnlineName().c_str(),
+						getPeerOnlineId().toOnlineIdString().c_str() );
+			}
+		}
+		else
+		{
+			LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::txPacketWithDestId tx PktAnn %s to %s", 
+					DescribeFriendState( pktAnn->getMyFriendshipToHim() ),
+					pktHdr->getDestOnlineId().toOnlineIdString().c_str() );
+		}
+	}
+
 	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength(), bDisconnect );
 }
 

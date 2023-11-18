@@ -17,8 +17,6 @@
 
 #define RC_PROXY_FLAG_REQUIRES_PROXY			0x01	// user requires proxy to connect to him
 #define RC_PROXY_FLAG_HAS_PROXY					0x02	// user has at least one proxy that may be used to connect to him
-#define RC_PROXY_FLAG_IS_MY_PREFERED_PROXY		0x04	// user is a proxy for others
-#define RC_PROXY_FLAG_USE_ENCRYPTION			0x08	// user wants encrypted traffic
 
 //============================================================================
 VxRelayFlags::VxRelayFlags( const VxRelayFlags& rhs )
@@ -90,19 +88,4 @@ void VxRelayFlags::setRequiresRelay( bool bRequiresRelay )
 		m_u8RelayFlags |= RC_PROXY_FLAG_REQUIRES_PROXY;
 	else
 		m_u8RelayFlags &= ~RC_PROXY_FLAG_REQUIRES_PROXY;
-}
-
-//============================================================================
-bool VxRelayFlags::isMyPreferedRelay( void )					
-{ 
-	return (RC_PROXY_FLAG_IS_MY_PREFERED_PROXY & m_u8RelayFlags)?1:0; 
-}
-
-//============================================================================
-void VxRelayFlags::setIsMyPreferedRelay( bool bRequiresRelay )				
-{
-	if( bRequiresRelay )
-		m_u8RelayFlags |= RC_PROXY_FLAG_IS_MY_PREFERED_PROXY;
-	else
-		m_u8RelayFlags &= ~RC_PROXY_FLAG_IS_MY_PREFERED_PROXY;
 }

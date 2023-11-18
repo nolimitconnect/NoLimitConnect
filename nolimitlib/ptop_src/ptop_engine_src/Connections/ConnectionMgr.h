@@ -26,13 +26,13 @@
 #include <CoreLib/VxGUIDList.h>
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxMutex.h>
-#include <PktLib/PktAnnounce.h>
 
-class P2PEngine;
 class BigListMgr;
-class VxSktBase;
-class VxPeerMgr;
 class HandshakeInfo;
+class P2PEngine;
+class VxPeerMgr;
+class VxPktHdr;
+class VxSktBase;
 
 class ConnectionMgr : public NetAvailStatusCallbackInterface, public UrlActionResultInterface
 {
@@ -68,6 +68,14 @@ public:
     void                        lockConnectionList( void )      { m_ConnectionMutex.lock(); }
     void                        unlockConnectionList( void )    { m_ConnectionMutex.unlock(); }
 
+    bool                        sendMyPktAnnounce(  VxGUID&				            destinationId,
+                                                    std::shared_ptr<VxSktBase>&		sktBase,
+                                                    bool				            requestAnnReply,
+                                                    bool				            requestReverseConnection,
+                                                    bool				            requestSTUN );
+
+    bool                        connectUsingTcp( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt, VxGUID& sessionId );
+
 protected:
     virtual void				callbackInternetStatusChanged( EInternetStatus internetStatus ) override;
     virtual void				callbackNetAvailStatusChanged( ENetAvailStatus netAvalilStatus ) override;
@@ -80,8 +88,6 @@ protected:
     virtual void                callbackQueryIdSuccess( UrlActionInfo& actionInfo, VxGUID onlineId ) override;
 
     ConnectedInfo*              getOrAddConnectedInfo( const VxGUID& socketId, BigListInfo* bigListInfo ) { return m_AllList.getOrAddConnectedInfo( socketId, bigListInfo ); }
-    VxGUID&				        getMyOnlineId( void )   { return m_MyOnlineId; }
-    PktAnnounce&				getMyPktAnn( void )     { return m_MyPktAnn; }
 
     void                        onInternetAvailable( void );
     void                        onNoLimitNetworkAvailable( void );
@@ -115,7 +121,7 @@ protected:
     EConnectStatus              directConnectTo(    std::string                 ipAddr,
                                                     uint16_t                    port,
                                                     VxGUID                      onlineId,
-                                                    std::shared_ptr<VxSktBase>&                 retSktBase,
+                                                    std::shared_ptr<VxSktBase>& retSktBase,
                                                     IConnectRequestCallback*    callback,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
@@ -124,18 +130,13 @@ protected:
 
     void                        addConnectRequestToQue( VxConnectInfo& connectInfo, enum EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting );
     void                        addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting );
-    bool                        connectToContact(   VxConnectInfo&		connectInfo,
+    bool                        connectToContact(   VxConnectInfo&		            connectInfo,
                                                     std::shared_ptr<VxSktBase>&		ppoRetSkt,
-                                                    VxGUID&             sessionId,
-                                                    bool&				retIsNewConnection );
-    bool                        connectUsingTcp( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt, VxGUID& sessionId );
+                                                    VxGUID&                         sessionId,
+                                                    bool&				            retIsNewConnection );
+
     bool                        tryIPv6Connect( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt );
 
-    bool                        sendMyPktAnnounce(  VxGUID&				destinationId,
-                                                    std::shared_ptr<VxSktBase>&			sktBase,
-                                                    bool				requestAnnReply,
-                                                    bool				requestReverseConnection,
-                                                    bool				requestSTUN );
 
     bool                        txPacket( VxGUID&				        destinationId,
                                           std::shared_ptr<VxSktBase>&	sktBase,
@@ -155,8 +156,6 @@ protected:
     VxMutex						m_ConnectionMutex;
     ConnectedListAll            m_AllList;
 
-    VxGUID                      m_MyOnlineId;
-    PktAnnounce                 m_MyPktAnn;
     EInternetStatus             m_InternetStatus{ eInternetNoInternet };
     ENetAvailStatus             m_NetAvailStatus{ eNetAvailNoInternet };
     std::map<EHostType, VxGUID>         m_DefaultHostIdList;
@@ -166,7 +165,6 @@ protected:
 
     /// keep a cache of urls to online id to avoid time consuming query host id
     std::map<std::string, VxGUID>       m_UrlCache;
-    //std::map<VxGUID, std::pair<IConnectRequestCallback*, EConnectReason>>   m_ConnectRequests;
 
     HandshakeList               m_HandshakeList;
     VxMutex                     m_HandshakeMutex;
@@ -174,7 +172,7 @@ protected:
     /// low level connect vars
     VxThread					m_NetConnectThread;
     VxThread					m_StayConnectedThread;
-    PktAnnounce&				m_PktAnn;
+
     VxPeerMgr&					m_PeerMgr;
 
     VxMutex						m_NetConnectorMutex;

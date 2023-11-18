@@ -114,21 +114,11 @@ void P2PEngine::onOncePerSecond( void )
         onOncePerMinute();
     }
 
-    /* BRJ temp for debugging
     static int minute15CntSeconds = 60 * 15 + 3;
     minute15CntSeconds--;
     if( 0 >= minute15CntSeconds )
     {
         minute15CntSeconds = 60 * 15;
-        onOncePer15Minutes();
-    }
-    */
-
-    static int minute15CntSeconds = 60 + 3;
-    minute15CntSeconds--;
-    if( 0 >= minute15CntSeconds )
-    {
-        minute15CntSeconds = 60;
         onOncePer15Minutes();
     }
 
@@ -140,7 +130,7 @@ void P2PEngine::onOncePerSecond( void )
         onOncePer30Minutes();
     }
 
-    static int hourCntInSeconds = 3606;
+    static int hourCntInSeconds = 60 * 60 + 5;
     hourCntInSeconds--;
     if( 0 >= hourCntInSeconds )
     {
