@@ -40,7 +40,7 @@ protected:
 
 	//=== vars ===//
 	Ui::AppletGalleryEmoticonUi	ui;
-    ThumbMgr&					m_ThumbMgr;
+    
     bool                        m_isShown = false;
     bool                        m_isLoaded = false;
 

@@ -52,7 +52,8 @@ public:
 	//! add a or update remote friend
 	EPktAnnUpdateType			updatePktAnn(	PktAnnounce *	poPktAnn, 
 												BigListInfo **	ppoRetInfo,
-												EHostType		hostType );	
+												EHostType		hostType,
+												bool			useMyFriendshipFromPktAnn = false );	
 
 	bool						getFriendships( VxGUID&			hisOnlineId,
 												EFriendState&	retMyFriendshipToHim,

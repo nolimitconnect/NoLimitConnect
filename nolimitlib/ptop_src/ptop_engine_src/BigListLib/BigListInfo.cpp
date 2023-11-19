@@ -154,7 +154,6 @@ void BigListInfoBase::contactWasAttempted( bool wasSuccessfull )
 
 //============================================================================
 BigListInfo::BigListInfo()
-: m_u64TimeLastPingAttempt(0)
 { 
 	// empty
 }
@@ -210,9 +209,6 @@ void BigListInfo::CopyTo( BigListInfo & oInfo )
 		VxPktHdr* pktHdr = this->m_aoOutQue[i]->makeCopy();
 		 oInfo.m_aoOutQue.push_back( pktHdr );
 	}
-
-	//unstored vars
-	oInfo.m_u64TimeLastPingAttempt	= m_u64TimeLastPingAttempt;
 }
 
 //============================================================================

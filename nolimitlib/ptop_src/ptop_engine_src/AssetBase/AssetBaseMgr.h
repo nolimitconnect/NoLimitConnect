@@ -60,7 +60,8 @@ public:
 
     virtual AssetBaseInfoDb&    getAssetInfoDb( void )                                  { return m_AssetBaseInfoDb; }
     virtual std::vector<AssetBaseInfo*>& getAssetBaseInfoList( void )					{ return m_AssetBaseInfoList; }
-	virtual std::vector<VxGUID>& getEmoticonIdList( void )								{ return m_EmoticonIdList; }
+
+	static std::vector<VxGUID>& getEmoticonIdList( void )							    { return m_EmoticonIdList; }
 
 	static bool                 isEmoticonThumbnail( VxGUID& thumbId );
 

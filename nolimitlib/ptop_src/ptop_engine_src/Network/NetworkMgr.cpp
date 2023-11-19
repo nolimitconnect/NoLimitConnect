@@ -103,6 +103,12 @@ void NetworkMgr::networkMgrShutdown( void )
 }
 
 //============================================================================
+void NetworkMgr::setNetworkKey( std::string networkName )					
+{ 
+	m_NetworkName = networkName;
+}
+
+//============================================================================
 void NetworkMgr::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetwork )
 {
     if( !lclIp )

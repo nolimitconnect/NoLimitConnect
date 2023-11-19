@@ -326,10 +326,10 @@ void IdentLogicInterface::setIdentDirectConnectState( bool canDirectConnect )
 //============================================================================
 void IdentLogicInterface::setIdentAvatarThumbnail( VxGUID thumbId )
 {
-	LogMsg( LOG_VERBOSE, "Thumb %s for user %s", thumbId.toOnlineIdString().c_str(), m_GuiUser->getOnlineName().c_str() );
-
 	if( thumbId.isVxGUIDValid() )
 	{
+		LogModule( eLogAssets,  LOG_VERBOSE, "Thumb %s for user %s", thumbId.toOnlineIdString().c_str(), m_GuiUser->getOnlineName().c_str() );
+
 		QImage thumbImage;
 		if( m_MyApp.getThumbMgr().getThumbImage( thumbId, thumbImage ) )
 		{

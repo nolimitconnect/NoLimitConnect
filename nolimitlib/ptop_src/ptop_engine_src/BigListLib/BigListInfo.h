@@ -18,8 +18,6 @@
 #include <PktLib/PktAnnounce.h>
 #include <CoreLib/VxGlobals.h>
 
-//Lock Start Inst 700
-//Lock End Inst 718
 #define BIG_LIST_INFO_VERSION	0x01	// version of BigListInfo structure
 #define BIG_LIST_DB_VERSION		0x01	// version of BigList database
 
@@ -34,7 +32,6 @@
 //#define FLAG_IS_ONLINE					0x0010 //set when user is online
 #define FLAG_IS_ANN_LIST				0x0020
 #define FLAG_IS_ANCHOR_LIST				0x0040	// anchor lists do not contain plugin info
-
 
 #define FLAG_FILE_SERVER_SEARCH_DONE	0x8000000 //has been searched for file servers
 #define FLAG_FILE_SEARCH_DONE			0x4000000 //has been searched for files
@@ -114,6 +111,8 @@ public:
 	void						setTimeLastConnectAttempt2( uint64_t u32TimeMs );
 	void						contactWasAttempted( bool wasSuccessfull );
 
+	PktAnnounce*				getPktAnnounce( void )					{ return dynamic_cast<PktAnnounce*>(this); }
+
 	//=== stored variables ===//
 	uint8_t						m_u8BigListInfoVersion;	// version of big list info in use when this was stored
 	uint8_t						m_u8BigListRes1;		
@@ -150,8 +149,6 @@ public:
 	// stored arrays
 	std::vector<VxPktHdr*>		m_aoInQue;
 	std::vector<VxPktHdr*>		m_aoOutQue;
-	// not stored vars
-	uint64_t					m_u64TimeLastPingAttempt;
 
 };
 

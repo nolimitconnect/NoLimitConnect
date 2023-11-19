@@ -39,7 +39,6 @@
 //============================================================================
 AppletGalleryEmoticon::AppletGalleryEmoticon(	AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GALLERY_EMOTICON, app, parent )
-, m_ThumbMgr( app.getEngine().getThumbMgr() )
 {
     setAppletType( eAppletGalleryEmoticon );
     ui.setupUi( getContentItemsFrame() );
@@ -81,12 +80,12 @@ void AppletGalleryEmoticon::loadAssets( void )
 {
     m_MyApp.getThumbMgr().generateEmoticonsIfNeeded( this );
     int emoticonNum = 1;
-    std::vector<VxGUID>& emoticonIdList = m_ThumbMgr.getEmoticonIdList();
-    for( auto &assetId : emoticonIdList )
+    std::vector<VxGUID>& emoticonIdList = ThumbMgr::getEmoticonIdList();
+    for( auto& assetId : emoticonIdList )
     {
         if( assetId.isVxGUIDValid() )
         {
-            AssetBaseInfo* assetInfo = m_ThumbMgr.findAsset( assetId );
+            AssetBaseInfo* assetInfo = m_MyApp.getEngine().getThumbMgr().findAsset(assetId);
             if( assetInfo && eAssetTypeThumbnail == assetInfo->getAssetType() )
             {
                 LogMsg( LOG_VERBOSE, "AppletGalleryEmoticon::loadAssets emoticon %d is %s", emoticonNum, assetId.toOnlineIdString().c_str() );

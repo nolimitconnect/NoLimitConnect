@@ -49,7 +49,7 @@ public:
 #endif // ENABLE_COMPONENT_NEARBY
 	void						setLocalIpAddress( std::string lclIp )						{ m_strLocalIpAddr = lclIp; }
 	std::string					getLocalIpAddress( void )									{ return m_strLocalIpAddr; }
-	void						setNetworkKey( std::string networkName )					{ m_NetworkName = networkName; }
+	void						setNetworkKey( std::string networkName );
 	const char*					getNetworkKey( void )										{ return m_NetworkName.c_str(); }
 
 	void						networkMgrStartup( void );

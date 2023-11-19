@@ -247,8 +247,6 @@ void AppCommon::loadWithoutThread( void )
 
     registerMetaData();
 
-	connect( this, SIGNAL( signalInternalNetAvailStatus( ENetAvailStatus ) ), this, SLOT( slotInternalNetAvailStatus( ENetAvailStatus ) ), Qt::QueuedConnection );
-
     // create settings database appshortname_settings.db3 in /appshortName/data/
     QString strSettingsDbFileName = VxGetAppNoLimitDataDirectory().c_str() + m_AppShortName + "_settings.db3";
     m_AppSettings.appSettingStartup( strSettingsDbFileName.toUtf8().constData(), m_AppDefaultMode );
@@ -264,7 +262,7 @@ void AppCommon::loadWithoutThread( void )
     // after user has logged into account
 
     uint64_t loadingMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "LoadSettings %" PRIu64 " ms alive ms %" PRIu64 "", loadingMs - startMs, loadingMs );
+    LogMsg( LOG_DEBUG, "LoadSettings %llu ms alive ms %llu", loadingMs - startMs, loadingMs );
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
@@ -275,7 +273,7 @@ void AppCommon::loadWithoutThread( void )
     m_MyIcons.myIconsStartup();
 
     uint64_t iconsMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Load Icons %" PRIu64 " ms alive ms %" PRIu64 "", iconsMs - loadingMs, iconsMs );
+    LogMsg( LOG_DEBUG, "Load Icons %llu ms alive ms %llu", iconsMs - loadingMs, iconsMs );
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
@@ -287,7 +285,7 @@ void AppCommon::loadWithoutThread( void )
 	m_PlayerMgr.playerMgrStartup();
 
     uint64_t styleMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Setup Style %" PRIu64 " ms alive ms %" PRIu64 "", styleMs - iconsMs, styleMs );
+    LogMsg( LOG_DEBUG, "Setup Style %llu ms alive ms %llu", styleMs - iconsMs, styleMs );
 
 	// make sure the engine has been created
 	int retryCnt = 0;
@@ -321,6 +319,8 @@ void AppCommon::loadWithoutThread( void )
     m_HomePage.initializeHomePage();
     connect( &m_HomePage, SIGNAL( signalMainWindowResized() ), this, SLOT( slotMainWindowResized() ) );
     m_HomePage.show();
+
+	connect( this, SIGNAL( signalInternalNetAvailStatus( ENetAvailStatus ) ), this, SLOT( slotInternalNetAvailStatus( ENetAvailStatus ) ), Qt::QueuedConnection );
 
     uint64_t homePageMs = GetApplicationAliveMs();
     LogMsg( LOG_DEBUG, "Initialize Home Page %" PRIu64 " ms alive ms %" PRIu64 "", homePageMs - styleMs, homePageMs );

@@ -379,7 +379,7 @@ void NetworkStateMachine::updateFromEngineSettings( EngineSettings& engineSettin
     {
         m_NetworkMgr.setNetworkKey( networkKey.c_str() );
         // will restore only if network key has changed
-        m_Engine.getBigListMgr().dbRestoreAll( networkKey.c_str() );
+        m_Engine.getBigListMgr().dbRestoreAll();
 
     }
 }

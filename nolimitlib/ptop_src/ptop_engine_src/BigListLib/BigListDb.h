@@ -30,11 +30,15 @@ public:
 	BigListDb( P2PEngine& engine, BigListMgr& bigListMgr );
 	virtual ~BigListDb() override = default;
 
-	bool						isBigListInitialized( void )			{ return m_BigListDbInitialized; }
-	std::string&				getNetworkKey( void )					{ return m_NetworkName; }
+	void						threadedRestoreAll( void );
 
 	//! restore all of given network to lists from database
-	RCODE						dbRestoreAll( const char* networkName );
+	RCODE						dbRestoreAll( void );
+
+	bool						isBigListInitialized( void )				{ return m_BigListDbInitialized; }
+
+	std::string					getNetworkKey( void );
+
 	RCODE						dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime, const char* networkName );
 
 protected:
@@ -62,13 +66,13 @@ protected:
 	//! make big list info into blob
 	RCODE						saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8RetBlob, int * piRetBlobLen );
 	//! restore big list info from blob
-	RCODE						restoreBigListInfoFromBlob( uint8_t * pu8Data, int iDataLen, BigListInfo * poInfo, uint64_t lastSessionTime );
+	RCODE						restoreBigListInfoFromBlob( uint8_t * pu8Data, int iDataLen, BigListInfo * poInfo, uint64_t lastSessionTime, VxGUID& onlineId );
 
 	//=== vars ===//
 	P2PEngine&					m_Engine;
-	VxMutex						m_DbMutex;						// mutex for database access
 	VxThread					m_BigListLoadThread;			// thread to load nodes from database
 	BigListMgr&					m_BigListMgr;
-	std::string					m_NetworkName;
-	bool						m_BigListDbInitialized = false;
+
+	bool						m_BigListDbInitialized{ false };
+	std::string					m_LastNetworkKey;
 };

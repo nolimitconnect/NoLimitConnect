@@ -692,18 +692,20 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
         m_GuiUserUpdateClientList.push_back( callback );
         return;
     }
-
-    for( auto iter = m_GuiUserUpdateClientList.begin(); iter != m_GuiUserUpdateClientList.end(); ++iter )
+    else
     {
-        GuiUserUpdateCallback* client = *iter;
-        if( client == callback )
+        for( auto iter = m_GuiUserUpdateClientList.begin(); iter != m_GuiUserUpdateClientList.end(); ++iter )
         {
-            m_GuiUserUpdateClientList.erase( iter );
-            return;
+            GuiUserUpdateCallback* client = *iter;
+            if( client == callback )
+            {
+                m_GuiUserUpdateClientList.erase( iter );
+                return;
+            }
         }
-    }
 
-    LogMsg( LOG_INFO, "WARNING. ToGuiUserUpdateInterface remove not found in list" );
+        LogMsg( LOG_INFO, "WARNING. ToGuiUserUpdateInterface remove not found in list" );
+    }
 }
 
 //============================================================================
@@ -720,10 +722,13 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
 {
     if( guiUser )
     {
+        int idx = 0;
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
+            LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks idx %d %s", idx, guiUser->getOnlineName().c_str() );
             client->callbackUserUpdated( guiUser );
+            idx++;
         }
 
         m_ClientListBusy = false;

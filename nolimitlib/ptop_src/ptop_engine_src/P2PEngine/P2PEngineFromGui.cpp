@@ -935,8 +935,8 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaTy
 
 //============================================================================
 bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId, 
-											   EFriendState		eMyFriendshipToHim,
-											   EFriendState		eHisFriendshipToMe )
+											    EFriendState	eMyFriendshipToHim,
+											    EFriendState	eHisFriendshipToMe )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
@@ -958,7 +958,11 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId,
 			EFriendState eOldFriendship = poInfo->getMyFriendshipToHim();
 			poInfo->setMyFriendshipToHim( eMyFriendshipToHim );
 			m_BigListMgr.updateVectorList( eOldFriendship, poInfo );
-			m_BigListMgr.updateBigListDatabase( poInfo, getNetworkMgr().getNetworkKey() );
+
+			BigListInfo* dummyBigListInfo = nullptr;
+			EHostType hostType{ eHostTypeUnknown };
+			m_BigListMgr.updatePktAnn( poInfo->getPktAnnounce(), &dummyBigListInfo, hostType, true );
+
 			LogMsg(LOG_INFO, "P2PEngine::fromGuiChangeMyFriendshipToHim: SUCCESS changed %s friendship to %s", 
 				poInfo->getOnlineName(),
 				poInfo->describeMyFriendshipToHim());
