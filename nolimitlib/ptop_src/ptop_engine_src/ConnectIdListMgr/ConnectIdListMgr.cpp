@@ -206,7 +206,7 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
         announceConnectionStatus( connectId, true );
     }
 
-    announceOnlineStatus( groupieId.getUserOnlineId(), isOnline( groupieId.getUserOnlineId() ) );
+    // announceOnlineStatus( groupieId.getUserOnlineId(), isUserOnline( groupieId.getUserOnlineId() ) );
 }
 
 //============================================================================
@@ -223,7 +223,7 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
     VxGUID& onlineId = groupieId.getUserOnlineId();
     ConnectId connectId( sktConnectId, groupieId );
 
-    bool wasOnline = isOnline( onlineId );
+    bool wasOnline = isUserOnline( onlineId );
 
     lockList();
     auto iter = m_ConnectIdList.find( connectId );
@@ -250,11 +250,6 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
     if( wasRemovedFromRelayed )
     {
         announceRelayStatus( connectId, false );
-    }
-
-    if( wasOnline && !isOnline( onlineId ) )
-    {
-        announceOnlineStatus( onlineId, false );
     }
 }
 
@@ -356,10 +351,7 @@ void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         announceRelayStatus( const_cast<ConnectId&>(connectId), false );
     }
 
-    for( auto& onlineId : userList )
-    {
-        announceOnlineStatus( const_cast<VxGUID&>(onlineId), isOnline( const_cast<VxGUID&>(onlineId) ) );
-    }
+    doOnlineIdConnectionLost( sktConnectId );
 
     announceConnectionLost( sktConnectId );
 }
@@ -386,38 +378,6 @@ void ConnectIdListMgr::userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId 
     }
 
     removeConnection( sktConnectId, groupieId );
-}
-
-//============================================================================
-void ConnectIdListMgr::disconnectIfIsOnlyUser( GroupieId& groupieId )
-{
-    /*
-    bool wasLastUser = false;
-    VxGUID disconnectConnectId;
-    lockList();
-    for( auto iter = m_ConnectIdList.begin(); iter != m_ConnectIdList.end(); ++iter )
-    {
-        auto iter = iter->second.find( groupieId );
-        if( iter != iter->second.end() )
-        {
-            iter->second.erase( iter );
-            if( iter->second.empty() )
-            {
-                wasLastUser = true;
-                disconnectConnectId = iter->first;
-            }
-
-            break;
-        }
-    }
-
-    unlockList();
-
-    if( wasLastUser && disconnectConnectId.isVxGUIDValid() )
-    {
-        m_Engine.getPeerMgr().closeConnection( disconnectConnectId, eSktCloseNotNeeded );
-    }
-    */
 }
 
 //============================================================================
@@ -727,6 +687,7 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallbackInterface
 //============================================================================
 void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
 {
+    LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online ? %d %s", isOnline, onlineId.toOnlineIdString().c_str() );
     lockClientList();
 
     for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
@@ -743,6 +704,7 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
     }
 
     unlockClientList();
+    m_Engine.getToGui().toGuiUserOnlineStatusChange( onlineId, isOnline );
 }
 
 //============================================================================
@@ -996,4 +958,236 @@ bool ConnectIdListMgr::isMemberOnline( HostedId& hostId, VxGUID& onlineId )
 
     unlockList();
     return isOnline;
+}
+
+//============================================================================
+void ConnectIdListMgr::pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId )
+{
+    bool shouldAnnounce{ false };
+    if( !sktConnectId.isVxGUIDValid() || !onlineId.isVxGUIDValid() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved BAD PARAM" );
+        vx_assert( false );
+        return;
+    }
+
+    if( isUserExcluded( onlineId ) )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved exluded %s", onlineId.toOnlineIdString().c_str() );
+        return;
+    }
+
+    lockOnlineIdList();
+    auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
+                              [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.first == sktConnectId && element.second == onlineId; } );
+    if( iter == m_OnlineConnectionPairs.end() )
+    {
+        m_OnlineConnectionPairs.emplace_back( std::make_pair( sktConnectId, onlineId ) );
+        if( m_OnlineIdListList.find( onlineId ) == m_OnlineIdListList.end() )
+        {
+            shouldAnnounce = true;
+        }
+    }
+
+    unlockOnlineIdList();
+
+    if( shouldAnnounce )
+    {
+        lockOnlineIdList();
+        m_OnlineIdListList.insert( onlineId );
+        unlockOnlineIdList();
+
+        announceOnlineStatus( onlineId, true );
+    }
+}
+
+//============================================================================
+void ConnectIdListMgr::doOnlineIdConnectionLost( VxGUID& sktConnectId )
+{
+    if( !sktConnectId.isVxGUIDValid() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::doOnlineIdConnectionLost BAD PARAM" );
+        vx_assert( false );
+        return;
+    }
+
+    std::set<VxGUID> onlineIdList;
+    std::vector<VxGUID> lostConnectiononIdList;
+    lockOnlineIdList();
+    // make a list of who used the connection and remove the connections from the list
+    for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); )
+    {
+        if( iter->first == sktConnectId )
+        {
+            onlineIdList.insert( iter->second );
+            iter = m_OnlineConnectionPairs.erase( iter );
+        }
+        else
+        {
+            iter++;
+        }
+    }
+
+    // for each user if there is no more connections to user then add to lostConnectiononIdList
+    for( auto& onlineId : onlineIdList )
+    {
+        auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
+                              [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.second == onlineId; } );
+        if( iter == m_OnlineConnectionPairs.end() )
+        {
+            lostConnectiononIdList.push_back( onlineId );
+        }
+    }
+
+    unlockOnlineIdList();
+
+    // announce users that lost connection and remove from online list
+    for( auto& onlineId : lostConnectiononIdList )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::doOnlineIdConnectionLost online id %s", onlineId.toOnlineIdString().c_str() );
+        lockOnlineIdList();
+        auto iter = m_OnlineIdListList.find( onlineId );
+        if( iter != m_OnlineIdListList.end() )
+        {
+            m_OnlineIdListList.erase( iter );
+        }
+
+        unlockOnlineIdList();
+
+        announceOnlineStatus( onlineId, false );
+    }
+}
+
+//============================================================================
+bool ConnectIdListMgr::isUserOnline( VxGUID& onlineId )
+{
+    if( !onlineId.isVxGUIDValid() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::updateOnlineExclusion BAD PARAM" );
+        vx_assert( false );
+    }
+
+    lockOnlineIdList();
+    bool isOnline = m_OnlineIdListList.find( onlineId ) != m_OnlineIdListList.end();
+    unlockOnlineIdList();
+
+    return isOnline;
+}
+
+
+//============================================================================
+void ConnectIdListMgr::updateOnlineExclusion( VxGUID onlineId, bool excludeFromOnlineStatus, bool isNetworkHost )
+{
+    if( !onlineId.isVxGUIDValid() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::updateOnlineExclusion BAD PARAM" );
+        vx_assert( false );
+        return;
+    }
+
+    lockOnlineIdList();
+    if( isNetworkHost )
+    {
+        m_NetworkHostOnlineId = onlineId;
+    }
+
+    auto iter = m_OnlineIdExclusionList.find( onlineId );
+    if( excludeFromOnlineStatus )
+    {
+        if( iter == m_OnlineIdExclusionList.end() )
+        {
+            m_OnlineIdExclusionList.insert( onlineId );
+        }
+    }
+    else
+    {
+        if( iter != m_OnlineIdExclusionList.end() )
+        {
+            m_OnlineIdExclusionList.erase( iter );
+        }
+    }
+
+    unlockOnlineIdList();
+}
+
+//============================================================================
+bool ConnectIdListMgr::isUserExcluded( VxGUID& onlineId )
+{
+    if( !onlineId.isVxGUIDValid() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isUserExcluded BAD PARAM" );
+        vx_assert( false );
+    }
+
+    lockOnlineIdList();
+    bool isExcluded = m_OnlineIdExclusionList.find( onlineId ) != m_OnlineIdExclusionList.end();
+    unlockOnlineIdList();
+
+    return isExcluded;
+}
+
+//============================================================================
+bool ConnectIdListMgr::isConnectionInUse( VxGUID& sktConnectId )
+{
+    if( !sktConnectId.isVxGUIDValid() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isConnectionInUse BAD PARAM" );
+        vx_assert( false );
+    }
+
+    bool sktInUse{ false };
+    lockOnlineIdList();
+    auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
+                              [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.first == sktConnectId; } );
+    if( iter != m_OnlineConnectionPairs.end() )
+    {
+         sktInUse = true;
+    }
+
+    unlockOnlineIdList();
+
+    return sktInUse;
+}
+
+//============================================================================
+void ConnectIdListMgr::disconnectIfIsOnlyUser( GroupieId& groupieId )
+{
+    VxGUID userOnlineId = groupieId.getUserOnlineId();
+
+    std::set<VxGUID> userSktConnectIds;
+    std::vector<VxGUID> toDisconnectIds;
+
+    lockOnlineIdList();
+    for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); ++iter )
+    {
+        if( iter->second == userOnlineId )
+        {
+            userSktConnectIds.insert( iter->first );
+        }
+    }
+
+    for( auto sktConnectId : userSktConnectIds )
+    {
+        bool inUseByOther{ false };
+        for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); ++iter )
+        {
+            if( iter->first == sktConnectId && iter->second != userOnlineId )
+            {
+                inUseByOther = true;
+                break;
+            }
+        }
+
+        if( !inUseByOther )
+        {
+            toDisconnectIds.emplace_back( sktConnectId );
+        }
+    }
+
+    unlockOnlineIdList();
+
+    for( auto& sktConnectId : toDisconnectIds )
+    {
+        m_Engine.getPeerMgr().closeConnection( sktConnectId, eSktCloseNotNeeded );
+    }
 }

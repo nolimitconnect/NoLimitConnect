@@ -103,8 +103,6 @@ public:
 	void						setIsInDatabase( bool bIsInDb )			{ if( bIsInDb ) m_u32BigListPermFlags |= BIGLIST_FLAG_IS_IN_DB; else m_u32BigListPermFlags &= ~BIGLIST_FLAG_IS_IN_DB; }
 
 	// temp flags
-	bool						isConnected( void )						{ return (m_u32BigListTempFlags & BIGLIST_TEMP_FLAG_IS_CONNECTED)?1:0; }
-	void						setIsConnected( bool bIsConnected )		{ if( bIsConnected ) m_u32BigListTempFlags |= BIGLIST_TEMP_FLAG_IS_CONNECTED; else m_u32BigListTempFlags &= ~BIGLIST_TEMP_FLAG_IS_CONNECTED; }
 	bool						needSavedToDb( void )					{ return (m_u32BigListTempFlags & BIGLIST_TEMP_FLAG_NEED_SAVED_T0_DB)?1:0; }
 	void						setNeedSavedToDb( bool bSaveDb )		{ if( bSaveDb ) m_u32BigListTempFlags |= BIGLIST_TEMP_FLAG_NEED_SAVED_T0_DB; else m_u32BigListTempFlags &= ~BIGLIST_TEMP_FLAG_NEED_SAVED_T0_DB; }
 	

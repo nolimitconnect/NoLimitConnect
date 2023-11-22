@@ -86,7 +86,7 @@ static bool VerifyPortList( void )
 
 //============================================================================
 //! get a random tcp/ip port that is not in use
-uint16_t VxGetRandomTcpPort( bool bAbove4000 )
+uint16_t VxGetRandomTcpPort( bool bAbove10000 )
 {
 	srand( GetGmtTimeMs() );
 #ifdef VERIFY_PORT_LIST
@@ -103,9 +103,9 @@ uint16_t VxGetRandomTcpPort( bool bAbove4000 )
 			// zero not allowed
 			continue;
 		}
-		if( bAbove4000 )
+		if( bAbove10000 )
 		{
-			if( u16RandPort < 4000 )
+			if( u16RandPort <= 10000 )
 			{
 				continue;
 			}
@@ -129,6 +129,6 @@ uint16_t VxGetRandomTcpPort( bool bAbove4000 )
 	}
 
 	// if we got here we have tried 30000 times and failed.. give up
-	LogMsg( LOG_ERROR, "VxGetRandomTcpPort: could not find a port\n");
+	LogMsg( LOG_ERROR, "VxGetRandomTcpPort: could not find a port");
 	return 0;
 }

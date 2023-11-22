@@ -15,5 +15,5 @@
 //============================================================================
 
 //! get a random tcp/ip port that is not in use
-//! if bAbove4000 is true then only consider ports above 4000
-uint16_t VxGetRandomTcpPort( bool bAbove4000 = true ); 
+//! if bAbove10000 is true then only consider ports above 10000
+uint16_t VxGetRandomTcpPort( bool bAbove10000 = true ); 

@@ -35,5 +35,5 @@ std::string NetActionBase::getNetworkKey( void )
 //============================================================================
 VxGUID& NetActionBase::getMyOnlineId( void )
 {
-	return m_Engine.getMyPktAnnounce().getMyOnlineId();
+	return m_Engine.getMyOnlineId();
 }

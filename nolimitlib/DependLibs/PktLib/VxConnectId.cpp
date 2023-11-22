@@ -101,9 +101,11 @@ bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasCha
 		if( inetAddr.isIPv6() && ipv6 )
 		{
 			if( retIpHasChanged )
-			{
-				m_IPv6OnlineIp.toStdString() != ipAddr;
-				*retIpHasChanged = true;
+            {
+                if( m_IPv6OnlineIp.toStdString() != ipAddr )
+                {
+                    *retIpHasChanged = true;
+                }
 			}
 
 			m_IPv6OnlineIp = inetAddr; 

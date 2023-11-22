@@ -52,7 +52,7 @@ GuiHostJoin::GuiHostJoin( const GuiHostJoin& rhs )
 //============================================================================
 bool GuiHostJoin::isOnline( void )
 { 
-    return m_GuiUser && m_GuiUser->isOnline(); 
+    return m_GuiUser && m_MyApp.getUserMgr().isUserOnline( m_GuiUser->getMyOnlineId() ); 
 }
 
 //============================================================================

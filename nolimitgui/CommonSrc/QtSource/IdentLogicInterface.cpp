@@ -143,9 +143,6 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			setupIdentLogic();
 		}
 
-		guiUser->updateIsOnline();
-		guiUser->updateIsRelayed();
-
 		m_GuiUser = guiUser;
 
 		bool isOnline = m_GuiUser->isOnline();

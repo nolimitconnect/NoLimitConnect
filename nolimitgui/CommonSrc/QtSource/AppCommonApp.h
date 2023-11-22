@@ -465,8 +465,6 @@ public:
     virtual void				toGuiGroupieSearchResult( EHostType hostType, VxGUID& sessionId, GroupieInfo& hostedInfo ) override;
     virtual void				toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
-    virtual void				toGuiUserOnlineStatus( VxNetIdent* netIdent, bool isOnline ) override;
-
     virtual void				toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) override;
     virtual void				toGuiRunTestStatus( const char*testName, ERunTestStatus eRunTestStatus, const char* msg = "" ) override;
     virtual void				toGuiRandomConnectStatus( ERandomConnectStatus eRandomConnectStatus, const char* msg = "" ) override;
@@ -504,8 +502,9 @@ public:
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) override;
 
-    virtual void				toGuiContactOffline( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override;
+
+     virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
 
     virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override;
@@ -698,7 +697,8 @@ signals:
     void                        signalInternalToGuiContactRemoved( VxGUID onlineId );
 
     void                        signalInternalToGuiContactOnline( VxNetIdent netIdent );
-    void                        signalInternalToGuiContactOffline( VxGUID onlineId );
+
+    void                        signalInternalToGuiOnlineStatusChange( VxGUID onlineId, bool isOnline );
 
     void                        signalInternalToGuiContactNameChange( VxNetIdent netIdent );
     void                        signalInternalToGuiContactDescChange( VxNetIdent netIdent );
@@ -772,7 +772,8 @@ private slots:
     void                        slotInternalToGuiContactRemoved( VxGUID onlineId );
 
     void                        slotInternalToGuiContactOnline( VxNetIdent netIdent );
-    void                        slotInternalToGuiContactOffline( VxGUID onlineId );
+
+    void                        slotInternalToGuiOnlineStatusChange( VxGUID onlineId, bool isOnline );
 
     void                        slotInternalToGuiContactNameChange( VxNetIdent netIdent );
     void                        slotInternalToGuiContactDescChange( VxNetIdent netIdent );

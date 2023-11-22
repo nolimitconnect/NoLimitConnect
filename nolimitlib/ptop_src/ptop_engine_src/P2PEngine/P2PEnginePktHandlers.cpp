@@ -88,6 +88,16 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
+	if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) && !getConnectIdListMgr().isNetworkHost( contactOnlineId ) )
+	{
+		if( !getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
+		{
+			sktBase->closeSkt( eSktCloseBlockedUser );
+		}
+
+		return;
+	}
+
 	bool isFirstAnnounce = false;
 	if( false == sktBase->m_TxCrypto.isKeyValid() )
 	{
@@ -249,6 +259,8 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( sktBase && sktBase->isConnected() )
 	{
+		getConnectIdListMgr().pktAnnRecieved( sktBase->getSocketId(), pkt->getMyOnlineId() );
+
 		PktPingReq pktPingReq;
 		pktPingReq.setSrcOnlineId( m_PktAnn.getSrcOnlineId() );
 		if( 0 != sktBase->txPacket( bigListInfo->getMyOnlineId(), &pktPingReq ) )

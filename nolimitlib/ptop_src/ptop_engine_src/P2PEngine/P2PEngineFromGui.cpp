@@ -782,7 +782,7 @@ bool P2PEngine::isSystemPlugin( EPluginType	pluginType )
 //============================================================================
 bool P2PEngine::isUserConnected( VxGUID& onlineId )
 {
-	return m_ConnectIdListMgr.isOnline( onlineId );
+	return m_ConnectIdListMgr.isUserOnline( onlineId );
 }
 
 //============================================================================
@@ -966,6 +966,9 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId,
 			LogMsg(LOG_INFO, "P2PEngine::fromGuiChangeMyFriendshipToHim: SUCCESS changed %s friendship to %s", 
 				poInfo->getOnlineName(),
 				poInfo->describeMyFriendshipToHim());
+
+			getConnectIdListMgr().updateOnlineExclusion( onlineId, eMyFriendshipToHim == eFriendStateIgnore );
+
 			m_ConnectionList.fromGuiChangeMyFriendshipToHim( onlineId,
 																eMyFriendshipToHim,
 																eHisFriendshipToMe );

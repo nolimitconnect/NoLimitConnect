@@ -903,24 +903,6 @@ void AppCommon::toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionI
 }
 
 //============================================================================
-void AppCommon::toGuiUserOnlineStatus( VxNetIdent* netIdent, bool isOnline )
-{
-    if( VxIsAppShuttingDown() )
-    {
-        return;
-    }
-
-	if( isOnline )
-	{
-		emit signalInternalToGuiContactOnline( *netIdent );
-	}
-	else
-	{
-		emit signalInternalToGuiContactOffline( netIdent->getMyOnlineId() );
-	}
-}
-
-//============================================================================
 void AppCommon::toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg )
 {
 	if( VxIsAppShuttingDown() )
@@ -1639,6 +1621,7 @@ static bool actCallbackShutdownComplete = false;
 	if( m_ToGuiActivityInterfaceBusy )
 	{
 		LogMsg( LOG_ERROR, "AppCommon::wantToGuiActivityCallbacks do NOT call while busy" );
+		vx_assert( false );
 	}
 
 	if( wantCallback )

@@ -115,7 +115,7 @@ void AppletUserConnections::showEvent( QShowEvent* ev )
 //============================================================================
 void AppletUserConnections::callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackIndentListUpdate %s %s %lld", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackIndentListUpdate %s %s %lld", 
 			GuiParams::describeUserViewType(listType).toUtf8().constData(), onlineId.toOnlineIdString().c_str(), timestamp );
 	refreshList();
 }
@@ -123,7 +123,7 @@ void AppletUserConnections::callbackIndentListUpdate( EUserViewType listType, Vx
 //============================================================================
 void AppletUserConnections::callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackIndentListRemove %s %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s %s", 
 			GuiParams::describeUserViewType(listType).toUtf8().constData(), onlineId.toOnlineIdString().c_str() );
 	refreshList();
 }
@@ -131,7 +131,7 @@ void AppletUserConnections::callbackIndentListRemove( EUserViewType listType, Vx
 //============================================================================
 void AppletUserConnections::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackIndentListRemove %s isOnline %d", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s isOnline %d", 
 			guiUser->describeUser(true).toUtf8().constData(), isOnline );
 	refreshList();
 }
@@ -139,7 +139,7 @@ void AppletUserConnections::callbackOnlineStatusChange( GuiUser* guiUser, bool i
 //============================================================================
 void AppletUserConnections::callbackUserAdded( GuiUser* guiUser )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackUserAdded %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserAdded %s", 
 			guiUser->describeUser(true).toUtf8().constData() );
 	refreshList();
 }
@@ -147,7 +147,7 @@ void AppletUserConnections::callbackUserAdded( GuiUser* guiUser )
 //============================================================================
 void AppletUserConnections::callbackUserUpdated( GuiUser* guiUser )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackUserUpdated %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserUpdated %s", 
 			guiUser->describeUser(true).toUtf8().constData() );
 	refreshList();
 }
@@ -155,7 +155,7 @@ void AppletUserConnections::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletUserConnections::callbackUserRemoved( VxGUID& onlineId )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackUserRemoved id %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s", 
 			onlineId.toOnlineIdString().c_str() );
 	refreshList();
 }
@@ -163,7 +163,7 @@ void AppletUserConnections::callbackUserRemoved( VxGUID& onlineId )
 //============================================================================
 void AppletUserConnections::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackUserRemoved id %s talk %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s talk %s", 
 			onlineId.toOnlineIdString().c_str(), GuiParams::describePushToTalkStatus(pushToTalkStatus).toUtf8().constData() );
 	refreshList();
 }
@@ -171,7 +171,7 @@ void AppletUserConnections::callbackPushToTalkStatus( VxGUID& onlineId, EPushToT
 //============================================================================
 void AppletUserConnections::callbackMyIdentUpdated( GuiUser* guiUser ) 
 {
-	LogMsg( LOG_DEBUG, "GuiUserUpdateCallback callbackMyIdentUpdated %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackMyIdentUpdated %s", 
 			guiUser->describeUser(true).toUtf8().constData() );
 	refreshList();
 }
@@ -181,7 +181,7 @@ void AppletUserConnections::callbackMyIdentUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) 
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserJoinRequested %s %s",
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinRequested %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -189,7 +189,7 @@ void AppletUserConnections::callbackGuiUserJoinRequested( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinWasGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserJoinWasGranted %s %s",
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinWasGranted %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -197,7 +197,7 @@ void AppletUserConnections::callbackGuiUserJoinWasGranted( GroupieId& groupieId,
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserJoinIsGranted %s %s", 
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinIsGranted %s %s", 
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -205,7 +205,7 @@ void AppletUserConnections::callbackGuiUserJoinIsGranted( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiUserUnJoinGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserUnJoinGranted %s %s",
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserUnJoinGranted %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -213,7 +213,7 @@ void AppletUserConnections::callbackGuiUserUnJoinGranted( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserJoinDenied %s %s",
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinDenied %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -221,7 +221,7 @@ void AppletUserConnections::callbackGuiUserJoinDenied( GroupieId& groupieId, Gui
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserJoinLeaveHost %s",
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinLeaveHost %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -229,7 +229,7 @@ void AppletUserConnections::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinRemoved( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "GuiUserJoinCallback callbackGuiUserJoinRemoved %s",
+	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinRemoved %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -363,7 +363,7 @@ void AppletUserConnections::refreshUserList( bool directConnectOnly )
 	for( auto userPair : userList )
 	{
 		GuiUser* user = userPair.second;
-		if( user && user->isOnline() )
+		if( user && m_MyApp.getUserMgr().isUserOnline( user->getMyOnlineId() ) )
 		{
 			if( !directConnectOnly || directConnectOnly && user->isDirectConnect() )
 			{

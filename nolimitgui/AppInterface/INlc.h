@@ -312,8 +312,6 @@ public:
 
     virtual void				toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) override;
 
-    virtual void				toGuiUserOnlineStatus(VxNetIdent* netIdent, bool isOnline ) override;
-
     /// Send Network available status to GUI for display
     virtual void				toGuiNetAvailableStatus( ENetAvailStatus eNetAvailStatus ) override;
     virtual void				toGuiNetworkState( ENetworkStateType eNetworkState, const char* stateMsg = "" ) override;
@@ -327,7 +325,8 @@ public:
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) override;
 
     virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override;
-    virtual void				toGuiContactOffline( VxNetIdent* netIdent ) override;
+    
+    virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
 
     //! called when contact changes
     virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;

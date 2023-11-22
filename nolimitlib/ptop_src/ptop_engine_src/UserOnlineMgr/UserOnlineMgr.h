@@ -41,6 +41,9 @@ public:
     void						lockResources( void )						{ m_ResourceMutex.lock(); }
     void						unlockResources( void )						{ m_ResourceMutex.unlock(); }
 
+    bool                        isUserOnline( VxGUID& onlineId );
+    bool                        isUserExcluded( VxGUID& onlineId );
+
     void                        onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
     bool                        onUserOnline( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ); // return true if user was added
     void                        onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo );
@@ -54,7 +57,6 @@ public:
     virtual void                onUserOffline( VxGUID& onlineId );
 
     User*                       findUser( VxGUID& onlineId );
-    bool                        isUserOnline( VxGUID& onlineId );
 
 protected:
     void				        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;

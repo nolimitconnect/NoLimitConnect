@@ -1331,7 +1331,7 @@ void GroupieListMgr::connectToGroupieIfPossible( GroupieInfo& groupieInfo, EConn
     VxPtopUrl ptopUrl( groupieInfo.getGroupieUrl( false ) );
     if( ptopUrl.isValid() )
     {
-        if( !m_Engine.getConnectIdListMgr().isOnline( ptopUrl.getOnlineId() ) )
+        if( !m_Engine.getConnectIdListMgr().isUserOnline( ptopUrl.getOnlineId() ) )
         {
             VxGUID sessionId;
             sessionId.initializeWithNewVxGUID();

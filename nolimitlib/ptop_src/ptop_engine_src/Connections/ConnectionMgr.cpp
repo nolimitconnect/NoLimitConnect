@@ -383,6 +383,14 @@ void ConnectionMgr::callbackQueryIdSuccess( UrlActionInfo& actionInfo, VxGUID on
         m_DefaultHostIdList[actionInfo.getHostType()] = onlineId;
         m_DefaultHostRequiresOnlineId[actionInfo.getHostType()] = "";
         unlockConnectionList();
+
+        if( eHostTypeNetwork == actionInfo.getHostType() && onlineId.isVxGUIDValid() )
+        {
+            // exclude network host from updating online status to gui because is just temporary
+            // also set the network host id so that we do not block packet announce from network host
+            // connection test does not need PktAnnounce so should not need to be excluded
+            m_Engine.getConnectIdListMgr().updateOnlineExclusion( onlineId, true, true );
+        }
     }
 
     std::string hostUrl = actionInfo.getRemoteUrl();
@@ -483,7 +491,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     bool isDisconnected = false;
 
     // see if we already have a connection for a different reason
-    bool isOnline = m_Engine.getConnectIdListMgr().isOnline( onlineId );
+    bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( onlineId );
     if( isOnline )
     {
         sktBase = m_Engine.getConnectIdListMgr().findAnyOnlineConnection( onlineId );
@@ -773,7 +781,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
             sktBase->setConnectReason( connectReason );
         }
 
-        // LogModule( eLogConnect, LOG_VERBOSE, "NetConnector::directConnectTo: connect SUCCESS to %s:%d", ipAddr.c_str(), port );
+        // LogModule( eLogConnect, LOG_VERBOSE, "ConnectionMgr::directConnectTo: connect SUCCESS to %s:%d", ipAddr.c_str(), port );
         // generate encryption keys
 
         LogModule( eLogTcpData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating tx key %s:%d %s", sktBase->getRemoteIp().c_str(), port, onlineId.toHexString().c_str() );
@@ -806,7 +814,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
     {
         connectStatus = eConnectStatusConnectFailed;
 
-        //LogMsg( LOG_INFO, "NetConnector::directConnectTo: connect FAIL to %s:%d", strIpAddress.c_str(), connectInfo.getOnlinePort() );
+        //LogMsg( LOG_INFO, "ConnectionMgr::directConnectTo: connect FAIL to %s:%d", strIpAddress.c_str(), connectInfo.getOnlinePort() );
         LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::DirectConnectTo: failed" );
     }
 
@@ -872,7 +880,7 @@ bool ConnectionMgr::connectToContact(	VxConnectInfo&		connectInfo,
     retIsNewConnection	 = false;
     if( connectInfo.getMyOnlineId() == m_Engine.getMyOnlineId() )
     {
-        LogMsg( LOG_ERROR, "NetConnector::connectToContact: cannot connect to ourself" );  
+        LogMsg( LOG_ERROR, "ConnectionMgr::connectToContact: cannot connect to ourself" );  
         return false;
     }
 
@@ -1101,7 +1109,7 @@ bool ConnectionMgr::txPacket(	VxGUID&				        destinationId,
             }
             else
             {
-                LogMsg( LOG_ERROR, "NetConnector::txPacket: %s error %d", sktBase->describeSktType().c_str(), rc );
+                LogMsg( LOG_ERROR, "ConnectionMgr::txPacket: %s error %d", sktBase->describeSktType().c_str(), rc );
             }
         }
         else
@@ -1151,13 +1159,13 @@ void ConnectionMgr::doNetConnectionsThread( void )
 }
 
 //============================================================================
-void ConnectionMgr::handleConnectSuccess(  BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason )
+void ConnectionMgr::handleConnectSuccess( BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason )
 {
     if( 0 != bigListInfo )
     {
         int64_t timeNow = GetGmtTimeMs();
         bigListInfo->setTimeLastConnectAttemptMs( timeNow );
-        bigListInfo->setIsConnected( true );
+
         if( eConnectReasonRandomConnectJoin == connectReason )
         {
             m_Engine.getToGui().toGuiScanResultSuccess( eScanTypeRandomConnect, bigListInfo );
@@ -1242,20 +1250,27 @@ void ConnectionMgr::doStayConnectedThread( void )
                 }
 
                 poInfo = friendList[iConnectToIdx];
-                if( false == poInfo->isConnected() )
+                if( poInfo->canDirectConnectToUser() )
                 {
-                    if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC < ( GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs() ) )
+                    if( !m_Engine.getConnectIdListMgr().isUserOnline( poInfo->getMyOnlineId() ) )
                     {
-                        bool isNewConnection = false;
-                        if( m_Engine.connectToContact( poInfo->getConnectInfo(), sktBase, isNewConnection, eConnectReasonStayConnected ) )
+                        if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC < (GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs()) )
                         {
-                            poInfo->contactWasAttempted( true );
-                        }
-                        else
-                        {
-                            poInfo->contactWasAttempted( false );
+                            bool isNewConnection = false;
+                            if( m_Engine.connectToContact( poInfo->getConnectInfo(), sktBase, isNewConnection, eConnectReasonStayConnected ) )
+                            {
+                                poInfo->contactWasAttempted( true );
+                            }
+                            else
+                            {
+                                poInfo->contactWasAttempted( false );
+                            }
                         }
                     }
+                }
+                else
+                {
+                    LogMsg( LOG_ERROR, "ConnectionMgr::doConnectRequest when cannot direct connect" );
                 }
             }
 
@@ -1276,7 +1291,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
     VxConnectInfo& connectInfo = connectRequest.getConnectInfo();
     if( false == m_Engine.getNetworkStateMachine().isP2POnline() )
     {
-         LogMsg( LOG_ERROR, "NetConnector::doConnectRequest when not online" );
+         LogMsg( LOG_ERROR, "ConnectionMgr::doConnectRequest when not online" );
     }
 
     P2PConnectList& connectedList = m_Engine.getConnectList();
@@ -1303,7 +1318,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
         && connectRequest.isTooSoonToAttemptConnectAgain() )
     {
 #ifdef DEBUG_CONNECTIONS
-        LogMsg( LOG_INFO, "NetConnector::doConnectRequest: to soon to connect again %s", m_Engine.describeContact( connectRequest ).c_str() );
+        LogMsg( LOG_INFO, "ConnectionMgr::doConnectRequest: to soon to connect again %s", m_Engine.describeContact( connectRequest ).c_str() );
 #endif // DEBUG_CONNECTIONS
         return false;
     }
@@ -1321,7 +1336,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
     {
         // handle success connect
 #ifdef DEBUG_CONNECTIONS
-        LogMsg( LOG_INFO, "NetConnector::doConnectRequest: success  %s", m_Engine.describeContact( connectInfo ).c_str() );
+        LogMsg( LOG_INFO, "ConnectionMgr::doConnectRequest: success  %s", m_Engine.describeContact( connectInfo ).c_str() );
 #endif // DEBUG_CONNECTIONS
         if( 0 == bigListInfo )
         {
@@ -1336,7 +1351,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
 #ifdef DEBUG_CONNECTIONS
         else
         {
-            LogMsg( LOG_INFO, "NetConnector::doConnectRequest: No BigList for connected  %s", m_Engine.describeContact( connectInfo ).c_str() );
+            LogMsg( LOG_INFO, "ConnectionMgr::doConnectRequest: No BigList for connected  %s", m_Engine.describeContact( connectInfo ).c_str() );
         }
 #endif // DEBUG_CONNECTIONS
 
@@ -1345,7 +1360,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
 
     // handle fail connect
 #ifdef DEBUG_CONNECTIONS
-    LogMsg( LOG_INFO, "NetConnector::doConnectRequest: connect fail  %s", m_Engine.describeContact( connectInfo ).c_str() );
+    LogMsg( LOG_INFO, "ConnectionMgr::doConnectRequest: connect fail  %s", m_Engine.describeContact( connectInfo ).c_str() );
 #endif // DEBUG_CONNECTIONS
     return false;
 }

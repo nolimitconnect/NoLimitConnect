@@ -226,14 +226,14 @@ std::string P2PEngine::describeContact( BigListInfo * bigListInfo )
 	{
 		StdStringFormat( strDesc, " %s Connected ? %d Online ID %s requires relay ", 
 			bigListInfo->getOnlineName(),
-			bigListInfo->isConnected() ? 1 : 0,
+			getConnectIdListMgr().isUserOnline( bigListInfo->getMyOnlineId() ),
 			hexId.c_str() );
 	}
 	else
 	{
 		StdStringFormat( strDesc, " %s Connected ? %d Online ID %s at ip %s ", 
 			bigListInfo->getOnlineName(),
-			bigListInfo->isConnected() ? 1 : 0,
+			getConnectIdListMgr().isUserOnline( bigListInfo->getMyOnlineId() ),
 			hexId.c_str(), 
 			connectInfo.getMyOnlineIPv4().toStdString().c_str() );
 	}

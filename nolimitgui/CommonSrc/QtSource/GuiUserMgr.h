@@ -44,10 +44,10 @@ public:
     virtual void				toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;
 
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactRemoved( VxGUID& onlineId ) override; 
-    virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactOffline( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactOffline( VxGUID& onlineId );
+    virtual void				toGuiContactRemoved( VxGUID& onlineId ) override;  
+
+    virtual void				toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+
     virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactMyFriendshipChange( VxNetIdent* netIdent ) override; 
@@ -55,17 +55,15 @@ public:
     virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override; 
+
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;
     virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) override; 
-
-    virtual void				toGuiUserOnlineStatus( VxNetIdent* hostIdent, bool isOnline );
 
     virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
 
     bool                        isUserRelayed( VxGUID& onlineId );
     bool                        isUserOnline( VxGUID& onlineId );
     bool                        isUserInSession( VxGUID& onlineId );
-    void                        setUserOffline( VxGUID& onlineId );
 
     void                        onUserAdded( GuiUser* guiUser );
     void                        onUserRemoved( VxGUID& onlineId );
@@ -89,7 +87,6 @@ public:
 
     void                        connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearbyTimeOrZeroIfNot );
     void                        connnectIdRelayStatusChange( VxGUID& onlineId );
-    void                        connnectIdOnlineStatusChange( VxGUID& onlineId );
 
 protected:
     void                        removeUser( VxGUID& onlineId );
@@ -111,4 +108,5 @@ protected:
     GuiUser*                    m_MyIdent{ nullptr };
     VxGUID                      m_MyOnlineId;
 
+    std::set<VxGUID>            m_OnlineUsers;
 };

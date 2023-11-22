@@ -107,11 +107,15 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
         guiUser->setLastUpdateTime( timestamp );
         if( isMessengerReady() && onlineId.isVxGUIDValid() )
         {
+            m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
             {
                 client->callbackIndentListUpdate( listType, onlineId, timestamp );
                 client->callbackUserUpdated( guiUser );
             }
+
+            m_ClientListBusy = false;
+            updateClientList();
         }
     }
 }
@@ -158,11 +162,15 @@ void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId
 
         if( isMessengerReady() && onlineId.isVxGUIDValid() )
         {
+            m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
             {
                 client->callbackIndentListRemove( listType, onlineId );
                 client->callbackUserUpdated( guiUser );
             }
+
+            m_ClientListBusy = false;
+            updateClientList();
         }
     }
 }
@@ -192,39 +200,35 @@ void GuiUserMgr::toGuiContactRemoved( VxGUID& onlineId )
 }
 
 //============================================================================
-void GuiUserMgr::toGuiContactOnline( VxNetIdent* netIdent )
+void GuiUserMgr::toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
-    if( !netIdent || !netIdent->isValidNetIdent() )
+    if( isOnline )
     {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactOnline invalid netIdent" );
-        return;
+        m_OnlineUsers.insert( onlineId );
+    }
+    else
+    {
+        auto iter = m_OnlineUsers.find( onlineId );
+        if( iter != m_OnlineUsers.end() )
+        {
+            m_OnlineUsers.erase( iter );
+        }
     }
 
-    updateOnlineStatus( netIdent, true );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiContactOffline( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactOffline invalid netIdent" );
-        return;
-    }
-
-    updateOnlineStatus( netIdent, false );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiContactOffline( VxGUID& onlineId )
-{
     GuiUser* guiUser = findUser( onlineId );
     if( guiUser )
     {
+        m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
-            client->callbackOnlineStatusChange( guiUser, false );
+            if( client )
+            {
+                client->callbackOnlineStatusChange( guiUser, isOnline );
+            }
         }
+
+        m_ClientListBusy = false;
+        updateClientList();
     }
 }
 
@@ -339,10 +343,14 @@ void GuiUserMgr::updateOnlineStatus( VxNetIdent* netIdent, bool online )
     GuiUser* guiUser = findUser( netIdent->getMyOnlineId() );
     if( guiUser )
     {
+        m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
             client->callbackOnlineStatusChange( guiUser, guiUser->isOnline() );
         }
+
+        m_ClientListBusy = false;
+        updateClientList();
     }
 }
 
@@ -393,14 +401,7 @@ bool GuiUserMgr::isUserRelayed( VxGUID& onlineId )
 //============================================================================
 bool GuiUserMgr::isUserOnline( VxGUID& onlineId )
 {
-    GuiUser* guiUser = findUser( onlineId );
-    if( guiUser )
-    {
-        guiUser->updateIsOnline();
-        return guiUser->isOnline();
-    }
-
-    return false;
+    return m_OnlineUsers.find( onlineId ) != m_OnlineUsers.end();
 }
 
 //============================================================================
@@ -475,25 +476,15 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
     else
     {
         GuiUser* guiUser = findUser( hisIdent->getMyOnlineId() );
-        if( guiUser && guiUser->getMyOnlineId() == hisIdent->getMyOnlineId() )
+        if( guiUser )
         {
-            bool wasOnline = guiUser->isOnline();
-            guiUser->updateIsOnline();
-            if( wasOnline != guiUser->isOnline() )
-            {
-                onUserOnlineStatusChange( guiUser );
-            }
-            else
-            {
-                onUserUpdated( guiUser );
-            }
+            onUserUpdated( guiUser );
         }
         else
         {
             guiUser = new GuiUser( m_MyApp );
             guiUser->setNetIdent( hisIdent );
             m_UserList[guiUser->getMyOnlineId()] = guiUser;
-            guiUser->updateIsOnline();
             onUserAdded( guiUser );
         }
 
@@ -530,19 +521,6 @@ GuiUser* GuiUserMgr::updateMyIdent( VxNetIdent* myIdent )
     }
 
     return m_MyIdent;
-}
-
-//============================================================================
-void GuiUserMgr::setUserOffline( VxGUID& onlineId )
-{
-    if( isMessengerReady() )
-    {
-        GuiUser* guiUser = findUser( onlineId );
-        if( guiUser )
-        {
-            guiUser->updateIsOnline();
-        }
-    }
 }
 
 //============================================================================
@@ -592,8 +570,8 @@ void GuiUserMgr::onUserRelayStatusChange( GuiUser* guiUser )
     if( isMessengerReady() )
     {
         bool wasOnline = guiUser->isOnline();
-        guiUser->updateIsOnline();
-        if( guiUser->isOnline() != wasOnline )
+
+        if( guiUser->isOnline() )
         {
             onUserOnlineStatusChange( guiUser );
         }
@@ -609,7 +587,6 @@ void GuiUserMgr::onUserOnlineStatusChange( GuiUser* guiUser )
 {
     if( isMessengerReady() )
     {
-        guiUser->updateIsOnline();
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
@@ -741,17 +718,6 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
 }
 
 //============================================================================
-void GuiUserMgr::toGuiUserOnlineStatus( VxNetIdent* netIdent, bool isOnline )
-{
-    if( VxIsAppShuttingDown() )
-    {
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
 void GuiUserMgr::toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
 {
     GuiUser* guiUser = findUser( onlineId );
@@ -826,29 +792,9 @@ void GuiUserMgr::connnectIdRelayStatusChange( VxGUID& onlineId )
 }
 
 //============================================================================
-void GuiUserMgr::connnectIdOnlineStatusChange( VxGUID& onlineId )
-{
-    GuiUser* guiUser = findUser( onlineId );
-    if( guiUser )
-    {
-        bool wasOnline = guiUser->isOnline();
-        guiUser->updateIsOnline();
-        if( wasOnline != guiUser->isOnline() )
-        {
-            LogMsg( LOG_VERBOSE, "GuiUserMgr::connnectIdOnlineStatusChange is online ? %d %s", guiUser->isOnline(), getUserOnlineName( onlineId ).c_str() );
-            onUserOnlineStatusChange( guiUser );
-        }
-        else
-        {
-            onUserUpdated( guiUser );
-        }
-    }
-}
-
-//============================================================================
 void GuiUserMgr::updateClientList( void )
 {
-    // update client list from que of want callback the happend while client list was busy
+    // update client list from que of want callback that happened while client list was busy
     for( auto pair : m_WantUpdateToDoList )
     {
         if( pair.second )

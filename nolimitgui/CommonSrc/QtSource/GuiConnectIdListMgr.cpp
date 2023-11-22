@@ -233,10 +233,8 @@ void GuiConnectIdListMgr::announceOnlineStatusChange( VxGUID& onlineId, bool isO
 {
     if( onlineId.isVxGUIDValid() )
     {
-        m_MyApp.getUserMgr().connnectIdOnlineStatusChange( onlineId );
-        for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
+        for( auto client : m_GuiConnectIdClientList )
         {
-            GuiConnectIdListCallback* client = *iter;
             if( client )
             {
                 client->callbackOnlineStatusChange( onlineId, isOnline );
@@ -314,7 +312,6 @@ void GuiConnectIdListMgr::announceConnectionStatusChange( ConnectId& connectId, 
 {
     if( connectId.isValid() )
     {
-        m_MyApp.getUserMgr().connnectIdOnlineStatusChange( connectId.getGroupieId().getUserOnlineId() );
         for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
         {
             GuiConnectIdListCallback* client = *iter;

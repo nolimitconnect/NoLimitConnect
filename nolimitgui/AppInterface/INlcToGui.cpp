@@ -181,9 +181,9 @@ void INlc::toGuiHostJoinStatus( EHostType hostType, VxGUID& sessionId, EHostJoin
 }
 
 //============================================================================
-void INlc::toGuiUserOnlineStatus( VxNetIdent* netIdent, bool isOnline )
+void INlc::toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
-    getAppCommon().toGuiUserOnlineStatus( netIdent, isOnline );
+    getAppCommon().toGuiUserOnlineStatusChange( onlineId, isOnline );
 }
 
 //============================================================================
@@ -268,12 +268,6 @@ void INlc::toGuiContactRemoved( VxGUID& onlineId )
 void INlc::toGuiContactOnline( VxNetIdent* netIdent )
 {
     getAppCommon().toGuiContactOnline( netIdent );
-}
-
-//============================================================================
-void INlc::toGuiContactOffline( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactOffline( netIdent );
 }
 
 //============================================================================

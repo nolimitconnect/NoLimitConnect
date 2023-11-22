@@ -54,6 +54,13 @@ static uint8_t charToHex( char cVal )
 }
 
 //============================================================================
+VxGUID::VxGUID( VxGUID &rhs )
+: m_u64HiPart(rhs.m_u64HiPart)
+, m_u64LoPart(rhs.m_u64LoPart)
+{
+}
+
+//============================================================================
 VxGUID::VxGUID( const VxGUID &rhs )
 : m_u64HiPart(rhs.m_u64HiPart)
 , m_u64LoPart(rhs.m_u64LoPart)

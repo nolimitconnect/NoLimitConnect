@@ -597,6 +597,7 @@ namespace
         "Skt Close Tx Failed ",
         "Skt Close Pkt Ping Is First Packet ",
         "Skt Close Net Service Handled ",
+        "Skt Close Blocked User ",
 
         "eMaxSktCloseReason "
     };

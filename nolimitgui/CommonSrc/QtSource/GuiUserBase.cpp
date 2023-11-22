@@ -59,6 +59,12 @@ bool GuiUserBase::isMyself( void )
 }
 
 //============================================================================
+bool GuiUserBase::isOnline( void )
+{
+    return m_MyApp.getUserMgr().isUserOnline( m_OnlineId );
+}
+
+//============================================================================
 bool GuiUserBase::updateIsNearby( void )
 {
     if( !isMyself() )
@@ -126,7 +132,6 @@ bool GuiUserBase::updateIsRelayed( void )
 //============================================================================
 EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType, bool inGroup )
 { 
-    updateIsOnline();
     if( m_MyApp.getMyOnlineId() == m_NetIdent.getMyOnlineId() )
     {
         return ePluginAccessOk;
@@ -149,14 +154,12 @@ bool GuiUserBase::isMyAccessAllowedFromHim( enum EPluginType pluginType, bool in
 //============================================================================
 QString GuiUserBase::describeMyFriendshipToHim( bool inGroup )
 {
-    updateIsOnline();
     return GuiParams::describeFriendship( m_NetIdent.getMyFriendshipToHim( inGroup ) );
 }
 
 //============================================================================
 QString GuiUserBase::describeHisFriendshipToMe( bool inGroup )
 {
-    updateIsOnline();
     return GuiParams::describeFriendship( m_NetIdent.getHisFriendshipToMe( inGroup ) );
 }
 
@@ -167,7 +170,6 @@ void GuiUserBase::setNetIdent( VxNetIdent* netIdent )
     {
         m_NetIdent = *netIdent; 
         m_OnlineId = m_NetIdent.getMyOnlineId();
-        updateIsOnline();
     }
     else
     {

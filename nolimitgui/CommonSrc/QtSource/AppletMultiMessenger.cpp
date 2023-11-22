@@ -205,7 +205,7 @@ void AppletMultiMessenger::callbackOnlineStatusChange( GuiUser* guiUser, bool is
     if( m_UserMgr.isUserInSession( guiUser->getMyOnlineId() ) || guiUser->isFriend() )
 	{
 		QString statMsg = guiUser->getOnlineName().c_str();
-		statMsg += guiUser->isOnline() ? QObject::tr( " is online" ) : QObject::tr( " went offline" );
+		statMsg +=  m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ? QObject::tr( " is online" ) : QObject::tr( " went offline" );
 		setStatusMsg( statMsg );
 
 		checkForSendAccess( false );
@@ -228,7 +228,7 @@ bool AppletMultiMessenger::checkForSendAccess( bool sendOfferIfPossible )
         return false;
     }
 
-	if( m_HisIdent->isOnline() 
+	if(  m_HisIdent->isOnline()
 		&& m_HisIdent->isMyAccessAllowedFromHim( m_ePluginType ) )
 	{
 		canSend = true;

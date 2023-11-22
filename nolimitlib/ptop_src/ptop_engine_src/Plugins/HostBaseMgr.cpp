@@ -833,8 +833,6 @@ void HostBaseMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent*
         HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
         BaseSessionInfo sessionInfo( hostUserSessionId );
         m_Engine.getUserOnlineMgr().onUserOnline( sktBase, netIdent, sessionInfo );
-
-        m_Engine.getToGui().toGuiUserOnlineStatus( netIdent, true );
     }
     else
     {

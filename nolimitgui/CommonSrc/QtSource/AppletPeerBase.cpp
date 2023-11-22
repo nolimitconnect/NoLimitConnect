@@ -77,8 +77,8 @@ void AppletPeerBase::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletPeerBase::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-    LogMsg( LOG_DEBUG, "AppletPeerBase::callbackOnlineStatusChange" );
-    if( !guiUser->isOnline() )
+    LogMsg( LOG_DEBUG, "AppletPeerBase::callbackOnlineStatusChange online ? %d user %s", isOnline, guiUser->getOnlineName().c_str() );
+    if( !isOnline )
     {
         m_OfferSessionLogic.toGuiContactOffline( guiUser );
     }

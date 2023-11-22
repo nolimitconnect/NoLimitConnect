@@ -86,10 +86,8 @@ RcConnectInfo * P2PConnectList::addConnection( std::shared_ptr<VxSktBase>& sktBa
 RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnectInfo * poInfoIn, bool bNewContact )
 {
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::addConnection: connectListLock()\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::addConnection: connectListLock()" );
 #endif // DEBUG_MUTEXES
-
-	poInfoIn->m_BigListInfo->setIsConnected( true );
 
 	connectListLock();
 	RcConnectInfo * poInfo = findConnection( oOnlineId, true);
@@ -109,7 +107,7 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 		{
 #ifdef DEBUG_CONNECT_LIST
 			std::string strOnlineIp = poInfo->m_BigListInfo->getOnlineIpAddress().toStdString();
-			LogMsg( LOG_INFO, "P2PConnectList::addConnection: already connected %s %s Hi 0x%llX Lo 0x%llX port %d ip %s my proxy %d\n", 
+			LogMsg( LOG_INFO, "P2PConnectList::addConnection: already connected %s %s Hi 0x%llX Lo 0x%llX port %d ip %s my proxy %d", 
 				m_Engine.knownContactNameFromId( poInfo->m_BigListInfo ),
 				poInfo->m_BigListInfo->getOnlineName(),
 				poInfo->m_BigListInfo->getMyOnlineId().getVxGUIDHiPart(),
@@ -126,7 +124,7 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 				poInfo->m_SktBase = poNewSkt;
 
 #ifdef DEBUG_MUTEXES
-				LogMsg( LOG_INFO, "P2PConnectList::addConnection: connectListUnlock()\n" );
+				LogMsg( LOG_INFO, "P2PConnectList::addConnection: connectListUnlock()" );
 #endif // DEBUG_MUTEXES
 
 				connectListUnlock();
@@ -142,7 +140,7 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 #ifdef DEBUG_CONNECT_LIST
     BigListInfo * poBigListInfo = poInfo->m_BigListInfo;
     std::string strOnlineIp = poBigListInfo->getOnlineIpAddress().toStdString();
-	LogMsg( LOG_INFO, "P2PConnectList::addConnection: %s %s Hi 0x%llX Lo 0x%llX port %d ip %s my proxy %d\n", 
+	LogMsg( LOG_INFO, "P2PConnectList::addConnection: %s %s Hi 0x%llX Lo 0x%llX port %d ip %s my proxy %d", 
 						m_Engine.knownContactNameFromId( poBigListInfo ),
 						poBigListInfo->getOnlineName(),
 						poBigListInfo->getMyOnlineId().getVxGUIDHiPart(),
@@ -154,7 +152,7 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 #endif // DEBUG_CONNECT_LIST
 
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::addConnection: connectListUnlock()\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::addConnection: connectListUnlock()" );
 #endif // DEBUG_MUTEXES
 	connectListUnlock();
 
@@ -169,7 +167,7 @@ void P2PConnectList::removeConnection( const VxGUID& oOnlineId )
 	std::map<VxGUID, RcConnectInfo *, cmp_vxguid>::iterator oMapIter;
 
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::removeConnection: connectListLock()\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::removeConnection: connectListLock()" );
 #endif // DEBUG_MUTEXES
 	connectListLock();
 	oMapIter = m_ConnectList.find(oOnlineId);
@@ -180,7 +178,7 @@ void P2PConnectList::removeConnection( const VxGUID& oOnlineId )
 #ifdef DEBUG_CONNECT_LIST
 		std::string strId;
 		oOnlineId.getOnlineId( strId );
-		LogMsg( LOG_INFO, "P2PConnectList::removeConnection: %s id %s name %s\n", 
+		LogMsg( LOG_INFO, "P2PConnectList::removeConnection: %s id %s name %s", 
 			m_Engine.knownContactNameFromId( oOnlineId ),
 			strId.c_str(), 
 			poInfo->m_BigListInfo->getOnlineName() );
@@ -196,14 +194,14 @@ void P2PConnectList::removeConnection( const VxGUID& oOnlineId )
 	{
 		std::string strId;
 		oOnlineId.getOnlineId( strId );
-		LogMsg( LOG_INFO, "P2PConnectList::removeConnection: CONNECTION NOT FOUND to %s id %s\n", 
+		LogMsg( LOG_INFO, "P2PConnectList::removeConnection: CONNECTION NOT FOUND to %s id %s", 
 			m_Engine.knownContactNameFromId( oOnlineId ),
 			strId.c_str() );
 	}
 #endif // DEBUG_CONNECT_LIST
 
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::removeConnection: connectListUnlock()\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::removeConnection: connectListUnlock()" );
 #endif // DEBUG_MUTEXES
 	connectListUnlock();
 }
@@ -287,7 +285,7 @@ void P2PConnectList::connectListLock( void )
 void P2PConnectList::connectListUnlock( void )							
 { 
 #ifdef DEBUG_MUTEXES
-    LogMsg( LOG_INFO, "P2PConnectList::connectListUnlock m_ConnectListMutex.Unlock\n" );
+    LogMsg( LOG_INFO, "P2PConnectList::connectListUnlock m_ConnectListMutex.Unlock" );
 #endif // DEBUG_MUTEXES
 	m_ConnectListMutex.unlock(); 
 }
@@ -343,7 +341,7 @@ bool P2PConnectList::isContactConnected( const VxGUID& onlineId )
 {
 	bool contactIsConnected = false;
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::isContactConnected connectListLock\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::isContactConnected connectListLock" );
 #endif // DEBUG_MUTEXES
 	connectListLock();
 
@@ -355,7 +353,7 @@ bool P2PConnectList::isContactConnected( const VxGUID& onlineId )
 	}
 
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::isContactConnected connectListUnlock\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::isContactConnected connectListUnlock" );
 #endif // DEBUG_MUTEXES
 	connectListUnlock();
 	return contactIsConnected;
@@ -367,7 +365,7 @@ void P2PConnectList::removeContactInfo( VxConnectInfo& contactInfo )
 	removeConnection( contactInfo.getMyOnlineId() );
 
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::removeContactInfo connectListLock\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::removeContactInfo connectListLock" );
 #endif // DEBUG_MUTEXES
 	connectListLock();
 
@@ -380,7 +378,7 @@ void P2PConnectList::removeContactInfo( VxConnectInfo& contactInfo )
 	}
 
 #ifdef DEBUG_MUTEXES
-	LogMsg( LOG_INFO, "P2PConnectList::removeContactInfo connectListUnlock\n" );
+	LogMsg( LOG_INFO, "P2PConnectList::removeContactInfo connectListUnlock" );
 #endif // DEBUG_MUTEXES
 	connectListUnlock();
 }

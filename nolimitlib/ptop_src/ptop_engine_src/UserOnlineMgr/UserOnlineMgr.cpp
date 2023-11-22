@@ -60,7 +60,7 @@ void UserOnlineMgr::callbackConnectionStatusChange( ConnectId& connectId, bool i
     User* user = findUser( connectId.getUserOnlineId() );
     if( user && user->getNetIdent() )
     {
-        announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isOnline( connectId.getUserOnlineId() ) );
+        announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isUserOnline( connectId.getUserOnlineId() ) );
     }
 
     unlockResources();
@@ -73,7 +73,7 @@ void UserOnlineMgr::callbackRelayStatusChange( ConnectId& connectId, bool isRela
     User* user = findUser( connectId.getUserOnlineId() );
     if( user && user->getNetIdent() )
     {
-        announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isOnline( connectId.getUserOnlineId() ) );
+        announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isUserOnline( connectId.getUserOnlineId() ) );
     }
 
     unlockResources();
@@ -353,16 +353,13 @@ User* UserOnlineMgr::findUser( VxGUID& onlineId )
 //============================================================================
 bool UserOnlineMgr::isUserOnline( VxGUID& onlineId )
 {
-    bool isOnline{ false };
-    lockResources();
-    User* user = findUser( onlineId );
-    if( user )
-    {
-        isOnline = true;
-    }
+    return m_Engine.getConnectIdListMgr().isUserOnline( onlineId );
+}
 
-    unlockResources();
-    return isOnline;
+//============================================================================
+bool UserOnlineMgr::isUserExcluded( VxGUID& onlineId )
+{
+    return m_Engine.getConnectIdListMgr().isUserExcluded( onlineId );
 }
 
 //============================================================================

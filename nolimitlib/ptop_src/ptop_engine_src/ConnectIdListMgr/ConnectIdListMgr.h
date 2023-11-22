@@ -39,8 +39,15 @@ public:
     bool                        isRelayed( VxGUID& onlineId );
     bool                        isHosted( VxGUID& onlineId );
 
-    bool                        isOnline( VxGUID& onlineId ) { return isDirectConnected( onlineId ) || isRelayed( onlineId ); }
     bool                        isOnline( GroupieId& groupieId );
+    bool                        isUserOnline( VxGUID& onlineId );
+    bool                        isUserExcluded( VxGUID& onlineId );
+
+    void                        setNetworkHostId( VxGUID& onlineId )    { m_NetworkHostOnlineId = onlineId; }
+    VxGUID                      getNetworkHostId( void )                { return m_NetworkHostOnlineId; }
+    bool                        isNetworkHost( VxGUID& onlineId )       { return onlineId == m_NetworkHostOnlineId; }
+
+    bool                        isConnectionInUse( VxGUID& sktConnectId );
 
     void                        userJoinedHost( VxGUID& sktConnectId, GroupieId& groupieId );
     void                        userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId );
@@ -54,8 +61,8 @@ public:
     std::shared_ptr<VxSktBase> findAnyOnlineConnection( VxGUID& onlineId );
     std::shared_ptr<VxSktBase> findBestOnlineConnection( VxGUID& onlineId );
 
-    virtual bool                findConnectionId( GroupieId& groupieId, VxGUID& retSktConnectId );
-    virtual bool                findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );
+    virtual bool               findConnectionId( GroupieId& groupieId, VxGUID& retSktConnectId );
+    virtual bool               findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );
     std::shared_ptr<VxSktBase> findSktBase( VxGUID& connectId );
 
     void                        addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed );
@@ -74,6 +81,9 @@ public:
     void                        getOnlineMembers( HostedId& hostId, std::vector<VxGUID>& onlineIdList );
     bool                        isMemberOnline( HostedId& hostId, VxGUID& onlineId );
 
+    void                        pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId );
+    void                        updateOnlineExclusion( VxGUID onlineId, bool excludeFromOnlineStatus, bool isNetworkHost = false );
+
 protected:
     void                        announceOnlineStatus( VxGUID& onlineId, bool isOnline );
     void                        announceConnectionStatus( ConnectId& connectId, bool isConnected );
@@ -82,13 +92,25 @@ protected:
     void                        announceConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason );
     void                        announceConnectionLost( VxGUID& sktConnectId );
 
-    void						lockClientList( void ) { m_ClientCallbackMutex.lock(); }
-    void						unlockClientList( void ) { m_ClientCallbackMutex.unlock(); }
+    void                        doOnlineIdConnectionLost( VxGUID& sktConnectId );
+
+    void						lockClientList( void )          { m_ClientCallbackMutex.lock(); }
+    void						unlockClientList( void )        { m_ClientCallbackMutex.unlock(); }
+
+    void						lockOnlineIdList( void )        { m_OnlineIdMutex.lock(); }
+    void						unlockOnlineIdList( void )      { m_OnlineIdMutex.unlock(); }
 
     std::set<ConnectId>         m_ConnectIdList;
     std::set<ConnectId>         m_RelayedIdList;
     std::map<VxGUID, std::set<EConnectReason>>      m_ConnectReasonList;
     std::vector<ConnectIdListCallbackInterface*>    m_CallbackClients;
     VxMutex						m_ClientCallbackMutex;
+
+    std::set<VxGUID>            m_OnlineIdExclusionList;
+    std::set<VxGUID>            m_OnlineIdListList;
+    VxMutex						m_OnlineIdMutex;
+    std::vector< std::pair<VxGUID, VxGUID> > m_OnlineConnectionPairs; // first connection id second online id
+    VxGUID                      m_NetworkHostOnlineId;
+ 
 };
 

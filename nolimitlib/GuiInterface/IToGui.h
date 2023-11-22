@@ -83,8 +83,6 @@ public:
 	virtual void				toGuiGroupieSearchResult( EHostType hostType, VxGUID& sessionId, GroupieInfo& groupieInfo ) = 0;
 	virtual void				toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) = 0;
 
-    virtual void				toGuiUserOnlineStatus( VxNetIdent* netIdent, bool isOnline ) = 0;
-
     /// Send is port open test state/status to GUI
     virtual void				toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) = 0;
     /// Send Network available status to GUI for display
@@ -106,8 +104,9 @@ public:
 
 	/// Update contact to online state GUI
 	virtual void				toGuiContactOnline( VxNetIdent* netIdent ) = 0;
-	/// Update contact to offline state GUI
-	virtual void				toGuiContactOffline( VxNetIdent* netIdent ) = 0;
+
+	/// Update contact online state to GUI
+	virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) = 0;
 
 	/// Notify GUI that contact changed his/her online name
 	virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0;

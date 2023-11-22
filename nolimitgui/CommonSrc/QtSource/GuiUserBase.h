@@ -47,20 +47,19 @@ public:
     void                        setPushToTalkStatus( EPushToTalkStatus pushToTalkStatus ) { m_PushToTalkStatus = pushToTalkStatus; }
     EPushToTalkStatus           getPushToTalkStatus( void )             { return m_PushToTalkStatus; }
 
-    bool                        updateIsOnline( void )                  { bool isDirect = updateIsDirectConnect(); bool isRelay = updateIsRelayed(); return isDirect || isRelay; }
-    bool                        isOnline( void )                        { return isDirectConnect() || isRelayed(); }
-
     bool                        updateIsNearby( void );
     virtual bool                setNearbyStatus( int64_t nearbyTimeOrZeroIfNotd ); // return false if nearbyTime is zero
     bool                        isNearby( void );
 
+    virtual bool                isOnline( void );
+
     bool                        updateIsDirectConnect( void );
     virtual bool                setDirectConnectStatus( bool isDirectConnect ); // return true if direct connect state changed.. derived classes can override
-    bool                        isDirectConnect( void )                 { return m_IsDirectConnect; }
+    bool                        isDirectConnect( void )                 { return updateIsDirectConnect(); }
 
     bool                        updateIsRelayed( void );
     virtual bool                setRelayStatus( bool isRelayed ); // return true if relay state changed.. derived classes can override
-    bool                        isRelayed( void )                       { return m_IsRelayed; }
+    bool                        isRelayed( void )                       { return updateIsRelayed(); }
 
     VxGUID&                     getMyOnlineId( void )                   { return m_OnlineId; }
     std::string                 getOnlineName( void )                   { return std::string( m_NetIdent.getOnlineName() ); }

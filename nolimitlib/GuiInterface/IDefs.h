@@ -1208,6 +1208,7 @@ enum ESktCloseReason
     eSktCloseTxFailed,
     eSktClosePktPingRequestIsFirstPkt,
     eSktCloseNetServiceHandled,
+    eSktCloseBlockedUser,
 
     eMaxSktCloseReason			// always last
 };

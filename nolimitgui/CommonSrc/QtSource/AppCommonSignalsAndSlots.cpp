@@ -128,7 +128,8 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL( signalInternalToGuiContactRemoved(VxGUID) ), this, SLOT( slotInternalToGuiContactRemoved(VxGUID) ), Qt::QueuedConnection );
 
     connect( this, SIGNAL( signalInternalToGuiContactOnline(VxNetIdent) ), this, SLOT( slotInternalToGuiContactOnline(VxNetIdent) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiContactOffline(VxGUID) ), this, SLOT( slotInternalToGuiContactOffline(VxGUID) ), Qt::QueuedConnection );
+
+	connect( this, SIGNAL( signalInternalToGuiOnlineStatusChange(VxGUID,bool) ), this, SLOT(slotInternalToGuiOnlineStatusChange(VxGUID,bool)), Qt::QueuedConnection );
 
     connect( this, SIGNAL( signalInternalToGuiContactNameChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactNameChange(VxNetIdent) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiContactDescChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactDescChange(VxNetIdent) ), Qt::QueuedConnection );

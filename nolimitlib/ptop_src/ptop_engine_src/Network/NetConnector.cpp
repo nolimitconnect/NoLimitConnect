@@ -133,58 +133,6 @@ void NetConnector::stayConnectedShutdown( void )
 	m_StayConnectedThread.abortThreadRun( true );
 }
 
-////============================================================================
-//void NetConnector::handleRandomConnectResults( HostList * anchorList )
-//{
-//	//handleAnnounceResults( anchorList, eConnectReasonRandomConnect );
-//}
-//
-////============================================================================
-//void NetConnector::handleAnnounceResults( HostList * anchorList, EConnectReason connectReason )
-//{
-//	if( 0 == anchorList->m_EntryCount )
-//	{
-//		LogMsg( LOG_INFO, "handleAnnounceResults: no entries from anchor" );
-//	}
-//
-//	// the list is in time order.. do oldest to newest so newest replace oldest
-//	//for( int i = anchorList->m_EntryCount - 1; i >= 0; --i )
-//	for( int i = 0; i < anchorList->m_EntryCount; ++i )
-//	{	
-//		HostListEntry * entry = &anchorList->m_List[i];
-//		if( entry->getMyOnlineId() == m_PktAnn.getMyOnlineId() )
-//		{
-//			// it is ourself
-//			continue;
-//		}
-//
-//		std::string onlineName = entry->getOnlineName();
-//		if( ( onlineName == "nolimitconnect.net" ) 
-//			|| ( onlineName == "nolimitconnect.com" ) )
-//		{
-//			// hack to exclude nolimitconnect anchor and connect servers.. TODO fix with some kind of settings instead
-//			continue;
-//		}
-//
-//		if( false == m_ConnectList.isContactConnected( entry->getMyOnlineId() ) )
-//		{
-//			ConnectRequest connectRequest( connectReason );
-//			VxConnectInfo& connectInfo = connectRequest.getConnectInfo();
-//			memcpy( (VxConnectIdent *)&connectInfo, (VxConnectIdent *)entry, sizeof( VxConnectIdent ) );
-//
-//			addConnectRequestToQue( connectRequest, false, false );
-//		}
-//		else 
-//		{
-//			if( eConnectReasonRandomConnectJoin == connectReason )
-//			{
-//				BigListInfo * bigListInfo = m_Engine.getBigListMgr().findBigListInfo( entry->getMyOnlineId() );
-//				m_Engine.getToGui().toGuiScanResultSuccess( eScanTypeRandomConnect, bigListInfo );
-//			}
-//		}
-//	}
-//}
-
 //============================================================================
 void NetConnector::addConnectRequestToQue( VxConnectInfo& connectInfo, EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting )
 {
@@ -606,7 +554,7 @@ void NetConnector::doStayConnectedThread( void )
 				}
 
 				poInfo = friendList[iConnectToIdx];
-				if( false == poInfo->isConnected() )
+				if( false == m_Engine.getConnectIdListMgr().isUserOnline( poInfo->getMyOnlineId() ) )
 				{
 					if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC < ( GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs() ) )
 					{
@@ -736,7 +684,7 @@ void NetConnector::handleConnectSuccess( BigListInfo * bigListInfo, std::shared_
 	{
 		int64_t timeNow = GetGmtTimeMs();
 		bigListInfo->setTimeLastConnectAttemptMs( timeNow );
-		bigListInfo->setIsConnected( true );
+
 		if( eConnectReasonRandomConnectJoin == connectReason )
 		{
 			m_Engine.getToGui().toGuiScanResultSuccess( eScanTypeRandomConnect, bigListInfo );

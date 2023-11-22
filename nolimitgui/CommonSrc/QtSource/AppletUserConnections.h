@@ -48,6 +48,7 @@ protected:
     void				        callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
     void				        callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;
     void				        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
+
     void				        callbackUserAdded( GuiUser* guiUser ) override;
     void				        callbackUserUpdated( GuiUser* guiUser ) override;
     void				        callbackUserRemoved( VxGUID& onlineId ) override;

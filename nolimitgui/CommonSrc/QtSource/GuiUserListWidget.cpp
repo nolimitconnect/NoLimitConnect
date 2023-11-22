@@ -726,7 +726,7 @@ void GuiUserListWidget::onListItemUpdated( GuiUserSessionBase* userSession, GuiU
         userItem->updateWidgetFromInfo();
         if( isSortingEnabled() )
         {
-            sortItems();
+            //sortItems();
         }
     }
 }

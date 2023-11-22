@@ -303,6 +303,8 @@ void P2PEngine::onBigListInfoRestored( BigListInfo * poInfo )
 {
 	updateIdentLists( poInfo, poInfo->getLastSessionTimeMs() );
 
+	getConnectIdListMgr().updateOnlineExclusion( poInfo->getMyOnlineId(), poInfo->getMyFriendshipToHim() == eFriendStateIgnore);
+
     if( isP2POnline() && ( poInfo->isFriend() || poInfo->isAdministrator() ) )
 	{
 		m_NetConnector.addConnectRequestToQue( poInfo->getConnectInfo() );
@@ -554,14 +556,14 @@ void P2PEngine::onFirstPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBa
 {
 	if( pktAnn && pktAnn->getMyOnlineId() != getMyOnlineId() && sktBase && bigListInfo )
 	{
-		if( getHasFixedIpAddress() )
-		{
-			std::string externAddr = getEngineSettings().getUserSpecifiedExternIpAddr();
-			getNetStatusAccum().setDirectConnectTested( true, false, externAddr );
-		}
+		//if( getHasFixedIpAddress() )
+		//{
+		//	std::string externAddr = getEngineSettings().getUserSpecifiedExternIpAddr();
+		//	getNetStatusAccum().setDirectConnectTested( true, false, externAddr );
+		//}
 
-		getHostUrlListMgr().updateHostUrls( bigListInfo->getVxNetIdent(), sktBase->getLastActiveTimeMs() );
-		getHostedListMgr().updateHostedList( bigListInfo->getVxNetIdent(), sktBase );
+		//getHostUrlListMgr().updateHostUrls( bigListInfo->getVxNetIdent(), sktBase->getLastActiveTimeMs() );
+		//getHostedListMgr().updateHostedList( bigListInfo->getVxNetIdent(), sktBase );
 
 		getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
 

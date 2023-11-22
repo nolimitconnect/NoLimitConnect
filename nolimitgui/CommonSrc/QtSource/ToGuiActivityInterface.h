@@ -41,11 +41,12 @@ public:
     virtual void				toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) {};
     virtual void				toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId ) {};
 
-    virtual void				toGuiContactAdded( VxNetIdent* netIdent ){}; 
+    virtual void				toGuiContactAdded( GuiUser* netIdent ){}; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) {}; 
 
-	virtual void				toGuiContactOnline( VxNetIdent* netIdent ){}; 
+	virtual void				toGuiContactOnline( GuiUser* netIdent ){}; 
 	virtual void				toGuiContactOffline( GuiUser* guiUser ){}; 
+
     virtual void				toGuiContactNameChange( GuiUser* guiUser ){}; 
     virtual void				toGuiContactDescChange( GuiUser* guiUser ){}; 
     virtual void				toGuiContactMyFriendshipChange( GuiUser* guiUser ){}; 
