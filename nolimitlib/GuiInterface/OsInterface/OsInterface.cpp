@@ -403,7 +403,7 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     // unfortunately asset manager does not have something like sub directory detection so have to copy each directory individualy
     std::string apkVersionFile = kodiCachedApkAssetsPath + "/ApkFilesVersion.txt";
     std::string appVersionCode = CCompileInfo::GetVersionCode();
-    //if( appVersionCode != VxFileUtil::readVersionFile( apkVersionFile ) )
+    if( appVersionCode != VxFileUtil::readVersionFile( apkVersionFile ) )
     {
         bool result = true;
         std::vector<std::string> dirList;
