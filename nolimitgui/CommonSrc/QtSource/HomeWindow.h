@@ -67,6 +67,7 @@ protected:
     void						resizeEvent( QResizeEvent* ) override;
     void						moveEvent( QMoveEvent * ) override;
     void						closeEvent( QCloseEvent * ) override;
+    void                        paintEvent( QPaintEvent* ev ) override;
 
 	void						initializeNlcDynamicLayout( void );
 	void						createAppletLaunchPage( void );

@@ -197,6 +197,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_CamSourceId( 1 )
 , m_CamCaptureRotation( 0 )
 , m_AppletMgr( *( new AppletMgr( *this, this) ) )
+, m_GuiStartupTimer( new QTimer( this ) )
 , m_CheckSetupTimer( new QTimer( this ) )
 {
     g_AppCommon = this; // need a global instance that can accessed immediately with GetAppInstance() for objects created in ui files
@@ -226,6 +227,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	m_AccountMgr.startupAccountMgr( strAccountDbFileName.toUtf8().constData() );
 
     connect( m_CheckSetupTimer, SIGNAL( timeout() ), this, SLOT( slotCheckSetupTimer() ) );
+	connect( m_GuiStartupTimer, SIGNAL( timeout() ), this, SLOT( slotGuiStartupTimer() ) );
 }
 
 //============================================================================
@@ -279,10 +281,6 @@ void AppCommon::loadWithoutThread( void )
 	{
 		getQApplication().setStyle( &m_AppStyle );
 	}
-
-    // load sounds to play and sound hardware
-    m_SoundMgr.sndMgrStartup();
-	m_PlayerMgr.playerMgrStartup();
 
     uint64_t styleMs = GetApplicationAliveMs();
     LogMsg( LOG_DEBUG, "Setup Style %llu ms alive ms %llu", styleMs - iconsMs, styleMs );
@@ -352,21 +350,48 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 
 	m_CreateAccountDlg = new ActivityCreateAccount( *this, appletFrame );
 
-	connectSignals();
-
-	m_OncePerSecondTimer->setInterval( 1000 ); 
-	connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT( onOncePerSecond() ) );
-	m_OncePerSecondTimer->start();
-
 	std::string strAssetDir = m_AppSettings.m_strRootUserDataDir + "assets/";
 	VxFileUtil::makeDirectory( strAssetDir );
 
-	getEngine().fromGuiAppStartup( strAssetDir.c_str(), m_AppSettings.m_strRootUserDataDir.c_str() );
+	connect( m_GuiStartupTimer, SIGNAL( timeout() ), this, SLOT( slotGuiStartupTimer() ), Qt::QueuedConnection );
+	m_GuiStartupTimer->setSingleShot( true );
+	m_GuiStartupTimer->setInterval( 1000 );
+	m_GuiStartupTimer->start();
+}
 
-    m_SoundMgr.audioIoSystemStartup();
 
-	// diagnose to much cpu usage in gui thread
-	// setGuiCpuTimeEnable( true ); 
+//============================================================================
+void AppCommon::slotGuiStartupTimer( void )
+{
+	static int guiStartupStep = 0;
+	guiStartupStep++;
+	if( 1 == guiStartupStep )
+	{
+		// load sounds to play and sound hardware
+		m_SoundMgr.sndMgrStartup();
+		m_PlayerMgr.playerMgrStartup();
+
+		connectSignals();
+		m_GuiStartupTimer->start();
+	}
+	else if( 2 == guiStartupStep )
+	{
+		m_SoundMgr.audioIoSystemStartup();
+
+		m_GuiStartupTimer->start();
+	}
+	else if( 3 == guiStartupStep )
+	{
+		std::string strAssetDir = m_AppSettings.m_strRootUserDataDir + "assets/";
+		getEngine().fromGuiAppStartup( strAssetDir.c_str(), m_AppSettings.m_strRootUserDataDir.c_str() );
+		m_GuiStartupTimer->start();
+	}
+	else if( 4 == guiStartupStep )
+	{
+		m_OncePerSecondTimer->setInterval( 1000 ); 
+		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT( onOncePerSecond() ) );
+		m_OncePerSecondTimer->start();
+	}
 }
 
 //============================================================================
@@ -386,12 +411,6 @@ void AppCommon::shutdownAppCommon( void )
         QApplication::closeAllWindows();
         getEngine().fromGuiAppShutdown();
     }
-}
-
-//============================================================================
-void AppCommon::startLogin()
-{
-    doLogin();
 }
 
 //============================================================================
@@ -1039,7 +1058,7 @@ void AppCommon::onOncePerSecond( void )
         if( !m_LoginBegin )
         {
             m_LoginBegin = true;
-            startLogin();
+            doLogin();
         }
 
         if( getLoginCompleted() )

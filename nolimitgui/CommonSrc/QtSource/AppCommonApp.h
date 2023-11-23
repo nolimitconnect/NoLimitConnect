@@ -207,7 +207,7 @@ public:
 
 	//=== app methods ===//
 	virtual void				startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame );
-    virtual void				startLogin( void );
+
     virtual void				doLogin( void );
     virtual void				doLoginStep2( void );
     virtual void				completeLogin( void );
@@ -840,7 +840,8 @@ protected slots:
 
 	void						onUpdateMyIdent( VxNetIdent* poMyIdent );
 
-    void						slotCheckSetupTimer();
+    void						slotGuiStartupTimer( void );
+    void						slotCheckSetupTimer( void );
 
 protected:
     void                        connectSignals( void );
@@ -936,13 +937,16 @@ protected:
     bool                        m_LoginBegin = false;
     bool                        m_LoginComplete = false;
     bool                        m_AppInitialized = false;
-    QTimer *                    m_CheckSetupTimer = nullptr;
+
     ActivityAppSetup *          m_AppSetupDlg = nullptr;
     bool                        m_IsMessengerReady{ false };
     bool                        m_IsLoggedOn{ false };
     bool                        m_IsSystemReady{ false };
     bool                        m_LoopbackMyselfTestAllowed{ false };
     bool                        m_GuiCpuTimeEnable{ false };
+
+    QTimer *                    m_GuiStartupTimer = nullptr;
+    QTimer *                    m_CheckSetupTimer = nullptr;
 
 //    KodiThread *                m_KodiThread;
 };

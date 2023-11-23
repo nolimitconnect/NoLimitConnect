@@ -109,10 +109,17 @@ void HomeWindow::moveEvent( QMoveEvent * )
 void HomeWindow::showEvent( QShowEvent* ev )
 {
     QDialog::showEvent( ev );
-static bool firstShow = true;
-    if( firstShow )
+
+}
+
+//============================================================================
+void HomeWindow::paintEvent( QPaintEvent* ev )
+{
+     QDialog::paintEvent( ev );
+static bool firstPaint = true;
+    if( firstPaint )
     {
-        firstShow = false;
+        firstPaint = false;
         m_MyApp.startupAppCommon( getAppletFrame( eAppletHomePage ), getAppletFrame( eAppletMessengerFrame ) );
     }
 }

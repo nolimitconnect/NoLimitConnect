@@ -229,13 +229,13 @@ bool CopyIfRequiredApkDirectory( std::string apkFileDir, std::string destDir, bo
     AAssetDir* assetDir = AAssetManager_openDir( assetMgr, apkFileDir.c_str() );
     if( assetDir )
     {
-        LogMsg( LOG_DEBUG, "%s copy apk directory to read/write location  %s", __func__, destDir.c_str() );
+        // LogMsg( LOG_DEBUG, "%s copy apk directory to read/write location  %s", __func__, destDir.c_str() );
         const char* fileName;
         while ((fileName = AAssetDir_getNextFileName(assetDir)) != NULL)
         {
             std::string srcFile = apkFileDir + "/" + fileName;
             std::string destFile = destDir + fileName;
-            LogMsg( LOG_DEBUG, "%s copy apk file %s to read/write location  %s", __func__, srcFile.c_str(), destFile.c_str() );
+            // LogMsg( LOG_DEBUG, "%s copy apk file %s to read/write location  %s", __func__, srcFile.c_str(), destFile.c_str() );
 
             //__android_log_print(ANDROID_LOG_DEBUG, "Debug", filename);
             result &= CopyIfRequiredApkFile( srcFile, destFile, replaceIfDifferent );
@@ -394,10 +394,9 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
 
     VxSetAppDirectory( eAppDirRootDataStorage, appRwStorageDir.c_str() );
 
+    LogModule( eLogStartup,  LOG_DEBUG, " Copy Android assets start " );
 
-//#ifdef DEBUG
-    LogMsg( LOG_DEBUG, " storage (%s)\n resource (%s)\n sys (%s)\n native (%s) ", appRwStorageDir.c_str(), kodiCachedApkAssetsPath.c_str(), systemLibsDir.c_str(), nativeLibsDir.c_str() );
-//#endif // DEBUG
+    LogModule( eLogStartup,  LOG_DEBUG, " storage (%s)\n resource (%s)\n sys (%s)\n native (%s) ", appRwStorageDir.c_str(), kodiCachedApkAssetsPath.c_str(), systemLibsDir.c_str(), nativeLibsDir.c_str() );
 
     // copy all apk files for nlc to use as the xbmc directory
 
@@ -426,6 +425,7 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
         }
     }
 
+    LogModule( eLogStartup,  LOG_DEBUG, " Copy Android assets complete " );
 
     // asset manager will not copy native libs
     //setenv( "KODI_ANDROID_LIBS", cachedLibsPath.c_str(), 0 );
