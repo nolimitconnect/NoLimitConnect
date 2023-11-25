@@ -79,3 +79,14 @@ cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_E
 make
 
 
+====== ANDRROID ISSUES =======
+When debugging on galaxy A8 tablet and galaxy flip phone 5G 
+There seems to be issues with touching the screen causing gralloc4 message stream and sometimes a break somewhere is Java in QCreator
+This may have been resolved. I have opened a bug QTBUG-119061
+The best configuration which at least minimizes the issue is
+NDK KIT 23.1.7779620
+SDK PLATFORM 33
+ANDROID PLATFORM android-23
+if needed set the c compiler to 
+ndk\23.1.7779620\toolchains\llvm\prebuilt\windows-x86_64\bin\aarch64-linux-android23-clang
+

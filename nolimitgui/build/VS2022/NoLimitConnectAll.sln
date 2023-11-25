@@ -157,22 +157,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfreetype", "..\..\..\nol
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libexif", "..\..\..\nolimitlib\DependLibs\libexif\build\VS2022\libexif.vcxproj", "{AD20A3E2-09CB-42DB-9A70-27F7CDC886CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs_for_building", "docs_for_building", "{88A7F52D-F2B1-4BBD-9A9D-0AD6BC7216E4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs_to_setup_build_enviroment", "docs_to_setup_build_enviroment", "{88A7F52D-F2B1-4BBD-9A9D-0AD6BC7216E4}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\nolimitlib\docs_for_building\AdditionalSetupVS2022AndQt.txt = ..\..\..\nolimitlib\docs_for_building\AdditionalSetupVS2022AndQt.txt
-		..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForAndroidInVBoxImage.txt = ..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForAndroidInVBoxImage.txt
-		..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForAndroidInWindows.txt = ..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForAndroidInWindows.txt
-		..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForLinuxInVBoxImage.txt = ..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForLinuxInVBoxImage.txt
-		..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForWindows.txt = ..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForWindows.txt
-		..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForWindowsPrerequisitesInstructions.txt = ..\..\..\nolimitlib\docs_for_building\Build_NoLimitConnect_ForWindowsPrerequisitesInstructions.txt
-		..\..\..\nolimitlib\docs_for_building\Create_Linux_Virtual_Image_Ubuntu.txt = ..\..\..\nolimitlib\docs_for_building\Create_Linux_Virtual_Image_Ubuntu.txt
-		..\..\..\nolimitlib\docs_for_building\CreatingTranslations.txt = ..\..\..\nolimitlib\docs_for_building\CreatingTranslations.txt
-		..\..\..\nolimitlib\docs_for_building\DeployLinux.txt = ..\..\..\nolimitlib\docs_for_building\DeployLinux.txt
-		..\..\..\nolimitlib\docs_for_building\Nlc_Windows_Android_Qt6.2.2_Setup.txt = ..\..\..\nolimitlib\docs_for_building\Nlc_Windows_Android_Qt6.2.2_Setup.txt
-		..\..\..\nolimitlib\docs_for_building\NoLimitConnect_Terminology.txt = ..\..\..\nolimitlib\docs_for_building\NoLimitConnect_Terminology.txt
-		..\..\..\nolimitlib\docs_for_building\Open_Port_In_Firewall_Windows10.txt = ..\..\..\nolimitlib\docs_for_building\Open_Port_In_Firewall_Windows10.txt
-		..\..\..\nolimitlib\docs_for_building\READ_ME_FIRST.txt = ..\..\..\nolimitlib\docs_for_building\READ_ME_FIRST.txt
-		..\..\..\nolimitlib\docs_for_building\VPN_Setup_For_NoLimitConnect.txt = ..\..\..\nolimitlib\docs_for_building\VPN_Setup_For_NoLimitConnect.txt
+		..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt = ..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt
+		..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt = ..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libglew", "..\..\..\nolimitlib\DependLibs\libglew\build\VS2022\libglew.vcxproj", "{664E6F0D-6784-4760-9565-D54F8EB1EDF4}"
@@ -481,6 +469,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdav1d", "..\..\..\nolimitlib\DependLibs\libdav1d\build\VS2022\libdav1d.vcxproj", "{0ADEA3D7-B26C-446D-9496-B98B28FB97DC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libminiupnpc", "..\..\..\nolimitlib\DependLibs\libminiupnpc\build\VS2022\libminiupnpc.vcxproj", "{81F9A01D-97D3-492E-BBBD-0B8D2C78354F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs_to_compile_app", "docs_to_compile_app", "{538A0DCD-F9F6-4DDE-BE1C-8E0E2CC1859B}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt = ..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1169,7 +1162,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = 6.3.0_msvc2019_64
 		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
+		Qt5Version = 6.3.0_msvc2019_64
 	EndGlobalSection
 EndGlobal
