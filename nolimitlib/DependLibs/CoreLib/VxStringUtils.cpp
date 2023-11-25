@@ -359,7 +359,7 @@ void VxStringUtils::ToUpper(wstring &str)
 
 void VxStringUtils::ToLower(string &str)
 {
-  transform(str.begin(), str.end(), str.begin(), ::VxToLowerUnicode );
+  transform(str.begin(), str.end(), str.begin(), ::tolower );
 }
 
 void VxStringUtils::ToLower(wstring &str)

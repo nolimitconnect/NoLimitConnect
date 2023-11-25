@@ -80,12 +80,8 @@ namespace{
         std::string strRootUserDataDir;
 
         //=== determine root path to store all application data and settings etc ===//
-
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-        QString dataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-#else
         QString dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
-#endif //TARGET_OS_WINDOWS
+
         strRootUserDataDir = dataPath.toUtf8().constData();
 
 #ifdef DEBUG
@@ -205,17 +201,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     INlc::getINlc().getNlcPlayer().fromGuiInitCommandLine( argc, argv );
 #endif // ENABLE_KODI
 
-	int result = 0;
+    int result = myApp->exec();
 
-	//homePage.startup();
-	//homePage.show();
-	//if( false == homePage.userCanceled() )
-	{
-		result = myApp->exec();
-	}
-
-    //nolimit.doPreShutdown();
-	//delete myApp;
 	return result;
 }
 
@@ -227,6 +214,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 #include <pthread.h>
 #include <sys/syscall.h>
 
+/*
 void signal_handler(int signum, siginfo_t *info, void *extra)
 {
     LogMsg( LOG_ERROR, "Signal Handler signum %d thread ID: %d ", signum, syscall(SYS_gettid));
@@ -240,6 +228,7 @@ void set_signal_handler( void )
     action.sa_sigaction = signal_handler;
     sigaction( SIGINT, &action, NULL );
 }
+*/
 
 #endif // !defined(TARGET_OS_WINDOWS)
 
@@ -259,9 +248,9 @@ int main( int argc, char** argv )
 
     int retVal{ 0 };
 
-#if !defined(TARGET_OS_WINDOWS)
-    set_signal_handler();
-#endif // !defined(TARGET_OS_WINDOWS)
+//#if !defined(TARGET_OS_WINDOWS)
+//    set_signal_handler();
+//#endif // !defined(TARGET_OS_WINDOWS)
 
     VxSetGuiThreadId();
     LogMsg( LOG_DEBUG, "Creating QApplication" );

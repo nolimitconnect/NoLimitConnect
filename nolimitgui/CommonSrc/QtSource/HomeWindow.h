@@ -42,9 +42,9 @@ public:
     void						setIsMaxScreenSize( bool isMessagerFrame, bool isFullSizeWindow );
     bool						getIsMaxScreenSize( bool isMessagerFrame );
 
-	QFrame*					getAppletFrame( EApplet applet );
-	QFrame*					getMessengerParentFrame( void );
-    QFrame*					getLaunchPageFrame( void );
+    QFrame*                     getAppletFrame( EApplet applet );
+    QFrame*                     getMessengerParentFrame( void );
+    QFrame*                     getLaunchPageFrame( void );
 
     AppletLaunchPage *          getLaunchPage( void ) { return m_AppletLaunchPage; }
 

@@ -288,7 +288,7 @@ RCODE DbBase::dbStartup( int iDbVersion, const char* pDbName )
     //LogMsg( LOG_INFO, "DbBase::dbStartup %s\n", pDbName );
 
 	// create paths and database if necessary
-	if( ! VxFileUtil::fileExists( m_strDbFileName.c_str() ) )
+    if( ! VxFileUtil::fileExists( m_strDbFileName.c_str(), false ) )
 	{
 		//create db 
 		// make directory for db if needed

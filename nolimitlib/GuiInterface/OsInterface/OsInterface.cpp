@@ -121,7 +121,7 @@ bool CopyIfRequiredAssetDirectory( std::string assetFileDir, std::string destDir
 
         if( 0 == VxFileUtil::listFilesInDirectory( assetFileDir.c_str(), fileList ) )
         {
-            LogMsg( LOG_DEBUG, "%s copy %d app assets to read/write location %s -> %s", __func__, fileList.size(), assetFileDir.c_str(), destDir.c_str() );
+            LogModule( eLogStartup, LOG_DEBUG, "%s copy %d app assets to read/write location %s -> %s", __func__, fileList.size(), assetFileDir.c_str(), destDir.c_str() );
 
             for( auto& fileNameAndPath : fileList )
             {
@@ -170,7 +170,7 @@ bool CopyIfRequiredApkFile( std::string apkFileName, std::string destFile, bool 
         if ( apkAssetFile )
         {
             size_t assetLength = AAsset_getLength( apkAssetFile );
-            u_int64_t destFileLen = VxFileUtil::fileExists( destFile.c_str() );
+            u_int64_t destFileLen = VxFileUtil::fileExists( destFile.c_str(), false );
             if( !destFileLen || ( replaceIfDifferent && ( assetLength != destFileLen ) ) )
             {
                 std::string destDir = VxFileUtil::getJustPath( destFile );
@@ -265,7 +265,7 @@ bool OsInterface::initRun( const CAppParamParser& cmdLineParams )
 //============================================================================
 bool OsInterface::doRun( EAppModule appModule )
 {
-    LogModule(eLogStartup, LOG_VERBOSE, "OsInterface::doRun");
+    LogModule( eLogStartup, LOG_VERBOSE, "OsInterface::doRun");
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     if( !IToGui::getToGui().toGuiGetIsAppModuleRunning( appModule ) )
     {
@@ -305,7 +305,7 @@ bool OsInterface::doRun( EAppModule appModule )
 
 bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWriteablePath )
 {
-    LogModule(eLogStartup, LOG_VERBOSE, "OsInterface::initUserPaths");
+    LogModule( eLogStartup, LOG_VERBOSE, "OsInterface::initUserPaths");
         // special://xbmc 	Kodi's installation root directory. This path is read-only contains the Kodi binary, support libraries and default configuration files, skins, scripts and plugins. Users should not modify files or install addons in this directory. special://xbmc 	Kodi's installation root directory. This path is read-only contains the Kodi binary, support libraries and default configuration files, skins, scripts and plugins. Users should not modify files or install addons in this directory.
         // located in installdirectory/assets/kodi for windows and linux
         // located in cached apk folder for android at appwritablestorage/apk/assets

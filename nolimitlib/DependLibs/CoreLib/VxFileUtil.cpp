@@ -365,7 +365,7 @@ RCODE VxFileUtil::setCurrentWorkingDirectory( const char* pDir )
 
 //============================================================================
 //! returns file size or 0 if doesn't exist or zero length
-uint64_t VxFileUtil::fileExists( const char* pFileName )
+uint64_t VxFileUtil::fileExists( const char* pFileName, bool printLogIfDoesNotExist )
 {
 	int result;
 #ifdef TARGET_OS_WINDOWS
@@ -384,7 +384,10 @@ uint64_t VxFileUtil::fileExists( const char* pFileName )
 		//error getting file info
 #if defined(DEBUG)
         int errCode = VxGetLastError();
-        LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
+		if( printLogIfDoesNotExist )
+		{
+			LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
+		}
 #endif // defined(DEBUG)etCurrentWorkingDirectory
 		return 0;
 	}
@@ -397,7 +400,7 @@ uint64_t VxFileUtil::fileExists( const char* pFileName )
 
 //============================================================================
 //! return false if no longer exists
-bool  VxFileUtil::getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType )
+bool  VxFileUtil::getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist )
 {
     retFileLen = 0;
     retFileType = 0;
@@ -429,7 +432,11 @@ bool  VxFileUtil::getFileTypeAndLength( const char* pFileName, uint64_t& retFile
     {
         //error getting file info
         int errCode = VxGetLastError();
-        LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
+		if( printLogIfDoesNotExist )
+		{
+			LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
+		}
+
         return false;
     }
     else
@@ -493,9 +500,9 @@ bool VxFileUtil::directoryExists( const char* pDir )
 }
 
 //============================================================================
-uint64_t VxFileUtil::getFileLen( const char* pFileName )			
+uint64_t VxFileUtil::getFileLen( const char* pFileName, bool printLogIfDoesNotExist )			
 { 
-	return fileExists(pFileName); 
+	return fileExists( pFileName, printLogIfDoesNotExist ); 
 }
 
 //============================================================================

@@ -38,9 +38,9 @@ public:
 	static std::string			addFileToFolder( std::string& strFolder, std::string& strFile );
 
 	//! returns file size or 0 if doesn't exist
-	static uint64_t				fileExists( const char* pFileName );
-	static uint64_t				getFileLen( const char* pFileName );
-    static bool                 getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType );
+	static uint64_t				fileExists( const char* pFileName, bool printLogIfDoesNotExist = true );
+	static uint64_t				getFileLen( const char* pFileName, bool printLogIfDoesNotExist = true );
+    static bool                 getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist = true );
 	static bool					directoryExists( const char* pDir );
 
 	//! Make all directories that don't exist in a given path

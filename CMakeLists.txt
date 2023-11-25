@@ -138,8 +138,8 @@ else()
                 list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.6.0/gcc_64)
                 set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/25.1.8937393)
             else()
-                list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.6.0/gcc_64)
-                set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/22.1.7171670)
+                list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.4.3/gcc_64)
+                set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/23.1.7779620)
             endif()
             
 
