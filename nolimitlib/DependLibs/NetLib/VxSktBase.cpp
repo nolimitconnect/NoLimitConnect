@@ -819,7 +819,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
     m_TxMutex.unlock();
     if( rc && isFatalSocketError( rc ) )
     {
-        LogModule( eLogTcpData, LOG_ERROR, "VxSktBase::txEncrypted: sendData error %d %s", rc, VxDescribeSktError( rc ) );
+        LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: sendData error %d %s", rc, VxDescribeSktError( rc ) );
 		closeSkt( eSktCloseTxFailed );
     }
 	else if( bDisconnect )
@@ -900,7 +900,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 
 	if( rc && isFatalSocketError( rc ) )
 	{
-		LogModule( eLogTcpData, LOG_ERROR, "VxSktBase::txEncrypted: error %d", rc );
+		LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: error %d", rc );
 		closeSkt( eSktCloseTxFailed );
 	}
 	else if( bDisconnect )
@@ -1171,12 +1171,12 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
                 if( bIsUdpSkt )
                 {
-					LogModule( eLogUdpData, LOG_VERBOSE, "udp wait for rx attempt len %d on skt %d skt id %d lcl ip %s thread 0x%x",
+					LogModule( eLogSktData, LOG_VERBOSE, "udp wait for rx attempt len %d on skt %d skt id %d lcl ip %s thread 0x%x",
 						iAttemptLen, sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_strLclIp.c_str(), VxGetCurrentThreadId() );
 
 					if( INVALID_SOCKET == sktBase->m_Socket )
 					{
-						LogModule( eLogUdpData, LOG_VERBOSE, "udp closing with invalid socket" );
+						LogModule( eLogSktData, LOG_VERBOSE, "udp closing with invalid socket" );
 						// has been closed by outside thread
 						sktBase->setCallbackReason( eSktCallbackReasonClosing );
 						goto closed_skt_exit;
@@ -1216,7 +1216,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 						}
 						else
 						{
-							LogModule( eLogUdpData, LOG_INFO, "udp recvfrom IPV6" );
+							LogModule( eLogSktData, LOG_INFO, "udp recvfrom IPV6" );
 							iSktAddrLen = sizeof( struct sockaddr_in6 );
 							( ( struct sockaddr_in6* )&oAddr )->sin6_family = AF_INET6;
 							iDataLen = recvfrom( sktBase->m_Socket,	// socket
@@ -1230,7 +1230,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
 					if( poVxThread->isAborted() || !sktBase->isConnected() )
 					{
-						LogModule( eLogUdpData, LOG_VERBOSE, "udp recvfrom skt %d skt id close from thread",
+						LogModule( eLogSktData, LOG_VERBOSE, "udp recvfrom skt %d skt id close from thread",
 								   sktBase->getSktHandle(), sktBase->getSktNumber() );
 						goto closed_skt_exit;
 					}
@@ -1238,7 +1238,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 					if( iDataLen < 0 )
 					{
 						RCODE rc = VxGetLastError();
-						LogModule( eLogUdpData, LOG_VERBOSE, "udp recvfrom skt %d skt id %d port %d error %d",
+						LogModule( eLogSktData, LOG_VERBOSE, "udp recvfrom skt %d skt id %d port %d error %d",
 							sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_RmtIp.getPort(), rc );
 						VxSleep( 500 );
 						continue;
@@ -1250,7 +1250,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 							// dont decode.. multicast handler will do that
 							sktBase->RxedPkt( iDataLen );
 							// call back user with the good news.. we have data
-							LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: multicast skt %d skt Id %d receiving len %d thread 0x%x",
+							LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: multicast skt %d skt Id %d receiving len %d thread 0x%x",
 								sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, VxGetCurrentThreadId() );
 
 							sktBase->m_iLastRxLen = iDataLen;
@@ -1261,7 +1261,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 							sktBase->setLastSktError( 0 );
 							if( poVxThread->isAborted() || !sktBase->isConnected() )
 							{
-								LogModule( eLogUdpData, LOG_VERBOSE, "udp recvfrom skt %d skt id close from thread",
+								LogModule( eLogSktData, LOG_VERBOSE, "udp recvfrom skt %d skt id close from thread",
 									sktBase->getSktHandle(), sktBase->getSktNumber() );
 								sktBase->setCallbackReason( eSktCallbackReasonClosing );
 								goto closed_skt_exit;
@@ -1274,7 +1274,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 							sktBase->m_RmtIp.m_u16Port = sktBase->m_RmtIp.setIp( oAddr );
 							sktBase->m_strRmtIp = sktBase->m_RmtIp.toStdString();
 
-							LogModule( eLogUdpData, LOG_VERBOSE, "udp recvfrom skt %d skt id %d len %d port %d thread 0x%x",
+							LogModule( eLogSktData, LOG_VERBOSE, "udp recvfrom skt %d skt id %d len %d port %d thread 0x%x",
 								sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, sktBase->m_RmtIp.getPort(), VxGetCurrentThreadId() );
 							if( sktBase->m_RxKey.isKeySet() )
 							{
@@ -1291,7 +1291,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                     }
                     else
                     {
-                        LogModule( eLogUdpData, LOG_INFO, "VxSktBaseReceiveVxThreadFunc: udp recvfrom skt %d skt id %d len %d thread 0x%x", sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, VxGetCurrentThreadId() );
+                        LogModule( eLogSktData, LOG_INFO, "VxSktBaseReceiveVxThreadFunc: udp recvfrom skt %d skt id %d len %d thread 0x%x", sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, VxGetCurrentThreadId() );
                     }
                 }
                 else
@@ -1310,7 +1310,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                         goto closed_skt_exit;
                     }
 
-                    LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: tcp recv skt %d skt id %d rxed len %d attempt len %d thread 0x%x",
+                    LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: tcp recv skt %d skt id %d rxed len %d attempt len %d thread 0x%x",
                                sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, iAttemptLen, VxGetCurrentThreadId() );
                 }
 
@@ -1347,11 +1347,11 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
         #endif // TARGET_OS_WINDOWS
                     {
                         // try again
-                        LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d ip %s trying again thread 0x%x",
+                        LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d ip %s trying again thread 0x%x",
                                    sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_strLclIp.c_str(), VxGetCurrentThreadId() );
                         if( sktBase->checkForImAliveTimeout( true ) )
                         {
-                            LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d ip %s I Am Alive Timeout thread 0x%x",
+                            LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d ip %s I Am Alive Timeout thread 0x%x",
                                        sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_strLclIp.c_str(), VxGetCurrentThreadId() );
                             sktBase->setLastSktError( EIM_ALIVE_TIMEDOUT );
                             break;
@@ -1388,7 +1388,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
                     sktBase->RxedPkt( iDataLen );
                     // call back user with the good news.. we have data
-                    LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d receiving len %d thread 0x%x",
+                    LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d receiving len %d thread 0x%x",
                                sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, VxGetCurrentThreadId() );
                     sktBase->updateLastActiveTime();
                     sktBase->m_pfnReceive( sktBase->getThisSkt(), sktBase->getRxCallbackUserData() );
@@ -1403,7 +1403,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                 {
                     if( !sktBase->isUdpSocket() && ( 0 != sktBase->getLastActiveTimeMs() ) )
                     {
-                        LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: %s skt %d skt Id %d exit with error %d %s thread 0x%x",
+                        LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: %s skt %d skt Id %d exit with error %d %s thread 0x%x",
                                     sktBase->describeSktType().c_str(),
                                     sktBase->getSktHandle(), sktBase->getSktNumber(),
                                     sktBase->getLastSktError(),
@@ -1429,7 +1429,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                 sktBase->m_pfnReceive( sktBase->getThisSkt(), sktBase->getRxCallbackUserData() );
             }
 
-            LogModule( eLogTcpData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d  exiting thread 0x%x", sktBase->getSktHandle(), sktBase->getSktNumber(), VxGetCurrentThreadId() );
+            LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d  exiting thread 0x%x", sktBase->getSktHandle(), sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
                 //if( !sktBase->isUdpSocket() && ( 0 != sktBase->getLastActiveTime() ) )
                 //{
@@ -1459,7 +1459,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
 	if( sktBase && sktBase->isUdpSocket() )
 	{
-		LogModule( eLogUdpData, LOG_VERBOSE, "udp skt id %d handle %d exit thread last error %d", sktBase->getSktNumber(), sktBase->getSktHandle(), sktBase->getLastSktError() );;
+		LogModule( eLogSktData, LOG_VERBOSE, "udp skt id %d handle %d exit thread last error %d", sktBase->getSktNumber(), sktBase->getSktHandle(), sktBase->getLastSktError() );;
 	}
 
     poVxThread->abortThreadRun( true );

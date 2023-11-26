@@ -2017,7 +2017,7 @@ RCODE VxReceiveSktData( SOCKET&			sktHandle,
 	} while ( ( iRecvResult > 0 ) || ( iTimeoutMilliSeconds && ( iTimeoutMilliSeconds > oTimer.elapsedMs() ) ) );
 
     int64_t timeEnd = GetApplicationAliveMs();
-    LogModule( eLogTcpData, LOG_VERBOSE, "VxReceiveSktData len %d in %" PRId64 " ms with timeout %d ms thread 0x%x", iRecvResult, timeEnd - timeStart, iTimeoutMilliSeconds, VxGetCurrentThreadId() );
+    LogModule( eLogSktData, LOG_VERBOSE, "VxReceiveSktData len %d in %" PRId64 " ms with timeout %d ms thread 0x%x", iRecvResult, timeEnd - timeStart, iTimeoutMilliSeconds, VxGetCurrentThreadId() );
 
 	return m_rcLastError;
 }

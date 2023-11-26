@@ -784,15 +784,15 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         // LogModule( eLogConnect, LOG_VERBOSE, "ConnectionMgr::directConnectTo: connect SUCCESS to %s:%d", ipAddr.c_str(), port );
         // generate encryption keys
 
-        LogModule( eLogTcpData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating tx key %s:%d %s", sktBase->getRemoteIp().c_str(), port, onlineId.toHexString().c_str() );
+        LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating tx key %s:%d %s", sktBase->getRemoteIp().c_str(), port, onlineId.toHexString().c_str() );
 
         GenerateTxConnectionKey( sktBase, sktBase->getRemoteIp(), port, onlineId, m_Engine.getNetworkMgr().getNetworkKey() );
 
-        LogModule( eLogTcpData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating rx key" );
+        LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating rx key" );
 
         GenerateRxConnectionKey( sktBase, &m_Engine.getMyPktAnnounce().m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey() );
 
-        LogModule( eLogTcpData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. sending announce" );
+        LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. sending announce" );
 
         //LogMsg( LOG_INFO, "sendMyPktAnnounce 2\n" ); 
         if( false == sendMyPktAnnounce( onlineId, sktBase, true, false, false ) )

@@ -115,7 +115,7 @@ void AppletUserConnections::showEvent( QShowEvent* ev )
 //============================================================================
 void AppletUserConnections::callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackIndentListUpdate %s %s %lld", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackIndentListUpdate %s %s %lld", 
 			GuiParams::describeUserViewType(listType).toUtf8().constData(), onlineId.toOnlineIdString().c_str(), timestamp );
 	refreshList();
 }
@@ -123,7 +123,7 @@ void AppletUserConnections::callbackIndentListUpdate( EUserViewType listType, Vx
 //============================================================================
 void AppletUserConnections::callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s %s", 
 			GuiParams::describeUserViewType(listType).toUtf8().constData(), onlineId.toOnlineIdString().c_str() );
 	refreshList();
 }
@@ -131,7 +131,7 @@ void AppletUserConnections::callbackIndentListRemove( EUserViewType listType, Vx
 //============================================================================
 void AppletUserConnections::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s isOnline %d", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s isOnline %d", 
 			guiUser->describeUser(true).toUtf8().constData(), isOnline );
 	refreshList();
 }
@@ -139,7 +139,7 @@ void AppletUserConnections::callbackOnlineStatusChange( GuiUser* guiUser, bool i
 //============================================================================
 void AppletUserConnections::callbackUserAdded( GuiUser* guiUser )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserAdded %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackUserAdded %s", 
 			guiUser->describeUser(true).toUtf8().constData() );
 	refreshList();
 }
@@ -147,7 +147,7 @@ void AppletUserConnections::callbackUserAdded( GuiUser* guiUser )
 //============================================================================
 void AppletUserConnections::callbackUserUpdated( GuiUser* guiUser )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserUpdated %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackUserUpdated %s", 
 			guiUser->describeUser(true).toUtf8().constData() );
 	refreshList();
 }
@@ -155,7 +155,7 @@ void AppletUserConnections::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletUserConnections::callbackUserRemoved( VxGUID& onlineId )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s", 
 			onlineId.toOnlineIdString().c_str() );
 	refreshList();
 }
@@ -163,7 +163,7 @@ void AppletUserConnections::callbackUserRemoved( VxGUID& onlineId )
 //============================================================================
 void AppletUserConnections::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s talk %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s talk %s", 
 			onlineId.toOnlineIdString().c_str(), GuiParams::describePushToTalkStatus(pushToTalkStatus).toUtf8().constData() );
 	refreshList();
 }
@@ -171,7 +171,7 @@ void AppletUserConnections::callbackPushToTalkStatus( VxGUID& onlineId, EPushToT
 //============================================================================
 void AppletUserConnections::callbackMyIdentUpdated( GuiUser* guiUser ) 
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackMyIdentUpdated %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackMyIdentUpdated %s", 
 			guiUser->describeUser(true).toUtf8().constData() );
 	refreshList();
 }
@@ -181,7 +181,7 @@ void AppletUserConnections::callbackMyIdentUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) 
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinRequested %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinRequested %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -189,7 +189,7 @@ void AppletUserConnections::callbackGuiUserJoinRequested( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinWasGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinWasGranted %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinWasGranted %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -197,7 +197,7 @@ void AppletUserConnections::callbackGuiUserJoinWasGranted( GroupieId& groupieId,
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinIsGranted %s %s", 
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinIsGranted %s %s", 
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -205,7 +205,7 @@ void AppletUserConnections::callbackGuiUserJoinIsGranted( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiUserUnJoinGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserUnJoinGranted %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserUnJoinGranted %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -213,7 +213,7 @@ void AppletUserConnections::callbackGuiUserUnJoinGranted( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinDenied %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinDenied %s %s",
 			guiUserJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -221,7 +221,7 @@ void AppletUserConnections::callbackGuiUserJoinDenied( GroupieId& groupieId, Gui
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinLeaveHost %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinLeaveHost %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -229,7 +229,7 @@ void AppletUserConnections::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void AppletUserConnections::callbackGuiUserJoinRemoved( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinRemoved %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackGuiUserJoinRemoved %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -240,7 +240,7 @@ void AppletUserConnections::callbackGuiUserJoinRemoved( GroupieId& groupieId )
 //============================================================================
 void AppletUserConnections::callbackJoinRequestCount( int requestCnt )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackJoinRequestCount %d",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackJoinRequestCount %d",
 			requestCnt );
 	refreshList();
 }
@@ -248,7 +248,7 @@ void AppletUserConnections::callbackJoinRequestCount( int requestCnt )
 //============================================================================
 void AppletUserConnections::callbackGuiHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinRequested %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinRequested %s %s",
 			guiHostJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -256,7 +256,7 @@ void AppletUserConnections::callbackGuiHostJoinRequested( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiHostJoinWasGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinWasGranted %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinWasGranted %s %s",
 			guiHostJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -264,7 +264,7 @@ void AppletUserConnections::callbackGuiHostJoinWasGranted( GroupieId& groupieId,
 //============================================================================
 void AppletUserConnections::callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinIsGranted %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinIsGranted %s %s",
 			guiHostJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -272,7 +272,7 @@ void AppletUserConnections::callbackGuiHostJoinIsGranted( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiHostUnJoinGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostUnJoinGranted %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostUnJoinGranted %s %s",
 			guiHostJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -280,7 +280,7 @@ void AppletUserConnections::callbackGuiHostUnJoinGranted( GroupieId& groupieId, 
 //============================================================================
 void AppletUserConnections::callbackGuiHostJoinDenied( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinDenied %s %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinDenied %s %s",
 			guiHostJoin->getUser()->describeUser(true).toUtf8().constData(), groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -288,7 +288,7 @@ void AppletUserConnections::callbackGuiHostJoinDenied( GroupieId& groupieId, Gui
 //============================================================================
 void AppletUserConnections::callbackGuiHostJoinLeaveHost( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinLeaveHost %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinLeaveHost %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -296,7 +296,7 @@ void AppletUserConnections::callbackGuiHostJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void AppletUserConnections::callbackGuiHostUnJoin( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostUnJoin %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostUnJoin %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -304,7 +304,7 @@ void AppletUserConnections::callbackGuiHostUnJoin( GroupieId& groupieId )
 //============================================================================
 void AppletUserConnections::callbackGuiHostJoinRemoved( GroupieId& groupieId )
 {
-	LogMsg( LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinRemoved %s",
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "GuiHostJoinCallback callbackGuiHostJoinRemoved %s",
 			groupieId.describeGroupieId().c_str() );
 	refreshList();
 }
@@ -323,7 +323,7 @@ void AppletUserConnections::refreshList( void )
 	}
 	else if( hostType == eHostTypeConnectTest || hostType == eHostTypeNetwork )
 	{
-		LogMsg( LOG_DEBUG, "AppletUserConnections::refreshList cannot list connect test or network host" );
+		LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections::refreshList cannot list connect test or network host" );
 		return;
 	}
 	else if( hostType == eHostTypePeerUserDirect )

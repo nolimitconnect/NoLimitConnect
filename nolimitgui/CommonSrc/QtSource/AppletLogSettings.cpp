@@ -48,9 +48,9 @@ static QString describeLogModule( ELogModule logModule )
     case eLogAssets: return QObject::tr( "Log Assets" );
 
     case eLogStartup: return QObject::tr( "Log Startup" );
-    case eLogTcpData: return QObject::tr( "Log Tcp Data" );
-    case eLogUdpData: return QObject::tr( "Log Udp Data" );
+    case eLogSktData: return QObject::tr( "Log Skt Data" );
     case eLogPkt: return QObject::tr( "Log Pkt" );
+    case eLogUserGuiEvent: return QObject::tr( "Log User Gui Event" );
 
     case eLogPlugins: return QObject::tr( "Log Plugins" );
     case eLogHosts: return QObject::tr( "Log Hosts" );

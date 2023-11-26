@@ -46,7 +46,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 
     if( !sktBase->isConnected() )
     {
-        LogModule( eLogTcpData, LOG_INFO, "P2PEngine::handleTcpData: callback was for data but socket is not connected" );
+        LogModule( eLogSktData, LOG_INFO, "P2PEngine::handleTcpData: callback was for data but socket is not connected" );
         return;
     }
 
@@ -291,7 +291,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 		if( false == sktBase->isConnected() )
 		{
 			//socket has been closed
-            LogModule( eLogTcpData, LOG_INFO, "P2PEngine::handleTcpData: callback was for data but socket is not connected" );
+            LogModule( eLogSktData, LOG_INFO, "P2PEngine::handleTcpData: callback was for data but socket is not connected" );
 			return;
 		}
 

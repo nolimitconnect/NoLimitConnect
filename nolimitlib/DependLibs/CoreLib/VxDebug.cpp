@@ -68,8 +68,8 @@ namespace
          | eLogStartup
         // | eLogHosts
         // | eLogMediaStream
-        // | eLogTcpData
-        //| eLogUdpData
+        // | eLogSktData
+        //| eLogSktData
         //| eLogAcceptConn
         //| eLogPortForward
         // | eLogNetService

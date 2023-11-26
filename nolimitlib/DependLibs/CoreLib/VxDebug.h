@@ -58,9 +58,9 @@ enum ELogModule
 	eLogAcceptConn      = 0x0080, // 8
 
 	eLogSkt				= 0x0100, // 9
-	eLogTcpData         = 0x0200, // 10
-	eLogUdpData			= 0x0400, // 11 
-	eLogPkt				= 0x0800, // 12
+	eLogSktData         = 0x0200, // 10
+	eLogPkt				= 0x0400, // 11
+	eLogUserGuiEvent	= 0x0800, // 12 
 
 	eLogNetAccessStatus = 0x1000, // 13
 	eLogNetworkState	= 0x2000, // 14

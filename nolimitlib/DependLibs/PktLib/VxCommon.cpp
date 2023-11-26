@@ -79,7 +79,7 @@ bool GenerateConnectionKey(  bool						ipv6,
         cryptoPort
     );
 
-    // LogModule( eLogTcpData, LOG_VERBOSE, "GenerateConnectionKey: setting Key %s for %s:%d %d", strPwd.c_str(), strIPv4.c_str(), port, cryptoPort );
+    // LogModule( eLogSktData, LOG_VERBOSE, "GenerateConnectionKey: setting Key %s for %s:%d %d", strPwd.c_str(), strIPv4.c_str(), port, cryptoPort );
     poRetKey->setKeyFromPassword( strPwd.c_str(), (int)strPwd.size() );
     return !strIP.empty() && cryptoPort;
 }
