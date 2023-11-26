@@ -21,6 +21,9 @@
 
 #include <PktLib/PktsHostInvite.h>
 
+/**
+* client side avatar and search and group management services
+*/
 class PluginPeerUserClient : public PluginBaseHostClient
 {
 public:

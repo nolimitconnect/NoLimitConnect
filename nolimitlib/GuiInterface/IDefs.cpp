@@ -1465,10 +1465,6 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
     case ePluginTypeClientRandomConnect:
         return eHostTypeRandomConnect;
 
-    //case ePluginTypeHostPeerUser:
-    //case ePluginTypeClientPeerUser:
-    //    return eHostTypePeerUserRelayed;
-
     case ePluginTypeHostNetwork:
     case ePluginTypeClientNetwork:
         return eHostTypeNetwork;
@@ -1476,6 +1472,9 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
     case ePluginTypeHostConnectTest:
     case ePluginTypeClientConnectTest:
         return eHostTypeConnectTest;
+
+    case ePluginTypeHostPeerUser:   // host side avatar and search and group management services
+    case ePluginTypeClientPeerUser: // client side avatar and search and group management services
 
     case ePluginTypeNetServices:
     case ePluginTypeFileShareServer:

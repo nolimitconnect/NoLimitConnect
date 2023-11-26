@@ -20,6 +20,9 @@
 #include <PktLib/PktsHostInvite.h>
 #include <CoreLib/VxMutex.h>
 
+/**
+* host side avatar and search and group management services
+*/
 class PluginPeerUserHost : public PluginBaseHostService, public IConnectRequestCallback
 {
 public:
