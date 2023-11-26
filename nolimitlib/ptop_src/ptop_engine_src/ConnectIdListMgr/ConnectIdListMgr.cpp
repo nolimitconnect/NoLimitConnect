@@ -26,6 +26,8 @@
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 
+#include <algorithm>
+
 //============================================================================
 ConnectIdListMgr::ConnectIdListMgr( P2PEngine& engine )
     : IdentListMgrBase( engine )
