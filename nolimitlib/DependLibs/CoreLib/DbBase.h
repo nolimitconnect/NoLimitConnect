@@ -105,8 +105,8 @@ public:
 	//! if( piMaxLen != null ) then return length of blob in piMaxLen 
 	void *						getBlob( int iColumnIdx, int * piMaxLen = NULL );
 
-	DbBase *					m_DbBase;
-	sqlite3_stmt *				m_Stmt;
+	DbBase*						m_DbBase{ nullptr };
+	sqlite3_stmt *				m_Stmt{ nullptr };
 };
 
 class DbBase

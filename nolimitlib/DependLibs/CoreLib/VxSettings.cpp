@@ -133,7 +133,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, bool& 
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt* poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "BOOL", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, (int)bValue ) );
@@ -149,7 +149,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, int8_t
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "int8_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, s8Value ) );
@@ -164,7 +164,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, uint8_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "uint8_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, u8Value ) );
@@ -179,7 +179,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, int16_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "int16_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, s16Value ) );
@@ -195,7 +195,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, uint16
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "uint16_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, u16Value ) );
@@ -211,7 +211,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, int32_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "int32_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, s32Value ) );
@@ -227,7 +227,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, uint32
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "uint32_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int( poSqlStatement, 1, u32Value ) );
@@ -243,7 +243,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, int64_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "int64_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int64( poSqlStatement, 1, s64Value ) );
@@ -259,7 +259,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, uint64
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "uint64_t", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_int64( poSqlStatement, 1, u64Value ) );
@@ -275,7 +275,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, float&
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "float", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_double( poSqlStatement, 1, f32Value ) );
@@ -290,7 +290,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, float&
 void VxSettings::setIniValue( const char* pKey, const char* pSettingName, double& f64Value )
 {
 	m_DbMutex.lock();
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "double", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_double( poSqlStatement, 1, f64Value ) );
@@ -306,7 +306,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, std::s
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "string", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_blob( poSqlStatement, 1, strValue.c_str(), (int)strValue.length() + 1, SQLITE_TRANSIENT) );
@@ -322,7 +322,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, const 
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "string", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_blob( poSqlStatement, 1, pValue, (int)strlen(pValue) + 1, SQLITE_TRANSIENT) );
@@ -338,7 +338,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, std::v
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "vector_strings", pKey, pSettingName ) )
 	{
 		std::string strCommaDelimStrings;
@@ -362,7 +362,7 @@ void VxSettings::setIniValue( const char* pKey, const char* pSettingName, void *
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 ==  prepareIniSet( &poSqlStatement, "blob", pKey, pSettingName ) )
 	{
 		bool bError = (SQLITE_OK != sqlite3_bind_blob( poSqlStatement, 1, pvObject, iObjectLen, SQLITE_TRANSIENT) );
@@ -382,7 +382,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, bool& 
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "BOOL", pKey, pSettingName ) )
 	{
 		bValue = (0 == sqlite3_column_int( poSqlStatement, 0 ) ) ? false : true;
@@ -402,7 +402,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, int8_t
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "int8_t", pKey, pSettingName ) )
 	{
 		s8Value = (int8_t)sqlite3_column_int( poSqlStatement, 0 );
@@ -422,7 +422,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, uint8_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "uint8_t", pKey, pSettingName ) )
 	{
 		u8Value = (uint8_t)sqlite3_column_int( poSqlStatement, 0 );
@@ -442,7 +442,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, int16_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "int16_t", pKey, pSettingName ) )
 	{
 		s16Value = (int16_t)sqlite3_column_int( poSqlStatement, 0 );
@@ -462,7 +462,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, uint16
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "uint16_t", pKey, pSettingName ) )
 	{
 		u16Value = (uint16_t)sqlite3_column_int( poSqlStatement, 0 );
@@ -482,7 +482,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, int32_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "int32_t", pKey, pSettingName ) )
 	{
 		s32Value = (int32_t)sqlite3_column_int( poSqlStatement, 0 );
@@ -502,7 +502,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, uint32
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "uint32_t", pKey, pSettingName ) )
 	{
 		u32Value = sqlite3_column_int( poSqlStatement, 0 );
@@ -522,7 +522,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, int64_
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "int64_t", pKey, pSettingName ) )
 	{
 		s64Value = (int64_t)sqlite3_column_int64( poSqlStatement, 0 );
@@ -542,7 +542,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, uint64
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "uint64_t", pKey, pSettingName ) )
 	{
 		u64Value = (uint64_t)sqlite3_column_int64( poSqlStatement, 0 );
@@ -562,7 +562,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, float&
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "float", pKey, pSettingName ) )
 	{
 		f32Value = (float)sqlite3_column_double( poSqlStatement, 0 );
@@ -582,7 +582,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, double
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	if( 0 < prepareIniQuery( &poSqlStatement, "double", pKey, pSettingName ) )
 	{
 		f64Value = (double)sqlite3_column_double( poSqlStatement, 0 );
@@ -602,7 +602,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, std::s
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	int  iBlobBytes;
 	RCODE rc = -1;
 	if( 0 < ( iBlobBytes = prepareIniQuery( &poSqlStatement, "string", pKey, pSettingName ) ) )
@@ -634,7 +634,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, char *
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	int  iBlobBytes;
 	RCODE rc = -1;
 	if( 0 < ( iBlobBytes = prepareIniQuery( &poSqlStatement, "string", pKey, pSettingName ) ) )
@@ -667,7 +667,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, std::v
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	int  iBlobBytes;
 
 	if( 0 < ( iBlobBytes = prepareIniQuery( &poSqlStatement, "vector_strings", pKey, pSettingName ) ) )
@@ -692,7 +692,7 @@ bool VxSettings::getIniValue( const char* pKey, const char* pSettingName, void *
 {
 	m_DbMutex.lock();
 
-	sqlite3_stmt * poSqlStatement;
+	sqlite3_stmt * poSqlStatement{ nullptr };
 	int  iBlobBytes;
 	bool bSuccess = false;
 	if( 0 < ( iBlobBytes = prepareIniQuery( &poSqlStatement, "blob", pKey, pSettingName ) ) )
@@ -756,8 +756,9 @@ RCODE VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 									const char*	pSettingName )
 {
 	char SQL_Statement[2048];
-	RCODE rc;
-	if( 0 == dbOpen() )
+	SQL_Statement[0] = 0;
+	RCODE rc = dbOpen();
+	if( 0 == rc )
 	{
 		sprintf(SQL_Statement, "SELECT value FROM %s WHERE key='%s' AND setting='%s'", pTableName, pKey, pSettingName );
 		if( SQLITE_OK == sqlite3_prepare_v2(m_Db, SQL_Statement, (int)strlen(SQL_Statement)+1, ppoRetSqlStatement, NULL) )
@@ -772,27 +773,42 @@ RCODE VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 				else
 				{
 					LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s column bytes", sqlite3_errmsg(m_Db) );
+					rc = -2;
 				}
 			}
 			else if( SQLITE_DONE == rc ) 
 			{
 				//LogMsg( LOG_VERBOSE, "VxSettings::prepareIniQuery: string key %s, setting %s  NOT FOUND", pKey, pSettingName );
+				rc = 0;
 			}
 			else 
 			{
 				LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s stepping", sqlite3_errmsg(m_Db) );
+				rc = -3;
 			}
 		}
 		else
 		{
 			LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s preparing", sqlite3_errmsg(m_Db) );
+			rc = -4;
 		}
+
+		sqlite3_finalize( *ppoRetSqlStatement );
+		sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
+		dbClose();
+	}
+	else
+	{
+		rc = -5;
 	}
 
-    sqlite3_finalize( *ppoRetSqlStatement );
-	sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
-	dbClose();
-	return 0;
+	if( rc )
+	{
+		LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %d preparing", rc );
+		vx_assert( false );
+	}
+
+	return rc;
 }
 
 //============================================================================

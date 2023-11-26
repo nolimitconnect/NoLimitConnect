@@ -394,12 +394,20 @@ RCODE DbBase::dbOpen( void )
 		return -1;
 	}
 
+	m_Db = nullptr;
+	if( !VxFileUtil::fileExists( m_strDbFileName.c_str() ) )
+	{
+		LogMsg( LOG_ERROR, "ERROR Attempted DbBase::dbOpen %s but does not exist errno %d", m_strDbFileName.c_str(), VxGetLastError() );
+		vx_assert( false );
+		return -1;
+	}
+
 	int retval = sqlite3_open( m_strDbFileName.c_str(), &m_Db );
 	if (!(SQLITE_OK == retval))
 	{
-		handleSqlError( LOG_ERROR, "DbBase:Unable to open db %s", m_strDbFileName.c_str() );
+		handleSqlError( LOG_ERROR, "DbBase:Unable to open db %s SQLITE ERROR %d", m_strDbFileName.c_str(), retval );
 		sqlite3_close(m_Db);
-		m_Db = NULL;
+		m_Db = nullptr;
 		return -1;
 	}
 
@@ -427,24 +435,34 @@ RCODE DbBase::dbClose( void )
 int DbBase::readDatabaseVersion( void )
 {
 	std::string prepString = "SELECT * FROM DBBASE_VERSION";
-	dbOpen();
-	int iVersion =0;
-	sqlite3_stmt * poSqlStatement = NULL;
-	int iResult = sqlite3_prepare_v2( m_Db, prepString.c_str(), (int)( prepString.length() + 1 ), &poSqlStatement, NULL );
-	if( SQLITE_OK != iResult ) 
+	int iVersion{ 0 };
+
+	m_DbMutex.lock();
+	if( 0 == dbOpen() )
 	{
-		handleSqlError( 0, "DbBase::readDatabaseVersion: error %s db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
-		return 0;
+		sqlite3_stmt * poSqlStatement = nullptr;
+		int iResult = sqlite3_prepare_v2( m_Db, prepString.c_str(), (int)( prepString.length() + 1 ), &poSqlStatement, NULL );
+		if( SQLITE_OK != iResult ) 
+		{
+			handleSqlError( 0, "DbBase::readDatabaseVersion: error %s db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
+			return 0;
+		}
+
+		if( SQLITE_ROW == sqlite3_step( poSqlStatement ) )
+		{
+			iVersion = sqlite3_column_int(poSqlStatement, 0 );
+		}
+
+		sqlite3_finalize(poSqlStatement);
+		sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
+		dbClose();
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "DbBase::readDatabaseVersion db failed to open" );
 	}
 
-	if( SQLITE_ROW == sqlite3_step( poSqlStatement ) )
-	{
-		iVersion = sqlite3_column_int(poSqlStatement, 0 );
-	}
-
-	sqlite3_finalize(poSqlStatement);
-	sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
-	dbClose();
+	m_DbMutex.unlock();
 	return iVersion;
 }
 
@@ -470,6 +488,7 @@ RCODE DbBase::writeDatabaseVersion( int iDbVersion )
 //! return true if table exists
 bool DbBase::dbTableExists( const char* pTableName )
 {
+	m_DbMutex.lock();
 	dbOpen();
 	bool bHasTable = false;
 	sqlite3_stmt * poSqlStatement = NULL;
@@ -497,7 +516,7 @@ bool DbBase::dbTableExists( const char* pTableName )
 
 	sqlite3_finalize( poSqlStatement );
 	dbClose();
-
+	m_DbMutex.unlock();
 	return bHasTable;
 }
 
@@ -521,7 +540,7 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 	RCODE				expectedResult		= SQLITE_OK;
 	RCODE				retVal				= SQLITE_OK;
     RCODE				result				= 0;
-	sqlite3_stmt*		pSqlStatement		= ( sqlite3_stmt* )0;
+	sqlite3_stmt*		pSqlStatement		= nullptr;
 	unsigned short		bindNum				= 1;
 	unsigned short		exStep				= 0;
 
@@ -766,7 +785,7 @@ DbCursor * DbBase::startQuery( const char* pSqlString )
 	RCODE rc = dbOpen();
 	if( 0 == rc )
 	{
-		sqlite3_stmt * poSqlStatement = NULL;
+		sqlite3_stmt * poSqlStatement = nullptr;
 		int iResult = sqlite3_prepare_v2( m_Db, pSqlString, (int)strlen( pSqlString ), &poSqlStatement, NULL );
 		if( SQLITE_OK != iResult ) 
 		{
@@ -791,7 +810,7 @@ DbCursor* DbBase::startQuery( const char* pSqlString, const char* textParam )
 	DbCursor*     retVal = NULL;
 	int           iResult;
 
-	sqlite3_stmt* poSqlStatement;
+	sqlite3_stmt* poSqlStatement = nullptr;
 
 	if( 0 == dbOpen() )
 	{
@@ -838,7 +857,7 @@ DbCursor* DbBase::startQuery( const char* pSqlString, const char* textParam, int
 	DbCursor* retVal = NULL;
 	int           iResult;
 
-	sqlite3_stmt* poSqlStatement;
+	sqlite3_stmt* poSqlStatement = nullptr;
 
 	if( 0 == dbOpen() )
 	{
@@ -896,7 +915,7 @@ DbCursor* DbBase::startQuery( const char* pSqlString, const char* textParam1, co
 	DbCursor* retVal = NULL;
 	int           iResult;
 
-	sqlite3_stmt* poSqlStatement;
+	sqlite3_stmt* poSqlStatement = nullptr;
 
 	if( 0 == dbOpen() )
 	{
@@ -988,8 +1007,6 @@ int64_t DbBase::getLastInsertId( void )
 
 //============================================================================
 DbCursor::DbCursor()
-	: m_DbBase(0)
-	, m_Stmt(0)
 {
 }
 
