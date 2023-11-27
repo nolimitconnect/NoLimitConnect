@@ -609,6 +609,25 @@ QFrame* GuiHelpers::getParentPageFrame( QWidget* curWidget )
 }
 
 //============================================================================
+QString GuiHelpers::getParentPageFrameName( QWidget* curWidget )
+{
+    QString frameName;
+
+    QFrame* parentFrame = getParentPageFrame( curWidget );
+    if( parentFrame )
+    {
+        frameName = parentFrame->objectName();
+        if( frameName != OBJNAME_FRAME_LAUNCH_PAGE && frameName != OBJNAME_FRAME_MESSAGER_PAGE )
+        {
+            LogMsg( LOG_ERROR, "GuiHelpers::getParentPageFrameName invalid frame name" );
+            frameName.clear();
+        }
+    }
+
+    return frameName;
+}
+
+//============================================================================
 QFrame* GuiHelpers::getMessengerPageFrame( QWidget* curWidget )
 {
     QFrame* pageFrame = nullptr;

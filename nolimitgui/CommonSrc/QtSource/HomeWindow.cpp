@@ -276,7 +276,7 @@ void HomeWindow::switchWindowFocus(  QWidget* appIconButton )
 }
 
 //============================================================================
-QFrame*  HomeWindow::getAppletFrame( EApplet applet )
+QFrame* HomeWindow::getAppletFrame( EApplet applet )
 {
 	if( eAppletMessengerFrame == applet || eAppletMultiMessenger == applet )
 	{
@@ -285,6 +285,19 @@ QFrame*  HomeWindow::getAppletFrame( EApplet applet )
 	else
 	{
 		return m_HomeFrameUpperLeft;
+	}
+}
+
+//============================================================================
+QFrame* HomeWindow::getLaunchParentFrame( ELaunchFrame launchFrame )
+{
+	if( eLaunchFrameHome == launchFrame )
+	{
+        return m_HomeFrameUpperLeft;	
+	}
+	else
+	{
+		return getMessengerParentFrame();
 	}
 }
 

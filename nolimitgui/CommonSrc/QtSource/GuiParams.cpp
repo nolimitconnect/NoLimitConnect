@@ -2113,3 +2113,17 @@ QString GuiParams::describeConnectType( enum EConnectType connectType )
         return QObject::tr( "Unknown Connect Type " );
     }
 }
+
+//============================================================================
+bool GuiParams::isLaunchOnStartupApplet( EApplet applet )
+{
+    return eAppletPlayerNlc == applet ||
+        eAppletUserConnections == applet ||
+        eAppletSettingsPage == applet;
+}
+
+//============================================================================
+bool GuiParams::isNetStatusPtoPReady( ENetAvailStatus netAvailStatus )
+{
+    return eNetAvailP2PAvail <= netAvailStatus;
+}

@@ -536,8 +536,19 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
 	if( appletDialog )
 	{
-        AppSettings& appSettings = m_MyApp.getAppSettings();
-        appSettings.setLastAppletLaunched( applet );
+        if( GuiParams::isLaunchOnStartupApplet( applet ) )
+        {
+            AppSettings& appSettings = m_MyApp.getAppSettings();
+            QString parentFrameName = appletDialog->getParentPageFrameName();
+            if( OBJNAME_FRAME_LAUNCH_PAGE == parentFrameName )
+            {
+                appSettings.setLastAppletLaunched( eLaunchFrameHome, applet );  
+            }
+            else if( OBJNAME_FRAME_MESSAGER_PAGE == parentFrameName )
+            {
+                appSettings.setLastAppletLaunched( eLaunchFrameMessenger, applet );  
+            }
+        }
 
         appletDialog->aboutToLaunchApplet();
         appletDialog->show();
@@ -648,9 +659,13 @@ void AppletMgr::removeApplet( EApplet applet )
 		{
             m_ActivityList.erase( iter );
             AppSettings& appSettings = m_MyApp.getAppSettings();
-            if( appSettings.getLastAppletLaunched() == applet )
+            if( appSettings.getLastAppletLaunched( eLaunchFrameHome ) == applet )
             {
-                appSettings.setLastAppletLaunched( eAppletUnknown );
+                appSettings.setLastAppletLaunched( eLaunchFrameHome, eAppletUnknown );
+            }
+            else if( appSettings.getLastAppletLaunched( eLaunchFrameMessenger ) == applet )
+            {
+                appSettings.setLastAppletLaunched( eLaunchFrameMessenger, eAppletUnknown );
             }
 
 			break;
@@ -667,10 +682,24 @@ void AppletMgr::removeApplet( ActivityBase* activity )
         if( activity == ( *iter ) )
         {
             m_ActivityList.erase( iter );
-            AppSettings& appSettings = m_MyApp.getAppSettings();
-            if( appSettings.getLastAppletLaunched() == activity->getAppletType() )
+            if( GuiParams::isLaunchOnStartupApplet( activity->getAppletType() ) )
             {
-                appSettings.setLastAppletLaunched( eAppletUnknown );
+                AppSettings& appSettings = m_MyApp.getAppSettings();
+                QString parentFrameName = activity->getParentPageFrameName();
+                if( OBJNAME_FRAME_LAUNCH_PAGE == parentFrameName )
+                {
+                    if( appSettings.getLastAppletLaunched( eLaunchFrameHome ) == activity->getAppletType() )
+                    {
+                        appSettings.setLastAppletLaunched( eLaunchFrameHome, eAppletUnknown );
+                    }   
+                }
+                else if( OBJNAME_FRAME_MESSAGER_PAGE == parentFrameName )
+                {
+                    if( appSettings.getLastAppletLaunched( eLaunchFrameMessenger ) == activity->getAppletType() )
+                    {
+                        appSettings.setLastAppletLaunched( eLaunchFrameMessenger, eAppletUnknown );
+                    }
+                }
             }
 
             break;
@@ -735,7 +764,11 @@ bool AppletMgr::launchAppletAllowed( EApplet applet )
 {
     bool launchAllowed{ true };
 
-
-
     return launchAllowed;
+}
+
+//============================================================================
+QFrame* AppletMgr::getLaunchParentFrame( ELaunchFrame launchFrame )
+{
+    return m_MyApp.getHomePage().getLaunchParentFrame( launchFrame );
 }

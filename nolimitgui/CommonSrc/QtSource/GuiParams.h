@@ -145,6 +145,11 @@ public:
 
     static QString              describeOfferViewType( enum EOfferViewType offerViewType );
 
+    //! return true if applet can be relaunched on application startup
+    static bool                 isLaunchOnStartupApplet( EApplet applet );
+     //! return true if network ready for host search and connections etc.
+    static bool                 isNetStatusPtoPReady( ENetAvailStatus netAvailStatus );
+
 protected:
 
     static QColor				m_OnlineBkgColor;

@@ -311,6 +311,12 @@ QWidget* ActivityBase::getParentPageFrame( void )
 }
 
 //============================================================================
+QString ActivityBase::getParentPageFrameName( void )
+{
+    return GuiHelpers::getParentPageFrameName( this );
+}
+
+//============================================================================
 // overridden in dialogs
 TitleBarWidget * ActivityBase::getTitleBarWidget( void )
 {

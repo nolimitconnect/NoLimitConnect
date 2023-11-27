@@ -341,17 +341,19 @@ uint32_t AppSettings::getVidFeedRotation( void )
 }
 
 //============================================================================
-void AppSettings::setLastAppletLaunched( EApplet applet )
+void AppSettings::setLastAppletLaunched( ELaunchFrame launchPage, EApplet applet )
 {
-     uint32_t appletVal = (EApplet)applet;
-    setIniValue( getAppShortName(), "LastAppletLaunched", appletVal );
+    uint32_t appletVal = (EApplet)applet;
+	const char* settingName = launchPage == eLaunchFrameHome ? "LastAppletLaunched1" : "LastAppletLaunched2";
+    setIniValue( getAppShortName(), settingName, appletVal );
 }
 
 //============================================================================
-EApplet AppSettings::getLastAppletLaunched( void )
+EApplet AppSettings::getLastAppletLaunched( ELaunchFrame launchPage )
 {
     uint32_t appletVal = 0;
-    getIniValue( getAppShortName(), "LastAppletLaunched", appletVal, 0 );
+	const char* settingName = launchPage == eLaunchFrameHome ? "LastAppletLaunched1" : "LastAppletLaunched2";
+    getIniValue( getAppShortName(), settingName, appletVal, 0 );
     return (EApplet)appletVal;
 }
 

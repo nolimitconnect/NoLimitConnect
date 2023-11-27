@@ -54,6 +54,7 @@ public:
 	P2PEngine&					getEngine( void )					{ return m_Engine; }
 	IFromGui&					getFromGuiInterface( void )			{ return m_FromGui; }
     QWidget*				    getParentPageFrame( void ); // get home page frame ( Launch or Messenger Page )
+	QString						getParentPageFrameName( void ); // get home page frame name ( Object name of Launch or Messenger Page )
 
     void                        setIsMaxScreenSize( bool fullScreen );
     bool                        getIsMaxScreenSize( void );

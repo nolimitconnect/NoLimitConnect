@@ -43,6 +43,7 @@ public:
     bool						getIsMaxScreenSize( bool isMessagerFrame );
 
     QFrame*                     getAppletFrame( EApplet applet );
+    QFrame*                     getLaunchParentFrame( ELaunchFrame launchFrame );
     QFrame*                     getMessengerParentFrame( void );
     QFrame*                     getLaunchPageFrame( void );
 

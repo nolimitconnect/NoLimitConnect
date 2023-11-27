@@ -90,8 +90,8 @@ public:
 	void						setVidFeedRotation( uint32_t feedRotation );
 	uint32_t					getVidFeedRotation( void );
 
-    void						setLastAppletLaunched( EApplet applet );
-    EApplet						getLastAppletLaunched( void );
+    void						setLastAppletLaunched( ELaunchFrame launchPage, EApplet applet );
+    EApplet						getLastAppletLaunched( ELaunchFrame launchPage );
 
     void						setLastUsedTestUrl( std::string& testUrl );
     void						getLastUsedTestUrl( std::string& testUrl );

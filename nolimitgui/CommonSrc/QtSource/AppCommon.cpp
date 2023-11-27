@@ -699,6 +699,14 @@ void AppCommon::toGuiNetAvailableStatus( ENetAvailStatus netAvailStatus )
 void AppCommon::slotInternalNetAvailStatus( ENetAvailStatus netAvailStatus )
 {
 	emit signalNetAvailStatus( netAvailStatus );
+	if( GuiParams::isNetStatusPtoPReady( netAvailStatus ) )
+	{
+		if( !m_PtopNetworkReady )
+		{
+			m_PtopNetworkReady = true;
+			checkReadyToLaunchAfterLogonApplets();
+		}
+	}
 }
 
 //============================================================================
@@ -1851,23 +1859,25 @@ void AppCommon::onUserLoggedOn( void )
 //============================================================================
 bool AppCommon::checkSystemReady( void )
 {
-	if( !m_IsSystemReady && m_IsMessengerReady && m_IsLoggedOn )
+	if( !m_IsGuiSystemReady && m_IsMessengerReady && m_IsLoggedOn )
 	{
 		// one time only each application and user ready at startup
-		m_IsSystemReady = true;
+		m_IsGuiSystemReady = true;
 		
-		m_ThumbMgr.onSystemReady( m_IsSystemReady );
-		m_UserMgr.onSystemReady( m_IsSystemReady );
-		m_OfferMgr.onSystemReady( m_IsSystemReady );
-		m_HostJoinMgr.onSystemReady( m_IsSystemReady );
-		m_UserJoinMgr.onSystemReady( m_IsSystemReady );
-		m_WebPageMgr.onSystemReady( m_IsSystemReady );
-		m_ConnectIdListMgr.onSystemReady( m_IsSystemReady );
+		m_ThumbMgr.onSystemReady( m_IsGuiSystemReady );
+		m_UserMgr.onSystemReady( m_IsGuiSystemReady );
+		m_OfferMgr.onSystemReady( m_IsGuiSystemReady );
+		m_HostJoinMgr.onSystemReady( m_IsGuiSystemReady );
+		m_UserJoinMgr.onSystemReady( m_IsGuiSystemReady );
+		m_WebPageMgr.onSystemReady( m_IsGuiSystemReady );
+		m_ConnectIdListMgr.onSystemReady( m_IsGuiSystemReady );
 
-		emit signalSystemReady( m_IsSystemReady );
+		emit signalSystemReady( m_IsGuiSystemReady );
+
+		checkReadyToLaunchAfterLogonApplets();
 	}
 
-	return m_IsSystemReady;
+	return m_IsGuiSystemReady;
 }
 
 //============================================================================

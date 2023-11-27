@@ -862,6 +862,9 @@ protected:
     void						registerMetaData();
     void						doAccountStartup( void );
 
+    void                        checkReadyToLaunchAfterLogonApplets( void );
+    bool                        isReadyToLaunchAfterLogonApplets( void );
+
 	//=== vars ===//
 	QApplication&				m_QApp;
 	EDefaultAppMode				m_AppDefaultMode;
@@ -941,14 +944,16 @@ protected:
     ActivityAppSetup *          m_AppSetupDlg = nullptr;
     bool                        m_IsMessengerReady{ false };
     bool                        m_IsLoggedOn{ false };
-    bool                        m_IsSystemReady{ false };
+    bool                        m_IsGuiSystemReady{ false };
+    bool                        m_PtopNetworkReady{ false };
+
     bool                        m_LoopbackMyselfTestAllowed{ false };
     bool                        m_GuiCpuTimeEnable{ false };
 
     QTimer *                    m_GuiStartupTimer = nullptr;
     QTimer *                    m_CheckSetupTimer = nullptr;
-
-//    KodiThread *                m_KodiThread;
+    
+    bool                        m_LauchedAfterLogonApplets{ false };
 };
 
 AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp );

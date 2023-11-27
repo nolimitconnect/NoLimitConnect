@@ -175,12 +175,6 @@ void AppCommon::completeLogin( void )
 
     slotListViewTypeChanged( m_eLastSelectedWhichContactsToView );
 
-    EApplet lastLaunchedApplet = getAppSettings().getLastAppletLaunched();
-    if( eAppletPlayerNlc == lastLaunchedApplet )
-    {
-        m_AppletMgr.launchApplet( lastLaunchedApplet, m_AppletMgr.getAppletFrame( lastLaunchedApplet ) );
-    }
-
     onUserLoggedOn();
 
     if( netIdent->getPluginPermission( ePluginTypeCamServer ) != eFriendStateIgnore &&
@@ -481,4 +475,31 @@ void AppCommon::showUserNameInTitle()
     strTitle += "-";
     strTitle += getAccountUserName().c_str();
     setWindowTitle( strTitle );
+}
+
+//============================================================================
+void AppCommon::checkReadyToLaunchAfterLogonApplets( void )
+{
+    if( !m_LauchedAfterLogonApplets && isReadyToLaunchAfterLogonApplets() )
+    {
+        m_LauchedAfterLogonApplets = true;
+
+        EApplet lastLaunchedHomeFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameHome );
+        if( lastLaunchedHomeFrameApplet != eAppletUnknown )
+        {
+            m_AppletMgr.launchApplet( lastLaunchedHomeFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameHome ) );
+        }
+
+        EApplet lastLaunchedMessengerFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameMessenger );
+        if( lastLaunchedMessengerFrameApplet != eAppletUnknown )
+        {
+            m_AppletMgr.launchApplet( lastLaunchedMessengerFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameMessenger ) );
+        }
+    }
+}
+
+//============================================================================
+bool AppCommon::isReadyToLaunchAfterLogonApplets( void )
+{
+    return m_IsGuiSystemReady && m_PtopNetworkReady;
 }

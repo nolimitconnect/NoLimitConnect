@@ -18,18 +18,6 @@
 
 #include <QString>
 
-enum EDefaultAppMode
-{
-	eAppModeUnknown,
-	eAppModeDefault,
-	eAppModeNlcViewer,
-	eAppModeNlcProvider,
-	eAppModeNlcStation,
-	eAppModeNlcNetworkHost,
-
-	eMaxAppModeNlc
-};
-
 enum EAppFeatures
 {
 	eAppFeatureUnknown,
@@ -43,15 +31,6 @@ enum EAppFeatures
     eAppFeaturePreferredContent,
 
 	eMaxAppFeatures
-};
-
-enum EHomeLayout
-{
-	eHomeLayoutPlayerPlusMessenger,	// player with messenger on side or bottom
-	eHomeLayoutPlayerOnly,			// player/home page only
-	eHomeLayoutMessengerOnly,		// messenger only
-
-	eMaxHomeLayouts // must be last
 };
 
 enum EApplet
@@ -254,15 +233,16 @@ enum EApplet
 	eMaxApplets // must be last
 };
 
-enum EThemeType
+enum EDefaultAppMode
 {
-	eThemeTypeUnknown = 0,
-	eThemeTypeLight = 1,
-	eThemeTypeDark = 2,
-	eThemeTypeBlueOnWhite = 3,
-	eThemeTypeGreenOnWhite = 4,
+	eAppModeUnknown,
+	eAppModeDefault,
+	eAppModeNlcViewer,
+	eAppModeNlcProvider,
+	eAppModeNlcStation,
+	eAppModeNlcNetworkHost,
 
-	eMaxThemeType
+	eMaxAppModeNlc
 };
 
 enum EExpireTime
@@ -278,6 +258,35 @@ enum EExpireTime
     eExpireTime1Year,
 
     eMaxExpireTime
+};
+
+enum EHomeLayout
+{
+	eHomeLayoutPlayerPlusMessenger,	// player with messenger on side or bottom
+	eHomeLayoutPlayerOnly,			// player/home page only
+	eHomeLayoutMessengerOnly,		// messenger only
+
+	eMaxHomeLayouts // must be last
+};
+
+enum ELaunchFrame
+{
+	eLaunchFraneUnknown,
+	eLaunchFrameHome,
+	eLaunchFrameMessenger,
+
+	eMaxLaunchFrame
+};
+
+enum EThemeType
+{
+	eThemeTypeUnknown = 0,
+	eThemeTypeLight = 1,
+	eThemeTypeDark = 2,
+	eThemeTypeBlueOnWhite = 3,
+	eThemeTypeGreenOnWhite = 4,
+
+	eMaxThemeType
 };
 
 // returns feature name ( never translated )

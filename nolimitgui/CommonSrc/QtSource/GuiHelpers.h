@@ -93,6 +93,8 @@ public:
 
     /// @brief get home or messenger topmost widget
     static QFrame*              getParentPageFrame( QWidget* curWidget );
+    /// @brief get home or messenger topmost frame widget object name
+    static QString              getParentPageFrameName( QWidget* curWidget );
     /// @brief messenger frame topmost widget
     static QFrame*              getMessengerPageFrame( QWidget* curWidget );
     /// @brief get launch frame topmost widget

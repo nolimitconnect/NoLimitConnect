@@ -43,6 +43,8 @@ public:
 
     RenderGlWidget *            getRenderConsumer( void );
 
+	QFrame*                     getLaunchParentFrame( ELaunchFrame launchFrame );
+
 protected:
 	void						addApplet( ActivityBase* activity );
 	void						removeApplet( EApplet applet );
