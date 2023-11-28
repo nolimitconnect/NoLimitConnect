@@ -484,6 +484,7 @@ public:
     virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
     virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
     virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId );
+
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
     virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId );
 

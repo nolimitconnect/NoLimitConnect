@@ -299,6 +299,7 @@ void P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 
 	// determine if is nearby
 	bool isNearby = false;
+#if ENABLE_COMPONENT_NEARBY
 	if( nearbyLanConnected || ( poInfo->getMyOnlineIPv4().isValid() && poInfo->getMyOnlineIPv4() == m_PktAnn.getMyOnlineIPv4() ) ) // uses same external ip
 	{
 		isNearby = true;
@@ -316,6 +317,7 @@ void P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 			isNearby = true;
 		}
 	}
+#endif // ENABLE_COMPONENT_NEARBY
 
 	poInfo->setIsNearby( isNearby );
 	if( poInfo->isNearby() && poInfo->getMyFriendshipToHim() == eFriendStateAnonymous )

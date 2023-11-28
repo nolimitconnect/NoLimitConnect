@@ -1876,3 +1876,27 @@ void P2PEngine::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen
 		getAssetMgr().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 	}
 }
+
+//============================================================================
+void P2PEngine::fromGuiConnectToLastJoinedHost( std::string& lastConnectedHostInvite )
+{
+	/*
+	VxGUID sessionId;
+	sessionId.initializeWithNewVxGUID();
+	VxPtopUrl ptopUrl( lastConnectedHostInvite );
+	if( ptopUrl.isValid() && ptopUrl.isHostValid() )
+	{
+		std::string urlIpv4 = ptopUrl.toPtopUrl( false );
+		std::string urlIpv6 = ptopUrl.toPtopUrl( true );
+
+		switch( ptopUrl.getHostType() )
+		{
+		case eHostTypeGroup:
+			return m_PluginMgr.getPlugin( ePluginTypeClientGroup )->fromGuiJoinHost( eHostTypeGroup, sessionId, urlIpv4, urlIpv6 );
+
+		}
+	}
+	*/
+
+
+}

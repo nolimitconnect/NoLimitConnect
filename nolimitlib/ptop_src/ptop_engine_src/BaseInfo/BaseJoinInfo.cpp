@@ -24,7 +24,7 @@ BaseJoinInfo::BaseJoinInfo()
 //============================================================================
 BaseJoinInfo::BaseJoinInfo( const BaseJoinInfo& rhs )
     : BaseInfo( rhs )
-    , m_PluginType( rhs.m_PluginType )
+    , m_HostType( rhs.m_HostType )
     , m_JoinState( rhs.m_JoinState )
     , m_LastConnectMs( rhs.m_LastConnectMs )
     , m_LastJoinMs( rhs.m_LastJoinMs )
@@ -37,7 +37,7 @@ BaseJoinInfo& BaseJoinInfo::operator=( const BaseJoinInfo& rhs )
     if( this != &rhs )
     {
         BaseInfo::operator=( rhs );
-        m_PluginType = rhs.m_PluginType;
+        m_HostType = rhs.m_HostType;
         m_JoinState = rhs.m_JoinState;
         m_LastConnectMs = rhs.m_LastConnectMs;
         m_LastJoinMs = rhs.m_LastJoinMs;

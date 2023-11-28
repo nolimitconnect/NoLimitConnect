@@ -222,7 +222,8 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
         joinInfo = new UserJoinInfo();
         joinInfo->setGroupieId( groupieId );
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType() );
         wasAdded = true;
     }
 
@@ -284,7 +285,8 @@ void UserJoinMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBas
         joinInfo = new UserJoinInfo();
         joinInfo->setGroupieId( groupieId );
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType() );
         wasAdded = true;
     }
 

@@ -95,6 +95,7 @@ bool BaseInfo::extractFromBlob( PktBlobEntry& blob )
 void BaseInfo::fillBaseInfo( VxNetIdent* netIdent, EHostType hostType )
 {
     vx_assert( netIdent );
+
     m_OnlineId = netIdent->getMyOnlineId();
     m_ThumbId = netIdent->getThumbId( hostType );
     m_InfoModifiedTime = GetTimeStampMs();

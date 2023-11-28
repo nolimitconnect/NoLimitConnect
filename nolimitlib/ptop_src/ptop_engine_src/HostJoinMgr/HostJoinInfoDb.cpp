@@ -192,7 +192,7 @@ void HostJoinInfoDb::getAllHostJoins( std::map<GroupieId, HostJoinInfo*>& HostJo
                 continue;
             }
 
-            hostInfo->setPluginType( pluginType );
+            hostInfo->setHostType( hostType );
 
             VxPtopUrl ptopUrl( hostInfo->getUserUrl( false ) );
             if( ptopUrl.isValid() && hostInfo->getOnlineId().isVxGUIDValid() )

@@ -156,6 +156,9 @@ public:
 	void						setLastUserConnectionsHostType( int comboIdx );
 	int							getLastUserConnectionsHostType( void );
 
+	void						setLastHostJoined( std::string lastJoinedHost );
+	std::string					getLastHostJoined( void );
+
 protected:
 	bool						appModeSettingsAreInitialize( void );
 	void						setupAppModeSettings( EDefaultAppMode appDefaultMode );

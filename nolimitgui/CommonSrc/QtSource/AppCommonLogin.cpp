@@ -495,6 +495,8 @@ void AppCommon::checkReadyToLaunchAfterLogonApplets( void )
         {
             m_AppletMgr.launchApplet( lastLaunchedMessengerFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameMessenger ) );
         }
+
+        checkReadyToConnectToLastConnectedHost();
     }
 }
 
@@ -502,4 +504,18 @@ void AppCommon::checkReadyToLaunchAfterLogonApplets( void )
 bool AppCommon::isReadyToLaunchAfterLogonApplets( void )
 {
     return m_IsGuiSystemReady && m_PtopNetworkReady;
+}
+
+//============================================================================
+void AppCommon::checkReadyToConnectToLastConnectedHost( void )
+{
+    if( m_LauchedAfterLogonApplets && !m_ConnectToLastConnectedHost )
+    {
+        m_ConnectToLastConnectedHost = true;
+        std::string lastConnectedHost = getAppSettings().getLastHostJoined();
+        if( !lastConnectedHost.empty() )
+        {
+            getEngine().fromGuiConnectToLastJoinedHost( lastConnectedHost );
+        }
+    }
 }

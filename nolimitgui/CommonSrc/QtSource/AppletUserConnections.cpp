@@ -131,16 +131,16 @@ void AppletUserConnections::callbackIndentListRemove( EUserViewType listType, Vx
 //============================================================================
 void AppletUserConnections::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackIndentListRemove %s isOnline %d", 
-			guiUser->describeUser(true).toUtf8().constData(), isOnline );
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackOnlineStatusChange %s isOnline %d id %s", 
+			guiUser->describeUser(true).toUtf8().constData(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
 	refreshList();
 }
 
 //============================================================================
 void AppletUserConnections::callbackUserAdded( GuiUser* guiUser )
 {
-	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackUserAdded %s", 
-			guiUser->describeUser(true).toUtf8().constData() );
+	LogModule( eLogUserGuiEvent, LOG_DEBUG, "AppletUserConnections callbackUserAdded %s isOnline %d id %s", 
+			guiUser->describeUser(true).toUtf8().constData(), guiUser->isOnline(), guiUser->getMyOnlineId().toOnlineIdString().c_str() );
 	refreshList();
 }
 

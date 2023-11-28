@@ -97,6 +97,8 @@ void AppCommon::toGuiContactAdded( VxNetIdent* netIdent )
         return;
     }
 
+    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactAdded %s id %s", netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+
     emit signalInternalToGuiContactAdded( *netIdent );
 }
 
@@ -160,7 +162,7 @@ void AppCommon::slotInternalToGuiOnlineStatusChange( VxGUID onlineId, bool isOnl
     GuiUser*user = m_UserMgr.getUser( onlineId );
     if( user )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "AppCommon::slotInternalToGuiOnlineStatusChange online ? %d user %s", isOnline, user->getOnlineName().c_str() );
+        LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppCommon::slotInternalToGuiOnlineStatusChange online ? %d user %s", isOnline, user->getOnlineName().c_str() );
         m_ToGuiActivityInterfaceBusy = true;
 	    for( auto client : m_ToGuiActivityInterfaceList )
 	    {
@@ -197,6 +199,8 @@ void AppCommon::toGuiContactOnline( VxNetIdent* netIdent )
         return;
     }
 
+    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppCommon::toGuiContactOnline user %s id %s", netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+
     emit signalInternalToGuiContactOnline( *netIdent );
 }
 
@@ -208,9 +212,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "AppCommon::toGuiContactOnline user %s", netIdent.getOnlineName() );
-
-    GuiUser* user = getUserMgr().updateUser( &netIdent );
+    GuiUser* user = getUserMgr().updateUser( &netIdent, true );
 
     m_ToGuiActivityInterfaceBusy = true;
     for( auto client : m_ToGuiActivityInterfaceList )

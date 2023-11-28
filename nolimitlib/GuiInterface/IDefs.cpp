@@ -1465,6 +1465,13 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
     case ePluginTypeClientRandomConnect:
         return eHostTypeRandomConnect;
 
+    case ePluginTypeAboutMePageServer:
+    case ePluginTypeCamServer:
+    case ePluginTypeStoryboardServer:
+        LogMsg( LOG_ERROR, "PluginTypeToHostType plugin type %s should not be used as hosted type", DescribePluginType( pluginType ) );
+        return eHostTypeUnknown;
+
+
     case ePluginTypeHostNetwork:
     case ePluginTypeClientNetwork:
         return eHostTypeNetwork;

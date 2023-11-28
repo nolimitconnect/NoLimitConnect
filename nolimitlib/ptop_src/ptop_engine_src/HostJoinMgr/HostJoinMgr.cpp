@@ -197,7 +197,8 @@ void HostJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase
         }
 
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType() );
         joinInfo->setSessionId( sessionInfo.getSessionId() );
         joinInfo->setNetIdent( netIdent );
         int64_t timeNowMs = GetTimeStampMs();
@@ -248,7 +249,8 @@ void HostJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBa
         }
 
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType()  );
         joinInfo->setSessionId( sessionInfo.getSessionId() );
         joinInfo->setNetIdent( netIdent );
         int64_t timeNowMs = GetTimeStampMs();
@@ -291,7 +293,8 @@ void HostJoinMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNet
         }
 
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType() );
         joinInfo->setSessionId( sessionInfo.getSessionId() );
         joinInfo->setNetIdent( netIdent );
         int64_t timeNowMs = GetTimeStampMs();
@@ -341,7 +344,8 @@ void HostJoinMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetId
         }
 
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType() );
         joinInfo->setSessionId( sessionInfo.getSessionId() );
         joinInfo->setNetIdent( netIdent );
         int64_t timeNowMs = GetTimeStampMs();
@@ -381,7 +385,8 @@ void HostJoinMgr::onHostUnJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxN
         }
 
         joinInfo->fillBaseInfo( netIdent, sessionInfo.getHostType() );
-        joinInfo->setPluginType( sessionInfo.getClientPluginType() );
+
+        joinInfo->setHostType( sessionInfo.getHostType() );
         joinInfo->setSessionId( sessionInfo.getSessionId() );
         joinInfo->setNetIdent( netIdent );
         int64_t timeNowMs = GetTimeStampMs();
@@ -464,7 +469,7 @@ void HostJoinMgr::fromGuiGetJoinedStateList( EPluginType pluginType, EJoinState 
     // NOTE: assumes resources have been locked
     for( auto iter = m_HostJoinInfoList.begin(); iter != m_HostJoinInfoList.end(); ++iter )
     {
-        if( iter->second->getPluginType() == pluginType && iter->second->getJoinState() == joinState )
+        if( iter->second->getHostType() == PluginTypeToHostType( pluginType ) && iter->second->getJoinState() == joinState )
         {
             hostJoinList.push_back( iter->second );
         }
@@ -475,11 +480,12 @@ void HostJoinMgr::fromGuiGetJoinedStateList( EPluginType pluginType, EJoinState 
 int HostJoinMgr::fromGuiGetJoinedListCount( EPluginType pluginType )
 {
     int joinedCnt = 0;
+    EHostType hostType = PluginTypeToHostType( pluginType );
     lockHostJoinInfoList();
 
     for( auto iter = m_HostJoinInfoList.begin(); iter != m_HostJoinInfoList.end(); ++iter)
     {
-        if( iter->second->getPluginType() == pluginType )
+        if( iter->second->getHostType() == hostType )
         {
             joinedCnt++;
         }

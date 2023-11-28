@@ -97,142 +97,142 @@ class AppCommon : public QWidget, public IToGui, public INlcRender, public INlcE
 
 public:
     AppCommon( QApplication& myQApp,
-                EDefaultAppMode appDefaultMode,
-                AppSettings& appSettings,
-                AccountMgr& myDataHelper,
-                INlc& nlc );
+               EDefaultAppMode appDefaultMode,
+               AppSettings& appSettings,
+               AccountMgr& myDataHelper,
+               INlc& nlc );
     AppCommon( const AppCommon& rhs ) = delete;
     virtual ~AppCommon() override = default;
 
     // elapsed high resolution timer 
     int64_t                     elapsedMilliseconds( void );
 
-    int64_t                     elapsedSeconds( void )                      { return elapsedMilliseconds() / 1000; }
+    int64_t                     elapsedSeconds( void ) { return elapsedMilliseconds() / 1000; }
 
     // load profile and icons etc without using thread to avoid linux crash
     void                        loadWithoutThread( void );
     // cannot launch any applets until logon is completed
-    void                        setLoginCompleted( bool completed )         { m_LoginComplete = completed; }
-    bool                        getLoginCompleted( void )                   { return m_LoginComplete; }
+    void                        setLoginCompleted( bool completed ) { m_LoginComplete = completed; }
+    bool                        getLoginCompleted( void ) { return m_LoginComplete; }
 
     // some applets cannot be launched until application is fully ready for network use
-    void                        setIsAppInitialized( bool initialized )     { m_AppInitialized = initialized; }
-    bool                        getIsAppInitialized( void )                 { return m_AppInitialized; }
+    void                        setIsAppInitialized( bool initialized ) { m_AppInitialized = initialized; }
+    bool                        getIsAppInitialized( void ) { return m_AppInitialized; }
 
-    void                        setLoopbackMyselfTestAllowed( bool allow )  { m_LoopbackMyselfTestAllowed = allow; }
-    bool                        getLoopbackMyselfTestAllowed( void )        { return m_LoopbackMyselfTestAllowed; }
+    void                        setLoopbackMyselfTestAllowed( bool allow ) { m_LoopbackMyselfTestAllowed = allow; }
+    bool                        getLoopbackMyselfTestAllowed( void ) { return m_LoopbackMyselfTestAllowed; }
 
     // diagnose to much cpu usage in gui thread
-    void                        setGuiCpuTimeEnable( bool enable )          { m_GuiCpuTimeEnable = enable; }
-    bool                        getGuiCpuTimeEnable( void )                 { return m_GuiCpuTimeEnable; }
+    void                        setGuiCpuTimeEnable( bool enable ) { m_GuiCpuTimeEnable = enable; }
+    bool                        getGuiCpuTimeEnable( void ) { return m_GuiCpuTimeEnable; }
 
-    AccountMgr&				    getAccountMgr( void )						{ return m_AccountMgr; }
-    VxAppDisplay&				getAppDisplay( void )                       { return m_AppDisplay; }
-    AppGlobals&					getAppGlobals( void )						{ return m_AppGlobals; }
-    QFrame*					    getAppletFrame( EApplet applet );
-    AppletMgr&					getAppletMgr( void )						{ return m_AppletMgr; }
-	AppSettings&				getAppSettings( void )						{ return m_AppSettings; }
-    QString&					getAppShortName( void )						{ return m_AppShortName; }
-    VxAppStyle&					getAppStyle( void )							{ return m_AppStyle; }
-    QString&					getAppTitle( void )							{ return m_AppTitle; }
-    VxAppTheme&					getAppTheme( void )							{ return m_AppTheme; }
-    CamLogic&					getCamLogic( void )							{ return m_CamLogic; }
-    P2PEngine&                  getEngine( void );
-    IFromGui&					getFromGuiInterface( void );
-    INlc&				        getNlc( void )						        { return m_Nlc; }
-    HomeWindow&					getHomePage( void )							{ return m_HomePage; }
-    bool						getIsVidCaptureEnabled( void )				{ return m_VidCaptureEnabled; }
-    bool						getIsMicrophoneHardwareEnabled( void )		{ return m_MicrophoneHardwareEnabled; }
-    bool						getIsSpeakerHardwareEnabled( void )			{ return m_SpeakerHardwareEnabled; }
-    MyIcons&					getMyIcons( void )							{ return m_MyIcons; }
-    VxNetIdent*				    getMyNetIdent( void );
-    VxGUID&				        getMyOnlineId( void );
-    ENetworkStateType			getNetworkState( void )						{ return m_LastNetworkState; }
-    GuiOfferMgr&                getOfferMgr( void )                         { return m_OfferMgr; }
+    AccountMgr& getAccountMgr( void ) { return m_AccountMgr; }
+    VxAppDisplay& getAppDisplay( void ) { return m_AppDisplay; }
+    AppGlobals& getAppGlobals( void ) { return m_AppGlobals; }
+    QFrame* getAppletFrame( EApplet applet );
+    AppletMgr& getAppletMgr( void ) { return m_AppletMgr; }
+    AppSettings& getAppSettings( void ) { return m_AppSettings; }
+    QString& getAppShortName( void ) { return m_AppShortName; }
+    VxAppStyle& getAppStyle( void ) { return m_AppStyle; }
+    QString& getAppTitle( void ) { return m_AppTitle; }
+    VxAppTheme& getAppTheme( void ) { return m_AppTheme; }
+    CamLogic& getCamLogic( void ) { return m_CamLogic; }
+    P2PEngine& getEngine( void );
+    IFromGui& getFromGuiInterface( void );
+    INlc& getNlc( void ) { return m_Nlc; }
+    HomeWindow& getHomePage( void ) { return m_HomePage; }
+    bool						getIsVidCaptureEnabled( void ) { return m_VidCaptureEnabled; }
+    bool						getIsMicrophoneHardwareEnabled( void ) { return m_MicrophoneHardwareEnabled; }
+    bool						getIsSpeakerHardwareEnabled( void ) { return m_SpeakerHardwareEnabled; }
+    MyIcons& getMyIcons( void ) { return m_MyIcons; }
+    VxNetIdent* getMyNetIdent( void );
+    VxGUID& getMyOnlineId( void );
+    ENetworkStateType			getNetworkState( void ) { return m_LastNetworkState; }
+    GuiOfferMgr& getOfferMgr( void ) { return m_OfferMgr; }
 
-    RenderGlWidget *            getRenderConsumer( void );
-    SoundMgr&					getSoundMgr( void )							{ return m_SoundMgr; }
-	VxTilePositioner&			getTilePositioner( void )					{ return m_TilePositioner; }
-    GuiConnectIdListMgr&        getConnectIdListMgr( void )					{ return m_ConnectIdListMgr; }
-    GuiFavoriteMgr&             getFavoriteMgr( void )                      { return m_FavoriteMgr; }
-    GuiFileXferMgr&             getFileXferMgr( void )                      { return m_FileXferMgr; }
-    GuiGroupieListMgr&          getGroupieListMgr( void )                   { return m_GroupieListMgr; }
-    GuiHostedListMgr&           getHostedListMgr( void )                    { return m_HostedListMgr; }
-    GuiHostJoinMgr&             getHostJoinMgr( void )                      { return m_HostJoinMgr; }
-    GuiUserJoinMgr&             getUserJoinMgr( void )						{ return m_UserJoinMgr; }
-    GuiWebPageMgr&              getWebPageMgr( void )                       { return m_WebPageMgr; }
-    GuiUserMgr&                 getUserMgr( void )						    { return m_UserMgr; }
-    GuiThumbMgr&                getThumbMgr( void )						    { return m_ThumbMgr; }
-    GuiMembershipAvailableMgr&  getMembershipAvailableMgr( void )           { return m_MembershipAvailableMgr; }
-    GuiPlayerMgr&               getPlayerMgr( void )                        { return m_PlayerMgr; }
-    GuiPluginMgr&               getPluginMgr( void )                        { return m_PluginMgr; }
+    RenderGlWidget* getRenderConsumer( void );
+    SoundMgr& getSoundMgr( void ) { return m_SoundMgr; }
+    VxTilePositioner& getTilePositioner( void ) { return m_TilePositioner; }
+    GuiConnectIdListMgr& getConnectIdListMgr( void ) { return m_ConnectIdListMgr; }
+    GuiFavoriteMgr& getFavoriteMgr( void ) { return m_FavoriteMgr; }
+    GuiFileXferMgr& getFileXferMgr( void ) { return m_FileXferMgr; }
+    GuiGroupieListMgr& getGroupieListMgr( void ) { return m_GroupieListMgr; }
+    GuiHostedListMgr& getHostedListMgr( void ) { return m_HostedListMgr; }
+    GuiHostJoinMgr& getHostJoinMgr( void ) { return m_HostJoinMgr; }
+    GuiUserJoinMgr& getUserJoinMgr( void ) { return m_UserJoinMgr; }
+    GuiWebPageMgr& getWebPageMgr( void ) { return m_WebPageMgr; }
+    GuiUserMgr& getUserMgr( void ) { return m_UserMgr; }
+    GuiThumbMgr& getThumbMgr( void ) { return m_ThumbMgr; }
+    GuiMembershipAvailableMgr& getMembershipAvailableMgr( void ) { return m_MembershipAvailableMgr; }
+    GuiPlayerMgr& getPlayerMgr( void ) { return m_PlayerMgr; }
+    GuiPluginMgr& getPluginMgr( void ) { return m_PluginMgr; }
 
-    MediaPlayerNlc&             getPlayerNlc( void );
+    MediaPlayerNlc& getPlayerNlc( void );
 
-    QApplication&				getQApplication( void )						{ return m_QApp; }
+    QApplication& getQApplication( void ) { return m_QApp; }
 
-	void						setCamCaptureRotation( uint32_t rot );
-	int							getCamCaptureRotation( void )				{ return m_CamCaptureRotation; }
+    void						setCamCaptureRotation( uint32_t rot );
+    int							getCamCaptureRotation( void ) { return m_CamCaptureRotation; }
 
-	void 						setAccountUserName( const char* name )		{ m_strAccountUserName = name; } 
-	std::string					getAccountUserName( void )					{ return m_strAccountUserName; } 
+    void 						setAccountUserName( const char* name ) { m_strAccountUserName = name; }
+    std::string					getAccountUserName( void ) { return m_strAccountUserName; }
 
-	void						setIsMaxScreenSize(  bool isMessagerFrame, bool isFullSizeWindow );
-	bool						getIsMaxScreenSize( bool isMessagerFrame );
+    void						setIsMaxScreenSize( bool isMessagerFrame, bool isFullSizeWindow );
+    bool						getIsMaxScreenSize( bool isMessagerFrame );
 
     // permanent applets for lifetime of application
     void						setAppletMultiMessenger( AppletMultiMessenger* applet ) { m_AppletMultiMessenger = applet; }
-    AppletMultiMessenger*		getAppletMultiMessenger( void )                         { return m_AppletMultiMessenger; };
-    void						setAppletDownloads( AppletDownloads* applet )           { m_AppletDownloads = applet; }
-    AppletDownloads*		    getAppletDownloads( void )                              { return m_AppletDownloads; };
-    void						setAppletUploads( AppletUploads* applet )               { m_AppletUploads = applet; }
-    AppletUploads*		        getAppletUploads( void )                                { return m_AppletUploads; };
+    AppletMultiMessenger* getAppletMultiMessenger( void ) { return m_AppletMultiMessenger; };
+    void						setAppletDownloads( AppletDownloads* applet ) { m_AppletDownloads = applet; }
+    AppletDownloads* getAppletDownloads( void ) { return m_AppletDownloads; };
+    void						setAppletUploads( AppletUploads* applet ) { m_AppletUploads = applet; }
+    AppletUploads* getAppletUploads( void ) { return m_AppletUploads; };
 
     bool                        hasExistingAccount( void );
 
-	void						switchWindowFocus( QWidget* appIconButton );
+    void						switchWindowFocus( QWidget* appIconButton );
 
-	void						applySoundSettings( bool useDefaultsInsteadOfSettings = false );
-	void						playSound( ESndDef sndDef );
-	void						insertKeystroke( int keyNum );
+    void						applySoundSettings( bool useDefaultsInsteadOfSettings = false );
+    void						playSound( ESndDef sndDef );
+    void						insertKeystroke( int keyNum );
 
-	void						forceOrientationChange( void );
+    void						forceOrientationChange( void );
 
-	virtual void				okMessageBox( QString title, QString msg );
-	virtual void				okMessageBox2( QString title, const char* msg, ... );
-	virtual bool				yesNoMessageBox( QString title, QString msg );
-	virtual bool				yesNoMessageBox2( QString title, const char* msg, ... );
-	virtual void				errMessageBox( QString title, QString msg );
-	virtual void				errMessageBox2( QString title, const char* msg, ... );
+    virtual void				okMessageBox( QString title, QString msg );
+    virtual void				okMessageBox2( QString title, const char* msg, ... );
+    virtual bool				yesNoMessageBox( QString title, QString msg );
+    virtual bool				yesNoMessageBox2( QString title, const char* msg, ... );
+    virtual void				errMessageBox( QString title, QString msg );
+    virtual void				errMessageBox2( QString title, const char* msg, ... );
 
-	//=== app methods ===//
-	virtual void				startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame );
+    //=== app methods ===//
+    virtual void				startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame );
 
     virtual void				doLogin( void );
     virtual void				doLoginStep2( void );
     virtual void				completeLogin( void );
 
-	// prompt user to confirm wants to shutdown app.. caller must call appCommonShutdown if answer is yes
-	virtual bool				confirmAppShutdown( QWidget* parentWindow );
-	virtual void				shutdownAppCommon( void );
+    // prompt user to confirm wants to shutdown app.. caller must call appCommonShutdown if answer is yes
+    virtual bool				confirmAppShutdown( QWidget* parentWindow );
+    virtual void				shutdownAppCommon( void );
 
-	void						loadAccountSpecificSettings( const char* userName );
+    void						loadAccountSpecificSettings( const char* userName );
     void                        copyAssetsToFoldersIfRequired( void );
 
-    ActivityBase*               launchApplet( EApplet applet, QWidget* parent );
-    ActivityBase*               launchApplet( EApplet applet, QWidget* parent, QString launchParam, VxGUID& assetId);
+    ActivityBase* launchApplet( EApplet applet, QWidget* parent );
+    ActivityBase* launchApplet( EApplet applet, QWidget* parent, QString launchParam, VxGUID& assetId );
 
     bool						launchOfferSendApplet( EPluginType pluginType, GuiUser* guiUser, QWidget* parent = nullptr );
     bool                        launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser, GuiOfferSession* existingOffer, QWidget* parent = nullptr );
     bool                        launchOfferResponseAccept( GuiOfferSession* offerSession, QWidget* contentFrame = nullptr );
 
-	void						activityStateChange( ActivityBase* activity, bool isCreated );
+    void						activityStateChange( ActivityBase* activity, bool isCreated );
 
-	void						setIsLibraryActivityActive( bool isActive )						{ m_LibraryActivityActive = isActive; }
-	bool						getIsLibraryActivityActive( void )								{ return m_LibraryActivityActive; }
+    void						setIsLibraryActivityActive( bool isActive ) { m_LibraryActivityActive = isActive; }
+    bool						getIsLibraryActivityActive( void ) { return m_LibraryActivityActive; }
 
-	void						wantToGuiActivityCallbacks(	ToGuiActivityInterface* callback, bool wantCallback );
-	void						wantToGuiHardwareCtrlCallbacks( ToGuiHardwareControlInterface* callback, bool wantCallback );
+    void						wantToGuiActivityCallbacks( ToGuiActivityInterface* callback, bool wantCallback );
+    void						wantToGuiHardwareCtrlCallbacks( ToGuiHardwareControlInterface* callback, bool wantCallback );
     void						wantToGuiUserUpdateCallbacks( ToGuiUserUpdateInterface* callback, bool	wantCallback );
 
     //============================================================================
@@ -245,9 +245,9 @@ public:
     virtual void                fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
     virtual void                fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseyPos ) override;
 
-	virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) override;
-	virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) override;
-	virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) override;
+    virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) override;
+    virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) override;
+    virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) override;
 
     virtual void                fromGuiCloseEvent( EAppModule appModule ) override;
     virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
@@ -280,29 +280,29 @@ public:
     //=== textures ===//
     void                        setActiveGlTexture( unsigned int activeTextureNum = 0 /* 0 == GL_TEXTURE0 , 1 == GL_TEXTURE1 etc*/ ) override;
 
-    void                        createTextureObject( CTextureQt * texture ) override;
-    void                        destroyTextureObject( CTextureQt * texture ) override;
-    bool                        loadToGPU( CTextureQt * texture ) override;
-    void                        bindToUnit( CTextureQt * texture, unsigned int unit ) override;
+    void                        createTextureObject( CTextureQt* texture ) override;
+    void                        destroyTextureObject( CTextureQt* texture ) override;
+    bool                        loadToGPU( CTextureQt* texture ) override;
+    void                        bindToUnit( CTextureQt* texture, unsigned int unit ) override;
 
-    void                        beginGuiTexture( CGUITextureQt * guiTexture, NlcColor color ) override;
-    void                        drawGuiTexture( CGUITextureQt * guiTexture, float * x, float * y, float * z, const NlcRect& texture, const NlcRect& diffuse, int orientation ) override;
-    void                        endGuiTexture( CGUITextureQt * guiTexture ) override;
-    void                        drawQuad( const NlcRect &rect, NlcColor color, CTextureBase * texture, const NlcRect * texCoords ) override;
+    void                        beginGuiTexture( CGUITextureQt* guiTexture, NlcColor color ) override;
+    void                        drawGuiTexture( CGUITextureQt* guiTexture, float* x, float* y, float* z, const NlcRect& texture, const NlcRect& diffuse, int orientation ) override;
+    void                        endGuiTexture( CGUITextureQt* guiTexture ) override;
+    void                        drawQuad( const NlcRect& rect, NlcColor color, CTextureBase* texture, const NlcRect* texCoords ) override;
 
-    bool                        firstBegin( CGUIFontTTFQt * font )  override;
-    void                        lastEnd( CGUIFontTTFQt * font ) override;
+    bool                        firstBegin( CGUIFontTTFQt* font )  override;
+    void                        lastEnd( CGUIFontTTFQt* font ) override;
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
-    CVertexBuffer               createVertexBuffer( CGUIFontTTFQt * font, const std::vector<SVertex> &vertices )  override;
+    CVertexBuffer               createVertexBuffer( CGUIFontTTFQt* font, const std::vector<SVertex>& vertices )  override;
 #endif // ENABLE_KODI
-    void                        destroyVertexBuffer( CGUIFontTTFQt * font, CVertexBuffer &buffer )  override;
+    void                        destroyVertexBuffer( CGUIFontTTFQt* font, CVertexBuffer& buffer )  override;
 
-    virtual void                deleteHardwareTexture( CGUIFontTTFQt * font )  override;
-    virtual void                createStaticVertexBuffers( CGUIFontTTFQt * font )  override;
-    virtual void                destroyStaticVertexBuffers( CGUIFontTTFQt * font )  override;
+    virtual void                deleteHardwareTexture( CGUIFontTTFQt* font )  override;
+    virtual void                createStaticVertexBuffers( CGUIFontTTFQt* font )  override;
+    virtual void                destroyStaticVertexBuffers( CGUIFontTTFQt* font )  override;
 
     //=== render ===//
-    void                        captureScreen( CScreenshotSurface * screenCaptrue, NlcRect& captureArea ) override;
+    void                        captureScreen( CScreenshotSurface* screenCaptrue, NlcRect& captureArea ) override;
 
     void                        toGuiRenderVideoFrame( int textureIdx, CRenderBuffer* videoBuffer );
     bool                        initRenderSystem() override;
@@ -324,25 +324,25 @@ public:
     void                        getViewPort( NlcRect& viewPort ) override;
 
     bool                        scissorsCanEffectClipping() override;
-    NlcRect                     clipRectToScissorRect( const NlcRect &rect ) override;
+    NlcRect                     clipRectToScissorRect( const NlcRect& rect ) override;
     void                        setScissors( const NlcRect& rect ) override;
     void                        resetScissors() override;
 
     void                        captureStateBlock() override;
     void                        applyStateBlock() override;
 
-    void                        setCameraPosition( const NlcPoint &camera, int screenWidth, int screenHeight, float stereoFactor = 0.0f ) override;
+    void                        setCameraPosition( const NlcPoint& camera, int screenWidth, int screenHeight, float stereoFactor = 0.0f ) override;
 
-    void                        applyHardwareTransform( const TransformMatrix &matrix ) override;
+    void                        applyHardwareTransform( const TransformMatrix& matrix ) override;
     void                        restoreHardwareTransform() override;
     bool                        supportsStereo( RENDER_STEREO_MODE mode ) const override { return false; }
 
     bool                        testRender() override;
 
-    void                        project( float &x, float &y, float &z ) override;
+    void                        project( float& x, float& y, float& z ) override;
 
     //=== shaders ===//
-    std::string                 getShaderPath( const std::string &filename ) override { return ""; }
+    std::string                 getShaderPath( const std::string& filename ) override { return ""; }
 
     void                        initialiseShaders() override;
     void                        releaseShaders() override;
@@ -372,7 +372,7 @@ public:
     virtual int                 shaderGetUcoordLoc( ESHADERMETHOD shader ) override;
     virtual int                 shaderGetVcoordLoc( ESHADERMETHOD shader ) override;
 
-    virtual void                shaderSetMatrices( ESHADERMETHOD shader, const float *p, const float *m ) override;
+    virtual void                shaderSetMatrices( ESHADERMETHOD shader, const float* p, const float* m ) override;
     virtual void                shaderSetAlpha( ESHADERMETHOD shader, float alpha ) override;
 
     virtual void                shaderSetFlags( ESHADERMETHOD shader, unsigned int flags ) override;
@@ -386,7 +386,7 @@ public:
     virtual int                 shaderGetcoordLoc( ESHADERMETHOD shader ) override;
 
     // renderqt
-    virtual int                 shaderVertexAttribPointer( ESHADERMETHOD shader, unsigned int index, int size, int type, bool normalized, int stride, const void * pointer ) override;
+    virtual int                 shaderVertexAttribPointer( ESHADERMETHOD shader, unsigned int index, int size, int type, bool normalized, int stride, const void* pointer ) override;
     virtual void                shaderEnableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
     virtual void                shaderDisableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
 
@@ -398,28 +398,28 @@ public:
     virtual bool                frameBufferStatus() override;
 
     // gl functions
-    void                        glFuncDrawElements( GLenum mode, GLsizei count, GLenum type, const GLvoid *indices ) override;
+    void                        glFuncDrawElements( GLenum mode, GLsizei count, GLenum type, const GLvoid* indices ) override;
     void                        glFuncDisable( GLenum cap ) override;
     void                        glFuncBindTexture( GLenum target, GLuint texture ) override;
     void                        glFuncViewport( GLint x, GLint y, GLsizei width, GLsizei height ) override;
     void                        glFuncScissor( GLint x, GLint y, GLsizei width, GLsizei height ) override;
 
-    virtual void                glFuncGenTextures( GLsizei n, GLuint * textures ) override;
-    virtual void                glFuncDeleteTextures( GLsizei n, const GLuint *textures ) override;
-    virtual void                glFuncTexImage2D( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels ) override;
+    virtual void                glFuncGenTextures( GLsizei n, GLuint* textures ) override;
+    virtual void                glFuncDeleteTextures( GLsizei n, const GLuint* textures ) override;
+    virtual void                glFuncTexImage2D( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void* pixels ) override;
     virtual void                glFuncTexParameteri( GLenum target, GLenum pname, GLint param ) override;
-    virtual void                glFuncReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels ) override;
+    virtual void                glFuncReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels ) override;
     virtual void                glFuncPixelStorei( GLenum pname, GLint param ) override;
     virtual void                glFuncFinish() override;
-    
+
     virtual void                glFuncEnable( GLenum cap ) override;
     virtual void                glFuncTexSubImage2D( GLenum target, GLint level,
-                                                       GLint xoffset, GLint yoffset,
-                                                       GLsizei width, GLsizei height,
-                                                       GLenum format, GLenum type,
-                                                       const GLvoid *pixels ) override;
+                                                     GLint xoffset, GLint yoffset,
+                                                     GLsizei width, GLsizei height,
+                                                     GLenum format, GLenum type,
+                                                     const GLvoid* pixels ) override;
     virtual void                glFuncBlendFunc( GLenum sfactor, GLenum dfactor ) override;
-    virtual void                glFuncVertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer ) override;
+    virtual void                glFuncVertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer ) override;
     virtual void                glFuncDisableVertexAttribArray( GLuint index ) override;
     virtual void                glFuncEnableVertexAttribArray( GLuint index ) override;
     virtual void                glFuncDrawArrays( GLenum mode, GLint first, GLsizei count ) override;
@@ -445,7 +445,7 @@ public:
     virtual void				toGuiLog( int logFlags, const char* pMsg ) override;
     virtual void				toGuiAppErr( EAppErr eAppErr, const char* errMsg = "" ) override;
     virtual void				toGuiStatusMessage( const char* errMsg ) override;
-	// NOTE: toGuiUserMessage should be called from in gui on gui thread only
+    // NOTE: toGuiUserMessage should be called from in gui on gui thread only
     virtual void				toGuiUserMessage( const char* userMsg, ... );
     virtual void				toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, std::string& paramMsg ) override;
     virtual void				toGuiPluginCommError( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, ECommErr commErr ) override;
@@ -466,7 +466,7 @@ public:
     virtual void				toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
     virtual void				toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) override;
-    virtual void				toGuiRunTestStatus( const char*testName, ERunTestStatus eRunTestStatus, const char* msg = "" ) override;
+    virtual void				toGuiRunTestStatus( const char* testName, ERunTestStatus eRunTestStatus, const char* msg = "" ) override;
     virtual void				toGuiRandomConnectStatus( ERandomConnectStatus eRandomConnectStatus, const char* msg = "" ) override;
 
     // return true if any microphone device is available to be enabled
@@ -480,7 +480,7 @@ public:
     // enable disable speaker for specific user communicaion (usually push to talk)
     virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
-    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFload, int audioDataLenInBytes ) override;
 
@@ -492,11 +492,11 @@ public:
 #endif // ENABLE_KODI
 
     virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) override;
-    virtual void				toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t * pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 ) override;
-    virtual int				    toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t * picBuf, uint32_t picBufLen, int picWidth, int picHeight ) override;
+    virtual void				toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 ) override;
+    virtual int				    toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight ) override;
 
     // user update interface
-    virtual void				toGuiIndentListUpdate( EUserViewType listType,  VxGUID& onlineId, uint64_t timestamp ) override;
+    virtual void				toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
     virtual void				toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;
 
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) override;
@@ -504,7 +504,7 @@ public:
 
     virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override;
 
-     virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+    virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
 
     virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override;
@@ -519,42 +519,42 @@ public:
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;
     virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) override;
 
-	virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
-	virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
 
-	virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) override;
+    virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) override;
 
-	virtual void				toGuiPluginStatus(	EPluginType		pluginType,
-													int				statusType,
-                                                    int				statusValue ) override;
+    virtual void				toGuiPluginStatus( EPluginType		pluginType,
+                                                   int				statusType,
+                                                   int				statusValue ) override;
 
-	virtual void				toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, const char*	pMsg ) override;
+    virtual void				toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, const char* pMsg ) override;
 
 
-	virtual void				toGuiSetGameValueVar(	EPluginType	    pluginType, 
-														VxGUID&		    onlineId, 
-														int32_t			s32VarId, 
-                                                        int32_t			s32VarValue ) override;
+    virtual void				toGuiSetGameValueVar( EPluginType	    pluginType,
+                                                      VxGUID& onlineId,
+                                                      int32_t			s32VarId,
+                                                      int32_t			s32VarValue ) override;
 
-	virtual void				toGuiSetGameActionVar(	EPluginType	    pluginType,
-														VxGUID&		    onlineId, 
-														int32_t			s32VarId, 
-                                                        int32_t			s32VarValue ) override;
+    virtual void				toGuiSetGameActionVar( EPluginType	    pluginType,
+                                                       VxGUID& onlineId,
+                                                       int32_t			s32VarId,
+                                                       int32_t			s32VarValue ) override;
 
-	//=== to gui file ===//
-	virtual void				toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInfo& fileInfo ) override;
+    //=== to gui file ===//
+    virtual void				toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInfo& fileInfo ) override;
 
     virtual void				toGuiFileUploadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
-	virtual void				toGuiFileDownloadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
+    virtual void				toGuiFileDownloadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
     virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSession, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
-    virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID&	lclSessionId, std::string& fileName, EXferError xferError ) override;
+    virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
 
-	virtual void				toGuiFileList( FileInfo& fileInfo ) override;
+    virtual void				toGuiFileList( FileInfo& fileInfo ) override;
     virtual void				toGuiFileListCompleted( void ) override;
-	//=== to gui search ===//
+    //=== to gui search ===//
     virtual void				toGuiScanResultSuccess( EScanType eScanType, VxNetIdent* netIdent ) override;
     virtual void				toGuiSearchResultError( EScanType eScanType, VxNetIdent* netIdent, int errCode ) override;
     virtual void				toGuiScanSearchComplete( EScanType eScanType ) override;
@@ -563,7 +563,7 @@ public:
 
     virtual void				toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
-	//=== to gui asset ===//
+    //=== to gui asset ===//
     virtual void				toGuiAssetAdded( AssetBaseInfo* assetInfo ) override;
     virtual void				toGuiAssetUpdated( AssetBaseInfo* assetInfo ) override;
     virtual void				toGuiAssetRemoved( AssetBaseInfo* assetInfo ) override;
@@ -575,13 +575,13 @@ public:
     virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 ) override;
 
     //=== to gui host list ===//
-    virtual void				toGuiBlobAdded( BlobInfo * assetInfo ) override;
-    virtual void				toGuiBlobSessionHistory( BlobInfo * assetInfo ) override;
+    virtual void				toGuiBlobAdded( BlobInfo* assetInfo ) override;
+    virtual void				toGuiBlobSessionHistory( BlobInfo* assetInfo ) override;
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
 
     virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
-	/// a module has changed state
-	virtual void				toGuiModuleState( EAppModule moduleNum, EModuleState moduleState )  override;
+    /// a module has changed state
+    virtual void				toGuiModuleState( EAppModule moduleNum, EModuleState moduleState )  override;
 
     virtual void				toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort )  override;
 
@@ -589,22 +589,22 @@ public:
     //=== implementation ===//
     //============================================================================
 
-	bool						userCanceled( void );
+    bool						userCanceled( void );
 
-	// returns true if showed activity
-	bool 						offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, bool inGroup = false, QWidget* parent = nullptr );
-	void						offerToFriendSendFile( GuiUser* guiUser, bool inGroup = false, QWidget* parent = nullptr );
+    // returns true if showed activity
+    bool 						offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, bool inGroup = false, QWidget* parent = nullptr );
+    void						offerToFriendSendFile( GuiUser* guiUser, bool inGroup = false, QWidget* parent = nullptr );
 
-	void						createAccountForUser( std::string& strUserName, VxNetIdent& userAccountIdent, const char* moodMsg, int gender, 
-                                                        EAgeType age, int primaryLanguage, int contentType );
+    void						createAccountForUser( std::string& strUserName, VxNetIdent& userAccountIdent, const char* moodMsg, int gender,
+                                                      EAgeType age, int primaryLanguage, int contentType );
     void                        setupAccountResources( VxNetIdent& userAccountIdent );
     // updates my ident in database and engine and global ident
     void                        updateMyIdent( VxNetIdent* myIdent, bool permissionAndStateOnly = false );
 
-	std::string					getUserXferDirectoryFromAccountUserName( const char* userName );
-	std::string 				getUserSpecificDataDirectoryFromAccountUserName( const char* userName );
+    std::string					getUserXferDirectoryFromAccountUserName( const char* userName );
+    std::string 				getUserSpecificDataDirectoryFromAccountUserName( const char* userName );
 
-	void						refreshFriend( VxGUID& onlineId ); // called to emit signalRefreshFriend
+    void						refreshFriend( VxGUID& onlineId ); // called to emit signalRefreshFriend
     bool						loadLastUserAccount( void );
     void                        onMessengerReady( bool isReady );
     bool                        isMessengerReady( void ) { return m_IsMessengerReady; }
@@ -619,12 +619,12 @@ signals:
     void						signalMainWindowMoved( void );      // emitted if main window is moved
 
     void						signalFinishedLoadingGui( void );
-	void						signalFinishedLoadingEngine( void );
-	void						signalPlaySound( ESndDef sndDef );
-	void						signalLog( int iPluginNum, QString strMsg );
-	void						signalAppErr( EAppErr eAppErr, QString errMsg );
-	void						signalStatusMsg( QString strMsg );
-	void						signalUserMsg( QString strMsg );
+    void						signalFinishedLoadingEngine( void );
+    void						signalPlaySound( ESndDef sndDef );
+    void						signalLog( int iPluginNum, QString strMsg );
+    void						signalAppErr( EAppErr eAppErr, QString errMsg );
+    void						signalStatusMsg( QString strMsg );
+    void						signalUserMsg( QString strMsg );
 
     void						signalHostAnnounceStatus( EHostType hostType, VxGUID sessionId, EHostAnnounceStatus hostStatus, QString strMsg );
     void						signalHostJoinStatus( EHostType hostType, VxGUID sessionId, EHostJoinStatus hostStatus, QString strMsg );
@@ -632,29 +632,29 @@ signals:
     void						signalHostSearchStatus( EHostType hostType, VxGUID sessionId, EHostSearchStatus hostStatus, QString strMsg );
     void						signalGroupieSearchStatus( EHostType hostType, VxGUID sessionId, EHostSearchStatus hostStatus, QString strMsg );
 
-	void						signalIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, QString strMsg );
+    void						signalIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, QString strMsg );
     void						signalRunTestStatus( QString testName, ERunTestStatus eRunTestStatus, QString strMsg );
-	void						signalRandomConnectStatus( ERandomConnectStatus eRandomConnectStatus, QString strMsg );
+    void						signalRandomConnectStatus( ERandomConnectStatus eRandomConnectStatus, QString strMsg );
     void						signalNetworkStateChanged( ENetworkStateType eNetworkState );
     void						signalNetAvailStatus( ENetAvailStatus eNetAvailStatus );
 
-	void						signalRefreshFriend( VxGUID onlineId ); // emitted if friend has changed
-	void						signalAssetViewMsgAction( EAssetAction, VxGUID onlineId, int pos0to100000 );
+    void						signalRefreshFriend( VxGUID onlineId ); // emitted if friend has changed
+    void						signalAssetViewMsgAction( EAssetAction, VxGUID onlineId, int pos0to100000 );
     void						signalBlobViewMsgAction( EAssetAction, VxGUID onlineId, int pos0to100000 );
 
-	void						signalToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
+    void						signalToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
 
     void						signalMicrophonePeak( int peekVal0to32768 );
 
     void						signalInternalWantMicrophoneRecording( EAppModule appModule, bool enableMicInput );
     void                        signalInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUID onlineId, bool wantMicInput );
 
-	void						signalInternalWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput );
+    void						signalInternalWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput );
     void						signalInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID onlineId, bool wantSpeakerOutput );
 
     void						signalInternalWantVideoCapture( EAppModule appModule, bool enableCapture );
 
-	void						signalSetRelayHelpButtonVisibility( bool isVisible );
+    void						signalSetRelayHelpButtonVisibility( bool isVisible );
 
     void                        signalSystemReady( bool isReady );
 
@@ -819,26 +819,26 @@ protected slots:
     void						slotMainWindowResized( void );
     void						slotMainWindowMoved( void );
 
-	void						slotPlaySound( ESndDef sndDef );
-	void						slotStatusMsg( QString strMsg );
-	void						slotAppErr( EAppErr eAppErr, QString errMsg );	
+    void						slotPlaySound( ESndDef sndDef );
+    void						slotStatusMsg( QString strMsg );
+    void						slotAppErr( EAppErr eAppErr, QString errMsg );
 
-	void						slotOnNotifyIconFlashTimeout( bool bWhite );
+    void						slotOnNotifyIconFlashTimeout( bool bWhite );
 
-	void						slotToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
+    void						slotToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
 
-	void						slotListViewTypeChanged( int viewSelectedIdx );
+    void						slotListViewTypeChanged( int viewSelectedIdx );
 
-	void						slotRelayHelpButtonClicked( void );
-	void						slotSetRelayHelpButtonVisibility( bool isVisible );
-	void						slotNetworkStateChanged( ENetworkStateType eNetworkState );
+    void						slotRelayHelpButtonClicked( void );
+    void						slotSetRelayHelpButtonVisibility( bool isVisible );
+    void						slotNetworkStateChanged( ENetworkStateType eNetworkState );
 
-	void						onMenuFileSelected( int iMenuId, PopupMenu * popupMenu, ActivityBase* contentFrame );
-	void						onMenuSearchSelected( int iMenuId, PopupMenu * popupMenu, ActivityBase* contentFrame );
+    void						onMenuFileSelected( int iMenuId, PopupMenu* popupMenu, ActivityBase* contentFrame );
+    void						onMenuSearchSelected( int iMenuId, PopupMenu* popupMenu, ActivityBase* contentFrame );
 
-	void						onOncePerSecond( void );
+    void						onOncePerSecond( void );
 
-	void						onUpdateMyIdent( VxNetIdent* poMyIdent );
+    void						onUpdateMyIdent( VxNetIdent* poMyIdent );
 
     void						slotGuiStartupTimer( void );
     void						slotCheckSetupTimer( void );
@@ -846,17 +846,17 @@ protected slots:
 protected:
     void                        connectSignals( void );
 
-	void						showUserNameInTitle();
-	void						sendAppSettingsToEngine( void );
-	void						startNetworkMonitor( void );
+    void						showUserNameInTitle();
+    void						sendAppSettingsToEngine( void );
+    void						startNetworkMonitor( void );
 
-	void						removePluginSessionOffer( EPluginType pluginType, GuiUser* poFriend );
+    void						removePluginSessionOffer( EPluginType pluginType, GuiUser* poFriend );
 
-	void						updateFriendList( GuiUser* guiUser, bool sessionTimeChange = false );
+    void						updateFriendList( GuiUser* guiUser, bool sessionTimeChange = false );
 
-	void						clearToGuiActivityInterfaceList( void );
-	void						clearFileXferClientList( void );
-	void						clearHardwareCtrlList( void );
+    void						clearToGuiActivityInterfaceList( void );
+    void						clearFileXferClientList( void );
+    void						clearHardwareCtrlList( void );
     void						clearUserUpdateClientList( void );
 
     void						registerMetaData();
@@ -865,15 +865,18 @@ protected:
     void                        checkReadyToLaunchAfterLogonApplets( void );
     bool                        isReadyToLaunchAfterLogonApplets( void );
 
-	//=== vars ===//
-	QApplication&				m_QApp;
-	EDefaultAppMode				m_AppDefaultMode;
-	AppGlobals					m_AppGlobals;
-	AppSettings&				m_AppSettings;
+    void                        checkReadyToConnectToLastConnectedHost( void );
+
+
+    //=== vars ===//
+    QApplication& m_QApp;
+    EDefaultAppMode				m_AppDefaultMode;
+    AppGlobals					m_AppGlobals;
+    AppSettings& m_AppSettings;
     QString						m_AppShortName;
     QString						m_AppTitle;
-    AccountMgr&				    m_AccountMgr;
-    INlc&                       m_Nlc;
+    AccountMgr& m_AccountMgr;
+    INlc& m_Nlc;
 
     GuiConnectIdListMgr			m_ConnectIdListMgr;
     GuiFavoriteMgr			    m_FavoriteMgr;
@@ -890,58 +893,58 @@ protected:
     GuiPluginMgr                m_PluginMgr;
     GuiWebPageMgr               m_WebPageMgr;
 
-	MyIcons					    m_MyIcons;
-	VxAppTheme					m_AppTheme;
-	VxAppStyle					m_AppStyle;
+    MyIcons					    m_MyIcons;
+    VxAppTheme					m_AppTheme;
+    VxAppStyle					m_AppStyle;
     VxAppDisplay				m_AppDisplay;
-	VxTilePositioner&			m_TilePositioner;
+    VxTilePositioner& m_TilePositioner;
     CamLogic                    m_CamLogic;
 
-	SoundMgr&					m_SoundMgr;
+    SoundMgr& m_SoundMgr;
 
-	HomeWindow					m_HomePage;
+    HomeWindow					m_HomePage;
 
-    ActivityCreateAccount *		m_CreateAccountDlg{ nullptr };
-    ActivityShowHelp *			m_ActivityShowHelpDlg{ nullptr };
+    ActivityCreateAccount* m_CreateAccountDlg{ nullptr };
+    ActivityShowHelp* m_ActivityShowHelpDlg{ nullptr };
 
-    AppletMultiMessenger*       m_AppletMultiMessenger{ nullptr };
-    AppletDownloads *			m_AppletDownloads{ nullptr };
-    AppletUploads *			    m_AppletUploads{ nullptr };
+    AppletMultiMessenger* m_AppletMultiMessenger{ nullptr };
+    AppletDownloads* m_AppletDownloads{ nullptr };
+    AppletUploads* m_AppletUploads{ nullptr };
 
-	std::string					m_strAccountUserName;
+    std::string					m_strAccountUserName;
 
-	QTimer *					m_OncePerSecondTimer;
-	EFriendViewType				m_eLastSelectedWhichContactsToView; // last selection of which friends to view
+    QTimer* m_OncePerSecondTimer;
+    EFriendViewType				m_eLastSelectedWhichContactsToView; // last selection of which friends to view
 
-	bool						m_bUserCanceledCreateProfile;
-	VxMutex						m_AppMutex;
-	std::vector<QString>		m_DebugLogQue;
-	std::vector<QString>		m_AppErrLogQue;
-	ENetworkStateType			m_LastNetworkState;
+    bool						m_bUserCanceledCreateProfile;
+    VxMutex						m_AppMutex;
+    std::vector<QString>		m_DebugLogQue;
+    std::vector<QString>		m_AppErrLogQue;
+    ENetworkStateType			m_LastNetworkState;
 
-	uint32_t					m_CamSourceId;
-	uint32_t					m_CamCaptureRotation;
+    uint32_t					m_CamSourceId;
+    uint32_t					m_CamCaptureRotation;
 
     bool	                    m_ToGuiActivityInterfaceBusy{ false };
     bool	                    m_ToGuiFileXferInterfaceBusy{ false };
     bool                        m_ToGuiHardwareCtrlBusy{ false };
     bool                        m_ToGuiUserUpdateClientBusy{ false };
 
-	std::vector<ToGuiActivityInterface*>	    m_ToGuiActivityInterfaceList;
-	std::vector<ToGuiHardwareControlInterface*> m_ToGuiHardwareCtrlList;
+    std::vector<ToGuiActivityInterface*>	    m_ToGuiActivityInterfaceList;
+    std::vector<ToGuiHardwareControlInterface*> m_ToGuiHardwareCtrlList;
     std::vector<ToGuiUserUpdateInterface*>      m_ToGuiUserUpdateClientList;
 
-	bool						m_LibraryActivityActive = false;
-	bool						m_VidCaptureEnabled = false;
-	bool						m_MicrophoneHardwareEnabled = false;
-	bool						m_SpeakerHardwareEnabled = false;
-	AppletMgr&					m_AppletMgr;
+    bool						m_LibraryActivityActive = false;
+    bool						m_VidCaptureEnabled = false;
+    bool						m_MicrophoneHardwareEnabled = false;
+    bool						m_SpeakerHardwareEnabled = false;
+    AppletMgr& m_AppletMgr;
     bool                        m_AppCommonInitialized = false;
     bool                        m_LoginBegin = false;
     bool                        m_LoginComplete = false;
     bool                        m_AppInitialized = false;
 
-    ActivityAppSetup *          m_AppSetupDlg = nullptr;
+    ActivityAppSetup* m_AppSetupDlg = nullptr;
     bool                        m_IsMessengerReady{ false };
     bool                        m_IsLoggedOn{ false };
     bool                        m_IsGuiSystemReady{ false };
@@ -950,10 +953,11 @@ protected:
     bool                        m_LoopbackMyselfTestAllowed{ false };
     bool                        m_GuiCpuTimeEnable{ false };
 
-    QTimer *                    m_GuiStartupTimer = nullptr;
-    QTimer *                    m_CheckSetupTimer = nullptr;
-    
+    QTimer* m_GuiStartupTimer = nullptr;
+    QTimer* m_CheckSetupTimer = nullptr;
+
     bool                        m_LauchedAfterLogonApplets{ false };
+    bool                        m_ConnectToLastConnectedHost{ false };
 };
 
 AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp );

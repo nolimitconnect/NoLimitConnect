@@ -46,7 +46,8 @@ public:
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) override;  
 
-    virtual void				toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+    bool				        toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+    bool                        updateIsOnlineList( VxGUID& onlineId, bool isOnline );
 
     virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override; 
@@ -80,7 +81,7 @@ public:
     std::map<VxGUID, GuiUser*>& getUserList( void )             { return m_UserList; }
 
     GuiUser*                    updateMyIdent( VxNetIdent* myIdent );
-    GuiUser*                    updateUser( VxNetIdent* hisIdent );
+    GuiUser*                    updateUser( VxNetIdent* hisIdent, bool updateIsOnlineBecauseIsNowOnline = false );
     void                        updateOnlineStatus( VxNetIdent* netIdent, bool online );
 
     void                        wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bool wantCallback );
@@ -97,11 +98,14 @@ protected:
     void                        sendUserUpdatedToCallbacks( GuiUser* guiUser );
 
     void                        updateClientList( void );
+
+    bool                        isClientQueuedForRemoval( GuiUserUpdateCallback* client );
     
     AppCommon&                  m_MyApp;
     std::vector<GuiUserUpdateCallback*> m_GuiUserUpdateClientList;
     std::vector<std::pair<GuiUserUpdateCallback*, bool>> m_WantUpdateToDoList;
     bool                        m_ClientListBusy{ false };
+    bool                        m_UpdatingClientList{ false };
 
     // map of online id to GuiUser
     std::map<VxGUID, GuiUser*>  m_UserList;

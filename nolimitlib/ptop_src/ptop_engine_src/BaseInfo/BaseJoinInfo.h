@@ -26,9 +26,8 @@ public:
 
     BaseJoinInfo&				operator=( const BaseJoinInfo& rhs ); 
 
-    virtual void			    setPluginType( enum EPluginType pluginType )        { m_PluginType = pluginType; }
-    virtual EPluginType			getPluginType( void ) const                         { return m_PluginType; }
-    virtual EHostType			getHostType( void ) const                           { return PluginTypeToHostType( m_PluginType ); }
+    virtual void			    setHostType( enum EHostType hostType )              { m_HostType = hostType; }
+    virtual EHostType			getHostType( void ) const                           { return m_HostType; }
 
     virtual bool			    setJoinState( enum EJoinState joinState )           { if(m_JoinState == joinState) return false; m_JoinState = joinState; return true; }
     virtual EJoinState			getJoinState( void ) const                          { return m_JoinState; }
@@ -41,7 +40,7 @@ public:
 
 public:
 	//=== vars ===//
-    EPluginType                 m_PluginType{ ePluginTypeInvalid };
+    EHostType                   m_HostType{ eHostTypeUnknown };
     EJoinState                  m_JoinState{ eJoinStateNone };
     int64_t						m_LastConnectMs{ 0 };
     int64_t						m_LastJoinMs{ 0 };

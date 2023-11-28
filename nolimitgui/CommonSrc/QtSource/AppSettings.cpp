@@ -777,3 +777,17 @@ int AppSettings::getLastUserConnectionsHostType( void )
 	getIniValue( getAppShortName(), "UserConnectionsHostType", comboVal, 0 );
 	return comboVal;
 }
+
+//============================================================================
+void AppSettings::setLastHostJoined( std::string lastJoinedHost )
+{
+	setIniValue( getAppShortName(), "LastHostJoined", lastJoinedHost );
+}
+
+//============================================================================
+std::string AppSettings::getLastHostJoined( void )
+{
+	std::string lastHost;
+	getIniValue( getAppShortName(), "LastHostJoined", lastHost, "" );
+	return lastHost;
+}

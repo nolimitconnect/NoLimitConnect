@@ -272,7 +272,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
                 player->setPlayerAssetId( assetId );
             }          
         }
-        // TODO figure out why on button click and attemp to launch the applet is done multiple times
+        // TODO figure out why on button click and attempt to launch the applet is done multiple times
 //#ifdef DEBUG
 //        m_MyApp.errMessageBox2( QObject::tr( "AppletMgr::launchApplet" ).toUtf8().constData(), QObject::tr( "Applet enum %d already launched\n" ).toUtf8().constData(), applet );
 //#endif // DEBUG
@@ -286,7 +286,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 	}
 
     QWidget* launchFrame = m_MyApp.getHomePage().getLaunchPageFrame();
-    // QWidget* messengerFrame = m_MyApp.getHomePage().getMessengerParentFrame();
 
 	QString appletMissingTitle = QObject::tr( "Applet Not Yet Implemented" );
 	switch( applet )

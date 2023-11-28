@@ -723,7 +723,8 @@ RCODE VxSettings::prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement,
 									const char* pSettingName )
 {
 	char SQL_Statement[2048];
-	if( 0 ==  dbOpen() )
+	SQL_Statement[0] = 0;
+	if( 0 == dbOpen() )
 	{
 		sprintf(SQL_Statement, "DELETE FROM %s WHERE key='%s' AND setting='%s'", pTableName, pKey, pSettingName );
 		if( SQLITE_OK != sqlite3_exec( m_Db, SQL_Statement, NULL, NULL, NULL ) )
