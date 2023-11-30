@@ -42,6 +42,8 @@ public:
     bool                        isMessengerReady( void );
     virtual void                onSystemReady( bool ready ) { }
 
+    void                        setLastJoinAttempted( std::string& joinUrl ) { m_LastJoinAttemptedHostInviteUrl = joinUrl; }
+
     bool                        isUserJoinInSession( GroupieId& groupieId );
     EJoinState                  getUserJoinState( GroupieId& groupieId );
 
@@ -110,4 +112,6 @@ protected:
     std::map<GroupieId, GuiUserJoin*>  m_UserJoinList;
 
     std::vector<GuiUserJoinCallback*>  m_UserJoinClients;
+
+    std::string                 m_LastJoinAttemptedHostInviteUrl;
 };

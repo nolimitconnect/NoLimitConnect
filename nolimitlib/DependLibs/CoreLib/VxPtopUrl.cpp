@@ -20,6 +20,8 @@
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxDebug.h>
 
+#include <NetLib/VxSktUtil.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,22 +31,6 @@ namespace
 	const char* COLON_DELIM = ":";
 	const char* SLASH_DELIM = "/";
     const char* ONLINE_ID_DELIM = "!";
-
-
-    //============================================================================
-    bool VxIsIPv6Address( const char*addr )
-    {
-        if ( NULL == addr )
-        {
-            return false;
-        }
-        std::string addrStr = addr;
-        if ( addrStr.find( ":" ) != std::string::npos )
-        {
-            return true;
-        }
-        return false;
-    }
 
     //============================================================================
     const char* VxStripIPv6ScopeID( const char*addr, std::string &buf )
@@ -121,11 +107,11 @@ std::string VxPtopUrl::stripHost( const std::string& url ) const // remove suffi
 //============================================================================
 bool VxPtopUrl::isValid( void )
 {
-    return m_Port && m_OnlineId.isVxGUIDValid() && !m_Protocol.empty() && isHostValid();
+    return m_Port && m_OnlineId.isVxGUIDValid() && !m_Protocol.empty() && isHostIpValid();
 }
 
 //============================================================================
-bool VxPtopUrl::isHostValid( void )
+bool VxPtopUrl::isHostIpValid( void )
 {
     return !m_Host.empty() && !(m_Host == "0.0.0.0");
 }
@@ -300,4 +286,31 @@ bool VxPtopUrl::setUrlHostType( std::string& url, EHostType hostType )
     }
 
     return result;
+}
+
+//============================================================================
+bool VxPtopUrl::isUrlIpv4( void )
+{
+    return VxIsIPv4Address( m_Host.c_str() );
+}
+
+//============================================================================
+bool VxPtopUrl::isUrlIpv6( void )
+{
+    return VxIsIPv6Address( m_Host.c_str() );
+}
+
+//============================================================================
+std::string VxPtopUrl::getHostUrl( bool ipv6 )
+{
+    if( ipv6 && isUrlIpv6() )
+    {
+        return m_Url;
+    }
+    else if( !ipv6 && isUrlIpv4() )
+    {
+        return m_Url;
+    }
+
+    return "";
 }

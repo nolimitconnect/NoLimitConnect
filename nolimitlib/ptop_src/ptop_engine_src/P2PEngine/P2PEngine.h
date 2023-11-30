@@ -391,8 +391,6 @@ public:
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
     virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) override;
 
-    virtual void				fromGuiConnectToLastJoinedHost( std::string& lastConnectedHostInvite ) override;
-
 	//========================================================================
 	// to gui
 	//========================================================================

@@ -16,8 +16,12 @@
 #include "GuiUserJoinMgr.h"
 #include "GuiUserJoinCallback.h"
 #include "AppCommon.h"
+#include "AppSettings.h"
+
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinInfo.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
+
+#include <CoreLib/VxPtopUrl.h>
 #include <PktLib/VxCommon.h>
 
 //============================================================================
@@ -373,6 +377,13 @@ void GuiUserJoinMgr::announceUserJoinIsGranted( GroupieId& groupieId, GuiUserJoi
     for( auto client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinIsGranted( groupieId, guiUserJoin );
+    }
+
+    VxPtopUrl ptopUrl( m_LastJoinAttemptedHostInviteUrl );
+    if( ptopUrl.isValid() && ptopUrl.getOnlineId() == groupieId.getHostOnlineId() )
+    {
+        m_MyApp.getAppSettings().setLastHostJoined( m_LastJoinAttemptedHostInviteUrl );
+        m_LastJoinAttemptedHostInviteUrl.clear();
     }
 }
 
