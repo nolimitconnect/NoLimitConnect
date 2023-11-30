@@ -79,6 +79,7 @@ public:
     std::string                 getUserOnlineName( VxGUID& onlineId );
     
     std::map<VxGUID, GuiUser*>& getUserList( void )             { return m_UserList; }
+    bool                        getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idList );
 
     GuiUser*                    updateMyIdent( VxNetIdent* myIdent );
     GuiUser*                    updateUser( VxNetIdent* hisIdent, bool updateIsOnlineBecauseIsNowOnline = false );

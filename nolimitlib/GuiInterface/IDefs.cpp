@@ -589,6 +589,7 @@ namespace
         "Skt Close PktAnn Not First Packet ",
         "Skt Close PktAnn Is Invalid ",
         "Skt Close PktHdr Invalid ",
+        "Skt Close PktAnn Update Failed ",
         "Skt Close PktPingReq Send Fail ",
         "Skt Close P2P Not Ready For Accept Skt ",
         "Skt Close User Ignored ",
@@ -614,6 +615,23 @@ namespace
         "Listen Socket ",
 
         "eMaxSktType"
+    };
+
+    const char* UserViewTypeEnumStrings[] =
+    {
+        "User View None ",
+        "User View Friends ",
+        "User View Group ",
+        "User View Chat Room ",
+        "User View Random Connect ",
+        "User View Everybody ",
+        "User View Ignored ",
+        "User View Nearby ",
+        "User View Online ",
+        "User View Direct Connect ",
+        "User View Offline ",
+
+        "eMaxUserViewType"
     };
 }
 
@@ -1172,6 +1190,17 @@ const char* DescribeSktType( enum ESktType sktType )
     }
 
     return SktTypeEnumStrings[ sktType ]; 
+}
+
+//============================================================================
+const char* DescribeUserViewType( enum EUserViewType sktType )
+{
+    if(  sktType < 0 || eMaxUserViewType <= sktType )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    return UserViewTypeEnumStrings[ sktType ]; 
 }
 
 //============================================================================

@@ -552,29 +552,6 @@ bool P2PEngine::validateIdent( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void P2PEngine::onFirstPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo )
-{
-	if( pktAnn && pktAnn->getMyOnlineId() != getMyOnlineId() && sktBase && bigListInfo )
-	{
-		//if( getHasFixedIpAddress() )
-		//{
-		//	std::string externAddr = getEngineSettings().getUserSpecifiedExternIpAddr();
-		//	getNetStatusAccum().setDirectConnectTested( true, false, externAddr );
-		//}
-
-		//getHostUrlListMgr().updateHostUrls( bigListInfo->getVxNetIdent(), sktBase->getLastActiveTimeMs() );
-		//getHostedListMgr().updateHostedList( bigListInfo->getVxNetIdent(), sktBase );
-
-		getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
-
-		if( !sktBase->isTempConnection() )
-		{
-			getToGui().toGuiContactAdded( bigListInfo->getVxNetIdent() );
-		}	
-	}
-}
-
-//============================================================================
 void P2PEngine::onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort )
 {
 	// called after network connection test

@@ -161,7 +161,7 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
         auto iter = m_UserCache.find( guiUser->getMyOnlineId() );
         if( iter == m_UserCache.end() )
         {
-            if( guiUser->isOnline() ) // dont add if offline
+            if( guiUser->isOnline() || ( !guiUser->isOnline() && m_ViewType == eUserViewTypeOffline ) )
             {
                 LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser new user %s", guiUser->getOnlineName().c_str() );
                 userSession = makeSession( guiUser );
@@ -667,6 +667,10 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
         else if( eUserViewTypeNearby == getUserViewType() )
         {
             return guiUser->isNearby();
+        }
+        else if( eUserViewTypeOffline == getUserViewType() )
+        {
+            return !guiUser->isOnline() && guiUser->isFriend() || guiUser->isAdmin();
         }
 
         if( guiUser->isDirectConnect() && guiUser->isFriend() )

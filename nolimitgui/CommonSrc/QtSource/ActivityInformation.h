@@ -69,6 +69,7 @@ protected:
     static QString              m_FriendList;
     static QString              m_IgnoredList;
     static QString              m_NearbyList;
+    static QString              m_OfflineList;
 
     static QString              m_UserHostRequrements;
     static QString              m_NetworkHostRequrements;

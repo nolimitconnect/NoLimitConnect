@@ -52,10 +52,25 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
     ui.m_IgnoredInfoButton->setFixedSize( eButtonSizeSmall );
     ui.m_IgnoredInfoButton->setIcon( eMyIconInformation );
 
+#if ENABLE_COMPONENT_NEARBY
     ui.m_NearbyButton->setFixedSize( eButtonSizeSmall );
     ui.m_NearbyButton->setIcon( eMyIconFriendBroadcast );
     ui.m_NearbyInfoButton->setFixedSize( eButtonSizeSmall );
     ui.m_NearbyInfoButton->setIcon( eMyIconInformation );
+#else
+    ui.m_NearbyButton->hide();
+    ui.m_NearbyInfoButton->hide();
+#endif // ENABLE_COMPONENT_NEARBY
+
+    ui.m_OfflineButton->setFixedSize( eButtonSizeSmall );
+    ui.m_OfflineButton->setIcon( eMyIconAnonymous );
+    ui.m_OfflineButton->setIcon( eMyIconAnonymous );
+    ui.m_OfflineButton->setNotifyOnlineEnabled( true );
+    ui.m_OfflineButton->setNotifyOnlineColor( QColor( 255, 0, 0, 255 ) );
+
+    ui.m_OfflineInfoButton->setFixedSize( eButtonSizeSmall );
+    ui.m_OfflineInfoButton->setIcon( eMyIconInformation );
+
 
     setSearchType( eSearchGroupHost );
 
@@ -69,6 +84,9 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
     connect( ui.m_IgnoredInfoButton, SIGNAL( clicked() ), this, SLOT( slotIgnoredInfoButtonClicked() ) );
     connect( ui.m_NearbyButton, SIGNAL( clicked() ), this, SLOT( slotNearbyButtonClicked() ) );
     connect( ui.m_NearbyInfoButton, SIGNAL( clicked() ), this, SLOT( slotNearbyInfoButtonClicked() ) );
+
+    connect( ui.m_OfflineButton, SIGNAL( clicked() ), this, SLOT( slotOfflineButtonClicked() ) );
+    connect( ui.m_OfflineInfoButton, SIGNAL( clicked() ), this, SLOT( slotOfflineInfoButtonClicked() ) );
 
     m_MyApp.activityStateChange( this, true );
 
@@ -181,6 +199,15 @@ void AppletFriendListClient::onShowNearbyList( void )
 }
 
 //============================================================================
+void AppletFriendListClient::onShowOfflineList( void )
+{
+    std::vector<std::pair<VxGUID, int64_t>> offlineList;
+    m_MyApp.getUserMgr().getOfflineUsers( offlineList );
+
+    updateFriendList( eUserViewTypeOffline, offlineList );
+}
+
+//============================================================================
 void AppletFriendListClient::onShowFriendTypeChanged( void )
 {
     switch( m_FriendListType )
@@ -191,6 +218,10 @@ void AppletFriendListClient::onShowFriendTypeChanged( void )
 
     case eUserViewTypeNearby:
         onShowNearbyList();
+        break;
+
+    case eUserViewTypeOffline:
+        onShowOfflineList();
         break;
 
     case eUserViewTypeFriends:
@@ -239,6 +270,16 @@ void AppletFriendListClient::slotNearbyButtonClicked( void )
 }
 
 //============================================================================
+void AppletFriendListClient::slotOfflineButtonClicked( void )
+{
+    if( m_FriendListType != eUserViewTypeOffline )
+    {
+        m_FriendListType = eUserViewTypeOffline;
+        onShowFriendTypeChanged();
+    }
+}
+
+//============================================================================
 void AppletFriendListClient::slotIgnoredInfoButtonClicked( void )
 {
     ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeIgnoredList );
@@ -269,6 +310,16 @@ void AppletFriendListClient::slotNearbyInfoButtonClicked( void )
 }
 
 //============================================================================
+void AppletFriendListClient::slotOfflineInfoButtonClicked( void )
+{
+    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeOfflineList );
+    if( activityInfo )
+    {
+        activityInfo->show();
+    }
+}
+
+//============================================================================
 void AppletFriendListClient::updateUser( EUserViewType listType, VxGUID& onlineId )
 {
     GuiUser* guiUser = m_MyApp.getUserMgr().getOrQueryUser( onlineId );
@@ -283,9 +334,11 @@ void AppletFriendListClient::updateUser( GuiUser* guiUser )
 {
     if( guiUser )
     {
-        if( ( eUserViewTypeFriends == m_FriendListType && ( guiUser->isFriend() || guiUser->isAdmin() ) )
-            || ( eUserViewTypeIgnored == m_FriendListType && guiUser->isIgnored() )
-            || ( eUserViewTypeNearby == m_FriendListType && guiUser->isNearby() ) )
+        if( ( eUserViewTypeFriends == m_FriendListType && ( guiUser->isFriend() || guiUser->isAdmin() ) ) ||
+            ( eUserViewTypeIgnored == m_FriendListType && guiUser->isIgnored() ) ||
+            ( eUserViewTypeNearby == m_FriendListType && guiUser->isNearby() ) ||
+            ( eUserViewTypeOffline == m_FriendListType && !guiUser->isOnline() )
+            )
         {
             ui.m_UserListWidget->updateUser( guiUser );
         }

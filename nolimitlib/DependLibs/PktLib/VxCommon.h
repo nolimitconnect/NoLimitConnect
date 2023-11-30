@@ -133,8 +133,9 @@ public:
     bool						canRequestJoin( enum EHostType hostType );
     bool						canJoinImmediate( enum EHostType hostType ); // request to join will be granted immediate because have sufficient permission
 
+	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState );
+
 private:
-    EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState );
 
 	//=== vars ===//
     uint16_t					m_u16AppVersion{ 0 };

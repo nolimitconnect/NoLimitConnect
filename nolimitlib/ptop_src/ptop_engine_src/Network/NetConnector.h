@@ -63,9 +63,6 @@ public:
 													bool						requestReverseConnection = false,
 													bool						requestSTUN = false );
 
-	//void						handleAnnounceResults( HostList * anchorList, EConnectReason connectReason = eConnectReasonAnnouncePing );
-	//void						handleRandomConnectResults( HostList * anchorList );
-
 	void						doNetConnectionsThread( void );
 	void						doStayConnectedThread( void );
 
@@ -75,10 +72,6 @@ public:
 	void						addConnectRequestToQue( VxConnectInfo& connectInfo, EConnectReason connectReason = eConnectReasonStayConnected, bool addToHeadOfQue = false, bool replaceExisting = true );
 
 	void						handleConnectSuccess(  BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
-	//void						handlePossibleRelayConnect(	VxConnectInfo&		connectInfo, 
-	//														std::shared_ptr<VxSktBase>&			sktBase,
-	//														bool				retIsNewConnection,
-	//														EConnectReason		connectReason );
 
 protected:
 	bool						connectUsingTcp(	VxConnectInfo&				connectInfo, 

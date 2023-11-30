@@ -34,43 +34,6 @@
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxUrl.h>
 
-namespace
-{
-    const unsigned int		MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC			= (15 * 60); // 15 minutes
-    const unsigned int		TIMEOUT_MILLISEC_STAY_CONNECTED					= 2000; 
-
-    //============================================================================
-    void * NetConnectorThreadFunction( void * pvParam )
-    {
-        VxThread* poThread = (VxThread*)pvParam;
-        poThread->setIsThreadRunning( true );
-        ConnectionMgr * poMgr = (ConnectionMgr *)poThread->getThreadUserParam();
-        if( poMgr && false == poThread->isAborted() )
-        {
-            poMgr->doNetConnectionsThread();
-        }
-
-        poThread->threadAboutToExit();
-        return nullptr;
-    }
-
-    //============================================================================
-    void * StayConnectedThreadFunction( void * pvParam )
-    {
-        VxThread* poThread = (VxThread*)pvParam;
-        poThread->setIsThreadRunning( true );
-        ConnectionMgr * poMgr = (ConnectionMgr *)poThread->getThreadUserParam();
-        if( poMgr && false == poThread->isAborted() )
-        {
-            poMgr->doStayConnectedThread();
-        }
-
-        poThread->threadAboutToExit();
-        return nullptr;
-    }
-
-} // namespace
-
 //============================================================================
 ConnectionMgr::ConnectionMgr( P2PEngine& engine )
     : m_Engine( engine )
@@ -926,12 +889,16 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
     std::shared_ptr<VxSktBase> sktBase( nullptr );
     if( false == connectInfo.m_DirectConnectId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "connectUsingTcp: User invalid online id\n" );
+        LogMsg( LOG_ERROR, "connectUsingTcp: User invalid online id" );
         return false;
     }
 
+
+    bool requiresRelay = connectInfo.requiresRelay();
     std::string strDirectConnectIp;
+    connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
  
+#if ENABLE_COMPONENT_NEARBY
     if( ( connectInfo.getMyOnlineIPv4() == m_Engine.getMyPktAnnounce().getMyOnlineIPv4())
         && connectInfo.getMyOnlineIPv4().isValid()
         && connectInfo.getLanIPv4().isValid() )
@@ -979,20 +946,19 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
         connectInfo.getOnlineName(),
         debugClientOnlineId.c_str() );
 #endif // DEBUG_CONNECTIONS
+#endif // ENABLE_COMPONENT_NEARBY
 
     // verify proxy if proxy required
-    bool requiresRelay = connectInfo.requiresRelay();
+
     if( requiresRelay )
     {
-        std::string strMyOnlineId;
-        connectInfo.getMyOnlineId(strMyOnlineId);
-        return tryIPv6Connect( connectInfo, ppoRetSkt );
+	    #if ENABLE_IPV6
+		    return tryIPv6Connect( connectInfo, ppoRetSkt );
+	    #else
+		    return false; // no ipv6 support
+	    #endif // SUPPORT_IPV6
     }
-
-    connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
-
-    //LogMsg( LOG_INFO, "User %s requires proxy? %d",  connectInfo.m_as8OnlineName, requiresRelay );
-    if( false == requiresRelay )
+    else
     {
 #ifdef DEBUG_CONNECTIONS
         LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: Attempting direct connect to %s ip %s port %d",
@@ -1002,7 +968,6 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
 #endif // DEBUG_CONNECTIONS
         if( eConnectStatusConnectSuccess == directConnectTo( connectInfo, sktBase, sessionId, DIRECT_CONNECT_TIMEOUT ) )
         {
-            //LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: success\n" );
             // direct connection success
 #ifdef DEBUG_CONNECTIONS
             LogMsg( LOG_SKT, "connectUsingTcp: SUCCESS skt %d direct connect to %s ip %s port %d",
@@ -1023,7 +988,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
                 strDirectConnectIp.c_str(),
                 connectInfo.m_DirectConnectId.getPort() );
 #endif // DEBUG_CONNECTIONS
-#ifdef SUPPORT_IPV6
+#if ENABLE_IPV6
             return tryIPv6Connect( connectInfo, ppoRetSkt );
 #else
             return false; // no ipv6 support
@@ -1037,7 +1002,11 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
         return true;
     }
 
-    return tryIPv6Connect( connectInfo, ppoRetSkt );
+	#if ENABLE_IPV6
+		return tryIPv6Connect( connectInfo, ppoRetSkt );
+	#else
+		return false; // no ipv6 support
+	#endif // SUPPORT_IPV6
 }
 
 //============================================================================
@@ -1077,12 +1046,21 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
     pktAnn.setIsPktAnnRevConnectRequested( requestReverseConnection );
     pktAnn.setIsPktAnnStunRequested( requestSTUN );
 
-    EFriendState eMyFriendshipToHim;
-    EFriendState eHisFriendshipToMe;
-    m_BigListMgr.getFriendships( destinationId, eMyFriendshipToHim, eHisFriendshipToMe );
+    BigListInfo * poInfo = m_Engine.getBigListMgr().findBigListInfo( destinationId, true );	// id of friend to look for
+    if( poInfo )
+    {
+        EFriendState eMyFriendshipToHim = poInfo->getMyFriendshipToHim();
+        EFriendState eHisFriendshipToMe = poInfo->getHisFriendshipToMe();
 
-    pktAnn.setMyFriendshipToHim( eMyFriendshipToHim );
-    pktAnn.setHisFriendshipToMe( eHisFriendshipToMe );
+        pktAnn.setMyFriendshipToHim( eMyFriendshipToHim );
+        pktAnn.setHisFriendshipToMe( eHisFriendshipToMe );
+
+        if( eMyFriendshipToHim != eFriendStateAnonymous || eHisFriendshipToMe != eFriendStateAnonymous )
+        {
+            LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::sendMyPktAnnounce myFriendship %s hisFriendship %s",
+                    DescribeFriendState( eMyFriendshipToHim ), DescribeFriendState( eHisFriendshipToMe ) );
+        }
+    }
 
     return txPacket( destinationId, sktBase, &pktAnn );	
 }
@@ -1132,30 +1110,6 @@ bool ConnectionMgr::txPacket(	VxGUID&				        destinationId,
     }
 
     return bSendSuccess;
-}
-
-//============================================================================
-void ConnectionMgr::doNetConnectionsThread( void )
-{
-    while( ( false == m_NetConnectThread.isAborted() )
-        && ( false == VxIsAppShuttingDown() ) )
-    {
-        m_WaitForConnectWorkSemaphore.wait( 1000 );
-        while( m_IdentsToConnectList.size() )
-        {
-            if( m_NetConnectThread.isAborted() )
-            {
-                break;
-            }
-
-            m_NetConnectorMutex.lock();
-            ConnectReqInfo connectRequest = m_IdentsToConnectList[0];
-            m_IdentsToConnectList.erase( m_IdentsToConnectList.begin() );
-            m_NetConnectorMutex.unlock();
-
-            doConnectRequest( connectRequest, false );
-        }
-    }
 }
 
 //============================================================================
@@ -1212,75 +1166,6 @@ void ConnectionMgr::closeConnection( ESktCloseReason closeReason, VxGUID& online
     {
         LogMsg( LOG_ERROR, "Failed to find ConnectedInfo for %s %s", onlineId.toHexString().c_str(), poInfo->getOnlineName() );
         sktBase->closeSkt( eSktCloseFindConnectedInfoFail );
-    }
-}
-
-//============================================================================
-void ConnectionMgr::doStayConnectedThread( void )
-{
-    int iConnectToIdx							= 0;
-    VxMutex * poListMutex						= &m_BigListMgr.m_FriendListMutex;
-    std::vector< BigListInfo * >& friendList	= m_BigListMgr.m_FriendList;
-    int iSize;
-    BigListInfo * poInfo;
-
-    std::shared_ptr<VxSktBase> sktBase( nullptr );
-    while( ( false == m_StayConnectedThread.isAborted() )
-        && ( false == VxIsAppShuttingDown() ) )
-    {
-        VxSleep( TIMEOUT_MILLISEC_STAY_CONNECTED );
-        if( false == m_Engine.getNetworkStateMachine().isP2POnline() )
-        {
-            // don't ping friends until we are fully online with relay service if required and correct connect info in announcement
-            continue;
-        }
-
-        if( 0 != friendList.size() )
-        {
-            //LogMsg( LOG_ERROR, "doStayConnected attempt lock\n" );
-            poListMutex->lock();
-            //LogMsg( LOG_ERROR, "doStayConnected attempt lock success\n" );
-            iSize = (int)friendList.size();
-            if( iSize )
-            {
-                iConnectToIdx++;
-                if( iConnectToIdx >= iSize )
-                {
-                    iConnectToIdx = 0;
-                }
-
-                poInfo = friendList[iConnectToIdx];
-                if( poInfo->canDirectConnectToUser() )
-                {
-                    if( !m_Engine.getConnectIdListMgr().isUserOnline( poInfo->getMyOnlineId() ) )
-                    {
-                        if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC < (GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs()) )
-                        {
-                            bool isNewConnection = false;
-                            if( m_Engine.connectToContact( poInfo->getConnectInfo(), sktBase, isNewConnection, eConnectReasonStayConnected ) )
-                            {
-                                poInfo->contactWasAttempted( true );
-                            }
-                            else
-                            {
-                                poInfo->contactWasAttempted( false );
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    LogMsg( LOG_ERROR, "ConnectionMgr::doConnectRequest when cannot direct connect" );
-                }
-            }
-
-            poListMutex->unlock();
-        }
-
-        if( m_StayConnectedThread.isAborted() )
-        {
-            return;
-        }
     }
 }
 

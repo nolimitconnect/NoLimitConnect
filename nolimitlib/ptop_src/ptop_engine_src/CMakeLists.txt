@@ -132,6 +132,7 @@ list(APPEND ptopengine_SOURCES
     P2PEngine/P2PEngineIgnoredAndHackers.cpp
     P2PEngine/P2PEngineMediaProcessorCallbacks.cpp
     P2PEngine/P2PEnginePktAnnChanged.cpp
+    P2PEngine/P2PEnginePktAnnHandlers.cpp
     P2PEngine/P2PEnginePktHandlers.cpp
     P2PEngine/P2PEngineRelay.cpp
     P2PEngine/P2PEngineScan.cpp

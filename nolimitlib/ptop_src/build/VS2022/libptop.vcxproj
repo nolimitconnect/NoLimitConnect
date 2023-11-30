@@ -609,6 +609,7 @@
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEngineIgnoredAndHackers.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEngineMediaProcessorCallbacks.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEnginePktAnnChanged.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEnginePktAnnHandlers.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEnginePktHandlers.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEngineRelay.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEngineScan.cpp" />

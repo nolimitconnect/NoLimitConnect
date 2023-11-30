@@ -18,7 +18,6 @@
 #include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-//#include <ptop_src/ptop_engine_src/HostMgr/HostList.h>
 
 #include <ptop_src/ptop_engine_src/BigListLib/BigListLib.h>
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
@@ -38,8 +37,8 @@
 
 namespace
 {
-    const unsigned int		MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC			= (15 * 60); // 15 minutes
-	const unsigned int		TIMEOUT_MILLISEC_STAY_CONNECTED					= 2000; 
+	const unsigned int	MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_MS			= (10 * 60 * 1000); // 10 minutes in milliseconds
+	const unsigned int	TIME_BETWEEN_ATTEMPTS_TO_STAY_CONNECTED_MS		= 2000; 
 
 	//============================================================================
     void * NetConnectorThreadFunction( void * pvParam )
@@ -116,8 +115,6 @@ void NetConnector::stayConnectedStartup( void )
 	}
 
 	m_StayConnectedThread.startThread( (VX_THREAD_FUNCTION_T)StayConnectedThreadFunction, this, "StayConnectedThread" ); 
-
-	//LogMsg( LOG_INFO, "NetConnector::startup done" );
 }
 
 //============================================================================
@@ -261,7 +258,9 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 	bool requiresRelay = connectInfo.requiresRelay();
 
 	VxGUID peerOnlineId = connectInfo.getMyOnlineId();
+	connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
 
+#if ENABLE_COMPONENT_NEARBY
 	if( ( connectInfo.getMyOnlineIPv4() == m_PktAnn.getMyOnlineIPv4() // uses same external ip
 		|| connectReason == eConnectReasonNearbyLan || eConnectReasonSameExternalIp == connectReason ) // on same lan network
 		&& connectInfo.getMyOnlineIPv4().isValid()
@@ -295,22 +294,8 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 
 	LogModule( eLogConnect, LOG_VERBOSE, "connectUsingTcp %s id %s ip %s", connectInfo.getOnlineName(),
 				peerOnlineId.toOnlineIdString().c_str(), strDirectConnectIp.c_str());
+#endif // ENABLE_COMPONENT_NEARBY
 
-	// verify proxy if proxy required
-	if( requiresRelay )
-	{
-		std::string strMyOnlineId;
-		connectInfo.getMyOnlineId(strMyOnlineId);
-#ifdef DEBUG_CONNECTIONS
-		LogMsg( LOG_ERROR, "connectUsingTcp: FAIL User id %s does not have proxy set.. ", 
-			strMyOnlineId.c_str());
-#endif // DEBUG_CONNECTIONS
-		return tryIPv6Connect( connectInfo, ppoRetSkt );
-	}
-
-	connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
-
-	//LogMsg( LOG_INFO, "User %s requires proxy? %d",  connectInfo.m_as8OnlineName, requiresRelay );
 	if( false == requiresRelay )
 	{
 #ifdef DEBUG_CONNECTIONS
@@ -342,7 +327,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 							strDirectConnectIp.c_str(),
 							connectInfo.m_DirectConnectId.getPort() );
 			#endif // DEBUG_CONNECTIONS
-			#ifdef SUPPORT_IPV6
+			#if ENABLE_IPV6
 				return tryIPv6Connect( connectInfo, ppoRetSkt );
 			#else
 				return false; // no ipv6 support
@@ -350,22 +335,23 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 		}
 	}
 
-#ifdef DEBUG_CONNECTIONS
-	//LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: returning skt 0x%x", *ppoRetSkt );
-#endif // DEBUG_CONNECTIONS
 	if( ppoRetSkt )
 	{
 		return true;
 	}
 
-	return tryIPv6Connect( connectInfo, ppoRetSkt );
+	#if ENABLE_IPV6
+		return tryIPv6Connect( connectInfo, ppoRetSkt );
+	#else
+		return false; // no ipv6 support
+	#endif // SUPPORT_IPV6
 }
 
 //============================================================================
 bool NetConnector::tryIPv6Connect(	VxConnectInfo&				connectInfo, 
 									std::shared_ptr<VxSktBase>&	ppoRetSkt )
 {
-	bool connectSuccess = false;
+	bool connectSuccess{ false };
 	if( m_PktAnn.getMyOnlineIPv6().isValid()
 		&& connectInfo.getMyOnlineIPv6().isValid() )
 	{
@@ -532,18 +518,18 @@ void NetConnector::doStayConnectedThread( void )
 	while( ( false == m_StayConnectedThread.isAborted() )
 			&& ( false == VxIsAppShuttingDown() ) )
 	{
-		VxSleep( TIMEOUT_MILLISEC_STAY_CONNECTED );
+		VxSleep( TIME_BETWEEN_ATTEMPTS_TO_STAY_CONNECTED_MS );
 		if( false == m_Engine.getNetworkStateMachine().isP2POnline() )
 		{
-			// don't ping friends until we are fully online with relay service if required and correct connect info in announcement
+			// don't ping friends until we are fully online and correct connect info in announcement
 			continue;
 		}
 
 		if( 0 != friendList.size() )
 		{
-			//LogMsg( LOG_ERROR, "doStayConnected attempt lock" );
+			//LogMsg( LOG_VERBOSE, "doStayConnected attempt lock" );
 			poListMutex->lock();
-			//LogMsg( LOG_ERROR, "doStayConnected attempt lock success" );
+			//LogMsg( LOG_VERBOSE, "doStayConnected attempt lock success" );
 			iSize = (int)friendList.size();
 			if( iSize )
 			{
@@ -554,9 +540,11 @@ void NetConnector::doStayConnectedThread( void )
 				}
 
 				poInfo = friendList[iConnectToIdx];
-				if( false == m_Engine.getConnectIdListMgr().isUserOnline( poInfo->getMyOnlineId() ) )
+				if( !poInfo->requiresRelay() && 
+					( poInfo->isFriend() || poInfo->isAdministrator() ) &&
+					!m_Engine.getConnectIdListMgr().isUserOnline( poInfo->getMyOnlineId() ) )
 				{
-					if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_SEC < ( GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs() ) )
+					if( MIN_TIME_BETWEEN_CONNECT_ATTEMPTS_MS < ( GetGmtTimeMs() - poInfo->getTimeLastConnectAttemptMs() ) )
 					{
 						bool isNewConnection = false;
 						if( m_Engine.connectToContact( poInfo->getConnectInfo(), sktBase, isNewConnection, eConnectReasonStayConnected ) )

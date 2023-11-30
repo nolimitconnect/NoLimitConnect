@@ -706,6 +706,9 @@
     <ClCompile Include="..\..\ptop_engine_src\OfferBase\OfferMgr.cpp">
       <Filter>Source Files\OfferBase</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEnginePktAnnHandlers.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">

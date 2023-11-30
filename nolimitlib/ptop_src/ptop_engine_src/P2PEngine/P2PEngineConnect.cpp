@@ -278,24 +278,35 @@ std::string P2PEngine::describeContact( ConnectRequest& connectRequest )
 }
 
 //============================================================================
-void P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* poInfo, bool nearbyLanConnected )
+bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* poInfo, bool nearbyLanConnected )
 {
 	if( !sktBase || !poInfo )
 	{
 		LogMsg( LOG_ERROR, "P2PEngine::updateOnFirstConnect: Invalid Param" );
-		return;
+		return false;
 	}
 
 	int64_t timestamp = sktBase->getLastActiveTimeMs();
 	if( poInfo->isIgnored() )
 	{
 		getIgnoreListMgr().updateIdent( poInfo->getMyOnlineId(), timestamp );
-		return;
+		return false;
 	}
 
 	poInfo->setLastSessionTimeMs( timestamp );
 	poInfo->setConnectSuccessCnt( poInfo->getConnectSuccessCnt() + 1 );
 	poInfo->setConnectErrCnt( 0 );
+
+    EFriendState eMyFriendshipToHim = poInfo->getMyFriendshipToHim();
+    EFriendState eHisFriendshipToMe = poInfo->getHisFriendshipToMe();
+
+
+    if( eMyFriendshipToHim != eFriendStateAnonymous || eHisFriendshipToMe != eFriendStateAnonymous )
+    {
+        LogModule( eLogConnect, LOG_DEBUG, "P2PEngine::updateOnFirstConnect myFriendship %s hisFriendship %s name %s id %s",
+				DescribeFriendState( eMyFriendshipToHim ), DescribeFriendState( eHisFriendshipToMe ),
+				poInfo->getOnlineName(), poInfo->getMyOnlineId().toOnlineIdString().c_str()  );
+    }
 
 	// determine if is nearby
 	bool isNearby = false;
@@ -347,4 +358,6 @@ void P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 
 		getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
 	}
+
+    return true;
 }

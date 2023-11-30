@@ -187,12 +187,12 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 	{
 		if( IsHostARelayForUsers( hostType ) )
 		{
-			LogModule( eLogConnect, LOG_WARNING, "updatePktAnn updating host %s my friendship %s his friendship %s",
+			LogModule( eLogConnect, LOG_VERBOSE, "updatePktAnn updating host %s my friendship %s his friendship %s",
 					   DescribeHostType( hostType ), DescribeFriendState( myFriendship ), DescribeFriendState( hisFriendship ) );
 		}
 		else
 		{
-			LogModule( eLogConnect, LOG_WARNING, "updatePktAnn updating my friendship %s his friendship %s",
+			LogModule( eLogConnect, LOG_VERBOSE, "updatePktAnn updating my friendship %s his friendship %s",
 					   DescribeFriendState( myFriendship ), DescribeFriendState( hisFriendship ) );
 		}
 	}

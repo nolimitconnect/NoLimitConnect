@@ -64,8 +64,8 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	}
 
 	bool ipv6 = sktBase->getIsIpv6Connection();
-	PktAnnounce* pkt = (PktAnnounce *)pktHdr;
-	VxGUID contactOnlineId = pkt->getMyOnlineId();
+	PktAnnounce* pktAnn = (PktAnnounce *)pktHdr;
+	VxGUID contactOnlineId = pktAnn->getMyOnlineId();
 	if( contactOnlineId == getMyOnlineId() )
 	{
 		// it is ourself
@@ -76,12 +76,12 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
         if( rmAddr.empty() || sktBase->getRemoteIpAddress() != ourAddr )
         {
             // remote attack.. serious
-            hackerOffense( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, pkt, sktBase, "rxed same as our online id from another " );
+            hackerOffense( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, pktAnn, sktBase, "rxed same as our online id from another " );
             sktBase->closeSkt( eSktClosePktOnlineIdMeFromAnotherIp );
         }
         else
         {
-            hackerOffense( eHackerLevelSuspicious, eHackerReasonPktOnlineIdMeFromMyIp, pkt, sktBase, "rxed same as our online from our address " );
+            hackerOffense( eHackerLevelSuspicious, eHackerReasonPktOnlineIdMeFromMyIp, pktAnn, sktBase, "rxed same as our online from our address " );
             sktBase->closeSkt( eSktClosePktOnlineIdMeFromMyIp );
         }
 
@@ -105,30 +105,31 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		isFirstAnnounce = true;
 		std::string networkName;
 		m_EngineSettings.getNetworkKey( networkName );
-		GenerateTxConnectionKey( sktBase, &pkt->m_DirectConnectId, networkName.c_str() );
+		GenerateTxConnectionKey( sktBase, &pktAnn->m_DirectConnectId, networkName.c_str() );
 	}
 	else if( !sktBase->getIsPeerPktAnnSet() )
 	{
 		isFirstAnnounce = true;
 	}
 
-	pkt->reversePermissions();
+	pktAnn->reversePermissions();
+	pktAnn->setTimeLastTcpContactMs( GetGmtTimeMs() );
 
 	// TODO validate if really nearby
 
 	BigListInfo * bigListInfo = 0;
 	EHostType hostType{ eHostTypeUnknown };
-	EPktAnnUpdateType updateType = m_BigListMgr.updatePktAnn( pkt, &bigListInfo, hostType );		
+	EPktAnnUpdateType pktAnnUpdateType = m_BigListMgr.updatePktAnn( pktAnn, &bigListInfo, hostType );		
 	if( !bigListInfo->isValidNetIdent() )
 	{
 		LogMsg( LOG_ERROR, "PktAnnounce updatePktAnn INVALID" );
 		return;
 	}
 
-	if( ePktAnnUpdateTypeIgnored == updateType )
+	if( ePktAnnUpdateTypeIgnored == pktAnnUpdateType )
 	{
 		LogModule( eLogConnect, LOG_VERBOSE, "Ignoring %s ip %s id %s",
-			pkt->getOnlineName(),
+			pktAnn->getOnlineName(),
             sktBase->getRemoteIp().c_str(),
 			contactOnlineId.toOnlineIdString().c_str() );
         // if is the first announce and ignored we can close the connection
@@ -142,87 +143,115 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
-	if( !isFirstAnnounce )
+	bool pktAnnReplyRequested = pktAnn->getIsPktAnnReplyRequested();
+	bool reverseConnectionRequested = pktAnn->getIsPktAnnRevConnectRequested();
+	if( pktAnn->getTTL() > 0 )
 	{
-		if( sktBase->getIsPeerPktAnnSet() )
-		{
-			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s %s through relay %s %s ip %s",
-					   pkt->getOnlineName(),
-                       pkt->getMyOnlineId().toOnlineIdString().c_str(),
-                       sktBase->getPeerOnlineName().c_str(),
-					   sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
-					   sktBase->getRemoteIp().c_str() );
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "P2PEngine::onPktAnnounce not first PktAnd and peer PktAnn not set ip %s",
-					sktBase->getRemoteIp().c_str() );
-			// what should we do here. Hacker attempt or bad programming?
-		}
+		pktAnn->setTTL( pktAnn->getTTL() - 1 );
+		pktAnn->setIsPktAnnReplyRequested( false );
+		pktAnn->setIsPktAnnStunRequested( false );
 	}
 
-    if( pkt->getIsPktAnnReplyRequested() )
+	if( pktAnnReplyRequested )
 	{
-        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s relay %d reply requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str(), pkt->requiresRelay() );
-		if( !m_NetConnector.sendMyPktAnnounce( pkt->getMyOnlineId(),
+        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s %s at %s pktAnn reply requested", 
+				   pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+		if( !m_NetConnector.sendMyPktAnnounce( pktAnn->getMyOnlineId(),
 				sktBase,
 				false,
 				false,
 				false ) )
 		{
-			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce failed to %s at %s reply requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str() );
+			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s send pktAnn reply failed",
+					   pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 			sktBase->closeSkt( eSktClosePktAnnSendFail );
             getConnectList().onConnectionLost( sktBase );
 			return;
 		}
 	}
 
-	if( sktBase && sktBase->isConnected() )
-	{
-		if( pkt->getTTL() > 0 )
-		{
-			pkt->setTTL( pkt->getTTL() - 1 );
-			pkt->setIsPktAnnReplyRequested( false );
-			pkt->setIsPktAnnStunRequested( false );
-		}
+	bool updateOk{ false };
 
-		if( !sktBase->getIsPeerPktAnnSet() )
+	if( isFirstAnnounce )
+	{
+		updateOk = onFirstPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
+	}
+	else
+	{
+		if( sktBase->getIsPeerPktAnnSet() )
 		{
-			if( sktBase->setPeerPktAnn( *pkt ) )
+			if( pktAnn->getMyOnlineId() == sktBase->getPeerOnlineId() )
 			{
-				getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == updateType) );
-				getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
+				updateOk = onConnectionPktAnnounceUpdated( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 			}
 			else
 			{
-				getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == updateType) );
+				updateOk = onHostedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 			}
+
+			//LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s %s through relay %s %s ip %s",
+			//		   pktAnn->getOnlineName(),
+   //                    pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+   //                    sktBase->getPeerOnlineName().c_str(),
+			//		   sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
+			//		   sktBase->getRemoteIp().c_str() );
+		}
+		else
+		{
+			updateOk = onUnexpectedPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
+			//LogMsg( LOG_ERROR, "P2PEngine::onPktAnnounce not first PktAnd and peer PktAnn not set ip %s",
+			//		sktBase->getRemoteIp().c_str() );
+			// what should we do here. Hacker attempt or bad programming?
 		}
 	}
 
-
-    if( sktBase && sktBase->isConnected() && isFirstAnnounce && pkt->getIsPktAnnRevConnectRequested() )
+	if( !updateOk )
 	{
-		LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s reverse connect requested", pkt->getOnlineName(), sktBase->getRemoteIp().c_str() );
+		 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s %s at %s failed to update", 
+					pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+		 sktBase->closeSkt( eSktClosePktAnnUpdateFailed ); // should we close? TODO investigate failed PktAnn update failed
+		 return; 
+	}
+
+	//if( sktBase->isConnected() )
+	//{
+	//	if( !sktBase->getIsPeerPktAnnSet() )
+	//	{
+	//		if( sktBase->setPeerPktAnn( *pktAnn ) )
+	//		{
+	//			getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
+	//			getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
+	//		}
+	//		else
+	//		{
+	//			getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
+	//		}
+	//	}
+	//}
+
+#if ENABLE_STUN_REVERSE_CONNECT
+    if( sktBase->isConnected() && isFirstAnnounce && pktAnn->getIsPktAnnRevConnectRequested() )
+	{
+		LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s reverse connect requested", pktAnn->getOnlineName(), sktBase->getRemoteIp().c_str() );
 		std::shared_ptr<VxSktBase> poNewSkt;
-		m_NetConnector.directConnectTo( pkt->getConnectInfo(), poNewSkt, eConnectReasonReverseConnectRequested );
+		m_NetConnector.directConnectTo( pktAnn->getConnectInfo(), poNewSkt, eConnectReasonReverseConnectRequested );
 		if( poNewSkt )
 		{
 			LogModule( eLogConnect, LOG_VERBOSE, "sendMyPktAnnounce 6" );
-            if( m_NetConnector.sendMyPktAnnounce(   pkt->getMyOnlineId(),
+            if( m_NetConnector.sendMyPktAnnounce(   pktAnn->getMyOnlineId(),
 													poNewSkt,
                                                     true,
                                                     false,
                                                     false ) )
             {
-				if( poNewSkt->setPeerPktAnn( *pkt ) )
+				if( poNewSkt->setPeerPktAnn( *pktAnn ) )
 				{
-					getConnectList().addConnection( poNewSkt, bigListInfo, ( ePktAnnUpdateTypeContactIsSame == updateType ) );
+					getConnectList().addConnection( poNewSkt, bigListInfo, ( ePktAnnUpdateTypeContactIsSame == pktAnnUpdateType ) );
 					getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
 				}
 				else
 				{
-					getConnectList().addConnection( poNewSkt, bigListInfo, ( ePktAnnUpdateTypeContactIsSame == updateType ) );
+					getConnectList().addConnection( poNewSkt, bigListInfo, ( ePktAnnUpdateTypeContactIsSame == pktAnnUpdateType ) );
 				}
             }
             else
@@ -232,23 +261,25 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
             }
 		}
 	}
+#endif // ENABLE_STUN_REVERSE_CONNECT
 
-	if( sktBase && sktBase->isConnected() )
+	/*
+	if( sktBase->isConnected() )
 	{
 		if( isFirstAnnounce )
 		{
 			updateOnFirstConnect( sktBase, bigListInfo, false );
-			onFirstPktAnnounce( pkt, sktBase, bigListInfo );
+			onFirstPktAnnounce( pktAnn, sktBase, bigListInfo );
 		}
-		else if( pkt->getDestOnlineId() != getMyOnlineId() )
+		else if( pktAnn->getDestOnlineId() != getMyOnlineId() )
 		{
-			getRelayMgr().onRelayPktAnnounce( pkt, sktBase, bigListInfo->getVxNetIdent() );
+			getRelayMgr().onRelayPktAnnounce( pktAnn, sktBase, bigListInfo->getVxNetIdent() );
 		}
 		else
 		{
-			if( getRelayMgr().sendRequestedReplyPktAnnIfNeeded( pkt, sktBase, bigListInfo->getVxNetIdent()) )
+			if( getRelayMgr().sendRequestedReplyPktAnnIfNeeded( pktAnn, sktBase, bigListInfo->getVxNetIdent()) )
 			{
-				getConnectIdListMgr().onGroupUserAnnounce( pkt, sktBase, bigListInfo->getVxNetIdent(), true );
+				getConnectIdListMgr().onGroupUserAnnounce( pktAnn, sktBase, bigListInfo->getVxNetIdent(), true );
 			}
 			else
 			{
@@ -256,10 +287,11 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 			}
 		}
 	}
+	*/
 
-	if( sktBase && sktBase->isConnected() )
+	// send ping request to keep connection alive
+	if( sktBase->isConnected() )
 	{
-		getConnectIdListMgr().pktAnnRecieved( sktBase->getSocketId(), pkt->getMyOnlineId() );
 
 		PktPingReq pktPingReq;
 		pktPingReq.setSrcOnlineId( m_PktAnn.getSrcOnlineId() );
@@ -269,6 +301,10 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
             getConnectList().onConnectionLost( sktBase );
 			return;
 		}
+	}
+	else
+	{
+		getConnectList().onConnectionLost( sktBase );
 	}
 }
 

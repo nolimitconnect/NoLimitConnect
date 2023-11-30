@@ -742,7 +742,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             GuiUserUpdateCallback* client = *iter;
             if( client == callback )
             {
-                LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr Erasubg wantToGuiUserUpdateCallback %p at index %d", callback, idx );
+                LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback %p at index %d", callback, idx );
                 m_GuiUserUpdateClientList.erase( iter );
                 return;
             }
@@ -924,4 +924,20 @@ bool GuiUserMgr::isClientQueuedForRemoval( GuiUserUpdateCallback* client )
     }
 
     return isQueued;
+}
+
+bool GuiUserMgr::getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idList )
+{
+    idList.clear();
+
+    for( auto guiUserPair : m_UserList )
+    {
+        GuiUser* guiUser = guiUserPair.second;
+        if( !guiUser->isOnline() && ( guiUser->isAdmin() || guiUser->isFriend() ) )
+        {
+            idList.push_back( std::make_pair(guiUserPair.first, guiUser->getLastUpdateTime() ) );
+        }
+    }
+
+    return !idList.empty();
 }

@@ -1065,8 +1065,9 @@ bool ConnectIdListMgr::isUserOnline( VxGUID& onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::updateOnlineExclusion BAD PARAM" );
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isUserOnline BAD PARAM" );
         vx_assert( false );
+        return false;
     }
 
     lockOnlineIdList();
@@ -1119,6 +1120,7 @@ bool ConnectIdListMgr::isUserExcluded( VxGUID& onlineId )
     {
         LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isUserExcluded BAD PARAM" );
         vx_assert( false );
+        return true;
     }
 
     lockOnlineIdList();
@@ -1135,6 +1137,7 @@ bool ConnectIdListMgr::isConnectionInUse( VxGUID& sktConnectId )
     {
         LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isConnectionInUse BAD PARAM" );
         vx_assert( false );
+        return false;
     }
 
     bool sktInUse{ false };

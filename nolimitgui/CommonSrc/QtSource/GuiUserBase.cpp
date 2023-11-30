@@ -137,7 +137,49 @@ EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType,
         return ePluginAccessOk;
     }
 
-    return m_NetIdent.getMyAccessPermissionFromHim( pluginType, inGroup ); 
+    // cannot override a object that is sent over the network so this is mostly a copy of NetIdent::getMyAccessPermissionFromHim
+    // this is so that do not have to constantly update the net ident online state
+	EFriendState friendState = getHisFriendshipToMe();
+	if( inGroup && friendState == eFriendStateAnonymous )
+	{
+		friendState = eFriendStateGuest;
+	}
+
+	EPluginAccess accessState = m_NetIdent.getPluginAccessState( pluginType, friendState );
+	if( ePluginAccessOk == accessState )
+	{
+		if( ( ePluginTypeFileShareServer == pluginType ) 
+			&& ( false == m_NetIdent.hasSharedFiles() ) )
+		{
+			// no files shared
+			return ePluginAccessInactive;
+		}
+
+		if( ( ePluginTypeCamServer == pluginType ) 
+			&& ( false ==  m_NetIdent.hasSharedWebCam() ) )
+		{
+			// no shared web cam
+			return ePluginAccessInactive;
+		}
+
+		if( ( ePluginTypeAboutMePageServer == pluginType )
+			|| ( ePluginTypeStoryboardServer == pluginType ) )
+		{
+			if( false == isOnline() )
+			{
+				accessState = ePluginAccessRequiresOnline;
+			}
+		}
+		else if( ePluginTypeMessenger != pluginType )
+		{
+			if( false == isOnline() )
+			{
+				accessState = ePluginAccessRequiresOnline;
+			}
+		}		
+	}
+
+	return accessState;
 }
 
 //============================================================================

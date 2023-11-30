@@ -736,8 +736,16 @@ protected:
 	void						handleIncommingRelayData( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 	void						sendToGuiTheContactList( int maxContactsToSend );
     void                        updateIdentLists( BigListInfo* bigListInfo, int64_t timestampMs = 0 );
-    void                        updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo, bool nearbyLanConnected );
-    void						onFirstPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo );
+
+    // called when connected to or recieve pkt announce
+    bool                        updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo, bool nearbyLanConnected );
+
+    bool						onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+
+    bool						onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
     EMembershipState            getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, EPluginType pluginType, EFriendState myFriendshipToHim );
 

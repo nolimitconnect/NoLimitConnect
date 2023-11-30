@@ -145,6 +145,13 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
 		m_GuiUser = guiUser;
 
+		if( guiUser->getOnlineName() ==  "A8 tab" ||  guiUser->getOnlineName() ==  "Dev Main" )
+		{
+			LogModule( eLogUserGuiEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my frienship %s his friendship %s",
+					   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
+					   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
+		}
+
 		bool isOnline = m_GuiUser->isOnline();
 		bool isRelayed = m_GuiUser->isRelayed();
 		bool isNearby = m_GuiUser->isNearby();

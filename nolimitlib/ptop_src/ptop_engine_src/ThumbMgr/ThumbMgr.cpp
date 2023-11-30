@@ -552,11 +552,16 @@ bool ThumbMgr::requestThumbs( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* n
         if( netIdent->hasThumbId( hostType ) )
         {
             VxGUID thumbId = netIdent->getHostThumbId( hostType, false );
-            int64_t thumbTimestamp = netIdent->getHostOrThumbModifiedTime( hostType );
-            if( thumbId.isVxGUIDValid() && thumbTimestamp && !isThumbUpToDate( thumbId, thumbTimestamp ) )
+            if( !isEmoticonThumbnail( thumbId ) )
             {
-                EPluginType pluginType = HostTypeToClientPlugin( hostType );
-                ptopEngineRequestPluginThumb( sktBase, netIdent, pluginType, thumbId );
+                int64_t thumbTimestamp = netIdent->getHostOrThumbModifiedTime( hostType );
+                if( thumbId.isVxGUIDValid() && thumbTimestamp && !isThumbUpToDate( thumbId, thumbTimestamp ) )
+                {
+                    EPluginType pluginType = HostTypeToClientPlugin( hostType );
+                    LogModule( eLogPkt,  LOG_VERBOSE, "ThumbMgr::requestThumb %s from %s %s ",
+                               thumbId.toHexString().c_str(), netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+                    ptopEngineRequestPluginThumb( sktBase, netIdent, pluginType, thumbId );
+                }
             }
         }
     }

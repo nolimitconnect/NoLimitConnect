@@ -16,8 +16,9 @@
 
 #include <NetLib/VxXferDefs.h>
 
-#define ENABLE_COMPONENT_NEARBY 0 // enable/disable nearby users discovery 
-#define ENABLE_IPV6             0 // if not zero enable ipv6 listen and usage 
+#define ENABLE_COMPONENT_NEARBY         0 // enable/disable nearby users discovery 
+#define ENABLE_IPV6                     0 // if not zero enable ipv6 listen and usage 
+#define ENABLE_STUN_REVERSE_CONNECT     0 // enable/disable stun tunneling using reverse connection to origin ip
 
 #define AUDIO_SAMPLE_RATE       16000
 #define AUDIO_CHUNK_SIZE        1280
@@ -473,6 +474,7 @@ enum EInfoType
     eInfoTypeFriendsList,
     eInfoTypeIgnoredList,
     eInfoTypeNearbyList,
+    eInfoTypeOfflineList,
 
     eInfoTypeGroupStatus,
     eInfoTypeHostChatRoom,
@@ -1200,6 +1202,7 @@ enum ESktCloseReason
     eSktClosePktAnnNotFirstPacket,
     eSktClosePktAnnInvalid,
     eSktClosePktHdrInvalid,
+    eSktClosePktAnnUpdateFailed,
     eSktClosePktPingReqSendFail,
     eSktCloseP2PNotReadyForAcceptSkt,
     eSktCloseUserIgnored,
@@ -1259,8 +1262,9 @@ enum EUserViewType
     eUserViewTypeNearby,
     eUserViewTypeOnline,
     eUserViewTypeDirectConnect,
+    eUserViewTypeOffline,
 
-    eMaxUserViewTypeNone,
+    eMaxUserViewType
 };
 
 enum EWebPageType
@@ -1321,6 +1325,8 @@ const char* DescribeModuleState( enum EModuleState moduleState );
 const char* DescribeListAction( enum EListAction listAction );
 //! Media error as text
 const char* DescribeMediaError(enum EMediaError mediaError);
+//! Media action as text
+const char* DescribeMediaPlayerAction( enum EMediaPlayerAction playerAction );
 //! Network action as text
 const char* DescribeNetAction( enum ENetActionType netAction );
 //! Network State as text
@@ -1357,10 +1363,11 @@ const char* DescribeSha1GenResult( enum ESha1GenResult sha1GenerateResult );
 const char* DescribeSktCloseReason( enum ESktCloseReason closeReason );
 //! Describe skt type
 const char* DescribeSktType( enum ESktType sktType );
+//! Describe user view type
+const char* DescribeUserViewType( enum EUserViewType sktType );
 const char* DescribeWebPageType( enum EWebPageType webPageType );
 const char* DescribeXferAction( enum EXferAction xferAction );
 
-const char* DescribeMediaPlayerAction( enum EMediaPlayerAction playerAction );
 
 // for use in database mainly 
 // If you add a plugin type be sure to update getPluginName

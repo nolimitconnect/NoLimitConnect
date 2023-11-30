@@ -653,3 +653,9 @@ RCODE BigListDb::saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8
 	return 0;
 }
 
+//============================================================================
+//! lock db and remove use
+RCODE BigListDb::removeUserFromDatabase( VxGUID& onlineId )
+{
+	return dbRemoveBigListInfo( onlineId );
+}

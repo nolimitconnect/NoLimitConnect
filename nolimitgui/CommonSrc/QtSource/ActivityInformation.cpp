@@ -358,6 +358,12 @@ QString ActivityInformation::m_NearbyList( QObject::tr(
     "An easy way to get connected without being in the same group is to connect his/her device on your home Wireless or LAN network.\n"
 ) );
 
+QString ActivityInformation::m_OfflineList( QObject::tr(
+    "=== Offline Friends List ===\n"
+    "A list showing offline friends and admins.\n"
+    "You can change friendship even when offline (Set to anonymouse or guest so network no longer tries to stay connected).\n"
+) );
+
 QString ActivityInformation::m_UserHostRequrements( QObject::tr(
     "=== Hosting Requirements any of these host services Chat Room, Group, Random Connect ===\n"
     "You will need to port forward the listen port you specified in Network Settings\n"
@@ -428,6 +434,8 @@ QString ActivityInformation::getInfoText( void )
         return m_IgnoredList;
     case eInfoTypeNearbyList:
         return m_NearbyList;
+    case eInfoTypeOfflineList:
+        return m_OfflineList;
 
     case eInfoTypeGroupStatus:
     case eInfoTypeHostChatRoom:

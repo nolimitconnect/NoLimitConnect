@@ -463,7 +463,6 @@ bool VxConnectIdent::hasThumbId( EHostType hostType )
         return m_NetHostThumbGuid.isVxGUIDValid();
     case eHostTypeRandomConnect:
         return m_RandomConnectThumbGuid.isVxGUIDValid();
-
     case eHostTypePeerUserDirect:
         return m_AvatarGuid.isVxGUIDValid();
     default:

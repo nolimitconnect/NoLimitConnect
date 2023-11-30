@@ -935,8 +935,8 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaTy
 
 //============================================================================
 bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId, 
-											    EFriendState	eMyFriendshipToHim,
-											    EFriendState	eHisFriendshipToMe )
+											    EFriendState	myFriendshipToHim,
+											    EFriendState	hisFriendshipToMe )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
@@ -956,27 +956,27 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId,
 			}
 			
 			EFriendState eOldFriendship = poInfo->getMyFriendshipToHim();
-			poInfo->setMyFriendshipToHim( eMyFriendshipToHim );
+			poInfo->setMyFriendshipToHim( myFriendshipToHim );
 			m_BigListMgr.updateVectorList( eOldFriendship, poInfo );
 
 			BigListInfo* dummyBigListInfo = nullptr;
 			EHostType hostType{ eHostTypeUnknown };
 			m_BigListMgr.updatePktAnn( poInfo->getPktAnnounce(), &dummyBigListInfo, hostType, true );
 
-			LogMsg(LOG_INFO, "P2PEngine::fromGuiChangeMyFriendshipToHim: SUCCESS changed %s friendship to %s", 
+			LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiChangeMyFriendshipToHim: SUCCESS changed %s friendship to %s", 
 				poInfo->getOnlineName(),
 				poInfo->describeMyFriendshipToHim());
 
-			getConnectIdListMgr().updateOnlineExclusion( onlineId, eMyFriendshipToHim == eFriendStateIgnore );
+			getConnectIdListMgr().updateOnlineExclusion( onlineId, myFriendshipToHim == eFriendStateIgnore );
 
 			m_ConnectionList.fromGuiChangeMyFriendshipToHim( onlineId,
-																eMyFriendshipToHim,
-																eHisFriendshipToMe );
+																myFriendshipToHim,
+																hisFriendshipToMe );
 			return true;
 		}
 		else
 		{
-			LogMsg( LOG_INFO, "P2PEngine::fromGuiChangeMyFriendshipToHim: FAILED find friend %s", onlineId.toOnlineIdString().c_str() );
+			LogMsg( LOG_ERROR, "P2PEngine::fromGuiChangeMyFriendshipToHim: FAILED find friend %s", onlineId.toOnlineIdString().c_str() );
 		}
 	}
 

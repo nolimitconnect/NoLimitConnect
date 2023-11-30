@@ -14,20 +14,8 @@
 //============================================================================
 
 #include "P2PEngine.h"
-#include "P2PConnectList.h"
 
-#include <GuiInterface/IToGui.h>
-
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetConnector.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <NetLib/VxSktBase.h>
-#include <PktLib/PktsRelay.h>
-#include <PktLib/PktTcpPunch.h>
-
-#include <CoreLib/VxParse.h>
+#include <CoreLib/VxDebug.h>
 
 //============================================================================
 void P2PEngine::onPktRelayUserDisconnect( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )

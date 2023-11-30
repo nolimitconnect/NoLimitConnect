@@ -34,6 +34,9 @@ class VxPeerMgr;
 class VxPktHdr;
 class VxSktBase;
 
+/**
+* NOTE: this class is being phased out in favor of NetConnector
+*/
 class ConnectionMgr : public NetAvailStatusCallbackInterface, public UrlActionResultInterface
 {
 public:
@@ -61,9 +64,6 @@ public:
 
     void                        onSktConnectedWithPktAnn( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo );
     void                        onSktDisconnected( std::shared_ptr<VxSktBase>& sktBase );
-
-    void						doNetConnectionsThread( void );
-    void						doStayConnectedThread( void );
 
     void                        lockConnectionList( void )      { m_ConnectionMutex.lock(); }
     void                        unlockConnectionList( void )    { m_ConnectionMutex.unlock(); }

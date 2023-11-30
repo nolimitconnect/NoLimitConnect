@@ -41,6 +41,8 @@ public:
 
 	RCODE						dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime, const char* networkName );
 
+	RCODE						removeUserFromDatabase( VxGUID& onlineId );
+
 protected:
 	//=== overrides ===//
 	//! create tables in database 
