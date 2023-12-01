@@ -87,6 +87,20 @@ void HandshakeList::addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& s
 }
 
 //============================================================================
+void HandshakeList::removeHandshake( std::shared_ptr<VxSktBase>& sktBase )
+{
+    for ( auto iter = m_ShakeList.begin(); iter != m_ShakeList.end(); ++iter )
+    {
+        HandshakeInfo& shakeInfo = iter->second;
+        if ( shakeInfo.getSktBase() == sktBase )
+        {
+            m_ShakeList.erase( iter );
+            break;
+        }
+    }
+}
+
+//============================================================================
 void HandshakeList::onSktDisconnected( const VxGUID& socketId )
 {
     for( auto iter = m_ShakeList.begin(); iter != m_ShakeList.end(); ++iter )

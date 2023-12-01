@@ -834,11 +834,6 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
     sktHandle = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP );
     if( INVALID_SOCKET != sktHandle )
     {		
-        if( g_SktStatCallback )
-        {
-            g_SktStatCallback->sktConnected( sktHandle );
-        }
-
         sktHandle = VxConnectToAddr( sktHandle, (struct sockaddr*)&sktAddrStorage, sktAddrLen, iConnectTimeoutMs, retSktErr ? retSktErr : &sktErr );
 		if( retSktErr )
 		{
@@ -869,6 +864,11 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
     }
     else
     {
+		if ( g_SktStatCallback )
+		{
+			g_SktStatCallback->sktConnected( sktHandle );
+		}
+
         VxGetLclAddress( sktHandle, lclIp );
     }
 
@@ -1007,7 +1007,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
             {
                 LogModule( eLogConnect, LOG_VERBOSE, "VxConnectToAddr: Connect Success skt %d to %s in %d sec",
                            sktHandle, ipAndPort.c_str(), TimeElapsedGmtSec( timeStartConnect ));
-                ::VxSetSktBlocking( sktHandle, true );
+
                 return sktHandle;
             }
 			else if( 0 == iResult && !FD_ISSET( sktHandle, &sktSet ) )
@@ -1105,7 +1105,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
                         // connected
                         LogModule( eLogConnect, LOG_VERBOSE, "VxConnectTo: SUCCESS skt %d connected in delayed connection to %s in %d sec",
                                    sktHandle, ipAndPort.c_str(), TimeElapsedGmtSec( timeStartConnect ) );
-                        ::VxSetSktBlocking( sktHandle, true );
+
                         break;
                     }
                 }

@@ -343,7 +343,7 @@ bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std:
 		return sndPingResult;
 	}
 	
-	LogMsg( LOG_ERROR, "##P NetServicesMgr::doNetCmdPing:  timeout %d could not connect to %s:%d %3.3f sec FAIL", PORT_TEST_CONNECT_TO_CLIENT2_TIMEOUT, ipAddress, u16Port, pingTimer.elapsedSec() );
+	LogMsg( LOG_ERROR, "##P NetServicesMgr::doNetCmdPing:  timeout %d could not connect to %s:%d %3.3f sec FAIL", PORT_TEST_CONNECT_TO_CLIENT1_TIMEOUT, ipAddress, u16Port, pingTimer.elapsedSec() );
 	return false;
 }
 
@@ -723,7 +723,7 @@ static int uint16_t = 0;
                                                             tcpListenPort,
                                                             retMyExternalIp,
                                                             isCellDataNetwork,
-															20000);
+															25000);
 
             portOpenConn1.closeSkt();
         }
@@ -744,6 +744,12 @@ static int uint16_t = 0;
 	if( m_pfuncPortOpenCallbackHandler )
 	{
 		m_pfuncPortOpenCallbackHandler( m_PortOpenCallbackUserData, portOpenTestError, retMyExternalIp );
+	}
+
+	if( eNetCmdErrorResponseTimedOut == portOpenTestError )
+	{
+		m_Engine.sendToGuiStatusMessage( "TCP Port %d Test site %s Timed out so will have to be tested manually", tcpListenPort, netSrvUrl.c_str() );
+		return portOpenTestError;
 	}
 
 	if( eNetCmdErrorNone == portOpenTestError )

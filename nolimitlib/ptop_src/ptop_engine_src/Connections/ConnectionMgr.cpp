@@ -744,23 +744,49 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
             sktBase->setConnectReason( connectReason );
         }
 
-        // LogModule( eLogConnect, LOG_VERBOSE, "ConnectionMgr::directConnectTo: connect SUCCESS to %s:%d", ipAddr.c_str(), port );
-        // generate encryption keys
+        // it is possible that the rx thread closes the socket immediately so keep checking the connection
+        if( !sktBase->isConnected() )
+        {
+            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread", ipAddr.c_str(), port );
+            unlockConnectionList();
+            return eConnectStatusSendPktAnnFailed;
+        }
 
+        // generate encryption keys
         LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating tx key %s:%d %s", sktBase->getRemoteIp().c_str(), port, onlineId.toHexString().c_str() );
 
         GenerateTxConnectionKey( sktBase, sktBase->getRemoteIp(), port, onlineId, m_Engine.getNetworkMgr().getNetworkKey() );
+
+        if (!sktBase->isConnected())
+        {
+            LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread after tx key generated", ipAddr.c_str(), port);
+            unlockConnectionList();
+            return eConnectStatusSendPktAnnFailed;
+        }
 
         LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating rx key" );
 
         GenerateRxConnectionKey( sktBase, &m_Engine.getMyPktAnnounce().m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey() );
 
+        if( !sktBase->isConnected() )
+        {
+            LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread after rx key generated", ipAddr.c_str(), port);
+            unlockConnectionList();
+            return eConnectStatusSendPktAnnFailed;
+        }
+
         LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. sending announce" );
 
-        //LogMsg( LOG_INFO, "sendMyPktAnnounce 2\n" ); 
         if( false == sendMyPktAnnounce( onlineId, sktBase, true, false, false ) )
         {
             LogModule( eLogConnect, LOG_DEBUG, "NetworkMgr::DirectConnectTo: connect failed sending announce" );
+            unlockConnectionList();
+            return eConnectStatusSendPktAnnFailed;
+        }
+
+        if( !sktBase->isConnected() )
+        {
+            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed after pkt announce sent by rx thread", ipAddr.c_str(), port);
             unlockConnectionList();
             return eConnectStatusSendPktAnnFailed;
         }
@@ -769,6 +795,17 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         m_HandshakeMutex.lock();
         m_HandshakeList.addHandshake(sktBase, sessionId, onlineId, callback, connectReason);
         m_HandshakeMutex.unlock();
+        if( !sktBase->isConnected() )
+        {
+            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed after handshake set by rx thread", ipAddr.c_str(), port);
+            m_HandshakeMutex.lock();
+            m_HandshakeList.removeHandshake( sktBase );
+            m_HandshakeMutex.unlock();
+
+            unlockConnectionList();
+            return eConnectStatusSendPktAnnFailed;
+        }
+
         connectStatus = eConnectStatusHandshaking;
         retSktBase = (std::shared_ptr<VxSktBase>&)sktBase;
         
