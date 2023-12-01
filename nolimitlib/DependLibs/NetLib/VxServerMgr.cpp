@@ -58,10 +58,10 @@ namespace
                 VxServerMgr* poMgr = (VxServerMgr*)vxThread->getThreadUserParam();
                 if( poMgr )
                 {
-                    LogModule( eLogListen, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread started thread 0x%x", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId() );
+                    LogModule( eLogAcceptConn, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread started thread 0x%x", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId() );
                     poMgr->listenForConnectionsToAccept( ipv6, vxThread );
                     // quitting
-                    LogModule( eLogListen, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread 0x%x tid %d quiting", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId(), vxThread->getThreadTid() );
+                    LogModule( eLogAcceptConn, LOG_INFO, "#### VxServerMgr: Mgr id %d Listen port %d thread 0x%x tid %d quiting", poMgr->m_iMgrId, poMgr->getListenPort(), VxGetCurrentThreadId(), vxThread->getThreadTid() );
                 }
             }
             else
@@ -182,13 +182,13 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET oLi
 	RCODE rc = 0;
 	if( INVALID_SOCKET == oListenSkt )
 	{
-        LogModule( eLogListen, LOG_ERROR, "VxServerMgr::acceptConnection INVALID LISTEN SOCKET thread 0x%x", VxGetCurrentThreadId() );
+        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::acceptConnection INVALID LISTEN SOCKET thread 0x%x", VxGetCurrentThreadId() );
 		return -2;
 	}
 
 	if( shouldListenAbort( ipv6 ) || !getListenEnable(ipv6) || getIsListenParamsChanged(ipv6) )
 	{
-        LogModule( eLogListen, LOG_ERROR, "VxServerMgr::acceptConnection aborted accept thread 0x%x", VxGetCurrentThreadId() );
+        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::acceptConnection aborted accept thread 0x%x", VxGetCurrentThreadId() );
         return -3;
 	}
 
@@ -210,7 +210,7 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET oLi
 
     if( shouldListenAbort( ipv6 ) || !getListenEnable(ipv6) || getIsListenParamsChanged(ipv6) )
 	{
-        LogModule( eLogListen, LOG_ERROR, "VxServerMgr::acceptConnection aborted accept2 thread 0x%x", VxGetCurrentThreadId() );
+        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::acceptConnection aborted accept2 thread 0x%x", VxGetCurrentThreadId() );
         return -4;
 	}
 
@@ -235,7 +235,7 @@ static int dumpSktStatsCnt = 0;
                 dumpSktStatsCnt++;
                 if( rc != EAGAIN )
                 {
-                    LogModule( eLogListen, LOG_DEBUG, "VxServerMgr::acceptConnection: listen port %d skt %d error %d thread 0x%x", m_u16ListenPort, oListenSkt, rc, VxGetCurrentThreadId() );
+                    LogModule( eLogAcceptConn, LOG_DEBUG, "VxServerMgr::acceptConnection: listen port %d skt %d error %d thread 0x%x", m_u16ListenPort, oListenSkt, rc, VxGetCurrentThreadId() );
                 }
 
                 if( dumpSktStatsCnt > 10 )
@@ -258,7 +258,7 @@ static int dumpSktStatsCnt = 0;
 		{
 			// not sure how it happens but seems to get in a loop where the clear doesn't clear and there is no error
 			// so sleep just in case so doesn't eat up all the CPU
-            LogModule( eLogListen, LOG_INFO, "VxServerMgr: no rc acceptConnection skt %d rc %d thread 0x%x", oListenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+            LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr: no rc acceptConnection skt %d rc %d thread 0x%x", oListenSkt, VxGetLastError(), VxGetCurrentThreadId() );
 			VxSleep( 500 );
 			return -1;
 		}
@@ -278,7 +278,7 @@ static int dumpSktStatsCnt = 0;
         }
  		else
 		{
-            LogModule( eLogListen, LOG_INFO, "VxServerMgr: other error acceptConnection skt %d rc %d thread 0x%x", oListenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+            LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr: other error acceptConnection skt %d rc %d thread 0x%x", oListenSkt, VxGetLastError(), VxGetCurrentThreadId() );
 			VxSleep( 200 );
 			return rc;
 		}
@@ -288,7 +288,7 @@ static int dumpSktStatsCnt = 0;
         acceptErrCnt = 0;
     }
 
-    LogModule( eLogListen, LOG_DEBUG, "VxServerMgr::acceptConnection: listen skt %d accepted skt %d thread 0x%x", oListenSkt, oAcceptSkt, VxGetCurrentThreadId() );
+    LogModule( eLogAcceptConn, LOG_DEBUG, "VxServerMgr::acceptConnection: listen skt %d accepted skt %d thread 0x%x", oListenSkt, oAcceptSkt, VxGetCurrentThreadId() );
 	if( poVxThread->isAborted() || VxIsAppShuttingDown() ) 
 	{
 		return -1;
@@ -342,7 +342,7 @@ static int dumpSktStatsCnt = 0;
 	sktBase->setTransmitCallback( m_pfnOurTransmit, this );
 	m_SktMgrMutex.unlock(__FILE__, __LINE__);
 
-    LogModule( eLogListen, LOG_INFO, "VxServerMgr: doing accept skt %d skt id %d thread 0x%x", sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
+    LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr: doing accept skt %d skt id %d thread 0x%x", sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
     RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *(( struct sockaddr * )&acceptAddr) );
 	if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == oListenSkt )
@@ -357,7 +357,7 @@ static int dumpSktStatsCnt = 0;
     {
         acceptErrCnt = 0; // reset counter
         m_LastListenActivityMs = GetGmtTimeMs();
-        LogModule( eLogListen, LOG_INFO, "VxServerMgr: accept success skt %d skt id %d thread 0x%x", sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
+        LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr: accept success skt %d skt id %d thread 0x%x", sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
     }
 
     doSktDeleteCleanup();
@@ -425,7 +425,7 @@ start_over:
 
 		if( shouldListenAbort( ipv6 ) )
 		{
-            LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: aborting1" );
+            LogModule( eLogAcceptConn, LOG_DEBUG, "listenForConnectionsToAccept: aborting1" );
 			break;
 		}
 
@@ -443,13 +443,13 @@ start_over:
                 if( listenErrCnt > 50 )
                 {
                     listenErrCnt = 0;
-                    LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: try again: listen ip %s port %d skt %d error %d thread 0x%x", m_LclIp.toStdString().c_str(), m_u16ListenPort, getListenSkt( ipv6 ), rc, VxGetCurrentThreadId());
+                    LogModule( eLogAcceptConn, LOG_DEBUG, "listenForConnectionsToAccept: try again: listen ip %s port %d skt %d error %d thread 0x%x", m_LclIp.toStdString().c_str(), m_u16ListenPort, getListenSkt( ipv6 ), rc, VxGetCurrentThreadId());
                 }
 
                 VxSleep( 200 );
                 if( shouldListenAbort( ipv6 ) )
                 {
-                    LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: aborting2" );
+                    LogModule( eLogAcceptConn, LOG_DEBUG, "listenForConnectionsToAccept: aborting2" );
                     break;
                 }
 
@@ -462,7 +462,7 @@ start_over:
                 VxSleep( 500 );
                 if( shouldListenAbort( ipv6 ) )
                 {
-                    LogModule( eLogListen, LOG_DEBUG, "listenForConnectionsToAccept: aborting3" );
+                    LogModule( eLogAcceptConn, LOG_DEBUG, "listenForConnectionsToAccept: aborting3" );
                     break;
                 }
 
@@ -633,7 +633,7 @@ void VxServerMgr::closeListenSocket( bool ipv6 )
     if( INVALID_SOCKET != sktToClose )
     {
         setListenSkt( ipv6, INVALID_SOCKET );
-        LogModule( eLogListen, LOG_INFO, "VxServerMgr:listenForConnectionsToAccept closing listen skt %d", sktToClose );
+        LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr:listenForConnectionsToAccept closing listen skt %d", sktToClose );
         
         // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
         // until the system has completely cleaned it up
@@ -805,7 +805,7 @@ void VxServerMgr::setIsListenParamsChanged( bool ipv6, bool isChanged )
         {
             VxSetSktBlocking( skt, false );
             
-            LogModule( eLogListen, LOG_INFO, "VxServerMgr:listenForConnectionsToAccept closing listen skt %d", skt );
+            LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr:listenForConnectionsToAccept closing listen skt %d", skt );
         
             // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
             // until the system has completely cleaned it up

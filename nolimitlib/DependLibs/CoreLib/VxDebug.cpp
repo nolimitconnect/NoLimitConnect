@@ -54,7 +54,7 @@ namespace
         eLogHackers
         // eLogMulticast
         // | eLogConnect
-        // | eLogListen
+        // | eLogAcceptConn
         // eLogSkt
         // | eLogPkt
         // | eLogNetworkState

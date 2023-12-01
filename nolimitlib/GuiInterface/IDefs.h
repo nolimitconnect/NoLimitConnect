@@ -1033,6 +1033,7 @@ enum ERelayErr
     eRelayErrSrcNotJoined,
     eRelayErrDestNotJoined,
     eRelayErrUserNotOnline,
+    eRelayErrInvalidPktAnn,
 
     eMaxRelayErr
 };
