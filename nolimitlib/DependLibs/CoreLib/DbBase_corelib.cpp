@@ -394,6 +394,12 @@ RCODE DbBase::dbOpen( void )
 		return -1;
 	}
 
+	if( m_Db )
+	{
+		LogMsg( LOG_ERROR, "ERROR Attempted DbBase::dbOpen file exists %s but database is already open", m_strDbFileName.c_str() );
+		vx_assert( false ); // throw assert but do not stop
+	}
+
 	m_Db = nullptr;
 	if( !VxFileUtil::fileExists( m_strDbFileName.c_str() ) )
 	{
