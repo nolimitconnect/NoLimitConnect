@@ -1653,34 +1653,7 @@ bool P2PEngine::fromGuiQueryIdentity( GroupieInfo& groupieInfo, VxNetIdent& retN
 		return true;
 	}
 
-	bool result{ false };    
-    // see if we have connection to host.. if so request relay connection which is
-    // really just send our PktAnnounce to other user using the host as a relay
-    GroupieId myGroupieId(groupieInfo.getGroupieId());
-    if( IsHostARelayForUsers(myGroupieId.getHostType()) && getMyOnlineId() != myGroupieId.getUserOnlineId())
-    {
-        myGroupieId.setUserOnlineId(getMyOnlineId());
-    }
-
-    std::shared_ptr<VxSktBase> sktBase = getConnectIdListMgr().findHostConnection( myGroupieId );
-	if( sktBase )
-	{
-		// if the url is valid try a direct connection first
-        if( !getRelayMgr().requestRelayConnection( sktBase, groupieInfo ) )
-        {
-            getConnectIdListMgr().removeConnection( sktBase->getSocketId(), myGroupieId );
-        }
-		else
-		{
-			result = true;
-		}
-	}
-    else
-    {
-        LogMsg( LOG_VERBOSE, "fromGuiQueryIdentity Lost Connection to host");
-    }
-
-	return result;
+	return false;
 }
 
 //============================================================================
@@ -1875,28 +1848,4 @@ void P2PEngine::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen
 		getPluginFileShareServer().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 		getAssetMgr().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 	}
-}
-
-//============================================================================
-void P2PEngine::fromGuiConnectToLastJoinedHost( std::string& lastConnectedHostInvite )
-{
-	/*
-	VxGUID sessionId;
-	sessionId.initializeWithNewVxGUID();
-	VxPtopUrl ptopUrl( lastConnectedHostInvite );
-	if( ptopUrl.isValid() && ptopUrl.isHostValid() )
-	{
-		std::string urlIpv4 = ptopUrl.toPtopUrl( false );
-		std::string urlIpv6 = ptopUrl.toPtopUrl( true );
-
-		switch( ptopUrl.getHostType() )
-		{
-		case eHostTypeGroup:
-			return m_PluginMgr.getPlugin( ePluginTypeClientGroup )->fromGuiJoinHost( eHostTypeGroup, sessionId, urlIpv4, urlIpv6 );
-
-		}
-	}
-	*/
-
-
 }

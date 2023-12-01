@@ -16,9 +16,14 @@
 #include "P2PEngine.h"
 
 #include <CoreLib/VxDebug.h>
+#include <PktLib/PktsRelay.h>
 
 //============================================================================
 void P2PEngine::onPktRelayUserDisconnect( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogMsg( LOG_VERBOSE, "P2PEngine::onPktRelayUserDisconnect not used" );
+	PktRelayUserDisconnect* pktRelayErr = (PktRelayUserDisconnect*)pktHdr;
+	LogModule( eLogRelay, LOG_VERBOSE, "P2PEngine::onPktRelayUserDisconnect err %s relaying pkt type %d to %s by host %s",
+			   DescribeRelayError( pktRelayErr->getRelayError() ), pktRelayErr->getPktType(), 
+			   pktRelayErr->getDestOnlineId().toOnlineIdString().c_str(), pktRelayErr->getHostOnlineId().toOnlineIdString().c_str() );
+	// TODO manage hosted users online state
 }

@@ -109,7 +109,6 @@ protected:
 	VxGUID                      m_NetworkHostOnlineId;
 
 	EHostType                   m_HostType{ eHostTypeUnknown };
-    std::string                 m_HostInviteUrl;
 };
 
 

@@ -33,13 +33,16 @@
 //============================================================================
 void P2PEngine::handlePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	// relay packets will call handleIncommingRelayPkt so the check here should not be needed
-	//if( getRelayMgr().handleRelayPkt( sktBase, pktHdr ) )
-	//{
-	//	return;
-	//}
-
-	PktHandlerBase::handlePkt( sktBase, pktHdr );
+	// relay packets will have a destination id other than ourself
+	
+	if( pktHdr->getDestOnlineId() != getMyOnlineId() )
+	{
+		getRelayMgr().handleRelayPkt( sktBase, pktHdr );
+	}
+	else
+	{
+		PktHandlerBase::handlePkt( sktBase, pktHdr );
+	}
 }
 
 //============================================================================

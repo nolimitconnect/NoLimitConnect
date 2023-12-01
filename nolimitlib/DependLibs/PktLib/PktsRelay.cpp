@@ -15,11 +15,12 @@
 
 #include "PktsRelay.h"
 
-#include <CoreLib/IsBigEndianCpu.h>
+#include <CoreLib/VxDebug.h>
 
 //============================================================================
 PktRelayUserDisconnect::PktRelayUserDisconnect()
 {
 	setPktLength( sizeof(PktRelayUserDisconnect) );		
 	setPktType( PKT_TYPE_RELAY_USER_DISCONNECT ); 
+	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 };

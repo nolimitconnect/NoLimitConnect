@@ -148,6 +148,12 @@ bool VxIsIpv6Address( std::string& ipAddr )
 }
 
 //============================================================================
+bool VxIsIpv4Address( std::string& ipAddr )
+{
+	return VxIsIpValid( ipAddr ) && !VxIsIpv6Address( ipAddr );
+}
+
+//============================================================================
 void VxIpInNetOrderToString( uint32_t u32IpAddr, std::string& retIp )
 {
 	char as8Buf[ 32 ];

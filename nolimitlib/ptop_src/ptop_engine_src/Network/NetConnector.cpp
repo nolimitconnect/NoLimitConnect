@@ -735,7 +735,7 @@ void  NetConnector::closeConnection( ESktCloseReason closeReason, VxGUID& online
 			PktRelayUserDisconnect pktRelayDisconnect;
 			pktRelayDisconnect.setSrcOnlineId( m_Engine.getMyOnlineId() );
 			pktRelayDisconnect.setHostOnlineId( m_Engine.getMyOnlineId() );
-			pktRelayDisconnect.setUserOnlineId( onlineId );
+			pktRelayDisconnect.setDestUserOnlineId( onlineId );
 			skt->txPacket( onlineId, &pktRelayDisconnect );
 		}
 		else 

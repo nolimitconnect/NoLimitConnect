@@ -29,6 +29,7 @@
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
+#include <CoreLib/VxPtopUrl.h>
 
 #include <QUuid>
 
@@ -515,7 +516,36 @@ void AppCommon::checkReadyToConnectToLastConnectedHost( void )
         std::string lastConnectedHost = getAppSettings().getLastHostJoined();
         if( !lastConnectedHost.empty() )
         {
-            getEngine().fromGuiConnectToLastJoinedHost( lastConnectedHost );
+            VxPtopUrl ptopUrl( lastConnectedHost );
+            EHostType hostType = ptopUrl.getHostType();
+            if( IsHostARelayForUsers( hostType ) )
+            {
+                if( ptopUrl.isValid() )
+                {
+                    std::string ptopUrlIpv4 = ptopUrl.getHostUrl( false );
+                    std::string ptopUrlIpv6 = ptopUrl.getHostUrl( true );
+
+                    VxGUID sessionId;
+                    sessionId.initializeWithNewVxGUID();
+
+                    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", lastConnectedHost.c_str() );
+
+                    getFromGuiInterface().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+
+                }
+                else
+                {
+                    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid ptop url %s", lastConnectedHost.c_str() );
+                }
+            }
+            else
+            {
+                 LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", lastConnectedHost.c_str() );
+            }
+        }
+        else
+        {
+            LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost empty url" );
         }
     }
 }

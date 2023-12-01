@@ -296,8 +296,12 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 {
 	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
 	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
-	m_HostInviteUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
-	LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", m_HostInviteUrl.c_str() );
+	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
+	LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", joinUrl.c_str() );
+	if( !joinUrl.empty() )
+	{
+		m_MyApp.getUserJoinMgr().setLastJoinAttempted( joinUrl );
+	}
 
 	m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 }
@@ -386,12 +390,6 @@ void AppletJoinBase::callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHost
 {
 	LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppletJoinBase::callbackGuiHostJoinIsGranted %s %s", guiHostJoin->getOnlineName().c_str(), m_MyApp.describeGroupieId( groupieId ).c_str() );
 	ui.m_GuiHostedListWidget->callbackGuiHostJoinIsGranted( groupieId, guiHostJoin );
-	VxPtopUrl lastJoinHostRequest( m_HostInviteUrl );
-	if( lastJoinHostRequest.isHostValid() && lastJoinHostRequest.isValid() && lastJoinHostRequest.getOnlineId() == groupieId.getHostOnlineId() )
-	{
-		m_MyApp.getAppSettings().setLastHostJoined( m_HostInviteUrl );
-		m_HostInviteUrl.clear();
-	}
 }
 
 //============================================================================

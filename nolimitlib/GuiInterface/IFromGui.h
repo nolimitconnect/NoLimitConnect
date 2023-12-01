@@ -413,7 +413,5 @@ public:
 
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) = 0;
 	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) = 0;
-
-	virtual void				fromGuiConnectToLastJoinedHost( std::string& lastConnectedHostInvite ) = 0;
 };
 

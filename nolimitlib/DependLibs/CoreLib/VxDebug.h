@@ -54,8 +54,8 @@ enum ELogModule
 
 	eLogMulticast 		= 0x0010, // 5
 	eLogConnect			= 0x0020, // 6 
-	eLogListen			= 0x0040, // 7
-	eLogAcceptConn      = 0x0080, // 8
+	eLogAcceptConn		= 0x0040, // 7
+	eLogRelay           = 0x0080, // 8
 
 	eLogSkt				= 0x0100, // 9
 	eLogSktData         = 0x0200, // 10

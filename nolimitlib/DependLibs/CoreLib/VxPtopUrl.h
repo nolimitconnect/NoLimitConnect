@@ -28,11 +28,17 @@ public:
     bool                        operator == ( const VxPtopUrl& rhs ) const;
 
 	bool						isValid( void );
-	bool						isHostValid( void );
+	bool						isHostIpValid( void );
+	bool						isHostTypeValid( void )						{ return m_HostType != eHostTypeUnknown; }
+
+	bool						isUrlIpv4( void );
+	bool						isUrlIpv6( void );
+	std::string					getHostUrl( bool ipv6 );
 
 	void						setUrl( std::string& url );
 	void						setUrl( const char* url );
 	std::string&				getUrl( void )							    { return m_Url; }
+
 
 	std::string&				getProtocol( void )							{ return m_Protocol; }
     std::string&                getHost( void )								{ return m_Host; }

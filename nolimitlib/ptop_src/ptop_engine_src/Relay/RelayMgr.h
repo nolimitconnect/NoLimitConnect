@@ -23,7 +23,7 @@ class PktAnnounce;
 class PluginBaseRelay;
 class VxSktBase;
 class VxPktHdr;
-class VxNetIdent;
+class BigListInfo;
 class VxGUID;
 
 class RelayMgr
@@ -34,14 +34,12 @@ public:
 
 	bool						handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
-    bool						requestRelayConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieInfo& groupieInfo );
-	bool                        sendRequestedReplyPktAnnIfNeeded( PktAnnounce* hisPktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	bool						onRelayPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, BigListInfo* srcBigInfo, BigListInfo* destBigInfo );
 
-	virtual void				onRelayPktAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 	bool						isJoinedToRelayHost( VxGUID& onlineId );
-	bool						sendRelayError( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, ERelayErr relayErr );
+
+	bool						sendRelayError( VxPktHdr* pktHdr, VxGUID& srcOnlineId, VxGUID& destOnlineId, std::shared_ptr<VxSktBase>& sktBase, ERelayErr relayErr );
 
 	//=== vars ====//
 	P2PEngine&					m_Engine;
-
 };

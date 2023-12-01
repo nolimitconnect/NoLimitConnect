@@ -49,8 +49,10 @@ class ISktStatCallbackInterface;
 RCODE							VxSocketsStartup( void );
 
 bool                            VxIsPortValid( uint16_t port );
+
 bool                            VxIsIpValid( std::string& ipAddr );
 bool                            VxIsIpv6Address( std::string& ipAddr );
+bool							VxIsIpv4Address( std::string& ipAddr );
 
 std::string						VxGetRemoteIpAddress( SOCKET skt );
 std::string						VxGetRmtHostName( SOCKET& skt );
