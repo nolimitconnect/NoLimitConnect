@@ -139,7 +139,8 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;TARGET_OS_WINDOWS;WIN64;LIB_STATIC;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -156,7 +157,8 @@
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <StringPooling>false</StringPooling>
+      <StringPooling>
+      </StringPooling>
       <ControlFlowGuard>false</ControlFlowGuard>
       <FloatingPointExceptions>false</FloatingPointExceptions>
       <CompileAsManaged>false</CompileAsManaged>
@@ -225,31 +227,13 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\arpa\inet.h" />
-    <ClInclude Include="..\..\..\..\asm\types.h" />
     <ClInclude Include="..\..\..\..\byteswap.h" />
-    <ClInclude Include="..\..\..\..\dirent.h" />
     <ClInclude Include="..\..\..\..\dlfcn.h" />
     <ClInclude Include="..\..\..\..\langinfo.h" />
     <ClInclude Include="..\..\..\..\linux\ioctl.h" />
     <ClInclude Include="..\..\..\..\linux\param.h" />
-    <ClInclude Include="..\..\..\..\netdb.h" />
     <ClInclude Include="..\..\..\..\netinet\in.h" />
     <ClInclude Include="..\..\..\..\netinet\tcp.h" />
-    <ClInclude Include="..\..\..\..\strings.h" />
-    <ClInclude Include="..\..\..\..\syslog.h" />
-    <ClInclude Include="..\..\..\..\sys\ioctl.h" />
-    <ClInclude Include="..\..\..\..\sys\mman.h" />
-    <ClInclude Include="..\..\..\..\sys\param.h" />
-    <ClInclude Include="..\..\..\..\sys\select.h" />
-    <ClInclude Include="..\..\..\..\sys\signal.h" />
-    <ClInclude Include="..\..\..\..\sys\socket.h" />
-    <ClInclude Include="..\..\..\..\sys\syslog.h" />
-    <ClInclude Include="..\..\..\..\sys\time.h" />
-    <ClInclude Include="..\..\..\..\sys\times.h" />
-    <ClInclude Include="..\..\..\..\sys\un.h" />
-    <ClInclude Include="..\..\..\..\sys\utsname.h" />
-    <ClInclude Include="..\..\..\..\unistd.h" />
     <ClInclude Include="..\..\AppDefines.h" />
     <ClInclude Include="..\..\AppErr.h" />
     <ClInclude Include="..\..\AssetDefs.h" />

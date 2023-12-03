@@ -1,9 +1,9 @@
-APP_NAME GoTvViewer
-APP_PACKAGE com.nolimitconnect.gotvviewer
+APP_NAME NoLimitConnect
+APP_PACKAGE com.nolimitconnect.com
 COMPANY_NAME NoLimitConnect
-WEBSITE http://www.nolimitconnect.net/
-APP_EMAIL brett.j@myself.com
-APP_STICKYURL http://www.nolimitconnect.net/
+WEBSITE http://nolimitconnect.com/
+APP_EMAIL bjones.engineer@gmail.com
+APP_STICKYURL http://nolimitconnect.com/
 VERSION_MAJOR 1
 VERSION_MINOR 7
 VERSION_TAG 00

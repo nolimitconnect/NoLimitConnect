@@ -1,14 +1,9 @@
 #pragma once
 //============================================================================
 // Copyright (C) 2009 Brett R. Jones 
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software 
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license 
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -126,50 +121,50 @@ public:
     void                        setGuiCpuTimeEnable( bool enable ) { m_GuiCpuTimeEnable = enable; }
     bool                        getGuiCpuTimeEnable( void ) { return m_GuiCpuTimeEnable; }
 
-    AccountMgr& getAccountMgr( void ) { return m_AccountMgr; }
-    VxAppDisplay& getAppDisplay( void ) { return m_AppDisplay; }
-    AppGlobals& getAppGlobals( void ) { return m_AppGlobals; }
-    QFrame* getAppletFrame( EApplet applet );
-    AppletMgr& getAppletMgr( void ) { return m_AppletMgr; }
-    AppSettings& getAppSettings( void ) { return m_AppSettings; }
-    QString& getAppShortName( void ) { return m_AppShortName; }
-    VxAppStyle& getAppStyle( void ) { return m_AppStyle; }
-    QString& getAppTitle( void ) { return m_AppTitle; }
-    VxAppTheme& getAppTheme( void ) { return m_AppTheme; }
-    CamLogic& getCamLogic( void ) { return m_CamLogic; }
-    P2PEngine& getEngine( void );
-    IFromGui& getFromGuiInterface( void );
-    INlc& getNlc( void ) { return m_Nlc; }
-    HomeWindow& getHomePage( void ) { return m_HomePage; }
+    AccountMgr&                 getAccountMgr( void ) { return m_AccountMgr; }
+    VxAppDisplay&               getAppDisplay( void ) { return m_AppDisplay; }
+    AppGlobals&                 getAppGlobals( void ) { return m_AppGlobals; }
+    QFrame*                     getAppletFrame( EApplet applet );
+    AppletMgr&                  getAppletMgr( void ) { return m_AppletMgr; }
+    AppSettings&                getAppSettings( void ) { return m_AppSettings; }
+    QString&                    getAppShortName( void ) { return m_AppShortName; }
+    VxAppStyle&                 getAppStyle( void ) { return m_AppStyle; }
+    QString&                    getAppTitle( void ) { return m_AppTitle; }
+    VxAppTheme&                 getAppTheme( void ) { return m_AppTheme; }
+    CamLogic&                   getCamLogic( void ) { return m_CamLogic; }
+    P2PEngine&                  getEngine( void );
+    IFromGui&                   getFromGuiInterface( void );
+    INlc&                       getNlc( void ) { return m_Nlc; }
+    HomeWindow&                 getHomePage( void ) { return m_HomePage; }
     bool						getIsVidCaptureEnabled( void ) { return m_VidCaptureEnabled; }
     bool						getIsMicrophoneHardwareEnabled( void ) { return m_MicrophoneHardwareEnabled; }
     bool						getIsSpeakerHardwareEnabled( void ) { return m_SpeakerHardwareEnabled; }
-    MyIcons& getMyIcons( void ) { return m_MyIcons; }
-    VxNetIdent* getMyNetIdent( void );
-    VxGUID& getMyOnlineId( void );
+    MyIcons&                    getMyIcons( void ) { return m_MyIcons; }
+    VxNetIdent*                 getMyNetIdent( void );
+    VxGUID&                     getMyOnlineId( void );
     ENetworkStateType			getNetworkState( void ) { return m_LastNetworkState; }
-    GuiOfferMgr& getOfferMgr( void ) { return m_OfferMgr; }
+    GuiOfferMgr&                getOfferMgr( void ) { return m_OfferMgr; }
 
-    RenderGlWidget* getRenderConsumer( void );
-    SoundMgr& getSoundMgr( void ) { return m_SoundMgr; }
-    VxTilePositioner& getTilePositioner( void ) { return m_TilePositioner; }
-    GuiConnectIdListMgr& getConnectIdListMgr( void ) { return m_ConnectIdListMgr; }
-    GuiFavoriteMgr& getFavoriteMgr( void ) { return m_FavoriteMgr; }
-    GuiFileXferMgr& getFileXferMgr( void ) { return m_FileXferMgr; }
-    GuiGroupieListMgr& getGroupieListMgr( void ) { return m_GroupieListMgr; }
-    GuiHostedListMgr& getHostedListMgr( void ) { return m_HostedListMgr; }
-    GuiHostJoinMgr& getHostJoinMgr( void ) { return m_HostJoinMgr; }
-    GuiUserJoinMgr& getUserJoinMgr( void ) { return m_UserJoinMgr; }
-    GuiWebPageMgr& getWebPageMgr( void ) { return m_WebPageMgr; }
-    GuiUserMgr& getUserMgr( void ) { return m_UserMgr; }
-    GuiThumbMgr& getThumbMgr( void ) { return m_ThumbMgr; }
-    GuiMembershipAvailableMgr& getMembershipAvailableMgr( void ) { return m_MembershipAvailableMgr; }
-    GuiPlayerMgr& getPlayerMgr( void ) { return m_PlayerMgr; }
-    GuiPluginMgr& getPluginMgr( void ) { return m_PluginMgr; }
+    RenderGlWidget*             getRenderConsumer( void );
+    SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
+    VxTilePositioner&           getTilePositioner( void ) { return m_TilePositioner; }
+    GuiConnectIdListMgr&        getConnectIdListMgr( void ) { return m_ConnectIdListMgr; }
+    GuiFavoriteMgr&             getFavoriteMgr( void ) { return m_FavoriteMgr; }
+    GuiFileXferMgr&             getFileXferMgr( void ) { return m_FileXferMgr; }
+    GuiGroupieListMgr&          getGroupieListMgr( void ) { return m_GroupieListMgr; }
+    GuiHostedListMgr&           getHostedListMgr( void ) { return m_HostedListMgr; }
+    GuiHostJoinMgr&             getHostJoinMgr( void ) { return m_HostJoinMgr; }
+    GuiUserJoinMgr&             getUserJoinMgr( void ) { return m_UserJoinMgr; }
+    GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
+    GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
+    GuiThumbMgr&                getThumbMgr( void ) { return m_ThumbMgr; }
+    GuiMembershipAvailableMgr&  getMembershipAvailableMgr( void ) { return m_MembershipAvailableMgr; }
+    GuiPlayerMgr&               getPlayerMgr( void ) { return m_PlayerMgr; }
+    GuiPluginMgr&               getPluginMgr( void ) { return m_PluginMgr; }
 
-    MediaPlayerNlc& getPlayerNlc( void );
+    MediaPlayerNlc&             getPlayerNlc( void );
 
-    QApplication& getQApplication( void ) { return m_QApp; }
+    QApplication&               getQApplication( void ) { return m_QApp; }
 
     void						setCamCaptureRotation( uint32_t rot );
     int							getCamCaptureRotation( void ) { return m_CamCaptureRotation; }
@@ -182,11 +177,11 @@ public:
 
     // permanent applets for lifetime of application
     void						setAppletMultiMessenger( AppletMultiMessenger* applet ) { m_AppletMultiMessenger = applet; }
-    AppletMultiMessenger* getAppletMultiMessenger( void ) { return m_AppletMultiMessenger; };
+    AppletMultiMessenger*       getAppletMultiMessenger( void ) { return m_AppletMultiMessenger; };
     void						setAppletDownloads( AppletDownloads* applet ) { m_AppletDownloads = applet; }
-    AppletDownloads* getAppletDownloads( void ) { return m_AppletDownloads; };
+    AppletDownloads*            getAppletDownloads( void ) { return m_AppletDownloads; };
     void						setAppletUploads( AppletUploads* applet ) { m_AppletUploads = applet; }
-    AppletUploads* getAppletUploads( void ) { return m_AppletUploads; };
+    AppletUploads*              getAppletUploads( void ) { return m_AppletUploads; };
 
     bool                        hasExistingAccount( void );
 
@@ -219,8 +214,8 @@ public:
     void						loadAccountSpecificSettings( const char* userName );
     void                        copyAssetsToFoldersIfRequired( void );
 
-    ActivityBase* launchApplet( EApplet applet, QWidget* parent );
-    ActivityBase* launchApplet( EApplet applet, QWidget* parent, QString launchParam, VxGUID& assetId );
+    ActivityBase*               launchApplet( EApplet applet, QWidget* parent );
+    ActivityBase*               launchApplet( EApplet applet, QWidget* parent, QString launchParam, VxGUID& assetId );
 
     bool						launchOfferSendApplet( EPluginType pluginType, GuiUser* guiUser, QWidget* parent = nullptr );
     bool                        launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser, GuiOfferSession* existingOffer, QWidget* parent = nullptr );

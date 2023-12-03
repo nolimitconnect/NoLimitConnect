@@ -113,15 +113,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PktLib", "..\..\..\nolimitl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppConfig", "AppConfig", "{22F1DA5B-FD83-4D3B-9E81-802F73F85AB6}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\nolimitlib\AppCommonConfig.h = ..\..\..\nolimitlib\AppCommonConfig.h
-		..\..\..\nolimitlib\AppCompilerConfig.h = ..\..\..\nolimitlib\AppCompilerConfig.h
-		..\..\..\nolimitlib\AppCpuArchDefines.h = ..\..\..\nolimitlib\AppCpuArchDefines.h
-		..\..\..\nolimitlib\AppDependLibrariesConfig.h = ..\..\..\nolimitlib\AppDependLibrariesConfig.h
-		..\..\..\nolimitlib\AppTargetOsConfig.h = ..\..\..\nolimitlib\AppTargetOsConfig.h
 		..\..\..\nolimitlib\config_appcorelibs.h = ..\..\..\nolimitlib\config_appcorelibs.h
-		..\..\..\nolimitlib\config_apps.h = ..\..\..\nolimitlib\config_apps.h
 		..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg.h
-		..\..\..\nolimitlib\kodi_src\xbmc\xbmc\config_kodi.h = ..\..\..\nolimitlib\kodi_src\xbmc\xbmc\config_kodi.h
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "..\..\..\nolimitlib\DependLibs\libpng\build\VS2022\libpng.vcxproj", "{1E3986AE-8AB8-4D85-9BA7-E5582D8DA983}"
@@ -423,14 +416,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdnssd", "..\..\..\nolimi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FfmpegConfig", "FfmpegConfig", "{AE161606-7A4E-47AA-AF72-75B8C7D2175D}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\nolimitlib\DependLibs\ffmpeg\common_ffmpeg.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\common_ffmpeg.h
 		..\..\..\nolimitlib\DependLibs\ffmpeg\config_components.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\config_components.h
 		..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg.h
 		..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg_linux.asm = ..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg_linux.asm
 		..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg_w64.asm = ..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg_w64.asm
-		..\..\..\nolimitlib\DependLibs\ffmpeg\ffmpeg.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\ffmpeg.h
-		..\..\..\nolimitlib\DependLibs\ffmpeg\ffserver_config.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\ffserver_config.h
-		..\..\..\nolimitlib\DependLibs\ffmpeg\stdatomic.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\stdatomic.h
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FfmpegSwScaleLib", "..\..\..\nolimitlib\DependLibs\ffmpeg\libswscale\build\VS2022\FfmpegSwScaleLib.vcxproj", "{5FBA4FAC-C77D-4140-9FFF-BCBC3BC8429C}"
@@ -1162,7 +1151,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 		Qt5Version = 6.3.0_msvc2019_64
+		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 	EndGlobalSection
 EndGlobal

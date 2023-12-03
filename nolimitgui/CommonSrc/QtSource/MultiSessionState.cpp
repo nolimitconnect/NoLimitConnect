@@ -1,13 +1,8 @@
 //============================================================================
 // Copyright (C) 2015 Brett R. Jones
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -349,7 +344,7 @@ void MultiSessionState::setSessionState( EMSessionState sessionState )
 	case eMSessionStateWaitingClickSessionButton :
 		m_SessionState = sessionState;
 		m_SessionOfferButton->setEnabled( true );
-		m_SessionOfferButton->setNotifyOnlineEnabled( true );
+		m_SessionOfferButton->setNotifyType( eNotifyOnline );
 		switch( m_eMSessionType )
 		{
 		case eMSessionTypePhone:
@@ -369,7 +364,7 @@ void MultiSessionState::setSessionState( EMSessionState sessionState )
 
 	case eMSessionStateWaitingUserAcceptReject:
 		m_SessionState = sessionState;
-		m_SessionOfferButton->setNotifyOnlineEnabled( false );
+		m_SessionOfferButton->setNotifyType( eNotifyOffline );
 		m_SessionOfferButton->setEnabled( true );
 		switch( m_eMSessionType )
 		{
@@ -440,7 +435,7 @@ void MultiSessionState::setSessionState( EMSessionState sessionState )
 		resetGui();
 		m_SessionState = eMSessionStateIdle;
 		setButtonImage( m_SessionOfferButton, eImageTypeNormal );
-		m_SessionOfferButton->setNotifyOnlineEnabled( false );
+		m_SessionOfferButton->setNotifyType( eNotifyOffline );
 		m_SessionOfferButton->setEnabled( true );
 		switch( m_eMSessionType )
 		{
@@ -611,7 +606,7 @@ void MultiSessionState::resetGui()
 	m_HangupLayout->setVisible( false );
 	m_OffersLayout->setVisible( true );
 	m_ResponseLayout->setVisible( false );
-	m_SessionOfferButton->setNotifyOnlineEnabled( false );
+	m_SessionOfferButton->setNotifyType( eNotifyOffline );
 	m_VidCamView->setVisible( false );
 	m_TodGameLogic->setVisible( false );
 	if( canSend() )

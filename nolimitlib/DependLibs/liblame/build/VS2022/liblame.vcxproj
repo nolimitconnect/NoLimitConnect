@@ -276,6 +276,7 @@
       <OpenMPSupport>false</OpenMPSupport>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <MinimalRebuild />
     </ClCompile>
     <ResourceCompile>
       <Culture>0x0409</Culture>

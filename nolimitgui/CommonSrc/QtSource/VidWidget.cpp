@@ -1,13 +1,8 @@
 //============================================================================
 // Copyright (C) 2013 Brett R. Jones
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -434,9 +429,9 @@ void VidWidget::hideEvent( QHideEvent* ev )
 //============================================================================
 void VidWidget::slotIconToggleTimeout( void )
 {
-	ui.m_MotionAlarmButton->setNotifyOnlineEnabled( m_MotionAlarmDetected  );
-	ui.m_MotionRecordButton->setNotifyOnlineEnabled( m_MotionRecordDetected );
-	ui.m_NormalRecordButton->setNotifyOnlineEnabled( m_InNormalRecord );
+	ui.m_MotionAlarmButton->setNotifyType( m_MotionAlarmDetected ? eNotifyOnline : eNotifyOffline  );
+	ui.m_MotionRecordButton->setNotifyType( m_MotionRecordDetected ? eNotifyOnline : eNotifyOffline );
+	ui.m_NormalRecordButton->setNotifyType( m_InNormalRecord ? eNotifyOnline : eNotifyOffline );
 }
 
 //============================================================================
@@ -444,7 +439,7 @@ void VidWidget::slotMotionAlarmTimeout( void )
 {
 	m_MotionAlarmExpireTimer->stop();
 	m_MotionAlarmDetected = false;
-	ui.m_MotionAlarmButton->setNotifyOnlineEnabled( false );
+	ui.m_MotionAlarmButton->setNotifyType( eNotifyOffline );
 	ui.m_MotionAlarmButton->setIcon( m_MotionAlarmOn ? eMyIconMotionAlarmRed : eMyIconMotionAlarmWhite );
 
 	updateMotionBarColor();
@@ -455,7 +450,7 @@ void VidWidget::slotMotionRecordTimeout( void )
 {
 	m_MotionRecordExpireTimer->stop();
 	m_MotionRecordDetected = false;
-	ui.m_MotionRecordButton->setNotifyOnlineEnabled( false );
+	ui.m_MotionRecordButton->setNotifyType( eNotifyOffline );
 	if( m_MotionRecordOn )
 	{
 		m_Engine.fromGuiVideoRecord( eVideoRecordStatePauseRecording, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
@@ -481,7 +476,7 @@ void VidWidget::updateVidFeedMotion( int motion0To100000 )
 				m_Engine.fromGuiVideoRecord( eVideoRecordStateResumeRecording, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
 				m_MyApp.toGuiUserMessage( "Video Motion Record Resumed" );
 				updateMotionBarColor();
-				ui.m_MotionRecordButton->setNotifyOnlineEnabled( true );
+				ui.m_MotionRecordButton->setNotifyType( eNotifyOnline );
 			}
 		}
 
@@ -493,7 +488,7 @@ void VidWidget::updateVidFeedMotion( int motion0To100000 )
 				m_MotionAlarmDetected = true;
 				playMotionAlarm();
 				updateMotionBarColor();
-				ui.m_MotionAlarmButton->setNotifyOnlineEnabled( true );
+				ui.m_MotionAlarmButton->setNotifyType( eNotifyOnline );
 			}
 		}
 	}
@@ -575,7 +570,7 @@ void VidWidget::slotMotionAlarmButtonClicked( void )
 	}
 
 	m_MotionAlarmOn = !m_MotionAlarmOn;
-	ui.m_MotionAlarmButton->setNotifyOnlineEnabled( false );
+	ui.m_MotionAlarmButton->setNotifyType( eNotifyOffline );
 	ui.m_MotionAlarmButton->setIcon( m_MotionAlarmOn ? eMyIconMotionAlarmRed : eMyIconMotionAlarmWhite );
 	if( m_MotionAlarmOn )
 	{
@@ -599,7 +594,7 @@ void VidWidget::slotRecMotionButtonClicked( void )
 	{
 		if( !m_RecFilePath.isEmpty() )
 		{
-			ui.m_MotionRecordButton->setNotifyOnlineEnabled( false );
+			ui.m_MotionRecordButton->setNotifyType( eNotifyOffline );
 
 			if( m_MotionRecordOn )
 			{
@@ -631,7 +626,7 @@ void VidWidget::slotRecMotionButtonClicked( void )
 				m_RecFileName = m_RecFilePath + m_RecFriendName + VxTimeUtil::getFileNameCompatibleDateAndTime( GetLocalTimeMs() ).c_str();
 				m_RecFileName += ".avi";
 				m_Engine.fromGuiVideoRecord( eVideoRecordStateStartRecordingInPausedState, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
-				ui.m_MotionRecordButton->setNotifyOnlineEnabled( true );
+				ui.m_MotionRecordButton->setNotifyType( eNotifyOnline );
 				m_MyApp.toGuiUserMessage( "Video Motion Record Started" );
 			}
 		}
@@ -667,7 +662,7 @@ void VidWidget::slotRecNormalButtonClicked( void )
 			if( m_InNormalRecord )
 			{
 				ui.m_NormalRecordButton->setIcon( eMyIconRecordMovieNormal );
-				ui.m_NormalRecordButton->setNotifyOnlineEnabled( false );
+				ui.m_NormalRecordButton->setNotifyType( eNotifyOffline );
 				m_InNormalRecord = false;
 
 				m_Engine.fromGuiVideoRecord( eVideoRecordStateStopRecording, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
@@ -697,7 +692,7 @@ void VidWidget::slotRecNormalButtonClicked( void )
 				m_RecFileName = m_RecFilePath + m_RecFriendName + VxTimeUtil::getFileNameCompatibleDateAndTime( GetLocalTimeMs() ).c_str();
 				m_RecFileName += ".avi";
 				m_Engine.fromGuiVideoRecord( eVideoRecordStateStartRecording, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
-				ui.m_NormalRecordButton->setNotifyOnlineEnabled( true );
+				ui.m_NormalRecordButton->setNotifyType( eNotifyOnline );
 				m_MyApp.toGuiUserMessage( "Starting Video Record" );
 			}
 		}

@@ -1,12 +1,8 @@
 //============================================================================
 // Copyright (C) 2022 Brett R. Jones
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -76,31 +72,31 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 //============================================================================
 void GuiUserMultiListWidget::setUserViewType( EUserViewType viewType )
 {
-    ui.m_FriendsView->setNotifyOnlineEnabled( false );
-    ui.m_GroupHosts->setNotifyOnlineEnabled( false );
-    ui.m_ChatRoomHosts->setNotifyOnlineEnabled( false );
-    ui.m_RandomConnectHosts->setNotifyOnlineEnabled( false );
+    ui.m_FriendsView->setNotifyType( eNotifyOffline );
+    ui.m_GroupHosts->setNotifyType( eNotifyOffline );
+    ui.m_ChatRoomHosts->setNotifyType( eNotifyOffline );
+    ui.m_RandomConnectHosts->setNotifyType( eNotifyOffline );
 
     switch( viewType )
     {
     case eUserViewTypeFriends:
         ui.m_FriendsView->setVisible( true );
-        ui.m_FriendsView->setNotifyOnlineEnabled( true );
+        ui.m_FriendsView->setNotifyType( eNotifyOnline );
         break;
 
     case eUserViewTypeGroup:
         ui.m_GroupHosts->setVisible( true );
-        ui.m_GroupHosts->setNotifyOnlineEnabled( true );
+        ui.m_GroupHosts->setNotifyType( eNotifyOnline );
         break;
 
     case eUserViewTypeChatRoom:
         ui.m_ChatRoomHosts->setVisible( true );
-        ui.m_ChatRoomHosts->setNotifyOnlineEnabled( true );
+        ui.m_ChatRoomHosts->setNotifyType( eNotifyOnline );
         break;
 
     case eUserViewTypeRandomConnect:
         ui.m_RandomConnectHosts->setVisible( true );
-        ui.m_RandomConnectHosts->setNotifyOnlineEnabled( true );
+        ui.m_RandomConnectHosts->setNotifyType( eNotifyOnline );
         break;
 
     default:

@@ -207,7 +207,6 @@
     <ClInclude Include="..\..\NetHostSetting.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VxHackRecord.h" />
     <ClInclude Include="..\..\VxHackerMgr.h">
       <Filter>Source Files</Filter>
     </ClInclude>

@@ -8,20 +8,17 @@
 *  in the file PATENTS.  All contributing project authors may
 *  be found in the AUTHORS file in the root of the source tree.
 */
+
 //============================================================================
 // Copyright (C) 2016 Brett R. Jones
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
-// https://www.nolimitconnect.com
+// https://nolimitconnect.com
 //============================================================================
+
 #include "EchoCancel.h"
 #include "EchoUtil.h"
 

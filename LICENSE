@@ -1,14 +1,20 @@
 
 Mostly GPL and MIT type Licences. All source code licences are open source licenses
+Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+Code copyrighted by Brett R. Jones is clearly copyrighted at the top of each file 
+
+See COPYING and LEGAL for more information
 
 Qt is free for open source projects can be used for Linux/Android/Windows developent 
-but requires registraion and license aggreement. 
-Qt is used for GUI on all operatiing system and is required to build No Limit Connect
-Qt is available at https://www.qt.io/download (The open source use version is at bottom of web page)
+but requires registraion and license aggreement to use the online installer. 
+Qt is used for GUI on all operatiing system and is required to build the GUI of No Limit Connect
+Qt is available at https://www.qt.io/download (The open source use version may be hard to locate)
 
-Visual Studio 2019 Community Edition can be used for No Limit Connect windows developement
+Visual Studio 2022 Community Edition can be used for No Limit Connect windows developement
 and is free but requires registraion and license aggreement.  
 
 
 All other tools used to build No Limit Connect DO NOT require registraion.
+
+
 

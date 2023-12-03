@@ -1,5 +1,15 @@
 
 #pragma once
+//============================================================================
+// Copyright (C) 2023 Brett R. Jones
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
 
 #include <QtCore/qglobal.h>
 #include <QDebug>
@@ -58,7 +68,7 @@ namespace AudioUtils
 
 
     // apply volume to pcm audio
-    void                        applyPcmVolume( float volume, uchar* data, int datalen );
+    void                        applyPcmVolume( float volume, uint8_t* data, int datalen );
     // get peak amplitude of pcm audio (returns 0-100)
     int                         peakPcmAmplitude0to100( int16_t* srcSamples, int sampleCnt );
 

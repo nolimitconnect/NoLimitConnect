@@ -1,3 +1,13 @@
+//============================================================================
+// Copyright (C) 2013 Brett R. Jones 
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license 
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
 #include "IDefs.h"
 #include <CoreLib/VxDebug.h>
 
@@ -1070,7 +1080,7 @@ const char* DescribeRandomConnectStatus( enum ERandomConnectStatus eRandomConnec
     return RandomConnectStatusEnumStrings[ eRandomConnectStatus ];
 }
 
-//! Net Command type as text
+//============================================================================
 const char* DescribeNetCmdType( enum ENetCmdType netCmdType )
 {
     if( netCmdType < 0 || eMaxNetCmdType <= netCmdType )
@@ -1081,7 +1091,7 @@ const char* DescribeNetCmdType( enum ENetCmdType netCmdType )
     return NetCmdTypeEnumStrings[ netCmdType ]; 
 }
 
-//! Net Command Error as text
+//============================================================================
 const char* DescribeNetCmdError( enum ENetCmdError netCmdError )
 {
     if(  netCmdError < 0 || eMaxNetCmdError <= netCmdError )
@@ -1090,6 +1100,30 @@ const char* DescribeNetCmdError( enum ENetCmdError netCmdError )
     }
 
     return NetCmdErrorEnumStrings[ netCmdError ]; 
+}
+
+//============================================================================
+const char* DescribeNotifyType( enum ENotifyType notifyType )
+{
+    if(  notifyType < 0 || eMaxNotifyType <= notifyType )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( notifyType )
+    {
+    case eNotifyOffline:
+        return "Notify Offline ";
+    case eNotifyOnline: 
+        return "Notify Online ";
+    case eNotifyRelayed: 
+        return "Notify Relayed ";
+    case eNotifyAttention:
+        return "Notify Attention ";
+    case eNotifyNone:
+    default:
+        return "Notify None ";
+    }
 }
 
 //============================================================================

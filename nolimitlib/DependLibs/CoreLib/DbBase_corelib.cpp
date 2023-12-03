@@ -405,7 +405,7 @@ RCODE DbBase::dbOpen( void )
 	{
 		LogMsg( LOG_ERROR, "ERROR Attempted DbBase::dbOpen %s but does not exist errno %d", m_strDbFileName.c_str(), VxGetLastError() );
 		vx_assert( false );
-		return -1;
+		return -2;
 	}
 
 	int retval = sqlite3_open( m_strDbFileName.c_str(), &m_Db );
@@ -414,7 +414,7 @@ RCODE DbBase::dbOpen( void )
 		handleSqlError( LOG_ERROR, "DbBase:Unable to open db %s SQLITE ERROR %d", m_strDbFileName.c_str(), retval );
 		sqlite3_close(m_Db);
 		m_Db = nullptr;
-		return -1;
+		return -3;
 	}
 
 	vx_assert( m_Db );

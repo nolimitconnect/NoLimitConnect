@@ -294,7 +294,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiUserUpdateCallback.h 
     CommonSrc/QtSource/GuiWebPageCallback.h
     CommonSrc/QtSource/GuiWebPageMgr.h
-	CommonSrc/QtSource/HelpBrowser.h
     CommonSrc/QtSource/HistoryEntryWidget.h
     CommonSrc/QtSource/HistoryListWidget.h
     CommonSrc/QtSource/HostedPluginWidget.h
@@ -402,7 +401,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/VxTagLabel.h
     CommonSrc/QtSource/VxTilePositioner.h
     CommonSrc/QtSource/VidWidget.h
-    CommonSrc/QtSource/VlcWidget.h
     CommonSrc/QtSource/VxWidgetBase.h
     CommonSrc/QtSource/VxAppStyle.h
     CommonSrc/QtSource/VxAppTheme.h
@@ -675,7 +673,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/HostJoinRequestListItem.cpp
     CommonSrc/QtSource/HostJoinRequestListWidget.cpp
     CommonSrc/QtSource/HomeWindow.cpp
-    CommonSrc/QtSource/HelpBrowser.cpp
     CommonSrc/QtSource/HistoryEntryWidget.cpp
     CommonSrc/QtSource/HistoryListWidget.cpp
     CommonSrc/QtSource/ImageListEntry.cpp
@@ -777,7 +774,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxTagLabel.cpp
     CommonSrc/QtSource/VxTilePositioner.cpp
     CommonSrc/QtSource/VidWidget.cpp
-    CommonSrc/QtSource/VlcWidget.cpp
     CommonSrc/QtSource/VxWidgetBase.cpp
     CommonSrc/QtSource/VxMenu.cpp
     CommonSrc/QtSource/VxAppStyle.cpp
@@ -955,7 +951,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/TitleBarWidget.ui
     CommonSrc/Forms/TodGameWidget.ui
     CommonSrc/Forms/VidWidget.ui
-    CommonSrc/Forms/VlcWidget.ui
     CommonSrc/NoLimitConnect.qrc
     )
 

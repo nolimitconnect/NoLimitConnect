@@ -1,12 +1,8 @@
 //============================================================================
 // Copyright (C) 2022 Brett R. Jones
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -212,12 +208,12 @@ void AppletOfferList::updateOfferList( EOfferViewType offerViewType )
     switch( m_ListViewType )
     {
     case eOfferViewTypeActive:
-        ui.m_ActiveOffersButton->setNotifyOnlineEnabled( true );
-        ui.m_OfferHistoryButton->setNotifyOnlineEnabled( false );
+        ui.m_ActiveOffersButton->setNotifyType( eNotifyOnline );
+        ui.m_OfferHistoryButton->setNotifyType( eNotifyNone );
         break;
     case eOfferViewTypeHistory:
-        ui.m_ActiveOffersButton->setNotifyOnlineEnabled( false );
-        ui.m_OfferHistoryButton->setNotifyOnlineEnabled( true );
+        ui.m_ActiveOffersButton->setNotifyType( eNotifyNone );
+        ui.m_OfferHistoryButton->setNotifyType( eNotifyOnline );
         break;
     default:
         return;

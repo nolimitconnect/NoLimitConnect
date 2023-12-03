@@ -1,13 +1,8 @@
 //============================================================================
 // Copyright (C) 2015 Brett R. Jones 
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software 
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license 
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -843,7 +838,7 @@ void TitleBarWidget::callbackGuiOfferRemoved( GuiOfferSession* offerState )
 //============================================================================
 void TitleBarWidget::callbackActiveOfferCount( int activeCnt ) 
 {
-    ui.m_OfferListButton->setNotifyOnlineEnabled( activeCnt > 0 );
+    ui.m_OfferListButton->setNotifyType( activeCnt > 0 ? eNotifyAttention : eNotifyOffline );
     ui.m_OfferCountLabel->setVisible( activeCnt > 0 );
     ui.m_OfferCountLabel->setText( QString::number( activeCnt ) );
 }
@@ -851,7 +846,7 @@ void TitleBarWidget::callbackActiveOfferCount( int activeCnt )
 //============================================================================
 void TitleBarWidget::callbackJoinRequestCount( int requestCnt )
 {
-    ui.m_HostJoinRequestListButton->setNotifyOnlineEnabled( requestCnt > 0 );
+    ui.m_HostJoinRequestListButton->setNotifyType( requestCnt > 0 ? eNotifyAttention : eNotifyOffline );
     ui.m_HostJoinRequestCountLabel->setVisible( requestCnt > 0 );
     ui.m_HostJoinRequestCountLabel->setText( QString::number( requestCnt ) );
 }

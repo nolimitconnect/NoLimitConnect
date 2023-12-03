@@ -18,6 +18,7 @@
  *
  */
 
+// this file contains mostly code from kodi project
 
 #include "RenderGlWidget.h"
 

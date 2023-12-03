@@ -1,14 +1,9 @@
 #pragma once
 //============================================================================
 // Copyright (C) 2013 Brett R. Jones 
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software 
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license 
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -578,7 +573,7 @@ enum ENetActionType
     eMaxNetAction
 };
 
-//! \public Enumeration of Network State Machine states/actions
+//! Enumeration of Network State Machine states/actions
 enum ENetworkStateType
 {
     eNetworkStateTypeUnknown				= 0,
@@ -597,7 +592,19 @@ enum ENetworkStateType
     eMaxNetworkStateType
 };
 
-//! \public Enumeration of session offer response
+//! Enumeration of Notify Icon state (dot in upper right of icon)
+enum ENotifyType
+{
+    eNotifyNone         = 0, // hide the online dot
+    eNotifyOffline      = 1, // online dot indicates offline (usually grey color)
+    eNotifyOnline       = 2, // online dot indicates online (usually greeen color)
+    eNotifyRelayed      = 3, // online dot indicates through relay or needs attention but currenly offline (usually burnt orange color)
+    eNotifyAttention    = 4, // online dot indicates online and needs user attention (usually red color) 
+
+    eMaxNotifyType // must be last
+};
+
+//! Enumeration of session offer response
 enum EOfferResponse
 {
     eOfferResponseNotSet		= 0,	//!< Unknown or not set offer response from contact
@@ -1338,6 +1345,8 @@ const char* DescribeNetAvailStatus( enum ENetAvailStatus netAvailStatus );
 const char* DescribeNetCmdType( enum ENetCmdType netCmdType );
 //! Net Command Error as text
 const char* DescribeNetCmdError( enum ENetCmdError netCmdError );
+//! Notify enum as text
+const char* DescribeNotifyType( enum ENotifyType notifyType );
 //! Offer state as text
 const char* DescribeOfferState( enum EOfferState offerState );
 //! Offer type as text

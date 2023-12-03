@@ -1,12 +1,8 @@
 //============================================================================
 // Copyright (C) 2020 Brett R. Jones
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -198,8 +194,8 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 		if( isMyself )
 		{
 			getIdentFriendshipButton()->setIcon( eMyIconAdministrator ); // eMyIconAdministrator );
-			getIdentFriendshipButton()->setNotifyOnlineEnabled( true );
-			getIdentFriendshipButton()->setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
+			getIdentFriendshipButton()->setNotifyType( eNotifyOnline );
+
 			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( true );
 			getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
 		}
@@ -212,8 +208,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 				onlineIndicatorColor = isRelayed ? eLayerNotifyRelayedColor : eLayerNotifyOnlineColor;
 			}
 
-			getIdentFriendshipButton()->setNotifyOnlineEnabled( true );
-			getIdentFriendshipButton()->setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( onlineIndicatorColor ) );
+			getIdentFriendshipButton()->setNotifyType( isRelayed ? eNotifyRelayed : eNotifyOnline );
 
 			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( isNearby || isOnline );
 			if( isNearby || isOnline )
@@ -312,7 +307,7 @@ void IdentLogicInterface::setIdentMenuButtonVisible( bool visible )
 //============================================================================
 void IdentLogicInterface::setIdentOnlineState( bool isOnline )
 {
-	getIdentFriendshipButton()->setNotifyOnlineEnabled( isOnline );
+	getIdentFriendshipButton()->setNotifyType( isOnline ? eNotifyOnline : eNotifyOffline );
 }
 
 //============================================================================
@@ -512,15 +507,14 @@ void IdentLogicInterface::updateGroupie( GuiGroupie* guiGroupie )
         {
             // should not happen but just in case
             getIdentFriendshipButton()->setIcon( eMyIconAdministrator ); // eMyIconAdministrator );
-            getIdentFriendshipButton()->setNotifyOnlineEnabled( true );
-            getIdentFriendshipButton()->setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
+            getIdentFriendshipButton()->setNotifyType( eNotifyOnline );
+
             getIdentFriendshipButton()->setNotifyDirectConnectEnabled( true );
             getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
         }
         else
         {
-            getIdentFriendshipButton()->setNotifyOnlineEnabled( true );
-            getIdentFriendshipButton()->setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( isOnline ? eLayerNotifyOnlineColor : eLayerNotifyOfflineColor ) );
+            getIdentFriendshipButton()->setNotifyOnline( isOnline );
 
             getIdentFriendshipButton()->setNotifyDirectConnectEnabled( false );
         }

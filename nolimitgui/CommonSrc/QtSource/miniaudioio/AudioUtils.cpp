@@ -1,3 +1,12 @@
+//============================================================================
+// Copyright (C) 2023 Brett R. Jones
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
 
 #include "AudioUtils.h"
 
@@ -314,7 +323,7 @@ void AudioUtils::dnsamplePcmAudio( int16_t* srcSamples, int resampledCnt, int dn
 }
 
 //============================================================================
-void AudioUtils::applyPcmVolume( float volume, uchar *data, int datalen )
+void AudioUtils::applyPcmVolume( float volume, uint8_t *data, int datalen )
 {
     volume = volume / 100;
     int samples = datalen / 2;

@@ -1,16 +1,11 @@
  //============================================================================
 // Copyright (C) 2013 Brett R. Jones
-// All Rights Reserved ( After My Death I Brett R. Jones Issue this source code to Public Domain )
+// 
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
-// You may not modify or redistribute this code for any reason
-// without written consent of Brett R. Jones
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-//
-// brettjones1900@gmail.com
-// http://www.p2panarchy.com
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
 //============================================================================
 #ifdef TARGET_OS_WINDOWS
 

@@ -1,17 +1,12 @@
 #pragma once
 //============================================================================
-// Copyright (C) 2013 Brett R. Jones - Issued to proprietary license in 2022
-// Issued to MIT style license by Brett R. Jones - Issued to proprietary license in 2022 in 2017
+// Copyright (C) 2013 Brett R. Jones
 //
-// You may NOT use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// without written consent of copyright owner and this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
-// https://www.nolimitconnect.com
+// https://nolimitconnect.com
 //============================================================================
 
 #include "AppletPeerBase.h"

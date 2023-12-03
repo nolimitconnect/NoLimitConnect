@@ -1,18 +1,12 @@
 //============================================================================
 // Copyright (C) 2015 Brett R. Jones
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
-
 
 #include "VxPushButton.h"
 #include "AppCommon.h"
@@ -267,27 +261,29 @@ void VxPushButton::setMaximumSize( int maxw, int maxh )
 }
 
 //============================================================================
-void VxPushButton::setNotifyOnlineEnabled( bool enabled, EMyIcons eNotifyIcon )
+void VxPushButton::setNotifyType( ENotifyType notifyType )
 {
-	m_NotifyOnlineEnabled = enabled;
-	if( enabled )
-	{
-		if( eMyIconNone != eNotifyIcon )
-		{
-			m_NotifyOnlineIcon = eNotifyIcon;
-		}
-	}
+    if( notifyType != m_NotifyType )
+    {
+        m_NotifyType = notifyType;
+        m_NotifyOnlineVisible = true;
+        m_NotifyOnlineEnabled = true;
 
-	update();
-}
+        switch( notifyType )
+        {
+        case eNotifyOffline:
+            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( notifyType );
+        case eNotifyOnline: 
+            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( notifyType );
+        case eNotifyAttention:
+            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( notifyType );
+        case eNotifyNone:
+        default:
+            m_NotifyOnlineVisible = false;
+        }
 
-//============================================================================
-void VxPushButton::setNotifyOnlineVisible( bool visible )
-{
-    m_NotifyOnlineVisible = visible;
-
-
-    update();
+        update();
+    }
 }
 
 //============================================================================
@@ -990,27 +986,24 @@ void VxPushButton::setPushToTalkStatus( EPushToTalkStatus pushToTalkStatus )
 
     if( txOn || rxOn )
     {
-        setIcon( eMyIconPushToTalkOn );
-        setNotifyOnlineEnabled( true );
-        setNotifyOnlineVisible( true );
+        setIcon( eMyIconPushToTalkOn );      
+
         if( txOn && rxOn )
         {
-            setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
+            setNotifyType( eNotifyOnline );
         }
         else if( txOn )
         {
-            setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( eLayerNotifyRelayedColor ) );
+            setNotifyType( eNotifyRelayed );
         }
         else
         {
-            setNotifyOnlineColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOfflineColor ) );
+            setNotifyType( eNotifyOffline );
         }
     }
     else
     {
         setIcon( eMyIconPushToTalkOff );
-        setNotifyOnlineEnabled( false );
-        setNotifyOnlineVisible( false );
-        setIconOverrideColor( m_MyApp.getAppTheme().getColor( eButtonForegroundNormal ) );
+        setNotifyType( eNotifyNone );
     }
 }

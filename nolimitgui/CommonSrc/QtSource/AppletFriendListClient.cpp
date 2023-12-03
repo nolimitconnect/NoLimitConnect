@@ -1,13 +1,8 @@
 //============================================================================
 // Copyright (C) 2013 Brett R. Jones
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -65,8 +60,8 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
     ui.m_OfflineButton->setFixedSize( eButtonSizeSmall );
     ui.m_OfflineButton->setIcon( eMyIconAnonymous );
     ui.m_OfflineButton->setIcon( eMyIconAnonymous );
-    ui.m_OfflineButton->setNotifyOnlineEnabled( true );
-    ui.m_OfflineButton->setNotifyOnlineColor( QColor( 255, 0, 0, 255 ) );
+
+    ui.m_OfflineButton->setNotifyType( eNotifyAttention );
 
     ui.m_OfflineInfoButton->setFixedSize( eButtonSizeSmall );
     ui.m_OfflineInfoButton->setIcon( eMyIconInformation );

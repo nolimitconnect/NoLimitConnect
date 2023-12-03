@@ -110,7 +110,8 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\;..\..\..\..\;..\..\OpusTools\include;..\..\include;..\..\opus\win32;..\..\opus\celt;..\..\opus\silk;..\..\opus\silk\float;..\..\..\;..\..\..\..\GuiInterface;..\..\..\..\GoTvCore\GoTvP2P;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;OUTSIDE_SPEEX;__LITTLE_ENDIAN__;HAVE_CONFIG_H;WIN32;_LIB;TARGET_OS_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -173,10 +174,6 @@
     <ClInclude Include="..\..\..\..\langinfo.h" />
     <ClInclude Include="..\..\..\..\netdb.h" />
     <ClInclude Include="..\..\..\..\pwd.h" />
-    <ClInclude Include="..\..\..\..\strings.h" />
-    <ClInclude Include="..\..\..\..\syslog.h" />
-    <ClInclude Include="..\..\..\..\unistd.h" />
-    <ClInclude Include="..\..\..\..\utime.h" />
     <ClInclude Include="..\..\AviDefs.h" />
     <ClInclude Include="..\..\include\ogg\ogg.h" />
     <ClInclude Include="..\..\include\ogg\os_types.h" />
@@ -451,7 +448,6 @@
     <ClCompile Include="..\..\SndWriter_mtools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\MediaToolsLib.pro" />
     <None Include="..\..\opus\celt\arm\arm2gnu.pl" />
     <None Include="..\..\opus\celt\arm\armopts.s.in" />
     <None Include="..\..\opus\celt\arm\celt_pitch_xcorr_arm.s" />

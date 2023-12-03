@@ -99,9 +99,6 @@
     <Filter Include="Source Files\GuiThumb">
       <UniqueIdentifier>{ff983f77-b0d6-45f7-aac4-e9456a4566b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GuiPlayerMgr\GuiPluginMgr">
-      <UniqueIdentifier>{c556a647-5103-4d79-b058-9aca6f55f45e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\miniaudioio">
       <UniqueIdentifier>{3b929ec3-6b03-4299-bde7-70639ea49722}</UniqueIdentifier>
     </Filter>
@@ -128,6 +125,9 @@
     </Filter>
     <Filter Include="Source Files\Applets">
       <UniqueIdentifier>{9179203b-2524-4621-a35b-8e58453e67f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiPluginMgr">
+      <UniqueIdentifier>{c556a647-5103-4d79-b058-9aca6f55f45e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -369,9 +369,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutApp.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.h">
@@ -1165,9 +1162,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiParams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\HelpBrowser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\HomeWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1595,7 +1589,7 @@
       <Filter>Source Files\GuiPlayerMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.cpp">
-      <Filter>Source Files\GuiPlayerMgr\GuiPluginMgr</Filter>
+      <Filter>Source Files\GuiPluginMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.cpp">
       <Filter>Source Files</Filter>
@@ -2169,12 +2163,6 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AudioBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\AudioDefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\CommonHdr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FileItemInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2197,9 +2185,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\HelpBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\MenuDefs.h">
@@ -2325,9 +2310,6 @@
     <ClInclude Include="..\..\..\AppInterface\OsWin32\IWin32.h">
       <Filter>Source Files\AppInterface\OsWin32</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\AppTargetOsConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\NlcRenderFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2338,9 +2320,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AppInterface\INlc.h">
-      <Filter>Source Files\AppInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AppInterface\INlcRender.h">
       <Filter>Source Files\AppInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.h">
@@ -2444,6 +2423,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.h">
       <Filter>Source Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2960,9 +2942,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIsPortOpenTest.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\VlcWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerNlc.ui">

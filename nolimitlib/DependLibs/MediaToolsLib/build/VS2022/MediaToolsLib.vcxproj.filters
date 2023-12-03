@@ -22,18 +22,6 @@
     <ClInclude Include="..\..\..\..\pwd.h">
       <Filter>NlcConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\strings.h">
-      <Filter>NlcConfig</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\syslog.h">
-      <Filter>NlcConfig</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\unistd.h">
-      <Filter>NlcConfig</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\utime.h">
-      <Filter>NlcConfig</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\AviDefs.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -904,9 +892,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\MediaToolsLib.pro">
-      <Filter>Source</Filter>
-    </None>
     <None Include="..\..\opus\celt\arm\arm2gnu.pl">
       <Filter>Source\opus\celt\arm</Filter>
     </None>

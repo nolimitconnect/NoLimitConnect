@@ -1,14 +1,9 @@
 #pragma once
 //============================================================================
 // Copyright (C) 2015 Brett R. Jones
-// Issued to MIT style license by Brett R. Jones in 2017
 //
-// You may use, copy, modify, merge, publish, distribute, sub-license, and/or sell this software
-// provided this Copyright is not modified or removed and is included all copies or substantial portions of the Software
-//
-// This code is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
@@ -61,11 +56,9 @@ public:
     bool						getEyeOverlayEnabled( void )                        { return m_EyeOverlayEnabled; }
     void						setEyeOverlayColor( QColor eyeColor )               { m_EyeOverlayColor = eyeColor; }
 
-	void						setNotifyOnlineEnabled( bool enabled, EMyIcons eNotifyIcon = eMyIconNotifyOnlineOverlay );
-    bool						getNotifyOnlineEnabled( void )                      { return m_NotifyOnlineEnabled; }
-    void						setNotifyOnlineColor( QColor onlineColor )          { m_NotifyIconOnlineColor = onlineColor; }
-    QColor						getNotifyOnlineColor( void )                        { return m_NotifyIconOnlineColor; }
-    void                        setNotifyOnlineVisible( bool visible );
+    void                        setNotifyOnline( bool isOnline )                    { setNotifyType( isOnline ? eNotifyOnline : eNotifyOffline ); }
+    void						setNotifyType( ENotifyType notifyType );
+    ENotifyType					getNotifyType( void )                               { return m_NotifyType; }
 
     void						setNotifyDirectConnectEnabled( bool enabled, EMyIcons eNotifyIcon = eMyIconNotifyDirectConnectOverlay );
     bool						getNotifyDirectConnectEnabled( void )               { return m_NotifyDirectConnectEnabled; }
@@ -150,9 +143,10 @@ protected:
 	QColor						m_LastIconColor;
 	QSize						m_LastIconSize;
 
+    ENotifyType                 m_NotifyType{ eNotifyNone };
     bool						m_NotifyOnlineEnabled{ false };
     bool                        m_NotifyOnlineVisible{ true };
-	EMyIcons					m_NotifyOnlineIcon{ eMyIconNone };
+	EMyIcons					m_NotifyOnlineIcon{ eMyIconNotifyOnlineOverlay };
 	EMyIcons					m_LastNotifyOnlineIcon{ eMyIconNone };
 	QPixmap						m_NotifyIconOnlineImage;
     QColor						m_NotifyIconOnlineColor;
