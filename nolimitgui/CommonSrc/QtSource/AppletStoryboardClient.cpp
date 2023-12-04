@@ -22,6 +22,7 @@
 #include <QFileDialog>
 
 #include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
 
 #include <CoreLib/VxFileUtil.h>

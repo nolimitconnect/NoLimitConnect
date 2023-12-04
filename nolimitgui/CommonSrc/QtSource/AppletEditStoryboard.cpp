@@ -23,6 +23,8 @@
 #include <QUuid>
 #include <QFileDialog>
 
+#include <GuiInterface/IFromGui.h>
+
 #include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
 #include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
 

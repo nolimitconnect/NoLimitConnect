@@ -19,6 +19,8 @@
 #include "AppCommon.h"
 #include "GuiParams.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VxDebug.h>
  
 //============================================================================

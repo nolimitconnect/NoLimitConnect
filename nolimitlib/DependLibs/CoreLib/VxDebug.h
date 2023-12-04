@@ -70,7 +70,7 @@ enum ELogModule
 	eLogPlugins			= 0x00100000, // 21
 	eLogHosts			= 0x00200000, // 22
 	eLogClients			= 0x00400000, // 23
-	eLogGroups			= 0x00800000, // 24
+	eLogHostedUser		= 0x00800000, // 24
 
     eLogHostSearch      = 0x01000000, // 25
 	eLogHackers			= 0x02000000, // 26

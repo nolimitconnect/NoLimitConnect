@@ -91,7 +91,17 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 	connect( ui.m_SettingsButton,			SIGNAL(clicked()), this, SLOT(slotSettingsButtonClicked()) );
 
     setFixedHeight( GuiParams::getButtonSize(eButtonSizeSmall).height() + 6 );
+
+	refreshUserJoinedToHostStates();
+
+	m_MyApp.getUserJoinMgr().wantUserJoinCallbacks( this, true );
 }
+
+//============================================================================
+BottomBarWidget::~BottomBarWidget() 
+{
+	m_MyApp.getUserJoinMgr().wantUserJoinCallbacks( this, false );
+};
 
 //============================================================================
 //=== bottom bar button visibility ===// 
@@ -377,4 +387,34 @@ void BottomBarWidget::slotRandomConnectHostButtonClicked( void )
 void BottomBarWidget::slotSettingsButtonClicked( void )
 {
 	m_MyApp.getAppletMgr().launchApplet( eAppletSettingsPage, getParentPageFrame() );
+}
+
+//============================================================================
+void BottomBarWidget::callbackGuiUserJoinToHostState( EHostType hostType, bool isJoined )
+{
+	switch( hostType )
+	{
+	case eHostTypeGroup:
+		ui.m_GroupHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) );
+		break;
+
+	case eHostTypeChatRoom:
+		ui.m_ChatRoomButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) );
+		break;
+
+	case eHostTypeRandomConnect:
+		ui.m_RandomConnectHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) );
+		break;
+
+	default:
+		break;
+	}
+}
+
+//============================================================================
+void BottomBarWidget::refreshUserJoinedToHostStates( void )
+{
+	ui.m_GroupHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) );
+	ui.m_ChatRoomButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) );
+	ui.m_RandomConnectHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) );
 }

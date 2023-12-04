@@ -9,8 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"
-
 #include "ui_InformationWidget.h"
 
 class ActivityInformation;

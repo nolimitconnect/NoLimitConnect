@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // to supress linux error: array subscript value 53 is outside the bounds of array type ‘const char [15]’
+#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include "GuiHostJoinCallback.h"
 #include "GuiOfferCallback.h"

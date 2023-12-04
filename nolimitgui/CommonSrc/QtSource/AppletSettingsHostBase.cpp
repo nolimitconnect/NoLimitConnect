@@ -10,8 +10,10 @@
 
 #include "AppletSettingsHostBase.h"
 
+#include "AppCommon.h"
 #include "ActivityInformation.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 //============================================================================
 AppletSettingsHostBase::AppletSettingsHostBase( const char* ObjName, AppCommon& app, QWidget* parent )

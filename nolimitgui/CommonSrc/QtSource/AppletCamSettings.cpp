@@ -13,6 +13,8 @@
 #include "AppCommon.h"	
 #include "AppSettings.h"
 
+#include <GuiInterface/IFromGui.h>
+
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

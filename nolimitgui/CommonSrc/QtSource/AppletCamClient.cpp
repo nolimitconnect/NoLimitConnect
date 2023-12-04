@@ -12,6 +12,8 @@
 
 #include "AppCommon.h"
 
+#include <GuiInterface/IFromGui.h>
+
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 

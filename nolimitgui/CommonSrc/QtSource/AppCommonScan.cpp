@@ -14,6 +14,8 @@
 #include "ActivityScanPeopleSearch.h"
 #include "ToGuiActivityInterface.h"
 
+#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

@@ -13,7 +13,6 @@
 
 #include "AppletBase.h"
 #include "AppDefs.h"
-#include "AppCommon.h"
 
 class LogMgr;
 

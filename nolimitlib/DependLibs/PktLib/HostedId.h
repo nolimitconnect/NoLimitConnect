@@ -40,12 +40,11 @@ public:
 
     void						setHostOnlineId( VxGUID& onlineId )         { m_HostOnlineId = onlineId; }
     VxGUID&					    getHostOnlineId( void )                     { return m_HostOnlineId; }
+    bool						isHostOnlineId( VxGUID& onlineId ) const    { return m_HostOnlineId == onlineId; }
 
     void						setHostType( EHostType hostType )           { m_HostType = (uint8_t)hostType; }
-    EHostType  				    getHostType( void ) const                   
-    { 
-        return (EHostType)m_HostType; 
-    }
+    EHostType  				    getHostType( void ) const                   { return (EHostType)m_HostType; }
+    bool						isHostType( EHostType hostType ) const      { return hostType == m_HostType; }
 
     EPluginType                 getHostPluginType( void );
     EPluginType                 getClientPluginType( void );

@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or linux Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
+#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include "AppDefs.h"
 #include "AppGlobals.h"
@@ -45,13 +45,6 @@
 #include "GuiInterface/INlcEvents.h"
 #include "GuiInterface/IAudioInterface.h"
 
-#include <QComboBox>
-#include <QMessageBox>
-#include <QDialog>
-#include <QElapsedTimer>
-#include <QMutex>
-
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/BlobXferMgr/BlobInfo.h>
 #include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
 

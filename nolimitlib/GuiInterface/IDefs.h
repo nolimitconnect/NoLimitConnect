@@ -440,14 +440,15 @@ enum EHostTestStatus
 enum EHostType
 {
     eHostTypeUnknown = 0,
-    eHostTypeConnectTest = 1,
-    eHostTypeNetwork = 2,
-    // these hosts provide relay services and are announced to network hosts
-    eHostTypeGroup = 3,
-    eHostTypeChatRoom = 4,
-    eHostTypeRandomConnect = 5,
-    // connections user<->user and user<->host
-    eHostTypePeerUserDirect = 6,
+
+    eHostTypeConnectTest = 1,   
+    eHostTypeNetwork = 2,    
+
+    eHostTypePeerUserDirect = 3,  // user<->user 
+    // these hosts provide relay services and are announced to network host
+    eHostTypeGroup = 4,
+    eHostTypeChatRoom = 5,
+    eHostTypeRandomConnect = 6,
 
     eMaxHostType
 };

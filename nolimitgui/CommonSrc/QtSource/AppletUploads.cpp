@@ -20,6 +20,8 @@
 #include "GuiHelpers.h"	
 #include "GuiParams.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
 #include <PktLib/VxSearchDefs.h>
 #include <CoreLib/VxFileInfo.h>
 

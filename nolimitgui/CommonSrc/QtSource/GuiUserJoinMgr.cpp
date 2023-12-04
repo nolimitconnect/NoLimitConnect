@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinInfo.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
 
@@ -314,7 +315,30 @@ void GuiUserJoinMgr::announceUserJoinState( EJoinState joinState, GuiUserJoin* g
     default:
         break;
     }
+
+    if( guiUserJoin->getGroupieId().isUserOnlineId( m_MyApp.getMyOnlineId() ) )
+    {
+        if( guiUserJoin->getGroupieId().getHostType() == eHostTypeGroup &&
+            joinState != m_LastGroupJoinState )
+        {
+            m_LastGroupJoinState = joinState;
+            announceUserJoinedToHostState( eHostTypeGroup, joinState == eJoinStateJoinIsGranted );
+        }
+        else if( guiUserJoin->getGroupieId().getHostType() == eHostTypeChatRoom &&
+            joinState != m_LastChatRoomJoinState )
+        {
+            m_LastChatRoomJoinState = joinState;
+            announceUserJoinedToHostState( eHostTypeChatRoom, joinState == eJoinStateJoinIsGranted );
+        }
+        else if( guiUserJoin->getGroupieId().getHostType() == eHostTypeRandomConnect &&
+            joinState != m_LastRandomConnectJoinState )
+        {
+            m_LastRandomConnectJoinState = joinState;
+            announceUserJoinedToHostState( eHostTypeRandomConnect, joinState == eJoinStateJoinIsGranted );
+        }
+    }
 }
+
 //============================================================================
 void GuiUserJoinMgr::onUserUnJoinUpdated( GuiUserJoin* guiUserJoin )
 {
@@ -419,7 +443,35 @@ void GuiUserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
 }
 
 //============================================================================
+void GuiUserJoinMgr::announceUserJoinedToHostState( EHostType hostType, bool isJoined )
+{
+    for( auto client : m_UserJoinClients )
+    {
+        client->callbackGuiUserJoinToHostState( hostType, isJoined );
+    }
+}
+
+//============================================================================
 EJoinState GuiUserJoinMgr::getUserJoinState( GroupieId& groupieId )
 {
     return m_MyApp.getEngine().getUserJoinMgr().getUserJoinState( groupieId );
+}
+
+//============================================================================
+bool GuiUserJoinMgr::isUserJoinedToHost( EHostType hostType )
+{
+	switch( hostType )
+	{
+	case eHostTypeGroup:
+        return eJoinStateJoinIsGranted == m_LastGroupJoinState;
+
+	case eHostTypeChatRoom:
+		return eJoinStateJoinIsGranted == m_LastChatRoomJoinState;
+
+	case eHostTypeRandomConnect:
+        return eJoinStateJoinIsGranted == m_LastRandomConnectJoinState;
+
+	default:
+		return false;
+	}
 }

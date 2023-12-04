@@ -19,6 +19,9 @@
 #include "GuiHostedListSession.h"
 #include "GuiHostedListItem.h"
 
+#include <GuiInterface/IFromGui.h>
+
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
 
 #include <CoreLib/VxDebug.h>

@@ -72,6 +72,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4996;26812;4828</DisableSpecificWarnings>
+      <MinimalRebuild />
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\nolimitlib\build-sharedlibs\Windows\$(Platform)\;$(ProjectDir)..\..\..\..\nolimitlib\build-staticlibs\Windows\$(Platform)\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -1093,18 +1094,12 @@ libopenjpeg.lib
     <None Include="..\..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake" />
     <None Include="..\..\..\..\cmake\cmake_helpers\NlcAssembler.cmake" />
     <None Include="..\..\..\..\cmake\cmake_helpers\OsDetect.cmake" />
-    <None Include="..\..\..\..\nolimitlib\bin-Android\build.gradle" />
-    <None Include="..\..\..\..\nolimitlib\bin-Android\gradle.properties" />
-    <None Include="..\..\..\..\nolimitlib\bin-Android\gradlew" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\CommonSrc\QtSource\NoLimitConnect.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\CommonSrc\QtSource\NoLimitConnect.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\..\..\nolimitlib\bin-Android\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\CMakeLists.txt" />

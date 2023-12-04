@@ -18,8 +18,9 @@
 #include <map>
 #include <memory>
 
-// client side manager of user join to host service states
-
+/**
+* client side manager of user join to host service states
+*/
 class BaseSessionInfo;
 class UserJoinInfo;
 class UserJoinCallbackInterface;

@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "GuiHelpers.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/ThumbMgr/ThumbInfo.h>
 #include <ptop_src/ptop_engine_src/ThumbMgr/ThumbMgr.h>
 

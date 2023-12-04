@@ -23,5 +23,7 @@ public:
     virtual void				callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) {};
     virtual void				callbackGuiUserJoinLeaveHost( GroupieId& groupieId ) {};
     virtual void				callbackGuiUserJoinRemoved( GroupieId& groupieId ) {};
+
+    virtual void                callbackGuiUserJoinToHostState( EHostType hostType, bool isJoined ) {}; ///< just my join to host state for me and not other members
 };
 

@@ -9,9 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"
-
 #include "ui_PermissionListItemWidget.h"
+
+#include <QListWidgetItem>
+
+class AppletBase;
 
 class PermissionListItem : public QWidget, public QListWidgetItem
 {

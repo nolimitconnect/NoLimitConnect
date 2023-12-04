@@ -11,8 +11,10 @@
 #include "GuiHostJoinMgr.h"
 #include "GuiHostJoinCallback.h"
 #include "AppCommon.h"
+
 #include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinInfo.h>
 #include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 //============================================================================
 GuiHostJoinMgr::GuiHostJoinMgr( AppCommon& app )
@@ -31,7 +33,7 @@ void GuiHostJoinMgr::onAppCommonCreated( void )
     connect( this, SIGNAL( signalInternalHostJoinOfferState(GroupieId,EJoinState) ),                        this, SLOT( slotInternalHostJoinOfferState( GroupieId, EJoinState ) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalHostJoinOnlineState(GroupieId,EOnlineState,VxGUID) ),              this, SLOT( slotInternalHostJoinOnlineState( GroupieId, EOnlineState, VxGUID ) ), Qt::QueuedConnection );
 
-    GetPtoPEngine().getHostJoinMgr().wantHostJoinMgrCallbacks( this, true );
+    m_MyApp.getEngine().getHostJoinMgr().wantHostJoinMgrCallbacks( this, true );
 }
 
 //============================================================================

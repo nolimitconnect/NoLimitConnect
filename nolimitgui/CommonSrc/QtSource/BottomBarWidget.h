@@ -12,6 +12,7 @@
 #include <QFrame>
 
 #include "GuiHostJoinCallback.h"
+#include "GuiUserJoinCallback.h"
 
 #include "ui_BottomBarWidget.h"
 
@@ -21,21 +22,25 @@ class QLabel;
 class AppCommon;
 class MyIcons;
 
-class BottomBarWidget : public QFrame, public GuiHostJoinCallback
+class BottomBarWidget : public QFrame, public GuiHostJoinCallback, public GuiUserJoinCallback
 {
 	Q_OBJECT
 
 public:
 	BottomBarWidget( QWidget* parent = nullptr );
-	virtual ~BottomBarWidget() {};
+	virtual ~BottomBarWidget();
 
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
 	MyIcons&					getMyIcons( void );
     VxMenuButton *              getMenuButton( void );
 
-	virtual void				callbackJoinRequestCount( int requestCnt ) override;
-	virtual void				callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
-	virtual void				callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
+	//=== host server state callbacks GuiHostJoinCallback ===// 
+	void						callbackJoinRequestCount( int requestCnt ) override;
+	void						callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+	void						callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
+
+	//=== user member joint to host server state callbacks GuiUserJoinCallback ===// 
+	void						callbackGuiUserJoinToHostState( EHostType hostType, bool isJoined ) override; ///< just my join to host state for me and not other members
 
 	//=== bottom bar button visibility ===// 
 	void						setArrowLeftVisibility( bool visible );
@@ -114,6 +119,7 @@ protected slots:
 
 protected:
 	QWidget*				    getParentPageFrame( void ); // get home page frame ( Launch or Messenger Page )
+	void						refreshUserJoinedToHostStates( void );
 
 	Ui::BottomBarWidgetClass	ui;
 	AppCommon&					m_MyApp;

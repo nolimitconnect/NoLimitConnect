@@ -37,13 +37,18 @@ public:
 
     void						setUserOnlineId( VxGUID& onlineId )                 { m_UserOnlineId = onlineId; }
     VxGUID&					    getUserOnlineId( void )                             { return m_UserOnlineId; }
+    bool						isUserOnlineId( VxGUID& onlineId ) const            { return m_UserOnlineId == onlineId; }  
 
     void				        setHostedId( HostedId& hostedId )                   { m_HostedId = hostedId; }
     HostedId&                   getHostedId( void )                                 { return m_HostedId; }
+    
     void				        setHostOnlineId( VxGUID& onlineId )                 { m_HostedId.setHostOnlineId( onlineId ); }
     VxGUID&                     getHostOnlineId( void )                             { return m_HostedId.getHostOnlineId(); }
+    bool						isHostOnlineId( VxGUID& onlineId ) const            { return m_HostedId.isHostOnlineId( onlineId ); }
+
     void			            setHostType( EHostType hostType )                   { m_HostedId.setHostType( hostType ); }
     EHostType	                getHostType( void )                                 { return m_HostedId.getHostType(); }
+    bool						isHostType( EHostType hostType ) const              { return m_HostedId.isHostType( hostType ); }
 
     EPluginType                 getHostPluginType( void );
     EPluginType                 getClientPluginType( void );

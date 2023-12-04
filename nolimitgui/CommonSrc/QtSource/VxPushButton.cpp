@@ -272,11 +272,11 @@ void VxPushButton::setNotifyType( ENotifyType notifyType )
         switch( notifyType )
         {
         case eNotifyOffline:
-            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( notifyType );
         case eNotifyOnline: 
-            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( notifyType );
+        case eNotifyRelayed: 
         case eNotifyAttention:
             m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( notifyType );
+            break;
         case eNotifyNone:
         default:
             m_NotifyOnlineVisible = false;

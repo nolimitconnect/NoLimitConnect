@@ -41,8 +41,11 @@
 #include "FileListReplySession.h"
 #include "VxPushButton.h"
 
+#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobInfo.h>
 #include <ptop_src/ptop_engine_src/P2PEngine/FileShareSettings.h>
 #include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
 #include <ptop_src/ptop_engine_src/Membership/Membership.h>
 #include <ptop_src/ptop_engine_src/NetworkMonitor/NetworkMonitor.h>
 #include <ptop_src/ptop_engine_src/ThumbMgr/ThumbInfo.h>
