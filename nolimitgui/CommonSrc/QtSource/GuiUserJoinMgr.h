@@ -40,7 +40,9 @@ public:
 
     void                        setLastJoinAttempted( std::string& joinUrl ) { m_LastJoinAttemptedHostInviteUrl = joinUrl; }
 
-    bool                        isUserJoinedToHost( EHostType hostType ); ///< just local user state
+    bool                        isUserJoinedToHost( EHostType hostType ); ///< return true if local user currently is joined to given host type
+    VxGUID&                     getUserJoinedHostOnlineId( EHostType hostType ); ///< return the host online id user currently is joined to of the given host type
+
     bool                        isUserJoinedToHost( GroupieId& groupieId ) { return getUserJoinState( groupieId ) == eJoinStateJoinIsGranted; } ///< any member 
 
     bool                        isUserJoinInSession( GroupieId& groupieId );
@@ -115,7 +117,11 @@ protected:
     std::vector<GuiUserJoinCallback*>  m_UserJoinClients;
 
     std::string                 m_LastJoinAttemptedHostInviteUrl;
+
     EJoinState                  m_LastGroupJoinState{ eJoinStateNone };
+    VxGUID                      m_LastGroupJoinHostOnlineId;
     EJoinState                  m_LastChatRoomJoinState{ eJoinStateNone };
+    VxGUID                      m_LastChatRoomJoinHostOnlineId;
     EJoinState                  m_LastRandomConnectJoinState{ eJoinStateNone };
+    VxGUID                      m_LastRandomeConnectJoinHostOnlineId;
 };

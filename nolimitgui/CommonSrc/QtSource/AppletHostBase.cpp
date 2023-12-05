@@ -69,24 +69,37 @@ void AppletHostBase::userJoinedHost( GuiHosted* guiHosted )
 {
     if( guiHosted )
     {
-        if( !m_HostSessionId.isVxGUIDValid() )
+        if( guiHosted != m_LastGuiHosted )
         {
-            m_HostSessionId = guiHosted->getSessionId();
             if( !m_HostSessionId.isVxGUIDValid() )
             {
-                VxGUID::generateNewVxGUID( m_HostSessionId );
-                guiHosted->setSessionId( m_HostSessionId );
+                m_HostSessionId = guiHosted->getSessionId();
+                if( !m_HostSessionId.isVxGUIDValid() )
+                {
+                    VxGUID::generateNewVxGUID( m_HostSessionId );
+                    guiHosted->setSessionId( m_HostSessionId );
+                }
+            }
+     
+            m_HostUrlIpv4 = guiHosted->getHostInviteUrl( false );
+            m_HostUrlIpv6 = guiHosted->getHostInviteUrl( true );
+
+            m_Engine.fromGuiJoinHost( getHostType(), m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+            if( m_UserMultiList )
+            {
+                m_UserMultiList->userJoinedHost( guiHosted );
             }
         }
-     
-        m_HostUrlIpv4 = guiHosted->getHostInviteUrl( false );
-        m_HostUrlIpv6 = guiHosted->getHostInviteUrl( true );
-
-        m_Engine.fromGuiJoinHost( getHostType(), m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
-        if( m_UserMultiList )
+        else
         {
-            m_UserMultiList->userJoinedHost( guiHosted );
+            // TODO BRJ we should be able to just clear and again add members who are online
+
         }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "AppletHostBase::userJoinedHost null guiHosted" );
+        vx_assert( false );
     }
 }
 

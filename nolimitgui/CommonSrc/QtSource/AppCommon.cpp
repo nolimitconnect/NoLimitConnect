@@ -1861,6 +1861,7 @@ bool AppCommon::checkSystemReady( void )
 	{
 		// one time only each application and user ready at startup
 		m_IsGuiSystemReady = true;
+		m_CamLogic.camLogicStartup();
 		
 		m_ThumbMgr.onSystemReady( m_IsGuiSystemReady );
 		m_UserMgr.onSystemReady( m_IsGuiSystemReady );

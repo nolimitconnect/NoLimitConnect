@@ -322,18 +322,33 @@ void GuiUserJoinMgr::announceUserJoinState( EJoinState joinState, GuiUserJoin* g
             joinState != m_LastGroupJoinState )
         {
             m_LastGroupJoinState = joinState;
+            if( joinState == eJoinStateJoinIsGranted )
+            {
+                m_LastGroupJoinHostOnlineId = guiUserJoin->getGroupieId().getHostOnlineId();
+            }
+
             announceUserJoinedToHostState( eHostTypeGroup, joinState == eJoinStateJoinIsGranted );
         }
         else if( guiUserJoin->getGroupieId().getHostType() == eHostTypeChatRoom &&
             joinState != m_LastChatRoomJoinState )
         {
             m_LastChatRoomJoinState = joinState;
+            if( joinState == eJoinStateJoinIsGranted )
+            {
+                m_LastChatRoomJoinHostOnlineId = guiUserJoin->getGroupieId().getHostOnlineId();
+            }
+
             announceUserJoinedToHostState( eHostTypeChatRoom, joinState == eJoinStateJoinIsGranted );
         }
         else if( guiUserJoin->getGroupieId().getHostType() == eHostTypeRandomConnect &&
             joinState != m_LastRandomConnectJoinState )
         {
             m_LastRandomConnectJoinState = joinState;
+            if( joinState == eJoinStateJoinIsGranted )
+            {
+                m_LastRandomeConnectJoinHostOnlineId = guiUserJoin->getGroupieId().getHostOnlineId();
+            }
+
             announceUserJoinedToHostState( eHostTypeRandomConnect, joinState == eJoinStateJoinIsGranted );
         }
     }
@@ -473,5 +488,24 @@ bool GuiUserJoinMgr::isUserJoinedToHost( EHostType hostType )
 
 	default:
 		return false;
+	}
+}
+
+//============================================================================
+VxGUID& GuiUserJoinMgr::getUserJoinedHostOnlineId( EHostType hostType )
+{
+	switch( hostType )
+	{
+	case eHostTypeGroup:
+        return m_LastGroupJoinHostOnlineId;
+
+	case eHostTypeChatRoom:
+		return m_LastChatRoomJoinHostOnlineId;
+
+	case eHostTypeRandomConnect:
+        return m_LastRandomeConnectJoinHostOnlineId;
+
+	default:
+		return VxGUID::nullVxGUID();
 	}
 }

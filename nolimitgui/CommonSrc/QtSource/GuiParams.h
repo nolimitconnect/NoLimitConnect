@@ -147,6 +147,8 @@ public:
     static bool                 isLaunchOnStartupApplet( EApplet applet );
      //! return true if network ready for host search and connections etc.
     static bool                 isNetStatusPtoPReady( ENetAvailStatus netAvailStatus );
+    //! return client applet for host type which is a relay for user
+    static EApplet              hostTypeToClientApplet( EHostType hostType );
 
 protected:
 

@@ -13,6 +13,7 @@
 #include "AppletMgr.h"
 #include "AppCommon.h"
 #include "GuiHelpers.h"
+#include "GuiHostedListMgr.h"
 #include "MyIcons.h"
 
 //============================================================================
@@ -368,19 +369,40 @@ void BottomBarWidget::slotMessengerButtonClicked( void )
 //============================================================================
 void BottomBarWidget::slotGroupHostButtonClicked( void )
 {
-	m_MyApp.getAppletMgr().launchApplet( eAppletGroupClient, getParentPageFrame() );
+	if( !( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) &&
+		m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeGroup, 
+																			 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ), 
+																			 getParentPageFrame() ) ) )
+	{
+		// let user select a host to connect to
+		m_MyApp.getAppletMgr().launchApplet( eAppletGroupJoin, getParentPageFrame() );
+	}
 }
 
 //============================================================================
 void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 {
-	m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomClient, getParentPageFrame() );
+	if( !( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) &&
+		m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom, 
+																			 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ), 
+																			 getParentPageFrame() ) ) )
+	{
+		// let user select a host to connect to
+		m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin, getParentPageFrame() );
+	}
 }
 
 //============================================================================
 void BottomBarWidget::slotRandomConnectHostButtonClicked( void )
 {
-	m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
+	if( !( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) &&
+		m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeRandomConnect, 
+																			 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeRandomConnect ), 
+																			 getParentPageFrame() ) ) )
+	{
+		// let user select a host to connect to
+		m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectJoin, getParentPageFrame() );
+	}
 }
 
 //============================================================================

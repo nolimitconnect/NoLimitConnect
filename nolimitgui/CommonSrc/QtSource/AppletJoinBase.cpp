@@ -237,44 +237,7 @@ bool AppletJoinBase::launchClientApplet( GuiHosted* guiHosted )
 {
 	if( guiHosted && guiHosted->readyForClientLaunch() )
 	{
-		if( eHostTypeGroup == guiHosted->getHostType() )
-		{
-			AppletMultiMessenger* messenger = m_MyApp.getAppletMultiMessenger();
-			if( messenger )
-			{
-				messenger->userJoinedHost( guiHosted );
-				return true;
-			}
-		}
-		else
-		{
-			AppletClientBase* clientApplet{ nullptr };
-            switch( guiHosted->getHostType() )
-            {
-            case eHostTypeChatRoom:
-                if( !m_MyApp.getAppletMgr().isAppletLaunched( eAppletChatRoomClient ) )
-                {
-                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomClient, getParentPageFrame() ));
-                }
-
-                break;
-            case eHostTypeRandomConnect:
-                if( !m_MyApp.getAppletMgr().isAppletLaunched( eAppletRandomConnectClient ) )
-                {
-                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() ));
-                }
-
-                break;
-            default:
-                break;
-            }
-
-            if( clientApplet )
-            {
-                clientApplet->userJoinedHost( guiHosted );
-                return true;
-            }
-		}
+		return m_MyApp.getAppletMgr().launchClientApplet( guiHosted, eHostTypeGroup == guiHosted->getHostType() ? nullptr : getParentPageFrame() );
 	}
 	else
 	{
@@ -296,7 +259,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
 	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
 	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
-	LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", joinUrl.c_str() );
+	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", joinUrl.c_str() );
 	if( !joinUrl.empty() )
 	{
 		m_MyApp.getUserJoinMgr().setLastJoinAttempted( joinUrl );
@@ -308,9 +271,12 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 //============================================================================
 void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession, GuiHostedListItem* hostItem )
 {
-	LogModule( eLogUserGuiEvent, LOG_VERBOSE, "AppletJoinBase::slotConnectButtonClicked" );
 	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
 	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
+
+	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
+	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotConnectButtonClicked url %s", joinUrl.c_str() );
+
 	GroupieId groupieId( m_MyApp.getMyOnlineId(), hostSession->getHostedId() );
 	GuiUserJoin* userJoin = m_MyApp.getUserJoinMgr().getUserJoin( groupieId );
 	EJoinState joinState{ eJoinStateNone };

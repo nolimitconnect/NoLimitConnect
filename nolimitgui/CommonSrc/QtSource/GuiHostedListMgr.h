@@ -56,6 +56,8 @@ public:
     std::string&                getJoinOnStartup( void )                            { return m_FavoriteHostGroup; }
     bool                        isJoinOnStartup( std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
 
+    bool                        launchClientAppletOfAlreadyConnectedHost( EHostType hostType, VxGUID& hostOnlineId, QWidget* parentPageFrame );
+
 signals:
     void				        signalMyIdentUpdated( GuiHosted* guiHosted );
 

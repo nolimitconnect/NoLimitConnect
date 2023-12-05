@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "GuiHostedListMgr.h"
-#include "GuiHostedListCallback.h"
+
 #include "AppCommon.h"
+#include "AppletMgr.h"
 #include "AppSettings.h"
+#include "GuiHostedListCallback.h"
 
 #include <ptop_src/ptop_engine_src/HostListMgr/HostedInfo.h>
 #include <ptop_src/ptop_engine_src/HostListMgr/HostedListMgr.h>
@@ -461,4 +463,35 @@ void GuiHostedListMgr::checkAutoJoinGroupHost( void )
 EJoinState GuiHostedListMgr::getHostJoinState( GroupieId& groupieId )
 {
     return m_MyApp.getEngine().getHostJoinMgr().getHostJoinState( groupieId );
+}
+
+//============================================================================
+bool GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost( EHostType hostType, VxGUID& hostOnlineId, QWidget* parentPageFrame )
+{
+    bool wasLaunched{ false };
+    if( !hostOnlineId.isVxGUIDValid() )
+    {
+        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost invalid host id for %s", DescribeHostType( hostType ) );
+        return false;
+    }
+
+    if( !IsHostARelayForUsers( hostType ) )
+    {
+        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost host type %s", DescribeHostType( hostType ) );
+        return false;
+    }
+
+    // find the host id of the host we are connected to
+    GuiHosted* guiHosted = findHosted( hostOnlineId, hostType );
+    if( guiHosted )
+    {
+        LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost found host %s", DescribeHostType( hostType ) );
+        wasLaunched = m_MyApp.getAppletMgr().launchClientApplet( guiHosted, parentPageFrame );
+    }
+    else
+    {
+        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost no host %s", DescribeHostType( hostType ) );
+    }
+
+    return wasLaunched;
 }

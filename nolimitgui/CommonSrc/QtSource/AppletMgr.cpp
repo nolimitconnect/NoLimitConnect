@@ -767,3 +767,54 @@ QFrame* AppletMgr::getLaunchParentFrame( ELaunchFrame launchFrame )
 {
     return m_MyApp.getHomePage().getLaunchParentFrame( launchFrame );
 }
+
+//============================================================================
+bool AppletMgr::launchClientApplet( GuiHosted* guiHosted, QWidget* parentFrame )
+{
+    bool isLaunched{ false };
+    if( guiHosted && guiHosted->readyForClientLaunch() )
+	{
+		if( eHostTypeGroup == guiHosted->getHostType() )
+		{
+			AppletMultiMessenger* messenger = m_MyApp.getAppletMultiMessenger();
+			if( messenger )
+			{
+				messenger->userJoinedHost( guiHosted );
+				return true;
+			}
+		}
+		else
+		{
+			AppletClientBase* clientApplet{ nullptr };
+            switch( guiHosted->getHostType() )
+            {
+            case eHostTypeChatRoom:
+                if( !isAppletLaunched( eAppletChatRoomClient ) )
+                {
+                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomClient, parentFrame ) );
+                }
+
+                break;
+
+            case eHostTypeRandomConnect:
+                if( !isAppletLaunched( eAppletRandomConnectClient ) )
+                {
+                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, parentFrame ) );
+                }
+
+                break;
+
+            default:
+                break;
+            }
+
+            if( clientApplet )
+            {
+                clientApplet->userJoinedHost( guiHosted );
+                return true;
+            }
+		}
+	}
+
+    return isLaunched;
+}

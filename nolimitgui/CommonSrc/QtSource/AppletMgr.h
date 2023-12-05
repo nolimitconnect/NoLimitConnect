@@ -18,10 +18,11 @@
 
 class ActivityBase;
 class AppCommon;
-class HomeWindow;
-class QFrame;
-class RenderGlWidget;
 class AppletLaunchWidget;
+class GuiHosted;
+class HomeWindow;
+class RenderGlWidget;
+class QFrame;
 
 class AppletMgr : public QWidget
 {
@@ -32,6 +33,8 @@ public:
 
     QFrame*						getAppletFrame( EApplet applet );
     ActivityBase*				launchApplet( EApplet applet, QWidget* parent = nullptr, QString launchParam = "", VxGUID assetId = VxGUID::nullVxGUID());
+	bool						launchClientApplet( GuiHosted* guiHosted, QWidget* parentFrame = nullptr );
+
 	bool						isAppletLaunched( EApplet applet );
 	void						activityStateChange( ActivityBase* activity, bool isCreated );
 
@@ -58,7 +61,7 @@ protected:
 	bool						isServiceEnabled( EPluginType pluginType );
 
 	AppCommon&					m_MyApp;
-    QVector<AppletLaunchWidget *>		m_AppletList;
+    QVector<AppletLaunchWidget *>	m_AppletList;
 	QVector<ActivityBase*>		m_ActivityList;
 };
 

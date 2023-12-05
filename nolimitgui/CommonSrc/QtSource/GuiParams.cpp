@@ -2123,3 +2123,19 @@ bool GuiParams::isNetStatusPtoPReady( ENetAvailStatus netAvailStatus )
 {
     return eNetAvailP2PAvail <= netAvailStatus;
 }
+
+//============================================================================
+EApplet GuiParams::hostTypeToClientApplet( EHostType hostType )
+{
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        return eAppletMultiMessenger;
+    case eHostTypeChatRoom:
+        return eAppletChatRoomClient;
+    case eHostTypeRandomConnect:
+        return eAppletRandomConnectClient;
+    default:
+        return eAppletUnknown;
+    }
+}

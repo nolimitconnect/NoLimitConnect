@@ -42,15 +42,13 @@ public:
     CamLogic( AppCommon& myApp );
     virtual ~CamLogic() = default;
 
+    void                        camLogicStartup( void );
+
     void                        cameraEnable( bool wantVidCapture );
-    bool                        assureCamInitiated( void );
+
     bool                        isCamCaptureRunning( void );
     bool                        isCamAvailable( void );
     bool                        updateCamAvailable( void ); // recheck devices for available cam
-
-    // set application is exiting.. return true if cam is busy with capture
-    bool                        setAppIsExiting( bool isExiting );
-    bool                        getAppIsExiting( void )                                 { return m_applicationExiting; }
 
     /// TODO implement option to select cam hardware
     void						setCamSourceId( uint32_t camId )                        { m_CamId = camId; }
@@ -68,6 +66,8 @@ public:
     void                        toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture );
 
     QString                     getCamDescription( void )                               { return m_CamDescription; }
+
+    bool                        getCamStartupCompleted( void );
 
 signals:
     void                        signalCameraDescription( QString camDescription );
@@ -117,6 +117,8 @@ public slots:
     void                        slotTakeSnapshot( void );
 
 protected:
+    bool                        initializeCam( void );
+
     void                        keyPressEvent( QKeyEvent *event ) override;
     void                        keyReleaseEvent( QKeyEvent *event ) override;
     void                        closeEvent( QCloseEvent *event ) override;
@@ -124,6 +126,8 @@ protected:
     void                        selectVideoFormat( const QCameraDevice& cameraDevice );
 
     AppCommon&                  m_MyApp;
+
+    bool                        m_StartupWasCompleted{ false };
     uint32_t                    m_CamId{ 1 };
     bool                        m_CamsEnumerated{ false };
     bool                        m_CamInitiated{ false };
@@ -137,7 +141,6 @@ protected:
 
     QString                     m_videoContainerFormat;
     bool                        m_isCapturingImage{ false };
-    bool                        m_applicationExiting{ false };
     bool                        m_CamIsStarted{ false };
     bool                        m_ReadyForCapture{ false };
 

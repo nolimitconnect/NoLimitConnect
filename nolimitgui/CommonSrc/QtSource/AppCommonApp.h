@@ -857,14 +857,14 @@ protected:
 
 
     //=== vars ===//
-    QApplication& m_QApp;
+    QApplication&               m_QApp;
     EDefaultAppMode				m_AppDefaultMode;
     AppGlobals					m_AppGlobals;
-    AppSettings& m_AppSettings;
+    AppSettings&                m_AppSettings;
     QString						m_AppShortName;
     QString						m_AppTitle;
-    AccountMgr& m_AccountMgr;
-    INlc& m_Nlc;
+    AccountMgr&                 m_AccountMgr;
+    INlc&                       m_Nlc;
 
     GuiConnectIdListMgr			m_ConnectIdListMgr;
     GuiFavoriteMgr			    m_FavoriteMgr;
@@ -885,23 +885,23 @@ protected:
     VxAppTheme					m_AppTheme;
     VxAppStyle					m_AppStyle;
     VxAppDisplay				m_AppDisplay;
-    VxTilePositioner& m_TilePositioner;
+    VxTilePositioner&           m_TilePositioner;
     CamLogic                    m_CamLogic;
 
-    SoundMgr& m_SoundMgr;
+    SoundMgr&                   m_SoundMgr;
 
     HomeWindow					m_HomePage;
 
-    ActivityCreateAccount* m_CreateAccountDlg{ nullptr };
-    ActivityShowHelp* m_ActivityShowHelpDlg{ nullptr };
+    ActivityCreateAccount*      m_CreateAccountDlg{ nullptr };
+    ActivityShowHelp*           m_ActivityShowHelpDlg{ nullptr };
 
-    AppletMultiMessenger* m_AppletMultiMessenger{ nullptr };
-    AppletDownloads* m_AppletDownloads{ nullptr };
-    AppletUploads* m_AppletUploads{ nullptr };
+    AppletMultiMessenger*       m_AppletMultiMessenger{ nullptr };
+    AppletDownloads*            m_AppletDownloads{ nullptr };
+    AppletUploads*              m_AppletUploads{ nullptr };
 
     std::string					m_strAccountUserName;
 
-    QTimer* m_OncePerSecondTimer;
+    QTimer*                     m_OncePerSecondTimer;
     EFriendViewType				m_eLastSelectedWhichContactsToView; // last selection of which friends to view
 
     bool						m_bUserCanceledCreateProfile;
@@ -926,13 +926,13 @@ protected:
     bool						m_VidCaptureEnabled = false;
     bool						m_MicrophoneHardwareEnabled = false;
     bool						m_SpeakerHardwareEnabled = false;
-    AppletMgr& m_AppletMgr;
+    AppletMgr&                  m_AppletMgr;
     bool                        m_AppCommonInitialized = false;
     bool                        m_LoginBegin = false;
     bool                        m_LoginComplete = false;
     bool                        m_AppInitialized = false;
 
-    ActivityAppSetup* m_AppSetupDlg = nullptr;
+    ActivityAppSetup*           m_AppSetupDlg = nullptr;
     bool                        m_IsMessengerReady{ false };
     bool                        m_IsLoggedOn{ false };
     bool                        m_IsGuiSystemReady{ false };
@@ -941,8 +941,8 @@ protected:
     bool                        m_LoopbackMyselfTestAllowed{ false };
     bool                        m_GuiCpuTimeEnable{ false };
 
-    QTimer* m_GuiStartupTimer = nullptr;
-    QTimer* m_CheckSetupTimer = nullptr;
+    QTimer*                     m_GuiStartupTimer = nullptr;
+    QTimer*                     m_CheckSetupTimer = nullptr;
 
     bool                        m_LauchedAfterLogonApplets{ false };
     bool                        m_ConnectToLastConnectedHost{ false };

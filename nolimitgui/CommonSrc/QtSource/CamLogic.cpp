@@ -21,6 +21,7 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 namespace
 {
@@ -43,117 +44,175 @@ CamLogic::CamLogic( AppCommon& myApp )
 }
 
 //============================================================================
+void CamLogic::camLogicStartup( void )
+{
+    m_StartupWasCompleted = true;
+    initializeCam();
+}
+
+//============================================================================
 void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
 {
-    bool wasRunning = isCamCaptureRunning();
-    bool isRunning = false;
-    m_WantCamInput[ appModule ] = wantVidCapture;
-    for( int i = 0; i < eMaxAppModule; i++ )
-    {
-        if( m_WantCamInput[ i ] )
-        {
-            isRunning = true;
-            break;
-        }
-    }
+    m_WantCamInput[appModule] = wantVidCapture;
 
-    if( wasRunning != isRunning )
+    if( getCamStartupCompleted() )
     {
-        cameraEnable( isRunning );
-        m_CamIsStarted = isCamCaptureRunning();
+        bool wasRunning = isCamCaptureRunning();
+        bool isRunning = false;
+        for( int i = 0; i < eMaxAppModule; i++ )
+        {
+            if( m_WantCamInput[i] )
+            {
+                isRunning = true;
+                break;
+            }
+        }
+
+        if( wasRunning != isRunning )
+        {
+            cameraEnable( isRunning );
+            m_CamIsStarted = isCamCaptureRunning();
+        }
     }
 }
 
 //============================================================================
 bool CamLogic::isCamAvailable( void )
 {
-    if( !GuiHelpers::checkUserPermission("android.permission.CAMERA"))
+    if( getCamStartupCompleted() )
     {
-        QMessageBox( QMessageBox::Information, QObject::tr("Camera Permission"), QObject::tr("Cannot use camera without user permission"), QMessageBox::Ok);
-        return false;
+        if( !GuiHelpers::checkUserPermission( "android.permission.CAMERA" ) )
+        {
+            QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
+            return false;
+        }
+
+        return !m_camera.isNull() && m_camera->isAvailable();
     }
 
-    assureCamInitiated();
-    return !m_camera.isNull() && m_camera->isAvailable();
+    return false;
 }
 
 //============================================================================
 bool CamLogic::updateCamAvailable( void )
 {
-    if( !GuiHelpers::checkUserPermission( "android.permission.CAMERA" ) )
+    if( getCamStartupCompleted() )
     {
-        QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
-        return false;
+        if( !GuiHelpers::checkUserPermission( "android.permission.CAMERA" ) )
+        {
+            QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
+            return false;
+        }
+
+        // force update.. a camera device may have become available
+        if( m_CamIsStarted )
+        {
+            stopCamera();
+        }
+        else
+        {
+            setCamera( QMediaDevices::defaultVideoInput() );
+        }
+
+        if( !m_CamInitiated )
+        {
+            m_CamInitiated = true;
+        }
+
+        return !m_camera.isNull() && m_camera->isAvailable();
     }
 
-    // force update.. a camera device may have become available
-    if( m_CamIsStarted )
-    {
-        stopCamera();
-    }
-    else
-    {
-        setCamera( QMediaDevices::defaultVideoInput() );
-    }
-
-    if( !m_CamInitiated )
-    {
-        m_CamInitiated = true;
-    }
-
-    return !m_camera.isNull() && m_camera->isAvailable();
+    return false;
 }
 
 //============================================================================
 bool CamLogic::isCamCaptureRunning( void )
 {
-    assureCamInitiated();
-    return m_CamIsStarted && !m_camera.isNull() && m_camera->isAvailable();
+    if( getCamStartupCompleted() )
+    {
+        return m_CamIsStarted && !m_camera.isNull() && m_camera->isAvailable();
+    }
+
+    return false;
 }
 
 //============================================================================
 void CamLogic::cameraEnable( bool wantVidCapture )
 {
-    if( getAppIsExiting() )
+    if( getCamStartupCompleted() )
+    {
+        if( wantVidCapture != m_CamIsStarted )
+        {
+            if( wantVidCapture )
+            {
+                startCamera();
+            }
+            else
+            {
+                stopCamera();
+            }
+        }
+    }
+}
+
+//============================================================================
+bool CamLogic::initializeCam( void )
+{
+    if( VxIsAppShuttingDown() )
     {
         if( m_CamIsStarted )
         {
             stopCamera();
         }
 
-        return;
+        return false;
     }
 
-    if( wantVidCapture != m_CamIsStarted )
+    if( getCamStartupCompleted() )
     {
-        if( wantVidCapture )
+        if( !m_CamInitiated )
         {
-            startCamera();
+            setCamera( QMediaDevices::defaultVideoInput() );
         }
-        else
+
+        // there may have been want cam calls before was initialized
+        bool wasRunning = isCamCaptureRunning();
+        bool isRunning = false;
+        for( int i = 0; i < eMaxAppModule; i++ )
+        {
+            if( m_WantCamInput[i] )
+            {
+                isRunning = true;
+                break;
+            }
+        }
+
+        if( wasRunning != isRunning )
+        {
+            cameraEnable( isRunning );
+            m_CamIsStarted = isCamCaptureRunning();
+        }
+
+        return  !m_camera.isNull() && m_camera->isAvailable();
+    }
+    
+    return false;
+}
+
+//============================================================================
+bool CamLogic::getCamStartupCompleted( void )                          
+{ 
+    if( VxIsAppShuttingDown() )
+    {
+        if( m_CamIsStarted )
         {
             stopCamera();
         }
-    }
-}
 
-//============================================================================
-// set application is exiting.. returt true if cam is busy with capture
-bool CamLogic::setAppIsExiting( bool isExiting )
-{
-    m_applicationExiting = isExiting;
-    return m_isCapturingImage;
-}
-
-//============================================================================
-bool CamLogic::assureCamInitiated( void )
-{
-    if( !m_CamInitiated )
-    {
-        setCamera( QMediaDevices::defaultVideoInput() );
+        return false;
     }
 
-    return  !m_camera.isNull() && m_camera->isAvailable();
+    return m_StartupWasCompleted; 
 }
 
 #if QT_VERSION > QT_VERSION_CHECK(6,0,0)
@@ -569,39 +628,45 @@ void CamLogic::displayCaptureError( int id, const QCameraImageCapture::Error err
 //============================================================================
 void CamLogic::startCamera()
 {
-    if( assureCamInitiated() && !m_camera.isNull() && !m_CamIsStarted )
+    if( getCamStartupCompleted() )
     {
-        m_CamIsStarted = true;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        if( !m_ViewFinder )
+        if( !m_camera.isNull() && !m_CamIsStarted )
         {
-            m_ViewFinder = new QCameraViewfinder();
-            m_ViewFinder->show();
-            m_camera->setViewfinder( m_ViewFinder );
-            m_ViewFinder->hide();
+            m_CamIsStarted = true;
+    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+            if( !m_ViewFinder )
+            {
+                m_ViewFinder = new QCameraViewfinder();
+                m_ViewFinder->show();
+                m_camera->setViewfinder( m_ViewFinder );
+                m_ViewFinder->hide();
+            }
+    #endif // #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+            m_VideoSinkGrabber.enableGrab( true );
+            m_camera->start();
+            m_SnapshotTimer->start();
         }
-#endif // #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        m_VideoSinkGrabber.enableGrab( true );
-        m_camera->start();
-        m_SnapshotTimer->start();
-    }
-    else if( m_camera.isNull() )
-    {
-        QMessageBox::warning( this, QObject::tr( "CamLogic Error" ), QObject::tr( "Camera is null" ) );
+        else if( m_camera.isNull() )
+        {
+            QMessageBox::warning( this, QObject::tr( "CamLogic Error" ), QObject::tr( "Camera is null" ) );
+        }
     }
 }
 
 //============================================================================
 void CamLogic::stopCamera()
 {
-    if( m_CamIsStarted )
+    if( getCamStartupCompleted() )
     {
-        m_VideoSinkGrabber.enableGrab( false );
-        m_SnapshotTimer->stop();
-        m_CamIsStarted = false;
-        if( !m_camera.isNull() )
+        if( m_CamIsStarted )
         {
-            m_camera->stop();
+            m_VideoSinkGrabber.enableGrab( false );
+            m_SnapshotTimer->stop();
+            m_CamIsStarted = false;
+            if( !m_camera.isNull() )
+            {
+                m_camera->stop();
+            }
         }
     }
 }
@@ -609,14 +674,17 @@ void CamLogic::stopCamera()
 //============================================================================
 void CamLogic::updateCaptureMode(int)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    QCamera::CaptureModes captureMode = QCamera::CaptureStillImage;
-
-    if( m_camera && m_camera->isCaptureModeSupported( captureMode ) )
+    if( getCamStartupCompleted() )
     {
-        m_camera->setCaptureMode( captureMode );
-    }
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        QCamera::CaptureModes captureMode = QCamera::CaptureStillImage;
+
+        if( m_camera && m_camera->isCaptureModeSupported( captureMode ) )
+        {
+            m_camera->setCaptureMode( captureMode );
+        }
 #endif // #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    }
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -741,22 +809,20 @@ void CamLogic::readyForCapture( bool ready )
 void CamLogic::imageSaved( int id, const QString &fileName )
 {
     Q_UNUSED( id );
-    //ui->statusbar->showMessage(tr("Captured \"%1\"").arg(QDir::toNativeSeparators(fileName)));
 
     m_isCapturingImage = false;
-    // if (m_applicationExiting)
-    //     close();
 }
 
 //============================================================================
 void CamLogic::closeEvent( QCloseEvent *event )
 {
-    if( m_isCapturingImage ) {
-        //setEnabled(false);
-        m_applicationExiting = true;
+    if( m_isCapturingImage ) 
+    {
+        LogMsg( LOG_VERBOSE, "CamLogic::closeEvent while capturing image" );
         event->ignore();
     }
-    else {
+    else 
+    {
         event->accept();
     }
 }

@@ -8,12 +8,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or linux Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-
-#include "GuiHosted.h"
 #include "AppCommon.h"
+#include "GuiHosted.h"
 #include "GuiHostedListMgr.h"
 #include "GuiParams.h"
+
 #include <ptop_src/ptop_engine_src/HostListMgr/HostedInfo.h>
 
 //============================================================================

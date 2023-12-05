@@ -58,6 +58,8 @@ protected:
     std::string                 m_HostUrlIpv4;
     std::string                 m_HostUrlIpv6;
     VxGUID                      m_HostSessionId;
+
+    GuiHosted*                  m_LastGuiHosted{ nullptr };
 };
 
 

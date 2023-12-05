@@ -73,6 +73,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4996;26812;4828</DisableSpecificWarnings>
       <MinimalRebuild />
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\nolimitlib\build-sharedlibs\Windows\$(Platform)\;$(ProjectDir)..\..\..\..\nolimitlib\build-staticlibs\Windows\$(Platform)\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
