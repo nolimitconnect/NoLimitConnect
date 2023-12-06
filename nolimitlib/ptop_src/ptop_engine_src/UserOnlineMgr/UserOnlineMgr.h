@@ -54,6 +54,8 @@ public:
 
     User*                       findUser( VxGUID& onlineId );
 
+    bool                        updateUserJoinedFriendships( GroupieId& groupieId, VxNetIdent* netIdent );
+
 protected:
     void				        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
     void				        callbackConnectionStatusChange( ConnectId& connectId, bool isConnected ) override;

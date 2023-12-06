@@ -747,9 +747,6 @@
     <ClInclude Include="..\..\ptop_engine_src\BigListLib\BigListInfo.h">
       <Filter>Source Files\BigListLib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\BigListLib\BigListLib.h">
-      <Filter>Source Files\BigListLib</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\BigListLib\BigListMgr.h">
       <Filter>Source Files\BigListLib</Filter>
     </ClInclude>

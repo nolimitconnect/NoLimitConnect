@@ -12,7 +12,7 @@
 #include "ConnectedInfo.h"
 #include "HandshakeInfo.h"
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListLib.h>
+#include <ptop_src/ptop_engine_src/BigListLib/BigListMgr.h>
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
 #include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
 #include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>

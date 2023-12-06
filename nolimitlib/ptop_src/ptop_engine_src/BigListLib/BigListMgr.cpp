@@ -495,3 +495,19 @@ bool BigListMgr::queryIdent( VxGUID& onlineId, VxNetIdent& netIdent )
 
 	return foundIdent;
 }
+
+//============================================================================
+void BigListMgr::onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIdent* netIdent )
+{
+	BigListInfo* bigInfo = findBigListInfo( netIdent->getMyOnlineId() );
+	if( bigInfo )
+	{
+		updateVectorList( prevMyFriendship, bigInfo );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "BigListMgr::onMyFriendshipChanged null BigListInfo for %s %s", 
+				netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+		vx_assert( false );
+	}
+}

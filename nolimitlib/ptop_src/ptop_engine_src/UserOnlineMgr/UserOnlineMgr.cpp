@@ -397,3 +397,60 @@ void UserOnlineMgr::onUserOffline( VxGUID& onlineId )
         unlockResources();
     }
 }
+
+
+//============================================================================
+bool UserOnlineMgr::updateUserJoinedFriendships( GroupieId& groupieId, VxNetIdent* netIdent )
+{
+    bool friendshipOk{ true };
+    EFriendState prevMyFriendship = netIdent->getMyFriendshipToHim();
+    EFriendState prevHisFriendship = netIdent->getHisFriendshipToMe();
+    EFriendState curMyFriendship = prevMyFriendship;
+    EFriendState curHisFriendship = prevHisFriendship;
+    if( eFriendStateIgnore == curHisFriendship )
+    {
+        if( curMyFriendship == eFriendStateIgnore )
+        {
+            LogMsg( LOG_ERROR, "HostServerMgr::updateUserToJoinedToMyHostGuest got ignored user %s %s ",
+                    netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+            friendshipOk = false;
+        }
+        else
+        {
+            // not sure how this can happen but I guess is allowed so just downgrade to anonymous
+            curMyFriendship = eFriendStateAnonymous;
+        }
+    }
+    else if( eFriendStateIgnore == curMyFriendship )
+    {
+        curHisFriendship = eFriendStateIgnore; // so will appear in the blocked list
+        friendshipOk = false;
+    }
+    else
+    {
+        if( eFriendStateAnonymous == curMyFriendship )
+        {
+            curMyFriendship = eFriendStateGuest;
+        }
+
+        if( eFriendStateAnonymous == curHisFriendship )
+        {
+            curHisFriendship = eFriendStateGuest;
+        }
+    }
+
+    if( curMyFriendship != prevMyFriendship || curHisFriendship != prevHisFriendship )
+    {
+        netIdent->setMyFriendshipToHim( curMyFriendship );
+        netIdent->setHisFriendshipToMe( curHisFriendship );
+
+        if( curMyFriendship != prevMyFriendship )
+        {
+            m_Engine.getBigListMgr().onMyFriendshipChanged( prevMyFriendship, netIdent );
+        }
+
+        m_Engine.toGuiContactHisFriendshipChange( netIdent );
+    }
+
+    return friendshipOk;
+}

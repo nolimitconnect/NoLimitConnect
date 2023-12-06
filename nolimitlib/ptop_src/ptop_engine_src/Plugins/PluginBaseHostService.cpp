@@ -13,6 +13,8 @@
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxPtopUrl.h>
 
@@ -254,9 +256,12 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
 
         if( broadcastPkt )
         {
-            m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
-            m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId );
-            broadcastToClients( &joinReply, netIdent->getMyOnlineId(), sktBase );       
+            if( m_Engine.getUserOnlineMgr().updateUserJoinedFriendships( groupieId, netIdent ) )
+            {
+                m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
+                m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId );
+                broadcastToClients( &joinReply, netIdent->getMyOnlineId(), sktBase );    
+            }
         }
         else if( sendPkt )
         {

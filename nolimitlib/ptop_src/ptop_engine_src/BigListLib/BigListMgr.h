@@ -71,6 +71,8 @@ public:
 
 	bool						queryIdent( VxGUID& onlineId, VxNetIdent& netIdent );
 
+	void						onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIdent* netIdent );
+
 protected:
 
 	//=== vars ===//

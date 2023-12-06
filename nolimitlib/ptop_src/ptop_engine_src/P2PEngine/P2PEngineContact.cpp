@@ -28,7 +28,7 @@ bool P2PEngine::shouldNotifyGui( VxNetIdent* netIdent )
 	switch( m_eFriendView )
 	{
 	case eFriendViewEverybody:
-		//LogMsg(LOG_INFO, "shouldNotifyGui: should show friend %s\n", netIdent->getOnlineName() );
+		//LogMsg(LOG_INFO, "shouldNotifyGui: should show friend %s" , netIdent->getOnlineName() );
 		if( eFriendStateIgnore != eFriendship ) 
 		{
 			return true;
@@ -48,7 +48,7 @@ bool P2PEngine::shouldNotifyGui( VxNetIdent* netIdent )
 		if( ( eFriendStateFriend == eFriendship ) ||
 			( eFriendStateGuest == eFriendship ) )
 		{
-			//LogMsg(LOG_INFO, "shouldNotifyGui: should show friend or guest %s\n", netIdent->getOnlineName() );
+			//LogMsg(LOG_INFO, "shouldNotifyGui: should show friend or guest %s" , netIdent->getOnlineName() );
 			return true;
 		}
 		break;
@@ -56,7 +56,7 @@ bool P2PEngine::shouldNotifyGui( VxNetIdent* netIdent )
 	case eFriendViewAnonymous:
 		if( eFriendStateAnonymous == eFriendship )
 		{
-			//LogMsg(LOG_INFO, "shouldNotifyGui: should show anon %s\n", netIdent->getOnlineName() );
+			//LogMsg(LOG_INFO, "shouldNotifyGui: should show anon %s" , netIdent->getOnlineName() );
 			return true;
 		}
 		break;
@@ -64,14 +64,14 @@ bool P2PEngine::shouldNotifyGui( VxNetIdent* netIdent )
 	case eFriendViewIgnored:
 		if( eFriendStateIgnore == eFriendship )
 		{
-			//LogMsg(LOG_INFO, "shouldNotifyGui: should show ignored %s\n", netIdent->getOnlineName() );
+			//LogMsg(LOG_INFO, "shouldNotifyGui: should show ignored %s" , netIdent->getOnlineName() );
 			return true;
 		}
 		break;
 
 
 	default:
-		LogMsg(LOG_ERROR, "shouldNotifyGui: UNRECOGNIZED view type\n");
+		LogMsg(LOG_ERROR, "shouldNotifyGui: UNRECOGNIZED view type" );
 	}
 
 	return false;
@@ -80,7 +80,7 @@ bool P2PEngine::shouldNotifyGui( VxNetIdent* netIdent )
 //============================================================================
 int P2PEngine::toGuiSendAdministratorList( int iSentCnt, int iMaxSendCnt )
 {
-	//LogMsg( LOG_INFO, "toGuiSendAdministratorList: called\n");
+	//LogMsg( LOG_INFO, "toGuiSendAdministratorList: called" );
 	BigListInfo * poInfo = NULL;
 	std::vector< BigListInfo * >::iterator iter;
 	m_BigListMgr.m_FriendListMutex.lock(111);
@@ -108,7 +108,7 @@ int P2PEngine::toGuiSendAdministratorList( int iSentCnt, int iMaxSendCnt )
 //============================================================================
 int P2PEngine::toGuiSendFriendList( int iSentCnt, int iMaxSendCnt )
 {
-	//LogMsg( LOG_INFO, "toGuiSendFriendList: called\n");
+	//LogMsg( LOG_INFO, "toGuiSendFriendList: called" );
 	BigListInfo * poInfo = NULL;
 	std::vector< BigListInfo * >::iterator iter;
 	m_BigListMgr.m_FriendListMutex.lock(111);
@@ -117,7 +117,7 @@ int P2PEngine::toGuiSendFriendList( int iSentCnt, int iMaxSendCnt )
 		poInfo = *iter;
 		if( shouldNotifyGui( poInfo ) )
 		{
-			LogMsg( LOG_INFO, "toGuiSendFriendList: %s\n", poInfo->getOnlineName());
+			LogMsg( LOG_INFO, "toGuiSendFriendList: %s" , poInfo->getOnlineName());
 			IToGui::getToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
 		}
 
@@ -135,7 +135,7 @@ int P2PEngine::toGuiSendFriendList( int iSentCnt, int iMaxSendCnt )
 //============================================================================
 int P2PEngine::toGuiSendGuestList( int iSentCnt, int iMaxSendCnt )
 {
-	//LogMsg( LOG_INFO, "toGuiSendGuestList: called\n");
+	//LogMsg( LOG_INFO, "toGuiSendGuestList: called" );
 	BigListInfo * poInfo = NULL;
 	std::vector< BigListInfo * >::iterator iter;
 	m_BigListMgr.m_GuestListMutex.lock(112);
@@ -165,7 +165,7 @@ int P2PEngine::toGuiSendGuestList( int iSentCnt, int iMaxSendCnt )
 //============================================================================
 int P2PEngine::toGuiSendAnonymousList( int iSentCnt, int iMaxSendCnt )
 {
-	//LogMsg( LOG_INFO, "toGuiSendAnonymousList: called\n");
+	//LogMsg( LOG_INFO, "toGuiSendAnonymousList: called" );
 	BigListInfo * poInfo = NULL;
 	std::vector< BigListInfo * >::iterator iter;
 
@@ -193,7 +193,7 @@ int P2PEngine::toGuiSendAnonymousList( int iSentCnt, int iMaxSendCnt )
 //============================================================================
 int P2PEngine::toGuiSendIgnoreList( int iSentCnt, int iMaxSendCnt )
 {
-	//LogMsg( LOG_INFO, "toGuiSendIgnoreList: called\n");
+	//LogMsg( LOG_INFO, "toGuiSendIgnoreList: called" );
 	BigListInfo * poInfo = NULL;
 	std::vector< BigListInfo * >::iterator iter;
 
@@ -270,11 +270,11 @@ void P2PEngine::sendToGuiTheContactList( int maxContactsToSend )
 {
 	int iSentContactsCnt = 0;
 
-	//LogMsg( LOG_INFO, "fromGuiSendContactList: announceToWeb view type %d max cnt %d\n",
+	//LogMsg( LOG_INFO, "fromGuiSendContactList: announceToWeb view type %d max cnt %d" ,
 	//	eFriendView, 
 	//	MaxContactsToSend );
 
-	LogMsg( LOG_INFO, "fromGuiSendContactList: view type %d max cnt %d administrators %d friends %d guests %d anon %d ignore %d\n",
+	LogMsg( LOG_INFO, "fromGuiSendContactList: view type %d max cnt %d administrators %d friends %d guests %d anon %d ignore %d" ,
 			m_eFriendView, 
 			maxContactsToSend,
 			m_BigListMgr.m_AdministratorList.size(), 
@@ -286,7 +286,7 @@ void P2PEngine::sendToGuiTheContactList( int maxContactsToSend )
 	{
 	case eFriendViewEverybody:
 		// send friends first then guests
-		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending all\n" );
+		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending all"  );
 		iSentContactsCnt += toGuiSendAdministratorList( iSentContactsCnt, maxContactsToSend );
 		iSentContactsCnt += toGuiSendFriendList( iSentContactsCnt, maxContactsToSend );
 		iSentContactsCnt += toGuiSendGuestList( iSentContactsCnt, maxContactsToSend );
@@ -296,33 +296,33 @@ void P2PEngine::sendToGuiTheContactList( int maxContactsToSend )
 
 	case eFriendViewAdministrators:
 		// send friends first then guests
-		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending administrators\n" );
+		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending administrators"  );
 		iSentContactsCnt += toGuiSendAdministratorList( iSentContactsCnt, maxContactsToSend );
 		break;
 
 	case eFriendViewFriendsAndGuests:
-		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending friends and guests\n" );
+		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending friends and guests"  );
 		// send friends first then guests
 		iSentContactsCnt += toGuiSendFriendList( iSentContactsCnt, maxContactsToSend );
 		iSentContactsCnt += toGuiSendGuestList( iSentContactsCnt, maxContactsToSend );
 		break;
 
 	case eFriendViewAnonymous:
-		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending anon\n" );
+		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending anon"  );
 		iSentContactsCnt = toGuiSendAnonymousList( iSentContactsCnt, maxContactsToSend );
 		break;
 
 	case eFriendViewIgnored:
-		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending ignored\n" );
+		//LogMsg( LOG_INFO, "fromGuiSendContactList: sending ignored"  );
 		iSentContactsCnt = toGuiSendIgnoreList( iSentContactsCnt, maxContactsToSend );
 		break;
 
 	default:
-		LogMsg( LOG_INFO, "fromGuiSendContactList: unknown view type %d\n", (int)m_eFriendView );
+		LogMsg( LOG_INFO, "fromGuiSendContactList: unknown view type %d" , (int)m_eFriendView );
 	}
 
 
-	//LogMsg( LOG_INFO, "fromGuiSendContactList: total sent %d\n", iSentContactsCnt);
+	//LogMsg( LOG_INFO, "fromGuiSendContactList: total sent %d" , iSentContactsCnt);
 }
 
 //============================================================================
@@ -338,77 +338,77 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 }
 
 //============================================================================
-void P2PEngine::toGuiContactNameChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiContactNameChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactNameChange:\n");
-		IToGui::getToGui().toGuiContactNameChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiContactNameChange:");
+		IToGui::getToGui().toGuiContactNameChange( netIdent );
 	}
 }
 
 //============================================================================
 //! called when description changes
-void P2PEngine::toGuiContactDescChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiContactDescChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactDescChange:\n");
-		IToGui::getToGui().toGuiContactDescChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiContactDescChange:" );
+		IToGui::getToGui().toGuiContactDescChange( netIdent );
 	}
 }
 //============================================================================
 //! called when his friendship to me changes
-void P2PEngine::toGuiContactHisFriendshipChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiContactHisFriendshipChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactHisFriendshipChange:\n");
-		IToGui::getToGui().toGuiContactHisFriendshipChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiContactHisFriendshipChange:" );
+		IToGui::getToGui().toGuiContactHisFriendshipChange( netIdent );
 	}
 }
 
 //============================================================================
 //! called when plugin permission changes
-void P2PEngine::toGuiPluginPermissionChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiPluginPermissionChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiPluginPermissionChange:\n");
-		IToGui::getToGui().toGuiPluginPermissionChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiPluginPermissionChange:" );
+		IToGui::getToGui().toGuiPluginPermissionChange( netIdent );
 	}
 }
 
 //============================================================================
 //! called when search flags changes
-void P2PEngine::toGuiContactSearchFlagsChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactSearchFlagsChange:\n");
-		IToGui::getToGui().toGuiContactSearchFlagsChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiContactSearchFlagsChange:" );
+		IToGui::getToGui().toGuiContactSearchFlagsChange( netIdent );
 	}
 }
 
 //============================================================================
 //! called when connection info changes
-void P2PEngine::toGuiContactConnectionChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiContactConnectionChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactConnectionChange\n");
-		IToGui::getToGui().toGuiContactConnectionChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiContactConnectionChange" );
+		IToGui::getToGui().toGuiContactConnectionChange( netIdent );
 	}
 }
 
 //============================================================================
 //! called when any contact info changes ( including any of the above )
-void P2PEngine::toGuiContactAnythingChange( PktAnnounce * poPktAnn )
+void P2PEngine::toGuiContactAnythingChange( VxNetIdent* netIdent )
 {
-	if( shouldNotifyGui( poPktAnn ) )
+	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactAnythingChange\n");
-		IToGui::getToGui().toGuiContactAnythingChange( (VxNetIdent*)poPktAnn );
+		LogMsg( LOG_INFO, "toGuiContactAnythingChange" );
+		IToGui::getToGui().toGuiContactAnythingChange( netIdent );
 	}
 }
 

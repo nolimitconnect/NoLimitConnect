@@ -27,7 +27,7 @@ static int lckCnt = 1000;
 		iInst = lckCnt;
 	}
 
-	LogMsg( LOG_INFO,  "BigList bigListLock %d\n", iInst );
+	LogMsg( LOG_INFO,  "BigList bigListLock %d", iInst );
 #endif// SHOW_LOCKS
 	m_BigListMutex.lock(__FILE__, __LINE__);
 }
@@ -43,7 +43,7 @@ void BigList::bigListUnlock( int iInst )
 		iInst = unlckCnt;
 	}
 
-	LogMsg( LOG_INFO,  "BigList bigListUnlock %d\n", iInst );
+	LogMsg( LOG_INFO,  "BigList bigListUnlock %d", iInst );
 #endif// SHOW_LOCKS
 	m_BigListMutex.unlock(__FILE__, __LINE__);
 }
@@ -153,7 +153,7 @@ BigListInfo * BigList::findBigListInfo( const char* pUserName, bool isAlreadyLoc
 //============================================================================
 void BigList::bigInsertInfo( VxGUID& oOnlineId, BigListInfo * poInfo, bool isAlreadyLocked )	// contact to insert
 {
-	//LogMsg(LOG_INFO, " BigList::bigInsertInfo: %s friendship %s isMyRelay %d isMyPreferredRelay %d\n", 
+	//LogMsg(LOG_INFO, " BigList::bigInsertInfo: %s friendship %s isMyRelay %d isMyPreferredRelay %d", 
 	//	poInfo->getOnlineName(),
 	//	poInfo->describeMyFriendshipToHim(),
 	//	poInfo->isMyRelay(),
@@ -229,7 +229,7 @@ void BigList::removeAllInfos( void )
 //! update which list person is in
 void BigList::updateVectorList( EFriendState oldFriendship,  BigListInfo * poInfo )
 {
-	LogMsg(LOG_INFO, "updateVectorList: %s old friendship %d\n", 
+	LogMsg(LOG_INFO, "updateVectorList: %s old friendship %d", 
 			poInfo->getOnlineName(),
 			oldFriendship);
 
@@ -251,7 +251,7 @@ void BigList::removeFromVectorList( EFriendState friendship, BigListInfo *poInfo
 		{
 			if( (*iter) == poInfo )
 			{
-				LogMsg( LOG_INFO, "BigList::removeFromVectorList: administrator %s\n", poInfo->getOnlineName());
+				LogMsg( LOG_INFO, "BigList::removeFromVectorList: administrator %s", poInfo->getOnlineName());
 				m_AdministratorList.erase(iter);
 				break;
 			}
@@ -267,7 +267,7 @@ void BigList::removeFromVectorList( EFriendState friendship, BigListInfo *poInfo
 		{
 			if( (*iter) == poInfo )
 			{
-				LogMsg( LOG_INFO, "BigList::removeFromVectorList: friend %s\n", poInfo->getOnlineName());
+				LogMsg( LOG_INFO, "BigList::removeFromVectorList: friend %s", poInfo->getOnlineName());
 				m_FriendList.erase(iter);
 				break;
 			}
@@ -282,7 +282,7 @@ void BigList::removeFromVectorList( EFriendState friendship, BigListInfo *poInfo
 		{
 			if( (*iter) == poInfo )
 			{
-				LogMsg( LOG_INFO, "BigList::removeFromVectorList: guest %s\n", poInfo->getOnlineName());
+				LogMsg( LOG_INFO, "BigList::removeFromVectorList: guest %s", poInfo->getOnlineName());
 				m_GuestList.erase(iter);
 				break;
 			}
@@ -297,7 +297,7 @@ void BigList::removeFromVectorList( EFriendState friendship, BigListInfo *poInfo
 		{
 			if( (*iter) == poInfo )
 			{
-				LogMsg( LOG_INFO, "BigList::removeFromVectorList: anonymous %s\n", poInfo->getOnlineName());
+				LogMsg( LOG_INFO, "BigList::removeFromVectorList: anonymous %s", poInfo->getOnlineName());
 				m_AnonymousList.erase(iter);
 				break;
 			}
@@ -312,7 +312,7 @@ void BigList::removeFromVectorList( EFriendState friendship, BigListInfo *poInfo
 		{
 			if( (*iter) == poInfo )
 			{
-				LogMsg( LOG_INFO, "BigList::removeFromVectorList: ignore %s\n", poInfo->getOnlineName());
+				LogMsg( LOG_INFO, "BigList::removeFromVectorList: ignore %s", poInfo->getOnlineName());
 				m_IgnoreList.erase(iter);
 				break;
 			}
@@ -322,7 +322,7 @@ void BigList::removeFromVectorList( EFriendState friendship, BigListInfo *poInfo
 		break;
 
 	default:
-		LogMsg( LOG_INFO, "BigList::removeFromVectorList: %s unknown friendship %d\n", 
+		LogMsg( LOG_INFO, "BigList::removeFromVectorList: %s unknown friendship %d", 
 				poInfo->getOnlineName(), friendship );
 	}
 }
@@ -334,35 +334,35 @@ void BigList::addToVectorList( EFriendState friendship, BigListInfo *poInfo )
 	switch( friendship )
 	{
 	case eFriendStateAdmin:
-		//LogMsg( LOG_INFO, "addToVectorList: administrator %s\n", poInfo->getOnlineName());
+		//LogMsg( LOG_INFO, "addToVectorList: administrator %s", poInfo->getOnlineName());
 		m_AdministratorListMutex.lock();
 		m_AdministratorList.push_back( poInfo );
 		m_AdministratorListMutex.unlock();
 		break;
 
 	case eFriendStateFriend:
-		//LogMsg( LOG_INFO, "addToVectorList: friend %s\n", poInfo->getOnlineName());
+		//LogMsg( LOG_INFO, "addToVectorList: friend %s", poInfo->getOnlineName());
 		m_FriendListMutex.lock();
 		m_FriendList.push_back( poInfo );
 		m_FriendListMutex.unlock();
 		break;
 
 	case eFriendStateGuest:
-		//LogMsg( LOG_INFO, "addToVectorList: guest %s\n", poInfo->getOnlineName());
+		//LogMsg( LOG_INFO, "addToVectorList: guest %s", poInfo->getOnlineName());
 		m_GuestListMutex.lock();
 		m_GuestList.push_back( poInfo );
 		m_GuestListMutex.unlock();
 		break;
 
 	case eFriendStateAnonymous:
-		//LogMsg( LOG_INFO, "addToVectorList: anonymous %s\n", poInfo->getOnlineName());
+		//LogMsg( LOG_INFO, "addToVectorList: anonymous %s", poInfo->getOnlineName());
 		m_AnonymousListMutex.lock();
 		m_AnonymousList.push_back( poInfo );
 		m_AnonymousListMutex.unlock();
 		break;
 
 	case eFriendStateIgnore:
-		//LogMsg( LOG_INFO, "addToVectorList: ignore %s\n", poInfo->getOnlineName());
+		//LogMsg( LOG_INFO, "addToVectorList: ignore %s", poInfo->getOnlineName());
 		m_IgnoreListMutex.lock();
 		m_IgnoreList.push_back( poInfo );
 		m_IgnoreListMutex.unlock();
