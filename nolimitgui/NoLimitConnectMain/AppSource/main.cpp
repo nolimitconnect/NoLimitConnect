@@ -82,7 +82,7 @@ namespace{
         }
     }
 
-    void setupRootStorageDirectory()
+    bool setupRootStorageDirectory()
     {
         std::string strRootUserDataDir;
 
@@ -101,9 +101,11 @@ namespace{
 
         VxFileUtil::makeForwardSlashPath( strRootUserDataDir );
         strRootUserDataDir += "/";
-        // No need to put application in path because when call QCoreApplication::setApplicationName("MyP2PWeb")
+        // No need to put application in path because when call QCoreApplication::setApplicationName("AppName")
         // it made it a sub directory of DataLocation
         VxSetRootDataStorageDirectory( strRootUserDataDir.c_str() );
+
+        return VxFileUtil::testIsWritablePath( strRootUserDataDir );
     }
 }
 
@@ -178,7 +180,17 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
 
     // TODO allow user to change where the data is stored
-    setupRootStorageDirectory();
+    if( !setupRootStorageDirectory() )
+    {
+        QString warnWritableTitle = QObject::tr( "No Writable Location for application data" );
+        QString warnWritableBody = QObject::tr( "No location found to store application data.\n Application will exit" );
+
+        QMessageBox warnStorage( QMessageBox::Icon::Information, warnWritableTitle, warnWritableBody, QMessageBox::Ok );
+        warnStorage.exec();
+        return -1;
+    }
+
+    LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
 
     INlc& nolimit = INlc::getINlc();
     nolimit.doPreStartup();

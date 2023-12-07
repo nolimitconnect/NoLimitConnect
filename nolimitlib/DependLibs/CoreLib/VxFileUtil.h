@@ -179,6 +179,13 @@ public:
 	static std::string			makeKodiPath( const char* path );
 
     static std::string          readVersionFile( std::string& versionFileName );
+
+	//! return false if a test file cannot be written to the given path
+	static bool					testIsWritablePath( std::string writeablePath ); 
+
+	static std::string			describeDiskSpace( std::string pathOnDisk );
+
+	static std::string			describeFileSize( uint64_t fileLen );
 };
 
 size_t FindLastPathSeperator( std::string& path );

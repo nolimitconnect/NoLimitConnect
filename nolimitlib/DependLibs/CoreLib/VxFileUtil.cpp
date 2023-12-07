@@ -52,6 +52,8 @@ namespace
         return PATH_SEP_CHAR;
 #endif // TARGET_OS_WINDOWS
     }
+
+	const char* TEST_WRITEABLE_FILE_NAME = "nlctest.nlc";
 }
 //============================================================================
 size_t FindLastPathSeperator( std::string& path )
@@ -2195,13 +2197,13 @@ uint8_t  VxFileUtil::charToHexBinary( char cVal )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "VxGUID::charToHex invalid char 0x%2.2x\n", cVal );
+		LogMsg( LOG_ERROR, "VxGUID::charToHex invalid char 0x%2.2x", cVal );
 		return 0;
 	}
 }
 
 //============================================================================
-char  VxFileUtil::binaryToHexChar( uint8_t u8Val )
+char VxFileUtil::binaryToHexChar( uint8_t u8Val )
 {
 	uint8_t byteVal = u8Val & 0x0f;
 	if( byteVal < 10 )
@@ -2210,4 +2212,127 @@ char  VxFileUtil::binaryToHexChar( uint8_t u8Val )
 	}
 
 	return ( byteVal - 9 ) + 'A';
+}
+
+//============================================================================
+bool VxFileUtil::testIsWritablePath( std::string writeablePath )
+{
+	bool result{ false };
+	assurePathEndWithSlash( writeablePath );
+	makeDirectory( writeablePath );
+	writeablePath += TEST_WRITEABLE_FILE_NAME;
+
+	FILE* fileHandle = fopen( writeablePath.c_str(), "wb+" );
+	if( fileHandle )
+	{
+		const char* testStr = "1234\n";
+		char buf[10];
+		strcpy( buf, testStr );
+		int writeCnt = fwrite( buf, 1, strlen( testStr ), fileHandle );
+		if( writeCnt == strlen( testStr ) )
+		{
+			result = true;
+		}
+
+		fclose( fileHandle );
+		deleteFile( writeablePath.c_str() );
+	}
+	else
+	{
+        LogMsg( LOG_WARN, "VxFileUtil::testIsWritablePath errno %d could not open file %s", VxGetLastError(), writeablePath.c_str() );
+	}
+
+	return result;
+}
+
+//============================================================================
+std::string VxFileUtil::describeDiskSpace( std::string pathOnDisk )
+{
+	uint64_t totalDiskSpace{ 0 };
+	uint64_t diskSpaceAvail{ 0 };
+	bool resultOk = getDiskSpace( pathOnDisk.c_str(), totalDiskSpace, diskSpaceAvail );
+	if( resultOk )
+	{
+        char resultSpace[256];
+        sprintf( resultSpace, "Avail %s of %s total disk space", describeFileSize( diskSpaceAvail ).c_str(),
+                describeFileSize( totalDiskSpace ).c_str() );
+        return resultSpace;
+	}
+	else
+	{
+		char resultErr[128];
+		sprintf( resultErr, "disk space error %d", VxGetLastError() );
+		LogMsg( LOG_ERROR, "VxFileUtil::describeDiskSpace %s", resultErr );
+		return resultErr;
+	}
+}
+
+//============================================================================
+std::string VxFileUtil::describeFileSize( uint64_t fileLen )
+{
+	double dSize = (double)fileLen;
+	char as8Buf[32];
+	char as8Suffix[32];
+	if( fileLen < 1000 )
+	{
+		sprintf( as8Buf, "%d", (uint32_t)fileLen );
+		strcpy( as8Suffix, "  B" );
+	}
+	else if( fileLen < 1000000 )
+	{
+		sprintf( as8Buf, "%3.1f", dSize/1000 );
+		strcpy( as8Suffix, " KB" );
+	}
+	else if( fileLen < 1000000000 )
+	{
+		sprintf( as8Buf, "%3.1f", dSize/1000000 );
+		strcpy( as8Suffix, " MB" );
+	}
+	else if( fileLen < 1000000000000 )
+	{
+		sprintf( as8Buf, "%3.1f", dSize/1000000000 );
+		strcpy( as8Suffix, " GB" );
+	}
+	else if( fileLen < 1000000000000000 )
+	{
+		sprintf( as8Buf, "%3.1f", dSize/1000000000000 );
+		strcpy( as8Suffix, " TB" );
+	}
+	else if( fileLen < 1000000000000000000 )
+	{
+		sprintf( as8Buf, "%3.1f", dSize/1000000000000000 );
+		strcpy( as8Suffix, " PB" );
+	}
+	else
+	{
+		strcpy( as8Buf, "???" );
+		strcpy( as8Suffix, " ??" );
+	}
+
+	char textBuf[32];
+	textBuf[0] = 0;
+	size_t iLen = strlen( as8Buf );
+	if( iLen > 4 )
+	{
+		// too long.. remove the decimal point
+		char * pTemp = strchr( as8Buf, '.' );
+		if( pTemp )
+		{
+			pTemp[0] = pTemp[2];
+			pTemp[1] = 0;
+		}
+		iLen = strlen( as8Buf );
+	}
+	if( iLen < 4 )
+	{
+		// fill in leading spaces
+		for( size_t i = 0; i < ( 4 - iLen ); i++ )
+		{
+			textBuf[i] = ' ';
+			textBuf[i+1] = 0;
+		}
+	}
+	strcat( textBuf, as8Buf );
+	strcat( textBuf, as8Suffix );
+	return textBuf;
 }

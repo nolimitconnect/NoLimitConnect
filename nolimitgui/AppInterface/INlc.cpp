@@ -225,13 +225,36 @@ bool INlc::doPreStartup()
 
     QString appCachePathQ = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/";
     std::string appCachePath = appCachePathQ.toUtf8().constData();
+
     QString userWriteablePathQ = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/";
     std::string userWriteablePath = userWriteablePathQ.toUtf8().constData();
+    if( !VxFileUtil::testIsWritablePath( userWriteablePath ) )
+    {
+#if defined(TARGET_OS_LINUX)
+        userWriteablePath  = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/";
+#else
+       // fallback to root storage
+        userWriteablePath = VxGetRootDataStorageDirectory();
+        userWriteablePath += "userdata/";
+#endif // defined(TARGET_OS_LINUX)
+
+        if( !VxFileUtil::testIsWritablePath( userWriteablePath ) )
+        {
+            QString warnWritableTitle = QObject::tr( "No Writable Location for user data" );
+            QString warnWritableBody = QObject::tr( "No location found to store user data.\n Application will exit" );
+
+            QMessageBox warnStorage( QMessageBox::Icon::Information, warnWritableTitle, warnWritableBody, QMessageBox::Ok );
+            warnStorage.exec();
+            return false;
+        }
+    }
+
+    LogMsg( LOG_VERBOSE, "cache storage disk space path %s %s", appCachePath.c_str(), VxFileUtil::describeDiskSpace( appCachePath ).c_str() );
+    LogMsg( LOG_VERBOSE, "user storage disk space path %s %s", userWriteablePath.c_str(), VxFileUtil::describeDiskSpace( userWriteablePath ).c_str() );
 
     bool result = m_OsInterface.doPreStartup();
 
-    result &= m_OsInterface.initUserPaths( appCachePath, userWriteablePath );
-	return result;
+    return result && m_OsInterface.initUserPaths( appCachePath, userWriteablePath );
 }
 
 //============================================================================
