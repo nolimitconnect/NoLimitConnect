@@ -230,13 +230,9 @@ bool INlc::doPreStartup()
     std::string userWriteablePath = userWriteablePathQ.toUtf8().constData();
     if( !VxFileUtil::testIsWritablePath( userWriteablePath ) )
     {
-#if defined(TARGET_OS_LINUX)
-        userWriteablePath  = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/";
-#else
        // fallback to root storage
         userWriteablePath = VxGetRootDataStorageDirectory();
         userWriteablePath += "userdata/";
-#endif // defined(TARGET_OS_LINUX)
 
         if( !VxFileUtil::testIsWritablePath( userWriteablePath ) )
         {
