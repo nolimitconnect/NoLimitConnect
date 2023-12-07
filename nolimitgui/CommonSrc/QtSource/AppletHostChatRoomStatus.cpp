@@ -28,26 +28,26 @@ AppletHostChatRoomStatus::AppletHostChatRoomStatus( AppCommon& app, QWidget* par
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
     ui.m_HostingRequirementsButton->setVisible( false );
+    ui.m_OptionalServiceLabel1->setVisible( false );
+    ui.m_OptionalServiceLabel2->setVisible( false );
+
     getChatRoomHostPermissionWidget()->setPluginType( ePluginTypeHostChatRoom );
+    getChatRoomHostPermissionWidget()->setEnabled( true );
+
     getConnectionTestWidget()->setPluginType( ePluginTypeHostConnectTest );
-    getRandomConnectPermissionWidget()->setPluginType( ePluginTypeHostRandomConnect );
-    getGroupHostPermissionWidget()->setPluginType( ePluginTypeHostGroup );
+    getConnectionTestWidget()->setVisible( false );
 
     ui.m_OpenPortCheckBox->setEnabled( false );
     ui.m_HostPermissionWidget->setEnabled( false );
     ui.m_ConnectionTestPermissionCheckBox->setEnabled( false );
-
-    ui.m_OptionalLabel->setVisible( false );
-    ui.m_RandomConnectPermissionWidget->setVisible( false );
-
-    ui.m_AdditionalLabel1->setVisible( false );
-    ui.m_AdditionalLabel2->setVisible( false );
-    ui.m_AdditionalPermissionWidget->setVisible( false );
+    ui.m_ConnectionTestPermissionCheckBox->setVisible( false );
 
     m_MyApp.activityStateChange( this, true );
 
     connect( ui.m_HostingRequirementsButton, SIGNAL( clicked() ), this, SLOT( slotHostRequirementsButtonClicked() ) );
     connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
+    connect( ui.m_VistEvalVpnsButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
+
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();
 }
@@ -79,15 +79,11 @@ void AppletHostChatRoomStatus::slotUpdateStatusTimeout()
     }
     else if( !networkHostEnabled )
     {
-        ui.m_HostingStatusText->setText( QObject::tr( "ChatRoom Hosting Permission is disabled" ) );
-    }
-    else if( !connectTestEnabled )
-    {
-        ui.m_HostingStatusText->setText( QObject::tr( "Connection Test Permission is disabled" ) );
+        ui.m_HostingStatusText->setText( QObject::tr( "Chat Room Hosting Permission is disabled" ) );
     }
     else
     {
-        ui.m_HostingStatusText->setText( QObject::tr( "ChatRoom Hosting Conditions Are Met" ) );
+        ui.m_HostingStatusText->setText( QObject::tr( "Chat Room Hosting Conditions Are Met" ) );
     }
 
     //int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeChatRoomSearchList );
@@ -96,3 +92,10 @@ void AppletHostChatRoomStatus::slotUpdateStatusTimeout()
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
     ui.m_UrlText->setText( url.c_str() );
 }
+
+//============================================================================
+void AppletHostChatRoomStatus::gotoWebsite( void )
+{
+    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
+}
+

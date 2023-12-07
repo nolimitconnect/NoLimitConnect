@@ -8,7 +8,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "AppletHostNetworkStatus.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -31,24 +30,17 @@ AppletHostNetworkStatus::AppletHostNetworkStatus( AppCommon& app, QWidget* paren
     ui.m_HostingRequirementsButton->setVisible( false );
     getNetworkHostPermissionWidget()->setPluginType( ePluginTypeHostNetwork );
     getConnectionTestWidget()->setPluginType( ePluginTypeHostConnectTest );
-    getRandomConnectPermissionWidget()->setPluginType( ePluginTypeHostRandomConnect );
-    getGroupHostPermissionWidget()->setPluginType( ePluginTypeHostGroup );
 
     ui.m_OpenPortCheckBox->setEnabled( false );
     ui.m_HostPermissionCheckBox->setEnabled( false );
     ui.m_ConnectionTestPermissionCheckBox->setEnabled( false );
 
-    ui.m_OptionalLabel->setVisible( false );
-    ui.m_RandomConnectPermissionWidget->setVisible( false );
-
-    ui.m_AdditionalLabel1->setVisible( false );
-    ui.m_AdditionalLabel2->setVisible( false );
-    ui.m_AdditionalPermissionWidget->setVisible( false );
-
     m_MyApp.activityStateChange( this, true );
 
     connect( ui.m_HostingRequirementsButton, SIGNAL( clicked() ), this, SLOT( slotHostRequirementsButtonClicked() ) );
     connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
+    connect( ui.m_VistEvalVpnsButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
+
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();
 }
@@ -96,4 +88,10 @@ void AppletHostNetworkStatus::slotUpdateStatusTimeout()
     std::string url;
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
     ui.m_UrlText->setText( url.c_str() );
+}
+
+//============================================================================
+void AppletHostNetworkStatus::gotoWebsite( void )
+{
+    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
 }

@@ -27,10 +27,9 @@ public:
 
     PermissionWidget*           getNetworkHostPermissionWidget()    { return ui.m_HostPermissionWidget; }
     PermissionWidget*           getConnectionTestWidget()           { return ui.m_ConnectTestPermissionWidget; }
-    PermissionWidget*           getGroupHostPermissionWidget()      { return ui.m_AdditionalPermissionWidget; }
-    PermissionWidget*           getRandomConnectPermissionWidget()  { return ui.m_RandomConnectPermissionWidget; }
 
 protected slots:
+    void						gotoWebsite( void );
     void                        slotHostRequirementsButtonClicked();
     void                        slotUpdateStatusTimeout();
 

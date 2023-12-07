@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>296</width>
-    <height>512</height>
+    <width>355</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,20 +17,23 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Host A Group</string>
+   <string>Hosting Requirements Status</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>5</number>
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
    </property>
    <item row="0" column="0">
     <widget class="QGroupBox" name="ItemsGroupBox">
@@ -45,7 +48,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>2</number>
+       <number>1</number>
       </property>
       <property name="leftMargin">
        <number>5</number>
@@ -70,14 +73,14 @@
        <widget class="PermissionWidget" name="m_HostPermissionWidget" native="true"/>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="m_OptionalServiceLabel1">
         <property name="text">
          <string>Optional Services That May Be Provided By Host</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="m_OptionalServiceLabel2">
         <property name="text">
          <string>Recommend Connection Test Permission Anybody</string>
         </property>
@@ -85,33 +88,6 @@
       </item>
       <item>
        <widget class="PermissionWidget" name="m_ConnectTestPermissionWidget" native="true"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_OptionalLabel">
-        <property name="text">
-         <string>Optional: Provide Random Connect Service</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="PermissionWidget" name="m_RandomConnectPermissionWidget" native="true"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_AdditionalLabel1">
-        <property name="text">
-         <string>If your network does not have many group hosts</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_AdditionalLabel2">
-        <property name="text">
-         <string>You might want to host a group on the same device</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="PermissionWidget" name="m_AdditionalPermissionWidget" native="true"/>
       </item>
       <item>
        <widget class="QCheckBox" name="m_OpenPortCheckBox">
@@ -135,16 +111,16 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="m_GroupCountTitleLabel">
+         <widget class="QLabel" name="m_UrlTitleLabel">
           <property name="text">
-           <string>Group Listing Count:</string>
+           <string>Url:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_GroupListCountLabel">
+         <widget class="QLabel" name="m_UrlText">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -162,13 +138,25 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="m_StatusTitleLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
-           <string>Status:</string>
+           <string>Status:  </string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="m_HostingStatusText">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -177,16 +165,61 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <widget class="Line" name="line">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>4</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>4</height>
+         </size>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>For author of NLC evaluation of VPNs that can open a port </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_VistEvalVpnsButton">
+        <property name="text">
+         <string>visit https://nolimitconnect.com/nlc/vpns/</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="m_UrlTitleLabel">
+         <widget class="QLabel" name="m_GroupCountTitleLabel">
           <property name="text">
-           <string>Url:</string>
+           <string>Members Count:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_UrlText">
+         <widget class="QLabel" name="m_GroupListCountLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>

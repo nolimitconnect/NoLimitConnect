@@ -29,6 +29,7 @@ public:
     PermissionWidget*           getConnectionTestWidget()           { return ui.m_ConnectTestPermissionWidget; }
 
 protected slots:
+    void						gotoWebsite( void );
     void                        slotHostRequirementsButtonClicked();
     void                        slotUpdateStatusTimeout();
 

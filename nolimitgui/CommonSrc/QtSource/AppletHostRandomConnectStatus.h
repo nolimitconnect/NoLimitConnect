@@ -25,12 +25,11 @@ public:
     AppletHostRandomConnectStatus( AppCommon& app, QWidget* parent );
 	virtual ~AppletHostRandomConnectStatus();
 
-    PermissionWidget*           getRandomConnectHostPermissionWidget()    { return ui.m_HostPermissionWidget; }
-    PermissionWidget*           getConnectionTestWidget()           { return ui.m_ConnectTestPermissionWidget; }
-    PermissionWidget*           getGroupHostPermissionWidget()      { return ui.m_AdditionalPermissionWidget; }
-    PermissionWidget*           getRandomConnectPermissionWidget()  { return ui.m_RandomConnectPermissionWidget; }
+    PermissionWidget*           getRandomConnectHostPermissionWidget()      { return ui.m_HostPermissionWidget; }
+    PermissionWidget*           getConnectionTestWidget()                   { return ui.m_ConnectTestPermissionWidget; }
 
 protected slots:
+    void						gotoWebsite( void );
     void                        slotHostRequirementsButtonClicked();
     void                        slotUpdateStatusTimeout();
 

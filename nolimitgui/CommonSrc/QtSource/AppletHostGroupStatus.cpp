@@ -29,24 +29,26 @@ AppletHostGroupStatus::AppletHostGroupStatus( AppCommon& app, QWidget* parent )
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
     ui.m_HostingRequirementsButton->setVisible( false );
+    ui.m_OptionalServiceLabel1->setVisible( false );
+    ui.m_OptionalServiceLabel2->setVisible( false );
+
     getGroupHostPermissionWidget()->setPluginType( ePluginTypeHostGroup );
+    getGroupHostPermissionWidget()->setEnabled( true );
+
     getConnectionTestWidget()->setPluginType( ePluginTypeHostConnectTest );
+    getConnectionTestWidget()->setVisible( false );
 
     ui.m_OpenPortCheckBox->setEnabled( false );
     ui.m_HostPermissionCheckBox->setEnabled( false );
     ui.m_ConnectionTestPermissionCheckBox->setEnabled( false );
-
-    ui.m_OptionalLabel->setVisible( false );
-    ui.m_RandomConnectPermissionWidget->setVisible( false );
-
-    ui.m_AdditionalLabel1->setVisible( false );
-    ui.m_AdditionalLabel2->setVisible( false );
-    ui.m_AdditionalPermissionWidget->setVisible( false );
+    ui.m_ConnectionTestPermissionCheckBox->setVisible( false );
 
     m_MyApp.activityStateChange( this, true );
 
     connect( ui.m_HostingRequirementsButton, SIGNAL( clicked() ), this, SLOT( slotHostRequirementsButtonClicked() ) );
     connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
+    connect( ui.m_VistEvalVpnsButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
+
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();
 }
@@ -75,13 +77,9 @@ void AppletHostGroupStatus::slotUpdateStatusTimeout()
     {
         ui.m_HostingStatusText->setText( QObject::tr( "Group Hosting Permission is disabled" ) );
     }
-    else if( !connectTestEnabled )
-    {
-        ui.m_HostingStatusText->setText( QObject::tr( "Connection Test Permission is disabled" ) );
-    }
     else
     {
-        ui.m_HostingStatusText->setText( QObject::tr( " Hosting Conditions Are Met" ) );
+        ui.m_HostingStatusText->setText( QObject::tr( "Group Hosting Conditions Are Met" ) );
     }
 
     int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeNetworkSearchList );
@@ -100,3 +98,10 @@ void AppletHostGroupStatus::slotHostRequirementsButtonClicked()
         activityInfo->show();
     }
 }
+
+//============================================================================
+void AppletHostGroupStatus::gotoWebsite( void )
+{
+    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
+}
+
