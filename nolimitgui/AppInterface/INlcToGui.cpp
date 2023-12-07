@@ -8,8 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "INlc.h"
 #include "../CommonSrc/QtSource/AppCommon.h"
+#include "INlc.h" // should be first but is included after AppCommon so QWidget is defined first for linux build
+
 #include "../CommonSrc/QtSource/SoundMgr.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
