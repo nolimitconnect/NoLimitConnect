@@ -411,9 +411,30 @@ RCODE DbBase::dbOpen( void )
 	int retval = sqlite3_open( m_strDbFileName.c_str(), &m_Db );
 	if (!(SQLITE_OK == retval))
 	{
-		handleSqlError( LOG_ERROR, "DbBase:Unable to open db %s SQLITE ERROR %d", m_strDbFileName.c_str(), retval );
+		handleSqlError( LOG_ERROR, "DbBase:Unable to open db %s errno %d SQLITE ERROR %d ", m_strDbFileName.c_str(), VxGetLastError(), retval );
 		sqlite3_close(m_Db);
 		m_Db = nullptr;
+		if( SQLITE_CANTOPEN == retval )
+		{
+			uint64_t dbFileSize = VxFileUtil::fileExists( m_strDbFileName.c_str() );
+			LogMsg( LOG_VERBOSE, "Retry of DbBase::dbOpen %s file size %s", m_strDbFileName.c_str(), VxFileUtil::describeFileSize( dbFileSize ).c_str() );
+
+			VxSleep( 500 );
+			retval = sqlite3_open( m_strDbFileName.c_str(), &m_Db );
+			if (!(SQLITE_OK == retval))
+			{
+				handleSqlError( LOG_ERROR, "Failed rety DbBase:dbOpen db %s errno %d SQLITE ERROR %d ", m_strDbFileName.c_str(), VxGetLastError(), retval );
+				sqlite3_close(m_Db);
+				m_Db = nullptr;
+				return -4;
+			}
+			else
+			{
+				LogMsg( LOG_VERBOSE, "Retry of DbBase::dbOpen %s SUCCESS", m_strDbFileName.c_str() );
+				return 0;
+			}
+		}
+
 		return -3;
 	}
 
