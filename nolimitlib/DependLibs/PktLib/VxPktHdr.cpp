@@ -232,13 +232,13 @@ VxGUID VxPktHdr::getGuidInHostOrder( VxGUID& srcGuid )
 }
 
 //============================================================================
-std::string VxPktHdr::describePkt( void )
+std::string VxPktHdr::describePktHdr( void )
 {
     std::string pktDesc = describePktType( getPktType() );
     pktDesc += " ";
-    pktDesc += std::to_string( getPktType());
+    pktDesc += std::to_string( getPktType() );
     pktDesc += " len ";
-    pktDesc += std::to_string( getPktLength());
+    pktDesc += std::to_string( getPktLength() );
 
     return pktDesc;
 }
@@ -249,152 +249,179 @@ const char* VxPktHdr::describePktType( uint16_t pktType )
     switch( pktType )
     {
     case PKT_TYPE_ANNOUNCE:							return "PktAnnounce";					// 1
-    case PKT_TYPE_ANN_LIST:							return "PktAnnList";				    // 2 ( 0x02 )
-    case PKT_TYPE_HOST_UNJOIN_REQ:					return "PktHostUnJoinReq";				// 3 ( 0x03 )
-    case PKT_TYPE_HOST_UNJOIN_REPLY:				return "PktHostUnJoinReply";			// 4 ( 0x04 )
-    case PKT_TYPE_SCAN_REQ:							return "PktPktScanReq";                 // 5 ( 0x05 )
-    case PKT_TYPE_SCAN_REPLY:						return "PktPktScanReply";			    // 6 ( 0x06 )
-    case PKT_TYPE_PLUGIN_OFFER_REQ:					return "PktPluginOfferReq";			    // 7 ( 0x07 )
-    case PKT_TYPE_PLUGIN_OFFER_REPLY:				return "PktPluginOfferRepl";		    // 8 ( 0x08 )
-    case PKT_TYPE_CHAT_REQ:							return "PkChatReq";                     // 9 ( 0x09 )
-    case PKT_TYPE_CHAT_REPLY:						return "PktChatReply";				    // 10 ( 0x0a )
-    case PKT_TYPE_VOICE_REQ:						return "PktVoiceReq";			        // 11 ( 0x0b )
-    case PKT_TYPE_VOICE_REPLY:						return "PktVoiceReply";			        // 12 ( 0x0c )
-    case PKT_TYPE_VIDEO_FEED_REQ:					return "PktVideoFeedReq";			    // 13 ( 0x0d )
-    case PKT_TYPE_VIDEO_FEED_STATUS:				return "PktVideoFeedStatus";		    // 14 ( 0x0e )
-    case PKT_TYPE_VIDEO_FEED_PIC:					return "PktVideoFeedPic";               // 15 ( 0x0f )
-    case PKT_TYPE_VIDEO_FEED_PIC_CHUNK:				return "PktVideoFeedPicChunk";		    // 16 ( 0x10 )
-    case PKT_TYPE_VIDEO_FEED_PIC_ACK:				return "PktVideoFeedPicAck";	        // 17 ( 0x11 )
-    case PKT_TYPE_SESSION_START_REQ:				return "PktSessionStartReq";	        // 18 ( 0x12 )
-    case PKT_TYPE_SESSION_START_REPLY:				return "PktSessionStartReply";	        // 19 ( 0x13 )
-    case PKT_TYPE_SESSION_STOP_REQ:					return "PktSessionStopReq";             // 20 ( 0x14 )
-    case PKT_TYPE_SESSION_STOP_REPLY:				return "PktSessionStopReply";		    // 21 ( 0x15 )
-    case PKT_TYPE_FILE_GET_REQ:						return "PktFileGetReq";                 // 22 ( 0x16 )
-    case PKT_TYPE_FILE_GET_REPLY:					return "PktFileGetReply";			    // 23 ( 0x17 )
-    case PKT_TYPE_FILE_SEND_REQ:					return "PktFileSendReq";		        // 24 ( 0x18 )
-    case PKT_TYPE_FILE_SEND_REPLY:					return "PktFileSendReply";		        // 25 ( 0x19 )
-    case PKT_TYPE_FILE_CHUNK_REQ:					return "PktFileChunkReq";		        // 26 ( 0x1a )
-    case PKT_TYPE_FILE_CHUNK_REPLY:					return "PktFileChunkReply";		        // 27 ( 0x1b )
-    case PKT_TYPE_FILE_GET_COMPLETE_REQ:			return "PkFileGetCompleteReq";			// 28 ( 0x1c )
-    case PKT_TYPE_FILE_GET_COMPLETE_REPLY:			return "PktFileGetCompleteReply";	    // 29 ( 0x1d )
-    case PKT_TYPE_FILE_SEND_COMPLETE_REQ:			return "PktFileSendCompleteReq";	    // 30 ( 0x1e )
-    case PKT_TYPE_FILE_SEND_COMPLETE_REPLY:			return "PktFileSendCompleteReply";	    // 31 ( 0x1f )
-    case PKT_TYPE_FILE_FIND_REQ:					return "PktFindFileReq";                // 32 ( 0x20 )
-    case PKT_TYPE_FILE_FIND_REPLY:					return "PktFindFileReply";			    // 33 ( 0x21 )
-    case PKT_TYPE_FILE_LIST_REQ:					return "PktFileListReq";			    // 34 ( 0x22 )
-    case PKT_TYPE_FILE_LIST_REPLY:					return "PktFileListReply";			    // 35 ( 0x23 )
-    case PKT_TYPE_FILE_INFO_REQ:					return "PktFileInfoReq";			    // 36 ( 0x24 )
-    case PKT_TYPE_FILE_INFO_REPLY:					return "PktFileInfoReply";			    // 37 ( 0x25 )
-    case PKT_TYPE_FILE_SHARE_ERR:					return "PktFileShareErr";			    // 38 ( 0x26 )
-    case PKT_TYPE_ASSET_GET_REQ:					return "PktAssetGetReq";	            // 39 ( 0x27 )
-    case PKT_TYPE_ASSET_GET_REPLY:					return "PktAssetGetReply";			    // 40 ( 0x28 )
-    case PKT_TYPE_ASSET_SEND_REQ:					return "PktAssetSendReq";				// 41 ( 0x29 )
-    case PKT_TYPE_ASSET_SEND_REPLY:					return "PktAssetSendReply";				// 42 ( 0x2A )
-    case PKT_TYPE_ASSET_CHUNK_REQ:					return "PktAssetChunkReq";				// 43 ( 0x2B )
-    case PKT_TYPE_ASSET_CHUNK_REPLY:				return "PktAssetChunkReply";            // 44 ( 0x2C )
-    case PKT_TYPE_ASSET_GET_COMPLETE_REQ:			return "PktAssetGetCompleteReq";        // 45 ( 0x2D )
-    case PKT_TYPE_ASSET_GET_COMPLETE_REPLY:			return "PktAssetGetCompleteReply";	    // 46 ( 0x2E )
-    case PKT_TYPE_ASSET_SEND_COMPLETE_REQ:			return "PktAssetSendCompleteReq";		// 47 ( 0x2F )
-    case PKT_TYPE_ASSET_SEND_COMPLETE_REPLY:		return "PktAssetSendCompleteReply";		// 48 ( 0x30 )
-    case PKT_TYPE_ASSET_XFER_ERR:					return "PktAssetXferErr";               // 49 ( 0x31 )
+    case PKT_TYPE_ANN_LIST:							return "PktAnnList";				    // 2 ( 0x02 )		
+    case PKT_TYPE_SCAN_REQ:							return "PktPktScanReq";                 // 3 ( 0x03 )
+    case PKT_TYPE_SCAN_REPLY:						return "PktPktScanReply";			    // 4 ( 0x04 )
+    case PKT_TYPE_PLUGIN_OFFER_REQ:					return "PktPluginOfferReq";			    // 5 ( 0x05 )
+    case PKT_TYPE_PLUGIN_OFFER_REPLY:				return "PktPluginOfferRepl";		    // 6 ( 0x06 )
+    case PKT_TYPE_CHAT_REQ:							return "PkChatReq";                     // 7 ( 0x07 )
+    case PKT_TYPE_CHAT_REPLY:						return "PktChatReply";				    // 8 ( 0x08 )
+    case PKT_TYPE_VOICE_REQ:						return "PktVoiceReq";			        // 9 ( 0x09 )
+    case PKT_TYPE_VOICE_REPLY:						return "PktVoiceReply";			        // 10 ( 0x0a )
+    case PKT_TYPE_VIDEO_FEED_REQ:					return "PktVideoFeedReq";			    // 11 ( 0x0b )
+    case PKT_TYPE_VIDEO_FEED_STATUS:				return "PktVideoFeedStatus";		    // 12 ( 0x0c )
+    case PKT_TYPE_VIDEO_FEED_PIC:					return "PktVideoFeedPic";               // 13 ( 0x0d )
+    case PKT_TYPE_VIDEO_FEED_PIC_CHUNK:				return "PktVideoFeedPicChunk";		    // 14 ( 0x0e )
+    case PKT_TYPE_VIDEO_FEED_PIC_ACK:				return "PktVideoFeedPicAck";	        // 15 ( 0x0f )
+    case PKT_TYPE_SESSION_START_REQ:				return "PktSessionStartReq";	        // 16 ( 0x10 )
+    case PKT_TYPE_SESSION_START_REPLY:				return "PktSessionStartReply";	        // 17 ( 0x11 )
+    case PKT_TYPE_SESSION_STOP_REQ:					return "PktSessionStopReq";             // 18 ( 0x12 )
+    case PKT_TYPE_SESSION_STOP_REPLY:				return "PktSessionStopReply";		    // 19 ( 0x13 )
+    case PKT_TYPE_FILE_GET_REQ:						return "PktFileGetReq";                 // 20 ( 0x14 )
+    case PKT_TYPE_FILE_GET_REPLY:					return "PktFileGetReply";			    // 21 ( 0x15 )
+    case PKT_TYPE_FILE_SEND_REQ:					return "PktFileSendReq";		        // 22 ( 0x16 )
+    case PKT_TYPE_FILE_SEND_REPLY:					return "PktFileSendReply";		        // 23 ( 0x17 )
+    case PKT_TYPE_FILE_CHUNK_REQ:					return "PktFileChunkReq";		        // 24 ( 0x18 )
+    case PKT_TYPE_FILE_CHUNK_REPLY:					return "PktFileChunkReply";		        // 25 ( 0x19 )
+    case PKT_TYPE_FILE_GET_COMPLETE_REQ:			return "PkFileGetCompleteReq";			// 26 ( 0x1a )
+    case PKT_TYPE_FILE_GET_COMPLETE_REPLY:			return "PktFileGetCompleteReply";	    // 27 ( 0x1b )
+    case PKT_TYPE_FILE_SEND_COMPLETE_REQ:			return "PktFileSendCompleteReq";	    // 28 ( 0x1c )
+    case PKT_TYPE_FILE_SEND_COMPLETE_REPLY:			return "PktFileSendCompleteReply";	    // 29 ( 0x1d )
+    case PKT_TYPE_FILE_FIND_REQ:					return "PktFindFileReq";                // 30 ( 0x1e )
+    case PKT_TYPE_FILE_FIND_REPLY:					return "PktFindFileReply";			    // 31 ( 0x1f )
+    case PKT_TYPE_FILE_LIST_REQ:					return "PktFileListReq";			    // 32 ( 0x20 )
+    case PKT_TYPE_FILE_LIST_REPLY:					return "PktFileListReply";			    // 33 ( 0x21 )
+    case PKT_TYPE_FILE_INFO_REQ:					return "PktFileInfoReq";			    // 34 ( 0x22 )
+    case PKT_TYPE_FILE_INFO_REPLY:					return "PktFileInfoReply";			    // 35 ( 0x23 )
+    case PKT_TYPE_FILE_SHARE_ERR:					return "PktFileShareErr";			    // 36 ( 0x24 )
+    case PKT_TYPE_ASSET_GET_REQ:					return "PktAssetGetReq";	            // 37 ( 0x25 )
+    case PKT_TYPE_ASSET_GET_REPLY:					return "PktAssetGetReply";			    // 38 ( 0x26 )
+    case PKT_TYPE_ASSET_SEND_REQ:					return "PktAssetSendReq";				// 39 ( 0x27 )
+    case PKT_TYPE_ASSET_SEND_REPLY:					return "PktAssetSendReply";				// 40 ( 0x28 )
+    case PKT_TYPE_ASSET_CHUNK_REQ:					return "PktAssetChunkReq";				// 41 ( 0x29 )
+    case PKT_TYPE_ASSET_CHUNK_REPLY:				return "PktAssetChunkReply";            // 42 ( 0x2A )
+    case PKT_TYPE_ASSET_GET_COMPLETE_REQ:			return "PktAssetGetCompleteReq";        // 43 ( 0x2B )
+    case PKT_TYPE_ASSET_GET_COMPLETE_REPLY:			return "PktAssetGetCompleteReply";	    // 44 ( 0x2C )
+    case PKT_TYPE_ASSET_SEND_COMPLETE_REQ:			return "PktAssetSendCompleteReq";		// 45 ( 0x2D )
+    case PKT_TYPE_ASSET_SEND_COMPLETE_REPLY:		return "PktAssetSendCompleteReply";		// 46 ( 0x2E )
+    case PKT_TYPE_ASSET_XFER_ERR:					return "PktAssetXferErr";               // 47 ( 0x2F )
+                                                                                            
+    case PKT_TYPE_THUMB_GET_REQ:					return "PktThumbGetReq";                // 48 ( 0x30 )
+    case PKT_TYPE_THUMB_GET_REPLY:					return "PktThumbGetReply";              // 49 ( 0x31 )
+    case PKT_TYPE_THUMB_SEND_REQ:					return "PktThumbSendReq";               // 50 ( 0x32 ) 
+    case PKT_TYPE_THUMB_SEND_REPLY:				    return "PktThumbSendReply";             // 51 ( 0x33 ) 
+    case PKT_TYPE_THUMB_CHUNK_REQ:				    return "PktThumbChunkReq";              // 52 ( 0x34 )
+    case PKT_TYPE_THUMB_CHUNK_REPLY:				return "PktThumbChunkReply";		    // 53 ( 0x35 )
+    case PKT_TYPE_THUMB_GET_COMPLETE_REQ:			return "PktThumbGetCompleteReq";		// 54 ( 0x36 )
+    case PKT_TYPE_THUMB_GET_COMPLETE_REPLY:			return "PktThumbGetCompleteReply";      // 55 ( 0x37 )
+    case PKT_TYPE_THUMB_SEND_COMPLETE_REQ:		    return "PktThumbSendCompleteReq";       // 56 ( 0x38 )
+    case PKT_TYPE_THUMB_SEND_COMPLETE_REPLY:        return "PktThumbSendCompleteReply";     // 57 ( 0x39 ) 
+    case PKT_TYPE_THUMB_XFER_ERR:					return "PktThumbXferErr";               // 58 ( 0x3A ) 
 
-    case PKT_TYPE_THUMB_GET_REQ:					return "PktThumbGetReq";                
-    case PKT_TYPE_THUMB_GET_REPLY:					return "PktThumbGetReply";              
-    case PKT_TYPE_THUMB_SEND_REQ:					return "PktThumbSendReq";               
-    case PKT_TYPE_THUMB_SEND_REPLY:				    return "PktThumbSendReply";             
-    case PKT_TYPE_THUMB_CHUNK_REQ:				    return "PktThumbChunkReq";              
-    case PKT_TYPE_THUMB_CHUNK_REPLY:				return "PktThumbChunkReply";		    
-    case PKT_TYPE_THUMB_GET_COMPLETE_REQ:			return "PktThumbGetCompleteReq";		
-    case PKT_TYPE_THUMB_GET_COMPLETE_REPLY:			return "PktThumbGetCompleteReply";      
-    case PKT_TYPE_THUMB_SEND_COMPLETE_REQ:		    return "PktThumbSendCompleteReq";       
-    case PKT_TYPE_THUMB_SEND_COMPLETE_REPLY:        return "PktThumbSendCompleteReply";     
-    case PKT_TYPE_THUMB_XFER_ERR:					return "PktThumbXferErr";               
+    case PKT_TYPE_MSESSION_REQ:						return "PktMultiSessionReq";            // 59 ( 0x3B )  
+    case PKT_TYPE_MSESSION_REPLY:					return "PktMultiSessionReq";            // 60 ( 0x3C )	
 
-    case PKT_TYPE_MSESSION_REQ:						return "PktMultiSessionReq";            
-    case PKT_TYPE_MSESSION_REPLY:					return "PktMultiSessionReq";            
+    case PKT_TYPE_TCP_PUNCH:						return "PktTcpPunch";                   // 61 ( 0x3D )	
+    case PKT_TYPE_PING_REQ:							return "PktPingReq";                    // 62 ( 0x3E ) 
+    case PKT_TYPE_PING_REPLY:						return "PktPingReply";                  // 63 ( 0x3F )  
+    case PKT_TYPE_IM_ALIVE_REQ:						return "PktImAliveReq";                 // 64 ( 0x40 ) 
+    case PKT_TYPE_IM_ALIVE_REPLY:					return "PktImAliveReply";	            // 65 ( 0x41 )  
 
-    case PKT_TYPE_TCP_PUNCH:						return "PktTcpPunch";                   
-    case PKT_TYPE_PING_REQ:							return "PktPingReq";                    
-    case PKT_TYPE_PING_REPLY:						return "PktPingReply";                  
-    case PKT_TYPE_IM_ALIVE_REQ:						return "PktImAliveReq";                 
-    case PKT_TYPE_IM_ALIVE_REPLY:					return "PktImAliveReply";	            
+    case PKT_TYPE_TOD_GAME_STATS:					return "PktTodGameStats";               // 66 ( 0x42 )
+    case PKT_TYPE_TOD_GAME_ACTION:					return "PktTodGameAction";			    // 67 ( 0x43 )
+    case PKT_TYPE_TOD_GAME_VALUE:					return "PktTodGameValue";			    // 68 ( 0x44 )     
 
-    case PKT_TYPE_TOD_GAME_STATS:					return "PktTodGameStats";               
-    case PKT_TYPE_TOD_GAME_ACTION:					return "PktTodGameAction";			    
-    case PKT_TYPE_TOD_GAME_VALUE:					return "PktTodGameValue";			         
+    case PKT_TYPE_BLOB_SEND_REQ:					return "PkBlobSendReq";                 // 69 ( 0x45 )
+    case PKT_TYPE_BLOB_SEND_REPLY:				    return "PktBlobSendReply";			    // 70 ( 0x46 )
+    case PKT_TYPE_BLOB_CHUNK_REQ:				    return "PktBlobChunkReq";			    // 71 ( 0x47 )
+    case PKT_TYPE_BLOB_CHUNK_REPLY:				    return "PktBlobChunkReply";			    // 72 ( 0x48 )
+    case PKT_TYPE_BLOB_SEND_COMPLETE_REQ:		    return "PktBlobSendCompleteReq";		// 73 ( 0x49 )
+    case PKT_TYPE_BLOB_SEND_COMPLETE_REPLY:		    return "PktBlobSendCompleteReply ";	    // 74 ( 0x4a )
+    case PKT_TYPE_BLOB_XFER_ERR:					return "PktBlobXferErr";                // 75 ( 0x4b )
 
-    case PKT_TYPE_BLOB_SEND_REQ:					return "PkBlobSendReq";                 
-    case PKT_TYPE_BLOB_SEND_REPLY:				    return "PktBlobSendReply";			    
-    case PKT_TYPE_BLOB_CHUNK_REQ:				    return "PktBlobChunkReq";			    
-    case PKT_TYPE_BLOB_CHUNK_REPLY:				    return "PktBlobChunkReply";			    
-    case PKT_TYPE_BLOB_SEND_COMPLETE_REQ:		    return "PktBlobSendCompleteReq";		
-    case PKT_TYPE_BLOB_SEND_COMPLETE_REPLY:		    return "PktBlobSendCompleteReply ";	    
-    case PKT_TYPE_BLOB_XFER_ERR:					return "PktBlobXferErr";                
+    case PKT_TYPE_HOST_JOIN_REQ:		            return "PktHostJoinReq";	            // 76 ( 0x4c )  
+    case PKT_TYPE_HOST_JOIN_REPLY:					return "PktHostJoinReply";	            // 77 ( 0x4d ) 
+    case PKT_TYPE_HOST_UNJOIN_REQ:					return "PktHostUnJoinReq";				// 78 ( 0x4e )
+    case PKT_TYPE_HOST_UNJOIN_REPLY:				return "PktHostUnJoinReply";	        // 79 ( 0x4f ) 
+    case PKT_TYPE_HOST_LEAVE_REQ:		            return "PktHostLeaveReq";	            // 80 ( 0x50 )
+    case PKT_TYPE_HOST_LEAVE_REPLY:					return "PktHostLeaveReply";	            // 81 ( 0x51 ) 
+                                                                                             
+    case PKT_TYPE_HOST_OFFER_REQ:		            return "PktHostOfferReq";	            // 82 ( 0x52 )
+    case PKT_TYPE_HOST_OFFER_REPLY:					return "PktHostOfferReply";	            // 83 ( 0x53 )  
 
-    case PKT_TYPE_HOST_JOIN_REQ:		            return "PktHostJoinReq";	            
-    case PKT_TYPE_HOST_JOIN_REPLY:					return "PktHostJoinReply";	            
-    case PKT_TYPE_HOST_LEAVE_REQ:		            return "PktHostLeaveReq";	            
-    case PKT_TYPE_HOST_LEAVE_REPLY:					return "PktHostLeaveReply";	            
+    case PKT_TYPE_HOST_SEARCH_REQ:		            return "PktHostSearchReq";	            // 84 ( 0x54 )
+    case PKT_TYPE_HOST_SEARCH_REPLY:                return "PktHostSearchReply";	        // 85 ( 0x55 )
 
-    case PKT_TYPE_HOST_OFFER_REQ:		            return "PktHostOfferReq";	            
-    case PKT_TYPE_HOST_OFFER_REPLY:					return "PktHostOfferReply";	            
+    case PKT_TYPE_FRIEND_OFFER_REQ:		            return "PktFriendOfferReq";	            // 86 ( 0x56 )
+    case PKT_TYPE_FRIEND_OFFER_REPLY:               return "PktFriendOfferReply";	        // 87 ( 0x57 )
 
-    case PKT_TYPE_HOST_SEARCH_REQ:		            return "PktHostSearchReq";	            
-    case PKT_TYPE_HOST_SEARCH_REPLY:                return "PktHostSearchReply";	        
+    case PKT_TYPE_OFFER_SEND_REQ:					return "PktOfferSendReq";               // 88 ( 0x58 ) 
+    case PKT_TYPE_OFFER_SEND_REPLY:					return "PktOfferSendReply";			    // 89 ( 0x59 )
+    case PKT_TYPE_OFFER_CHUNK_REQ:					return "PktOfferChunkReq";			    // 90 ( 0x5A )
+    case PKT_TYPE_OFFER_CHUNK_REPLY:				return "PktOfferChunkReply";			// 91 ( 0x5B ) 
+    case PKT_TYPE_OFFER_SEND_COMPLETE_REQ:			return "PktOfferSendCompleteReq";       // 92 ( 0x5C ) 
+    case PKT_TYPE_OFFER_SEND_COMPLETE_REPLY:		return "PktOfferSendCompleteReply";	    // 93 ( 0x5D ) 
+    case PKT_TYPE_OFFER_XFER_ERR:					return "PktOfferXferErr";               // 94 ( 0x5E ) 
 
-    case PKT_TYPE_FRIEND_OFFER_REQ:		            return "PktFriendOfferReq";	            
-    case PKT_TYPE_FRIEND_OFFER_REPLY:               return "PktFriendOfferReply";	        
+    case PKT_TYPE_WEB_SERVER_MY_PIC_SEND_REQ:		return "PktMyPicSendReq";				// 95 ( 0x5F )
+    case PKT_TYPE_WEB_SERVER_MY_PIC_SEND_REPLY:		return "PktMyPicSendReply";             // 96 ( 0x60 )
+    case PKT_TYPE_WEB_SERVER_PIC_CHUNK_TX:			return "PktWebServerPicChunkTx";        // 97 ( 0x61 ) 
+    case PKT_TYPE_WEB_SERVER_PIC_CHUNK_ACK:			return "PktWebServerPicChunkAck";		// 98 ( 0x62 )
+    case PKT_TYPE_WEB_SERVER_GET_CHUNK_TX:			return "PktWebServerGetChunkTx";        // 99 ( 0x63 )
+    case PKT_TYPE_WEB_SERVER_GET_CHUNK_ACK:			return "PktWebServerGetChunkAck";       // 100 ( 0x64 )
+    case PKT_TYPE_WEB_SERVER_PUT_CHUNK_TX:			return "PktWebServerPutChunkTx";        // 101 ( 0x65 )
+    case PKT_TYPE_WEB_SERVER_PUT_CHUNK_ACK:			return "PktWebServerPutChunkAck";       // 102 ( 0x66 ) 
+                                                                                             
+    case PKT_TYPE_PUSH_TO_TALK_REQ:				    return "PktPushToTalkReq";		        // 103 ( 0x67 ) 
+    case PKT_TYPE_PUSH_TO_TALK_REPLY:				return "PktPushToTalkReply";            // 104 ( 0x68 ) 
+    case PKT_TYPE_PUSH_TO_TALK_START:	            return "PktPushToTalkStart";	        // 105 ( 0x69 ) 
+    case PKT_TYPE_PUSH_TO_TALK_STOP:	            return "PktPushToTalkStop";	            // 106 ( 0x6A )
+                                                                                            
+    case PKT_TYPE_HOST_INFO_REQ:				    return "PktHostInfoReq";                // 107 ( 0x6B ) 
+    case PKT_TYPE_HOST_INFO_REPLY:			        return "PktHostInfoReply";              // 108 ( 0x6C ) 
+                                                                                            
+    case PKT_TYPE_HOST_INVITE_ANN_REQ:				return "PktHostInviteAnnReq";		    // 109 ( 0x6D ) 
+    case PKT_TYPE_HOST_INVITE_ANN_REPLY:			return "PktHostInviteAnnReply";         // 110 ( 0x6E ) 
+    case PKT_TYPE_HOST_INVITE_SEARCH_REQ:			return "PktHostInviteSearchReq";		// 111 ( 0x6F )
+    case PKT_TYPE_HOST_INVITE_SEARCH_REPLY:			return "PktHostInviteSearchReply";      // 112 ( 0x70 )
+    case PKT_TYPE_HOST_INVITE_MORE_REQ:				return "PktHostInviteMoreReq";          // 113 ( 0x71 ) 
+    case PKT_TYPE_HOST_INVITE_MORE_REPLY:			return "PktHostInviteMoreReply";        // 114 ( 0x72 ) 
+                                                                                            
+    case PKT_TYPE_GROUPIE_INFO_REQ:				    return "PktGroupieInfoReq";             // 115 ( 0x73 ) 
+    case PKT_TYPE_GROUPIE_INFO_REPLY:			    return "PktGroupieInfoReply";           // 116 ( 0x74 ) 
+                                                                                            
+    case PKT_TYPE_GROUPIE_ANN_REQ:				    return "PktGroupieAnnReq";              // 117 ( 0x75 ) 
+    case PKT_TYPE_GROUPIE_ANN_REPLY:			    return "PktGroupieAnnReply";            // 118 ( 0x76 ) 
+    case PKT_TYPE_GROUPIE_SEARCH_REQ:				return "PktGroupieSearchReq";		    // 119 ( 0x77 ) 
+    case PKT_TYPE_GROUPIE_SEARCH_REPLY:			    return "PktGroupieSearchReply";         // 120 ( 0x78 ) 
+    case PKT_TYPE_GROUPIE_MORE_REQ:				    return "PktGroupieMoreReq";             // 121 ( 0x79 )	
+    case PKT_TYPE_GROUPIE_MORE_REPLY:               return "PktGroupieMoreReply";           // 122 ( 0x7A )	
+                                                                                            
+    case PKT_TYPE_FILE_INFO_INFO_REQ:				return "PktFileInfoReq";                // 123 ( 0x7B )
+    case PKT_TYPE_FILE_INFO_INFO_REPLY:			    return "PktFileInfoReply";              // 124 ( 0x7C )
+                                                                                            
+    case PKT_TYPE_FILE_INFO_ANN_REQ:				return "PktFileInfoAnnReq";             // 125 ( 0x7D )
+    case PKT_TYPE_FILE_INFO_ANN_REPLY:			    return "PktFileInfoAnnReply";           // 126 ( 0x7E )
+    case PKT_TYPE_FILE_INFO_SEARCH_REQ:				return "PktFileInfoSearchReq";          // 127 ( 0x7F )
+    case PKT_TYPE_FILE_INFO_SEARCH_REPLY:			return "PktFileInfoSearchReply";        // 128 ( 0x80 )
+    case PKT_TYPE_FILE_INFO_MORE_REQ:				return "PktFileInfoMoreReq";            // 129 ( 0x81 )
+    case PKT_TYPE_FILE_INFO_MORE_REPLY:			    return "PktFileInfoMoreReply";          // 130 ( 0x82 )
 
-    case PKT_TYPE_OFFER_SEND_REQ:					return "PktOfferSendReq";               
-    case PKT_TYPE_OFFER_SEND_REPLY:					return "PktOfferSendReply";			    
-    case PKT_TYPE_OFFER_CHUNK_REQ:					return "PktOfferChunkReq";			    
-    case PKT_TYPE_OFFER_CHUNK_REPLY:				return "PktOfferChunkReply";			
-    case PKT_TYPE_OFFER_SEND_COMPLETE_REQ:			return "PktOfferSendCompleteReq";       
-    case PKT_TYPE_OFFER_SEND_COMPLETE_REPLY:		return "PktOfferSendCompleteReply";	    
-    case PKT_TYPE_OFFER_XFER_ERR:					return "PktOfferXferErr";               
+    case PKT_TYPE_MEMBERSHIP_REQ:				    return "PktMembershipReq";  		    // 131 ( 0x83 )
+    case PKT_TYPE_MEMBERSHIP_REPLY:				    return "PktMembershipReply";  			// 132 ( 0x84 )	
+																									
+    case PKT_TYPE_RELAY_USER_DISCONNECT:			return "PktRelayUserDisconnect";  		// 133 ( 0x85 )		
+																					
+    case PKT_TYPE_HOST_USER_INFO_REQ:				return "PktHostUserInfoReq";  		    // 134 ( 0x86 )		 
+    case PKT_TYPE_HOST_USER_INFO_REPLY:				return "PktHostUserInfoReply";     		// 135 ( 0x87 )		
+    case PKT_TYPE_HOST_USER_STATUS_REQ:				return "PktHostUserStatusReq";  		// 136 ( 0x88 )		
+    case PKT_TYPE_HOST_USER_STATUS_REPLY:			return "PktHostUserStatusReply";    	// 137 ( 0x89 )		
 
-    case PKT_TYPE_WEB_SERVER_MY_PIC_SEND_REQ:		return "PktMyPicSendReq";				
-    case PKT_TYPE_WEB_SERVER_MY_PIC_SEND_REPLY:		return "PktMyPicSendReply";             
-    case PKT_TYPE_WEB_SERVER_PIC_CHUNK_TX:			return "PktWebServerPicChunkTx";        
-    case PKT_TYPE_WEB_SERVER_PIC_CHUNK_ACK:			return "PktWebServerPicChunkAck";		
-    case PKT_TYPE_WEB_SERVER_GET_CHUNK_TX:			return "PktWebServerGetChunkTx";        
-    case PKT_TYPE_WEB_SERVER_GET_CHUNK_ACK:			return "PktWebServerGetChunkAck";       
-    case PKT_TYPE_WEB_SERVER_PUT_CHUNK_TX:			return "PktWebServerPutChunkTx";        
-    case PKT_TYPE_WEB_SERVER_PUT_CHUNK_ACK:			return "PktWebServerPutChunkAck";       
+    case PKT_TYPE_HOST_USER_LIST_REQ:				return "PktHostUserListReq";  		    // 138 ( 0x8A )		 
+    case PKT_TYPE_HOST_USER_LIST_REPLY:				return "PktHostUserListReply";  		// 139 ( 0x8B )		 
+    case PKT_TYPE_HOST_USER_LIST_MORE_REQ:		    return "PktHostUserListMoreReq"; 		// 140 ( 0x8C )		 
+    case PKT_TYPE_HOST_USER_LIST_MORE_REPLY:		return "PktHostUserListMoreReq"; 		// 141 ( 0x8D )		 
 
-    case PKT_TYPE_PUSH_TO_TALK_REQ:				    return "PktPushToTalkReq";		        
-    case PKT_TYPE_PUSH_TO_TALK_REPLY:				return "PktPushToTalkReply";            
+    case PKT_TYPE_TEST_CONN_TEST_REQ:				return "PktTestConnTestReq";   		    // 142 ( 0x8E )		
+    case PKT_TYPE_TEST_CONN_PING_REQ:				return "PktTestConnTestReply";  		// 143 ( 0x8F )		
+    case PKT_TYPE_TEST_CONN_PING_REPLY:				return "PktTestConnPingReq";   			// 144 ( 0x90 )		
+    case PKT_TYPE_TEST_CONN_TEST_REPLY:				return "PktTestConnPingReq";  			// 145 ( 0x91 )	
 
-    case PKT_TYPE_HOST_INFO_REQ:				    return "PktHostInfoReq";                
-    case PKT_TYPE_HOST_INFO_REPLY:			        return "PktHostInfoReply";              
+    case PKT_TYPE_QUERY_HOST_URL_REQ:				return "PktQueryHostUrlReq";  			// 146 ( 0x92 )		
+    case PKT_TYPE_QUERY_HOST_URL_REPLY:				return "PktQueryHostUrlReply";  		// 147 ( 0x93 )	
 
-    case PKT_TYPE_HOST_INVITE_ANN_REQ:				return "PktHostInviteAnnReq";		    
-    case PKT_TYPE_HOST_INVITE_ANN_REPLY:			return "PktHostInviteAnnReply";         
-    case PKT_TYPE_HOST_INVITE_SEARCH_REQ:			return "PktHostInviteSearchReq";		
-    case PKT_TYPE_HOST_INVITE_SEARCH_REPLY:			return "PktHostInviteSearchReply";      
-    case PKT_TYPE_HOST_INVITE_MORE_REQ:				return "PktHostInviteMoreReq";          
-    case PKT_TYPE_HOST_INVITE_MORE_REPLY:			return "PktHostInviteMoreReply";        
 
-    case PKT_TYPE_GROUPIE_INFO_REQ:				    return "PktGroupieInfoReq";             
-    case PKT_TYPE_GROUPIE_INFO_REPLY:			    return "PktGroupieInfoReply";           
-
-    case PKT_TYPE_GROUPIE_ANN_REQ:				    return "PktGroupieAnnReq";              
-    case PKT_TYPE_GROUPIE_ANN_REPLY:			    return "PktGroupieAnnReply";            
-    case PKT_TYPE_GROUPIE_SEARCH_REQ:				return "PktGroupieSearchReq";		    
-    case PKT_TYPE_GROUPIE_SEARCH_REPLY:			    return "PktGroupieSearchReply";         
-    case PKT_TYPE_GROUPIE_MORE_REQ:				    return "PktGroupieMoreReq";             
-    case PKT_TYPE_GROUPIE_MORE_REPLY:               return "PktGroupieMoreReply";           
-
-    case PKT_TYPE_FILE_INFO_INFO_REQ:				return "PktFileInfoReq";                
-    case PKT_TYPE_FILE_INFO_INFO_REPLY:			    return "PktFileInfoReply";              
-
-    case PKT_TYPE_FILE_INFO_ANN_REQ:				return "PktFileInfoAnnReq";             
-    case PKT_TYPE_FILE_INFO_ANN_REPLY:			    return "PktFileInfoAnnReply";           
-    case PKT_TYPE_FILE_INFO_SEARCH_REQ:				return "PktFileInfoSearchReq";          
-    case PKT_TYPE_FILE_INFO_SEARCH_REPLY:			return "PktFileInfoSearchReply";        
-    case PKT_TYPE_FILE_INFO_MORE_REQ:				return "PktFileInfoMoreReq";            
-    case PKT_TYPE_FILE_INFO_MORE_REPLY:			    return "PktFileInfoMoreReply";
-    default:
-        return "PktUnknown";
+    default:                                                                                
+        return "PktUnknown";                                                                
     }
 }

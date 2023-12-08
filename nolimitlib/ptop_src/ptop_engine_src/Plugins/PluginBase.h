@@ -93,9 +93,14 @@ public:
     virtual IToGui&			    getToGui( void );
     virtual void				setPluginType( EPluginType pluginType );
     virtual EPluginType			getPluginType( void ) override							{ return m_ePluginType; }
+
     virtual bool                setPluginSetting( PluginSetting& pluginSetting, int64_t modifiedTimeMs = 0 );
     virtual PluginSetting&      getPluginSetting( void )                                { return m_PluginSetting; }
+
     virtual EHostType			getHostType( void );
+
+	virtual EPluginType			getClientPluginType( void );
+	virtual EPluginType			getServerPluginType( void );
 
 	virtual PluginMgr&			getPluginMgr( void )									{ return m_PluginMgr;	}
 	virtual	VxMutex&			getPluginMutex( void )									{ return m_PluginMutex; }	

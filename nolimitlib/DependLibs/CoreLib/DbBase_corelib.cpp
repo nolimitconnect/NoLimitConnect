@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <array>
 
 namespace
 {
@@ -795,13 +796,15 @@ RCODE DbBase::sqlExec( const char* SQL_Statement )
 //============================================================================
 void DbBase::handleSqlError( RCODE rc, const char* errMsg, ... )
 {
-	char szBuffer[1024];
+	std::array<char, 1024> szBuffer;
 	va_list arg_ptr;
 	va_start(arg_ptr, errMsg);
-	vsprintf(szBuffer, errMsg, arg_ptr);
+	vsnprintf(szBuffer.data(), szBuffer.size(), errMsg, arg_ptr);
 	va_end(arg_ptr);
-	LogMsg( LOG_ERROR, szBuffer );
-	onSqlError( rc, szBuffer );
+	szBuffer[szBuffer.size() - 1] = 0;
+
+	LogMsg( LOG_ERROR, szBuffer.data() );
+	onSqlError( rc, szBuffer.data() );
 }
 
 //============================================================================

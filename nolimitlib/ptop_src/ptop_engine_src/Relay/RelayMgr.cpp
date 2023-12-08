@@ -110,14 +110,14 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( 0 != sktBaseRelay->txPacket( destOnlineId, pktHdr ) )
 	{
-        LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt FAILED sent relay pkt %s srcId %s %s destId %s %s", pktHdr->describePkt().c_str(),
+        LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt FAILED sent relay pkt %s srcId %s %s destId %s %s", pktHdr->describePktHdr().c_str(),
 			srcOnlineId.toOnlineIdString().c_str(), sktBase->getPeerOnlineName().c_str(), destOnlineId.toOnlineIdString().c_str(), sktBaseRelay->getPeerOnlineName().c_str() );
 
 		sendRelayError( pktHdr, srcOnlineId, destOnlineId, sktBase, eRelayErrUserNotOnline );
 		return true;
 	}
 
-    LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt sent relay pkt %s srcId %s %s destId %s %s", pktHdr->describePkt().c_str(),
+    LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt sent relay pkt %s srcId %s %s destId %s %s", pktHdr->describePktHdr().c_str(),
 		srcOnlineId.toOnlineIdString().c_str(), sktBase->getPeerOnlineName().c_str(), destOnlineId.toOnlineIdString().c_str(), sktBaseRelay->getPeerOnlineName().c_str() );
 	return true;
 }

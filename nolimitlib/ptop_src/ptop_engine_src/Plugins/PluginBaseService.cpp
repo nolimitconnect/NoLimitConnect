@@ -50,7 +50,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorO
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
                 if( sktBase && sktBase->isConnected() )
                 {
-                    if( txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr ) )
+                    if( txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr, false, getClientPluginType() ) )
                     {
                         if( requestorSktConnectionId == sktBase->getSocketId() )
                         {

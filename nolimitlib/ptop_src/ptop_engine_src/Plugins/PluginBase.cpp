@@ -122,6 +122,98 @@ EHostType PluginBase::getHostType( void )
 }
 
 //============================================================================
+EPluginType	PluginBase::getClientPluginType( void )
+{
+    EPluginType clientPluginType = getPluginType();
+    switch( clientPluginType )
+    {
+
+    case ePluginTypeAboutMePageServer:
+        clientPluginType = ePluginTypeAboutMePageClient;
+        break;
+
+    case ePluginTypeCamServer:
+        clientPluginType = ePluginTypeCamClient;
+        break;
+
+    case ePluginTypeFileShareServer:
+        clientPluginType = ePluginTypeFileShareClient;
+        break;
+
+    case ePluginTypeHostChatRoom:
+        clientPluginType = ePluginTypeClientChatRoom;
+        break;
+
+    case ePluginTypeHostConnectTest:
+        clientPluginType = ePluginTypeClientConnectTest;
+        break;
+
+    case ePluginTypeHostGroup:
+        clientPluginType = ePluginTypeClientGroup;
+        break;
+
+    case ePluginTypeHostRandomConnect:
+        clientPluginType = ePluginTypeClientRandomConnect;
+        break;
+
+    case ePluginTypeStoryboardServer:
+        clientPluginType = ePluginTypeStoryboardClient;
+        break;
+
+    default:
+        break;
+    }
+
+    return clientPluginType;
+}
+
+//============================================================================
+EPluginType	PluginBase::getServerPluginType( void )
+{
+    EPluginType serverPluginType = getPluginType();
+    switch( serverPluginType )
+    {
+
+    case ePluginTypeAboutMePageClient:
+        serverPluginType = ePluginTypeAboutMePageServer;
+        break;
+
+    case ePluginTypeCamClient:
+        serverPluginType = ePluginTypeCamServer;
+        break;
+
+    case ePluginTypeClientChatRoom:
+        serverPluginType = ePluginTypeHostChatRoom;
+        break;
+
+    case ePluginTypeClientConnectTest:
+        serverPluginType = ePluginTypeHostConnectTest;
+        break;
+
+    case ePluginTypeClientGroup:
+        serverPluginType = ePluginTypeHostGroup;
+        break;
+
+    case ePluginTypeClientRandomConnect:
+        serverPluginType = ePluginTypeHostRandomConnect;
+        break;
+
+    case ePluginTypeFileShareClient:
+        serverPluginType = ePluginTypeFileShareServer;
+        break;
+
+    case ePluginTypeStoryboardClient:
+        serverPluginType = ePluginTypeStoryboardServer;
+        break;
+
+    default:
+        break;
+    }
+
+    return serverPluginType;
+}
+
+//============================================================================
 EAppState PluginBase::getPluginState( void )
 {
 	if( eFriendStateIgnore == getPluginPermission() )

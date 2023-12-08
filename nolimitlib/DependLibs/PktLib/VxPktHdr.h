@@ -108,7 +108,7 @@ public:
     static void                 setGuidToNetOrder( VxGUID& srcGuid, VxGUID& destGuid );
     static VxGUID               getGuidInHostOrder( VxGUID& srcGuid );
 
-    std::string                 describePkt( void );
+    std::string                 describePktHdr( void );
     static const char*          describePktType( uint16_t pktType );
 
 private:
