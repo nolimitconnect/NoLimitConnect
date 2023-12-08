@@ -388,7 +388,7 @@ void GuiUserMgr::updateOnlineStatus( VxNetIdent* netIdent, bool online )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::findUser( VxGUID& onlineId )
+GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
 {
     GuiUser* guiUser = nullptr;
     if( onlineId == m_MyOnlineId )
@@ -408,7 +408,7 @@ GuiUser* GuiUserMgr::findUser( VxGUID& onlineId )
 }
 
 //============================================================================
-void GuiUserMgr::removeUser( VxGUID& onlineId )
+void GuiUserMgr::removeUser( const VxGUID& onlineId )
 {
     auto iter = m_UserList.find( onlineId );
     if( iter != m_UserList.end() )
@@ -445,7 +445,7 @@ bool GuiUserMgr::isUserInSession( VxGUID& onlineId )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::getUser( VxGUID& onlineId )
+GuiUser* GuiUserMgr::getUser( const VxGUID& onlineId )
 {
     GuiUser* guiUser = nullptr;
     if( onlineId == getMyOnlineId() )

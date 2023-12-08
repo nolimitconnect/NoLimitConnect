@@ -87,6 +87,7 @@ void AppletHostGroupStatus::slotUpdateStatusTimeout()
     std::string url;
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
     ui.m_UrlText->setText( url.c_str() );
+    updateOnlineMembers();
 }
 
 //============================================================================
@@ -105,3 +106,8 @@ void AppletHostGroupStatus::gotoWebsite( void )
     QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
 }
 
+//============================================================================
+void AppletHostGroupStatus::updateOnlineMembers( void )
+{
+    ui.m_FriendListWidget->updateHostServerMembers( eHostTypeChatRoom );
+}

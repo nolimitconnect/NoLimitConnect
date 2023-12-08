@@ -17,7 +17,7 @@
 
 #include <ptop_src/ptop_engine_src/HostListMgr/HostedInfo.h>
 #include <ptop_src/ptop_engine_src/HostListMgr/HostedListMgr.h>
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 #include <PktLib/VxCommon.h>

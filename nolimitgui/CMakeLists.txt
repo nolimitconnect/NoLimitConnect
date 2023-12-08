@@ -258,7 +258,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiHostJoin.h
     CommonSrc/QtSource/GuiHostJoinCallback.h
     CommonSrc/QtSource/GuiHostJoinList.h
-    CommonSrc/QtSource/GuiHostJoinMgr.h
+    CommonSrc/QtSource/GuiHostServerJoinMgr.h
     CommonSrc/QtSource/GuiHostJoinSession.h
     CommonSrc/QtSource/GuiHostSession.h
     CommonSrc/QtSource/GuiMembershipAvailableCallback.h
@@ -639,7 +639,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiHostedListWidget.cpp
     CommonSrc/QtSource/GuiHostJoin.cpp
     CommonSrc/QtSource/GuiHostJoinList.cpp
-    CommonSrc/QtSource/GuiHostJoinMgr.cpp
+    CommonSrc/QtSource/GuiHostServerJoinMgr.cpp
     CommonSrc/QtSource/GuiHostJoinSession.cpp
     CommonSrc/QtSource/GuiHostSession.cpp
     CommonSrc/QtSource/GuiMembershipAvailableMgr.cpp

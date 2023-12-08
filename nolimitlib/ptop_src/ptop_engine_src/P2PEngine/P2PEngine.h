@@ -59,7 +59,7 @@ class BlobMgr;
 class ConnectMgr;
 class ConnectRequest;
 class FileShareSettings;
-class HostJoinMgr;
+class HostServerJoinMgr;
 class IToGui;
 class INlc;
 class IsPortOpenTest;
@@ -138,7 +138,7 @@ public:
     ThumbMgr&                   getThumbMgr( void )                             { return m_ThumbMgr; }
     UrlMgr&                     getUrlMgr( void );
 
-    HostJoinMgr&                getHostJoinMgr( void )                          { return m_HostJoinMgr; }
+    HostServerJoinMgr&                getHostJoinMgr( void )                          { return m_HostJoinMgr; }
     UserJoinMgr&                getUserJoinMgr( void )                          { return m_UserJoinMgr; }
     UserOnlineMgr&              getUserOnlineMgr( void )                        { return m_UserOnlineMgr; }
     WebPageMgr&                 getWebPageMgr( void )                           { return m_WebPageMgr; }
@@ -787,7 +787,7 @@ protected:
 	IsPortOpenTest&				m_IsPortOpenTest;
     RelayMgr                    m_RelayMgr;
     RunUrlAction&			    m_RunUrlAction;
-    HostJoinMgr&				m_HostJoinMgr;
+    HostServerJoinMgr&				m_HostJoinMgr;
     UserJoinMgr&				m_UserJoinMgr;
     UserOnlineMgr&				m_UserOnlineMgr;
     WebPageMgr&                 m_WebPageMgr;

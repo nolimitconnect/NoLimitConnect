@@ -53,10 +53,10 @@ list(APPEND ptopengine_SOURCES
     ConnectMgr/ConnectInfo.cpp
     ConnectMgr/ConnectInfoDb.cpp
     ConnectMgr/ConnectMgr.cpp
-	HostJoinMgr/HostJoinInfo.cpp
-    HostJoinMgr/HostJoinedLastDb.cpp
-	HostJoinMgr/HostJoinInfoDb.cpp
-	HostJoinMgr/HostJoinMgr.cpp
+    HostServerJoinMgr/HostJoinInfo.cpp
+    HostServerJoinMgr/HostJoinedLastDb.cpp
+    HostServerJoinMgr/HostJoinInfoDb.cpp
+    HostServerJoinMgr/HostServerJoinMgr.cpp
     GroupieListMgr/GroupieInfo.cpp
     GroupieListMgr/GroupieListDb.cpp
     GroupieListMgr/GroupieListMgr.cpp

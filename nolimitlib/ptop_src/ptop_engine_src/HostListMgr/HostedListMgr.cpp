@@ -13,7 +13,7 @@
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
 
 #include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
@@ -181,7 +181,7 @@ void HostedListMgr::wantHostedListCallback( HostedListCallbackInterface* client,
 {
     if( !client )
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::wantHostedListCallback invalid param" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::wantHostedListCallback invalid param" );
         return;
     }
 
@@ -218,7 +218,7 @@ void HostedListMgr::announceHostInfoUpdated( HostedInfo* hostedInfo )
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceHostInfoUpdated invalid param" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostInfoUpdated invalid param" );
     }
 }
 
@@ -250,7 +250,7 @@ void HostedListMgr::announceHostInfoSearchResult( HostedInfo* hostedInfo, VxGUID
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceHostInfoSearchResult invalid param" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostInfoSearchResult invalid param" );
     }
 }
 
@@ -270,7 +270,7 @@ void HostedListMgr::announceHostInfoSearchComplete( EHostType hostType, VxGUID& 
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceHostInfoSearchResult invalid param" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostInfoSearchResult invalid param" );
     }
 }
 

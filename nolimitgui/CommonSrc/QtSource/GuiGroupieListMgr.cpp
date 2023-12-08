@@ -386,3 +386,19 @@ void GuiGroupieListMgr::announceGroupieListSearchComplete( EHostType hostType, V
         client->callbackGuiGroupieListSearchComplete( hostType, sessionId );
     }
 }
+
+//============================================================================
+void GuiGroupieListMgr::getHostedMembers( EHostType hostType, std::set<VxGUID> memberList )
+{
+    memberList.clear();
+    VxGUID myOnlineId = m_MyApp.getMyOnlineId();
+    for( auto groupie : m_GroupieList )
+    {
+        if( groupie.first.isHostType( hostType ) && groupie.first.isHostOnlineId( myOnlineId ) )
+        {
+            VxGUID userId;
+            groupie.first.getUserOnlineId( userId );
+            memberList.insert( userId );
+        }
+    }
+}

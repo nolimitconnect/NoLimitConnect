@@ -37,7 +37,7 @@
 
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
 
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
 
@@ -114,7 +114,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
 	, m_IsPortOpenTest( *new IsPortOpenTest( *this, m_EngineSettings, m_NetServicesMgr, m_NetServicesMgr.getNetUtils() ) )
 	, m_RelayMgr( *this )
 	, m_RunUrlAction( *new RunUrlAction( *this, m_EngineSettings, m_NetServicesMgr, m_NetServicesMgr.getNetUtils() ) )
-	, m_HostJoinMgr( *new HostJoinMgr( *this, "HostJoinMgrDb.db3", "HostJoinedLastDb.db3" ) )
+	, m_HostJoinMgr( *new HostServerJoinMgr( *this, "HostJoinMgrDb.db3", "HostJoinedLastDb.db3" ) )
 	, m_UserJoinMgr( *new UserJoinMgr( *this, "UserJoinMgrDb.db3", "UserJoinedLastDb.db3" ) )
 	, m_UserOnlineMgr( *new UserOnlineMgr( *this, "UserOnlineMgrDb.db3", "UserOnlineStateDb.db3" ) )
 	, m_WebPageMgr( *new WebPageMgr( *this ) )

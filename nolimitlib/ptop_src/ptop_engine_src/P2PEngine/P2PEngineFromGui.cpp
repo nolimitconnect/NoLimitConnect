@@ -30,7 +30,7 @@
 #include <ptop_src/ptop_engine_src/Plugins/PluginNetServices.h>
 #include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
 
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
 

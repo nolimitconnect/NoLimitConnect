@@ -11,8 +11,10 @@
 
 #include "GuiHostJoin.h"
 
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinInfo.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinCallbackInterface.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinInfo.h>
+
+#include <set>
 
 #include <QObject>
 
@@ -55,6 +57,8 @@ public:
     void                        joinRejected( GuiHostJoin* guiHostJoin );
 
     void                        wantHostJoinCallbacks( GuiHostJoinCallback* callback, bool wantCallback );
+
+    void                        getHostedMembers( EHostType hostType, std::set<VxGUID>& memberList );
 
 signals:
     void                        signalHostJoinOfferStateChange( GroupieId groupieId, EJoinState hostOfferState );

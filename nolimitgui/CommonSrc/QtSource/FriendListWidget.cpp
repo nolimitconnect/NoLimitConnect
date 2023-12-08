@@ -385,3 +385,49 @@ FriendListEntryWidget * FriendListWidget::findListEntryWidget( GuiUser* guiUser 
 
 	return NULL;
 }
+
+//============================================================================
+int FriendListWidget::updateHostServerMembers( EHostType hostType )
+{
+	int onlineMemberCnt{ 0 };
+	std::set<VxGUID> memberList;
+	m_MyApp.getHostJoinMgr().getHostedMembers( hostType, memberList );
+	for( auto& onlineId : memberList )
+	{
+		GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
+		if( guiUser && guiUser->isOnline() )
+		{
+			onlineMemberCnt++;
+			if( !isUserInList( guiUser ) )
+			{
+				updateFriend( guiUser );
+			}
+		}
+	}
+
+	return onlineMemberCnt;
+}
+
+//============================================================================
+bool FriendListWidget::isUserInList( GuiUser* guiUser )
+{
+	bool isInList{ false };
+	int iIdx = 0;
+	FriendListEntryWidget* friendWidget;
+	while( iIdx < this->count() )
+	{
+		friendWidget = (FriendListEntryWidget *)this->item(iIdx);
+		if( friendWidget )
+		{
+            if( guiUser == friendWidget->getUser() )
+			{
+				isInList = true;
+				break;
+			}
+		}
+
+		iIdx++;
+	}
+
+	return isInList;
+}

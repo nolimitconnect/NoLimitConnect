@@ -24,13 +24,13 @@ class VxSktBase;
 class VxNetIdent;
 class GroupieId;
 
-class HostJoinMgr 
+class HostServerJoinMgr 
 {
     const int USER_HOST_JOIN_DB_VERSION = 1;
     const int JOINED_LAST_DB_VERSION = 1;
 public:
-	HostJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName );
-	virtual ~HostJoinMgr() = default;
+	HostServerJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName );
+	virtual ~HostServerJoinMgr() = default;
 
     void                        fromGuiUserLoggedOn( void );
     virtual int					fromGuiGetJoinedListCount( enum EPluginType pluginType );

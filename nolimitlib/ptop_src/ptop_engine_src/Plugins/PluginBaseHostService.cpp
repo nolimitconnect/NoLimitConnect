@@ -224,7 +224,8 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
         {
             if( !netIdent->isIgnored() )
             {
-                if( m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinWasGranted )
+                if( m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinWasGranted ||
+                    m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinIsGranted )
                 {
                     broadcastPkt = true;
 

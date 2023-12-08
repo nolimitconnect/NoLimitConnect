@@ -10,10 +10,10 @@
 
 #include "GuiHostJoin.h"
 #include "AppCommon.h"
-#include "GuiHostJoinMgr.h"
+#include "GuiHostServerJoinMgr.h"
 #include "GuiParams.h"
 #include "GuiUser.h"
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinInfo.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinInfo.h>
 
 //============================================================================
 GuiHostJoin::GuiHostJoin( AppCommon& app )

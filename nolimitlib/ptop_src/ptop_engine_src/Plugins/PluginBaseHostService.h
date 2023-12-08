@@ -20,7 +20,7 @@ public:
     PluginBaseHostService( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
     virtual ~PluginBaseHostService() override = default;
 
-    EPluginType                 getClientPluginType( void );
+    EPluginType                 getClientPluginType( void ) override;
     virtual bool				getHostedInfo( HostedInfo& hostedInfo ) override;
 
     virtual void				onMyOnlineUrlIsValid( bool iValid ) override;

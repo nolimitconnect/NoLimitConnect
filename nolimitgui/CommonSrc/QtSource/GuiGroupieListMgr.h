@@ -16,6 +16,8 @@
 
 #include <CoreLib/VxMutex.h>
 
+#include <set>
+
 #include <QObject>
 
 class AppCommon;
@@ -54,6 +56,8 @@ public:
     GuiGroupie*                 updateGroupie( GroupieId& groupieId, GuiUser* guiUser, VxGUID& sessionId );
 
     void                        wantGroupieListCallbacks( GuiGroupieListCallback* client, bool enable );
+
+    void                        getHostedMembers( EHostType hostType, std::set<VxGUID> memberList );
 
 signals:
     void				        signalMyIdentUpdated( GuiGroupie* guiGroupie );

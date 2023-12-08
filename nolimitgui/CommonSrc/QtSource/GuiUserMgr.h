@@ -70,7 +70,7 @@ public:
     void                        onUserOnlineStatusChange( GuiUser* guiUser );
     void                        onMyIdentUpdated( GuiUser* guiUser );
 
-    GuiUser*                    getUser( VxGUID& onlineId );
+    GuiUser*                    getUser( const VxGUID& onlineId );
     GuiUser*                    getOrQueryUser( VxGUID& onlineId );
     std::string                 getUserOnlineName( VxGUID& onlineId );
     
@@ -87,8 +87,8 @@ public:
     void                        connnectIdRelayStatusChange( VxGUID& onlineId );
 
 protected:
-    void                        removeUser( VxGUID& onlineId );
-    GuiUser*                    findUser( VxGUID& onlineId );
+    void                        removeUser( const VxGUID& onlineId );
+    GuiUser*                    findUser( const VxGUID& onlineId );
 
     void                        clearGuiUserUpdateClientList( void );
 

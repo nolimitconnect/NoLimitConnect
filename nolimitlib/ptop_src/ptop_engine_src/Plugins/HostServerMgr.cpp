@@ -14,7 +14,7 @@
 #include <GuiInterface/IToGui.h>
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
 #include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
 #include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
@@ -253,14 +253,14 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
 
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
-    sessionInfo.setJoinState( eJoinStateJoinWasGranted );
+
     onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================
 void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
-    sessionInfo.setJoinState( eJoinStateJoinWasGranted );
+    sessionInfo.setJoinState( eJoinStateJoinIsGranted );
     m_Engine.getHostJoinMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );

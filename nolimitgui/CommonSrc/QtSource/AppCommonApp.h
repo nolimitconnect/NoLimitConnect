@@ -21,7 +21,7 @@
 #include "GuiFileXferMgr.h"
 #include "GuiGroupieListMgr.h"
 #include "GuiHostedListMgr.h"
-#include "GuiHostJoinMgr.h"
+#include "GuiHostServerJoinMgr.h"
 #include "GuiMembershipAvailableMgr.h"
 #include "GuiOfferMgr.h"
 #include "GuiPlayerMgr.h"

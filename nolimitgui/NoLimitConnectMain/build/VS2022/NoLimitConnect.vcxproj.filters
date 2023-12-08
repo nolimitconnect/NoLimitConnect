@@ -39,9 +39,6 @@
     <Filter Include="Source Files\GuiUserJoin">
       <UniqueIdentifier>{cf99d27b-981d-429e-801b-7485f733ca1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GuiHostJoin">
-      <UniqueIdentifier>{bdfb2781-00f0-47c6-9d84-dc81eac8228a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GuiWebPage">
       <UniqueIdentifier>{5664b446-ed43-4439-b703-8055e1f48810}</UniqueIdentifier>
     </Filter>
@@ -125,6 +122,9 @@
     </Filter>
     <Filter Include="Source Files\GuiPluginMgr">
       <UniqueIdentifier>{c556a647-5103-4d79-b058-9aca6f55f45e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiHostServerJoin">
+      <UniqueIdentifier>{fadd8697-1109-45a8-8fa4-5bf871e49171}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -794,9 +794,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinMgr.h">
       <Filter>Source Files\GuiUserJoin</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostJoinMgr.h">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNearbyListClient.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1021,6 +1018,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.h">
       <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -1446,18 +1446,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiUserSessionBase.cpp">
       <Filter>Source Files\GuiUser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.cpp">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.cpp">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinMgr.cpp">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp">
-      <Filter>Source Files\GuiHostJoin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiUserJoin.cpp">
       <Filter>Source Files\GuiUserJoin</Filter>
@@ -2140,6 +2128,18 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2273,18 +2273,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinSession.h">
       <Filter>Source Files\GuiUserJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.h">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinCallback.h">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.h">
-      <Filter>Source Files\GuiHostJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h">
-      <Filter>Source Files\GuiHostJoin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserUpdateCallback.h">
       <Filter>Source Files\GuiUser</Filter>
@@ -2423,6 +2411,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.h">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinCallback.h">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.h">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

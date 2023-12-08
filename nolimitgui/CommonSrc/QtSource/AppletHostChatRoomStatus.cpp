@@ -91,6 +91,9 @@ void AppletHostChatRoomStatus::slotUpdateStatusTimeout()
     std::string url;
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
     ui.m_UrlText->setText( url.c_str() );
+    // BRJ TODO investigate why this is needed. there should be nothing to set it to disabled
+    getChatRoomHostPermissionWidget()->setEnabled( true );
+    updateOnlineMembers();
 }
 
 //============================================================================
@@ -99,3 +102,8 @@ void AppletHostChatRoomStatus::gotoWebsite( void )
     QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
 }
 
+//============================================================================
+void AppletHostChatRoomStatus::updateOnlineMembers( void )
+{
+    ui.m_FriendListWidget->updateHostServerMembers( eHostTypeChatRoom );
+}

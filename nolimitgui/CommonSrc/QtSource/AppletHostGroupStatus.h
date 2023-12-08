@@ -34,6 +34,8 @@ protected slots:
     void                        slotUpdateStatusTimeout();
 
 protected:
+    void                        updateOnlineMembers( void );
+
     Ui::AppletHostNetworkStatusUi     ui;
 
     QTimer*                     m_UpdateStatusTimer;

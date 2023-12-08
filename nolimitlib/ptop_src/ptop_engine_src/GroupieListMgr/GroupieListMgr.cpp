@@ -198,7 +198,7 @@ void GroupieListMgr::announceGroupieInfoUpdated( GroupieInfo* groupieInfo )
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceGroupieInfoUpdated invalid param" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceGroupieInfoUpdated invalid param" );
     }
 }
 
@@ -234,7 +234,7 @@ void GroupieListMgr::announceGroupieInfoSearchResult( GroupieInfo* groupieInfo, 
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceGroupieInfoSearchResult invalid param" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceGroupieInfoSearchResult invalid param" );
     }
 }
 
@@ -816,7 +816,7 @@ void GroupieListMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, Vx
 //============================================================================
 void GroupieListMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
-    // probably could be removed. host join state is managed by HostJoinMgr
+    // probably could be removed. host join state is managed by HostServerJoinMgr
 }
 
 //============================================================================

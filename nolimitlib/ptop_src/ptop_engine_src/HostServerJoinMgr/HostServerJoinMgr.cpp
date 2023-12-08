@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "HostJoinMgr.h"
+#include "HostServerJoinMgr.h"
 #include "HostJoinInfo.h"
 #include "HostJoinInfoDb.h"
 #include "HostJoinCallbackInterface.h"
@@ -23,7 +23,7 @@
 #include <PktLib/PktAnnounce.h>
 
 //============================================================================
-HostJoinMgr::HostJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName )
+HostServerJoinMgr::HostServerJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName )
 : m_Engine( engine )
 , m_HostJoinInfoDb( engine, *this, dbName )
 , m_HostJoinedLastDb( engine, *this, dbJoinedLastName )
@@ -31,7 +31,7 @@ HostJoinMgr::HostJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJ
 }
 
 //============================================================================
-void HostJoinMgr::fromGuiUserLoggedOn( void )
+void HostServerJoinMgr::fromGuiUserLoggedOn( void )
 {
     // dont call HostBaseMgr::fromGuiUserLoggedOn because we never generate sha hash for thumbnails
     if( !m_Initialized )
@@ -76,7 +76,7 @@ void HostJoinMgr::fromGuiUserLoggedOn( void )
 }
 
 //============================================================================
-void HostJoinMgr::wantHostJoinMgrCallbacks( HostJoinCallbackInterface * client, bool enable )
+void HostServerJoinMgr::wantHostJoinMgrCallbacks( HostJoinCallbackInterface * client, bool enable )
 {
     lockClientList();
     for( auto iter = m_HostJoinClients.begin(); iter != m_HostJoinClients.end(); ++iter )
@@ -97,12 +97,12 @@ void HostJoinMgr::wantHostJoinMgrCallbacks( HostJoinCallbackInterface * client, 
 }
 
 //============================================================================
-void HostJoinMgr::announceHostJoinRequested( HostJoinInfo * hostInfo )
+void HostServerJoinMgr::announceHostJoinRequested( HostJoinInfo * hostInfo )
 {
     HostJoinInfo * userHostInfo = dynamic_cast<HostJoinInfo *>(hostInfo);
     if( userHostInfo )
     {
-	    LogMsg( LOG_INFO, "HostJoinMgr::announceHostJoinRequested start" );
+	    LogMsg( LOG_INFO, "HostServerJoinMgr::announceHostJoinRequested start" );
 	
 	    lockClientList();
         for( auto client : m_HostJoinClients )
@@ -111,16 +111,16 @@ void HostJoinMgr::announceHostJoinRequested( HostJoinInfo * hostInfo )
 	    }
 
 	    unlockClientList();
-	    LogMsg( LOG_INFO, "HostJoinMgr::announceHostJoinRequested done" );
+	    LogMsg( LOG_INFO, "HostServerJoinMgr::announceHostJoinRequested done" );
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceHostJoinRequested dynamic_cast failed" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostJoinRequested dynamic_cast failed" );
     }
 }
 
 //============================================================================
-void HostJoinMgr::announceHostJoinUpdated( HostJoinInfo * hostInfo )
+void HostServerJoinMgr::announceHostJoinUpdated( HostJoinInfo * hostInfo )
 {
     HostJoinInfo * userHostInfo = dynamic_cast<HostJoinInfo *>(hostInfo);
     if( userHostInfo )
@@ -135,12 +135,12 @@ void HostJoinMgr::announceHostJoinUpdated( HostJoinInfo * hostInfo )
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostJoinMgr::announceHostJoinUpdated dynamic_cast failed" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostJoinUpdated dynamic_cast failed" );
     }
 }
 
 //============================================================================
-void HostJoinMgr::announceHostUnJoin( GroupieId& groupieId )
+void HostServerJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 {
     lockClientList();
     for( auto client : m_HostJoinClients )
@@ -152,7 +152,7 @@ void HostJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 }
 
 //============================================================================
-void HostJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
+void HostServerJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 {
     removeFromDatabase( groupieId, false );
 	lockClientList();
@@ -165,7 +165,7 @@ void HostJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 }
 
 //============================================================================
-void HostJoinMgr::clearHostJoinInfoList( void )
+void HostServerJoinMgr::clearHostJoinInfoList( void )
 {
     for( auto iter = m_HostJoinInfoList.begin(); iter != m_HostJoinInfoList.end(); ++iter )
     {
@@ -176,7 +176,7 @@ void HostJoinMgr::clearHostJoinInfoList( void )
 }
 
 //============================================================================
-void HostJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostServerJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     bool wasAdded = false;
     GroupieId groupieId( sessionInfo.getGroupieId() );
@@ -230,7 +230,7 @@ void HostJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase
 }
 
 //============================================================================
-void HostJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostServerJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( sessionInfo.getGroupieId() );
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
@@ -271,7 +271,7 @@ void HostJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>& sktBa
 }
 
 //============================================================================
-void HostJoinMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostServerJoinMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     bool wasAdded = false;
     GroupieId groupieId( sessionInfo.getGroupieId() );
@@ -325,7 +325,7 @@ void HostJoinMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNet
 }
 
 //============================================================================
-void HostJoinMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostServerJoinMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( sessionInfo.getGroupieId() );
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
@@ -365,7 +365,7 @@ void HostJoinMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetId
 }
 
 //============================================================================
-void HostJoinMgr::onHostUnJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
+void HostServerJoinMgr::onHostUnJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( sessionInfo.getGroupieId() );
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
@@ -408,7 +408,7 @@ void HostJoinMgr::onHostUnJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxN
 }
 
 //============================================================================
-HostJoinInfo* HostJoinMgr::findUserJoinInfo( GroupieId& groupieId )
+HostJoinInfo* HostServerJoinMgr::findUserJoinInfo( GroupieId& groupieId )
 {
     auto iter = m_HostJoinInfoList.find( groupieId );
 
@@ -421,7 +421,7 @@ HostJoinInfo* HostJoinMgr::findUserJoinInfo( GroupieId& groupieId )
 }
 
 //============================================================================
-bool HostJoinMgr::saveToDatabase( HostJoinInfo* joinInfo, bool resourcesLocked )
+bool HostServerJoinMgr::saveToDatabase( HostJoinInfo* joinInfo, bool resourcesLocked )
 {
     if( joinInfo->getOnlineId() == m_Engine.getMyOnlineId() )
     {
@@ -445,7 +445,7 @@ bool HostJoinMgr::saveToDatabase( HostJoinInfo* joinInfo, bool resourcesLocked )
 }
 
 //============================================================================
-void HostJoinMgr::removeFromDatabase( GroupieId& groupieId, bool resourcesLocked )
+void HostServerJoinMgr::removeFromDatabase( GroupieId& groupieId, bool resourcesLocked )
 {
     if( !resourcesLocked )
     {
@@ -460,7 +460,7 @@ void HostJoinMgr::removeFromDatabase( GroupieId& groupieId, bool resourcesLocked
 }
 
 //============================================================================
-void HostJoinMgr::fromGuiGetJoinedStateList( EPluginType pluginType, EJoinState joinState, std::vector<HostJoinInfo*>& hostJoinList )
+void HostServerJoinMgr::fromGuiGetJoinedStateList( EPluginType pluginType, EJoinState joinState, std::vector<HostJoinInfo*>& hostJoinList )
 {
     // NOTE: assumes resources have been locked
     for( auto iter = m_HostJoinInfoList.begin(); iter != m_HostJoinInfoList.end(); ++iter )
@@ -473,7 +473,7 @@ void HostJoinMgr::fromGuiGetJoinedStateList( EPluginType pluginType, EJoinState 
 }
 
 //============================================================================
-int HostJoinMgr::fromGuiGetJoinedListCount( EPluginType pluginType )
+int HostServerJoinMgr::fromGuiGetJoinedListCount( EPluginType pluginType )
 {
     int joinedCnt = 0;
     EHostType hostType = PluginTypeToHostType( pluginType );
@@ -492,7 +492,7 @@ int HostJoinMgr::fromGuiGetJoinedListCount( EPluginType pluginType )
 }
 
 //============================================================================
-EJoinState HostJoinMgr::fromGuiQueryJoinState( EHostType hostType, VxNetIdent& netIdent )
+EJoinState HostServerJoinMgr::fromGuiQueryJoinState( EHostType hostType, VxNetIdent& netIdent )
 {
     EJoinState hostJoinState = eJoinStateNone;
     GroupieId groupieId( netIdent.getMyOnlineId(), m_Engine.getMyOnlineId(), hostType );
@@ -515,7 +515,7 @@ EJoinState HostJoinMgr::fromGuiQueryJoinState( EHostType hostType, VxNetIdent& n
 
 
 //============================================================================
-EMembershipState HostJoinMgr::fromGuiQueryMembership( EHostType hostType, VxNetIdent& netIdent )
+EMembershipState HostServerJoinMgr::fromGuiQueryMembership( EHostType hostType, VxNetIdent& netIdent )
 {
     EMembershipState membershipState{ eMembershipStateNone };
     GroupieId groupieId( netIdent.getMyOnlineId(), m_Engine.getMyOnlineId(), hostType );
@@ -554,13 +554,13 @@ EMembershipState HostJoinMgr::fromGuiQueryMembership( EHostType hostType, VxNetI
 }
 
 //============================================================================
-void HostJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
+void HostServerJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
     // TODO BRJ handle disconnect
 }
 
 //============================================================================
-void HostJoinMgr::changeJoinState( GroupieId& groupieId, EJoinState joinState )
+void HostServerJoinMgr::changeJoinState( GroupieId& groupieId, EJoinState joinState )
 {
     lockHostJoinInfoList();
     HostJoinInfo* joinInfo = findUserJoinInfo( groupieId );
@@ -578,13 +578,13 @@ void HostJoinMgr::changeJoinState( GroupieId& groupieId, EJoinState joinState )
 }
 
 //============================================================================
-void HostJoinMgr::fromGuiListAction( EListAction listAction )
+void HostServerJoinMgr::fromGuiListAction( EListAction listAction )
 {
     
 }
 
 //============================================================================
-EJoinState HostJoinMgr::getHostJoinState( GroupieId& groupieId )
+EJoinState HostServerJoinMgr::getHostJoinState( GroupieId& groupieId )
 {
     EJoinState joinState{ eJoinStateNone };
     lockHostJoinInfoList();
@@ -599,7 +599,7 @@ EJoinState HostJoinMgr::getHostJoinState( GroupieId& groupieId )
 }
 
 //============================================================================
-bool HostJoinMgr::isUserJoinedToRelayHost( VxGUID& onlineId )
+bool HostServerJoinMgr::isUserJoinedToRelayHost( VxGUID& onlineId )
 {
     bool isJoined{ false };
     lockHostJoinInfoList();

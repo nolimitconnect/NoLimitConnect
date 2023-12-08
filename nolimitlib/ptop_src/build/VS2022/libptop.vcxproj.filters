@@ -481,15 +481,6 @@
     <ClCompile Include="..\..\ptop_engine_src\BaseInfo\BaseHostInfo.cpp">
       <Filter>Source Files\BaseInfo</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinInfo.cpp">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinInfoDb.cpp">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinMgr.cpp">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ptop_engine_src\BaseInfo\BaseJoinInfo.cpp">
       <Filter>Source Files\BaseInfo</Filter>
     </ClCompile>
@@ -591,9 +582,6 @@
     </ClCompile>
     <ClCompile Include="..\..\ptop_engine_src\HostListMgr\HostedListMgr.cpp">
       <Filter>Source Files\HostListMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinedLastDb.cpp">
-      <Filter>Source Files\HostJoinMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ptop_engine_src\GroupieListMgr\GroupieInfo.cpp">
       <Filter>Source Files\GroupieListMgr</Filter>
@@ -708,6 +696,18 @@
     </ClCompile>
     <ClCompile Include="..\..\ptop_engine_src\P2PEngine\P2PEnginePktAnnHandlers.cpp">
       <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinedLastDb.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinInfo.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinInfoDb.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\HostServerJoinMgr\HostServerJoinMgr.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1203,15 +1203,6 @@
     <ClInclude Include="..\..\ptop_engine_src\BaseInfo\BaseHostInfo.h">
       <Filter>Source Files\BaseInfo</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinInfo.h">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinInfoDb.h">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinMgr.h">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\BaseInfo\BaseJoinInfo.h">
       <Filter>Source Files\BaseInfo</Filter>
     </ClInclude>
@@ -1326,14 +1317,8 @@
     <ClInclude Include="..\..\ptop_engine_src\HostListMgr\HostedListMgr.h">
       <Filter>Source Files\HostListMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinCallbackInterface.h">
-      <Filter>Source Files\HostJoinMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\HostListMgr\HostedListCallbackInterface.h">
       <Filter>Source Files\HostListMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\HostJoinMgr\HostJoinedLastDb.h">
-      <Filter>Source Files\HostJoinMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\GroupieListMgr\GroupieInfo.h">
       <Filter>Source Files\GroupieListMgr</Filter>
@@ -1464,6 +1449,21 @@
     <ClInclude Include="..\..\..\GuiInterface\IMediaPlayerInterface.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinCallbackInterface.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinedLastDb.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinInfo.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\HostServerJoinMgr\HostJoinInfoDb.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\HostServerJoinMgr\HostServerJoinMgr.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1529,9 +1529,6 @@
     <Filter Include="Source Files\BaseInfo">
       <UniqueIdentifier>{019f1a11-04eb-4df7-a4e1-77d4aee987f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\HostJoinMgr">
-      <UniqueIdentifier>{ac65286f-e7a8-467f-b13c-c685c20ff0d8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\UserJoinMgr">
       <UniqueIdentifier>{5e2fa986-b854-42bf-aa66-3f3e7c1b489d}</UniqueIdentifier>
     </Filter>
@@ -1570,6 +1567,9 @@
     </Filter>
     <Filter Include="Source Files\WebPageMgr">
       <UniqueIdentifier>{bee4bc25-082e-4a6b-94f9-532895b6b153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HostServerJoinMgr">
+      <UniqueIdentifier>{07a4d6eb-cfe8-4ee9-b9a0-251e266a6fbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,7 @@ public:
 
     void						setUserOnlineId( VxGUID& onlineId )                 { m_UserOnlineId = onlineId; }
     VxGUID&					    getUserOnlineId( void )                             { return m_UserOnlineId; }
+    void					    getUserOnlineId( VxGUID& onlineId ) const           { onlineId = m_UserOnlineId; }
     bool						isUserOnlineId( VxGUID& onlineId ) const            { return m_UserOnlineId == onlineId; }  
 
     void				        setHostedId( HostedId& hostedId )                   { m_HostedId = hostedId; }

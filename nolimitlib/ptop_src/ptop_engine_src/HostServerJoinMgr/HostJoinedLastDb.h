@@ -14,13 +14,13 @@
 #include <CoreLib/DbBase.h>
 
 class P2PEngine;
-class HostJoinMgr;
+class HostServerJoinMgr;
 class VxGUID;
 
 class HostJoinedLastDb : public DbBase
 {
 public:
-    HostJoinedLastDb( P2PEngine& engine, HostJoinMgr& mgr, const char*dbName );
+    HostJoinedLastDb( P2PEngine& engine, HostServerJoinMgr& mgr, const char*dbName );
     virtual ~HostJoinedLastDb() = default;
 
     void						lockHostJoinedLastDb( void ) { m_HostJoinedLastDbMutex.lock(); }
@@ -38,7 +38,7 @@ protected:
     virtual RCODE				onDeleteTables( int iOldVersion );
 
     P2PEngine&					m_Engine;
-    HostJoinMgr&				m_HostJoinMgr;
+    HostServerJoinMgr&				m_HostJoinMgr;
     VxMutex						m_HostJoinedLastDbMutex;
 };
 

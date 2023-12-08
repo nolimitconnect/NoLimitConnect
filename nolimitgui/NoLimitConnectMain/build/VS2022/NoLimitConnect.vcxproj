@@ -369,8 +369,8 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedListWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostSession.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMembershipAvailableMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferInfo.cpp" />
@@ -628,7 +628,6 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListSession.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHelpers.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostJoinMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHosted.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListCallback.h" />
@@ -639,6 +638,7 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostSession.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMembershipAvailableMgr.h" />

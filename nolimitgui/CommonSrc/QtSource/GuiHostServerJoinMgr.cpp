@@ -8,12 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiHostJoinMgr.h"
+#include "GuiHostServerJoinMgr.h"
 #include "GuiHostJoinCallback.h"
 #include "AppCommon.h"
 
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinInfo.h>
-#include <ptop_src/ptop_engine_src/HostJoinMgr/HostJoinMgr.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinInfo.h>
+#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 //============================================================================
@@ -473,4 +473,21 @@ void GuiHostJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 EJoinState GuiHostJoinMgr::getHostJoinState( GroupieId& groupieId )
 {
     return m_MyApp.getEngine().getHostJoinMgr().getHostJoinState( groupieId );
+}
+
+
+//============================================================================
+void GuiHostJoinMgr::getHostedMembers( EHostType hostType, std::set<VxGUID>& memberList )
+{
+    memberList.clear();
+    VxGUID myOnlineId = m_MyApp.getMyOnlineId();
+    for( auto groupie : m_HostJoinList )
+    {
+        if( groupie.first.isHostType( hostType ) && groupie.first.isHostOnlineId( myOnlineId ) )
+        {
+            VxGUID userId;
+            groupie.first.getUserOnlineId( userId );
+            memberList.insert( userId );
+        }
+    }
 }

@@ -38,9 +38,14 @@ public:
 	void						setFriendHasUnviewedTextMessages( VxGUID& onlineId, bool hasTextMsgs );
 	//! update friend in list
 	void						updateFriend( GuiUser* guiUser, bool sessionTimeChange = false );
+	bool						isUserInList( GuiUser* guiUser );
+
 	void						removeFriend( GuiUser* guiUser );
 	void						removeFriend( VxGUID& onlineId );
+
 	void						refreshFriendList( EFriendViewType eWhichFriendsToShow );
+
+	int							updateHostServerMembers( EHostType hostType );
 
 signals:
 	void						signalUpdateFriend( GuiUser* guiUser, bool sessionTimeChange );

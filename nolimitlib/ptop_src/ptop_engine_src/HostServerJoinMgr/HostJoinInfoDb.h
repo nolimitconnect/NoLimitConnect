@@ -17,13 +17,13 @@
 
 class P2PEngine;
 class HostJoinInfo;
-class HostJoinMgr;
+class HostServerJoinMgr;
 class VxGUID;
 
 class HostJoinInfoDb : public DbBase
 {
 public:
-    HostJoinInfoDb( P2PEngine& engine, HostJoinMgr& mgr, const char*dbName );
+    HostJoinInfoDb( P2PEngine& engine, HostServerJoinMgr& mgr, const char*dbName );
     virtual ~HostJoinInfoDb() = default;
 
     void						lockHostJoinInfoDb( void ) { m_HostJoinInfoDbMutex.lock(); }
@@ -54,7 +54,7 @@ protected:
     void						insertHostJoinInTimeOrder( HostJoinInfo * hostInfo, std::map<GroupieId, HostJoinInfo*>& assetList );
 
     P2PEngine&					m_Engine;
-    HostJoinMgr&				m_HostJoinMgr;
+    HostServerJoinMgr&				m_HostJoinMgr;
     VxMutex						m_HostJoinInfoDbMutex;
 };
 
