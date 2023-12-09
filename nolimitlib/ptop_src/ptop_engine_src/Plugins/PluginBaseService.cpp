@@ -29,7 +29,7 @@ PluginBaseService::PluginBaseService( P2PEngine& engine, PluginMgr& pluginMgr, V
 }
 
 //============================================================================
-void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester )
+void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester )
 {
     if( pktHdr && pktHdr->isValidPkt() )
     {
@@ -50,9 +50,16 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorO
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
                 if( sktBase && sktBase->isConnected() )
                 {
+                    bool isRequester = requestorSktConnectionId == sktBase->getSocketId();
+                    if( isRequester && !includeRequester )
+                    {
+                        m_Engine.getPeerMgr().unlockSktList();
+                        continue;
+                    }
+
                     if( txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr, false, getClientPluginType() ) )
                     {
-                        if( requestorSktConnectionId == sktBase->getSocketId() )
+                        if( isRequester )
                         {
                             sentToRequestor = true;
                         }
@@ -63,10 +70,10 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requestorO
             }
         }
 
-        if( !sentToRequestor && sktBaseRequester && requestorOnlineId.isVxGUIDValid() )
+        if( !sentToRequestor && includeRequester && sktBaseRequester && requesterOnlineId.isVxGUIDValid() )
         {
             // allways send to requester even if not still joined
-            txPacket( requestorOnlineId, sktBaseRequester, pktHdr );
+            txPacket( requesterOnlineId, sktBaseRequester, pktHdr, false, getClientPluginType() );
         }
     }
     else

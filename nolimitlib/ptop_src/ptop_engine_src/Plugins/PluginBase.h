@@ -279,6 +279,8 @@ public:
 
 	virtual	void				onNetworkConnectionReady( bool requiresRelay ) {};
 
+	virtual	void				broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester = true ) {};
+
 protected:
 	virtual void				makeShortFileName( const char* pFullFileName, std::string& strShortFileName );
 
