@@ -250,6 +250,10 @@ void PktAnnBase::setHostInfo( VxGUID& hostOnlineId, EHostType hostType )
 //============================================================================
 void PktAnnBase::clearTempValues( void )
 {
+    setIsPktAnnReplyRequested( false );
+    setIsPktAnnRevConnectRequested( false );
+    setIsPktAnnStunRequested( false );
+
     m_TimeToLive = 0;
     m_u8RequestFlags = 0;
     m_HostAction = 0;

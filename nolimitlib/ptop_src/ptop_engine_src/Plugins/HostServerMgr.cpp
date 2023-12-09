@@ -264,6 +264,36 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     m_Engine.getHostJoinMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
+
+    // broadcast users PktAnn to all users
+    BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( netIdent->getMyOnlineId() );
+    if( bigListInfo )
+    {
+        PktAnnounce* pktAnn = bigListInfo->makeAnnCopy();
+        if( pktAnn )
+        {
+            pktAnn->clearTempValues();
+            pktAnn->setHostType( getHostType() );
+            pktAnn->setHostOnlineId( m_Engine.getMyOnlineId() );
+            pktAnn->setMyFriendshipToHim( eFriendStateGuest );
+            pktAnn->setHisFriendshipToMe( eFriendStateGuest );
+            m_Plugin.broadcastToClients( pktAnn, netIdent->getMyOnlineId(), sktBase, false );
+
+            delete pktAnn;
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "HostServerMgr::onUserJoinedHost null pktAnn for user %s %s",
+                    netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+            vx_assert( false );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "HostServerMgr::onUserJoinedHost null bigListInfo for user %s %s",
+                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+        vx_assert( false );
+    }   
 }
 
 //============================================================================

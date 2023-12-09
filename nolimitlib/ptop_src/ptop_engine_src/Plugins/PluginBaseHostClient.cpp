@@ -258,14 +258,19 @@ void PluginBaseHostClient::onGroupRelayedUserAnnounce( GroupieId& groupieId, std
 //============================================================================
 void PluginBaseHostClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", pktHdr->describePktHdr().c_str() );
     PktHostJoinReply* pktReply = (PktHostJoinReply*)pktHdr;
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", pktReply->describePktHdr().c_str() );
+    GroupieId userGroupieId = pktReply->getGroupieId();
+    m_Engine.getConnectIdListMgr().addConnection( sktBase->getSocketId(), userGroupieId, netIdent->getMyOnlineId() != userGroupieId.getUserOnlineId() );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply" );
+    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", pktHdr->describePktHdr().c_str() );
+    PktHostLeaveReply* pktReply = (PktHostLeaveReply*)pktHdr;
+    GroupieId userGroupieId = pktReply->getGroupieId();
+    m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), userGroupieId );
 }
 
 //============================================================================
