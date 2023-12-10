@@ -437,10 +437,11 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
     for( auto& connectIdConst : m_ConnectIdList )
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-        if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
+        //if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
+        if( connectId.getUserOnlineId() == onlineId )
         {
             sktBase = findSktBase( connectId.getSocketId() );
-            if( sktBase )
+            if( sktBase && sktBase->isConnected() )
             {
                 break;
             }
@@ -452,10 +453,11 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
         for( auto& connectIdConst : m_RelayedIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-            if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
+            //if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
+            if( connectId.getUserOnlineId() == onlineId )
             {
                 sktBase = findSktBase( connectId.getSocketId() );
-                if( sktBase )
+                if( sktBase && sktBase->isConnected() )
                 {
                     break;
                 }
@@ -464,6 +466,17 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
     }
 
     unlockList();
+
+    if( sktBase )
+    {
+        LogModule( eLogRelay, LOG_VERBOSE, "ConnectIdListMgr::findRelayMemberConnection found connection %s %s for online id %s", 
+                   sktBase->getSocketId().toHexString().c_str(), sktBase->describeSktConnection().c_str(), onlineId.toOnlineIdString().c_str() );
+    }
+    else
+    {
+        LogModule( eLogRelay, LOG_VERBOSE, "ConnectIdListMgr::findRelayMemberConnection no connection for online id %s", 
+                   onlineId.toOnlineIdString().c_str() );
+    }
 
     return sktBase;
 }
