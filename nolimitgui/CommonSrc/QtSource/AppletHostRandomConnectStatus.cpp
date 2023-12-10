@@ -104,5 +104,6 @@ void AppletHostRandomConnectStatus::gotoWebsite( void )
 //============================================================================
 void AppletHostRandomConnectStatus::updateOnlineMembers( void )
 {
-    ui.m_FriendListWidget->updateHostServerMembers( eHostTypeChatRoom );
+    int onlinMemberCnt = ui.m_FriendListWidget->updateHostServerMembers( eHostTypeRandomConnect );
+     ui.m_GroupListCountLabel->setText( QString::number( onlinMemberCnt ) );
 }

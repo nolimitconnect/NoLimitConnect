@@ -156,7 +156,7 @@ void AppCommon::slotInternalToGuiOnlineStatusChange( VxGUID onlineId, bool isOnl
 {
     getUserMgr().toGuiOnlineStatusChange( onlineId, isOnline );
 
-    GuiUser* guiUser = m_UserMgr.getUser( onlineId );
+    GuiUser* guiUser = m_UserMgr.getOrQueryUser( onlineId );
     if( guiUser )
     {
         LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::slotInternalToGuiOnlineStatusChange %s id %s my friendship %s his friendship %s",

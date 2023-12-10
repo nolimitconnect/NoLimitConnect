@@ -109,5 +109,6 @@ void AppletHostGroupStatus::gotoWebsite( void )
 //============================================================================
 void AppletHostGroupStatus::updateOnlineMembers( void )
 {
-    ui.m_FriendListWidget->updateHostServerMembers( eHostTypeChatRoom );
+    int onlinMemberCnt = ui.m_FriendListWidget->updateHostServerMembers( eHostTypeGroup );
+     ui.m_GroupListCountLabel->setText( QString::number( onlinMemberCnt ) );
 }
