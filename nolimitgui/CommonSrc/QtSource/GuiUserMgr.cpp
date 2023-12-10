@@ -408,6 +408,22 @@ GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
 }
 
 //============================================================================
+GuiUser* GuiUserMgr::findOrAddUser( const VxGUID& onlineId )
+{
+    GuiUser* guiUser = findUser( onlineId );
+    if( !guiUser )
+    {
+        VxNetIdent netIdent;
+        if( m_MyApp.getEngine().fromGuiQueryIdentity( onlineId, netIdent ) && netIdent.isValidNetIdent() )
+        {
+            guiUser = m_MyApp.getUserMgr().updateUser( &netIdent );
+        }
+    }
+
+    return guiUser;
+}
+
+//============================================================================
 void GuiUserMgr::removeUser( const VxGUID& onlineId )
 {
     auto iter = m_UserList.find( onlineId );

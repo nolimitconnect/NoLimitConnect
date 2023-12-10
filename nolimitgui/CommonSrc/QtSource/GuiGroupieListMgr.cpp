@@ -314,7 +314,7 @@ void GuiGroupieListMgr::updateHostSearchResult( GroupieInfo& groupieInfo, VxGUID
             {
                 // we do not have indentity information. request a connection either directly or through host
                 VxNetIdent netIdent;
-                if( m_MyApp.getEngine().fromGuiQueryIdentity( groupieInfo, netIdent, true ) && netIdent.isValidNetIdent() )
+                if( m_MyApp.getEngine().fromGuiQueryIdentity( groupieInfo.getHostOnlineId(), netIdent ) && netIdent.isValidNetIdent() )
                 {
                     GuiUser* guiUser = m_MyApp.getUserMgr().updateUser( &netIdent );
                     if( guiUser )

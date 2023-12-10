@@ -89,6 +89,7 @@ public:
 protected:
     void                        removeUser( const VxGUID& onlineId );
     GuiUser*                    findUser( const VxGUID& onlineId );
+    GuiUser*                    findOrAddUser( const VxGUID& onlineId );
 
     void                        clearGuiUserUpdateClientList( void );
 

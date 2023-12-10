@@ -1626,9 +1626,8 @@ bool P2PEngine::fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent,
 }
 
 //============================================================================
-bool P2PEngine::fromGuiQueryIdentity( GroupieInfo& groupieInfo, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown )
+bool P2PEngine::fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent )
 {
-	VxGUID onlineId = groupieInfo.getUserOnlineId();
 	if( !onlineId.isVxGUIDValid() )
 	{
 		LogMsg( LOG_ERROR, "P2PEngine::fromGuiQueryIdentity invalid id" );

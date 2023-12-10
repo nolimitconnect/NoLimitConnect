@@ -779,9 +779,9 @@ bool INlc::fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool
 }
 
 //============================================================================
-bool INlc::fromGuiQueryIdentity( GroupieInfo& groupieInfo, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown )
+bool INlc::fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent )
 {
-    return getPtoP().fromGuiQueryIdentity( groupieInfo, retNetIdent, requestIdentityIfUnknown );
+    return getPtoP().fromGuiQueryIdentity( onlineId, retNetIdent );
 }
 
 //============================================================================
