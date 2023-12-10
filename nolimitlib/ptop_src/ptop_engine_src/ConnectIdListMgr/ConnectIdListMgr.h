@@ -54,8 +54,8 @@ public:
     std::shared_ptr<VxSktBase> findRelayMemberConnection( VxGUID& onlineId );
     std::shared_ptr<VxSktBase> findPeerConnection( VxGUID& onlineId );
 
-    std::shared_ptr<VxSktBase> findAnyHostOnlineConnection( VxGUID& onlineId );
-    std::shared_ptr<VxSktBase> findAnyUserOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findAnyHostOnlineConnection( const VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findAnyUserOnlineConnection( const VxGUID& onlineId );
 
     std::shared_ptr<VxSktBase> findBestHostOnlineConnection( VxGUID& onlineId );
     std::shared_ptr<VxSktBase> findBestUserOnlineConnection( VxGUID& onlineId );
@@ -91,7 +91,7 @@ protected:
     void                        announceConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason );
     void                        announceConnectionLost( VxGUID& sktConnectId );
 
-    void                        doOnlineIdConnectionLost( VxGUID& sktConnectId );
+    void                        removeOnlineConnectionPairs( VxGUID& sktConnectId );
 
     void						lockClientList( void )          { m_ClientCallbackMutex.lock(); }
     void						unlockClientList( void )        { m_ClientCallbackMutex.unlock(); }
