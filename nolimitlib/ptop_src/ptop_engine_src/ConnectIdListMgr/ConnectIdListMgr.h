@@ -54,8 +54,11 @@ public:
     std::shared_ptr<VxSktBase> findRelayMemberConnection( VxGUID& onlineId );
     std::shared_ptr<VxSktBase> findPeerConnection( VxGUID& onlineId );
 
-    std::shared_ptr<VxSktBase> findAnyOnlineConnection( VxGUID& onlineId );
-    std::shared_ptr<VxSktBase> findBestOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findAnyHostOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findAnyUserOnlineConnection( VxGUID& onlineId );
+
+    std::shared_ptr<VxSktBase> findBestHostOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase> findBestUserOnlineConnection( VxGUID& onlineId );
 
     virtual bool               findConnectionId( GroupieId& groupieId, VxGUID& retSktConnectId );
     virtual bool               findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );

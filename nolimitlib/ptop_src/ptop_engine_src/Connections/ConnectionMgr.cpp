@@ -453,7 +453,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( onlineId );
     if( isOnline )
     {
-        sktBase = m_Engine.getConnectIdListMgr().findAnyOnlineConnection( onlineId );
+        sktBase = m_Engine.getConnectIdListMgr().findAnyHostOnlineConnection( onlineId );
     }
 
     if( !sktBase )

@@ -36,7 +36,13 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
     {
         if( sktBase->setPeerPktAnn( *pktAnn ) )
         {
-            getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
+            if( !sktBase->isTempConnection() )
+            {
+                GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), eHostTypePeerUserDirect );
+                getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
+                getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
+            }
+
             getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
         }
         else

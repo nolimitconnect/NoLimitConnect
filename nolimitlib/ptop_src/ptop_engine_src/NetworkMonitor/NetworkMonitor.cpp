@@ -337,7 +337,7 @@ void NetworkMonitor::triggerDetermineIp( void )
     {
         // we have at least connected once and queried id. 
         // if we have a current connection to the network host then no need to test
-        std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findAnyOnlineConnection( networkHostOnlineId );
+        std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findAnyHostOnlineConnection( networkHostOnlineId );
         if( sktBase )
         {
             std::string lclIp = sktBase->getLocalIpAddress();
