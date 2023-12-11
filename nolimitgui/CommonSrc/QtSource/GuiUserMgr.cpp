@@ -187,7 +187,6 @@ void GuiUserMgr::toGuiContactAdded( VxNetIdent* netIdent )
         return;
     }
 
-
     updateUser( netIdent );
 }
 
@@ -201,6 +200,18 @@ void GuiUserMgr::toGuiContactRemoved( VxGUID& onlineId )
     }
 
     removeUser( onlineId );
+}
+
+//============================================================================
+void GuiUserMgr::toGuiContactUpdated( VxNetIdent* netIdent )
+{
+    if( !netIdent || !netIdent->isValidNetIdent() )
+    {
+        LogMsg( LOG_ERROR, "GuiUserMgr::toGuiContactAdded invalid netIdent" );
+        return;
+    }
+
+    updateUser( netIdent );
 }
 
 //============================================================================
@@ -262,77 +273,65 @@ bool GuiUserMgr::updateIsOnlineList( VxGUID& onlineId, bool isOnline )
     return listUpdated;
 }
 
-//============================================================================
-void GuiUserMgr::toGuiContactNameChange( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactNameChange invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiContactDescChange( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactDescChange invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiContactMyFriendshipChange( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactMyFriendshipChange invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiContactHisFriendshipChange( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactHisFriendshipChange invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiPluginPermissionChange( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiPluginPermissionChange invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
-void GuiUserMgr::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "AppCommon::toGuiContactSearchFlagsChange invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
+////============================================================================
+//void GuiUserMgr::toGuiContactNameChange( VxNetIdent* netIdent )
+//{
+//    if( !netIdent || !netIdent->isValidNetIdent() )
+//    {
+//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactNameChange invalid netIdent" );
+//        return;
+//    }
+//
+//    updateUser( netIdent );
+//}
+//
+////============================================================================
+//void GuiUserMgr::toGuiContactDescChange( VxNetIdent* netIdent )
+//{
+//    if( !netIdent || !netIdent->isValidNetIdent() )
+//    {
+//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactDescChange invalid netIdent" );
+//        return;
+//    }
+//
+//    updateUser( netIdent );
+//}
+//
+////============================================================================
+//void GuiUserMgr::toGuiContactFriendshipChange( VxNetIdent* netIdent )
+//{
+//    if( !netIdent || !netIdent->isValidNetIdent() )
+//    {
+//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactFriendshipChange invalid netIdent" );
+//        return;
+//    }
+//
+//    updateUser( netIdent );
+//}
+//
+////============================================================================
+//void GuiUserMgr::toGuiPluginPermissionChange( VxNetIdent* netIdent )
+//{
+//    if( !netIdent || !netIdent->isValidNetIdent() )
+//    {
+//        LogMsg( LOG_ERROR, "AppCommon::toGuiPluginPermissionChange invalid netIdent" );
+//        return;
+//    }
+//
+//    updateUser( netIdent );
+//}
+//
+////============================================================================
+//void GuiUserMgr::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
+//{
+//    if( !netIdent || !netIdent->isValidNetIdent() )
+//    {
+//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactSearchFlagsChange invalid netIdent" );
+//        return;
+//    }
+//
+//    updateUser( netIdent );
+//}
 
 //============================================================================
 void GuiUserMgr::toGuiContactLastSessionTimeChange( VxNetIdent* netIdent )

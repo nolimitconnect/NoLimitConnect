@@ -390,14 +390,13 @@ public:
 	// to gui
 	//========================================================================
     void						sendToGuiStatusMessage( const char* statusMsg, ... );
-	void						toGuiPluginPermissionChange( VxNetIdent* netIdent );
 
-	void						toGuiContactDescChange( VxNetIdent* netIdent );
-	void						toGuiContactNameChange( VxNetIdent* netIdent );
+	//void						toGuiPluginPermissionChange( VxNetIdent* netIdent );
 
-	void						toGuiContactHisFriendshipChange( VxNetIdent* netIdent );
-	void						toGuiContactSearchFlagsChange( VxNetIdent* netIdent );
-	void						toGuiContactConnectionChange( VxNetIdent* netIdent );
+	//void						toGuiContactDescChange( VxNetIdent* netIdent );
+	//void						toGuiContactNameChange( VxNetIdent* netIdent );
+	//void						toGuiContactFriendshipChange( VxNetIdent* netIdent );
+
 	void						toGuiContactAnythingChange( VxNetIdent* netIdent );
 
 	int 						toGuiSendAdministratorList( int iSentCnt, int iMaxSendCnt );

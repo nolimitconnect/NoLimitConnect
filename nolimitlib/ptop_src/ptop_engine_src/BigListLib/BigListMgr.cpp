@@ -155,7 +155,8 @@ bool BigListMgr::getOnlineName( VxGUID& hisOnlineId, std::string& onlineName )
 EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,	
 											BigListInfo **		ppoRetInfo,
 											EHostType			hostType,
-											bool				useMyFriendshipFromPktAnn )	
+											bool				useMyFriendshipFromPktAnn,
+											bool				useHisFriendshipFromPktAnn )	
 {
 	// temp for debug
 	std::string onlineName = poPktAnnIn->getOnlineName();
@@ -205,9 +206,16 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			}
 
 			poPktAnnIn->setLastSessionTimeMs( poInfo->getLastSessionTimeMs() );
+			EFriendState hisFriendshipToMe = poPktAnnIn->getHisFriendshipToMe();
+			if( !useHisFriendshipFromPktAnn && poInfo->getHisFriendshipToMe() > eFriendStateGuest )
+			{
+				// use last known friendship. This is for the case that the pkt ann is from host and not directly from user
+				hisFriendshipToMe = poInfo->getHisFriendshipToMe();
+			}
 
-			bool friendshipChanged = poPktAnnIn->getHisFriendshipToMe() != poInfo->getHisFriendshipToMe();
-			poInfo->setHisFriendshipToMe( poPktAnnIn->getHisFriendshipToMe() );
+			bool friendshipChanged = hisFriendshipToMe  != poInfo->getHisFriendshipToMe();
+			poInfo->setHisFriendshipToMe( hisFriendshipToMe );
+			poPktAnnIn->setHisFriendshipToMe( hisFriendshipToMe );
 
 			// update permission levels to guest if needed
 			if( useMyFriendshipFromPktAnn )
@@ -231,7 +239,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			poPktAnnIn->setMyFriendshipToHim( poInfo->getMyFriendshipToHim() );
 			if( friendshipChanged )
 			{
-				m_Engine.toGuiContactHisFriendshipChange( poInfo );
+				//m_Engine.toGuiContactFriendshipChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -239,7 +247,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			if( 0 != strcmp( poPktAnnIn->getOnlineName(), poInfo->getOnlineName() ) )
 			{
 				memcpy( poInfo->getOnlineName(), poPktAnnIn->getOnlineName(), MAX_ONLINE_NAME_LEN );
-				m_Engine.toGuiContactNameChange( poInfo );
+				//m_Engine.toGuiContactNameChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -247,21 +255,20 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			if( 0 != strcmp( poPktAnnIn->getOnlineDescription(), poInfo->getOnlineDescription() ) )
 			{
 				memcpy( poInfo->getOnlineDescription(), poPktAnnIn->getOnlineDescription(), MAX_ONLINE_DESC_LEN );
-				m_Engine.toGuiContactDescChange( poInfo );
+				//m_Engine.toGuiContactDescChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
 			if( poPktAnnIn->getSearchFlags() != poInfo->getSearchFlags() )
 			{
 				poInfo->setSearchFlags( poPktAnnIn->getSearchFlags() );
-				m_Engine.toGuiContactSearchFlagsChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
 			if( 0 != memcmp( poPktAnnIn->getPluginPermissions(), poInfo->getPluginPermissions(), PERMISSION_ARRAY_SIZE ) )
 			{
 				memcpy( poInfo->getPluginPermissions(), poPktAnnIn->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
-				m_Engine.toGuiPluginPermissionChange( poInfo );
+				//m_Engine.toGuiPluginPermissionChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -274,10 +281,6 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			}
 
 			memcpy( poInfo, poPktAnnIn, sizeof( VxNetIdent ) );
-			if( contactInfoChanged )
-			{
-				m_Engine.toGuiContactConnectionChange( poInfo );
-			}
 
 			if( ePktAnnUpdateTypeContactIsSame != eUpdateType )
 			{

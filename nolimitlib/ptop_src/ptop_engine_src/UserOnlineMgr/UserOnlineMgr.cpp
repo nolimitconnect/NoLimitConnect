@@ -449,7 +449,7 @@ bool UserOnlineMgr::updateUserJoinedFriendships( GroupieId& groupieId, VxNetIden
             m_Engine.getBigListMgr().onMyFriendshipChanged( prevMyFriendship, netIdent );
         }
 
-        m_Engine.toGuiContactHisFriendshipChange( netIdent );
+        m_Engine.toGuiContactAnythingChange( netIdent );
     }
 
     return friendshipOk;

@@ -192,12 +192,6 @@ void INlc::toGuiHostJoinStatus( EHostType hostType, VxGUID& sessionId, EHostJoin
 }
 
 //============================================================================
-void INlc::toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline )
-{
-    getAppCommon().toGuiUserOnlineStatusChange( onlineId, isOnline );
-}
-
-//============================================================================
 void INlc::toGuiHostSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr, const char* msg )
 {
     getAppCommon().toGuiHostSearchStatus( hostType, sessionId, searchStatus, commErr, msg );
@@ -281,41 +275,29 @@ void INlc::toGuiContactOnline( VxNetIdent* netIdent )
     getAppCommon().toGuiContactOnline( netIdent );
 }
 
-//============================================================================
-void INlc::toGuiContactNameChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactNameChange( netIdent );
-}
-
-//============================================================================
-void INlc::toGuiContactDescChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactDescChange( netIdent );
-}
-
-//============================================================================
-void INlc::toGuiContactMyFriendshipChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactMyFriendshipChange( netIdent );
-}
-
-//============================================================================
-void INlc::toGuiContactHisFriendshipChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactHisFriendshipChange( netIdent );
-}
-
-//============================================================================
-void INlc::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactSearchFlagsChange( netIdent );
-}
-
-//============================================================================
-void INlc::toGuiContactConnectionChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiContactConnectionChange( netIdent );
-}
+////============================================================================
+//void INlc::toGuiContactNameChange( VxNetIdent* netIdent )
+//{
+//    getAppCommon().toGuiContactNameChange( netIdent );
+//}
+//
+////============================================================================
+//void INlc::toGuiContactDescChange( VxNetIdent* netIdent )
+//{
+//    getAppCommon().toGuiContactDescChange( netIdent );
+//}
+//
+////============================================================================
+//void INlc::toGuiContactFriendshipChange( VxNetIdent* netIdent )
+//{
+//    getAppCommon().toGuiContactFriendshipChange( netIdent );
+//}
+//
+////============================================================================
+//void INlc::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
+//{
+//    getAppCommon().toGuiContactSearchFlagsChange( netIdent );
+//}
 
 //============================================================================
 void INlc::toGuiContactLastSessionTimeChange( VxNetIdent* netIdent )
@@ -329,11 +311,11 @@ void INlc::toGuiContactAnythingChange( VxNetIdent* netIdent )
     getAppCommon().toGuiContactAnythingChange( netIdent );
 }
 
-//============================================================================
-void INlc::toGuiPluginPermissionChange( VxNetIdent* netIdent )
-{
-    getAppCommon().toGuiPluginPermissionChange( netIdent );
-}
+////============================================================================
+//void INlc::toGuiPluginPermissionChange( VxNetIdent* netIdent )
+//{
+//    getAppCommon().toGuiPluginPermissionChange( netIdent );
+//}
 
 //============================================================================
 void INlc::toGuiUpdateMyIdent( VxNetIdent* netIdent )

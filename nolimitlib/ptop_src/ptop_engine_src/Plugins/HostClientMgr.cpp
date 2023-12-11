@@ -43,7 +43,7 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
             LogMsg( LOG_ERROR, "HostClientMgr::onPktHostJoinReply invalid host type" );
         }
 
-        GroupieId groupieId( m_Engine.getMyOnlineId(), netIdent->getMyOnlineId(), hostReply->getHostType() );
+        GroupieId groupieId( hostReply->getGroupieId() );
         HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
         m_Engine.getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
 

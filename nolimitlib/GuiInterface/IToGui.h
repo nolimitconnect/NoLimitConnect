@@ -100,23 +100,18 @@ public:
 	/// Update contact to online state GUI
 	virtual void				toGuiContactOnline( VxNetIdent* netIdent ) = 0;
 
-	/// Update contact online state to GUI
-	virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) = 0;
+	///// Notify GUI that contact changed his/her online name
+	//virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0;
+	///// Notify GUI that contact changed his/her mood message
+	//virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) = 0;
+	///// Notify GUI that permission level given by you to contact or contact to you has changed
+	//virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) = 0;
 
-	/// Notify GUI that contact changed his/her online name
-	virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0;
-	/// Notify GUI that contact changed his/her mood message
-	virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) = 0;
-	/// Notify GUI that permission level given by you to contact has changed
-	virtual void				toGuiContactMyFriendshipChange( VxNetIdent* netIdent ) = 0;
-	/// Notify GUI that contact changed his/her permission level given to you
-	virtual void				toGuiContactHisFriendshipChange( VxNetIdent* netIdent ) = 0;
-	/// Notify GUI that contacts search flags changed
-	virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) = 0;
-	/// Notify GUI that contact is connected via different connection
-	virtual void				toGuiContactConnectionChange( VxNetIdent* netIdent ) = 0;
-	/// Notify GUI that contact changed one or more of his/her plugins permission level required to access his/her plugin
-	virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) = 0;
+	///// Notify GUI that contacts search flags changed
+	//virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) = 0;
+
+	///// Notify GUI that contact changed one or more of his/her plugins permission level required to access his/her plugin
+	//virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) = 0;
 	/// Notify GUI that contact info of any type changed
 	virtual void				toGuiContactAnythingChange( VxNetIdent* netIdent ) = 0;
 

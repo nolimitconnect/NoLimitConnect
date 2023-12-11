@@ -64,6 +64,12 @@ void GuiConnectIdListMgr::callbackConnectionStatusChange( ConnectId& connectId, 
 }
 
 //============================================================================
+void GuiConnectIdListMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+    emit signalInternalOnlineStatusChange( onlineId, isOnline );
+}
+
+//============================================================================
 void GuiConnectIdListMgr::callbackConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason )
 {
     emit signalInternalConnectionReason( sktConnectId, connectReason, enableReason );
@@ -122,24 +128,7 @@ void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bo
 //============================================================================
 void GuiConnectIdListMgr::slotInternalOnlineStatusChange( VxGUID onlineId, bool isOnline )
 {
-    /*
-    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalOnlineStatusChange isOnline %d %s ", isOnline,
-            m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
-    auto iter = m_OnlineList.find( onlineId );
-    if( iter != m_OnlineList.end() )
-    {
-        if( iter->second != isOnline )
-        {
-            iter->second = isOnline;
-            onOnlineStatusChange( onlineId, isOnline );
-        }
-    }
-    else
-    {
-        m_OnlineList[onlineId] = isOnline;
-        onOnlineStatusChange( onlineId, isOnline );
-    }
-    */
+    m_MyApp.doOnlineStatusChange( onlineId, isOnline );
 }
 
 //============================================================================

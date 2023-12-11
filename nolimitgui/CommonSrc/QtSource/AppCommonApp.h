@@ -492,15 +492,13 @@ public:
 
     virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override;
 
-    virtual void				toGuiUserOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;
+    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override;
+    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) override;
 
-    virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;
-    virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override;
-    virtual void				toGuiContactMyFriendshipChange( VxNetIdent* netIdent ) override;
-    virtual void				toGuiContactHisFriendshipChange( VxNetIdent* netIdent ) override;
-    virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override;
-    virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override;
-    virtual void				toGuiContactConnectionChange( VxNetIdent* netIdent ) override;
+    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override;
+    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override;
+
     virtual void				toGuiContactAnythingChange( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override;
 
@@ -601,6 +599,8 @@ public:
 
     std::string                 describeGroupieId( GroupieId& groupieId, bool includeUserNames = true );
 
+    void                        doOnlineStatusChange( VxGUID onlineId, bool isOnline ); // called on gui thread by GuiConnectIdListMgr
+
 signals:
     void						signalMessengerReady( bool isReady );    // emitted when messenger ready state changes
     void						signalMainWindowResized( void );    // emitted if main window is resized
@@ -686,17 +686,18 @@ signals:
 
     void                        signalInternalToGuiContactOnline( VxNetIdent netIdent );
 
-    void                        signalInternalToGuiOnlineStatusChange( VxGUID onlineId, bool isOnline );
+    //void                        signalInternalToGuiContactNameChange( VxNetIdent netIdent );
+    //void                        signalInternalToGuiContactDescChange( VxNetIdent netIdent );
+    //void                        signalInternalToGuiContactFriendshipChange( VxNetIdent netIdent );
 
-    void                        signalInternalToGuiContactNameChange( VxNetIdent netIdent );
-    void                        signalInternalToGuiContactDescChange( VxNetIdent netIdent );
-    void                        signalInternalToGuiContactMyFriendshipChange( VxNetIdent netIdent );
-    void                        signalInternalToGuiContactHisFriendshipChange( VxNetIdent netIdent );
-    void                        signalInternalToGuiPluginPermissionChange( VxNetIdent netIdent );
-    void                        signalInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent );
+    //void                        signalInternalToGuiPluginPermissionChange( VxNetIdent netIdent );
+    //void                        signalInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent );
+
+    void                        signalInternalToGuiContactUpdated( VxNetIdent netIdent );
+
     void                        signalInternalToGuiContactLastSessionTimeChange( VxNetIdent netIdent );
 
-    void                        signalInternalToGuiUpdateMyIdent( VxNetIdent netIdent );
+    void                        signalInternalToGuiUpdateIdent( VxNetIdent netIdent );
     void                        signalInternalToGuiSaveMyIdent( VxNetIdent netIdent );
 
     void                        signalInternalToGuiScanSearchComplete( EScanType eScanType );
@@ -761,17 +762,18 @@ private slots:
 
     void                        slotInternalToGuiContactOnline( VxNetIdent netIdent );
 
-    void                        slotInternalToGuiOnlineStatusChange( VxGUID onlineId, bool isOnline );
+    //void                        slotInternalToGuiContactNameChange( VxNetIdent netIdent );
+    //void                        slotInternalToGuiContactDescChange( VxNetIdent netIdent );
+    //void                        slotInternalToGuiContactFriendshipChange( VxNetIdent netIdent );
 
-    void                        slotInternalToGuiContactNameChange( VxNetIdent netIdent );
-    void                        slotInternalToGuiContactDescChange( VxNetIdent netIdent );
-    void                        slotInternalToGuiContactMyFriendshipChange( VxNetIdent netIdent );
-    void                        slotInternalToGuiContactHisFriendshipChange( VxNetIdent netIdent );
-    void                        slotInternalToGuiPluginPermissionChange( VxNetIdent netIdent );
-    void                        slotInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent );
+    //void                        slotInternalToGuiPluginPermissionChange( VxNetIdent netIdent );
+    //void                        slotInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent );
+
+    void                        slotInternalToGuiContactUpdated( VxNetIdent netIdent );
+
     void                        slotInternalToGuiContactLastSessionTimeChange( VxNetIdent netIdent );
 
-    void                        slotInternalToGuiUpdateMyIdent( VxNetIdent netIdent );
+    void                        slotInternalToGuiUpdateIdent( VxNetIdent netIdent );
     void                        slotInternalToGuiSaveMyIdent( VxNetIdent netIdent );
 
     void                        slotInternalToGuiScanSearchComplete( EScanType eScanType );

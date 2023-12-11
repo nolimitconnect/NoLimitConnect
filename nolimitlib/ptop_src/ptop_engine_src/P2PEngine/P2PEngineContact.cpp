@@ -337,69 +337,48 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 	getToGui().toGuiStatusMessage( as8Buf );
 }
 
-//============================================================================
-void P2PEngine::toGuiContactNameChange( VxNetIdent* netIdent )
-{
-	if( shouldNotifyGui( netIdent ) )
-	{
-		LogMsg( LOG_INFO, "toGuiContactNameChange:");
-		IToGui::getToGui().toGuiContactNameChange( netIdent );
-	}
-}
-
-//============================================================================
-//! called when description changes
-void P2PEngine::toGuiContactDescChange( VxNetIdent* netIdent )
-{
-	if( shouldNotifyGui( netIdent ) )
-	{
-		LogMsg( LOG_INFO, "toGuiContactDescChange:" );
-		IToGui::getToGui().toGuiContactDescChange( netIdent );
-	}
-}
-//============================================================================
-//! called when his friendship to me changes
-void P2PEngine::toGuiContactHisFriendshipChange( VxNetIdent* netIdent )
-{
-	if( shouldNotifyGui( netIdent ) )
-	{
-		LogMsg( LOG_INFO, "toGuiContactHisFriendshipChange:" );
-		IToGui::getToGui().toGuiContactHisFriendshipChange( netIdent );
-	}
-}
-
-//============================================================================
-//! called when plugin permission changes
-void P2PEngine::toGuiPluginPermissionChange( VxNetIdent* netIdent )
-{
-	if( shouldNotifyGui( netIdent ) )
-	{
-		LogMsg( LOG_INFO, "toGuiPluginPermissionChange:" );
-		IToGui::getToGui().toGuiPluginPermissionChange( netIdent );
-	}
-}
-
-//============================================================================
-//! called when search flags changes
-void P2PEngine::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
-{
-	if( shouldNotifyGui( netIdent ) )
-	{
-		LogMsg( LOG_INFO, "toGuiContactSearchFlagsChange:" );
-		IToGui::getToGui().toGuiContactSearchFlagsChange( netIdent );
-	}
-}
-
-//============================================================================
-//! called when connection info changes
-void P2PEngine::toGuiContactConnectionChange( VxNetIdent* netIdent )
-{
-	if( shouldNotifyGui( netIdent ) )
-	{
-		LogMsg( LOG_INFO, "toGuiContactConnectionChange" );
-		IToGui::getToGui().toGuiContactConnectionChange( netIdent );
-	}
-}
+////============================================================================
+//void P2PEngine::toGuiContactNameChange( VxNetIdent* netIdent )
+//{
+//	if( shouldNotifyGui( netIdent ) )
+//	{
+//		LogMsg( LOG_INFO, "toGuiContactNameChange:");
+//		IToGui::getToGui().toGuiContactNameChange( netIdent );
+//	}
+//}
+//
+////============================================================================
+////! called when description changes
+//void P2PEngine::toGuiContactDescChange( VxNetIdent* netIdent )
+//{
+//	if( shouldNotifyGui( netIdent ) )
+//	{
+//		LogMsg( LOG_INFO, "toGuiContactDescChange:" );
+//		IToGui::getToGui().toGuiContactDescChange( netIdent );
+//	}
+//}
+//
+////============================================================================
+////! called when his friendship to me changes
+//void P2PEngine::toGuiContactFriendshipChange( VxNetIdent* netIdent )
+//{
+//	if( shouldNotifyGui( netIdent ) )
+//	{
+//		LogMsg( LOG_INFO, "toGuiContactFriendshipChange:" );
+//		IToGui::getToGui().toGuiContactFriendshipChange( netIdent );
+//	}
+//}
+//
+////============================================================================
+////! called when plugin permission changes
+//void P2PEngine::toGuiPluginPermissionChange( VxNetIdent* netIdent )
+//{
+//	if( shouldNotifyGui( netIdent ) )
+//	{
+//		LogMsg( LOG_INFO, "toGuiPluginPermissionChange:" );
+//		IToGui::getToGui().toGuiPluginPermissionChange( netIdent );
+//	}
+//}
 
 //============================================================================
 //! called when any contact info changes ( including any of the above )

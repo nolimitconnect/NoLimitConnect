@@ -142,17 +142,18 @@ void AppCommon::connectSignals( void )
 
     connect( this, SIGNAL( signalInternalToGuiContactOnline(VxNetIdent) ), this, SLOT( slotInternalToGuiContactOnline(VxNetIdent) ), Qt::QueuedConnection );
 
-	connect( this, SIGNAL( signalInternalToGuiOnlineStatusChange(VxGUID,bool) ), this, SLOT(slotInternalToGuiOnlineStatusChange(VxGUID,bool)), Qt::QueuedConnection );
+    //connect( this, SIGNAL( signalInternalToGuiContactNameChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactNameChange(VxNetIdent) ), Qt::QueuedConnection );
+    //connect( this, SIGNAL( signalInternalToGuiContactDescChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactDescChange(VxNetIdent) ), Qt::QueuedConnection );
+    //connect( this, SIGNAL( signalInternalToGuiContactFriendshipChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactFriendshipChange(VxNetIdent) ), Qt::QueuedConnection );
 
-    connect( this, SIGNAL( signalInternalToGuiContactNameChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactNameChange(VxNetIdent) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiContactDescChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactDescChange(VxNetIdent) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiContactMyFriendshipChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactMyFriendshipChange(VxNetIdent) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiContactHisFriendshipChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactHisFriendshipChange(VxNetIdent) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiPluginPermissionChange(VxNetIdent) ), this, SLOT( slotInternalToGuiPluginPermissionChange(VxNetIdent) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiContactSearchFlagsChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactSearchFlagsChange(VxNetIdent) ), Qt::QueuedConnection );
+    //connect( this, SIGNAL( signalInternalToGuiPluginPermissionChange(VxNetIdent) ), this, SLOT( slotInternalToGuiPluginPermissionChange(VxNetIdent) ), Qt::QueuedConnection );
+    //connect( this, SIGNAL( signalInternalToGuiContactSearchFlagsChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactSearchFlagsChange(VxNetIdent) ), Qt::QueuedConnection );
+
+	connect( this, SIGNAL(signalInternalToGuiContactUpdated(VxNetIdent)), this, SLOT(slotInternalToGuiContactUpdated(VxNetIdent)), Qt::QueuedConnection );
+
     connect( this, SIGNAL( signalInternalToGuiContactLastSessionTimeChange(VxNetIdent) ), this, SLOT( slotInternalToGuiContactLastSessionTimeChange(VxNetIdent) ), Qt::QueuedConnection );
 
-    connect( this, SIGNAL( signalInternalToGuiUpdateMyIdent(VxNetIdent) ), this, SLOT( slotInternalToGuiUpdateMyIdent(VxNetIdent) ), Qt::QueuedConnection );
+    connect( this, SIGNAL( signalInternalToGuiUpdateIdent(VxNetIdent) ), this, SLOT( slotInternalToGuiUpdateIdent(VxNetIdent) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiSaveMyIdent(VxNetIdent) ), this, SLOT( slotInternalToGuiSaveMyIdent(VxNetIdent) ), Qt::QueuedConnection );
 
     connect( this, SIGNAL( signalInternalToGuiScanSearchComplete(EScanType) ), this, SLOT( slotInternalToGuiScanSearchComplete(EScanType) ), Qt::QueuedConnection );

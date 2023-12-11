@@ -44,6 +44,8 @@ public:
     // callbackConnectionStatusChange should happen before callbackOnlineStatusChange when user disconnects from host
     virtual void				callbackConnectionStatusChange( ConnectId& connectId, bool isConnected ) override;
     virtual void				callbackRelayStatusChange( ConnectId& connectId, bool isRelayed ) override;
+
+    virtual void				callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
     
     virtual void				callbackConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason ) override;
     virtual void				callbackConnectionLost( VxGUID& sktConnectId ) override;

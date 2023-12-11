@@ -42,15 +42,18 @@ public:
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) override;  
 
+    virtual void				toGuiContactUpdated( VxNetIdent* netIdent ) override; 
+
     bool				        toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
     bool                        updateIsOnlineList( VxGUID& onlineId, bool isOnline );
 
-    virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactMyFriendshipChange( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactHisFriendshipChange( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override; 
-    virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override; 
+    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override; 
+    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override; 
+    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) override; 
+
+    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override; 
+    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override; 
+
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override; 
 
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;

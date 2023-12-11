@@ -48,7 +48,8 @@ public:
 	EPktAnnUpdateType			updatePktAnn(	PktAnnounce *	poPktAnn, 
 												BigListInfo **	ppoRetInfo,
 												EHostType		hostType,
-												bool			useMyFriendshipFromPktAnn = false );	
+												bool			useMyFriendshipFromPktAnn = false,
+												bool			useHisFriendshipFromPktAnn = true );	
 
 	bool						getFriendships( VxGUID&			hisOnlineId,
 												EFriendState&	retMyFriendshipToHim,

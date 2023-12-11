@@ -384,7 +384,7 @@ void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         announceRelayStatus( const_cast<ConnectId&>(connectId), false );
     }
 
-    removeOnlineConnectionPairs( sktConnectId );
+    removeOnlineConnectionPairs( sktConnectId, userList );
 
     for( auto& onlineId : userList )
     {
@@ -680,6 +680,22 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( const 
         }
     }
 
+    if( sktConnectIdList.empty() )
+    {
+        // check connection pairs
+        lockOnlineIdList();
+        // make a list of who used the connection and remove the connections from the list
+        for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); iter++ )
+        {
+            if( iter->second == onlineId )
+            {
+                sktConnectIdList.insert( iter->first );
+            }
+        }
+
+        unlockOnlineIdList();
+    }
+
     return sktBase;
 }
 
@@ -713,6 +729,22 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( const 
     }
 
     unlockList();
+
+    if( sktConnectIdList.empty() )
+    {
+        // check connection pairs
+        lockOnlineIdList();
+        // make a list of who used the connection and remove the connections from the list
+        for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); iter++ )
+        {
+            if( iter->second == onlineId )
+            {
+                sktConnectIdList.insert( iter->first );
+            }
+        }
+
+        unlockOnlineIdList();
+    }
 
     std::shared_ptr<VxSktBase> sktBase( nullptr );
     for( auto sktConnectId : sktConnectIdList )
@@ -855,7 +887,6 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
     }
 
     unlockClientList();
-    m_Engine.getToGui().toGuiUserOnlineStatusChange( onlineId, isOnline );
 }
 
 //============================================================================
@@ -1161,7 +1192,7 @@ void ConnectIdListMgr::pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId )
 }
 
 //============================================================================
-void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId )
+void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::set<VxGUID>& lostConnUserList )
 {
     if( !sktConnectId.isVxGUIDValid() )
     {
@@ -1171,7 +1202,6 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId )
     }
 
     std::set<VxGUID> onlineIdList;
-    std::vector<VxGUID> lostConnectiononIdList;
     lockOnlineIdList();
     // make a list of who used the connection and remove the connections from the list
     for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); )
@@ -1188,15 +1218,15 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId )
     }
 
     // for each user if there is no more connections to user then add to lostConnectiononIdList
-    //for( auto& onlineId : onlineIdList )
-    //{
-    //    auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
-    //                          [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.second == onlineId; } );
-    //    if( iter == m_OnlineConnectionPairs.end() )
-    //    {
-    //        lostConnectiononIdList.push_back( onlineId );
-    //    }
-    //}
+    for( auto& onlineId : onlineIdList )
+    {
+        auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
+                              [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.second == onlineId; } );
+        if( iter == m_OnlineConnectionPairs.end() )
+        {
+            lostConnUserList.insert( onlineId );
+        }
+    }
 
     unlockOnlineIdList();
 

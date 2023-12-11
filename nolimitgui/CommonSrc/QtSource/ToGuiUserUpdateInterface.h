@@ -27,12 +27,15 @@ public:
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) = 0; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) = 0; 
 
-    virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0; 
-    virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) = 0; 
-    virtual void				toGuiContactMyFriendshipChange( VxNetIdent* netIdent ) = 0; 
-    virtual void				toGuiContactHisFriendshipChange( VxNetIdent* netIdent ) = 0; 
-    virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) = 0; 
-    virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) = 0; 
+     virtual void				toGuiContactUpdated( VxNetIdent* netIdent ) = 0; 
+
+    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0; 
+    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) = 0; 
+    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) = 0; 
+
+    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) = 0; 
+    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) = 0
+        ; 
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) = 0; 
 
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) = 0; 

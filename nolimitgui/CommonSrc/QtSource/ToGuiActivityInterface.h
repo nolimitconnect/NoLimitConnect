@@ -44,12 +44,13 @@ public:
 	virtual void				toGuiContactOnline( GuiUser* netIdent ){}; 
 	virtual void				toGuiContactOffline( GuiUser* guiUser ){}; 
 
-    virtual void				toGuiContactNameChange( GuiUser* guiUser ){}; 
-    virtual void				toGuiContactDescChange( GuiUser* guiUser ){}; 
-    virtual void				toGuiContactMyFriendshipChange( GuiUser* guiUser ){}; 
-    virtual void				toGuiContactHisFriendshipChange( GuiUser* guiUser ){}; 
-    virtual void				toGuiPluginPermissionChange( GuiUser* guiUser ){}; 
-    virtual void				toGuiContactSearchFlagsChange( GuiUser* guiUser ){}; 
+    //virtual void				toGuiContactNameChange( GuiUser* guiUser ){}; 
+    //virtual void				toGuiContactDescChange( GuiUser* guiUser ){}; 
+    //virtual void				toGuiContactFriendshipChange( GuiUser* guiUser ){}; 
+
+    //virtual void				toGuiPluginPermissionChange( GuiUser* guiUser ){}; 
+    //virtual void				toGuiContactSearchFlagsChange( GuiUser* guiUser ){}; 
+
     virtual void				toGuiContactLastSessionTimeChange( GuiUser* guiUser ){}; 
     virtual void				toGuiUpdateMyIdent(GuiUser* guiUser ){}; 
 
