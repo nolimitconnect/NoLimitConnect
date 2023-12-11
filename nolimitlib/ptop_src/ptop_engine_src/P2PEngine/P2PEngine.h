@@ -138,7 +138,7 @@ public:
     ThumbMgr&                   getThumbMgr( void )                             { return m_ThumbMgr; }
     UrlMgr&                     getUrlMgr( void );
 
-    HostServerJoinMgr&                getHostJoinMgr( void )                          { return m_HostJoinMgr; }
+    HostServerJoinMgr&          getHostJoinMgr( void )                          { return m_HostJoinMgr; }
     UserJoinMgr&                getUserJoinMgr( void )                          { return m_UserJoinMgr; }
     UserOnlineMgr&              getUserOnlineMgr( void )                        { return m_UserOnlineMgr; }
     WebPageMgr&                 getWebPageMgr( void )                           { return m_WebPageMgr; }

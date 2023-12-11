@@ -49,19 +49,6 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 		return true;
 	}
-	
-	if( srcBigInfo->isIgnored() )
-	{
-		VxReportHack( eHackerLevelSuspicious, eHackerReasonAccessDenied, sktBase, "ignored user %s %s attempted relay pkt", 
-					  srcBigInfo->getOnlineName(), srcOnlineId.toOnlineIdString().c_str() );
-
-		if( !m_Engine.getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
-		{
-			sktBase->closeSkt( eSktCloseBlockedUser );
-		}
-
-		return true;
-	}
 
 	VxGUID destOnlineId = pktHdr->getDestOnlineId();
 	if( !isJoinedToRelayHost( srcOnlineId ) )

@@ -74,6 +74,10 @@ public:
 
 	void						onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIdent* netIdent );
 
+	bool						updateMemberFriendship( VxGUID& onlineId, bool isMember = true );
+
+	bool						updateMemberFriendship( BigListInfo* bigListInfo, bool isMember = true );
+
 protected:
 
 	//=== vars ===//

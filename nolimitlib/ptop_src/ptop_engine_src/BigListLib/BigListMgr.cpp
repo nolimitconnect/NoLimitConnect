@@ -514,3 +514,75 @@ void BigListMgr::onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIden
 		vx_assert( false );
 	}
 }
+
+//============================================================================
+bool BigListMgr::updateMemberFriendship( VxGUID& onlineId, bool isMember )
+{
+	BigListInfo* bigListInfo = findBigListInfo( onlineId );
+	if( bigListInfo )
+	{
+		return updateMemberFriendship( bigListInfo, isMember );
+	}
+
+	LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship invalid param null BigListInfo" );
+	vx_assert( false );
+	return false;
+}
+
+//============================================================================
+bool BigListMgr::updateMemberFriendship( BigListInfo* bigListInfo, bool isMember )
+{
+	if( !isMember )
+	{
+		// TODO should we downgrade to anonymouse
+		return true;
+	}
+
+	if( !bigListInfo )
+	{
+		LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship invalid param null BigListInfo" );
+		vx_assert( false );
+		return false;
+	}
+
+	if( bigListInfo->isIgnored() )
+	{
+		LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship ignore BigListInfo for %s id %s", 
+			bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str());
+		return false;
+	}
+
+	
+	if( bigListInfo->isMyself() )
+	{
+		LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship isMyself true" );
+		bigListInfo->setMyFriendshipToHim( eFriendStateFriend );
+		bigListInfo->setHisFriendshipToMe( eFriendStateFriend );
+
+		return true;
+	}
+
+	EFriendState prevMyFriendship = bigListInfo->getMyFriendshipToHim();
+	EFriendState curMyFriendship = prevMyFriendship;
+	if( prevMyFriendship == eFriendStateAnonymous )
+	{
+		curMyFriendship = eFriendStateGuest;
+		bigListInfo->setMyFriendshipToHim( curMyFriendship );
+		updateVectorList( prevMyFriendship, bigListInfo );
+	}
+
+	EFriendState prevHisFriendship = bigListInfo->getHisFriendshipToMe();
+	EFriendState curHisFriendship = prevHisFriendship;
+	if( prevMyFriendship == eFriendStateAnonymous )
+	{
+		curMyFriendship = eFriendStateGuest;
+		bigListInfo->setHisFriendshipToMe( curMyFriendship );
+	}
+
+	if( prevMyFriendship != curMyFriendship || prevHisFriendship != curHisFriendship )
+	{
+		m_Engine.getToGui().toGuiContactAnythingChange( bigListInfo->getVxNetIdent() );
+	}
+
+	return true;
+}
