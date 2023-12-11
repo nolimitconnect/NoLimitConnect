@@ -82,6 +82,22 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
 }
 
 //============================================================================
+bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
+{
+    // the updates to user should have been done in m_BigListMgr.updatePktAnn
+    LogModule( eLogConnect, LOG_VERBOSE, "onConnectionPktAnnounceUpdated %s %s at ip %s",
+               bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+    
+    // update the pkt ann set into the connection
+    sktBase->setPeerPktAnn( *pktAnn ); 
+
+    // again request thumbs in case they have changed
+    getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
+
+    return true;
+}
+
+//============================================================================
 bool P2PEngine::onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
     bool updateOk{ true };

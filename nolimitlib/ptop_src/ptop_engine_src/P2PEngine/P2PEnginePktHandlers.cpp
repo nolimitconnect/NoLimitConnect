@@ -113,11 +113,29 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	pktAnn->reversePermissions();
 	pktAnn->setTimeLastTcpContactMs( GetGmtTimeMs() );
 
-	// TODO validate if really nearby
+	bool isHostedUserPktAnnounce{ false };
+	bool isPeerUpdatePktAnnounce{ false };
+	bool isRelayedPktAnnounce{ false };
+	if( !isFirstAnnounce )
+	{
+		// detect if was announced by host instead of user
+		if( pktAnn->getHostOnlineId() == sktBase->getPeerOnlineId() && pktAnn->getMyOnlineId() != sktBase->getPeerOnlineId() && IsHostARelayForUsers( pktAnn->getHostType() ) )
+		{
+			isHostedUserPktAnnounce = true;
+		}
+		else if( pktAnn->getMyOnlineId() == sktBase->getPeerOnlineId() )
+		{
+			isPeerUpdatePktAnnounce  = true;
+		}
+		else
+		{
+			isRelayedPktAnnounce = true;
+		}
+	}
 
 	BigListInfo * bigListInfo = 0;
 	EHostType hostType{ eHostTypeUnknown };
-	EPktAnnUpdateType pktAnnUpdateType = m_BigListMgr.updatePktAnn( pktAnn, &bigListInfo, hostType );		
+	EPktAnnUpdateType pktAnnUpdateType = m_BigListMgr.updatePktAnn( pktAnn, &bigListInfo, hostType, false, !isHostedUserPktAnnounce );		
 	if( !bigListInfo->isValidNetIdent() )
 	{
 		LogMsg( LOG_ERROR, "PktAnnounce updatePktAnn INVALID" );
@@ -178,14 +196,20 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	{
 		if( sktBase->getIsPeerPktAnnSet() )
 		{
-			if( pktAnn->getMyOnlineId() == sktBase->getPeerOnlineId() )
+			// detect if was announced by host instead of user
+			if( isHostedUserPktAnnounce )
+			{
+				updateOk = onHostedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
+			}
+			else if( isPeerUpdatePktAnnounce )
 			{
 				updateOk = onConnectionPktAnnounceUpdated( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 			}
 			else
 			{
-				updateOk = onHostedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
+				updateOk = onRelayedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 			}
+	
 
 			//LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s %s through relay %s %s ip %s",
 			//		   pktAnn->getOnlineName(),
