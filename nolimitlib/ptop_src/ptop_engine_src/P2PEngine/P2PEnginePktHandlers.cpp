@@ -159,6 +159,11 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
+	if( isFirstAnnounce && IsConnectReasonJoin( sktBase->getConnectReason() ) )
+	{
+		getBigListMgr().updateMemberFriendship( bigListInfo );
+	}
+
 	bool pktAnnReplyRequested = pktAnn->getIsPktAnnReplyRequested();
 	bool reverseConnectionRequested = pktAnn->getIsPktAnnRevConnectRequested();
 	if( pktAnn->getTTL() > 0 )

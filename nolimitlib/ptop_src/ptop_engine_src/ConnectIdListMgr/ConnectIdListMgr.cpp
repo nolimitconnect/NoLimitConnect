@@ -166,6 +166,29 @@ bool ConnectIdListMgr::isOnline( GroupieId& groupieId )
 }
 
 //============================================================================
+bool ConnectIdListMgr::addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId )
+{
+    if( !groupieId.isValid() )
+    {
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::addConnection groupie id invalid" );
+        return false;
+    }
+
+    if( sktBase->isConnected() )
+    {
+        bool isRelayed = groupieId.getUserOnlineId() != sktBase->getPeerOnlineId();
+        addConnection( sktBase->getSocketId(), groupieId, isRelayed );
+        return true;
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::addConnection socket is no longer connected" );
+    }
+
+    return false;
+}
+
+//============================================================================
 void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed )
 {
     if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
@@ -870,6 +893,12 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallbackInterface
 //============================================================================
 void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
 {
+    if( onlineId == m_Engine.getMyOnlineId() )
+    {
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus was myself online ? %d",isOnline );
+        return;
+    }
+
     LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online ? %d %s", isOnline, onlineId.toOnlineIdString().c_str() );
     lockClientList();
 

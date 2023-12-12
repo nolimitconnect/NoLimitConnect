@@ -64,6 +64,7 @@ public:
     virtual bool               findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );
     std::shared_ptr<VxSktBase> findSktBase( VxGUID& connectId );
 
+    bool                        addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId );
     void                        addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed );
     void                        removeConnection( VxGUID& sktConnectId, GroupieId& groupieId );
     void                        addConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason );

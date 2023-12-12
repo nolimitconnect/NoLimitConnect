@@ -41,27 +41,40 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
         if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
         {
             LogMsg( LOG_ERROR, "HostClientMgr::onPktHostJoinReply invalid host type" );
+            return;
         }
 
         GroupieId groupieId( hostReply->getGroupieId() );
+        if( !m_Engine.getConnectIdListMgr().addConnection( sktBase, groupieId ) )
+        {
+            LogMsg( LOG_ERROR, "HostClientMgr::onPktHostJoinReply addConnection failed" );
+            return;
+        }
+
         HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
-        m_Engine.getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
 
         if( ePluginAccessOk == hostReply->getAccessState() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinSuccess );
+            m_Engine.getBigListMgr().updateMemberFriendship( groupieId.getUserOnlineId() );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
             BaseSessionInfo sessionInfo( hostUserSessionId );
             onUserJoinHostGranted( groupieId, sktBase, netIdent, sessionInfo );
         }
         else if( ePluginAccessLocked == hostReply->getAccessState() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinFailPermission );
-            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), netIdent->getMyOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFailPermission );
+            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            }
         }
         else
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
-            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), netIdent->getMyOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
+            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            }
         }
     }
     else
@@ -81,25 +94,31 @@ void HostClientMgr::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, Vx
             LogMsg( LOG_ERROR, "HostClientMgr::onPktHostLeaveReply invalid host type" );
         }
 
-        GroupieId groupieId = hostReply->getGroupieId();
+        GroupieId groupieId( hostReply->getGroupieId() );
         m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), groupieId );
         HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
 
         if( ePluginAccessOk == hostReply->getAccessState() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinUnJoinSuccess );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinUnJoinSuccess );
             BaseSessionInfo sessionInfo( hostUserSessionId );
             onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
         }
         else if( ePluginAccessLocked == hostReply->getAccessState() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinFailPermission );
-            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), netIdent->getMyOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFailPermission );
+            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            }
         }
         else
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
-            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), netIdent->getMyOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
+            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            }
         }
     }
     else
@@ -119,25 +138,31 @@ void HostClientMgr::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, V
             LogMsg( LOG_ERROR, "HostClientMgr::onPktHostUnJoinReply invalid host type" );
         }
 
-        GroupieId groupieId( m_Engine.getMyOnlineId(), netIdent->getMyOnlineId(), hostReply->getHostType() );
+        GroupieId groupieId( hostReply->getGroupieId() );
         m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), groupieId );
         HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
 
         if( ePluginAccessOk == hostReply->getAccessState() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinUnJoinSuccess );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinUnJoinSuccess );
             BaseSessionInfo sessionInfo( hostUserSessionId );
             onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
         }
         else if( ePluginAccessLocked == hostReply->getAccessState() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinFailPermission );
-            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), netIdent->getMyOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFailPermission );
+            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            }
         }
         else
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( hostReply->getHostType(), netIdent->getMyOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
-            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), netIdent->getMyOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
+            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+            }
         }
     }
     else
