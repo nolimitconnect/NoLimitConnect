@@ -172,6 +172,12 @@ void PluginSessionMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_p
 }
 
 //============================================================================
+void PluginSessionMgr::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+	// TODO implement
+}
+
+//============================================================================
 //! called when connection is lost
 void PluginSessionMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {

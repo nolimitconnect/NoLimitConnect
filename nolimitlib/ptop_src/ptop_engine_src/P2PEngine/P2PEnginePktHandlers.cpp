@@ -240,21 +240,10 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		 return; 
 	}
 
-	//if( sktBase->isConnected() )
-	//{
-	//	if( !sktBase->getIsPeerPktAnnSet() )
-	//	{
-	//		if( sktBase->setPeerPktAnn( *pktAnn ) )
-	//		{
-	//			getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
-	//			getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
-	//		}
-	//		else
-	//		{
-	//			getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
-	//		}
-	//	}
-	//}
+    LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce of %s %s by %s %s at %s",
+            pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+            sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
+			sktBase->getRemoteIp().c_str() );
 
 #if ENABLE_STUN_REVERSE_CONNECT
     if( sktBase->isConnected() && isFirstAnnounce && pktAnn->getIsPktAnnRevConnectRequested() )
@@ -289,32 +278,6 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		}
 	}
 #endif // ENABLE_STUN_REVERSE_CONNECT
-
-	/*
-	if( sktBase->isConnected() )
-	{
-		if( isFirstAnnounce )
-		{
-			updateOnFirstConnect( sktBase, bigListInfo, false );
-			onFirstPktAnnounce( pktAnn, sktBase, bigListInfo );
-		}
-		else if( pktAnn->getDestOnlineId() != getMyOnlineId() )
-		{
-			getRelayMgr().onRelayPktAnnounce( pktAnn, sktBase, bigListInfo->getVxNetIdent() );
-		}
-		else
-		{
-			if( getRelayMgr().sendRequestedReplyPktAnnIfNeeded( pktAnn, sktBase, bigListInfo->getVxNetIdent()) )
-			{
-				getConnectIdListMgr().onGroupUserAnnounce( pktAnn, sktBase, bigListInfo->getVxNetIdent(), true );
-			}
-			else
-			{
-				getConnectList().onConnectionLost( sktBase );
-			}
-		}
-	}
-	*/
 
 	// send ping request to keep connection alive
 	if( sktBase->isConnected() )

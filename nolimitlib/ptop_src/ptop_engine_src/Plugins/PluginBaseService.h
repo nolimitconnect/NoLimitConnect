@@ -22,6 +22,7 @@ public:
     HostedId&                   getHostedId( void )                 { return m_HostedId; }
 
     void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester = true ) override;
+    void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId ) override;
 
 protected:
     EConnectReason              getHostAnnounceConnectReason( void );

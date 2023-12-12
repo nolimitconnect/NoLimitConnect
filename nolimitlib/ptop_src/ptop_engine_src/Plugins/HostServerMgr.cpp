@@ -33,9 +33,10 @@ HostServerMgr::HostServerMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIden
 //============================================================================
 void HostServerMgr::onClientJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
-    m_ServerMutex.lock();
+    m_ClientListMutex.lock();
     addClient( sktBase, netIdent );
-    m_ServerMutex.unlock();
+    m_ClientListMutex.unlock();
+
     addContact(sktBase, netIdent );
 }
 
@@ -197,13 +198,20 @@ void HostServerMgr::onJoinRequested( std::shared_ptr<VxSktBase>& sktBase, VxNetI
 }
 
 //============================================================================
-void HostServerMgr::onUserJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, GroupieId& groupieId )
+bool HostServerMgr::onUserJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, GroupieId& groupieId )
 {
+    if( groupieId.getUserOnlineId() != netIdent->getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, " HostServerMgr::onUserJoined onlineId does not match groupie user id" );
+        return false;
+    }
+
     LogModule( eLogHosts, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
     sessionInfo.setJoinState( eJoinStateJoinWasGranted );
     onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
+    return sktBase->isConnected();
 }
 
 //============================================================================
@@ -266,19 +274,23 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     m_Engine.getUserOnlineMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
 
     // broadcast users PktAnn to all users
-    BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( netIdent->getMyOnlineId() );
+    BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( groupieId.getUserOnlineId() );
     if( bigListInfo )
     {
+        m_ClientListMutex.lock();
+        m_ClientList.addGuidIfDoesntExist( groupieId.getUserOnlineId() );
+        m_ClientListMutex.unlock();
+
         PktAnnounce* pktAnn = bigListInfo->makeAnnCopy();
         if( pktAnn )
         {
+            // send users pkt ann to all clients
             pktAnn->clearTempValues();
             pktAnn->setHostType( getHostType() );
             pktAnn->setHostOnlineId( m_Engine.getMyOnlineId() );
             pktAnn->setMyFriendshipToHim( eFriendStateGuest );
             pktAnn->setHisFriendshipToMe( eFriendStateGuest );
             m_Plugin.broadcastToClients( pktAnn, netIdent->getMyOnlineId(), sktBase, false );
-
             delete pktAnn;
         }
         else
@@ -311,6 +323,10 @@ void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
 //============================================================================
 void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
+    m_ClientListMutex.lock();
+    m_ClientList.removeGuid( groupieId.getUserOnlineId() );
+    m_ClientListMutex.unlock();
+    
     sessionInfo.setJoinState( eJoinStateJoinLeaveHost );
     m_Engine.getHostJoinMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
@@ -320,6 +336,10 @@ void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
 //============================================================================
 void HostServerMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
+    m_ClientListMutex.lock();
+    m_ClientList.removeGuid( groupieId.getUserOnlineId() );
+    m_ClientListMutex.lock();
+
     VxGUID sessionId;
     sessionId.initializeWithNewVxGUID();
 
@@ -555,4 +575,86 @@ void HostServerMgr::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktB
 bool HostServerMgr::isMemberOnline( VxGUID& onlineId )
 {
     return m_Engine.getConnectIdListMgr().isMemberOnline( getHostId(), onlineId );
+}
+
+//============================================================================
+bool HostServerMgr::sendMemberListToClient( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+{
+    m_ClientListMutex.lock();
+    std::vector<VxGUID> memberList = m_ClientList.getGuidList();
+    m_ClientListMutex.unlock();
+
+    for( auto& onlineId : memberList )
+    {
+        if( onlineId == netIdent->getMyOnlineId() )
+        {
+            continue;
+        }
+
+        if( m_Engine.getConnectIdListMgr().isUserOnline( onlineId ) )
+        {
+            BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
+            if( bigListInfo )
+            {
+                PktAnnounce* pktAnn = bigListInfo->makeAnnCopy();
+                if( pktAnn )
+                {
+                    // send users pkt ann to all clients
+                    pktAnn->clearTempValues();
+                    pktAnn->setHostType( getHostType() );
+                    pktAnn->setHostOnlineId( m_Engine.getMyOnlineId() );
+                    pktAnn->setMyFriendshipToHim( eFriendStateGuest );
+                    pktAnn->setHisFriendshipToMe( eFriendStateGuest );
+                    bool wasSent = m_Plugin.txPacket( onlineId, sktBase, pktAnn );
+
+                    delete pktAnn;
+                    if( !wasSent )
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    LogMsg( LOG_ERROR, "HostServerMgr::onUserJoinedHost null pktAnn for user %s %s",
+                            netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+                    vx_assert( false );
+                }
+            }
+            else
+            {
+                LogMsg( LOG_ERROR, "HostServerMgr::sendMemberListToClient null bigListInfo for online id %s",
+                        onlineId.toOnlineIdString().c_str() );
+                vx_assert( false );
+            }
+        }
+
+        if( sktBase->isConnected() )
+        {
+            break;
+        }
+    }  
+
+    return sktBase->isConnected();
+}
+
+//============================================================================
+bool HostServerMgr::isMember( VxGUID& onlineId, bool removeFromMembers )
+{
+    bool isMember{ false };
+    m_ClientListMutex.lock();
+    if( removeFromMembers )
+    {
+        isMember = m_ClientList.removeGuid( onlineId );
+    }
+    else
+    {
+        if( m_ClientList.doesGuidExist( onlineId ) )
+        {
+            isMember = true;
+        }
+    }
+
+    m_ClientListMutex.unlock();;
+ 
+    return isMember;
 }

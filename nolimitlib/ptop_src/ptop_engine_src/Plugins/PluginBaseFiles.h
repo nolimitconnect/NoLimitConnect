@@ -117,6 +117,8 @@ protected:
     virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
     virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override;	
 
+	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+
 	//=== vars ===//
 	VxFileShredder&				m_FileShredder;
 	PluginSessionMgr			m_PluginSessionMgr;

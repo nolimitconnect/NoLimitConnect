@@ -48,6 +48,8 @@ public:
 	virtual bool				removePushToTalkUser( VxGUID& onlineId, bool txOnly = false );
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
+	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) {};
+
 	virtual bool				sendPushToTalkStart( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	virtual bool				sendPushToTalkStop( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	virtual bool				sendPushToTalkReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );

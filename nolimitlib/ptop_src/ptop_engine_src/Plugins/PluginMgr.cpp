@@ -747,6 +747,15 @@ void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSk
 }
 
 //============================================================================
+void PluginMgr::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+	for( auto& pluginBase : m_aoPlugins )
+	{
+		pluginBase->onContactOnlineStatusChange( onlineId, isOnline );
+	}
+}
+
+//============================================================================
 void PluginMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
 	for( auto iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )

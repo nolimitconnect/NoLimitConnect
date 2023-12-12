@@ -68,6 +68,8 @@ protected:
     virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
     virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override;
 
+    void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
+
     P2PSession *				createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
 	bool						sendGameStats( VxNetIdent*	netIdent );
 

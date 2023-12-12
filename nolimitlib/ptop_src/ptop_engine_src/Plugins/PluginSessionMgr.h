@@ -33,6 +33,8 @@ public:
 	virtual	void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 	virtual void				cancelSessionByOnlineId( VxGUID& onlineId );
 
+	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+
     virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxNetIdent* netIdent, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxNetIdent* netIdent, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );

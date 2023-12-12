@@ -78,7 +78,45 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
     }
     else
     {
-        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToHostClients invalid pkt host %s", DescribeHostType( getHostType() ) );
+        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToHostClients invalid pkt %s host %s", pktHdr->describePktHdr().c_str(), DescribeHostType( getHostType() ) );
+    }
+}
+
+//============================================================================
+void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId )
+{
+    if( pktHdr && pktHdr->isValidPkt() )
+    {
+        std::set<ConnectId> connectIdSet;
+        std::set<ConnectId> relayedIdSet;
+        if( m_Engine.getConnectIdListMgr().getConnections( getHostedId(), connectIdSet, relayedIdSet ) )
+        {
+            for( auto& connectId : connectIdSet )
+            {
+                m_Engine.getPeerMgr().lockSktList();
+                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
+                if( sktBase && sktBase->isConnected() )
+                {
+                    bool isExcludeId = excludedOnlineId == sktBase->getPeerOnlineId();
+                    if( isExcludeId )
+                    {
+                        m_Engine.getPeerMgr().unlockSktList();
+                        continue;
+                    }
+
+                    if( !txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr, false, getClientPluginType() ) )
+                    {
+                        // logging ?
+                    }
+                }
+
+                m_Engine.getPeerMgr().unlockSktList();
+            }
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToHostClients invalid pkt %s host %s", pktHdr->describePktHdr().c_str(),  DescribeHostType( getHostType() ) );
     }
 }
 

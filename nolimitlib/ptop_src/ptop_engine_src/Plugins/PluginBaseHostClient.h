@@ -92,6 +92,8 @@ protected:
     virtual void				replaceConnection           ( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override {};
     virtual void				onConnectionLost            ( std::shared_ptr<VxSktBase>& sktBase ) override {};
 
+    void				        onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
+
     //=== vars ===//
     ConnectionMgr&              m_ConnectionMgr; 
     HostClientMgr               m_HostClientMgr;

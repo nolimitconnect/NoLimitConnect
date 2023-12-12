@@ -30,7 +30,7 @@ public:
     virtual EMembershipState	getMembershipState( VxNetIdent* netIdent, EHostType hostType ) override;
 
     virtual void				onJoinRequested( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, EHostType hostType );
-    virtual void				onUserJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, GroupieId& groupieId );
+    virtual bool				onUserJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, GroupieId& groupieId );
     virtual void				onUserLeftHost( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, EHostType hostType );
     virtual void				onUserUnJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, GroupieId& groupieId );
 
@@ -53,6 +53,10 @@ public:
     virtual void				onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
     virtual void				onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
+    virtual bool                sendMemberListToClient( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+
+    bool						isMember( VxGUID& onlineId, bool removeFromMembers );
+
 protected:
     virtual bool                onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason ) override;
     virtual void                onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason = eConnectReasonUnknown ) override;
@@ -66,7 +70,7 @@ protected:
 
     virtual bool                isMemberOnline( VxGUID& onlineId );
 
-    VxMutex                     m_ServerMutex;
+    VxMutex                     m_ClientListMutex;
     VxGUIDList                  m_ClientList;
     std::map<VxGUID, PktHostInviteAnnounceReq*> m_AnnList;
     VxMutex                     m_AnnListMutex;

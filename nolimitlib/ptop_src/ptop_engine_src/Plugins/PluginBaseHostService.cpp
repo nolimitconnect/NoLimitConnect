@@ -260,8 +260,16 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
             if( m_Engine.getUserOnlineMgr().updateUserJoinedFriendships( groupieId, netIdent ) )
             {
                 m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
-                m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId );
-                broadcastToClients( &joinReply, netIdent->getMyOnlineId(), sktBase );    
+                if( m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId ) )
+                {
+                    if( m_HostServerMgr.sendMemberListToClient( sktBase, netIdent ) )
+                    {
+                        if( txPacket( netIdent->getMyOnlineId(), sktBase, &joinReply ) )
+                        {
+                            broadcastToClients( &joinReply, netIdent->getMyOnlineId(), sktBase );    
+                        }
+                    }
+                }         
             }
         }
         else if( sendPkt )
@@ -763,4 +771,22 @@ void PluginBaseHostService::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>
 void PluginBaseHostService::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostServerMgr.onPktHostUserListMoreReply( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginBaseHostService::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+    if( !isOnline && m_HostServerMgr.isMember( onlineId, true ) )
+    {
+        // announce user lost connection to host
+
+        GroupieId groupieId( onlineId, m_Engine.getMyOnlineId(), getHostType() );
+
+        PktHostLeaveReply pktReply;
+        
+        pktReply.setGroupieId( groupieId );
+        pktReply.setPluginType( getPluginType() );
+
+        broadcastToClients( &pktReply, onlineId );
+    }
 }

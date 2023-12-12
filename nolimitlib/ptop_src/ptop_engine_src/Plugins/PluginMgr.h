@@ -126,6 +126,9 @@ public:
 	virtual void				onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );	
+
+	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+
 	virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount ); 
 	virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo );
 	virtual bool				fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() );

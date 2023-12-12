@@ -374,6 +374,12 @@ void PluginBaseFiles::onContactWentOffline( VxNetIdent* netIdent, std::shared_pt
 }
 
 //============================================================================
+void PluginBaseFiles::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( onlineId, isOnline );
+}
+
+//============================================================================
 void PluginBaseFiles::onPktFileInfoInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//m_Engine.getFileInfoListMgr().onPktFileInfoInfoReq( sktBase, pktHdr, netIdent, getCommAccessState( netIdent ), this );

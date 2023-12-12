@@ -524,7 +524,7 @@ bool BigListMgr::updateMemberFriendship( VxGUID& onlineId, bool isMember )
 		return updateMemberFriendship( bigListInfo, isMember );
 	}
 
-	LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship invalid param null BigListInfo" );
+    LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship invalid param null BigListInfo for id %s", onlineId.toOnlineIdString().c_str() );
 	vx_assert( false );
 	return false;
 }

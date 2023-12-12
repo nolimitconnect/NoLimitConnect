@@ -32,6 +32,8 @@ protected:
     virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override	{};
     virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override {};
 
+    void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
+
     //=== vars ===//
     NetServicesMgr&				m_NetServicesMgr;
 };

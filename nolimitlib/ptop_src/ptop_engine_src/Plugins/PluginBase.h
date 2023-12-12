@@ -193,6 +193,8 @@ public:
 	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) = 0;
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) = 0;
 
+	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) = 0;
+
     bool						txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend = false ) override;
     bool						txPacket( const VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend = false, EPluginType overridePlugin = ePluginTypeInvalid );
 
@@ -280,6 +282,7 @@ public:
 	virtual	void				onNetworkConnectionReady( bool requiresRelay ) {};
 
 	virtual	void				broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester = true ) {};
+	virtual	void				broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId ) {};
 
 protected:
 	virtual void				makeShortFileName( const char* pFullFileName, std::string& strShortFileName );

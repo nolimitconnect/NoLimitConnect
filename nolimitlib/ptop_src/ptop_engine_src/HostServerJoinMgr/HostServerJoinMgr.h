@@ -63,6 +63,8 @@ public:
     EJoinState                  getHostJoinState( GroupieId& groupieId );
     bool                        isUserJoinedToRelayHost( VxGUID& onlineId );
 
+    virtual void                onUserOffline( VxGUID& onlineId ) {}; // TODO implement
+
 protected:
     void						clearHostJoinInfoList( void );
 

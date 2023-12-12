@@ -916,6 +916,13 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
     }
 
     unlockClientList();
+    m_Engine.getPluginMgr().onContactOnlineStatusChange( onlineId, isOnline );
+    if( !isOnline )
+    {
+        m_Engine.getHostJoinMgr().onUserOffline( onlineId );
+        m_Engine.getGroupieListMgr().onUserOffline( onlineId );
+        m_Engine.getUserOnlineMgr().onUserOffline( onlineId );
+    }
 }
 
 //============================================================================
