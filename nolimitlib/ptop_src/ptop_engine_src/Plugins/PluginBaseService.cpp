@@ -46,10 +46,23 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
         {
             for( auto& connectId : connectIdSet )
             {
+                VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
+
                 m_Engine.getPeerMgr().lockSktList();
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
                 if( sktBase && sktBase->isConnected() )
                 {
+                    if( sktBase->getPeerOnlineId() != memberOnlineId )
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does NOT match user id %s",
+                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                    }
+                    else
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does match user id %s",
+                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                    }
+
                     bool isRequester = requestorSktConnectionId == sktBase->getSocketId();
                     if( isRequester && !includeRequester )
                     {
@@ -57,7 +70,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
                         continue;
                     }
 
-                    if( txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr, false, getClientPluginType() ) )
+                    if( txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
                     {
                         if( isRequester )
                         {
@@ -93,10 +106,23 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
         {
             for( auto& connectId : connectIdSet )
             {
+                VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
+
                 m_Engine.getPeerMgr().lockSktList();
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
                 if( sktBase && sktBase->isConnected() )
                 {
+                    if( sktBase->getPeerOnlineId() != memberOnlineId )
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does NOT match user id %s",
+                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                    }
+                    else
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does match user id %s",
+                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                    }
+
                     bool isExcludeId = excludedOnlineId == sktBase->getPeerOnlineId();
                     if( isExcludeId )
                     {
@@ -104,7 +130,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
                         continue;
                     }
 
-                    if( !txPacket( const_cast<ConnectId&>(connectId).getUserOnlineId(), sktBase, pktHdr, false, getClientPluginType() ) )
+                    if( !txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
                     {
                         // logging ?
                     }

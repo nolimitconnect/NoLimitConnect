@@ -264,9 +264,9 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
                 {
                     if( m_HostServerMgr.sendMemberListToClient( sktBase, netIdent ) )
                     {
-                        if( txPacket( netIdent->getMyOnlineId(), sktBase, &joinReply ) )
+                        if( txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply ) )
                         {
-                            broadcastToClients( &joinReply, netIdent->getMyOnlineId(), sktBase );    
+                            broadcastToClients( &joinReply, groupieId.getUserOnlineId(), sktBase );    
                         }
                     }
                 }         
@@ -276,7 +276,7 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
         {
             m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
             m_HostServerMgr.onJoinRequested( sktBase, netIdent, joinReq->getSessionId(), joinReq->getHostType() );
-            txPacket( netIdent->getMyOnlineId(), sktBase, &joinReply );
+            txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply );
         }
     }
     else

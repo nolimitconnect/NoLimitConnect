@@ -290,20 +290,20 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
             pktAnn->setHostOnlineId( m_Engine.getMyOnlineId() );
             pktAnn->setMyFriendshipToHim( eFriendStateGuest );
             pktAnn->setHisFriendshipToMe( eFriendStateGuest );
-            m_Plugin.broadcastToClients( pktAnn, netIdent->getMyOnlineId(), sktBase, false );
+            m_Plugin.broadcastToClients( pktAnn, groupieId.getUserOnlineId(), sktBase, false);
             delete pktAnn;
         }
         else
         {
             LogMsg( LOG_ERROR, "HostServerMgr::onUserJoinedHost null pktAnn for user %s %s",
-                    netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+                    netIdent->getOnlineName(), groupieId.getUserOnlineId().toOnlineIdString().c_str() );
             vx_assert( false );
         }
     }
     else
     {
         LogMsg( LOG_ERROR, "HostServerMgr::onUserJoinedHost null bigListInfo for user %s %s",
-                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+                netIdent->getOnlineName(), groupieId.getUserOnlineId().toOnlineIdString().c_str() );
         vx_assert( false );
     }   
 }
