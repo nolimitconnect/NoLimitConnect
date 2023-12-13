@@ -1430,3 +1430,6 @@ bool IsHostARelayForUsers( enum EHostType hostType ); // also used to determine 
 
 //! return true if only one user can access at a time. example ePluginTypeVideoPhone
 bool IsPluginSingleSession( EPluginType pluginType );
+
+//! return true if currently have special debugging for given name or test
+bool ShouldDebugUser( const char* userName );

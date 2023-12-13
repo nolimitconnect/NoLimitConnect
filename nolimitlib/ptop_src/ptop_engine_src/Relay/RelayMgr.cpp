@@ -32,15 +32,15 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	if( !srcBigInfo )
 	{
 		// this is someone we have never encountered
-		VxReportHack( eHackerLevelSevere, eHackerReasonInvalidPkt, sktBase, "attempted relay pkt %s", srcOnlineId.toOnlineIdString().c_str() );
+		VxReportHack( eHackerLevelSevere, eHackerReasonInvalidPkt, sktBase, "attempted relay pkt %s null src bigListInfo", pktHdr->describePktHdr().c_str(), srcOnlineId.toOnlineIdString().c_str() );
 		sktBase->closeSkt( eSktCloseHackLevetSevere );
 		return true;
 	}
 
 	if( srcBigInfo->isIgnored() )
 	{
-		VxReportHack( eHackerLevelSuspicious, eHackerReasonAccessDenied, sktBase, "ignored user %s %s attempted relay pkt", 
-					  srcBigInfo->getOnlineName(), srcOnlineId.toOnlineIdString().c_str() );
+		VxReportHack( eHackerLevelSuspicious, eHackerReasonAccessDenied, sktBase, "ignored user %s %s attempted relay pkt %s", 
+					  srcBigInfo->getOnlineName(), srcOnlineId.toOnlineIdString().c_str(), pktHdr->describePktHdr().c_str() );
 
 		if( !m_Engine.getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
 		{
@@ -104,7 +104,7 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return true;
 	}
 
-    LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt sent relay pkt %s srcId %s %s destId %s %s", pktHdr->describePktHdr().c_str(),
+    LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt sent relay pkt %s src %s %s dest %s %s", pktHdr->describePktHdr().c_str(),
 		srcOnlineId.toOnlineIdString().c_str(), sktBase->getPeerOnlineName().c_str(), destOnlineId.toOnlineIdString().c_str(), sktBaseRelay->getPeerOnlineName().c_str() );
 	return true;
 }

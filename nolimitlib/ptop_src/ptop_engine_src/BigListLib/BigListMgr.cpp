@@ -502,10 +502,18 @@ bool BigListMgr::queryIdent( VxGUID& onlineId, VxNetIdent& netIdent )
 //============================================================================
 void BigListMgr::onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIdent* netIdent )
 {
-	BigListInfo* bigInfo = findBigListInfo( netIdent->getMyOnlineId() );
-	if( bigInfo )
+    if( netIdent->getMyOnlineId() == m_Engine.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "BigListMgr::onMyFriendshipChanged isMyself true" );
+        vx_assert( false );
+        return;
+    }
+
+    BigListInfo* bigListInfo = findBigListInfo( netIdent->getMyOnlineId() );
+
+    if( bigListInfo )
 	{
-		updateVectorList( prevMyFriendship, bigInfo );
+        updateVectorList( prevMyFriendship, bigListInfo );
 	}
 	else
 	{
@@ -518,6 +526,13 @@ void BigListMgr::onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIden
 //============================================================================
 bool BigListMgr::updateMemberFriendship( VxGUID& onlineId, bool isMember )
 {
+    if( onlineId == m_Engine.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship isMyself true" );
+        vx_assert( false );
+        return false;
+    }
+
 	BigListInfo* bigListInfo = findBigListInfo( onlineId );
 	if( bigListInfo )
 	{

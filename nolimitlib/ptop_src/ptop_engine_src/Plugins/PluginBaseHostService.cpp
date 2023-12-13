@@ -194,7 +194,8 @@ void PluginBaseHostService::onConnectionLost( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService PktHostJoinReq %s got PktHostJoinReq from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
+    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService PktHostJoinReq %s got PktHostJoinReq from %s %s", DescribeHostType( getHostType() ), 
+               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
     PktHostJoinReq * joinReq = (PktHostJoinReq *)pktHdr;
     PktHostJoinReply joinReply;
     if( joinReq->isValidPkt() )
@@ -231,12 +232,14 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
 
                     // even though friendship not high enough if admin has accepted then send accepted
                     joinReply.setAccessState( ePluginAccessOk );
-                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService from %s host %s join granted", netIdent->getOnlineName(), DescribeHostType( getHostType() ) );
+                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join granted", 
+                               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
                 }
                 else
                 {
                     sendPkt = true;
-                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService from %s host %s join requested", netIdent->getOnlineName(), DescribeHostType( getHostType() ) );
+                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join requested", 
+                               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
                 }
             }
             else

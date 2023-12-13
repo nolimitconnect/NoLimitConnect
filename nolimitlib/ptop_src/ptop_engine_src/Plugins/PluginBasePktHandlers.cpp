@@ -16,7 +16,8 @@
 void PluginBase::onInvalidRxedPacket( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, const char* msg )
 {
     // TODO proper invalid packet handling
-    LogMsg( LOG_INFO, "PluginBase::onInvalidRxedPacket plugin %s user %s", DescribePluginType( getPluginType() ), netIdent->getOnlineName() );
+    LogMsg( LOG_INFO, "PluginBase::onInvalidRxedPacket plugin %s user %s %s", 
+			DescribePluginType( getPluginType() ), netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
 }
 
 //============================================================================

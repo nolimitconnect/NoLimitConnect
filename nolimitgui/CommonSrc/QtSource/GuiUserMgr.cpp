@@ -784,7 +784,7 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
-            LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks client %p idx %d user %s", client, idx, guiUser->getOnlineName().c_str() );
+            LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks client %p idx %d user %s %s", client, idx, guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str() );
             if( client && !isClientQueuedForRemoval( client ) )
             {
                 client->callbackUserUpdated( guiUser );

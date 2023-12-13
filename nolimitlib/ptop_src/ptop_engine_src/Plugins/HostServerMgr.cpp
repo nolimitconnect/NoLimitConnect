@@ -284,7 +284,7 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
         PktAnnounce* pktAnn = bigListInfo->makeAnnCopy();
         if( pktAnn )
         {
-            // send users pkt ann to all clients
+            // send users pkt ann to all clients except the user who joined
             pktAnn->clearTempValues();
             pktAnn->setHostType( getHostType() );
             pktAnn->setHostOnlineId( m_Engine.getMyOnlineId() );

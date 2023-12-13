@@ -143,7 +143,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
 		m_GuiUser = guiUser;
 
-		if( guiUser->getOnlineName() ==  "A8 tab" ||  guiUser->getOnlineName() ==  "Dev Main" )
+        if( ShouldDebugUser( guiUser->getOnlineName() ) )
 		{
 			LogModule( eLogUserGuiEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my frienship %s his friendship %s",
 					   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),

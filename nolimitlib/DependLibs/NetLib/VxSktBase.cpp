@@ -809,9 +809,10 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 		rc = this->sendData( (char *)pu8Data, iDataLen );
 	}
 
-	delete[] pu8Data;
     setLastSktError( rc );
     m_TxMutex.unlock();
+	delete[] pu8Data;
+
     if( rc && isFatalSocketError( rc ) )
     {
         LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: sendData error %d %s", rc, VxDescribeSktError( rc ) );
@@ -890,8 +891,9 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 	VxSymEncrypt( poKey, (char *)pData, iDataLen );
 	// send
 	RCODE rc = this->sendData( (char *)pData, iDataLen );
-	delete[] pData;
     m_TxMutex.unlock();
+	
+	delete[] pData;
 
 	if( rc && isFatalSocketError( rc ) )
 	{
@@ -923,8 +925,9 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
 	pktHdr->setPktSeqNum( m_u8TxSeqNum );
 	vx_assert( pktHdr->getDestOnlineId().isVxGUIDValid() );
 	uint64_t timestamp = GetGmtTimeMs();
-	setLastActiveTimeMs( timestamp );
 	uint16_t pktType = pktHdr->getPktType();
+
+	setLastActiveTimeMs( timestamp );
 	if( PKT_TYPE_IM_ALIVE_REQ != pktType && PKT_TYPE_IM_ALIVE_REPLY != pktType && PKT_TYPE_PING_REQ != pktType && PKT_TYPE_PING_REPLY != pktType )
 	{
 		setLastSessionTimeMs( timestamp );

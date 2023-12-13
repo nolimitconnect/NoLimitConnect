@@ -17,12 +17,19 @@
 //============================================================================
 bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
+    if( pktAnn->getMyOnlineId() == getMyOnlineId() )
+    {
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onFirstPktAnnounce" );
+        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        return false;
+    }
+
     bool updateOk{ true };
 
     LogModule( eLogConnect, LOG_VERBOSE, "onFirstPktAnnounce %s %s at ip %s",
                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-    std::string debugUser{ "A8 tab" };
-    if( pktAnn->getOnlineName() == debugUser )
+
+    if( ShouldDebugUser( bigListInfo->getOnlineName() ) )
     {
         LogModule( eLogConnect, LOG_VERBOSE, "onFirstPktAnnounce %s %s at ip %s pktAnn his friendship %s bigList my friendship %s his friendship %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
@@ -57,6 +64,13 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 //============================================================================
 bool P2PEngine::onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
+    if( pktAnn->getMyOnlineId() == getMyOnlineId() )
+    {
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onConnectionPktAnnounceUpdated" );
+        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        return false;
+    }
+
     // the updates to user should have been done in m_BigListMgr.updatePktAnn
     LogModule( eLogConnect, LOG_VERBOSE, "onConnectionPktAnnounceUpdated %s %s at ip %s",
                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
@@ -73,6 +87,14 @@ bool P2PEngine::onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktB
 //============================================================================
 bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
+    if( pktAnn->getMyOnlineId() == getMyOnlineId() )
+    {
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onHostedUserPktAnnounce" );
+        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        return false;
+    }
+
+
     bool updateOk{ true };
 
     LogModule( eLogConnect, LOG_VERBOSE, "onHostedUserPktAnnounce %s %s at ip %s",
@@ -89,6 +111,13 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
 //============================================================================
 bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
+    if( pktAnn->getMyOnlineId() == getMyOnlineId() )
+    {
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onRelayedUserPktAnnounce" );
+        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        return false;
+    }
+
     // the updates to user should have been done in m_BigListMgr.updatePktAnn
     LogModule( eLogConnect, LOG_VERBOSE, "onRelayedUserPktAnnounce %s %s at ip %s",
                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
@@ -106,6 +135,13 @@ bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, P
 //============================================================================
 bool P2PEngine::onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
+    if( pktAnn->getMyOnlineId() == getMyOnlineId() )
+    {
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onUnexpectedPktAnnounce" );
+        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        return false;
+    }
+
     bool updateOk{ true };
 
     LogModule( eLogConnect, LOG_ERROR, "onUnexpectedPktAnnounce %s %s at ip %s",

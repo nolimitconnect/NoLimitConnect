@@ -54,19 +54,25 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
                 {
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
                     {
-                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does NOT match user id %s",
-                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does NOT match user id %s",
+                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
                     }
                     else
                     {
-                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does match user id %s",
-                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does match user id %s",
+                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
                     }
 
                     bool isRequester = requestorSktConnectionId == sktBase->getSocketId();
                     if( isRequester && !includeRequester )
                     {
                         m_Engine.getPeerMgr().unlockSktList();
+                        continue;
+                    }
+                    else if( !includeRequester && memberOnlineId == sktBase->getPeerOnlineId() )
+                    {
+                        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToClients ERROR peer %s id %s does match user id %s but should not",
+                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
                         continue;
                     }
 

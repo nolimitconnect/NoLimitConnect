@@ -1764,6 +1764,7 @@ bool IsPluginSingleSession( enum EPluginType pluginType )
     return false;
 }
 
+//============================================================================
 const char* DescribeMediaPlayerAction( enum EMediaPlayerAction playerAction )
 {
     switch( playerAction )
@@ -1780,4 +1781,15 @@ const char* DescribeMediaPlayerAction( enum EMediaPlayerAction playerAction )
     default:
         return "Player Action Unknown";
     }
+}
+
+//============================================================================
+//! return true if currently have special debugging for given name or test
+bool ShouldDebugUser( const char* userNameIn )
+{
+    std::string userName( userNameIn );
+    return userName == "A8 tab" ||
+        userName == "Dev Main" ||
+        userName == "K118 Tab" ||
+        userName == "Win2 Dev Box";
 }
