@@ -2116,6 +2116,10 @@ RCODE VxSetSktBlocking( SOCKET sktHandle, bool bBlock )
 //============================================================================
 void VxFlushThenCloseSkt( SOCKET oSocket )
 {
+	// flush then close leaves socket in WAIT_CLOSE state.. always close now
+	VxCloseSktNow( oSocket );
+	return;
+	
 	if( INVALID_SOCKET != oSocket )
 	{
 		#ifdef TARGET_OS_WINDOWS

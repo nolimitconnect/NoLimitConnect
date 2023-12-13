@@ -107,6 +107,7 @@ void P2PEngine::onOncePerSecond( void )
     {
         minuteCntInSeconds = 60;
         onOncePerMinute();
+        LogMsg( LOG_VERBOSE, "Running Skt Rx Threads Cnt %d", VxSktBase::getRunningRxSktThreadCnt() );
     }
 
     static int minute15CntSeconds = 60 * 15 + 3;

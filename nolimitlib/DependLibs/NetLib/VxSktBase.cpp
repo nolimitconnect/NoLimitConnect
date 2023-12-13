@@ -42,8 +42,11 @@ namespace
 
 //============================================================================
 static void * VxSktBaseReceiveVxThreadFunc( void * pvContext );
+
 int VxSktBase::m_TotalCreatedSktCnt{ 0 };
 int VxSktBase::m_CurrentSktCnt{ 0 };
+int VxSktBase::m_RunningRxThreadCnt{ 0 };
+
 std::string VxSktBase::m_SktDirConnect{ "->" };
 std::string VxSktBase::m_SktDirAccept{ "<-" };
 std::string VxSktBase::m_SktDirUdp{  "<->" };
@@ -568,6 +571,11 @@ std::string	 VxSktBase::describeSktConnection( void )
 //============================================================================
 void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose )
 {
+	if( INVALID_SOCKET == m_Socket )
+	{
+		return;
+	}
+
 	LogMsg( LOG_VERBOSE, "%s skt %d handle %d %s %d %s", __func__, getSktNumber(), getSktHandle(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
 	if( !m_HasBeenShutdown )
 	{
@@ -713,6 +721,12 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 
 				return 0;
 			}
+
+			if( VxIsFatalSktError( getLastSktError() ) )
+			{
+				closeSkt( eSktCloseSktWithError, false );
+			}
+
 			// sleep and try again
 			VxSleep( 30 );
 		}
@@ -1099,6 +1113,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
         sktBase = (VxSktBase*)poVxThread->getThreadUserParam();
         if( sktBase )
         {
+			sktBase->incrementRunningRxSktThreadCnt();
             LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase rx thread 0x%x started for skt %d skt id %d ", VxGetCurrentThreadId(), sktBase->getSktHandle(), sktBase->getSktNumber() );
 
             char as8Buf[ 0x8000 ];
@@ -1308,6 +1323,14 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                         goto closed_skt_exit;
                     }
 
+					if( iDataLen < 0 && VxIsFatalSktError( VxGetLastError() ) )
+					{
+						LogMsg( LOG_ERROR, "VxSktBaseReceiveVxThreadFunc fatal socket error %d", VxGetLastError() );
+						sktBase->setLastSktError( VxGetLastError() );
+						sktBase->setCallbackReason( eSktCallbackReasonClosing );
+                        goto closed_skt_exit;
+					}
+
                     LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: tcp recv skt %d skt id %d rxed len %d attempt len %d thread 0x%x",
                                sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, iAttemptLen, VxGetCurrentThreadId() );
                 }
@@ -1464,6 +1487,9 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
     if( sktBase )
     {
         sktBase->setInUseByRxThread( false );
+		// just to make sure we are not exiting without closing
+		sktBase->closeSkt( eSktCloseNotNeeded );
+		sktBase->incrementRunningRxSktThreadCnt();
     }
 
 	poVxThread->threadAboutToExit();

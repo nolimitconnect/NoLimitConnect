@@ -267,6 +267,10 @@ public:
 
 	static bool					isFatalSocketError( RCODE rc );
 
+	static void					incrementRunningRxSktThreadCnt( void )				{ m_RunningRxThreadCnt++; }
+	static void					decrementRunningRxSktThreadCnt( void )				{ m_RunningRxThreadCnt--; }
+	static int					getRunningRxSktThreadCnt( void )					{ return m_RunningRxThreadCnt; }
+
 protected:
 	bool						toSocketAddrInfo(	int sockType, 
 													const char*addr, 
@@ -356,6 +360,7 @@ protected:
 
     static int					m_TotalCreatedSktCnt;	            // total number of sockets created since program started
     static int					m_CurrentSktCnt;		            // current number of sockets exiting in memory
+	static int					m_RunningRxThreadCnt;
 
     static std::string          m_SktDirConnect;
     static std::string          m_SktDirAccept;
