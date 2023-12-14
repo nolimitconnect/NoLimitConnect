@@ -925,6 +925,15 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
 	uint64_t timestamp = GetGmtTimeMs();
 	uint16_t pktType = pktHdr->getPktType();
 
+	if( !pktHdr->getSrcOnlineId().isVxGUIDValid() || !pktHdr->getDestOnlineId().isVxGUIDValid() )
+	{
+		LogMsg( LOG_ERROR, "ERROR VxPeerMgr::txPacketWithDestId: invalid src or dest id pkt %s src id %s dest id %s",
+				pktHdr->describePktHdr().c_str(), pktHdr->getSrcOnlineId().toOnlineIdString().c_str(),
+				pktHdr->getDestOnlineId().toOnlineIdString().c_str() );
+
+        return -4;
+	}
+
 	setLastActiveTimeMs( timestamp );
 	if( PKT_TYPE_IM_ALIVE_REQ != pktType && PKT_TYPE_IM_ALIVE_REPLY != pktType && PKT_TYPE_PING_REQ != pktType && PKT_TYPE_PING_REPLY != pktType )
 	{
