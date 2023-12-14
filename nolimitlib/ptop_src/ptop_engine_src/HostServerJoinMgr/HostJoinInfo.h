@@ -27,6 +27,8 @@ public:
     bool                        isValid( void )                                     { return m_NetIdent != nullptr;  }
     bool                        isUrlValid( bool ipv6 );
 
+    void			            setHostType( enum EHostType hostType ) override;
+
     virtual void			    setNetIdent( VxNetIdent* netIdent )                 { m_NetIdent = netIdent; }
     virtual VxNetIdent*         getNetIdent( void )                                 { return m_NetIdent; }
 

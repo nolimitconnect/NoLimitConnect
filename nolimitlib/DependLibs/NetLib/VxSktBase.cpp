@@ -16,6 +16,7 @@
 #include "ISktStatCallbackInterface.h"
 
 #include <PktLib/PktTypes.h>
+#include <PktLib/PktsImAlive.h>
 
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxDebug.h>
@@ -60,7 +61,7 @@ VxSktBase::VxSktBase()
 : VxSktBuf()
 , VxSktThrottle()	
 , m_SktNumber(0)
-, m_LastImAliveTimeGmtMs( GetGmtTimeMs() )
+, m_LastImAliveTimeGmtRxMs( GetGmtTimeMs() )
 //, m_u8TxSeqNum;			// sequence number used to twart replay attacks ( do not set )
 {
 	m_TotalCreatedSktCnt++;
@@ -106,23 +107,6 @@ void VxSktBase::shutdownSkt( bool closingFromDestructor )
 			m_SktRxThread.killThread();
 		}
 	}
-}
-
-//============================================================================
-bool VxSktBase::checkForImAliveTimeout( bool calledFromSktThread )
-{
-	bool timedOut = false;
-	if( ( INVALID_SOCKET != m_Socket )
-		&& ( ( eSktTypeTcpConnect == m_eSktType ) || ( eSktTypeTcpAccept == m_eSktType ) )
-		&& ( IM_ALIVE_TIMEOUT_MS < ( GetGmtTimeMs() - getLastImAliveTimeMs() ) ) )
-	{
-		timedOut = true;
-		m_bClosingFromRxThread = calledFromSktThread;
-		LogMsg( LOG_INFO, "VxSktBase::checkForImAliveTimeout skt %d %s", m_SktNumber, m_strRmtIp.c_str() );
-		closeSkt( eSktCloseImAliveTimeout );
-	}
-
-	return timedOut;
 }
 
 //============================================================================
@@ -576,7 +560,7 @@ void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose )
 		return;
 	}
 
-	LogMsg( LOG_VERBOSE, "%s skt %d handle %d %s %d %s", __func__, getSktNumber(), getSktHandle(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
+	LogMsg( LOG_VERBOSE, "%s skt num %d handle %d reason %s last err %d description %s", __func__, getSktNumber(), getSktHandle(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
 	if( !m_HasBeenShutdown )
 	{
 		if( m_SktCloseReason == eSktCloseReasonUnknown )
@@ -1114,7 +1098,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
         if( sktBase )
         {
 			sktBase->incrementRunningRxSktThreadCnt();
-            LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase rx thread 0x%x started for skt %d skt id %d ", VxGetCurrentThreadId(), sktBase->getSktHandle(), sktBase->getSktNumber() );
+            LogModule( eLogThread, LOG_VERBOSE, "VxSktBase rx thread 0x%x started for skt %d skt id %d ", VxGetCurrentThreadId(), sktBase->getSktHandle(), sktBase->getSktNumber() );
 
             char as8Buf[ 0x8000 ];
             int iDataLen = 0;
@@ -1126,7 +1110,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                 eSktTypeTcpAccept == sktBase->getSktType() )
             {
                 bIsUdpSkt = false;
-                sktBase->setLastImAliveTimeMs(  GetGmtTimeMs() ); // so we don't get closed if takes awhile for everything to get going
+                sktBase->setLastImAliveTimeRxMs(  GetGmtTimeMs() ); // so we don't get closed if takes awhile for everything to get going
                 if( eSktTypeTcpConnect == sktBase->getSktType()  )
                 {
                     // we couldn't do callbacks in connect function ( mutex issues ) so
@@ -1370,13 +1354,6 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                         // try again
                         LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d ip %s trying again thread 0x%x",
                                    sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_strLclIp.c_str(), VxGetCurrentThreadId() );
-                        if( sktBase->checkForImAliveTimeout( true ) )
-                        {
-                            LogModule( eLogSktData, LOG_VERBOSE, "VxSktBaseReceiveVxThreadFunc: skt %d skt Id %d ip %s I Am Alive Timeout thread 0x%x",
-                                       sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_strLclIp.c_str(), VxGetCurrentThreadId() );
-                            sktBase->setLastSktError( EIM_ALIVE_TIMEDOUT );
-                            break;
-                        }
 
                         VxSleep( SKT_RX_RETRY_SLEEP_TIME_MS );
                         continue;
@@ -1489,7 +1466,8 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
         sktBase->setInUseByRxThread( false );
 		// just to make sure we are not exiting without closing
 		sktBase->closeSkt( eSktCloseNotNeeded );
-		sktBase->incrementRunningRxSktThreadCnt();
+		sktBase->decrementRunningRxSktThreadCnt();
+		LogModule( eLogThread, LOG_VERBOSE, "VxSktBase rx thread 0x%x exiting for skt %d skt id %d ", VxGetCurrentThreadId(), sktBase->getSktHandle(), sktBase->getSktNumber() );
     }
 
 	poVxThread->threadAboutToExit();
@@ -1680,3 +1658,37 @@ bool VxSktBase::isFatalSocketError( RCODE rc )
 	return VxIsFatalSktError( rc );
 }
 
+//============================================================================
+void VxSktBase::onOncePer30Seconds( void )
+{
+	if( eSktTypeTcpConnect != m_eSktType && eSktTypeTcpAccept != m_eSktType )
+	{
+		// not a tcp type that can use im alive packets
+		return;
+	}
+
+	const int64_t rxAliveTimeoutMs( 65000 );
+	int64_t timeNow( GetGmtTimeMs() );
+	int64_t timeAliveRx( getLastImAliveTimeRxMs() );
+	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
+	if( timeAliveTx && timeNow - timeAliveRx > rxAliveTimeoutMs )
+	{
+		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timout skt hande %d num %d id %s",
+				getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str() );
+		closeSkt( eSktCloseImAliveTimeout );
+	}
+	else if( getIsPeerPktAnnSet() )
+	{
+		PktImAliveReq pktImAliveReq;
+		pktImAliveReq.setDestOnlineId( getPeerOnlineId() );
+
+		RCODE rc = txPacketWithDestId( &pktImAliveReq );
+		if( rc )
+		{
+			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s",
+				rc, getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str() );
+		}
+
+		setLastImAliveTimeTxMs( timeNow );
+	}
+}

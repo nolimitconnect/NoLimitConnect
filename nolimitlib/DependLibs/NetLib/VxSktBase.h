@@ -126,18 +126,20 @@ public:
 	uint16_t					getCryptoKeyPort( void )						{ return (eSktTypeTcpAccept == getSktType()) ? m_LclIp.getPort() : m_RmtIp.getPort(); }
 
 	// PktImAlive activity time
-	virtual void				setLastImAliveTimeMs( int64_t gmtTimeMs )	    { m_LastImAliveTimeGmtMs = gmtTimeMs; m_LastActiveTimeGmtMs = gmtTimeMs; }
-	virtual int64_t			    getLastImAliveTimeMs( void )					{ return m_LastImAliveTimeGmtMs; }
-	virtual bool				checkForImAliveTimeout( bool calledFromSktThread = true );
+	virtual void				setLastImAliveTimeRxMs( int64_t gmtTimeMs )		{ lockTimeAccess(); m_LastActiveTimeGmtMs = gmtTimeMs; m_LastImAliveTimeGmtRxMs = gmtTimeMs; unlockTimeAccess(); }
+	virtual int64_t			    getLastImAliveTimeRxMs( void )					{ lockTimeAccess(); int64_t timeParam = m_LastImAliveTimeGmtRxMs; unlockTimeAccess(); return timeParam; }
+	
+	virtual void				setLastImAliveTimeTxMs( int64_t gmtTimeMs )		{ lockTimeAccess(); m_LastImAliveTimeGmtTxMs = gmtTimeMs; unlockTimeAccess(); }
+	virtual int64_t			    getLastImAliveTimeTxMs( void )					{ lockTimeAccess(); int64_t timeParam = m_LastImAliveTimeGmtTxMs; unlockTimeAccess(); return timeParam; }
 
 	// last any send or recieve activity
-	virtual void				setLastActiveTimeMs( int64_t gmtTimeMs )	    { m_LastActiveTimeGmtMs = gmtTimeMs; }
-	virtual int64_t		    	getLastActiveTimeMs( void )					    { return m_LastActiveTimeGmtMs; }
+	virtual void				setLastActiveTimeMs( int64_t gmtTimeMs )		{ lockTimeAccess(); m_LastActiveTimeGmtMs = gmtTimeMs; unlockTimeAccess(); }
+	virtual int64_t		    	getLastActiveTimeMs( void )					    { lockTimeAccess(); int64_t timeParam = m_LastActiveTimeGmtMs; unlockTimeAccess(); return timeParam; }
 	virtual void                updateLastActiveTime( void );
 
 	// send or recieve activity not PktImAlive or PktPing
-	virtual void				setLastSessionTimeMs( int64_t gmtTimeMs )		{ m_LastSessionTimeGmtMs = gmtTimeMs; }
-	virtual int64_t		    	getLastSessionTimeMs( void )					{ return m_LastSessionTimeGmtMs; }
+	virtual void				setLastSessionTimeMs( int64_t gmtTimeMs )		{ lockTimeAccess(); m_LastSessionTimeGmtMs = gmtTimeMs; unlockTimeAccess(); }
+	virtual int64_t		    	getLastSessionTimeMs( void )					{ lockTimeAccess(); int64_t timeParam = m_LastSessionTimeGmtMs; unlockTimeAccess(); return timeParam; }
 	virtual void                updateLastSessionTime( void );
 
     virtual void				setToDeleteTimeMs( int64_t gmtTimeMs )          { m_ToDeleteTimeGmtMs = gmtTimeMs; }
@@ -147,14 +149,14 @@ public:
     virtual bool		    	getInUseByRxThread( void )                      { return m_InUseByRxThread; }
 
 	virtual RCODE				connectTo(	InetAddress&	oLclIp,	
-											const char*	pIpOrUrl,						// remote ip or url
+											const char*		pIpOrUrl,						// remote ip or url
 											uint16_t		u16Port,						// port to connect to
 											int				iTimeoutMilliSeconds = 10000 );	// milli seconds before connect attempt times out
 
 	virtual void				createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port );
 
 	//! send data without encrypting
-	virtual RCODE				sendData(	const char*	pData,							// data to send
+	virtual RCODE				sendData(	const char*		pData,							// data to send
 											int				iDataLen,						// length of data
 											bool			bDisconnectAfterSend = false );	// if true disconnect after data is sent
 
@@ -201,12 +203,12 @@ public:
 	virtual bool				isRxEncryptionKeySet( void )        { return m_RxKey.isKeySet(); }
 
 	//! encrypt then send data using session crypto
-	virtual RCODE				txEncrypted(	const char*	pData, 					// data to send
+	virtual RCODE				txEncrypted(	const char*		pData, 					// data to send
 												int				iDataLen,				// length of data
 												bool			bDisconnect = false );	// if true disconnect after send
 	//! encrypt with given key then send.. does not affect session crypto
 	virtual RCODE				txEncrypted(	VxKey *			poKey,					// key to encrypt with
-												const char*	pData,					// data to send
+												const char*		pData,					// data to send
 												int				iDataLen,				// length of data
 												bool			bDisconnect = false );	// if true disconnect after send
     virtual RCODE				txPacket(	VxGUID				destOnlineId,			// online id of destination user
@@ -265,6 +267,8 @@ public:
 	void						addGroupieId( GroupieId& groupieId )				{ m_GroupieSet.insert( groupieId ); }
 	bool						removeGroupieId( GroupieId& groupieId )				{ m_GroupieSet.erase( groupieId ); return m_GroupieSet.empty(); }
 
+	void						onOncePer30Seconds( void );
+
 	static bool					isFatalSocketError( RCODE rc );
 
 	static void					incrementRunningRxSktThreadCnt( void )				{ m_RunningRxThreadCnt++; }
@@ -286,6 +290,8 @@ protected:
 
     const std::string&          describeSktDirection( void );
 
+	void						lockTimeAccess( void ) { m_TimeAccessMutex.lock(); }
+	void						unlockTimeAccess( void ) { m_TimeAccessMutex.unlock(); }
 
 public:
 	void						doCloseThisSocketHandle( bool bFlushThenClose );
@@ -306,8 +312,10 @@ public:
     std::string					m_strRmtIp{ "0.0.0.0" };	    // remote (peer) ip address in dotted form
 
 	//=== state vars ===//
+	VxMutex						m_TimeAccessMutex;			 
     int64_t			    		m_LastActiveTimeGmtMs{ 0 };	    // last time received data
-	int64_t		    			m_LastImAliveTimeGmtMs{ 0 };    // last time received PktImAliveReply
+	int64_t		    			m_LastImAliveTimeGmtRxMs{ 0 };  // last time received PktImAliveReply
+	int64_t		    			m_LastImAliveTimeGmtTxMs{ 0 };  // last time sent PktImAliveReply
 	int64_t		    			m_LastSessionTimeGmtMs{ 0 };    // last time received or sent pkt that is not PktImAlive or PktPing
 	int64_t	    				m_ToDeleteTimeGmtMs{ 0 };
 

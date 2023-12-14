@@ -359,6 +359,8 @@ void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         return;
     }
 
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost id %s", sktConnectId.toHexString().c_str() );
+  
     std::set<VxGUID> userList;
     std::set<ConnectId> lostConnectList;
     std::set<ConnectId> lostRelayList;

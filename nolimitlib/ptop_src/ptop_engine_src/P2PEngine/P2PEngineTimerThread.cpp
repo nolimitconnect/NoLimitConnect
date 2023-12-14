@@ -18,6 +18,7 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxTime.h>
+#include <NetLib/VxPeerMgr.h>
 
 namespace
 {
@@ -139,6 +140,7 @@ void P2PEngine::onOncePerSecond( void )
 void P2PEngine::onOncePer30Seconds( void )
 {
     m_RcScan.onOncePer30Seconds();
+    m_PeerMgr.onOncePer30Seconds();
 }
 
 //============================================================================

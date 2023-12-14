@@ -230,7 +230,7 @@ void VxPtopUrl::setUrl( std::string& url )
                 }
                 else
                 {
-                    LogMsg( LOG_ERROR, "VxPtopUrl::setUrl invalid suffix char 0x%X", suffixChar );
+                    LogMsg( LOG_ERROR, "VxPtopUrl::setUrl invalid suffix char 0x%X (%c)", suffixChar, suffixChar );
                 }
             }
         }

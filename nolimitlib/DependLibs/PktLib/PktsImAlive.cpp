@@ -10,7 +10,7 @@
 
 #include "PktsImAlive.h"
 
-#include <CoreLib/IsBigEndianCpu.h>
+#include <CoreLib/VxDebug.h>
 
 //============================================================================
 PktImAliveReq::PktImAliveReq()
@@ -18,6 +18,7 @@ PktImAliveReq::PktImAliveReq()
 {
 	setPktType( PKT_TYPE_IM_ALIVE_REQ );
 	setPktLength( sizeof( PktImAliveReq ) );
+	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 }
 
 ////============================================================================
@@ -37,7 +38,8 @@ PktImAliveReply::PktImAliveReply()
 : m_Res(0)
 {
 	setPktType( PKT_TYPE_IM_ALIVE_REPLY );
-	setPktLength( sizeof( PktImAliveReq ) );
+	setPktLength( sizeof( PktImAliveReply ) );
+	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 }
 
 ////============================================================================

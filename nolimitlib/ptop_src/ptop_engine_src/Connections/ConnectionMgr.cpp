@@ -434,7 +434,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
         int64_t timeMs = GetGmtTimeMs();
         retSktBase->setLastActiveTimeMs( timeMs );
         retSktBase->setLastSessionTimeMs( timeMs );
-        retSktBase->setLastImAliveTimeMs( timeMs );
+        retSktBase->setLastImAliveTimeRxMs( timeMs );
 
         if( callback )
         {

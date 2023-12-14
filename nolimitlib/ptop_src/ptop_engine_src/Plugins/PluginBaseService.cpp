@@ -54,13 +54,15 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
                 {
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
                     {
-                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does NOT match user id %s",
-                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does NOT match user id %s for pkt %s",
+                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str(),
+                                pktHdr->describePktHdr().c_str() );
                     }
                     else
                     {
-                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does match user id %s",
-                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does match user id %s for pkt %s",
+                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str(),
+                                pktHdr->describePktHdr().c_str() );
                     }
 
                     bool isRequester = requestorSktConnectionId == sktBase->getSocketId();

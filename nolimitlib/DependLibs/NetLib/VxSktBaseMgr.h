@@ -96,6 +96,8 @@ public:
 
 	virtual bool				closeConnection( VxGUID& connectId, ESktCloseReason closeReason );
 
+	virtual void				onOncePer30Seconds( void );
+
 	//=== vars ===//
 	RCODE						m_rcLastError{ 0 };
     ESktMgrType					m_eSktMgrType{ eSktMgrTypeNone };   // type of sockets we manage

@@ -68,3 +68,11 @@ bool HostJoinInfo::isUrlValid( bool ipv6 )
     VxPtopUrl ptopUrl( ipv6 ? m_UserUrlIpv6 : m_UserUrlIpv4 );
     return ptopUrl.isValid() && ptopUrl.getOnlineId() == getOnlineId();
 }
+
+//============================================================================
+void HostJoinInfo::setHostType( enum EHostType hostType )
+{
+    BaseJoinInfo::setHostType( hostType );
+    //VxPtopUrl::setUrlHostType( m_UserUrlIpv6, hostType );
+    //VxPtopUrl::setUrlHostType( m_UserUrlIpv4, hostType );
+}

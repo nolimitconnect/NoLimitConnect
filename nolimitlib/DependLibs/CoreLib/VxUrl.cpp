@@ -261,7 +261,7 @@ void VxUrl::setUrl( const char* pUrl )
                 }
                 else
                 {
-                    LogMsg( LOG_ERROR, "VxUrl::setUrl invalid suffix char 0x%X", suffixChar );
+                    LogMsg( LOG_ERROR, "VxUrl::setUrl invalid suffix char 0x%X (%c)", suffixChar, suffixChar );
                 }
             }
         }

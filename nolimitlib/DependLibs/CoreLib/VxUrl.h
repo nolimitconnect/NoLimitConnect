@@ -32,27 +32,27 @@ public:
 
 	void						setFileName( const std::string& fileName );
 	std::string&				getFileName( void )						    { return m_FileName; }
-	const char*				getProtocol( void );
+	const char*					getProtocol( void );
 
-	const char*				getUser( void );
-	const char*				getPassword( void );
+	const char*					getUser( void );
+	const char*					getPassword( void );
 
-	const char*				getHost( void );
+	const char*					getHost( void );
     std::string                 getHostString( void );
 	uint16_t					getPort( void );
 	void						setPath( const char* pFilePathAndName );
-	const char*				getPath( void );
-	const char*				getQuery( void );
-	const char*				getFragment( void );
+	const char*					getPath( void );
+	const char*					getQuery( void );
+	const char*					getFragment( void );
     VxGUID&                     getOnlineId( void )                         { return m_OnlineId; }
     std::string				    getOnlineIdStr( void )                      { return m_strOnlineId.empty() ? "" : m_strOnlineId.c_str(); }
     bool                        hasValidOnlineId( void )                    { return m_OnlineId.isVxGUIDValid(); }
     bool                        validateUrl( bool onlineIdMustBeValid );
 
 	bool						isAbsoluteUrl();
-	const char*				getRelativeURL( std::string& strRetRelativeUrl, bool bWithParam = false );
-	const char*				getAbsoluteURL( std::string& strRetAbsoluteUrl );
-	const char*				getHostURL( const char* host, int port, const char* uri, std::string& buf );
+	const char*					getRelativeURL( std::string& strRetRelativeUrl, bool bWithParam = false );
+	const char*					getAbsoluteURL( std::string& strRetAbsoluteUrl );
+	const char*					getHostURL( const char* host, int port, const char* uri, std::string& buf );
 	void						setHostType( EHostType hostType )			{ m_HostType = hostType; }
 	EHostType					getHostType( void )							{ return m_HostType; }
 

@@ -796,12 +796,12 @@ void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* 
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReq" );
 
-	sktBase->setLastImAliveTimeMs(  GetGmtTimeMs() );
-	PktImAliveReq * pktImAliveReq = (PktImAliveReq *)pktHdr;
+	sktBase->setLastImAliveTimeTxMs(  GetGmtTimeMs() );
 	PktImAliveReply pktImAliveReply;
 	pktImAliveReply.setSrcOnlineId( m_PktAnn.getMyOnlineId() );
+	pktImAliveReply.setDestOnlineId( pktHdr->getSrcOnlineId() );
 
-	sktBase->txPacket( pktImAliveReq->getSrcOnlineId(), &pktImAliveReply );
+	sktBase->txPacketWithDestId( &pktImAliveReply );
 }
 
 //============================================================================
@@ -809,7 +809,7 @@ void P2PEngine::onPktImAliveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReply" );
 
-	sktBase->setLastImAliveTimeMs(  GetGmtTimeMs() );
+	sktBase->setLastImAliveTimeRxMs(  GetGmtTimeMs() );
 }
 
 //============================================================================
