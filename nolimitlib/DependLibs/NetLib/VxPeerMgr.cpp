@@ -264,8 +264,8 @@ bool VxPeerMgr::isReadyToAcceptConnections( bool ipv6 )
 }
 
 //============================================================================
-void VxPeerMgr::onOncePer30Seconds( void )
+void VxPeerMgr::onOncePer30Seconds( VxGUID& myOnlineId )
 {
-	VxSktBaseMgr::onOncePer30Seconds();
-	m_ClientMgr.onOncePer30Seconds();
+	VxSktBaseMgr::onOncePer30Seconds( myOnlineId );
+	m_ClientMgr.onOncePer30Seconds( myOnlineId );
 }

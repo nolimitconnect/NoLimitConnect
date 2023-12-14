@@ -267,7 +267,7 @@ public:
 	void						addGroupieId( GroupieId& groupieId )				{ m_GroupieSet.insert( groupieId ); }
 	bool						removeGroupieId( GroupieId& groupieId )				{ m_GroupieSet.erase( groupieId ); return m_GroupieSet.empty(); }
 
-	void						onOncePer30Seconds( void );
+	void						onOncePer30Seconds( VxGUID& myOnlineId );
 
 	static bool					isFatalSocketError( RCODE rc );
 

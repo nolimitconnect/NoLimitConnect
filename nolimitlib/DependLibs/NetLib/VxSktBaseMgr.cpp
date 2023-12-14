@@ -467,12 +467,12 @@ bool VxSktBaseMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReas
 }
 
 //============================================================================
-void VxSktBaseMgr::onOncePer30Seconds( void )
+void VxSktBaseMgr::onOncePer30Seconds( VxGUID& myOnlineId )
 {
 	sktBaseMgrLock();
 	for( auto sktBase : m_aoSkts )
 	{
-		sktBase->onOncePer30Seconds();
+		sktBase->onOncePer30Seconds( myOnlineId );
 	}
 
 	sktBaseMgrUnlock();

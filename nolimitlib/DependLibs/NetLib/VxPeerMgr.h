@@ -69,7 +69,7 @@ public:
 
 	virtual bool				isReadyToAcceptConnections( bool ipv6 );
 
-    virtual void				onOncePer30Seconds( void ) override;
+    virtual void				onOncePer30Seconds( VxGUID& myOnlineId ) override;
 
 protected:
 

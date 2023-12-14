@@ -27,6 +27,8 @@ RelayMgr::RelayMgr( P2PEngine& engine )
 bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+	VxGUID destOnlineId = pktHdr->getDestOnlineId();
+
 	// verify src is someone who has connected
 	BigListInfo* srcBigInfo = m_Engine.getBigListMgr().findBigListInfo( srcOnlineId );
 	if( !srcBigInfo )
@@ -34,6 +36,17 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		// this is someone we have never encountered
 		VxReportHack( eHackerLevelSevere, eHackerReasonInvalidPkt, sktBase, "attempted relay pkt %s null src bigListInfo", pktHdr->describePktHdr().c_str(), srcOnlineId.toOnlineIdString().c_str() );
 		sktBase->closeSkt( eSktCloseHackLevetSevere );
+		return true;
+	}
+
+		// verify dest is someone who has connected
+	BigListInfo* destBigInfo = m_Engine.getBigListMgr().findBigListInfo( destOnlineId );
+	if( !destBigInfo )
+	{
+		// this is not someone recently connected but if was not friend or admin they would not have been restored on startup
+		LogMsg( LOG_WARN, "RelayMgr::handleRelayPkt null destBigInfo pkt %s from %s %s to %s", pktHdr->describePktHdr().c_str(),
+				srcBigInfo->getOnlineName(), srcOnlineId.toOnlineIdString().c_str(), destOnlineId.toOnlineIdString().c_str() );
+		sendRelayError( pktHdr, srcOnlineId, destOnlineId, sktBase, eRelayErrUserNotOnline );
 		return true;
 	}
 
@@ -50,24 +63,20 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return true;
 	}
 
-	VxGUID destOnlineId = pktHdr->getDestOnlineId();
 	if( !isJoinedToRelayHost( srcOnlineId ) )
 	{
-		sendRelayError( pktHdr, srcOnlineId, destOnlineId, sktBase, eRelayErrSrcNotJoined );
-		return true;
-	}
+		LogMsg( LOG_WARN, "RelayMgr::handleRelayPkt  pkt %s from %s %s to %s %s src user is not joined to host", pktHdr->describePktHdr().c_str(),
+				srcBigInfo->getOnlineName(), srcOnlineId.toOnlineIdString().c_str(), destBigInfo->getOnlineName(), destOnlineId.toOnlineIdString().c_str() );
 
-	// verify dest is someone who has connected
-	BigListInfo* destBigInfo = m_Engine.getBigListMgr().findBigListInfo( destOnlineId );
-	if( !destBigInfo )
-	{
-		// this is not someone recently connected but if was not friend or admin they would not have been restored on startup
-		sendRelayError( pktHdr, srcOnlineId, destOnlineId, sktBase, eRelayErrUserNotOnline );
+		sendRelayError( pktHdr, srcOnlineId, destOnlineId, sktBase, eRelayErrSrcNotJoined );
 		return true;
 	}
 
 	if( !isJoinedToRelayHost( destOnlineId ) )
 	{
+		LogMsg( LOG_WARN, "RelayMgr::handleRelayPkt  pkt %s from %s %s to %s %s destination user is not joined to host", pktHdr->describePktHdr().c_str(),
+				srcBigInfo->getOnlineName(), srcOnlineId.toOnlineIdString().c_str(), destBigInfo->getOnlineName(), destOnlineId.toOnlineIdString().c_str() );
+
 		sendRelayError( pktHdr, srcOnlineId, destOnlineId, sktBase, eRelayErrDestNotJoined );
 		return true;
 	}

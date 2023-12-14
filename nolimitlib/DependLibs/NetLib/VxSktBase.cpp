@@ -1659,7 +1659,7 @@ bool VxSktBase::isFatalSocketError( RCODE rc )
 }
 
 //============================================================================
-void VxSktBase::onOncePer30Seconds( void )
+void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 {
 	if( eSktTypeTcpConnect != m_eSktType && eSktTypeTcpAccept != m_eSktType )
 	{
@@ -1680,6 +1680,7 @@ void VxSktBase::onOncePer30Seconds( void )
 	else if( getIsPeerPktAnnSet() )
 	{
 		PktImAliveReq pktImAliveReq;
+		pktImAliveReq.setSrcOnlineId( myOnlineId );
 		pktImAliveReq.setDestOnlineId( getPeerOnlineId() );
 
 		RCODE rc = txPacketWithDestId( &pktImAliveReq );

@@ -96,7 +96,7 @@ public:
 
 	virtual bool				closeConnection( VxGUID& connectId, ESktCloseReason closeReason );
 
-	virtual void				onOncePer30Seconds( void );
+	virtual void				onOncePer30Seconds( VxGUID& myOnlineId );
 
 	//=== vars ===//
 	RCODE						m_rcLastError{ 0 };

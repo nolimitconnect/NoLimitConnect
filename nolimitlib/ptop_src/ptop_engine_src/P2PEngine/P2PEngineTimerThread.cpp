@@ -140,7 +140,7 @@ void P2PEngine::onOncePerSecond( void )
 void P2PEngine::onOncePer30Seconds( void )
 {
     m_RcScan.onOncePer30Seconds();
-    m_PeerMgr.onOncePer30Seconds();
+    m_PeerMgr.onOncePer30Seconds( getMyOnlineId() );
 }
 
 //============================================================================
