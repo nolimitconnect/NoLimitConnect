@@ -75,6 +75,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
                     {
                         LogMsg( LOG_ERROR, "PluginBaseService::broadcastToClients ERROR peer %s id %s does match user id %s but should not",
                                 sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                        m_Engine.getPeerMgr().unlockSktList();
                         continue;
                     }
 

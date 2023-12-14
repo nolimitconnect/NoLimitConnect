@@ -200,6 +200,15 @@ bool VxPeerMgr::txPacketWithDestId(	std::shared_ptr<VxSktBase>&			sktBase,
         return false;
 	}
 
+	if( !pktHdr->getSrcOnlineId().isVxGUIDValid() || !pktHdr->getDestOnlineId().isVxGUIDValid() )
+	{
+		LogMsg( LOG_ERROR, "ERROR VxPeerMgr::txPacketWithDestId: invalid src or dest id pkt %s src id %s dest id %s",
+				pktHdr->describePktHdr().c_str(), pktHdr->getSrcOnlineId().toOnlineIdString().c_str(),
+				pktHdr->getDestOnlineId().toOnlineIdString().c_str() );
+
+        return false;
+	}
+
     if( sktBase->isConnected() )
     {
         RCODE rc = sktBase->txPacketWithDestId( pktHdr, bDisconnect );
