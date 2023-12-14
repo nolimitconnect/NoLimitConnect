@@ -31,12 +31,10 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
     if( ShouldDebugUser( bigListInfo->getOnlineName() ) )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "onFirstPktAnnounce %s %s at ip %s pktAnn his friendship %s bigList my friendship %s his friendship %s",
+        LogModule( eLogConnect, LOG_VERBOSE, "onFirstPktAnnounce %s %s at ip %s pktAnn his friendship %s my friendship %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
                    DescribeFriendState( pktAnn->getHisFriendshipToMe() ),
-                   DescribeFriendState( bigListInfo->getMyFriendshipToHim() ),
-                   DescribeFriendState( bigListInfo->getHisFriendshipToMe() )
-                   );
+                   DescribeFriendState( bigListInfo->getMyFriendshipToHim() ) );
     }
 
     if( !sktBase->getIsPeerPktAnnSet() )

@@ -901,7 +901,17 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
         return;
     }
 
-    LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online ? %d %s", isOnline, onlineId.toOnlineIdString().c_str() );
+    BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
+    if( bigListInfo )
+    {
+        LogMsg( LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online ? %d user %s id %s ",
+                isOnline, bigListInfo->getOnlineName(), onlineId.toOnlineIdString().c_str() );
+    }
+    else
+    {
+        LogMsg( LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online ? %d %s NULL big list info", isOnline, onlineId.toOnlineIdString().c_str() );
+    }
+
     lockClientList();
 
     for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )

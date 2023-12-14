@@ -38,7 +38,7 @@
 namespace
 {
 	const int					SKT_RX_RETRY_SLEEP_TIME_MS		= 400;
-	const int					IM_ALIVE_TIMEOUT_MS			    = 180000;
+	const int64_t				IM_ALIVE_TIMEOUT_MS			    = 180000; // 3 minutes very long should be shortened to 65000 after no longer debugging connections
 }
 
 //============================================================================
@@ -1667,14 +1667,14 @@ void VxSktBase::onOncePer30Seconds( void )
 		return;
 	}
 
-	const int64_t rxAliveTimeoutMs( 65000 );
 	int64_t timeNow( GetGmtTimeMs() );
 	int64_t timeAliveRx( getLastImAliveTimeRxMs() );
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
-	if( timeAliveTx && timeNow - timeAliveRx > rxAliveTimeoutMs )
+	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
 	{
-		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timout skt hande %d num %d id %s",
-				getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str() );
+		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timout skt hande %d num %d id %s from %s %s",
+				getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str(),
+				getPeerOnlineName().c_str(), getPeerOnlineId().toOnlineIdString().c_str() );
 		closeSkt( eSktCloseImAliveTimeout );
 	}
 	else if( getIsPeerPktAnnSet() )
@@ -1685,8 +1685,9 @@ void VxSktBase::onOncePer30Seconds( void )
 		RCODE rc = txPacketWithDestId( &pktImAliveReq );
 		if( rc )
 		{
-			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s",
-				rc, getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str() );
+			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s from %s %s",
+				rc, getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str(),
+					getPeerOnlineName().c_str(), getPeerOnlineId().toOnlineIdString().c_str() );
 		}
 
 		setLastImAliveTimeTxMs( timeNow );
