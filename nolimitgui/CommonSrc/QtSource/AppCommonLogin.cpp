@@ -519,16 +519,23 @@ void AppCommon::checkReadyToConnectToLastConnectedHost( void )
             {
                 if( ptopUrl.isValid() )
                 {
-                    std::string ptopUrlIpv4 = ptopUrl.getHostUrl( false );
-                    std::string ptopUrlIpv6 = ptopUrl.getHostUrl( true );
+                    if( ptopUrl.getOnlineId() != getMyOnlineId() )
+                    {
+                        std::string ptopUrlIpv4 = ptopUrl.getHostUrl( false );
+                        std::string ptopUrlIpv6 = ptopUrl.getHostUrl( true );
 
-                    VxGUID sessionId;
-                    sessionId.initializeWithNewVxGUID();
+                        VxGUID sessionId;
+                        sessionId.initializeWithNewVxGUID();
 
-                    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", lastConnectedHost.c_str() );
+                        LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", lastConnectedHost.c_str() );
 
-                    getFromGuiInterface().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
-
+                        getFromGuiInterface().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+                    }
+                    else
+                    {
+                        LogModule( eLogUserGuiEvent, LOG_ERROR, "checkReadyToConnectToLastConnectedHost cannot connect to ourself" );
+                        getAppSettings().setLastHostJoined("");
+                    }
                 }
                 else
                 {

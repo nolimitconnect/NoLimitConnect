@@ -151,7 +151,6 @@ std::string HostedId::describeHostedId( void ) const
 EPluginType HostedId::getHostPluginType( void )
 {
     return HostTypeToHostPlugin( getHostType() );
-
 }
 
 //============================================================================

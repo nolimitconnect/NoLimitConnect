@@ -547,8 +547,9 @@ RCODE VxSktBase::doConnectTo( void )
 std::string	 VxSktBase::describeSktConnection( void )
 {
     std::string sktDesc;
-    StdStringFormat( sktDesc, "%sid %d handle %d %s:%d%s%s:%d", DescribeSktType( getSktType() ), m_SktNumber, m_Socket,
-        m_strLclIp.c_str(), m_LclIp.getPort(), describeSktDirection().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort() );
+    StdStringFormat( sktDesc, "%snum %d handle %d %s:%d%s%s:%d skt id %s", DescribeSktType( getSktType() ), getSktNumber(), m_Socket,
+					 m_strLclIp.c_str(), m_LclIp.getPort(), 
+					 describeSktDirection().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(), getSocketId().toHexString().c_str() );
     return sktDesc;
 }
 
@@ -659,7 +660,7 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 		return -1;
 	}
 
-    LogModule( eLogConnect, LOG_VERBOSE, "skt %d sendData length %d to %s:%d", m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
+    LogModule( eLogSktData, LOG_VERBOSE, "skt %d sendData length %d to %s:%d", m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
 	if( INVALID_SOCKET != m_Socket )
 	{
 		int iSentLen;
@@ -969,6 +970,14 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
 					pktHdr->getDestOnlineId().toOnlineIdString().c_str() );
 		}
 	}
+
+    // filter out im alive packets to declutter long
+    if( pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REPLY && pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REQ )
+    {
+        LogMsg( LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d user %s", getSktNumber(),
+                getSocketId().toHexString().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
+                pktHdr->getDestOnlineId().toOnlineIdString().c_str() );
+    }
 
 	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength(), bDisconnect );
 }

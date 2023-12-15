@@ -227,9 +227,9 @@ void NetworkMgr::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 		break;
 
 	case eSktCallbackReasonClosed:
+        LogModule( eLogNetworkMgr, LOG_INFO, "NetworkMgr:TCP skt handle %d num %d id %s closed %s thread 0x%x",
+                    sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->getSocketId().toHexString().c_str(), sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
 		m_Engine.onConnectionLost( sktBase );
-        LogModule( eLogNetworkMgr, LOG_INFO, "NetworkMgr:TCP skt %d skt id %d closed %s thread 0x%x",
-                    sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
 		break;
 
 	case eSktCallbackReasonError:
@@ -238,8 +238,9 @@ void NetworkMgr::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 		break;
 
 	case eSktCallbackReasonClosing:
-		m_Engine.onConnectionLost( sktBase );
-        LogModule( eLogNetworkMgr, LOG_INFO, "NetworkMgr:TCP eSktCallbackReasonClosing skt %d skt id %d thread 0x%x", sktBase->getSktHandle(), sktBase->getSktNumber(), VxGetCurrentThreadId() );
+        LogModule( eLogNetworkMgr, LOG_INFO, "NetworkMgr:TCP eSktCallbackReasonClosing skt handle %d num %d id %s thread 0x%x", 
+				   sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->getSocketId().toHexString().c_str(), VxGetCurrentThreadId() );
+		m_Engine.onConnectionClosing( sktBase ); 
 		break;
 
 	case eSktCallbackReasonConnecting:

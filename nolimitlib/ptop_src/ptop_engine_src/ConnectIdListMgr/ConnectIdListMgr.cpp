@@ -208,7 +208,10 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
         becameOnline = true;
     }
 
-    ConnectId connectId( sktConnectId,  groupieId );
+    ConnectId connectId( sktConnectId, groupieId );
+
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::addConnection relayed ? %d ConnectId %s", relayed, connectId.describeConnectId().c_str() );
+
     if( relayed )
     {
         lockList();
@@ -260,6 +263,12 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
 
     bool wasOnline = isUserOnline( onlineId );
 
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection start skt id %s cnt users %d direct %d relayed %d pairs %d", 
+            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
+            m_OnlineConnectionPairs.size() );
+
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection ConnectId %s", connectId.describeConnectId().c_str() );
+
     lockList();
     auto iter = m_ConnectIdList.find( connectId );
     if( iter != m_ConnectIdList.end() )
@@ -286,6 +295,12 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
     {
         announceRelayStatus( connectId, false );
     }
+
+    removeOnlineConnectionPair( sktConnectId, onlineId );
+
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection end skt id %s cnt users %d direct %d relayed %d pairs %d", 
+            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
+            m_OnlineConnectionPairs.size() );
 
     if( wasOnline )
     {
@@ -359,7 +374,9 @@ void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost id %s", sktConnectId.toHexString().c_str() );
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost start skt id %s cnt users %d direct %d relayed %d pairs %d", 
+            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
+            m_OnlineConnectionPairs.size() );
   
     std::set<VxGUID> userList;
     std::set<ConnectId> lostConnectList;
@@ -432,6 +449,10 @@ void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         }
     }
 
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost end skt id %s cnt users %d direct %d relayed %d pairs %d", 
+            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
+            m_OnlineConnectionPairs.size() );
+
     announceConnectionLost( sktConnectId );
 }
 
@@ -444,6 +465,9 @@ void ConnectIdListMgr::userJoinedHost( VxGUID& sktConnectId, GroupieId& groupieI
         return;
     }
 
+    LogMsg( LOG_ERROR, "ConnectIdListMgr::userJoinedHost skt id %s groupie %s", 
+            sktConnectId.toHexString().c_str(), groupieId.describeGroupieId().c_str() );
+
     addConnection( sktConnectId, groupieId, false );
 }
 
@@ -455,6 +479,9 @@ void ConnectIdListMgr::userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId 
         LogMsg( LOG_ERROR, "ConnectIdListMgr::userJoinedHost invalid id" );
         return;
     }
+
+    LogMsg( LOG_ERROR, "ConnectIdListMgr::userLeftHost skt id %s groupie %s", 
+            sktConnectId.toHexString().c_str(), groupieId.describeGroupieId().c_str() );
 
     removeConnection( sktConnectId, groupieId );
 }
@@ -1207,6 +1234,8 @@ void ConnectIdListMgr::pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId )
         return;
     }
 
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved skt %s user %s", sktConnectId.toHexString().c_str(), onlineId.toOnlineIdString().c_str() );
+
     lockOnlineIdList();
     auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
                               [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.first == sktConnectId && element.second == onlineId; } );
@@ -1277,22 +1306,26 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
     }
 
     unlockOnlineIdList();
+}
 
-    // announce users that lost connection and remove from online list
-    //for( auto& onlineId : lostConnectiononIdList )
-    //{
-    //    LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::doOnlineIdConnectionLost online id %s", onlineId.toOnlineIdString().c_str() );
-    //    lockOnlineIdList();
-    //    auto iter = m_OnlineIdListList.find( onlineId );
-    //    if( iter != m_OnlineIdListList.end() )
-    //    {
-    //        m_OnlineIdListList.erase( iter );
-    //    }
+//============================================================================
+void ConnectIdListMgr::removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId )
+{
+    lockOnlineIdList();
+    // make a list of who used the connection and remove the connections from the list
+    for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); )
+    {
+        if( iter->first == sktConnectId && iter->second == onlineId )
+        {
+            iter = m_OnlineConnectionPairs.erase( iter );
+        }
+        else
+        {
+            iter++;
+        }
+    }
 
-    //    unlockOnlineIdList();
-
-    //    announceOnlineStatus( onlineId, false );
-    //}
+    unlockOnlineIdList();
 }
 
 //============================================================================

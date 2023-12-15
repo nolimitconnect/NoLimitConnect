@@ -93,6 +93,7 @@ protected:
     void                        announceConnectionLost( VxGUID& sktConnectId );
 
     void                        removeOnlineConnectionPairs( VxGUID& sktConnectId, std::set<VxGUID>& lostConnUserList );
+    void                        removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId );
 
     void						lockClientList( void )          { m_ClientCallbackMutex.lock(); }
     void						unlockClientList( void )        { m_ClientCallbackMutex.unlock(); }

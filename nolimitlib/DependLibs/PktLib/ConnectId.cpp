@@ -171,7 +171,7 @@ bool ConnectId::isEqualTo( const ConnectId& groupieId )
 std::string ConnectId::describeConnectId( void ) const
 {
     std::string desc = "skt id ";
-    desc += m_SocketId.toOnlineIdString();
+    desc += m_SocketId.toHexString();
     desc += " ";
     desc += m_GroupieId.describeGroupieId();
     return desc;

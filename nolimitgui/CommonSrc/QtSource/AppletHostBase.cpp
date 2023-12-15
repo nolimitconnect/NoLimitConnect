@@ -58,9 +58,20 @@ void AppletHostBase::manageHostSession( GuiHostSession* hostSession, bool reques
 
     if( requestJoin )
     {
-        VxGUID::generateNewVxGUID( m_HostSessionId );
+        if( hostSession->getOnlineId() != m_MyApp.getMyOnlineId() )
+        {
+            VxGUID::generateNewVxGUID( m_HostSessionId );
 
-        m_Engine.fromGuiJoinHost( getHostType(), m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+            m_Engine.fromGuiJoinHost( getHostType(), m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+        }
+        else
+        {
+            QString warnJoinTitle = QObject::tr( "Cannot join our host as user" );
+            QString warnJoinBody = QObject::tr( "Cannot join our host as user.\n You can join host from host admin page instead." );
+
+            QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
+            warnStorage.exec();
+        }
     }
 }
 

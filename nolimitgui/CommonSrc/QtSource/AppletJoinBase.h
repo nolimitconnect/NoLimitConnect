@@ -20,7 +20,8 @@
 
 #include <CoreLib/VxPtopUrl.h>
 
-class GuiUserListItem;
+class GuiHostedListItem;
+class GuiHostedListSession;
 
 class AppletJoinBase : public AppletBase, public GuiUserUpdateCallback, public GuiHostedListCallback, public GuiGroupieListCallback, public GuiHostJoinCallback, public GuiUserJoinCallback
 {

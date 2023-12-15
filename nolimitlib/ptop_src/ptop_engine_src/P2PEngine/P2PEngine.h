@@ -449,7 +449,9 @@ public:
 	virtual	void				onContactConnected		( RcConnectInfo * poInfo, bool connectionListLocked, bool newContact = false );
 	virtual	void				onContactDisconnected	( RcConnectInfo * poInfo, bool connectionListLocked );
 
+    void                        onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase );
 	void						onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
+
 	void						onSessionStart( EPluginType pluginType, VxNetIdent* netIdent );
 	//========================================================================
 	//========================================================================

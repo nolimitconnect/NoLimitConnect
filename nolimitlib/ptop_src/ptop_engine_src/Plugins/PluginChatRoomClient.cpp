@@ -9,7 +9,6 @@
 //============================================================================
 
 #include "PluginChatRoomClient.h"
-#include "P2PSession.h"
 #include "PluginMgr.h"
 
 #include <GuiInterface/IToGui.h>

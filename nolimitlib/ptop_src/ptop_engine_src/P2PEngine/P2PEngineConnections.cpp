@@ -41,10 +41,18 @@ void P2PEngine::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBa
 }
 
 //============================================================================
+//! socket about to close
+void P2PEngine::onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase )								
+{
+	// everything happens in onConnectionLost.. maybe this function should be removed
+}
+
+//============================================================================
 //! socket became disconnected
 void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )								
 {
-	LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::connectionLost: skt %d", sktBase->m_SktNumber );
+	LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::connectionLost: skt num %d id %s", 
+			   sktBase->getSktNumber(), sktBase->getSocketId().toHexString().c_str() );
 	getConnectIdListMgr().onConnectionLost( sktBase->getSocketId() );
 
 	getHostJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );

@@ -23,12 +23,13 @@
 
 #include <QDialog>
 
+class AppCommon;
 class AssetBaseInfo;
 class BottomBarWidget;
-class IFromGui;
 class GuiUserMgr;
 class GuiOfferSession;
 class IdentWidget;
+class IFromGui;
 class MyIcons;
 class P2PEngine;
 class TitleBarWidget;

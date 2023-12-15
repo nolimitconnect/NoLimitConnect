@@ -14,7 +14,7 @@
 #include "AppletClientBase.h"
 #include "AppletMgr.h"
 #include "AppletMultiMessenger.h"
-#include "AppSettings.h"
+
 #include "GuiHelpers.h"
 #include "GuiHostedListSession.h"
 #include "GuiHostedListItem.h"
@@ -260,12 +260,31 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
 	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
 	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", joinUrl.c_str() );
-	if( !joinUrl.empty() )
-	{
-		m_MyApp.getUserJoinMgr().setLastJoinAttempted( joinUrl );
-	}
+    VxPtopUrl ptopUrl( joinUrl );
+    if( ptopUrl.isValid() )
+    {
+        if( ptopUrl.getOnlineId() != m_MyApp.getMyOnlineId() )
+        {
+            m_MyApp.getUserJoinMgr().setLastJoinAttempted( joinUrl );
+            m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+        }
+        else
+        {
+            QString warnJoinTitle = QObject::tr( "Cannot join our host as user" );
+            QString warnJoinBody = QObject::tr( "Cannot join our host as user.\n You can join host from host admin page instead." );
 
-	m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+            QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
+            warnStorage.exec();
+        }
+    }
+    else
+    {
+        QString warnJoinTitle = QObject::tr( "Invalid URL" );
+        QString warnJoinBody = QObject::tr( "The host url is not valid." );
+
+        QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
+        warnStorage.exec();
+    }
 }
 
 //============================================================================
@@ -277,22 +296,45 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
 	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
 	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotConnectButtonClicked url %s", joinUrl.c_str() );
 
-	GroupieId groupieId( m_MyApp.getMyOnlineId(), hostSession->getHostedId() );
-	GuiUserJoin* userJoin = m_MyApp.getUserJoinMgr().getUserJoin( groupieId );
-	EJoinState joinState{ eJoinStateNone };
-	if( userJoin )
-	{
-		joinState = userJoin->getJoinState();
-	}
+    VxPtopUrl ptopUrl( joinUrl );
+    if( ptopUrl.isValid() )
+    {
+        if( ptopUrl.getOnlineId() != m_MyApp.getMyOnlineId() )
+        {
+            GroupieId groupieId( m_MyApp.getMyOnlineId(), hostSession->getHostedId() );
+            GuiUserJoin* userJoin = m_MyApp.getUserJoinMgr().getUserJoin( groupieId );
+            EJoinState joinState{ eJoinStateNone };
+            if( userJoin )
+            {
+                joinState = userJoin->getJoinState();
+            }
 
-	if( joinState == eJoinStateJoinIsGranted )
-	{
-		m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
-	}
-	else
-	{
-		m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
-	}
+            if( joinState == eJoinStateJoinIsGranted )
+            {
+                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+            }
+            else
+            {
+                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+            }
+        }
+        else
+        {
+            QString warnJoinTitle = QObject::tr( "Cannot join our host as user" );
+            QString warnJoinBody = QObject::tr( "Cannot join our host as user.\n You can join host from host admin page instead." );
+
+            QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
+            warnStorage.exec();
+        }
+    }
+    else
+    {
+        QString warnJoinTitle = QObject::tr( "Invalid URL" );
+        QString warnJoinBody = QObject::tr( "The host url is not valid." );
+
+        QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
+        warnStorage.exec();
+    }
 }
 
 //============================================================================
