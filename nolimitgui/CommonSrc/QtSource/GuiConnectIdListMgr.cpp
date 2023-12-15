@@ -48,24 +48,44 @@ bool GuiConnectIdListMgr::isMessengerReady( void )
 //============================================================================
 void GuiConnectIdListMgr::callbackNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot )
 {
+    if( onlineId == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackNearbyStatusChange updating myself" );
+    }
+
     emit signalInternalNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
 }
 
 //============================================================================
 void GuiConnectIdListMgr::callbackRelayStatusChange( ConnectId& connectId, bool isRelayed )
 {
+    if( connectId.getUserOnlineId() == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackRelayStatusChange updating myself" );
+    }
+
     emit signalInternalRelayStatusChange( connectId, isRelayed );
 }
 
 //============================================================================
 void GuiConnectIdListMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isConnected )
 {
+    if( connectId.getUserOnlineId() == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
+    }
+
     emit signalInternalConnectionStatusChange( connectId, isConnected );
 }
 
 //============================================================================
 void GuiConnectIdListMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
+    if( onlineId == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
+    }
+
     emit signalInternalOnlineStatusChange( onlineId, isOnline );
 }
 

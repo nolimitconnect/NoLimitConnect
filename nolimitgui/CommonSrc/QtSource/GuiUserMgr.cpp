@@ -782,6 +782,11 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
     {
         LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks to %d clients user %s %s",
                m_GuiUserUpdateClientList.size(), guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str() );
+        if( guiUser->isMyself() )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks updating myself" );
+        }
+
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
