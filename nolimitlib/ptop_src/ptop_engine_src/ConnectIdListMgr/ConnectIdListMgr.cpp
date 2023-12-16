@@ -366,12 +366,18 @@ void ConnectIdListMgr::removeConnectionReason( VxGUID& sktConnectId, EConnectRea
 }
 
 //============================================================================
-void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
+bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
 {
     if( !sktConnectId.isVxGUIDValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::onConnectionLost invalid id" );
-        return;
+        return false;
+    }
+
+    if( isConnectIdExcluded( sktConnectId ) )
+    {
+        setExcludeConnectId( sktConnectId, false );
+        return false;
     }
 
     LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost start skt id %s cnt users %d direct %d relayed %d pairs %d", 
@@ -454,6 +460,7 @@ void ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
             m_OnlineConnectionPairs.size() );
 
     announceConnectionLost( sktConnectId );
+    return true;
 }
 
 //============================================================================
@@ -1455,4 +1462,38 @@ void ConnectIdListMgr::disconnectIfIsOnlyUser( GroupieId& groupieId )
     {
         m_Engine.getPeerMgr().closeConnection( sktConnectId, eSktCloseNotNeeded );
     }
+}
+
+//============================================================================
+void ConnectIdListMgr::setExcludeConnectId( VxGUID& sktConnectId, bool exclude )
+{
+    lockExclusionList();
+
+    auto iter = m_ConnectIdExclusionList.find( sktConnectId );
+    if( exclude )
+    {
+        if( iter == m_ConnectIdExclusionList.end() )
+        {
+            m_ConnectIdExclusionList.insert( sktConnectId );
+        }
+    }
+    else
+    {
+        if( iter != m_ConnectIdExclusionList.end() )
+        {
+            m_ConnectIdExclusionList.erase( iter );
+        }
+    }
+
+    unlockExclusionList();
+}
+
+//============================================================================
+bool ConnectIdListMgr::isConnectIdExcluded( VxGUID& sktConnectId )
+{
+    lockExclusionList();
+    bool isExcluded = m_ConnectIdExclusionList.find( sktConnectId ) != m_ConnectIdExclusionList.end();
+    unlockExclusionList();
+
+    return isExcluded;
 }

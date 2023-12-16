@@ -51,9 +51,10 @@ void P2PEngine::onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase )
 //! socket became disconnected
 void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )								
 {
-	LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::connectionLost: skt num %d id %s", 
-			   sktBase->getSktNumber(), sktBase->getSocketId().toHexString().c_str() );
-	getConnectIdListMgr().onConnectionLost( sktBase->getSocketId() );
+	if( !getConnectIdListMgr().onConnectionLost( sktBase->getSocketId() ) )
+	{
+		return;
+	}
 
 	getHostJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
 	getUserOnlineMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );

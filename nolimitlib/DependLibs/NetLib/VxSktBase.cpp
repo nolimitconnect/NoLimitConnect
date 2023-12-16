@@ -631,6 +631,8 @@ void VxSktBase::doCloseThisSocketHandle( bool bFlushThenClose )
 	{	
 		SOCKET oSocket = m_Socket; 
 		m_Socket = INVALID_SOCKET;
+		LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::doCloseThisSocketHandle: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
+				   getSktNumber(), getSktHandle(), getSocketId().toHexString().c_str(), getPeerPktAnn().describeUser().c_str() );
 		if( bFlushThenClose )
 		{
 			VxFlushThenCloseSkt( oSocket );
@@ -1602,6 +1604,8 @@ bool VxSktBase::setPeerPktAnn( PktAnnounce &peerAnn )
     }
 
     m_PeerAnnMutex.unlock();
+	LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::setPeerPktAnn: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
+				   getSktNumber(), getSktHandle(), getSocketId().toHexString().c_str(), getPeerPktAnn().describeUser().c_str() );
     return isSameSize;
 }
 

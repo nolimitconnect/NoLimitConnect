@@ -86,16 +86,6 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
-	if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) && !getConnectIdListMgr().isNetworkHost( contactOnlineId ) )
-	{
-		if( !getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
-		{
-			sktBase->closeSkt( eSktCloseBlockedUser );
-		}
-
-		return;
-	}
-
 	bool isFirstAnnounce = false;
 	if( false == sktBase->m_TxCrypto.isKeyValid() )
 	{
@@ -108,6 +98,24 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	else if( !sktBase->getIsPeerPktAnnSet() )
 	{
 		isFirstAnnounce = true;
+	}
+	
+	if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) )
+	{
+		if( isFirstAnnounce )
+		{
+			getConnectIdListMgr().setExcludeConnectId( sktBase->getSocketId(), true );
+		}
+
+		if( !getConnectIdListMgr().isNetworkHost( contactOnlineId ) )
+		{
+			if( !getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
+			{
+				sktBase->closeSkt( eSktCloseBlockedUser );
+			}
+
+			return;
+		}
 	}
 
 	pktAnn->reversePermissions();

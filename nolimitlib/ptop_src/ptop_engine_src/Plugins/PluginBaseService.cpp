@@ -47,9 +47,11 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
             for( auto& connectId : connectIdSet )
             {
                 VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
+                VxGUID socketId = const_cast<ConnectId&>(connectId).getSocketId();
+                GroupieId groupieId = const_cast<ConnectId&>(connectId).getGroupieId();
 
                 m_Engine.getPeerMgr().lockSktList();
-                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
+                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
@@ -79,6 +81,8 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
                         continue;
                     }
 
+                    LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
+                               m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
                     if( txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
                     {
                         if( isRequester )
@@ -116,9 +120,11 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
             for( auto& connectId : connectIdSet )
             {
                 VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
+                VxGUID socketId = const_cast<ConnectId&>(connectId).getSocketId();
+                GroupieId groupieId = const_cast<ConnectId&>(connectId).getGroupieId();
 
                 m_Engine.getPeerMgr().lockSktList();
-                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( const_cast<ConnectId&>(connectId).getSocketId(), true );
+                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
@@ -139,6 +145,9 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
                         continue;
                     }
 
+                    LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
+                               m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
+                   
                     if( !txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
                     {
                         // logging ?
