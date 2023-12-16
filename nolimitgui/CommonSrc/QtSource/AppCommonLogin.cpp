@@ -527,29 +527,29 @@ void AppCommon::checkReadyToConnectToLastConnectedHost( void )
                         VxGUID sessionId;
                         sessionId.initializeWithNewVxGUID();
 
-                        LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", lastConnectedHost.c_str() );
+                        LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", lastConnectedHost.c_str() );
 
                         getFromGuiInterface().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
                     }
                     else
                     {
-                        LogModule( eLogUserGuiEvent, LOG_ERROR, "checkReadyToConnectToLastConnectedHost cannot connect to ourself" );
+                        LogModule( eLogUserEvent, LOG_ERROR, "checkReadyToConnectToLastConnectedHost cannot connect to ourself" );
                         getAppSettings().setLastHostJoined("");
                     }
                 }
                 else
                 {
-                    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid ptop url %s", lastConnectedHost.c_str() );
+                    LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid ptop url %s", lastConnectedHost.c_str() );
                 }
             }
             else
             {
-                 LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", lastConnectedHost.c_str() );
+                 LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", lastConnectedHost.c_str() );
             }
         }
         else
         {
-            LogModule( eLogUserGuiEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost empty url" );
+            LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost empty url" );
         }
     }
 }

@@ -597,7 +597,8 @@ public:
     void                        onUserLoggedOn( void );
     bool                        checkSystemReady( void );
 
-    std::string                 describeGroupieId( GroupieId& groupieId, bool includeUserNames = true );
+    std::string                 describeGroupieId( GroupieId& groupieId );
+    std::string                 describeUser( VxGUID& onlineId );
 
     void                        doOnlineStatusChange( VxGUID onlineId, bool isOnline ); // called on gui thread by GuiConnectIdListMgr
 
@@ -686,13 +687,6 @@ signals:
 
     void                        signalInternalToGuiContactOnline( VxNetIdent netIdent );
 
-    //void                        signalInternalToGuiContactNameChange( VxNetIdent netIdent );
-    //void                        signalInternalToGuiContactDescChange( VxNetIdent netIdent );
-    //void                        signalInternalToGuiContactFriendshipChange( VxNetIdent netIdent );
-
-    //void                        signalInternalToGuiPluginPermissionChange( VxNetIdent netIdent );
-    //void                        signalInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent );
-
     void                        signalInternalToGuiContactUpdated( VxNetIdent netIdent );
 
     void                        signalInternalToGuiContactLastSessionTimeChange( VxNetIdent netIdent );
@@ -761,13 +755,6 @@ private slots:
     void                        slotInternalToGuiContactRemoved( VxGUID onlineId );
 
     void                        slotInternalToGuiContactOnline( VxNetIdent netIdent );
-
-    //void                        slotInternalToGuiContactNameChange( VxNetIdent netIdent );
-    //void                        slotInternalToGuiContactDescChange( VxNetIdent netIdent );
-    //void                        slotInternalToGuiContactFriendshipChange( VxNetIdent netIdent );
-
-    //void                        slotInternalToGuiPluginPermissionChange( VxNetIdent netIdent );
-    //void                        slotInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent );
 
     void                        slotInternalToGuiContactUpdated( VxNetIdent netIdent );
 

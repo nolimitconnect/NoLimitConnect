@@ -527,6 +527,15 @@ void VxNetIdent::debugDumpIdent( void )
 }
 
 //============================================================================
+std::string VxNetIdent::describeUser( void )
+{
+	std::string userDesc = getOnlineName();
+	userDesc += " id ";
+	userDesc += getMyOnlineId().toOnlineIdString();
+	return userDesc;
+}
+
+//============================================================================
 //! describe plugin local name
 const char* DescribePluginLclName( EPluginType pluginType )
 {

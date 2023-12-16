@@ -587,3 +587,27 @@ VxGUID P2PEngine::getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& pto
 
 	return onlineId;
 }
+
+//============================================================================
+std::string P2PEngine::describeGroupieId( GroupieId& groupieId )
+{
+	std::string desc = DescribeHostType( groupieId.getHostType() );
+	desc += describeUser( groupieId.getHostOnlineId() );
+	desc += " user ";
+	desc += describeUser( groupieId.getUserOnlineId() );
+	return desc;
+}
+
+//============================================================================
+std::string P2PEngine::describeUser( VxGUID& onlineId )
+{
+    std::string userDesc;
+    if( !getBigListMgr().getOnlineName( onlineId, userDesc ) )
+    {
+        userDesc = "Unknown User";
+    }
+
+	userDesc += " id ";
+	userDesc += onlineId.toOnlineIdString();
+	return userDesc;
+}

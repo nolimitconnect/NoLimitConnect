@@ -273,6 +273,8 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     m_Engine.getGroupieListMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
 
+    LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
+
     // broadcast users PktAnn to all users
     BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( groupieId.getUserOnlineId() );
     if( bigListInfo )
@@ -323,6 +325,8 @@ void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
 //============================================================================
 void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
+    LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserLeftHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
+
     m_ClientListMutex.lock();
     m_ClientList.removeGuid( groupieId.getUserOnlineId() );
     m_ClientListMutex.unlock();
@@ -352,6 +356,8 @@ void HostServerMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
 //============================================================================
 void HostServerMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
+    LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserUnJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
+
     sessionInfo.setJoinState( eJoinStateJoinLeaveHost );
     m_Engine.getHostJoinMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );

@@ -145,7 +145,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
         if( ShouldDebugUser( guiUser->getOnlineName().c_str() ) )
 		{
-			LogModule( eLogUserGuiEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my frienship %s his friendship %s",
+			LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my frienship %s his friendship %s",
 					   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
 					   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
 		}

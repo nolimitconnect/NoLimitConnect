@@ -130,6 +130,8 @@ public:
 
 	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState );
 
+	std::string					describeUser( void );
+
 private:
 
 	//=== vars ===//

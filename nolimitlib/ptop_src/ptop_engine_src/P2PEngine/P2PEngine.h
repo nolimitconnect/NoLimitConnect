@@ -710,6 +710,9 @@ public:
     /// extract online id from either url if url is valid
     static VxGUID               getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
 
+    std::string                 describeGroupieId( GroupieId& groupieId );
+    std::string                 describeUser( VxGUID& onlineId );
+
 protected:
     //========================================================================
     //========================================================================

@@ -1880,24 +1880,22 @@ bool AppCommon::checkSystemReady( void )
 }
 
 //============================================================================
-std::string AppCommon::describeGroupieId( GroupieId& groupieId, bool includeUserNames )
+std::string AppCommon::describeGroupieId( GroupieId& groupieId )
 {
-	if( includeUserNames )
-	{
-		std::string desc = DescribeHostType( groupieId.getHostType() );
-		desc += m_UserMgr.getUserOnlineName( groupieId.getHostOnlineId() );
-		desc += " id ";
-		desc += groupieId.getHostOnlineId().toOnlineIdString();
-		desc += " user ";
-		desc += m_UserMgr.getUserOnlineName( groupieId.getUserOnlineId() );
-		desc += " id ";
-		desc += groupieId.getUserOnlineId().toOnlineIdString();
-		return desc;
-	}
-	else
-	{
-		return groupieId.describeGroupieId();
-	}
+	std::string desc = DescribeHostType( groupieId.getHostType() );
+	desc += describeUser( groupieId.getHostOnlineId() );
+	desc += " user ";
+	desc += describeUser( groupieId.getUserOnlineId() );
+	return desc;
+}
+
+//============================================================================
+std::string AppCommon::describeUser( VxGUID& onlineId )
+{
+	std::string userDesc = m_UserMgr.getUserOnlineName( onlineId );
+	userDesc += " id ";
+	userDesc += onlineId.toOnlineIdString();
+	return userDesc;
 }
 
 //============================================================================

@@ -45,7 +45,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogStartup: return QObject::tr( "Log Startup" );
     case eLogSktData: return QObject::tr( "Log Skt Data" );
     case eLogPkt: return QObject::tr( "Log Pkt" );
-    case eLogUserGuiEvent: return QObject::tr( "Log User Gui Event" );
+    case eLogUserEvent: return QObject::tr( "Log User Event" );
 
     case eLogPlugins: return QObject::tr( "Log Plugins" );
     case eLogHosts: return QObject::tr( "Log Hosts" );
@@ -65,6 +65,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogFfmpeg: return QObject::tr( "Log FFMPEG" );
     case eLogAudioIo: return QObject::tr( "Log Audio IO" );
     case eLogVideoIo: return QObject::tr( "Log Video IO" );
+    case eLogMembership: return QObject::tr( "Log Membership" );
 
 
     default:

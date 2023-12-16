@@ -92,7 +92,7 @@ void AppCommon::toGuiContactAdded( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactAdded %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactAdded %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -148,7 +148,7 @@ void AppCommon::doOnlineStatusChange( VxGUID onlineId, bool isOnline )
     GuiUser* guiUser = m_UserMgr.getOrQueryUser( onlineId );
     if( guiUser )
     {
-        LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::slotInternalToGuiOnlineStatusChange %s id %s my friendship %s his friendship %s",
+        LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::slotInternalToGuiOnlineStatusChange %s id %s my friendship %s his friendship %s",
                   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
                 DescribeFriendState( guiUser->getMyFriendshipToHim()),  DescribeFriendState( guiUser->getHisFriendshipToMe()) );
         m_ToGuiActivityInterfaceBusy = true;
@@ -187,7 +187,7 @@ void AppCommon::toGuiContactOnline( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactOnline %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactOnline %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -227,7 +227,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
 //        return;
 //    }
 //
-//    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactNameChange %s id %s my friendship %s his friendship %s", 
+//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactNameChange %s id %s my friendship %s his friendship %s", 
 //               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
 //               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 //
@@ -264,7 +264,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
 //        return;
 //    }
 //
-//    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactDescChange %s id %s my friendship %s his friendship %s", 
+//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactDescChange %s id %s my friendship %s his friendship %s", 
 //               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
 //               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 //
@@ -299,7 +299,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
 //        return;
 //    }
 //
-//    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactFriendshipChange %s id %s my friendship %s his friendship %s", 
+//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactFriendshipChange %s id %s my friendship %s his friendship %s", 
 //               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
 //               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 //
@@ -336,7 +336,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
 //        return;
 //    }
 //
-//    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiPluginPermissionChange %s id %s my friendship %s his friendship %s", 
+//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiPluginPermissionChange %s id %s my friendship %s his friendship %s", 
 //               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
 //               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 //
@@ -372,7 +372,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
 //        return;
 //    }
 //
-//    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactSearchFlagsChange %s id %s my friendship %s his friendship %s", 
+//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactSearchFlagsChange %s id %s my friendship %s his friendship %s", 
 //               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
 //               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 //
@@ -402,7 +402,7 @@ void AppCommon::toGuiContactAnythingChange( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactAnythingChange %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactAnythingChange %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -430,7 +430,7 @@ void AppCommon::toGuiContactLastSessionTimeChange( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiContactLastSessionTimeChange %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactLastSessionTimeChange %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -465,7 +465,7 @@ void AppCommon::toGuiUpdateMyIdent( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiUpdateMyIdent %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiUpdateMyIdent %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -492,7 +492,7 @@ void AppCommon::toGuiSaveMyIdent( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, " AppCommon::toGuiSaveMyIdent %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiSaveMyIdent %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 

@@ -55,7 +55,7 @@ enum ELogModule
 	eLogSkt				= 0x0100, // 9
 	eLogSktData         = 0x0200, // 10
 	eLogPkt				= 0x0400, // 11
-	eLogUserGuiEvent	= 0x0800, // 12 
+	eLogUserEvent	= 0x0800, // 12 
 
 	eLogNetAccessStatus = 0x1000, // 13
 	eLogNetworkState	= 0x2000, // 14
@@ -80,6 +80,7 @@ enum ELogModule
 	eLogFfmpeg			= 0x10000000, // 29
 	eLogAudioIo			= 0x20000000, // 30
 	eLogVideoIo			= 0x40000000, // 31
+	eLogMembership		= 0x80000000, // 31
 
 
     eMaxLogModule

@@ -224,7 +224,7 @@ bool GuiUserMgr::toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
         GuiUser* guiUser = findUser( onlineId );
         if( guiUser )
         {
-            LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr::toGuiOnlineStatusChange user %s online %d id %s", guiUser->getOnlineName().c_str(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
+            LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::toGuiOnlineStatusChange user %s online %d id %s", guiUser->getOnlineName().c_str(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
 
             m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
@@ -486,9 +486,7 @@ std::string GuiUserMgr::getUserOnlineName( VxGUID& onlineId )
     }
     else
     {
-        std::string onlineName( "Unknown User: " );
-        onlineName += onlineId.toOnlineIdString();
-        return onlineName;
+        return "Unknown User";
     }
 }
 
@@ -517,7 +515,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent, bool updateIsOnlineBecaus
         return nullptr;
     }
 
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s force online %d", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str(), updateIsOnlineBecauseIsNowOnline );
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s force online %d", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str(), updateIsOnlineBecauseIsNowOnline );
 
     if( updateIsOnlineBecauseIsNowOnline )
     {
@@ -726,7 +724,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
     {
         // the client list is in use. Save and the list will be updated after the client list is no longer in use
         // otherwise will crash because the list is changed during interation of the list
-        LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback Client List Busy queing %p want ? %d.. current update list size %d", callback, wantCallback, m_GuiUserUpdateClientList.size() );
+        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback Client List Busy queing %p want ? %d.. current update list size %d", callback, wantCallback, m_GuiUserUpdateClientList.size() );
         m_WantUpdateToDoList.push_back( std::make_pair( callback, wantCallback ) );
         return;
     }
@@ -742,7 +740,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             }
         }
 
-        LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr Adding New wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
+        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Adding New wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
         m_GuiUserUpdateClientList.push_back( callback );
         return;
     }
@@ -754,7 +752,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             GuiUserUpdateCallback* client = *iter;
             if( client == callback )
             {
-                LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback %p at index %d", callback, idx );
+                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback %p at index %d", callback, idx );
                 m_GuiUserUpdateClientList.erase( iter );
                 return;
             }
@@ -880,7 +878,7 @@ void GuiUserMgr::updateClientList( void )
 {
     // update client list from que of want callback that happened while client list was busy
     m_UpdatingClientList = true;
-    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr updateClientList to do list size %d updateClientList size %d", m_WantUpdateToDoList.size(), m_GuiUserUpdateClientList.size());
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList to do list size %d updateClientList size %d", m_WantUpdateToDoList.size(), m_GuiUserUpdateClientList.size());
     for( auto pair : m_WantUpdateToDoList )
     {
         if( pair.second )
@@ -899,7 +897,7 @@ void GuiUserMgr::updateClientList( void )
             if( !isDuplicate )
             {
 
-                LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr updateClientList adding client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
+                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList adding client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
                 m_GuiUserUpdateClientList.push_back( pair.first );
             }
         }
@@ -911,7 +909,7 @@ void GuiUserMgr::updateClientList( void )
                 GuiUserUpdateCallback* client = *iter;
                 if( client == pair.first )
                 {
-                    LogModule( eLogUserGuiEvent, LOG_VERBOSE, "GuiUserMgr updateClientList erasing client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
+                    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList erasing client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
                     m_GuiUserUpdateClientList.erase( iter );
                     break;
                 }
