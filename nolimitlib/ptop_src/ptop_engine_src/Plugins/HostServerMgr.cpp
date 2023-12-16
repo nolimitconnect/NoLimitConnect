@@ -605,7 +605,7 @@ bool HostServerMgr::sendMemberListToClient( std::shared_ptr<VxSktBase>& sktBase,
                     pktAnn->setHostOnlineId( m_Engine.getMyOnlineId() );
                     pktAnn->setMyFriendshipToHim( eFriendStateGuest );
                     pktAnn->setHisFriendshipToMe( eFriendStateGuest );
-                    bool wasSent = m_Plugin.txPacket( onlineId, sktBase, pktAnn );
+                    bool wasSent = m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, pktAnn);
 
                     delete pktAnn;
                     if( !wasSent )

@@ -974,10 +974,16 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
     // filter out im alive packets to declutter long
     if( pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REPLY && pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REQ )
     {
-        LogMsg( LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d user %s", getSktNumber(),
+        LogMsg( LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
                 getSocketId().toHexString().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
-                pktHdr->getDestOnlineId().toOnlineIdString().c_str() );
+                pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
+				getPeerOnlineId().isVxGUIDValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
     }
+
+	if( getPeerOnlineId().isVxGUIDValid() && getPeerOnlineId() != pktHdr->getDestOnlineId() )
+	{
+		LogMsg( LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
+	}
 
 	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength(), bDisconnect );
 }
