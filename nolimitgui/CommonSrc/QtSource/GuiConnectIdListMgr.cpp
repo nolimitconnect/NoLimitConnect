@@ -29,7 +29,9 @@ GuiConnectIdListMgr::GuiConnectIdListMgr( AppCommon& app )
 //============================================================================
 void GuiConnectIdListMgr::onAppCommonCreated( void )
 {
+#if ENABLE_COMPONENT_NEARBY
     connect( this, SIGNAL( signalInternalNearbyStatusChange(VxGUID,int64_t) ),              this, SLOT( slotInternalNearbyStatusChange(VxGUID,int64_t) ), Qt::QueuedConnection );
+#endif // ENABLE_COMPONENT_NEARBY
     connect( this, SIGNAL( signalInternalRelayStatusChange( ConnectId,bool) ),              this, SLOT( slotInternalRelayStatusChange( ConnectId,bool) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalOnlineStatusChange(VxGUID,bool) ),                 this, SLOT( slotInternalOnlineStatusChange(VxGUID,bool) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalConnectionStatusChange(ConnectId,bool) ),          this, SLOT( slotInternalConnectionStatusChange(ConnectId,bool) ), Qt::QueuedConnection );
@@ -53,6 +55,7 @@ void GuiConnectIdListMgr::callbackNearbyStatusChange( VxGUID& onlineId, int64_t 
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackNearbyStatusChange updating myself" );
     }
 
+
     emit signalInternalNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
 }
 
@@ -64,6 +67,8 @@ void GuiConnectIdListMgr::callbackRelayStatusChange( ConnectId& connectId, bool 
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackRelayStatusChange updating myself" );
     }
 
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::callbackRelayStatusChange user %s isRelayed %d",
+              m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isRelayed );
     emit signalInternalRelayStatusChange( connectId, isRelayed );
 }
 
@@ -75,6 +80,8 @@ void GuiConnectIdListMgr::callbackConnectionStatusChange( ConnectId& connectId, 
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
     }
 
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::callbackConnectionStatusChange user %s isConnected %d", 
+               m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected );
     emit signalInternalConnectionStatusChange( connectId, isConnected );
 }
 
@@ -86,6 +93,8 @@ void GuiConnectIdListMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isO
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
     }
 
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::callbackOnlineStatusChange user %s isOnline %d", 
+               m_MyApp.describeUser( onlineId ).c_str(), isOnline );
     emit signalInternalOnlineStatusChange( onlineId, isOnline );
 }
 
@@ -104,7 +113,7 @@ void GuiConnectIdListMgr::callbackConnectionLost( VxGUID& sktConnectId )
 //============================================================================
 void GuiConnectIdListMgr::slotInternalNearbyStatusChange( VxGUID onlineId, int64_t nearbyTimeOrZeroIfNot )
 {
-    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalNearbyStatusChange nearby time %lld %s", nearbyTimeOrZeroIfNot, m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalNearbyStatusChange nearby time %lld %s", nearbyTimeOrZeroIfNot, m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
     auto iter = m_NearbyIdList.find( onlineId );
     if( iter != m_NearbyIdList.end() )
     {
@@ -124,7 +133,8 @@ void GuiConnectIdListMgr::slotInternalNearbyStatusChange( VxGUID onlineId, int64
 //============================================================================
 void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bool isNowRelayed )
 {
-    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalOnlineStatusChange isRelayed %d %s", isNowRelayed, m_MyApp.getUserMgr().getUserOnlineName( connectId.getUserOnlineId() ).c_str() );
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalRelayStatusChange user %s isRelayed %d", 
+            m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isNowRelayed );
     auto iter = m_RelayedIdList.find( connectId );
     if( iter != m_RelayedIdList.end() )
     {
@@ -132,7 +142,6 @@ void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bo
         {
             m_RelayedIdList.erase( iter );
         }
-
     }
     else
     {
@@ -148,14 +157,16 @@ void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bo
 //============================================================================
 void GuiConnectIdListMgr::slotInternalOnlineStatusChange( VxGUID onlineId, bool isOnline )
 {
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalOnlineStatusChange user %s isRelayed %d", 
+            m_MyApp.describeUser( onlineId ).c_str(), isOnline );
     m_MyApp.doOnlineStatusChange( onlineId, isOnline );
 }
 
 //============================================================================
 void GuiConnectIdListMgr::slotInternalConnectionStatusChange( ConnectId connectId, bool isConnected )
 {
-    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalConnectionStatusChange %s isConnect %d to %s", 
-        m_MyApp.getUserMgr().getUserOnlineName( connectId.getUserOnlineId() ).c_str(), isConnected,
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalConnectionStatusChange user %s isConnect %d to %s", 
+            m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected,
             GuiParams::describeHostType( connectId.getHostType() ).toUtf8().constData() );
     if( isConnected )
     {
@@ -235,6 +246,8 @@ void GuiConnectIdListMgr::onOnlineStatusChange( VxGUID& onlineId, bool isOnline 
 //============================================================================
 void GuiConnectIdListMgr::announceOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::announceOnlineStatusChange user %s isOnline %d", 
+                m_MyApp.describeUser( onlineId ).c_str(), isOnline );
     if( onlineId.isVxGUIDValid() )
     {
         for( auto client : m_GuiConnectIdClientList )
@@ -285,6 +298,9 @@ void GuiConnectIdListMgr::announceRelayStatusChange( VxGUID& onlineId, bool isRe
 {
     if( onlineId.isVxGUIDValid() )
     {
+        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::announceRelayStatusChange user %s isRelayed %d", 
+                m_MyApp.describeUser( onlineId ).c_str(), isRelayed );
+
         m_MyApp.getUserMgr().connnectIdRelayStatusChange( onlineId );
         for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
         {
@@ -314,6 +330,8 @@ void GuiConnectIdListMgr::onConnectionStatusChange( ConnectId& connectId, bool i
 //============================================================================
 void GuiConnectIdListMgr::announceConnectionStatusChange( ConnectId& connectId, bool isConnected )
 {
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::announceConnectionStatusChange user %s isConnected %d", 
+                m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected );
     if( connectId.isValid() )
     {
         for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )

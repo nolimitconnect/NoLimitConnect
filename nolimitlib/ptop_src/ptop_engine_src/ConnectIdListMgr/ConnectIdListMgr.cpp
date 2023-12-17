@@ -1315,7 +1315,7 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
                 onlineIdList.insert( iter->second );
             }
             
-            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPairs removed skt id %d user %s ",
+            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPairs removed skt id %s user %s ",
                    sktConnectId.toHexString().c_str(), m_Engine.describeUser( iter->second ).c_str() );
             iter = m_OnlineConnectionPairs.erase( iter );
         }
