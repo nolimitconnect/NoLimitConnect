@@ -561,7 +561,8 @@ void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose )
 		return;
 	}
 
-	LogMsg( LOG_VERBOSE, "%s skt num %d handle %d reason %s last err %d description %s", __func__, getSktNumber(), getSktHandle(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
+	LogModule( eLogConnect, LOG_VERBOSE, "%s skt num %d handle %d reason %s last err %d description %s", __func__, getSktNumber(), 
+			   getSktHandle(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
 	if( !m_HasBeenShutdown )
 	{
 		if( m_SktCloseReason == eSktCloseReasonUnknown )

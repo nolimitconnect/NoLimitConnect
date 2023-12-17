@@ -125,7 +125,6 @@ AppletLogSettings::AppletLogSettings( AppCommon& app, QWidget* parent )
     m_LogModuleList.push_back( ui.m_LogModuleCheckBox_31 );
     m_LogModuleList.push_back( ui.m_LogModuleCheckBox_32 );
 
-    ui.m_LogModuleCheckBox_32->setVisible( false );
     uint32_t logModuleMask = 0x01;
     for( int i = 0; i < m_LogModuleList.size(); i++ )
     {
