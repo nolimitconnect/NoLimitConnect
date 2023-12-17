@@ -413,9 +413,9 @@ const char* VxPktHdr::describePktType( uint16_t pktType )
     case PKT_TYPE_HOST_USER_LIST_MORE_REPLY:		return "PktHostUserListMoreReq"; 		// 141 ( 0x8D )		 
 
     case PKT_TYPE_TEST_CONN_TEST_REQ:				return "PktTestConnTestReq";   		    // 142 ( 0x8E )		
-    case PKT_TYPE_TEST_CONN_PING_REQ:				return "PktTestConnTestReply";  		// 143 ( 0x8F )		
-    case PKT_TYPE_TEST_CONN_PING_REPLY:				return "PktTestConnPingReq";   			// 144 ( 0x90 )		
-    case PKT_TYPE_TEST_CONN_TEST_REPLY:				return "PktTestConnPingReq";  			// 145 ( 0x91 )	
+    case PKT_TYPE_TEST_CONN_TEST_REPLY:				return "PktTestConnTestReply";  		// 143 ( 0x8F )		
+    case PKT_TYPE_TEST_CONN_PING_REQ:				return "PktTestConnPingReq";   			// 144 ( 0x90 )		
+    case PKT_TYPE_TEST_CONN_PING_REPLY:				return "PktTestConnPingReply";  		// 145 ( 0x91 )	
 
     case PKT_TYPE_QUERY_HOST_URL_REQ:				return "PktQueryHostUrlReq";  			// 146 ( 0x92 )		
     case PKT_TYPE_QUERY_HOST_URL_REPLY:				return "PktQueryHostUrlReply";  		// 147 ( 0x93 )	

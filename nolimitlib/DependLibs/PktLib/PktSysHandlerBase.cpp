@@ -203,8 +203,8 @@ PktHandlerBase::PktHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_TEST_REQ ]				= &PktHandlerBase::onPktTestConnTestReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_TEST_REPLY ]				= &PktHandlerBase::onPktTestConnTestReply;
-	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REPLY ]				= &PktHandlerBase::onPktTestConnPingReq;
-	m_aBaseSysPktFuncTable[ PKT_TYPE_HOST_USER_LIST_REQ ]				= &PktHandlerBase::onPktTestConnPingReply;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REQ ]				= &PktHandlerBase::onPktTestConnPingReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REPLY ]				= &PktHandlerBase::onPktTestConnPingReply;
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REQ ]				= &PktHandlerBase::onPktQueryHostUrlReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REPLY ]				= &PktHandlerBase::onPktQueryHostUrlReply;

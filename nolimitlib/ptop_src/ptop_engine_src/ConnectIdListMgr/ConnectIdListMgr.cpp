@@ -395,6 +395,7 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         if( connectId.getSocketId() == sktConnectId )
         {
             userList.insert( connectId.getUserOnlineId() );
+            userList.insert( connectId.getHostOnlineId() );
             lostConnectList.insert( connectId );
             iter = m_ConnectIdList.erase( iter );
         }
@@ -411,6 +412,7 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         if( connectId.getSocketId() == sktConnectId )
         {
             userList.insert( connectId.getUserOnlineId() );
+            userList.insert( connectId.getHostOnlineId() );
             lostRelayList.insert( connectId );
             iterRelay = m_RelayedIdList.erase( iterRelay );
         }
@@ -436,6 +438,11 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
 
     for( auto& onlineId : userList )
     {
+        if( onlineId == m_Engine.getMyOnlineId() )
+        {
+            continue;
+        }
+
         if( !findAnyUserOnlineConnection( onlineId ) )
         {
             bool wasRemoved{ false };
@@ -1284,7 +1291,11 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
     {
         if( iter->first == sktConnectId )
         {
-            onlineIdList.insert( iter->second );
+            if( iter->second != m_Engine.getMyOnlineId() )
+            {
+                onlineIdList.insert( iter->second );
+            }
+            
             iter = m_OnlineConnectionPairs.erase( iter );
         }
         else
@@ -1296,6 +1307,11 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
     // for each user if there is no more connections to user then add to lostConnectiononIdList
     for( auto& onlineId : onlineIdList )
     {
+        if( onlineId == m_Engine.getMyOnlineId() )
+        {
+            continue;
+        }
+
         auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
                               [&]( const std::pair< VxGUID, VxGUID>& element ) { return element.second == onlineId; } );
         if( iter == m_OnlineConnectionPairs.end() )

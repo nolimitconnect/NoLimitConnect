@@ -201,8 +201,8 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 	
 	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_TEST_REQ ]				= &PktPluginHandlerBase::onPktTestConnTestReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_TEST_REPLY ]				= &PktPluginHandlerBase::onPktTestConnTestReply;
-	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REPLY ]				= &PktPluginHandlerBase::onPktTestConnPingReq;
-	m_aBaseSysPktFuncTable[ PKT_TYPE_HOST_USER_LIST_REQ ]				= &PktPluginHandlerBase::onPktTestConnPingReply;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REQ ]				= &PktPluginHandlerBase::onPktTestConnPingReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_TEST_CONN_PING_REPLY ]				= &PktPluginHandlerBase::onPktTestConnPingReply;
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REQ ]				= &PktPluginHandlerBase::onPktQueryHostUrlReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REPLY ]				= &PktPluginHandlerBase::onPktQueryHostUrlReply;
