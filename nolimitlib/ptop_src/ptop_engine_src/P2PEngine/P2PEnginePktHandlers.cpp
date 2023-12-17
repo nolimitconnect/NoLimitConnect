@@ -248,10 +248,13 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		 return; 
 	}
 
-    LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce of %s %s by %s %s at %s skt id %s",
-            pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
-            sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
-			sktBase->getRemoteIp().c_str(), sktBase->getSocketId().toHexString().c_str() );
+	if( !sktBase->isTempConnection() )
+	{
+		LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce of %s %s by %s %s at %s skt id %s",
+				pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
+				sktBase->getRemoteIp().c_str(), sktBase->getSocketId().toHexString().c_str() );
+	}
 
 #if ENABLE_STUN_REVERSE_CONNECT
     if( sktBase->isConnected() && isFirstAnnounce && pktAnn->getIsPktAnnRevConnectRequested() )

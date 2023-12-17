@@ -207,6 +207,8 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
         unlockOnlineIdList();
         becameOnline = true;
     }
+    
+    addOnlineConnectionPair( sktConnectId, onlineId );
 
     ConnectId connectId( sktConnectId, groupieId );
 
@@ -366,6 +368,17 @@ void ConnectIdListMgr::removeConnectionReason( VxGUID& sktConnectId, EConnectRea
 }
 
 //============================================================================
+bool ConnectIdListMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
+{
+    if( sktBase->isTempConnection() )
+    {
+        return false;
+    }
+
+    return onConnectionLost( sktBase->getSocketId() );
+}
+
+//============================================================================
 bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
 {
     if( !sktConnectId.isVxGUIDValid() )
@@ -377,6 +390,12 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
     if( isConnectIdExcluded( sktConnectId ) )
     {
         setExcludeConnectId( sktConnectId, false );
+        return false;
+    }
+
+    if( !m_OnlineIdListList.size() && !m_ConnectIdList.size() && !m_RelayedIdList.size() && !m_OnlineConnectionPairs.size() )
+    {
+        // nothing to remove
         return false;
     }
 
@@ -1296,6 +1315,8 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
                 onlineIdList.insert( iter->second );
             }
             
+            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPairs removed skt id %d user %s ",
+                   sktConnectId.toHexString().c_str(), m_Engine.describeUser( iter->second ).c_str() );
             iter = m_OnlineConnectionPairs.erase( iter );
         }
         else
@@ -1324,6 +1345,30 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
 }
 
 //============================================================================
+void ConnectIdListMgr::addOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId )
+{
+    bool wasFound{ false };
+    lockOnlineIdList();
+    for( auto& connectionPair : m_OnlineConnectionPairs )
+    {
+        if( connectionPair.first == sktConnectId && connectionPair.second == onlineId )
+        {
+            wasFound = true;
+            break;
+        }
+    }
+
+    if( !wasFound )
+    {
+        LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::addOnlineConnectionPair added skt id %d user %s ",
+                   sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
+        m_OnlineConnectionPairs.emplace_back( std::make_pair( sktConnectId, onlineId ) );
+    }
+
+    unlockOnlineIdList();
+}
+
+//============================================================================
 void ConnectIdListMgr::removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId )
 {
     lockOnlineIdList();
@@ -1332,6 +1377,8 @@ void ConnectIdListMgr::removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID&
     {
         if( iter->first == sktConnectId && iter->second == onlineId )
         {
+            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPair removed skt id %d user %s ",
+                   sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
             iter = m_OnlineConnectionPairs.erase( iter );
         }
         else

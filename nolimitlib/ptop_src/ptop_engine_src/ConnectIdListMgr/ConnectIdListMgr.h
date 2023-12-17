@@ -75,6 +75,7 @@ public:
 
     void                        disconnectIfIsOnlyUser( GroupieId& groupieId );
 
+    virtual bool                onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
     virtual bool                onConnectionLost( VxGUID& sktConnectId ); ///< returns false if invalid or is excluded connection
     virtual void                onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool relayed );
     void                        onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
@@ -95,8 +96,9 @@ protected:
     void                        announceConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason );
     void                        announceConnectionLost( VxGUID& sktConnectId );
 
-    void                        removeOnlineConnectionPairs( VxGUID& sktConnectId, std::set<VxGUID>& lostConnUserList );
+    void                        addOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId );
     void                        removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId );
+    void                        removeOnlineConnectionPairs( VxGUID& sktConnectId, std::set<VxGUID>& lostConnUserList );
 
     void						lockClientList( void )          { m_ClientCallbackMutex.lock(); }
     void						unlockClientList( void )        { m_ClientCallbackMutex.unlock(); }

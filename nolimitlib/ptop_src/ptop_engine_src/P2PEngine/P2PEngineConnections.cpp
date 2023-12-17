@@ -49,19 +49,19 @@ void P2PEngine::onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase )
 
 //============================================================================
 //! socket became disconnected
-void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )								
+void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
-	if( !getConnectIdListMgr().onConnectionLost( sktBase->getSocketId() ) )
-	{
-		return;
-	}
+	bool possibleMemberConnection = getConnectIdListMgr().onConnectionLost( sktBase );
 
-	getHostJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
-	getUserOnlineMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
-	getUserJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
-#if ENABLE_COMPONENT_NEARBY
-	getNetworkMgr().getNearbyMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
-#endif // ENABLE_COMPONENT_NEARBY
+	if( possibleMemberConnection )
+	{
+		getHostJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
+		getUserOnlineMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
+		getUserJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
+	#if ENABLE_COMPONENT_NEARBY
+		getNetworkMgr().getNearbyMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
+	#endif // ENABLE_COMPONENT_NEARBY
+	}
 	
 	m_RcScan.onConnectionLost( sktBase );
 	m_ConnectionList.onConnectionLost( sktBase );
