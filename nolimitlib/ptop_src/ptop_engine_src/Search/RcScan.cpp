@@ -84,8 +84,7 @@ void RcScan::onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBas
 {
 	if( m_bIsScanning 
 		&& m_IdentsSentSearchPktList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
-	{
-		m_Engine.txImAlivePkt( netIdent->getMyOnlineId(), sktBase );		
+	{		
 		m_Engine.txSystemPkt( netIdent->getMyOnlineId(), sktBase, &m_SearchPkt );
 	}
 }

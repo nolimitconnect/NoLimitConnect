@@ -100,22 +100,24 @@ void RcScanAction::onOncePer30Seconds( void )
 void RcScanAction::onOncePerMinute( void )
 {
 	// keep connections alive even if not friends
+                /*
     std::vector<RcScanMatchedConnection>::iterator iter;
 	m_SearchActionMutex.lock();
 	for( iter = m_MatchedConnectionsList.begin(); iter != m_MatchedConnectionsList.end(); ++iter )
 	{
 		RcScanMatchedConnection& matchedConn =  (*iter);
 		if( false == matchedConn.getIsActionCompleted() )
-		{
+        {
 			if( false == m_Engine.txImAlivePkt( matchedConn.m_Ident->getMyOnlineId(), matchedConn.m_Skt ) )
 			{
-				// just mark as completed so dont try again
+                // just mark as completed so dont try again
 				matchedConn.setIsActionCompleted( true );
 			}
 		}
 	}
 
 	m_SearchActionMutex.unlock();
+            */
 }
 
 //============================================================================
