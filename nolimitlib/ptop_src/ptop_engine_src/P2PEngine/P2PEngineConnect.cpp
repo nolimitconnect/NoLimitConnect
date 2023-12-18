@@ -126,13 +126,6 @@ bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 }
 
 //============================================================================
-bool P2PEngine::txImAlivePkt(	VxGUID&				destOnlineId, 
-								std::shared_ptr<VxSktBase>&			sktBase )
-{
-	return txSystemPkt( destOnlineId, sktBase, &m_PktImAliveReq, false );
-}
-
-//============================================================================
 void P2PEngine::broadcastSystemPkt( VxPktHdr* pkt, bool onlyIncludeMyContacts )
 {
 	m_ConnectionList.broadcastSystemPkt( pkt, onlyIncludeMyContacts );

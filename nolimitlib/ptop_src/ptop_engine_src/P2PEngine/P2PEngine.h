@@ -476,9 +476,6 @@ public:
 												VxPktHdr*			        poPkt, 
 												bool				        bDisconnectAfterSend = false );
 
-	virtual bool				txImAlivePkt(	VxGUID&				        destOnlineId, 
-												std::shared_ptr<VxSktBase>&	sktBase );
-
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
 	bool						connectToContact(	VxConnectInfo&		        connectInfo, 

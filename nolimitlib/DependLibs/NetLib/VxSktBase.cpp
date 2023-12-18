@@ -1696,6 +1696,12 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 		return;
 	}
 
+	if( isTempConnection() )
+	{
+		// do not send alive so connection will timeout if for some reason it never closed
+		return;
+	}
+
 	int64_t timeNow( GetGmtTimeMs() );
 	int64_t timeAliveRx( getLastImAliveTimeRxMs() );
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
