@@ -433,26 +433,31 @@ bool GuiConnectIdListMgr::isDirectConnect( VxGUID& onlineId )
 bool GuiConnectIdListMgr::isRelayed( VxGUID& onlineId )
 {
     bool isRelayed{ false };
+    bool isDirectConnected{ false };
     if( onlineId.isVxGUIDValid() )
     {
-        for( auto &connectIdIn : m_RelayedIdList )
+        for( auto &connectIdIn : m_ConnectIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdIn);
-            if( connectId.getUserOnlineId() == onlineId )
+            if( connectId.getUserOnlineId() == onlineId && eHostTypePeerUserDirect == connectId.getHostType() )
             {
-                isRelayed = true;
+                isDirectConnected = true;
                 break;
             }
         }
 
-        //if( isRelayed )
-        //{
-        //    LogMsg( LOG_VERBOSE, "IS relayed %s", m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
-        //}
-        //else
-        //{
-        //    LogMsg( LOG_VERBOSE, "Is NOT relayed %s", m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
-        //}
+        if( !isDirectConnected )
+        {
+            for( auto &connectIdIn : m_RelayedIdList )
+            {
+                ConnectId& connectId = const_cast<ConnectId&>(connectIdIn);
+                if( connectId.getUserOnlineId() == onlineId )
+                {
+                    isRelayed = true;
+                    break;
+                }
+            }
+        }
     }
 
     return isRelayed;
