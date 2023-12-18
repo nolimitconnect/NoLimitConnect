@@ -1360,7 +1360,7 @@ void ConnectIdListMgr::addOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& on
 
     if( !wasFound )
     {
-        LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::addOnlineConnectionPair added skt id %d user %s ",
+        LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::addOnlineConnectionPair added skt id %s user %s ",
                    sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
         m_OnlineConnectionPairs.emplace_back( std::make_pair( sktConnectId, onlineId ) );
     }
@@ -1377,7 +1377,7 @@ void ConnectIdListMgr::removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID&
     {
         if( iter->first == sktConnectId && iter->second == onlineId )
         {
-            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPair removed skt id %d user %s ",
+            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPair removed skt id %s user %s ",
                    sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
             iter = m_OnlineConnectionPairs.erase( iter );
         }
