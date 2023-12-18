@@ -468,7 +468,16 @@ void AppletJoinBase::callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUser
 	}
 
 	GuiHosted* guiHosted = ui.m_GuiHostedListWidget->findGuiHostedByHostId( groupieId.getHostedId() );
-	onJoinedHost( groupieId, guiHosted );
+	if( guiHosted )
+	{
+		onJoinedHost( groupieId, guiHosted );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletJoinBase::callbackGuiUserJoinIsGranted null guiHosted for %s", m_MyApp.describeGroupieId( groupieId ).c_str() );
+		vx_assert( false );
+		return;
+	}
 }
 
 //============================================================================
@@ -519,6 +528,13 @@ void AppletJoinBase::onJoinedHost( GroupieId& groupieId, GuiHosted* guiHosted )
 {
 	if( !m_UserListMode )
 	{
+		if( !guiHosted )
+		{
+			LogMsg( LOG_ERROR, "AppletJoinBase::onJoinedHost null guiHosted" );
+			vx_assert( false );
+			return;
+		}
+
 		m_AdminGroupieId = groupieId;
 		// find and fill in the host admin
 		LogModule( eLogUserEvent, LOG_VERBOSE, "AppletJoinBase::onJoinedHost Admin title %s groupie %s",
