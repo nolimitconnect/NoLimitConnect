@@ -203,17 +203,21 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 		}
 		else
 		{
-			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( !isRelayed );
+			ENotifyType notifyType = isOnline ? eNotifyOnline : eNotifyOffline;
 			EThemeColorRole onlineIndicatorColor{ eLayerNotifyOfflineColor };
 			if( isOnline )
 			{
 				onlineIndicatorColor = isRelayed ? eLayerNotifyRelayedColor : eLayerNotifyOnlineColor;
+				if( isRelayed )
+				{
+					notifyType = eNotifyRelayed;
+				}		
 			}
 
-			getIdentFriendshipButton()->setNotifyType( isRelayed ? eNotifyRelayed : eNotifyOnline );
+			getIdentFriendshipButton()->setNotifyType( notifyType );
 
-			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( isNearby || isOnline );
-			if( isNearby || isOnline )
+			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( isNearby || ( notifyType == eNotifyOnline ) );
+			if( isNearby || ( notifyType == eNotifyOnline ) )
 			{
 				getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( onlineIndicatorColor ) );
 			}
