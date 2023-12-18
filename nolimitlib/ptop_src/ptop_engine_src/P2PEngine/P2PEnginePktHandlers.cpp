@@ -805,7 +805,9 @@ void P2PEngine::onPktPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* p
 //============================================================================
 void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReq skt id %s peer %s",
+				sktBase->getSocketId().toHexString().c_str(),
+				sktBase->describePeerUser().c_str() );
 
 	sktBase->setLastImAliveTimeTxMs(  GetGmtTimeMs() );
 	PktImAliveReply pktImAliveReply;
@@ -818,9 +820,11 @@ void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* 
 //============================================================================
 void P2PEngine::onPktImAliveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReply" );
+	LogMsg( LOG_VERBOSE, "P2PEngine::onPktImAliveReply skt id %s peer %s",
+				sktBase->getSocketId().toHexString().c_str(),
+				sktBase->describePeerUser().c_str() );
 
-	sktBase->setLastImAliveTimeRxMs(  GetGmtTimeMs() );
+	sktBase->setLastImAliveTimeRxMs( GetGmtTimeMs() );
 }
 
 //============================================================================

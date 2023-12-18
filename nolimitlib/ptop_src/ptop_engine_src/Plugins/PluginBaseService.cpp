@@ -54,41 +54,36 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {
+                    VxGUID peerOnlineId = sktBase->getPeerOnlineId();
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
                     {
                         LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does NOT match user id %s for pkt %s",
-                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str(),
+                                sktBase->getPeerOnlineName().c_str(), peerOnlineId.toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str(),
                                 pktHdr->describePktHdr().c_str() );
-                    }
-                    else
-                    {
-                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does match user id %s for pkt %s",
-                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str(),
-                                pktHdr->describePktHdr().c_str() );
+                        m_Engine.getPeerMgr().unlockSktList();
+                        continue;
                     }
 
-                    bool isRequester = requestorSktConnectionId == sktBase->getSocketId();
-                    if( isRequester && !includeRequester )
+                    if( peerOnlineId == requesterOnlineId )
                     {
-                        m_Engine.getPeerMgr().unlockSktList();
-                        continue;
+                        if( !includeRequester )
+                        {
+                            LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients excluding requestor %s id %s for pkt %s",
+                                    sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), 
+                                    pktHdr->describePktHdr().c_str() );
+                            m_Engine.getPeerMgr().unlockSktList();
+                            continue;
+                        }
+
+                        sentToRequestor = true;
                     }
-                    else if( !includeRequester && memberOnlineId == sktBase->getPeerOnlineId() )
-                    {
-                        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToClients ERROR peer %s id %s does match user id %s but should not",
-                                sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
-                        m_Engine.getPeerMgr().unlockSktList();
-                        continue;
-                    }
+
 
                     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
                                m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
-                    if( txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
+                    if(  txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
                     {
-                        if( isRequester )
-                        {
-                            sentToRequestor = true;
-                        }
+                        // should we log fail to send ?
                     }
                 }
 

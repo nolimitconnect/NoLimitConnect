@@ -139,6 +139,7 @@ void P2PEngine::onOncePerSecond( void )
 //============================================================================
 void P2PEngine::onOncePer30Seconds( void )
 {
+    LogMsg( LOG_VERBOSE, "P2PEngine::onOncePer30Seconds" );
     m_RcScan.onOncePer30Seconds();
     m_PeerMgr.onOncePer30Seconds( getMyOnlineId() );
 }
@@ -146,7 +147,6 @@ void P2PEngine::onOncePer30Seconds( void )
 //============================================================================
 void P2PEngine::onOncePerMinute( void )
 {
-    m_ConnectionList.broadcastSystemPkt( &m_PktImAliveReq, false );
     m_RcScan.onOncePerMinute();
 
     static bool firstMinute = true;

@@ -244,6 +244,7 @@ public:
 
     virtual bool                setPeerPktAnn( PktAnnounce& pktAnn );
     virtual PktAnnounce&        getPeerPktAnn( void )                           { return m_PeerPktAnn; }
+	std::string					describePeerUser( void )						{ return m_PeerPktAnn.describeUser(); }
 
     void                        setIsPeerPktAnnSet( bool isSet )                { m_IsPeerPktAnnSet = isSet; }  
     bool                        getIsPeerPktAnnSet( void )                      { return m_IsPeerPktAnnSet; }

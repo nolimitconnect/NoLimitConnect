@@ -1606,7 +1606,7 @@ bool VxSktBase::setPeerPktAnn( PktAnnounce &peerAnn )
 
     m_PeerAnnMutex.unlock();
 	LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::setPeerPktAnn: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
-				   getSktNumber(), getSktHandle(), getSocketId().toHexString().c_str(), getPeerPktAnn().describeUser().c_str() );
+				   getSktNumber(), getSktHandle(), getSocketId().toHexString().c_str(), describePeerUser().c_str() );
     return isSameSize;
 }
 
@@ -1701,9 +1701,9 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
 	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
 	{
-		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timout skt hande %d num %d id %s from %s %s",
+		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timeout skt hande %d num %d id %s peer %s",
 				getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str(),
-				getPeerOnlineName().c_str(), getPeerOnlineId().toOnlineIdString().c_str() );
+				describePeerUser().c_str() );
 		closeSkt( eSktCloseImAliveTimeout );
 	}
 	else if( getIsPeerPktAnnSet() )
@@ -1715,9 +1715,9 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 		RCODE rc = txPacketWithDestId( &pktImAliveReq );
 		if( rc )
 		{
-			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s from %s %s",
+			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s peer %s",
 				rc, getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str(),
-					getPeerOnlineName().c_str(), getPeerOnlineId().toOnlineIdString().c_str() );
+					describePeerUser().c_str() );
 		}
 
 		setLastImAliveTimeTxMs( timeNow );
