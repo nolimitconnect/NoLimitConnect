@@ -111,7 +111,23 @@ void P2PEngine::onOncePerSecond( void )
         LogMsg( LOG_VERBOSE, "Running Skt Rx Threads Cnt %d", VxSktBase::getRunningRxSktThreadCnt() );
     }
 
-    static int minute15CntSeconds = 60 * 15 + 3;
+    static int minute5CntSeconds = 60 * 5 + 3;
+    minute5CntSeconds--;
+    if( 0 >= minute5CntSeconds )
+    {
+        minute5CntSeconds = 60 * 5;
+        onOncePer5Minutes();
+    }
+
+    static int minute10CntSeconds = 60 * 10 + 4;
+    minute10CntSeconds--;
+    if( 0 >= minute10CntSeconds )
+    {
+        minute10CntSeconds = 60 * 10;
+        onOncePer10Minutes();
+    }
+
+    static int minute15CntSeconds = 60 * 15 + 5;
     minute15CntSeconds--;
     if( 0 >= minute15CntSeconds )
     {
@@ -119,7 +135,7 @@ void P2PEngine::onOncePerSecond( void )
         onOncePer15Minutes();
     }
 
-    static int minute30CntSeconds = 60 * 30 + 4;
+    static int minute30CntSeconds = 60 * 30 + 6;
     minute30CntSeconds--;
     if( 0 >= minute30CntSeconds )
     {
@@ -127,7 +143,7 @@ void P2PEngine::onOncePerSecond( void )
         onOncePer30Minutes();
     }
 
-    static int hourCntInSeconds = 60 * 60 + 5;
+    static int hourCntInSeconds = 60 * 60 + 7;
     hourCntInSeconds--;
     if( 0 >= hourCntInSeconds )
     {
@@ -160,9 +176,21 @@ void P2PEngine::onOncePerMinute( void )
 }
 
 //============================================================================
-void P2PEngine::onOncePer15Minutes( void )
+void P2PEngine::onOncePer5Minutes( void )
 {
     m_PluginMgr.onThreadOncePer15Minutes();
+}
+
+//============================================================================
+void P2PEngine::onOncePer10Minutes( void )
+{
+
+}
+
+//============================================================================
+void P2PEngine::onOncePer15Minutes( void )
+{
+    //m_PluginMgr.onThreadOncePer15Minutes(); // temp commented out to speed up host announcements
 }
 
 //============================================================================

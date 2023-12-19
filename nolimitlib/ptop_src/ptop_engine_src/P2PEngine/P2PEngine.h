@@ -438,6 +438,8 @@ public:
 	void						onOncePerSecond( void );
 	void						onOncePer30Seconds( void );
 	void						onOncePerMinute( void );
+    void						onOncePer5Minutes( void );
+    void						onOncePer10Minutes( void );
     void						onOncePer15Minutes( void );
     void						onOncePer30Minutes( void );
 	void						onOncePerHour( void );

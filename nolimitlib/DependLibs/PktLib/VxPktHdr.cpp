@@ -420,6 +420,8 @@ const char* VxPktHdr::describePktType( uint16_t pktType )
     case PKT_TYPE_QUERY_HOST_URL_REQ:				return "PktQueryHostUrlReq";  			// 146 ( 0x92 )		
     case PKT_TYPE_QUERY_HOST_URL_REPLY:				return "PktQueryHostUrlReply";  		// 147 ( 0x93 )	
 
+    case BASE_PKT_TYPE:                                                                                
+        return "PktType 0 Not Allowed";   
 
     default:                                                                                
         return "PktUnknown";                                                                
