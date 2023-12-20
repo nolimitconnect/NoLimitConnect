@@ -240,6 +240,7 @@ int OpusAudioEncoder::encodePcmData(	int16_t*	pcmData,
 		toEncodeOffs += opusSamplesPerFrame;
 	}
 
+#if defined(DEBUG)
 	// BRJ temp for debugging to see values in debugger
 	int16_t tempBuf[ MY_OPUS_FRAME_SAMPLE_CNT ];
 	memcpy( tempBuf, pcmData, sizeof( tempBuf ) );
@@ -253,8 +254,10 @@ int OpusAudioEncoder::encodePcmData(	int16_t*	pcmData,
 
 	if( minVal < -15000 || maxVal > 15000 )
 	{
-		LogMsg( LOG_ERROR, "OpusAudioEncoder::writePcmData min %d max %d len %d", minVal, maxVal, totalEncodedLen );
+		LogModule( eLogAudioIo, LOG_VERBOSE, "OpusAudioEncoder::writePcmData debug peak min %d max %d len %d", minVal, maxVal, totalEncodedLen );
 	}
+
+#endif // defined(DEBUG)
 
 	return totalEncodedLen;
 }

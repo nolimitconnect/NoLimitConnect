@@ -1022,6 +1022,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h">
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -2140,6 +2143,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.cpp">
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2948,6 +2954,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUserConnections.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseUser.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

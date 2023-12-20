@@ -202,6 +202,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoinSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomListLocalView.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseThumbnail.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletClientAvatarImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletClientBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletDownloads.cpp" />
@@ -607,6 +608,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -954,6 +956,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChatRoomJoinSearch.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChatRoomListLocalView.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseThumbnail.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseUser.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletDownloads.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletEditAboutMe.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletEditAvatarImage.ui" />

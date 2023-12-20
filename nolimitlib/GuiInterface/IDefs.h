@@ -856,19 +856,19 @@ enum EPluginType
 
     ePluginTypeThumbnail            = 49, // not used except in asset database for pluginType
 
-    ePluginTypeCameraService, // 50
-    ePluginTypeMJPEGReader, // 51
-    ePluginTypeMJPEGWriter, // 52
-    ePluginTypePersonalRecorder, // 53
-    ePluginTypeNetServices, // 54
-    ePluginTypeSearch,
-    ePluginTypeSndReader,
-    ePluginTypeSndWriter,
+    ePluginTypeCameraService,   // 50
+    ePluginTypeMJPEGReader,     // 51
+    ePluginTypeMJPEGWriter,     // 52
+    ePluginTypePersonalRecorder,// 53
+    ePluginTypeNetServices,     // 54
+    ePluginTypeSearch,          // 55
+    ePluginTypeSndReader,       // 56
+    ePluginTypeSndWriter,       // 57
 
-    ePluginTypeAboutMePageClient,	// about me web page plugin client
-    ePluginTypeStoryboardClient,	// storyboard web page plugin client
-    ePluginTypeFileShareClient,     // shared files client
-    ePluginTypeCamClient,           // cam server plugin client
+    ePluginTypeAboutMePageClient,	// 58 about me web page plugin client
+    ePluginTypeStoryboardClient,	// 59 storyboard web page plugin client
+    ePluginTypeFileShareClient,     // 60 shared files client
+    ePluginTypeCamClient,           // 61 cam server plugin client
 
     ePluginTypeLibraryServer,  
 
@@ -1221,6 +1221,7 @@ enum ESktCloseReason
     eSktClosePktPingRequestIsFirstPkt,
     eSktCloseNetServiceHandled,
     eSktCloseBlockedUser,
+    eSktCloseClosedByUser,
 
     eMaxSktCloseReason			// always last
 };

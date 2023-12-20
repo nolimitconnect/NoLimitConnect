@@ -96,6 +96,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletChatRoomJoinSearch.h
     CommonSrc/QtSource/AppletChatRoomListLocalView.h
     CommonSrc/QtSource/AppletChooseThumbnail.h
+    CommonSrc/QtSource/AppletChooseUser.h
     CommonSrc/QtSource/AppletClientAvatarImage.h
     CommonSrc/QtSource/AppletClientBase.h
     CommonSrc/QtSource/AppletRandomConnectClient.h
@@ -482,6 +483,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletChatRoomJoinSearch.cpp
     CommonSrc/QtSource/AppletChatRoomListLocalView.cpp
     CommonSrc/QtSource/AppletChooseThumbnail.cpp
+    CommonSrc/QtSource/AppletChooseUser.cpp
     CommonSrc/QtSource/AppletClientAvatarImage.cpp
     CommonSrc/QtSource/AppletClientBase.cpp
     CommonSrc/QtSource/AppletRandomConnectClient.cpp
@@ -822,6 +824,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletChatRoomJoinSearch.ui
     CommonSrc/Forms/AppletChatRoomListLocalView.ui
     CommonSrc/Forms/AppletChooseThumbnail.ui
+    CommonSrc/Forms/AppletChooseUser.ui
     CommonSrc/Forms/AppletDownloads.ui
     CommonSrc/Forms/AppletEditAboutMe.ui
     CommonSrc/Forms/AppletEditAvatarImage.ui

@@ -43,9 +43,6 @@ enum EAppState
 #define USE_PLUGIN_FILE_SERVER		1
 #define USE_PLUGIN_STORY_BOARD		1
 
-//! describe plugin local name
-const char* DescribePluginLclName( EPluginType pluginType );
-
 // permission bits
 // 0000		disabled or ignore
 // 0001		anonymous or anyone
@@ -131,6 +128,8 @@ public:
 	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState );
 
 	std::string					describeUser( void );
+
+	bool						userIsHosting( enum EHostType hostType );
 
 private:
 

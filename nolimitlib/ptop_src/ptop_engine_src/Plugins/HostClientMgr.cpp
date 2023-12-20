@@ -55,7 +55,11 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 
         if( ePluginAccessOk == hostReply->getAccessState() )
         {
-            m_Engine.getBigListMgr().updateMemberFriendship( groupieId.getUserOnlineId() );
+            if( groupieId.getUserOnlineId() != m_Engine.getMyOnlineId() )
+            {
+                m_Engine.getBigListMgr().updateMemberFriendship( groupieId.getUserOnlineId() );
+            }
+
             m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
             BaseSessionInfo sessionInfo( hostUserSessionId );
             onUserJoinHostGranted( groupieId, sktBase, netIdent, sessionInfo );

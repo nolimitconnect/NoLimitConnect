@@ -148,6 +148,8 @@ enum EApplet
     eAppletCamClient,
 
     eAppletChooseThumbnail,
+    eAppletChooseUser,
+
     eAppletGalleryEmoticon,
     eAppletGalleryImage,
     eAppletGalleryThumb,

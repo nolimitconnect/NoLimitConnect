@@ -367,6 +367,12 @@ void INlc::fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId )
 }
 
 //============================================================================
+void INlc::fromGuiDisconnectFromUser( VxGUID& onlineId )
+{
+     getPtoP().fromGuiDisconnectFromUser( onlineId );
+}
+
+//============================================================================
 void INlc::fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType )
 {
     getPtoP().fromGuiRunUrlAction( sessionId, myUrl, ptopUrl, testType );

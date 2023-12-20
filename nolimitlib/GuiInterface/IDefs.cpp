@@ -459,6 +459,7 @@ namespace
         "Plugin Library Server ",
     };
 
+
     const char* PortOpenStatusEnumStrings[] =
     { 
         "Port Open: Status Unknown",
@@ -609,6 +610,7 @@ namespace
         "Skt Close Pkt Ping Is First Packet ",
         "Skt Close Net Service Handled ",
         "Skt Close Blocked User ",
+        "Skt Closed By User ",
 
         "eMaxSktCloseReason "
     };

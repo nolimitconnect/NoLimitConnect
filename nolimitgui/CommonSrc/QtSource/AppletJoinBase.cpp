@@ -270,11 +270,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
         }
         else
         {
-            QString warnJoinTitle = QObject::tr( "Cannot join our host as user" );
-            QString warnJoinBody = QObject::tr( "Cannot join our host as user.\n You can join host from host admin page instead." );
-
-            QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
-            warnStorage.exec();
+			m_MyApp.getAppletMgr().launchApplet( eAppletHostChatRoomAdmin, getParentPageFrame() );
         }
     }
     else
@@ -312,6 +308,21 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
             if( joinState == eJoinStateJoinIsGranted )
             {
                 m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+				GuiUser* hostUser = hostSession->getGuiUser();
+				if( hostUser->getMyFriendshipToHim() <= eFriendStateGuest )
+				{
+
+					QString choiceDisconnectTitle = QObject::tr( "Do you also want to disconnect from user?" );
+					QString choiceDisconnectBody = QObject::tr( "Do you also want to disconnect from user " );
+					choiceDisconnectBody += hostUser->getOnlineName().c_str();
+					choiceDisconnectBody += QObject::tr( "?" );
+
+					QMessageBox::StandardButton retBtn = QMessageBox::question( this, choiceDisconnectTitle, choiceDisconnectBody, QMessageBox::Yes | QMessageBox::No );
+					if( QMessageBox::Yes == retBtn )
+					{
+						m_MyApp.getFromGuiInterface().fromGuiDisconnectFromUser( hostUser->getMyOnlineId() );
+					}
+				}
             }
             else
             {
@@ -320,11 +331,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
         }
         else
         {
-            QString warnJoinTitle = QObject::tr( "Cannot join our host as user" );
-            QString warnJoinBody = QObject::tr( "Cannot join our host as user.\n You can join host from host admin page instead." );
-
-            QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
-            warnStorage.exec();
+            m_MyApp.getAppletMgr().launchApplet( eAppletHostChatRoomAdmin, getParentPageFrame() );
         }
     }
     else

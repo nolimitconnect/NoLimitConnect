@@ -219,7 +219,7 @@ void GuiHostedListItem::setJoinedState( EJoinState joinState )
     case eJoinStateJoinIsGranted:
         showConnectButton( true );
         ui.m_ConnectButton->setIcon( eMyIconDisconnect );
-        ui.m_ConnectLabel->setText( QObject::tr( "Disconnect" ) );
+        ui.m_ConnectLabel->setText( QObject::tr( "Leave Host" ) );
         ui.m_JoinButton->setIcon( eMyIconPersonAdd );
         ui.m_ConnectButton->setEnabled( true );
         showKickButton( true );

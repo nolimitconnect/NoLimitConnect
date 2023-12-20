@@ -536,86 +536,25 @@ std::string VxNetIdent::describeUser( void )
 }
 
 //============================================================================
-//! describe plugin local name
-const char* DescribePluginLclName( EPluginType pluginType )
+bool VxNetIdent::userIsHosting( enum EHostType hostType )
 {
-	switch( pluginType )
+	switch( hostType )
 	{
-    case ePluginTypeInvalid:
-        return "Invalid Plugin";
-    case ePluginTypeAboutMePageServer:
-        return "About Me Web Page Server";
-	case ePluginTypeAboutMePageClient:
-		return "About Me Web Page Viewer";
-    case ePluginTypeClientPeerUser:
-        return "Client User Avatar Image";
-    case ePluginTypeHostPeerUser:
-        return "Host User Avatar Image";
-    case ePluginTypeCamServer:	// web cam broadcast plugin
-        return "Shared Video Broadcast";
-    case ePluginTypeFileShareServer:
-        return "Shared Files";
-    case ePluginTypePersonFileXfer:	// file transfer plugin
-        return "Offer A File";
-    case ePluginTypeMessenger:
-        return "Chat Session";
-    case ePluginTypeStoryboardServer:	// User Web Page Storyboard
-        return "Story Board Server";
-	case ePluginTypeStoryboardClient:	// User Web Page Storyboard
-		return "Story Board Viewer";
-    case ePluginTypeTruthOrDare:	// Web Cam Truth Or Dare game p2p plugin
-        return "Truth Or Dare Video Chat";
-    case ePluginTypeVideoPhone:	// Video phone p2p plugin
-        return "Video Phone";
-    case ePluginTypeVoicePhone:
-        return "VOIP Voice Phone";
-	case ePluginTypePushToTalk:
-		return "Push To Talk Walkie Talkie ";
-    case ePluginTypeClientChatRoom:
-        return "Chat Room Client";
-    case ePluginTypeHostChatRoom:
-        return "Chat Room Host Service";
-    case ePluginTypeHostConnectTest:
-        return "Connection Test Service";
-    case ePluginTypeClientConnectTest:
-        return "Connection Test Client";
-    case ePluginTypeHostGroup:
-        return "Group Host Service";
-    case ePluginTypeClientGroup:
-        return "Group Client";
-    case ePluginTypeHostNetwork:
-        return "Network Host Sevice";
-    case ePluginTypeNetworkSearchList:
-        return "Search Listing Service";
-    case ePluginTypeHostRandomConnect:
-        return "Random Connect Service";
-    case ePluginTypeClientRandomConnect:
-        return "Random Connect Client";
+	case eHostTypeConnectTest:
+		return getHisAccessPermissionFromMe( ePluginTypeHostConnectTest ) != ePluginAccessDisabled;
+	case eHostTypeNetwork:
+		return getHisAccessPermissionFromMe( ePluginTypeHostNetwork ) != ePluginAccessDisabled;
+    case eHostTypeGroup:
+		return getHisAccessPermissionFromMe( ePluginTypeHostGroup ) != ePluginAccessDisabled;
+    case eHostTypeChatRoom:
+		return getHisAccessPermissionFromMe( ePluginTypeHostChatRoom ) != ePluginAccessDisabled;
+    case eHostTypeRandomConnect:
+		return getHisAccessPermissionFromMe( ePluginTypeHostRandomConnect ) != ePluginAccessDisabled;
 
-    case ePluginTypeCameraService:
-        return "Camera Feed Service";
-    case ePluginTypeMJPEGReader:
-        return "MJPEG Reader";
-    case ePluginTypeMJPEGWriter:
-        return "MJPEG Writer";
-    case ePluginTypePersonalRecorder:
-        return "Personal Recorder";
-    case ePluginTypeNetServices:
-        return "Net Service";
-    case ePluginTypeSearch:
-        return "Search Service";
-    case ePluginTypeSndReader:
-        return "Audio Playback";
-    case ePluginTypeSndWriter:
-        return "Audio Recorder";
-
-	case ePluginTypeFileShareClient:
-		return "Download Shared Files";
-
-	default:		
-		return "Unknown Plugin";
+	default:
+		return false;
 	}
-};
+}
 
 //============================================================================
 RCODE VxReportHack(	EHackerLevel hackerLevel, EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* pDescription, ... )	

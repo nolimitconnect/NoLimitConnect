@@ -1375,6 +1375,12 @@ void P2PEngine::fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId 
 }
 
 //============================================================================
+void P2PEngine::fromGuiDisconnectFromUser( VxGUID& onlineId )
+{
+	getConnectIdListMgr().fromGuiDisconnectFromUser( onlineId );
+}
+
+//============================================================================
 void P2PEngine::fromGuiRunIsPortOpenTest( uint16_t port )
 {
     m_IsPortOpenTest.fromGuiRunIsPortOpenTest( port );

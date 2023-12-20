@@ -67,6 +67,8 @@
 #define OBJNAME_APPLET_CHAT_ROOM_LIST_LOCAL_VIEW		"AppletChatRoomListLocalView"
 
 #define OBJNAME_APPLET_CHOOSE_THUMBNAIL					"AppletChooseThumbnail"
+#define OBJNAME_APPLET_CHOOSE_USER						"AppletChooseUser"
+
 #define OBJNAME_APPLET_EDIT_ABOUT_ME					"AppletEditAboutMe"
 #define OBJNAME_APPLET_EDIT_AVATAR_IMAGE				"AppletEditAvatarImage"
 #define OBJNAME_APPLET_EDIT_STORYBOARD				    "AppletEditStoryboard"

@@ -51,6 +51,8 @@ public:
     void                        userJoinedHost( VxGUID& sktConnectId, GroupieId& groupieId );
     void                        userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId );
 
+    void                        fromGuiDisconnectFromUser( VxGUID& onlineId );
+
     bool                        getConnections( HostedId& hostId, std::set<ConnectId>& retConnectIdSet, std::set<ConnectId>& relayConnectIdSet );
 
     std::shared_ptr<VxSktBase>  findHostConnection( GroupieId& groupieId, bool tryPeerFirst = false );

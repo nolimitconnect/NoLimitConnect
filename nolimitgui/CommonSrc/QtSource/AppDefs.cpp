@@ -43,19 +43,17 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eActivityAppSetup:                 return eMyIconApp;
     case eAppletAboutNoLimitConnect:	    return eMyIconApp;
     case eAppletApplicationInfo:	        return eMyIconUnknown;
+    case eAppletAvatarImageClient:          return eMyIconAvatarImage;
     case eAppletBrowseFiles:	            return eMyIconFileOpen;
-    case eAppletPlayerCamClip:	            return eMyIconVideo;
-    case eAppletPlayerPhoto:	            return eMyIconPhoto;
-    case eAppletPlayerVideo:			    return eMyIconVideo;
-    case eAppletPlayerNlc:			        return eMyIconPlayerNlc;
-
+        
+    case eAppletChatRoomClient:             return eMyIconChatRoomClient;
     case eAppletChatRoomJoinSearch:	        return eMyIconSearchJoinChatRoom;
     case eAppletChatRoomJoin:	            return eMyIconChatRoomClient;
     case eAppletChatRoomListLocalView:	    return eMyIconEyeAnnouncedChatRooms;
-    case eAppletAvatarImageClient:          return eMyIconAvatarImage;
-    case eAppletChatRoomClient:             return eMyIconChatRoomClient;
-    case eAppletRandomConnectClient:	    return eMyIconSearchRandomConnect;
+    case eAppletChooseUser:	                return eMyIconSearchPerson;
+
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
+
     case eAppletFriendListClient:	        return eMyIconFriendJoined;
     case eAppletGetStarted:                 return eMyIconInformation;
 
@@ -73,26 +71,39 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletHostGroupStatus:	        return eMyIconGroupInfo;
     case eAppletHostNetworkStatus:	        return eMyIconNetworkInfo;
     case eAppletHostRandomConnectStatus:	return eMyIconRandomConnectInfo;
+
     case eAppletIgnoredHosts:	            return eMyIconIgnored;
     case eAppletInviteAccept:	            return eMyIconInviteAccept;
     case eAppletInviteCreate:	            return eMyIconInviteCreate;
 
     case eAppletLibrary:				    return eMyIconLibraryNormal;
     case eAppletLog:	                    return eMyIconDebug;
+    case eAppletLogSettings:                return eMyIconDebug;
+    case eAppletLogView:                    return eMyIconDebug;
+
     case eAppletMessengerFrame:				return eMyIconMessenger;
     case eAppletMultiMessenger:				return eMyIconMessenger;
+
 #if ENABLE_COMPONENT_NEARBY
     case eAppletNearbyListClient:	        return eMyIconFriendBroadcast;
 #endif // ENABLE_COMPONENT_NEARBY
     case eAppletNetHostingPage:             return eMyIconServiceHostNetwork;
     case eAppletNetworkSettings:	        return eMyIconNetworkSettings;
+
     case eAppletPersonalRecorder:		    return eMyIconNotepadNormal;
+    case eAppletPlayerCamClip:	            return eMyIconVideo;
+    case eAppletPlayerPhoto:	            return eMyIconPhoto;
+    case eAppletPlayerVideo:			    return eMyIconVideo;
+    case eAppletPlayerNlc:			        return eMyIconPlayerNlc;
+
+    case eAppletRandomConnectClient:	    return eMyIconSearchRandomConnect;
     case eAppletRandomConnectJoin:	        return eMyIconRandomConnectClient;
+    case eAppletRandomConnectJoinSearch:    return eMyIconSearchJoinRandomConnect;
     case eAppletRandomConnectListLocalView:	return eMyIconEyeAnnouncedRandomConnect;
+
     case eAppletSettingsPage:		        return eMyIconSettingsGear;
    
     case eAppletSearchPage:	                return eMyIconSearch;
-    case eAppletRandomConnectJoinSearch:    return eMyIconSearchJoinRandomConnect;
     case eAppletSearchPersons:	            return eMyIconSearchPerson;
     case eAppletSearchMood:	                return eMyIconSearchHeart;
     case eAppletScanAboutMe:	            return eMyIconSearchImage;
@@ -106,13 +117,9 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletTheme:					    return eMyIconTheme;
 
-	case ePluginAppletCamProvider:		    return eMyIconCamStreamProvider;
-	case ePluginAppletNlcStation:		    return eMyIconNlcStation;
-	case ePluginAppletNlcNetworkHost:	    return eMyIconServiceHostNetwork;
     case eAppletUserIdentity:			    return eMyIconUserIdentity;
     case eAppletUserPreferences:			return eMyIconUserPreferences;
 
-    case eAppletShareServicesPage:          return eMyIconShareServices;
     case eAppletServiceAboutMe:             return eMyIconServiceShareAboutMe;
     case eAppletServiceAvatarImage:         return eMyIconServiceAvatarImage;
     case eAppletServiceShareFiles:          return eMyIconServiceShareFiles;
@@ -120,9 +127,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletServiceStoryboard:          return eMyIconServiceShareStoryboard;
 
     case eAppletServiceHostNetwork:         return eMyIconServiceHostNetwork;
-
     case eAppletServiceConnectionTest:      return eMyIconServiceConnectionTest;
-
     case eAppletServiceSettings:            return eMyIconUnknown;
 
     case eAppletSettingsAboutMe:            return eMyIconSettingsAboutMe;
@@ -145,8 +150,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletSettingsVideoPhone:         return eMyIconSettingsVideoPhone;
     case eAppletSettingsVoicePhone:         return eMyIconSettingsVoicePhone;
 
-    case eAppletLogSettings:                return eMyIconDebug;
-    case eAppletLogView:                    return eMyIconDebug;
+    case eAppletShareServicesPage:          return eMyIconShareServices;
 
     case eAppletFileOfferSelect:            return eMyIconServiceShareFiles;
     case eAppletFileShareClientView:        return eMyIconDebug;
@@ -198,6 +202,10 @@ EMyIcons GetAppletIcon( EApplet applet )
     // case eAppletRemoteControl:			return eMyIconRemoteControl;
     // case eAppletPlugins:				return eMyIconPlugins;
 
+	case ePluginAppletCamProvider:		    return eMyIconCamStreamProvider;
+	case ePluginAppletNlcStation:		    return eMyIconNlcStation;
+	case ePluginAppletNlcNetworkHost:	    return eMyIconServiceHostNetwork;
+
 	case eAppletUnknown:
 	default:
 		return eMyIconUnknown;
@@ -234,7 +242,10 @@ QString DescribeApplet( EApplet applet )
     case eAppletChatRoomJoin:               return QObject::tr( "Join Chat Room" );
     case eAppletChatRoomJoinSearch:			return QObject::tr( "Search For Chat Room To Join" );
     case eAppletChatRoomListLocalView:		return QObject::tr( "Chat Room Hosts Announced To Network" );
+
     case eAppletChooseThumbnail:		    return QObject::tr( "Choose Thumbnail" );
+    case eAppletChooseUser:		            return QObject::tr( "Choose User" );
+
     case eAppletChatRoomClient:		        return QObject::tr( "Chat Room" );
     case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );
     case eAppletAvatarImageClient:          return QObject::tr( "Get Persons Avatar Image For Contact List" );

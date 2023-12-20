@@ -1560,3 +1560,45 @@ bool ConnectIdListMgr::isConnectIdExcluded( VxGUID& sktConnectId )
 
     return isExcluded;
 }
+
+
+//============================================================================
+void ConnectIdListMgr::fromGuiDisconnectFromUser( VxGUID& userOnlineId )
+{
+	std::set<VxGUID> userSktConnectIds;
+    std::vector<VxGUID> toDisconnectIds;
+
+    lockOnlineIdList();
+    for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); ++iter )
+    {
+        if( iter->second == userOnlineId )
+        {
+            userSktConnectIds.insert( iter->first );
+        }
+    }
+
+    for( auto sktConnectId : userSktConnectIds )
+    {
+        bool inUseByOther{ false };
+        for( auto iter = m_OnlineConnectionPairs.begin(); iter != m_OnlineConnectionPairs.end(); ++iter )
+        {
+            if( iter->first == sktConnectId && iter->second != userOnlineId )
+            {
+                inUseByOther = true;
+                break;
+            }
+        }
+
+        if( !inUseByOther )
+        {
+            toDisconnectIds.emplace_back( sktConnectId );
+        }
+    }
+
+    unlockOnlineIdList();
+
+    for( auto& sktConnectId : toDisconnectIds )
+    {
+        m_Engine.getPeerMgr().closeConnection( sktConnectId, eSktCloseClosedByUser );
+    }
+}

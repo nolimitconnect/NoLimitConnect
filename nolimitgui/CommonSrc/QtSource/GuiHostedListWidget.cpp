@@ -57,7 +57,7 @@ GuiHostedListItem* GuiHostedListWidget::sessionToWidget( GuiHostedListSession* h
     connect( hostItem, SIGNAL( signalJoinButtonClicked(GuiHostedListItem*) ),		        this, SLOT( slotJoinButtonClicked(GuiHostedListItem*) ) );
     connect( hostItem, SIGNAL( signalConnectButtonClicked(GuiHostedListItem*) ),            this, SLOT( slotConnectButtonClicked(GuiHostedListItem*) ) );
     connect( hostItem, SIGNAL( signalKickButtonClicked(GuiHostedListItem*) ),               this, SLOT( slotKickButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalIgnoreButtonClicked(GuiHostedListItem*) ),           this, SLOT( slotIgnoreButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL( signalIgnoreButtonClicked(GuiHostedListItem*) ),             this, SLOT( slotIgnoreButtonClicked(GuiHostedListItem*) ) );
 
 
     hostItem->updateWidgetFromInfo();

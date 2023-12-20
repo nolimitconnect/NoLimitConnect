@@ -481,6 +481,8 @@ public:
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
     virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId );
 
+    virtual void				fromGuiDisconnectFromUser( VxGUID& onlineId );
+
     virtual void				fromGuiRunIsPortOpenTest( uint16_t port );
     virtual void				fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType );
 

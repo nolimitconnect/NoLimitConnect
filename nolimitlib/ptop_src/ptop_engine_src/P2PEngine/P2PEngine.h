@@ -267,7 +267,10 @@ public:
     virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
     virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId ) override;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
-    virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) override;
+
+    void				        fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) override;
+
+    void				        fromGuiDisconnectFromUser( VxGUID& onlineId ) override;
 
     virtual void				fromGuiRunIsPortOpenTest( uint16_t port ) override;
     virtual void				fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType ) override;

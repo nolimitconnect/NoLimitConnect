@@ -478,13 +478,13 @@ bool GuiUserJoinMgr::isUserJoinedToHost( EHostType hostType )
 	switch( hostType )
 	{
 	case eHostTypeGroup:
-        return eJoinStateJoinIsGranted == m_LastGroupJoinState;
+        return eJoinStateJoinIsGranted == m_LastGroupJoinState && m_MyApp.getUserMgr().isUserOnline( m_LastGroupJoinHostOnlineId );
 
 	case eHostTypeChatRoom:
-		return eJoinStateJoinIsGranted == m_LastChatRoomJoinState;
+		return eJoinStateJoinIsGranted == m_LastChatRoomJoinState && m_MyApp.getUserMgr().isUserOnline( m_LastChatRoomJoinHostOnlineId );
 
 	case eHostTypeRandomConnect:
-        return eJoinStateJoinIsGranted == m_LastRandomConnectJoinState;
+        return eJoinStateJoinIsGranted == m_LastRandomConnectJoinState && m_MyApp.getUserMgr().isUserOnline( m_LastRandomeConnectJoinHostOnlineId );
 
 	default:
 		return false;

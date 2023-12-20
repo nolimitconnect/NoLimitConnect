@@ -26,15 +26,16 @@
 
 #include "AppletBrowseFiles.h"
 
-#include "AppletPlayerCamClip.h"
 #include "AppletCamClient.h"
 #include "AppletCamSettings.h"
 #include "AppletChatRoomJoinSearch.h"
-#include "AppletChooseThumbnail.h"
 #include "AppletChatRoomClient.h"
 #include "AppletChatRoomJoin.h"
 #include "AppletChatRoomJoinSearch.h"
 #include "AppletChatRoomListLocalView.h"
+
+#include "AppletChooseThumbnail.h"
+#include "AppletChooseUser.h"
 
 #include "AppletDownloads.h"
 #include "AppletEditAboutMe.h"
@@ -65,11 +66,11 @@
 #include "AppletHostRandomConnectStatus.h"
 
 #include "AppletHostSelect.h"
+
 #include "AppletIgnoredHosts.h"
 #include "AppletIsPortOpenTest.h"
 #include "AppletInviteAccept.h"
 #include "AppletInviteCreate.h"
-#include "AppletHostGroupStatus.h"
 
 #include "AppletLibrary.h"
 #include "AppletLog.h"
@@ -89,6 +90,7 @@
 #include "AppletPermissionList.h"
 #include "AppletPersonalRecorder.h"
 #include "AppletPersonOfferList.h"
+#include "AppletPlayerCamClip.h"
 #include "AppletPlayerPhoto.h"
 #include "AppletPlayerVideo.h"
 #include "AppletPlayerNlc.h"
@@ -346,11 +348,14 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletAboutNoLimitConnect:        if( launchAppletAllowed( eAppletAboutNoLimitConnect ) ) appletDialog = new AppletAboutApp( m_MyApp, parent ); break;
     case eAppletApplicationInfo:            if( launchAppletAllowed( eAppletApplicationInfo ) ) appletDialog = new AppletApplicationInfo( m_MyApp, parent ); break;
     case eAppletBrowseFiles:                if( launchAppletAllowed( eAppletBrowseFiles ) ) appletDialog = new AppletBrowseFiles (m_MyApp, parent); break;
+
     case eAppletCamClient:                  if( launchAppletAllowed( eAppletCamClient ) ) appletDialog = new AppletCamClient( m_MyApp, parent ); break;
     case eAppletChatRoomJoin:               if( launchAppletAllowed( eAppletChatRoomJoin ) ) appletDialog = new AppletChatRoomJoin( m_MyApp, parent ); break;
     case eAppletChatRoomJoinSearch:         if( launchAppletAllowed( eAppletChatRoomJoinSearch ) ) appletDialog = new AppletChatRoomJoinSearch( m_MyApp, parent ); break;
     case eAppletChatRoomListLocalView:      if( launchAppletAllowed( eAppletChatRoomListLocalView ) ) appletDialog = new AppletChatRoomListLocalView( m_MyApp, parent ); break;
     case eAppletChooseThumbnail:            if( launchAppletAllowed( eAppletChooseThumbnail ) ) appletDialog = new AppletChooseThumbnail( m_MyApp, parent ); break;
+    case eAppletChooseUser:                 if( launchAppletAllowed( eAppletChooseUser ) ) appletDialog = new AppletChooseUser( m_MyApp, parent ); break;
+
     case eAppletEditAboutMe:                if( launchAppletAllowed( eAppletEditAboutMe ) ) appletDialog = new AppletEditAboutMe( m_MyApp, parent ); break;
     case eAppletEditAvatarImage:            if( launchAppletAllowed( eAppletEditAvatarImage ) ) appletDialog = new AppletEditAvatarImage( m_MyApp, parent ); break;
     case eAppletEditStoryboard:             if( launchAppletAllowed( eAppletEditStoryboard ) ) appletDialog = new AppletEditStoryboard( m_MyApp, parent ); break;

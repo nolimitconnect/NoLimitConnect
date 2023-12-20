@@ -226,6 +226,8 @@ public:
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) = 0;
 	virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) = 0;
 
+	virtual void 				fromGuiDisconnectFromUser( VxGUID& onlineId ) = 0;
+
 	/// Set file share settings
 	virtual void				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings ) = 0;
 	/// Get file share settings

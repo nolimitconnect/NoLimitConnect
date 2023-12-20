@@ -183,7 +183,7 @@ bool P2PEngine::txPluginPkt( 	EPluginType			pluginType,
         LogMsg( LOG_ERROR, "P2PEngine::txPluginPkt: Invalid Packet length %d type %d from plugin %s",
 			poPkt->getPktLength(),
 			poPkt->getPktType(),
-			DescribePluginLclName( pluginType ));
+			DescribePluginType( pluginType ));
 	}
 	return bSendSuccess;
 }
