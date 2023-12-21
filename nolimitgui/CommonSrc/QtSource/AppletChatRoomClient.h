@@ -23,6 +23,8 @@ public:
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );
 
+    void						slotViewChanged( EUserViewType viewType );
+
 protected:
     void                        showEvent( QShowEvent* ev ) override;
 

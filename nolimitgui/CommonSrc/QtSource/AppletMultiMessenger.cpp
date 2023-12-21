@@ -37,6 +37,9 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 	ui.m_SessionWidget->setAppModule( eAppModuleMessenger );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
 
+	ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup ); // just to make group members selection visible
+	ui.m_UserListWidget->setUserViewType( eUserViewTypeFriends );
+
     m_ResponseFrame			= ui.m_ResponseFrame;
     m_HangupSessionFrame	= ui.m_HangupSessionFrame;
     m_VidChatWidget			= ui.m_VidWidget;
@@ -52,10 +55,11 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 	ui.m_SessionWidget->setPluginType( ePluginTypeMessenger );
     m_TodGameLogic.setVisible( false );
 
-    connect( ui.m_SessionWidget,	    SIGNAL(signalUserInputButtonClicked()),	this,	SLOT(slotUserInputButtonClicked()) );
+    connect( ui.m_SessionWidget,	    SIGNAL(signalUserInputButtonClicked()),		this,	SLOT(slotUserInputButtonClicked()) );
 
-	connect( ui.m_UserListWidget,		SIGNAL(signalUserSelected(GuiUser*)),   this,	SLOT(slotUserSelected(GuiUser*)) );
-	connect( ui.m_UserListWidget,		SIGNAL(signalSetSessionVisible(bool)),  this,	SLOT(slotSetSessionVisible(bool)));
+	connect( ui.m_UserListWidget,		SIGNAL(signalUserSelected(GuiUser*)),		this,	SLOT(slotUserSelected(GuiUser*)) );
+	connect( ui.m_UserListWidget,		SIGNAL(signalSetSessionVisible(bool)),		this,	SLOT(slotSetSessionVisible(bool)));
+	connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
 	
     m_MyApp.activityStateChange( this, true ); 
 	m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, true );
@@ -434,4 +438,10 @@ void AppletMultiMessenger::onSelectedUserChanged( GuiUser* guiUser )
 void AppletMultiMessenger::userJoinedHost( GuiHosted* guiHosted )
 {
 
+}
+
+//============================================================================
+void AppletMultiMessenger::slotViewChanged( EUserViewType viewType )
+{
+	//setSelectedUser( nullptr );
 }

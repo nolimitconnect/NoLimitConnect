@@ -29,8 +29,11 @@ AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
     ui.m_SessionWidget->setAppModule( eAppModuleChatRoomClient );
     ui.m_SessionWidget->setPluginType( ePluginTypeClientGroup );
 
+    ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
+
     connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
     connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
+    connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -52,4 +55,10 @@ void AppletGroupClient::showEvent( QShowEvent* ev )
 void AppletGroupClient::slotSetSessionVisible( bool visible )
 {
     ui.m_SessionWidget->setVisible( visible );
+}
+
+//============================================================================
+void AppletGroupClient::slotViewChanged( EUserViewType viewType )
+{
+	//setSelectedUser( nullptr );
 }

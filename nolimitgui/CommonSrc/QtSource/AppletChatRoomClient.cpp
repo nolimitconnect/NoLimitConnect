@@ -33,6 +33,7 @@ AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
 
 	//connect( this,					SIGNAL(signalBackButtonClicked()),		this, SLOT(closeApplet()) );
 	connect( ui.m_UserListWidget,	SIGNAL(signalSetSessionVisible(bool)),	this, SLOT(slotSetSessionVisible(bool)) );
+	connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -54,4 +55,10 @@ void AppletChatRoomClient::showEvent( QShowEvent* ev )
 {
 	AppletClientBase::showEvent( ev );
 	ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
+}
+
+//============================================================================
+void AppletChatRoomClient::slotViewChanged( EUserViewType viewType )
+{
+	//setSelectedUser( nullptr );
 }

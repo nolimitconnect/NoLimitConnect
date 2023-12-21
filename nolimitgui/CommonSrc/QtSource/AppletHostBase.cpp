@@ -34,6 +34,24 @@ AppletHostBase::~AppletHostBase()
 void AppletHostBase::manageUsers( GuiUserMultiListWidget* userList )
 {
     m_UserMultiList = userList;
+    switch( getHostType() )
+    {
+    case eHostTypeGroup:
+        userList->setUserViewType( eUserViewTypeGroup );
+        break;
+
+    case eHostTypeChatRoom:
+        userList->setUserViewType( eUserViewTypeChatRoom );
+        break;
+
+    case eHostTypeRandomConnect:
+        userList->setUserViewType( eUserViewTypeRandomConnect );
+        break;
+
+    default:
+        userList->setUserViewType( eUserViewTypeFriends );
+    }
+
     if( m_UserMultiList && m_UserMultiList->getUserListWidget() )
     {
         manageUsers( m_UserMultiList->getUserListWidget() );

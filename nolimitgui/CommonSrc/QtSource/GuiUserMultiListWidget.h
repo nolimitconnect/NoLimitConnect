@@ -44,12 +44,14 @@ public:
 signals:
 	void						signalUserSelected( GuiUser* guiUser );
 	void						signalSetSessionVisible( bool makeVisible );
+	void						signalViewChanged( EUserViewType viewType );
 
 protected slots:
     void						slotEyeHostButtonClicked( void );
     void						slotEyeSessionButtonClicked( void );
 	void						slotEyeSearchButtonClicked( void );
 
+	void						slotEverybodyButtonClicked( void );
     void						slotFriendsButtonClicked( void );
     void						slotGroupHostButtonClicked( void );
     void						slotChatRoomHostButtonClicked( void );

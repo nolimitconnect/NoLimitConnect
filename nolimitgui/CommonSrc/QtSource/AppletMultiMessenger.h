@@ -49,6 +49,8 @@ protected slots:
 
 	void						slotUserSelected( GuiUser* guiUser );
 
+	void						slotViewChanged( EUserViewType viewType );
+
 protected:
     virtual void				showEvent( QShowEvent* ev ) override;
     virtual void				hideEvent( QHideEvent* ev ) override;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>259</width>
-    <height>568</height>
+    <width>741</width>
+    <height>701</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -99,6 +99,38 @@
           <number>2</number>
          </property>
          <item>
+          <widget class="VxPushButton" name="m_EverybodyView">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="m_EverybodyLabel">
+           <property name="text">
+            <string>Everyone</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="VxPushButton" name="m_FriendsView">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -130,7 +162,14 @@
           </widget>
          </item>
          <item>
-          <widget class="VxPushButton" name="m_GroupHosts">
+          <widget class="QLabel" name="m_FriendsLabel">
+           <property name="text">
+            <string>Friends</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxPushButton" name="m_GroupHost">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -161,7 +200,14 @@
           </widget>
          </item>
          <item>
-          <widget class="VxPushButton" name="m_ChatRoomHosts">
+          <widget class="QLabel" name="m_GroupLabel">
+           <property name="text">
+            <string>Group Members</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxPushButton" name="m_ChatRoomHost">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -192,7 +238,14 @@
           </widget>
          </item>
          <item>
-          <widget class="VxPushButton" name="m_RandomConnectHosts">
+          <widget class="QLabel" name="m_ChatRoomLabel">
+           <property name="text">
+            <string>Chat Room Members</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxPushButton" name="m_RandomConnectHost">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -223,27 +276,9 @@
           </widget>
          </item>
          <item>
-          <widget class="VxPushButton" name="m_EverybodyView">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
+          <widget class="QLabel" name="m_RandomConnectLabel">
            <property name="text">
-            <string notr="true"/>
+            <string>Random Connect Members</string>
            </property>
           </widget>
          </item>
@@ -262,25 +297,6 @@
          </item>
          <item>
           <widget class="VxPushButton" name="m_EyeSearch">
-           <property name="minimumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="text">
-            <string notr="true"/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="VxPushButton" name="m_EyeHosts">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -302,11 +318,30 @@
            <property name="text">
             <string notr="true"/>
            </property>
-           <property name="iconSize">
+          </widget>
+         </item>
+         <item>
+          <widget class="VxPushButton" name="m_EyeUsers">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
             <size>
              <width>32</width>
              <height>32</height>
             </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>

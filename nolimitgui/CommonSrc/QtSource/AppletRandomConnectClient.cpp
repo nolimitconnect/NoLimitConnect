@@ -29,8 +29,11 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
     ui.m_SessionWidget->setAppModule( eAppModuleChatRoomClient );
     ui.m_SessionWidget->setPluginType( ePluginTypeClientRandomConnect );
 
+    ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
+
     connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
     connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
+    connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -52,4 +55,10 @@ void AppletRandomConnectClient::showEvent( QShowEvent* ev )
 void AppletRandomConnectClient::slotSetSessionVisible( bool visible )
 {
     ui.m_SessionWidget->setVisible( visible );
+}
+
+//============================================================================
+void AppletRandomConnectClient::slotViewChanged( EUserViewType viewType )
+{
+	//setSelectedUser( nullptr );
 }

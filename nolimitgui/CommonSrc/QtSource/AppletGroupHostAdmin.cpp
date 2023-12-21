@@ -26,6 +26,7 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
+    ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 
     std::set<VxGUID> memberList;
     m_MyApp.getHostJoinMgr().getHostedMembers( eHostTypeChatRoom, memberList );

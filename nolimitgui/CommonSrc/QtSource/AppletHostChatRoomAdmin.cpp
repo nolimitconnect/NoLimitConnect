@@ -23,6 +23,8 @@ AppletHostChatRoomAdmin::AppletHostChatRoomAdmin( AppCommon& app, QWidget* paren
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
+    ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
+
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
     m_MyApp.activityStateChange( this, true );
