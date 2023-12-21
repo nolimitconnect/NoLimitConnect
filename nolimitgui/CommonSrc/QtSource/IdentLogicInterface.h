@@ -59,12 +59,15 @@ public:
 	virtual QLabel*				getIdentLine2( void ) = 0;
 	virtual QLabel*				getIdentLine3( void )						{ return nullptr; }
 
+	virtual void				clearIdentity( void );
+
 	virtual void				updateIdentity( GuiUser* guiUser, bool queryThumb = true );
 	virtual void				updateIdentity( GuiHostJoin* hostIdent, bool queryThumb = true );
 	virtual void				updateIdentity( VxNetIdent* netIdent, bool queryThumb = true );
 	virtual void				updateHosted( GuiHosted* guiHosted );
     virtual void				updateGroupie( GuiGroupie* guiGroupie );
 	virtual void				updateOffer( GuiOfferSession* offerSession );
+
 
 	virtual GuiUser*			getGuiUser( void )							{ return m_GuiUser; }
 

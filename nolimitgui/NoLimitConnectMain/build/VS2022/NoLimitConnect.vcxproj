@@ -528,6 +528,7 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcGeometry.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcRender.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IScan.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ITimeDefs.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IToGui.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\NlcRenderFrame.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\OsInterface\AssetDirectoryList.hh" />

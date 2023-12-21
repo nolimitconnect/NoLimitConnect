@@ -26,6 +26,9 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
+    GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeGroup );
+    ui.m_UserListWidget->setHostAdminId( hostAdminId );
+
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 
     std::set<VxGUID> memberList;

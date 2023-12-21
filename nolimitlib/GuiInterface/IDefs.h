@@ -18,22 +18,6 @@
 #define AUDIO_SAMPLE_RATE       16000
 #define AUDIO_CHUNK_SIZE        1280
 
-#define SECOND_MS               1000
-#define SECONDS_2_MS            (SECOND_MS * 2)
-#define SECONDS_3_MS            (SECOND_MS * 3)
-#define SECONDS_5_MS            (SECOND_MS * 5)
-#define SECONDS_10_MS           (SECOND_MS * 10)
-#define SECONDS_30_MS           (SECOND_MS * 30)
-#define MINUTE_MS               (SECOND_MS * 60)
-#define MINUTES_15_MS           (MINUTE_MS * 15)
-#define MINUTES_30_MS           (MINUTE_MS * 30)
-#define HOUR_MS                 (MINUTE_MS * 60)
-#define HOURS_24_MS             (HOUR_MS * 24)
-#define HOURS_48_MS             (HOUR_MS * 48)
-#define WEEK_MS                 (HOURS_24_MS * 7)
-#define MONTH_MS                (WEEK_MS * 4)
-#define YEAR_MS                 (MONTH_MS * 12)
-
 #define MIN_SEARCH_TEXT_LEN             3
 #define MAX_OFFER_HISTORY_LIST_SIZE     100
 
@@ -1379,6 +1363,7 @@ const char* DescribeSktCloseReason( enum ESktCloseReason closeReason );
 const char* DescribeSktType( enum ESktType sktType );
 //! Describe user view type
 const char* DescribeUserViewType( enum EUserViewType sktType );
+
 const char* DescribeWebPageType( enum EWebPageType webPageType );
 const char* DescribeXferAction( enum EXferAction xferAction );
 
@@ -1410,16 +1395,23 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType );
 EPluginType HostPluginToClientPluginType( enum EPluginType pluginType );
 // if client plugin return its host plugin else return pluginType param
 EPluginType ClientPluginToHostPluginType( enum EPluginType pluginType );
-//! return true if is a client plugin
-bool IsClientPluginType( enum EPluginType pluginType );
-//! return true if is a host plugin
-bool IsHostPluginType( enum EPluginType pluginType );
-//! return true if is a host or client relationship plugin
-bool IsHostOrClientPluginType( enum EPluginType pluginType );
+
 //! return true if host can be announced to network or is a client of such a host
 bool IsAnnounceHostOrClientPluginType( enum EPluginType pluginType );
 //! return true if host can be announced to network or is a client of such a host
 bool IsAnnounceHostOrClientHostType( enum EHostType hostType );
+
+//! return true if is a client plugin
+bool IsClientPluginType( enum EPluginType pluginType );
+//! return true if view type is to show members of host
+bool IsHostedMembersViewType( enum EUserViewType userViewType );
+//! return true if is a host plugin
+bool IsHostPluginType( enum EPluginType pluginType );
+//! return true if is a host or client relationship plugin
+bool IsHostOrClientPluginType( enum EPluginType pluginType );
+//! return true if host can act as relay for user
+bool IsHostARelayForUsers( enum EHostType hostType ); // also used to determine if is hosted type Group, ChatRoom or RandomConnect
+
 //! return true if plugin should announce to network host
 bool PluginShouldAnnounceToNetwork( enum EPluginType pluginType );
 //! return true if host should announce to network host
@@ -1428,8 +1420,7 @@ bool HostShouldAnnounceToNetwork( enum EHostType hostType );
 //! return true if plugin can act as relay for user
 bool IsPluginARelayForUser( enum EPluginType pluginType );
 
-//! return true if host can act as relay for user
-bool IsHostARelayForUsers( enum EHostType hostType ); // also used to determine if is hosted type Group, ChatRoom or RandomConnect
+
 
 //! return true if only one user can access at a time. example ePluginTypeVideoPhone
 bool IsPluginSingleSession( EPluginType pluginType );

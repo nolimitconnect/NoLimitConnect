@@ -33,6 +33,8 @@ public:
 	void                        setUserViewType( EUserViewType viewType );
 	EUserViewType               getUserViewType( void )						{ return ui.m_UserListWidget->getUserViewType(); };
 
+	void						setHostAdminId( GroupieId adminId );
+
 	void						setSelectedUser( GuiUser* guiUser );
 
 	void						userJoinedHost( GuiHosted* guiHosted );
@@ -45,6 +47,7 @@ signals:
 	void						signalUserSelected( GuiUser* guiUser );
 	void						signalSetSessionVisible( bool makeVisible );
 	void						signalViewChanged( EUserViewType viewType );
+	void						signalHostedMembersView( GroupieId& hostAdminId );
 
 protected slots:
     void						slotEyeHostButtonClicked( void );
@@ -65,6 +68,10 @@ protected:
 
 	void						onSelectedUserChanged( GuiUser* guiUser );
 
+	void						updateSelectionByViewType( EUserViewType viewType );
+
+	void						updateUsersByViewType( EUserViewType viewType );
+
 	//=== vars ===//
 	Ui::GuiUserMultiListWidgetUi	ui;
 
@@ -72,5 +79,7 @@ protected:
     QFrame*						m_OffersFrame{ nullptr }; 
 	GuiUser*					m_SelectedUser{ nullptr };
 	bool						m_SessionVisible{ true };
+	GroupieId					m_HostAdminId;
+	EUserViewType				m_UserViewType{ eUserViewTypeNone };
 };
 

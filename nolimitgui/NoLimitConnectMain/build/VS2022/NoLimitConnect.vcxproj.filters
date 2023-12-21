@@ -2430,6 +2430,9 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h">
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ITimeDefs.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc">

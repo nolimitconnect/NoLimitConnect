@@ -395,6 +395,7 @@ void VxPushButton::setNotifyNlcFavoriteEnabled( bool enabled, EMyIcons eNotifyIc
 void VxPushButton::setIcon( EMyIcons myIcon )
 {
 	m_MyIcon = myIcon;
+    m_IconImage = QPixmap();
     if( myIcon == eMyIconCheckMark )
     {
         setIconOverrideColor( QColor( COLOR_GREEN ) );
@@ -428,6 +429,10 @@ void VxPushButton::setIconOverrideImage( QImage& iconImage )
     }
     else
     {
+        m_IconOverrideImage = iconImage;
+        m_IconOverrideImageWasSet = false;
+        m_IconOverrideImageWasDrawn = false;
+        update();
         LogMsg( LOG_ERROR, "VxPushButton::setIconOverrideImage image is null" );
     }
 }

@@ -431,7 +431,10 @@ void AppletMultiMessenger::setSelectedUser( GuiUser* guiUser )
 void AppletMultiMessenger::onSelectedUserChanged( GuiUser* guiUser )
 {
 	//ui.m_IdentWidget->updateIdentity( guiUser );
-	ui.m_SessionWidget->setIdents( m_MyApp.getUserMgr().getMyIdent(), guiUser );
+	if( guiUser )
+	{
+		ui.m_SessionWidget->setIdents( m_MyApp.getUserMgr().getMyIdent(), guiUser );
+	}
 }
 
 //============================================================================

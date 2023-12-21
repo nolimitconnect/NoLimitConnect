@@ -228,6 +228,23 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 }
 
 //============================================================================
+void IdentLogicInterface::clearIdentity( void )
+{
+	m_GuiUser = nullptr;
+	getIdentLine1()->setText( "" );
+	getIdentLine2()->setText( "" );
+	setIdentAvatarIcon( eMyIconAvatarImage );
+
+	QImage nullImage;
+	getIdentAvatarButton()->setIconOverrideImage( nullImage );
+
+	setIdentFriendshipIcon( eMyIconAnonymous );
+	getIdentFriendshipButton()->setNotifyType( eNotifyNone );
+	getIdentFriendshipButton()->setNotifyDirectConnectEnabled( false );
+
+}
+
+//============================================================================
 void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 {
 	if( guiHosted )

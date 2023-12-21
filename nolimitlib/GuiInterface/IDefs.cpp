@@ -1679,6 +1679,15 @@ bool IsClientPluginType( enum EPluginType pluginType )
 
 //============================================================================
 //! return true if is a host plugin
+bool IsHostedMembersViewType( enum EUserViewType userViewType )
+{
+    return eUserViewTypeGroup == userViewType ||
+        eUserViewTypeChatRoom == userViewType ||
+        eUserViewTypeRandomConnect == userViewType;
+}
+
+//============================================================================
+//! return true if is a host plugin
 bool IsHostPluginType( enum EPluginType pluginType )
 {
     switch( pluginType )

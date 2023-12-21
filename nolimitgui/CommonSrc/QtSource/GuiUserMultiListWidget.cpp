@@ -74,8 +74,17 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 }
 
 //============================================================================
+void GuiUserMultiListWidget::setHostAdminId( GroupieId adminId )
+{
+    m_HostAdminId = adminId;
+}
+
+//============================================================================
 void GuiUserMultiListWidget::setUserViewType( EUserViewType viewType )
 {
+    m_UserViewType = viewType;
+
+    ui.m_IdentWidget->clearIdentity();
     ui.m_EverybodyView->setNotifyType( eNotifyOffline );
     ui.m_FriendsView->setNotifyType( eNotifyOffline );
     ui.m_GroupHost->setNotifyType( eNotifyOffline );
@@ -120,6 +129,9 @@ void GuiUserMultiListWidget::setUserViewType( EUserViewType viewType )
 
     ui.m_SearchBarWidget->setSearchText( "" );
     ui.m_UserListWidget->setUserViewType( viewType );
+
+    updateSelectionByViewType( viewType );
+    updateUsersByViewType( viewType );
 
     emit signalViewChanged( viewType );
 }
@@ -233,13 +245,37 @@ void GuiUserMultiListWidget::slotSearchTextChanged( QString searchText )
 void GuiUserMultiListWidget::setSelectedUser( GuiUser* guiUser )
 {
 	m_SelectedUser = guiUser;
+
 	onSelectedUserChanged( m_SelectedUser );
 }
 
 //============================================================================
 void GuiUserMultiListWidget::onSelectedUserChanged( GuiUser* guiUser )
 {
-	ui.m_IdentWidget->updateIdentity( guiUser );
+    ui.m_SentToWhoLabel->setVisible( false );
+    ui.m_HostIconButton->setVisible( false );
+
+    ui.m_IdentWidget->setVisible( true );	
+    ui.m_IdentWidget->updateIdentity( guiUser );
+
+    if( IsHostedMembersViewType( m_UserViewType ) )
+    {
+        switch( m_UserViewType )
+        {
+        case eUserViewTypeGroup:
+            ui.m_HostIconButton->setNotifyType( eNotifyRelayed );
+            break;
+        case eUserViewTypeChatRoom:
+            ui.m_HostIconButton->setNotifyType( eNotifyRelayed );
+            break;
+        case eUserViewTypeRandomConnect:
+            ui.m_HostIconButton->setNotifyType( eNotifyRelayed );
+            break;
+        default:
+            break;
+        }
+    }
+
     emit signalUserSelected( guiUser );
 }
 
@@ -253,4 +289,43 @@ void GuiUserMultiListWidget::userJoinedHost( GuiHosted* guiHosted )
 GuiUserListWidget* GuiUserMultiListWidget::getUserListWidget( void )
 {
     return ui.m_UserListWidget;
+}
+
+//============================================================================
+void GuiUserMultiListWidget::updateSelectionByViewType( EUserViewType viewType )
+{
+    ui.m_IdentWidget->clearIdentity();
+    emit signalUserSelected( nullptr );
+    if( IsHostedMembersViewType( viewType ) )
+    {
+        ui.m_IdentWidget->setVisible( false );
+        ui.m_SentToWhoLabel->setVisible( true );
+        ui.m_HostIconButton->setVisible( true );
+        switch( viewType )
+        {
+        case eUserViewTypeGroup:
+            ui.m_HostIconButton->setIcon( eMyIconGroupClient );
+            break;
+        case eUserViewTypeChatRoom:
+            ui.m_HostIconButton->setIcon( eMyIconChatRoomClient );
+            break;
+        case eUserViewTypeRandomConnect:
+            ui.m_HostIconButton->setIcon( eMyIconRandomConnectClient );
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        ui.m_IdentWidget->setVisible( true );
+        ui.m_SentToWhoLabel->setVisible( false );
+        ui.m_HostIconButton->setVisible( false );
+    }
+}
+
+//============================================================================
+void GuiUserMultiListWidget::updateUsersByViewType( EUserViewType viewType )
+{
+    ui.m_UserListWidget->setUserViewType( viewType );
 }
