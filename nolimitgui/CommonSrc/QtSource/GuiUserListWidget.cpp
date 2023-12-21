@@ -149,6 +149,13 @@ GuiUserSessionBase* GuiUserListWidget::widgetToSession( GuiUserListItem * item )
 }
 
 //============================================================================
+void GuiUserListWidget::addUser( VxGUID& onlineId )
+{
+    GuiUser* guiUser = m_MyApp.getUserMgr().getUser(onlineId);
+    updateUser( guiUser );
+}
+
+//============================================================================
 void GuiUserListWidget::updateUser( GuiUser* guiUser )
 {
     if( guiUser )

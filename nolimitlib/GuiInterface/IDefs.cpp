@@ -777,6 +777,27 @@ bool IsConnectReasonSearch( enum EConnectReason connectReason )
 }
 
 //============================================================================
+bool IsConnectReasonTemporary( enum EConnectReason connectReason )
+{
+    bool isPerm{ true };
+    switch( connectReason )
+    {
+    case eConnectReasonConnectTest:
+    case eConnectReasonNetworkHost:
+    case eConnectReasonChatRoomAnnounce:
+    case eConnectReasonGroupAnnounce:
+    case eConnectReasonRandomConnectAnnounce:
+    case eConnectReasonRequestIdentity:
+    case eConnectReasonNetworkHostListSearch:
+        isPerm = false;
+    default:
+        break;
+    }
+
+    return !isPerm;
+}
+
+//============================================================================
 const char* DescribeConnectStatus( enum  EConnectStatus eConnectStatus )
 {
     if( eConnectStatus < 0 || eMaxConnectStatus <= eConnectStatus )

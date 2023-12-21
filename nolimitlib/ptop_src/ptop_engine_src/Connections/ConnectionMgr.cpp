@@ -445,62 +445,66 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     }
 
     LogMsg( LOG_DEBUG, "ConnectionMgr::requestConnection %s", DescribeConnectReason( connectReason ) );
-    // first see if we already have a connection to the requested onlineId
     std::shared_ptr<VxSktBase> sktBase( nullptr );
-    bool isDisconnected = false;
 
-    // see if we already have a connection for a different reason
-    bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( onlineId );
-    if( isOnline )
+    if( !IsConnectReasonTemporary( connectReason ) )
     {
-        sktBase = m_Engine.getConnectIdListMgr().findAnyHostOnlineConnection( onlineId );
-    }
+        // first see if we already have a connection to the requested onlineId
+        bool isDisconnected = false;
 
-    if( !sktBase )
-    {
-        lockConnectionList();
-        ConnectedInfo* connectInfo = m_AllList.getAnyConnectedInfo( onlineId );
-        if( connectInfo )
+        // see if we already have a connection for a different reason
+        bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( onlineId );
+        if( isOnline )
         {
-            sktBase = connectInfo->getSktBase();
-            if( sktBase )
+            sktBase = m_Engine.getConnectIdListMgr().findAnyHostOnlineConnection( onlineId );
+        }
+
+        if( !sktBase )
+        {
+            lockConnectionList();
+            ConnectedInfo* connectInfo = m_AllList.getAnyConnectedInfo( onlineId );
+            if( connectInfo )
             {
-                if( sktBase->isConnected() )
+                sktBase = connectInfo->getSktBase();
+                if( sktBase )
                 {
-                    uint64_t timeNow = GetTimeStampMs();
-                    HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow );
-                    connectInfo->addConnectReason( shakeInfo );
-                    isDisconnected = false;
-                }
-                else
-                {
-                    isDisconnected = true;
+                    if( sktBase->isConnected() )
+                    {
+                        uint64_t timeNow = GetTimeStampMs();
+                        HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow );
+                        connectInfo->addConnectReason( shakeInfo );
+                        isDisconnected = false;
+                    }
+                    else
+                    {
+                        isDisconnected = true;
+                    }
                 }
             }
+
+            unlockConnectionList();
         }
 
-        unlockConnectionList();
-    }
-
-    if( sktBase )
-    {
-        if( eConnectReasonUnknown == sktBase->getConnectReason() )
+        if( sktBase )
         {
-            // set the connect reason so is marked as temporary connection and not announced to gui
-            sktBase->setConnectReason( connectReason );
+            if( eConnectReasonUnknown == sktBase->getConnectReason() )
+            {
+                // set the connect reason so is marked as temporary connection and not announced to gui
+                sktBase->setConnectReason( connectReason );
+            }
+
+            m_Engine.getConnectIdListMgr().addConnectionReason( sktBase->getSocketId(), connectReason );
         }
 
-        m_Engine.getConnectIdListMgr().addConnectionReason( sktBase->getSocketId(), connectReason );
-    }
-
-    if( isDisconnected && sktBase )
-    {
-        onSktDisconnected( sktBase );
-        sktBase = nullptr;
-    }
-    else if( sktBase && callback )
-    {
-        callback->onContactConnected( sessionId, sktBase, onlineId, connectReason );
+        if( isDisconnected && sktBase )
+        {
+            onSktDisconnected( sktBase );
+            sktBase = nullptr;
+        }
+        else if( sktBase && callback )
+        {
+            callback->onContactConnected( sessionId, sktBase, onlineId, connectReason );
+        }
     }
 
     if( sktBase )

@@ -1663,22 +1663,7 @@ const std::string& VxSktBase::describeSktDirection( void )
 //============================================================================
 bool VxSktBase::isTempConnection( void )
 {
-	bool isPerm{ true };
-	switch( m_ConnectReason )
-    {
-    case eConnectReasonConnectTest:
-    case eConnectReasonNetworkHost:
-    case eConnectReasonChatRoomAnnounce:
-    case eConnectReasonGroupAnnounce:
-    case eConnectReasonRandomConnectAnnounce:
-    case eConnectReasonRequestIdentity:
-	case eConnectReasonNetworkHostListSearch:
-        isPerm = false;
-    default:
-		break;
-    }
-
-	return !isPerm;
+	return IsConnectReasonTemporary( m_ConnectReason );
 }
 
 //============================================================================

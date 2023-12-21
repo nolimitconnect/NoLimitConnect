@@ -44,6 +44,7 @@ public:
     GuiUserListItem*            findListEntryWidgetBySessionId( VxGUID& sessionId );
     GuiUserListItem*            findListEntryWidgetByOnlineId( VxGUID& onlineId );
 
+    void                        addUser( VxGUID& onlineId );
     void                        updateUser( GuiUser* guiUser );
     void                        removeUser( VxGUID& onlineId );
     virtual GuiUserSessionBase* makeSession( GuiUser* guiUser );

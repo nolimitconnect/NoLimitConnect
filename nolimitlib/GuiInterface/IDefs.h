@@ -1310,6 +1310,8 @@ bool         IsConnectReasonJoin( enum EConnectReason connectReason );
 bool         IsConnectReasonLeave( enum EConnectReason connectReason );
 bool         IsConnectReasonUnJoin( enum EConnectReason connectReason );
 bool         IsConnectReasonSearch( enum EConnectReason connectReason );
+bool         IsConnectReasonTemporary( enum EConnectReason connectReason );
+
 const char* DescribeConnectStatus( enum EConnectStatus connectStatus );
 const char* DescribeConnectType( enum EConnectType connectType );
 

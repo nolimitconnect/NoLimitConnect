@@ -37,7 +37,7 @@ public:
 
     bool                        isOnline( GroupieId& groupieId );
     bool                        isUserOnline( VxGUID& onlineId );
-    bool                        isUserExcluded( VxGUID& onlineId );
+    bool                        isUserExcluded( const VxGUID& onlineId );
 
     void                        setNetworkHostId( VxGUID& onlineId )    { m_NetworkHostOnlineId = onlineId; }
     VxGUID                      getNetworkHostId( void )                { return m_NetworkHostOnlineId; }

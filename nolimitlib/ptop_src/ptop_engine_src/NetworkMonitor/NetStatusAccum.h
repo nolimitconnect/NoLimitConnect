@@ -116,7 +116,7 @@ public:
     ENetAvailStatus             getNetAvailStatus( void )           { m_AccumMutex.lock(); ENetAvailStatus status = m_NetAvailStatus;  m_AccumMutex.unlock(); return status;  }
 
     void                        setNearbyAvailable( bool avail )    { m_NearbyAvailable = avail; }
-    bool                        getNearbyAvailable( void )          { return m_NearbyAvailable && (!m_LanIpAddrIpv4.empty() || !m_LanIpAddrIpv4.empty() ); }
+    bool                        getNearbyAvailable( void )          { return m_NearbyAvailable && (!m_LanIpAddrIpv4.empty() || !m_LanIpAddrIpv6.empty() ); }
 
     void                        setJoinedHost( EHostType hostType, std::string hostUrl, VxGUID& connectId );
     bool                        isConnectedToHost( EHostType hostType );

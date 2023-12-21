@@ -732,6 +732,12 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( const 
         return m_Engine.getSktLoopback();
     }
 
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
+    if( isUserExcluded( onlineId ) )
+    {
+        return sktBase;
+    }
+
     std::set<VxGUID> sktConnectIdList;
     lockList();
     for( auto& connectId : m_ConnectIdList )
@@ -755,7 +761,6 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( const 
 
     unlockList();
 
-    std::shared_ptr<VxSktBase> sktBase( nullptr );
     for( auto sktConnectId : sktConnectIdList )
     {
         sktBase = findSktBase( sktConnectId );
@@ -1444,7 +1449,7 @@ void ConnectIdListMgr::updateOnlineExclusion( VxGUID onlineId, bool excludeFromO
 }
 
 //============================================================================
-bool ConnectIdListMgr::isUserExcluded( VxGUID& onlineId )
+bool ConnectIdListMgr::isUserExcluded( const VxGUID& onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
