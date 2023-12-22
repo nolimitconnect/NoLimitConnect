@@ -965,9 +965,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupHostAdmin.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomAdmin.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomStatus.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
@@ -1023,6 +1020,12 @@
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1852,9 +1855,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostBase.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomAdmin.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomStatus.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -2144,6 +2144,12 @@
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
   </ItemGroup>

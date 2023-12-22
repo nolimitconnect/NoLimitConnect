@@ -54,11 +54,8 @@ void GuiUserListWidget::callbackMyIdentUpdated( GuiUser* guiUser )
 //============================================================================
 void GuiUserListWidget::setUserViewType( EUserViewType viewType )
 {
-    if( viewType != m_ViewType )
-    {
-        m_ViewType = viewType;
-        refreshUserList();
-    }
+    m_ViewType = viewType;
+    refreshUserList();
 }
 
 //============================================================================
@@ -158,7 +155,7 @@ void GuiUserListWidget::addUser( VxGUID& onlineId )
 //============================================================================
 void GuiUserListWidget::updateUser( GuiUser* guiUser )
 {
-    if( guiUser )
+    if( guiUser && isListViewMatch( guiUser ) )
     {       
         GuiUserSessionBase* userSession = nullptr;
         auto iter = m_UserCache.find( guiUser->getMyOnlineId() );
@@ -641,37 +638,46 @@ void GuiUserListWidget::onMenuButtonClicked( GuiUserListItem* userItem )
 //============================================================================
 bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
 {
+    EUserViewType viewType = getUserViewType();
     if( guiUser && !guiUser->isIgnored() )
     {
-        if( guiUser->isMyself() )
-        {
-            return m_MyApp.getLoopbackMyselfTestAllowed();
-        }
-        else if( eUserViewTypeEverybody == getUserViewType() )
+        if( eUserViewTypeEverybody == viewType )
         {
             return true;
         }
-        else if( eUserViewTypeFriends == getUserViewType() )
+        else if( eUserViewTypeOnline == viewType )
+        {
+            return guiUser->isOnline();
+        }
+        else if( guiUser->isMyself() )
+        {
+            return m_MyApp.getLoopbackMyselfTestAllowed();
+        }
+        else if( eUserViewTypeDirectConnect == viewType )
+        {
+            return guiUser->isOnline() && guiUser->isDirectConnect();
+        }
+        else if( eUserViewTypeFriends == viewType )
         {
             return guiUser->isFriend() || guiUser->isAdmin();
         }
-        else if( eUserViewTypeGroup == getUserViewType() )
+        else if( eUserViewTypeGroup == viewType )
         {
             return guiUser->isGroupHosted() && !guiUser->isAnonymous();
         }
-        else if( eUserViewTypeChatRoom == getUserViewType() )
+        else if( eUserViewTypeChatRoom == viewType )
         {
             return guiUser->isChatRoomHosted() && !guiUser->isAnonymous();
         }
-        else if( eUserViewTypeRandomConnect == getUserViewType() )
+        else if( eUserViewTypeRandomConnect == viewType )
         {
             return guiUser->isRandomConnectHosted() && !guiUser->isAnonymous();
         }
-        else if( eUserViewTypeNearby == getUserViewType() )
+        else if( eUserViewTypeNearby == viewType )
         {
             return guiUser->isNearby();
         }
-        else if( eUserViewTypeOffline == getUserViewType() )
+        else if( eUserViewTypeOffline == viewType )
         {
             return !guiUser->isOnline() && guiUser->isFriend() || guiUser->isAdmin();
         }
@@ -681,7 +687,7 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
             return true;
         }
     }
-    else if( guiUser && guiUser->isIgnored() && eUserViewTypeIgnored == getUserViewType() )
+    else if( guiUser && guiUser->isIgnored() && eUserViewTypeIgnored == viewType )
     {
         return true;
     }

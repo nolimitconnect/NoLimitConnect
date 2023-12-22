@@ -30,10 +30,14 @@ public:
 	GuiUserMultiListWidget( QWidget* parent = nullptr );
 	virtual ~GuiUserMultiListWidget() = default;
 
+	void						setHostViewType( EHostType hostType );
 	void                        setUserViewType( EUserViewType viewType );
 	EUserViewType               getUserViewType( void )						{ return ui.m_UserListWidget->getUserViewType(); };
 
-	void						setHostAdminId( GroupieId adminId );
+	void						setHostAdminId( GroupieId& adminId );
+    GroupieId&                  getHostAdminId( void )                      { return m_HostAdminId; };
+	bool						hasHostAdmin( void )						{ return m_HostAdminId.isValid(); };
+	void						clearHostAdmin( void )						{ m_HostAdminId.clear(); };
 
 	void						setSelectedUser( GuiUser* guiUser );
 

@@ -71,12 +71,45 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
     ui.m_ChatRoomLabel->setVisible( false );
     ui.m_RandomConnectHost->setVisible( false );
     ui.m_RandomConnectLabel->setVisible( false );
+    ui.m_AdminFrame->setVisible( false );
 }
 
 //============================================================================
-void GuiUserMultiListWidget::setHostAdminId( GroupieId adminId )
+void GuiUserMultiListWidget::setHostAdminId( GroupieId& adminId )
 {
     m_HostAdminId = adminId;
+    GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_HostAdminId.getHostOnlineId() );
+    if( guiUser )
+    {
+        ui.m_UserListWidget->setHostAdminId( adminId );
+        ui.m_AdminIdentWidget->updateIdentity( guiUser );
+        ui.m_AdminFrame->setVisible( true );
+        setHostViewType( adminId.getHostType() );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "GuiUserMultiListWidget::setHostAdminId null admin %s", m_MyApp.describeGroupieId( adminId ).c_str() );
+        ui.m_AdminFrame->setVisible( false );
+    }
+}
+
+//============================================================================
+void GuiUserMultiListWidget::setHostViewType( EHostType hostType )
+{
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        setUserViewType( eUserViewTypeGroup );
+        break;
+    case eHostTypeChatRoom:
+        setUserViewType( eUserViewTypeChatRoom );
+        break;
+    case eHostTypeRandomConnect:
+        setUserViewType( eUserViewTypeRandomConnect );
+        break;
+    default:
+        break;
+    }
 }
 
 //============================================================================
@@ -93,6 +126,7 @@ void GuiUserMultiListWidget::setUserViewType( EUserViewType viewType )
 
     switch( viewType )
     {
+    case eUserViewTypeOnline:
     case eUserViewTypeEverybody:
         ui.m_EverybodyLabel->setVisible( true );
         ui.m_EverybodyView->setVisible( true );

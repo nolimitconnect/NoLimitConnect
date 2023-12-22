@@ -66,7 +66,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletGroupListLocalView:	        return eMyIconEyeAnnouncedGroups;
 
     case eAppletHomePage:				    return eMyIconHome;
-    case eAppletHostChatRoomAdmin:	        return eMyIconChatRoomClient;
+    case eAppletChatRoomHostAdmin:	        return eMyIconChatRoomClient;
     case eAppletHostChatRoomStatus:	        return eMyIconChatRoomInfo;
     case eAppletHostGroupStatus:	        return eMyIconGroupInfo;
     case eAppletHostNetworkStatus:	        return eMyIconNetworkInfo;
@@ -97,6 +97,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletPlayerNlc:			        return eMyIconPlayerNlc;
 
     case eAppletRandomConnectClient:	    return eMyIconSearchRandomConnect;
+    case eAppletRandomConnectHostAdmin:	    return eMyIconRandomConnectClient;
     case eAppletRandomConnectJoin:	        return eMyIconRandomConnectClient;
     case eAppletRandomConnectJoinSearch:    return eMyIconSearchJoinRandomConnect;
     case eAppletRandomConnectListLocalView:	return eMyIconEyeAnnouncedRandomConnect;
@@ -265,7 +266,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletHelpNetSignalBars:			return QObject::tr( "Network Signal Bars" );
 
-    case eAppletHostChatRoomAdmin:          return QObject::tr( "Chat Room Host Admin" );
+    case eAppletChatRoomHostAdmin:          return QObject::tr( "Chat Room Host Admin" );
     case eAppletHostChatRoomStatus:         return QObject::tr( "Chat Room Host Status" );
     case eAppletHostGroupStatus:            return QObject::tr( "Group Host Status" );
     case eAppletHostNetworkStatus:          return QObject::tr( "Network Host Status" );
@@ -292,6 +293,7 @@ QString DescribeApplet( EApplet applet )
 	case eAppletPlayerVideo:			    return QObject::tr( "Movie Video Player" );
     case eAppletPersonalRecorder:		    return QObject::tr( "Personal Notes And Records" );
 
+    case eAppletRandomConnectHostAdmin:     return QObject::tr( "Random Connect Host Admin" );
     case eAppletRandomConnectJoin:          return QObject::tr( "Join Random Connect" );
     case eAppletRandomConnectJoinSearch:	return QObject::tr( "Search For Random Connect Host To Join" );
     case eAppletRandomConnectListLocalView:	return QObject::tr( "Random Connect Announced Hosts" );

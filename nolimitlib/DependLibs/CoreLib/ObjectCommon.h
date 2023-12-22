@@ -94,7 +94,7 @@
 #define OBJNAME_APPLET_HELP_NET_SIGNAL_BARS				"AppletHelpNetSignalBars"
 
 #define OBJNAME_APPLET_HOST_JOIN_REQUEST_LIST			"AppletHostJoinRequestList"
-#define OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN 			"AppletHostChatRoomAdmin"
+#define OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN 			"AppletChatRoomHostAdmin"
 #define OBJNAME_APPLET_HOST_CHAT_ROOM_STATUS			"AppletHostChatRoomStatus"
 #define OBJNAME_APPLET_HOST_GROUP_STATUS				"AppletHostGroupStatus"
 #define OBJNAME_APPLET_HOST_NETWORK_STATUS				"AppletHostNetworkStatus"
@@ -137,6 +137,7 @@
 #define OBJNAME_APPLET_POPUP_MENU						"AppletPopupMenu"
 
 #define OBJNAME_APPLET_RANDOM_CONNECT_CLIENT			"AppletRandomConnectClient"
+#define OBJNAME_APPLET_RANDOM_CONNECT_HOST_ADMIN		"AppletRandomConnectHostAdmin"
 #define OBJNAME_APPLET_RANDOM_CONNECT_JOIN			    "AppletRandomConnectJoin"
 #define OBJNAME_APPLET_RANDOM_CONNECT_JOIN_SEARCH	    "AppletRandomConnectJoinSearch"
 #define OBJNAME_APPLET_RANDOM_CONNECT_LIST_LOCAL_VIEW	"AppletRandomConnectListLocalView"

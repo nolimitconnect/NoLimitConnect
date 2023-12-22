@@ -383,39 +383,48 @@ void BottomBarWidget::slotGroupHostButtonClicked( void )
 //============================================================================
 void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 {
-	if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) &&  m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( eHostTypeChatRoom ) )
+	if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) )
 	{
-		// we are both an admin of our chat room and a member of another chat room.
-		// prompt user to choose which chat room to show
-		ActivityBase* activity = m_MyApp.getAppletMgr().launchApplet( eAppletChooseUser, getParentPageFrame() );
-		AppletChooseUser* appletChooseUser = dynamic_cast<AppletChooseUser*>(activity);
-		if( appletChooseUser )
+		if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( eHostTypeChatRoom ) )
 		{
-			appletChooseUser->setChooseUserReason( eChooseUserReasonChatRoomHost );
-			appletChooseUser->addUser( m_MyApp.getMyOnlineId() );
-			VxGUID hostOnlineId = m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom );
-			if( hostOnlineId.isVxGUIDValid() )
+			// we are both an admin of our chat room and a member of another chat room.
+			// prompt user to choose which chat room to show
+			ActivityBase* activity = m_MyApp.getAppletMgr().launchApplet( eAppletChooseUser, getParentPageFrame() );
+			AppletChooseUser* appletChooseUser = dynamic_cast<AppletChooseUser*>(activity);
+			if( appletChooseUser )
 			{
-				appletChooseUser->addUser( hostOnlineId );
+				appletChooseUser->setChooseUserReason( eChooseUserReasonChatRoomHost );
+				appletChooseUser->addUser( m_MyApp.getMyOnlineId() );
+				VxGUID hostOnlineId = m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom );
+				if( hostOnlineId.isVxGUIDValid() )
+				{
+					appletChooseUser->addUser( hostOnlineId );
+				}
+				else
+				{
+					LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked hostOnlineId invalid" );
+				}
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked hostOnlineId invalid" );
+				LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked launch eAppletChooseUser null" );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked launch eAppletChooseUser null" );
+			m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom, 
+																				 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ), 
+																				 getParentPageFrame() );
 		}
 	}
 	else
 	{
-		if( !( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) &&
-			m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom, 
-																				 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ), 
-																				 getParentPageFrame() ) ) )
+		if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( eHostTypeChatRoom ) )
 		{
-			// let user select a host to connect to
+			m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
+		}
+		else
+		{
 			m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin, getParentPageFrame() );
 		}
 	}

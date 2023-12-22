@@ -90,9 +90,11 @@ enum EApplet
     eAppletSettingsHostGroup,
     eAppletHostGroupStatus,
 
-    eAppletHostChatRoomAdmin,	       
+    eAppletChatRoomHostAdmin,	       
     eAppletSettingsHostChatRoom,
     eAppletHostChatRoomStatus,	   
+
+    eAppletRandomConnectHostAdmin,
 
     eAppletSettingsHostRandomConnect,     // connect to random person service
     eAppletHostRandomConnectStatus,

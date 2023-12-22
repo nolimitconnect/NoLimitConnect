@@ -199,6 +199,7 @@ bool AppCommon::loadLastUserAccount( void )
         // get identity out of database
         if( true == m_AccountMgr.getAccountByName( m_strAccountUserName.c_str(), *getAppGlobals().getMyNetIdent() ) )
         {
+            getUserMgr().updateMyIdent( getAppGlobals().getMyNetIdent() );
             return true;
         }
         else

@@ -93,6 +93,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletCamServerViewMine.h    
     CommonSrc/QtSource/AppletChatRoomJoin.h
     CommonSrc/QtSource/AppletChatRoomClient.h
+    CommonSrc/QtSource/AppletChatRoomHostAdmin.h
     CommonSrc/QtSource/AppletChatRoomJoinSearch.h
     CommonSrc/QtSource/AppletChatRoomListLocalView.h
     CommonSrc/QtSource/AppletChooseThumbnail.h
@@ -121,7 +122,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletHackerList.h
     CommonSrc/QtSource/AppletHelpNetSignalBars.h
     CommonSrc/QtSource/AppletHostBase.h
-    CommonSrc/QtSource/AppletHostChatRoomAdmin.h
     CommonSrc/QtSource/AppletHostChatRoomStatus.h
     CommonSrc/QtSource/AppletHostGroupStatus.h
     CommonSrc/QtSource/AppletHostRandomConnectStatus.h
@@ -164,6 +164,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletPlayerVideo.h
     CommonSrc/QtSource/AppletPlayerNlc.h
     CommonSrc/QtSource/AppletPopupMenu.h
+    CommonSrc/QtSource/AppletRandomConnectHostAdmin.h
 	CommonSrc/QtSource/AppletRandomConnectJoin.h
 	CommonSrc/QtSource/AppletRandomConnectJoinSearch.h
     CommonSrc/QtSource/AppletRandomConnectListLocalView.h
@@ -479,6 +480,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletCamSettings.cpp
     CommonSrc/QtSource/AppletCamServerViewMine.cpp
     CommonSrc/QtSource/AppletChatRoomClient.cpp
+    CommonSrc/QtSource/AppletChatRoomHostAdmin.cpp
     CommonSrc/QtSource/AppletChatRoomJoin.cpp
     CommonSrc/QtSource/AppletChatRoomJoinSearch.cpp
     CommonSrc/QtSource/AppletChatRoomListLocalView.cpp
@@ -508,7 +510,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletHackerList.cpp
     CommonSrc/QtSource/AppletHelpNetSignalBars.cpp
     CommonSrc/QtSource/AppletHostBase.cpp
-    CommonSrc/QtSource/AppletHostChatRoomAdmin.cpp
     CommonSrc/QtSource/AppletHostChatRoomStatus.cpp
     CommonSrc/QtSource/AppletHostGroupStatus.cpp
     CommonSrc/QtSource/AppletHostJoinRequestList.cpp
@@ -551,6 +552,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletPlayerVideo.cpp
     CommonSrc/QtSource/AppletPlayerNlc.cpp
     CommonSrc/QtSource/AppletPopupMenu.cpp
+    CommonSrc/QtSource/AppletRandomConnectHostAdmin.cpp
     CommonSrc/QtSource/AppletRandomConnectJoin.cpp
     CommonSrc/QtSource/AppletRandomConnectJoinSearch.cpp
     CommonSrc/QtSource/AppletRandomConnectListLocalView.cpp

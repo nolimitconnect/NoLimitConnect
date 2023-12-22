@@ -225,7 +225,7 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
     case eAppletServiceAboutMe:              return ePluginTypeAboutMePageServer;
     case eAppletServiceAvatarImage:          return ePluginTypeHostPeerUser;
     case eAppletServiceConnectionTest:       return ePluginTypeHostConnectTest;
-    case eAppletHostChatRoomAdmin:           return ePluginTypeHostChatRoom;
+    case eAppletChatRoomHostAdmin:           return ePluginTypeHostChatRoom;
     case eAppletGroupHostAdmin:              return ePluginTypeHostGroup;
     case eAppletServiceHostNetwork:          return ePluginTypeHostNetwork;
     case eAppletServiceShareFiles:           return ePluginTypeFileShareServer;

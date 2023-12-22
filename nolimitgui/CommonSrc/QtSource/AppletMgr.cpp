@@ -28,8 +28,9 @@
 
 #include "AppletCamClient.h"
 #include "AppletCamSettings.h"
-#include "AppletChatRoomJoinSearch.h"
+
 #include "AppletChatRoomClient.h"
+#include "AppletChatRoomHostAdmin.h"
 #include "AppletChatRoomJoin.h"
 #include "AppletChatRoomJoinSearch.h"
 #include "AppletChatRoomListLocalView.h"
@@ -59,7 +60,6 @@
 #include "AppletHelpNetSignalBars.h"
 #include "AppletHostJoinRequestList.h"
 
-#include "AppletHostChatRoomAdmin.h"
 #include "AppletHostChatRoomStatus.h"
 #include "AppletHostGroupStatus.h"
 #include "AppletHostNetworkStatus.h"
@@ -96,7 +96,9 @@
 #include "AppletPlayerNlc.h"
 
 #include "AppletPopupMenu.h"
+
 #include "AppletRandomConnectClient.h"
+#include "AppletRandomConnectHostAdmin.h"
 #include "AppletRandomConnectJoin.h"
 #include "AppletRandomConnectJoinSearch.h"
 #include "AppletRandomConnectListLocalView.h"
@@ -367,9 +369,12 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletGroupJoinSearch:            if( launchAppletAllowed( eAppletGroupJoinSearch ) ) appletDialog = new AppletGroupJoinSearch( m_MyApp, parent ); break;
     case eAppletGroupListLocalView:         if( launchAppletAllowed( eAppletGroupListLocalView ) ) appletDialog = new AppletGroupListLocalView( m_MyApp, parent ); break;
     case eAppletHelpNetSignalBars:          if( launchAppletAllowed( eAppletHelpNetSignalBars ) ) appletDialog = new AppletHelpNetSignalBars( m_MyApp, parent ); break;
+
+    case eAppletRandomConnectHostAdmin:     if( launchAppletAllowed( eAppletRandomConnectHostAdmin ) ) appletDialog = new AppletRandomConnectHostAdmin( m_MyApp, parent ); break;
     case eAppletRandomConnectJoin:          if( launchAppletAllowed( eAppletRandomConnectJoin ) ) appletDialog = new AppletRandomConnectJoin( m_MyApp, parent ); break;
     case eAppletRandomConnectJoinSearch:    if( launchAppletAllowed( eAppletRandomConnectJoinSearch ) ) appletDialog = new AppletRandomConnectJoinSearch( m_MyApp, parent ); break;
     case eAppletRandomConnectListLocalView: if( launchAppletAllowed( eAppletRandomConnectListLocalView ) ) appletDialog = new AppletRandomConnectListLocalView( m_MyApp, parent ); break;
+
     case eAppletSoundSettings:              if( launchAppletAllowed( eAppletSoundSettings ) ) appletDialog = new AppletSoundSettings( m_MyApp, parent ); break;
     case eAppletStoryboardClient:           if( launchAppletAllowed( eAppletStoryboardClient ) ) appletDialog = new AppletStoryboardClient( m_MyApp, parent ); break;
     case eAppletLog:                        if( launchAppletAllowed( eAppletLog ) ) appletDialog = new AppletLog( m_MyApp, parent ); break;
@@ -421,7 +426,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletGroupHostAdmin:             if( launchAppletAllowed( eAppletGroupHostAdmin ) ) appletDialog = new AppletGroupHostAdmin( m_MyApp, parent ); break;
 
-    case eAppletHostChatRoomAdmin:          if( launchAppletAllowed( eAppletHostChatRoomAdmin ) ) appletDialog = new AppletHostChatRoomAdmin( m_MyApp, parent ); break;
+    case eAppletChatRoomHostAdmin:          if( launchAppletAllowed( eAppletChatRoomHostAdmin ) ) appletDialog = new AppletChatRoomHostAdmin( m_MyApp, parent ); break;
     case eAppletHostChatRoomStatus:         if( launchAppletAllowed( eAppletHostChatRoomStatus ) ) appletDialog = new AppletHostChatRoomStatus( m_MyApp, parent ); break;
     case eAppletHostGroupStatus:            if( launchAppletAllowed( eAppletHostGroupStatus ) ) appletDialog = new AppletHostGroupStatus( m_MyApp, parent ); break;
     case eAppletHostNetworkStatus:          if( launchAppletAllowed( eAppletHostNetworkStatus ) ) appletDialog = new AppletHostNetworkStatus( m_MyApp, parent ); break;

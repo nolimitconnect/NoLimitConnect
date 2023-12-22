@@ -32,12 +32,9 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    // setBackButtonVisibility( false );
-
 	ui.m_SessionWidget->setAppModule( eAppModuleMessenger );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
 
-	ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup ); // just to make group members selection visible
 	ui.m_UserListWidget->setUserViewType( eUserViewTypeFriends );
 
     m_ResponseFrame			= ui.m_ResponseFrame;

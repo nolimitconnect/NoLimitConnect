@@ -13,12 +13,12 @@
 
 #include "AppletBase.h"
 
-class AppletHostChatRoomAdmin : public AppletBase
+class AppletRandomConnectHostAdmin : public AppletBase
 {
 	Q_OBJECT
 public:
-    AppletHostChatRoomAdmin( AppCommon& app, QWidget* parent );
-	virtual ~AppletHostChatRoomAdmin() override;
+    AppletRandomConnectHostAdmin( AppCommon& app, QWidget* parent );
+	virtual ~AppletRandomConnectHostAdmin() override;
 
 protected:
     //=== vars ===//

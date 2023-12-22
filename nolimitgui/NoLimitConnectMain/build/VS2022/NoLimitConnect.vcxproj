@@ -198,6 +198,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletCamServerViewMine.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletCamSettings.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomClient.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoinSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomListLocalView.cpp" />
@@ -220,7 +221,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupHostAdmin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHackerList.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomAdmin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupJoin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupJoinSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGroupListClient.cpp" />
@@ -271,6 +271,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerVideo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPopupMenu.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoinSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectListLocalView.cpp" />
@@ -580,7 +581,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomStatus.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostRandomConnectStatus.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostGroupStatus.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomAdmin.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsPushToTalk.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletStoryboardClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutMeClient.h" />
@@ -610,6 +610,8 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />

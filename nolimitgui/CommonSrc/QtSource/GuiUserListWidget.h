@@ -14,6 +14,8 @@
 #include "GuiThumbCallback.h"
 #include "GuiUserUpdateCallback.h"
 
+#include <PktLib/GroupieId.h>
+
 class GuiUserMgr;
 class GuiUserSessionBase;
 class GuiUserListItem;
@@ -28,11 +30,14 @@ public:
 	GuiUserListWidget( QWidget* parent );
     virtual ~GuiUserListWidget();
 
-    void						setAppletType( EApplet appletType )     { m_AppletType = appletType; };
-    EApplet						getAppletType( void )                   { return m_AppletType; };
+    void						setAppletType( EApplet appletType )         { m_AppletType = appletType; };
+    EApplet						getAppletType( void )                       { return m_AppletType; };
 
     void                        setUserViewType( EUserViewType viewType );
-    EUserViewType               getUserViewType( void )                 { return m_ViewType; };
+    EUserViewType               getUserViewType( void )                     { return m_ViewType; };
+
+    void                        setHostAdminId( GroupieId& adminId )        { m_HostAdminId = adminId; };
+    GroupieId&                  getHostAdminId( void )                      { return m_HostAdminId; };
 
     void                        clearUserList( void );
     void                        disconnectUserUpdates( void );
@@ -112,6 +117,7 @@ protected:
 	//=== vars ===//
     EApplet						m_AppletType{ eAppletUnknown };
     EUserViewType               m_ViewType{ eUserViewTypeNone };
+    GroupieId                   m_HostAdminId;
 
     std::map<VxGUID, GuiUserSessionBase*> m_UserCache;
 };

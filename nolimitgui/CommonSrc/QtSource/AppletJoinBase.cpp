@@ -270,7 +270,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
         }
         else
         {
-			m_MyApp.getAppletMgr().launchApplet( eAppletHostChatRoomAdmin, getParentPageFrame() );
+			m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
         }
     }
     else
@@ -331,7 +331,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
         }
         else
         {
-            m_MyApp.getAppletMgr().launchApplet( eAppletHostChatRoomAdmin, getParentPageFrame() );
+            m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
         }
     }
     else

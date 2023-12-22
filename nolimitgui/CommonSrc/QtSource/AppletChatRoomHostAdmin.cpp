@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletHostChatRoomAdmin.h"
+#include "AppletChatRoomHostAdmin.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "MyIcons.h"
@@ -16,12 +16,15 @@
 #include <CoreLib/VxDebug.h>
 
 //============================================================================
-AppletHostChatRoomAdmin::AppletHostChatRoomAdmin( AppCommon& app, QWidget* parent )
+AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN, app, parent )
 {
-    setAppletType( eAppletHostChatRoomAdmin );
+    setAppletType( eAppletChatRoomHostAdmin );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
+
+    GroupieId hostAdmin( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeChatRoom );
+    ui.m_UserListWidget->setHostAdminId( hostAdmin );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
 
@@ -31,7 +34,7 @@ AppletHostChatRoomAdmin::AppletHostChatRoomAdmin( AppCommon& app, QWidget* paren
 }
 
 //============================================================================
-AppletHostChatRoomAdmin::~AppletHostChatRoomAdmin()
+AppletChatRoomHostAdmin::~AppletChatRoomHostAdmin()
 {
     m_MyApp.activityStateChange( this, false );
 }

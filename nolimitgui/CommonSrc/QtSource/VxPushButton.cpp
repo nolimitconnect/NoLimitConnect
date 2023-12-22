@@ -477,7 +477,7 @@ void VxPushButton::paintEvent( QPaintEvent* ev )
 		return;
 	}
 
-#define IMAGE_PADDING  2
+    const int IMAGE_PADDING = 2;
 	QRect drawRect( IMAGE_PADDING, IMAGE_PADDING, this->width() - ( IMAGE_PADDING * 2 ), this->height() - ( IMAGE_PADDING * 2 ) );
 	if( drawRect.width() < 8 )
 	{

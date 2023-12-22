@@ -30,6 +30,7 @@ AppletChooseUser::AppletChooseUser( AppCommon& app, QWidget* parent )
 
 	// only update users using this applet
 	ui.m_UserListWidget->disconnectUserUpdates();
+	ui.m_UserListWidget->setUserViewType( eUserViewTypeEverybody );
 
 	connect( this,						SIGNAL(signalBackButtonClicked()),												this, SLOT(closeApplet()) );
 
@@ -86,7 +87,6 @@ void AppletChooseUser::addUser( VxGUID& onlineId )
 void AppletChooseUser::showEvent( QShowEvent* ev )
 {
 	AppletBase::showEvent( ev );
-	ui.m_UserListWidget->setUserViewType( eUserViewTypeNone );
 }
 
 //============================================================================
@@ -101,14 +101,17 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 			{
 				if( user->getMyOnlineId() == m_MyApp.getMyOnlineId() )
 				{
-					m_MyApp.getAppletMgr().launchApplet( eAppletHostChatRoomAdmin, getParentPageFrame() );
+					m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
 				}
 				else
 				{
-					if( !(m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) &&
-						   m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom,
-																								m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ),
-																								getParentPageFrame() )) )
+					if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) )
+					{
+						m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom,
+																							 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ),
+																							 getParentPageFrame() );
+					}
+					else
 					{
 						// let user select a host to connect to
 						m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin, getParentPageFrame() );
