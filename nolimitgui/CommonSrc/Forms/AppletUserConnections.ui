@@ -31,33 +31,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Host Type</string>
+        <string>List View Type</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="m_HostTypeComboBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Connection Type</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="m_ConnectTypeComboBox">
+      <widget class="QComboBox" name="m_UserViewTypeComboBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>

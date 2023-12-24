@@ -74,10 +74,7 @@ list(APPEND ptopengine_SOURCES
     IdentListMgrs/NearbyListMgr.cpp
     MediaProcessor/AudioUtil.cpp
     MediaProcessor/MediaProcessor.cpp
-    Membership/Membership.cpp
-    Membership/MembershipAvailableMgr.cpp
-    Membership/MembershipHostedMgr.cpp
-    Membership/MembershipMgrBase.cpp
+    Membership/MemberActiveMgr.cpp
     NetServices/NetActionBase.cpp
     NetServices/NetActionIdle.cpp
     NetServices/NetActionIsMyPortOpen.cpp

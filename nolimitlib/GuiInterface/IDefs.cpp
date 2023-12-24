@@ -632,16 +632,16 @@ namespace
     const char* UserViewTypeEnumStrings[] =
     {
         "User View None ",
+        "User View Everybody ",
         "User View Friends ",
         "User View Group ",
         "User View Chat Room ",
         "User View Random Connect ",
-        "User View Everybody ",
         "User View Ignored ",
-        "User View Nearby ",
         "User View Online ",
         "User View Direct Connect ",
         "User View Offline ",
+        "User View Nearby ",
 
         "eMaxUserViewType"
     };

@@ -29,13 +29,10 @@ public:
     AppletUserConnections( AppCommon& app, QWidget* parent );
 	virtual ~AppletUserConnections() override;
 
-    EHostType                   getSelectedHostType( void );
-    EConnectType                getSelectedConnectType( void );
-
+    EUserViewType               getSelectedUserViewType( void );
 
 protected slots:
-    void                        slotConnectTypeSelectionChange( int comboIdx );
-    void                        slotHostTypeSelectionChange( int comboIdx );
+    void                        slotUserViewTypeSelectionChange( int comboIdx );
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;
@@ -71,9 +68,7 @@ protected:
     void				        callbackGuiHostUnJoin( GroupieId& groupieId ) override;
     void				        callbackGuiHostJoinRemoved( GroupieId& groupieId ) override;
 
-
     void                        refreshList( void );
-    void                        refreshUserList( bool directConnectOnly );
 
     //=== vars ===//
     Ui::AppletUserConnectionsUi	ui;

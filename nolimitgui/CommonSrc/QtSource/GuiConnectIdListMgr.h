@@ -13,7 +13,7 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
 
-#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListCallbackInterface.h>
+#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListCallback.h>
 
 #include <PktLib/ConnectId.h>
 
@@ -24,8 +24,9 @@
 
 class AppCommon;
 class GuiConnectIdListCallback;
+class GuiOnlineStatusCallback;
 
-class GuiConnectIdListMgr : public QObject, public ConnectIdListCallbackInterface
+class GuiConnectIdListMgr : public QObject, public ConnectIdListCallback
 {
     Q_OBJECT
 public:
@@ -39,6 +40,7 @@ public:
     virtual void                onSystemReady( bool ready ) { }
 
     void                        wantGuiConnectIdCallbacks( GuiConnectIdListCallback* callback, bool wantCallback );
+    void                        wantGuiOnlineStatusCallbacks( GuiOnlineStatusCallback* callback, bool wantCallback );
 
     virtual void				callbackNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot ) override;
     // callbackConnectionStatusChange should happen before callbackOnlineStatusChange when user disconnects from host
@@ -85,7 +87,10 @@ protected:
     void                        announceConnectionStatusChange( ConnectId& connectId, bool isConnected );
 
     AppCommon&                  m_MyApp;
+
     std::vector<GuiConnectIdListCallback*> m_GuiConnectIdClientList;
+    std::vector<GuiOnlineStatusCallback*> m_GuiOnlineStatusClientList;
+
     std::set<ConnectId>         m_ConnectIdList;
     std::set<ConnectId>         m_RelayedIdList;
     std::map<VxGUID, int64_t>   m_NearbyIdList;

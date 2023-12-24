@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "ConnectIdListMgr.h"
-#include "ConnectIdListCallbackInterface.h"
+#include "ConnectIdListCallback.h"
 
 #include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
 #include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
@@ -931,7 +931,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
 }
 
 //============================================================================
-void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallbackInterface* client, bool enable )
+void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallback* client, bool enable )
 {
     if( !client )
     {
@@ -939,22 +939,22 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallbackInterface
         return;
     }
 
-    lockClientList();
-    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    lockConnectIdClientList();
+    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
     {
         if( *iter == client )
         {
-            m_CallbackClients.erase( iter );
+            m_ConnectIdCallbackClients.erase( iter );
             break;
         }
     }
 
     if( enable )
     {
-        m_CallbackClients.push_back( client );
+        m_ConnectIdCallbackClients.push_back( client );
     }
 
-    unlockClientList();
+    unlockConnectIdClientList();
 }
 
 //============================================================================
@@ -969,11 +969,12 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
     LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online %d user %s",
                 isOnline, m_Engine.describeUser( onlineId ).c_str() );
 
-    lockClientList();
+    m_Engine.getMemberActiveMgr().callbackOnlineStatusChange( onlineId, isOnline );
 
-    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    lockConnectIdClientList();
+
+    for( auto client : m_ConnectIdCallbackClients )
     {
-        ConnectIdListCallbackInterface* client = *iter;
         if( client )
         {
             client->callbackOnlineStatusChange( onlineId, isOnline );
@@ -984,7 +985,25 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
         }    
     }
 
-    unlockClientList();
+    unlockConnectIdClientList();
+
+    lockOnlineStatusClientList();
+
+    for( auto client : m_OnlineStatusCallbackClients )
+    {
+        if( client )
+        {
+            client->callbackOnlineStatusChange( onlineId, isOnline );
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "ConnectIdListMgr::announceOnlineStatus null client" );
+        }    
+    }
+
+    unlockOnlineStatusClientList();
+
+
     m_Engine.getPluginMgr().onContactOnlineStatusChange( onlineId, isOnline );
     if( !isOnline )
     {
@@ -997,11 +1016,11 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
 //============================================================================
 void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isConnected )
 {
-    lockClientList();
+    lockConnectIdClientList();
 
-    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
     {
-        ConnectIdListCallbackInterface* client = *iter;
+        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackConnectionStatusChange( connectId, isConnected );
@@ -1012,17 +1031,17 @@ void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isCo
         }
     }
 
-    unlockClientList();
+    unlockConnectIdClientList();
 }
 
 //============================================================================
 void ConnectIdListMgr::announceRelayStatus( ConnectId& connectId, bool isRelayed )
 {
-    lockClientList();
+    lockConnectIdClientList();
 
-    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
     {
-        ConnectIdListCallbackInterface* client = *iter;
+        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackRelayStatusChange( connectId, isRelayed );
@@ -1033,17 +1052,17 @@ void ConnectIdListMgr::announceRelayStatus( ConnectId& connectId, bool isRelayed
         }
     }
 
-    unlockClientList();
+    unlockConnectIdClientList();
 }
 
 //============================================================================
 void ConnectIdListMgr::announceConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason )
 {
-    lockClientList();
+    lockConnectIdClientList();
 
-    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
     {
-        ConnectIdListCallbackInterface* client = *iter;
+        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackConnectionReason( sktConnectId, connectReason, enableReason );
@@ -1054,17 +1073,17 @@ void ConnectIdListMgr::announceConnectionReason( VxGUID& sktConnectId, EConnectR
         }
     }
 
-    unlockClientList();
+    unlockConnectIdClientList();
 }
 
 //============================================================================
 void ConnectIdListMgr::announceConnectionLost( VxGUID& sktConnectId )
 {
-    lockClientList();
+    lockConnectIdClientList();
 
-    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
     {
-        ConnectIdListCallbackInterface* client = *iter;
+        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackConnectionLost( sktConnectId );
@@ -1075,7 +1094,7 @@ void ConnectIdListMgr::announceConnectionLost( VxGUID& sktConnectId )
         }
     }
 
-    unlockClientList();
+    unlockConnectIdClientList();
 }
 
 //============================================================================

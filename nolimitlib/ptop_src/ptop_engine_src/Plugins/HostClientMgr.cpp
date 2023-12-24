@@ -262,6 +262,8 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
             LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::txPkt PktHostUserInfoReq failed" );
         }
     }
+
+    m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
 }
 
 //============================================================================
@@ -273,6 +275,7 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
 
     m_Engine.getUserJoinMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
+    m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
 }
 
 //============================================================================
@@ -284,6 +287,7 @@ void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
 
     m_Engine.getUserJoinMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
+    m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
 }
 
 //============================================================================

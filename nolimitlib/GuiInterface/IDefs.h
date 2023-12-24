@@ -1247,16 +1247,16 @@ enum ESubCatagory
 enum EUserViewType
 {
     eUserViewTypeNone,
+    eUserViewTypeEverybody,
     eUserViewTypeFriends,
     eUserViewTypeGroup,
     eUserViewTypeChatRoom,
     eUserViewTypeRandomConnect,
-    eUserViewTypeEverybody,
     eUserViewTypeIgnored,
-    eUserViewTypeNearby,
     eUserViewTypeOnline,
     eUserViewTypeDirectConnect,
     eUserViewTypeOffline,
+    eUserViewTypeNearby,
 
     eMaxUserViewType
 };

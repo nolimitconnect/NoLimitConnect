@@ -30,30 +30,18 @@ AppletUserConnections::AppletUserConnections( AppCommon& app, QWidget* parent )
 	// only update users using this applet
 	ui.m_UserListWidget->disconnectUserUpdates();
 
-	for( int i = 0; i < eMaxHostType; i++ )
+	for( int i = 0; i < eMaxUserViewType; i++ )
 	{
-		ui.m_HostTypeComboBox->addItem( GuiParams::describeHostType( (EHostType)i ) );
+        ui.m_UserViewTypeComboBox->addItem( GuiParams::describeUserViewType( (EUserViewType)i ) );
 	}
 
-	for( int i = 0; i < eMaxConnectType; i++ )
-	{
-		ui.m_ConnectTypeComboBox->addItem( GuiParams::describeConnectType( (EConnectType)i ) );
-	}
+	connect( this,							SIGNAL(signalBackButtonClicked()),	this, SLOT(closeApplet()) );
+    connect( ui.m_UserViewTypeComboBox,		SIGNAL(currentIndexChanged(int)),	this, SLOT(slotUserViewTypeSelectionChange(int)) );
 
-	connect( this,						SIGNAL(signalBackButtonClicked()),	this, SLOT(closeApplet()) );
-	connect( ui.m_ConnectTypeComboBox,	SIGNAL(currentIndexChanged(int)),	this, SLOT(slotConnectTypeSelectionChange(int)) );
-	connect( ui.m_HostTypeComboBox,		SIGNAL(currentIndexChanged(int)),	this, SLOT(slotHostTypeSelectionChange(int)) );
-
-	int connectTypeComboIdx = m_MyApp.getAppSettings().getLastUserConnectionsConnectType();
-	if( connectTypeComboIdx )
-	{
-		ui.m_ConnectTypeComboBox->setCurrentIndex( connectTypeComboIdx );
-	}
-
-	int hostComboIdx = m_MyApp.getAppSettings().getLastUserConnectionsHostType();
+	int hostComboIdx = m_MyApp.getAppSettings().getLastUserConnectionsUserViewType();
 	if( hostComboIdx )
 	{
-		ui.m_HostTypeComboBox->setCurrentIndex( hostComboIdx );
+        ui.m_UserViewTypeComboBox->setCurrentIndex( hostComboIdx );
 	}
 
 	m_MyApp.activityStateChange( this, true );
@@ -74,36 +62,22 @@ AppletUserConnections::~AppletUserConnections()
 }
 
 //============================================================================
-EHostType AppletUserConnections::getSelectedHostType( void )
+EUserViewType AppletUserConnections::getSelectedUserViewType( void )
 {
-	return (EHostType)ui.m_HostTypeComboBox->currentIndex();
+	return (EUserViewType)ui.m_UserViewTypeComboBox->currentIndex();
 }
 
 //============================================================================
-EConnectType AppletUserConnections::getSelectedConnectType( void )
+void AppletUserConnections::slotUserViewTypeSelectionChange( int comboIdx )
 {
-	return (EConnectType)ui.m_ConnectTypeComboBox->currentIndex();
-}
-
-//============================================================================
-void AppletUserConnections::slotConnectTypeSelectionChange( int comboIdx )
-{
-	m_MyApp.getAppSettings().setLastUserConnectionsConnectType( comboIdx );
-	refreshList();
-}
-
-//============================================================================
-void AppletUserConnections::slotHostTypeSelectionChange( int comboIdx )
-{
-	m_MyApp.getAppSettings().setLastUserConnectionsHostType( comboIdx );
-	refreshList();
+    m_MyApp.getAppSettings().setLastUserConnectionsUserViewType( comboIdx );
+	ui.m_UserListWidget->setUserViewType( getSelectedUserViewType() );
 }
 
 //============================================================================
 void AppletUserConnections::showEvent( QShowEvent* ev )
 {
 	AppletClientBase::showEvent( ev );
-	ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
 }
 
 //============================================================================
@@ -308,63 +282,5 @@ void AppletUserConnections::callbackGuiHostJoinRemoved( GroupieId& groupieId )
 //============================================================================
 void AppletUserConnections::refreshList( void )
 {
-	ui.m_UserListWidget->clearUserList();
-	EHostType hostType = getSelectedHostType();
-	EConnectType connectType = getSelectedConnectType();
-	
-	if( hostType == eHostTypeUnknown )
-	{
-		refreshUserList( false );
-		return;
-	}
-	else if( hostType == eHostTypeConnectTest || hostType == eHostTypeNetwork )
-	{
-		LogModule( eLogUserEvent, LOG_DEBUG, "AppletUserConnections::refreshList cannot list connect test or network host" );
-		return;
-	}
-	else if( hostType == eHostTypePeerUserDirect )
-	{
-		refreshUserList( true );
-		return;
-	}
-
-	if( eConnectTypeHost == connectType )
-	{
-		std::map<GroupieId, GuiHostJoin*> & hostJoinList = m_MyApp.getHostJoinMgr().getHostJoinList();
-		for( auto hostJoinPair : hostJoinList )
-		{
-			GuiUser* user = hostJoinPair.second->getUser();
-			ui.m_UserListWidget->updateUser( user );
-		}
-	}
-	else if( eConnectTypeClient == connectType )
-	{
-		std::map<GroupieId, GuiUserJoin*> & hostJoinList = m_MyApp.getUserJoinMgr().getUserJoinList();
-		for( auto userJoinPair : hostJoinList )
-		{
-			GuiUser* user = userJoinPair.second->getUser();
-			ui.m_UserListWidget->updateUser( user );
-		}
-	}
-	else
-	{
-		refreshUserList( false );
-	}
-}
-
-//============================================================================
-void AppletUserConnections::refreshUserList( bool directConnectOnly )
-{
-	std::map<VxGUID, GuiUser*>& userList = m_MyApp.getUserMgr().getUserList();
-	for( auto userPair : userList )
-	{
-		GuiUser* user = userPair.second;
-		if( user && m_MyApp.getUserMgr().isUserOnline( user->getMyOnlineId() ) )
-		{
-			if( !directConnectOnly || directConnectOnly && user->isDirectConnect() )
-			{
-				ui.m_UserListWidget->updateUser( user );
-			}
-		}
-	}
+	ui.m_UserListWidget->setUserViewType( getSelectedUserViewType() );
 }

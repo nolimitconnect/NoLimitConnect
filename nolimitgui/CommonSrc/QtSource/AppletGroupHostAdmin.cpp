@@ -31,25 +31,6 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 
-    std::set<VxGUID> memberList;
-    m_MyApp.getHostJoinMgr().getHostedMembers( eHostTypeChatRoom, memberList );
-    for( auto onlineId : memberList )
-    {
-        ui.m_UserListWidget->getUserListWidget()->addUser( onlineId );
-
-        //GroupieId groupieId(onlineId, m_MyApp.getMyOnlineId(), eHostTypeChatRoom);
-        //GuiHostJoin* hostJoin = m_MyApp.getHostJoinMgr().getHostJoin( groupieId );
-        //if( hostJoin )
-        //{
-        //    ui.m_UserListWidget->addUser( hostJoin );
-        //}
-        //else
-        //{
-        //    LogMsg( LOG_ERROR, "AppletGroupHostAdmin hostJoin not found %s", m_MyApp.describeGroupieId( groupieId ) );
-        //}
-           
-    }
-
     m_MyApp.activityStateChange( this, true );
 }
 

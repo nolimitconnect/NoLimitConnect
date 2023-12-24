@@ -70,8 +70,6 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<VxNetIdent>( "VxNetIdent" );
 	qRegisterMetaType<EUserViewType>( "EUserViewType" );
 	qRegisterMetaType<ThumbInfo>( "ThumbInfo" );
-	qRegisterMetaType<MembershipAvailable>( "MembershipAvailable" );
-	qRegisterMetaType<MembershipHosted>( "MembershipHosted" );
 	qRegisterMetaType<HostedInfo>( "HostedInfo" );
 	qRegisterMetaType<HostJoinInfo>( "HostJoinInfo" );
 	qRegisterMetaType<EJoinState>( "EJoinState" );

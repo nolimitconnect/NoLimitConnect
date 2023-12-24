@@ -9,6 +9,7 @@
 //============================================================================
 
 #include <QWidget> // for linux error 53 about subscript
+
 #include <AppInterface/INlc.h>
 #include <CoreLib/VxDebug.h>
 

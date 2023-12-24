@@ -99,8 +99,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
 	, m_ConnectMgr( *new ConnectMgr( *this, "ConnectMgrDb.db3", "ConnectStateDb.db3" ) )
 	, m_ConnectionList( *this )
 	, m_MediaProcessor( *( new MediaProcessor( *this ) ) )
-	, m_MembershipAvailableMgr( *this )
-	, m_MembershipHostedMgr( *this )
+	, m_MemberActiveMgr( *this )
 	, m_NetworkMgr( *new NetworkMgr( *this, peerMgr, m_BigListMgr, m_ConnectionList ) )
 	, m_NetworkMonitor( *new NetworkMonitor( *this ) )
 	, m_NetServicesMgr( *new NetServicesMgr( *this ) )
@@ -604,7 +603,14 @@ std::string P2PEngine::describeUser( VxGUID& onlineId )
     std::string userDesc;
     if( !getBigListMgr().getOnlineName( onlineId, userDesc ) )
     {
-        userDesc = "Unknown User";
+		if( onlineId == getMyOnlineId() )
+		{
+			userDesc = getMyPktAnnounce().getOnlineName();
+		}
+		else
+		{
+			userDesc = "Unknown User";
+		}
     }
 
 	userDesc += " id ";

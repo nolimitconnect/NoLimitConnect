@@ -178,7 +178,7 @@ void P2PEngine::onOncePerMinute( void )
 //============================================================================
 void P2PEngine::onOncePer5Minutes( void )
 {
-    m_PluginMgr.onThreadOncePer15Minutes();
+
 }
 
 //============================================================================
@@ -190,7 +190,7 @@ void P2PEngine::onOncePer10Minutes( void )
 //============================================================================
 void P2PEngine::onOncePer15Minutes( void )
 {
-    //m_PluginMgr.onThreadOncePer15Minutes(); // temp commented out to speed up host announcements
+    m_PluginMgr.onThreadOncePer15Minutes();
 }
 
 //============================================================================

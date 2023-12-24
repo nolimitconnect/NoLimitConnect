@@ -18,7 +18,8 @@
 #include <memory>
 
 // maintains a list of online users
-class ConnectIdListCallbackInterface;
+class ConnectIdListCallback;
+class OnlineStatusCallback;
 class P2PEngine;
 class PktAnnounce;
 class VxNetIdent;
@@ -82,13 +83,14 @@ public:
     virtual void                onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool relayed );
     void                        onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
-    void                        wantConnectIdListCallback( ConnectIdListCallbackInterface* client, bool enable );
-
     void                        getOnlineMembers( HostedId& hostId, std::vector<VxGUID>& onlineIdList );
     bool                        isMemberOnline( HostedId& hostId, VxGUID& onlineId );
 
     void                        pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId );
     void                        updateOnlineExclusion( VxGUID onlineId, bool excludeFromOnlineStatus, bool isNetworkHost = false );
+
+    void                        wantConnectIdListCallback( ConnectIdListCallback* client, bool enable );
+    void                        wantOnlineStatusCallback( OnlineStatusCallback* client, bool enable );
 
 protected:
     void                        announceOnlineStatus( VxGUID& onlineId, bool isOnline );
@@ -102,20 +104,27 @@ protected:
     void                        removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& onlineId );
     void                        removeOnlineConnectionPairs( VxGUID& sktConnectId, std::set<VxGUID>& lostConnUserList );
 
-    void						lockClientList( void )          { m_ClientCallbackMutex.lock(); }
-    void						unlockClientList( void )        { m_ClientCallbackMutex.unlock(); }
+    void						lockConnectIdClientList( void )         { m_ConnectIdCallbackMutex.lock(); }
+    void						unlockConnectIdClientList( void )       { m_ConnectIdCallbackMutex.unlock(); }
 
-    void						lockOnlineIdList( void )        { m_OnlineIdMutex.lock(); }
-    void						unlockOnlineIdList( void )      { m_OnlineIdMutex.unlock(); }
+    void						lockOnlineStatusClientList( void )      { m_OnlineStatusCallbackMutex.lock(); }
+    void						unlockOnlineStatusClientList( void )    { m_OnlineStatusCallbackMutex.unlock(); }
 
-    void						lockExclusionList( void )       { m_ConnectIdExclusionMutex.lock(); }
-    void						unlockExclusionList( void )     { m_ConnectIdExclusionMutex.unlock(); }
+    void						lockOnlineIdList( void )                { m_OnlineIdMutex.lock(); }
+    void						unlockOnlineIdList( void )              { m_OnlineIdMutex.unlock(); }
+
+    void						lockExclusionList( void )               { m_ConnectIdExclusionMutex.lock(); }
+    void						unlockExclusionList( void )             { m_ConnectIdExclusionMutex.unlock(); }
 
     std::set<ConnectId>         m_ConnectIdList;
     std::set<ConnectId>         m_RelayedIdList;
     std::map<VxGUID, std::set<EConnectReason>>      m_ConnectReasonList;
-    std::vector<ConnectIdListCallbackInterface*>    m_CallbackClients;
-    VxMutex						m_ClientCallbackMutex;
+
+    std::vector<ConnectIdListCallback*>    m_ConnectIdCallbackClients;
+    VxMutex						m_ConnectIdCallbackMutex;
+
+    std::vector<OnlineStatusCallback*>    m_OnlineStatusCallbackClients;
+    VxMutex						m_OnlineStatusCallbackMutex;
 
     std::set<VxGUID>            m_OnlineIdExclusionList;
     std::set<VxGUID>            m_OnlineIdListList;

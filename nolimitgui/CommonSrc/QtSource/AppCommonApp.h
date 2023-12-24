@@ -22,7 +22,7 @@
 #include "GuiGroupieListMgr.h"
 #include "GuiHostedListMgr.h"
 #include "GuiHostServerJoinMgr.h"
-#include "GuiMembershipAvailableMgr.h"
+#include "GuiMemberActiveMgr.h"
 #include "GuiOfferMgr.h"
 #include "GuiPlayerMgr.h"
 #include "GuiPluginMgr.h"
@@ -151,7 +151,7 @@ public:
     GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
     GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
     GuiThumbMgr&                getThumbMgr( void ) { return m_ThumbMgr; }
-    GuiMembershipAvailableMgr&  getMembershipAvailableMgr( void ) { return m_MembershipAvailableMgr; }
+    GuiMemberActiveMgr&  getMemberActiveMgr( void ) { return m_MemberActiveMgr; }
     GuiPlayerMgr&               getPlayerMgr( void ) { return m_PlayerMgr; }
     GuiPluginMgr&               getPluginMgr( void ) { return m_PluginMgr; }
 
@@ -859,7 +859,7 @@ protected:
     GuiFavoriteMgr			    m_FavoriteMgr;
     GuiFileXferMgr              m_FileXferMgr;
     GuiThumbMgr					m_ThumbMgr;
-    GuiMembershipAvailableMgr   m_MembershipAvailableMgr;
+    GuiMemberActiveMgr   m_MemberActiveMgr;
     GuiOfferMgr		            m_OfferMgr;
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;

@@ -9,8 +9,10 @@
 //============================================================================
 
 #include "AppletRandomConnectHostAdmin.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "GuiMemberActiveMgr.h"
 #include "GuiUserMultiListWidget.h"
 #include "MyIcons.h"
 
@@ -31,23 +33,12 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
 
+    HostedId hostId( m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
     std::set<VxGUID> memberList;
-    m_MyApp.getHostJoinMgr().getHostedMembers( eHostTypeChatRoom, memberList );
+    m_MyApp.getMemberActiveMgr().getActiveMembers( hostId, memberList );
     for( auto onlineId : memberList )
     {
-        ui.m_UserListWidget->getUserListWidget()->addUser( onlineId );
-
-        //RandomConnectieId groupieId(onlineId, m_MyApp.getMyOnlineId(), eHostTypeChatRoom);
-        //GuiHostJoin* hostJoin = m_MyApp.getHostJoinMgr().getHostJoin( groupieId );
-        //if( hostJoin )
-        //{
-        //    ui.m_UserListWidget->addUser( hostJoin );
-        //}
-        //else
-        //{
-        //    LogMsg( LOG_ERROR, "AppletRandomConnectHostAdmin hostJoin not found %s", m_MyApp.describeRandomConnectieId( groupieId ) );
-        //}
-           
+        ui.m_UserListWidget->getUserListWidget()->updateUser( onlineId );
     }
 
     m_MyApp.activityStateChange( this, true );

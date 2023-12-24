@@ -1792,24 +1792,30 @@ QString GuiParams::describeUserViewType( EUserViewType showFriendType )
 {
     switch( showFriendType )
     {
+    case eUserViewTypeEverybody:
+        return QObject::tr( "Everybody " );
     case eUserViewTypeFriends:
         return QObject::tr( "Friends " );
+
+    case eUserViewTypeGroup:
+        return  QObject::tr( "Group " );
     case eUserViewTypeChatRoom:
         return QObject::tr( "Chat Room " );
     case eUserViewTypeRandomConnect:
         return QObject::tr( "Random Connect " );
-    case eUserViewTypeEverybody:
-        return QObject::tr( "Everybody " );
-    case eUserViewTypeIgnored:	// friend user
+
+    case eUserViewTypeIgnored:
         return QObject::tr( "Ignored " );
-    case eUserViewTypeNearby:
-        return  QObject::tr( "Nearby " );
-    case eUserViewTypeGroup:
-        return  QObject::tr( "Group " );
+
     case eUserViewTypeOnline:
         return  QObject::tr( "Online " );
     case eUserViewTypeDirectConnect:
         return  QObject::tr( "Direct Connect " );
+    case eUserViewTypeOffline:
+        return  QObject::tr( "Offline " );
+
+    case eUserViewTypeNearby:
+        return  QObject::tr( "Nearby " );
 
     case eUserViewTypeNone:
     default:

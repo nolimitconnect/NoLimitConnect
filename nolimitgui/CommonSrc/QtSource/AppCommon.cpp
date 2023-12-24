@@ -46,7 +46,6 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
-#include <ptop_src/ptop_engine_src/Membership/Membership.h>
 #include <ptop_src/ptop_engine_src/NetworkMonitor/NetworkMonitor.h>
 #include <ptop_src/ptop_engine_src/ThumbMgr/ThumbInfo.h>
 
@@ -166,7 +165,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_ConnectIdListMgr( *this )
 , m_FileXferMgr( *this )
 , m_ThumbMgr( *this )
-, m_MembershipAvailableMgr( *this )
+, m_MemberActiveMgr( *this )
 , m_OfferMgr( *this )
 , m_UserMgr( *this )
 , m_GroupieListMgr( *this )
@@ -306,6 +305,7 @@ void AppCommon::loadWithoutThread( void )
 	m_UserJoinMgr.onAppCommonCreated();
 	m_WebPageMgr.onAppCommonCreated();
 	m_ConnectIdListMgr.onAppCommonCreated();
+	m_MemberActiveMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 
     setLoopbackMyselfTestAllowed( getAppSettings().getAllowLoopBackOfMyself() );

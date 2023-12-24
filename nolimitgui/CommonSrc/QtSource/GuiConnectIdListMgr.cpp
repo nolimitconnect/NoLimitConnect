@@ -10,6 +10,7 @@
 
 #include "GuiConnectIdListMgr.h"
 #include "GuiConnectIdListCallback.h"
+#include "GuiOnlineStatusCallback.h"
 
 #include "AppCommon.h"
 #include "GuiUserBase.h"
@@ -372,9 +373,8 @@ void GuiConnectIdListMgr::wantGuiConnectIdCallbacks( GuiConnectIdListCallback* c
 
     if( wantCallback )
     {
-        for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
+        for( auto client : m_GuiConnectIdClientList )
         {
-            GuiConnectIdListCallback* client = *iter;
             if( client == callback )
             {
                 LogMsg( LOG_INFO, "WARNING. Ignoring New wantGuiConnectIdCallbacks because already in list" );
@@ -382,14 +382,13 @@ void GuiConnectIdListMgr::wantGuiConnectIdCallbacks( GuiConnectIdListCallback* c
             }
         }
 
-        m_GuiConnectIdClientList.push_back( callback );
+        m_GuiConnectIdClientList.emplace_back( callback );
         return;
     }
 
     for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
     {
-        GuiConnectIdListCallback* client = *iter;
-        if( client == callback )
+        if( *iter == callback )
         {
             m_GuiConnectIdClientList.erase( iter );
             return;
@@ -397,7 +396,47 @@ void GuiConnectIdListMgr::wantGuiConnectIdCallbacks( GuiConnectIdListCallback* c
     }
 
     LogMsg( LOG_INFO, "WARNING. wantGuiConnectIdCallbacks remove not found in list" );
-    return;
+}
+
+//============================================================================
+void GuiConnectIdListMgr::wantGuiOnlineStatusCallbacks( GuiOnlineStatusCallback* callback, bool wantCallback )
+{
+    static bool userCallbackShutdownComplete = false;
+    if( VxIsAppShuttingDown() )
+    {
+        if( userCallbackShutdownComplete )
+        {
+            return;
+        }
+
+        userCallbackShutdownComplete = true;
+        m_GuiConnectIdClientList.clear();
+        return;
+    }
+   
+    if( wantCallback )
+    {
+        for( auto client : m_GuiOnlineStatusClientList )
+        {
+            if( client == callback )
+            {
+                LogMsg( LOG_INFO, "WARNING. Ignoring New wantGuiConnectIdCallbacks because already in list" );
+                return;
+            }
+        }
+
+        m_GuiOnlineStatusClientList.emplace_back( callback );
+        return;
+    }
+
+    for( auto iter = m_GuiOnlineStatusClientList.begin(); iter != m_GuiOnlineStatusClientList.end(); ++iter )
+    {
+        if( *iter == callback )
+        {
+            m_GuiOnlineStatusClientList.erase( iter );
+            return;
+        }
+    }
 }
 
 //============================================================================

@@ -1,0 +1,152 @@
+//============================================================================
+// Copyright (C) 2021 Brett R. Jones
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include "GuiMemberActiveMgr.h"
+
+#include "GuiMemberActiveCallback.h"
+#include "GuiHelpers.h"
+#include "AppCommon.h"
+
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
+//============================================================================
+GuiMemberActiveMgr::GuiMemberActiveMgr( AppCommon& app )
+    : QObject( &app )
+    , m_MyApp( app )
+{
+}
+
+//============================================================================
+void GuiMemberActiveMgr::onAppCommonCreated( void )
+{
+    connect( this, SIGNAL(signalInternalMemberActive(GroupieId,bool)), this, SLOT(slotInternalMemberActive(GroupieId,bool)), Qt::QueuedConnection );
+
+    m_MyApp.getEngine().getMemberActiveMgr().wantMemberActiveCallbacks( this, true );
+}
+
+//============================================================================
+bool GuiMemberActiveMgr::isMemberActive( GroupieId& groupieId )
+{
+    auto iter = std::find(m_MemberList.begin(), m_MemberList.end(), groupieId);
+    return iter != m_MemberList.end();
+}
+
+//============================================================================
+bool GuiMemberActiveMgr::isMemberOfHostType( EHostType hostType, VxGUID& onlineId )
+{
+    for( auto groupieId : m_MemberList )
+    {
+        if( hostType == groupieId.getHostType() && groupieId.getUserOnlineId() == onlineId )
+        {
+            return true;
+
+        }
+    }
+
+    return false;
+}
+
+//============================================================================
+void GuiMemberActiveMgr::getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList )
+{
+    memberList.clear();
+    for( auto groupieId : m_MemberList )
+    {
+        if( hostId == groupieId.getHostedId() )
+        {
+            memberList.insert( groupieId.getUserOnlineId() );
+        }
+    }
+}
+
+//============================================================================
+void GuiMemberActiveMgr::callbackMemberActive( GroupieId& groupieId, bool isActive )
+{
+    emit signalInternalMemberActive( groupieId, isActive );
+}
+
+//============================================================================
+void GuiMemberActiveMgr::slotInternalMemberActive( GroupieId groupieId, bool isActive )
+{
+    updateMemberActive( groupieId, isActive );
+}
+
+//============================================================================
+void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive )
+{
+    if( !groupieId.isValid() )
+    {
+        LogMsg( LOG_ERROR, "MemberActiveMgr::updateMemberActive invalid groupieId %s", m_MyApp.describeGroupieId( groupieId ).c_str() );
+        return;
+    }
+
+    LogMsg( LOG_VERBOSE, "MemberActiveMgr::updateMemberActive groupieId %s active %d", m_MyApp.describeGroupieId( groupieId ).c_str(), isActive );
+
+    bool wasUpdated = false;
+    bool wasFound = false;
+    for( auto iter = m_MemberList.begin(); iter != m_MemberList.end(); ++iter )
+    {
+        if( *iter == groupieId )
+        {
+            wasFound = true;
+            if( !isActive )
+            {
+                m_MemberList.erase( iter );
+                wasUpdated = true;
+            }
+
+            break;
+        }
+    }
+
+    if( !wasFound && isActive )
+    {
+        m_MemberList.emplace_back( groupieId );
+        wasUpdated = true;
+    }
+
+    if( wasUpdated )
+    {
+        announceMemberActive( groupieId, isActive );
+    }
+}
+
+//============================================================================
+void GuiMemberActiveMgr::wantMemberActiveCallback( GuiMemberActiveCallback* client, bool enable )
+{
+    bool wasFound = false;
+    for( auto iter = m_MemberClients.begin(); iter != m_MemberClients.end(); ++iter )
+    {
+        if( *iter == client )
+        {
+            wasFound = true;
+            if( !enable )
+            {
+                m_MemberClients.erase( iter );
+            }
+
+            break;
+        }
+    }
+
+    if( enable && !wasFound )
+    {
+        m_MemberClients.emplace_back( client );
+    }
+}
+
+//============================================================================
+void GuiMemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool isActive )
+{
+    for( auto client : m_MemberClients )
+    {
+        client->callbackGuiMemberActive( groupieId, isActive );
+    }
+}

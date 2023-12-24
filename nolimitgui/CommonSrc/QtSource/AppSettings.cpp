@@ -744,32 +744,17 @@ bool AppSettings::getSendMicInToSpeaker( void )
 }
 
 //============================================================================
-void AppSettings::setLastUserConnectionsConnectType( int comboIdx )
+void AppSettings::setLastUserConnectionsUserViewType( int comboIdx )
 {
 	uint32_t comboVal = (uint32_t)comboIdx;
-	setIniValue( getAppShortName(), "UserConnectionsConnectType", comboVal );
+	setIniValue( getAppShortName(), "UserConnectionsUserViewType", comboVal );
 }
 
 //============================================================================
-int AppSettings::getLastUserConnectionsConnectType( void )
+int AppSettings::getLastUserConnectionsUserViewType( void )
 {
 	uint32_t comboVal = 0;
-	getIniValue( getAppShortName(), "UserConnectionsConnectType", comboVal, 0 );
-	return comboVal;
-}
-
-//============================================================================
-void AppSettings::setLastUserConnectionsHostType( int comboIdx )
-{
-	uint32_t comboVal = (uint32_t)comboIdx;
-	setIniValue( getAppShortName(), "UserConnectionsHostType", comboVal );
-}
-
-//============================================================================
-int AppSettings::getLastUserConnectionsHostType( void )
-{
-	uint32_t comboVal = 0;
-	getIniValue( getAppShortName(), "UserConnectionsHostType", comboVal, 0 );
+	getIniValue( getAppShortName(), "UserConnectionsUserViewType", comboVal, 1 );
 	return comboVal;
 }
 

@@ -109,6 +109,7 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
     }
 
     getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, true );
+    getMemberActiveMgr().updateMemberActive( groupieId, true );
 
     return updateOk && onPktAnnounceCommonHandler( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 }

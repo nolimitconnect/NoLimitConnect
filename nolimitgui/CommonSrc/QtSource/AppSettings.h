@@ -147,11 +147,8 @@ public:
 	void						setSendMicInToSpeaker( bool enable );
 	bool						getSendMicInToSpeaker( void );
 
-	void						setLastUserConnectionsConnectType( int comboIdx );
-	int							getLastUserConnectionsConnectType( void );
-
-	void						setLastUserConnectionsHostType( int comboIdx );
-	int							getLastUserConnectionsHostType( void );
+	void						setLastUserConnectionsUserViewType( int comboIdx );
+	int							getLastUserConnectionsUserViewType( void );
 
 	void						setLastHostJoined( std::string lastJoinedHost );
 	std::string					getLastHostJoined( void );

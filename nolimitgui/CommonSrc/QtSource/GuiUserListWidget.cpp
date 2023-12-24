@@ -32,12 +32,15 @@ GuiUserListWidget::GuiUserListWidget( QWidget* parent )
 	sortItems( Qt::DescendingOrder );
 
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
+    GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, true );
+    GetAppInstance().getMemberActiveMgr().wantMemberActiveCallback( this, true );
 }
 
 //============================================================================
 GuiUserListWidget::~GuiUserListWidget()
 {
+    GetAppInstance().getMemberActiveMgr().wantMemberActiveCallback( this, true );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, false );
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, false );
 }
@@ -146,7 +149,7 @@ GuiUserSessionBase* GuiUserListWidget::widgetToSession( GuiUserListItem * item )
 }
 
 //============================================================================
-void GuiUserListWidget::addUser( VxGUID& onlineId )
+void GuiUserListWidget::updateUser( VxGUID& onlineId )
 {
     GuiUser* guiUser = m_MyApp.getUserMgr().getUser(onlineId);
     updateUser( guiUser );
@@ -636,6 +639,12 @@ void GuiUserListWidget::onMenuButtonClicked( GuiUserListItem* userItem )
 }
 
 //============================================================================
+bool GuiUserListWidget::isMemberView( void )
+{
+    return IsHostedMembersViewType( getUserViewType() );
+}
+
+//============================================================================
 bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
 {
     EUserViewType viewType = getUserViewType();
@@ -663,15 +672,39 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
         }
         else if( eUserViewTypeGroup == viewType )
         {
-            return guiUser->isGroupHosted() && !guiUser->isAnonymous();
+            if( getHostAdminId().isValid() )
+            {
+                GroupieId memberId( guiUser->getMyOnlineId(), getHostAdminId().getHostedId() );
+                return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberActive( memberId );
+            }
+            else
+            {
+                 return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeGroup, guiUser->getMyOnlineId() );
+            }
         }
         else if( eUserViewTypeChatRoom == viewType )
         {
-            return guiUser->isChatRoomHosted() && !guiUser->isAnonymous();
+            if( getHostAdminId().isValid() )
+            {
+                GroupieId memberId( guiUser->getMyOnlineId(), getHostAdminId().getHostedId() );
+                return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberActive( memberId );
+            }
+            else
+            {
+                 return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeChatRoom, guiUser->getMyOnlineId() );
+            }
         }
         else if( eUserViewTypeRandomConnect == viewType )
         {
-            return guiUser->isRandomConnectHosted() && !guiUser->isAnonymous();
+            if( getHostAdminId().isValid() )
+            {
+                GroupieId memberId( guiUser->getMyOnlineId(), getHostAdminId().getHostedId() );
+                return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberActive( memberId );
+            }
+            else
+            {
+                 return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, guiUser->getMyOnlineId() );
+            }
         }
         else if( eUserViewTypeNearby == viewType )
         {
@@ -765,6 +798,25 @@ void GuiUserListWidget::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkS
     {
         userItem->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
     }
+}
+
+//============================================================================
+void GuiUserListWidget::callbackGuiMemberActive( GroupieId& groupieId, bool isActive )
+{
+    if( isMemberView() && groupieId.getHostedId() == m_HostAdminId.getHostedId() )
+    {
+        VxGUID onlineId = groupieId.getUserOnlineId();
+        if( onlineId != groupieId.getUserOnlineId() )
+        {
+            updateUser( onlineId );
+        }
+    }
+}
+
+//============================================================================
+void GuiUserListWidget::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+    updateUser( onlineId );
 }
 
 //============================================================================

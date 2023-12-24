@@ -9,13 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-class VxGUID;
-class MembershipAvailable;
-class GuiMembershipAvailableCallback
+class GroupieId;
+
+class MemberActiveCallback
 {
 public:
-    virtual void				callbackGuiMembershipAvailableAdded( VxGUID& onlineId, VxGUID& sktConnectId, MembershipAvailable& memberAvail ) {};
-    virtual void				callbackGuiMembershipAvailableUpdated( VxGUID& onlineId, VxGUID& sktConnectId, MembershipAvailable& memberAvail ) {};
-    virtual void				callbackGuiMembershipAvailableRemoved( VxGUID& onlineId ) {};
+    virtual void				callbackMemberActive( GroupieId& onlineId, bool isActive ) {};
 };
 

@@ -13,6 +13,8 @@
 #include "AppDefs.h"
 #include "GuiThumbCallback.h"
 #include "GuiUserUpdateCallback.h"
+#include "GuiOnlineStatusCallback.h"
+#include "GuiMemberActiveCallback.h"
 
 #include <PktLib/GroupieId.h>
 
@@ -22,7 +24,11 @@ class GuiUserListItem;
 class PluginSetting;
 class VxNetIdent;
 
-class GuiUserListWidget : public ListWidgetBase, public GuiUserUpdateCallback, public GuiThumbCallback
+class GuiUserListWidget : public ListWidgetBase, 
+    public GuiUserUpdateCallback, 
+    public GuiThumbCallback,
+    public GuiOnlineStatusCallback,
+    public GuiMemberActiveCallback
 {
 	Q_OBJECT
 
@@ -49,14 +55,16 @@ public:
     GuiUserListItem*            findListEntryWidgetBySessionId( VxGUID& sessionId );
     GuiUserListItem*            findListEntryWidgetByOnlineId( VxGUID& onlineId );
 
-    void                        addUser( VxGUID& onlineId );
+    void                        updateUser( VxGUID& onlineId );
     void                        updateUser( GuiUser* guiUser );
     void                        removeUser( VxGUID& onlineId );
     virtual GuiUserSessionBase* makeSession( GuiUser* guiUser );
 
     void                        searchTextChanged( QString& searchText );
 
-    virtual void				callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
+    void                        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+    void				        callbackGuiMemberActive( GroupieId& groupieId, bool isActive ) override;
+    void				        callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
 
 signals:
     void                        signalUserAvatarClicked( GuiUser* guiUser );
@@ -92,6 +100,7 @@ protected:
     void                        callbackUserUpdated( GuiUser* guiUser ) override;
     void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
+    bool                        isMemberView( void );
     bool                        isListViewMatch( GuiUser* guiUser );
 
     GuiUserListItem*            sessionToWidget( GuiUserSessionBase* userSession );

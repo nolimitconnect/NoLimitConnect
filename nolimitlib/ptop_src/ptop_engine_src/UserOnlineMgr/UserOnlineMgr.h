@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListCallbackInterface.h>
+#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListCallback.h>
 
 #include <CoreLib/VxMutex.h>
 #include <PktLib/GroupieId.h>
@@ -23,7 +23,7 @@ class UserOnlineCallbackInterface;
 class VxSktBase;
 class VxNetIdent;
 
-class UserOnlineMgr : public ConnectIdListCallbackInterface
+class UserOnlineMgr : public ConnectIdListCallback
 {
 public:
 	UserOnlineMgr( P2PEngine& engine, const char* dbName, const char* dbStateName );

@@ -15,7 +15,7 @@
 class VxGUID;
 class ConnectId;
 
-class ConnectIdListCallbackInterface
+class ConnectIdListCallback
 {
 public:
     virtual void				callbackNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot ) {};

@@ -126,6 +126,9 @@
     <Filter Include="Source Files\GuiHostServerJoin">
       <UniqueIdentifier>{fadd8697-1109-45a8-8fa4-5bf871e49171}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GuiMemberActive">
+      <UniqueIdentifier>{4752cb1b-2eb1-49e3-a602-07cd0474b3f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
@@ -749,9 +752,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMembershipAvailableMgr.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestHostClient.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1027,6 +1027,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h">
       <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.h">
+      <Filter>Source Files\GuiMemberActive</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -1397,9 +1400,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMembershipAvailableMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.cpp">
@@ -2152,6 +2152,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.cpp">
+      <Filter>Source Files\GuiMemberActive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2251,9 +2254,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiMembershipAvailableCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListCallback.h">
@@ -2438,6 +2438,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ITimeDefs.h">
       <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveCallback.h">
+      <Filter>Source Files\GuiMemberActive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiOnlineStatusCallback.h">
+      <Filter>Source Files\GuiConnectId</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

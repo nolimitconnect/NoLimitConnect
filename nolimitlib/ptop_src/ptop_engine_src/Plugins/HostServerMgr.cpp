@@ -272,6 +272,7 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     m_Engine.getHostJoinMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
+    m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
 
     LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
 

@@ -9,13 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "Membership.h"
+class VxGUID;
 
-class MembershipHostedCallbackInterface
+class OnlineStatusCallback
 {
 public:
-    virtual void				callbackMembershipHostedAdded( VxGUID& onlineId, VxGUID& sktConnectId, MembershipHosted& memberHosted ) {};
-    virtual void				callbackMembershipHostedUpdated( VxGUID& onlineId, VxGUID& sktConnectId, MembershipHosted& memberHosted ) {};
-    virtual void				callbackMembershipHostedRemoved( VxGUID& onlineId ) {};
+    virtual void				callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) {};
 };
 

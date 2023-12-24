@@ -548,10 +548,7 @@
     <ClCompile Include="..\..\ptop_engine_src\IdentListMgrs\NearbyListMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\MediaProcessor\AudioUtil.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\MediaProcessor\MediaProcessor.cpp" />
-    <ClCompile Include="..\..\ptop_engine_src\Membership\Membership.cpp" />
-    <ClCompile Include="..\..\ptop_engine_src\Membership\MembershipAvailableMgr.cpp" />
-    <ClCompile Include="..\..\ptop_engine_src\Membership\MembershipHostedMgr.cpp" />
-    <ClCompile Include="..\..\ptop_engine_src\Membership\MembershipMgrBase.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\Membership\MemberActiveMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\NetServices\NetActionBase.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\NetServices\NetActionIdle.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\NetServices\NetActionIsMyPortOpen.cpp" />
@@ -768,6 +765,7 @@
     <ClInclude Include="..\..\ptop_engine_src\BlobXferMgr\BlobXferSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\ConnectIdListMgr\ConnectIdListCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\ConnectIdListMgr\ConnectIdListMgr.h" />
+    <ClInclude Include="..\..\ptop_engine_src\ConnectIdListMgr\OnlineStatusCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\Connections\ConnectedInfo.h" />
     <ClInclude Include="..\..\ptop_engine_src\Connections\ConnectedListAll.h" />
     <ClInclude Include="..\..\ptop_engine_src\Connections\ConnectedListBase.h" />
@@ -809,12 +807,8 @@
     <ClInclude Include="..\..\ptop_engine_src\MediaProcessor\MediaProcessor.h" />
     <ClInclude Include="..\..\ptop_engine_src\MediaProcessor\RawAudio.h" />
     <ClInclude Include="..\..\ptop_engine_src\MediaProcessor\RawVideo.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Membership\Membership.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Membership\MembershipAvailableCallbackInterface.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Membership\MembershipAvailableMgr.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Membership\MembershipHostedCallbackInterface.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Membership\MembershipHostedMgr.h" />
-    <ClInclude Include="..\..\ptop_engine_src\Membership\MembershipMgrBase.h" />
+    <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveCallbackInterface.h" />
+    <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\NetServices\NetActionBase.h" />
     <ClInclude Include="..\..\ptop_engine_src\NetServices\NetActionIdle.h" />
     <ClInclude Include="..\..\ptop_engine_src\NetServices\NetActionIsMyPortOpen.h" />

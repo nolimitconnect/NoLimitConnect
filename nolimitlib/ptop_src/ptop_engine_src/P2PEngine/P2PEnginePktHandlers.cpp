@@ -14,7 +14,6 @@
 #include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
 #include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
 #include <ptop_src/ptop_engine_src/Network/NetConnector.h>
-#include <ptop_src/ptop_engine_src/Membership/Membership.h>
 
 #include <NetLib/VxSktCrypto.h>
 #include <NetLib/VxSktBase.h>
@@ -1179,21 +1178,21 @@ void P2PEngine::onPktMembershipReply( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMembershipReply" );
 
-	PktMembershipReply* pktReply = ( PktMembershipReply* )pktHdr;
-	if( pktReply && pktReply->isValidPkt() )
-	{
-		VxNetIdent* netIdent = pktHdr->getSrcOnlineId() == getMyOnlineId() ? getMyNetIdent() : m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
-		if( netIdent && !netIdent->isIgnored() && sktBase && sktBase->isConnected() )
-		{
-			MembershipAvailable membership;
-			membership.setCanPushToTalk( pktReply->getCanPushToTalk() );
-			membership.setMembershipState( eHostTypeNetwork, pktReply->getHostMembership( eHostTypeNetwork ) );
-			membership.setMembershipState( eHostTypeConnectTest, pktReply->getHostMembership( eHostTypeConnectTest ) );
-			membership.setMembershipState( eHostTypeGroup, pktReply->getHostMembership( eHostTypeGroup ) );
-			membership.setMembershipState( eHostTypeChatRoom, pktReply->getHostMembership( eHostTypeChatRoom ) );
-			membership.setMembershipState( eHostTypeRandomConnect, pktReply->getHostMembership( eHostTypeRandomConnect ) );
-		}
-	}
+	//PktMembershipReply* pktReply = ( PktMembershipReply* )pktHdr;
+	//if( pktReply && pktReply->isValidPkt() )
+	//{
+	//	VxNetIdent* netIdent = pktHdr->getSrcOnlineId() == getMyOnlineId() ? getMyNetIdent() : m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
+	//	if( netIdent && !netIdent->isIgnored() && sktBase && sktBase->isConnected() )
+	//	{
+	//		MemberActive membership;
+	//		membership.setCanPushToTalk( pktReply->getCanPushToTalk() );
+	//		membership.setMembershipState( eHostTypeNetwork, pktReply->getHostMembership( eHostTypeNetwork ) );
+	//		membership.setMembershipState( eHostTypeConnectTest, pktReply->getHostMembership( eHostTypeConnectTest ) );
+	//		membership.setMembershipState( eHostTypeGroup, pktReply->getHostMembership( eHostTypeGroup ) );
+	//		membership.setMembershipState( eHostTypeChatRoom, pktReply->getHostMembership( eHostTypeChatRoom ) );
+	//		membership.setMembershipState( eHostTypeRandomConnect, pktReply->getHostMembership( eHostTypeRandomConnect ) );
+	//	}
+	//}
 }
 
 //============================================================================

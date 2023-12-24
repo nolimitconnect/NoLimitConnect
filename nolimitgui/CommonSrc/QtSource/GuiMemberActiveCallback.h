@@ -9,13 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "Membership.h"
+class GroupieId;
 
-class MembershipAvailableCallbackInterface
+class GuiMemberActiveCallback
 {
 public:
-    virtual void				callbackMembershipAvailableAdded( VxGUID& onlineId, VxGUID& sktConnectId, MembershipAvailable& memberAvail ) {};
-    virtual void				callbackMembershipAvailableUpdated( VxGUID& onlineId, VxGUID& sktConnectId, MembershipAvailable& memberAvail ) {};
-    virtual void				callbackMembershipAvailableRemoved( VxGUID& onlineId ) {};
+    virtual void				callbackGuiMemberActive( GroupieId& groupieId, bool isActive ) {};
 };
 

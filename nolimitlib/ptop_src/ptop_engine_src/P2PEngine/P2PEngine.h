@@ -28,8 +28,8 @@
 #include <ptop_src/ptop_engine_src/IdentListMgrs/IgnoreListMgr.h>
 #include <ptop_src/ptop_engine_src/IdentListMgrs/NearbyListMgr.h>
 
-#include <ptop_src/ptop_engine_src/Membership/MembershipAvailableMgr.h>
-#include <ptop_src/ptop_engine_src/Membership/MembershipHostedMgr.h>
+#include <ptop_src/ptop_engine_src/Membership/MemberActiveMgr.h>
+
 #include <ptop_src/ptop_engine_src/NetworkMonitor/NetStatusAccum.h>
 #include <ptop_src/ptop_engine_src/OfferBase/OfferMgr.h>
 #include <ptop_src/ptop_engine_src/PluginSettings/PluginSettingMgr.h>
@@ -116,8 +116,8 @@ public:
     HostUrlListMgr&             getHostUrlListMgr( void )                       { return m_HostUrlListMgr; }
     HostedListMgr&              getHostedListMgr( void )                        { return m_HostedListMgr; }
     IgnoreListMgr&              getIgnoreListMgr( void )                        { return m_IgnoreListMgr; }
-    MembershipAvailableMgr&     getMembershipAvailableMgr( void )               { return m_MembershipAvailableMgr; }
-    MembershipHostedMgr&        getMembershipHostedMgr( void )                  { return m_MembershipHostedMgr; }
+    MemberActiveMgr&            getMemberActiveMgr( void )                      { return m_MemberActiveMgr; }
+
     NearbyListMgr&              getNearbyListMgr( void )                        { return m_NearbyListMgr; }
     NetConnector&				getNetConnector( void )							{ return m_NetConnector; }
     NetStatusAccum&             getNetStatusAccum( void )                       { return m_NetStatusAccum; }
@@ -776,8 +776,8 @@ protected:
     ConnectMgr&                 m_ConnectMgr;
 	P2PConnectList				m_ConnectionList;
     MediaProcessor&				m_MediaProcessor;
-    MembershipAvailableMgr      m_MembershipAvailableMgr;
-    MembershipHostedMgr         m_MembershipHostedMgr;
+    MemberActiveMgr             m_MemberActiveMgr;
+
     NetworkMgr&					m_NetworkMgr;
 	NetworkMonitor&				m_NetworkMonitor;
 	NetServicesMgr&				m_NetServicesMgr;

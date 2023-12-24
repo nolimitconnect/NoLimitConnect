@@ -263,8 +263,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiHostServerJoinMgr.h
     CommonSrc/QtSource/GuiHostJoinSession.h
     CommonSrc/QtSource/GuiHostSession.h
-    CommonSrc/QtSource/GuiMembershipAvailableCallback.h
-    CommonSrc/QtSource/GuiMembershipAvailableMgr.h
+    CommonSrc/QtSource/GuiMemberActiveCallback.h
+    CommonSrc/QtSource/GuiMemberActiveMgr.h
     CommonSrc/QtSource/GuiOfferCallback.h
     CommonSrc/QtSource/GuiOfferInfo.h
     CommonSrc/QtSource/GuiOfferListItem.h
@@ -272,6 +272,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiOfferMgr.h
 	CommonSrc/QtSource/GuiOfferMgrBase.h
     CommonSrc/QtSource/GuiOfferSession.h
+    CommonSrc/QtSource/GuiOnlineStatusCallback.h
     CommonSrc/QtSource/GuiParams.h  
     CommonSrc/QtSource/GuiPlayerCallback.h 
     CommonSrc/QtSource/GuiPlayerMgr.h 
@@ -646,7 +647,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiHostServerJoinMgr.cpp
     CommonSrc/QtSource/GuiHostJoinSession.cpp
     CommonSrc/QtSource/GuiHostSession.cpp
-    CommonSrc/QtSource/GuiMembershipAvailableMgr.cpp
+    CommonSrc/QtSource/GuiMemberActiveMgr.cpp
     CommonSrc/QtSource/GuiOfferInfo.cpp
     CommonSrc/QtSource/GuiOfferListItem.cpp
     CommonSrc/QtSource/GuiOfferListWidget.cpp
