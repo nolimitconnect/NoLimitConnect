@@ -254,58 +254,6 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
 				sktBase->getRemoteIp().c_str(), sktBase->getSocketId().toHexString().c_str() );
 	}
-
-#if ENABLE_STUN_REVERSE_CONNECT
-    if( sktBase->isConnected() && isFirstAnnounce && pktAnn->getIsPktAnnRevConnectRequested() )
-	{
-		LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s reverse connect requested", pktAnn->getOnlineName(), sktBase->getRemoteIp().c_str() );
-		std::shared_ptr<VxSktBase> poNewSkt;
-		m_NetConnector.directConnectTo( pktAnn->getConnectInfo(), poNewSkt, eConnectReasonReverseConnectRequested );
-		if( poNewSkt )
-		{
-			LogModule( eLogConnect, LOG_VERBOSE, "sendMyPktAnnounce 6" );
-            if( m_NetConnector.sendMyPktAnnounce(   pktAnn->getMyOnlineId(),
-													poNewSkt,
-                                                    true,
-                                                    false,
-                                                    false ) )
-            {
-				if( poNewSkt->setPeerPktAnn( *pktAnn ) )
-				{
-					getConnectList().addConnection( poNewSkt, bigListInfo, ( ePktAnnUpdateTypeContactIsSame == pktAnnUpdateType ) );
-					getConnectionMgr().onSktConnectedWithPktAnn( sktBase, bigListInfo );
-				}
-				else
-				{
-					getConnectList().addConnection( poNewSkt, bigListInfo, ( ePktAnnUpdateTypeContactIsSame == pktAnnUpdateType ) );
-				}
-            }
-            else
-            {
-                poNewSkt->closeSkt( eSktClosePktAnnSendFail );
-				return;
-            }
-		}
-	}
-#endif // ENABLE_STUN_REVERSE_CONNECT
-
-	// send ping request to keep connection alive
-	if( sktBase->isConnected() )
-	{
-
-		PktPingReq pktPingReq;
-		pktPingReq.setSrcOnlineId( m_PktAnn.getSrcOnlineId() );
-		if( 0 != sktBase->txPacket( bigListInfo->getMyOnlineId(), &pktPingReq ) )
-		{
-			sktBase->closeSkt( eSktClosePktPingReqSendFail );
-            getConnectList().onConnectionLost( sktBase );
-			return;
-		}
-	}
-	else
-	{
-		getConnectList().onConnectionLost( sktBase );
-	}
 }
 
 //============================================================================

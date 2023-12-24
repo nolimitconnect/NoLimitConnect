@@ -13,7 +13,6 @@
 
 #define ENABLE_COMPONENT_NEARBY         0 // enable/disable nearby users discovery 
 #define ENABLE_IPV6                     0 // if not zero enable ipv6 listen and usage 
-#define ENABLE_STUN_REVERSE_CONNECT     0 // enable/disable stun tunneling using reverse connection to origin ip
 
 #define AUDIO_SAMPLE_RATE       16000
 #define AUDIO_CHUNK_SIZE        1280
