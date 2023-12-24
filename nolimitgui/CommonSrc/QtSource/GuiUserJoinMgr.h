@@ -61,6 +61,9 @@ public:
 
     void                        wantUserJoinCallbacks( GuiUserJoinCallback* client, bool enable );
 
+    void                        reconnectToLastConnectedHost( std::string& lastConnectedHost );
+    void                        stopReconnectToLastConnectedHost( void );
+
 signals:
     void				        signalMyIdentUpdated( GuiUserJoin* guiUserJoin );
 
@@ -84,6 +87,8 @@ private slots:
     void                        slotInternalUserJoinRemoved( GroupieId groupieId );
     void                        slotInternalUserJoinOfferState( GroupieId groupieId, EJoinState hostOfferState );
     void                        slotInternalUserJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId );
+
+    void                        slotReconnectToLastConnectedHost( void );
 
 protected:
     void                        removeUserJoin( GroupieId& groupieId );
@@ -124,4 +129,7 @@ protected:
     VxGUID                      m_LastChatRoomJoinHostOnlineId;
     EJoinState                  m_LastRandomConnectJoinState{ eJoinStateNone };
     VxGUID                      m_LastRandomeConnectJoinHostOnlineId;
+
+    std::string                 m_ReconnectToHost;
+    QTimer*                     m_ReconnectToHostTimer{ nullptr };
 };

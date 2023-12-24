@@ -308,8 +308,6 @@ void AppCommon::loadWithoutThread( void )
 	m_MemberActiveMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 
-    setLoopbackMyselfTestAllowed( getAppSettings().getAllowLoopBackOfMyself() );
-
 	SetUseMilitaryTime( getAppSettings().getUseMilitaryTime() );
 
     m_HomePage.initializeHomePage();

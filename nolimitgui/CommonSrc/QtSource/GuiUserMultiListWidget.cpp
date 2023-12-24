@@ -8,14 +8,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppSettings.h"
 #include "GuiUserMultiListWidget.h"
+
 #include "ActivityMessageBox.h"
+#include "AppCommon.h"
+#include "AppGlobals.h"
+#include "AppSettings.h"
+#include "AppletMultiMessenger.h"
+#include "AppletMgr.h"
+
+#include "GuiHelpers.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
-#include "AppGlobals.h"
+
 #include "MyIcons.h"
-#include "AppCommon.h"
 
 #include <CoreLib/VxGlobals.h>
 
@@ -27,6 +33,8 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
     ui.setupUi( this );
 
 	ui.m_IdentWidget->setupIdentLogic( eButtonSizeSmall );
+    ui.m_AdminIdentWidget->setupIdentLogic( eButtonSizeSmall );
+    ui.m_HostIconButton->setFixedSize( eButtonSizeSmall );
 
     ui.m_HostViewFrame->setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 4 );
 	ui.m_FriendsView->setFixedSize( eButtonSizeSmall );
@@ -278,19 +286,17 @@ void GuiUserMultiListWidget::slotSearchTextChanged( QString searchText )
 //============================================================================
 void GuiUserMultiListWidget::setSelectedUser( GuiUser* guiUser )
 {
-	m_SelectedUser = guiUser;
+    if( guiUser->isOnline() )
+    {
+	    m_SelectedUser = guiUser;
 
-	onSelectedUserChanged( m_SelectedUser );
+	    onSelectedUserChanged( m_SelectedUser );
+    }
 }
 
 //============================================================================
 void GuiUserMultiListWidget::onSelectedUserChanged( GuiUser* guiUser )
 {
-    ui.m_SentToWhoLabel->setVisible( false );
-    ui.m_HostIconButton->setVisible( false );
-
-    ui.m_IdentWidget->setVisible( true );	
-    ui.m_IdentWidget->updateIdentity( guiUser );
 
     if( IsHostedMembersViewType( m_UserViewType ) )
     {
@@ -308,6 +314,24 @@ void GuiUserMultiListWidget::onSelectedUserChanged( GuiUser* guiUser )
         default:
             break;
         }
+    }
+
+    if( getHostAdminId().isValid() )
+    {
+        // launch messenger in opposite page and set the selected user
+        AppletMultiMessenger* messenger = dynamic_cast<AppletMultiMessenger*>( m_MyApp.getAppletMgr().launchApplet( eAppletMultiMessenger, GuiHelpers::getOppositePageFrame( this ) ) );
+        if( messenger )
+        {
+            messenger->setSelectedUser( guiUser );
+        }
+    }
+    else
+    {
+        ui.m_SentToWhoLabel->setVisible( false );
+        ui.m_HostIconButton->setVisible( false );
+
+        ui.m_IdentWidget->setVisible( true );	
+        ui.m_IdentWidget->updateIdentity( guiUser );
     }
 
     emit signalUserSelected( guiUser );
@@ -328,6 +352,7 @@ GuiUserListWidget* GuiUserMultiListWidget::getUserListWidget( void )
 //============================================================================
 void GuiUserMultiListWidget::updateSelectionByViewType( EUserViewType viewType )
 {
+    bool hasAdmin = getHostAdminId().isValid();
     ui.m_IdentWidget->clearIdentity();
     emit signalUserSelected( nullptr );
     if( IsHostedMembersViewType( viewType ) )
@@ -352,9 +377,12 @@ void GuiUserMultiListWidget::updateSelectionByViewType( EUserViewType viewType )
     }
     else
     {
-        ui.m_IdentWidget->setVisible( true );
-        ui.m_SentToWhoLabel->setVisible( false );
-        ui.m_HostIconButton->setVisible( false );
+        if( !hasAdmin )
+        {
+            ui.m_IdentWidget->setVisible( true );
+            ui.m_SentToWhoLabel->setVisible( false );
+            ui.m_HostIconButton->setVisible( false );
+        }
     }
 }
 

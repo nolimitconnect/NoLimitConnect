@@ -370,22 +370,54 @@ void BottomBarWidget::slotMessengerButtonClicked( void )
 //============================================================================
 void BottomBarWidget::slotGroupHostButtonClicked( void )
 {
-	if( !( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) &&
-		m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeGroup, 
-																			 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ), 
-																			 getParentPageFrame() ) ) )
-	{
-		// let user select a host to connect to
-		m_MyApp.getAppletMgr().launchApplet( eAppletGroupJoin, getParentPageFrame() );
-	}
+	launchJoinHostView( eHostTypeGroup );
 }
 
 //============================================================================
 void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 {
-	if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) )
+	launchJoinHostView( eHostTypeChatRoom );
+}
+
+//============================================================================
+void BottomBarWidget::launchJoinHostView( EHostType hostType )
+{
+	if( !m_MyApp.isMessengerReady() )
 	{
-		if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( eHostTypeChatRoom ) )
+		return;
+	}
+
+	EChooseUserReason chooseUserReason{ eChooseUserReasonUnknown };
+	EApplet appletHostAdmin{ eAppletUnknown };
+	EApplet appleHostJoin{ eAppletUnknown };
+
+	switch( hostType )
+	{
+	case eHostTypeGroup:
+		chooseUserReason = eChooseUserReasonGroupHost;
+		appletHostAdmin = eAppletGroupHostAdmin;
+		appleHostJoin = eAppletGroupJoin;
+		break;
+
+	case eHostTypeChatRoom:
+		chooseUserReason = eChooseUserReasonChatRoomHost;
+		appletHostAdmin = eAppletChatRoomHostAdmin;
+		appleHostJoin = eAppletChatRoomJoin;
+		break;
+
+	case eHostTypeRandomConnect:
+		chooseUserReason = eChooseUserReasonRandomConnectHost;
+		appletHostAdmin = eAppletRandomConnectHostAdmin;
+		appleHostJoin = eAppletRandomConnectJoin;
+		break;
+
+	default:
+		return;
+	}
+
+	if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( hostType ) )
+	{
+		if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( hostType ) )
 		{
 			// we are both an admin of our chat room and a member of another chat room.
 			// prompt user to choose which chat room to show
@@ -393,9 +425,9 @@ void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 			AppletChooseUser* appletChooseUser = dynamic_cast<AppletChooseUser*>(activity);
 			if( appletChooseUser )
 			{
-				appletChooseUser->setChooseUserReason( eChooseUserReasonChatRoomHost );
+				appletChooseUser->setChooseUserReason( chooseUserReason );
 				appletChooseUser->addUser( m_MyApp.getMyOnlineId() );
-				VxGUID hostOnlineId = m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom );
+				VxGUID hostOnlineId = m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( hostType );
 				if( hostOnlineId.isVxGUIDValid() )
 				{
 					appletChooseUser->addUser( hostOnlineId );
@@ -412,20 +444,35 @@ void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 		}
 		else
 		{
-			m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom, 
-																				 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ), 
+			m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( hostType, 
+																				 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( hostType ), 
 																				 getParentPageFrame() );
 		}
 	}
 	else
 	{
-		if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( eHostTypeChatRoom ) )
+		GuiUser* myIdent = m_MyApp.getUserMgr().getMyIdent();
+		if( myIdent && myIdent->isValid() )
 		{
-			m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
+			if( myIdent->getNetIdent().isValidNetIdent() )
+			{
+				if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( hostType ) )
+				{
+					m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
+				}
+				else
+				{
+					m_MyApp.getAppletMgr().launchApplet( appleHostJoin, getParentPageFrame() );
+				}
+			}
+			else
+			{
+				LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked isValidNetIdent false" );
+			}
 		}
 		else
 		{
-			m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin, getParentPageFrame() );
+			LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked myIdent null" );
 		}
 	}
 }
@@ -433,14 +480,7 @@ void BottomBarWidget::slotChatRoomHostButtonClicked( void )
 //============================================================================
 void BottomBarWidget::slotRandomConnectHostButtonClicked( void )
 {
-	if( !( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) &&
-		m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeRandomConnect, 
-																			 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeRandomConnect ), 
-																			 getParentPageFrame() ) ) )
-	{
-		// let user select a host to connect to
-		m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectJoin, getParentPageFrame() );
-	}
+	launchJoinHostView( eHostTypeRandomConnect );
 }
 
 //============================================================================

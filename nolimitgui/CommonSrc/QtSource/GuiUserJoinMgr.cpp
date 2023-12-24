@@ -24,18 +24,21 @@
 GuiUserJoinMgr::GuiUserJoinMgr( AppCommon& app )
     : QObject( &app )
     , m_MyApp( app )
+    , m_ReconnectToHostTimer( new QTimer( this ) )
 {
+    m_ReconnectToHostTimer->setInterval( 3 * 60 * 1000 );
+    connect( m_ReconnectToHostTimer, SIGNAL(timeout()), this, SLOT(slotReconnectToLastConnectedHost()) );
 }
 
 //============================================================================
 void GuiUserJoinMgr::onAppCommonCreated( void )
 {
-    connect( this, SIGNAL( signalInternalUserJoinRequested( UserJoinInfo* ) ), this, SLOT( slotInternalUserJoinRequested( UserJoinInfo* ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalUserJoinUpdated( UserJoinInfo* ) ), this, SLOT( slotInternalUserJoinUpdated( UserJoinInfo* ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalUserUnJoinUpdated( UserJoinInfo* ) ), this, SLOT( slotInternalUserUnJoinUpdated( UserJoinInfo* ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalUserJoinRemoved( GroupieId ) ), this, SLOT( slotInternalUserJoinRemoved( GroupieId ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalUserJoinOfferState( GroupieId, EJoinState ) ), this, SLOT( slotInternalUserJoinOfferState( GroupieId, EJoinState ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalUserJoinOnlineState( GroupieId, EOnlineState, VxGUID ) ), this, SLOT( slotInternalUserJoinOnlineState( GroupieId, EOnlineState, VxGUID ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserJoinRequested(UserJoinInfo*)), this, SLOT(slotInternalUserJoinRequested(UserJoinInfo*)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserJoinUpdated(UserJoinInfo*)), this, SLOT(slotInternalUserJoinUpdated(UserJoinInfo*)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserUnJoinUpdated(UserJoinInfo*)), this, SLOT(slotInternalUserUnJoinUpdated(UserJoinInfo*)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserJoinRemoved(GroupieId)), this, SLOT(slotInternalUserJoinRemoved(GroupieId)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserJoinOfferState(GroupieId,EJoinState)), this, SLOT(slotInternalUserJoinOfferState(GroupieId,EJoinState)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), this, SLOT(slotInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getUserJoinMgr().addUserJoinMgrClient( this, true );
 }
@@ -103,6 +106,7 @@ void GuiUserJoinMgr::callbackUserJoinOnlineState( GroupieId& groupieId, EOnlineS
 //============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinRequested( UserJoinInfo* userJoinInfo )
 {
+    stopReconnectToLastConnectedHost();
     updateUserJoin( userJoinInfo );
     delete userJoinInfo;
 }
@@ -110,6 +114,7 @@ void GuiUserJoinMgr::slotInternalUserJoinRequested( UserJoinInfo* userJoinInfo )
 //============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinUpdated( UserJoinInfo* userJoinInfo )
 {
+    stopReconnectToLastConnectedHost();
     updateUserJoin( userJoinInfo );
     delete userJoinInfo;
 }
@@ -117,6 +122,7 @@ void GuiUserJoinMgr::slotInternalUserJoinUpdated( UserJoinInfo* userJoinInfo )
 //============================================================================
 void GuiUserJoinMgr::slotInternalUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
 {
+    stopReconnectToLastConnectedHost();
     updateUserJoin( userJoinInfo, true  );
     delete userJoinInfo;
 }
@@ -124,6 +130,7 @@ void GuiUserJoinMgr::slotInternalUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
 //============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinRemoved( GroupieId groupieId )
 {
+    stopReconnectToLastConnectedHost();
     announceUserJoinRemoved( groupieId );
     auto iter = m_UserJoinList.find( groupieId );
     GuiUserJoin* guiUserJoin = nullptr;
@@ -139,6 +146,7 @@ void GuiUserJoinMgr::slotInternalUserJoinRemoved( GroupieId groupieId )
 //============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinOfferState( GroupieId groupieId, EJoinState joinOfferState )
 {
+    stopReconnectToLastConnectedHost();
     GuiUserJoin* guiUserJoin = findUserJoin( groupieId );
     if( guiUserJoin && joinOfferState != eJoinStateNone )
     {
@@ -152,6 +160,7 @@ void GuiUserJoinMgr::slotInternalUserJoinOfferState( GroupieId groupieId, EJoinS
 //============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId )
 {
+    stopReconnectToLastConnectedHost();
     GuiUserJoin* guiUserJoin = findUserJoin( groupieId );
     bool isOnline = onlineState == eOnlineStateOnline ? true : false;
     if( guiUserJoin && isOnline != guiUserJoin->isOnline() )
@@ -509,3 +518,61 @@ VxGUID& GuiUserJoinMgr::getUserJoinedHostOnlineId( EHostType hostType )
 		return VxGUID::nullVxGUID();
 	}
 }
+
+//============================================================================
+void GuiUserJoinMgr::reconnectToLastConnectedHost( std::string& lastConnectedHost )
+{
+    m_ReconnectToHost = lastConnectedHost;
+    slotReconnectToLastConnectedHost();
+    m_ReconnectToHostTimer->start();
+}
+
+//============================================================================
+void GuiUserJoinMgr::stopReconnectToLastConnectedHost( void )
+{
+    m_ReconnectToHostTimer->stop();
+    m_ReconnectToHost.clear();
+}
+
+//============================================================================
+void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
+{
+    VxPtopUrl ptopUrl( m_ReconnectToHost );
+    EHostType hostType = ptopUrl.getHostType();
+    if( IsHostARelayForUsers( hostType ) )
+    {
+        if( ptopUrl.isValid() )
+        {
+            if( ptopUrl.getOnlineId() != m_MyApp.getMyOnlineId() )
+            {
+                std::string ptopUrlIpv4 = ptopUrl.getHostUrl( false );
+                std::string ptopUrlIpv6 = ptopUrl.getHostUrl( true );
+
+                VxGUID sessionId;
+                sessionId.initializeWithNewVxGUID();
+
+                LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", m_ReconnectToHost.c_str() );
+
+                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+            }
+            else
+            {
+                LogModule( eLogUserEvent, LOG_ERROR, "checkReadyToConnectToLastConnectedHost cannot connect to ourself" );
+                m_MyApp.getAppSettings().setLastHostJoined("");
+                stopReconnectToLastConnectedHost();
+            }
+        }
+        else
+        {
+            LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid ptop url %s", m_ReconnectToHost.c_str() );
+            stopReconnectToLastConnectedHost();
+        }
+    }
+    else
+    {
+        LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", m_ReconnectToHost.c_str() );
+        stopReconnectToLastConnectedHost();
+    }
+}
+
+ 

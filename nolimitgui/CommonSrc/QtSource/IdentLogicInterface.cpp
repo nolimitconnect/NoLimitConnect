@@ -44,7 +44,7 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 		if( getIdentOfferViewButton() )
 		{
 			getIdentOfferViewButton()->setVisible( false );
-			connect( getIdentOfferViewButton(), SIGNAL( clicked() ), this, SLOT( slotIdentOfferViewButtonClicked() ) );
+			connect( getIdentOfferViewButton(), SIGNAL(clicked()), this, SLOT(slotIdentOfferViewButtonClicked()) );
 		}
 
 		if( getIdentOfferAcceptButton() )
@@ -52,7 +52,7 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 			getIdentOfferAcceptButton()->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
 			getIdentOfferAcceptButton()->setIcon( eMyIconCheckMark );
 			getIdentOfferAcceptButton()->setVisible( false );
-			connect( getIdentOfferAcceptButton(), SIGNAL( clicked() ), this, SLOT( slotIdentOfferAcceptButtonClicked() ) );
+			connect( getIdentOfferAcceptButton(), SIGNAL(clicked()), this, SLOT(slotIdentOfferAcceptButtonClicked()) );
 		}
 
 		if( getIdentOfferRejectButton() )
@@ -60,18 +60,18 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 			getIdentOfferRejectButton()->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 			getIdentOfferRejectButton()->setIcon( eMyIconRedX );
 			getIdentOfferRejectButton()->setVisible( false );
-			connect( getIdentOfferRejectButton(), SIGNAL( clicked() ), this, SLOT( slotIdentOfferRejectButtonClicked() ) );
+			connect( getIdentOfferRejectButton(), SIGNAL(clicked()), this, SLOT(slotIdentOfferRejectButtonClicked()) );
 		}
 
 		if( getIdentPushToTalkButton() )
 		{
 			getIdentPushToTalkButton()->setVisible( false );
-			connect( getIdentPushToTalkButton(), SIGNAL( clicked() ), this, SLOT( slotIdentPushToTalkButtonClicked() ) );
+			connect( getIdentPushToTalkButton(), SIGNAL(clicked()), this, SLOT(slotIdentPushToTalkButtonClicked()) );
 		}
 
-		connect( getIdentAvatarButton(), SIGNAL( clicked() ), this, SLOT( slotIdentAvatarButtonClicked() ) );
-		connect( getIdentFriendshipButton(), SIGNAL( clicked() ), this, SLOT( slotIdentFrienshipButtonClicked() ) );
-		connect( getIdentMenuButton(), SIGNAL( clicked() ), this, SLOT( slotIdentMenuButtonClicked() ) );
+		connect( getIdentAvatarButton(), SIGNAL(clicked()), this, SLOT(slotIdentAvatarButtonClicked()) );
+		connect( getIdentFriendshipButton(), SIGNAL(clicked()), this, SLOT(slotIdentFrienshipButtonClicked()) );
+		connect( getIdentMenuButton(), SIGNAL(clicked()), this, SLOT(slotIdentMenuButtonClicked()) );
 	}
 	
 	onIdentLogicIsSetup();
@@ -135,95 +135,106 @@ void IdentLogicInterface::setIdentWidgetSize( enum EButtonSize buttonSize )
 void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 {
 	if( guiUser )
-	{
-		if( !m_IsSignalsConnected )
+	{	
+		if( guiUser->getNetIdent().isValidNetIdent() )
 		{
-			setupIdentLogic();
-		}
-
-		m_GuiUser = guiUser;
-
-        if( ShouldDebugUser( guiUser->getOnlineName().c_str() ) )
-		{
-			LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my frienship %s his friendship %s",
-					   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
-					   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
-		}
-
-		bool isOnline = m_GuiUser->isOnline();
-		bool isRelayed = m_GuiUser->isRelayed();
-		bool isNearby = m_GuiUser->isNearby();
-		getIdentLine1()->setText( m_GuiUser->getOnlineName().c_str() );
-		getIdentLine2()->setText( m_GuiUser->getOnlineDescription().c_str() );
-		getIdentFriendshipButton()->setIcon( m_MyApp.getMyIcons().getFriendshipIcon( m_GuiUser->getMyFriendshipToHim() ) );
-
-		if( m_GuiUser->getMyFriendshipToHim() == eFriendStateFriend && m_GuiUser->getHisFriendshipToMe() == eFriendStateFriend )
-		{
-			getIdentFriendshipButton()->setIcon( eMyIconFriendJoined );
-		}
-
-		if( getIdentPushToTalkButton() )
-		{
-			if( isOnline && m_GuiUser->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && m_GuiUser->isHisAccessAllowedFromMe( ePluginTypePushToTalk ) )
+			if( ShouldDebugUser( guiUser->getOnlineName().c_str() ) )
 			{
-				getIdentPushToTalkButton()->setVisible( true );
-				getIdentPushToTalkButton()->setPushToTalkStatus( m_GuiUser->getPushToTalkStatus() );
+				LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my friendship %s his friendship %s",
+						   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
+						   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
+			}
+
+			m_GuiUser = guiUser;
+
+			if( !m_IsSignalsConnected )
+			{
+				setupIdentLogic();
+			}
+
+			bool isOnline = m_GuiUser->isOnline();
+			bool isRelayed = m_GuiUser->isRelayed();
+			bool isNearby = m_GuiUser->isNearby();
+			getIdentLine1()->setText( m_GuiUser->getOnlineName().c_str() );
+			getIdentLine2()->setText( m_GuiUser->getOnlineDescription().c_str() );
+			getIdentFriendshipButton()->setIcon( m_MyApp.getMyIcons().getFriendshipIcon( m_GuiUser->getMyFriendshipToHim() ) );
+
+			if( m_GuiUser->getMyFriendshipToHim() == eFriendStateFriend && m_GuiUser->getHisFriendshipToMe() == eFriendStateFriend )
+			{
+				getIdentFriendshipButton()->setIcon( eMyIconFriendJoined );
+			}
+
+			if( getIdentPushToTalkButton() )
+			{
+				if( isOnline && m_GuiUser->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && m_GuiUser->isHisAccessAllowedFromMe( ePluginTypePushToTalk ) )
+				{
+					getIdentPushToTalkButton()->setVisible( true );
+					getIdentPushToTalkButton()->setPushToTalkStatus( m_GuiUser->getPushToTalkStatus() );
+				}
+				else
+				{
+					getIdentPushToTalkButton()->setVisible( false );
+				}
+			}
+
+			if( getIdentLine3() )
+			{
+				QString truths = QObject::tr( "Truths: " );
+				QString dares = QObject::tr( " Dares: " );
+				getIdentLine3()->setText( QString( truths + "%1" + dares + "%2" ).arg( m_GuiUser->getTruthCount() ).arg( m_GuiUser->getDareCount() ) );
+			}
+
+			bool isMyself = m_GuiUser->getMyOnlineId() == m_MyApp.getMyOnlineId();
+			if( isMyself )
+			{
+				LogMsg( LOG_DEBUG, "GuiUserListWidget::updateIdentity myself %s", guiUser->getOnlineName().c_str() );
+			}
+
+			if( queryThumb )
+			{
+				setIdentAvatarThumbnail( m_GuiUser->getAvatarThumbGuid() );
+			}
+
+			if( isMyself )
+			{
+				getIdentFriendshipButton()->setIcon( eMyIconAdministrator ); // eMyIconAdministrator );
+				getIdentFriendshipButton()->setNotifyType( eNotifyOnline );
+
+				getIdentFriendshipButton()->setNotifyDirectConnectEnabled( true );
+				getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
 			}
 			else
 			{
-				getIdentPushToTalkButton()->setVisible( false );
+				ENotifyType notifyType = isOnline ? eNotifyOnline : eNotifyOffline;
+				EThemeColorRole onlineIndicatorColor{ eLayerNotifyOfflineColor };
+				if( isOnline )
+				{
+					onlineIndicatorColor = isRelayed ? eLayerNotifyRelayedColor : eLayerNotifyOnlineColor;
+					if( isRelayed )
+					{
+						notifyType = eNotifyRelayed;
+					}		
+				}
+
+				getIdentFriendshipButton()->setNotifyType( notifyType );
+
+				getIdentFriendshipButton()->setNotifyDirectConnectEnabled( isNearby || ( notifyType == eNotifyOnline ) );
+				if( isNearby || ( notifyType == eNotifyOnline ) )
+				{
+					getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( onlineIndicatorColor ) );
+				}
+
+				getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( m_GuiUser->getMyOnlineId() ) );
 			}
-		}
-
-		if( getIdentLine3() )
-		{
-			QString truths = QObject::tr( "Truths: " );
-			QString dares = QObject::tr( " Dares: " );
-			getIdentLine3()->setText( QString( truths + "%1" + dares + "%2" ).arg( m_GuiUser->getTruthCount() ).arg( m_GuiUser->getDareCount() ) );
-		}
-
-		bool isMyself = m_GuiUser->getMyOnlineId() == m_MyApp.getMyOnlineId();
-		if( isMyself )
-		{
-			LogMsg( LOG_DEBUG, "GuiUserListWidget::updateIdentity myself %s", guiUser->getOnlineName().c_str() );
-		}
-
-		if( queryThumb )
-		{
-			setIdentAvatarThumbnail( m_GuiUser->getAvatarThumbGuid() );
-		}
-
-		if( isMyself )
-		{
-			getIdentFriendshipButton()->setIcon( eMyIconAdministrator ); // eMyIconAdministrator );
-			getIdentFriendshipButton()->setNotifyType( eNotifyOnline );
-
-			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( true );
-			getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
 		}
 		else
 		{
-			ENotifyType notifyType = isOnline ? eNotifyOnline : eNotifyOffline;
-			EThemeColorRole onlineIndicatorColor{ eLayerNotifyOfflineColor };
-			if( isOnline )
-			{
-				onlineIndicatorColor = isRelayed ? eLayerNotifyRelayedColor : eLayerNotifyOnlineColor;
-				if( isRelayed )
-				{
-					notifyType = eNotifyRelayed;
-				}		
-			}
-
-			getIdentFriendshipButton()->setNotifyType( notifyType );
-
-			getIdentFriendshipButton()->setNotifyDirectConnectEnabled( isNearby || ( notifyType == eNotifyOnline ) );
-			if( isNearby || ( notifyType == eNotifyOnline ) )
-			{
-				getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( onlineIndicatorColor ) );
-			}
-
-			getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( m_GuiUser->getMyOnlineId() ) );
+			LogMsg( LOG_ERROR, "IdentLogicInterface::updateIdentity invalid net ident" );
 		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "IdentLogicInterface::updateIdentity null guiUser" );
 	}
 }
 
@@ -241,7 +252,6 @@ void IdentLogicInterface::clearIdentity( void )
 	setIdentFriendshipIcon( eMyIconAnonymous );
 	getIdentFriendshipButton()->setNotifyType( eNotifyNone );
 	getIdentFriendshipButton()->setNotifyDirectConnectEnabled( false );
-
 }
 
 //============================================================================

@@ -193,14 +193,6 @@ void AppletNearbyListClient::onShowNearbyList( void )
     nearbyList = nearbyMgr.getIdentList();
     nearbyMgr.unlockList();
 
-    /*
-    if( m_MyApp.getLoopbackMyselfTestAllowed() )
-    {
-        m_MyApp.getUserMgr().getMyIdent()->setNearbyStatus( m_MyApp.elapsedMilliseconds() );
-        nearbyList.push_back( std::make_pair( m_MyApp.getUserMgr().getMyOnlineId(), m_MyApp.elapsedMilliseconds() ) );
-    }
-    */
-
     updateFriendList( eUserViewTypeNearby, nearbyList );
 }
 

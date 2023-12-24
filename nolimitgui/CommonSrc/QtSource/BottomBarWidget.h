@@ -120,6 +120,7 @@ protected slots:
 protected:
 	QWidget*				    getParentPageFrame( void ); // get home page frame ( Launch or Messenger Page )
 	void						refreshUserJoinedToHostStates( void );
+	void						launchJoinHostView( EHostType hostType );
 
 	Ui::BottomBarWidgetClass	ui;
 	AppCommon&					m_MyApp;

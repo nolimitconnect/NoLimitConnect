@@ -47,10 +47,10 @@ GuiOfferListWidget::~GuiOfferListWidget()
 //============================================================================
 void GuiOfferListWidget::callbackMyIdentUpdated( GuiUser* guiUser )
 {
-    if( m_MyApp.getLoopbackMyselfTestAllowed() && guiUser )
-    {
-        callbackUserUpdated( guiUser );
-    }
+    //if( guiUser )
+    //{
+    //    callbackUserUpdated( guiUser );
+    //}
 }
 
 //============================================================================

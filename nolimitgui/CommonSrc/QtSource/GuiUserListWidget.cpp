@@ -32,7 +32,6 @@ GuiUserListWidget::GuiUserListWidget( QWidget* parent )
 	sortItems( Qt::DescendingOrder );
 
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
-    GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, true );
     GetAppInstance().getMemberActiveMgr().wantMemberActiveCallback( this, true );
 }
@@ -40,7 +39,7 @@ GuiUserListWidget::GuiUserListWidget( QWidget* parent )
 //============================================================================
 GuiUserListWidget::~GuiUserListWidget()
 {
-    GetAppInstance().getMemberActiveMgr().wantMemberActiveCallback( this, true );
+    GetAppInstance().getMemberActiveMgr().wantMemberActiveCallback( this, false );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, false );
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, false );
 }
@@ -48,7 +47,7 @@ GuiUserListWidget::~GuiUserListWidget()
 //============================================================================
 void GuiUserListWidget::callbackMyIdentUpdated( GuiUser* guiUser )
 {
-    if( m_MyApp.getLoopbackMyselfTestAllowed() && guiUser )
+    if( guiUser->getMyOnlineId() != getHostAdminId().getHostOnlineId() )
     {
         callbackUserUpdated( guiUser );
     }
@@ -73,14 +72,6 @@ void GuiUserListWidget::refreshUserList( void )
         {
             updateUserList.push_back( iter->second );
         }  
-    }
-
-    if( m_MyApp.getLoopbackMyselfTestAllowed() )
-    {
-        if( m_UserMgr.getMyIdent() )
-        {
-            updateUserList.push_back( m_UserMgr.getMyIdent() );
-        }
     }
 
     for( auto user : updateUserList )
@@ -129,13 +120,13 @@ GuiUserListItem* GuiUserListWidget::sessionToWidget( GuiUserSessionBase* userSes
     userItem->setUserSession( userSession );
 
     //connect( userItem, SIGNAL( signalGuiUserListItemClicked(GuiUserListItem*) ), this, SLOT( slotUserListItemClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalAvatarButtonClicked(GuiUserListItem*) ), this, SLOT( slotAvatarButtonClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalFriendshipButtonClicked(GuiUserListItem*) ), this, SLOT( slotFriendshipButtonClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalOfferViewButtonClicked(GuiUserListItem*) ), this, SLOT( slotOfferViewButtonClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalOfferAcceptButtonClicked(GuiUserListItem*) ), this, SLOT( slotOfferAcceptButtonClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalOfferRejectButtonClicked(GuiUserListItem*) ), this, SLOT( slotOfferRejectButtonClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalPushToTalkButtonClicked(GuiUserListItem*) ), this, SLOT( slotPushToTalkButtonClicked(GuiUserListItem*) ) );
-    connect( userItem, SIGNAL( signalMenuButtonClicked(GuiUserListItem*) ), this, SLOT( slotMenuButtonClicked(GuiUserListItem*) ) );
+    connect( userItem, SIGNAL(signalAvatarButtonClicked(GuiUserListItem*)),     this, SLOT(slotAvatarButtonClicked(GuiUserListItem*)) );
+    connect( userItem, SIGNAL(signalFriendshipButtonClicked(GuiUserListItem*)), this, SLOT(slotFriendshipButtonClicked(GuiUserListItem*)) );
+    connect( userItem, SIGNAL(signalOfferViewButtonClicked(GuiUserListItem*)),  this, SLOT(slotOfferViewButtonClicked(GuiUserListItem*)) );
+    connect( userItem, SIGNAL(signalOfferAcceptButtonClicked(GuiUserListItem*)), this, SLOT(slotOfferAcceptButtonClicked(GuiUserListItem*)) );
+    connect( userItem, SIGNAL(signalOfferRejectButtonClicked(GuiUserListItem*)), this, SLOT(slotOfferRejectButtonClicked(GuiUserListItem*)) );
+    connect( userItem, SIGNAL(signalPushToTalkButtonClicked(GuiUserListItem*)), this, SLOT(slotPushToTalkButtonClicked(GuiUserListItem*)) );
+    connect( userItem, SIGNAL(signalMenuButtonClicked(GuiUserListItem*)),       this, SLOT(slotMenuButtonClicked(GuiUserListItem*)) );
 
     userItem->updateWidgetFromInfo();
 
@@ -158,54 +149,93 @@ void GuiUserListWidget::updateUser( VxGUID& onlineId )
 //============================================================================
 void GuiUserListWidget::updateUser( GuiUser* guiUser )
 {
-    if( guiUser && isListViewMatch( guiUser ) )
-    {       
-        GuiUserSessionBase* userSession = nullptr;
-        auto iter = m_UserCache.find( guiUser->getMyOnlineId() );
-        if( iter == m_UserCache.end() )
+    if( guiUser )
+    {   
+        if( isListViewMatch( guiUser ) )
         {
-            if( guiUser->isOnline() || ( !guiUser->isOnline() && m_ViewType == eUserViewTypeOffline ) )
+            LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser user %s %s", 
+                    guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str());
+            if( guiUser->getNetIdent().isValidNetIdent() )
             {
-                LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser new user %s", guiUser->getOnlineName().c_str() );
-                userSession = makeSession( guiUser );
-                if( userSession )
+                GuiUserSessionBase* userSession = nullptr;
+                auto iter = m_UserCache.find( guiUser->getMyOnlineId() );
+                if( iter == m_UserCache.end() )
                 {
-                    m_UserCache[ guiUser->getMyOnlineId()] = userSession;
-                    GuiUserListItem* entryWidget = sessionToWidget( userSession );
-                    if( 0 == count() )
+                    GuiUserListItem* userItem = findListEntryWidgetByOnlineId( guiUser->getMyOnlineId() );
+
+                    if( !userItem )
                     {
-                        LogMsg( LOG_INFO, "add user %s", guiUser->getOnlineName().c_str() );
-                        addItem( entryWidget );
+                        if( guiUser->isOnline() || (!guiUser->isOnline() && m_ViewType == eUserViewTypeOffline) )
+                        {
+                            LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser new user %s", guiUser->getOnlineName().c_str() );
+                            GuiUserSessionBase* userSession = makeSession( guiUser );
+                            if( userSession )
+                            {
+                                m_UserCache[guiUser->getMyOnlineId()] = userSession;
+                                GuiUserListItem* entryWidget = sessionToWidget( userSession );
+                                if( 0 == count() )
+                                {
+                                    LogMsg( LOG_INFO, "add user %s", guiUser->getOnlineName().c_str() );
+                                    addItem( entryWidget );
+                                }
+                                else
+                                {
+                                    LogMsg( LOG_INFO, "insert user %s", guiUser->getOnlineName().c_str() );
+                                    insertItem( 0, (QListWidgetItem*)entryWidget );
+                                }
+
+                                setItemWidget( (QListWidgetItem*)entryWidget, (QWidget*)entryWidget );
+                                onListItemAdded( userSession, entryWidget );
+                            }
+                            else
+                            {
+                                LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser failed create session for user %s", guiUser->getOnlineName().c_str() );
+                            }
+                        }
+                        else
+                        {
+                            LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser user %s is no longer online", guiUser->getOnlineName().c_str() );
+                        }
                     }
                     else
                     {
-                        LogMsg( LOG_INFO, "insert user %s", guiUser->getOnlineName().c_str() );
-                        insertItem( 0, (QListWidgetItem*)entryWidget );
-                    }
+                        LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser entryWidget exists but is not in cache %s", guiUser->getOnlineName().c_str() );
+                        if( userItem )
+                        {
+                            GuiUserSessionBase* userSession = userItem->getUserSession();
+                            if( userSession )
+                            {
+                                onListItemUpdated( userItem->getUserSession(), userItem );
+                            }
 
-                    setItemWidget( (QListWidgetItem*)entryWidget, (QWidget*)entryWidget );
-                    onListItemAdded( userSession, entryWidget );
+                            userItem->update();
+                        }
+                    } 
                 }
                 else
                 {
-                    LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser failed create session for user %s", guiUser->getOnlineName().c_str() );
-                }
-            }
-        }
-        else
-        {
-            GuiUserListItem* userItem = findListEntryWidgetByOnlineId( guiUser->getMyOnlineId() );
-            if( userItem )
-            {
-                GuiUserSessionBase* userSession = userItem->getUserSession();
-                if( userSession )
-                {
-                    onListItemUpdated( userItem->getUserSession(), userItem );
-                }
+                    GuiUserListItem* userItem = findListEntryWidgetByOnlineId( guiUser->getMyOnlineId() );
+                    if( userItem )
+                    {
+                        GuiUserSessionBase* userSession = userItem->getUserSession();
+                        if( userSession )
+                        {
+                            onListItemUpdated( userItem->getUserSession(), userItem );
+                        }
 
-                userItem->update();
+                        userItem->update();
+                    }
+                }
             }
-        }
+            else
+            {
+                LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser invalid net ident" );
+            }
+        } // no need for else.. is just not a match
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser null gui user" );
     }
 }
 
@@ -219,7 +249,7 @@ void GuiUserListWidget::updateEntryWidget( VxGUID& onlineId )
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser failed to find session for user" );
+        LogMsg( LOG_ERROR, "GuiUserListWidget::updateEntryWidget failed to find session for user" );
     }
 }
 
@@ -650,17 +680,17 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
     EUserViewType viewType = getUserViewType();
     if( guiUser && !guiUser->isIgnored() )
     {
-        if( eUserViewTypeEverybody == viewType )
+        if( guiUser->isMyself() )
+        {
+            return guiUser->getMyOnlineId() != getHostAdminId().getHostOnlineId();
+        }
+        else if( eUserViewTypeEverybody == viewType )
         {
             return true;
         }
         else if( eUserViewTypeOnline == viewType )
         {
             return guiUser->isOnline();
-        }
-        else if( guiUser->isMyself() )
-        {
-            return m_MyApp.getLoopbackMyselfTestAllowed();
         }
         else if( eUserViewTypeDirectConnect == viewType )
         {
@@ -803,10 +833,10 @@ void GuiUserListWidget::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkS
 //============================================================================
 void GuiUserListWidget::callbackGuiMemberActive( GroupieId& groupieId, bool isActive )
 {
-    if( isMemberView() && groupieId.getHostedId() == m_HostAdminId.getHostedId() )
+    if( isActive && isMemberView() && ( groupieId.getHostedId() == m_HostAdminId.getHostedId() || !m_HostAdminId.isValid() ) )
     {
         VxGUID onlineId = groupieId.getUserOnlineId();
-        if( onlineId != groupieId.getUserOnlineId() )
+        if( onlineId != groupieId.getHostOnlineId() )
         {
             updateUser( onlineId );
         }

@@ -138,8 +138,6 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( &m_MyApp, SIGNAL( signalRunTestStatus( QString, ERunTestStatus, QString ) ),
         this, SLOT( slotRunTestStatus( QString, ERunTestStatus, QString ) ) );
 
-    connect( ui.m_AllowLoopbackCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotLoopBackAllowStateChange(int)) );
-
     updateDlgFromSettings();
 
     // Log is seperate now VxAddLogHandler( this );
@@ -162,8 +160,6 @@ void AppletTestAndDebug::updateDlgFromSettings()
     {
         ui.m_TestUrlEdit->setText( lastTestUrl.c_str() );
     }
-
-    ui.m_AllowLoopbackCheckBox->setCheckState( m_MyApp.getAppSettings().getAllowLoopBackOfMyself() ? Qt::Checked : Qt::Unchecked );
 }
 
 //============================================================================
@@ -174,9 +170,6 @@ void AppletTestAndDebug::updateSettingsFromDlg()
         std::string testUrl( ui.m_TestUrlEdit->text().toUtf8().constData() );
         m_MyApp.getAppSettings().setLastUsedTestUrl( testUrl );
     }
-
-    m_MyApp.getAppSettings().setAllowLoopBackOfMyself( ui.m_AllowLoopbackCheckBox->checkState() == Qt::Checked ? true : false );
-    m_MyApp.setLoopbackMyselfTestAllowed( ui.m_AllowLoopbackCheckBox->checkState() == Qt::Checked ? true : false );
 }
 
 //============================================================================
@@ -550,11 +543,4 @@ void AppletTestAndDebug::slotPurgeEverythingButtonClicked( void )
     {
         infoMsg( "Purge was canceled" );
     }
-}
-
-//============================================================================
-void AppletTestAndDebug::slotLoopBackAllowStateChange( int checkBoxState )
-{
-    m_MyApp.getAppSettings().setAllowLoopBackOfMyself( checkBoxState );
-    m_MyApp.setLoopbackMyselfTestAllowed( checkBoxState );
 }

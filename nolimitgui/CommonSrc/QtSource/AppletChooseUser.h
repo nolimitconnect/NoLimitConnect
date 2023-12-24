@@ -16,7 +16,10 @@
 enum EChooseUserReason
 {
     eChooseUserReasonUnknown,
+
+    eChooseUserReasonGroupHost,
     eChooseUserReasonChatRoomHost,
+    eChooseUserReasonRandomConnectHost,
 
     eMaxChooseUserReason
 };

@@ -97,24 +97,52 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 		GuiUser* user = userSession->getUserIdent();
 		if( user )
 		{
-			if( eChooseUserReasonChatRoomHost == getChooseUserReason() )
+			EHostType hostType{ eHostTypeUnknown };
+			EApplet appletHostAdmin{ eAppletUnknown };
+			EApplet appleHostJoin{ eAppletUnknown };
+
+			switch( hostType )
+			{
+			case eChooseUserReasonGroupHost:
+				hostType = eHostTypeGroup;
+				appletHostAdmin = eAppletGroupHostAdmin;
+				appleHostJoin = eAppletGroupJoin;
+				break;
+
+			case eChooseUserReasonChatRoomHost:
+				hostType = eHostTypeChatRoom;
+				appletHostAdmin = eAppletChatRoomHostAdmin;
+				appleHostJoin = eAppletChatRoomJoin;
+				break;
+
+			case eChooseUserReasonRandomConnectHost:
+				hostType = eHostTypeRandomConnect;
+				appletHostAdmin = eAppletRandomConnectHostAdmin;
+				appleHostJoin = eAppletRandomConnectJoin;
+				break;
+
+			default:
+				return;
+			}
+
+			if( hostType != eHostTypeUnknown )
 			{
 				if( user->getMyOnlineId() == m_MyApp.getMyOnlineId() )
 				{
-					m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
+					m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
 				}
 				else
 				{
-					if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) )
+					if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( hostType ) )
 					{
-						m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( eHostTypeChatRoom,
-																							 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( eHostTypeChatRoom ),
+						m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( hostType,
+																							 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( hostType ),
 																							 getParentPageFrame() );
 					}
 					else
 					{
 						// let user select a host to connect to
-						m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin, getParentPageFrame() );
+						m_MyApp.getAppletMgr().launchApplet( appleHostJoin, getParentPageFrame() );
 					}
 				}
 

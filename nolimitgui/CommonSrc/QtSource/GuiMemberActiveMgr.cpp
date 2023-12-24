@@ -108,7 +108,7 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
 
     if( !wasFound && isActive )
     {
-        m_MemberList.emplace_back( groupieId );
+        m_MemberList.push_back( groupieId );
         wasUpdated = true;
     }
 
@@ -121,6 +121,12 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
 //============================================================================
 void GuiMemberActiveMgr::wantMemberActiveCallback( GuiMemberActiveCallback* client, bool enable )
 {
+    if( !client )
+    {
+        LogMsg( LOG_ERROR, "GuiMemberActiveMgr null client" );
+        return;
+    }
+
     bool wasFound = false;
     for( auto iter = m_MemberClients.begin(); iter != m_MemberClients.end(); ++iter )
     {
@@ -138,7 +144,7 @@ void GuiMemberActiveMgr::wantMemberActiveCallback( GuiMemberActiveCallback* clie
 
     if( enable && !wasFound )
     {
-        m_MemberClients.emplace_back( client );
+        m_MemberClients.push_back( client );
     }
 }
 

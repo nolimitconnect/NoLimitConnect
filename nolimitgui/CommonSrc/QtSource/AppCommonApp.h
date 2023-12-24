@@ -107,9 +107,6 @@ public:
     void                        setIsAppInitialized( bool initialized ) { m_AppInitialized = initialized; }
     bool                        getIsAppInitialized( void ) { return m_AppInitialized; }
 
-    void                        setLoopbackMyselfTestAllowed( bool allow ) { m_LoopbackMyselfTestAllowed = allow; }
-    bool                        getLoopbackMyselfTestAllowed( void ) { return m_LoopbackMyselfTestAllowed; }
-
     // diagnose to much cpu usage in gui thread
     void                        setGuiCpuTimeEnable( bool enable ) { m_GuiCpuTimeEnable = enable; }
     bool                        getGuiCpuTimeEnable( void ) { return m_GuiCpuTimeEnable; }
@@ -859,7 +856,7 @@ protected:
     GuiFavoriteMgr			    m_FavoriteMgr;
     GuiFileXferMgr              m_FileXferMgr;
     GuiThumbMgr					m_ThumbMgr;
-    GuiMemberActiveMgr   m_MemberActiveMgr;
+    GuiMemberActiveMgr          m_MemberActiveMgr;
     GuiOfferMgr		            m_OfferMgr;
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;
@@ -927,7 +924,6 @@ protected:
     bool                        m_IsGuiSystemReady{ false };
     bool                        m_PtopNetworkReady{ false };
 
-    bool                        m_LoopbackMyselfTestAllowed{ false };
     bool                        m_GuiCpuTimeEnable{ false };
 
     QTimer*                     m_GuiStartupTimer = nullptr;
