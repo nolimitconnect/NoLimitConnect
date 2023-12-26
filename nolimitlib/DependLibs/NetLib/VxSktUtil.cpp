@@ -1556,11 +1556,11 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, 
 	char as8Buf[32];
 	sprintf( as8Buf, "%d", u16Port );
 
-	//LogMsg( LOG_INFO, "VxResolveUrl %s:%d", pUrl, u16Port ); 
 	int RetVal = getaddrinfo( pUrl, as8Buf, &Hints, &AddrInfo );
 	if( RetVal != 0 )
 	{
-		LogMsg( LOG_ERROR, " getaddrinfo() failed with error %d %s", RetVal, VxDescribeSktError( RetVal ) );
+       LogMsg( LOG_ERROR, "VxResolveUrl: Failed to resolve host %s port %d error %d reason %s ",
+               pUrl, u16Port, RetVal, VxDescribeSktError( RetVal ) );
 	}
 	else
 	{

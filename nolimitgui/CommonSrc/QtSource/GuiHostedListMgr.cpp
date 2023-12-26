@@ -210,7 +210,6 @@ GuiHosted* GuiHostedListMgr::updateHosted( VxNetIdent* hisIdent, EHostType hostT
     {
         if( guiHosted && guiHosted->getUser()->getMyOnlineId() == hisIdent->getMyOnlineId() )
         {
-            guiHosted->getUser()->addHostType( hostType );
             if( isMessengerReady() )
             {
                 announceHostedListUpdated( hostTypeId, guiHosted );
@@ -221,7 +220,6 @@ GuiHosted* GuiHostedListMgr::updateHosted( VxNetIdent* hisIdent, EHostType hostT
             guiHosted = new GuiHosted( m_MyApp );
             guiHosted->setUser( guiUser );
             guiHosted->getUser()->setNetIdent( hisIdent );
-            guiHosted->getUser()->addHostType( hostType );
             m_HostedList[hostTypeId] = guiHosted;
             if( isMessengerReady() )
             {

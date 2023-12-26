@@ -42,9 +42,6 @@ GuiUserBase::GuiUserBase( const GuiUserBase& rhs )
     , m_OnlineId( rhs.m_OnlineId )
     , m_SessionId( rhs.m_SessionId )
     , m_NearbyTimeOrZero( rhs.m_NearbyTimeOrZero )
-    , m_IsDirectConnect( rhs.m_IsDirectConnect )
-    , m_IsRelayed( rhs.m_IsRelayed )
-    , m_HostSet( rhs.m_HostSet )
 {
 }
 
@@ -57,7 +54,42 @@ bool GuiUserBase::isMyself( void )
 //============================================================================
 bool GuiUserBase::isOnline( void )
 {
-    return m_MyApp.getUserMgr().isUserOnline( m_OnlineId );
+    return m_MyApp.getConnectIdListMgr().isOnline( getMyOnlineId() );
+}
+
+//============================================================================
+bool GuiUserBase::isDirectConnect( void )
+{
+    return m_MyApp.getConnectIdListMgr().isDirectConnect( getMyOnlineId() );
+}
+
+//============================================================================
+bool GuiUserBase::isRelayed( void )
+{
+    return m_MyApp.getConnectIdListMgr().isRelayed( getMyOnlineId() );
+}
+
+//============================================================================
+bool GuiUserBase::isHosted( void )
+{ 
+    return isGroupHosted() || isChatRoomHosted() || isRandomConnectHosted();
+}
+
+//============================================================================
+bool GuiUserBase::isGroupHosted( void )
+{ 
+    return m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeGroup, getMyOnlineId() );
+}
+//============================================================================
+bool GuiUserBase::isChatRoomHosted( void )                
+{ 
+    return m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeChatRoom, getMyOnlineId() );
+}
+
+//============================================================================
+bool GuiUserBase::isRandomConnectHosted( void )           
+{ 
+    return m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, getMyOnlineId() );
 }
 
 //============================================================================
@@ -82,47 +114,6 @@ bool GuiUserBase::setNearbyStatus( int64_t nearbyTimeOrZeroIfNotd ) // return fa
 bool GuiUserBase::isNearby( void )
 {
     return m_NearbyTimeOrZero && m_MyApp.elapsedMilliseconds() - m_NearbyTimeOrZero < NEARBY_TIMEOUT_MS;
-}
-
-//============================================================================
-bool GuiUserBase::updateIsDirectConnect( void )
-{
-    bool isDirectConnect = false;
-    if( isMyself() )
-    {
-        isDirectConnect = true;
-    }
-    else
-    {
-        isDirectConnect = m_MyApp.getConnectIdListMgr().isDirectConnect( getMyOnlineId() );
-    }
-
-    m_IsDirectConnect = isDirectConnect;
-    return m_IsDirectConnect;
-}
-
-//============================================================================
-bool GuiUserBase::setDirectConnectStatus( bool isDirectConnect ) // return false if nearbyTime is zero
-{
-    m_IsDirectConnect = isDirectConnect;
-    return m_IsDirectConnect;
-}
-
-//============================================================================
-bool GuiUserBase::updateIsRelayed( void )
-{
-    bool isRelayed = false;
-    if( isMyself() )
-    {
-        isRelayed = false;
-    }
-    else
-    {
-        isRelayed = m_MyApp.getConnectIdListMgr().isRelayed( getMyOnlineId() );
-    }
-
-    m_IsRelayed = isRelayed;
-    return isRelayed;
 }
 
 //============================================================================
@@ -216,61 +207,19 @@ void GuiUserBase::setNetIdent( VxNetIdent* netIdent )
 }
 
 //============================================================================
-bool GuiUserBase::setRelayStatus( bool isRelayed )
-{
-    bool relayStateChanged = isRelayed != m_IsRelayed;
-    if( relayStateChanged )
-    {
-        m_IsRelayed = isRelayed;
-    }
-
-    return relayStateChanged;
-}
-
-//============================================================================
 bool GuiUserBase::isInSession( void )
 {
     return isOnline() && m_SessionId.isVxGUIDValid();
 }
 
 //============================================================================
-void GuiUserBase::addHostType( EHostType hostType )
-{
-    if( hostType > eHostTypeUnknown && hostType < eMaxHostType )
-    {
-        m_HostSet.insert( hostType );
-    }
-}
-
-//============================================================================
-QString GuiUserBase::describeHosts( void )
-{
-    QString hosts;
-    for( auto hostType : m_HostSet )
-    {
-        hosts += " ";
-        hosts += GuiParams::describeHostType( hostType );
-    }
-
-    return hosts;
-}
-
-//============================================================================
 QString GuiUserBase::describeUser( bool verbose )
 {
-    QString descUser( m_NetIdent.getOnlineName() );
+    QString descUser( m_NetIdent.describeUser().c_str() );
     descUser += " -> ";
     descUser += describeMyFriendshipToHim( false );
     descUser += " <- ";
     descUser += describeHisFriendshipToMe( false );
-    if( verbose )
-    {
-        if( isHosted() )
-        {
-            descUser += " h(s) ";
-            descUser += describeHosts();
-        }
-    }
 
     return descUser;
 }

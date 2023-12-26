@@ -57,6 +57,8 @@ class FileXferInfo
 public:
 	FileXferInfo()
 	{
+		m_as8RemoteFileName[0] = 0;
+		m_as8LocalFileName[0] = 0;
 	}
 
 	char						m_as8RemoteFileName[ 512 ];

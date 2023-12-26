@@ -302,7 +302,6 @@ void GuiConnectIdListMgr::announceRelayStatusChange( VxGUID& onlineId, bool isRe
         LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::announceRelayStatusChange user %s isRelayed %d", 
                 m_MyApp.describeUser( onlineId ).c_str(), isRelayed );
 
-        m_MyApp.getUserMgr().connnectIdRelayStatusChange( onlineId );
         for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
         {
             GuiConnectIdListCallback* client = *iter;
@@ -445,6 +444,11 @@ bool GuiConnectIdListMgr::isDirectConnect( VxGUID& onlineId )
     bool isDirectConnect{ false };
     if( onlineId.isVxGUIDValid() )
     {
+        if( onlineId == m_MyApp.getMyOnlineId() )
+        {
+            return true;
+        }
+
         for( auto &connectIdIn : m_ConnectIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdIn);
@@ -454,15 +458,10 @@ bool GuiConnectIdListMgr::isDirectConnect( VxGUID& onlineId )
                 break;
             }
         }
-
-        //if( isDirectConnect )
-        //{
-        //    LogMsg( LOG_VERBOSE, "IS direct connect %s", m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
-        //}
-        //else
-        //{
-        //    LogMsg( LOG_VERBOSE, "Is NOT direct connect %s", m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
-        //}
+    }
+    else
+    {
+         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::isDirectConnect invalid id" );
     }
 
     return isDirectConnect;
@@ -475,6 +474,11 @@ bool GuiConnectIdListMgr::isRelayed( VxGUID& onlineId )
     bool isDirectConnected{ false };
     if( onlineId.isVxGUIDValid() )
     {
+        if( onlineId == m_MyApp.getMyOnlineId() )
+        {
+            return false;
+        }
+
         for( auto &connectIdIn : m_ConnectIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdIn);
@@ -497,6 +501,10 @@ bool GuiConnectIdListMgr::isRelayed( VxGUID& onlineId )
                 }
             }
         }
+    }
+    else
+    {
+         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::isRelayed invalid id" );
     }
 
     return isRelayed;

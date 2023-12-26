@@ -21,6 +21,8 @@ enum EChooseUserReason
     eChooseUserReasonChatRoomHost,
     eChooseUserReasonRandomConnectHost,
 
+    eChooseUserReasonTest,
+
     eMaxChooseUserReason
 };
 
@@ -36,8 +38,12 @@ public:
     EChooseUserReason           getChooseUserReason( void )                                 { return m_ChooseUserReason; }
 
     void                        addUser( VxGUID& onlineId );
+    void                        updateUser( GuiUser* guiUser );
 
     void                        setChooseInstructionsText( QString instructionText );
+
+signals:
+    void                        signalUserChoosen( VxGUID onlineId );
 
 protected slots:
     void                        slotUserSelected( GuiUserSessionBase* userSession, GuiUserListItem* userItem );

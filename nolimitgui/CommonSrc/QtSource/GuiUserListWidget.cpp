@@ -39,6 +39,12 @@ GuiUserListWidget::GuiUserListWidget( QWidget* parent )
 //============================================================================
 GuiUserListWidget::~GuiUserListWidget()
 {
+    disconnectUserUpdates();
+}
+
+//============================================================================
+void GuiUserListWidget::disconnectUserUpdates( void )
+{
     GetAppInstance().getMemberActiveMgr().wantMemberActiveCallback( this, false );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, false );
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, false );
@@ -103,12 +109,6 @@ void GuiUserListWidget::clearUserList( void )
     }
 
     clear();
-}
-
-//============================================================================
-void GuiUserListWidget::disconnectUserUpdates( void )
-{
-     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, false );
 }
 
 //============================================================================
@@ -682,7 +682,8 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
     {
         if( guiUser->isMyself() )
         {
-            return guiUser->getMyOnlineId() != getHostAdminId().getHostOnlineId();
+            return getAllowMyselfInList() &&
+                   (!getHostAdminId().isValid() || guiUser->getMyOnlineId() != getHostAdminId().getHostOnlineId());
         }
         else if( eUserViewTypeEverybody == viewType )
         {

@@ -15,5 +15,6 @@ class GuiMemberActiveCallback
 {
 public:
     virtual void				callbackGuiMemberActive( GroupieId& groupieId, bool isActive ) {};
+    virtual void				callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostType hostType, bool isJoined ) {};
 };
 

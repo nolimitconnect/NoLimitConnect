@@ -648,7 +648,7 @@ void CamLogic::startCamera()
         }
         else if( m_camera.isNull() )
         {
-            QMessageBox::warning( this, QObject::tr( "CamLogic Error" ), QObject::tr( "Camera is null" ) );
+            LogMsg( LOG_ERROR, "CamLogic::startCamera camera is null" );
         }
     }
 }

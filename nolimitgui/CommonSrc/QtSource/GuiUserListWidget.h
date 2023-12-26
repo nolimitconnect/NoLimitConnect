@@ -34,7 +34,7 @@ class GuiUserListWidget : public ListWidgetBase,
 
 public:
 	GuiUserListWidget( QWidget* parent );
-    virtual ~GuiUserListWidget();
+    virtual ~GuiUserListWidget() override;
 
     void						setAppletType( EApplet appletType )         { m_AppletType = appletType; };
     EApplet						getAppletType( void )                       { return m_AppletType; };
@@ -44,6 +44,9 @@ public:
 
     void                        setHostAdminId( GroupieId& adminId )        { m_HostAdminId = adminId; };
     GroupieId&                  getHostAdminId( void )                      { return m_HostAdminId; };
+
+    void                        setAllowMyselfInList( bool allowMyself )    { m_AllowMyselfInList = allowMyself; };
+    bool                        getAllowMyselfInList( void )                { return m_AllowMyselfInList; };
 
     void                        clearUserList( void );
     void                        disconnectUserUpdates( void );
@@ -129,5 +132,7 @@ protected:
     GroupieId                   m_HostAdminId;
 
     std::map<VxGUID, GuiUserSessionBase*> m_UserCache;
+
+    bool                        m_AllowMyselfInList{ false };
 };
 

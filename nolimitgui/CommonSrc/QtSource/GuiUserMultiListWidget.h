@@ -39,6 +39,9 @@ public:
 	bool						hasHostAdmin( void )						{ return m_HostAdminId.isValid(); };
 	void						clearHostAdmin( void )						{ m_HostAdminId.clear(); };
 
+	void                        setAllowMyselfInList( bool allowMyself );
+	bool                        getAllowMyselfInList( void );
+
 	void						setSelectedUser( GuiUser* guiUser );
 
 	void						userJoinedHost( GuiHosted* guiHosted );

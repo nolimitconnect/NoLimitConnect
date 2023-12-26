@@ -12,7 +12,7 @@
 #include <QFrame>
 
 #include "GuiHostJoinCallback.h"
-#include "GuiUserJoinCallback.h"
+#include "GuiMemberActiveCallback.h"
 
 #include "ui_BottomBarWidget.h"
 
@@ -22,7 +22,7 @@ class QLabel;
 class AppCommon;
 class MyIcons;
 
-class BottomBarWidget : public QFrame, public GuiHostJoinCallback, public GuiUserJoinCallback
+class BottomBarWidget : public QFrame, public GuiHostJoinCallback, public GuiMemberActiveCallback
 {
 	Q_OBJECT
 
@@ -39,8 +39,8 @@ public:
 	void						callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
 	void						callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
 
-	//=== user member joint to host server state callbacks GuiUserJoinCallback ===// 
-	void						callbackGuiUserJoinToHostState( EHostType hostType, bool isJoined ) override; ///< just my join to host state for me and not other members
+	//=== user member joint to host server state callbacks GuiMemberActiveCallback ===// 
+	void						callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostType host, bool isJoined ) override; 
 
 	//=== bottom bar button visibility ===// 
 	void						setArrowLeftVisibility( bool visible );

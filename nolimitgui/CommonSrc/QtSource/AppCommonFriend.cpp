@@ -202,196 +202,26 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
         return;
     }
 
-    GuiUser* user = getUserMgr().updateUser( &netIdent, true );
-
-    m_ToGuiActivityInterfaceBusy = true;
-    for( auto client : m_ToGuiActivityInterfaceList )
+    if( !netIdent.isValidNetIdent() )
     {
-        client->toGuiContactOnline( user );
+        LogMsg( LOG_ERROR, "AppCommon::slotInternalToGuiContactOnline invalide ident" );
+        return;
     }
 
-    m_ToGuiActivityInterfaceBusy = false;
-}
+    bool wasOnline = getConnectIdListMgr().isOnline( netIdent.getMyOnlineId() );
+    GuiUser* guiUser = getUserMgr().updateUser( &netIdent );
+    bool isOnline = getConnectIdListMgr().isOnline( netIdent.getMyOnlineId() );
+    if( guiUser && wasOnline != isOnline && isOnline )
+    {
+        m_ToGuiActivityInterfaceBusy = true;
+        for( auto client : m_ToGuiActivityInterfaceList )
+        {
+            client->toGuiContactOnline( guiUser );
+        }
 
-////============================================================================
-//void AppCommon::toGuiContactNameChange( VxNetIdent* netIdent )
-//{
-//    if( VxIsAppShuttingDown() )
-//    {
-//        return;
-//    }
-//
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactNameChange invalid netIdent" );
-//        return;
-//    }
-//
-//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactNameChange %s id %s my friendship %s his friendship %s", 
-//               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
-//               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
-//
-//    emit signalInternalToGuiContactNameChange( *netIdent );
-//}
-//
-////============================================================================
-//void AppCommon::slotInternalToGuiContactNameChange( VxNetIdent netIdent )
-//{
-//	LogMsg( LOG_INFO, "AppCommon::toGuiContactNameChange %s", netIdent.getOnlineName());
-//    getUserMgr().toGuiContactNameChange( &netIdent );
-//    m_ToGuiUserUpdateClientBusy = true;
-//    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
-//    {
-//        ToGuiUserUpdateInterface* client = *iter;
-//        client->toGuiContactNameChange( &netIdent );
-//    }
-//
-//    m_ToGuiUserUpdateClientBusy = false;
-//}
-//
-////============================================================================
-////! called when description changes
-//void AppCommon::toGuiContactDescChange( VxNetIdent* netIdent )
-//{
-//    if( VxIsAppShuttingDown() )
-//    {
-//        return;
-//    }
-//
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactDescChange invalid netIdent" );
-//        return;
-//    }
-//
-//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactDescChange %s id %s my friendship %s his friendship %s", 
-//               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
-//               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
-//
-//    emit signalInternalToGuiContactDescChange( *netIdent );
-//}
-//
-////============================================================================
-//void AppCommon::slotInternalToGuiContactDescChange( VxNetIdent netIdent )
-//{
-//	LogMsg( LOG_INFO, "AppCommon::toGuiContactDescChange %s", netIdent.getOnlineName());
-//
-//    getUserMgr().toGuiContactDescChange( &netIdent );
-//    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
-//    {
-//        ToGuiUserUpdateInterface* client = *iter;
-//        client->toGuiContactDescChange( &netIdent );
-//    }
-//}
-//
-////============================================================================
-////! called when my friendship to him changes
-//void AppCommon::toGuiContactFriendshipChange( VxNetIdent* netIdent )
-//{
-//    if( VxIsAppShuttingDown() )
-//    {
-//        return;
-//    }
-//
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactFriendshipChange invalid netIdent" );
-//        return;
-//    }
-//
-//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactFriendshipChange %s id %s my friendship %s his friendship %s", 
-//               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
-//               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
-//
-//    emit signalInternalToGuiContactFriendshipChange( *netIdent );
-//}
-//
-////============================================================================
-//void AppCommon::slotInternalToGuiContactFriendshipChange( VxNetIdent netIdent )
-//{
-//	LogMsg( LOG_INFO, "AppCommon::toGuiContactFriendshipChange %s", netIdent.getOnlineName());
-//    getUserMgr().toGuiContactFriendshipChange( &netIdent );
-//    m_ToGuiUserUpdateClientBusy = true;
-//    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
-//    {
-//        ToGuiUserUpdateInterface* client = *iter;
-//        client->toGuiContactFriendshipChange( &netIdent );
-//    }
-//
-//    m_ToGuiUserUpdateClientBusy = false;
-//}
-//
-////============================================================================
-////! called when plugin permission changes
-//void AppCommon::toGuiPluginPermissionChange( VxNetIdent* netIdent )
-//{
-//    if( VxIsAppShuttingDown() )
-//    {
-//        return;
-//    }
-//
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiPluginPermissionChange invalid netIdent" );
-//        return;
-//    }
-//
-//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiPluginPermissionChange %s id %s my friendship %s his friendship %s", 
-//               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
-//               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
-//
-//    emit signalInternalToGuiPluginPermissionChange( *netIdent );
-//}
-//
-////============================================================================
-//void AppCommon::slotInternalToGuiPluginPermissionChange( VxNetIdent netIdent )
-//{
-//    getUserMgr().toGuiPluginPermissionChange( &netIdent );
-//    m_ToGuiUserUpdateClientBusy = true;
-//    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
-//    {
-//        ToGuiUserUpdateInterface* client = *iter;
-//        client->toGuiPluginPermissionChange( &netIdent );
-//    }
-//
-//    m_ToGuiUserUpdateClientBusy = false;
-//}
-//
-////============================================================================
-////! called when search flags changes
-//void AppCommon::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
-//{
-//	if( VxIsAppShuttingDown() )
-//	{
-//		return;
-//	}
-//
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactSearchFlagsChange invalid netIdent" );
-//        return;
-//    }
-//
-//    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactSearchFlagsChange %s id %s my friendship %s his friendship %s", 
-//               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
-//               DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
-//
-//    emit signalInternalToGuiContactSearchFlagsChange( *netIdent );
-//}
-//
-////============================================================================
-//void AppCommon::slotInternalToGuiContactSearchFlagsChange( VxNetIdent netIdent )
-//{
-//    getUserMgr().toGuiContactSearchFlagsChange( &netIdent );
-//    m_ToGuiUserUpdateClientBusy = true;
-//    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
-//    {
-//        ToGuiUserUpdateInterface* client = *iter;
-//        client->toGuiContactSearchFlagsChange( &netIdent );
-//    }    
-//
-//    m_ToGuiUserUpdateClientBusy = false;
-//}
+        m_ToGuiActivityInterfaceBusy = false;
+    }
+}
 
 //============================================================================
 //! called when any contact info changes ( including any of the above )

@@ -38,7 +38,7 @@ public:
     bool                        isMessengerReady( void );
     virtual void                onSystemReady( bool ready ) { }
 
-    void                        setLastJoinAttempted( std::string& joinUrl ) { m_LastJoinAttemptedHostInviteUrl = joinUrl; }
+    void                        setLastJoinAttempted( std::string& joinUrl ) { m_LastJoinAttemptedHostInviteUrl = joinUrl; if( !m_ReconnectToHost.empty() ) m_ReconnectToHost = joinUrl; }
 
     bool                        isUserJoinedToHost( EHostType hostType ); ///< return true if local user currently is joined to given host type
     VxGUID&                     getUserJoinedHostOnlineId( EHostType hostType ); ///< return the host online id user currently is joined to of the given host type

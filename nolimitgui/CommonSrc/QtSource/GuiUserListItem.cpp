@@ -174,7 +174,16 @@ bool GuiUserListItem::operator<( const QListWidgetItem& other ) const
     const GuiUserListItem* rhs = dynamic_cast<const GuiUserListItem*>(&other);
     if( rhs )
     {
-        return const_cast<GuiUserListItem*>(this)->compareLessThanItem( (GuiUserListItem*)rhs );
+        GuiUserListItem* thisItem = const_cast<GuiUserListItem*>(this);
+        GuiUserListItem* otherItem = const_cast<GuiUserListItem*>(rhs);
+        if( thisItem && otherItem )
+        {
+            return thisItem->compareLessThanItem( otherItem );
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "GuiUserListItem::operator null after const cast %p %p", thisItem, otherItem );
+        }
     }
 
     return false;

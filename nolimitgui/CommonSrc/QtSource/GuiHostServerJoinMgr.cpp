@@ -145,8 +145,8 @@ void GuiHostJoinMgr::slotInternalHostUnJoin( GroupieId groupieId )
     {
         //emit signalHostJoinRemoved( onlineId, hostType );
         joinInfo = iter->second;
-        joinInfo->getUser()->removeHostType( groupieId.getHostType() );
-        if( !joinInfo->getUser()->hostTypeCount() )
+
+        if( !joinInfo->getUser()->isHosted() )
         {
             m_HostJoinList.erase( iter );
             joinInfo->deleteLater();
@@ -165,8 +165,8 @@ void GuiHostJoinMgr::slotInternalHostJoinRemoved( GroupieId groupieId )
     {
         //emit signalHostJoinRemoved( onlineId, hostType );
         joinInfo = iter->second;
-        joinInfo->getUser()->removeHostType( groupieId.getHostType() );
-        if( !joinInfo->getUser()->hostTypeCount() )
+
+        if( !joinInfo->getUser()->isHosted() )
         {
             m_HostJoinList.erase( iter );
             joinInfo->deleteLater();

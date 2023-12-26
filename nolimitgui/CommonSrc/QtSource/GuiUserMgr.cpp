@@ -33,28 +33,7 @@ void GuiUserMgr::onAppCommonCreated( void )
 //============================================================================
 GuiUser* GuiUserMgr::getMyIdent( void )
 {
-    if( !m_MyIdent )
-    {
-        LogMsg( LOG_ERROR, "GuiUserMgr::getMyIdent null m_MyIdent");
-        return nullptr;
-    }
-
-    if( !m_MyIdent->getNetIdent().isValidNetIdent() )
-    {
-        if( !m_MyApp.isMessengerReady() )
-        {
-            LogMsg( LOG_ERROR, "GuiUserMgr::getMyIdent called before ready");
-        }
-
-        m_MyIdent->setNetIdent( m_MyApp.getMyNetIdent() );
-        if( !m_MyIdent->getNetIdent().isValidNetIdent() )
-        {
-            LogMsg( LOG_ERROR, "GuiUserMgr::getMyIdent called but net ident is invalid");
-            return nullptr;
-        }
-    }
-
-    return m_MyIdent;
+    return findUser( m_MyOnlineId );
 }
 
 //============================================================================
@@ -273,66 +252,6 @@ bool GuiUserMgr::updateIsOnlineList( VxGUID& onlineId, bool isOnline )
     return listUpdated;
 }
 
-////============================================================================
-//void GuiUserMgr::toGuiContactNameChange( VxNetIdent* netIdent )
-//{
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactNameChange invalid netIdent" );
-//        return;
-//    }
-//
-//    updateUser( netIdent );
-//}
-//
-////============================================================================
-//void GuiUserMgr::toGuiContactDescChange( VxNetIdent* netIdent )
-//{
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactDescChange invalid netIdent" );
-//        return;
-//    }
-//
-//    updateUser( netIdent );
-//}
-//
-////============================================================================
-//void GuiUserMgr::toGuiContactFriendshipChange( VxNetIdent* netIdent )
-//{
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactFriendshipChange invalid netIdent" );
-//        return;
-//    }
-//
-//    updateUser( netIdent );
-//}
-//
-////============================================================================
-//void GuiUserMgr::toGuiPluginPermissionChange( VxNetIdent* netIdent )
-//{
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiPluginPermissionChange invalid netIdent" );
-//        return;
-//    }
-//
-//    updateUser( netIdent );
-//}
-//
-////============================================================================
-//void GuiUserMgr::toGuiContactSearchFlagsChange( VxNetIdent* netIdent )
-//{
-//    if( !netIdent || !netIdent->isValidNetIdent() )
-//    {
-//        LogMsg( LOG_ERROR, "AppCommon::toGuiContactSearchFlagsChange invalid netIdent" );
-//        return;
-//    }
-//
-//    updateUser( netIdent );
-//}
-
 //============================================================================
 void GuiUserMgr::toGuiContactLastSessionTimeChange( VxNetIdent* netIdent )
 {
@@ -392,7 +311,22 @@ GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
     GuiUser* guiUser = nullptr;
     if( onlineId == m_MyOnlineId )
     {
-        return m_MyIdent;
+        if( !m_RawMyIdent.isValidNetIdent() )
+        {
+            return nullptr;
+        }
+        else if( !m_MyIdent )
+        {
+            // there is some wierdness where if GuiUser was created too soon the signals do not connect correctly
+            GuiUser* guiUser = new GuiUser( m_MyApp );
+            guiUser->setNetIdent( &m_RawMyIdent );
+            m_MyIdent = guiUser;
+            return guiUser;
+        }
+        else
+        {
+            return m_MyIdent;
+        }
     }
     else
     {
@@ -436,14 +370,7 @@ void GuiUserMgr::removeUser( const VxGUID& onlineId )
 //============================================================================
 bool GuiUserMgr::isUserRelayed( VxGUID& onlineId )
 {
-    GuiUser* guiUser = findUser( onlineId );
-    if( guiUser )
-    {
-        guiUser->updateIsRelayed();
-        return guiUser->isRelayed();
-    }
-
-    return false;
+    return m_MyApp.getConnectIdListMgr().isRelayed( onlineId );
 }
 
 //============================================================================
@@ -454,7 +381,7 @@ bool GuiUserMgr::isUserOnline( VxGUID& onlineId )
         return true;
     }
 
-    return m_OnlineUsers.find( onlineId ) != m_OnlineUsers.end();
+    return m_MyApp.getConnectIdListMgr().isOnline( onlineId );
 }
 
 //============================================================================
@@ -476,6 +403,30 @@ GuiUser* GuiUserMgr::getUser( const VxGUID& onlineId )
     else
     {
         guiUser = findUser( onlineId );
+    }
+
+    return guiUser;
+}
+
+//============================================================================
+GuiUser* GuiUserMgr::getUserForTest( bool mustBeOnline )
+{
+    GuiUser* guiUser{ nullptr };
+    for( auto& userPair : m_UserList )
+    {
+        if( mustBeOnline )
+        {
+            if( guiUser->isOnline() )
+            {
+                guiUser = userPair.second;
+                break;
+            }
+        }
+        else
+        {
+            guiUser = userPair.second;
+            break;
+        }
     }
 
     return guiUser;
@@ -512,31 +463,80 @@ GuiUser* GuiUserMgr::getOrQueryUser( VxGUID& onlineId )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent, bool updateIsOnlineBecauseIsNowOnline )
+GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
 {
-    if( !hisIdent )
+    if( !hisIdent || !hisIdent->isValidNetIdent() )
     {
         LogMsg( LOG_ERROR, "GuiUserMgr::updateUser invalid param" );
         return nullptr;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s force online %d", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str(), updateIsOnlineBecauseIsNowOnline );
-
-    if( updateIsOnlineBecauseIsNowOnline )
-    {
-        updateIsOnlineList( hisIdent->getMyOnlineId(), true );
-    }
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str() );
 
     if( hisIdent->getMyOnlineId() == m_MyApp.getMyOnlineId() )
     {
-        return updateMyIdent( hisIdent );
+        updateMyIdent( hisIdent );
+        return findUser( hisIdent->getMyOnlineId() );
     }
     else
     {
         GuiUser* guiUser = findUser( hisIdent->getMyOnlineId() );
         if( guiUser )
         {
-            onUserUpdated( guiUser );
+            // only call updated if changes concern gui
+            bool requiresUpdate{ false };
+            VxNetIdent curIdent = guiUser->getNetIdent();
+            if( !curIdent.isValidNetIdent() )
+            {
+                requiresUpdate = true;
+                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser update invalid ident %s", hisIdent->describeUser().c_str() );
+            }
+            else
+            {
+                // name changed
+                requiresUpdate = 0 != strcmp( curIdent.getOnlineName(),  hisIdent->getOnlineName() );
+                if( requiresUpdate )
+                {
+                    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser name change %s", hisIdent->describeUser().c_str() );
+                }
+
+                if( !requiresUpdate )
+                {
+                    // description changed
+                    requiresUpdate = 0 != strcmp( curIdent.getOnlineDescription(),  hisIdent->getOnlineDescription() );
+                    if( requiresUpdate )
+                    {
+                        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser decription change %s", hisIdent->describeUser().c_str() );
+                    }
+                }
+
+                if( !requiresUpdate )
+                {
+                    // friendship changed
+                    requiresUpdate = curIdent.getMyFriendshipToHim() != hisIdent->getMyFriendshipToHim() ||
+                        curIdent.getHisFriendshipToMe() != hisIdent->getHisFriendshipToMe();
+                    if( requiresUpdate )
+                    {
+                        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser friendship change %s", hisIdent->describeUser().c_str() );
+                    }
+                }
+
+                if( !requiresUpdate )
+                {
+                    // permission changed
+                    requiresUpdate = 0 != memcmp( curIdent.getPluginPermissions(), hisIdent->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
+                    if( requiresUpdate )
+                    {
+                        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser permission change %s", hisIdent->describeUser().c_str() );
+                    }
+                }
+            }
+
+            if( requiresUpdate )
+            {
+                guiUser->setNetIdent( hisIdent );
+                onUserUpdated( guiUser );
+            }
         }
         else
         {
@@ -551,14 +551,24 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent, bool updateIsOnlineBecaus
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::updateMyIdent( VxNetIdent* myIdent )
+void GuiUserMgr::updateMyIdent( VxNetIdent* myIdent )
 {
+    if( !myIdent )
+    {
+        LogMsg( LOG_ERROR, "GuiUserMgr::updateMyIdent null myIdent" );
+        return;
+    }
+
+    if( !myIdent->isValidNetIdent() )
+    {
+        LogMsg( LOG_ERROR, "GuiUserMgr::updateMyIdent invalid myIdent" );
+        return;
+    }
+
     if( !m_MyIdent )
     {
-        GuiUser* guiUser = new GuiUser( m_MyApp );
-        guiUser->setNetIdent( myIdent );
-        m_MyIdent = guiUser;
-        m_MyOnlineId = m_MyIdent->getMyOnlineId();
+        memcpy( &m_RawMyIdent, myIdent, sizeof( VxNetIdent ) );
+        m_MyOnlineId = m_RawMyIdent.getMyOnlineId();
     }
     else
     {
@@ -566,22 +576,23 @@ GuiUser* GuiUserMgr::updateMyIdent( VxNetIdent* myIdent )
         m_MyOnlineId = m_MyIdent->getMyOnlineId();
     }
 
-    if( isMessengerReady() )
+    if( m_MyIdent )
     {
-        m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        if( isMessengerReady() )
         {
-            if( client && !isClientQueuedForRemoval( client ) )
+            m_ClientListBusy = true;
+            for( auto client : m_GuiUserUpdateClientList )
             {
-                client->callbackMyIdentUpdated( m_MyIdent );
+                if( client && !isClientQueuedForRemoval( client ) )
+                {
+                    client->callbackMyIdentUpdated( m_MyIdent );
+                }
             }
+
+            m_ClientListBusy = false;
+            updateClientList();
         }
-
-        m_ClientListBusy = false;
-        updateClientList();
     }
-
-    return m_MyIdent;
 }
 
 //============================================================================
@@ -857,28 +868,6 @@ void GuiUserMgr::connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearby
 }
 
 //============================================================================
-void GuiUserMgr::connnectIdRelayStatusChange( VxGUID& onlineId )
-{
-    GuiUser* guiUser = findUser( onlineId );
-    if( guiUser )
-    {      
-        bool wasOnline = guiUser->isOnline();
-        guiUser->updateIsRelayed();
-        if( wasOnline != guiUser->isOnline() )
-        {
-            onUserOnlineStatusChange( guiUser );
-        }
-        else
-        {
-            onUserUpdated( guiUser );
-        }
-
-        bool isRelayed = guiUser->isRelayed();
-        LogMsg( LOG_VERBOSE, "GuiUserMgr::connnectIdRelayStatusChange is relayed ? %d %s", isRelayed, getUserOnlineName( onlineId ).c_str() );
-    }
-}
-
-//============================================================================
 void GuiUserMgr::updateClientList( void )
 {
     // update client list from que of want callback that happened while client list was busy
@@ -944,6 +933,7 @@ bool GuiUserMgr::isClientQueuedForRemoval( GuiUserUpdateCallback* client )
     return isQueued;
 }
 
+//============================================================================
 bool GuiUserMgr::getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idList )
 {
     idList.clear();

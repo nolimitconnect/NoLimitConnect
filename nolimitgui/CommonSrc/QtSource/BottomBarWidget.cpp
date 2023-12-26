@@ -96,13 +96,13 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 
 	refreshUserJoinedToHostStates();
 
-	m_MyApp.getUserJoinMgr().wantUserJoinCallbacks( this, true );
+	m_MyApp.getMemberActiveMgr().wantMemberActiveCallback( this, true );
 }
 
 //============================================================================
 BottomBarWidget::~BottomBarWidget() 
 {
-	m_MyApp.getUserJoinMgr().wantUserJoinCallbacks( this, false );
+	m_MyApp.getMemberActiveMgr().wantMemberActiveCallback( this, false );
 };
 
 //============================================================================
@@ -426,11 +426,11 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 			if( appletChooseUser )
 			{
 				appletChooseUser->setChooseUserReason( chooseUserReason );
-				appletChooseUser->addUser( m_MyApp.getMyOnlineId() );
 				VxGUID hostOnlineId = m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( hostType );
 				if( hostOnlineId.isVxGUIDValid() )
 				{
 					appletChooseUser->addUser( hostOnlineId );
+					appletChooseUser->addUser( m_MyApp.getMyOnlineId() );
 				}
 				else
 				{
@@ -490,20 +490,25 @@ void BottomBarWidget::slotSettingsButtonClicked( void )
 }
 
 //============================================================================
-void BottomBarWidget::callbackGuiUserJoinToHostState( EHostType hostType, bool isJoined )
+void BottomBarWidget::callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostType hostType, bool isJoined )
 {
+	if( onlineId != m_MyApp.getMyOnlineId() )
+	{
+		return;
+	}
+
 	switch( hostType )
 	{
 	case eHostTypeGroup:
-		ui.m_GroupHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) );
+		ui.m_GroupHostButton->setNotifyOnline( isJoined );
 		break;
 
 	case eHostTypeChatRoom:
-		ui.m_ChatRoomButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) );
+		ui.m_ChatRoomButton->setNotifyOnline( isJoined );
 		break;
 
 	case eHostTypeRandomConnect:
-		ui.m_RandomConnectHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) );
+		ui.m_RandomConnectHostButton->setNotifyOnline( isJoined );
 		break;
 
 	default:

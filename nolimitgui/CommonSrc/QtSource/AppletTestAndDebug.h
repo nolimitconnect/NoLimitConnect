@@ -68,6 +68,8 @@ protected slots:
 
     void                        slotPurgeEverythingButtonClicked( void );
 
+    void                        slotTestChooseUserButtonClicked( void );
+
     void                        slotNewUrlSelected( int comboBoxIdx );
 
 protected:

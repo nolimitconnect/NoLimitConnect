@@ -40,6 +40,13 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 {
 	if( !m_IsSignalsConnected )
 	{
+		if( m_GuiUser && ShouldDebugUser( m_GuiUser->getOnlineName().c_str() ) )
+		{
+			LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my friendship %s his friendship %s ptr %p",
+						m_GuiUser->getOnlineName().c_str(), m_GuiUser->getMyOnlineId().toOnlineIdString().c_str(),
+						DescribeFriendState( m_GuiUser->getMyFriendshipToHim() ), DescribeFriendState( m_GuiUser->getHisFriendshipToMe() ), this );
+		}
+
 		m_IsSignalsConnected = true;
 		if( getIdentOfferViewButton() )
 		{
@@ -81,7 +88,6 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 void IdentLogicInterface::setupIdentLogic( enum EButtonSize buttonSize) // call after derived class ui is called.. also calls setIdentWidgetSize
 {
 	setIdentWidgetSize( buttonSize );
-	setupIdentLogic();
 }
 
 //============================================================================
@@ -138,19 +144,15 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 	{	
 		if( guiUser->getNetIdent().isValidNetIdent() )
 		{
-			if( ShouldDebugUser( guiUser->getOnlineName().c_str() ) )
-			{
-				LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my friendship %s his friendship %s",
-						   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
-						   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
-			}
+			//if( ShouldDebugUser( guiUser->getOnlineName().c_str() ) )
+			//{
+			//	LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my friendship %s his friendship %s",
+			//			   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
+			//			   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
+			//}
 
 			m_GuiUser = guiUser;
-
-			if( !m_IsSignalsConnected )
-			{
-				setupIdentLogic();
-			}
+			setupIdentLogic();
 
 			bool isOnline = m_GuiUser->isOnline();
 			bool isRelayed = m_GuiUser->isRelayed();

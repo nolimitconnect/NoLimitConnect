@@ -48,14 +48,22 @@ public:
     bool                        isNearby( void );
 
     virtual bool                isOnline( void );
+    bool                        isDirectConnect( void );
+    bool                        isRelayed( void );
 
-    bool                        updateIsDirectConnect( void );
-    virtual bool                setDirectConnectStatus( bool isDirectConnect ); // return true if direct connect state changed.. derived classes can override
-    bool                        isDirectConnect( void )                 { return updateIsDirectConnect(); }
+    bool                        isAdmin( void )                         { return m_NetIdent.isAdministrator(); }
+    bool                        isFriend( void )                        { return m_NetIdent.isFriend(); }
+    bool                        isGuest( void )                         { return m_NetIdent.isGuest(); }
+    bool                        isAnonymous( void )                     { return m_NetIdent.isAnonymous(); }
+    bool                        isIgnored( void )                       { return m_NetIdent.isIgnored(); }
+    bool                        isMyself( void );
 
-    bool                        updateIsRelayed( void );
-    virtual bool                setRelayStatus( bool isRelayed ); // return true if relay state changed.. derived classes can override
-    bool                        isRelayed( void )                       { return updateIsRelayed(); }
+    bool                        isHosted( void );
+    bool                        isGroupHosted( void );
+    bool                        isChatRoomHosted( void );
+    bool                        isRandomConnectHosted( void );
+
+    bool                        isInSession( void );
 
     VxGUID&                     getMyOnlineId( void )                   { return m_OnlineId; }
     std::string                 getOnlineName( void )                   { return std::string( m_NetIdent.getOnlineName() ); }
@@ -65,7 +73,7 @@ public:
     VxGUID                      getAvatarThumbId( void )                { return m_NetIdent.getAvatarThumbGuid(); }
 
     void                        setMyFriendshipToHim( EFriendState friendState ) { m_NetIdent.setMyFriendshipToHim( friendState ); }
-    EFriendState                getMyFriendshipToHim( void )            { return  m_NetIdent.getMyFriendshipToHim(); }
+    EFriendState                getMyFriendshipToHim( void )            { return m_NetIdent.getMyFriendshipToHim(); }
     EFriendState                getHisFriendshipToMe( void )            { return m_NetIdent.getHisFriendshipToMe(); }
     EPluginAccess               getMyAccessPermissionFromHim( EPluginType pluginType, bool inGroup = false );
     EFriendState                getPluginPermission( EPluginType pluginType ) { return m_NetIdent.getPluginPermission( pluginType ); }
@@ -73,22 +81,6 @@ public:
 
     QString				        describeMyFriendshipToHim( bool inGroup  );
     QString				        describeHisFriendshipToMe( bool inGroup );
-
-    bool                        isAdmin( void )                         { return m_NetIdent.isAdministrator(); }
-    bool                        isFriend( void )                        { return m_NetIdent.isFriend(); }
-    bool                        isGuest( void )                         { return m_NetIdent.isGuest(); }
-    bool                        isAnonymous( void )                     { return m_NetIdent.isAnonymous(); }
-    bool                        isIgnored( void )                       { return m_NetIdent.isIgnored(); }
-    bool                        isMyself( void );
-
-    bool                        isHosted( void )                        { return m_HostSet.size(); }
-    bool                        isGroupHosted( void )                   { return m_HostSet.find( eHostTypeGroup ) != m_HostSet.end(); }
-    bool                        isChatRoomHosted( void )                { return m_HostSet.find( eHostTypeChatRoom ) != m_HostSet.end(); }
-    bool                        isRandomConnectHosted( void )           { return m_HostSet.find( eHostTypeRandomConnect ) != m_HostSet.end(); }
-
-    QString				        describeHosts( void );
-
-    bool                        isInSession( void );
 
     uint32_t                    getTruthCount( void )                   { return m_NetIdent.getTruthCount(); }
     uint32_t                    getDareCount( void )                    { return m_NetIdent.getDareCount(); }
@@ -100,11 +92,6 @@ public:
 
     void                        setLastUpdateTime( uint64_t updateTimeMs ) { m_LastUpdateTime = updateTimeMs; }
     uint64_t                    getLastUpdateTime( void )               { return m_LastUpdateTime; }
-
-    void                        addHostType( EHostType hostType );
-    bool                        hasHostType( EHostType hostType )       { return m_HostSet.find( hostType ) != m_HostSet.end(); }
-    void                        removeHostType( EHostType hostType )    { m_HostSet.erase( hostType ); }
-    int                         hostTypeCount( void )                   { return m_HostSet.size(); }
 
     void						emitUserUpdated( void )                 { emit signalUserUpdated(); };
 
@@ -120,8 +107,6 @@ protected:
     VxGUID                      m_SessionId;
     uint64_t                    m_LastUpdateTime{ 0 };
     int64_t                     m_NearbyTimeOrZero{ 0 };
-    bool                        m_IsDirectConnect{ false };
-    bool                        m_IsRelayed{ false };
-    std::set<EHostType>         m_HostSet;
+
     EPushToTalkStatus           m_PushToTalkStatus{ ePushToTalkStatusNotActive };
 };

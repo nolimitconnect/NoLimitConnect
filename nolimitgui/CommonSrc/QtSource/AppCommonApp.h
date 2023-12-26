@@ -148,7 +148,7 @@ public:
     GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
     GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
     GuiThumbMgr&                getThumbMgr( void ) { return m_ThumbMgr; }
-    GuiMemberActiveMgr&  getMemberActiveMgr( void ) { return m_MemberActiveMgr; }
+    GuiMemberActiveMgr&         getMemberActiveMgr( void ) { return m_MemberActiveMgr; }
     GuiPlayerMgr&               getPlayerMgr( void ) { return m_PlayerMgr; }
     GuiPluginMgr&               getPluginMgr( void ) { return m_PluginMgr; }
 

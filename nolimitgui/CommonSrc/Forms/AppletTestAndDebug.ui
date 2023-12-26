@@ -224,6 +224,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="m_TestChooseUserButton">
+          <property name="text">
+           <string>Test Choose User</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

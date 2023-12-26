@@ -444,7 +444,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
         return eConnectStatusReady;
     }
 
-    LogMsg( LOG_DEBUG, "ConnectionMgr::requestConnection %s", DescribeConnectReason( connectReason ) );
+    LogMsg( LOG_DEBUG, "ConnectionMgr::requestConnection %s url %s", DescribeConnectReason( connectReason ), url.c_str() );
     std::shared_ptr<VxSktBase> sktBase( nullptr );
 
     if( !IsConnectReasonTemporary( connectReason ) )

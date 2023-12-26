@@ -261,7 +261,7 @@ void AppCommon::loadWithoutThread( void )
     // after user has logged into account
 
     uint64_t loadingMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "LoadSettings %llu ms alive ms %llu", loadingMs - startMs, loadingMs );
+    LogMsg( LOG_DEBUG, "LoadSettings %" PRId64 "ms alive ms %" PRId64, loadingMs - startMs, loadingMs );
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
@@ -272,7 +272,7 @@ void AppCommon::loadWithoutThread( void )
     m_MyIcons.myIconsStartup();
 
     uint64_t iconsMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Load Icons %llu ms alive ms %llu", iconsMs - loadingMs, iconsMs );
+    LogMsg( LOG_DEBUG, "Load Icons %" PRId64 "ms alive ms %" PRId64, iconsMs - loadingMs, iconsMs );
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
@@ -280,22 +280,7 @@ void AppCommon::loadWithoutThread( void )
 	}
 
     uint64_t styleMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Setup Style %llu ms alive ms %llu", styleMs - iconsMs, styleMs );
-
-	// make sure the engine has been created
-	int retryCnt = 0;
-	while( !GetPtoPEngine().isEngineCreated() )
-	{
-		retryCnt++;
-		if( retryCnt > 100 )
-		{		
-			ErrMsgBox( this, 0, "P2P Engine failed to be created" );
-			LogMsg( LOG_FATAL, "Engine failed to be created" );
-			return;
-		}
-
-		VxSleep( 200 );	
-	}
+    LogMsg( LOG_DEBUG, "Setup Style %" PRId64 "ms alive ms %" PRId64, styleMs - iconsMs, styleMs );
 
 	m_ThumbMgr.onAppCommonCreated();
 	m_UserMgr.onAppCommonCreated();

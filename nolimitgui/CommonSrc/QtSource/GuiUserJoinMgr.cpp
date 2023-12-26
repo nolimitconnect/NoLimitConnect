@@ -478,26 +478,25 @@ void GuiUserJoinMgr::announceUserJoinedToHostState( EHostType hostType, bool isJ
 //============================================================================
 EJoinState GuiUserJoinMgr::getUserJoinState( GroupieId& groupieId )
 {
+    EJoinState joinState = m_MyApp.getEngine().getUserJoinMgr().getUserJoinState( groupieId );
+
+    if( ( eJoinStateJoinWasGranted == joinState || eJoinStateJoinIsGranted == joinState ) &&
+        groupieId.getHostOnlineId() != groupieId.getUserOnlineId() )
+    {
+        bool isActive = m_MyApp.getMemberActiveMgr().isMemberActive( groupieId );
+        if( !isActive )
+        {
+            return eJoinStateJoinLeaveHost;
+        }
+    }
+
     return m_MyApp.getEngine().getUserJoinMgr().getUserJoinState( groupieId );
 }
 
 //============================================================================
 bool GuiUserJoinMgr::isUserJoinedToHost( EHostType hostType )
 {
-	switch( hostType )
-	{
-	case eHostTypeGroup:
-        return eJoinStateJoinIsGranted == m_LastGroupJoinState && m_MyApp.getUserMgr().isUserOnline( m_LastGroupJoinHostOnlineId );
-
-	case eHostTypeChatRoom:
-		return eJoinStateJoinIsGranted == m_LastChatRoomJoinState && m_MyApp.getUserMgr().isUserOnline( m_LastChatRoomJoinHostOnlineId );
-
-	case eHostTypeRandomConnect:
-        return eJoinStateJoinIsGranted == m_LastRandomConnectJoinState && m_MyApp.getUserMgr().isUserOnline( m_LastRandomeConnectJoinHostOnlineId );
-
-	default:
-		return false;
-	}
+    return m_MyApp.getMemberActiveMgr().isMemberOfHostType( hostType, m_MyApp.getMyOnlineId() );
 }
 
 //============================================================================

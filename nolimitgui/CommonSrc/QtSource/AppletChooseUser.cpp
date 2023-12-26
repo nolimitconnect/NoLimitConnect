@@ -30,6 +30,7 @@ AppletChooseUser::AppletChooseUser( AppCommon& app, QWidget* parent )
 
 	// only update users using this applet
 	ui.m_UserListWidget->disconnectUserUpdates();
+	ui.m_UserListWidget->setAllowMyselfInList( true );
 	ui.m_UserListWidget->setUserViewType( eUserViewTypeEverybody );
 
 	connect( this,						SIGNAL(signalBackButtonClicked()),												this, SLOT(closeApplet()) );
@@ -72,14 +73,27 @@ void AppletChooseUser::setChooseInstructionsText( QString instructionText )
 //============================================================================
 void AppletChooseUser::addUser( VxGUID& onlineId )
 {
-	GuiUser* user = m_MyApp.getUserMgr().getUser( onlineId );
-	if( user )
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
+	if( guiUser )
 	{
-		ui.m_UserListWidget->updateUser( user );
+		updateUser( guiUser );
 	}
 	else
 	{
 		LogMsg( LOG_ERROR, "AppletChooseUser::addUser null user %s", onlineId.toOnlineIdString().c_str() );
+	}
+}
+
+//============================================================================
+void AppletChooseUser::updateUser( GuiUser* guiUser )
+{
+	if( guiUser )
+	{
+		ui.m_UserListWidget->updateUser( guiUser );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletChooseUser::addUser null user " );
 	}
 }
 
@@ -94,14 +108,14 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 {
 	if( userSession )
 	{
-		GuiUser* user = userSession->getUserIdent();
-		if( user )
+		GuiUser* guiUser = userSession->getUserIdent();
+		if( guiUser )
 		{
 			EHostType hostType{ eHostTypeUnknown };
 			EApplet appletHostAdmin{ eAppletUnknown };
 			EApplet appleHostJoin{ eAppletUnknown };
 
-			switch( hostType )
+            switch( getChooseUserReason() )
 			{
 			case eChooseUserReasonGroupHost:
 				hostType = eHostTypeGroup;
@@ -121,13 +135,19 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 				appleHostJoin = eAppletRandomConnectJoin;
 				break;
 
+			case eChooseUserReasonTest:
+				LogMsg( LOG_VERBOSE, "AppletChooseUser::slotUserSelected %s", guiUser->describeUser().toUtf8().constData() );
+				emit signalUserChoosen( guiUser->getMyOnlineId() );
+				closeApplet();
+				return;
+
 			default:
 				return;
 			}
 
 			if( hostType != eHostTypeUnknown )
 			{
-				if( user->getMyOnlineId() == m_MyApp.getMyOnlineId() )
+				if( guiUser->getMyOnlineId() == m_MyApp.getMyOnlineId() )
 				{
 					m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
 				}
@@ -146,7 +166,7 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 					}
 				}
 
-				close();
+				closeApplet();
 			}
 		}
 		else

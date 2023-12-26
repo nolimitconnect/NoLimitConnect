@@ -1278,7 +1278,7 @@ void ActivityBase::closeApplet( void )
 		LogMsg( LOG_VERBOSE, "closeApplet %s", this->objectName().isEmpty() ? "UNKNOWN APPLET" : this->objectName().toUtf8().constData());
 		m_HasBeenClosed = true;
 		close();
-		deleteLater();
+		deleteLater(); // required or never actually deletes the activity
 	}
 }
 

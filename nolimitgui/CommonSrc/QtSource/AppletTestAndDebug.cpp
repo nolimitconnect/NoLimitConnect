@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppletBrowseFiles.h"
+#include "AppletChooseUser.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -130,6 +131,8 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 
     connect( ui.m_BrowseDownloadsButton, SIGNAL( clicked() ), this, SLOT( slotBrowseDownloadsButtonClicked() ) );
     connect( ui.m_BrowseAppDataButton, SIGNAL( clicked() ), this, SLOT( slotBrowseBrowseAppDataButtonClicked() ) );
+
+    connect( ui.m_TestChooseUserButton, SIGNAL( clicked() ), this, SLOT( slotTestChooseUserButtonClicked() ) );
 
     connect( this, SIGNAL( signalLogMsg(const QString&) ), this, SLOT( slotInfoMsg(const QString&) ) );
     connect( this, SIGNAL( signalInfoMsg(const QString&) ), this, SLOT( slotInfoMsg(const QString&) ) );
@@ -542,5 +545,32 @@ void AppletTestAndDebug::slotPurgeEverythingButtonClicked( void )
     else
     {
         infoMsg( "Purge was canceled" );
+    }
+}
+
+//============================================================================
+void AppletTestAndDebug::slotTestChooseUserButtonClicked( void )
+{
+    GuiUser* testUser = m_MyApp.getUserMgr().getUserForTest();
+    GuiUser* myselfUser = m_MyApp.getUserMgr().getUser( m_MyApp.getMyOnlineId() );
+    if( testUser && myselfUser )
+    {
+        AppletChooseUser* appletChooseUser = dynamic_cast<AppletChooseUser*>(m_MyApp.launchApplet( eAppletChooseUser, getContentFrameOfOppositePageFrame() ));
+        if( appletChooseUser )
+        {
+            appletChooseUser->setChooseUserReason( eChooseUserReasonTest );
+            appletChooseUser->updateUser( myselfUser );
+			appletChooseUser->updateUser( testUser );
+			appletChooseUser->updateUser( myselfUser );
+            appletChooseUser->updateUser( testUser );
+        }
+        else
+        {
+            infoMsg( "slotTestChooseUserButtonClicked null appletChooseUser" );
+        }
+    }
+    else
+    {
+        infoMsg( "slotTestChooseUserButtonClicked null testUser" );
     }
 }

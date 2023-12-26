@@ -47,13 +47,6 @@ public:
     bool				        toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
     bool                        updateIsOnlineList( VxGUID& onlineId, bool isOnline );
 
-    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override; 
-    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override; 
-    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) override; 
-
-    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override; 
-    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override; 
-
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override; 
 
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;
@@ -72,22 +65,22 @@ public:
     void                        onUserRelayStatusChange( GuiUser* guiUser );
     void                        onUserOnlineStatusChange( GuiUser* guiUser );
     void                        onMyIdentUpdated( GuiUser* guiUser );
-
+    
     GuiUser*                    getUser( const VxGUID& onlineId );
+    GuiUser*                    getUserForTest( bool mustBeOnline = false );
     GuiUser*                    getOrQueryUser( VxGUID& onlineId );
     std::string                 getUserOnlineName( VxGUID& onlineId );
     
     std::map<VxGUID, GuiUser*>& getUserList( void )             { return m_UserList; }
     bool                        getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idList );
 
-    GuiUser*                    updateMyIdent( VxNetIdent* myIdent );
-    GuiUser*                    updateUser( VxNetIdent* hisIdent, bool updateIsOnlineBecauseIsNowOnline = false );
+    void                        updateMyIdent( VxNetIdent* myIdent );
+    GuiUser*                    updateUser( VxNetIdent* hisIdent );
     void                        updateOnlineStatus( VxNetIdent* netIdent, bool online );
 
     void                        wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bool wantCallback );
 
     void                        connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearbyTimeOrZeroIfNot );
-    void                        connnectIdRelayStatusChange( VxGUID& onlineId );
 
 protected:
     void                        removeUser( const VxGUID& onlineId );
@@ -110,8 +103,10 @@ protected:
 
     // map of online id to GuiUser
     std::map<VxGUID, GuiUser*>  m_UserList;
-    GuiUser*                    m_MyIdent{ nullptr };
     VxGUID                      m_MyOnlineId;
 
     std::set<VxGUID>            m_OnlineUsers;
+
+    VxNetIdent                  m_RawMyIdent;
+    GuiUser*                    m_MyIdent{ nullptr };
 };

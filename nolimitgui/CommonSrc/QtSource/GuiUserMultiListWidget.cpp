@@ -102,6 +102,18 @@ void GuiUserMultiListWidget::setHostAdminId( GroupieId& adminId )
 }
 
 //============================================================================
+void GuiUserMultiListWidget::setAllowMyselfInList( bool allowMyself )
+{
+    ui.m_UserListWidget->setAllowMyselfInList( allowMyself );
+}
+
+//============================================================================
+bool GuiUserMultiListWidget::getAllowMyselfInList( void )
+{
+    return ui.m_UserListWidget->getAllowMyselfInList();
+}
+
+//============================================================================
 void GuiUserMultiListWidget::setHostViewType( EHostType hostType )
 {
     switch( hostType )

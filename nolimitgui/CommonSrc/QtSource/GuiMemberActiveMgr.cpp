@@ -45,8 +45,10 @@ bool GuiMemberActiveMgr::isMemberOfHostType( EHostType hostType, VxGUID& onlineI
     {
         if( hostType == groupieId.getHostType() && groupieId.getUserOnlineId() == onlineId )
         {
-            return true;
-
+            if( groupieId.getHostOnlineId() != onlineId )
+            {
+                return true;
+            }
         }
     }
 
@@ -89,6 +91,8 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
 
     LogMsg( LOG_VERBOSE, "MemberActiveMgr::updateMemberActive groupieId %s active %d", m_MyApp.describeGroupieId( groupieId ).c_str(), isActive );
 
+    bool wasMember = isMemberOfHostType( groupieId.getHostType(), groupieId.getUserOnlineId() );
+
     bool wasUpdated = false;
     bool wasFound = false;
     for( auto iter = m_MemberList.begin(); iter != m_MemberList.end(); ++iter )
@@ -115,6 +119,11 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
     if( wasUpdated )
     {
         announceMemberActive( groupieId, isActive );
+        bool isMember = isMemberOfHostType( groupieId.getHostType(), groupieId.getUserOnlineId() );
+        if( wasMember != isMember )
+        {
+            announceMemberIsJoinedToHost( groupieId.getUserOnlineId(), groupieId.getHostType(), isMember );
+        }
     }
 }
 
@@ -154,5 +163,14 @@ void GuiMemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool isActi
     for( auto client : m_MemberClients )
     {
         client->callbackGuiMemberActive( groupieId, isActive );
+    }
+}
+
+//============================================================================
+void GuiMemberActiveMgr::announceMemberIsJoinedToHost( VxGUID& onlineId, EHostType host, bool isJoined )
+{
+    for( auto client : m_MemberClients )
+    {
+        client->callbackGuiMemberIsJoinedToHost( onlineId, host, isJoined );
     }
 }

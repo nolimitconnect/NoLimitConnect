@@ -58,6 +58,7 @@ protected:
     void                        updateMemberActive( GroupieId& groupieId, bool isActive );
 
     void                        announceMemberActive( GroupieId& groupieId, bool isActive );
+    void                        announceMemberIsJoinedToHost( VxGUID& onlineId, EHostType host, bool isJoined );
 
     
     AppCommon&                  m_MyApp;
