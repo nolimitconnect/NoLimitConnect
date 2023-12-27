@@ -600,6 +600,9 @@ public:
 
     void                        doOnlineStatusChange( VxGUID onlineId, bool isOnline ); // called on gui thread by GuiConnectIdListMgr
 
+    //! throw error if not gui thread
+    void                        checkIsGuiThread( void );
+
 signals:
     void						signalMessengerReady( bool isReady );    // emitted when messenger ready state changes
     void						signalMainWindowResized( void );    // emitted if main window is resized

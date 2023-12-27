@@ -1914,3 +1914,14 @@ MediaPlayerNlc& AppCommon::getPlayerNlc( void )
 {
 	return INlc::getINlc().getNlcPlayer();
 }
+
+//============================================================================
+void AppCommon::checkIsGuiThread( void )
+{
+	if( !VxIsGuiThreadId() )
+	{
+		vx_assert( false );
+		LogMsg( LOG_FATAL, "AppCommon::checkIsGuiThread failed" );
+		exit(99);
+	}
+}

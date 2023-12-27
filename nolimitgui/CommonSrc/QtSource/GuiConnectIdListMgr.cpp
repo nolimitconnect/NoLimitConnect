@@ -56,7 +56,6 @@ void GuiConnectIdListMgr::callbackNearbyStatusChange( VxGUID& onlineId, int64_t 
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackNearbyStatusChange updating myself" );
     }
 
-
     emit signalInternalNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
 }
 
@@ -68,8 +67,6 @@ void GuiConnectIdListMgr::callbackRelayStatusChange( ConnectId& connectId, bool 
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackRelayStatusChange updating myself" );
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::callbackRelayStatusChange user %s isRelayed %d",
-              m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isRelayed );
     emit signalInternalRelayStatusChange( connectId, isRelayed );
 }
 
@@ -81,8 +78,6 @@ void GuiConnectIdListMgr::callbackConnectionStatusChange( ConnectId& connectId, 
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::callbackConnectionStatusChange user %s isConnected %d", 
-               m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected );
     emit signalInternalConnectionStatusChange( connectId, isConnected );
 }
 
@@ -94,8 +89,6 @@ void GuiConnectIdListMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isO
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::callbackOnlineStatusChange user %s isOnline %d", 
-               m_MyApp.describeUser( onlineId ).c_str(), isOnline );
     emit signalInternalOnlineStatusChange( onlineId, isOnline );
 }
 

@@ -23,6 +23,12 @@
 #include <CoreLib/VxDebug.h>
 
 #include <vector>
+
+namespace
+{
+    //! minimum interval in milliseconds between user click events
+    const double MIN_CLICK_INTERVAL = 300; 
+}
  
 //============================================================================
 GuiUserListWidget::GuiUserListWidget( QWidget* parent )
@@ -30,6 +36,8 @@ GuiUserListWidget::GuiUserListWidget( QWidget* parent )
 {
 	QListWidget::setSortingEnabled( true );
 	sortItems( Qt::DescendingOrder );
+
+    connect( this, SIGNAL(itemClicked(QListWidgetItem*)),       this, SLOT(slotListItemClicked(QListWidgetItem*)) );
 
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, true );
@@ -119,7 +127,7 @@ GuiUserListItem* GuiUserListWidget::sessionToWidget( GuiUserSessionBase* userSes
 
     userItem->setUserSession( userSession );
 
-    //connect( userItem, SIGNAL( signalGuiUserListItemClicked(GuiUserListItem*) ), this, SLOT( slotUserListItemClicked(GuiUserListItem*) ) );
+    //connect( userItem, SIGNAL(signalGuiUserListItemClicked(GuiUserListItem*) ), this, SLOT(slotUserListItemClicked(GuiUserListItem*) ) );
     connect( userItem, SIGNAL(signalAvatarButtonClicked(GuiUserListItem*)),     this, SLOT(slotAvatarButtonClicked(GuiUserListItem*)) );
     connect( userItem, SIGNAL(signalFriendshipButtonClicked(GuiUserListItem*)), this, SLOT(slotFriendshipButtonClicked(GuiUserListItem*)) );
     connect( userItem, SIGNAL(signalOfferViewButtonClicked(GuiUserListItem*)),  this, SLOT(slotOfferViewButtonClicked(GuiUserListItem*)) );
@@ -347,31 +355,23 @@ GuiUserListItem* GuiUserListWidget::findListEntryWidgetByOnlineId( VxGUID& onlin
 //============================================================================
 void GuiUserListWidget::slotItemClicked( QListWidgetItem* item )
 {
-	if( 300 < m_ClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
+	if( 300 > m_ListItemClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
 	{
         return;
 	}
 
-    m_ClickEventTimer.startTimer();
-    onUserListItemClicked( dynamic_cast<GuiUserListItem *>(item) );
-}
-
-//============================================================================
-void GuiUserListWidget::slotUserListItemClicked( GuiUserListItem* userItem )
-{
-    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    m_ListItemClickEventTimer.startTimer();
+    GuiUserListItem* userItem = dynamic_cast<GuiUserListItem*>(item);
+    if( userItem )
     {
-        return;
-    }
-
-    m_ClickEventTimer.startTimer();
-    onUserListItemClicked( userItem );
+        onUserListItemClicked( userItem );
+    }  
 }
 
 //============================================================================
 void GuiUserListWidget::slotAvatarButtonClicked( GuiUserListItem* userItem )
 {
-    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
     {
         return;
     }
@@ -383,7 +383,7 @@ void GuiUserListWidget::slotAvatarButtonClicked( GuiUserListItem* userItem )
 //============================================================================
 void GuiUserListWidget::slotFriendshipButtonClicked( GuiUserListItem* userItem )
 {
-    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
     {
         return;
     }
@@ -395,7 +395,7 @@ void GuiUserListWidget::slotFriendshipButtonClicked( GuiUserListItem* userItem )
 //============================================================================
 void GuiUserListWidget::slotOfferViewButtonClicked( GuiUserListItem* userItem )
 {
-    if( 300 > m_ClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
+    if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
     {
         return;
     }
@@ -407,7 +407,7 @@ void GuiUserListWidget::slotOfferViewButtonClicked( GuiUserListItem* userItem )
 //============================================================================
 void GuiUserListWidget::slotOfferAcceptButtonClicked( GuiUserListItem* userItem )
 {
-    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
     {
         return;
     }
@@ -419,7 +419,7 @@ void GuiUserListWidget::slotOfferAcceptButtonClicked( GuiUserListItem* userItem 
 //============================================================================
 void GuiUserListWidget::slotOfferRejectButtonClicked( GuiUserListItem* userItem )
 {
-    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
     {
         return;
     }
@@ -431,7 +431,7 @@ void GuiUserListWidget::slotOfferRejectButtonClicked( GuiUserListItem* userItem 
 //============================================================================
 void GuiUserListWidget::slotPushToTalkButtonClicked( GuiUserListItem* userItem )
 {
-    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
     {
         return;
     }
@@ -443,7 +443,7 @@ void GuiUserListWidget::slotPushToTalkButtonClicked( GuiUserListItem* userItem )
 //============================================================================
 void GuiUserListWidget::slotMenuButtonClicked( GuiUserListItem* userItem )
 {
-	if( 300 > m_ClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
+	if( MIN_CLICK_INTERVAL > m_ClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
 	{
 		return;
 	}
@@ -487,7 +487,6 @@ void GuiUserListWidget::callbackThumbUpdated( GuiThumb* guiThumb )
 {
     updateThumb( guiThumb );
 }
-
 
 //============================================================================
 void GuiUserListWidget::callbackThumbRemoved( VxGUID& thumbId )

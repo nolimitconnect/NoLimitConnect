@@ -322,6 +322,7 @@ void GuiUserMgr::updateOnlineStatus( VxNetIdent* netIdent, bool online )
 //============================================================================
 GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
 {
+    m_MyApp.checkIsGuiThread();
     GuiUser* guiUser = nullptr;
     if( onlineId == m_MyOnlineId )
     {
@@ -362,7 +363,7 @@ GuiUser* GuiUserMgr::findOrAddUser( const VxGUID& onlineId )
         VxNetIdent netIdent;
         if( m_MyApp.getEngine().fromGuiQueryIdentity( onlineId, netIdent ) && netIdent.isValidNetIdent() )
         {
-            guiUser = m_MyApp.getUserMgr().updateUser( &netIdent );
+            guiUser = updateUser( &netIdent );
         }
     }
 
@@ -372,6 +373,7 @@ GuiUser* GuiUserMgr::findOrAddUser( const VxGUID& onlineId )
 //============================================================================
 void GuiUserMgr::removeUser( const VxGUID& onlineId )
 {
+    m_MyApp.checkIsGuiThread();
     auto iter = m_UserList.find( onlineId );
     if( iter != m_UserList.end() )
     {

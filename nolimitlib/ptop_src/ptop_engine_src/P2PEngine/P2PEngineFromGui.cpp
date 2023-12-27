@@ -403,6 +403,12 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 			fromGuiSendAsset( *createdAssetInfo );
 		}	
 	}
+	else if( eAssetActionAssetSend == assetAction )
+	{
+		assetInfo.setAssetSendState( eAssetSendStateTxProgress );
+		IToGui::getToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
+		fromGuiSendAsset( assetInfo );
+	}
 	else if( eAssetActionAssetResend == assetAction )
 	{
 		assetInfo.setAssetSendState( eAssetSendStateTxProgress );

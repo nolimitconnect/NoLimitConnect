@@ -64,5 +64,6 @@ protected:
     EHostType                   m_HostType{ eHostTypeUnknown };
 
     VxTimer						m_ClickEventTimer; // avoid duplicate clicks
+    VxTimer						m_ListItemClickEventTimer; // avoid duplicate clicks
 };
 

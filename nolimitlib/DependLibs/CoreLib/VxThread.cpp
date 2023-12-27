@@ -145,6 +145,12 @@ unsigned int VxGetGuiThreadId( void )
 	return g_GuiThreadId;
 }
 
+//============================================================================
+bool VxIsGuiThreadId( void )
+{
+	return g_GuiThreadId == VxGetCurrentThreadId();
+}
+
 NLC_END_CDECLARES
 
 //============================================================================

@@ -93,30 +93,5 @@ bool AppletChatRoomClient::checkIfCanSend( void )
 //============================================================================
 bool AppletChatRoomClient::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
 {
-	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
-
-	if( !hostId.isValid() )
-	{
-		okMessageBox( QObject::tr( "Invalid Host Id" ),
-						QObject::tr( "Host Id has not been set" ) );
-		return false;
-	}
-
-	std::set<VxGUID> memberList;
-	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
-	if( memberList.empty() )
-	{
-		okMessageBox( QObject::tr( "No Members Online" ),
-						QObject::tr( "There are no members online to send to" ) );
-		return false;
-	}
-
-	assetInfo.setHostId( hostId );
-	for( auto memberId : memberList )
-	{
-		assetInfo.setDestUserId( memberId );
-		getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
-	}
-
-	return true;
+	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
 }

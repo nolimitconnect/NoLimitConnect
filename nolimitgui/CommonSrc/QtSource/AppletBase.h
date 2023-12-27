@@ -29,6 +29,7 @@ signals:
 	void						signalPlayEnd( void );
 
 protected:
+	bool						handleGroupieAssetAction( GroupieId& adminId, EAssetAction assetAction, AssetBaseInfo& assetInfo );
 
 	//=== vars ===//
 	AssetInfo					m_AssetInfo;

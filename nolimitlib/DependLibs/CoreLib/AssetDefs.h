@@ -23,7 +23,7 @@ enum EAssetType
 	eAssetTypeExe					= 0x20,
 	eAssetTypeOtherFiles			= 0x40,
 	eAssetTypeDirectory				= 0x80,
-	// these are specific to ptop web
+	// these are specific to this application
     eAssetTypeThumbnail             = 0x0100,
     eAssetTypeChatText				= 0x0200,
     eAssetTypeChatFace				= 0x0400,
@@ -51,46 +51,47 @@ enum EAssetAction
 	eAssetActionRemoveFromAssetMgr	= 4,	
 	eAssetActionUpdateAsset			= 5,
 	eAssetActionAddAssetAndSend		= 6,
-	eAssetActionAssetResend			= 7,
+	eAssetActionAssetSend			= 7,
+	eAssetActionAssetResend			= 8,
 
-	eAssetActionAddToShare			= 8,
-	eAssetActionRemoveFromShare		= 9,
-	eAssetActionAddToLibrary		= 10,
-	eAssetActionRemoveFromLibrary	= 11,
-	eAssetActionAddToHistory		= 12,
-	eAssetActionRemoveFromHistory	= 13,
+	eAssetActionAddToShare			= 9,
+	eAssetActionRemoveFromShare		= 10,
+	eAssetActionAddToLibrary		= 11,
+	eAssetActionRemoveFromLibrary	= 12,
+	eAssetActionAddToHistory		= 13,
+	eAssetActionRemoveFromHistory	= 14,
 
-	eAssetActionRecordBegin			= 14,
-	eAssetActionRecordPause			= 15,
-	eAssetActionRecordResume		= 16,
-	eAssetActionRecordProgress		= 17,
-	eAssetActionRecordEnd			= 18,
-	eAssetActionRecordCancel		= 19,
+	eAssetActionRecordBegin			= 15,
+	eAssetActionRecordPause			= 16,
+	eAssetActionRecordResume		= 17,
+	eAssetActionRecordProgress		= 18,
+	eAssetActionRecordEnd			= 19,
+	eAssetActionRecordCancel		= 20,
 
-	eAssetActionPlayBegin			= 20,
-	eAssetActionPlayOneFrame		= 21,
-	eAssetActionPlayPause			= 22,
-	eAssetActionPlayResume			= 23,
-	eAssetActionPlayProgress		= 24,
-	eAssetActionPlayEnd				= 25,
-	eAssetActionPlayCancel			= 26,
+	eAssetActionPlayBegin			= 21,
+	eAssetActionPlayOneFrame		= 22,
+	eAssetActionPlayPause			= 23,
+	eAssetActionPlayResume			= 24,
+	eAssetActionPlayProgress		= 25,
+	eAssetActionPlayEnd				= 26,
+	eAssetActionPlayCancel			= 27,
 
-	eAssetActionTxBegin				= 27,
-	eAssetActionTxProgress			= 28,
-	eAssetActionTxSuccess			= 29,
-	eAssetActionTxError				= 30,
-	eAssetActionTxCancel			= 31,
-	eAssetActionTxPermission		= 32,
+	eAssetActionTxBegin				= 28,
+	eAssetActionTxProgress			= 29,
+	eAssetActionTxSuccess			= 30,
+	eAssetActionTxError				= 31,
+	eAssetActionTxCancel			= 32,
+	eAssetActionTxPermission		= 33,
 
-	eAssetActionRxBegin				= 33,
-	eAssetActionRxProgress			= 34,
-	eAssetActionRxSuccess			= 35,
-	eAssetActionRxError				= 36,
-	eAssetActionRxCancel			= 37,
-	eAssetActionRxPermission		= 38,
+	eAssetActionRxBegin				= 34,
+	eAssetActionRxProgress			= 35,
+	eAssetActionRxSuccess			= 36,
+	eAssetActionRxError				= 37,
+	eAssetActionRxCancel			= 38,
+	eAssetActionRxPermission		= 39,
 
-	eAssetActionRxNotifyNewMsg		= 39,
-	eAssetActionRxViewingMsg		= 40,
+	eAssetActionRxNotifyNewMsg		= 40,
+	eAssetActionRxViewingMsg		= 41,
 };
 
 enum EAssetSendState
@@ -108,10 +109,10 @@ enum EAssetSendState
 	eMaxAssetSendState	
 };
 
-bool VxIsValidAssetType( enum EAssetType assetType );
-EAssetType VxFileNameToAssetType( std::string fileName );
-uint8_t VxFileNameToFileType( std::string fileName );
-EAssetType VxFileTypeToAssetType( uint8_t fileType );
+bool		VxIsValidAssetType( enum EAssetType assetType );
+EAssetType	VxFileNameToAssetType( std::string fileName );
+uint8_t		VxFileNameToFileType( std::string fileName );
+EAssetType	VxFileTypeToAssetType( uint8_t fileType );
 
 const char* DescribeAssetType( enum EAssetType assetType );
 const char* DescribeAssetSendState( enum EAssetSendState sendState );

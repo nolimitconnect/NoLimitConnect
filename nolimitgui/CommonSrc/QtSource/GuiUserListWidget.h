@@ -83,7 +83,7 @@ signals:
 
 protected slots:    
 	void						slotItemClicked( QListWidgetItem* item );
-    void                        slotUserListItemClicked( GuiUserListItem* userItem );
+
     void                        slotAvatarButtonClicked( GuiUserListItem* userItem );
     void                        slotFriendshipButtonClicked( GuiUserListItem* userItem );
     void                        slotOfferViewButtonClicked( GuiUserListItem* userItem );

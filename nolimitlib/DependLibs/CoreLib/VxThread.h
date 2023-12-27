@@ -117,6 +117,8 @@ unsigned int	VxGetCurrentThreadId( void );
 void			VxSetGuiThreadId( void );
 //! get the thread id of qt application
 unsigned int	VxGetGuiThreadId( void );
+//! return true if current thraad is the qt gui thread
+bool			VxIsGuiThreadId( void );
 
 void            VxThreadDefaultStartCallback( unsigned int threadId, const char* threadName );
 void            VxThreadDefaultStopCallback( unsigned int threadId, bool iIsExitCallbackLocked, const char* threadName );
