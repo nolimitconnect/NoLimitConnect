@@ -12,15 +12,22 @@
 #include "ui_AppletChatRoomClient.h"
 
 #include "AppletBase.h"
+#include "InputClientBaseCallback.h"
 
-class AppletRandomConnectHostAdmin : public AppletBase
+class AppletRandomConnectHostAdmin : public AppletBase, public InputClientBaseCallback
 {
 	Q_OBJECT
 public:
     AppletRandomConnectHostAdmin( AppCommon& app, QWidget* parent );
 	virtual ~AppletRandomConnectHostAdmin() override;
 
+    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
+    EPluginType			        getInputClientPluginType( void ) override { return AppletBase::getPluginType(); }
+
 protected:
+    bool						checkIfCanSend( void ) override;
+    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
+
     //=== vars ===//
     Ui::AppletChatRoomClientUi ui;
 };

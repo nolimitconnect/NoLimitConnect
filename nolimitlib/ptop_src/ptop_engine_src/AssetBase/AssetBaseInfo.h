@@ -16,6 +16,8 @@
 #include <CoreLib/VxSha1Hash.h>
 #include <CoreLib/VxGUID.h>
 
+#include <PktLib/GroupieId.h>
+
 #include <stdint.h>
 #include <string>
 
@@ -56,6 +58,11 @@ public:
 
     virtual void                setPluginType( EPluginType pluginType )         { m_PluginType = pluginType; }
     virtual EPluginType		    getPluginType( void )                           { return m_PluginType; }
+
+    virtual void		        setHostId( HostedId& hostedId );
+    virtual HostedId		    getHostId( void );
+    virtual GroupieId		    getCreatorGroupieId( void );
+    virtual GroupieId		    getDestGroupieId( void );
 
     virtual bool				isValid( void );
     virtual bool				isValidFile( void );
@@ -160,6 +167,11 @@ public:
 
     virtual void                printValues( void ) const override;
 
+    // temporary destination id for xfer of asset
+    virtual void				setDestUserId( VxGUID& destOnlineId )           { m_DestOnlineId = destOnlineId; }
+    virtual void				setDestUserId( const char* destOnlineId )       { m_DestOnlineId.fromVxGUIDHexString( destOnlineId ); }
+    virtual VxGUID&				getDestUserId( void )                           { return m_DestOnlineId; }
+
 public:
     //=== vars ===//
     EPluginType                 m_PluginType{ ePluginTypeInvalid };
@@ -177,4 +189,6 @@ public:
     int64_t						m_ExpiresTime{ 0 }; // time when will be removed. 0 = never
 	EAssetSendState			    m_AssetSendState{ eAssetSendStateNone };
     int						    m_PlayPosition0to100000{ 0 };
+
+    VxGUID						m_DestOnlineId; // temporary destination id for xfer of asset
 };

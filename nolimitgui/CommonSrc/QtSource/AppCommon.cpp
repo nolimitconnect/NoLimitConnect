@@ -1882,6 +1882,23 @@ std::string AppCommon::describeUser( VxGUID& onlineId )
 }
 
 //============================================================================
+std::string AppCommon::describeUser( GuiUser* guiUser )
+{
+	if( guiUser )
+	{
+		std::string userDesc = guiUser->getOnlineName();
+		userDesc += " id ";
+		userDesc += guiUser->getMyOnlineId().toOnlineIdString();
+		return userDesc;
+	}
+	else
+	{
+		return "AppCommon::describeUser null user";
+	}
+}
+
+
+//============================================================================
 bool AppCommon::hasExistingAccount( void )
 {
 	if( !getAccountMgr().getLastLogin().empty() )

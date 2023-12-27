@@ -94,7 +94,7 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( bool ipv6, EHostType hostType )
         }
         else if( !requiresRelay() )
         {
-            Invite::appendHostTypeSuffix( eHostTypePeerUserDirect, myUrl );
+            Invite::appendHostTypeSuffix( eHostTypePeerUser, myUrl );
         }
         else
         {
@@ -458,7 +458,7 @@ bool VxConnectIdent::hasThumbId( EHostType hostType )
         return m_NetHostThumbGuid.isVxGUIDValid();
     case eHostTypeRandomConnect:
         return m_RandomConnectThumbGuid.isVxGUIDValid();
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return m_AvatarGuid.isVxGUIDValid();
     default:
         return false;
@@ -480,7 +480,7 @@ VxGUID& VxConnectIdent::getThumbId( EHostType hostType )
     case eHostTypeRandomConnect:
         return m_RandomConnectThumbGuid;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return m_AvatarGuid;
     default:
         return nullGuid;
@@ -539,7 +539,7 @@ void VxConnectIdent::setHostOrThumbModifiedTime( EHostType hostType, int64_t& ti
         setModifiedTime( m_RandomConnectThumbModifiedTime, timeModified );
         break;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         setModifiedTime( m_AvatarModifiedTime, timeModified );
         break;
     default:
@@ -561,7 +561,7 @@ int64_t VxConnectIdent::getHostOrThumbModifiedTime( EHostType hostType )
     case eHostTypeRandomConnect:
         return m_RandomConnectThumbModifiedTime;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return m_AvatarModifiedTime;
     default:
         return 0;

@@ -427,7 +427,7 @@ enum EHostType
     eHostTypeConnectTest = 1,   
     eHostTypeNetwork = 2,    
 
-    eHostTypePeerUserDirect = 3,  // user<->user 
+    eHostTypePeerUser = 3,  // user<->user 
     // these hosts provide relay services and are announced to network host
     eHostTypeGroup = 4,
     eHostTypeChatRoom = 5,

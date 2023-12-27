@@ -11,6 +11,7 @@
 #include "InputFaceWidget.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
+#include "InputClientCallback.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
@@ -153,7 +154,7 @@ void InputFaceWidget::faceLabelClicked( int faceNum )
 		if( addOptionalComment() )
 		{
 			m_AssetInfo.setPluginType( getPluginType() );
-			m_MyApp.getEngine().fromGuiAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
+			m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 		}
 	}
 

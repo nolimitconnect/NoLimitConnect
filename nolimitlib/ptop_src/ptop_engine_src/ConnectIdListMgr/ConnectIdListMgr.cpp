@@ -632,7 +632,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findPeerConnection( VxGUID& onlineI
     }
 
     std::shared_ptr<VxSktBase> sktBase( nullptr );
-    GroupieId groupieIdDirect( onlineId, onlineId, eHostTypePeerUserDirect );
+    GroupieId groupieIdDirect( onlineId, onlineId, eHostTypePeerUser );
 
     VxGUID connectId;
     if( findConnectionId( groupieIdDirect, connectId ) )
@@ -871,7 +871,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUI
 
     VxGUID sktConnectId;
     // first check for direct connection
-    GroupieId directGroupieId( onlineId, onlineId, eHostTypePeerUserDirect );
+    GroupieId directGroupieId( onlineId, onlineId, eHostTypePeerUser );
     for( auto& connectId : connectIdList )
     {
         if( connectId.getGroupieId() == directGroupieId )
@@ -912,7 +912,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
 
     VxGUID sktConnectId;
     // first check for direct connection
-    GroupieId directGroupieId( onlineId, onlineId, eHostTypePeerUserDirect );
+    GroupieId directGroupieId( onlineId, onlineId, eHostTypePeerUser );
     for( auto& connectId : connectIdList )
     {
         if( connectId.getGroupieId() == directGroupieId )

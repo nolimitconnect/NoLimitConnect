@@ -12,15 +12,20 @@
 #include "ui_AppletRandomConnectClient.h"
 
 #include "AppletClientBase.h"
+#include "InputClientBaseCallback.h"
+
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IToGui.h> 
 
-class AppletRandomConnectClient : public AppletClientBase
+class AppletRandomConnectClient : public AppletClientBase, public InputClientBaseCallback
 {
 	Q_OBJECT
 public:
 	AppletRandomConnectClient( AppCommon& app, QWidget* parent );
 	virtual ~AppletRandomConnectClient() override;
+
+    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
+    EPluginType			        getInputClientPluginType( void ) override { return AppletClientBase::getPluginType(); }
 
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );
@@ -29,6 +34,9 @@ protected slots:
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;
+
+    bool						checkIfCanSend( void ) override;
+    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
     Ui::AppletRandomConnectClientUi	ui;

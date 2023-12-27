@@ -596,6 +596,7 @@ public:
 
     std::string                 describeGroupieId( GroupieId& groupieId );
     std::string                 describeUser( VxGUID& onlineId );
+    std::string                 describeUser( GuiUser* guiUser );
 
     void                        doOnlineStatusChange( VxGUID onlineId, bool isOnline ); // called on gui thread by GuiConnectIdListMgr
 

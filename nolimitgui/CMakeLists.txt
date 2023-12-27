@@ -313,6 +313,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/InformationWidget.h
     CommonSrc/QtSource/InputAllWidget.h
     CommonSrc/QtSource/InputBaseWidget.h
+    CommonSrc/QtSource/InputClientBaseCallback.h
+    CommonSrc/QtSource/InputClientCallback.h
     CommonSrc/QtSource/InputFaceWidget.h
     CommonSrc/QtSource/InputPhotoWidget.h
     CommonSrc/QtSource/InputTextWidget.h
@@ -687,6 +689,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/InformationWidget.cpp
     CommonSrc/QtSource/InputAllWidget.cpp
     CommonSrc/QtSource/InputBaseWidget.cpp
+    CommonSrc/QtSource/InputClientBaseCallback.cpp
     CommonSrc/QtSource/InputFaceWidget.cpp
     CommonSrc/QtSource/InputPhotoWidget.cpp
     CommonSrc/QtSource/InputTextWidget.cpp

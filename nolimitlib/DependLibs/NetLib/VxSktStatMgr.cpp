@@ -60,10 +60,10 @@ void VxSktStatMgr::sktConnected( SOCKET skt )
 		VxSktStatRecord sktStat( skt );
 		m_SktStatList[ skt ] = sktStat;
 	}
-	else
-	{
-		LogMsg( LOG_ERROR, "VxSktStatMgr::sktConnected connected on existing socket %d", skt );
-	}
+	//else
+	//{
+	//	LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktConnected connected on existing socket %d", skt );
+	//}
 
 	m_SktStatMutex.unlock();
 	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected skt %d connected cnt %d", skt, m_SktStatList.size() );
@@ -84,10 +84,10 @@ void VxSktStatMgr::sktConnected2( SOCKET skt, std::string ipAddr )
 		VxSktStatRecord sktStat( skt, ipAddr );
 		m_SktStatList[ skt ] = sktStat;
 	}
-	else
-	{
-		LogMsg( LOG_ERROR, "VxSktStatMgr::sktConnected2 connected on existing socket %d", skt );
-	}
+	//else
+	//{
+	//	LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktConnected2 connected on existing socket %d", skt );
+	//}
 
 	m_SktStatMutex.unlock();
 	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected2 skt %d connected cnt %d", skt, m_SktStatList.size() );
@@ -108,10 +108,10 @@ void VxSktStatMgr::sktConnected3( SOCKET skt, std::string ipAddr, ESktType sktTy
 		VxSktStatRecord sktStat( skt, ipAddr, sktType );
 		m_SktStatList[ skt ] = sktStat;
 	}
-	else
-	{
-		LogMsg( LOG_ERROR, "VxSktStatMgr::sktConnected3 connected on existing socket %d", skt );
-	}
+	//else
+	//{
+	//	LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktConnected3 connected on existing socket %d", skt );
+	//}
 
 	m_SktStatMutex.unlock();
 	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected3 skt %d connected cnt %d", skt, m_SktStatList.size() );
@@ -132,10 +132,10 @@ void VxSktStatMgr::sktSetRemoteAddr( SOCKET skt, std::string ipAddr )
 	{
 		iter->second.setIpAddr( ipAddr );
 	}
-	else
-	{
-		LogMsg( LOG_ERROR, "VxSktStatMgr::sktSetRemoteAddr failed to find socket %d for ip %s", skt, ipAddr.c_str() );
-	}
+	//else
+	//{
+	//	LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktSetRemoteAddr failed to find socket %d for ip %s", skt, ipAddr.c_str() );
+	//}
 
 	m_SktStatMutex.unlock();
 }
@@ -155,10 +155,10 @@ void VxSktStatMgr::sktSetType( SOCKET skt, ESktType sktType )
 	{
 		iter->second.setSktType( sktType );
 	}
-	else
-	{
-		LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktSetType failed to find socket %d", skt );
-	}
+	//else
+	//{
+	//	LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktSetType failed to find socket %d", skt );
+	//}
 
 	m_SktStatMutex.unlock();
 }
@@ -178,10 +178,10 @@ void VxSktStatMgr::sktClosed( SOCKET skt )
 	{
 		m_SktStatList.erase( iter );
 	}
-	else
-	{
-		LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktClosed failed to find socket %d", skt );
-	}
+	//else
+	//{
+	//	LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::sktClosed failed to find socket %d", skt );
+	//}
 
 	m_SktStatMutex.unlock();
 	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktClosed skt %d connected cnt %d", skt, m_SktStatList.size() );

@@ -13,6 +13,8 @@
 #include "AppSettings.h"
 #include "MyIcons.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
@@ -61,4 +63,59 @@ void AppletRandomConnectClient::slotSetSessionVisible( bool visible )
 void AppletRandomConnectClient::slotViewChanged( EUserViewType viewType )
 {
 	//setSelectedUser( nullptr );
+}
+
+//============================================================================
+bool AppletRandomConnectClient::checkIfCanSend( void )
+{
+	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
+
+	if( !hostId.isValid() )
+	{
+		okMessageBox( QObject::tr( "Invalid Host Id" ),
+						QObject::tr( "Host Id has not been set" ) );
+		return false;
+	}
+
+	std::set<VxGUID> memberList;
+	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
+	if( memberList.empty() )
+	{
+		okMessageBox( QObject::tr( "No Members Online" ),
+						QObject::tr( "There are no members online to send to" ) );
+		return false;
+	}
+
+	return true;
+}
+
+//============================================================================
+bool AppletRandomConnectClient::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
+{
+	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
+
+	if( !hostId.isValid() )
+	{
+		okMessageBox( QObject::tr( "Invalid Host Id" ),
+						QObject::tr( "Host Id has not been set" ) );
+		return false;
+	}
+
+	std::set<VxGUID> memberList;
+	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
+	if( memberList.empty() )
+	{
+		okMessageBox( QObject::tr( "No Members Online" ),
+						QObject::tr( "There are no members online to send to" ) );
+		return false;
+	}
+
+	assetInfo.setHostId( hostId );
+	for( auto memberId : memberList )
+	{
+		assetInfo.setDestUserId( memberId );
+		getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
+	}
+
+	return true;
 }

@@ -80,7 +80,7 @@ bool Invite::setInviteUrl( EHostType hostType, std::string& url )
         result = !m_RandomConnectUrl.empty();
         break;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         m_PersonUrl = url;
         VxPtopUrl::setUrlHostType( m_PersonUrl, hostType );
         result = !m_PersonUrl.empty();
@@ -107,7 +107,7 @@ std::string Invite::getInviteUrl( EHostType hostType )
     case eHostTypeRandomConnect:
         return m_RandomConnectUrl;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return m_PersonUrl;
 
     default:
@@ -145,7 +145,7 @@ char Invite::getHostTypeSuffix( EHostType hostType )
 {
     switch( hostType )
     {
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return SUFFIX_CHAR_PERSON_DIRECT;
 
     case eHostTypeNetwork:
@@ -175,7 +175,7 @@ EHostType Invite::getHostTypeFromSuffix( const char suffix )
     {
 
     case SUFFIX_CHAR_PERSON_DIRECT:
-        return eHostTypePeerUserDirect;
+        return eHostTypePeerUser;
 
     case SUFFIX_CHAR_NETWORK_HOST:
         return eHostTypeNetwork;

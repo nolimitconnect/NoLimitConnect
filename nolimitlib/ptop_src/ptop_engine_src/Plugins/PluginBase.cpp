@@ -446,7 +446,7 @@ EPluginType PluginBase::getDestinationPluginOverride( EHostType hostType )
         return ePluginTypeHostNetwork;
     }
 
-    if( eHostTypePeerUserDirect == hostType )
+    if( eHostTypePeerUser == hostType )
     {
         // directly connected peer users can only access peer type plugins (Not Client/Host)
         return ePluginTypeInvalid;

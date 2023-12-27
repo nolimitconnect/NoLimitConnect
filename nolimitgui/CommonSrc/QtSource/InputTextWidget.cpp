@@ -12,6 +12,7 @@
 #include "AppCommon.h"
 #include "GuiParams.h"
 #include "GuiHelpers.h"
+#include "InputClientCallback.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
@@ -57,7 +58,7 @@ void InputTextWidget::slotSendButtonClicked( void )
 			m_AssetInfo.setAssetLength( message.length() );
 
 			m_AssetInfo.setPluginType( getPluginType() );
-			m_MyApp.getEngine().fromGuiAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
+			m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 		}
 
 		ui.m_ChatTextEdit->clear();

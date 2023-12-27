@@ -45,7 +45,7 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
             {
                 LogModule( eLogUserEvent, LOG_VERBOSE, "onFirstPktAnnounce %s", pktAnn->describeUser().c_str() );
 
-                GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), eHostTypePeerUserDirect );
+                GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), eHostTypePeerUser );
                 getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
                 getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
             }

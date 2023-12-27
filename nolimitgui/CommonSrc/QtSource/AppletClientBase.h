@@ -10,6 +10,7 @@
 //============================================================================
 
 #include "AppletHostBase.h"
+
 #include <GuiInterface/IToGui.h>
 
 class GuiHosted;

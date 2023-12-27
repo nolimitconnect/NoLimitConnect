@@ -234,7 +234,7 @@ namespace
         "Host Unknown ",
         "Host Connect Test ",
         "Host Network ",
-        "Host Peer User Direct",
+        "Host Peer User ",
         "Host Group ",
         "Host Chat Room ",
         "Host Random Connect ",
@@ -1457,7 +1457,7 @@ EPluginType HostTypeToHostPlugin( enum EHostType hostType )
     case eHostTypeRandomConnect:
         return ePluginTypeHostRandomConnect;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return ePluginTypeHostPeerUser;
 
     case eHostTypeNetwork:
@@ -1489,7 +1489,7 @@ EPluginType HostTypeToClientPlugin( enum EHostType hostType )
     case eHostTypeRandomConnect:
         return ePluginTypeClientRandomConnect;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return ePluginTypeClientPeerUser;
 
     case eHostTypeNetwork:
@@ -1519,7 +1519,7 @@ EConnectReason HostTypeToGroupieConnectReason( enum EHostType hostType )
     case eHostTypeRandomConnect:
         return eConnectReasonRandomConnectUserConnect;
 
-    case eHostTypePeerUserDirect:
+    case eHostTypePeerUser:
         return eConnectReasonUserDirectConnect;
     case eHostTypeNetwork:
         return eConnectReasonNetworkHost;
@@ -1568,6 +1568,7 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
 
     case ePluginTypeHostPeerUser:   // host side avatar and search and group management services
     case ePluginTypeClientPeerUser: // client side avatar and search and group management services
+        return eHostTypePeerUser;
 
     case ePluginTypeNetServices:
     case ePluginTypeFileShareServer:

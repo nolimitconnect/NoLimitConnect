@@ -67,6 +67,13 @@ void SessionWidget::setCanSend( bool canSend )
 }
 
 //============================================================================
+void SessionWidget::setInputClientCallback( InputClientCallback* clientCallback )
+{
+	m_ClientCallback = clientCallback;
+	ui.m_ChatEntry->setInputClientCallback( clientCallback );
+}
+
+//============================================================================
 void SessionWidget::setAppModule( EAppModule appModule )
 {
 	ui.m_ChatEntry->setAppModule( appModule );

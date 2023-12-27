@@ -12,13 +12,17 @@
 #include "ui_AppletChatRoomClient.h"
 
 #include "AppletClientBase.h"
+#include "InputClientBaseCallback.h"
 
-class AppletChatRoomClient : public AppletClientBase
+class AppletChatRoomClient : public AppletClientBase, public InputClientBaseCallback
 {
 	Q_OBJECT
 public:
     AppletChatRoomClient( AppCommon& app, QWidget* parent );
 	virtual ~AppletChatRoomClient() override;
+
+    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
+    EPluginType			        getInputClientPluginType( void ) override { return AppletBase::getPluginType(); }
 
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );
@@ -27,6 +31,9 @@ protected slots:
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;
+
+    bool						checkIfCanSend( void ) override;
+    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
     Ui::AppletChatRoomClientUi	ui;

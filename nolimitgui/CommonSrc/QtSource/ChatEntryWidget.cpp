@@ -12,6 +12,7 @@
 #include "AppSettings.h"
 #include "ChatEntryWidget.h"
 #include "DialogAddComment.h"
+#include "InputClientCallback.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
@@ -312,10 +313,40 @@ void ChatEntryWidget::setEntryMode( EAssetType inputMode )
 //============================================================================
 void ChatEntryWidget::setIsPersonalRecorder( bool isPersonal )
 {
+	m_IsPersonalRecorder = isPersonal;
 	ui.m_InputAllWidget->setIsPersonalRecorder( isPersonal );
 	ui.m_InputFaceWidget->setIsPersonalRecorder( isPersonal );
 	ui.m_InputPhotoWidget->setIsPersonalRecorder( isPersonal );
 	ui.m_InputTextWidget->setIsPersonalRecorder( isPersonal );
 	ui.m_InputVideoWidget->setIsPersonalRecorder( isPersonal );
 	ui.m_InputVoiceWidget->setIsPersonalRecorder( isPersonal );
+}
+
+//============================================================================
+void ChatEntryWidget::setInputClientCallback( InputClientCallback* clientCallback ) 
+{ 
+	m_ClientCallback = clientCallback; 
+	ui.m_InputAllWidget->setInputClientCallback( clientCallback );
+	ui.m_InputFaceWidget->setInputClientCallback( clientCallback );
+	ui.m_InputPhotoWidget->setInputClientCallback( clientCallback );
+	ui.m_InputTextWidget->setInputClientCallback( clientCallback );
+	ui.m_InputVideoWidget->setInputClientCallback( clientCallback );
+	ui.m_InputVoiceWidget->setInputClientCallback( clientCallback );
+}
+
+//============================================================================
+bool ChatEntryWidget::checkIfCanSend( void )
+{
+	if( !m_ClientCallback )
+	{
+		QMessageBox::critical( this, QObject::tr( "Application Error" ), QObject::tr( "ChatEntryWidget client callback is not set" ) );
+		return false;
+	}
+
+	if( m_IsPersonalRecorder )
+	{
+		return true;
+	}
+
+	return m_ClientCallback->checkIfCanSend();
 }

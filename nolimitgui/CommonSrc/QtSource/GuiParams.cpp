@@ -357,8 +357,8 @@ QString GuiParams::describeHostType( EHostType hostType )
         return QObject::tr( "Chat Room Host " );
     case eHostTypeRandomConnect:	
         return QObject::tr( "Random Connect Host " );;
-    case eHostTypePeerUserDirect:
-        return QObject::tr( "Peer User Direct " );
+    case eHostTypePeerUser:
+        return QObject::tr( "Peer User " );
     case eHostTypeNetwork:
         return QObject::tr( "Network Host " );
     case eHostTypeConnectTest:
@@ -386,7 +386,7 @@ EHostType GuiParams::hostTypeToEnum( QString hostTypeDesc )
     }
     else if( hostTypeDesc.contains( "Peer User Direct" ) )
     {
-        hostType = eHostTypePeerUserDirect;
+        hostType = eHostTypePeerUser;
     }
     else if( hostTypeDesc.contains( "Network Host" ) )
     {

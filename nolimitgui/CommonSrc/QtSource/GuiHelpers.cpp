@@ -1596,7 +1596,7 @@ void GuiHelpers::fillHostType( QComboBox* comboBox, bool excludePeerHost )
 
     if( !excludePeerHost )
     { 
-        comboBox->addItem( GuiParams::describeHostType( eHostTypePeerUserDirect ) );
+        comboBox->addItem( GuiParams::describeHostType( eHostTypePeerUser ) );
     }
 }
 
@@ -1616,7 +1616,7 @@ EHostType GuiHelpers::comboIdxToHostType( int comboIdx )
     case 4:
         return eHostTypeConnectTest;
     case 5:
-        return eHostTypePeerUserDirect;
+        return eHostTypePeerUser;
 
     default:
         return eHostTypeUnknown;

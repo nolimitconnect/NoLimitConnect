@@ -337,11 +337,11 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 
 	if( !sktBase->isTempConnection() )
 	{	
-		GroupieId groupieId( poInfo->getMyOnlineId(), poInfo->getMyOnlineId(), eHostTypePeerUserDirect );
+		GroupieId groupieId( poInfo->getMyOnlineId(), poInfo->getMyOnlineId(), eHostTypePeerUser );
 		// make sure user identity is updated first before updating connection info
 		if( getUserOnlineMgr().onUserOnline( groupieId, sktBase, poInfo->getVxNetIdent() ) )
 		{
-			getThumbMgr().queryThumbIfNeeded( sktBase, poInfo->getVxNetIdent(), eHostTypePeerUserDirect );
+			getThumbMgr().queryThumbIfNeeded( sktBase, poInfo->getVxNetIdent(), eHostTypePeerUser );
 		}
 
 		getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );

@@ -22,6 +22,8 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include <QMessageBox>
+
 //============================================================================
 AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_APPLET_MULTI_MESSENGER, app, parent )
@@ -34,6 +36,7 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 
 	ui.m_SessionWidget->setAppModule( eAppModuleMessenger );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
+	ui.m_SessionWidget->setInputClientCallback( this );
 
 	ui.m_UserListWidget->setUserViewType( eUserViewTypeFriends );
 
@@ -50,6 +53,8 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
     ui.m_SessionWidget->setEntryMode( eAssetTypeUnknown );
 	ui.m_SessionWidget->setAppModule( eAppModuleMessenger );
 	ui.m_SessionWidget->setPluginType( ePluginTypeMessenger );
+	ui.m_SessionWidget->setInputClientCallback( this );
+
     m_TodGameLogic.setVisible( false );
 
     connect( ui.m_SessionWidget,	    SIGNAL(signalUserInputButtonClicked()),		this,	SLOT(slotUserInputButtonClicked()) );
@@ -444,4 +449,48 @@ void AppletMultiMessenger::userJoinedHost( GuiHosted* guiHosted )
 void AppletMultiMessenger::slotViewChanged( EUserViewType viewType )
 {
 	//setSelectedUser( nullptr );
+}
+
+
+//============================================================================
+bool AppletMultiMessenger::checkIfCanSend( void )
+{
+	if( !m_SelectedUser )
+	{
+		okMessageBox( QObject::tr( "You must select a user" ),
+						QObject::tr( "You must select a user to send to" ) );
+		return false;
+	}
+	else if( !m_SelectedUser->isOnline() )
+	{
+		okMessageBox( QObject::tr( "User is offline" ),
+						QObject::tr( "User is no longer connected" ) );
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+//============================================================================
+bool AppletMultiMessenger::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
+{
+	if( !m_SelectedUser )
+	{
+		okMessageBox( QObject::tr( "You must select a user" ),
+						QObject::tr( "You must select a user to send to" ) );
+		return false;
+	}
+	else if( !m_SelectedUser->isOnline() )
+	{
+		okMessageBox( QObject::tr( "User is offline" ),
+						QObject::tr( "User is no longer connected" ) );
+		return false;
+	}
+	else
+	{
+		assetInfo.setDestUserId( m_SelectedUser->getMyOnlineId() );
+		return getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
+	}
 }

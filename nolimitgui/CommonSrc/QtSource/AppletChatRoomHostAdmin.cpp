@@ -13,6 +13,8 @@
 #include "AppSettings.h"
 #include "MyIcons.h"
 
+#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VxDebug.h>
 
 //============================================================================
@@ -22,6 +24,8 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
     setAppletType( eAppletChatRoomHostAdmin );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
+
+    ui.m_ChatRoomWidget->setInputClientCallback( this );
 
     GroupieId hostAdmin( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeChatRoom );
     ui.m_UserListWidget->setHostAdminId( hostAdmin );
@@ -37,4 +41,59 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
 AppletChatRoomHostAdmin::~AppletChatRoomHostAdmin()
 {
     m_MyApp.activityStateChange( this, false );
+}
+
+//============================================================================
+bool AppletChatRoomHostAdmin::checkIfCanSend( void )
+{
+	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
+
+	if( !hostId.isValid() )
+	{
+		okMessageBox( QObject::tr( "Invalid Host Id" ),
+						QObject::tr( "Host Id has not been set" ) );
+		return false;
+	}
+
+	std::set<VxGUID> memberList;
+	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
+	if( memberList.empty() )
+	{
+		okMessageBox( QObject::tr( "No Members Online" ),
+						QObject::tr( "There are no members online to send to" ) );
+		return false;
+	}
+
+	return true;
+}
+
+//============================================================================
+bool AppletChatRoomHostAdmin::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
+{
+	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
+
+	if( !hostId.isValid() )
+	{
+		okMessageBox( QObject::tr( "Invalid Host Id" ),
+						QObject::tr( "Host Id has not been set" ) );
+		return false;
+	}
+
+	std::set<VxGUID> memberList;
+	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
+	if( memberList.empty() )
+	{
+		okMessageBox( QObject::tr( "No Members Online" ),
+						QObject::tr( "There are no members online to send to" ) );
+		return false;
+	}
+
+	assetInfo.setHostId( hostId );
+	for( auto memberId : memberList )
+	{
+		assetInfo.setDestUserId( memberId );
+		getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
+	}
+
+	return true;
 }

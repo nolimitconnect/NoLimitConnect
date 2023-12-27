@@ -129,305 +129,83 @@
     <Filter Include="Source Files\GuiMemberActive">
       <UniqueIdentifier>{4752cb1b-2eb1-49e3-a602-07cd0474b3f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GuiInterface">
+      <UniqueIdentifier>{416d4d2a-1f4a-415d-8d6d-be49708b1c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Applets">
+      <UniqueIdentifier>{a68d5adf-31f2-4d35-89dc-e911c3d4f4bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface">
+      <UniqueIdentifier>{e65fda96-df98-4095-bc81-52822f3e2022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface\OsAndroid">
+      <UniqueIdentifier>{59ffd79f-e444-4431-8dae-e6f83bae2927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface\OsApple">
+      <UniqueIdentifier>{534acbe4-df53-44a9-bb39-c3ad10bd5aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface\OsLinux">
+      <UniqueIdentifier>{a49a61a2-93b0-418d-9453-b31358df6708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Activity">
+      <UniqueIdentifier>{566899b2-d032-4f7f-bcf9-98450f66532c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Activity">
+      <UniqueIdentifier>{71bf548e-fb92-41bc-ab4b-1550a28ad17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputWidgets">
+      <UniqueIdentifier>{39f98708-ba03-4280-9547-52b67ee9f87c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiConnectId">
+      <UniqueIdentifier>{00289388-267c-4c45-9329-1e196bbb214d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiFavorite">
+      <UniqueIdentifier>{e458b2b9-e7ea-4d7d-818f-46ddc0708449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiFileXfer">
+      <UniqueIdentifier>{450b9b8a-f701-487e-ba40-3b3a0d660854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiGroupie">
+      <UniqueIdentifier>{e488f393-6ae8-4a18-83ce-881e697e96a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiHosted">
+      <UniqueIdentifier>{47b79b71-c2ca-494a-a505-b24e812ffd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiHostServerJoin">
+      <UniqueIdentifier>{2f217af2-db23-4847-a0d7-28e0994fd09c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiMemberActive">
+      <UniqueIdentifier>{d2b74e7a-4157-48e7-98ea-4696d5e8caf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiOffer">
+      <UniqueIdentifier>{3af48283-f744-4a2d-9144-4a5f006b92b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiPlayerMgr">
+      <UniqueIdentifier>{2da400da-5b21-425b-93f2-fcdf9b9b3258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiThumb">
+      <UniqueIdentifier>{e9c27a46-8dcb-42b4-b967-aff25617b999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiUser">
+      <UniqueIdentifier>{420e5a4c-9826-43fb-83e7-bb030426bec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiUserJoin">
+      <UniqueIdentifier>{17ab0fbf-6021-406b-822f-624226b3e180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiWebPage">
+      <UniqueIdentifier>{471caebc-e9d7-466b-8f73-aac21cbaa8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IdentWidget">
+      <UniqueIdentifier>{9909c989-3535-4a84-a57c-1c1659258ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\miniaudioio">
+      <UniqueIdentifier>{72f9399e-74f6-4e7b-a68b-49aeb66969a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TitleAndBottomAndAvatarBar">
+      <UniqueIdentifier>{b5c31bed-72ac-4e55-ac9c-41aba9ce7928}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUploads.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTheme.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestAndDebug.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSnapshot.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletShareServicesPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsVoicePhone.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsVideoPhone.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsTruthOrDare.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsStoryboard.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsShareWebCam.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsShareFiles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsRandomConnect.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsMessenger.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostRandomConnect.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostNetwork.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostGroupListing.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostGroup.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostChatRoom.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsFileXfer.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsConnectionTest.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsAvatarImage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsAboutMe.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceStoryboard.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceShareWebCam.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceShareFiles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceHostNetwork.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceConnectionTest.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBaseSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAvatarImage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAboutMe.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSearchPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoinSearch.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerVideo.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPersonalRecorder.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPermissionList.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerVoicePhone.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerVideoPhone.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerTodGame.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerSessionFileOffer.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerReplyFileOffer.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerChangeFriendship.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNetworkSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMgr.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLibrary.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLaunchWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLaunchPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletJoinBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupJoinSearch.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupJoin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryThumb.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryImage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletEditStoryboard.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletEditAvatarImage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletEditAboutMe.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletDownloads.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletClientBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletClientAvatarImage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseThumbnail.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoinSearch.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomClient.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCamSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletBrowseFiles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletApplicationInfo.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutApp.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityNetworkState.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityInformation.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityChooseTestWebsiteUrl.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -485,19 +263,7 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\FriendListWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThumbMgr.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\HistoryEntryWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\HistoryListWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HomeWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ImageListEntry.h">
@@ -513,27 +279,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\InformationWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputAllWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputBaseWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputFaceWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputPhotoWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputTextWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputVideoWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputVoiceWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\InstMsgWidget.h">
@@ -683,353 +428,683 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxWidgetBase.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPersonOfferList.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostJoinRequestList.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostJoinRequestListItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostJoinRequestListWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ListWidgetBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHelpNetSignalBars.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInviteAccept.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostSelect.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendListClient.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGetStarted.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupListClient.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupListLocalView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostNetworkStatus.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAssetPlayerBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPopupMenu.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentLogicInterface.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestHostClient.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestHostService.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestBase.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListItem.h">
-      <Filter>Source Files\GuiGroupie</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListMgr.h">
-      <Filter>Source Files\GuiGroupie</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListWidget.h">
-      <Filter>Source Files\GuiGroupie</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListItem.h">
-      <Filter>Source Files\GuiHosted</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h">
-      <Filter>Source Files\GuiHosted</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListWidget.h">
-      <Filter>Source Files\GuiHosted</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserListItem.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinListItem.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinListWidget.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinMgr.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNearbyListClient.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserListWidget.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMgr.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\RichTextWidget.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListMgr.h">
-      <Filter>Source Files\GuiConnectId</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserSessionBase.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\SoundMgr.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.h">
-      <Filter>Source Files\GuiPlayerMgr</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSoundSettings.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerPhoto.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerCamClip.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCamClient.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiWebPageMgr.h">
-      <Filter>Source Files\GuiWebPage</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBase.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferSession.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.h">
-      <Filter>Source Files\GuiFileXfer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentOfferWidget.h">
-      <Filter>Source Files\IdentWidget</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileOfferSelect.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\TestWidget.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\OfferSendWidget.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgr.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\OfferBarWidget.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferListItem.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferListWidget.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserBase.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUser.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\SearchBarWidget.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\DialogAddComment.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHackerList.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSocketList.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommonApp.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancel.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\OfferSendWidget.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancelImpl.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\DialogAddComment.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutApp.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletApplicationInfo.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioIn.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAssetPlayerBase.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioInDevice.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletBase.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioMgr.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletBrowseFiles.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCamClient.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOutDevice.h">
-      <Filter>Source Files\miniaudioio</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCamSettings.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoin.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoinSearch.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseThumbnail.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletClientAvatarImage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletClientBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletDownloads.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletEditAboutMe.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletEditAvatarImage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletEditStoryboard.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileOfferSelect.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendListClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryImage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryThumb.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGetStarted.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupJoin.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupJoinSearch.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupListClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupListLocalView.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHackerList.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHelpNetSignalBars.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostJoinRequestList.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostNetworkStatus.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostSelect.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInviteAccept.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletJoinBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLaunchPage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLaunchWidget.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLibrary.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLog.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogSettings.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogView.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMgr.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNearbyListClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNetworkSettings.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerChangeFriendship.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerReplyFileOffer.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerSessionFileOffer.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerTodGame.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerVideoPhone.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPeerVoicePhone.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPermissionList.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPersonalRecorder.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPersonOfferList.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerCamClip.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerPhoto.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerVideo.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPopupMenu.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoin.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoinSearch.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSearchPage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAboutMe.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAvatarImage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBaseSettings.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceConnectionTest.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceHostNetwork.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceShareFiles.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceShareWebCam.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceStoryboard.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsAboutMe.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsAvatarImage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsConnectionTest.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsFileXfer.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostChatRoom.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostGroup.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostGroupListing.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostNetwork.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostRandomConnect.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsMessenger.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsPage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsRandomConnect.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsShareFiles.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsShareWebCam.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsStoryboard.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsTruthOrDare.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsVideoPhone.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsVoicePhone.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletShareServicesPage.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSnapshot.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSocketList.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSoundSettings.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestAndDebug.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestBase.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestHostClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestHostService.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTheme.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUploads.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBase.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityChooseTestWebsiteUrl.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityInformation.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityNetworkState.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderPlayerNlcThread.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.h">
-      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\RichTextWidget.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.h">
-      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\SearchBarWidget.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AvatarBar.h">
-      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\SoundMgr.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutMeClient.h">
-      <Filter>Source Files\Applets</Filter>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\TestWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\HistoryEntryWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\HistoryListWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputAllWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputBaseWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputFaceWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputPhotoWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputTextWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputVideoWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InputVoiceWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutMeServerViewMine.h">
-      <Filter>Source Files\Applets</Filter>
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCamServerViewMine.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomListLocalView.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileShareClientView.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileShareServerViewMine.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupHostAdmin.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomStatus.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostGroupStatus.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostRandomConnectStatus.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletIgnoredHosts.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferList.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferResponse.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferResponseAccept.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferSend.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferView.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectListLocalView.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsPushToTalk.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletStoryboardClient.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletStoryboardServerViewMine.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h">
-      <Filter>Source Files\GuiHostServerJoin</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h">
-      <Filter>Source Files\Applets</Filter>
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.h">
-      <Filter>Source Files\Applets</Filter>
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomListLocalView.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileShareClientView.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletStoryboardServerViewMine.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletStoryboardClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsPushToTalk.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectListLocalView.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h">
-      <Filter>Source Files\Applets</Filter>
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferView.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferSend.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferResponse.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferResponseAccept.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferList.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletIgnoredHosts.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostRandomConnectStatus.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostGroupStatus.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostChatRoomStatus.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupHostAdmin.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileShareServerViewMine.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutMeClient.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.h">
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListMgr.h">
+      <Filter>Header Files\GuiConnectId</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.h">
+      <Filter>Header Files\GuiFileXfer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListItem.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListMgr.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListWidget.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListItem.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListWidget.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.h">
-      <Filter>Source Files\GuiMemberActive</Filter>
+      <Filter>Header Files\GuiMemberActive</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferListItem.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferListWidget.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgr.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBase.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferSession.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\OfferBarWidget.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.h">
+      <Filter>Header Files\GuiPlayerMgr</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThumbMgr.h">
+      <Filter>Header Files\GuiThumb</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUser.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserBase.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserListItem.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserListWidget.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMgr.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserSessionBase.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinListItem.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinListWidget.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinMgr.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiWebPageMgr.h">
+      <Filter>Header Files\GuiWebPage</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentOfferWidget.h">
+      <Filter>Header Files\IdentWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentWidget.h">
+      <Filter>Header Files\IdentWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentLogicInterface.h">
+      <Filter>Header Files\IdentWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancel.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoCancelImpl.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioIn.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioInDevice.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioMgr.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOutDevice.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.h">
+      <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AvatarBar.h">
+      <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.h">
+      <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -1040,63 +1115,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityChooseTestWebsiteUrl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityInformation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityNetworkState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppDefs.cpp">
@@ -1393,9 +1411,6 @@
     <ClCompile Include="..\..\..\NoLimitConnectMain\AppSource\main.cpp">
       <Filter>Source Files\NoLimitConnectMain</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1582,9 +1597,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.cpp">
       <Filter>Source Files\GuiPluginMgr</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiWebPageMgr.cpp">
       <Filter>Source Files\GuiWebPage</Filter>
     </ClCompile>
@@ -1635,9 +1647,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\IdentWidget.cpp">
       <Filter>Source Files\IdentWidget</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TestWidget.cpp">
       <Filter>Source Files</Filter>
@@ -2155,15 +2164,81 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.cpp">
       <Filter>Source Files\GuiMemberActive</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBase.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityChooseTestWebsiteUrl.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityInformation.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityNetworkState.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppGlobals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h">
@@ -2191,12 +2266,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiParams.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\MenuDefs.h">
@@ -2256,54 +2325,6 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountDb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListCallback.h">
-      <Filter>Source Files\GuiGroupie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListSession.h">
-      <Filter>Source Files\GuiGroupie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHosted.h">
-      <Filter>Source Files\GuiHosted</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListSession.h">
-      <Filter>Source Files\GuiHosted</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupie.h">
-      <Filter>Source Files\GuiGroupie</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListCallback.h">
-      <Filter>Source Files\GuiHosted</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoin.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinCallback.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinList.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinSession.h">
-      <Filter>Source Files\GuiUserJoin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserUpdateCallback.h">
-      <Filter>Source Files\GuiUser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListCallback.h">
-      <Filter>Source Files\GuiConnectId</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.h">
-      <Filter>Source Files\GuiFavorite</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPlayerCallback.h">
-      <Filter>Source Files\GuiPlayerMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiWebPageCallback.h">
-      <Filter>Source Files\GuiWebPage</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AppInterface\OsWin32\IWin32.h">
       <Filter>Source Files\AppInterface\OsWin32</Filter>
     </ClInclude>
@@ -2319,56 +2340,8 @@
     <ClInclude Include="..\..\..\AppInterface\INlc.h">
       <Filter>Source Files\AppInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ILog.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioInterface.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGui.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IScan.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IToGui.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcRender.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcGeometry.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcEvents.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AppInterface\OsLinux\ILinux.h">
       <Filter>Source Files\AppInterface\OsLinux</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AppInterface\OsApple\IApple.h">
-      <Filter>Source Files\AppInterface\OsApple</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AppInterface\OsAndroid\IAndroid.h">
-      <Filter>Source Files\AppInterface\OsAndroid</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFileXferSession.h">
-      <Filter>Source Files\GuiFileXfer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiOfferCallback.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\OfferSessionLogic.h">
-      <Filter>Source Files\GuiOffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbCallback.h">
-      <Filter>Source Files\GuiThumb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiOfferInfo.h">
-      <Filter>Source Files\GuiOffer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AppCompilerConfig.h">
       <Filter>CompilerConfig</Filter>
@@ -2381,27 +2354,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AppTargetOsConfig.h">
       <Filter>CompilerConfig</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioBitrate.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerInterface.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioSampleBuf.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioUtils.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioDevices.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioDefs.h">
-      <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\NlcCommonConfig.h">
       <Filter>CompilerConfig</Filter>
@@ -2418,32 +2370,164 @@
     <ClInclude Include="..\..\..\..\nolimitlib\NlcTargetOsConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.h">
-      <Filter>Source Files\miniaudioio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.h">
-      <Filter>Source Files\GuiHostServerJoin</Filter>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinCallback.h">
-      <Filter>Source Files\GuiHostServerJoin</Filter>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioDefs.h">
+      <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.h">
-      <Filter>Source Files\GuiHostServerJoin</Filter>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioInterface.h">
+      <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h">
-      <Filter>Source Files\GuiHostServerJoin</Filter>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGui.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ILog.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcEvents.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcGeometry.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcRender.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IScan.h">
+      <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ITimeDefs.h">
-      <Filter>Source Files\GuiInterface</Filter>
+      <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveCallback.h">
-      <Filter>Source Files\GuiMemberActive</Filter>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IToGui.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsAndroid\IAndroid.h">
+      <Filter>Header Files\AppInterface\OsAndroid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsApple\IApple.h">
+      <Filter>Header Files\AppInterface\OsApple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\InputClientCallback.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListCallback.h">
+      <Filter>Header Files\GuiConnectId</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiOnlineStatusCallback.h">
-      <Filter>Source Files\GuiConnectId</Filter>
+      <Filter>Header Files\GuiConnectId</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.h">
+      <Filter>Header Files\GuiFavorite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFileXferSession.h">
+      <Filter>Header Files\GuiFileXfer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupie.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListCallback.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListSession.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHosted.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListCallback.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListSession.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinCallback.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveCallback.h">
+      <Filter>Header Files\GuiMemberActive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiOfferCallback.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiOfferInfo.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\OfferSessionLogic.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPlayerCallback.h">
+      <Filter>Header Files\GuiPlayerMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbCallback.h">
+      <Filter>Header Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumb.h">
+      <Filter>Header Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbList.h">
+      <Filter>Header Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserUpdateCallback.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoin.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinCallback.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinList.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiUserJoinSession.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiWebPageCallback.h">
+      <Filter>Header Files\GuiWebPage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioBitrate.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerInterface.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioSampleBuf.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioUtils.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioDevices.h">
+      <Filter>Header Files\miniaudioio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

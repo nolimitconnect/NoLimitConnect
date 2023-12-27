@@ -417,6 +417,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InformationWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputAllWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputBaseWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputFaceWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputPhotoWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputTextWidget.cpp" />
@@ -680,6 +681,8 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentLogicInterface.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentOfferWidget.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\InputClientCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\MenuDefs.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioBitrate.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.h" />

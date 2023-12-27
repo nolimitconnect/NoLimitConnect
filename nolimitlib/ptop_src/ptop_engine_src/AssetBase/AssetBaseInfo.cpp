@@ -57,6 +57,7 @@ AssetBaseInfo::AssetBaseInfo( const AssetBaseInfo& rhs )
 , m_ExpiresTime( rhs.m_ExpiresTime )
 , m_AssetSendState( rhs.m_AssetSendState )
 , m_PlayPosition0to100000( rhs.m_PlayPosition0to100000 )
+, m_DestOnlineId( rhs.m_DestOnlineId )
 {   
 	m_UniqueId.assureIsValidGUID();
 }
@@ -186,6 +187,7 @@ bool AssetBaseInfo::addToBlob( PktBlobEntry& blob )
 		result &= blob.setValue( m_AccessedTime );
 		result &= blob.setValue( m_ExpiresTime );
 		result &= blob.setValue( m_AssetTag );
+		result &= blob.setValue( m_DestOnlineId );
 		return result;
 
 		// not sent in blob
@@ -216,6 +218,7 @@ bool AssetBaseInfo::extractFromBlob( PktBlobEntry& blob )
 		result &= blob.getValue( m_AccessedTime );
 		result &= blob.getValue( m_ExpiresTime );
 		result &= blob.getValue( m_AssetTag );
+		result &= blob.getValue( m_DestOnlineId );
 		m_PluginType = (EPluginType)pluginType;
 		return result;
 
@@ -260,6 +263,8 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 		m_AssetTag					= rhs.m_AssetTag;
 		m_AssetSendState			= rhs.m_AssetSendState;
         m_PlayPosition0to100000     = rhs.m_PlayPosition0to100000;
+
+		m_DestOnlineId				= rhs.m_DestOnlineId;
 	}
 
 	return *this;
@@ -494,4 +499,31 @@ void AssetBaseInfo::updateAssetLength( int64_t assetLength )
 {
 	// TODO regenerate hash id
 	m_s64AssetLen = assetLength;
+}
+
+//============================================================================
+void AssetBaseInfo::setHostId( HostedId& hostedId )
+{
+	setPluginType( HostTypeToClientPlugin( hostedId.getHostType() ) );
+	setHistoryId( hostedId.getHostOnlineId() );
+}
+
+//============================================================================
+HostedId AssetBaseInfo::getHostId( void )
+{
+	return HostedId( getHistoryId(), PluginTypeToHostType( getPluginType() ) );
+}
+
+//============================================================================
+GroupieId AssetBaseInfo::getCreatorGroupieId( void )
+{
+    HostedId hostedId = getHostId();
+    return GroupieId( getCreatorId(), hostedId );
+}
+
+//============================================================================
+GroupieId AssetBaseInfo::getDestGroupieId( void )
+{
+    HostedId hostedId = getHostId();
+    return GroupieId( getDestUserId(), hostedId );
 }

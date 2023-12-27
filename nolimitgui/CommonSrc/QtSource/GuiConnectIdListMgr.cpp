@@ -452,7 +452,7 @@ bool GuiConnectIdListMgr::isDirectConnect( VxGUID& onlineId )
         for( auto &connectIdIn : m_ConnectIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdIn);
-            if( connectId.getUserOnlineId() == onlineId && eHostTypePeerUserDirect == connectId.getHostType() )
+            if( connectId.getUserOnlineId() == onlineId && eHostTypePeerUser == connectId.getHostType() )
             {
                 isDirectConnect = true;
                 break;
@@ -482,7 +482,7 @@ bool GuiConnectIdListMgr::isRelayed( VxGUID& onlineId )
         for( auto &connectIdIn : m_ConnectIdList )
         {
             ConnectId& connectId = const_cast<ConnectId&>(connectIdIn);
-            if( connectId.getUserOnlineId() == onlineId && eHostTypePeerUserDirect == connectId.getHostType() )
+            if( connectId.getUserOnlineId() == onlineId && eHostTypePeerUser == connectId.getHostType() )
             {
                 isDirectConnected = true;
                 break;

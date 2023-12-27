@@ -254,6 +254,11 @@ void IdentLogicInterface::clearIdentity( void )
 	setIdentFriendshipIcon( eMyIconAnonymous );
 	getIdentFriendshipButton()->setNotifyType( eNotifyNone );
 	getIdentFriendshipButton()->setNotifyDirectConnectEnabled( false );
+	getIdentAvatarButton()->setIconOverrideImage( nullImage );
+	if( getIdentPushToTalkButton() )
+	{
+		getIdentPushToTalkButton()->setVisible( false );
+	}
 }
 
 //============================================================================
@@ -420,6 +425,7 @@ void IdentLogicInterface::setIdentMenuIcon( EMyIcons myIcon )
 //============================================================================
 void IdentLogicInterface::slotIdentAvatarButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentAvatarButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentAvatarButtonClicked();
 	onIdentAvatarButtonClicked();
 }
@@ -427,6 +433,7 @@ void IdentLogicInterface::slotIdentAvatarButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentFrienshipButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentFrienshipButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentFriendshipButtonClicked();
 	onIdentFriendshipButtonClicked();
 }
@@ -434,6 +441,7 @@ void IdentLogicInterface::slotIdentFrienshipButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferViewButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentOfferViewButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferViewButtonClicked();
 	onIdentOfferViewButtonClicked();
 }
@@ -441,6 +449,7 @@ void IdentLogicInterface::slotIdentOfferViewButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferAcceptButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentOfferAcceptButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferAcceptButtonClicked();
 	onIdentOfferAcceptButtonClicked();
 }
@@ -448,6 +457,7 @@ void IdentLogicInterface::slotIdentOfferAcceptButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferRejectButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentOfferRejectButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferRejectButtonClicked();
 	onIdentOfferRejectButtonClicked();
 }
@@ -455,6 +465,7 @@ void IdentLogicInterface::slotIdentOfferRejectButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentMenuButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentMenuButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentMenuButtonClicked();
 	onIdentMenuButtonClicked();
 }
@@ -479,6 +490,8 @@ void IdentLogicInterface::onIdentFriendshipButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentPushToTalkButtonClicked( void )
 {
+	LogModule( eLogUserEvent, LOG_VERBOSE, "slotIdentPushToTalkButtonClicked %s", m_MyApp.describeUser( m_GuiUser ).c_str() );
+
 	toggleIdentPushToTalk();
 	onIdentPushToTalkButtonClicked();
 	emit signalIdentPushToTalkButtonClicked();

@@ -11,16 +11,17 @@
 
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
-#include <CoreLib/AssetDefs.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
-#include <PktLib/VxCommon.h>
 
+#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <CoreLib/AssetDefs.h>
+#include <PktLib/VxCommon.h>
 
 class AppCommon;
 class AssetInfo;
 class ChatEntryWidget;
 class GuiUser;
 class MyIcons;
+class InputClientCallback;
 
 class InputBaseWidget : public QWidget
 {
@@ -42,6 +43,9 @@ public:
 	void						setPluginType( EPluginType pluginType )		{ m_PluginType = pluginType; }
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }
 
+	void						setInputClientCallback( InputClientCallback* clientCallback ) { m_ClientCallback = clientCallback; }
+	bool						canAcceptInput( EAssetType assetType );
+
 signals:
 	void						signalChatMessage( QString chatMsg );
 	void						signalElapsedRecTime( QString elapsedSec );
@@ -61,6 +65,8 @@ protected:
 
 	bool						addOptionalComment( void );
 
+	bool						checkIfCanSend( void );
+
 	//=== vars ===//
 	AppCommon&				    m_MyApp;
 	ChatEntryWidget *			m_ChatEntryWidget{ nullptr };
@@ -74,4 +80,6 @@ protected:
     bool						m_IsPersonalRecorder{ false };
 	EAppModule					m_AppModule{ eAppModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
+
+	InputClientCallback*		m_ClientCallback{ nullptr };
 };

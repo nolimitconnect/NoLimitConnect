@@ -37,6 +37,20 @@ GuiUser* GuiUserMgr::getMyIdent( void )
 }
 
 //============================================================================
+std::string  GuiUserMgr::getMyOnlineName( void )
+{
+    GuiUser* guiUser = getMyIdent();
+    if( guiUser )
+    {
+        return guiUser->getOnlineName();
+    }
+    else
+    {
+        return "My Ident is not set";
+    }
+}
+
+//============================================================================
 bool GuiUserMgr::isMessengerReady( void )
 {
     return m_MyApp.isMessengerReady();
@@ -317,7 +331,6 @@ GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
         }
         else if( !m_MyIdent )
         {
-            // there is some wierdness where if GuiUser was created too soon the signals do not connect correctly
             GuiUser* guiUser = new GuiUser( m_MyApp );
             guiUser->setNetIdent( &m_RawMyIdent );
             m_MyIdent = guiUser;

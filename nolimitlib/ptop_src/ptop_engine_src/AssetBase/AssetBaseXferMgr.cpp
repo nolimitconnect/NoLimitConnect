@@ -1394,7 +1394,17 @@ AssetBaseTxSession* AssetBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
 bool AssetBaseXferMgr::fromGuiSendAssetBase( AssetBaseInfo& assetInfo )
 {
 	bool xferFailed = true;
-	VxNetIdent* hisIdent = m_Engine.getBigListMgr().findNetIdent( assetInfo.getHistoryId() );
+	VxNetIdent* hisIdent{ nullptr };
+	
+	if( assetInfo.getDestUserId().isVxGUIDValid() )
+	{
+		hisIdent = m_Engine.getBigListMgr().findNetIdent( assetInfo.getDestUserId() );
+	}
+	else
+	{
+		hisIdent = m_Engine.getBigListMgr().findNetIdent( assetInfo.getHistoryId() );
+	}
+	
 	if( hisIdent )
 	{
 		// first try to connect and send.. if that fails then que and will send when next connected

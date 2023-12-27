@@ -1659,7 +1659,7 @@ EMyIcons MyIcons::getHostTypeHostIcon( enum EHostType hostType )
 		return eMyIconServiceChatRoom;
 	case eHostTypeRandomConnect:
 		return eMyIconServiceRandomConnect;
-	case eHostTypePeerUserDirect:
+	case eHostTypePeerUser:
 		return eMyIconDirectConnected;
 	default:
 		return eMyIconUnknown;
@@ -1681,7 +1681,7 @@ EMyIcons MyIcons::getHostTypeClientIcon( enum EHostType hostType )
 		return eMyIconChatRoomClient;
 	case eHostTypeRandomConnect:
 		return eMyIconRandomConnectClient;
-	case eHostTypePeerUserDirect:
+	case eHostTypePeerUser:
 		return eMyIconDirectConnected;
 	default:
 		return eMyIconUnknown;

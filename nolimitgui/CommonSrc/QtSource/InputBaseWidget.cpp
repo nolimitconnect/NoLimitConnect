@@ -11,8 +11,10 @@
 #include "InputBaseWidget.h"
 
 #include "AppCommon.h"
+#include "ChatEntryWidget.h"
 #include "DialogAddComment.h"
 #include "GuiHelpers.h"
+#include "InputClientCallback.h"
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
@@ -66,6 +68,12 @@ void InputBaseWidget::setIsChatRoom( bool isChatRoom )
 }
 
 //============================================================================
+bool InputBaseWidget::canAcceptInput( EAssetType assetType )
+{
+	return m_ClientCallback && m_ClientCallback->canAcceptInput( assetType );
+}
+
+//============================================================================
 void InputBaseWidget::slotChatMessage( QString chatMsg )
 {
 }
@@ -73,6 +81,11 @@ void InputBaseWidget::slotChatMessage( QString chatMsg )
 //============================================================================
 bool InputBaseWidget::voiceRecord( EAssetAction action )
 {
+	if( !checkIfCanSend() )
+	{
+		return false;
+	}
+
 	EAssetType assetType = eAssetTypeAudio;
 	bool actionResult = true;
     switch( action )
@@ -92,7 +105,7 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
             }
             else
             {
-                LogMsg( LOG_ERROR, "Could Not start Audio Record\n" );
+                LogMsg( LOG_ERROR, "Could Not start Audio Record" );
             }
         }
 
@@ -117,7 +130,7 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
 				if( addOptionalComment() )
 				{
 					m_AssetInfo.setPluginType( getPluginType() );
-					m_MyApp.getEngine().fromGuiAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
+					m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 					actionResult = true;
 				}
 			}
@@ -148,6 +161,11 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
 //============================================================================
 bool InputBaseWidget::videoRecord( EAssetAction action )
 {
+	if( !checkIfCanSend() )
+	{
+		return false;
+	}
+
 	EAssetType assetType = eAssetTypeVideo;
 	bool actionResult = true;
 	switch( action )
@@ -167,7 +185,7 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 		    }
 		    else
 		    {
-			    LogMsg( LOG_ERROR, "Could Not start Video Record\n" );
+			    LogMsg( LOG_ERROR, "Could Not start Video Record" );
 		    }
         }
 
@@ -191,7 +209,7 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 				{
 					// not long enough to be a recording
 					VxFileUtil::deleteFile( m_FileName.c_str() );
-					LogMsg( LOG_ERROR, "InputBaseWidget::videoRecord file %s has to short len %" PRId64 "", m_FileName.c_str(), fileLen );
+					LogMsg( LOG_ERROR, "InputBaseWidget::videoRecord file %s has to short len %" PRId64, m_FileName.c_str(), fileLen );
 					actionResult = false;
 				}
 				else
@@ -200,7 +218,7 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 					if( addOptionalComment() )
 					{
 						m_AssetInfo.setPluginType( getPluginType() );
-						m_MyApp.getEngine().fromGuiAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
+						m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 						actionResult = true;
 					}
 				}
@@ -240,64 +258,13 @@ void InputBaseWidget::updateElapsedTime( void )
 //============================================================================
 bool InputBaseWidget::generateFileName( EAssetType assetType, VxGUID& uniqueId )
 {
-	//std::string hisOnlineId;
-	//m_HisIdent->getMyOnlineId().toHexString( hisOnlineId );
-	//m_FileName = VxGetUserXferDirectory() + hisOnlineId + "/" + AssetInfo::getSubDirectoryName( assetType );
-    bool result = false;
-    if( m_HisIdent )
-    {
-        std::string mediaSubDir = "contacts/";
-        if( m_HisIdent->getMyOnlineId() == m_MyIdent->getMyOnlineId() )
-        {
-            mediaSubDir = "me/";
-        }
-
-        m_FileName = VxGetUserXferDirectory() + mediaSubDir;
-        VxFileUtil::makeDirectory( m_FileName );
-        //m_FileName += AssetInfo::getSubDirectoryName( assetType );
-        //VxFileUtil::makeDirectory( m_FileName );
-        m_FileName += m_MyIdent->getOnlineName();
-        m_FileName += "_";
-        m_FileName += VxTimeUtil::getFileNameCompatibleDateAndTime( GetLocalTimeMs() );
-        m_FileName += "#";
-        m_FileName += uniqueId.toHexString();
-        m_FileName += AssetInfo::getDefaultFileExtension( assetType );
-        result = true;
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "InputBaseWidget::generateFileName m_HisIdent is null" );
-    }
-
-    return result;
+	return canAcceptInput( assetType ) && m_ClientCallback->generateFileName( assetType, uniqueId, m_FileName );
 }
 
 //============================================================================
 bool InputBaseWidget::fillAssetBaseInfo( bool newAssetId )
 {
-	if( newAssetId )
-	{
-		m_AssetInfo.generateNewUniqueId();
-	}
-	else
-	{
-		m_AssetInfo.getAssetUniqueId().assureIsValidGUID();
-	}
-
-	m_AssetInfo.setPluginType( getPluginType() );
-	if( m_MyIdent && m_HisIdent )
-	{	
-		m_TimeRecCurrent = GetTimeStampMs();
-		m_AssetInfo.setCreationTime( m_TimeRecCurrent );
-		m_AssetInfo.setCreatorId( m_MyIdent->getMyOnlineId() );
-		m_AssetInfo.setHistoryId( m_MyIdent->getMyOnlineId() );
-		return true;
-	}
-	else
-	{
-		GuiHelpers::errorMsgBox( eErrMsgNoUserSelectedToSendTo, this );
-		return false;
-	}
+	return m_ClientCallback && m_ClientCallback->fillAssetBaseInfo( m_AssetInfo, newAssetId );
 }
 
 //============================================================================
@@ -320,6 +287,11 @@ bool InputBaseWidget::addOptionalComment( void )
 		}
 	}
 
-
 	return wasAccepted;
+}
+
+//============================================================================
+bool InputBaseWidget::checkIfCanSend( void )
+{
+	return m_ChatEntryWidget->checkIfCanSend();
 }

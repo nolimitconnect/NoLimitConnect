@@ -26,7 +26,6 @@ public:
 	void						setIdents( GuiUser* myIdent, GuiUser* hisIdent );
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
-	void						setCanSend( bool canSend );
 
 	void						setAppModule( EAppModule appModule );
 	EAppModule					getAppModule( void )						{ return  m_AppModule; }
@@ -37,6 +36,12 @@ public:
 	void						hideVideoCaptureInput( void ); // video takes a lot of bandwidth.. disable for chat room host
 
 	void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 );
+
+	void						setCanSend( bool canSend );
+
+	void						setInputClientCallback( InputClientCallback* clientCallback );
+
+	bool						checkIfCanSend( void );
 
 signals:
 	void						signalUserInputButtonClicked( void );
@@ -53,9 +58,13 @@ private slots:
 
 private:
 	Ui::ChatEntryWidget			ui;
-	EAssetType					m_InputMode;
+	EAssetType					m_InputMode{ eAssetTypeUnknown };
 	GuiUser*					m_MyIdent{ nullptr };
     GuiUser*				    m_HisIdent{ nullptr };
 	EAppModule					m_AppModule{ eAppModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
+
+	bool						m_IsPersonalRecorder{ false };
+
+	InputClientCallback*		m_ClientCallback{ nullptr };
 };

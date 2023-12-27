@@ -35,6 +35,7 @@ public:
 
     GuiUser*                    getMyIdent( void );
     VxGUID                      getMyOnlineId( void )                       { return m_MyOnlineId; }  
+    std::string                 getMyOnlineName( void );
 
     virtual void				toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
     virtual void				toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;

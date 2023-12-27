@@ -12,15 +12,20 @@
 #include "ui_AppletGroupClient.h"
 
 #include "AppletClientBase.h"
+#include "InputClientBaseCallback.h"
+
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IToGui.h> 
 
-class AppletGroupClient : public AppletClientBase
+class AppletGroupClient : public AppletClientBase, public InputClientBaseCallback
 {
 	Q_OBJECT
 public:
 	AppletGroupClient( AppCommon& app, QWidget* parent );
 	virtual ~AppletGroupClient() override;
+
+    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
+    EPluginType			        getInputClientPluginType( void ) override { return AppletHostBase::getPluginType(); }
 
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );
@@ -29,6 +34,9 @@ protected slots:
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;
+
+    bool						checkIfCanSend( void ) override;
+    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
     Ui::AppletGroupClientUi	ui;

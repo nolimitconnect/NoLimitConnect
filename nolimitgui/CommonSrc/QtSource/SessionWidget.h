@@ -16,6 +16,7 @@
 #include <CoreLib/AssetDefs.h>
 
 class GuiUser;
+class InputClientCallback;
 
 class SessionWidget : public QWidget
 {
@@ -29,6 +30,7 @@ public:
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
 	void						setCanSend( bool canSend );
+	void						setInputClientCallback( InputClientCallback* clientCallback );
 
 	void						setAppModule( EAppModule appModule );
 
@@ -58,4 +60,6 @@ protected:
 	EAssetType					m_InputMode;
 	bool						m_IsInitialized{ false };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
+
+	InputClientCallback*		m_ClientCallback{ nullptr };
 };

@@ -13,6 +13,7 @@
 
 #include "AppletPeerBase.h"
 #include "GuiOfferCallback.h"
+#include "InputClientBaseCallback.h"
 #include "MultiSessionState.h"
 #include "TodGameLogic.h"
 
@@ -23,12 +24,15 @@ class GuiOfferSession;
 class MultiSessionState;
 class P2PEngine;
 
-class AppletMultiMessenger : public AppletPeerBase
+class AppletMultiMessenger : public AppletPeerBase, public InputClientBaseCallback
 {
 	Q_OBJECT
 public:
 	AppletMultiMessenger( AppCommon& app, QWidget* parent = nullptr );
 	virtual ~AppletMultiMessenger();
+
+	AppCommon&                  getMyApp( void ) override { return m_MyApp; }
+    EPluginType			        getInputClientPluginType( void ) override { return AppletPeerBase::getPluginType(); }
 
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )  override;
     virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 ) override;
@@ -84,6 +88,9 @@ protected:
 
 	MultiSessionState *			getMSessionState( EMSessionType sessionType );
 	void						onSelectedUserChanged( GuiUser* guiUser );
+
+	bool						checkIfCanSend( void ) override;
+	bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
 	//=== vars ===//
 	Ui::AppletMultiMessengerUi	ui;
