@@ -26,7 +26,7 @@ class VxNetIdent;
 class UserOnlineMgr : public ConnectIdListCallback
 {
 public:
-	UserOnlineMgr( P2PEngine& engine, const char* dbName, const char* dbStateName );
+	UserOnlineMgr( P2PEngine& engine );
 	virtual ~UserOnlineMgr() = default;
 
     void                        fromGuiUserLoggedOn( void );

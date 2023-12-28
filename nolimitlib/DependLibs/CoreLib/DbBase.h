@@ -167,8 +167,12 @@ public:
 	void						lockDb( void )		{ m_DbMutex.lock(); }
 	void						unlockDb( void )	{ m_DbMutex.unlock(); }
 
+	bool						deleteDatabase( void );
+
 protected:
 	void						handleSqlError( RCODE rc, const char* errMsg, ... );
+
+	RCODE						doDatabaseStartup( void );
 
 public:
 	//=== vars ===//

@@ -23,7 +23,9 @@ public:
     ChatEntryWidget( QWidget* parent = nullptr, EAssetType inputMode = eAssetTypeUnknown );
 	virtual ~ChatEntryWidget() = default;
 
-	void						setIdents( GuiUser* myIdent, GuiUser* hisIdent );
+	void						setGroupieId( GroupieId& groupieId );
+	GroupieId					getGroupieId( void )						{ return  m_GroupieId; }
+
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
 
@@ -59,8 +61,8 @@ private slots:
 private:
 	Ui::ChatEntryWidget			ui;
 	EAssetType					m_InputMode{ eAssetTypeUnknown };
-	GuiUser*					m_MyIdent{ nullptr };
-    GuiUser*				    m_HisIdent{ nullptr };
+	GroupieId					m_GroupieId;
+
 	EAppModule					m_AppModule{ eAppModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 

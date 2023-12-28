@@ -218,16 +218,16 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QPushButton" name="m_QueryHostIdButton">
+         <widget class="QPushButton" name="m_DeleteDbButton">
           <property name="text">
-           <string>Query Host ID </string>
+           <string>Delete Database</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_TestChooseUserButton">
+         <widget class="QPushButton" name="m_QueryHostIdButton">
           <property name="text">
-           <string>Test Choose User</string>
+           <string>Query Host ID </string>
           </property>
          </widget>
         </item>

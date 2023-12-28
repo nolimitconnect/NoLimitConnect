@@ -18,24 +18,25 @@ namespace
 {
 	std::string 		TABLE_ASSETS	 				= "tblAssets";
 
-	std::string 		CREATE_COLUMNS_ASSETS			= " (unique_id TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, thumbId TEXT, assetName TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER) ";
+	std::string 		CREATE_COLUMNS_ASSETS			= " (unique_id TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, adminId TEXT, thumbId TEXT, assetName TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER) ";
 
 	const int			COLUMN_ASSET_UNIQUE_ID			= 0;
 	const int			COLUMN_ASSET_CREATOR_ID			= 1;
 	const int			COLUMN_ASSET_HISTORY_ID			= 2;
-    const int			COLUMN_ASSET_THUMB_ID			= 3;
-	const int			COLUMN_ASSET_NAME				= 4;
-	const int			COLUMN_ASSET_LEN				= 5;
-	const int			COLUMN_ASSET_TYPE				= 6;
-	const int			COLUMN_ASSET_HASH_ID			= 7;
-	const int			COLUMN_LOCATION_FLAGS			= 8;
-    const int			COLUMN_ATTRIBUTE_FLAGS			= 9;
-    const int			COLUMN_CREATION_TIME			= 10;
-    const int			COLUMN_MODIFIED_TIME			= 11;
-    const int			COLUMN_ACCESSED_TIME			= 12;
-	const int			COLUMN_ASSET_TAG				= 13;
-	const int			COLUMN_ASSET_SEND_STATE			= 14;
-	const int			COLUMN_PLUGIN_TYPE				= 15;
+	const int			COLUMN_ASSET_ADMIN_ID			= 3;
+    const int			COLUMN_ASSET_THUMB_ID			= 4;
+	const int			COLUMN_ASSET_NAME				= 5;
+	const int			COLUMN_ASSET_LEN				= 6;
+	const int			COLUMN_ASSET_TYPE				= 7;
+	const int			COLUMN_ASSET_HASH_ID			= 8;
+	const int			COLUMN_LOCATION_FLAGS			= 9;
+    const int			COLUMN_ATTRIBUTE_FLAGS			= 10;
+    const int			COLUMN_CREATION_TIME			= 11;
+    const int			COLUMN_MODIFIED_TIME			= 12;
+    const int			COLUMN_ACCESSED_TIME			= 13;
+	const int			COLUMN_ASSET_TAG				= 14;
+	const int			COLUMN_ASSET_SEND_STATE			= 15;
+	const int			COLUMN_PLUGIN_TYPE				= 16;
 }
 
 //============================================================================
@@ -113,6 +114,7 @@ void AssetBaseInfoDb::removeAsset( AssetBaseInfo* assetInfo )
 bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
                                 VxGUID&			creatorId,
                                 VxGUID&			historyId,
+								VxGUID&			adminId, 
                                 VxGUID&			thumbId,
                                 const char*		assetName,
                                 int64_t			assetLen,
@@ -137,11 +139,13 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
     std::string assetIdStr = assetId.toHexString();
     std::string creatorIdStr = creatorId.toHexString();
     std::string historyIdStr = historyId.toHexString();
+	std::string adminIdStr = adminId.toHexString();
     std::string thumbIdStr = thumbId.toHexString();
 
     DbBindList bindList( assetIdStr.c_str() );
     bindList.add( creatorIdStr.c_str() );
     bindList.add( historyIdStr.c_str() );
+	bindList.add( adminIdStr.c_str() );
     bindList.add( thumbIdStr.c_str() );
     bindList.add( assetName );
     bindList.add( assetLen );
@@ -161,7 +165,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
 		LogMsg( LOG_VERBOSE, "AssetBaseInfoDb::addAsset no plugin type" );
 	}
 
-    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,thumbId,assetName,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     if( rc )
     {
@@ -205,6 +209,7 @@ bool AssetBaseInfoDb::addAsset( AssetBaseInfo* assetInfo )
 	return addAsset(	assetInfo->getAssetUniqueId(),
 				        assetInfo->getCreatorId(),
 				        assetInfo->getHistoryId(),
+						assetInfo->getAdminId(),
                         assetInfo->getThumbId(),
 				        assetInfo->getAssetName().c_str(),
 				        assetInfo->getAssetLength(),
@@ -246,6 +251,7 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 			assetInfo->setAssetUniqueId( cursor->getString( COLUMN_ASSET_UNIQUE_ID ) );
 			assetInfo->setCreatorId( cursor->getString( COLUMN_ASSET_CREATOR_ID ) );
 			assetInfo->setHistoryId( cursor->getString( COLUMN_ASSET_HISTORY_ID ) );
+			assetInfo->setAdminId( cursor->getString( COLUMN_ASSET_ADMIN_ID ) );
             assetInfo->setThumbId( cursor->getString( COLUMN_ASSET_THUMB_ID ) );
 			assetInfo->setAssetHashId( (uint8_t *)cursor->getBlob( COLUMN_ASSET_HASH_ID ) );
 			assetInfo->setLocationFlags( cursor->getS32( COLUMN_LOCATION_FLAGS ) );

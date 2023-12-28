@@ -364,6 +364,15 @@ void EngineSettings::getChatRoomHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 )
 {
+    if( ipv6 )
+    {
+        m_CachedExternIpv6 = externIp;
+    }
+    else
+    {
+        m_CachedExternIpv4 = externIp;
+    }
+
     m_SettingsDbMutex.lock();
     setIniValue( MY_SETTINGS_KEY, ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp );
     m_SettingsDbMutex.unlock();
@@ -372,9 +381,29 @@ void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp, bool i
 //============================================================================
 void EngineSettings::getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6)
 {
+    if( ipv6 && !m_CachedExternIpv6.empty() )
+    {
+        externIp = m_CachedExternIpv6;
+        return;
+    }
+
+    if( !ipv6 && !m_CachedExternIpv4.empty() )
+    {
+        externIp = m_CachedExternIpv4;
+        return;
+    }
+
     m_SettingsDbMutex.lock();
     getIniValue( MY_SETTINGS_KEY, ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp, "" );
     m_SettingsDbMutex.unlock();
+    if( ipv6 )
+    {
+        m_CachedExternIpv6 = externIp;
+    }
+    else
+    {
+        m_CachedExternIpv4 = externIp;
+    }
 }
 
 //============================================================================

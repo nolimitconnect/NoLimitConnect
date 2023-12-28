@@ -30,12 +30,12 @@ AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
 
 	ui.m_ChatRoomWidget->setAppModule( eAppModuleChatRoomClient );
 	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientChatRoom );
-	ui.m_ChatRoomWidget->setIdents( m_MyApp.getUserMgr().getMyIdent(), m_MyApp.getUserMgr().getMyIdent() );
+
 	ui.m_ChatRoomWidget->setInputClientCallback( this );
 
-	//connect( this,					SIGNAL(signalBackButtonClicked()),			this, SLOT(closeApplet()) );
+    connect( this,                      SIGNAL(signalBackButtonClicked()),			this, SLOT(closeApplet()) );
 	connect( ui.m_UserListWidget,		SIGNAL(signalSetSessionVisible(bool)),		this, SLOT(slotSetSessionVisible(bool)) );
-	connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),	this,	SLOT(slotViewChanged(EUserViewType)));
+    connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),	this, SLOT(slotViewChanged(EUserViewType)));
 
 	m_MyApp.activityStateChange( this, true );
 

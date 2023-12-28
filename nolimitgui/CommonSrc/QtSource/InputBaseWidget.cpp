@@ -45,12 +45,13 @@ MyIcons& InputBaseWidget::getMyIcons( void )
 }
 
 //============================================================================
-void InputBaseWidget::setIdents( GuiUser* myIdent, GuiUser* hisIdent )		
+void InputBaseWidget::setGroupieId( GroupieId& groupieId )
 { 
-	m_MyIdent = myIdent; 
-	m_HisIdent = hisIdent; 
-	m_AssetInfo.setCreatorId( myIdent->getMyOnlineId() );
-	m_AssetInfo.setHistoryId( hisIdent->getMyOnlineId() );
+    m_GroupieId = groupieId;
+
+    m_AssetInfo.setCreatorId( m_MyApp.getUserMgr().getMyOnlineId() );
+    m_AssetInfo.setAdminId( groupieId.getHostOnlineId() );
+    m_AssetInfo.setHistoryId( groupieId.getUserOnlineId() );
 }
 
 //============================================================================

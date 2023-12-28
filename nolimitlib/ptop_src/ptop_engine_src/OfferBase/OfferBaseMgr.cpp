@@ -57,6 +57,12 @@ OfferBaseMgr::OfferBaseMgr( P2PEngine& engine, const char* dbName, const char* s
 }
 
 //============================================================================
+bool OfferBaseMgr::deleteDatabase( void )
+{
+	return m_OfferBaseInfoDb.deleteDatabase();
+}
+
+//============================================================================
 void OfferBaseMgr::fromGuiUserLoggedOn( void )
 {
 	if( !m_Initialized )

@@ -31,6 +31,14 @@ HostServerJoinMgr::HostServerJoinMgr( P2PEngine& engine, const char* dbName, con
 }
 
 //============================================================================
+bool HostServerJoinMgr::deleteDatabase( void )
+{
+    bool result = m_HostJoinInfoDb.deleteDatabase();
+    result &= m_HostJoinedLastDb.deleteDatabase();
+    return result;
+}
+
+//============================================================================
 void HostServerJoinMgr::fromGuiUserLoggedOn( void )
 {
     // dont call HostBaseMgr::fromGuiUserLoggedOn because we never generate sha hash for thumbnails

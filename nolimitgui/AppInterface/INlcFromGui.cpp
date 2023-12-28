@@ -743,9 +743,9 @@ bool INlc::fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const ch
 }
 
 //============================================================================
-void INlc::fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType )
+void INlc::fromGuiQuerySessionHistory( GroupieId& groupieId )
 {
-    getPtoP().fromGuiQuerySessionHistory( historyId, pluginType );
+    getPtoP().fromGuiQuerySessionHistory( groupieId );
 }
 
 //============================================================================

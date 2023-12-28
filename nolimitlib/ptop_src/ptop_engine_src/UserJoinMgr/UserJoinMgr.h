@@ -63,6 +63,8 @@ public:
     EJoinState                  getUserJoinState( GroupieId& groupieId );
     void                        queryUserListFromHost( GroupieId& groupieId );
 
+    bool                        deleteDatabase( void );
+
 protected:
     void						clearUserJoinInfoList( void );
 

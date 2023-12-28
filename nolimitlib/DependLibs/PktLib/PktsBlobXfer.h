@@ -68,6 +68,9 @@ public:
 	VxGUID&						getCreatorId( void )							{ return m_CreatorId; }
 	void						setHistoryId( VxGUID& historyId )				{ m_HistoryId = historyId; }
 	VxGUID&						getHistoryId( void )							{ return m_HistoryId; }
+	void						setAdminId( VxGUID& adminId )					{ m_AdminId = adminId; }
+	VxGUID&						getAdminId( void )								{ return m_AdminId; }
+
     void						setThumbId( VxGUID& historyId )				    { m_ThumbId = historyId; }
     VxGUID&						getThumbId( void )							    { return m_ThumbId; }
 
@@ -101,6 +104,7 @@ private:
 	VxGUID						m_UniqueId;
 	VxGUID						m_CreatorId;
 	VxGUID						m_HistoryId; 
+	VxGUID						m_AdminId; 
     VxGUID						m_ThumbId; 
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;

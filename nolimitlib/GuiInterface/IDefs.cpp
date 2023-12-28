@@ -832,6 +832,43 @@ const char* DescribeConnectType( enum EConnectType connectType )
 }
 
 //============================================================================
+const char* DescribeDatabaseType( enum EDatabaseType databaseType )
+{
+    if( databaseType < 0 || eMaxDatabaseType <= databaseType )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( databaseType )
+    {
+    case eDatabaseTypeNone:
+        return "Database None";
+    case eDatabaseTypeAssets:
+        return "Database Assets";
+    case eDatabaseTypeBlobAssets:
+        return "Database Blob Assets";
+    case eDatabaseTypeConnectMgr:
+        return "Database Connect Mgr";
+    case eDatabaseTypeEngineParams:
+        return "Database Engine Params";
+    case eDatabaseTypeEngineSettings:
+        return "Database Engine Settings";
+    case eDatabaseTypeHostServerJoin:
+        return "Database Host Server Join";
+    case eDatabaseTypeOffers:
+        return "Database Offers";
+    case eDatabaseTypeThumbs:
+        return "Database Thumbs";
+    case eDatabaseTypeUserJoin:
+        return "Database User Join";
+    case eDatabaseTypeAllUsers:
+        return "Database All Users";
+    default:
+        return "Unkonwn Database Type";
+    }
+}
+
+//============================================================================
 //! describe friend state
 const char* DescribeFriendState( enum EFriendState eFriendState )
 {

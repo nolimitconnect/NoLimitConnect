@@ -138,6 +138,26 @@ void IdentLogicInterface::setIdentWidgetSize( enum EButtonSize buttonSize )
 }
 
 //============================================================================
+void IdentLogicInterface::updateIdentity( VxGUID& onlineId )
+{
+	bool wasUpdated{ false };
+	if( onlineId.isVxGUIDValid() )
+	{
+		GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
+		if( guiUser )
+		{
+			updateIdentity( guiUser );
+			wasUpdated = true;
+		}
+	}
+
+	if( !wasUpdated )
+	{
+		clearIdentity();
+	}
+}
+
+//============================================================================
 void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 {
 	if( guiUser )

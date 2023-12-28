@@ -37,7 +37,7 @@ GuiUserListWidget::GuiUserListWidget( QWidget* parent )
 	QListWidget::setSortingEnabled( true );
 	sortItems( Qt::DescendingOrder );
 
-    connect( this, SIGNAL(itemClicked(QListWidgetItem*)),       this, SLOT(slotListItemClicked(QListWidgetItem*)) );
+    connect( this, SIGNAL(itemClicked(QListWidgetItem*)),       this, SLOT(slotItemClicked(QListWidgetItem*)) );
 
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
     GetAppInstance().getThumbMgr().wantGuiThumbCallbacks( this, true );
@@ -61,6 +61,7 @@ void GuiUserListWidget::disconnectUserUpdates( void )
 //============================================================================
 void GuiUserListWidget::callbackMyIdentUpdated( GuiUser* guiUser )
 {
+    m_MyApp.checkIsGuiThread();
     if( guiUser->getMyOnlineId() != getHostAdminId().getHostOnlineId() )
     {
         callbackUserUpdated( guiUser );
@@ -77,6 +78,7 @@ void GuiUserListWidget::setUserViewType( EUserViewType viewType )
 //============================================================================
 void GuiUserListWidget::refreshUserList( void )
 {
+    m_MyApp.checkIsGuiThread();
     clearUserList();
     std::vector<GuiUser*> updateUserList;
     std::map<VxGUID, GuiUser*>& userList = m_UserMgr.getUserList();
@@ -157,6 +159,7 @@ void GuiUserListWidget::updateUser( VxGUID& onlineId )
 //============================================================================
 void GuiUserListWidget::updateUser( GuiUser* guiUser )
 {
+    m_MyApp.checkIsGuiThread();
     if( guiUser )
     {   
         if( isListViewMatch( guiUser ) )
@@ -270,6 +273,7 @@ GuiUserSessionBase* GuiUserListWidget::makeSession( GuiUser* guiUser )
 //============================================================================
 void GuiUserListWidget::removeUser( VxGUID& onlineId )
 {
+    m_MyApp.checkIsGuiThread();
     auto iter = m_UserCache.find( onlineId );
     if( iter != m_UserCache.end() )
     {

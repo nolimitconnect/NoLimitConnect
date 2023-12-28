@@ -85,6 +85,9 @@ public:
 
     static QString				describeContentCatagory( EContentCatagory content );
     static QString				describeContentRating( EContentRating content );
+
+    static QString              describeDatabaseType( enum EDatabaseType databaseType );
+
     static QString				describeFriendState( EFriendState eFriendState );
     static QString				describeGender( EGenderType gender );
     static QString				describeHostType( EHostType hostType );

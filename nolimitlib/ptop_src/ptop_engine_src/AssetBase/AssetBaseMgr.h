@@ -35,6 +35,7 @@ class AssetBaseInfoDb;
 class AssetBaseHistoryMgr;
 class AssetBaseXferMgr;
 class FileInfo;
+class GroupieId;
 class IToGui;
 class P2PEngine;
 class PktFileListReply;
@@ -106,22 +107,22 @@ public:
     AssetBaseInfo* 			    addAssetFile( enum EAssetType assetType, const char* fileName, uint64_t fileLen );
     AssetBaseInfo*				addAssetFile( enum EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId );
 
-    bool						addAssetFile(   enum EAssetType      assetType,
-                                                const char*	fileName, 
+    bool						addAssetFile(   enum EAssetType assetType,
+                                                const char*	    fileName, 
 												VxGUID&			assetId,  
 												uint8_t *		hashId = 0, 
 												EAssetLocation	locationFlags = eAssetLocUnknown, 
-												const char*	assetTag = "", 
+												const char*	    assetTag = "", 
 												int64_t		    timestamp = 0 );
 
-    bool						addAssetFile(	enum EAssetType      assetType,
-                                                const char*	fileName, 
+    bool						addAssetFile(	enum EAssetType assetType,
+                                                const char*	    fileName, 
 												VxGUID&			assetId,  
 												VxGUID&		    creatorId, 
 												VxGUID&		    historyId, 
 												uint8_t *		hashId = 0, 
 												EAssetLocation	locationFlags = eAssetLocUnknown, 
-												const char*	assetTag = "", 
+												const char*	    assetTag = "", 
                                                 int64_t			timestamp = 0 );
 
 	virtual bool				addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAsset );
@@ -129,7 +130,7 @@ public:
     bool						updateAsset( AssetBaseInfo& assetInfo );
 	bool						removeAsset( std::string fileName, bool deleteFile = false );
 	bool						removeAsset( VxGUID& assetUniqueId, bool deleteFile = false );
-	void						fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType = ePluginTypeInvalid );
+	void						fromGuiQuerySessionHistory( GroupieId& groupieId );
     void                        sendHistoryAssetsToGuiByThread( VxThread* poThread );
 
 	void						generateHashForFile( std::string fileName );
@@ -150,12 +151,12 @@ protected:
 	void						generateHashIds( VxThread* thread );
 	void						clearAssetFileListPackets( void );
 	void						clearAssetInfoList( void );
-    AssetBaseInfo*				createAssetInfo(	enum EAssetType      asset,
-                                                    const char*	fileName, 
+    AssetBaseInfo*				createAssetInfo(	enum EAssetType assetType,
+                                                    const char*	    fileName, 
 													VxGUID&			assetId,  
 													uint8_t *		hashId, 
                                                     enum EAssetLocation	locationFlags = eAssetLocUnknown,
-													const char*	assetTag = "", 
+													const char*	    assetTag = "", 
 													int64_t			timestamp = 0 );
 	bool						insertNewInfo( AssetBaseInfo* assetInfo );
 	void						updateDatabase( AssetBaseInfo* assetInfo );
@@ -188,6 +189,6 @@ protected:
 	static std::vector<VxGUID>	m_EmoticonIdList;
 
     VxThread					m_HistoryListThread;
-    std::vector<std::pair<VxGUID,EPluginType>> m_HistorySendList;
+    std::vector<GroupieId>      m_HistorySendList;
 };
 

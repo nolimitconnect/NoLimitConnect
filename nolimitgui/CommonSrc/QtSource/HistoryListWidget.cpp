@@ -29,8 +29,6 @@ HistoryListWidget::HistoryListWidget(QWidget* parent)
 : QListWidget( parent )
 , m_MyApp( GetAppInstance() )
 , m_Engine( GetAppInstance().getEngine() )
-, m_MyIdent( 0 )
-, m_HisIdent( 0 )
 , m_CallbacksRequested( false )
 , m_StartupTimer( new QTimer( this ) )
 {
@@ -88,22 +86,22 @@ void HistoryListWidget::onActivityStop( void )
 }
 
 //============================================================================
-void HistoryListWidget::setIdents( GuiUser* myIdent, GuiUser* hisIdent )
+void HistoryListWidget::setGroupieId( GroupieId& groupieId )
 { 
-	m_MyIdent = myIdent; 
-	m_HisIdent = hisIdent; 
+	m_GroupieId = groupieId; 
+
 	m_MyApp.wantToGuiActivityCallbacks( this, true );
-	vx_assert( m_HisIdent );	
-	m_Engine.fromGuiQuerySessionHistory( m_HisIdent->getMyOnlineId(), getPluginType() );
+
+	m_Engine.fromGuiQuerySessionHistory( m_GroupieId );
 }
 
 //============================================================================
 void HistoryListWidget::initializeHistory( void )
 {
-	if( !m_QueryHistoryCalled && m_HisIdent )
+	if( !m_QueryHistoryCalled && m_GroupieId.getHostedId().isValid() )
 	{
 		m_QueryHistoryCalled = true;
-		m_Engine.fromGuiQuerySessionHistory( m_HisIdent->getMyOnlineId(), getPluginType() );
+        m_Engine.fromGuiQuerySessionHistory( m_GroupieId );
 	}
 }
 
@@ -120,8 +118,7 @@ void HistoryListWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID
 //============================================================================
 void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 {
-	if( m_HisIdent
-		&& ( m_HisIdent->getMyOnlineId() == assetInfo.getHistoryId() ) )
+    if( assetInfo.isHistoryMatch( m_GroupieId ) )
 	{
 		if( !findAssetWidget( assetInfo.getAssetUniqueId() ) )
 		{
@@ -276,9 +273,9 @@ void HistoryListWidget::clearHistoryList( void )
 void HistoryListWidget::slotStartupTimeout( void )
 {
 	m_StartupTimer->stop();
-	if( !m_QueryHistoryCalled && m_HisIdent )
+	if( !m_QueryHistoryCalled && m_GroupieId.getHostedId().isValid() )
 	{
 		m_QueryHistoryCalled = true;
-		m_Engine.fromGuiQuerySessionHistory( m_HisIdent->getMyOnlineId(), getPluginType() );
+		m_Engine.fromGuiQuerySessionHistory( m_GroupieId );
 	}
 }

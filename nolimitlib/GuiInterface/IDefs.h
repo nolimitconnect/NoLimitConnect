@@ -207,6 +207,23 @@ enum EContentCatagory
     eMaxContentCatagory
 };
 
+enum EDatabaseType
+{
+    eDatabaseTypeNone = 0,
+    eDatabaseTypeAssets,
+    eDatabaseTypeBlobAssets,
+    eDatabaseTypeConnectMgr,
+    eDatabaseTypeEngineParams,
+    eDatabaseTypeEngineSettings,
+    eDatabaseTypeHostServerJoin,
+    eDatabaseTypeOffers,
+    eDatabaseTypeThumbs,
+    eDatabaseTypeUserJoin,
+    eDatabaseTypeAllUsers,
+
+    eMaxDatabaseType
+};
+
 enum EGroupieViewType
 {
     eGroupieViewTypeNone,
@@ -1297,6 +1314,8 @@ bool         IsConnectReasonTemporary( enum EConnectReason connectReason );
 
 const char* DescribeConnectStatus( enum EConnectStatus connectStatus );
 const char* DescribeConnectType( enum EConnectType connectType );
+
+const char* DescribeDatabaseType( enum EDatabaseType );
 
 //! describe friend state
 const char* DescribeFriendState( enum EFriendState eFriendState );

@@ -42,6 +42,7 @@ public:
 
     void				        setHostedId( HostedId& hostedId )                   { m_HostedId = hostedId; }
     HostedId&                   getHostedId( void )                                 { return m_HostedId; }
+    bool                        isHostedIdValid( void )                             { return m_HostedId.isValid(); }
     
     void				        setHostOnlineId( VxGUID& onlineId )                 { m_HostedId.setHostOnlineId( onlineId ); }
     VxGUID&                     getHostOnlineId( void )                             { return m_HostedId.getHostOnlineId(); }

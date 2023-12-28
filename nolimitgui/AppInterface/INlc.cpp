@@ -201,8 +201,6 @@ void INlc::setSslCertFile( std::string certFile )
         {
             setenv( "SSL_CERT_FILE", certFile.c_str(), 1 );
         }
-
-        // TODO: anything special for linux?
     }
 }
 

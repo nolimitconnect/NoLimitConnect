@@ -433,7 +433,7 @@ void VxPushButton::setIconOverrideImage( QImage& iconImage )
         m_IconOverrideImageWasSet = false;
         m_IconOverrideImageWasDrawn = false;
         update();
-        LogMsg( LOG_ERROR, "VxPushButton::setIconOverrideImage image is null" );
+        LogMsg( LOG_VERBOSE, "VxPushButton::setIconOverrideImage image is null" );
     }
 }
 

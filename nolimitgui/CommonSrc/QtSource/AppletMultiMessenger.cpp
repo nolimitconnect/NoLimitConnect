@@ -89,7 +89,9 @@ void AppletMultiMessenger::setupMultiSessionActivity( GuiUser* hisIdent )
 
 	m_VidChatWidget->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );
 
-	ui.m_SessionWidget->setIdents( m_UserMgr.getMyIdent(), hisIdent );
+    GroupieId groupieId( hisIdent->getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypePeerUser );
+
+    ui.m_SessionWidget->setGroupieId( groupieId );
 
 	/*
 	m_TodGameLogic.setGuiWidgets( m_HisIdent, m_TodGameWidget );
@@ -435,7 +437,8 @@ void AppletMultiMessenger::onSelectedUserChanged( GuiUser* guiUser )
 	//ui.m_IdentWidget->updateIdentity( guiUser );
 	if( guiUser )
 	{
-		ui.m_SessionWidget->setIdents( m_MyApp.getUserMgr().getMyIdent(), guiUser );
+        GroupieId groupieId( guiUser->getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypePeerUser );
+        ui.m_SessionWidget->setGroupieId( groupieId );
 	}
 }
 

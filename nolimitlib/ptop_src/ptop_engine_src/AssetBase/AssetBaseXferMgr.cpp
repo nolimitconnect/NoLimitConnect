@@ -649,7 +649,6 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
 		AssetBaseInfo assetInfo;
 		poPkt->fillAssetFromPkt( assetInfo );
 		// make history id his id
-		assetInfo.setHistoryId( netIdent->getMyOnlineId() );
 		assetInfo.setAssetSendState( eAssetSendStateRxSuccess );
 		AssetBaseInfo* createdAsset = nullptr;
 		if( !m_AssetBaseMgr.addAsset( assetInfo, createdAsset ) )

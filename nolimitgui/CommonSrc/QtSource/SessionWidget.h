@@ -14,6 +14,7 @@
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/AssetDefs.h>
+#include <PktLib/GroupieId.h>
 
 class GuiUser;
 class InputClientCallback;
@@ -26,7 +27,9 @@ public:
 	SessionWidget( QWidget* parent = nullptr, EAssetType inputMode = eAssetTypeUnknown );
     virtual ~SessionWidget() = default;
 
-	void						setIdents( GuiUser* myIdent, GuiUser* hisIdent );
+	void						setGroupieId( GroupieId& groupieId );
+	GroupieId&					getGroupieId( void )					{ return m_GroupieId; }
+
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
 	void						setCanSend( bool canSend );
@@ -60,6 +63,7 @@ protected:
 	EAssetType					m_InputMode;
 	bool						m_IsInitialized{ false };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
+	GroupieId					m_GroupieId;
 
 	InputClientCallback*		m_ClientCallback{ nullptr };
 };

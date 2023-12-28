@@ -33,6 +33,7 @@ public:
     bool						addAsset(	VxGUID&			assetId, 
 											VxGUID&			creatorId, 
 											VxGUID&			historyId, 
+											VxGUID&			adminId, 
                                             VxGUID&			thumbId, 
 											const char*		assetName, 
 											int64_t			assetLen, 

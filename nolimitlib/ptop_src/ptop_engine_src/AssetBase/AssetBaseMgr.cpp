@@ -997,12 +997,12 @@ void AssetBaseMgr::updateAssetDatabaseSendState( VxGUID& assetUniqueId, EAssetSe
 }
 
 //============================================================================
-void AssetBaseMgr::fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType )
+void AssetBaseMgr::fromGuiQuerySessionHistory( GroupieId& groupieId )
 {
 	// if we send all now while in the gui thread we may overflow the stack because qt cannot process while in this call
 	// instead spin up a thread to send the assets
 	lockResources();
-	m_HistorySendList.push_back( std::make_pair( historyId, pluginType ) );
+	m_HistorySendList.push_back( groupieId );
 	unlockResources();
 
 	if( !m_HistoryListThread.isThreadRunning() )
@@ -1023,18 +1023,15 @@ void AssetBaseMgr::sendHistoryAssetsToGuiByThread( VxThread* poThread )
 			break;
 		}
 
-		auto historyPair = m_HistorySendList.front();
+		GroupieId groupieId = m_HistorySendList.front();
 		m_HistorySendList.erase( m_HistorySendList.begin() );
-		if( historyPair.first.isVxGUIDValid() )
+		if( groupieId.getHostedId().isValid() )
 		{
 			for( auto assetInfo : m_AssetBaseInfoList )
 			{
-				if( assetInfo->getHistoryId() == historyPair.first )
+				if( assetInfo->isHistoryMatch( groupieId ) )
 				{
-					if( ePluginTypeInvalid == historyPair.second || assetInfo->getPluginType() == historyPair.second )
-					{
-						onQueryHistoryAsset( assetInfo );
-					}				
+					onQueryHistoryAsset( assetInfo );				
 				}
 			}
 		}

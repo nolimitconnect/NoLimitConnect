@@ -17,6 +17,7 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "MyIcons.h"
+#include "AppletPopupMenu.h"
 
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 #include <CoreLib/IsBigEndianCpu.h>
@@ -132,7 +133,7 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_BrowseDownloadsButton, SIGNAL( clicked() ), this, SLOT( slotBrowseDownloadsButtonClicked() ) );
     connect( ui.m_BrowseAppDataButton, SIGNAL( clicked() ), this, SLOT( slotBrowseBrowseAppDataButtonClicked() ) );
 
-    connect( ui.m_TestChooseUserButton, SIGNAL( clicked() ), this, SLOT( slotTestChooseUserButtonClicked() ) );
+    connect( ui.m_DeleteDbButton, SIGNAL( clicked() ), this, SLOT( slotDeleteDbButtonClicked() ) );
 
     connect( this, SIGNAL( signalLogMsg(const QString&) ), this, SLOT( slotInfoMsg(const QString&) ) );
     connect( this, SIGNAL( signalInfoMsg(const QString&) ), this, SLOT( slotInfoMsg(const QString&) ) );
@@ -573,4 +574,14 @@ void AppletTestAndDebug::slotTestChooseUserButtonClicked( void )
     {
         infoMsg( "slotTestChooseUserButtonClicked null testUser" );
     }
+}
+
+//============================================================================
+void AppletTestAndDebug::slotDeleteDbButtonClicked( void )
+{
+	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+	if( popupMenu )
+	{
+		popupMenu->showDeleteDbMenu();
+	}
 }

@@ -47,6 +47,7 @@ AssetBaseInfo::AssetBaseInfo( const AssetBaseInfo& rhs )
 , m_AssetTag( rhs.m_AssetTag )
 , m_UniqueId( rhs.m_UniqueId )
 , m_HistoryId( rhs.m_HistoryId )
+, m_AdminId( rhs.m_AdminId )
 , m_AssetHash( rhs.m_AssetHash )
 , m_s64AssetLen( rhs.m_s64AssetLen )
 , m_u16AssetType( rhs.m_u16AssetType )
@@ -178,6 +179,7 @@ bool AssetBaseInfo::addToBlob( PktBlobEntry& blob )
 		result &= blob.setValue( m_AssetName );
 		result &= blob.setValue( m_UniqueId );
 		result &= blob.setValue( m_HistoryId );
+		result &= blob.setValue( m_AdminId );
 		result &= blob.setValue( m_AssetHash );
 		result &= blob.setValue( m_s64AssetLen );
 		result &= blob.setValue( m_u16AssetType );
@@ -209,6 +211,7 @@ bool AssetBaseInfo::extractFromBlob( PktBlobEntry& blob )
 		result &= blob.getValue( m_AssetName );
 		result &= blob.getValue( m_UniqueId );
 		result &= blob.getValue( m_HistoryId );
+		result &= blob.getValue( m_AdminId );
 		result &= blob.getValue( m_AssetHash );
 		result &= blob.getValue( m_s64AssetLen );
 		result &= blob.getValue( m_u16AssetType );
@@ -252,6 +255,7 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 		m_AssetName					= rhs.m_AssetName;
 		m_UniqueId					= rhs.m_UniqueId;
 		m_HistoryId					= rhs.m_HistoryId; 
+		m_AdminId					= rhs.m_AdminId; 
 		m_AssetHash					= rhs.m_AssetHash;
 		m_s64AssetLen				= rhs.m_s64AssetLen;
 		m_u16AssetType				= rhs.m_u16AssetType;
@@ -478,6 +482,7 @@ void AssetBaseInfo::printValues( void ) const
 	LogMsg( LOG_VERBOSE, "m_AssetName=(%s)", m_AssetName.c_str() );
 	LogMsg( LOG_VERBOSE, "m_UniqueId=(%s)", m_UniqueId.toOnlineIdString().c_str() );
 	LogMsg( LOG_VERBOSE, "m_HistoryId=(%s)", m_HistoryId.toOnlineIdString().c_str() );
+	LogMsg( LOG_VERBOSE, "m_AdminId=(%s)", m_AdminId.toOnlineIdString().c_str() );
 	LogMsg( LOG_VERBOSE, "m_AssetHash=(%s)", m_AssetHash.toString().c_str() );
 	LogMsg( LOG_VERBOSE, "m_s64AssetLen=(%lld)", m_s64AssetLen );
 	LogMsg( LOG_VERBOSE, "m_u16AssetType=(%d)", m_u16AssetType );
@@ -502,28 +507,59 @@ void AssetBaseInfo::updateAssetLength( int64_t assetLength )
 }
 
 //============================================================================
-void AssetBaseInfo::setHostId( HostedId& hostedId )
+void AssetBaseInfo::setHostedId( HostedId& hostedId )
 {
 	setPluginType( HostTypeToClientPlugin( hostedId.getHostType() ) );
-	setHistoryId( hostedId.getHostOnlineId() );
+	setAdminId( hostedId.getHostOnlineId() );
 }
 
 //============================================================================
-HostedId AssetBaseInfo::getHostId( void )
+HostedId AssetBaseInfo::getHostedId( void )
 {
-	return HostedId( getHistoryId(), PluginTypeToHostType( getPluginType() ) );
+	return HostedId( getAdminId(), PluginTypeToHostType( getPluginType() ) );
 }
 
 //============================================================================
 GroupieId AssetBaseInfo::getCreatorGroupieId( void )
 {
-    HostedId hostedId = getHostId();
+    HostedId hostedId = getHostedId();
     return GroupieId( getCreatorId(), hostedId );
+}
+
+//============================================================================
+GroupieId AssetBaseInfo::getHistoryGroupieId( void )
+{
+    HostedId hostedId = getHostedId();
+    return GroupieId( m_HistoryId, hostedId );
+}
+
+//============================================================================
+bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
+{
+	if( groupieId.getHostType() == eHostTypePeerUser )
+	{
+		// messenger just has to match history id
+		if( getPluginType() == ePluginTypeMessenger &&
+			groupieId.getUserOnlineId() == m_HistoryId )
+		{
+			return true;
+		}
+	}
+	else if( m_AdminId == groupieId.getHostOnlineId()  )
+	{
+		// hosted needs to match host and admin
+		if( PluginTypeToHostType( getPluginType() ) == groupieId.getHostType() )
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 //============================================================================
 GroupieId AssetBaseInfo::getDestGroupieId( void )
 {
-    HostedId hostedId = getHostId();
+    HostedId hostedId = getHostedId();
     return GroupieId( getDestUserId(), hostedId );
 }

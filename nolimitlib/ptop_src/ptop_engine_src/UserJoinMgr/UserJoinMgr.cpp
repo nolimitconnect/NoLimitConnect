@@ -33,6 +33,14 @@ UserJoinMgr::UserJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJ
 }
 
 //============================================================================
+bool UserJoinMgr::deleteDatabase( void )
+{
+    bool result = m_UserJoinInfoDb.deleteDatabase();
+    result &= m_UserJoinedLastDb.deleteDatabase();
+    return result;
+}
+
+//============================================================================
 void UserJoinMgr::fromGuiUserLoggedOn( void )
 {
     LogModule( eLogStartup, LOG_VERBOSE, "UserJoinMgr::fromGuiUserLoggedOn start" );

@@ -363,7 +363,7 @@ public:
 
     virtual int					fromGuiDeleteFile( std::string fileName, bool shredFile ) override;
 
-    virtual void				fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType = ePluginTypeInvalid ) override;
+    virtual void				fromGuiQuerySessionHistory( GroupieId& groupieId ) override;
     virtual bool				fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
     virtual int					fromGuiGetJoinedListCount( EPluginType pluginType ) override;
     virtual void                fromGuiListAction( EListAction listAction ) override;
@@ -388,6 +388,8 @@ public:
 
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
     virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) override;
+
+    virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) override;
 
 	//========================================================================
 	// to gui

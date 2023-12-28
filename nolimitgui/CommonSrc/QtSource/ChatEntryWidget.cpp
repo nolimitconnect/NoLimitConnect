@@ -29,8 +29,6 @@
 ChatEntryWidget::ChatEntryWidget( QWidget* parent, EAssetType inputMode )
 : QWidget( parent )
 , m_InputMode( inputMode )
-, m_MyIdent( 0 )
-, m_HisIdent( 0 )
 {
 	qDebug() << "ChatEntryWidget input mode " << inputMode;
 	ui.setupUi(this);
@@ -81,17 +79,16 @@ void ChatEntryWidget::setPluginType( EPluginType pluginType )
 }
 
 //============================================================================
-void ChatEntryWidget::setIdents( GuiUser* myIdent, GuiUser* hisIdent )
+void ChatEntryWidget::setGroupieId( GroupieId& groupieId )
 {
-	m_MyIdent		= myIdent;
-	m_HisIdent		= hisIdent;
+	m_GroupieId = groupieId;
 
-	ui.m_InputAllWidget->setIdents( myIdent, hisIdent );
-	ui.m_InputFaceWidget->setIdents( myIdent, hisIdent );
-	ui.m_InputPhotoWidget->setIdents( myIdent, hisIdent );
-	ui.m_InputTextWidget->setIdents( myIdent, hisIdent );
-	ui.m_InputVideoWidget->setIdents( myIdent, hisIdent );
-	ui.m_InputVoiceWidget->setIdents( myIdent, hisIdent );
+	ui.m_InputAllWidget->setGroupieId( groupieId );
+	ui.m_InputFaceWidget->setGroupieId( groupieId );
+	ui.m_InputPhotoWidget->setGroupieId( groupieId );
+	ui.m_InputTextWidget->setGroupieId( groupieId );
+	ui.m_InputVideoWidget->setGroupieId( groupieId );
+	ui.m_InputVoiceWidget->setGroupieId( groupieId );
 }
 
 //============================================================================
@@ -161,8 +158,7 @@ void ChatEntryWidget::slotAllCameraButtonClicked( void )
 //============================================================================
 void ChatEntryWidget::slotAllGalleryButtonClicked( void )
 {
-	if( ( 0 == m_MyIdent ) 
-		||  ( 0 == m_HisIdent ) )
+    if( !m_GroupieId.isHostedIdValid() )
 	{
 		return;
 	}
@@ -211,8 +207,9 @@ void ChatEntryWidget::slotAllGalleryButtonClicked( void )
 			}
 
 			assetInfo.setAssetName( filename.toUtf8().constData() );
-			assetInfo.setCreatorId( m_MyIdent->getMyOnlineId() );
-			assetInfo.setHistoryId( m_HisIdent->getMyOnlineId() );
+            assetInfo.setCreatorId( GetAppInstance().getUserMgr().getMyOnlineId() );
+            assetInfo.setAdminId( m_GroupieId.getHostOnlineId() );
+            assetInfo.setHistoryId( m_GroupieId.getUserOnlineId() );
 			assetInfo.generateNewUniqueId();
 			assetInfo.setCreationTime( GetTimeStampMs() );
 			assetInfo.setPluginType( getPluginType() );

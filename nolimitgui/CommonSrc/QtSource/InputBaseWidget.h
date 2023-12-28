@@ -33,7 +33,8 @@ public:
 	AppCommon&					getMyApp( void )							{ return m_MyApp; }
 	MyIcons&					getMyIcons( void );
 
-	void						setIdents( GuiUser* myIdent, GuiUser* hisIdent );
+	void						setGroupieId( GroupieId& groupieId );
+
 	void						setIsPersonalRecorder( bool isPersonal );
     void                        setIsChatRoom( bool isChatRoom );
 
@@ -70,8 +71,7 @@ protected:
 	//=== vars ===//
 	AppCommon&				    m_MyApp;
 	ChatEntryWidget *			m_ChatEntryWidget{ nullptr };
-    GuiUser*				    m_MyIdent{ nullptr };
-    GuiUser*				    m_HisIdent{ nullptr };
+
     AssetBaseInfo				m_AssetInfo;
 	std::string					m_FileName;
 	int64_t						m_TimeRecStart{ 0 };
@@ -80,6 +80,8 @@ protected:
     bool						m_IsPersonalRecorder{ false };
 	EAppModule					m_AppModule{ eAppModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
+
+    GroupieId                   m_GroupieId;
 
 	InputClientCallback*		m_ClientCallback{ nullptr };
 };

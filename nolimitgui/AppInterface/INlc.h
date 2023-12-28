@@ -578,7 +578,7 @@ public:
     virtual bool				fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName );
     virtual bool				fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const char* fileName );
 
-    virtual void				fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType = ePluginTypeInvalid );
+    virtual void				fromGuiQuerySessionHistory( GroupieId& groupieId );
     virtual bool				fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 );
 
     /// return number of items currently in list

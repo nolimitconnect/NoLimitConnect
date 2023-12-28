@@ -65,6 +65,8 @@ public:
 
     virtual void                onUserOffline( VxGUID& onlineId ) {}; // TODO implement
 
+    bool                        deleteDatabase( void );
+
 protected:
     void						clearHostJoinInfoList( void );
 

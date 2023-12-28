@@ -117,6 +117,8 @@ public:
 	void						generateHashForFile( std::string fileName );
 	void						updateOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param = 0 );
 
+	bool						deleteDatabase( void );
+
 protected:
     virtual OfferBaseInfo*     createOfferInfo( std::string fileName, uint64_t fileLen, uint16_t fileType );
     virtual OfferBaseInfo*     createOfferInfo( OfferBaseInfo& offerInfo );

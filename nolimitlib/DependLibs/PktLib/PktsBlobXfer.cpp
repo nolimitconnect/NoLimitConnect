@@ -36,6 +36,7 @@ void PktBlobSendReq::fillPktFromBlob( BlobInfo& hostInfo )
     setAttributeFlags( hostInfo.getAttributeFlags() );
     setCreatorId( hostInfo.getCreatorId() );
 	setHistoryId( hostInfo.getHistoryId() );
+	setAdminId( hostInfo.getAdminId() );
 	setUniqueId( hostInfo.getAssetUniqueId() );
     setThumbId( hostInfo.getThumbId() );
 	setBlobHashId( hostInfo.getAssetHashId() );
@@ -54,6 +55,7 @@ void PktBlobSendReq::fillBlobFromPkt( BlobInfo& hostInfo )
 	hostInfo.setAssetUniqueId( getUniqueId() );
 	hostInfo.setCreatorId( getCreatorId() );
 	hostInfo.setHistoryId( getHistoryId() );
+	hostInfo.setAdminId( getAdminId() );
     hostInfo.setThumbId( getThumbId() );
 	hostInfo.setAssetHashId( getBlobHashId() );
 	hostInfo.setAssetLength( getBlobLen() );

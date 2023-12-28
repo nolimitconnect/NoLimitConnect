@@ -59,10 +59,12 @@ public:
     virtual void                setPluginType( EPluginType pluginType )         { m_PluginType = pluginType; }
     virtual EPluginType		    getPluginType( void )                           { return m_PluginType; }
 
-    virtual void		        setHostId( HostedId& hostedId );
-    virtual HostedId		    getHostId( void );
+    virtual void		        setHostedId( HostedId& hostedId );
+    virtual HostedId		    getHostedId( void );
     virtual GroupieId		    getCreatorGroupieId( void );
     virtual GroupieId		    getDestGroupieId( void );
+    virtual GroupieId		    getHistoryGroupieId( void );
+    virtual bool                isHistoryMatch( GroupieId& groupieId );
 
     virtual bool				isValid( void );
     virtual bool				isValidFile( void );
@@ -135,6 +137,10 @@ public:
     virtual void				setHistoryId( const char* historyId )           { m_HistoryId.fromVxGUIDHexString( historyId ); }
     virtual VxGUID&				getHistoryId( void )                            { return m_HistoryId; }
 
+    virtual void				setAdminId( VxGUID& adminId )                   { m_AdminId = adminId; }
+    virtual void				setAdminId( const char* adminId )               { m_AdminId.fromVxGUIDHexString( adminId ); }
+    virtual VxGUID&				getAdminId( void )                              { return m_AdminId; }
+
     virtual void				setLocationFlags( uint32_t locFlags )           { m_LocationFlags = locFlags; }
     virtual uint32_t			getLocationFlags( void )                        { return m_LocationFlags; }
 
@@ -179,6 +185,7 @@ public:
 	std::string					m_AssetTag{""};
 	VxGUID						m_UniqueId;
 	VxGUID						m_HistoryId; 
+    VxGUID						m_AdminId; 
 	VxSha1Hash					m_AssetHash;
     int64_t						m_s64AssetLen{ 0 };
     uint16_t					m_u16AssetType{ VXFILE_TYPE_UNKNOWN };

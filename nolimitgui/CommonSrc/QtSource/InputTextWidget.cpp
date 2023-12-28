@@ -45,7 +45,7 @@ void InputTextWidget::slotCancelButtonClicked( void )
 //============================================================================
 void InputTextWidget::slotSendButtonClicked( void )
 {
-	if( m_MyIdent && m_HisIdent )
+    if( m_GroupieId.isHostedIdValid() )
 	{
 		// What did they want to say (minus white space around the string):
 		QString message = ui.m_ChatTextEdit->toPlainText().trimmed();

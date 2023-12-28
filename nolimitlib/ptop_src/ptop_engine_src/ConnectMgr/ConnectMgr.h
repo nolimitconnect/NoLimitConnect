@@ -43,6 +43,8 @@ public:
     void						lockResources( void )						{ m_ResourceMutex.lock(); }
     void						unlockResources( void )						{ m_ResourceMutex.unlock(); }
 
+    ConnectInfoDb&              getConnectInfoDb( void )                    { return m_ConnectInfoDb; }
+
 protected:
     void						clearConnectInfoList( void );
 

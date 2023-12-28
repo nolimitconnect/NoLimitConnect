@@ -78,7 +78,7 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 			return false;
 		}
 
-		assetInfo.setHostId( hostId );
+		assetInfo.setHostedId( hostId );
 		// first send to admin if we are not the admin
 		if( hostId.getHostOnlineId() != getMyApp().getMyOnlineId() )
 		{

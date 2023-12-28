@@ -70,6 +70,8 @@ protected slots:
 
     void                        slotTestChooseUserButtonClicked( void );
 
+    void                        slotDeleteDbButtonClicked( void );
+
     void                        slotNewUrlSelected( int comboBoxIdx );
 
 protected:

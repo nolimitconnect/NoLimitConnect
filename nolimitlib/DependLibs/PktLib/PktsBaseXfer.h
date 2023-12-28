@@ -130,6 +130,8 @@ public:
     VxGUID&						getCreatorId( void )							    { return m_CreatorId; }
     void						setHistoryId( VxGUID& historyId )				    { m_HistoryId = historyId; }
     VxGUID&						getHistoryId( void )							    { return m_HistoryId; }
+    void						setAdminId( VxGUID& adminId )				        { m_AdminId = adminId; }
+    VxGUID&						getAdminId( void )							        { return m_AdminId; }
 
     void						setCreationTime( int64_t createTime )			    { m_CreationTime = htonU64( createTime ); }
     int64_t					    getCreationTime( void )						        { return ntohU64( m_CreationTime ); }
@@ -154,6 +156,7 @@ private:
     VxGUID						m_UniqueId;
     VxGUID						m_CreatorId;
     VxGUID						m_HistoryId; 
+    VxGUID						m_AdminId; 
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
     VxSha1Hash					m_AssetHashId;
@@ -207,6 +210,8 @@ public:
 	VxGUID&						getCreatorId( void )							    { return m_CreatorId; }
 	void						setHistoryId( VxGUID& historyId )				    { m_HistoryId = historyId; }
 	VxGUID&						getHistoryId( void )							    { return m_HistoryId; }
+    void						setAdminId( VxGUID& adminId )				        { m_AdminId = adminId; }
+    VxGUID&						getAdminId( void )							        { return m_AdminId; }
 
     void						setCreationTime( int64_t createTime )			    { m_CreationTime = htonU64( createTime ); }
     int64_t					    getCreationTime( void )						        { return ntohU64( m_CreationTime ); }
@@ -231,6 +236,7 @@ private:
 	VxGUID						m_UniqueId;
 	VxGUID						m_CreatorId;
 	VxGUID						m_HistoryId; 
+    VxGUID						m_AdminId; 
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxSha1Hash					m_AssetHashId;

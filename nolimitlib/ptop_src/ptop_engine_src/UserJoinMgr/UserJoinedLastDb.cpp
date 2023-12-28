@@ -19,11 +19,11 @@ namespace
 
     std::string 		CREATE_COLUMNS_JOINED_LAST = " (onlineId TEXT, hostType INTEGER, lastJoinMs BIGINT, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT ) ";
 
-    const int			COLUMN_ONLINE_ID = 0;
-    const int			COLUMN_PLUGIN_TYPE = 1;
-    const int			COLUMN_LAST_JOIN_MS = 2;
-    const int			COLUMN_HOST_URL_IPV4 = 3;
-     const int			COLUMN_HOST_URL_IPV6 = 4;
+    const int			COLUMN_ONLINE_ID        = 0;
+    const int			COLUMN_HOST_TYPE        = 1;
+    const int			COLUMN_LAST_JOIN_MS     = 2;
+    const int			COLUMN_HOST_URL_IPV4    = 3;
+    const int			COLUMN_HOST_URL_IPV6    = 4;
 
     std::string 		TABLE_LAST_HOST_TYPE = "tbLastHostType";
     std::string 		CREATE_COLUMNS_LAST_HOST_TYPE = " (hostType INTEGER) ";
@@ -184,7 +184,7 @@ bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int6
         if( cursor->getNextRow() )
         {
             onlineId.fromVxGUIDHexString( cursor->getString( COLUMN_ONLINE_ID ) );
-            if( hostType != ( EHostType )cursor->getS32( COLUMN_PLUGIN_TYPE ) )
+            if( hostType != ( EHostType )cursor->getS32( COLUMN_HOST_TYPE ) )
             {
                 LogMsg( LOG_ERROR, "UserJoinedLastDb::getJoinedLast invalid plugin type" );
             }

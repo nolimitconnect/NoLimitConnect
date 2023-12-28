@@ -144,6 +144,10 @@ void AppletPopupMenu::itemClicked( QListWidgetItem* item )
 	{
 		onPersonActionSelected( iItemId );
 	}
+	else if( getMenuType() == EPopupMenuType::ePopupMenuDeleteDb )
+	{
+		onDeleteDbSelected( iItemId );
+	}
 	else
 	{
 		emit menuItemClicked( iItemId, this, m_ParentActivity );
@@ -687,7 +691,6 @@ void AppletPopupMenu::onUserSessionActionSelected( int iMenuId )
 	}
 }
 
-
 //============================================================================
 void AppletPopupMenu::showTitleBarUserMenu( void )
 {
@@ -841,4 +844,39 @@ void AppletPopupMenu::onTitleBarAppMenuSelected( int iMenuId )
 	default:
 		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onTitleBarAppMenuSelected value %d", iMenuId );
 	}
+}
+
+//============================================================================
+void AppletPopupMenu::showDeleteDbMenu( void )
+{
+	setMenuType( EPopupMenuType::ePopupMenuDeleteDb);
+	setTitle( QObject::tr( "Delete A Database" ) );
+	for( int dbType = eDatabaseTypeNone; dbType < eMaxDatabaseType; dbType++ )
+	{
+        addMenuItem( dbType, getMyIcons().getIcon( eMyIconShredderNormal ), GuiParams::describeDatabaseType( (EDatabaseType)dbType ) );
+	}
+}
+
+//============================================================================
+void AppletPopupMenu::onDeleteDbSelected( int menuId )
+{
+    EDatabaseType databaseType = (EDatabaseType)menuId;
+	bool wasDeleted{ false };
+	switch( menuId )
+	{
+    case 0: // database type none
+        return;
+
+	default:
+        wasDeleted = m_MyApp.getEngine().fromGuiDeleteDatabase( databaseType );
+	}
+
+    if( wasDeleted )
+    {
+        okMessageBox( QObject::tr( "Database Deleted" ), QObject::tr( "Database ") + GuiParams::describeDatabaseType( databaseType ) + QObject::tr( " was deleted") );
+    }
+    else
+    {
+        okMessageBox( QObject::tr( "Database Delete Failed" ), QObject::tr( "Database ") + GuiParams::describeDatabaseType( databaseType ) + QObject::tr( " could not be deleted") );
+    }
 }

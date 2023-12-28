@@ -27,6 +27,7 @@ enum class EPopupMenuType
 	ePopupMenuListOptions1,
 	ePopupMenuOfferFriendship,
 	ePopupMenuUserSession,
+	ePopupMenuDeleteDb,
 
 	eMaxPopupMenu
 };
@@ -64,6 +65,8 @@ public:
 	void						showPersonOfferMenu( GuiUser* poSelectedFriend );
 	void						showUserSessionMenu( EApplet appletType, GuiUserSessionBase* userSession );
 
+	void						showDeleteDbMenu( void );
+
 signals:
 	void						menuItemClicked( int iItemId, AppletPopupMenu* popupMenu, AppletBase* );
 
@@ -76,6 +79,8 @@ public slots:
 	void						onHostListSessionMenu( int iMenuId );
 	void						onPersonActionSelected( int iMenuId );
 	void						onUserSessionActionSelected( int iMenuId );
+
+	void						onDeleteDbSelected( int menuId );
 
 private slots:
 	//! user clicked the upper right x button

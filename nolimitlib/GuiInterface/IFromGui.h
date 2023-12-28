@@ -344,7 +344,7 @@ public:
 	virtual int					fromGuiDeleteFile( std::string fileName, bool shredFile ) = 0;
 
 	/// Send Text Chat session assets of contact to GUI
-	virtual void				fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType = ePluginTypeInvalid ) = 0;
+	virtual void				fromGuiQuerySessionHistory( GroupieId& groupieId ) = 0;
 	/// Text Chat asset action such as remove
 	virtual bool				fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) = 0;
 	/// Text Chat asset action such as remove
@@ -410,5 +410,7 @@ public:
 
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) = 0;
 	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) = 0;
+
+	virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) = 0;
 };
 

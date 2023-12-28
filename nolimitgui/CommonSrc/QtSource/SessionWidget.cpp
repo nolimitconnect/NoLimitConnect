@@ -40,11 +40,11 @@ void SessionWidget::slotStatusMsg( QString msg )
 }
 
 //============================================================================
-void SessionWidget::setIdents( GuiUser* myIdent, GuiUser* hisIdent )
+void SessionWidget::setGroupieId( GroupieId& groupieId )
 {
-	ui.m_ChatEntry->setIdents( myIdent, hisIdent );
-	ui.m_HistoryList->setIdents( myIdent, hisIdent );
-	ui.m_IdentWidget->updateIdentity( hisIdent );
+	ui.m_ChatEntry->setGroupieId( groupieId );
+	ui.m_HistoryList->setGroupieId( groupieId );
+	ui.m_IdentWidget->updateIdentity( groupieId.getUserOnlineId() );
 	m_IsInitialized = true;
 }
 

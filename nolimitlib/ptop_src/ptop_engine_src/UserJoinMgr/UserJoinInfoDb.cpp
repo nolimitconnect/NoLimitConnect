@@ -17,12 +17,12 @@ namespace
 {
     std::string 		TABLE_USER_HOST	 				= "tblUserJoin";
 
-    std::string 		CREATE_COLUMNS_USER_HOST		= " (onlineId TEXT, thumbId TEXT, infoModMs BIGINT, pluginType INTEGER, friendState INTEGER, joinState INTEGER, lastConnMs BIGINT, lastJoinMs BIGINT, hostFlags INTEGER, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT) ";
+    std::string 		CREATE_COLUMNS_USER_HOST		= " (onlineId TEXT, thumbId TEXT, infoModMs BIGINT, hostType INTEGER, friendState INTEGER, joinState INTEGER, lastConnMs BIGINT, lastJoinMs BIGINT, hostFlags INTEGER, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT) ";
 
     const int			COLUMN_ONLINE_ID			    = 0;
     const int			COLUMN_HOST_THUMB_ID			= 1;
     const int			COLUMN_INFO_MOD_MS				= 2;
-    const int			COLUMN_PLUGIN_TYPE			    = 3; // this is actually host type TODO: change column name to hostType
+    const int			COLUMN_HOST_TYPE			    = 3;
     const int			COLUMN_FRIEND_STATE			    = 4;
     const int			COLUMN_JOIN_STATE			    = 5;
     const int			COLUMN_LAST_CONN_MS				= 6;
@@ -120,7 +120,7 @@ bool UserJoinInfoDb::addUserJoin(   GroupieId&      groupieId,
     bindList.add( hostUrlIpv4.c_str() );
     bindList.add( hostUrlIpv6.c_str() );
    
-    RCODE rc = sqlExec( "INSERT INTO tblUserJoin (onlineId, thumbId, infoModMs, pluginType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, hostUrlIpv4, hostUrlIpv6) values(?,?,?,?,?,?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblUserJoin (onlineId, thumbId, infoModMs, hostType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, hostUrlIpv4, hostUrlIpv6) values(?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )
@@ -161,7 +161,7 @@ void UserJoinInfoDb::getAllUserJoins( std::map<GroupieId, UserJoinInfo*>& UserJo
             hostInfo->setOnlineId( cursor->getString( COLUMN_ONLINE_ID ) );
             hostInfo->setThumbId( cursor->getString( COLUMN_HOST_THUMB_ID ) );
             hostInfo->setInfoModifiedTime( (uint64_t)cursor->getS64( COLUMN_INFO_MOD_MS ) );
-            hostInfo->setHostType( (EHostType)cursor->getS32( COLUMN_PLUGIN_TYPE ) );
+            hostInfo->setHostType( (EHostType)cursor->getS32( COLUMN_HOST_TYPE ) );
             hostInfo->setFriendState( (EFriendState)cursor->getS32( COLUMN_FRIEND_STATE ) );
             hostInfo->setJoinState( (EJoinState)cursor->getS32( COLUMN_JOIN_STATE ) );
             hostInfo->setLastConnectTime( (uint64_t)cursor->getS64( COLUMN_LAST_CONN_MS ) );

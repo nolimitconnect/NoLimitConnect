@@ -50,9 +50,9 @@ public:
     EPluginType                 getClientPluginType( void );
 
     // returns 0 if equal else -1 if less or 1 if greater
-    int							compareTo( HostedId& guid );
+    int							compareTo( HostedId& hostedId );
     // returns true if guids are same value
-    bool						isEqualTo( const HostedId& guid );
+    bool						isEqualTo( const HostedId& hostedId );
     // get a description of the plugin id
     std::string                 describeHostedId( void ) const;
 

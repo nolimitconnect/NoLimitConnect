@@ -279,20 +279,31 @@ RCODE DbBase::dbStartup( int iDbVersion, const char* pDbName )
 	// Just to make sure we are only allowing one startup of database at a time
 	g_DbBaseStartupMutex.lock();
 	RCODE rc = 0;
-	char tmpDir[ VX_MAX_PATH ];
-	char* pTemp;
 
 	vx_assert( pDbName );
 	m_strDbFileName = pDbName;
 	m_iDbVersion = iDbVersion;
 
-    //LogMsg( LOG_INFO, "DbBase::dbStartup %s\n", pDbName );
+	rc = doDatabaseStartup();
+
+	g_DbBaseStartupMutex.unlock();
+	return rc;
+}
+
+//============================================================================
+RCODE DbBase::doDatabaseStartup( void )
+{
+    LogModule( eLogStartup, LOG_INFO, "DbBase::dbStartup %s",  m_strDbFileName.c_str() );
+
+	RCODE rc = -1;
 
 	// create paths and database if necessary
-    if( ! VxFileUtil::fileExists( m_strDbFileName.c_str(), false ) )
+	if( !VxFileUtil::fileExists( m_strDbFileName.c_str(), false ) )
 	{
-		//create db 
-		// make directory for db if needed
+		char tmpDir[ VX_MAX_PATH ];
+
+		char* pTemp{ nullptr };
+
 		strcpy( tmpDir, m_strDbFileName.c_str() );
 		pTemp = strrchr( tmpDir, '/' );
 		if( NULL != pTemp )
@@ -306,12 +317,10 @@ RCODE DbBase::dbStartup( int iDbVersion, const char* pDbName )
             LogMsg( LOG_DEBUG, "ERROR DbBase::dbStartup could not create directory for db %s", tmpDir);
         }
 
-		rc = onCreateDatabase(iDbVersion);
+		rc = onCreateDatabase( m_iDbVersion );
 		if( 0 != rc )
 		{
-			handleSqlError( 0,"DbBase:Cannot create database %s", m_strDbFileName.c_str() );
-			g_DbBaseStartupMutex.unlock();
-			return rc;
+			handleSqlError( 0, "DbBase:Cannot create database %s", m_strDbFileName.c_str() );
 		}
 	}
 	else
@@ -320,13 +329,16 @@ RCODE DbBase::dbStartup( int iDbVersion, const char* pDbName )
 		int iOldDbVersion = readDatabaseVersion();
 		if( iOldDbVersion != m_iDbVersion )
 		{
-			onUpgradeDatabase( iOldDbVersion, m_iDbVersion );
+			rc = onUpgradeDatabase( iOldDbVersion, m_iDbVersion );
+		}
+		else
+		{
+			rc = 0;
 		}
 	}
 
 	m_bDbInitialized = true;
-	g_DbBaseStartupMutex.unlock();
-	return 0;
+	return rc;
 }
 
 //============================================================================
@@ -349,7 +361,13 @@ RCODE DbBase::onCreateDatabase( int iDbVersion )
 	}
 	// close database.. Create tables will reopen
 	sqlite3_close(db);
-	writeDatabaseVersion( iDbVersion );
+	rc = writeDatabaseVersion( iDbVersion );
+	if( SQLITE_OK != rc )
+	{
+		handleSqlError( LOG_ERROR, "DbCreateDatabase:ERROR %d Unable to create version table %s", rc, m_strDbFileName.c_str() );
+		sqlite3_close(db);
+		return rc;
+	}
 
 	// make tables in database
 	rc = onCreateTables( iDbVersion );
@@ -402,12 +420,6 @@ RCODE DbBase::dbOpen( void )
 	}
 
 	m_Db = nullptr;
-	if( !VxFileUtil::fileExists( m_strDbFileName.c_str() ) )
-	{
-		LogMsg( LOG_ERROR, "ERROR Attempted DbBase::dbOpen %s but does not exist errno %d", m_strDbFileName.c_str(), VxGetLastError() );
-		vx_assert( false );
-		return -2;
-	}
 
 	int retval = sqlite3_open( m_strDbFileName.c_str(), &m_Db );
 	if (!(SQLITE_OK == retval))
@@ -498,18 +510,22 @@ int DbBase::readDatabaseVersion( void )
 //! write database version to version table 
 RCODE DbBase::writeDatabaseVersion( int iDbVersion )
 {
+	RCODE rc = SQLITE_OK;
 	DbBindList bindList( iDbVersion );
 	if( dbTableExists( "DBBASE_VERSION" ))
 	{
-
 		return sqlExec( "UPDATE DBBASE_VERSION SET db_version=?", bindList );
 	}
 	else
 	{
-		sqlExec("CREATE TABLE DBBASE_VERSION (db_version INTEGER)");
-
-		return sqlExec( "INSERT INTO DBBASE_VERSION (db_version) VALUES (?)", bindList );
+		rc = sqlExec("CREATE TABLE DBBASE_VERSION (db_version INTEGER)");
+		if( SQLITE_OK == rc )
+		{
+			return sqlExec( "INSERT INTO DBBASE_VERSION (db_version) VALUES (?)", bindList );
+		}
 	}
+
+	return rc;
 }
 
 //============================================================================
@@ -750,6 +766,14 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 		sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
 	}
 
+    if( retVal )
+    {
+        LogMsg( LOG_ERROR, "DbBase::sqlExec returning error %d %s for statement %s",
+                retVal,
+                sqlite3_errmsg( m_Db ),
+                SQL_Statement );
+    }
+
 	if( true == needToClose )
 	{
 		result = dbClose();
@@ -760,7 +784,7 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 		retVal = result;
 	}
 
-	return( retVal );
+	return retVal;
 }
 
 //============================================================================
@@ -1121,13 +1145,12 @@ const char* DbCursor::getString(int iColumnIdx )
 //============================================================================
 //! return blob from column.. 
 //! if( piMaxLen != null ) then return length of blob in piMaxLen 
-void *	 DbCursor::getBlob( int iColumnIdx, int * piRetLen )
+void * DbCursor::getBlob( int iColumnIdx, int * piRetLen )
 {
 	if( nullptr != piRetLen )
 	{
 		*piRetLen =  sqlite3_column_bytes( m_Stmt, iColumnIdx );
 	}
-
 
 	void * voidPtr = (void *)sqlite3_column_blob( m_Stmt, iColumnIdx );
 	if( !voidPtr )
@@ -1139,3 +1162,24 @@ void *	 DbCursor::getBlob( int iColumnIdx, int * piRetLen )
 }
 
 
+//============================================================================
+bool DbBase::deleteDatabase( void )
+{
+	if( m_strDbFileName.empty() )
+	{
+		LogMsg( LOG_ERROR, "DbBase::deleteDatabase: error file name empty for db %s", m_strDatabaseName.c_str() );
+		return false;
+	}
+
+	if( VxFileUtil::fileExists( m_strDbFileName.c_str(), false ) )
+	{
+		lockDb();
+		VxFileUtil::deleteFile( m_strDbFileName.c_str() );
+		unlockDb();
+	}
+
+	RCODE rc = doDatabaseStartup();
+
+
+	return 0 == rc;
+}

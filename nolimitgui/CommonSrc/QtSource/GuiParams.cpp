@@ -2145,3 +2145,35 @@ EApplet GuiParams::hostTypeToClientApplet( EHostType hostType )
         return eAppletUnknown;
     }
 }
+
+//============================================================================
+QString GuiParams::describeDatabaseType( enum EDatabaseType databaseType )
+{
+    switch( databaseType )
+    {
+    case eDatabaseTypeNone:
+        return QObject::tr( "Database None" );
+    case eDatabaseTypeAssets:
+        return QObject::tr( "Database Assets" );
+    case eDatabaseTypeBlobAssets:
+        return QObject::tr( "Database Blob Assets" );
+    case eDatabaseTypeConnectMgr:
+        return QObject::tr( "Database Connect Mgr" );
+    case eDatabaseTypeEngineParams:
+        return QObject::tr( "Database Engine Params" );
+    case eDatabaseTypeEngineSettings:
+        return QObject::tr( "Database Engine Settings" );
+    case eDatabaseTypeHostServerJoin:
+        return QObject::tr( "Database Host Server Join" );
+    case eDatabaseTypeOffers:
+        return QObject::tr( "Database Offers" );
+    case eDatabaseTypeThumbs:
+        return QObject::tr( "Database Thumbs" );
+    case eDatabaseTypeUserJoin:
+        return QObject::tr( "Database User Join" );
+    case eDatabaseTypeAllUsers:
+        return QObject::tr( "Database All Users" );
+    default:
+        return QObject::tr( "Unkonwn Database Type" );
+    }
+}

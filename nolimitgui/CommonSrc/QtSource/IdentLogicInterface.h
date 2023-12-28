@@ -61,6 +61,7 @@ public:
 
 	virtual void				clearIdentity( void );
 
+	virtual void				updateIdentity( VxGUID& onlineId );
 	virtual void				updateIdentity( GuiUser* guiUser, bool queryThumb = true );
 	virtual void				updateIdentity( GuiHostJoin* hostIdent, bool queryThumb = true );
 	virtual void				updateIdentity( VxNetIdent* netIdent, bool queryThumb = true );

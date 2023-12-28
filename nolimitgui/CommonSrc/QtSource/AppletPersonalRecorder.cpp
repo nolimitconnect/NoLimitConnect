@@ -41,7 +41,8 @@ AppletPersonalRecorder::~AppletPersonalRecorder()
 void AppletPersonalRecorder::setupMultiSessionActivity( void )
 {
     ui.m_SessionWidget->setIsPersonalRecorder( true );
-    ui.m_SessionWidget->setIdents( m_UserMgr.getMyIdent(), m_UserMgr.getMyIdent() );
+    GroupieId groupieId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypePeerUser );
+    ui.m_SessionWidget->setGroupieId( groupieId );
     ui.m_SessionWidget->setEntryMode( eAssetTypeUnknown );
 }
 

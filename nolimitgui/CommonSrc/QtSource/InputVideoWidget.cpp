@@ -58,7 +58,7 @@ InputVideoWidget::InputVideoWidget( QWidget* parent )
 void InputVideoWidget::showEvent(QShowEvent* showEvent)
 {
 	InputBaseWidget::showEvent(showEvent);
-	if( ( 0 != m_MyIdent ) && ( false == VxIsAppShuttingDown() ) )
+    if( m_GroupieId.isHostedIdValid() && ( false == VxIsAppShuttingDown() ) )
 	{
 		ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getCreatorId(), getAppModule() );
 		m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpgSmall, getAppModule(), true );
@@ -69,7 +69,7 @@ void InputVideoWidget::showEvent(QShowEvent* showEvent)
 //============================================================================
 void InputVideoWidget::hideEvent(QHideEvent* hideEvent)
 {
-	if( ( 0 != m_MyIdent ) && ( false == VxIsAppShuttingDown() ) )
+    if( m_GroupieId.isHostedIdValid() && ( false == VxIsAppShuttingDown() ) )
 	{
 		if( m_IsRecording )
 		{

@@ -18,6 +18,7 @@
 
 #include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
 #include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
+#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobMgr.h>
 #include <ptop_src/ptop_engine_src/NetworkTest/IsPortOpenTest.h>
 #include <ptop_src/ptop_engine_src/NetworkTest/RunUrlAction.h>
 #include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
@@ -1523,9 +1524,9 @@ int P2PEngine::fromGuiDeleteFile( std::string fileName, bool shredFile )
 }
 
 //============================================================================
-void P2PEngine::fromGuiQuerySessionHistory( VxGUID& historyId, EPluginType pluginType )
+void P2PEngine::fromGuiQuerySessionHistory( GroupieId& groupieId )
 {
-	m_AssetMgr.fromGuiQuerySessionHistory( historyId, pluginType );
+	m_AssetMgr.fromGuiQuerySessionHistory( groupieId );
 }
 
 //============================================================================
@@ -1854,4 +1855,40 @@ void P2PEngine::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen
 		getPluginFileShareServer().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 		getAssetMgr().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 	}
+}
+
+//============================================================================
+bool P2PEngine::fromGuiDeleteDatabase( EDatabaseType databaseType )
+{
+	bool result{ false };
+    switch( databaseType )
+    {
+
+    case eDatabaseTypeAssets:
+        return getAssetMgr().getAssetInfoDb().deleteDatabase();
+    case eDatabaseTypeBlobAssets:
+        return getBlobMgr().getAssetInfoDb().deleteDatabase();
+    case eDatabaseTypeConnectMgr:
+        return getConnectMgr().getConnectInfoDb().deleteDatabase();
+    case eDatabaseTypeEngineParams:
+        return getEngineParams().deleteDatabase();
+    case eDatabaseTypeEngineSettings:
+        return getEngineSettings().deleteDatabase();
+    case eDatabaseTypeHostServerJoin:
+        return getHostJoinMgr().deleteDatabase();
+    case eDatabaseTypeOffers:
+        return getOfferMgr().deleteDatabase();
+    case eDatabaseTypeThumbs:
+        return getThumbMgr().getAssetInfoDb().deleteDatabase();
+    case eDatabaseTypeUserJoin:
+        return getUserJoinMgr().deleteDatabase();
+
+    case eDatabaseTypeAllUsers:
+        return getBigListMgr().deleteDatabase();
+    default:
+         LogMsg( LOG_ERROR, "Unkonwn Database Type" );
+		 break;
+    }
+
+	return result;
 }
