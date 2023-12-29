@@ -11,9 +11,35 @@ set(NLC_VERSION_MAJOR "1")
 set(NLC_VERSION_MINOR "0")
 set(NLC_VERSION_PATCH "0")
 
-set(NLC_QT "6_6_1")
+set(NLC_QT "6_4_3")
 if(DEFINED QT_VERSION)
     set(NLC_QT QT_VERSION)
+endif()
+
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+# what works without the exception when screen is touched on newer galaxy android devices but since
+# the project does not compile as arm 7 we have to live with to exceptions
+#     Qt 6.4.3
+#     Set to Use Clean Enviroment and set ANDROID_NDK_PLATFORM to android-29
+#     jdk-17.0.9.9-hotspot
+#     gradle 34.0.0 (Android build-tools version)
+#     ANDROID_ABI armeabi-v7a
+#     ANDROID_PLATFORM android-29
+#     ANDROID_STL c++_static
+#     NDK 25.1.8937393
+
+
+#    if(${NLC_QT} STREQUAL "6_6_1")
+#        set(Qt6_DIR "F:/Qt/6.6.1/mingw_64/lib/cmake/Qt6")
+#    elseif(${NLC_QT} STREQUAL "6_4_3")
+#        set(Qt6_DIR "F:/Qt/6.4.3/mingw_64/lib/cmake/Qt6")
+#    elseif(${NLC_QT} STREQUAL "6_3_2")
+#        set(Qt6_DIR "F:/Qt/6.3.2/mingw_64/lib/cmake/Qt6")
+#    else()
+#       message(FATAL_ERROR "Windows Build UNKNOWN QT VERSION")
+#    endif()
+
+    message(STATUS "Build Target OS Android on host OS Windows Qt6_DIR " ${Qt6_DIR})
 endif()
 
 # Target OS can be TARGET_OS_WINDOWS or TARGET_OS_LINUX or TARGET_OS_ANDROID
