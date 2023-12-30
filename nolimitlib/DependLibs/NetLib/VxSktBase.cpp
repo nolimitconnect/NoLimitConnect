@@ -669,6 +669,27 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 		int iSentLen;
 		while( true )
 		{
+			if( INVALID_SOCKET == m_Socket )
+			{
+				// socket was closed while sending
+				LogModule( eLogSktData, LOG_VERBOSE, "skt %d was closed while sending to %s:%d", m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
+				#if defined(TARGET_OS_WINDOWS)
+					RCODE sktClosedErr = WSAECONNRESET;
+				#else
+					RCODE sktClosedErr = ECONNRESET;
+				#endif
+
+				setLastSktError(sktClosedErr );
+				return sktClosedErr;
+			}
+
+			// noting else seems to work to fix the broken pipe SIGPIPE exception
+			// so for linux only set MSG_NOSIGNAL on a per call bases so returns an error instead of throwing a exception
+			#if !defined(TARGET_OS_WINDOWS)
+			int set = 1;
+			setsockopt(m_Socket, SOL_SOCKET, MSG_NOSIGNAL, (void *)&set, sizeof(int));
+			#endif // defined(TARGET_OS_LINUX)
+
 			iSentLen = send( m_Socket, (const char*)pData, iDataLen, 0);
 			if( 0 > iSentLen )
 			{

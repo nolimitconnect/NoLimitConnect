@@ -204,6 +204,9 @@
     <Filter Include="Header Files\TitleAndBottomAndAvatarBar">
       <UniqueIdentifier>{b5c31bed-72ac-4e55-ac9c-41aba9ce7928}</UniqueIdentifier>
     </Filter>
+    <Filter Include="androidManifest">
+      <UniqueIdentifier>{6b0fc571-9dec-485e-aebe-bbcb5ad20a45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -3117,5 +3120,10 @@
     <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt">
       <Filter>CompilerConfig</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\bin-Android\AndroidManifest.xml">
+      <Filter>androidManifest</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

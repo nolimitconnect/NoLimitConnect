@@ -1123,6 +1123,9 @@ libopenjpeg.lib
     <Text Include="..\..\..\CommonSrc\Resources\CreditsArt.txt" />
     <Text Include="..\..\..\sandboxqt\Assembly1234TestApp\Assembly1234QtApp\CMakeLists.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\bin-Android\AndroidManifest.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
