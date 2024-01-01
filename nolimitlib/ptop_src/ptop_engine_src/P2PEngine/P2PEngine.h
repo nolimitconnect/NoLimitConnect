@@ -19,6 +19,7 @@
 #include <ptop_src/ptop_engine_src/BlobXferMgr/BlobCallbackInterface.h>
 #include <ptop_src/ptop_engine_src/Connections/ConnectionMgr.h>
 #include <ptop_src/ptop_engine_src/ConnectMgr/ConnectMgr.h>
+#include <ptop_src/ptop_engine_src/FromGuiMgr/FromGuiMgr.h>
 #include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieListMgr.h>
 #include <ptop_src/ptop_engine_src/HostListMgr/HostedListMgr.h>
 #include <ptop_src/ptop_engine_src/HostListMgr/HostUrlListMgr.h>
@@ -103,6 +104,7 @@ public:
     IToGui&						getToGui( void );
 	IFromGui&					getFromGuiInterface( void )						{ return *this; }
     IAudioRequests&			    getAudioRequest( void );
+
     AssetMgr&					getAssetMgr( void )								{ return m_AssetMgr; }
     BigListMgr&					getBigListMgr( void )							{ return m_BigListMgr; }
     ConnectionMgr&              getConnectionMgr( void )                        { return m_ConnectionMgr; }
@@ -112,6 +114,7 @@ public:
 	EngineParams&				getEngineParams( void )							{ return m_EngineParams; }
     ConnectIdListMgr&           getConnectIdListMgr( void )                     { return m_ConnectIdListMgr; }
     FriendListMgr&              getFriendListMgr( void )                        { return m_FriendListMgr; }
+    FromGuiMgr&                 getFromGuiMgr( void )                           { return m_FromGuiMgr; }
     GroupieListMgr&             getGroupieListMgr( void )                       { return m_GroupieListMgr; }
     HostUrlListMgr&             getHostUrlListMgr( void )                       { return m_HostUrlListMgr; }
     HostedListMgr&              getHostedListMgr( void )                        { return m_HostedListMgr; }
@@ -261,12 +264,12 @@ public:
 
     virtual void				fromGuiNetworkSettingsChanged( void ) override;
 
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
-    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
-    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 ) override;
-    virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId ) override;
-    virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
+    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
+    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
+    virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
+    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
+    virtual void				fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread = false ) override;
+    virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
 
     void				        fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) override;
 
@@ -715,6 +718,7 @@ public:
     static VxGUID               getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
 
     std::string                 describeGroupieId( GroupieId& groupieId );
+    std::string                 describeHostedId( HostedId& hostedId );
     std::string                 describeUser( VxGUID& onlineId );
 
 protected:
@@ -755,6 +759,7 @@ protected:
 
 	//=== vars ===//
 	VxPeerMgr&					m_PeerMgr;
+    FromGuiMgr                  m_FromGuiMgr;
     ConnectIdListMgr            m_ConnectIdListMgr;
     IgnoreListMgr               m_IgnoreListMgr;
     FriendListMgr               m_FriendListMgr;

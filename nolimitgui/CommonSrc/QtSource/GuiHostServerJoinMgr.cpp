@@ -17,14 +17,14 @@
 #include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
 
 //============================================================================
-GuiHostJoinMgr::GuiHostJoinMgr( AppCommon& app )
+GuiHostedByMeJoinMgr::GuiHostedByMeJoinMgr( AppCommon& app )
     : QObject( &app )
     , m_MyApp( app )
 {
 }
 
 //============================================================================
-void GuiHostJoinMgr::onAppCommonCreated( void )
+void GuiHostedByMeJoinMgr::onAppCommonCreated( void )
 {
     connect( this, SIGNAL( signalInternalHostJoinRequested(HostJoinInfo*) ),	                            this, SLOT( slotInternalHostJoinRequested( HostJoinInfo* ) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalHostJoinUpdated(HostJoinInfo*) ),                                  this, SLOT( slotInternalHostJoinUpdated( HostJoinInfo* ) ), Qt::QueuedConnection );
@@ -37,18 +37,18 @@ void GuiHostJoinMgr::onAppCommonCreated( void )
 }
 
 //============================================================================
-bool GuiHostJoinMgr::isMessengerReady( void )
+bool GuiHostedByMeJoinMgr::isMessengerReady( void )
 {
     return m_MyApp.isMessengerReady();
 }
 
 //============================================================================
-void GuiHostJoinMgr::onMessengerReady( bool ready )
+void GuiHostedByMeJoinMgr::onMessengerReady( bool ready )
 {
 }
 
 //============================================================================
-void GuiHostJoinMgr::onSystemReady( bool ready )
+void GuiHostedByMeJoinMgr::onSystemReady( bool ready )
 {
     if( ready )
     {
@@ -66,11 +66,11 @@ void GuiHostJoinMgr::onSystemReady( bool ready )
 }
 
 //============================================================================
-void GuiHostJoinMgr::callbackHostJoinRequested( HostJoinInfo* hostJoinInfo )
+void GuiHostedByMeJoinMgr::callbackHostJoinRequested( HostJoinInfo* hostJoinInfo )
 {
     if( !hostJoinInfo )
     {
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::callbackHostJoinAdded null hostJoinInfo" );
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::callbackHostJoinAdded null hostJoinInfo" );
         return;
     }
 
@@ -80,11 +80,11 @@ void GuiHostJoinMgr::callbackHostJoinRequested( HostJoinInfo* hostJoinInfo )
 }
 
 //============================================================================
-void GuiHostJoinMgr::callbackHostJoinUpdated( HostJoinInfo* hostJoinInfo )
+void GuiHostedByMeJoinMgr::callbackHostJoinUpdated( HostJoinInfo* hostJoinInfo )
 {
     if( !hostJoinInfo )
     {
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::callbackHostJoinAdded null hostJoinInfo" );
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::callbackHostJoinAdded null hostJoinInfo" );
         return;
     }
 
@@ -95,31 +95,31 @@ void GuiHostJoinMgr::callbackHostJoinUpdated( HostJoinInfo* hostJoinInfo )
 }
 
 //============================================================================
-void GuiHostJoinMgr::callbackHostUnJoin( GroupieId& groupieId )
+void GuiHostedByMeJoinMgr::callbackHostUnJoin( GroupieId& groupieId )
 {
     emit signalInternalHostUnJoin( groupieId );
 }
 
 //============================================================================
-void GuiHostJoinMgr::callbackHostJoinRemoved( GroupieId& groupieId )
+void GuiHostedByMeJoinMgr::callbackHostJoinRemoved( GroupieId& groupieId )
 {
     emit signalInternalHostJoinRemoved( groupieId );
 }
 
 //============================================================================
-void GuiHostJoinMgr::callbackHostJoinOfferState( GroupieId& groupieId, EJoinState joinOfferState )
+void GuiHostedByMeJoinMgr::callbackHostJoinOfferState( GroupieId& groupieId, EJoinState joinOfferState )
 {
     emit signalInternalHostJoinOfferState( groupieId, joinOfferState );
 }
 
 //============================================================================
-void GuiHostJoinMgr::callbackHostJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId )
+void GuiHostedByMeJoinMgr::callbackHostJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId )
 {
     emit signalInternalHostJoinOnlineState( groupieId, onlineState, connectionId );
 }
 
 //============================================================================
-void GuiHostJoinMgr::slotInternalHostJoinRequested( HostJoinInfo* hostJoinInfo )
+void GuiHostedByMeJoinMgr::slotInternalHostJoinRequested( HostJoinInfo* hostJoinInfo )
 {
     updateHostJoin( hostJoinInfo );
     updateHostRequestCount();
@@ -127,7 +127,7 @@ void GuiHostJoinMgr::slotInternalHostJoinRequested( HostJoinInfo* hostJoinInfo )
 }
 
 //============================================================================
-void GuiHostJoinMgr::slotInternalHostJoinUpdated( HostJoinInfo* hostJoinInfo )
+void GuiHostedByMeJoinMgr::slotInternalHostJoinUpdated( HostJoinInfo* hostJoinInfo )
 {
     updateHostJoin( hostJoinInfo );
     updateHostRequestCount();
@@ -135,7 +135,7 @@ void GuiHostJoinMgr::slotInternalHostJoinUpdated( HostJoinInfo* hostJoinInfo )
 }
 
 //============================================================================
-void GuiHostJoinMgr::slotInternalHostUnJoin( GroupieId groupieId )
+void GuiHostedByMeJoinMgr::slotInternalHostUnJoin( GroupieId groupieId )
 {
     announceHostUnJoin( groupieId );
 
@@ -157,7 +157,7 @@ void GuiHostJoinMgr::slotInternalHostUnJoin( GroupieId groupieId )
 }
 
 //============================================================================
-void GuiHostJoinMgr::slotInternalHostJoinRemoved( GroupieId groupieId )
+void GuiHostedByMeJoinMgr::slotInternalHostJoinRemoved( GroupieId groupieId )
 {
     auto iter = m_HostJoinList.find( groupieId );
     GuiHostJoin* joinInfo = nullptr;
@@ -177,7 +177,7 @@ void GuiHostJoinMgr::slotInternalHostJoinRemoved( GroupieId groupieId )
 }
 
 //============================================================================
-void GuiHostJoinMgr::slotInternalHostJoinOfferState( GroupieId groupieId, EJoinState joinOfferState )
+void GuiHostedByMeJoinMgr::slotInternalHostJoinOfferState( GroupieId groupieId, EJoinState joinOfferState )
 {
     GuiHostJoin* guiHostJoin = findHostJoin( groupieId );
     if( guiHostJoin && joinOfferState != eJoinStateNone )
@@ -193,7 +193,7 @@ void GuiHostJoinMgr::slotInternalHostJoinOfferState( GroupieId groupieId, EJoinS
 }
 
 //============================================================================
-void GuiHostJoinMgr::slotInternalHostJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId )
+void GuiHostedByMeJoinMgr::slotInternalHostJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId )
 {
     GuiHostJoin* guiHostJoin = findHostJoin( groupieId );
     bool isOnline = onlineState == eOnlineStateOnline ? true : false;
@@ -207,7 +207,7 @@ void GuiHostJoinMgr::slotInternalHostJoinOnlineState( GroupieId groupieId, EOnli
 }
 
 //============================================================================
-GuiHostJoin* GuiHostJoinMgr::findHostJoin( GroupieId groupieId )
+GuiHostJoin* GuiHostedByMeJoinMgr::findHostJoin( GroupieId groupieId )
 {
     GuiHostJoin* guiHostJoin = nullptr;
     auto iter = m_HostJoinList.find( groupieId );
@@ -220,30 +220,30 @@ GuiHostJoin* GuiHostJoinMgr::findHostJoin( GroupieId groupieId )
 }
 
 //============================================================================
-bool GuiHostJoinMgr::isHostJoinInSession( GroupieId& groupieId )
+bool GuiHostedByMeJoinMgr::isHostJoinInSession( GroupieId& groupieId )
 {
     GuiHostJoin* guiHostJoin = findHostJoin( groupieId );
     return guiHostJoin && guiHostJoin->isInSession();
 }
 
 //============================================================================
-GuiHostJoin* GuiHostJoinMgr::getHostJoin( GroupieId& groupieId )
+GuiHostJoin* GuiHostedByMeJoinMgr::getHostJoin( GroupieId& groupieId )
 {
     return findHostJoin( groupieId );
 }
 
 //============================================================================
-GuiHostJoin* GuiHostJoinMgr::updateHostJoin( HostJoinInfo* hostJoinInfo )
+GuiHostJoin* GuiHostedByMeJoinMgr::updateHostJoin( HostJoinInfo* hostJoinInfo )
 {
     if( !hostJoinInfo )
     {
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::updateHostJoin invalid hostJoinInfo param" );
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::updateHostJoin invalid hostJoinInfo param" );
         return nullptr;
     }
 
     if( !hostJoinInfo->getNetIdent() )
     {
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::updateHostJoin hostJoinInfo does not contain a net ident" );
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::updateHostJoin hostJoinInfo does not contain a net ident" );
         return nullptr;
     }
 
@@ -270,14 +270,14 @@ GuiHostJoin* GuiHostJoinMgr::updateHostJoin( HostJoinInfo* hostJoinInfo )
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::updateHostJoin no user found" );
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::updateHostJoin no user found" );
     }
 
     return guiHostJoin;
 }
 
 //============================================================================
-void GuiHostJoinMgr::setHostJoinOffline( GroupieId& groupieId )
+void GuiHostedByMeJoinMgr::setHostJoinOffline( GroupieId& groupieId )
 {
     GuiHostJoin* guiHostJoin = findHostJoin( groupieId );
     if( guiHostJoin )
@@ -287,13 +287,13 @@ void GuiHostJoinMgr::setHostJoinOffline( GroupieId& groupieId )
 }
 
 //============================================================================
-void GuiHostJoinMgr::onHostJoinAdded( GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::onHostJoinAdded( GuiHostJoin* guiHostJoin )
 {
     announceJoinState( guiHostJoin, guiHostJoin->getJoinState() );
 }
 
 //============================================================================
-void GuiHostJoinMgr::onUserOnlineStatusChange( GuiHostJoin* guiHostJoin, bool isOnline )
+void GuiHostedByMeJoinMgr::onUserOnlineStatusChange( GuiHostJoin* guiHostJoin, bool isOnline )
 {
     if( isMessengerReady() )
     {
@@ -302,7 +302,7 @@ void GuiHostJoinMgr::onUserOnlineStatusChange( GuiHostJoin* guiHostJoin, bool is
 }
 
 //============================================================================
-void GuiHostJoinMgr::onHostJoinUpdated( GuiHostJoin* guiHostJoin, EJoinState prevState )
+void GuiHostedByMeJoinMgr::onHostJoinUpdated( GuiHostJoin* guiHostJoin, EJoinState prevState )
 {
     // BRJ temp always update for testing
     // if( prevState != guiHostJoin->getJoinState() )
@@ -312,7 +312,7 @@ void GuiHostJoinMgr::onHostJoinUpdated( GuiHostJoin* guiHostJoin, EJoinState pre
 }
 
 //============================================================================
-void GuiHostJoinMgr::updateHostRequestCount( bool forceEmit )
+void GuiHostedByMeJoinMgr::updateHostRequestCount( bool forceEmit )
 {
     int hostRequestCount = 0;
     for( auto& item : m_HostJoinList )
@@ -332,7 +332,7 @@ void GuiHostJoinMgr::updateHostRequestCount( bool forceEmit )
 }
 
 //============================================================================
-void GuiHostJoinMgr::joinAccepted( GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::joinAccepted( GuiHostJoin* guiHostJoin )
 {
     if( guiHostJoin && guiHostJoin->setJoinState( eJoinStateJoinIsGranted ) )
     {
@@ -342,7 +342,7 @@ void GuiHostJoinMgr::joinAccepted( GuiHostJoin* guiHostJoin )
 }
 
 //============================================================================
-void GuiHostJoinMgr::joinRejected( GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::joinRejected( GuiHostJoin* guiHostJoin )
 {
     if( guiHostJoin && guiHostJoin->setJoinState( eJoinStateJoinDenied ) )
     {
@@ -352,7 +352,7 @@ void GuiHostJoinMgr::joinRejected( GuiHostJoin* guiHostJoin )
 }
 
 //============================================================================
-void GuiHostJoinMgr::wantHostJoinCallbacks( GuiHostJoinCallback* client, bool enable )
+void GuiHostedByMeJoinMgr::wantHostJoinCallbacks( GuiHostJoinCallback* client, bool enable )
 {
     for( auto iter = m_HostJoinClients.begin(); iter != m_HostJoinClients.end(); ++iter )
     {
@@ -370,11 +370,11 @@ void GuiHostJoinMgr::wantHostJoinCallbacks( GuiHostJoinCallback* client, bool en
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceJoinState( GuiHostJoin* guiHostJoin, EJoinState joinState )
+void GuiHostedByMeJoinMgr::announceJoinState( GuiHostJoin* guiHostJoin, EJoinState joinState )
 {
     if( guiHostJoin->getJoinState() != joinState )
     {
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::announceJoinState join state %s != param state %s",
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::announceJoinState join state %s != param state %s",
                 GuiParams::describeJoinState( guiHostJoin->getJoinState() ).toUtf8().constData(),
                 GuiParams::describeJoinState( joinState ).toUtf8().constData() );
     }
@@ -400,14 +400,14 @@ void GuiHostJoinMgr::announceJoinState( GuiHostJoin* guiHostJoin, EJoinState joi
         announceHostJoinLeaveHost( guiHostJoin->getGroupieId() );
         break;
     default:
-        LogMsg( LOG_ERROR, "GuiHostJoinMgr::announceJoinState unknown join state %s",
+        LogMsg( LOG_ERROR, "GuiHostedByMeJoinMgr::announceJoinState unknown join state %s",
                 GuiParams::describeJoinState( joinState ).toUtf8().constData() );
         break;
     }
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::announceHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -416,7 +416,7 @@ void GuiHostJoinMgr::announceHostJoinRequested( GroupieId& groupieId, GuiHostJoi
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostJoinWasGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::announceHostJoinWasGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -425,7 +425,7 @@ void GuiHostJoinMgr::announceHostJoinWasGranted( GroupieId& groupieId, GuiHostJo
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::announceHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -434,7 +434,7 @@ void GuiHostJoinMgr::announceHostJoinIsGranted( GroupieId& groupieId, GuiHostJoi
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostJoinDenied( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
+void GuiHostedByMeJoinMgr::announceHostJoinDenied( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -443,7 +443,7 @@ void GuiHostJoinMgr::announceHostJoinDenied( GroupieId& groupieId, GuiHostJoin* 
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostJoinLeaveHost( GroupieId& groupieId )
+void GuiHostedByMeJoinMgr::announceHostJoinLeaveHost( GroupieId& groupieId )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -452,7 +452,7 @@ void GuiHostJoinMgr::announceHostJoinLeaveHost( GroupieId& groupieId )
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostUnJoin( GroupieId& groupieId )
+void GuiHostedByMeJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -461,7 +461,7 @@ void GuiHostJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 }
 
 //============================================================================
-void GuiHostJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
+void GuiHostedByMeJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 {
     for( auto client : m_HostJoinClients )
     {
@@ -470,14 +470,13 @@ void GuiHostJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 }
 
 //============================================================================
-EJoinState GuiHostJoinMgr::getHostJoinState( GroupieId& groupieId )
+EJoinState GuiHostedByMeJoinMgr::getHostJoinState( GroupieId& groupieId )
 {
     return m_MyApp.getEngine().getHostJoinMgr().getHostJoinState( groupieId );
 }
 
-
 //============================================================================
-void GuiHostJoinMgr::getHostedMembers( EHostType hostType, std::set<VxGUID>& memberList )
+void GuiHostedByMeJoinMgr::getHostedMembers( EHostType hostType, std::set<VxGUID>& memberList )
 {
     memberList.clear();
     VxGUID myOnlineId = m_MyApp.getMyOnlineId();

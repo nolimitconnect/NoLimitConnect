@@ -80,7 +80,8 @@ void AppletHostBase::manageHostSession( GuiHostSession* hostSession, bool reques
         {
             VxGUID::generateNewVxGUID( m_HostSessionId );
 
-            m_Engine.fromGuiJoinHost( getHostType(), m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+            HostedId adminId( hostSession->getOnlineId(), hostSession->getHostType() );
+            m_Engine.fromGuiJoinHost( adminId, m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
         }
         else
         {
@@ -98,31 +99,57 @@ void AppletHostBase::userJoinedHost( GuiHosted* guiHosted )
 {
     if( guiHosted )
     {
-        if( guiHosted != m_LastGuiHosted )
+        GuiUser* adminUser = guiHosted->getUser();
+        if( adminUser )
         {
-            if( !m_HostSessionId.isVxGUIDValid() )
+            HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType());
+            GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
+
+            if( guiHosted != m_LastGuiHosted )
             {
-                m_HostSessionId = guiHosted->getSessionId();
                 if( !m_HostSessionId.isVxGUIDValid() )
                 {
-                    VxGUID::generateNewVxGUID( m_HostSessionId );
-                    guiHosted->setSessionId( m_HostSessionId );
+                    m_HostSessionId = guiHosted->getSessionId();
+                    if( !m_HostSessionId.isVxGUIDValid() )
+                    {
+                        VxGUID::generateNewVxGUID( m_HostSessionId );
+                        guiHosted->setSessionId( m_HostSessionId );
+                    }
+                }
+     
+                m_HostUrlIpv4 = guiHosted->getHostInviteUrl( false );
+                m_HostUrlIpv6 = guiHosted->getHostInviteUrl( true );
+          
+                if( adminId.isValid() )
+                {                 
+                    if( m_UserMultiList )
+                    {                   
+                        m_UserMultiList->setHostAdminId( groupieId );
+                    }
+
+                    if( !m_MyApp.getMemberActiveMgr().isMemberActive( groupieId ) )
+                    {
+                        m_Engine.fromGuiJoinHost( adminId, m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+                    }
+                }
+                else
+                {
+                    LogMsg( LOG_ERROR, "AppletHostBase::userJoinedHost invalid admin id %s", m_MyApp.describeHostedId( adminId ).c_str() );
                 }
             }
-     
-            m_HostUrlIpv4 = guiHosted->getHostInviteUrl( false );
-            m_HostUrlIpv6 = guiHosted->getHostInviteUrl( true );
-
-            m_Engine.fromGuiJoinHost( getHostType(), m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
-            if( m_UserMultiList )
+            else
             {
-                m_UserMultiList->userJoinedHost( guiHosted );
+                // TODO BRJ we should be able to just clear and again add members who are online
+                if( m_UserMultiList )
+                {
+                    m_UserMultiList->setHostAdminId( groupieId );
+                }
             }
         }
         else
         {
-            // TODO BRJ we should be able to just clear and again add members who are online
-
+            LogMsg( LOG_ERROR, "AppletHostBase::userJoinedHost null adminUser" );
+            vx_assert( false );
         }
     }
     else

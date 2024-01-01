@@ -62,6 +62,16 @@ void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActiv
 }
 
 //============================================================================
+bool MemberActiveMgr::isMemberActive( GroupieId& groupieId )
+{
+    lockMemberList();
+    bool isActive = std::find( m_MemberList.begin(), m_MemberList.end(), groupieId ) != m_MemberList.end();
+    unlockMemberList();
+
+    return isActive;
+}
+
+//============================================================================
 void MemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool memberActive )
 {
     LogModule( eLogMembership, LOG_INFO, "MemberActiveMgr::announceMemberActive %d %s", memberActive, m_Engine.describeGroupieId( groupieId ).c_str() );

@@ -453,6 +453,49 @@ QString GuiParams::describeHostSearchStatus( EHostSearchStatus searchStatus )
 }
 
 //============================================================================
+QString GuiParams::describeJoinStateConnectAction( EJoinState joinState )
+{
+    switch( joinState )
+    {
+    case eJoinStateJoinWasGranted:
+        return QObject::tr( "Join Again" );
+
+    case eJoinStateJoinIsGranted:
+        return QObject::tr( "Join Granted" );
+
+    case eJoinStateSending:
+        return QObject::tr( "Sending" );
+
+    case eJoinStateSendFail:
+        return QObject::tr( "Send FAILED" );
+
+    case eJoinStateSendAcked:
+        return QObject::tr( "Send Acked" );
+
+    case eJoinStateJoinRequested:
+        return QObject::tr( "Join Requested" );
+
+    case eJoinStateJoinDenied:
+        return QObject::tr( "Join Denied" );
+
+    case eJoinStateJoinLeaveHost:
+        return QObject::tr( "Left Host" );
+
+    case eJoinStateNone:
+        return QObject::tr( "Connect And Join" );
+
+    default:
+        return QObject::tr( "Uknown Join State" );
+    }
+}
+
+//============================================================================
+QString GuiParams::describeJoinStateUserAction( EJoinState joinState )
+{
+    return describeJoinStateConnectAction( joinState );
+}
+
+//============================================================================
 QString GuiParams::describeLanguage( ELanguageType language )
 {
     return AppTranslate::describeLanguage( language );

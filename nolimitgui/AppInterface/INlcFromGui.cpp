@@ -325,37 +325,37 @@ void INlc::fromGuiRunIsPortOpenTest( uint16_t port )
 }
 
 //============================================================================
-void INlc::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void INlc::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, bool fromThread )
 {
-    getPtoP().fromGuiAnnounceHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    getPtoP().fromGuiAnnounceHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void INlc::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, bool fromThread )
 {
-    getPtoP().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    getPtoP().fromGuiJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void INlc::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, bool fromThread )
 {
-    getPtoP().fromGuiLeaveHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    getPtoP().fromGuiLeaveHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void INlc::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, bool fromThread )
 {
-    getPtoP().fromGuiUnJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    getPtoP().fromGuiUnJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
 }
 
 //============================================================================
-void INlc::fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId )
+void INlc::fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread )
 {
-    getPtoP().fromGuiJoinLastJoinedHost( hostType, sessionId );
+    getPtoP().fromGuiJoinLastJoinedHost( adminId, sessionId );
 }
 
 //============================================================================
-void INlc::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )
+void INlc::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread )
 {
     getPtoP().fromGuiSearchHost( hostType, searchParams, enable );
 }

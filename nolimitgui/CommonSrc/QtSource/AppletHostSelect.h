@@ -13,7 +13,7 @@
 #include "ui_AppletHostSelect.h"
 
 class GuiHostJoin;
-class GuiHostJoinMgr;
+class GuiHostedByMeJoinMgr;
 class GroupieId;
 
 class AppletHostSelect : public AppletBase
@@ -45,7 +45,7 @@ protected:
 
 	//=== vars ===//
 	Ui::AppletHostSelectUi		ui;
-	GuiHostJoinMgr&				m_HostJoinMgr;
+	GuiHostedByMeJoinMgr&				m_HostJoinMgr;
 	EHostType					m_HostType{ eHostTypeGroup };
 	EJoinState					m_JoinState{ eJoinStateJoinRequested };
 };

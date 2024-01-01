@@ -358,6 +358,11 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
             }
 
             float desiredFps = 1000 / ( CAM_SNAPSHOT_INTERVAL_MS / 2 ); // request frame rate toughly twice as fast a snapshot interval
+            if( desiredFps > defaultFormat.maxFrameRate() )
+            {
+                desiredFps = defaultFormat.maxFrameRate();
+            }
+
             LogMsg( LOG_VERBOSE, "Seting Format %d resolution w %d h %d min fps %3.1f max fps %3.1f desired fps %3.1f", formatNum, defaultFormat.resolution().width(),
                 defaultFormat.resolution().height(), defaultFormat.minFrameRate(), defaultFormat.maxFrameRate(), desiredFps);
 

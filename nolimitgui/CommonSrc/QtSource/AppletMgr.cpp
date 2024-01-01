@@ -784,7 +784,7 @@ bool AppletMgr::launchClientApplet( GuiHosted* guiHosted, QWidget* parentFrame )
     bool isLaunched{ false };
     if( guiHosted && guiHosted->readyForClientLaunch() )
 	{
-		if( eHostTypeGroup == guiHosted->getHostType() )
+		if( eHostTypePeerUser == guiHosted->getHostType() )
 		{
 			AppletMultiMessenger* messenger = m_MyApp.getAppletMultiMessenger();
 			if( messenger )
@@ -798,6 +798,14 @@ bool AppletMgr::launchClientApplet( GuiHosted* guiHosted, QWidget* parentFrame )
 			AppletClientBase* clientApplet{ nullptr };
             switch( guiHosted->getHostType() )
             {
+            case eHostTypeGroup:
+                if( !isAppletLaunched( eAppletGroupClient ) )
+                {
+                    clientApplet = dynamic_cast<AppletClientBase*>(m_MyApp.getAppletMgr().launchApplet( eAppletGroupClient, parentFrame ) );
+                }
+
+                break;
+
             case eHostTypeChatRoom:
                 if( !isAppletLaunched( eAppletChatRoomClient ) )
                 {

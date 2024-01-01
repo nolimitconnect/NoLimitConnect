@@ -527,6 +527,8 @@
     <ClCompile Include="..\..\ptop_engine_src\ConnectMgr\ConnectInfo.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ConnectMgr\ConnectInfoDb.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ConnectMgr\ConnectMgr.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\FromGuiMgr\FromGuiAction.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\FromGuiMgr\FromGuiMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\GroupieListMgr\GroupieInfo.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\GroupieListMgr\GroupieListDb.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\GroupieListMgr\GroupieListMgr.cpp" />
@@ -779,6 +781,8 @@
     <ClInclude Include="..\..\ptop_engine_src\ConnectMgr\ConnectInfo.h" />
     <ClInclude Include="..\..\ptop_engine_src\ConnectMgr\ConnectInfoDb.h" />
     <ClInclude Include="..\..\ptop_engine_src\ConnectMgr\ConnectMgr.h" />
+    <ClInclude Include="..\..\ptop_engine_src\FromGuiMgr\FromGuiAction.h" />
+    <ClInclude Include="..\..\ptop_engine_src\FromGuiMgr\FromGuiMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\GroupieListMgr\GroupieInfo.h" />
     <ClInclude Include="..\..\ptop_engine_src\GroupieListMgr\GroupieListCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\GroupieListMgr\GroupieListDb.h" />

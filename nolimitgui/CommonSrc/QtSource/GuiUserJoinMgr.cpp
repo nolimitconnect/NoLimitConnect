@@ -500,6 +500,19 @@ bool GuiUserJoinMgr::isUserJoinedToHost( EHostType hostType )
 }
 
 //============================================================================
+bool GuiUserJoinMgr::isUserJoinedToHost( HostedId& adminId )
+{
+    GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
+    return isMemberActive( groupieId );
+}
+
+//============================================================================
+bool GuiUserJoinMgr::isMemberActive( GroupieId& groupieId )
+{
+    return m_MyApp.getMemberActiveMgr().isMemberActive( groupieId );
+}
+
+//============================================================================
 VxGUID& GuiUserJoinMgr::getUserJoinedHostOnlineId( EHostType hostType )
 {
 	switch( hostType )
@@ -552,7 +565,8 @@ void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
 
                 LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", m_ReconnectToHost.c_str() );
 
-                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+                HostedId adminId( ptopUrl.getOnlineId(), hostType );
+                m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
             }
             else
             {

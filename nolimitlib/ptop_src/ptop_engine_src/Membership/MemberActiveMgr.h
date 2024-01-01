@@ -31,6 +31,8 @@ public:
 
     virtual void                updateMemberActive( GroupieId& groupieId, bool memberActive );
 
+    bool                        isMemberActive( GroupieId& groupieId );
+
     std::vector<GroupieId>&     getMemberActiveList( void )         { return m_MemberList; };
 
     void				        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;

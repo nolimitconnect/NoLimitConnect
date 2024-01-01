@@ -142,7 +142,14 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
 {
     if( userJoinInfo )
     {
-        LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinUpdated state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
+        EJoinState joinState = userJoinInfo->getJoinState();
+        if( eJoinStateJoinIsGranted == joinState )
+        {
+            // make sure member active is updated before the join update happens so that member active can be checked when the join update occurs
+            m_Engine.getMemberActiveMgr().updateMemberActive( userJoinInfo->getGroupieId(), true );
+        }
+
+        LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinUpdated state %s %s", DescribeJoinState( joinState ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
         lockClientList();
         std::vector<UserJoinCallbackInterface *>::iterator iter;
@@ -535,6 +542,7 @@ EJoinState UserJoinMgr::getUserJoinState( GroupieId& groupieId )
     }
 
     unlockResources();
+
     return joinState;
 }
 

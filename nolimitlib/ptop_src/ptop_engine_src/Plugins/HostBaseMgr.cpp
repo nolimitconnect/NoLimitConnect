@@ -119,33 +119,33 @@ EConnectReason HostBaseMgr::getSearchConnectReason( EHostType hostType )
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    if( ptopUrlIpv4.empty() || hostType == eHostTypeUnknown )
+    if( ptopUrlIpv4.empty() || adminId.getHostType() == eHostTypeUnknown )
     {
-        m_Engine.getToGui().toGuiHostAnnounceStatus( hostType, sessionId, eHostAnnounceInvalidUrl );
+        m_Engine.getToGui().toGuiHostAnnounceStatus( adminId.getHostType(), sessionId, eHostAnnounceInvalidUrl );
         return;
     }
 
-    connectToHost( hostType, sessionId, ptopUrlIpv4, HostTypeToConnectAnnounceReason( hostType ) );
+    connectToHost( adminId.getHostType(), sessionId, ptopUrlIpv4, HostTypeToConnectAnnounceReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectJoinReason( hostType ) );
+    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectJoinReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectLeaveReason( hostType ) );
+    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectLeaveReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
 {
-    connectToHostByPtopUrlAndReason( hostType, sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectUnJoinReason( hostType ) );
+    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectUnJoinReason( adminId.getHostType() ) );
 }
 
 //============================================================================

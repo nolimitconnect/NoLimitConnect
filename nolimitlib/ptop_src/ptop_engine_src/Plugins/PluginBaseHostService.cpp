@@ -204,7 +204,7 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
         GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
         if( rxedGroupieId != groupieId )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
+            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
         }
 
@@ -212,6 +212,13 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
         joinReply.setPluginType( getPluginType() );
         joinReply.setSessionId( joinReq->getSessionId() );
         joinReply.setAccessState( m_HostServerMgr.getPluginAccessState( netIdent ) );
+
+        if( !sktBase->isConnected() )
+        {
+            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s socket was close", DescribePluginType( getPluginType() ), 
+                netIdent->getOnlineName(), groupieId.describeGroupieId().c_str() );
+            return;
+        }
 
         VxGUID sktConnectionId( sktBase->getSocketId() );
 

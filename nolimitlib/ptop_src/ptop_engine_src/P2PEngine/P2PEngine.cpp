@@ -80,6 +80,7 @@ namespace
 //============================================================================
 P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
 	: m_PeerMgr( peerMgr )
+	, m_FromGuiMgr( *this )
 	, m_ConnectIdListMgr( *this )
 	, m_IgnoreListMgr( *this )
 	, m_FriendListMgr( *this )
@@ -185,6 +186,7 @@ void P2PEngine::iniitializePtoPEngine( void )
 void P2PEngine::shutdownEngine( void )
 {
 	VxSetAppIsShuttingDown( true );
+	m_FromGuiMgr.fromGuMgrShutdown();
 	
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: shutdown IsPortOpen" );
 	m_IsPortOpenTest.isPortOpenTestShutdown();
@@ -595,6 +597,15 @@ std::string P2PEngine::describeGroupieId( GroupieId& groupieId )
 	desc += " user ";
 	desc += describeUser( groupieId.getUserOnlineId() );
 	return desc;
+}
+
+//============================================================================
+std::string P2PEngine::describeHostedId( HostedId& hostedId )
+{
+	std::string adminDesc = DescribeHostType( hostedId.getHostType() );
+	adminDesc += " admin ";
+	adminDesc += describeUser( hostedId.getHostOnlineId() );
+	return adminDesc;
 }
 
 //============================================================================

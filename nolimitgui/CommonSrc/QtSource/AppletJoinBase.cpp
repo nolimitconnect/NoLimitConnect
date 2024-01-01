@@ -266,7 +266,8 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
         if( ptopUrl.getOnlineId() != m_MyApp.getMyOnlineId() )
         {
             m_MyApp.getUserJoinMgr().setLastJoinAttempted( joinUrl );
-            m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+			HostedId adminId( ptopUrl.getOnlineId(), hostSession->getHostType() );
+            m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
         }
         else
         {
@@ -307,7 +308,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
 
             if( joinState == eJoinStateJoinIsGranted )
             {
-                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 				GuiUser* hostUser = hostSession->getGuiUser();
 				if( hostUser->getMyFriendshipToHim() <= eFriendStateGuest )
 				{
@@ -326,7 +327,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
             }
             else
             {
-                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
             }
         }
         else
@@ -352,7 +353,7 @@ void AppletJoinBase::slotKickButtonClicked( GuiHostedListSession* hostSession, G
 	{
 		std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
 		std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
-		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostType(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
 	}
 }
 

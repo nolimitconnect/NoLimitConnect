@@ -47,6 +47,7 @@ public:
     GuiHosted*                  getHosted( HostedId& hostTypeId )                   { return findHosted( hostTypeId ); }
     std::map<HostedId, GuiHosted*>& getHostedList( void )                           { return m_HostedList; }
     GuiHosted*                  updateHosted( VxNetIdent* hisIdent, EHostType hostType );
+    GuiHosted*                  updateHosted( GuiUser* guiUser, EHostType hostType );
 
     EJoinState                  getHostJoinState( GroupieId& groupieId );
 
@@ -56,7 +57,7 @@ public:
     std::string&                getJoinOnStartup( void )                            { return m_FavoriteHostGroup; }
     bool                        isJoinOnStartup( std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
 
-    bool                        launchClientAppletOfAlreadyConnectedHost( EHostType hostType, VxGUID& hostOnlineId, QWidget* parentPageFrame );
+    bool                        launchClientAppletOfAlreadyConnectedHost( HostedId& adminId, QWidget* parentPageFrame );
 
 signals:
     void				        signalMyIdentUpdated( GuiHosted* guiHosted );

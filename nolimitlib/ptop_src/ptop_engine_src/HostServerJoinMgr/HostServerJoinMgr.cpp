@@ -603,6 +603,39 @@ EJoinState HostServerJoinMgr::getHostJoinState( GroupieId& groupieId )
     }
 
     unlockHostJoinInfoList();
+    if( joinInfo && groupieId.getHostOnlineId() != m_Engine.getMyOnlineId() )
+    {
+        // we do not want to lose the last state but need the correct connected and/or joined state
+        if( m_Engine.getConnectIdListMgr().isUserOnline( groupieId.getHostOnlineId() ) )
+        {
+            // is online
+            if( m_Engine.getMemberActiveMgr().isMemberActive( groupieId ) )
+            {
+                // is active member
+                joinState = eJoinStateJoinIsGranted;
+                joinInfo->setJoinState( joinState );
+            }
+            else
+            {
+                // is not active
+                if( eJoinStateJoinIsGranted == joinState )
+                {
+                    joinState = eJoinStateJoinWasGranted;
+                    joinInfo->setJoinState( joinState );
+                }
+            }
+        }
+        else
+        {
+            // is offline
+            if( eJoinStateJoinIsGranted == joinState )
+            {
+                joinState = eJoinStateJoinWasGranted;
+                joinInfo->setJoinState( joinState );
+            }
+        }
+    }
+
     return joinState;
 }
 

@@ -1863,6 +1863,15 @@ bool AppCommon::checkSystemReady( void )
 }
 
 //============================================================================
+std::string AppCommon::describeHostedId( HostedId& hostedId )
+{
+	std::string adminDesc = DescribeHostType( hostedId.getHostType() );
+	adminDesc += " admin ";
+	adminDesc += describeUser( hostedId.getHostOnlineId() );
+	return adminDesc;
+}
+
+//============================================================================
 std::string AppCommon::describeGroupieId( GroupieId& groupieId )
 {
 	std::string desc = DescribeHostType( groupieId.getHostType() );

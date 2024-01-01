@@ -186,10 +186,7 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
         joinState = m_MyApp.getUserJoinMgr().getUserJoinState( groupiId );
     }
 
-    if( eJoinStateNone != joinState )
-    {
-        setJoinedState( joinState );
-    }
+    setJoinedState( joinState );
 
     if( guiHosted->getIsIgnored() )
     {
@@ -205,37 +202,39 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
 //============================================================================
 void GuiHostedListItem::setJoinedState( EJoinState joinState )
 {
+    QString joinConnectText = GuiParams::describeJoinStateConnectAction( joinState );
+    ui.m_ConnectLabel->setText( joinConnectText );
+
+    QString joinActionText = GuiParams::describeJoinStateUserAction( joinState );
+    ui.m_JoinLabel->setText( joinConnectText );
+
     switch( joinState )
     {
     case eJoinStateJoinWasGranted:
         showConnectButton( true );
         ui.m_ConnectButton->setIcon( eMyIconConnect );
-        ui.m_ConnectLabel->setText( QObject::tr( "Connect" ) );
         ui.m_JoinButton->setIcon( eMyIconPersonAdd );
         ui.m_ConnectButton->setEnabled( true );
         showKickButton( false );
-
         break;
+
     case eJoinStateJoinIsGranted:
         showConnectButton( true );
         ui.m_ConnectButton->setIcon( eMyIconDisconnect );
-        ui.m_ConnectLabel->setText( QObject::tr( "Leave Host" ) );
         ui.m_JoinButton->setIcon( eMyIconPersonAdd );
         ui.m_ConnectButton->setEnabled( true );
         showKickButton( true );
-
         break;
+
     case eJoinStateSending:
     case eJoinStateSendFail:
     case eJoinStateSendAcked:
     case eJoinStateJoinRequested:
         showConnectButton( true );
-        ui.m_ConnectLabel->setText( QObject::tr( "Connect" ) );
         ui.m_ConnectButton->setIcon( eMyIconConnect );
         ui.m_JoinButton->setIcon( eMyIconPersonAdd );
         ui.m_ConnectButton->setEnabled( false );
         showKickButton( false );
-
         break;
 
     case eJoinStateJoinDenied:
@@ -244,8 +243,8 @@ void GuiHostedListItem::setJoinedState( EJoinState joinState )
         ui.m_JoinButton->setIcon( eMyIconIgnored );
         ui.m_ConnectButton->setEnabled( false );
         showKickButton( false );
-
         break;
+
     case eJoinStateNone:
     default:
         showConnectButton( false );

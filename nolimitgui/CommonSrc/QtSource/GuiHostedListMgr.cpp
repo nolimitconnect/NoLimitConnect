@@ -163,16 +163,30 @@ GuiHosted* GuiHostedListMgr::findHosted( VxGUID& onlineId, EHostType hostType )
 }
 
 //============================================================================
-GuiHosted* GuiHostedListMgr::findHosted( HostedId& hostTypeId )
+GuiHosted* GuiHostedListMgr::findHosted( HostedId& adminId )
 {
-    GuiHosted* user = nullptr;
-    auto iter = m_HostedList.find( hostTypeId );
+    GuiHosted* guiHosted = nullptr;
+    auto iter = m_HostedList.find( adminId );
     if( iter != m_HostedList.end() )
     {
-        user = iter->second;
+        guiHosted = iter->second;
     }
 
-    return user;
+    if( !guiHosted && adminId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
+    {
+        GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
+        if( m_MyApp.getMemberActiveMgr().isMemberActive( groupieId ) )
+        {
+            // this can happen if user has never actually done a host listing but instead was auto joined on startup
+            GuiUser* guiUser = m_MyApp.getUserMgr().getUser( adminId.getHostOnlineId() );
+            if( guiUser )
+            {
+                guiHosted = updateHosted( guiUser, adminId.getHostType() );
+            }
+        }
+    }
+
+    return guiHosted;
 }
 
 //============================================================================
@@ -199,32 +213,54 @@ GuiHosted* GuiHostedListMgr::updateHosted( VxNetIdent* hisIdent, EHostType hostT
 {
     if( !hisIdent )
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHostedOnline invalid param" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHosted invalid param" );
         return nullptr;
     }
 
-    HostedId hostTypeId( hisIdent->getMyOnlineId(), hostType );
-    GuiHosted* guiHosted = findHosted( hisIdent->getMyOnlineId(), hostType );
     GuiUser* guiUser = m_MyApp.getUserMgr().updateUser( hisIdent );
     if( guiUser )
     {
-        if( guiHosted && guiHosted->getUser()->getMyOnlineId() == hisIdent->getMyOnlineId() )
+        return updateHosted( guiUser, hostType );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHosted failed to update user" );
+        return nullptr;
+    }
+}
+
+//============================================================================
+GuiHosted* GuiHostedListMgr::updateHosted( GuiUser* guiUser, EHostType hostType )
+{
+    if( !guiUser )
+    {
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHosted invalid param" );
+        return nullptr;
+    }
+
+    HostedId adminId( guiUser->getMyOnlineId(), hostType );
+    GuiHosted* guiHosted = findHosted( adminId );
+    
+    if( !guiHosted )
+    {
+        guiHosted = new GuiHosted( m_MyApp );
+        guiHosted->setUser( guiUser );
+
+    }
+
+    if( guiHosted->getUser()->getMyOnlineId() == guiUser->getMyOnlineId() )
+    {
+        if( isMessengerReady() )
         {
-            if( isMessengerReady() )
-            {
-                announceHostedListUpdated( hostTypeId, guiHosted );
-            }
+            announceHostedListUpdated( adminId, guiHosted );
         }
-        else
+    }
+    else
+    {
+        m_HostedList[adminId] = guiHosted;
+        if( isMessengerReady() )
         {
-            guiHosted = new GuiHosted( m_MyApp );
-            guiHosted->setUser( guiUser );
-            guiHosted->getUser()->setNetIdent( hisIdent );
-            m_HostedList[hostTypeId] = guiHosted;
-            if( isMessengerReady() )
-            {
-                announceHostedListAdded( hostTypeId, guiHosted );
-            }
+            announceHostedListAdded( adminId, guiHosted );
         }
     }
 
@@ -452,7 +488,8 @@ void GuiHostedListMgr::checkAutoJoinGroupHost( void )
             std::string host = checkUrl.getHost();
             std::string empyUrl;
             bool ipv6 = VxIsIpv6Address( host );
-            m_MyApp.getFromGuiInterface().fromGuiJoinHost( eHostTypeGroup, sessionId, ipv6 ? empyUrl : m_FavoriteHostGroup, ipv6 ? m_FavoriteHostGroup : empyUrl );
+            HostedId hostId( checkUrl.getOnlineId(), eHostTypeGroup );
+            m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostId, sessionId, ipv6 ? empyUrl : m_FavoriteHostGroup, ipv6 ? m_FavoriteHostGroup : empyUrl );
         }
     }
 }
@@ -464,31 +501,31 @@ EJoinState GuiHostedListMgr::getHostJoinState( GroupieId& groupieId )
 }
 
 //============================================================================
-bool GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost( EHostType hostType, VxGUID& hostOnlineId, QWidget* parentPageFrame )
+bool GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost( HostedId& adminId, QWidget* parentPageFrame )
 {
     bool wasLaunched{ false };
-    if( !hostOnlineId.isVxGUIDValid() )
+    if( !adminId.isValid() )
     {
-        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost invalid host id for %s", DescribeHostType( hostType ) );
+        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost invalid host id for %s", DescribeHostType( adminId.getHostType() ) );
         return false;
     }
 
-    if( !IsHostARelayForUsers( hostType ) )
+    if( !IsHostARelayForUsers( adminId.getHostType() ) )
     {
-        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost host type %s", DescribeHostType( hostType ) );
+        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost host type %s", DescribeHostType( adminId.getHostType() ) );
         return false;
     }
 
     // find the host id of the host we are connected to
-    GuiHosted* guiHosted = findHosted( hostOnlineId, hostType );
+    GuiHosted* guiHosted = findHosted( adminId );
     if( guiHosted )
     {
-        LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost found host %s", DescribeHostType( hostType ) );
+        LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost found host %s", DescribeHostType( adminId.getHostType() ) );
         wasLaunched = m_MyApp.getAppletMgr().launchClientApplet( guiHosted, parentPageFrame );
     }
     else
     {
-        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost no host %s", DescribeHostType( hostType ) );
+        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost no host %s", DescribeHostType( adminId.getHostType() ) );
     }
 
     return wasLaunched;

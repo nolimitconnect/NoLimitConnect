@@ -143,7 +143,7 @@ public:
     GuiFileXferMgr&             getFileXferMgr( void ) { return m_FileXferMgr; }
     GuiGroupieListMgr&          getGroupieListMgr( void ) { return m_GroupieListMgr; }
     GuiHostedListMgr&           getHostedListMgr( void ) { return m_HostedListMgr; }
-    GuiHostJoinMgr&             getHostJoinMgr( void ) { return m_HostJoinMgr; }
+    GuiHostedByMeJoinMgr&       getHostJoinMgr( void ) { return m_HostJoinMgr; }
     GuiUserJoinMgr&             getUserJoinMgr( void ) { return m_UserJoinMgr; }
     GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
     GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
@@ -595,6 +595,7 @@ public:
     bool                        checkSystemReady( void );
 
     std::string                 describeGroupieId( GroupieId& groupieId );
+    std::string                 describeHostedId( HostedId& hostedId );
     std::string                 describeUser( VxGUID& onlineId );
     std::string                 describeUser( GuiUser* guiUser );
 
@@ -865,7 +866,7 @@ protected:
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;
     GuiHostedListMgr			m_HostedListMgr;
-    GuiHostJoinMgr				m_HostJoinMgr;
+    GuiHostedByMeJoinMgr				m_HostJoinMgr;
     GuiUserJoinMgr				m_UserJoinMgr;
     GuiPlayerMgr                m_PlayerMgr;
     GuiPluginMgr                m_PluginMgr;

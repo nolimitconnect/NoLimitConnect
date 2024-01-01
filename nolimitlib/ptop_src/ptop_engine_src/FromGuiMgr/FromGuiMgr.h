@@ -1,0 +1,63 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2023 Brett R. Jones
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include <CoreLib/VxMutex.h>
+#include <CoreLib/VxSemaphore.h>
+#include <CoreLib/VxThread.h>
+
+#include <PktLib/GroupieId.h>
+
+#include <deque>
+
+// class to avoid stalling the gui thread
+// queues from gui action then calls the function from thread
+
+class FromGuiActionBase;
+class SearchParams;
+class P2PEngine;
+
+class FromGuiMgr
+{
+public:
+	FromGuiMgr( P2PEngine& engine );
+	virtual ~FromGuiMgr() = default;
+
+	void						fromGuMgrShutdown( void );
+
+	void						lockFromGuiQue( void )							{ m_FromGuiActionQueMutex.lock(); }
+	void						unlockFromGuiQue( void )						{ m_FromGuiActionQueMutex.unlock(); }
+
+	virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+	virtual void				fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId );
+
+	virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
+
+	void						fromGuiThreadWork( VxThread* workThread );
+
+protected:
+	void						queFromGuiAction( FromGuiActionBase* fromGuiAction );
+
+	//=== vars ===//
+    P2PEngine&					m_Engine;	
+
+	VxSemaphore					m_FromGuiSemaphore;
+	std::deque<FromGuiActionBase*>	m_FromGuiActionQue;
+	VxMutex						m_FromGuiActionQueMutex;
+
+	VxThread					m_WorkerThread;
+    std::string					m_WorkerThreadName;
+};
+
+
+

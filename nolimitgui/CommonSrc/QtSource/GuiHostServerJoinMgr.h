@@ -24,14 +24,14 @@ class AppCommon;
 class GuiHostJoinCallback;
 class GroupieId;
 
-class GuiHostJoinMgr : public QObject, public HostJoinCallbackInterface
+class GuiHostedByMeJoinMgr : public QObject, public HostJoinCallbackInterface
 {
     Q_OBJECT
 public:
-    GuiHostJoinMgr() = delete;
-    GuiHostJoinMgr( AppCommon& app );
-    GuiHostJoinMgr( const GuiHostJoinMgr& rhs ) = delete;
-	virtual ~GuiHostJoinMgr() = default;
+    GuiHostedByMeJoinMgr() = delete;
+    GuiHostedByMeJoinMgr( AppCommon& app );
+    GuiHostedByMeJoinMgr( const GuiHostedByMeJoinMgr& rhs ) = delete;
+	virtual ~GuiHostedByMeJoinMgr() = default;
     void                        onAppCommonCreated( void );
     void                        onMessengerReady( bool ready );
     bool                        isMessengerReady( void );

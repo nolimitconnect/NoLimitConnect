@@ -153,10 +153,10 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 				}
 				else
 				{
-					if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( hostType ) )
+					HostedId adminId( guiUser->getMyOnlineId(), hostType );
+					if( guiUser->isOnline() && m_MyApp.getUserJoinMgr().isUserJoinedToHost( adminId ) )
 					{
-						m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( hostType,
-																							 m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( hostType ),
+						m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( adminId,
 																							 getParentPageFrame() );
 					}
 					else

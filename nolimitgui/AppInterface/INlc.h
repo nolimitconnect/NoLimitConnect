@@ -421,12 +421,12 @@ public:
     virtual const char*		    fromGuiGetAppNameNoSpaces( void );
 
     virtual void				fromGuiAppStartup( const char* assetDir, const char* rootDataDir );
+    virtual void				fromGuiAppShutdown( void );
 
     virtual void				fromGuiSetUserXferDir( const char* userDir );
     virtual void				fromGuiSetUserSpecificDir( const char* userDir );
     virtual uint64_t			fromGuiGetDiskFreeSpace( void );
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType );
-    virtual void				fromGuiAppShutdown( void );
 
     virtual void				fromGuiAppPauseOrResume( bool isPaused );
 
@@ -472,13 +472,13 @@ public:
     virtual void				fromGuiNetworkLost( void );
     virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet );
 
-    virtual void				fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
-    virtual void				fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
-    virtual void				fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
-    virtual void				fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
-    virtual void				fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId );
+    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
+    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
+    virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
+    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
+    virtual void				fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread = false );
+    virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false );
 
-    virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
     virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId );
 
     virtual void				fromGuiDisconnectFromUser( VxGUID& onlineId );

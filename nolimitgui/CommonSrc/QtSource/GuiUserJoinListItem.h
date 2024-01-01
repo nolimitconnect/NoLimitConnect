@@ -60,7 +60,7 @@ protected:
 	//=== vars ===//
     AppCommon&					m_MyApp;
     GuiConnectIdListMgr&		m_ConnectIdListMgr;
-    GuiOfferMgr&			m_OfferMgr;
+    GuiOfferMgr&			    m_OfferMgr;
     GuiUserMgr&					m_UserMgr;
     GuiUserJoinMgr&				m_UserJoinMgr;
     bool                        m_IsThumbUpdated{ false };

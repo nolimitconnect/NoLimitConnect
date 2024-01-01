@@ -1271,76 +1271,128 @@ bool P2PEngine::fromGuiNearbyBroadcastEnable( bool enable )
 }
 
 //============================================================================
-void P2PEngine::fromGuiAnnounceHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+void P2PEngine::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
 {
-    //assureUserSpecificDirIsSet( "P2PEngine::fromGuiAnnounceHost" );
-    PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-    if( plugin )
-    {
-        plugin->fromGuiAnnounceHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
-    }
-}
-
-//============================================================================
-void P2PEngine::fromGuiJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
-{
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiJoinHost" );
-    PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-    if( plugin )
-    {
-        plugin->fromGuiJoinHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
-    }
-}
-
-//============================================================================
-void P2PEngine::fromGuiLeaveHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
-{
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiJoinHost" );
-	PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-	if( plugin )
+	if( fromThread )
 	{
-		plugin->fromGuiLeaveHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			plugin->fromGuiAnnounceHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
+		m_FromGuiMgr.fromGuiAnnounceHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiUnJoinHost( EHostType hostType, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+void P2PEngine::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiJoinHost" );
-	PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-	if( plugin )
+	if( fromThread )
 	{
-		plugin->fromGuiUnJoinHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			plugin->fromGuiJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
+		m_FromGuiMgr.fromGuiJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId )
+void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
 {
-	std::string hostUrlIpv4;
-	std::string hostUrlIpv6;
-	if( getUserJoinMgr().getLastJoinedHostUrl( hostType, hostUrlIpv4, hostUrlIpv6) )
+	if( fromThread )
+	{
+		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			plugin->fromGuiLeaveHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+		}
+	}
+	else
+	{
+		m_FromGuiMgr.fromGuiLeaveHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
+{
+	if( fromThread )
+	{
+		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			plugin->fromGuiUnJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+		}
+	}
+	else
+	{
+		m_FromGuiMgr.fromGuiUnJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread )
+{
+	if( fromThread )
+	{
+		std::string hostUrlIpv4;
+		std::string hostUrlIpv6;
+		if( getUserJoinMgr().getLastJoinedHostUrl( adminId.getHostType(), hostUrlIpv4, hostUrlIpv6) )
+		{
+			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+			if( plugin )
+			{
+				plugin->fromGuiJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+			}
+			else
+			{
+				LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+			}
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "P2PEngine::fromGuiJoinLastJoinedHost no last joined host url for host type %d", adminId.getHostType() );
+		}
+	}
+	else
+	{
+		m_FromGuiMgr.fromGuiJoinLastJoinedHost( adminId, sessionId );
+	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread )
+{
+	if( fromThread )
 	{
 		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
 		if( plugin )
 		{
-			plugin->fromGuiJoinHost( hostType, sessionId, hostUrlIpv4, hostUrlIpv6 );
+			plugin->fromGuiSearchHost( hostType, searchParams, enable );
 		}
 		else
 		{
@@ -1349,22 +1401,8 @@ void P2PEngine::fromGuiJoinLastJoinedHost( EHostType hostType, VxGUID& sessionId
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "P2PEngine::fromGuiJoinLastJoinedHost no last joined host url for host type %d", hostType );
+		m_FromGuiMgr.fromGuiSearchHost( hostType, searchParams, enable );
 	}
-}
-
-//============================================================================
-void P2PEngine::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )
-{
-    PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-    if( plugin )
-    {
-        plugin->fromGuiSearchHost( hostType, searchParams, enable );
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
-    }
 }
 
 //============================================================================

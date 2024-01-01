@@ -19,7 +19,7 @@
 
 class AppCommon;
 class GuiUser;
-class GuiHostJoinMgr;
+class GuiHostedByMeJoinMgr;
 
 class GuiHostJoin : public QWidget
 {
@@ -30,7 +30,7 @@ public:
     GuiHostJoin( const GuiHostJoin& rhs );
 	virtual ~GuiHostJoin() = default;
 
-    GuiHostJoinMgr&             getHostJoinMgr( void )                  { return m_HostJoinMgr; }
+    GuiHostedByMeJoinMgr&             getHostJoinMgr( void )                  { return m_HostJoinMgr; }
 
     void                        setUser( GuiUser* guiUser )             { m_GuiUser = guiUser; }
     GuiUser*                    getUser( void )                         { return m_GuiUser; }
@@ -55,7 +55,7 @@ public:
 
 protected:
     AppCommon&                  m_MyApp;
-    GuiHostJoinMgr&             m_HostJoinMgr;
+    GuiHostedByMeJoinMgr&             m_HostJoinMgr;
 
     GuiUser*                    m_GuiUser{ nullptr };
     GroupieId                   m_GroupieId;

@@ -94,6 +94,8 @@ public:
     static EHostType			hostTypeToEnum( QString hostType );
 
     static QString				describeHostSearchStatus( EHostSearchStatus searchStatus );
+    static QString				describeJoinStateConnectAction( EJoinState joinState );
+    static QString				describeJoinStateUserAction( EJoinState joinState );
     static QString				describeLanguage( ELanguageType language );
     //! Describe permission level ( and/or friend state )
     static QString				describePermissionLevel( EFriendState friendState );
