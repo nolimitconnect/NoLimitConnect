@@ -57,7 +57,19 @@ void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActiv
 
     if( wasUpdated )
     {
-        announceMemberActive( groupieId, memberActive );
+        if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+        {
+            if( memberActive )
+            {
+                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr myself member active with host %s", m_Engine.describeHostedId( groupieId.getHostedId() ).c_str() );
+            }
+            else
+            {
+                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr myself member NOT active with host %s", m_Engine.describeHostedId( groupieId.getHostedId() ).c_str() );
+            }
+
+            announceMemberActive( groupieId, memberActive );
+        }
     }
 }
 

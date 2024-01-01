@@ -771,7 +771,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             }
         }
 
-        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Adding New wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
+        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Add wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
         m_GuiUserUpdateClientList.push_back( callback );
         return;
     }
@@ -783,7 +783,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             GuiUserUpdateCallback* client = *iter;
             if( client == callback )
             {
-                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback %p at index %d", callback, idx );
+                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Remove wantToGuiUserUpdateCallback %p at index %d", callback, idx );
                 m_GuiUserUpdateClientList.erase( iter );
                 return;
             }

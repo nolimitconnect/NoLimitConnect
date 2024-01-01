@@ -80,7 +80,7 @@ private slots:
 protected:
     void                        removeHosted( VxGUID& onlineId, EHostType hostType );
     GuiHosted*                  findHosted( VxGUID& onlineId, EHostType hostType );
-    GuiHosted*                  findHosted( HostedId& hostTypeId );
+    GuiHosted*                  findHosted( HostedId& hostTypeId, bool calledFromUpdateHosted = false );
     GuiHosted*                  updateHostedInfo( HostedInfo& hostedInfo );
     void                        updateHostSearchResult( HostedInfo& hostedInfo, VxGUID& sessionId );
     

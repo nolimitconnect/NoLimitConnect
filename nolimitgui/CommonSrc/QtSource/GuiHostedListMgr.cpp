@@ -163,7 +163,7 @@ GuiHosted* GuiHostedListMgr::findHosted( VxGUID& onlineId, EHostType hostType )
 }
 
 //============================================================================
-GuiHosted* GuiHostedListMgr::findHosted( HostedId& adminId )
+GuiHosted* GuiHostedListMgr::findHosted( HostedId& adminId, bool calledFromUpdateHosted )
 {
     GuiHosted* guiHosted = nullptr;
     auto iter = m_HostedList.find( adminId );
@@ -172,7 +172,7 @@ GuiHosted* GuiHostedListMgr::findHosted( HostedId& adminId )
         guiHosted = iter->second;
     }
 
-    if( !guiHosted && adminId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
+    if( !guiHosted && !calledFromUpdateHosted && adminId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
     {
         GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
         if( m_MyApp.getMemberActiveMgr().isMemberActive( groupieId ) )
@@ -239,7 +239,7 @@ GuiHosted* GuiHostedListMgr::updateHosted( GuiUser* guiUser, EHostType hostType 
     }
 
     HostedId adminId( guiUser->getMyOnlineId(), hostType );
-    GuiHosted* guiHosted = findHosted( adminId );
+    GuiHosted* guiHosted = findHosted( adminId, true );
     
     if( !guiHosted )
     {

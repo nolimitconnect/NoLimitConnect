@@ -60,12 +60,16 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
                 m_Engine.getBigListMgr().updateMemberFriendship( groupieId.getUserOnlineId() );
             }
 
+            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
+
             m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
             BaseSessionInfo sessionInfo( hostUserSessionId );
             onUserJoinHostGranted( groupieId, sktBase, netIdent, sessionInfo );
         }
         else if( ePluginAccessLocked == hostReply->getAccessState() )
         {
+            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+
             m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFailPermission );
             if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
             {
@@ -74,6 +78,8 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
         }
         else
         {
+            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+
             m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
             if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
             {
