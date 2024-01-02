@@ -391,7 +391,7 @@ bool GuiUserMgr::isUserRelayed( VxGUID& onlineId )
 //============================================================================
 bool GuiUserMgr::isUserOnline( VxGUID& onlineId )
 {
-    if( onlineId == m_MyIdent->getMyOnlineId() )
+    if( onlineId == m_MyOnlineId )
     {
         return true;
     }
