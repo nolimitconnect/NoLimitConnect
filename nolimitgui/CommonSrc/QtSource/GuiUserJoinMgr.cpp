@@ -479,18 +479,23 @@ void GuiUserJoinMgr::announceUserJoinedToHostState( EHostType hostType, bool isJ
 EJoinState GuiUserJoinMgr::getUserJoinState( GroupieId& groupieId )
 {
     EJoinState joinState = m_MyApp.getEngine().getUserJoinMgr().getUserJoinState( groupieId );
+    bool isActive = m_MyApp.getMemberActiveMgr().isMemberActive( groupieId );
 
     if( ( eJoinStateJoinWasGranted == joinState || eJoinStateJoinIsGranted == joinState ) &&
         groupieId.getHostOnlineId() != groupieId.getUserOnlineId() )
-    {
-        bool isActive = m_MyApp.getMemberActiveMgr().isMemberActive( groupieId );
+    {    
         if( !isActive )
         {
             return eJoinStateJoinLeaveHost;
         }
     }
 
-    return m_MyApp.getEngine().getUserJoinMgr().getUserJoinState( groupieId );
+    if( isActive )
+    {
+        joinState = eJoinStateJoinIsGranted;
+    }
+
+    return joinState;
 }
 
 //============================================================================

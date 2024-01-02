@@ -79,6 +79,7 @@ bool GuiHosted::readyForClientLaunch( void )
     bool isReady{ false };
     GroupieId groupieId( getMyGroupieId() );
     EJoinState joinState = m_MyApp.getUserJoinMgr().getUserJoinState( groupieId );
+
     if( (m_MyApp.getConnectIdListMgr().isDirectConnect( m_GuiUser->getMyOnlineId() ) || m_MyApp.getConnectIdListMgr().isConnected( groupieId )) &&
         eJoinStateJoinIsGranted == joinState )
     {
