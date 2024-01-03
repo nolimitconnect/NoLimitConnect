@@ -45,8 +45,8 @@
 #include "GuiInterface/INlcEvents.h"
 #include "GuiInterface/IAudioInterface.h"
 
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobInfo.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <BlobXferMgr/BlobInfo.h>
+#include <Plugins/FileInfo.h>
 
 class AccountMgr;
 

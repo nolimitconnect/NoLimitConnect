@@ -13,9 +13,9 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinInfo.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <UserJoinMgr/UserJoinInfo.h>
+#include <UserJoinMgr/UserJoinMgr.h>
 
 #include <CoreLib/VxPtopUrl.h>
 #include <PktLib/VxCommon.h>

@@ -35,6 +35,13 @@ enum EAppModule
     eAppModuleVideoChat,
     eAppModulePersonalNotes,
     eAppModuleChatRoomClient,
+    eAppModuleChatRoomHost,
+    eAppModuleGroupClient,
+    eAppModuleGroupHost,
+    eAppModulePeerUserClient,
+    eAppModulePeerUsertHost,
+    eAppModuleRandomConnectClient,
+    eAppModuleRandomConnectHost,
     eAppModuleMessenger,
     eAppModuleVideoPhone,
     eAppModuleVoicePhone,
@@ -1388,7 +1395,7 @@ const char* DescribeXferAction( enum EXferAction xferAction );
 
 // for use in database mainly 
 // If you add a plugin type be sure to update getPluginName
-const char* getPluginName( enum EPluginType pluginType );
+const char* GetPluginName( enum EPluginType pluginType );
 
 //! convert Host Type to connect reason
 EConnectReason HostTypeToConnectAnnounceReason( enum EHostType hostType );

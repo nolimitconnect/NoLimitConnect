@@ -13,11 +13,11 @@
 #include "RcScanPic.h"
 #include "RcScan.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginCamServer.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <Plugins/PluginCamServer.h>
+#include <Plugins/PluginMgr.h>
 
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>

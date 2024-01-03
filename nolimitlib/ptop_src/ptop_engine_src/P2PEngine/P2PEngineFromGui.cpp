@@ -13,29 +13,29 @@
 
 #include "P2PConnectList.h"
 #include "../NetServices/NetServicesMgr.h"
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
+#include <Network/NetworkMgr.h>
+#include <Network/NetworkStateMachine.h>
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobMgr.h>
-#include <ptop_src/ptop_engine_src/NetworkTest/IsPortOpenTest.h>
-#include <ptop_src/ptop_engine_src/NetworkTest/RunUrlAction.h>
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetMgr.h>
+#include <BlobXferMgr/BlobMgr.h>
+#include <NetworkTest/IsPortOpenTest.h>
+#include <NetworkTest/RunUrlAction.h>
+#include <MediaProcessor/MediaProcessor.h>
 #include <MediaToolsLib/MediaTools.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileToXfer.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginFileShareServer.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginNetServices.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <BigListLib/BigListInfo.h>
+#include <Plugins/FileToXfer.h>
+#include <Plugins/PluginBase.h>
+#include <Plugins/PluginFileShareServer.h>
+#include <Plugins/PluginNetServices.h>
+#include <Plugins/PluginMgr.h>
 
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <UserJoinMgr/UserJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
-#include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
+#include <UrlMgr/UrlMgr.h>
 
 #include <NetLib/VxGetRandomPort.h>
 #include <NetLib/VxPeerMgr.h>

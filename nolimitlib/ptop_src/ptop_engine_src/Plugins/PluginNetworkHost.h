@@ -9,10 +9,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginBaseHostService.h"
+#include "PluginBaseNetworkService.h"
 #include "HostServerMgr.h"
 
-class PluginNetworkHost : public PluginBaseHostService
+class PluginNetworkHost : public PluginBaseNetworkService
 {
 public:
     PluginNetworkHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );

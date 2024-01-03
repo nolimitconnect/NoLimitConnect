@@ -9,12 +9,12 @@
 //============================================================================
 
 #include "FileInfoBaseMgr.h"
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 
 #include "PluginBase.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/PluginBase.h>
 #include <GuiInterface/IToGui.h>
 
 #include <PktLib/PktAnnounce.h>

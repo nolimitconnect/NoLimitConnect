@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include "HostedInfo.h"
 #include "HostedListDb.h"

@@ -12,12 +12,12 @@
 #include "PluginBase.h"
 #include "PluginMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/PluginBase.h>
+#include <UserJoinMgr/UserJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
-#include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
+#include <UrlMgr/UrlMgr.h>
 
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsHostJoin.h>

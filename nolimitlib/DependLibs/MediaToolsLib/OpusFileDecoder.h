@@ -11,7 +11,7 @@
 
 #include <config_appcorelibs.h>
 
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <MediaProcessor/MediaProcessor.h>
 #include "OpusCallbackInterface.h"
 #include "SndDefs.h"
 #include "MyOpusHeader.h"

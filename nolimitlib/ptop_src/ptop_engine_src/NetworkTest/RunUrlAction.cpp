@@ -12,13 +12,13 @@
 
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceHdr.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceUtils.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceUtils.h>
+#include <P2PEngine/P2PEngine.h>
+#include <NetServices/NetServiceHdr.h>
+#include <NetServices/NetServiceUtils.h>
+#include <Network/NetworkStateMachine.h>
+#include <Network/NetworkMgr.h>
+#include <UrlMgr/UrlMgr.h>
+#include <NetServices/NetServiceUtils.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>

@@ -8,9 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseInfo.h>
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
+#include <Plugins/FileInfo.h>
+#include <AssetBase/AssetBaseInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <PktLib/PktBlobEntry.h>

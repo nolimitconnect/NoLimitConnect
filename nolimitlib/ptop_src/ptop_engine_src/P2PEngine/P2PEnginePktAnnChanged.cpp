@@ -12,8 +12,8 @@
 #include "P2PConnectList.h"
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <Network/NetworkMgr.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <memory.h>
 

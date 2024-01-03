@@ -10,7 +10,7 @@
 
 #include "PluginAboutMePageServer.h"
 #include "PluginMgr.h"
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/PktsFileInfo.h>
 #include <CoreLib/VxGlobals.h>

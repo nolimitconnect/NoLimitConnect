@@ -15,7 +15,7 @@
 
 #include <GuiInterface/IDefs.h>
 
-#include <ptop_src/ptop_engine_src/Membership/MemberActiveCallback.h>
+#include <Membership/MemberActiveCallback.h>
 
 #include <CoreLib/VxMutex.h>
 #include <PktLib/GroupieId.h>

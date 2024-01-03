@@ -11,7 +11,7 @@
 
 #include "PluginBaseHostClient.h"
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include <CoreLib/VxMutex.h>
 
@@ -23,6 +23,8 @@ public:
 
     PluginGroupClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginGroupClient() override = default;
+
+    virtual EAppModule			getAppModule( void ) override { return eAppModuleGroupClient; }
 
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;

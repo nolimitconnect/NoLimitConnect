@@ -12,9 +12,9 @@
 #include "PluginBase.h"
 #include "PluginMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-//#include <ptop_src/ptop_engine_src/HostMgr/HostedEntry.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/PluginBase.h>
+//#include <HostMgr/HostedEntry.h>
 
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsHostJoin.h>

@@ -10,10 +10,10 @@
 
 #include "NetServiceUtils.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceHdr.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Network/NetworkMgr.h>
+#include <NetServices/NetServiceHdr.h>
+#include <NetServices/NetServicesMgr.h>
 
 #include <CoreLib/VxParse.h>
 #include <NetLib/VxSktConnectSimple.h>

@@ -10,9 +10,9 @@
 
 #include "PluginBaseFilesClient.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <ConnectIdListMgr/ConnectIdListMgr.h>
 
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsFileInfo.h>

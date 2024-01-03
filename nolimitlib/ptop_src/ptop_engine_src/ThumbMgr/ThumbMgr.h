@@ -11,7 +11,7 @@
 
 #include "ThumbInfoDb.h"
 
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseMgr.h>
+#include <AssetBase/AssetBaseMgr.h>
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/VxMutex.h>

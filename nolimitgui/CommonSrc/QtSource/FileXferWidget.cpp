@@ -13,7 +13,7 @@
 #include "MyIcons.h"
 
 #include "GuiFileXferSession.h"
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 

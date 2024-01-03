@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseXferMgr.h>
+#include <AssetBase/AssetBaseXferMgr.h>
 
 class PktBlobSendReq;
 class PktBlobSendReply;
@@ -20,7 +20,7 @@ class PktBlobListReply;
 class BlobXferMgr : public AssetBaseXferMgr
 {
 public:
-	BlobXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface, const char* stateDbName, const char* workThreadName );
+	BlobXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface );
 	virtual ~BlobXferMgr() = default;
 
 	virtual void				onPktBlobSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );

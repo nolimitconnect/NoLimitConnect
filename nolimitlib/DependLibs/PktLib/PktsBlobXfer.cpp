@@ -10,7 +10,7 @@
 
 #include "PktTypes.h"
 #include "PktsBlobXfer.h"
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobInfo.h>
+#include <BlobXferMgr/BlobInfo.h>
 
 #include <CoreLib/VxChop.h>
 #include <CoreLib/VxDebug.h>

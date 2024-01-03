@@ -14,13 +14,13 @@
 #include "RxSession.h"
 #include "TxSession.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxFileUtil.h>
 
 //============================================================================
 PluginNetworkSearchList::PluginNetworkSearchList( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-: PluginBaseHostService( engine, pluginMgr, myIdent, pluginType )
+: PluginBaseNetworkService( engine, pluginMgr, myIdent, pluginType )
 {
     setPluginType( ePluginTypeNetworkSearchList );
 }

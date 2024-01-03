@@ -14,7 +14,7 @@
 #include "AppCommon.h"
 #include "GuiParams.h"
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 //============================================================================
 DialogConfirmRemoveMessage::DialogConfirmRemoveMessage( AssetBaseInfo& assetInfo, QWidget* parent )

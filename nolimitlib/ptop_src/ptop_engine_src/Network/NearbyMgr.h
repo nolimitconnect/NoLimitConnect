@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "RcMulticast.h"
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetStatusAccum.h>
+#include <NetworkMonitor/NetStatusAccum.h>
 
 #include <CoreLib/VxGUID.h>
 

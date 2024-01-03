@@ -11,7 +11,7 @@
 #include "ConnectedListAll.h"
 #include "ConnectedInfo.h"
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <NetLib/VxSktBase.h>
 

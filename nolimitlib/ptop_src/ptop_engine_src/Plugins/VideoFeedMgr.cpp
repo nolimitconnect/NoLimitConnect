@@ -14,8 +14,8 @@
 #include "PluginSessionMgr.h"
 #include "P2PSession.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <P2PEngine/P2PEngine.h>
+#include <MediaProcessor/MediaProcessor.h>
 
 #include <PktLib/PktsVideoFeed.h>
 #include <NetLib/VxSktBase.h>

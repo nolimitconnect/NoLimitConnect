@@ -11,8 +11,8 @@
 #include "UserOnlineMgr.h"
 #include "UserOnlineCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/User/User.h>
+#include <P2PEngine/P2PEngine.h>
+#include <User/User.h>
 
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxSktBase.h>

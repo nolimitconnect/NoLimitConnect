@@ -9,11 +9,12 @@
 //============================================================================
 
 #include "PluginBaseHostService.h"
+#include "PluginNetServices.h"
 #include "PluginMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxPtopUrl.h>
@@ -26,7 +27,7 @@
 
 //============================================================================
 PluginBaseHostService::PluginBaseHostService( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-    : PluginNetServices( engine, pluginMgr, myIdent, pluginType )
+    : PluginBaseMultimedia( engine, pluginMgr, myIdent, pluginType )
     , m_HostServerMgr(engine, pluginMgr, myIdent, *this)
 {
 }
@@ -49,7 +50,8 @@ bool PluginBaseHostService::getHostedInfo( HostedInfo& hostedInfo )
         hostedInfo.setHostInviteUrl( true, m_HostInviteUrlIpv6 );
         hostedInfo.setHostTitle( m_HostTitle );
         hostedInfo.setHostDescription( m_HostDescription );
-        hostedInfo.setHostedId( getHostedId() );
+        HostedId hostedId( m_Engine.getMyOnlineId(), PluginTypeToHostType( getPluginType() ) );
+        hostedInfo.setHostedId( hostedId );
         VxGUID thumbId = m_Engine.getMyPktAnnounce().getHostThumbId( getHostType(), true );
         hostedInfo.setThumbId( thumbId );
 
@@ -63,7 +65,7 @@ bool PluginBaseHostService::getHostedInfo( HostedInfo& hostedInfo )
 //============================================================================
 bool PluginBaseHostService::setPluginSetting( PluginSetting& pluginSetting, int64_t modifiedTimeMs )
 {
-    bool result = PluginNetServices::setPluginSetting( pluginSetting, modifiedTimeMs );
+    bool result = PluginBaseMultimedia::setPluginSetting( pluginSetting, modifiedTimeMs );
     if( isPluginEnabled() && PluginShouldAnnounceToNetwork( getPluginType() ) )
     {
         buildHostAnnounce( pluginSetting );

@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/Network/ConnectRequest.h>
+#include <Network/ConnectRequest.h>
 
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxMutex.h>

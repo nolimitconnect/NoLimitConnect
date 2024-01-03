@@ -10,8 +10,8 @@
 
 #include "PluginSettingMgr.h"
 #include "PluginSettingDb.h"
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/PluginMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 

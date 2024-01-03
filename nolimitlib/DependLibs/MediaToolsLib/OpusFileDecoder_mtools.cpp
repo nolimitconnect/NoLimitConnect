@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "opus.h"
 #include "opus_types.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/IsBigEndianCpu.h>

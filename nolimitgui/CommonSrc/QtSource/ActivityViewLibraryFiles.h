@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 #include "ToGuiFileXferInterface.h"
 
 #include "ui_ActivityViewLibraryFiles.h"

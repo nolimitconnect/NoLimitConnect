@@ -11,7 +11,7 @@
 
 #include "PluginBaseFilesServer.h"
 
-#include <ptop_src/ptop_engine_src/Plugins/FileInfoLibraryMgr.h>
+#include <Plugins/FileInfoLibraryMgr.h>
 
 class PluginFileShareServer : public PluginBaseFilesServer
 {

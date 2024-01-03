@@ -20,10 +20,10 @@
 #include "AssetBaseRxSession.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <AssetMgr/AssetMgr.h>
+#include <Plugins/FileInfo.h>
 
 #include <PktLib/PktsAssetXfer.h>
 #include <PktLib/VxCommon.h>
@@ -60,13 +60,13 @@ namespace
 
 
 //============================================================================
-AssetBaseXferMgr::AssetBaseXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface, const char* stateDbName, const char* workThreadName )
+AssetBaseXferMgr::AssetBaseXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface )
 : m_Engine( engine )
 , m_AssetBaseMgr( assetMgr )
 , m_XferInterface( xferInterface )
 , m_PluginMgr( engine.getPluginMgr() )
-, m_AssetBaseXferDb( stateDbName )
-, m_WorkerThreadName( workThreadName )
+, m_AssetBaseXferDb( xferInterface.getAssetXferDbName() )
+, m_WorkerThreadName( xferInterface.getAssetXferThreadName() )
 {
 }
 
@@ -132,7 +132,7 @@ void AssetBaseXferMgr::assetXferThreadWork( VxThread* workThread )
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "assetXferThreadWork removing asset not found in list\n" );
+			LogMsg( LOG_ERROR, "assetXferThreadWork removing asset not found in list" );
 			m_AssetBaseXferDb.removeAsset( *iter );
 		}
 	}
@@ -1997,7 +1997,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
         completeReq->setLclSessionId( xferSession->getLclSessionId() );
         completeReq->setRmtSessionId( xferSession->getRmtSessionId() );
         completeReq->setAssetUniqueId( xferSession->getAssetBaseInfo().getAssetUniqueId() );
-        LogMsg( LOG_ERROR, "AssetBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
+        LogMsg( LOG_VERBOSE, "AssetBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
         AssetBaseInfo baseInfo = xferSession->getAssetBaseInfo();
         VxNetIdent* netIdent = xferSession->getIdent();
         std::shared_ptr<VxSktBase>& sktBase = xferSession->getSkt();
@@ -2049,7 +2049,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 
 		fclose( xferInfo.m_hFile );
 		xferInfo.m_hFile  = NULL;
-		LogMsg( LOG_INFO, "AssetBaseXferMgr: ERROR: %d reading send file at offset %ld when file len %ld file name %s",
+		LogMsg( LOG_ERROR, "AssetBaseXferMgr: ERROR: %d reading send file at offset %" PRId64 " when file len %" PRId64 "  file name %s",
 					rc,
 					xferInfo.m_u64FileOffs,
 					xferInfo.m_u64FileLen,

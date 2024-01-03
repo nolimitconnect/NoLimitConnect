@@ -10,7 +10,7 @@
 
 #include "RcScanMatchedConnection.h"
 
-#include <ptop_src/ptop_engine_src/Search/RcScan.h>
+#include <Search/RcScan.h>
 
 
 //============================================================================

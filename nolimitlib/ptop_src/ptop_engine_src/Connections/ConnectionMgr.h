@@ -14,9 +14,9 @@
 #include "ConnectReqInfo.h"
 #include "HandshakeList.h"
 
-#include <ptop_src/ptop_engine_src/Network/NetworkDefs.h>
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetStatusAccum.h>
-#include <ptop_src/ptop_engine_src/NetworkTest/RunUrlAction.h>
+#include <Network/NetworkDefs.h>
+#include <NetworkMonitor/NetStatusAccum.h>
+#include <NetworkTest/RunUrlAction.h>
 
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxGUIDList.h>

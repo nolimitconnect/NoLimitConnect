@@ -13,11 +13,11 @@
 #include "UserJoinInfoDb.h"
 #include "UserJoinCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBaseHostClient.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <BaseInfo/BaseSessionInfo.h>
+#include <Plugins/PluginMgr.h>
+#include <Plugins/PluginBaseHostClient.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>

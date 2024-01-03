@@ -11,7 +11,7 @@
 
 #include "PluginBaseHostService.h"
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include <PktLib/PktsHostInvite.h>
 #include <CoreLib/VxMutex.h>
@@ -21,6 +21,8 @@ class PluginGroupHost : public PluginBaseHostService, public IConnectRequestCall
 public:
     PluginGroupHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
     virtual ~PluginGroupHost() override = default;
+
+    virtual EAppModule			getAppModule( void ) override { return eAppModuleGroupHost; }
 
     virtual void				pluginStartup( void ) override;
 

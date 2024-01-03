@@ -14,9 +14,9 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbMgr.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <ThumbMgr/ThumbMgr.h>
+#include <ThumbMgr/ThumbInfo.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>

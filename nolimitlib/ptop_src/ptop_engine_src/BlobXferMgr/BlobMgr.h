@@ -11,8 +11,8 @@
 
 #include "BlobCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseMgr.h>
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobXferMgr.h>
+#include <AssetBase/AssetBaseMgr.h>
+#include <BlobXferMgr/BlobXferMgr.h>
 
 class PktFileListReply;
 

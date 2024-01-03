@@ -17,6 +17,8 @@ public:
     PluginRandomConnectClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginRandomConnectClient() override = default;
 
+    virtual EAppModule			getAppModule( void )		{ return eAppModuleRandomConnectClient; }
+
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;

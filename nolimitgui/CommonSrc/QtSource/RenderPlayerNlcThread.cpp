@@ -12,7 +12,7 @@
 #include <QWidget> // must be declared first or Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

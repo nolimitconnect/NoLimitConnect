@@ -11,14 +11,14 @@
 #include "HostedListMgr.h"
 #include "HostedListCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <UserJoinMgr/UserJoinMgr.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBaseHostService.h>
+#include <Plugins/PluginMgr.h>
+#include <Plugins/PluginBase.h>
+#include <Plugins/PluginBaseHostService.h>
 
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>

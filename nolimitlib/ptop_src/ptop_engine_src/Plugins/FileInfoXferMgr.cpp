@@ -18,9 +18,9 @@
 
 #include "FileInfoBaseMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/FileInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <PktLib/PktsFileShare.h>
@@ -1744,7 +1744,7 @@ EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxNetId
 
 		fclose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
-		LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR: %d reading send file at offset %ld when file len %ld file name %s",
+		LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR: %d reading send file at offset %" PRId64 " when file len %" PRId64 "  file name %s",
 			rc,
 			xferInfo.m_u64FileOffs,
 			xferInfo.m_u64FileLen,

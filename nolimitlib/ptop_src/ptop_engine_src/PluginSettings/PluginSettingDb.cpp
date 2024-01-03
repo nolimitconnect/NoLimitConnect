@@ -86,7 +86,7 @@ bool PluginSettingDb::updatePluginSetting( EPluginType pluginType, PluginSetting
     BinaryBlob settingBinary;
     if( pluginSetting.toBinary( settingBinary ) )
     {
-        std::string strPluginName = getPluginName( pluginType );
+        std::string strPluginName = GetPluginName( pluginType );
         if( !strPluginName.empty() && settingBinary.getBlobLen() )
         {
             DbBindList bindList( strPluginName.c_str() );
@@ -116,7 +116,7 @@ bool PluginSettingDb::updatePluginSetting( EPluginType pluginType, PluginSetting
 bool PluginSettingDb::getPluginSetting( EPluginType pluginType, PluginSetting& pluginSetting )
 {
     bool result = false;
-    std::string pluginName = getPluginName( pluginType );
+    std::string pluginName = GetPluginName( pluginType );
     if( !pluginName.empty() && pluginExistsInTable( pluginName, TABLE_PLUGIN_SETTING ) )
     {
         DbCursor * cursor = startQueryInsecure( "SELECT setting_blob FROM plugin_setting WHERE plugin_name='%s'", pluginName.c_str() );

@@ -12,14 +12,17 @@
 #include "P2PSession.h"
 #include "PluginMgr.h"
 
+#include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktBase.h>
+
 #include <PktLib/PktsVideoFeed.h>
 #include <PktLib/PktsMultiSession.h>
 #include <PktLib/PktsTodGame.h>
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetXferMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <AssetMgr/AssetMgr.h>
+#include <AssetMgr/AssetXferMgr.h>
 
 #include <memory.h>
 
@@ -33,7 +36,9 @@ PluginBaseMultimedia::PluginBaseMultimedia( P2PEngine& engine, PluginMgr& plugin
 , m_PluginSessionMgr( engine, *this, pluginMgr )
 , m_VoiceFeedMgr( engine, *this, m_PluginSessionMgr )
 , m_VideoFeedMgr( engine, *this, m_PluginSessionMgr )
-, m_AssetXferMgr( engine, engine.getAssetMgr(), *this, "MessengerAssets.db3", "MessengerXfer.db3" )
+, m_AssetXferMgr( engine, engine.getAssetMgr(), *this )
+, m_HostType( PluginTypeToHostType( pluginType ) )
+, m_HostedId( myIdent->getMyOnlineId(), m_HostType )
 {
 }
 
@@ -569,4 +574,210 @@ void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shar
 		m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 		LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline done" );
 	}
+}
+
+//============================================================================
+void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester )
+{
+    if( pktHdr && pktHdr->isValidPkt() )
+    {
+        bool sentToRequestor{ false };
+        VxGUID requestorSktConnectionId;
+        if( sktBaseRequester )
+        {
+            requestorSktConnectionId = sktBaseRequester->getSocketId();
+        }
+
+        std::set<ConnectId> connectIdSet;
+        std::set<ConnectId> relayedIdSet;
+        if( m_Engine.getConnectIdListMgr().getConnections( getHostedId(), connectIdSet, relayedIdSet ) )
+        {
+            for( auto& connectId : connectIdSet )
+            {
+                VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
+                VxGUID socketId = const_cast<ConnectId&>(connectId).getSocketId();
+                GroupieId groupieId = const_cast<ConnectId&>(connectId).getGroupieId();
+
+                m_Engine.getPeerMgr().lockSktList();
+                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
+                if( sktBase && sktBase->isConnected() )
+                {
+                    VxGUID peerOnlineId = sktBase->getPeerOnlineId();
+                    if( sktBase->getPeerOnlineId() != memberOnlineId )
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer %s id %s does NOT match user id %s for pkt %s",
+                                sktBase->getPeerOnlineName().c_str(), peerOnlineId.toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str(),
+                                pktHdr->describePktHdr().c_str() );
+                        m_Engine.getPeerMgr().unlockSktList();
+                        continue;
+                    }
+
+                    if( peerOnlineId == requesterOnlineId )
+                    {
+                        if( !includeRequester )
+                        {
+                            LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients excluding requestor %s id %s for pkt %s",
+                                    sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(), 
+                                    pktHdr->describePktHdr().c_str() );
+                            m_Engine.getPeerMgr().unlockSktList();
+                            continue;
+                        }
+
+                        sentToRequestor = true;
+                    }
+
+
+                    LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
+                               m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
+                    if(  txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
+                    {
+                        // should we log fail to send ?
+                    }
+                }
+
+                m_Engine.getPeerMgr().unlockSktList();
+            }
+        }
+
+        if( !sentToRequestor && includeRequester && sktBaseRequester && requesterOnlineId.isVxGUIDValid() )
+        {
+            // allways send to requester even if not still joined
+            txPacket( requesterOnlineId, sktBaseRequester, pktHdr, false, getClientPluginType() );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToHostClients invalid pkt %s host %s", pktHdr->describePktHdr().c_str(), DescribeHostType( getHostType() ) );
+    }
+}
+
+//============================================================================
+void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId )
+{
+    if( pktHdr && pktHdr->isValidPkt() )
+    {
+        std::set<ConnectId> connectIdSet;
+        std::set<ConnectId> relayedIdSet;
+        if( m_Engine.getConnectIdListMgr().getConnections( getHostedId(), connectIdSet, relayedIdSet ) )
+        {
+            for( auto& connectId : connectIdSet )
+            {
+                VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
+                VxGUID socketId = const_cast<ConnectId&>(connectId).getSocketId();
+                GroupieId groupieId = const_cast<ConnectId&>(connectId).getGroupieId();
+
+                m_Engine.getPeerMgr().lockSktList();
+                std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
+                if( sktBase && sktBase->isConnected() )
+                {
+                    if( sktBase->getPeerOnlineId() != memberOnlineId )
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does NOT match user id %s",
+                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                    }
+                    else
+                    {
+                        LogMsg( LOG_VERBOSE, "PluginBaseService::broadcastToClients peer id %s does match user id %s",
+                                sktBase->getPeerOnlineId().toOnlineIdString().c_str(), memberOnlineId.toOnlineIdString().c_str() );
+                    }
+
+                    bool isExcludeId = excludedOnlineId == sktBase->getPeerOnlineId();
+                    if( isExcludeId )
+                    {
+                        m_Engine.getPeerMgr().unlockSktList();
+                        continue;
+                    }
+
+                    LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
+                               m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
+                   
+                    if( !txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
+                    {
+                        // logging ?
+                    }
+                }
+
+                m_Engine.getPeerMgr().unlockSktList();
+            }
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "PluginBaseService::broadcastToHostClients invalid pkt %s host %s", pktHdr->describePktHdr().c_str(),  DescribeHostType( getHostType() ) );
+    }
+}
+
+//============================================================================
+EConnectReason PluginBaseMultimedia::getHostAnnounceConnectReason( void )
+{
+    EConnectReason connectReason = eConnectReasonUnknown;
+    switch( getPluginType() )
+    {
+    case ePluginTypeClientChatRoom:
+    case ePluginTypeHostChatRoom:
+        connectReason = eConnectReasonChatRoomAnnounce;
+        break;
+    case ePluginTypeClientGroup:
+    case ePluginTypeHostGroup:
+        connectReason = eConnectReasonGroupAnnounce;
+        break;
+    case ePluginTypeHostRandomConnect:
+    case ePluginTypeClientRandomConnect:
+        connectReason = eConnectReasonRandomConnectAnnounce;
+        break;
+    default:
+        break;
+    }
+
+    return connectReason;
+}
+
+//============================================================================
+EConnectReason PluginBaseMultimedia::getHostJoinConnectReason( void )
+{
+    EConnectReason connectReason = eConnectReasonUnknown;
+    switch( getPluginType() )
+    {
+    case ePluginTypeClientChatRoom:
+    case ePluginTypeHostChatRoom:
+        connectReason = eConnectReasonChatRoomJoin;
+        break;
+    case ePluginTypeClientGroup:
+    case ePluginTypeHostGroup:
+        connectReason = eConnectReasonGroupJoin;
+        break;
+    case ePluginTypeHostRandomConnect:
+    case ePluginTypeClientRandomConnect:
+        connectReason = eConnectReasonRandomConnectJoin;
+        break;
+    default:
+        break;
+    }
+
+    return connectReason;
+}
+
+//============================================================================
+EConnectReason PluginBaseMultimedia::getHostSearchConnectReason( void )
+{
+    EConnectReason connectReason = eConnectReasonUnknown;
+    switch( getPluginType() )
+    {
+    case ePluginTypeClientChatRoom:
+    case ePluginTypeHostChatRoom:
+        connectReason = eConnectReasonChatRoomSearch;
+        break;
+    case ePluginTypeClientGroup:
+    case ePluginTypeHostGroup:
+        connectReason = eConnectReasonGroupSearch;
+        break;
+    case ePluginTypeHostRandomConnect:
+    case ePluginTypeClientRandomConnect:
+        connectReason = eConnectReasonRandomConnectSearch;
+        break;
+    default:
+        break;
+    }
+
+    return connectReason;
 }

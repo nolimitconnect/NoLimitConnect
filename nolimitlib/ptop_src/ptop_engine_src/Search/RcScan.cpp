@@ -10,13 +10,13 @@
 
 #include "RcScan.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetConnector.h>
+#include <NetServices/NetServicesMgr.h>
+#include <Network/NetConnector.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginCamServer.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <Plugins/PluginCamServer.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>

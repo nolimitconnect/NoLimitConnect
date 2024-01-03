@@ -10,9 +10,9 @@
 
 
 #include "RelayMgr.h"
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>

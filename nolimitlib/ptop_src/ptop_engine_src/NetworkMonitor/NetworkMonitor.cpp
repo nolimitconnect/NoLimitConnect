@@ -12,9 +12,9 @@
 
 #include "../P2PEngine/P2PEngine.h"
 
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
+#include <NetServices/NetServicesMgr.h>
+#include <Network/NetworkStateMachine.h>
+#include <UrlMgr/UrlMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxPtopUrl.h>

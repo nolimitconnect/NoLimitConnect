@@ -16,9 +16,9 @@
 #include "GuiParams.h"
 
 #include <CoreLib/VxDebug.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <VxVideoLib/VxVideoLib.h>
 

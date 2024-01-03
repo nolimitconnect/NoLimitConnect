@@ -15,38 +15,38 @@
 #include "EngineSettings.h"
 #include "EngineParams.h"
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/Connections/ConnectionMgr.h>
-#include <ptop_src/ptop_engine_src/ConnectMgr/ConnectMgr.h>
-#include <ptop_src/ptop_engine_src/FromGuiMgr/FromGuiMgr.h>
-#include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieListMgr.h>
-#include <ptop_src/ptop_engine_src/HostListMgr/HostedListMgr.h>
-#include <ptop_src/ptop_engine_src/HostListMgr/HostUrlListMgr.h>
+#include <AssetMgr/AssetCallbackInterface.h>
+#include <BlobXferMgr/BlobCallbackInterface.h>
+#include <Connections/ConnectionMgr.h>
+#include <ConnectMgr/ConnectMgr.h>
+#include <FromGuiMgr/FromGuiMgr.h>
+#include <GroupieListMgr/GroupieListMgr.h>
+#include <HostListMgr/HostedListMgr.h>
+#include <HostListMgr/HostUrlListMgr.h>
 
-#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListMgr.h>
-#include <ptop_src/ptop_engine_src/IdentListMgrs/FriendListMgr.h>
-#include <ptop_src/ptop_engine_src/IdentListMgrs/IgnoreListMgr.h>
-#include <ptop_src/ptop_engine_src/IdentListMgrs/NearbyListMgr.h>
+#include <ConnectIdListMgr/ConnectIdListMgr.h>
+#include <IdentListMgrs/FriendListMgr.h>
+#include <IdentListMgrs/IgnoreListMgr.h>
+#include <IdentListMgrs/NearbyListMgr.h>
 
-#include <ptop_src/ptop_engine_src/Membership/MemberActiveMgr.h>
+#include <Membership/MemberActiveMgr.h>
 
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetStatusAccum.h>
-#include <ptop_src/ptop_engine_src/OfferBase/OfferMgr.h>
-#include <ptop_src/ptop_engine_src/PluginSettings/PluginSettingMgr.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbMgr.h>
-#include <ptop_src/ptop_engine_src/WebPageMgr/WebPageMgr.h>
+#include <NetworkMonitor/NetStatusAccum.h>
+#include <OfferBase/OfferMgr.h>
+#include <PluginSettings/PluginSettingMgr.h>
+#include <ThumbMgr/ThumbCallbackInterface.h>
+#include <ThumbMgr/ThumbMgr.h>
+#include <WebPageMgr/WebPageMgr.h>
 
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IFromGui.h>
 #include <GuiInterface/IAudioInterface.h>
 
-#include <ptop_src/ptop_engine_src/Relay/RelayMgr.h>
-#include <ptop_src/ptop_engine_src/Search/RcScan.h>
+#include <Relay/RelayMgr.h>
+#include <Search/RcScan.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginLibraryServer.h>
+#include <BigListLib/BigListMgr.h>
+#include <Plugins/PluginLibraryServer.h>
 
 #include <NetLib/VxSktDefs.h>
 #include <PktLib/PktAnnounce.h>

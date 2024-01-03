@@ -16,7 +16,7 @@
 #include "GuiParams.h"
 #include "GuiPlayerCallback.h"
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 #include <CoreLib/VxFileUtil.h>
 

@@ -11,7 +11,7 @@
 
 #include "AudioJitterBuffer.h"
 
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
 
 #include <PktLib/VxCommon.h>
 

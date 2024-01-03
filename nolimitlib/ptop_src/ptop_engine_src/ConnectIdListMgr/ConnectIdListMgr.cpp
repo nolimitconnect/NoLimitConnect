@@ -11,13 +11,13 @@
 #include "ConnectIdListMgr.h"
 #include "ConnectIdListCallback.h"
 
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <BaseInfo/BaseSessionInfo.h>
+#include <BigListLib/BigListInfo.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/PluginBase.h>
+#include <Plugins/PluginMgr.h>
 
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>

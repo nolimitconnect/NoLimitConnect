@@ -13,7 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
+#include <P2PEngine/EngineSettings.h>
 
 #include <QFileDialog>
 #ifdef _MSC_VER

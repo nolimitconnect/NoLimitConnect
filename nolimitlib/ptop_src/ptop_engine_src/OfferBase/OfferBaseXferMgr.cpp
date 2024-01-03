@@ -20,12 +20,12 @@
 #include "OfferBaseRxSession.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseRxSession.h>
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseTxSession.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
+#include <OfferBase/OfferBaseRxSession.h>
+#include <OfferBase/OfferBaseTxSession.h>
+#include <Plugins/FileInfo.h>
 
 #include <PktLib/PktsOfferXfer.h>
 #include <PktLib/VxCommon.h>
@@ -1609,7 +1609,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 
 		fclose( xferInfo.m_hFile );
 		xferInfo.m_hFile  = NULL;
-		LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR: %d reading send file at offset %ld when file len %ld file name %s",
+		LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR: %d reading send file at offset %" PRId64 " when file len %" PRId64 "  file name %s",
 					rc,
 					xferInfo.m_u64FileOffs,
 					xferInfo.m_u64FileLen,

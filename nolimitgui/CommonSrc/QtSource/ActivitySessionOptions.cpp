@@ -14,7 +14,7 @@
 #include "ActivitySessionOptions.h"
 #include "AppGlobals.h"
 #include "MyIcons.h"
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 //============================================================================
 ActivitySessionOptions::ActivitySessionOptions(	AppCommon&			app,

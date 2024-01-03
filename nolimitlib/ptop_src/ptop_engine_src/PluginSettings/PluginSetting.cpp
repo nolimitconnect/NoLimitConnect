@@ -10,7 +10,7 @@
 
 #include "PluginSetting.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/PktBlobEntry.h>
 #include <CoreLib/BinaryBlob.h>

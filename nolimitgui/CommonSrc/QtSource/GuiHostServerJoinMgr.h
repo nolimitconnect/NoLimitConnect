@@ -11,8 +11,8 @@
 
 #include "GuiHostJoin.h"
 
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinInfo.h>
+#include <HostServerJoinMgr/HostJoinCallbackInterface.h>
+#include <HostServerJoinMgr/HostJoinInfo.h>
 
 #include <set>
 

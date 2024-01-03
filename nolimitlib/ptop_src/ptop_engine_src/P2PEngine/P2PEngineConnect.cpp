@@ -10,20 +10,20 @@
 
 #include "P2PEngine.h"
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/Network/NetConnector.h>
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetworkMonitor.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <Network/NetConnector.h>
+#include <NetworkMonitor/NetworkMonitor.h>
+#include <Network/NetworkStateMachine.h>
+#include <Network/NetworkMgr.h>
+#include <NetServices/NetServicesMgr.h>
 
 #include "P2PConnectList.h"
 
-#include <ptop_src/ptop_engine_src/Network/NetworkDefs.h> 
-#include <ptop_src/ptop_engine_src/Network/ConnectRequest.h> 
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+#include <Network/NetworkDefs.h> 
+#include <Network/ConnectRequest.h> 
+#include <Plugins/PluginMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <BigListLib/BigListInfo.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>
 #include <CoreLib/VxParse.h>

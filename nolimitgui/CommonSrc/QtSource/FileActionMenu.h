@@ -11,7 +11,7 @@
 
 #include "ActivityBase.h"
 #include "ui_FileActionMenu.h"
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 
 class VxNetIdent;
 class AppCommon;

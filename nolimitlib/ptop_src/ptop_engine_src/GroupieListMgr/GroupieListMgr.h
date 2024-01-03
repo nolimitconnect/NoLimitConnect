@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include "GroupieInfo.h"
 #include "GroupieListDb.h"
@@ -23,7 +23,7 @@ class VxPktHdr;
 class VxPtopUrl;
 class GroupieListCallbackInterface;
 class PluginBase;
-class PluginBaseHostService;
+class PluginBaseNetworkService;
 class BaseSessionInfo;
 
 class GroupieListMgr : public IConnectRequestCallback
@@ -56,14 +56,14 @@ public:
     void                        groupieSearchResult( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, GroupieInfo& groupieInfo );
     void                        groupieSearchCompleted( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, enum ECommErr commErr );
 
-    virtual void				onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBaseHostService* plugin );
+    virtual void				onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBase* plugin );
     virtual void				onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin );
 
-    virtual void				onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBaseHostService* plugin );
+    virtual void				onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBase* plugin );
     virtual void				onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin );
-    virtual void				onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBaseHostService* plugin );
+    virtual void				onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBase* plugin );
     virtual void				onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin );
-    virtual void				onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBaseHostService* plugin );
+    virtual void				onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, enum ECommErr commErr, PluginBase* plugin );
     virtual void				onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin );
 
     void                        onGroupieAnnounceAdded( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );

@@ -11,7 +11,7 @@
 
 #include <QWidget>
 
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 
 #define FILE_STATUS_DOWNLOADING			0x0001
 #define FILE_STATUS_UPLOADING			0x0002

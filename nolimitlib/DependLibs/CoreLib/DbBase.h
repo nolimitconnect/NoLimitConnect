@@ -107,7 +107,7 @@ public:
 class DbBase
 {
 public:
-	DbBase( const char* databaseName );	
+	DbBase( std::string databaseName );	
 	virtual ~DbBase() = default;
 
     virtual std::string&        getDatabaseName( void )                 { return m_strDatabaseName; }
@@ -125,9 +125,7 @@ public:
 
 	//! Initialize the database.. if doesn't exist then call onCreateDatabase and onCreateTables
 	//! if version does not match then call onDeleteTables and onCreateTables
-	virtual RCODE				dbStartup( int iDbVersion, const char* pDbFileName );
-	//! if version does not match then call onDeleteTables and onCreateTables
-	virtual RCODE				dbStartup( int iDbVersion, std::string& strDbFileName ) { return dbStartup( iDbVersion, strDbFileName.c_str() ); }
+	virtual RCODE				dbStartup( int iDbVersion, std::string pDbFileName );
 
 	//! shutdown the database
 	virtual RCODE				dbShutdown( void );

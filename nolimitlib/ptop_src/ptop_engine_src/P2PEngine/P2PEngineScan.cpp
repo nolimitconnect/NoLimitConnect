@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Search/RcScan.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Search/RcScan.h>
 
 //============================================================================
 void P2PEngine::fromGuiStartScan( EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern )

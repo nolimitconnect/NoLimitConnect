@@ -10,7 +10,7 @@
 
 #include "PluginBase.h"
 
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbMgr.h>
+#include <ThumbMgr/ThumbMgr.h>
 
 //============================================================================
 void PluginBase::onInvalidRxedPacket( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, const char* msg )

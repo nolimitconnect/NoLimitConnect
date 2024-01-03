@@ -8,10 +8,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Search/RcScan.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Search/RcScan.h>
+#include <BigListLib/BigListInfo.h>
+#include <BigListLib/BigListMgr.h>
 #include <PktLib/VxCommon.h>
 
 //============================================================================

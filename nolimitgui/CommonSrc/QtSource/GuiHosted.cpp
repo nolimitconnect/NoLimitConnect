@@ -13,7 +13,7 @@
 #include "GuiHostedListMgr.h"
 #include "GuiParams.h"
 
-#include <ptop_src/ptop_engine_src/HostListMgr/HostedInfo.h>
+#include <HostListMgr/HostedInfo.h>
 
 //============================================================================
 GuiHosted::GuiHosted( AppCommon& app )

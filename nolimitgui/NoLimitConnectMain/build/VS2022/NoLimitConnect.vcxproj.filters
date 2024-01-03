@@ -2236,6 +2236,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.cpp">
       <Filter>Source Files\InputWidgets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">

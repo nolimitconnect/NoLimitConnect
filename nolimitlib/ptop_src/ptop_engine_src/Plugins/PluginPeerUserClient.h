@@ -11,7 +11,7 @@
 
 #include "PluginBaseHostClient.h"
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include <CoreLib/VxMutex.h>
 
@@ -26,6 +26,8 @@ public:
 
     PluginPeerUserClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginPeerUserClient() override = default;
+
+    virtual EAppModule			getAppModule( void ) override { return eAppModulePeerUserClient; }
 
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;

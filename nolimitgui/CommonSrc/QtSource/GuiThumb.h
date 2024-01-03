@@ -12,7 +12,7 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include <PktLib/VxCommon.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbInfo.h>
+#include <ThumbMgr/ThumbInfo.h>
 
 class AppCommon;
 class GuiThumbMgr;

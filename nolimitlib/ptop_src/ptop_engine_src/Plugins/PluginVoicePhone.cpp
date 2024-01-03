@@ -14,7 +14,7 @@
 #include "P2PSession.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/PktVoiceReq.h>
 #include <PktLib/PktVoiceReply.h>

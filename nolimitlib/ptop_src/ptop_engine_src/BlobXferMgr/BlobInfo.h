@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseInfo.h>
+#include <AssetBase/AssetBaseInfo.h>
 
 class BlobInfo : public AssetBaseInfo
 {

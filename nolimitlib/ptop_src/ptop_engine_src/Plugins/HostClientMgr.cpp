@@ -12,11 +12,11 @@
 #include "PluginBase.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+#include <BigListLib/BigListInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BaseInfo/BaseSessionInfo.h>
+#include <UserJoinMgr/UserJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsHostSearch.h>

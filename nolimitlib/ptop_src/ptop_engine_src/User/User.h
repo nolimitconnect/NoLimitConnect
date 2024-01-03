@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
+#include <BaseInfo/BaseSessionInfo.h>
 
 #include <CoreLib/VxMutex.h>
 

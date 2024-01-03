@@ -13,10 +13,10 @@
 #include "ThumbInfoDb.h"
 #include "ThumbCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/PluginMgr.h>
+#include <Plugins/PluginBase.h>
+#include <BigListLib/BigListInfo.h>
 #include <GuiInterface/IToGui.h>
 
 #include <PktLib/PktAnnounce.h>

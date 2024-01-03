@@ -11,8 +11,8 @@
 #include "DirectConnectTester.h"
 #include "NetworkStateMachine.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <NetServices/NetServicesMgr.h>
 
 namespace
 {

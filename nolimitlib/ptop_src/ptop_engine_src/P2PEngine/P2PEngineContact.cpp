@@ -8,13 +8,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <Network/NetworkStateMachine.h>
+#include <NetServices/NetServicesMgr.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigList.h>
+#include <BigListLib/BigListInfo.h>
+#include <BigListLib/BigList.h>
 
 #include <time.h>
 #include <stdio.h>

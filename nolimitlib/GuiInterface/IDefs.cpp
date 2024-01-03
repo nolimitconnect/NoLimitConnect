@@ -459,7 +459,6 @@ namespace
         "Plugin Library Server ",
     };
 
-
     const char* PortOpenStatusEnumStrings[] =
     { 
         "Port Open: Status Unknown",
@@ -1333,7 +1332,7 @@ const char* DescribeXferAction( enum EXferAction xferAction )
 
 //============================================================================
 // for use in database mainly
-const char* getPluginName( enum EPluginType pluginType )
+const char* GetPluginName( enum EPluginType pluginType )
 {
     switch( pluginType )
     {

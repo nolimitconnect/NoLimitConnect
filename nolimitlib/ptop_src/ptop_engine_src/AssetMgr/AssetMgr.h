@@ -9,8 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseMgr.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetXferMgr.h>
+#include <AssetBase/AssetBaseMgr.h>
+#include <AssetMgr/AssetXferMgr.h>
 
 class AssetMgr : public AssetBaseMgr
 {

@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseMgr.h>
+#include <OfferBase/OfferBaseMgr.h>
 
 #include <CoreLib/VxThread.h>
 #include <CoreLib/VxSemaphore.h>

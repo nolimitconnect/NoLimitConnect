@@ -11,7 +11,7 @@
 
 #include "PluginBaseHostService.h"
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include <PktLib/PktsHostInvite.h>
 #include <CoreLib/VxMutex.h>
@@ -22,6 +22,8 @@ public:
 
     PluginRandomConnectHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginRandomConnectHost() override = default;
+
+    virtual EAppModule			getAppModule( void )		{ return eAppModuleRandomConnectHost; }
 
     virtual void				pluginStartup( void ) override;
 

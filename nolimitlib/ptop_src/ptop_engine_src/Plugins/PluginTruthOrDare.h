@@ -11,16 +11,18 @@
 
 #include <PktLib/VxCommon.h>
 
-#include "PluginBase.h"
+#include "PluginBaseMultimedia.h"
 #include "PluginSessionMgr.h"
 #include "VoiceFeedMgr.h"
 #include "VideoFeedMgr.h"
 
-class PluginTruthOrDare : public PluginBase
+class PluginTruthOrDare : public PluginBaseMultimedia
 {
 public:
 	PluginTruthOrDare( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginTruthOrDare() = default;
+
+    virtual EAppModule			getAppModule( void ) override { return eAppModuleTruthOrDare; }
 
 	virtual bool				fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
     virtual bool				fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;

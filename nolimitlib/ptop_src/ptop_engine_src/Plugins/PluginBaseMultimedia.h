@@ -22,6 +22,9 @@ public:
 
     virtual EAppModule          getAppModule( void ) = 0;
 
+    EHostType                   getHostType( void ) override        { return m_HostType; }
+    HostedId&                   getHostedId( void )                 { return m_HostedId; }
+
     virtual void				fromGuiUserLoggedOn( void ) override;
 
 	virtual bool				fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
@@ -36,6 +39,9 @@ public:
 
     virtual bool				fromGuiSetGameValueVar(	VxNetIdent* netIdent, int32_t varId, int32_t varValue ) override;
     virtual bool				fromGuiSetGameActionVar( VxNetIdent* netIdent, int32_t	actionId, int32_t actionValue ) override;
+
+    void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester = true ) override;
+    void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId ) override;
 
 protected:
 
@@ -86,11 +92,18 @@ protected:
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override;
 	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override;
 
+    EConnectReason              getHostAnnounceConnectReason( void );
+    EConnectReason              getHostJoinConnectReason( void );
+    EConnectReason              getHostSearchConnectReason( void );
+
 	//=== vars ===
 	PluginSessionMgr			m_PluginSessionMgr;
 	VoiceFeedMgr				m_VoiceFeedMgr;
 	VideoFeedMgr				m_VideoFeedMgr;
+
     AssetXferMgr                m_AssetXferMgr;
+    EHostType                   m_HostType{ eHostTypeUnknown };
+    HostedId                    m_HostedId;
 };
 
 

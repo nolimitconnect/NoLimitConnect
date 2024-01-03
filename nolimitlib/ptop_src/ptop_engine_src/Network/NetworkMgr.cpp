@@ -11,11 +11,11 @@
 #include "NetworkMgr.h"
 #include "NetworkDefs.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PConnectList.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListMgr.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetworkMonitor.h>
+#include <P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PConnectList.h>
+#include <BigListLib/BigListMgr.h>
+#include <BigListLib/BigListInfo.h>
+#include <NetworkMonitor/NetworkMonitor.h>
 
 #include <NetLib/VxSktBase.h>
 #include <NetLib/VxPeerMgr.h>

@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "HostServerSearchMgr.h"
-#include <ptop_src/ptop_engine_src/User/UserList.h>
+#include <User/UserList.h>
 
 #include <PktLib/PktsHostInvite.h>
 #include <PktLib/PluginId.h>

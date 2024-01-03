@@ -11,8 +11,8 @@
 #include "BigListDb.h"
 #include "BigListInfo.h"
 #include "BigListMgr.h"
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Network/NetworkMgr.h>
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/sqlite3.h>

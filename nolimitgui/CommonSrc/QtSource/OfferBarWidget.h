@@ -13,7 +13,7 @@
 
 #include "GuiOfferCallback.h"
 
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
 
 #include "ui_OfferBarWidget.h"
 #include <QListWidgetItem>

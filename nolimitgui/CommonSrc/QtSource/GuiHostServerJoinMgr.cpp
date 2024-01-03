@@ -12,9 +12,9 @@
 #include "GuiHostJoinCallback.h"
 #include "AppCommon.h"
 
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinInfo.h>
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <HostServerJoinMgr/HostJoinInfo.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 //============================================================================
 GuiHostedByMeJoinMgr::GuiHostedByMeJoinMgr( AppCommon& app )

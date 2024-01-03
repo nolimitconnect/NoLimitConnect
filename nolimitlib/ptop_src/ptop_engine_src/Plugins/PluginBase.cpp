@@ -14,7 +14,7 @@
 #include "RxSession.h"
 #include "TxSession.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/PktsPluginOffer.h>
 #include <PktLib/PktsHostInvite.h>
@@ -46,9 +46,11 @@ PluginBase::PluginBase( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myI
 , m_PluginMgr( pluginMgr )
 , m_AssetMgr( engine.getAssetMgr() )
 , m_ThumbMgr( engine.getThumbMgr() )
-, m_ThumbXferMgr( engine, engine.getThumbMgr(), *this, getThumbXferDbName(pluginType).c_str(), getThumbXferThreadName(pluginType).c_str() )
+, m_ThumbXferInterface( *this )
+, m_ThumbXferMgr( engine, engine.getThumbMgr(), m_ThumbXferInterface )
 , m_MyIdent( myIdent )
 {
+    m_PluginSetting.setPluginType( pluginType );
 }
 
 //============================================================================

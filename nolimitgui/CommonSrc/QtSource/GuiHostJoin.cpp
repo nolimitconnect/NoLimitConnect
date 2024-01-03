@@ -13,7 +13,7 @@
 #include "GuiHostServerJoinMgr.h"
 #include "GuiParams.h"
 #include "GuiUser.h"
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostJoinInfo.h>
+#include <HostServerJoinMgr/HostJoinInfo.h>
 
 //============================================================================
 GuiHostJoin::GuiHostJoin( AppCommon& app )

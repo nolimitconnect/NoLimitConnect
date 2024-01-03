@@ -9,9 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginBaseHostService.h"
+#include "PluginBaseNetworkService.h"
 
-class PluginNetworkSearchList : public PluginBaseHostService
+class PluginNetworkSearchList : public PluginBaseNetworkService
 {
 public:
 

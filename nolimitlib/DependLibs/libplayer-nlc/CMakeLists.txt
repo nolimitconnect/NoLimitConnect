@@ -1504,6 +1504,7 @@ target_include_directories(player-nlc
     ../libpcre
     ../libfreetype/include
     ../libpthread 
+    ../../ptop_src/ptop_engine_src
 )
 
 target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)

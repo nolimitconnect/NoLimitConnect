@@ -10,7 +10,7 @@
 
 #include "PktTypes.h"
 #include "PktsBaseXfer.h"
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 #include <CoreLib/VxChop.h>
 #include <CoreLib/VxDebug.h>

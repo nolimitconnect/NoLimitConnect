@@ -21,11 +21,11 @@
 #include "NetworkEventAvail.h"
 #include "NetworkEventLost.h"
 
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetConnector.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <Network/NetworkMgr.h>
+#include <Network/NetConnector.h>
+#include <NetServices/NetServicesMgr.h>
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <NetLib/VxSktUtil.h>

@@ -16,7 +16,7 @@
 #include "TodGameSession.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/PktsTodGame.h>
 #include <PktLib/PktChatReq.h>
@@ -28,7 +28,7 @@
 
 //============================================================================
 PluginTruthOrDare::PluginTruthOrDare( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-: PluginBase( engine, pluginMgr, myIdent, pluginType )
+: PluginBaseMultimedia( engine, pluginMgr, myIdent, pluginType )
 , m_PluginSessionMgr( engine, *this, pluginMgr )
 , m_VoiceFeedMgr( engine, *this, m_PluginSessionMgr )
 , m_VideoFeedMgr( engine, *this, m_PluginSessionMgr )

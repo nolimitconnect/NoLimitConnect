@@ -9,13 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginBaseHostService.h"
+#include "PluginBaseNetworkService.h"
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 class NetServicesMgr;
 
-class PluginConnectionTestHost : public PluginBaseHostService
+class PluginConnectionTestHost : public PluginBaseNetworkService
 {
 public:
 

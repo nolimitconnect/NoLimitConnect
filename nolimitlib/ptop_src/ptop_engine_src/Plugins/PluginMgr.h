@@ -10,8 +10,8 @@
 //============================================================================
 
 #include <GuiInterface/IFromGui.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceUtils.h>
-#include <ptop_src/ptop_engine_src/Network/ConnectRequest.h>
+#include <NetServices/NetServiceUtils.h>
+#include <Network/ConnectRequest.h>
 
 #include <CoreLib/VxMutex.h>
 

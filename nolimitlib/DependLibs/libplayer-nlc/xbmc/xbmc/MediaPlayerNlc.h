@@ -8,7 +8,7 @@
 #include <GuiInterface/IMediaPlayerInterface.h>
 #include <GuiInterface/IDefs.h>
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 class MediaPlayerNlc : public CApplication, public IMediaPlayerRequests
 {

@@ -263,7 +263,7 @@ bool DbBindList::getNext( DbBindParam** ppBindParam )
 }
 
 //============================================================================
-DbBase::DbBase( const char* databaseName ) 
+DbBase::DbBase( std::string databaseName ) 
 : m_strDatabaseName( databaseName )
 , m_bDbInitialized(0)
 , m_iDbVersion(0)
@@ -273,14 +273,14 @@ DbBase::DbBase( const char* databaseName )
 
 //============================================================================
 //! Initialize the database.. if doesn't exist then call DbCreateDatabase and DbCreateTables
-RCODE DbBase::dbStartup( int iDbVersion, const char* pDbName )
+RCODE DbBase::dbStartup( int iDbVersion, std::string pDbName )
 {
 	// in theory although sqlite is not thread safe you should be able to access multiple separate instances as same time by different threads.
 	// Just to make sure we are only allowing one startup of database at a time
 	g_DbBaseStartupMutex.lock();
 	RCODE rc = 0;
 
-	vx_assert( pDbName );
+	vx_assert( !pDbName.empty() );
 	m_strDbFileName = pDbName;
 	m_iDbVersion = iDbVersion;
 

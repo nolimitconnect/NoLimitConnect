@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseHostInfo.h>
+#include <BaseInfo/BaseHostInfo.h>
 
 #include <CoreLib/VxPtopUrl.h>
 

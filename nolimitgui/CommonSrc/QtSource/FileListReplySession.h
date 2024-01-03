@@ -11,7 +11,7 @@
 
 #include <QObject>
 
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxSha1Hash.h>

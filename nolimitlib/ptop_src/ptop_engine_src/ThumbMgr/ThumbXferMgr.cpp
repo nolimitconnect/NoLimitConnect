@@ -19,10 +19,10 @@
 #include "ThumbRxSession.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseMgr.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <AssetBase/AssetBaseMgr.h>
+#include <AssetMgr/AssetMgr.h>
 
 #include <PktLib/PktsAssetXfer.h>
 #include <PktLib/VxCommon.h>
@@ -38,8 +38,8 @@
 #include <stdio.h>
 
 //============================================================================
-ThumbXferMgr::ThumbXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface, const char* stateDbName, const char* workThreadName )
-    : AssetBaseXferMgr( engine, assetMgr, xferInterface, stateDbName, workThreadName )
+ThumbXferMgr::ThumbXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface )
+    : AssetBaseXferMgr( engine, assetMgr, xferInterface )
 {
 }
 

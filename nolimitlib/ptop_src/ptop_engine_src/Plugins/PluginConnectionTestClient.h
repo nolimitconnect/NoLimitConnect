@@ -9,11 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginBaseHostClient.h"
+#include "PluginBaseNetworkService.h"
 
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <NetServices/NetServicesMgr.h>
 
-class PluginConnectionTestClient : public PluginBaseHostClient
+class PluginConnectionTestClient : public PluginBaseNetworkService
 {
 public:
     PluginConnectionTestClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
@@ -35,5 +35,5 @@ protected:
     void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
 
     //=== vars ===//
-    NetServicesMgr&				m_NetServicesMgr;
+    NetServicesMgr&				m_NetServicesMgr;  
 };

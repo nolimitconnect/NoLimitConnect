@@ -651,6 +651,7 @@
     <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginBaseHostClient.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginBaseHostService.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginBaseMultimedia.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginBaseNetworkService.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginBasePktHandlers.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginBaseService.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\PluginCamClient.cpp" />
@@ -703,6 +704,7 @@
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbRxSession.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbTxSession.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferDb.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferInterface.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferPktCreate.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferSession.cpp" />
@@ -898,6 +900,7 @@
     <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginBaseHostClient.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginBaseHostService.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginBaseMultimedia.h" />
+    <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginBaseNetworkService.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginBaseService.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginCamClient.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\PluginCamServer.h" />
@@ -951,6 +954,7 @@
     <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbRxSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbTxSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferDb.h" />
+    <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\UrlMgr\UrlMgr.h" />

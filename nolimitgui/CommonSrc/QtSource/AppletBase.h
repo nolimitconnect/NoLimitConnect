@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 class AppletBase : public ActivityBase
 {

@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseCallbackInterface.h>
+#include <AssetBase/AssetBaseCallbackInterface.h>
 
 class ThumbInfo;
 

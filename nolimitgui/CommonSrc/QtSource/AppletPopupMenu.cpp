@@ -31,8 +31,8 @@
 #include "GuiHostSession.h"
 #include "GuiHostedListSession.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <AssetMgr/AssetMgr.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>

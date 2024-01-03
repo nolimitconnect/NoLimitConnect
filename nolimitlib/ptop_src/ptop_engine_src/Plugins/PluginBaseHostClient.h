@@ -9,10 +9,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginBase.h"
+#include "PluginBaseMultimedia.h"
 #include "HostClientMgr.h"
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
+#include <Connections/IConnectRequest.h>
 
 #include <PktLib/PktsHostInvite.h>
 #include <CoreLib/VxGUIDList.h>
@@ -20,7 +20,7 @@
 class VxNetIdent;
 class ConnectionMgr;
 
-class PluginBaseHostClient : public PluginBase, public IConnectRequestCallback
+class PluginBaseHostClient : public PluginBaseMultimedia, public IConnectRequestCallback
 {
 public:
 

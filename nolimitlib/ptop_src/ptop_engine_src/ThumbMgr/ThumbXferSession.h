@@ -12,7 +12,7 @@
 #include <config_appcorelibs.h>
 
 #include "ThumbInfo.h"
-#include <ptop_src/ptop_engine_src/AssetBase/AssetBaseXferSession.h>
+#include <AssetBase/AssetBaseXferSession.h>
 
 #include <NetLib/VxFileXferInfo.h>
 

@@ -12,7 +12,7 @@
 #include "ToGuiActivityInterface.h"
 #include "AppletBase.h"
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 #include <QWidget>
 #include <QListWidgetItem>

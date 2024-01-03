@@ -11,56 +11,56 @@
 #include "PluginMgr.h"
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <MediaProcessor/MediaProcessor.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginAboutMePageClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginAboutMePageServer.h>
+#include <Plugins/PluginAboutMePageClient.h>
+#include <Plugins/PluginAboutMePageServer.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginCamClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginCamServer.h>
+#include <Plugins/PluginCamClient.h>
+#include <Plugins/PluginCamServer.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginChatRoomClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginChatRoomHost.h>
+#include <Plugins/PluginChatRoomClient.h>
+#include <Plugins/PluginChatRoomHost.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginConnectionTestClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginConnectionTestHost.h>
+#include <Plugins/PluginConnectionTestClient.h>
+#include <Plugins/PluginConnectionTestHost.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginInvalid.h>
+#include <Plugins/PluginInvalid.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginFileShareClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginFileShareServer.h>
+#include <Plugins/PluginFileShareClient.h>
+#include <Plugins/PluginFileShareServer.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginGroupClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginGroupHost.h>
+#include <Plugins/PluginGroupClient.h>
+#include <Plugins/PluginGroupHost.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginMessenger.h>
+#include <Plugins/PluginMessenger.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginNetworkSearchList.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginNetworkHost.h>
+#include <Plugins/PluginNetworkSearchList.h>
+#include <Plugins/PluginNetworkHost.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginPeerUserClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginPeerUserHost.h>
+#include <Plugins/PluginPeerUserClient.h>
+#include <Plugins/PluginPeerUserHost.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginPersonFileXfer.h>
+#include <Plugins/PluginPersonFileXfer.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginPushToTalk.h>
+#include <Plugins/PluginPushToTalk.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginRandomConnectClient.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginRandomConnectHost.h>
+#include <Plugins/PluginRandomConnectClient.h>
+#include <Plugins/PluginRandomConnectHost.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginStoryboardServer.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginStoryboardClient.h>
+#include <Plugins/PluginStoryboardServer.h>
+#include <Plugins/PluginStoryboardClient.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginTruthOrDare.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginVideoPhone.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginVoicePhone.h>
+#include <Plugins/PluginTruthOrDare.h>
+#include <Plugins/PluginVideoPhone.h>
+#include <Plugins/PluginVoicePhone.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginLibraryServer.h>
+#include <Plugins/PluginLibraryServer.h>
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceHdr.h>
+#include <BigListLib/BigListInfo.h>
+#include <NetServices/NetServiceHdr.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 

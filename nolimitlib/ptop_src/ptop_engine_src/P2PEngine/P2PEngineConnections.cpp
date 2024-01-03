@@ -13,12 +13,12 @@
 
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
+#include <BigListLib/BigListInfo.h>
+#include <Plugins/PluginMgr.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <UserJoinMgr/UserJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
+#include <Network/NetworkMgr.h>
 
 #include <PktLib/PktsRelay.h>
 #include <PktLib/PktsPing.h>

@@ -9,12 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginNetServices.h"
+#include "PluginBaseMultimedia.h"
 #include "HostServerMgr.h"
 
 #include <PktLib/PktsHostInvite.h>
 
-class PluginBaseHostService : public PluginNetServices
+class PluginBaseHostService : public PluginBaseMultimedia
 {
 public:
     PluginBaseHostService( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );

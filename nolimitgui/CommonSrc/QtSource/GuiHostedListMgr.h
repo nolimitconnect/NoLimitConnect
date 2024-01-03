@@ -11,8 +11,8 @@
 
 #include "GuiHosted.h"
 
-#include <ptop_src/ptop_engine_src/HostListMgr/HostedListCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/HostListMgr/HostedInfo.h>
+#include <HostListMgr/HostedListCallbackInterface.h>
+#include <HostListMgr/HostedInfo.h>
 
 #include <CoreLib/VxMutex.h>
 

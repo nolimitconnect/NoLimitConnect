@@ -12,7 +12,7 @@
 #include "AppletJoinBase.h"
 #include "ui_AppletIgnoredHosts.h"
 
-#include <ptop_src/ptop_engine_src/IdentListMgrs/IgnoreListMgr.h>
+#include <IdentListMgrs/IgnoreListMgr.h>
 
 class GuiUserListItem;
 

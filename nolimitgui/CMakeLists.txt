@@ -789,6 +789,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxAppDisplay.cpp
     CommonSrc/QtSource/VxPlainTextEdit.cpp
     ../nolimitlib/GuiInterface/ILog.cpp
+    ../nolimitlib/GuiInterface/IDefs.cpp
    )
 
 set(nlc_FORMS)
@@ -999,6 +1000,7 @@ target_include_directories(nolimitconnect PUBLIC
     ../nolimitlib/DependLibs/ffmpeg
     ../nolimitlib/DependLibs/libechocancel
     ../nolimitlib/GuiInterface
+    ../nolimitlib/ptop_src/ptop_engine_src
     ${OPENSSL_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR} 
     ${CMAKE_CURRENT_BINARY_DIR}

@@ -22,7 +22,7 @@
 #include <CoreLib/VxTimer.h>
 
 #ifdef TARGET_OS_WINDOWS
-# include <ptop_src/ptop_engine_src/Network/Firewall.h>
+# include <Network/Firewall.h>
 #endif // TARGET_OS_WINDOWS
 
 class EngineSettings;

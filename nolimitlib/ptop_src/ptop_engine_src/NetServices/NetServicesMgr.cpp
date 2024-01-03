@@ -12,13 +12,13 @@
 #include "NetServiceHdr.h"
 #include "NetActionIsMyPortOpen.h"
 
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetConnector.h>
+#include <Network/NetworkStateMachine.h>
+#include <Network/NetworkMgr.h>
+#include <Network/NetConnector.h>
 
-#include <ptop_src/ptop_engine_src/P2PEngine/EngineSettingsDefaultValues.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
+#include <P2PEngine/EngineSettingsDefaultValues.h>
+#include <P2PEngine/P2PEngine.h>
+#include <P2PEngine/EngineSettings.h>
 
 #include <CoreLib/OsDetect.h>
 #include <CoreLib/VxGlobals.h>

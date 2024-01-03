@@ -16,7 +16,7 @@
 #include "MJPEGReader.h"
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
+#include <AssetMgr/AssetInfo.h>
 
 //============================================================================
 MediaTools::MediaTools( P2PEngine& engine, MediaProcessor& mediaProcessor )

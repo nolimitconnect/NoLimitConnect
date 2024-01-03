@@ -10,16 +10,19 @@
 //============================================================================
 
 #include <GuiInterface/IDefs.h>
-#include <PktLib/PktPluginHandlerBase.h>
-#include <PktLib/VxCommon.h>
-#include <ptop_src/ptop_engine_src/PluginSettings/PluginSetting.h>
-#include <ptop_src/ptop_engine_src/AssetBase/BaseXferInterface.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbMgr.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbXferMgr.h>
+
+#include <PluginSettings/PluginSetting.h>
+#include <AssetBase/BaseXferInterface.h>
+#include <AssetMgr/AssetMgr.h>
+#include <ThumbMgr/ThumbMgr.h>
+#include <ThumbMgr/ThumbXferMgr.h>
+#include <ThumbMgr/ThumbXferInterface.h>
 
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/MediaCallbackInterface.h>
+
+#include <PktLib/PktPluginHandlerBase.h>
+#include <PktLib/VxCommon.h>
 
 class AssetMgr;
 class AssetBaseInfo;
@@ -305,6 +308,7 @@ protected:
 	PluginMgr&					m_PluginMgr;
     AssetMgr&                   m_AssetMgr;
     ThumbMgr&                   m_ThumbMgr;
+	ThumbXferInterface			m_ThumbXferInterface;
     ThumbXferMgr                m_ThumbXferMgr; 
 	
 	VxNetIdent*					m_MyIdent = nullptr;

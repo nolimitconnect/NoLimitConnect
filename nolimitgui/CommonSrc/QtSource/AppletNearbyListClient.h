@@ -15,7 +15,7 @@
 #include "AppletClientBase.h"
 #include "GuiUserUpdateCallback.h"
 
-#include <ptop_src/ptop_engine_src/PluginSettings/PluginSetting.h>
+#include <PluginSettings/PluginSetting.h>
 
 #include <QString>
 #include <QDialog>

@@ -17,7 +17,7 @@
 #include "Network/NetworkMgr.h"
 
 #include "BigListLib/BigListInfo.h"
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <Plugins/PluginMgr.h>
 
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>

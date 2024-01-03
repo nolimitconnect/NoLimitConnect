@@ -9,8 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/Connections/IConnectRequest.h>
-#include <ptop_src/ptop_engine_src/User/UserList.h>
+#include <Connections/IConnectRequest.h>
+#include <User/UserList.h>
 
 #include <PktLib/SearchParams.h>
 #include <CoreLib/VxGUIDList.h>

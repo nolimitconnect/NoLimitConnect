@@ -10,7 +10,7 @@
 //============================================================================
 
 #include <PktLib/VxCommon.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/FileShareSettings.h>
+#include <P2PEngine/FileShareSettings.h>
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/VxFileUtil.h>

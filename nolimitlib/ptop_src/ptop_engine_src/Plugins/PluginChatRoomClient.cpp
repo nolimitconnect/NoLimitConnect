@@ -12,7 +12,7 @@
 #include "PluginMgr.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/PktsVideoFeed.h>
 #include <PktLib/PktsMultiSession.h>

@@ -10,8 +10,8 @@
 
 #include "PluginConnectionTestClient.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceHdr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <NetServices/NetServiceHdr.h>
 
 #include <NetLib/VxSktBase.h>
 
@@ -22,7 +22,7 @@
 
 //============================================================================
 PluginConnectionTestClient::PluginConnectionTestClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-: PluginBaseHostClient( engine, pluginMgr, myIdent, pluginType )
+: PluginBaseNetworkService( engine, pluginMgr, myIdent, pluginType )
 , m_NetServicesMgr( engine.getNetServicesMgr() )
 {
     setPluginType( ePluginTypeClientConnectTest );

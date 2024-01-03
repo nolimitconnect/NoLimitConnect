@@ -13,7 +13,7 @@
 #include "PluginSessionMgr.h"
 #include "FileInfoBaseMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/FileShareSettings.h>
+#include <P2PEngine/FileShareSettings.h>
 
 #include <PktLib/VxCommon.h>
 

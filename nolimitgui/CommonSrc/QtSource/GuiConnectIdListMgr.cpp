@@ -15,8 +15,8 @@
 #include "AppCommon.h"
 #include "GuiUserBase.h"
 
-#include <ptop_src/ptop_engine_src/ConnectIdListMgr/ConnectIdListMgr.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <ConnectIdListMgr/ConnectIdListMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
 

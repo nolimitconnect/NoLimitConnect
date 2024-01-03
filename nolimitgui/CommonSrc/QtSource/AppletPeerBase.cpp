@@ -20,7 +20,7 @@
 #include "VidWidget.h"
 #include "GuiParams.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 //============================================================================
 AppletPeerBase::AppletPeerBase(	const char* objName, AppCommon& app, QWidget* parent )

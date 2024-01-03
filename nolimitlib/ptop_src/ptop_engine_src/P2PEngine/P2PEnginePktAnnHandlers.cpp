@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "P2PEngine.h"
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <NetLib/VxSktBase.h>
 #include <CoreLib/VxDebug.h>

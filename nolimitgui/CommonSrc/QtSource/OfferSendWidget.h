@@ -11,7 +11,7 @@
 
 #include <QWidget>
 
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
 
 #include "ui_OfferSendWidget.h"
 #include <QListWidgetItem>

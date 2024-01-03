@@ -10,10 +10,10 @@
 
 #include "HandshakeInfo.h"
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServiceHdr.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <NetServices/NetServicesMgr.h>
+#include <NetServices/NetServiceHdr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <NetLib/VxSktBase.h>
 

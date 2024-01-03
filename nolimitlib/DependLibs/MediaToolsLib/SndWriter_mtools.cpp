@@ -12,9 +12,9 @@
 #include "OpusAudioEncoder.h"
 #include "OpusFileEncoder.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <P2PEngine/P2PEngine.h>
+#include <AssetMgr/AssetInfo.h>
+#include <MediaProcessor/MediaProcessor.h>
 
 #include <PktLib/PktVoiceReq.h>
 #include <PktLib/PktVoiceReply.h>

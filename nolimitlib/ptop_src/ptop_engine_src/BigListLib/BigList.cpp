@@ -9,9 +9,9 @@
 //============================================================================
 
 #include <config_appcorelibs.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigList.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <BigListLib/BigList.h>
+#include <BigListLib/BigListInfo.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 
 #include <string.h>

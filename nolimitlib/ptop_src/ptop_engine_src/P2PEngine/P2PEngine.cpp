@@ -12,36 +12,36 @@
 #include "P2PConnectList.h"
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/PluginSettings/PluginSettingMgr.h>
+#include <PluginSettings/PluginSettingMgr.h>
 
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/Network/NetConnector.h>
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetworkMonitor.h>
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <Network/NetworkMgr.h>
+#include <Network/NetworkStateMachine.h>
+#include <Network/NetConnector.h>
+#include <NetworkMonitor/NetworkMonitor.h>
+#include <NetServices/NetServicesMgr.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginFileShareServer.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginLibraryServer.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginNetServices.h>
+#include <Plugins/PluginFileShareServer.h>
+#include <Plugins/PluginLibraryServer.h>
+#include <Plugins/PluginNetServices.h>
 
-#include <ptop_src/ptop_engine_src/Search/RcScan.h>
+#include <Search/RcScan.h>
 
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <MediaProcessor/MediaProcessor.h>
 
-#include <ptop_src/ptop_engine_src/NetworkTest/IsPortOpenTest.h>
-#include <ptop_src/ptop_engine_src/NetworkTest/RunUrlAction.h>
+#include <NetworkTest/IsPortOpenTest.h>
+#include <NetworkTest/RunUrlAction.h>
 
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetMgr.h>
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <AssetMgr/AssetMgr.h>
+#include <BlobXferMgr/BlobMgr.h>
+#include <Plugins/PluginMgr.h>
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <BigListLib/BigListInfo.h>
 
-#include <ptop_src/ptop_engine_src/HostServerJoinMgr/HostServerJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
-#include <ptop_src/ptop_engine_src/UserOnlineMgr/UserOnlineMgr.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <UserJoinMgr/UserJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
-#include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
+#include <UrlMgr/UrlMgr.h>
 #include "VxSktLoopback.h"
 
 #include <CoreLib/AppErr.h>

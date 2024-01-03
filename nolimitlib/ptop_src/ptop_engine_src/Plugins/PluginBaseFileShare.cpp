@@ -11,8 +11,8 @@
 #include "PluginBaseFileShare.h"
 #include "PluginMgr.h"
 
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <Plugins/FileInfo.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 
 #include <PktLib/PktsFileShare.h>

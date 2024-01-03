@@ -15,7 +15,7 @@
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/EngineSettings.h>
+#include <P2PEngine/EngineSettings.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 

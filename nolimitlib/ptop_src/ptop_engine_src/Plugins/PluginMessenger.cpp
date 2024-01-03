@@ -17,7 +17,7 @@
 #include <PktLib/PktsTodGame.h>
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <memory.h>
 

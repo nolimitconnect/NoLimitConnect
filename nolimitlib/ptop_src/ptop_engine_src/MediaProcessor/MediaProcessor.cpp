@@ -14,11 +14,11 @@
 #include "RawVideo.h"
 #include "AudioUtil.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
+#include <Plugins/PluginBase.h>
+#include <Plugins/PluginMgr.h>
 
 #include <libjpg/VxJpgLib.h>
 #include <VxVideoLib/VxVideoLib.h>

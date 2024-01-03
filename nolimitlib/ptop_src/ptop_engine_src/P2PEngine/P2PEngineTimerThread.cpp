@@ -10,10 +10,10 @@
 
 #include "P2PEngine.h"
 
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/NetworkMonitor/NetworkMonitor.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
+#include <Plugins/PluginMgr.h>
+#include <NetworkMonitor/NetworkMonitor.h>
+#include <Network/NetworkStateMachine.h>
+#include <Network/NetworkMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>

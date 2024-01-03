@@ -12,13 +12,13 @@
 #include "ConnectedInfo.h"
 #include "HandshakeInfo.h"
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListMgr.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkMgr.h>
-#include <ptop_src/ptop_engine_src/Network/NetworkStateMachine.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListMgr.h>
+#include <BigListLib/BigListInfo.h>
+#include <Network/NetworkMgr.h>
+#include <Network/NetworkStateMachine.h>
+#include <P2PEngine/P2PEngine.h>
 
-#include <ptop_src/ptop_engine_src/UrlMgr/UrlMgr.h>
+#include <UrlMgr/UrlMgr.h>
 
 #include <NetLib/VxSktConnect.h>
 #include <NetLib/VxPeerMgr.h>

@@ -19,7 +19,7 @@ namespace
 }
 
 //============================================================================
-AssetBaseXferDb::AssetBaseXferDb( const char* stateDbName )
+AssetBaseXferDb::AssetBaseXferDb( std::string stateDbName )
 : DbBase( stateDbName )
 {
 }

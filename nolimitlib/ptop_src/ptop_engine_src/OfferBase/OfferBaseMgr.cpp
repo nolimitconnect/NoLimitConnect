@@ -13,8 +13,8 @@
 #include "OfferBaseInfoDb.h"
 #include "OfferCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/FileInfo.h>
 
 #include <GuiInterface/IToGui.h>
 

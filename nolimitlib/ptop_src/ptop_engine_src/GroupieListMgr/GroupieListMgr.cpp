@@ -11,11 +11,11 @@
 #include "GroupieListMgr.h"
 #include "GroupieListCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginMgr.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBase.h>
-#include <ptop_src/ptop_engine_src/Plugins/PluginBaseHostService.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <Plugins/PluginMgr.h>
+#include <Plugins/PluginBase.h>
+#include <Plugins/PluginBaseNetworkService.h>
 
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>
@@ -820,7 +820,7 @@ void GroupieListMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNe
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBase* plugin )
 {
     LogMsg( LOG_VERBOSE, "PluginBaseHostService got groupie info request" );
     PktGroupieInfoReq* pktReq = ( PktGroupieInfoReq* )pktHdr;
@@ -925,7 +925,7 @@ void GroupieListMgr::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase,
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBase* plugin )
 {
     PktGroupieAnnounceReq* pktReq = ( PktGroupieAnnounceReq* )pktHdr;
     PktGroupieAnnounceReply pktReply;
@@ -987,7 +987,7 @@ void GroupieListMgr::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, 
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBase* plugin )
 {
     LogMsg( LOG_DEBUG, "PluginBaseHostService onPktGroupieSearchReq" );
     PktGroupieSearchReq* pktReq = ( PktGroupieSearchReq* )pktHdr;
@@ -1158,7 +1158,7 @@ void GroupieListMgr::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBas
 }
 
 //============================================================================
-void GroupieListMgr::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBaseHostService* plugin )
+void GroupieListMgr::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, ECommErr commErr, PluginBase* plugin )
 {
     PktGroupieMoreReq* pktReq = ( PktGroupieMoreReq* )pktHdr;
     PktGroupieMoreReply pktReply;

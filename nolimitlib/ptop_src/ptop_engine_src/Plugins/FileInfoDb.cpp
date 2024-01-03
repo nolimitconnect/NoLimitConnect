@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "FileInfoDb.h"
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <Plugins/FileInfo.h>
 
 #include <CoreLib/VxFileUtil.h>
 

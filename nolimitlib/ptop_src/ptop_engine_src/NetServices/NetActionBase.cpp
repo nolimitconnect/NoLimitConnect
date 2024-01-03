@@ -11,7 +11,7 @@
 #include "NetActionBase.h"
 #include "NetServicesMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 
 //============================================================================
 NetActionBase::NetActionBase( NetServicesMgr& netServicesMgr )

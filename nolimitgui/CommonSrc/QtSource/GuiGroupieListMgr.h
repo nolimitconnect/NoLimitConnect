@@ -11,8 +11,8 @@
 
 #include "GuiGroupie.h"
 
-#include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieListCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieInfo.h>
+#include <GroupieListMgr/GroupieListCallbackInterface.h>
+#include <GroupieListMgr/GroupieInfo.h>
 
 #include <CoreLib/VxMutex.h>
 

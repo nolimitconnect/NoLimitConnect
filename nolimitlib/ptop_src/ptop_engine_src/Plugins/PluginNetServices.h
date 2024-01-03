@@ -11,7 +11,7 @@
 
 #include "PluginBaseService.h"
 
-#include <ptop_src/ptop_engine_src/NetServices/NetServicesMgr.h>
+#include <NetServices/NetServicesMgr.h>
 
 class PluginNetServices : public PluginBaseService
 {

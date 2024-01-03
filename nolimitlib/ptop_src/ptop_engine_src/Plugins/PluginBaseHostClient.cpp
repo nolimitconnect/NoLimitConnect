@@ -11,9 +11,9 @@
 #include "PluginBaseHostClient.h"
 #include "PluginMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <UserJoinMgr/UserJoinMgr.h>
 #include <NetLib/VxPeerMgr.h>
 
 #include <CoreLib/VxPtopUrl.h>
@@ -24,7 +24,7 @@
 
 //============================================================================
 PluginBaseHostClient::PluginBaseHostClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-    : PluginBase( engine, pluginMgr, myIdent, pluginType )
+    : PluginBaseMultimedia( engine, pluginMgr, myIdent, pluginType )
     , m_ConnectionMgr(engine.getConnectionMgr())
     , m_HostClientMgr(engine, pluginMgr, myIdent, *this)
 {

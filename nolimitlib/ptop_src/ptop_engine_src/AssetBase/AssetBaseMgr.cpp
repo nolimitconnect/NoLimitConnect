@@ -13,11 +13,11 @@
 #include "AssetBaseInfoDb.h"
 #include "AssetBaseCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfoDb.h>
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobInfoDb.h>
-#include <ptop_src/ptop_engine_src/ThumbMgr/ThumbInfoDb.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <AssetMgr/AssetInfoDb.h>
+#include <BlobXferMgr/BlobInfoDb.h>
+#include <ThumbMgr/ThumbInfoDb.h>
+#include <Plugins/FileInfo.h>
 
 #include <GuiInterface/IToGui.h>
 

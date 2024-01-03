@@ -10,10 +10,10 @@
 
 #include "MJPEGReader.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/AssetMgr/AssetInfo.h>
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <AssetMgr/AssetInfo.h>
+#include <MediaProcessor/MediaProcessor.h>
 
 #include <CoreLib/VxFileUtil.h>
 

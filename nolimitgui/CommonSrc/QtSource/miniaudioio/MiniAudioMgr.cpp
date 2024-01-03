@@ -13,7 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <MediaProcessor/MediaProcessor.h>
 
 #include <QSurface>
 #include <qmath.h>

@@ -11,7 +11,7 @@
 
 #include "IDefs.h"
 
-#include <ptop_src/ptop_engine_src/HostListMgr/HostedInfo.h>
+#include <HostListMgr/HostedInfo.h>
 
 #include <NetLib/NetSettings.h>
 

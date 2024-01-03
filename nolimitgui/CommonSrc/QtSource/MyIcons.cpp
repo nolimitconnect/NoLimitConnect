@@ -12,7 +12,7 @@
 #include "AppCommon.h"
 #include "VxAppTheme.h"
 
-#include <ptop_src/ptop_engine_src/OfferBase/OfferBaseInfo.h>
+#include <OfferBase/OfferBaseInfo.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <CoreLib/VxDebug.h>

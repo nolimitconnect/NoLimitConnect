@@ -19,7 +19,7 @@
 #include "MyIcons.h"
 #include "AccountMgr.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <P2PEngine/P2PEngine.h>
 #include <CoreLib/Invite.h>
 #include <NetLib/NetHostSetting.h>
 #include <CoreLib/IsBigEndianCpu.h>

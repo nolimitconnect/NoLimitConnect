@@ -15,7 +15,7 @@
 #include "GuiHostedListSession.h"
 #include "GuiHostedListItem.h"
 
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinMgr.h>
+#include <UserJoinMgr/UserJoinMgr.h>
 
 #include <CoreLib/VxDebug.h>
 

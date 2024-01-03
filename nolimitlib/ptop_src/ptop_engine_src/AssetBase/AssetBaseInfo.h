@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseInfo.h>
+#include <BaseInfo/BaseInfo.h>
 
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxFileTypeMasks.h>

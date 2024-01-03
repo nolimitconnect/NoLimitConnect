@@ -12,7 +12,7 @@
 
 #include "AppSettings.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/EngineSettingsDefaultValues.h>
+#include <P2PEngine/EngineSettingsDefaultValues.h>
 
 #include <NetLib/VxGetRandomPort.h>
 #include <CoreLib/VxParse.h>

@@ -49,7 +49,7 @@ class PktBaseListReply;
 class AssetBaseXferMgr
 {
 public:
-	AssetBaseXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface, const char* stateDbName, const char* workThreadName );
+	AssetBaseXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface );
 	virtual ~AssetBaseXferMgr();
 
 	VxMutex&					getAssetBaseQueMutex( void )					{ return m_AssetBaseSendQueMutex; }

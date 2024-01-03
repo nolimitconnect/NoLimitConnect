@@ -13,9 +13,9 @@
 #include "GuiGroupieListCallback.h"
 #include "AppCommon.h"
 
-#include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieInfo.h>
-#include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieListMgr.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
+#include <GroupieListMgr/GroupieInfo.h>
+#include <GroupieListMgr/GroupieListMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/VxCommon.h>
 

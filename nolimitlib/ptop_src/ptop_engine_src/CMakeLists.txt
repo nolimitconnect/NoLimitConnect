@@ -173,6 +173,7 @@ list(APPEND ptopengine_SOURCES
 	Plugins/PluginBaseHostClient.cpp
     Plugins/PluginBaseHostService.cpp
 	Plugins/PluginBaseMultimedia.cpp
+    Plugins/PluginBaseNetworkService.cpp
 	Plugins/PluginBasePktHandlers.cpp
     Plugins/PluginBaseService.cpp
     Plugins/PluginCamClient.cpp
@@ -225,6 +226,7 @@ list(APPEND ptopengine_SOURCES
     ThumbMgr/ThumbRxSession.cpp
 	ThumbMgr/ThumbTxSession.cpp
 	ThumbMgr/ThumbXferDb.cpp
+    ThumbMgr/ThumbXferInterface.cpp
     ThumbMgr/ThumbXferMgr.cpp
 	ThumbMgr/ThumbXferPktCreate.cpp
 	ThumbMgr/ThumbXferSession.cpp
@@ -250,6 +252,7 @@ target_include_directories(ptopengine
   PRIVATE
     ../..
     ../../DependLibs
+    ../../ptop_src/ptop_engine_src
     ../../DependLibs/openssl-1.0.2p
     ../../DependLibs/openssl-1.0.2p/include
     ../../DependLibs/libplayer-nlc/xbmc/xbmc

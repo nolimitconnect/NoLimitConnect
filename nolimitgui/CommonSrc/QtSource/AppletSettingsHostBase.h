@@ -15,7 +15,7 @@
 #include "PermissionWidget.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/PluginSettings/PluginSettingMgr.h>
+#include <PluginSettings/PluginSettingMgr.h>
 
 #include "ui_AppletSettingsHostBase.h"
  

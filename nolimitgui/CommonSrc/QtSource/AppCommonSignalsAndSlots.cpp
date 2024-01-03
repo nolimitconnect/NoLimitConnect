@@ -11,9 +11,9 @@
 #include "AppCommon.h"
 #include <GuiInterface/IAudioDefs.h>
 
-#include <ptop_src/ptop_engine_src/BlobXferMgr/BlobInfo.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
-#include <ptop_src/ptop_engine_src/PluginSettings/PluginSetting.h>
+#include <BlobXferMgr/BlobInfo.h>
+#include <Plugins/FileInfo.h>
+#include <PluginSettings/PluginSetting.h>
 
 //============================================================================
 void  AppCommon::registerMetaData( void )

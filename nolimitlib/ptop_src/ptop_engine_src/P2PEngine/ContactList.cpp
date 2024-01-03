@@ -10,7 +10,7 @@
 
 #include "ContactList.h"
 
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <BigListLib/BigListInfo.h>
 
 //============================================================================
 ContactList::ContactList()

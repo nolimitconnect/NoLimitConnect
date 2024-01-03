@@ -14,7 +14,7 @@
 #include "AppCommon.h"
 #include "GuiGroupieListMgr.h"
 #include "GuiParams.h"
-#include <ptop_src/ptop_engine_src/GroupieListMgr/GroupieInfo.h>
+#include <GroupieListMgr/GroupieInfo.h>
 
 #include <CoreLib/VxGlobals.h>
 

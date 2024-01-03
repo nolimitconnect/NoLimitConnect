@@ -13,9 +13,9 @@
 #include "HostJoinInfoDb.h"
 #include "HostJoinCallbackInterface.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
-#include <ptop_src/ptop_engine_src/BaseInfo/BaseSessionInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
+#include <BaseInfo/BaseSessionInfo.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>

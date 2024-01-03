@@ -11,7 +11,7 @@
 
 #include "NetServiceDefs.h"
 
-#include <ptop_src/ptop_engine_src/Network/NetworkDefs.h>
+#include <Network/NetworkDefs.h>
 
 class VxSktBase;
 class VxSktConnectSimple;

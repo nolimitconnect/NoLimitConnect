@@ -11,7 +11,7 @@
 #include <CommonHdr.h>
 #include "INlc.h"
 #include "ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h"
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <CoreLib/VxGlobals.h>
 

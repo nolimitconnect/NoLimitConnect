@@ -20,26 +20,25 @@
 #include "BlobRxSession.h"
 
 #include <GuiInterface/IToGui.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/BigListLib/BigListInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListInfo.h>
 
 #include <PktLib/PktsBlobXfer.h>
 #include <PktLib/VxCommon.h>
 #include <NetLib/VxSktBase.h>
 
-#include <CoreLib/VxGlobals.h>
-#include <CoreLib/VxDebug.h>
 #include <CoreLib/AppErr.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
 
-
 //============================================================================
-BlobXferMgr::BlobXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface, const char* stateDbName, const char* workThreadName )
-    : AssetBaseXferMgr( engine, assetMgr, xferInterface, "AssetXferDb.db3", "AssetXferWorkerThrd" )
+BlobXferMgr::BlobXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface )
+    : AssetBaseXferMgr( engine, assetMgr, xferInterface )
 {
 }
 

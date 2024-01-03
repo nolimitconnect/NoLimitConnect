@@ -11,8 +11,8 @@
 #include <config_appcorelibs.h>
 #include "AssetBaseInfo.h"
 
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/Plugins/FileInfo.h>
+#include <P2PEngine/P2PEngine.h>
+#include <Plugins/FileInfo.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <PktLib/PktBlobEntry.h>

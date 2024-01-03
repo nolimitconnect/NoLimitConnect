@@ -14,8 +14,8 @@
 #include "RxSession.h"
 
 #include <libjpg/VxJpgLib.h>
-#include <ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h>
-#include <ptop_src/ptop_engine_src/MediaProcessor/MediaProcessor.h>
+#include <P2PEngine/P2PEngine.h>
+#include <MediaProcessor/MediaProcessor.h>
 #include <GuiInterface/IToGui.h>
 
 #include <NetLib/VxSktBase.h>

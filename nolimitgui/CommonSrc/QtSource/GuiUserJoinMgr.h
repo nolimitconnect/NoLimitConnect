@@ -11,8 +11,8 @@
 
 #include "GuiUserJoin.h"
 
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinCallbackInterface.h>
-#include <ptop_src/ptop_engine_src/UserJoinMgr/UserJoinInfo.h>
+#include <UserJoinMgr/UserJoinCallbackInterface.h>
+#include <UserJoinMgr/UserJoinInfo.h>
 
 #include <CoreLib/VxMutex.h>
 
