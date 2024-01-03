@@ -35,6 +35,18 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	case eFromGuiTypeNone:
 		return "FromGuiType None";
 
+	case eFromGuiTypeAppStartup:
+		return "FromGuiType App Startup";
+	
+	case eFromGuiTypeSetUserSpecificDir:
+		return "FromGuiType Set User Specific Dir";
+	
+	case eFromGuiTypeSetUserXferDir:
+		return "FromGuiType Set User Xfer Dir";
+			
+	case eFromGuiTypeiUserLoggedOn:
+		return "FromGuiType User Logged On";
+
 	case eFromGuiAnnounceHost:
 		return "FromGuiType AnnounceHost";
 
@@ -56,6 +68,60 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	default:
 		return "FromGuiType Unknown";
 	}
+}
+
+//============================================================================	
+FromGuiStartupDirectoryAction::FromGuiStartupDirectoryAction( P2PEngine& engine, EFromGuiType fromGuiType, std::string& dir1 )
+	: FromGuiActionBase( engine, fromGuiType )
+{
+	m_Dir1 = dir1;
+}
+
+//============================================================================	
+FromGuiStartupDirectoryAction::FromGuiStartupDirectoryAction( P2PEngine& engine, EFromGuiType fromGuiType, std::string& dir1, std::string& dir2 )
+	: FromGuiActionBase( engine, fromGuiType )
+{
+	m_Dir1 = dir1;
+	m_Dir2 = dir2;
+}
+
+//============================================================================	
+void FromGuiStartupDirectoryAction::executeAction( void )
+{
+	switch( m_FromGuiType )
+	{
+
+	case eFromGuiTypeAppStartup:
+		LogModule( eLogStartup, LOG_VERBOSE, "fromGuiAppStartup %s %s", m_Dir1.c_str(), m_Dir2.c_str() );
+		m_Engine.fromGuiAppStartup( m_Dir1, m_Dir2, true );
+		break;
+
+	case eFromGuiTypeSetUserSpecificDir:
+		LogModule( eLogStartup, LOG_VERBOSE, "fromGuiSetUserSpecificDir %s", m_Dir1.c_str() );
+		m_Engine.fromGuiSetUserSpecificDir( m_Dir1, true );
+		break;
+
+	case eFromGuiTypeSetUserXferDir:
+		LogModule( eLogStartup, LOG_VERBOSE, "fromGuiSetUserXferDir %s", m_Dir1.c_str() );
+		m_Engine.fromGuiSetUserXferDir( m_Dir1, true );
+		break;
+
+	default:
+		onGuiActionError();
+	}
+}
+
+//============================================================================
+FromGuiUserLogon::FromGuiUserLogon( P2PEngine& engine, EFromGuiType fromGuiType, VxNetIdent* myIdent )
+	: FromGuiActionBase( engine, fromGuiType )
+{
+	m_MyIdent = myIdent;
+}
+
+//============================================================================	
+void FromGuiUserLogon::executeAction( void )
+{
+	m_Engine.fromGuiUserLoggedOn( m_MyIdent, true );
 }
 
 //============================================================================

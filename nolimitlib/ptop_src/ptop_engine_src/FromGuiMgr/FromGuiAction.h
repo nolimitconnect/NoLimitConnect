@@ -16,6 +16,11 @@ enum EFromGuiType
 {
 	eFromGuiTypeNone,
 
+	eFromGuiTypeAppStartup,
+	eFromGuiTypeSetUserSpecificDir,
+	eFromGuiTypeSetUserXferDir,
+	eFromGuiTypeiUserLoggedOn,
+
 	eFromGuiAnnounceHost,
 	eFromGuiJoinHost,
 	eFromGuiLeaveHost,
@@ -27,6 +32,7 @@ enum EFromGuiType
 };
 
 class P2PEngine;
+class VxNetIdent;
 
 class FromGuiActionBase
 {
@@ -43,6 +49,30 @@ public:
 
 	P2PEngine&					m_Engine;
 	EFromGuiType				m_FromGuiType{ eFromGuiTypeNone };
+};
+
+class FromGuiStartupDirectoryAction : public FromGuiActionBase
+{
+public:
+	FromGuiStartupDirectoryAction( P2PEngine& engine, EFromGuiType fromGuiType, std::string& dir1 );
+	FromGuiStartupDirectoryAction( P2PEngine& engine, EFromGuiType fromGuiType, std::string& dir1, std::string& dir2 );
+	~FromGuiStartupDirectoryAction() override = default;
+
+	void						executeAction( void ) override;
+
+	std::string					m_Dir1;
+	std::string					m_Dir2;
+};
+
+class FromGuiUserLogon : public FromGuiActionBase
+{
+public:
+	FromGuiUserLogon( P2PEngine& engine, EFromGuiType fromGuiType, VxNetIdent* myIdent );
+	~FromGuiUserLogon() override = default;
+
+	void						executeAction( void ) override;
+
+	VxNetIdent*					m_MyIdent{ nullptr };
 };
 
 class FromGuiHostAction : public FromGuiActionBase

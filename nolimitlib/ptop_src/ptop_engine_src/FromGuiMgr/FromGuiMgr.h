@@ -23,6 +23,7 @@
 class FromGuiActionBase;
 class SearchParams;
 class P2PEngine;
+class VxNetIdent;
 
 class FromGuiMgr
 {
@@ -34,6 +35,11 @@ public:
 
 	void						lockFromGuiQue( void )							{ m_FromGuiActionQueMutex.lock(); }
 	void						unlockFromGuiQue( void )						{ m_FromGuiActionQueMutex.unlock(); }
+
+	virtual void				fromGuiAppStartup( std::string assetDir, std::string rootDataDir );
+    virtual void				fromGuiSetUserSpecificDir( std::string userSpecificDir );
+    virtual void				fromGuiSetUserXferDir( std::string userXferDir );
+    virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent );
 
 	virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );

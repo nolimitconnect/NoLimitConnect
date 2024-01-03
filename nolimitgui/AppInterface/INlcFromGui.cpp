@@ -68,7 +68,7 @@ const char* INlc::fromGuiGetAppNameNoSpaces( void )
 }
 
 //============================================================================
-void INlc::fromGuiAppStartup( const char* assetDir, const char* rootDataDir )
+void INlc::fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread )
 {
     //LogMsg( LOG_DEBUG, "INlc::fromGuiAppStartup.. calling fromGuiSetupContext\n");
     //if( 0 == m_AudioMgr )
@@ -90,18 +90,24 @@ void INlc::fromGuiAppStartup( const char* assetDir, const char* rootDataDir )
 }
 
 //============================================================================
-void INlc::fromGuiSetUserXferDir( const char* userDir )
+void INlc::fromGuiSetUserXferDir( std::string userDir, bool fromThread )
 {
     //LogMsg( LOG_DEBUG, "INlc::fromGuiSetUserXferDir %s\n", userDir );
-    getPtoP().fromGuiSetUserXferDir( userDir );
+    getPtoP().fromGuiSetUserXferDir( userDir, fromThread );
 }
 
 //============================================================================
-void INlc::fromGuiSetUserSpecificDir( const char* userDir )
+void INlc::fromGuiSetUserSpecificDir( std::string userDir, bool fromThread )
 {
-    getPtoP().fromGuiSetUserSpecificDir( userDir );
+    getPtoP().fromGuiSetUserSpecificDir( userDir, fromThread );
     // needs called after user specific data folder is set
     getOsInterface().initDirectories();
+}
+
+//============================================================================
+void INlc::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
+{
+    getPtoP().fromGuiUserLoggedOn( netIdent, fromThread );
 }
 
 //============================================================================
@@ -136,12 +142,6 @@ void INlc::fromGuiAppPauseOrResume( bool isPaused )
     {
         getPtoP().fromGuiAppResume();
     }
-}
-
-//============================================================================
-void INlc::fromGuiUserLoggedOn( VxNetIdent* netIdent )
-{
-    getPtoP().fromGuiUserLoggedOn( netIdent );
 }
 
 //============================================================================

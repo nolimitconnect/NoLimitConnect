@@ -11,7 +11,7 @@ set(NLC_VERSION_MAJOR "1")
 set(NLC_VERSION_MINOR "0")
 set(NLC_VERSION_PATCH "0")
 
-set(NLC_QT "6_4_3")
+set(NLC_QT "6_6_1")
 if(DEFINED QT_VERSION)
     set(NLC_QT QT_VERSION)
 endif()

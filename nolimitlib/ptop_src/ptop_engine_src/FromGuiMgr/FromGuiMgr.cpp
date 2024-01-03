@@ -49,6 +49,30 @@ void FromGuiMgr::fromGuMgrShutdown( void )
 }
 
 //============================================================================
+void FromGuiMgr::fromGuiAppStartup( std::string assetDir, std::string rootDataDir )
+{
+	queFromGuiAction( new FromGuiStartupDirectoryAction( m_Engine, eFromGuiTypeAppStartup, assetDir, rootDataDir ) );
+}
+
+//============================================================================
+void FromGuiMgr::fromGuiSetUserSpecificDir( std::string userSpecificDir )
+{
+	queFromGuiAction( new FromGuiStartupDirectoryAction( m_Engine, eFromGuiTypeSetUserSpecificDir, userSpecificDir ) );
+}
+
+//============================================================================
+void FromGuiMgr::fromGuiSetUserXferDir( std::string userXferDir )
+{
+	queFromGuiAction( new FromGuiStartupDirectoryAction( m_Engine, eFromGuiTypeSetUserXferDir, userXferDir ) );
+}
+
+//============================================================================
+void FromGuiMgr::fromGuiUserLoggedOn( VxNetIdent* netIdent )
+{
+	queFromGuiAction( new FromGuiUserLogon( m_Engine, eFromGuiTypeiUserLoggedOn, netIdent ) );
+}
+
+//============================================================================
 void FromGuiMgr::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
 {
 	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiAnnounceHost, adminId, sessionId, hostUrlIpv4, hostUrlIpv6 ) );

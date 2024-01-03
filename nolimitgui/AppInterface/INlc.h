@@ -420,11 +420,13 @@ public:
     virtual const char*		    fromGuiGetAppName( void );
     virtual const char*		    fromGuiGetAppNameNoSpaces( void );
 
-    virtual void				fromGuiAppStartup( const char* assetDir, const char* rootDataDir );
+    virtual void				fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread = false );
+    virtual void				fromGuiSetUserXferDir( std::string userDir, bool fromThread = false );
+    virtual void				fromGuiSetUserSpecificDir( std::string userDir, bool fromThread = false );
+    virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false );
+
     virtual void				fromGuiAppShutdown( void );
 
-    virtual void				fromGuiSetUserXferDir( const char* userDir );
-    virtual void				fromGuiSetUserSpecificDir( const char* userDir );
     virtual uint64_t			fromGuiGetDiskFreeSpace( void );
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType );
 
@@ -454,7 +456,6 @@ public:
     virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation );
     virtual bool				fromGuiMovieDone( void );
 
-    virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent );
     virtual void				fromGuiOnlineNameChanged( const char* newOnlineName );
     virtual void				fromGuiMoodMessageChanged( const char* newMoodMessage );
     virtual void				fromGuiIdentPersonalInfoChanged( int age, int gender, int language, int preferredContent );

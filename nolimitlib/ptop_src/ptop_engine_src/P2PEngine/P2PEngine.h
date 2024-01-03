@@ -205,17 +205,18 @@ public:
     const char*				    fromGuiGetAppVersionString( void ) override;
     virtual const char*		    fromGuiGetAppName( void ) override;
     virtual const char*		    fromGuiGetAppNameNoSpaces( void ) override;
-    virtual void				fromGuiAppStartup( const char* assetDir, const char* rootDataDir  ) override;
 
-    virtual void				fromGuiSetUserSpecificDir( const char* userSpecificDir  ) override;
-    virtual void				fromGuiSetUserXferDir( const char* userXferDir  ) override;
+    virtual void				fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread = false ) override;
+    virtual void				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) override;
+    virtual void				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;
+    virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) override;
+
     virtual uint64_t			fromGuiGetDiskFreeSpace( void  ) override;
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) override;
     virtual void				fromGuiAppShutdown( void  ) override;
     virtual void				fromGuiAppPause( void ) override;
     virtual void				fromGuiAppResume( void ) override;
 
-    virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent ) override;
     void                        updateFromEngineSettings( EngineSettings& engineSettings ); 
     virtual void				fromGuiOnlineNameChanged( const char* newOnlineName ) override;
     virtual void				fromGuiMoodMessageChanged( const char* newMoodMessage ) override;
@@ -710,8 +711,6 @@ public:
 
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 
-    void                        executeAfterLogOnThreadFunctions( void );
-
     void                        onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort );
 
     /// extract online id from either url if url is valid
@@ -754,8 +753,6 @@ protected:
     bool						onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
     EMembershipState            getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, EPluginType pluginType, EFriendState myFriendshipToHim );
-
-    void                        enableAfterLogOnThread( bool enable );
 
 	//=== vars ===//
 	VxPeerMgr&					m_PeerMgr;
@@ -826,7 +823,6 @@ protected:
 
     VxSemaphore                 m_TimerThreadSemaphore;
     VxThread                    m_TimerThread;
-    VxThread                    m_AfterLogOnThread;
 };
 
 extern P2PEngine& GetPtoPEngine();

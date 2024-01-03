@@ -600,7 +600,7 @@ void VxSetRootXferDirectory( const char* rootXferDir  )
 std::string& VxGetRootXferDirectory( void ) { return g_strRootXferDir; }
 
 //============================================================================
-void VxSetUserXferDirectory( const char* userXferDir  )
+void VxSetUserXferDirectory( std::string userXferDir  )
 {
 	g_strUserXferDir		= userXferDir;
 	VxFileUtil::makeDirectory( g_strUserXferDir.c_str() );

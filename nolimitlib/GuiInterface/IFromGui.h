@@ -114,12 +114,14 @@ public:
 	virtual const char*			fromGuiGetAppNameNoSpaces( void ) = 0;
 
 	/// First call to engine should send path to assets ( game and app resources ) and path to root of where to write application data
-	virtual void				fromGuiAppStartup( const char* assetsDir, const char* rootDataDir ) = 0;
-
+	virtual void				fromGuiAppStartup( std::string assetsDir, std::string rootDataDir, bool fromThread = false ) = 0;
 	/// Second call to engine should send path where to write login name specific application data 
-	virtual void				fromGuiSetUserSpecificDir( const char* userSpecificDir ) = 0;
+	virtual void				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) = 0;
 	/// Third call to engine should send path where to put downloads from other users
-	virtual void				fromGuiSetUserXferDir( const char* userDownloadDir ) = 0;
+	virtual void				fromGuiSetUserXferDir( std::string userDownloadDir, bool fromThread = false ) = 0;
+		/// Called with identity of user that logged on
+	virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) = 0;
+
 	/// Call to engine when application is about to exit
 	virtual void				fromGuiAppShutdown( void ) = 0;
 	/// Returns disk space available in incomplete downloads directory
@@ -175,8 +177,6 @@ public:
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available from specific user
 	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, bool wantInput ) = 0;
 
-	/// Called with identity of user that logged on
-	virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent ) = 0;
 	/// Called when user changes his/her online name
 	virtual void				fromGuiOnlineNameChanged( const char* newOnlineName ) = 0;
 	/// Called when user changes his/her mood message
@@ -265,8 +265,8 @@ public:
 	virtual EXferError			fromGuiFileXferControl( EPluginType pluginType, EXferAction xferAction, FileInfo& fileInfo ) = 0;
 	/// Send Text Message to contact
 	virtual bool				fromGuiInstMsg(	EPluginType	oluginType, 
-													VxGUID&			onlineId, 
-													const char*	pMsg ) = 0; 
+												VxGUID&		onlineId, 
+												const char*	pMsg ) = 0; 
 
 	virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk ) = 0;
 
@@ -307,13 +307,13 @@ public:
 	virtual void				fromGuiCancelUpload( VxGUID& fileInstance ) = 0;
 
 	/// Set game variable ( used for Truth Or Dare video chat game )
-	virtual bool				fromGuiSetGameValueVar( EPluginType	pluginType, 
-														VxGUID&		onlineId, 
+	virtual bool				fromGuiSetGameValueVar( EPluginType		pluginType, 
+														VxGUID&			onlineId, 
 														int32_t			varId, 
 														int32_t			varValue ) = 0;
 	/// Set game action ( used for Truth Or Dare video chat game )
-	virtual bool				fromGuiSetGameActionVar(	EPluginType	pluginType, 
-															VxGUID&		onlineId, 
+	virtual bool				fromGuiSetGameActionVar(	EPluginType		pluginType, 
+															VxGUID&			onlineId, 
 															int32_t			actionId, 
 															int32_t			actionValue ) = 0;
 

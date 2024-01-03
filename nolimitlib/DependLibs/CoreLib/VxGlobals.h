@@ -122,7 +122,7 @@ std::string                     VxGetStoryBoardPageClientDirectory( VxGUID& onli
 void							VxSetRootXferDirectory( const char* rootXferDir  );
 std::string&					VxGetRootXferDirectory( void ) ;
 
-void							VxSetUserXferDirectory( const char* userXferDir  );
+void							VxSetUserXferDirectory( std::string userXferDir  );
 std::string&					VxGetUserXferDirectory( void  );
 std::string&					VxGetDownloadsDirectory( void );
 std::string&					VxGetUploadsDirectory( void );
