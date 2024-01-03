@@ -239,6 +239,8 @@ std::string VxPktHdr::describePktHdr( void )
     pktDesc += std::to_string( getPktType() );
     pktDesc += " len ";
     pktDesc += std::to_string( getPktLength() );
+    pktDesc += " plugin ";
+    pktDesc += std::to_string( getPluginNum() );
 
     return pktDesc;
 }

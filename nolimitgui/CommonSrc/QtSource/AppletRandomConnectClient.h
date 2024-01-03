@@ -27,6 +27,8 @@ public:
     AppCommon&                  getMyApp( void ) override { return m_MyApp; }
     EPluginType			        getInputClientPluginType( void ) override { return AppletClientBase::getPluginType(); }
 
+    void				        userJoinedHost( GuiHosted* guiHosted ) override;
+
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );
 

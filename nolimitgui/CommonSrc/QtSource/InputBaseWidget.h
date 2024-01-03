@@ -44,7 +44,7 @@ public:
 	void						setPluginType( EPluginType pluginType )		{ m_PluginType = pluginType; }
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }
 
-	void						setInputClientCallback( InputClientCallback* clientCallback ) { m_ClientCallback = clientCallback; }
+	void						setInputClientCallback( InputClientCallback* clientCallback );
 	bool						canAcceptInput( EAssetType assetType );
 
 signals:

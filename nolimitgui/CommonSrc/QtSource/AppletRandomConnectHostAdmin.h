@@ -22,7 +22,7 @@ public:
 	virtual ~AppletRandomConnectHostAdmin() override;
 
     AppCommon&                  getMyApp( void ) override { return m_MyApp; }
-    EPluginType			        getInputClientPluginType( void ) override { return AppletBase::getPluginType(); }
+    EPluginType			        getInputClientPluginType( void ) override { return ePluginTypeClientRandomConnect; }
 
 protected:
     bool						checkIfCanSend( void ) override;

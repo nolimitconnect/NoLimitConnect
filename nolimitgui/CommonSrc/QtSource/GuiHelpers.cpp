@@ -1654,6 +1654,10 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWid
             QObject::tr( "You must select a user to send to " ), QMessageBox::Ok );
         break;
 
+    case eErrMsgUserIsOffline:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "User is offline" ),
+            QObject::tr( "User is no longer connected" ), QMessageBox::Ok );
+
     case eErrMsgPurgeEverythingWarning:
         buttonResult = QMessageBox::question( parent, QObject::tr( "Purge Everthing Warning" ),
             QObject::tr( "This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.\nThe action cannot be undone\nAre you very sure you want to proceed?" ) );

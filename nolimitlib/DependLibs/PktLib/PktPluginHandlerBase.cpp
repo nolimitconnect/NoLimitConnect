@@ -223,13 +223,13 @@ void PktPluginHandlerBase::handlePkt( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void PktPluginHandlerBase::onPktUnhandled( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_WARN, "PktPluginHandlerBase::onPktUnhandled pkt type %d len %d", pktHdr->getPktType(), pktHdr->getPktLength() );
+    LogMsg( LOG_WARN, "PktPluginHandlerBase::onPktUnhandled pkt %s", pktHdr->describePktHdr().c_str() );
 }
 
 //============================================================================
 void PktPluginHandlerBase::onPktInvalid( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_WARN, "PktPluginHandlerBase::onPktInvalid pkt type %d len %d", pktHdr->getPktType(), pktHdr->getPktLength() );
+    LogMsg( LOG_WARN, "PktPluginHandlerBase::onPktInvalid pkt  %s", pktHdr->describePktHdr().c_str() );
 }
 
 //============================================================================

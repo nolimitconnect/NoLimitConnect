@@ -25,14 +25,18 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
     setAppletType( eAppletGroupHostAdmin );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
-	setPluginType( ePluginTypeHostGroup );
+	setPluginType( ePluginTypeClientGroup );
 
-    ui.m_ChatRoomWidget->setInputClientCallback( this );
+	GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeGroup );
+
+	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientGroup );
+	ui.m_ChatRoomWidget->setHostAdminId( hostAdminId );
+	ui.m_ChatRoomWidget->setInputClientCallback( this );
+    ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
-    GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeGroup );
-    ui.m_UserListWidget->setHostAdminId( hostAdminId );
+
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 

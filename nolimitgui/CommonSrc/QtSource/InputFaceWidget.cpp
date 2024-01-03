@@ -153,7 +153,6 @@ void InputFaceWidget::faceLabelClicked( int faceNum )
 
 		if( addOptionalComment() )
 		{
-			m_AssetInfo.setPluginType( getPluginType() );
 			m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 		}
 	}

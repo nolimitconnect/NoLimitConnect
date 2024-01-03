@@ -60,6 +60,15 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 		return getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
 	}
 
+	std::set<VxGUID> memberList;
+	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
+	if( memberList.empty() )
+	{
+		okMessageBox( QObject::tr( "No Members Online" ),
+						QObject::tr( "There are no members online to send to" ) );
+		return false;
+	}
+
 	bool result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAddToAssetMgr, assetInfo );
 	if( !result )
 	{
@@ -69,15 +78,6 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 
 	if( result )
 	{
-		std::set<VxGUID> memberList;
-		getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
-		if( memberList.empty() )
-		{
-			okMessageBox( QObject::tr( "No Members Online" ),
-						  QObject::tr( "There are no members online to send to" ) );
-			return false;
-		}
-
 		assetInfo.setHostedId( hostId );
 		// first send to admin if we are not the admin
 		if( hostId.getHostOnlineId() != getMyApp().getMyOnlineId() )

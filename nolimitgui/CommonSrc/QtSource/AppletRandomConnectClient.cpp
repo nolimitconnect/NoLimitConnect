@@ -35,7 +35,7 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
 
     connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
     connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
-    connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
+    connect( ui.m_UserListWidget,	SIGNAL(signalViewChanged(EUserViewType)),   this, SLOT(slotViewChanged(EUserViewType)));
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -44,6 +44,25 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
 AppletRandomConnectClient::~AppletRandomConnectClient()
 {
     m_MyApp.activityStateChange( this, false );
+}
+
+//============================================================================
+void AppletRandomConnectClient::userJoinedHost( GuiHosted* guiHosted )
+{
+	if( guiHosted )
+	{
+		GuiUser* adminUser = guiHosted->getUser();
+		if( adminUser )
+		{
+			HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType() );
+			GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
+			if( adminId.isValid() )
+			{
+				ui.m_SessionWidget->setHostAdminId( groupieId );
+				AppletClientBase::userJoinedHost( guiHosted );
+			}
+		}
+	}
 }
 
 //============================================================================

@@ -22,7 +22,7 @@ public:
 	virtual ~AppletChatRoomHostAdmin() override;
 
     AppCommon&                  getMyApp( void ) override { return m_MyApp; }
-    EPluginType			        getInputClientPluginType( void ) override { return AppletBase::getPluginType(); }
+    EPluginType			        getInputClientPluginType( void ) override { return ePluginTypeClientChatRoom; }
 
 protected:
     bool						checkIfCanSend( void ) override;

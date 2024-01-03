@@ -45,6 +45,13 @@ MyIcons& InputBaseWidget::getMyIcons( void )
 }
 
 //============================================================================
+void InputBaseWidget::setInputClientCallback( InputClientCallback* clientCallback ) 
+{ 
+	m_ClientCallback = clientCallback; 
+	fillAssetBaseInfo( true );
+}
+
+//============================================================================
 void InputBaseWidget::setGroupieId( GroupieId& groupieId )
 { 
     m_GroupieId = groupieId;
@@ -130,7 +137,6 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
 			{
 				if( addOptionalComment() )
 				{
-					m_AssetInfo.setPluginType( getPluginType() );
 					m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 					actionResult = true;
 				}
@@ -218,7 +224,6 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 					m_AssetInfo.setAssetLength( fileLen );
 					if( addOptionalComment() )
 					{
-						m_AssetInfo.setPluginType( getPluginType() );
 						m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 						actionResult = true;
 					}

@@ -1603,6 +1603,7 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
     case ePluginTypeClientConnectTest:
         return eHostTypeConnectTest;
 
+    case ePluginTypeMessenger:
     case ePluginTypeHostPeerUser:   // host side avatar and search and group management services
     case ePluginTypeClientPeerUser: // client side avatar and search and group management services
         return eHostTypePeerUser;

@@ -57,7 +57,6 @@ void InputTextWidget::slotSendButtonClicked( void )
 			m_AssetInfo.setAssetName( message.toUtf8().constData() );
 			m_AssetInfo.setAssetLength( message.length() );
 
-			m_AssetInfo.setPluginType( getPluginType() );
 			m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 		}
 

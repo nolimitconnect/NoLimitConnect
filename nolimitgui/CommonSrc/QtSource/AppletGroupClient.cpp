@@ -29,14 +29,14 @@ AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
     setPluginType( ePluginTypeClientGroup );
 
     ui.m_SessionWidget->setAppModule( eAppModuleChatRoomClient );
-    ui.m_SessionWidget->setPluginType( ePluginTypeClientGroup );
+	ui.m_SessionWidget->setPluginType( getPluginType() );
     ui.m_SessionWidget->setInputClientCallback( this );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 
     connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
     connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
-    connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
+    connect( ui.m_UserListWidget,	SIGNAL(signalViewChanged(EUserViewType)),   this, SLOT(slotViewChanged(EUserViewType)));
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -45,6 +45,26 @@ AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
 AppletGroupClient::~AppletGroupClient()
 {
     m_MyApp.activityStateChange( this, false );
+}
+
+
+//============================================================================
+void AppletGroupClient::userJoinedHost( GuiHosted* guiHosted )
+{
+	if( guiHosted )
+	{
+		GuiUser* adminUser = guiHosted->getUser();
+		if( adminUser )
+		{
+			HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType() );
+			GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
+			if( adminId.isValid() )
+			{
+				ui.m_SessionWidget->setHostAdminId( groupieId );
+				AppletClientBase::userJoinedHost( guiHosted );
+			}
+		}
+	}
 }
 
 //============================================================================

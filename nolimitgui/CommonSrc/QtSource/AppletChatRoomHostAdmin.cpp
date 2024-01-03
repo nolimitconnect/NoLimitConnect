@@ -26,11 +26,13 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setPluginType( ePluginTypeHostChatRoom );
 
+	GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeChatRoom );
+
+	ui.m_ChatRoomWidget->setHostAdminId( hostAdminId );
+	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientChatRoom );
     ui.m_ChatRoomWidget->setInputClientCallback( this );
 
-    GroupieId hostAdmin( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeChatRoom );
-    ui.m_UserListWidget->setHostAdminId( hostAdmin );
-
+    ui.m_UserListWidget->setHostAdminId( hostAdminId );
     ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
 
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );

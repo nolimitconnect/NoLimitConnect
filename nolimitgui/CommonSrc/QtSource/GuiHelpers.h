@@ -32,6 +32,7 @@ enum EErrMsgType
     eErrMsgOfferSent,
     eErrMsgNotConnectedToHost,
     eErrMsgNoUserSelectedToSendTo,
+    eErrMsgUserIsOffline,
     eErrMsgPurgeEverythingWarning,
 
     eMaxEErrMsgBoxType

@@ -29,12 +29,14 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setPluginType( ePluginTypeHostRandomConnect );
 
-    ui.m_ChatRoomWidget->setInputClientCallback( this );
-
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
-    ui.m_UserListWidget->setHostAdminId( hostAdminId );
+	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientRandomConnect );
+	ui.m_ChatRoomWidget->setHostAdminId( hostAdminId );
+	ui.m_ChatRoomWidget->setInputClientCallback( this );
+
+	ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
 

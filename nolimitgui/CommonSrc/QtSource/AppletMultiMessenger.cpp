@@ -12,6 +12,7 @@
 #include "AppletMultiMessenger.h"
 #include "ActivityMessageBox.h"
 #include "GuiOfferSession.h"
+#include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "AppGlobals.h"
 #include "MyIcons.h"
@@ -460,14 +461,12 @@ bool AppletMultiMessenger::checkIfCanSend( void )
 {
 	if( !m_SelectedUser )
 	{
-		okMessageBox( QObject::tr( "You must select a user" ),
-						QObject::tr( "You must select a user to send to" ) );
+		GuiHelpers::errorMsgBox( eErrMsgNoUserSelectedToSendTo, this );
 		return false;
 	}
 	else if( !m_SelectedUser->isOnline() )
 	{
-		okMessageBox( QObject::tr( "User is offline" ),
-						QObject::tr( "User is no longer connected" ) );
+		GuiHelpers::errorMsgBox( eErrMsgUserIsOffline, this );
 		return false;
 	}
 	else
@@ -481,14 +480,12 @@ bool AppletMultiMessenger::handleAssetAction( EAssetAction assetAction, AssetBas
 {
 	if( !m_SelectedUser )
 	{
-		okMessageBox( QObject::tr( "You must select a user" ),
-						QObject::tr( "You must select a user to send to" ) );
+		GuiHelpers::errorMsgBox( eErrMsgNoUserSelectedToSendTo, this );
 		return false;
 	}
 	else if( !m_SelectedUser->isOnline() )
 	{
-		okMessageBox( QObject::tr( "User is offline" ),
-						QObject::tr( "User is no longer connected" ) );
+		GuiHelpers::errorMsgBox( eErrMsgUserIsOffline, this );
 		return false;
 	}
 	else

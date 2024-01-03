@@ -29,8 +29,7 @@ AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
 	manageUsers( ui.m_UserListWidget );
 
 	ui.m_ChatRoomWidget->setAppModule( eAppModuleChatRoomClient );
-	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientChatRoom );
-
+	ui.m_ChatRoomWidget->setPluginType( getPluginType() );
 	ui.m_ChatRoomWidget->setInputClientCallback( this );
 
     connect( this,                      SIGNAL(signalBackButtonClicked()),			this, SLOT(closeApplet()) );
@@ -46,6 +45,25 @@ AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
 AppletChatRoomClient::~AppletChatRoomClient()
 {
     m_MyApp.activityStateChange( this, false );
+}
+
+//============================================================================
+void AppletChatRoomClient::userJoinedHost( GuiHosted* guiHosted )
+{
+	if( guiHosted )
+	{
+		GuiUser* adminUser = guiHosted->getUser();
+		if( adminUser )
+		{
+			HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType() );
+			GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
+			if( adminId.isValid() )
+			{
+				ui.m_ChatRoomWidget->setHostAdminId( groupieId );
+				AppletClientBase::userJoinedHost( guiHosted );
+			}
+		}
+	}
 }
 
 //============================================================================

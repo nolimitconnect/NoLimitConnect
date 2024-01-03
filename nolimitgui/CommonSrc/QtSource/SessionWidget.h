@@ -27,8 +27,9 @@ public:
 	SessionWidget( QWidget* parent = nullptr, EAssetType inputMode = eAssetTypeUnknown );
     virtual ~SessionWidget() = default;
 
+	void						setHostAdminId( GroupieId& adminId )		{ setGroupieId( adminId ); }
 	void						setGroupieId( GroupieId& groupieId );
-	GroupieId&					getGroupieId( void )					{ return m_GroupieId; }
+	GroupieId&					getGroupieId( void )						{ return m_GroupieId; }
 
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );

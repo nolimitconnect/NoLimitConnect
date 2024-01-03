@@ -266,6 +266,7 @@ void ChatEntryWidget::setEntryMode( EAssetType inputMode )
 	{
 	case eAssetTypeChatText:
 		ui.m_InputTextWidget->setVisible( true );
+		ui.m_InputTextWidget->setFocus();
 		break;
 
 	case eAssetTypeChatFace:

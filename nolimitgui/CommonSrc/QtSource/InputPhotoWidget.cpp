@@ -88,7 +88,6 @@ void InputPhotoWidget::slotSnapShotButtonClicked( void )
 					m_AssetInfo.setAssetLength( fileLen );
 					if( addOptionalComment() )
 					{
-						m_AssetInfo.setPluginType( getPluginType() );
 						m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
 					}
 				}
