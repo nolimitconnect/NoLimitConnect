@@ -70,9 +70,9 @@ namespace
 }
 
 std::vector<VxGUID>	AssetBaseMgr::m_EmoticonIdList{
-{ 3913462368200503545U, 2760340527898317750U },	// 1 !364F694A1A7330F9264EB315D07E53B6!
+{ 3913462368200503545U, 2760340527898317750U },	  // 1 !364F694A1A7330F9264EB315D07E53B6!
 { 13999558228189016709U, 7413105485242018473U },  // 2 !C2486C09239A728566E0A4299A59AAA9!
-{ 10829822772292086897U, 16991265692937849009U },	// 3 !964B426EBAE7EC71EBCD1A1FC7D788B1!
+{ 10829822772292086897U, 16991265692937849009U }, // 3 !964B426EBAE7EC71EBCD1A1FC7D788B1!
 { 7945445069844048192U, 12229757484046445461U },  // 4 !6E43E431BA6EE940A9B8D3A2BDC36B95!
 { 2324257314457588032U, 17711723986212541605U },  // 5 !20416BB68AD91140F5CCAF1FEDF6D4A5!
 { 10756322002679464500U, 16760991902078506408U }, // 6 !954621DF3B6D8234E89B0154D69695A8!
@@ -359,13 +359,18 @@ AssetBaseInfo* AssetBaseMgr::addAssetFile( EAssetType assetType, const char* fil
     AssetBaseInfo* assetInfo = createAssetInfo( assetType, fileName, fileLen, assetId );
     if( assetInfo )
     {
+		if( !assetInfo->isValid() )
+		{
+			return nullptr;
+		}
+
         if( insertNewInfo( assetInfo ) )
         {
             return assetInfo;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 //============================================================================
@@ -374,13 +379,18 @@ AssetBaseInfo* AssetBaseMgr::addAssetFile( EAssetType assetType, const char* fil
 	AssetBaseInfo* assetInfo = createAssetInfo( assetType, fileName, fileLen, assetId );
 	if( assetInfo )
 	{
+		if( !assetInfo->isValid() )
+		{
+			return nullptr;
+		}
+
 		if( insertNewInfo( assetInfo ) )
 		{
 			return assetInfo;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //============================================================================
@@ -395,6 +405,11 @@ bool AssetBaseMgr::addAssetFile(	EAssetType      assetType,
 	AssetBaseInfo* assetInfo = createAssetInfo( assetType, fileName, assetId, hashId, locationFlags, assetTag, timestamp );
 	if( assetInfo )
 	{
+		if( !assetInfo->isValid() )
+		{
+            return false;
+		}
+
 		return insertNewInfo( assetInfo );
 	}
 	
@@ -417,6 +432,12 @@ bool AssetBaseMgr::addAssetFile(	EAssetType      assetType,
 	{
 		assetInfo->setCreatorId( creatorId );
 		assetInfo->setHistoryId( historyId );
+
+		if( !assetInfo->isValid() )
+		{
+            return false;
+		}
+
 		return insertNewInfo( assetInfo );
 	}
 	
@@ -426,6 +447,11 @@ bool AssetBaseMgr::addAssetFile(	EAssetType      assetType,
 //============================================================================
 bool AssetBaseMgr::addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAsset )
 {
+	if( !assetInfo.isValid() )
+	{
+		return false;
+	}
+
 	AssetBaseInfo* newAssetBaseInfo = createAssetInfo( assetInfo );
 	LogMsg( LOG_VERBOSE, "AssetBaseMgr::addAsset" );
 	retCreatedAsset = newAssetBaseInfo;
@@ -489,6 +515,11 @@ AssetBaseInfo* AssetBaseMgr::createAssetInfo( 	EAssetType      assetType,
 //============================================================================
 bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 {
+	if( !assetInfo->isValid() )
+	{
+		return false;
+	}
+
 	bool result = false;
 	AssetBaseInfo* assetInfoExisting = findAsset( assetInfo->getAssetUniqueId() );
 	if( assetInfoExisting )
@@ -538,6 +569,11 @@ bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 //============================================================================
 bool AssetBaseMgr::updateAsset( AssetBaseInfo& assetInfo )
 {
+	if( !assetInfo.isValid() )
+	{
+		return false;
+	}
+
     AssetBaseInfo* existingAsset = findAsset( assetInfo.getAssetUniqueId() );
     if( existingAsset )
     {
@@ -553,6 +589,11 @@ bool AssetBaseMgr::updateAsset( AssetBaseInfo& assetInfo )
 //============================================================================
 void AssetBaseMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
 {
+	if( !assetInfo->isValid() )
+	{
+		return;
+	}
+
 	// LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetAdded start" );
 	if( assetInfo->isFileAsset() )
 	{
@@ -576,6 +617,11 @@ void AssetBaseMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
 //============================================================================
 void AssetBaseMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
 {
+	if( !assetInfo->isValid() )
+	{
+		return;
+	}
+
     // LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetUpdated start" );
     lockClientList();
     std::vector<AssetBaseCallbackInterface *>::iterator iter;
@@ -717,6 +763,12 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 				continue;
 			}
 
+			if( !assetInfo->isValid() )
+			{
+				toDeleteList.push_back( assetInfo );
+				continue;
+			}
+
 			EAssetSendState sendState = assetInfo->getAssetSendState();
 			if( eAssetSendStateTxProgress == sendState ) 
 			{
@@ -764,7 +816,7 @@ void AssetBaseMgr::updateAssetFileTypes( void )
 	{
 		if( (*iter)->isFileAsset() )
 		{
-			u16FileTypes		|= (*iter)->getAssetType();
+			u16FileTypes |= (*iter)->getAssetType();
 		}
 	}
 
@@ -987,6 +1039,11 @@ bool AssetBaseMgr::fromGuiGetAssetBaseInfo( uint8_t fileTypeFilter )
 //============================================================================
 void AssetBaseMgr::updateDatabase( AssetBaseInfo* assetInfo )
 {
+	if( !assetInfo->isValid() )
+	{
+		return;
+	}
+
 	m_AssetBaseInfoDb.addAsset( assetInfo );
 }
 

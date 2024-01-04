@@ -43,6 +43,7 @@ public:
     void						onIdentMenuButtonClicked( void ) override;
 
     void                        setJoinedState( EJoinState joinState );
+    EJoinState                  getJoinedState( void ) const         { return m_JoinedState; }
 
     void						updateWidgetFromInfo( void );
 
@@ -67,6 +68,7 @@ protected:
 	//=== vars ===//
     Ui::HostJoinRequestListItemUi	        ui;
     AppCommon&					m_MyApp;
+    EJoinState                  m_JoinedState{ eJoinStateNone };
 };
 
 

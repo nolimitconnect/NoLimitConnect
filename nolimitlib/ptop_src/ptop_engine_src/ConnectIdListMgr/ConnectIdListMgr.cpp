@@ -14,10 +14,13 @@
 #include <BaseInfo/BaseSessionInfo.h>
 #include <BigListLib/BigListInfo.h>
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
+
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginMgr.h>
+
+#include <UserJoinMgr/UserJoinMgr.h>
+#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
@@ -970,6 +973,7 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
                 isOnline, m_Engine.describeUser( onlineId ).c_str() );
 
     m_Engine.getMemberActiveMgr().callbackOnlineStatusChange( onlineId, isOnline );
+    m_Engine.getUserJoinMgr().callbackOnlineStatusChange( onlineId, isOnline );
 
     lockConnectIdClientList();
 
@@ -1110,7 +1114,7 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr
     VxGUID connectionId = sktBase->getSocketId();
     // if relayed then the peer id should be the host that relayed the packet
     VxGUID hostOnlineId = sktBase->getPeerOnlineId();
-    if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid(), connectionId.isVxGUIDValid() )
+    if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid() && connectionId.isVxGUIDValid() )
     {
         if( onlineId == hostOnlineId )
         {
@@ -1168,7 +1172,7 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
 
     LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onGroupRelayedUserAnnounce from %s id %s hosted by %s id %s",
             netIdent->getOnlineName(), onlineId.describeVxGUID().c_str(), sktBase->getPeerOnlineName().c_str(), hostOnlineId.describeVxGUID().c_str());
-    if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid(), socketId.isVxGUIDValid() )
+    if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid() && socketId.isVxGUIDValid() )
     {
         if( onlineId != hostOnlineId )
         {

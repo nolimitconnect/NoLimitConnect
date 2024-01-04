@@ -154,6 +154,8 @@ void HostJoinRequestListItem::updateWidgetFromInfo( void )
 //============================================================================
 void HostJoinRequestListItem::setJoinedState( EJoinState joinState )
 {
+    m_JoinedState = joinState;
+
     switch( joinState )
     {
     case eJoinStateJoinWasGranted:

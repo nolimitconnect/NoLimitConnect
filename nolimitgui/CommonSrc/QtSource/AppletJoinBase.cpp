@@ -173,6 +173,15 @@ void AppletJoinBase::setListLabel( QString labelText )
 }
 
 //============================================================================
+void AppletJoinBase::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
+{
+	if( !isOnline )
+	{
+		updateUser( guiUser );
+	}
+}
+
+//============================================================================
 void AppletJoinBase::callbackUserAdded( GuiUser* guiUser )
 {
 	updateUser( guiUser );

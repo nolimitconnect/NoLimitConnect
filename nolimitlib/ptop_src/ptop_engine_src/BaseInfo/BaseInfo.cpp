@@ -107,13 +107,13 @@ void BaseInfo::assureHasCreatorId( void )
 }
 
 //============================================================================
-void BaseInfo::printValues( void ) const
+void BaseInfo::printValues( uint32_t logMsgType ) const
 {
-    LogMsg( LOG_VERBOSE, "*Begin BaseInfo" );
+    LogMsg( logMsgType, "*Begin BaseInfo" );
 
-    LogMsg( LOG_VERBOSE, "m_OnlineId=(%s)", m_OnlineId.toOnlineIdString().c_str() );
-    LogMsg( LOG_VERBOSE, "m_ThumbId=(%s)", m_ThumbId.toOnlineIdString().c_str() );
-    LogMsg( LOG_VERBOSE, "m_InfoModifiedTime=(%lld)", m_InfoModifiedTime );
+    LogMsg( logMsgType, "m_OnlineId=(%s)", m_OnlineId.toOnlineIdString().c_str() );
+    LogMsg( logMsgType, "m_ThumbId=(%s)", m_ThumbId.toOnlineIdString().c_str() );
+    LogMsg( logMsgType, "m_InfoModifiedTime=(%lld)", m_InfoModifiedTime );
 
-    LogMsg( LOG_VERBOSE, "*End BaseInfo" );
+    LogMsg( logMsgType, "*End BaseInfo" );
 }

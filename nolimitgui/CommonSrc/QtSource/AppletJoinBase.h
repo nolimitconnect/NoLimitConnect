@@ -42,6 +42,8 @@ public:
     virtual void                setStatusMsg( QString statusMsg );
     virtual void                setListLabel( QString labelText );
 
+    virtual void				callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )  override;
+
     virtual void				callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override {};
     virtual void				callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override {};
     virtual void				callbackUserAdded( GuiUser* guiUser ) override;

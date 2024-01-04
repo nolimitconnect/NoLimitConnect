@@ -239,6 +239,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/FileXferWidget.h
     CommonSrc/QtSource/FriendListEntryWidget.h
     CommonSrc/QtSource/FriendListWidget.h
+    CommonSrc/QtSource/GuiAppLoaderThread.h
     CommonSrc/QtSource/GuiConnectIdListMgr.h
     CommonSrc/QtSource/GuiConnectIdListCallback.h
     CommonSrc/QtSource/GuiFileXferMgr.h
@@ -263,6 +264,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiHostServerJoinMgr.h
     CommonSrc/QtSource/GuiHostJoinSession.h
     CommonSrc/QtSource/GuiHostSession.h
+    CommonSrc/QtSource/GuiMainLoaderThread.h
     CommonSrc/QtSource/GuiMemberActiveCallback.h
     CommonSrc/QtSource/GuiMemberActiveMgr.h
     CommonSrc/QtSource/GuiOfferCallback.h
@@ -629,6 +631,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/FriendList.cpp
     CommonSrc/QtSource/FriendListDelegate.cpp
     CommonSrc/QtSource/FriendListWidget.cpp
+    CommonSrc/QtSource/GuiAppLoaderThread.cpp
     CommonSrc/QtSource/GuiConnectIdListMgr.cpp
     CommonSrc/QtSource/GuiFileXferMgr.cpp
     CommonSrc/QtSource/GuiFileXferSession.cpp
@@ -649,6 +652,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiHostServerJoinMgr.cpp
     CommonSrc/QtSource/GuiHostJoinSession.cpp
     CommonSrc/QtSource/GuiHostSession.cpp
+    CommonSrc/QtSource/GuiMainLoaderThread.cpp
     CommonSrc/QtSource/GuiMemberActiveMgr.cpp
     CommonSrc/QtSource/GuiOfferInfo.cpp
     CommonSrc/QtSource/GuiOfferListItem.cpp

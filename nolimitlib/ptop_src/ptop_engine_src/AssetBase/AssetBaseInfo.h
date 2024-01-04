@@ -171,7 +171,7 @@ public:
     static const char*          getDefaultFileExtension( EAssetType assetType );
     static const char*          getSubDirectoryName( EAssetType assetType );
 
-    virtual void                printValues( void ) const override;
+    virtual void                printValues( uint32_t logMsgType = 1 ) const override;
 
     // temporary destination id for xfer of asset
     virtual void				setDestUserId( VxGUID& destOnlineId )           { m_DestOnlineId = destOnlineId; }

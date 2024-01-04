@@ -38,11 +38,11 @@ public:
     QString                     m_LogMsg;
 };
 
-class LogMgr : public QWidget, public ILogCallbackInterface
+class LogMgr : public QObject, public ILogCallbackInterface
 {
     Q_OBJECT
 public:
-    LogMgr( QWidget* parent = nullptr );
+    LogMgr( QObject* parent = nullptr );
     virtual ~LogMgr() override;
 
     void                        startupLogMgr( void );

@@ -48,6 +48,8 @@ protected slots:
     void                        slotRejectButtonClicked( HostJoinRequestListItem* hostItem );
 
 protected:
+    void				        showEvent( QShowEvent* showEvent ) override;
+
     HostJoinRequestListItem*    sessionToWidget( GuiHostJoinSession* hostSession );
     GuiHostJoinSession*			widgetToSession( HostJoinRequestListItem* hostItem );
 

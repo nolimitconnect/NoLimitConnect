@@ -1505,7 +1505,7 @@ EPluginType HostTypeToHostPlugin( enum EHostType hostType )
     case eHostTypeUnknown:
     default:
         LogMsg( LOG_ERROR, "HostTypeToHostPlugin unknown host type %d", hostType );
-        // vx_assert( false );
+        vx_assert( false );
         return ePluginTypeInvalid;
     }
 }
@@ -1564,7 +1564,7 @@ EConnectReason HostTypeToGroupieConnectReason( enum EHostType hostType )
     case eHostTypeUnknown:
     default:
         LogMsg( LOG_ERROR, "HostTypeToHostPlugin unknown host type %d", hostType );
-        // vx_assert( false );
+        vx_assert( false );
         return eConnectReasonUnknown;
     }
 }
@@ -1617,7 +1617,7 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
     case ePluginTypeInvalid:
     default:
         LogMsg( LOG_ERROR, "PluginTypeToHostType unknown plugin type %d", pluginType );
-        // vx_assert( false );
+        vx_assert( false );
         return eHostTypeUnknown;
     }
 }
@@ -1628,15 +1628,25 @@ EPluginType HostPluginToClientPluginType( enum EPluginType pluginType )
 {
     switch( pluginType )
     {
+    case ePluginTypeMessenger:
+        return ePluginTypeMessenger;
+
+    case ePluginTypeTruthOrDare:
+        return ePluginTypeTruthOrDare;
+
     case ePluginTypeHostGroup:
+    case ePluginTypeClientGroup:
         return ePluginTypeClientGroup;
 
     case ePluginTypeHostChatRoom:
+    case ePluginTypeClientChatRoom:
         return ePluginTypeClientChatRoom;
 
+    case ePluginTypeHostRandomConnect:
     case ePluginTypeClientRandomConnect:
         return ePluginTypeClientRandomConnect;
 
+    case ePluginTypeClientPeerUser:
     case ePluginTypeHostPeerUser:
         return ePluginTypeClientPeerUser;
 
@@ -1648,9 +1658,11 @@ EPluginType HostPluginToClientPluginType( enum EPluginType pluginType )
 
     case ePluginTypeInvalid:
         LogMsg( LOG_ERROR, "HostPluginToClientPluginType invalid plugin type %d", pluginType );
+        vx_assert( false );
         return pluginType;
     default:
         LogMsg( LOG_ERROR, "HostPluginToClientPluginType unknown plugin type %d", pluginType );
+        vx_assert( false );
         return pluginType;
     }
 }
@@ -1661,15 +1673,25 @@ EPluginType ClientPluginToHostPluginType( enum EPluginType pluginType )
 {
     switch( pluginType )
     {
+    case ePluginTypeMessenger:
+        return ePluginTypeMessenger;
+
+    case ePluginTypeTruthOrDare:
+        return ePluginTypeTruthOrDare;
+
+    case ePluginTypeHostGroup:
     case ePluginTypeClientGroup:
         return ePluginTypeHostGroup;
 
+    case ePluginTypeHostChatRoom:
     case ePluginTypeClientChatRoom:
         return ePluginTypeHostChatRoom;
 
+    case ePluginTypeHostRandomConnect:
     case ePluginTypeClientRandomConnect:
         return ePluginTypeHostRandomConnect;
 
+    case ePluginTypeHostPeerUser:
     case ePluginTypeClientPeerUser:
         return ePluginTypeHostPeerUser;
 

@@ -277,8 +277,19 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 //============================================================================
 bool AssetBaseInfo::isValid( void )
 {
-    vx_assert( ( VXFILE_TYPE_UNKNOWN != m_u16AssetType ) && m_UniqueId.isVxGUIDValid() && getCreatorId().isVxGUIDValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime );
-	return ( VXFILE_TYPE_UNKNOWN != m_u16AssetType ) && m_UniqueId.isVxGUIDValid() && getCreatorId().isVxGUIDValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+	bool isValidAsset =  VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid() && getCreatorId().isVxGUIDValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+	if( m_AdminId.isVxGUIDValid() )
+	{
+		isValidAsset &= getPluginType() != ePluginTypeInvalid;
+	}
+
+	vx_assert( isValidAsset );
+	if( !isValidAsset )
+	{
+		printValues( LOG_ERROR );
+	}
+
+	return isValidAsset;
 }
 
 //============================================================================
@@ -287,7 +298,7 @@ bool AssetBaseInfo::isValidFile( void )
     bool valid = !m_AssetName.empty() && m_s64AssetLen == (int64_t)VxFileUtil::fileExists( m_AssetName.c_str() );
 	if( !valid )
 	{
-		LogMsg( LOG_ERROR, "AssetBaseInfo::isValidFile fail %lld %s ", m_s64AssetLen, m_AssetName.empty() ? "NO FILE NAME" : m_AssetName.c_str() );
+		LogMsg( LOG_ERROR, "AssetBaseInfo::isValidFile fail %" PRId64 " %s ", m_s64AssetLen, m_AssetName.empty() ? "NO FILE NAME" : m_AssetName.c_str() );
 		vx_assert( false );
 	}
 
@@ -322,13 +333,13 @@ bool AssetBaseInfo::isValidThumbnail( void )
 //============================================================================
 bool AssetBaseInfo::isMine( void )
 {
-	return isValid() && ( getCreatorId() == GetPtoPEngine().getMyOnlineId() );
+	return isValid() && getCreatorId() == GetPtoPEngine().getMyOnlineId();
 }
 
 //============================================================================
 bool AssetBaseInfo::isMyHistory( void )
 {
-	return isValid() && (getHistoryId() == GetPtoPEngine().getMyOnlineId());
+	return isValid() && getHistoryId() == GetPtoPEngine().getMyOnlineId();
 }
 
 //============================================================================
@@ -476,27 +487,28 @@ void AssetBaseInfo::updateAssetInfo( VxThread* callingThread )
 }
 
 //============================================================================
-void AssetBaseInfo::printValues( void ) const
+void AssetBaseInfo::printValues( uint32_t logMsgType ) const
 {
-	LogMsg( LOG_VERBOSE, "*Begin AssetBaseInfo" );
-	LogMsg( LOG_VERBOSE, "m_AssetName=(%s)", m_AssetName.c_str() );
-	LogMsg( LOG_VERBOSE, "m_UniqueId=(%s)", m_UniqueId.toOnlineIdString().c_str() );
-	LogMsg( LOG_VERBOSE, "m_HistoryId=(%s)", m_HistoryId.toOnlineIdString().c_str() );
-	LogMsg( LOG_VERBOSE, "m_AdminId=(%s)", m_AdminId.toOnlineIdString().c_str() );
-	LogMsg( LOG_VERBOSE, "m_AssetHash=(%s)", m_AssetHash.toString().c_str() );
-	LogMsg( LOG_VERBOSE, "m_s64AssetLen=(%lld)", m_s64AssetLen );
-	LogMsg( LOG_VERBOSE, "m_u16AssetType=(%d)", m_u16AssetType );
-	LogMsg( LOG_VERBOSE, "m_AttributeFlags=(0x%4.4X)", m_AttributeFlags );
-	LogMsg( LOG_VERBOSE, "m_AttributeFlags=(0x%8.8X)", m_LocationFlags );
-	LogMsg( LOG_VERBOSE, "m_CreationTime=(%lld)", m_CreationTime );
-	LogMsg( LOG_VERBOSE, "m_AccessedTime=(%lld)", m_AccessedTime );
-	LogMsg( LOG_VERBOSE, "m_ExpiresTime=(%lld)", m_ExpiresTime );
-	LogMsg( LOG_VERBOSE, "m_AssetTag=(%s)", m_AssetTag.c_str() );
-	LogMsg( LOG_VERBOSE, "m_AssetSendState=(%d)", m_AssetSendState );
-	LogMsg( LOG_VERBOSE, "m_PlayPosition0to100000=(%d)", m_PlayPosition0to100000 );
+	LogMsg( logMsgType, "*Begin AssetBaseInfo" );
+	LogMsg( logMsgType, "m_AssetName=(%s)", m_AssetName.c_str() );
+	LogMsg( logMsgType, "m_PluginType=(%s)", GetPluginName( m_PluginType ) );
+	LogMsg( logMsgType, "m_UniqueId=(%s)", m_UniqueId.toOnlineIdString().c_str() );
+	LogMsg( logMsgType, "m_HistoryId=(%s)", m_HistoryId.toOnlineIdString().c_str() );
+	LogMsg( logMsgType, "m_AdminId=(%s)", m_AdminId.toOnlineIdString().c_str() );
+	LogMsg( logMsgType, "m_AssetHash=(%s)", m_AssetHash.toString().c_str() );
+	LogMsg( logMsgType, "m_s64AssetLen=(%lld)", m_s64AssetLen );
+	LogMsg( logMsgType, "m_u16AssetType=(%d)", m_u16AssetType );
+	LogMsg( logMsgType, "m_AttributeFlags=(0x%4.4X)", m_AttributeFlags );
+	LogMsg( logMsgType, "m_AttributeFlags=(0x%8.8X)", m_LocationFlags );
+	LogMsg( logMsgType, "m_CreationTime=(%lld)", m_CreationTime );
+	LogMsg( logMsgType, "m_AccessedTime=(%lld)", m_AccessedTime );
+	LogMsg( logMsgType, "m_ExpiresTime=(%lld)", m_ExpiresTime );
+	LogMsg( logMsgType, "m_AssetTag=(%s)", m_AssetTag.c_str() );
+	LogMsg( logMsgType, "m_AssetSendState=(%d)", m_AssetSendState );
+	LogMsg( logMsgType, "m_PlayPosition0to100000=(%d)", m_PlayPosition0to100000 );
 
-	BaseInfo::printValues();
-	LogMsg( LOG_VERBOSE, "*End AssetBaseInfo" );
+	BaseInfo::printValues( logMsgType );
+	LogMsg( logMsgType, "*End AssetBaseInfo" );
 }
 
 //============================================================================
@@ -545,7 +557,7 @@ bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
 			return true;
 		}
 	}
-	else if( m_AdminId == groupieId.getHostOnlineId()  )
+	else if( m_AdminId.isVxGUIDValid() && m_AdminId == groupieId.getHostOnlineId() )
 	{
 		// hosted needs to match host and admin
 		if( PluginTypeToHostType( getPluginType() ) == groupieId.getHostType() )

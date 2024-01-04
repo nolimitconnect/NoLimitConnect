@@ -85,7 +85,7 @@ void UserJoinInfoDb::removeUserJoin( GroupieId& groupieId )
     std::string onlineIdStr = groupieId.getHostOnlineId().toHexString();
     DbBindList bindList( onlineIdStr.c_str() );
     bindList.add( (int)groupieId.getHostType() );
-    sqlExec( "DELETE FROM tblUserJoin WHERE onlineId=? AND pluginType=?", bindList );
+    sqlExec( "DELETE FROM tblUserJoin WHERE onlineId=? AND hostType=?", bindList );
 }
 
 //============================================================================

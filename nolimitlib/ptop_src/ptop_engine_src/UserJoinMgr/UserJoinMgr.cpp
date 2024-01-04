@@ -91,6 +91,77 @@ void UserJoinMgr::fromGuiUserLoggedOn( void )
 }
 
 //============================================================================
+bool UserJoinMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId )
+{
+    bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( adminId.getHostOnlineId() );
+    if( !isOnline )
+    {
+        GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
+        lockResources();
+         UserJoinInfo* userJoinInfo = findUserJoinInfo( groupieId );
+         EJoinState joinState = userJoinInfo->getJoinState();
+         if( eJoinStateJoinIsGranted == joinState )
+         {
+            userJoinInfo->setJoinState( eJoinStateJoinWasGranted );
+            announceUserJoinUpdated( userJoinInfo );
+         }
+
+        unlockResources();
+    }
+
+    return isOnline;
+}
+
+//============================================================================
+bool UserJoinMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId )
+{
+    bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( adminId.getHostOnlineId() );
+    if( !isOnline )
+    {
+        GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
+        lockResources();
+         UserJoinInfo* userJoinInfo = findUserJoinInfo( groupieId );
+         EJoinState joinState = userJoinInfo->getJoinState();
+         if( eJoinStateJoinIsGranted == joinState )
+         {
+            userJoinInfo->setJoinState( eJoinStateJoinWasGranted );
+            announceUserJoinUpdated( userJoinInfo );
+         }
+
+        unlockResources();
+    }
+
+    return isOnline;
+}
+
+//============================================================================
+void UserJoinMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+{
+    if( isOnline )
+    {
+        return;
+    }
+
+    lockResources();
+
+    for( auto joinPair : m_UserJoinInfoList )
+    {
+        if( const_cast<GroupieId&>(joinPair.first).getHostOnlineId() == onlineId )
+        {
+            UserJoinInfo* userJoinInfo = joinPair.second;
+            EJoinState joinState = userJoinInfo->getJoinState();
+            if( eJoinStateJoinIsGranted == joinState )
+            {
+                userJoinInfo->setJoinState( eJoinStateJoinWasGranted );
+                announceUserJoinUpdated( userJoinInfo );
+            }
+        }
+    }
+
+    unlockResources();
+}
+
+//============================================================================
 void UserJoinMgr::addUserJoinMgrClient( UserJoinCallbackInterface * client, bool enable )
 {
     lockClientList();

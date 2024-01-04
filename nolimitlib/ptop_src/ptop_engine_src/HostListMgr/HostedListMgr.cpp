@@ -604,12 +604,8 @@ bool HostedListMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, 
             }
         }
 
-        std::shared_ptr<VxSktBase> sktBase( nullptr );
-        EConnectStatus connectStatus = m_Engine.getConnectionMgr().requestConnection( m_SearchSessionId, netHostUrl.getUrl(), netHostUrl.getOnlineId(), this, sktBase, eConnectReasonNetworkHostListSearch );
-        if( sktBase && eConnectStatusReady == connectStatus )
-        {
+        m_Engine.getFromGuiMgr().fromGuiQueryHostListFromNetworkHost( netHostUrl, hostType, hostIdIfNullThenAll, m_SearchSessionId );
 
-        }
 
         return true;
     }

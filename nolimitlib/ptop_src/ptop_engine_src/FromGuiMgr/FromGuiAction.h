@@ -9,6 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <CoreLib/VxPtopUrl.h>
+
 #include <PktLib/GroupieId.h>
 #include <PktLib/SearchParams.h>
 
@@ -27,6 +29,7 @@ enum EFromGuiType
 	eFromGuiUnJoinHost,
 	eFromGuiJoinLastJoinedHost,
 	eFromGuiSearchHost,
+	eFromGuiQueryHostListFromNetworkHost,
 
 	eMaxFromGuiType
 };
@@ -101,7 +104,6 @@ public:
 	VxGUID						m_SessionId;
 };
 
-
 class FromGuiSearchHostAction : public FromGuiActionBase
 {
 public:
@@ -113,4 +115,18 @@ public:
 	EHostType					m_HostType{ eHostTypeUnknown };
 	SearchParams				m_SearchParams;
 	bool						m_Enable;
+};
+
+class FromGuiQueryHostListFromNetworkHostAction : public FromGuiActionBase
+{
+public:
+	FromGuiQueryHostListFromNetworkHostAction( P2PEngine& engine, EFromGuiType fromGuiType, VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId );
+	~FromGuiQueryHostListFromNetworkHostAction() override = default;
+
+	void						executeAction( void ) override;
+
+	VxPtopUrl					m_PtopUrl;
+	EHostType					m_HostType{ eHostTypeUnknown };
+	VxGUID						m_HostIdIfNullThenAll;
+	VxGUID						m_SearchSessionId;
 };

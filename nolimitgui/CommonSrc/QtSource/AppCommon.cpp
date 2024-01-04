@@ -39,6 +39,7 @@
 #include "AppletMgr.h"
 
 #include "FileListReplySession.h"
+#include "GuiAppLoaderThread.h"
 #include "VxPushButton.h"
 
 #include <BlobXferMgr/BlobInfo.h>
@@ -76,6 +77,11 @@
 namespace
 {
 	AppCommon * g_AppCommon = 0;
+
+	void ProcessQtEvents( int ms = 100 )
+	{
+		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+	}
 
 	QString GetAppTitle( EDefaultAppMode appMode )
 	{
@@ -218,11 +224,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	// Documents Directory/appshortName/xfer/		app data transfer directory
 	VxSetRootXferDirectory( m_AppSettings.m_strRootXferDir.c_str() );
 
-	// database of multiple accounts
-	// create accounts database appshortname_accounts.db3 in /appshortName/data/
-	QString strAccountDbFileName = VxGetAppNoLimitDataDirectory().c_str() + m_AppShortName + "_accounts.db3";
-	m_AccountMgr.startupAccountMgr( strAccountDbFileName.toUtf8().constData() );
-
     connect( m_CheckSetupTimer, SIGNAL( timeout() ), this, SLOT( slotCheckSetupTimer() ) );
 	connect( m_GuiStartupTimer, SIGNAL( timeout() ), this, SLOT( slotGuiStartupTimer() ) );
 }
@@ -240,47 +241,50 @@ IFromGui& AppCommon::getFromGuiInterface( void )
 }
 
 //============================================================================
-void AppCommon::loadWithoutThread( void )
+bool AppCommon::loadWithoutThread( void )
 {
-    uint64_t startMs = elapsedMilliseconds();
-
-    registerMetaData();
-
-    // create settings database appshortname_settings.db3 in /appshortName/data/
-    QString strSettingsDbFileName = VxGetAppNoLimitDataDirectory().c_str() + m_AppShortName + "_settings.db3";
-    m_AppSettings.appSettingStartup( strSettingsDbFileName.toUtf8().constData(), m_AppDefaultMode );
-
-	// create settings database appshortname_settings.db3 in /appshortName/data/
-	QString strFavoriteMgrDbFileName = VxGetAppNoLimitDataDirectory().c_str() + m_AppShortName + "_settings.db3";
-	m_FavoriteMgr.startupFavoriteMgr( strFavoriteMgrDbFileName.toUtf8().constData() );
-
-    // Now that settings are set up we can enable logging with log settings
-    GetLogMgrInstance().startupLogMgr();
+	GuiAppLoaderThread appLoaderThread( *this );
+	appLoaderThread.start();
 
     // asset database and user specific setting database will be created in sub directory of account login
     // after user has logged into account
 
-    uint64_t loadingMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "LoadSettings %" PRId64 "ms alive ms %" PRId64, loadingMs - startMs, loadingMs );
+	registerMetaData();
+
+	while( !appLoaderThread.getIsSettingsLoaded() )
+	{
+		ProcessQtEvents( 50 );
+	}
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
 		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &getHomePage() );
 	}
 
-    // load icons from resources
-    m_MyIcons.myIconsStartup();
-
-    uint64_t iconsMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Load Icons %" PRId64 "ms alive ms %" PRId64, iconsMs - loadingMs, iconsMs );
-
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
 		getQApplication().setStyle( &m_AppStyle );
 	}
 
-    uint64_t styleMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Setup Style %" PRId64 "ms alive ms %" PRId64, styleMs - iconsMs, styleMs );
+	while( !appLoaderThread.getIsAccountMgrLoaded() )
+	{
+		ProcessQtEvents( 50 );
+	}
+
+	if( !hasExistingAccount() )
+    {
+        // adult warning
+        QString warnAdultTitle = QObject::tr( "You must be an adult to use No Limit Connect Application" );
+        QString warnAdultBody = QObject::tr( "Although No Limit Connect does not host any offensive media, users of No Limit Connect may host offensive material or act in an offensive manner.\n"
+            "No Limit Connect does not monitor or log any user actions or content.\n\n"
+            "Are you an adult and at least 18 years old?" );
+
+        QMessageBox warnAdult( QMessageBox::Icon::Question, warnAdultTitle, warnAdultBody, QMessageBox::Yes | QMessageBox::No );
+        if( QMessageBox::No == warnAdult.exec() )
+        {
+            return false;
+        }
+    }
 
 	m_ThumbMgr.onAppCommonCreated();
 	m_UserMgr.onAppCommonCreated();
@@ -293,7 +297,10 @@ void AppCommon::loadWithoutThread( void )
 	m_MemberActiveMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 
-	SetUseMilitaryTime( getAppSettings().getUseMilitaryTime() );
+	while( !appLoaderThread.getIsIconsLoaded() )
+	{
+		ProcessQtEvents( 50 );
+	}
 
     m_HomePage.initializeHomePage();
     connect( &m_HomePage, SIGNAL( signalMainWindowResized() ), this, SLOT( slotMainWindowResized() ) );
@@ -301,8 +308,14 @@ void AppCommon::loadWithoutThread( void )
 
 	connect( this, SIGNAL( signalInternalNetAvailStatus( ENetAvailStatus ) ), this, SLOT( slotInternalNetAvailStatus( ENetAvailStatus ) ), Qt::QueuedConnection );
 
-    uint64_t homePageMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Initialize Home Page %" PRIu64 " ms alive ms %" PRIu64 "", homePageMs - styleMs, homePageMs );
+	while( !appLoaderThread.getIsLoadComplete() )
+	{
+		ProcessQtEvents( 50 );
+	}
+
+	appLoaderThread.quit();
+
+	return true;
 }
 
 //============================================================================

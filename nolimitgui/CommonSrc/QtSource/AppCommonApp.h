@@ -97,8 +97,7 @@ public:
 
     int64_t                     elapsedSeconds( void ) { return elapsedMilliseconds() / 1000; }
 
-    // load profile and icons etc without using thread to avoid linux crash
-    void                        loadWithoutThread( void );
+    bool                        loadWithoutThread( void );
     // cannot launch any applets until logon is completed
     void                        setLoginCompleted( bool completed ) { m_LoginComplete = completed; }
     bool                        getLoginCompleted( void ) { return m_LoginComplete; }
@@ -110,6 +109,8 @@ public:
     // diagnose to much cpu usage in gui thread
     void                        setGuiCpuTimeEnable( bool enable ) { m_GuiCpuTimeEnable = enable; }
     bool                        getGuiCpuTimeEnable( void ) { return m_GuiCpuTimeEnable; }
+
+    EDefaultAppMode             getAppDefaultMode( void ) { return m_AppDefaultMode; }
 
     AccountMgr&                 getAccountMgr( void ) { return m_AccountMgr; }
     VxAppDisplay&               getAppDisplay( void ) { return m_AppDisplay; }
@@ -866,7 +867,7 @@ protected:
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;
     GuiHostedListMgr			m_HostedListMgr;
-    GuiHostedByMeJoinMgr				m_HostJoinMgr;
+    GuiHostedByMeJoinMgr		m_HostJoinMgr;
     GuiUserJoinMgr				m_UserJoinMgr;
     GuiPlayerMgr                m_PlayerMgr;
     GuiPluginMgr                m_PluginMgr;

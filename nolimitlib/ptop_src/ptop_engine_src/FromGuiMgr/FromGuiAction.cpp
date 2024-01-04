@@ -65,6 +65,9 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	case eFromGuiSearchHost:
 		return "FromGuiType SearchHost";
 
+	case eFromGuiQueryHostListFromNetworkHost:
+		return "FromGuiType QueryHostListFromNetworkHost";
+
 	default:
 		return "FromGuiType Unknown";
 	}
@@ -188,4 +191,25 @@ FromGuiSearchHostAction::FromGuiSearchHostAction( P2PEngine& engine, EFromGuiTyp
 void FromGuiSearchHostAction::executeAction( void )
 {
 	m_Engine.fromGuiSearchHost( m_HostType, m_SearchParams,  m_Enable, true );
+}
+
+//============================================================================	
+FromGuiQueryHostListFromNetworkHostAction::FromGuiQueryHostListFromNetworkHostAction( P2PEngine& engine, EFromGuiType fromGuiType, VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId )
+	: FromGuiActionBase( engine, fromGuiType )
+	, m_PtopUrl( netHostUrl )
+	, m_HostType( hostType )
+	, m_HostIdIfNullThenAll( hostIdIfNullThenAll )
+	, m_SearchSessionId( searchSessionId )
+{
+}
+
+//============================================================================	
+void FromGuiQueryHostListFromNetworkHostAction::executeAction( void )
+{
+	std::shared_ptr<VxSktBase> sktBase( nullptr );
+    EConnectStatus connectStatus = m_Engine.getConnectionMgr().requestConnection( m_SearchSessionId, m_PtopUrl.getUrl(), m_PtopUrl.getOnlineId(), &m_Engine.getHostedListMgr(), sktBase, eConnectReasonNetworkHostListSearch );
+    if( sktBase && eConnectStatusReady == connectStatus )
+    {
+
+    }
 }

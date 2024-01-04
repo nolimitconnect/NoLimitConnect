@@ -24,6 +24,7 @@ class FromGuiActionBase;
 class SearchParams;
 class P2PEngine;
 class VxNetIdent;
+class VxPtopUrl;
 
 class FromGuiMgr
 {
@@ -48,6 +49,8 @@ public:
 	virtual void				fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId );
 
 	virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
+
+	virtual void				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId );
 
 	void						fromGuiThreadWork( VxThread* workThread );
 

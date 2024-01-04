@@ -204,6 +204,7 @@ bool AssetBaseInfoDb::addAsset( AssetBaseInfo* assetInfo )
 	if( !assetInfo->isValid() )
 	{
 		LogMsg( LOG_ERROR, "AssetBaseInfoDb::addAsset is INVALID %s", assetInfo->getAssetName().c_str() );
+		return false;
 	}
 
 	return addAsset(	assetInfo->getAssetUniqueId(),
@@ -263,9 +264,7 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 			assetInfo->setAssetSendState( ( EAssetSendState )cursor->getS32( COLUMN_ASSET_SEND_STATE ) );
 			assetInfo->setPluginType( (EPluginType)cursor->getS32( COLUMN_PLUGIN_TYPE ) );
 
-            vx_assert( assetInfo->isValid() );
-
-			if( assetInfo->validateAssetExist() )
+			if( assetInfo->isValid() && assetInfo->validateAssetExist() )
 			{
 				insertAssetInTimeOrder( assetInfo, AssetAssetList );
 			}

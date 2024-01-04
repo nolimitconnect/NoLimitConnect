@@ -207,6 +207,9 @@
     <Filter Include="androidManifest">
       <UniqueIdentifier>{6b0fc571-9dec-485e-aebe-bbcb5ad20a45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GuiLoaderThread">
+      <UniqueIdentifier>{70e95096-2288-48ca-93eb-5c2ff3fddc22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -1108,6 +1111,12 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.h">
       <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2238,6 +2247,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp">
       <Filter>Source Files\GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

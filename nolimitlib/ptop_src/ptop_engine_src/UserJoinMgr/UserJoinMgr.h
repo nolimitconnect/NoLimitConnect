@@ -37,6 +37,12 @@ public:
 	virtual ~UserJoinMgr() = default;
 
     void                        fromGuiUserLoggedOn( void );
+    
+    bool                        fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId );
+    bool                        fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId );
+
+    void                        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+
     bool                        getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrlIpv4, std::string& retHostUrlIpv6 );
 
     void                        addUserJoinMgrClient( UserJoinCallbackInterface * client, bool enable );

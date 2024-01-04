@@ -80,10 +80,20 @@ bool GuiHosted::readyForClientLaunch( void )
     GroupieId groupieId( getMyGroupieId() );
     EJoinState joinState = m_MyApp.getUserJoinMgr().getUserJoinState( groupieId );
 
-    if( (m_MyApp.getConnectIdListMgr().isDirectConnect( m_GuiUser->getMyOnlineId() ) || m_MyApp.getConnectIdListMgr().isConnected( groupieId )) &&
-        eJoinStateJoinIsGranted == joinState )
+    if( m_MyApp.getConnectIdListMgr().isDirectConnect( m_GuiUser->getMyOnlineId() ) || m_MyApp.getConnectIdListMgr().isConnected( groupieId ) )
     {
-        isReady = true;
+        if( eJoinStateJoinIsGranted == joinState )
+        {
+            isReady = true;
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "GuiHosted::readyForClientLaunch false because join state %s", DescribeJoinState( joinState ) );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_VERBOSE, "GuiHosted::readyForClientLaunch false because user %s is offline", m_MyApp.describeUser( groupieId.getHostOnlineId() ).c_str() );
     }
 
     return isReady;

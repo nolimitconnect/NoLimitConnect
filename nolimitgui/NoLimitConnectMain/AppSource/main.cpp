@@ -10,6 +10,7 @@
 
 #include <QWidget> // must be declared first or Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
+#include "GuiMainLoaderThread.h"
 #include "NlcCommonConfig.h"
 #ifdef BUILD_NLC_APP
 
@@ -58,6 +59,11 @@ using namespace XFILE;
 
 
 namespace{
+    void ProcessQtEvents( int ms = 100 )
+	{
+		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+	}
+
     void qtLogMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
     {
         QByteArray localMsg = msg.toLocal8Bit();
@@ -129,6 +135,7 @@ const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
 
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
+    GuiMainLoaderThread mainLoaderThread;
 
 #if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
     //Request requiered permissions at runtime.. does not seem to work with Qt 6.2.0
@@ -166,6 +173,19 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     }
 #endif // defined (Q_OS_ANDROID)
 
+    // TODO allow user to change where the data is stored
+    if( !setupRootStorageDirectory() )
+    {
+        QString warnWritableTitle = QObject::tr( "No Writable Location for application data" );
+        QString warnWritableBody = QObject::tr( "No location found to store application data.\n Application will exit" );
+
+        QMessageBox warnStorage( QMessageBox::Icon::Information, warnWritableTitle, warnWritableBody, QMessageBox::Ok );
+        warnStorage.exec();
+        return -1;
+    }
+
+    mainLoaderThread.start();
+
     // initialize display scaling etc
     // the best method I have found to scale the gui is to use the default font height as the scaling factor
     QFontMetrics fontMetrics( myApp->font() );
@@ -179,44 +199,23 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
     QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
 
-    // TODO allow user to change where the data is stored
-    if( !setupRootStorageDirectory() )
-    {
-        QString warnWritableTitle = QObject::tr( "No Writable Location for application data" );
-        QString warnWritableBody = QObject::tr( "No location found to store application data.\n Application will exit" );
-
-        QMessageBox warnStorage( QMessageBox::Icon::Information, warnWritableTitle, warnWritableBody, QMessageBox::Ok );
-        warnStorage.exec();
-        return -1;
-    }
-
     LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
 
-    INlc& nolimit = INlc::getINlc();
-    nolimit.doPreStartup();
-    LogMsg( LOG_VERBOSE, "runApplication doPreStartup complete" );
-
-    GetPtoPEngine(); // engine first.. there is some interdependencies
-    AppCommon& appCommon = CreateAppInstance( nolimit, myApp );
-
-    LogMsg( LOG_VERBOSE, "runApplication appCommon complete" );
-
-    if( !appCommon.hasExistingAccount() )
+    while( !mainLoaderThread.getIsLoadComplete() )
     {
-        // adult warning
-        QString warnAdultTitle = QObject::tr( "You must be an adult to use No Limit Connect Application" );
-        QString warnAdultBody = QObject::tr( "Although No Limit Connect does not host any offensive media, users of No Limit Connect may host offensive material or act in an offensive manner.\n"
-            "No Limit Connect does not monitor or log any user actions or content.\n\n"
-            "Are you an adult and at least 18 years old?" );
-
-        QMessageBox warnAdult( QMessageBox::Icon::Question, warnAdultTitle, warnAdultBody, QMessageBox::Yes | QMessageBox::No );
-        if( QMessageBox::No == warnAdult.exec() )
-        {
-            return 0;
-        }
+        ProcessQtEvents(50);
     }
 
-    appCommon.loadWithoutThread();
+    INlc& nolimit = INlc::getINlc();
+    AppCommon& appCommon = CreateAppInstance( nolimit, myApp );
+
+    LogMsg( LOG_VERBOSE, "runApplication appCommon create complete" );
+
+    if( !appCommon.loadWithoutThread() )
+    {
+        LogMsg( LOG_VERBOSE, "runApplication user is not of legal age " );
+        return false;
+    }
 
 #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     // send command line parameters to Kodi
@@ -271,10 +270,6 @@ int main( int argc, char** argv )
     //qInstallMessageHandler(qtLogMessageOutput);
 
     int retVal{ 0 };
-
-//#if !defined(TARGET_OS_WINDOWS)
-//    set_signal_handler();
-//#endif // !defined(TARGET_OS_WINDOWS)
 
     VxSetGuiThreadId();
     LogMsg( LOG_DEBUG, "Creating QApplication" );

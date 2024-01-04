@@ -48,7 +48,7 @@ public:
 
     virtual void                assureHasCreatorId( void );
 
-    virtual void                printValues( void ) const;
+    virtual void                printValues( uint32_t logMsgType = 1 ) const;
 
 public:
 	//=== vars ===//

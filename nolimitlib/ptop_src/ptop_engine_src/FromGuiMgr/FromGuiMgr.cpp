@@ -103,6 +103,12 @@ void FromGuiMgr::fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId
 }
 
 //============================================================================
+void FromGuiMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId )
+{
+	queFromGuiAction( new FromGuiQueryHostListFromNetworkHostAction( m_Engine, eFromGuiQueryHostListFromNetworkHost, netHostUrl, hostType, hostIdIfNullThenAll, searchSessionId ) );
+}
+
+//============================================================================
 void FromGuiMgr::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )
 {
 	queFromGuiAction( new FromGuiSearchHostAction( m_Engine, eFromGuiSearchHost, hostType, searchParams, enable ) );

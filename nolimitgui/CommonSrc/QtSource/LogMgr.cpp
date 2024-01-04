@@ -25,8 +25,8 @@ LogMgr& GetLogMgrInstance()
 }
 
 //============================================================================
-LogMgr::LogMgr( QWidget* parent )
-    : QWidget( parent )
+LogMgr::LogMgr( QObject* parent )
+    : QObject( parent )
     , m_MyApp( GetAppInstance() )
 {
     m_VerboseLog = m_MyApp.getAppSettings().getVerboseLog();
