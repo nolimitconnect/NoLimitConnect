@@ -153,6 +153,7 @@ void FromGuiMgr::fromGuiThreadWork( VxThread* workThread )
 			unlockFromGuiQue();
 			if( fromGuiAction )
 			{
+                LogMsg( LOG_VERBOSE, "FromGuiMgr executing %s", fromGuiAction->describeGuiAction().c_str() );
 				fromGuiAction->executeAction();
 			}
 		}

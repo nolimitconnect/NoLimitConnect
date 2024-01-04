@@ -32,6 +32,7 @@
 PluginLibraryServer::PluginLibraryServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
 : PluginBaseFilesServer( engine, pluginMgr, myIdent, pluginType, "LibraryService.db3" )
 {
+	LogMsg( LOG_VERBOSE, "PluginLibraryServer::PluginLibraryServer" );
 	setPluginType( ePluginTypeLibraryServer );
 }
 

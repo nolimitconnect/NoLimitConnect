@@ -19,6 +19,7 @@ PluginNetServices::PluginNetServices( P2PEngine& engine, PluginMgr& pluginMgr, V
 : PluginBaseService( engine, pluginMgr, myIdent, pluginType )
 , m_NetServicesMgr( engine.getNetServicesMgr() )
 {
+	LogMsg( LOG_VERBOSE, "PluginNetServices::PluginNetServices" );
 	setPluginType( ePluginTypeNetServices );
 }
 

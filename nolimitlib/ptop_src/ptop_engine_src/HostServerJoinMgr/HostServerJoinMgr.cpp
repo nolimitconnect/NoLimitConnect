@@ -28,6 +28,7 @@ HostServerJoinMgr::HostServerJoinMgr( P2PEngine& engine, const char* dbName, con
 , m_HostJoinInfoDb( engine, *this, dbName )
 , m_HostJoinedLastDb( engine, *this, dbJoinedLastName )
 {
+    LogMsg( LOG_VERBOSE, "HostServerJoinMgr::HostServerJoinMgr" );
 }
 
 //============================================================================

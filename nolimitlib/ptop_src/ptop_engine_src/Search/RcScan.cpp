@@ -40,6 +40,7 @@ RcScan::RcScan( P2PEngine& engine, P2PConnectList& connectList )
 , m_u32SearchActionComplete(0)
 , m_s64LastActionTimeMs( 0 )
 {
+	LogMsg( LOG_VERBOSE, "RcScan::RcScan" );
 }
 
 //============================================================================

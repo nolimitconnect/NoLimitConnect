@@ -30,6 +30,7 @@ UserJoinMgr::UserJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJ
 , m_UserJoinInfoDb( engine, *this, dbName )
 , m_UserJoinedLastDb( engine, *this, dbJoinedLastName )
 {
+     LogMsg( LOG_VERBOSE, "UserJoinMgr::UserJoinMgr" );
 }
 
 //============================================================================

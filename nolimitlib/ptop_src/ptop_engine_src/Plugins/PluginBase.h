@@ -306,15 +306,16 @@ protected:
 	EPluginType					m_ePluginType{ ePluginTypeInvalid };
 	P2PEngine&					m_Engine;
 	PluginMgr&					m_PluginMgr;
+	VxNetIdent*					m_MyIdent = nullptr;
+	EAppState					m_ePluginState{ eAppStateInvalid };
+	
+	VxMutex						m_PluginMutex;
+
     AssetMgr&                   m_AssetMgr;
     ThumbMgr&                   m_ThumbMgr;
 	ThumbXferInterface			m_ThumbXferInterface;
     ThumbXferMgr                m_ThumbXferMgr; 
 	
-	VxNetIdent*					m_MyIdent = nullptr;
-
-	EAppState					m_ePluginState = eAppStateInvalid;
-	VxMutex						m_PluginMutex;
     PluginSetting               m_PluginSetting;
 
 	bool						m_bPluginIsInSession = false;

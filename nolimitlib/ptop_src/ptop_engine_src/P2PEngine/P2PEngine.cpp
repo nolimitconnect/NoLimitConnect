@@ -121,6 +121,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
     , m_SktLoopback( new VxSktLoopback( *this ) )
     , m_RcScan( *this, m_ConnectionList )
 {
+    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine created" );
 	m_SktLoopback->setThisSkt( m_SktLoopback ); // so skt can do callbacks without look up in manager
 
 	VxSetSktStatCallback( &m_PeerMgr );
@@ -128,6 +129,12 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
     vx_assert( 148 == maxPktType ); // just to make sure our packet types are not mismatched
+
+	// loadAccountSpecificSettings in gui calls this for get getTcpIpPort so need to be created right now 
+	std::string strEngineSettingDbFileName = VxGetAppNoLimitDataDirectory();
+	strEngineSettingDbFileName += "EngineSettings.db3";
+	getEngineSettings().engineSettingsStartup( strEngineSettingDbFileName );
+
 	m_IsEngineCreated = true;
 }
 
@@ -158,11 +165,13 @@ UrlMgr& P2PEngine::getUrlMgr()
 //============================================================================
 void P2PEngine::startupEngine()
 {
+    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine startupEngine start" );
     iniitializePtoPEngine();
 
 	m_NetworkStateMachine.stateMachineStartup();
 	m_PluginMgr.onAppStartup();
 	m_IsPortOpenTest.isPortOpenTestStartup();
+    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine startupEngine done" );
 }
 
 //============================================================================

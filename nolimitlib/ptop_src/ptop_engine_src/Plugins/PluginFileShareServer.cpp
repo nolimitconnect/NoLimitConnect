@@ -30,6 +30,7 @@
 PluginFileShareServer::PluginFileShareServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
 : PluginBaseFilesServer( engine, pluginMgr, myIdent, pluginType, "FileShareService.db3" )
 {
+	LogMsg( LOG_VERBOSE, "PluginFileShareServer::PluginFileShareServer" );
 	setPluginType( ePluginTypeFileShareServer );
 }
 

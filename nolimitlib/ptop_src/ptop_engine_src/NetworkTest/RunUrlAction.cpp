@@ -143,6 +143,7 @@ RunUrlAction::RunUrlAction( P2PEngine& engine, EngineSettings& engineSettings, N
     , m_NetServicesMgr( netServicesMgr )
     , m_NetServiceUtils( netServiceUtils )
 {
+    LogMsg( LOG_VERBOSE, "RunUrlAction::RunUrlAction" );
 }
 
 //============================================================================

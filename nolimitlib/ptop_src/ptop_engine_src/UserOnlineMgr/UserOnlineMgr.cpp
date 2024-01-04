@@ -23,6 +23,7 @@
 UserOnlineMgr::UserOnlineMgr( P2PEngine& engine )
 : m_Engine( engine )
 {
+    LogMsg( LOG_VERBOSE, "UserOnlineMgr::UserOnlineMgr" );
     m_Engine.getConnectIdListMgr().wantConnectIdListCallback( this, true );
 }
 

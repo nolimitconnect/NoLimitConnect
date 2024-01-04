@@ -39,6 +39,7 @@ VxSktLoopback::VxSktLoopback( P2PEngine& engine )
     : VxSktBase()
     , m_Engine( engine )
 {
+    LogMsg( LOG_VERBOSE, "VxSktLoopback::VxSktLoopback" );
 	m_eSktType = eSktTypeLoopback;
     m_ConnectionId = m_LoopbackSocketId;
 }

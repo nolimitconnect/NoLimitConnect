@@ -87,7 +87,7 @@ static int NotifyAll(const std::vector<std::string>& params)
 #else
       CLog::Log(LOGERROR, "NotifyAll failed (ENABLE_JSON false) to parse data: %s", params[2].c_str());
       return -3;
-#endif ENABLE_JSON
+#endif // ENABLE_JSON
   }
 
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Other, params[0].c_str(), params[1].c_str(), data);

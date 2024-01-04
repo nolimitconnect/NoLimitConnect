@@ -44,11 +44,12 @@ PluginBase::PluginBase( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myI
 , m_ePluginType( pluginType )
 , m_Engine( engine )
 , m_PluginMgr( pluginMgr )
+, m_MyIdent( myIdent )
+, m_PluginMutex()
 , m_AssetMgr( engine.getAssetMgr() )
 , m_ThumbMgr( engine.getThumbMgr() )
 , m_ThumbXferInterface( *this )
 , m_ThumbXferMgr( engine, engine.getThumbMgr(), m_ThumbXferInterface )
-, m_MyIdent( myIdent )
 {
     m_PluginSetting.setPluginType( pluginType );
 }

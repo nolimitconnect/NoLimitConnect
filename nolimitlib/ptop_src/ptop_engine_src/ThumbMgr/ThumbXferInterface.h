@@ -26,5 +26,4 @@ public:
     virtual bool                txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, bool bDisconnectAfterSend = false ) override;
 
     PluginBase&                 m_PluginBase;
-    AutoXferLock                m_AutoXferLock;
 };

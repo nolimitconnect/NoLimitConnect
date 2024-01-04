@@ -20,6 +20,7 @@
 WebPageMgr::WebPageMgr( P2PEngine& engine )
 : m_Engine( engine )
 {
+    LogMsg( LOG_VERBOSE, "WebPageMgr::WebPageMgr" );
 }
 
 //============================================================================

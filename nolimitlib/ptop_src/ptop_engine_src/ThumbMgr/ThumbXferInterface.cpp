@@ -15,14 +15,13 @@
 //============================================================================
 ThumbXferInterface::ThumbXferInterface( PluginBase& pluginBase )
     : m_PluginBase( pluginBase )
-    , m_AutoXferLock( pluginBase.getPluginMutex())
 {
 }
 
 //============================================================================
 VxMutex& ThumbXferInterface::getAssetXferMutex( void )
 {
-    return m_AutoXferLock.m_Mutex;
+    return m_PluginBase.getAssetXferMutex();
 }
 
 //============================================================================

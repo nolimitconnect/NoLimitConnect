@@ -21,6 +21,7 @@
 RelayMgr::RelayMgr( P2PEngine& engine )
 	: m_Engine( engine )
 {
+	LogMsg( LOG_VERBOSE, "RelayMgr::RelayMgr" );
 }
 
 //============================================================================

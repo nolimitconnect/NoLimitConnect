@@ -194,9 +194,12 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 
     INlc& nolimit = INlc::getINlc();
     nolimit.doPreStartup();
+    LogMsg( LOG_VERBOSE, "runApplication doPreStartup complete" );
 
     GetPtoPEngine(); // engine first.. there is some interdependencies
     AppCommon& appCommon = CreateAppInstance( nolimit, myApp );
+
+    LogMsg( LOG_VERBOSE, "runApplication appCommon complete" );
 
     if( !appCommon.hasExistingAccount() )
     {
@@ -219,6 +222,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     // send command line parameters to Kodi
     INlc::getINlc().getNlcPlayer().fromGuiInitCommandLine( argc, argv );
 #endif // ENABLE_KODI
+
+    LogMsg( LOG_VERBOSE, "myApp->exec" );
 
     int result = myApp->exec();
 

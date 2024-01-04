@@ -31,12 +31,14 @@ void P2PEngine::fromGuiAppStartup( std::string assetsDir, std::string rootDataDi
 
     if( fromThread )
     {
+        LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiAppStartup run" );
         enableTimerThread( true );
 
         LogMsg( LOG_INFO, "P2PEngine::fromGuiAppStartup %s %s", assetsDir.c_str(), rootDataDir.c_str() );
     }
     else
     {
+        LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiAppStartup queued" );
         m_FromGuiMgr.fromGuiAppStartup( assetsDir, rootDataDir );
     }
 }
@@ -60,6 +62,7 @@ void P2PEngine::fromGuiSetUserXferDir( std::string userXferDir, bool fromThread 
     }
     else
     {
+        LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiSetUserXferDir queued" );
         m_FromGuiMgr.fromGuiSetUserXferDir( userXferDir );
     }
 }
@@ -83,10 +86,6 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 	    strDbFileName = VxGetSettingsDirectory();
 	    strDbFileName += "HostUrlList.db3";
 	    getHostUrlListMgr().hostUrlListMgrStartup( strDbFileName );
-
-	    strDbFileName = VxGetSettingsDirectory();
-	    strDbFileName += "EngineSettings.db3";
-	    getEngineSettings().engineSettingsStartup( strDbFileName );
 
 	    strDbFileName = VxGetSettingsDirectory();
 	    strDbFileName += "EngineParams.db3";
@@ -119,6 +118,7 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
     }
     else
     {
+        LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiSetUserSpecificDir queued" );
         m_FromGuiMgr.fromGuiSetUserSpecificDir( userSpecificDir );
     }
 }
@@ -154,6 +154,7 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
     }
     else
     {
+        LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn queued" );
         m_FromGuiMgr.fromGuiUserLoggedOn( netIdent );
     }
 }
