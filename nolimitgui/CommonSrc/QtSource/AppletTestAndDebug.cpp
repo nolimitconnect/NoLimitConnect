@@ -196,14 +196,14 @@ void AppletTestAndDebug::slotPingTestButtonClicked( void )
 void AppletTestAndDebug::slotHackerViewButtonClicked( void )
 {
     getInfoEdit()->clear();
-    m_MyApp.launchApplet( eAppletHackerList, getContentFrameOfOppositePageFrame() );
+    m_MyApp.launchApplet( eAppletHackerList, getParentPageFrame() );
 }
 
 //============================================================================
 void AppletTestAndDebug::slotSktStatViewButtonClicked( void )
 {
     getInfoEdit()->clear();
-    m_MyApp.launchApplet( eAppletSocketList, getContentFrameOfOppositePageFrame() );
+    m_MyApp.launchApplet( eAppletSocketList, getParentPageFrame() );
 }
 
 //============================================================================

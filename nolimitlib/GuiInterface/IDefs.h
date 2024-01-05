@@ -1229,6 +1229,47 @@ enum ESktCloseReason
     eSktCloseNetServiceHandled,
     eSktCloseBlockedUser,
     eSktCloseClosedByUser,
+    
+    // done with connection
+    eSktCloseGroupAnnounce,
+    eSktCloseGroupJoin,
+    eSktCloseGroupLeave,
+    eSktCloseGroupUnJoin,
+    eSktCloseGroupSearch,
+    eSktCloseGroupUserConnect,
+
+    eSktCloseChatRoomAnnounce,
+    eSktCloseChatRoomJoin,
+    eSktCloseChatRoomLeave,
+    eSktCloseChatRoomUnJoin,
+    eSktCloseChatRoomSearch,
+    eSktCloseChatRoomUserConnect,
+
+    eSktCloseRandomConnectAnnounce,
+    eSktCloseRandomConnectJoin,
+    eSktCloseRandomConnectLeave,
+    eSktCloseRandomConnectUnJoin,
+    eSktCloseRandomConnectSearch,
+    eSktCloseRandomConnectUserConnect,
+
+    eSktCloseAnnouncePing,
+    eSktCloseOtherSearch,
+    eSktCloseNetworkHostListSearch,
+
+    eSktCloseGroupHostedUserListSearch,
+    eSktCloseChatRoomHostedUserListSearch,
+    eSktCloseRandomConnectHostedUserListSearch,
+
+    eSktCloseGroupGroupieUserListSearch,
+    eSktCloseChatRoomGroupieUserListSearch,
+    eSktCloseRandomConnectGroupieUserListSearch,
+
+    eSktCloseUserRelayedConnect,
+    eSktCloseUserDirectConnect,
+    eSktCloseNetworkHost,
+    eSktCloseConnectTest,
+
+    eSktClosePushToTalk,
 
     eMaxSktCloseReason			// always last
 };
@@ -1306,6 +1347,8 @@ enum EXferAction
 //============================================================================
 // There is a qt translated version of these functions in GuiParams for the user interface
 //============================================================================
+
+ESktCloseReason ConnectReasonToCloseReason( enum EConnectReason connectReason );
 
 const char* DescribeAppModule( enum EAppModule appModule );
 const char* DescribeAge( enum EAgeType ageType );

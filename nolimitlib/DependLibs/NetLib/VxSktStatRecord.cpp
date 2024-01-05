@@ -28,9 +28,10 @@ VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr )
 }
 
 //============================================================================
-VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr, ESktType sktType )
+VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr, ESktType sktType, EConnectReason connectReason )
 	: m_SktHandle( skt )
 	, m_SktType( sktType )
+	, m_ConnectReason( connectReason )
 	, m_IpAddr( ipAddr )
 {
 	m_TimeMs = GetGmtTimeMs();
@@ -50,6 +51,7 @@ VxSktStatRecord::VxSktStatRecord( SOCKET skt, ESktType sktType, std::string& ipA
 VxSktStatRecord::VxSktStatRecord( const VxSktStatRecord& rhs )
 	: m_SktHandle( rhs.m_SktHandle )
 	, m_SktType( rhs.m_SktType )
+	, m_ConnectReason( rhs.m_ConnectReason )
 	, m_IpAddr( rhs.m_IpAddr )
 	, m_TimeMs( rhs.m_TimeMs )
 	, m_SignatureId( rhs.m_SignatureId )
@@ -63,6 +65,7 @@ VxSktStatRecord& VxSktStatRecord::operator=( const VxSktStatRecord& rhs )
 	{
 		m_SktHandle = rhs.m_SktHandle;
 		m_SktType = rhs.m_SktType;
+		m_ConnectReason = rhs.m_ConnectReason;
 		m_IpAddr = rhs.m_IpAddr;
 		m_TimeMs = rhs.m_TimeMs;
 		m_SignatureId = rhs.m_SignatureId;

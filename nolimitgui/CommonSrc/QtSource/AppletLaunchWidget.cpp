@@ -50,7 +50,7 @@ void AppletLaunchWidget::slotAppletIconPressed( void )
         || ( eAppletPlayerNlc == m_AppletType )      
         )
     {
-        if( eAppletUserConnections == m_AppletType )
+        if( eAppletUserConnections == m_AppletType || eAppletSocketList == m_AppletType )
         {
              m_MyApp.launchApplet( m_AppletType, m_AppletLaunchPage->getParentPageFrame() );
         }

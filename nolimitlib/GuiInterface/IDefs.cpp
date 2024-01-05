@@ -611,6 +611,44 @@ namespace
         "Skt Close Blocked User ",
         "Skt Closed By User ",
 
+        "Skt CloseGroupAnnounce ",
+        "Skt Close GroupJoin ",
+        "Skt Close GroupLeave ",
+        "Skt Close GroupUnJoin ",
+        "Skt Close GroupSearch ",
+        "Skt Close GroupUserConnect ",
+
+        "Skt Close ChatRoomAnnounce ",
+        "Skt Close ChatRoomJoin ",
+        "Skt Close ChatRoomLeave ",
+        "Skt Close ChatRoomUnJoin ",
+        "Skt Close ChatRoomSearch ",
+        "Skt Close ChatRoomUserConnect ",
+
+        "Skt Close RandomConnectAnnounce ",
+        "Skt Close RandomConnectJoin ",
+        "Skt Close RandomConnectLeave ",
+        "Skt Close RandomConnectUnJoin ",
+        "Skt Close RandomConnectSearch ",
+        "Skt Close RandomConnectUserConnect ",
+
+        "Skt Close AnnouncePing ",
+        "Skt Close OtherSearch ",
+        "Skt Close NetworkHostListSearch ",
+
+        "Skt Close GroupHostedUserListSearch ",
+        "Skt Close ChatRoomHostedUserListSearch ",
+        "Skt Close RandomConnectHostedUserListSearch ",
+
+        "Skt Close GroupGroupieUserListSearch ",
+        "Skt Close ChatRoomGroupieUserListSearch ",
+        "Skt Close RandomConnectGroupieUserListSearch ",
+
+        "Skt Close UserRelayedConnect ",
+        "Skt Close UserDirectConnect ",
+        "Skt Close NetworkHost ",
+        "Skt Close ConnectTest ",
+
         "eMaxSktCloseReason "
     };
 
@@ -644,6 +682,83 @@ namespace
 
         "eMaxUserViewType"
     };
+}
+
+//============================================================================
+ESktCloseReason ConnectReasonToCloseReason( enum EConnectReason connectReason )
+{
+    switch( connectReason )
+    {
+    case eConnectReasonGroupAnnounce:
+        return eSktCloseGroupAnnounce;
+    case eConnectReasonGroupJoin:
+        return eSktCloseGroupJoin;
+    case eConnectReasonGroupLeave:
+        return eSktCloseGroupLeave;
+    case eConnectReasonGroupUnJoin:
+        return eSktCloseGroupUnJoin;
+    case eConnectReasonGroupSearch:
+        return eSktCloseGroupSearch;
+    case eConnectReasonGroupUserConnect:
+        return eSktCloseGroupUserConnect;
+
+    case  eConnectReasonChatRoomAnnounce:
+        return eSktCloseChatRoomAnnounce;
+    case eConnectReasonChatRoomJoin:
+        return eSktCloseChatRoomJoin;
+    case eConnectReasonChatRoomLeave:
+        return eSktCloseChatRoomLeave;
+    case eConnectReasonChatRoomUnJoin:
+        return eSktCloseChatRoomUnJoin;
+    case eConnectReasonChatRoomSearch:
+        return eSktCloseChatRoomSearch;
+    case eConnectReasonChatRoomUserConnect:
+        return eSktCloseChatRoomUserConnect;
+
+    case eConnectReasonRandomConnectAnnounce:
+        return eSktCloseRandomConnectAnnounce;
+    case eConnectReasonRandomConnectJoin:
+        return eSktCloseRandomConnectJoin;
+    case eConnectReasonRandomConnectLeave:
+        return eSktCloseRandomConnectLeave;
+    case eConnectReasonRandomConnectUnJoin:
+        return eSktCloseRandomConnectUnJoin;
+    case eConnectReasonRandomConnectSearch:
+        return eSktCloseRandomConnectSearch;
+    case eConnectReasonRandomConnectUserConnect:
+        return eSktCloseRandomConnectUserConnect;
+
+    case eConnectReasonAnnouncePing:
+        return eSktCloseAnnouncePing;
+    case  eConnectReasonOtherSearch:
+        return eSktCloseOtherSearch;
+    case eConnectReasonNetworkHostListSearch:
+        return eSktCloseNetworkHostListSearch;
+
+    case eConnectReasonGroupHostedUserListSearch:
+        return eSktCloseGroupHostedUserListSearch;
+    case eConnectReasonChatRoomHostedUserListSearch:
+        return eSktCloseChatRoomHostedUserListSearch;
+    case eConnectReasonRandomConnectHostedUserListSearch:
+        return eSktCloseRandomConnectHostedUserListSearch;
+
+    case eConnectReasonGroupGroupieUserListSearch:
+        return eSktCloseGroupGroupieUserListSearch;
+    case eConnectReasonChatRoomGroupieUserListSearch:
+        return eSktCloseChatRoomGroupieUserListSearch;
+    case eConnectReasonRandomConnectGroupieUserListSearch:
+        return eSktCloseRandomConnectGroupieUserListSearch;
+
+    case eConnectReasonNetworkHost:
+        return eSktCloseNetworkHost;
+    case eConnectReasonConnectTest:
+        return eSktCloseNetworkHost;
+    case eConnectReasonPushToTalk:
+        return eSktClosePushToTalk;
+
+    default:
+        return eSktCloseConnectReasonsEmpty;
+    }
 }
 
 //============================================================================
@@ -789,6 +904,8 @@ bool IsConnectReasonTemporary( enum EConnectReason connectReason )
     case eConnectReasonRequestIdentity:
     case eConnectReasonNetworkHostListSearch:
         isPerm = false;
+        break;
+
     default:
         break;
     }

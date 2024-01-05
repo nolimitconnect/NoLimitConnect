@@ -26,7 +26,7 @@ public:
 
 	virtual void                sktConnected( SOCKET skt ) override;
 	virtual void                sktConnected2( SOCKET skt, std::string ipAddr ) override;
-	virtual void                sktConnected3( SOCKET skt, std::string ipAddr, ESktType sktType ) override;
+	virtual void                sktConnected4( SOCKET skt, std::string ipAddr, ESktType sktType, EConnectReason connectReason ) override;
 	virtual void                sktSetRemoteAddr( SOCKET skt, std::string ipAddr ) override;
 	virtual void                sktSetType( SOCKET skt, ESktType sktType ) override;
 	virtual void                sktClosed( SOCKET skt ) override;

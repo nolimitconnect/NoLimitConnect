@@ -252,7 +252,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce of %s %s by %s %s at %s skt id %s",
 				pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
-				sktBase->getRemoteIp().c_str(), sktBase->getSocketId().toHexString().c_str() );
+				sktBase->getRemoteIp().c_str(), sktBase->getSocketIdText().c_str() );
 	}
 }
 
@@ -753,22 +753,26 @@ void P2PEngine::onPktPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* p
 void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReq skt id %s peer %s",
-				sktBase->getSocketId().toHexString().c_str(),
+				sktBase->getSocketIdText().c_str(),
 				sktBase->describePeerUser().c_str() );
 
-	sktBase->setLastImAliveTimeTxMs(  GetGmtTimeMs() );
-	PktImAliveReply pktImAliveReply;
-	pktImAliveReply.setSrcOnlineId( m_PktAnn.getMyOnlineId() );
-	pktImAliveReply.setDestOnlineId( pktHdr->getSrcOnlineId() );
+	// do not respond to temp connections so if something went wrong it will eventually die
+	if( !sktBase->isTempConnection() )
+	{
+		sktBase->setLastImAliveTimeTxMs(  GetGmtTimeMs() );
+		PktImAliveReply pktImAliveReply;
+		pktImAliveReply.setSrcOnlineId( m_PktAnn.getMyOnlineId() );
+		pktImAliveReply.setDestOnlineId( pktHdr->getSrcOnlineId() );
 
-	sktBase->txPacketWithDestId( &pktImAliveReply );
+		sktBase->txPacketWithDestId( &pktImAliveReply );
+	}
 }
 
 //============================================================================
 void P2PEngine::onPktImAliveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktImAliveReply skt id %s peer %s",
-				sktBase->getSocketId().toHexString().c_str(),
+				sktBase->getSocketIdText().c_str(),
 				sktBase->describePeerUser().c_str() );
 
 	sktBase->setLastImAliveTimeRxMs( GetGmtTimeMs() );

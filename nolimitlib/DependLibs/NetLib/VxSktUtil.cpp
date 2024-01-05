@@ -2630,6 +2630,8 @@ const char* VxDescribeSktError( int iErr )
 		return "Connection refused";
 	case 88:
 		return "Operation on non socket";
+    case ENOPROTOOPT: // 92
+         return "ENOPROTOOPT"; // The option_name parameter is unrecognized, or the level parameter is not SOL_SOCKET.
 	case ESOCKTNOSUPPORT:
 		return "ESOCKTNOSUPPORT";
 	case EOPNOTSUPP:

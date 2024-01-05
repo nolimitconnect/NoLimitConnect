@@ -62,7 +62,7 @@ RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
 
 	if( VxGetSktStatCallback() )
 	{
-		VxGetSktStatCallback()->sktConnected3( m_Socket, m_strRmtIp, eSktTypeTcpAccept );
+		VxGetSktStatCallback()->sktConnected4( m_Socket, m_strRmtIp, eSktTypeTcpAccept, eConnectReasonUnknown );
 	}
 
     // tell user we connecting

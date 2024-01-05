@@ -492,8 +492,6 @@ void AppletJoinBase::callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUser
 	else
 	{
 		LogMsg( LOG_ERROR, "AppletJoinBase::callbackGuiUserJoinIsGranted null guiHosted for %s", m_MyApp.describeGroupieId( groupieId ).c_str() );
-		vx_assert( false );
-		return;
 	}
 }
 

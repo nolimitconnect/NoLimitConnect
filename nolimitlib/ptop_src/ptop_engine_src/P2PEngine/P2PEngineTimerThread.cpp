@@ -108,7 +108,8 @@ void P2PEngine::onOncePerSecond( void )
     {
         minuteCntInSeconds = 60;
         onOncePerMinute();
-        LogMsg( LOG_VERBOSE, "Running Skt Rx Threads Cnt %d", VxSktBase::getRunningRxSktThreadCnt() );
+        LogMsg( LOG_VERBOSE, "Running Skt Rx Threads Cnt %d active %d to delete %d", 
+                VxSktBase::getRunningRxSktThreadCnt(), getPeerMgr().getActiveSktCnt(), getPeerMgr().getToDeleteSktCnt() );
     }
 
     static int minute5CntSeconds = 60 * 5 + 3;

@@ -37,7 +37,6 @@ namespace
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
-
 //============================================================================
 AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_SOCKET_LIST, app, parent )
@@ -52,7 +51,7 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 
 	m_MyApp.activityStateChange( this, true );
 
-    QStandardItemModel* model = new QStandardItemModel( 0, 3, parent );
+    QStandardItemModel* model = new QStandardItemModel( 0, 4, parent );
     ui.m_TreeView->setRootIsDecorated( false );
     ui.m_TreeView->setAlternatingRowColors( true );
     ui.m_TreeView->setModel( model );
@@ -61,6 +60,7 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
     model->setHeaderData( 0, Qt::Horizontal, QObject::tr( "Socket" ) );
     model->setHeaderData( 1, Qt::Horizontal, QObject::tr( "Socket Type" ) );
     model->setHeaderData( 2, Qt::Horizontal, QObject::tr( "IP Address" ) );
+    model->setHeaderData( 3, Qt::Horizontal, QObject::tr( "Reason" ) );
 
     refreshSktList();
 }
@@ -112,5 +112,6 @@ void AppletSocketList::addSocketStat( VxSktStatRecord& sktStat )
         model->setData( model->index( rowNum, 0 ), QString::number( sktStat.getSktHandle() ) );
         model->setData( model->index( rowNum, 1 ), QString( DescribeSktType( sktStat.getSktType() ) ) );
         model->setData( model->index( rowNum, 2 ), QString( sktStat.getIpAddr().c_str() ) );
+        model->setData( model->index( rowNum, 3 ), QString( DescribeConnectReason( sktStat.getConnectReason() ) ) );
     }
 }

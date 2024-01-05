@@ -594,7 +594,7 @@ bool VxServerMgr::createNewListenSocket( bool ipv6, uint16_t listenPort, SOCKET&
     retListenSock = listenSock;
     if( VxGetSktStatCallback() )
     {
-        VxGetSktStatCallback()->sktConnected3( listenSock, VxGetLclIpAddress( listenSock ), eSktTypeListen );
+        VxGetSktStatCallback()->sktConnected4( listenSock, VxGetLclIpAddress( listenSock ), eSktTypeListen, eConnectReasonUnknown );
     }
 
     VxCloseSkt( dummySock );

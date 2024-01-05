@@ -81,6 +81,7 @@ public:
 
     virtual int					getSktNumber( void )                            { return m_SktNumber; }		///< socket number incremented each socket created
     virtual VxGUID&             getSocketId( void )                             { return m_ConnectionId; }	///< socket unique identifier GUID
+	virtual std::string         getSocketIdText( void )                         { return m_ConnectionId.toHexString(); }
 
 	virtual void				setSktHandle( SOCKET sktHandle )				{ m_Socket = sktHandle; }
 	virtual SOCKET				getSktHandle( void )							{ return m_Socket; }		///< socket os system handle
@@ -102,7 +103,7 @@ public:
 
 	virtual void				setCallbackReason( ESktCallbackReason eReason )	{ m_eSktCallbackReason = eReason; }
 	virtual ESktCallbackReason	getCallbackReason( void )						{ return m_eSktCallbackReason; }
-	virtual void				setConnectReason( EConnectReason connectReason ) { m_ConnectReason = connectReason; }
+	virtual void				setConnectReason( EConnectReason connectReason );
 	virtual EConnectReason		getConnectReason( void )						{ return m_ConnectReason; }
 	virtual bool				isTempConnection( void );
 

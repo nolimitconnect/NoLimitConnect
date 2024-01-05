@@ -97,7 +97,7 @@ SOCKET VxSktConnectSimple::connectTo(	const char*		pIpOrUrl,				// remote ip or 
 }
 
 //============================================================================
-SOCKET VxSktConnectSimple::connectTo( const char*  lclAdapterIp,					// local adapter ip
+SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local adapter ip
                                       const char*	pIpOrUrl,						// remote ip or url
                                       uint16_t		u16Port,						// port to connect to
                                       int			iTimeoutMilliSeconds )	        // timeout attempt to connect
@@ -160,7 +160,7 @@ SOCKET VxSktConnectSimple::connectTo( const char*  lclAdapterIp,					// local ad
                     m_bIsConnected = true;
                     if( VxGetSktStatCallback() )
                     {
-                        VxGetSktStatCallback()->sktConnected3( m_Socket, rmtIpAddr.toStdString(),  eSktTypeSimple );
+                        VxGetSktStatCallback()->sktConnected4( m_Socket, rmtIpAddr.toStdString(), eSktTypeSimple, eConnectReasonUnknown );
                     }
                 }
             }

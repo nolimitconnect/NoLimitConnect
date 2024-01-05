@@ -30,6 +30,8 @@ public:
 	virtual void				lockSktList( void ) override								{ m_SktListMutex.lock(); m_ClientMgr.lockSktList(); }
 	virtual void				unlockSktList( void ) override								{ m_SktListMutex.unlock(); m_ClientMgr.unlockSktList(); }
 
+	virtual int					getActiveSktCnt( void ) override;
+	virtual int					getToDeleteSktCnt( void ) override;
 
 	// find a socket.. assumes list has been locked
     virtual std::shared_ptr<VxSktBase>	findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false ) override;

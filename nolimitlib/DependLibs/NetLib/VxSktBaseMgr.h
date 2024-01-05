@@ -41,6 +41,8 @@ public:
 	virtual void				sktMgrStartup( void ) = 0;
 	virtual void				sktMgrShutdown( void );
 
+	virtual int					getActiveSktCnt( void )		{ lockSktList(); int activeCnt = (int)m_aoSkts.size(); unlockSktList(); return activeCnt; }
+	virtual int					getToDeleteSktCnt( void )	{ lockSktList(); int toDeleteCnt = (int)m_aoSktsToDelete.size(); unlockSktList(); return toDeleteCnt; }
 
 	//! make a new socket... give derived classes a chance to override
 	virtual std::shared_ptr<VxSktBase>			makeNewSkt( void );

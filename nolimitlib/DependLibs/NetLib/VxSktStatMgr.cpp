@@ -94,7 +94,7 @@ void VxSktStatMgr::sktConnected2( SOCKET skt, std::string ipAddr )
 }
 
 //============================================================================
-void VxSktStatMgr::sktConnected3( SOCKET skt, std::string ipAddr, ESktType sktType )
+void VxSktStatMgr::sktConnected4( SOCKET skt, std::string ipAddr, ESktType sktType, EConnectReason connectReason )
 {
 	if( skt <= 0 )
 	{
@@ -105,7 +105,7 @@ void VxSktStatMgr::sktConnected3( SOCKET skt, std::string ipAddr, ESktType sktTy
 	m_SktStatMutex.lock();
 	if( m_SktStatList.find( skt ) == m_SktStatList.end() )
 	{
-		VxSktStatRecord sktStat( skt, ipAddr, sktType );
+		VxSktStatRecord sktStat( skt, ipAddr, sktType, connectReason );
 		m_SktStatList[ skt ] = sktStat;
 	}
 	//else

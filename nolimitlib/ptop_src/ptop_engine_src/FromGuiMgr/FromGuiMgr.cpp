@@ -159,8 +159,10 @@ void FromGuiMgr::fromGuiThreadWork( VxThread* workThread )
 			unlockFromGuiQue();
 			if( fromGuiAction )
 			{
-                LogMsg( LOG_VERBOSE, "FromGuiMgr executing %s", fromGuiAction->describeGuiAction().c_str() );
+				int64_t timeStart = GetGmtTimeMs();
 				fromGuiAction->executeAction();
+				int64_t timeEnd = GetGmtTimeMs();
+				LogMsg( LOG_VERBOSE, "FromGuiMgr took %d ms executing %s", (int)(timeEnd - timeStart), fromGuiAction->describeGuiAction().c_str() );
 			}
 		}
 	}

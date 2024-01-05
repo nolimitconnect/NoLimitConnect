@@ -606,7 +606,6 @@ bool HostedListMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, 
 
         m_Engine.getFromGuiMgr().fromGuiQueryHostListFromNetworkHost( netHostUrl, hostType, hostIdIfNullThenAll, m_SearchSessionId );
 
-
         return true;
     }
 

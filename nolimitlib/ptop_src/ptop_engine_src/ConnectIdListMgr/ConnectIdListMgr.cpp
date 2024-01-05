@@ -614,7 +614,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
     if( sktBase )
     {
         LogModule( eLogRelay, LOG_VERBOSE, "ConnectIdListMgr::findRelayMemberConnection found connection %s %s for online id %s", 
-                   sktBase->getSocketId().toHexString().c_str(), sktBase->describeSktConnection().c_str(), onlineId.toOnlineIdString().c_str() );
+                   sktBase->getSocketIdText().c_str(), sktBase->describeSktConnection().c_str(), onlineId.toOnlineIdString().c_str() );
     }
     else
     {

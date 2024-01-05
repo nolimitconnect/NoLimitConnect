@@ -527,7 +527,7 @@ RCODE VxSktBase::doConnectTo( void )
 		m_bIsConnected = true;
 		if( VxGetSktStatCallback() )
 		{
-			VxGetSktStatCallback()->sktConnected3( m_Socket, m_strRmtIp, getSktType() );
+			VxGetSktStatCallback()->sktConnected4( m_Socket, m_strRmtIp, getSktType(), getConnectReason() );
 		}
 
 		return 0;
@@ -549,7 +549,7 @@ std::string	 VxSktBase::describeSktConnection( void )
     std::string sktDesc;
     StdStringFormat( sktDesc, "%snum %d handle %d %s:%d%s%s:%d skt id %s", DescribeSktType( getSktType() ), getSktNumber(), m_Socket,
 					 m_strLclIp.c_str(), m_LclIp.getPort(), 
-					 describeSktDirection().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(), getSocketId().toHexString().c_str() );
+					 describeSktDirection().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(), getSocketIdText().c_str() );
     return sktDesc;
 }
 
@@ -561,8 +561,8 @@ void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose )
 		return;
 	}
 
-	LogModule( eLogConnect, LOG_VERBOSE, "%s skt num %d handle %d reason %s last err %d description %s", __func__, getSktNumber(), 
-			   getSktHandle(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
+	LogModule( eLogConnect, LOG_VERBOSE, "%s skt num %d handle %d id %s reason %s last err %d description %s", __func__, getSktNumber(), 
+			   getSktHandle(), getSocketIdText().c_str(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
 	if( !m_HasBeenShutdown )
 	{
 		if( m_SktCloseReason == eSktCloseReasonUnknown )
@@ -633,7 +633,7 @@ void VxSktBase::doCloseThisSocketHandle( bool bFlushThenClose )
 		SOCKET oSocket = m_Socket; 
 		m_Socket = INVALID_SOCKET;
 		LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::doCloseThisSocketHandle: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
-				   getSktNumber(), getSktHandle(), getSocketId().toHexString().c_str(), getPeerPktAnn().describeUser().c_str() );
+				   getSktNumber(), getSktHandle(), getSocketIdText().c_str(), getPeerPktAnn().describeUser().c_str() );
 		if( bFlushThenClose )
 		{
 			VxFlushThenCloseSkt( oSocket );
@@ -683,14 +683,14 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 				return sktClosedErr;
 			}
 
-			// noting else seems to work to fix the broken pipe SIGPIPE exception
+			// nothing else seems to work to fix the broken pipe SIGPIPE exception
 			// so for linux only set MSG_NOSIGNAL on a per call bases so returns an error instead of throwing a exception
-			#if !defined(TARGET_OS_WINDOWS)
-			int set = 1;
-			setsockopt(m_Socket, SOL_SOCKET, MSG_NOSIGNAL, (void *)&set, sizeof(int));
-			#endif // defined(TARGET_OS_LINUX)
+			#if defined(TARGET_OS_WINDOWS)
+				iSentLen = send( m_Socket, (const char*)pData, iDataLen, 0);
+			#else
+				iSentLen = send( m_Socket, (const char*)pData, iDataLen, MSG_NOSIGNAL);
+			#endif // defined(TARGET_OS_WINDOWS)
 
-			iSentLen = send( m_Socket, (const char*)pData, iDataLen, 0);
 			if( 0 > iSentLen )
 			{
 				setLastSktError( VxGetLastError() );
@@ -999,7 +999,7 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
     if( pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REPLY && pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REQ )
     {
         LogMsg( LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
-                getSocketId().toHexString().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
+                getSocketIdText().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
                 pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
 				getPeerOnlineId().isVxGUIDValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
     }
@@ -1040,6 +1040,16 @@ RCODE VxSktBase::decryptReceiveData( void )
 
 	unlockCryptoAccess();
 	return 0;
+}
+
+//============================================================================
+void VxSktBase::setConnectReason( EConnectReason connectReason ) 
+{ 
+	m_ConnectReason = connectReason; 
+	if( isConnected() && VxGetSktStatCallback() )
+	{
+		VxGetSktStatCallback()->sktConnected4( m_Socket, m_strRmtIp, getSktType(), getConnectReason() );
+	}
 }
 
 //============================================================================
@@ -1627,7 +1637,7 @@ bool VxSktBase::setPeerPktAnn( PktAnnounce &peerAnn )
 
     m_PeerAnnMutex.unlock();
 	LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::setPeerPktAnn: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
-				   getSktNumber(), getSktHandle(), getSocketId().toHexString().c_str(), describePeerUser().c_str() );
+				   getSktNumber(), getSktHandle(), getSocketIdText().c_str(), describePeerUser().c_str() );
     return isSameSize;
 }
 
@@ -1713,9 +1723,9 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
 	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
 	{
-		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timeout skt hande %d num %d id %s peer %s",
-				getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str(),
-				describePeerUser().c_str() );
+		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timeout skt hande %d num %d id %s peer %s desc %s",
+				getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
+				describePeerUser().c_str(), describeSktConnection().c_str() );
 		closeSkt( eSktCloseImAliveTimeout );
 	}
 	else if( getIsPeerPktAnnSet() )
@@ -1728,7 +1738,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 		if( rc )
 		{
 			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s peer %s",
-				rc, getSktHandle(), getSktNumber(), getSocketId().toHexString().c_str(),
+				rc, getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
 					describePeerUser().c_str() );
 		}
 

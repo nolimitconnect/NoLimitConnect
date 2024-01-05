@@ -77,7 +77,7 @@ RCODE VxSktUdp::udpOpen( InetAddress& oLclIp, uint16_t u16Port, bool enableRecei
 	{
 		if( VxGetSktStatCallback() )
 		{
-			VxGetSktStatCallback()->sktConnected3( m_Socket, oLclIp.toStdString(), eSktTypeUdp );
+			VxGetSktStatCallback()->sktConnected4( m_Socket, oLclIp.toStdString(), eSktTypeUdp, eConnectReasonUnknown );
 		}
 
 		startReceive();
@@ -114,7 +114,7 @@ RCODE VxSktUdp::udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port )
 	{
 		if( VxGetSktStatCallback() )
 		{
-			VxGetSktStatCallback()->sktConnected3( m_Socket, oLclIp.toStdString(), eSktTypeUdp );
+			VxGetSktStatCallback()->sktConnected4( m_Socket, oLclIp.toStdString(), eSktTypeUdp, eConnectReasonUnknown );
 		}
 
 		startReceive();
@@ -226,7 +226,7 @@ RCODE VxSktUdp::udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, boo
 		{
 			if( VxGetSktStatCallback() )
 			{
-				VxGetSktStatCallback()->sktConnected3( m_Socket, m_MulticastGroupIp, eSktTypeUdpBroadcast );
+				VxGetSktStatCallback()->sktConnected4( m_Socket, m_MulticastGroupIp, eSktTypeUdpBroadcast, eConnectReasonUnknown );
 			}
 
 			startReceive();
@@ -338,7 +338,7 @@ RCODE VxSktUdp::udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port
 		{
 			if( VxGetSktStatCallback() )
 			{
-				VxGetSktStatCallback()->sktConnected3( m_Socket, m_MulticastGroupIp, eSktTypeUdpBroadcast );
+				VxGetSktStatCallback()->sktConnected4( m_Socket, m_MulticastGroupIp, eSktTypeUdpBroadcast, eConnectReasonUnknown );
 			}
 
 			startReceive();

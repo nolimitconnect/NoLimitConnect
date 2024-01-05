@@ -84,6 +84,18 @@ void VxPeerMgr::setSktMgrStatusCallback( VX_SKT_MGR_STATUS_CALLBACK pfnSktMgrSta
 }
 
 //============================================================================
+int VxPeerMgr::getActiveSktCnt( void )
+{
+	return VxServerMgr::getActiveSktCnt() + m_ClientMgr.getActiveSktCnt();
+}
+
+//============================================================================
+int VxPeerMgr::getToDeleteSktCnt( void )
+{
+	return VxServerMgr::getToDeleteSktCnt() + m_ClientMgr.getToDeleteSktCnt();
+}
+
+//============================================================================
 //! make a new socket... give derived classes a chance to override
 std::shared_ptr<VxSktBase> VxPeerMgr::makeNewSkt( void )
 { 

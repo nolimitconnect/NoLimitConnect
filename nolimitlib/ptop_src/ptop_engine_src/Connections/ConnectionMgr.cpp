@@ -595,7 +595,7 @@ void ConnectionMgr::doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConn
     {
         // this has to be done after list is unlocked or mutex deadlock can occur
         // let the normal socket disconnected code do the work of removing the connection
-        sktBase->closeSkt( eSktCloseConnectReasonsEmpty );
+        sktBase->closeSkt( ConnectReasonToCloseReason( connectReason ) );
     }
 }
 
