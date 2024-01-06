@@ -12,8 +12,8 @@
 #include <PktLib/VxPktHdr.h>
 
 //============================================================================
-P2PSession::P2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: PluginSessionBase( sktBase, netIdent, pluginType )
+P2PSession::P2PSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
+: PluginSessionBase( sktBase, sendToId, pluginType )
 , m_iOutstandingAckCnt( 0 )
 , m_bSendingPkts( false )
 , m_VideoCastPkt( 0 )
@@ -22,8 +22,8 @@ P2PSession::P2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIden
 }
 
 //============================================================================
-P2PSession::P2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: PluginSessionBase( lclSessionId, sktBase, netIdent, pluginType )
+P2PSession::P2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
+: PluginSessionBase( lclSessionId, sktBase, sendToId, pluginType )
 , m_iOutstandingAckCnt( 0 )
 , m_bSendingPkts( false )
 , m_VideoCastPkt( 0 )

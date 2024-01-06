@@ -52,7 +52,7 @@ public:
     void				        setHostOnlineId( VxGUID& onlineId )                 { m_GroupieId.setHostOnlineId( onlineId ); }
     VxGUID&                     getHostOnlineId( void )                             { return m_GroupieId.getHostOnlineId(); }
     void			            setHostType( EHostType hostType )                   { m_GroupieId.setHostType( hostType ); }
-    EHostType	                getHostType( void )                                 { return m_GroupieId.getHostType(); }
+    EHostType	                getHostType( void ) const                           { return m_GroupieId.getHostType(); }
 
     EPluginType	                getHostPluginType( void );
     EPluginType	                getClientPluginType( void );

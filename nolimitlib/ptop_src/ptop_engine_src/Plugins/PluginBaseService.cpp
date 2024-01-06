@@ -81,7 +81,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
 
                     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
                                m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
-                    if(  txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
+                    if(  txPacket( memberOnlineId, sktBase, pktHdr, getClientPluginType() ) )
                     {
                         // should we log fail to send ?
                     }
@@ -94,7 +94,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
         if( !sentToRequestor && includeRequester && sktBaseRequester && requesterOnlineId.isVxGUIDValid() )
         {
             // allways send to requester even if not still joined
-            txPacket( requesterOnlineId, sktBaseRequester, pktHdr, false, getClientPluginType() );
+            txPacket( requesterOnlineId, sktBaseRequester, pktHdr, getClientPluginType() );
         }
     }
     else
@@ -143,7 +143,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
                     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
                                m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
                    
-                    if( !txPacket( memberOnlineId, sktBase, pktHdr, false, getClientPluginType() ) )
+                    if( !txPacket( memberOnlineId, sktBase, pktHdr, getClientPluginType() ) )
                     {
                         // logging ?
                     }

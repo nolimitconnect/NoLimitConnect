@@ -21,7 +21,7 @@ namespace
 }
 
 //============================================================================
-void HandshakeList::getAndRemoveHandshakeInfo( const VxGUID& socketId, const VxGUID& onlineId, std::vector<HandshakeInfo>& shakeList, std::vector<HandshakeInfo>& timedOutList )
+void HandshakeList::getAndRemoveHandshakeInfo( const VxGUID& socketId, VxGUID onlineId, std::vector<HandshakeInfo>& shakeList, std::vector<HandshakeInfo>& timedOutList )
 {
     VxGuidPairTimeList removeList;
     uint64_t timeNow = GetTimeStampMs();

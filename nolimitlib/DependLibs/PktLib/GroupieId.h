@@ -49,7 +49,7 @@ public:
     bool						isHostOnlineId( VxGUID& onlineId ) const            { return m_HostedId.isHostOnlineId( onlineId ); }
 
     void			            setHostType( EHostType hostType )                   { m_HostedId.setHostType( hostType ); }
-    EHostType	                getHostType( void )                                 { return m_HostedId.getHostType(); }
+    EHostType	                getHostType( void ) const                           { return m_HostedId.getHostType(); }
     bool						isHostType( EHostType hostType ) const              { return m_HostedId.isHostType( hostType ); }
 
     EPluginType                 getHostPluginType( void );

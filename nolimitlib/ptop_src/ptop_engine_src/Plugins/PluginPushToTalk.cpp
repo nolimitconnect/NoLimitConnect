@@ -16,6 +16,7 @@
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <NetLib/VxSktBase.h>
 #include <PktLib/PktsPushToTalk.h>
 #include <PktLib/PktChatReq.h>
 
@@ -35,7 +36,7 @@ PluginPushToTalk::PluginPushToTalk( P2PEngine& engine, PluginMgr& pluginMgr, VxN
 
 //============================================================================
 //! user wants to send offer to friend.. return false if cannot connect
-bool PluginPushToTalk::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginPushToTalk::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
 	P2PSession* poSession = nullptr;
 	VxGUID& lclSessionId = offerInfo.getOfferId();
@@ -46,68 +47,68 @@ bool PluginPushToTalk::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseIn
 	}
 	else
 	{
-		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	}
 
 	if( poSession )
 	{
 		LogMsg( LOG_ERROR, "PluginPushToTalk already in session");
 		// assume some error in logic
-		m_PluginSessionMgr.removeSessionBySessionId( true, netIdent->getMyOnlineId() );
+		m_PluginSessionMgr.removeSessionBySessionId( true, lclSessionId );
 	}
 
-	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, netIdent, offerInfo );
+	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, onlineId, offerInfo );
 }
 
 //============================================================================
-bool PluginPushToTalk::fromGuiIsPluginInSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginPushToTalk::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, netIdent, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginPushToTalk::fromGuiStartPluginSession( VxNetIdent* netIdent,int, VxGUID )
+void PluginPushToTalk::fromGuiStartPluginSession( VxGUID& onlineId,int, VxGUID )
 {
-	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( false, netIdent );
+	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( false, onlineId );
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginPushToTalk::fromGuiStopPluginSession( VxNetIdent* netIdent, int, VxGUID )
+void PluginPushToTalk::fromGuiStopPluginSession( VxGUID& onlineId, int, VxGUID )
 {
-	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, netIdent );
-	//m_PluginSessionMgr.fromGuiStopPluginSession( false, netIdent );
+	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, onlineId );
+	//m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId );
 }
 
 //============================================================================
 //! handle reply to offer
-bool PluginPushToTalk::fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginPushToTalk::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
-	return m_PluginSessionMgr.fromGuiOfferReply( false, netIdent, offerInfo );
+	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
 }
 
 //============================================================================
-bool PluginPushToTalk::fromGuiInstMsg(	VxNetIdent*	netIdent, 
+bool PluginPushToTalk::fromGuiInstMsg( VxGUID& onlineId, 
 										const char*	pMsg )
 {
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	P2PSession* poSession = m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	P2PSession* poSession = m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	if( poSession )
 	{
 		PktChatReq oPkt;
 		oPkt.addMsg( pMsg );
-		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, netIdent->getMyOnlineId(), poSession->getSkt(), &oPkt );
+		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &oPkt );
 	}
 
 	return false;
 }
 
 //============================================================================
-bool PluginPushToTalk::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk )
+bool PluginPushToTalk::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk )
 {
 	std::shared_ptr<VxSktBase> sktBase( nullptr );
-	bool isMyself = (netIdent->getMyOnlineId() == m_PluginMgr.getEngine().getMyOnlineId());
+	bool isMyself = onlineId == m_PluginMgr.getEngine().getMyOnlineId();
 	if( isMyself )
 	{
 		sktBase = m_Engine.getSktLoopback();
@@ -115,40 +116,39 @@ bool PluginPushToTalk::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk 
 	else
 	{
 
-		sktBase = m_Engine.getConnectIdListMgr().findBestHostOnlineConnection( netIdent->getMyOnlineId() );
+		sktBase = m_Engine.getConnectIdListMgr().findBestHostOnlineConnection( onlineId );
+	}
+
+	if( !sktBase || !sktBase->isConnected() )
+	{
+		return false;
 	}
 
 	if( enableTalk )
 	{
-		if( !sktBase )
-		{
-			bool isNewConnection;
-			m_Engine.connectToContact( netIdent->getConnectInfo(), sktBase, isNewConnection, eConnectReasonPushToTalk );
-		}
-
 		if( sktBase )
 		{
-			return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, enableTalk, sktBase );
+			return m_PushToTalkFeedMgr.fromGuiPushToTalk( onlineId, enableTalk, sktBase );
 		}
 		else
 		{
 			std::shared_ptr<VxSktBase> sktBaseNull( nullptr );
-			return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, false, sktBaseNull );
+			return m_PushToTalkFeedMgr.fromGuiPushToTalk( onlineId, false, sktBaseNull );
 		}
 	}
 	else
 	{
 		//BRJ temp return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, false, sktBase );
-		return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, false, sktBase );
+		return m_PushToTalkFeedMgr.fromGuiPushToTalk( onlineId, false, sktBase );
 	}
 
 	return false;
 }
 
 //============================================================================
-void PluginPushToTalk::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio )
+void PluginPushToTalk::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 {
-	m_PushToTalkFeedMgr.callbackOpusPkt( userData, pktOpusAudio );
+	m_PushToTalkFeedMgr.callbackOpusPkt( pktOpusAudio );
 }
 
 //============================================================================
@@ -227,13 +227,13 @@ void PluginPushToTalk::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 void PluginPushToTalk::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
-	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( pluginIsLocked, session->getIdent() );
+	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( pluginIsLocked, session->getSendToId() );
 }
 
 //============================================================================
 void PluginPushToTalk::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
-	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( pluginIsLocked, session->getIdent() );
+	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( pluginIsLocked, session->getSendToId() );
 }
 
 //============================================================================

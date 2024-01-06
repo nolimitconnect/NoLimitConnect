@@ -22,15 +22,15 @@ FileRxSession::FileRxSession()
 }
 
 //============================================================================
-FileRxSession::FileRxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: FileShareXferSession( sktBase, netIdent )
+FileRxSession::FileRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: FileShareXferSession( sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }
 
 //============================================================================
-FileRxSession::FileRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: FileShareXferSession( lclSessionId, sktBase, netIdent )
+FileRxSession::FileRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: FileShareXferSession( lclSessionId, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }

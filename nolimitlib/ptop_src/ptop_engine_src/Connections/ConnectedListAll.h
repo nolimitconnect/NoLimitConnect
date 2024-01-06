@@ -26,9 +26,9 @@ public:
     virtual ~ConnectedListAll() override = default;
 
     ConnectedInfo*              getOrAddConnectedInfo( const VxGUID& socketId, BigListInfo* bigListInfo );
-    ConnectedInfo*              getConnectedInfo( const VxGUID& socketId, const VxGUID& onlineId );
-    ConnectedInfo*              getAnyConnectedInfo( const VxGUID& onlineId );
-    void                        removeConnectedInfo( const VxGUID& socketId, const VxGUID& onlineId, bool isLockedList = false );
+    ConnectedInfo*              getConnectedInfo( const VxGUID& socketId, VxGUID onlineId );
+    ConnectedInfo*              getAnyConnectedInfo( VxGUID onlineId );
+    void                        removeConnectedInfo( const VxGUID& socketId, VxGUID onlineId, bool isLockedList = false );
 
     bool                        removeConnectedReason( VxGUID& sessionId, VxGUID& onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, std::vector<std::shared_ptr<VxSktBase>>& retUnusedSkts );
 

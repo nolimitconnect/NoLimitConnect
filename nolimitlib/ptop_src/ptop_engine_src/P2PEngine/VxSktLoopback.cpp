@@ -45,7 +45,7 @@ VxSktLoopback::VxSktLoopback( P2PEngine& engine )
 }
 
 //============================================================================
-RCODE VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn, bool bDisconnect )
+RCODE VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn )
 {
     if( !VxIsAppShuttingDown() && pktHdrIn )
     {

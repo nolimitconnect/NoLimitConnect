@@ -10,8 +10,8 @@
 
 #include "TodGameSession.h"
 
-TodGameSession::TodGameSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: P2PSession( sktBase, netIdent, pluginType )
+TodGameSession::TodGameSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EPluginType pluginType )
+: P2PSession( sktBase, onlineId, pluginType )
 {
 
 }

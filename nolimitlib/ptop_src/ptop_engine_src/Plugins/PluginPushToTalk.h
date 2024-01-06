@@ -21,15 +21,15 @@ public:
 	PluginPushToTalk( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginPushToTalk() = default;
 
-	virtual bool				fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
-	virtual bool				fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
+	virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
-	virtual bool				fromGuiIsPluginInSession( VxNetIdent* netIdent = nullptr,  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-	virtual void				fromGuiStartPluginSession( VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-	virtual void				fromGuiStopPluginSession( VxNetIdent* netIdent = nullptr,  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(),  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(),  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
-	virtual bool				fromGuiInstMsg(	VxNetIdent*	netIdent, const char* pMsg ) override;
-	virtual bool				fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk ) override;
+	virtual bool				fromGuiInstMsg( VxGUID& onlineId, const char* pMsg ) override;
+	virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk ) override;
 
 	virtual void				replaceConnection			( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override;
 protected:
@@ -57,7 +57,7 @@ protected:
     virtual void				onSessionEnded				( PluginSessionBase* poSession, bool pluginIsLocked, EOfferResponse offerResponse ) override;
 
 protected:
-    virtual void				callbackOpusPkt				( void * userData, PktVoiceReq * pktOpusAudio ) override;
+    virtual void				callbackOpusPkt				( PktVoiceReq * pktOpusAudio ) override;
     virtual void				callbackAudioOutSpaceAvail	( int freeSpaceLen ) override;
 
 	PluginSessionMgr			m_PluginSessionMgr;

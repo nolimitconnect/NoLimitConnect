@@ -115,7 +115,7 @@ void HostServerMgr::removeSession( VxGUID& sessionId, EConnectReason connectReas
 }
 
 //============================================================================
-void HostServerMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostServerMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     removeSession( sessionId, connectReason );
 
@@ -123,7 +123,7 @@ void HostServerMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<Vx
 }
 
 //============================================================================
-bool HostServerMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostServerMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     bool result{ false };
     if( hostType == eHostTypeNetwork &&
@@ -137,7 +137,7 @@ bool HostServerMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionI
         {
             if( iter->second->isValidPkt() )
             {
-                result = m_Plugin.txPacket( onlineId, sktBase, iter->second, false, ePluginTypeHostNetwork );
+                result = m_Plugin.txPacket( onlineId, sktBase, iter->second, ePluginTypeHostNetwork );
             }
             else
             {
@@ -408,7 +408,7 @@ void HostServerMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, V
         }
 
         pktReply.calcPktLen();   
-        m_Plugin.txPacket( netIdent, sktBase, &pktReply );
+        m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
     }
 }
 
@@ -434,7 +434,7 @@ void HostServerMgr::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBas
 void HostServerMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     LogModule( eLogPkt, LOG_VERBOSE, "HostServerMgr::onPktHostUserListReq" );
-    VxGUID requestorOnlineid = netIdent->getMyOnlineId();
+    VxGUID requestorOnlineId = netIdent->getMyOnlineId();
     PktHostUserListReq* pktReq = ( PktHostUserListReq * )pktHdr;
     if( pktReq->isValidPkt() )
     {
@@ -457,7 +457,7 @@ void HostServerMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, V
             bool writeResult{ true };
             for( auto onlineId : onlineIdList )
             {
-                if( onlineId == requestorOnlineid )
+                if( onlineId == requestorOnlineId )
                 {
                     continue;
                 }
@@ -486,7 +486,7 @@ void HostServerMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, V
         }
 
         pktReply.calcPktLen();
-        if( !m_Plugin.txPacket( netIdent, sktBase, &pktReply ) )
+        if( !m_Plugin.txPacket( requestorOnlineId, sktBase, &pktReply ) )
         {
             LogMsg( LOG_ERROR, "HostServerMgr::onPktHostUserListReq failed to send" );
         }
@@ -565,7 +565,7 @@ void HostServerMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBas
         }
 
         pktReply.calcPktLen();
-        if( !m_Plugin.txPacket( netIdent, sktBase, &pktReply ) )
+        if( !m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply) )
         {
             LogMsg( LOG_ERROR, "HostServerMgr::onPktHostUserListReq failed to send" );
         }

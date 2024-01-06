@@ -78,8 +78,7 @@ bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo,
 //============================================================================
 bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 								std::shared_ptr<VxSktBase>&			sktBase, 
-								VxPktHdr*			poPkt, 
-								bool				bDisconnectAfterSend )
+								VxPktHdr*			poPkt )
 {
 	bool bSendSuccess = false;
 	poPkt->setSrcOnlineId( m_PktAnn.getMyOnlineId() );
@@ -90,7 +89,7 @@ bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 		{
 			sktBase->m_u8TxSeqNum++;
 			poPkt->setPktSeqNum( sktBase->m_u8TxSeqNum );
-			RCODE rc = sktBase->txPacket( destOnlineId, poPkt, bDisconnectAfterSend );
+			RCODE rc = sktBase->txPacket( destOnlineId, poPkt );
 			if( 0 == rc )
 			{
 				bSendSuccess = true;
@@ -98,7 +97,7 @@ bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 #ifdef DEBUG_PKTS
 			else
 			{
-				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: skt %d error %d\n", sktBase->m_SktNumber, sktBase->m_rcLastError );
+				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: skt %d error %d", sktBase->m_SktNumber, sktBase->m_rcLastError );
 			}
 #endif // DEBUG_PKTS
 		}
@@ -107,18 +106,18 @@ bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 		{
 			if( false == sktBase->isConnected() )
 			{
-				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d not connected\n", sktBase->m_SktNumber );
+				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d not connected", sktBase->m_SktNumber );
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d has no encryption key\n", sktBase->m_SktNumber );
+				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d has no encryption key", sktBase->m_SktNumber );
 			}
 		}
 #endif // DEBUG_PKTS
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "P2PEngine::txPluginPkt: Invalid system Packet length %d type %d\n", poPkt->getPktLength(), poPkt->getPktType() );
+		LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: Invalid system Packet length %d type %d", poPkt->getPktLength(), poPkt->getPktType() );
 		vx_assert( false );
 	}
 
@@ -138,20 +137,10 @@ void P2PEngine::broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo )
 }
 
 //============================================================================
-bool P2PEngine::txSystemPkt(	VxNetIdentBase *	netIdent, 
-								std::shared_ptr<VxSktBase>&			sktBase, 
-								VxPktHdr*			poPkt, 
-								bool				bDisconnectAfterSend )
-{
-	return txSystemPkt( netIdent->getMyOnlineId(), sktBase, poPkt, bDisconnectAfterSend );
-}
-
-//============================================================================
 bool P2PEngine::txPluginPkt( 	EPluginType			pluginType, 
 								VxNetIdentBase *	netIdent, 
 								std::shared_ptr<VxSktBase>&			sktBase, 
-								VxPktHdr*			poPkt, 
-								bool				bDisconnectAfterSend )
+								VxPktHdr*			poPkt  )
 {
 	bool bSendSuccess = false;
 	if( 0 == (poPkt->getPktLength() & 0xf ) )
@@ -163,7 +152,7 @@ bool P2PEngine::txPluginPkt( 	EPluginType			pluginType,
 			poPkt->setPluginNum( (uint8_t)pluginType );
 			sktBase->m_u8TxSeqNum++;
 			poPkt->setPktSeqNum( sktBase->m_u8TxSeqNum );
-			RCODE rc = sktBase->txPacket( netIdent->getMyOnlineId(), poPkt, bDisconnectAfterSend );
+			RCODE rc = sktBase->txPacket( netIdent->getMyOnlineId(), poPkt );
 			if( 0 == rc )
 			{
 				bSendSuccess = true;

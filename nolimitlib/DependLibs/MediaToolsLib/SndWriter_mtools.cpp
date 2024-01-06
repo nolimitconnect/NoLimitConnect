@@ -151,7 +151,7 @@ bool SndWriter::startSndWrite( const char* fileName, bool beginInPausedState )
 	{
 		setIsRecordingPaused( beginInPausedState );
 		setIsRecording( true );
-		m_Engine.getMediaProcessor().wantMediaInput( eMediaInputAudioOpus, this,  (void *)ePluginTypeSndWriter, eAppModuleMediaWriter, true );
+		m_Engine.getMediaProcessor().wantMediaInput( eMediaInputAudioOpus, this,  eAppModuleMediaWriter, true );
 	}
 
 	return result;
@@ -185,7 +185,7 @@ void SndWriter::stopSndWrite( void )
 	if( getIsRecording() )
 	{
 		setIsRecordingPaused( true );
-		m_Engine.getMediaProcessor().wantMediaInput( eMediaInputAudioOpus, this,  (void *)ePluginTypeSndWriter, eAppModuleMediaWriter, false );
+		m_Engine.getMediaProcessor().wantMediaInput( eMediaInputAudioOpus, this,  eAppModuleMediaWriter, false );
 
 #ifdef MAKE_PCM_INSTEAD_OF_OPUS
 		if( m_FileHandle )
@@ -212,7 +212,7 @@ void SndWriter::closeSndFile( void )
 }
 
 //============================================================================
-void SndWriter::callbackOpusEncoded( void * /*userData*/, uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList )
+void SndWriter::callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList )
 {
 	if( getIsRecording() )
 	{

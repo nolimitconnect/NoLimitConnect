@@ -58,8 +58,8 @@ public:
     bool						isMember( VxGUID& onlineId, bool removeFromMembers );
 
 protected:
-    virtual bool                onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason ) override;
-    virtual void                onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason = eConnectReasonUnknown ) override;
+    virtual bool                onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason ) override;
+    virtual void                onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason = eConnectReasonUnknown ) override;
 
     virtual void                onClientJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
     virtual bool                addClient( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );

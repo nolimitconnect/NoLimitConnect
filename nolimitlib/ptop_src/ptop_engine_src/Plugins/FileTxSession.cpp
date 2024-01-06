@@ -26,8 +26,8 @@ FileTxSession::FileTxSession()
 }
 
 //============================================================================
-FileTxSession::FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: FileShareXferSession( sktBase, netIdent )
+FileTxSession::FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: FileShareXferSession( sktBase, sendToId )
 , m_iOutstandingAckCnt( 0 )
 , m_bSendingPkts( false )
 , m_bViewingFileList( false )
@@ -37,8 +37,8 @@ FileTxSession::FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* n
 }
 
 //============================================================================
-FileTxSession::FileTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: FileShareXferSession( lclSessionId, sktBase, netIdent )
+FileTxSession::FileTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: FileShareXferSession( lclSessionId, sktBase, sendToId )
 , m_iOutstandingAckCnt(0)
 , m_bSendingPkts(false)
 , m_bViewingFileList(false)

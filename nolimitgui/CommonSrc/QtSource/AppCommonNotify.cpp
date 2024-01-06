@@ -21,14 +21,14 @@
 
 //============================================================================
 //! received offer from friend
-void AppCommon::toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+void AppCommon::toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalToGuiRxedPluginOffer( netIdent->getMyOnlineId(), offerInfo );
+	emit signalInternalToGuiRxedPluginOffer( onlineId, offerInfo );
 }
 
 //============================================================================
@@ -39,14 +39,14 @@ void AppCommon::slotInternalToGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo
 
 //============================================================================
 //! response to offer
-void AppCommon::toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+void AppCommon::toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalToGuiRxedOfferReply( netIdent->getMyOnlineId(), offerInfo );
+	emit signalInternalToGuiRxedOfferReply( onlineId, offerInfo );
 }
 
 //============================================================================

@@ -133,7 +133,7 @@ public:
     virtual void				setCreatorId( const char* creatorId )           { BaseInfo::setOnlineId( creatorId ); }
     virtual VxGUID&				getCreatorId( void )                            { return BaseInfo::getOnlineId(); }
 
-    virtual void				setHistoryId( VxGUID& historyId )               { m_HistoryId = historyId; }
+    virtual void				setHistoryId( VxGUID historyId )               { m_HistoryId = historyId; }
     virtual void				setHistoryId( const char* historyId )           { m_HistoryId.fromVxGUIDHexString( historyId ); }
     virtual VxGUID&				getHistoryId( void )                            { return m_HistoryId; }
 
@@ -177,6 +177,8 @@ public:
     virtual void				setDestUserId( VxGUID& destOnlineId )           { m_DestOnlineId = destOnlineId; }
     virtual void				setDestUserId( const char* destOnlineId )       { m_DestOnlineId.fromVxGUIDHexString( destOnlineId ); }
     virtual VxGUID&				getDestUserId( void )                           { return m_DestOnlineId; }
+
+    virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isVxGUIDValid() ) return m_DestOnlineId; return m_HistoryId; }
 
 public:
     //=== vars ===//

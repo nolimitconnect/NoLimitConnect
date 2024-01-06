@@ -20,10 +20,11 @@ public:
 
     virtual VxMutex&            getAssetXferMutex( void ) override;
     virtual EPluginType         getPluginType( void ) override;
+    virtual EPluginType         getOverridePluginType( void ) override { return ePluginTypeInvalid; }
     virtual std::string         getAssetXferDbName( void ) override;
     virtual std::string         getAssetXferThreadName( void ) override;
 
-    virtual bool                txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, bool bDisconnectAfterSend = false ) override;
+    virtual bool                txPacket( const VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, EPluginType overridePluginType = ePluginTypeInvalid ) override;
 
     PluginBase&                 m_PluginBase;
 };

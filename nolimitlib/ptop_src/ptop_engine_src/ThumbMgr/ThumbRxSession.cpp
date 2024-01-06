@@ -23,15 +23,15 @@ ThumbRxSession::ThumbRxSession( P2PEngine& engine )
 }
 
 //============================================================================
-ThumbRxSession::ThumbRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: ThumbXferSession( engine, sktBase, netIdent )
+ThumbRxSession::ThumbRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: ThumbXferSession( engine, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }
 
 //============================================================================
-ThumbRxSession::ThumbRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: ThumbXferSession( engine, lclSessionId, sktBase, netIdent )
+ThumbRxSession::ThumbRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: ThumbXferSession( engine, lclSessionId, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }

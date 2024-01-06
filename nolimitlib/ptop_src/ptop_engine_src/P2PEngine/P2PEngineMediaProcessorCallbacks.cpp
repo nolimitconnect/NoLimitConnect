@@ -12,13 +12,13 @@
 #include <GuiInterface/IToGui.h>
 
 //============================================================================
-void P2PEngine::callbackVideoJpgBig( void * /*userData*/, VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen )
+void P2PEngine::callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen )
 {
 	IToGui::getToGui().toGuiPlayVideoFrame( vidFeedId, jpgData, jpgDataLen, 0 );
 }
 
 //============================================================================
-void P2PEngine::callbackVideoJpgSmall( void * /*userData*/, VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
+void P2PEngine::callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
 {
 	IToGui::getToGui().toGuiPlayVideoFrame( vidFeedId, jpgData, jpgDataLen, motion0to100000 );
 }

@@ -15,6 +15,7 @@
 
 #include <memory>
 
+class VxGUID;
 class VxNetIdent;
 class VxPktHdr;
 class VxSktBase;
@@ -24,10 +25,11 @@ class BaseXferInterface
 public:
     virtual VxMutex&            getAssetXferMutex( void ) = 0;
     virtual EPluginType         getPluginType( void ) = 0;
+    virtual EPluginType         getOverridePluginType( void ) { return ePluginTypeInvalid; }
     virtual std::string         getAssetXferDbName( void ) { std::string dbName = GetPluginName( getPluginType() ); dbName += "Db.db3"; return dbName; }
     virtual std::string         getAssetXferThreadName( void ) { std::string thrdName = GetPluginName( getPluginType() ); thrdName += "Thrd"; return thrdName; }
 
-    virtual bool                txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, bool bDisconnectAfterSend = false ) = 0;
+    virtual bool                txPacket( const VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, EPluginType overridePluginType = ePluginTypeInvalid ) = 0;
 
 };
 

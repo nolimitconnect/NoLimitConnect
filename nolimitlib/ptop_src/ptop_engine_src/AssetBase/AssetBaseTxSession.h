@@ -17,8 +17,8 @@ class AssetBaseTxSession : public AssetBaseXferSession
 {
 public:
 	AssetBaseTxSession( P2PEngine& engine );
-	AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	AssetBaseTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	AssetBaseTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 
 	void						reset( void );
 	void						cancelUpload( VxGUID& fileInstance );

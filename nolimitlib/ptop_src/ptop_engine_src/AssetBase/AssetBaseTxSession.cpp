@@ -27,8 +27,8 @@ AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine )
 }
 
 //============================================================================
-AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: AssetBaseXferSession( engine, sktBase, netIdent )
+AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: AssetBaseXferSession( engine, sktBase, sendToId )
 , m_iOutstandingAckCnt( 0 )
 , m_bSendingPkts( false )
 , m_bViewingFileList( false )
@@ -38,8 +38,8 @@ AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSkt
 }
 
 //============================================================================
-AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: AssetBaseXferSession( engine, lclSessionId, sktBase, netIdent )
+AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: AssetBaseXferSession( engine, lclSessionId, sktBase, sendToId )
 , m_iOutstandingAckCnt(0)
 , m_bSendingPkts(false)
 , m_bViewingFileList(false)

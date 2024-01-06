@@ -44,15 +44,15 @@ VideoFeedMgr::VideoFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSession
 }
 
 //============================================================================
-void VideoFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent, bool wantCamCapture )
+void VideoFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture )
 {
-	enableVideoCapture( true, netIdent, appModule, wantCamCapture );
+	enableVideoCapture( true, onlineId, appModule, wantCamCapture );
 }
 
 //============================================================================
-void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent, bool wantCamCapture )
+void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture )
 {
-	enableVideoCapture( false, netIdent, appModule, wantCamCapture );
+	enableVideoCapture( false, onlineId, appModule, wantCamCapture );
 	//LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::fromGuiStopPluginSession\n" );
 
 	PktVideoFeedStatus oPkt;
@@ -80,7 +80,7 @@ void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule app
 			P2PSession* poSession = (P2PSession*)sessionBase;
 			if( poSession->getSkt() )
 			{
-				m_PluginMgr.pluginApiTxPacket( m_Plugin.getPluginType(), poSession->getIdent()->getMyOnlineId(), poSession->getSkt(), &oPkt );
+				m_PluginMgr.pluginApiTxPacket( m_Plugin.getPluginType(), poSession->getSendToId(), poSession->getSkt(), &oPkt );
 			}
 		}
 	}
@@ -95,16 +95,16 @@ void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule app
 }
 
 //============================================================================
-void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, bool wantCamCapture )
+void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule appModule, bool wantCamCapture )
 {
 	//LogMsg( LOG_INFO, "VideoFeedMgr::enableCapture %d start %s\n", enable, netIdent->getOnlineName() );
 	// kind of a strange way of handling the problem of which video to enable
 	// if there are any myIdents in requests for eMediaInputVideoPkts then vid capture will be enabled but others
 	// in that list allow processing of incoming packets without enabling video capture for the case of cam server client which does not require video capture
-	bool isMyself = netIdent->isMyself(); 
+	bool isMyself = onlineId == m_PluginMgr.getEngine().getMyOnlineId(); 
 	if( enable )
 	{
-		if( m_GuidList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
+		if( m_GuidList.addGuidIfDoesntExist( onlineId ) )
 		{
 			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
 			{
@@ -115,7 +115,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 					if( !m_VideoPktsRequested )
 					{
 						m_VideoPktsRequested = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, true, netIdent );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, true, (void *)m_Plugin.getPluginType() );
 					}
 
 					// always show ourself if web cam server is enabled
@@ -146,18 +146,18 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 				if( !m_VideoPktsRequested )
 				{
 					m_VideoPktsRequested = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, true, (void *)netIdent );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, true, (void *)m_Plugin.getPluginType() );
 				}
 			}
 		}
 		else
 		{
-            LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture true GUID already in list %s", netIdent->getOnlineName() );
+            LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 	else
 	{
-		if( m_GuidList.removeGuid( netIdent->getMyOnlineId() ) )
+		if( m_GuidList.removeGuid( onlineId ) )
 		{
 			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
 			{
@@ -168,7 +168,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 					if( m_VideoPktsRequested && ( 0 == m_GuidList.size() ) )
 					{
 						m_VideoPktsRequested = false;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, false, netIdent );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, false, (void *)m_Plugin.getPluginType() );
 					}
 				}
 				else
@@ -198,7 +198,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxNetIdent* netIdent, EAppMo
 			{
 				if(  0 == m_GuidList.size() ) 
 				{
-                    LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoJpgSmall false %s", netIdent->getOnlineName() );
+                    LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoJpgSmall false %s", m_Engine.describeUser( onlineId ).c_str() );
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, false, (void *)m_Plugin.getPluginType() );
 					m_VideoJpgRequesed = false;
 					//LogMsg( LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoPkts false %s\n", netIdent->getOnlineName() );
@@ -281,7 +281,7 @@ void VideoFeedMgr::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPkt
         LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPic autoLock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 
-		P2PSession* poSession = m_SessionMgr.findOrCreateP2PSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, true );
+		P2PSession* poSession = m_SessionMgr.findOrCreateP2PSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
 		if( poSession )
 		{
 			if( poSession->getVideoCastPkt() )
@@ -405,7 +405,7 @@ void VideoFeedMgr::callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid
 			int ackCnt = poSession->getOutstandingAckCnt();
 			if( poSession && ( MAX_OUTSTANDING_VID_ACKS > ackCnt ) )
 			{
-				if( !poSession->getSkt() && poSession->getIdent()->getMyOnlineId() == m_Engine.getMyOnlineId() )
+				if( !poSession->getSkt() && poSession->getSendToId() == m_Engine.getMyOnlineId() )
 				{
 					poSession->setSkt( m_Engine.getSktLoopback() );
 				}
@@ -413,7 +413,7 @@ void VideoFeedMgr::callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid
 				if( poSession->getSkt() )
 				{
 					if( m_PluginMgr.pluginApiTxPacket( m_Plugin.getPluginType(),
-						poSession->getIdent()->getMyOnlineId(),
+						poSession->getSendToId(),
 						poSession->getSkt(),
 						pktVid ) )
 					{
@@ -437,7 +437,7 @@ void VideoFeedMgr::callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid
 			if( poSession && ( MAX_OUTSTANDING_VID_ACKS > ackCnt ) )
 			{
 				if( m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
-													poSession->getIdent()->getMyOnlineId(), 
+													poSession->getSendToId(), 
 													poSession->getSkt(), 
 													pktVid ) )
 				{
@@ -476,7 +476,7 @@ void VideoFeedMgr::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChun
 		{
 			P2PSession* poSession = (P2PSession*)iter->second;
 			if( m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
-					                            poSession->getIdent()->getMyOnlineId(), 
+					                            poSession->getSendToId(), 
 					                            poSession->getSkt(), 
 					                            pktVid ) )
 			{
@@ -487,7 +487,7 @@ void VideoFeedMgr::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChun
 		{
 			TxSession * poSession = (TxSession *)iter->second;
 			if( m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
-											    poSession->getIdent()->getMyOnlineId(), 
+											    poSession->getSendToId(), 
 											    poSession->getSkt(), 
 											    pktVid ) )
 			{
@@ -512,7 +512,7 @@ void VideoFeedMgr::stopAllSessions( EAppModule appModule, EPluginType pluginType
 			VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );
 			if( netIdent )
 			{
-				fromGuiStopPluginSession( true, appModule, netIdent );
+				fromGuiStopPluginSession( true, appModule, onlineId );
 			}
 		}
 

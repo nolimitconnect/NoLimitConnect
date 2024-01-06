@@ -35,7 +35,7 @@ public:
     EPluginType			        getInputClientPluginType( void ) override { return AppletPeerBase::getPluginType(); }
 
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )  override;
-    virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 ) override;
+    virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 ) override;
 	virtual void				callbackToGuiPluginSessionEnded( GuiOfferSession* offerSession ) override;
 
     virtual void 				onSessionActivityShouldExit( QString shouldExitReason ) override {};

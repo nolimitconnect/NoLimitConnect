@@ -51,20 +51,20 @@ void PluginCamClient::setIsPluginInSession( bool isInSession )
 
 //============================================================================
 // override this by plugin to create inherited RxSession
-RxSession * PluginCamClient::createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+RxSession * PluginCamClient::createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-	return new RxSession( sktBase, netIdent, getPluginType() );
+	return new RxSession( sktBase, onlineId, getPluginType() );
 }
 
 //============================================================================
 // override this by plugin to create inherited TxSession
-TxSession * PluginCamClient::createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+TxSession * PluginCamClient::createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-	return new TxSession( sktBase, netIdent, getPluginType() );
+	return new TxSession( sktBase, onlineId, getPluginType() );
 }
 
 //============================================================================
-void PluginCamClient::callbackVideoJpgSmall( void * /*userData*/, VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
+void PluginCamClient::callbackVideoJpgSmall( VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
 {
 	//LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiVideoData sessions %d\n", m_PluginSessionMgr.m_aoSessions.size() );
 	m_PluginMgr.pluginApiPlayVideoFrame( m_ePluginType, jpgData, jpgDataLen, m_MyIdent, motion0to100000 );
@@ -91,7 +91,7 @@ void PluginCamClient::sendVidPkt( VxPktHdr* vidPkt, bool requiresAck )
 					&& ( !requiresAck  || (10 > poSession->getOutstandingAckCnt() ) ) )
 				{
 					m_PluginMgr.pluginApiTxPacket(	m_ePluginType, 
-													poSession->getIdent()->getMyOnlineId(), 
+													poSession->getSendToId(), 
 													poSession->getSkt(), 
 													vidPkt ); 
 					if( requiresAck )
@@ -109,9 +109,9 @@ void PluginCamClient::sendVidPkt( VxPktHdr* vidPkt, bool requiresAck )
 }
 
 //============================================================================
-void PluginCamClient::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio )
+void PluginCamClient::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 {
-	m_VoiceFeedMgr.callbackOpusPkt( userData, pktOpusAudio );
+	m_VoiceFeedMgr.callbackOpusPkt( pktOpusAudio );
 }
 
 //============================================================================
@@ -121,31 +121,30 @@ void PluginCamClient::callbackAudioOutSpaceAvail( int freeSpaceLen )
 }
 
 //============================================================================
-void PluginCamClient::callbackVideoPktPic( void * /*userData*/, VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum )
+void PluginCamClient::callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum )
 {
 	sendVidPkt( pktVid, true );
 }
 
 //============================================================================
-void PluginCamClient::callbackVideoPktPicChunk( void * /*userData*/, VxGUID& feedId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum )
+void PluginCamClient::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum )
 {
 	sendVidPkt( pktVid, false );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginCamClient::fromGuiStartPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStartPluginSession %s", netIdent->getOnlineName() );
+	LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStartPluginSession %s", m_Engine.describeUser( onlineId ).c_str() );
 	AutoPluginLock pluginMutexLock( this );
-	RxSession* rxSession = m_PluginSessionMgr.findRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	RxSession* rxSession = m_PluginSessionMgr.findRxSessionByOnlineId( onlineId, true );
 	if( !rxSession )
 	{
-		std::shared_ptr<VxSktBase> sktBase( nullptr );
-		m_PluginMgr.pluginApiSktConnectTo( ePluginTypeCamClient, netIdent, 0, sktBase );
-		if( 0 != sktBase )
+		std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+		if( sktBase && sktBase->isConnected() )
 		{
-			rxSession = m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, true, lclSessionId );
+			rxSession = m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( onlineId, sktBase, true, lclSessionId );
 		}
 	}
 
@@ -162,29 +161,29 @@ void PluginCamClient::fromGuiStartPluginSession( VxNetIdent* netIdent, int pvUse
 
 		requestCamSession( rxSession, false );
 
-		m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, netIdent, false );
-		m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, netIdent, false );
+		m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
+		m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
 		setIsPluginInSession( true );
 	}
 	else
 	{
-		LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStartPluginSession could not connect to %s", netIdent->getOnlineName() );
+		LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStartPluginSession could not connect to %s", m_Engine.describeUser( onlineId ).c_str() );
 	}
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginCamClient::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void PluginCamClient::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStopPluginSession" );
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	bool isMyself = ( netIdent->getMyOnlineId() == m_MyIdent->getMyOnlineId() );
+	bool isMyself = onlineId == m_MyIdent->getMyOnlineId();
 	if( isMyself )
 	{
 		m_Engine.setHasSharedWebCam(false);
-		m_VoiceFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, netIdent, false );
+		m_VoiceFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, onlineId, false );
 		// don't want video capture anymore
-		m_VideoFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, netIdent, false );
+		m_VideoFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, onlineId, false );
 		if( true == fromGuiIsPluginInSession() )
 		{
 			setIsPluginInSession( false );
@@ -203,7 +202,7 @@ void PluginCamClient::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUser
 					{
 						oPkt.setLclSessionId( poSession->getLclSessionId() );
 						oPkt.setRmtSessionId( poSession->getRmtSessionId() );
-						m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getIdent()->getMyOnlineId(), poSession->getSkt(), &oPkt );
+						m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
 						delete poSession;
 						iter = sessionList.erase( iter );
 						break;
@@ -216,13 +215,13 @@ void PluginCamClient::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUser
 				else if( sessionBase->isRxSession() )
 				{
 					RxSession* rxSession = (RxSession*)sessionBase;
-					if( rxSession && netIdent && rxSession->getIdent()->getMyOnlineId() == netIdent->getMyOnlineId() )
+					if( rxSession && rxSession->getSendToId() == onlineId )
 					{
 						if( rxSession->getSkt() )
 						{
 							oPkt.setLclSessionId( rxSession->getLclSessionId() );
 							oPkt.setRmtSessionId( rxSession->getRmtSessionId() );
-							m_PluginMgr.pluginApiTxPacket( m_ePluginType, rxSession->getIdent()->getMyOnlineId(), rxSession->getSkt(), &oPkt );
+							m_PluginMgr.pluginApiTxPacket( m_ePluginType, rxSession->getSendToId(), rxSession->getSkt(), &oPkt );
 							iter = sessionList.erase( iter );
 							delete rxSession;
 							break;
@@ -246,23 +245,23 @@ void PluginCamClient::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUser
 	}
 	else
 	{
-		m_VoiceFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, netIdent, false );
+		m_VoiceFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, onlineId, false );
 		PktSessionStopReq oPkt;
 
-		RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
+		RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( onlineId, true );
 		if( poSession )
 		{
 			oPkt.setLclSessionId( poSession->getLclSessionId() );
 			oPkt.setRmtSessionId( poSession->getRmtSessionId() );
-			m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getIdent()->getMyOnlineId(), poSession->getSkt(), &oPkt );
+			m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
 		}
 
-		m_PluginSessionMgr.removeRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
+		m_PluginSessionMgr.removeRxSessionByOnlineId( onlineId, true );
 	}
 }
 
 //============================================================================
-bool PluginCamClient::fromGuiIsPluginInSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginCamClient::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	// for cam server we really want to know if server is running
 	return getIsServerInSession();
@@ -294,15 +293,18 @@ EPluginAccess PluginCamClient::canAcceptNewSession( VxNetIdent* netIdent )
 
 //============================================================================
 //! user wants to send offer to friend.. return false if cannot connect
-bool PluginCamClient::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )	
+bool PluginCamClient::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )	
 {
-	VxGUID& lclSessionId = offerInfo.getOfferId();
-	std::shared_ptr<VxSktBase> sktBase( nullptr );
-	LogMsg( LOG_VERBOSE, " PluginCamClient::fromGuiMakePluginOffer %s", netIdent->getOnlineName());
 
-	PluginBase::AutoPluginLock pluginMutexLock( this );
-	if( true == m_PluginMgr.pluginApiSktConnectTo( m_ePluginType, netIdent, 0, sktBase ) )
+	LogMsg( LOG_VERBOSE, " PluginCamClient::fromGuiMakePluginOffer %s", m_Engine.describeUser( onlineId ).c_str() );
+
+	std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+	if( sktBase && sktBase->isConnected() )
 	{
+		VxGUID& lclSessionId = offerInfo.getOfferId();
+
+		PluginBase::AutoPluginLock pluginMutexLock( this );
+
 		PktPluginOfferReq pktReq;
 		pktReq.setLclSessionId( lclSessionId );
 		pktReq.setRmtSessionId( lclSessionId );
@@ -311,11 +313,11 @@ bool PluginCamClient::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInf
 		pktReq.calcPktLen();
 
         // force session to be created so have session to lookup on reply
-		RxSession * rxSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithSessionId( lclSessionId, sktBase, netIdent, true );
+		RxSession * rxSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithSessionId( lclSessionId, sktBase, onlineId, true );
         if( 0 != rxSession )
         {
             if( true == m_PluginMgr.pluginApiTxPacket(	m_ePluginType,
-                                                        netIdent->getMyOnlineId(),
+                                                        onlineId,
                                                         sktBase,
                                                         &pktReq ) )
             {
@@ -342,7 +344,7 @@ bool PluginCamClient::requestCamSession( RxSession* rxSession, bool	bWaitForSucc
 	PktSessionStartReq oPkt;
 	oPkt.setLclSessionId( rxSession->getLclSessionId() );
 	bool bSuccess = m_PluginMgr.pluginApiTxPacket(	m_ePluginType, 
-													rxSession->getIdent()->getMyOnlineId(), 
+													rxSession->getSendToId(), 
 													rxSession->getSkt(), 
 													&oPkt );
 	if( ( true == bSuccess ) && bWaitForSuccess )
@@ -399,7 +401,7 @@ void PluginCamClient::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, 
 		PluginBase::AutoPluginLock pluginMutexLock( this );
 		if( getIsServerInSession() && (ePluginAccessOk == canAcceptNewSession( netIdent )) )
 		{
-			TxSession* txSession = (TxSession*)m_PluginSessionMgr.findOrCreateTxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, true );
+			TxSession* txSession = (TxSession*)m_PluginSessionMgr.findOrCreateTxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
 			pktReply.setLclSessionId( txSession->getLclSessionId() );
 			pktReply.setOfferResponse( eOfferResponseAccept );
 		}
@@ -433,7 +435,7 @@ void PluginCamClient::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase
 	PluginBase::AutoPluginLock pluginMutexLock( this );
 	if( offerResponse == eOfferResponseAccept )
 	{
-		RxSession * rxSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, true );
+		RxSession * rxSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
 		rxSession->setOfferResponse( offerResponse );
 	}
 }
@@ -455,7 +457,7 @@ void PluginCamClient::onPktSessionStartReq( std::shared_ptr<VxSktBase>& sktBase,
 	if( getIsServerInSession() && ( ePluginAccessOk == canAcceptNewSession( netIdent ) ) ) 
 	{
 		oPkt.setOfferResponse(eOfferResponseAccept);
-        TxSession * txSession = (TxSession *)m_PluginSessionMgr.findOrCreateTxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, true );
+        TxSession * txSession = (TxSession *)m_PluginSessionMgr.findOrCreateTxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
         if( 0 == txSession )
         {
             LogMsg( LOG_ERROR, "PluginCamClient::onPktSessionStartReq failed to create or find session" );
@@ -607,7 +609,7 @@ void PluginCamClient::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, Vx
 		}
 		else
 		{
-			poSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, true );
+			poSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
 			LogMsg( LOG_VERBOSE, "PluginCamClient::onPktVideoFeedPic: creating rx session because could not be found");
 		}
 
@@ -775,7 +777,7 @@ void PluginCamClient::stopAllSessions( void )
 				{
 					oPkt.setLclSessionId( poSession->getLclSessionId() );
 					oPkt.setRmtSessionId( poSession->getRmtSessionId() );
-					m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getIdent()->getMyOnlineId(), poSession->getSkt(), &oPkt );
+					m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
 					iter = sessionList.erase( iter );
 					delete poSession;
 				}
@@ -809,16 +811,16 @@ void PluginCamClient::enableCamServerService( bool enable )
 	{
 		m_Engine.setHasSharedWebCam( true );
 		// request video capture
-		m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleCamClient, m_MyIdent, false );
-		m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleCamClient, m_MyIdent, false );
+		m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false);
+		m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false );
 		setIsPluginInSession( true );
 
 	}
 	else
 	{
 		// stop video capture
-		m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleCamClient, m_MyIdent, false );
-		m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleCamClient, m_MyIdent, false );
+		m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false );
+		m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false );
 		m_Engine.setHasSharedWebCam( false );
 		stopAllSessions();
 		setIsPluginInSession( false );

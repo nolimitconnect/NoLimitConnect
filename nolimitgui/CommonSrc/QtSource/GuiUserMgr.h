@@ -67,7 +67,7 @@ public:
     void                        onUserOnlineStatusChange( GuiUser* guiUser );
     void                        onMyIdentUpdated( GuiUser* guiUser );
     
-    GuiUser*                    getUser( const VxGUID& onlineId );
+    GuiUser*                    getUser( VxGUID onlineId );
     GuiUser*                    getUserForTest( bool mustBeOnline = false );
     GuiUser*                    getOrQueryUser( VxGUID& onlineId );
     std::string                 getUserOnlineName( VxGUID& onlineId );
@@ -84,9 +84,9 @@ public:
     void                        connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearbyTimeOrZeroIfNot );
 
 protected:
-    void                        removeUser( const VxGUID& onlineId );
-    GuiUser*                    findUser( const VxGUID& onlineId );
-    GuiUser*                    findOrAddUser( const VxGUID& onlineId );
+    void                        removeUser( VxGUID onlineId );
+    GuiUser*                    findUser( VxGUID onlineId );
+    GuiUser*                    findOrAddUser( VxGUID onlineId );
 
     void                        clearGuiUserUpdateClientList( void );
 

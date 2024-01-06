@@ -1392,7 +1392,7 @@ void AppCommon::slotInternalToGuiAssetAction( EAssetAction assetAction, VxGUID a
 }
 
 //============================================================================
-void AppCommon::toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 )
+void AppCommon::toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 )
 {
 	if( VxIsAppShuttingDown() )
 	{

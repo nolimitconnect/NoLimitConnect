@@ -503,7 +503,7 @@ bool GroupieListMgr::fromGuiQueryGroupieInfoList( EHostType hostType, std::vecto
 }
 
 //============================================================================
-bool GroupieListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool GroupieListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     if( eConnectReasonNetworkHostListSearch == connectReason )
     {
@@ -850,7 +850,7 @@ void GroupieListMgr::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, V
 
     pktReply.setCommError( commErr );
 
-    if( !plugin->txPacket( netIdent, sktBase, &pktReply ) )
+    if( !plugin->txPacket( pktHdr->getSrcOnlineId(), sktBase, &pktReply) )
     {
         LogMsg( LOG_DEBUG, "PluginBaseHostService failed send onPktHostInfoReq" );
     }
@@ -974,7 +974,7 @@ void GroupieListMgr::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, Vx
         }
     }
 
-    if( !plugin->txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, false, plugin->getClientPluginType() ) )
+    if( !plugin->txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, plugin->getClientPluginType() ) )
     {
         LogModule( eLogHostSearch, LOG_DEBUG, "GroupieListMgr::onPktGroupieAnnReq failed send reply" );
     }
@@ -1205,7 +1205,7 @@ void GroupieListMgr::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, V
     }
 
     pktReply.calcPktLen();
-    plugin->txPacket( netIdent, sktBase, &pktReply );
+    plugin->txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
 }
 
 //============================================================================
@@ -1318,7 +1318,7 @@ bool GroupieListMgr::requestMoreGroupiesFromHost( EHostType hostType, VxGUID& se
     pktReq.setHostType( hostType );
     pktReq.setSearchSessionId( searchSessionId );
     pktReq.setNextSearchOnlineId( nextGroupieOnlineId );
-    return plugin->txPacket( netIdent, sktBase, &pktReq );
+    return plugin->txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq );
 }
 
 //============================================================================

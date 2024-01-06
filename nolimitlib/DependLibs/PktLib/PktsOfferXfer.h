@@ -68,7 +68,7 @@ public:
 	VxGUID&						getOfferId( void )								{ return m_OfferId; }
 	void						setCreatorId( VxGUID& creatorId )				{ m_CreatorId = creatorId; }
 	VxGUID&						getCreatorId( void )							{ return m_CreatorId; }
-	void						setHistoryId( VxGUID& historyId )				{ m_HistoryId = historyId; }
+	void						setHistoryId( VxGUID historyId )				{ m_HistoryId = historyId; }
 	VxGUID&						getHistoryId( void )							{ return m_HistoryId; }
 
     void						setCreationTime( uint32_t createTime )			{ m_CreationTime = htonl( createTime ); }

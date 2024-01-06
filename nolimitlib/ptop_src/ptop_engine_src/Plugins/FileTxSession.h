@@ -15,8 +15,8 @@ class FileTxSession : public FileShareXferSession
 {
 public:
 	FileTxSession();
-	FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	FileTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	FileTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 
 	void						reset( void );
 	void						cancelUpload( VxGUID& fileInstance );

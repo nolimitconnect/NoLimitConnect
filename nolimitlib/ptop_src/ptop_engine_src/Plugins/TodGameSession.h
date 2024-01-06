@@ -16,7 +16,7 @@
 class TodGameSession : public P2PSession
 {
 public:
-	TodGameSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	TodGameSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EPluginType pluginType );
 
 	PktTodGameStats		m_PktGameStats;
 };

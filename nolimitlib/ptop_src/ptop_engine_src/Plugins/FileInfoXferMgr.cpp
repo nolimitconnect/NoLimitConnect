@@ -31,9 +31,13 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/AppErr.h>
 
+#include <NetLib/VxSktBase.h>
+
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
+
+#include <array>
 
 //============================================================================
 FileInfoXferMgr::FileInfoXferMgr( P2PEngine& engine, PluginBase& plugin, FileInfoBaseMgr& fileInfoMgr )
@@ -41,6 +45,7 @@ FileInfoXferMgr::FileInfoXferMgr( P2PEngine& engine, PluginBase& plugin, FileInf
 , m_Plugin( plugin )
 , m_PluginMgr( engine.getPluginMgr() )
 , m_FileInfoMgr( fileInfoMgr )
+, m_eFileRxOption( eFileXOptionReplaceIfExists )
 {
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::FileInfoXferMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
 }
@@ -111,7 +116,7 @@ int FileInfoXferMgr::fromGuiGetFileDownloadState( uint8_t * fileHashId )
 }
 
 //============================================================================
-void FileInfoXferMgr::fromGuiStartPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void FileInfoXferMgr::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	if( false == m_bIsInSession )
 	{
@@ -120,7 +125,7 @@ void FileInfoXferMgr::fromGuiStartPluginSession( VxNetIdent* netIdent, int pvUse
 }
 
 //============================================================================
-void FileInfoXferMgr::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void FileInfoXferMgr::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	if( true == m_bIsInSession )
 	{
@@ -129,7 +134,7 @@ void FileInfoXferMgr::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUser
 }
 
 //============================================================================
-bool FileInfoXferMgr::fromGuiIsPluginInSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool FileInfoXferMgr::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	return m_bIsInSession;
 }
@@ -143,17 +148,17 @@ void FileInfoXferMgr::fromGuiGetFileShareSettings( FileShareSettings& fileShareS
 //============================================================================
 void FileInfoXferMgr::fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings )
 {
-	bool wasInSession = fromGuiIsPluginInSession( NULL, 0 );
+	bool wasInSession = fromGuiIsPluginInSession();
 	if( wasInSession )
 	{
-		fromGuiStopPluginSession( NULL, 0 );
+		fromGuiStopPluginSession();
 	}
 
 	m_FileShareSettings = fileShareSettings;
 	m_FileShareSettings.saveSettings( m_Engine.getEngineSettings() );
 	if( wasInSession )
 	{
-		fromGuiStartPluginSession( NULL, 0 );
+		fromGuiStartPluginSession();
 	}
 }
 
@@ -219,12 +224,12 @@ void FileInfoXferMgr::fromGuiCancelUpload( VxGUID& lclSessionId )
 
 //============================================================================
 //! user wants to send offer to friend.. return false if cannot connect
-bool FileInfoXferMgr::fromGuiMakePluginOffer( VxNetIdent* netIdent,	OfferBaseInfo& offerInfo )
+bool FileInfoXferMgr::fromGuiMakePluginOffer( VxGUID& onlineId,	OfferBaseInfo& offerInfo )
 {
 	VxGUID& lclSessionId = offerInfo.getOfferId();
 	lclSessionId.assureIsValidGUID();
-	std::shared_ptr<VxSktBase> sktBase( nullptr );
-	if( m_PluginMgr.pluginApiSktConnectTo( m_Plugin.getPluginType(), netIdent, 0, sktBase ) )
+	std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+	if( sktBase && sktBase->isConnected() )
 	{
 		PktPluginOfferReq pktReq;
 		pktReq.setLclSessionId( lclSessionId );
@@ -233,11 +238,11 @@ bool FileInfoXferMgr::fromGuiMakePluginOffer( VxNetIdent* netIdent,	OfferBaseInf
 		offerInfo.addToBlob( pktReq.getBlobEntry() );
 		pktReq.calcPktLen();
 		if( true == m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
-			netIdent->getMyOnlineId(), 
+			onlineId, 
 			sktBase, 
 			&pktReq ) )
 		{
-			FileRxSession* xferSession = findOrCreateRxSession( lclSessionId, netIdent, sktBase );
+			FileRxSession* xferSession = findOrCreateRxSession( lclSessionId, onlineId, sktBase);
 			FileInfo fileInfo( offerInfo );
 
 			xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, lclSessionId, lclSessionId ) );
@@ -250,7 +255,7 @@ bool FileInfoXferMgr::fromGuiMakePluginOffer( VxNetIdent* netIdent,	OfferBaseInf
 }
 
 //============================================================================
-EXferError FileInfoXferMgr::fromGuiFileXferControl( VxNetIdent* netIdent, EXferAction xferAction, FileInfo& fileInfo )
+EXferError FileInfoXferMgr::fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo )
 {
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
@@ -267,11 +272,11 @@ EXferError FileInfoXferMgr::fromGuiFileXferControl( VxNetIdent* netIdent, EXferA
 		//	return eXferErrorAlreadyDownloaded;
 		//}	
 
-		std::shared_ptr<VxSktBase> sktBase( nullptr );
-		if( true == m_PluginMgr.pluginApiSktConnectTo( m_Plugin.getPluginType(), netIdent, 0, sktBase ) )
+		std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+		if( sktBase && sktBase->isConnected() )
 		{
 			VxGUID& sessionId = fileInfo.getXferSessionId();
-			FileRxSession* xferSession = findOrCreateRxSession( sessionId, netIdent, sktBase );
+			FileRxSession* xferSession = findOrCreateRxSession( sessionId, onlineId, sktBase );
 			
 			xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, sessionId, sessionId ) );
 			return beginFileGet( xferSession );
@@ -343,16 +348,16 @@ void FileInfoXferMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase
 {
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	PktPluginOfferReply* poPkt = (PktPluginOfferReply*)pktHdr;
-	FileTxSession* xferSession = findTxSession( poPkt->getRmtSessionId() );
+	FileTxSession* xferSession = findTxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
 		std::string fileName = xferSession->m_strOfferFile;
 		if( !fileName.empty() )
 		{
-			FileInfo fileInfo( xferSession->getXferInfo(), netIdent->getMyOnlineId() );
+			FileInfo fileInfo( xferSession->getXferInfo(), poPkt->getSrcOnlineId() );
 			OfferBaseInfo offerInfo( fileInfo );
 
-			m_FileInfoMgr.toGuiRxedOfferReply( netIdent, m_Plugin.getPluginType(), offerInfo, xferSession->getLclSessionId(), poPkt->getOfferResponse() );
+			m_FileInfoMgr.toGuiRxedOfferReply( poPkt->getSrcOnlineId(), m_Plugin.getPluginType(), offerInfo, xferSession->getLclSessionId(), poPkt->getOfferResponse());
 			if( eOfferResponseAccept == poPkt->getOfferResponse() )
 			{			
 				xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, xferSession->getLclSessionId(), xferSession->getRmtSessionId() ) );
@@ -395,12 +400,12 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	}
 	else
 	{
-		pktReply.setError( canTxFile( netIdent, pktReq->getAssetId(), pktReq->getFileHashId() ) );
+		pktReply.setError( canTxFile( pktReq->getSrcOnlineId(), pktReq->getAssetId(), pktReq->getFileHashId()));
 	}
 
 	if( eXferErrorNone == pktReply.getError() )
 	{
-		FileTxSession* xferSession = createTxSession( netIdent, sktBase );
+		FileTxSession* xferSession = createTxSession( pktReq->getSrcOnlineId(), sktBase);
 		VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 		xferInfo.setRmtSessionId( pktReq->getLclSessionId() );
 		xferInfo.setAssetId( pktReq->getAssetId() );
@@ -417,7 +422,7 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 		pktReply.setFileHashId( xferInfo.getFileHashId() );
 		pktReply.setStartOffset( pktReq->getStartOffset() );
 
-		EXferError xferErr  = ( m_Plugin.txPacket( netIdent, sktBase, &pktReply ) ) ? eXferErrorNone : eXferErrorDisconnected;
+		EXferError xferErr  = ( m_Plugin.txPacket( pktHdr->getSrcOnlineId(), sktBase, &pktReply)) ? eXferErrorNone : eXferErrorDisconnected;
 		if( eXferErrorNone == xferErr )
 		{
 			xferErr = beginFileSend( xferSession );
@@ -436,7 +441,7 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	}
 	else
 	{
-		m_Plugin.txPacket( netIdent, sktBase, &pktReply );
+		m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
 	}
 
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileGetReq done %s %p rxing %d", DescribePluginType( getPluginType() ), this, m_RxSessions.size() );
@@ -455,7 +460,7 @@ void FileInfoXferMgr::onPktFileSendReq( std::shared_ptr<VxSktBase>& sktBase, VxP
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	PktFileSendReq* poPkt = (PktFileSendReq *)pktHdr;
 	PktFileSendReply pktReply;
-	FileRxSession* xferSession = findRxSession( poPkt->getRmtSessionId() );
+	FileRxSession* xferSession = findRxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
 		xferSession->setRmtSessionId( poPkt->getLclSessionId() );
@@ -472,13 +477,13 @@ void FileInfoXferMgr::onPktFileSendReq( std::shared_ptr<VxSktBase>& sktBase, VxP
 		}
 
 		pktReply.setError( xferErr );
-		m_Plugin.txPacket( netIdent, sktBase, &pktReply );
+		m_Plugin.txPacket( poPkt->getSrcOnlineId(), sktBase, &pktReply);
 	}
 	else
 	{
 		LogMsg( LOG_ERROR, "FileInfoXferMgr::onPktFileSendReq: Could not find session" );
 		pktReply.setError( eXferErrorBadParam );
-		m_Plugin.txPacket( netIdent, sktBase, &pktReply );
+		m_Plugin.txPacket( poPkt->getSrcOnlineId(), sktBase, &pktReply );
 	}
 }
 
@@ -488,7 +493,7 @@ void FileInfoXferMgr::onPktFileSendReply( std::shared_ptr<VxSktBase>& sktBase, V
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileSendReply %s %p txing %d", DescribePluginType( getPluginType() ), this, m_TxSessions.size() );
 	PktFileSendReply* poPkt = ( PktFileSendReply* )pktHdr;
-	FileTxSession* xferSession = findTxSession( poPkt->getRmtSessionId() );
+	FileTxSession* xferSession = findTxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
 		LogMsg( LOG_ERROR, "FileInfoXferMgr::onPktFileSendReply found tx session" );
@@ -504,7 +509,7 @@ void FileInfoXferMgr::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, Vx
 {
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	PktFileChunkReq* poPkt = (PktFileChunkReq *)pktHdr;
-	FileRxSession* xferSession = findRxSession( poPkt->getRmtSessionId() );
+	FileRxSession* xferSession = findRxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
 		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileChunkReq %s %p rxing %d", DescribePluginType( getPluginType() ), this, m_RxSessions.size() );
@@ -521,7 +526,7 @@ void FileInfoXferMgr::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, Vx
 		PktFileChunkReply pktReply;
 		pktReply.setDataLen(0);
 		pktReply.setError( eXferErrorBadParam );
-		m_Plugin.txPacket( netIdent, sktBase, &pktReply );
+		m_Plugin.txPacket( poPkt->getSrcOnlineId(), sktBase, &pktReply );
 	}
 }
 
@@ -533,7 +538,7 @@ static int cnt = 0;
 	cnt++;
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileChuckReply start %d", cnt );
     PktFileChunkReply * poPkt = (PktFileChunkReply *)pktHdr;
-	FileTxSession* xferSession = findTxSession( poPkt->getRmtSessionId() );
+	FileTxSession* xferSession = findTxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
 		EXferError xferErr = txNextFileChunk( xferSession );
@@ -553,7 +558,7 @@ void FileInfoXferMgr::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBa
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileGetCompleteReq");
 	PktFileGetCompleteReq* poPkt = (PktFileGetCompleteReq *)pktHdr;
-	FileRxSession* xferSession = findRxSession( poPkt->getRmtSessionId() );
+	FileRxSession* xferSession = findRxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
 		finishFileReceive( xferSession, poPkt );
@@ -572,7 +577,7 @@ void FileInfoXferMgr::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktB
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileSendCompleteReq");
 	PktFileSendCompleteReq* poPkt = (PktFileSendCompleteReq *)pktHdr;
-	FileRxSession* xferSession = findRxSession( poPkt->getRmtSessionId() );
+	FileRxSession* xferSession = findRxSessionSessionId( poPkt->getRmtSessionId() );
 	//TODO check checksum
 	if( xferSession )
 	{
@@ -778,13 +783,13 @@ void FileInfoXferMgr::endFileXferSession( FileTxSession* poSessionIn )
 }
 
 //============================================================================
-FileRxSession* FileInfoXferMgr::findRxSession( VxNetIdent* netIdent )
+FileRxSession* FileInfoXferMgr::findRxSessionSendToId( VxGUID& sendToId )
 {
 	FileRxIter iter;
 	for( iter = m_RxSessions.begin(); iter != m_RxSessions.end(); ++iter )
 	{
 		FileRxSession* xferSession = iter->second;
-		if( xferSession->getIdent() == netIdent )
+		if( xferSession->getSendToId() == sendToId )
 		{
 			return  xferSession;
 		}
@@ -794,7 +799,7 @@ FileRxSession* FileInfoXferMgr::findRxSession( VxNetIdent* netIdent )
 }
 
 //============================================================================
-FileRxSession* FileInfoXferMgr::findRxSession( VxGUID& lclSessionId )
+FileRxSession* FileInfoXferMgr::findRxSessionSessionId( VxGUID& lclSessionId )
 {
 	FileRxIter iter = m_RxSessions.find( lclSessionId );
 	if( iter != m_RxSessions.end() )
@@ -806,12 +811,12 @@ FileRxSession* FileInfoXferMgr::findRxSession( VxGUID& lclSessionId )
 }
 
 //============================================================================
-FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
-	FileRxSession* xferSession = findRxSession( netIdent );
+	FileRxSession* xferSession = findRxSessionSendToId( sendToId );
 	if( !xferSession )
 	{
-		xferSession = new FileRxSession( sktBase, netIdent );
+		xferSession = new FileRxSession( sktBase, sendToId );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
 	}
 	else
@@ -823,23 +828,23 @@ FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxNetIdent* netIdent, std
 }
 
 //============================================================================
-FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+FileRxSession*FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
-	FileRxSession* xferSession = findRxSession( lclSessionId );
+	FileRxSession* xferSession = findRxSessionSessionId( lclSessionId );
 	if( ( xferSession ) && ( lclSessionId.isVxGUIDValid() ) )
 	{
-		xferSession = new FileRxSession( lclSessionId, sktBase, netIdent );
+		xferSession = new FileRxSession( lclSessionId, sktBase, sendToId );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
 	}
 
 	if( !xferSession && !lclSessionId.isVxGUIDValid() )
 	{
-		xferSession = findRxSession( netIdent );
+		xferSession = findRxSessionSendToId( sendToId );
 	}
 
 	if( !xferSession )
 	{
-		xferSession = new FileRxSession( lclSessionId, sktBase, netIdent );
+		xferSession = new FileRxSession( lclSessionId, sktBase, sendToId );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
 		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::findOrCreateRxSession %s %p rxing %d", DescribePluginType( getPluginType() ), this, m_RxSessions.size() );
 	}
@@ -852,13 +857,13 @@ FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxN
 }
 
 //============================================================================
-FileTxSession* FileInfoXferMgr::findTxSession( VxNetIdent* netIdent )
+FileTxSession* FileInfoXferMgr::findTxSessionSendToId( VxGUID& sendToId )
 {
 	FileTxIter iter;
 	for( iter = m_TxSessions.begin(); iter != m_TxSessions.end(); ++iter )
 	{
 		FileTxSession* txSession = ( *iter );
-		if( txSession->getIdent() == netIdent )
+		if( txSession->getSendToId() == sendToId )
 		{
 			return txSession;
 		}
@@ -868,7 +873,7 @@ FileTxSession* FileInfoXferMgr::findTxSession( VxNetIdent* netIdent )
 }
 
 //============================================================================
-FileTxSession* FileInfoXferMgr::findTxSession( VxGUID& lclSessionId )
+FileTxSession* FileInfoXferMgr::findTxSessionSessionId( VxGUID& lclSessionId )
 {
 	FileTxIter iter;
 	for( iter = m_TxSessions.begin(); iter != m_TxSessions.end(); ++iter )
@@ -884,18 +889,18 @@ FileTxSession* FileInfoXferMgr::findTxSession( VxGUID& lclSessionId )
 }
 
 //============================================================================
-FileTxSession*	FileInfoXferMgr::createTxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+FileTxSession*	FileInfoXferMgr::createTxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
-	return new FileTxSession( sktBase, netIdent );
+	return new FileTxSession( sktBase, sendToId );
 }
 
 //============================================================================
-FileTxSession*	FileInfoXferMgr::findOrCreateTxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+FileTxSession*	FileInfoXferMgr::findOrCreateTxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
-	FileTxSession* xferSession = findTxSession( netIdent );
+	FileTxSession* xferSession = findTxSessionSendToId( sendToId );
 	if( NULL == xferSession )
 	{
-		xferSession = createTxSession( netIdent, sktBase );
+		xferSession = createTxSession( sendToId, sktBase );
 		m_TxSessions.push_back( xferSession );
 	}
 	else
@@ -907,22 +912,22 @@ FileTxSession*	FileInfoXferMgr::findOrCreateTxSession( VxNetIdent* netIdent, std
 }
 
 //============================================================================
-FileTxSession* FileInfoXferMgr::findOrCreateTxSession( VxGUID& lclSessionId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+FileTxSession* FileInfoXferMgr::findOrCreateTxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	FileTxSession* xferSession = 0;
 	if( lclSessionId.isVxGUIDValid() )
 	{
-		xferSession = findTxSession( lclSessionId );
+		xferSession = findTxSessionSessionId( lclSessionId );
 	}
 
 	if( 0 == xferSession )
 	{
-		xferSession = findTxSession( netIdent );
+		xferSession = findTxSessionSendToId( sendToId );
 	}
 
 	if( NULL == xferSession )
 	{
-		xferSession = new FileTxSession( lclSessionId, sktBase, netIdent );
+		xferSession = new FileTxSession( lclSessionId, sktBase, sendToId );
 		m_TxSessions.push_back( xferSession );
 	}
 	else
@@ -1028,7 +1033,7 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 	oPktReq.setFileOffset( xferInfo.getFileOffset() );
 	oPktReq.setFileHashId( xferInfo.getFileHashId() );
 
-	if( false == m_Plugin.txPacket( xferSession->getIdent(), xferSession->getSkt(), &oPktReq ) )
+	if( false == m_Plugin.txPacket( xferSession->getSendToId(), xferSession->getSkt(), &oPktReq ) )
 	{
 		if( eXferErrorNone == xferErr )
 		{
@@ -1038,12 +1043,12 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::beginFileSend: start sending file %s to %s", 
 						xferInfo.getLclFileName().c_str(),
-						xferSession->getIdent()->getOnlineName() );
+           m_Engine.describeUser( xferSession->getSendToId() ).c_str() );
 
 	if( eXferErrorNone == xferErr )
 	{
-		FileInfo fileInfo( xferInfo, xferSession->getIdent()->getMyOnlineId() );
-		m_FileInfoMgr.toGuiFileUploadStart( xferSession->getIdent()->getMyOnlineId(), xferInfo.getLclSessionId(), fileInfo );
+		FileInfo fileInfo( xferInfo, xferSession->getSendToId() );
+		m_FileInfoMgr.toGuiFileUploadStart( xferSession->getSendToId(), xferInfo.getLclSessionId(), fileInfo );
 
 		// file is open and setup so send first chunk of data
 		return txNextFileChunk( xferSession );
@@ -1081,15 +1086,15 @@ EXferError FileInfoXferMgr::beginFileReceive( FileRxSession* rxSession, PktFileS
 		return xferErr;
 	}
 
-	xferErr = setupFileDownload( xferInfo, rxSession->getIdent() );
+	xferErr = setupFileDownload( xferInfo, rxSession->getSendToId() );
 
 	if( eXferErrorNone == xferErr )
 	{
 		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::(File Send) start recieving file %s", xferInfo.getLclFileName().c_str() );
 
         // uint8_t u8FileType = VxFileUtil::fileExtensionToFileTypeFlag( xferInfo.getRmtFileName().c_str() );
-		FileInfo fileInfo( xferInfo, rxSession->getIdent()->getMyOnlineId() );
-		m_FileInfoMgr.toGuiFileDownloadStart( rxSession->getIdent()->getMyOnlineId(), xferInfo.getLclSessionId(), fileInfo );
+		FileInfo fileInfo( xferInfo, rxSession->getSendToId() );
+		m_FileInfoMgr.toGuiFileDownloadStart( rxSession->getSendToId(), xferInfo.getLclSessionId(), fileInfo );
 	}
 
 	// don't send reply.. will get file chunk next anyway
@@ -1127,7 +1132,7 @@ EXferError FileInfoXferMgr::txNextFileChunk( FileTxSession* xferSession )
 		oPkt.setRmtSessionId( xferSession->getRmtSessionId() );
 		oPkt.setAssetId( xferSession->getAssetId() );
 		oPkt.setFileHashId( xferSession->getFileHashId() );
-		m_Plugin.txPacket(  xferSession->getIdent(), xferSession->getSkt(), &oPkt );
+		m_Plugin.txPacket( xferSession->getSendToId(), xferSession->getSkt(), &oPkt );
 
 		LogMsg( LOG_ERROR, "FileInfoXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
 		m_FileInfoMgr.toGuiFileUploadComplete( xferInfo.getLclSessionId(), xferInfo.getLclFileName(), eXferErrorNone );
@@ -1135,7 +1140,7 @@ EXferError FileInfoXferMgr::txNextFileChunk( FileTxSession* xferSession )
 		return eXferErrorNone;
 	}
 
-	xferErr = sendNextFileChunk( xferInfo, xferSession->getIdent(), xferSession->getSkt() );
+	xferErr = sendNextFileChunk( xferInfo, xferSession->getSendToId(), xferSession->getSkt() );
 	return xferErr;
 }
 
@@ -1180,7 +1185,7 @@ EXferError FileInfoXferMgr::rxFileChunk( FileRxSession* xferSession, PktFileChun
 			oPkt.setRmtSessionId( poPkt->getLclSessionId() );
 			oPkt.setAssetId( poPkt->getAssetId() );
 
-			if( false == m_Plugin.txPacket( xferSession->getIdent(), xferSession->getSkt(), &oPkt ) )
+			if( false == m_Plugin.txPacket( xferSession->getSendToId(), xferSession->getSkt(), &oPkt ) )
 			{
 				xferErr = eXferErrorDisconnected;
 			}
@@ -1234,12 +1239,12 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileSend
 		pktReply.setAssetId( xferSession->getAssetId() );
 		pktReply.setFileHashId( xferSession->getFileHashId() );
 		
-		FileInfo fileInfo( xferInfo, xferSession->getIdent()->getMyOnlineId() );
+		FileInfo fileInfo( xferInfo, xferSession->getSendToId() );
 		xferSession->m_FilesXferedList.push_back( FileToXfer( fileInfo, xferInfo.getLclSessionId(), xferInfo.getRmtSessionId() ) );
 
 		LogMsg( LOG_VERBOSE, "VxPktHandler: Done Receiving file %s", fileName.c_str() );
 
-		m_Plugin.txPacket( xferSession->getIdent(), xferSession->getSkt(), &pktReply );
+		m_Plugin.txPacket( xferSession->getSendToId(), xferSession->getSkt(), &pktReply );
 		xferSession->setErrorCode( pktReq->getError() );
 		onFileReceived( xferSession, fileName, (EXferError)pktReq->getError() );
 	}
@@ -1261,13 +1266,13 @@ void FileInfoXferMgr::onFileReceived( FileRxSession* xferSession, std::string& f
 			std::string completedFile = xferInfo.getDownloadCompleteFileName();
 			if( VxFileUtil::fileExists( completedFile.c_str() ) )
 			{
-				completedFile =  VxFileUtil::makeUniqueFileName( completedFile.c_str() );
+				completedFile = VxFileUtil::makeUniqueFileName( completedFile.c_str() );
 			}
 
 			RCODE rc = 0;
 			if( 0 == ( rc = VxFileUtil::moveAFile( incompleteFile.c_str(), completedFile.c_str() ) ) )
 			{
-				m_FileInfoMgr.onFileDownloadComplete( xferSession->getIdent(), xferSession->getSkt(), xferInfo.getLclSessionId(), completedFile, xferInfo.getAssetId(), xferInfo.getFileHashId() );
+				m_FileInfoMgr.onFileDownloadComplete( xferSession->getSendToId(), xferSession->getSkt(), xferInfo.getLclSessionId(), completedFile, xferInfo.getAssetId(), xferInfo.getFileHashId() );
 			}
 			else
 			{
@@ -1277,7 +1282,7 @@ void FileInfoXferMgr::onFileReceived( FileRxSession* xferSession, std::string& f
 		}
 		else if( VxFileUtil::fileExists( incompleteFile.c_str() ) )
 		{
-			m_FileInfoMgr.onFileDownloadComplete( xferSession->getIdent(), xferSession->getSkt(), xferInfo.getLclSessionId(), incompleteFile, xferInfo.getAssetId(), xferInfo.getFileHashId() );
+			m_FileInfoMgr.onFileDownloadComplete( xferSession->getSendToId(), xferSession->getSkt(), xferInfo.getLclSessionId(), incompleteFile, xferInfo.getAssetId(), xferInfo.getFileHashId() );
 			m_FileInfoMgr.toGuiFileDownloadComplete( xferSession->getLclSessionId(), incompleteFile, eXferErrorNone );
 		}
 		else
@@ -1331,7 +1336,7 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileGetC
 	pktReply.setAssetId( xferInfo.getAssetId() );
 	pktReply.setFileHashId( xferInfo.getFileHashId() );
 	pktReply.setError( xferSession->getErrorCode() );
-	m_Plugin.txPacket( xferSession->getIdent(), xferSession->getSkt(), &pktReply );
+	m_Plugin.txPacket( xferSession->getSendToId(), xferSession->getSkt(), &pktReply );
 
 	// let other act on the received file
 	std::string fileName = xferInfo.getLclFileName();
@@ -1339,11 +1344,12 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileGetC
 	{
 		if( 0 == xferSession->getErrorCode() )
 		{
-			FileInfo fileInfo( xferInfo, xferSession->getIdent()->getMyOnlineId() );
+			FileInfo fileInfo( xferInfo, xferSession->getSendToId() );
 			xferSession->m_FilesXferedList.push_back( FileToXfer( fileInfo, xferInfo.getLclSessionId(), xferInfo.getRmtSessionId() ) );
 		}
 
-		LogMsg( LOG_VERBOSE,  "FileInfoXferMgr::finishFileReceive: Done Receiving from %s file %s", xferSession->getIdent()->getOnlineName(), fileName.c_str() );
+        LogMsg( LOG_VERBOSE,  "FileInfoXferMgr::finishFileReceive: Done Receiving from %s file %s",
+               m_Engine.describeUser( xferSession->getSendToId() ).c_str(), fileName.c_str() );
 		onFileReceived( xferSession, fileName, eXferErrorNone );
 	}
 	else
@@ -1357,17 +1363,17 @@ RCODE FileInfoXferMgr::sendFileShareError(		std::shared_ptr<VxSktBase>&		sktBase
 												int				iPktType,	// type of packet
 												unsigned short	u16Cmd,		// packet command
 												long			rc,			// error code
-												const char*	pMsg, ...)	// error message
+												const char*		pMsg, ...)	// error message
 {
 	// send an error message
 	RCODE rcSendErr = 0;
 	//build message on stack so no out of memory issue
-	char szBuffer[2048];
+	std::array<char, 2048> szBuffer;
 	va_list argList;
 	va_start(argList, pMsg);
-	vsnprintf( szBuffer, 2048, pMsg, argList );
+	vsnprintf( szBuffer.data(), 2048, pMsg, argList);
 	va_end(argList);
-	LogMsg( LOG_VERBOSE, szBuffer );
+	LogMsg( LOG_VERBOSE, szBuffer.data() );
 	
 	return rcSendErr;
 }
@@ -1426,7 +1432,8 @@ EXferError FileInfoXferMgr::beginFileGet( FileRxSession* xferSession )
 	if( ( false == xferSession->isXferingFile() ) &&
 		xferSession->m_FilesToXferList.size() )
 	{
-		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::beginFileGet from %s %s", xferSession->getIdent()->getOnlineName(), xferSession->m_FilesToXferList[0].getShortFileName().c_str() );
+        LogMsg( LOG_VERBOSE, "FileInfoXferMgr::beginFileGet from %s %s",
+               m_Engine.describeUser( xferSession->getSendToId() ).c_str(), xferSession->m_FilesToXferList[0].getShortFileName().c_str() );
 		PktFileGetReq pktReq;
 		pktReq.setFileName( xferSession->m_FilesToXferList[0].getShortFileName() );
 		pktReq.setLclSessionId( xferSession->m_FilesToXferList[0].getLclSessionId() );
@@ -1434,12 +1441,12 @@ EXferError FileInfoXferMgr::beginFileGet( FileRxSession* xferSession )
 		pktReq.setAssetId( xferSession->m_FilesToXferList[0].getAssetId() );
 		pktReq.setFileHashId( xferSession->m_FilesToXferList[0].getFileHashId() );
 		EXferError xferErr = m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(),
-												xferSession->getIdent()->getMyOnlineId(), 
+												xferSession->getSendToId(), 
 												xferSession->getSkt(), 
 												&pktReq ) ? eXferErrorNone : eXferErrorDisconnected;
 		if( eXferErrorNone == xferErr )
 		{
-			m_Plugin.toGuiFileDownloadStart( xferSession->getIdent()->getMyOnlineId(), pktReq.getLclSessionId(), xferSession->m_FilesToXferList[ 0 ] );
+			m_Plugin.toGuiFileDownloadStart( xferSession->getSendToId(), pktReq.getLclSessionId(), xferSession->m_FilesToXferList[ 0 ] );
 		}
 
 		return xferErr;
@@ -1457,7 +1464,7 @@ EXferError FileInfoXferMgr::beginFileGet( FileRxSession* xferSession )
 }
 
 //============================================================================
-EXferError FileInfoXferMgr::canTxFile( VxNetIdent* netIdent, VxGUID& assetId, VxSha1Hash& fileHashId  )
+EXferError FileInfoXferMgr::canTxFile( VxGUID sendToId, VxGUID& assetId, VxSha1Hash& fileHashId  )
 {
 	EXferError xferErr = eXferErrorFileNotFound;
 	//#define FILE_XFER_ERR_BUSY						0x0010
@@ -1557,7 +1564,7 @@ bool FileInfoXferMgr::makeIncompleteFileName( std::string& strRemoteFileName, st
 
 
 //============================================================================
-bool FileInfoXferMgr::startDownload( FileInfo& fileInfo, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+bool FileInfoXferMgr::startDownload( FileInfo& fileInfo, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	bool result{ false };
 	if( false == lclSessionId.isVxGUIDValid() )
@@ -1565,7 +1572,7 @@ bool FileInfoXferMgr::startDownload( FileInfo& fileInfo, VxGUID& lclSessionId, s
 		lclSessionId.initializeWithNewVxGUID();
 	}
 
-	FileRxSession* fileRxSession = findOrCreateRxSession( lclSessionId, netIdent, sktBase );
+	FileRxSession* fileRxSession = findOrCreateRxSession( lclSessionId, onlineId, sktBase);
 	if( fileRxSession )
 	{
 		fileRxSession->setAssetId( fileInfo.getAssetId() );
@@ -1581,7 +1588,7 @@ bool FileInfoXferMgr::startDownload( FileInfo& fileInfo, VxGUID& lclSessionId, s
 
 
 //============================================================================
-EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxNetIdent* netIdent )
+EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID& sendToId )
 {
 	EXferError xferErr = eXferErrorNone;
 	uint64_t u64FileLen = 0;
@@ -1618,7 +1625,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxNetId
 
 	if( eXferErrorNone == xferErr )
 	{
-		makeIncompleteFileName( rmtFileName, xferInfo.getLclFileName(), netIdent );
+		makeIncompleteFileName( rmtFileName, xferInfo.getLclFileName(), sendToId );
 		std::string filePath;
 		std::string justFileName;
 		VxFileUtil::seperatePathAndFile( xferInfo.getLclFileName(), filePath, justFileName );
@@ -1689,18 +1696,12 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxNetId
 }
 
 //============================================================================
-bool FileInfoXferMgr::makeIncompleteFileName( std::string& strRemoteFileName, std::string& strRetIncompleteFileName, VxNetIdent* netIdent )
+bool FileInfoXferMgr::makeIncompleteFileName( std::string& strRemoteFileName, std::string& strRetIncompleteFileName, VxGUID& sendToId )
 {
-	VxGUID onlineId;
-	if( netIdent )
-	{
-		onlineId = netIdent->getMyOnlineId();
-	}
-
 	std::string justFileName;
 	VxFileUtil::getJustFileName( strRemoteFileName.c_str(), justFileName );
 	//strRetIncompleteFileName = VxGetIncompleteDirectory() + justFileName;
-	strRetIncompleteFileName = m_FileInfoMgr.getIncompleteFileXferDirectory( onlineId ) + justFileName;
+	strRetIncompleteFileName = m_FileInfoMgr.getIncompleteFileXferDirectory( sendToId ) + justFileName;
 	while( VxFileUtil::fileExists( strRetIncompleteFileName.c_str() ) )
 	{
 		if( false == VxFileUtil::incrementFileName( strRetIncompleteFileName ) )
@@ -1713,7 +1714,7 @@ bool FileInfoXferMgr::makeIncompleteFileName( std::string& strRemoteFileName, st
 }
 
 //============================================================================
-EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& skt )
+EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& skt )
 {
 	EXferError xferErr = eXferErrorNone;
 	PktFileChunkReq oPkt;
@@ -1761,7 +1762,7 @@ EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxNetId
 
 	if( eXferErrorNone == xferErr )
 	{
-		if( false == m_Plugin.txPacket( netIdent, skt, &oPkt ) )
+		if( false == m_Plugin.txPacket( sendToId, skt, &oPkt ) )
 		{
 			xferErr = eXferErrorDisconnected;
 		}

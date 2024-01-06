@@ -393,7 +393,7 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& 
     pktReply.calcPktLen();
     EPluginType clientPluginType = HostTypeToClientPlugin( hostType );
     pktReply.setPluginNum( (uint8_t)clientPluginType );
-    return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, false, clientPluginType );
+    return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, clientPluginType );
 }
 
 //============================================================================
@@ -485,7 +485,7 @@ bool HostServerSearchMgr::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sk
     pktReply.calcPktLen();
     EPluginType clientPluginType = HostTypeToClientPlugin( hostType );
     pktReply.setPluginNum( (uint8_t)clientPluginType );
-    return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, false, clientPluginType );
+    return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, clientPluginType );
 }
 
 //============================================================================
@@ -556,7 +556,7 @@ bool HostServerSearchMgr::requestMoreHostInvitesFromNetworkHost( EHostType hostT
     pktReq.setNextSearchOnlineId( nextHostOnlineId );
     EPluginType clientPluginType = HostTypeToClientPlugin( hostType );
     pktReq.setPluginNum( (uint8_t)ePluginTypeHostNetwork );
-    return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq, false, ePluginTypeHostNetwork );
+    return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq, ePluginTypeHostNetwork );
 }
 
 //============================================================================

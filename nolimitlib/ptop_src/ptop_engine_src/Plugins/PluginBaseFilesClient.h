@@ -31,10 +31,10 @@ public:
 	virtual ~PluginBaseFilesClient() = default;
 
 	bool						connectForWebPageDownload( VxGUID& onlineId );
-	bool						onConnectForWebPageDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	bool						onConnectForWebPageDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
 
 	virtual bool				connectForFileListDownload( VxGUID& onlineId );
-	virtual bool				onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	virtual bool				onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
 
 	void						setSearchFileTypes( uint8_t fileTypes )				{ m_FileTypes = fileTypes; }
 	uint8_t						getSearchFileTypes( void )							{ return m_FileTypes; }
@@ -42,7 +42,7 @@ public:
 protected:
 	
 	FileInfoClientFilesMgr      m_FileInfoClientFilesMgr;
-	VxNetIdent*					m_HisIdent{ nullptr };
+
 	VxGUID						m_HisOnlineId;
 	VxGUID						m_SearchSessionId;
 	VxGUID						m_LclSessionId;

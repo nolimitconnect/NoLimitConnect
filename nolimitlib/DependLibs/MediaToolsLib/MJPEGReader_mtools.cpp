@@ -109,7 +109,7 @@ void MJPEGReader::resetVariables( void )
 void MJPEGReader::setIsVidThreadRunning( bool isRunning )
 {
 	// LogMsg( LOG_INFO, "MJPEGReader::stopVideoRead wantMediaInput start %d", isRunning );
-    m_Engine.getMediaProcessor().wantMediaInput( eMediaInputMixer, this, (void *)ePluginTypeMJPEGReader, eAppModuleMediaReader, isRunning );
+    m_Engine.getMediaProcessor().wantMediaInput( eMediaInputMixer, this, eAppModuleMediaReader, isRunning );
 	// LogMsg( LOG_INFO, "MJPEGReader::stopVideoRead wantMediaInput end" );
 	m_IsVidThreadRunning = isRunning; 
 }

@@ -47,9 +47,9 @@ void PluginFileShareClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t 
 }
 
 //============================================================================
-bool PluginFileShareClient::onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
+bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
-	bool result = netIdent && sktBase && lclSessionId.isVxGUIDValid() && !fileName.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
+	bool result = onlineId.isVxGUIDValid() && sktBase && lclSessionId.isVxGUIDValid() && !fileName.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
 	if( result )
 	{
 		result = false;
@@ -142,7 +142,7 @@ bool PluginFileShareClient::onFileDownloadComplete( VxNetIdent* netIdent, std::s
 			}
 			else
 			{
-				result = startDownload( lclSessionId, sktBase, netIdent );
+				result = startDownload( lclSessionId, sktBase, onlineId );
 			}
 		}
 		else
@@ -263,16 +263,16 @@ bool PluginFileShareClient::fromGuiCancelWebPage( EWebPageType webPageType, VxGU
 }
 
 //============================================================================
-bool PluginFileShareClient::onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+bool PluginFileShareClient::onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	lockSearchFileList();
 	m_SearchFileInfoList.clear();
 	unlockSearchFileList();
-	return PluginBaseFilesClient::onConnectForFileListDownload( sktBase, netIdent );
+	return PluginBaseFilesClient::onConnectForFileListDownload( sktBase, onlineId );
 }
 
 //============================================================================
-bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, FileInfo& fileInfo )
+bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, FileInfo& fileInfo )
 {
 	bool result{ false };
 	if( fileInfo.determineFullFileName( m_DownloadFileFolder ) )
@@ -283,7 +283,7 @@ bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::
 			lockSearchFileList();
 			m_SearchFileInfoList.push_back( fileInfo );
 			unlockSearchFileList();
-			sendFileSearchResultToGui( searchSessionId, netIdent, fileInfo );
+			sendFileSearchResultToGui( searchSessionId, onlineId, fileInfo );
 		}
 	}
 
@@ -291,7 +291,7 @@ bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::
 }
 
 //============================================================================
-void PluginFileShareClient::fileInfoSearchCompleted( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
+void PluginFileShareClient::fileInfoSearchCompleted( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, ECommErr commErr )
 {
 	if( commErr == eCommErrNone )
 	{
@@ -341,7 +341,7 @@ void PluginFileShareClient::cancelDownload( void )
 }
 
 //============================================================================
-bool PluginFileShareClient::startDownload( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+bool PluginFileShareClient::startDownload( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	bool result{ false };
 	lockSearchFileList();
@@ -352,7 +352,7 @@ bool PluginFileShareClient::startDownload( VxGUID& searchSessionId, std::shared_
 		VxGUID xferSessionId = fileInfo.initializeNewXferSessionId();
 
 		m_InProgressFileInfoList.push_back( fileInfo );
-		if( m_FileInfoMgr.startDownload( *iter, xferSessionId, sktBase, netIdent ) )
+		if( m_FileInfoMgr.startDownload( *iter, xferSessionId, sktBase, onlineId ) )
 		{
 			result = true;
 			m_SearchFileInfoList.erase( iter );

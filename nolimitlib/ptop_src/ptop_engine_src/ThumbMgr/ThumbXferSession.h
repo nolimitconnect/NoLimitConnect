@@ -26,18 +26,15 @@ class ThumbXferSession : public AssetBaseXferSession
 {
 public:
 	ThumbXferSession( P2PEngine& engine );
-	ThumbXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	ThumbXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+    ThumbXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId );
+    ThumbXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId  );
 	virtual ~ThumbXferSession();
-
-	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
-	VxNetIdent*				getIdent( void )							{ return m_Ident; }
 
 	void						setThumbInfo( ThumbInfo& assetInfo )	        { m_ThumbInfo = assetInfo; }
 	ThumbInfo&				    getAssetInfo( void )						    { return m_ThumbInfo; }
 
-	void						setSkt( std::shared_ptr<VxSktBase>& skt )					{ m_Skt = skt; }
-	std::shared_ptr<VxSktBase>&					getSkt( void )								{ return m_Skt; }
+	void						setSkt( std::shared_ptr<VxSktBase>& skt )	{ m_Skt = skt; }
+	std::shared_ptr<VxSktBase>&	getSkt( void )								{ return m_Skt; }
 
 	void						setLclSessionId( VxGUID& lclId )			{ m_FileXferInfo.setLclSessionId( lclId ); }
 	VxGUID&						getLclSessionId( void )						{ return m_FileXferInfo.getLclSessionId(); }

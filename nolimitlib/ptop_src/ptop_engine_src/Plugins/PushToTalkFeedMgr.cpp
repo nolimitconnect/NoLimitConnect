@@ -37,54 +37,54 @@ PushToTalkFeedMgr::PushToTalkFeedMgr( P2PEngine& engine, PluginBase& plugin, Plu
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk, std::shared_ptr<VxSktBase>& sktBase )
+bool PushToTalkFeedMgr::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk, std::shared_ptr<VxSktBase>& sktBase )
 {
-	return enableAudioCapture( enableTalk, netIdent, eAppModulePushToTalk, sktBase );
+	return enableAudioCapture( enableTalk, onlineId, eAppModulePushToTalk, sktBase );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase )
+bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase )
 {
 	if( enable && sktBase )
 	{
-		if( m_TxOnlineIdList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
+		if( m_TxOnlineIdList.addGuidIfDoesntExist( onlineId ) )
 		{
-			if( sendPushToTalkReq( netIdent, sktBase ) )
+			if( sendPushToTalkReq( onlineId, sktBase ) )
 			{
 				if( !m_AudioPktsRequested )
 				{
 					//LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
 					m_AudioPktsRequested = true;
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
-					m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, netIdent->getMyOnlineId(), true );
+					m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, true );
 				}
 
-				updatePushToTalkStatus( netIdent->getMyOnlineId() );
+				updatePushToTalkStatus( onlineId );
 			}
 			else
 			{
-				m_Engine.getToGui().toGuiPushToTalkStatus( netIdent->getMyOnlineId(), ePushToTalStatuskNoConnection );
-				LogModule( eLogMediaStream, LOG_VERBOSE, "PushToTalkFeedMgr::enableCapture failed sendPushToTalkReq %s", netIdent->getOnlineName() );
+				m_Engine.getToGui().toGuiPushToTalkStatus( onlineId, ePushToTalStatuskNoConnection );
+				LogModule( eLogMediaStream, LOG_VERBOSE, "PushToTalkFeedMgr::enableCapture failed sendPushToTalkReq %s", m_Engine.describeUser( onlineId ).c_str() );
 			}
 		}
 		else
 		{
-            LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", netIdent->getOnlineName() );
+            LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 
-		m_SessionMgr.findOrCreateTxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, false );
-		sendPushToTalkStart( netIdent, sktBase );
+		m_SessionMgr.findOrCreateTxSessionWithOnlineId( onlineId, sktBase, false );
+		sendPushToTalkStart( onlineId, sktBase );
 		return true;
 	}
 	else
 	{
-		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, netIdent->getMyOnlineId(), false );
-		sendPushToTalkStop( netIdent, sktBase );
-		removePushToTalkUser( netIdent->getMyOnlineId(), true );
+		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
+		sendPushToTalkStop( onlineId, sktBase );
+		removePushToTalkUser( onlineId, true );
 		return true;
 	}
 
-    LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture %d done %s", enable, netIdent->getOnlineName() );
+    LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture %d done %s", enable, m_Engine.describeUser( onlineId ).c_str() );
 	return false;
 }
 
@@ -114,7 +114,7 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 				//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail playAudio %d\n", sessionIdx );
 				m_PluginMgr.getEngine().getMediaProcessor().playAudio( (int16_t*)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 				//VxGUID onlineId = iter->first; // local session id
-				VxGUID onlineId = ((PluginSessionBase*)iter->second)->getOnlineId();
+				VxGUID onlineId = ((PluginSessionBase*)iter->second)->getSendToId();
 				// processor mutex was already locked by call to processor fromGuiAudioOutSpaceAvail which calls callbackAudioOutSpaceAvail
 				//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail processFriendAudioFeed %d\n", sessionIdx );
 				m_PluginMgr.getEngine().getMediaProcessor().processFriendAudioFeed( onlineId, (int16_t*)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN, true );
@@ -133,32 +133,33 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
 	bool allowed = netIdent->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && netIdent->isHisAccessAllowedFromMe( ePluginTypePushToTalk );
 	if( !allowed )
 	{
 		// should this be a hack offence?
-		LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr user %s insufficient permaision", netIdent->getOnlineName() );
+        LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr user %s insufficient permaision", m_Engine.describeUser( srcOnlineId ).c_str() );
 		return;
 	}
 
 	if( m_RxOnlineIdList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
 	{
-		m_SessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, false );
+		m_SessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, false );
 
 		//LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
 		if( !m_MixerInputRequesed )
 		{
 			m_MixerInputRequesed = true;
 			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, true );
-			m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, netIdent->getMyOnlineId(), true );
+            m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, srcOnlineId, true );
 			//LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture done\n" );
 		}
 
-		updatePushToTalkStatus( netIdent->getMyOnlineId() );
+        updatePushToTalkStatus( srcOnlineId );
 	}
 	else
 	{
-		LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", netIdent->getOnlineName() );
+        LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( srcOnlineId ).c_str() );
 	}
 }
 
@@ -170,9 +171,10 @@ void PushToTalkFeedMgr::onPktPushToTalkReply( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	if( addPushToTalkUser( netIdent, sktBase, true ) )
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+    if( addPushToTalkUser( srcOnlineId, sktBase, true ) )
 	{
-		updatePushToTalkStatus( netIdent->getMyOnlineId() );
+        updatePushToTalkStatus( srcOnlineId );
 	}
 	//m_Engine.getToGui().toGuiPushToTalkStop( netIdent->getMyOnlineId() );
 }
@@ -180,20 +182,22 @@ void PushToTalkFeedMgr::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkStop( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	if( removePushToTalkUser( netIdent->getMyOnlineId() ) )
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+    if( removePushToTalkUser( srcOnlineId ) )
 	{
-		updatePushToTalkStatus( netIdent->getMyOnlineId() );
+        updatePushToTalkStatus( srcOnlineId );
 	}
 }
 
 //============================================================================
 void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
 	bool allowed = netIdent->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && netIdent->isHisAccessAllowedFromMe( ePluginTypePushToTalk );
 	if( !allowed )
 	{
 		// should this be a hack offence?
-		LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr user %s insufficient permaision", netIdent->getOnlineName() );
+        LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr user %s insufficient permaision", m_Engine.describeUser( srcOnlineId ).c_str() );
 		return;
 	}
 
@@ -215,7 +219,7 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		PluginSessionBase* poSession = iter->second;
-		if( poSession->isRxSession() && netIdent->getMyOnlineId() == poSession->getOnlineId() )
+        if( poSession->isRxSession() && srcOnlineId == poSession->getSendToId() )
 		{
 			AudioJitterBuffer& jitterBuf = poSession->getJitterBuffer();
 			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq jitterBuf.lockResource" );
@@ -259,7 +263,7 @@ void PushToTalkFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 }
 
 //============================================================================
-void PushToTalkFeedMgr::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio )
+void PushToTalkFeedMgr::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
     LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
@@ -276,7 +280,7 @@ void PushToTalkFeedMgr::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusA
 		PluginSessionBase* poSession = iter->second;
 		if( poSession->isTxSession() )
 		{
-			bool result = m_Plugin.txPacket( poSession->getIdent(), poSession->getSkt(), pktOpusAudio );
+			bool result = m_Plugin.txPacket( poSession->getSendToId(), poSession->getSkt(), pktOpusAudio );
 			if( false == result )
 			{
 				// TODO handle lost connection
@@ -299,13 +303,13 @@ void PushToTalkFeedMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::addPushToTalkUser( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly )
+bool PushToTalkFeedMgr::addPushToTalkUser( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly )
 {
 	bool userAdded{ false };
-	if( m_RxOnlineIdList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
+	if( m_RxOnlineIdList.addGuidIfDoesntExist( onlineId ) )
 	{
 		userAdded = true;
-		m_SessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, false );
+		m_SessionMgr.findOrCreateRxSessionWithOnlineId( onlineId, sktBase, false );
 
 		if( 1 == m_RxOnlineIdList.size() )
 		{
@@ -318,10 +322,10 @@ bool PushToTalkFeedMgr::addPushToTalkUser( VxNetIdent* netIdent, std::shared_ptr
 		}
 	}
 
-	if( !rxOnly && m_TxOnlineIdList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
+	if( !rxOnly && m_TxOnlineIdList.addGuidIfDoesntExist( onlineId ) )
 	{
 		userAdded = true;
-		m_SessionMgr.findOrCreateTxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, netIdent, false );
+		m_SessionMgr.findOrCreateTxSessionWithOnlineId( onlineId, sktBase, false );
 
 		if( 1 == m_TxOnlineIdList.size() )
 		{
@@ -377,24 +381,24 @@ bool PushToTalkFeedMgr::removePushToTalkUser( VxGUID& onlineId, bool txOnly )
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::sendPushToTalkStart( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+bool PushToTalkFeedMgr::sendPushToTalkStart( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	PktPushToTalkStart pktStop;
-	return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktStop );
+	return m_Plugin.txPacket( onlineId, sktBase, &pktStop );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::sendPushToTalkStop( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+bool PushToTalkFeedMgr::sendPushToTalkStop( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	PktPushToTalkStop pktStop;
-	return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktStop );
+	return m_Plugin.txPacket( onlineId, sktBase, &pktStop );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::sendPushToTalkReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+bool PushToTalkFeedMgr::sendPushToTalkReq( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	PktPushToTalkReq pktReq;
-	return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq );
+	return m_Plugin.txPacket( onlineId, sktBase, &pktReq );
 }
 
 //============================================================================

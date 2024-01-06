@@ -633,7 +633,7 @@ void P2PEngine::fromGuiStopPluginSession( EPluginType pluginType, VxGUID oOnline
 }
 
 //============================================================================
-bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType, VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType,VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiIsPluginInSession" );
 	if( ( false == m_IsUserSpecificDirSet ) || VxIsAppShuttingDown() )
@@ -642,7 +642,7 @@ bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType, VxNetIdent* ne
 		return false;	
 	}
 
-	return m_PluginMgr.fromGuiIsPluginInSession( pluginType, netIdent, pvUserData, lclSessionId );
+	return m_PluginMgr.fromGuiIsPluginInSession( pluginType, onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
@@ -674,7 +674,7 @@ EPluginServerState P2PEngine::fromGuiGetPluginServerState( EPluginType pluginTyp
 		return ePluginServerStateDisabled;
 	}
 
-	return m_PluginMgr.fromGuiIsPluginInSession( pluginType ) ? ePluginServerStateStarted : ePluginServerStateStopped;
+	return m_PluginMgr.fromGuiIsPluginInSession( pluginType, getMyOnlineId() ) ? ePluginServerStateStarted : ePluginServerStateStopped;
 }
 
 //============================================================================
@@ -686,7 +686,7 @@ bool P2PEngine::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerIn
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( offerInfo.getPluginType() );
 	if( netIdent && poPlugin )
 	{
-		return poPlugin->fromGuiMakePluginOffer( netIdent, offerInfo );
+		return poPlugin->fromGuiMakePluginOffer( onlineId, offerInfo );
 	}
 	else
 	{
@@ -710,7 +710,7 @@ bool P2PEngine::fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offe
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( offerInfo.getPluginType() );
 	if( netIdent && poPlugin )
 	{
-		return poPlugin->fromGuiOfferReply( netIdent, offerInfo );
+		return poPlugin->fromGuiOfferReply( onlineId, offerInfo );
 	}
 	else
 	{
@@ -723,11 +723,10 @@ bool P2PEngine::fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offe
 EXferError P2PEngine::fromGuiFileXferControl( EPluginType pluginType, EXferAction xferAction, FileInfo& fileInfo )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiFileXferControl" );
-	VxNetIdent* netIdent = m_BigListMgr.findNetIdent( fileInfo.getOnlineId() );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
-	if( netIdent && poPlugin )
+	if( poPlugin )
 	{
-		return poPlugin->fromGuiFileXferControl( netIdent, xferAction, fileInfo );
+		return poPlugin->fromGuiFileXferControl( fileInfo.getOnlineId(), xferAction, fileInfo );
 	}
 	else
 	{
@@ -740,11 +739,11 @@ EXferError P2PEngine::fromGuiFileXferControl( EPluginType pluginType, EXferActio
 bool P2PEngine::fromGuiInstMsg(	EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiInstMsg" );
-	VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
+
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
-	if( netIdent && poPlugin )
+	if( poPlugin )
 	{
-		return poPlugin->fromGuiInstMsg( netIdent, pMsg );
+		return poPlugin->fromGuiInstMsg( onlineId, pMsg );
 	}
 	else
 	{
@@ -756,11 +755,10 @@ bool P2PEngine::fromGuiInstMsg(	EPluginType	pluginType, VxGUID&	onlineId, const 
 //============================================================================
 bool P2PEngine::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk )
 {
-	VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( ePluginTypePushToTalk );
-	if( netIdent && poPlugin )
+	if( poPlugin )
 	{
-		return poPlugin->fromGuiPushToTalk( netIdent, enableTalk );
+		return poPlugin->fromGuiPushToTalk( onlineId, enableTalk );
 	}
 	else
 	{
@@ -906,11 +904,11 @@ bool P2PEngine::fromGuiIsSpeakerMuted( void )
 }
 
 //============================================================================
-void P2PEngine::fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, void * userData, EAppModule appModule, bool wantInput )
+void P2PEngine::fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-		m_MediaProcessor.wantMediaInput( mediaType, callback, userData, appModule, wantInput );
+		m_MediaProcessor.wantMediaInput( mediaType, callback, appModule, wantInput );
 	}
 }
 
@@ -925,12 +923,24 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaTy
 			if( ( eMediaInputVideoJpgSmall !=  mediaType ) // no need to activate cam if requesting other person's video feed
 				&& ( eMediaInputVideoJpgBig !=  mediaType ) )
 			{			
-				m_MediaProcessor.wantMediaInput( mediaType, this, (VxNetIdent*)poInfo, appModule, wantInput );
+				m_MediaProcessor.wantMediaInput( mediaType, this, appModule, wantInput );
 			}
 		}
 		else
 		{
-			m_MediaProcessor.wantMediaInput( mediaType, this, (VxNetIdent*)&m_PktAnn, appModule, wantInput );
+			if( wantInput )
+			{
+				m_MediaProcessor.setMyIdInVidPktListCount( m_MediaProcessor.getMyIdInVidPktListCount() + 1 );
+			}
+			else
+			{
+				if( m_MediaProcessor.getMyIdInVidPktListCount() )
+				{
+					m_MediaProcessor.setMyIdInVidPktListCount( m_MediaProcessor.getMyIdInVidPktListCount() - 1 );
+				}
+			}
+
+			m_MediaProcessor.wantMediaInput( mediaType, this, appModule, wantInput );
 		}
 	}
 }
@@ -1144,17 +1154,16 @@ void P2PEngine::fromGuiSetFileShareSettings( FileShareSettings& fileShareSetting
 }
 
 //============================================================================
-bool P2PEngine::fromGuiSetGameValueVar(	EPluginType	pluginType, 
-										VxGUID&		onlineId, 
+bool P2PEngine::fromGuiSetGameValueVar(	EPluginType		pluginType, 
+										VxGUID&			onlineId, 
 										int32_t			varId, 
 										int32_t			varValue )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetGameValueVar" );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
-	BigListInfo * poInfo = m_BigListMgr.findBigListInfo( onlineId );
-	if( poInfo )
+	if( poPlugin )
 	{
-		return poPlugin->fromGuiSetGameValueVar( poInfo, varId, varValue );
+		return poPlugin->fromGuiSetGameValueVar( onlineId, varId, varValue );
 	}
 	else
 	{
@@ -1165,17 +1174,16 @@ bool P2PEngine::fromGuiSetGameValueVar(	EPluginType	pluginType,
 }
 
 //============================================================================
-bool P2PEngine::fromGuiSetGameActionVar(	EPluginType	pluginType, 
-											VxGUID&		onlineId, 
+bool P2PEngine::fromGuiSetGameActionVar(	EPluginType		pluginType, 
+											VxGUID&			onlineId, 
 											int32_t			varId, 
 											int32_t			varValue )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetGameActionVar" );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
-	BigListInfo * poInfo = m_BigListMgr.findBigListInfo( onlineId );
-	if( poInfo )
+	if( poPlugin )
 	{
-		return poPlugin->fromGuiSetGameActionVar( poInfo, varId, varValue );
+		return poPlugin->fromGuiSetGameActionVar( onlineId, varId, varValue );
 	}
 	else
 	{
@@ -1188,7 +1196,7 @@ bool P2PEngine::fromGuiSetGameActionVar(	EPluginType	pluginType,
 //============================================================================
 bool P2PEngine::fromGuiTestCmd(	ETestParam1		eTestParam1, 
 								int				testParam2, 
-								const char*	testParam3 )
+								const char*		testParam3 )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiTestCmd" );
 	bool result = false;
@@ -1691,7 +1699,7 @@ bool P2PEngine::fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent,
 }
 
 //============================================================================
-bool P2PEngine::fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent )
+bool P2PEngine::fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent )
 {
 	if( !onlineId.isVxGUIDValid() )
 	{

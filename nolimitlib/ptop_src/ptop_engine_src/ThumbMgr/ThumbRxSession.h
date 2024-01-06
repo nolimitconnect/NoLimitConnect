@@ -17,8 +17,8 @@ class ThumbRxSession : public ThumbXferSession
 {
 public:
 	ThumbRxSession( P2PEngine& engine );
-	ThumbRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	ThumbRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	ThumbRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	ThumbRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	virtual ~ThumbRxSession() = default;
 
 	void						cancelDownload( VxGUID& lclSessionId );

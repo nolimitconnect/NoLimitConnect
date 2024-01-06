@@ -44,8 +44,8 @@ public:
 	virtual GuiOfferSession*	getTopGuiOfferSession( void ); // returns null if no session offers
 
 // from engine
-	virtual void                toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo );
-	virtual void                toGuiRxedOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo );
+	virtual void                toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo );
+	virtual void                toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo );
 
 	virtual void				toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId );
 

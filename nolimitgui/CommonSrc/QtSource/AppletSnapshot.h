@@ -36,7 +36,7 @@ public slots:
     void                        slotCameraDescription( QString camDescription );
 
 protected:
-    virtual void				callbackVideoJpgSmall( void * userData, VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
+    virtual void				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
     virtual void                onCloseEvent( void ) override;
 
 

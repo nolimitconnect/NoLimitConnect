@@ -41,24 +41,24 @@ VoiceFeedMgr::VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSession
 }
 
 //============================================================================
-void VoiceFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent, bool wantAudioCapture )
+void VoiceFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture )
 {
-	enableAudioCapture( true, netIdent, appModule, wantAudioCapture );
+	enableAudioCapture( true, onlineId, appModule, wantAudioCapture );
 }
 
 //============================================================================
-void VoiceFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent, bool wantAudioCapture )
+void VoiceFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture )
 {
-	enableAudioCapture( false, netIdent, appModule, wantAudioCapture );
+	enableAudioCapture( false, onlineId, appModule, wantAudioCapture );
 }
 
 //============================================================================
-void VoiceFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, bool wantAudioCapture )
+void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, bool wantAudioCapture )
 {
-	bool isMyself = ( netIdent->getMyOnlineId() == m_PluginMgr.getEngine().getMyOnlineId() ); 
+	bool isMyself = onlineId == m_PluginMgr.getEngine().getMyOnlineId(); 
 	if( enable )
 	{
-		if( m_GuidList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
+		if( m_GuidList.addGuidIfDoesntExist( onlineId ) )
 		{
 			m_Enabled = true;
 
@@ -103,12 +103,12 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppMo
 		}
 		else
 		{
-            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", netIdent->getOnlineName() );
+            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 	else
 	{
-		if( m_GuidList.removeGuid( netIdent->getMyOnlineId() ) )
+		if( m_GuidList.removeGuid( onlineId ) )
 		{
 			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
 			{
@@ -151,13 +151,13 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppMo
 				}
 				else
 				{
-                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", netIdent->getOnlineName() );
+                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", m_Engine.describeUser( onlineId ).c_str() );
 				}
 			}
 		}
 		else
 		{
-            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", netIdent->getOnlineName() );
+            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 }
@@ -188,7 +188,7 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		PluginSessionBase* poSession = iter->second;
-		if( netIdent->getMyOnlineId() == poSession->getOnlineId() )
+		if( netIdent->getMyOnlineId() == poSession->getSendToId() )
 		{
 			AudioJitterBuffer& jitterBuf = poSession->getJitterBuffer();
 			//LogMsg( LOG_INFO, "VoiceFeedMgr::onPktVoiceReq jitterBuf.lockResource\n" );
@@ -250,7 +250,7 @@ void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 			//LogMsg( LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail playAudio %d\n", sessionIdx );
 			m_PluginMgr.getEngine().getMediaProcessor().playAudio( (int16_t *)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 			//VxGUID onlineId = iter->first; // local session id
-			VxGUID onlineId = ((PluginSessionBase*)iter->second)->getOnlineId();
+			VxGUID onlineId = ((PluginSessionBase*)iter->second)->getSendToId();
 			// processor mutex was already locked by call to processor fromGuiAudioOutSpaceAvail which calls callbackAudioOutSpaceAvail
 			//LogMsg( LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail processFriendAudioFeed %d\n", sessionIdx );
 			m_PluginMgr.getEngine().getMediaProcessor().processFriendAudioFeed( onlineId, (int16_t *)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN, true );
@@ -276,7 +276,7 @@ void VoiceFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHd
 }
 
 //============================================================================
-void VoiceFeedMgr::callbackOpusPkt( void * userData, PktVoiceReq* pktOpusAudio )
+void VoiceFeedMgr::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
     LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
@@ -292,7 +292,7 @@ void VoiceFeedMgr::callbackOpusPkt( void * userData, PktVoiceReq* pktOpusAudio )
 		PluginSessionBase* poSession = iter->second;
 		if( false == poSession->isRxSession() )
 		{
-			bool result = m_Plugin.txPacket( poSession->getIdent(), poSession->getSkt(), pktOpusAudio );
+			bool result = m_Plugin.txPacket( poSession->getSendToId(), poSession->getSkt(), pktOpusAudio );
 			if( false == result )
 			{
 				// TODO handle lost connection
@@ -313,11 +313,7 @@ void VoiceFeedMgr::stopAllSessions( EAppModule appModule, EPluginType pluginType
 		PluginBase::AutoPluginLock autoLock( &m_Plugin );
 		for( auto onlineId : m_GuidList.getGuidList() )
 		{
-			VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );
-			if( netIdent )
-			{
-				fromGuiStopPluginSession( true, appModule, netIdent );
-			}
+			fromGuiStopPluginSession( true, appModule, onlineId );
 		}
 
 		m_GuidList.clearList();

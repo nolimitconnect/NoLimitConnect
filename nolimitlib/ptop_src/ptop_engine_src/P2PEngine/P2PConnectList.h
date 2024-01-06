@@ -73,7 +73,7 @@ public:
 
 	void						onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 
-    bool						isContactConnected( const VxGUID&	onlineId );
+    bool						isContactConnected( VxGUID onlineId );
 	bool						isRelayRequired( void )								{ return m_bRequireRelayService; }
 	void						setIsRelayRequired( bool bRequireRelayService )		{ m_bRequireRelayService = bRequireRelayService; }
 	bool						isMyRelayAvailable( void )							{ return m_RelayServiceConnection?1:0; }

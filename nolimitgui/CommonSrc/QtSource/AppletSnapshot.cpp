@@ -66,7 +66,7 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 
     if( m_MyApp.getCamLogic().isCamAvailable() )
     {
-        m_MyApp.getEngine().fromGuiWantMediaInput( eMediaInputVideoJpgSmall, this, this, eAppModuleSnapshot, true );
+        m_MyApp.getEngine().fromGuiWantMediaInput( eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, true );
     }
     else
     {
@@ -93,7 +93,7 @@ void AppletSnapshot::onSnapShotButClick( void )
 }
 
 //============================================================================
-void AppletSnapshot::callbackVideoJpgSmall( void* userData, VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
+void AppletSnapshot::callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
 {
     if( jpgData && jpgDataLen && ( vidFeedId == m_MyApp.getMyOnlineId() ) )
     {
@@ -138,7 +138,7 @@ void AppletSnapshot::onCamFrontBackButClick( void )
 //============================================================================
 void AppletSnapshot::onCloseEvent( void )
 {
-    m_MyApp.getEngine().fromGuiWantMediaInput( eMediaInputVideoJpgSmall, this, this, eAppModuleSnapshot, false );
+    m_MyApp.getEngine().fromGuiWantMediaInput( eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, false );
     AppletBase::onCloseEvent();
 }
 

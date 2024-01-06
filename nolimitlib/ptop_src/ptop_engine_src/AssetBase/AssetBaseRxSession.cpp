@@ -23,15 +23,15 @@ AssetBaseRxSession::AssetBaseRxSession( P2PEngine& engine )
 }
 
 //============================================================================
-AssetBaseRxSession::AssetBaseRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: AssetBaseXferSession( engine, sktBase, netIdent )
+AssetBaseRxSession::AssetBaseRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: AssetBaseXferSession( engine, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }
 
 //============================================================================
-AssetBaseRxSession::AssetBaseRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: AssetBaseXferSession( engine, lclSessionId, sktBase, netIdent )
+AssetBaseRxSession::AssetBaseRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: AssetBaseXferSession( engine, lclSessionId, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }

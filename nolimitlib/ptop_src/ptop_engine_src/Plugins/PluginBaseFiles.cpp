@@ -53,21 +53,21 @@ void PluginBaseFiles::onAfterUserLogOnThreaded( void )
 }
 
 //============================================================================
-void PluginBaseFiles::fromGuiStartPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void PluginBaseFiles::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	return m_FileInfoXferMgr.fromGuiStartPluginSession( netIdent, pvUserData, lclSessionId );
+	return m_FileInfoXferMgr.fromGuiStartPluginSession( onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
-void PluginBaseFiles::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId)
+void PluginBaseFiles::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId)
 {
-	return m_FileInfoXferMgr.fromGuiStopPluginSession( netIdent, pvUserData, lclSessionId );
+	return m_FileInfoXferMgr.fromGuiStopPluginSession( onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiIsPluginInSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginBaseFiles::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	return m_FileInfoXferMgr.fromGuiIsPluginInSession( netIdent, pvUserData, lclSessionId );
+	return m_FileInfoXferMgr.fromGuiIsPluginInSession( onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
@@ -248,15 +248,15 @@ void PluginBaseFiles::onSharedFilesUpdated( uint16_t u16FileTypes )
 
 //============================================================================
 //! user wants to send offer to friend.. return false if cannot connect
-bool PluginBaseFiles::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginBaseFiles::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
-	return m_FileInfoXferMgr.fromGuiMakePluginOffer( netIdent, offerInfo );
+	return m_FileInfoXferMgr.fromGuiMakePluginOffer( onlineId, offerInfo );
 }
 
 //============================================================================
-EXferError PluginBaseFiles::fromGuiFileXferControl( VxNetIdent* netIdent, EXferAction xferAction, FileInfo& fileInfo )
+EXferError PluginBaseFiles::fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo )
 {
-	return m_FileInfoXferMgr.fromGuiFileXferControl( netIdent, xferAction, fileInfo );
+	return m_FileInfoXferMgr.fromGuiFileXferControl( onlineId, xferAction, fileInfo );
 }
 
 //============================================================================
@@ -445,7 +445,7 @@ void PluginBaseFiles::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBas
 				}
 				else
 				{
-					ECommErr searchErr = m_FileInfoMgr.searchRequest( pktReply, pktReq->getSpecificAssetId(), searchText, searchFileTypes, sktBase, netIdent );
+					ECommErr searchErr = m_FileInfoMgr.searchRequest( pktReply, pktReq->getSpecificAssetId(), searchText, searchFileTypes, sktBase, pktReq->getSrcOnlineId() );
 					pktReply.setCommError( searchErr );
 				}
 			}
@@ -456,7 +456,7 @@ void PluginBaseFiles::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBas
 			}
 
 			pktReply.calcPktLen();
-			if( !txPacket( netIdent->getMyOnlineId(), sktBase, &pktReply, false ) )
+			if( !txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply ) )
 			{
 				LogModule( eLogHostSearch, LOG_VERBOSE, "PluginBaseFiles::onPktFileInfoSearchReq failed send search reply" );
 			}
@@ -488,42 +488,42 @@ void PluginBaseFiles::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktB
 		{
 			if( pktReply->getSearchText( searchText ) || searchFileTypes )
 			{
-				if( updateFromFileInfoSearchBlob( pktReply->getSearchSessionId(), pktReply->getHostOnlineId(), sktBase, netIdent, pktReply->getBlobEntry(), pktReply->getFileInfoCountThisPkt() ) )
+				if( updateFromFileInfoSearchBlob( pktReply->getSearchSessionId(), pktReply->getHostOnlineId(), sktBase, pktReply->getSrcOnlineId(), pktReply->getBlobEntry(), pktReply->getFileInfoCountThisPkt() ) )
 				{
 					if( pktReply->getMoreFileInfosExist() )
 					{
-						if( !requestMoreFileInfoFromServer( pktReply->getSearchSessionId(), sktBase, netIdent, pktReply->getNextSearchAssetId(), searchText ) )
+						if( !requestMoreFileInfoFromServer( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), pktReply->getNextSearchAssetId(), searchText ) )
 						{
-							fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrUserOffline );
+							fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrUserOffline);
 						}
 					}
 					else
 					{
-						fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrNone );
+						fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrNone );
 					}
 				}
 				else
 				{
-					fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrInvalidParam );
+					fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrInvalidParam );
 				}
 			}
 			else
 			{
 				logCommError( eCommErrInvalidPkt, "PktFileInfoSearchReply", sktBase, netIdent );
-				fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrInvalidPkt );
+				fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrInvalidPkt );
 				VxReportHack( eHackerLevelSuspicious, eHackerReasonInvalidPkt, sktBase, "PluginBaseFiles::onPktFileInfoSearchReply invalid search text" );
 			}
 		}
 		else
 		{
 			logCommError( pktReply->getCommError(), "PktFileInfoSearchReply", sktBase, netIdent );
-			fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, pktReply->getCommError() );
+			fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), pktReply->getCommError() );
 		}
 	}
 	else
 	{
 		VxGUID nullGuid;
-		fileInfoSearchCompleted( nullGuid, sktBase, netIdent, eCommErrInvalidPkt );
+		fileInfoSearchCompleted( nullGuid, sktBase, pktReply->getSrcOnlineId(), eCommErrInvalidPkt );
 		VxReportHack( eHackerLevelSevere, eHackerReasonInvalidPkt, sktBase, "PluginBaseFiles::onPktFileInfoSearchReply invalid ptk" );
 	}
 }
@@ -568,7 +568,7 @@ void PluginBaseFiles::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase,
 				{
 					if( nextSearchOnlineId.isVxGUIDValid() )
 					{
-						ECommErr searchErr = m_FileInfoMgr.searchMoreRequest( pktReply, nextSearchOnlineId, searchText, searchFileTypes, sktBase, netIdent );
+						ECommErr searchErr = m_FileInfoMgr.searchMoreRequest( pktReply, nextSearchOnlineId, searchText, searchFileTypes, sktBase, pktReq->getSrcOnlineId() );
 						pktReply.setCommError( searchErr );
 					}
 					else
@@ -581,7 +581,7 @@ void PluginBaseFiles::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase,
 			}
 
 			pktReply.calcPktLen();
-			txPacket( netIdent, sktBase, &pktReply );
+			txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
 		}
 		else
 		{
@@ -604,40 +604,40 @@ void PluginBaseFiles::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBas
 		if( pktReply->getCommError() )
 		{
 			logCommError( pktReply->getCommError(), "PluginBaseFiles::onPktFileInfoMoreReply", sktBase, netIdent );
-			fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, pktReply->getCommError() );
+			fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), pktReply->getCommError() );
 		}
 		else if( pktReply->getSearchText( searchStr ) )
 		{
 			VxGUID hostOnlineId = pktReply->getDestOnlineId();
-			updateFromFileInfoSearchBlob( pktReply->getSearchSessionId(), hostOnlineId, sktBase, netIdent, pktReply->getBlobEntry(), pktReply->getFileInfoCountThisPkt() );
+			updateFromFileInfoSearchBlob( pktReply->getSearchSessionId(), hostOnlineId, sktBase, pktReply->getSrcOnlineId(), pktReply->getBlobEntry(), pktReply->getFileInfoCountThisPkt() );
 			if( pktReply->getMoreFileInfosExist() )
 			{
-				if( !requestMoreFileInfoFromServer( pktReply->getSearchSessionId(), sktBase, netIdent, pktReply->getNextSearchAssetId(), searchStr ) )
+				if( !requestMoreFileInfoFromServer( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), pktReply->getNextSearchAssetId(), searchStr ) )
 				{
-					fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrUserOffline );
+					fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrUserOffline );
 				}
 			}
 			else
 			{
-				fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrNone );
+				fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrNone );
 			}
 		}
 		else
 		{
-			fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, netIdent, eCommErrInvalidPkt );
+			fileInfoSearchCompleted( pktReply->getSearchSessionId(), sktBase, pktReply->getSrcOnlineId(), eCommErrInvalidPkt );
 			VxReportHack( eHackerLevelSuspicious, eHackerReasonInvalidPkt, sktBase, "PluginBaseFiles::onPktFileInfoSearchReply invalid search text" );
 		}
 	}
 	else
 	{
 		VxGUID nullGuid;
-		fileInfoSearchCompleted( nullGuid, sktBase, netIdent, eCommErrInvalidPkt );
+		fileInfoSearchCompleted( nullGuid, sktBase, pktReply->getSrcOnlineId(), eCommErrInvalidPkt );
 		VxReportHack( eHackerLevelSevere, eHackerReasonInvalidPkt, sktBase, "PluginBaseFiles::onPktFileInfoSearchReply invalid ptk" );
 	}
 }
 
 //============================================================================
-bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxGUID& hostOnlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int fileInfoCount )
+bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxGUID& hostOnlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, PktBlobEntry& blobEntry, int fileInfoCount )
 {
 	// assumes blobEntry.resetRead(); has been called and any procceeding values like search text has been extracted
 	bool result{ true };
@@ -646,7 +646,7 @@ bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxG
 		FileInfo fileIInfo;
 		if( fileIInfo.extractFromBlob( blobEntry ) )
 		{
-			result &= fileInfoSearchResult( searchSessionId, sktBase, netIdent, fileIInfo );
+			result &= fileInfoSearchResult( searchSessionId, sktBase, onlineId, fileIInfo);
 			if( !result )
 			{
 				break;
@@ -664,30 +664,30 @@ bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxG
 }
 
 //============================================================================
-bool PluginBaseFiles::requestMoreFileInfoFromServer(  VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextFileInfoAssetId, std::string& searchText )
+bool PluginBaseFiles::requestMoreFileInfoFromServer(  VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, VxGUID& nextFileInfoAssetId, std::string& searchText )
 {
 	PktFileInfoMoreReq pktReq;
 	pktReq.setSearchSessionId( searchSessionId );
 	pktReq.setNextSearchAssetId( nextFileInfoAssetId );
 	pktReq.setSearchText( searchText );
 	pktReq.calcPktLen();
-	return txPacket( netIdent, sktBase, &pktReq );
+	return txPacket( onlineId, sktBase, &pktReq);
 }
 
 //============================================================================
-ECommErr PluginBaseFiles::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+ECommErr PluginBaseFiles::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-	return m_FileInfoMgr.searchRequest( pktReply, specificAssetId, searchStr, searchFileTypes, sktBase, netIdent );
+	return m_FileInfoMgr.searchRequest( pktReply, specificAssetId, searchStr, searchFileTypes, sktBase, onlineId );
 }
 
 //============================================================================
-ECommErr PluginBaseFiles::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+ECommErr PluginBaseFiles::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-	return m_FileInfoMgr.searchMoreRequest( pktReply, nextFileAssetId, searchStr, searchFileTypes, sktBase, netIdent );
+	return m_FileInfoMgr.searchMoreRequest( pktReply, nextFileAssetId, searchStr, searchFileTypes, sktBase, onlineId );
 }
 
 //============================================================================
-void PluginBaseFiles::sendFileSearchResultToGui( VxGUID& searchSessionId, VxNetIdent* netIdent, FileInfo& fileInfo )
+void PluginBaseFiles::sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID& onlineId, FileInfo& fileInfo )
 {
-	m_FileInfoMgr.sendFileSearchResultToGui( searchSessionId, netIdent, fileInfo );
+	m_FileInfoMgr.sendFileSearchResultToGui( searchSessionId, onlineId, fileInfo );
 }

@@ -324,7 +324,7 @@ void AppletMultiMessenger::onInSession( bool isInSession )
 }
 
 //============================================================================
-void AppletMultiMessenger::toGuiMultiSessionAction(  EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 )
+void AppletMultiMessenger::toGuiMultiSessionAction(  EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 )
 {
 	if( m_HisIdent && m_HisIdent->getMyOnlineId() == onlineId )
 	{

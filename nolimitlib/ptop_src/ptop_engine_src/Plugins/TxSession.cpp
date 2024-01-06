@@ -11,8 +11,8 @@
 #include "TxSession.h"
 
 //============================================================================
-TxSession::TxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: PluginSessionBase( sktBase, netIdent, pluginType )
+TxSession::TxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
+: PluginSessionBase( sktBase, sendToId, pluginType )
 , m_iOutstandingAckCnt(0)
 , m_bSendingPkts( false )
 {
@@ -20,8 +20,8 @@ TxSession::TxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent,
 }
 
 //============================================================================
-TxSession::TxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: PluginSessionBase( lclSessionId, sktBase, netIdent, pluginType )
+TxSession::TxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
+: PluginSessionBase( lclSessionId, sktBase, sendToId, pluginType )
 , m_iOutstandingAckCnt(0)
 , m_bSendingPkts( false )
 {

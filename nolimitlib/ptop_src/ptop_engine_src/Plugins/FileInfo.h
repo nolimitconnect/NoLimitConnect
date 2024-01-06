@@ -34,7 +34,7 @@ public:
 	FileInfo( AssetBaseInfo& assetInfo );
 	FileInfo( AssetBaseInfo& assetInfo, VxSha1Hash& sha1Hash );
 	FileInfo( OfferBaseInfo& offerInfo );
-	FileInfo( VxFileXferInfo& xferInfo, VxGUID& onlineId );
+    FileInfo( VxFileXferInfo& xferInfo, VxGUID onlineId );
 
 	FileInfo&					operator=( const FileInfo& rhs );
 

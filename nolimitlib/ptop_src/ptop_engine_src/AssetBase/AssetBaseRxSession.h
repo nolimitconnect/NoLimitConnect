@@ -17,8 +17,8 @@ class AssetBaseRxSession : public AssetBaseXferSession
 {
 public:
 	AssetBaseRxSession( P2PEngine& engine );
-	AssetBaseRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	AssetBaseRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	AssetBaseRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	AssetBaseRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	virtual ~AssetBaseRxSession();
 
 	void cancelDownload( VxGUID& lclSessionId );

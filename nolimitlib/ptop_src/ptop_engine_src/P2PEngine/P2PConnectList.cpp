@@ -332,7 +332,7 @@ void P2PConnectList::broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& guidList, bo
 
 
 //============================================================================
-bool P2PConnectList::isContactConnected( const VxGUID& onlineId )
+bool P2PConnectList::isContactConnected( VxGUID onlineId )
 {
 	bool contactIsConnected = false;
 #ifdef DEBUG_MUTEXES

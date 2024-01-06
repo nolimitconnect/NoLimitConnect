@@ -805,7 +805,7 @@ bool FileInfoBaseMgr::findFileAsset( VxGUID& fileAssetId, FileInfo& fileInfo)
 }
 
 //============================================================================
-ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	ECommErr searchErr = m_FilesInitialized ? eCommErrNone : eCommErrPluginNotEnabled;
 	if( eCommErrNone == searchErr )
@@ -902,7 +902,7 @@ ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUI
 }
 
 //============================================================================
-ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	ECommErr searchErr = m_FilesInitialized ? eCommErrNone : eCommErrPluginNotEnabled;
 	if( eCommErrNone == searchErr && !nextFileAssetId.isVxGUIDValid() )
@@ -974,28 +974,28 @@ ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxG
 }
 
 //============================================================================
-bool FileInfoBaseMgr::startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+bool FileInfoBaseMgr::startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-return m_FileInfoXferMgr.startDownload( fileInfo, searchSessionId, sktBase, netIdent );
+	return m_FileInfoXferMgr.startDownload( fileInfo, searchSessionId, sktBase, onlineId );
 }
 
 //============================================================================
-bool FileInfoBaseMgr::onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
+bool FileInfoBaseMgr::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
 	LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::onFileDownloadComplete %s", fileName.c_str() );
-	return m_Plugin.onFileDownloadComplete( netIdent, sktBase, lclSessionId, fileName, assetId, sha11Hash );
+	return m_Plugin.onFileDownloadComplete( onlineId, sktBase, lclSessionId, fileName, assetId, sha11Hash );
 }
 
 //============================================================================
-void FileInfoBaseMgr::toGuiRxedPluginOffer( VxNetIdent* netIdent, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId )
+void FileInfoBaseMgr::toGuiRxedPluginOffer( VxGUID onlineId, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId )
 {
-	m_Plugin.toGuiRxedPluginOffer( netIdent, pluginType, offerInfo, lclSessionId );
+	m_Plugin.toGuiRxedPluginOffer( onlineId, pluginType, offerInfo, lclSessionId );
 }
 
 //============================================================================
-void FileInfoBaseMgr::toGuiRxedOfferReply( VxNetIdent* netIdent, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId, EOfferResponse offerResponse )
+void FileInfoBaseMgr::toGuiRxedOfferReply( VxGUID onlineId, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId, EOfferResponse offerResponse )
 {
-	m_Plugin.toGuiRxedOfferReply( netIdent, pluginType, offerInfo, lclSessionId, offerResponse );
+	m_Plugin.toGuiRxedOfferReply( onlineId, pluginType, offerInfo, lclSessionId, offerResponse );
 }
 
 //============================================================================
@@ -1168,7 +1168,7 @@ bool FileInfoBaseMgr::isLibraryServer( void )
 }
 
 //============================================================================
-void FileInfoBaseMgr::sendFileSearchResultToGui( VxGUID& searchSessionId, VxNetIdent* netIdent, FileInfo& fileInfo )
+void FileInfoBaseMgr::sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID& onlineId, FileInfo& fileInfo )
 {
-	m_PrivateEngine.getToGui().toGuiSearchResultFileSearch( netIdent->getMyOnlineId(), m_Plugin.getPluginType(), searchSessionId, fileInfo );
+	m_PrivateEngine.getToGui().toGuiSearchResultFileSearch( onlineId, m_Plugin.getPluginType(), searchSessionId, fileInfo );
 }

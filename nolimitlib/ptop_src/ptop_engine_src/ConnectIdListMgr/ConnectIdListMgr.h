@@ -38,7 +38,7 @@ public:
 
     bool                        isOnline( GroupieId& groupieId );
     bool                        isUserOnline( VxGUID& onlineId );
-    bool                        isUserExcluded( const VxGUID& onlineId );
+    bool                        isUserExcluded( VxGUID onlineId );
 
     void                        setNetworkHostId( VxGUID& onlineId )    { m_NetworkHostOnlineId = onlineId; }
     VxGUID                      getNetworkHostId( void )                { return m_NetworkHostOnlineId; }
@@ -60,11 +60,11 @@ public:
     std::shared_ptr<VxSktBase>  findRelayMemberConnection( VxGUID& onlineId );
     std::shared_ptr<VxSktBase>  findPeerConnection( VxGUID& onlineId );
 
-    std::shared_ptr<VxSktBase>  findAnyHostOnlineConnection( const VxGUID& onlineId );
-    std::shared_ptr<VxSktBase>  findAnyUserOnlineConnection( const VxGUID& onlineId );
+    std::shared_ptr<VxSktBase>  findAnyHostOnlineConnection( VxGUID onlineId );
+    std::shared_ptr<VxSktBase>  findAnyUserOnlineConnection( VxGUID onlineId, EHostType hostType = eHostTypeUnknown );
 
     std::shared_ptr<VxSktBase>  findBestHostOnlineConnection( VxGUID& onlineId );
-    std::shared_ptr<VxSktBase>  findBestUserOnlineConnection( VxGUID& onlineId );
+    std::shared_ptr<VxSktBase>  findBestUserOnlineConnection( VxGUID& onlineId, EPluginType pluginType = ePluginTypeInvalid );
 
     virtual bool                findConnectionId( GroupieId& groupieId, VxGUID& retSktConnectId );
     virtual bool                findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );

@@ -126,9 +126,9 @@ public:
 	virtual void				fromGuiUserLoggedOn( void )								{};
 
 	virtual void				fromGuiStartPluginSession( PluginSessionBase* poOffer )	{};
-    virtual void				fromGuiStartPluginSession( VxNetIdent* netIdent = nullptr,	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() )	{};
-    virtual void				fromGuiStopPluginSession( VxNetIdent* netIdent = nullptr,	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() )	{};
-    virtual bool				fromGuiIsPluginInSession( VxNetIdent* netIdent = nullptr,	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() )	{ return true; }
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(),	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() )	{};
+    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(),	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() )	{};
+    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(),	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() )	{ return true; }
 
 	virtual void				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings );
 	virtual void				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings );
@@ -137,16 +137,16 @@ public:
 	virtual void				fromGuiCancelDownload( VxGUID& fileInstance ) {};
 	virtual void				fromGuiCancelUpload( VxGUID& fileInstance ) {};
 
-	virtual bool				fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )	{ return false; };
-	virtual bool				fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )			{ return false; };
+	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )	{ return false; };
+	virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )			{ return false; };
 
-	virtual EXferError			fromGuiFileXferControl( VxNetIdent* netIdent, EXferAction xferAction, FileInfo& fileInfo );
+	virtual EXferError			fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo );
 
-	virtual bool				fromGuiInstMsg(	VxNetIdent* netIdent, const char*	pMsg );
-	virtual bool				fromGuiPushToTalk( VxNetIdent* netIdent, bool enableTalk );
+	virtual bool				fromGuiInstMsg( VxGUID& onlineId, const char*	pMsg );
+	virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk );
 
-	virtual bool				fromGuiSetGameValueVar(	VxNetIdent* netIdent, int32_t varId, int32_t varValue )			{ return false; };
-	virtual bool				fromGuiSetGameActionVar( VxNetIdent* netIdent, int32_t	actionId, int32_t actionValue )	{ return false; };
+	virtual bool				fromGuiSetGameValueVar(	VxGUID& onlineId, int32_t varId, int32_t varValue )			{ return false; };
+	virtual bool				fromGuiSetGameActionVar( VxGUID& onlineId, int32_t	actionId, int32_t actionValue )	{ return false; };
 
 	virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount )				{};
 
@@ -160,7 +160,7 @@ public:
 	virtual void				onSpeexData( uint16_t * pu16SpeexData, uint16_t u16SpeexDataLen )							{};
 	virtual void				fromGuiVideoData( uint8_t * pu8VidData, uint32_t u32VidDataLen, int iRotation )				{};
     virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo )												{ return false; };
-	virtual bool				fromGuiMultiSessionAction( VxNetIdent*	netIdent, EMSessionAction mSessionAction, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) { return false; }; 
+	virtual bool				fromGuiMultiSessionAction( VxGUID& onlineId, EMSessionAction mSessionAction, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) { return false; }; 
 
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )	        {};
@@ -181,8 +181,8 @@ public:
 	virtual bool				fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) { return false; }
 	virtual bool				fromGuiDownloadFileListCancel( VxGUID& onlineId, VxGUID& sessionId ) { return false; }
 
-	virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId ) {};
-	virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId, EOfferResponse offerResponse ) {};
+	virtual void				toGuiRxedPluginOffer( VxGUID onlineId, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId ) {};
+	virtual void				toGuiRxedOfferReply( VxGUID onlineId, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId, EOfferResponse offerResponse ) {};
 
 	virtual void				toGuiFileUploadStart( VxGUID& onlineId, VxGUID& lclSessionId, FileInfo& fileInfo );
 	virtual void				toGuiFileDownloadStart( VxGUID& onlineId, VxGUID& lclSessionId, FileInfo& fileInfo );
@@ -199,8 +199,7 @@ public:
 
 	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) = 0;
 
-    bool						txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend = false ) override;
-    bool						txPacket( const VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, bool bDisconnectAfterSend = false, EPluginType overridePlugin = ePluginTypeInvalid );
+    bool						txPacket( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, EPluginType overridePlugin = ePluginTypeInvalid ) override;
 
     //=== maintenence ===//
 	virtual void				onSharedFilesUpdated( uint16_t u16FileTypes )									{};
@@ -252,12 +251,12 @@ public:
 
     virtual EPluginAccess	    canAcceptNewSession( VxNetIdent* netIdent );
 
-    virtual P2PSession *		createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-    virtual P2PSession *		createP2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-    virtual RxSession *			createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-    virtual RxSession *			createRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-    virtual TxSession *			createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-    virtual TxSession *			createTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+    virtual P2PSession *		createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
+    virtual P2PSession *		createP2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
+    virtual RxSession *			createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
+    virtual RxSession *			createRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
+    virtual TxSession *			createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
+    virtual TxSession *			createTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
 
     //=== http ===//
 	virtual void				handlePluginSpecificSkt( std::shared_ptr<VxSktBase>& sktBase ) {};
@@ -275,7 +274,7 @@ public:
 	virtual void				onFilesChanged( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes ) {};
 
 	virtual std::string			getIncompleteFileXferDirectory( VxGUID& onlineId ) { return ""; }
-	virtual bool				onFileDownloadComplete( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash ) { return true;  }
+	virtual bool				onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash ) { return true;  }
 
 	virtual void                onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) {};
 	virtual void                onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) {};

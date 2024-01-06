@@ -137,7 +137,7 @@ FileInfo::FileInfo( OfferBaseInfo& offerInfo )
 }
 
 //============================================================================
-FileInfo::FileInfo( VxFileXferInfo& xferInfo, VxGUID& onlineId )
+FileInfo::FileInfo( VxFileXferInfo& xferInfo, VxGUID onlineId )
 	: m_OnlineId( onlineId )
 	, m_FullFileName( xferInfo.getLclFileName() )
 	, m_s64FileLen( xferInfo.getFileLength() )

@@ -39,16 +39,16 @@ class PluginSessionBase
 {
 public:
 	PluginSessionBase();
-	PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-	PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
+	PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
 	virtual ~PluginSessionBase();
 
 	virtual void				setPluginType( EPluginType pluginType );
 	virtual EPluginType			getPluginType( void );
-	virtual void				setIdent( VxNetIdent* ident );
-	virtual VxNetIdent*			getIdent( void );
-	virtual const char*			getOnlineName( void );
-	virtual VxGUID&				getOnlineId( void );
+
+	void						setSendToId( VxGUID sendToId )				{ m_SendToId = sendToId; }
+	VxGUID&						getSendToId( void )							{ return m_SendToId; }
+
 	virtual void				setSkt( std::shared_ptr<VxSktBase>& sktBase );
 	virtual std::shared_ptr<VxSktBase>&			getSkt( void );
 	virtual void				setSessionType( EPluginSessionType sessionType );
@@ -86,11 +86,10 @@ public:
 	bool						waitForTestSemaphore( int iMilliseconds )			{ return m_TestSemaphore.wait(iMilliseconds); }
 	void						signalTestSemaphore( void )							{ if(m_bTest) m_TestSemaphore.signal(); }
 
-
 protected:
 	//=== vars ===//
 	EPluginType					m_ePluginType{ ePluginTypeInvalid };
-	VxNetIdent* 				m_Ident{ nullptr };
+	VxGUID						m_SendToId;
 	std::shared_ptr<VxSktBase>	m_Skt;
 	EPluginSessionType			m_ePluginSessionType{ ePluginSessionTypeUnknown };
 	bool						m_bSessionStarted{ false };

@@ -18,8 +18,8 @@ class PktVideoFeedPic;
 class RxSession : public PluginSessionBase
 {
 public:
-	RxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-	RxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	RxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
+	RxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
 	virtual ~RxSession();
 
 	bool						waitForResponse( int iTimeoutMs );

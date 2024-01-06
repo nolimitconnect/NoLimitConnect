@@ -66,7 +66,7 @@ public:
 	VxGUID&						getUniqueId( void )								{ return m_UniqueId; }
 	void						setCreatorId( VxGUID& creatorId )				{ m_CreatorId = creatorId; }
 	VxGUID&						getCreatorId( void )							{ return m_CreatorId; }
-	void						setHistoryId( VxGUID& historyId )				{ m_HistoryId = historyId; }
+	void						setHistoryId( VxGUID historyId )				{ m_HistoryId = historyId; }
 	VxGUID&						getHistoryId( void )							{ return m_HistoryId; }
 	void						setAdminId( VxGUID& adminId )					{ m_AdminId = adminId; }
 	VxGUID&						getAdminId( void )								{ return m_AdminId; }

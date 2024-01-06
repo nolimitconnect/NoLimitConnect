@@ -21,13 +21,13 @@ class VxGUID;
 class MediaCallbackInterface
 {
 public:
-	virtual void				callbackPcm( void* userData, VxGUID& feedId, int16_t* pcmData, uint16_t pcmDataLen ){};
-	virtual void				callbackOpusEncoded( void* userData, uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ){};
-	virtual void				callbackOpusPkt( void* userData, PktVoiceReq* pktOpusAudio ){};
+	virtual void				callbackPcm( VxGUID& feedId, int16_t* pcmData, uint16_t pcmDataLen ){};
+	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ){};
+	virtual void				callbackOpusPkt( PktVoiceReq* pktOpusAudio ){};
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ){};
 
-	virtual void				callbackVideoJpgBig( void* userData, VxGUID& vidFeedId, uint8_t* jpgData, uint32_t jpgDataLen ){};
-	virtual void				callbackVideoJpgSmall( void* userData, VxGUID& vidFeedId, uint8_t* jpgData, uint32_t jpgDataLen, int motion0to100000 ){};
-	virtual void				callbackVideoPktPic( void* userData, VxGUID& onlineId, PktVideoFeedPic* pktVid, int pktsInSequence, int thisPktNum ){};
-	virtual void				callbackVideoPktPicChunk( void* userData, VxGUID& onlineId, PktVideoFeedPicChunk* pktVid, int pktsInSequence, int thisPktNum ){};
+	virtual void				callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t* jpgData, uint32_t jpgDataLen ){};
+	virtual void				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t* jpgData, uint32_t jpgDataLen, int motion0to100000 ){};
+	virtual void				callbackVideoPktPic( VxGUID& onlineId, PktVideoFeedPic* pktVid, int pktsInSequence, int thisPktNum ){};
+	virtual void				callbackVideoPktPicChunk( VxGUID& onlineId, PktVideoFeedPicChunk* pktVid, int pktsInSequence, int thisPktNum ){};
 };

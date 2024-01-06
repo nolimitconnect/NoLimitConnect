@@ -36,7 +36,7 @@ PluginVoicePhone::PluginVoicePhone( P2PEngine& engine, PluginMgr& pluginMgr, VxN
 
 //============================================================================
 //! user wants to send offer to friend.. return false if cannot connect
-bool PluginVoicePhone::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginVoicePhone::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
 	P2PSession* poSession = nullptr;
 	VxGUID& lclSessionId = offerInfo.getOfferId();
@@ -47,66 +47,66 @@ bool PluginVoicePhone::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseIn
 	}
 	else
 	{
-		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	}
 
 	if( poSession )
 	{
 		LogMsg( LOG_ERROR, "PluginVoicePhone already in session");
 		// assume some error in logic
-		m_PluginSessionMgr.removeSessionBySessionId( true, netIdent->getMyOnlineId() );
+		m_PluginSessionMgr.removeSessionBySessionId( true, onlineId );
 	}
 
-	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, netIdent, offerInfo );
+	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, onlineId, offerInfo );
 }
 
 //============================================================================
-bool PluginVoicePhone::fromGuiIsPluginInSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, netIdent, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginVoicePhone::fromGuiStartPluginSession( VxNetIdent* netIdent,int, VxGUID )
+void PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId,int, VxGUID )
 {
-	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVoicePhone, netIdent );
+	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVoicePhone, onlineId );
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginVoicePhone::fromGuiStopPluginSession( VxNetIdent* netIdent, int, VxGUID )
+void PluginVoicePhone::fromGuiStopPluginSession( VxGUID& onlineId, int, VxGUID )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, netIdent );
-	m_PluginSessionMgr.fromGuiStopPluginSession( false, netIdent );
+	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, onlineId );
+	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId );
 }
 
 //============================================================================
 //! handle reply to offer
-bool PluginVoicePhone::fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginVoicePhone::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
-	return m_PluginSessionMgr.fromGuiOfferReply( false, netIdent, offerInfo );
+	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
 }
 
 //============================================================================
-bool PluginVoicePhone::fromGuiInstMsg( VxNetIdent* netIdent, const char* pMsg )
+bool PluginVoicePhone::fromGuiInstMsg( VxGUID& onlineId, const char* pMsg )
 {
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	P2PSession* poSession = m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	P2PSession* poSession = m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	if( poSession )
 	{
 		PktChatReq oPkt;
 		oPkt.addMsg( pMsg );
-		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, netIdent->getMyOnlineId(), poSession->getSkt(), &oPkt );
+		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &oPkt );
 	}
 
 	return false;
 }
 
 //============================================================================
-void PluginVoicePhone::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio )
+void PluginVoicePhone::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 {
-	m_VoiceFeedMgr.callbackOpusPkt( userData, pktOpusAudio );
+	m_VoiceFeedMgr.callbackOpusPkt( pktOpusAudio );
 }
 
 //============================================================================
@@ -161,13 +161,13 @@ void PluginVoicePhone::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 void PluginVoicePhone::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
-	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleVoicePhone, session->getIdent() );
+	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleVoicePhone, session->getSendToId() );
 }
 
 //============================================================================
 void PluginVoicePhone::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleVoicePhone, session->getIdent() );
+	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleVoicePhone, session->getSendToId() );
 }
 
 //============================================================================
@@ -185,7 +185,7 @@ void PluginVoicePhone::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 //============================================================================
 void PluginVoicePhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, netIdent );
+	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, netIdent->getMyOnlineId() );
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 

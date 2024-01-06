@@ -21,31 +21,31 @@ OfferBaseXferSession::OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& off
 , m_OfferMgr( offerMgr )
 , m_FileXferInfo()
 , m_iPercentComplete(0)
-, m_Skt(NULL)
-, m_Ident(NULL)
+, m_Skt(nullptr)
+, m_SendToId()
 , m_Error( 0 )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-OfferBaseXferSession::OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+OfferBaseXferSession::OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : m_Engine( engine )
 , m_OfferMgr( offerMgr )
 , m_FileXferInfo()
 , m_Skt( sktBase )
-, m_Ident( netIdent )
+, m_SendToId( sendToId )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-OfferBaseXferSession::OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+OfferBaseXferSession::OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : m_Engine( engine )
 , m_OfferMgr( offerMgr )
 , m_FileXferInfo( lclSessionId )
 , m_Skt( sktBase )
-, m_Ident( netIdent )
+, m_SendToId( sendToId )
 {
 	initLclSessionId();
 }

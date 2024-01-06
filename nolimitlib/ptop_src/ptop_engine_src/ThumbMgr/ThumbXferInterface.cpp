@@ -47,7 +47,7 @@ std::string ThumbXferInterface::getAssetXferThreadName( void )
 }
 
 //============================================================================
-bool ThumbXferInterface::txPacket( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, bool bDisconnectAfterSend )
+bool ThumbXferInterface::txPacket( const VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, EPluginType overridePluginType )
 {
-    return m_PluginBase.txPacket( netIdent, sktBase, pktHdr, bDisconnectAfterSend );
+    return m_PluginBase.txPacket( sendToId, sktBase, pktHdr, overridePluginType );
 }

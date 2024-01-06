@@ -24,9 +24,9 @@ PluginSessionBase::PluginSessionBase()
 }
 
 //============================================================================
-PluginSessionBase::PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
+PluginSessionBase::PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
 : m_ePluginType( pluginType )
-, m_Ident( netIdent )
+, m_SendToId( sendToId )
 , m_Skt( sktBase )
 , m_JitterBuffer( AUDIO_JITTER_QUEUE_DEPTH )
 {
@@ -34,9 +34,9 @@ PluginSessionBase::PluginSessionBase( std::shared_ptr<VxSktBase>& sktBase, VxNet
 }
 
 //============================================================================
-PluginSessionBase::PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
+PluginSessionBase::PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
 : m_ePluginType( pluginType )
-, m_Ident( netIdent )
+, m_SendToId( sendToId )
 , m_Skt( sktBase )
 , m_LclSessionId( lclSessionId )
 , m_eOfferResponse( eOfferResponseNotSet )
@@ -71,30 +71,6 @@ void PluginSessionBase::setPluginType( EPluginType pluginType  )
 EPluginType PluginSessionBase::getPluginType( void )
 { 
 	return m_ePluginType; 
-}
-
-//============================================================================
-void PluginSessionBase::setIdent( VxNetIdent* ident )	
-{ 
-	m_Ident = ident; 
-}
-
-//============================================================================
-VxNetIdent* PluginSessionBase::getIdent( void )
-{ 
-	return m_Ident; 
-}
-
-//============================================================================
-const char* PluginSessionBase::getOnlineName( void )
-{ 
-	return m_Ident->getOnlineName(); 
-}
-
-//============================================================================
-VxGUID& PluginSessionBase::getOnlineId( void )
-{ 
-	return m_Ident->getMyOnlineId(); 
 }
 
 //============================================================================

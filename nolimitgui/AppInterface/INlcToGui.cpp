@@ -330,15 +330,15 @@ void INlc::toGuiSaveMyIdent( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void INlc::toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+void INlc::toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo )
 {
-    getAppCommon().toGuiRxedPluginOffer( netIdent, offerInfo );
+    getAppCommon().toGuiRxedPluginOffer( onlineId, offerInfo );
 }
 
 //============================================================================
-void INlc::toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+void INlc::toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo )
 {
-    getAppCommon().toGuiRxedOfferReply( netIdent, offerInfo );
+    getAppCommon().toGuiRxedOfferReply( onlineId, offerInfo );
 }
 
 //============================================================================
@@ -507,7 +507,7 @@ void INlc::toGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0
 }
 
 //============================================================================
-void INlc::toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 )
+void INlc::toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 )
 {
     getAppCommon().toGuiMultiSessionAction( mSessionAction,
                                  onlineId,

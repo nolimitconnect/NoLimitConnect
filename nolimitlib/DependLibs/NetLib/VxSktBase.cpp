@@ -756,16 +756,12 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 //============================================================================
 //! encrypt then send data using session crypto
 RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
-								int				iDataLen,		// length of data
-								bool			bDisconnect )	// if true disconnect after send
+								int				iDataLen )		// length of data
 {
     if( !pDataIn )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted null data");
-        if( bDisconnect )
-        {
-            closeSkt( eSktCloseCryptoNullData );
-        }
+        closeSkt( eSktCloseCryptoNullData );
 
         vx_assert( pDataIn );
         return -1;
@@ -774,10 +770,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
     if( !iDataLen )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid data len %d", iDataLen);
-        if( bDisconnect )
-        {
-            closeSkt( eSktCloseCryptoInvalidLength );
-        }
+        closeSkt( eSktCloseCryptoInvalidLength );
 
         vx_assert( pDataIn );
         return -2;
@@ -792,10 +785,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 	if( 0 != (iDataLen & 0x0f) )
 	{
 		LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid pkt len %d (pkt type %d)", iDataLen, ((VxPktHdr*)pDataIn)->getPktType() );
-        if( bDisconnect )
-        {
-            closeSkt(eSktClosePktLengthInvalid);
-        }
+        closeSkt(eSktClosePktLengthInvalid);
 
         vx_assert( 0 == (iDataLen & 0x0f) );
         return -3;
@@ -805,10 +795,8 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid crypto key");
         vx_assert( m_TxCrypto.isKeyValid() );
-        if( bDisconnect )
-        {
-            closeSkt(eSktCloseCryptoInvalidKey);
-        }
+
+        closeSkt(eSktCloseCryptoInvalidKey);
 
         return -4;
     }
@@ -841,10 +829,6 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
         LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: sendData error %d %s", rc, VxDescribeSktError( rc ) );
 		closeSkt( eSktCloseTxFailed );
     }
-	else if( bDisconnect )
-	{
-		closeSkt(eSktCloseDisconnectAfterSend, true);
-	}
 
 	return rc;
 }
@@ -853,16 +837,12 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 //! encrypt with given key then send.. does not affect session crypto
 RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 								const char*		pDataIn,		// data to send
-								int				iDataLen,		// length of data
-								bool			bDisconnect )	// if true disconnect after send
+								int				iDataLen )		// length of data
 {
     if( !pDataIn )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 null data");
-        if( bDisconnect )
-        {
-            closeSkt( eSktCloseCryptoNullData );
-        }
+        closeSkt( eSktCloseCryptoNullData );
 
         vx_assert( pDataIn );
         return -1;
@@ -871,10 +851,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
     if( !iDataLen )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 invalid data len %d", iDataLen);
-        if( bDisconnect )
-        {
-            closeSkt( eSktCloseCryptoInvalidLength );
-        }
+        closeSkt( eSktCloseCryptoInvalidLength );
 
         vx_assert( pDataIn );
         return -2;
@@ -883,10 +860,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
     if( 0 != (iDataLen & 0x0f) )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 invalid pkt len %d (pkt type %d)", iDataLen, ((VxPktHdr*)pDataIn)->getPktType() );
-        if( bDisconnect )
-        {
-            closeSkt( eSktClosePktLengthInvalid );
-        }
+        closeSkt( eSktClosePktLengthInvalid );
 
         vx_assert( 0 == (iDataLen & 0x0f) );
         return -3;
@@ -896,10 +870,8 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 invalid crypto key");
         vx_assert( m_TxCrypto.isKeyValid() );
-        if( bDisconnect )
-        {
-            closeSkt(eSktCloseCryptoInvalidKey);
-        }
+
+        closeSkt(eSktCloseCryptoInvalidKey);
 
         return -4;
     }
@@ -923,26 +895,20 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 		LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: error %d", rc );
 		closeSkt( eSktCloseTxFailed );
 	}
-	else if( bDisconnect )
-	{
-		closeSkt(eSktCloseDisconnectAfterSend, true);
-	}
 
 	return rc;
 }
 
 //============================================================================
 RCODE VxSktBase::txPacket(	VxGUID				destOnlineId,
-							VxPktHdr*			pktHdr, 		// packet to send
-							bool				bDisconnect )	// if true disconnect after send
+							VxPktHdr*			pktHdr )		// packet to send
 {
 	pktHdr->setDestOnlineId( destOnlineId );
-	return txPacketWithDestId( pktHdr, bDisconnect );
+	return txPacketWithDestId( pktHdr );
 }
 
 //============================================================================
-RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
-										bool				bDisconnect )	// if true disconnect after send
+RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr ) 		// packet to send
 {
 	m_u8TxSeqNum = (uint8_t)rand();
 	pktHdr->setPktSeqNum( m_u8TxSeqNum );
@@ -1009,7 +975,7 @@ RCODE VxSktBase::txPacketWithDestId(	VxPktHdr*			pktHdr, 		// packet to send
 		LogMsg( LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
 	}
 
-	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength(), bDisconnect );
+	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength() );
 }
 
 //============================================================================

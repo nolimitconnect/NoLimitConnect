@@ -16,15 +16,15 @@
 #include <stdio.h>
 
 //============================================================================
-FileXferPluginSession::FileXferPluginSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: P2PSession( sktBase, netIdent, pluginType )
+FileXferPluginSession::FileXferPluginSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
+: P2PSession( sktBase, sendToId, pluginType )
 , m_Error( 0 )
 {
 }
 
 //============================================================================
-FileXferPluginSession::FileXferPluginSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType )
-: P2PSession( lclSessionId, sktBase, netIdent, pluginType )
+FileXferPluginSession::FileXferPluginSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
+: P2PSession( lclSessionId, sktBase, sendToId, pluginType )
 , m_Error( 0 )
 {
 }
@@ -49,7 +49,7 @@ void FileXferPluginSession::cancelUpload( PluginBase& pluginBase, VxGUID& lclSes
 	oPkt.setError( eXferErrorCanceled );
 	oPkt.setLclSessionId( lclSessionId );
 	oPkt.setRmtSessionId( m_RmtSessionId );
-	pluginBase.txPacket( getIdent(), getSkt(), &oPkt );
+	pluginBase.txPacket( getSendToId(), getSkt(), &oPkt);
 
 	if( m_TxFileInfo.m_hFile )
 	{
@@ -93,7 +93,7 @@ void FileXferPluginSession::cancelDnload( PluginBase& pluginBase, VxGUID& lclSes
 	oPkt.setError( eXferErrorCanceled );
 	oPkt.setLclSessionId( lclSessionId );
 	oPkt.setRmtSessionId( m_RmtSessionId );
-	pluginBase.txPacket( getIdent(), getSkt(), &oPkt );
+	pluginBase.txPacket( getSendToId(), getSkt(), &oPkt );
 
 	if( m_RxFileInfo.m_hFile )
 	{

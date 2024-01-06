@@ -51,14 +51,12 @@ public:
 
 	virtual std::shared_ptr<VxSktBase>	createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port );
 
-	virtual bool				txPacket(	std::shared_ptr<VxSktBase>&	sktBase,
-											const VxGUID&				destOnlineId,			    // online id of destination user
-											VxPktHdr*					pktHdr, 				    // packet to send
-											bool						bDisconnect = false );	    // if true disconnect after send
+	virtual bool				txPacket( std::shared_ptr<VxSktBase>&	sktBase,
+										  const VxGUID&					destOnlineId,			    // online id of destination user
+										  VxPktHdr*						pktHdr );				    // packet to send
 
-	virtual bool				txPacketWithDestId(	std::shared_ptr<VxSktBase>&	sktBase,
-													VxPktHdr*					pktHdr, 				// packet to send
-													bool						bDisconnect = false );	// if true disconnect after send
+	virtual bool				txPacketWithDestId( std::shared_ptr<VxSktBase>& sktBase,
+													VxPktHdr*					pktHdr ); 				// packet to send
 
     virtual void                dumpSocketStats( const char* reason = nullptr, bool fullDump = false ) override;
 

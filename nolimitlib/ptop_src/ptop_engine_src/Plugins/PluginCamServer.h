@@ -20,12 +20,12 @@ public:
 	PluginCamServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginCamServer() = default;
 
-    virtual void				fromGuiStartPluginSession( VxNetIdent* netIdent = nullptr,	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual bool				fromGuiIsPluginInSession( VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(),	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	//! user wants to send offer to friend.. return false if cannot connect
-	virtual bool				fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
     virtual void				fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission ) override;
 
@@ -61,17 +61,17 @@ protected:
     virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
     virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-    virtual void				callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio ) override;
+    virtual void				callbackOpusPkt( PktVoiceReq * pktOpusAudio ) override;
     virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
 
-    virtual void				callbackVideoJpgSmall(	void * userData, VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
-    virtual void				callbackVideoPktPic( void * userData, VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum ) override;
-    virtual void				callbackVideoPktPicChunk( void * userData, VxGUID& feedId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum ) override;
+    virtual void				callbackVideoJpgSmall(VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
+    virtual void				callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum ) override;
+    virtual void				callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum ) override;
 
 	// override this by plugin to create inherited RxSession
-    RxSession *					createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
+    RxSession *					createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId ) override;
 	// override this by plugin to create inherited TxSession
-    TxSession *					createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
+    TxSession *					createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId ) override;
 
 	bool						requestCamSession(	RxSession *			rxSession,
 													bool				bWaitForSuccess = false );

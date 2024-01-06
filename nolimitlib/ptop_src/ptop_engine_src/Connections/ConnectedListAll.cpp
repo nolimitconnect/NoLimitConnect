@@ -56,7 +56,7 @@ ConnectedInfo* ConnectedListAll::getOrAddConnectedInfo( const VxGUID& socketId, 
 }
 
 //============================================================================
-ConnectedInfo* ConnectedListAll::getConnectedInfo( const VxGUID& socketId, const VxGUID& onlineId )
+ConnectedInfo* ConnectedListAll::getConnectedInfo( const VxGUID& socketId, VxGUID onlineId )
 {
     std::pair<VxGUID, VxGUID> sktOnlineIdPair( std::make_pair( socketId, onlineId ) );
     ConnectedInfo* connectedInfo = nullptr;
@@ -78,7 +78,7 @@ ConnectedInfo* ConnectedListAll::getConnectedInfo( const VxGUID& socketId, const
 
 
 //============================================================================
-ConnectedInfo* ConnectedListAll::getAnyConnectedInfo( const VxGUID& onlineId )
+ConnectedInfo* ConnectedListAll::getAnyConnectedInfo( VxGUID onlineId )
 {
     ConnectedInfo* foundInfo = nullptr;
     lockConnectedList();
@@ -111,7 +111,7 @@ ConnectedInfo* ConnectedListAll::getAnyConnectedInfo( const VxGUID& onlineId )
 
 
 //============================================================================
-void ConnectedListAll::removeConnectedInfo( const VxGUID& socketId, const VxGUID& onlineId, bool isLockedList )
+void ConnectedListAll::removeConnectedInfo( const VxGUID& socketId, VxGUID onlineId, bool isLockedList )
 {
     std::pair<VxGUID, VxGUID> sktOnlineIdPair( std::make_pair( socketId, onlineId ) );
     if( !isLockedList )

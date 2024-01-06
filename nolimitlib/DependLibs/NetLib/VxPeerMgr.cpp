@@ -182,19 +182,17 @@ void VxPeerMgr::handleSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 }
 
 //============================================================================
-bool VxPeerMgr::txPacket(	std::shared_ptr<VxSktBase>&			sktBase,
-							const VxGUID&		destOnlineId,
-							VxPktHdr*			pktHdr, 				
-							bool				bDisconnect )
+bool VxPeerMgr::txPacket(	std::shared_ptr<VxSktBase>&		sktBase,
+							const VxGUID&					destOnlineId,
+							VxPktHdr*						pktHdr )
 {
 	pktHdr->setDestOnlineId( destOnlineId );
-	return txPacketWithDestId( sktBase, pktHdr, bDisconnect );
+	return txPacketWithDestId( sktBase, pktHdr );
 }
 
 //============================================================================
-bool VxPeerMgr::txPacketWithDestId(	std::shared_ptr<VxSktBase>&			sktBase,
-									VxPktHdr*			pktHdr, 		
-									bool				bDisconnect )
+bool VxPeerMgr::txPacketWithDestId(	std::shared_ptr<VxSktBase>&		sktBase,
+									VxPktHdr*						pktHdr )
 {
     if( !sktBase || false == isSktActive( sktBase ) )
 	{
@@ -214,7 +212,7 @@ bool VxPeerMgr::txPacketWithDestId(	std::shared_ptr<VxSktBase>&			sktBase,
 
     if( sktBase->isConnected() )
     {
-        RCODE rc = sktBase->txPacketWithDestId( pktHdr, bDisconnect );
+        RCODE rc = sktBase->txPacketWithDestId( pktHdr );
         if( 0 != rc )
         {
             LogMsg( LOG_VERBOSE, "VxPeerMgr::txPacketWithDestId: skt %d returned error %d %s", sktBase->getSktNumber(), rc, sktBase->describeSktError( rc ) );

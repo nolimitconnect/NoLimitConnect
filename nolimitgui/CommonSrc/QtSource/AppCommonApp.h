@@ -503,8 +503,8 @@ public:
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;
     virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) override;
 
-    virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
-    virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
 
     virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) override;
 
@@ -556,7 +556,7 @@ public:
 
     virtual void				toGuiAssetSessionHistory( AssetBaseInfo* assetInfo ) override;
     virtual void				toGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
-    virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 ) override;
+    virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 ) override;
 
     //=== to gui host list ===//
     virtual void				toGuiBlobAdded( BlobInfo* assetInfo ) override;

@@ -31,19 +31,19 @@ class VoiceFeedMgr
 public:
 	VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr );
 
-	virtual void				fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent = nullptr, bool wantAudioCapture = true );
-	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxNetIdent* netIdent = nullptr, bool wantAudioCapture = true );
+    virtual void				fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
+    virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
 
 	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
-	virtual void				callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio );
+	virtual void				callbackOpusPkt( PktVoiceReq * pktOpusAudio );
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
 	void						stopAllSessions( EAppModule appModule, EPluginType pluginType );
 
 protected:
-	void						enableAudioCapture( bool enable, VxNetIdent* netIdent, EAppModule appModule, bool wantAudioCapture = true );
+	void						enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, bool wantAudioCapture = true );
 
     P2PEngine&                  m_Engine;
 	PluginBase&					m_Plugin;

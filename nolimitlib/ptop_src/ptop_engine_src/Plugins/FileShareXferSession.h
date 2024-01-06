@@ -17,17 +17,16 @@
 #include <vector>
 
 class VxSktBase;
-class VxNetIdent;
 
 class FileShareXferSession
 {
 public:
 	FileShareXferSession();
-	FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 
-	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
-	VxNetIdent*					getIdent( void )							{ return m_Ident; }
+	void						setSendToId( VxGUID sendToId )				{ m_SendToId = sendToId; }
+	VxGUID&						getSendToId( void )							{ return m_SendToId; }
 
 	void						setSkt( std::shared_ptr<VxSktBase>& skt )	{ m_Skt = skt; }
 	std::shared_ptr<VxSktBase>&	getSkt( void )								{ return m_Skt; }
@@ -62,8 +61,8 @@ public:
 protected:
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
 	int							m_iPercentComplete{ 0 };
-	std::shared_ptr<VxSktBase> m_Skt;
-	VxNetIdent*					m_Ident{ nullptr };
+	std::shared_ptr<VxSktBase>	m_Skt;
+	VxGUID						m_SendToId;
 	uint32_t					m_Error{ 0 };
 
 private:

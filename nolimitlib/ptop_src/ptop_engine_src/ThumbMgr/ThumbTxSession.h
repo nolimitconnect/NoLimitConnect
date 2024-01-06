@@ -17,8 +17,8 @@ class ThumbTxSession : public ThumbXferSession
 {
 public:
 	ThumbTxSession( P2PEngine& engine );
-	ThumbTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	ThumbTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	ThumbTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	ThumbTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 
 	void						reset( void );
 	void						cancelUpload( VxGUID& fileInstance );

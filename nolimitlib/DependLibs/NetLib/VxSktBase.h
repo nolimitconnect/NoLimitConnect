@@ -206,19 +206,18 @@ public:
 	virtual bool				isRxEncryptionKeySet( void )        { return m_RxKey.isKeySet(); }
 
 	//! encrypt then send data using session crypto
-	virtual RCODE				txEncrypted(	const char*		pData, 					// data to send
-												int				iDataLen,				// length of data
-												bool			bDisconnect = false );	// if true disconnect after send
+	virtual RCODE				txEncrypted( const char*	pData, 					// data to send
+											 int			iDataLen );			// length of data
+
 	//! encrypt with given key then send.. does not affect session crypto
-	virtual RCODE				txEncrypted(	VxKey *			poKey,					// key to encrypt with
-												const char*		pData,					// data to send
-												int				iDataLen,				// length of data
-												bool			bDisconnect = false );	// if true disconnect after send
-    virtual RCODE				txPacket(	VxGUID				destOnlineId,			// online id of destination user
-											VxPktHdr*			pktHdr, 				// packet to send
-											bool				bDisconnect = false );	// if true disconnect after send
-	virtual RCODE				txPacketWithDestId(	VxPktHdr*		pktHdr, 				// packet to send
-													bool			bDisconnect = false );	// if true disconnect after send
+	virtual RCODE				txEncrypted( VxKey*			poKey,					// key to encrypt with
+											 const char*	pData,					// data to send
+											 int			iDataLen );				// length of data
+
+	virtual RCODE				txPacket( VxGUID	destOnlineId,			// online id of destination user
+										  VxPktHdr*	pktHdr );				// packet to send
+
+	virtual RCODE				txPacketWithDestId( VxPktHdr* pktHdr );				// packet to send
 
 	//! decrypt as much as possible in receive buffer
 	virtual RCODE				decryptReceiveData( void );

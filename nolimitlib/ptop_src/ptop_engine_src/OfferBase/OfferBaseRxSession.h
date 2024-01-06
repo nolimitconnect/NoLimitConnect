@@ -17,8 +17,8 @@ class OfferBaseRxSession : public OfferBaseXferSession
 {
 public:
 	OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr );
-	OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	virtual ~OfferBaseRxSession() = default;
 
 	void cancelDownload( VxGUID& lclSessionId );

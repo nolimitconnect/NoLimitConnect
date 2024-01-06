@@ -433,18 +433,18 @@ void INlc::fromGuiStartPluginSession( EPluginType pluginType, VxGUID oOnlineId, 
 }
 
 //============================================================================
-void INlc::fromGuiStopPluginSession( EPluginType pluginType, VxGUID oOnlineId, int pvUserData, VxGUID lclSessionId )
+void INlc::fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData, VxGUID lclSessionId )
 {
-    getPtoP().fromGuiStopPluginSession( pluginType, oOnlineId, pvUserData, lclSessionId );
+    getPtoP().fromGuiStopPluginSession( pluginType, onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
-bool INlc::fromGuiIsPluginInSession( EPluginType pluginType, VxGUID oOnlineId, int pvUserData, VxGUID lclSessionId )
+bool INlc::fromGuiIsPluginInSession( EPluginType pluginType, VxGUID onlineId, int pvUserData, VxGUID lclSessionId )
 {
-    VxNetIdent* netIdent = getPtoP().getBigListMgr().findNetIdent( oOnlineId );
+    VxNetIdent* netIdent = getPtoP().getBigListMgr().findNetIdent( onlineId );
     if( netIdent )
     {
-        return getPtoP().fromGuiIsPluginInSession( pluginType, netIdent, pvUserData, lclSessionId );
+        return getPtoP().fromGuiIsPluginInSession( pluginType, onlineId, pvUserData, lclSessionId );
     }
 
     return false;
@@ -785,7 +785,7 @@ bool INlc::fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool
 }
 
 //============================================================================
-bool INlc::fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent )
+bool INlc::fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent )
 {
     return getPtoP().fromGuiQueryIdentity( onlineId, retNetIdent );
 }

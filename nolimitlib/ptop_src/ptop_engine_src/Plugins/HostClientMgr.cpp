@@ -62,7 +62,6 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 
             m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
 
-            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
             BaseSessionInfo sessionInfo( hostUserSessionId );
             onUserJoinHostGranted( groupieId, sktBase, netIdent, sessionInfo );
         }
@@ -240,6 +239,7 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
     m_Engine.getUserOnlineMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getThumbMgr().queryThumbIfNeeded( sktBase, netIdent, sessionInfo.getHostPluginType() );
 
+    m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
     if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
     {
         // request a list of everybody because we just joined
@@ -251,7 +251,7 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
         pktReq.setSearchSessionId( sessionInfo.getSessionId() );
 
         LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::onUserJoinHostGranted to me" );
-        if( !m_Plugin.txPacket( netIdent, sktBase, &pktReq ) )
+        if( !m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq) )
         {
             LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::txPkt PktHostUserListReq failed" );
         }
@@ -263,7 +263,7 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
         pktReq.setGroupieId( groupieId );
 
         LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::onUserJoinHostGranted to other user" );
-        if( !m_Plugin.txPacket( netIdent, sktBase, &pktReq ) )
+        if( !m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq ) )
         {
             LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::txPkt PktHostUserInfoReq failed" );
         }
@@ -345,7 +345,7 @@ void HostClientMgr::removeSession( VxGUID& sessionId, EConnectReason connectReas
 }
 
 //============================================================================
-void HostClientMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostClientMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     GroupieId groupieId( m_Engine.getMyOnlineId(), onlineId, getHostType() );
     m_ServerList.erase( groupieId );
@@ -353,7 +353,7 @@ void HostClientMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<Vx
 }
 
 //============================================================================
-bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     bool result{ false };
     if( isSearchConnectReason( connectReason ) )
@@ -386,7 +386,7 @@ bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionI
 
             if( result && searchReq.isValidPkt() )
             {
-                if( !m_Plugin.txPacket( onlineId, sktBase, &searchReq, false, m_Plugin.getDestinationPluginOverride( hostType ) ) )
+                if( !m_Plugin.txPacket( onlineId, sktBase, &searchReq, m_Plugin.getDestinationPluginOverride( hostType ) ) )
                 {
                     LogModule( eLogHostSearch, LOG_DEBUG, "HostClientMgr::onConnectToHostSuccess failed send PktHostSearchReq" );
                 }
@@ -477,7 +477,7 @@ void HostClientMgr::startHostDetailSession( PktHostSearchReply* hostReply, std::
 }
 
 //============================================================================
-bool HostClientMgr::stopHostSearch( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId )
+bool HostClientMgr::stopHostSearch( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
     m_Engine.getToGui().toGuiHostSearchStatus( hostType, onlineId, eHostSearchCompleted );
     m_Engine.getToGui().toGuiHostSearchComplete( hostType, onlineId );
@@ -643,7 +643,7 @@ void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase
     m_SentUserInfoReqTime = GetGmtTimeMs();
     m_ClientMutex.unlock();
 
-    if( !m_Plugin.txPacket( netIdentHost, sktBase, &pktReq ) )
+    if( !m_Plugin.txPacket( netIdentHost->getMyOnlineId(), sktBase, &pktReq) )
     {
         clearUserInfoRequests();
         LogModule( eLogClients, LOG_VERBOSE, "HostClientMgr::requestHostUserInfo failed send" );

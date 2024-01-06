@@ -873,7 +873,7 @@ bool PluginMgr::fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUI
 		BigListInfo * bigInfo = m_BigListMgr.findBigListInfo( onlineId );
 		if( bigInfo )
 		{
-			result = plugin->fromGuiMultiSessionAction( bigInfo, mSessionAction, pos0to100000, lclSessionId );
+			result = plugin->fromGuiMultiSessionAction( onlineId, mSessionAction, pos0to100000, lclSessionId );
 		}
 	}
 
@@ -915,26 +915,26 @@ void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		m_Engine.getMediaProcessor().wantMediaInput( mediaType, plugin, userData, appModule, wantInput );
+		m_Engine.getMediaProcessor().wantMediaInput( mediaType, plugin, appModule, wantInput );
 	}
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& oOnlineId, int pvUserData, VxGUID lclSessionId )
+void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( oOnlineId );
+		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
 		if( netIdent )
 		{
-			plugin->fromGuiStartPluginSession( netIdent, pvUserData, lclSessionId );
+			plugin->fromGuiStartPluginSession( onlineId, pvUserData, lclSessionId );
 		}
 		else
 		{
 			LogMsg( LOG_ERROR, "PluginMgr::fromGuiStartPluginSession: id not found NOT FOUND %s my id %s", 
-				oOnlineId.describeVxGUID().c_str(), 
+				onlineId.describeVxGUID().c_str(), 
 				m_PktAnn.getMyOnlineId().describeVxGUID().c_str() );
 		}
 	}
@@ -951,19 +951,7 @@ void PluginMgr::fromGuiStopPluginSession( EPluginType pluginType, VxGUID& online
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
-		if( netIdent )
-		{
-			plugin->fromGuiStopPluginSession( netIdent, pvUserData, lclSessionId );
-		}
-		else if( onlineId == m_PktAnn.getMyOnlineId() )
-		{
-			plugin->fromGuiStopPluginSession( &m_PktAnn, pvUserData, lclSessionId );	
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "PluginMgr::fromGuiStopPluginSession: id not found NOT FOUND");
-		}
+		plugin->fromGuiStopPluginSession( onlineId, pvUserData, lclSessionId );	
 	}
 	else
 	{
@@ -973,13 +961,13 @@ void PluginMgr::fromGuiStopPluginSession( EPluginType pluginType, VxGUID& online
 
 //============================================================================
 //! return true if is plugin session
-bool PluginMgr::fromGuiIsPluginInSession( EPluginType pluginType, VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginMgr::fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	bool inSession = false;
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		inSession = plugin->fromGuiIsPluginInSession( netIdent, pvUserData, lclSessionId );	
+		inSession = plugin->fromGuiIsPluginInSession( onlineId, pvUserData, lclSessionId );	
 	}
 
 	return inSession;
@@ -995,20 +983,9 @@ bool PluginMgr::fromGuiSetGameValueVar(	    EPluginType	    pluginType,
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		BigListInfo * poInfo = m_BigListMgr.findBigListInfo( onlineId );
-		if( poInfo )
-		{
-			bResult = plugin->fromGuiSetGameValueVar( poInfo, s32VarId, s32VarValue );	
-		}
-		else if( onlineId == m_PktAnn.getMyOnlineId() )
-		{
-			bResult = plugin->fromGuiSetGameValueVar( &m_PktAnn, s32VarId, s32VarValue );	
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "PluginMgr::fromGuiSetGameActionVar: id not found NOT FOUND");
-		}
+		bResult = plugin->fromGuiSetGameValueVar( onlineId, s32VarId, s32VarValue );	
 	}
+
 	return bResult;
 }
 
@@ -1022,20 +999,9 @@ bool PluginMgr::fromGuiSetGameActionVar(	EPluginType	    pluginType,
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		BigListInfo * poInfo = m_BigListMgr.findBigListInfo( onlineId );
-		if( poInfo )
-		{
-			bResult = plugin->fromGuiSetGameActionVar( poInfo, s32VarId, s32VarValue );	
-		}
-		else if( onlineId == m_PktAnn.getMyOnlineId() )
-		{
-			bResult = plugin->fromGuiSetGameActionVar( &m_PktAnn, s32VarId, s32VarValue );	
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "PluginMgr::fromGuiSetGameActionVar: id not found NOT FOUND");
-		}
+		bResult = plugin->fromGuiSetGameActionVar( onlineId, s32VarId, s32VarValue );	
 	}
+
 	return bResult;
 }
 

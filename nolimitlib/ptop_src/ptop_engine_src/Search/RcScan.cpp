@@ -263,7 +263,7 @@ void RcScan::onPktScanReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& skt
 	oPktReply.setSearchType( poPkt->getSearchType() );
 	oPktReply.setSearchFlags( poPkt->getSearchFlags() );
 
-	m_Engine.txSystemPkt( netIdent, sktBase, &oPktReply );
+	m_Engine.txSystemPkt( netIdent->getMyOnlineId(), sktBase, &oPktReply);
 }
 
 //============================================================================

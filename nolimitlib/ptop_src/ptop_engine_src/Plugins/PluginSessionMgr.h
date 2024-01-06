@@ -35,12 +35,12 @@ public:
 
 	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
 
-    virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxNetIdent* netIdent, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+    virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
-	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxNetIdent* netIdent, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
-	virtual bool				fromGuiMakePluginOffer(	bool pluginIsLocked, VxNetIdent* netIdent, OfferBaseInfo& offerInfo );
-	virtual bool				fromGuiOfferReply( bool pluginIsLocked, VxNetIdent* netIdent, OfferBaseInfo& offerInfo );
+	virtual bool				fromGuiMakePluginOffer(	bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo );
+	virtual bool				fromGuiOfferReply( bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo );
 
 	virtual void				onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
@@ -53,21 +53,21 @@ public:
 
 	P2PSession *				findP2PSessionBySessionId( VxGUID& sessionId, bool pluginIsLocked );
 	P2PSession *				findP2PSessionByOnlineId( VxGUID& onlineId, bool pluginIsLocked );
-	P2PSession *				findOrCreateP2PSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked);
-	P2PSession *				findOrCreateP2PSessionWithOnlineId( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, 
+	P2PSession *				findOrCreateP2PSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked);
+    P2PSession *				findOrCreateP2PSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase,
 																		bool pluginIsLocked, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	TxSession *					findTxSessionBySessionId( bool pluginIsLocked, VxGUID& sessionId );
 	TxSession *					findTxSessionByOnlineId( bool pluginIsLocked, VxGUID& onlineId );
-	TxSession *					findOrCreateTxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked );
-	TxSession *					findOrCreateTxSessionWithOnlineId( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, 
+	TxSession *					findOrCreateTxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked );
+    TxSession *					findOrCreateTxSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase,
 																		bool pluginIsLocked, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 	int							getTxSessionCount( bool pluginIsLocked = false );
 
 	RxSession *					findRxSessionBySessionId( VxGUID& sessionId, bool pluginIsLocked );
 	RxSession *					findRxSessionByOnlineId( VxGUID& onlineId, bool pluginIsLocked );
-	RxSession *					findOrCreateRxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked );
-	RxSession *					findOrCreateRxSessionWithOnlineId( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, 
+	RxSession *					findOrCreateRxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked );
+    RxSession *					findOrCreateRxSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase,
 																	bool pluginIsLocked, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	void						endPluginSession( PluginSessionBase* session, bool pluginIsLocked );
@@ -80,7 +80,7 @@ public:
 
 	// returns true if found and removed session
 	bool						removeSessionBySessionId( bool pluginIsLocked, VxGUID& sessionId, EOfferResponse offerResponse = eOfferResponseEndSession );
-	bool						removeSession( bool pluginIsLocked, VxNetIdent* netIdent, VxGUID& sessionId, EOfferResponse offerResponse, bool fromGui = false );
+	bool						removeSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID& sessionId, EOfferResponse offerResponse, bool fromGui = false );
 	void						removeAllSessions( bool testSessionsOnly = false );
 
 	typedef std::map<VxGUID, PluginSessionBase*>::iterator SessionIter;

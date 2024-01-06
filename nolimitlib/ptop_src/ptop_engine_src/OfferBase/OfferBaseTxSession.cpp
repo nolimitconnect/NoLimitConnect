@@ -27,8 +27,8 @@ OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMg
 }
 
 //============================================================================
-OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: OfferBaseXferSession( engine, offerMgr, sktBase, netIdent )
+OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: OfferBaseXferSession( engine, offerMgr, sktBase, sendToId )
 , m_iOutstandingAckCnt( 0 )
 , m_bSendingPkts( false )
 , m_bViewingFileList( false )
@@ -38,8 +38,8 @@ OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMg
 }
 
 //============================================================================
-OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: OfferBaseXferSession( engine, offerMgr, lclSessionId, sktBase, netIdent )
+OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: OfferBaseXferSession( engine, offerMgr, lclSessionId, sktBase, sendToId )
 , m_iOutstandingAckCnt(0)
 , m_bSendingPkts(false)
 , m_bViewingFileList(false)

@@ -17,8 +17,8 @@ class OfferBaseTxSession : public OfferBaseXferSession
 {
 public:
 	OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr );
-	OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 
 	void						reset( void );
 	void						cancelUpload( VxGUID& fileInstance );

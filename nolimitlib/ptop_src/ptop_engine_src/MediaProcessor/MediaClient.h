@@ -16,11 +16,9 @@ class MediaClient
 {
 public:
 	MediaClient(	EMediaInputType				mediaType, 
-					MediaCallbackInterface *	callback, 
-					void *						userData )
+					MediaCallbackInterface *	callback )
 	: m_MediaInputType( mediaType )
 	, m_Callback( callback )
-	, m_UserData( userData )
 	{
 	}
 
@@ -35,7 +33,6 @@ public:
 		{
 			m_MediaInputType	= rhs.m_MediaInputType;
 			m_Callback			= rhs.m_Callback;
-			m_UserData			= rhs.m_UserData;
 		}
 
 		return *this;
@@ -43,5 +40,4 @@ public:
 
 	EMediaInputType				m_MediaInputType;
 	MediaCallbackInterface *	m_Callback; 
-	void *						m_UserData;
 };

@@ -69,20 +69,20 @@ public:
 	virtual void				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings );
 	virtual void				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings );
 
-	virtual void				fromGuiStartPluginSession( VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	virtual void				fromGuiStopPluginSession( VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	virtual bool				fromGuiIsPluginInSession( VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	void						fromGuiCancelDownload( VxGUID& fileInstance );
 	void						fromGuiCancelUpload( VxGUID& fileInstance );
 
-	bool						fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo );
+	bool						fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 
-	EXferError					fromGuiFileXferControl( VxNetIdent* netIdent, EXferAction xferAction, FileInfo& fileInfo );
+	EXferError					fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo );
 	// returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId );
 
-	virtual bool				startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	virtual bool				startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
 
 	virtual void				onConnectionLost			( std::shared_ptr<VxSktBase>& sktBase );
 
@@ -116,15 +116,15 @@ protected:
 	bool						isFileDownloading( VxSha1Hash& fileHashId );
 	bool						isFileInDownloadFolder( const char* pPartialFileName );
 
-	virtual FileRxSession*		findRxSession( VxNetIdent* netIdent );
-	virtual FileRxSession*		findRxSession( VxGUID& lclSessionId );
-	virtual FileRxSession*		findOrCreateRxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual FileRxSession*		findOrCreateRxSession( VxGUID& lclSessionId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual FileTxSession*		findTxSession( VxNetIdent* netIdent );
-	virtual FileTxSession*		findTxSession( VxGUID& lclSessionId );
-	virtual FileTxSession*		createTxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual FileTxSession*		findOrCreateTxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual FileTxSession*		findOrCreateTxSession( VxGUID& lclSessionId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual FileRxSession*		findRxSessionSendToId( VxGUID& sendToId );
+	virtual FileRxSession*		findRxSessionSessionId( VxGUID& lclSessionId );
+	virtual FileRxSession*		findOrCreateRxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual FileRxSession*		findOrCreateRxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual FileTxSession*		findTxSessionSendToId( VxGUID& sendToId );
+	virtual FileTxSession*		findTxSessionSessionId( VxGUID& lclSessionId );
+	virtual FileTxSession*		createTxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual FileTxSession*		findOrCreateTxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual FileTxSession*		findOrCreateTxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 
 	virtual EXferError			beginFileReceive( FileRxSession* xferSession, PktFileSendReq* poPkt );
 	virtual EXferError			beginFileSend( FileTxSession* xferSession );
@@ -142,19 +142,19 @@ protected:
 														int				iPktType,	// type of packet
 														unsigned short	u16Cmd,		// packet command
 														long			rc,			// error code
-														const char*	pMsg, ...);	// error message
+														const char*		pMsg, ...);	// error message
 
 	EXferError					beginFileGet( FileRxSession* xferSession );
-	EXferError					canTxFile( VxNetIdent* netIdent, VxGUID& assetId, VxSha1Hash& fileHashId );
+	EXferError					canTxFile( VxGUID sendToId, VxGUID& assetId, VxSha1Hash& fileHashId );
 	bool						isViewFileListMatch( FileTxSession* xferSession, FileInfo& fileInfo );
 	void						clearRxSessionsList( void );
 	void						clearTxSessionsList( void );
 	void						checkQueForMoreFilesToSend( void );
 
 protected:
-	EXferError					setupFileDownload( VxFileXferInfo& xferInfo, VxNetIdent* netIdent );
-	bool						makeIncompleteFileName( std::string& strRemoteFileName, std::string& strRetIncompleteFileName, VxNetIdent* netIdent );
-	EXferError					sendNextFileChunk( VxFileXferInfo& xxferInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& skt );
+	EXferError					setupFileDownload( VxFileXferInfo& xferInfo, VxGUID& sendToId );
+	bool						makeIncompleteFileName( std::string& strRemoteFileName, std::string& strRetIncompleteFileName, VxGUID& sendToId );
+	EXferError					sendNextFileChunk( VxFileXferInfo& xxferInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& skt );
 
 	//=== vars ====//
 	P2PEngine&					m_Engine;
@@ -168,7 +168,7 @@ protected:
 	bool						m_bIsInSession{ true };
 	bool						m_bIsInitialized{ false };
 
-	EFileXOptions				m_eFileRxOption;
+	EFileXOptions				m_eFileRxOption{ eFileXOptionReplaceIfExists };
 	FileShareSettings			m_FileShareSettings;
 	bool						m_MoveOnCompletedToDownloadsFolder{ false };
 };

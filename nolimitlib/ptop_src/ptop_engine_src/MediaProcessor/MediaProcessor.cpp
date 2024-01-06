@@ -93,12 +93,6 @@ MediaProcessor::MediaProcessor( P2PEngine& engine )
 : m_Engine( engine )
 , m_PluginMgr( engine.getPluginMgr() )
 , m_MediaTools( * ( new MediaTools( engine, *this ) ) )
-, m_MixerBufUsed( false )
-, m_MuteSpeaker( false )
-, m_VidCaptureEnabled( false )
-, m_MicCaptureEnabled( false )
-, m_SpeakerOutputEnabled( false )
-, m_VidPktListContainsMyId( false )
 {
 	memset( m_QuietAudioBuf, 0, sizeof( m_QuietAudioBuf ) );
 	memset( m_MixerBuf, 0, sizeof( m_MixerBuf ) );
@@ -254,7 +248,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 		#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 		for( auto& client : m_AudioPcmList )
 		{
-			client.m_Callback->callbackPcm( client.m_UserData, m_Engine.getMyOnlineId(), pcmData, pcmDataLen );
+			client.m_Callback->callbackPcm( m_Engine.getMyOnlineId(), pcmData, pcmDataLen );
 		}
 
 		#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -279,7 +273,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 
 			for( auto& client : m_AudioOpusList )
 			{
-				client.m_Callback->callbackOpusEncoded( client.m_UserData, m_PktVoiceReq.getCompressedData(), encodedLenList );
+				client.m_Callback->callbackOpusEncoded( m_PktVoiceReq.getCompressedData(), encodedLenList );
 			}
 
 			#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -326,7 +320,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 			#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 			for( auto& client : m_AudioPktsList )
 			{
-				client.m_Callback->callbackOpusPkt( client.m_UserData, &m_PktVoiceReq );
+				client.m_Callback->callbackOpusPkt( &m_PktVoiceReq );
 			}
 
 			#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -380,7 +374,7 @@ void MediaProcessor::processFriendAudioFeed( VxGUID& onlineId, int16_t * pcmData
 		for( iter = m_AudioPcmList.begin(); iter != m_AudioPcmList.end(); ++iter )
 		{
 			MediaClient& client = (*iter);
-			client.m_Callback->callbackPcm( client.m_UserData, onlineId, pcmData, pcmDataLen );
+			client.m_Callback->callbackPcm( onlineId, pcmData, pcmDataLen );
 		}
 
 		if( !dontLock )
@@ -738,7 +732,7 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 												uint32_t		jpgDataLen,
 												int				motion0To100000 )
 {
-	m_Engine.callbackVideoJpgSmall( 0, onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
+	m_Engine.callbackVideoJpgSmall( onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
 	if( m_VideoJpgSmallList.size() )
 	{
 		std::vector<MediaClient>::iterator iter;
@@ -754,7 +748,7 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 		for( iter = m_VideoJpgSmallList.begin(); iter != m_VideoJpgSmallList.end(); ++iter )
 		{
 			MediaClient& client = (*iter);
-			client.m_Callback->callbackVideoJpgSmall( client.m_UserData, onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
+			client.m_Callback->callbackVideoJpgSmall( onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
 		}
 
 		#ifdef DEBUG_PROCESSOR_LOCK
@@ -816,7 +810,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 		for( auto iter = m_VideoJpgBigList.begin(); iter != m_VideoJpgBigList.end(); ++iter )
 		{
 			MediaClient& client = (*iter);
-			client.m_Callback->callbackVideoJpgBig( client.m_UserData, m_Engine.getMyOnlineId(), pu8JpgData, s32JpgDataLen );
+			client.m_Callback->callbackVideoJpgBig( m_Engine.getMyOnlineId(), pu8JpgData, s32JpgDataLen );
 		}
 
 		delete[] pu8JpgData;
@@ -904,7 +898,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			for( iter = m_VideoJpgBigList.begin(); iter != m_VideoJpgBigList.end(); ++iter )
 			{
 				MediaClient& client = (*iter);
-				client.m_Callback->callbackVideoJpgBig( client.m_UserData, m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen );
+				client.m_Callback->callbackVideoJpgBig( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen );
 			}
 		}
 
@@ -923,7 +917,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			for( iter = m_VideoJpgSmallList.begin(); iter != m_VideoJpgSmallList.end(); ++iter )
 			{
 				MediaClient& client = (*iter);
-				client.m_Callback->callbackVideoJpgSmall( client.m_UserData, m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen, motion0To100000 );
+				client.m_Callback->callbackVideoJpgSmall( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen, motion0To100000 );
 			}
 
 			#ifdef DEBUG_PROCESSOR_LOCK
@@ -931,7 +925,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			#endif // DEBUG_PROCESSOR_LOCK
 		}
 
-		if( m_VidPktListContainsMyId && m_VideoPktsList.size() )
+		if( getMyIdInVidPktListCount() && m_VideoPktsList.size() )
 		{
 			int32_t picPktDataLen		= s32JpgDataLen > MAX_PIC_PKT_DATA_PAYLOAD ? MAX_PIC_PKT_DATA_PAYLOAD : s32JpgDataLen;
 			int32_t dataOverflow		= s32JpgDataLen > MAX_PIC_PKT_DATA_PAYLOAD ? s32JpgDataLen - MAX_PIC_PKT_DATA_PAYLOAD : 0;
@@ -953,7 +947,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			for( iter = m_VideoPktsList.begin(); iter != m_VideoPktsList.end(); ++iter )
 			{
 				MediaClient& client = (*iter);
-				client.m_Callback->callbackVideoPktPic( client.m_UserData, m_Engine.getMyOnlineId(), m_PktVideoFeedPic, 1 + chunkPktsRequired, 1  );
+				client.m_Callback->callbackVideoPktPic( m_Engine.getMyOnlineId(), m_PktVideoFeedPic, 1 + chunkPktsRequired, 1  );
 			}
 
 			if( chunkPktsRequired )
@@ -972,7 +966,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 					for( iter = m_VideoPktsList.begin(); iter != m_VideoPktsList.end(); ++iter )
 					{
 						MediaClient& client = (*iter);
-						client.m_Callback->callbackVideoPktPicChunk( client.m_UserData, m_Engine.getMyOnlineId(), pktChunk, chunkPktsRequired + 1, 2 + i );
+						client.m_Callback->callbackVideoPktPicChunk( m_Engine.getMyOnlineId(), pktChunk, chunkPktsRequired + 1, 2 + i );
 					}
 
 					curDataIdx += dataThisChunk;
@@ -1044,7 +1038,6 @@ bool MediaProcessor::isAudioMediaType( EMediaInputType mediaType )
 //============================================================================
 void MediaProcessor::wantMediaInput(	EMediaInputType				mediaType, 
 										MediaCallbackInterface *	callback, 
-										void *						userData, 
 										EAppModule					appModule,
 										bool						wantInput )
 {
@@ -1052,31 +1045,29 @@ void MediaProcessor::wantMediaInput(	EMediaInputType				mediaType,
 	{
 		if( eMediaInputMixer == mediaType )
 		{
-			wantMixerMediaInput( mediaType, callback, userData, appModule, wantInput );
+			wantMixerMediaInput( mediaType, callback, appModule, wantInput );
 		}
 		else
 		{
-			wantAudioMediaInput( mediaType, callback, userData, appModule, wantInput );
+			wantAudioMediaInput( mediaType, callback, appModule, wantInput );
 		}
 	}
 	else
 	{
-		wantVideoMediaInput( mediaType, callback, userData, appModule, wantInput );
+		wantVideoMediaInput( mediaType, callback, appModule, wantInput );
 	}
 }
 
 //============================================================================
 bool MediaProcessor::clientExistsInList(	std::vector<MediaClient>&		clientList, 
 											EMediaInputType					mediaType, 
-											MediaCallbackInterface *		callback,
-											void *							userData )
+											MediaCallbackInterface *		callback )
 {
 	std::vector<MediaClient>::iterator iter;
 	for( iter = clientList.begin(); iter != clientList.end(); ++iter )
 	{
 		MediaClient& client = *iter;
 		if( ( client.m_Callback == callback )
-			&& ( client.m_UserData == userData )
 			&& ( client.m_MediaInputType == mediaType ) )
 		{
 			return true;
@@ -1088,16 +1079,14 @@ bool MediaProcessor::clientExistsInList(	std::vector<MediaClient>&		clientList,
 
 //============================================================================
 bool MediaProcessor::removeClientFromListist( std::vector<MediaClient>& clientList,
-												EMediaInputType					mediaType,
-												MediaCallbackInterface* callback,
-												void* userData )
+												EMediaInputType			mediaType,
+												MediaCallbackInterface* callback )
 {
 	std::vector<MediaClient>::iterator iter;
 	for( iter = clientList.begin(); iter != clientList.end(); ++iter )
 	{
 		MediaClient& client = *iter;
 		if( (client.m_Callback == callback)
-			&& (client.m_UserData == userData)
 			&& (client.m_MediaInputType == mediaType) )
 		{
 			clientList.erase( iter );
@@ -1112,15 +1101,13 @@ bool MediaProcessor::removeClientFromListist( std::vector<MediaClient>& clientLi
 //============================================================================
 bool MediaProcessor::clientToRemoveExistsInList(	std::vector<ClientToRemove>&	clientRemoveList, 
 													EMediaInputType					mediaType, 
-													MediaCallbackInterface *		callback,
-													void *							userData )
+													MediaCallbackInterface *		callback )
 {
 	std::vector<ClientToRemove>::iterator iter;
 	for( iter = clientRemoveList.begin(); iter != clientRemoveList.end(); ++iter )
 	{
 		ClientToRemove& client = *iter;
 		if( ( client.m_Callback == callback )
-			&& ( client.m_UserData == userData )
 			&& ( client.m_MediaType == mediaType ) )
 		{
 			return true;
@@ -1133,8 +1120,7 @@ bool MediaProcessor::clientToRemoveExistsInList(	std::vector<ClientToRemove>&	cl
 //============================================================================
 bool MediaProcessor::clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	clientRemoveList, 
 													EMediaInputType					mediaType, 
-													MediaCallbackInterface *		callback,
-													void *							userData )
+													MediaCallbackInterface *		callback )
 {
 	bool removed = false;
 	std::vector<ClientToRemove>::iterator iter;
@@ -1142,7 +1128,6 @@ bool MediaProcessor::clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	
 	{
 		ClientToRemove& client = *iter;
 		if( ( client.m_Callback == callback )
-			&& ( client.m_UserData == userData )
 			&& ( client.m_MediaType == mediaType ) )
 		{
 			clientRemoveList.erase( iter );
@@ -1157,7 +1142,6 @@ bool MediaProcessor::clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	
 //============================================================================
 void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
-											void *						userData, 
 											EAppModule					appModule,
 											bool						wantInput )
 {
@@ -1166,9 +1150,9 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove not will crash because iterator may expect more items in array
 		m_MixerRemoveMutex.lock();
-		if( m_SpeakerOutputEnabled && !clientToRemoveExistsInList( m_MixerClientRemoveList, mediaType, callback, userData ) )
+		if( m_SpeakerOutputEnabled && !clientToRemoveExistsInList( m_MixerClientRemoveList, mediaType, callback ) )
 		{
-			m_MixerClientRemoveList.push_back( ClientToRemove( mediaType, callback, userData, appModule ) );
+			m_MixerClientRemoveList.push_back( ClientToRemove( mediaType, callback, appModule ) );
 		}
 
 		m_MixerRemoveMutex.unlock();
@@ -1188,12 +1172,12 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 	{
 		// if been commanded to remove and now adding remove the previous command
 		m_MixerRemoveMutex.lock();
-		bool wasRemoved = clientToRemoveRemoveFromList( m_MixerClientRemoveList, mediaType, callback, userData );
+		bool wasRemoved = clientToRemoveRemoveFromList( m_MixerClientRemoveList, mediaType, callback );
 		m_MixerRemoveMutex.unlock();
 		if( wasRemoved )
 		{
 			m_MixerClientsMutex.lock();
-			removeClientFromListist( m_MixerList, mediaType, callback, userData );
+			removeClientFromListist( m_MixerList, mediaType, callback );
 			m_MixerClientsMutex.unlock();
 		}
 	}
@@ -1206,7 +1190,7 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 		LogMsg( LOG_INFO, "wantAudioMediaInput m_MixerClientsMutex.lock done" );
 	#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 
-	if( clientExistsInList( m_MixerList, mediaType, callback, userData ) )
+	if( clientExistsInList( m_MixerList, mediaType, callback ) )
 	{
 		LogMsg( LOG_INFO, "WARNING. Ignoring New Mixer Media Client because already in list" );
 		#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -1217,7 +1201,7 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 	}
 
 	// not found add new client
-	MediaClient newClient( mediaType, callback, userData );
+	MediaClient newClient( mediaType, callback );
 	m_MixerList.push_back( newClient );
 
 	bool startSpeakerOutput = ( false == m_SpeakerOutputEnabled ) && ( 1 == m_MixerList.size() );
@@ -1247,7 +1231,6 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 	{
 		EMediaInputType				mediaType	= clientRemoveList[i].m_MediaType;
 		MediaCallbackInterface *	callback	= clientRemoveList[i].m_Callback;
-		void *						userData	= clientRemoveList[i].m_UserData;
 		EAppModule					appModule   = clientRemoveList[ i ].m_AppModule;
 
 		std::vector<MediaClient> * clientList = 0;
@@ -1287,7 +1270,6 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 		{
 			MediaClient& client = *iter;
 			if( ( client.m_Callback == callback )
-				&& ( client.m_UserData == userData )
 				&& ( client.m_MediaInputType == mediaType ) )
 			{
 				clientList->erase( iter );
@@ -1312,7 +1294,6 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 //============================================================================
 void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
-											void *						userData, 
 											EAppModule					appModule,
 											bool						wantInput )
 {
@@ -1321,9 +1302,9 @@ void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType,
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove not will crash because iterator may expect more items in array or there may be a dead lock
 		m_AudioRemoveMutex.lock();
-		if( m_MicCaptureEnabled && !clientToRemoveExistsInList( m_AudioClientRemoveList, mediaType, callback, userData ) )
+		if( m_MicCaptureEnabled && !clientToRemoveExistsInList( m_AudioClientRemoveList, mediaType, callback ) )
 		{
-			m_AudioClientRemoveList.push_back( ClientToRemove( mediaType, callback, userData, appModule ) );
+			m_AudioClientRemoveList.push_back( ClientToRemove( mediaType, callback, appModule ) );
 		}
 
 		m_AudioRemoveMutex.unlock();
@@ -1333,7 +1314,7 @@ void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType,
 	{
 		// if been commanded to remove and now adding remove the previous command
 		m_AudioRemoveMutex.lock();
-		clientToRemoveRemoveFromList( m_AudioClientRemoveList, mediaType, callback, userData );
+		clientToRemoveRemoveFromList( m_AudioClientRemoveList, mediaType, callback );
 		m_AudioRemoveMutex.unlock();
 	}
 
@@ -1367,7 +1348,7 @@ void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType,
 		return;
 	}
 
-	if( clientExistsInList( *clientList, mediaType, callback, userData ) )
+	if( clientExistsInList( *clientList, mediaType, callback ) )
 	{
 		LogMsg( LOG_INFO, "WARNING. Ignoring New Audio Media Client because already in list" );
 		#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -1378,7 +1359,7 @@ void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType,
 	}
 
 	// add new client
-	MediaClient newClient( mediaType, callback, userData );
+	MediaClient newClient( mediaType, callback );
 	clientList->push_back( newClient );
 
 	bool startMicInput = ( false == m_MicCaptureEnabled ) && ( 1 == ( m_AudioPcmList.size() + m_AudioOpusList.size() + m_AudioPktsList.size() ) );
@@ -1408,7 +1389,6 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 	{
 		EMediaInputType				mediaType	= clientRemoveList[i].m_MediaType;
 		MediaCallbackInterface *	callback	= clientRemoveList[i].m_Callback;
-		void *						userData	= clientRemoveList[i].m_UserData;
 		EAppModule					appModule   = clientRemoveList[ i ].m_AppModule;
 
 		std::vector<MediaClient> * clientList = 0;
@@ -1447,7 +1427,6 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 		{
 			MediaClient& client = *iter;
 			if( ( client.m_Callback == callback )
-				&& ( client.m_UserData == userData )
 				&& ( client.m_MediaInputType == mediaType ) )
 			{
 				clientList->erase( iter );
@@ -1472,7 +1451,6 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 //============================================================================
 void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
-											void *						userData, 
 											EAppModule					appModule,
 											bool						wantInput )
 {
@@ -1481,9 +1459,9 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove not will crash because iterator may expect more items in array
 		m_VideoRemoveMutex.lock();
-		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, mediaType, callback, userData ) )
+		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, mediaType, callback ) )
 		{
-			m_VideoClientRemoveList.push_back( ClientToRemove( mediaType, callback, userData, appModule ) );
+			m_VideoClientRemoveList.push_back( ClientToRemove( mediaType, callback, appModule ) );
 			m_VideoSemaphore.signal();
 		}
 
@@ -1494,7 +1472,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 	{
 		// if been commanded to remove and now adding remove the previous command
 		m_VideoRemoveMutex.lock();
-		clientToRemoveRemoveFromList( m_VideoClientRemoveList, mediaType, callback, userData );
+		clientToRemoveRemoveFromList( m_VideoClientRemoveList, mediaType, callback );
 		m_VideoRemoveMutex.unlock();
 	}
 
@@ -1528,7 +1506,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 		return;
 	}
 
-	if( clientExistsInList( *clientList, mediaType, callback, userData ) )
+	if( clientExistsInList( *clientList, mediaType, callback ) )
 	{
 		LogMsg( LOG_INFO, "WARNING. Ignoring New Video Media Client because already in list" );
 		#ifdef DEBUG_PROCESSOR_LOCK
@@ -1538,10 +1516,10 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 		return;
 	}
 
-	MediaClient newClient( mediaType, callback, userData );
+	MediaClient newClient( mediaType, callback );
 	clientList->push_back( newClient );
 
-	int idsInVidPktListCnt = myIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
+	int idsInVidPktListCnt = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
 	#ifdef DEBUG_PROCESSOR_LOCK
 		LogMsg( LOG_INFO, "m_VideoMutex.unlock" );
 	#endif // DEBUG_PROCESSOR_LOCK
@@ -1566,7 +1544,6 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 	{
 		EMediaInputType				mediaType	= clientRemoveList[i].m_MediaType;
 		MediaCallbackInterface *	callback	= clientRemoveList[i].m_Callback;
-		void *						userData	= clientRemoveList[i].m_UserData;
 		EAppModule					appModule   = clientRemoveList[ i ].m_AppModule;
 
 		std::vector<MediaClient> * clientList = 0;
@@ -1605,7 +1582,6 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 		{
 			MediaClient& client = *iter;
 			if( ( client.m_Callback == callback )
-				&& ( client.m_UserData == userData )
 				&& ( client.m_MediaInputType == mediaType ) )
 			{
 				clientList->erase( iter );
@@ -1613,7 +1589,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			}
 		}
 
-		int idsInVidPktListCnt2 = myIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
+		int idsInVidPktListCnt2 = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
 		bool stopVidCapture = m_VidCaptureEnabled && ( 0 == ( m_VideoJpgSmallList.size() + idsInVidPktListCnt2 + m_VideoJpgBigList.size() ) );
 		if( stopVidCapture )
 		{
@@ -1625,25 +1601,6 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 
 	clientRemoveList.clear();
 	m_VideoRemoveMutex.unlock();
-}
-
-//============================================================================
-int MediaProcessor::myIdInVidPktListCount( void )
-{
-	int containsMyIdCnt = 0;
-	VxNetIdent* myNetIdent = &m_Engine.getMyPktAnnounce();
-	std::vector<MediaClient>::iterator iter;
-	for( iter = m_VideoPktsList.begin(); iter != m_VideoPktsList.end(); ++iter )
-	{
-		MediaClient& client = *iter;
-		if( client.m_UserData == myNetIdent )
-		{
-			containsMyIdCnt++;
-		}
-	}
-
-	m_VidPktListContainsMyId = containsMyIdCnt ? true : false;
-	return containsMyIdCnt;
 }
 
 //============================================================================

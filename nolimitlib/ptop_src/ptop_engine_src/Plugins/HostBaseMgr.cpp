@@ -288,7 +288,7 @@ void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EC
 }
 
 //============================================================================
-bool HostBaseMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     bool result{ true };
     LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s success ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
@@ -336,7 +336,7 @@ bool HostBaseMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId,
 }
 
 //============================================================================
-void HostBaseMgr::onConnectionToHostDisconnect( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::onConnectionToHostDisconnect( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     LogMsg( LOG_VERBOSE, "HostBaseMgr onConnectionToHostDisconnect reason %s to host %s ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
     removeSession( sessionId, connectReason );
@@ -545,7 +545,7 @@ void HostBaseMgr::onUrlActionQueryIdFail( VxGUID& sessionId, std::string& url, E
 }
 
 //============================================================================
-bool HostBaseMgr::onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     EHostType hostType = connectReasonToHostType( connectReason );
     if( eHostTypeUnknown != hostType )
@@ -572,7 +572,7 @@ bool HostBaseMgr::onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSkt
 }
 
 //============================================================================
-void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     std::string url = sktBase ? sktBase->describeSktConnection() : "HostBaseMgr::onHandshakeTimeout";
     EHostType hostType = connectReasonToHostType( connectReason );
@@ -614,13 +614,13 @@ void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBa
 }
 
 //============================================================================
-void HostBaseMgr::onContactSessionDone( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::onContactSessionDone( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     LogMsg( LOG_INFO, "onContactSessionDone  Reason %s", DescribeConnectReason( connectReason ) );
 }
 
 //============================================================================
-bool HostBaseMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     bool result{ false };
     EHostType hostType = connectReasonToHostType( connectReason );
@@ -637,7 +637,7 @@ bool HostBaseMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBa
 }
 
 //============================================================================
-void HostBaseMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     std::string url = sktBase ? sktBase->describeSktConnection() : "";
     url += m_Engine.describeUser( onlineId );
@@ -695,7 +695,7 @@ void HostBaseMgr::onConnectRequestFail( VxGUID& sessionId, VxGUID& onlineId, ECo
 }
 
 //============================================================================
-void HostBaseMgr::sendAnnounceRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendAnnounceRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     LogModule( eLogHostConnect, LOG_DEBUG, "HostBaseMgr:: sendAnnounceRequest not done %s", DescribeConnectReason( connectReason ) );
@@ -714,7 +714,7 @@ void HostBaseMgr::sendAnnounceRequest( GroupieId& groupieId, VxGUID& sessionId, 
 }
 
 //============================================================================
-void HostBaseMgr::sendJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     PktHostJoinReq pktJoin;
@@ -730,7 +730,7 @@ void HostBaseMgr::sendJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std:
 }
 
 //============================================================================
-void HostBaseMgr::sendLeaveRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendLeaveRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     PktHostLeaveReq pktReq;
@@ -746,7 +746,7 @@ void HostBaseMgr::sendLeaveRequest( GroupieId& groupieId, VxGUID& sessionId, std
 }
 
 //============================================================================
-void HostBaseMgr::sendUnJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendUnJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     PktHostUnJoinReq pktJoin;

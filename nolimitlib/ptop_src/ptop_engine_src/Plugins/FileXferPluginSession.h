@@ -23,8 +23,8 @@ class PluginBase;
 class FileXferPluginSession : public P2PSession
 {
 public:
-	FileXferPluginSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-	FileXferPluginSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	FileXferPluginSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
+	FileXferPluginSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
 	virtual ~FileXferPluginSession();
 
 	//! return true if file is already in que to be sent or has been sent

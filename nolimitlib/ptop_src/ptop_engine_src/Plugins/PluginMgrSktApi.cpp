@@ -53,7 +53,6 @@ bool PluginMgr::pluginApiTxPacket(  EPluginType			pluginType,
                                     const VxGUID&       onlineId,
                                     std::shared_ptr<VxSktBase>&          sktBase,
                                     VxPktHdr*           pktHdr,
-                                    bool				bDisconnectAfterSend,
                                     EPluginType         overridePlugin )
 {
     // when sending packets they are typically from plugin to the same remote plugin
@@ -146,6 +145,6 @@ bool PluginMgr::pluginApiTxPacket(  EPluginType			pluginType,
 
     LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d plugin %s to %s", pktHdr->getPktType(), pktHdr->getPktLength(), 
         DescribePluginType( pluginType ), sktBase->getRemoteIpAddress() );
-    return m_Engine.getPeerMgr().txPacket( sktBase, onlineId, pktHdr, bDisconnectAfterSend );
+    return m_Engine.getPeerMgr().txPacket( sktBase, onlineId, pktHdr );
 }
 

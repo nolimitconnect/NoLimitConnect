@@ -23,17 +23,20 @@ ThumbXferSession::ThumbXferSession( P2PEngine& engine )
 }
 
 //============================================================================
-ThumbXferSession::ThumbXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: AssetBaseXferSession( engine, sktBase, netIdent )
+ThumbXferSession::ThumbXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId )
+: AssetBaseXferSession( engine, sktBase, sendToId )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-ThumbXferSession::ThumbXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: AssetBaseXferSession( engine )
+ThumbXferSession::ThumbXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId )
+: AssetBaseXferSession( engine, sktBase, sendToId )
 {
-	initLclSessionId();
+	if( false == m_FileXferInfo.getLclSessionId().isVxGUIDValid() )
+	{
+		m_FileXferInfo.setLclSessionId( lclSessionId );
+	}
 }
 
 //============================================================================

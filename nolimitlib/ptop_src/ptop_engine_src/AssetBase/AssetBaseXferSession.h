@@ -26,12 +26,12 @@ class AssetBaseXferSession
 {
 public:
 	AssetBaseXferSession( P2PEngine& engine );
-	AssetBaseXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	AssetBaseXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	AssetBaseXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	AssetBaseXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	virtual ~AssetBaseXferSession();
 
-	void						setIdent( VxNetIdent* ident )				    { m_Ident = ident; }
-	VxNetIdent*					getIdent( void )							    { return m_Ident; }
+	void						setSendToId( VxGUID sendToId )					{ m_SendToId = sendToId; }
+	VxGUID&						getSendToId( void )							    { return m_SendToId; }
 
 	void						setAssetBaseInfo( AssetBaseInfo& assetInfo )	{ m_AssetBaseInfo = assetInfo; }
 	AssetBaseInfo&				getAssetBaseInfo( void )						{ return m_AssetBaseInfo; }
@@ -71,7 +71,7 @@ protected:
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
     int							m_iPercentComplete{ 0 };
 	std::shared_ptr<VxSktBase>	m_Skt;
-	VxNetIdent*					m_Ident{ nullptr };
+	VxGUID						m_SendToId;
 	uint32_t					m_Error{ 0 };
 	AssetBaseInfo				m_AssetBaseInfo;
 

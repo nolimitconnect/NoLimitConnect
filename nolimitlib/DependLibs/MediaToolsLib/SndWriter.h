@@ -43,7 +43,7 @@ public:
 
 	bool						fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const char* fileName  );
 	bool						fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction assetAction, int pos0to100000 );
-	virtual void				callbackOpusEncoded( void* userData, uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ) override;
+	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ) override;
 
 	bool						startSndWrite( const char* fileName, bool beginInPausedState );
 	void						stopSndWrite( void );

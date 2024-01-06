@@ -253,7 +253,7 @@ public:
     virtual bool				fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
     virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
 
-    virtual void				fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, void * userData, EAppModule appModule, bool wantInput ) override;
+    virtual void				fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput ) override;
     virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, bool wantInput ) override;
 
     virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) override;
@@ -301,7 +301,7 @@ public:
 
     virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
     virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
-    virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
     virtual bool				fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
@@ -374,7 +374,7 @@ public:
     virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType ) override;
     virtual bool                fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl ) override;
     virtual bool				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) override;
-    virtual bool				fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent ) override;
+    virtual bool				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) override;
     virtual bool				fromGuiQueryHosts( std::string& netHostUrl, EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll ) override;
     virtual bool				fromGuiQueryMyHostedInfo( EHostType hostType, std::vector<HostedInfo>& hostedInfoList ) override;
     virtual bool				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll ) override;
@@ -435,8 +435,8 @@ public:
 	//========================================================================
 	// media processor callbacks
 	//========================================================================
-    virtual void				callbackVideoJpgBig( void * userData, VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen ) override;
-    virtual void				callbackVideoJpgSmall(	void * userData, VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
+    virtual void				callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen ) override;
+    virtual void				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
 
 	//========================================================================
 	//========================================================================
@@ -463,7 +463,7 @@ public:
     void                        onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase );
 	void						onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 
-	void						onSessionStart( EPluginType pluginType, VxNetIdent* netIdent );
+	void						onSessionStart( EPluginType pluginType, VxGUID& onlineId );
 	//========================================================================
 	//========================================================================
 
@@ -477,15 +477,9 @@ public:
 	void						broadcastSystemPkt( VxPktHdr* pkt, bool onlyIncludeMyContacts );
 	void						broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo );
 
-	virtual bool				txSystemPkt(	VxNetIdentBase *	        netIdent,
-												std::shared_ptr<VxSktBase>&	sktBase, 
-												VxPktHdr*			        poPkt, 
-												bool				        bDisconnectAfterSend = false );
-
-    virtual bool				txSystemPkt(	const VxGUID&		        destOnlineId,
-												std::shared_ptr<VxSktBase>&	sktBase, 
-												VxPktHdr*			        poPkt, 
-												bool				        bDisconnectAfterSend = false );
+    virtual bool				txSystemPkt( const VxGUID&                  destOnlineId,
+                                             std::shared_ptr<VxSktBase>&    sktBase,
+                                             VxPktHdr*                      poPkt );
 
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
@@ -728,8 +722,7 @@ protected:
 	virtual bool				txPluginPkt( 	EPluginType			pluginType, 
 												VxNetIdentBase *	netIdent, 
 												std::shared_ptr<VxSktBase>&			sktBase, 
-												VxPktHdr*			poPkt, 
-												bool				bDisconnectAfterSend );
+												VxPktHdr*			poPkt );
 
 	virtual void				doAppStateChange( EAppState eAppState );
 	virtual bool				shouldNotifyGui( VxNetIdent* netIdent );

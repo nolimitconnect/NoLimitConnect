@@ -728,7 +728,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID& connectId )
 }
 
 //============================================================================
-std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( const VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( VxGUID onlineId )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
@@ -793,7 +793,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( const 
 }
 
 //============================================================================
-std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( const VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( VxGUID onlineId, EHostType hostType )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
@@ -806,7 +806,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( const 
     {
         if( const_cast<ConnectId& >( connectId ).getGroupieId().getUserOnlineId() == onlineId )
         {
-            sktConnectIdList.insert( const_cast< ConnectId& >( connectId ).getSocketId() );
+            if( eHostTypeUnknown == hostType || connectId.getHostType() == hostType )
+            {
+                sktConnectIdList.insert( const_cast< ConnectId& >( connectId ).getSocketId() );
+            }
         }
     }
 
@@ -816,7 +819,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( const 
         {
             if( const_cast<ConnectId&>(connectId).getGroupieId().getUserOnlineId() == onlineId )
             {
-                sktConnectIdList.insert( const_cast<ConnectId&>(connectId).getSocketId() );
+                if( eHostTypeUnknown == hostType || connectId.getHostType() == hostType )
+                {
+                    sktConnectIdList.insert( const_cast<ConnectId&>(connectId).getSocketId() );
+                }
             }
         }
     }
@@ -855,11 +861,6 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( const 
 //============================================================================
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUID& onlineId )
 {
-    if( onlineId == m_Engine.getMyOnlineId() )
-    {
-        return m_Engine.getSktLoopback();
-    }
-
     std::vector<ConnectId> connectIdList;
     lockList();
     for( auto& connectId : m_ConnectIdList )
@@ -894,12 +895,24 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUI
 
 
 //============================================================================
-std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUID& onlineId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUID& onlineId, EPluginType pluginType )
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
         return m_Engine.getSktLoopback();
     }
+
+    if( onlineId == m_Engine.getMyOnlineId() )
+    {
+        return m_Engine.getSktLoopback();
+    }
+
+    EHostType hostType{ eHostTypeUnknown };
+    if( IsPluginARelayForUser( pluginType ) )
+    {
+        hostType = PluginTypeToHostType( pluginType );
+    }
+ 
 
     std::vector<ConnectId> connectIdList;
     lockList();
@@ -930,7 +943,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
         return findSktBase( sktConnectId );
     }
 
-    return findAnyUserOnlineConnection( onlineId );
+    return findAnyUserOnlineConnection( onlineId, hostType );
 }
 
 //============================================================================
@@ -1472,7 +1485,7 @@ void ConnectIdListMgr::updateOnlineExclusion( VxGUID onlineId, bool excludeFromO
 }
 
 //============================================================================
-bool ConnectIdListMgr::isUserExcluded( const VxGUID& onlineId )
+bool ConnectIdListMgr::isUserExcluded( VxGUID onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {

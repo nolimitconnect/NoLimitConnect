@@ -28,7 +28,7 @@ PluginBaseFilesClient::PluginBaseFilesClient( P2PEngine& engine, PluginMgr& plug
 bool PluginBaseFilesClient::connectForWebPageDownload( VxGUID& onlineId )
 {
     bool result{ false };
-    m_HisIdent = nullptr;
+
     m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, ePluginMsgConnecting, "" );
 
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );	// id of friend to look for
@@ -37,7 +37,7 @@ bool PluginBaseFilesClient::connectForWebPageDownload( VxGUID& onlineId )
         std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestHostOnlineConnection( onlineId );
         if( sktBase )
         {
-            result = onConnectForWebPageDownload( sktBase, netIdent );
+            result = onConnectForWebPageDownload( sktBase, onlineId );
         }
     }
     else
@@ -58,10 +58,9 @@ bool PluginBaseFilesClient::connectForWebPageDownload( VxGUID& onlineId )
 }
 
 //============================================================================
-bool PluginBaseFilesClient::onConnectForWebPageDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+bool PluginBaseFilesClient::onConnectForWebPageDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    m_HisIdent = netIdent;
-    m_HisOnlineId = netIdent->getMyOnlineId();
+    m_HisOnlineId = onlineId;
     m_SearchSessionId.initializeWithNewVxGUID();
 
     PktFileInfoSearchReq pktReq;
@@ -69,14 +68,14 @@ bool PluginBaseFilesClient::onConnectForWebPageDownload( std::shared_ptr<VxSktBa
     pktReq.setSearchSessionId( m_SearchSessionId );
     m_SktConnectionId = sktBase->getSocketId();
 
-    return txPacket( netIdent, sktBase, &pktReq );
+    return txPacket( m_HisOnlineId, sktBase, &pktReq );
 }
 
 //============================================================================
 bool PluginBaseFilesClient::connectForFileListDownload( VxGUID& onlineId )
 {
     bool result{ false };
-    m_HisIdent = nullptr;
+    m_HisOnlineId = onlineId;
     m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, ePluginMsgConnecting, "" );
 
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );	// id of friend to look for
@@ -85,7 +84,7 @@ bool PluginBaseFilesClient::connectForFileListDownload( VxGUID& onlineId )
         std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestHostOnlineConnection( onlineId );
         if( sktBase )
         {
-            result = onConnectForFileListDownload( sktBase, netIdent );
+            result = onConnectForFileListDownload( sktBase, onlineId );
         }
     }
     else
@@ -106,10 +105,9 @@ bool PluginBaseFilesClient::connectForFileListDownload( VxGUID& onlineId )
 }
 
 //============================================================================
-bool PluginBaseFilesClient::onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+bool PluginBaseFilesClient::onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    m_HisIdent = netIdent;
-    m_HisOnlineId = netIdent->getMyOnlineId();
+    m_HisOnlineId = onlineId;
     m_SktConnectionId = sktBase->getSocketId();
     if( !m_SearchSessionId.isVxGUIDValid() )
     {
@@ -121,6 +119,6 @@ bool PluginBaseFilesClient::onConnectForFileListDownload( std::shared_ptr<VxSktB
     pktReq.setSearchSessionId( m_SearchSessionId );
     pktReq.setSearchFileTypes( getSearchFileTypes() );
 
-    return txPacket( netIdent, sktBase, &pktReq );
+    return txPacket( m_HisOnlineId, sktBase, &pktReq );
 }
 

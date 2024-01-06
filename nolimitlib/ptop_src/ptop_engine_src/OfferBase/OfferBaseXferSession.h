@@ -27,12 +27,12 @@ class OfferBaseXferSession
 {
 public:
 	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr );
-	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
+	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
+	OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	virtual ~OfferBaseXferSession() = default;
 
-	void						setIdent( VxNetIdent* ident )				{ m_Ident = ident; }
-	VxNetIdent*					getIdent( void )							{ return m_Ident; }
+	void						setSendToId( VxGUID sendToId )				{ m_SendToId = sendToId; }
+	VxGUID&          			getSendToId( void )							{ return m_SendToId; }
 
 	void						setOfferInfo( OfferBaseInfo& assetInfo )	{ m_OfferBaseInfo = assetInfo; }
 	OfferBaseInfo&				getOfferInfo( void )						{ return m_OfferBaseInfo; }
@@ -73,7 +73,7 @@ protected:
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
     int							m_iPercentComplete{ 0 };
 	std::shared_ptr<VxSktBase>	m_Skt;
-	VxNetIdent*					m_Ident{ nullptr };
+	VxGUID 						m_SendToId;
 	uint32_t					m_Error{ 0 };
 	OfferBaseInfo				m_OfferBaseInfo;
 

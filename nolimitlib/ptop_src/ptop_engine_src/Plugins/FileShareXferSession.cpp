@@ -18,34 +18,34 @@ FileShareXferSession::FileShareXferSession()
 , m_FilesXferedList()
 , m_FileXferInfo()
 , m_iPercentComplete(0)
-, m_Skt(NULL)
-, m_Ident(NULL)
+, m_Skt(nullptr)
+, m_SendToId()
 , m_Error( 0 )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-FileShareXferSession::FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+FileShareXferSession::FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : m_FilesToXferList()
 , m_FilesXferedList()
 , m_FileXferInfo()
 , m_iPercentComplete(0)
 , m_Skt( sktBase )
-, m_Ident( netIdent )
+, m_SendToId( sendToId )
 , m_Error( 0 )
 {
 	initLclSessionId();
 }
 
 //============================================================================
-FileShareXferSession::FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
+FileShareXferSession::FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : m_FilesToXferList()
 , m_FilesXferedList()
 , m_FileXferInfo( lclSessionId )
 , m_iPercentComplete(0)
 , m_Skt( sktBase )
-, m_Ident( netIdent )
+, m_SendToId( sendToId )
 , m_Error( 0 )
 {
 	initLclSessionId();

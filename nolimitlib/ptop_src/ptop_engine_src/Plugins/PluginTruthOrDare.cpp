@@ -37,13 +37,13 @@ PluginTruthOrDare::PluginTruthOrDare( P2PEngine& engine, PluginMgr& pluginMgr, V
 }
 
 //============================================================================
-P2PSession* PluginTruthOrDare::createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent)
+P2PSession* PluginTruthOrDare::createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    return new TodGameSession( sktBase, netIdent, getPluginType() );
+    return new TodGameSession( sktBase, onlineId, getPluginType() );
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginTruthOrDare::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
 	VxGUID& lclSessionId = offerInfo.getOfferId();
 	PluginBase::AutoPluginLock pluginMutexLock( this );
@@ -53,53 +53,53 @@ bool PluginTruthOrDare::fromGuiMakePluginOffer( VxNetIdent* netIdent, OfferBaseI
 	{
 		LogMsg( LOG_ERROR, "PluginTruthOrDare already in session");
 		// assume some error in logic
-		m_PluginSessionMgr.removeSessionBySessionId( true, netIdent->getMyOnlineId() );
+		m_PluginSessionMgr.removeSessionBySessionId( true, onlineId );
 	}
 		
-	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, netIdent, offerInfo );
+	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, onlineId, offerInfo );
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginTruthOrDare::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
-	return m_PluginSessionMgr.fromGuiOfferReply( false, netIdent, offerInfo );
+	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiIsPluginInSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginTruthOrDare::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, netIdent, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginTruthOrDare::fromGuiStartPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, netIdent );
-	m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, netIdent );
+	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
+	m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginTruthOrDare::fromGuiStopPluginSession( VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void PluginTruthOrDare::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, &getEngine().getMyPktAnnounce() );
-	m_PluginSessionMgr.fromGuiStopPluginSession( false, netIdent, pvUserData, lclSessionId );
+	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
+	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, pvUserData, lclSessionId );
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiInstMsg( VxNetIdent* netIdent, const char* msg )
+bool PluginTruthOrDare::fromGuiInstMsg( VxGUID& onlineId, const char* msg )
 {
 	LogMsg( LOG_ERROR, "PluginTruthOrDare::fromGuiInstMsg" );
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	if( poSession )
 	{
 		PktChatReq pkt;
 		pkt.addMsg( msg );
-		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, netIdent->getMyOnlineId(), poSession->getSkt(), &pkt );
+		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &pkt );
 	}
 	else
 	{
@@ -109,30 +109,30 @@ bool PluginTruthOrDare::fromGuiInstMsg( VxNetIdent* netIdent, const char* msg )
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiSetGameValueVar( VxNetIdent* netIdent, int32_t varId, int32_t varValue )
+bool PluginTruthOrDare::fromGuiSetGameValueVar( VxGUID& onlineId, int32_t varId, int32_t varValue )
 {
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	PluginSessionBase* poSession = m_PluginSessionMgr.findPluginSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	PluginSessionBase* poSession = m_PluginSessionMgr.findPluginSessionByOnlineId( onlineId, true );
 	if( poSession )
 	{
 		PktTodGameValue pktGameValue;
 		pktGameValue.setValue( (ETodGameVarId) varId, varValue );
-		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, netIdent->getMyOnlineId(), poSession->getSkt(), &pktGameValue );
+		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &pktGameValue );
 	}
 
 	return false;
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiSetGameActionVar( VxNetIdent* netIdent, int32_t actionId, int32_t actionValue )
+bool PluginTruthOrDare::fromGuiSetGameActionVar( VxGUID& onlineId, int32_t actionId, int32_t actionValue )
 {
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	PluginSessionBase* poSession = m_PluginSessionMgr.findPluginSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	PluginSessionBase* poSession = m_PluginSessionMgr.findPluginSessionByOnlineId( onlineId, true );
 	if( poSession )
 	{
 		PktTodGameAction pktGameAction;
 		pktGameAction.setAction( (ETodGameAction) actionId, actionValue );
-		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, netIdent->getMyOnlineId(), poSession->getSkt(), &pktGameAction );
+		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &pktGameAction );
 	}
 
 	return false;
@@ -214,9 +214,9 @@ void PluginTruthOrDare::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBas
 }
 
 //============================================================================
-void PluginTruthOrDare::callbackOpusPkt( void * userData, PktVoiceReq * pktOpusAudio )
+void PluginTruthOrDare::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 {
-	m_VoiceFeedMgr.callbackOpusPkt( userData, pktOpusAudio );
+	m_VoiceFeedMgr.callbackOpusPkt( pktOpusAudio );
 }
 
 //============================================================================
@@ -226,13 +226,13 @@ void PluginTruthOrDare::callbackAudioOutSpaceAvail( int freeSpaceLen )
 }
 
 //============================================================================
-void PluginTruthOrDare::callbackVideoPktPic( void * userData, VxGUID& onlineId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum )
+void PluginTruthOrDare::callbackVideoPktPic( VxGUID& onlineId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum )
 {
 	m_VideoFeedMgr.callbackVideoPktPic( onlineId, pktVid, pktsInSequence, thisPktNum );
 }
 
 //============================================================================
-void PluginTruthOrDare::callbackVideoPktPicChunk( void * userData, VxGUID& onlineId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum ) 
+void PluginTruthOrDare::callbackVideoPktPicChunk( VxGUID& onlineId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum ) 
 {
 	m_VideoFeedMgr.callbackVideoPktPicChunk( onlineId, pktVid, pktsInSequence, thisPktNum );
 }
@@ -259,17 +259,17 @@ void PluginTruthOrDare::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 void PluginTruthOrDare::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
-	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getIdent() );
+	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getSendToId() );
 	// in order to get my video packets to send out the ident has to be myself
-	m_VideoFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleTruthOrDare, &getEngine().getMyPktAnnounce() );
+	m_VideoFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
 }
 
 //============================================================================
 void PluginTruthOrDare::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getIdent() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getIdent() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, &getEngine().getMyPktAnnounce() );
+	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
 }
 
 //============================================================================
@@ -281,9 +281,9 @@ void PluginTruthOrDare::replaceConnection( VxNetIdent* netIdent, std::shared_ptr
 //============================================================================
 void PluginTruthOrDare::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, &getEngine().getMyPktAnnounce() );
+	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent->getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent->getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 

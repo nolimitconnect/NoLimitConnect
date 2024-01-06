@@ -468,7 +468,7 @@ bool NetConnector::txPacket(	VxGUID&				destinationId,
 		{
 			sktBase->m_u8TxSeqNum++;
 			poPkt->setPktSeqNum( sktBase->m_u8TxSeqNum );
-			RCODE rc = sktBase->txPacket( destinationId, poPkt, false );
+			RCODE rc = sktBase->txPacket( destinationId, poPkt );
 			if( 0 == rc )
 			{
 				bSendSuccess = true;
@@ -482,17 +482,17 @@ bool NetConnector::txPacket(	VxGUID&				destinationId,
 		{
 			if( false == sktBase->isConnected() )
 			{
-				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d not connected", sktBase->m_SktNumber );
+				LogMsg( LOG_ERROR, "NetConnector::txPacket: error skt %d not connected", sktBase->m_SktNumber );
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "P2PEngine::txSystemPkt: error skt %d has no encryption key", sktBase->m_SktNumber );
+				LogMsg( LOG_ERROR, "NetConnector::txPacket: error skt %d has no encryption key", sktBase->m_SktNumber );
 			}
 		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "P2PEngine::txPluginPkt: Invalid system Packet length %d type %d", 
+		LogMsg( LOG_ERROR, "NetConnector::txPacket: Invalid system Packet length %d type %d", 
 				poPkt->getPktLength(),
 				poPkt->getPktType() );
 	}

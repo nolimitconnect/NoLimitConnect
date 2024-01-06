@@ -38,11 +38,9 @@ public:
 	ClientToRemove();
 	ClientToRemove( EMediaInputType				mediaType, 
 					MediaCallbackInterface *	callback,
-					void *						userData,
 					EAppModule					appModule)
 	: m_MediaType( mediaType )
 	, m_Callback( callback )
-	, m_UserData( userData )
 	, m_AppModule( appModule )
 	{
 	}
@@ -56,14 +54,12 @@ public:
 	{
 		m_MediaType		= rhs.m_MediaType;
 		m_Callback		= rhs.m_Callback;
-		m_UserData		= rhs.m_UserData;
 		m_AppModule		= rhs.m_AppModule;
 		return *this;
 	}
 
 	EMediaInputType				m_MediaType;
 	MediaCallbackInterface *	m_Callback;
-	void *						m_UserData;
 	EAppModule					m_AppModule{ eAppModuleInvalid };
 };
 
@@ -141,7 +137,6 @@ public:
 
 	virtual void				wantMediaInput( EMediaInputType				mediaType, 
 												MediaCallbackInterface *	callback, 
-												void *						userData, 
 												EAppModule					appModule,
 												bool						wantInput );
 
@@ -172,6 +167,8 @@ public:
 	void						processAudioInThreaded( void );
 	void						processVideoIn( void );
 
+	void 						setMyIdInVidPktListCount( int cnt ) { m_VidPktListContainsMyIdCnt = cnt; }
+	int							getMyIdInVidPktListCount( void )	{ return m_VidPktListContainsMyIdCnt; }
 
 protected:
 	void						processRawAudioIn( RawAudio * rawAudio );
@@ -179,19 +176,16 @@ protected:
 	bool						isAudioMediaType( EMediaInputType mediaType );
 	void						wantAudioMediaInput(	EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														void *						userData, 
 														EAppModule					appModule,
 														bool						wantInput );
 
 	void						wantMixerMediaInput(	EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														void *						userData, 
 														EAppModule					appModule,
 														bool						wantInput );
 
 	void						wantVideoMediaInput(	EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														void *						userData, 
 														EAppModule					appModule,
 														bool						wantInput );
 	
@@ -201,24 +195,19 @@ protected:
 
 	bool						clientExistsInList(	std::vector<MediaClient>&		clientList, 
 													EMediaInputType					mediaType, 
-													MediaCallbackInterface *		callback,
-													void*							userData );
+													MediaCallbackInterface *		callback );
+
 	bool						removeClientFromListist( std::vector<MediaClient>& clientList,
 													EMediaInputType					mediaType,
-													MediaCallbackInterface*			callback,
-													void*							userData );
+													MediaCallbackInterface*			callback );
 
 	bool						clientToRemoveExistsInList(	std::vector<ClientToRemove>&	clientRemoveList, 
 															EMediaInputType					mediaType, 
-															MediaCallbackInterface *		callback,
-															void *							userData );
+															MediaCallbackInterface *		callback );
 
 	bool						clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	clientRemoveList, 
 																EMediaInputType					mediaType, 
-																MediaCallbackInterface *		callback,
-																void *							userData );
-
-	int							myIdInVidPktListCount( void );
+																MediaCallbackInterface *		callback );
 
 	//=== vars ===//
 	P2PEngine&					m_Engine;
@@ -265,13 +254,13 @@ protected:
 
 	int16_t						m_QuietAudioBuf[ AUDIO_SAMPLES_PER_FRAME ];
 	int16_t						m_MixerBuf[ AUDIO_SAMPLES_PER_FRAME ];
-	bool						m_MixerBufUsed;
+	bool						m_MixerBufUsed{ false };
 
-	bool						m_MuteSpeaker;
-	bool						m_MuteMicrophone;
-	bool						m_VidCaptureEnabled;
-	bool						m_MicCaptureEnabled;
-	bool						m_SpeakerOutputEnabled;
+	bool						m_MuteSpeaker{ false };
+	bool						m_MuteMicrophone{ false };
+	bool						m_VidCaptureEnabled{ false };
+	bool						m_MicCaptureEnabled{ false };
+	bool						m_SpeakerOutputEnabled{ false };
 
-	bool						m_VidPktListContainsMyId;
+	int							m_VidPktListContainsMyIdCnt{ 0 };
 };

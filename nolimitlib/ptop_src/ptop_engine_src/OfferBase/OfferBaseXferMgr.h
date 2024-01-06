@@ -81,15 +81,16 @@ protected:
 	virtual void				onTxSuccess( VxGUID& assetOfferId, bool pluginIsLocked );
 	virtual void				updateOfferMgrSendState( VxGUID& assetOfferId, EOfferSendState sendState, int param );
 
-	virtual OfferBaseRxSession*	    findRxSession( bool pluginIsLocked, VxNetIdent* netIdent );
-	virtual OfferBaseRxSession*	    findRxSession( bool pluginIsLocked, VxGUID& lclSessionId );
-	virtual OfferBaseRxSession*	    findOrCreateRxSession( bool pluginIsLocked, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual OfferBaseRxSession*	    findOrCreateRxSession( bool pluginIsLocked, VxGUID& lclSessionId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual OfferBaseTxSession *	    findTxSession( bool pluginIsLocked, VxNetIdent* netIdent );
-	virtual OfferBaseTxSession *	    findTxSession( bool pluginIsLocked, VxGUID& lclSessionId );
-	virtual OfferBaseTxSession *	    createTxSession( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual OfferBaseTxSession *	    findOrCreateTxSession( bool pluginIsLocked, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
-	virtual OfferBaseTxSession *	    findOrCreateTxSession( bool pluginIsLocked, VxGUID& lclSessionId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+	virtual OfferBaseRxSession*	    findRxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
+	virtual OfferBaseRxSession*	    findRxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId );
+	virtual OfferBaseRxSession*	    findOrCreateRxSession( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual OfferBaseRxSession*	    findOrCreateRxSession( bool pluginIsLocked, VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+
+	virtual OfferBaseTxSession*	    findTxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
+	virtual OfferBaseTxSession*	    findTxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId );
+	virtual OfferBaseTxSession*	    createTxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual OfferBaseTxSession*	    findOrCreateTxSession( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual OfferBaseTxSession*	    findOrCreateTxSession( bool pluginIsLocked, VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 
 	virtual EXferError			beginOfferBaseReceive( OfferBaseRxSession* xferSession, PktOfferSendReq* poPkt, PktOfferSendReply& pktReply );
 	virtual EXferError			beginOfferBaseSend( OfferBaseTxSession * xferSession );
@@ -104,15 +105,15 @@ protected:
 
 	void						clearRxSessionsList( void );
 	void						clearTxSessionsList( void );
-	void						checkQueForMoreOffersToSend( bool pluginIsLocked, VxNetIdent* hisIdent, std::shared_ptr<VxSktBase>& sktBase );
+	void						checkQueForMoreOffersToSend( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 
 	void						assetSendComplete( OfferBaseTxSession * xferSession );
 	void						queOffer( OfferBaseInfo& assetInfo );
-	EXferError					createOfferTxSessionAndSend( bool pluginIsLocked, OfferBaseInfo& assetInfo, VxNetIdent* hisIdent, std::shared_ptr<VxSktBase>& sktBase );
+	EXferError					createOfferTxSessionAndSend( bool pluginIsLocked, OfferBaseInfo& assetInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 	bool						requireFileXfer( EOfferType assetType );
 
 	//=== vars ===//
-	bool						m_Initialized;
+	bool						m_Initialized{ false };
 	std::map<VxGUID, OfferBaseRxSession*>	m_RxSessions;
 	std::vector<OfferBaseTxSession *>		m_TxSessions;
 	VxMutex						m_TxSessionsMutex;

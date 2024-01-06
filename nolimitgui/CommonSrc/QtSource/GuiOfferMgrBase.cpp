@@ -52,7 +52,7 @@ GuiOfferSession* GuiOfferMgrBase::createOfferSession( GuiUser* guiUser, OfferBas
 }
 
 //========================================================================
-void GuiOfferMgrBase::toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+void GuiOfferMgrBase::toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo )
 {
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
 	if( !guiUser )
@@ -94,7 +94,7 @@ return;
 }
 
 //========================================================================
-void GuiOfferMgrBase::toGuiRxedOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+void GuiOfferMgrBase::toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo )
 {
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
 	if( !guiUser )

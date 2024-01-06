@@ -23,15 +23,15 @@ OfferBaseRxSession::OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMg
 }
 
 //============================================================================
-OfferBaseRxSession::OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: OfferBaseXferSession( engine, offerMgr, sktBase, netIdent )
+OfferBaseRxSession::OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: OfferBaseXferSession( engine, offerMgr, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }
 
 //============================================================================
-OfferBaseRxSession::OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: OfferBaseXferSession( engine, offerMgr, lclSessionId, sktBase, netIdent )
+OfferBaseRxSession::OfferBaseRxSession( P2PEngine& engine, OfferBaseMgr& offerMgr, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: OfferBaseXferSession( engine, offerMgr, lclSessionId, sktBase, sendToId )
 {
 	getXferInfo().setXferDirection( eXferDirectionRx );
 }

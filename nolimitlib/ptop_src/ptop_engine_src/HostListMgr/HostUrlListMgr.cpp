@@ -99,7 +99,7 @@ bool HostUrlListMgr::getHostUrls( EHostType hostType, std::vector<HostUrlInfo>& 
 
 //============================================================================
 /// return false if one time use and packet has been sent. Connect Manager will disconnect if nobody else needs the connection
-bool HostUrlListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId, EConnectReason connectReason ) 
+bool HostUrlListMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason ) 
 { 
     if( eConnectReasonRequestIdentity == connectReason )
     {

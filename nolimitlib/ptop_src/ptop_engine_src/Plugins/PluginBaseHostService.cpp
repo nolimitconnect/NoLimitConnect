@@ -493,7 +493,7 @@ void PluginBaseHostService::onPktHostSearchReq( std::shared_ptr<VxSktBase>& sktB
     searchReply.setSearchSessionId( searchReq->getSearchSessionId() );
     EPluginType overridePlugin = searchReq->getPluginType();
 
-    if( !txPacket( netIdent->getMyOnlineId(), sktBase, &searchReply, false, overridePlugin ) )
+    if( !txPacket( searchReq->getSrcOnlineId(), sktBase, &searchReply, overridePlugin ) )
     {
         LogModule( eLogHostSearch, LOG_DEBUG, "PluginBaseHostService failed send search reply" );
     }
@@ -505,7 +505,7 @@ void PluginBaseHostService::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBa
     LogMsg( LOG_DEBUG, "PluginChatRoomHost got join offer request" );
     PktHostOfferReply offerReply;
     offerReply.setAccessState( m_HostServerMgr.getPluginAccessState( netIdent ) );
-    if( !txPacket( netIdent, sktBase, &offerReply ) )
+    if( !txPacket( pktHdr->getSrcOnlineId(), sktBase, &offerReply) )
     {
         LogMsg( LOG_DEBUG, "PluginBaseHostService failed send onPktHostOfferReq" );
     }
@@ -547,7 +547,7 @@ void PluginBaseHostService::onPktHostInfoReq( std::shared_ptr<VxSktBase>& sktBas
         pktReply.setCommError( eCommErrPluginNotEnabled );
     }
 
-    if( !txPacket( netIdent, sktBase, &pktReply ) )
+    if( !txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply) )
     {
         LogMsg( LOG_DEBUG, "PluginBaseHostService failed send onPktHostInfoReq" );
     }

@@ -67,7 +67,7 @@ public:
 
 	virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID& oOnlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID& oOnlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	virtual bool				fromGuiSetGameValueVar( EPluginType	    pluginType, 
 														VxGUID&		    oOnlineId,
@@ -84,7 +84,6 @@ public:
 													const VxGUID&		onlineId,
                                                     std::shared_ptr<VxSktBase>&			sktBase,
                                                     VxPktHdr*			poPkt,
-                                                    bool				bDisconnectAfterSend = false,
                                                     EPluginType         overridePlugin = ePluginTypeInvalid );
 	void						pluginApiLog( EPluginType pluginType, const char* pMsg, ... );
 	virtual EPluginAccess	    pluginApiGetPluginAccessState( EPluginType pluginType, VxNetIdent* netIdent );

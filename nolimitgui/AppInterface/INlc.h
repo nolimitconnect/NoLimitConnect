@@ -341,9 +341,9 @@ public:
     virtual void				fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffers );
 
     //! add offer to notify list
-    virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
     //! response to offer
-    virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
 
     virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) override;
 
@@ -398,7 +398,7 @@ public:
     virtual void				toGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
     virtual void				toGuiAssetSessionHistory( AssetBaseInfo* assetInfo ) override;
 
-    virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 ) override;
+    virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 ) override;
 
     virtual void				toGuiBlobAdded( BlobInfo * assetInfo ) override;
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
@@ -588,7 +588,7 @@ public:
     virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType );
     virtual bool                fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl );
     virtual bool				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown );
-    virtual bool				fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent );
+    virtual bool				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent );
     virtual bool				fromGuiQueryHosts( std::string& netHostUrl, EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll );
     virtual bool				fromGuiQueryMyHostedInfo( EHostType hostType, std::vector<HostedInfo>& hostedInfoList );
     virtual bool				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll );

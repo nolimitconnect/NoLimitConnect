@@ -124,9 +124,9 @@ public:
 	virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) = 0;
 
 	//! Contact has sent a offer
-	virtual void				toGuiRxedPluginOffer( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) = 0;
+	virtual void				toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo ) = 0;
 	//! Contact has responded to offer
-	virtual void				toGuiRxedOfferReply( VxNetIdent* netIdent, OfferBaseInfo& offerInfo ) = 0;
+	virtual void				toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo ) = 0;
 	//! Plugin session has stopped
 	virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) = 0;
 	//! Plugin session status or variable value
@@ -164,7 +164,7 @@ public:
 	/// Asset state has changed ( like transfer has failed )
 	virtual void				toGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) = 0;
 	/// Text Chat session action like video chat session requested
-	virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000 ) = 0;
+	virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 ) = 0;
 
     //=== to gui host list ===//
     virtual void				toGuiBlobAdded( BlobInfo * assetInfo ) = 0;

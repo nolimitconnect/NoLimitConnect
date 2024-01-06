@@ -27,8 +27,8 @@ ThumbTxSession::ThumbTxSession( P2PEngine& engine )
 }
 
 //============================================================================
-ThumbTxSession::ThumbTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: ThumbXferSession( engine, sktBase, netIdent )
+ThumbTxSession::ThumbTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: ThumbXferSession( engine, sktBase, sendToId )
 , m_iOutstandingAckCnt( 0 )
 , m_bSendingPkts( false )
 , m_bViewingFileList( false )
@@ -38,8 +38,8 @@ ThumbTxSession::ThumbTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& s
 }
 
 //============================================================================
-ThumbTxSession::ThumbTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
-: ThumbXferSession( engine, lclSessionId, sktBase, netIdent )
+ThumbTxSession::ThumbTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
+: ThumbXferSession( engine, lclSessionId, sktBase, sendToId )
 , m_iOutstandingAckCnt(0)
 , m_bSendingPkts(false)
 , m_bViewingFileList(false)

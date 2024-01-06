@@ -259,7 +259,7 @@ void P2PEngine::shutdownEngine( void )
 }
 
 //============================================================================
-void P2PEngine::onSessionStart( EPluginType pluginType, VxNetIdent* netIdent )
+void P2PEngine::onSessionStart( EPluginType pluginType, VxGUID& onlineId )
 {
 	bool shouldUpdateLastSessionTime = false;
 	switch( pluginType )
@@ -276,8 +276,16 @@ void P2PEngine::onSessionStart( EPluginType pluginType, VxNetIdent* netIdent )
 	if( shouldUpdateLastSessionTime )
 	{
 		int64_t sysTimeMs = GetGmtTimeMs();
-		
-		netIdent->setLastSessionTimeMs( sysTimeMs );
+		VxNetIdent* netIdent = getBigListMgr().findNetIdent( onlineId );
+		if( netIdent )
+		{
+			netIdent->setLastSessionTimeMs( sysTimeMs );
+		}
+		else
+		{
+			vx_assert( false );
+		}
+
 		m_BigListMgr.dbUpdateSessionTime( netIdent->getMyOnlineId(), sysTimeMs, getNetworkMgr().getNetworkKey() );
 		IToGui::getToGui().toGuiContactLastSessionTimeChange( netIdent );
 	}

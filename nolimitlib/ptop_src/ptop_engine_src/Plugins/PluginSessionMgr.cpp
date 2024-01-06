@@ -9,14 +9,14 @@
 //============================================================================
 
 #include "PluginSessionMgr.h"
-#include "PluginBase.h"
-#include "PluginMgr.h"
-
-#include "PluginSessionBase.h"
-
-#include <GuiInterface/IToGui.h>
 
 #include <OfferBase/OfferBaseInfo.h>
+#include <P2PEngine/P2PEngine.h>
+
+#include "PluginBase.h"
+#include "PluginMgr.h"
+#include "PluginSessionBase.h"
+
 
 #include <NetLib/VxSktBase.h>
 
@@ -73,7 +73,7 @@ PluginSessionBase*	 PluginSessionMgr::findPluginSessionByOnlineId( VxGUID& onlin
 	for( iter = m_aoSessions.begin(); iter != m_aoSessions.end(); ++iter )
 	{
 		PluginSessionBase* session = (*iter).second;
-		if( session->getOnlineId() == onlineId )
+		if( session->getSendToId() == onlineId )
 		{
 			if( false == pluginIsLocked )
 			{
@@ -151,10 +151,10 @@ void PluginSessionMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_p
 		for( auto iter = m_aoSessions.begin(); iter != m_aoSessions.end(); ++iter )
 		{
 			sessionBase = ((*iter).second);
-			if( ( netIdent == sessionBase->getIdent() )
+			if( ( netIdent->getMyOnlineId() == sessionBase->getSendToId() )
 				|| ( sktIsDisconnected && ( sessionBase->getSkt() == sktBase ) ) )
 			{
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::onContactWentOffline erasing session for %s", sessionBase->getIdent()->getOnlineName() );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::onContactWentOffline erasing session for %s", m_Engine.describeUser( sessionBase->getSendToId() ).c_str() );
 				bErased = true;
 				break;
 			}
@@ -206,7 +206,7 @@ void PluginSessionMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 			sessionBase = ((*iter).second);
 			if( sktBase == sessionBase->getSkt() )
 			{
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::onConnectionLost erasing session for %s", sessionBase->getIdent()->getOnlineName() );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::onConnectionLost erasing session for %s", m_Engine.describeUser( sessionBase->getSendToId() ).c_str() );
 				bErased = true;
 				break;
 			}
@@ -249,9 +249,9 @@ void PluginSessionMgr::cancelSessionByOnlineId( VxGUID& onlineId )
 		for( auto iter = m_aoSessions.begin(); iter != m_aoSessions.end(); ++iter )
 		{
 			sessionBase = ((*iter).second);
-			if( sessionBase->getIdent()->getMyOnlineId() == onlineId )
+			if( sessionBase->getSendToId() == onlineId )
 			{
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::cancelSessionByOnlineId erasing session for %s", sessionBase->getIdent()->getOnlineName() );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::cancelSessionByOnlineId erasing session for %s", m_Engine.describeUser( sessionBase->getSendToId() ).c_str() );
 				bErased = true;
 				break;
 			}
@@ -305,7 +305,7 @@ void PluginSessionMgr::doEndAndEraseSession( PluginSessionBase* sessionBase, EOf
 }
 
 //============================================================================
-bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
 	bool isInSesion = false;
 	VxMutex& pluginMutex = m_Plugin.getPluginMutex();
@@ -337,11 +337,10 @@ bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxNetIdent
 		}
 	}
 
-	VxGUID& onlineId = netIdent->getMyOnlineId();
 	for( auto iter = m_aoSessions.begin(); iter != m_aoSessions.end(); ++iter )
 	{
 		PluginSessionBase* session = (*iter).second;
-		if( session->getOnlineId() == onlineId )
+		if( session->getSendToId() == onlineId )
 		{
 			isInSesion = true;
 			break;
@@ -361,7 +360,7 @@ bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxNetIdent
 
 //============================================================================
 //! user wants to send offer to friend.. return false if cannot connect
-bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
 	bool offerSentResult = false;
 	PluginSessionBase* pluginSession = nullptr;
@@ -369,11 +368,11 @@ bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxNetIdent* 
 	std::shared_ptr<VxSktBase> nullSkt( nullptr );
 	if( lclSessionId.isVxGUIDValid() && ( false == isPluginSingleSession() ) )
 	{
-		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, nullSkt, netIdent, pluginIsLocked );
+		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, nullSkt, onlineId, pluginIsLocked );
 	}
 	else
 	{
-		pluginSession = findOrCreateP2PSessionWithOnlineId( netIdent->getMyOnlineId(), nullSkt, netIdent, pluginIsLocked, lclSessionId );
+		pluginSession = findOrCreateP2PSessionWithOnlineId( onlineId, nullSkt, pluginIsLocked, lclSessionId );
 	}
 
 	if( pluginSession )
@@ -386,7 +385,7 @@ bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxNetIdent* 
 		offerInfo.addToBlob( pktReq.getBlobEntry() );
 		pktReq.calcPktLen();
 
-		offerSentResult = m_Plugin.txPacket( pluginSession->getIdent(), pluginSession->getSkt(), &pktReq );
+		offerSentResult = m_Plugin.txPacket( pluginSession->getSendToId(), pluginSession->getSkt(), &pktReq );
 	}
 
 	return offerSentResult;
@@ -394,7 +393,7 @@ bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxNetIdent* 
 
 //============================================================================
 //! handle reply to offer
-bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxNetIdent* netIdent, OfferBaseInfo& offerInfo )
+bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
 	PluginSessionBase* poOffer = nullptr;
 	VxGUID& lclSessionId = offerInfo.getOfferId();
@@ -405,7 +404,7 @@ bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxNetIdent* netId
 	}
 	else
 	{
-		poOffer = findPluginSessionByOnlineId( netIdent->getMyOnlineId(), pluginIsLocked );
+		poOffer = findPluginSessionByOnlineId( onlineId, pluginIsLocked );
 	}
 
 	bool bResponseSent = false;
@@ -419,7 +418,7 @@ bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxNetIdent* netId
 		pktReply.setLclSessionId( poOffer->getLclSessionId() );
 		pktReply.setRmtSessionId( poOffer->getRmtSessionId() );
 		offerInfo.addToBlob( pktReply.getBlobEntry() );
-		if( m_Plugin.txPacket( poOffer->getIdent(), poOffer->getSkt(), &pktReply ) )
+		if( m_Plugin.txPacket( poOffer->getSendToId(), poOffer->getSkt(), &pktReply ) )
 		{
 			bResponseSent = true;
 		}
@@ -429,7 +428,7 @@ bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxNetIdent* netId
 			|| ( eOfferResponseCancelSession == offerResponse )
 			|| ( eOfferResponseEndSession == offerResponse ) )
 		{
-			removeSession( pluginIsLocked, netIdent, lclSessionId, offerResponse );
+			removeSession( pluginIsLocked, onlineId, lclSessionId, offerResponse );
 		}
 		else if( eOfferResponseAccept == offerResponse )
 		{
@@ -445,9 +444,9 @@ bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxNetIdent* netId
 }
 
 //============================================================================
-void PluginSessionMgr::fromGuiStopPluginSession( bool pluginIsLocked, VxNetIdent* netIdent, int pvUserData, VxGUID lclSessionId )
+void PluginSessionMgr::fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
 {
-	removeSession( pluginIsLocked, netIdent, lclSessionId, eOfferResponseEndSession );
+	removeSession( pluginIsLocked, onlineId, lclSessionId, eOfferResponseEndSession );
 }
 
 //============================================================================
@@ -471,10 +470,10 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 				pktReply.setPluginType( getPluginType() );
 				offerInfo.addToBlob( pktReply.getBlobEntry() );
 				pktReply.calcPktLen();
-				m_Plugin.txPacket( netIdent, sktBase, &pktReply );
+				m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
 
 				// for call missed
-				IToGui::getToGui().toGuiRxedPluginOffer( netIdent, offerInfo );
+				IToGui::getToGui().toGuiRxedPluginOffer( pktReq->getSrcOnlineId(), offerInfo );
 
 				return;
 			}
@@ -485,21 +484,21 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 			std::shared_ptr<VxSktBase> nullSkt( nullptr );
 			if( lclSessionId.isVxGUIDValid() && (false == isPluginSingleSession()) )
 			{
-				pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, nullSkt, netIdent, true );
+				pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, nullSkt, pktReq->getSrcOnlineId(), true);
 			}
 			else
 			{
-				pluginSession = findOrCreateP2PSessionWithOnlineId( netIdent->getMyOnlineId(), nullSkt, netIdent, true, lclSessionId );
+				pluginSession = findOrCreateP2PSessionWithOnlineId( pktReq->getSrcOnlineId(), nullSkt, true, lclSessionId );
 			}
 
 			pluginSession->setIsRmtInitiated( true );
 			pluginSession->setSkt( sktBase );
-			pluginSession->setIdent( netIdent );
+			pluginSession->setSendToId( pktReq->getSrcOnlineId() );
 			pluginSession->setLclSessionId( lclSessionId );
 			pluginSession->setRmtSessionId( pktReq->getLclSessionId() );
 			pluginSession->setOfferInfo( offerInfo );
 
-			IToGui::getToGui().toGuiRxedPluginOffer( netIdent, offerInfo );
+			IToGui::getToGui().toGuiRxedPluginOffer( pktReq->getSrcOnlineId(), offerInfo );
 		}
 		else
 		{
@@ -515,6 +514,7 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 //============================================================================
 void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    VxGUID onlineId = pktHdr->getSrcOnlineId();
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
 	PktPluginOfferReply* pktReply = (PktPluginOfferReply*)pktHdr;
@@ -523,7 +523,7 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 	if( offerInfo.extractFromBlob( pktReply->getBlobEntry() ) )
 	{
 		VxGUID lclSessionId = offerInfo.getOfferId();
-		PluginSessionBase* poOffer = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, netIdent, true );
+		PluginSessionBase* poOffer = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, pktReply->getSrcOnlineId(), true);
 		if( poOffer )
 		{
 			poOffer->setOfferInfo( offerInfo );
@@ -537,11 +537,11 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 			}
 			else
 			{
-				removeSession( true, netIdent, poOffer->getRmtSessionId(), poOffer->getOfferResponse(), false );
+                removeSession( true, onlineId, poOffer->getRmtSessionId(), poOffer->getOfferResponse(), false );
 			}
 		}
 
-		IToGui::getToGui().toGuiRxedOfferReply( netIdent, offerInfo );
+        IToGui::getToGui().toGuiRxedOfferReply( onlineId, offerInfo);
 	}
 	else
 	{
@@ -552,8 +552,9 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PluginSessionMgr::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
 	PktSessionStopReq * pkt = (PktSessionStopReq *)pktHdr;
-	removeSession( false, netIdent, pkt->getRmtSessionId(), eOfferResponseEndSession );
+    removeSession( false, srcOnlineId, pkt->getRmtSessionId(), eOfferResponseEndSession);
 }
 
 //============================================================================
@@ -623,7 +624,7 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 	{
 		PluginSessionBase* session = (*iter).second;
 		if( session->isP2PSession()
-			&& ( session->getOnlineId() == onlineId ) )
+			&& ( session->getSendToId() == onlineId ) )
 		{
 			if( false == pluginIsLocked )
 			{
@@ -648,19 +649,14 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 	return NULL;
 }
 //============================================================================
-P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked )
+P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked )
 {
 	P2PSession* session = findP2PSessionBySessionId( sessionId, pluginIsLocked );
-	if( NULL == session )
+	if( !session )
 	{
-		if( NULL == sktBase )
+		if( !sktBase || !sktBase->isConnected() )
 		{
-			m_PluginMgr.pluginApiSktConnectTo( getPlugin().getPluginType(), netIdent, 0, sktBase );
-		}
-
-		if( 0 != sktBase )
-		{
-            session = m_Plugin.createP2PSession( sessionId, sktBase, netIdent );
+            session = m_Plugin.createP2PSession( sessionId, sktBase, onlineId );
 			addSession( session->getLclSessionId(), session, pluginIsLocked );
 		}
 	}
@@ -673,29 +669,22 @@ P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithSessionId( VxGUID& sessi
 }
 
 //============================================================================
-P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithOnlineId( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked, VxGUID lclSessionId )
+P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase, bool pluginIsLocked, VxGUID lclSessionId )
 {
 	P2PSession* session = findP2PSessionByOnlineId( onlineId, pluginIsLocked );
-	if( nullptr == session )
+	if( !session )
 	{
-		if( nullptr == sktBase )
+        session = m_Plugin.createP2PSession( sktBase, onlineId );
+		if( false == lclSessionId.isVxGUIDValid() )
 		{
-			m_PluginMgr.pluginApiSktConnectTo( getPlugin().getPluginType(), netIdent, 0, sktBase );
+			lclSessionId.initializeWithNewVxGUID();
+			session->setLclSessionId( lclSessionId );
+			addSession( onlineId, session, pluginIsLocked );
 		}
 		else
 		{
-            session = m_Plugin.createP2PSession( sktBase, netIdent );
-			if( false == lclSessionId.isVxGUIDValid() )
-			{
-				lclSessionId.initializeWithNewVxGUID();
-				session->setLclSessionId( lclSessionId );
-				addSession( onlineId, session, pluginIsLocked );
-			}
-			else
-			{
-				session->setLclSessionId( lclSessionId );
-				addSession( onlineId, session, pluginIsLocked );
-			}
+			session->setLclSessionId( lclSessionId );
+			addSession( onlineId, session, pluginIsLocked );
 		}
 	}
 	else
@@ -773,7 +762,7 @@ TxSession * PluginSessionMgr::findTxSessionByOnlineId( bool pluginIsLocked, VxGU
 	{
 		PluginSessionBase* session = (*iter).second;
 		if( session->isTxSession()
-			&& ( session->getOnlineId() == onlineId ) )
+			&& ( session->getSendToId() == onlineId ) )
 		{
 			if( false == pluginIsLocked )
 			{
@@ -799,12 +788,12 @@ TxSession * PluginSessionMgr::findTxSessionByOnlineId( bool pluginIsLocked, VxGU
 }
 
 //============================================================================
-TxSession * PluginSessionMgr::findOrCreateTxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked )
+TxSession * PluginSessionMgr::findOrCreateTxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked )
 {
 	TxSession * session = findTxSessionBySessionId( pluginIsLocked, sessionId );
 	if( NULL == session )
 	{
-        session = m_Plugin.createTxSession( sessionId, sktBase, netIdent );
+        session = m_Plugin.createTxSession( sessionId, sktBase, onlineId );
 		addSession( sessionId, session, pluginIsLocked );
 	}
 	else
@@ -816,12 +805,12 @@ TxSession * PluginSessionMgr::findOrCreateTxSessionWithSessionId( VxGUID& sessio
 }
 
 //============================================================================
-TxSession * PluginSessionMgr::findOrCreateTxSessionWithOnlineId( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked, VxGUID lclSessionId )
+TxSession * PluginSessionMgr::findOrCreateTxSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase, bool pluginIsLocked, VxGUID lclSessionId )
 {
 	TxSession * session = findTxSessionByOnlineId( pluginIsLocked, onlineId );
 	if( NULL == session )
 	{
-        session = m_Plugin.createTxSession( sktBase, netIdent );
+        session = m_Plugin.createTxSession( sktBase, onlineId );
 		if( ( false == lclSessionId.isVxGUIDValid() ) && ( false == isPluginSingleSession() ) )
 		{
 			addSession( session->getLclSessionId(), session, pluginIsLocked );
@@ -937,7 +926,7 @@ RxSession * PluginSessionMgr::findRxSessionByOnlineId( VxGUID& onlineId, bool pl
 	{
 		PluginSessionBase* session = (*iter).second;
 		if( session->isRxSession()
-			&& ( session->getOnlineId() == onlineId ) )
+			&& ( session->getSendToId() == onlineId ) )
 		{
 			if( false == pluginIsLocked )
 			{
@@ -963,12 +952,12 @@ RxSession * PluginSessionMgr::findRxSessionByOnlineId( VxGUID& onlineId, bool pl
 }
 
 //============================================================================
-RxSession * PluginSessionMgr::findOrCreateRxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked )
+RxSession * PluginSessionMgr::findOrCreateRxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked )
 {
 	RxSession * session = findRxSessionBySessionId( sessionId, pluginIsLocked );
 	if( NULL == session )
 	{
-        session = m_Plugin.createRxSession( sessionId, sktBase, netIdent );
+        session = m_Plugin.createRxSession( sessionId, sktBase, onlineId );
 		addSession( sessionId, session, pluginIsLocked );
 	}
 
@@ -976,12 +965,12 @@ RxSession * PluginSessionMgr::findOrCreateRxSessionWithSessionId( VxGUID& sessio
 }
 
 //============================================================================
-RxSession * PluginSessionMgr::findOrCreateRxSessionWithOnlineId( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool pluginIsLocked, VxGUID lclSessionId )
+RxSession * PluginSessionMgr::findOrCreateRxSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase, bool pluginIsLocked, VxGUID lclSessionId )
 {
 	RxSession * session = findRxSessionByOnlineId( onlineId, pluginIsLocked );
 	if( NULL == session )
 	{
-        session = m_Plugin.createRxSession( sktBase, netIdent );
+        session = m_Plugin.createRxSession( sktBase, onlineId );
 		if( false == lclSessionId.isVxGUIDValid() )
 		{
 			addSession( session->getLclSessionId(), session, pluginIsLocked );
@@ -1014,7 +1003,8 @@ void PluginSessionMgr::addSession( VxGUID& sessionId, PluginSessionBase* session
 
 	if( sessionId != session->getLclSessionId() )
 	{
-		LogMsg( LOG_WARNING, "WARNING SESSION IDS DONT MATCH PluginSessionMgr::addSession %s session id %s connect info %s", session->getOnlineName(), sessionId.toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+		LogMsg( LOG_WARNING, "WARNING SESSION IDS DONT MATCH PluginSessionMgr::addSession %s session id %s connect info %s", 
+				m_Engine.describeUser( session->getSendToId() ).c_str(), sessionId.toHexString().c_str(), session->getSkt()->describeSktType().c_str());
 	}
 
 	if( false == sessionId.isVxGUIDValid() )
@@ -1022,7 +1012,8 @@ void PluginSessionMgr::addSession( VxGUID& sessionId, PluginSessionBase* session
 		sessionId = session->getLclSessionId();
 	}
 
-	LogMsg( LOG_VERBOSE, "PluginSessionMgr::addSession %s session id %s connect info %s", session->getOnlineName(), sessionId.toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+	LogMsg( LOG_VERBOSE, "PluginSessionMgr::addSession %s session id %s connect info %s", 
+			m_Engine.describeUser( session->getSendToId() ).c_str(), sessionId.toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 	if( pluginIsLocked )
 	{
 		m_aoSessions.insert(  std::make_pair( sessionId, session ) );
@@ -1061,7 +1052,8 @@ void PluginSessionMgr::endPluginSession( PluginSessionBase* session, bool plugin
 	{
 		if( session == (*iter).second )
 		{
-			LogMsg( LOG_VERBOSE, "PluginSessionMgr::endPluginSession %s session id %s connect info %s", session->getOnlineName(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+			LogMsg( LOG_VERBOSE, "PluginSessionMgr::endPluginSession %s session id %s connect info %s", 
+					m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 			delete (*iter).second;
 			m_aoSessions.erase(iter);
 			break;
@@ -1095,7 +1087,8 @@ void PluginSessionMgr::endPluginSession( VxGUID& sessionId, bool pluginIsLocked 
 	if( iter != m_aoSessions.end() )
 	{
 		PluginSessionBase* session = (*iter).second;
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::endPluginSession %s session id %s connect info %s", session->getOnlineName(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::endPluginSession %s session id %s connect info %s", 
+				m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 		m_aoSessions.erase(iter);
 		delete session;
 	}
@@ -1164,9 +1157,10 @@ void PluginSessionMgr::removeTxSessionByOnlineId( VxGUID& onlineId, bool pluginI
 	{
 		PluginSessionBase* session = (*iter).second;
 		if( session->isTxSession()
-			&& ( session->getOnlineId() == onlineId ) )
+			&& ( session->getSendToId() == onlineId ) )
 		{
-			LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeTxSessionByOnlineId %s session id %s connect info %s", session->getOnlineName(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+			LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeTxSessionByOnlineId %s session id %s connect info %s", 
+					m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 			delete session;
 			m_aoSessions.erase(iter);	
 			break;
@@ -1203,7 +1197,8 @@ void PluginSessionMgr::removeRxSessionBySessionId( VxGUID& sessionId, bool plugi
 			PluginSessionBase* session = (*iter).second;
 			if( session->isRxSession() )
 			{
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeRxSessionBySessionId %s session id %s connect info %s", session->getOnlineName(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeRxSessionBySessionId %s session id %s connect info %s", 
+						m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 				delete session;
 				m_aoSessions.erase(iter);	
 				break;
@@ -1238,10 +1233,10 @@ void PluginSessionMgr::removeRxSessionByOnlineId( VxGUID& onlineId, bool pluginI
 	{
 		PluginSessionBase* session = (*iter).second;
 		if( session->isRxSession()
-			&& ( session->getOnlineId() == onlineId ) )
+			&& ( session->getSendToId() == onlineId ) )
 		{
 			LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeRxSessionByOnlineId %s session id %s connect info %s", 
-				session->getOnlineName(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+				m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 			m_aoSessions.erase( iter );
 			delete session;
 			break;
@@ -1306,14 +1301,12 @@ bool PluginSessionMgr::removeSessionBySessionId( bool pluginIsLocked, VxGUID& se
 }
 
 //============================================================================
-bool PluginSessionMgr::removeSession( bool pluginIsLocked, VxNetIdent* netIdent, VxGUID& sessionId, EOfferResponse offerResponse, bool fromGui )
+bool PluginSessionMgr::removeSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID& sessionId, EOfferResponse offerResponse, bool fromGui )
 {
 	if( removeSessionBySessionId( pluginIsLocked, sessionId, offerResponse ) )
 	{
 		return true;
 	}
-
-	VxGUID& onlineId = netIdent->getMyOnlineId();
 
 	if( false == pluginIsLocked )
 	{
@@ -1329,7 +1322,7 @@ bool PluginSessionMgr::removeSession( bool pluginIsLocked, VxNetIdent* netIdent,
 	for( auto iter = m_aoSessions.begin(); iter != m_aoSessions.end(); ++iter )
 	{
 		PluginSessionBase* session = (*iter).second;
-		if( session->getOnlineId() == onlineId )
+		if( session->getSendToId() == onlineId )
 		{
 			if( false == fromGui )
 			{
@@ -1337,7 +1330,7 @@ bool PluginSessionMgr::removeSession( bool pluginIsLocked, VxNetIdent* netIdent,
 			}
 			
 			LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeSession %s session id %s connect info %s", 
-				session->getOnlineName(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
+				m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 			if( false == pluginIsLocked )
 			{
 #ifdef DEBUG_AUTOPLUGIN_LOCK

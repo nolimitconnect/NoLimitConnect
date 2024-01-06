@@ -14,8 +14,8 @@
 class TxSession : public PluginSessionBase
 {
 public:
-	TxSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
-	TxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );
+	TxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
+	TxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
 	virtual ~TxSession();
 
 	void						setOutstandingAckCnt( int cnt )				{ m_iOutstandingAckCnt = cnt; }

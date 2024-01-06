@@ -320,7 +320,7 @@ void GuiUserMgr::updateOnlineStatus( VxNetIdent* netIdent, bool online )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
+GuiUser* GuiUserMgr::findUser( VxGUID onlineId )
 {
     m_MyApp.checkIsGuiThread();
     GuiUser* guiUser = nullptr;
@@ -355,7 +355,7 @@ GuiUser* GuiUserMgr::findUser( const VxGUID& onlineId )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::findOrAddUser( const VxGUID& onlineId )
+GuiUser* GuiUserMgr::findOrAddUser( VxGUID onlineId )
 {
     GuiUser* guiUser = findUser( onlineId );
     if( !guiUser )
@@ -371,7 +371,7 @@ GuiUser* GuiUserMgr::findOrAddUser( const VxGUID& onlineId )
 }
 
 //============================================================================
-void GuiUserMgr::removeUser( const VxGUID& onlineId )
+void GuiUserMgr::removeUser( VxGUID onlineId )
 {
     m_MyApp.checkIsGuiThread();
     auto iter = m_UserList.find( onlineId );
@@ -407,7 +407,7 @@ bool GuiUserMgr::isUserInSession( VxGUID& onlineId )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::getUser( const VxGUID& onlineId )
+GuiUser* GuiUserMgr::getUser( VxGUID onlineId )
 {
     GuiUser* guiUser = nullptr;
     if( onlineId == getMyOnlineId() )

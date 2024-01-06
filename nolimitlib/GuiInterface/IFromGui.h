@@ -173,7 +173,7 @@ public:
 	virtual bool				fromGuiMovieDone( void  ) = 0;
 
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available
-	virtual void				fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, void * userData, EAppModule appModule, bool wantInput ) = 0;
+	virtual void				fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput ) = 0;
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available from specific user
 	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, bool wantInput ) = 0;
 
@@ -254,7 +254,7 @@ public:
 	/// Stop plugin session or server
 	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) = 0;
 	/// Return true if plugin is in session
-	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxNetIdent* netIdent = nullptr, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
+	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
 
 	/// Send offer of file or session to a contact
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) = 0;
@@ -394,7 +394,7 @@ public:
 	virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType ) = 0;
 	virtual bool				fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl ) = 0;
 	virtual bool				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) = 0;
-	virtual bool				fromGuiQueryIdentity( const VxGUID& onlineId, VxNetIdent& retNetIdent ) = 0;
+	virtual bool				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) = 0;
 	virtual bool				fromGuiQueryHosts( std::string& netHostUrl, EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll ) = 0;
 	virtual bool				fromGuiQueryMyHostedInfo( EHostType hostType, std::vector<HostedInfo>& hostedInfoList ) = 0;
 	virtual bool				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll ) = 0;

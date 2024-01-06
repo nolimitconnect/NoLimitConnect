@@ -30,7 +30,7 @@ public:
     void                        addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason );
     void                        removeHandshake( std::shared_ptr<VxSktBase>& sktBase ); // for removal before even used
 
-    void                        getAndRemoveHandshakeInfo( const VxGUID& socketId, const VxGUID& onlineId, std::vector<HandshakeInfo>& shakeList, std::vector<HandshakeInfo>& timedOutList );
+    void                        getAndRemoveHandshakeInfo( const VxGUID& socketId, VxGUID onlineId, std::vector<HandshakeInfo>& shakeList, std::vector<HandshakeInfo>& timedOutList );
     void                        removeHandshakeInfo( const VxGUID& socketId, const VxGUID& sessionId );
     void                        removeHandshakeSession( const VxGUID& sessionId );
     void                        onSktDisconnected( const VxGUID& socketId );
