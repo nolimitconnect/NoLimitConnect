@@ -45,6 +45,10 @@ public:
     bool                        fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll );
     virtual bool				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, EHostType hostType, VxGUID& onlineIdIfNullThenAll );
 
+    void                        connectToHostAttempt( HostedId adminId, std::string& ptopUrlAttempted, bool ipv6 );
+    void                        connectToHostSuccess( HostedId adminId );
+    void                        joinedToHostSuccess( HostedId adminId );
+
     // returns true if retHostedInfo was filled
     bool                        updateHostInfo( enum EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged = true, HostedInfo* retHostedInfo = nullptr );
     void                        updateHosted( enum EHostType hostType, VxGUID& hostGuid, std::string& hosted, int64_t timestampMs = 0 );

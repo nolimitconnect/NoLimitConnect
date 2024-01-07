@@ -176,7 +176,7 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
     }
 
     EJoinState joinState{ eJoinStateNone };
-    GroupieId groupiId( m_MyApp.getMyOnlineId(), guiHosted->getHostedId() );
+    GroupieId groupiId( m_MyApp.getMyOnlineId(), guiHosted->getAdminId() );
     if( getIsHostView() )
     {
         joinState = m_MyApp.getHostJoinMgr().getHostJoinState( groupiId );

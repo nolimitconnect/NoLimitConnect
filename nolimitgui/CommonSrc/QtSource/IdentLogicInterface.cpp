@@ -304,7 +304,7 @@ void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 
 		getIdentLine1()->setText( guiHosted->getHostTitle().c_str() );
 		getIdentLine2()->setText( guiHosted->getHostDescription().c_str() );
-		getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( guiHosted->getHostOnlineId() ) );
+        getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( guiHosted->getAdminId().getHostOnlineId() ) );
 	}
 	else
 	{

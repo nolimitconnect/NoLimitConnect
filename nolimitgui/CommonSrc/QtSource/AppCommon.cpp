@@ -78,7 +78,9 @@ namespace
 {
 	AppCommon * g_AppCommon = 0;
 
-	void ProcessQtEvents( int ms = 100 )
+	const int PROCESS_QT_DEFAULT_MS = 50;
+
+	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
 	{
 		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
 	}
@@ -253,22 +255,21 @@ bool AppCommon::loadWithoutThread( void )
 
 	while( !appLoaderThread.getIsSettingsLoaded() )
 	{
-		ProcessQtEvents( 50 );
-	}
-
-	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
-	{
-		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &getHomePage() );
+		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
 	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
 	{
 		getQApplication().setStyle( &m_AppStyle );
+
+		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
+
+		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &getHomePage() );
 	}
 
 	while( !appLoaderThread.getIsAccountMgrLoaded() )
 	{
-		ProcessQtEvents( 50 );
+		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
 	if( !hasExistingAccount() )
@@ -299,7 +300,7 @@ bool AppCommon::loadWithoutThread( void )
 
 	while( !appLoaderThread.getIsIconsLoaded() )
 	{
-		ProcessQtEvents( 50 );
+		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
     m_HomePage.initializeHomePage();
@@ -310,7 +311,7 @@ bool AppCommon::loadWithoutThread( void )
 
 	while( !appLoaderThread.getIsLoadComplete() )
 	{
-		ProcessQtEvents( 50 );
+		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
 	appLoaderThread.quit();
@@ -333,8 +334,6 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
     }
 
     m_AppCommonInitialized = true;
-    // need to setup theme before the first window or dialog is created
-    getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &getHomePage() );
 
 	m_AppletDownloads = new AppletDownloads( *this, appletFrame );
     m_AppletDownloads->hide();
@@ -352,7 +351,6 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 	m_GuiStartupTimer->setInterval( 1000 );
 	m_GuiStartupTimer->start();
 }
-
 
 //============================================================================
 void AppCommon::slotGuiStartupTimer( void )

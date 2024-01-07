@@ -93,7 +93,7 @@ void GuiHostedListMgr::slotInternalHostedRemoved( VxGUID hostOnlineId, EHostType
 //============================================================================
 void GuiHostedListMgr::callbackHostedInfoListSearchResult( HostedInfo* hostedInfo, VxGUID& sessionId )
 {
-    if( hostedInfo && hostedInfo->getHostOnlineId().isVxGUIDValid() && hostedInfo->isHostInviteValid() )
+    if( hostedInfo && hostedInfo->getAdminOnlineId().isVxGUIDValid() && hostedInfo->isHostInviteValid() )
     {
         emit signalInternalHostSearchResult( new HostedInfo( *hostedInfo ), sessionId );
     }
@@ -132,7 +132,7 @@ void GuiHostedListMgr::slotInternalHostSearchComplete( EHostType hostType, VxGUI
 //============================================================================
 void GuiHostedListMgr::toGuiHostSearchResult( EHostType hostType, VxGUID& sessionId, HostedInfo& hostedInfo )
 {
-    if( m_MyApp.getEngine().getIgnoreListMgr().isHostIgnored( hostedInfo.getHostOnlineId() ) )
+    if( m_MyApp.getEngine().getIgnoreListMgr().isHostIgnored( hostedInfo.getAdminOnlineId() ) )
     {
         LogMsg( LOG_VERBOSE, "GuiHostedListMgr::toGuiHostSearchResult ignored host %s", hostedInfo.getHostTitle().c_str() );
         return;
@@ -244,8 +244,7 @@ GuiHosted* GuiHostedListMgr::updateHosted( GuiUser* guiUser, EHostType hostType 
     if( !guiHosted )
     {
         guiHosted = new GuiHosted( m_MyApp );
-        guiHosted->setUser( guiUser );
-
+        guiHosted->setAdminId( adminId );
     }
 
     if( guiHosted->getUser()->getMyOnlineId() == guiUser->getMyOnlineId() )
@@ -271,19 +270,19 @@ GuiHosted* GuiHostedListMgr::updateHosted( GuiUser* guiUser, EHostType hostType 
 GuiHosted* GuiHostedListMgr::updateHostedInfo( HostedInfo& hostedInfo )
 {
     EHostType hostType = hostedInfo.getHostType();
-    HostedId hostTypeId( hostedInfo.getHostOnlineId(), hostType );
+    HostedId adminId( hostedInfo.getAdminId() );
 
-    GuiHosted* guiHosted = findHosted( hostedInfo.getHostOnlineId(), hostType );
+    GuiHosted* guiHosted = findHosted( hostedInfo.getAdminOnlineId(), hostType );
     if( !guiHosted )
     {
-        GuiUser* guiUser = m_MyApp.getUserMgr().getUser( hostedInfo.getHostOnlineId() );
+        GuiUser* guiUser = m_MyApp.getUserMgr().getUser( hostedInfo.getAdminOnlineId() );
         // make a new one
-        guiHosted = new GuiHosted( m_MyApp, guiUser, hostedInfo.getHostOnlineId(), hostedInfo );
+        guiHosted = new GuiHosted( m_MyApp, guiUser, hostedInfo.getAdminOnlineId(), hostedInfo );
 
-        m_HostedList[hostTypeId] = guiHosted;
+        m_HostedList[adminId] = guiHosted;
         if( isMessengerReady() )
         {
-            announceHostedListAdded( hostTypeId, guiHosted );
+            announceHostedListAdded( adminId, guiHosted );
         }
     }
     else
@@ -304,7 +303,7 @@ GuiHosted* GuiHostedListMgr::updateHostedInfo( HostedInfo& hostedInfo )
         {
             if( isMessengerReady() )
             {
-                announceHostedListUpdated( hostTypeId, guiHosted );
+                announceHostedListUpdated( adminId, guiHosted );
             }
         }
     }
@@ -338,7 +337,7 @@ void GuiHostedListMgr::updateHostSearchResult( HostedInfo& hostedInfo, VxGUID& s
     // hosted info is temporary and will soon be deleted so make copy if required
     if( hostedInfo.isHostInviteValid() )
     {
-        HostedId hostedId( hostedInfo.getHostedId() );
+        HostedId hostedId( hostedInfo.getAdminId() );
         GuiHosted* guiHosted = updateHostedInfo( hostedInfo );
         if( guiHosted )
         {

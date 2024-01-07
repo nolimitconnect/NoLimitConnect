@@ -349,12 +349,6 @@ void INlc::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string&
 }
 
 //============================================================================
-void INlc::fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread )
-{
-    getPtoP().fromGuiJoinLastJoinedHost( adminId, sessionId );
-}
-
-//============================================================================
 void INlc::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread )
 {
     getPtoP().fromGuiSearchHost( hostType, searchParams, enable );

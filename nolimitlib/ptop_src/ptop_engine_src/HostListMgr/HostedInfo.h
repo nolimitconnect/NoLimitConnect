@@ -21,18 +21,21 @@ public:
 	HostedInfo() = default;
 	HostedInfo( const HostedInfo& rhs );
     HostedInfo( EHostType hostType, VxGUID& onlineId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, VxGUID& thumbId );
+    HostedInfo( HostedId& adminId, std::string& hostUrl, bool ipv6 );
     virtual ~HostedInfo() = default;
 
 	HostedInfo&				    operator=( const HostedInfo& rhs ); 
 
     bool                        isHostInviteValid( void );
 
-    virtual void				setHostedId( HostedId& hostedId )                   { m_HostedId = hostedId; }
-    HostedId&                   getHostedId( void )                                 { return m_HostedId; }
-    virtual void				setHostOnlineId( VxGUID& onlineId )                 { m_HostedId.setHostOnlineId( onlineId ); }
-    virtual VxGUID&             getHostOnlineId( void )                             { return m_HostedId.getHostOnlineId(); }
-    virtual void			    setHostType( enum EHostType hostType )              { m_HostedId.setHostType( hostType ); }
-    virtual EHostType	        getHostType( void )                                 { return m_HostedId.getHostType(); }
+    virtual void				setAdminId( HostedId& hostedId )                    { m_AdminId = hostedId; }
+    HostedId&                   getAdminId( void )                                  { return m_AdminId; }
+
+    virtual void                setAdminOnlineId( VxGUID& onlineId )                { return m_AdminId.setHostOnlineId( onlineId ); }
+    virtual VxGUID&             getAdminOnlineId( void )                            { return m_AdminId.getHostOnlineId(); }
+
+    virtual void			    setHostType( enum EHostType hostType )              { m_AdminId.setHostType( hostType ); }
+    virtual EHostType	        getHostType( void )                                 { return m_AdminId.getHostType(); }
 
     EPluginType                 getHostPluginType( void );
     EPluginType                 getClientPluginType( void );
@@ -50,13 +53,13 @@ public:
     virtual void			    setHostInfoTimestamp( int64_t timestampMs )         { m_HostInfoTimestampMs = timestampMs; }
     virtual int64_t             getHostInfoTimestamp( void )                        { return m_HostInfoTimestampMs; }
 
-    virtual void			    setHostInviteUrl( bool ipv6, std::string hostUrl )  { ipv6 ? m_HostInviteUrlIpv6 = hostUrl : m_HostInviteUrlIpv4 = hostUrl; }
+    virtual void			    setHostInviteUrl( bool ipv6, std::string hostUrl )  { if( hostUrl.empty() ) return; ipv6 ? m_HostInviteUrlIpv6 = hostUrl : m_HostInviteUrlIpv4 = hostUrl; }
     virtual std::string&        getHostInviteUrl( bool ipv6 )                       { return ipv6 ? m_HostInviteUrlIpv6 : m_HostInviteUrlIpv4; }
 
-    virtual void                setHostTitle( std::string hostTitle )               { m_HostTitle = hostTitle; }
+    virtual void                setHostTitle( std::string hostTitle )               { if( hostTitle.empty() ) return; m_HostTitle = hostTitle; }
     virtual std::string&        getHostTitle( void )                                { return m_HostTitle; }
 
-    virtual void                setHostDescription( std::string hostDesc )          { m_HostDesc = hostDesc; }
+    virtual void                setHostDescription( std::string hostDesc )          { if( hostDesc.empty() ) return; m_HostDesc = hostDesc; }
     virtual std::string&        getHostDescription( void )                          { return m_HostDesc; }
 
     bool                        shouldSaveToDb( void );
@@ -69,7 +72,7 @@ public:
 
 protected:
 	//=== vars ===//
-    HostedId                    m_HostedId;
+    HostedId                    m_AdminId;
     int64_t                     m_ConnectedTimestampMs{ 0 };
     int64_t                     m_JoinedTimestampMs{ 0 };
     int64_t                     m_HostInfoTimestampMs{ 0 };

@@ -295,6 +295,11 @@ bool HostBaseMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId,
     GroupieId groupieId( m_Engine.getMyOnlineId(), onlineId,  hostType );
     if( groupieId.isValid() )
     {
+        if( IsHostARelayForUsers( hostType ) && isJoinConnectReason( connectReason ) )
+        {
+            m_Engine.getHostedListMgr().connectToHostSuccess( groupieId.getHostedId() );
+        }
+
         if( isAnnounceConnectReason( connectReason ) )
         {
             m_Engine.getToGui().toGuiHostAnnounceStatus( hostType, sessionId, eHostAnnounceConnectSuccess );
@@ -867,13 +872,18 @@ bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& s
     VxPtopUrl hostUrlIpv4( ptopUrlIpv4 );
     VxPtopUrl hostUrlIpv6( ptopUrlIpv6 );
     VxGUID onlineId;
+    std::string ptopUrlAttemptConnect;
+    bool ipv6 = false;
     if( hostUrlIpv4.isValid() )
     {
         onlineId = hostUrlIpv4.getOnlineId();
+        ptopUrlAttemptConnect = ptopUrlIpv4;
     }
     else if( hostUrlIpv6.isValid() )
     {
         onlineId = hostUrlIpv6.getOnlineId();
+        ptopUrlAttemptConnect = ptopUrlIpv6;
+        ipv6 = true;
     }
 
     if( !onlineId.isVxGUIDValid() || hostType == eHostTypeUnknown )
@@ -881,6 +891,12 @@ bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& s
         LogMsg( LOG_ERROR, "HostBaseMgr::connectToHostByPtopUrlAndReason invalid param" );
         m_Engine.getToGui().toGuiHostJoinStatus( hostType, sessionId, eHostJoinInvalidUrl );
         return false;
+    }
+
+    if( IsHostARelayForUsers( hostType ) )
+    {
+        // for the case of join last then there is no host listing because user did not get host list from network host
+        m_Engine.getHostedListMgr().connectToHostAttempt( HostedId( onlineId, hostType ), ptopUrlAttemptConnect, ipv6 );
     }
 
     bool result{ false };

@@ -16,7 +16,7 @@
 
 //============================================================================
 HostedInfo::HostedInfo( EHostType hostType, VxGUID& onlineId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, VxGUID& thumbId )
-    : m_HostedId( onlineId, hostType )
+    : m_AdminId( onlineId, hostType )
     , m_HostInviteUrlIpv4( hostUrlIpv4 )
     , m_HostInviteUrlIpv6( hostUrlIpv6 )
     , m_ThumbId( thumbId )
@@ -24,8 +24,22 @@ HostedInfo::HostedInfo( EHostType hostType, VxGUID& onlineId, std::string& hostU
 }
 
 //============================================================================
+HostedInfo::HostedInfo( HostedId& adminId, std::string& hostUrl, bool ipv6 )
+: m_AdminId( adminId )
+{
+    if( ipv6 )
+    {
+        m_HostInviteUrlIpv6 = hostUrl;
+    }
+    else
+    {
+        m_HostInviteUrlIpv4 = hostUrl;
+    }
+}
+
+//============================================================================
 HostedInfo::HostedInfo( const HostedInfo& rhs )
-    : m_HostedId( rhs.m_HostedId )
+    : m_AdminId( rhs.m_AdminId )
     , m_ConnectedTimestampMs( rhs.m_ConnectedTimestampMs )
     , m_JoinedTimestampMs( rhs.m_JoinedTimestampMs )
     , m_HostInfoTimestampMs( rhs.m_HostInfoTimestampMs )
@@ -43,7 +57,7 @@ HostedInfo& HostedInfo::operator=( const HostedInfo& rhs )
 {	
 	if( this != &rhs )
 	{
-        m_HostedId = rhs.m_HostedId;
+        m_AdminId = rhs.m_AdminId;
         m_ConnectedTimestampMs = rhs.m_ConnectedTimestampMs;
         m_JoinedTimestampMs = rhs.m_JoinedTimestampMs;
         m_HostInfoTimestampMs = rhs.m_HostInfoTimestampMs;
@@ -118,7 +132,7 @@ bool HostedInfo::extractFromSearchBlob( PktBlobEntry& blobEntry )
         result = hostUrl.isValid() && m_HostInfoTimestampMs && !m_HostTitle.empty() && !m_HostDesc.empty();
         if( result )
         {
-            setHostOnlineId( hostUrl.getOnlineId() );
+            setAdminOnlineId( hostUrl.getOnlineId() );
             if( eHostTypeUnknown != hostUrl.getHostType() )
             {
                 setHostType( hostUrl.getHostType() );
@@ -145,7 +159,7 @@ bool HostedInfo::fillFromHostInvite( PktHostInviteAnnounceReq* hostAnn )
         VxPtopUrl hostUrlIpv6( inviteUrlIpv6 );
         if( ( hostUrlIpv4.isValid() || hostUrlIpv6.isValid() ) && hostTimestampMs && !hostTitle.empty() && !hostDesc.empty() )
         {
-            setHostOnlineId( hostUrlIpv4.isValid() ? hostUrlIpv4.getOnlineId() : hostUrlIpv6.getOnlineId() );
+            setAdminOnlineId( hostUrlIpv4.isValid() ? hostUrlIpv4.getOnlineId() : hostUrlIpv6.getOnlineId() );
             setHostType( hostAnn->getHostType() );
             setHostInviteUrl( false, inviteUrlIpv4 );
             setHostInviteUrl( true, inviteUrlIpv6 );
@@ -171,18 +185,18 @@ bool HostedInfo::fillFromHostInvite( PktHostInviteAnnounceReq* hostAnn )
 //============================================================================
 bool HostedInfo::isHostInviteValid( void )
 {
-    return m_HostedId.isValid() && m_HostInfoTimestampMs && ( !m_HostInviteUrlIpv4.empty() || !m_HostInviteUrlIpv6.empty() ) && !m_HostTitle.empty() && !m_HostDesc.empty();
+    return m_AdminId.isValid() && m_HostInfoTimestampMs && ( !m_HostInviteUrlIpv4.empty() || !m_HostInviteUrlIpv6.empty() ) && !m_HostTitle.empty() && !m_HostDesc.empty();
 }
 
 
 //============================================================================
 EPluginType HostedInfo::getHostPluginType( void )
 {
-    return HostTypeToHostPlugin( m_HostedId.getHostType() );
+    return HostTypeToHostPlugin( m_AdminId.getHostType() );
 }
 
 //============================================================================
 EPluginType HostedInfo::getClientPluginType( void )
 {
-    return HostTypeToClientPlugin( m_HostedId.getHostType() );
+    return HostTypeToClientPlugin( m_AdminId.getHostType() );
 }

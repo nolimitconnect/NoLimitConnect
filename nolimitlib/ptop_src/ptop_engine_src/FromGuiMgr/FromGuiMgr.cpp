@@ -97,12 +97,6 @@ void FromGuiMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::s
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId )
-{
-	queFromGuiAction( new FromGuiJoinLastHostAction( m_Engine, eFromGuiJoinLastJoinedHost, adminId, sessionId ) );
-}
-
-//============================================================================
 void FromGuiMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId )
 {
 	queFromGuiAction( new FromGuiQueryHostListFromNetworkHostAction( m_Engine, eFromGuiQueryHostListFromNetworkHost, netHostUrl, hostType, hostIdIfNullThenAll, searchSessionId ) );

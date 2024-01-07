@@ -376,7 +376,7 @@ void AppletJoinBase::slotIgnoreButtonClicked( GuiHostedListSession* hostSession,
 		return;
 	}
 
-	if( m_MyApp.getEngine().getIgnoreListMgr().addHostIgnore( guiHosted->getHostOnlineId(), guiHosted->getHostInviteUrl(false), guiHosted->getHostInviteUrl(true),
+    if( m_MyApp.getEngine().getIgnoreListMgr().addHostIgnore( guiHosted->getAdminId().getHostOnlineId(), guiHosted->getHostInviteUrl(false), guiHosted->getHostInviteUrl(true),
 		guiHosted->getHostTitle(), guiHosted->getThumbId(), guiHosted->getHostDescription() ) )
 	{
 		ui.m_GuiHostedListWidget->removeItemWidget( hostItem );

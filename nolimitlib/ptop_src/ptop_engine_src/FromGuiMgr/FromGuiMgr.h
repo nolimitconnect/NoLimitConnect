@@ -46,7 +46,6 @@ public:
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
 	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
 	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
-	virtual void				fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId );
 
 	virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
 

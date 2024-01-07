@@ -39,7 +39,7 @@ GuiHosted::GuiHosted( AppCommon& app, GuiUser* guiUser, VxGUID& sessionId, Hoste
     , m_MyApp( app )
     , m_HostedListMgr( app.getHostedListMgr() )
     , m_GuiUser( guiUser )
-    , m_HostedId( hostedInfo.getHostedId() )
+    , m_AdminId( hostedInfo.getAdminId() )
     , m_SessionId( sessionId )
     , m_IsFavorite( hostedInfo.getIsFavorite() )
     , m_ConnectedTimestampMs( hostedInfo.getConnectedTimestamp() )
@@ -59,7 +59,7 @@ GuiHosted::GuiHosted( const GuiHosted& rhs )
     , m_MyApp( rhs.m_MyApp )
     , m_HostedListMgr( rhs.m_HostedListMgr )
     , m_GuiUser( rhs.m_GuiUser )
-    , m_HostedId( rhs.m_HostedId )
+    , m_AdminId( rhs.m_AdminId )
     , m_SessionId( rhs.m_SessionId )
     , m_IsFavorite( rhs.m_IsFavorite )
     , m_ConnectedTimestampMs( rhs.m_ConnectedTimestampMs )
@@ -102,5 +102,5 @@ bool GuiHosted::readyForClientLaunch( void )
 //============================================================================
 GroupieId GuiHosted::getMyGroupieId( void )
 {
-    return GroupieId( m_MyApp.getMyOnlineId(), m_HostedId );
+    return GroupieId( m_MyApp.getMyOnlineId(), m_AdminId );
 }

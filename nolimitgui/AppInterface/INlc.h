@@ -477,7 +477,7 @@ public:
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
     virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
     virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false );
-    virtual void				fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread = false );
+
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false );
 
     virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId );

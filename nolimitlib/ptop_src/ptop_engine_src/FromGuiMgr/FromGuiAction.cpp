@@ -59,9 +59,6 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	case eFromGuiUnJoinHost:
 		return "FromGuiType UnJoinHost";
 
-	case eFromGuiJoinLastJoinedHost:
-		return "FromGuiType JoinLastJoinedHost";
-
 	case eFromGuiSearchHost:
 		return "FromGuiType SearchHost";
 
@@ -162,20 +159,6 @@ void FromGuiHostAction::executeAction( void )
 	default:
 		onGuiActionError();
 	}
-}
-
-//============================================================================	
-FromGuiJoinLastHostAction::FromGuiJoinLastHostAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& sessionId )
-	: FromGuiActionBase( engine, fromGuiType )
-	, m_AdminId( adminId )
-	, m_SessionId( sessionId )
-{
-}
-
-//============================================================================	
-void FromGuiJoinLastHostAction::executeAction( void )
-{
-	m_Engine.fromGuiJoinLastJoinedHost( m_AdminId, m_SessionId, true );
 }
 
 //============================================================================

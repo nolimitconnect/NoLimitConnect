@@ -27,7 +27,7 @@ enum EFromGuiType
 	eFromGuiJoinHost,
 	eFromGuiLeaveHost,
 	eFromGuiUnJoinHost,
-	eFromGuiJoinLastJoinedHost,
+
 	eFromGuiSearchHost,
 	eFromGuiQueryHostListFromNetworkHost,
 
@@ -90,18 +90,6 @@ public:
 	VxGUID						m_SessionId;
 	std::string					m_HostUrlIpv4;
 	std::string					m_HostUrlIpv6;
-};
-
-class FromGuiJoinLastHostAction : public FromGuiActionBase
-{
-public:
-	FromGuiJoinLastHostAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& sessionId );
-	~FromGuiJoinLastHostAction() override = default;
-
-	void						executeAction( void ) override;
-
-	HostedId					m_AdminId;
-	VxGUID						m_SessionId;
 };
 
 class FromGuiSearchHostAction : public FromGuiActionBase

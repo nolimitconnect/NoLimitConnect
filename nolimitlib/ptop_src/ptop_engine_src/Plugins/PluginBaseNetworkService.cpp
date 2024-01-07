@@ -49,7 +49,7 @@ bool PluginBaseNetworkService::getHostedInfo( HostedInfo& hostedInfo )
         hostedInfo.setHostInviteUrl( true, m_HostInviteUrlIpv6 );
         hostedInfo.setHostTitle( m_HostTitle );
         hostedInfo.setHostDescription( m_HostDescription );
-        hostedInfo.setHostedId( getHostedId() );
+        hostedInfo.setAdminId( getHostedId() );
         VxGUID thumbId = m_Engine.getMyPktAnnounce().getHostThumbId( getHostType(), true );
         hostedInfo.setThumbId( thumbId );
 

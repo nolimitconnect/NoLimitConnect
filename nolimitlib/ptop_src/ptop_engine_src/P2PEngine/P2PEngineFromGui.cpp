@@ -1374,37 +1374,6 @@ void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::st
 }
 
 //============================================================================
-void P2PEngine::fromGuiJoinLastJoinedHost( HostedId& adminId, VxGUID& sessionId, bool fromThread )
-{
-	if( fromThread )
-	{
-		std::string hostUrlIpv4;
-		std::string hostUrlIpv6;
-		if( getUserJoinMgr().getLastJoinedHostUrl( adminId.getHostType(), hostUrlIpv4, hostUrlIpv6) )
-		{
-			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
-			if( plugin )
-			{
-				plugin->fromGuiJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
-				vx_assert( false );
-			}
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "P2PEngine::fromGuiJoinLastJoinedHost no last joined host url for host type %d", adminId.getHostType() );
-		}
-	}
-	else
-	{
-		m_FromGuiMgr.fromGuiJoinLastJoinedHost( adminId, sessionId );
-	}
-}
-
-//============================================================================
 void P2PEngine::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread )
 {
 	if( fromThread )

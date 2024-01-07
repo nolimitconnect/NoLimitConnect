@@ -59,6 +59,10 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
             {
                 m_Engine.getBigListMgr().updateMemberFriendship( groupieId.getUserOnlineId() );
             }
+            else
+            {
+                m_Engine.getHostedListMgr().joinedToHostSuccess( groupieId.getHostedId() );
+            }
 
             m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
 

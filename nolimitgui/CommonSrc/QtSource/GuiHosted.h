@@ -37,14 +37,11 @@ public:
     void                        setUser( GuiUser* guiUser )     { m_GuiUser = guiUser; }
     GuiUser*                    getUser( void )                 { return m_GuiUser; }
 
-    void                        setHostedId( HostedId& hostedId ) { m_HostedId = hostedId; }
-    HostedId&                   getHostedId( void )             { return m_HostedId; }
+    void                        setAdminId( HostedId& hostedId ) { m_AdminId = hostedId; }
+    HostedId&                   getAdminId( void )              { return m_AdminId; }
 
-    virtual void				setHostOnlineId( VxGUID& onlineId ) { m_HostedId.setHostOnlineId( onlineId ); }
-    virtual VxGUID&             getHostOnlineId( void )             { return m_HostedId.getHostOnlineId(); }
-
-    virtual void			    setHostType( EHostType hostType ) { m_HostedId.setHostType( hostType ); }
-    virtual EHostType	        getHostType( void )             { return m_HostedId.getHostType(); }
+    virtual void			    setHostType( EHostType hostType ) { m_AdminId.setHostType( hostType ); }
+    virtual EHostType	        getHostType( void )             { return m_AdminId.getHostType(); }
 
     virtual void				setSessionId( VxGUID& sessionId ) { m_SessionId = sessionId; }
     virtual VxGUID&             getSessionId( void )            { return m_SessionId; }
@@ -53,26 +50,26 @@ public:
     virtual VxGUID&             getThumbId( void )              { return m_ThumbId; }
 
     virtual void                setIsFavorite( bool isFavorite ) { m_IsFavorite = isFavorite; }
-    virtual bool                getIsFavorite( void )           { return m_IsFavorite; }
+    virtual bool                getIsFavorite( void )            { return m_IsFavorite; }
 
     virtual void			    setConnectedTimestamp( int64_t timestampMs ) { m_ConnectedTimestampMs = timestampMs; }
-    virtual int64_t             getConnectedTimestamp( void )   { return m_ConnectedTimestampMs; }
-    virtual void			    setJoinedTimestamp( int64_t timestampMs ) { m_JoinedTimestampMs = timestampMs; }
-    virtual int64_t             getJoinedTimestamp( void )      { return m_JoinedTimestampMs; }
+    virtual int64_t             getConnectedTimestamp( void )                { return m_ConnectedTimestampMs; }
+    virtual void			    setJoinedTimestamp( int64_t timestampMs )   { m_JoinedTimestampMs = timestampMs; }
+    virtual int64_t             getJoinedTimestamp( void )                  { return m_JoinedTimestampMs; }
     virtual void			    setHostInfoTimestamp( int64_t timestampMs ) { m_HostInfoTimestampMs = timestampMs; }
-    virtual int64_t             getHostInfoTimestamp( void )    { return m_HostInfoTimestampMs; }
+    virtual int64_t             getHostInfoTimestamp( void )                { return m_HostInfoTimestampMs; }
 
-    virtual void			    setHostInviteUrl( bool ipv6, std::string hostUrl )  { ipv6 ? m_HostInviteUrlIpv6 = hostUrl : m_HostInviteUrlIpv4 = hostUrl; }
+    virtual void			    setHostInviteUrl( bool ipv6, std::string hostUrl ) { if( hostUrl.empty() ) return;  ipv6 ? m_HostInviteUrlIpv6 = hostUrl : m_HostInviteUrlIpv4 = hostUrl; }
     virtual std::string&        getHostInviteUrl( bool ipv6 )                       { return ipv6 ? m_HostInviteUrlIpv6 : m_HostInviteUrlIpv4; }
 
-    virtual void                setHostTitle( std::string hostTitle ) { m_HostTitle = hostTitle; }
-    virtual std::string&        getHostTitle( void )            { return m_HostTitle; }
+    virtual void                setHostTitle( std::string hostTitle )       {  if( hostTitle.empty() ) return; m_HostTitle = hostTitle; }
+    virtual std::string&        getHostTitle( void )                        { return m_HostTitle; }
 
-    virtual void                setHostDescription( std::string hostDesc ) { m_HostDesc = hostDesc; }
-    virtual std::string&        getHostDescription( void )      { return m_HostDesc; }
+    virtual void                setHostDescription( std::string hostDesc )  { if( hostDesc.empty() ) return; m_HostDesc = hostDesc; }
+    virtual std::string&        getHostDescription( void )                  { return m_HostDesc; }
 
-    virtual void                setIsIgnored( bool isIgnored )  { m_IsIgnored = isIgnored; }
-    virtual bool                getIsIgnored( void )            { return m_IsIgnored; }
+    virtual void                setIsIgnored( bool isIgnored )              { m_IsIgnored = isIgnored; }
+    virtual bool                getIsIgnored( void )                        { return m_IsIgnored; }
 
     virtual bool                readyForClientLaunch( void );
 
@@ -83,7 +80,7 @@ protected:
     GuiHostedListMgr&           m_HostedListMgr;
 
     GuiUser*                    m_GuiUser{ nullptr };
-    HostedId                    m_HostedId;
+    HostedId                    m_AdminId;
     VxGUID                      m_SessionId;
     bool                        m_IsFavorite{ false };
     bool                        m_IsIgnored{ false };

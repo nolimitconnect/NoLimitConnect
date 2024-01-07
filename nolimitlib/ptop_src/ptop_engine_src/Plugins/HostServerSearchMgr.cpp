@@ -290,7 +290,7 @@ void HostServerSearchMgr::doFromGuiListAction( EListAction listAction, EPluginTy
             if( iter->first.getPluginType() == pluginType )
             {
                 entryNum++;
-                VxGUID onlineId = iter->second.m_HostedInfo.getHostOnlineId();
+                VxGUID onlineId = iter->second.m_HostedInfo.getAdminOnlineId();
                 std::string onlineName( "" );
                 m_Engine.getBigListMgr().getOnlineName( onlineId, onlineName );
                 LogMsg( LOG_INFO, " #%d - %lld sec ago title %s desc %s user %s", entryNum, ( timeNow - iter->second.m_LastRxTime ) / 1000,
@@ -374,7 +374,7 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& 
                     else
                     {
                         pktReply.setMoreInvitesExist( true );
-                        pktReply.setNextSearchOnlineId( iter->second.m_HostedInfo.getHostOnlineId() );
+                        pktReply.setNextSearchOnlineId( iter->second.m_HostedInfo.getAdminOnlineId() );
                         break;
                     }
 
@@ -462,7 +462,7 @@ bool HostServerSearchMgr::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sk
                     else
                     {
                         pktReply.setMoreInvitesExist( true );
-                        pktReply.setNextSearchOnlineId( iter->second.m_HostedInfo.getHostOnlineId() );
+                        pktReply.setNextSearchOnlineId( iter->second.m_HostedInfo.getAdminOnlineId() );
                         break;
                     }
 

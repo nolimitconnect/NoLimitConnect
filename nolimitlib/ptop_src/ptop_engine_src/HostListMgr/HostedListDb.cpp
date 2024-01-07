@@ -78,7 +78,7 @@ void HostedListDb::getAllHosteds( std::vector<HostedInfo>& hostedList )
 		{
 			HostedInfo hostInfo;
 
-			hostInfo.getHostOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_ONLINE_ID ) );
+			hostInfo.getAdminOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_ONLINE_ID ) );
 			hostInfo.setHostType( (EHostType)cursor->getS32( COLUMN_IDX_HOST_TYPE ) );
 			hostInfo.setHostInviteUrl( false, cursor->getString( COLUMN_IDX_HOST_URL_IPV4 ) );
 			hostInfo.setHostInviteUrl( true, cursor->getString( COLUMN_IDX_HOST_URL_IPV6 ) );
@@ -264,13 +264,13 @@ bool HostedListDb::updateHostTitleAndDescription( EHostType hostType, VxGUID& on
 bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 {
 	std::string onlineId;
-	if( !hostedInfo.getHostOnlineId().isVxGUIDValid() || !hostedInfo.getHostOnlineId().toHexString( onlineId ) )
+	if( !hostedInfo.getAdminOnlineId().isVxGUIDValid() || !hostedInfo.getAdminOnlineId().toHexString( onlineId ) )
 	{
 		LogMsg( LOG_ERROR, "ERROR: HostedListDb::saveHosted INVALID ONLINE ID" );
 		return false;
 	}
 
-	removeHostedInfo( hostedInfo.getHostType(), hostedInfo.getHostOnlineId() );
+	removeHostedInfo( hostedInfo.getHostType(), hostedInfo.getAdminOnlineId() );
 
 	m_DbMutex.lock(); // make thread safe
 

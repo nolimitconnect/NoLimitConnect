@@ -129,7 +129,7 @@ void HostedListMgr::removeClosedPortIdent( VxGUID& onlineId )
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); )
     {
-        if( iter->getHostOnlineId() == onlineId )
+        if( iter->getAdminOnlineId() == onlineId )
         {
             iter = m_HostedInfoList.erase( iter );
         }
@@ -150,7 +150,7 @@ void HostedListMgr::removeHostedInfo( EHostType hostType, VxGUID& onlineId )
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); )
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getHostType() == hostType )
+        if( iter->getAdminOnlineId() == onlineId && iter->getHostType() == hostType )
         {
             m_HostedInfoList.erase( iter );
             wasRemoved = true;
@@ -284,7 +284,7 @@ void HostedListMgr::updateAndRequestInfoIfNeeded( bool ipv6, EHostType hostType,
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getHostType() == hostType )
+        if( iter->getAdminOnlineId() == onlineId && iter->getHostType() == hostType )
         {
             wasFound = true;
             iter->setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
@@ -350,7 +350,7 @@ bool HostedListMgr::updateLastConnected( EHostType hostType, VxGUID& onlineId, i
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getHostType() == hostType )
+        if( iter->getAdminOnlineId() == onlineId && iter->getHostType() == hostType )
         {
             iter->setConnectedTimestamp( lastConnectedTime );
             result = true;
@@ -373,7 +373,7 @@ bool HostedListMgr::updateLastJoined( EHostType hostType, VxGUID& onlineId, int6
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getHostType() == hostType )
+        if( iter->getAdminOnlineId() == onlineId && iter->getHostType() == hostType )
         {
             int64_t oldJoinedTime = iter->getJoinedTimestamp();
             iter->setJoinedTimestamp( lastJoinedTime );
@@ -406,7 +406,7 @@ bool HostedListMgr::updateIsFavorite( EHostType hostType, VxGUID& onlineId, bool
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getHostType() == hostType )
+        if( iter->getAdminOnlineId() == onlineId && iter->getHostType() == hostType )
         {
             bool wasFavorite = iter->getIsFavorite();
             iter->setIsFavorite( isFavorite );
@@ -439,7 +439,7 @@ bool HostedListMgr::getIsFavorite( VxGUID& onlineId )
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getIsFavorite() )
+        if( iter->getAdminOnlineId() == onlineId && iter->getIsFavorite() )
         {
             result = true;
             break;
@@ -457,7 +457,7 @@ bool HostedListMgr::updateHostTitleAndDescription( EHostType hostType, VxGUID& o
     lockList();
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter)
     {
-        if( iter->getHostOnlineId() == onlineId && iter->getHostType() == hostType )
+        if( iter->getAdminOnlineId() == onlineId && iter->getHostType() == hostType )
         {
             result = true;
             iter->setHostTitle( title );
@@ -649,6 +649,100 @@ bool HostedListMgr::fromGuiQueryGroupiesFromHosted( VxPtopUrl& netHostUrl, EHost
     }
 
     return false;
+}
+
+//============================================================================
+void HostedListMgr::connectToHostAttempt( HostedId adminId, std::string& ptopUrlAttempted, bool ipv6 )
+{
+    bool found = false;
+    bool updated = false;
+    HostedInfo updatedHostedInfo;
+    lockList();
+    for( auto hostInfo : m_HostedInfoList )
+    {
+        if( hostInfo.getAdminId() == adminId )
+        {
+            found = true;
+            if( hostInfo.getHostInviteUrl( ipv6 ).empty() )
+            {
+                hostInfo.setHostInviteUrl( ipv6, ptopUrlAttempted );
+                updatedHostedInfo = hostInfo;
+            }
+
+            break;
+        }
+    }
+
+    if( !found )
+    {
+        updatedHostedInfo = HostedInfo( adminId, ptopUrlAttempted, ipv6 );
+        m_HostedInfoList.emplace_back( updatedHostedInfo );
+    }
+
+    unlockList();
+
+    if( !found || updated )
+    {
+        announceHostInfoUpdated( &updatedHostedInfo );
+    }
+}
+
+//============================================================================
+void HostedListMgr::connectToHostSuccess( HostedId adminId )
+{
+    bool found{ false };
+    HostedInfo updatedHostedInfo;
+    lockList();
+    for( auto hostInfo : m_HostedInfoList )
+    {
+        if( hostInfo.getAdminId() == adminId )
+        {
+            found = true;
+            hostInfo.setConnectedTimestamp( GetGmtTimeMs() );
+            updatedHostedInfo = hostInfo;
+            break;
+        }
+    }
+
+    unlockList();
+    if( found )
+    {
+        announceHostInfoUpdated( &updatedHostedInfo );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "HostedListMgr::connectToHostSuccess host not found %s", m_Engine.describeHostedId( adminId ).c_str() );
+        vx_assert( false );
+    }
+}
+
+//============================================================================
+void HostedListMgr::joinedToHostSuccess( HostedId adminId )
+{
+    bool found{ false };
+    HostedInfo updatedHostedInfo;
+    lockList();
+    for( auto hostInfo : m_HostedInfoList )
+    {
+        if( hostInfo.getAdminId() == adminId )
+        {
+            found = true;
+            hostInfo.setJoinedTimestamp( GetGmtTimeMs() );
+            updatedHostedInfo = hostInfo;
+            break;
+        }
+    }
+
+    unlockList();
+    if( found )
+    {
+        announceHostInfoUpdated( &updatedHostedInfo );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "HostedListMgr::joinedToHostSuccess host not found %s", m_Engine.describeHostedId( adminId ).c_str() );
+        vx_assert( false );
+    }
 }
 
 //============================================================================
@@ -848,7 +942,7 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
     // if exists see if needs update
     for( auto iter = m_HostedInfoList.begin(); iter != m_HostedInfoList.end(); ++iter )
     {
-        if( iter->getHostType() == hostType && iter->getHostOnlineId() == hostedInfo.getHostOnlineId() )
+        if( iter->getAdminId() == hostedInfo.getAdminId() )
         {
             alreadyExisted = true;
             if( sktBase )
@@ -861,10 +955,10 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
                 // url has changed. just update
                 iter->setHostInviteUrl( ipv6, hostedInfo.getHostInviteUrl( ipv6 ) );
                 // update our url list also
-                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostedInfo.getHostOnlineId(), hostedInfo.getHostInviteUrl( false ), hostedInfo.getHostInviteUrl( true ) );
+                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostedInfo.getAdminOnlineId(), hostedInfo.getHostInviteUrl( false ), hostedInfo.getHostInviteUrl( true ) );
                 if( iter->shouldSaveToDb() )
                 {
-                    m_HostedInfoListDb.updateHostUrl( ipv6, iter->getHostType(), iter->getHostOnlineId(), hostedInfo.getHostInviteUrl( ipv6 )  );
+                    m_HostedInfoListDb.updateHostUrl( ipv6, iter->getHostType(), iter->getAdminOnlineId(), hostedInfo.getHostInviteUrl( ipv6 )  );
                 }
                 // TODO do we need to update if just url changed ?
             }
@@ -893,7 +987,7 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
                     hostedInfoUpdated = true;
                     if( iter->shouldSaveToDb() )
                     {
-                        m_HostedInfoListDb.updateHostTitleAndDescription( iter->getHostType(), iter->getHostOnlineId(), hostedInfo.getHostTitle(), hostedInfo.getHostDescription(), iter->getHostInfoTimestamp(), iter->getThumbId() );
+                        m_HostedInfoListDb.updateHostTitleAndDescription( iter->getHostType(), iter->getAdminOnlineId(), hostedInfo.getHostTitle(), hostedInfo.getHostDescription(), iter->getHostInfoTimestamp(), iter->getThumbId() );
                     }
                 }
             }

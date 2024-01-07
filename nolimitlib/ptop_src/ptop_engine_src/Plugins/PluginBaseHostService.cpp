@@ -51,7 +51,7 @@ bool PluginBaseHostService::getHostedInfo( HostedInfo& hostedInfo )
         hostedInfo.setHostTitle( m_HostTitle );
         hostedInfo.setHostDescription( m_HostDescription );
         HostedId hostedId( m_Engine.getMyOnlineId(), PluginTypeToHostType( getPluginType() ) );
-        hostedInfo.setHostedId( hostedId );
+        hostedInfo.setAdminId( hostedId );
         VxGUID thumbId = m_Engine.getMyPktAnnounce().getHostThumbId( getHostType(), true );
         hostedInfo.setThumbId( thumbId );
 

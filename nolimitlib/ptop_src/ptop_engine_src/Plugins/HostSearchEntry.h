@@ -36,7 +36,7 @@ public:
 
     bool                        searchHostedMatch( SearchParams& searchParams, std::string& searchStr );
 
-    VxGUID&                     getHostOnlineId( void )         { return m_HostedInfo.getHostOnlineId(); }
+    VxGUID&                     getAdminOnlineId( void )         { return m_HostedInfo.getAdminOnlineId(); }
 
     uint64_t                    m_LastRxTime{ 0 }; // time last recieved announce
     HostedInfo                  m_HostedInfo;
