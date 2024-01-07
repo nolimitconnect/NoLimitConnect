@@ -519,8 +519,16 @@ bool GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost( HostedId& admin
     GuiHosted* guiHosted = findHosted( adminId );
     if( guiHosted )
     {
-        LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost found host %s", DescribeHostType( adminId.getHostType() ) );
-        wasLaunched = m_MyApp.getAppletMgr().launchClientApplet( guiHosted, parentPageFrame );
+        if( guiHosted->getUser() )
+        {
+            LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost found host %s", DescribeHostType( adminId.getHostType() ) );
+            wasLaunched = m_MyApp.getAppletMgr().launchClientApplet( guiHosted, parentPageFrame );
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost null admin user" );
+            vx_assert( false );
+        }
     }
     else
     {

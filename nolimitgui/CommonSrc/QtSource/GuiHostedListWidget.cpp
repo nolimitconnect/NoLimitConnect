@@ -709,7 +709,6 @@ void GuiHostedListWidget::updateUser( GuiUser* guiUser )
             GuiHostedListSession* hostSession = hostItem->getHostSession();
             if( hostSession && hostSession->getHostOnlineId() == guiUser->getMyOnlineId() )
             {
-                hostSession->updateUser( guiUser );
                 hostItem->updateUser( guiUser );
                 addOrUpdateHostSession( hostSession );
             }

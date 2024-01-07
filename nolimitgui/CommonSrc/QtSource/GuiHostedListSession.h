@@ -24,15 +24,13 @@ public:
 
 	GuiHostedListSession&		operator =( const GuiHostedListSession &rhs );
 
-   
-    void                        setGuiHosted( GuiHosted* guiHosted )        { m_GuiHosted = guiHosted; if( guiHosted->getUser() ) setGuiUser( guiHosted->getUser() ); }
+    void                        setGuiHosted( GuiHosted* guiHosted )        { m_GuiHosted = guiHosted; }
     GuiHosted*                  getGuiHosted( void )                        { return m_GuiHosted; }
 
     HostedId&                   getHostedId( void )                         { return m_HostedId; }
     VxGUID&                     getHostOnlineId( void )                     { return m_HostedId.getHostOnlineId(); }
     EHostType                   getHostType( void )                         { return m_HostedId.getHostType(); }
 
-    void                        setGuiUser( GuiUser* guiUser )              { if( m_GuiHosted && guiUser ) m_GuiHosted->setUser( guiUser ); }
     GuiUser*                    getGuiUser( void )                          { return m_GuiHosted ? m_GuiHosted->getUser() : nullptr; }
 
     std::string                 getHostUrl( bool ipv6 );
@@ -46,8 +44,6 @@ public:
     QWidget*                    getWidget( void )                           { return m_Widget; }
 
     VxGUID                      getHostThumbId( void );
-
-    void                        updateUser( GuiUser* guiUser );
 
 protected:
 	//=== vars ===//

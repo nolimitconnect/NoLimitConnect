@@ -125,13 +125,8 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
     GuiUser* guiUser = hostSession->getGuiUser();
     if( !guiUser )
     {
-        // if posible get user identity
-        guiUser = m_MyApp.getUserMgr().getOrQueryUser( hostSession->getHostedId().getHostOnlineId() );
-        if( guiUser )
-        {
-            guiHosted->setUser( guiUser );
-            hostSession->setGuiUser( guiUser );
-        }
+        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost null host admin user" );
+        return;
     }
 
     if( guiUser )

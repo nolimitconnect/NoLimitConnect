@@ -34,8 +34,7 @@ public:
 
     GuiHostedListMgr&           getHostedListMgr( void )        { return m_HostedListMgr; }
 
-    void                        setUser( GuiUser* guiUser )     { m_GuiUser = guiUser; }
-    GuiUser*                    getUser( void )                 { return m_GuiUser; }
+    GuiUser*                    getUser( void );
 
     void                        setAdminId( HostedId& hostedId ) { m_AdminId = hostedId; }
     HostedId&                   getAdminId( void )              { return m_AdminId; }
@@ -79,7 +78,6 @@ protected:
     AppCommon&                  m_MyApp;
     GuiHostedListMgr&           m_HostedListMgr;
 
-    GuiUser*                    m_GuiUser{ nullptr };
     HostedId                    m_AdminId;
     VxGUID                      m_SessionId;
     bool                        m_IsFavorite{ false };
