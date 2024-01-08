@@ -992,12 +992,6 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
                 }
             }
 
-            if( !needsIdentityReq && netIdent && !netIdent->canRequestJoin( hostType ) )
-            {
-                // clear hostedInfoUpdated.. if cannot possibly join dont announce it
-                hostedInfoUpdated = false;
-            }
-
             if( retResultInfo )
             {
                 *retResultInfo = *iter;

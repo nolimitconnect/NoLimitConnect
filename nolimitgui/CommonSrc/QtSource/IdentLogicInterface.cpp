@@ -76,6 +76,9 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 			connect( getIdentPushToTalkButton(), SIGNAL(clicked()), this, SLOT(slotIdentPushToTalkButtonClicked()) );
 		}
 
+		getIdentAvatarButton()->setIcon( eMyIconUnknown );
+		getIdentFriendshipButton()->setIcon( eMyIconUnknown );
+
 		connect( getIdentAvatarButton(), SIGNAL(clicked()), this, SLOT(slotIdentAvatarButtonClicked()) );
 		connect( getIdentFriendshipButton(), SIGNAL(clicked()), this, SLOT(slotIdentFrienshipButtonClicked()) );
 		connect( getIdentMenuButton(), SIGNAL(clicked()), this, SLOT(slotIdentMenuButtonClicked()) );
@@ -302,8 +305,27 @@ void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 			}
 		}
 
-		getIdentLine1()->setText( guiHosted->getHostTitle().c_str() );
-		getIdentLine2()->setText( guiHosted->getHostDescription().c_str() );
+		if( !guiHosted->getHostTitle().empty() )
+		{
+			getIdentLine1()->setText( guiHosted->getHostTitle().c_str() );
+			getIdentLine1()->setVisible( true );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "IdentLogicInterface::updateHosted no host title" );
+		}
+
+		if( !guiHosted->getHostDescription().empty() )
+		{
+			getIdentLine2()->setText( guiHosted->getHostDescription().c_str() );
+			getIdentLine2()->setVisible( true );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "IdentLogicInterface::updateHosted no host description" );
+		}
+		
+
         getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( guiHosted->getAdminId().getHostOnlineId() ) );
 	}
 	else

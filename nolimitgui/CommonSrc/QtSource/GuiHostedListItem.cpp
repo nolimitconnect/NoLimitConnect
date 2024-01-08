@@ -123,15 +123,14 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
     }
 
     GuiUser* guiUser = hostSession->getGuiUser();
-    if( !guiUser )
-    {
-        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost null host admin user" );
-        return;
-    }
 
     if( guiUser )
     {
         updateIdentity( guiUser );
+    }
+    else
+    {
+        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost null host admin user" );
     }
     
     updateHosted( guiHosted );
