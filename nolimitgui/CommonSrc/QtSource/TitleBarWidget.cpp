@@ -144,16 +144,17 @@ TitleBarWidget::~TitleBarWidget()
 void TitleBarWidget::updateTitleBar( void )
 {
     checkTitleBarIconsFit();
-    bool isMicEnabled = GetAppInstance().getSoundMgr().isMicrophoneEnabled();
+    SoundMgr& sndMgr = m_MyApp.getSoundMgr();
+    bool isMicEnabled = sndMgr.isMicrophoneEnabled();
     callbackToGuiWantMicrophoneRecording( isMicEnabled );
 
-    m_MutedMic = GetAppInstance().getSoundMgr().getIsMicrophoneMuted();
+    m_MutedMic = sndMgr.getIsMicrophoneMuted();
     callbackToGuiMicrophoneMuted( m_MutedMic );
 
-    m_MutedSpeaker = GetAppInstance().getSoundMgr().getIsSpeakerMuted();
+    m_MutedSpeaker = sndMgr.getIsSpeakerMuted();
     callbackToGuiSpeakerMuted( m_MutedSpeaker );
 
-    bool isCamEnabled = GetAppInstance().getCamLogic().isCamCaptureRunning();
+    bool isCamEnabled = m_MyApp.getCamLogic().isCamCaptureRunning();
     callbackToGuiWantVideoCapture( isCamEnabled );
 
     checkTitleBarIconsFit();

@@ -40,7 +40,7 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return true;
 	}
 
-		// verify dest is someone who has connected
+	// verify dest is someone who has connected
 	BigListInfo* destBigInfo = m_Engine.getBigListMgr().findBigListInfo( destOnlineId );
 	if( !destBigInfo )
 	{
