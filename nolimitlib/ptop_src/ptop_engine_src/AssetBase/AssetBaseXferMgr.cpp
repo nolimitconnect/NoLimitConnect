@@ -367,7 +367,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
         LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetBaseGetReq Invalid Packet" );
         vx_assert( false );
         pktReply->setError( eXferErrorBadParam );
-        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getOverridePluginType() );
+        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getAssetOverridePluginType() );
         delete pktReply;
         return;
     }
@@ -375,7 +375,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     if( !(eAssetTypeThumbnail == assetType) && !netIdent->isHisAccessAllowedFromMe( m_XferInterface.getPluginType() ) )
     {            
         pktReply->setError( eXferErrorPermission );
-        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getOverridePluginType() );
+        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getAssetOverridePluginType() );
         delete pktReply;
         return;
     }
@@ -383,7 +383,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     if( !assetUniqueId.isVxGUIDValid() || !rmtSessionId.isVxGUIDValid()  || !lclSessionId.isVxGUIDValid() )
     {
         pktReply->setError( eXferErrorBadParam );
-        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getOverridePluginType() );
+        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getAssetOverridePluginType() );
         delete pktReply;
         return;
     }
@@ -392,7 +392,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     if( !assetInfo )
     {
         pktReply->setError( eXferErrorFileNotFound );
-        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getOverridePluginType());
+        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getAssetOverridePluginType());
         delete pktReply;
         return;
     }
@@ -400,7 +400,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     if( !m_AssetBaseMgr.doesAssetExist( *assetInfo ) )
     {
         pktReply->setError( eXferErrorFileNotFound );
-        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getOverridePluginType() );
+        m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getAssetOverridePluginType() );
         delete pktReply;
         return;
     }
@@ -1620,7 +1620,7 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
 	sendReq->fillPktFromAsset( assetInfo );
 	sendReq->setLclSessionId( xferInfo.getLclSessionId() );
 	sendReq->setRmtSessionId( xferInfo.getRmtSessionId() );
-	if( false == m_PluginMgr.pluginApiTxPacket( m_XferInterface.getPluginType(), sendToId, sktBase, sendReq, m_XferInterface.getOverridePluginType() ) )
+	if( false == m_PluginMgr.pluginApiTxPacket( m_XferInterface.getPluginType(), sendToId, sktBase, sendReq, m_XferInterface.getAssetOverridePluginType() ) )
 	{
 		xferErr = eXferErrorDisconnected;
 	}	
@@ -1668,7 +1668,7 @@ EXferError AssetBaseXferMgr::createAssetRxSessionAndReceive( bool pluginIsLocked
         pktReq->setAssetType( assetInfo.getAssetType() );
         pktReq->setUniqueId( assetInfo.getAssetUniqueId() );
         pktReq->getLclSessionId().initializeWithNewVxGUID();
-        if( !m_XferInterface.txPacket( sendToId, sktBase, pktReq, m_XferInterface.getOverridePluginType() ) )
+        if( !m_XferInterface.txPacket( sendToId, sktBase, pktReq, m_XferInterface.getAssetOverridePluginType() ) )
         {
             xferErr = eXferErrorDisconnected;
         }
@@ -2153,7 +2153,7 @@ EXferError AssetBaseXferMgr::rxAssetBaseChunk( bool pluginIsLocked, AssetBaseRxS
                 xferMutex.unlock();
             }
 
-			if( false == m_XferInterface.txPacket( xferSession->getSendToId(), sktBase, pktChunkReply, m_XferInterface.getOverridePluginType() ) )
+			if( false == m_XferInterface.txPacket( xferSession->getSendToId(), sktBase, pktChunkReply, m_XferInterface.getAssetOverridePluginType() ) )
 			{
 				xferErr = eXferErrorDisconnected;
 			}
@@ -2205,7 +2205,7 @@ void AssetBaseXferMgr::finishAssetBaseReceive( AssetBaseRxSession* xferSession, 
 	}
 	else
 	{
-		LogMsg( LOG_ERROR,  "AssetBaseXferMgr::finishAssetBaseReceive: NULL file handle" );
+		LogMsg( LOG_ERROR, "AssetBaseXferMgr::finishAssetBaseReceive: NULL file handle" );
 	}
 
 	//// let other act on the received file
@@ -2215,8 +2215,8 @@ void AssetBaseXferMgr::finishAssetBaseReceive( AssetBaseRxSession* xferSession, 
     pktCompleteReply->setLclSessionId( xferInfo.getLclSessionId() );
     pktCompleteReply->setRmtSessionId( xferInfo.getRmtSessionId() );
     pktCompleteReply->setAssetUniqueId( xferSession->getAssetBaseInfo().getAssetUniqueId() );
-	m_XferInterface.txPacket( xferSession->getSendToId(), xferSession->getSkt(), pktCompleteReply, m_XferInterface.getOverridePluginType() );
-	LogMsg( LOG_INFO,  "VxPktHandler: Done Receiving file %s", strAssetBaseName.c_str() );
+	m_XferInterface.txPacket( xferSession->getSendToId(), xferSession->getSkt(), pktCompleteReply, m_XferInterface.getAssetOverridePluginType() );
+	LogMsg( LOG_INFO, "VxPktHandler: Done Receiving file %s", strAssetBaseName.c_str() );
 
 	xferSession->setErrorCode( poPkt->getError() );
 	onAssetBaseReceived( xferSession, xferSession->getAssetBaseInfo(), (EXferError)poPkt->getError(), pluginIsLocked );

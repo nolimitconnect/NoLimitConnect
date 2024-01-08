@@ -25,7 +25,7 @@ class BaseXferInterface
 public:
     virtual VxMutex&            getAssetXferMutex( void ) = 0;
     virtual EPluginType         getPluginType( void ) = 0;
-    virtual EPluginType         getOverridePluginType( void ) { return ePluginTypeInvalid; }
+    virtual EPluginType         getAssetOverridePluginType( void ) { return ePluginTypeInvalid; }
     virtual std::string         getAssetXferDbName( void ) { std::string dbName = GetPluginName( getPluginType() ); dbName += "Db.db3"; return dbName; }
     virtual std::string         getAssetXferThreadName( void ) { std::string thrdName = GetPluginName( getPluginType() ); thrdName += "Thrd"; return thrdName; }
 

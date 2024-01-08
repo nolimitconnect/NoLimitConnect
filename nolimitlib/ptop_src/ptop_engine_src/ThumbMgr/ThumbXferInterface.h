@@ -18,13 +18,13 @@ class ThumbXferInterface : public BaseXferInterface
 public:
     ThumbXferInterface( PluginBase& pluginBase );
 
-    virtual VxMutex&            getAssetXferMutex( void ) override;
-    virtual EPluginType         getPluginType( void ) override;
-    virtual EPluginType         getOverridePluginType( void ) override { return ePluginTypeInvalid; }
-    virtual std::string         getAssetXferDbName( void ) override;
-    virtual std::string         getAssetXferThreadName( void ) override;
+    VxMutex&                    getAssetXferMutex( void ) override;
+    EPluginType                 getPluginType( void ) override;
+    EPluginType                 getAssetOverridePluginType( void ) override { return ePluginTypeInvalid; }
+    std::string                 getAssetXferDbName( void ) override;
+    std::string                 getAssetXferThreadName( void ) override;
 
-    virtual bool                txPacket( const VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, EPluginType overridePluginType = ePluginTypeInvalid ) override;
+    bool                        txPacket( const VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, EPluginType overridePluginType = ePluginTypeInvalid ) override;
 
     PluginBase&                 m_PluginBase;
 };

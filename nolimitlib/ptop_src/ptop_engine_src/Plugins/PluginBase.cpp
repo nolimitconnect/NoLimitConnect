@@ -717,3 +717,10 @@ bool PluginBase::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGU
     pktReq.setPluginNum( (uint8_t)ePluginTypeHostNetwork );
     return txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq, ePluginTypeHostNetwork );
 }
+
+//============================================================================
+EPluginType PluginBase::getAssetOverridePluginType( void )
+{
+    // assets are normally only transfered between clients
+    return HostPluginToClientPluginType( getPluginType() );
+}
