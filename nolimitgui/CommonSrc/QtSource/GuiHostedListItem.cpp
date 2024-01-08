@@ -181,6 +181,12 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
         joinState = m_MyApp.getUserJoinMgr().getUserJoinState( groupiId );
     }
 
+    if( eJoinStateJoinIsGranted == joinState && !m_MyApp.getUserMgr().isUserOnline( groupiId.getHostOnlineId() ) )
+    {
+        // use is disconnected
+        joinState = eJoinStateJoinWasGranted;
+    }
+
     setJoinedState( joinState );
 
     if( guiHosted->getIsIgnored() )
