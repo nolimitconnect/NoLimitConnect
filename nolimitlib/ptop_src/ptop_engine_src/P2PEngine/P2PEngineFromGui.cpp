@@ -397,24 +397,25 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
         if( false == result )
         {
             LogMsg( LOG_ERROR, "PEngine::fromGuiAssetAction failed to add asset" );
+			return false;
         }
 
 		if( createdAssetInfo )
 		{
-			fromGuiSendAsset( *createdAssetInfo );
+			return fromGuiSendAsset( *createdAssetInfo );
 		}	
 	}
 	else if( eAssetActionAssetSend == assetAction )
 	{
 		assetInfo.setAssetSendState( eAssetSendStateTxProgress );
 		IToGui::getToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
-		fromGuiSendAsset( assetInfo );
+		return fromGuiSendAsset( assetInfo );
 	}
 	else if( eAssetActionAssetResend == assetAction )
 	{
 		assetInfo.setAssetSendState( eAssetSendStateTxProgress );
 		IToGui::getToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
-		fromGuiSendAsset( assetInfo );
+		return fromGuiSendAsset( assetInfo );
 	}
 	else if( eAssetActionShreadFile == assetAction )
 	{
