@@ -308,7 +308,6 @@ void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 		if( !guiHosted->getHostTitle().empty() )
 		{
 			getIdentLine1()->setText( guiHosted->getHostTitle().c_str() );
-			getIdentLine1()->setVisible( true );
 		}
 		else
 		{
@@ -318,7 +317,6 @@ void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 		if( !guiHosted->getHostDescription().empty() )
 		{
 			getIdentLine2()->setText( guiHosted->getHostDescription().c_str() );
-			getIdentLine2()->setVisible( true );
 		}
 		else
 		{
