@@ -135,4 +135,5 @@ protected:
 
     std::string                 m_ReconnectToHost;
     QTimer*                     m_ReconnectToHostTimer{ nullptr };
+    int                         m_ReconnectToHostAttempts{ 0 };
 };

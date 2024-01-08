@@ -76,7 +76,7 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 			connect( getIdentPushToTalkButton(), SIGNAL(clicked()), this, SLOT(slotIdentPushToTalkButtonClicked()) );
 		}
 
-		getIdentAvatarButton()->setIcon( eMyIconUnknown );
+		getIdentAvatarButton()->setIcon( eMyIconAvatarImage );
 		getIdentFriendshipButton()->setIcon( eMyIconUnknown );
 
 		connect( getIdentAvatarButton(), SIGNAL(clicked()), this, SLOT(slotIdentAvatarButtonClicked()) );

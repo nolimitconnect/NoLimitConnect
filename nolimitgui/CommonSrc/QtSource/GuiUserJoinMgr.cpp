@@ -554,12 +554,20 @@ void GuiUserJoinMgr::stopReconnectToLastConnectedHost( void )
 //============================================================================
 void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
 {
+    m_ReconnectToHostAttempts++;
     VxPtopUrl ptopUrl( m_ReconnectToHost );
     EHostType hostType = ptopUrl.getHostType();
     if( IsHostARelayForUsers( hostType ) )
     {
         if( ptopUrl.isValid() )
         {
+            if( m_MyApp.getMemberActiveMgr().isMemberOfHostType( hostType, m_MyApp.getMyOnlineId() ) )
+            {
+                // already connected and joined a host
+                stopReconnectToLastConnectedHost();
+                return;
+            }
+
             if( ptopUrl.getOnlineId() != m_MyApp.getMyOnlineId() )
             {
                 std::string ptopUrlIpv4 = ptopUrl.getHostUrl( false );
@@ -589,6 +597,11 @@ void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
     else
     {
         LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", m_ReconnectToHost.c_str() );
+        stopReconnectToLastConnectedHost();
+    }
+
+    if( m_ReconnectToHostAttempts >= 3 )
+    {
         stopReconnectToLastConnectedHost();
     }
 }
