@@ -30,7 +30,7 @@ GuiPushToTalkMgr::GuiPushToTalkMgr()
 //============================================================================
 void GuiPushToTalkMgr::onSystemReady( void )
 {
-	connect( this, SIGNAL(signalInternalPushToTalkStatus(VxGUID,PushToTalkStatus) ), this, SLOT(slotInternalPushToTalkStatus(VxGUID,PushToTalkStatus)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPushToTalkStatus(VxGUID,EPushToTalkStatus) ), this, SLOT(slotInternalPushToTalkStatus(VxGUID,EPushToTalkStatus)), Qt::QueuedConnection );
 	GetAppInstance().getEngine().getPushToTalkMgr().wantPushToTalkCallbacks(this, true);
 }
 
