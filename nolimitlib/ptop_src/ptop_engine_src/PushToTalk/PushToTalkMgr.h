@@ -26,6 +26,8 @@ public:
 
     virtual void                pushToTalkStatusChange( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus );
  
+    EPushToTalkStatus           getPushToTalkStatus( VxGUID& onlineId );
+
 protected:
     void                        lockClientList( void )      { m_PushToTalkClientsMutex.lock(); }
     void                        unlockClientList( void )    { m_PushToTalkClientsMutex.unlock(); }
@@ -34,7 +36,6 @@ protected:
     void                        unlockStatusMap( void )    { m_PushToTalkStatusMutex.unlock(); }
 
     void                        setPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus );
-    EPushToTalkStatus           getPushToTalkStatus( VxGUID& onlineId );
 
     VxMutex                     m_PushToTalkClientsMutex;
     std::vector<PushToTalkCallback*> m_PushToTalkClients;

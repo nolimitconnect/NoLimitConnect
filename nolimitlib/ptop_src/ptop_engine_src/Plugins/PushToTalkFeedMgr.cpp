@@ -75,6 +75,7 @@ bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppM
 
 		m_SessionMgr.findOrCreateTxSessionWithOnlineId( onlineId, sktBase, false );
 		sendPushToTalkStart( onlineId, sktBase );
+		updatePushToTalkStatus( onlineId );
 		return true;
 	}
 	else
@@ -82,8 +83,10 @@ bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppM
 		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
 		sendPushToTalkStop( onlineId, sktBase );
 		removePushToTalkUser( onlineId, true );
+		updatePushToTalkStatus( onlineId );
 		return true;
 	}
+
 
     LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture %d done %s", enable, m_Engine.describeUser( onlineId ).c_str() );
 	return false;
@@ -405,7 +408,27 @@ bool PushToTalkFeedMgr::sendPushToTalkReq( VxGUID& onlineId, std::shared_ptr<VxS
 //============================================================================
 void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 {
+	EPushToTalkStatus prevStatus = m_Engine.getPushToTalkMgr().getPushToTalkStatus( onlineId );
 	EPushToTalkStatus status{ ePushToTalkStatusInvalid };
+	bool isTx = m_TxOnlineIdList.doesGuidExist( onlineId );
+	bool isRx = m_RxOnlineIdList.doesGuidExist( onlineId );
+	if( isTx && isRx )
+	{
+		status = ePushToTalkStatusDuplexEnabled;
+	}
+	else if( isTx )
+	{
+		status = ePushToTalkStatusTxEnabled;
+	}
+	else if( isRx )
+	{
+		status = ePushToTalkStatusRxEnabled;
+	}
+	else
+	{
+		status = ePushToTalkStatusNotActive;
+	}
+
 	if( !m_Engine.isUserConnected( onlineId ) )
 	{
 		status = ePushToTalStatusNoConnection;
@@ -414,29 +437,13 @@ void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 	}
 	else
 	{
-		bool isTx = m_TxOnlineIdList.doesGuidExist( onlineId );
-		bool isRx = m_RxOnlineIdList.doesGuidExist( onlineId );
-		if( isTx && isRx )
-		{
-			status = ePushToTalkStatusDuplexEnabled;
-		}
-		else if( isTx )
-		{
-			status = ePushToTalkStatusTxEnabled;
-		}
-		else if( isRx )
-		{
-			status = ePushToTalkStatusRxEnabled;
-		}
-		else
-		{
-			status = ePushToTalkStatusNotActive;
-		}
-
 		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, isTx );
 		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, isRx );
 	}	
 
-	m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, status );
+	if( status != prevStatus )
+	{
+		m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, status );
+	}
 }
 
