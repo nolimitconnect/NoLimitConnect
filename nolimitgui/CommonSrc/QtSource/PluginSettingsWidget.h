@@ -51,6 +51,7 @@ public:
 
 signals:
     void                        signalPluginSettingsApplied();
+    void                        signalThumbnailAssetChanged( VxGUID thumbId, bool isCircular );
 
 protected slots:
     virtual void                slotApplyServiceSettings();

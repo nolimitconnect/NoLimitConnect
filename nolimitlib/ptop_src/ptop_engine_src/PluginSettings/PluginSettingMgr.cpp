@@ -47,8 +47,9 @@ bool PluginSettingMgr::initPluginSettingMgr( void )
 //============================================================================
 bool PluginSettingMgr::setPluginSetting( PluginSetting& pluginSetting, int64_t modifiedTimeMs )
 {
-    m_SettingMutex.lock();
     bool result = initPluginSettingMgr();
+    bool settingApplied{ false };
+    m_SettingMutex.lock();
     if( result )
     {
         result = false;
@@ -76,16 +77,22 @@ bool PluginSettingMgr::setPluginSetting( PluginSetting& pluginSetting, int64_t m
 
             if( result )
             {
-                m_Engine.getPluginMgr().onPluginSettingChange( pluginSetting );
+                settingApplied = true;
             }
         }
         else
         {
             LogMsg( LOG_ERROR, "setPluginSetting invalid plugin type " );
+            vx_assert( false );
         }
     }
 
     m_SettingMutex.unlock();
+    if( result && settingApplied )
+    {
+        m_Engine.getPluginMgr().onPluginSettingChange( pluginSetting );
+    }
+
     return result;
 }
 

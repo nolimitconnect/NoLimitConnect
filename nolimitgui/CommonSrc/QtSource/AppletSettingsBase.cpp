@@ -28,6 +28,7 @@ AppletSettingsBase::AppletSettingsBase( const char* ObjName, AppCommon& app, QWi
 void AppletSettingsBase::connectServiceWidgets()
 {
     connect( getPluginSettingsWidget()->getApplyButton(), SIGNAL( clicked() ), this, SLOT( slotApplyServiceSettings() ) );
+    connect( getPluginSettingsWidget(), SIGNAL(signalThumbnailAssetChanged(VxGUID,bool)), this, SLOT(slotThumbnailAssetChanged(VxGUID,bool)) );
 }
 
 //============================================================================
@@ -36,9 +37,7 @@ void AppletSettingsBase::loadPluginSetting()
     if( ePluginTypeInvalid != getPluginType() )
     {
         m_OrigPermissionLevel = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( getPluginType() );
-        m_OrigConnectTestPermission = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( getConnectionTestWidget()->getPluginType() );
         getPluginSettingsWidget()->getPermissionWidget()->setPermissionLevel( m_OrigPermissionLevel );
-        getConnectionTestWidget()->setPermissionLevel( m_OrigConnectTestPermission );
 
         m_PluginSetting.setPluginType( getPluginType() );// must set before get settings so engine will know which
         m_MyApp.getEngine().getPluginSettingMgr().getPluginSetting( getPluginType(), m_PluginSetting );
@@ -81,17 +80,17 @@ void AppletSettingsBase::slotApplyServiceSettings()
     m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting );
 
     EFriendState newPermissionLevel = getPluginSettingsWidget()->getPermissionWidget()->getPermissionLevel();
-    EFriendState newConnectionTestPermission = getConnectionTestWidget()->getPermissionLevel();
     if( newPermissionLevel != m_OrigPermissionLevel )
     {
         m_MyApp.getEngine().setPluginPermission( getPluginSettingsWidget()->getPermissionWidget()->getPluginType(), newPermissionLevel );
     }
 
-    if( newConnectionTestPermission != m_OrigConnectTestPermission )
-    {
-        m_MyApp.getEngine().setPluginPermission( getConnectionTestWidget()->getPluginType(), newConnectionTestPermission );
-    }
-
     savePluginSetting();
     QMessageBox::information( this, QObject::tr( "Service Settings" ), QObject::tr( "Service Settings Applied" ), QMessageBox::Ok );
+}
+
+//============================================================================
+void AppletSettingsBase::slotThumbnailAssetChanged( VxGUID thumbId, bool isCircular )
+{
+    m_PluginSetting.setThumnailId( thumbId, isCircular );
 }

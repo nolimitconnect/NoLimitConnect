@@ -27,7 +27,6 @@ public:
 	virtual ~AppletSettingsHostBase() = default;
             
     PluginSettingsWidget*       getPluginSettingsWidget() { return ui.m_PluginSettingsWidget; }
-    PermissionWidget*           getConnectionTestWidget() { return ui.m_ConnectTestPermissinWidget; }
 
 protected slots:
     void                        slotHostRequirementsButtonClicked();
@@ -35,7 +34,7 @@ protected slots:
 
 protected:
     void                        loadPluginSetting();
-    void                        savePluginSetting();
+    bool                        savePluginSetting();
 
     Ui::AppletSettingsHostBaseUi ui;
 };

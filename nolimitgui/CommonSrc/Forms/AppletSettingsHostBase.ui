@@ -87,16 +87,6 @@
         <widget class="PluginSettingsWidget" name="m_PluginSettingsWidget" native="true"/>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Recommend Anybody permission level (Optional)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="PermissionWidget" name="m_ConnectTestPermissinWidget" native="true"/>
-       </item>
-       <item>
         <widget class="FriendListWidget" name="m_FriendListWidget" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -117,12 +107,6 @@
    <class>FriendListWidget</class>
    <extends>QWidget</extends>
    <header>FriendListWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PermissionWidget</class>
-   <extends>QWidget</extends>
-   <header>PermissionWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -24,8 +24,6 @@ AppletSettingsHostBase::AppletSettingsHostBase( const char* ObjName, AppCommon& 
     getPluginSettingsWidget()->getPermissionWidget()->getPluginRunButton()->setVisible( false );
     getPluginSettingsWidget()->getPermissionWidget()->getPluginSettingsButton()->setVisible( false );
 
-    getConnectionTestWidget()->setPluginType( ePluginTypeHostConnectTest );
-
     connect( getPluginSettingsWidget()->getApplyButton(), SIGNAL( clicked() ), this, SLOT( slotApplyServiceSettings() ) );
     connect( ui.m_HostingRequirementsButton, SIGNAL( clicked() ), this, SLOT( slotHostRequirementsButtonClicked() ) );
 }
@@ -36,9 +34,8 @@ void AppletSettingsHostBase::loadPluginSetting()
     if( ePluginTypeInvalid != getPluginType() )
     {
         m_OrigPermissionLevel = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( getPluginType() );
-        m_OrigConnectTestPermission = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( getConnectionTestWidget()->getPluginType() );
+
         getPluginSettingsWidget()->getPermissionWidget()->setPermissionLevel( m_OrigPermissionLevel );
-        getConnectionTestWidget()->setPermissionLevel( m_OrigConnectTestPermission );
 
         m_PluginSetting.setPluginType( getPluginType() );// must set before get settings so engine will know which
         m_MyApp.getEngine().getPluginSettingMgr().getPluginSetting( getPluginType(), m_PluginSetting );
@@ -47,12 +44,16 @@ void AppletSettingsHostBase::loadPluginSetting()
 }
 
 //============================================================================
-void AppletSettingsHostBase::savePluginSetting()
+bool AppletSettingsHostBase::savePluginSetting()
 {
     if( (ePluginTypeInvalid != getPluginType()) && (ePluginTypeInvalid != m_PluginSetting.getPluginType()) )
     {
         saveUiToSetting();
-        m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting, m_MyApp.elapsedMilliseconds() );
+        return m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting, m_MyApp.elapsedMilliseconds() );
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -63,20 +64,21 @@ void AppletSettingsHostBase::slotApplyServiceSettings()
     m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting );
 
     EFriendState newPermissionLevel = getPluginSettingsWidget()->getPermissionWidget()->getPermissionLevel();
-    EFriendState newConnectionTestPermission = getConnectionTestWidget()->getPermissionLevel();
     if( newPermissionLevel != m_OrigPermissionLevel )
     {
         m_MyApp.getEngine().setPluginPermission( getPluginSettingsWidget()->getPermissionWidget()->getPluginType(), newPermissionLevel );
     }
 
-    if( newConnectionTestPermission != m_OrigConnectTestPermission )
+    if( savePluginSetting() )
     {
-        m_MyApp.getEngine().setPluginPermission( getConnectionTestWidget()->getPluginType(), newConnectionTestPermission );
+        QMessageBox::information( this, QObject::tr( "Host Settings" ), QObject::tr( "Host Settings Applied" ), QMessageBox::Ok );
+        LogMsg( LOG_VERBOSE, "Host Settings %s Applied", DescribeApplet( getAppletType() ).toUtf8().constData() );
     }
-
-    savePluginSetting();
-    QMessageBox::information( this, QObject::tr( "Host Settings" ), QObject::tr( "Host Settings Applied" ), QMessageBox::Ok );
-    LogMsg( LOG_VERBOSE, "Host Settings Applied" );
+    else
+    {
+        QMessageBox::information( this, QObject::tr( "Host Settings Failed" ), QObject::tr( "Host Settings Could Not Be Applied" ), QMessageBox::Ok );
+        LogMsg( LOG_ERROR, "ERROR Host Settings %s could NOT be Applied", DescribeApplet( getAppletType() ).toUtf8().constData() );
+    }
 }
 
 //============================================================================
