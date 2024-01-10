@@ -190,7 +190,6 @@ RCODE BigListDb::dbRestoreAll( void )
 				{
 					// clear temporary flags
 					poInfo->m_u32BigListTempFlags = 0;
-					poInfo->setIsNearby(false);
 					poInfo->setIsInDatabase( true );
 					poInfo->setLastSessionTimeMs( sessionTimeMs );
 

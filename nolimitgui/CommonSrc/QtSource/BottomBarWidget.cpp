@@ -15,6 +15,7 @@
 #include "AppletChooseUser.h"
 #include "GuiHelpers.h"
 #include "GuiHostedListMgr.h"
+#include "GuiMemberActiveMgr.h"
 #include "MyIcons.h"
 
 //============================================================================

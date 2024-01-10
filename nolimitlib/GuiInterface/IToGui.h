@@ -171,8 +171,6 @@ public:
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) = 0;
     virtual void				toGuiBlobSessionHistory( BlobInfo * assetInfo ) = 0;
 
-	virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) = 0;
-
 	/// Game variable has changed ( Used by Truth Or Dare video chat game )
 	virtual void				toGuiSetGameValueVar(	EPluginType	    pluginType,
 														VxGUID&		    oOnlineId, 

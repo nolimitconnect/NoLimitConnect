@@ -14,6 +14,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
+#include <Membership/MemberActiveMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/Invite.h>

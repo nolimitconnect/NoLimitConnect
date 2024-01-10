@@ -131,14 +131,6 @@ void AppletUserConnections::callbackUserRemoved( VxGUID& onlineId )
 }
 
 //============================================================================
-void AppletUserConnections::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-	LogModule( eLogUserEvent, LOG_DEBUG, "AppletUserConnections callbackUserRemoved id %s talk %s", 
-			onlineId.toOnlineIdString().c_str(), GuiParams::describePushToTalkStatus(pushToTalkStatus).toUtf8().constData() );
-	refreshList();
-}
-
-//============================================================================
 void AppletUserConnections::callbackMyIdentUpdated( GuiUser* guiUser ) 
 {
 	LogModule( eLogUserEvent, LOG_DEBUG, "AppletUserConnections callbackMyIdentUpdated %s", 

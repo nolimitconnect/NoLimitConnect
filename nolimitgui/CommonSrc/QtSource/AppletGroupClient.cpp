@@ -11,7 +11,8 @@
 #include "AppletGroupClient.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
+#include "GuiMemberActiveMgr.h"
+#include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
 

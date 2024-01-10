@@ -156,12 +156,6 @@ void AppletOfferList::callbackUserRemoved( VxGUID& onlineId )
 }
 
 //============================================================================
-void AppletOfferList::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    ui.m_OfferListWidget->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
-}
-
-//============================================================================
 void AppletOfferList::slotActiveOffersButtonClicked( void )
 {
     if( m_ListViewType != eOfferViewTypeActive )

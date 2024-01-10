@@ -175,7 +175,7 @@ void GroupieListMgr::addGroupieListMgrClient( GroupieListCallbackInterface* clie
 
     if( enable )
     {
-        m_GroupieInfoListClients.push_back( client );
+        m_GroupieInfoListClients.emplace_back( client );
     }
 
     unlockClientList();

@@ -48,7 +48,7 @@ protected:
 	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 	virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-    virtual	void				onContactWentOffline		( VxNetIdent*	netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
+    virtual	void				onContactWentOffline		( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
     virtual	void				onConnectionLost			( std::shared_ptr<VxSktBase>& sktBase ) override;
 
 	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};

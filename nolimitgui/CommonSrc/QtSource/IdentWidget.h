@@ -12,7 +12,7 @@
 #include "ui_IdentWidget.h"
 #include "IdentLogicInterface.h"
 
-class IdentWidget :  public IdentLogicInterface
+class IdentWidget : public IdentLogicInterface
 {
 	Q_OBJECT
 

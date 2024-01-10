@@ -15,6 +15,7 @@
 #include "GuiUserUpdateCallback.h"
 #include "GuiOnlineStatusCallback.h"
 #include "GuiMemberActiveCallback.h"
+#include "PushToTalk/PushToTalkCallback.h"
 
 #include <PktLib/GroupieId.h>
 
@@ -67,7 +68,6 @@ public:
 
     void                        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
     void				        callbackGuiMemberActive( GroupieId& groupieId, bool isActive ) override;
-    void				        callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
 
 signals:
     void                        signalUserAvatarClicked( GuiUser* guiUser );

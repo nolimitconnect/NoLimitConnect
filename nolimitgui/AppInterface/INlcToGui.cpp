@@ -541,12 +541,6 @@ void INlc::toGuiBlobSessionHistory( BlobInfo * hostListInfo )
 }
 
 //============================================================================
-void INlc::toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    getAppCommon().toGuiPushToTalkStatus( onlineId, pushToTalkStatus );
-}
-
-//============================================================================
 void INlc::toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort )
 {
     getAppCommon().toGuiNetworkIsTested( requiresRelay, ipAddr, ipPort );

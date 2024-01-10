@@ -275,6 +275,7 @@ list(APPEND nlc_HEADERS
 	CommonSrc/QtSource/GuiOfferMgrBase.h
     CommonSrc/QtSource/GuiOfferSession.h
     CommonSrc/QtSource/GuiOnlineStatusCallback.h
+    CommonSrc/QtSource/GuiPushToTalkMgr.h  
     CommonSrc/QtSource/GuiParams.h  
     CommonSrc/QtSource/GuiPlayerCallback.h 
     CommonSrc/QtSource/GuiPlayerMgr.h 
@@ -663,6 +664,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiParams.cpp
     CommonSrc/QtSource/GuiPlayerMgr.cpp
     CommonSrc/QtSource/GuiPluginMgr.cpp
+    CommonSrc/QtSource/GuiPushToTalkMgr.cpp  
     CommonSrc/QtSource/GuiThumb.cpp
     CommonSrc/QtSource/GuiThumbList.cpp
     CommonSrc/QtSource/GuiThumbMgr.cpp

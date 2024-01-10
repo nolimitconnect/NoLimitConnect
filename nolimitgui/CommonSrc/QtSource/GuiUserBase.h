@@ -40,9 +40,6 @@ public:
     void                        setSessionId( VxGUID& sessionId )       { m_SessionId = sessionId; }
     VxGUID&                     getSessionId( void )                    { return m_SessionId; }
 
-    void                        setPushToTalkStatus( EPushToTalkStatus pushToTalkStatus ) { m_PushToTalkStatus = pushToTalkStatus; }
-    EPushToTalkStatus           getPushToTalkStatus( void )             { return m_PushToTalkStatus; }
-
     bool                        updateIsNearby( void );
     virtual bool                setNearbyStatus( int64_t nearbyTimeOrZeroIfNotd ); // return false if nearbyTime is zero
     bool                        isNearby( void );
@@ -50,6 +47,8 @@ public:
     virtual bool                isOnline( void );
     bool                        isDirectConnect( void );
     bool                        isRelayed( void );
+
+    bool                        isAutomatedHost( void )                 { return m_NetIdent.isAutomatedHost(); }
 
     bool                        isAdmin( void )                         { return m_NetIdent.isAdministrator(); }
     bool                        isFriend( void )                        { return m_NetIdent.isFriend(); }
@@ -107,6 +106,4 @@ protected:
     VxGUID                      m_SessionId;
     uint64_t                    m_LastUpdateTime{ 0 };
     int64_t                     m_NearbyTimeOrZero{ 0 };
-
-    EPushToTalkStatus           m_PushToTalkStatus{ ePushToTalkStatusNotActive };
 };

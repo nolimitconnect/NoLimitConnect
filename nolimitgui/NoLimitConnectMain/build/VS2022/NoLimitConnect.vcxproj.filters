@@ -210,6 +210,12 @@
     <Filter Include="Source Files\GuiLoaderThread">
       <UniqueIdentifier>{70e95096-2288-48ca-93eb-5c2ff3fddc22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GuiPushToTalk">
+      <UniqueIdentifier>{66cec2db-2ef0-47e9-8425-45593fe187f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiPushToTalk">
+      <UniqueIdentifier>{a5cbf18a-3ba2-4c1a-8fc0-92bcc0d0cabe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -1117,6 +1123,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.h">
       <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.h">
+      <Filter>Source Files\GuiPushToTalk</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2254,6 +2263,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.cpp">
       <Filter>Source Files\GuiLoaderThread</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.cpp">
+      <Filter>Source Files\GuiPushToTalk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2549,6 +2561,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioDevices.h">
       <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkCallback.h">
+      <Filter>Source Files\GuiPushToTalk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,6 @@ protected:
     void				        callbackUserAdded( GuiUser* guiUser ) override;
     void				        callbackUserUpdated( GuiUser* guiUser ) override;
     void				        callbackUserRemoved( VxGUID& onlineId ) override;
-    void				        callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
     void				        callbackMyIdentUpdated( GuiUser* guiUser ) override;
 
     //! GuiUserJoinCallback

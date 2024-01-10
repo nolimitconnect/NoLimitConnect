@@ -160,15 +160,6 @@ void GuiUserListItem::updateThumb( GuiThumb* guiThumb )
 }
 
 //============================================================================
-void GuiUserListItem::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    if( getIdentPushToTalkButton() )
-    {
-        getIdentPushToTalkButton()->setPushToTalkStatus( pushToTalkStatus );
-    }
-}
-
-//============================================================================
 bool GuiUserListItem::operator<( const QListWidgetItem& other ) const
 {
     const GuiUserListItem* rhs = dynamic_cast<const GuiUserListItem*>(&other);

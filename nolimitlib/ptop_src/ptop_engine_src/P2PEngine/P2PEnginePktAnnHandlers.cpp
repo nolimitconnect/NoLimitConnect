@@ -9,7 +9,9 @@
 //============================================================================
 
 #include "P2PEngine.h"
+
 #include <BigListLib/BigListInfo.h>
+#include <Membership/MemberActiveMgr.h>
 
 #include <NetLib/VxSktBase.h>
 #include <CoreLib/VxDebug.h>

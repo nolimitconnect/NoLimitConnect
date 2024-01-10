@@ -25,8 +25,8 @@ public:
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
 
-	void						setIsNearby( bool bIsNearby );
-	bool						isNearby( void );
+	void						setIsAutomatedHost( bool bIsNearby );
+	bool						isAutomatedHost( void );
 
 	void						setHasTextOffers( bool hasOffers );
 	bool						getHasTextOffers( void );

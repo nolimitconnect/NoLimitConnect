@@ -53,8 +53,6 @@ public:
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;
     virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) override; 
 
-    virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
-
     bool                        isUserRelayed( VxGUID& onlineId );
     bool                        isUserOnline( VxGUID& onlineId );
     bool                        isUserInSession( VxGUID& onlineId );

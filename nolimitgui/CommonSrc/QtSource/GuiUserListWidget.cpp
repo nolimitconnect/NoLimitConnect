@@ -14,10 +14,10 @@
 #include "GuiUserListWidget.h"
 #include "GuiUserSessionBase.h"
 
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "GuiMemberActiveMgr.h"
 #include "GuiParams.h"
 
 #include <CoreLib/VxDebug.h>
@@ -822,16 +822,6 @@ void GuiUserListWidget::updateThumb( GuiThumb* guiThumb )
         userItem->updateThumb( guiThumb );
     }
     */
-}
-
-//============================================================================
-void GuiUserListWidget::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    GuiUserListItem* userItem = findListEntryWidgetByOnlineId( onlineId );
-    if( userItem )
-    {
-        userItem->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
-    }
 }
 
 //============================================================================

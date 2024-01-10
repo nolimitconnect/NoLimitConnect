@@ -15,11 +15,11 @@
 #include "AppCommon.h"
 
 #include <P2PEngine/P2PEngine.h>
+#include <Membership/MemberActiveMgr.h>
 
 //============================================================================
-GuiMemberActiveMgr::GuiMemberActiveMgr( AppCommon& app )
-    : QObject( &app )
-    , m_MyApp( app )
+GuiMemberActiveMgr::GuiMemberActiveMgr()
+    : QObject()
 {
 }
 
@@ -28,7 +28,7 @@ void GuiMemberActiveMgr::onAppCommonCreated( void )
 {
     connect( this, SIGNAL(signalInternalMemberActive(GroupieId,bool)), this, SLOT(slotInternalMemberActive(GroupieId,bool)), Qt::QueuedConnection );
 
-    m_MyApp.getEngine().getMemberActiveMgr().wantMemberActiveCallbacks( this, true );
+    GetPtoPEngine().getMemberActiveMgr().wantMemberActiveCallbacks( this, true );
 }
 
 //============================================================================
@@ -85,11 +85,11 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
 {
     if( !groupieId.isValid() )
     {
-        LogMsg( LOG_ERROR, "MemberActiveMgr::updateMemberActive invalid groupieId %s", m_MyApp.describeGroupieId( groupieId ).c_str() );
+        LogMsg( LOG_ERROR, "MemberActiveMgr::updateMemberActive invalid groupieId %s", GetAppInstance().describeGroupieId(groupieId).c_str());
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "MemberActiveMgr::updateMemberActive groupieId %s active %d", m_MyApp.describeGroupieId( groupieId ).c_str(), isActive );
+    LogMsg( LOG_VERBOSE, "MemberActiveMgr::updateMemberActive groupieId %s active %d", GetAppInstance().describeGroupieId( groupieId ).c_str(), isActive );
 
     bool wasMember = isMemberOfHostType( groupieId.getHostType(), groupieId.getUserOnlineId() );
 

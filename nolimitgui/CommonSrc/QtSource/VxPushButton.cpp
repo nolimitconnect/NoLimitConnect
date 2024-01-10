@@ -982,29 +982,22 @@ void VxPushButton::setPushToTalkStatus( EPushToTalkStatus pushToTalkStatus )
         rxOn = true;
         break;
 
-    case ePushToTalStatuskNoConnection:
+    case ePushToTalStatusNoConnection:
     case ePushToTalkStatusInvalid:
     case ePushToTalkStatusNotActive:
     default:
         break;
     }
 
-    if( txOn || rxOn )
+    if( txOn )
     {
         setIcon( eMyIconPushToTalkOn );      
-
-        if( txOn && rxOn )
-        {
-            setNotifyType( eNotifyOnline );
-        }
-        else if( txOn )
-        {
-            setNotifyType( eNotifyRelayed );
-        }
-        else
-        {
-            setNotifyType( eNotifyOffline );
-        }
+        setNotifyType( eNotifyOnline );
+    }
+    else if( rxOn )
+    {
+        setIcon( eMyIconPushToTalkOn );
+        setNotifyType( eNotifyRelayed );
     }
     else
     {

@@ -404,8 +404,6 @@ public:
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
     virtual void				toGuiBlobSessionHistory( BlobInfo * assetInfo ) override;
 
-    virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
-
     virtual void				toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort )  override;
 
     //============================================================================

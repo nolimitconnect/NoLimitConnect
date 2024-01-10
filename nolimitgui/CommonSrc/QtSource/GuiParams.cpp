@@ -1401,7 +1401,7 @@ QString GuiParams::describePushToTalkStatus( EPushToTalkStatus pushToTalkStatus 
         talkStatus = QObject::tr(" Duplex Enabled " );
         break;
 
-    case ePushToTalStatuskNoConnection:
+    case ePushToTalStatusNoConnection:
         talkStatus = QObject::tr(" No Connection " );
         break;
 

@@ -16,6 +16,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
 #include <BaseInfo/BaseSessionInfo.h>
+#include <Membership/MemberActiveMgr.h>
 #include <Plugins/PluginMgr.h>
 #include <Plugins/PluginBaseHostClient.h>
 

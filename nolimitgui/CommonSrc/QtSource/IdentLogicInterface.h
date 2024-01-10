@@ -11,12 +11,14 @@
 
 #include "GuiParams.h"
 #include "GuiUserUpdateCallback.h"
+#include "GuiPushToTalkCallback.h"
 #include "MyIconsDefs.h"
+
+#include <CoreLib/VxGUID.h>
 
 #include <QWidget>
 
 class AppCommon;
-class VxGUID;
 class VxPushButton;
 class VxNetIdent;
 class QLabel;
@@ -27,7 +29,7 @@ class GuiUserJoin;
 class GuiGroupie;
 class GuiOfferSession;
 
-class IdentLogicInterface : public QWidget, public GuiUserUpdateCallback
+class IdentLogicInterface : public QWidget, public GuiUserUpdateCallback, public GuiPushToTalkCallback
 {
 	Q_OBJECT
 public:
@@ -124,13 +126,15 @@ protected slots:
 	void						slotIdentPushToTalkButtonClicked( void );
 
 protected:
-	virtual void				callbackUserUpdated( GuiUser* guiUser ) override;
-	virtual void				callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
+	void						callbackUserUpdated( GuiUser* guiUser ) override;
+	void						callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
+    void						callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus ) override;
 
 	AppCommon&					m_MyApp;
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	EHostType					m_HostType{ eHostTypeUnknown };
 	GuiUser*					m_GuiUser{ nullptr };
+	VxGUID						m_UserOnlineId;
 	GuiOfferSession*			m_OfferSession{ nullptr };
 	bool						m_IsSignalsConnected{ false };
 	bool						m_DisableFriendshipChange{ false };

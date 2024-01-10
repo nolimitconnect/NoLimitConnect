@@ -28,20 +28,11 @@ public:
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) = 0; 
 
      virtual void				toGuiContactUpdated( VxNetIdent* netIdent ) = 0; 
-
-    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0; 
-    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) = 0; 
-    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) = 0; 
-
-    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) = 0; 
-    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) = 0
         ; 
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) = 0; 
 
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) = 0; 
     virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) = 0;
-
-    virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) = 0;
 };
 
 

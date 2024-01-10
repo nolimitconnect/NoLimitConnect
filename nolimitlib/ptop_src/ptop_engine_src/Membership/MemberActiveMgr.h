@@ -23,8 +23,7 @@ class P2PEngine;
 class MemberActiveMgr : public OnlineStatusCallback
 {
 public:
-    MemberActiveMgr() = delete;
-    MemberActiveMgr( P2PEngine& engine );
+    MemberActiveMgr() = default;
     virtual ~MemberActiveMgr() = default;
 
     void                        wantMemberActiveCallbacks( MemberActiveCallback* client, bool enable );
@@ -47,7 +46,6 @@ protected:
 
     virtual void                announceMemberActive( GroupieId& groupieId, bool memberActive );
     
-    P2PEngine&                  m_Engine;
     VxMutex                     m_MemberListMutex;
     std::vector<GroupieId>      m_MemberList;
 

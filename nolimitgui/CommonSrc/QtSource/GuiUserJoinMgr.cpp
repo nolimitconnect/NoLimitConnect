@@ -12,6 +12,7 @@
 #include "GuiUserJoinCallback.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "GuiMemberActiveMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <UserJoinMgr/UserJoinInfo.h>

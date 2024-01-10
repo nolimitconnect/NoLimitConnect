@@ -14,8 +14,9 @@
 #include "GuiHelpers.h"
 #include "GuiUser.h"
 #include "GuiHostJoin.h"
+#include "GuiPushToTalkMgr.h"
 #include "IdentLogicInterface.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "SoundMgr.h"
 #include "VxPushButton.h"
 
@@ -32,6 +33,7 @@ IdentLogicInterface::IdentLogicInterface( QWidget* parent )
 //============================================================================
 IdentLogicInterface::~IdentLogicInterface()
 {
+	m_MyApp.getPushToTalkMgr().wantGuiPushToTalkCallbacks( this, false );
 	m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, false );
 }
 
@@ -174,7 +176,13 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			//			   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
 			//}
 
-			m_GuiUser = guiUser;
+			if( !m_GuiUser )
+			{
+				m_GuiUser = guiUser;
+				m_UserOnlineId = guiUser->getMyOnlineId();
+				m_MyApp.getPushToTalkMgr().wantGuiPushToTalkCallbacks( this, true );
+			}
+
 			setupIdentLogic();
 
 			bool isOnline = m_GuiUser->isOnline();
@@ -194,7 +202,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 				if( isOnline && m_GuiUser->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && m_GuiUser->isHisAccessAllowedFromMe( ePluginTypePushToTalk ) )
 				{
 					getIdentPushToTalkButton()->setVisible( true );
-					getIdentPushToTalkButton()->setPushToTalkStatus( m_GuiUser->getPushToTalkStatus() );
+					getIdentPushToTalkButton()->setPushToTalkStatus( m_MyApp.getPushToTalkMgr().getPushToTalkStatus( m_UserOnlineId ) );
 				}
 				else
 				{
@@ -542,17 +550,17 @@ void IdentLogicInterface::toggleIdentPushToTalk( void )
 {
 	if( m_GuiUser )
 	{
-        EPushToTalkStatus status = m_GuiUser->getPushToTalkStatus();
+        EPushToTalkStatus status = m_MyApp.getPushToTalkMgr().getPushToTalkStatus( m_UserOnlineId );
         if( status == ePushToTalkStatusTxEnabled || status == ePushToTalkStatusDuplexEnabled )
 		{
-			if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_GuiUser->getMyOnlineId(), false ) )
+			if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_UserOnlineId, false ) )
 			{
 				m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
 			}
 		}
 		else
 		{
-			if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_GuiUser->getMyOnlineId(), true ) )
+			if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_UserOnlineId, true ) )
 			{
 				m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
 			}
@@ -665,5 +673,17 @@ void IdentLogicInterface::callbackOnlineStatusChange( GuiUser* guiUser, bool isO
 	if( guiUser == m_GuiUser )
 	{
 		updateIdentity( m_GuiUser );
+	}
+}
+
+//============================================================================
+void IdentLogicInterface::callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus )
+{
+	if( onlineId == m_UserOnlineId )
+	{
+		if( getIdentPushToTalkButton() )
+		{
+			getIdentPushToTalkButton()->setPushToTalkStatus( pushToTalkStatus );
+		}
 	}
 }

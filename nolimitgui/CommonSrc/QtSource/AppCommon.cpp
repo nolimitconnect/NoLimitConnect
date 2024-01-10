@@ -40,6 +40,8 @@
 
 #include "FileListReplySession.h"
 #include "GuiAppLoaderThread.h"
+#include "GuiMemberActiveMgr.h"
+#include "GuiPushToTalkMgr.h"
 #include "VxPushButton.h"
 
 #include <BlobXferMgr/BlobInfo.h>
@@ -133,10 +135,12 @@ AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp )
 {
 static AppSettings appSettings;
 static AccountMgr accountMgr;
+static GuiMemberActiveMgr memberActiveMgr;
+static GuiPushToTalkMgr pushToTalkMgr;
     if( !g_AppCommon )
     {
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc );
+        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, memberActiveMgr, pushToTalkMgr );
     }
 
     return *g_AppCommon;
@@ -160,7 +164,9 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						EDefaultAppMode appDefaultMode,
 						AppSettings&	appSettings, 
                         AccountMgr&	    accountMgr,
-						INlc&		    nlc )
+						INlc&		    nlc,
+						GuiMemberActiveMgr& memberActiveMgr,
+						GuiPushToTalkMgr& pushToTalkMgr )
 : QWidget()
 , m_QApp( myQApp )
 , m_AppDefaultMode( appDefaultMode )
@@ -173,8 +179,9 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_ConnectIdListMgr( *this )
 , m_FileXferMgr( *this )
 , m_ThumbMgr( *this )
-, m_MemberActiveMgr( *this )
+, m_MemberActiveMgr( memberActiveMgr )
 , m_OfferMgr( *this )
+, m_PushToTalkMgr( pushToTalkMgr )
 , m_UserMgr( *this )
 , m_GroupieListMgr( *this )
 , m_HostedListMgr( *this )
@@ -1510,28 +1517,6 @@ void AppCommon::slotInternalBlobSessionHistory( BlobInfo blobInfo )
 }
 
 //============================================================================
-void AppCommon::toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-	emit signalInternalPushToTalkStatus( onlineId, pushToTalkStatus );
-}
-
-//============================================================================
-void AppCommon::slotInternalPushToTalkStatus( VxGUID onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-	m_UserMgr.toGuiPushToTalkStatus( onlineId, pushToTalkStatus );
-}
-
-//============================================================================
 void AppCommon::toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort )
 {
 	if( VxIsAppShuttingDown() )
@@ -1855,6 +1840,8 @@ bool AppCommon::checkSystemReady( void )
 	{
 		// one time only each application and user ready at startup
 		m_IsGuiSystemReady = true;
+		m_PushToTalkMgr.onSystemReady();
+
 		m_CamLogic.camLogicStartup();
 		
 		m_ThumbMgr.onSystemReady( m_IsGuiSystemReady );

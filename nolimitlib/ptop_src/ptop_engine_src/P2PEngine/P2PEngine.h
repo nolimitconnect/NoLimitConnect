@@ -29,8 +29,6 @@
 #include <IdentListMgrs/IgnoreListMgr.h>
 #include <IdentListMgrs/NearbyListMgr.h>
 
-#include <Membership/MemberActiveMgr.h>
-
 #include <NetworkMonitor/NetStatusAccum.h>
 #include <OfferBase/OfferMgr.h>
 #include <PluginSettings/PluginSettingMgr.h>
@@ -65,8 +63,10 @@ class IToGui;
 class INlc;
 class IsPortOpenTest;
 class PluginMgr;
+class PushToTalkMgr;
 class RcConnectInfo;
 class MediaProcessor;
+class MemberActiveMgr;
 class NetworkMgr;
 class NetworkStateMachine;
 class NetConnector;
@@ -93,7 +93,7 @@ public:
     P2PEngine() = delete; // don't allow default constructor
     P2PEngine( const P2PEngine& ) = delete; // don't allow copy constructor
 
-	P2PEngine( VxPeerMgr& peerMgr );
+	P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, PushToTalkMgr& pushToTalkMgr );
 	virtual ~P2PEngine() override;
 
 	void						startupEngine( void );
@@ -130,6 +130,7 @@ public:
 	NetServicesMgr&				getNetServicesMgr( void )						{ return m_NetServicesMgr; }
 	MediaProcessor&				getMediaProcessor( void )						{ return m_MediaProcessor; }
     OfferMgr&                   getOfferMgr( void )                             { return m_OfferMgr; }
+    PushToTalkMgr&              getPushToTalkMgr( void )                        { return m_PushToTalkMgr; }
 	VxPeerMgr&					getPeerMgr( void )								{ return m_PeerMgr; }
     P2PConnectList&             getConnectList( void )                          { return m_ConnectionList; }
     PluginMgr&					getPluginMgr( void )							{ return m_PluginMgr; }
@@ -768,12 +769,13 @@ protected:
 	AssetMgr&					m_AssetMgr;
     BlobMgr&				    m_BlobMgr;
     OfferMgr&				    m_OfferMgr;
+    PushToTalkMgr&				m_PushToTalkMgr;
     ThumbMgr&					m_ThumbMgr;
     ConnectionMgr&              m_ConnectionMgr;
     ConnectMgr&                 m_ConnectMgr;
 	P2PConnectList				m_ConnectionList;
     MediaProcessor&				m_MediaProcessor;
-    MemberActiveMgr             m_MemberActiveMgr;
+    MemberActiveMgr&            m_MemberActiveMgr;
 
     NetworkMgr&					m_NetworkMgr;
 	NetworkMonitor&				m_NetworkMonitor;
@@ -791,7 +793,7 @@ protected:
 	IsPortOpenTest&				m_IsPortOpenTest;
     RelayMgr                    m_RelayMgr;
     RunUrlAction&			    m_RunUrlAction;
-    HostServerJoinMgr&				m_HostJoinMgr;
+    HostServerJoinMgr&			m_HostJoinMgr;
     UserJoinMgr&				m_UserJoinMgr;
     UserOnlineMgr&				m_UserOnlineMgr;
     WebPageMgr&                 m_WebPageMgr;

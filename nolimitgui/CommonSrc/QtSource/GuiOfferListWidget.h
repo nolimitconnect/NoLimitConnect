@@ -44,8 +44,6 @@ public:
     void                        updateUser( GuiUser* guiUser );
     void                        removeSession( VxGUID& uniqueId );
 
-    virtual void				callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
-
 signals:
     void                        signalUserAvatarClicked( GuiUser* guiUser );
 

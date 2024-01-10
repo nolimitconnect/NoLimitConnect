@@ -212,7 +212,7 @@ void AppletFriendListClient::onShowFriendTypeChanged( void )
         break;
 
     case eUserViewTypeNearby:
-        onShowNearbyList();
+        //onShowNearbyList();
         break;
 
     case eUserViewTypeOffline:
@@ -331,7 +331,7 @@ void AppletFriendListClient::updateUser( GuiUser* guiUser )
     {
         if( ( eUserViewTypeFriends == m_FriendListType && ( guiUser->isFriend() || guiUser->isAdmin() ) ) ||
             ( eUserViewTypeIgnored == m_FriendListType && guiUser->isIgnored() ) ||
-            ( eUserViewTypeNearby == m_FriendListType && guiUser->isNearby() ) ||
+            //( eUserViewTypeNearby == m_FriendListType && guiUser->isNearby() ) ||
             ( eUserViewTypeOffline == m_FriendListType && !guiUser->isOnline() )
             )
         {

@@ -13,8 +13,10 @@
 #include <AppInterface/INlc.h>
 #include <CoreLib/VxDebug.h>
 
-#include "ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h"
+#include "P2PEngine/P2PEngine.h"
 #include "../CommonSrc/QtSource/AppCommon.h"
+#include <Membership/MemberActiveMgr.h>
+#include <PushToTalk/PushToTalkMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxMutex.h>
@@ -65,7 +67,9 @@ VxPeerMgr& GetVxPeerMgr( void )
 //============================================================================
 P2PEngine& GetPtoPEngine()
 {
-    static P2PEngine g_P2PEngine( GetVxPeerMgr() );
+    static MemberActiveMgr memberActiveMgr;
+    static PushToTalkMgr pushToTalkMgr;
+    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, pushToTalkMgr );
     return g_P2PEngine;
 }
 

@@ -16,12 +16,6 @@
 #include <algorithm>
 
 //============================================================================
-MemberActiveMgr::MemberActiveMgr( P2PEngine& engine )
-    : m_Engine( engine )
-{
-}
-
-//============================================================================
 void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActive )
 {
     if( !groupieId.isValid() )
@@ -59,26 +53,26 @@ void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActiv
 
     if( wasUpdated )
     {
-        if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+        if( groupieId.getUserOnlineId() == GetPtoPEngine().getMyOnlineId() )
         {
             if( memberActive )
             {
-                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr myself member active with host %s", m_Engine.describeHostedId( groupieId.getHostedId() ).c_str() );
+                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr myself member active with host %s", GetPtoPEngine().describeHostedId( groupieId.getHostedId() ).c_str() );
             }
             else
             {
-                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr myself member NOT active with host %s", m_Engine.describeHostedId( groupieId.getHostedId() ).c_str() );
+                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr myself member NOT active with host %s", GetPtoPEngine().describeHostedId( groupieId.getHostedId() ).c_str() );
             }
         }
         else
         {
             if( memberActive )
             {
-                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr member %s active with my host %s", m_Engine.describeUser( groupieId.getUserOnlineId() ).c_str(), DescribeHostType( groupieId.getHostType() ) );
+                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr member %s active with my host %s", GetPtoPEngine().describeUser( groupieId.getUserOnlineId() ).c_str(), DescribeHostType( groupieId.getHostType() ) );
             }
             else
             {
-                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr member %s NOT active with my host %s", m_Engine.describeUser( groupieId.getUserOnlineId() ).c_str(), DescribeHostType( groupieId.getHostType() ) );
+                LogModule( eLogHosts, LOG_VERBOSE, "MemberActiveMgr member %s NOT active with my host %s", GetPtoPEngine().describeUser( groupieId.getUserOnlineId() ).c_str(), DescribeHostType( groupieId.getHostType() ) );
             }
         }
 
@@ -99,7 +93,7 @@ bool MemberActiveMgr::isMemberActive( GroupieId& groupieId )
 //============================================================================
 void MemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool memberActive )
 {
-    LogModule( eLogMembership, LOG_INFO, "MemberActiveMgr::announceMemberActive %d %s", memberActive, m_Engine.describeGroupieId( groupieId ).c_str() );
+    LogModule( eLogMembership, LOG_INFO, "MemberActiveMgr::announceMemberActive %d %s", memberActive, GetPtoPEngine().describeGroupieId( groupieId ).c_str() );
     lockClientList();
 
     for( auto client : m_MemberClients )

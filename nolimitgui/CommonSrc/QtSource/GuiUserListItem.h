@@ -56,8 +56,6 @@ public:
     void                        setIsThumbUpdated( bool updated )       { m_IsThumbUpdated = updated; }
     bool                        getIsThumbUpdated( void )               { return m_IsThumbUpdated; }
 
-    void                        callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
-
 signals:
     void						signalGuiUserListItemClicked( GuiUserListItem * poItemWidget );
 	void						signalAvatarButtonClicked( GuiUserListItem* listEntryWidget );

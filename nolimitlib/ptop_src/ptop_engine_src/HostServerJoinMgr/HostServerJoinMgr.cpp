@@ -13,9 +13,10 @@
 #include "HostJoinInfoDb.h"
 #include "HostJoinCallbackInterface.h"
 
-#include <P2PEngine/P2PEngine.h>
-#include <BigListLib/BigListInfo.h>
 #include <BaseInfo/BaseSessionInfo.h>
+#include <BigListLib/BigListInfo.h>
+#include <Membership/MemberActiveMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>

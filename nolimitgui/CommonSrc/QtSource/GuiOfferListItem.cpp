@@ -160,12 +160,3 @@ void GuiOfferListItem::updateThumb( GuiThumb* guiThumb )
         }
     }
 }
-
-//============================================================================
-void GuiOfferListItem::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    if( getIdentPushToTalkButton() )
-    {
-        getIdentPushToTalkButton()->setPushToTalkStatus( pushToTalkStatus );
-    }
-}

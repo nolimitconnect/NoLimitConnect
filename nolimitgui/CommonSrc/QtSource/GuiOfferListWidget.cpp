@@ -587,13 +587,3 @@ void GuiOfferListWidget::updateThumb( GuiThumb* guiThumb )
         offerItem->updateThumb( guiThumb );
     }
 }
-
-//============================================================================
-void GuiOfferListWidget::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    GuiOfferListItem* offerItem = findListEntryWidgetByOnlineId( onlineId );
-    if( offerItem )
-    {
-        offerItem->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
-    }
-}

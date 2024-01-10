@@ -14,6 +14,7 @@
 #include "AppletMgr.h"
 #include "AppSettings.h"
 #include "GuiHostedListCallback.h"
+#include "GuiMemberActiveMgr.h"
 
 #include <HostListMgr/HostedInfo.h>
 #include <HostListMgr/HostedListMgr.h>

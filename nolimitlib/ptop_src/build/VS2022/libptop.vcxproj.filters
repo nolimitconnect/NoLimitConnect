@@ -712,6 +712,9 @@
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferInterface.cpp">
       <Filter>Source Files\ThumbMgr</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\PushToTalk\PushToTalkMgr.cpp">
+      <Filter>Source Files\PushToTalk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1449,9 +1452,6 @@
     <ClInclude Include="..\..\ptop_engine_src\HostServerJoinMgr\HostServerJoinMgr.h">
       <Filter>Source Files\HostServerJoinMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveCallbackInterface.h">
-      <Filter>Source Files\Membership</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveMgr.h">
       <Filter>Source Files\Membership</Filter>
     </ClInclude>
@@ -1469,6 +1469,15 @@
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\ThumbMgr\ThumbXferInterface.h">
       <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveCallback.h">
+      <Filter>Source Files\Membership</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\PushToTalk\PushToTalkCallback.h">
+      <Filter>Source Files\PushToTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\PushToTalk\PushToTalkMgr.h">
+      <Filter>Source Files\PushToTalk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1579,6 +1588,9 @@
     </Filter>
     <Filter Include="Source Files\FromGuiMgr">
       <UniqueIdentifier>{0f30dc4f-3c52-4c41-8476-2f4f9c47ebfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PushToTalk">
+      <UniqueIdentifier>{49a51a9a-7732-452a-b517-f9984a034821}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

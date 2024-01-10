@@ -15,6 +15,7 @@
 #include <BigListLib/BigListInfo.h>
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 
+#include <Membership/MemberActiveMgr.h>
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginMgr.h>

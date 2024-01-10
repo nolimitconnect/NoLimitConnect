@@ -22,7 +22,7 @@
 #include "GuiGroupieListMgr.h"
 #include "GuiHostedListMgr.h"
 #include "GuiHostServerJoinMgr.h"
-#include "GuiMemberActiveMgr.h"
+
 #include "GuiOfferMgr.h"
 #include "GuiPlayerMgr.h"
 #include "GuiPluginMgr.h"
@@ -67,7 +67,9 @@ class BlobInfo;
 class FriendListEntryWidget;
 class FileListReplySession;
 class GuiFileXferSession;
+class GuiMemberActiveMgr;
 class GuiOfferSession;
+class GuiPushToTalkMgr;
 class KodiThread;
 class MediaPlayerNlc;
 class PopupMenu;
@@ -88,7 +90,10 @@ public:
                EDefaultAppMode appDefaultMode,
                AppSettings& appSettings,
                AccountMgr& myDataHelper,
-               INlc& nlc );
+               INlc& nlc,
+               GuiMemberActiveMgr& memberActiveMgr,
+               GuiPushToTalkMgr& pushToTalkMgr );
+
     AppCommon( const AppCommon& rhs ) = delete;
     virtual ~AppCommon() override = default;
 
@@ -135,6 +140,7 @@ public:
     VxGUID&                     getMyOnlineId( void );
     ENetworkStateType			getNetworkState( void ) { return m_LastNetworkState; }
     GuiOfferMgr&                getOfferMgr( void ) { return m_OfferMgr; }
+    GuiPushToTalkMgr&           getPushToTalkMgr( void ) { return m_PushToTalkMgr; };
 
     RenderGlWidget*             getRenderConsumer( void );
     SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
@@ -490,13 +496,6 @@ public:
 
     virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override;
 
-    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;
-    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override;
-    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) override;
-
-    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override;
-    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override;
-
     virtual void				toGuiContactAnythingChange( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override;
 
@@ -563,7 +562,6 @@ public:
     virtual void				toGuiBlobSessionHistory( BlobInfo* assetInfo ) override;
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
 
-    virtual void				toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus ) override;
     /// a module has changed state
     virtual void				toGuiModuleState( EAppModule moduleNum, EModuleState moduleState )  override;
 
@@ -701,8 +699,6 @@ signals:
     void                        signalInternalToGuiScanResultSuccess( EScanType eScanType, VxNetIdent netIdent );
     void                        signalInternalToGuiSearchResultError( EScanType eScanType, VxNetIdent netIdent, int errCode );
 
-    void                        signalInternalPushToTalkStatus( VxGUID onlineId, EPushToTalkStatus pushToTalkStatus );
-
     void                        signalInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 
     void                        signalInternalPlayNlcMedia( AssetBaseInfo assetInfo );
@@ -777,8 +773,6 @@ private slots:
     void						slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID onlineId, bool wantSpeakerOutput );
 
     void						slotInternalWantVideoCapture( EAppModule appModule, bool enableCapture );
-
-    void                        slotInternalPushToTalkStatus( VxGUID onlineId, EPushToTalkStatus pushToTalkStatus );
 
     void                        slotInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 
@@ -862,8 +856,9 @@ protected:
     GuiFavoriteMgr			    m_FavoriteMgr;
     GuiFileXferMgr              m_FileXferMgr;
     GuiThumbMgr					m_ThumbMgr;
-    GuiMemberActiveMgr          m_MemberActiveMgr;
+    GuiMemberActiveMgr&         m_MemberActiveMgr;
     GuiOfferMgr		            m_OfferMgr;
+    GuiPushToTalkMgr&           m_PushToTalkMgr;
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;
     GuiHostedListMgr			m_HostedListMgr;

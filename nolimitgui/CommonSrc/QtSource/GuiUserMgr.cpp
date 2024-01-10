@@ -77,11 +77,11 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
             }
             break;
         case eUserViewTypeNearby:
-            if( !guiUser->getNetIdent().isNearby() )
-            {
-                guiUser->getNetIdent().setIsNearby( true );
-                LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListUpdate is nearby %s", guiUser->getNetIdent().getOnlineName() );
-            }
+            //if( !guiUser->getNetIdent().isNearby() )
+            //{
+            //    guiUser->getNetIdent().setIsNearby( true );
+            //    LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListUpdate is nearby %s", guiUser->getNetIdent().getOnlineName() );
+            //}
             break;
         case eUserViewTypeOnline:
             if( !guiUser->getNetIdent().isOnline() )
@@ -135,11 +135,11 @@ void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId
             break;
 
         case eUserViewTypeNearby:
-            if( guiUser->getNetIdent().isNearby() )
-            {
-                guiUser->getNetIdent().setIsNearby( false );
-                LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListRemove Was nearby %s", guiUser->getNetIdent().getOnlineName() );
-            }
+            //if( guiUser->getNetIdent().isNearby() )
+            //{
+            //    guiUser->getNetIdent().setIsNearby( false );
+            //    LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListRemove Was nearby %s", guiUser->getNetIdent().getOnlineName() );
+            //}
             break;
 
         case eUserViewTypeOnline:
@@ -832,33 +832,6 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
     {
         LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks invalid guiUser" );
     }
-}
-
-//============================================================================
-void GuiUserMgr::toGuiPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    GuiUser* guiUser = findUser( onlineId );
-    if( guiUser )
-    {
-        guiUser->setPushToTalkStatus( pushToTalkStatus );    
-    }
-
-    if( guiUser )
-    {
-        sendUserUpdatedToCallbacks( guiUser );
-    }
-
-    m_ClientListBusy = true;
-    for( auto client : m_GuiUserUpdateClientList )
-    {
-        if( client && !isClientQueuedForRemoval( client ) )
-        {
-            client->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
-        }
-    }
-
-    m_ClientListBusy = false;
-    updateClientList();
 }
 
 //============================================================================

@@ -16,6 +16,7 @@
 #include "PluginCamServer.h"
 
 #include <P2PEngine/P2PEngine.h>
+#include <PushToTalk/PushToTalkMgr.h>
 #include <MediaProcessor/MediaProcessor.h>
 
 #include <MediaToolsLib/OpusAudioDecoder.h>
@@ -63,7 +64,7 @@ bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppM
 			}
 			else
 			{
-				m_Engine.getToGui().toGuiPushToTalkStatus( onlineId, ePushToTalStatuskNoConnection );
+				m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, ePushToTalStatusNoConnection );
 				LogModule( eLogMediaStream, LOG_VERBOSE, "PushToTalkFeedMgr::enableCapture failed sendPushToTalkReq %s", m_Engine.describeUser( onlineId ).c_str() );
 			}
 		}
@@ -407,7 +408,7 @@ void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 	EPushToTalkStatus status{ ePushToTalkStatusInvalid };
 	if( !m_Engine.isUserConnected( onlineId ) )
 	{
-		status = ePushToTalStatuskNoConnection;
+		status = ePushToTalStatusNoConnection;
 		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
 		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, false );
 	}
@@ -436,6 +437,6 @@ void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, isRx );
 	}	
 
-	m_Engine.getToGui().toGuiPushToTalkStatus( onlineId, status );
+	m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, status );
 }
 

@@ -15,6 +15,7 @@
 
 #include "AppDefs.h"
 #include <GuiInterface/IDefs.h>
+#include <PushToTalk/PushToTalkCallback.h>
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxFileTypeMasks.h>
 

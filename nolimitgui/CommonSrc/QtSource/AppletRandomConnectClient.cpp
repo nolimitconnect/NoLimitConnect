@@ -11,7 +11,7 @@
 #include "AppletRandomConnectClient.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
+#include "GuiMemberActiveMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 

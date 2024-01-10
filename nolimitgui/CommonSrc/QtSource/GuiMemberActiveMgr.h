@@ -32,8 +32,7 @@ class GuiMemberActiveMgr : public QObject, public MemberActiveCallback
 {
     Q_OBJECT
 public:
-    GuiMemberActiveMgr() = delete;
-    GuiMemberActiveMgr( AppCommon& app );
+    GuiMemberActiveMgr();
     GuiMemberActiveMgr( const GuiMemberActiveMgr& rhs ) = delete;
 	virtual ~GuiMemberActiveMgr() = default;
 
@@ -59,9 +58,6 @@ protected:
 
     void                        announceMemberActive( GroupieId& groupieId, bool isActive );
     void                        announceMemberIsJoinedToHost( VxGUID& onlineId, EHostType host, bool isJoined );
-
-    
-    AppCommon&                  m_MyApp;
 
     std::vector<GroupieId>      m_MemberList;
 

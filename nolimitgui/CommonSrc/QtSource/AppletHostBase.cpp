@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "GuiHostSession.h"
+#include "GuiMemberActiveMgr.h"
 #include "GuiUserMultiListWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -189,15 +190,6 @@ void AppletHostBase::callbackUserUpdated( GuiUser* guiUser )
 void AppletHostBase::callbackUserRemoved( VxGUID& onlineId )
 {
     removeUser( onlineId );
-}
-
-//============================================================================
-void AppletHostBase::callbackPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
-{
-    if( m_UserList )
-    {
-        m_UserList->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
-    }
 }
 
 //============================================================================

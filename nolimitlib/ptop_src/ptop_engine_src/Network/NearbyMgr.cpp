@@ -341,14 +341,14 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
             return;
         }
 
-        if( isConnected )
-        {
-            if( !hisInfo->isNearby() )
-            {
-                hisInfo->setIsNearby( true );
-                onNearbyUserUpdated( hisInfo, timeNowMs );
-            }
-        }
+        //if( isConnected )
+        //{
+        //    if( !hisInfo->isNearby() )
+        //    {
+        //        hisInfo->setIsNearby( true );
+        //        onNearbyUserUpdated( hisInfo, timeNowMs );
+        //    }
+        //}
     }
 
     if( !isConnected )
@@ -384,13 +384,7 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
 //============================================================================
 void NearbyMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId )
 {
-    bool isIgnored = false;
-    BigListInfo* hisInfo = m_Engine.getBigListMgr().findBigListInfo( peerOnlineId );
-    if( hisInfo )
-    {
-        isIgnored = hisInfo->isIgnored();
-        hisInfo->setIsNearby( false );
-    }
+    bool isIgnored = m_Engine.getBigListMgr().isUserIgnored( peerOnlineId );
 
     m_Engine.getNearbyListMgr().removeIdent( peerOnlineId );
     if( !isIgnored )
@@ -418,7 +412,7 @@ void NearbyMgr::handleTcpLanConnectSuccess( BigListInfo* bigListInfo, std::share
 {
     if( bigListInfo )
     {
-        bigListInfo->setIsNearby( true );
+        //bigListInfo->setIsNearby( true );
         if( !bigListInfo->isIgnored() )
         {
             LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr connected to to %s ", bigListInfo->getOnlineName() );

@@ -135,11 +135,6 @@ void NearbyListMgr::removeAll( void )
     for( auto iter = nearbyIdentList.begin(); iter != nearbyIdentList.end(); ++iter )
     {
         VxGUID onlineId = iter->first;
-        BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
-        if( bigListInfo )
-        {
-            bigListInfo->setIsNearby( false );
-        }
 
         removeIdent( onlineId );
     }

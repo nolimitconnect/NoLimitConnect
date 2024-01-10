@@ -14,6 +14,7 @@
 #include "MyIcons.h"
 #include "AppCommon.h"
 #include "GuiHelpers.h"
+#include "GuiMemberActiveMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 

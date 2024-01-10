@@ -15,6 +15,7 @@
 #include <BigListLib/BigListInfo.h>
 #include <P2PEngine/P2PEngine.h>
 #include <BaseInfo/BaseSessionInfo.h>
+#include <Membership/MemberActiveMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 

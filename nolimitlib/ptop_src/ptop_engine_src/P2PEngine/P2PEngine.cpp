@@ -78,7 +78,7 @@ namespace
 }
 
 //============================================================================
-P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
+P2PEngine::P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, PushToTalkMgr& pushToTalkMgr )
 	: m_PeerMgr( peerMgr )
 	, m_FromGuiMgr( *this )
 	, m_ConnectIdListMgr( *this )
@@ -95,12 +95,13 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr )
 	, m_AssetMgr( *new AssetMgr( *this, "AssetMgrDb.db3", "AssetStateDb.db3" ) )
 	, m_BlobMgr( *new BlobMgr( *this, "BlobAssetDb.db3", "BlobStateDb.db3" ) )
 	, m_OfferMgr( *new OfferMgr( *this, "OfferDb.db3", "OfferStateDb.db3" ) )
+	, m_PushToTalkMgr( pushToTalkMgr )
 	, m_ThumbMgr( *new ThumbMgr( *this, "ThumbAssetDb.db3", "ThumbStateDb.db3" ) )
 	, m_ConnectionMgr( *new ConnectionMgr( *this ) )
 	, m_ConnectMgr( *new ConnectMgr( *this, "ConnectMgrDb.db3", "ConnectStateDb.db3" ) )
 	, m_ConnectionList( *this )
 	, m_MediaProcessor( *( new MediaProcessor( *this ) ) )
-	, m_MemberActiveMgr( *this )
+	, m_MemberActiveMgr( memberActiveMgr )
 	, m_NetworkMgr( *new NetworkMgr( *this, peerMgr, m_BigListMgr, m_ConnectionList ) )
 	, m_NetworkMonitor( *new NetworkMonitor( *this ) )
 	, m_NetServicesMgr( *new NetServicesMgr( *this ) )

@@ -104,7 +104,7 @@ bool VxNetIdentBase::isRelayed( void )
 //============================================================================
 bool VxNetIdentBase::canDirectConnectToUser( void )
 {
-    return isNearby() || !requiresRelay() || isDirectConnected();
+    return !requiresRelay() || isDirectConnected();
 }
 
 //============================================================================
