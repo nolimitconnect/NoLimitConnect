@@ -41,6 +41,8 @@ void PluginSettingsWidget::setupSettingsWidget( EApplet applet, EPluginType plug
     m_EAppletType = applet;
     m_PluginType = pluginType;
 
+    m_PluginSetting.setPluginType( pluginType );
+
     getServiceUrlLabel( false )->setVisible( false );
     getServiceUrlLabel( true )->setVisible( false );
     getServiceUrlEdit( false )->setVisible( false );
@@ -185,6 +187,7 @@ void PluginSettingsWidget::slotThumbnailAssetChanged( ThumbInfo* thumbAsset )
     LogMsg( LOG_VERBOSE, "slotThumbnailAssetChanged %s", thumbGuid.toGUIDStandardFormatedString().c_str() );
     m_PluginSetting.setThumnailId( thumbGuid, ui.m_ThumbnailChooseWidget->getThumbnailIsCircular() );
     ui.m_ThumbnailChooseWidget->getThumbnailViewWidget()->updateAssetImage( thumbAsset );
+    emit signalThumbnailAssetChanged( thumbGuid, thumbAsset->isCircular() );
 }
 
 //============================================================================

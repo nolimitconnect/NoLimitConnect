@@ -277,10 +277,15 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 //============================================================================
 bool AssetBaseInfo::isValid( void )
 {
-	bool isValidAsset =  VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid() && getCreatorId().isVxGUIDValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+	bool isValidAsset =  VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid();
 	if( m_AdminId.isVxGUIDValid() )
 	{
 		isValidAsset &= getPluginType() != ePluginTypeInvalid;
+	}
+
+	if( getAssetType() != eAssetTypeThumbnail )
+	{
+		isValidAsset &= 0 != getCreatorId().isVxGUIDValid() && m_CreationTime && 0 != m_InfoModifiedTime;
 	}
 
 	vx_assert( isValidAsset );

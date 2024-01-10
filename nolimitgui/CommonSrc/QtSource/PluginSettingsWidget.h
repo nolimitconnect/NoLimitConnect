@@ -26,8 +26,11 @@ public:
 
     void						setupSettingsWidget( EApplet applet, EPluginType pluginType );
 
-    virtual QLabel *            getServiceUrlLabel( bool ipv6 )        { return ipv6 ? ui.m_UrlDescriptionLabelIpv4 : ui.m_UrlDescriptionLabelIpv6; }
-    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 )         { return ipv6 ? ui.m_UrlEditIpv4 : ui.m_UrlEditIpv6; }
+    void                        setPluginSetting( PluginSetting& pluginSetting )    { m_PluginSetting = pluginSetting; }
+    PluginSetting&              getPluginSetting( void )                            { return m_PluginSetting; }
+
+    virtual QLabel *            getServiceUrlLabel( bool ipv6 )     { return ipv6 ? ui.m_UrlDescriptionLabelIpv4 : ui.m_UrlDescriptionLabelIpv6; }
+    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 )      { return ipv6 ? ui.m_UrlEditIpv4 : ui.m_UrlEditIpv6; }
 
     virtual QLineEdit *         getServiceTitleEdit()       { return ui.m_ServiceTitleEdit; }
 
@@ -51,6 +54,7 @@ public:
 
 signals:
     void                        signalPluginSettingsApplied();
+    void                        signalThumbnailAssetChanged( VxGUID thumbId, bool isCircular );
 
 protected slots:
     virtual void                slotApplyServiceSettings();

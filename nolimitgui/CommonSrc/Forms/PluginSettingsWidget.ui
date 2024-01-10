@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>426</width>
-    <height>525</height>
+    <height>566</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -74,7 +74,7 @@
    <item>
     <widget class="QPushButton" name="m_ApplyButton">
      <property name="text">
-      <string>Apply Service Settings</string>
+      <string>Apply Host Settings</string>
      </property>
     </widget>
    </item>

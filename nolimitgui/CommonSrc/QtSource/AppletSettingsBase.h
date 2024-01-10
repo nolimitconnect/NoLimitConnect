@@ -24,10 +24,10 @@ public:
 	virtual ~AppletSettingsBase() = default;
 
     virtual PluginSettingsWidget*   getPluginSettingsWidget() = 0;
-    virtual PermissionWidget*       getConnectionTestWidget() = 0;
 
 protected slots:
     void                            slotApplyServiceSettings();
+    void                            slotThumbnailAssetChanged( VxGUID thumbId, bool isCircular );
 
 protected:
     void                            connectServiceWidgets();
@@ -39,7 +39,6 @@ protected:
     PluginSetting                   m_PluginSetting;
     EFriendState                    m_OrigPermissionLevel = eFriendStateIgnore;
     EFriendState                    m_OrigRelayPermission = eFriendStateIgnore;
-    EFriendState                    m_OrigConnectTestPermission = eFriendStateIgnore;
 };
 
 
