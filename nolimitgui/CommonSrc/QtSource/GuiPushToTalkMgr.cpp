@@ -53,6 +53,8 @@ void GuiPushToTalkMgr::slotInternalPushToTalkStatus( VxGUID onlineId, EPushToTal
 		return;
 	}
 
+	setPushToTalkStatus( onlineId, pushToTalkStatus );
+
 	for( auto client : m_PushToTalkClients )
 	{
 		client->callbackPushToTalkStatus( onlineId, pushToTalkStatus );

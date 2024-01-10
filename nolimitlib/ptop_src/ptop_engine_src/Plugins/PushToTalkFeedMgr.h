@@ -45,7 +45,7 @@ public:
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
 	virtual bool				addPushToTalkUser( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly = false );
-	virtual bool				removePushToTalkUser( VxGUID& onlineId, bool txOnly = false );
+	virtual bool				removePushToTalkUser( VxGUID& onlineId, bool txOnly = false, bool rxOnly = false );
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
 	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) {};
