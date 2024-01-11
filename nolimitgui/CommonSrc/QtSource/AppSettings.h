@@ -153,6 +153,12 @@ public:
 	void						setLastHostJoined( std::string lastJoinedHost );
 	std::string					getLastHostJoined( void );
 
+	void						setIsAutomatedHost( bool enable );
+	bool						getIsAutomatedHost( void );
+
+	void						setDisableSoundEffects( bool disable );
+	bool						getDisableSoundEffects( void );
+
 protected:
 	bool						appModeSettingsAreInitialize( void );
 	void						setupAppModeSettings( EDefaultAppMode appDefaultMode );
@@ -163,5 +169,8 @@ protected:
 	bool						m_AppFeatureIsCached[ eMaxAppFeatures ];
 	bool						m_AppFeatureValue[eMaxAppFeatures];
 	bool						m_AppSettingsInitialized{ false };
+
+	bool						m_DisableSoundEffectsCached{ false };
+	bool						m_DisableSoundEffectsValue{ false };
 };
 

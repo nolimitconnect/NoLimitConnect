@@ -356,6 +356,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     //int64_t	endOffs = pktGetReq->getAssetLen();	//if 0 then get all
 
     PktBaseGetReply* pktReply = createPktBaseGetReply();
+	pktReply->setIsStream( pktGetReq->getIsStream() );
     pktReply->setAssetType( pktGetReq->getAssetType() );
     pktReply->setUniqueId( pktGetReq->getUniqueId() );
     pktReply->setLclSessionId( lclSessionId );
@@ -578,6 +579,9 @@ void AssetBaseXferMgr::onPktAssetBaseGetReply( std::shared_ptr<VxSktBase>& sktBa
 
             xferSession->setRmtSessionId( pktGetReply->getLclSessionId() );
             pktGetReply->setLclSessionId( xferSession->getLclSessionId() );
+
+			xferSession->setIsStream( pktGetReply->getIsStream() );
+
             EXferError xferErr = beginAssetBaseReceive( xferSession, assetInfo, rmtSessionId, startOffs );
             if( eXferErrorNone != xferErr )
             {
@@ -624,6 +628,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
     VxGUID& assetUniqueId = poPkt->getUniqueId();
 
 	PktBaseSendReply* pktReply = createPktBaseSendReply();
+	pktReply->setIsStream( poPkt->getIsStream() );
 	pktReply->setRequiresFileXfer( needFileXfer );
 	pktReply->setError( 0 );
 	pktReply->setRmtSessionId( poPkt->getLclSessionId() );
@@ -731,6 +736,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
 
 	if( xferSession )
 	{
+		xferSession->setIsStream( poPkt->getIsStream() );
 		xferSession->setRmtSessionId( poPkt->getLclSessionId() );
 		if( 0 == rxedErrCode )
 		{
@@ -788,6 +794,7 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
 	if( poPkt->getRmtSessionId().isVxGUIDValid() )
 	{
 		xferSession = findRxSessionSessionId( true, poPkt->getRmtSessionId() );
+		xferSession->setIsStream( poPkt->getIsStream() );
 	}
 
 	if( xferSession )
@@ -799,6 +806,7 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
 		if( eXferErrorNone != xferErr )
 		{
 			PktBaseChunkReply* pktReply = createPktBaseChunkReply();
+			pktReply->setIsStream( poPkt->getIsStream() );
 			pktReply->setLclSessionId( xferSession->getLclSessionId() );
 			pktReply->setRmtSessionId( poPkt->getLclSessionId() );
 			pktReply->setDataLen(0);
@@ -819,6 +827,7 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
 	{
 		LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetChunkReq failed to find session");
         PktBaseChunkReply* pktReply = createPktBaseChunkReply();
+		pktReply->setIsStream( poPkt->getIsStream() );
 		pktReply->setLclSessionId( poPkt->getRmtSessionId() );
 		pktReply->setRmtSessionId( poPkt->getLclSessionId() );
 		pktReply->setDataLen(0);
@@ -853,6 +862,7 @@ static int cnt = 0;
 
 	if( xferSession )
 	{
+		xferSession->setIsStream( poPkt->getIsStream() );
         xferMutex.unlock();
 		EXferError xferErr = txNextAssetBaseChunk( xferSession, poPkt->getError(), false );
         xferMutex.lock();
@@ -897,6 +907,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendCompleteReq( std::shared_ptr<VxSktBase>
 	//TODO check checksum
 	if( xferSession )
 	{
+		xferSession->setIsStream( poPkt->getIsStream() );
 		finishAssetBaseReceive( xferSession, poPkt, false );
 	}
 }
@@ -911,6 +922,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendCompleteReply( std::shared_ptr<VxSktBas
 	AssetBaseTxSession* xferSession = findTxSessionSessionId( true, poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
+		xferSession->setIsStream( poPkt->getIsStream() );
 		VxFileXferInfo xferInfo = xferSession->getXferInfo();
         AssetBaseInfo& assetInfo = xferSession->getAssetBaseInfo();
 		LogMsg( LOG_INFO, "AssetBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
@@ -1976,6 +1988,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 		}
 
 		PktBaseSendCompleteReq* completeReq = createPktBaseSendCompleteReq();
+		completeReq->setIsStream( xferSession->getIsStream() );
         completeReq->setLclSessionId( xferSession->getLclSessionId() );
         completeReq->setRmtSessionId( xferSession->getRmtSessionId() );
         completeReq->setAssetUniqueId( xferSession->getAssetBaseInfo().getAssetUniqueId() );
@@ -1999,6 +2012,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 	}
 
 	PktBaseChunkReq* pktChunkReq = createPktBaseChunkReq();
+	pktChunkReq->setIsStream( xferSession->getIsStream() );
 	// see how much we can read
 	uint32_t u32ChunkLen = (uint32_t)(xferInfo.m_u64FileLen - xferInfo.m_u64FileOffs);
 	if( PKT_TYPE_ASSET_MAX_DATA_LEN < u32ChunkLen )
@@ -2143,6 +2157,7 @@ EXferError AssetBaseXferMgr::rxAssetBaseChunk( bool pluginIsLocked, AssetBaseRxS
 			xferInfo.m_u64FileOffs += poPkt->getChunkLen();
 
 			PktBaseChunkReply* pktChunkReply = createPktBaseChunkReply();
+			pktChunkReply->setIsStream( poPkt->getIsStream() );
             pktChunkReply->setDataLen( poPkt->getDataLen() );
             pktChunkReply->setLclSessionId( xferInfo.getLclSessionId() );
             pktChunkReply->setRmtSessionId( xferInfo.getRmtSessionId() );
@@ -2212,6 +2227,7 @@ void AssetBaseXferMgr::finishAssetBaseReceive( AssetBaseRxSession* xferSession, 
 	std::string strAssetBaseName = xferInfo.getLclFileName();
 
 	PktBaseSendCompleteReply* pktCompleteReply = createPktBaseSendCompleteReply();
+	pktCompleteReply->setIsStream( poPkt->getIsStream() );
     pktCompleteReply->setLclSessionId( xferInfo.getLclSessionId() );
     pktCompleteReply->setRmtSessionId( xferInfo.getRmtSessionId() );
     pktCompleteReply->setAssetUniqueId( xferSession->getAssetBaseInfo().getAssetUniqueId() );

@@ -771,3 +771,41 @@ std::string AppSettings::getLastHostJoined( void )
 	getIniValue( getAppShortName(), "LastHostJoined", lastHost, "" );
 	return lastHost;
 }
+
+//============================================================================
+void AppSettings::setIsAutomatedHost( bool enable )
+{
+	setIniValue( getAppShortName(), "UnattendedHost", enable );
+}
+
+//============================================================================
+bool AppSettings::getIsAutomatedHost( void )
+{
+	bool unattendedHost = false;
+	getIniValue( getAppShortName(), "UnattendedHost", unattendedHost, false );
+	return unattendedHost;
+}
+
+//============================================================================
+void AppSettings::setDisableSoundEffects( bool disable )
+{
+	m_DisableSoundEffectsValue = disable;
+	m_DisableSoundEffectsCached = true;
+	setIniValue( getAppShortName(), "DisableSoundEffect", disable );
+}
+
+//============================================================================
+bool AppSettings::getDisableSoundEffects( void )
+{
+	if( m_DisableSoundEffectsCached )
+	{
+		return m_DisableSoundEffectsValue;
+	}
+
+	bool disableSoundEffects = false;
+	getIniValue( getAppShortName(), "DisableSoundEffect", disableSoundEffects, false );
+	m_DisableSoundEffectsValue = disableSoundEffects;
+	m_DisableSoundEffectsCached = true;
+
+	return disableSoundEffects;
+}

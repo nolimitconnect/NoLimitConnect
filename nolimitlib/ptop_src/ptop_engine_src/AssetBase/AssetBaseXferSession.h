@@ -36,6 +36,9 @@ public:
 	void						setAssetBaseInfo( AssetBaseInfo& assetInfo )	{ m_AssetBaseInfo = assetInfo; }
 	AssetBaseInfo&				getAssetBaseInfo( void )						{ return m_AssetBaseInfo; }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )							    { return m_IsStream; }
+
 	void						setSkt( std::shared_ptr<VxSktBase>& skt )		{ m_Skt = skt; }
 	std::shared_ptr<VxSktBase>&	getSkt( void )								    { return m_Skt; }
 
@@ -74,6 +77,7 @@ protected:
 	VxGUID						m_SendToId;
 	uint32_t					m_Error{ 0 };
 	AssetBaseInfo				m_AssetBaseInfo;
+	bool						m_IsStream{ false };
 
 private:
 	void						initLclSessionId( void );

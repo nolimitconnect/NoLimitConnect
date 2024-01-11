@@ -1146,5 +1146,5 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
 //============================================================================
 void VxAppTheme::createChatStyleSheet( QString& styleSheet, QColor textBkg, QColor textFgd )
 {
-    styleSheet = QString("QLabel{border-radius: 5px; background-color: rgb(%1, %2, %3); color: rgb(%4, %4, %6);}").arg(textBkg.red()).arg(textBkg.green()).arg(textBkg.blue()).arg(textFgd.red()).arg(textFgd.green()).arg(textFgd.blue());
+    styleSheet = QString("QLabel{border-radius: 5px; background-color: rgb(%1, %2, %3); color: rgb(%4, %5, %6);}").arg(textBkg.red()).arg(textBkg.green()).arg(textBkg.blue()).arg(textFgd.red()).arg(textFgd.green()).arg(textFgd.blue());
 }

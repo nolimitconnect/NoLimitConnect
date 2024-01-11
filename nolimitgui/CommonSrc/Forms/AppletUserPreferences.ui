@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
+    <width>287</width>
     <height>568</height>
    </rect>
   </property>
@@ -35,6 +35,21 @@
       <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
@@ -74,6 +89,20 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_DisableSoundEffectsCheckBox">
+        <property name="text">
+         <string>Diable Sound Effects (Key Click, Notify, Etc.)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_UnattendedHostCheckBox">
+        <property name="text">
+         <string>Unattended host (Disable Offers, Messages Etc.)</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="m_MilitaryTimeCheckBox">

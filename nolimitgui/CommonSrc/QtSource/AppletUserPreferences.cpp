@@ -15,6 +15,8 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
+#include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/ObjectCommon.h>
@@ -64,14 +66,29 @@ void AppletUserPreferences::hideEvent( QHideEvent* ev )
 //============================================================================
 void AppletUserPreferences::updateDlgFromSettings()
 {
+    ui.m_DisableSoundEffectsCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSoundEffects() );
+    ui.m_UnattendedHostCheckBox->setChecked( m_MyApp.getAppSettings().getIsAutomatedHost() );
     ui.m_MilitaryTimeCheckBox->setChecked( m_MyApp.getAppSettings().getUseMilitaryTime() );
 }
 
 //============================================================================
 void AppletUserPreferences::updateSettingsFromDlg()
 {
+    bool unattendedHost = ui.m_MilitaryTimeCheckBox->isChecked();
+
+    m_MyApp.getAppSettings().setIsAutomatedHost( unattendedHost );
+
+    m_MyApp.getAppSettings().setDisableSoundEffects( ui.m_DisableSoundEffectsCheckBox->isChecked() );
     m_MyApp.getAppSettings().setUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );
     SetUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );
+
+    GuiUser* guiUser = m_MyApp.getUserMgr().getMyIdent();
+    bool sendToEngine = guiUser && guiUser->isAutomatedHost() != unattendedHost;
+    if( sendToEngine )
+    {
+        guiUser->setIsAutomatedHost( unattendedHost );
+        m_MyApp.getEngine().fromGuiSeIsAutomatedHost( unattendedHost );
+    }
 }
 
 //============================================================================

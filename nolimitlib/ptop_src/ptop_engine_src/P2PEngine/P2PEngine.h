@@ -394,7 +394,9 @@ public:
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
     virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) override;
 
-    virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) override;
+    bool				        fromGuiDeleteDatabase( EDatabaseType databaseType ) override;
+
+    void				        fromGuiSeIsAutomatedHost( bool automatedHost ) override;
 
 	//========================================================================
 	// to gui

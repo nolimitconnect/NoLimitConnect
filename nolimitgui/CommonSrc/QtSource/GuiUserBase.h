@@ -49,6 +49,7 @@ public:
     bool                        isRelayed( void );
 
     bool                        isAutomatedHost( void )                 { return m_NetIdent.isAutomatedHost(); }
+    void                        setIsAutomatedHost( bool automatedHost ) { m_NetIdent.setIsAutomatedHost( automatedHost ); }
 
     bool                        isAdmin( void )                         { return m_NetIdent.isAdministrator(); }
     bool                        isFriend( void )                        { return m_NetIdent.isFriend(); }

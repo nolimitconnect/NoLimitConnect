@@ -303,8 +303,10 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
 
     // get port to listen on 
     uint16_t tcpPort = getEngine().getEngineSettings().getTcpIpPort();
+    getEngine().getMyNetIdent()->setIsAutomatedHost( m_AppSettings.getIsAutomatedHost() );
     getEngine().getMyNetIdent()->setMyOnlinePort( tcpPort );
     getEngine().getMyNetIdent()->m_DirectConnectId.m_IPv6OnlineIp = getEngine().getFromGuiInterface().fromGuiGetMyIPv6Address();
+
     getEngine().setPktAnnLastModTime( GetTimeStampMs() );
 
     uint64_t aliveMs = GetApplicationAliveMs();

@@ -413,5 +413,7 @@ public:
 	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) = 0;
 
 	virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) = 0;
+
+	virtual void				fromGuiSeIsAutomatedHost( bool automatedHost ) = 0;
 };
 

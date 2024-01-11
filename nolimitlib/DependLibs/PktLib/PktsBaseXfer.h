@@ -81,10 +81,13 @@ public:
     void						setAssetLen( int64_t len )						    { m_s64AssetLen = htonU64( len ); }
     int64_t						getAssetLen( void )								    { return ntohU64( m_s64AssetLen ); } // if 0 then get all
 
+    void                        setIsStream( bool isStream )                        { m_IsStream = isStream; }
+    bool                        getIsStream( void )                                 { return m_IsStream; }
+
 private:
     uint16_t					m_AssetType{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
     VxGUID						m_UniqueId;
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
@@ -149,10 +152,13 @@ public:
     bool                        fillPktFromAsset( AssetBaseInfo& assetInfo );
     bool						fillAssetFromPkt( AssetBaseInfo& assetInfo );
 
+    void                        setIsStream( bool isStream )                        { m_IsStream = isStream; }
+    bool                        getIsStream( void )                                 { return m_IsStream; }
+
 private:
     uint16_t					m_AssetType{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
     VxGUID						m_UniqueId;
     VxGUID						m_CreatorId;
     VxGUID						m_HistoryId; 
@@ -228,11 +234,14 @@ public:
 
 	bool						fillPktFromAsset( AssetBaseInfo& assetInfo );
     bool						fillAssetFromPkt( AssetBaseInfo& assetInfo );
+  
+    void                        setIsStream( bool isStream )                        { m_IsStream = isStream; }
+    bool                        getIsStream( void )                                 { return m_IsStream; }
 
 private:
 	uint16_t					m_AssetType{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
 	VxGUID						m_UniqueId;
 	VxGUID						m_CreatorId;
 	VxGUID						m_HistoryId; 
@@ -279,10 +288,13 @@ public:
 	void						setRequiresFileXfer( bool requiresXfer )		{ m_u8RequiresFileXfer = (uint8_t)requiresXfer; }
 	bool						getRequiresFileXfer( void )						{ return m_u8RequiresFileXfer ? true : false; }
 
+    void                        setIsStream( bool isStream )                    { m_IsStream = isStream; }
+    bool                        getIsStream( void )                             { return m_IsStream; }
+
 private:
 	uint8_t						m_u8RequiresFileXfer{ 0 };
 	uint8_t						m_PluginType{ 0 };
-	uint16_t					m_u16Res{ 0 };
+	uint16_t					m_IsStream{ 0 };
     uint32_t					m_u32Error{ 0 };
 	int64_t						m_s64AssetOffs{ 0 };
 	VxGUID						m_UniqueId;
@@ -317,9 +329,12 @@ public:
 	void						setError( uint32_t error )						{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
+    void                        setIsStream( bool isStream )                    { m_IsStream = isStream; }
+    bool                        getIsStream( void )                             { return m_IsStream; }
+
 private:
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
     uint16_t					m_u16AssetChunkLen{ 0 };
     uint32_t					m_u32Error{ 0 };
 	VxGUID						m_LclSessionId;
@@ -349,9 +364,12 @@ public:
 	void						setError( uint32_t error )						{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
+    void                        setIsStream( bool isStream )                    { m_IsStream = isStream; }
+    bool                        getIsStream( void )                             { return m_IsStream; }
+
 private:
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
 	uint16_t					m_u16AssetChunkLen{ 0 };
     uint32_t					m_u32Error{ 0 };
 	VxGUID						m_LclSessionId;
@@ -382,13 +400,16 @@ public:
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+    void                        setIsStream( bool isStream )                { m_IsStream = isStream; }
+    bool                        getIsStream( void )                         { return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetUniqueId;
 	uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
 	uint16_t					m_Res2{ 0 };
 };
 
@@ -411,13 +432,16 @@ public:
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+    void                        setIsStream( bool isStream )                { m_IsStream = isStream; }
+    bool                        getIsStream( void )                         { return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetUniqueId;
 	uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
     uint16_t					m_Res2{ 0 };
 };
 
@@ -440,13 +464,16 @@ public:
     void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
     uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+    void                        setIsStream( bool isStream )                { m_IsStream = isStream; }
+    bool                        getIsStream( void )                         { return m_IsStream; }
+
 private:
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
     VxGUID						m_AssetUniqueId;
     uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
     uint16_t					m_Res2{ 0 };
 };
 
@@ -469,13 +496,16 @@ public:
     void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
     uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+    void                        setIsStream( bool isStream )                { m_IsStream = isStream; }
+    bool                        getIsStream( void )                         { return m_IsStream; }
+
 private:
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
     VxGUID						m_AssetUniqueId;
     uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
     uint16_t					m_Res2{ 0 };
 };
 
@@ -500,10 +530,13 @@ public:
 	void						setError( uint16_t error )						{ m_u16Err = htons( error ); }
 	uint16_t					getError( void )								{ return ntohs( m_u16Err ); }
 
+    void                        setIsStream( bool isStream )                { m_IsStream = isStream; }
+    bool                        getIsStream( void )                         { return m_IsStream; }
+
 private:
 	uint16_t					m_u16Err{ 0xffff };
     uint8_t					    m_PluginType{ 0 };
-    uint8_t					    m_Res1{ 0 };
+    uint8_t					    m_IsStream{ 0 };
 	uint32_t					m_u32ResP1{ 0 };
 	uint32_t					m_u32ResP2{ 0 };
 	uint32_t					m_u32ResP3{ 0 };

@@ -9,8 +9,10 @@
 //============================================================================
 
 #include "SoundMgr.h"
-#include "VxSndInstance.h"
+
 #include "AppCommon.h"
+#include "AppSettings.h"
+#include "VxSndInstance.h"
 
 #include <CoreLib/VxDebug.h>
 #include <P2PEngine/P2PEngine.h>
@@ -106,6 +108,11 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 #ifdef DISABLE_AUDIO
     return 0;
 #endif // DISABLE_AUDIO
+
+	if( m_MyApp.getAppSettings().getDisableSoundEffects() )
+	{
+		return nullptr;
+	}
 
 	if( m_MutePhoneRing 
 		&& ( eSndDefPhoneRing1 == sndDef ) )

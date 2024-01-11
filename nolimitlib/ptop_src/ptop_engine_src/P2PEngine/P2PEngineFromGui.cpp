@@ -1922,3 +1922,9 @@ bool P2PEngine::fromGuiDeleteDatabase( EDatabaseType databaseType )
 
 	return result;
 }
+
+//============================================================================
+void P2PEngine::fromGuiSeIsAutomatedHost( bool automatedHost )
+{
+	getMyPktAnnounce().setIsAutomatedHost( automatedHost );
+}
