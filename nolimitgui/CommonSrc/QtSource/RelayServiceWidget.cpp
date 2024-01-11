@@ -9,11 +9,13 @@
 //============================================================================
 
 #include "RelayServiceWidget.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "ActivityInformation.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
 

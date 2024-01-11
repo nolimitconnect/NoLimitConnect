@@ -319,6 +319,13 @@ void FileXferWidget::updateXferInfo( void )
 		if( eXferStateDownloadNotStarted == xferState )
 		{
 			ui.m_FileCancelButton->setIcons( eMyIconFileDownloadNormal );
+#if ENABLE_STREAMING
+			if( xferSession->isStremable() )
+			{
+				ui.m_FileAcceptButton->setIcons( eMyIconPlayStream );
+				ui.m_FileCancelButton->setVisible( true );
+			}
+#endif // ENABLE_STREAMING
 		}
 		else if( eXferStateUploadNotStarted == xferState )
 		{

@@ -23,13 +23,6 @@
 #include <QPainter>
 
 //============================================================================
-MyIcons::MyIcons( AppCommon& appCommon )
-: m_aoIcons()
-, m_MyApp( appCommon)
-{
-}
-
-//============================================================================
 void MyIcons::myIconsStartup( void )
 {
 	VxTimer timer;
@@ -62,7 +55,7 @@ QPixmap	 MyIcons::getIconPixmap( enum EMyIcons myIcon, QSize iconSize, QColor& i
 	QString svgName = getIconFile( myIcon );
 	if( isSvgFile( svgName ) )
 	{
-		iconPixmap = getMyApp().getAppTheme().svgRenderer( svgName, iconSize, iconColor );
+		iconPixmap = GetAppInstance().getAppTheme().svgRenderer( svgName, iconSize, iconColor );
 	}
 	else
 	{
@@ -80,7 +73,7 @@ QPixmap	 MyIcons::getIconPixmap( enum EMyIcons myIcon, QSize iconSize )
 	QString svgName = getIconFile( myIcon );
 	if( isSvgFile( svgName ) )
 	{
-		iconPixmap = getMyApp().getAppTheme().svgRenderer( svgName, iconSize );
+		iconPixmap = GetAppInstance().getAppTheme().svgRenderer( svgName, iconSize );
 	}
 	else
 	{
@@ -860,6 +853,9 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 
 	case eMyIconPlayerNlc:
 		return ":/AppRes/Resources/player-media.svg";
+
+	case eMyIconPlayStream:
+		return ":/AppRes/Resources/play-stream.svg";
 
 	case eMyIconUserConnections:
 		return ":/AppRes/Resources/user-connections.svg";

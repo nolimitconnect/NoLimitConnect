@@ -30,7 +30,7 @@
 #include "GuiUserMgr.h"
 #include "GuiThumbMgr.h"
 #include "GuiWebPageMgr.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "VxAppTheme.h"
 #include "VxAppStyle.h"
 #include "VxAppDisplay.h" 
@@ -72,6 +72,7 @@ class GuiOfferSession;
 class GuiPushToTalkMgr;
 class KodiThread;
 class MediaPlayerNlc;
+class MyIcons;
 class PopupMenu;
 class RenderGlWidget;
 
@@ -92,7 +93,8 @@ public:
                AccountMgr& myDataHelper,
                INlc& nlc,
                GuiMemberActiveMgr& memberActiveMgr,
-               GuiPushToTalkMgr& pushToTalkMgr );
+               GuiPushToTalkMgr& pushToTalkMgr,
+               MyIcons& myIcons );
 
     AppCommon( const AppCommon& rhs ) = delete;
     virtual ~AppCommon() override = default;
@@ -868,7 +870,7 @@ protected:
     GuiPluginMgr                m_PluginMgr;
     GuiWebPageMgr               m_WebPageMgr;
 
-    MyIcons					    m_MyIcons;
+    MyIcons&					m_MyIcons;
     VxAppTheme					m_AppTheme;
     VxAppStyle					m_AppStyle;
     VxAppDisplay				m_AppDisplay;

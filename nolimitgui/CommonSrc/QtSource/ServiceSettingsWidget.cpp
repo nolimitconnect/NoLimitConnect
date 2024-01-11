@@ -8,17 +8,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "ServiceSettingsWidget.h"
+
+#include "ActivityInformation.h"
 #include "AppletBase.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppletMgr.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-
-#include "ActivityInformation.h"
-#include "GuiHelpers.h"
+#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -37,8 +36,8 @@ void ServiceSettingsWidget::initServiceSettingsWidget( void )
     ui.m_SettingsButton->setFixedSize( eButtonSizeSmall );
     ui.m_ViewServiceButton->setFixedSize( eButtonSizeSmall );
 
-    connect( ui.m_SettingsButton, SIGNAL( clicked() ), this, SLOT( slotServiceSettingsClicked() ) );
-    connect( ui.m_ViewServiceButton, SIGNAL( clicked() ), this, SLOT( slotViewServiceClicked() ) );
+    connect( ui.m_SettingsButton, SIGNAL(clicked()), this, SLOT(slotServiceSettingsClicked()) );
+    connect( ui.m_ViewServiceButton, SIGNAL(clicked()), this, SLOT(slotViewServiceClicked()) );
 }
 
 //============================================================================

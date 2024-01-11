@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 
 #include <QPushButton>
 

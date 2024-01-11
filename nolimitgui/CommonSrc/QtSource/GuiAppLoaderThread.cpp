@@ -15,6 +15,7 @@
 #include "AppSettings.h"
 #include "GuiFavoriteMgr.h"
 #include "LogMgr.h"
+#include "MyIcons.h"
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

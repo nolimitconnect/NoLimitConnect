@@ -110,16 +110,16 @@ bool PluginBaseFiles::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMa
 		return false;
 	}
 
-	std::vector<VxFileInfo>::iterator iter;
-	for( iter = fileList.begin(); iter != fileList.end(); ++iter )
+	int fileNum{ 0 };
+	for( auto& vxFileInfo : fileList )
 	{
-		VxFileInfo& vxFileInfo = *iter;
 		if ( ( false == vxFileInfo.isExecutableFile() )
 			&& ( false == vxFileInfo.isShortcutFile() ) )
 		{
+			fileNum++;
 			if ( 0 != ( fileFilterMask & vxFileInfo.getFileType() ) )
 			{
-				LogMsg( LOG_INFO, "PluginBaseFiles::fromGuiBrowseFiles sending file %s", vxFileInfo.getFileName().c_str() );
+				LogMsg( LOG_VERBOSE, "PluginBaseFiles::fromGuiBrowseFiles sending file %d %s", fileNum, vxFileInfo.getFileName().c_str() );
 				bool isShared = m_Engine.fromGuiGetIsFileShared( vxFileInfo.getFileName() );
 				bool isInLibrary = m_Engine.fromGuiGetIsFileInLibrary( vxFileInfo.getFileName() );
 
@@ -132,19 +132,19 @@ bool PluginBaseFiles::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMa
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "PluginBaseFiles::fromGuiBrowseFiles skip file type 0x%x because filter mask 0x%x file %s", 
-					vxFileInfo.getFileType(), fileFilterMask, vxFileInfo.getFileName().c_str() );
+				LogMsg( LOG_VERBOSE, "PluginBaseFiles::fromGuiBrowseFiles skip file type 0x%x because filter mask 0x%x file %d %s", 
+					vxFileInfo.getFileType(), fileFilterMask, fileNum, vxFileInfo.getFileName().c_str() );
 			}
 		}
 		else
 		{
 			if ( vxFileInfo.isExecutableFile() )
 			{
-				LogMsg( LOG_ERROR, "PluginBaseFiles::fromGuiBrowseFiles skip executeable file %s", vxFileInfo.getFileName().c_str() );
+				LogMsg( LOG_WARN, "PluginBaseFiles::fromGuiBrowseFiles skip executeable file %s", vxFileInfo.getFileName().c_str() );
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "PluginBaseFiles::fromGuiBrowseFiles skip shortcut file %s", vxFileInfo.getFileName().c_str() );
+				LogMsg( LOG_WARN, "PluginBaseFiles::fromGuiBrowseFiles skip shortcut file %s", vxFileInfo.getFileName().c_str() );
 			}
 		}
 	}

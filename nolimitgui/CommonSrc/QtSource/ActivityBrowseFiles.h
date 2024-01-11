@@ -82,6 +82,8 @@ protected:
 	Ui::BrowseFilesWidget		ui;
 
 	std::string					m_CurBrowseDirectory;
+	std::string					m_LastBrowseDir;
+
 	QTimer *					m_WidgetClickEventFixTimer;
 	VxTimer						m_ClickToFastTimer;
 
@@ -92,6 +94,7 @@ protected:
 
 	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
 	uint8_t						m_FileFilterMask{ 0 };
+	uint8_t						m_LastFileFilterMask{ 0 };
 };
 
 

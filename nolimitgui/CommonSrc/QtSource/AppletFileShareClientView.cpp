@@ -215,10 +215,10 @@ FileXferWidget* AppletFileShareClientView::fileToWidget( GuiUser* guiUser, EPlug
 	xferSession->setWidget( item );
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant((quint64)xferSession) );
 
-    connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
-    connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
+    connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)),		this, SLOT(slotItemClicked(QListWidgetItem*)) );
+    connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)),	this, SLOT(slotItemClicked(QListWidgetItem*)) );
 
-	connect( item, SIGNAL( signalAcceptButtonClicked(QListWidgetItem*) ),   this, SLOT( slotAcceptButtonClicked(QListWidgetItem*) ) );
+	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*)),		this, SLOT(slotAcceptButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),		this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );

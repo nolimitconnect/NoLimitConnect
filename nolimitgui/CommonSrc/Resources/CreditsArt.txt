@@ -131,6 +131,7 @@ person-add.svg
 persons-offer-list.svg (modified) 
 pin-pinned.svg
 pin-unpinned.svg
+play-stream.svg (modified) + play.svg from http://glyph.smarticons.co
 player-media.svg
 plugin.svg
 push-to-talk-off.svg 

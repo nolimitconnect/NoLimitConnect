@@ -8,6 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "IdentLogicInterface.h"
+
 #include "AppCommon.h"
 #include "AppletPeerChangeFriendship.h"
 #include "GuiGroupie.h"
@@ -15,8 +17,7 @@
 #include "GuiUser.h"
 #include "GuiHostJoin.h"
 #include "GuiPushToTalkMgr.h"
-#include "IdentLogicInterface.h"
-#include "MyIconsDefs.h"
+#include "MyIcons.h"
 #include "SoundMgr.h"
 #include "VxPushButton.h"
 

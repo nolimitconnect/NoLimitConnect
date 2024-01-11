@@ -9,10 +9,12 @@
 //============================================================================
 
 #include "VxAppStyle.h"
+
 #include "AppCommon.h"
-#include "VxAppTheme.h"
 #include "AppGlobals.h"
 #include "GuiParams.h"
+#include "MyIcons.h"
+#include "VxAppTheme.h"
 
 #include <QPainter>
 #include <QStyleOption>

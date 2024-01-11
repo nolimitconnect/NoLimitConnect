@@ -41,6 +41,7 @@ public:
 	bool						isValid( bool includeHashValid = true );
 
 	bool						isDirectory( void );
+	bool						isStremable( void );
 
 	void						setIsInLibrary( bool inLibrary )		{ m_IsInLibrary = inLibrary; }
 	bool						getIsInLibrary( void )					{ return m_IsInLibrary; }

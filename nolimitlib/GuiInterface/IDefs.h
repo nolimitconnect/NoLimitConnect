@@ -13,6 +13,7 @@
 
 #define ENABLE_COMPONENT_NEARBY         0 // enable/disable nearby users discovery 
 #define ENABLE_IPV6                     0 // if not zero enable ipv6 listen and usage 
+#define ENABLE_STREAMING                1 // if not zero enable streaming of shared media files 
 
 #define AUDIO_SAMPLE_RATE       16000
 #define AUDIO_CHUNK_SIZE        1280

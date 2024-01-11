@@ -297,6 +297,12 @@ bool FileInfo::isDirectory( void )
 }
 
 //============================================================================
+bool FileInfo::isStremable( void )
+{
+	return VXFILE_TYPE_AUDIO & m_u8FileType || VXFILE_TYPE_VIDEO & m_u8FileType;
+}
+
+//============================================================================
 void FileInfo::generateAssetId( void )
 {
 	if( !m_AssetId.isVxGUIDValid() )

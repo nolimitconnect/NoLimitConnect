@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "GuiHostedListItem.h"
+
+#include "AppCommon.h"
 #include "GuiHostedListSession.h"
 #include "GuiParams.h"
-#include "AppCommon.h"
+#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
 

@@ -26,10 +26,9 @@ class QPainter;
 class MyIcons
 {
 public:
-	MyIcons( AppCommon& appCommon );
+	MyIcons() = default;
 	~MyIcons() = default;
 
-	AppCommon&					getMyApp( void )			{ return m_MyApp; }
 	//! load all icons
 	void						myIconsStartup( void );
 
@@ -71,8 +70,5 @@ public:
 
 
     std::vector<QIcon>          m_aoIcons;
-
-private:
-	AppCommon&					m_MyApp;
 };
 

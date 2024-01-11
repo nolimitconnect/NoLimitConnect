@@ -9,8 +9,10 @@
 //============================================================================
 
 #include "ActivityInformation.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "MyIcons.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -173,11 +175,12 @@ QString ActivityInformation::m_PluginDefinitions( QObject::tr(
 "DEFINITIONS:\n"
 " *ABOUT PAGE SERVICE - Provide a information page about a host or person\n"
 " *CAM STREAM SERVICE: A host or user can provide streaming video live from their device camera or cam\n"
+" *CHAT ROOM HOST SERVICE: Provides group based text chat service.\n"
+" *CONNECTION TEST SERVICE: Provide user with connection test to determine users IP address and if has an open port or requires relay\n" 
+" *GROUP HOST SERVICE: Provides connection and other services to members who have joined the Group Host.\n"
 " *FILE SHARE PLUGIN: Provides user or host file sharing with other users.\n"
 " *FILE TRANSFER PLUGIN: Provides user file transfer to another person.\n"
-" *CHAT ROOM HOST SERVICE: Provides group based text chat service.\n"
-" *GROUP HOST SERVICE: Provides connection and other services to members who have joined the Group Host.\n"
-" *NOLIMITCONNECT NETWORK HOST SERVICE: Provides Connection test and user host listing for search of hosts to join.\n"
+" *NETWORK HOST SERVICE: Provides and user host listing for search of hosts to join.\n"
 " *PERMISSION LEVELS: Friendship level required to be allowed to use a service or connect to a person.\n"
 " *PUSH TO TALK PLUGIN: Provides user with voice communiction with one button push to talk.\n"
 " *RANDOM CONNECT HOST SERVICE: Provides users who join to communicate with others.\n"
@@ -262,7 +265,7 @@ QString ActivityInformation::m_NetworkHost( QObject::tr(
     " Example 2 ptop://111.122.133.144:45124\n"
     "\n"
     "NOTE 1: The network host IP port is normally 45124 but can be any open port.\n"
-    "NOTE 2: The network host address must eitehr be a fixed/permenent ip or be a web url name\n"
+    "NOTE 2: The network host address must eitehr be a fixed/static IP or be a URL\n"
     " that can be resolved to a IP using DNS ( Domain Name Service ).\n"
 ) );
 

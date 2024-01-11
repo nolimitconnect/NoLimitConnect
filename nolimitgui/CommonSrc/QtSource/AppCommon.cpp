@@ -10,16 +10,14 @@
 
 #include "AppCommon.h"
 
-#include "LogMgr.h"
-
 #include "ToGuiActivityInterface.h"
 
 #include "GuiParams.h"
-#include "SoundMgr.h"
-
-#include "VxTilePositioner.h"
-
 #include "HomeWindow.h"
+#include "LogMgr.h"
+#include "MyIcons.h"
+#include "SoundMgr.h"
+#include "VxTilePositioner.h"
 
 #include "ActivityCreateAccount.h"
 #include "ActivityMessageBox.h"
@@ -137,10 +135,11 @@ static AppSettings appSettings;
 static AccountMgr accountMgr;
 static GuiMemberActiveMgr memberActiveMgr;
 static GuiPushToTalkMgr pushToTalkMgr;
+static MyIcons myIcons;
     if( !g_AppCommon )
     {
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, memberActiveMgr, pushToTalkMgr );
+        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, memberActiveMgr, pushToTalkMgr, myIcons );
     }
 
     return *g_AppCommon;
@@ -166,7 +165,8 @@ AppCommon::AppCommon(	QApplication&	myQApp,
                         AccountMgr&	    accountMgr,
 						INlc&		    nlc,
 						GuiMemberActiveMgr& memberActiveMgr,
-						GuiPushToTalkMgr& pushToTalkMgr )
+						GuiPushToTalkMgr& pushToTalkMgr,
+						MyIcons& myIcons )
 : QWidget()
 , m_QApp( myQApp )
 , m_AppDefaultMode( appDefaultMode )
@@ -191,7 +191,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_PluginMgr( *this )
 , m_WebPageMgr( *this )
 
-, m_MyIcons( *this )
+, m_MyIcons( myIcons )
 , m_AppTheme( *this )
 , m_AppStyle( *this, m_AppTheme )
 , m_AppDisplay( *this )

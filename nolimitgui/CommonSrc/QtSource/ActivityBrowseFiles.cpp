@@ -691,11 +691,16 @@ void ActivityBrowseFiles::slotApplyFileFilter( unsigned char fileMask )
 //============================================================================
 void ActivityBrowseFiles::slotRequestFileList( void )
 {
-	m_WidgetClickEventFixTimer->stop();
-	clearFileList();
-	ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
-	m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
-	m_Engine.getFromGuiInterface().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
+	if( m_CurBrowseDirectory != m_LastBrowseDir || m_FileFilterMask != m_LastFileFilterMask )
+	{
+		m_LastBrowseDir = m_CurBrowseDirectory;
+		m_LastFileFilterMask = m_FileFilterMask;
+		m_WidgetClickEventFixTimer->stop();
+		clearFileList();
+		ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
+		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
+		m_Engine.getFromGuiInterface().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
+	}
 }
 
 //============================================================================

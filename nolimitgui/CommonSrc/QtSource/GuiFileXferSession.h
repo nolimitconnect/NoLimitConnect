@@ -92,6 +92,7 @@ public:
 	QString						describeXferState( void );
 
 	bool						isDirectory( void )							{ return m_FileInfo.isDirectory(); }
+	bool						isStremable( void )							{ return m_FileInfo.isStremable(); }
 
 protected:
 	//=== vars ===//

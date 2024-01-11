@@ -9,12 +9,14 @@
 //============================================================================
 
 #include "PermissionListItem.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "ActivityInformation.h"
 #include "AppletBase.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <PluginSettings/PluginSetting.h>
