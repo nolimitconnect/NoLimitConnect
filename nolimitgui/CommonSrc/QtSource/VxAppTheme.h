@@ -126,6 +126,11 @@ enum EThemeColorRole
     ePlaceholderText,
     eAlternateBase,
 
+	eChatTextTxBackground,
+	eChatTextTxForground,
+
+	eChatTextRxBackground,
+	eChatTextRxForground,
 
 	MaxThemeColorRole
 };
@@ -238,9 +243,14 @@ public:
     // set every color role for testing
     static void				    setEveryColorPossible( QPalette& palette, const QColor& bkgColor, const QColor& fgdColor );
 
+	static QString				getChatTextTxStyleSheet( void ) { return m_ChatTextTxStyleSheet; };
+	static QString				getChatTextRxStyleSheet( void ) { return m_ChatTextRxStyleSheet; };
+
 protected:
 	void						setWidgetPallette( QWidget* widget, QPalette & palette );
 	QPalette					getWidgetPalette( QWidget* widget );
+
+	static void					createChatStyleSheet( QString& styleSheet, QColor textBkg, QColor textFgd );
 
 	AppCommon&					m_MyApp;
 	QColor						m_TransparentColor;
@@ -250,4 +260,7 @@ protected:
 	QSvgRenderer				m_SvgRenderer;
 	QVector<QColor>				m_ThemeColors;
     EContrastType               m_ContrastType = eContrastTypeBlackOnWhite;
+
+	static QString				m_ChatTextTxStyleSheet;
+	static QString				m_ChatTextRxStyleSheet;
 };

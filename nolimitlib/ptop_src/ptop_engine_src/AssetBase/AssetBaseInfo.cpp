@@ -557,7 +557,7 @@ bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
 	{
 		// messenger just has to match history id
 		if( getPluginType() == ePluginTypeMessenger &&
-			groupieId.getUserOnlineId() == m_HistoryId )
+			( groupieId.getUserOnlineId() == m_HistoryId || groupieId.getHostOnlineId() == m_HistoryId ) )
 		{
 			return true;
 		}

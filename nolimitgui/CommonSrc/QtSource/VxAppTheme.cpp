@@ -43,6 +43,9 @@ namespace
 	const int BUTTON_BORDER_WIDTH		= 2;
 }
 
+QString VxAppTheme::m_ChatTextTxStyleSheet;
+QString VxAppTheme::m_ChatTextRxStyleSheet;
+
 //============================================================================
 VxAppTheme::VxAppTheme( AppCommon& appCommon )
 : m_MyApp( appCommon )
@@ -895,9 +898,9 @@ void VxAppTheme::updateWindowTheme( QWidget* homeHindow )
     palette.setColor( QPalette::HighlightedText, QColor( COLOR_RED ) );
     */
 
-    //m_ThemeColors.push_back( QColor( COLOR_RED ) ); //eShadowColor,
-    //m_ThemeColors.push_back( QColor( COLOR_RED ) ); //ePlaceholderText,
-    //m_ThemeColors.push_back( QColor( COLOR_RED ) ); //eAlternateBase,
+    //m_ThemeColors.emplace_back( COLOR_RED ); //eShadowColor,
+    //m_ThemeColors.emplace_back( COLOR_RED ); //ePlaceholderText,
+    //m_ThemeColors.emplace_back( COLOR_RED ); //eAlternateBase,
 
 
   //palette.setColor( QPalette::NColorRoles, QColor( COLOR_RED ) );
@@ -964,155 +967,184 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
 	{
 	case eThemeTypeDark:
         m_ContrastType = eContrastTypeWhiteOnBlack;
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE ) ); //eFocusRect,
-		m_ThemeColors.push_back( QColor( COLOR_BLACK ) ); //eWindowBackground,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_VERY_LIGHT ) ); //eWindowTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE_CREAM ) ); //eWindowHighlightTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eTitleBarBackground,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE_CREAM ) ); //eTitleBarTextText,
+		m_ThemeColors.emplace_back( COLOR_ORANGE ); //eFocusRect,
+		m_ThemeColors.emplace_back( COLOR_BLACK ); //eWindowBackground,
+		m_ThemeColors.emplace_back( COLOR_GREY_VERY_LIGHT ); //eWindowTextColor,
+		m_ThemeColors.emplace_back( COLOR_WHITE_CREAM ); //eWindowHighlightTextColor,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eTitleBarBackground,
+		m_ThemeColors.emplace_back( COLOR_WHITE_CREAM ); //eTitleBarTextText,
 
-		m_ThemeColors.push_back( QColor( COLOR_GREY_DARK ).darker() ); //eButtonBackgroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonBackgroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonBackgroundPressed,
+		m_ThemeColors.emplace_back( QColor( COLOR_GREY_DARK ).darker() ); //eButtonBackgroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonBackgroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonBackgroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eButtonForegroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonForegroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eButtonForegroundPressed,
+		m_ThemeColors.emplace_back( COLOR_SILVER ); //eButtonForegroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonForegroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eButtonForegroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_GREEN_LIGHT ) ); //eButtonTextNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREEN_MEDIUM ).darker() ); //eButtonTextDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ).darker() ); //eButtonTextPressed,
+		m_ThemeColors.emplace_back( COLOR_GREEN_LIGHT ); //eButtonTextNormal,
+		m_ThemeColors.emplace_back( QColor( COLOR_GREEN_MEDIUM ).darker() ); //eButtonTextDisabled,
+		m_ThemeColors.emplace_back( QColor( COLOR_WHITE ).darker() ); //eButtonTextPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerOverlayColor,
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOnlineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerNotifyRelayedColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eLayerNotifyOfflineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOfferColor, 
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eLayerNotifyForbiddenColor, 
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //eLayerNotifyErrorColor, 
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerOverlayColor,
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOnlineColor, 
+        m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerNotifyRelayedColor, 
+        m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eLayerNotifyOfflineColor, 
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOfferColor, 
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eLayerNotifyForbiddenColor, 
+        m_ThemeColors.emplace_back( COLOR_RED ); //eLayerNotifyErrorColor, 
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eProgressBarColor,
-        m_ThemeColors.push_back( QColor( COLOR_GREY_VERY_LIGHT ) ); //eProgressBarBackgroundColor,
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eProgressBarColor,
+        m_ThemeColors.emplace_back( COLOR_GREY_VERY_LIGHT ); //eProgressBarBackgroundColor,
 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN_DARK ) ); //eShadowColor,
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //ePlaceholderText,
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eAlternateBase,
+        m_ThemeColors.emplace_back( COLOR_GREEN_DARK ); //eShadowColor,
+        m_ThemeColors.emplace_back( COLOR_RED ); //ePlaceholderText,
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eAlternateBase,
+
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextTxBackground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
         break;
 
 	case eThemeTypeBlueOnWhite:
         m_ContrastType = eContrastTypeBlackOnWhite;
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eFocusRect,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eWindowBackground,
-		m_ThemeColors.push_back( QColor( COLOR_BLUE_MEDIUM ) ); //eWindowTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eWindowHighlightTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE_CREAM ) ); //eTitleBarBackground,
-		m_ThemeColors.push_back( QColor( COLOR_BLUE ) ); //eTitleBarTextText,
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eFocusRect,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eWindowBackground,
+		m_ThemeColors.emplace_back( COLOR_BLUE_MEDIUM ); //eWindowTextColor,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eWindowHighlightTextColor,
+		m_ThemeColors.emplace_back( COLOR_WHITE_CREAM ); //eTitleBarBackground,
+		m_ThemeColors.emplace_back( COLOR_BLUE ); //eTitleBarTextText,
 
-		m_ThemeColors.push_back( QColor( COLOR_WHITE_CREAM ) ); //eButtonBackgroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonBackgroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_BLUE ) ); //eButtonBackgroundPressed,
+		m_ThemeColors.emplace_back( COLOR_WHITE_CREAM ); //eButtonBackgroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonBackgroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_BLUE ); //eButtonBackgroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_BLUE ) ); //eButtonForegroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonForegroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonForegroundPressed,
+		m_ThemeColors.emplace_back( COLOR_BLUE ); //eButtonForegroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonForegroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonForegroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_BLUE ) ); //eButtonTextNormal,
-		m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eButtonTextDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonTextPressed,
+		m_ThemeColors.emplace_back( COLOR_BLUE ); //eButtonTextNormal,
+		m_ThemeColors.emplace_back( COLOR_SILVER ); //eButtonTextDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonTextPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerOverlayColor,
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOnlineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerNotifyRelayedColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eLayerNotifyOfflineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOfferColor, 
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eLayerNotifyForbiddenColor, 
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //eLayerNotifyErrorColor, 
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerOverlayColor,
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOnlineColor, 
+        m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerNotifyRelayedColor, 
+        m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eLayerNotifyOfflineColor, 
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOfferColor, 
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eLayerNotifyForbiddenColor, 
+        m_ThemeColors.emplace_back( COLOR_RED ); //eLayerNotifyErrorColor, 
 
-		m_ThemeColors.push_back( QColor( COLOR_BLUE ) ); //eProgressBarColor,
-        m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eProgressBarBackgroundColor,
+		m_ThemeColors.emplace_back( COLOR_BLUE ); //eProgressBarColor,
+        m_ThemeColors.emplace_back( COLOR_SILVER ); //eProgressBarBackgroundColor,
 
-        m_ThemeColors.push_back( QColor( COLOR_BLUE_DARK ) ); //eShadowColor,
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //ePlaceholderText,
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eAlternateBase,
+        m_ThemeColors.emplace_back( COLOR_BLUE_DARK ); //eShadowColor,
+        m_ThemeColors.emplace_back( COLOR_RED ); //ePlaceholderText,
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eAlternateBase,
+
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextTxBackground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
 
 		break;
 
 	case eThemeTypeGreenOnWhite:
         m_ContrastType = eContrastTypeBlackOnWhite;
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eFocusRect,
-		m_ThemeColors.push_back( QColor( COLOR_SEASHELL ) ); //eWindowBackground,
-		m_ThemeColors.push_back( QColor( COLOR_GREEN_LIME ) ); //eWindowTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eWindowHighlightTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE_CREAM ) ); //eTitleBarBackground,
-		m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eTitleBarTextText,
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eFocusRect,
+		m_ThemeColors.emplace_back( COLOR_SEASHELL ); //eWindowBackground,
+		m_ThemeColors.emplace_back( COLOR_GREEN_LIME ); //eWindowTextColor,
+		m_ThemeColors.emplace_back( COLOR_GREEN ); //eWindowHighlightTextColor,
+		m_ThemeColors.emplace_back( COLOR_WHITE_CREAM ); //eTitleBarBackground,
+		m_ThemeColors.emplace_back( COLOR_GREEN ); //eTitleBarTextText,
 
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonBackgroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonBackgroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_GREEN_LIME ) ); //eButtonBackgroundPressed,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonBackgroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonBackgroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_GREEN_LIME ); //eButtonBackgroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eButtonForegroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonForegroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonForegroundPressed,
+		m_ThemeColors.emplace_back( COLOR_GREEN ); //eButtonForegroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonForegroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonForegroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eButtonTextNormal,
-		m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eButtonTextDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonTextPressed,
+		m_ThemeColors.emplace_back( COLOR_GREEN ); //eButtonTextNormal,
+		m_ThemeColors.emplace_back( COLOR_SILVER ); //eButtonTextDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonTextPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerOverlayColor,
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOnlineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerNotifyRelayedColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eLayerNotifyOfflineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOfferColor, 
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eLayerNotifyForbiddenColor, 
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //eLayerNotifyErrorColor, 
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerOverlayColor,
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOnlineColor, 
+        m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerNotifyRelayedColor, 
+        m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eLayerNotifyOfflineColor, 
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOfferColor, 
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eLayerNotifyForbiddenColor, 
+        m_ThemeColors.emplace_back( COLOR_RED ); //eLayerNotifyErrorColor, 
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE ) ); //eProgressBarColor,
-        m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eProgressBarBackgroundColor,
+		m_ThemeColors.emplace_back( COLOR_ORANGE ); //eProgressBarColor,
+        m_ThemeColors.emplace_back( COLOR_SILVER ); //eProgressBarBackgroundColor,
 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN_MEDIUM ) ); //eShadowColor,
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //ePlaceholderText,
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eAlternateBase,
+        m_ThemeColors.emplace_back( COLOR_GREEN_MEDIUM ); //eShadowColor,
+        m_ThemeColors.emplace_back( COLOR_RED ); //ePlaceholderText,
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eAlternateBase,
+      
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextTxBackground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
         break;
 
 	case eThemeTypeUnknown:
 	case eThemeTypeLight:
 	default:
         m_ContrastType = eContrastTypeBlackOnWhite;
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eFocusRect,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eWindowBackground,
-		m_ThemeColors.push_back( QColor( COLOR_BLACK ) ); //eWindowTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eWindowHighlightTextColor,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE_CREAM ) ); //eTitleBarBackground,
-		m_ThemeColors.push_back( QColor( COLOR_BLACK ) ); //eTitleBarTextText,
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eFocusRect,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eWindowBackground,
+		m_ThemeColors.emplace_back( COLOR_BLACK ); //eWindowTextColor,
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eWindowHighlightTextColor,
+		m_ThemeColors.emplace_back( COLOR_WHITE_CREAM ); //eTitleBarBackground,
+		m_ThemeColors.emplace_back( COLOR_BLACK ); //eTitleBarTextText,
 
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonBackgroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonBackgroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_BLACK ) ); //eButtonBackgroundPressed,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonBackgroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonBackgroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_BLACK ); //eButtonBackgroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_BLACK ) ); //eButtonForegroundNormal,
-		m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eButtonForegroundDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonForegroundPressed,
+		m_ThemeColors.emplace_back( COLOR_BLACK ); //eButtonForegroundNormal,
+		m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eButtonForegroundDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonForegroundPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_BLACK ) ); //eButtonTextNormal,
-		m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eButtonTextDisabled,
-		m_ThemeColors.push_back( QColor( COLOR_WHITE ) ); //eButtonTextPressed,
+		m_ThemeColors.emplace_back( COLOR_BLACK ); //eButtonTextNormal,
+		m_ThemeColors.emplace_back( COLOR_SILVER ); //eButtonTextDisabled,
+		m_ThemeColors.emplace_back( COLOR_WHITE ); //eButtonTextPressed,
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerOverlayColor,
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOnlineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_ORANGE_BURNT ) ); //eLayerNotifyRelayedColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREY_MEDIUM ) ); //eLayerNotifyOfflineColor, 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN ) ); //eLayerNotifyOfferColor, 
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eLayerNotifyForbiddenColor, 
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //eLayerNotifyErrorColor, 
+		m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerOverlayColor,
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOnlineColor, 
+        m_ThemeColors.emplace_back( COLOR_ORANGE_BURNT ); //eLayerNotifyRelayedColor, 
+        m_ThemeColors.emplace_back( COLOR_GREY_MEDIUM ); //eLayerNotifyOfflineColor, 
+        m_ThemeColors.emplace_back( COLOR_GREEN ); //eLayerNotifyOfferColor, 
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eLayerNotifyForbiddenColor, 
+        m_ThemeColors.emplace_back( COLOR_RED ); //eLayerNotifyErrorColor, 
 
-		m_ThemeColors.push_back( QColor( COLOR_ORANGE ) ); //eProgressBarColor,
-        m_ThemeColors.push_back( QColor( COLOR_SILVER ) ); //eProgressBarBackgroundColor,
+		m_ThemeColors.emplace_back( COLOR_ORANGE ); //eProgressBarColor,
+        m_ThemeColors.emplace_back( COLOR_SILVER ); //eProgressBarBackgroundColor,
 
-        m_ThemeColors.push_back( QColor( COLOR_GREEN_MEDIUM ) ); //eShadowColor,
-        m_ThemeColors.push_back( QColor( COLOR_RED ) ); //ePlaceholderText,
-        m_ThemeColors.push_back( QColor( COLOR_PINK_LIGHT ) ); //eAlternateBase,
+        m_ThemeColors.emplace_back( COLOR_GREEN_MEDIUM ); //eShadowColor,
+        m_ThemeColors.emplace_back( COLOR_RED ); //ePlaceholderText,
+        m_ThemeColors.emplace_back( COLOR_PINK_LIGHT ); //eAlternateBase,
+        
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextTxBackground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
+        m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
+        m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
         break;
 	}
 
+    createChatStyleSheet( m_ChatTextTxStyleSheet, getColor( eChatTextTxBackground ), getColor( eChatTextTxForground ) );
+    createChatStyleSheet( m_ChatTextRxStyleSheet, getColor( eChatTextRxBackground ), getColor( eChatTextRxForground ) );
+
     updateWindowTheme( homeHindow );
+}
+
+//============================================================================
+void VxAppTheme::createChatStyleSheet( QString& styleSheet, QColor textBkg, QColor textFgd )
+{
+    styleSheet = QString("QLabel{border-radius: 5px; background-color: rgb(%1, %2, %3); color: rgb(%4, %4, %6);}").arg(textBkg.red()).arg(textBkg.green()).arg(textBkg.blue()).arg(textFgd.red()).arg(textFgd.green()).arg(textFgd.blue());
 }
