@@ -38,7 +38,7 @@ void MediaPlayerNlc::fromGuiInitCommandLine( int argc, char** argv )
 
 //============================================================================
 /// NOTE: 
-void MediaPlayerNlc::fromStartModule( EAppModule appModule )
+bool MediaPlayerNlc::fromStartModule( EAppModule appModule )
 {
 	if( eAppModulePlayerNlc == appModule && !m_ModuleIsRunning )
 	{
@@ -55,25 +55,35 @@ void MediaPlayerNlc::fromStartModule( EAppModule appModule )
 		INlc::getINlc().getOsInterface().doRun( appModule ); // will stay in this function until kodi is shutdown
 		m_ModuleIsRunning = false;
 	}
+
+	return true;
 }
 
 //============================================================================
-void MediaPlayerNlc::fromStopModule( EAppModule appModule )
+bool MediaPlayerNlc::fromStopModule( EAppModule appModule )
 {
 	if( eAppModulePlayerNlc == appModule && m_ModuleIsRunning )
 	{
-		m_ModuleIsRunning = false;
-		// send quit to kodi
+		m_ModuleIsRunning = !INlc::getINlc().toGuiStopModule( eAppModulePlayerNlc );
 	}
+
+	return m_ModuleIsRunning;
+}
+
+//============================================================================
+bool MediaPlayerNlc::fromGuiIsModuleRunning( EAppModule appModule )
+{
+	return m_ServiceManager && m_ServiceManager->GetInitLevel() >= 3;
 }
 
 //============================================================================
 bool MediaPlayerNlc::assureInitialized( void )
 {
+	bool isInitialize{ false };
 	if( !m_ServiceManager.get() )
 	{
 		// has been shutdown.. restart
-		INlc::getINlc().toGuiRunModule( eAppModulePlayerNlc );
+		isInitialize = INlc::getINlc().toGuiRunModule( eAppModulePlayerNlc );
 	}
 
 	if( !m_ServiceManager.get() )
@@ -96,6 +106,7 @@ bool MediaPlayerNlc::assureInitialized( void )
 //============================================================================
 bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
+	fromGuiMediaPlayerAction( eMediaPlayerActionPlayStop );
     bool result{ false };
     if( !assureInitialized() )
     {
@@ -133,6 +144,12 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 bool MediaPlayerNlc::fromGuiMediaPlayerAction( EMediaPlayerAction playerAction )
 {
 	bool result{ false };
+	if( eMediaPlayerActionPlayStop == playerAction )
+	{
+		StopPlaying();
+		return true;
+	}
+
 	assureInitialized();
 
 

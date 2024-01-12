@@ -283,9 +283,13 @@ bool AssetBaseInfo::isValid( void )
 		isValidAsset &= getPluginType() != ePluginTypeInvalid;
 	}
 
-	if( getAssetType() != eAssetTypeThumbnail )
+	if( isFileAsset() )
 	{
-		isValidAsset &= 0 != getCreatorId().isVxGUIDValid() && m_CreationTime && 0 != m_InfoModifiedTime;
+		isValidAsset &= isValidFile()  && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+	}
+	else if( getAssetType() != eAssetTypeThumbnail && getAssetType() != eAssetTypeChatFace )
+	{
+		isValidAsset &= getCreatorId().isVxGUIDValid() &&  0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}
 
 	vx_assert( isValidAsset );

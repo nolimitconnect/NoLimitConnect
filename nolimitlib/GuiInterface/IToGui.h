@@ -36,12 +36,14 @@ public:
     static IToGui&              getToGui();
     static IAudioRequests&      getAudioRequests();
 
-	virtual void                toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) = 0;
+	virtual bool                toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) = 0;
 	virtual void                toGuiMediaError( EAppModule appModule, EMediaError mediaError, const char* msg ) = 0;
 
 	virtual void                toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) = 0;
 	virtual bool                toGuiGetIsAppModuleRunning( EAppModule appModule ) = 0;
+
 	virtual bool                toGuiRunModule( EAppModule appModule ) = 0;
+	virtual bool                toGuiStopModule( EAppModule appModule ) = 0;
 
 	virtual void                toGuiCreateUserDirs( void ) = 0;
 

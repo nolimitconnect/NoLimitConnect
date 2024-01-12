@@ -92,7 +92,14 @@ public:
 	QString						describeXferState( void );
 
 	bool						isDirectory( void )							{ return m_FileInfo.isDirectory(); }
+
 	bool						isStremable( void )							{ return m_FileInfo.isStremable(); }
+
+	void						setStreamingEnable( bool isStreaming )		{ m_StreamingEnable = isStreaming; }
+	bool 						getStreamingEnable( void )					{ return m_StreamingEnable; }
+
+	void						setIsStreaming( bool isStreaming )			{ m_FileInfo.setIsStreaming( isStreaming ); }
+	bool 						getIsStreaming( void )						{ return m_FileInfo.getIsStreaming(); }
 
 protected:
 	//=== vars ===//
@@ -105,5 +112,7 @@ protected:
 	EXferState					m_XferState{ eXferStateUnknown };
 	EXferError					m_XferError{ eXferErrorNone };
 	int							m_XferProgress{ 0 };
+
+	bool						m_StreamingEnable{ false };
 };
 

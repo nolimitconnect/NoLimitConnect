@@ -809,3 +809,19 @@ bool AppSettings::getDisableSoundEffects( void )
 
 	return disableSoundEffects;
 }
+
+
+//============================================================================
+void AppSettings::setUseSystemMediaPlayer( bool useSystemPlayer )
+{
+	setIniValue( getAppShortName(), "UseSystemPlayer", useSystemPlayer );
+}
+
+//============================================================================
+bool AppSettings::getUseSystemMediaPlayer( void )
+{
+	bool useSystemPlayer = false;
+	getIniValue( getAppShortName(), "UseSystemPlayer", useSystemPlayer, false );
+
+	return useSystemPlayer;
+}

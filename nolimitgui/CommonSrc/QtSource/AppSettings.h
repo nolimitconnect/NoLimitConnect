@@ -159,6 +159,9 @@ public:
 	void						setDisableSoundEffects( bool disable );
 	bool						getDisableSoundEffects( void );
 
+	void						setUseSystemMediaPlayer( bool useSystemPlayer );
+	bool						getUseSystemMediaPlayer( void );
+
 protected:
 	bool						appModeSettingsAreInitialize( void );
 	void						setupAppModeSettings( EDefaultAppMode appDefaultMode );

@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CommonHdr.h>
 #include "INlc.h"
+
 #include "ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h"
 #include <BigListLib/BigListInfo.h>
 

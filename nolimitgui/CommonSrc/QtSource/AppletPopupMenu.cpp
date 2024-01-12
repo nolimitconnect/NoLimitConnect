@@ -54,8 +54,8 @@ AppletPopupMenu::AppletPopupMenu( AppCommon& app, QWidget* parent, VxGUID assetI
 	getTitleBarWidget()->setVisible( false );
 	getBottomBarWidget()->setVisible( false );
 
-    connect( ui.m_ExitPopupButton, SIGNAL( clicked() ), this, SLOT( closeApplet() ) );
-    connect( ui.m_MenuItemList, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( itemClicked( QListWidgetItem* ) ) );
+    connect( ui.m_ExitPopupButton, SIGNAL(clicked()), this, SLOT(closeApplet()) );
+    connect( ui.m_MenuItemList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemClicked(QListWidgetItem*)) );
 
     // NOT USED FOR POPUP
     m_MyApp.activityStateChange( this, false );

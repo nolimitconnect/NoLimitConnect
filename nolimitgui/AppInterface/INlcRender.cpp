@@ -8,8 +8,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CommonHdr.h>
-
 #include "INlc.h"
 #include <CoreLib/VxDebug.h>
 #include <libplayer-nlc/xbmc/xbmc/utils/StringUtils.h>
@@ -18,9 +16,9 @@
 #include <libavformat/avformat.h>
 #include <libavfilter/avfilter.h>
 
-
 #include <libplayer-nlc/xbmc/xbmc/filesystem/Directory.h>
 #include <libplayer-nlc/xbmc/xbmc/filesystem/SpecialProtocol.h>
+#include <libplayer-nlc/xbmc/xbmc/MediaPlayerNlc.h>
 #include <libplayer-nlc/xbmc/xbmc/utils/log.h>
 
 #include "ptop_src/ptop_engine_src/P2PEngine/P2PEngine.h"
@@ -29,16 +27,21 @@
 #include <CoreLib/VxGlobals.h>
 #include <NetLib/VxPeerMgr.h>
 
-
-
 //============================================================================
 //=== to gui media/render ===//
 //============================================================================
 
 //============================================================================
-void INlc::toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, const char* fileName )
+bool INlc::toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, const char* fileName )
 {
-    getAppCommon().toGuiMediaAction( appModule, playerAction, actionVal, fileName );
+    if( appModule == eAppModuleMediaPlayer )
+    {
+        return getNlcPlayer().fromGuiMediaPlayerAction( playerAction );
+    }
+    else
+    {
+        return getAppCommon().toGuiMediaAction( appModule, playerAction, actionVal, fileName );
+    }
 }
 
 //============================================================================

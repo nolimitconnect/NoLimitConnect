@@ -404,9 +404,9 @@ void CApplication::fromGuiVisibleEvent( EAppModule appModule, bool isVisible )
 }
 
 //============================================================================
-void CApplication::toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName )
+bool CApplication::toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName )
 {
-    GetToGui().toGuiMediaAction( eAppModulePlayerNlc, playerAction, actionVal, fileName );
+    return GetToGui().toGuiMediaAction( eAppModulePlayerNlc, playerAction, actionVal, fileName );
 }
 
 //============================================================================

@@ -31,9 +31,14 @@ FileXferWidget::FileXferWidget(QWidget* parent)
 	ui.m_FileAcceptButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
 	ui.m_FileAcceptButton->setVisible( false );
 
-	connect( ui.m_FileAcceptButton,		SIGNAL( clicked() ),					this, SLOT( slotAcceptButtonClicked() ) );
+	ui.m_StreamButton->setIcon( eMyIconPlayStream );
+	ui.m_StreamButton->setVisible( false );
+
+	connect( ui.m_FileAcceptButton,		SIGNAL(clicked()),						this, SLOT(slotAcceptButtonClicked()) );
 	connect( ui.m_FileIconButton,		SIGNAL(clicked()),						this, SLOT(slotFileIconButtonClicked()) );
 	connect( ui.m_FileCancelButton,		SIGNAL(clicked()),						this, SLOT(slotCancelButtonClicked()) );
+	connect( ui.m_StreamButton,			SIGNAL(clicked()),						this, SLOT(slotStreamButtonClicked()) );
+
 	connect( ui.m_FileActionBar,		SIGNAL(signalPlayButtonClicked()),		this, SLOT(slotPlayButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalLibraryButtonClicked()),	this, SLOT(slotLibraryButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalFileShareButtonClicked()), this, SLOT(slotFileShareButtonClicked()) );
@@ -90,6 +95,12 @@ void FileXferWidget::slotAcceptButtonClicked( void )
 void FileXferWidget::slotCancelButtonClicked( void )
 {
 	emit signalCancelButtonClicked( this );
+}
+
+//============================================================================
+void FileXferWidget::slotStreamButtonClicked( void )
+{
+	emit signalStreamButtonClicked( this );
 }
 
 //============================================================================
@@ -322,8 +333,7 @@ void FileXferWidget::updateXferInfo( void )
 #if ENABLE_STREAMING
 			if( xferSession->isStremable() )
 			{
-				ui.m_FileAcceptButton->setIcons( eMyIconPlayStream );
-				ui.m_FileCancelButton->setVisible( true );
+				ui.m_StreamButton->setVisible( true );
 			}
 #endif // ENABLE_STREAMING
 		}

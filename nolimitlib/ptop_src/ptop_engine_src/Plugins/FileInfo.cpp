@@ -48,6 +48,7 @@ FileInfo::FileInfo( const FileInfo& rhs )
     , m_XferSessionId( rhs.m_XferSessionId )
     , m_IsInLibrary( rhs.m_IsInLibrary )
     , m_IsSharedFile( rhs.m_IsSharedFile )
+	, m_IsStreaming( rhs.m_IsStreaming )
 {
     assureValidAssetId();
 }
@@ -168,6 +169,7 @@ FileInfo& FileInfo::operator=( const FileInfo& rhs )
         m_XferSessionId			= rhs.m_XferSessionId;
         m_IsInLibrary			= rhs.m_IsInLibrary;
         m_IsSharedFile			= rhs.m_IsSharedFile;
+		m_IsStreaming			= rhs.m_IsStreaming;
     }
 
 	return *this;

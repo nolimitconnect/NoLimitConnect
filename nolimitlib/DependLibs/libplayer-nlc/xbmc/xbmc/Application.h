@@ -129,7 +129,7 @@ public:
     void                        fromGuiCloseEvent( EAppModule appModule ) override;
     void                        fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
 
-    void                        toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName );
+    bool                        toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName );
     void                        toGuiMediaError( EMediaError mediaError, const char* msg );
     //============================================================================
 

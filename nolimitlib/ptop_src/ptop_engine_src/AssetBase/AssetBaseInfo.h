@@ -180,6 +180,9 @@ public:
 
     virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isVxGUIDValid() ) return m_DestOnlineId; return m_HistoryId; }
 
+    virtual void				setIsStreaming( bool isStreaming )			{ m_IsStreaming = isStreaming; }
+	virtual bool 				getIsStreaming( void )						{ return m_IsStreaming; }
+
 public:
     //=== vars ===//
     EPluginType                 m_PluginType{ ePluginTypeInvalid };
@@ -200,4 +203,5 @@ public:
     int						    m_PlayPosition0to100000{ 0 };
 
     VxGUID						m_DestOnlineId; // temporary destination id for xfer of asset
+    bool                        m_IsStreaming{ false };  // temporary
 };

@@ -41,6 +41,16 @@
 
 #include <QThread>
 
+namespace
+{
+	const int PROCESS_QT_DEFAULT_MS = 50;
+
+	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
+	{
+		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+	}
+}
+
 //============================================================================
 AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 : AppletPlayerBase( OBJNAME_APPLET_PLAYER_NLC, app, parent )
@@ -227,23 +237,58 @@ void AppletPlayerNlc::setReadyForCallbacks( bool isReady )
 //============================================================================
 void AppletPlayerNlc::slotMediaFileComboBoxSelectionChange( int cbIdx )
 {
-    std::string fileStr = ui.m_FilesComboBox->currentText().toUtf8().constData();
-    QString mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
-    if( VxFileUtil::fileExists(fileStr.c_str()) )
-    {
-		playFile( mediaFile );
-	}
-    else
-    {
-        QMessageBox::information( this, QObject::tr("File does not exist"), mediaFile, QMessageBox::Ok );
-    }
+    std::string mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
+	playMediaFile( mediaFile, 0 );
 }
 
 //============================================================================
 bool AppletPlayerNlc::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
+	if( !waitForPlayerThread() )
+	{
+		return false;
+	}
+
 	AppletPlayerBase::setAssetInfo( assetInfo );
-	return m_MyApp.getPlayerNlc().fromGuiPlayMedia( assetInfo, pos0to100000 );;
+
+	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
+}
+
+//============================================================================
+bool AppletPlayerNlc::playMediaFile(std::string mediaFile, int pos0to100000 )
+{
+	if( !waitForPlayerThread() )
+	{
+		return false;
+	}
+
+	if( VxFileUtil::fileExists( mediaFile.c_str() ) )
+    {
+		return AppletPlayerBase::playFile( mediaFile.c_str(), pos0to100000 );
+	}
+    else
+    {
+		QString fileName( mediaFile.c_str() );
+        QMessageBox::information( this, QObject::tr("File does not exist"), fileName, QMessageBox::Ok );
+		return false;
+    }
+}
+
+//============================================================================
+bool AppletPlayerNlc::waitForPlayerThread( void )
+{
+	m_ElapsedTimer.start();
+	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
+	{
+		ProcessQtEvents( 100 );
+		if( m_ElapsedTimer.elapsed() > 6000 )
+		{
+			LogMsg( LOG_ERROR, "Media Player Failed To Start" );
+			return false;
+		}
+	}
+
+	return true;
 }
 
 //============================================================================

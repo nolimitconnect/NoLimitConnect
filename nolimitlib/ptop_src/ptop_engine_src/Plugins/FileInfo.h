@@ -101,6 +101,9 @@ public:
 
 	void						assureValidAssetId( void );
 
+	void						setIsStreaming( bool isStreaming )			{ m_IsStreaming = isStreaming; }
+	bool 						getIsStreaming( void )						{ return m_IsStreaming; }
+
 private:
 	void						generateAssetId( void );
 
@@ -121,4 +124,6 @@ public:
 	VxGUID						m_XferSessionId; // temporary.. not in db and does not get added or extracted from blob
 	bool						m_IsInLibrary{ true }; // temporary.. not in db does not get added or extracted from blob
 	bool						m_IsSharedFile{ true }; // temporary.. not in db does not get added or extracted from blob
+
+	bool						m_IsStreaming{ false };
 };

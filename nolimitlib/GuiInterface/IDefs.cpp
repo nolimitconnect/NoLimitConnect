@@ -1986,6 +1986,8 @@ const char* DescribeMediaPlayerAction( enum EMediaPlayerAction playerAction )
     case eMediaPlayerActionPlayPosition: return "Play Position";
 
     case eMediaPlayerActionPlayStart: return "Play Start";
+    case eMediaPlayerActionPlayStop: return "Play Stop";
+
     case eMediaPlayerActionPlayEnd: return "Play End";
     case eMediaPlayerActionSelectFile: return "Select Media File";
     default:

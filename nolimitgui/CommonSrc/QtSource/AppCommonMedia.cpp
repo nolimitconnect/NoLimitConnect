@@ -25,14 +25,15 @@
 #include <QMessageBox>
 
 //============================================================================
-void AppCommon::toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, const char* fileName )
+bool AppCommon::toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, const char* fileName )
 {
 	if( VxIsAppShuttingDown() )
 	{
-		return;
+        return false;
 	}
 
 	emit signalInternalMediaAction( appModule, playerAction, actionVal, fileName );
+	return true;
 }
 
 //============================================================================
@@ -62,6 +63,12 @@ bool AppCommon::toGuiGetIsAppModuleRunning( EAppModule appModule )
 bool AppCommon::toGuiRunModule( EAppModule appModule )
 {
 	return m_Nlc.toGuiRunModule( appModule );
+}
+
+//============================================================================
+bool AppCommon::toGuiStopModule( EAppModule appModule )
+{
+    return m_Nlc.toGuiStopModule( appModule );
 }
 
 //============================================================================

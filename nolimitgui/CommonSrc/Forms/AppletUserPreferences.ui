@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>287</width>
+    <width>342</width>
     <height>568</height>
    </rect>
   </property>
@@ -94,6 +94,13 @@
        <widget class="QCheckBox" name="m_DisableSoundEffectsCheckBox">
         <property name="text">
          <string>Diable Sound Effects (Key Click, Notify, Etc.)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_UseSystemPlayerCheckBox">
+        <property name="text">
+         <string>Use system player for media instead of NLC player</string>
         </property>
        </widget>
       </item>

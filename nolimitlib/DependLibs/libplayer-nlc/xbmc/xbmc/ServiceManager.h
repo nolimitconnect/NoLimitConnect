@@ -161,7 +161,7 @@ public:
   MEDIA_DETECT::CDetectDVDMedia& GetDetectDVDMedia();
 #endif
 
-  int GetInitLevel() {return init_level; }
+  int GetInitLevel() { return init_level; }
 
 protected:
   struct delete_dataCacheCore

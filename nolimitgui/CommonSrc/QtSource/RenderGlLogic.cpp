@@ -54,7 +54,16 @@ void RenderGlLogic::aboutToDestroy()
         LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waiting for thread" );
         VxTimer waitTimer;
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
-        m_RenderPlayerNlcThread->wait();
+        while( m_RenderPlayerNlcThread->isRunning() )
+        {
+            VxSleep( 1000 );
+            if( m_RenderPlayerNlcThread->isRunning() )
+            {
+                LogMsg( LOG_VERBOSE, "RenderGlLogic::aboutToDestroy still waiting for thread to exit" );
+            }
+        }
+
+        //m_RenderPlayerNlcThread->wait();
         LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waited for thread %3.3fms", waitTimer.elapsedMs() );
         //delete m_RenderPlayerNlcThread;
         m_RenderPlayerNlcThread->deleteLater();

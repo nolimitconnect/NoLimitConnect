@@ -15,16 +15,18 @@ class MediaPlayerNlc : public CApplication, public IMediaPlayerRequests
 public:
 	MediaPlayerNlc();
 
-	virtual enum EAppModule     getAppModule( void ) override;
-    virtual bool                testQuitFlag() override;
+	enum EAppModule				getAppModule( void ) override;
+    bool						testQuitFlag() override;
 
-	virtual void				fromGuiInitCommandLine( int argc, char** argv ) override;
-	virtual void				fromStartModule( EAppModule appModule ) override;
-	virtual void				fromStopModule( EAppModule appModule ) override;
+	void						fromGuiInitCommandLine( int argc, char** argv ) override;
 
-	virtual bool				fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
-	virtual bool				fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) override;
-	virtual bool				fromGuiMediaPlayerSeek( int position0to100000 ) override;
+	bool						fromStartModule( EAppModule appModule ) override;
+	bool						fromStopModule( EAppModule appModule ) override;
+	bool						fromGuiIsModuleRunning( EAppModule appModule ) override;
+
+	bool						fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
+	bool						fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) override;
+	bool						fromGuiMediaPlayerSeek( int position0to100000 ) override;
 
 protected:
     bool						assureInitialized( void );

@@ -129,6 +129,20 @@ bool INlc::toGuiRunModule( EAppModule appModule )
 }
 
 //============================================================================
+bool INlc::toGuiStopModule( EAppModule appModule )
+{
+    if( eAppModulePlayerNlc == appModule )
+    {
+#if defined(ENABLE_NLC_PLAYER)
+        m_NlcPlayer.fromStopModule( appModule );
+        return true;
+#endif // ENABLE_NLC_PLAYER
+    }
+
+    return false;
+}
+
+//============================================================================
 void INlc::toGuiCreateUserDirs( void )
 {
     createUserDirs();

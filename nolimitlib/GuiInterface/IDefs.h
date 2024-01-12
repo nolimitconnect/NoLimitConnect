@@ -547,6 +547,7 @@ enum EMediaPlayerAction
     eMediaPlayerActionPlayPause,
     eMediaPlayerActionPlayPosition,
     eMediaPlayerActionPlayStart,
+    eMediaPlayerActionPlayStop,
     eMediaPlayerActionPlayEnd,
     eMediaPlayerActionSelectFile,
 

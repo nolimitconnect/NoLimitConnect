@@ -67,6 +67,7 @@ void AppletUserPreferences::hideEvent( QHideEvent* ev )
 void AppletUserPreferences::updateDlgFromSettings()
 {
     ui.m_DisableSoundEffectsCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSoundEffects() );
+    ui.m_UseSystemPlayerCheckBox->setChecked( m_MyApp.getAppSettings().getUseSystemMediaPlayer() );
     ui.m_UnattendedHostCheckBox->setChecked( m_MyApp.getAppSettings().getIsAutomatedHost() );
     ui.m_MilitaryTimeCheckBox->setChecked( m_MyApp.getAppSettings().getUseMilitaryTime() );
 }
@@ -79,6 +80,7 @@ void AppletUserPreferences::updateSettingsFromDlg()
     m_MyApp.getAppSettings().setIsAutomatedHost( unattendedHost );
 
     m_MyApp.getAppSettings().setDisableSoundEffects( ui.m_DisableSoundEffectsCheckBox->isChecked() );
+    m_MyApp.getAppSettings().setUseSystemMediaPlayer( ui.m_UseSystemPlayerCheckBox->isChecked() );
     m_MyApp.getAppSettings().setUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );
     SetUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );
 

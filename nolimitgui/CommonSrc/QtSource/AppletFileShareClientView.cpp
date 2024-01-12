@@ -212,6 +212,11 @@ FileXferWidget* AppletFileShareClientView::fileToWidget( GuiUser* guiUser, EPlug
     lclSessionId.initializeWithNewVxGUID();
     GuiFileXferSession* xferSession = new GuiFileXferSession( eXferDirectionRx, pluginType, guiUser, lclSessionId, fileInfo );
 	xferSession->setXferState( eXferStateDownloadNotStarted );
+	if( fileInfo.isStremable() )
+	{
+		xferSession->setStreamingEnable( true );
+	}
+
 	xferSession->setWidget( item );
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant((quint64)xferSession) );
 
@@ -220,6 +225,8 @@ FileXferWidget* AppletFileShareClientView::fileToWidget( GuiUser* guiUser, EPlug
 
 	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*)),		this, SLOT(slotAcceptButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),		this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalStreamButtonClicked(QListWidgetItem*)),		this, SLOT(slotStreamButtonClicked(QListWidgetItem*)) );
+
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileShareButtonClicked(QListWidgetItem*)) );
@@ -307,13 +314,14 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 			GuiFileXferSession* xferSession = widgetToFileItemInfo( item );
 			if( xferSession )
 			{
-				if( eXferStateUploadNotStarted == xferSession->getXferState() || eXferStateDownloadNotStarted == xferSession->getXferState() )
+				EXferState xferState = xferSession->getXferState();
+				if( eXferStateUploadNotStarted == xferState || eXferStateDownloadNotStarted == xferState)
 				{
 					std::string fileName = xferSession->getFullFileName().toUtf8().constData();
                     int64_t fileLen = (int64_t)VxFileUtil::fileExists( fileName.c_str() );
 					if( fileLen && fileLen == fileInfo.getFileLength() )
 					{
-						if( eXferStateUploadNotStarted == xferSession->getXferState() )
+						if( eXferStateUploadNotStarted == xferState )
 						{
 							xferSession->setXferState( eXferStateCompletedUpload, eXferErrorNone, 100 );
 							item->updateWidgetFromInfo();
@@ -324,7 +332,12 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 							item->updateWidgetFromInfo();
 						}
 					}
-				}			
+					else if( eXferStateDownloadNotStarted == xferState && xferSession->isStremable() )
+					{
+						xferSession->setStreamingEnable( true );
+						item->updateWidgetFromInfo();
+					}
+				}	
 			}
 		}
 	}
@@ -359,6 +372,8 @@ void AppletFileShareClientView::slotCancelButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( !xferSession )
 	{
+		LogMsg( LOG_ERROR, "AppletFileShareClientView::slotCancelButtonClicked null xferSession" );
+		vx_assert( false );
 		return;
 	}
 
@@ -394,11 +409,28 @@ void AppletFileShareClientView::slotCancelButtonClicked( QListWidgetItem* item )
 }
 
 //============================================================================
-void AppletFileShareClientView::beginDownload( GuiFileXferSession* xferSession, QListWidgetItem* item  )
+void AppletFileShareClientView::slotStreamButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
+	if( !xferSession )
+	{
+		LogMsg( LOG_ERROR, "AppletFileShareClientView::slotStreamButtonClicked null xferSession" );
+		vx_assert( false );
+		return;
+	}
+
+	xferSession->setIsStreaming( true );
+
+	slotCancelButtonClicked( item );
+}
+
+//============================================================================
+void AppletFileShareClientView::beginDownload( GuiFileXferSession* xferSession, QListWidgetItem* item )
 {
 	if( !xferSession || !xferSession->getIdent() )
 	{
 		LogMsg( LOG_ERROR, "AppletFileShareClientView::beginDownload invalid param" );
+		vx_assert( false );
 		return;
 	}
 
@@ -445,13 +477,21 @@ void AppletFileShareClientView::cancelDownload( GuiFileXferSession* xferSession,
     xferSession->setXferState(  eXferStateUserCanceledDownload, eXferErrorNone, 0 );
     ((FileXferWidget*)item)->setXferState( eXferStateUserCanceledDownload, eXferErrorNone, 0 );
 	m_MyApp.getFileXferMgr().cancelDownload( getAppletType(), xferSession );
-	std::string fileName = xferSession->getFileInfo().getFullFileName();
-	if( VxFileUtil::fileExists( fileName.c_str() ) )
+	if( xferSession->getIsStreaming() )
 	{
-		if( confirmDeleteFile( true ) )
+		xferSession->setIsStreaming( false );
+		removeDownload( xferSession, item );
+	}
+	else
+	{
+		std::string fileName = xferSession->getFileInfo().getFullFileName();
+		if( VxFileUtil::fileExists( fileName.c_str() ) )
 		{
-			removeDownload( xferSession, item );
-			m_MyApp.getEngine().fromGuiDeleteFile( fileName, true );
+			if( confirmDeleteFile( true ) )
+			{
+				removeDownload( xferSession, item );
+				m_MyApp.getEngine().fromGuiDeleteFile( fileName, true );
+			}
 		}
 	}
 }

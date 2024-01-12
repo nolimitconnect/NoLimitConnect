@@ -59,6 +59,7 @@ GuiFileXferSession& GuiFileXferSession::operator =( const GuiFileXferSession &rh
 		m_XferError			= rhs.m_XferError;		
 		m_XferDirection		= rhs.m_XferDirection;
 		m_XferProgress		= rhs.m_XferProgress;
+		m_StreamingEnable	= rhs.m_StreamingEnable;
 		// do not copy 		m_Widget
 	}
 

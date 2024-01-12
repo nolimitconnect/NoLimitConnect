@@ -107,7 +107,6 @@ bool FileItemInfo::toAsssetInfo( AppCommon& myApp, AssetBaseInfo& assetInfoOut, 
 
                 assetInfoOut = *assetInfo;
                 result = true;
-                myApp.getPlayerMgr().playMedia( *assetInfo );
             }
             else
             {

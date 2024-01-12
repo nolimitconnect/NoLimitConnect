@@ -14,6 +14,10 @@
 #include "GuiPlayerCallback.h"
 #include "ui_AppletPlayerNlc.h"
 
+#include <QElapsedTimer>
+
+class QMediaPlayer;
+
 class AppletPlayerNlc : public AppletPlayerBase, public GuiPlayerCallback
 {
 	Q_OBJECT
@@ -49,6 +53,7 @@ protected:
 	void						initAppletPlayerNlc( void );
 
 	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+	bool						playMediaFile( std::string fileStr, int pos0to100000 = 0 );
 
 	void						setReadyForCallbacks( bool isReady );
 	void						updateGuiPlayControls( bool isPlaying );
@@ -64,12 +69,16 @@ protected:
 
 	void						onFileSelected( FileInfo& fileInfo );
 
+	bool						waitForPlayerThread( void );
+
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi		ui;
 	EAppModule					m_AppModule{ eAppModulePlayerNlc };
 	bool						m_ActivityCallbacksEnabled{ false };
 	bool						m_IsPlaying{ false };
 	bool						m_SliderIsPressed{ false };
+	QMediaPlayer*				m_QMediaPlayer{ nullptr };
+	QElapsedTimer				m_ElapsedTimer;
 };
 
 

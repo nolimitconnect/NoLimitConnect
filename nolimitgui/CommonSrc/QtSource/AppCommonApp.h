@@ -266,7 +266,7 @@ public:
     //=== to gui media/render ===//
     //============================================================================
 
-    void                        toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) override;
+    bool                        toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) override;
     void                        toGuiMediaError( EAppModule appModule, EMediaError mediaError, const char* msg ) override;
 
     virtual void                verifyGlState( const char* msg = nullptr ) override; // show gl error if any
@@ -431,7 +431,9 @@ public:
 
     virtual void                toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) override;
     virtual bool                toGuiGetIsAppModuleRunning( EAppModule appModule ) override;
+
     virtual bool                toGuiRunModule( EAppModule appModule ) override;
+    virtual bool                toGuiStopModule( EAppModule appModule ) override;
 
     virtual void                toGuiCreateUserDirs( void ) override;
 

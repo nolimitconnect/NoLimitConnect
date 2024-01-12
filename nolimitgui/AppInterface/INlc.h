@@ -71,7 +71,10 @@ public:
     //=== running states ===//
     virtual void                toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) override;
     virtual bool                toGuiGetIsAppModuleRunning( EAppModule appModule ) override                 { return m_IsRunning[ appModule ]; };
+
     virtual bool                toGuiRunModule( EAppModule appModule ) override;
+    virtual bool                toGuiStopModule( EAppModule appModule ) override;
+
     virtual void                toGuiCreateUserDirs( void ) override;
 
     //=== interface ===//
@@ -98,7 +101,7 @@ public:
     //=== to gui media/render ===//
     //============================================================================
 
-    virtual void                toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) override;
+    virtual bool                toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) override;
     virtual void                toGuiMediaError( EAppModule appModule, EMediaError mediaError, const char* errMsg ) override;
 
     virtual void                verifyGlState( const char* msg = nullptr ) override; // show gl error if any

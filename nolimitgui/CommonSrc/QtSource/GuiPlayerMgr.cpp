@@ -12,6 +12,7 @@
 
 #include "ActivityBase.h"
 #include "AppCommon.h"
+#include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "GuiPlayerCallback.h"
@@ -195,22 +196,32 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 		return false;
 	}
 
-	EApplet appletType = GuiHelpers::getAppletThatPlaysFile( m_MyApp, assetInfo );
-	if( appletType != eAppletUnknown )
+	if( assetInfo.isPhotoAsset() || assetInfo.getIsStreaming() || !m_MyApp.getAppSettings().getUseSystemMediaPlayer() )
 	{
-		// launch the applet that plays this file
-		ActivityBase* applet = m_MyApp.launchApplet( appletType, &m_MyApp.getHomePage(), "", assetInfo.getAssetUniqueId() );
-		if( applet && applet->playMedia( assetInfo, pos0to100000 ) )
+		EApplet appletType = GuiHelpers::getAppletThatPlaysFile( m_MyApp, assetInfo );
+		if( appletType != eAppletUnknown )
 		{
-			return true;
+			// launch the applet that plays this file
+			ActivityBase* applet = m_MyApp.launchApplet( appletType, &m_MyApp.getHomePage(), "", assetInfo.getAssetUniqueId() );
+			if( applet && applet->playMedia( assetInfo, pos0to100000 ) )
+			{
+				return true;
+			}
+			else
+			{
+				applet->closeApplet();
+			}
 		}
 	}
 
+	if( !assetInfo.getIsStreaming() )
+	{
 #ifdef TARGET_OS_WINDOWS
-	ShellExecuteA( 0, 0, assetInfo.getAssetName().c_str(), 0, 0, SW_SHOW );
+		ShellExecuteA( 0, 0, assetInfo.getAssetName().c_str(), 0, 0, SW_SHOW );
 #else
-    QDesktopServices::openUrl( QUrl::fromLocalFile( assetInfo.getAssetName().c_str() ) );
+		QDesktopServices::openUrl( QUrl::fromLocalFile( assetInfo.getAssetName().c_str() ) );
 #endif // TARGET_OS_WINDOWS
+	}
 	return true;
 }
 
