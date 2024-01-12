@@ -9,11 +9,12 @@
 //============================================================================
 
 #include "AppletTheme.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "VxAppTheme.h"
-#include "MyIcons.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

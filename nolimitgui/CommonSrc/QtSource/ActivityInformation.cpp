@@ -14,6 +14,7 @@
 #include "AppSettings.h"
 #include "MyIcons.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 #include <QClipboard>

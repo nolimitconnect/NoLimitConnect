@@ -8,16 +8,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PermissionWidget.h"
 #include "AppletEditStoryboard.h"
+
 #include "AppletStoryboardClient.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AccountMgr.h"
 #include "GuiHelpers.h"
+#include "MyIcons.h"
+#include "PermissionWidget.h"
 
 #include <QMessageBox>
 #include <QUuid>
@@ -28,6 +29,7 @@
 #include <P2PEngine/EngineSettings.h>
 #include <AssetMgr/AssetMgr.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

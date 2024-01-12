@@ -15,6 +15,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 #include <stdio.h>
 #include <stdarg.h>
 

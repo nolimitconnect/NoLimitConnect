@@ -294,6 +294,7 @@ void FileXferWidget::updateXferInfo( void )
 	case eXferStateCompletedDownload:
 		ui.m_FileAcceptButton->setVisible( true );
 		ui.m_FileCancelButton->setVisible( false );
+		ui.m_StreamButton->setVisible( false );
 		
 		enableCompleted = true;
 		enableCancel = true;
@@ -349,6 +350,7 @@ void FileXferWidget::updateXferInfo( void )
 
 	if( enablePlay )
 	{
+		ui.m_StreamButton->setVisible( false );
 		ui.m_FileActionBar->setVisible( true );
 	}
 	else

@@ -16,6 +16,8 @@
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 #define SESSION_TIMEOUT 15000
 
 ActivityScanStoryBoards * g_poScanStoryBoardsActivity = NULL;

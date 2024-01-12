@@ -8,11 +8,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppletPopupMenu.h"
+
 #include "AppCommon.h"	
 #include "AppSettings.h"
 #include "VxAppTheme.h"
-
-#include "AppletPopupMenu.h"
 #include "AppletPeerChangeFriendship.h"
 #include "AppletAboutMeClient.h"
 #include "AppletCamClient.h"
@@ -36,6 +36,8 @@
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxGlobals.h>
 #include <VxVideoLib/VxVideoLib.h>

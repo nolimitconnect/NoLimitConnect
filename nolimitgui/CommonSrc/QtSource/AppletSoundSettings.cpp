@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletSoundSettings.h"
+
 #include "ActivityInformation.h"
 #include "ActivityMessageBox.h"
 
@@ -24,6 +25,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <MediaProcessor/MediaProcessor.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <QAudioSink>

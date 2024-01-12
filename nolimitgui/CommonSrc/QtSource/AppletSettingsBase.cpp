@@ -9,9 +9,8 @@
 //============================================================================
 
 #include "AppletSettingsBase.h"
+
 #include "AppCommon.h"
-#include "AppSettings.h"
-#include "MyIcons.h"
 #include "GuiHelpers.h"
 
 #include <P2PEngine/P2PEngine.h>

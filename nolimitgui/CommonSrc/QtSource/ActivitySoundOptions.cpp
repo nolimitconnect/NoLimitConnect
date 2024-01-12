@@ -15,6 +15,8 @@
 
 #include <P2PEngine/EngineSettings.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 #include <QFileDialog>
 #ifdef _MSC_VER
 # pragma warning(disable: 4003) //not enough actual parameters for macro 'mkdir'

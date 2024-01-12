@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletPeerTodGame.h"
+
 #include "AppCommon.h"
 
 #include "GuiOfferSession.h"
@@ -17,6 +18,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 namespace

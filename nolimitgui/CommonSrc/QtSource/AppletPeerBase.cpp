@@ -8,19 +8,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiOfferSession.h"
 #include "AppletPeerBase.h"
-#include "ActivityMessageBox.h"
-#include "IdentWidget.h"
 
+#include "ActivityMessageBox.h"
+#include "GuiOfferSession.h"
+#include "IdentWidget.h"
 #include "AppGlobals.h"
-#include "MyIcons.h"
 #include "SoundMgr.h"
 #include "AppCommon.h"
 #include "VidWidget.h"
 #include "GuiParams.h"
+#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
+
 
 //============================================================================
 AppletPeerBase::AppletPeerBase(	const char* objName, AppCommon& app, QWidget* parent )

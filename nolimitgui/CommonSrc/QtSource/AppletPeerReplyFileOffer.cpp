@@ -12,6 +12,8 @@
 
 #include "GuiOfferSession.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 AppletPeerReplyFileOffer::AppletPeerReplyFileOffer(	AppCommon& app, 
 												    QWidget* parent )

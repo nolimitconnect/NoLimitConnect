@@ -24,6 +24,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 

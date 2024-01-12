@@ -13,6 +13,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 ActivityFileSearch * g_poFileSearchActivity = NULL;
 
 //============================================================================

@@ -19,7 +19,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
-#include <CoreLib/ObjectCommon.h>
+#include <CoreLib/ObjectCommonDefs.h>
 
 //============================================================================
 AppletUserPreferences::AppletUserPreferences( AppCommon& app, QWidget* parent )

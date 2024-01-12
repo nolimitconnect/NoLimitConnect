@@ -8,16 +8,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppletGroupListLocalView.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppletPopupMenu.h"
-#include "AppletGroupListLocalView.h"
 #include "ActivityMessageBox.h"
 #include "GuiHostSession.h"
 #include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 namespace

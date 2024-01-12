@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "AppletPersonOfferList.h"
+
 #include "ActivityYesNoMsgBox.h"
 
 #include "AppCommon.h"
@@ -19,11 +19,12 @@
 
 #include "FileXferWidget.h"
 #include "GuiFileXferSession.h"
-#include "MyIcons.h"
 #include "ActivityDownloadItemMenu.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
 

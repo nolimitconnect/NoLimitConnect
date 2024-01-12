@@ -8,15 +8,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"	
-#include "AppSettings.h"
-
 #include "AppletGalleryImage.h"
 
-#include "FileShareItemWidget.h"
-#include "MyIcons.h"
-#include "AppletPopupMenu.h"
+#include "AppCommon.h"	
 #include "AppGlobals.h"
+#include "AppSettings.h"
+#include "FileShareItemWidget.h"
+#include "AppletPopupMenu.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
 #include "GuiHelpers.h"
@@ -26,6 +24,8 @@
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 
 //============================================================================

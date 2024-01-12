@@ -14,11 +14,10 @@
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
 
-#include <CoreLib/IsBigEndianCpu.h>
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 

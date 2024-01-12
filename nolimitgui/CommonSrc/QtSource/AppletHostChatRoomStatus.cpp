@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletHostChatRoomStatus.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "MyIcons.h"
@@ -16,6 +17,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

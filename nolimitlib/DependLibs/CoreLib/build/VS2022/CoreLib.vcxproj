@@ -248,6 +248,7 @@
     <ClInclude Include="..\..\IsBigEndianCpu.h" />
     <ClInclude Include="..\..\MediaCallbackInterface.h" />
     <ClInclude Include="..\..\ObjectCommon.h" />
+    <ClInclude Include="..\..\ObjectCommonDefs.h" />
     <ClInclude Include="..\..\OsDetect.h" />
     <ClInclude Include="..\..\rsa.h" />
     <ClInclude Include="..\..\SHA1.h" />

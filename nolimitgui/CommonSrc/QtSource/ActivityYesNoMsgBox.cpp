@@ -14,6 +14,7 @@
 #include "AppCommon.h"
 #include "GuiHelpers.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxDebug.h>
 

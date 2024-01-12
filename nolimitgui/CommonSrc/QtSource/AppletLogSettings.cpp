@@ -15,8 +15,8 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiParams.h"
-#include "MyIcons.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/ObjectCommon.h>
 

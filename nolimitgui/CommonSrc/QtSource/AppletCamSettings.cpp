@@ -15,6 +15,7 @@
 
 #include <GuiInterface/IFromGui.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

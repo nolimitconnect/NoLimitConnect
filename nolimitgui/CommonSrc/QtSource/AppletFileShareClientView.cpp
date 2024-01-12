@@ -8,18 +8,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppletFileShareClientView.h"
 
 #include "AppCommon.h"
 #include "AppSettings.h"
-
-#include "AppletFileShareClientView.h"
-
 #include "AppletDownloads.h"
 #include "ActivityMessageBox.h"
 #include "ActivityYesNoMsgBox.h"
 
 #include "FileXferWidget.h"
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "GuiFileXferSession.h"
@@ -30,6 +27,10 @@
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+
+#include "PermissionWidget.h"
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxFileUtil.h>
 

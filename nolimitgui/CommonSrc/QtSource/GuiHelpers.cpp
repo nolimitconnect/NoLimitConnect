@@ -23,11 +23,12 @@
 #include "VxFrame.h"
 #include "PluginSettingsWidget.h"
 
+#include <CoreLib/ObjectCommon.h>
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
-#include <CoreLib/ObjectCommon.h>
 #include <CoreLib/VxDebug.h>
 
 #include <P2PEngine/P2PEngine.h>

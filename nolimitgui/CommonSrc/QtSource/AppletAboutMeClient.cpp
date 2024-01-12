@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletAboutMeClient.h"
+
 #include "AppletMgr.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -26,6 +27,7 @@
 #include <P2PEngine/EngineSettings.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

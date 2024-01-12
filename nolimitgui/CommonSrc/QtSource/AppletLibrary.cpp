@@ -9,10 +9,9 @@
 //============================================================================
 
 #include "AppletLibrary.h"
+
 #include "AppCommon.h"
-#include "AppSettings.h"
-#include "MyIcons.h"
-#include "AppCommon.h"	
+#include "AppGlobals.h"
 #include "AppSettings.h"
 
 #include "AppletDownloads.h"
@@ -20,8 +19,6 @@
 #include "ActivityYesNoMsgBox.h"
 
 #include "FileShareItemWidget.h"
-#include "MyIcons.h"
-#include "AppGlobals.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
 #include "GuiHelpers.h"
@@ -33,6 +30,8 @@
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
 

@@ -23,6 +23,7 @@
 #include "VxFrame.h"
 #include "AppletBase.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxAppInfo.h>
 
 #include <QScreen>

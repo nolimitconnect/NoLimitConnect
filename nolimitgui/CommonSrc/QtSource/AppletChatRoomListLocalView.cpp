@@ -17,6 +17,7 @@
 #include "GuiHostSession.h"
 #include "GuiParams.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>

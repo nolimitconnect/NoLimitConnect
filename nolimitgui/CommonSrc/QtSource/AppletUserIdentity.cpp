@@ -17,7 +17,6 @@
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "HomeWindow.h"
-#include "MyIcons.h"
 #include "AccountMgr.h"
 
 #include <QMessageBox>
@@ -28,6 +27,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <ThumbMgr/ThumbInfo.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

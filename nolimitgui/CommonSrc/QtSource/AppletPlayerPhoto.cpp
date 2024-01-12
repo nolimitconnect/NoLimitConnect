@@ -9,14 +9,15 @@
 //============================================================================
 
 #include "AppletPlayerPhoto.h"
+
 #include "ActivityBrowseFiles.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "GuiPlayerMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 

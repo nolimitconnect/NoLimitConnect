@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletMgr.h"
+
 #include "ActivityBase.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -166,6 +167,8 @@
 #include "AppletUserPreferences.h"
 
 #include "HomeWindow.h"
+
+#include <CoreLib/ObjectCommonDefs.h>
 
 //============================================================================
 AppletMgr::AppletMgr( AppCommon& myMpp, QWidget* parent )

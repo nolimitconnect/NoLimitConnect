@@ -10,6 +10,8 @@
 
 #include "VxWidgetBase.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 VxWidgetBase::VxWidgetBase( QWidget* parent, Qt::WindowFlags f )
 : QWidget( parent, f )

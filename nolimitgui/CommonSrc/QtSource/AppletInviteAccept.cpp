@@ -9,13 +9,15 @@
 //============================================================================
 
 #include "AppletInviteAccept.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxUrl.h>

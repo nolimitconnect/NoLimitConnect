@@ -15,6 +15,8 @@
 #include "GuiHelpers.h"
 
 #include <PktLib/VxCommon.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/Sha1GeneratorMgr.h>
 

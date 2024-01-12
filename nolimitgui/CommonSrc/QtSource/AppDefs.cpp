@@ -95,6 +95,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletPlayerPhoto:	            return eMyIconPhoto;
     case eAppletPlayerVideo:			    return eMyIconVideo;
     case eAppletPlayerNlc:			        return eMyIconPlayerNlc;
+    case eAppletPlayerStream:			    return eMyIconPlayStream;
 
     case eAppletRandomConnectClient:	    return eMyIconSearchRandomConnect;
     case eAppletRandomConnectHostAdmin:	    return eMyIconRandomConnectClient;
@@ -233,9 +234,11 @@ QString DescribeApplet( EApplet applet )
     case eAppletApplicationInfo:            return QObject::tr( "Application Information" );
     case eAppletBrowseFiles:			    return QObject::tr( "Browse Files" );
     case eAppletOfferList:                  return QObject::tr( "Offer List" );
+
     case eAppletPlayerCamClip:              return QObject::tr( "Cam Video Player" );
     case eAppletPlayerPhoto:                return QObject::tr( "Photo Viewer" );
     case eAppletPlayerNlc:                  return QObject::tr( "Media Player" );
+    case eAppletPlayerStream:               return QObject::tr( "Steam Player" );
 
     case eAppletCamClient:                  return QObject::tr( "View Shared Web Cam" );
     case eAppletCamServerViewMine:          return QObject::tr( "View My Shared Web Cam" );

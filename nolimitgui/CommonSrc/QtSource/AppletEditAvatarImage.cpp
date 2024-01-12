@@ -9,9 +9,9 @@
 //============================================================================
 
 #include "AppletEditAvatarImage.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AccountMgr.h"
@@ -27,6 +27,7 @@
 #include <ThumbMgr/ThumbMgr.h>
 #include <ThumbMgr/ThumbInfo.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

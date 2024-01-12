@@ -9,11 +9,10 @@
 //============================================================================
 
 #include "AppletChooseThumbnail.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "AppGlobals.h"
-#include "AppCommon.h"
 #include "AccountMgr.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -25,6 +24,7 @@
 #include <P2PEngine/EngineSettings.h>
 #include <AssetMgr/AssetMgr.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>

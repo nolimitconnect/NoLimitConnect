@@ -9,14 +9,15 @@
 //============================================================================
 
 #include "AppletServiceBaseSettings.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

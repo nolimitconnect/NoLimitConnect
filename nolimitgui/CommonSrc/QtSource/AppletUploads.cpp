@@ -16,13 +16,14 @@
 
 #include "FileXferWidget.h"
 #include "GuiFileXferSession.h"
-#include "MyIcons.h"
 #include "GuiHelpers.h"	
 #include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/VxSearchDefs.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 
 //============================================================================

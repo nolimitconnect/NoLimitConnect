@@ -12,6 +12,8 @@
 
 #include "GuiOfferSession.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 AppletPeerSessionFileOffer::AppletPeerSessionFileOffer(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_SESSION_FILE_OFFER, app, parent )

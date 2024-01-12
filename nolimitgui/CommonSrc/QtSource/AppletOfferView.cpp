@@ -9,9 +9,9 @@
 //============================================================================
 
 #include "AppletOfferView.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "AppCommon.h"	
 #include "AppSettings.h"
 
@@ -33,6 +33,8 @@
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>

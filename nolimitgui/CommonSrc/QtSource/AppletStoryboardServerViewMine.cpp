@@ -12,6 +12,8 @@
 
 #include "AppCommon.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 AppletStoryboardServerViewMine::AppletStoryboardServerViewMine( AppCommon& app, QWidget* parent )
     : AppletStoryboardClient( app, parent )

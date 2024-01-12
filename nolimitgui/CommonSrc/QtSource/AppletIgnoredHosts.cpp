@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletIgnoredHosts.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
@@ -18,6 +19,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

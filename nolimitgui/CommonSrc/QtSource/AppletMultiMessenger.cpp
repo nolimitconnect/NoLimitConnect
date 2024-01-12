@@ -8,19 +8,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppSettings.h"
 #include "AppletMultiMessenger.h"
+
+#include "AppSettings.h"
 #include "ActivityMessageBox.h"
 #include "GuiOfferSession.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "AppGlobals.h"
-#include "MyIcons.h"
 #include "AppCommon.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <QMessageBox>

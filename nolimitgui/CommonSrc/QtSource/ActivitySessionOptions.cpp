@@ -16,6 +16,8 @@
 #include "MyIcons.h"
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 ActivitySessionOptions::ActivitySessionOptions(	AppCommon&			app,
 												VxNetIdent*			netIdent, 

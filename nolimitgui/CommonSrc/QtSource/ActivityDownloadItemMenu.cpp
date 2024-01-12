@@ -9,10 +9,13 @@
 //============================================================================
 
 #include "ActivityDownloadItemMenu.h"
+
 #include "AppCommon.h"
+#include "MyIcons.h"
 
 #include "GuiFileXferSession.h"
-#include "MyIcons.h"
+
+#include <CoreLib/ObjectCommonDefs.h>
 
 //============================================================================
 ActivityDownloadItemMenu::ActivityDownloadItemMenu(	AppCommon& app, 

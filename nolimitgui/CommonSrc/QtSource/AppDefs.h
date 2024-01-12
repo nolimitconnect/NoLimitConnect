@@ -133,6 +133,7 @@ enum EApplet
 
     eAppletPlayerCamClip,
     eAppletPlayerPhoto,
+    eAppletPlayerStream,
     eAppletPlayerVideo,
 
     eAppletAvatarImageClient,	    // get users avatar imaage from other user

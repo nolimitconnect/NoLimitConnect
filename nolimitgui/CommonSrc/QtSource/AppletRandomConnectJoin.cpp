@@ -10,6 +10,8 @@
 
 #include "AppletRandomConnectJoin.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 AppletRandomConnectJoin::AppletRandomConnectJoin( AppCommon& app, QWidget* parent )
 : AppletJoinBase( OBJNAME_APPLET_RANDOM_CONNECT_JOIN, app, parent )

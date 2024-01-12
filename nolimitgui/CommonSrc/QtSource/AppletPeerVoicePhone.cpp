@@ -9,11 +9,15 @@
 //============================================================================
 
 #include "AppletPeerVoicePhone.h"
+
 #include "GuiOfferSession.h"
 #include "AppGlobals.h"
-#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
+
+#include "GuiOfferSession.h"
+
+#include <CoreLib/ObjectCommonDefs.h>
 
 //============================================================================
 AppletPeerVoicePhone::AppletPeerVoicePhone(	AppCommon& app, QWidget* parent )

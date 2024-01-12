@@ -9,12 +9,14 @@
 //============================================================================
 
 #include "AppletRandomConnectClient.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiMemberActiveMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 

@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletInviteCreate.h"
+
 #include "AppletHostSelect.h"
 #include "AppletMgr.h"
 #include "ActivityInformation.h"
@@ -20,6 +21,8 @@
 #include "AccountMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/Invite.h>
 #include <NetLib/NetHostSetting.h>
 #include <CoreLib/IsBigEndianCpu.h>

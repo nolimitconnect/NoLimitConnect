@@ -8,13 +8,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityInformation.h"
 #include "AppletSettingsHostNetwork.h"
+
+#include "ActivityInformation.h"
 #include "AppCommon.h"
-#include "AppSettings.h"
-#include "MyIcons.h"
 #include "GuiHelpers.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 

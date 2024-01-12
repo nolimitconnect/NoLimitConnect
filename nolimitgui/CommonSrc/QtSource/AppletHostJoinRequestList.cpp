@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletHostJoinRequestList.h"
+
 #include "AppletMgr.h"
 #include "GuiHostServerJoinMgr.h"
 #include "GuiHostJoin.h"
@@ -19,8 +20,7 @@
 #include "GuiHelpers.h"	
 #include "GuiParams.h"
 
-#include "MyIcons.h"
-
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

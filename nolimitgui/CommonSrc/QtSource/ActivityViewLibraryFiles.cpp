@@ -30,6 +30,8 @@
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 
 //============================================================================

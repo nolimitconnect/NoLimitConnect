@@ -19,6 +19,7 @@
 #include "AccountMgr.h"
 #include "GuiHelpers.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <NetLib/NetHostSetting.h>
 #include <NetLib/VxGetRandomPort.h>

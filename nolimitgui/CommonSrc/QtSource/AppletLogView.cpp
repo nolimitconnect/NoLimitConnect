@@ -14,10 +14,10 @@
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/ObjectCommon.h>
+#include <CoreLib/ObjectCommonDefs.h>
 
 namespace
 {

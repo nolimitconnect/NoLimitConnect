@@ -14,6 +14,7 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 #include <QClipboard>

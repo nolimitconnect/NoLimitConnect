@@ -8,16 +8,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppletRandomConnectJoinSearch.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppSettings.h"
 #include "AppletPopupMenu.h"
-#include "AppletRandomConnectJoinSearch.h"
 #include "ActivityMessageBox.h"
 #include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 namespace

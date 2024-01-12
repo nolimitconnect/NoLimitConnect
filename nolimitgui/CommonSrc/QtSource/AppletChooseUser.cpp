@@ -17,6 +17,7 @@
 #include "GuiParams.h"
 #include "GuiUserListWidget.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

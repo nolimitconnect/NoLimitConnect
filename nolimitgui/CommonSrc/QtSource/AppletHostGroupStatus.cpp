@@ -8,15 +8,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityInformation.h"
 #include "AppletHostGroupStatus.h"
+
+#include "ActivityInformation.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "GuiHelpers.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

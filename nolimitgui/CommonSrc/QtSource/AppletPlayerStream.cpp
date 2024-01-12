@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletPlayerNlc.h"
+#include "AppletPlayerStream.h"
 
 #include "ActivityBrowseFiles.h"
 #include "AppCommon.h"
@@ -36,16 +36,16 @@ namespace
 }
 
 //============================================================================
-AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
-: AppletPlayerBase( OBJNAME_APPLET_PLAYER_NLC, app, parent )
+AppletPlayerStream::AppletPlayerStream( AppCommon& app, QWidget* parent )
+: AppletPlayerBase( OBJNAME_APPLET_PLAYER_STREAM, app, parent )
 {
-	initAppletPlayerNlc();
+	initAppletPlayerStream();
 }
 
 //============================================================================
-void AppletPlayerNlc::initAppletPlayerNlc( void )
+void AppletPlayerStream::initAppletPlayerStream( void )
 {
-	setAppletType( eAppletPlayerNlc );
+	setAppletType( eAppletPlayerStream );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
@@ -124,27 +124,27 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 	connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButtonClick() ) );
 
 	m_MyApp.activityStateChange( this, true );
-	m_MyApp.getSoundMgr().setPlayerNlcActive( true );
+	m_MyApp.getSoundMgr().setPlayerStreamActive( true );
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
 }
 
 //============================================================================
-AppletPlayerNlc::~AppletPlayerNlc()
+AppletPlayerStream::~AppletPlayerStream()
 {
 	stopMediaIfPlaying();
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
-	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
+	m_MyApp.getSoundMgr().setPlayerStreamActive( false );
 	m_MyApp.activityStateChange( this, false );
 }
 
 //============================================================================
-RenderGlWidget* AppletPlayerNlc::getRenderConsumer( void )
+RenderGlWidget* AppletPlayerStream::getRenderConsumer( void )
 {
 	return ui.m_RenderWidget;
 }
 
 //============================================================================
-void AppletPlayerNlc::setupBottomMenu( VxMenuButton* menuButton )
+void AppletPlayerStream::setupBottomMenu( VxMenuButton* menuButton )
 {
 	if( menuButton )
 	{
@@ -160,7 +160,7 @@ void AppletPlayerNlc::setupBottomMenu( VxMenuButton* menuButton )
 }
 
 //============================================================================
-void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemType )
+void AppletPlayerStream::slotMenuItemSelected( int menuId, EMenuItemType menuItemType )
 {
 	ActivityBrowseFiles* dlgBrowse;
 	switch( menuItemType )
@@ -191,25 +191,25 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
 }
 
 //============================================================================
-void AppletPlayerNlc::showEvent( QShowEvent* showEvent )
+void AppletPlayerStream::showEvent( QShowEvent* showEvent )
 {
 	AppletBase::showEvent( showEvent );
 }
 
 //============================================================================
-void AppletPlayerNlc::hideEvent( QHideEvent* hideEvent )
+void AppletPlayerStream::hideEvent( QHideEvent* hideEvent )
 {
 	AppletBase::hideEvent( hideEvent );
 }
 
 //============================================================================
-void AppletPlayerNlc::resizeEvent( QResizeEvent* ev )
+void AppletPlayerStream::resizeEvent( QResizeEvent* ev )
 {
 	AppletBase::resizeEvent( ev );
 }
 
 //============================================================================
-void AppletPlayerNlc::setReadyForCallbacks( bool isReady )
+void AppletPlayerStream::setReadyForCallbacks( bool isReady )
 {
 	if( m_ActivityCallbacksEnabled != isReady )
 	{
@@ -219,14 +219,14 @@ void AppletPlayerNlc::setReadyForCallbacks( bool isReady )
 }
 
 //============================================================================
-void AppletPlayerNlc::slotMediaFileComboBoxSelectionChange( int cbIdx )
+void AppletPlayerStream::slotMediaFileComboBoxSelectionChange( int cbIdx )
 {
     std::string mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
 	playMediaFile( mediaFile, 0 );
 }
 
 //============================================================================
-bool AppletPlayerNlc::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
+bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	if( !waitForPlayerThread() )
 	{
@@ -239,7 +239,7 @@ bool AppletPlayerNlc::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 }
 
 //============================================================================
-bool AppletPlayerNlc::playMediaFile(std::string mediaFile, int pos0to100000 )
+bool AppletPlayerStream::playMediaFile(std::string mediaFile, int pos0to100000 )
 {
 	if( !waitForPlayerThread() )
 	{
@@ -259,10 +259,10 @@ bool AppletPlayerNlc::playMediaFile(std::string mediaFile, int pos0to100000 )
 }
 
 //============================================================================
-bool AppletPlayerNlc::waitForPlayerThread( void )
+bool AppletPlayerStream::waitForPlayerThread( void )
 {
 	m_ElapsedTimer.start();
-	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
+	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerStream ) )
 	{
 		ProcessQtEvents( 100 );
 		if( m_ElapsedTimer.elapsed() > 6000 )
@@ -276,7 +276,7 @@ bool AppletPlayerNlc::waitForPlayerThread( void )
 }
 
 //============================================================================
-void AppletPlayerNlc::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
+void AppletPlayerStream::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
 	AppletPlayerBase::toGuiClientAssetAction( assetAction, assetId, pos0to100000 );
 	switch( assetAction )
@@ -304,13 +304,13 @@ void AppletPlayerNlc::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& 
 }
 
 //============================================================================
-void AppletPlayerNlc::slotSliderPressed( void )
+void AppletPlayerStream::slotSliderPressed( void )
 {
 	m_SliderIsPressed = true;
 }
 
 //============================================================================
-void AppletPlayerNlc::slotSliderReleased( void )
+void AppletPlayerStream::slotSliderReleased( void )
 {
 	m_SliderIsPressed = false;
 	int posVal = ui.m_PlayPosSlider->value();
@@ -318,7 +318,7 @@ void AppletPlayerNlc::slotSliderReleased( void )
 }
 
 //============================================================================
-void AppletPlayerNlc::slotPlayButtonClicked( void )
+void AppletPlayerStream::slotPlayButtonClicked( void )
 {
 	if( m_IsPlaying )
 	{
@@ -331,7 +331,7 @@ void AppletPlayerNlc::slotPlayButtonClicked( void )
 }
 
 //========================================================================
-void AppletPlayerNlc::startMediaPlay( int startPos )
+void AppletPlayerStream::startMediaPlay( int startPos )
 {
 	bool playStarted = m_Engine.fromGuiAssetAction( eAssetActionPlayBegin, m_AssetInfo, startPos );
 	updateGuiPlayControls( playStarted );
@@ -342,7 +342,7 @@ void AppletPlayerNlc::startMediaPlay( int startPos )
 }
 
 //========================================================================
-void AppletPlayerNlc::updateGuiPlayControls( bool isPlaying )
+void AppletPlayerStream::updateGuiPlayControls( bool isPlaying )
 {
 	if( m_IsPlaying != isPlaying )
 	{
@@ -363,7 +363,7 @@ void AppletPlayerNlc::updateGuiPlayControls( bool isPlaying )
 }
 
 //============================================================================
-void AppletPlayerNlc::stopMediaIfPlaying( void )
+void AppletPlayerStream::stopMediaIfPlaying( void )
 {
 	if( m_IsPlaying )
 	{
@@ -375,7 +375,7 @@ void AppletPlayerNlc::stopMediaIfPlaying( void )
 }
 
 //============================================================================
-void AppletPlayerNlc::slotPlayProgress( int pos0to100000 )
+void AppletPlayerStream::slotPlayProgress( int pos0to100000 )
 {
 	if( m_IsPlaying && (false == m_SliderIsPressed) )
 	{
@@ -384,13 +384,13 @@ void AppletPlayerNlc::slotPlayProgress( int pos0to100000 )
 }
 
 //============================================================================
-void AppletPlayerNlc::slotPlayEnd( void )
+void AppletPlayerStream::slotPlayEnd( void )
 {
 	//updateGuiPlayControls( false );
 }
 
 //============================================================================
-void AppletPlayerNlc::slotReplayButtonClick( void )
+void AppletPlayerStream::slotReplayButtonClick( void )
 {
 	std::string fileStr = ui.m_FilesComboBox->currentText().toUtf8().constData();
 	QString mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
@@ -406,7 +406,7 @@ void AppletPlayerNlc::slotReplayButtonClick( void )
 
 
 //============================================================================
-void AppletPlayerNlc::slotBrowseButtonClick( void )
+void AppletPlayerStream::slotBrowseButtonClick( void )
 {
     ActivityBrowseFiles dlg( m_MyApp, eFileFilterVideo, this, true );
 
@@ -418,7 +418,7 @@ void AppletPlayerNlc::slotBrowseButtonClick( void )
 }
 
 //============================================================================
-void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
+void AppletPlayerStream::onFileSelected( FileInfo& fileInfo )
 {
 	if( VXFILE_TYPE_AUDIO == fileInfo.getFileType() || VXFILE_TYPE_VIDEO == fileInfo.getFileType() )
 	{
@@ -431,7 +431,7 @@ void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AppletPlayerNlc::callbackGuiMediaPlayerNlcReady( bool isReady )
+void AppletPlayerStream::callbackGuiMediaPlayerStreamReady( bool isReady )
 {
 	LogMsg( LOG_DEBUG, "%s %d", __func__, isReady );
 	ui.m_FilesComboBox->setEnabled( isReady );

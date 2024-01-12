@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "AppletFriendListClient.h"
+
 #include "ActivityInformation.h"
 
 #include "AppCommon.h"
@@ -21,6 +22,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 namespace

@@ -9,10 +9,10 @@
 //============================================================================
 
 #include "AppletServiceShareWebCam.h"
-#include "AppCommon.h"
-#include "AppSettings.h"
-#include "MyIcons.h"
 
+#include "AppCommon.h"
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

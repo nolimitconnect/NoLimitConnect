@@ -10,6 +10,8 @@
 
 #include "AppletChatRoomJoin.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
+
 //============================================================================
 AppletChatRoomJoin::AppletChatRoomJoin( AppCommon& app, QWidget* parent )
 : AppletJoinBase( OBJNAME_APPLET_CHAT_ROOM_JOIN, app, parent )

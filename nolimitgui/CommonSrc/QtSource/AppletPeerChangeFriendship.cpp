@@ -9,11 +9,14 @@
 //============================================================================
 
 #include "AppletPeerChangeFriendship.h"
-#include "MyIcons.h"
+
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 
 //============================================================================
 AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget* parent )

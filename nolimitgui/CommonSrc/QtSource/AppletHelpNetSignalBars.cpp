@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "AppletHelpNetSignalBars.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 #include <QClipboard>

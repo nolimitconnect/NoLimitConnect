@@ -8,14 +8,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
-#include "GuiOfferSession.h"
 #include "AppletPeerVideoPhone.h"
+
 #include "AppGlobals.h"
-#include "MyIcons.h"
+#include "GuiOfferSession.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

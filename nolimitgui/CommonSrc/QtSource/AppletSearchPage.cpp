@@ -9,12 +9,13 @@
 //============================================================================
 
 #include "AppletSearchPage.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "VxTilePositioner.h"
-#include "MyIcons.h"
 #include "AppletLaunchWidget.h"
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

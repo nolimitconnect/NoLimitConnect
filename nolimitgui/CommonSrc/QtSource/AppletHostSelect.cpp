@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "AppletHostSelect.h"
+
 #include "GuiHostServerJoinMgr.h"
 #include "GuiHostJoin.h"
 #include "GuiHostJoinSession.h"
@@ -20,8 +20,7 @@
 #include "GuiHelpers.h"	
 #include "GuiParams.h"
 
-#include "MyIcons.h"
-
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
 //============================================================================

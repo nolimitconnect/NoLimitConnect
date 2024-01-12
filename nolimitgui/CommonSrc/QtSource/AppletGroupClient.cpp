@@ -9,13 +9,14 @@
 //============================================================================
 
 #include "AppletGroupClient.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiMemberActiveMgr.h"
-#include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 

@@ -14,10 +14,13 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include "ActivityScanProfiles.h"
+
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "MyIcons.h"
 #include "AppletPopupMenu.h"
+
+#include <CoreLib/ObjectCommonDefs.h>
 
 namespace
 {

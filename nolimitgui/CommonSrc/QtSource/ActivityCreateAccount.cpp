@@ -16,6 +16,8 @@
 #include "GuiHelpers.h"
 
 #include <P2PEngine/EngineSettings.h>
+
+#include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 
