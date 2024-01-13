@@ -113,7 +113,6 @@ int INlc::toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, in
     return getAppCommon().getSoundMgr().toGuiModuleAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
 }
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
 int INlc::toGuiPlayerNlcAudio( EAppModule appModule, float* audioSamples48000, int dataLenInBytes )
 {
@@ -137,8 +136,6 @@ float INlc::toGuiGetAudioCacheTotalSeconds( EAppModule appModule )
 {
     return getAppCommon().getSoundMgr().toGuiGetAudioCacheTotalSeconds( appModule );
 }
-
-#endif // ENABLE_KODI
 
 //============================================================================
 void INlc::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )

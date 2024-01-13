@@ -284,7 +284,7 @@ void Interface_General::get_free_mem(void* kodiBase, long* free, long* total, bo
     return;
   }
 
-#if !defined(ENABLE_NLC_PLAYER)
+#if 0
   KODI::MEMORY::MemoryStatus stat;
   KODI::MEMORY::GetMemoryStatus(&stat);
   *free = static_cast<long>(stat.availPhys);
@@ -294,8 +294,7 @@ void Interface_General::get_free_mem(void* kodiBase, long* free, long* total, bo
     *free = *free / ( 1024 * 1024 );
     *total = *total / ( 1024 * 1024 );
   }
-#endif // !defined(ENABLE_NLC_PLAYER)
-
+#endif // 0
 }
 
 int Interface_General::get_global_idle_time(void* kodiBase)

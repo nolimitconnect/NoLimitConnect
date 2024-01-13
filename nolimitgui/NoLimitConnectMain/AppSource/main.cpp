@@ -43,11 +43,7 @@
 #include <NetLib/VxPeerMgr.h>
 #include <AppInterface/INlc.h>
 
-#if defined(ENABLE_KODI)
-#include "Application.h"
-#elif defined(ENABLE_NLC_PLAYER)
 #include "MediaPlayerNlc.h"
-#endif // ENABLE_KODI
 
 #include <libplayer-nlc/xbmc/xbmc/filesystem/Directory.h>
 #include <libplayer-nlc/xbmc/xbmc/filesystem/SpecialProtocol.h>
@@ -217,10 +213,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         return false;
     }
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     // send command line parameters to Kodi
     INlc::getINlc().getNlcPlayer().fromGuiInitCommandLine( argc, argv );
-#endif // ENABLE_KODI
 
     LogMsg( LOG_VERBOSE, "myApp->exec" );
 

@@ -46,9 +46,8 @@
 #include <QDebug>
 #include <QSettings>
 
-
 //============================================================================
-RenderGlWidget * AppCommon::getRenderConsumer( void )
+RenderGlWidget* AppCommon::getRenderConsumer( void )
 {
     return m_AppletMgr.getRenderConsumer();
 }
@@ -225,7 +224,6 @@ void AppCommon::lastEnd( CGUIFontTTFQt * font )
     }
 }
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
 CVertexBuffer AppCommon::createVertexBuffer( CGUIFontTTFQt * font, const std::vector<SVertex>& vertices )
 {
@@ -239,7 +237,6 @@ CVertexBuffer AppCommon::createVertexBuffer( CGUIFontTTFQt * font, const std::ve
     CVertexBuffer vertBuf;
     return vertBuf;
 }
-#endif // ENABLE_KODI
 
 //============================================================================
 void AppCommon::destroyVertexBuffer( CGUIFontTTFQt * font, CVertexBuffer & vertBuffer )
@@ -251,7 +248,6 @@ void AppCommon::destroyVertexBuffer( CGUIFontTTFQt * font, CVertexBuffer & vertB
         glWidget->verifyGlState( "destroyVertexBuffer" );
     }
 }
-
 
 //============================================================================
 void AppCommon::deleteHardwareTexture( CGUIFontTTFQt * font )

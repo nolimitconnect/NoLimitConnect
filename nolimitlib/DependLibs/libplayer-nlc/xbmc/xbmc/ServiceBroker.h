@@ -245,9 +245,6 @@ public:
   std::shared_ptr<speech::ISpeechRecognition> m_speechRecognition;
 };
 
-//XBMC_GLOBAL_REF(CServiceBroker, g_serviceBroker);
-//#define g_serviceBroker XBMC_GLOBAL_USE(CServiceBroker)
-
 CServiceBroker& GetServiceBrokerInstance();
 
 #define g_serviceBroker GetServiceBrokerInstance()

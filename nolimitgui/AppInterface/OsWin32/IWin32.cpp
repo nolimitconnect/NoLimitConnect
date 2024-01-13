@@ -29,7 +29,6 @@
 #include <shellapi.h>
 #include <WinSock2.h>
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 #include "CompileInfo.h"
 #include "threads/Thread.h"
 #include "threads/platform/win/Win32Exception.h"
@@ -49,11 +48,9 @@
 
 #include "ServiceBroker.h"
 #include "settings/SettingsComponent.h"
-#endif // ENABLE_KODI
 
 #include <CoreLib/VxDebug.h>
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 using namespace XFILE;
 
 //============================================================================
@@ -64,14 +61,13 @@ LONG WINAPI CreateMiniDump( EXCEPTION_POINTERS* pEp )
     win32_exception::write_minidump( pEp );
     return pEp->ExceptionRecord->ExceptionCode;
 }
-#endif // ENABLE_KODI
 
 //=== stages of create ===//
 //============================================================================
 bool IWin32::doPreStartup()
 {
     LogModule( eLogStartup, LOG_VERBOSE, "IWin32::doPreStartup" );
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     using KODI::PLATFORM::WINDOWS::ToW;
     // this fixes crash if OPENSSL_CONF is set to existed openssl.cfg  
     // need to set it as soon as possible  
@@ -122,7 +118,6 @@ bool IWin32::doPreStartup()
     }
     */
 
-#endif // ENABLE_KODI
     //Initialize COM
     CoInitializeEx( nullptr, COINIT_MULTITHREADED );
 

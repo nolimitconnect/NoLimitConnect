@@ -151,7 +151,6 @@ int AppCommon::toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmDat
     return m_SoundMgr.toGuiModuleAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
 }
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
 //! playback audio
 int AppCommon::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
@@ -196,8 +195,6 @@ float AppCommon::toGuiGetAudioCacheTotalSeconds( EAppModule appModule )
 
 	return m_SoundMgr.toGuiGetAudioCacheTotalSeconds( appModule );
 }
-
-#endif // ENABLE_KODI
 
 //============================================================================
 /// Mute/Unmute microphone

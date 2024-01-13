@@ -318,6 +318,7 @@ unsigned long VxMakePowerOf2( unsigned long u32Val )
     }
     return u32Pow2;
 }
+
 //============================================================================
 //! increments Value to the next highest power of 2
 unsigned long VxIncrementPowerOf2( unsigned long u32Val )

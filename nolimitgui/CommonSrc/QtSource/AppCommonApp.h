@@ -286,9 +286,9 @@ public:
 
     bool                        firstBegin( CGUIFontTTFQt* font )  override;
     void                        lastEnd( CGUIFontTTFQt* font ) override;
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     CVertexBuffer               createVertexBuffer( CGUIFontTTFQt* font, const std::vector<SVertex>& vertices )  override;
-#endif // ENABLE_KODI
+
     void                        destroyVertexBuffer( CGUIFontTTFQt* font, CVertexBuffer& buffer )  override;
 
     virtual void                deleteHardwareTexture( CGUIFontTTFQt* font )  override;
@@ -477,7 +477,7 @@ public:
     virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
     virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFload, int audioDataLenInBytes ) override;
 
     virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
@@ -485,7 +485,6 @@ public:
     virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) override;
 
     virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) override;
-#endif // ENABLE_KODI
 
     virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) override;
     virtual void				toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 ) override;

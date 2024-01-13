@@ -31,14 +31,13 @@
 #elif TARGET_OS_ANDROID
 # include "AppInterface/OsAndroid/IAndroid.h"
 # include "CoreLib/VxJava.h"
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
 # include "platform/qt/qtandroid/jni/Context.h"
-#endif // ENABLE_KODI
+
 #else 
 echo traget os is not defined
 #endif 
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 #include <utils/StringUtils.h>
 #include <filesystem/Directory.h>
 #include <filesystem/SpecialProtocol.h>
@@ -47,13 +46,7 @@ echo traget os is not defined
 #include <utils/log.h>
 using namespace XFILE;
 
-#if defined(ENABLE_KODI)
-#include <Application.h>
-#elif defined(ENABLE_NLC_PLAYER)
 #include <MediaPlayerNlc.h>
-#endif // defined(ENABLE_NLC_PLAYER)
-
-#endif // defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 
 #include <QStandardPaths>
 
@@ -119,10 +112,8 @@ bool INlc::toGuiRunModule( EAppModule appModule )
 {
     if( eAppModulePlayerNlc == appModule )
     {
-#if defined(ENABLE_NLC_PLAYER)
         m_NlcPlayer.fromStartModule( appModule );
         return true;
-#endif // ENABLE_NLC_PLAYER
     }
 
     return false;
@@ -133,10 +124,8 @@ bool INlc::toGuiStopModule( EAppModule appModule )
 {
     if( eAppModulePlayerNlc == appModule )
     {
-#if defined(ENABLE_NLC_PLAYER)
         m_NlcPlayer.fromStopModule( appModule );
         return true;
-#endif // ENABLE_NLC_PLAYER
     }
 
     return false;
@@ -158,13 +147,7 @@ INlc::INlc()
 #elif TARGET_OS_ANDROID
 , m_OsInterface( *new IAndroid() )
 #endif 
-
-#if defined(ENABLE_KODI)
-, m_Kodi( GetKodiInstance() )
-#endif // ENABLE_KODI
-#if defined(ENABLE_NLC_PLAYER)
 , m_NlcPlayer( GetNlcPlayerInstance() )
-#endif // ENABLE_NLC_PLAYER
 {
     memset( m_IsRunning, 0, sizeof( m_IsRunning  ) );
 }
@@ -185,7 +168,6 @@ bool INlc::initDirectories()
 //============================================================================
 void INlc::createUserDirs() const
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     LogModule(eLogStartup, LOG_VERBOSE, "INlc::createUserDirs");
     CDirectory::Create( "special://home/" );
     CDirectory::Create( "special://home/addons" );
@@ -204,7 +186,6 @@ void INlc::createUserDirs() const
         if( !CDirectory::RemoveRecursive( archiveCachePath ) )
             CLog::Log( LOGWARNING, "Failed to remove the archive cache at %s", archiveCachePath.c_str() );
     CDirectory::Create( archiveCachePath );
-#endif // ENABLE_KODI
 }
 
 //=== open ssl ===//
@@ -228,9 +209,7 @@ bool INlc::doPreStartup()
 {
     LogModule(eLogStartup, LOG_VERBOSE, "INlc::doPreStartup");
 #ifdef TARGET_OS_ANDROID
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     CJNIContext::createJniContext( GetJavaEnvCache().getJavaVM(),  GetJavaEnvCache().getJavaEnv() );
-# endif // ENABLE_KODI
 #endif // TARGET_OS_ANDROID
 
     CLog::SetLogLevel( LOG_LEVEL_DEBUG );
@@ -313,79 +292,59 @@ void INlc::doShutdown()
 //============================================================================
 void INlc::fromGuiKeyPressEvent( EAppModule appModule, int key, int mod )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiKeyPressEvent( appModule, key, mod );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mod )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiKeyReleaseEvent( appModule, key, mod );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiMousePressEvent( appModule, mouseXPos, mouseYPos, mouseButton );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiMouseReleaseEvent( appModule, mouseXPos, mouseYPos, mouseButton );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiMouseMoveEvent( appModule, mouseXPos, mouseYPos );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 	getNlcPlayer().fromGuiResizeBegin( appModule, winWidth, winHeight );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiResizeEvent( appModule, winWidth, winHeight );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 	getNlcPlayer().fromGuiResizeEnd( appModule, winWidth, winHeight );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiCloseEvent( EAppModule appModule )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiCloseEvent( appModule );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void INlc::fromGuiVisibleEvent( EAppModule appModule, bool isVisible )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getNlcPlayer().fromGuiVisibleEvent( appModule, isVisible );
-#endif // ENABLE_KODI
 }

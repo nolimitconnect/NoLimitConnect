@@ -16,7 +16,6 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTimer.h>
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 #include "AppEnvironment.h"
 #include "AppParamParser.h"
 #include "CompileInfo.h"
@@ -261,8 +260,6 @@ bool CopyIfRequiredApkDirectory( std::string apkFileDir, std::string destDir, bo
 
 #endif // defined( TARGET_OS_ANDROID )
 
-#endif // ENABLE_KODI
-
 //============================================================================
 bool OsInterface::initRun( const CAppParamParser& cmdLineParams )
 {
@@ -275,7 +272,7 @@ bool OsInterface::initRun( const CAppParamParser& cmdLineParams )
 bool OsInterface::doRun( EAppModule appModule )
 {
     LogModule( eLogStartup, LOG_VERBOSE, "OsInterface::doRun");
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     if( !IToGui::getToGui().toGuiGetIsAppModuleRunning( appModule ) )
     {
         if( eAppModulePlayerNlc == appModule )
@@ -304,7 +301,6 @@ bool OsInterface::doRun( EAppModule appModule )
 			}
         }
     }
-#endif // ENABLE_KODI
 
     return true;
 }
@@ -350,8 +346,6 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
             VxSetAppExeDirectory( exePath.c_str() );
         }
     }
-
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 
 #if defined(TARGET_OS_ANDROID)
     CJNIContext& jniContext = CJNIContext::getJniContext();
@@ -686,7 +680,6 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     // CEnvironment::setenv( CCompileInfo::GetUserProfileEnvName(), nolimitDir.c_str() );
     // LogMsg( LOG_VERBOSE, "master profile path %s", nolimitDir.c_str() );
 
-#endif // ENABLE_KODI
 #ifdef DEBUG
     LogMsg( LOG_VERBOSE, "Initalize directories took %3.3f sec", loadTimer.elapsedSec() );
 #endif // DEBUG
@@ -696,7 +689,6 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
 //============================================================================
 bool OsInterface::initDirectories()
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     LogModule(eLogStartup, LOG_VERBOSE, "OsInterface::initDirectories");
 
 	//=== relative to executable paths ===//
@@ -709,8 +701,7 @@ bool OsInterface::initDirectories()
     CSpecialProtocol::SetUserGroupPath( URIUtils::AddFileToFolder( nolimitDir, "nolimitsettings" ) ); // /storage/nlc/accounts/userId/settings
    
     nolimitDir = VxFileUtil::makeKodiPath( VxGetAppDirectory( eAppDirUserXfer ).c_str() ); // Documents Directory/nlc/userId/   where transfer directories are
-	CSpecialProtocol::SetUserXferPath( URIUtils::AddFileToFolder( nolimitDir, "nolimitxfer" ) );
-#endif // ENABLE_KODI  
+	CSpecialProtocol::SetUserXferPath( URIUtils::AddFileToFolder( nolimitDir, "nolimitxfer" ) ); 
 
     return true;
 }

@@ -49,7 +49,6 @@ public:
     // add audio data to play.. assumes pcm mono 
     virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     // add audio data to play.. assumes float 2 channel 48000 Hz
     virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) = 0;
 
@@ -58,6 +57,4 @@ public:
     virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) = 0;
 
     virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) = 0;
-
-#endif // ENABLE_KODI
 };

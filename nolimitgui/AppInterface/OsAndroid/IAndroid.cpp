@@ -27,7 +27,6 @@
 #include "AppInterface/INlc.h" 
 #include <CoreLib/VxDebug.h>
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 #include "CompileInfo.h"
 #include "threads/Thread.h"
 #include "platform/xbmc.h"
@@ -43,7 +42,6 @@
 #include "NlcCoreUtil.h"
 
 using namespace XFILE;
-#endif // ENABLE_KODI
 
 //=== stages of create ===//
 //============================================================================

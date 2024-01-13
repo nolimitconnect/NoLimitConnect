@@ -268,6 +268,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerCamClip.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerPhoto.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerVideo.cpp" />
@@ -619,6 +620,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />

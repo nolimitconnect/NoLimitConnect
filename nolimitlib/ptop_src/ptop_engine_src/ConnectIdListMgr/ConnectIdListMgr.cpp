@@ -953,20 +953,27 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallback* client,
     if( !client )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::wantConnectIdListCallback null client" );
+        vx_assert( false );
         return;
     }
 
     lockConnectIdClientList();
+    bool foundClient{ false };
     for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
     {
         if( *iter == client )
         {
-            m_ConnectIdCallbackClients.erase( iter );
+            foundClient = true;
+            if( !enable )
+            {
+                m_ConnectIdCallbackClients.erase( iter );
+            }
+
             break;
         }
     }
 
-    if( enable )
+    if( !foundClient && enable )
     {
         m_ConnectIdCallbackClients.push_back( client );
     }

@@ -71,6 +71,8 @@ enum EApplet
     eAppletSocketList,
     eAppletHackerList,
 
+    eAppletPlayerStream, // temp for debugging.. really belongs in the not launched by user category
+
     eMaxSettingsApplets,            // marker.. end of settings applets.. past here is search applets
 
     eAppletGroupJoinSearch,         // search for group to join
@@ -133,7 +135,7 @@ enum EApplet
 
     eAppletPlayerCamClip,
     eAppletPlayerPhoto,
-    eAppletPlayerStream,
+
     eAppletPlayerVideo,
 
     eAppletAvatarImageClient,	    // get users avatar imaage from other user

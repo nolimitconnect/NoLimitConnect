@@ -17,14 +17,13 @@
 #include "MyIcons.h"
 
 #include <GuiInterface/NlcRenderFrame.h>
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
 #include "guilib/TextureQt.h"
 #include "guilib/GUITextureQt.h"
 
 #include "ServiceBroker.h"
 #include "rendering/RenderSystem.h"
 #include "windowing/WinSystem.h"
-#endif // ENABLE_KODI
 
 #include <CoreLib/VxMemUtils.h>
 
@@ -142,12 +141,9 @@ void RenderGlWidget::setActiveGlTexture( unsigned int activeTextureNum )
  //============================================================================
 void RenderGlWidget::createTextureObject( CTextureQt * texture )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     getGlFunctions()->glGenTextures( 1, ( GLuint* )&texture->m_texture );
 
     getGlFunctions()->glActiveTexture( GL_TEXTURE0 );
-    //getGlFunctions()->glBindTexture( GL_TEXTURE_2D, texture->m_texture );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
@@ -158,7 +154,6 @@ void RenderGlWidget::destroyTextureObject( CTextureQt * texture )
 //============================================================================
 bool RenderGlWidget::loadToGPU( CTextureQt * texture )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     if( !texture || !texture->m_pixels )
     {
         // nothing to load - probably same image (no change)
@@ -324,24 +319,21 @@ bool RenderGlWidget::loadToGPU( CTextureQt * texture )
     }
 
     texture->m_loadedToGPU = true;
-#endif // ENABLE_KODI
+
     return true;
 }
 
 //============================================================================
 void RenderGlWidget::bindToUnit( CTextureQt * texture, unsigned int unit )
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
       getGlFunctions()->glActiveTexture( GL_TEXTURE0 + unit );
       getGlFunctions()->glBindTexture( GL_TEXTURE_2D, texture->m_texture );
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void RenderGlWidget::beginGuiTexture( CGUITextureQt * guiTexture, NlcColor color )
 {
     VerifyGLStateQt();
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 
     std::shared_ptr<CTextureBase> texture = guiTexture->m_texture.m_textures[ guiTexture->m_currentFrame ];
     texture->LoadToGPU();
@@ -406,14 +398,13 @@ void RenderGlWidget::beginGuiTexture( CGUITextureQt * guiTexture, NlcColor color
     }
 
     VerifyGLStateQt();
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void RenderGlWidget::drawGuiTexture( CGUITextureQt * guiTexture, float * x, float * y, float * z, const NlcRect& textureRect, const NlcRect& diffuse, int orientation )
 {
     VerifyGLStateQt();
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     PackedVertex vertices[ 4 ];
 
     // Setup texture coordinates
@@ -498,15 +489,13 @@ void RenderGlWidget::drawGuiTexture( CGUITextureQt * guiTexture, float * x, floa
     }
 
     VerifyGLStateQt();
-#endif // ENABLE_KODI
 }
-
 
 //============================================================================
 void RenderGlWidget::endGuiTexture( CGUITextureQt * guiTexture )
 {
     VerifyGLStateQt();
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     if( guiTexture->m_packedVertices.size() )
     {
         GLint posLoc = shaderGetPos();
@@ -543,14 +532,13 @@ void RenderGlWidget::endGuiTexture( CGUITextureQt * guiTexture )
         getGlFunctions()->glActiveTexture( GL_TEXTURE0 );
    getGlFunctions()-> glEnable( GL_BLEND );
    VerifyGLStateQt();
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void RenderGlWidget::drawQuad( const NlcRect &rect, NlcColor color, CTextureBase * texture, const NlcRect * texCoords )
 {
     VerifyGLStateQt();
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     if( texture )
     {
         texture->LoadToGPU();
@@ -617,13 +605,11 @@ void RenderGlWidget::drawQuad( const NlcRect &rect, NlcColor color, CTextureBase
     }
 
     VerifyGLStateQt();
-#endif // ENABLE_KODI
 }
 
 //============================================================================
 void RenderGlWidget::initTextures()
 {
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     if( !m_TexturesInited )
     {
         for( unsigned i = 0; i < MAX_RENDER_PLANES; ++i ) {
@@ -692,5 +678,4 @@ void RenderGlWidget::initTextures()
 # endif // defined(GL_UNPACK_ROW_LENGTH)
 #endif
     }
-#endif // ENABLE_KODI
 }

@@ -627,7 +627,7 @@ int CGUIWindowAddonBrowser::SelectAddonID(const std::vector<AddonType>& types,
 
 std::string CGUIWindowAddonBrowser::GetStartFolder(const std::string& dir)
 {
-#if !defined(ENABLE_NLC_PLAYER)
+#if 0
   if (StringUtils::StartsWith(dir, "addons://"))
   {
     if (StringUtils::StartsWith(dir, "addons://default_binary_addons_source/"))
@@ -644,5 +644,5 @@ std::string CGUIWindowAddonBrowser::GetStartFolder(const std::string& dir)
   return CGUIMediaWindow::GetStartFolder(dir);
 #else
     return CGUIMediaWindow::GetStartFolder(dir);
-#endif //defined(ENABLE_NLC_PLAYER)
+#endif // 0
 }

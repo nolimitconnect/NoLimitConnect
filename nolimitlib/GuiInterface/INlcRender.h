@@ -108,9 +108,8 @@ public:
 
     virtual bool                firstBegin( CGUIFontTTFQt * font ) = 0;
     virtual void                lastEnd( CGUIFontTTFQt * font ) = 0;
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     virtual CVertexBuffer       createVertexBuffer( CGUIFontTTFQt * font, const std::vector<SVertex>& vertices) = 0;
-#endif // ENABLE_KODI
     virtual void                destroyVertexBuffer( CGUIFontTTFQt * font, CVertexBuffer& vertBuffer ) = 0;
 
     virtual void                deleteHardwareTexture( CGUIFontTTFQt * font ) = 0;

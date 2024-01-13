@@ -29,4 +29,22 @@ public:
     virtual bool				fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) = 0;
     virtual bool				fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) = 0;
     virtual bool				fromGuiMediaPlayerSeek( int position0to100000 ) = 0;
+
+    virtual bool				fromGuiPlayStream( std::string url, int pos0to100000 ) = 0;
+};
+
+class VxGUID;
+
+class IMediaPlayerCallback
+{
+public:
+    virtual void				fromMediaPlayerInitLevel( int initLevel, bool success ) = 0;
+
+    virtual void				fromMediaPlayerPlayFile( VxGUID& feedId ) = 0;
+    virtual void				fromMediaPlayerPlayStarted( VxGUID& feedId ) = 0;
+
+    virtual void				fromMediaPlayerStopPlaying( VxGUID& feedId ) = 0;
+    virtual void				fromMediaPlayerPlaybackStopped( VxGUID& feedId ) = 0;
+    virtual void				fromMediaPlayerPlaybackEnded( VxGUID& feedId ) = 0;
+
 };

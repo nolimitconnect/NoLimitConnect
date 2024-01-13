@@ -429,7 +429,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
 
     if( onlineId == m_Engine.getMyOnlineId() )
     {
-        LogMsg( LOG_DEBUG, "ConnectionMgr::requestConnection %s Loopback Socket", DescribeConnectReason( connectReason ) );
+        LogModule( eLogHostConnect, LOG_DEBUG, "ConnectionMgr::requestConnection %s Loopback Socket", DescribeConnectReason( connectReason ) );
         retSktBase = m_Engine.getSktLoopback();
         int64_t timeMs = GetGmtTimeMs();
         retSktBase->setLastActiveTimeMs( timeMs );
@@ -444,7 +444,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
         return eConnectStatusReady;
     }
 
-    LogMsg( LOG_DEBUG, "ConnectionMgr::requestConnection %s url %s", DescribeConnectReason( connectReason ), url.c_str() );
+    LogModule( eLogHostConnect, LOG_VERBOSE, "ConnectionMgr::requestConnection %s url %s", DescribeConnectReason( connectReason ), url.c_str() );
     std::shared_ptr<VxSktBase> sktBase( nullptr );
 
     if( !IsConnectReasonTemporary( connectReason ) )

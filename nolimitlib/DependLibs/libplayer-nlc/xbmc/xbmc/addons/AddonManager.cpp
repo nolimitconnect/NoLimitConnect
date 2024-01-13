@@ -128,10 +128,8 @@ bool CAddonMgr::Init()
     return false;
   }
 
-#if ENABLE_NLC_PLAYER
     // the player does not need any system addons
     m_optionalSystemAddons.clear();
-#endif // ENABLE_NLC_PLAYER
 
     std::vector<std::string> removeAddonList;
 
@@ -141,10 +139,9 @@ bool CAddonMgr::Init()
 #if !defined(HAS_PYTHON)
     removeAddonList.push_back("python");
 #endif
-#if defined(ENABLE_NLC_PLAYER)
+
     removeAddonList.push_back("builtin");
     removeAddonList.push_back("json");
-#endif
 
     for( auto& addonName : removeAddonList )
     {

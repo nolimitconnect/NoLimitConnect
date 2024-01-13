@@ -126,13 +126,11 @@ void INlc::lastEnd( CGUIFontTTFQt * font )
     getAppCommon().lastEnd( font );
 }
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
 CVertexBuffer INlc::createVertexBuffer( CGUIFontTTFQt * font, const std::vector<SVertex>& vertices )
 {
     return getAppCommon().createVertexBuffer( font, vertices );
 }
-#endif // ENABLE_KODI
 
 //============================================================================
 void INlc::destroyVertexBuffer( CGUIFontTTFQt * font, CVertexBuffer & vertBuffer )

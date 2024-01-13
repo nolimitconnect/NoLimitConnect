@@ -25,7 +25,6 @@
 #ifdef TARGET_OS_LINUX
 #include <AppInterface/INlc.h>
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 #include "CompileInfo.h"
 #include "threads/Thread.h"
 #include "platform/xbmc.h"
@@ -42,7 +41,6 @@
 
 using namespace XFILE;
 
-#endif // ENABLE_KODI
 
 #include <CoreLib/VxDebug.h>
 
@@ -53,9 +51,8 @@ bool ILinux::doPreStartup()
     LogModule(eLogStartup, LOG_VERBOSE, "ILinux::doPreStartup");
     // this fixes crash if OPENSSL_CONF is set to existed openssl.cfg
     // need to set it as soon as possible  
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     CEnvironment::unsetenv( "OPENSSL_CONF" );
-#endif// ENABLE_KODI
 
     //g_advancedSettings.Initialize();
     return true;

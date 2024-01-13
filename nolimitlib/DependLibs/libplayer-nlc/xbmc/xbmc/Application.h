@@ -12,6 +12,7 @@
 
 #include <GuiInterface/INlcEvents.h>
 #include <GuiInterface/IDefs.h>
+#include <GuiInterface/IMediaPlayerInterface.h>
 
 #include "ApplicationComponents.h"
 #include "ApplicationEnums.h"
@@ -131,6 +132,16 @@ public:
 
     bool                        toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName );
     void                        toGuiMediaError( EMediaError mediaError, const char* msg );
+    
+    virtual void				onInitLevel( int initLevel, bool success ) {};
+
+    virtual void                onPlayFile( void ) {};
+    virtual void                onPlayStarted( void ) {};
+
+    virtual void                onStopPlaying( void ) {};
+    virtual void                onPlaybackStopped( void ) {};
+    virtual void                onPlaybackEnded( void ) {};
+    
     //============================================================================
 
     bool Create();
@@ -299,13 +310,9 @@ private:
     int m_ExitCode{ EXITCODE_QUIT };
 };
 
-//XBMC_GLOBAL_REF(CApplication,g_application);
-//#define g_application XBMC_GLOBAL_USE(CApplication)
 
 CApplication& GetKodiInstance();
 
-#if defined(ENABLE_NLC_PLAYER)
 MediaPlayerNlc& GetNlcPlayerInstance();
-#endif // defined(ENABLE_NLC_PLAYER)
 
 #define g_application GetKodiInstance()

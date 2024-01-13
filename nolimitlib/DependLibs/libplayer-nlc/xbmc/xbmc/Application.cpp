@@ -208,7 +208,6 @@
 
 #include "../../../../../nolimitgui/AppInterface/INlc.h"
 
-#if defined(ENABLE_NLC_PLAYER)
 #include "MediaPlayerNlc.h"
 MediaPlayerNlc& GetNlcPlayerInstance()
 {
@@ -220,15 +219,6 @@ CApplication& GetKodiInstance()
 {
     return GetNlcPlayerInstance();
 }
-
-#elif defined(ENABLE_KODI)
-CApplication& GetKodiInstance()
-{
-    static CApplication g_kodiApp;
-    return g_kodiApp;
-}
-
-#endif // defined(ENABLE_NLC_PLAYER)
 
 using namespace ADDON;
 using namespace XFILE;
@@ -461,8 +451,11 @@ bool CApplication::Create()
 
     if( !m_ServiceManager->InitStageOne() )
     {
+        onInitLevel( 1, false );
         return false;
     }
+
+    onInitLevel( 1, true );
 
     // here we register all global classes for the CApplicationMessenger,
     // after that we can send messages to the corresponding modules
@@ -520,8 +513,11 @@ bool CApplication::Create()
     if( !m_ServiceManager->InitStageTwo(
         settingsComponent->GetProfileManager()->GetProfileUserDataFolder() ) )
     {
+        onInitLevel( 2, false );
         return false;
     }
+
+    onInitLevel( 2, true );
 
     m_pActiveAE.reset( new ActiveAE::CActiveAE() );
     CServiceBroker::RegisterAE( m_pActiveAE.get() );
@@ -910,7 +906,10 @@ bool CApplication::Initialize()
     if( !m_ServiceManager->InitStageThree( profileManager ) )
     {
         CLog::Log( LOGERROR, "Application - Init3 failed" );
+        onInitLevel( 3, false );
     }
+
+    onInitLevel( 3, true );
 
     g_sysinfo.Refresh();
 
@@ -1654,19 +1653,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 
     case TMSG_START_ANDROID_ACTIVITY:
     {
-#if defined(TARGET_ANDROID) && !defined(ENABLE_NLC_PLAYER)
-        if( pMsg->params.size() )
-        {
-            CXBMCApp::StartActivity( pMsg->params[0], pMsg->params.size() > 1 ? pMsg->params[1] : "",
-                                     pMsg->params.size() > 2 ? pMsg->params[2] : "",
-                                     pMsg->params.size() > 3 ? pMsg->params[3] : "",
-                                     pMsg->params.size() > 4 ? pMsg->params[4] : "",
-                                     pMsg->params.size() > 5 ? pMsg->params[5] : "",
-                                     pMsg->params.size() > 6 ? pMsg->params[6] : "",
-                                     pMsg->params.size() > 7 ? pMsg->params[7] : "",
-                                     pMsg->params.size() > 8 ? pMsg->params[8] : "" );
-        }
-#endif
+
     }
     break;
 
@@ -2163,13 +2150,6 @@ bool CApplication::Cleanup()
 
 bool CApplication::Stop( int exitCode )
 {
-#if defined(TARGET_ANDROID) && !defined(ENABLE_NLC_PLAYER)
-    // Note: On Android, the app must be stopped asynchronously, once Android has
-    // signalled that the app shall be destroyed. See android_main() implementation.
-    if( !CXBMCApp::Get().Stop( exitCode ) )
-        return false;
-#endif
-
     CLog::Log( LOGINFO, "Stopping the application..." );
 
     bool success = true;
@@ -2210,7 +2190,6 @@ bool CApplication::Stop( int exitCode )
         CLog::Log( LOGINFO, "Storing total System Uptime" );
         g_sysinfo.SetTotalUptime( g_sysinfo.GetTotalUptime() + (int)(CTimeUtils::GetFrameTime() / 60000) );
 
-#if !defined(ENABLE_NLC_PLAYER) // do not save if is embedded player
         // Update the settings information (volume, uptime etc. need saving)
         if( CFile::Exists( CServiceBroker::GetSettingsComponent()->GetProfileManager()->GetSettingsFile() ) )
         {
@@ -2226,7 +2205,6 @@ bool CApplication::Stop( int exitCode )
         CLog::Log( LOGINFO, "Saving skin settings" );
         if( g_SkinInfo != nullptr )
             g_SkinInfo->SaveSettings();
-#endif // !defined(ENABLE_NLC_PLAYER)
 
         m_bStop = true;
         // Add this here to keep the same ordering behaviour for now
@@ -2676,6 +2654,7 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
     if( item.HasPVRChannelInfoTag() )
         CServiceBroker::GetPlaylistPlayer().SetCurrentPlaylist( PLAYLIST::TYPE_NONE );
 
+    onPlayFile();
     return true;
 }
 
@@ -2778,6 +2757,8 @@ void CApplication::StopPlaying()
             g_partyModeManager.Disable();
         }
     }
+
+    onStopPlaying();
 }
 
 bool CApplication::OnMessage( CGUIMessage& message )
@@ -2906,6 +2887,7 @@ bool CApplication::OnMessage( CGUIMessage& message )
                 dialog->WaitOnEvent( m_playerEvent );
         }
 
+        onPlayStarted();
         return true;
     }
     break;
@@ -2980,6 +2962,7 @@ bool CApplication::OnMessage( CGUIMessage& message )
 #ifdef HAS_PYTHON
         CServiceBroker::GetXBPython().OnPlayBackStopped();
 #endif
+        onPlaybackStopped();
         return true;
 
     case GUI_MSG_PLAYBACK_ENDED:
@@ -3000,6 +2983,7 @@ bool CApplication::OnMessage( CGUIMessage& message )
 #ifdef HAS_PYTHON
         CServiceBroker::GetXBPython().OnPlayBackEnded();
 #endif
+        onPlaybackEnded();
         return true;
     }
 
@@ -3272,19 +3256,11 @@ void CApplication::ProcessSlow()
         appPower->CheckShutdown();
     }
 
-#if defined(TARGET_POSIX) && !defined(ENABLE_NLC_PLAYER)
-    if( CPlatformPosix::TestQuitFlag() )
-    {
-        CLog::Log( LOGINFO, "Quitting due to POSIX signal" );
-        CServiceBroker::GetAppMessenger()->PostMsg( TMSG_QUIT );
-    }
-#elif defined(ENABLE_NLC_PLAYER)
     if( testQuitFlag() )
     {
         CLog::Log( LOGINFO, "Quitting due to POSIX signal" );
         CServiceBroker::GetAppMessenger()->PostMsg( TMSG_QUIT );
     }
-#endif
 
     // check if we should restart the player
     CheckDelayedPlayerRestart();
@@ -3294,9 +3270,9 @@ void CApplication::ProcessSlow()
     if( !appPlayer->IsPlayingVideo() )
         CSectionLoader::UnloadDelayed();
 
-#if defined(TARGET_ANDROID) && !defined(ENABLE_NLC_PLAYER)
+#if defined(TARGET_ANDROID)
     // Pass the slow loop to droid
-    CXBMCApp::Get().ProcessSlow();
+//    CXBMCApp::Get().ProcessSlow();
 #endif
 
     // check for any idle curl connections

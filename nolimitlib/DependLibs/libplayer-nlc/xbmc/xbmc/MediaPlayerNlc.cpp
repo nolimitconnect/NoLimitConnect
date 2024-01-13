@@ -18,6 +18,40 @@ MediaPlayerNlc::MediaPlayerNlc()
 }
 
 //============================================================================
+void MediaPlayerNlc::wantMediaPlayerCallback( IMediaPlayerCallback* client, bool wantCallback )
+{
+    if( !client )
+    {
+        LogMsg( LOG_ERROR, "MediaPlayerNlc::wantConnectIdListCallback null client" );
+		vx_assert( false );
+        return;
+    }
+
+    lockClientList();
+    bool foundClient{ false };
+    for( auto iter = m_MediaPlayerCallbackClients.begin(); iter != m_MediaPlayerCallbackClients.end(); ++iter )
+    {
+        if( *iter == client )
+        {
+            foundClient = true;
+            if( !wantCallback )
+            {
+                m_MediaPlayerCallbackClients.erase( iter );
+            }
+
+            break;
+        }
+    }
+
+    if( !foundClient && wantCallback )
+    {
+        m_MediaPlayerCallbackClients.push_back( client );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
 enum EAppModule MediaPlayerNlc::getAppModule( void )
 { 
 	return EAppModule::eAppModulePlayerNlc; 
@@ -115,9 +149,14 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
     }
 
 	// to do stop previous media
-	if( assetInfo.isValidFile() )
+	if( assetInfo.getIsStreaming() )
+	{
+
+	}
+	else if( assetInfo.isValidFile() )
 	{
 		m_AssetInfo = assetInfo;
+		m_FeedId = m_AssetInfo.getAssetUniqueId();
 		NlcUrl fileUrl;
 		fileUrl.SetFileName( m_AssetInfo.getAssetName() );
 		m_FileItem = CFileItem( fileUrl, false );
@@ -138,6 +177,28 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 	}
 
 	return result;
+}
+
+//============================================================================
+bool MediaPlayerNlc::fromGuiPlayStream( std::string url, int pos0to100000 )
+{
+	NlcUrl fileUrl;
+	fileUrl.SetFileName( url );
+	m_FileItem = CFileItem( fileUrl, false );
+	if( m_FileItem.IsAudio() )
+	{
+		return playAudioFile( pos0to100000 );
+	}
+	else if( m_FileItem.IsVideo() )
+	{
+		return playVideoFile( pos0to100000 );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "%s invalid url %s", __func__, url.c_str() );
+	}
+	
+	return false;
 }
 
 //============================================================================
@@ -184,4 +245,78 @@ bool MediaPlayerNlc::playVideoFile( int position0to100000 )
 	bool result = PlayFile( m_FileItem, videoPlayerName, false );
 
 	return result;
+}
+
+//============================================================================
+void MediaPlayerNlc::onInitLevel( int level, bool success )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerInitLevel( level, success );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlayFile( void )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerPlayFile( m_FeedId );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlayStarted( void )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerPlayStarted( m_FeedId );
+    }
+
+    unlockClientList();
+}
+
+
+//============================================================================
+void MediaPlayerNlc::onStopPlaying( void )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerStopPlaying( m_FeedId );
+    }
+
+    unlockClientList();
+}
+
+
+//============================================================================
+void MediaPlayerNlc::onPlaybackStopped( void )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerPlaybackStopped( m_FeedId );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlaybackEnded( void )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerPlaybackEnded( m_FeedId );
+    }
+
+    unlockClientList();
 }

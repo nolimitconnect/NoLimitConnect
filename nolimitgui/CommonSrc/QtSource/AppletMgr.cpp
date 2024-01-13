@@ -91,10 +91,12 @@
 #include "AppletPermissionList.h"
 #include "AppletPersonalRecorder.h"
 #include "AppletPersonOfferList.h"
+
 #include "AppletPlayerCamClip.h"
 #include "AppletPlayerPhoto.h"
-#include "AppletPlayerVideo.h"
 #include "AppletPlayerNlc.h"
+#include "AppletPlayerVideo.h"
+#include "AppletPlayerStream.h"
 
 #include "AppletPopupMenu.h"
 
@@ -502,6 +504,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletPlayerPhoto:                if( launchAppletAllowed( eAppletPlayerPhoto ) ) appletDialog = new AppletPlayerPhoto( m_MyApp, parent ); break;
     case eAppletPlayerVideo:                if( launchAppletAllowed( eAppletPlayerVideo ) ) appletDialog = new AppletPlayerVideo( m_MyApp, parent ); break;
     case eAppletPlayerNlc:                  if( launchAppletAllowed( eAppletPlayerNlc ) ) appletDialog = new AppletPlayerNlc( m_MyApp, parent ); break;
+    case eAppletPlayerStream:               if( launchAppletAllowed( eAppletPlayerStream ) ) appletDialog = new AppletPlayerStream( m_MyApp, parent ); break;
 
     case eAppletIsPortOpenTest:             if( launchAppletAllowed( eAppletIsPortOpenTest ) ) appletDialog = new AppletIsPortOpenTest( m_MyApp, parent ); break;
     case eAppletHackerList:                 if( launchAppletAllowed( eAppletHackerList ) ) appletDialog = new AppletHackerList( m_MyApp, parent ); break;

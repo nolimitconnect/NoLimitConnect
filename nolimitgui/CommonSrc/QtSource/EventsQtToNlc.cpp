@@ -148,7 +148,6 @@
 
 #endif // TARGET_OS_WINDOWS
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 //============================================================================
 namespace KODI
 {
@@ -629,7 +628,6 @@ int TranslateMouseButtonQt( int mouseButton )
         return XBMC_BUTTON_LEFT;
     }
 }
-#endif // ENABLE_KODI
 
 //============================================================================
 EventsQtToNlc::EventsQtToNlc( AppCommon& myApp )
@@ -640,90 +638,75 @@ EventsQtToNlc::EventsQtToNlc( AppCommon& myApp )
 //============================================================================
 bool EventsQtToNlc::fromGuiKeyPressEvent( int key )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     int mod = 0;
     int kodiKey = TranslateKeyQt( key, mod );
 
     m_MyApp.fromGuiKeyPressEvent( eAppModulePlayerNlc, kodiKey, mod );
-    #endif // ENABLE_KODI
+
     return false;
 }
 
 //============================================================================
 bool EventsQtToNlc::fromGuiKeyReleaseEvent( int key )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     int mod = 0;
     int kodiKey = TranslateKeyQt( key, mod );
 
     m_MyApp.fromGuiKeyPressEvent( eAppModulePlayerNlc, kodiKey, mod );
-    #endif // ENABLE_KODI
+
     return false;
 }
 
 //============================================================================
 bool EventsQtToNlc::fromGuiMousePressEvent( int mouseXPos, int mouseyPos, int mouseButton )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     m_MyApp.fromGuiMousePressEvent( eAppModulePlayerNlc, mouseXPos, mouseyPos, TranslateMouseButtonQt( mouseButton ) );
-    #endif // ENABLE_KODI
+
     return false;
 }
 
 //============================================================================
 bool EventsQtToNlc::fromGuiMouseReleaseEvent( int mouseXPos, int mouseyPos, int mouseButton )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     m_MyApp.fromGuiMouseReleaseEvent( eAppModulePlayerNlc, mouseXPos, mouseyPos, TranslateMouseButtonQt( mouseButton ) );
-    #endif // ENABLE_KODI
+
     return false;
 }
 
 //============================================================================
 bool EventsQtToNlc::fromGuiMouseMoveEvent( int mouseXPos, int mouseyPos )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     m_MyApp.fromGuiMouseMoveEvent( eAppModulePlayerNlc, mouseXPos, mouseyPos );
-    #endif // ENABLE_KODI
+
     return false;
 }
 
 //============================================================================
 void EventsQtToNlc::fromGuiResizeBegin( int winWidth, int winHeight )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 	m_MyApp.fromGuiResizeBegin( eAppModulePlayerNlc, winWidth, winHeight );
-    #endif // ENABLE_KODI
 }
 
 //============================================================================
 void EventsQtToNlc::fromGuiResizeEvent( int winWidth, int winHeight )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     m_MyApp.fromGuiResizeEvent( eAppModulePlayerNlc, winWidth, winHeight );
-    #endif // ENABLE_KODI
 }
 
 //============================================================================
 void EventsQtToNlc::fromGuiResizeEnd( int winWidth, int winHeight )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 	m_MyApp.fromGuiResizeEnd( eAppModulePlayerNlc, winWidth, winHeight );
-    #endif // ENABLE_KODI
 }
 
 //============================================================================
 void EventsQtToNlc::fromGuiCloseEvent( )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     m_MyApp.fromGuiCloseEvent( eAppModulePlayerNlc );
-    #endif // ENABLE_KODI
 }
 
 //============================================================================
 void EventsQtToNlc::fromGuiVisibleEvent( bool isVisible )
 {
-    #if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     m_MyApp.fromGuiVisibleEvent( eAppModulePlayerNlc, isVisible );
-    #endif // ENABLE_KODI
 }

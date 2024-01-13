@@ -43,13 +43,8 @@ public:
 
     P2PEngine&                  getPtoP();
     AppCommon&                  getAppCommon();
-#if defined(ENABLE_KODI)
-    CApplication&               getKodi()               { return m_Kodi; }
-#endif // ENABLE_KODI
 
-#if defined(ENABLE_NLC_PLAYER)
     MediaPlayerNlc&             getNlcPlayer()          { return m_NlcPlayer; }
-#endif // ENABLE_KODI
 
 
     //============================================================================
@@ -121,9 +116,9 @@ public:
 
     bool                        firstBegin( CGUIFontTTFQt * font )  override;
     void                        lastEnd( CGUIFontTTFQt * font ) override;
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
+
     CVertexBuffer               createVertexBuffer( CGUIFontTTFQt * font, const std::vector<SVertex>& vertices )  override;
-#endif // ENABLE_KODI
+
     void                        destroyVertexBuffer( CGUIFontTTFQt * font, CVertexBuffer& vertBuffer ) override;
 
     virtual void                deleteHardwareTexture( CGUIFontTTFQt * font )  override;
@@ -284,7 +279,6 @@ public:
     // add audio data to play.. assumes pcm mono 16000 Hz
     virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
 
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
     virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) override;
 
     virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
@@ -292,7 +286,6 @@ public:
     virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) override;
 
     virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) override;
-#endif // ENABLE_KODI
 
     virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) override;
     virtual void				toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t * pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 ) override;
@@ -622,11 +615,8 @@ private:
     ILog                        m_ILog; // must be first in initializer list
     OsInterface&                m_OsInterface;
 
-#if defined(ENABLE_KODI)
-    CApplication&               m_Kodi;  
-#elif defined(ENABLE_NLC_PLAYER)
     MediaPlayerNlc&             m_NlcPlayer;
-#endif // ENABLE_KODI
+
     bool                        m_IsRunning[ eMaxAppModule ];
 
     std::string                 m_SslCertFile;

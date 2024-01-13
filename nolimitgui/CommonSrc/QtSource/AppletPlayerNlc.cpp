@@ -25,19 +25,9 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
-namespace
-{
-	const int PROCESS_QT_DEFAULT_MS = 50;
-
-	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
-	{
-		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-	}
-}
-
 //============================================================================
 AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
-: AppletPlayerBase( OBJNAME_APPLET_PLAYER_NLC, app, parent )
+: AppletPlayerNlcBase( OBJNAME_APPLET_PLAYER_NLC, app, parent )
 {
 	initAppletPlayerNlc();
 }
@@ -109,38 +99,16 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
     ui.m_BrowseButton->setVisible( false );
 #endif // defined(DEBUG)
 
-	ui.m_PlayPosSlider->setRange( 0, 100000 );
-
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT( slotSliderPressed() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT( slotSliderReleased() ) );
-
-	connect( this, SIGNAL( signalPlayProgress(int) ), this, SLOT( slotPlayProgress(int) ) );
-	connect( this, SIGNAL( signalPlayEnd() ), this, SLOT( slotPlayEnd() ) );
-
 	connect( ui.m_FilesComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaFileComboBoxSelectionChange(int)) );
-
-	connect( ui.m_ReplayButton, SIGNAL( clicked() ), this, SLOT( slotReplayButtonClick() ) );
 
 	connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButtonClick() ) );
 
-	m_MyApp.activityStateChange( this, true );
-	m_MyApp.getSoundMgr().setPlayerNlcActive( true );
-	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
+	onAppletInitialized();
 }
 
 //============================================================================
 AppletPlayerNlc::~AppletPlayerNlc()
 {
-	stopMediaIfPlaying();
-	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
-	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
-	m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-RenderGlWidget* AppletPlayerNlc::getRenderConsumer( void )
-{
-	return ui.m_RenderWidget;
 }
 
 //============================================================================
@@ -191,219 +159,11 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
 }
 
 //============================================================================
-void AppletPlayerNlc::showEvent( QShowEvent* showEvent )
-{
-	AppletBase::showEvent( showEvent );
-}
-
-//============================================================================
-void AppletPlayerNlc::hideEvent( QHideEvent* hideEvent )
-{
-	AppletBase::hideEvent( hideEvent );
-}
-
-//============================================================================
-void AppletPlayerNlc::resizeEvent( QResizeEvent* ev )
-{
-	AppletBase::resizeEvent( ev );
-}
-
-//============================================================================
-void AppletPlayerNlc::setReadyForCallbacks( bool isReady )
-{
-	if( m_ActivityCallbacksEnabled != isReady )
-	{
-		m_ActivityCallbacksEnabled = isReady;
-		m_MyApp.wantToGuiActivityCallbacks( this, isReady );
-	}
-}
-
-//============================================================================
 void AppletPlayerNlc::slotMediaFileComboBoxSelectionChange( int cbIdx )
 {
-    std::string mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
+	std::string mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
 	playMediaFile( mediaFile, 0 );
 }
-
-//============================================================================
-bool AppletPlayerNlc::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
-{
-	if( !waitForPlayerThread() )
-	{
-		return false;
-	}
-
-	AppletPlayerBase::setAssetInfo( assetInfo );
-
-	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
-}
-
-//============================================================================
-bool AppletPlayerNlc::playMediaFile(std::string mediaFile, int pos0to100000 )
-{
-	if( !waitForPlayerThread() )
-	{
-		return false;
-	}
-
-	if( VxFileUtil::fileExists( mediaFile.c_str() ) )
-    {
-		return AppletPlayerBase::playFile( mediaFile.c_str(), pos0to100000 );
-	}
-    else
-    {
-		QString fileName( mediaFile.c_str() );
-        QMessageBox::information( this, QObject::tr("File does not exist"), fileName, QMessageBox::Ok );
-		return false;
-    }
-}
-
-//============================================================================
-bool AppletPlayerNlc::waitForPlayerThread( void )
-{
-	m_ElapsedTimer.start();
-	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
-	{
-		ProcessQtEvents( 100 );
-		if( m_ElapsedTimer.elapsed() > 6000 )
-		{
-			LogMsg( LOG_ERROR, "Media Player Failed To Start" );
-			return false;
-		}
-	}
-
-	return true;
-}
-
-//============================================================================
-void AppletPlayerNlc::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
-{
-	AppletPlayerBase::toGuiClientAssetAction( assetAction, assetId, pos0to100000 );
-	switch( assetAction )
-	{
-	case eAssetActionPlayProgress:
-		if( false == m_SliderIsPressed )
-		{
-			updateGuiPlayControls( true );
-			ui.m_PlayPosSlider->setValue( pos0to100000 );
-		}
-
-		break;
-
-	case eAssetActionPlayEnd:
-		if( false == m_SliderIsPressed )
-		{
-			updateGuiPlayControls( false );
-		}
-
-		break;
-
-	default:
-		break;
-	}
-}
-
-//============================================================================
-void AppletPlayerNlc::slotSliderPressed( void )
-{
-	m_SliderIsPressed = true;
-}
-
-//============================================================================
-void AppletPlayerNlc::slotSliderReleased( void )
-{
-	m_SliderIsPressed = false;
-	int posVal = ui.m_PlayPosSlider->value();
-	startMediaPlay( posVal );
-}
-
-//============================================================================
-void AppletPlayerNlc::slotPlayButtonClicked( void )
-{
-	if( m_IsPlaying )
-	{
-		stopMediaIfPlaying();
-	}
-	else
-	{
-		startMediaPlay( 0 );
-	}
-}
-
-//========================================================================
-void AppletPlayerNlc::startMediaPlay( int startPos )
-{
-	bool playStarted = m_Engine.fromGuiAssetAction( eAssetActionPlayBegin, m_AssetInfo, startPos );
-	updateGuiPlayControls( playStarted );
-	if( false == playStarted )
-	{
-		m_MyApp.toGuiStatusMessage( "Video Play FAILED TO Begin" );
-	}
-}
-
-//========================================================================
-void AppletPlayerNlc::updateGuiPlayControls( bool isPlaying )
-{
-	if( m_IsPlaying != isPlaying )
-	{
-		m_IsPlaying = isPlaying;
-		if( m_IsPlaying )
-		{
-			// start playing
-			//ui.m_PlayPauseButton->setIcons( eMyIconPauseNormal );
-			setReadyForCallbacks( true );
-		}
-		else
-		{
-			// stop playing
-			//ui.m_PlayPauseButton->setIcons( eMyIconPlayNormal );
-			ui.m_PlayPosSlider->setValue( 0 );
-		}
-	}
-}
-
-//============================================================================
-void AppletPlayerNlc::stopMediaIfPlaying( void )
-{
-	if( m_IsPlaying )
-	{
-		m_MyApp.toGuiStatusMessage( "" );
-		m_Engine.fromGuiAssetAction( eAssetActionPlayEnd, m_AssetInfo, 0 );
-	}
-
-	updateGuiPlayControls( false );
-}
-
-//============================================================================
-void AppletPlayerNlc::slotPlayProgress( int pos0to100000 )
-{
-	if( m_IsPlaying && (false == m_SliderIsPressed) )
-	{
-		ui.m_PlayPosSlider->setValue( pos0to100000 );
-	}
-}
-
-//============================================================================
-void AppletPlayerNlc::slotPlayEnd( void )
-{
-	//updateGuiPlayControls( false );
-}
-
-//============================================================================
-void AppletPlayerNlc::slotReplayButtonClick( void )
-{
-	std::string fileStr = ui.m_FilesComboBox->currentText().toUtf8().constData();
-	QString mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
-	if( VxFileUtil::fileExists( fileStr.c_str() ) )
-	{
-		playFile( mediaFile );
-	}
-	else
-	{
-		QMessageBox::information( this, QObject::tr( "File does not exist" ), mediaFile, QMessageBox::Ok );
-	}
-}
-
 
 //============================================================================
 void AppletPlayerNlc::slotBrowseButtonClick( void )
@@ -431,8 +191,7 @@ void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AppletPlayerNlc::callbackGuiMediaPlayerNlcReady( bool isReady )
+void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 {
-	LogMsg( LOG_DEBUG, "%s %d", __func__, isReady );
-	ui.m_FilesComboBox->setEnabled( isReady );
+	ui.m_FilesComboBox->setEnabled( true );
 }

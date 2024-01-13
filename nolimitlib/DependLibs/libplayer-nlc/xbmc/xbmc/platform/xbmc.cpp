@@ -27,9 +27,7 @@
 # include "platform/qt/KodiQtApp.h"
 #endif
 
-#if defined(ENABLE_NLC_PLAYER)
 #include "../../../../nolimitgui/AppInterface/INlc.h"
-#endif //  defined(ENABLE_NLC_PLAYER)
 
 #include "platform/MessagePrinter.h"
 #include "utils/log.h"
@@ -89,15 +87,12 @@ extern "C" int XBMC_Run( bool renderGUI, const CAppParamParser &params )
 #endif
 
     g_KodiIsRunning = true;
-#if defined(ENABLE_NLC_PLAYER)
+
     IToGui::getToGui().toGuiSetIsAppModuleRunning( eAppModulePlayerNlc, true );
-#endif // ENABLE_NLC_PLAYER
 
     status = g_application.Run();
 
-#if defined(ENABLE_NLC_PLAYER)
     IToGui::getToGui().toGuiSetIsAppModuleRunning( eAppModulePlayerNlc, false );
-#endif // ENABLE_NLC_PLAYER
 
 #if defined(TARGET_WINDOWS_DESKTOP) && !defined(ENABLE_NLC_PLAYER)
     // the end

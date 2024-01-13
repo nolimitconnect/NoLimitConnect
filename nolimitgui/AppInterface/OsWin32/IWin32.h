@@ -10,10 +10,9 @@
 //============================================================================
 
 #include "GuiInterface/OsInterface/OsInterface.h"
+
 #ifdef TARGET_OS_WINDOWS
-#if defined(ENABLE_KODI) || defined(ENABLE_NLC_PLAYER)
 #include "config_components_kodi.h"
-#endif // ENABLE_KODI
 
 class IWin32 : public OsInterface
 {
