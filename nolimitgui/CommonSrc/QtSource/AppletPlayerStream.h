@@ -32,7 +32,7 @@ public:
     void						toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
 
     void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override {};
-	void						callbackGuiMediaPlayerStreamReady( bool isReady ) override;
+	void						callbackGuiMediaPlayerNlcReady( bool isReady ) override;
 
 protected slots:
 	void						slotPlayButtonClicked( void );
@@ -73,10 +73,11 @@ protected:
 
 	//=== vars ===//
 	Ui::AppletPlayerStreamUi		ui;
-	EAppModule					m_AppModule{ eAppModulePlayerStream };
+	EAppModule					m_AppModule{ eAppModulePlayerNlc };
 	bool						m_ActivityCallbacksEnabled{ false };
 	bool						m_IsPlaying{ false };
 	bool						m_SliderIsPressed{ false };
+
 	QMediaPlayer*				m_QMediaPlayer{ nullptr };
 	QElapsedTimer				m_ElapsedTimer;
 };

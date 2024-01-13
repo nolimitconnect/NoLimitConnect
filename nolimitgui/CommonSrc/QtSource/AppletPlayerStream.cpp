@@ -81,28 +81,10 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 	std::vector<std::string> mediaTestFiles;
 
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOff.opus" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOn.opus" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/MJPEGWithAAC.avi" );
-
-	// these are not checked into git
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Drop Dead Gorgeous 1999.flv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Grey's.Anatomy.S14E12.720p.HDTV.2CH.x265.HEVC-PSA.mkv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Agents.of.S.H.I.E.L.D.S05E09/Marvels.Agents.of.S.H.I.E.L.D.S05E09.WEBRip.x264-ION10.mp4" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/PleaseStandByAC3-EVO.avi" );
-	// end not checked into git
-
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudio.mp3" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudio.wav" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/DummyFileDoesNotExist.wav" );
-
-	for( auto& mediaFile : mediaTestFiles )
-	{
-		if( VxFileUtil::fileExists( mediaFile.c_str() ) )
-		{
-			ui.m_FilesComboBox->addItem( mediaFile.c_str() );
-		}
-	}
+	mediaTestFiles.push_back( mediaTestFilesPath + "https://127.0.0.1/MJPEGWithAAC" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "https://127.0.0.1/NlcTestAudio.wav" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "https://127.0.0.1/NlcTestAudioVbrOn.opus" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "https://127.0.0.1/Theres-the-roses-you-bought-meThanks.jpg" );
 
 #else
     ui.m_FilesComboBox->setVisible( false );
@@ -123,8 +105,10 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 	connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButtonClick() ) );
 
+
+
 	m_MyApp.activityStateChange( this, true );
-	m_MyApp.getSoundMgr().setPlayerStreamActive( true );
+	m_MyApp.getSoundMgr().setPlayerNlcActive( true );
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
 }
 
@@ -133,7 +117,7 @@ AppletPlayerStream::~AppletPlayerStream()
 {
 	stopMediaIfPlaying();
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
-	m_MyApp.getSoundMgr().setPlayerStreamActive( false );
+	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
 	m_MyApp.activityStateChange( this, false );
 }
 
@@ -228,11 +212,6 @@ void AppletPlayerStream::slotMediaFileComboBoxSelectionChange( int cbIdx )
 //============================================================================
 bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
-	if( !waitForPlayerThread() )
-	{
-		return false;
-	}
-
 	AppletPlayerBase::setAssetInfo( assetInfo );
 
 	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
@@ -262,7 +241,7 @@ bool AppletPlayerStream::playMediaFile(std::string mediaFile, int pos0to100000 )
 bool AppletPlayerStream::waitForPlayerThread( void )
 {
 	m_ElapsedTimer.start();
-	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerStream ) )
+	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
 	{
 		ProcessQtEvents( 100 );
 		if( m_ElapsedTimer.elapsed() > 6000 )
@@ -431,7 +410,7 @@ void AppletPlayerStream::onFileSelected( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AppletPlayerStream::callbackGuiMediaPlayerStreamReady( bool isReady )
+void AppletPlayerStream::callbackGuiMediaPlayerNlcReady( bool isReady )
 {
 	LogMsg( LOG_DEBUG, "%s %d", __func__, isReady );
 	ui.m_FilesComboBox->setEnabled( isReady );
