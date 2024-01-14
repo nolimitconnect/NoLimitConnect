@@ -9,62 +9,30 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <stdint.h>
-#include <stdio.h>
+#include "VFile.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct VFile {
-	VFile()
-		: m_FILE(0)
-		, m_FileLen(0)
-		, m_FileOffs(0)
-		, m_FileContentType(0)
-		, m_VirtFileType(0)
-		, m_Error(0)
-	{
-	}
+VFile* VirtFileOpen( const char* fileName, const char* fileMode );
+int VirtFileClose(VFile* fp);
+int VirtFileEof(VFile* fp);
+int VirtFileError(VFile* fp);
+int VirtFileFlush(VFile* fp);
 
-	VFile( FILE* fp)
-		: m_FILE(fp)
-		, m_FileLen(0)
-		, m_FileOffs(0)
-		, m_FileContentType(0)
-		, m_VirtFileType(0)
-		, m_Error(0)
-	{
-	}
+size_t VirtFileRead(void* buf, size_t size, size_t count, VFile* fp);
+size_t VirtFileWrite(const void* buf, size_t size, size_t count, VFile* fp);
 
-	FILE*						m_FILE;
-	int64_t						m_FileLen;
-	int64_t						m_FileOffs;
-	int							m_Error;
-	uint16_t					m_FileContentType;
-	uint16_t					m_VirtFileType;
-} VFile;
+int VirtFileGetC(VFile* fp);
+char* VirtFileGetS(char* buf, int size, VFile* fp);
+int VirtFilePutC(int ch, VFile* fp);
+int VirtFilePutS(const char* s, VFile* fp);
 
-VFile* VFileOpen( const char* fileName, const char* fileMode );
-int VFileClose(VFile* fp);
-int VFileEof(VFile* fp);
-int VFileError(VFile* fp);
-int VFileFlush(VFile* fp);
-
-size_t VFileRead(void* buf, size_t size, size_t count, VFile* fp);
-size_t VFileWrite(const void* buf, size_t size, size_t count, VFile* fp);
-
-int VFileGetC(VFile* fp);
-char* VFileGetS(char* buf, int size, VFile* fp);
-int VFilePutC(int ch, VFile* fp);
-int VFilePutS(const char* s, VFile* fp);
-
-int VFileGetPos( VFile* fp, fpos_t* pos );
-int VFileSetPos( VFile* fp, const fpos_t* pos );
-int VFileSeek( VFile* fp, size_t offset, int whence);
-fpos_t VFileTell( VFile* fp );
-
-
+int VirtFileGetPos( VFile* fp, fpos_t* pos );
+int VirtFileSetPos( VFile* fp, const fpos_t* pos );
+int VirtFileSeek( VFile* fp, size_t offset, int whence);
+fpos_t VirtFileTell( VFile* fp );
 
 #ifdef __cplusplus
 }

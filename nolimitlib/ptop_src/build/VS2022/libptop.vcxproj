@@ -717,6 +717,8 @@
     <ClCompile Include="..\..\ptop_engine_src\UserOnlineMgr\UserOnlineMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\User\User.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\User\UserList.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\WebPageMgr\WebPageMgr.cpp" />
     <ClInclude Include="..\..\..\GuiInterface\IAudioDefs.h" />
     <ClInclude Include="..\..\..\GuiInterface\IAudioInterface.h" />
@@ -970,6 +972,8 @@
     <ClInclude Include="..\..\ptop_engine_src\UserOnlineMgr\UserOnlineMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\User\User.h" />
     <ClInclude Include="..\..\ptop_engine_src\User\UserList.h" />
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.h" />
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\WebPageMgr\WebPageCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\WebPageMgr\WebPageMgr.h" />
   </ItemGroup>

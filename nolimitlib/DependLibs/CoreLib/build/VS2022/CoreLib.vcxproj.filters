@@ -292,9 +292,13 @@
     <ClInclude Include="..\..\ObjectCommonDefs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VirtFile.h">
+    <ClInclude Include="..\..\VFile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\VFileDefs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VirtFileMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AppErr_corelib.cpp">
@@ -507,7 +511,7 @@
     <ClCompile Include="..\..\VxMemUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VirtFile.cpp">
+    <ClCompile Include="..\..\VFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

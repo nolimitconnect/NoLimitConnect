@@ -239,6 +239,8 @@ list(APPEND ptopengine_SOURCES
 	UserJoinMgr/UserJoinInfoDb.cpp
 	UserJoinMgr/UserJoinMgr.cpp
 	UserOnlineMgr/UserOnlineMgr.cpp
+    VirtStream/VirtStreamFile.cpp
+    VirtStream/VirtStreamMgr.cpp
     WebPageMgr/WebPageMgr.cpp 
 )
 

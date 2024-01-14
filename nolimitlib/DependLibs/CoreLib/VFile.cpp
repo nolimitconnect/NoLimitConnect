@@ -8,129 +8,96 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VirtFile.h"
-#include "VirtFileMgr.h" 
-
-#include "VxDebug.h"
-
-
-class VirtFile
-{
-public:
-	VirtFile() = delete;
-	VirtFile( VFile* vFile, const char* fileName, const char* fileMode );
-
-
-protected:
-	//=== vars ===//
-	VFile*						m_VFile{ nullptr };
-	std::string					m_FileName;
-	std::string					m_FileMode;
-};
-
-
-extern VirtFileMgr& GetVirtFileMgr();
+#include "VFile.h"
+#include "VirtFileMgr.h"
 
 //============================================================================
-VirtFile::VirtFile( VFile* vFile, const char* fileName, const char* fileMode )
-	: m_VFile(vFile)
-	, m_FileName( fileName )
-	, m_FileMode( fileMode )
-{ 
+VFile* VFileOpen( const char* fileName, const char* fileMode )
+{
+	return GetVirtFileMgr().fileOpen( fileName, fileMode );
 }
 
 //============================================================================
-VFile* VirtFileOpen( const char* fileName, const char* fileMode )
-{
-	VFile* vFile = (VFile*)malloc( sizeof( VFile ) );
-	vx_assert( vFile );
-
-	if( GetVirtFileMgr().fileOpen( vFile ) )
-	{
-		return vFile;
-	}
-	else
-	{
-		free( vFile );
-		return nullptr;
-	}
-}
-
-//============================================================================
-int VirtFileClose( VFile* fp )
+int VFileClose( VFile* fp )
 {
 	return GetVirtFileMgr().fileClose( fp );
 }
 
 //============================================================================
-int VirtFileEof( VFile* fp )
+int VFileEof( VFile* fp )
 {
 	return GetVirtFileMgr().fileEof( fp );
 }
 
 //============================================================================
-int VirtFileError( VFile* fp )
+int VFileError( VFile* fp )
 {
-	return fp->m_Error;
+	return GetVirtFileMgr().fileError( fp );
 }
 
 //============================================================================
-int VirtFileFlush( VFile* fp )
+int VFileFlush( VFile* fp )
 {
 	return GetVirtFileMgr().fileFlush( fp );
 }
 
 //============================================================================
-size_t VirtFileRead( void* buf, size_t size, size_t count, VFile* fp )
+size_t VFileRead( void* buf, size_t size, size_t count, VFile* fp )
 {
 	return GetVirtFileMgr().fileRead( buf, size, count, fp );
 }
 
 //============================================================================
-size_t VirtFileWrite( const void* buf, size_t size, size_t count, VFile* fp )
+size_t VFileWrite( const void* buf, size_t size, size_t count, VFile* fp )
 {
 	return GetVirtFileMgr().fileWrite( buf, size, count, fp );
 }
 
 //============================================================================
-int VirtFileGetC( VFile* fp )
+int VFileGetC( VFile* fp )
 {
 	return GetVirtFileMgr().fileGetC( fp );
 }
 
 //============================================================================
-char* VirtFileGetS( char* buf, int size, VFile* fp )
+char* VFileGetS( char* buf, int size, VFile* fp )
 {
 	return GetVirtFileMgr().fileGetS( buf, size, fp );
 }
 
 //============================================================================
-int VirtFilePutC( int ch, VFile* fp )
+int VFilePutC( int ch, VFile* fp )
 {
 	return GetVirtFileMgr().filePutC( ch, fp );
 }
 
-int VirtFilePutS( const char* s, VFile* fp )
+//============================================================================
+int VFilePutS( const char* s, VFile* fp )
 {
 	return GetVirtFileMgr().filePutS( s, fp );
 }
 
-int VirtFileGetPos( VFile* fp, fpos_t* pos )
+//============================================================================
+int VFileGetPos( VFile* fp, fpos_t* pos )
 {
 	return GetVirtFileMgr().fileGetPos( fp, pos );
 }
 
-int VirtFileSetPos( VFile* fp, const fpos_t* pos )
+//============================================================================
+int VFileSetPos( VFile* fp, const fpos_t* pos )
 {
 	return GetVirtFileMgr().fileSetPos( fp, pos );
 }
 
-int VirtFileSeek( VFile* fp, size_t offset, int whence )
+//============================================================================
+int VFileSeek( VFile* fp, size_t offset, int whence )
 {
 	return GetVirtFileMgr().fileSeek( fp, offset, whence );
 }
 
-fpos_t VirtFileTell( VFile* fp )
+//============================================================================
+fpos_t VFileTell( VFile* fp )
 {
 	return GetVirtFileMgr().fileTell( fp );
 }
+

@@ -715,6 +715,12 @@
     <ClCompile Include="..\..\ptop_engine_src\PushToTalk\PushToTalkMgr.cpp">
       <Filter>Source Files\PushToTalk</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1479,6 +1485,12 @@
     <ClInclude Include="..\..\ptop_engine_src\PushToTalk\PushToTalkMgr.h">
       <Filter>Source Files\PushToTalk</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1591,6 +1603,9 @@
     </Filter>
     <Filter Include="Source Files\PushToTalk">
       <UniqueIdentifier>{49a51a9a-7732-452a-b517-f9984a034821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VirtStream">
+      <UniqueIdentifier>{db258203-5095-49aa-ba86-4d8d1188af1b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
