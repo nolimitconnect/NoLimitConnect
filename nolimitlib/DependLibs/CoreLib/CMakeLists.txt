@@ -28,6 +28,7 @@ list(APPEND CoreLib_SOURCES
     TimeIntervalEstimator.cpp
     VxAppInfo.cpp
     Invite.cpp
+    VirtFile.cpp
     VxBuffer.cpp
     VxChop.cpp
     VxChopMap.cpp

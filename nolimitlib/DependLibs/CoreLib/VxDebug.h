@@ -35,6 +35,7 @@ typedef void ( *LOG_FUNCTION )( void *, uint32_t, const char * );
 
 // protected by #ifdef __cplusplus so can be included in .c code
 #ifdef __cplusplus
+
 #include <string>
 #include <vector>
 

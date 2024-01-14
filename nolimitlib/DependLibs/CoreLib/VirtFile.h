@@ -1,0 +1,71 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2015 Brett R. Jones
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+#include <stdint.h>
+#include <stdio.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct VFile {
+	VFile()
+		: m_FILE(0)
+		, m_FileLen(0)
+		, m_FileOffs(0)
+		, m_FileContentType(0)
+		, m_VirtFileType(0)
+		, m_Error(0)
+	{
+	}
+
+	VFile( FILE* fp)
+		: m_FILE(fp)
+		, m_FileLen(0)
+		, m_FileOffs(0)
+		, m_FileContentType(0)
+		, m_VirtFileType(0)
+		, m_Error(0)
+	{
+	}
+
+	FILE*						m_FILE;
+	int64_t						m_FileLen;
+	int64_t						m_FileOffs;
+	int							m_Error;
+	uint16_t					m_FileContentType;
+	uint16_t					m_VirtFileType;
+} VFile;
+
+VFile* VFileOpen( const char* fileName, const char* fileMode );
+int VFileClose(VFile* fp);
+int VFileEof(VFile* fp);
+int VFileError(VFile* fp);
+int VFileFlush(VFile* fp);
+
+size_t VFileRead(void* buf, size_t size, size_t count, VFile* fp);
+size_t VFileWrite(const void* buf, size_t size, size_t count, VFile* fp);
+
+int VFileGetC(VFile* fp);
+char* VFileGetS(char* buf, int size, VFile* fp);
+int VFilePutC(int ch, VFile* fp);
+int VFilePutS(const char* s, VFile* fp);
+
+int VFileGetPos( VFile* fp, fpos_t* pos );
+int VFileSetPos( VFile* fp, const fpos_t* pos );
+int VFileSeek( VFile* fp, size_t offset, int whence);
+fpos_t VFileTell( VFile* fp );
+
+
+
+#ifdef __cplusplus
+}
+#endif

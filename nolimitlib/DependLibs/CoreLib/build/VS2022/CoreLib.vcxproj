@@ -264,6 +264,7 @@
     <ClInclude Include="..\..\StringListBinary.h" />
     <ClInclude Include="..\..\TimeIntervalEstimator.h" />
     <ClInclude Include="..\..\VarToString.h" />
+    <ClInclude Include="..\..\VirtFile.h" />
     <ClInclude Include="..\..\VxAppInfo.h" />
     <ClInclude Include="..\..\VxBuffer.h" />
     <ClInclude Include="..\..\VxChop.h" />
@@ -341,6 +342,7 @@
     <ClCompile Include="..\..\StdOutRedirect_corelib.cpp" />
     <ClCompile Include="..\..\StringListBinary.cpp" />
     <ClCompile Include="..\..\TimeIntervalEstimator.cpp" />
+    <ClCompile Include="..\..\VirtFile.cpp" />
     <ClCompile Include="..\..\VxAppInfo.cpp" />
     <ClCompile Include="..\..\VxBuffer.cpp" />
     <ClCompile Include="..\..\VxChop.cpp" />

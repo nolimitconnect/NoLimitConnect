@@ -12,8 +12,7 @@
 
 #include <GuiInterface/IDefs.h>
 
-#include <typeinfo>
-#include <inttypes.h>
+#include <string>
 
 class AssetBaseInfo;
 

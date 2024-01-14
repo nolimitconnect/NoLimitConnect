@@ -292,6 +292,9 @@
     <ClInclude Include="..\..\ObjectCommonDefs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\VirtFile.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AppErr_corelib.cpp">
@@ -502,6 +505,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxMemUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VirtFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
