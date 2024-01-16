@@ -194,6 +194,15 @@ RenderGlWidget* AppletMgr::getRenderConsumer( void )
 
             break;
         }
+        else if( eAppletPlayerStream == (*iter)->getAppletType() )
+        {
+            if( (*iter)->isVisible() )
+            {
+                renderConsumer = ( ( AppletPlayerNlc * )( *iter ) )->getRenderConsumer();
+            }
+
+            break;
+        }
     }
 
     return renderConsumer;

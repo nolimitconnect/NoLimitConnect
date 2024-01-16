@@ -395,7 +395,7 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	pktReq->getFileName( rmtFileName );
 	if( false == m_FileInfoMgr.getFileFullName( pktReq->getAssetId(), pktReq->getFileHashId(), strLclFileName ) )
 	{
-		LogMsg( LOG_VERBOSE, "FileXferMgr::onPktFileGetReq file no longer shared %s", rmtFileName.c_str() );
+		LogMsg( LOG_VERBOSE, "%s file no longer shared %s", __func__, rmtFileName.c_str() );
 		pktReply.setError( eXferErrorFileNotFound );
 	}
 	else
@@ -555,6 +555,7 @@ static int cnt = 0;
 //============================================================================
 void FileInfoXferMgr::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+	announcePkt( pktHdr );
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileGetCompleteReq");
 	PktFileGetCompleteReq* poPkt = (PktFileGetCompleteReq *)pktHdr;
@@ -569,11 +570,13 @@ void FileInfoXferMgr::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBa
 void FileInfoXferMgr::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileGetCompleteReply");
+	announcePkt( pktHdr );
 }
 
 //============================================================================
 void FileInfoXferMgr::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+	announcePkt( pktHdr );
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileSendCompleteReq");
 	PktFileSendCompleteReq* poPkt = (PktFileSendCompleteReq *)pktHdr;
@@ -589,6 +592,7 @@ void FileInfoXferMgr::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktB
 void FileInfoXferMgr::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileSendCompleteReply");
+	announcePkt( pktHdr );
 }
 
 //============================================================================
@@ -685,19 +689,36 @@ void FileInfoXferMgr::onPktFileListReply( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void FileInfoXferMgr::onPktFileInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileInfoReq");
+	LogMsg( LOG_VERBOSE, "%s", __func__ );
+	announcePkt( pktHdr );
 }
 
 //============================================================================
 void FileInfoXferMgr::onPktFileInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileInfoReply");
+	LogMsg( LOG_VERBOSE, "%s", __func__ );
+	announcePkt( pktHdr );
 }
 
 //============================================================================
 void FileInfoXferMgr::onPktFileInfoErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::onPktFileInfoErr");
+	LogMsg( LOG_VERBOSE, "%s", __func__ );
+	announcePkt( pktHdr );
+}
+
+//============================================================================
+void FileInfoXferMgr::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	LogMsg( LOG_VERBOSE, "%s", __func__ );
+	announcePkt( pktHdr );
+}
+	
+//============================================================================
+void FileInfoXferMgr::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	LogMsg( LOG_VERBOSE, "%s", __func__ );
+	announcePkt( pktHdr );
 }
 
 //============================================================================
@@ -1781,4 +1802,50 @@ EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxGUID 
 	}
 
 	return xferErr;
+}
+
+//============================================================================
+void FileInfoXferMgr::wantFileXferCallback( FileXferCallback* client, bool wantCallback )
+{
+    if( !client )
+    {
+        LogMsg( LOG_ERROR, "%s null client", __func__ );
+		vx_assert( false );
+        return;
+    }
+
+    lockClientList();
+    bool foundClient{ false };
+    for( auto iter = m_FileXferCallbackClients.begin(); iter != m_FileXferCallbackClients.end(); ++iter )
+    {
+        if( *iter == client )
+        {
+            foundClient = true;
+            if( !wantCallback )
+            {
+                m_FileXferCallbackClients.erase( iter );
+            }
+
+            break;
+        }
+    }
+
+    if( !foundClient && wantCallback )
+    {
+        m_FileXferCallbackClients.push_back( client );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void FileInfoXferMgr::announcePkt( VxPktHdr* pktHdr )
+{
+	lockClientList();
+    for( auto client : m_FileXferCallbackClients )
+    {
+		client->onFileXferPktRxed( pktHdr );
+    }
+
+    unlockClientList();
 }

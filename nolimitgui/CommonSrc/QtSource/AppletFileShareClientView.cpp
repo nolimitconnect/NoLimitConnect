@@ -415,14 +415,43 @@ void AppletFileShareClientView::slotStreamButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( !xferSession )
 	{
-		LogMsg( LOG_ERROR, "AppletFileShareClientView::slotStreamButtonClicked null xferSession" );
+		LogMsg( LOG_ERROR, "%s null xferSession", __func__ );
 		vx_assert( false );
 		return;
 	}
 
-	xferSession->setIsStreaming( true );
+	if( !xferSession || !xferSession->getIdent() )
+	{
+		LogMsg( LOG_ERROR, "%s invalid param", __func__ );
+		vx_assert( false );
+		return;
+	}
 
-	slotCancelButtonClicked( item );
+	if(	-1 != m_FromGui.fromGuiGetFileDownloadState( xferSession->getFileHashId().getHashData() ) )
+	{
+		ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "File cannot be streamed while downloading" );
+		errMsgBox.exec();
+		return;
+	}
+
+	if( eXferStateDownloadNotStarted != xferSession->getXferState() )
+	{
+		ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "File cannot be streamed while in state %s", DescribeXferState( xferSession->getXferState() ) );
+		errMsgBox.exec();
+		return;
+	}
+
+	EXferState xferState = xferSession->getXferState();
+	AssetBaseInfo assetInfo;
+	VxGUID lclSessionId;
+	xferSession->getAssetInfo( assetInfo, lclSessionId );
+	assetInfo.setPluginType( ePluginTypeFileShareClient );
+	assetInfo.setDestUserId( xferSession->getIdent()->getMyOnlineId() );
+
+	if( m_MyApp.getPlayerMgr().playStream( assetInfo, lclSessionId, 0 ) )
+	{
+		((FileXferWidget*)item)->setXferState( eXferStateStreaming, eXferErrorNone, 0 );
+	}
 }
 
 //============================================================================
@@ -430,7 +459,7 @@ void AppletFileShareClientView::beginDownload( GuiFileXferSession* xferSession, 
 {
 	if( !xferSession || !xferSession->getIdent() )
 	{
-		LogMsg( LOG_ERROR, "AppletFileShareClientView::beginDownload invalid param" );
+		LogMsg( LOG_ERROR, "%s invalid param", __func__ );
 		vx_assert( false );
 		return;
 	}
@@ -478,9 +507,9 @@ void AppletFileShareClientView::cancelDownload( GuiFileXferSession* xferSession,
     xferSession->setXferState(  eXferStateUserCanceledDownload, eXferErrorNone, 0 );
     ((FileXferWidget*)item)->setXferState( eXferStateUserCanceledDownload, eXferErrorNone, 0 );
 	m_MyApp.getFileXferMgr().cancelDownload( getAppletType(), xferSession );
-	if( xferSession->getIsStreaming() )
+	if( xferSession->getIsStream() )
 	{
-		xferSession->setIsStreaming( false );
+		xferSession->setIsStream( false );
 		removeDownload( xferSession, item );
 	}
 	else
@@ -513,7 +542,7 @@ void AppletFileShareClientView::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName() );
+		this->playFile( xferSession->getFullFileName(), 0, false );
 	}
 }
 

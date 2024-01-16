@@ -426,9 +426,9 @@ void ActivityBase::slotShowShouldExitMsgBox( QString exitReason )
 }
 
 //============================================================================
-bool ActivityBase::playFile( QString fileName, int pos0to100000 )
+bool ActivityBase::playFile( QString fileName, int pos0to100000, bool isStream )
 {
-	return m_MyApp.getPlayerMgr().playFile( fileName, pos0to100000 );
+	return m_MyApp.getPlayerMgr().playFile( fileName, pos0to100000, isStream );
 }
 
 //============================================================================

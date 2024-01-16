@@ -32,7 +32,7 @@ public:
 	bool						fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) override;
 	bool						fromGuiMediaPlayerSeek( int position0to100000 ) override;
 
-	bool						fromGuiPlayStream( std::string url, int pos0to100000 ) override;
+	bool						fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 ) override;
 
 protected:
     bool						assureInitialized( void );

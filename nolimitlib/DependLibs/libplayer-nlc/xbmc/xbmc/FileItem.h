@@ -133,6 +133,9 @@ public:
   ~CFileItem(void) override;
   CGUIListItem* Clone() const override { return new CFileItem(*this); }
 
+  void SetIsVirtualStream( bool isStream ) { m_bIsVirtualStream = isStream; }
+  bool IsVirtualStream( void ) const { return m_bIsVirtualStream; }
+
   const NlcUrl GetURL() const;
   void SetURL(const NlcUrl& url);
   bool IsURL(const NlcUrl& url) const;
@@ -698,6 +701,7 @@ private:
   int64_t m_lEndOffset;
 
   CCueDocumentPtr m_cueDocument;
+  bool m_bIsVirtualStream{ false };
 };
 
 /*!

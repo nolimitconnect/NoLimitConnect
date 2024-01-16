@@ -101,8 +101,8 @@ public:
 
 	void						assureValidAssetId( void );
 
-	void						setIsStreaming( bool isStreaming )			{ m_IsStreaming = isStreaming; }
-	bool 						getIsStreaming( void )						{ return m_IsStreaming; }
+	void						setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
+	bool 						getIsStream( void )						{ return m_IsStreaming; }
 
 private:
 	void						generateAssetId( void );
@@ -110,13 +110,13 @@ private:
 public:
 	//=== vars ===//
 	VxGUID						m_OnlineId;
-	std::string					m_FullFileName{ ""};
-	std::string					m_ShortFileName{ "" };
+	std::string					m_FullFileName;
+	std::string					m_ShortFileName;
 	int64_t						m_s64FileLen{ 0 };
 	uint32_t					m_u32Attributes{ 0 };
 	uint8_t						m_u8FileType{ 0 };
 	VxSha1Hash					m_FileHash;
-	std::string					m_ContainedInDir{ "" };
+	std::string					m_ContainedInDir;
 	VxGUID						m_AssetId;
 	VxGUID						m_ThumbId;
 	int64_t						m_FileTime{ 0 };

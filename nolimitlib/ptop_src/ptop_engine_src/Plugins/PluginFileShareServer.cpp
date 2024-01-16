@@ -75,3 +75,9 @@ void PluginFileShareServer::deleteFile( std::string fileName, bool shredFile )
 	m_Engine.getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileName, false );
 	PluginBaseFilesServer::deleteFile( fileName, shredFile );
 }
+
+//============================================================================
+void PluginFileShareServer::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+
+}

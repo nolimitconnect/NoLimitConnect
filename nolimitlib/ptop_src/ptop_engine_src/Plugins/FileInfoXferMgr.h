@@ -9,11 +9,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <PktLib/VxCommon.h>
-#include <P2PEngine/FileShareSettings.h>
+#include "FileXferCallback.h"
+
 #include <GuiInterface/IDefs.h>
 
+#include <P2PEngine/FileShareSettings.h>
+
+#include <PktLib/VxCommon.h>
+
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxMutex.h>
 
 #include <map>
 
@@ -58,6 +63,10 @@ public:
 	FileInfoXferMgr& operator=( const FileInfoXferMgr& rhs ) = delete;
 
 	EPluginType					getPluginType( void );
+
+	void						wantFileXferCallback( FileXferCallback* callback, bool wantCallback );
+
+	void						announcePkt( VxPktHdr* pktHdr );
 
 	void						setMoveCompletedFilesToDownloadFolder( bool moveOnCompleted )	{ m_MoveOnCompletedToDownloadsFolder = moveOnCompleted; }
 	bool						getMoveCompletedFilesToDownloadFolder( void )					{ return m_MoveOnCompletedToDownloadsFolder; }
@@ -106,6 +115,9 @@ public:
 	virtual void				onPktFileInfoReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFileInfoReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFileInfoErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+
+	virtual void				onPktStreamCtrlReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
@@ -156,6 +168,9 @@ protected:
 	bool						makeIncompleteFileName( std::string& strRemoteFileName, std::string& strRetIncompleteFileName, VxGUID& sendToId );
 	EXferError					sendNextFileChunk( VxFileXferInfo& xxferInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& skt );
 
+	void						lockClientList( void )		{ m_FileXferCallbackMutex.lock(); }
+	void						unlockClientList( void )	{ m_FileXferCallbackMutex.unlock(); }
+
 	//=== vars ====//
 	P2PEngine&					m_Engine;
 	PluginBase&					m_Plugin;
@@ -171,6 +186,9 @@ protected:
 	EFileXOptions				m_eFileRxOption{ eFileXOptionReplaceIfExists };
 	FileShareSettings			m_FileShareSettings;
 	bool						m_MoveOnCompletedToDownloadsFolder{ false };
+
+	std::vector<FileXferCallback*>    m_FileXferCallbackClients;
+    VxMutex						m_FileXferCallbackMutex;
 };
 
 

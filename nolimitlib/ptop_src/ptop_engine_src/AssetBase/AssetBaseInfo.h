@@ -180,8 +180,9 @@ public:
 
     virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isVxGUIDValid() ) return m_DestOnlineId; return m_HistoryId; }
 
-    virtual void				setIsStreaming( bool isStreaming )			{ m_IsStreaming = isStreaming; }
-	virtual bool 				getIsStreaming( void )						{ return m_IsStreaming; }
+    virtual bool 				getIsAssetStreamable( void )            { return isAudioAsset() || isVideoAsset(); }
+    virtual void				setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
+	virtual bool 				getIsStream( void )						{ return m_IsStreaming; }
 
 public:
     //=== vars ===//

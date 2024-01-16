@@ -412,3 +412,9 @@ bool PluginFileShareClient::fromGuiDownloadFileListCancel( VxGUID& onlineId, VxG
 
 	return false;
 }
+
+//============================================================================
+void PluginFileShareClient::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+
+}

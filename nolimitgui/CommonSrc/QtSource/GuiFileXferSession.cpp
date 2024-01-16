@@ -14,6 +14,8 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
+#include <AssetBase/AssetBaseInfo.h>
+
 #include <PktLib/VxSearchDefs.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxFileInfo.h>
@@ -101,4 +103,13 @@ bool GuiFileXferSession::getIsInError( void )
 QString GuiFileXferSession::describeXferState( void )
 {
 	return GuiParams::describeEXferState( m_XferState );
+}
+
+//============================================================================
+bool GuiFileXferSession::getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId )
+{
+	AssetBaseInfo assetBaseInfo( m_FileInfo );
+	assetInfo = assetBaseInfo;
+	lclSessionId = m_LclSessionId;
+	return assetInfo.isValid();
 }

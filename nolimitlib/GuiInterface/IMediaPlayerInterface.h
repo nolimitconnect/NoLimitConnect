@@ -12,6 +12,8 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include <CoreLib/VxGUID.h>
+
 #include <string>
 
 class AssetBaseInfo;
@@ -29,7 +31,7 @@ public:
     virtual bool				fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) = 0;
     virtual bool				fromGuiMediaPlayerSeek( int position0to100000 ) = 0;
 
-    virtual bool				fromGuiPlayStream( std::string url, int pos0to100000 ) = 0;
+    virtual bool				fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 ) = 0;
 };
 
 class VxGUID;

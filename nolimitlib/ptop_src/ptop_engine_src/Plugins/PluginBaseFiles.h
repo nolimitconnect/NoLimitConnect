@@ -38,6 +38,8 @@ public:
 
 	FileInfoBaseMgr&			getFileInfoMgr( void )			{ return m_FileInfoMgr; }
 
+	void						wantFileXferCallback( FileXferCallback* callback, bool wantCallback );
+
 	virtual void				onAfterUserLogOnThreaded( void ) override;
 
     virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;

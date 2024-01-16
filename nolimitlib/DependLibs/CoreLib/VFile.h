@@ -27,24 +27,24 @@ typedef struct VFile {
 	uint16_t					m_VirtFileType;
 } VFile;
 
-VFile* VFileOpen( const char* fileName, const char* fileMode );
-int VFileClose(VFile* fp);
-int VFileEof(VFile* fp);
-int VFileError(VFile* fp);
-int VFileFlush(VFile* fp);
+VFile*	VFileOpen( const char* fileName, const char* fileMode );
+int		VFileClose( VFile* fp );
+int		VFileEof( VFile* fp );
+int		VFileError( VFile* fp );
+int		VFileFlush( VFile* fp );
 
-size_t VFileRead(void* buf, size_t size, size_t count, VFile* fp);
-size_t VFileWrite(const void* buf, size_t size, size_t count, VFile* fp);
+size_t	VFileRead( void* buf, size_t size, size_t count, VFile* fp );
+size_t	VFileWrite( const void* buf, size_t size, size_t count, VFile* fp );
 
-int VFileGetC(VFile* fp);
-char* VFileGetS(char* buf, int size, VFile* fp);
-int VFilePutC(int ch, VFile* fp);
-int VFilePutS(const char* s, VFile* fp);
+int		VFileGetC( VFile* fp );
+char*	VFileGetS( char* buf, int size, VFile* fp );
+int		VFilePutC( int ch, VFile* fp );
+int		VFilePutS( const char* s, VFile* fp );
 
-int VFileGetPos( VFile* fp, fpos_t* pos );
-int VFileSetPos( VFile* fp, const fpos_t* pos );
-int VFileSeek( VFile* fp, size_t offset, int whence);
-fpos_t VFileTell( VFile* fp );
+int		VFileGetPos( VFile* fp, fpos_t* pos );
+int		VFileSetPos( VFile* fp, const fpos_t* pos );
+int		VFileSeek( VFile* fp, size_t offset, int whence);
+fpos_t	VFileTell( VFile* fp );
 
 
 

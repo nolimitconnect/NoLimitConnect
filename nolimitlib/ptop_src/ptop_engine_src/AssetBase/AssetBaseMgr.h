@@ -136,6 +136,8 @@ public:
 	void						generateHashForFile( std::string fileName );
 	void						updateAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param = 0 );
 
+    void                        getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets );
+
 protected:
     virtual AssetBaseInfo*      createAssetInfo( enum EAssetType asset, const char* fileName, uint64_t fileLen ) = 0;
     virtual AssetBaseInfo*      createAssetInfo( enum EAssetType asset, const char* fileName, uint64_t fileLen, VxGUID& assetId ) = 0;

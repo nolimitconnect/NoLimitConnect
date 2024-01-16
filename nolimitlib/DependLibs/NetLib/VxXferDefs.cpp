@@ -68,6 +68,8 @@ namespace
         "Xfer State User Canceled Download ",
         "Xfer State Download Error ",
 
+        "Xfer State Streaming ",
+
         "Max Xfer State "
     };
 };

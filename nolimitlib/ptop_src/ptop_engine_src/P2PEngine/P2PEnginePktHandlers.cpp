@@ -13,6 +13,9 @@
 #include <BigListLib/BigListInfo.h>
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginMgr.h>
+#include <Plugins/PluginFileShareServer.h>
+#include <Plugins/PluginFileShareClient.h>
+
 #include <Network/NetConnector.h>
 
 #include <NetLib/VxSktCrypto.h>
@@ -1189,7 +1192,7 @@ EMembershipState P2PEngine::getMembershipState( PktAnnounce& myPktAnn, VxNetIden
 //============================================================================
 void P2PEngine::onPktHostInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInfoReq" );
+	LogModule( eLogPkt, LOG_VERBOSE,  "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1197,7 +1200,7 @@ void P2PEngine::onPktHostInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 //============================================================================
 void P2PEngine::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInfoReply" );
+	LogModule( eLogPkt, LOG_VERBOSE,  "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1205,7 +1208,7 @@ void P2PEngine::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHd
 //============================================================================
 void P2PEngine::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteAnnReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1213,7 +1216,7 @@ void P2PEngine::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void P2PEngine::onPktHostInviteAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteAnnReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );;
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1221,7 +1224,7 @@ void P2PEngine::onPktHostInviteAnnReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 //============================================================================
 void P2PEngine::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteSearchReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1229,7 +1232,7 @@ void P2PEngine::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void P2PEngine::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteSearchReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1237,7 +1240,7 @@ void P2PEngine::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>& sktBase,
 //============================================================================
 void P2PEngine::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteMoreReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1245,7 +1248,7 @@ void P2PEngine::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostInviteMoreReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1253,7 +1256,7 @@ void P2PEngine::onPktHostInviteMoreReply( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void P2PEngine::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieInfoReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1261,7 +1264,7 @@ void P2PEngine::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 //============================================================================
 void P2PEngine::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieInfoReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1269,7 +1272,7 @@ void P2PEngine::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void P2PEngine::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieAnnReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1277,7 +1280,7 @@ void P2PEngine::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHd
 //============================================================================
 void P2PEngine::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieAnnReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1285,7 +1288,7 @@ void P2PEngine::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieSearchReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1293,7 +1296,7 @@ void P2PEngine::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void P2PEngine::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieSearchReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1301,7 +1304,7 @@ void P2PEngine::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 //============================================================================
 void P2PEngine::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieMoreReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1309,7 +1312,7 @@ void P2PEngine::onPktGroupieMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 //============================================================================
 void P2PEngine::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktGroupieMoreReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1317,7 +1320,7 @@ void P2PEngine::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void P2PEngine::onPktFileInfoInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoInfoReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1325,7 +1328,7 @@ void P2PEngine::onPktFileInfoInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktFileInfoInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoInfoReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1333,7 +1336,7 @@ void P2PEngine::onPktFileInfoInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktFileInfoAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoAnnReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1341,7 +1344,7 @@ void P2PEngine::onPktFileInfoAnnReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 //============================================================================
 void P2PEngine::onPktFileInfoAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoAnnReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1349,7 +1352,7 @@ void P2PEngine::onPktFileInfoAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void P2PEngine::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoSearchReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1357,7 +1360,7 @@ void P2PEngine::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoSearchReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1365,7 +1368,7 @@ void P2PEngine::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void P2PEngine::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoMoreReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1373,7 +1376,7 @@ void P2PEngine::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileInfoMoreReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1381,7 +1384,7 @@ void P2PEngine::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1389,7 +1392,7 @@ void P2PEngine::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserInfoReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1397,7 +1400,7 @@ void P2PEngine::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1405,7 +1408,7 @@ void P2PEngine::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserStatusReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1413,7 +1416,7 @@ void P2PEngine::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void P2PEngine::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1421,7 +1424,7 @@ void P2PEngine::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1429,7 +1432,7 @@ void P2PEngine::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1437,7 +1440,7 @@ void P2PEngine::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void P2PEngine::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1445,7 +1448,7 @@ void P2PEngine::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase,
 //============================================================================
 void P2PEngine::onPktTestConnTestReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktHostUserListMoreReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1453,7 +1456,7 @@ void P2PEngine::onPktTestConnTestReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktTestConnTestReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTestConnTestReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1461,7 +1464,7 @@ void P2PEngine::onPktTestConnTestReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktTestConnPingReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTestConnPingReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1469,7 +1472,7 @@ void P2PEngine::onPktTestConnPingReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktTestConnPingReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1477,7 +1480,7 @@ void P2PEngine::onPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void P2PEngine::onPktQueryHostUrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktQueryHostUrlReq" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
 }
@@ -1485,7 +1488,35 @@ void P2PEngine::onPktQueryHostUrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 void P2PEngine::onPktQueryHostUrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktQueryHostUrlReply" );
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
 
 	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
+void P2PEngine::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	// steam control requests can only be sent to File Share server
+	PluginBase* pluginBase = m_PluginMgr.getPlugin( ePluginTypeFileShareServer );
+	if( pluginBase )
+	{
+		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( pktHdr->getDestOnlineId() );
+		((PluginFileShareServer*)pluginBase)->onPktStreamCtrlReq( sktBase, pktHdr, netIdent );
+	}
+}
+
+//============================================================================
+void P2PEngine::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	// steam control replies can only be sent to File Share client
+	PluginBase* pluginBase = m_PluginMgr.getPlugin( ePluginTypeFileShareClient );
+	if( pluginBase )
+	{
+		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( pktHdr->getDestOnlineId() );
+		((PluginFileShareClient*)pluginBase)->onPktStreamCtrlReply( sktBase, pktHdr, netIdent );
+	}
 }

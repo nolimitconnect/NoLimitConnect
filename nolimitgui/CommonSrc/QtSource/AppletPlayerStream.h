@@ -42,9 +42,8 @@ protected:
 	void						initAppletPlayerStream( void );
 
 	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
-	bool						playStream( std::string fileStr, int pos0to100000 = 0 );
+	bool						playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
 
-	void						setReadyForCallbacks( bool isReady );
 	void						updateGuiPlayControls( bool isPlaying );
 
 	void						startMediaPlay( int startPos );
@@ -62,6 +61,8 @@ protected:
 
 	QMediaPlayer*				m_QMediaPlayer{ nullptr };
 	QElapsedTimer				m_ElapsedTimer;
+
+	std::vector<AssetBaseInfo>	m_StreamableAssets;
 };
 
 

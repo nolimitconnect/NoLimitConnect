@@ -124,16 +124,24 @@ bool GuiHelpers::copyResourceToOnDiskFile( QString resourcePath, QString fileNam
 //============================================================================
 EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, AssetBaseInfo& assetInfo )
 {
-    return getAppletThatPlaysFile( myApp, GuiParams::assetTypeToFileType( assetInfo.getAssetType() ), assetInfo.getAssetName().c_str(), assetInfo.getAssetUniqueId() );
+    return getAppletThatPlaysFile( myApp, 
+                                   GuiParams::assetTypeToFileType( assetInfo.getAssetType() ), 
+                                   assetInfo.getAssetName().c_str(), 
+                                   assetInfo.getAssetUniqueId(),
+                                   assetInfo.getIsStream() );
 }
 
 //============================================================================
-EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, QString fullFileName, VxGUID& assetId )
+EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, QString fullFileName, VxGUID& assetId, bool isStream )
 {
     EApplet applet = eAppletUnknown;
     if( fileType & VXFILE_TYPE_VIDEO )
     {
-        if( myApp.getFromGuiInterface().fromGuiIsNoLimitVideoFile( fullFileName.toUtf8().constData() ) )
+        if( isStream )
+        {
+            applet = eAppletPlayerStream;
+        }
+        else if( myApp.getFromGuiInterface().fromGuiIsNoLimitVideoFile( fullFileName.toUtf8().constData() ) )
         {
             applet = eAppletPlayerCamClip;
         }
@@ -148,7 +156,11 @@ EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, 
     }
     else if( fileType & VXFILE_TYPE_AUDIO )
     {
-        if( myApp.getFromGuiInterface().fromGuiIsNoLimitAudioFile( fullFileName.toUtf8().constData() ) )
+        if( isStream )
+        {
+            applet = eAppletPlayerStream;
+        }
+        else if( myApp.getFromGuiInterface().fromGuiIsNoLimitAudioFile( fullFileName.toUtf8().constData() ) )
         {
             applet = eAppletPlayerNlc; // should this be a specialized player ? for less cpu consuption ?
         }

@@ -44,10 +44,10 @@ public:
 	virtual void				toGuiFileListReply(	FileListReplySession* xferSession ){};
 
 	virtual void				toGuiFileUploadStart( GuiFileXferSession* xferSession ){};
-	virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSession, EXferError xferError ){};
+	virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, EXferError xferError ){};
 
 	virtual void				toGuiFileDownloadStart( GuiFileXferSession* xferSession ){};
-	virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSession, QString newFileName, EXferError xferError ){};
+	virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString newFileName, EXferError xferError ){};
 
 	virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ){};
 };

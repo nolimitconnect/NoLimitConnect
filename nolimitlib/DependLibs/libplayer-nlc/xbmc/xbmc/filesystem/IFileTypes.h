@@ -40,6 +40,9 @@ namespace XFILE
 /* indicate that caller want to reopen a file if its already open  */
   static const unsigned int READ_REOPEN = 0x100;
 
+  /* indicate treat as file but file is virtualized for streaming  */
+  static const unsigned int READ_VIRT_STREAM_FILE = 0x200;
+
 struct SNativeIoControl
 {
   unsigned long int   request;

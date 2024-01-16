@@ -198,8 +198,11 @@
 #define PKT_TYPE_QUERY_HOST_URL_REQ					( PKT_TYPE_TEST_CONN_PING_REPLY + 1 ) 			// 146 ( 0x92 )		
 #define PKT_TYPE_QUERY_HOST_URL_REPLY				( PKT_TYPE_QUERY_HOST_URL_REQ	+ 1 ) 			// 147 ( 0x93 )	
 
+#define PKT_TYPE_STREAM_CTRL_REQ					( PKT_TYPE_QUERY_HOST_URL_REPLY + 1 ) 			// 148 ( 0x94 )		
+#define PKT_TYPE_STREAM_CTRL_REPLY					( PKT_TYPE_STREAM_CTRL_REQ	+ 1 ) 				// 149 ( 0x95 )	
+
 																									
-#define MAX_PKT_TYPE_CNT							( PKT_TYPE_QUERY_HOST_URL_REPLY + 1 ) // 148
+#define MAX_PKT_TYPE_CNT							( PKT_TYPE_STREAM_CTRL_REPLY + 1 ) // 150
 																									
 #define ROUND_TO_16BYTE_BOUNDRY( a ) (( a + 15 ) & ~15 )	//round up to even 16 byte boundary		
 #define ROUND_TO_4BYTE_BOUNDRY( a ) (( a + 3 ) & ~3 )	    //round up to even 4 byte boundary		

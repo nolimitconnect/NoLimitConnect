@@ -129,7 +129,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, Push
     m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 148 == maxPktType ); // just to make sure our packet types are not mismatched
+    vx_assert( 150 == maxPktType ); // just to make sure our packet types are not mismatched
 
 	// loadAccountSpecificSettings in gui calls this for get getTcpIpPort so need to be created right now 
 	std::string strEngineSettingDbFileName = VxGetAppNoLimitDataDirectory();

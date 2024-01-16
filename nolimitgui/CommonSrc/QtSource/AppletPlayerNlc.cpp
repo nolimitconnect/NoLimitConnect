@@ -143,7 +143,7 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
             QString fileName = dlgBrowse->getSelectedFileInfo().getFullFileName().c_str();
             if( VxFileUtil::fileExists(fileStr.c_str()) )
             {
-                playFile( fileName );
+                playFile( fileName, 0, false );
             }
             else
             {
@@ -162,7 +162,7 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
 void AppletPlayerNlc::slotMediaFileComboBoxSelectionChange( int cbIdx )
 {
 	std::string mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
-	playMediaFile( mediaFile, 0 );
+	playMediaFile( mediaFile, 0, false );
 }
 
 //============================================================================
@@ -193,5 +193,8 @@ void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
 //============================================================================
 void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 {
-	ui.m_FilesComboBox->setEnabled( true );
+	if( isReady )
+	{
+		ui.m_FilesComboBox->setEnabled( isReady );
+	}
 }

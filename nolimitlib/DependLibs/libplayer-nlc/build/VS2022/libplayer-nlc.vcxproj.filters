@@ -3407,6 +3407,9 @@
     <ClCompile Include="..\..\xbmc\xbmc\windowing\qt\WinSystemQtContext.cpp">
       <Filter>windowing\qt</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\xbmc\filesystem\VirtualStreamFile.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cores\DataCacheCore.h">
@@ -7496,6 +7499,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\windowing\qt\WinSystemQtContext.h">
       <Filter>windowing\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\xbmc\filesystem\VirtualStreamFile.h">
+      <Filter>filesystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

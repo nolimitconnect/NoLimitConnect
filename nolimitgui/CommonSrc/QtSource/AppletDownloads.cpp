@@ -305,7 +305,7 @@ void AppletDownloads::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName() );
+		this->playFile( xferSession->getFullFileName(), 0, false );
 	}
 }
 

@@ -717,6 +717,7 @@
     <ClCompile Include="..\..\ptop_engine_src\UserOnlineMgr\UserOnlineMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\User\User.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\User\UserList.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\WebPageMgr\WebPageMgr.cpp" />
@@ -885,6 +886,7 @@
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileShareXferSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileToXfer.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileTxSession.h" />
+    <ClInclude Include="..\..\ptop_engine_src\Plugins\FileXferCallback.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileXferPluginSession.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\HostBaseMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\HostClientMgr.h" />
@@ -972,6 +974,7 @@
     <ClInclude Include="..\..\ptop_engine_src\UserOnlineMgr\UserOnlineMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\User\User.h" />
     <ClInclude Include="..\..\ptop_engine_src\User\UserList.h" />
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.h" />
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.h" />
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\WebPageMgr\WebPageCallbackInterface.h" />

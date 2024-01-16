@@ -63,7 +63,7 @@ public:
     static int					calculateTextHeight( QFontMetrics& fontMetrics, QString textStr );
     static bool					copyResourceToOnDiskFile( QString resourcePath, QString fileNameAndPath );
 
-    static EApplet              getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, QString fullFileName, VxGUID& assetId );
+    static EApplet              getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, QString fullFileName, VxGUID& assetId, bool isStream );
     static EApplet              getAppletThatPlaysFile( AppCommon& myApp, AssetBaseInfo& assetInfo );
 
     static bool                 isAppletAService( EApplet applet );

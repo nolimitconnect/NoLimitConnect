@@ -225,7 +225,7 @@ void ActivityViewLibraryFiles::slotListPlayIconClicked( QListWidgetItem* item )
 		else
 		{
 			// play file
-			this->playFile( poInfo->getFullFileName() );
+			this->playFile( poInfo->getFullFileName(), 0, false );
 		}
 	}	
 }
@@ -370,7 +370,7 @@ void ActivityViewLibraryFiles::slotListItemClicked(QListWidgetItem* item)
 			//										poInfo->getIsSharedFile(),
 			//										poInfo->getIsInLibrary() );
 			//fileActionMenuDialog.exec();
-			playFile( fileInfo.getFullFileName().c_str() );
+			playFile( fileInfo.getFullFileName().c_str(), 0, false );
 		}
 	}
 }

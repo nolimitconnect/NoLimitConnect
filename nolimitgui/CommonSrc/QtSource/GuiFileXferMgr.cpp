@@ -371,9 +371,9 @@ void GuiFileXferMgr::addSession( std::vector<GuiFileXferSession*>& sessionList, 
 }
 
 //============================================================================
-void GuiFileXferMgr::updateSession( std::vector<GuiFileXferSession*>& sessionList, VxGUID& lclSession, EXferState xferState, EXferError xferErr, int percentProgress )
+void GuiFileXferMgr::updateSession( std::vector<GuiFileXferSession*>& sessionList, VxGUID& lclSessionId, EXferState xferState, EXferError xferErr, int percentProgress )
 {
-    GuiFileXferSession* xferSession = findSession( sessionList, lclSession );
+    GuiFileXferSession* xferSession = findSession( sessionList, lclSessionId );
     if( xferSession )
     {
         xferSession->setXferState( xferState, xferErr, percentProgress );

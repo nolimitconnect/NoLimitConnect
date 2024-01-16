@@ -691,3 +691,9 @@ void PluginBaseFiles::sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID
 {
 	m_FileInfoMgr.sendFileSearchResultToGui( searchSessionId, onlineId, fileInfo );
 }
+
+//============================================================================
+void PluginBaseFiles::wantFileXferCallback( FileXferCallback* callback, bool wantCallback )
+{
+	m_FileInfoXferMgr.wantFileXferCallback( callback, wantCallback );
+}

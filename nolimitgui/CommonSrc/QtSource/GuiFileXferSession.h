@@ -98,8 +98,10 @@ public:
 	void						setStreamingEnable( bool isStreaming )		{ m_StreamingEnable = isStreaming; }
 	bool 						getStreamingEnable( void )					{ return m_StreamingEnable; }
 
-	void						setIsStreaming( bool isStreaming )			{ m_FileInfo.setIsStreaming( isStreaming ); }
-	bool 						getIsStreaming( void )						{ return m_FileInfo.getIsStreaming(); }
+	void						setIsStream( bool isStreaming )				{ m_FileInfo.setIsStream( isStreaming ); }
+	bool 						getIsStream( void )							{ return m_FileInfo.getIsStream(); }
+
+	bool						getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId );
 
 protected:
 	//=== vars ===//

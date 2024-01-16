@@ -161,7 +161,7 @@ void GuiPlayerMgr::slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage vidFr
 }
 
 //============================================================================
-bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000 )
+bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000, bool isStream )
 {
 	if( fullFileName.isEmpty() )
 	{
@@ -178,7 +178,14 @@ bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000 )
 	}
 
 	AssetInfo newAsset( GuiParams::fileTypeToAssetType( fileType ), fullFileName.toUtf8().constData(), fileLen );
+	newAsset.setIsStream( isStream );
 	return playMedia( newAsset );
+}
+
+//============================================================================
+bool GuiPlayerMgr::playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
+{
+	return playMedia( assetInfo, pos0to100000 );
 }
 
 //============================================================================
@@ -196,7 +203,7 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 		return false;
 	}
 
-	if( assetInfo.isPhotoAsset() || assetInfo.getIsStreaming() || !m_MyApp.getAppSettings().getUseSystemMediaPlayer() )
+	if( assetInfo.isPhotoAsset() || assetInfo.getIsStream() || !m_MyApp.getAppSettings().getUseSystemMediaPlayer() )
 	{
 		EApplet appletType = GuiHelpers::getAppletThatPlaysFile( m_MyApp, assetInfo );
 		if( appletType != eAppletUnknown )
@@ -214,7 +221,7 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 		}
 	}
 
-	if( !assetInfo.getIsStreaming() )
+	if( !assetInfo.getIsStream() )
 	{
 #ifdef TARGET_OS_WINDOWS
 		ShellExecuteA( 0, 0, assetInfo.getAssetName().c_str(), 0, 0, SW_SHOW );

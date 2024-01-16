@@ -1287,6 +1287,21 @@ void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileName, int64_t file
 
 	unlockResources();
 }
+//============================================================================
+void AssetBaseMgr::getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets )
+{
+	streamableAssets.clear();
+	lockResources();
+	for( auto* assetInfo : m_AssetBaseInfoList )
+	{
+		if( assetInfo->getIsAssetStreamable() && assetInfo->isSharedFileAsset() )
+		{
+			streamableAssets.emplace_back( *assetInfo );
+		}
+	}
+
+	unlockResources();
+}
 
 /*
 //============================================================================

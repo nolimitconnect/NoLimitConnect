@@ -53,8 +53,8 @@ protected:
     void                        onBackButtonClicked( void ) override;
 
     virtual void				toGuiFileDownloadStart(  GuiFileXferSession* xferSession ) override;
-    virtual void				toGuiFileXferState( VxGUID& lclSession, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
-    virtual void				toGuiFileDownloadComplete(  VxGUID& lclSession, QString newFileName, EXferError xferError ) override;
+    virtual void				toGuiFileXferState( VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
+    virtual void				toGuiFileDownloadComplete(  VxGUID& lclSessionId, QString newFileName, EXferError xferError ) override;
 
 	FileXferWidget*			sessionToWidget( GuiFileXferSession* poSession );
 	void						updateListEntryWidget( FileXferWidget* item, GuiFileXferSession* poSession );

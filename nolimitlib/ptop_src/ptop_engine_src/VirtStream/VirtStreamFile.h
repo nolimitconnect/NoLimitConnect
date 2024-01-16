@@ -9,20 +9,33 @@
 //============================================================================
 #pragma once
 
-#include <CoreLib/VFile.h>
+#include "VirtStreamCache.h"
 
-#include <string>
+#include <CoreLib/VFile.h>
+#include <NetLib/VxSktBase.h>
+
+#include <AssetBase/AssetBaseInfo.h>
+
+#include <errno.h>
 
 class VirtStreamFile
 {
 public:
-	VirtStreamFile() = delete;
-	VirtStreamFile( VFile* vFile, const char* fileName, const char* fileMode );
+	void						updateIsConnected( void )	{ isConnected(); }
+	bool						isConnected()				{ if( !m_SktBase || !m_SktBase->isConnected() ) setError( EACCES ); return getError(); }
+
+	void						setError( int err )			{ m_Error = err; }
+	int							getError( void )			{ return m_Error; }
 
 
-protected:
 	//=== vars ===//
 	VFile*						m_VFile{ nullptr };
+	VirtStreamCache				m_StreamCache;
 	std::string					m_FileName;
 	std::string					m_FileMode;
+	AssetBaseInfo				m_StreamAssetInfo;
+	VxGUID						m_StreamSessionId;
+	std::shared_ptr<VxSktBase>  m_SktBase;
+	int							m_Error{ 0 };
+
 };

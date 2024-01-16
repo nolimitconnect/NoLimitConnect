@@ -60,6 +60,11 @@ bool CDVDInputStreamFile::Open()
       content == "video/x-matroska-3d")
     flags |= READ_MULTI_STREAM;
 
+  if( m_item.IsVirtualStream() )
+  {
+      flags |= READ_VIRT_STREAM_FILE;
+  }
+
   // open file in binary mode
   if (!m_pFile->Open(m_item.GetDynPath(), flags))
   {

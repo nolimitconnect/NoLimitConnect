@@ -18,6 +18,8 @@
 #include <AppInterface/INlc.h>
 
 #include <P2PEngine/P2PEngine.h>
+#include <VirtStream/VirtStreamMgr.h>
+
 #include "MediaPlayerNlc.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
@@ -65,16 +67,14 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 	ui.m_StreamsComboBox->setEnabled( false ); // do not enable until media player is ready
 	ui.m_StreamsComboBox->addItem( "Debug Streams" );
 
-	std::vector<std::string> mediaTestStreams;
-
-	mediaTestStreams.push_back( "https://127.0.0.1/MJPEGWithAAC.avi" );
-	mediaTestStreams.push_back( "https://127.0.0.1/NlcTestAudio.wav" );
-	mediaTestStreams.push_back( "https://127.0.0.1/NlcTestAudioVbrOn.opus" );
-	mediaTestStreams.push_back( "https://127.0.0.1/Theres-the-roses-you-bought-meThanks.jpg" );
+	m_MyApp.getEngine().getAssetMgr().getStreamableAssets( m_StreamableAssets );
 	
-	for( auto& mediaStream : mediaTestStreams )
+	for( auto& streamAsset : m_StreamableAssets )
 	{
-		ui.m_StreamsComboBox->addItem( mediaStream.c_str() );
+		streamAsset.setIsStream( true );
+		streamAsset.setPluginType( ePluginTypeFileShareClient );
+		streamAsset.setDestUserId( m_MyApp.getMyOnlineId() );
+		ui.m_StreamsComboBox->addItem( streamAsset.getAssetName().c_str() );
 	}
 
 #else
@@ -143,20 +143,24 @@ void AppletPlayerStream::slotMenuItemSelected( int menuId, EMenuItemType menuIte
 }
 
 //============================================================================
-void AppletPlayerStream::setReadyForCallbacks( bool isReady )
-{
-	if( m_ActivityCallbacksEnabled != isReady )
-	{
-		m_ActivityCallbacksEnabled = isReady;
-		m_MyApp.wantToGuiActivityCallbacks( this, isReady );
-	}
-}
-
-//============================================================================
 void AppletPlayerStream::slotMediaStreamComboBoxSelectionChange( int cbIdx )
 {
-    std::string mediaStream = ui.m_StreamsComboBox->currentText().toUtf8().constData();
-	playStream( mediaStream, 0 );
+	if( cbIdx < 1 )
+	{
+		return;
+	}
+
+	cbIdx--;
+	
+	if( cbIdx >= m_StreamableAssets.size() )
+	{
+		LogMsg( LOG_ERROR, "%s invalid combo box index", __func__ );
+		return;
+	}
+
+	VxGUID lclSessionId;
+	lclSessionId.initializeWithNewVxGUID();
+	m_MyApp.getPlayerMgr().playStream( m_StreamableAssets.at(cbIdx), lclSessionId, 0 );
 }
 
 //============================================================================
@@ -170,9 +174,10 @@ bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 }
 
 //============================================================================
-bool AppletPlayerStream::playStream( std::string mediaStream, int pos0to100000 )
+bool AppletPlayerStream::playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
-	return INlc::getINlc().getNlcPlayer().fromGuiPlayStream( mediaStream, pos0to100000 );
+	GetVirtStreamMgr().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
+	return INlc::getINlc().getNlcPlayer().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
 }
 
 //========================================================================
@@ -235,5 +240,8 @@ void AppletPlayerStream::slotBrowseButtonClick( void )
 //============================================================================
 void AppletPlayerStream::onMediaPlayerNlcReady( bool isReady )
 {
-	ui.m_StreamsComboBox->setEnabled( true );
+	if( isReady )
+	{
+		ui.m_StreamsComboBox->setEnabled( isReady );
+	}
 }

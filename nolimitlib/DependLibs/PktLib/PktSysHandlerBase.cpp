@@ -24,7 +24,7 @@ PktHandlerBase::PktHandlerBase()
 	}
 
 	int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 148 == maxPktType );
+    vx_assert( 150 == maxPktType );
 
 	m_aBaseSysPktFuncTable[ 0 ] = &PktHandlerBase::onPktInvalid;
 
@@ -208,6 +208,9 @@ PktHandlerBase::PktHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REQ ]				= &PktHandlerBase::onPktQueryHostUrlReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_QUERY_HOST_URL_REPLY ]				= &PktHandlerBase::onPktQueryHostUrlReply;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_STREAM_CTRL_REQ ]					= &PktHandlerBase::onPktStreamCtrlReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_STREAM_CTRL_REPLY ]				= &PktHandlerBase::onPktStreamCtrlReply;
 }
 
 //============================================================================
@@ -1114,6 +1117,18 @@ void PktHandlerBase::onPktQueryHostUrlReq( std::shared_ptr<VxSktBase>& sktBase, 
 
 //============================================================================
 void PktHandlerBase::onPktQueryHostUrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }

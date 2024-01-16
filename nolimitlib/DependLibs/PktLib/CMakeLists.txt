@@ -46,6 +46,7 @@ list(APPEND pktlib_SOURCES
 	PktsScan.cpp
 	PktsSearch.cpp
     PktsSession.cpp
+    PktsStreamCtrl.cpp
     PktsTestConnection.cpp
     PktsThumbXfer.cpp
     PktsTodGame.cpp

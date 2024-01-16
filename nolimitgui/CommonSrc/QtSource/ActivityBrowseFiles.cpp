@@ -493,7 +493,7 @@ void ActivityBrowseFiles::slotListItemClicked( QListWidgetItem* item )
 			m_ClickToFastTimer.startTimer();
 			if( poInfo->shouldOpenFile() )
 			{
-				this->playFile( poInfo->getFullFileName() );
+				this->playFile( poInfo->getFullFileName(), 0, false );
 			}
 		}
 	}
@@ -625,7 +625,7 @@ void ActivityBrowseFiles::slotListPlayIconClicked( QListWidgetItem* item )
 		else
 		{
 			// play file
-			this->playFile( poInfo->getFullFileName() );
+			this->playFile( poInfo->getFullFileName(), 0, false );
 		}
 	}	
 }

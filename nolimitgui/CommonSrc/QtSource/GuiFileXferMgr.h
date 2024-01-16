@@ -50,7 +50,7 @@ public:
     virtual void				toGuiFileUploadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo );
     virtual void				toGuiFileDownloadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo );
 
-    virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSession, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int percentProgress );
+    virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int percentProgress );
 
     virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID&	lclSessionId, QString& fileName, EXferError xferError );
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString& fileName, EXferError xferError );
@@ -74,7 +74,7 @@ protected:
     void                        removeUpload( GuiFileXferSession* xferSession );
 
     void                        addSession( std::vector<GuiFileXferSession*>& sessionList, GuiFileXferSession* xferSession );
-    void                        updateSession( std::vector<GuiFileXferSession*>& sessionList, VxGUID& lclSession, EXferState xferState, EXferError xferErr, int percentProgress );
+    void                        updateSession( std::vector<GuiFileXferSession*>& sessionList, VxGUID& lclSessionId, EXferState xferState, EXferError xferErr, int percentProgress );
     void                        removeSession( std::vector<GuiFileXferSession*>& sessionList, GuiFileXferSession* xferSession );
     GuiFileXferSession*         findSession( std::vector<GuiFileXferSession*>& sessionList, VxGUID& lclSessionId );
 

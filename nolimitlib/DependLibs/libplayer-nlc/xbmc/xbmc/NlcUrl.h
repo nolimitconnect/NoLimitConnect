@@ -28,7 +28,7 @@
 #undef SetPort // WIN32INCLUDES this is defined as SetPortA in WinSpool.h which is being included _somewhere_
 #endif
 
-// NOTE: NlcUrl is a replacement class for NlcUrl to avoid name clash with curl library
+// NOTE: NlcUrl is a replacement class for CUrl to avoid name clash with curl library
 // NOTE: SetPort has been renamed to SetUrlPort to avoid name clash with microsoft definition of SetPort
 class NlcUrl
 {
@@ -43,6 +43,17 @@ public:
 
 	// explicit equals operator for std::string comparison
 	bool operator==( const std::string &url ) const { return Get() == url; }
+	bool operator==( const NlcUrl& rhs ) const
+	{
+		return m_iPort == rhs.m_iPort &&
+			m_strHostName == rhs.m_strHostName &&
+			m_strDomain == rhs.m_strDomain &&
+			m_strFileName == rhs.m_strFileName &&
+			m_strFileType == rhs.m_strFileType &&
+			m_strUserName == rhs.m_strUserName &&
+			m_strPassword == rhs.m_strPassword &&
+			m_strProtocol == rhs.m_strProtocol;
+	}
 
 	void						Reset();
 	void						Parse( const std::string& strURL );

@@ -721,6 +721,9 @@
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.cpp">
       <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1489,6 +1492,12 @@
       <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\Plugins\FileXferCallback.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.h">
       <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
   </ItemGroup>

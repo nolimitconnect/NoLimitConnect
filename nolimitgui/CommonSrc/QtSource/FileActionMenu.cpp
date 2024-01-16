@@ -27,12 +27,12 @@
 #include <CoreLib/VxDebug.h>
 
 //============================================================================
-FileActionMenu::FileActionMenu( AppCommon&	app, 
+FileActionMenu::FileActionMenu( AppCommon&		app, 
 								QWidget*		parent, 
-								FileInfo&	fileInfo, 
+								FileInfo&		fileInfo, 
 								bool			isShared, 
 								bool			isInLibrary,
-	GuiUser*	selectedFriend )
+								GuiUser*		selectedFriend )
 : ActivityBase( OBJNAME_FILE_ACTION_MENU, app, parent, eAppletMessengerFrame, true )
 , m_FileInfo( fileInfo )
 , m_IsShared( isShared )
@@ -169,7 +169,7 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 		switch( menuAction )
 		{
 		case eFileMenuActionOpen:
-			m_MyApp.getPlayerMgr().playFile( m_FileInfo.getFullFileName().c_str() );
+			m_MyApp.getPlayerMgr().playFile( m_FileInfo.getFullFileName().c_str(), 0, false );
 			break;
 
 		case eFileMenuActionSendToFriend:

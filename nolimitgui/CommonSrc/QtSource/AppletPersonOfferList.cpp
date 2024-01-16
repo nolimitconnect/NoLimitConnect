@@ -272,10 +272,10 @@ void AppletPersonOfferList::toGuiFileXferState( EPluginType pluginType,  VxGUID&
 }
 
 //============================================================================
-void AppletPersonOfferList::toGuiFileDownloadComplete( EPluginType pluginType,  VxGUID& lclSession, QString newFileName, EXferError xferError )
+void AppletPersonOfferList::toGuiFileDownloadComplete( EPluginType pluginType,  VxGUID& lclSessionId, QString newFileName, EXferError xferError )
 {
 	Q_UNUSED( userData );
-	VxGUID myLclSession( lclSession );
+	VxGUID myLclSession( lclSessionId );
 	emit signalToGuiFileDownloadComplete( myLclSession, newFileName, xferError );
 }
 

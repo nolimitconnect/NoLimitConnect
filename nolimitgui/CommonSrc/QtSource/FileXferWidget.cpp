@@ -270,6 +270,14 @@ void FileXferWidget::updateXferInfo( void )
 	}
 
 	EXferState xferState = xferSession->getXferState();
+	if( eXferStateStreaming == xferState )
+	{
+		ui.m_FileAcceptButton->setVisible( false );
+		ui.m_FileCancelButton->setVisible( false );
+		ui.m_StreamButton->setVisible( true );
+		ui.m_StreamButton->setEnabled( false );
+		ui.m_StreamButton->setNotifyType( eNotifyOnline );
+	}
 
 	bool enableCancel = false;
 	bool enablePlay = false;
@@ -331,12 +339,12 @@ void FileXferWidget::updateXferInfo( void )
 		if( eXferStateDownloadNotStarted == xferState )
 		{
 			ui.m_FileCancelButton->setIcons( eMyIconFileDownloadNormal );
-#if ENABLE_STREAMING
 			if( xferSession->isStremable() )
 			{
 				ui.m_StreamButton->setVisible( true );
+				ui.m_StreamButton->setEnabled( true );
+				ui.m_StreamButton->setNotifyType( eNotifyNone );
 			}
-#endif // ENABLE_STREAMING
 		}
 		else if( eXferStateUploadNotStarted == xferState )
 		{

@@ -422,6 +422,9 @@ const char* VxPktHdr::describePktType( uint16_t pktType )
     case PKT_TYPE_QUERY_HOST_URL_REQ:				return "PktQueryHostUrlReq";  			// 146 ( 0x92 )		
     case PKT_TYPE_QUERY_HOST_URL_REPLY:				return "PktQueryHostUrlReply";  		// 147 ( 0x93 )	
 
+    case PKT_TYPE_STREAM_CTRL_REQ:				    return "PktStreamCtrlReq";  			// 148 ( 0x94 )		
+    case PKT_TYPE_STREAM_CTRL_REPLY:				return "PktStreamCtrlReply";  		    // 149 ( 0x95 )	
+
     case BASE_PKT_TYPE:                                                                                
         return "PktType 0 Not Allowed";   
 

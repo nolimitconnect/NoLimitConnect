@@ -149,17 +149,18 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
     }
 
 	// to do stop previous media
-	if( assetInfo.getIsStreaming() )
-	{
-
-	}
-	else if( assetInfo.isValidFile() )
+	if( assetInfo.getIsStream() || assetInfo.isValidFile() )
 	{
 		m_AssetInfo = assetInfo;
-		m_FeedId = m_AssetInfo.getAssetUniqueId();
+		if( !assetInfo.getIsStream() || !m_FeedId.isVxGUIDValid() )
+		{
+			m_FeedId = m_AssetInfo.getAssetUniqueId();
+		}
+
 		NlcUrl fileUrl;
 		fileUrl.SetFileName( m_AssetInfo.getAssetName() );
 		m_FileItem = CFileItem( fileUrl, false );
+		m_FileItem.SetIsVirtualStream( assetInfo.getIsStream() );
 		if( pos0to100000 )
 		{
 			std::string kodiPercent = std::to_string( 100000.0f / (float)pos0to100000 );
@@ -180,25 +181,10 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 }
 
 //============================================================================
-bool MediaPlayerNlc::fromGuiPlayStream( std::string url, int pos0to100000 )
+bool MediaPlayerNlc::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
-	NlcUrl fileUrl;
-	fileUrl.SetFileName( url );
-	m_FileItem = CFileItem( fileUrl, false );
-	if( m_FileItem.IsAudio() )
-	{
-		return playAudioFile( pos0to100000 );
-	}
-	else if( m_FileItem.IsVideo() )
-	{
-		return playVideoFile( pos0to100000 );
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "%s invalid url %s", __func__, url.c_str() );
-	}
-	
-	return false;
+	m_FeedId = lclSessionId;
+	return fromGuiPlayMedia( assetInfo, pos0to100000 );
 }
 
 //============================================================================
@@ -282,7 +268,6 @@ void MediaPlayerNlc::onPlayStarted( void )
 
     unlockClientList();
 }
-
 
 //============================================================================
 void MediaPlayerNlc::onStopPlaying( void )

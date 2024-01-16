@@ -125,7 +125,7 @@ bool AppletPlayerNlcBase::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 
 }
 
 //============================================================================
-bool AppletPlayerNlcBase::playMediaFile(std::string mediaFile, int pos0to100000 )
+bool AppletPlayerNlcBase::playMediaFile( std::string mediaFile, int pos0to100000, bool isStream )
 {
 	if( !waitForPlayerThread() )
 	{
@@ -134,7 +134,7 @@ bool AppletPlayerNlcBase::playMediaFile(std::string mediaFile, int pos0to100000 
 
 	if( VxFileUtil::fileExists( mediaFile.c_str() ) )
     {
-		return AppletPlayerBase::playFile( mediaFile.c_str(), pos0to100000 );
+		return AppletPlayerBase::playFile( mediaFile.c_str(), pos0to100000, isStream );
 	}
     else
     {
@@ -282,7 +282,7 @@ void AppletPlayerNlcBase::slotReplayButtonClick( void )
 	{
 		if( VxFileUtil::fileExists( m_LastPlayedMedia.c_str() ) )
 		{
-			playFile( m_LastPlayedMedia.c_str() );
+			playFile( m_LastPlayedMedia.c_str(), 0, false );
 		}
 		else
 		{

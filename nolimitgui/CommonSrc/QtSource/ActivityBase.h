@@ -214,7 +214,7 @@ public:
 	virtual void				setMenuBottomButtonColor( QColor iconColor );
 	virtual void				setExpandWindowButtonColor( QColor iconColor );
 
-	virtual bool				playFile( uint8_t fileType, QString& fullFileName, VxGUID& assetId ) { return false; }
+	virtual bool				playFile( uint8_t fileType, QString& fullFileName, VxGUID& assetId, bool isStream ) { return false; }
 	bool						confirmDeleteFile( QString fileName, bool shredFile );
 	bool						confirmDeleteFile( AssetBaseInfo& assetInfo, bool shredFile = false );
 
@@ -299,7 +299,7 @@ protected:
     virtual void                updateExpandWindowIcon( void );
 	virtual void				repositionToParent( void );
 	void						playSound( ESndDef sndDef );
-	virtual bool				playFile( QString fileName, int pos0to100000 = 0 );
+	virtual bool				playFile( QString fileName, int pos0to100000, bool isStream );
 
     void                        fillMyNodeUrl( QLabel * myUrlLabel );
 

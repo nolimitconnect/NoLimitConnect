@@ -89,8 +89,8 @@ protected:
 	void						hideEvent( QHideEvent* ev ) override;
 	void						resizeEvent( QResizeEvent* ev ) override;
 
-	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
-	bool						playMediaFile( std::string fileStr, int pos0to100000 = 0 );
+	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
+	bool						playMediaFile( std::string fileStr, int pos0to100000, bool isStream );
 
 	void						setReadyForCallbacks( bool isReady );
 	void						updateGuiPlayControls( bool isPlaying );

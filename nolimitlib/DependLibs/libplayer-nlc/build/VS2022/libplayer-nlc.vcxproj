@@ -596,6 +596,7 @@
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\DirectoryNodeOverviewVideo.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\DirectoryNodeVideo.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\QueryParamsVideo.cpp" />
+    <ClCompile Include="..\..\xbmc\xbmc\filesystem\VirtualStreamFile.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\fmt\format_fmt.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\fmt\ostream.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\fmt\posix.cpp" />
@@ -30851,6 +30852,7 @@
     <ClInclude Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\QueryParams.h" />
     <ClInclude Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\QueryParamsVideo.h" />
     <ClInclude Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseFile.h" />
+    <ClInclude Include="..\..\xbmc\xbmc\filesystem\VirtualStreamFile.h" />
     <ClInclude Include="..\..\xbmc\xbmc\fmt\format.h" />
     <ClInclude Include="..\..\xbmc\xbmc\fmt\locale.h" />
     <ClInclude Include="..\..\xbmc\xbmc\fmt\ostream.h" />

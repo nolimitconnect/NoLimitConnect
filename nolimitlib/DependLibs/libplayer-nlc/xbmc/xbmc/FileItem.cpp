@@ -460,6 +460,7 @@ CFileItem& CFileItem::operator=( const CFileItem& item )
         return *this;
 
     CGUIListItem::operator=( item );
+    m_bIsVirtualStream = item.m_bIsVirtualStream;
     m_bLabelPreformatted = item.m_bLabelPreformatted;
     FreeMemory();
     m_strPath = item.m_strPath;

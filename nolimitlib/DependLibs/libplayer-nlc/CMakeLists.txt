@@ -557,7 +557,7 @@ list(APPEND player-nlc_SOURCES
     xbmc/xbmc/filesystem/VideoDatabaseDirectory/DirectoryNodeTitleMusicVideos.cpp
     xbmc/xbmc/filesystem/VideoDatabaseDirectory/DirectoryNodeTitleTvShows.cpp
     xbmc/xbmc/filesystem/VideoDatabaseDirectory/DirectoryNodeTvShowsOverview.cpp
-    xbmc/xbmc/filesystem/VideoDatabaseDirectory/DirectoryNodeVideo.cpp    
+    xbmc/xbmc/filesystem/VideoDatabaseDirectory/DirectoryNodeVideo.cpp
     xbmc/xbmc/filesystem/DllLibNfs.cpp
     xbmc/xbmc/filesystem/MusicDatabaseFile.cpp
     xbmc/xbmc/filesystem/MusicFileDirectory.cpp
@@ -591,6 +591,7 @@ list(APPEND player-nlc_SOURCES
     xbmc/xbmc/filesystem/VideoDatabaseDirectory.cpp
     xbmc/xbmc/filesystem/VideoDatabaseFile.cpp
     xbmc/xbmc/filesystem/VirtualDirectory.cpp
+    xbmc/xbmc/filesystem/VirtualStreamFile.cpp
     xbmc/xbmc/filesystem/XbtDirectory.cpp
     xbmc/xbmc/filesystem/XbtFile.cpp
     xbmc/xbmc/filesystem/XbtManager.cpp

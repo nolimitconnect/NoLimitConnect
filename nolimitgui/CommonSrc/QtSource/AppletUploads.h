@@ -49,8 +49,8 @@ private slots:
 protected:
 
     virtual void				toGuiFileUploadStart( GuiFileXferSession* xferSession ) override;
-    virtual void				toGuiFileXferState( EPluginType plguinType, VxGUID& lclSession, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
-    virtual void				toGuiFileUploadComplete( EPluginType plguinType, VxGUID& lclSession, EXferError xferError ) override;
+    virtual void				toGuiFileXferState( EPluginType plguinType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
+    virtual void				toGuiFileUploadComplete( EPluginType plguinType, VxGUID& lclSessionId, EXferError xferError ) override;
 
 	FileXferWidget*				sessionToWidget( GuiFileXferSession* poSession );
 	void						updateListEntryWidget( FileXferWidget* item, GuiFileXferSession* poSession );

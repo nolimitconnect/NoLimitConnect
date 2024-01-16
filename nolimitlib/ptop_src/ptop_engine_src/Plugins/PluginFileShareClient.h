@@ -36,6 +36,8 @@ public:
 	void						lockCompletedFileList( void ) { m_CompletedFilesListMutex.lock(); }
 	void						unlockCompletedFileList( void ) { m_CompletedFilesListMutex.unlock(); }
 
+	void						onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+
 protected:
 	virtual bool				onConnectForFileListDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId ) override;
 	virtual bool                fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, FileInfo& fileInfo ) override;

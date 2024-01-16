@@ -378,7 +378,7 @@ void AppletLibrary::slotListItemClicked( QListWidgetItem* item )
             //										poInfo->getIsSharedFile(),
             //										poInfo->getIsInLibrary() );
             //fileActionMenuDialog.exec();
-            playFile( fileInfo.getFullFileName().c_str() );
+            playFile( fileInfo.getFullFileName().c_str(), 0, false );
         }
     }
 }
