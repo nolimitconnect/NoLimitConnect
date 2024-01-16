@@ -11,3 +11,29 @@
 #include "VirtStreamFile.h"
 
 //============================================================================
+bool VirtStreamFile::setConnection( std::shared_ptr<VxSktBase> sktBase )
+{
+	m_SktBase = sktBase;
+	setError( 0 );
+	return isConnected();
+}
+
+//============================================================================
+bool VirtStreamFile::isConnected( void )
+{ 
+	if( !m_SktBase || !m_SktBase->isConnected() )
+	{
+		m_SktBase.reset(); 
+		setError( EACCES );
+		return false;
+	}
+
+	return true;
+}
+
+//============================================================================
+void VirtStreamFile::removeConnection( void )
+{
+	m_SktBase.reset(); 
+	setError( EACCES );
+}

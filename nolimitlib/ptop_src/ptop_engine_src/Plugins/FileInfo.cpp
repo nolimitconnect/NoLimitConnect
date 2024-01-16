@@ -109,8 +109,10 @@ FileInfo::FileInfo( AssetBaseInfo& assetInfo )
 , m_s64FileLen( assetInfo.getAssetLength() )
 , m_u8FileType( (uint8_t)assetInfo.getAssetType() )
 , m_AssetId( assetInfo.getAssetUniqueId() )
+, m_ThumbId( assetInfo.getThumbId() )
 , m_FileTime( assetInfo.getCreationTime() )
 {
+	setIsStream( assetInfo.getIsStream() );
 	determineShortName();
 	assureValidAssetId();
 }

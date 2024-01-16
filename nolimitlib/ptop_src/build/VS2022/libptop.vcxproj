@@ -720,6 +720,7 @@
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgrFileIo.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\WebPageMgr\WebPageMgr.cpp" />
     <ClInclude Include="..\..\..\GuiInterface\IAudioDefs.h" />
     <ClInclude Include="..\..\..\GuiInterface\IAudioInterface.h" />

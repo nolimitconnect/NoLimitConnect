@@ -163,6 +163,18 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, VxGUID& creatorId, VxGUID& a
 }
 
 //============================================================================
+FileInfo AssetBaseInfo::getFileInfo( void )
+{
+	FileInfo fileInfo( *this, m_AssetHash );
+	if( getDestUserId().isVxGUIDValid() )
+	{
+		fileInfo.setOnlineId( getDestUserId() );
+	}
+
+	return fileInfo;
+}
+
+//============================================================================
 void AssetBaseInfo::clear( void )
 {
 	m_AssetName.clear();

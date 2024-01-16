@@ -242,6 +242,7 @@ list(APPEND ptopengine_SOURCES
     VirtStream/VirtStreamCache.cpp
     VirtStream/VirtStreamFile.cpp
     VirtStream/VirtStreamMgr.cpp
+    VirtStream/VirtStreamMgrFileIo.cpp
     WebPageMgr/WebPageMgr.cpp 
 )
 

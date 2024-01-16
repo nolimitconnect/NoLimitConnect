@@ -25,6 +25,9 @@ public:
 	FileShareXferSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	FileShareXferSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 
+    void						setIsStream( bool isStreaming )				{ m_IsStream = isStreaming; }
+	bool 						getIsStream( void )							{ return m_IsStream; }
+
 	void						setSendToId( VxGUID sendToId )				{ m_SendToId = sendToId; }
 	VxGUID&						getSendToId( void )							{ return m_SendToId; }
 
@@ -62,6 +65,7 @@ protected:
 	VxFileXferInfo				m_FileXferInfo;		// file being transmitted
 	int							m_iPercentComplete{ 0 };
 	std::shared_ptr<VxSktBase>	m_Skt;
+	bool						m_IsStream{ false };
 	VxGUID						m_SendToId;
 	uint32_t					m_Error{ 0 };
 

@@ -21,12 +21,14 @@
 class VirtStreamFile
 {
 public:
-	void						updateIsConnected( void )	{ isConnected(); }
-	bool						isConnected()				{ if( !m_SktBase || !m_SktBase->isConnected() ) setError( EACCES ); return getError(); }
+	bool						setConnection( std::shared_ptr<VxSktBase> sktBase );
+	std::shared_ptr<VxSktBase>&	getConnection( void )		{ return m_SktBase; }
+
+	void						removeConnection( void );
+	bool						isConnected( void );
 
 	void						setError( int err )			{ m_Error = err; }
 	int							getError( void )			{ return m_Error; }
-
 
 	//=== vars ===//
 	VFile*						m_VFile{ nullptr };
@@ -37,5 +39,4 @@ public:
 	VxGUID						m_StreamSessionId;
 	std::shared_ptr<VxSktBase>  m_SktBase;
 	int							m_Error{ 0 };
-
 };

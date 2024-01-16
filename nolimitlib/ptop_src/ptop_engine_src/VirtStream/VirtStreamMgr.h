@@ -12,6 +12,7 @@
 #include "VirtStreamFile.h"
 
 #include <Plugins/FileXferCallback.h>
+#include <Plugins/PluginFileShareClient.h>
 
 #include <CoreLib/VirtFileMgr.h>
 
@@ -71,10 +72,21 @@ protected:
 
 	bool						sendStreamSeek( int64_t newPos );
 
-	void						onFileXferPktRxed( VxPktHdr* pktHdr ) override;
+	void						onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
+	virtual void				onPktFileGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
+	virtual void				onPktFileChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
+	virtual void				onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
+	virtual void				onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
+	virtual void				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 	P2PEngine&					m_Engine;
+	PluginFileShareClient&		m_Plugin;
+
 	std::vector<VirtStreamFile> m_VirtFiles;
 	VxMutex						m_StreamMgrMutex;
 

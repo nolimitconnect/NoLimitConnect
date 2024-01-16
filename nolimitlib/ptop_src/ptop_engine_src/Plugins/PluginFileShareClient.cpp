@@ -407,6 +407,16 @@ bool PluginFileShareClient::fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& s
 }
 
 //============================================================================
+bool PluginFileShareClient::startStream( std::shared_ptr<VxSktBase>& sktBase, AssetBaseInfo& assetInfo, VxGUID lclSessionId )
+{
+	FileInfo fileInfo = assetInfo.getFileInfo();
+	fileInfo.setIsStream( true );
+	fileInfo.setXferSessionId( lclSessionId );
+
+	return m_FileInfoMgr.startDownload( fileInfo, lclSessionId, sktBase, assetInfo.getDestUserId() );
+}
+
+//============================================================================
 bool PluginFileShareClient::fromGuiDownloadFileListCancel( VxGUID& onlineId, VxGUID& sessionId )
 {
 

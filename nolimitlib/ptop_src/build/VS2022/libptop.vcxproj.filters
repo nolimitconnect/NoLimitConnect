@@ -724,6 +724,9 @@
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.cpp">
       <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgrFileIo.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">

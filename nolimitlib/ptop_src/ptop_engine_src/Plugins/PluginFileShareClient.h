@@ -17,6 +17,8 @@ public:
 	PluginFileShareClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginFileShareClient() = default;
 
+	bool						startStream( std::shared_ptr<VxSktBase>& sktBase, AssetBaseInfo& assetInfo, VxGUID lclSessionId );
+
 	bool						getIsInitialized( void ) { return m_WebPageClientReady; }
 
 	virtual bool				fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;

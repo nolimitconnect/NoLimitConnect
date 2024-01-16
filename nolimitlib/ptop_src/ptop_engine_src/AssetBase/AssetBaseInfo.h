@@ -51,6 +51,8 @@ public:
 
     AssetBaseInfo&				operator=( const AssetBaseInfo& rhs );
 
+    virtual FileInfo            getFileInfo( void );
+
     virtual void                clear( void );
 
     virtual bool                addToBlob( PktBlobEntry& blob ) override;

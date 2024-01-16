@@ -83,22 +83,11 @@ uint16_t PktFileGetReply::getemptyLen( void )
 // PktFileSendReq
 //============================================================================
 PktFileSendReq::PktFileSendReq()
-: m_u16State(1) 
-, m_u8XferCmd(0)
-, m_u8XferOption(0)
-, m_u8FileType(0)
-, m_u8Res1(0)
-, m_u16Res1(0)
-, m_s64FileOffs(0) 
-, m_s64FileLen(0)
-, m_u32Error(0) 
-, m_u32Res2(0)
 { 
 	setPktType( PKT_TYPE_FILE_SEND_REQ ); 
 	setFileName( "" );
 	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 }
-
 
 //============================================================================
 void PktFileSendReq::setFileName( const char* pFileName )
@@ -110,14 +99,6 @@ void PktFileSendReq::setFileName( const char* pFileName )
 
 //============================================================================
 PktFileSendReply::PktFileSendReply()
-: m_u16State(1) 
-, m_u8XferCmd(0)
-, m_u8XferOption(0)
-, m_u32Res(0)
-, m_s64FileOffs(0) 
-, m_s64FileLen(0)
-, m_u32Error(0) 
-, m_u32Res2(0)
 { 
 	setPktType( PKT_TYPE_FILE_SEND_REPLY ); 
 	setPktLength( sizeof( PktFileSendReq ) );
@@ -133,17 +114,10 @@ void PktFileSendReply::setFileName( const char* pFileName )
 	setPktLength( ROUND_TO_16BYTE_BOUNDRY( u16PktLen ) );
 }
 
-
 //============================================================================
 // PktFileFindReq
 //============================================================================
 PktFileFindReq::PktFileFindReq()
-: m_u16FileFlags(0) 
-, m_u16SizeLimitType(0) 
-, m_u32ResP1(0)
-, m_s64FileLen(0)
-, m_u32Res1(0) 
-, m_u32Res2(0)
 { 
 	setPktLength( getEmptyLen() ); 
 	setPktType(  PKT_TYPE_FILE_FIND_REQ ); 
@@ -183,10 +157,6 @@ void PktFileFindReq::GetMatchName( std::string &csName )
 
 //============================================================================
 PktFileChunkReq::PktFileChunkReq()
-: m_u16Res(0)
-, m_u16FileChunkLen(0)
-, m_u32Error(0)
-, m_u32Res1(0) 
 {
 	setPktType( PKT_TYPE_FILE_CHUNK_REQ );
 	setPktLength( emptyLength() );
@@ -213,9 +183,6 @@ uint16_t PktFileChunkReq::getChunkLen( void )
 
 //============================================================================
 PktFileChunkReply::PktFileChunkReply()
-: m_u16Res(0)
-, m_u16FileChunkLen(0)
-, m_u32Error(0) 
 {
 	setPktType( PKT_TYPE_FILE_CHUNK_REPLY );
 	setPktLength( (uint16_t)sizeof( PktFileChunkReply ) );
@@ -223,7 +190,6 @@ PktFileChunkReply::PktFileChunkReply()
 
 //============================================================================
 PktFileSendCompleteReq::PktFileSendCompleteReq()
-: m_u32Error(0)
 {
 	setPktType(  PKT_TYPE_FILE_SEND_COMPLETE_REQ );
 	setPktLength( (uint16_t)sizeof( PktFileSendCompleteReq ) );
@@ -231,7 +197,6 @@ PktFileSendCompleteReq::PktFileSendCompleteReq()
 
 //============================================================================
 PktFileSendCompleteReply::PktFileSendCompleteReply()
-: m_u32Error(0)
 {
 	setPktType( PKT_TYPE_FILE_SEND_COMPLETE_REPLY );
 	setPktLength( (uint16_t)sizeof( PktFileSendCompleteReply ) );
@@ -239,7 +204,6 @@ PktFileSendCompleteReply::PktFileSendCompleteReply()
 
 //============================================================================
 PktFileGetCompleteReq::PktFileGetCompleteReq()
-: m_u32Error(0)
 {
 	setPktType( PKT_TYPE_FILE_GET_COMPLETE_REQ );
 	setPktLength( (uint16_t)sizeof( PktFileGetCompleteReq ) );
@@ -247,7 +211,6 @@ PktFileGetCompleteReq::PktFileGetCompleteReq()
 
 //============================================================================
 PktFileGetCompleteReply::PktFileGetCompleteReply()
-: m_u32Error(0)
 {
 	setPktType( PKT_TYPE_FILE_GET_COMPLETE_REPLY );
 	setPktLength( (uint16_t)sizeof( PktFileGetCompleteReply ) );
@@ -255,13 +218,6 @@ PktFileGetCompleteReply::PktFileGetCompleteReply()
 
 //============================================================================
 PktFileShareErr::PktFileShareErr()
-: m_u16Err(0xffff) 
-, m_u16Res1(0)
-, m_u32ResP1(0)
-, m_u32ResP2(0)
-, m_u32ResP3(0)
-, m_u32Res1(0) 
-, m_u32Res2(0)
 {
 	setPktType( PKT_TYPE_FILE_SHARE_ERR ); 
 	setPktLength( sizeof( PktFileShareErr ) );

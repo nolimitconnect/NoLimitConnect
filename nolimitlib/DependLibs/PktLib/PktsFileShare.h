@@ -44,6 +44,9 @@ public:
 	void						setEndOffset( int64_t offset )					{ m_s64EndOffs = htonU64( offset ); }
 	int64_t						getEndOffset( void )							{ return ntohU64( m_s64EndOffs ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
@@ -51,8 +54,10 @@ private:
 	VxSha1Hash					m_FileHashId;
 	int64_t						m_s64StartOffs{ 0 };
 	int64_t						m_s64EndOffs{ 0 };	//if 0 then get all
-	uint32_t					m_u32Res1{ 0 };
-	uint32_t					m_u32Res2{ 0 };
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
 	char						m_FileName[ VX_MAX_PATH + 16 ];
 };
 
@@ -82,6 +87,9 @@ public:
 	void						setError( uint32_t error )							{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							        { return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )						{ m_IsStream = isStream; }
+	bool						getIsStream( void )									{ return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
@@ -90,7 +98,9 @@ private:
 	int64_t						m_s64StartOffs{ 0 };
 	int64_t						m_s64EndOffs{ 0 };	//if 0 then get all
 	uint32_t					m_u32Error{ 0 };
-	uint32_t					m_u32Res2{ 0 };
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
 	char						m_FileName[ VX_MAX_PATH + 16 ];
 };
 
@@ -145,21 +155,26 @@ public:
 	void						setError( uint32_t error )						{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
-	uint16_t					m_u16State;
-	uint8_t						m_u8XferCmd;
-	uint8_t						m_u8XferOption;
-	uint8_t						m_u8FileType;
-	uint8_t						m_u8Res1;
-	uint16_t					m_u16Res1;
-	int64_t						m_s64FileOffs;
-	int64_t						m_s64FileLen;
+	uint16_t					m_u16State{ 1 };
+	uint8_t						m_u8XferCmd{ 0 };
+	uint8_t						m_u8XferOption{ 0 };
+	uint8_t						m_u8FileType{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	int64_t						m_s64FileOffs{ 0 };
+	int64_t						m_s64FileLen{ 0 };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_FileAssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res2; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res3{ 0 };
+	uint16_t					m_u16Res4{ 0 };
 	char						m_FileName[ VX_MAX_PATH + 16 ];
 };
 
@@ -169,7 +184,7 @@ public:
 	PktFileSendReply();
 
 	void						setFileName( const char* pFileName );
-	const char*				getFileName()									{ return m_FileName; }
+	const char*					getFileName()									{ return m_FileName; }
 	void						setAssetId( VxGUID& assetId )					{ m_FileAssetId = assetId; }
 	VxGUID&						getAssetId( void )								{ return m_FileAssetId; }
 	void						setFileHashId( VxSha1Hash& fileHashId )			{ m_FileHashId = fileHashId; }
@@ -195,19 +210,24 @@ public:
 	void						setError( uint32_t error )						{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
-	uint16_t					m_u16State;
-	uint8_t						m_u8XferCmd;
-	uint8_t						m_u8XferOption;
-	uint32_t					m_u32Res;
-	int64_t						m_s64FileOffs;
-	int64_t						m_s64FileLen;
+	uint16_t					m_u16State{ 0 };
+	uint8_t						m_u8XferCmd{ 0 };
+	uint8_t						m_u8XferOption{ 0 };
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	int64_t						m_s64FileOffs{ 0 };
+	int64_t						m_s64FileLen{ 0 };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_FileAssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res2; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint32_t					m_u32Res2{ 0 }; 
 	char						m_FileName[ VX_MAX_PATH + 16 ];
 };
 
@@ -242,17 +262,22 @@ public:
 	void						setSizeLimitType( uint16_t type )				{ m_u16SizeLimitType = htons( type ); }
 	uint16_t					getSizeLimitType( void )						{ return ntohs( m_u16SizeLimitType ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
     uint16_t					m_u16FileFlags{ 0 };		// types of file to match ( SEE FILE_TYPE_MASK )
-	uint16_t					m_u16SizeLimitType{ 0 };;	// type of file size limit 0=any size 1=At Least 2=At Most 3=Exactly
-	uint32_t					m_u32ResP1{ 0 };;			// reserved
-	int64_t						m_s64FileLen{ 0 };;		// file size 
+	uint16_t					m_u16SizeLimitType{ 0 };	// type of file size limit 0=any size 1=At Least 2=At Most 3=Exactly
+	uint32_t					m_u32ResP1{ 0 };			// reserved
+	int64_t						m_s64FileLen{ 0 };			// file size 
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_FileAssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Res1{ 0 };; 
-	uint32_t					m_u32Res2{ 0 };; 
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res2{ 0 };
 	char						m_MatchName[ PKT_SHARE_FIND_FILE_MATCHNAME_MAX_LEN + 16 ];
 };
 
@@ -281,14 +306,18 @@ public:
 	void						setError( uint32_t error )						{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
-	uint16_t					m_u16Res;
-	uint16_t					m_u16FileChunkLen;
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16FileChunkLen{ 0 };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res1; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint32_t					m_u32Res1{ 0 }; 
 public:
 	uint8_t						m_au8FileChunk[ PKT_TYPE_FILE_MAX_DATA_LEN ];
 };
@@ -312,13 +341,17 @@ public:
 	void						setError( uint32_t error )						{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
-	uint16_t					m_u16Res;	
-	uint16_t					m_u16FileChunkLen;
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16FileChunkLen{ 0 };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
-	uint32_t					m_u32Error; 
+	uint32_t					m_u32Error{ 0 };
 };
 
 //============================================================================
@@ -343,12 +376,21 @@ public:
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Error; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
+	uint32_t					m_u32Res4{ 0 };
+	uint32_t					m_u32Res5{ 0 };
 };
 
 class PktFileSendCompleteReply : public VxPktHdr
@@ -370,12 +412,21 @@ public:
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )				{ m_IsStream = isStream; }
+	bool						getIsStream( void )							{ return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Error; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
+	uint32_t					m_u32Res4{ 0 };
+	uint32_t					m_u32Res5{ 0 };
 };
 
 class PktFileGetCompleteReq : public VxPktHdr
@@ -397,12 +448,21 @@ public:
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )				{ m_IsStream = isStream; }
+	bool						getIsStream( void )							{ return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Error; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
+	uint32_t					m_u32Res4{ 0 };
+	uint32_t					m_u32Res5{ 0 };
 };
 
 class PktFileGetCompleteReply : public VxPktHdr
@@ -424,12 +484,21 @@ public:
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
+	void						setIsStream( bool isStream )				{ m_IsStream = isStream; }
+	bool						getIsStream( void )							{ return m_IsStream; }
+
 private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
 	VxSha1Hash					m_FileHashId;
-	uint32_t					m_u32Error; 
+	uint32_t					m_u32Error{ 0 }; 
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
+	uint32_t					m_u32Res4{ 0 };
+	uint32_t					m_u32Res5{ 0 };
 };
 
 //============================================================================
@@ -455,18 +524,22 @@ public:
 	void						setError( uint16_t error )						{ m_u16Err = htons( error ); }
 	uint16_t					getError( void )								{ return ntohs( m_u16Err ); }
 
+	void						setIsStream( bool isStream )					{ m_IsStream = isStream; }
+	bool						getIsStream( void )								{ return m_IsStream; }
+
 private:
-	uint16_t					m_u16Err;
-	uint16_t					m_u16Res1;
-	uint32_t					m_u32ResP1;
-	uint32_t					m_u32ResP2;
-	uint32_t					m_u32ResP3;
+	uint16_t					m_u16Err{ 0xffff };
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint32_t					m_u32ResP1{ 0 };
+	uint32_t					m_u32ResP2{ 0 };
+	uint32_t					m_u32ResP3{ 0 };
 
 	VxGUID						m_RxFileInstance; 
 	VxGUID						m_TxFileInstance; 
 	VxGUID						m_AssetId;
-	uint32_t					m_u32Res1; 
-	uint32_t					m_u32Res2;
+	uint32_t					m_u32Res1{ 0 }; 
+	uint32_t					m_u32Res2{ 0 };
 };
 
 #pragma pack(pop) 

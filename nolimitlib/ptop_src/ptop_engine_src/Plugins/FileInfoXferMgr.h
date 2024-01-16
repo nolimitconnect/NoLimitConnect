@@ -66,7 +66,7 @@ public:
 
 	void						wantFileXferCallback( FileXferCallback* callback, bool wantCallback );
 
-	void						announcePkt( VxPktHdr* pktHdr );
+	void						announcePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 	void						setMoveCompletedFilesToDownloadFolder( bool moveOnCompleted )	{ m_MoveOnCompletedToDownloadsFolder = moveOnCompleted; }
 	bool						getMoveCompletedFilesToDownloadFolder( void )					{ return m_MoveOnCompletedToDownloadsFolder; }

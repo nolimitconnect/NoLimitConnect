@@ -281,7 +281,6 @@ void MediaPlayerNlc::onStopPlaying( void )
     unlockClientList();
 }
 
-
 //============================================================================
 void MediaPlayerNlc::onPlaybackStopped( void )
 {

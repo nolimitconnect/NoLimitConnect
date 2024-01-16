@@ -58,21 +58,31 @@ public:
 	std::string					getDownloadIncompleteFileName( void );
 	std::string					getDownloadCompleteFileName( void );
 
+	void						setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
+	bool 						isStream( void )						{ return m_IsStreaming; }
+
+	void						setIsOpened( bool isOpen )				{ m_IsOpened = isOpen; }
+	bool 						isOpened( void )						{ return m_IsOpened || m_hFile; }
+
+	bool						useFileIo( void )						{ return eXferDirectionRx != m_XferDirection || !isStream(); }
+
 	//=== vars ===//
     FILE*						m_hFile{nullptr};
-    uint64_t					m_u64FileOffs{0};					// current offset into file we are at
+    uint64_t					m_u64FileOffs{0};					 // current offset into file we are at
     uint64_t					m_u64FileLen{0};                     // total file length
 	VxGUID						m_AssetId;
     EAssetType                  m_AssetType{eAssetTypeUnknown};
+	bool						m_IsOpened{ false };
 
 protected:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxSha1Hash					m_FileHashId;
-    std::string					m_strRemoteFileName{""};
-    std::string					m_strLocalFileName{""};
+    std::string					m_strRemoteFileName;
+    std::string					m_strLocalFileName;
     EXferDirection				m_XferDirection{eXferDirectionRx};
     int							m_PercentProgress{0};
+	bool						m_IsStreaming{ false };
 };
 
 

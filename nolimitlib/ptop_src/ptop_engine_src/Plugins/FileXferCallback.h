@@ -9,10 +9,13 @@
 //============================================================================
 #pragma once
 
+#include <memory>
+
 class VxPktHdr;
+class VxSktBase;
 
 class FileXferCallback
 {
 public:
-	virtual void				onFileXferPktRxed( VxPktHdr* pktHdr ) = 0;
+	virtual void				onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) = 0;
 };
