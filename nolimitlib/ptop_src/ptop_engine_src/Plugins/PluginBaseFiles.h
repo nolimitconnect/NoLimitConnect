@@ -57,11 +57,15 @@ public:
 	EXferError					fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo ) override;
 
 	virtual bool				fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMask );
+
 	virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter );
+
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
 	virtual bool				fromGuiSetFileIsShared( std::string& fileName, bool isShared );
+	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
 	virtual bool				fromGuiGetIsFileShared( std::string& fileName );
-	virtual bool				fromGuiRemoveSharedFile( std::string& fileName );
+
+	virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo );
 	// returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId );
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );

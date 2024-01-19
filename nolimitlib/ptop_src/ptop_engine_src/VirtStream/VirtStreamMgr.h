@@ -70,6 +70,7 @@ protected:
 	int							virtFileSeek( VFile* fp, size_t offset, int whence);
 	fpos_t						virtFileTell( VFile* fp );
 
+	bool						waitForStream( int64_t fileOffs, int64_t readLen );
 	bool						sendStreamSeek( int64_t newPos );
 
 	void						onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;

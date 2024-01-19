@@ -75,7 +75,7 @@ bool PluginLibraryServer::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool in
 //============================================================================
 bool PluginLibraryServer::fromGuiSetFileIsInLibrary( std::string& fileName, bool inLibrary )
 {
-	return fromGuiSetFileIsShared( fileName, inLibrary );
+	return m_FileInfoMgr.fromGuiSetFileIsShared( fileName, inLibrary );
 }
 
 //============================================================================

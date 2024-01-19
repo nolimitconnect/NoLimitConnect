@@ -353,9 +353,11 @@ public:
     virtual void				fromGuiSendLog( uint32_t u32LogFlags ) override;
     virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
     virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter ) override;
+
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
-    virtual bool				fromGuiRemoveSharedFile( std::string& fileName ) override; // for remove before deletion
-    virtual bool				fromGuiGetIsFileShared( std::string& fileName ) override;
+    virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
+    virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ) override; // for remove before deletion
+
 	// returns -1 if unknown else percent downloaded
     virtual int					fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
     virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ) override;

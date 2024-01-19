@@ -104,13 +104,16 @@ FileInfo::FileInfo( VxGUID& onlineId, const std::string& fullFileName, uint64_t 
 
 //============================================================================
 FileInfo::FileInfo( AssetBaseInfo& assetInfo )
-: m_OnlineId( assetInfo.getCreatorId() )
-, m_FullFileName( assetInfo.getAssetName() )
-, m_s64FileLen( assetInfo.getAssetLength() )
-, m_u8FileType( (uint8_t)assetInfo.getAssetType() )
-, m_AssetId( assetInfo.getAssetUniqueId() )
-, m_ThumbId( assetInfo.getThumbId() )
-, m_FileTime( assetInfo.getCreationTime() )
+	: m_OnlineId( assetInfo.getCreatorId() )
+	, m_FullFileName( assetInfo.getAssetName() )
+	, m_s64FileLen( assetInfo.getAssetLength() )
+	, m_u8FileType( (uint8_t)assetInfo.getAssetType() )
+	, m_AssetId( assetInfo.getAssetUniqueId() )
+	, m_ThumbId( assetInfo.getThumbId() )
+	, m_FileTime( assetInfo.getCreationTime() )
+	, m_IsInLibrary( assetInfo.isInLibary() )
+	, m_IsSharedFile( assetInfo.isSharedFileAsset() )
+	, m_IsStreaming( assetInfo.getIsStream() )
 {
 	setIsStream( assetInfo.getIsStream() );
 	determineShortName();
@@ -148,6 +151,7 @@ FileInfo::FileInfo( VxFileXferInfo& xferInfo, VxGUID onlineId )
 	, m_FileHash( xferInfo.getFileHashId() )
     , m_AssetId( xferInfo.getAssetId() )
     , m_ThumbId()
+	, m_IsStreaming( xferInfo.isStream() )
 {
 	assureValidAssetId();
 }

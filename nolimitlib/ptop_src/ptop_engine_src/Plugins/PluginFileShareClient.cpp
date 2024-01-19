@@ -377,30 +377,51 @@ bool PluginFileShareClient::fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& s
 	m_HisOnlineId = onlineId;
 	m_SearchSessionId = sessionId;
 	m_LclSessionId = sessionId;
-	m_DownloadFileFolder = getIncompleteFileXferDirectory( onlineId );
-	if( VxFileUtil::directoryExists( m_DownloadFileFolder.c_str() ) )
+	if( m_HisOnlineId == m_Engine.getMyOnlineId() )
 	{
-		int64_t diskFreeSpace = VxFileUtil::getDiskFreeSpace( m_DownloadFileFolder.c_str() );
-
-		if( diskFreeSpace && diskFreeSpace < VxFileUtil::SIZE_1GB )
+		std::vector<AssetBaseInfo> sharedFiles;
+		m_Engine.getAssetMgr().getSharedFiles( sharedFiles );
+		int resultCnt{ 0 };
+		for( auto& assetInfo : sharedFiles )
 		{
-			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgLowDiskSpace, "" );
-		}
-		else
-		{
-			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgConnecting, "" );
-			if( !fileTypes )
+			FileInfo fileInfo = assetInfo.getFileInfo();
+			if( fileInfo.getFileType() & fileTypes )
 			{
-				fileTypes = VXFILE_TYPE_ALLNOTEXE;
+				sendFileSearchResultToGui( m_SearchSessionId, m_HisOnlineId, fileInfo );
+				resultCnt++;
 			}
-
-			setSearchFileTypes( fileTypes );
-			result = connectForFileListDownload( onlineId );
 		}
+		
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgRetrieveInfoComplete, " %d", resultCnt );
+		return true;
 	}
 	else
 	{
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgPermissionError, m_DownloadFileFolder.c_str() );
+		m_DownloadFileFolder = getIncompleteFileXferDirectory( onlineId );
+		if( VxFileUtil::directoryExists( m_DownloadFileFolder.c_str() ) )
+		{
+			int64_t diskFreeSpace = VxFileUtil::getDiskFreeSpace( m_DownloadFileFolder.c_str() );
+
+			if( diskFreeSpace && diskFreeSpace < VxFileUtil::SIZE_1GB )
+			{
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgLowDiskSpace, "" );
+			}
+			else
+			{
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgConnecting, "" );
+				if( !fileTypes )
+				{
+					fileTypes = VXFILE_TYPE_ALLNOTEXE;
+				}
+
+				setSearchFileTypes( fileTypes );
+				result = connectForFileListDownload( onlineId );
+			}
+		}
+		else
+		{
+			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgPermissionError, m_DownloadFileFolder.c_str() );
+		}
 	}
 
 	return result;

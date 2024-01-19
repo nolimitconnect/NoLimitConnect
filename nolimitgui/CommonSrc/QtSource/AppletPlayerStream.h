@@ -31,18 +31,19 @@ public:
 
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 
+	bool						playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
+
 protected slots:
 	void                        slotMenuItemSelected( int menuId, EMenuItemType menuItemType );
 
 	void                        slotMediaStreamComboBoxSelectionChange( int cbIdx );
 
-	void						slotBrowseButtonClick( void );
+	void						slotPlayButtonClick( void );
 
 protected:
 	void						initAppletPlayerStream( void );
 
 	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
-	bool						playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
 
 	void						updateGuiPlayControls( bool isPlaying );
 

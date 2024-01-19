@@ -9,17 +9,17 @@
 //============================================================================
 
 #include "FileInfoBaseMgr.h"
-#include <Plugins/FileInfo.h>
 
 #include "PluginBase.h"
-
-#include <P2PEngine/P2PEngine.h>
-#include <Plugins/PluginBase.h>
 #include <GuiInterface/IToGui.h>
 
-#include <PktLib/PktAnnounce.h>
-#include <PktLib/PktsFileList.h>
-#include <PktLib/PktsFileInfo.h>
+#include <AssetBase/AssetBaseInfo.h>
+#include <AssetMgr/AssetMgr.h>
+
+#include <Plugins/FileInfo.h>
+#include <Plugins/PluginBase.h>
+
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/Sha1GeneratorMgr.h>
 #include <CoreLib/VxFileUtil.h>
@@ -28,6 +28,10 @@
 #include <CoreLib/VxSha1Hash.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxTimer.h>
+
+#include <PktLib/PktAnnounce.h>
+#include <PktLib/PktsFileList.h>
+#include <PktLib/PktsFileInfo.h>
 
 //============================================================================
 FileInfoBaseMgr::FileInfoBaseMgr( P2PEngine& engine, PluginBase& plugin, FileInfoDb& fileInfoDb )
@@ -680,7 +684,7 @@ bool FileInfoBaseMgr::loadStoryboardPageFileAssets( void )
 
 	if( m_RootFileFolder.empty() )
 	{
-		LogMsg( LOG_ERROR, "loadStoryboardPageFileAssets No Root File Folder" );
+		LogMsg( LOG_ERROR, "%s No Root File Folder", __func__ );
 		return false;
 	}
 
@@ -688,7 +692,7 @@ bool FileInfoBaseMgr::loadStoryboardPageFileAssets( void )
 	VxFileUtil::listFilesInDirectory( m_RootFileFolder.c_str(), fileList );
 	if( fileList.size() < g_StoryboardNameList.size() )
 	{
-		LogMsg( LOG_ERROR, "loadStoryboardPageFileAssets Missing Files only %d found", fileList.size() );
+		LogMsg( LOG_ERROR, "%s Missing Files only %d found", __func__, fileList.size() );
 		return false;
 	}
 
@@ -715,21 +719,21 @@ bool FileInfoBaseMgr::loadStoryboardPageFileAssets( void )
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "loadStoryboardPageFileAssets Invalid File %s", fullFileName.c_str() );
+					LogMsg( LOG_ERROR, "%s Invalid File %s", __func__, fullFileName.c_str() );
 					result = false;
 					break;
 				}
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "loadStoryboardPageFileAssets Generate Sha1Hash Failed File %s", fullFileName.c_str() );
+				LogMsg( LOG_ERROR, "%s Generate Sha1Hash Failed File %s", __func__, fullFileName.c_str() );
 				result = false;
 				break;
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "loadStoryboardPageFileAssets 0 file Len File %s", fullFileName.c_str() );
+			LogMsg( LOG_ERROR, "%s 0 file Len File %s", __func__, fullFileName.c_str() );
 			result = false;
 			break;
 		}
@@ -860,7 +864,7 @@ ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUI
 		{
 			if( !searchStr.empty() )
 			{
-				LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::searchRequest Warning search text was to short.. sending all files" );
+				LogMsg( LOG_VERBOSE, "%s Warning search text was to short.. sending all files", __func__ );
 			}
 
 			// all files list
@@ -982,7 +986,7 @@ bool FileInfoBaseMgr::startDownload( FileInfo& fileInfo, VxGUID& searchSessionId
 //============================================================================
 bool FileInfoBaseMgr::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::onFileDownloadComplete %s", fileName.c_str() );
+	LogMsg( LOG_VERBOSE, "%s %s", __func__, fileName.c_str() );
 	return m_Plugin.onFileDownloadComplete( onlineId, sktBase, lclSessionId, fileName, assetId, sha11Hash );
 }
 
@@ -1013,7 +1017,7 @@ void FileInfoBaseMgr::toGuiFileDownloadStart( VxGUID& onlineId, VxGUID& lclSessi
 //============================================================================
 void FileInfoBaseMgr::updateToGuiFileXferState( VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::toGuiFileXferState xferState %s xferErr %s param %d", DescribeXferState( xferState ), DescribeXferError( xferErr ), param );
+	LogMsg( LOG_VERBOSE, "%s xferState %s xferErr %s param %d", __func__, DescribeXferState( xferState ), DescribeXferError( xferErr ), param );
 	m_Plugin.toGuiFileXferState( lclSessionId, xferDir, xferState, xferErr, param );
 }
 
@@ -1050,12 +1054,12 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
 			else if( isLibraryServer() )
 			{
 				isInLibrary = true;
-				isShared = getEngine().fromGuiGetIsFileShared( fileInfo.getLocalFileName() );
+				isShared = getEngine().fromGuiGetIsFileShared( fileInfo );
 			}
 			else
 			{
 				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getLocalFileName() );
-				isShared = getEngine().fromGuiGetIsFileShared( fileInfo.getLocalFileName() );
+				isShared = getEngine().fromGuiGetIsFileShared( fileInfo );
 			}
 
 			fileInfo.setIsInLibrary( isInLibrary );
@@ -1073,9 +1077,10 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared )
+bool FileInfoBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfoIn, bool isShared )
 {
-	return fromGuiSetFileIsShared( fileInfo.getFullFileName(), isShared );
+	std::string fileName = fileInfoIn.getFullFileName();
+	return fromGuiSetFileIsShared( fileName, isShared );
 }
 
 //============================================================================
@@ -1083,7 +1088,7 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 {
 	if( fileName.empty() )
 	{
-		LogMsg( LOG_ERROR, "FileInfoBaseMgr::fromGuiSetFileIsShared empty file name" );
+		LogMsg( LOG_ERROR, "%s empty file name", __func__ );
 		return false;
 	}
 
@@ -1128,31 +1133,50 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 		if( (false == isAllowedFileOrDir( fileName ))
 			|| (0 == fileLen) )
 		{
-			LogMsg( LOG_ERROR, "FileInfoBaseMgr::fromGuiSetFileIsShared file does not exist or not allowed %s", fileName.c_str() );
+			LogMsg( LOG_ERROR, "%s file does not exist or not allowed %s", __func__, fileName.c_str() );
 			return false;
 		}
 
-		VxGUID newAssetId;
-		newAssetId.initializeWithNewVxGUID();
+		VxGUID assetId; 
+		getEngine().getAssetMgr().lockResources();
+		AssetBaseInfo* assetInfo = getEngine().getAssetMgr().findAsset( fileName );
+		if( assetInfo )
+		{
+			// if already exists as asset be sure to use the same asset id
+			assetInfo->setIsSharedFileAsset( isShared );
+			assetId = assetInfo->getAssetUniqueId();
+			getEngine().getAssetMgr().unlockResources();
+		}
+		else
+		{
+			getEngine().getAssetMgr().unlockResources();
+			assetId.initializeWithNewVxGUID();
+		}
 
-		return addFileToDbAndList( getEngine().getMyOnlineId(), fileName, newAssetId );
+		return addFileToDbAndList( getEngine().getMyOnlineId(), fileName, assetId );
 	}
 
 	return false;
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiGetIsFileShared( std::string& fileName )
+bool FileInfoBaseMgr::fromGuiRemoveSharedFile( FileInfo& fileInfo )
 {
-	return isFileShared( fileName );
+	m_FileInfoXferMgr.fileAboutToBeDeleted( fileInfo.getFullFileName() );
+
+	return fromGuiSetFileIsShared( fileInfo, false );
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiRemoveSharedFile( std::string& fileName )
+bool FileInfoBaseMgr::fromGuiGetFileIsShared( FileInfo& fileInfo )
 {
-	m_FileInfoXferMgr.fileAboutToBeDeleted( fileName );
+	return isFileShared( fileInfo.getFullFileName() );
+}
 
-	return fromGuiSetFileIsShared( fileName, false );
+//============================================================================
+bool FileInfoBaseMgr::fromGuiGetFileIsShared( std::string& fileName )
+{
+	return isFileShared( fileName );
 }
 
 //============================================================================

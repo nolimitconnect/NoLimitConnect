@@ -260,7 +260,15 @@ fpos_t VirtStreamMgr::fileTell( VFile* fp )
 //============================================================================
 VFile* VirtStreamMgr::virtFileOpen( std::string fileName, std::string fileMode )
 {
-	if( fileName != m_LiveStream.m_StreamAssetInfo.getAssetName() )
+	VxFileUtil::makeForwardSlashPath( fileName );
+
+	std::string streamFileName;
+	VxFileUtil::makeShortFileName( fileName.c_str(), streamFileName );
+
+	std::string assetFileName;
+	VxFileUtil::makeShortFileName( m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), assetFileName );
+
+	if( streamFileName != assetFileName )
 	{
 		LogMsg( LOG_ERROR, "%s fileName %s does not match asset name %s",
 				__func__, fileName.c_str(), m_LiveStream.m_StreamAssetInfo.getAssetName().c_str() );
@@ -375,8 +383,17 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 		unlockSteamMgr();
 		return retVal;
 	}
-		
+
 	int64_t readAttemptLen = size * count;
+	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
+	{
+		unlockSteamMgr();
+		LogModule( eLogMediaStream, LOG_ERROR, "%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, readAttemptLen );
+		return retVal;
+	}
+		
+
 	int64_t readLen = m_LiveStream.m_StreamCache.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
 	if( readLen == readAttemptLen )
 	{

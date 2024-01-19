@@ -423,7 +423,7 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 		std::string fileName = assetInfo.getAssetName();
 		if( isFileAsset )
 		{
-			fromGuiRemoveSharedFile( fileName );
+			fromGuiRemoveSharedFile( assetInfo.getFileInfo() );
 			fromGuiRemoveFromLibrary( fileName );	
 		}
 
@@ -1448,15 +1448,15 @@ bool P2PEngine::fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared )
 }
 
 //============================================================================
-bool P2PEngine::fromGuiGetIsFileShared( std::string& fileName )
+bool P2PEngine::fromGuiGetIsFileShared( FileInfo& fileInfo )
 {
-	return getPluginFileShareServer().fromGuiGetIsFileShared( fileName );
+	return getPluginFileShareServer().fromGuiGetFileIsShared( fileInfo );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiRemoveSharedFile( std::string& fileName )
+bool P2PEngine::fromGuiRemoveSharedFile( FileInfo& fileInfo )
 {
-	return getPluginFileShareServer().fromGuiRemoveSharedFile( fileName );
+	return getPluginFileShareServer().fromGuiRemoveSharedFile( fileInfo );
 }
 
 //============================================================================

@@ -320,11 +320,12 @@ public:
 	virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) = 0;
 	/// Send list of shared files to GUI
 	virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter ) = 0;
+
 	/// Share/Unshare a file
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool addFile ) = 0;
 	/// Return true if file is shared
-	virtual bool				fromGuiGetIsFileShared( std::string& fileName ) = 0;
-	virtual bool				fromGuiRemoveSharedFile( std::string& fileName ) = 0; // for remove before deletion
+    virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) = 0;
+    virtual bool				fromGuiRemoveSharedFile(FileInfo& fileInfo ) = 0; // for remove before deletion
 
 	/// Returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId ) = 0;

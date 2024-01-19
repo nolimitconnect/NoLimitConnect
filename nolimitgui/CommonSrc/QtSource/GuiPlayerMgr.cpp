@@ -12,6 +12,7 @@
 
 #include "ActivityBase.h"
 #include "AppCommon.h"
+#include "AppletPlayerStream.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -210,13 +211,9 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 		{
 			// launch the applet that plays this file
 			ActivityBase* applet = m_MyApp.launchApplet( appletType, &m_MyApp.getHomePage(), "", assetInfo.getAssetUniqueId() );
-			if( applet && applet->playMedia( assetInfo, pos0to100000 ) )
+			if( applet )
 			{
-				return true;
-			}
-			else
-			{
-				applet->closeApplet();
+				return applet->playMedia( assetInfo, pos0to100000 );
 			}
 		}
 	}

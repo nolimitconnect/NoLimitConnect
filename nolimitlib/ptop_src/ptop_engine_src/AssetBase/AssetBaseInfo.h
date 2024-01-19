@@ -189,8 +189,8 @@ public:
 public:
     //=== vars ===//
     EPluginType                 m_PluginType{ ePluginTypeInvalid };
-    std::string					m_AssetName{""}; // usually file name but can be message
-	std::string					m_AssetTag{""};
+    std::string					m_AssetName; // usually file name but can be message
+	std::string					m_AssetTag;
 	VxGUID						m_UniqueId;
 	VxGUID						m_HistoryId; 
     VxGUID						m_AdminId; 

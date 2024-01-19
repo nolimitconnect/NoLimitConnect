@@ -19,8 +19,11 @@ public:
 	virtual ~AssetMgr() = default;
 
 protected:
-    virtual AssetBaseInfo*     createAssetInfo( enum EAssetType assetType, const char* fileName, uint64_t fileLen ) override;
-    virtual AssetBaseInfo*     createAssetInfo( enum EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId ) override;
-    virtual AssetBaseInfo*     createAssetInfo( AssetBaseInfo& assetInfo ) override;
+	AssetBaseInfo*				createAssetInfo( AssetBaseInfo& assetInfo ) override;
+	AssetBaseInfo*				createAssetInfo( FileInfo& fileInfo ) override;
+
+	AssetBaseInfo*				createAssetInfo( enum EAssetType assetType, const char* fileName, uint64_t fileLen ) override;
+    AssetBaseInfo*				createAssetInfo( enum EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId ) override;
+
 };
 

@@ -45,13 +45,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="m_BrowseButton">
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="m_ReplayButton">
        <property name="text">
         <string>Play</string>

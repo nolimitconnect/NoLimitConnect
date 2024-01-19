@@ -641,15 +641,15 @@ bool INlc::fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared )
 }
 
 //============================================================================
-bool INlc::fromGuiGetIsFileShared( std::string& fileName )
+bool INlc::fromGuiGetIsFileShared( FileInfo& fileInfo )
 {
-    return getPtoP().fromGuiGetIsFileShared( fileName );
+    return getPtoP().fromGuiGetIsFileShared( fileInfo );
 }
 
 //============================================================================
-bool INlc::fromGuiRemoveSharedFile( std::string fileName )
+bool INlc::fromGuiRemoveSharedFile( FileInfo& fileInfo )
 {
-    return getPtoP().fromGuiRemoveSharedFile( fileName );
+    return getPtoP().fromGuiRemoveSharedFile( fileInfo );
 }
 
 //============================================================================

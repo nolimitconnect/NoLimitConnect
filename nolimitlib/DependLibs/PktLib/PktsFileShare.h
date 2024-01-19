@@ -289,6 +289,12 @@ class PktFileChunkReq : public VxPktHdr
 public:
 	PktFileChunkReq();
 	uint16_t					emptyLength( void );
+
+	uint8_t*					getChunkBuffer( void )							{ return m_au8FileChunk; }
+
+	void						setChunkOffset( uint64_t chunkOffs )			{ m_ChunkOffs = chunkOffs; }
+	uint64_t					getChunkOffset( void )							{ return m_ChunkOffs; }
+
 	void						setChunkLen( uint16_t u16ChunkLen );
 	uint16_t					getChunkLen( void );
 
@@ -318,6 +324,9 @@ private:
 	VxGUID						m_AssetId;
 	uint32_t					m_u32Error{ 0 }; 
 	uint32_t					m_u32Res1{ 0 }; 
+	uint64_t					m_ChunkOffs{ 0 };
+	uint64_t					m_u64Res2{ 0 };
+
 public:
 	uint8_t						m_au8FileChunk[ PKT_TYPE_FILE_MAX_DATA_LEN ];
 };
@@ -326,6 +335,9 @@ class PktFileChunkReply : public VxPktHdr
 {
 public:
 	PktFileChunkReply();
+
+	void						setChunkOffset( uint64_t chunkOffs )			{ m_ChunkOffs = chunkOffs; }
+	uint64_t					getChunkOffset( void )							{ return m_ChunkOffs; }
 
 	void						setLclSessionId( VxGUID& lclId )				{ m_LclSessionId = lclId; }
 	VxGUID&						getLclSessionId( void )							{ return m_LclSessionId; }
@@ -352,6 +364,8 @@ private:
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetId;
 	uint32_t					m_u32Error{ 0 };
+	uint64_t					m_ChunkOffs{ 0 };
+	uint64_t					m_u64Res2{ 0 };
 };
 
 //============================================================================

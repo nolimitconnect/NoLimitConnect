@@ -552,8 +552,8 @@ public:
     virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
     virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter );
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool addFisSharedile );
-    virtual bool				fromGuiGetIsFileShared( std::string& fileName );
-    virtual bool				fromGuiRemoveSharedFile( std::string fileName ); // for remove before deletion
+    virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo );
+    virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ); // for remove before deletion
 
     virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId );
     virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary );

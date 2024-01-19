@@ -120,11 +120,13 @@ bool PluginBaseFiles::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMa
 			if ( 0 != ( fileFilterMask & vxFileInfo.getFileType() ) )
 			{
 				LogMsg( LOG_VERBOSE, "PluginBaseFiles::fromGuiBrowseFiles sending file %d %s", fileNum, vxFileInfo.getFileName().c_str() );
-				bool isShared = m_Engine.fromGuiGetIsFileShared( vxFileInfo.getFileName() );
-				bool isInLibrary = m_Engine.fromGuiGetIsFileInLibrary( vxFileInfo.getFileName() );
 
 				FileInfo fileInfo( m_Engine.getMyOnlineId(), vxFileInfo.getFileName(), vxFileInfo.getFileLength(),
 					vxFileInfo.getFileType(), VxGUID::nullVxGUID() );
+
+				bool isShared = m_Engine.fromGuiGetIsFileShared( fileInfo );
+				bool isInLibrary = m_Engine.fromGuiGetIsFileInLibrary( vxFileInfo.getFileName() );
+
 				fileInfo.setIsInLibrary( isInLibrary );
 				fileInfo.setIsSharedFile( isShared );
 
@@ -172,9 +174,15 @@ bool PluginBaseFiles::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiRemoveSharedFile( std::string& fileName )
+bool PluginBaseFiles::fromGuiGetFileIsShared( FileInfo& fileInfo )
 {
-	return m_FileInfoMgr.fromGuiRemoveSharedFile( fileName );
+	return m_FileInfoMgr.fromGuiGetFileIsShared( fileInfo );
+}
+
+//============================================================================
+bool PluginBaseFiles::fromGuiRemoveSharedFile( FileInfo& fileInfo )
+{
+	return m_FileInfoMgr.fromGuiRemoveSharedFile( fileInfo );
 }
 
 //============================================================================

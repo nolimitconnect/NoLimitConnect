@@ -14,10 +14,12 @@
 #include "AssetBaseCallbackInterface.h"
 
 #include <P2PEngine/P2PEngine.h>
+
 #include <AssetMgr/AssetInfoDb.h>
 #include <BlobXferMgr/BlobInfoDb.h>
 #include <ThumbMgr/ThumbInfoDb.h>
 #include <Plugins/FileInfo.h>
+#include <Plugins/PluginFileShareServer.h>
 
 #include <GuiInterface/IToGui.h>
 
@@ -480,12 +482,20 @@ AssetBaseInfo* AssetBaseMgr::createAssetInfo( EAssetType assetType, const char* 
 }
 
 //============================================================================
+AssetBaseInfo* AssetBaseMgr::createAssetInfo( FileInfo& fileInfo )
+{
+	AssetBaseInfo* assetInfo = new AssetBaseInfo( fileInfo );
+	assetInfo->assureHasCreatorId();
+	return assetInfo;
+}
+
+//============================================================================
 AssetBaseInfo* AssetBaseMgr::createAssetInfo( 	EAssetType      assetType, 
-                                                const char*	fileName, 
+                                                const char*		fileName, 
 										        VxGUID&			assetId,  
 										        uint8_t *	    hashId, 
 										        EAssetLocation	locationFlags, 
-										        const char*	assetTag, 
+										        const char*		assetTag, 
                                                 int64_t			timestamp )
 {
 	uint64_t  fileLen = VxFileUtil::getFileLen( fileName );
@@ -933,15 +943,15 @@ void AssetBaseMgr::clearAssetFileListPackets( void )
 }
 
 //============================================================================
-bool AssetBaseMgr::fromGuiSetFileIsShared( std::string fileName, bool shareFile, uint8_t * fileHashId )
+bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 {
 	lockResources();
-	AssetBaseInfo* assetInfo = findAsset( fileName );
+	AssetBaseInfo* assetInfo = findAsset( fileInfo.getAssetId() );
 	if( assetInfo )
 	{
-		if( ( false == shareFile ) && assetInfo->isSharedFileAsset() )
+		if( shareFile != assetInfo->isSharedFileAsset() )
 		{
-			assetInfo->setIsSharedFileAsset( false );
+			assetInfo->setIsSharedFileAsset( shareFile );
 			updateDatabase( assetInfo );
 			unlockResources();
 			updateAssetFileTypes();
@@ -956,9 +966,10 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( std::string fileName, bool shareFile,
 	{
 		// file is not currently AssetBase and should be
 		VxGUID guid;
-		AssetBaseInfo* assetInfo = createAssetInfo( VxFileNameToAssetType( fileName ), fileName.c_str(), guid, fileHashId, eAssetLocShared );
+		AssetBaseInfo* assetInfo = createAssetInfo( fileInfo );
 		if( assetInfo )
 		{
+			assetInfo->setIsSharedFileAsset( true );
 			insertNewInfo( assetInfo );
 		}
 	}
@@ -1287,18 +1298,66 @@ void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileName, int64_t file
 
 	unlockResources();
 }
+
 //============================================================================
 void AssetBaseMgr::getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets )
 {
 	streamableAssets.clear();
+	PluginFileShareServer& pluginFileShareServer = m_Engine.getPluginFileShareServer();
 	lockResources();
 	for( auto* assetInfo : m_AssetBaseInfoList )
 	{
-		if( assetInfo->getIsAssetStreamable() && assetInfo->isSharedFileAsset() )
+		if( assetInfo->getIsAssetStreamable() && pluginFileShareServer.fromGuiGetFileIsShared( assetInfo->getFileInfo() ) )
 		{
+			// FIXME TODO keep in sync
+			if( !assetInfo->isSharedFileAsset() )
+			{
+				LogMsg( LOG_WARN, "%s shared asset flag was not set", __func__ );
+				assetInfo->setIsSharedFileAsset( true );
+				updateDatabase( assetInfo );
+			}
+
 			streamableAssets.emplace_back( *assetInfo );
 		}
 	}
+
+	unlockResources();
+}
+
+//============================================================================
+void AssetBaseMgr::getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles )
+{
+	sharedFiles.clear();
+	int assetIdx{ 0 };
+	PluginFileShareServer& pluginFileShareServer = m_Engine.getPluginFileShareServer();
+	lockResources();
+	for( auto* assetInfo : m_AssetBaseInfoList )
+	{
+		if( assetInfo->isPhotoAsset() || assetInfo->isVideoAsset() || assetInfo->isAudioAsset() )
+		{
+			if( pluginFileShareServer.fromGuiGetFileIsShared( assetInfo->getFileInfo() ) )
+			{
+				// FIXME TODO keep in sync
+				if( !assetInfo->isSharedFileAsset() )
+				{
+					LogMsg( LOG_WARN, "%s shared asset flag was not set", __func__ );
+					assetInfo->setIsSharedFileAsset( true );
+					updateDatabase( assetInfo );
+				}
+
+				sharedFiles.emplace_back( *assetInfo );
+				assetIdx++;
+			}
+			else if( assetInfo->isSharedFileAsset() )
+			{
+				LogMsg( LOG_WARN, "%s shared asset flag WAS set", __func__ );
+				assetInfo->setIsSharedFileAsset( false );
+				updateDatabase( assetInfo );
+			}
+		}
+	}
+
+	LogMsg( LOG_VERBOSE, "%s %d of %d assets are shared", __func__, assetIdx, m_AssetBaseInfoList.size() );
 
 	unlockResources();
 }

@@ -51,6 +51,7 @@ enum EApplet
     eAppletPersonalRecorder,
     eAppletLibrary,
     eAppletPlayerNlc,
+    eAppletPlayerStream, // temp for debugging.. really belongs in the not launched by user category
     eAppletDownloads,
     eAppletUploads,
     eAppletShareServicesPage,       // page to setup share with others services
@@ -70,8 +71,6 @@ enum EApplet
     eAppletUserConnections,
     eAppletSocketList,
     eAppletHackerList,
-
-    eAppletPlayerStream, // temp for debugging.. really belongs in the not launched by user category
 
     eMaxSettingsApplets,            // marker.. end of settings applets.. past here is search applets
 

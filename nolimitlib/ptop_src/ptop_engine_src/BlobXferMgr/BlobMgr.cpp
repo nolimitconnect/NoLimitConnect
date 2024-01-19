@@ -54,3 +54,11 @@ AssetBaseInfo* BlobMgr::createAssetInfo( AssetBaseInfo& assetInfo )
     assetInfoNew->assureHasCreatorId();
     return assetInfoNew;
 }
+
+//============================================================================
+AssetBaseInfo* BlobMgr::createAssetInfo( FileInfo& fileInfo )
+{
+    BlobInfo* assetInfoNew = new BlobInfo( fileInfo );
+    assetInfoNew->assureHasCreatorId();
+    return assetInfoNew;
+}

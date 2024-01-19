@@ -66,10 +66,13 @@ public:
 
 	virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter );
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
+	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
 	virtual bool				fromGuiSetFileIsShared( std::string& fileName, bool isShared );
-	virtual bool				fromGuiGetIsFileShared( std::string& fileName );
-	virtual bool				fromGuiRemoveSharedFile( std::string& fileName );
+	virtual bool				fromGuiGetFileIsShared( std::string& fileName );
 	virtual bool				fromGuiAddSharedFile( FileInfo& fileInfo, bool isShared );
+	virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo );
+
+
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
 	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash );
 

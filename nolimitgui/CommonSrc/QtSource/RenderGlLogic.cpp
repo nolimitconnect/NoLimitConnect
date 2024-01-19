@@ -179,20 +179,40 @@ void RenderGlLogic::setSurfaceSize( QSize surfaceSize )
     {
         m_RenderThreadSurface->setSurfaceSize( surfaceSize );
     }
+    else
+    {
+        if( m_RenderThreadSurface )
+        {
+            LogMsg( LOG_ERROR, "%s no surface available", __func__ );
+            vx_assert( false );
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "%s bad size param w%d h%d", __func__, surfaceSize.width(), surfaceSize.height() );
+            vx_assert( false );
+        }
+    }
 }
 
 //============================================================================
 bool RenderGlLogic::initRenderGlSystem()
 {
-    LogMsg( LOG_DEBUG, "initRenderGlSystem thread %d", VxGetCurrentThreadId() );
+    LogMsg( LOG_DEBUG, "%s thread %d", __func__, VxGetCurrentThreadId() );
+
     if( m_RenderThreadSurface )
     {
         m_RenderThreadSurface->initRenderGlSystem();
+        VerifyGLStateQt();
+        m_RenderRunning = true;
+        LogMsg( LOG_DEBUG, "%s initialized", __func__ );
+        return true;
     }
-
-    VerifyGLStateQt();
-    m_RenderRunning = true;
-    return true;
+    else
+    {
+        LogMsg( LOG_ERROR, "%s no surface available", __func__ );
+        vx_assert( false );
+        return false;
+    }
 }
 
 //============================================================================

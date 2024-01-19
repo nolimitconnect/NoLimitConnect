@@ -40,3 +40,11 @@ AssetBaseInfo* AssetMgr::createAssetInfo( AssetBaseInfo& assetInfo )
     assetInfoNew->assureHasCreatorId();
     return assetInfoNew;
 }
+
+//============================================================================
+AssetBaseInfo* AssetMgr::createAssetInfo( FileInfo& fileInfo )
+{
+    AssetInfo* assetInfoNew = new AssetInfo( fileInfo );
+    assetInfoNew->assureHasCreatorId();
+    return assetInfoNew;
+}

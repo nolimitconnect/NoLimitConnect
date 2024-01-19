@@ -72,6 +72,14 @@ AssetBaseInfo* ThumbMgr::createAssetInfo( AssetBaseInfo& assetInfo )
 }
 
 //============================================================================
+AssetBaseInfo* ThumbMgr::createAssetInfo( FileInfo& fileInfo )
+{
+    ThumbInfo* assetInfoNew = new ThumbInfo( fileInfo );
+    assetInfoNew->assureHasCreatorId();
+    return assetInfoNew;
+}
+
+//============================================================================
 void ThumbMgr::fromGuiUserLoggedOn( void )
 {
     // dont call AssetBaseMgr::fromGuiUserLoggedOn because we never generate sha hash for thumbnails

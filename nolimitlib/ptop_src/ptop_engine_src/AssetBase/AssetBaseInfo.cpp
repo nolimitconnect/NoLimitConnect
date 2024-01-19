@@ -59,6 +59,7 @@ AssetBaseInfo::AssetBaseInfo( const AssetBaseInfo& rhs )
 , m_AssetSendState( rhs.m_AssetSendState )
 , m_PlayPosition0to100000( rhs.m_PlayPosition0to100000 )
 , m_DestOnlineId( rhs.m_DestOnlineId )
+, m_IsStreaming( rhs.m_IsStreaming )
 {   
 	m_UniqueId.assureIsValidGUID();
 }
@@ -281,6 +282,7 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
         m_PlayPosition0to100000     = rhs.m_PlayPosition0to100000;
 
 		m_DestOnlineId				= rhs.m_DestOnlineId;
+		m_IsStreaming				= rhs.m_IsStreaming;
 	}
 
 	return *this;

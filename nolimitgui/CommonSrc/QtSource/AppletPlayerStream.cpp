@@ -64,6 +64,7 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 #if defined(DEBUG)
 
+	ui.m_ReplayButton->setEnabled( false );
 	ui.m_StreamsComboBox->setEnabled( false ); // do not enable until media player is ready
 	ui.m_StreamsComboBox->addItem( "Debug Streams" );
 
@@ -84,7 +85,7 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 	connect( ui.m_StreamsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaStreamComboBoxSelectionChange(int)) );
 
-	connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButtonClick() ) );
+	connect( ui.m_ReplayButton, SIGNAL( clicked() ), this, SLOT( slotPlayButtonClick() ) );
 
 	onAppletInitialized();
 }
@@ -167,10 +168,15 @@ void AppletPlayerStream::slotMediaStreamComboBoxSelectionChange( int cbIdx )
 bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	AppletPlayerBase::setAssetInfo( assetInfo );
-#if ENABLE_NLC_PLAYER_STREAMS
+	if( assetInfo.getIsStream() )
+	{
+		VxGUID lclSessionId;
+		lclSessionId.initializeWithNewVxGUID();
+		return playStream( assetInfo, lclSessionId, pos0to100000 );
+	}
+
+
 	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
-#endif // ENABLE_NLC_PLAYER_STREAMS
-	return true;
 }
 
 //============================================================================
@@ -226,15 +232,30 @@ void AppletPlayerStream::stopMediaIfPlaying( void )
 
 
 //============================================================================
-void AppletPlayerStream::slotBrowseButtonClick( void )
+void AppletPlayerStream::slotPlayButtonClick( void )
 {
-    //ActivityBrowseStreams dlg( m_MyApp, eStreamFilterVideo, this, true );
+	if( !ui.m_ReplayButton->isEnabled() )
+	{
+		return;
+	}
 
-    //dlg.exec();
-    //if( dlg.getWasStreamSelected() )
-    //{
-    //    onStreamSelected( dlg.getSelectedStreamInfo() );
-    //}
+	int cbIdx = ui.m_StreamsComboBox->currentIndex();
+	if( cbIdx < 1 )
+	{
+		return;
+	}
+
+	cbIdx--;
+	
+	if( cbIdx >= m_StreamableAssets.size() )
+	{
+		LogMsg( LOG_ERROR, "%s invalid combo box index", __func__ );
+		return;
+	}
+
+	VxGUID lclSessionId;
+	lclSessionId.initializeWithNewVxGUID();
+	m_MyApp.getPlayerMgr().playStream( m_StreamableAssets.at(cbIdx), lclSessionId, 0 );
 }
 
 //============================================================================
@@ -243,5 +264,6 @@ void AppletPlayerStream::onMediaPlayerNlcReady( bool isReady )
 	if( isReady )
 	{
 		ui.m_StreamsComboBox->setEnabled( isReady );
+		ui.m_ReplayButton->setEnabled( isReady );
 	}
 }

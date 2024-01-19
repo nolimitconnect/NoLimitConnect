@@ -18,6 +18,8 @@
 
 #include <NetLib/VxSktBase.h>
 
+#include <PktLib/PktsStreamCtrl.h>
+
 //============================================================================
 VirtFileMgr& GetVirtFileMgr()
 {
@@ -28,7 +30,7 @@ VirtFileMgr& GetVirtFileMgr()
 //============================================================================
 VirtStreamMgr& GetVirtStreamMgr( void )
 {
-	return (VirtStreamMgr&)GetVirtFileMgr;
+	return (VirtStreamMgr&)GetVirtFileMgr();
 }
 
 //============================================================================
@@ -68,6 +70,33 @@ bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
 }
 
 //============================================================================
+bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
+{
+	bool result{ false };
+	//const double maxTimeoutMs = 12000;
+	const double maxTimeoutMs = 800000; // temp for debug
+	VxTimer timer;
+	while( timer.elapsedMs() < maxTimeoutMs && !m_LiveStream.m_Error )
+	{
+		if( m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
+		{
+			result = true;
+			break;
+		}
+
+		VxSleep( 400 );
+	}
+	
+	if( !result )
+	{
+		LogModule( eLogMediaStream, LOG_ERROR, "%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), fileOffset, readLen );
+	}
+
+	return result;
+}
+
+//============================================================================
 void VirtStreamMgr::onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	switch( pktHdr->getPktType() )
@@ -100,29 +129,38 @@ void VirtStreamMgr::onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void VirtStreamMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-
+	PktFileGetReply* pktReply = (PktFileGetReply*)pktHdr;
+	
 }
 
 //============================================================================
-void VirtStreamMgr::onPktFileChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+void VirtStreamMgr::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
+	PktFileChunkReq* pktReq = (PktFileChunkReq*)pktHdr;
+	VxGUID rmtSessionId = pktReq->getRmtSessionId();
+	if( rmtSessionId != m_LiveStream.m_StreamSessionId )
+	{
+		return;
+	}
 
+	m_LiveStream.m_StreamCache.writeData( pktReq->getChunkOffset(), (char*)pktReq->getChunkBuffer(), pktReq->getDataLen() );
 }
 
 //============================================================================
-void VirtStreamMgr::onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+void VirtStreamMgr::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-
+	PktFileGetCompleteReply* pktReply = (PktFileGetCompleteReply*)pktHdr;
 }
 
 //============================================================================
-void VirtStreamMgr::onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+void VirtStreamMgr::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-
+	PktFileShareErr* pktReply = (PktFileShareErr*)pktHdr;
 }
 
 //============================================================================
-void VirtStreamMgr::onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+void VirtStreamMgr::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
+	PktStreamCtrlReply* pktReply = (PktStreamCtrlReply*)pktHdr;
 
 }

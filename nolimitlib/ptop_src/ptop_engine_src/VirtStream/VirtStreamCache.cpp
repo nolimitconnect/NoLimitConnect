@@ -105,7 +105,7 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 
 	int64_t lenWritten{ 0 };
 	lockCache();
-	if( offset != 0 && offset != m_CacheEndOffs + 1 )
+	if( offset != 0 && offset != m_CacheEndOffs )
 	{
 		LogModule( eLogMediaStream, LOG_WARN, "%s data is not consistent.. flushing cashe", __func__ );
 		clearCache( true );
@@ -117,8 +117,8 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 		VirtCache* cache = new VirtCache();
 		int64_t lenThisCache = cache->writeData( offset + lenWritten, &data[lenWritten], len );
 		lenWritten += lenThisCache;
-		m_CacheEndOffs += lenThisCache;
 		m_VirtCache.emplace_back( cache );
+		m_CacheEndOffs += lenThisCache;
 	}
 
 	unlockCache();
@@ -129,7 +129,7 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 {
 	int64_t lenRead = 0;
-	bool foundData;
+	bool foundData{ false };
 	lockCache();
 	for( auto virtCache : m_VirtCache )
 	{

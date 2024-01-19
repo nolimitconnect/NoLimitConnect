@@ -102,18 +102,6 @@ public:
 	/// Update contact to online state GUI
 	virtual void				toGuiContactOnline( VxNetIdent* netIdent ) = 0;
 
-	///// Notify GUI that contact changed his/her online name
-	//virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) = 0;
-	///// Notify GUI that contact changed his/her mood message
-	//virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) = 0;
-	///// Notify GUI that permission level given by you to contact or contact to you has changed
-	//virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) = 0;
-
-	///// Notify GUI that contacts search flags changed
-	//virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) = 0;
-
-	///// Notify GUI that contact changed one or more of his/her plugins permission level required to access his/her plugin
-	//virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) = 0;
 	/// Notify GUI that contact info of any type changed
 	virtual void				toGuiContactAnythingChange( VxNetIdent* netIdent ) = 0;
 
