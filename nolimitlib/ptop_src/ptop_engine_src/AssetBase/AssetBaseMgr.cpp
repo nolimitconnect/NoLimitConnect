@@ -1307,7 +1307,8 @@ void AssetBaseMgr::getStreamableAssets( std::vector<AssetBaseInfo>& streamableAs
 	lockResources();
 	for( auto* assetInfo : m_AssetBaseInfoList )
 	{
-		if( assetInfo->getIsAssetStreamable() && pluginFileShareServer.fromGuiGetFileIsShared( assetInfo->getFileInfo() ) )
+        FileInfo fileInfo = assetInfo->getFileInfo();
+        if( assetInfo->getIsAssetStreamable() && pluginFileShareServer.fromGuiGetFileIsShared( fileInfo ) )
 		{
 			// FIXME TODO keep in sync
 			if( !assetInfo->isSharedFileAsset() )
@@ -1335,7 +1336,8 @@ void AssetBaseMgr::getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles )
 	{
 		if( assetInfo->isPhotoAsset() || assetInfo->isVideoAsset() || assetInfo->isAudioAsset() )
 		{
-			if( pluginFileShareServer.fromGuiGetFileIsShared( assetInfo->getFileInfo() ) )
+            FileInfo fileInfo = assetInfo->getFileInfo();
+            if( pluginFileShareServer.fromGuiGetFileIsShared( fileInfo ) )
 			{
 				// FIXME TODO keep in sync
 				if( !assetInfo->isSharedFileAsset() )

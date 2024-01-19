@@ -40,6 +40,8 @@ protected slots:
 
 	void						slotPlayButtonClick( void );
 
+	void						slotAppletClosing( void );
+
 protected:
 	void						initAppletPlayerStream( void );
 
@@ -51,6 +53,9 @@ protected:
 	void						stopMediaIfPlaying( void );
 
 	void                        setupBottomMenu( VxMenuButton* menuButton );
+
+	void						onPlaybackStopped( VxGUID& feedId ) override;
+	void						onPlaybackEnded( VxGUID& feedId ) override;
 
 
 	//=== vars ===//
@@ -64,6 +69,7 @@ protected:
 	QElapsedTimer				m_ElapsedTimer;
 
 	std::vector<AssetBaseInfo>	m_StreamableAssets;
+	VxGUID						m_LclSessionId;
 };
 
 

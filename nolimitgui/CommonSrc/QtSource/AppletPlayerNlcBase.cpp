@@ -344,6 +344,7 @@ void AppletPlayerNlcBase::fromMediaPlayerStopPlaying( VxGUID& feedId )
 void AppletPlayerNlcBase::slotInternalStopPlaying( VxGUID feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalStopPlaying" );
+	onStopPlaying( feedId );
 }
 
 //============================================================================
@@ -356,6 +357,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackStopped( VxGUID& feedId )
 void AppletPlayerNlcBase::slotInternalPlaybackStopped( VxGUID feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalStopPlaying" );
+	onPlaybackStopped( feedId );
 }
 
 //============================================================================
@@ -368,6 +370,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackEnded( VxGUID& feedId )
 void AppletPlayerNlcBase::slotInternalPlaybackEnded( VxGUID feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalPlaybackEnded" );
+	onPlaybackEnded( feedId );
 }
 
 

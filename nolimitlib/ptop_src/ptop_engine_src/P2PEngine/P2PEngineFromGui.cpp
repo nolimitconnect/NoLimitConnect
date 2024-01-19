@@ -423,7 +423,8 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 		std::string fileName = assetInfo.getAssetName();
 		if( isFileAsset )
 		{
-			fromGuiRemoveSharedFile( assetInfo.getFileInfo() );
+            FileInfo fileInfo = assetInfo.getFileInfo();
+            fromGuiRemoveSharedFile( fileInfo );
 			fromGuiRemoveFromLibrary( fileName );	
 		}
 

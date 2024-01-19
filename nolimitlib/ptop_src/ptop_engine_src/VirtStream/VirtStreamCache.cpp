@@ -15,13 +15,22 @@
 //============================================================================
 int64_t VirtCache::hasData( int64_t offset, int64_t len ) // return true if has any of the data
 {
-	int64_t lenInCache = 0;
+	int64_t lenInCache{ 0 };
+	int64_t endPoint = offset + len;
 	if( m_CacheStartOffs <= offset && m_CacheEndOffs > offset )
 	{
-		int64_t bufOffs = offset - m_CacheStartOffs;
-		lenInCache = std::min( len, m_CacheEndOffs - bufOffs );
+		lenInCache = std::min( len, m_CacheEndOffs - offset );
 	}
-	
+	else if( m_CacheStartOffs <= endPoint && m_CacheEndOffs > endPoint )
+	{
+		lenInCache = std::min( len, endPoint - m_CacheStartOffs );
+	}
+
+	if( lenInCache && lenInCache != len )
+	{
+		LogMsg( LOG_VERBOSE, "VirtCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offs 0x%" PRIx64 "", __func__, lenInCache, len, offset);
+	}
+
 	return lenInCache;
 }
 
@@ -37,10 +46,27 @@ int64_t VirtCache::writeData( int64_t offset, char* data, int64_t dataLen )
 //============================================================================
 int64_t VirtCache::readData( int64_t offset, char* data, int64_t len )
 {
-	int64_t buffOffs = offset - m_CacheStartOffs;
-	int64_t lenToRead = std::min( len, m_CacheEndOffs - buffOffs );
-	memcpy( data, &m_Buf[buffOffs], lenToRead );
-	return lenToRead;
+	int64_t lenInCache{ 0 };
+	int64_t endPoint = offset + len;
+	if( m_CacheStartOffs <= offset && m_CacheEndOffs > offset )
+	{
+		lenInCache = std::min( len, m_CacheEndOffs - offset );
+		int64_t buffOffs = offset - m_CacheStartOffs;
+		memcpy( data, &m_Buf[buffOffs], lenInCache );
+	}
+	else if( m_CacheStartOffs <= endPoint && m_CacheEndOffs > endPoint )
+	{
+		lenInCache = std::min( len, endPoint - m_CacheStartOffs );
+		int64_t buffOffs = endPoint - m_CacheStartOffs;
+		memcpy( data, &m_Buf[buffOffs], lenInCache );
+	}
+
+	if( lenInCache != len )
+	{
+		LogMsg( LOG_VERBOSE, "VirtCache::%s read 0x%" PRIx64 " of len 0x%" PRIx64 " at offs 0x%" PRIx64 "", __func__, lenInCache, len, offset);
+	}
+
+	return lenInCache;
 }
 
 //============================================================================
@@ -80,15 +106,24 @@ void VirtStreamCache::clearCache( bool isLocked )
 //============================================================================
 int64_t VirtStreamCache::hasData( int64_t offset, int64_t len )
 {
-	int64_t lenInCache = 0;
+	int64_t lenInCache{ 0 };
+	int64_t endPoint = offset + len;
 	lockCache();
 	if( m_CacheStartOffs <= offset && m_CacheEndOffs > offset )
 	{
-		int64_t bufOffs = offset - m_CacheStartOffs;
-		lenInCache = std::min( len, m_CacheEndOffs - bufOffs );
+		lenInCache = std::min( len, m_CacheEndOffs - offset );
+	}
+	else if( m_CacheStartOffs <= endPoint && m_CacheEndOffs > endPoint )
+	{
+		lenInCache = std::min( len, endPoint - m_CacheStartOffs );
 	}
 
 	unlockCache();
+
+	if( lenInCache && lenInCache != len )
+	{
+		LogMsg( LOG_VERBOSE, "VirtStreamCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offset 0x%" PRIx64 "", __func__, lenInCache, len, offset);
+	}
 
 	return lenInCache;
 }
@@ -98,7 +133,7 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 {
 	if( hasData( offset, len ) )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "%s data already exist", __func__ );
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamCache::%s data already exist", __func__ );
 		vx_assert( false );
 		return false;
 	}
@@ -107,7 +142,7 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 	lockCache();
 	if( offset != 0 && offset != m_CacheEndOffs )
 	{
-		LogModule( eLogMediaStream, LOG_WARN, "%s data is not consistent.. flushing cashe", __func__ );
+		LogModule( eLogMediaStream, LOG_WARN, "VirtStreamCache::%s data is not consistent.. flushing cache", __func__ );
 		clearCache( true );
 		m_CacheStartOffs = offset;
 	}
@@ -130,6 +165,13 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 {
 	int64_t lenRead = 0;
 	bool foundData{ false };
+
+	int64_t lenInBuf = hasData( offset, len );
+	if( len != lenInBuf )
+	{
+		LogMsg( LOG_VERBOSE, "VirtStreamCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offset 0x%" PRIx64, __func__, lenInBuf, len, offset );
+	}
+
 	lockCache();
 	for( auto virtCache : m_VirtCache )
 	{
@@ -140,7 +182,7 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 			int64_t dataReadThisCache = virtCache->readData( offset + lenRead, &data[lenRead], maxRead );
 			if( !dataReadThisCache )
 			{
-				LogMsg( LOG_ERROR, "%s faild to read from cache that has data", __func__ );
+				LogMsg( LOG_ERROR, "VirtStreamCache::%s failed to read from cache that has data", __func__ );
 				vx_assert( false );
 				unlockCache();
 				return 0;
@@ -152,13 +194,13 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 		}
 		else if( foundData )
 		{
-			LogModule( eLogMediaStream, LOG_WARN, "%s only %" PRId64 " of data in the cache", __func__, lenRead );
+			LogModule( eLogMediaStream, LOG_WARN, "VirtStreamCache::%s only 0x%" PRIx64 " of data in the cache", __func__, lenRead );
 			break;
 		}
 
 		if( lenRead > len )
 		{
-			LogMsg( LOG_ERROR, "%s read more data than specified", __func__ );
+			LogMsg( LOG_ERROR, "VirtStreamCache::%s read more data than specified", __func__ );
 			vx_assert( false );
 			unlockCache();
 			return 0;
@@ -171,6 +213,10 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 	}
 
 	unlockCache();
+	if( len != lenInBuf )
+	{
+		LogMsg( LOG_VERBOSE, "VirtStreamCache::%s read 0x%" PRIx64 " of len 0x%" PRIx64, __func__, lenRead, len );
+	}
 
 	return lenRead;
 }

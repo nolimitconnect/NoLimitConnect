@@ -100,6 +100,10 @@ protected:
 
 	bool						waitForPlayerThread( void );
 
+	virtual void				onStopPlaying( VxGUID& feedId ) {};
+	virtual void				onPlaybackStopped( VxGUID& feedId ) {};
+	virtual void				onPlaybackEnded( VxGUID& feedId ) {};
+
 private:
 	void						callbackGuiMediaPlayerNlcReady( bool isReady ) override;
 

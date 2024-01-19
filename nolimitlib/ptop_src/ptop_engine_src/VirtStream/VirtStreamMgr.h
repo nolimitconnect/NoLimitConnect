@@ -17,6 +17,7 @@
 #include <CoreLib/VirtFileMgr.h>
 
 #include <vector>
+#include <atomic>
 
 class P2PEngine;
 class VirtStreamFile;
@@ -44,6 +45,12 @@ public:
 	fpos_t						fileTell( VFile* fp ) override;
 
 	virtual bool				fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
+
+	void						setIsPlaying( bool isPlaying )		{ m_IsPlaying = isPlaying; }
+	bool						getIsPlaying( void )				{ return m_IsPlaying; }
+
+	void						onPlaybackStopped( VxGUID& feedId );
+	void						onPlaybackEnded( VxGUID& feedId );
 
 protected:
 	void						lockSteamMgr() { m_StreamMgrMutex.lock(); }
@@ -73,6 +80,8 @@ protected:
 	bool						waitForStream( int64_t fileOffs, int64_t readLen );
 	bool						sendStreamSeek( int64_t newPos );
 
+	bool						verifyCacheData( int64_t fileOffs, uint8_t* buf, int64_t dataLen );
+
 	void						onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
 	virtual void				onPktFileGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
@@ -92,6 +101,8 @@ protected:
 	VxMutex						m_StreamMgrMutex;
 
 	VirtStreamFile				m_LiveStream;
+
+	std::atomic_bool			m_IsPlaying;
 };
 
 extern VirtStreamMgr& GetVirtStreamMgr( void );

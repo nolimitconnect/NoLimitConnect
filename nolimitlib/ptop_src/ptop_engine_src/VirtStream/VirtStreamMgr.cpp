@@ -45,13 +45,18 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 {
 	// called just before the media player starts playing stream
 
+	lockSteamMgr();
 	m_LiveStream.m_StreamAssetInfo = assetInfo;
 	m_LiveStream.m_StreamAssetInfo.setIsStream( true );
 	m_LiveStream.m_StreamSessionId = lclSessionId;
 	if( !m_LiveStream.setConnection( m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( assetInfo.getDestUserId() ) ) )
 	{
+		unlockSteamMgr();
 		return false;
 	}
+
+	unlockSteamMgr();
+	setIsPlaying( true );
 
 	m_Plugin.wantFileXferCallback( this, true );
 	if( !m_Plugin.startStream( m_LiveStream.getConnection(), m_LiveStream.m_StreamAssetInfo, m_LiveStream.m_StreamSessionId ) )
@@ -73,18 +78,37 @@ bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
 bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 {
 	bool result{ false };
-	//const double maxTimeoutMs = 12000;
-	const double maxTimeoutMs = 800000; // temp for debug
+	const double maxTimeoutMs = 20000;
+	//const double maxTimeoutMs = 800000; // temp for debug
 	VxTimer timer;
 	while( timer.elapsedMs() < maxTimeoutMs && !m_LiveStream.m_Error )
 	{
-		if( m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
+		if( readLen == m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
 		{
 			result = true;
 			break;
 		}
 
-		VxSleep( 400 );
+		if( !getIsPlaying() )
+		{
+			LogMsg( LOG_WARN, "VirtStreamMgr::%s play steam stopped", __func__ );
+			return false;
+		}
+
+		if( !m_LiveStream.isConnected() )
+		{
+			LogMsg( LOG_WARN, "VirtStreamMgr::%s user %s is no longer connected", __func__,
+					m_Engine.describeUser( m_LiveStream.m_StreamAssetInfo.getDestUserId() ).c_str() );
+			return false;
+		}
+
+		if( !m_LiveStream.m_VFile )
+		{
+			LogMsg( LOG_WARN, "VirtStreamMgr::%s file was closed", __func__ );
+			return false;
+		}
+
+		VxSleep( 300 );
 	}
 	
 	if( !result )
@@ -94,6 +118,24 @@ bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 	}
 
 	return result;
+}
+
+//============================================================================
+void VirtStreamMgr::onPlaybackStopped( VxGUID& feedId )
+{
+	if( feedId == m_LiveStream.m_StreamSessionId )
+	{
+		setIsPlaying( false );
+	}
+}
+
+//============================================================================
+void VirtStreamMgr::onPlaybackEnded( VxGUID& feedId )
+{
+	if( feedId == m_LiveStream.m_StreamSessionId )
+	{
+		setIsPlaying( false );
+	}
 }
 
 //============================================================================

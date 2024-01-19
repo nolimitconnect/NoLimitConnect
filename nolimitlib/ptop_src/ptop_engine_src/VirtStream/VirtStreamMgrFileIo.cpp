@@ -19,6 +19,8 @@
 
 #include <NetLib/VxSktBase.h>
 
+#define VERIFY_CACHE_DATA 0
+
 //============================================================================
 VFile* VirtStreamMgr::fileOpen( const char* fileName, const char* fileMode )
 {
@@ -49,7 +51,7 @@ VFile* VirtStreamMgr::fileOpen( const char* fileName, const char* fileMode )
 	FILE* fp = fopen( fileName, mode.c_str() );
 	vFile->m_Error = VxGetLastError();
 
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s filname %s mode %s fp %p", __func__, fileName, fileMode, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s filname %s mode %s fp %p", __func__, fileName, fileMode, fp );
 
 	if( fp )
 	{
@@ -74,7 +76,7 @@ int VirtStreamMgr::fileClose( VFile* fp )
 
 	int result = fclose( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	free( fp );
 	return result;
 }
@@ -89,14 +91,14 @@ int VirtStreamMgr::fileEof( VFile* fp )
 
 	int result = feof( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
 //============================================================================
 int VirtStreamMgr::fileError( VFile* fp )
 {
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return fp->m_Error;
 }
 
@@ -110,7 +112,7 @@ int VirtStreamMgr::fileFlush( VFile* fp )
 
 	int result = fflush( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -124,7 +126,7 @@ size_t VirtStreamMgr::fileRead( void* buf, size_t size, size_t count, VFile* fp 
 
 	int result = fread( buf, size, count, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -138,7 +140,7 @@ size_t VirtStreamMgr::fileWrite( const void* buf, size_t size, size_t count, VFi
 
 	int result = fwrite( buf, size, count, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -152,7 +154,7 @@ int VirtStreamMgr::fileGetC( VFile* fp )
 
 	int result = fgetc( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -166,7 +168,7 @@ char*  VirtStreamMgr::fileGetS( char* buf, int size, VFile* fp )
 
 	char* result = fgets( buf, size, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -180,7 +182,7 @@ int VirtStreamMgr::filePutC( int ch, VFile* fp )
 
 	int result = fputc( ch, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -194,7 +196,7 @@ int VirtStreamMgr::filePutS( const char* s, VFile* fp )
 
 	int result = fputs( s, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -208,7 +210,7 @@ int VirtStreamMgr::fileGetPos( VFile* fp, fpos_t* pos )
 
 	int result = fgetpos( fp->m_FILE, pos );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -222,7 +224,7 @@ int VirtStreamMgr::fileSetPos( VFile* fp, const fpos_t* pos )
 
 	int result = fsetpos( fp->m_FILE, pos );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -236,7 +238,7 @@ int VirtStreamMgr::fileSeek( VFile* fp, size_t offset, int whence )
 
 	int result = fseek( fp->m_FILE, offset, whence );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -250,7 +252,7 @@ fpos_t VirtStreamMgr::fileTell( VFile* fp )
 
 	fpos_t result = ftell( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s fp %p", __func__, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
 }
 
@@ -270,14 +272,14 @@ VFile* VirtStreamMgr::virtFileOpen( std::string fileName, std::string fileMode )
 
 	if( streamFileName != assetFileName )
 	{
-		LogMsg( LOG_ERROR, "%s fileName %s does not match asset name %s",
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s fileName %s does not match asset name %s",
 				__func__, fileName.c_str(), m_LiveStream.m_StreamAssetInfo.getAssetName().c_str() );
 		return nullptr;
 	}
 
 	if( !m_LiveStream.isConnected() )
 	{
-		LogMsg( LOG_WARN, "%s user %s is no longer connected", __func__,
+		LogMsg( LOG_WARN, "VirtStreamMgr::%s user %s is no longer connected", __func__,
 				m_Engine.describeUser( m_LiveStream.m_StreamAssetInfo.getDestUserId() ).c_str() );
 		return nullptr;
 	}
@@ -306,7 +308,7 @@ int VirtStreamMgr::virtFileClose( VFile* fp )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return retVal;
@@ -326,7 +328,7 @@ int VirtStreamMgr::virtFileEof( VFile* fp )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return 0;
@@ -344,7 +346,7 @@ int VirtStreamMgr::virtFileError( VFile* fp )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return retVal;
@@ -370,7 +372,7 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return retVal;
@@ -384,11 +386,12 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 		return retVal;
 	}
 
-	int64_t readAttemptLen = size * count;
+	int64_t wantReadLen = size * count;
+	int64_t readAttemptLen = std::min( wantReadLen, m_LiveStream.m_VFile->m_FileLen - m_LiveStream.m_VFile->m_FileOffs );
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
 	{
 		unlockSteamMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, readAttemptLen );
 		return retVal;
 	}
@@ -397,12 +400,20 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 	int64_t readLen = m_LiveStream.m_StreamCache.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
 	if( readLen == readAttemptLen )
 	{
+#if VERIFY_CACHE_DATA
+		verifyCacheData( m_LiveStream.m_VFile->m_FileOffs, (uint8_t *)buf, readAttemptLen );
+#endif // VERIFY_CACHE_DATA
+
 		m_LiveStream.m_VFile->m_FileOffs += readLen;
 		retVal = 0;
 	}
+	else
+	{
+
+	}
 
 	unlockSteamMgr();
-	return retVal;
+	return retVal ? retVal : readLen;
 }
 
 //============================================================================
@@ -416,11 +427,18 @@ size_t VirtStreamMgr::virtFileWrite(const void* buf, size_t size, size_t count, 
 int VirtStreamMgr::virtFileGetC( VFile* fp )
 {
 	int retVal = -1;
+	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
+	{
+		unlockSteamMgr();
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
+		return retVal;
+	}
 
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return retVal;
@@ -455,7 +473,7 @@ char* VirtStreamMgr::virtFileGetS( char* buf, int size, VFile* fp )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return nullptr;
@@ -523,7 +541,7 @@ int VirtStreamMgr::virtFileGetPos( VFile* fp, fpos_t* pos )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return -1;
@@ -547,7 +565,7 @@ int VirtStreamMgr::virtFileSeek( VFile* fp, size_t offset, int whence )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return -1;
@@ -558,11 +576,24 @@ int VirtStreamMgr::virtFileSeek( VFile* fp, size_t offset, int whence )
 	{
 	case SEEK_SET:
 		// Beginning of file
+		if( offset >= m_LiveStream.m_VFile->m_FileLen )
+		{
+			unlockSteamMgr();
+			return -1;
+		}
+
 		m_LiveStream.m_VFile->m_FileOffs = offset;
 		break;
 
 	case SEEK_CUR:
 		// Current position of the file pointer
+		if( m_LiveStream.m_VFile->m_FileOffs + offset < 0 ||
+			m_LiveStream.m_VFile->m_FileOffs + offset >= m_LiveStream.m_VFile->m_FileLen )
+		{
+			unlockSteamMgr();
+			return -1;
+		}
+
 		m_LiveStream.m_VFile->m_FileOffs += offset;
 		break;
 
@@ -580,13 +611,13 @@ int VirtStreamMgr::virtFileSeek( VFile* fp, size_t offset, int whence )
 
 	unlockSteamMgr();
 
-	if( newPos >= 0 && newPos != origPos )
+	if( newPos >= 0 && newPos != origPos && !m_LiveStream.m_StreamCache.hasData( newPos, 1 ) )
 	{
 		sendStreamSeek( newPos );
 		return 0;
 	}
 
-	return -1;
+	return 0;
 }
 
 //============================================================================
@@ -595,7 +626,7 @@ fpos_t VirtStreamMgr::virtFileTell( VFile* fp )
 	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
-		LogMsg( LOG_ERROR, "%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockSteamMgr();
 		vx_assert( false );
 		return -1;
@@ -604,4 +635,57 @@ fpos_t VirtStreamMgr::virtFileTell( VFile* fp )
 	int64_t fPos = m_LiveStream.m_VFile->m_FileOffs;
 	unlockSteamMgr();
 	return fPos;
+}
+
+//============================================================================
+bool VirtStreamMgr::verifyCacheData( int64_t fileOffs, uint8_t* buf, int64_t dataLen )
+{
+	if( !dataLen )
+	{
+		return true;
+	}
+
+	bool result{ false };
+	FILE* fp = fopen( m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), "rb" );
+	if( fp )
+	{
+		if( 0 == fseek( fp, fileOffs, SEEK_SET ) )
+		{
+			uint8_t* fileBuf = new uint8_t[dataLen];
+			if( fileBuf )
+			{
+				if( dataLen = fread( fileBuf, 1, dataLen, fp ) )
+				{
+					bool match = true;
+					for( int i = 0; i < dataLen; i++ )
+					{
+						if( fileBuf[i] != buf[i] )
+						{
+							match = false;
+							LogMsg( LOG_ERROR, "VirtStreamMgr::%s mismatch offs %" PRId64 " expected 0x%x got 0x%x", __func__,
+									fileOffs + i, buf[i], fileBuf[i] );
+							break;
+						}
+					}
+
+					if( match )
+					{
+						result = true;
+					}
+
+				}
+			}
+		}
+
+		fclose( fp );
+	}
+
+	if( !result )
+	{
+		LogMsg( LOG_ERROR, "VirtStreamMgr::%s verify failed offs %" PRId64 " of file %s", __func__,
+									fileOffs, m_LiveStream.m_StreamAssetInfo.getAssetName().c_str() );
+	}
+
+
+	return result;
 }

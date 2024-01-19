@@ -50,6 +50,7 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 {
 	setAppletType( eAppletPlayerStream );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
+	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( slotAppletClosing() ) );
 	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
 	ui.setupUi( getContentItemsFrame() );
@@ -94,6 +95,12 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 AppletPlayerStream::~AppletPlayerStream()
 {
 	stopMediaIfPlaying();
+}
+
+//============================================================================
+void AppletPlayerStream::slotAppletClosing( void )
+{
+	GetVirtStreamMgr().onPlaybackStopped( m_LclSessionId );
 }
 
 //============================================================================
@@ -170,9 +177,8 @@ bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 	AppletPlayerBase::setAssetInfo( assetInfo );
 	if( assetInfo.getIsStream() )
 	{
-		VxGUID lclSessionId;
-		lclSessionId.initializeWithNewVxGUID();
-		return playStream( assetInfo, lclSessionId, pos0to100000 );
+		m_LclSessionId.initializeWithNewVxGUID();
+		return playStream( assetInfo, m_LclSessionId, pos0to100000 );
 	}
 
 
@@ -266,4 +272,16 @@ void AppletPlayerStream::onMediaPlayerNlcReady( bool isReady )
 		ui.m_StreamsComboBox->setEnabled( isReady );
 		ui.m_ReplayButton->setEnabled( isReady );
 	}
+}
+
+//============================================================================
+void AppletPlayerStream::onPlaybackStopped( VxGUID& feedId )
+{
+	GetVirtStreamMgr().onPlaybackStopped( feedId );
+}
+
+//============================================================================
+void AppletPlayerStream::onPlaybackEnded( VxGUID& feedId )
+{
+	GetVirtStreamMgr().onPlaybackEnded( feedId );
 }

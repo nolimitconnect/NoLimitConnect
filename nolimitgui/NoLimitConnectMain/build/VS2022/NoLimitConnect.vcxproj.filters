@@ -1127,11 +1127,11 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.h">
       <Filter>Source Files\GuiPushToTalk</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h">
-      <Filter>Source Files\Applets</Filter>
+      <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
