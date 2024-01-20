@@ -79,5 +79,5 @@ void PluginFileShareServer::deleteFile( std::string fileName, bool shredFile )
 //============================================================================
 void PluginFileShareServer::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-
+	m_FileInfoSharedFilesMgr.getFileInfoXferMgr().onPktStreamCtrlReq( sktBase, pktHdr, netIdent );
 }

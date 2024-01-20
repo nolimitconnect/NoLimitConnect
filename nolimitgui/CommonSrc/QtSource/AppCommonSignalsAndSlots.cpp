@@ -158,8 +158,6 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL( signalInternalToGuiScanResultSuccess(EScanType,VxNetIdent) ), this, SLOT( slotInternalToGuiScanResultSuccess(EScanType,VxNetIdent) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiSearchResultError(EScanType,VxNetIdent,int) ), this, SLOT( slotInternalToGuiSearchResultError(EScanType,VxNetIdent,int) ), Qt::QueuedConnection );
 
-	connect( this, SIGNAL( signalInternalPushToTalkStatus(VxGUID,EPushToTalkStatus) ), this, SLOT( slotInternalPushToTalkStatus(VxGUID,EPushToTalkStatus) ), Qt::QueuedConnection );
-
     connect( this, SIGNAL( signalInternalNetworkIsTested(bool,QString,uint16_t) ), this, SLOT( slotInternalNetworkIsTested(bool,QString,uint16_t) ), Qt::QueuedConnection );
 
 	connect( this, SIGNAL( signalInternalPlayNlcMedia(AssetBaseInfo) ), this, SLOT( slotInternalPlayNlcMedia(AssetBaseInfo) ), Qt::QueuedConnection );

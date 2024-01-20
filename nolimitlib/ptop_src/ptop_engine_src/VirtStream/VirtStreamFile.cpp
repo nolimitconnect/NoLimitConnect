@@ -11,6 +11,15 @@
 #include "VirtStreamFile.h"
 
 //============================================================================
+void VirtStreamFile::clear( void )
+{
+	removeConnection();
+	setError( 0 );
+	m_FileTail.clear();
+	m_StreamCache.clearCache( false );
+}
+
+//============================================================================
 bool VirtStreamFile::setConnection( std::shared_ptr<VxSktBase> sktBase )
 {
 	m_SktBase = sktBase;

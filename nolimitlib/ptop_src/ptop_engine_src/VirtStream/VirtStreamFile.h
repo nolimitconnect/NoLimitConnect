@@ -21,6 +21,8 @@
 class VirtStreamFile
 {
 public:
+	void						clear( void );
+
 	bool						setConnection( std::shared_ptr<VxSktBase> sktBase );
 	std::shared_ptr<VxSktBase>&	getConnection( void )		{ return m_SktBase; }
 
@@ -37,6 +39,8 @@ public:
 	std::string					m_FileMode;
 	AssetBaseInfo				m_StreamAssetInfo;
 	VxGUID						m_StreamSessionId;
+	VxGUID						m_ServerSessionId;
 	std::shared_ptr<VxSktBase>  m_SktBase;
 	int							m_Error{ 0 };
+	VirtCache					m_FileTail;
 };

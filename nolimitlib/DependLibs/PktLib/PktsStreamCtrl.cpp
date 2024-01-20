@@ -20,62 +20,32 @@
 PktStreamCtrlReq::PktStreamCtrlReq()
 {
    setPktType( PKT_TYPE_STREAM_CTRL_REQ );
-}
-
-//============================================================================
-void PktStreamCtrlReq::setFileName( std::string &csName )
-{
-	if( csName.size() )
-	{
-		strcpy( (char *)m_FileName, csName.c_str() );
-	}
-	else
-	{
-		m_FileName[ 0 ] = 0; 
-	}
-
-	uint16_t u16PktLen = ( uint16_t )((sizeof( PktStreamCtrlReq ) - sizeof( m_FileName )) + strlen( m_FileName ) + 1);
-	setPktLength( ROUND_TO_16BYTE_BOUNDRY( u16PktLen ) );
-}
-
-//============================================================================
-void PktStreamCtrlReq::getFileName( std::string &csName )
-{
-	csName = m_FileName;
+   setPktLength( sizeof( PktStreamCtrlReq ) );
+   vx_assert( 0 == ( getPktLength() & 0x0f ) );
+   vx_assert( sizeof( PktStreamCtrlReq ) <= MAX_PKT_LEN );
 }
 
 //============================================================================
 PktStreamCtrlReply::PktStreamCtrlReply()
 {
 	setPktType( PKT_TYPE_STREAM_CTRL_REPLY );
+	setPktLength( getemptyLen() );
+
+	vx_assert( 0 == ( getPktLength() & 0x0f ) );
+	vx_assert( sizeof( PktStreamCtrlReply ) <= MAX_PKT_LEN );
 }
 
 //============================================================================
-void PktStreamCtrlReply::getFileName( std::string &csName )
+void PktStreamCtrlReply::setDataLen( uint16_t dataLen )
 {
-	csName = m_FileName;
-}
-
-//============================================================================
-void PktStreamCtrlReply::setFileName( std::string &csName )
-{
-    if( csName.size() )
-    {
-		strcpy( (char *)m_FileName, csName.c_str() );
-    }
-    else
-    {
-        m_FileName[ 0 ] = 0;
-    }
-
-	uint16_t u16PktLen = ( uint16_t)(( sizeof( PktStreamCtrlReply ) - sizeof( m_FileName )) + strlen( m_FileName ) + 1);
-	setPktLength( ROUND_TO_16BYTE_BOUNDRY( u16PktLen ) );
+	m_u16DataLen = htons( dataLen );
+	setPktLength( ROUND_TO_16BYTE_BOUNDRY( getemptyLen() + dataLen ) );
 }
 
 //============================================================================
 uint16_t PktStreamCtrlReply::getemptyLen( void )
 {
-    return (uint16_t)(sizeof( PktStreamCtrlReq )-VX_MAX_PATH);
+    return (uint16_t)(sizeof( PktStreamCtrlReply ) - PKT_TYPE_FILE_MAX_DATA_LEN);
 }
 
 //============================================================================

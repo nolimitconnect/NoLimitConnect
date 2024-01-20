@@ -26,10 +26,10 @@ int64_t VirtCache::hasData( int64_t offset, int64_t len ) // return true if has 
 		lenInCache = std::min( len, endPoint - m_CacheStartOffs );
 	}
 
-	if( lenInCache && lenInCache != len )
-	{
-		LogMsg( LOG_VERBOSE, "VirtCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offs 0x%" PRIx64 "", __func__, lenInCache, len, offset);
-	}
+	//if( lenInCache && lenInCache != len )
+	//{
+	//	LogMsg( LOG_VERBOSE, "VirtCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offs 0x%" PRIx64 "", __func__, lenInCache, len, offset);
+	//}
 
 	return lenInCache;
 }
@@ -61,10 +61,10 @@ int64_t VirtCache::readData( int64_t offset, char* data, int64_t len )
 		memcpy( data, &m_Buf[buffOffs], lenInCache );
 	}
 
-	if( lenInCache != len )
-	{
-		LogMsg( LOG_VERBOSE, "VirtCache::%s read 0x%" PRIx64 " of len 0x%" PRIx64 " at offs 0x%" PRIx64 "", __func__, lenInCache, len, offset);
-	}
+	//if( lenInCache != len )
+	//{
+	//	LogMsg( LOG_VERBOSE, "VirtCache::%s read 0x%" PRIx64 " of len 0x%" PRIx64 " at offs 0x%" PRIx64 "", __func__, lenInCache, len, offset);
+	//}
 
 	return lenInCache;
 }
@@ -92,10 +92,9 @@ void VirtStreamCache::clearCache( bool isLocked )
 	}
 
 	m_VirtCache.clear();
-	m_MaxAssetLen = 0;
 	m_CacheStartOffs = 0;
 	m_CacheEndOffs = 0;
-	m_TotalCachedData = 0;
+	m_LastReadOffs = 0;
 
 	if( !isLocked )
 	{
@@ -120,10 +119,10 @@ int64_t VirtStreamCache::hasData( int64_t offset, int64_t len )
 
 	unlockCache();
 
-	if( lenInCache && lenInCache != len )
-	{
-		LogMsg( LOG_VERBOSE, "VirtStreamCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offset 0x%" PRIx64 "", __func__, lenInCache, len, offset);
-	}
+	//if( lenInCache && lenInCache != len )
+	//{
+	//	LogMsg( LOG_VERBOSE, "VirtStreamCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offset 0x%" PRIx64 "", __func__, lenInCache, len, offset);
+	//}
 
 	return lenInCache;
 }
@@ -146,6 +145,10 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 		clearCache( true );
 		m_CacheStartOffs = offset;
 	}
+	else
+	{
+		cleanUpCacheToSizeLimit( true );
+	}
 
 	while( lenWritten < len )
 	{
@@ -167,14 +170,24 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 	bool foundData{ false };
 
 	int64_t lenInBuf = hasData( offset, len );
-	if( len != lenInBuf )
-	{
-		LogMsg( LOG_VERBOSE, "VirtStreamCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offset 0x%" PRIx64, __func__, lenInBuf, len, offset );
-	}
+	//if( len != lenInBuf )
+	//{
+	//	LogMsg( LOG_VERBOSE, "VirtStreamCache::%s has 0x%" PRIx64 " of len 0x%" PRIx64 " at offset 0x%" PRIx64, __func__, lenInBuf, len, offset );
+	//}
 
 	lockCache();
-	for( auto virtCache : m_VirtCache )
+	int startIdx = (offset - m_CacheStartOffs) / PKT_TYPE_FILE_MAX_DATA_LEN;
+	auto iter = m_VirtCache.begin();
+	std::advance( iter, startIdx );
+	if( iter == m_VirtCache.end() )
 	{
+		unlockCache();
+		return 0;
+	}
+
+	for( ; iter != m_VirtCache.end(); ++iter )
+	{
+		VirtCache* virtCache = *iter;
 		int64_t maxRead = len - lenRead;
 		if( virtCache->hasData( offset + lenRead, len - lenRead ) )
 		{
@@ -212,11 +225,52 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 		}
 	}
 
-	unlockCache();
-	if( len != lenInBuf )
+	if( lenRead )
 	{
-		LogMsg( LOG_VERBOSE, "VirtStreamCache::%s read 0x%" PRIx64 " of len 0x%" PRIx64, __func__, lenRead, len );
+		m_LastReadOffs = offset;
 	}
 
+	unlockCache();
+	//if( len != lenInBuf )
+	//{
+	//	LogMsg( LOG_VERBOSE, "VirtStreamCache::%s read 0x%" PRIx64 " of len 0x%" PRIx64, __func__, lenRead, len );
+	//}
+
 	return lenRead;
+}
+
+//============================================================================
+void VirtStreamCache::cleanUpCacheToSizeLimit( bool cacheIsLocked )
+{
+	const int64_t maxCacheLen = 100000000;
+	if( !cacheIsLocked )
+	{
+		lockCache();
+	}
+
+	if( getCachedSize() > maxCacheLen && m_LastReadOffs > m_CacheStartOffs + PKT_TYPE_FILE_MAX_DATA_LEN )
+	{
+		for( auto iter = m_VirtCache.begin(); iter != m_VirtCache.end(); )
+		{
+			VirtCache* virtCache = *iter;
+			if( virtCache->m_CacheStartOffs + PKT_TYPE_FILE_MAX_DATA_LEN >= m_LastReadOffs )
+			{
+				break;
+			}
+
+			if( getCachedSize() <= maxCacheLen )
+			{
+				break;
+			}
+
+			m_CacheStartOffs += virtCache->getCachedSize();
+			delete virtCache;
+			iter = m_VirtCache.erase( iter );
+		}
+	}
+
+	if( !cacheIsLocked )
+	{
+		unlockCache();
+	}
 }

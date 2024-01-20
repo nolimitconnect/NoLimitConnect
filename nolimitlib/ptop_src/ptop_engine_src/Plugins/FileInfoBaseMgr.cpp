@@ -211,6 +211,22 @@ bool FileInfoBaseMgr::addFileToDbAndList( VxGUID& onlineId, std::string& fileNam
 	}
 
 	FileInfo fileInfo( onlineId, fileName, fileLen, fileType, assetId );
+	if( isLibraryServer() )
+	{
+		fileInfo.setIsInLibrary( true );
+	}
+	
+	if( isFileShareServer() )
+	{
+		fileInfo.setIsSharedFile( true );
+	}
+
+	AssetBaseInfo* assetBaseInfo = getEngine().getAssetMgr().findAsset( assetId );
+	if( !assetBaseInfo )
+	{
+		getEngine().getAssetMgr().updateAsset( fileInfo );
+	}
+
 	if( !addFileToDbAndList( fileInfo ) )
 	{
 		return false;
@@ -1143,7 +1159,15 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 		if( assetInfo )
 		{
 			// if already exists as asset be sure to use the same asset id
-			assetInfo->setIsSharedFileAsset( isShared );
+			if( isLibraryServer() )
+			{
+				assetInfo->setIsInLibary( isShared );
+			}
+			else if( isFileShareServer() )
+			{
+				assetInfo->setIsSharedFileAsset( isShared );
+			}
+
 			assetId = assetInfo->getAssetUniqueId();
 			getEngine().getAssetMgr().unlockResources();
 		}

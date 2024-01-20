@@ -128,6 +128,8 @@ public:
 	virtual bool				addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAsset );
 
     bool						updateAsset( AssetBaseInfo& assetInfo );
+    bool						updateAsset( FileInfo& fileInfo );
+
 	bool						removeAsset( std::string fileName, bool deleteFile = false );
 	bool						removeAsset( VxGUID& assetUniqueId, bool deleteFile = false );
 	void						fromGuiQuerySessionHistory( GroupieId& groupieId );

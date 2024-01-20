@@ -51,6 +51,7 @@ public:
 
 	void						onPlaybackStopped( VxGUID& feedId );
 	void						onPlaybackEnded( VxGUID& feedId );
+	void						onStreamStop( void );
 
 protected:
 	void						lockSteamMgr() { m_StreamMgrMutex.lock(); }

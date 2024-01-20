@@ -18,6 +18,10 @@
 class VirtCache
 {
 public:
+	void						clear( void ) { m_CacheStartOffs = 0; m_CacheEndOffs = 0; }
+
+	int64_t						getCachedSize( void ) { return m_CacheEndOffs - m_CacheStartOffs; }
+
 	int64_t						hasData( int64_t offset, int64_t len ); // return length of the data
 	int64_t						readData( int64_t offset, char* data, int64_t len );
 	int64_t						writeData( int64_t offset, char* data, int64_t len );
@@ -34,6 +38,7 @@ public:
 	virtual ~VirtStreamCache();
 
 	void						clearCache( bool isLocked );
+	int64_t						getCachedSize( void ) { return m_CacheEndOffs - m_CacheStartOffs; }
 
 	int64_t						hasData( int64_t offset, int64_t len );
 	int64_t						writeData( int64_t offset, char* data, int64_t len );
@@ -42,13 +47,14 @@ public:
 	void						lockCache( void ) { m_CacheMutex.lock(); }
 	void						unlockCache( void ) { m_CacheMutex.unlock(); }
 
+	void						cleanUpCacheToSizeLimit( bool cacheIsLocked );
+
 	//=== vars ===//
 	std::list<VirtCache*>		m_VirtCache;
-	int64_t						m_MaxCachLen{ 100000000 }; // max chache len
-	int64_t						m_MaxAssetLen{ 0 };
+
 	int64_t						m_CacheStartOffs{ 0 };
 	int64_t						m_CacheEndOffs{ 0 };
-	int64_t						m_TotalCachedData{ 0 };
+	int64_t						m_LastReadOffs{ 0 };
 
 	VxMutex						m_CacheMutex;
 };

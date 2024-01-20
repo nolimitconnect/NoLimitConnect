@@ -597,6 +597,41 @@ bool AssetBaseMgr::updateAsset( AssetBaseInfo& assetInfo )
 }
 
 //============================================================================
+bool AssetBaseMgr::updateAsset( FileInfo& fileInfo )
+{
+	AssetBaseInfo* existingAsset = findAsset( fileInfo.getAssetId() );
+    if( existingAsset )
+    {
+		bool updateDb{ false };
+		if( !existingAsset->isInLibary() && fileInfo.getIsInLibrary() )
+		{
+			existingAsset->setIsInLibary( fileInfo.getIsInLibrary() );
+			updateDb = true;
+		}
+
+		if( !existingAsset->isSharedFileAsset() && fileInfo.getIsSharedFile() )
+		{
+			existingAsset->setIsSharedFileAsset( fileInfo.getIsSharedFile() );
+			updateDb = true;
+		}
+
+		if( updateDb )
+		{
+			updateDatabase( existingAsset );
+		}
+    }
+	else
+	{
+		AssetBaseInfo* newAssetInfo = createAssetInfo( fileInfo );
+		newAssetInfo->setCreationTime( GetGmtTimeMs() );
+		newAssetInfo->setModifiedTime( GetGmtTimeMs() );
+		insertNewInfo( newAssetInfo );
+	}
+
+	return true;
+}
+
+//============================================================================
 void AssetBaseMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
 {
 	if( !assetInfo->isValid() )

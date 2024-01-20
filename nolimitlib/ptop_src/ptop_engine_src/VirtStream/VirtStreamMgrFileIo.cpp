@@ -396,8 +396,17 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 		return retVal;
 	}
 		
+	int64_t readLen = 0;
+	if( m_LiveStream.m_FileTail.hasData( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
+	{
+		readLen = m_LiveStream.m_FileTail.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
+	}
+	else
+	{
+		readLen = m_LiveStream.m_StreamCache.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
+	}
 
-	int64_t readLen = m_LiveStream.m_StreamCache.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
+
 	if( readLen == readAttemptLen )
 	{
 #if VERIFY_CACHE_DATA
@@ -427,6 +436,7 @@ size_t VirtStreamMgr::virtFileWrite(const void* buf, size_t size, size_t count, 
 int VirtStreamMgr::virtFileGetC( VFile* fp )
 {
 	int retVal = -1;
+	lockSteamMgr();
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
 	{
 		unlockSteamMgr();
@@ -435,7 +445,6 @@ int VirtStreamMgr::virtFileGetC( VFile* fp )
 		return retVal;
 	}
 
-	lockSteamMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
@@ -469,8 +478,15 @@ int VirtStreamMgr::virtFileGetC( VFile* fp )
 char* VirtStreamMgr::virtFileGetS( char* buf, int size, VFile* fp )
 {
 	int retVal = -1;
-
 	lockSteamMgr();
+	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
+	{
+		unlockSteamMgr();
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
+		return nullptr;
+	}
+	
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
@@ -611,10 +627,11 @@ int VirtStreamMgr::virtFileSeek( VFile* fp, size_t offset, int whence )
 
 	unlockSteamMgr();
 
-	if( newPos >= 0 && newPos != origPos && !m_LiveStream.m_StreamCache.hasData( newPos, 1 ) )
+	if( newPos >= 0 && newPos != origPos && 
+		!m_LiveStream.m_StreamCache.hasData( newPos, 1 ) &&
+		!m_LiveStream.m_FileTail.hasData( newPos, 1 ) )
 	{
-		sendStreamSeek( newPos );
-		return 0;
+		return sendStreamSeek( newPos ) ? 0 : -1;
 	}
 
 	return 0;

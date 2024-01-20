@@ -69,12 +69,6 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 }
 
 //============================================================================
-bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
-{
-	return false;
-}
-
-//============================================================================
 bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 {
 	bool result{ false };
@@ -83,16 +77,22 @@ bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 	VxTimer timer;
 	while( timer.elapsedMs() < maxTimeoutMs && !m_LiveStream.m_Error )
 	{
+		if( !getIsPlaying() )
+		{
+			LogMsg( LOG_WARN, "VirtStreamMgr::%s play steam stopped", __func__ );
+			return false;
+		}
+
 		if( readLen == m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
 		{
 			result = true;
 			break;
 		}
 
-		if( !getIsPlaying() )
+		if( readLen == m_LiveStream.m_FileTail.hasData( fileOffset, readLen ) )
 		{
-			LogMsg( LOG_WARN, "VirtStreamMgr::%s play steam stopped", __func__ );
-			return false;
+			result = true;
+			break;
 		}
 
 		if( !m_LiveStream.isConnected() )
@@ -113,7 +113,7 @@ bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 	
 	if( !result )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64, __func__,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), fileOffset, readLen );
 	}
 
@@ -125,7 +125,7 @@ void VirtStreamMgr::onPlaybackStopped( VxGUID& feedId )
 {
 	if( feedId == m_LiveStream.m_StreamSessionId )
 	{
-		setIsPlaying( false );
+		onStreamStop();
 	}
 }
 
@@ -134,8 +134,36 @@ void VirtStreamMgr::onPlaybackEnded( VxGUID& feedId )
 {
 	if( feedId == m_LiveStream.m_StreamSessionId )
 	{
-		setIsPlaying( false );
+		onStreamStop();		
 	}
+}
+
+//============================================================================
+void VirtStreamMgr::onStreamStop( void )
+{
+	setIsPlaying( false );
+	lockSteamMgr();
+	m_LiveStream.clear();
+	unlockSteamMgr();
+}
+
+//============================================================================
+bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
+{
+	PktStreamCtrlReq pktReq;
+	pktReq.setSrcOnlineId( m_Engine.getMyOnlineId() );
+	pktReq.setDestOnlineId( m_LiveStream.m_StreamAssetInfo.getDestUserId() );
+	pktReq.setPluginNum( ePluginTypeFileShareServer );
+
+	lockSteamMgr();
+	pktReq.setLclSessionId( m_LiveStream.m_StreamSessionId );
+	pktReq.setRmtSessionId( m_LiveStream.m_ServerSessionId );
+	pktReq.setAssetId(  m_LiveStream.m_StreamAssetInfo.getAssetUniqueId() );
+	unlockSteamMgr();
+
+	pktReq.setStartOffset( newPos );
+	pktReq.setStreamCtrl( eStreamSeek );
+	return m_LiveStream.getConnection()->txPacketWithDestId( &pktReq ) == 0;
 }
 
 //============================================================================
@@ -172,7 +200,19 @@ void VirtStreamMgr::onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPk
 void VirtStreamMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	PktFileGetReply* pktReply = (PktFileGetReply*)pktHdr;
-	
+	VxGUID lclSessionId = pktReply->getLclSessionId();
+	VxGUID rmtSessionId = pktReply->getRmtSessionId();
+	if( rmtSessionId != m_LiveStream.m_StreamSessionId )
+	{
+		return;
+	}
+
+	if( lclSessionId.isVxGUIDValid() )
+	{
+		lockSteamMgr();
+		m_LiveStream.m_ServerSessionId = lclSessionId;
+		unlockSteamMgr();
+	}
 }
 
 //============================================================================
@@ -204,5 +244,10 @@ void VirtStreamMgr::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPk
 void VirtStreamMgr::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	PktStreamCtrlReply* pktReply = (PktStreamCtrlReply*)pktHdr;
-
+	if( pktReply->getStreamCtrl() == eStreamReadTail )
+	{
+		lockSteamMgr();
+		m_LiveStream.m_FileTail.writeData( pktReply->getStartOffset(), pktReply->getDataBuf(), pktReply->getEndOffset() - pktReply->getStartOffset() );
+		unlockSteamMgr();
+	}
 }
