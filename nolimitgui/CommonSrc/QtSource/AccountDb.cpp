@@ -292,7 +292,6 @@ bool AccountDb::updateUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfi
 	if( onlineUidExistsInTable( oUserAccount.getMyOnlineId(), TABLE_ACCOUNT_PROFILE ))
 	{
 		DbBindList bindList2( strOnlineIdHex.c_str() );
-		bindList2.add( oUserAccount.getMyOnlineIdHiPart() );
 		rc = sqlExec(  "DELETE FROM account_profile WHERE online_id=?", bindList2 );
 	}
 	

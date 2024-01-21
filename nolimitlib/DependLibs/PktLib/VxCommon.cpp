@@ -257,7 +257,7 @@ bool VxNetIdent::extractFromBlob( PktBlobEntry& blob )
     bool result = blob.getValue( startMagicNum );
     if( !result || startMagicNum != 98 )
     {
-        LogMsg( LOG_ERROR, "VxNetIdent::extractFromBlob startMagicNum not valid" );
+        LogMsg( LOG_ERROR, "VxNetIdent::%s startMagicNum not valid", __func__ );
         return false;
     }
 
@@ -274,7 +274,7 @@ bool VxNetIdent::extractFromBlob( PktBlobEntry& blob )
     result &= blob.getValue( stopMagicNum );
     if( !result || stopMagicNum != 99 )
     {
-        LogMsg( LOG_ERROR, "VxNetIdent::extractFromBlob stopMagicNum not valid" );
+        LogMsg( LOG_ERROR, "VxNetIdent::%s stopMagicNum not valid", __func__ );
         return false;
     }
 
@@ -304,10 +304,8 @@ VxNetIdent& VxNetIdent::operator =( const VxNetIdent& rhs  )
 bool VxNetIdent::isValidNetIdent()
 {
 	bool result = getMyOnlineId().isVxGUIDValid();
-	if( result )
-	{
-		result &= isOnlineNameValid();
-	}
+
+	result &= isOnlineNameValid();
 
 	return result;
 } 

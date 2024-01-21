@@ -51,6 +51,8 @@ public:
 												bool			useMyFriendshipFromPktAnn = false,
 												bool			useHisFriendshipFromPktAnn = true );	
 
+	bool						updateTempIdent( VxNetIdent& tempIdent );
+
 	bool						getFriendships( VxGUID&			hisOnlineId,
 												EFriendState&	retMyFriendshipToHim,
 												EFriendState&	retHisFriendshipToMe );

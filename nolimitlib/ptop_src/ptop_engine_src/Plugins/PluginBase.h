@@ -302,6 +302,8 @@ protected:
 	virtual	void				updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount );
 	virtual	bool				requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextHostOnlineId );
 
+	virtual bool                assureIdentityExist( HostedInfo& hostedInfo );
+
 	//=== vars ===//
 	EPluginType					m_ePluginType{ ePluginTypeInvalid };
 	P2PEngine&					m_Engine;

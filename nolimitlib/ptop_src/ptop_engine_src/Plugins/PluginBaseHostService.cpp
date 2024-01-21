@@ -21,10 +21,12 @@
 #include <CoreLib/VxPtopUrl.h>
 
 #include <NetLib/VxSktBase.h>
+
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsHostSearch.h>
 #include <PktLib/PktsHostInfo.h>
 #include <PktLib/PktsGroupie.h>
+#include <PktLib/VxCommon.h>
 
 //============================================================================
 PluginBaseHostService::PluginBaseHostService( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
@@ -58,6 +60,10 @@ bool PluginBaseHostService::getHostedInfo( HostedInfo& hostedInfo )
 
         m_AnnMutex.unlock();
         result = hostedInfo.isValidForGui();
+        if( result )
+        {
+            result = assureIdentityExist( hostedInfo );
+        }
     }
 
     return result;

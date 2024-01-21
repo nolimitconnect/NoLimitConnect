@@ -101,8 +101,8 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 
         // if application was aborted it may have left the listen socket in a state
         // that the port cannot be listened to for incomming connections
-        // ANDROID properly closes the socket when app closes and crashes if attempt
-        // to close an unowned socket so is excluded
+        // ANDROID crashes if attempt to close an unowned socket so is excluded
+        // instead must restart the android device
         #if !defined( TARGET_OS_ANDROID )
             int64_t listenSocket = getEngineParams().getLastListenSocket();
             if( listenSocket > 0 )

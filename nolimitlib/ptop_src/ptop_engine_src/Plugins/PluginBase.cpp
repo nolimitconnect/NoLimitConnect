@@ -9,17 +9,21 @@
 //============================================================================
 
 #include "PluginBase.h"
-#include "PluginMgr.h"
+
 #include "P2PSession.h"
+#include "PluginMgr.h"
 #include "RxSession.h"
 #include "TxSession.h"
 
 #include <P2PEngine/P2PEngine.h>
 
-#include <PktLib/PktsPluginOffer.h>
-#include <PktLib/PktsHostInvite.h>
-
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxPtopUrl.h>
+#include <CoreLib/VxTime.h>
+
+#include <PktLib/PktsHostInvite.h>
+#include <PktLib/PktsPluginOffer.h>
+
 #include <NetLib/VxSktBase.h>
 
 //============================================================================
@@ -696,6 +700,21 @@ void PluginBase::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& sea
                 hostedInfo.setHostType( hostType );
             }
 
+            if( netIdent->getMyOnlineId() == hostedInfo.getAdminOnlineId() )
+            {
+                // handle the case where network host is also hosting a group
+                // normally the identity is never sent to the gui because this is a temporary connection
+                // but gui needs the identity to show host list
+                if( sktBase->isTempConnection() )
+                {
+                    m_Engine.getToGui().toGuiContactAnythingChange( netIdent );
+                }
+            }
+            else
+            {
+                assureIdentityExist( hostedInfo );
+            }
+
             m_Engine.getHostedListMgr().hostSearchResult( hostType, searchSessionId, sktBase, netIdent, hostedInfo );
         }
         else
@@ -723,4 +742,72 @@ EPluginType PluginBase::getAssetOverridePluginType( void )
 {
     // assets are normally only transfered between clients
     return HostPluginToClientPluginType( getPluginType() );
+}
+
+//============================================================================
+bool PluginBase::assureIdentityExist( HostedInfo& hostedInfo )
+{
+    VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( hostedInfo.getAdminOnlineId() );
+    if( netIdent )
+    {
+        return true;
+    }
+
+    // for the case of host listing but user has not connected to host and does not have any identity info
+    // create a temporary identity with minimal permissions for gui to use until pkt announce recieved
+    bool hasIdent{ false };
+    if( hostedInfo.getAdminOnlineId().isVxGUIDValid() )
+    {
+        // create a temporary identity until a connection is made
+        VxNetIdent tempIdent;
+
+        bool ipv6{ false };
+        std::string url;
+        if( !hostedInfo.getHostInviteUrl( false ).empty() )
+        {
+            url = hostedInfo.getHostInviteUrl( false );
+        }
+        else
+        {
+            ipv6 = true;
+            url = hostedInfo.getHostInviteUrl( ipv6 );
+        }
+
+        VxPtopUrl ptopUrl( url );
+        if( ptopUrl.isValid() )
+        {
+            VxGUID ptopOnlineId = ptopUrl.getOnlineId();
+            if( ptopOnlineId != hostedInfo.getAdminOnlineId() )
+            {
+                LogMsg( LOG_ERROR, "PluginBase::%s admin id %s does not match url id %s", __func__,
+                        hostedInfo.getAdminOnlineId().toOnlineIdString().c_str(),
+                        ptopOnlineId.toOnlineIdString().c_str() );
+                return false;
+            }
+
+            tempIdent.setMyOnlinePort( ptopUrl.getPort() );
+            tempIdent.setMyOnlineId( ptopUrl.getOnlineId() );
+
+            tempIdent.setOnlineName( hostedInfo.getHostTitle().c_str());
+            tempIdent.setOnlineDescription( hostedInfo.getHostDescription().c_str() );
+            tempIdent.setMyFriendshipToHim( eFriendStateAnonymous );
+            tempIdent.setHisFriendshipToMe( eFriendStateAnonymous );
+            tempIdent.setAvatarGuid( hostedInfo.getThumbId(), GetGmtTimeMs() );
+            if( IsHostARelayForUsers( ptopUrl.getHostType() ) )
+            {
+                tempIdent.setPluginPermission( HostTypeToHostPlugin( ptopUrl.getHostType() ), eFriendStateAnonymous );
+                m_Engine.getToGui().toGuiContactAnythingChange( &tempIdent );
+                hasIdent = true;
+
+                vx_assert( tempIdent.isValidNetIdent() );
+            }
+        }
+    }
+
+    if( !hasIdent )
+    {
+        LogMsg( LOG_ERROR, "PluginBase::%s could not create host temporary identity" );
+    }
+
+    return hasIdent;
 }

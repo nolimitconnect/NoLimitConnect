@@ -301,7 +301,7 @@ void VxPushButton::setRandAction( enum ERandAction randAction )
             break;
 
         case eRandActionDeselectUser: 
-            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline );
+            m_RandActionColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline );
             break;
 
         default:

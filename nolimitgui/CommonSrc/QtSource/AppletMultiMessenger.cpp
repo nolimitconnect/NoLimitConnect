@@ -430,15 +430,19 @@ void AppletMultiMessenger::setSelectedUser( GuiUser* guiUser )
 {
 	if( m_SelectedUser )
 	{
-		bool wasRandConnectUser = m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, m_SelectedUser->getMyOnlineId() );
-		if( wasRandConnectUser )
+		// deselect previous user
+		bool isRandConnectUser = m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, m_SelectedUser->getMyOnlineId() );
+		if( isRandConnectUser )
 		{
-			sendRandConnectSelected( m_SelectedUser->getMyOnlineId(), false );
+			sendRandConnectSelected( guiUser->getMyOnlineId(), false );
 		}
 	}
 
 	m_SelectedUser = guiUser;
-	onSelectedUserChanged( m_SelectedUser );
+	if( m_SelectedUser )
+	{
+		onSelectedUserChanged( m_SelectedUser );
+	}
 }
 
 //============================================================================

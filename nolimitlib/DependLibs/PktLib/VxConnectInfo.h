@@ -82,12 +82,10 @@ public:
 
     std::string                 getMyOnlineUrl( bool ipv6, EHostType hostType = eHostTypeUnknown );
 
-	void						setMyOnlineId( uint64_t u64HiPart, uint64_t u64LoPart );
+	void						setMyOnlineId( VxGUID& onlineId );
 	VxGUID&						getMyOnlineId();
 	bool						getMyOnlineId( std::string& strRetId );
     std::string				    getMyOnlineIdHexString( void )  { return m_DirectConnectId.toHexString(); }
-    uint64_t					getMyOnlineIdLoPart();
-	uint64_t					getMyOnlineIdHiPart();
 
 	void						setMyOnlinePort( uint16_t port );
 	uint16_t					getMyOnlinePort( void );

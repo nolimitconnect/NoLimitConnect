@@ -125,9 +125,9 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( bool ipv6, EHostType hostType )
 }
 
 //============================================================================
-void VxConnectBaseInfo::setMyOnlineId( uint64_t u64HiPart, uint64_t u64LoPart )
+void VxConnectBaseInfo::setMyOnlineId( VxGUID& onlineId )
 { 
-	m_DirectConnectId.setVxGUID( u64HiPart, u64LoPart );
+	m_DirectConnectId.setVxGUID( onlineId );
 }
 
 //============================================================================
@@ -137,8 +137,6 @@ VxGUID& VxConnectBaseInfo::getMyOnlineId()
 }
 
 bool			VxConnectBaseInfo::getMyOnlineId( std::string& strRetId )		{ return m_DirectConnectId.toHexString( strRetId ); }
-uint64_t		VxConnectBaseInfo::getMyOnlineIdLoPart()						{ return m_DirectConnectId.getVxGUIDLoPart(); }
-uint64_t		VxConnectBaseInfo::getMyOnlineIdHiPart()						{ return m_DirectConnectId.getVxGUIDHiPart(); }
 
 void			VxConnectBaseInfo::setMyOnlinePort( uint16_t port )				{ m_DirectConnectId.setPort( port ); }		
 uint16_t		VxConnectBaseInfo::getMyOnlinePort( void )						{ return m_DirectConnectId.getPort(); }
