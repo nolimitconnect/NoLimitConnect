@@ -786,6 +786,7 @@ bool PluginBase::assureIdentityExist( HostedInfo& hostedInfo )
             }
 
             tempIdent.setMyOnlinePort( ptopUrl.getPort() );
+            tempIdent.setIpAddress( ipv6, ptopUrl.getHost() );
             tempIdent.setMyOnlineId( ptopUrl.getOnlineId() );
 
             tempIdent.setOnlineName( hostedInfo.getHostTitle().c_str());

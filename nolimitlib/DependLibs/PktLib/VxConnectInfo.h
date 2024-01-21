@@ -90,6 +90,7 @@ public:
 	void						setMyOnlinePort( uint16_t port );
 	uint16_t					getMyOnlinePort( void );
 
+    bool						setMyOnlineIpAddress( bool ipv6, std::string& ipAddress );
 	bool						getMyOnlineIpAddress( bool ipv6, std::string& strRetIp );
 
 	InetAddrIPv4&				getMyOnlineIPv4( void );

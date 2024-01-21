@@ -141,6 +141,7 @@ bool			VxConnectBaseInfo::getMyOnlineId( std::string& strRetId )		{ return m_Dir
 void			VxConnectBaseInfo::setMyOnlinePort( uint16_t port )				{ m_DirectConnectId.setPort( port ); }		
 uint16_t		VxConnectBaseInfo::getMyOnlinePort( void )						{ return m_DirectConnectId.getPort(); }
 
+bool			VxConnectBaseInfo::setMyOnlineIpAddress( bool ipv6, std::string& ipAddress )	{ return m_DirectConnectId.setIpAddress( ipv6, ipAddress ); }
 bool			VxConnectBaseInfo::getMyOnlineIpAddress( bool ipv6, std::string& strRetIp )	{ return m_DirectConnectId.getIpAddress( ipv6, strRetIp ); }
 
 InetAddrIPv4&	VxConnectBaseInfo::getMyOnlineIPv4( void )						{ return m_DirectConnectId.m_IPv4OnlineIp; }
