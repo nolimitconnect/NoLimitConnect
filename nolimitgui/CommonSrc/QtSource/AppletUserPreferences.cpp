@@ -89,7 +89,7 @@ void AppletUserPreferences::updateSettingsFromDlg()
     if( sendToEngine )
     {
         guiUser->setIsAutomatedHost( unattendedHost );
-        m_MyApp.getEngine().fromGuiSeIsAutomatedHost( unattendedHost );
+        m_MyApp.getEngine().fromGuiSetIsAutomatedHost( unattendedHost );
     }
 }
 

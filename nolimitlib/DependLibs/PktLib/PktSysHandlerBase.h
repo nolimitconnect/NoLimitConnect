@@ -213,6 +213,9 @@ public:
 	virtual void				onPktStreamCtrlReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 	virtual void				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
+	virtual void				onPktRandConnectReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+	virtual void				onPktRandConnectReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
 	//packet type 250 and greater not allowed
 	typedef void (PktHandlerBase::*RC_SYS_BASE_PKT_FUNCTION)( std::shared_ptr<VxSktBase>&, VxPktHdr* );  
 protected:

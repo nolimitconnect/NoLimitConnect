@@ -13,22 +13,24 @@
 
 #include "AppletPeerBase.h"
 #include "GuiOfferCallback.h"
+#include "GuiMemberActiveCallback.h"
 #include "MultiSessionState.h"
 #include "TodGameLogic.h"
 
 class EngineSettings;
 class GuiHosted;
 class GuiHostSession;
+class GuiMemberActiveMgr;
 class GuiOfferSession;
 class MultiSessionState;
 class P2PEngine;
 
-class GuiUserMultiListWidget : public QWidget
+class GuiUserMultiListWidget : public QWidget, public GuiMemberActiveCallback
 {
 	Q_OBJECT
 public:
 	GuiUserMultiListWidget( QWidget* parent = nullptr );
-	virtual ~GuiUserMultiListWidget() = default;
+	~GuiUserMultiListWidget() override;
 
 	void						setHostViewType( EHostType hostType );
 	void                        setUserViewType( EUserViewType viewType );
@@ -79,10 +81,14 @@ protected:
 
 	void						updateUsersByViewType( EUserViewType viewType );
 
+	void						callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostType hostType, bool isJoined ) override;
+
 	//=== vars ===//
 	Ui::GuiUserMultiListWidgetUi	ui;
 
 	AppCommon&					m_MyApp;
+	GuiMemberActiveMgr&			m_MemberActiveMgr;
+
     QFrame*						m_OffersFrame{ nullptr }; 
 	GuiUser*					m_SelectedUser{ nullptr };
 	bool						m_SessionVisible{ true };

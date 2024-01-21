@@ -92,6 +92,8 @@ protected:
 	bool						checkIfCanSend( void ) override;
 	bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
+	bool						sendRandConnectSelected( VxGUID& onlineId, bool isSelected );
+
 	//=== vars ===//
 	Ui::AppletMultiMessengerUi	ui;
     TodGameLogic				m_TodGameLogic;

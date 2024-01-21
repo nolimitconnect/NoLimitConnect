@@ -280,6 +280,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiPlayerCallback.h 
     CommonSrc/QtSource/GuiPlayerMgr.h 
     CommonSrc/QtSource/GuiPluginMgr.h 
+    CommonSrc/QtSource/GuiRandConnectCallback.h 
+    CommonSrc/QtSource/GuiRandConnectMgr.h 
 	CommonSrc/QtSource/GuiThumb.h
 	CommonSrc/QtSource/GuiThumbList.h
 	CommonSrc/QtSource/GuiThumbMgr.h
@@ -667,6 +669,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiPlayerMgr.cpp
     CommonSrc/QtSource/GuiPluginMgr.cpp
     CommonSrc/QtSource/GuiPushToTalkMgr.cpp  
+    CommonSrc/QtSource/GuiRandConnectMgr.cpp 
     CommonSrc/QtSource/GuiThumb.cpp
     CommonSrc/QtSource/GuiThumbList.cpp
     CommonSrc/QtSource/GuiThumbMgr.cpp

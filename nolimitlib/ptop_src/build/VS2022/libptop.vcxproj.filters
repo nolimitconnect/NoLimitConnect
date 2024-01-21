@@ -727,6 +727,9 @@
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgrFileIo.cpp">
       <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\RandConnect\RandConnectMgr.cpp">
+      <Filter>Source Files\RandConnect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1503,6 +1506,12 @@
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.h">
       <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\RandConnect\RandConnectCallback.h">
+      <Filter>Source Files\RandConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\RandConnect\RandConnectMgr.h">
+      <Filter>Source Files\RandConnect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1618,6 +1627,9 @@
     </Filter>
     <Filter Include="Source Files\VirtStream">
       <UniqueIdentifier>{db258203-5095-49aa-ba86-4d8d1188af1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RandConnect">
+      <UniqueIdentifier>{d670aa14-a948-4813-b129-485ea8782c59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

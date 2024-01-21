@@ -15,6 +15,8 @@
 
 #include <QPushButton>
 
+#include <PktLib/PktsRandConnectDefs.h>
+
 class AppCommon;
 class VxAppTheme;
 class MyIcons;
@@ -59,6 +61,9 @@ public:
     void                        setNotifyOnline( bool isOnline )                    { setNotifyType( isOnline ? eNotifyOnline : eNotifyOffline ); }
     void						setNotifyType( ENotifyType notifyType );
     ENotifyType					getNotifyType( void )                               { return m_NotifyType; }
+
+    void                        setRandAction( enum ERandAction randAction );
+    enum ERandAction			getRandAction( void )                               { return m_RandActionType; }
 
     void						setNotifyDirectConnectEnabled( bool enabled, EMyIcons eNotifyIcon = eMyIconNotifyDirectConnectOverlay );
     bool						getNotifyDirectConnectEnabled( void )               { return m_NotifyDirectConnectEnabled; }
@@ -152,6 +157,15 @@ protected:
     QColor						m_NotifyIconOnlineColor;
 	QColor						m_NotifyLastIconOnlineColor;
 	QSize						m_NotifyLastIconOnlineSize{ 0, 0 };
+
+    enum ERandAction            m_RandActionType{ eRandActionNone };
+    bool						m_RandActionEnabled{ false };
+	EMyIcons					m_RandActionIcon{ eMyIconGlobeOverlay };
+	EMyIcons					m_LastRandActionIcon{ eMyIconNone };
+	QPixmap						m_RandActionImage;
+    QColor						m_RandActionColor;
+	QColor						m_RandActionLastIconColor;
+	QSize						m_RandActionLastIconSize{ 0, 0 };
 
     bool						m_NotifyDirectConnectEnabled{ false };
     EMyIcons					m_NotifyDirectConnectIcon{ eMyIconNone };

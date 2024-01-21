@@ -26,6 +26,8 @@
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 
+#include <PktLib/PktsRandConnectDefs.h>
+
 #include <algorithm>
 
 //============================================================================
@@ -529,7 +531,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findHostConnection( GroupieId& grou
     // host connection can only be a direct connection
     if( !groupieId.isValid() )
     {
-        LogMsg( LOG_ERROR, "ConnectIdListMgr::findHostConnection invalid id" );
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::%s invalid id", __func__ );
         return std::shared_ptr<VxSktBase>();
     }
 
@@ -557,8 +559,38 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findHostConnection( GroupieId& grou
     }
     else
     {
-        LogMsg( LOG_ERROR, "findHostConnection invalid groupieId" );
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::%s invalid groupieId", __func__ );
     }
+
+    return sktBase;
+}
+
+//============================================================================
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostConnection( EHostType hostType )
+{
+    if( !IsHostARelayForUsers( hostType ) )
+    {
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::%s invalid host type %d", __func__, hostType );
+        return std::shared_ptr<VxSktBase>();
+    }
+
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
+    lockList();
+    for( auto& connectIdConst : m_ConnectIdList )
+    {
+        ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
+        //if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
+        if( connectId.getHostType() == hostType )
+        {
+            sktBase = findSktBase( connectId.getSocketId() );
+            if( sktBase && sktBase->isConnected() )
+            {
+                break;
+            }
+        }
+    }
+
+    unlockList();
 
     return sktBase;
 }

@@ -11,10 +11,12 @@
 #include "P2PEngine.h"
 
 #include <BigListLib/BigListInfo.h>
-#include <Plugins/PluginBase.h>
+
 #include <Plugins/PluginMgr.h>
 #include <Plugins/PluginFileShareServer.h>
 #include <Plugins/PluginFileShareClient.h>
+#include <Plugins/PluginRandomConnectHost.h>
+#include <Plugins/PluginRandomConnectClient.h>
 
 #include <Network/NetConnector.h>
 
@@ -1518,5 +1520,33 @@ void P2PEngine::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 	{
 		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( pktHdr->getDestOnlineId() );
 		((PluginFileShareClient*)pluginBase)->onPktStreamCtrlReply( sktBase, pktHdr, netIdent );
+	}
+}
+
+//============================================================================
+void P2PEngine::onPktRandConnectReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	// steam control requests can only be sent to File Share server
+	PluginBase* pluginBase = m_PluginMgr.getPlugin( ePluginTypeHostRandomConnect );
+	if( pluginBase )
+	{
+		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( pktHdr->getDestOnlineId() );
+		((PluginRandomConnectHost*)pluginBase)->onPktRandConnectReq( sktBase, pktHdr, netIdent );
+	}
+}
+
+//============================================================================
+void P2PEngine::onPktRandConnectReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	// steam control replies can only be sent to File Share client
+	PluginBase* pluginBase = m_PluginMgr.getPlugin(  ePluginTypeClientRandomConnect );
+	if( pluginBase )
+	{
+		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( pktHdr->getDestOnlineId() );
+		((PluginRandomConnectClient*)pluginBase)->onPktRandConnectReply( sktBase, pktHdr, netIdent );
 	}
 }

@@ -693,6 +693,7 @@
     <ClCompile Include="..\..\ptop_engine_src\Plugins\VideoFeedMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\VoiceFeedMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\PushToTalk\PushToTalkMgr.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\RandConnect\RandConnectMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Relay\RelayMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Search\RcScan.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Search\RcScanAction.cpp" />
@@ -947,6 +948,8 @@
     <ClInclude Include="..\..\ptop_engine_src\Plugins\VoiceFeedMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\PushToTalk\PushToTalkCallback.h" />
     <ClInclude Include="..\..\ptop_engine_src\PushToTalk\PushToTalkMgr.h" />
+    <ClInclude Include="..\..\ptop_engine_src\RandConnect\RandConnectCallback.h" />
+    <ClInclude Include="..\..\ptop_engine_src\RandConnect\RandConnectMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Relay\RelayMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Search\RcScan.h" />
     <ClInclude Include="..\..\ptop_engine_src\Search\RcScanAction.h" />

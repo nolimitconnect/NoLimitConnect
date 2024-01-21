@@ -37,15 +37,17 @@
 
 #include <UrlMgr/UrlMgr.h>
 
-#include <NetLib/VxGetRandomPort.h>
-#include <NetLib/VxPeerMgr.h>
-
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxPtopUrl.h>
+
+#include <NetLib/VxGetRandomPort.h>
+#include <NetLib/VxPeerMgr.h>
+
+#include <PktLib/PktsRandConnect.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -1917,7 +1919,7 @@ bool P2PEngine::fromGuiDeleteDatabase( EDatabaseType databaseType )
     case eDatabaseTypeAllUsers:
         return getBigListMgr().deleteDatabase();
     default:
-         LogMsg( LOG_ERROR, "Unkonwn Database Type" );
+         LogMsg( LOG_ERROR, "P2PEngine::%s Unkonwn Database Type", __func__ );
 		 break;
     }
 
@@ -1925,7 +1927,32 @@ bool P2PEngine::fromGuiDeleteDatabase( EDatabaseType databaseType )
 }
 
 //============================================================================
-void P2PEngine::fromGuiSeIsAutomatedHost( bool automatedHost )
+void P2PEngine::fromGuiSetIsAutomatedHost( bool automatedHost )
 {
 	getMyPktAnnounce().setIsAutomatedHost( automatedHost );
+}
+
+//============================================================================
+bool P2PEngine::fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected )
+{
+	bool result{ false };
+
+	std::shared_ptr<VxSktBase> sktBase = getConnectIdListMgr().findAnyHostConnection( eHostTypeRandomConnect );
+	if( sktBase && sktBase->isConnected() && sktBase->getIsPeerPktAnnSet() )
+	{
+		PktRandConnectReq pktReq;
+		pktReq.setPluginNum( ePluginTypeHostRandomConnect );
+		GroupieId groupieId( getMyOnlineId(), sktBase->getPeerOnlineId(), eHostTypeRandomConnect);
+		pktReq.setGroupieId( groupieId );
+		pktReq.setToUserOnlineId( onlineId );
+		pktReq.setRandAction( isSelected ? eRandActionSelectUser : eRandActionDeselectUser );
+		pktReq.setDestOnlineId( sktBase->getPeerOnlineId() );
+		return 0 == sktBase->txPacketWithDestId( &pktReq );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "P2PEngine::%s No Connection", __func__ );
+	}
+
+	return result;
 }

@@ -42,6 +42,7 @@ list(APPEND pktlib_SOURCES
     PktsPluginOffer.cpp
     PktsPushToTalk.cpp
     PktsQueryHostUrl.cpp
+    PktsRandConnect.cpp
     PktsRelay.cpp
 	PktsScan.cpp
 	PktsSearch.cpp

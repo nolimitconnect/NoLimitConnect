@@ -142,6 +142,7 @@ question-mark-outlined.svg (modified)
 radio-tower.svg
 remote-control.svg
 random-connect-info.svg (modified)
+rand-connect-overlay.svg (modified)
 service-group-chat.svg
 service-group-chat-settings.svg ( modified )
 settings-gear.svg

@@ -215,6 +215,7 @@ list(APPEND ptopengine_SOURCES
     Plugins/VideoFeedMgr.cpp
     Plugins/VoiceFeedMgr.cpp
     PushToTalk/PushToTalkMgr.cpp
+    RandConnect/RandConnectMgr.cpp
     Relay/RelayMgr.cpp
     Search/RcScan.cpp
     Search/RcScanAction.cpp

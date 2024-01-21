@@ -40,6 +40,7 @@
 #include "GuiAppLoaderThread.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiPushToTalkMgr.h"
+#include "GuiRandConnectMgr.h"
 #include "VxPushButton.h"
 
 #include <BlobXferMgr/BlobInfo.h>
@@ -135,11 +136,12 @@ static AppSettings appSettings;
 static AccountMgr accountMgr;
 static GuiMemberActiveMgr memberActiveMgr;
 static GuiPushToTalkMgr pushToTalkMgr;
+static GuiRandConnectMgr randConnectMgr;
 static MyIcons myIcons;
     if( !g_AppCommon )
     {
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, memberActiveMgr, pushToTalkMgr, myIcons );
+        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, memberActiveMgr, pushToTalkMgr, randConnectMgr, myIcons );
     }
 
     return *g_AppCommon;
@@ -166,6 +168,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						INlc&		    nlc,
 						GuiMemberActiveMgr& memberActiveMgr,
 						GuiPushToTalkMgr& pushToTalkMgr,
+						GuiRandConnectMgr& randConnectMgr,
 						MyIcons& myIcons )
 : QWidget()
 , m_QApp( myQApp )
@@ -182,6 +185,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_MemberActiveMgr( memberActiveMgr )
 , m_OfferMgr( *this )
 , m_PushToTalkMgr( pushToTalkMgr )
+, m_RandConnectMgr( randConnectMgr )
 , m_UserMgr( *this )
 , m_GroupieListMgr( *this )
 , m_HostedListMgr( *this )
@@ -303,6 +307,7 @@ bool AppCommon::loadWithoutThread( void )
 	m_WebPageMgr.onAppCommonCreated();
 	m_ConnectIdListMgr.onAppCommonCreated();
 	m_MemberActiveMgr.onAppCommonCreated();
+	m_RandConnectMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 
 	while( !appLoaderThread.getIsIconsLoaded() )

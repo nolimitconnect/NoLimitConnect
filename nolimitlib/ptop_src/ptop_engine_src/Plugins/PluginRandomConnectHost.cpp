@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "PluginRandomConnectHost.h"
+
 #include "PluginMgr.h"
 #include "P2PSession.h"
 #include "RxSession.h"
@@ -17,6 +18,8 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxFileUtil.h>
+
+#include <PktLib/PktsRandConnect.h>
 
 //============================================================================
 PluginRandomConnectHost::PluginRandomConnectHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
@@ -30,3 +33,18 @@ void PluginRandomConnectHost::pluginStartup( void )
 {
     PluginBaseHostService::pluginStartup();
 }
+
+//============================================================================
+void PluginRandomConnectHost::onPktRandConnectReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    PktRandConnectReq* pktReq = (PktRandConnectReq*)pktHdr;
+    PktRandConnectReply pktReply;
+    GroupieId groupieId = pktReq->getGroupieId();
+    pktReply.setGroupieId( groupieId );
+    pktReply.setToUserOnlineId( pktReq->getToUserOnlineId() );
+    pktReply.setRandAction( pktReq->getRandAction() );
+
+    VxGUID excludeId;
+    broadcastToClients( &pktReply, excludeId );
+}
+

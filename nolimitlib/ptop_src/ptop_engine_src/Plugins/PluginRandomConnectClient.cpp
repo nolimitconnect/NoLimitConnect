@@ -9,14 +9,11 @@
 //============================================================================
 
 #include "PluginRandomConnectClient.h"
-#include "PluginMgr.h"
-#include "P2PSession.h"
-#include "RxSession.h"
-#include "TxSession.h"
 
 #include <P2PEngine/P2PEngine.h>
+#include <RandConnect/RandConnectMgr.h>
 
-#include <CoreLib/VxFileUtil.h>
+#include <PktLib/PktsRandConnect.h>
 
 //============================================================================
 PluginRandomConnectClient::PluginRandomConnectClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
@@ -126,4 +123,12 @@ void PluginRandomConnectClient::onPktHostUserInfoReply( std::shared_ptr<VxSktBas
 void PluginRandomConnectClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginRandomConnectClient::onPktRandConnectReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    PktRandConnectReply* pktReply = (PktRandConnectReply*)pktHdr;
+    GroupieId groupieId = pktReply->getGroupieId();
+    m_Engine.getRandConnectMgr().updateRandConnectStatus( groupieId, pktReply->getToUserOnlineId(), pktReply->getRandAction() );
 }

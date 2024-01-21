@@ -18,10 +18,11 @@
 #include "AppletMgr.h"
 
 #include "GuiHelpers.h"
+#include "GuiMemberActiveMgr.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
 
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 
 #include <CoreLib/VxGlobals.h>
 
@@ -29,6 +30,7 @@
 GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 : QWidget( parent )
 , m_MyApp( GetAppInstance() )
+, m_MemberActiveMgr( m_MyApp.getMemberActiveMgr() )
 {
     ui.setupUi( this );
 
@@ -73,13 +75,23 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 	connect( ui.m_UserListWidget,		SIGNAL(signalUserAvatarClicked(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
     connect( ui.m_SearchBarWidget,      SIGNAL(signalSearchTextChanged(QString)), this, SLOT(slotSearchTextChanged(QString)) );
 
-    ui.m_GroupHost->setVisible( false );
-    ui.m_GroupLabel->setVisible( false );
-    ui.m_ChatRoomHost->setVisible( false );
-    ui.m_ChatRoomLabel->setVisible( false );
-    ui.m_RandomConnectHost->setVisible( false );
-    ui.m_RandomConnectLabel->setVisible( false );
+    bool isMemberOfGroup = m_MemberActiveMgr.isMemberOfHostType( eHostTypeGroup, m_MyApp.getMyOnlineId() );
+    ui.m_GroupHost->setVisible( isMemberOfGroup );
+    ui.m_GroupLabel->setVisible( isMemberOfGroup );
+    bool isMemberOfChatRoom = m_MemberActiveMgr.isMemberOfHostType( eHostTypeChatRoom, m_MyApp.getMyOnlineId() );
+    ui.m_ChatRoomHost->setVisible( isMemberOfChatRoom );
+    ui.m_ChatRoomLabel->setVisible( isMemberOfChatRoom );
+    bool isMemberOfRandConnect = m_MemberActiveMgr.isMemberOfHostType( eHostTypeRandomConnect, m_MyApp.getMyOnlineId() );
+    ui.m_RandomConnectHost->setVisible( isMemberOfRandConnect );
+    ui.m_RandomConnectLabel->setVisible( isMemberOfRandConnect );
     ui.m_AdminFrame->setVisible( false );
+    m_MemberActiveMgr.wantMemberActiveCallback( this, true );
+}
+
+//============================================================================
+GuiUserMultiListWidget::~GuiUserMultiListWidget( void )
+{
+    m_MemberActiveMgr.wantMemberActiveCallback( this, false );
 }
 
 //============================================================================
@@ -402,4 +414,34 @@ void GuiUserMultiListWidget::updateSelectionByViewType( EUserViewType viewType )
 void GuiUserMultiListWidget::updateUsersByViewType( EUserViewType viewType )
 {
     ui.m_UserListWidget->setUserViewType( viewType );
+}
+
+//============================================================================
+void GuiUserMultiListWidget::callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostType hostType, bool isJoined )
+{
+    if( onlineId != m_MyApp.getMyOnlineId() )
+    {
+        return;
+    }
+
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        ui.m_GroupHost->setVisible( isJoined );
+        ui.m_GroupLabel->setVisible( isJoined );
+        break;
+
+    case eHostTypeChatRoom:
+        ui.m_ChatRoomHost->setVisible( isJoined );
+        ui.m_ChatRoomLabel->setVisible( isJoined );
+        break;
+
+    case eHostTypeRandomConnect:
+        ui.m_RandomConnectHost->setVisible( isJoined );
+        ui.m_RandomConnectLabel->setVisible( isJoined );
+        break;
+
+    default:
+        break;
+    }
 }

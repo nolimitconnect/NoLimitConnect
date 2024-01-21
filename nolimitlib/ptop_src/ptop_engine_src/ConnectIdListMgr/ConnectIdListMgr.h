@@ -57,6 +57,7 @@ public:
     bool                        getConnections( HostedId& hostId, std::set<ConnectId>& retConnectIdSet, std::set<ConnectId>& relayConnectIdSet );
 
     std::shared_ptr<VxSktBase>  findHostConnection( GroupieId& groupieId, bool tryPeerFirst = false );
+    std::shared_ptr<VxSktBase>  findAnyHostConnection( EHostType hostType );
     std::shared_ptr<VxSktBase>  findRelayMemberConnection( VxGUID& onlineId );
     std::shared_ptr<VxSktBase>  findPeerConnection( VxGUID& onlineId );
 

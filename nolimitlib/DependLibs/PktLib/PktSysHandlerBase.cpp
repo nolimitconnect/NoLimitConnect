@@ -24,7 +24,7 @@ PktHandlerBase::PktHandlerBase()
 	}
 
 	int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 150 == maxPktType );
+    vx_assert( 152 == maxPktType );
 
 	m_aBaseSysPktFuncTable[ 0 ] = &PktHandlerBase::onPktInvalid;
 
@@ -38,7 +38,6 @@ PktHandlerBase::PktHandlerBase()
 	m_aBaseSysPktFuncTable[ PKT_TYPE_PLUGIN_OFFER_REPLY ]				= &PktHandlerBase::onPktPluginOfferReply;
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_CHAT_REQ ]							= &PktHandlerBase::onPktChatReq;
-	//#define PKT_TYPE_CHAT_REPLY							( PKT_TYPE_CHAT_REQ	+ 1 )				        // 10 ( 0x0a )
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_VOICE_REQ ]						= &PktHandlerBase::onPktVoiceReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_VOICE_REPLY ]						= &PktHandlerBase::onPktVoiceReply;
@@ -211,6 +210,9 @@ PktHandlerBase::PktHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_STREAM_CTRL_REQ ]					= &PktHandlerBase::onPktStreamCtrlReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_STREAM_CTRL_REPLY ]				= &PktHandlerBase::onPktStreamCtrlReply;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REQ ]					= &PktHandlerBase::onPktRandConnectReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REPLY ]				= &PktHandlerBase::onPktRandConnectReply;
 }
 
 //============================================================================
@@ -1129,6 +1131,18 @@ void PktHandlerBase::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, Vx
 
 //============================================================================
 void PktHandlerBase::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktRandConnectReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktRandConnectReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }

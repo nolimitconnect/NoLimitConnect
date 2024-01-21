@@ -29,7 +29,7 @@ enum EMyIcons
 	eMyIconPlusOverlay,				// add to shared or library icon overlay
 	eMyIconMinusOverlay,			// remove from shared or library
 	eMyIconFriendOverlay,			// is friend
-	eMyIconGlobeOverlay,			// is global shared or unknown person
+	eMyIconGlobeOverlay,			// is random connect person globe in upper left
 	eMyIconNlcFavoriteOverlay,		// nlc preferred host or user overlay
 
     eMyIconInformation,

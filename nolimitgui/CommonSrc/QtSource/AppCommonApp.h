@@ -70,6 +70,7 @@ class GuiFileXferSession;
 class GuiMemberActiveMgr;
 class GuiOfferSession;
 class GuiPushToTalkMgr;
+class GuiRandConnectMgr;
 class KodiThread;
 class MediaPlayerNlc;
 class MyIcons;
@@ -94,6 +95,7 @@ public:
                INlc& nlc,
                GuiMemberActiveMgr& memberActiveMgr,
                GuiPushToTalkMgr& pushToTalkMgr,
+               GuiRandConnectMgr& randConnectMgr,
                MyIcons& myIcons );
 
     AppCommon( const AppCommon& rhs ) = delete;
@@ -141,27 +143,28 @@ public:
     VxNetIdent*                 getMyNetIdent( void );
     VxGUID&                     getMyOnlineId( void );
     ENetworkStateType			getNetworkState( void ) { return m_LastNetworkState; }
-    GuiOfferMgr&                getOfferMgr( void ) { return m_OfferMgr; }
-    GuiPushToTalkMgr&           getPushToTalkMgr( void ) { return m_PushToTalkMgr; };
 
-    RenderGlWidget*             getRenderConsumer( void );
-    SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
-    VxTilePositioner&           getTilePositioner( void ) { return m_TilePositioner; }
     GuiConnectIdListMgr&        getConnectIdListMgr( void ) { return m_ConnectIdListMgr; }
     GuiFavoriteMgr&             getFavoriteMgr( void ) { return m_FavoriteMgr; }
     GuiFileXferMgr&             getFileXferMgr( void ) { return m_FileXferMgr; }
     GuiGroupieListMgr&          getGroupieListMgr( void ) { return m_GroupieListMgr; }
     GuiHostedListMgr&           getHostedListMgr( void ) { return m_HostedListMgr; }
     GuiHostedByMeJoinMgr&       getHostJoinMgr( void ) { return m_HostJoinMgr; }
+    GuiMemberActiveMgr&         getMemberActiveMgr( void ) { return m_MemberActiveMgr; }
+    GuiOfferMgr&                getOfferMgr( void ) { return m_OfferMgr; }
+    GuiPlayerMgr&               getPlayerMgr( void ) { return m_PlayerMgr; }
+    GuiPluginMgr&               getPluginMgr( void ) { return m_PluginMgr; }
+    GuiPushToTalkMgr&           getPushToTalkMgr( void ) { return m_PushToTalkMgr; };
+    GuiRandConnectMgr&          getRandConnectMgr( void ) { return m_RandConnectMgr; }
+    GuiThumbMgr&                getThumbMgr( void ) { return m_ThumbMgr; }
     GuiUserJoinMgr&             getUserJoinMgr( void ) { return m_UserJoinMgr; }
     GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
     GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
-    GuiThumbMgr&                getThumbMgr( void ) { return m_ThumbMgr; }
-    GuiMemberActiveMgr&         getMemberActiveMgr( void ) { return m_MemberActiveMgr; }
-    GuiPlayerMgr&               getPlayerMgr( void ) { return m_PlayerMgr; }
-    GuiPluginMgr&               getPluginMgr( void ) { return m_PluginMgr; }
 
     MediaPlayerNlc&             getPlayerNlc( void );
+    RenderGlWidget*             getRenderConsumer( void );
+    SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
+    VxTilePositioner&           getTilePositioner( void ) { return m_TilePositioner; }
 
     QApplication&               getQApplication( void ) { return m_QApp; }
 
@@ -866,9 +869,10 @@ protected:
     GuiGroupieListMgr			m_GroupieListMgr;
     GuiHostedListMgr			m_HostedListMgr;
     GuiHostedByMeJoinMgr		m_HostJoinMgr;
-    GuiUserJoinMgr				m_UserJoinMgr;
     GuiPlayerMgr                m_PlayerMgr;
     GuiPluginMgr                m_PluginMgr;
+    GuiRandConnectMgr&          m_RandConnectMgr;
+    GuiUserJoinMgr				m_UserJoinMgr;
     GuiWebPageMgr               m_WebPageMgr;
 
     MyIcons&					m_MyIcons;

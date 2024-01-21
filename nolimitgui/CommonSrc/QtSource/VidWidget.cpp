@@ -9,13 +9,13 @@
 //============================================================================
 
 #include "VidWidget.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppletMgr.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 #include "GuiHelpers.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <CoreLib/VxTimeUtil.h>

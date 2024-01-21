@@ -209,6 +209,9 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_STREAM_CTRL_REQ ]					= &PktPluginHandlerBase::onPktStreamCtrlReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_STREAM_CTRL_REPLY ]				= &PktPluginHandlerBase::onPktStreamCtrlReply;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REQ ]					= &PktPluginHandlerBase::onPktRandConnectReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REPLY ]				= &PktPluginHandlerBase::onPktRandConnectReply;
 }
 
 //============================================================================
@@ -1114,6 +1117,18 @@ void PktPluginHandlerBase::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBa
 
 //============================================================================
 void PktPluginHandlerBase::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktRandConnectReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktRandConnectReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktUnhandled( sktBase, pktHdr, netIdent );
 }

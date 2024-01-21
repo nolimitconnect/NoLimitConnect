@@ -10,8 +10,11 @@
 //============================================================================
 
 #include "GuiParams.h"
-#include "GuiUserUpdateCallback.h"
+
 #include "GuiPushToTalkCallback.h"
+#include "GuiRandConnectCallback.h"
+#include "GuiUserUpdateCallback.h"
+
 #include "MyIconsDefs.h"
 
 #include <CoreLib/VxGUID.h>
@@ -29,7 +32,7 @@ class GuiUserJoin;
 class GuiGroupie;
 class GuiOfferSession;
 
-class IdentLogicInterface : public QWidget, public GuiUserUpdateCallback, public GuiPushToTalkCallback
+class IdentLogicInterface : public QWidget, public GuiUserUpdateCallback, public GuiPushToTalkCallback, public GuiRandConnectCallback
 {
 	Q_OBJECT
 public:
@@ -129,6 +132,7 @@ protected:
 	void						callbackUserUpdated( GuiUser* guiUser ) override;
 	void						callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
     void						callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus ) override;
+	void						callbackGuiRandConnect( VxGUID& onlineId, enum ERandAction randAction ) override;
 
 	AppCommon&					m_MyApp;
 	EPluginType					m_PluginType{ ePluginTypeInvalid };

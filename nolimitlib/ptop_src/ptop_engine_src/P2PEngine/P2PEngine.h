@@ -76,6 +76,7 @@ class PluginNetServices;
 class PluginFileShareServer;
 class PluginSetting;
 class PluginSettingMgr;
+class RandConnectMgr;
 class RunUrlAction;
 class UrlMgr;
 class UserJoinMgr;
@@ -93,7 +94,7 @@ public:
     P2PEngine() = delete; // don't allow default constructor
     P2PEngine( const P2PEngine& ) = delete; // don't allow copy constructor
 
-	P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, PushToTalkMgr& pushToTalkMgr );
+	P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, PushToTalkMgr& pushToTalkMgr, RandConnectMgr& randConnectMgr );
 	virtual ~P2PEngine() override;
 
 	void						startupEngine( void );
@@ -135,6 +136,7 @@ public:
     P2PConnectList&             getConnectList( void )                          { return m_ConnectionList; }
     PluginMgr&					getPluginMgr( void )							{ return m_PluginMgr; }
     PluginSettingMgr&			getPluginSettingMgr( void )						{ return m_PluginSettingMgr; }
+    RandConnectMgr&             getRandConnectMgr( void )                       { return m_RandConnectMgr; }
     RelayMgr&                   getRelayMgr( void )                             { return m_RelayMgr; }
     RcScan&						getRcScan( void )								{ return m_RcScan; }
     RunUrlAction&               getRunUrlAction( void )                         { return m_RunUrlAction; }
@@ -398,7 +400,9 @@ public:
 
     bool				        fromGuiDeleteDatabase( EDatabaseType databaseType ) override;
 
-    void				        fromGuiSeIsAutomatedHost( bool automatedHost ) override;
+    void				        fromGuiSetIsAutomatedHost( bool automatedHost ) override;
+
+    bool                        fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected ) override;
 
 	//========================================================================
 	// to gui
@@ -711,6 +715,9 @@ public:
     virtual void				onPktStreamCtrlReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 	virtual void				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
+    virtual void				onPktRandConnectReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	virtual void				onPktRandConnectReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 
     void                        onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort );
@@ -798,6 +805,7 @@ protected:
 	PluginNetServices*			m_PluginNetServices;
 
 	IsPortOpenTest&				m_IsPortOpenTest;
+    RandConnectMgr&             m_RandConnectMgr;
     RelayMgr                    m_RelayMgr;
     RunUrlAction&			    m_RunUrlAction;
     HostServerJoinMgr&			m_HostJoinMgr;

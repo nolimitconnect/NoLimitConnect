@@ -15,6 +15,8 @@
 #include <Plugins/FileInfo.h>
 #include <PluginSettings/PluginSetting.h>
 
+#include <PktLib/PktsRandConnectDefs.h>
+
 //============================================================================
 void  AppCommon::registerMetaData( void )
 {
@@ -68,6 +70,7 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<PluginSetting>( "PluginSetting" );
 	qRegisterMetaType<VxGUID>( "VxGUID" );
 	qRegisterMetaType<VxNetIdent>( "VxNetIdent" );
+	qRegisterMetaType<ERandAction>( "ERandAction" );
 	qRegisterMetaType<EUserViewType>( "EUserViewType" );
 	qRegisterMetaType<ThumbInfo>( "ThumbInfo" );
 	qRegisterMetaType<HostedInfo>( "HostedInfo" );

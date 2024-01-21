@@ -671,7 +671,7 @@ bool VirtStreamMgr::verifyCacheData( int64_t fileOffs, uint8_t* buf, int64_t dat
 			uint8_t* fileBuf = new uint8_t[dataLen];
 			if( fileBuf )
 			{
-				if( dataLen = fread( fileBuf, 1, dataLen, fp ) )
+                if( dataLen == fread( fileBuf, 1, dataLen, fp ) )
 				{
 					bool match = true;
 					for( int i = 0; i < dataLen; i++ )

@@ -130,7 +130,7 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 		return ":/AppRes/Resources/overlay-minus.svg";
 	case eMyIconFriendOverlay:		// is friend
 		return ":/AppRes/Resources/overlay-friend.svg";
-	case eMyIconGlobeOverlay:		// is global shared or unknown person
+	case eMyIconGlobeOverlay:		
 		return ":/AppRes/Resources/overlay-globe.svg";
 	case eMyIconNlcFavoriteOverlay:		// nlc icon in upper left
 		return ":/AppRes/Resources/overlay-nlc.svg";

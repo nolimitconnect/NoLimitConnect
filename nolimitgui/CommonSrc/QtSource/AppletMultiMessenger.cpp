@@ -10,13 +10,14 @@
 
 #include "AppletMultiMessenger.h"
 
+#include "AppCommon.h"
+#include "AppGlobals.h"
 #include "AppSettings.h"
 #include "ActivityMessageBox.h"
-#include "GuiOfferSession.h"
 #include "GuiHelpers.h"
+#include "GuiMemberActiveMgr.h"
+#include "GuiOfferSession.h"
 #include "GuiParams.h"
-#include "AppGlobals.h"
-#include "AppCommon.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
@@ -329,9 +330,7 @@ void AppletMultiMessenger::toGuiMultiSessionAction(  EMSessionAction mSessionAct
 {
 	if( m_HisIdent && m_HisIdent->getMyOnlineId() == onlineId )
 	{
-
-		if( ( onlineId.getVxGUIDHiPart() == m_HisIdent->getMyOnlineId().getVxGUIDHiPart() ) &&
-			( onlineId.getVxGUIDLoPart() == m_HisIdent->getMyOnlineId().getVxGUIDLoPart() ) )
+		if( onlineId == m_HisIdent->getMyOnlineId() )
 		{
 			if( eMSessionActionChatSessionAccept == mSessionAction )
 			{
@@ -429,6 +428,15 @@ void AppletMultiMessenger::slotUserSelected( GuiUser* guiUser )
 //============================================================================
 void AppletMultiMessenger::setSelectedUser( GuiUser* guiUser )
 {
+	if( m_SelectedUser )
+	{
+		bool wasRandConnectUser = m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, m_SelectedUser->getMyOnlineId() );
+		if( wasRandConnectUser )
+		{
+			sendRandConnectSelected( m_SelectedUser->getMyOnlineId(), false );
+		}
+	}
+
 	m_SelectedUser = guiUser;
 	onSelectedUserChanged( m_SelectedUser );
 }
@@ -436,9 +444,14 @@ void AppletMultiMessenger::setSelectedUser( GuiUser* guiUser )
 //============================================================================
 void AppletMultiMessenger::onSelectedUserChanged( GuiUser* guiUser )
 {
-	//ui.m_IdentWidget->updateIdentity( guiUser );
 	if( guiUser )
 	{
+		bool isRandConnectUser = m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, guiUser->getMyOnlineId() );
+		if( isRandConnectUser )
+		{
+			sendRandConnectSelected( guiUser->getMyOnlineId(), true );
+		}
+
         GroupieId groupieId( guiUser->getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypePeerUser );
         ui.m_SessionWidget->setGroupieId( groupieId );
 	}
@@ -455,7 +468,6 @@ void AppletMultiMessenger::slotViewChanged( EUserViewType viewType )
 {
 	//setSelectedUser( nullptr );
 }
-
 
 //============================================================================
 bool AppletMultiMessenger::checkIfCanSend( void )
@@ -494,4 +506,18 @@ bool AppletMultiMessenger::handleAssetAction( EAssetAction assetAction, AssetBas
 		assetInfo.setDestUserId( m_SelectedUser->getMyOnlineId() );
 		return getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
 	}
+}
+
+//============================================================================
+bool AppletMultiMessenger::sendRandConnectSelected( VxGUID& onlineId, bool isSelected )
+{
+	LogMsg( LOG_VERBOSE, "AppletMultiMessenger::%s selected %d %s", __func__,
+			isSelected, m_MyApp.describeUser( onlineId ).c_str() );
+
+	if( !m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, m_MyApp.getMyOnlineId() ) )
+	{
+		return false;
+	}
+
+	return getMyApp().getEngine().fromGuiSendRandConnectSelected( onlineId, isSelected );
 }

@@ -17,6 +17,7 @@
 #include "../CommonSrc/QtSource/AppCommon.h"
 #include <Membership/MemberActiveMgr.h>
 #include <PushToTalk/PushToTalkMgr.h>
+#include <RandConnect/RandConnectMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxMutex.h>
@@ -62,7 +63,8 @@ P2PEngine& GetPtoPEngine()
 {
     static MemberActiveMgr memberActiveMgr;
     static PushToTalkMgr pushToTalkMgr;
-    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, pushToTalkMgr );
+    static RandConnectMgr randConnectMgr;
+    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, pushToTalkMgr, randConnectMgr );
     return g_P2PEngine;
 }
 

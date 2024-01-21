@@ -415,6 +415,8 @@ public:
 
 	virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) = 0;
 
-	virtual void				fromGuiSeIsAutomatedHost( bool automatedHost ) = 0;
+	virtual void				fromGuiSetIsAutomatedHost( bool automatedHost ) = 0;
+
+	virtual bool				fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected ) = 0;
 };
 

@@ -287,6 +287,32 @@ void VxPushButton::setNotifyType( ENotifyType notifyType )
 }
 
 //============================================================================
+void VxPushButton::setRandAction( enum ERandAction randAction )
+{
+    if( randAction != m_RandActionType )
+    {
+        m_RandActionType = randAction;
+        m_RandActionEnabled = randAction != eRandActionNone;
+
+        switch( randAction )
+        {
+        case eRandActionSelectUser:
+            m_RandActionColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyRelayed );
+            break;
+
+        case eRandActionDeselectUser: 
+            m_NotifyIconOnlineColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline );
+            break;
+
+        default:
+            break;
+        }
+
+        update();
+    }
+}
+
+//============================================================================
 void VxPushButton::setNotifyDirectConnectEnabled( bool enabled, EMyIcons eNotifyIcon )
 {
     m_NotifyDirectConnectEnabled = enabled;
@@ -612,6 +638,28 @@ void VxPushButton::paintEvent( QPaintEvent* ev )
 			painter.drawPixmap( drawRect, m_NotifyIconOnlineImage );
 		}
 	}
+
+    if( m_RandActionEnabled )
+    {
+        if( m_RandActionColor != m_RandActionLastIconColor
+            || m_RandActionImage.isNull()
+            || (drawRect.size() != m_RandActionLastIconSize)
+            || m_RandActionIcon != m_LastRandActionIcon )
+        {
+            m_RandActionImage = getMyIcons().getIconPixmap( m_RandActionIcon, drawRect.size(), m_RandActionColor );
+            if( !m_RandActionImage.isNull() )
+            {
+                m_LastRandActionIcon = m_RandActionIcon;
+                m_RandActionLastIconColor = m_RandActionColor;
+                m_RandActionLastIconSize = drawRect.size();
+            }
+        }
+
+        if( !m_RandActionImage.isNull() )
+        {
+            painter.drawPixmap( drawRect, m_RandActionImage );
+        }
+    }
 
     if( m_NotifyDirectConnectEnabled && (eMyIconNone != m_NotifyDirectConnectIcon) )
     {

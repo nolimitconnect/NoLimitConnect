@@ -425,6 +425,9 @@ const char* VxPktHdr::describePktType( uint16_t pktType )
     case PKT_TYPE_STREAM_CTRL_REQ:				    return "PktStreamCtrlReq";  			// 148 ( 0x94 )		
     case PKT_TYPE_STREAM_CTRL_REPLY:				return "PktStreamCtrlReply";  		    // 149 ( 0x95 )	
 
+    case PKT_TYPE_RAND_CONNECT_REQ:				    return "PktRandConnectReq";  			// 150 ( 0x96 )		
+    case PKT_TYPE_RAND_CONNECT_REPLY:				return "PktRandConnectReply";  		    // 151 ( 0x97 )	
+
     case BASE_PKT_TYPE:                                                                                
         return "PktType 0 Not Allowed";   
 

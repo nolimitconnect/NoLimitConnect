@@ -24,6 +24,7 @@
 #include <Plugins/PluginLibraryServer.h>
 #include <Plugins/PluginNetServices.h>
 
+#include <RandConnect/RandConnectMgr.h>
 #include <Search/RcScan.h>
 
 #include <MediaProcessor/MediaProcessor.h>
@@ -78,7 +79,10 @@ namespace
 }
 
 //============================================================================
-P2PEngine::P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, PushToTalkMgr& pushToTalkMgr )
+P2PEngine::P2PEngine( VxPeerMgr& peerMgr, 
+					  MemberActiveMgr& memberActiveMgr, 
+					  PushToTalkMgr& pushToTalkMgr,
+					  RandConnectMgr& randConnectMgr )
 	: m_PeerMgr( peerMgr )
 	, m_FromGuiMgr( *this )
 	, m_ConnectIdListMgr( *this )
@@ -113,6 +117,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, Push
 	, m_PluginLibraryServer( new PluginLibraryServer( *this, m_PluginMgr, &m_PktAnn, ePluginTypeLibraryServer ) )
 	, m_PluginNetServices( new PluginNetServices( *this, m_PluginMgr, &m_PktAnn, ePluginTypeNetServices ) )
 	, m_IsPortOpenTest( *new IsPortOpenTest( *this, m_EngineSettings, m_NetServicesMgr, m_NetServicesMgr.getNetUtils() ) )
+	, m_RandConnectMgr( randConnectMgr )
 	, m_RelayMgr( *this )
 	, m_RunUrlAction( *new RunUrlAction( *this, m_EngineSettings, m_NetServicesMgr, m_NetServicesMgr.getNetUtils() ) )
 	, m_HostJoinMgr( *new HostServerJoinMgr( *this, "HostJoinMgrDb.db3", "HostJoinedLastDb.db3" ) )
@@ -129,7 +134,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, Push
     m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 150 == maxPktType ); // just to make sure our packet types are not mismatched
+    vx_assert( 152 == maxPktType ); // just to make sure our packet types are not mismatched
 
 	// loadAccountSpecificSettings in gui calls this for get getTcpIpPort so need to be created right now 
 	std::string strEngineSettingDbFileName = VxGetAppNoLimitDataDirectory();
@@ -169,6 +174,7 @@ void P2PEngine::startupEngine()
     LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine startupEngine start" );
     iniitializePtoPEngine();
 
+	m_RandConnectMgr.onEngineStartup();
 	m_NetworkStateMachine.stateMachineStartup();
 	m_PluginMgr.onAppStartup();
 	m_IsPortOpenTest.isPortOpenTestStartup();

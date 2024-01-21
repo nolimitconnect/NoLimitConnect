@@ -17,6 +17,7 @@
 #include "GuiUser.h"
 #include "GuiHostJoin.h"
 #include "GuiPushToTalkMgr.h"
+#include "GuiRandConnectMgr.h"
 #include "MyIcons.h"
 #include "SoundMgr.h"
 #include "VxPushButton.h"
@@ -197,6 +198,8 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			{
 				getIdentFriendshipButton()->setIcon( eMyIconFriendJoined );
 			}
+
+			getIdentFriendshipButton()->setRandAction( m_MyApp.getRandConnectMgr().getRandAction( m_GuiUser->getMyOnlineId() ) );
 
 			if( getIdentPushToTalkButton() )
 			{
@@ -685,6 +688,18 @@ void IdentLogicInterface::callbackPushToTalkStatus( VxGUID& onlineId, enum EPush
 		if( getIdentPushToTalkButton() )
 		{
 			getIdentPushToTalkButton()->setPushToTalkStatus( pushToTalkStatus );
+		}
+	}
+}
+
+//============================================================================
+void IdentLogicInterface::callbackGuiRandConnect( VxGUID& onlineId, enum ERandAction randAction )
+{
+	if( onlineId == m_UserOnlineId )
+	{
+		if( getIdentPushToTalkButton() )
+		{
+			getIdentFriendshipButton()->setRandAction( randAction );
 		}
 	}
 }

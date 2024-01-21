@@ -216,6 +216,12 @@
     <Filter Include="Source Files\GuiPushToTalk">
       <UniqueIdentifier>{a5cbf18a-3ba2-4c1a-8fc0-92bcc0d0cabe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GuiRandConnect">
+      <UniqueIdentifier>{c697a842-920d-48e3-aaac-97433dfc56c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiRandConnect">
+      <UniqueIdentifier>{4c893022-96d9-4df8-b85b-8fee8447a934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -1132,6 +1138,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h">
       <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.h">
+      <Filter>Header Files\GuiRandConnect</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2278,6 +2287,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.cpp">
+      <Filter>Source Files\GuiRandConnect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2576,6 +2588,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkCallback.h">
       <Filter>Source Files\GuiPushToTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiRandConnectCallback.h">
+      <Filter>Header Files\GuiRandConnect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
