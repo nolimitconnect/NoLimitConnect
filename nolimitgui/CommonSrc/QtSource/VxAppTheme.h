@@ -162,7 +162,7 @@ enum EContrastType
 };
 
 class AppCommon;
-class VxFlatButton;
+//class VxFlatButton;
 class QProgressBar;
 
 class QPalette;

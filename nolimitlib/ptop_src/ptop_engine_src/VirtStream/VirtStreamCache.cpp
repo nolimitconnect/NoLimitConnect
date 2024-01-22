@@ -12,6 +12,8 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <memory.h>
+
 //============================================================================
 int64_t VirtCache::hasData( int64_t offset, int64_t len ) // return true if has any of the data
 {

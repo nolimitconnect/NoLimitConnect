@@ -42,7 +42,6 @@ public:
 	int							fileGetPos( VFile* fp, fpos_t* pos ) override;
 	int							fileSetPos( VFile* fp, const fpos_t* pos ) override;
 	int							fileSeek( VFile* fp, size_t offset, int whence ) override;
-	fpos_t						fileTell( VFile* fp ) override;
 
 	virtual bool				fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
 
@@ -76,7 +75,6 @@ protected:
 	int							virtFileGetPos( VFile* fp, fpos_t* pos );
 	int							virtFileSetPos( VFile* fp, const fpos_t* pos );
 	int							virtFileSeek( VFile* fp, size_t offset, int whence);
-	fpos_t						virtFileTell( VFile* fp );
 
 	bool						waitForStream( int64_t fileOffs, int64_t readLen );
 	bool						sendStreamSeek( int64_t newPos );

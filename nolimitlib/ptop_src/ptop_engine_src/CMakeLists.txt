@@ -5,8 +5,6 @@ project(ptopengine, LANGUAGES CXX)
 set(ptopengine_SOURCES)
 
 list(APPEND ptopengine_SOURCES 
-    ../../GuiInterface/IDefs.cpp
-    ../../GuiInterface/ILog.cpp
     ../../GuiInterface/OsInterface/OsInterface.cpp
     AssetBase/AssetBaseInfo.cpp
     AssetBase/AssetBaseInfoDb.cpp

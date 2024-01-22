@@ -36,7 +36,7 @@
 #  include <GL/glu.h>
 # endif // defined(TARGET_OS_ANDROID)
 
-#include <QApplication.h>
+#include <QApplication>
 
 namespace
 {

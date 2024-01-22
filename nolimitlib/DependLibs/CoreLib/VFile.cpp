@@ -94,10 +94,3 @@ int VFileSeek( VFile* fp, size_t offset, int whence )
 {
 	return GetVirtFileMgr().fileSeek( fp, offset, whence );
 }
-
-//============================================================================
-fpos_t VFileTell( VFile* fp )
-{
-	return GetVirtFileMgr().fileTell( fp );
-}
-

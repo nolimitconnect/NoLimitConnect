@@ -44,9 +44,6 @@ int		VFilePutS( const char* s, VFile* fp );
 int		VFileGetPos( VFile* fp, fpos_t* pos );
 int		VFileSetPos( VFile* fp, const fpos_t* pos );
 int		VFileSeek( VFile* fp, size_t offset, int whence);
-fpos_t	VFileTell( VFile* fp );
-
-
 
 #ifdef __cplusplus
 }

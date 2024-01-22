@@ -29,7 +29,6 @@ public:
 	virtual int					fileGetPos( VFile* fp, fpos_t* pos ) = 0;
 	virtual int					fileSetPos( VFile* fp, const fpos_t* pos ) = 0;
 	virtual int					fileSeek( VFile* fp, size_t offset, int whence ) = 0;
-	virtual fpos_t				fileTell( VFile* fp ) = 0;
 };
 
 extern VirtFileMgr& GetVirtFileMgr();

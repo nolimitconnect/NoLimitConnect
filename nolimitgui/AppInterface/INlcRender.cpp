@@ -8,7 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "INlc.h"
+#include "../CommonSrc/QtSource/AppCommon.h"
+#include "INlc.h" // should be first but is included after AppCommon so QWidget is defined first for linux build
+
 #include <CoreLib/VxDebug.h>
 #include <libplayer-nlc/xbmc/xbmc/utils/StringUtils.h>
 #include <libavutil/log.h>

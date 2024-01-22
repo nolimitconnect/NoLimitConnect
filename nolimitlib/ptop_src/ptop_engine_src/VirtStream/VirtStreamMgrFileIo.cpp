@@ -243,20 +243,6 @@ int VirtStreamMgr::fileSeek( VFile* fp, size_t offset, int whence )
 }
 
 //============================================================================
-fpos_t VirtStreamMgr::fileTell( VFile* fp )
-{
-	if( isVirtualFile( fp ) )
-	{
-		return virtFileTell( fp );
-	}
-
-	fpos_t result = ftell( fp->m_FILE );
-	fp->m_Error = VxGetLastError();
-	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
-	return result;
-}
-
-//============================================================================
 //============================================================================
 	
 //============================================================================
@@ -538,6 +524,29 @@ char* VirtStreamMgr::virtFileGetS( char* buf, int size, VFile* fp )
 }
 
 //============================================================================
+int VirtStreamMgr::virtFileGetPos( VFile* fp, fpos_t* pos )
+{
+    lockSteamMgr();
+    if( fp != m_LiveStream.m_VFile )
+    {
+        LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+        unlockSteamMgr();
+        vx_assert( false );
+        return -1;
+    }
+
+#if defined(TARGET_OS_LINUX)
+    fpos_t posConvert;
+    posConvert.__pos = m_LiveStream.m_VFile->m_FileOffs;
+    *pos = posConvert;
+#else
+    pos = m_LiveStream.m_VFile->m_FileOffs;
+#endif
+    unlockSteamMgr();
+    return 0;
+}
+
+//============================================================================
 int VirtStreamMgr::virtFilePutC(int ch, VFile* fp)
 {
 	// not implemented
@@ -550,24 +559,6 @@ int VirtStreamMgr::virtFilePutS(const char* s, VFile* fp)
 	// not implemented
 	return -1;
 }
-
-//============================================================================
-int VirtStreamMgr::virtFileGetPos( VFile* fp, fpos_t* pos )
-{
-	lockSteamMgr();
-	if( fp != m_LiveStream.m_VFile )
-	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
-		vx_assert( false );
-		return -1;
-	}
-
-	*pos = m_LiveStream.m_VFile->m_FileOffs;
-	unlockSteamMgr();
-	return 0;
-}
-
 //============================================================================
 int VirtStreamMgr::virtFileSetPos( VFile* fp, const fpos_t* pos )
 {
@@ -635,23 +626,6 @@ int VirtStreamMgr::virtFileSeek( VFile* fp, size_t offset, int whence )
 	}
 
 	return 0;
-}
-
-//============================================================================
-fpos_t VirtStreamMgr::virtFileTell( VFile* fp )
-{
-	lockSteamMgr();
-	if( fp != m_LiveStream.m_VFile )
-	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
-		vx_assert( false );
-		return -1;
-	}
-
-	int64_t fPos = m_LiveStream.m_VFile->m_FileOffs;
-	unlockSteamMgr();
-	return fPos;
 }
 
 //============================================================================
