@@ -363,16 +363,22 @@ bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& on
 bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
 	bool offerSentResult = false;
-	PluginSessionBase* pluginSession = nullptr;
+
 	VxGUID& lclSessionId = offerInfo.getOfferId();
-	std::shared_ptr<VxSktBase> nullSkt( nullptr );
+	std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+	if( !sktBase || !sktBase->isConnected() )
+	{
+		return false;
+	}
+
+	PluginSessionBase* pluginSession{ nullptr };
 	if( lclSessionId.isVxGUIDValid() && ( false == isPluginSingleSession() ) )
 	{
-		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, nullSkt, onlineId, pluginIsLocked );
+		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, onlineId, pluginIsLocked );
 	}
 	else
 	{
-		pluginSession = findOrCreateP2PSessionWithOnlineId( onlineId, nullSkt, pluginIsLocked, lclSessionId );
+		pluginSession = findOrCreateP2PSessionWithOnlineId( onlineId, sktBase, pluginIsLocked, lclSessionId );
 	}
 
 	if( pluginSession )
@@ -450,65 +456,75 @@ void PluginSessionMgr::fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& on
 }
 
 //============================================================================
-void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdentIn )
 {
-	if( netIdent )
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+    VxNetIdent* srcNetIdent = m_Engine.getBigListMgr().findNetIdent( srcOnlineId );
+    if( !srcNetIdent )
+    {
+        LogMsg( LOG_ERROR, "PluginSessionMgr::%s: unknown src ident %s from %s %s", __func__,
+               srcOnlineId.toOnlineIdString().c_str(),
+               netIdentIn->getOnlineName(), sktBase->describeSktType().c_str() );
+        // TODO should this be a hack offense?
+        return;
+    }
+
+    LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s: offer from %s %s", __func__,
+           srcNetIdent->getOnlineName(), sktBase->describeSktType().c_str() );
+	
+	PktPluginOfferReq* pktReq = (PktPluginOfferReq *)pktHdr;
+
+	OfferBaseInfo offerInfo;
+	if( !offerInfo.extractFromBlob( pktReq->getBlobEntry() ) )
 	{
-		LogMsg( LOG_ERROR, "PluginSessionMgr::doPktPluginOfferReq: offer from %s %s", netIdent->getOnlineName(), sktBase->describeSktType().c_str() );
-		PktPluginOfferReq* pktReq = (PktPluginOfferReq *)pktHdr;
+		LogMsg( LOG_ERROR, "PluginSessionMgr::%s: could not extract offer from %s", __func__, srcNetIdent->getOnlineName() );
+		return;
+	}
 
-		OfferBaseInfo offerInfo;
-		if( offerInfo.extractFromBlob( pktReq->getBlobEntry() ) )
+	if( IsPluginSingleSession( offerInfo.getPluginType() ) && m_Plugin.getIsPluginInSession() )
+	{
+		offerInfo.setOfferResponse( eOfferResponseBusy );
+
+		PktPluginOfferReply pktReply;
+
+		pktReply.setLclSessionId( pktReq->getLclSessionId() );
+		pktReply.setRmtSessionId( pktReq->getRmtSessionId() );
+		pktReply.setPluginType( getPluginType() );
+		offerInfo.addToBlob( pktReply.getBlobEntry() );
+		pktReply.calcPktLen();
+		if( !m_Plugin.txPacket( srcOnlineId, sktBase, &pktReply ) )
 		{
-			if( IsPluginSingleSession( offerInfo.getPluginType() ) && m_Plugin.getIsPluginInSession() )
-			{
-				offerInfo.setOfferResponse( eOfferResponseBusy );
-
-				PktPluginOfferReply pktReply;
-				pktReply.setLclSessionId( pktReq->getLclSessionId() );
-				pktReply.setRmtSessionId( pktReq->getRmtSessionId() );
-				pktReply.setPluginType( getPluginType() );
-				offerInfo.addToBlob( pktReply.getBlobEntry() );
-				pktReply.calcPktLen();
-				m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
-
-				// for call missed
-				IToGui::getToGui().toGuiRxedPluginOffer( pktReq->getSrcOnlineId(), offerInfo );
-
-				return;
-			}
-
-			VxGUID lclSessionId = offerInfo.getOfferId();
-			PluginSessionBase* pluginSession = nullptr;
-			PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-			std::shared_ptr<VxSktBase> nullSkt( nullptr );
-			if( lclSessionId.isVxGUIDValid() && (false == isPluginSingleSession()) )
-			{
-				pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, nullSkt, pktReq->getSrcOnlineId(), true);
-			}
-			else
-			{
-				pluginSession = findOrCreateP2PSessionWithOnlineId( pktReq->getSrcOnlineId(), nullSkt, true, lclSessionId );
-			}
-
-			pluginSession->setIsRmtInitiated( true );
-			pluginSession->setSkt( sktBase );
-			pluginSession->setSendToId( pktReq->getSrcOnlineId() );
-			pluginSession->setLclSessionId( lclSessionId );
-			pluginSession->setRmtSessionId( pktReq->getLclSessionId() );
-			pluginSession->setOfferInfo( offerInfo );
-
-			IToGui::getToGui().toGuiRxedPluginOffer( pktReq->getSrcOnlineId(), offerInfo );
+			LogMsg( LOG_ERROR, "PluginSessionMgr::%s: failed send to %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
+			return;
 		}
-		else
-		{
-			LogMsg( LOG_ERROR, "PluginSessionMgr::onPktPluginOfferReq: could not extract offer from %s", netIdent->getOnlineName() );
-		}
+
+		// for call missed
+		IToGui::getToGui().toGuiRxedPluginOffer(srcOnlineId, offerInfo );
+
+		return;
+	}
+
+	VxGUID lclSessionId = offerInfo.getOfferId();
+	PluginSessionBase* pluginSession = nullptr;
+	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
+
+	if( lclSessionId.isVxGUIDValid() && (false == isPluginSingleSession()) )
+	{
+		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, srcOnlineId, true);
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "PluginSessionMgr::onPktPluginOfferReq: NOT FOUND user %s", netIdent->getOnlineName());
+		pluginSession = findOrCreateP2PSessionWithOnlineId( srcOnlineId, sktBase, true, lclSessionId );
 	}
+
+	pluginSession->setIsRmtInitiated( true );
+	pluginSession->setSkt( sktBase );
+	pluginSession->setSendToId( srcOnlineId );
+	pluginSession->setLclSessionId( lclSessionId );
+	pluginSession->setRmtSessionId( pktReq->getLclSessionId() );
+	pluginSession->setOfferInfo( offerInfo );
+
+	IToGui::getToGui().toGuiRxedPluginOffer( srcOnlineId, offerInfo );
 }
 
 //============================================================================
@@ -545,7 +561,7 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "PluginSessionMgr::onPktPluginOfferReq: could not extract offer from %s", netIdent->getOnlineName() );
+		LogMsg( LOG_ERROR, "PluginSessionMgr::onPktPluginOfferReq: could not extract offer from %s", m_Engine.describeUser( onlineId ).c_str() );
 	}
 }
 
@@ -564,11 +580,11 @@ P2PSession* PluginSessionMgr::findP2PSessionBySessionId( VxGUID& sessionId, bool
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.lock start\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.lock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.lock();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.lock done\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.lock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
@@ -583,7 +599,7 @@ P2PSession* PluginSessionMgr::findP2PSessionBySessionId( VxGUID& sessionId, bool
 				if( false == pluginIsLocked )
 				{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-					LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.unlock\n" );
+					LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 					pluginMutex.unlock();
 				}
@@ -596,7 +612,7 @@ P2PSession* PluginSessionMgr::findP2PSessionBySessionId( VxGUID& sessionId, bool
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.unlock\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.unlock();
 	}
@@ -612,11 +628,11 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.lock start\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.lock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.lock();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.lock done\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.lock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
@@ -629,7 +645,7 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 			if( false == pluginIsLocked )
 			{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.unlock\n" );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 				pluginMutex.unlock();
 			}
@@ -641,7 +657,7 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.unlock\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.unlock();
 	}
@@ -651,14 +667,17 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 //============================================================================
 P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked )
 {
+	if( !sktBase || !sktBase->isConnected() )
+	{
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s user %s not connected", __func__, m_Engine.describeUser( onlineId ).c_str() );
+		return nullptr;
+	}
+
 	P2PSession* session = findP2PSessionBySessionId( sessionId, pluginIsLocked );
 	if( !session )
 	{
-		if( !sktBase || !sktBase->isConnected() )
-		{
-            session = m_Plugin.createP2PSession( sessionId, sktBase, onlineId );
-			addSession( session->getLclSessionId(), session, pluginIsLocked );
-		}
+		session = m_Plugin.createP2PSession( sessionId, sktBase, onlineId );
+		addSession( session->getLclSessionId(), session, pluginIsLocked );
 	}
 	else
 	{
@@ -671,6 +690,12 @@ P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithSessionId( VxGUID& sessi
 //============================================================================
 P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase, bool pluginIsLocked, VxGUID lclSessionId )
 {
+	if( !sktBase || !sktBase->isConnected() )
+	{
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s user %s not connected", __func__, m_Engine.describeUser( onlineId ).c_str() );
+		return nullptr;
+	}
+
 	P2PSession* session = findP2PSessionByOnlineId( onlineId, pluginIsLocked );
 	if( !session )
 	{
@@ -703,25 +728,25 @@ TxSession * PluginSessionMgr::findTxSessionBySessionId( bool pluginIsLocked, VxG
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.lock start\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.lock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.lock();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.lock done\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.lock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
-	for( iter = m_aoSessions.begin(); iter != m_aoSessions.end(); ++iter )
+	for( auto sessionPair : m_aoSessions )
 	{
-		if( sessionId == (*iter).first )
+		if( sessionId == sessionPair.first )
 		{
-			PluginSessionBase* session = (*iter).second;
+			PluginSessionBase* session = sessionPair.second;
 			if( session->isTxSession() )
 			{
 				if( false == pluginIsLocked )
 				{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-					LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.unlock\n" );
+					LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK	
 					pluginMutex.unlock();
 				}
@@ -734,7 +759,7 @@ TxSession * PluginSessionMgr::findTxSessionBySessionId( bool pluginIsLocked, VxG
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.unlock\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionBySessionId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK					
 		pluginMutex.unlock();
 	}
@@ -750,11 +775,11 @@ TxSession * PluginSessionMgr::findTxSessionByOnlineId( bool pluginIsLocked, VxGU
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.lock start\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.lock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.lock();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.lock done\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.lock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
@@ -767,7 +792,7 @@ TxSession * PluginSessionMgr::findTxSessionByOnlineId( bool pluginIsLocked, VxGU
 			if( false == pluginIsLocked )
 			{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.unlock\n" );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK					
 				pluginMutex.unlock();
 			}
@@ -779,7 +804,7 @@ TxSession * PluginSessionMgr::findTxSessionByOnlineId( bool pluginIsLocked, VxGU
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.unlock\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findTxSessionByOnlineId pluginMutex.unlock" );
 #endif // DEBUG_AUTOPLUGIN_LOCK					
 		pluginMutex.unlock();
 	}
@@ -1311,11 +1336,11 @@ bool PluginSessionMgr::removeSession( bool pluginIsLocked, VxGUID& onlineId, VxG
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeSession pluginMutex.lock start\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeSession pluginMutex.lock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		m_Plugin.lockPlugin();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeSession pluginMutex.lock done\n" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeSession pluginMutex.lock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 

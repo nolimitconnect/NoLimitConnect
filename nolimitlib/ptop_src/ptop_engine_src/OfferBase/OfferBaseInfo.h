@@ -80,6 +80,6 @@ protected:
     EOfferMgrType               m_OfferMgr{ eOfferMgrNotSet };
     VxGUID                      m_OfferId;
     int64_t                     m_OfferExpireTime{ 0 };
-    std::string                 m_OfferMsg{ "" };
+    std::string                 m_OfferMsg;
     EOfferResponse              m_OfferResponse{ eOfferResponseNotSet };
 };

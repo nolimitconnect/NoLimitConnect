@@ -1639,12 +1639,13 @@ EHostType GuiHelpers::comboIdxToHostType( int comboIdx )
 //============================================================================
 QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWidget* parent, GuiUser* guiUser )
 {
+    std::string userName = guiUser ? guiUser->getOnlineName().c_str() : "Unknown";
     QMessageBox::StandardButton buttonResult{ QMessageBox::NoButton };
     switch( errMsgType )
     {
     case eErrMsgUserUnavailable:
         buttonResult = QMessageBox::information( parent, QObject::tr( "User Unavailable" ), 
-            QObject::tr( "User " ) + guiUser->getOnlineName().c_str() + QObject::tr( " Is Unavailable" ), QMessageBox::Ok );
+            QObject::tr( "User " ) + userName.c_str() + QObject::tr( " Is Unavailable" ), QMessageBox::Ok );
         break;
 
     case eErrMsgAlreadyInSession:
@@ -1654,7 +1655,7 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWid
 
     case eErrMsgOfferSent:
         buttonResult = QMessageBox::information( parent, QObject::tr( "Sent User An Offer" ),
-            QObject::tr( "Offer Was Sent To  " ) + guiUser->getOnlineName().c_str(), QMessageBox::Ok );
+            QObject::tr( "Offer Was Sent To  " ) + userName.c_str(), QMessageBox::Ok );
         break;
 
     case eErrMsgNotConnectedToHost:
@@ -1678,7 +1679,7 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWid
 
     default:
         buttonResult = QMessageBox::information( parent, QObject::tr( "Unknown Error" ),
-            QObject::tr( "Unknown Error " ) + QString::number(errMsgType) + QObject::tr( " for user " ) + guiUser->getOnlineName().c_str(), QMessageBox::Ok );
+            QObject::tr( "Unknown Error " ) + QString::number(errMsgType) + QObject::tr( " for user " ) + userName.c_str(), QMessageBox::Ok );
         break;
     }
 
