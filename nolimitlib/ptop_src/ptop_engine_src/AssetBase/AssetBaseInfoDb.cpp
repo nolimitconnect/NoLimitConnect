@@ -264,7 +264,7 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 			assetInfo->setAssetSendState( ( EAssetSendState )cursor->getS32( COLUMN_ASSET_SEND_STATE ) );
 			assetInfo->setPluginType( (EPluginType)cursor->getS32( COLUMN_PLUGIN_TYPE ) );
 
-			if( assetInfo->isValid() && assetInfo->validateAssetExist() )
+			if( assetInfo->isValid( false ) && assetInfo->validateAssetExist() )
 			{
 				insertAssetInTimeOrder( assetInfo, AssetAssetList );
 			}

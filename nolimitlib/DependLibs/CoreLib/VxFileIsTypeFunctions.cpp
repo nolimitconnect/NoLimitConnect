@@ -18,12 +18,12 @@
 
 #define PHOTO_FILE_EXTENTIONS			"jpg,jpeg,bmp,tga,png,gif,pcx,tif,ico"				
 #define AUDIO_FILE_EXTENTIONS			"mp3,wav,wma,ogg,opus"				
-#define VIDEO_FILE_EXTENTIONS			"asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm"				
+#define VIDEO_FILE_EXTENTIONS			"asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm,flv"				
 #define DOCUMENT_FILE_EXTENTIONS		"doc,txt,htm,html,pdf"	
 #define EXECUTABLE_FILE_EXTENTIONS		"exe,com,bat,cmd"		
 #define CDIMAGE_OR_ARC_FILE_EXTENTIONS	"7z,zip,rar,tar,gz,iso,cue,ccd,img,sub,bin,mds,nrg,pdi,mds,vob"
 #define THUMBNAIL_FILE_EXTENTIONS	    "nlt"
-#define COMBINED_FILE_EXTENTIONS		"opus,jpg,jpeg,bmp,tga,png,gif,pcx,mp3,wav,wma,ogg,asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm,exe,com,bat,cmd,7z,zip,rar,tar,doc,txt,htm,html,pdf,nlt"	
+#define COMBINED_FILE_EXTENTIONS		"opus,jpg,jpeg,bmp,tga,png,gif,pcx,mp3,wav,wma,ogg,asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm,flv,exe,com,bat,cmd,7z,zip,rar,tar,doc,txt,htm,html,pdf,nlt"	
 
 //============================================================================
 bool VxIsPhotoFile( std::string & cs )

@@ -68,8 +68,8 @@ public:
     virtual GroupieId		    getHistoryGroupieId( void );
     virtual bool                isHistoryMatch( GroupieId& groupieId );
 
-    virtual bool				isValid( void );
-    virtual bool				isValidFile( void );
+    virtual bool				isValid( bool logErrIfInvalid = true );
+    virtual bool				isValidFile( bool logErrIfInvalid = true );
     virtual bool				isFileHashValid( void );
     virtual bool				isValidThumbnail( void );
     virtual bool				isMine( void );

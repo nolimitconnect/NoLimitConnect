@@ -116,7 +116,7 @@ bool OfferBaseInfo::isExpiredOffer( void )
 }
 
 //============================================================================
-bool OfferBaseInfo::isValid( void )
+bool OfferBaseInfo::isValid( bool logErrIfInvalid )
 {
 	return ePluginTypeInvalid != m_PluginType && eOfferMgrNotSet != m_OfferMgr && m_UniqueId.isVxGUIDValid() && m_OfferId.isVxGUIDValid() && getOnlineId().isVxGUIDValid();
 }

@@ -289,7 +289,7 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 }
 
 //============================================================================
-bool AssetBaseInfo::isValid( void )
+bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 {
 	bool isValidAsset =  VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid();
 	if( m_AdminId.isVxGUIDValid() )
@@ -299,27 +299,30 @@ bool AssetBaseInfo::isValid( void )
 
 	if( isFileAsset() )
 	{
-		isValidAsset &= isValidFile()  && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+		isValidAsset &= isValidFile( logErrIfInvalid )  && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}
 	else if( getAssetType() != eAssetTypeThumbnail && getAssetType() != eAssetTypeChatFace )
 	{
 		isValidAsset &= getCreatorId().isVxGUIDValid() &&  0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}
-
-	vx_assert( isValidAsset );
-	if( !isValidAsset )
+	
+	if( logErrIfInvalid )
 	{
-		printValues( LOG_ERROR );
+		vx_assert( isValidAsset );
+		if( !isValidAsset )
+		{
+			printValues( LOG_ERROR );
+		}
 	}
 
 	return isValidAsset;
 }
 
 //============================================================================
-bool AssetBaseInfo::isValidFile( void )
+bool AssetBaseInfo::isValidFile( bool logErrIfInvalid )
 {
     bool valid = !m_AssetName.empty() && m_s64AssetLen == (int64_t)VxFileUtil::fileExists( m_AssetName.c_str() );
-	if( !valid )
+	if( !valid && logErrIfInvalid )
 	{
 		LogMsg( LOG_ERROR, "AssetBaseInfo::isValidFile fail %" PRId64 " %s ", m_s64AssetLen, m_AssetName.empty() ? "NO FILE NAME" : m_AssetName.c_str() );
 		vx_assert( false );

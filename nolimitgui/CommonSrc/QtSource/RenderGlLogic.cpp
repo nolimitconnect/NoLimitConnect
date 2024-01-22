@@ -36,6 +36,18 @@
 #  include <GL/glu.h>
 # endif // defined(TARGET_OS_ANDROID)
 
+#include <QApplication.h>
+
+namespace
+{
+    const int PROCESS_QT_DEFAULT_MS = 50;
+
+    void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
+    {
+        QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+    }
+}
+
 //============================================================================
 RenderGlLogic::RenderGlLogic( RenderGlWidget& renderWidget, QWidget* parent )
 : QWidget( parent )
@@ -56,7 +68,7 @@ void RenderGlLogic::aboutToDestroy()
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
         while( m_RenderPlayerNlcThread->isRunning() )
         {
-            VxSleep( 1000 );
+            ProcessQtEvents( 1000 );
             if( m_RenderPlayerNlcThread->isRunning() )
             {
                 LogMsg( LOG_VERBOSE, "RenderGlLogic::aboutToDestroy still waiting for thread to exit" );

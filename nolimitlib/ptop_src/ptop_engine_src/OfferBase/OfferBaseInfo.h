@@ -24,7 +24,7 @@ public:
 
     OfferBaseInfo& operator=( const OfferBaseInfo& rhs );
 
-    virtual bool				isValid( void ) override;
+    virtual bool				isValid( bool logErrIfInvalid = true ) override;
     virtual bool				isSessionMatch( OfferBaseInfo& rhs );
 
     virtual bool                addToBlob( PktBlobEntry& blob ) override;

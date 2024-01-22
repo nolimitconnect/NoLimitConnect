@@ -71,18 +71,23 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 	std::vector<std::string> mediaTestFiles;
 
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOff.opus" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOn.opus" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/MJPEGWithAAC.avi" );
+	//mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOff.opus" );
+	//mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOn.opus" );
+	//mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/MJPEGWithAAC.avi" );
 
 	// these are not checked into git
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Drop Dead Gorgeous 1999.flv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Grey's.Anatomy.S14E12.720p.HDTV.2CH.x265.HEVC-PSA.mkv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Agents.of.S.H.I.E.L.D.S05E09/Marvels.Agents.of.S.H.I.E.L.D.S05E09.WEBRip.x264-ION10.mp4" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/PleaseStandByAC3-EVO.avi" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.FLV.flv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264.mkv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x265.HEVC-PSA.mkv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.HEVC.x265.mkv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264-ION10-WithSubs/Test.x264-ION10.mp4" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/TestAnime.x264.mkv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/TestMkv1.mkv" );
+
 	// end not checked into git
 
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudio.mp3" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOn.opus" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudio.wav" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/DummyFileDoesNotExist.wav" );
 
