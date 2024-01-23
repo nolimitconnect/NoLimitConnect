@@ -404,9 +404,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxContextMenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxFlatButton.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxFrame.h">
       <Filter>Header Files</Filter>
     </QtMoc>

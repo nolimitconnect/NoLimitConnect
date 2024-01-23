@@ -753,7 +753,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxMenu.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxLabel.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxFrame.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxFlatButton.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxContextMenu.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxComboBoxFileFilter.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxComboBox.h" />

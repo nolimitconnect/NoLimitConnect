@@ -13,7 +13,6 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-//#include "VxFlatButton.h"
 #include "VxSpinProgress.h"
 #include "VxPushButton.h"
 

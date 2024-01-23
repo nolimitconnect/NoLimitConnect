@@ -399,7 +399,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/VxComboBoxFileFilter.h
     CommonSrc/QtSource/VxLabel.h
     CommonSrc/QtSource/VxSndInstance.h
-    #CommonSrc/QtSource/VxFlatButton.h
     CommonSrc/QtSource/VxFrame.h
     CommonSrc/QtSource/VxMenu.h
     CommonSrc/QtSource/VxMenuButton.h
@@ -784,7 +783,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxMenuButtonTop.cpp
     CommonSrc/QtSource/VxPushButton.cpp
     CommonSrc/QtSource/VxComboBoxFileFilter.cpp
-    #CommonSrc/QtSource/VxFlatButton.cpp
     CommonSrc/QtSource/VxLabel.cpp
     CommonSrc/QtSource/VxSndInstance.cpp
     CommonSrc/QtSource/VxResourceToRealFile.cpp
