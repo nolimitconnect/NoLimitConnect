@@ -92,7 +92,7 @@ void AppCommon::toGuiPlayNlcMedia( AssetBaseInfo* assetInfo )
 //============================================================================
 void AppCommon::slotInternalPlayNlcMedia( AssetBaseInfo assetInfo )
 {
-	m_PlayerMgr.playMedia( assetInfo );
+	m_PlayerMgr.playMedia( assetInfo, false );
 }
 
 //============================================================================

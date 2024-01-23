@@ -151,6 +151,11 @@ FileShareItemWidget* ActivityViewLibraryFiles::fileToWidget( FileInfo& fileInfo 
 		SLOT(slotListPlayIconClicked(QListWidgetItem*)) );
 
 	connect(	item, 
+		SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)), 
+		this, 
+		SLOT(slotListPlayExternIconClicked(QListWidgetItem*)) );
+
+	connect(	item, 
 		SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)), 
 		this, 
 		SLOT(slotListLibraryIconClicked(QListWidgetItem*)) );
@@ -225,10 +230,28 @@ void ActivityViewLibraryFiles::slotListPlayIconClicked( QListWidgetItem* item )
 		else
 		{
 			// play file
-			this->playFile( poInfo->getFullFileName(), 0, false );
+			this->playFile( poInfo->getFullFileName(), 0, false, false );
 		}
 	}	
 }
+
+//============================================================================
+void ActivityViewLibraryFiles::slotListPlayExternIconClicked( QListWidgetItem* item )
+{
+	FileItemInfo* poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
+	if( poInfo )
+	{
+		if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+		{
+		}
+		else
+		{
+			// play file
+			this->playFile( poInfo->getFullFileName(), 0, false, true );
+		}
+	}	
+}
+
 
 //============================================================================
 void ActivityViewLibraryFiles::slotListShredIconClicked( QListWidgetItem* item )
@@ -370,7 +393,7 @@ void ActivityViewLibraryFiles::slotListItemClicked(QListWidgetItem* item)
 			//										poInfo->getIsSharedFile(),
 			//										poInfo->getIsInLibrary() );
 			//fileActionMenuDialog.exec();
-			playFile( fileInfo.getFullFileName().c_str(), 0, false );
+			playFile( fileInfo.getFullFileName().c_str(), 0, false, false );
 		}
 	}
 }

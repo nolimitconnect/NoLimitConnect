@@ -116,6 +116,7 @@ FileXferWidget* AppletPersonOfferList::sessionToWidget( GuiFileXferSession* poSe
 	connect( item, SIGNAL( signalAcceptButtonClicked(QListWidgetItem*) ), this, SLOT( slotAcceptButtonClicked(QListWidgetItem*) ) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),	this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileShareButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalShredButtonClicked(QListWidgetItem*)),		this, SLOT(slotShredButtonClicked(QListWidgetItem*)) );

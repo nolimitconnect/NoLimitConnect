@@ -857,6 +857,9 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconPlayStream:
 		return ":/AppRes/Resources/play-stream.svg";
 
+	case eMyIconPlayExtern:
+		return ":/AppRes/Resources/play-extern.svg";
+
 	case eMyIconUserConnections:
 		return ":/AppRes/Resources/user-connections.svg";
 

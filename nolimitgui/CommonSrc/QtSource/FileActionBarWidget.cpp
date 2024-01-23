@@ -21,16 +21,19 @@ FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 	ui.setupUi(this);
 	
 	ui.m_PlayFileButton->setIcons( eMyIconPlayNormal );
+	ui.m_PlayExternallyButton->setIcons( eMyIconPlayExtern );
 	ui.m_FileInLibraryButton->setIcons( eMyIconLibraryNormal );
 	ui.m_FileShareButton->setIcons( eMyIconShareFilesNormal );
 	ui.m_ShredFileButton->setIcons( eMyIconShredderNormal );
 
 	ui.m_PlayFileButton->setFixedSize( eButtonSizeSmall );
+	ui.m_PlayExternallyButton->setFixedSize( eButtonSizeSmall );
 	ui.m_FileInLibraryButton->setFixedSize( eButtonSizeSmall );
 	ui.m_FileShareButton->setFixedSize( eButtonSizeSmall );
 	ui.m_ShredFileButton->setFixedSize( eButtonSizeSmall );
 
 	connect( ui.m_PlayFileButton,		SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked()) );
+	connect( ui.m_PlayExternallyButton,	SIGNAL(clicked()), this, SLOT(slotPlayExternButtonClicked()) );
 	connect( ui.m_FileInLibraryButton,	SIGNAL(clicked()), this, SLOT(slotLibraryButtonClicked()) );
 	connect( ui.m_FileShareButton,		SIGNAL(clicked()), this, SLOT(slotFileShareButtonClicked()) );
 	connect( ui.m_ShredFileButton,		SIGNAL(clicked()), this, SLOT(slotShredButtonClicked()) );
@@ -40,6 +43,12 @@ FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 void FileActionBarWidget::slotPlayButtonClicked( void )
 {
 	emit signalPlayButtonClicked();
+}
+
+//============================================================================
+void FileActionBarWidget::slotPlayExternButtonClicked( void )
+{
+	emit signalPlayExternButtonClicked();
 }
 
 //============================================================================

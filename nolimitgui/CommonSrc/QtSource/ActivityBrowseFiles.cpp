@@ -281,6 +281,9 @@ FileShareItemWidget* ActivityBrowseFiles::fileToWidget( FileInfo& fileInfo )
 	connect(	item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)), 
 				this, SLOT(slotListPlayIconClicked(QListWidgetItem*)) );
 
+	connect(	item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)), 
+				this, SLOT(slotListPlayExternIconClicked(QListWidgetItem*)) );
+
 	connect(	item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)), 
 				this, SLOT(slotListLibraryIconClicked(QListWidgetItem*)) );
 
@@ -394,7 +397,13 @@ void ActivityBrowseFiles::slotBrowseButtonClicked( void )
 #else
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
 #endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
-	dialog.setOptions( QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks );
+
+#if defined(TARGET_OS_ANDROID)
+    dialog.setOptions( QFileDialog::ShowDirsOnly );
+#else
+    dialog.setOptions( QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks );
+#endif // defined(TARGET_OS_ANDROID)
+
 	dialog.setDirectory( curDir );
 	QStringList fileNames;
 	if (dialog.exec())
@@ -408,14 +417,15 @@ void ActivityBrowseFiles::slotBrowseButtonClicked( void )
 
 	if( false == selectedDir.isEmpty() )
 	{
+#if !defined(TARGET_OS_ANDROID)
 		selectedDir.replace( "\\", "/" );
 		if( '/' != selectedDir.at(selectedDir.length() - 1) )
 		{
 			selectedDir.append( "/" );
 		}
+#endif // !defined(TARGET_OS_ANDROID)
 	}
 
-	//QString strDir = GuiHelpers::browseForDirectory( m_CurBrowseDirectory.c_str(), this );
 	if( !selectedDir.isEmpty() )
 	{
 		setCurrentBrowseDir( selectedDir );
@@ -493,7 +503,7 @@ void ActivityBrowseFiles::slotListItemClicked( QListWidgetItem* item )
 			m_ClickToFastTimer.startTimer();
 			if( poInfo->shouldOpenFile() )
 			{
-				this->playFile( poInfo->getFullFileName(), 0, false );
+				this->playFile( poInfo->getFullFileName(), 0, false, false );
 			}
 		}
 	}
@@ -625,7 +635,35 @@ void ActivityBrowseFiles::slotListPlayIconClicked( QListWidgetItem* item )
 		else
 		{
 			// play file
-			this->playFile( poInfo->getFullFileName(), 0, false );
+			this->playFile( poInfo->getFullFileName(), 0, false, false );
+		}
+	}	
+}
+
+//============================================================================
+void ActivityBrowseFiles::slotListPlayExternIconClicked( QListWidgetItem* item )
+{
+	FileItemInfo* poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
+	if( poInfo )
+	{
+		if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+		{
+			if( false == m_bFetchInProgress )
+			{
+				std::string strDir = poInfo->getFullFileName().toUtf8().constData();
+				if( strDir.length() )
+				{
+					m_CurBrowseDirectory = strDir;
+					VxFileUtil::assureTrailingDirectorySlash( m_CurBrowseDirectory );
+					setActionEnable( false );
+					fromListWidgetRequestFileList();
+				}
+			}
+		}
+		else
+		{
+			// play file
+			this->playFile( poInfo->getFullFileName(), 0, false, true );
 		}
 	}	
 }

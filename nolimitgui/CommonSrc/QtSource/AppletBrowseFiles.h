@@ -58,6 +58,7 @@ protected slots:
 	void						slotListShareFileIconClicked( QListWidgetItem* item );
 	void						slotListLibraryIconClicked( QListWidgetItem* item );
 	void						slotListPlayIconClicked( QListWidgetItem* item );
+	void						slotListPlayExternIconClicked( QListWidgetItem* item );
 	void						slotListShredIconClicked( QListWidgetItem* item );
 	
 protected:

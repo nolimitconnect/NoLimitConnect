@@ -169,7 +169,7 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 		switch( menuAction )
 		{
 		case eFileMenuActionOpen:
-			m_MyApp.getPlayerMgr().playFile( m_FileInfo.getFullFileName().c_str(), 0, false );
+			m_MyApp.getPlayerMgr().playFile( m_FileInfo.getFullFileName().c_str(), 0, false, false );
 			break;
 
 		case eFileMenuActionSendToFriend:

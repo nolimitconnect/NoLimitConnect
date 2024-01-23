@@ -42,6 +42,7 @@ signals:
 	void						signalFileIconClicked( QListWidgetItem* poItemWidget );
 
 	void						signalPlayButtonClicked( QListWidgetItem* poItemWidget );
+	void						signalPlayExternButtonClicked( QListWidgetItem* poItemWidget );
 	void						signalLibraryButtonClicked( QListWidgetItem* poItemWidget );
 	void						signalFileShareButtonClicked( QListWidgetItem* poItemWidget );
 	void						signalShredButtonClicked( QListWidgetItem* poItemWidget );
@@ -49,6 +50,7 @@ signals:
 protected slots:
 	void						slotFileIconButtonClicked( void );
 	void						slotPlayButtonClicked( void );
+	void						slotPlayExternButtonClicked( void );
 	void						slotLibraryButtonClicked( void );
 	void						slotFileShareButtonClicked( void );
 	void						slotShredButtonClicked( void );

@@ -299,7 +299,7 @@ protected:
     virtual void                updateExpandWindowIcon( void );
 	virtual void				repositionToParent( void );
 	void						playSound( ESndDef sndDef );
-	virtual bool				playFile( QString fileName, int pos0to100000, bool isStream );
+	virtual bool				playFile( QString fileName, int pos0to100000, bool isStream, bool useExternPlayer );
 
     void                        fillMyNodeUrl( QLabel * myUrlLabel );
 

@@ -161,6 +161,11 @@ FileShareItemWidget* AppletLibrary::fileToWidget( FileInfo& fileInfo )
              SIGNAL( signalPlayButtonClicked(QListWidgetItem*) ),
              this,
              SLOT( slotListPlayIconClicked(QListWidgetItem*) ) );
+        
+    connect( item,
+             SIGNAL( signalPlayExternButtonClicked(QListWidgetItem*) ),
+             this,
+             SLOT( slotListPlayExternIconClicked(QListWidgetItem*) ) );
 
     connect( item,
              SIGNAL( signalLibraryButtonClicked(QListWidgetItem*) ),
@@ -245,7 +250,39 @@ void AppletLibrary::slotListPlayIconClicked( QListWidgetItem* item )
                     m_MyApp.getEngine().fromGuiAssetAction( eAssetActionAddToAssetMgr, assetInfo );
                 }
 
-                m_MyApp.getPlayerMgr().playMedia( assetInfo );
+                m_MyApp.getPlayerMgr().playMedia( assetInfo, false );
+            }
+            else
+            {
+                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFullFileName().toUtf8().constData(), QMessageBox::Ok );
+                ui.m_FileItemList->removeItemWidget( item );
+            }
+        }
+    }
+}
+
+//============================================================================
+void AppletLibrary::slotListPlayExternIconClicked( QListWidgetItem* item )
+{
+    FileItemInfo* poInfo = ( ( FileShareItemWidget* )item )->getFileItemInfo();
+    if( poInfo )
+    {
+        if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+        {
+        }
+        else
+        {
+            bool newAsset{ false };
+            AssetInfo assetInfo;
+            if( poInfo->toAsssetInfo( m_MyApp, assetInfo, &newAsset ) )
+            {
+                if( newAsset )
+                {
+                    assetInfo.setLocationFlags( ASSET_LOC_FLAG_LIBRARY );
+                    m_MyApp.getEngine().fromGuiAssetAction( eAssetActionAddToAssetMgr, assetInfo );
+                }
+
+                m_MyApp.getPlayerMgr().playMedia( assetInfo, true );
             }
             else
             {
@@ -378,7 +415,7 @@ void AppletLibrary::slotListItemClicked( QListWidgetItem* item )
             //										poInfo->getIsSharedFile(),
             //										poInfo->getIsInLibrary() );
             //fileActionMenuDialog.exec();
-            playFile( fileInfo.getFullFileName().c_str(), 0, false );
+            playFile( fileInfo.getFullFileName().c_str(), 0, false, false );
         }
     }
 }

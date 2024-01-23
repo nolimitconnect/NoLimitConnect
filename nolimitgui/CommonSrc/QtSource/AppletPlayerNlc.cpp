@@ -76,13 +76,13 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 	//mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/MJPEGWithAAC.avi" );
 
 	// these are not checked into git
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.FLV.flv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264.mkv" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x265.HEVC-PSA.mkv" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.HEVC.x265.mkv" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264-ION10-WithSubs/Test.x264-ION10.mp4" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/TestAnime.x264.mkv" );
 	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/TestMkv1.mkv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.FLV.flv" );
+	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264.mkv" );
 
 	// end not checked into git
 
@@ -148,7 +148,7 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
             QString fileName = dlgBrowse->getSelectedFileInfo().getFullFileName().c_str();
             if( VxFileUtil::fileExists(fileStr.c_str()) )
             {
-                playFile( fileName, 0, false );
+                playFile( fileName, 0, false, false );
             }
             else
             {

@@ -82,9 +82,10 @@ FileXferWidget* AppletDownloads::sessionToWidget( GuiFileXferSession* poSession 
 
 	connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)),		this, SLOT(slotFileXferItemClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileIconButtonClicked(QListWidgetItem*)) );
-	connect( item, SIGNAL( signalAcceptButtonClicked(QListWidgetItem*) ),   this, SLOT( slotAcceptButtonClicked(QListWidgetItem*) ) );
+	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*) ),    this, SLOT(slotAcceptButtonClicked(QListWidgetItem*) ) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),		this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),	this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileShareButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalShredButtonClicked(QListWidgetItem*)),		this, SLOT(slotShredButtonClicked(QListWidgetItem*)) );
@@ -305,7 +306,17 @@ void AppletDownloads::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false );
+		this->playFile( xferSession->getFullFileName(), 0, false, false );
+	}
+}
+
+//============================================================================
+void AppletDownloads::slotPlayExternButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
+	if( xferSession )
+	{
+		this->playFile( xferSession->getFullFileName(), 0, false, true );
 	}
 }
 

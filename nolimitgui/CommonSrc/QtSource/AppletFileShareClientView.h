@@ -48,6 +48,7 @@ private slots:
 	void						slotStreamButtonClicked( QListWidgetItem* item );
 
 	void						slotPlayButtonClicked( QListWidgetItem* item );
+	void						slotPlayExternButtonClicked( QListWidgetItem* item );
 	void						slotLibraryButtonClicked( QListWidgetItem* item );
 	void						slotFileShareButtonClicked( QListWidgetItem* item );
 	void						slotShredButtonClicked( QListWidgetItem* item );

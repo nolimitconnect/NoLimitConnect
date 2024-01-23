@@ -53,7 +53,6 @@ AppletUploads::~AppletUploads()
     m_MyApp.activityStateChange( this, false );
 }
 
-
 //============================================================================
 FileXferWidget* AppletUploads::sessionToWidget( GuiFileXferSession* xferSession )
 {
@@ -63,7 +62,7 @@ FileXferWidget* AppletUploads::sessionToWidget( GuiFileXferSession* xferSession 
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant((quint64)xferSession) );
 
     connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)), this, SLOT(slotFileXferItemClicked(QListWidgetItem*)));
-	connect( item, SIGNAL( signalAcceptButtonClicked(QListWidgetItem*) ), this, SLOT( slotAcceptButtonClicked(QListWidgetItem*) ) );
+	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*)), this, SLOT(slotAcceptButtonClicked(QListWidgetItem*)) );
     connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)), this, SLOT(slotCancelButtonClicked(QListWidgetItem*)));
 
 	updateListEntryWidget( item, xferSession );
@@ -264,7 +263,17 @@ void AppletUploads::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false );
+		this->playFile( xferSession->getFullFileName(), 0, false, false );
+	}
+}
+
+//============================================================================
+void AppletUploads::slotPlayExternButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
+	if( xferSession )
+	{
+		this->playFile( xferSession->getFullFileName(), 0, false, true );
 	}
 }
 

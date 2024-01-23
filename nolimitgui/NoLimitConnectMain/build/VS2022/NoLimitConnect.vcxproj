@@ -506,7 +506,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxComboBox.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxComboBoxFileFilter.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxContextMenu.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxFlatButton.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxFrame.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxLabel.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxMenu.cpp" />

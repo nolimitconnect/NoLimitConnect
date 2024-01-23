@@ -229,6 +229,7 @@ FileXferWidget* AppletFileShareClientView::fileToWidget( GuiUser* guiUser, EPlug
 	connect( item, SIGNAL(signalStreamButtonClicked(QListWidgetItem*)),		this, SLOT(slotStreamButtonClicked(QListWidgetItem*)) );
 
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),	this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileShareButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalShredButtonClicked(QListWidgetItem*)),		this, SLOT(slotShredButtonClicked(QListWidgetItem*)) );
@@ -542,7 +543,17 @@ void AppletFileShareClientView::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false );
+		this->playFile( xferSession->getFullFileName(), 0, false, false );
+	}
+}
+
+//============================================================================
+void AppletFileShareClientView::slotPlayExternButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
+	if( xferSession )
+	{
+		this->playFile( xferSession->getFullFileName(), 0, false, true );
 	}
 }
 

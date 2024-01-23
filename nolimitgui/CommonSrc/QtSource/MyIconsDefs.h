@@ -449,5 +449,7 @@ enum EMyIcons
 
 	eMyIconPlayStream,
 
+	eMyIconPlayExtern,
+
 	eMaxMyIcon	// must be last
 };

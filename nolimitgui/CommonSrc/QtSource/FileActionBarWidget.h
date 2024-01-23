@@ -29,12 +29,14 @@ public:
 
 signals:
 	void						signalPlayButtonClicked( void );
+	void						signalPlayExternButtonClicked( void );
 	void						signalLibraryButtonClicked( void );
 	void						signalFileShareButtonClicked( void );
 	void						signalShredButtonClicked( void );
 
 protected slots:
 	void						slotPlayButtonClicked( void );
+	void						slotPlayExternButtonClicked( void );
 	void						slotLibraryButtonClicked( void );
 	void						slotFileShareButtonClicked( void );
 	void						slotShredButtonClicked( void );

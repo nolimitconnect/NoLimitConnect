@@ -162,7 +162,7 @@ void GuiPlayerMgr::slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage vidFr
 }
 
 //============================================================================
-bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000, bool isStream )
+bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000, bool isStream, bool useExternPlayer )
 {
 	if( fullFileName.isEmpty() )
 	{
@@ -180,17 +180,17 @@ bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000, bool isStre
 
 	AssetInfo newAsset( GuiParams::fileTypeToAssetType( fileType ), fullFileName.toUtf8().constData(), fileLen );
 	newAsset.setIsStream( isStream );
-	return playMedia( newAsset );
+	return playMedia( newAsset, useExternPlayer, pos0to100000 );
 }
 
 //============================================================================
 bool GuiPlayerMgr::playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
-	return playMedia( assetInfo, pos0to100000 );
+	return playMedia( assetInfo, false, pos0to100000 );
 }
 
 //============================================================================
-bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
+bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, int pos0to100000 )
 {
 	if( eAssetTypeExe == assetInfo.getAssetType() )
 	{
@@ -204,16 +204,19 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 		return false;
 	}
 
-	if( assetInfo.isPhotoAsset() || assetInfo.getIsStream() || !m_MyApp.getAppSettings().getUseSystemMediaPlayer() )
+	if( assetInfo.getIsStream() || !useExternPlayer )
 	{
-		EApplet appletType = GuiHelpers::getAppletThatPlaysFile( m_MyApp, assetInfo );
-		if( appletType != eAppletUnknown )
+		if( assetInfo.isPhotoAsset() || assetInfo.getIsStream() || !m_MyApp.getAppSettings().getUseSystemMediaPlayer() )
 		{
-			// launch the applet that plays this file
-			ActivityBase* applet = m_MyApp.launchApplet( appletType, &m_MyApp.getHomePage(), "", assetInfo.getAssetUniqueId() );
-			if( applet )
+			EApplet appletType = GuiHelpers::getAppletThatPlaysFile( m_MyApp, assetInfo );
+			if( appletType != eAppletUnknown )
 			{
-				return applet->playMedia( assetInfo, pos0to100000 );
+				// launch the applet that plays this file
+				ActivityBase* applet = m_MyApp.launchApplet( appletType, &m_MyApp.getHomePage(), "", assetInfo.getAssetUniqueId() );
+				if( applet )
+				{
+					return applet->playMedia( assetInfo, pos0to100000 );
+				}
 			}
 		}
 	}

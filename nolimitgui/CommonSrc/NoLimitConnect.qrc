@@ -346,5 +346,6 @@
         <file>Resources/offer-eye.svg</file>
         <file>Resources/user-connections.svg</file>
         <file>Resources/play-stream.svg</file>
+        <file>Resources/play-extern.svg</file>
     </qresource>
 </RCC>

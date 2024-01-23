@@ -1381,9 +1381,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxContextMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxFlatButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

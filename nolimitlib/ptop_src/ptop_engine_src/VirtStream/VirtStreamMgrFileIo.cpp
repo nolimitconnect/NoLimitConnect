@@ -540,7 +540,7 @@ int VirtStreamMgr::virtFileGetPos( VFile* fp, fpos_t* pos )
     posConvert.__pos = m_LiveStream.m_VFile->m_FileOffs;
     *pos = posConvert;
 #else
-    pos = m_LiveStream.m_VFile->m_FileOffs;
+    *pos = m_LiveStream.m_VFile->m_FileOffs;
 #endif
     unlockSteamMgr();
     return 0;
