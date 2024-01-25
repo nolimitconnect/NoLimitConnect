@@ -154,7 +154,7 @@ bool MJPEGReader::fromGuiIsNoLimitVideoFile( const char* fileName )
 	}
 	
 	fclose( fileHandle );
-	if( 0 != strncmp( junkBuf, "Created by My P2P Web", 21 ) )
+	if( 0 != strncmp( junkBuf, "Created by No Limit Connect", 21 ) )
 	{
 		LogMsg( LOG_INFO, "MJPEGReader::fromGuiIsNoLimitVideoFile is not My P2P Video File %s", fileName );
 		return false;

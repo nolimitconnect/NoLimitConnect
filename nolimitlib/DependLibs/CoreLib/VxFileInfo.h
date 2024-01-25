@@ -17,16 +17,16 @@
 class VxFileInfo
 {
 public:
-	VxFileInfo();
-	VxFileInfo( const char* fileName );
+	VxFileInfo() = default;
+	VxFileInfo( const char* fileName, uint8_t fileType = VXFILE_TYPE_UNKNOWN );
 	VxFileInfo(const VxFileInfo& other);
 	VxFileInfo& operator=( const VxFileInfo& rhs ); 
 
-	void						setFileName( const char* fileName )	{ m_FileName = fileName; }
+	void						setFileName( const char* fileName )		{ m_FileName = fileName; }
 	void						setFileName( std::string fileName )		{ m_FileName = fileName; }
 	std::string&				getFileName( void )						{ return m_FileName; }
 	const char*					getFileNameConstString( void ) const	{ return m_FileName.c_str(); }
-	void						setFileType( uint8_t	fileType )		{ m_u8FileType = fileType; }
+	void						setFileType( uint8_t fileType )			{ m_u8FileType = fileType; }
 	uint8_t						getFileType( void ) const				{ return m_u8FileType; }
 	void						setFileLength( int64_t fileLen )		{ m_s64FileLen = fileLen; }
 	int64_t						getFileLength( void ) const				{ return m_s64FileLen; }
@@ -36,7 +36,7 @@ public:
 
 	void						setIsInLibrary( bool inLibaray )		{ m_IsInLibrary = inLibaray; }
 	bool						getIsInLibrary( void ) const			{ return m_IsInLibrary; }
-	void						setIsSharedFile( bool isShared )			{ m_IsShared = isShared; }
+	void						setIsSharedFile( bool isShared )		{ m_IsShared = isShared; }
 	bool						getIsShared( void ) const				{ return m_IsShared; }
 
 	bool						isExecutableFile( void );
@@ -47,10 +47,10 @@ public:
 
 protected:
 	//=== vars ===//
-	int64_t						m_s64FileLen;
-	uint8_t						m_u8FileType;
+	int64_t						m_s64FileLen{ 0 };
+	uint8_t						m_u8FileType{ VXFILE_TYPE_UNKNOWN };
 	VxSha1Hash					m_FileHashId;
-	bool						m_IsInLibrary;
-	bool						m_IsShared;
+	bool						m_IsInLibrary{ false };
+	bool						m_IsShared{ false };
 	std::string					m_FileName;
 };

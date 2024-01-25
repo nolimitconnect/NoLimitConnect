@@ -15,21 +15,8 @@
 #include "VxFileUtil.h"
 
 //============================================================================
-VxFileInfo::VxFileInfo()
-: m_s64FileLen(0)
-, m_u8FileType( VXFILE_TYPE_UNKNOWN )
-, m_IsInLibrary( false )
-, m_IsShared( false )
-, m_FileName( "" )
-{ 
-}
-
-//============================================================================
-VxFileInfo::VxFileInfo( const char* fileName )
-: m_s64FileLen(0)
-, m_u8FileType( VXFILE_TYPE_UNKNOWN )
-, m_IsInLibrary( false )
-, m_IsShared( false )
+VxFileInfo::VxFileInfo( const char* fileName, uint8_t fileType )
+: m_u8FileType( fileType )
 , m_FileName(fileName)
 { 
 }

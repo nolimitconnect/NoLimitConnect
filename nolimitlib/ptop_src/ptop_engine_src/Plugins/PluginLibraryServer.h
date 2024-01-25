@@ -23,8 +23,11 @@ public:
 
 	virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary );
 	virtual bool				fromGuiSetFileIsInLibrary( std::string& fileName, bool inLibrary );
+
+	virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo );
 	virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter );
 	virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName );
+
 	virtual bool				fromGuiRemoveFromLibrary( std::string& fileName );
 
 	bool						isFileInLibrary( std::string& fileName );

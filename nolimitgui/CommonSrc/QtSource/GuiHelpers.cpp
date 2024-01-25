@@ -45,16 +45,13 @@
 #include <QPainter>
 #include <QUrl>
 
-
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-# if defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+# if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #  include <QtAndroid>
-# endif
-#else
-# if defined (Q_OS_ANDROID)
+# else
 #  include <QtCore/private/qandroidextras_p.h>
 # endif
-#endif
+#endif //defined (Q_OS_ANDROID)
 
 //============================================================================
 QString GuiHelpers::getAvailableStorageSpaceText()

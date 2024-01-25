@@ -10,6 +10,7 @@
 #pragma once
 
 #include "VirtStreamFile.h"
+#include "VirtProviderFile.h"
 
 #include <Plugins/FileXferCallback.h>
 #include <Plugins/PluginFileShareClient.h>
@@ -20,6 +21,7 @@
 #include <atomic>
 
 class P2PEngine;
+class VirtProviderFile;
 class VirtStreamFile;
 
 class VirtStreamMgr : public VirtFileMgr, public FileXferCallback
@@ -53,9 +55,34 @@ public:
 	void						onStreamStop( void );
 
 protected:
+	void						lockProviderMgr() { m_ProviderMgrMutex.lock(); }
+	void						unlockProviderMgr() { m_ProviderMgrMutex.unlock(); }
+
 	void						lockSteamMgr() { m_StreamMgrMutex.lock(); }
 	void						unlockSteamMgr() { m_StreamMgrMutex.unlock(); }
 
+    //=== provider functions ===//
+    int							isProviderFile( struct VFile* vFile ) { return vFile->m_ProviderFileType > 0; }
+
+    VFile*						providerFileOpen( std::string fileName, std::string mode );
+    int							providerFileClose( VFile* fp );
+    int							providerFileEof( VFile* fp );
+    int							providerFileError( VFile* fp );
+    int							providerFileFlush( VFile* fp );
+
+    size_t						providerFileRead( void* buf, size_t size, size_t count, VFile* fp);
+    size_t						providerFileWrite( const void* buf, size_t size, size_t count, VFile* fp);
+
+    int							providerFileGetC( VFile* fp );
+    char*						providerFileGetS( char* buf, int size, VFile* fp );
+    int							providerFilePutC( int ch, VFile* fp );
+    int							providerFilePutS( const char* s, VFile* fp );
+
+    int							providerFileGetPos( VFile* fp, fpos_t* pos );
+    int							providerFileSetPos( VFile* fp, const fpos_t* pos );
+    int							providerFileSeek( VFile* fp, size_t offset, int whence);
+
+    //=== virtual stream functions ===//
 	int							isVirtualFile( struct VFile* vFile ) { return vFile->m_VirtFileType > 0; }
 	
 	VFile*						virtFileOpen( std::string fileName, std::string mode );
@@ -102,6 +129,9 @@ protected:
 	VirtStreamFile				m_LiveStream;
 
 	std::atomic_bool			m_IsPlaying;
+
+	std::vector<VirtProviderFile> m_ProviderFiles;
+	VxMutex						m_ProviderMgrMutex;
 };
 
 extern VirtStreamMgr& GetVirtStreamMgr( void );

@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 3.22.1)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 project(ptopengine, LANGUAGES CXX)
 
 set(ptopengine_SOURCES)
@@ -238,14 +241,34 @@ list(APPEND ptopengine_SOURCES
 	UserJoinMgr/UserJoinInfoDb.cpp
 	UserJoinMgr/UserJoinMgr.cpp
 	UserOnlineMgr/UserOnlineMgr.cpp
+    VirtStream/VirtProviderFile.cpp
     VirtStream/VirtStreamCache.cpp
     VirtStream/VirtStreamFile.cpp
     VirtStream/VirtStreamMgr.cpp
     VirtStream/VirtStreamMgrFileIo.cpp
+    VirtStream/VirtStreamMgrProvider.cpp
     WebPageMgr/WebPageMgr.cpp 
 )
 
+if(DEFINED TARGET_OS_ANDROID)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick)
+endif()
+
 add_library(ptopengine STATIC ${ptopengine_SOURCES})
+
+if(DEFINED TARGET_OS_ANDROID)
+    message(STATUS "ptopengine prefix directory ${CMAKE_PREFIX_PATH}")
+    message(STATUS "ptopengine find root directory ${CMAKE_FIND_ROOT_PATH}")
+    message(STATUS "ptopengine toolchain file ${CMAKE_TOOLCHAIN_FILE}")
+    message(STATUS "ptopengine platform ${DANDROID_PLATFORM}")
+    message(STATUS "ptopengine abi ${ANDROID_ABI}")
+    message(STATUS "ptopengine ndk ${ANDROID_NDK}")
+    message(STATUS "ptopengine sdk root ${ANDROID_SDK_ROOT}")
+
+    target_link_libraries(ptopengine Qt::Core Qt::CorePrivate Qt6::Quick)
+
+    #find_package(Qt6 REQUIRED COMPONENTS Core, Quick)
+endif()
 
 target_compile_definitions(ptopengine
     PRIVATE

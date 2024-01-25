@@ -357,6 +357,7 @@ list(APPEND nlc_HEADERS
 	CommonSrc/QtSource/SearchParamsWidget.h
 	CommonSrc/QtSource/ServiceSettingsWidget.h
     CommonSrc/QtSource/SessionWidget.h
+    CommonSrc/QtSource/StorageProvider.h
     CommonSrc/QtSource/StoryWidget.h
     CommonSrc/QtSource/miniaudioio/AudioBitrate.h
     CommonSrc/QtSource/miniaudioio/AudioEchoBuf.h
@@ -714,6 +715,21 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/LogMgr.cpp
     CommonSrc/QtSource/LogWidget.cpp
     CommonSrc/QtSource/LogoRenderer.cpp
+    CommonSrc/QtSource/miniaudioio/AudioBitrate.cpp
+    CommonSrc/QtSource/miniaudioio/AudioEchoBuf.cpp
+    CommonSrc/QtSource/miniaudioio/AudioEchoCancel.cpp
+    CommonSrc/QtSource/miniaudioio/AudioEchoCancelImpl.cpp
+    CommonSrc/QtSource/miniaudioio/AudioMasterClock.cpp
+    CommonSrc/QtSource/miniaudioio/AudioMixerBuf.cpp
+    CommonSrc/QtSource/miniaudioio/AudioSampleBuf.cpp
+    CommonSrc/QtSource/miniaudioio/AudioTestGenerator.cpp
+    CommonSrc/QtSource/miniaudioio/AudioUtils.cpp
+    CommonSrc/QtSource/miniaudioio/MiniAudioDevices.cpp
+    CommonSrc/QtSource/miniaudioio/MiniAudioIn.cpp
+    CommonSrc/QtSource/miniaudioio/MiniAudioInDevice.cpp
+    CommonSrc/QtSource/miniaudioio/MiniAudioMgr.cpp
+    CommonSrc/QtSource/miniaudioio/MiniAudioOut.cpp
+    CommonSrc/QtSource/miniaudioio/MiniAudioOutDevice.cpp
     CommonSrc/QtSource/MessengerPage.cpp
     CommonSrc/QtSource/MultiSessionState.cpp
     CommonSrc/QtSource/MyIcons.cpp
@@ -746,22 +762,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/SearchParamsWidget.cpp
     CommonSrc/QtSource/SessionWidget.cpp
     CommonSrc/QtSource/ServiceSettingsWidget.cpp
-    CommonSrc/QtSource/miniaudioio/AudioBitrate.cpp
-    CommonSrc/QtSource/miniaudioio/AudioEchoBuf.cpp
-    CommonSrc/QtSource/miniaudioio/AudioEchoCancel.cpp
-    CommonSrc/QtSource/miniaudioio/AudioEchoCancelImpl.cpp
-    CommonSrc/QtSource/miniaudioio/AudioMasterClock.cpp
-    CommonSrc/QtSource/miniaudioio/AudioMixerBuf.cpp
-    CommonSrc/QtSource/miniaudioio/AudioSampleBuf.cpp
-    CommonSrc/QtSource/miniaudioio/AudioTestGenerator.cpp
-    CommonSrc/QtSource/miniaudioio/AudioUtils.cpp
-    CommonSrc/QtSource/miniaudioio/MiniAudioDevices.cpp
-    CommonSrc/QtSource/miniaudioio/MiniAudioIn.cpp
-    CommonSrc/QtSource/miniaudioio/MiniAudioInDevice.cpp
-    CommonSrc/QtSource/miniaudioio/MiniAudioMgr.cpp
-    CommonSrc/QtSource/miniaudioio/MiniAudioOut.cpp
-    CommonSrc/QtSource/miniaudioio/MiniAudioOutDevice.cpp
     CommonSrc/QtSource/SoundMgr.cpp
+    CommonSrc/QtSource/StorageProvider.cpp
     CommonSrc/QtSource/StoryWidget.cpp
     CommonSrc/QtSource/TestWidget.cpp
     CommonSrc/QtSource/TextChatLogic.cpp
@@ -1118,6 +1120,7 @@ if (DEFINED TARGET_OS_LINUX)
     )
 
 elseif (DEFINED TARGET_OS_ANDROID)
+    find_package(Qt6 6.4 COMPONENTS Quick Gui REQUIRED)
     target_link_libraries(nolimitconnect
         PUBLIC
         # static nlc libraries
@@ -1216,6 +1219,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
         Qt::OpenGL
         Qt::Widgets
         Qt::Svg
+        Qt6::Quick
     )
 
 elseif (DEFINED TARGET_OS_WINDOWS)
@@ -1319,7 +1323,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
     )
 
 else()
-    message(FATAL_ERROR "Unknow Target OS Defined for target_link_libraries")
+    message(FATAL_ERROR "Unknown Target OS Defined for target_link_libraries")
 endif()
 
 qt_finalize_target(nolimitconnect)

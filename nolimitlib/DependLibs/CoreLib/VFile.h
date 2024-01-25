@@ -25,10 +25,12 @@ typedef struct VFile {
 	int							m_Error;
 	uint16_t					m_FileContentType;
 	uint16_t					m_VirtFileType;
+    uint16_t					m_ProviderFileType;
 } VFile;
 
 VFile*	VFileOpen( const char* fileName, const char* fileMode );
 int		VFileClose( VFile* fp );
+
 int		VFileEof( VFile* fp );
 int		VFileError( VFile* fp );
 int		VFileFlush( VFile* fp );
@@ -43,7 +45,7 @@ int		VFilePutS( const char* s, VFile* fp );
 
 int		VFileGetPos( VFile* fp, fpos_t* pos );
 int		VFileSetPos( VFile* fp, const fpos_t* pos );
-int		VFileSeek( VFile* fp, size_t offset, int whence);
+int		VFileSeek( VFile* fp, size_t offset, int whence );
 
 #ifdef __cplusplus
 }

@@ -1470,6 +1470,11 @@ int P2PEngine::fromGuiGetFileDownloadState( uint8_t* fileHashId )
 }
 
 //============================================================================
+bool P2PEngine::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
+{
+	return getPluginLibraryServer().fromGuiGetFileIsInLibrary( fileInfo );
+}
+//============================================================================
 bool P2PEngine::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary )
 {
 	return getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileInfo, isInLibrary );

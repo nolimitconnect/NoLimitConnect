@@ -99,16 +99,16 @@ public:
 	/// set is commercial not currently used ( Is set true or false by compiler define APP_MYP2PWEB )
 	virtual void				fromGuiSetIsAppCommercial( bool isCommercial ) = 0;
 	/// returns true if APP_MYP2PWEB is not defined
-	/// if APP_MYP2PWEB is not defined then is commercial Test App build with source code for sale else is My P2P Web production build
-	/// Test App has 2 differences from production build of My P2P Web 
-	///  1.) Encryption is different so is not compatible with My P2P Web network. 
+	/// if APP_MYP2PWEB is not defined then is commercial Test App build with source code for sale else is No Limit Connect production build
+	/// Test App has 2 differences from production build of No Limit Connect 
+	///  1.) Encryption is different so is not compatible with No Limit Connect network. 
 	///  2.) Default url for connection test and anchor services is p2pthing.com instead of gotvptop.com 
 	virtual bool				fromGuiGetIsAppCommercial( void ) = 0;
 	/// return engine version in binary
 	virtual uint16_t			fromGuiGetAppVersionBinary( void ) = 0;
 	/// return engine version as a 1.2.3 version number
 	virtual const char*			fromGuiGetAppVersionString( void ) = 0;
-	/// returns My P2P Web or Test App if commercial build
+	/// returns No Limit Connect or Test App if commercial build
 	virtual const char*			fromGuiGetAppName( void ) = 0;
 	/// returns MyP2PWeb or TestApp if commercial build
 	virtual const char*			fromGuiGetAppNameNoSpaces( void ) = 0;
@@ -321,11 +321,13 @@ public:
 	/// Send list of shared files to GUI
 	virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter ) = 0;
 
+	
 	/// Share/Unshare a file
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool addFile ) = 0;
 	/// Return true if file is shared
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) = 0;
-    virtual bool				fromGuiRemoveSharedFile(FileInfo& fileInfo ) = 0; // for remove before deletion
+
+    virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ) = 0; // for remove before deletion
 
 	/// Returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId ) = 0;
@@ -333,13 +335,14 @@ public:
 	virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary ) = 0;
 	virtual bool				fromGuiSetFileIsInLibrary( std::string& fileName, bool inLibrary ) = 0;
 	/// Return true if file is in library
+	virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) = 0;
 	virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) = 0;
 	/// Send to GUI file that are in library of the given file type mask
 	virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter ) = 0;
 	virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) = 0; // for remove before deletion
-	/// Return true if video file was created by My P2P Web
+	/// Return true if video file was created by No Limit Connect
 	virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) = 0;
-	/// Return true if audio file was created by My P2P Web
+	/// Return true if audio file was created by No Limit Connect
 	virtual bool				fromGuiIsNoLimitAudioFile( const char* fileName ) = 0;
 	
 	/// Delete file.. if shred file is true then write random data to file before deleting it

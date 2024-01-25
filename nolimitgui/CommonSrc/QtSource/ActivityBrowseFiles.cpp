@@ -12,11 +12,11 @@
 #include "ActivityYesNoMsgBox.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 
 #include "FileShareItemWidget.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "StorageProvider.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -60,10 +60,10 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 
     connect( ui.m_UpDirectoryLabel, SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
 
-    connect( ui.m_UpDirectoryButton, SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
-    connect( ui.m_UpDirWidget, SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
-	connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseButtonClicked()));
-	connect( ui.m_AddAllButton, SIGNAL( clicked() ), this, SLOT( slotAddAllButtonClicked() ) );
+    connect( ui.m_UpDirectoryButton,    SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
+
+    connect( ui.m_BrowseButton,         SIGNAL(clicked()), this, SLOT(slotBrowseButtonClicked()));
+    connect( ui.m_AddAllButton,         SIGNAL(clicked()), this, SLOT(slotAddAllButtonClicked()) );
 
 	setDefaultCurrentDir( m_eFileFilterType );
 	
@@ -738,7 +738,8 @@ void ActivityBrowseFiles::slotRequestFileList( void )
 		clearFileList();
 		ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
 		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
-		m_Engine.getFromGuiInterface().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
+
+		GetStorageProvider().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
 	}
 }
 

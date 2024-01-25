@@ -22,10 +22,20 @@
 #define VERIFY_CACHE_DATA 0
 
 //============================================================================
-VFile* VirtStreamMgr::fileOpen( const char* fileName, const char* fileMode )
+VFile* VirtStreamMgr::fileOpen( const char* fileNameIn, const char* fileMode )
 {
+	vx_assert( fileNameIn );
 	std::string mode( fileMode );
 	vx_assert( mode.size() );
+
+	std::string fileName( fileNameIn );
+	vx_assert( fileName.size() );
+
+	std::string contentUriPrefix( "content://" );
+    if( fileName.compare( 0, contentUriPrefix.size(), contentUriPrefix ) != 0 )
+    {
+	    return providerFileOpen( fileName, mode );
+    }
 
 	bool virtStream{ false };
 	if( mode.size() > 0 )
@@ -47,11 +57,11 @@ VFile* VirtStreamMgr::fileOpen( const char* fileName, const char* fileMode )
 	vx_assert( vFile );
 	memset( vFile, 0, sizeof( VFile ) );
 
-	vFile->m_FileLen = VxFileUtil::fileExists( fileName );
-	FILE* fp = fopen( fileName, mode.c_str() );
+	vFile->m_FileLen = VxFileUtil::fileExists( fileName.c_str() );
+	FILE* fp = fopen( fileName.c_str(), mode.c_str() );
 	vFile->m_Error = VxGetLastError();
 
-	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s filname %s mode %s fp %p", __func__, fileName, fileMode, fp );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s filname %s mode %s fp %p", __func__, fileName.c_str(), fileMode, fp );
 
 	if( fp )
 	{

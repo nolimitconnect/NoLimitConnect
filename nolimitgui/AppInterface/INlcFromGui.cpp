@@ -665,6 +665,12 @@ bool INlc::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary )
 }
 
 //============================================================================
+bool INlc::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
+{
+    return getPtoP().fromGuiGetFileIsInLibrary( fileInfo );
+}
+
+//============================================================================
 bool INlc::fromGuiSetFileIsInLibrary( std::string fileName, bool inLibrary )
 {
     return getPtoP().fromGuiSetFileIsInLibrary( fileName, inLibrary );

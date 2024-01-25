@@ -145,7 +145,6 @@ FileShareItemWidget* AppletLibrary::fileToWidget( FileInfo& fileInfo )
 
     FileItemInfo* poItemInfo = new FileItemInfo( fileInfo );
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant( ( quint64 )poItemInfo ) );
-    connect( item, SIGNAL( signalFileShareItemClicked(QListWidgetItem*) ), this, SLOT( slotItemClicked(QListWidgetItem*) ) );
 
     connect( item,
              SIGNAL( signalFileShareItemClicked(QListWidgetItem*) ),

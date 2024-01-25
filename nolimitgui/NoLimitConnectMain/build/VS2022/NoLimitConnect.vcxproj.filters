@@ -222,6 +222,9 @@
     <Filter Include="Header Files\GuiRandConnect">
       <UniqueIdentifier>{4c893022-96d9-4df8-b85b-8fee8447a934}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\StorageProvider">
+      <UniqueIdentifier>{f5bfd7d3-42ca-42f7-9799-726d1b248fcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -2284,6 +2287,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.cpp">
       <Filter>Source Files\GuiRandConnect</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\StorageProvider.cpp">
+      <Filter>Source Files\StorageProvider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2585,6 +2591,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiRandConnectCallback.h">
       <Filter>Header Files\GuiRandConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\StorageProvider.h">
+      <Filter>Source Files\StorageProvider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

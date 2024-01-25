@@ -486,6 +486,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ServiceSettingsWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\SessionWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\SoundMgr.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\StorageProvider.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\StoryWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TestWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TextChatLogic.cpp" />
@@ -729,6 +730,7 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\SoundDefs.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\SoundMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\TestWidget.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\StorageProvider.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\TodGameDefs.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiActivityInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiFileXferInterface.h" />

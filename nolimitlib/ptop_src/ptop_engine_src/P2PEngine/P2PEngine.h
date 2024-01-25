@@ -362,11 +362,17 @@ public:
 
 	// returns -1 if unknown else percent downloaded
     virtual int					fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
+
     virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ) override;
     virtual bool				fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibrary ) override;
-    virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) override; // for remove before deletion
-    virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter ) override;
+
+    virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) override;
     virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) override;
+
+    virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter ) override;
+
+    virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) override; // for remove before deletion
+
     virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) override;
     virtual bool				fromGuiIsNoLimitAudioFile( const char* fileName ) override;
 

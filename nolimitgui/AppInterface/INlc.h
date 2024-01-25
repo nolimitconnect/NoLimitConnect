@@ -556,11 +556,16 @@ public:
     virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ); // for remove before deletion
 
     virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId );
+
     virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary );
     virtual bool				fromGuiSetFileIsInLibrary( std::string fileName, bool inLibrary );
-    virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter );
+    virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo );
     virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName );
+
+    virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter );
+
     virtual bool				fromGuiRemoveFromLibrary( std::string& fileNamee ); // for remove before deletion
+
     virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName );
     virtual bool				fromGuiIsNoLimitAudioFile( const char* fileName );
 

@@ -730,6 +730,12 @@
     <ClCompile Include="..\..\ptop_engine_src\RandConnect\RandConnectMgr.cpp">
       <Filter>Source Files\RandConnect</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgrProvider.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtProviderFile.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1511,6 +1517,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\RandConnect\RandConnectMgr.h">
       <Filter>Source Files\RandConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtProviderFile.h">
+      <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -185,7 +185,7 @@ void ActivityAddRemoveLibraryFiles::slotListItemClicked( QListWidgetItem* item )
 		{
             if( ! poInfo->getFullFileName().isEmpty() )
 			{
-                m_strCurBrowseDirectory =  poInfo->getFullFileName().toLatin1().constData();
+                m_strCurBrowseDirectory =  poInfo->getFullFileName().toUtf8().constData();
 				VxFileUtil::assureTrailingDirectorySlash( m_strCurBrowseDirectory );
 				m_WidgetClickEventFixTimer->start(10);
 			}
