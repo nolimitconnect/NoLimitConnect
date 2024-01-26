@@ -69,6 +69,10 @@ protected:
     //=== provider functions ===//
     int							isProviderFile( struct VFile* vFile ) { return vFile->m_ProviderFileType > 0; }
 
+    VirtProviderFile*           findProviderFile( VFile* fp );
+
+    uint64_t                    providerFileExists( std::string fileName );
+
     VFile*						providerFileOpen( std::string fileName, std::string mode );
     int							providerFileClose( VFile* fp );
     int							providerFileEof( VFile* fp );

@@ -12,12 +12,15 @@
 
 #include "VirtProviderFile.h"
 
+#include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VFile.h>
 #include <CoreLib/VxFileUtil.h>
 
 
 #if defined (TARGET_OS_ANDROID)
 #include <QtQml/QQmlFile>
+#include <QDir>
 #include <QUrl>
 #include <QFile>
 
@@ -63,6 +66,34 @@ namespace
 
 #endif // defined (Q_OS_ANDROID)
 
+//============================================================================
+VirtProviderFile* VirtStreamMgr::findProviderFile( VFile* fp )
+{
+    auto iter = std::find_if(m_ProviderFiles.begin(), m_ProviderFiles.end(),
+                             [&](VirtProviderFile* file) { return file->m_VFile == fp; });
+    if( iter != m_ProviderFiles.end() )
+    {
+        return *iter;
+    }
+
+    return nullptr;
+}
+
+//============================================================================
+uint64_t VirtStreamMgr::providerFileExists( std::string fileName )
+{
+    uint64_t fileLen{0};
+    VirtProviderFile* providerFile = new VirtProviderFile(fileName.c_str());
+    if( providerFile->open( QIODevice::ReadOnly ) )
+    {
+        fileLen = providerFile->size();
+        providerFile->closeFile();
+    }
+
+    delete providerFile;
+
+    return fileLen;
+}
 
 //============================================================================
 VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string fileMode )
@@ -113,6 +144,7 @@ int VirtStreamMgr::providerFileClose( VFile* fp )
         providerFile->closeFile();
         providerFile->deleteLater();
 		m_ProviderFiles.erase( iter );
+        retVal = 0;
     }
 
 	unlockProviderMgr();
@@ -125,8 +157,8 @@ int VirtStreamMgr::providerFileClose( VFile* fp )
 int VirtStreamMgr::providerFileEof( VFile* fp )
 {
 	lockProviderMgr();
-	
-	if( fp != m_LiveStream.m_VFile )
+    VirtProviderFile* providerFile = findProviderFile( fp );
+    if( !providerFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockProviderMgr();
@@ -134,7 +166,7 @@ int VirtStreamMgr::providerFileEof( VFile* fp )
 		return 0;
 	}
 
-	bool eof = m_LiveStream.m_VFile->m_FileOffs == m_LiveStream.m_VFile->m_FileLen;
+    bool eof = fp->m_FileOffs == fp->m_FileLen;
 	unlockProviderMgr();
 	return eof;
 }
@@ -144,7 +176,8 @@ int VirtStreamMgr::providerFileError( VFile* fp )
 {
 	int retVal = -1;
 	lockProviderMgr();
-	if( fp != m_LiveStream.m_VFile )
+    VirtProviderFile* providerFile = findProviderFile( fp );
+    if( !providerFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockProviderMgr();
@@ -170,7 +203,8 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 	int retVal = -1;
 
 	lockProviderMgr();
-	if( fp != m_LiveStream.m_VFile )
+    VirtProviderFile* providerFile = findProviderFile( fp );
+    if( !providerFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
 		unlockProviderMgr();
@@ -178,48 +212,23 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 		return retVal;
 	}
 
-	m_LiveStream.isConnected();
-	if( m_LiveStream.getError() )
-	{
-		retVal = m_LiveStream.getError();
-		unlockProviderMgr();
-		return retVal;
-	}
+    if( !providerFile->isOpen() )
+    {
+        LogMsg( LOG_ERROR, "VirtStreamMgr::%s file not open", __func__ );
+        unlockProviderMgr();
+        vx_assert( false );
+        return retVal;
+    }
 
 	int64_t wantReadLen = size * count;
-	int64_t readAttemptLen = std::min( wantReadLen, m_LiveStream.m_VFile->m_FileLen - m_LiveStream.m_VFile->m_FileOffs );
-	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
-	{
-		unlockProviderMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
-				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, readAttemptLen );
-		return retVal;
-	}
-		
-	int64_t readLen = 0;
-	if( m_LiveStream.m_FileTail.hasData( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
-	{
-		readLen = m_LiveStream.m_FileTail.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
-	}
-	else
-	{
-		readLen = m_LiveStream.m_StreamCache.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)buf, readAttemptLen );
-	}
+    int64_t readAttemptLen = std::min( wantReadLen, fp->m_FileLen - fp->m_FileOffs );
 
-
-	if( readLen == readAttemptLen )
-	{
-#if VERIFY_CACHE_DATA
-		verifyCacheData( m_LiveStream.m_VFile->m_FileOffs, (uint8_t *)buf, readAttemptLen );
-#endif // VERIFY_CACHE_DATA
-
-		m_LiveStream.m_VFile->m_FileOffs += readLen;
-		retVal = 0;
-	}
-	else
-	{
-
-	}
+    int64_t readLen = providerFile->read( (char*)buf, readAttemptLen );
+    if( readLen > 0 )
+    {
+        fp->m_FileOffs += readLen;
+        retVal = 0;
+    }
 
 	unlockProviderMgr();
 	return retVal ? retVal : readLen;
@@ -235,82 +244,35 @@ size_t VirtStreamMgr::providerFileWrite(const void* buf, size_t size, size_t cou
 //============================================================================
 int VirtStreamMgr::providerFileGetC( VFile* fp )
 {
-	int retVal = -1;
-	lockProviderMgr();
-	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
-	{
-		unlockProviderMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
-				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
-		return retVal;
-	}
+    char retChar[1];
+    retChar[0] = 0;
+    int readLen = providerFileRead( retChar, 1, 1, fp );
 
-	if( fp != m_LiveStream.m_VFile )
-	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockProviderMgr();
-		vx_assert( false );
-		return retVal;
-	}
-
-	m_LiveStream.isConnected();
-	if( m_LiveStream.getError() )
-	{
-		retVal = m_LiveStream.getError();
-		unlockProviderMgr();
-		return retVal;
-	}
-
-	int64_t readAttemptLen = 1;
-	char retChar[1];
-	int64_t readLen = m_LiveStream.m_StreamCache.readData( m_LiveStream.m_VFile->m_FileOffs, (char*)retChar, readAttemptLen );
-	if( readLen == readAttemptLen )
-	{
-		m_LiveStream.m_VFile->m_FileOffs += readLen;
-		unlockProviderMgr();
-		return retChar[0];
-	}
-
-	return -1;
+    return readLen == 1 ? retChar[0] : -1;
 }
 
 //============================================================================
 char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 {
-	int retVal = -1;
 	lockProviderMgr();
-	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
-	{
-		unlockProviderMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
-				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
-		return nullptr;
-	}
-	
-	if( fp != m_LiveStream.m_VFile )
-	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockProviderMgr();
-		vx_assert( false );
-		return nullptr;
-	}
-
-	m_LiveStream.isConnected();
-	if( m_LiveStream.getError() )
-	{
-		unlockProviderMgr();
-		return nullptr;
-	}
+    VirtProviderFile* providerFile = findProviderFile( fp );
+    if( !providerFile )
+    {
+        LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+        unlockProviderMgr();
+        vx_assert( false );
+        return nullptr;
+    }
 	
 	std::string readStr;
 	int result = -1;
-	int64_t readIdx = m_LiveStream.m_VFile->m_FileOffs;
+    int64_t readIdx = fp->m_FileOffs;
 	bool foundEnd{ false };
-	while( !foundEnd && readIdx < m_LiveStream.m_VFile->m_FileLen && readIdx < size )
+    while( !foundEnd && readIdx < fp->m_FileLen && readIdx < size )
 	{
 		char retChar[1];
-		int64_t readLen = m_LiveStream.m_StreamCache.readData( readIdx + readStr.size(), (char*)retChar, 1);
-		if( readLen )
+        int64_t readLen = providerFile->read( (char*)retChar, 1 );
+        if( readLen == 1 )
 		{
 			readStr.push_back( retChar[0] );
 			if( retChar[0] == '\n' )
@@ -341,7 +303,8 @@ char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 int VirtStreamMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
 {
     lockProviderMgr();
-    if( fp != m_LiveStream.m_VFile )
+    VirtProviderFile* providerFile = findProviderFile( fp );
+    if( !providerFile )
     {
         LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
         unlockProviderMgr();
@@ -351,10 +314,10 @@ int VirtStreamMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
 
 #if defined(TARGET_OS_LINUX)
     fpos_t posConvert;
-    posConvert.__pos = m_LiveStream.m_VFile->m_FileOffs;
+    posConvert.__pos = fp->m_FileOffs;
     *pos = posConvert;
 #else
-    *pos = m_LiveStream.m_VFile->m_FileOffs;
+    *pos = fp->m_FileOffs;
 #endif
     unlockProviderMgr();
     return 0;
@@ -383,69 +346,115 @@ int VirtStreamMgr::providerFileSetPos( VFile* fp, const fpos_t* pos )
 //============================================================================
 int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 {
+    int result = -1;
 	lockProviderMgr();
-	if( fp != m_LiveStream.m_VFile )
-	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockProviderMgr();
-		vx_assert( false );
-		return -1;
-	}
+    VirtProviderFile* providerFile = findProviderFile( fp );
+    if( !providerFile )
+    {
+        LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+        unlockProviderMgr();
+        vx_assert( false );
+        return -1;
+    }
 
-	int64_t origPos = m_LiveStream.m_VFile->m_FileOffs;
+    int64_t origPos = fp->m_FileOffs;
 	switch( whence )
 	{
 	case SEEK_SET:
 		// Beginning of file
-		if( offset >= m_LiveStream.m_VFile->m_FileLen )
+        if( offset >= fp->m_FileLen )
 		{
 			unlockProviderMgr();
 			return -1;
 		}
 
-		m_LiveStream.m_VFile->m_FileOffs = offset;
+        fp->m_FileOffs = offset;
 		break;
 
 	case SEEK_CUR:
 		// Current position of the file pointer
-		if( m_LiveStream.m_VFile->m_FileOffs + offset < 0 ||
-			m_LiveStream.m_VFile->m_FileOffs + offset >= m_LiveStream.m_VFile->m_FileLen )
+        if( fp->m_FileOffs + offset < 0 ||
+            fp->m_FileOffs + offset >= fp->m_FileLen )
 		{
 			unlockProviderMgr();
 			return -1;
 		}
 
-		m_LiveStream.m_VFile->m_FileOffs += offset;
+        fp->m_FileOffs += offset;
 		break;
 
 	case SEEK_END:
-		m_LiveStream.m_VFile->m_FileOffs = m_LiveStream.m_VFile->m_FileLen + offset;
+        fp->m_FileOffs = fp->m_FileLen + offset;
 		break;
 	}
 
-	int64_t newPos = m_LiveStream.m_VFile->m_FileOffs;
+    int64_t newPos = fp->m_FileOffs;
 	if( newPos < 0 )
 	{
-		m_LiveStream.m_VFile->m_FileOffs = 0;
+        fp->m_FileOffs = 0;
 		LogMsg( LOG_ERROR, "%s invalid pos" PRId64, __func__, newPos );
 	}
 
+    if( providerFile->seek( newPos ) )
+    {
+        result = 0;
+    }
+
 	unlockProviderMgr();
 
-	if( newPos >= 0 && newPos != origPos && 
-		!m_LiveStream.m_StreamCache.hasData( newPos, 1 ) &&
-		!m_LiveStream.m_FileTail.hasData( newPos, 1 ) )
-	{
-		return sendStreamSeek( newPos ) ? 0 : -1;
-	}
-
-	return 0;
+    return result;
 }
 
 //============================================================================
 int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask )
 {
+    fileList.clear();
+    std::string folderName( srcDir );
 
+    if( 0 == fileFilterMask )
+    {
+        fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
+    }
+
+    VxGUID onlineId = m_Engine.getMyOnlineId();
+    QDir browseDir( srcDir );
+
+    QFileInfoList fileInfoList = browseDir.entryInfoList();
+    LogMsg( LOG_VERBOSE, "VirtStreamMgr::%s %d files in dir %s", __func__, fileList.size(), folderName.c_str() );
+    for( auto fileListInfo : fileInfoList )
+    {
+        std::string fileName = fileListInfo.filePath().toUtf8().constData();
+
+        VxFileInfo vxFileInfo;
+
+        if( fileListInfo.isDir() )
+        {
+            LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
+
+            if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
+            {
+                VxFileUtil::assureTrailingDirectorySlash( fileName );
+                vxFileInfo.setFileName( fileName.c_str() );
+                vxFileInfo.setFileType( VXFILE_TYPE_DIRECTORY );
+                fileList.push_back( vxFileInfo );
+            }
+        }
+        else if( fileListInfo.isExecutable() )
+        {
+            LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileName.c_str() );
+        }
+        else if( fileListInfo.isReadable() )
+        {
+            vxFileInfo.setFileName( fileName.c_str() );
+            vxFileInfo.setFileType( VxFileNameToFileType( fileName ) );
+            vxFileInfo.setFileLength( fileListInfo.size() );
+            fileList.push_back( vxFileInfo );
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileName.c_str() );
+        }
+    }
 
 	return 0;
 }

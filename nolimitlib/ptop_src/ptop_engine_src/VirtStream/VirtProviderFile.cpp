@@ -16,7 +16,6 @@
 VirtProviderFile::VirtProviderFile(QString fileName)
     : QFile( fileName )
 {
-    closeFile();
 }
 
 //============================================================================
@@ -26,20 +25,12 @@ VirtProviderFile::~VirtProviderFile()
 }
 
 //============================================================================
-void VirtProviderFile::clear( void )
-{
-	setError( 0 );
-	m_FileName.clear();
-	m_FileMode.clear();
-}
-
-//============================================================================
 void VirtProviderFile::closeFile( void )
 {
 	close();
 	delete m_VFile;
 	m_VFile = nullptr;
-	clear();
+    m_FileName.clear();
 }
 
 #endif // defined(TARGET_OS_ANDROID)

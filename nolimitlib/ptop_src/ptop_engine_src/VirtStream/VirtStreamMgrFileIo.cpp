@@ -63,7 +63,7 @@ uint64_t VirtStreamMgr::fileExists( const char* fileName )
 #if defined(TARGET_OS_ANDROID)
     if( fileIsProviderFile( fileName ) )
     {
-
+        return providerFileExists( fileName );
     }
 #endif // defined(TARGET_OS_ANDROID)
 		int result;

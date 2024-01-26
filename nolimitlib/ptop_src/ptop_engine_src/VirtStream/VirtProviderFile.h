@@ -26,7 +26,6 @@ public:
 	~VirtProviderFile() override;
 
     void                        closeFile( void );
-	void						clear( void );
 
 	void						setError( int err )			{ m_Error = err; }
 	int							getError( void )			{ return m_Error; }
