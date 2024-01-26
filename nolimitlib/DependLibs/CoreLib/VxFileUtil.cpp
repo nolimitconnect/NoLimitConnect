@@ -8,15 +8,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "config_corelib.h"
+#include "VFile.h"
 
+#include "VirtFileMgr.h"
 #include "VxCrypto.h"
+#include "VxDebug.h"
 #include "VxFileCopier.h"
 #include "VxFileUtil.h"
 #include "VxFileIsTypeFunctions.h"
 #include "VxGlobals.h"
 #include "VxParse.h"
-#include "VxDebug.h"
 #include "VxUrl.h"
 
 #include "SHA1.h"
@@ -39,22 +40,22 @@
 
 #include <algorithm>
 
-namespace
-{
+
 #define PATH_SEP_CHAR   '/'
 #define PATH_ALT_SEP_CHAR   '\\'
 
-    char GetPathSeperator( void )
-    {
+static char GetPathSeperator( void )
+{
 #ifdef TARGET_OS_WINDOWS
-        return PATH_ALT_SEP_CHAR;
+    return PATH_ALT_SEP_CHAR;
 #else
-        return PATH_SEP_CHAR;
+    return PATH_SEP_CHAR;
 #endif // TARGET_OS_WINDOWS
-    }
-
-	const char* TEST_WRITEABLE_FILE_NAME = "nlctest.nlc";
 }
+
+const char* TEST_WRITEABLE_FILE_NAME = "nlctest.nlc";
+
+
 //============================================================================
 size_t FindLastPathSeperator( std::string& path )
 {
@@ -361,18 +362,47 @@ RCODE VxFileUtil::setCurrentWorkingDirectory( const char* pDir )
 }
 
 //============================================================================
-//! returns file size or 0 if doesn't exist or zero length
-uint64_t VxFileUtil::fileExists( const char* pFileName, bool printLogIfDoesNotExist )
+bool VxFileUtil::fileIsProviderFile( const char* fileName )
 {
+#if defined(TARGET_OS_ANDROID)
+    const int prefixLen = 10;
+    const char* contentPrefix = "content://";
+    return fileName && strlen( fileName ) > prefixLen && strncmp( fileName, contentPrefix, prefixLen ) == 0;
+#else
+    return false;
+#endif // defined(TARGET_OS_ANDROID)
+}
+
+//============================================================================
+//! returns file size or 0 if doesn't exist or zero length
+uint64_t VxFileUtil::fileExists( const char* fileName, bool printLogIfDoesNotExist )
+{
+	// may be called before ptop engine exists which VFileExists requires
+	// so only call the virtual version if is a android provider file
+	if( fileIsProviderFile( fileName ) )
+	{
+		uint64_t fileLen = VFileExists( fileName );
+		if( !fileLen )
+		{
+			int errCode = VxGetLastError();
+			if( errCode && printLogIfDoesNotExist )
+			{
+				LogMsg( LOG_DEBUG, "VxFileUtil::%s File Exists Error %d %s", __func__, errCode, fileName );
+			}
+		}
+
+		return fileLen;
+	}
+
 	int result;
 #ifdef TARGET_OS_WINDOWS
 	struct __stat64 gStat;
 	// Get data associated with the file
-	result = _wstat64( Utf8ToWide( pFileName ).c_str(), &gStat );
+	result = _wstat64( Utf8ToWide( fileName ).c_str(), &gStat );
 #else
 	struct stat64 gStat;
 	// Get data associated with the file
-	result = stat64( pFileName, &gStat );
+    result = stat64( fileName, &gStat );
 #endif //TARGET_OS_WINDOWS
 
 	// Check if statistics are valid:
@@ -383,9 +413,9 @@ uint64_t VxFileUtil::fileExists( const char* pFileName, bool printLogIfDoesNotEx
         int errCode = VxGetLastError();
 		if( printLogIfDoesNotExist )
 		{
-			LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
+			LogMsg( LOG_DEBUG, "VxFileUtil::%s File Exists Error %d %s", __func__, errCode, fileName );
 		}
-#endif // defined(DEBUG)etCurrentWorkingDirectory
+#endif // defined(DEBUG)
 		return 0;
 	}
 	else
@@ -397,52 +427,32 @@ uint64_t VxFileUtil::fileExists( const char* pFileName, bool printLogIfDoesNotEx
 
 //============================================================================
 //! return false if no longer exists
-bool  VxFileUtil::getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist )
+bool VxFileUtil::getFileTypeAndLength( const char* fileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist )
 {
     retFileLen = 0;
     retFileType = 0;
-    if( 0 == pFileName )
+    if( 0 == fileName )
     {
-        LogMsg( LOG_DEBUG, "VxFileUtil::getFileTypeAndLength: NULL File Name" );
+        LogMsg( LOG_DEBUG, "VxFileUtil::%s NULL File Name", __func__ );
+		vx_assert( false );
         return false;
     }
 
-    if( directoryExists( pFileName ) )
+    if( directoryExists( fileName ) )
     {
         retFileType = VXFILE_TYPE_DIRECTORY;
         return true;
     }
     
-    int result;
-#ifdef TARGET_OS_WINDOWS
-    struct __stat64 gStat;
-    // Get data associated with the file
-    result = _wstat64( Utf8ToWide( pFileName ).c_str(), &gStat );
-#else
-    struct stat64 gStat;
-    // Get data associated with the file
-    result = stat64( pFileName, &gStat );
-#endif //TARGET_OS_WINDOWS
+	retFileLen = fileExists( fileName );
 
-    // Check if statistics are valid:
-    if( result != 0 )
+    if( retFileLen )
     {
-        //error getting file info
-        int errCode = VxGetLastError();
-		if( printLogIfDoesNotExist )
-		{
-			LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, pFileName );
-		}
-
-        return false;
-    }
-    else
-    {
-        //return file size
-        retFileLen =  gStat.st_size;
-        retFileType = fileExtensionToFileTypeFlag( pFileName );
+        retFileType = fileExtensionToFileTypeFlag( fileName );
         return true;
     }
+
+	return false;
 }
 
 //============================================================================
@@ -463,6 +473,7 @@ bool VxFileUtil::directoryExists( const char* pDir )
 			acBuf[ strlen( acBuf ) - 1 ] = 0;
 		}
 	}
+
 	memset( &oFileStat, 0, sizeof( struct stat ) );
 #ifdef TARGET_OS_WINDOWS
 	oFileStat.st_mode = _S_IFDIR; //check for dir not file
@@ -871,7 +882,7 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 			struct _stat m;
 			if( 0 != _wstat( srcFile, &m) )
 			{
-				LogMsg( LOG_ERROR, "VxFileUtil::listFilesAndFolders ERROR %d\n", VxGetLastError() );
+				LogMsg( LOG_ERROR, "VxFileUtil::%s ERROR %d", __func__, VxGetLastError() );
 			}
 			else
 			{
@@ -1697,7 +1708,7 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*				pSrcDir,
 		struct _stat m;
 		if( 0 != _wstat( srcFile, &m) )
 		{
-			LogMsg( LOG_ERROR, "VxFileUtil::listFilesAndFolders ERROR %d", VxGetLastError() );
+			LogMsg( LOG_ERROR, "VxFileUtil::%s ERROR %d", __func__, VxGetLastError() );
 		}
 		else
 		{
@@ -1794,13 +1805,16 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*				pSrcDir,
 
 }
 
-
 //============================================================================
-RCODE VxFileUtil::listFilesAndFolders(	const char*					pSrcDir,
-										std::vector<VxFileInfo>&	fileList,
-										uint8_t						fileFilterMask )
+RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask )
 {
 	vx_assert( pSrcDir );
+
+	if( fileIsProviderFile( pSrcDir ) )
+	{
+		return GetVirtFileMgr().listProviderFilesAndFolders( pSrcDir, fileList, fileFilterMask );
+	}
+
 #ifdef TARGET_OS_WINDOWS
 	std::wstring strSrcDir = Utf8ToWide( pSrcDir );
 	// build path and wild card

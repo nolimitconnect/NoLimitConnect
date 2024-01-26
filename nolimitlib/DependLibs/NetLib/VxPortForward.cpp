@@ -66,7 +66,7 @@ namespace // anonymouse
 
 			int rc = runUpnp( argc, vargs );
 
-			delete vargs;
+            delete[] vargs;
 
 			return 0 == rc;
 		}

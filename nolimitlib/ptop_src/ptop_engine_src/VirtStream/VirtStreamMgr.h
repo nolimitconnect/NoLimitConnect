@@ -30,6 +30,9 @@ public:
 	VirtStreamMgr() = delete;
 	VirtStreamMgr( P2PEngine& engine );
 
+    uint64_t                    fileExists( const char* fileName )  override;
+    bool                        fileIsProviderFile( const char* fileName )  override;
+
 	VFile*						fileOpen( const char* fileName, const char* fileMode )  override;
 	int							fileClose( VFile* vFile )  override;
 	int							fileEof( VFile* fp )  override;
@@ -44,6 +47,8 @@ public:
 	int							fileGetPos( VFile* fp, fpos_t* pos ) override;
 	int							fileSetPos( VFile* fp, const fpos_t* pos ) override;
 	int							fileSeek( VFile* fp, size_t offset, int whence ) override;
+
+	int							listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask ) override;
 
 	virtual bool				fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
 
@@ -130,7 +135,7 @@ protected:
 
 	std::atomic_bool			m_IsPlaying;
 
-	std::vector<VirtProviderFile> m_ProviderFiles;
+	std::vector<VirtProviderFile*> m_ProviderFiles;
 	VxMutex						m_ProviderMgrMutex;
 };
 

@@ -298,7 +298,9 @@
     <ClInclude Include="..\..\VFileDefs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VirtFileMgr.h" />
+    <ClInclude Include="..\..\VirtFileMgr.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AppErr_corelib.cpp">

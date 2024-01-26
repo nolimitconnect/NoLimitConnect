@@ -73,19 +73,17 @@ VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string file
 
     QString fileName = QQmlFile::urlToLocalFileOrQrc(contentUrl);
 
-    QFile myFile(fileName);
-    if( myFile.open( QIODevice::ReadOnly ) )
+    VirtProviderFile* providerFile = new VirtProviderFile(fileName);
+    if( providerFile->open( QIODevice::ReadOnly ) )
     {
 		VFile* vFile = new VFile();
 		memset( vFile, 0, sizeof( VFile ) );
         vFile->m_ProviderFileType = 1;
-        vFile->m_FileLen = myFile.size();
-        myFile.close();
+        vFile->m_FileLen = providerFile->size();
 
-        VirtProviderFile providerFile;
-        providerFile.m_FileMode = fileMode;
-        providerFile.m_FileName = fileNameIn;
-        providerFile.m_VFile = vFile;
+        providerFile->m_FileMode = fileMode;
+        providerFile->m_FileName = fileNameIn;
+        providerFile->m_VFile = vFile;
 
         lockProviderMgr();
         m_ProviderFiles.emplace_back(providerFile);
@@ -93,6 +91,8 @@ VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string file
 
         return vFile;
     }
+
+    delete providerFile;
 
 #endif // defined( TARGET_OS_ANDROID )
 
@@ -103,37 +103,39 @@ VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string file
 int VirtStreamMgr::providerFileClose( VFile* fp )
 {
 	int retVal = -1;
-	lockSteamMgr();
-	if( fp != m_LiveStream.m_VFile )
-	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
-		vx_assert( false );
-		return retVal;
-	}
-		
-	delete m_LiveStream.m_VFile;
-	m_LiveStream.m_VFile = nullptr;
-	m_LiveStream.m_StreamCache.clearCache( false );
+#if defined(TARGET_OS_ANDROID)
+	lockProviderMgr();
+    auto iter = std::find_if(m_ProviderFiles.begin(), m_ProviderFiles.end(), 
+                              [&](VirtProviderFile* file) { return file->m_VFile == fp; });
+    if( iter != m_ProviderFiles.end() )
+    {
+        VirtProviderFile* providerFile = *iter;
+        providerFile->closeFile();
+        providerFile->deleteLater();
+		m_ProviderFiles.erase( iter );
+    }
 
-	unlockSteamMgr();
+	unlockProviderMgr();
+#endif // defined(TARGET_OS_ANDROID)
+
 	return retVal;
 }
 
 //============================================================================
 int VirtStreamMgr::providerFileEof( VFile* fp )
 {
-	lockSteamMgr();
+	lockProviderMgr();
+	
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
+		unlockProviderMgr();
 		vx_assert( false );
 		return 0;
 	}
 
 	bool eof = m_LiveStream.m_VFile->m_FileOffs == m_LiveStream.m_VFile->m_FileLen;
-	unlockSteamMgr();
+	unlockProviderMgr();
 	return eof;
 }
 
@@ -141,18 +143,18 @@ int VirtStreamMgr::providerFileEof( VFile* fp )
 int VirtStreamMgr::providerFileError( VFile* fp )
 {
 	int retVal = -1;
-	lockSteamMgr();
+	lockProviderMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
+		unlockProviderMgr();
 		vx_assert( false );
 		return retVal;
 	}
 	
 	m_LiveStream.isConnected();
 	retVal = m_LiveStream.getError();
-	unlockSteamMgr();
+	unlockProviderMgr();
 	return retVal;
 }
 
@@ -167,11 +169,11 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 {
 	int retVal = -1;
 
-	lockSteamMgr();
+	lockProviderMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
+		unlockProviderMgr();
 		vx_assert( false );
 		return retVal;
 	}
@@ -180,7 +182,7 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 	if( m_LiveStream.getError() )
 	{
 		retVal = m_LiveStream.getError();
-		unlockSteamMgr();
+		unlockProviderMgr();
 		return retVal;
 	}
 
@@ -188,7 +190,7 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 	int64_t readAttemptLen = std::min( wantReadLen, m_LiveStream.m_VFile->m_FileLen - m_LiveStream.m_VFile->m_FileOffs );
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
 	{
-		unlockSteamMgr();
+		unlockProviderMgr();
 		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, readAttemptLen );
 		return retVal;
@@ -219,7 +221,7 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 
 	}
 
-	unlockSteamMgr();
+	unlockProviderMgr();
 	return retVal ? retVal : readLen;
 }
 
@@ -234,10 +236,10 @@ size_t VirtStreamMgr::providerFileWrite(const void* buf, size_t size, size_t cou
 int VirtStreamMgr::providerFileGetC( VFile* fp )
 {
 	int retVal = -1;
-	lockSteamMgr();
+	lockProviderMgr();
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
 	{
-		unlockSteamMgr();
+		unlockProviderMgr();
 		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
 		return retVal;
@@ -246,7 +248,7 @@ int VirtStreamMgr::providerFileGetC( VFile* fp )
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
+		unlockProviderMgr();
 		vx_assert( false );
 		return retVal;
 	}
@@ -255,7 +257,7 @@ int VirtStreamMgr::providerFileGetC( VFile* fp )
 	if( m_LiveStream.getError() )
 	{
 		retVal = m_LiveStream.getError();
-		unlockSteamMgr();
+		unlockProviderMgr();
 		return retVal;
 	}
 
@@ -265,7 +267,7 @@ int VirtStreamMgr::providerFileGetC( VFile* fp )
 	if( readLen == readAttemptLen )
 	{
 		m_LiveStream.m_VFile->m_FileOffs += readLen;
-		unlockSteamMgr();
+		unlockProviderMgr();
 		return retChar[0];
 	}
 
@@ -276,10 +278,10 @@ int VirtStreamMgr::providerFileGetC( VFile* fp )
 char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 {
 	int retVal = -1;
-	lockSteamMgr();
+	lockProviderMgr();
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
 	{
-		unlockSteamMgr();
+		unlockProviderMgr();
 		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
 		return nullptr;
@@ -288,7 +290,7 @@ char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
+		unlockProviderMgr();
 		vx_assert( false );
 		return nullptr;
 	}
@@ -296,7 +298,7 @@ char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 	m_LiveStream.isConnected();
 	if( m_LiveStream.getError() )
 	{
-		unlockSteamMgr();
+		unlockProviderMgr();
 		return nullptr;
 	}
 	
@@ -325,7 +327,7 @@ char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 		}
 	}
 	
-	unlockSteamMgr();
+	unlockProviderMgr();
 	if( result == 0 )
 	{
 		memcpy( buf, readStr.c_str(), readStr.length() );
@@ -338,11 +340,11 @@ char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 //============================================================================
 int VirtStreamMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
 {
-    lockSteamMgr();
+    lockProviderMgr();
     if( fp != m_LiveStream.m_VFile )
     {
         LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-        unlockSteamMgr();
+        unlockProviderMgr();
         vx_assert( false );
         return -1;
     }
@@ -354,7 +356,7 @@ int VirtStreamMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
 #else
     *pos = m_LiveStream.m_VFile->m_FileOffs;
 #endif
-    unlockSteamMgr();
+    unlockProviderMgr();
     return 0;
 }
 
@@ -381,11 +383,11 @@ int VirtStreamMgr::providerFileSetPos( VFile* fp, const fpos_t* pos )
 //============================================================================
 int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 {
-	lockSteamMgr();
+	lockProviderMgr();
 	if( fp != m_LiveStream.m_VFile )
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
-		unlockSteamMgr();
+		unlockProviderMgr();
 		vx_assert( false );
 		return -1;
 	}
@@ -397,7 +399,7 @@ int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 		// Beginning of file
 		if( offset >= m_LiveStream.m_VFile->m_FileLen )
 		{
-			unlockSteamMgr();
+			unlockProviderMgr();
 			return -1;
 		}
 
@@ -409,7 +411,7 @@ int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 		if( m_LiveStream.m_VFile->m_FileOffs + offset < 0 ||
 			m_LiveStream.m_VFile->m_FileOffs + offset >= m_LiveStream.m_VFile->m_FileLen )
 		{
-			unlockSteamMgr();
+			unlockProviderMgr();
 			return -1;
 		}
 
@@ -428,7 +430,7 @@ int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 		LogMsg( LOG_ERROR, "%s invalid pos" PRId64, __func__, newPos );
 	}
 
-	unlockSteamMgr();
+	unlockProviderMgr();
 
 	if( newPos >= 0 && newPos != origPos && 
 		!m_LiveStream.m_StreamCache.hasData( newPos, 1 ) &&
@@ -436,6 +438,14 @@ int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 	{
 		return sendStreamSeek( newPos ) ? 0 : -1;
 	}
+
+	return 0;
+}
+
+//============================================================================
+int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask )
+{
+
 
 	return 0;
 }

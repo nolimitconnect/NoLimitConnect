@@ -12,6 +12,18 @@
 #include "VirtFileMgr.h"
 
 //============================================================================
+uint64_t VFileExists( const char* fileName )
+{
+    return GetVirtFileMgr().fileExists( fileName );
+}
+
+//============================================================================
+bool VFileIsProviderFile( const char* fileName )
+{
+    return GetVirtFileMgr().fileIsProviderFile( fileName );
+}
+
+//============================================================================
 VFile* VFileOpen( const char* fileName, const char* fileMode )
 {
 	return GetVirtFileMgr().fileOpen( fileName, fileMode );

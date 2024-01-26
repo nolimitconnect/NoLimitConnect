@@ -8,16 +8,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "StorageProvider.h"
-
-#include "AppCommon.h"
-#include "GuiFileXferMgr.h"
-#include "GuiHelpers.h"
-#include "StorageFile.h"
+#include "VirtStorageProvider.h"
 
 #include <P2PEngine/P2PEngine.h>
+#include <Plugins/FileInfo.h>
 
 #include <QDir>
+#include <QUrl>
 
 #if defined (Q_OS_ANDROID)
 #include <QtQml/QQmlFile>
@@ -31,14 +28,14 @@
 
 
 //============================================================================
-StorageProvider& GetStorageProvider( void )
+VirtStorageProvider& GetVirtStorageProvider( void )
 {
-    static StorageProvider g_StorageProvider;
-    return g_StorageProvider;
+    static VirtStorageProvider g_VirtStorageProvider;
+    return g_VirtStorageProvider;
 }
 
 //============================================================================
-void StorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask )
+void VirtStorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask )
 {
 #if !defined(TARGET_OS_ANDROID)
     GetPtoPEngine().getFromGuiInterface().fromGuiBrowseFiles( folderName, fileFilterMask );
@@ -53,7 +50,7 @@ void StorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t fileF
 		fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
 	}
 
-	VxGUID onlineId = GetAppInstance().getMyOnlineId();
+    VxGUID onlineId = GetPtoPEngine().getMyOnlineId();
     QDir browseDir( folderName.c_str() );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
@@ -70,7 +67,7 @@ void StorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t fileF
 			{
 				VxFileUtil::assureTrailingDirectorySlash( fileName );
 				FileInfo dirInfo( onlineId, fileName, 0, VXFILE_TYPE_DIRECTORY );
-				GetAppInstance().getFileXferMgr().toGuiFileList( dirInfo );
+                GetPtoPEngine().getToGui().toGuiFileList( dirInfo );
 			}
 		}
 		else if( fileListInfo.isExecutable() )
@@ -122,11 +119,11 @@ void StorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t fileF
 		}
     }
 
-	GetAppInstance().getFileXferMgr().toGuiFileListCompleted();
+    GetPtoPEngine().getToGui().toGuiFileListCompleted();
 }
 
 //============================================================================
-void StorageProvider::loadUrl( const QUrl &url )
+void VirtStorageProvider::loadUrl( const QUrl &url )
 {
 /*
     m_sequence.clear();
@@ -141,7 +138,28 @@ void StorageProvider::loadUrl( const QUrl &url )
 }
 
 //============================================================================
-bool StorageProvider::requestAndroidStoragePermissions( void )
+bool VirtStorageProvider::requestAndroidStoragePermissions( void )
 {
-    return GuiHelpers::checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE"});
+    return checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE"});
+}
+
+//============================================================================
+bool VirtStorageProvider::checkUserPermission( QString permissionName ) // returns false if user denies permission to use android hardware
+{
+
+#if defined (Q_OS_ANDROID)
+
+    if( QtAndroidPrivate::Authorized != QtAndroidPrivate::checkPermission(permissionName).result() )
+    {
+        if( QtAndroidPrivate::Authorized != QtAndroidPrivate::requestPermission(permissionName).result() )
+        {
+            return false;
+        }
+    }
+
+
+    return true;
+#else
+    return true;
+#endif // defined (Q_OS_ANDROID)
 }

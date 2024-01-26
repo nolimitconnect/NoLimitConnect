@@ -5,6 +5,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(ptopengine, LANGUAGES CXX)
 
+set(ptopengine_HEADERS)
+list(APPEND ptopengine_HEADERS
+    VirtStream/VirtProviderFile.h
+    VirtStream/VirtStorageProvider.h
+    VirtStream/VirtStreamCache.h
+    VirtStream/VirtStreamFile.h
+    VirtStream/VirtStreamMgr.h
+)
+
 set(ptopengine_SOURCES)
 
 list(APPEND ptopengine_SOURCES 
@@ -242,6 +251,7 @@ list(APPEND ptopengine_SOURCES
 	UserJoinMgr/UserJoinMgr.cpp
 	UserOnlineMgr/UserOnlineMgr.cpp
     VirtStream/VirtProviderFile.cpp
+    VirtStream/VirtStorageProvider.cpp
     VirtStream/VirtStreamCache.cpp
     VirtStream/VirtStreamFile.cpp
     VirtStream/VirtStreamMgr.cpp
@@ -254,7 +264,7 @@ if(DEFINED TARGET_OS_ANDROID)
 find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick)
 endif()
 
-add_library(ptopengine STATIC ${ptopengine_SOURCES})
+add_library(ptopengine STATIC ${ptopengine_SOURCES} ${ptopengine_HEADERS})
 
 if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "ptopengine prefix directory ${CMAKE_PREFIX_PATH}")

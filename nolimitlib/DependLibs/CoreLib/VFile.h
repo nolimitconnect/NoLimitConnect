@@ -28,6 +28,9 @@ typedef struct VFile {
     uint16_t					m_ProviderFileType;
 } VFile;
 
+uint64_t VFileExists( const char* fileName );
+bool    VFileIsProviderFile( const char* fileName );
+
 VFile*	VFileOpen( const char* fileName, const char* fileMode );
 int		VFileClose( VFile* fp );
 

@@ -21,21 +21,106 @@
 
 #define VERIFY_CACHE_DATA 0
 
+namespace
+{
+	
+	//============================================================================
+	std::wstring Utf8ToWide(const std::string utf8string)
+	{
+	#ifdef TARGET_OS_WINDOWS
+		std::wstring convertedString;
+		int requiredSize = MultiByteToWideChar(CP_UTF8, 0, utf8string.c_str(), -1, 0, 0);
+		if(requiredSize > 0)
+		{
+			std::vector<wchar_t> buffer(requiredSize);
+			MultiByteToWideChar(CP_UTF8, 0, utf8string.c_str(), -1, &buffer[0], requiredSize);
+			convertedString.assign(buffer.begin(), buffer.end() - 1);
+		}
+
+		return convertedString;
+	#else
+		//TODO Linux version
+		size_t asciiSize = utf8string.length();
+		wchar_t * buf = new wchar_t[ asciiSize + 2 ];
+		buf[0] = 0;
+		const char* pTemp = utf8string.c_str();
+		for( unsigned int i = 0; i < asciiSize + 1; i++ )
+		{
+			buf[i] = (wchar_t)pTemp[i];
+		}
+
+		std::wstring strResult = buf;
+		delete[] buf;
+		return strResult;
+	#endif // TARGET_OS_WINDOWS
+	}
+
+}
+
+//============================================================================
+uint64_t VirtStreamMgr::fileExists( const char* fileName )
+{
+#if defined(TARGET_OS_ANDROID)
+    if( fileIsProviderFile( fileName ) )
+    {
+
+    }
+#endif // defined(TARGET_OS_ANDROID)
+		int result;
+#ifdef TARGET_OS_WINDOWS
+	struct __stat64 gStat;
+	// Get data associated with the file
+	result = _wstat64( Utf8ToWide( fileName ).c_str(), &gStat );
+#else
+	struct stat64 gStat;
+	// Get data associated with the file
+	result = stat64( fileName, &gStat );
+#endif //TARGET_OS_WINDOWS
+
+	// Check if statistics are valid:
+	if( result != 0 )
+	{
+		//error getting file info
+#if defined(DEBUG)
+        int errCode = VxGetLastError();
+		LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, fileName );
+#endif // defined(DEBUG)etCurrentWorkingDirectory
+		return 0;
+	}
+	else
+	{
+		//return file size
+		return gStat.st_size;
+	}
+}
+
+//============================================================================
+bool VirtStreamMgr::fileIsProviderFile( const char* fileName )
+{
+#if defined(TARGET_OS_ANDROID)
+    const int prefixLen = 10;
+    const char* contentPrefix = "content://";
+    return fileName && strlen( fileName ) > prefixLen && strncmp( fileName, contentPrefix, prefixLen ) == 0;
+#else
+    return false;
+#endif // defined(TARGET_OS_ANDROID)
+}
+
 //============================================================================
 VFile* VirtStreamMgr::fileOpen( const char* fileNameIn, const char* fileMode )
 {
 	vx_assert( fileNameIn );
-	std::string mode( fileMode );
-	vx_assert( mode.size() );
+    vx_assert( fileMode );
 
-	std::string fileName( fileNameIn );
-	vx_assert( fileName.size() );
-
-	std::string contentUriPrefix( "content://" );
-    if( fileName.compare( 0, contentUriPrefix.size(), contentUriPrefix ) != 0 )
+    if( fileIsProviderFile( fileNameIn ) )
     {
-	    return providerFileOpen( fileName, mode );
+        return providerFileOpen( fileNameIn, fileMode );
     }
+
+    std::string mode( fileMode );
+    vx_assert( mode.size() );
+
+    std::string fileName( fileNameIn );
 
 	bool virtStream{ false };
 	if( mode.size() > 0 )

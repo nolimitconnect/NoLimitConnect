@@ -16,17 +16,19 @@
 #include <string>
 #include <CoreLib/VxFileTypeMasks.h>
 
+#include <QString>
+
 // Android 11 (API level 30) implemented scoped storage which is why this class exists
 
 class QUrl;
 
-class StorageProvider
+class VirtStorageProvider
 {
 
 public:
-    StorageProvider() = default;
-    StorageProvider( const StorageProvider& rhs ) = delete;
-	virtual ~StorageProvider() = default;
+    VirtStorageProvider() = default;
+    VirtStorageProvider( const VirtStorageProvider& rhs ) = delete;
+	virtual ~VirtStorageProvider() = default;
 
 
     void				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
@@ -36,6 +38,8 @@ protected:
 
     void                loadUrl( const QUrl &url );
 
+    bool                checkUserPermission( QString permissionName ); // returns false if user denies permission to use android hardware
+
 };
 
-StorageProvider& GetStorageProvider( void );
+VirtStorageProvider& GetVirtStorageProvider( void );

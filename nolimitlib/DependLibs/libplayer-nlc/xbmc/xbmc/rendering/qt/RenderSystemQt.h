@@ -79,7 +79,7 @@ protected:
     virtual void                PresentRenderImpl( bool rendered ) = 0;
     void                        CalculateMaxTexturesize();
 
-    INlc&                      m_INlc;
+    INlc&                       m_INlc;
     int                         m_iVSyncMode;
     int                         m_iVSyncErrors;
     bool                        m_bVsyncInit;

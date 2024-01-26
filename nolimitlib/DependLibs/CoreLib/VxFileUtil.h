@@ -18,175 +18,176 @@
 
 class VxKey;
 
-class VxFileUtil
+namespace VxFileUtil
 {
-public:
-    static const int64_t        SIZE_1GB = 1000000000;
 
-	static RCODE				getCurrentWorkingDirectory( std::string strRetDir );
-	static RCODE				setCurrentWorkingDirectory( const char* pDir );
+    const int64_t				SIZE_1GB = 1000000000;
 
-	static bool					isDotDotDirectory( const char* fileName );
-	static bool					isDotDotDirectory( const wchar_t * fileName );
+	RCODE						getCurrentWorkingDirectory( std::string strRetDir );
+	RCODE						setCurrentWorkingDirectory( const char* pDir );
+
+	bool						isDotDotDirectory( const char* fileName );
+	bool						isDotDotDirectory( const wchar_t * fileName );
 
     //! append file name to path.. account for url etc
-	static std::string			addFileToFolder( std::string& strFolder, std::string& strFile );
+	std::string					addFileToFolder( std::string& strFolder, std::string& strFile );
 
+	bool						fileIsProviderFile( const char* fileName ); // return true if is an android content storage provider file
 	//! returns file size or 0 if doesn't exist
-	static uint64_t				fileExists( const char* pFileName, bool printLogIfDoesNotExist = true );
-	static uint64_t				getFileLen( const char* pFileName, bool printLogIfDoesNotExist = true );
-    static bool                 getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist = true );
-	static bool					directoryExists( const char* pDir );
+	uint64_t					fileExists( const char* pFileName, bool printLogIfDoesNotExist = true );
+	uint64_t					getFileLen( const char* pFileName, bool printLogIfDoesNotExist = true );
+    bool						getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist = true );
+	bool						directoryExists( const char* pDir );
 
 	//! Make all directories that don't exist in a given path
-	static RCODE				makeDirectory( const char* pDirectoryPath );
+	RCODE						makeDirectory( const char* pDirectoryPath );
 	//! Make all directories that don't exist in a given path
-	static RCODE				makeDirectory( std::string& strDirectoryPath );
+	RCODE						makeDirectory( std::string& strDirectoryPath );
     //! strip last directory in string
-    static std::string          moveUpADirectory( std::string& folderPath );
-	static void					assureTrailingDirectorySlash( std::string& strDirectoryPath );
-	static void					removeTrailingDirectorySlash( std::string& strDirectoryPath );
-	static std::string			makeUniqueFileName( const char* fileName );
+    std::string					moveUpADirectory( std::string& folderPath );
+	void						assureTrailingDirectorySlash( std::string& strDirectoryPath );
+	void						removeTrailingDirectorySlash( std::string& strDirectoryPath );
+	std::string					makeUniqueFileName( const char* fileName );
 
 	//! read a line from file into buffer and null terminate it
-	static RCODE				readLine( FILE *pgFile, char *pBuf, int iBufLen );
+	RCODE						readLine( FILE *pgFile, char *pBuf, int iBufLen );
 
-	static FILE *				fileOpen( const char* pFileName, const char* pFileMode );
-	static RCODE				fileSeek ( FILE * poFile, uint32_t u32Pos );
+	FILE *						fileOpen( const char* pFileName, const char* pFileMode );
+	RCODE						fileSeek ( FILE * poFile, uint32_t u32Pos );
 
 	//! File seek..NOTE: only seeks from beginning of file
-	static RCODE				fileSeek ( FILE * poFile, uint64_t u64Pos );
-	static RCODE				copyFile( const char* pOldPath, const char* pNewPath );
-	static RCODE				deleteFile( const char* pFileName );
-	static RCODE				renameFile( const char* pFileOldName, const char* pFileNewName );
+	RCODE						fileSeek ( FILE * poFile, uint64_t u64Pos );
+	RCODE						copyFile( const char* pOldPath, const char* pNewPath );
+	RCODE						deleteFile( const char* pFileName );
+	RCODE						renameFile( const char* pFileOldName, const char* pFileNewName );
 
     //! copy all files and directories to destination directory
-    static RCODE				recursiveCopyDirectory( const char* pSrcDir, const char* pDestDir, int64_t& totalCopied );
+    RCODE						recursiveCopyDirectory( const char* pSrcDir, const char* pDestDir, int64_t& totalCopied );
     //! copy files to destination directory then delete the source files
-	static RCODE				moveFiles( char * pDestDir, char * pSrcDir );
+	RCODE						moveFiles( char * pDestDir, char * pSrcDir );
 	//! move a file from one directory to another
-	static RCODE				moveAFile( const char* srcFile, const char* destFile );
+	RCODE						moveAFile( const char* srcFile, const char* destFile );
 
 	//! separate Path and file name into separate strings
-    static RCODE				seperatePathAndFile(	const char*     pFullPath,		// path and file name
+    RCODE						seperatePathAndFile(	const char*     pFullPath,		// path and file name
                                                         std::string&	strRetPath,		// return path to file
                                                         std::string&	strRetFile );	// return file name
 
 	//! separate Path and file name into separate strings
-    static RCODE				seperatePathAndFile(	std::string&	strFullPath,	// path and file name
+    RCODE						seperatePathAndFile(	std::string&	strFullPath,	// path and file name
                                                         std::string&	strRetPath,		// return path to file
                                                         std::string&	strRetFile );	// return file name
 
 	//! separate file name into file name and extension strings
-    static void					seperateFileNameAndExtension(	std::string&	fileNameWithExt,		// file name with extension
+    void						seperateFileNameAndExtension(	std::string&	fileNameWithExt,		// file name with extension
                                                                 std::string&	strRetFileNamePart,		// return file name part without .ext
                                                                 std::string&	strRetExtensionPart );	// return .ext part
 
 	//! remove the path and return just the file name
-    static void					getJustFileName(	const char*     pFullPath,	                // file name may be full or just file name
+    void						getJustFileName(	const char*     pFullPath,	                // file name may be full or just file name
 													std::string&	strRetJustFileName );		// return file name
     //! remove the file name and return just the path
-    static std::string			getJustPath( std::string fullPath );	// file name and path
+    std::string					getJustPath( std::string fullPath );	// file name and path
 
 	//! get the . extension of file name
-	static void					getFileExtension(	std::string&	strFileName,	    // file name with extension
+	void						getFileExtension(	std::string&	strFileName,	    // file name with extension
 													std::string&	strRetExt );		// return extension ( ie "myfile.etm" would return etm"
 	//! flip back slashes into forward slashes
-	static void					makeForwardSlashPath( std::string & csFilePath );
+	void						makeForwardSlashPath( std::string & csFilePath );
 	//! flip back slashes into forward slashes
-	static void					makeForwardSlashPath( char * pFilePath );
+	void						makeForwardSlashPath( char * pFilePath );
 	//! flip forward slashes into backward slashes
-	static void					makeBackwardSlashPath( std::string & csFilePath );
+	void						makeBackwardSlashPath( std::string & csFilePath );
 	//! flip forward slashes into backward slashes
-	static void					makeBackwardSlashPath( char * pFilePath );
+	void						makeBackwardSlashPath( char * pFilePath );
 
 	//! return true if last char is '/' else '\\'
-	static bool					doesPathEndWithSlash( const char* pFileName );
+	bool						doesPathEndWithSlash( const char* pFileName );
     //! append slash if needed
-    static void					assurePathEndWithSlash( std::string &csFileName );
+    void						assurePathEndWithSlash( std::string &csFileName );
 
 	//! return true if is a root path like C:\dir or /dir
-	static bool					isFullPath( const char* pFileName );
+	bool						isFullPath( const char* pFileName );
 	//! Make full path to execute directory if full path was not specified
 	//! NOTE: be careful .. assumes pFileName has enough space for full path and file name
-	static void					makeFullPath( char * pFileName );
+	void						makeFullPath( char * pFileName );
 	//! Make full path to given directory if full path was not specified.. make path if does not exist
-	static void					makeFullPath( const char* pShortFileName, const char* pDownloadDir, std::string & strRetPath );
+	void						makeFullPath( const char* pShortFileName, const char* pDownloadDir, std::string & strRetPath );
 	//! Make short FileName.. if pDownloadDir and full path contains pDownloadDir then will be path in that dir else just filename
 	//! return true if FullFileName contained the download directory
-	static bool 				makeShortFileName( const char* pFullFileName, std::string & strRetShortName, const char* pDownloadDir = NULL );
+	bool 						makeShortFileName( const char* pFullFileName, std::string & strRetShortName, const char* pDownloadDir = NULL );
 
 	//! Get execution full path
-	static RCODE				getExecuteFullPathAndName( std::string& strRetExePathAndFileName );
+	RCODE						getExecuteFullPathAndName( std::string& strRetExePathAndFileName );
 	//! Get directory we execute from
-	static RCODE				getExecuteDirectory( std::string& strRetExeDir );
+	RCODE						getExecuteDirectory( std::string& strRetExeDir );
 	//! Get execution path and file name
-	static RCODE				getExecutePathAndName( std::string& strRetExeDir, std::string& strRetExeFileName );
+	RCODE						getExecutePathAndName( std::string& strRetExeDir, std::string& strRetExeFileName );
 	//match file names using dos style wild chars
-	static bool					fileNameWildMatch(const char  * pMatchName, const char* pWildName);
+	 bool						fileNameWildMatch(const char  * pMatchName, const char* pWildName);
 	//! read whole file of known length into existing buffer
 	//! NOTE assumes buffer has enough room for the whole file
-    static RCODE				readWholeFile(	const char*     pFileName,					// file to read
+    RCODE						readWholeFile(	const char*     pFileName,					// file to read
 												void *			pvBuf,						// buffer to read into
 												uint32_t		u32LenToRead,				// length to read ( assumes is same as file length
 												uint32_t *		pu32RetAmountRead = NULL );	// return length actually read if not null
 	//! allocate memory and read whole file into memory
     //! NOTE: USER MUST DELETE THE RETURED POINTER OR MEMORY LEAK WILL OCCUR
-    static RCODE				readWholeFile(	const char*     pFileName,			// file to read
+    RCODE						readWholeFile(	const char*     pFileName,			// file to read
 												void **			ppvRetBuf,			// return allocated buffer it was read into
 												uint32_t *		pu32RetLenOfFile );	// return length of file
 	//! allocate memory and read whole file into memory and decrypt
     //! NOTE: USER MUST DELETE THE RETURED POINTER OR MEMORY LEAK WILL OCCUR
-	static RCODE				readWholeFile(	VxKey *			poKey,				// key to decrypt with
+	RCODE						readWholeFile(	VxKey *			poKey,				// key to decrypt with
                                                 const char*     pFileName,			// file to read
 												void **			ppvRetBuf,			// return allocated buffer it was read into
 												uint32_t *		pu32RetLenOfFile );	// return length of file
 
 	//! write all of data to a file
-    static RCODE				writeWholeFile(	const char*     pFileName,			// file to write to
+    RCODE						writeWholeFile(	const char*     pFileName,			// file to write to
 												void *			pvBuf,				// data to write
                                                 uint32_t		u32LenOfData );		// data length
 	//! encrypt and write all of data to a file
-	static RCODE				writeWholeFile(	VxKey *			poKey,				// key to encrypt with
+	RCODE						writeWholeFile(	VxKey *			poKey,				// key to encrypt with
                                                 const char*     pFileName,			// file to write to
 												void *			pvBuf,				// data to write
 												uint32_t		u32LenOfData );		// data length
 
-    static RCODE				listFilesInDirectory(	const char*                 pSrcDir,
+    RCODE						listFilesInDirectory(	const char*                 pSrcDir,
 														std::vector<std::string>&	fileList );
 
-    static RCODE				listFilesAndFolders(	const char*                 pSrcDir,
+    RCODE						listFilesAndFolders(	const char*                 pSrcDir,
 														std::vector<VxFileInfo>&	fileList,
 														uint8_t						fileFilterMask = VXFILE_TYPE_ANY | VXFILE_TYPE_DIRECTORY );
 
-	static bool					deleteFilesInFolder( std::string fileFolder, bool folderNameEndsWithOnlineId );
+	bool						deleteFilesInFolder( std::string fileFolder, bool folderNameEndsWithOnlineId );
 
-	static uint8_t				fileExtensionToFileTypeFlag( const char* fileName );
-	static bool					incrementFileName( std::string& strFileName );
+	uint8_t						fileExtensionToFileTypeFlag( const char* fileName );
+	bool						incrementFileName( std::string& strFileName );
 
-	static bool					getDiskSpace( const char* filePath, uint64_t& totalDiskSpace, uint64_t& diskSpaceAvail );
-    static uint64_t				getDiskFreeSpace( const char* filePath );
+	bool						getDiskSpace( const char* filePath, uint64_t& totalDiskSpace, uint64_t& diskSpaceAvail );
+    uint64_t					getDiskFreeSpace( const char* filePath );
 
-    static bool					u64ToHexAscii( uint64_t fileLen, std::string& retHexAscii );
-    static bool					hexAsciiToU64( const char* hexAscii, uint64_t& retFileLen );
+    bool						u64ToHexAscii( uint64_t fileLen, std::string& retHexAscii );
+    bool						hexAsciiToU64( const char* hexAscii, uint64_t& retFileLen );
 
-    static bool					dataToHexAscii( uint8_t * dataBuf, int dataLen, std::string& retHexAscii );
-    static bool					hexAsciiToData( const char* hexAscii, uint8_t * retDataBuf, int dataLen );
+    bool						dataToHexAscii( uint8_t * dataBuf, int dataLen, std::string& retHexAscii );
+    bool						hexAsciiToData( const char* hexAscii, uint8_t * retDataBuf, int dataLen );
 
-	static uint8_t				charToHexBinary( char cVal );
-	static char					binaryToHexChar( uint8_t u8Val );
+	uint8_t						charToHexBinary( char cVal );
+	char						binaryToHexChar( uint8_t u8Val );
 
-	static std::string			makeKodiPath( const char* path );
+	std::string					makeKodiPath( const char* path );
 
-    static std::string          readVersionFile( std::string& versionFileName );
+    std::string					readVersionFile( std::string& versionFileName );
 
 	//! return false if a test file cannot be written to the given path
-	static bool					testIsWritablePath( std::string writeablePath ); 
+	bool						testIsWritablePath( std::string writeablePath ); 
 
-	static std::string			describeDiskSpace( std::string pathOnDisk );
+	std::string					describeDiskSpace( std::string pathOnDisk );
 
-	static std::string			describeFileSize( uint64_t fileLen );
-};
+	std::string					describeFileSize( uint64_t fileLen );
+} // namespace VxFileUtil
 
 size_t FindLastPathSeperator( std::string& path );
 bool   AddExtraLongPathPrefix( std::string& path );

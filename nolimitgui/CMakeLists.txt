@@ -357,7 +357,6 @@ list(APPEND nlc_HEADERS
 	CommonSrc/QtSource/SearchParamsWidget.h
 	CommonSrc/QtSource/ServiceSettingsWidget.h
     CommonSrc/QtSource/SessionWidget.h
-    CommonSrc/QtSource/StorageProvider.h
     CommonSrc/QtSource/StoryWidget.h
     CommonSrc/QtSource/miniaudioio/AudioBitrate.h
     CommonSrc/QtSource/miniaudioio/AudioEchoBuf.h
@@ -763,7 +762,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/SessionWidget.cpp
     CommonSrc/QtSource/ServiceSettingsWidget.cpp
     CommonSrc/QtSource/SoundMgr.cpp
-    CommonSrc/QtSource/StorageProvider.cpp
     CommonSrc/QtSource/StoryWidget.cpp
     CommonSrc/QtSource/TestWidget.cpp
     CommonSrc/QtSource/TextChatLogic.cpp

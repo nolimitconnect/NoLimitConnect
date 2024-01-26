@@ -8,7 +8,22 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#if defined(TARGET_OS_ANDROID)
+
 #include "VirtProviderFile.h"
+
+//============================================================================
+VirtProviderFile::VirtProviderFile(QString fileName)
+    : QFile( fileName )
+{
+    closeFile();
+}
+
+//============================================================================
+VirtProviderFile::~VirtProviderFile()
+{
+	closeFile();
+}
 
 //============================================================================
 void VirtProviderFile::clear( void )
@@ -17,3 +32,14 @@ void VirtProviderFile::clear( void )
 	m_FileName.clear();
 	m_FileMode.clear();
 }
+
+//============================================================================
+void VirtProviderFile::closeFile( void )
+{
+	close();
+	delete m_VFile;
+	m_VFile = nullptr;
+	clear();
+}
+
+#endif // defined(TARGET_OS_ANDROID)

@@ -9,13 +9,23 @@
 //============================================================================
 #pragma once
 
+#if defined(TARGET_OS_ANDROID)
+
 #include <CoreLib/VFile.h>
 
 #include <string>
 
-class VirtProviderFile
+#include <QFile>
+#include <QString>
+
+class VirtProviderFile : public QFile
 {
 public:
+	VirtProviderFile() = default;
+    VirtProviderFile( QString fileName );
+	~VirtProviderFile() override;
+
+    void                        closeFile( void );
 	void						clear( void );
 
 	void						setError( int err )			{ m_Error = err; }
@@ -27,3 +37,5 @@ public:
 	std::string					m_FileMode;
 	int							m_Error{ 0 };
 };
+
+#endif // defined( TARGET_OS_ANDROID )

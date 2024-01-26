@@ -16,7 +16,6 @@
 #include "FileShareItemWidget.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "StorageProvider.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -739,7 +738,7 @@ void ActivityBrowseFiles::slotRequestFileList( void )
 		ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
 		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
 
-		GetStorageProvider().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
+        m_MyApp.getEngine().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
 	}
 }
 

@@ -45,7 +45,7 @@ AppProfile::AppProfile()
 void AppProfile::loadProfile( void )
 {
 	// if has ini file then use settings in it 
-	getExecuteDirectory( m_strExeDir );
+	VxFileUtil::getExecuteDirectory( m_strExeDir );
 
     uint32_t u32UseExeDir = 0;
 
@@ -136,14 +136,14 @@ void AppProfile::loadProfile( void )
 	{
         m_strRootUserDataDir = m_strExeDir + VxGetApplicationNameNoSpacesLowerCase();
 		m_strRootUserDataDir += "/";
-		makeDirectory( m_strRootUserDataDir.c_str() );
+		VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
 		m_strRootXferDir = m_strRootUserDataDir;
 
 		m_strRootUserDataDir += "data/";
-		makeDirectory( m_strRootUserDataDir.c_str() );
+		VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
 
 		m_strRootXferDir  += "xfer/";
-		makeDirectory( m_strRootXferDir.c_str() );
+		VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
 	}
 	else
 	{
@@ -166,19 +166,19 @@ void AppProfile::loadProfile( void )
 		VxFileUtil::makeForwardSlashPath( m_strRootUserDataDir );
         VxFileUtil::assurePathEndWithSlash( m_strRootUserDataDir );
 
-        makeDirectory( m_strRootUserDataDir.c_str() );
+        VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
 
 		m_NlcPathPrefix = "nlc/";
 
         VxFileUtil::assurePathEndWithSlash( m_strRootUserDataDir );
-        makeDirectory( m_strRootUserDataDir.c_str() );
+        VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
         if(!VxFileUtil::directoryExists(m_strRootUserDataDir.c_str()))
         {
             LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create root data dir %s", m_strRootUserDataDir.c_str());
         }
 
         m_strRootUserDataDir += m_NlcPathPrefix;
-        makeDirectory( m_strRootUserDataDir.c_str() );
+        VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
         if(!VxFileUtil::directoryExists(m_strRootUserDataDir.c_str()))
         {
             LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create prefixed root data dir %s", m_strRootUserDataDir.c_str());
@@ -222,10 +222,10 @@ void AppProfile::loadProfile( void )
         m_strRootXferDir += VxGetApplicationNameNoSpacesLowerCase();
         VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
 
-		makeDirectory( m_strRootXferDir.c_str() );
+		VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
 		m_strRootXferDir += m_NlcPathPrefix;
         VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
-		makeDirectory( m_strRootXferDir.c_str() );
+		VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
         if(!VxFileUtil::directoryExists(m_strRootXferDir.c_str()))
         {
             LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create xfer dir %s", m_strRootXferDir.c_str());
@@ -241,7 +241,7 @@ void AppProfile::loadProfile( void )
 	//LogMsg( LOG_INFO, "App Data Directory %s\n", m_strRootAppDataDir.c_str() );
 
 	std::string strLogDataDir = m_strRootUserDataDir + "logs/";
-	makeDirectory( strLogDataDir.c_str() );
+	VxFileUtil::makeDirectory( strLogDataDir.c_str() );
 	m_strDebugFileName = strLogDataDir + "DebugLog.txt";
 
 	if( m_u32LogToFile )
@@ -254,10 +254,10 @@ void AppProfile::loadProfile( void )
 RCODE AppProfile::saveDebugSettings( void )
 {
 	RCODE rc = 0;
-	getExecuteDirectory( m_strExeDir );
+	VxFileUtil::getExecuteDirectory( m_strExeDir );
 	std::string strIniFileName = m_strExeDir + INI_FILE;
 
-	if( fileExists( strIniFileName.c_str() ) )
+	if( VxFileUtil::fileExists( strIniFileName.c_str() ) )
 	{
 		rc |= setProfileLong( 
 			strIniFileName.c_str(),
@@ -303,10 +303,10 @@ std::string& AppProfile::getOsSpecificAppDataDir( void )
 	QString dataLocation = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 #endif //QT_5_OR_GREATER
 	m_strOsSpecificAppDataDir = dataLocation.toStdString();
-	makeForwardSlashPath( m_strOsSpecificAppDataDir );
+	VxFileUtil::makeForwardSlashPath( m_strOsSpecificAppDataDir );
 	m_strOsSpecificAppDataDir += "/";
     m_strOsSpecificHomeDir += m_NlcPathPrefix;
-    makeDirectory( m_strOsSpecificHomeDir.c_str() );
+    VxFileUtil::makeDirectory( m_strOsSpecificHomeDir.c_str() );
     if(!VxFileUtil::directoryExists(m_strOsSpecificHomeDir.c_str()))
     {
         LogMsg( LOG_ERROR, "AppProfile::getOsSpecificDocumentsDir Could not create app data dir %s", m_strOsSpecificHomeDir.c_str());
@@ -325,10 +325,10 @@ std::string& AppProfile::getOsSpecificHomeDir( void )
     QString homeLocation = QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
 #endif //QT_5_OR_GREATER
 	m_strOsSpecificHomeDir = homeLocation.toStdString();
-	makeForwardSlashPath( m_strOsSpecificHomeDir );
+	VxFileUtil::makeForwardSlashPath( m_strOsSpecificHomeDir );
     VxFileUtil::assurePathEndWithSlash( m_strOsSpecificHomeDir );
     m_strOsSpecificHomeDir += m_NlcPathPrefix;
-    makeDirectory( m_strOsSpecificHomeDir.c_str() );
+    VxFileUtil::makeDirectory( m_strOsSpecificHomeDir.c_str() );
     if(!VxFileUtil::directoryExists(m_strOsSpecificHomeDir.c_str()))
     {
         LogMsg( LOG_ERROR, "AppProfile::getOsSpecificDocumentsDir Could not create home dir %s", m_strOsSpecificHomeDir.c_str());
@@ -347,10 +347,10 @@ std::string& AppProfile::getOsSpecificDocumentsDir( void )
 	QString docsLocation = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 #endif //QT_5_OR_GREATER
 	m_strOsSpecificDocumentsDir = docsLocation.toStdString();
-	makeForwardSlashPath( m_strOsSpecificDocumentsDir );
+	VxFileUtil::makeForwardSlashPath( m_strOsSpecificDocumentsDir );
     VxFileUtil::assurePathEndWithSlash( m_strOsSpecificDocumentsDir );
     m_strOsSpecificDocumentsDir += m_NlcPathPrefix;
-    makeDirectory( m_strOsSpecificDocumentsDir.c_str() );
+    VxFileUtil::makeDirectory( m_strOsSpecificDocumentsDir.c_str() );
     if(!VxFileUtil::directoryExists(m_strOsSpecificDocumentsDir.c_str()))
     {
         LogMsg( LOG_ERROR, "AppProfile::getOsSpecificDocumentsDir Could not create documents dir %s", m_strOsSpecificDocumentsDir.c_str());

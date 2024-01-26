@@ -3,6 +3,77 @@ cmake_minimum_required (VERSION 3.22.1)
 
 project(CoreLib, LANGUAGES CXX)
 
+set(CoreLib_HEADERS)
+list(APPEND CoreLib_HEADERS
+    AppErr.h
+    AssetDefs.h
+    BinaryBlob.h
+    Blowfish.h
+    DbBase.h
+    DbDataset.h
+    DbQueryData.h
+    ObjectCommon.h
+    OsDetect.h
+    rsa.h
+    SHA1.h
+    Sha1ClientInfo.h
+    Sha1GeneratorMgr.h
+    Sha1Info.h
+    sqlite3.h
+    sqlitedataset.h
+    StdOutRedirect.h
+    StringListBinary.h
+    TimeIntervalEstimator.h
+    VxAppInfo.h
+    Invite.h
+    VFile.h
+    VirtFileMgr.h
+    VxBuffer.h
+    VxChop.h
+    VxChopMap.h
+    VxColorUtil.h
+    VxCrypto.h
+    VxDebug.h
+    VxDefs.h
+    VxFileCopier.h
+    VxFileCrc32.h
+    VxFileInfo.h
+    VxFileIsTypeFunctions.h
+    VxFileLists.h
+    VxFileShredder.h
+    VxFileShredderDb.h
+    VxFileUtil.h
+    VxGUID.h
+    VxGUIDList.h
+    VxGuidPairList.h
+    VxGuidPairTimeList.h
+    VxGlobals.h
+    VxLinuxOnly.h
+    VxMathDef.h
+    VxMathVec3f.h
+    VxMemUtils.h
+    VxMutex.h
+    VxParse.h
+    VxProfile.h
+    VxPtopUrl.h
+    VxRefCount.h
+    VxSemaphore.h
+    VxSettings.h
+    VxSha1Hash.h
+    VxShortcut.h
+    VxStringUtils.h
+    VxTextStreamReader.h
+    VxThread.h
+    VxTimeUtil.h
+    VxTime.h
+    VxTimer.h
+    VxValuePair.h
+    VxXml.h
+    VxUrl.h
+    VxJava.h
+    VxMd5.h
+)
+
 set(CoreLib_SOURCES)
 
 list(APPEND CoreLib_SOURCES 
@@ -79,7 +150,11 @@ list(APPEND CoreLib_SOURCES
 )
 
 
-add_library(CoreLib STATIC ${CoreLib_SOURCES})
+add_library(CoreLib
+    STATIC
+    ${CoreLib_SOURCES}
+    ${CoreLib_HEADERS}
+)
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
