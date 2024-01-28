@@ -47,6 +47,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/IsBigEndianCpu.h>
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxTimer.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
@@ -213,7 +214,7 @@ bool OpusFileDecoder::beginFileDecode( const char* fileName, VxGUID& assetId, in
 		return false;
 	}
 
-	m_FileHandle = fopen( m_FileName.c_str(), "rb" );
+	m_FileHandle = VFileOpen( m_FileName.c_str(), "rb" );
 	if( 0 == m_FileHandle )
 	{
 		LogMsg( LOG_ERROR, "OpusFileDecoder::beginWrite could not open file to read %s", fileName );
@@ -231,7 +232,7 @@ bool OpusFileDecoder::beginFileDecode( const char* fileName, VxGUID& assetId, in
 	
 	if( !m_DecoderInitialized )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		m_FileHandle = 0;
 		return false;
 	}
@@ -341,7 +342,7 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 		/*Read bitstream from input file*/
 		if( 0 != m_FileHandle )
 		{
-			nb_read = (int)fread( data, sizeof(char), 1800, m_FileHandle );
+			nb_read = (int)VFileRead( data, sizeof(char), 1800, m_FileHandle );
 			m_FilePos += nb_read;
 			if( 0 == m_TotalSndFramesInFile )
 			{
@@ -353,7 +354,7 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 			if( 1800 != nb_read )
 			{
 				endOfFile = true;
-				fclose( m_FileHandle );
+				VFileClose( m_FileHandle );
 				m_FileHandle = 0;
 			}
 		}
@@ -634,7 +635,7 @@ void OpusFileDecoder::finishFileDecode( bool abortedByUser )
 
 	if( m_FileHandle )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		m_FileHandle = 0;
 	}
 
@@ -890,7 +891,7 @@ int OpusFileDecoder::opusPcmOutputToPcm(	int16_t*		opusOutput,
 
 
 //============================================================================
-bool OpusFileDecoder::seekOpusFile( FILE * fileHandle, int pos0to100000 )
+bool OpusFileDecoder::seekOpusFile( VFile * fileHandle, int pos0to100000 )
 {
 	ogg_int64_t 	pageGranule;
 	if( !m_HeaderHasBeenRead )
@@ -906,7 +907,7 @@ bool OpusFileDecoder::seekOpusFile( FILE * fileHandle, int pos0to100000 )
 			/*Read bitstream from input file*/
 			if( 0 != m_FileHandle )
 			{
-				int nb_read = (int)fread( data, sizeof(char), 1800, m_FileHandle );
+				int nb_read = (int)VFileRead( data, sizeof(char), 1800, m_FileHandle );
 				m_FilePos += nb_read;
 				ogg_sync_wrote(&m_OggSyncState, nb_read);
 				if( 1800 != nb_read )
@@ -1023,7 +1024,7 @@ bool OpusFileDecoder::seekOpusFile( FILE * fileHandle, int pos0to100000 )
 	// 4 byte OggS then 1 byte struct version ( 0 ) then flags and stuff 
 	char dataBuf[2048];
 	int sigPos = -1;
-	int amtRead = (int)fread( dataBuf, 1, 2048, fileHandle );
+	int amtRead = (int)VFileRead( dataBuf, 1, 2048, fileHandle );
 	if( amtRead > 5 )
 	{
 		for( int i = 0; i < amtRead; i++ )
@@ -1058,15 +1059,15 @@ bool OpusFileDecoder::seekOpusFile( FILE * fileHandle, int pos0to100000 )
 }
 
 //============================================================================
-bool OpusFileDecoder::readTotalSndFrames( FILE * fileHandle )
+bool OpusFileDecoder::readTotalSndFrames( VFile * fileHandle )
 {
 	// at 0x9c ( should be signature nolimitconnect.org v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
 	m_TotalSndFramesInFile = 0;
 	m_ConsumedSndFrames = 0;
 	char readBuf[ 512 ];
-    if( 0 == fseek( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS, SEEK_SET ) )
+    if( 0 == VFileSeek64( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS ) )
     {
-        if( sizeof( readBuf ) == fread( readBuf, 1, sizeof( readBuf ), fileHandle ) )
+        if( sizeof( readBuf ) == VFileRead( readBuf, 1, sizeof( readBuf ), fileHandle ) )
 	    {
             uint64_t totalFrames = 0;
             for( int i = 0; i < 10; i++ )
@@ -1090,9 +1091,9 @@ bool OpusFileDecoder::readTotalSndFrames( FILE * fileHandle )
 }
 
 //============================================================================
-bool OpusFileDecoder::seekFile( FILE * fileHandle, uint64_t filePosition )
+bool OpusFileDecoder::seekFile( VFile * fileHandle, uint64_t filePosition )
 {
-	RCODE rc = VxFileUtil::fileSeek( fileHandle, filePosition );
+	RCODE rc = VFileSeek64( fileHandle, filePosition );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "ERROR OpusFileDecoder::seekFile err %d %s", rc, m_FileName.c_str() );

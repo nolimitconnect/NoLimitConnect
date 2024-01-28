@@ -34,6 +34,7 @@
 #include <PktLib/VxCommon.h>
 #include <NetLib/VxSktBase.h>
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/AppErr.h>
@@ -669,7 +670,7 @@ void OfferBaseXferMgr::endOfferBaseXferSession( OfferBaseRxSession* poSessionIn,
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 
@@ -727,7 +728,7 @@ void OfferBaseXferMgr::endOfferBaseXferSession( OfferBaseTxSession * poSessionIn
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 
@@ -1316,7 +1317,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 
 	if( eXferErrorNone == xferErr )
 	{
-		xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "rb" ); 
+		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "rb" ); 
 		if( NULL == xferInfo.m_hFile )
 		{
 			// open file failed
@@ -1333,7 +1334,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 		{
 			if( xferInfo.m_u64FileLen < xferInfo.m_u64FileOffs )
 			{
-				fclose( xferInfo.m_hFile );
+				VFileClose( xferInfo.m_hFile );
 				xferInfo.m_hFile = NULL;
 				LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: OfferBase %s could not be resumed because too short", 
 					(const char*)xferInfo.getLclFileName().c_str() );
@@ -1344,10 +1345,10 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 			{
 				RCODE rc = -1;
 				// we have valid file so seek to end so we can resume if partial file exists
-				if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+				if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 				{
 					// seek failed
-					fclose( xferInfo.m_hFile );
+					VFileClose( xferInfo.m_hFile );
 					xferInfo.m_hFile = NULL;
 					LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: could not seek to position %d in file %s",
 						xferInfo.m_u64FileOffs,
@@ -1449,7 +1450,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 			}
 			else
 			{
-				xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
+				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
 				if( NULL == xferInfo.m_hFile )
 				{
 					// failed to open file
@@ -1465,12 +1466,12 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 				else
 				{
 					// we have valid file so seek to end so we can resume if partial file exists
-					if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+					if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 					{
 						// seek failed
 						xferSession->setErrorCode( rc );
 						xferErr  = eXferErrorFileSeekError;
-						fclose( xferInfo.m_hFile );
+						VFileClose( xferInfo.m_hFile );
 						xferInfo.m_hFile = NULL;
 						LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR: (OfferBase Send) could not seek to position %d in file %s",
 							xferInfo.m_u64FileOffs,
@@ -1482,7 +1483,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 		else
 		{
 			// open file and truncate if exists
-			xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
+			xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
 			if( NULL == xferInfo.m_hFile )
 			{
 				// failed to open file
@@ -1541,7 +1542,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 		//we are done sending file
 		if( xferInfo.m_hFile )
 		{
-			fclose( xferInfo.m_hFile );
+			VFileClose( xferInfo.m_hFile );
 			xferInfo.m_hFile  = NULL;
 		}
 
@@ -1572,7 +1573,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 	}
 
 	// read data into packet
-	uint32_t u32BytesRead = (uint32_t)fread(	oPkt.m_au8OfferChunk,
+	uint32_t u32BytesRead = (uint32_t)VFileRead(	oPkt.m_au8OfferChunk,
 									1,
 									u32ChunkLen,
 									xferInfo.m_hFile );
@@ -1582,7 +1583,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 		xferSession->setErrorCode( rc );
 		xferErr = eXferErrorFileReadError;
 
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile  = NULL;
 		LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR: %d reading send file at offset %" PRId64 " when file len %" PRId64 "  file name %s",
 					rc,
@@ -1641,7 +1642,7 @@ EXferError OfferBaseXferMgr::rxOfferBaseChunk( bool pluginIsLocked, OfferBaseRxS
 	if( xferInfo.m_hFile )
 	{
 		//write the chunk of data out to the file
-		uint32_t u32BytesWritten = (uint32_t)fwrite(	poPkt->m_au8OfferChunk,
+		uint32_t u32BytesWritten = (uint32_t)VFileWrite(	poPkt->m_au8OfferChunk,
 												1,
 												poPkt->getChunkLen(),
 												xferInfo.m_hFile );
@@ -1694,7 +1695,7 @@ void OfferBaseXferMgr::finishOfferBaseReceive( OfferBaseRxSession* xferSession, 
 	VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 	else

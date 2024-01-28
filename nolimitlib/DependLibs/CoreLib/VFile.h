@@ -29,6 +29,7 @@ typedef struct VFile {
 } VFile;
 
 uint64_t VFileExists( const char* fileName );
+bool	VFileDirectoryExists( const char* dirPath );
 bool    VFileIsProviderFile( const char* fileName );
 
 VFile*	VFileOpen( const char* fileName, const char* fileMode );
@@ -49,6 +50,9 @@ int		VFilePutS( const char* s, VFile* fp );
 int		VFileGetPos( VFile* fp, fpos_t* pos );
 int		VFileSetPos( VFile* fp, const fpos_t* pos );
 int		VFileSeek( VFile* fp, size_t offset, int whence );
+int		VFileSeek64( VFile* fp, uint64_t offs );
+
+int		VFilePrintf( VFile* fp, char* msg, ... );
 
 #ifdef __cplusplus
 }

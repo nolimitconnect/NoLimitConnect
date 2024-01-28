@@ -19,7 +19,7 @@ public:
 	AssetRxSession( P2PEngine& engine );
 	AssetRxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 	AssetRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
-	virtual ~AssetRxSession();
+	virtual ~AssetRxSession() = default;
 
 	void cancelDownload( VxGUID& lclSessionId );
 

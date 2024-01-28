@@ -17,6 +17,7 @@
 #include "opus_types.h"
 
 #include <CoreLib/IsBigEndianCpu.h>
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
@@ -44,7 +45,7 @@ OpusFileEncoder::~OpusFileEncoder()
 bool OpusFileEncoder::beginFileEncode( const char* fileName, int sampleRate, int channels )
 {
 	m_FileName = fileName;
-	m_FileHandle = fopen( fileName, "wb+" );
+	m_FileHandle = VFileOpen( fileName, "wb+" );
 	if( 0 == m_FileHandle )
 	{
 		LogMsg( LOG_ERROR, "OpusFileEncoder::beginWrite could not open file to write %s", fileName );
@@ -70,14 +71,14 @@ bool OpusFileEncoder::beginFileEncode( const char* fileName, int sampleRate, int
 		}
 		else
 		{
-			fclose( m_FileHandle );
+			VFileClose( m_FileHandle );
 			m_FileHandle = 0;
 			VxFileUtil::deleteFile( m_FileName.c_str() );
 		}
 	}
 	else
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		m_FileHandle = 0;
 		VxFileUtil::deleteFile( m_FileName.c_str() );
 	}
@@ -160,27 +161,27 @@ void OpusFileEncoder::finishFileEncode( void )
 	m_OggStream.closeOggStream();
 	if( m_FileHandle )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		m_FileHandle = 0;
 		bool writeResult = false;
 		uint64_t fileLen = VxFileUtil::getFileLen( m_FileName.c_str() );
-		FILE * fileHandle = fopen( m_FileName.c_str(), "rb+" );
+		VFile* fileHandle = VFileOpen( m_FileName.c_str(), "rb+" );
 		if( 0 != fileHandle )
 		{
 			writeResult = writeTotalSndFrames( fileHandle );
-			VxFileUtil::fileSeek( fileHandle, fileLen );
-			fclose( fileHandle );
+			VFileSeek64( fileHandle, fileLen );
+			VFileClose( fileHandle );
 		}
 
 		if( false == writeResult )
 		{
-			LogMsg( LOG_ERROR, "OpusFileEncoder::finishFileEncode could not write frame count to file %s\n", m_FileName.c_str() );
+			LogMsg( LOG_ERROR, "OpusFileEncoder::finishFileEncode could not write frame count to file %s", m_FileName.c_str() );
 		}
 	}
 }
 
 //============================================================================
-bool OpusFileEncoder::writeTotalSndFrames( FILE * fileHandle )
+bool OpusFileEncoder::writeTotalSndFrames( VFile * fileHandle )
 {
 	bool writeSuccess = false;
 	std::string hexTotal;
@@ -190,9 +191,9 @@ bool OpusFileEncoder::writeTotalSndFrames( FILE * fileHandle )
 	if( ( 16 == hexTotal.length() ) && ( 0  == VxFileUtil::fileSeek( fileHandle, totalFramesOffs ) ) )
 	{
         char readBuf[ 512 ];
-        if( 0 == fseek( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS, SEEK_SET ) )
+        if( 0 == VFileSeek64( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS ) )
         {
-            if( sizeof( readBuf ) == fread( readBuf, 1, sizeof( readBuf ), fileHandle ) )
+            if( sizeof( readBuf ) == VFileRead( readBuf, 1, sizeof( readBuf ), fileHandle ) )
             {
                 for( int i = 0; i < 10; i++ )
                 {
@@ -200,8 +201,8 @@ bool OpusFileEncoder::writeTotalSndFrames( FILE * fileHandle )
                     {
                         memcpy( &readBuf[ i + NO_LIMIT_OPUS_SIGNITURE_LEN ], hexTotal.c_str(), 16);
 
-                        if( (0 == fseek( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS, SEEK_SET )) &&
-                            (16 == fwrite( readBuf, 1, sizeof( readBuf ), fileHandle )) )
+                        if( (0 == VFileSeek( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS, SEEK_SET )) &&
+                            (16 == VFileWrite( readBuf, 1, sizeof( readBuf ), fileHandle )) )
                         {
                             writeSuccess = true;
                             break;

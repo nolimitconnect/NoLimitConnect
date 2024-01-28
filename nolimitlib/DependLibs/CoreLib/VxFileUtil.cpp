@@ -8,13 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VFile.h"
+#include "VxFileUtil.h"
 
 #include "VirtFileMgr.h"
 #include "VxCrypto.h"
 #include "VxDebug.h"
 #include "VxFileCopier.h"
-#include "VxFileUtil.h"
 #include "VxFileIsTypeFunctions.h"
 #include "VxGlobals.h"
 #include "VxParse.h"
@@ -457,10 +456,15 @@ bool VxFileUtil::getFileTypeAndLength( const char* fileName, uint64_t& retFileLe
 
 //============================================================================
 //! return true if directory exists
-bool VxFileUtil::directoryExists( const char* pDir )
+bool VxFileUtil::directoryExists( const char* dirPath )
 {
+	if( fileIsProviderFile( dirPath ) )
+	{
+		return VFileDirectoryExists( dirPath );
+	}
+
 	char acBuf[ VX_MAX_PATH ];
-	strcpy( acBuf, pDir );
+	strcpy( acBuf, dirPath );
 	bool bIsDir = true;
 	struct stat oFileStat;
 
@@ -663,17 +667,17 @@ RCODE VxFileUtil::makeDirectory( const char* pDirectoryPath )
 
 //============================================================================
 //! read a line from file into buffer and null terminate it
-RCODE VxFileUtil::readLine( FILE *pgFile, char *pBuf, int iBufLen )
+RCODE VxFileUtil::readLine( VFile *pgFile, char *pBuf, int iBufLen )
 {
     int c;
     int i= 0;
 
     //=== Read a line  ===//
 	// skip over \n or \r if is the first character
-	c = getc( pgFile );
+	c = VFileGetC( pgFile );
 	if( c == '\n' || c == '\r' )
 	{
-		c = getc( pgFile );
+		c = VFileGetC( pgFile );
 	}
 
     while( c != '\n' && c != '\r' )
@@ -693,7 +697,7 @@ RCODE VxFileUtil::readLine( FILE *pgFile, char *pBuf, int iBufLen )
 			return EOF; // not enough room in buffer
 		}
 
-		c = getc( pgFile );
+		c = VFileGetC( pgFile );
     }
 
     pBuf[i] = '\0';
@@ -702,10 +706,10 @@ RCODE VxFileUtil::readLine( FILE *pgFile, char *pBuf, int iBufLen )
 
 //============================================================================
 //! open a file and log error message if fails
-FILE * VxFileUtil::fileOpen( const char* pFileName, const char* pFileMode )
+VFile * VxFileUtil::fileOpen( const char* pFileName, const char* pFileMode )
 {
-    FILE * retval;
-    retval = fopen( pFileName, pFileMode );
+    VFile * retval;
+    retval = VFileOpen( pFileName, pFileMode );
 	if( NULL == retval )
 	{
 		LogMsg( LOG_INFO, "fileOpen:Could not open file %s", pFileName );
@@ -716,19 +720,15 @@ FILE * VxFileUtil::fileOpen( const char* pFileName, const char* pFileMode )
 
 //============================================================================
 //! File seek..NOTE: only seeks from beginning of file
-RCODE VxFileUtil::fileSeek ( FILE * poFile, uint32_t u32Pos )
+RCODE VxFileUtil::fileSeek ( VFile * poFile, uint32_t u32Pos )
 {
-	return fseek( poFile, u32Pos, SEEK_SET );
+	return VFileSeek64( poFile, u32Pos );
 }
 //============================================================================
 //! File seek..NOTE: only seeks from beginning of file
-RCODE VxFileUtil::fileSeek ( FILE * poFile, uint64_t u64Pos )
+RCODE VxFileUtil::fileSeek ( VFile * poFile, uint64_t u64Pos )
 {
-#ifdef TARGET_OS_WINDOWS
-	return _fseeki64( poFile, u64Pos, SEEK_SET );
-#else
-	return fseek( poFile, u64Pos, SEEK_SET );
-#endif// TARGET_OS_WINDOWS
+	return VFileSeek64( poFile, u64Pos );
 }
 
 //============================================================================
@@ -743,7 +743,7 @@ RCODE VxFileUtil::copyFile( const char* pOldPath, const char* pNewPath )
 	#else // LINUX
 		deleteFile( pNewPath );
 		char as8Buf[ VX_MAX_PATH * 2 ];
-		sprintf( as8Buf, "cp %s %s\n", pOldPath, pNewPath );
+		sprintf( as8Buf, "cp %s %s", pOldPath, pNewPath );
 		system( as8Buf );
 		unlink( pOldPath );
 		return 0;
@@ -833,7 +833,7 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 	makeDirectory( pDestDir );
 	// loop through files in source directory and move them
 
-	LogMsg( LOG_INFO, "VxMoveFile: moving files from %s to %s\n", pSrcDir, pDestDir );
+	LogMsg( LOG_INFO, "VxMoveFile: moving files from %s to %s", pSrcDir, pDestDir );
 
 	#ifdef TARGET_OS_WINDOWS
 		std::wstring strSrcDir = Utf8ToWide( pSrcDir );
@@ -922,19 +922,19 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 		struct dirent *pFileEnt;
 		if( directoryExists( as8SrcDir ) )
 		{
-			//LogMsg( LOG_INFO, "VxMoveFile: directory %s exists.. opening dir\n", as8SrcDir );
+			//LogMsg( LOG_INFO, "VxMoveFile: directory %s exists.. opening dir", as8SrcDir );
 			//ok directory exists!
 			if(!(NULL == (pDir = opendir(as8SrcDir))))
 			{
 				//pDir is open
 				while( 0 != (pFileEnt = readdir(pDir)))
 				{
-					//LogMsg( LOG_INFO, "VxMoveFile: found file %s\n", pFileEnt->d_name );
+					//LogMsg( LOG_INFO, "VxMoveFile: found file %s", pFileEnt->d_name );
 					//got a file or directory
 					if( isDotDotDirectory(  pFileEnt->d_name ) ) 
 					{
 						// skip . and ..
-						//LogMsg( LOG_INFO, "VxMoveFile: skipping file %s\n", pFileEnt->d_name );
+						//LogMsg( LOG_INFO, "VxMoveFile: skipping file %s", pFileEnt->d_name );
 						continue;
 					}
 
@@ -946,7 +946,7 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 						strcat( as8SrcFile, "/" );
 					}
 					strcat( as8SrcFile, pFileEnt->d_name );
-					LogMsg( LOG_INFO, "VxMoveFile: made src file %s\n", as8SrcFile );
+					LogMsg( LOG_INFO, "VxMoveFile: made src file %s", as8SrcFile );
 					// make destination file name
 					strcpy( as8DestFile, as8DestDir );
 					if( '/' != as8DestFile[ strlen( as8DestFile ) - 1 ] )
@@ -954,32 +954,32 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 						strcat( as8DestFile, "/" );
 					}
 					strcat( as8DestFile, pFileEnt->d_name );
-					LogMsg( LOG_INFO, "VxMoveFile: made dest file %s\n", as8DestFile );
+					LogMsg( LOG_INFO, "VxMoveFile: made dest file %s", as8DestFile );
 					//=== Last Modification Date ===//
 					struct stat m;
 					if( 0 != stat( as8SrcFile, &m) )
 					{
 						///ERROR how do we handle
-						LogMsg( LOG_INFO, "Unable to stat file %s\n", as8SrcFile );
+						LogMsg( LOG_INFO, "Unable to stat file %s", as8SrcFile );
 						continue;
 					}
 
 					if( pFileEnt->d_type == DT_DIR )
 					{
 						// its a directory
-						LogMsg( LOG_INFO, "file %s is directory\n", as8SrcFile );
+						LogMsg( LOG_INFO, "file %s is directory", as8SrcFile );
 						continue;
 					}
 
 					// its a file
-					LogMsg( LOG_INFO, "VxMoveFile: moving file %s to file %s\n", as8SrcFile, as8DestFile );
+					LogMsg( LOG_INFO, "VxMoveFile: moving file %s to file %s", as8SrcFile, as8DestFile );
 					if( 0 == copyFile( as8SrcFile, as8DestFile ) )
 					{
 						deleteFile( as8SrcFile );
 					}
 					else
 					{
-						LogMsg( LOG_INFO, "VxMoveFile: FAILED moving file %s to file %s\n", as8SrcFile, as8DestFile );
+						LogMsg( LOG_INFO, "VxMoveFile: FAILED moving file %s to file %s", as8SrcFile, as8DestFile );
 					}
 				}
 				// end of listing
@@ -989,12 +989,12 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 			}
 			else
 			{
-				LogMsg( LOG_INFO, "moveFiles: could not open directory %s \n", as8SrcDir );
+				LogMsg( LOG_INFO, "moveFiles: could not open directory %s ", as8SrcDir );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_INFO, "moveFiles: directory %s does not exist \n", as8SrcDir );
+			LogMsg( LOG_INFO, "moveFiles: directory %s does not exist ", as8SrcDir );
 		}
 		return 0;
 	#endif //LINUX
@@ -1051,12 +1051,12 @@ void VxFileUtil::seperateFileNameAndExtension(	std::string &	fileNameWithExt,		/
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "seperateFileNameAndExtension.. no extension..has slash\n" );
+			LogMsg( LOG_ERROR, "seperateFileNameAndExtension.. no extension..has slash" );
 		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "seperateFileNameAndExtension.. no extension\n" );
+		LogMsg( LOG_ERROR, "seperateFileNameAndExtension.. no extension" );
 	}
 }
 
@@ -1072,10 +1072,15 @@ RCODE VxFileUtil::seperatePathAndFile(	std::string &	strFullPath,	// path and fi
 
 //============================================================================
 //! separate Path and file name into separate strings
-RCODE	VxFileUtil::seperatePathAndFile(	const char*	pFullPath,		// path and file name			
+RCODE VxFileUtil::seperatePathAndFile(	const char*	pFullPath,		// path and file name			
 											std::string &	strRetPath,		// return path to file
 											std::string &	strRetFile )	// return file name
 {
+	if( VFileIsProviderFile( pFullPath ) )
+	{
+		return GetVirtFileMgr().seperatePathAndFile( pFullPath, strRetPath, strRetFile ) ? 0 : -1;
+	}
+
 	char as8Buf[ VX_MAX_PATH ];
 	strcpy( as8Buf, pFullPath );
 	makeForwardSlashPath( as8Buf );
@@ -1111,7 +1116,7 @@ void	VxFileUtil::getJustFileName(	const char*	pFullPath,				// file name may be 
 									strRetJustFileName );	// return file name
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "getJustFileName: error %d file %s\n", rc, pFullPath );
+		LogMsg( LOG_ERROR, "getJustFileName: error %d file %s", rc, pFullPath );
 		strRetJustFileName = pFullPath;
 	}
 }
@@ -1141,7 +1146,7 @@ void	VxFileUtil::getFileExtension(	std::string&	strFileName,	// file name with e
 	}
 	else
 	{
-		//ErrMsgBox("No File Extension Found %s\n", csFileName.c_str() );
+		//ErrMsgBox("No File Extension Found %s", csFileName.c_str() );
 		strRetExt = "";
 	}
 }
@@ -1398,7 +1403,7 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 	}
 	else
 	{
-		LogMsg( LOG_INFO, "Error %d occurred getting module directory\n", VxGetLastError());
+		LogMsg( LOG_INFO, "Error %d occurred getting module directory", VxGetLastError());
 		return -1;
 	}
 
@@ -1409,7 +1414,7 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 	iByteCount = readlink("/proc/self/exe", pRetBuf, VX_MAX_PATH);
 	if(-1 == iByteCount)
 	{
-		LogMsg( LOG_INFO, "Error %d occured getting module directory\n", VxGetLastError());
+		LogMsg( LOG_INFO, "Error %d occured getting module directory", VxGetLastError());
 		return -1;
 
 	}
@@ -1417,7 +1422,7 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 
 	if(NULL == (pTempBuf = strrchr(pRetBuf,'/')))
 	{
-		LogMsg( LOG_INFO, "Error %d occured getting module directory\n", VxGetLastError());
+		LogMsg( LOG_INFO, "Error %d occured getting module directory", VxGetLastError());
 		return -1;
 	}
 	pTempBuf[1] = '\0';
@@ -1559,15 +1564,16 @@ RCODE VxFileUtil::readWholeFile(	const char*	pFileName,				// file to read
 	{
 		* pu32RetAmountRead = 0;
 	}
-	FILE * poFile = fopen( pFileName, "rb" );
+
+	VFile * poFile = VFileOpen( pFileName, "rb" );
 	if( NULL == poFile )
 	{
 		rc = VxGetLastError();
-		LogMsg( LOG_INFO, "readWholeFile: error %d opening file %s\n", rc, pFileName );
+		LogMsg( LOG_INFO, "readWholeFile: error %d opening file %s", rc, pFileName );
 		return rc;
 	}
-	size_t iResult = fread( pvBuf, 1, u32LenToRead, poFile );
-	fclose( poFile );
+	size_t iResult = VFileRead( pvBuf, 1, u32LenToRead, poFile );
+	VFileClose( poFile );
 	if( iResult > 0 )
 	{
 		if( pu32RetAmountRead  )
@@ -1586,7 +1592,7 @@ RCODE VxFileUtil::readWholeFile(	const char*	pFileName,				// file to read
 	{
 		rc = -1;
 	}
-	LogMsg( LOG_INFO, "readWholeFile: error %d reading file %s\n", rc, pFileName );
+	LogMsg( LOG_INFO, "readWholeFile: error %d reading file %s", rc, pFileName );
 	return rc;
 }
 
@@ -1622,7 +1628,7 @@ RCODE	VxFileUtil::writeWholeFile(	const char*	pFileName,			// file to write to
                                     uint32_t		u32LenOfData )		// data length
 {
 	RCODE rc = 0;
-	FILE * poFile = fopen( pFileName, "wb+" );
+	VFile * poFile = VFileOpen( pFileName, "wb+" );
 	if( NULL == poFile )
 	{
 		rc = VxGetLastError();
@@ -1634,7 +1640,7 @@ RCODE	VxFileUtil::writeWholeFile(	const char*	pFileName,			// file to write to
 	}
 	else
 	{
-		uint32_t u32Result = (uint32_t)fwrite( pvBuf, 1, u32LenOfData, poFile );
+		uint32_t u32Result = (uint32_t)VFileWrite( pvBuf, 1, u32LenOfData, poFile );
 		if( u32Result != u32LenOfData )
 		{
 			rc = VxGetLastError();
@@ -1646,7 +1652,7 @@ RCODE	VxFileUtil::writeWholeFile(	const char*	pFileName,			// file to write to
 			LogMsg( LOG_ERROR, "writeWholeFile: ERROR %d Could not write file %s %d bytes", rc, pFileName, u32LenOfData );
 		}
 
-		fclose( poFile );
+		VFileClose( poFile );
 	}
 	return rc;
 }
@@ -1741,19 +1747,19 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*				pSrcDir,
 	struct dirent *pFileEnt;
 	if( directoryExists( as8SrcDir ) )
 	{
-		//LogMsg( LOG_INFO, "listFilesInDirectory:  directory %s exists.. opening dir\n", as8SrcDir );
+		//LogMsg( LOG_INFO, "listFilesInDirectory:  directory %s exists.. opening dir", as8SrcDir );
 		//ok directory exists!
 		if(!(NULL == (pDir = opendir(as8SrcDir))))
 		{
 			//pDir is open
 			while( 0 != (pFileEnt = readdir(pDir)))
 			{
-				//LogMsg( LOG_INFO, "listFilesInDirectory: found file %s\n", pFileEnt->d_name );
+				//LogMsg( LOG_INFO, "listFilesInDirectory: found file %s", pFileEnt->d_name );
 				//got a file or directory
 				if( isDotDotDirectory(  pFileEnt->d_name ) )
 				{
 					// skip . and ..
-					//LogMsg( LOG_INFO, "listFilesInDirectory: skipping file %s\n", pFileEnt->d_name );
+					//LogMsg( LOG_INFO, "listFilesInDirectory: skipping file %s", pFileEnt->d_name );
 					continue;
 				}
 
@@ -1766,7 +1772,7 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*				pSrcDir,
 				}
 
 				strcat( as8SrcFile, pFileEnt->d_name );
-				//LogMsg( LOG_INFO, "listFilesInDirectory:  found file %s\n", as8SrcFile );
+				//LogMsg( LOG_INFO, "listFilesInDirectory:  found file %s", as8SrcFile );
 				//=== Last Modification Date ===//
 				struct stat m;
 				if( 0 != stat( as8SrcFile, &m) )
@@ -1851,7 +1857,7 @@ RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileIn
 		struct _stat oStat;
 		if( 0 != _wstat( srcFile, &oStat) )
 		{
-			//LogMsg( LOG_ERROR, "VxFileUtil::listFilesAndFolders ERROR %d\n", VxGetLastError() );
+			//LogMsg( LOG_ERROR, "VxFileUtil::listFilesAndFolders ERROR %d", VxGetLastError() );
 		}
 		else
 		{
@@ -1895,19 +1901,19 @@ RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileIn
 	struct dirent *pFileEnt;
 	if( directoryExists( as8SrcDir ) )
 	{
-		//LogMsg( LOG_INFO, "listFilesAndFolders:  directory %s exists.. opening dir\n", as8SrcDir );
+		//LogMsg( LOG_INFO, "listFilesAndFolders:  directory %s exists.. opening dir", as8SrcDir );
 		//ok directory exists!
 		if(!(NULL == (pDir = opendir(as8SrcDir))))
 		{
 			//pDir is open
 			while( 0 != (pFileEnt = readdir(pDir)))
 			{
-				//LogMsg( LOG_INFO, "listFilesAndFolders: found file %s\n", pFileEnt->d_name );
+				//LogMsg( LOG_INFO, "listFilesAndFolders: found file %s", pFileEnt->d_name );
 				//got a file or directory
 				if( isDotDotDirectory(  pFileEnt->d_name ) )
 				{
 					// skip . and ..
-					//LogMsg( LOG_INFO, "listFilesAndFolders: skipping file %s\n", pFileEnt->d_name );
+					//LogMsg( LOG_INFO, "listFilesAndFolders: skipping file %s", pFileEnt->d_name );
 					continue;
 				}
 
@@ -1920,7 +1926,7 @@ RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileIn
 				}
 
 				strcat( as8SrcFile, pFileEnt->d_name );
-				//LogMsg( LOG_INFO, "listFilesAndFolders:  found file %s\n", as8SrcFile );
+				//LogMsg( LOG_INFO, "listFilesAndFolders:  found file %s", as8SrcFile );
 				//=== Last Modification Date ===//
 				struct stat64 oStat;
 				if ( 0 != stat64( as8SrcFile, &oStat ) )
@@ -2236,19 +2242,19 @@ bool VxFileUtil::testIsWritablePath( std::string writeablePath )
 	makeDirectory( writeablePath );
 	writeablePath += TEST_WRITEABLE_FILE_NAME;
 
-	FILE* fileHandle = fopen( writeablePath.c_str(), "wb+" );
+	VFile* fileHandle = VFileOpen( writeablePath.c_str(), "wb+" );
 	if( fileHandle )
 	{
 		const char* testStr = "1234\n";
 		char buf[10];
 		strcpy( buf, testStr );
-		int writeCnt = fwrite( buf, 1, strlen( testStr ), fileHandle );
+		int writeCnt = VFileWrite( buf, 1, strlen( testStr ), fileHandle );
 		if( writeCnt == strlen( testStr ) )
 		{
 			result = true;
 		}
 
-		fclose( fileHandle );
+		VFileClose( fileHandle );
 		deleteFile( writeablePath.c_str() );
 	}
 	else

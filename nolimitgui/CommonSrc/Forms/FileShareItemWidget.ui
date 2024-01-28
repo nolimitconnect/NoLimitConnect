@@ -104,7 +104,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="spacing">
-           <number>0</number>
+           <number>5</number>
           </property>
           <property name="bottomMargin">
            <number>2</number>
@@ -131,7 +131,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>8</pointsize>
+              <pointsize>9</pointsize>
              </font>
             </property>
             <property name="text">

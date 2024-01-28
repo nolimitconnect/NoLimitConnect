@@ -19,6 +19,17 @@
 
 #include <NetLib/VxSktBase.h>
 
+#ifdef TARGET_OS_WINDOWS
+	#include "shlobj.h" // for VxGetMyDocumentsDir
+	#include <direct.h>
+#else
+	#include <dirent.h> // for searching directories
+	#include <ctype.h>
+	#include <unistd.h> 
+	#include <sys/vfs.h>    
+	#include <sys/statfs.h> 
+#endif
+
 #define VERIFY_CACHE_DATA 0
 
 namespace
@@ -95,6 +106,62 @@ uint64_t VirtStreamMgr::fileExists( const char* fileName )
 }
 
 //============================================================================
+bool VirtStreamMgr::directoryExists( const char* dirPath )
+{
+    if( fileIsProviderFile( dirPath ) )
+    {
+        return providerDirectoryExists( dirPath );
+    }
+
+	char acBuf[ VX_MAX_PATH ];
+	strcpy( acBuf, dirPath );
+	bool bIsDir = true;
+	struct stat oFileStat;
+
+	if( strlen( acBuf ) > 3 )
+	{
+		//if not root of drive remove the trailing backslash
+		if( ('/' == acBuf[ strlen( acBuf ) - 1 ]) ||
+			('\\' == acBuf[ strlen( acBuf ) - 1 ]) )
+		{
+			acBuf[ strlen( acBuf ) - 1 ] = 0;
+		}
+	}
+
+	memset( &oFileStat, 0, sizeof( struct stat ) );
+#ifdef TARGET_OS_WINDOWS
+	oFileStat.st_mode = _S_IFDIR; //check for dir not file
+	if( 0 == stat( acBuf, &oFileStat ) )
+	{
+		if( false == ( oFileStat.st_mode & _S_IFDIR ))
+		{
+			//path is not valid directory
+			bIsDir = false;
+		}
+	}
+	else
+	{
+		bIsDir = false;
+	}
+#else // LINUX or android
+	oFileStat.st_mode = S_IFDIR; //check for dir not file
+	if( 0 == stat( acBuf, &oFileStat ) )
+	{
+		if( false == ( oFileStat.st_mode & S_IFDIR ))
+		{
+			//path is not valid directory
+			bIsDir = false;
+		}
+	}
+    else
+	{
+		bIsDir = false;
+	}
+#endif // LINUX
+	return bIsDir;
+}
+
+//============================================================================
 bool VirtStreamMgr::fileIsProviderFile( const char* fileName )
 {
 #if defined(TARGET_OS_ANDROID)
@@ -104,6 +171,36 @@ bool VirtStreamMgr::fileIsProviderFile( const char* fileName )
 #else
     return false;
 #endif // defined(TARGET_OS_ANDROID)
+}
+
+	
+//============================================================================
+bool VirtStreamMgr::seperatePathAndFile( const char* pFullPath,		// path and file name			
+										 std::string& strRetPath,	// return path of file
+										 std::string& strRetFile )	// return  file name
+{
+    const std::string speratorStr( "%2F" );
+
+	bool result{ false };
+	std::string fullPath( pFullPath );
+	if( !fullPath.empty() )
+	{
+		size_t strPos = fullPath.rfind ( speratorStr );
+		if( strPos != std::string::npos )
+		{
+			strRetFile = fullPath.substr( strPos, fullPath.length() - strPos );
+			strRetPath = fullPath.substr( 0, strPos );
+		}
+		else
+		{
+			strRetFile = fullPath;
+			strRetPath.clear();
+		}
+
+		result = true;
+	}
+
+	return result;
 }
 
 //============================================================================
@@ -126,7 +223,7 @@ VFile* VirtStreamMgr::fileOpen( const char* fileNameIn, const char* fileMode )
 	if( mode.size() > 0 )
 	{
 		std::size_t foundPos = mode.find_last_of("v");
-		if( foundPos > 0 )
+		if( foundPos != std::string::npos )
 		{
 			virtStream = true;
 			mode = mode.substr( 0, foundPos );
@@ -168,6 +265,10 @@ int VirtStreamMgr::fileClose( VFile* fp )
 	{
 		return virtFileClose( fp );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileClose( fp );
+	}
 
 	int result = fclose( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
@@ -182,6 +283,10 @@ int VirtStreamMgr::fileEof( VFile* fp )
 	if( isVirtualFile( fp ) )
 	{
 		return virtFileEof( fp );
+	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileEof( fp );
 	}
 
 	int result = feof( fp->m_FILE );
@@ -204,6 +309,10 @@ int VirtStreamMgr::fileFlush( VFile* fp )
 	{
 		return virtFileFlush( fp );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileFlush( fp );
+	}
 
 	int result = fflush( fp->m_FILE );
 	fp->m_Error = VxGetLastError();
@@ -217,6 +326,10 @@ size_t VirtStreamMgr::fileRead( void* buf, size_t size, size_t count, VFile* fp 
 	if( isVirtualFile( fp ) )
 	{
 		return virtFileRead( buf, size, count, fp );
+	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileRead( buf, size, count, fp );
 	}
 
 	int result = fread( buf, size, count, fp->m_FILE );
@@ -232,6 +345,10 @@ size_t VirtStreamMgr::fileWrite( const void* buf, size_t size, size_t count, VFi
 	{
 		return virtFileWrite( buf, size, count, fp );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileWrite( buf, size, count, fp );
+	}
 
 	int result = fwrite( buf, size, count, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
@@ -245,6 +362,10 @@ int VirtStreamMgr::fileGetC( VFile* fp )
 	if( isVirtualFile( fp ) )
 	{
 		return virtFileGetC( fp );
+	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileGetC( fp );
 	}
 
 	int result = fgetc( fp->m_FILE );
@@ -260,6 +381,10 @@ char*  VirtStreamMgr::fileGetS( char* buf, int size, VFile* fp )
 	{
 		return virtFileGetS( buf, size, fp );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileGetS( buf, size, fp );
+	}
 
 	char* result = fgets( buf, size, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
@@ -273,6 +398,10 @@ int VirtStreamMgr::filePutC( int ch, VFile* fp )
 	if( isVirtualFile( fp ) )
 	{
 		return virtFilePutC( ch, fp );
+	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFilePutC( ch, fp );
 	}
 
 	int result = fputc( ch, fp->m_FILE );
@@ -288,6 +417,10 @@ int VirtStreamMgr::filePutS( const char* s, VFile* fp )
 	{
 		return virtFilePutS( s, fp );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFilePutS( s, fp );
+	}
 
 	int result = fputs( s, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
@@ -301,6 +434,10 @@ int VirtStreamMgr::fileGetPos( VFile* fp, fpos_t* pos )
 	if( isVirtualFile( fp ) )
 	{
 		return virtFileGetPos( fp, pos );
+	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileGetPos( fp, pos );
 	}
 
 	int result = fgetpos( fp->m_FILE, pos );
@@ -316,6 +453,10 @@ int VirtStreamMgr::fileSetPos( VFile* fp, const fpos_t* pos )
 	{
 		return virtFileSetPos( fp, pos );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileSetPos( fp, pos );
+	}
 
 	int result = fsetpos( fp->m_FILE, pos );
 	fp->m_Error = VxGetLastError();
@@ -330,8 +471,35 @@ int VirtStreamMgr::fileSeek( VFile* fp, size_t offset, int whence )
 	{
 		return virtFileSeek( fp, offset, whence );
 	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileSeek( fp, offset, whence );
+	}
 
 	int result = fseek( fp->m_FILE, offset, whence );
+	fp->m_Error = VxGetLastError();
+	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
+	return result;
+}
+
+//============================================================================
+int VirtStreamMgr::fileSeek64( VFile* fp, uint64_t offs )
+{
+	if( isVirtualFile( fp ) )
+	{
+		return virtFileSeek( fp, offs, SEEK_SET );
+	}
+	else if( isProviderFile( fp ) )
+	{
+		return providerFileSeek( fp, offs, SEEK_SET );
+	}
+
+#ifdef TARGET_OS_WINDOWS
+	int result = _fseeki64( fp->m_FILE, offs, SEEK_SET );
+#else
+	int result = fseek( fp->m_FILE, offs, SEEK_SET );
+#endif// TARGET_OS_WINDOWS
+
 	fp->m_Error = VxGetLastError();
 	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;
@@ -518,6 +686,12 @@ int VirtStreamMgr::virtFileGetC( VFile* fp )
 {
 	int retVal = -1;
 	lockSteamMgr();
+	if( m_LiveStream.m_VFile->m_FileOffs == m_LiveStream.m_VFile->m_FileLen )
+	{
+		unlockSteamMgr();
+		return EOF;
+	}
+
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
 	{
 		unlockSteamMgr();

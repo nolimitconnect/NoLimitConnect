@@ -25,6 +25,7 @@
 class P2PEngine;
 class MediaProcessor;
 class IToGui;
+class VFile;
 
 class MJPEGWriter : public MediaCallbackInterface
 {
@@ -66,23 +67,23 @@ protected:
 	bool						m_IsRecording;
 	bool						m_IsRecordingPaused;
 	std::string					m_FileName;
-	FILE *						m_FileHandle;
+	VFile*						m_FileHandle{ nullptr };
 	int							m_MicroSecBetweenFrames;
-	uint32_t							m_TotalJpgDataLen;
-	uint32_t							m_TotalFrameCnt;
+	uint32_t					m_TotalJpgDataLen;
+	uint32_t					m_TotalFrameCnt;
 	VxTimer						m_RecordElapseTimer;
 	double						m_TotalElapsedMs;
 	bool						m_IsFirstFrameAfterResumeRecording;
 
 	AviRiffHeader				m_RiffHdr;
 	AviVideoHdr					m_AviHdr;
-	std::vector<uint32_t>			m_FrameOffsetList;
-	uint32_t							m_PrevFrameJpgLen;
+	std::vector<uint32_t>		m_FrameOffsetList;
+	uint32_t					m_PrevFrameJpgLen;
 	VxMutex						m_RecMutex;
 	int							m_ImageWidth;
 	int							m_ImageHeight;
 	AviJpgHdr					m_AviJpgHdr;
-	std::vector<uint32_t>			m_PcmOffsetList;
+	std::vector<uint32_t>		m_PcmOffsetList;
 	AviAudioHdr					m_AviAudioHdr;
 	VxMutex						m_AviFileAccessMutex;
 };

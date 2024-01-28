@@ -16,6 +16,7 @@
 
 #include <vector>
 
+class VFile;
 class VxKey;
 
 namespace VxFileUtil
@@ -50,13 +51,13 @@ namespace VxFileUtil
 	std::string					makeUniqueFileName( const char* fileName );
 
 	//! read a line from file into buffer and null terminate it
-	RCODE						readLine( FILE *pgFile, char *pBuf, int iBufLen );
+	RCODE						readLine( VFile *pgFile, char *pBuf, int iBufLen );
 
-	FILE *						fileOpen( const char* pFileName, const char* pFileMode );
-	RCODE						fileSeek ( FILE * poFile, uint32_t u32Pos );
+	VFile *						fileOpen( const char* pFileName, const char* pFileMode );
+	RCODE						fileSeek ( VFile * poFile, uint32_t u32Pos );
 
 	//! File seek..NOTE: only seeks from beginning of file
-	RCODE						fileSeek ( FILE * poFile, uint64_t u64Pos );
+	RCODE						fileSeek ( VFile * poFile, uint64_t u64Pos );
 	RCODE						copyFile( const char* pOldPath, const char* pNewPath );
 	RCODE						deleteFile( const char* pFileName );
 	RCODE						renameFile( const char* pFileOldName, const char* pFileNewName );

@@ -16,6 +16,7 @@
 #include <AssetMgr/AssetInfo.h>
 #include <MediaProcessor/MediaProcessor.h>
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxMacros.h>
@@ -51,7 +52,7 @@ bool SndReader::fromGuiIsNoLimitAudioFile( const char* fileName )
 	}
 
 
-	FILE * fileHandle = VxFileUtil::fileOpen( fileName, "rb" );
+	VFile * fileHandle = VFileOpen( fileName, "rb" );
 	if( 0 == fileHandle )
 	{
 		LogMsg( LOG_ERROR, "SndReader::fromGuiIsNoLimitAudioFile could not open file %s", fileName );
@@ -60,7 +61,7 @@ bool SndReader::fromGuiIsNoLimitAudioFile( const char* fileName )
 
 	if( 0 != VxFileUtil::fileSeek( fileHandle, OPUS_NOLIMIT_SIGNATURE_OFFSET ) )
 	{
-		fclose( fileHandle );
+		VFileClose( fileHandle );
 		LogMsg( LOG_ERROR, "SndReader::fromGuiIsNoLimitAudioFile could not seek file %s", fileName );
 		return false;
 	}
@@ -68,14 +69,14 @@ bool SndReader::fromGuiIsNoLimitAudioFile( const char* fileName )
 	// at 0x9c ( should be signature nolimitconnect.org v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
 
 	char junkBuf[ 18 ];
-	if( 18 != fread( junkBuf, 1, 18, fileHandle ) )
+	if( 18 != VFileRead( junkBuf, 1, 18, fileHandle ) )
 	{
-		fclose( fileHandle );
+		VFileClose( fileHandle );
 		LogMsg( LOG_ERROR, "SndReader::fromGuiIsNoLimitAudioFile could not read file %s", fileName );
 		return false;
 	}
 
-	fclose( fileHandle );
+	VFileClose( fileHandle );
 	if( 0 != strncmp( junkBuf, "nolimitconnect.", 15 ) )
 	{
 		LogMsg( LOG_INFO, "SndReader::fromGuiIsNoLimitAudioFile is not No Limit Audio File %s", fileName );
@@ -235,7 +236,7 @@ void SndReader::closeSndFile( void )
 {
 	if( 0 != m_FileHandle )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		m_FileHandle = 0;
 	}
 }

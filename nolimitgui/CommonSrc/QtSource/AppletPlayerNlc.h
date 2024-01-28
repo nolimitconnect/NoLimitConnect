@@ -23,7 +23,7 @@ class AppletPlayerNlc : public AppletPlayerNlcBase
 	Q_OBJECT
 public:
 	AppletPlayerNlc( AppCommon& app, QWidget* parent );
-	virtual ~AppletPlayerNlc();
+    virtual ~AppletPlayerNlc();
 
 	RenderGlWidget*				getRenderConsumer( void ) override		{ return ui.m_RenderWidget; }
 	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayPosSlider; }
@@ -32,6 +32,7 @@ public:
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 
 protected slots:
+    void                        slotAppletClosing( void );
 
 	void                        slotMenuItemSelected( int menuId, EMenuItemType menuItemType );
 

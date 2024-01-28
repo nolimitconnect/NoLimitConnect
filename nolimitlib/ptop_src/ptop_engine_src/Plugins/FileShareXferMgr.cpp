@@ -26,6 +26,7 @@
 #include <PktLib/PktsFileList.h>
 #include <PktLib/PktsPluginOffer.h>
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/AppErr.h>
@@ -762,7 +763,7 @@ void FileShareXferMgr::endFileXferSession( FileRxSession * poSessionIn )
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 
@@ -813,7 +814,7 @@ void FileShareXferMgr::endFileXferSession( FileTxSession * poSessionIn )
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 
@@ -1043,7 +1044,7 @@ EXferError FileShareXferMgr::beginFileSend( FileTxSession * xferSession )
 		{
 			if( xferInfo.m_u64FileLen < xferInfo.m_u64FileOffs )
 			{
-				fclose( xferInfo.m_hFile );
+				VFileClose( xferInfo.m_hFile );
 				xferInfo.m_hFile = NULL;
 				LogMsg( LOG_INFO, "FileShareXferMgr::beginFileSend: File %s could not be resumed because too short", 
 					(const char *)xferInfo.getLclFileName().c_str() );
@@ -1057,7 +1058,7 @@ EXferError FileShareXferMgr::beginFileSend( FileTxSession * xferSession )
 				if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 				{
 					// seek failed
-					fclose( xferInfo.m_hFile );
+					VFileClose( xferInfo.m_hFile );
 					xferInfo.m_hFile = NULL;
 					LogMsg( LOG_INFO, "FileShareXferMgr::beginFileSend: could not seek to position %d in file %s",
 						xferInfo.m_u64FileOffs,
@@ -1183,7 +1184,7 @@ EXferError FileShareXferMgr::txNextFileChunk( FileTxSession * xferSession )
 		//we are done sending file
 		if( xferInfo.m_hFile )
 		{
-			fclose( xferInfo.m_hFile );
+			VFileClose( xferInfo.m_hFile );
 			xferInfo.m_hFile  = NULL;
 		}
 		// move file from to be sent to sent
@@ -1276,7 +1277,7 @@ void FileShareXferMgr::finishFileReceive( FileRxSession * xferSession, PktFileSe
 	VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 	else
@@ -1359,7 +1360,7 @@ void FileShareXferMgr::finishFileReceive( FileRxSession * xferSession, PktFileGe
 	VxFileXferInfo xferInfo = xferSession->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 	else

@@ -68,15 +68,16 @@ void RenderGlLogic::aboutToDestroy()
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
         while( m_RenderPlayerNlcThread->isRunning() )
         {
-            ProcessQtEvents( 1000 );
+            VxSleep( 500 );
+
             if( m_RenderPlayerNlcThread->isRunning() )
             {
-                LogMsg( LOG_VERBOSE, "RenderGlLogic::aboutToDestroy still waiting for thread to exit" );
+                LogMsg( LOG_VERBOSE, "RenderGlLogic::aboutToDestroy still waiting for thread to exit %3.3f ms", waitTimer.elapsedMs() );
             }
         }
 
         //m_RenderPlayerNlcThread->wait();
-        LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waited for thread %3.3fms", waitTimer.elapsedMs() );
+        LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waited for thread %3.3f ms", waitTimer.elapsedMs() );
         //delete m_RenderPlayerNlcThread;
         m_RenderPlayerNlcThread->deleteLater();
         m_RenderPlayerNlcThread = nullptr;

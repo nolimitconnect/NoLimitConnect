@@ -38,6 +38,7 @@ class OpusAudioDecoder;
 class OggStream;
 class P2PEngine;
 class MediaProcessor;
+class VFile;
 
 class OpusFileDecoder : public MediaCallbackInterface
 {
@@ -69,9 +70,9 @@ protected:
 													int*			skip,
 													opus_int64		maxout );
 
-	bool						seekOpusFile( FILE * fileHandle, int pos0to100000 );
-	bool						readTotalSndFrames( FILE * fileHandle );
-	bool						seekFile( FILE * fileHandle, uint64_t filePosition );
+	bool						seekOpusFile( VFile * fileHandle, int pos0to100000 );
+	bool						readTotalSndFrames( VFile * fileHandle );
+	bool						seekFile( VFile * fileHandle, uint64_t filePosition );
 
 	int							calculateFileProgress( void );
 	void						clearDecodedFrames( void );
@@ -85,7 +86,7 @@ protected:
 	VxGUID						m_AssetId; 
 	uint64_t					m_FileLen{ 0 };
 	uint64_t					m_FilePos{ 0 };
-	FILE *						m_FileHandle{ nullptr };
+	VFile *						m_FileHandle{ nullptr };
 	uint64_t					m_TotalSndFramesInFile{ 0 };
 	uint64_t					m_ConsumedSndFrames{ 0 };
 	bool						m_DecoderInitialized{ false };

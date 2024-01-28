@@ -10,6 +10,7 @@
 
 #include "FileTxSession.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdio.h>
@@ -63,7 +64,7 @@ void FileTxSession::cancelUpload( VxGUID& lclSessionId )
 {
 	if( m_FileXferInfo.m_hFile )
 	{
-		fclose( m_FileXferInfo.m_hFile );
+		VFileClose( m_FileXferInfo.m_hFile );
 	}
 
 	std::vector<FileToXfer>::iterator iter;

@@ -10,8 +10,9 @@
 
 #include "VxFileXferInfo.h"
 
-#include <CoreLib/VxGlobals.h>
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <stdio.h>
 
@@ -26,7 +27,7 @@ VxFileXferInfo::~VxFileXferInfo()
 {
 	if( m_hFile )
 	{
-		fclose(m_hFile);
+		VFileClose( m_hFile );
         m_hFile = nullptr;
 	}
 }

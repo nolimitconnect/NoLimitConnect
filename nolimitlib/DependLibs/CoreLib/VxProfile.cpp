@@ -9,10 +9,12 @@
 //============================================================================
 #include "config_corelib.h"
 
+#include "VirtFileMgr.h"
 #include "VxProfile.h"
 #include "VxFileUtil.h"
 #include "VxParse.h"
 #include "VxDebug.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,7 +70,7 @@ long VxProfile::getProfileLong(	const char*pFileName,		// name of file to access
 								long lDef,					// default value to return if error or entry doesn't exist
 								EnumRadix eRadix )			// BASE10=read as decimal, BASE16=read as hexadecimal
 {
-    FILE *pgFile;
+	VFile* pgFile{ nullptr };
     char acBuf[MAX_INI_LINE_LENGTH];
     char *pEntryPos;
     char *pEnd;
@@ -77,7 +79,7 @@ long VxProfile::getProfileLong(	const char*pFileName,		// name of file to access
     size_t iLen, i;
 	int iResult;
 
-    if( 0 == ( pgFile = VxFileUtil::fileOpen( pFileName, "r" ) ) )
+    if( 0 == ( pgFile = VFileOpen( pFileName, "r" ) ) )
 	{
         return lDef;
 	}
@@ -87,7 +89,7 @@ long VxProfile::getProfileLong(	const char*pFileName,		// name of file to access
 	{
         if( VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) )
 		{
-            fclose(pgFile);
+            VFileClose(pgFile);
             return lDef;
         }
     }while(strcmp(acBuf,acSection) );
@@ -104,7 +106,7 @@ long VxProfile::getProfileLong(	const char*pFileName,		// name of file to access
 			{
 				if( 0 == strncmp( acBuf, pKey, iLen )) //one last chance
 	 				break;
-				fclose(pgFile);
+				VFileClose(pgFile);
 				return lDef;
 			}
 			else
@@ -139,12 +141,12 @@ long VxProfile::getProfileLong(	const char*pFileName,		// name of file to access
 				acValue[i]=pEntryPos[i];
 		}
 		acValue[i]= '\0';
-		fclose(pgFile);
+		VFileClose(pgFile);
 		return( (long)strtol( acValue, &pEnd, eRadix ) );
 	}
 	else
 	{
-         fclose(pgFile);
+         VFileClose(pgFile);
 	     return lDef;
 	}
 }
@@ -168,7 +170,7 @@ double VxProfile::getProfileDouble(	const char*pFileName,	// name of file to acc
 									const char*pKey, 		// which key to read
 									double dDef )			// default value to return if error or entry doesn't exist
 {
-    FILE *pgFile;
+    VFile *pgFile;
     char acBuf[MAX_INI_LINE_LENGTH];
     char *pEntryPos;
     char acSection[MAX_INI_LINE_LENGTH];
@@ -186,7 +188,7 @@ double VxProfile::getProfileDouble(	const char*pFileName,	// name of file to acc
 	{
         if( VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) )
 		{
-            fclose(pgFile);
+            VFileClose(pgFile);
             return dDef;
         }
     }while(strcmp(acBuf,acSection) );
@@ -201,7 +203,7 @@ double VxProfile::getProfileDouble(	const char*pFileName,	// name of file to acc
 			//if person didnt put cr at end of line readLine will return 1 even though acBuf has info
 			if( 0 == strncmp( acBuf, pKey, iLen )) //one last chance
 				break;
-            fclose(pgFile);
+            VFileClose(pgFile);
             return dDef;
         }
     }while( strncmp( acBuf, pKey, iLen ) );
@@ -213,7 +215,7 @@ double VxProfile::getProfileDouble(	const char*pFileName,	// name of file to acc
         return dDef;
     }
 
-    fclose(pgFile);
+    VFileClose(pgFile);
     return atof( pEntryPos );
 }
 
@@ -226,7 +228,7 @@ int VxProfile::getProfileString( const char*pFileName,		// name of file to acces
 						char *pRetBuf,				// buffer to write string into
 						int iRetBufLen )			// maximum bytes that can be written into the buffer
 {
-    FILE *pgFile;
+    VFile *pgFile;
     char acBuf[ MAX_INI_LINE_LENGTH ];
     char acSection[ MAX_INI_LINE_LENGTH ];
     char * pEntryPos;
@@ -247,7 +249,7 @@ int VxProfile::getProfileString( const char*pFileName,		// name of file to acces
         if( VxFileUtil::readLine( pgFile, acBuf, sizeof( acBuf ) ) )
 		{
 			//LogMsg( LOG_ERROR, "getProfileString: could  find section %s\n", acSection );
-            fclose(pgFile);
+            VFileClose(pgFile);
             MyCopyString( pRetBuf, pDef,iRetBufLen-1);
             return (int)strlen( pRetBuf );
         }
@@ -271,7 +273,7 @@ int VxProfile::getProfileString( const char*pFileName,		// name of file to acces
 				break;
 			}
 			LogMsg( LOG_ERROR, "getProfileString: could not find key %s\n", pKey );
-            fclose(pgFile);
+            VFileClose(pgFile);
             MyCopyString( pRetBuf, pDef, iRetBufLen-1 );
             return (int)strlen( pRetBuf ) ;
         }
@@ -288,7 +290,7 @@ int VxProfile::getProfileString( const char*pFileName,		// name of file to acces
 		pRetBuf[0]=0;
 	}
 
-    fclose(pgFile);
+    VFileClose(pgFile);
     return (int)strlen(pRetBuf);
 }
 
@@ -320,8 +322,8 @@ RCODE VxProfile::setProfileString( const char*pFileName,	// name of file to acce
 							const char*pKey,		// which key to write
 							const char*pStr, ... )	// string to write ( can be formatted like printf )
 {
-    FILE *pgFile;
-	FILE *pgWrFile;
+    VFile *pgFile;
+	VFile *pgWrFile;
     char acTempFileName[VX_MAX_PATH];
     char acBuf[MAX_INI_LINE_LENGTH];
     char acSection[MAX_INI_LINE_LENGTH];
@@ -350,17 +352,17 @@ RCODE VxProfile::setProfileString( const char*pFileName,	// name of file to acce
 			LogMsg( LOG_ERROR, "setProfileString: could create file %s\n", pFileName );
 			return PROFILE_FAILED_CREATE_FILE;
 		}
-        fprintf(pgFile,"%s\n",acSection );
-        fprintf(pgFile,"%s=%s\n",pKey, acString );
-        fclose(pgFile);
+        VFilePrintf(pgFile,"%s\n",acSection );
+        VFilePrintf(pgFile,"%s=%s\n",pKey, acString );
+        VFileClose(pgFile);
         return 0;
     }
 
     //=== Open file to write modified profile ===//
-    if( 0 == ( pgWrFile = fopen( acTempFileName,"w")) )
+    if( 0 == ( pgWrFile = VFileOpen( acTempFileName,"w")) )
 	{
 		LogMsg( LOG_ERROR, "setProfileString: could create file %s\n", acTempFileName );
-        fclose(pgFile);
+        VFileClose(pgFile);
         return PROFILE_FAILED_WRITE_FILE;
     }
 	//LogMsg( DRAC_UTIL_STATUS, "setProfileString: created temp file %s\n", acTempFileName );
@@ -371,17 +373,17 @@ RCODE VxProfile::setProfileString( const char*pFileName,	// name of file to acce
         if( VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) )
 		{
             //=== Failed to find pSection so add one to the end of file ===//
-            fprintf(pgWrFile,"\n%s\n",acSection );
-            fprintf(pgWrFile,"%s=%s\n",pKey,acString );
+            VFilePrintf(pgWrFile,"\n%s\n",acSection );
+            VFilePrintf(pgWrFile,"%s=%s\n",pKey,acString );
 
             //=== rename file and clean up ==//
-            fclose( pgFile );
-            fclose( pgWrFile );
+            VFileClose( pgFile );
+            VFileClose( pgWrFile );
             unlink( pFileName );
             rename( acTempFileName, pFileName );
             return 0;
         }
-        fprintf(pgWrFile,"%s\n",acBuf);
+        VFilePrintf(pgWrFile,"%s\n",acBuf);
     }while( strcmp( acBuf,acSection ) );
 
 	//=== Section was found ===//
@@ -390,9 +392,9 @@ RCODE VxProfile::setProfileString( const char*pFileName,	// name of file to acce
 	{
         if( VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) )
 		{   //entry wasnt found
-            fprintf(pgWrFile,"%s=%s\n",pKey, acString );  // add entry to current Section
-            fclose( pgFile );
-            fclose( pgWrFile );
+            VFilePrintf(pgWrFile,"%s=%s\n",pKey, acString );  // add entry to current Section
+            VFileClose( pgFile );
+            VFileClose( pgWrFile );
             unlink( pFileName );
             rename( acTempFileName, pFileName );
             return 0;
@@ -403,44 +405,44 @@ RCODE VxProfile::setProfileString( const char*pFileName,	// name of file to acce
 			if( acBuf[0] == '[' )
 			{
 				// reached end of section without finding our entry .. so write it now
-		        fprintf(pgWrFile,"%s=%s\n",pKey,acString );
-                fprintf(pgWrFile,"%s\n",acBuf );
+		        VFilePrintf(pgWrFile,"%s=%s\n",pKey,acString );
+                VFilePrintf(pgWrFile,"%s\n",acBuf );
 				// write out the rest of the ini file
 				while( !VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) )
 				{
-                    fprintf(pgWrFile,"%s\n",acBuf );
+                    VFilePrintf(pgWrFile,"%s\n",acBuf );
 				}
 				goto done;
 			}
             break;
 		}
 
-        fprintf(pgWrFile,"%s\n",acBuf);
+        VFilePrintf(pgWrFile,"%s\n",acBuf);
     }
 
     //=== Write Entry data under Section or Append to the end ===//
     if( acBuf[0] == '\0' )
 	{
 		//
-        fprintf(pgWrFile,"%s=%s\n",pKey,acString );
+        VFilePrintf(pgWrFile,"%s=%s\n",pKey,acString );
         do
 		{
-            fprintf(pgWrFile,"%s\n",acBuf);
+            VFilePrintf(pgWrFile,"%s\n",acBuf);
         }while( !VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) );
     }
 	else
 	{
-        fprintf(pgWrFile,"%s=%s\n",pKey,acString );
+        VFilePrintf(pgWrFile,"%s=%s\n",pKey,acString );
         while( !VxFileUtil::readLine(pgFile,acBuf, sizeof( acBuf )) )
 		{
-            fprintf(pgWrFile,"%s\n",acBuf );
+            VFilePrintf(pgWrFile,"%s\n",acBuf );
 		}
     }
 
 done:
     //=== Rename file and clean up ===//
-    fclose(pgWrFile);
-    fclose(pgFile);
+    VFileClose(pgWrFile);
+    VFileClose(pgFile);
     unlink(pFileName);
 #ifdef TARGET_OS_WINDOWS
 	if( 0 != rename(acTempFileName,pFileName) )

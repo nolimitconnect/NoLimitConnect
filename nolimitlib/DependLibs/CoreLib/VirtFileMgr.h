@@ -11,6 +11,7 @@
 
 #include "VirtFile.h"
 
+#include <string>
 #include <vector>
 
 class VxFileInfo;
@@ -18,8 +19,13 @@ class VxFileInfo;
 class VirtFileMgr
 {
 public:
+	virtual bool                directoryExists( const char* dirPath ) = 0;
     virtual uint64_t			fileExists( const char* fileName ) = 0;
     virtual bool				fileIsProviderFile( const char* fileName ) = 0;
+
+	virtual bool				seperatePathAndFile( const char* pFullPath,		// path and file name			
+													 std::string& strRetPath,	// return path to file
+													 std::string& strRetFile ) = 0;	// return file name
 
     virtual VFile*				fileOpen( const char* fileName, const char* fileMode ) = 0;
 	virtual int					fileClose( VFile* vFile ) = 0;
@@ -35,6 +41,7 @@ public:
 	virtual int					fileGetPos( VFile* fp, fpos_t* pos ) = 0;
 	virtual int					fileSetPos( VFile* fp, const fpos_t* pos ) = 0;
 	virtual int					fileSeek( VFile* fp, size_t offset, int whence ) = 0;
+	virtual int					fileSeek64( VFile* fp, uint64_t offs ) = 0;
 
 	virtual int					listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask ) = 0;
 };

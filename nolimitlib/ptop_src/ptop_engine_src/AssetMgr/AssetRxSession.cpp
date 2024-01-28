@@ -11,6 +11,7 @@
 #include <config_appcorelibs.h>
 #include "AssetRxSession.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdio.h>
@@ -37,17 +38,12 @@ AssetRxSession::AssetRxSession( P2PEngine& engine, VxGUID& lclSessionId, std::sh
 }
 
 //============================================================================
-AssetRxSession::~AssetRxSession()
-{
-}
-
-//============================================================================
 void AssetRxSession::cancelDownload( VxGUID& lclSessionId )
 {
 	VxFileXferInfo& xferInfo = getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 	}
 
 	VxFileUtil::deleteFile( xferInfo.getLclFileName().c_str() );

@@ -10,6 +10,7 @@
 
 #include "FileRxSession.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdio.h>
@@ -46,7 +47,7 @@ void FileRxSession::cancelDownload( VxGUID& lclSessionId )
 	VxFileXferInfo& xferInfo = getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 	}
 
 	VxFileUtil::deleteFile( xferInfo.getLclFileName().c_str() );

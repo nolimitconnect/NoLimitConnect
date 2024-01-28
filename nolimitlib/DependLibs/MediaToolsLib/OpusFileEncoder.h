@@ -16,6 +16,7 @@
 
 class OpusAudioEncoder;
 class OggStream;
+class VFile;
 
 class OpusFileEncoder
 {
@@ -30,13 +31,13 @@ public:
 protected:
 	bool						createAudioEncoder( int sampleRate, int channels );
 	int							encodePcmData( int16_t * pcmData, uint16_t pcmDataLen );
-	bool						writeTotalSndFrames( FILE * fileHandle );
+	bool						writeTotalSndFrames( VFile * fileHandle );
 
 	//=== vars ===//
 	OpusAudioEncoder *			m_AudioEncoder;
 	OggStream&					m_OggStream;
 	std::string					m_FileName;
-	FILE *						m_FileHandle;
+	VFile*						m_FileHandle{ nullptr };
 	uint64_t					m_TotalSndFramesInFile;
 	bool						m_EncoderInitialized;
 };

@@ -30,8 +30,13 @@ public:
 	VirtStreamMgr() = delete;
 	VirtStreamMgr( P2PEngine& engine );
 
+	bool                        directoryExists( const char* dirPath )  override;
     uint64_t                    fileExists( const char* fileName )  override;
     bool                        fileIsProviderFile( const char* fileName )  override;
+
+	bool						seperatePathAndFile( const char* pFullPath,		// path and file name			
+													 std::string& strRetPath,	// return path of file
+													 std::string& strRetFile ) override;	// return file name
 
 	VFile*						fileOpen( const char* fileName, const char* fileMode )  override;
 	int							fileClose( VFile* vFile )  override;
@@ -47,6 +52,7 @@ public:
 	int							fileGetPos( VFile* fp, fpos_t* pos ) override;
 	int							fileSetPos( VFile* fp, const fpos_t* pos ) override;
 	int							fileSeek( VFile* fp, size_t offset, int whence ) override;
+	int							fileSeek64( VFile* fp, uint64_t offs ) override;
 
 	int							listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask ) override;
 
@@ -71,6 +77,7 @@ protected:
 
     VirtProviderFile*           findProviderFile( VFile* fp );
 
+	bool						providerDirectoryExists( std::string dirPath );
     uint64_t                    providerFileExists( std::string fileName );
 
     VFile*						providerFileOpen( std::string fileName, std::string mode );

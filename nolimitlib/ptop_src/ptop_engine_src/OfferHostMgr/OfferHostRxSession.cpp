@@ -51,7 +51,7 @@ void OfferHostRxSession::cancelDownload( VxGUID& lclSessionId )
 	VxFileXferInfo& xferInfo = getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 	}
 
 	VxFileUtil::deleteFile( xferInfo.getLclFileName().c_str() );

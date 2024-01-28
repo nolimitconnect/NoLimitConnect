@@ -163,6 +163,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletPlayerPhoto.h
     CommonSrc/QtSource/AppletPlayerVideo.h
     CommonSrc/QtSource/AppletPlayerNlc.h
+    CommonSrc/QtSource/AppletPlayerStream.h
     CommonSrc/QtSource/AppletPopupMenu.h
     CommonSrc/QtSource/AppletRandomConnectHostAdmin.h
 	CommonSrc/QtSource/AppletRandomConnectJoin.h

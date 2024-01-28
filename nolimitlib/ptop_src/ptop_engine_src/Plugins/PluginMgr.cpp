@@ -68,6 +68,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include <array>
+
 //============================================================================
 PluginMgr::PluginMgr( P2PEngine& engine )
 : m_Engine( engine )
@@ -345,12 +347,12 @@ void PluginMgr::onPluginSettingChange( PluginSetting& pluginSetting, int64_t mod
 //============================================================================
 void PluginMgr::pluginApiLog( EPluginType pluginType, const char* pMsg, ... )
 {
-	char szBuffer[2048];
+	std::array<char, 2048> szBuffer;
 	va_list argList;
 	va_start(argList, pMsg);
-	vsnprintf( szBuffer, 2048, pMsg, argList );
+	vsnprintf( szBuffer.data(), 2048, pMsg, argList);
 	va_end(argList);
-	LogMsg( (pluginType << 16) | LOG_INFO, "Plugin %d %s", (int)pluginType, szBuffer );
+	LogMsg( (pluginType << 16) | LOG_INFO, "Plugin %d %s", (int)pluginType, szBuffer.data() );
 }
 
 //============================================================================

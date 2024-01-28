@@ -27,6 +27,7 @@
 class P2PEngine;
 class MediaProcessor;
 class IToGui;
+class VFile;
 
 enum EAviChunkType
 {
@@ -91,16 +92,16 @@ protected:
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
 	void						closeAviFile( void );
-	bool						readRiffHeader( FILE * fileHandle );
+	bool						readRiffHeader( VFile * fileHandle );
 	bool						readVideoHeader( void );
 	bool						parseChunkOffsets( void );
 	void						startVideoThread( void );
 	void						stopVideoThread( void );
-	bool						readChunkFromDisk( FILE * fileHandle, AviChunkOffs * chunk );
+	bool						readChunkFromDisk( VFile * fileHandle, AviChunkOffs * chunk );
 	void						calculateNewMilliSecPerFrame( unsigned int audChunkIdx );
 	void						waitForAudio( void );
 	void						cleanupReadChunks( void );
-	bool						readFirstVidFrameFromFile( FILE * fileHandle, const char* fileName, VxGUID& assetId );
+	bool						readFirstVidFrameFromFile( VFile * fileHandle, const char* fileName, VxGUID& assetId );
 	void						resetVariables( void );
 
 
@@ -112,13 +113,13 @@ protected:
 	bool						m_IsPlaying;
 	bool						m_IsPlayingPaused;
 	std::string					m_FileName;
-	uint32_t							m_FileLen;
+	uint32_t					m_FileLen;
 	VxGUID						m_AssetId;
-	FILE *						m_FileHandle;
+	VFile*						m_FileHandle{ nullptr };
 
 	int							m_MicroSecBetweenFrames;
-	uint32_t							m_TotalJpgDataLen;
-	uint32_t							m_TotalFrameCnt;
+	uint32_t					m_TotalJpgDataLen;
+	uint32_t					m_TotalFrameCnt;
 
 	VxTimer						m_PlayElapseTimer;
 	double						m_TotalElapsedMs;
@@ -126,8 +127,8 @@ protected:
 
 	AviAllStreamsHdr			m_AllStreamsHdr;
 	AviStreamHdr				m_VidStreamHdr;
-	uint32_t							m_StreamsBeginOffs;
-	uint32_t							m_StreamsEndOffs;
+	uint32_t					m_StreamsBeginOffs;
+	uint32_t					m_StreamsEndOffs;
 
 	VxMutex						m_ResMutex;
 	VxThread					m_VidThread;

@@ -11,10 +11,20 @@
 #include "VFile.h"
 #include "VirtFileMgr.h"
 
+#include <array>
+
+#include <stdarg.h>
+
 //============================================================================
 uint64_t VFileExists( const char* fileName )
 {
     return GetVirtFileMgr().fileExists( fileName );
+}
+
+//============================================================================
+bool VFileDirectoryExists( const char* dirPath )
+{
+    return GetVirtFileMgr().directoryExists( dirPath );
 }
 
 //============================================================================
@@ -105,4 +115,27 @@ int VFileSetPos( VFile* fp, const fpos_t* pos )
 int VFileSeek( VFile* fp, size_t offset, int whence )
 {
 	return GetVirtFileMgr().fileSeek( fp, offset, whence );
+}
+
+//============================================================================
+int VFileSeek64( VFile* fp, uint64_t offs )
+{
+	return GetVirtFileMgr().fileSeek64( fp, offs );
+}
+
+//============================================================================
+int	VFilePrintf( VFile* fp, char* msg, ... )
+{
+	const int MAX_PRINTF_LEN = 4096;
+	std::array<char, MAX_PRINTF_LEN> szBuffer;
+	va_list argList;
+	va_start(argList, msg);
+	int len = vsnprintf( szBuffer.data(), MAX_PRINTF_LEN, msg, argList);
+	va_end(argList);
+	if( len > 0 )
+	{
+		VFileWrite( szBuffer.data(), 1, len, fp );
+	}
+
+	return len;
 }

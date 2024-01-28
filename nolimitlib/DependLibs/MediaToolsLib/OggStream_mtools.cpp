@@ -14,6 +14,7 @@
 
 #include "opus_defines.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTimeUtil.h>
 
@@ -73,7 +74,7 @@ void OggStream::setUserComment( const char* userComment )
 }
 
 //============================================================================
-bool OggStream::openOggStream( FILE * fileHandle, int streamSerialNumber )
+bool OggStream::openOggStream( VFile * fileHandle, int streamSerialNumber )
 {
 	m_StreamInitialized		= false;
 	m_TotalBytesWritten		= 0;
@@ -191,8 +192,8 @@ int OggStream::writePageToOutput( ogg_page * page )
 	if( !m_StreamInitialized )
 		return 0;
 
-	int written = fwrite( page->header, 1, page->header_len, m_FileHandle );
-	written += fwrite( page->body, 1, page->body_len, m_FileHandle );
+	int written = VFileWrite( page->header, 1, page->header_len, m_FileHandle );
+	written += VFileWrite( page->body, 1, page->body_len, m_FileHandle );
 	m_TotalBytesWritten += written;
 	m_PagesOut++;
 	return written;
@@ -286,6 +287,6 @@ uint64_t OggStream::closeOggStream( void )
 		return 0;
 
 	flushStreamToFile();
-	fclose( m_FileHandle );
+	VFileClose( m_FileHandle );
 	return m_TotalBytesWritten;
 }

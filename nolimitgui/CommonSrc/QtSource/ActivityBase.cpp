@@ -1288,7 +1288,7 @@ bool ActivityBase::confirmDeleteFile( QString fileName, bool shredFile )
 	bool acceptAction = true;
 	bool isConfirmDisabled = m_MyApp.getAppSettings().getIsConfirmDeleteDisabled();
 	if( false == isConfirmDisabled )
-	{
+	{        
 		QString title = shredFile ? QObject::tr( "Confirm Shred File" ) : QObject::tr( "Confirm Delete File" );
 		QString bodyText = "";
 		if( shredFile )

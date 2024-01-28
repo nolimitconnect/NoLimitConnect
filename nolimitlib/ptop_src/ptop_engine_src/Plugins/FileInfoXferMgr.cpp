@@ -10,13 +10,13 @@
 
 #include "FileInfoXferMgr.h"
 
-#include "PluginBase.h"
-#include "PluginMgr.h"
-
 #include "FileTxSession.h"
 #include "FileRxSession.h"
 
 #include "FileInfoBaseMgr.h"
+
+#include "PluginBase.h"
+#include "PluginMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/FileInfo.h>
@@ -28,9 +28,10 @@
 #include <PktLib/PktsPluginOffer.h>
 #include <PktLib/PktsStreamCtrl.h>
 
-#include <CoreLib/VxGlobals.h>
-#include <CoreLib/VxDebug.h>
 #include <CoreLib/AppErr.h>
+#include <CoreLib/VirtFileMgr.h>
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <NetLib/VxSktBase.h>
 
@@ -776,7 +777,7 @@ void FileInfoXferMgr::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, V
 				int64_t seekPos = pktReq->getStartOffset();
 				if( seekPos >= 0 && seekPos < xferInfo.getFileLength() )
 				{
-					if( 0 == fseek( xferInfo.m_hFile, seekPos, SEEK_SET ) )
+					if( 0 == VFileSeek( xferInfo.m_hFile, seekPos, SEEK_SET ) )
 					{
 						xferInfo.setFileOffset( seekPos );
 						xferErr = eXferErrorNone;
@@ -822,7 +823,7 @@ void FileInfoXferMgr::endFileXferSession( FileRxSession* poSessionIn )
     {
         if( xferInfo.m_hFile )
         {
-            fclose( xferInfo.m_hFile );
+            VFileClose( xferInfo.m_hFile );
             xferInfo.m_hFile = NULL;
         }
 
@@ -878,7 +879,7 @@ void FileInfoXferMgr::endFileXferSession( FileTxSession* poSessionIn )
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 
@@ -1092,7 +1093,7 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 
 	if( eXferErrorNone == xferErr )
 	{
-		xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "rb" ); 
+		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "rb" ); 
 		if( NULL == xferInfo.m_hFile )
 		{
 			// open file failed
@@ -1109,7 +1110,7 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 		{
 			if( xferInfo.m_u64FileLen < xferInfo.m_u64FileOffs )
 			{
-				fclose( xferInfo.m_hFile );
+				VFileClose( xferInfo.m_hFile );
 				xferInfo.m_hFile = NULL;
 				LogMsg( LOG_VERBOSE, "FileInfoXferMgr::beginFileSend: File %s could not be resumed because too short", 
 					(const char*)xferInfo.getLclFileName().c_str() );
@@ -1120,10 +1121,10 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 			{
 				RCODE rc = -1;
 				// we have valid file so seek to end so we can resume if partial file exists
-				if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+				if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 				{
 					// seek failed
-					fclose( xferInfo.m_hFile );
+					VFileClose( xferInfo.m_hFile );
 					xferInfo.m_hFile = NULL;
 					LogMsg( LOG_VERBOSE, "FileInfoXferMgr::beginFileSend: could not seek to position %d in file %s",
 						xferInfo.m_u64FileOffs,
@@ -1176,18 +1177,18 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 			int64_t origOffs = xferInfo.getFileOffset();
 			int64_t readOffs = xferInfo.getFileLength() - PKT_TYPE_FILE_MAX_DATA_LEN;
 			bool readData{ false };
-			if( 0 == fseek( xferInfo.m_hFile, readOffs, SEEK_SET ) )
+			if( 0 == VFileSeek64( xferInfo.m_hFile, readOffs ) )
 			{
 				pktReply.setStartOffset( readOffs );
 				pktReply.setEndOffset( xferInfo.getFileLength() );
 
-				if( PKT_TYPE_FILE_MAX_DATA_LEN == fread( pktReply.getDataBuf(), 1, PKT_TYPE_FILE_MAX_DATA_LEN, xferInfo.m_hFile ) )
+				if( PKT_TYPE_FILE_MAX_DATA_LEN == VFileRead( pktReply.getDataBuf(), 1, PKT_TYPE_FILE_MAX_DATA_LEN, xferInfo.m_hFile ) )
 				{
 					pktReply.setDataLen( PKT_TYPE_FILE_MAX_DATA_LEN );
 					readData = true;
 				}
 
-				if( 0 != fseek( xferInfo.m_hFile, origOffs, SEEK_SET ) )
+				if( 0 != VFileSeek64( xferInfo.m_hFile, origOffs ) )
 				{
 					LogMsg( LOG_ERROR, "FileInfoXferMgr::%s could not seek back to origin" );
 
@@ -1287,7 +1288,7 @@ EXferError FileInfoXferMgr::txNextFileChunk( FileTxSession* xferSession )
 		//we are done sending file
 		if( xferInfo.m_hFile )
 		{
-			fclose( xferInfo.m_hFile );
+			VFileClose( xferInfo.m_hFile );
 			xferInfo.m_hFile  = NULL;
 		}
 		// move file from to be sent to sent
@@ -1331,7 +1332,7 @@ EXferError FileInfoXferMgr::rxFileChunk( FileRxSession* xferSession, PktFileChun
 		if( xferInfo.useFileIo() )
 		{
 			//write the chunk of data out to the file
-			u32BytesWritten = (uint32_t)fwrite(	poPkt->m_au8FileChunk,
+			u32BytesWritten = (uint32_t)VFileWrite(	poPkt->m_au8FileChunk,
 				1,
 				poPkt->getChunkLen(),
 				xferInfo.m_hFile );
@@ -1395,7 +1396,7 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileSend
 	VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 	else
@@ -1502,7 +1503,7 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileGetC
 	{
 		if( xferInfo.m_hFile )
 		{
-			fclose( xferInfo.m_hFile );
+			VFileClose( xferInfo.m_hFile );
 			xferInfo.m_hFile = NULL;
 		}
 		else
@@ -1807,7 +1808,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 				}
 				else
 				{
-					xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
+					xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
 					if( NULL == xferInfo.m_hFile )
 					{
 						// failed to open file
@@ -1823,12 +1824,12 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 					{
 						// we have valid file so seek to end so we can resume if partial file exists
 						RCODE rc = 0;
-						if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+						if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 						{
 							xferErr = eXferErrorFileOpenAppendError;
 							// seek failed
-							fclose( xferInfo.m_hFile );
-							xferInfo.m_hFile = NULL;
+							VFileClose( xferInfo.m_hFile );
+							xferInfo.m_hFile = nullptr;
 							LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR: (File Rx) could not seek to position %d in file %s",
 									xferInfo.m_u64FileOffs,
 									(const char*)xferInfo.getLclFileName().c_str() );
@@ -1839,12 +1840,11 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 			else
 			{
 				// open file and truncate if exists
-				xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
-				if( NULL == xferInfo.m_hFile )
+				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
+				if( !xferInfo.m_hFile )
 				{
 					xferErr = eXferErrorFileOpenError;
 					// failed to open file
-					xferInfo.m_hFile = NULL;
 					RCODE rc = VxGetLastError();
 					LogMsg( LOG_INFO, "FileInfoXferMgr: ERROR: %d File %s could not be created",
 							rc,
@@ -1896,7 +1896,7 @@ EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxGUID 
 	}
 
 	// read data into packet
-	uint32_t u32BytesRead = ( uint32_t )fread( pktReq.m_au8FileChunk,
+	uint32_t u32BytesRead = ( uint32_t )VFileRead( pktReq.m_au8FileChunk,
 		1,
 		u32ChunkLen,
 		xferInfo.m_hFile );
@@ -1906,7 +1906,7 @@ EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxGUID 
 		//xferSession->setErrorCode( rc );
 		xferErr = eXferErrorFileReadError;
 
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 		LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR: %d reading send file at offset %" PRId64 " when file len %" PRId64 "  file name %s",
 			rc,

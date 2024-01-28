@@ -114,6 +114,7 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 //============================================================================
 AppletPlayerNlc::~AppletPlayerNlc()
 {
+    stopMediaIfPlaying();
 }
 
 //============================================================================
@@ -130,6 +131,14 @@ void AppletPlayerNlc::setupBottomMenu( VxMenuButton* menuButton )
 
 	connect( menuButton, SIGNAL( signalMenuItemSelected( int, EMenuItemType ) ),
 		this, SLOT( slotMenuItemSelected( int, EMenuItemType ) ) );
+}
+
+//============================================================================
+void AppletPlayerNlc::slotAppletClosing( void )
+{
+    m_MyApp.getAppSettings().setLastAppletLaunched( eLaunchFrameHome, eAppletUnknown );
+    stopMediaIfPlaying();
+    closeApplet();
 }
 
 //============================================================================

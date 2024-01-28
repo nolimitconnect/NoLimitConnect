@@ -17,6 +17,8 @@
 
 #include <string>
 
+class VFile;
+
 class VxFileXferInfo
 {
 public:
@@ -67,7 +69,7 @@ public:
 	bool						useFileIo( void )						{ return eXferDirectionRx != m_XferDirection || !isStream(); }
 
 	//=== vars ===//
-    FILE*						m_hFile{nullptr};
+    VFile*						m_hFile{nullptr};
     uint64_t					m_u64FileOffs{0};					 // current offset into file we are at
     uint64_t					m_u64FileLen{0};                     // total file length
 	VxGUID						m_AssetId;

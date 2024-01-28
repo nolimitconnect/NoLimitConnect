@@ -11,6 +11,7 @@
 #include "FileXferPluginSession.h"
 #include "PluginBase.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <PktLib/PktsFileShare.h>
 
 #include <stdio.h>
@@ -53,7 +54,7 @@ void FileXferPluginSession::cancelUpload( PluginBase& pluginBase, VxGUID& lclSes
 
 	if( m_TxFileInfo.m_hFile )
 	{
-		fclose( m_TxFileInfo.m_hFile );
+		VFileClose( m_TxFileInfo.m_hFile );
 	}
 
 	std::vector<FileToXfer>::iterator iter;
@@ -97,7 +98,7 @@ void FileXferPluginSession::cancelDnload( PluginBase& pluginBase, VxGUID& lclSes
 
 	if( m_RxFileInfo.m_hFile )
 	{
-		fclose( m_RxFileInfo.m_hFile );
+		VFileClose( m_RxFileInfo.m_hFile );
 	}
 
 	std::vector<FileToXfer>::iterator iter;

@@ -42,6 +42,7 @@ class IToGui;
 class AssetInfo;
 class OpusAudioDecoder;
 class OpusFileDecoder;
+class VFile;
 
 class SndReader : public MediaCallbackInterface
 {
@@ -75,7 +76,7 @@ protected:
 	std::string					m_FileName;
 	VxGUID						m_AssetId;
 
-	FILE*						m_FileHandle{ nullptr };
+	VFile*						m_FileHandle{ nullptr };
 	VxTimer						m_PlayElapseTimer;
 	double						m_TotalElapsedMs{ 0 };
 	bool						m_IsFirstFrameAfterResumePlaying{ false };

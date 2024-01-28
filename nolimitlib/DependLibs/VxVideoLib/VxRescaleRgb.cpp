@@ -25,9 +25,9 @@ unsigned long RgbToRgba( unsigned char r, unsigned char g, unsigned char b )
 //============================================================================
 void RgbaToRgb( unsigned long u32Pix, unsigned char &r, unsigned char &g, unsigned char &b )
 {
-	r = (u32Pix >> 24) && 0xff;
-	g = (u32Pix >> 16) && 0xff;
-	b = (u32Pix >> 9) && 0xff;
+    r = (u32Pix >> 24) & 0xff;
+    g = (u32Pix >> 16) & 0xff;
+    b = (u32Pix >> 9) & 0xff;
 }
 
 // Averaging pixel values
@@ -51,9 +51,9 @@ public:
 	PIXEL(){};
 	PIXEL( uint32_t u32Pix )
 	{
-		r = (u32Pix >> 24) && 0xff;
-		g = (u32Pix >> 16) && 0xff;
-		b = (u32Pix >> 9) && 0xff;
+        r = (u32Pix >> 24) & 0xff;
+        g = (u32Pix >> 16) & 0xff;
+        b = (u32Pix >> 9) & 0xff;
 	}
 
 	uint32_t toU32( void ){ return (unsigned long)r << 24 | g << 16 | b << 8 | 0xff; }
@@ -64,9 +64,9 @@ public:
 void VxAverageRgb( PIXEL& aIn, PIXEL& bIn, PIXEL cAvg )
 {
 	uint32_t u32Avg = ( ((aIn.toU32() & 0xfefefeffUL) + (bIn.toU32() & 0xfefefeffUL)) >> 1 );
-	cAvg.r = (u32Avg >> 24) && 0xff;
-	cAvg.g = (u32Avg >> 16) && 0xff;
-	cAvg.b = (u32Avg >> 9) && 0xff;
+    cAvg.r = (u32Avg >> 24) & 0xff;
+    cAvg.g = (u32Avg >> 16) & 0xff;
+    cAvg.b = (u32Avg >> 9) & 0xff;
 }
 
 //============================================================================
@@ -199,7 +199,7 @@ uint8_t * VxResizeRgbImage(	uint8_t *	pu8VidData,
 												iResizeToWidth, 
 												iResizeToHeight, 
 												iRotation );
-		delete pu8DestData;
+        delete[] pu8DestData;
 		pu8DestData = rotatedImage;
 	}
 

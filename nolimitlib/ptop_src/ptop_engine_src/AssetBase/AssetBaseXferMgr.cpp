@@ -29,6 +29,7 @@
 #include <PktLib/VxCommon.h>
 #include <NetLib/VxSktBase.h>
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/AppErr.h>
@@ -965,7 +966,7 @@ void AssetBaseXferMgr::endAssetBaseXferSession( AssetBaseRxSession* poSessionIn,
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = nullptr;
 	}
 
@@ -1023,7 +1024,7 @@ void AssetBaseXferMgr::endAssetBaseXferSession( AssetBaseTxSession* poSessionIn,
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 
@@ -1734,7 +1735,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
 
 	if( eXferErrorNone == xferErr )
 	{
-		xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "rb" ); 
+		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "rb" ); 
 		if( NULL == xferInfo.m_hFile )
 		{
 			// open file failed
@@ -1751,7 +1752,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
 		{
 			if( xferInfo.m_u64FileLen < xferInfo.m_u64FileOffs )
 			{
-				fclose( xferInfo.m_hFile );
+				VFileClose( xferInfo.m_hFile );
 				xferInfo.m_hFile = NULL;
 				LogMsg( LOG_INFO, "AssetBaseXferMgr::beginAssetBaseSend: AssetBase %s could not be resumed because too short", 
 					(const char*)xferInfo.getLclFileName().c_str() );
@@ -1762,10 +1763,10 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
 			{
 				RCODE rc = -1;
 				// we have valid file so seek to end so we can resume if partial file exists
-				if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+				if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 				{
 					// seek failed
-					fclose( xferInfo.m_hFile );
+					VFileClose( xferInfo.m_hFile );
 					xferInfo.m_hFile = NULL;
 					LogMsg( LOG_INFO, "AssetBaseXferMgr::beginAssetBaseSend: could not seek to position %d in file %s",
 						xferInfo.m_u64FileOffs,
@@ -1888,7 +1889,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
 			}
 			else
 			{
-				xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
+				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
 				if( NULL == xferInfo.m_hFile )
 				{
 					// failed to open file
@@ -1903,12 +1904,12 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
 				else
 				{
 					// we have valid file so seek to end so we can resume if partial file exists
-					if( 0 != (rc = VxFileUtil::fileSeek( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+					if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 					{
 						// seek failed
 						xferSession->setErrorCode( rc );
 						xferErr  = eXferErrorFileSeekError;
-						fclose( xferInfo.m_hFile );
+						VFileClose( xferInfo.m_hFile );
 						xferInfo.m_hFile = NULL;
 						LogMsg( LOG_INFO, "AssetBaseXferMgr: ERROR: (AssetBase Send) could not seek to position %d in file %s",
 							    xferInfo.m_u64FileOffs, (const char*)xferInfo.getLclFileName().c_str() );
@@ -1921,7 +1922,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
             LogMsg( LOG_INFO, "AssetBaseXferMgr: opening file for recieve %s %s ",
                     xferInfo.getLclFileName().c_str(), xferInfo.getDownloadCompleteFileName().c_str() );
 			// open file and truncate if exists
-			xferInfo.m_hFile = fopen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
+			xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
 			if( NULL == xferInfo.m_hFile )
 			{
 				// failed to open file
@@ -1983,7 +1984,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 		//we are done sending file
 		if( xferInfo.m_hFile )
 		{
-			fclose( xferInfo.m_hFile );
+			VFileClose( xferInfo.m_hFile );
 			xferInfo.m_hFile  = NULL;
 		}
 
@@ -2033,17 +2034,17 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 	}
 
 	// read data into packet
-	uint32_t u32BytesRead = (uint32_t)fread(	pktChunkReq->m_au8AssetChunk,
-									            1,
-									            u32ChunkLen,
-									            xferInfo.m_hFile );
+	uint32_t u32BytesRead = (uint32_t)VFileRead(	pktChunkReq->m_au8AssetChunk,
+													1,
+													u32ChunkLen,
+													xferInfo.m_hFile );
 	if( u32BytesRead != u32ChunkLen )
 	{
 		RCODE rc = VxGetLastError();
 		xferSession->setErrorCode( rc );
 		xferErr = eXferErrorFileReadError;
 
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile  = NULL;
 		LogMsg( LOG_ERROR, "AssetBaseXferMgr: ERROR: %d reading send file at offset %" PRId64 " when file len %" PRId64 "  file name %s",
 					rc,
@@ -2137,10 +2138,10 @@ EXferError AssetBaseXferMgr::rxAssetBaseChunk( bool pluginIsLocked, AssetBaseRxS
 	if( xferInfo.m_hFile )
 	{
 		//write the chunk of data out to the file
-		uint32_t u32BytesWritten = (uint32_t)fwrite(	poPkt->m_au8AssetChunk,
-												1,
-												poPkt->getChunkLen(),
-												xferInfo.m_hFile );
+		uint32_t u32BytesWritten = (uint32_t)VFileWrite(	poPkt->m_au8AssetChunk,
+															1,
+															poPkt->getChunkLen(),
+															xferInfo.m_hFile );
 		if( u32BytesWritten != poPkt->getChunkLen() ) 
 		{
 			RCODE rc = VxGetLastError();
@@ -2215,7 +2216,7 @@ void AssetBaseXferMgr::finishAssetBaseReceive( AssetBaseRxSession* xferSession, 
 	VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 		xferInfo.m_hFile = NULL;
 	}
 	else

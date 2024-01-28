@@ -15,6 +15,7 @@
 #include <config_appcorelibs.h>
 #include "OfferClientRxSession.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdio.h>
@@ -46,7 +47,7 @@ void OfferClientRxSession::cancelDownload( VxGUID& lclSessionId )
 	VxFileXferInfo& xferInfo = getXferInfo();
 	if( xferInfo.m_hFile )
 	{
-		fclose( xferInfo.m_hFile );
+		VFileClose( xferInfo.m_hFile );
 	}
 
 	VxFileUtil::deleteFile( xferInfo.getLclFileName().c_str() );

@@ -11,6 +11,7 @@
 #include <config_appcorelibs.h>
 #include "ThumbTxSession.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdio.h>
@@ -64,7 +65,7 @@ void ThumbTxSession::cancelUpload( VxGUID& lclSessionId )
 {
 	if( m_FileXferInfo.m_hFile )
 	{
-		fclose( m_FileXferInfo.m_hFile );
+		VFileClose( m_FileXferInfo.m_hFile );
 	}
 
 	setThumbStateSendFail();

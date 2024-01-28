@@ -18,6 +18,7 @@
 #include <PktLib/PktVoiceReply.h>
 #include <PktLib/PktChatReq.h>
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxMacros.h>
 #include <CoreLib/VxFileShredder.h>
@@ -128,7 +129,7 @@ bool MJPEGWriter::startAviWrite( const char* fileName, uint32_t timeBetweenFrame
 {
 	stopAviWrite();
 	m_FileName = fileName;
-	m_FileHandle = VxFileUtil::fileOpen( m_FileName.c_str(), "wb+" );
+	m_FileHandle = VFileOpen( m_FileName.c_str(), "wb+" );
 	if( 0 == m_FileHandle )
 	{
 		LogMsg( LOG_ERROR, "MJPEGWriter::startAviWrite could not open file %s", m_FileName.c_str() );
@@ -148,13 +149,13 @@ bool MJPEGWriter::startAviWrite( const char* fileName, uint32_t timeBetweenFrame
 
 	if( false == writeRiffHeader() )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		return false;
 	}
 
 	if( false == writeVideoHeader() )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		return false;
 	}
 
@@ -178,7 +179,7 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 		{
 			// no need to finish updating file.. just close it and delete it		
 			setIsRecording( false );
-			fclose( m_FileHandle );
+			VFileClose( m_FileHandle );
 			m_FileHandle = nullptr;
 			LogMsg( LOG_ERROR, "MJPEGWriter::stopAviWrite shredding file %s", m_FileName.c_str() );
 			GetVxFileShredder().shredFile( m_FileName );
@@ -196,7 +197,7 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 		if( m_FrameOffsetList.size() > 0 )
 		{
 			AviFourCC idxFourCC( 'i', 'd', 'x', '1' );
-			if( sizeof( AviFourCC ) != fwrite( &idxFourCC, 1, sizeof( AviFourCC ), m_FileHandle ) )
+			if( sizeof( AviFourCC ) != VFileWrite( &idxFourCC, 1, sizeof( AviFourCC ), m_FileHandle ) )
 			{
 				LogMsg( LOG_ERROR, "MJPEGWriter::stopAviWrite error %d writing file %s", VxGetLastError(), m_FileName.c_str() );
 				closeAviFile();
@@ -204,7 +205,7 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 			}
 
 			uint32_t idxListLen = ( uint32_t )(16 * m_FrameOffsetList.size());
-			if( sizeof( idxListLen ) != fwrite( &idxListLen, 1, sizeof( idxListLen ), m_FileHandle ) )
+			if( sizeof( idxListLen ) != VFileWrite( &idxListLen, 1, sizeof( idxListLen ), m_FileHandle ) )
 			{
 				LogMsg( LOG_ERROR, "MJPEGWriter::stopAviWrite error %d writing file %s", VxGetLastError(), m_FileName.c_str() );
 				closeAviFile();
@@ -261,7 +262,7 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 				// );
 
 				prevOffs = nextOffs;
-				if( sizeof( AviFrameIndex ) != fwrite( &frameIdx, 1, sizeof( AviFrameIndex ), m_FileHandle ) )
+				if( sizeof( AviFrameIndex ) != VFileWrite( &frameIdx, 1, sizeof( AviFrameIndex ), m_FileHandle ) )
 				{
 					LogMsg( LOG_ERROR, "MJPEGWriter::stopAviWrite error %d writing file %s", VxGetLastError(), m_FileName.c_str() );
 					closeAviFile();
@@ -309,7 +310,7 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 			LogMsg( LOG_ERROR, "MJPEGWriter::rewrite video hdr fail file %s", m_FileName.c_str() );
 		}
 
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		setIsRecording( false );
 	}
 }
@@ -354,7 +355,7 @@ bool MJPEGWriter::setAviParameters(	 uint32_t	imageWidth,
 //============================================================================
 bool MJPEGWriter::writeRiffHeader( void )
 {
-	if( sizeof( AviRiffHeader ) != fwrite( &m_RiffHdr, 1, sizeof( AviRiffHeader ), m_FileHandle ) )
+	if( sizeof( AviRiffHeader ) != VFileWrite( &m_RiffHdr, 1, sizeof( AviRiffHeader ), m_FileHandle ) )
 	{
 		LogMsg( LOG_ERROR, "MJPEGWriter::writeRiffHeader error %d writing file %s", VxGetLastError(), m_FileName.c_str() );
 		return false;
@@ -366,7 +367,7 @@ bool MJPEGWriter::writeRiffHeader( void )
 //============================================================================
 bool MJPEGWriter::writeVideoHeader( void )
 {
-	if( sizeof( AviVideoHdr ) != fwrite( &m_AviHdr, 1, sizeof( AviVideoHdr ), m_FileHandle ) )
+	if( sizeof( AviVideoHdr ) != VFileWrite( &m_AviHdr, 1, sizeof( AviVideoHdr ), m_FileHandle ) )
 	{
 		LogMsg( LOG_ERROR, "MJPEGWriter::writeVideoHeader error %d writing file %s", VxGetLastError(), m_FileName.c_str() );
 		return false;
@@ -419,14 +420,14 @@ void MJPEGWriter::callbackVideoJpgSmall( void * /*userData*/, VxGUID& vidFeedId,
 	// we replace the JIFF after the first 6 bytes in jpg with AVI1
 	memcpy( m_AviJpgHdr.m_First6BytesOfJpg, pu8Jpg, 6 );
 
-	if( sizeof( AviJpgHdr ) != fwrite( &m_AviJpgHdr, 1, sizeof( AviJpgHdr ), m_FileHandle ) )
+	if( sizeof( AviJpgHdr ) != VFileWrite( &m_AviJpgHdr, 1, sizeof( AviJpgHdr ), m_FileHandle ) )
 	{
 		m_AviFileAccessMutex.unlock();
 		LogMsg( LOG_ERROR, "MJPEGWriter::fromGuiJpgFrame error %d writing frame hdr to file %s", VxGetLastError(), m_FileName.c_str() );
 		return;
 	}
 
-	if( lenToWrite - 10 != fwrite( &pu8Jpg[10], 1, lenToWrite-10, m_FileHandle ) )
+	if( lenToWrite - 10 != VFileWrite( &pu8Jpg[10], 1, lenToWrite-10, m_FileHandle ) )
 	{
 		m_AviFileAccessMutex.unlock();
 		LogMsg( LOG_ERROR, "MJPEGWriter::fromGuiJpgFrame error %d writing jpg len %d to file %s", VxGetLastError(), lenToWrite, m_FileName.c_str() );
@@ -480,14 +481,14 @@ void MJPEGWriter::callbackPcm( void * userData, VxGUID& feedId, int16_t * pcmDat
 	//	(uint32_t)m_PrevFrameJpgLen,
 	//	(uint32_t)dataOffset
 	//	);
-	if( sizeof( AviAudioHdr ) != fwrite( &m_AviAudioHdr, 1, sizeof( AviAudioHdr ), m_FileHandle ) )
+	if( sizeof( AviAudioHdr ) != VFileWrite( &m_AviAudioHdr, 1, sizeof( AviAudioHdr ), m_FileHandle ) )
 	{
 		m_AviFileAccessMutex.unlock();
 		LogMsg( LOG_ERROR, "MJPEGWriter::fromGuiJpgFrame error %d writing frame hdr to file %s", VxGetLastError(), m_FileName.c_str() );
 		return;
 	}
 
-	if( lenToWrite != fwrite( pcmData, 1, lenToWrite, m_FileHandle ) )
+	if( lenToWrite != VFileWrite( pcmData, 1, lenToWrite, m_FileHandle ) )
 	{
 		m_AviFileAccessMutex.unlock();
 		LogMsg( LOG_ERROR, "MJPEGWriter::fromGuiJpgFrame error %d writing jpg len %d to file %s", VxGetLastError(), lenToWrite, m_FileName.c_str() );
@@ -503,7 +504,7 @@ void MJPEGWriter::closeAviFile( void )
 	m_AviFileAccessMutex.lock();
 	if( 0 != m_FileHandle )
 	{
-		fclose( m_FileHandle );
+		VFileClose( m_FileHandle );
 		m_FileHandle = nullptr;
 	}
 

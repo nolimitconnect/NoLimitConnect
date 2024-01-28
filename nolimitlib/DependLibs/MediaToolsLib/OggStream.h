@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 class MyOpusHeader;
+class VFile;
 
 class OggStream
 {
@@ -33,7 +34,7 @@ public:
 	void						setGenre( const char* genre );
 	void						setUserComment( const char* userComment );
 
-	bool						openOggStream( FILE * fileHandle, int streamSerialNumber = 0 ); // if streamSerialNumber is zero then generate random serial number
+	bool						openOggStream( VFile * fileHandle, int streamSerialNumber = 0 ); // if streamSerialNumber is zero then generate random serial number
 	int							writeHeader( MyOpusHeader& opusHeader, uint8_t * packetBuf, int packetBufLen );
 	int							writeEncodedFrame( uint8_t * encodedFrame, int32_t encodedLen );
 	uint64_t					closeOggStream( void ); // returns total bytes written
@@ -45,7 +46,7 @@ protected:
 	int							writePageToOutput( ogg_page * page );
 
 	bool						m_StreamInitialized{ false };
-	FILE *						m_FileHandle{ nullptr };
+	VFile*						m_FileHandle{ nullptr };
 	OggBuffer					m_OggBuffer; 
 	ogg_stream_state			m_StreamState;		// os
 	ogg_packet					m_OggPkt;			// op;

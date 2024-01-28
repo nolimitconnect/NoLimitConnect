@@ -11,6 +11,7 @@
 #include <config_appcorelibs.h>
 #include "AssetBaseTxSession.h"
 
+#include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdio.h>
@@ -64,7 +65,7 @@ void AssetBaseTxSession::cancelUpload( VxGUID& lclSessionId )
 {
 	if( m_FileXferInfo.m_hFile )
 	{
-		fclose( m_FileXferInfo.m_hFile );
+		VFileClose( m_FileXferInfo.m_hFile );
 	}
 
 	setAssetBaseStateSendFail();
