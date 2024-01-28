@@ -25,6 +25,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_CAF_DEMUXER || CONFIG_CAF_MUXER
 
 #include "avformat.h"

@@ -20,6 +20,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_MOV_MUXER
 
 #include "movenccenc.h"

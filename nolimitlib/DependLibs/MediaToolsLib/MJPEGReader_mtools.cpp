@@ -150,18 +150,16 @@ bool MJPEGReader::fromGuiIsNoLimitVideoFile( const char* fileName )
 	if( 32 != VFileRead( junkBuf, 1, 32, fileHandle ) )
 	{
 		VFileClose( fileHandle );
-		LogMsg( LOG_ERROR, "MJPEGReader::fromGuiIsNoLimitVideoFile could not read file %s", fileName );
+		LogMsg( LOG_ERROR, "MJPEGReader::%s could not read file %s", __func__, fileName );
 		return false;
 	}
 	
 	VFileClose( fileHandle );
 	if( 0 != strncmp( junkBuf, "Created by No Limit Connect", 21 ) )
 	{
-		LogMsg( LOG_INFO, "MJPEGReader::fromGuiIsNoLimitVideoFile is not My P2P Video File %s", fileName );
+		LogMsg( LOG_INFO, "MJPEGReader::%s is not NLC Video File %s", __func__, fileName );
 		return false;
 	}
-
-	// LogMsg( LOG_DEBUG, "MJPEGReader:fromGuiIsNoLimitVideoFile done" );
 
 	return true;
 }

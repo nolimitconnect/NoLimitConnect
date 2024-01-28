@@ -20,6 +20,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_MPEGTS_MUXER || CONFIG_AVI_MUXER || CONFIG_AVI_MUXER
 
 #include "libavutil/avassert.h"

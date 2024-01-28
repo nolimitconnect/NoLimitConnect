@@ -20,6 +20,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_AC3_DEMUXER || CONFIG_EAC3_DEMUXER
 
 #include "config_components.h"

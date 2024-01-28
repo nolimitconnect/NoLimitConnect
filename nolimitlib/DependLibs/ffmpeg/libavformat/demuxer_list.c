@@ -1,6 +1,6 @@
 
 
-#if defined(CONFIG_FFMPEG_H)
+#if defined(FFMPEG_CONFIG_COMPONENTS_H)
 
 static const AVInputFormat * const demuxer_list[] = {
     &ff_aa_demuxer,

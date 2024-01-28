@@ -27,6 +27,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_HLS_DEMUXER
 
 #include "libavutil/aes.h"

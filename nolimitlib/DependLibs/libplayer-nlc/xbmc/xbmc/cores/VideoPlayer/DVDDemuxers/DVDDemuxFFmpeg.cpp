@@ -289,7 +289,7 @@ bool CDVDDemuxFFmpeg::Open( const std::shared_ptr<CDVDInputStream>& pInput, bool
 	m_pFormatContext = avformat_alloc_context();
 	m_pFormatContext->interrupt_callback = int_cb;
 
-	LogModule( eLogMediaStream, LOG_VERBOSE, "Open media file (%s)", strFile.c_str() );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "CDVDDemuxFFmpeg::%s Open media file (%s)", __func__, strFile.c_str() );
 
 	// try to abort after 30 seconds
 	// for debugging make long timeout
@@ -384,6 +384,15 @@ bool CDVDDemuxFFmpeg::Open( const std::shared_ptr<CDVDInputStream>& pInput, bool
 				m_timeout.Set( 2000s );
 #endif // DEBUG
 				av_probe_input_buffer( m_ioContext, &iformat, strFile.c_str(), NULL, 0, 0 );
+			}
+
+			if( iformat )
+			{
+				LogModule( eLogPlayerNlc, LOG_VERBOSE, "CDVDDemuxFFmpeg::%s probed name %s (%s)", __func__, iformat->name, iformat->long_name );
+			}
+			else
+			{
+				LogModule( eLogPlayerNlc, LOG_VERBOSE, "CDVDDemuxFFmpeg::%s probe no format found", __func__ );
 			}
 
 			// Use the more low-level code in case we have been built against an old

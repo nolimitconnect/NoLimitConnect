@@ -28,9 +28,8 @@
  */
 
 #include "config_ffmpeg.h"
-#if CONFIG_HLS_DEMUXER
-
 #include "config_components.h"
+#if CONFIG_HLS_DEMUXER
 
 #include "libavformat/http.h"
 #include "libavutil/aes.h"

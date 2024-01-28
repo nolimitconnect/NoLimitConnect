@@ -20,6 +20,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_AVI_MUXER
 
 #include <math.h>

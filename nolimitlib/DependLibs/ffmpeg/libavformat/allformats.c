@@ -20,6 +20,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 
 #include <stdatomic.h>
 #include <stddef.h>

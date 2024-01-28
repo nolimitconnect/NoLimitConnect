@@ -24,9 +24,8 @@
  */
 
 #include "config_ffmpeg.h"
-#if CONFIG_MOV_DEMUXER || CONFIG_RTPDEC
-
 #include "config_components.h"
+#if CONFIG_MOV_DEMUXER || CONFIG_RTPDEC
 
 #include <inttypes.h>
 #include <limits.h>

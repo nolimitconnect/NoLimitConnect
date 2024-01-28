@@ -26,6 +26,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_WTV_MUXER
 
 #include "libavutil/avassert.h"

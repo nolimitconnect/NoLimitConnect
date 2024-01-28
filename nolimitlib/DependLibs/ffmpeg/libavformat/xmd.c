@@ -20,6 +20,7 @@
  */
 
 #include "config_ffmpeg.h"
+#include "config_components.h"
 #if CONFIG_XMD_DEMUXER
 
 #include "libavutil/channel_layout.h"
