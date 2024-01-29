@@ -67,6 +67,10 @@ bool CGUIDialogOK::ShowAndGetInput(const CVariant& heading,
 
 bool CGUIDialogOK::ShowAndGetInput(const HELPERS::DialogOKMessage & options)
 {
+#if ENABLE_NLC_PLAYER
+    // never ask for user confirm in case of error i
+    return true;
+#else
   if (!options.heading.isNull())
     SetHeading(options.heading);
   if (!options.text.isNull())
@@ -79,6 +83,7 @@ bool CGUIDialogOK::ShowAndGetInput(const HELPERS::DialogOKMessage & options)
   }
   Open();
   return IsConfirmed();
+#endif // ENABLE_NLC_PLAYER
 }
 
 void CGUIDialogOK::OnInitWindow()
