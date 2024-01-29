@@ -21,7 +21,6 @@
  */
 
 #include "config_ffmpeg.h"
-
 #include "config_components.h"
 
 #include "libavutil/opt.h"

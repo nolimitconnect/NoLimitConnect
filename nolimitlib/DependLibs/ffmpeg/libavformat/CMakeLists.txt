@@ -33,6 +33,7 @@ list(APPEND avformat_SOURCES
     adxdec.c
     aea.c
     afc.c
+    aiff.c
     aiffdec.c
     aiffenc.c
     aixdec.c
@@ -48,6 +49,7 @@ list(APPEND avformat_SOURCES
     apm.c
     apngdec.c
     apngenc.c
+    aptxdec.c
     aqtitledec.c
     argo_brp.c
     argo_cvg.c
@@ -552,6 +554,7 @@ list(APPEND avformat_SOURCES
     wvedec.c
     wvenc.c
     xa.c
+    xmd.c
     xmv.c
     xvag.c
     xwma.c

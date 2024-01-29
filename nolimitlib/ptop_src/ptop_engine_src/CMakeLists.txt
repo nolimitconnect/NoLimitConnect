@@ -276,8 +276,6 @@ if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "ptopengine sdk root ${ANDROID_SDK_ROOT}")
 
     target_link_libraries(ptopengine Qt::Core Qt::CorePrivate Qt6::Quick)
-
-    #find_package(Qt6 REQUIRED COMPONENTS Core, Quick)
 endif()
 
 target_compile_definitions(ptopengine

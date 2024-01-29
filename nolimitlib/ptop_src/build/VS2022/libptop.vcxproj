@@ -719,6 +719,7 @@
     <ClCompile Include="..\..\ptop_engine_src\User\User.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\User\UserList.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtProviderFile.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStorageProvider.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.cpp" />
@@ -981,6 +982,7 @@
     <ClInclude Include="..\..\ptop_engine_src\User\User.h" />
     <ClInclude Include="..\..\ptop_engine_src\User\UserList.h" />
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtProviderFile.h" />
+    <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStorageProvider.h" />
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamCache.h" />
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamFile.h" />
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStreamMgr.h" />

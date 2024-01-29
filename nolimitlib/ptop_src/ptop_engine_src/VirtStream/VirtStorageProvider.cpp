@@ -8,6 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#if defined(TARGET_OS_ANDROID)
+
 #include "VirtStorageProvider.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -163,3 +165,5 @@ bool VirtStorageProvider::checkUserPermission( QString permissionName ) // retur
     return true;
 #endif // defined (Q_OS_ANDROID)
 }
+
+#endif // defined(TARGET_OS_ANDROID)

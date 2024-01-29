@@ -327,7 +327,7 @@ void HomeWindow::slotDeviceOrientationChanged( int qtOrientation )
 		return;
 	}
 
-    LogMsg( LOG_ERROR, "HomeWindow::slotDeviceOrientationChanged %s", GuiParams::describeOrientation(m_Orientation).toUtf8().constData() );
+    LogMsg( LOG_VERBOSE, "HomeWindow::slotDeviceOrientationChanged %s", GuiParams::describeOrientation(m_Orientation).toUtf8().constData() );
 
     m_HomeFrameRight->setVisible( false );
     m_HomeFrameBottom->setVisible( false );

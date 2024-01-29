@@ -93,12 +93,13 @@ bool RenderGlWidget::resetRenderSystem( int width, int height )
 
     glMatrixProject.Clear();
     glMatrixProject->LoadIdentity();
-#if defined(TARGET_OS_ANDROID)
-    // android needs flipped veritical
-    glMatrixProject->Ortho( 0.0f, width - 1, 0.0f, height - 1, -1.0f, 1.0f );
-#else
+// the flipped view in android seems to have been fixed in later versions
+//#if defined(TARGET_OS_ANDROID)
+//    // android needs flipped veritical
+//    glMatrixProject->Ortho( 0.0f, width - 1, 0.0f, height - 1, -1.0f, 1.0f );
+//#else
     glMatrixProject->Ortho( 0.0f, width - 1, height - 1, 0.0f, -1.0f, 1.0f );
-#endif // defined(TARGET_OS_ANDROID)
+//#endif // defined(TARGET_OS_ANDROID)
     glMatrixProject.Load();
 
     glMatrixModview.Clear();
@@ -170,23 +171,13 @@ void RenderGlWidget::setVSync( bool vsync )
 //============================================================================
 void RenderGlWidget::setViewPort( const NlcRect& viewPort )
 {
-    getGlFunctions()->glScissor( ( GLint )viewPort.x1, ( GLint )( m_SrcHeight - viewPort.y1 - viewPort.Height() ), ( GLsizei )viewPort.Width(), ( GLsizei )viewPort.Height() );
-    getGlFunctions()->glViewport( ( GLint )viewPort.x1, ( GLint )( m_SrcHeight - viewPort.y1 - viewPort.Height() ), ( GLsizei )viewPort.Width(), ( GLsizei )viewPort.Height() );
     m_viewPort[ 0 ] = viewPort.x1;
     m_viewPort[ 1 ] = m_SrcHeight - viewPort.y1 - viewPort.Height();
     m_viewPort[ 2 ] = viewPort.Width();
     m_viewPort[ 3 ] = viewPort.Height();
-/*
-    getGlFunctions()->glScissor( (GLint)viewPort.x1, (GLint)( viewPort.y1 ), (GLsizei)viewPort.Width(), (GLsizei)viewPort.Height() );
-    getGlFunctions()->glViewport( (GLint)viewPort.x1, (GLint)( viewPort.y1 ), (GLsizei)viewPort.Width(), (GLsizei)viewPort.Height() );
-    glScissor( (GLint)viewPort.x1, (GLint)( viewPort.y1 ), (GLsizei)viewPort.Width(), (GLsizei)viewPort.Height() );
-    glViewport( (GLint)viewPort.x1, (GLint)( viewPort.y1 ), (GLsizei)viewPort.Width(), (GLsizei)viewPort.Height() );
 
-    m_viewPort[ 0 ] = viewPort.x1;
-    m_viewPort[ 1 ] = viewPort.y1;
-    m_viewPort[ 2 ] = viewPort.Width();
-    m_viewPort[ 3 ] = viewPort.Height();
-    */
+    getGlFunctions()->glScissor( ( GLint )m_viewPort[ 0 ], ( GLint )m_viewPort[ 1 ], ( GLsizei )m_viewPort[ 2 ], ( GLsizei )m_viewPort[ 3 ] );
+    getGlFunctions()->glViewport( ( GLint )m_viewPort[ 0 ], ( GLint )m_viewPort[ 1 ], ( GLsizei )m_viewPort[ 2 ], ( GLsizei )m_viewPort[ 3 ] );
 }
 
 //============================================================================
