@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>509</width>
+    <width>570</width>
     <height>625</height>
    </rect>
   </property>
@@ -314,6 +314,13 @@
          <widget class="QCheckBox" name="m_ClientJoinedCheckBox">
           <property name="text">
            <string>Client Joined</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_TestSpinnerButton">
+          <property name="text">
+           <string>Test Spinner</string>
           </property>
          </widget>
         </item>

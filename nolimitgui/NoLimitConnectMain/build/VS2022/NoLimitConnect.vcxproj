@@ -521,6 +521,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxTagLabel.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxTilePositioner.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxWidgetBase.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\WaitingSpinnerWidget.cpp" />
     <ClCompile Include="..\..\..\NoLimitConnectMain\AppSource\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -557,6 +558,7 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\AppTargetOsConfig.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountDb.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountMgr.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\WaitingSpinnerWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h" />

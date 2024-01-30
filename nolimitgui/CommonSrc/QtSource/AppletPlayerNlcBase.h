@@ -19,8 +19,10 @@
 
 class RenderGlWidget;
 class QMediaPlayer;
+class QProgressDialog;
 class QPushButton;
 class QSlider;
+class WaitingSpinnerWidget;
 
 class AppletPlayerNlcBase : public AppletPlayerBase, public GuiPlayerCallback, public IMediaPlayerCallback
 {
@@ -93,21 +95,25 @@ protected:
 	bool						playMediaFile( std::string fileStr, int pos0to100000, bool isStream );
 
 	void						setReadyForCallbacks( bool isReady );
-	void						updateGuiPlayControls( bool isPlaying );
+	virtual void				updateGuiPlayControls( bool isPlaying );
 
 	void						startMediaPlay( int startPos );
 	void						stopMediaIfPlaying( void );
 
 	bool						waitForPlayerThread( void );
 
-	virtual void				onStopPlaying( VxGUID& feedId ) {};
-	virtual void				onPlaybackStopped( VxGUID& feedId ) {};
-	virtual void				onPlaybackEnded( VxGUID& feedId ) {};
+	virtual void				onPlayStarted( VxGUID& feedId );
+	virtual void				onStopPlaying( VxGUID& feedId );
+	virtual void				onPlaybackStopped( VxGUID& feedId );
+	virtual void				onPlaybackEnded( VxGUID& feedId );
+
+	virtual void				startBusySpinner( void );
+	virtual void				stopBusySpinner( void );
+
+	virtual void				onBackButtonClicked( void ) override;
 
 private:
 	void						callbackGuiMediaPlayerNlcReady( bool isReady ) override;
-
-
 
 	//=== vars ===//
 	EAppModule					m_AppModule{ eAppModulePlayerNlc };
@@ -121,6 +127,8 @@ private:
 	bool						m_LastPlayedIsStream{ false };
 	bool						m_LastPlayedIsFile{ false };
 	std::string					m_LastPlayedMedia;
+
+	WaitingSpinnerWidget*		m_BusySpinner{ nullptr };
 };
 
 

@@ -1139,6 +1139,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.h">
       <Filter>Header Files\GuiRandConnect</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\WaitingSpinnerWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -2283,6 +2286,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.cpp">
       <Filter>Source Files\GuiRandConnect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\WaitingSpinnerWidget.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

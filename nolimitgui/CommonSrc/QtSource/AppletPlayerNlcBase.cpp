@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "SoundMgr.h"
+#include "WaitingSpinnerWidget.h"
 
 #include <AppInterface/INlc.h>
 
@@ -119,6 +120,7 @@ bool AppletPlayerNlcBase::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 
 		return false;
 	}
 
+	stopMediaIfPlaying();
 	AppletPlayerBase::setAssetInfo( assetInfo );
 
 	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
@@ -255,6 +257,7 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	{
 		m_MyApp.toGuiStatusMessage( "" );
 		m_Engine.fromGuiAssetAction( eAssetActionPlayEnd, m_AssetInfo, 0 );
+		startBusySpinner();
 	}
 
 	updateGuiPlayControls( false );
@@ -319,7 +322,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalPlayFile" );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 }
 
 //============================================================================
@@ -331,7 +334,8 @@ void AppletPlayerNlcBase::fromMediaPlayerPlayStarted( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayStarted( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalPlayStarted" );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	onPlayStarted( feedId );
 }
 
 //============================================================================
@@ -343,7 +347,7 @@ void AppletPlayerNlcBase::fromMediaPlayerStopPlaying( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalStopPlaying( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalStopPlaying" );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onStopPlaying( feedId );
 }
 
@@ -356,7 +360,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackStopped( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlaybackStopped( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalStopPlaying" );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlaybackStopped( feedId );
 }
 
@@ -369,8 +373,68 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackEnded( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlaybackEnded( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalPlaybackEnded" );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlaybackEnded( feedId );
 }
 
+//============================================================================
+void AppletPlayerNlcBase::onBackButtonClicked( void )
+{
+	stopMediaIfPlaying();
+	AppletPlayerBase::onBackButtonClicked();
+}
 
+//============================================================================
+void AppletPlayerNlcBase::startBusySpinner( void )
+{
+	if( m_BusySpinner )
+	{
+		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Dialog already exists", __func__ );
+		return;
+	}
+
+	m_BusySpinner = new WaitingSpinnerWidget( this );
+	m_BusySpinner->startWaiting( m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::stopBusySpinner( void )
+{
+	if( !m_BusySpinner )
+	{
+		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner already exists", __func__ );
+		return;
+	}
+
+	m_BusySpinner->stopWaiting();
+	m_BusySpinner->close();
+	m_BusySpinner->deleteLater();
+	m_BusySpinner = nullptr;
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
+{
+	updateGuiPlayControls( true );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onStopPlaying( VxGUID& feedId )
+{
+	stopBusySpinner();
+	updateGuiPlayControls( false );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
+{
+	stopBusySpinner();
+	updateGuiPlayControls( false );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
+{
+	stopBusySpinner();
+	updateGuiPlayControls( false );
+}

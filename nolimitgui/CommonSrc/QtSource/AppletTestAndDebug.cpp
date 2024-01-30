@@ -13,10 +13,12 @@
 #include "AppCommon.h"
 #include "AppletBrowseFiles.h"
 #include "AppletChooseUser.h"
+#include "AppletPopupMenu.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "AppletPopupMenu.h"
+#include "GuiParams.h"
+#include "WaitingSpinnerWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -27,11 +29,13 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxUrl.h>
 
+#include <QApplication>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QClipboard>
 #include <QScrollBar>
-#include <QApplication>
+#include <QTimer>
+
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -45,10 +49,13 @@ namespace
 //============================================================================
 AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_TEST_AND_DEBUG, app, parent )
+, m_SpinnerTimer( new QTimer( this ) )
 {
     setAppletType( eAppletTestAndDebug );
     ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
+
+    m_SpinnerTimer->setInterval( 5000 );
 
     getInfoEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getInfoEdit()->setReadOnly( true );
@@ -134,14 +141,17 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_BrowseDownloadsButton, SIGNAL( clicked() ), this, SLOT( slotBrowseDownloadsButtonClicked() ) );
     connect( ui.m_BrowseAppDataButton, SIGNAL( clicked() ), this, SLOT( slotBrowseBrowseAppDataButtonClicked() ) );
 
-    connect( ui.m_DeleteDbButton, SIGNAL( clicked() ), this, SLOT( slotDeleteDbButtonClicked() ) );
+    connect( ui.m_DeleteDbButton, SIGNAL(clicked()), this, SLOT(slotDeleteDbButtonClicked()) );
 
-    connect( this, SIGNAL( signalLogMsg(const QString&) ), this, SLOT( slotInfoMsg(const QString&) ) );
-    connect( this, SIGNAL( signalInfoMsg(const QString&) ), this, SLOT( slotInfoMsg(const QString&) ) );
+    connect( this, SIGNAL(signalLogMsg(const QString&)), this, SLOT(slotInfoMsg(const QString&)) );
+    connect( this, SIGNAL(signalInfoMsg(const QString&)), this, SLOT(slotInfoMsg(const QString&)) );
 
-    connect( ui.m_TestUrlsComboBox, SIGNAL( currentIndexChanged(int) ), this, SLOT( slotNewUrlSelected(int) ) );
-    connect( &m_MyApp, SIGNAL( signalRunTestStatus( QString, ERunTestStatus, QString ) ),
-        this, SLOT( slotRunTestStatus( QString, ERunTestStatus, QString ) ) );
+    connect( ui.m_TestUrlsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotNewUrlSelected(int)) );
+    connect( &m_MyApp, SIGNAL(signalRunTestStatus(QString,ERunTestStatus,QString)),
+        this, SLOT(slotRunTestStatus(QString,ERunTestStatus,QString)) );
+
+    connect( ui.m_TestSpinnerButton, SIGNAL(clicked()), this, SLOT(slotTestSpinnerButtonClicked()) );
+    connect( m_SpinnerTimer, SIGNAL(timeout()), this, SLOT(slotTestSpinnerTimeout()) );
 
     updateDlgFromSettings();
 
@@ -585,4 +595,33 @@ void AppletTestAndDebug::slotDeleteDbButtonClicked( void )
 	{
 		popupMenu->showDeleteDbMenu();
 	}
+}
+
+//============================================================================
+void AppletTestAndDebug::slotTestSpinnerButtonClicked( void )
+{
+    if( m_BusySpinner )
+    {
+        return;
+    }
+
+    m_BusySpinner = new WaitingSpinnerWidget( this );
+    m_BusySpinner->startWaiting(  m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
+    m_SpinnerTimer->start();
+}
+
+//============================================================================
+void AppletTestAndDebug::slotTestSpinnerTimeout( void )
+{
+    m_SpinnerTimer->stop();
+    if( !m_BusySpinner )
+	{
+		LogMsg( LOG_ERROR, "AppletTestAndDebug::%s Busy Spinner already exists", __func__ );
+		return;
+	}
+
+	m_BusySpinner->stopWaiting();
+	m_BusySpinner->close();
+	m_BusySpinner->deleteLater();
+	m_BusySpinner = nullptr;
 }

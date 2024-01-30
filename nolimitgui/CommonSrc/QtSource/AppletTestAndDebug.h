@@ -19,7 +19,9 @@
 #include <QMutex>
 #include <QFile>
 
+class QTimer;
 class VxUrl;
+class WaitingSpinnerWidget;
 
 class AppletTestAndDebug : public AppletBase, public ILogCallbackInterface
 {
@@ -74,6 +76,9 @@ protected slots:
 
     void                        slotNewUrlSelected( int comboBoxIdx );
 
+    void                        slotTestSpinnerButtonClicked( void );
+    void                        slotTestSpinnerTimeout( void );
+
 protected:
     void						updateDlgFromSettings( void );
     void						updateSettingsFromDlg( void );
@@ -95,6 +100,9 @@ protected:
 #else
     bool                        m_ShowListMsg{ true }; 
 #endif // defined(DEBUG)
+
+    WaitingSpinnerWidget*       m_BusySpinner{ nullptr };
+    QTimer*                     m_SpinnerTimer{ nullptr };
 
     Ui::AppletTestAndDebugUi    ui;
 };

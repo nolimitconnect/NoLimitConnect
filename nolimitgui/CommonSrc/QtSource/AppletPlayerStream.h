@@ -47,10 +47,7 @@ protected:
 
 	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
 
-	void						updateGuiPlayControls( bool isPlaying );
-
 	void						startMediaPlay( int startPos );
-	void						stopMediaIfPlaying( void );
 
 	void                        setupBottomMenu( VxMenuButton* menuButton );
 

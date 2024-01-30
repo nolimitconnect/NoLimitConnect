@@ -416,6 +416,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/VxAppTheme.h
     CommonSrc/QtSource/VxAppDisplay.h
     CommonSrc/QtSource/VxPlainTextEdit.h
+    CommonSrc/QtSource/WaitingSpinnerWidget.h
    )
 
 set(nlc_SOURCES)
@@ -798,6 +799,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxAppTheme.cpp
     CommonSrc/QtSource/VxAppDisplay.cpp
     CommonSrc/QtSource/VxPlainTextEdit.cpp
+    CommonSrc/QtSource/WaitingSpinnerWidget.cpp
     ../nolimitlib/GuiInterface/ILog.cpp
     ../nolimitlib/GuiInterface/IDefs.cpp
    )

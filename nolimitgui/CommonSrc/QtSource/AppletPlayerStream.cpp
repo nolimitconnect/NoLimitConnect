@@ -203,40 +203,6 @@ void AppletPlayerStream::startMediaPlay( int startPos )
 	}
 }
 
-//========================================================================
-void AppletPlayerStream::updateGuiPlayControls( bool isPlaying )
-{
-	if( m_IsPlaying != isPlaying )
-	{
-		m_IsPlaying = isPlaying;
-		if( m_IsPlaying )
-		{
-			// start playing
-			//ui.m_PlayPauseButton->setIcons( eMyIconPauseNormal );
-			setReadyForCallbacks( true );
-		}
-		else
-		{
-			// stop playing
-			//ui.m_PlayPauseButton->setIcons( eMyIconPlayNormal );
-			ui.m_PlayPosSlider->setValue( 0 );
-		}
-	}
-}
-
-//============================================================================
-void AppletPlayerStream::stopMediaIfPlaying( void )
-{
-	if( m_IsPlaying )
-	{
-		m_MyApp.toGuiStatusMessage( "" );
-		m_Engine.fromGuiAssetAction( eAssetActionPlayEnd, m_AssetInfo, 0 );
-	}
-
-	updateGuiPlayControls( false );
-}
-
-
 //============================================================================
 void AppletPlayerStream::slotPlayButtonClick( void )
 {
@@ -278,10 +244,12 @@ void AppletPlayerStream::onMediaPlayerNlcReady( bool isReady )
 void AppletPlayerStream::onPlaybackStopped( VxGUID& feedId )
 {
 	GetVirtStreamMgr().onPlaybackStopped( feedId );
+	AppletPlayerNlcBase::onPlaybackStopped( feedId );
 }
 
 //============================================================================
 void AppletPlayerStream::onPlaybackEnded( VxGUID& feedId )
 {
 	GetVirtStreamMgr().onPlaybackEnded( feedId );
+	AppletPlayerNlcBase::onPlaybackEnded( feedId );
 }
