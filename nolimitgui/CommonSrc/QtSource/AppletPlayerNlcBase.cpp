@@ -12,7 +12,6 @@
 
 #include "AppCommon.h"
 #include "SoundMgr.h"
-#include "WaitingSpinnerWidget.h"
 
 #include <AppInterface/INlc.h>
 
@@ -382,34 +381,6 @@ void AppletPlayerNlcBase::onBackButtonClicked( void )
 {
 	stopMediaIfPlaying();
 	AppletPlayerBase::onBackButtonClicked();
-}
-
-//============================================================================
-void AppletPlayerNlcBase::startBusySpinner( void )
-{
-	if( m_BusySpinner )
-	{
-		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Dialog already exists", __func__ );
-		return;
-	}
-
-	m_BusySpinner = new WaitingSpinnerWidget( this );
-	m_BusySpinner->startWaiting( m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
-}
-
-//============================================================================
-void AppletPlayerNlcBase::stopBusySpinner( void )
-{
-	if( !m_BusySpinner )
-	{
-		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner already exists", __func__ );
-		return;
-	}
-
-	m_BusySpinner->stopWaiting();
-	m_BusySpinner->close();
-	m_BusySpinner->deleteLater();
-	m_BusySpinner = nullptr;
 }
 
 //============================================================================

@@ -16,8 +16,6 @@
 
 #include <QElapsedTimer>
 
-class QMediaPlayer;
-
 class AppletPlayerNlc : public AppletPlayerNlcBase
 {
 	Q_OBJECT
@@ -39,19 +37,19 @@ protected slots:
 	void                        slotMediaFileComboBoxSelectionChange( int cbIdx );
 
 	void						slotBrowseButtonClick( void );
+	void						slotReplayButtonClick( void );
 
 protected:
 	void						initAppletPlayerNlc( void );
 
 	void                        setupBottomMenu( VxMenuButton* menuButton );
 
+	void						browseForMovie( void );
 	void						onFileSelected( FileInfo& fileInfo );
+	void						playSelectedMovie( std::string movieFile );
 
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi		ui;
-
-	QMediaPlayer*				m_QMediaPlayer{ nullptr };
-
 };
 
 

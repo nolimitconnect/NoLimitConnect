@@ -363,7 +363,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletAboutMeClient:              if( launchAppletAllowed( eAppletAboutMeClient ) ) appletDialog = new AppletAboutMeClient( m_MyApp, parent ); break;
     case eAppletAboutNoLimitConnect:        if( launchAppletAllowed( eAppletAboutNoLimitConnect ) ) appletDialog = new AppletAboutApp( m_MyApp, parent ); break;
     case eAppletApplicationInfo:            if( launchAppletAllowed( eAppletApplicationInfo ) ) appletDialog = new AppletApplicationInfo( m_MyApp, parent ); break;
-    case eAppletBrowseFiles:                if( launchAppletAllowed( eAppletBrowseFiles ) ) appletDialog = new AppletBrowseFiles (m_MyApp, parent); break;
+    case eAppletBrowseFiles:                if( launchAppletAllowed( eAppletBrowseFiles ) ) appletDialog = new AppletBrowseFiles( m_MyApp, parent, launchParam ); break;
 
     case eAppletCamClient:                  if( launchAppletAllowed( eAppletCamClient ) ) appletDialog = new AppletCamClient( m_MyApp, parent ); break;
     case eAppletChatRoomJoin:               if( launchAppletAllowed( eAppletChatRoomJoin ) ) appletDialog = new AppletChatRoomJoin( m_MyApp, parent ); break;

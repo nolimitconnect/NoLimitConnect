@@ -824,3 +824,15 @@ bool AppSettings::getUseSystemMediaPlayer( void )
 
 	return useSystemPlayer;
 }
+
+//============================================================================
+void AppSettings::setLastPlayedMovie( std::string& movieFile )
+{
+    setIniValue( getAppShortName(), "LastPlayedMovie", movieFile );
+}
+
+//============================================================================
+void AppSettings::getLastPlayedMovie( std::string& movieFile )
+{
+    getIniValue( getAppShortName(), "LastPlayedMovie", movieFile, "" );
+}

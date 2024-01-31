@@ -30,7 +30,7 @@
 #include <QFileDialog>
 
 //============================================================================
-ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileFilter, ActivityBase* parent, bool isSelectAFileMode )
+ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileFilter, QWidget* parent, bool isSelectAFileMode )
 : ActivityBase( OBJNAME_ACTIVITY_BROWSE_FILES, app, parent, eActivityBrowseFiles, true )
 , m_WidgetClickEventFixTimer( new QTimer( this ) )
 , m_bFetchInProgress( false )
@@ -70,7 +70,6 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 	setActionEnable( false );
 	setFileFilter( m_eFileFilterType );
 	connect( ui.m_FileFilterComboBox, SIGNAL(signalApplyFileFilter(unsigned char)), this,  SLOT(slotApplyFileFilter(unsigned char)) );
-	slotRequestFileList();
 }
 
 //============================================================================
@@ -195,6 +194,7 @@ std::string ActivityBrowseFiles::getDefaultDir( int eFileFilterType )
 void ActivityBrowseFiles::showEvent( QShowEvent* ev )
 {
 	ActivityBase::showEvent( ev );
+	repositionToParent();
 	slotRequestFileList();
 }
 
@@ -270,6 +270,7 @@ FileShareItemWidget* ActivityBrowseFiles::fileToWidget( FileInfo& fileInfo )
 	FileItemInfo* poItemInfo = new FileItemInfo( fileInfo );
 
 	item->setFileItemInfo( poItemInfo );
+	item->setSelectAFileMode( m_IsSelectAFileMode );
 
 	connect(	item, SIGNAL(signalFileShareItemClicked(QListWidgetItem*)), 
 				this, SLOT(slotListItemClicked(QListWidgetItem*)) );
@@ -617,7 +618,11 @@ void ActivityBrowseFiles::slotListPlayIconClicked( QListWidgetItem* item )
 	FileItemInfo* poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
 	if( poInfo )
 	{
-		if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+		if( m_IsSelectAFileMode )
+		{
+			slotListItemDoubleClicked( item );
+		}
+		else if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
 		{
 			if( false == m_bFetchInProgress )
 			{
@@ -707,6 +712,14 @@ void ActivityBrowseFiles::setActionEnable( bool enable )
 
 	LogMsg( LOG_INFO, "Fetch In Progress %d", m_bFetchInProgress );
 	ui.m_UpDirectoryButton->setEnabled( enable );
+	if( enable )
+	{
+
+	}
+	else
+	{
+		
+	}
 }
 
 //============================================================================

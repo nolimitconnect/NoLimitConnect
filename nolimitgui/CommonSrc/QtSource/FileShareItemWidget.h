@@ -32,6 +32,9 @@ public:
 	void						setIsInLibrary( bool isInLibrary );
 	bool						getIsInLibrary( void );
 
+	void						setSelectAFileMode( bool selectAFile );
+	bool						getSelectAFileMode( void ) { return m_SelectAFileMode; }
+
 	void						setFileItemInfo( FileItemInfo* fileItemInfo );
 	FileItemInfo*				getFileItemInfo( void );
 
@@ -61,4 +64,5 @@ protected:
 
 	Ui::FileShareItemWidget		ui;
 	AppCommon&					m_MyApp;
+	bool						m_SelectAFileMode{ false };
 };

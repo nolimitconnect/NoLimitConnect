@@ -1646,6 +1646,9 @@
     <Filter Include="Source Files\RandConnect">
       <UniqueIdentifier>{d670aa14-a948-4813-b129-485ea8782c59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SendQueue">
+      <UniqueIdentifier>{3ff26583-9932-4eac-a5f1-9fdeac26315c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\ptop_engine_src\CMakeLists.txt">

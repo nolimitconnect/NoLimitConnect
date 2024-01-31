@@ -27,7 +27,7 @@ class AppletBrowseFiles : public AppletBase, public ToGuiFileXferInterface
 	Q_OBJECT
 public:
 
-	AppletBrowseFiles( AppCommon& app, QWidget* parent = nullptr );
+	AppletBrowseFiles( AppCommon& app, QWidget* parent, QString launchParam );
 	virtual ~AppletBrowseFiles() override;
 
 public:

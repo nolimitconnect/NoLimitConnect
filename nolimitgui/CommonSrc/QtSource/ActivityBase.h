@@ -33,10 +33,10 @@ class IFromGui;
 class MyIcons;
 class P2PEngine;
 class TitleBarWidget;
-
 class QLabel;
 class QFrame;
 class VxPushButton;
+class WaitingSpinnerWidget;
 
 class ActivityBase : public QDialog, public ObjectCommon, public ToGuiActivityInterface, public GuiOfferCallback
 {
@@ -218,6 +218,9 @@ public:
 	bool						confirmDeleteFile( QString fileName, bool shredFile );
 	bool						confirmDeleteFile( AssetBaseInfo& assetInfo, bool shredFile = false );
 
+	virtual void				startBusySpinner( void );
+	virtual void				stopBusySpinner( void );
+
 signals:
 	//=== title bar signals ====//
 	void						signalPowerButtonClicked( void );
@@ -331,4 +334,6 @@ protected:
     bool						m_InitialFocusWasSet{false};
 	bool						m_HasBeenClosed{ false };
 	QString						m_PreviousTitle;
+
+	WaitingSpinnerWidget*		m_BusySpinner{ nullptr };
 };

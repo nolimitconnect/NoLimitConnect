@@ -40,6 +40,12 @@ FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 }
 
 //============================================================================
+void FileActionBarWidget::setSelectAFileMode( bool selectAFile )
+{
+	ui.m_PlayFileButton->setIcons( selectAFile ? eMyIconCheckMark : eMyIconPlayNormal );
+}
+
+//============================================================================
 void FileActionBarWidget::slotPlayButtonClicked( void )
 {
 	emit signalPlayButtonClicked();

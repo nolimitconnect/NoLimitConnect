@@ -18,8 +18,9 @@
 
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "SoundMgr.h"
 #include "MyIcons.h"
+#include "SoundMgr.h"
+#include "WaitingSpinnerWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -1335,4 +1336,32 @@ void ActivityBase::setNewParentPage( QWidget* newParent )
 	VxAppStyle::clearFocusFrameWidget();
 	setParent( newParent );
 	show();
+}
+
+//============================================================================
+void ActivityBase::startBusySpinner( void )
+{
+	if( m_BusySpinner )
+	{
+		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Dialog already exists", __func__ );
+		return;
+	}
+
+	m_BusySpinner = new WaitingSpinnerWidget( this );
+	m_BusySpinner->startWaiting( m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
+}
+
+//============================================================================
+void ActivityBase::stopBusySpinner( void )
+{
+	if( !m_BusySpinner )
+	{
+		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner already exists", __func__ );
+		return;
+	}
+
+	m_BusySpinner->stopWaiting();
+	m_BusySpinner->close();
+	m_BusySpinner->deleteLater();
+	m_BusySpinner = nullptr;
 }

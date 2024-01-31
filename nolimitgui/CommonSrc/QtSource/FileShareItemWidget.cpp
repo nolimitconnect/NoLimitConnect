@@ -46,6 +46,13 @@ MyIcons&  FileShareItemWidget::getMyIcons( void )
 }
 
 //============================================================================
+void FileShareItemWidget::setSelectAFileMode( bool selectAFile )
+{
+	m_SelectAFileMode = selectAFile;
+	ui.m_FileActionBar->setSelectAFileMode( selectAFile );
+}
+
+//============================================================================
 void FileShareItemWidget::slotFileIconButtonClicked( void )
 {
 	emit signalFileIconClicked( this );
@@ -54,7 +61,14 @@ void FileShareItemWidget::slotFileIconButtonClicked( void )
 //============================================================================
 void FileShareItemWidget::slotPlayButtonClicked( void )
 {
-	emit signalPlayButtonClicked( this );
+	if( m_SelectAFileMode )
+	{
+		emit signalFileIconClicked( this );
+	}
+	else
+	{
+		emit signalPlayButtonClicked( this );
+	}
 }
 
 //============================================================================
@@ -175,6 +189,8 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 
 		return;
 	}
+
+	ui.m_FileActionBar->setSelectAFileMode( m_SelectAFileMode );
 
 	ui.m_FileActionBar->setIsSharedFile(  poInfo->getIsSharedFile() );
 

@@ -22,7 +22,6 @@ class QMediaPlayer;
 class QProgressDialog;
 class QPushButton;
 class QSlider;
-class WaitingSpinnerWidget;
 
 class AppletPlayerNlcBase : public AppletPlayerBase, public GuiPlayerCallback, public IMediaPlayerCallback
 {
@@ -107,9 +106,6 @@ protected:
 	virtual void				onPlaybackStopped( VxGUID& feedId );
 	virtual void				onPlaybackEnded( VxGUID& feedId );
 
-	virtual void				startBusySpinner( void );
-	virtual void				stopBusySpinner( void );
-
 	virtual void				onBackButtonClicked( void ) override;
 
 private:
@@ -127,8 +123,6 @@ private:
 	bool						m_LastPlayedIsStream{ false };
 	bool						m_LastPlayedIsFile{ false };
 	std::string					m_LastPlayedMedia;
-
-	WaitingSpinnerWidget*		m_BusySpinner{ nullptr };
 };
 
 

@@ -31,11 +31,11 @@
 #include <QFileDialog>
 
 //============================================================================
-AppletBrowseFiles::AppletBrowseFiles( AppCommon& app, QWidget* parent )
+AppletBrowseFiles::AppletBrowseFiles( AppCommon& app, QWidget* parent, QString launchParam )
 : AppletBase( OBJNAME_APPLET_BROWSE_FILES, app, parent )
 , m_bFetchInProgress( false )
 , m_WidgetClickEventFixTimer( new QTimer( this ) )
-, m_IsSelectAFileMode( false )
+, m_IsSelectAFileMode( launchParam.isEmpty() ? false : true )
 , m_FileWasSelected( false )
 , m_SelectedFileType( 0 )
 , m_SelectedFileName( "" )
@@ -292,6 +292,7 @@ FileShareItemWidget* AppletBrowseFiles::fileToWidget( FileInfo& fileInfo )
 	FileItemInfo * poItemInfo = new FileItemInfo( fileInfo );
 
 	item->setFileItemInfo( poItemInfo );
+	item->setSelectAFileMode( m_IsSelectAFileMode );
 
 	connect(	item, SIGNAL(signalFileShareItemClicked(QListWidgetItem*)), 
 				this, SLOT(slotListItemClicked(QListWidgetItem*)) );

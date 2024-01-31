@@ -27,6 +27,9 @@ public:
 	void						setIsInLibrary( bool isInLibrary );
 	void						setIsSharedFile( bool isShared );
 
+	void						setSelectAFileMode( bool selectAFile );
+	bool						getSelectAFileMode( void ) { return m_SelectAFileMode; }
+
 signals:
 	void						signalPlayButtonClicked( void );
 	void						signalPlayExternButtonClicked( void );
@@ -44,5 +47,6 @@ protected slots:
 protected:
 	Ui::FileActionBarWidgetClass	ui;
     AppCommon&					m_MyApp;
+	bool						m_SelectAFileMode{ false };
 };
 

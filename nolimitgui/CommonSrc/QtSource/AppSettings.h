@@ -162,6 +162,9 @@ public:
 	void						setUseSystemMediaPlayer( bool useSystemPlayer );
 	bool						getUseSystemMediaPlayer( void );
 
+	void						setLastPlayedMovie( std::string& movieFile );
+	void						getLastPlayedMovie( std::string& movieFile );
+
 protected:
 	bool						appModeSettingsAreInitialize( void );
 	void						setupAppModeSettings( EDefaultAppMode appDefaultMode );

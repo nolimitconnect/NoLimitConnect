@@ -83,18 +83,18 @@ if(DEFINED TARGET_OS_WINDOWS)
 elseif(DEFINED TARGET_OS_LINUX)
 add_subdirectory(libvpx) 
 elseif(DEFINED TARGET_OS_ANDROID)
-#add_subdirectory(libvpx) # needed but does not compile yet
+#add_subdirectory(libvpx) # needed to play some videp types but does not compile yet
 endif()
 
-####add_subdirectory(libvpx_win) # not used
+####add_subdirectory(libvpx_win) # needed to play some videp types but does not compile yet
 add_subdirectory(libwavepack)
 add_subdirectory(libwebp)
 add_subdirectory(libx264)
 add_subdirectory(libx265)
-#add_subdirectory(libxavs) # not used
+#add_subdirectory(libxavs) # not used (video codec)
 add_subdirectory(libxml2)
 add_subdirectory(libxslt)
-#add_subdirectory(libxvid) # not used
+#add_subdirectory(libxvid) # not used (video codec)
 add_subdirectory(libyajl)
 add_subdirectory(libzip)
 add_subdirectory(libzlib)

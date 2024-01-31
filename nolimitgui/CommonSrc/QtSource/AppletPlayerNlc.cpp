@@ -48,8 +48,14 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
         setupBottomMenu( bottomBar->getMenuButton() );
     }
 
-#if defined(DEBUG)
+	std::string lastPlayedMovie;
+	m_MyApp.getAppSettings().getLastPlayedMovie( lastPlayedMovie );
+	if( !lastPlayedMovie.empty() )
+	{
+		ui.m_LastPlayedFileText->setText( lastPlayedMovie.c_str() );
+	}
 
+#if defined(DEBUG)
 	ui.m_FilesComboBox->setEnabled( false ); // do not enable until media player is ready
 	ui.m_FilesComboBox->addItem( "Debug Media Files" );
 
@@ -99,12 +105,12 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 #else
     ui.m_FilesComboBox->setVisible( false );
-    ui.m_BrowseButton->setVisible( false );
 #endif // defined(DEBUG)
 
 	connect( ui.m_FilesComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaFileComboBoxSelectionChange(int)) );
 
 	connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButtonClick() ) );
+	connect( ui.m_ReplayButton, SIGNAL( clicked() ), this, SLOT( slotReplayButtonClick() ) );
 
 	onAppletInitialized();
 }
@@ -146,23 +152,7 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
 	switch( menuItemType )
 	{
 	case eMenuItemBrowse:
-		dlgBrowse = new ActivityBrowseFiles( m_MyApp, eFileFilterVideoOnly, this, true );
-		dlgBrowse->setAppletType( getAppletType() );
-		dlgBrowse->exec();
-		if( dlgBrowse->getWasFileSelected() )
-		{
-            std::string fileStr = dlgBrowse->getSelectedFileInfo().getFullFileName();
-            QString fileName = dlgBrowse->getSelectedFileInfo().getFullFileName().c_str();
-            if( VxFileUtil::fileExists(fileStr.c_str()) )
-            {
-                playFile( fileName, 0, false, false );
-            }
-            else
-            {
-                QMessageBox::information( this, QObject::tr("File does not exist"), fileName, QMessageBox::Ok );
-            }
-		}
-
+		browseForMovie();
 		break;
 
 	default:
@@ -180,13 +170,21 @@ void AppletPlayerNlc::slotMediaFileComboBoxSelectionChange( int cbIdx )
 //============================================================================
 void AppletPlayerNlc::slotBrowseButtonClick( void )
 {
-    ActivityBrowseFiles dlg( m_MyApp, eFileFilterVideo, this, true );
+	browseForMovie();
+}
 
+//============================================================================
+void AppletPlayerNlc::browseForMovie( void )
+{
+	stopMediaIfPlaying();
+	//startBusySpinner();
+    ActivityBrowseFiles dlg( m_MyApp, eFileFilterVideo, getContentFrameOfOppositePageFrame(), true );
     dlg.exec();
+	//stopBusySpinner();
     if( dlg.getWasFileSelected() )
     {
-        onFileSelected( dlg.getSelectedFileInfo() );
-    }
+		playSelectedMovie( dlg.getSelectedFileInfo().getFullFileName() );
+	}
 }
 
 //============================================================================
@@ -195,6 +193,7 @@ void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
 	if( VXFILE_TYPE_AUDIO == fileInfo.getFileType() || VXFILE_TYPE_VIDEO == fileInfo.getFileType() )
 	{
 		ui.m_FilesComboBox->addItem( fileInfo.getFileName().c_str() );
+		playSelectedMovie( fileInfo.getFileName() );
 	}
 	else
 	{
@@ -208,5 +207,29 @@ void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 	if( isReady )
 	{
 		ui.m_FilesComboBox->setEnabled( isReady );
+	}
+}
+
+//============================================================================
+void AppletPlayerNlc::slotReplayButtonClick( void )
+{
+	QString movieFile = ui.m_LastPlayedFileText->text();
+	playSelectedMovie( movieFile.toUtf8().constData() );
+}
+
+//============================================================================
+void AppletPlayerNlc::playSelectedMovie( std::string movieFile )
+{
+	stopMediaIfPlaying();
+	QString fileName = movieFile.c_str();
+	if( VxFileUtil::fileExists( movieFile.c_str() ) )
+	{
+		ui.m_LastPlayedFileText->setText( fileName );
+		m_MyApp.getAppSettings().setLastPlayedMovie( movieFile );
+		playFile( fileName, 0, false, false );
+	}
+	else
+	{
+		QMessageBox::information( this, QObject::tr( "File does not exist" ), fileName, QMessageBox::Ok );
 	}
 }

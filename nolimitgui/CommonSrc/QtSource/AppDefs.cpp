@@ -381,16 +381,9 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletPopupMenu:                  return QObject::tr( "Menu" );
 
-    case eAppletHackerList:                 return QObject::tr( "Blocked Hackers" );
+    case eAppletHackerList:                 return QObject::tr( "Blocked Users" );
     case eAppletSocketList:                 return QObject::tr( "Socket Connections" );
     case eAppletIsPortOpenTest:             return QObject::tr( "Test Connection" );
-
-        //case eAppletPlayerMusic:			return QObject::tr( "Music Player" );
-//case eAppletStreamViewerVideo:		return QObject::tr( "Video Streams" );
-//	case eAppletStreamViewerCam:		return QObject::tr( "Search Cam Streams" );
-    //case eAppletStreamViewerMusic:		return QObject::tr( "Music Streams" );
-    //case eAppletRemoteControl:			return QObject::tr( "Remote Control" );
-     //case eAppletNetworkKey:				return QObject::tr( "Network Key" );
 
 	case eMaxBasicApplets:
 	case eAppletUnknown:

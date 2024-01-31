@@ -264,6 +264,7 @@ void ActivityAddRemoveLibraryFiles::slotRequestFileList( void )
 	m_WidgetClickEventFixTimer->stop();
 	clearFileList();
 	ui.m_CurDirLabel->setText( m_strCurBrowseDirectory.c_str() );
+	startBusySpinner();
     m_MyApp.getAppSettings().setLastBrowseShareDir( m_strCurBrowseDirectory );
 	m_Engine.getFromGuiInterface().fromGuiBrowseFiles( m_strCurBrowseDirectory );
 }
@@ -277,6 +278,7 @@ void ActivityAddRemoveLibraryFiles::callbackToGuiFileList( FileInfo& fileInfo )
 //============================================================================
 void ActivityAddRemoveLibraryFiles::callbackToGuiFileListCompleted( void )
 {
+	stopBusySpinner();
 	setActionEnable( true );
 }
 

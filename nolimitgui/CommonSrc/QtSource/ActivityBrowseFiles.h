@@ -27,7 +27,7 @@ class ActivityBrowseFiles : public ActivityBase, public ToGuiFileXferInterface
 	Q_OBJECT
 public:
 
-	ActivityBrowseFiles( AppCommon& app, EFileFilterType fileFilter, ActivityBase* parent = nullptr, bool isSelectAFileMode = false );
+	ActivityBrowseFiles( AppCommon& app, EFileFilterType fileFilter, QWidget* parent = nullptr, bool isSelectAFileMode = false );
 	virtual ~ActivityBrowseFiles();
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
