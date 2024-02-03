@@ -352,6 +352,8 @@ public:
 	virtual void				fromGuiQuerySessionHistory( GroupieId& groupieId ) = 0;
 	/// Text Chat asset action such as remove
 	virtual bool				fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) = 0;
+	/// Text Chat asset action queue asset to be sent next time both users are online
+	virtual bool				fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) = 0;
 	/// Text Chat asset action such as remove
 	virtual bool				fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) = 0;
 	/// Send Text Chat asset to contact

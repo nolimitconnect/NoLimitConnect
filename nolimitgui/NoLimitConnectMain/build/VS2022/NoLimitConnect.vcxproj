@@ -391,6 +391,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiSendQueueMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThumb.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThumbList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThumbMgr.cpp" />
@@ -675,6 +676,8 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiRandConnectCallback.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiSendQueueCallback.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiSendQueueMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumb.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbList.h" />

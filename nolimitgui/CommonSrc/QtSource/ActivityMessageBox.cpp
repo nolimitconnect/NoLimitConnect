@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <array>
 
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
@@ -30,9 +31,10 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
 
     connectBarWidgets();
 
-	connect( ui.m_OkButton,					SIGNAL(clicked()), this, SLOT(onOkButClick()) );
-	connect( ui.m_CancelButton,				SIGNAL(clicked()), this, SLOT(onCancelButClick()) );
-	connect( ui.m_TitleBarWidget,			SIGNAL(signalBackButtonClicked()), this, SLOT(onCancelButClick()) );
+	showCancelButton( false );
+	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalAccepted()), this, SLOT(onOkButClick()) );
+	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalCanceled()), this, SLOT(onCancelButClick()) );
+	connect( ui.m_TitleBarWidget,				SIGNAL(signalBackButtonClicked()), this, SLOT(onCancelButClick()) );
 }
 
 //============================================================================
@@ -45,25 +47,22 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int inf
 
     connectBarWidgets();
 
-	connect( ui.m_OkButton,					SIGNAL(clicked()), this, SLOT(onOkButClick()) );
-	//connect( ui.m_CancelButton,				SIGNAL(clicked()), this, SLOT(onCancelButClick()) );
-	ui.m_CancelButton->setVisible( false );
-	connect( ui.m_TitleBarWidget,			SIGNAL(signalBackButtonClicked()), this, SLOT(onCancelButClick()) );
+	showCancelButton( false );
+	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalAccepted()), this, SLOT(onOkButClick()) );
+	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalCanceled()), this, SLOT(onCancelButClick()) );
 
-	char szBuffer[4096];
+	std::array<char, 4096> szBuffer;
 	va_list arg_ptr;
 	va_start(arg_ptr, msgFormat);
 #ifdef TARGET_OS_WINDOWS
-	vsnprintf(szBuffer, 4096, msgFormat,(char *) arg_ptr);
+	vsnprintf(szBuffer.data(), 4096, msgFormat, (char*)arg_ptr);
 #else
-    vsnprintf(szBuffer, 4096, msgFormat, arg_ptr);
+    vsnprintf(szBuffer.data(), 4096, msgFormat, arg_ptr);
 #endif
-	szBuffer[4095] = 0;
+	szBuffer.data()[4095] = 0;
 	va_end(arg_ptr);
 
-	setBodyText( szBuffer );
-	this->setFocus();
-	ui.m_OkButton->setFocus();
+	setBodyText( szBuffer.data() );
 }
 
 //============================================================================
@@ -75,14 +74,12 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int inf
 	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Message") );
     connectBarWidgets();
 
-	connect( ui.m_OkButton,					SIGNAL(clicked()), this, SLOT(onOkButClick()) );
-	//connect( ui.m_CancelButton,				SIGNAL(clicked()), this, SLOT(onCancelButClick()) );
-	ui.m_CancelButton->setVisible( false );
-	connect( ui.m_TitleBarWidget,			SIGNAL(signalBackButtonClicked()), this, SLOT(onCancelButClick()) );
+	showCancelButton( false );
+	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalAccepted()), this, SLOT(onOkButClick()) );
+	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalCanceled()), this, SLOT(onCancelButClick()) );
 
 	setBodyText( msg );
 	this->setFocus();
-	ui.m_OkButton->setFocus();
 }
 
 //============================================================================
@@ -115,5 +112,5 @@ void ActivityMessageBox::setBodyText( QString bodyText )
 //============================================================================
 void ActivityMessageBox::showCancelButton( bool showButton )
 {
-	ui.m_CancelButton->setVisible( showButton );
+	ui.m_AcceptCancelWidget->showCancelButton( showButton );
 }

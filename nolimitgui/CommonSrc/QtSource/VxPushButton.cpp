@@ -124,6 +124,37 @@ void VxPushButton::initQButtonPro( void )
 }
 
 //============================================================================
+void VxPushButton::clear( void )
+{
+    QColor transColor( COLOR_TRANSPARENT );
+    m_MyIcon = eMyIconNone;
+    m_IconImage = QPixmap();
+    m_LastIconColor = transColor;
+    m_LastIconSize = QSize( 0, 0 );
+
+    m_NotifyIconOnlineImage = QPixmap();
+    m_NotifyLastIconOnlineColor = transColor;
+
+    m_NotifyIconJoinImage = QPixmap();
+    m_NotifyLastIconJoinColor = transColor;
+
+    m_NotifyIconOfferImage = QPixmap();
+    m_NotifyLastIconOfferColor = transColor;
+
+    m_NotifyIconForbiddenImage = QPixmap();
+    m_NotifyLastIconForbiddenColor = transColor;
+
+    m_OverlayIconImage = QPixmap();
+    m_OverlayLastIconColor = transColor;
+    m_OverlayLastIconSize = QSize( 0, 0 );
+
+    m_IconOverrideColorWasSet = false;
+    m_IconOverrideImageWasSet = false;
+    m_IconOverrideImageWasDrawn = false;
+    m_NotifyType = eNotifyNone;
+}
+
+//============================================================================
 int VxPushButton::heightForWidth( int width ) const
 {
     if( width >= (int)( GuiParams::getButtonSize( m_SquareButtonSize ).width() ) )
@@ -421,7 +452,6 @@ void VxPushButton::setNotifyNlcFavoriteEnabled( bool enabled, EMyIcons eNotifyIc
 void VxPushButton::setIcon( EMyIcons myIcon )
 {
 	m_MyIcon = myIcon;
-    m_IconImage = QPixmap();
     if( myIcon == eMyIconCheckMark )
     {
         setIconOverrideColor( QColor( COLOR_GREEN ) );

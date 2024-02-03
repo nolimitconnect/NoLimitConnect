@@ -698,6 +698,9 @@
     <ClCompile Include="..\..\ptop_engine_src\Search\RcScan.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Search\RcScanAction.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Search\RcScanMatchedConnection.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueInfo.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueueDb.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueueMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\SktLists\SktListMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\SktLists\SktListMgrBase.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\ThumbMgr\ThumbInfo.cpp" />
@@ -749,6 +752,7 @@
     <ClInclude Include="..\..\ptop_engine_src\AssetBase\AssetBaseXferDb.h" />
     <ClInclude Include="..\..\ptop_engine_src\AssetBase\AssetBaseXferMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\AssetBase\AssetBaseXferSession.h" />
+    <ClInclude Include="..\..\ptop_engine_src\AssetBase\AssetXferCallback.h" />
     <ClInclude Include="..\..\ptop_engine_src\AssetBase\BaseXferInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetInfo.h" />
@@ -958,6 +962,11 @@
     <ClInclude Include="..\..\ptop_engine_src\Search\RcScanAction.h" />
     <ClInclude Include="..\..\ptop_engine_src\Search\RcScanMatchedConnection.h" />
     <ClInclude Include="..\..\ptop_engine_src\Search\RcScanPic.h" />
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueInfo.h" />
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueCallback.h" />
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueDb.h" />
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueDefs.h" />
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\SktLists\SktListCallbackInterface.h" />
     <ClInclude Include="..\..\ptop_engine_src\SktLists\SktListMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\SktLists\SktListMgrBase.h" />

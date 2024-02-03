@@ -50,7 +50,7 @@ void AppletHostBase::manageUsers( GuiUserMultiListWidget* userList )
         break;
 
     default:
-        userList->setUserViewType( eUserViewTypeFriends );
+        userList->setUserViewType( eUserViewTypeFriendsOnline );
     }
 
     if( m_UserMultiList && m_UserMultiList->getUserListWidget() )

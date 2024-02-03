@@ -165,10 +165,18 @@ void GuiUserMultiListWidget::setUserViewType( EUserViewType viewType )
         ui.m_EverybodyView->setNotifyType( eNotifyOnline );
         break;
 
-    case eUserViewTypeFriends:
+    case eUserViewTypeFriendsOnline:
+        ui.m_FriendsLabel->setText( GuiParams::describeUserViewType( eUserViewTypeFriendsOnline ) );
         ui.m_FriendsLabel->setVisible( true );
         ui.m_FriendsView->setVisible( true );
         ui.m_FriendsView->setNotifyType( eNotifyOnline );
+        break;
+
+    case eUserViewTypeFriendsOffline:
+        ui.m_FriendsLabel->setText( GuiParams::describeUserViewType( eUserViewTypeFriendsOffline ) );
+        ui.m_FriendsLabel->setVisible( true );
+        ui.m_FriendsView->setVisible( true );
+        ui.m_FriendsView->setNotifyType( eNotifyAttention );
         break;
 
     case eUserViewTypeGroup:
@@ -274,7 +282,14 @@ void GuiUserMultiListWidget::slotEverybodyButtonClicked( void )
 //============================================================================
 void GuiUserMultiListWidget::slotFriendsButtonClicked( void )
 {
-    setUserViewType( eUserViewTypeFriends );
+    if( eUserViewTypeFriendsOnline == getUserViewType() )
+    {
+        setUserViewType( eUserViewTypeFriendsOffline );
+    }
+    else
+    {
+        setUserViewType( eUserViewTypeFriendsOnline );
+    }
 }
 
 //============================================================================
@@ -310,7 +325,8 @@ void GuiUserMultiListWidget::slotSearchTextChanged( QString searchText )
 //============================================================================
 void GuiUserMultiListWidget::setSelectedUser( GuiUser* guiUser )
 {
-    if( guiUser->isOnline() )
+    if( guiUser->isOnline() || 
+        ( !guiUser->isOnline() && ( getUserViewType() == eUserViewTypeOffline || getUserViewType() == eUserViewTypeFriendsOffline ) ) )
     {
 	    m_SelectedUser = guiUser;
 

@@ -22,6 +22,8 @@ public:
 
 	void							setAcceptCancelWidgetSize( EButtonSize buttonSize );
 
+	void							showCancelButton( bool showButton );
+
 signals:
 	void							signalAccepted( void );
 	void							signalCanceled( void );

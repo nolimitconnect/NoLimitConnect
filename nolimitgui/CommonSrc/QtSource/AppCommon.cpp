@@ -40,6 +40,7 @@
 #include "GuiAppLoaderThread.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiPushToTalkMgr.h"
+#include "GuiSendQueueMgr.h"
 #include "GuiRandConnectMgr.h"
 #include "VxPushButton.h"
 
@@ -74,6 +75,7 @@
 #include "RenderGlWidget.h"
 
 #include <signal.h>
+#include <array>
 
 namespace
 {
@@ -137,11 +139,13 @@ static AccountMgr accountMgr;
 static GuiMemberActiveMgr memberActiveMgr;
 static GuiPushToTalkMgr pushToTalkMgr;
 static GuiRandConnectMgr randConnectMgr;
+static GuiSendQueueMgr sendQueueMgr;
 static MyIcons myIcons;
     if( !g_AppCommon )
     {
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, memberActiveMgr, pushToTalkMgr, randConnectMgr, myIcons );
+        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, 
+					   memberActiveMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr, myIcons );
     }
 
     return *g_AppCommon;
@@ -169,6 +173,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						GuiMemberActiveMgr& memberActiveMgr,
 						GuiPushToTalkMgr& pushToTalkMgr,
 						GuiRandConnectMgr& randConnectMgr,
+						GuiSendQueueMgr& sendQueueMgr,
 						MyIcons& myIcons )
 : QWidget()
 , m_QApp( myQApp )
@@ -186,6 +191,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_OfferMgr( *this )
 , m_PushToTalkMgr( pushToTalkMgr )
 , m_RandConnectMgr( randConnectMgr )
+, m_SendQueueMgr( sendQueueMgr )
 , m_UserMgr( *this )
 , m_GroupieListMgr( *this )
 , m_HostedListMgr( *this )
@@ -237,8 +243,8 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	// Documents Directory/appshortName/xfer/		app data transfer directory
 	VxSetRootXferDirectory( m_AppSettings.m_strRootXferDir.c_str() );
 
-    connect( m_CheckSetupTimer, SIGNAL( timeout() ), this, SLOT( slotCheckSetupTimer() ) );
-	connect( m_GuiStartupTimer, SIGNAL( timeout() ), this, SLOT( slotGuiStartupTimer() ) );
+    connect( m_CheckSetupTimer, SIGNAL(timeout()), this, SLOT(slotCheckSetupTimer()) );
+	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()) );
 }
 
 //============================================================================
@@ -308,6 +314,7 @@ bool AppCommon::loadWithoutThread( void )
 	m_ConnectIdListMgr.onAppCommonCreated();
 	m_MemberActiveMgr.onAppCommonCreated();
 	m_RandConnectMgr.onAppCommonCreated();
+	m_SendQueueMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 
 	while( !appLoaderThread.getIsIconsLoaded() )
@@ -316,10 +323,10 @@ bool AppCommon::loadWithoutThread( void )
 	}
 
     m_HomePage.initializeHomePage();
-    connect( &m_HomePage, SIGNAL( signalMainWindowResized() ), this, SLOT( slotMainWindowResized() ) );
+    connect( &m_HomePage, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
     m_HomePage.show();
 
-	connect( this, SIGNAL( signalInternalNetAvailStatus( ENetAvailStatus ) ), this, SLOT( slotInternalNetAvailStatus( ENetAvailStatus ) ), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotInternalNetAvailStatus(ENetAvailStatus)), Qt::QueuedConnection );
 
 	while( !appLoaderThread.getIsLoadComplete() )
 	{
@@ -358,7 +365,7 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 	std::string strAssetDir = m_AppSettings.m_strRootUserDataDir + "assets/";
 	VxFileUtil::makeDirectory( strAssetDir );
 
-	connect( m_GuiStartupTimer, SIGNAL( timeout() ), this, SLOT( slotGuiStartupTimer() ), Qt::QueuedConnection );
+	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()), Qt::QueuedConnection );
 	m_GuiStartupTimer->setSingleShot( true );
 	m_GuiStartupTimer->setInterval( 1000 );
 	m_GuiStartupTimer->start();
@@ -393,7 +400,7 @@ void AppCommon::slotGuiStartupTimer( void )
 	else if( 4 == guiStartupStep )
 	{
 		m_OncePerSecondTimer->setInterval( 1000 ); 
-		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT( onOncePerSecond() ) );
+		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT(onOncePerSecond()) );
 		m_OncePerSecondTimer->start();
 	}
 }
@@ -592,7 +599,6 @@ void AppCommon::toGuiAppErr( EAppErr eAppErr, const char* errMsg )
 		StdStringFormat( formatedErr, "#App Error %d", eAppErr );
 	}
 
-	//emit signalAppErr( eAppErr, formatedErr.c_str() );
 	emit signalLog( LOG_ERROR, formatedErr.c_str() );
 	emit signalStatusMsg( formatedErr.c_str() );
 }
@@ -620,22 +626,23 @@ void AppCommon::toGuiUserMessage( const char* userMsg, ... )
 	{
 		return;
 	}
-
-	char szBuffer[2048];
+	
+	const int MAX_USER_MSG_SIZE = 2048;
+	std::array<char, MAX_USER_MSG_SIZE> szBuffer;
 	szBuffer[0] = 0;
 	va_list arg_ptr;
 	va_start(arg_ptr, userMsg);
 #ifdef TARGET_OS_WINDOWS
-	vsnprintf(szBuffer, 2048, userMsg,(char *) arg_ptr);
+	vsnprintf(szBuffer.data(), MAX_USER_MSG_SIZE, userMsg, (char*)arg_ptr);
 #else
-    vsnprintf(szBuffer, 2048, userMsg, arg_ptr);
+    vsnprintf(szBuffer.data(), MAX_USER_MSG_SIZE, userMsg, arg_ptr);
 #endif //  TARGET_OS_WINDOWS
-	szBuffer[2047] = 0;
+	szBuffer.data()[MAX_USER_MSG_SIZE - 1] = 0;
 	va_end(arg_ptr);
 
 	if( 0 != szBuffer[0] )
 	{
-		emit signalStatusMsg( szBuffer );
+		emit signalStatusMsg( szBuffer.data() );
 	}
 }
 

@@ -1837,8 +1837,10 @@ QString GuiParams::describeUserViewType( EUserViewType showFriendType )
     {
     case eUserViewTypeEverybody:
         return QObject::tr( "Everybody " );
-    case eUserViewTypeFriends:
-        return QObject::tr( "Friends " );
+    case eUserViewTypeFriendsOnline:
+        return QObject::tr( "Friends Online " );
+    case eUserViewTypeFriendsOffline:
+        return QObject::tr( "Friends Offline " );
 
     case eUserViewTypeGroup:
         return  QObject::tr( "Group " );

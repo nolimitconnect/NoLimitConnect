@@ -84,7 +84,7 @@ void AssetBaseXferDb::addAsset( VxGUID& assetUniqueId )
 		bindList );
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "AssetBaseXferDb::addAsset error %d\n", rc );
+		LogMsg( LOG_ERROR, "AssetBaseXferDb::addAsset error %d", rc );
 	}
 }
 

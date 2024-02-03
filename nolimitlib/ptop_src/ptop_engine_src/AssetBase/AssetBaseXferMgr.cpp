@@ -10,8 +10,10 @@
 
 #include <config_appcorelibs.h>
 #include "AssetBaseXferMgr.h"
+
 #include "AssetBaseInfo.h"
 #include "AssetBaseMgr.h"
+#include "AssetXferCallback.h"
 
 #include "../Plugins/PluginBase.h"
 #include "../Plugins/PluginMgr.h"
@@ -509,7 +511,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReply( std::shared_ptr<VxSktBase>& sktBa
     EXferError xferErr = (EXferError)pktGetReply->getError();
     if( xferErr != eXferErrorNone )
     {
-        LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetBaseGetReply Xfer Error %d\n", xferErr );// %s, DescribeXferError( xferErr ) );
+        LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetBaseGetReply Xfer Error %d", xferErr );// %s, DescribeXferError( xferErr ) );
         vx_assert( false );
         return;
     }
@@ -704,12 +706,13 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void AssetBaseXferMgr::assetSendComplete( AssetBaseTxSession* xferSession )
 {
-	updateAssetMgrSendState( xferSession->getAssetBaseInfo().getAssetUniqueId(), eAssetSendStateTxSuccess, 100 );
+	updateAssetMgrSendState( xferSession->getSendToId(), xferSession->getAssetBaseInfo().getAssetUniqueId(), eAssetSendStateTxSuccess, 100 );
 }
 
 //============================================================================
 void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "AssetBaseXferMgr::onPktAssetSendReply AutoPluginLock start");
 #endif // DEBUG_AUTOPLUGIN_LOCK
@@ -724,7 +727,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
 	if( 0 == assetInfo )
 	{
 		LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReply failed to find asset id");
-		updateAssetMgrSendState( assetUniqueId, eAssetSendStateTxFail, 0 );
+        updateAssetMgrSendState( srcOnlineId, assetUniqueId, eAssetSendStateTxFail, 0 );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 		LogMsg( LOG_INFO, "AssetBaseXferMgr::onPktAssetSendReply AutoPluginLock destroy");
 #endif // DEBUG_AUTOPLUGIN_LOCK
@@ -762,7 +765,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
 		{
 			LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReply PktAssetSendReply returned error %d", poPkt->getError() );
 			endAssetBaseXferSession( xferSession, true, false );
-			updateAssetMgrSendState( assetUniqueId, eAssetSendStateTxFail, rxedErrCode );
+            updateAssetMgrSendState( srcOnlineId, assetUniqueId, eAssetSendStateTxFail, rxedErrCode );
 		}
 	}
 	else
@@ -770,11 +773,11 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
 		if( isFileXfer )
 		{
 			LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReply failed to find session");
-			updateAssetMgrSendState( assetUniqueId, eAssetSendStateTxFail, rxedErrCode );
+            updateAssetMgrSendState( srcOnlineId, assetUniqueId, eAssetSendStateTxFail, rxedErrCode );
 		}
 		else
 		{
-			updateAssetMgrSendState( assetUniqueId, rxedErrCode ? eAssetSendStateTxFail : eAssetSendStateTxSuccess, rxedErrCode );
+            updateAssetMgrSendState( srcOnlineId, assetUniqueId, rxedErrCode ? eAssetSendStateTxFail : eAssetSendStateTxSuccess, rxedErrCode );
 		}
 	}
 
@@ -916,6 +919,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendCompleteReq( std::shared_ptr<VxSktBase>
 //============================================================================
 void AssetBaseXferMgr::onPktAssetBaseSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
     VxMutex& pluginMutex = m_XferInterface.getAssetXferMutex();
     pluginMutex.lock();
 
@@ -935,7 +939,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendCompleteReply( std::shared_ptr<VxSktBas
 	else
 	{
 		LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendCompleteReply failed to find session");
-		updateAssetMgrSendState( poPkt->getAssetUniqueId(), eAssetSendStateTxSuccess, 100 );
+        updateAssetMgrSendState( srcOnlineId, poPkt->getAssetUniqueId(), eAssetSendStateTxSuccess, 100 );
 	}
 
     pluginMutex.unlock();
@@ -1424,7 +1428,7 @@ bool AssetBaseXferMgr::fromGuiSendAssetBase( AssetBaseInfo& assetInfo )
 
 	if( xferFailed )
 	{
-		onTxFailed( assetInfo.getAssetUniqueId(), false );
+		onTxFailed( sendToId, assetInfo.getAssetUniqueId(), false );
 	}
 
     return !xferFailed;
@@ -1511,19 +1515,19 @@ void AssetBaseXferMgr::onRequestAssetFailed( VxGUID sendToId, AssetBaseInfo& ass
 	m_AssetRequestedList.removeGuid( assetInfo.getAssetUniqueId(), sktConnectId );
 	m_AssetRequestedListMutex.unlock();
 
-    updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateRxFail, 0 );
+    updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateRxFail, 0 );
 }
 
 //============================================================================
-void AssetBaseXferMgr::onTxFailed( VxGUID& assetUniqueId, bool pluginIsLocked )
+void AssetBaseXferMgr::onTxFailed( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked )
 {
-	updateAssetMgrSendState( assetUniqueId, eAssetSendStateTxFail, 0 );
+	updateAssetMgrSendState( sendToId, assetUniqueId, eAssetSendStateTxFail, 0 );
 }
 
 //============================================================================
-void AssetBaseXferMgr::onTxSuccess( VxGUID& assetUniqueId, bool pluginIsLocked )
+void AssetBaseXferMgr::onTxSuccess( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked )
 {
-	updateAssetMgrSendState( assetUniqueId, eAssetSendStateTxSuccess, 0 );
+	updateAssetMgrSendState( sendToId, assetUniqueId, eAssetSendStateTxSuccess, 0 );
 }
 
 //============================================================================
@@ -1533,9 +1537,10 @@ void AssetBaseXferMgr::addAssetXferInfoIfDoesNotExist( AssetBaseInfo& assetInfo 
 }
 
 //============================================================================
-void AssetBaseXferMgr::updateAssetMgrSendState( VxGUID& assetUniqueId, EAssetSendState sendState, int param )
+void AssetBaseXferMgr::updateAssetMgrSendState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState sendState, int param )
 {
-	m_AssetBaseMgr.updateAssetXferState( assetUniqueId, sendState, param );
+	m_AssetBaseMgr.updateAssetXferState( sendToId, assetUniqueId, sendState, param );
+	announceXferState( sendToId, assetUniqueId, sendState, param );
 }
 
 //============================================================================
@@ -1599,7 +1604,7 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
 	m_TxSessionsMutex.unlock();
 
 	addAssetXferInfoIfDoesNotExist( assetInfo );
-	updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxProgress, 0 );
+	updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxProgress, 0 );
 
 	bool isSinglePktSend{ false };
 	if( assetInfo.hasFileName() )
@@ -1616,7 +1621,7 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
 	if( eXferErrorNone != xferErr )
 	{
 		// failed to open file
-		updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxFail, xferErr );
+		updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxFail, xferErr );
 		endAssetBaseXferSession( txSession, true, false );
 		if( false == pluginIsLocked )
 		{
@@ -1647,15 +1652,15 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
 		else if( isSinglePktSend )
 		{
 			// tell gui asset was sent
-			updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxProgress, 100 );
-			updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxSuccess, xferErr );
+			updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxProgress, 100 );
+			updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxSuccess, xferErr );
 			endAssetBaseXferSession( txSession, true, false );
 		}
 	}
 	else
 	{
 		// re que for try some other time
-		updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxFail, xferErr );
+		updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxFail, xferErr );
 		endAssetBaseXferSession( txSession, true, ((eXferErrorFileNotFound == xferErr) || (eXferErrorDisconnected == xferErr)) ? false : true );
 	}
 
@@ -2305,30 +2310,32 @@ void AssetBaseXferMgr::onAssetBaseSent( VxGUID sendToId, std::shared_ptr<VxSktBa
 	//m_PluginMgr.getToGui().toGuiAssetBaseUploadComplete( xferSession->getRmtSessionId(), error );
 	if( eXferErrorNone != error )
 	{
-		updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxFail, (int)error );
+		updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxFail, (int)error );
 		sendToGuiAssetAction( eAssetActionTxError, assetInfo.getAssetUniqueId(), error );
 	}
 	else
 	{
-		updateAssetMgrSendState( assetInfo.getAssetUniqueId(), eAssetSendStateTxSuccess, (int)error );
+		updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxSuccess, (int)error );
 		sendToGuiAssetAction( eAssetActionTxSuccess, assetInfo.getAssetUniqueId(), 0 );
 	}
 
 	if( sktBase && sktBase->isConnected() && false == VxIsAppShuttingDown() )
 	{
-		checkQueForMoreAssetsToSend( pluginIsLocked, sendToId, sktBase );
+		if( !checkQueForMoreAssetsToSend( pluginIsLocked, sendToId, sktBase ) )
+		{
+			announceXferReadyToSend( sendToId, sktBase );
+		}
 	}
 }
 
 //============================================================================
-void AssetBaseXferMgr::checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
+bool AssetBaseXferMgr::checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	// check que and start next xfer
 
-    std::vector<AssetBaseInfo>::iterator iter;
-
+	bool queuedAssetBeingSent{ false };
 	m_AssetBaseSendQueMutex.lock();
-	for( iter = m_AssetBaseSendQue.begin(); iter != m_AssetBaseSendQue.end(); ++iter )
+	for( auto iter = m_AssetBaseSendQue.begin(); iter != m_AssetBaseSendQue.end(); ++iter )
 	{
 		if( sendToId == (*iter).getSendToId() )
 		{
@@ -2337,6 +2344,7 @@ void AssetBaseXferMgr::checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID 
 			RCODE rc = createAssetTxSessionAndSend( pluginIsLocked, assetInfo, assetInfo.getSendToId(), sktBase );
 			if( 0 == rc )
 			{
+				queuedAssetBeingSent = true;
 				iter = m_AssetBaseSendQue.erase(iter);
 			}
 			else
@@ -2349,6 +2357,7 @@ void AssetBaseXferMgr::checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID 
 	}
 
 	m_AssetBaseSendQueMutex.unlock();
+	return queuedAssetBeingSent;
 }
 
 //============================================================================
@@ -2419,4 +2428,60 @@ void AssetBaseXferMgr::assetXferComplete( VxGUID& assetId, VxGUID& sktConnectId 
 void AssetBaseXferMgr::sendToGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
 	IToGui::getToGui().toGuiAssetAction( assetAction, assetId, pos0to100000 );
+}
+
+//============================================================================
+void AssetBaseXferMgr::wantAssetXferCallbacks( AssetXferCallback* client, bool enable )
+{
+    lockClientList();
+
+    bool found{ false };
+    for( auto iter = m_AssetXferClients.begin(); iter != m_AssetXferClients.end(); ++iter )
+    {
+        if( *iter == client )
+        {
+            found = true;
+            if( !enable )
+            {
+                m_AssetXferClients.erase( iter );
+            }
+            else
+            {
+                LogMsg( LOG_ERROR, "MemberActiveMgr::wantMemberActiveCallbacks ignored because already in list" );
+            }
+
+            break;
+        }
+    }
+    
+    if( !found && enable )
+    {
+        m_AssetXferClients.emplace_back( client );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void AssetBaseXferMgr::announceXferReadyToSend( VxGUID& sendToId, std::shared_ptr<VxSktBase>& sktBase )
+{
+	lockClientList();
+    for( auto client : m_AssetXferClients )
+    {
+		client->callbackAssetXferReadyToSend( sendToId, sktBase );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void AssetBaseXferMgr::announceXferState( VxGUID& sendToId, VxGUID& assetId, enum EAssetSendState sendState, int param )
+{
+	lockClientList();
+    for( auto client : m_AssetXferClients )
+    {
+		client->callbackXferState( sendToId, assetId, sendState, param );
+    }
+
+    unlockClientList();
 }

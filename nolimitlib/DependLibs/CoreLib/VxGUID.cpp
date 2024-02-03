@@ -279,7 +279,7 @@ void VxGUID::initializeWithNewVxGUID( void )
 //============================================================================
 bool VxGUID::isVxGUIDValid() const 
 { 
-	return ((m_u64LoPart != 0 ) || (m_u64HiPart != 0 ));
+	return 0 != m_u64LoPart && 0 != m_u64HiPart;
 }
 
 //============================================================================

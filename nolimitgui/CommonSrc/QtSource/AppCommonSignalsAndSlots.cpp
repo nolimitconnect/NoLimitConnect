@@ -14,6 +14,7 @@
 #include <BlobXferMgr/BlobInfo.h>
 #include <Plugins/FileInfo.h>
 #include <PluginSettings/PluginSetting.h>
+#include <SendQueue/SendQueInfo.h>
 
 #include <PktLib/PktsRandConnectDefs.h>
 
@@ -91,6 +92,7 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<ESha1GenResult>( "ESha1GenResult" );	
 	qRegisterMetaType<EMediaPlayerAction>( "EMediaPlayerAction" );
 	qRegisterMetaType<EMediaError>( "EMediaError" );
+	qRegisterMetaType<SendQueInfo>( "SendQueInfo" );	
 }
 
 //============================================================================

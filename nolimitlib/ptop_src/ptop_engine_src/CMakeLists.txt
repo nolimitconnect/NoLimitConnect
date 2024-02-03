@@ -7,6 +7,10 @@ project(ptopengine, LANGUAGES CXX)
 
 set(ptopengine_HEADERS)
 list(APPEND ptopengine_HEADERS
+    SendQueue/SendQueInfo.h
+    SendQueue/SendQueueCallback.h
+    SendQueue/SendQueueDb.h
+    SendQueue/SendQueueMgr.h
     VirtStream/VirtProviderFile.h
     VirtStream/VirtStorageProvider.h
     VirtStream/VirtStreamCache.h
@@ -230,6 +234,9 @@ list(APPEND ptopengine_SOURCES
     Search/RcScan.cpp
     Search/RcScanAction.cpp
     Search/RcScanMatchedConnection.cpp
+    SendQueue/SendQueInfo.cpp
+    SendQueue/SendQueueDb.cpp
+    SendQueue/SendQueueMgr.cpp
     SktLists/SktListMgr.cpp
     SktLists/SktListMgrBase.cpp
 	ThumbMgr/ThumbInfo.cpp

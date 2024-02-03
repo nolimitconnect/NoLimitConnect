@@ -154,34 +154,20 @@
        </spacer>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QPushButton" name="m_OkButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>OK</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="m_CancelButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Cancel</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="AcceptCancelWidget" name="m_AcceptCancelWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -218,6 +204,12 @@
    <class>BottomBarWidget</class>
    <extends>QWidget</extends>
    <header location="global">BottomBarWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AcceptCancelWidget</class>
+   <extends>QFrame</extends>
+   <header>AcceptCancelWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

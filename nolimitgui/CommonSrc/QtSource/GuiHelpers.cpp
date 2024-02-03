@@ -1668,6 +1668,7 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWid
     case eErrMsgUserIsOffline:
         buttonResult = QMessageBox::information( parent, QObject::tr( "User is offline" ),
             QObject::tr( "User is no longer connected" ), QMessageBox::Ok );
+        break;
 
     case eErrMsgPurgeEverythingWarning:
         buttonResult = QMessageBox::question( parent, QObject::tr( "Purge Everthing Warning" ),

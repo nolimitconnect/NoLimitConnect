@@ -16,7 +16,7 @@
 
 //============================================================================
 InputAllWidget::InputAllWidget( QWidget* parent )
-: InputBaseWidget( GetAppInstance(), parent )
+	: InputBaseWidget( GetAppInstance(), parent )
 {
 	ui.setupUi( this );
 
@@ -26,19 +26,19 @@ InputAllWidget::InputAllWidget( QWidget* parent )
 	ui.m_VideoAllButton->setIcons( eMyIconCamcorderNormal );
 	ui.m_MicAllButton->setIcons( eMyIconMicrophoneOn );
 
-    ui.m_SelectFaceAllButton->setSquareButtonSize( eButtonSizeTiny );
-    ui.m_CameraAllButton->setSquareButtonSize( eButtonSizeTiny );
-    ui.m_GalleryAllButton->setSquareButtonSize( eButtonSizeTiny );
-    ui.m_VideoAllButton->setSquareButtonSize( eButtonSizeTiny );
-    ui.m_MicAllButton->setSquareButtonSize( eButtonSizeTiny );
+	ui.m_SelectFaceAllButton->setSquareButtonSize( eButtonSizeTiny );
+	ui.m_CameraAllButton->setSquareButtonSize( eButtonSizeTiny );
+	ui.m_GalleryAllButton->setSquareButtonSize( eButtonSizeTiny );
+	ui.m_VideoAllButton->setSquareButtonSize( eButtonSizeTiny );
+	ui.m_MicAllButton->setSquareButtonSize( eButtonSizeTiny );
 
-	connect( ui.m_TextAllButton, SIGNAL(clicked()), this, SLOT(slotTextButtonClicked()) );
-	connect( ui.m_SelectFaceAllButton, SIGNAL(clicked()), this, SLOT(slotEmoteButtonClicked()) );
-	connect( ui.m_CameraAllButton, SIGNAL(clicked()), this, SLOT(slotCameraButtonClicked()) );
-	connect( ui.m_GalleryAllButton, SIGNAL(clicked()), this, SLOT(slotGalleryButtonClicked()) );
-	connect( ui.m_VideoAllButton, SIGNAL(clicked()), this, SLOT(slotVideoButtonClicked()) );
-	connect( ui.m_MicAllButton, SIGNAL(pressed()), this, SLOT(slotMicButtonPressed()) );
-	connect( ui.m_MicAllButton, SIGNAL(released()), this, SLOT(slotMicButtonReleased()) );
+	connect( ui.m_TextAllButton, SIGNAL( clicked() ), this, SLOT( slotTextButtonClicked() ) );
+	connect( ui.m_SelectFaceAllButton, SIGNAL( clicked() ), this, SLOT( slotEmoteButtonClicked() ) );
+	connect( ui.m_CameraAllButton, SIGNAL( clicked() ), this, SLOT( slotCameraButtonClicked() ) );
+	connect( ui.m_GalleryAllButton, SIGNAL( clicked() ), this, SLOT( slotGalleryButtonClicked() ) );
+	connect( ui.m_VideoAllButton, SIGNAL( clicked() ), this, SLOT( slotVideoButtonClicked() ) );
+	connect( ui.m_MicAllButton, SIGNAL( pressed() ), this, SLOT( slotMicButtonPressed() ) );
+	connect( ui.m_MicAllButton, SIGNAL( released() ), this, SLOT( slotMicButtonReleased() ) );
 }
 
 //============================================================================
@@ -55,6 +55,11 @@ void InputAllWidget::setCanSend( bool canSend )
 //============================================================================
 void InputAllWidget::slotTextButtonClicked( void )
 {
+	if( !checkIfCanSend() )
+	{
+		return;
+	}
+
 	emit signalUserInputButtonClicked();
 	emit signalAllTextButtonClicked();
 }
@@ -62,6 +67,11 @@ void InputAllWidget::slotTextButtonClicked( void )
 //============================================================================
 void InputAllWidget::slotEmoteButtonClicked( void )
 {
+	if( !checkIfCanSend() )
+	{
+		return;
+	}
+
 	emit signalUserInputButtonClicked();
 	emit signalAllEmoteButtonClicked();
 }
@@ -69,6 +79,11 @@ void InputAllWidget::slotEmoteButtonClicked( void )
 //============================================================================
 void InputAllWidget::slotVideoButtonClicked( void )
 {
+	if( !checkIfCanSend() )
+	{
+		return;
+	}
+
 	emit signalUserInputButtonClicked();
 	emit signalAllVideoButtonClicked();
 }
@@ -76,6 +91,11 @@ void InputAllWidget::slotVideoButtonClicked( void )
 //============================================================================
 void InputAllWidget::slotCameraButtonClicked( void )
 {
+	if( !checkIfCanSend() )
+	{
+		return;
+	}
+
 	emit signalUserInputButtonClicked();
 	emit signalAllCameraButtonClicked();
 }
@@ -83,6 +103,11 @@ void InputAllWidget::slotCameraButtonClicked( void )
 //============================================================================
 void InputAllWidget::slotGalleryButtonClicked( void )
 {
+	if( !checkIfCanSend() )
+	{
+		return;
+	}
+
 	emit signalUserInputButtonClicked();
 	emit signalAllGalleryButtonClicked();
 }
@@ -90,6 +115,11 @@ void InputAllWidget::slotGalleryButtonClicked( void )
 //============================================================================
 void InputAllWidget::slotMicButtonPressed( void )
 {
+	if( !checkIfCanSend() )
+	{
+		return;
+	}
+
 	emit signalUserInputButtonClicked();
 	emit signalAllMicButtonPressed();
 }

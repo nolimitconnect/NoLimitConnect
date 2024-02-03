@@ -670,7 +670,8 @@ namespace
     {
         "User View None ",
         "User View Everybody ",
-        "User View Friends ",
+        "User View Friends Online ",
+        "User View Friends Offline ",
         "User View Group ",
         "User View Chat Room ",
         "User View Random Connect ",

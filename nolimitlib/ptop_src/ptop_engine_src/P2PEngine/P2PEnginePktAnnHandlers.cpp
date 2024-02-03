@@ -12,6 +12,7 @@
 
 #include <BigListLib/BigListInfo.h>
 #include <Membership/MemberActiveMgr.h>
+#include <SendQueue/SendQueueMgr.h>
 
 #include <NetLib/VxSktBase.h>
 #include <CoreLib/VxDebug.h>
@@ -22,7 +23,7 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
         VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onFirstPktAnnounce" );
-        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
@@ -69,7 +70,7 @@ bool P2PEngine::onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktB
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
         VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onConnectionPktAnnounceUpdated" );
-        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
@@ -94,7 +95,7 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
         VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onHostedUserPktAnnounce" );
-        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
@@ -122,7 +123,7 @@ bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, P
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
         VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onRelayedUserPktAnnounce" );
-        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
@@ -151,7 +152,7 @@ bool P2PEngine::onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
         VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onUnexpectedPktAnnounce" );
-        sktBase->closeSkt( eSktCloseHackLevetSevere );
+        sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
@@ -177,6 +178,8 @@ bool P2PEngine::onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase,
         getConnectIdListMgr().pktAnnRecieved( sktBase->getSocketId(), pktAnn->getMyOnlineId() );
 		getToGui().toGuiContactAdded( bigListInfo->getVxNetIdent() );
         getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
+
+        getSendQueueMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );
 	}	
    
     return updateOk;

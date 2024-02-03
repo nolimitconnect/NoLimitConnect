@@ -47,7 +47,7 @@ public:
     virtual void				announceAssetAdded( AssetBaseInfo* assetInfo ) override;
     virtual void				announceAssetUpdated( AssetBaseInfo* assetInfo ) override;
     virtual void				announceAssetRemoved( AssetBaseInfo* assetInfo ) override;
-    virtual void				announceAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param ) override;
+    virtual void				announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param ) override;
 
     virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EHostType hostType );
     virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType );

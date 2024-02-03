@@ -31,3 +31,9 @@ PluginMessenger::PluginMessenger( P2PEngine& engine, PluginMgr& pluginMgr, VxNet
 {
 	setPluginType( ePluginTypeMessenger );
 }
+
+//============================================================================
+void PluginMessenger::wantAssetXferCallbacks( AssetXferCallback* client, bool enable )
+{
+	m_AssetXferMgr.wantAssetXferCallbacks( client, enable );
+}

@@ -14,6 +14,8 @@
 #include "VoiceFeedMgr.h"
 #include "VideoFeedMgr.h"
 
+
+
 class PluginBaseMultimedia : public PluginBase
 {
 public:

@@ -65,7 +65,7 @@ public:
     void                        onUserOnlineStatusChange( GuiUser* guiUser );
     void                        onMyIdentUpdated( GuiUser* guiUser );
     
-    GuiUser*                    getUser( VxGUID onlineId );
+    GuiUser*                    getUser( VxGUID onlineId, bool queryFromEngineIfMissing = false );
     GuiUser*                    getUserForTest( bool mustBeOnline = false );
     GuiUser*                    getOrQueryUser( VxGUID& onlineId );
     std::string                 getUserOnlineName( VxGUID& onlineId );

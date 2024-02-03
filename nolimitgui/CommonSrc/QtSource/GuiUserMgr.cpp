@@ -407,7 +407,7 @@ bool GuiUserMgr::isUserInSession( VxGUID& onlineId )
 }
 
 //============================================================================
-GuiUser* GuiUserMgr::getUser( VxGUID onlineId )
+GuiUser* GuiUserMgr::getUser( VxGUID onlineId, bool queryFromEngineIfMissing )
 {
     GuiUser* guiUser = nullptr;
     if( onlineId == getMyOnlineId() )
@@ -417,7 +417,14 @@ GuiUser* GuiUserMgr::getUser( VxGUID onlineId )
     }
     else
     {
-        guiUser = findUser( onlineId );
+        if( queryFromEngineIfMissing )
+        {
+            guiUser = findOrAddUser( onlineId );
+        }
+        else
+        {
+            guiUser = findUser( onlineId );
+        }
     }
 
     return guiUser;
@@ -931,7 +938,7 @@ bool GuiUserMgr::getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idLis
         GuiUser* guiUser = guiUserPair.second;
         if( !guiUser->isOnline() && ( guiUser->isAdmin() || guiUser->isFriend() ) )
         {
-            idList.push_back( std::make_pair(guiUserPair.first, guiUser->getLastUpdateTime() ) );
+            idList.emplace_back( std::make_pair(guiUserPair.first, guiUser->getLastUpdateTime() ) );
         }
     }
 

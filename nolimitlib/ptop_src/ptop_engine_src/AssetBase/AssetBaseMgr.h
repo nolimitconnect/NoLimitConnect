@@ -71,7 +71,7 @@ public:
     virtual void				announceAssetAdded( AssetBaseInfo* assetInfo );
     virtual void				announceAssetUpdated( AssetBaseInfo* assetInfo );
     virtual void				announceAssetRemoved( AssetBaseInfo* assetInfo );
-    virtual void				announceAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param );
+    virtual void				announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param );
 
     virtual void                onQueryHistoryAsset( AssetBaseInfo* assetInfo ); // should be overriden
 
@@ -136,7 +136,7 @@ public:
     void                        sendHistoryAssetsToGuiByThread( VxThread* poThread );
 
 	void						generateHashForFile( std::string fileName );
-	void						updateAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param = 0 );
+	void						updateAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param = 0 );
 
     void                        getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets );
     void                        getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles );

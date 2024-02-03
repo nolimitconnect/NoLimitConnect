@@ -166,7 +166,7 @@ void AppletFriendListClient::onShowFriendList( void )
     friendList = friendMgr.getIdentList();
     friendMgr.unlockList();
     
-    updateFriendList( eUserViewTypeFriends, friendList );
+    updateFriendList( eUserViewTypeFriendsOnline, friendList );
 }
 
 //============================================================================
@@ -217,11 +217,12 @@ void AppletFriendListClient::onShowFriendTypeChanged( void )
         //onShowNearbyList();
         break;
 
+    case eUserViewTypeFriendsOffline:
     case eUserViewTypeOffline:
         onShowOfflineList();
         break;
 
-    case eUserViewTypeFriends:
+    case eUserViewTypeFriendsOnline:
     default:
         onShowFriendList();
         break;
@@ -231,9 +232,9 @@ void AppletFriendListClient::onShowFriendTypeChanged( void )
 //============================================================================
 void AppletFriendListClient::slotFriendsButtonClicked( void )
 {
-    if( m_FriendListType != eUserViewTypeFriends )
+    if( m_FriendListType != eUserViewTypeFriendsOnline )
     {
-        m_FriendListType = eUserViewTypeFriends;
+        m_FriendListType = eUserViewTypeFriendsOnline;
         onShowFriendTypeChanged();
     }
 }
@@ -331,7 +332,8 @@ void AppletFriendListClient::updateUser( GuiUser* guiUser )
 {
     if( guiUser )
     {
-        if( ( eUserViewTypeFriends == m_FriendListType && ( guiUser->isFriend() || guiUser->isAdmin() ) ) ||
+        if( ( eUserViewTypeFriendsOnline == m_FriendListType && guiUser->isOnline() && ( guiUser->isFriend() || guiUser->isAdmin() ) ) ||
+            ( eUserViewTypeFriendsOffline == m_FriendListType && !guiUser->isOnline() && ( guiUser->isFriend() || guiUser->isAdmin() ) ) ||
             ( eUserViewTypeIgnored == m_FriendListType && guiUser->isIgnored() ) ||
             //( eUserViewTypeNearby == m_FriendListType && guiUser->isNearby() ) ||
             ( eUserViewTypeOffline == m_FriendListType && !guiUser->isOnline() )
@@ -350,8 +352,8 @@ void AppletFriendListClient::updateFriendList( EUserViewType listType, std::vect
     ui.m_UserListWidget->setUserViewType( listType );
 
     // for each see if we already have that ident as gui user else request it
-    for( auto identTime : idList )
+    for( auto identTimePair : idList )
     {
-        updateUser( listType, identTime.first );
+        updateUser( listType, identTimePair.first );
     }
 }

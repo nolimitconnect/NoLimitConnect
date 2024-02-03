@@ -21,15 +21,16 @@
 
 #include <map>
 
-class PluginMessenger;
-class PluginSessionMgr;
-class PluginMgr;
-class VxPktHdr;
 class AssetBaseRxSession;
 class AssetBaseTxSession;
 class AssetBaseMgr;
+class AssetXferCallback;
 class IToGui;
 class P2PEngine;
+class PluginMessenger;
+class PluginMgr;
+class PluginSessionMgr;
+class VxPktHdr;
 class VxSha1Hash;
 
 class PktBaseGetReq;
@@ -55,6 +56,8 @@ public:
 	VxMutex&					getAssetBaseQueMutex( void )					{ return m_AssetBaseSendQueMutex; }
 	void						lockAssetBaseQue( void )						{ m_AssetBaseSendQueMutex.lock(); }
 	void						unlockAssetBaseQue( void )						{ m_AssetBaseSendQueMutex.unlock(); }
+
+	virtual void                wantAssetXferCallbacks( AssetXferCallback* client, bool enable );
 
 	virtual void				fromGuiUserLoggedOn( void );
 
@@ -91,11 +94,11 @@ protected:
 	virtual void				onAssetBaseReceived( AssetBaseRxSession* xferSession, AssetBaseInfo& assetInfo, EXferError error, bool pluginIsLocked );
 	virtual void				onAssetBaseSent( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, AssetBaseInfo& assetInfo, EXferError error, bool pluginIsLocked );
     virtual void				onRequestAssetFailed( VxGUID sendToId, AssetBaseInfo& assetInfo, VxGUID& sktConnectId, bool pluginIsLocked );
-	virtual void				onTxFailed( VxGUID& assetUniqueId, bool pluginIsLocked );
-	virtual void				onTxSuccess( VxGUID& assetUniqueId, bool pluginIsLocked );
+	virtual void				onTxFailed( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked );
+	virtual void				onTxSuccess( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked );
 
 	virtual void				addAssetXferInfoIfDoesNotExist( AssetBaseInfo& assetInfo );
-	virtual void				updateAssetMgrSendState( VxGUID& assetUniqueId, EAssetSendState sendState, int param );
+	virtual void				updateAssetMgrSendState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState sendState, int param );
 
 	virtual AssetBaseRxSession*		findRxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
 	virtual AssetBaseRxSession*		findRxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId );
@@ -122,7 +125,7 @@ protected:
 
 	void						        clearRxSessionsList( void );
 	void						        clearTxSessionsList( void );
-	void						        checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	bool						        checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 
 	void						        assetSendComplete( AssetBaseTxSession* xferSession );
 	void						        queAsset( AssetBaseInfo& assetInfo );
@@ -152,6 +155,12 @@ protected:
 	virtual bool						isAssetRequested( VxGUID& assetId, VxGUID& sktConnectId );
 	virtual void						assetXferComplete( VxGUID& assetId, VxGUID& sktConnectId );
 
+	void								lockClientList( void )              { m_AssetXferClientsMutex.lock(); }
+    void								unlockClientList( void )            { m_AssetXferClientsMutex.unlock(); }
+
+	void								announceXferReadyToSend( VxGUID& sendToId, std::shared_ptr<VxSktBase>& sktBase );
+	void								announceXferState( VxGUID& sendToId, VxGUID& assetId, enum EAssetSendState sendState, int param );
+
 	//=== vars ===//
 	bool						        m_Initialized;
 	std::map<VxGUID, AssetBaseRxSession*>	m_RxSessions;
@@ -172,6 +181,9 @@ protected:
 
 	VxMutex						        m_AssetRequestedListMutex;
 	VxGuidPairTimeList					m_AssetRequestedList;
+
+	VxMutex								m_AssetXferClientsMutex;
+    std::vector<AssetXferCallback*>		m_AssetXferClients;
 };
 
 

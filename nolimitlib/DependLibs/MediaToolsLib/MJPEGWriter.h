@@ -50,7 +50,7 @@ protected:
 	bool						setAviParameters(	uint32_t imageWidth, 
 													uint32_t imageHeight, 
 													uint32_t microSecBetweenFrames, 
-													uint32_t	frameCnt, 
+													uint32_t frameCnt, 
 													uint32_t totalJpgDataLen );
 	bool						writeRiffHeader( void );
 	bool						writeVideoHeader( void );

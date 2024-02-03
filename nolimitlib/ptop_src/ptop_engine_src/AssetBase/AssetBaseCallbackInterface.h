@@ -23,7 +23,7 @@ public:
 	virtual void				callbackFileWasShredded( std::string& fileName ){};
 
 	virtual void				callbackHashIdGenerated( std::string& fileName, VxSha1Hash& hashId ){};
-	virtual void				callbackAssetSendState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param ){};
+	virtual void				callbackAssetSendState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param ){};
 
 	virtual void				callbackAssetFileTypesChanged( uint16_t fileTypes ){};
 	virtual void				callbackAssetPktFileListUpdated( void ){};

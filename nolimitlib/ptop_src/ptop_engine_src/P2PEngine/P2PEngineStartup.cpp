@@ -17,6 +17,8 @@
 #include <Plugins/PluginMgr.h>
 
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <SendQueue/SendQueueMgr.h>
+
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
@@ -146,6 +148,7 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         updateFromEngineSettings( getEngineSettings() );
         m_PluginMgr.fromGuiUserLoggedOn();
         m_NetworkStateMachine.fromGuiUserLoggedOn();
+        m_SendQueueMgr.fromGuiUserLoggedOn();
         LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn done" );
         m_IsEngineReady = true;
 

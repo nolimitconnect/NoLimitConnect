@@ -166,6 +166,7 @@ const char* DescribeAssetSendState( enum EAssetSendState sendState )
     switch( sendState )
     {
     case eAssetSendStateNone:               return "eAssetSendStateNone";
+    case eAssetSendStateQueued:             return "eAssetSendStateQueued";
     case eAssetSendStateTxProgress:         return "eAssetSendStateTxProgress";
     case eAssetSendStateRxProgress:         return "eAssetSendStateRxProgress";
     case eAssetSendStateTxSuccess:          return "eAssetSendStateTxSuccess";

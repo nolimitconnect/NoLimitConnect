@@ -20,6 +20,7 @@
 #include <ThumbMgr/ThumbInfoDb.h>
 #include <Plugins/FileInfo.h>
 #include <Plugins/PluginFileShareServer.h>
+#include <SendQueue/SendQueueMgr.h>
 
 #include <GuiInterface/IToGui.h>
 
@@ -703,7 +704,7 @@ void AssetBaseMgr::announceAssetRemoved( AssetBaseInfo* assetInfo )
 }
 
 //============================================================================
-void AssetBaseMgr::announceAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param )
+void AssetBaseMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param )
 {
 	LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetXferState state %d start", assetSendState );
 	lockClientList();
@@ -711,7 +712,7 @@ void AssetBaseMgr::announceAssetXferState( VxGUID& assetUniqueId, EAssetSendStat
 	for( iter = m_AssetClients.begin();	iter != m_AssetClients.end(); ++iter )
 	{
 		AssetBaseCallbackInterface * client = *iter;
-		client->callbackAssetSendState( assetUniqueId, assetSendState, param );
+		client->callbackAssetSendState( sendToId, assetUniqueId, assetSendState, param );
 	}
 
 	m_Engine.getToGui().toGuiAssetXferState( assetUniqueId, assetSendState, param );
@@ -749,6 +750,7 @@ bool AssetBaseMgr::removeAsset( std::string fileName, bool deleteFile )
 //============================================================================
 bool AssetBaseMgr::removeAsset( VxGUID& assetUniqueId, bool deleteFile )
 {
+	m_Engine.getSendQueueMgr().removeAsset( assetUniqueId );
 	bool assetRemoved = false;
 	std::vector<AssetBaseInfo*>::iterator iter;
 	for ( iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
@@ -1144,7 +1146,7 @@ void AssetBaseMgr::sendHistoryAssetsToGuiByThread( VxThread* poThread )
 }
 
 //============================================================================
-void AssetBaseMgr::updateAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param )
+void AssetBaseMgr::updateAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param )
 {
 	switch( assetSendState )
 	{
@@ -1248,7 +1250,7 @@ void AssetBaseMgr::updateAssetXferState( VxGUID& assetUniqueId, EAssetSendState 
 	unlockResources();
 	if( assetSendStateChanged )
 	{
-		announceAssetXferState( assetUniqueId, assetSendState, param );
+		announceAssetXferState( sendToId, assetUniqueId, assetSendState, param );
 	}
 
 	LogMsg( LOG_VERBOSE, "AssetBaseMgr::updateAssetXferState state %d done", assetSendState );

@@ -32,6 +32,7 @@
 #include <Plugins/PluginMgr.h>
 
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <SendQueue/SendQueueMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
@@ -274,7 +275,6 @@ void P2PEngine::fromGuiAppPause( void )
 //============================================================================
 void P2PEngine::fromGuiAppResume( void )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiAppResume" );
 	m_AppIsPaused = false;
 	m_PluginMgr.fromGuiAppResume();
 }
@@ -282,14 +282,12 @@ void P2PEngine::fromGuiAppResume( void )
 //============================================================================
 void P2PEngine::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetwork )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiNetworkAvailable" );
 	m_NetworkStateMachine.fromGuiNetworkAvailable( lclIp, isCellularNetwork );
 }
 
 //============================================================================
 void P2PEngine::fromGuiNetworkLost( void )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiNetworkLost" );
 	m_NetworkStateMachine.fromGuiNetworkLost();
 }
 
@@ -445,6 +443,20 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 	}
 
 	return m_MediaProcessor.getMediaTools().fromGuiAssetAction( assetInfo, assetAction, pos0to100000 );
+}
+
+//============================================================================
+bool P2PEngine::fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
+{
+	assetInfo.setAssetSendState( eAssetSendStateQueued );
+	AssetBaseInfo* createdAssetInfo = nullptr;
+	bool result = m_AssetMgr.addAsset( assetInfo, createdAssetInfo );
+	if( result )
+	{		
+		result = getSendQueueMgr().updateSendQueue( assetInfo.getSendToId(), assetInfo.getAssetUniqueId(), eSendQueStateWaiting );
+	}
+
+	return result;
 }
 
 //============================================================================

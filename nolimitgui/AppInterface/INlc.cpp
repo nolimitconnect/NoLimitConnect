@@ -18,6 +18,7 @@
 #include <Membership/MemberActiveMgr.h>
 #include <PushToTalk/PushToTalkMgr.h>
 #include <RandConnect/RandConnectMgr.h>
+#include <SendQueue/SendQueueMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxMutex.h>
@@ -64,7 +65,8 @@ P2PEngine& GetPtoPEngine()
     static MemberActiveMgr memberActiveMgr;
     static PushToTalkMgr pushToTalkMgr;
     static RandConnectMgr randConnectMgr;
-    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, pushToTalkMgr, randConnectMgr );
+    static SendQueueMgr sendQueueMgr;
+    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr );
     return g_P2PEngine;
 }
 

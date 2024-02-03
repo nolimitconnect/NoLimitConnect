@@ -54,10 +54,18 @@ MyIcons& AvatarBar::getMyIcons( void )
 }
 
 //============================================================================
-void AvatarBar::setTime( time_t creationTime )
+void AvatarBar::setTime( time_t creationTime, bool isQueued )
 {
-	std::string timeStr = VxTimeUtil::formatTimeStampIntoHoursAndMinutes( creationTime );
-	ui.m_TimeLabel->setText( timeStr.c_str() );
+	if( isQueued )
+	{
+		ui.m_TimeLabel->setText( QObject::tr( "queued" ) );
+	}
+	else
+	{
+		std::string timeStr = VxTimeUtil::formatTimeStampIntoHoursAndMinutes( creationTime );
+		ui.m_TimeLabel->setText( timeStr.c_str() );
+	}
+
 	ui.m_TimeLabel->setVisible( true );
 	showAvatar( false );
 }

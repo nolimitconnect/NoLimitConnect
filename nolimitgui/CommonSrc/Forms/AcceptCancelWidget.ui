@@ -73,6 +73,9 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -91,6 +94,9 @@
        <width>0</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
      </property>
      <property name="text">
       <string/>

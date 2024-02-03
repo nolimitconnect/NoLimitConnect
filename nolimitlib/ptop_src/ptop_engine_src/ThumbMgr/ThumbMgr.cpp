@@ -222,17 +222,16 @@ void ThumbMgr::announceAssetRemoved( AssetBaseInfo* assetInfo )
 }
 
 //============================================================================
-void ThumbMgr::announceAssetXferState( VxGUID& assetUniqueId, EAssetSendState assetSendState, int param )
+void ThumbMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param )
 {
-    AssetBaseMgr::announceAssetXferState( assetUniqueId, assetSendState, param );
+    AssetBaseMgr::announceAssetXferState( sendToId, assetUniqueId, assetSendState, param );
 
 	LogMsg( LOG_INFO, "ThumbMgr::announceAssetXferState state %d start", assetSendState );
 	lockClientList();
-	std::vector<ThumbCallbackInterface *>::iterator iter;
-	for( iter = m_ThumbClients.begin();	iter != m_ThumbClients.end(); ++iter )
+
+	for( auto client : m_ThumbClients )
 	{
-		ThumbCallbackInterface * client = *iter;
-		client->callbackAssetSendState( assetUniqueId, assetSendState, param );
+		client->callbackAssetSendState( sendToId, assetUniqueId, assetSendState, param );
 	}
 
 	unlockClientList();

@@ -28,6 +28,8 @@ AcceptCancelWidget::AcceptCancelWidget( QWidget* parent )
 	connect( ui.m_AcceptButton, SIGNAL( clicked() ), this, SLOT( slotAccepted() ) );
 	connect( ui.m_CancelButton, SIGNAL( clicked() ), this, SLOT( slotCanceled() ) );
 	setAcceptCancelWidgetSize( eButtonSizeMedium );
+
+	ui.m_CancelButton->setFocus();
 }
 
 //============================================================================
@@ -50,4 +52,10 @@ void AcceptCancelWidget::setAcceptCancelWidgetSize( EButtonSize buttonSize )
 	setFixedHeight( butSize.height() + 4 );
 	ui.m_AcceptButton->setFixedSize( buttonSize );
 	ui.m_CancelButton->setFixedSize( buttonSize );
+}
+
+//============================================================================
+void AcceptCancelWidget::showCancelButton( bool showButton )
+{
+	ui.m_CancelButton->setVisible( showButton );
 }

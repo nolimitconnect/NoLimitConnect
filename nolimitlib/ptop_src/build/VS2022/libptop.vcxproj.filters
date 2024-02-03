@@ -739,6 +739,15 @@
     <ClCompile Include="..\..\ptop_engine_src\VirtStream\VirtStorageProvider.cpp">
       <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueueMgr.cpp">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueueDb.cpp">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueInfo.cpp">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1526,6 +1535,24 @@
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\VirtStream\VirtStorageProvider.h">
       <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueCallback.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueMgr.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueDb.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueueDefs.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\SendQueue\SendQueInfo.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\AssetBase\AssetXferCallback.h">
+      <Filter>Source Files\AssetBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

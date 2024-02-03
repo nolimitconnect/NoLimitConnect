@@ -14,6 +14,8 @@
 #include "VoiceFeedMgr.h"
 #include "VideoFeedMgr.h"
 
+class AssetXferCallback;
+
 class PluginMessenger : public PluginBaseMultimedia
 {
 public:
@@ -21,6 +23,8 @@ public:
 	virtual ~PluginMessenger() = default;
 
 	virtual EAppModule			getAppModule( void )		{ return eAppModuleMessenger; }
+
+	void						wantAssetXferCallbacks( AssetXferCallback* client, bool enable );
 };
 
 

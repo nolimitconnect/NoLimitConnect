@@ -85,7 +85,7 @@ void AssetBaseWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& 
 	{
 		if( eAssetActionTxError == assetAction )
 		{
-			LogMsg( LOG_ERROR, "toGuiClientAssetAction txError %s ", m_AssetInfo.getAssetUniqueId().toHexString().c_str() );
+			LogMsg( LOG_ERROR, "%s txError %s ", __func__, m_AssetInfo.getAssetUniqueId().toHexString().c_str() );
 		}
 
 		bool hideResendAndFail = false;

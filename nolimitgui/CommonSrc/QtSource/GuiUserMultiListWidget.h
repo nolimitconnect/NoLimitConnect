@@ -33,6 +33,7 @@ public:
 	~GuiUserMultiListWidget() override;
 
 	void						setHostViewType( EHostType hostType );
+
 	void                        setUserViewType( EUserViewType viewType );
 	EUserViewType               getUserViewType( void )						{ return ui.m_UserListWidget->getUserViewType(); };
 

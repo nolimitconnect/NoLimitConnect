@@ -105,6 +105,8 @@ public:
     virtual void				setIsDeleted( bool isDeleted )                  { if( isDeleted ) m_AttributeFlags |= ASSET_ATTRIB_DELETED; else m_AttributeFlags &= ~ASSET_ATTRIB_DELETED; }
     virtual bool				isDeleted( void )                               { return m_AttributeFlags & ASSET_ATTRIB_DELETED ? true : false; }
 
+    virtual bool                getIsQueued( void )                             { return eAssetSendStateQueued == m_AssetSendState; }
+
     // assetName is usually the file name
     virtual void				setAssetName( const char* assetName );
     virtual void				setAssetName( std::string& assetName )          { m_AssetName = assetName; }

@@ -75,7 +75,7 @@ void AssetFaceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getHistoryId() );
 	if( assetInfo.isMine() )
 	{	
-		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime() );
+		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 		ui.m_RightAvatarBar->showAvatar( true );
 		if( guiUser )
 		{
@@ -84,7 +84,7 @@ void AssetFaceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	}
 	else
 	{
-		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime() );
+		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 		ui.m_LeftAvatarBar->showAvatar( true );
 		if( guiUser )
 		{

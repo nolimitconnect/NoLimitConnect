@@ -83,7 +83,7 @@ void AssetTextWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	if( assetInfo.isMine() )
 	{
 		ui.m_ChatTextLabel->setStyleSheet( m_MyApp.getAppTheme().getChatTextTxStyleSheet() );
-		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime() );
+		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 		ui.m_RightAvatarBar->showAvatar( true );
 		if( guiUser )
 		{
@@ -93,7 +93,7 @@ void AssetTextWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	else
 	{
 		ui.m_ChatTextLabel->setStyleSheet( m_MyApp.getAppTheme().getChatTextRxStyleSheet() );
-		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime() );
+		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 		ui.m_LeftAvatarBar->showAvatar( true );
 		if( guiUser )
 		{

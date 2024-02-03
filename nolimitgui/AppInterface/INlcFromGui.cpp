@@ -719,6 +719,12 @@ bool INlc::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInf
 }
 
 //============================================================================
+bool INlc::fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
+{
+    return getPtoP().fromGuiQueueAssetAction( assetAction, assetInfo, pos0to100000 );
+}
+
+//============================================================================
 bool INlc::fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
     return getPtoP().fromGuiAssetAction( pluginType, assetAction, assetId, pos0to100000 );

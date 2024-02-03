@@ -131,11 +131,11 @@ void AppletPlayerCamClip::updateAssetInfo( void )
 
 	if( getAssetInfo().isMine() )
 	{
-		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime() );
+		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 	}
 	else
 	{
-		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime() );
+		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 	}
 
 	if( getAssetInfo().isFileAsset() )

@@ -74,5 +74,5 @@ protected:
 
     //=== vars ===//
     Ui::AppletFriendListClientUi ui;
-    EUserViewType             m_FriendListType{ eUserViewTypeFriends };
+    EUserViewType             m_FriendListType{ eUserViewTypeFriendsOnline };
 };

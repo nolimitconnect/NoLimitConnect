@@ -28,6 +28,8 @@ DialogAddComment::DialogAddComment( AssetBaseInfo& assetInfo, QWidget* parent )
 
 	connect( ui.m_ExitDlgButton,		SIGNAL(clicked()),			this, SLOT(reject()) );
 	connect( ui.m_AcceptCancelWidget,	SIGNAL(signalAccepted()),	this, SLOT(slotAccepted()) );
+
+	ui.m_CommentLineEdit->setFocus();
 }
 
 //============================================================================

@@ -71,6 +71,7 @@ class GuiMemberActiveMgr;
 class GuiOfferSession;
 class GuiPushToTalkMgr;
 class GuiRandConnectMgr;
+class GuiSendQueueMgr;
 class KodiThread;
 class MediaPlayerNlc;
 class MyIcons;
@@ -96,6 +97,7 @@ public:
                GuiMemberActiveMgr& memberActiveMgr,
                GuiPushToTalkMgr& pushToTalkMgr,
                GuiRandConnectMgr& randConnectMgr,
+               GuiSendQueueMgr& sendQueueMgr,
                MyIcons& myIcons );
 
     AppCommon( const AppCommon& rhs ) = delete;
@@ -155,7 +157,9 @@ public:
     GuiPlayerMgr&               getPlayerMgr( void ) { return m_PlayerMgr; }
     GuiPluginMgr&               getPluginMgr( void ) { return m_PluginMgr; }
     GuiPushToTalkMgr&           getPushToTalkMgr( void ) { return m_PushToTalkMgr; };
+
     GuiRandConnectMgr&          getRandConnectMgr( void ) { return m_RandConnectMgr; }
+    GuiSendQueueMgr&            getSendQueueMgr( void ) { return m_SendQueueMgr; }
     GuiThumbMgr&                getThumbMgr( void ) { return m_ThumbMgr; }
     GuiUserJoinMgr&             getUserJoinMgr( void ) { return m_UserJoinMgr; }
     GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
@@ -871,7 +875,9 @@ protected:
     GuiHostedByMeJoinMgr		m_HostJoinMgr;
     GuiPlayerMgr                m_PlayerMgr;
     GuiPluginMgr                m_PluginMgr;
+
     GuiRandConnectMgr&          m_RandConnectMgr;
+    GuiSendQueueMgr&            m_SendQueueMgr;
     GuiUserJoinMgr				m_UserJoinMgr;
     GuiWebPageMgr               m_WebPageMgr;
 

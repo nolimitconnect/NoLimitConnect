@@ -15,8 +15,8 @@
 #include "GuiHostJoinSession.h"
 
 #include "AppCommon.h"
-#include "AppSettings.h"
 #include "AppletMgr.h"
+#include "AppSettings.h"
 #include "GuiHelpers.h"	
 #include "GuiParams.h"
 
@@ -35,14 +35,16 @@ AppletHostSelect::AppletHostSelect( AppCommon& app,  QWidget* parent )
 	ui.m_CreateInviteButton->setFixedSize( eButtonSizeSmall );
 	ui.m_CreateInviteButton->setIcon( eMyIconInviteCreate );
 
-	connect( &m_HostJoinMgr, SIGNAL( signalHostJoinOfferStateChange( GroupieId&, EJoinState ) ), this, SLOT( slotHostJoinOfferStateChange( GroupieId&, EJoinState ) ) );
-	connect( &m_HostJoinMgr, SIGNAL( signalHostJoinOnlineStatus( GuiHostJoin *, bool ) ), this, SLOT( slotHostJoinOnlineStatus( GuiHostJoin*, bool ) ) );
+	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOfferStateChange(GroupieId&,EJoinState)), this, SLOT(slotHostJoinOfferStateChange(GroupieId&,EJoinState)) );
+	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOnlineStatus(GuiHostJoin*,bool)), this, SLOT(slotHostJoinOnlineStatus(GuiHostJoin*,bool)) );
 
-	connect( ui.m_HostJoinRequestList, SIGNAL( signalAcceptButtonClicked( GuiHostJoinSession *, HostJoinRequestListItem * ) ), this, SLOT( slotAcceptButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ) );
-	connect( ui.m_HostJoinRequestList, SIGNAL( signalRejectButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ), this, SLOT( slotRejectButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ) );
+	connect( ui.m_HostJoinRequestList, SIGNAL(signalAcceptButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)), 
+			 this, SLOT(slotAcceptButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)) );
+	connect( ui.m_HostJoinRequestList, SIGNAL(signalRejectButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)), 
+			 this, SLOT(slotRejectButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)) );
 
-	connect( ui.m_RequestStateComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotJoinComboBoxSelectionChange( int ) ) );
-	connect( ui.m_CreateInviteButton, SIGNAL( clicked() ), this, SLOT( slotCreateInviteButtonClicked() ) );
+	connect( ui.m_RequestStateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotJoinComboBoxSelectionChange(int)) );
+	connect( ui.m_CreateInviteButton, SIGNAL(clicked()), this, SLOT(slotCreateInviteButtonClicked()) );
 
 	updateJoinList();
 
@@ -139,5 +141,5 @@ void AppletHostSelect::slotJoinComboBoxSelectionChange( int comboIdx )
 //============================================================================
 void AppletHostSelect::slotCreateInviteButtonClicked( void )
 {
-	m_MyApp.getAppletMgr().launchApplet( eAppletInviteCreate, this );
+	m_MyApp.getAppletMgr().launchApplet( eAppletInviteCreate, getParentPageFrame() );
 }

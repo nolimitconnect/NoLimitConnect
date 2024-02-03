@@ -28,7 +28,7 @@ public:
 	MyIcons&					getMyIcons( void );
 
 	void						setOnlineId( VxGUID& onlineId );
-	void						setTime( time_t creationTime );
+	void						setTime( time_t creationTime, bool isQueued );
 	void						setShredFile( QString fileName );
 	void						setShredButtonIcon( EMyIcons iconTrash );
 

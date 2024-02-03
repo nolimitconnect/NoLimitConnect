@@ -97,6 +97,7 @@ enum EAssetAction
 enum EAssetSendState
 {
 	eAssetSendStateNone     = 0,
+	eAssetSendStateQueued,
 	eAssetSendStateTxProgress,
 	eAssetSendStateRxProgress,
 	eAssetSendStateTxSuccess,

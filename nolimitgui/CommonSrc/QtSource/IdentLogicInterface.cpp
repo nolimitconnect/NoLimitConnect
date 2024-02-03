@@ -178,12 +178,19 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			//			   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
 			//}
 
-			if( !m_GuiUser )
+			if( !m_GuiUser  )
 			{
-				m_GuiUser = guiUser;
-				m_UserOnlineId = guiUser->getMyOnlineId();
 				m_MyApp.getPushToTalkMgr().wantGuiPushToTalkCallbacks( this, true );
 			}
+			else if( m_GuiUser != guiUser )
+			{
+				// clear the avatar icon in case there is none for this identity
+				getIdentAvatarButton()->clear();
+				getIdentAvatarButton()->setIcon( eMyIconAvatarImage );
+			}
+
+			m_GuiUser = guiUser;
+			m_UserOnlineId = guiUser->getMyOnlineId();
 
 			setupIdentLogic();
 

@@ -81,13 +81,32 @@ void GuiUserListWidget::refreshUserList( void )
     m_MyApp.checkIsGuiThread();
     clearUserList();
     std::vector<GuiUser*> updateUserList;
-    std::map<VxGUID, GuiUser*>& userList = m_UserMgr.getUserList();
-    for( auto iter = userList.begin(); iter != userList.end(); ++iter )
+    if( eUserViewTypeFriendsOffline == m_ViewType )
     {
-        if( isListViewMatch( iter->second ) )
+        std::vector<std::pair<VxGUID, int64_t>> offlineList;
+        m_MyApp.getUserMgr().getOfflineUsers( offlineList );
+        for( auto identTimePair : offlineList )
         {
-            updateUserList.push_back( iter->second );
-        }  
+            GuiUser* guiUser = m_MyApp.getUserMgr().getUser( identTimePair.first, true );
+            if( guiUser )
+            {
+                if( guiUser->isFriend() || guiUser->isAdmin() )
+                {
+                    updateUserList.emplace_back( guiUser );
+                }
+            }
+        }
+    }
+    else
+    {
+        std::map<VxGUID, GuiUser*>& userList = m_UserMgr.getUserList();
+        for( auto iter = userList.begin(); iter != userList.end(); ++iter )
+        {
+            if( isListViewMatch( iter->second ) )
+            {
+                updateUserList.emplace_back( iter->second );
+            }
+        }
     }
 
     for( auto user : updateUserList )
@@ -176,7 +195,8 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
 
                     if( !userItem )
                     {
-                        if( guiUser->isOnline() || (!guiUser->isOnline() && m_ViewType == eUserViewTypeOffline) )
+                        if( guiUser->isOnline() || 
+                            (!guiUser->isOnline() && ( eUserViewTypeOffline == m_ViewType || eUserViewTypeFriendsOffline == m_ViewType ) ) )
                         {
                             LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser new user %s", guiUser->getOnlineName().c_str() );
                             GuiUserSessionBase* userSession = makeSession( guiUser );
@@ -700,9 +720,13 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
         {
             return guiUser->isOnline() && guiUser->isDirectConnect();
         }
-        else if( eUserViewTypeFriends == viewType )
+        else if( eUserViewTypeFriendsOnline == viewType )
         {
-            return guiUser->isFriend() || guiUser->isAdmin();
+            return guiUser->isOnline() && ( guiUser->isFriend() || guiUser->isAdmin() );
+        }
+        else if( eUserViewTypeFriendsOffline == viewType )
+        {
+            return !guiUser->isOnline() && ( guiUser->isFriend() || guiUser->isAdmin() );
         }
         else if( eUserViewTypeGroup == viewType )
         {
@@ -746,7 +770,7 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
         }
         else if( eUserViewTypeOffline == viewType )
         {
-            return !guiUser->isOnline() && guiUser->isFriend() || guiUser->isAdmin();
+            return !guiUser->isOnline();
         }
 
         if( guiUser->isDirectConnect() && guiUser->isFriend() )

@@ -33,6 +33,7 @@ ChatEntryWidget::ChatEntryWidget( QWidget* parent, EAssetType inputMode )
 	qDebug() << "ChatEntryWidget input mode " << inputMode;
 	ui.setupUi(this);
 
+
 	connect( ui.m_InputAllWidget,		SIGNAL(signalUserInputButtonClicked()),		this, SIGNAL(signalUserInputButtonClicked()) );
 
 	connect( ui.m_InputAllWidget,		SIGNAL(signalAllTextButtonClicked()),		this, SLOT(slotAllTextButtonClicked()) );

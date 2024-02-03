@@ -36,7 +36,7 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	{
 		// this is someone we have never encountered
 		VxReportHack( eHackerLevelSevere, eHackerReasonInvalidPkt, sktBase, "attempted relay pkt %s null src bigListInfo", pktHdr->describePktHdr().c_str(), srcOnlineId.toOnlineIdString().c_str() );
-		sktBase->closeSkt( eSktCloseHackLevetSevere );
+		sktBase->closeSkt( eSktCloseHackLevelSevere );
 		return true;
 	}
 

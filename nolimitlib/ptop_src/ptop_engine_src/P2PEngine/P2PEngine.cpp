@@ -9,11 +9,21 @@
 //============================================================================
 
 #include "P2PEngine.h"
+
 #include "P2PConnectList.h"
+#include "VxSktLoopback.h"
+
 #include <GuiInterface/IToGui.h>
 
-#include <PluginSettings/PluginSettingMgr.h>
+#include <AssetMgr/AssetMgr.h>
+#include <BlobXferMgr/BlobMgr.h>
+#include <BigListLib/BigListInfo.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
 
+#include <MediaProcessor/MediaProcessor.h>
+
+#include <NetworkTest/IsPortOpenTest.h>
+#include <NetworkTest/RunUrlAction.h>
 #include <Network/NetworkMgr.h>
 #include <Network/NetworkStateMachine.h>
 #include <Network/NetConnector.h>
@@ -22,28 +32,18 @@
 
 #include <Plugins/PluginFileShareServer.h>
 #include <Plugins/PluginLibraryServer.h>
+#include <Plugins/PluginMgr.h>
 #include <Plugins/PluginNetServices.h>
+#include <PluginSettings/PluginSettingMgr.h>
 
 #include <RandConnect/RandConnectMgr.h>
 #include <Search/RcScan.h>
+#include <SendQueue/SendQueueMgr.h>
 
-#include <MediaProcessor/MediaProcessor.h>
-
-#include <NetworkTest/IsPortOpenTest.h>
-#include <NetworkTest/RunUrlAction.h>
-
-#include <AssetMgr/AssetMgr.h>
-#include <BlobXferMgr/BlobMgr.h>
-#include <Plugins/PluginMgr.h>
-
-#include <BigListLib/BigListInfo.h>
-
-#include <HostServerJoinMgr/HostServerJoinMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <UrlMgr/UrlMgr.h>
-#include "VxSktLoopback.h"
 
 #include <CoreLib/AppErr.h>
 #include <CoreLib/VxFileUtil.h>
@@ -82,7 +82,8 @@ namespace
 P2PEngine::P2PEngine( VxPeerMgr& peerMgr, 
 					  MemberActiveMgr& memberActiveMgr, 
 					  PushToTalkMgr& pushToTalkMgr,
-					  RandConnectMgr& randConnectMgr )
+					  RandConnectMgr& randConnectMgr,
+					  SendQueueMgr& sendQueueMgr )
 	: m_PeerMgr( peerMgr )
 	, m_FromGuiMgr( *this )
 	, m_ConnectIdListMgr( *this )
@@ -120,6 +121,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	, m_RandConnectMgr( randConnectMgr )
 	, m_RelayMgr( *this )
 	, m_RunUrlAction( *new RunUrlAction( *this, m_EngineSettings, m_NetServicesMgr, m_NetServicesMgr.getNetUtils() ) )
+	, m_SendQueueMgr( sendQueueMgr )
 	, m_HostJoinMgr( *new HostServerJoinMgr( *this, "HostJoinMgrDb.db3", "HostJoinedLastDb.db3" ) )
 	, m_UserJoinMgr( *new UserJoinMgr( *this, "UserJoinMgrDb.db3", "UserJoinedLastDb.db3" ) )
 	, m_UserOnlineMgr( *new UserOnlineMgr( *this ) )
@@ -192,9 +194,9 @@ void P2PEngine::iniitializePtoPEngine( void )
         VxSetAppErrHandler( AppErrHandler, this );
         VxSocketsStartup();
         m_PluginMgr.pluginMgrStartup();
-        //m_AssetMgr.addAssetMgrClient( this, true );
-        //m_BlobMgr.addBlobMgrClient( this, true );
-        //m_ThumbMgr.addThumbMgrClient( this, true );
+
+		// must be done after plugin manager so can request callbacks from plugins
+		getSendQueueMgr().onEngineInitialized();
    }
 }
 
@@ -232,21 +234,7 @@ void P2PEngine::shutdownEngine( void )
 	m_BigListMgr.bigListMgrShutdown();
 	m_AssetMgr.assetInfoMgrShutdown();
 
-	//g_oHttpConnection.httpConnectionShutdown();
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: waiting threads exit" );
-	//delete (IsPortOpenTest *)&m_IsPortOpenTest;
-	//delete (PluginNetServices *)&m_PluginNetServices;
-	//delete (PluginFileShareServer *)&m_PluginFileShareServer;
-	//delete &m_PluginServiceRelay;
-	//delete &m_MediaProcessor;
-	//delete &m_PluginMgr;
-	//delete &m_NetConnector;
-	//delete &m_HostTest;
-	//delete &m_NetworkStateMachine;
-	//delete &m_NetServicesMgr;
-	//delete &m_NetworkMonitor;
-	//delete &m_NetworkMgr;
-	//delete &m_AssetMgr;
 	
 	VxSleep( 1000 );
 	for ( int i = 0; i < 8; i++ )

@@ -88,6 +88,7 @@ void HistoryListWidget::onActivityStop( void )
 //============================================================================
 void HistoryListWidget::setGroupieId( GroupieId& groupieId )
 { 
+	clear();
 	m_GroupieId = groupieId; 
 
 	m_MyApp.wantToGuiActivityCallbacks( this, true );

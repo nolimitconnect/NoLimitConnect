@@ -41,7 +41,7 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 	ui.m_SessionWidget->setPluginType( getPluginType() );
 	ui.m_SessionWidget->setInputClientCallback( this );
 
-	ui.m_UserListWidget->setUserViewType( eUserViewTypeFriends );
+	ui.m_UserListWidget->setUserViewType( eUserViewTypeFriendsOnline );
 
     m_ResponseFrame			= ui.m_ResponseFrame;
     m_HangupSessionFrame	= ui.m_HangupSessionFrame;
@@ -204,7 +204,7 @@ void AppletMultiMessenger::callbackOnlineStatusChange( GuiUser* guiUser, bool is
 {
     if( !guiUser || !guiUser->isValid() )
     {
-        LogMsg( LOG_ERROR, "AppletMultiMessenger callbackOnlineStatusChange invalid param" );
+        LogMsg( LOG_ERROR, "AppletMultiMessenger::%s invalid param", __func__ );
         return;
     }
 
@@ -377,8 +377,7 @@ void AppletMultiMessenger::setStatusMsg( QString strStatus )
 }
 
 //============================================================================
-void AppletMultiMessenger::toGuiSetGameValueVar(	
-													EPluginType pluginType, 
+void AppletMultiMessenger::toGuiSetGameValueVar(	EPluginType pluginType, 
 													VxGUID&		onlineId, 
 													int32_t		s32VarId, 
 													int32_t		s32VarValue )
@@ -391,8 +390,7 @@ void AppletMultiMessenger::toGuiSetGameValueVar(
 }
 
 //============================================================================
-void AppletMultiMessenger::toGuiSetGameActionVar(	
-													EPluginType     pluginType, 
+void AppletMultiMessenger::toGuiSetGameActionVar(	EPluginType     pluginType, 
 													VxGUID&		    onlineId, 
 													int32_t			s32VarId, 
 													int32_t			s32VarValue )
@@ -481,10 +479,18 @@ bool AppletMultiMessenger::checkIfCanSend( void )
 		GuiHelpers::errorMsgBox( eErrMsgNoUserSelectedToSendTo, this );
 		return false;
 	}
+	else if( m_SelectedUser->isOnline() )
+	{
+		return true;
+	}
 	else if( !m_SelectedUser->isOnline() )
 	{
-		GuiHelpers::errorMsgBox( eErrMsgUserIsOffline, this );
-		return false;
+		ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is offline. Message will be queued until the next time you are both online", 
+									  m_SelectedUser->getOnlineName().c_str() );
+		errMsgBox.showCancelButton( true );
+        errMsgBox.exec();
+
+		return errMsgBox.wasOkButtonClicked() ? true : false;
 	}
 	else
 	{
@@ -502,8 +508,8 @@ bool AppletMultiMessenger::handleAssetAction( EAssetAction assetAction, AssetBas
 	}
 	else if( !m_SelectedUser->isOnline() )
 	{
-		GuiHelpers::errorMsgBox( eErrMsgUserIsOffline, this );
-		return false;
+		assetInfo.setDestUserId( m_SelectedUser->getMyOnlineId() );
+		return getMyApp().getEngine().fromGuiQueueAssetAction( assetAction, assetInfo );
 	}
 	else
 	{

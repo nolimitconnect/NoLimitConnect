@@ -78,6 +78,7 @@ class PluginSetting;
 class PluginSettingMgr;
 class RandConnectMgr;
 class RunUrlAction;
+class SendQueueMgr;
 class UrlMgr;
 class UserJoinMgr;
 class UserOnlineMgr;
@@ -94,7 +95,11 @@ public:
     P2PEngine() = delete; // don't allow default constructor
     P2PEngine( const P2PEngine& ) = delete; // don't allow copy constructor
 
-	P2PEngine( VxPeerMgr& peerMgr, MemberActiveMgr& memberActiveMgr, PushToTalkMgr& pushToTalkMgr, RandConnectMgr& randConnectMgr );
+	P2PEngine( VxPeerMgr& peerMgr, 
+               MemberActiveMgr& memberActiveMgr, 
+               PushToTalkMgr& pushToTalkMgr, 
+               RandConnectMgr& randConnectMgr,
+               SendQueueMgr& sendQueueMgr );
 	virtual ~P2PEngine() override;
 
 	void						startupEngine( void );
@@ -117,8 +122,11 @@ public:
     FriendListMgr&              getFriendListMgr( void )                        { return m_FriendListMgr; }
     FromGuiMgr&                 getFromGuiMgr( void )                           { return m_FromGuiMgr; }
     GroupieListMgr&             getGroupieListMgr( void )                       { return m_GroupieListMgr; }
+
+    HostServerJoinMgr&          getHostJoinMgr( void )                          { return m_HostJoinMgr; }
     HostUrlListMgr&             getHostUrlListMgr( void )                       { return m_HostUrlListMgr; }
     HostedListMgr&              getHostedListMgr( void )                        { return m_HostedListMgr; }
+
     IgnoreListMgr&              getIgnoreListMgr( void )                        { return m_IgnoreListMgr; }
     MemberActiveMgr&            getMemberActiveMgr( void )                      { return m_MemberActiveMgr; }
 
@@ -130,9 +138,9 @@ public:
 	NetworkMonitor&				getNetworkMonitor( void )						{ return m_NetworkMonitor; } 
 	NetServicesMgr&				getNetServicesMgr( void )						{ return m_NetServicesMgr; }
 	MediaProcessor&				getMediaProcessor( void )						{ return m_MediaProcessor; }
+
     OfferMgr&                   getOfferMgr( void )                             { return m_OfferMgr; }
     PushToTalkMgr&              getPushToTalkMgr( void )                        { return m_PushToTalkMgr; }
-	VxPeerMgr&					getPeerMgr( void )								{ return m_PeerMgr; }
     P2PConnectList&             getConnectList( void )                          { return m_ConnectionList; }
     PluginMgr&					getPluginMgr( void )							{ return m_PluginMgr; }
     PluginSettingMgr&			getPluginSettingMgr( void )						{ return m_PluginSettingMgr; }
@@ -141,12 +149,13 @@ public:
     RcScan&						getRcScan( void )								{ return m_RcScan; }
     RunUrlAction&               getRunUrlAction( void )                         { return m_RunUrlAction; }
 
+    SendQueueMgr&               getSendQueueMgr( void )                         { return m_SendQueueMgr; }
     ThumbMgr&                   getThumbMgr( void )                             { return m_ThumbMgr; }
     UrlMgr&                     getUrlMgr( void );
 
-    HostServerJoinMgr&          getHostJoinMgr( void )                          { return m_HostJoinMgr; }
     UserJoinMgr&                getUserJoinMgr( void )                          { return m_UserJoinMgr; }
     UserOnlineMgr&              getUserOnlineMgr( void )                        { return m_UserOnlineMgr; }
+    VxPeerMgr&					getPeerMgr( void )								{ return m_PeerMgr; }
     WebPageMgr&                 getWebPageMgr( void )                           { return m_WebPageMgr; }
 
     std::shared_ptr<VxSktBase>& getSktLoopback( void )                          { return m_SktLoopback; }
@@ -253,6 +262,7 @@ public:
     virtual bool				fromGuiPlayLocalMedia( const char* fileName, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos0to100000 = 0 ) override;
 
     virtual bool				fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+    bool				        fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
     virtual bool				fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
     virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
 
@@ -414,12 +424,6 @@ public:
 	// to gui
 	//========================================================================
     void						sendToGuiStatusMessage( const char* statusMsg, ... );
-
-	//void						toGuiPluginPermissionChange( VxNetIdent* netIdent );
-
-	//void						toGuiContactDescChange( VxNetIdent* netIdent );
-	//void						toGuiContactNameChange( VxNetIdent* netIdent );
-	//void						toGuiContactFriendshipChange( VxNetIdent* netIdent );
 
 	void						toGuiContactAnythingChange( VxNetIdent* netIdent );
 
@@ -814,6 +818,8 @@ protected:
     RandConnectMgr&             m_RandConnectMgr;
     RelayMgr                    m_RelayMgr;
     RunUrlAction&			    m_RunUrlAction;
+    SendQueueMgr&			    m_SendQueueMgr;
+
     HostServerJoinMgr&			m_HostJoinMgr;
     UserJoinMgr&				m_UserJoinMgr;
     UserOnlineMgr&				m_UserOnlineMgr;
