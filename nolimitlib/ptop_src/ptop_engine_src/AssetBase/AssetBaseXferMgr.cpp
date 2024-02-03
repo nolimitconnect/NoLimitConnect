@@ -1653,7 +1653,7 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
 		{
 			// tell gui asset was sent
 			updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxProgress, 100 );
-			updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxSuccess, xferErr );
+//			updateAssetMgrSendState( sendToId, assetInfo.getAssetUniqueId(), eAssetSendStateTxSuccess, xferErr );
 			endAssetBaseXferSession( txSession, true, false );
 		}
 	}

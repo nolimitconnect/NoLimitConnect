@@ -34,6 +34,7 @@ public:
 											VxGUID&			creatorId, 
 											VxGUID&			historyId, 
 											VxGUID&			adminId, 
+											VxGUID&			sendToId,
                                             VxGUID&			thumbId, 
 											const char*		assetName, 
 											int64_t			assetLen, 

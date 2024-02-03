@@ -347,5 +347,6 @@
         <file>Resources/user-connections.svg</file>
         <file>Resources/play-stream.svg</file>
         <file>Resources/play-extern.svg</file>
+        <file>Resources/msg_state_fail_permission.png</file>
     </qresource>
 </RCC>

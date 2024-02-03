@@ -1226,7 +1226,6 @@ void AppCommon::toGuiAssetAdded( AssetBaseInfo* assetInfo )
 void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
 {
 	// when assets are added they might call wantToGuiActivityCallbacks and change the clientList
-	// check if client is in list each time to avoid out of range vector interation crash
 
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
@@ -1235,18 +1234,6 @@ void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
 	}
 
 	m_ToGuiActivityInterfaceBusy = false;
-
-	/*
-	std::vector<ToGuiActivityInterface*> clientList;
-	getToGuiActivityInterfaceList( clientList );
-	for( auto client : clientList )
-	{
-		if( clientStillWantsToGuiActivityCallback( client ) )
-		{
-			client->toGuiAssetAdded( assetInfo );
-		}
-	}
-	*/
 }
 
 //============================================================================
@@ -1263,9 +1250,6 @@ void AppCommon::toGuiAssetUpdated( AssetBaseInfo* assetInfo )
 //============================================================================
 void AppCommon::slotInternalToGuiAssetUpdated( AssetBaseInfo assetInfo )
 {
-	// when assets are added they might call wantToGuiActivityCallbacks and change the clientList
-// check if client is in list each time to avoid out of range vector interation crash
-
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -1273,17 +1257,6 @@ void AppCommon::slotInternalToGuiAssetUpdated( AssetBaseInfo assetInfo )
 	}
 
 	m_ToGuiActivityInterfaceBusy = false;
-
-	/*
-	std::vector<ToGuiActivityInterface*> clientList;
-	getToGuiActivityInterfaceList( clientList );
-	for( auto client : clientList )
-	{
-		if( clientStillWantsToGuiActivityCallback( client ) )
-		{
-			client->toGuiAssetUpdated( assetInfo );
-		}
-	}*/
 }
 
 //============================================================================
@@ -1310,18 +1283,6 @@ void AppCommon::slotInternalToGuiAssetRemoved( AssetBaseInfo assetInfo )
 	}
 
 	m_ToGuiActivityInterfaceBusy = false;
-
-	/*
-	std::vector<ToGuiActivityInterface*> clientList;
-	getToGuiActivityInterfaceList( clientList );
-	for( auto client : clientList )
-	{
-		if( clientStillWantsToGuiActivityCallback( client ) )
-		{
-			client->toGuiAssetRemoved( assetInfo );
-		}
-	}
-	*/
 }
 
 //============================================================================

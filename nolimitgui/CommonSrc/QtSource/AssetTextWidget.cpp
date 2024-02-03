@@ -43,12 +43,13 @@ void AssetTextWidget::initAssetTextWidget( void )
 	ui.m_SendButton->setVisible( false );
 	ui.m_ButtonFrame->setVisible( false );
 
-	connect( ui.m_ChatTextLabel, SIGNAL( clicked() ), this, SLOT( slotAssetWasClicked() ) );
-	connect( ui.m_TagUserTextLabel, SIGNAL( clicked() ), this, SLOT( slotAssetWasClicked() ) );
-	connect( ui.m_CopyTextButton, SIGNAL( clicked() ), this, SLOT( slotCopyTextToClipboardButClick() ) );
-	connect( ui.m_LeftAvatarBar, SIGNAL( signalShredAsset() ), this, SLOT( slotShredAsset() ) );
-	connect( ui.m_RightAvatarBar, SIGNAL( signalShredAsset() ), this, SLOT( slotShredAsset() ) );
-	connect( ui.m_LeftAvatarBar, SIGNAL( signalResendAsset() ), this, SLOT( slotResendAsset() ) );
+	connect( ui.m_ChatTextLabel,	SIGNAL(clicked()),			this, SLOT(slotAssetWasClicked()) );
+	connect( ui.m_TagUserTextLabel, SIGNAL(clicked()),			this, SLOT(slotAssetWasClicked()) );
+	connect( ui.m_CopyTextButton,	SIGNAL(clicked()),			this, SLOT(slotCopyTextToClipboardButClick()) );
+	connect( ui.m_LeftAvatarBar,	SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+	connect( ui.m_LeftAvatarBar,	SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
 	calculateHint();
 }
 

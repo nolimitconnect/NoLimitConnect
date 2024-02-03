@@ -40,10 +40,7 @@ public:
 
     void                        wantSendQueueCallback( GuiSendQueueCallback* client, bool enable );
 
-    bool                        isSendQueue( GroupieId& groupieId );
-    bool                        isMemberOfHostType( EHostType hostType, VxGUID& onlineId );
-
-    void                        getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList );
+    bool                        isInSendQueue( VxGUID& onlineId, VxGUID& assetId );
 
 signals:
     void                        signalInternalSendQueue( SendQueInfo sendInfo );

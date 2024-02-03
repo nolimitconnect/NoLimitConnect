@@ -450,10 +450,10 @@ bool P2PEngine::fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo
 {
 	assetInfo.setAssetSendState( eAssetSendStateQueued );
 	AssetBaseInfo* createdAssetInfo = nullptr;
-	bool result = m_AssetMgr.addAsset( assetInfo, createdAssetInfo );
+	bool result = getSendQueueMgr().updateSendQueue( assetInfo.getSendToId(), assetInfo.getAssetUniqueId(), eSendQueStateWaiting );
 	if( result )
 	{		
-		result = getSendQueueMgr().updateSendQueue( assetInfo.getSendToId(), assetInfo.getAssetUniqueId(), eSendQueStateWaiting );
+		result = m_AssetMgr.addAsset( assetInfo, createdAssetInfo );
 	}
 
 	return result;

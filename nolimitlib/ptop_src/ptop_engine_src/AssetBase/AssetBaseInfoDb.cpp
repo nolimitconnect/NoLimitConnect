@@ -18,7 +18,7 @@ namespace
 {
 	std::string 		TABLE_ASSETS	 				= "tblAssets";
 
-	std::string 		CREATE_COLUMNS_ASSETS			= " (unique_id TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, adminId TEXT, thumbId TEXT, assetName TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER) ";
+	std::string 		CREATE_COLUMNS_ASSETS			= " (unique_id TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, adminId TEXT, thumbId TEXT, assetName TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER, sendToId TEXT) ";
 
 	const int			COLUMN_ASSET_UNIQUE_ID			= 0;
 	const int			COLUMN_ASSET_CREATOR_ID			= 1;
@@ -37,6 +37,7 @@ namespace
 	const int			COLUMN_ASSET_TAG				= 14;
 	const int			COLUMN_ASSET_SEND_STATE			= 15;
 	const int			COLUMN_PLUGIN_TYPE				= 16;
+	const int			COLUMN_SEND_TO_ID				= 17;
 }
 
 //============================================================================
@@ -115,6 +116,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
                                 VxGUID&			creatorId,
                                 VxGUID&			historyId,
 								VxGUID&			adminId, 
+								VxGUID&			sendToId,
                                 VxGUID&			thumbId,
                                 const char*		assetName,
                                 int64_t			assetLen,
@@ -127,7 +129,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
                                 int64_t			modifiedTimeStamp,
                                 int64_t			accessedTimeStamp,
                                 const char*		assetTag,
-                                EAssetSendState sendState )
+                                EAssetSendState sendState)
 {
     removeAsset( assetId );
 
@@ -141,6 +143,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
     std::string historyIdStr = historyId.toHexString();
 	std::string adminIdStr = adminId.toHexString();
     std::string thumbIdStr = thumbId.toHexString();
+	std::string sendToIdStr = sendToId.toHexString();
 
     DbBindList bindList( assetIdStr.c_str() );
     bindList.add( creatorIdStr.c_str() );
@@ -159,13 +162,14 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
     bindList.add( assetTag );
     bindList.add( (int)sendState );
     bindList.add( (int)pluginType );
+	bindList.add( sendToIdStr.c_str() );
 
 	if( ePluginTypeInvalid == pluginType )
 	{
 		LogMsg( LOG_VERBOSE, "AssetBaseInfoDb::addAsset no plugin type" );
 	}
 
-    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,sendToId) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     if( rc )
     {
@@ -211,6 +215,7 @@ bool AssetBaseInfoDb::addAsset( AssetBaseInfo* assetInfo )
 				        assetInfo->getCreatorId(),
 				        assetInfo->getHistoryId(),
 						assetInfo->getAdminId(),
+						assetInfo->getSendToId(),
                         assetInfo->getThumbId(),
 				        assetInfo->getAssetName().c_str(),
 				        assetInfo->getAssetLength(),
@@ -263,6 +268,7 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 			assetInfo->setAssetTag( cursor->getString( COLUMN_ASSET_TAG ) );		
 			assetInfo->setAssetSendState( ( EAssetSendState )cursor->getS32( COLUMN_ASSET_SEND_STATE ) );
 			assetInfo->setPluginType( (EPluginType)cursor->getS32( COLUMN_PLUGIN_TYPE ) );
+			assetInfo->setDestUserId( cursor->getString( COLUMN_SEND_TO_ID ) );
 
 			if( assetInfo->isValid( false ) && assetInfo->validateAssetExist() )
 			{

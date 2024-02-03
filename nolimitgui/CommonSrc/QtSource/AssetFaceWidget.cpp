@@ -42,11 +42,12 @@ void AssetFaceWidget::initAssetFaceWidget( void )
 	ui.m_SendButton->setVisible( false );
 	ui.m_ButtonFrame->setVisible( false );
 
-	connect( ui.m_FaceLabel, SIGNAL(clicked()), this, SLOT(slotAssetWasClicked()) );
-	connect( ui.m_ShredButton, SIGNAL(clicked()), this, SLOT(slotShredAsset()) );
-	connect( ui.m_LeftAvatarBar, SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
-	connect( ui.m_RightAvatarBar, SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
-	connect( ui.m_LeftAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+	connect( ui.m_FaceLabel,		SIGNAL(clicked()),				this, SLOT(slotAssetWasClicked()) );
+	connect( ui.m_ShredButton,		SIGNAL(clicked()),				this, SLOT(slotShredAsset()) );
+	connect( ui.m_LeftAvatarBar,	SIGNAL(signalShredAsset()),		this, SLOT(slotShredAsset()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()),		this, SLOT(slotShredAsset()) );
+	connect( ui.m_LeftAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
 }
 
 //============================================================================
@@ -57,6 +58,8 @@ void AssetFaceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	{
 		return;
 	}
+	// BRJ temp for debug
+	m_AssetInfo.setAssetSendState( eAssetSendStateTxFail );
 
 	QString faceRes = ":/AppRes/Resources/";
 	faceRes += m_AssetInfo.getAssetName().c_str();

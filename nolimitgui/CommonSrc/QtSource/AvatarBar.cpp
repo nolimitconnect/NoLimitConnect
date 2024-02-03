@@ -43,14 +43,8 @@ AvatarBar::AvatarBar( QWidget* parent )
 	ui.m_TimeLabel->setVisible( false );
 	ui.m_ResendButton->setVisible( false );
 
-	connect( ui.m_ShredButton, SIGNAL( clicked() ),		this, SIGNAL( signalShredAsset() ) );
-	connect( ui.m_ResendButton, SIGNAL( clicked() ),	this, SIGNAL( signalResendAsset() ) );
-}
-
-//============================================================================
-MyIcons& AvatarBar::getMyIcons( void )
-{
-	return m_MyApp.getMyIcons();
+	connect( ui.m_ShredButton, SIGNAL(clicked()),	this, SIGNAL(signalShredAsset()) );
+	connect( ui.m_ResendButton, SIGNAL(clicked()),	this, SIGNAL(signalResendAsset()) );
 }
 
 //============================================================================
@@ -142,7 +136,7 @@ void AvatarBar::showResendButton( bool show )
 	ui.m_ResendButton->setVisible( show );
 	if( show )
 	{
-		ui.m_ResendButton->setIcon( getMyIcons().getIcon( eMyIconSendArrowNormal ) );
+		ui.m_ResendButton->setIcon( eMyIconSendArrowNormal );
 	}
 }
 

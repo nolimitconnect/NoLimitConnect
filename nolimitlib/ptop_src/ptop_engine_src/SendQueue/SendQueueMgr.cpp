@@ -51,12 +51,18 @@ void SendQueueMgr::fromGuiUserLoggedOn( void )
         m_SendQueueInitialized = true;
 
         std::string dbFileName = VxGetSettingsDirectory();
-        dbFileName += "SendQueue";
+        dbFileName += "SendQueue.db3";
 
         lockSendList();
         m_SendQueueDb.dbShutdown();
         m_SendQueueDb.dbStartup( SEND_QUEUE_DB_VERSION, dbFileName );
         m_SendQueueDb.getAllQueInfo( m_SendList );
+
+        for( auto& sendQueInfo : m_SendList )
+        {
+            announceSendQueue( sendQueInfo );
+        }
+
         unlockSendList();
     }
 }
@@ -128,7 +134,7 @@ void SendQueueMgr::removeSentAsset( VxGUID& onlinId, VxGUID& assetId )
         }
     }
 
-    unlockSendList();
+    unlockClientList();
 }
 
 //============================================================================
@@ -194,8 +200,10 @@ bool SendQueueMgr::updateSendQueue( VxGUID& onlineId, VxGUID& assetId, enum ESen
     if( eSendQueStateSendRemove != sendState && !found )
     {
         m_SendList.emplace_back( sendQueInfo );
-        m_SendQueueDb.updateSendQueueInfo( sendQueInfo );
-        wasUpdated = true;
+        if( 0 == m_SendQueueDb.updateSendQueueInfo( sendQueInfo ) )
+        {
+            wasUpdated = true;
+        }
     }
 
     unlockSendList();
@@ -263,7 +271,7 @@ void SendQueueMgr::announceSendQueue( SendQueInfo& sendQueInfo )
         sendClient->callbackSendQueInfo( sendQueInfo );
     }
 
-    unlockSendList();
+    unlockClientList();
 }
 
 //============================================================================
@@ -293,7 +301,7 @@ void SendQueueMgr::sendNextAsset( VxGUID& onlineId )
         if( iter->getUserOnlineId() == onlineId && 
             iter->getSendQueState() == eSendQueStateWaiting || iter->getSendQueState() == eSendQueStateSendFailed )
         {
-            VxGUID assetId = sendQueInfo.getAssetId();
+            VxGUID assetId = iter->getAssetId();
             assetLock.lock();
             AssetBaseInfo* assetInfoPtr = GetPtoPEngine().getAssetMgr().findAsset( assetId );
             if( assetInfoPtr && assetInfoPtr->isValid() )

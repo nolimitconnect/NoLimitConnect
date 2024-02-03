@@ -9,7 +9,9 @@
 //============================================================================
 
 #include "AssetBaseWidget.h"
+
 #include "AppCommon.h"
+#include "GuiHelpers.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -242,6 +244,13 @@ void AssetBaseWidget::slotShredAsset( void )
 //============================================================================
 void AssetBaseWidget::slotResendAsset( void )
 {
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getDestUserId() );
+	if( !guiUser || !guiUser->isOnline() )
+	{
+		GuiHelpers::errorMsgBox( eErrMsgUserIsOffline, (QWidget*)parent() );
+		return;
+	}
+
 	m_Engine.fromGuiAssetAction( eAssetActionAssetResend, m_AssetInfo, 0 );
 	m_MyApp.playSound( eSndDefButtonClick );
 }

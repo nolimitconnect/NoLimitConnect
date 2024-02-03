@@ -49,8 +49,6 @@ public:
 
     void                        wantSendQueueCallbacks( SendQueueCallback* client, bool enable );
 
-
-
     std::vector<SendQueInfo>&   getSendQueueList( void )        { return m_SendList; };
 
 protected:

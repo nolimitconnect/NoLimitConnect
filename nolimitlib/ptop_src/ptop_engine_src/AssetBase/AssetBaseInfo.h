@@ -177,7 +177,6 @@ public:
 
     virtual void                printValues( uint32_t logMsgType = 1 ) const override;
 
-    // temporary destination id for xfer of asset
     virtual void				setDestUserId( VxGUID& destOnlineId )           { m_DestOnlineId = destOnlineId; }
     virtual void				setDestUserId( const char* destOnlineId )       { m_DestOnlineId.fromVxGUIDHexString( destOnlineId ); }
     virtual VxGUID&				getDestUserId( void )                           { return m_DestOnlineId; }

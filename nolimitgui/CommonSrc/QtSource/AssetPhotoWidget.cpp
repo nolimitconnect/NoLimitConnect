@@ -45,6 +45,7 @@ void AssetPhotoWidget::initAssetPhotoWidget( void )
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalShredAsset()),		this, SLOT(slotShredAsset()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()),		this, SLOT(slotShredAsset()) );
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
 }
 
 //============================================================================

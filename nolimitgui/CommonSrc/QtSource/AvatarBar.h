@@ -14,7 +14,6 @@
 #include <CoreLib/VxGUID.h>
 
 class AppCommon;
-class MyIcons;
 
 class AvatarBar : public QWidget
 {
@@ -25,7 +24,6 @@ public:
 	virtual ~AvatarBar() = default;
 
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
-	MyIcons&					getMyIcons( void );
 
 	void						setOnlineId( VxGUID& onlineId );
 	void						setTime( time_t creationTime, bool isQueued );

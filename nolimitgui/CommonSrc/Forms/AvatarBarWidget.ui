@@ -151,7 +151,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="m_ResendButton">
+    <widget class="VxPushButton" name="m_ResendButton">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>

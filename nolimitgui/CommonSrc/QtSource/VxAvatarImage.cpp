@@ -43,8 +43,12 @@ void VxAvatarImage::setImage( const char* resourceUrl )
 	if( !m_HasThumbImage )
 	{
 		setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-		QPixmap picBitmap( resourceUrl );
-		setPixmap( picBitmap );
+		QImage picImage( resourceUrl );
+		QPixmap avatarPixmap = QPixmap::fromImage( picImage ).scaled(geometry().size());
+		if( !avatarPixmap.isNull() )
+		{
+			setPixmap( avatarPixmap );
+		}
 	}
 }
 

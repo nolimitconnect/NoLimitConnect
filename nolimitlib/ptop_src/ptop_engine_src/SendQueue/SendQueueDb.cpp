@@ -75,7 +75,7 @@ void SendQueueDb::purgeAllSendQueue( void )
 }
 
 //============================================================================
-void SendQueueDb::updateSendQueueInfo( SendQueInfo& sendQueInfo )
+RCODE SendQueueDb::updateSendQueueInfo( SendQueInfo& sendQueInfo )
 {
 	removeSendQueueInfo( sendQueInfo.getGroupieId() );
 
@@ -95,6 +95,8 @@ void SendQueueDb::updateSendQueueInfo( SendQueInfo& sendQueInfo )
 	{
 		LogMsg( LOG_ERROR, "SendQueueDb::addAsset error %d", rc );
 	}
+
+	return 0;
 }
 
 //============================================================================

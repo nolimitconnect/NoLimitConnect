@@ -27,7 +27,7 @@ public:
 	virtual RCODE				onCreateTables( int iDbVersion );
 	virtual RCODE				onDeleteTables( int iOldVersion );
 
-	void 						updateSendQueueInfo( SendQueInfo& sendQueInfo );
+	RCODE 						updateSendQueueInfo( SendQueInfo& sendQueInfo );
     void						removeSendQueueInfo( GroupieId groupieId );
 
 	void						getAllQueInfo( std::vector<SendQueInfo>& sendStateList );

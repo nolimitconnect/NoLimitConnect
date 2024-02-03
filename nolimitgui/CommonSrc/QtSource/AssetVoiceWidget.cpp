@@ -49,12 +49,14 @@ void AssetVoiceWidget::initAssetVoiceWidget( void )
 	ui.m_PlayPosSlider->setMinimum( 0 );
 	ui.m_PlayPosSlider->setMaximum( 100000 );
 
-	connect( ui.m_PlayPauseButton, SIGNAL( clicked() ), this, SLOT( slotPlayButtonClicked() ) );
-	connect( ui.m_LeftAvatarBar, SIGNAL( signalShredAsset() ), this, SLOT( slotShredAsset() ) );
-	connect( ui.m_RightAvatarBar, SIGNAL( signalShredAsset() ), this, SLOT( slotShredAsset() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT( slotSliderPressed() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT( slotSliderReleased() ) );
-	connect( ui.m_LeftAvatarBar, SIGNAL( signalResendAsset() ), this, SLOT( slotResendAsset() ) );
+	connect( ui.m_PlayPauseButton, SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked()) );
+	connect( ui.m_LeftAvatarBar, SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+	connect( ui.m_RightAvatarBar, SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+
+	connect( ui.m_PlayPosSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()) );
+	connect( ui.m_PlayPosSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()) );
+	connect( ui.m_LeftAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+	connect( ui.m_RightAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
 
     ui.m_PlayPosSlider->setVisible( true );
 	QSize sizeHint( 200, GuiParams::getButtonSize( eButtonSizeLarge ).height() + GuiParams::getButtonSize( eButtonSizeTiny ).height() );

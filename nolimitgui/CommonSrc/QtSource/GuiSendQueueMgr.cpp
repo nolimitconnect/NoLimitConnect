@@ -31,42 +31,16 @@ void GuiSendQueueMgr::onAppCommonCreated( void )
     GetPtoPEngine().getSendQueueMgr().wantSendQueueCallbacks( this, true );
 }
 
+
 //============================================================================
-bool GuiSendQueueMgr::isSendQueue( GroupieId& groupieId )
+bool GuiSendQueueMgr::isInSendQueue( VxGUID& onlineId, VxGUID& assetId )
 {
     auto iter = std::find_if(m_SendList.begin(), m_SendList.end(),
-                             [&](SendQueInfo& x) { return x.getGroupieId() == groupieId; });
-    return iter != m_SendList.end();
-}
+                             [&](SendQueInfo& x) { return x.getUserOnlineId() == onlineId &&
+                                                    x.getAssetId() == assetId; });
+    bool isActive = iter != m_SendList.end();
 
-//============================================================================
-bool GuiSendQueueMgr::isMemberOfHostType( EHostType hostType, VxGUID& onlineId )
-{
-    for( auto groupieId : m_SendList )
-    {
-        if( hostType == groupieId.getHostType() && groupieId.getUserOnlineId() == onlineId )
-        {
-            if( groupieId.getHostOnlineId() != onlineId )
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-//============================================================================
-void GuiSendQueueMgr::getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList )
-{
-    memberList.clear();
-    for( auto groupieId : m_SendList )
-    {
-        if( hostId == groupieId.getHostedId() )
-        {
-            memberList.insert( groupieId.getUserOnlineId() );
-        }
-    }
+    return isActive;
 }
 
 //============================================================================
@@ -91,9 +65,8 @@ void GuiSendQueueMgr::updateSendQueue( SendQueInfo& sendQueInfo )
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "SendQueueMgr::updateSendQueue groupieId %s state %d", GetAppInstance().describeGroupieId( groupieId ).c_str(), sendQueInfo.getSendQueState() );
-
-    bool wasMember = isMemberOfHostType( groupieId.getHostType(), groupieId.getUserOnlineId() );
+    LogMsg( LOG_VERBOSE, "SendQueueMgr::updateSendQueue groupieId %s state %d", 
+            GetAppInstance().describeGroupieId( groupieId ).c_str(), sendQueInfo.getSendQueState() );
 
     bool wasUpdated = false;
     bool wasFound = false;
