@@ -64,8 +64,6 @@ void AppletPlayerStream::initAppletPlayerStream( void )
     }
 
 #if defined(DEBUG)
-
-	ui.m_ReplayButton->setEnabled( false );
 	ui.m_StreamsComboBox->setEnabled( false ); // do not enable until media player is ready
 	ui.m_StreamsComboBox->addItem( "Debug Streams" );
 
@@ -81,7 +79,6 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 #else
     ui.m_StreamsComboBox->setVisible( false );
-    ui.m_BrowseButton->setVisible( false );
 #endif // defined(DEBUG)
 
 	connect( ui.m_StreamsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaStreamComboBoxSelectionChange(int)) );

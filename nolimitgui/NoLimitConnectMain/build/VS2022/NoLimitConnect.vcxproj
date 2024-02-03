@@ -109,7 +109,6 @@ libopenjpeg.lib
 ;libnfs.lib
 ;libpng.lib
 ;libpcre.lib
-;libshairplay.lib
 ;libssh.lib;libtag.lib;libaecm-webrtc.lib;libminiaudio.lib;libssl.lib;libfreetype.lib;libfribidi.lib;libptopengine.lib;glu32.lib;opengl32.lib;libpthread.lib;ole32.lib;winmm.lib;Rpcrt4.lib;libopenmpt-full.lib;libnfs.lib;Vfw32.lib;VxVideoLib.lib;libexpat.lib;libzip.lib;libopencore-amr.lib;libfaac.lib;libxavs.lib;Secur32.lib;CoreLib.lib;FfmpegAvCodecLib.lib;FfmpegAvDeviceLib.lib;FfmpegAvFilterLib.lib;FfmpegAvFormatLib.lib;FfmpegAvUtilLib.lib;FfmpegPostProcLib.lib;FfmpegSwResampleLib.lib;FfmpegSwScaleLib.lib;glew64s.lib;libarmrwbenc.lib;libbzip2.lib;libcrossguid.lib;libcrystalhd.lib;libffmpegopus.lib;libflac.lib;libgnu.lib;libgsm.lib;libiconv.lib;libilbc.lib;libjpg.lib;liblame.lib;liblzma.lib;liblzo.lib;libogg.lib;libshine.lib;libsnappy.lib;libspeex.lib;libtheora.lib;libtinyxml.lib;libtwolame.lib;libvorbis.lib;libvpx.lib;libwavepack.lib;libwebp.lib;libwelsdec.lib;libxml2.lib;libxslt.lib;libxvid.lib;libyajl.lib;libzlib.lib;libzvbi.lib;MediaToolsLib.lib;NetLib.lib;PktLib.lib;d3d11.lib;DInput8.lib;DSound.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\nolimitlib\build-sharedlibs\Windows\$(Platform)\;$(ProjectDir)..\..\..\..\nolimitlib\build-staticlibs\Windows\$(Platform)\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
