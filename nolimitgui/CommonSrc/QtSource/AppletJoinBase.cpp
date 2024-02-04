@@ -247,7 +247,7 @@ bool AppletJoinBase::launchClientApplet( GuiHosted* guiHosted )
 {
 	if( guiHosted && guiHosted->readyForClientLaunch() )
 	{
-		return m_MyApp.getAppletMgr().launchClientApplet( guiHosted, eHostTypeGroup == guiHosted->getHostType() ? nullptr : getParentPageFrame() );
+		return m_MyApp.getAppletMgr().launchClientApplet( guiHosted, getParentPageFrame() );
 	}
 	else
 	{

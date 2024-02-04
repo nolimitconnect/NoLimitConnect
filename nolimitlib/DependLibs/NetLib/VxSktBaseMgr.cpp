@@ -300,6 +300,11 @@ void VxSktBaseMgr::handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase )
 //! delete sockets that have expired
 void VxSktBaseMgr::doSktDeleteCleanup()
 {
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
     int64_t timeNowMs = GetGmtTimeMs();
     std::vector<std::shared_ptr<VxSktBase>> deleteSktList;
 

@@ -174,6 +174,11 @@ bool VxServerMgr::isListening( bool ipv6 )
 //============================================================================
 RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET oListenSkt )
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return -1;
+    }
+
 	RCODE rc = 0;
 	if( INVALID_SOCKET == oListenSkt )
 	{
