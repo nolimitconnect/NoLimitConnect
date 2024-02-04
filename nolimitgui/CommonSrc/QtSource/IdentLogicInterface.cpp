@@ -288,15 +288,14 @@ void IdentLogicInterface::clearIdentity( void )
 	m_GuiUser = nullptr;
 	getIdentLine1()->setText( "" );
 	getIdentLine2()->setText( "" );
-	setIdentAvatarIcon( eMyIconAvatarImage );
 
-	QImage nullImage;
-	getIdentAvatarButton()->setIconOverrideImage( nullImage );
+	getIdentAvatarButton()->clear();
+	setIdentAvatarIcon( eMyIconAvatarImage );
 
 	setIdentFriendshipIcon( eMyIconAnonymous );
 	getIdentFriendshipButton()->setNotifyType( eNotifyNone );
 	getIdentFriendshipButton()->setNotifyDirectConnectEnabled( false );
-	getIdentAvatarButton()->setIconOverrideImage( nullImage );
+
 	if( getIdentPushToTalkButton() )
 	{
 		getIdentPushToTalkButton()->setVisible( false );
