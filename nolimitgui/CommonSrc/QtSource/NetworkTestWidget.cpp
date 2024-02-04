@@ -40,8 +40,8 @@ NetworkTestWidget::NetworkTestWidget( QWidget* parent )
              this,
              SLOT( slotIsPortOpenStatus( EIsPortOpenStatus, QString ) ) );
 
-    connect( ui.m_RunFullTestButton, SIGNAL( clicked() ), this, SLOT( slotRunFullTestButClick() ) );
-    connect( ui.m_IsMyPortOpenButton, SIGNAL( clicked() ), this, SLOT( slotIsPortOpenButClick() ) );
+    connect( ui.m_RunFullTestButton, SIGNAL(clicked()), this, SLOT( slotRunFullTestButClick() ) );
+    connect( ui.m_IsMyPortOpenButton, SIGNAL(clicked()), this, SLOT( slotIsPortOpenButClick() ) );
 }
 
 //============================================================================

@@ -24,8 +24,8 @@ AppletLaunchWidget::AppletLaunchWidget( AppCommon& myApp, EApplet appletType, Ap
 	ui.m_LaunchButton->setIcon( GetAppletIcon( m_AppletType ) );
 	ui.m_LauchLabel->setText( DescribeApplet( m_AppletType ) );
 
-	connect( ui.m_LaunchButton, SIGNAL( clicked() ), this, SLOT( slotAppletIconPressed() ) );
-    connect( ui.m_LauchLabel, SIGNAL( clicked() ), this, SLOT( slotAppletIconPressed() ) );
+	connect( ui.m_LaunchButton, SIGNAL(clicked()), this, SLOT( slotAppletIconPressed() ) );
+    connect( ui.m_LauchLabel, SIGNAL(clicked()), this, SLOT( slotAppletIconPressed() ) );
 }
 
 //============================================================================

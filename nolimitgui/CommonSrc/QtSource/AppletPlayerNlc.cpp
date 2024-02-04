@@ -109,8 +109,8 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 	connect( ui.m_FilesComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaFileComboBoxSelectionChange(int)) );
 
-	connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButtonClick() ) );
-	connect( ui.m_ReplayButton, SIGNAL( clicked() ), this, SLOT( slotReplayButtonClick() ) );
+	connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT( slotBrowseButtonClick() ) );
+	connect( ui.m_ReplayButton, SIGNAL(clicked()), this, SLOT( slotReplayButtonClick() ) );
 
 	onAppletInitialized();
 }

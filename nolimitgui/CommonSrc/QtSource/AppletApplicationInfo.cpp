@@ -66,10 +66,10 @@ void AppletApplicationInfo::setupApplet( void )
     getLogEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getLogEdit()->setReadOnly( true );
 
-    connect( ui.gotoWebsiteButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyToClipboardClicked() ) );
-    connect( ui.m_ExtraInfoButton, SIGNAL( clicked() ), this, SLOT( slotExtraInfoButtonClick() ) );
-    connect( ui.m_BrowseStorageButton, SIGNAL( clicked() ), this, SLOT( slotBrowseStorage() ) );
+    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardClicked() ) );
+    connect( ui.m_ExtraInfoButton, SIGNAL(clicked()), this, SLOT( slotExtraInfoButtonClick() ) );
+    connect( ui.m_BrowseStorageButton, SIGNAL(clicked()), this, SLOT( slotBrowseStorage() ) );
 
     connect( this, SIGNAL( signalLogMsg( const QString& ) ), this, SLOT( slotLogMsg( const QString& ) ) );
     connect( this, SIGNAL( signalInfoMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );

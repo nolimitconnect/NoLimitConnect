@@ -2242,19 +2242,20 @@ bool VxFileUtil::testIsWritablePath( std::string writeablePath )
 	makeDirectory( writeablePath );
 	writeablePath += TEST_WRITEABLE_FILE_NAME;
 
-	VFile* fileHandle = VFileOpen( writeablePath.c_str(), "wb+" );
+	// Virtual file system is not available yet.. use normal file io
+	FILE* fileHandle = fopen( writeablePath.c_str(), "wb+" );
 	if( fileHandle )
 	{
 		const char* testStr = "1234\n";
 		char buf[10];
 		strcpy( buf, testStr );
-		int writeCnt = VFileWrite( buf, 1, strlen( testStr ), fileHandle );
+		int writeCnt = fwrite( buf, 1, strlen( testStr ), fileHandle );
 		if( writeCnt == strlen( testStr ) )
 		{
 			result = true;
 		}
 
-		VFileClose( fileHandle );
+		fclose( fileHandle );
 		deleteFile( writeablePath.c_str() );
 	}
 	else

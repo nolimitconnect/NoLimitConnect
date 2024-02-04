@@ -65,8 +65,12 @@ public:
 
     void						setAssetType( uint16_t AssetType )				    { m_AssetType = htons( AssetType ); }
     uint16_t					getAssetType( void )							    { return ntohs( m_AssetType ); }
+
     void						setUniqueId( VxGUID& uniqueId )					    { m_UniqueId = uniqueId; }
     VxGUID&						getUniqueId( void )								    { return m_UniqueId; }
+
+    void						setSendToId( VxGUID& sendToId )					    { m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )								    { return m_SendToId; }
 
     void						setFileHashId( VxSha1Hash& fileHashId )			    { m_FileHashId = fileHashId; }
     VxSha1Hash&					getFileHashId( void )							    { return m_FileHashId; }
@@ -89,6 +93,7 @@ private:
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
     VxGUID						m_UniqueId;
+    VxGUID						m_SendToId;
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
     int64_t						m_s64AssetLen{ 0 };
@@ -110,8 +115,12 @@ public:
 
     void						setAssetType( uint16_t AssetType )				    { m_AssetType = htons( AssetType ); }
     uint16_t					getAssetType( void )							    { return ntohs( m_AssetType ); }
+
     void						setUniqueId( VxGUID& uniqueId )					    { m_UniqueId = uniqueId; }
     VxGUID&						getUniqueId( void )								    { return m_UniqueId; }
+
+     void						setSendToId( VxGUID& sendToId )					    { m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )								    { return m_SendToId; }
 
     void						setAssetNameAndTag( const char* pAssetName, const char* assetTag = 0 );
     void						setAssetNameLen( uint16_t nameLen )				    { m_AssetNameLen = htons( nameLen ); }
@@ -160,6 +169,7 @@ private:
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
     VxGUID						m_UniqueId;
+    VxGUID						m_SendToId;
     VxGUID						m_CreatorId;
     VxGUID						m_HistoryId; 
     VxGUID						m_AdminId; 
@@ -193,8 +203,12 @@ public:
 
     void						setAssetType( uint16_t AssetType )				    { m_AssetType = htons( AssetType ); }
     uint16_t					getAssetType( void )							    { return ntohs( m_AssetType ); }
+    
     void						setUniqueId( VxGUID& uniqueId )					    { m_UniqueId = uniqueId; }
     VxGUID&						getUniqueId( void )								    { return m_UniqueId; }
+
+    void						setSendToId( VxGUID& sendToId )					    { m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )								    { return m_SendToId; }
 
 	void						setAssetNameAndTag( const char* pAssetName, const char* assetTag = 0 );
 	void						setAssetNameLen( uint16_t nameLen )				    { m_AssetNameLen = htons( nameLen ); }
@@ -243,6 +257,7 @@ private:
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
 	VxGUID						m_UniqueId;
+    VxGUID						m_SendToId;
 	VxGUID						m_CreatorId;
 	VxGUID						m_HistoryId; 
     VxGUID						m_AdminId; 
@@ -274,6 +289,9 @@ public:
 	void						setUniqueId( VxGUID& uniqueId )					{ m_UniqueId = uniqueId; }
 	VxGUID&						getUniqueId( void )								{ return m_UniqueId; }
 
+    void						setSendToId( VxGUID& sendToId )					{ m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )								{ return m_SendToId; }
+
 	void						setLclSessionId( VxGUID& lclId )				{ m_LclSessionId = lclId; }
 	VxGUID&						getLclSessionId( void )							{ return m_LclSessionId; }
 	void						setRmtSessionId( VxGUID& rmtId )				{ m_RmtSessionId = rmtId; }
@@ -298,6 +316,7 @@ private:
     uint32_t					m_u32Error{ 0 };
 	int64_t						m_s64AssetOffs{ 0 };
 	VxGUID						m_UniqueId;
+    VxGUID						m_SendToId;
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
     uint64_t					m_s64Res1{ 0 };
@@ -396,6 +415,8 @@ public:
 
 	void						setAssetUniqueId( VxGUID& uniqueId  )		{ m_AssetUniqueId = uniqueId; }
 	VxGUID&						getAssetHashId( void )						{ return m_AssetUniqueId; }
+    void						setSendToId( VxGUID& sendToId )			    { m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )						    { return m_SendToId; }
 
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
@@ -407,6 +428,7 @@ private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetUniqueId;
+    VxGUID						m_SendToId;
 	uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
@@ -429,6 +451,9 @@ public:
 	void						setAssetUniqueId( VxGUID& uniqueId  )		{ m_AssetUniqueId = uniqueId; }
 	VxGUID&						getAssetUniqueId( void )					{ return m_AssetUniqueId; }
 
+     void						setSendToId( VxGUID& sendToId )			    { m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )							{ return m_SendToId; }
+
 	void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
 	uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
@@ -439,6 +464,7 @@ private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_AssetUniqueId;
+    VxGUID						m_SendToId;
 	uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
@@ -461,6 +487,9 @@ public:
     void						setAssetUniqueId( VxGUID& uniqueId  )		{ m_AssetUniqueId = uniqueId; }
     VxGUID&						getAssetUniqueId( void )					{ return m_AssetUniqueId; }
 
+    void						setSendToId( VxGUID& sendToId )			    { m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )							{ return m_SendToId; }
+
     void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
     uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
@@ -471,6 +500,7 @@ private:
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
     VxGUID						m_AssetUniqueId;
+    VxGUID						m_SendToId;
     uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
@@ -493,6 +523,9 @@ public:
     void						setAssetUniqueId( VxGUID& uniqueId  )		{ m_AssetUniqueId = uniqueId; }
     VxGUID&						getAssetUniqueId( void )					{ return m_AssetUniqueId; }
 
+    void						setSendToId( VxGUID& sendToId )				{ m_SendToId = sendToId; }
+    VxGUID&						getSendToId( void )							{ return m_SendToId; }
+
     void						setError( uint32_t error )					{ m_u32Error = htonl( error ); }
     uint32_t					getError( void )							{ return ntohl( m_u32Error ); }
 
@@ -503,6 +536,7 @@ private:
     VxGUID						m_LclSessionId;
     VxGUID						m_RmtSessionId;
     VxGUID						m_AssetUniqueId;
+    VxGUID						m_SendToId;
     uint32_t					m_u32Error{ 0 };
     uint8_t					    m_PluginType{ 0 };
     uint8_t					    m_IsStream{ 0 };
@@ -530,8 +564,8 @@ public:
 	void						setError( uint16_t error )						{ m_u16Err = htons( error ); }
 	uint16_t					getError( void )								{ return ntohs( m_u16Err ); }
 
-    void                        setIsStream( bool isStream )                { m_IsStream = isStream; }
-    bool                        getIsStream( void )                         { return m_IsStream; }
+    void                        setIsStream( bool isStream )                    { m_IsStream = isStream; }
+    bool                        getIsStream( void )                             { return m_IsStream; }
 
 private:
 	uint16_t					m_u16Err{ 0xffff };

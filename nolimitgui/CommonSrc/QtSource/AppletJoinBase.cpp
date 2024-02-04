@@ -49,8 +49,8 @@ AppletJoinBase::AppletJoinBase( const char*name, AppCommon& app, QWidget* parent
 
 	// so is actually destroyed
 	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
-	connect( ui.m_ChooseHostButton, SIGNAL( clicked() ), this, SLOT( slotChooseHostModeButtonClick() ) );
-	connect( ui.m_IgnoredHostsButton, SIGNAL( clicked() ), this, SLOT( slotShowIgnoredHostsListButtonClicked() ) );
+	connect( ui.m_ChooseHostButton, SIGNAL(clicked()), this, SLOT( slotChooseHostModeButtonClick() ) );
+	connect( ui.m_IgnoredHostsButton, SIGNAL(clicked()), this, SLOT( slotShowIgnoredHostsListButtonClicked() ) );
 
 	connect( ui.m_GuiHostedListWidget, SIGNAL( signalIconButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotIconButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
 	connect( ui.m_GuiHostedListWidget, SIGNAL( signalMenuButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotMenuButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );

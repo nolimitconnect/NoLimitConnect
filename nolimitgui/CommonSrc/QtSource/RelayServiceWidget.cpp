@@ -69,10 +69,10 @@ void RelayServiceWidget::updateUi( void )
     if( !m_PermissionsConnected )
     {
         m_PermissionsConnected = true;
-        connect( ui.m_PermissionInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowPermissionInformation() ) );
-        connect( ui.m_PermissionButton, SIGNAL( clicked() ), this, SLOT( slotShowPermissionInformation() ) );
+        connect( ui.m_PermissionInfoButton, SIGNAL(clicked()), this, SLOT( slotShowPermissionInformation() ) );
+        connect( ui.m_PermissionButton, SIGNAL(clicked()), this, SLOT( slotShowPermissionInformation() ) );
         connect( ui.m_PermissionComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotHandleSelectionChanged( int ) ) );
-        connect( ui.m_PluginInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowPluginInformation() ) );
+        connect( ui.m_PluginInfoButton, SIGNAL(clicked()), this, SLOT( slotShowPluginInformation() ) );
     }
 
     updatePermissionIcon();

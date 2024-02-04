@@ -56,9 +56,9 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
     ui.m_CamFrontBackButton->setFixedSize( eButtonSizeSmall );
     ui.m_CamFrontBackButton->setIcon( eMyIconSelectCameraNormal );
 
-    connect( ui.snapshotButton, SIGNAL( clicked() ), this, SLOT( onSnapShotButClick() ) );
-    connect( ui.m_DoneButton, SIGNAL( clicked() ), this, SLOT( onDoneButClick() ) );
-    connect( ui.m_CamFrontBackButton, SIGNAL( clicked() ), this, SLOT( onCamFrontBackButClick() ) );
+    connect( ui.snapshotButton, SIGNAL(clicked()), this, SLOT( onSnapShotButClick() ) );
+    connect( ui.m_DoneButton, SIGNAL(clicked()), this, SLOT( onDoneButClick() ) );
+    connect( ui.m_CamFrontBackButton, SIGNAL(clicked()), this, SLOT( onCamFrontBackButClick() ) );
     connect( &m_MyApp.getCamLogic(), SIGNAL( signalCameraDescription(QString) ), this, SLOT( slotCameraDescription( QString ) ) );
 
     ui.m_CamNameLabel->setText( m_MyApp.getCamLogic().getCamDescription() );

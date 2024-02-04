@@ -31,9 +31,9 @@ void NetworkKeyWidget::initNetworkKeyWidget( void )
     ui.m_NetworkKeyButton->setIcon( eMyIconNetworkKey );
     fillNetworkKeyEditField();
 
-    connect( ui.m_NetworkKeyInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowNetworkKeyInformation() ) );
-    connect( ui.m_NetworkKeyButton, SIGNAL( clicked() ), this, SLOT( slotShowNetworkKeyInformation() ) );
-    connect( ui.m_ApplyKeyButton, SIGNAL( clicked() ), this, SLOT( slotApplyNetworkKey() ) );
+    connect( ui.m_NetworkKeyInfoButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkKeyInformation() ) );
+    connect( ui.m_NetworkKeyButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkKeyInformation() ) );
+    connect( ui.m_ApplyKeyButton, SIGNAL(clicked()), this, SLOT( slotApplyNetworkKey() ) );
 }
 //============================================================================
 void NetworkKeyWidget::fillNetworkKeyEditField( void )

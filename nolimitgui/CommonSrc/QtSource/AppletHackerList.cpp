@@ -60,7 +60,7 @@ AppletHackerList::AppletHackerList( AppCommon& app, QWidget* parent )
     model->setHeaderData( 3, Qt::Horizontal, QObject::tr( "Offense" ) );
     model->setHeaderData( 4, Qt::Horizontal, QObject::tr( "Signature" ) );
 
-    connect( ui.m_CopyToClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyToClipboardClicked() ) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardClicked() ) );
 
 	m_MyApp.activityStateChange( this, true );
 

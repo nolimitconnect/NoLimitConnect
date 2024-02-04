@@ -26,7 +26,7 @@ AppletSettingsBase::AppletSettingsBase( const char* ObjName, AppCommon& app, QWi
 //============================================================================
 void AppletSettingsBase::connectServiceWidgets()
 {
-    connect( getPluginSettingsWidget()->getApplyButton(), SIGNAL( clicked() ), this, SLOT( slotApplyServiceSettings() ) );
+    connect( getPluginSettingsWidget()->getApplyButton(), SIGNAL(clicked()), this, SLOT( slotApplyServiceSettings() ) );
     connect( getPluginSettingsWidget(), SIGNAL(signalThumbnailAssetChanged(VxGUID,bool)), this, SLOT(slotThumbnailAssetChanged(VxGUID,bool)) );
 }
 

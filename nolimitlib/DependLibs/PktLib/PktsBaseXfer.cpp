@@ -49,6 +49,7 @@ bool PktBaseGetReply::fillPktFromAsset( AssetBaseInfo& assetInfo )
     setHistoryId( assetInfo.getHistoryId() );
     setAdminId( assetInfo.getAdminId() );
     setUniqueId( assetInfo.getAssetUniqueId() );
+    setSendToId( assetInfo.getDestUserId() );
     setAssetHashId( assetInfo.getAssetHashId() );
     setAssetLen( assetInfo.getAssetLength() );
     setCreationTime( assetInfo.getCreationTime() );
@@ -64,6 +65,7 @@ bool PktBaseGetReply::fillAssetFromPkt( AssetBaseInfo& assetInfo )
     setPluginType( assetInfo.getPluginType() );
     assetInfo.setAssetType( (EAssetType)getAssetType() );
     assetInfo.setAssetUniqueId( getUniqueId() );
+    assetInfo.setDestUserId( getSendToId() );
     assetInfo.setCreatorId( getCreatorId() );
     assetInfo.setHistoryId( getHistoryId() );
     assetInfo.setAdminId( getAdminId() );
@@ -162,6 +164,7 @@ bool PktBaseSendReq::fillPktFromAsset( AssetBaseInfo& assetInfo )
 	setHistoryId( assetInfo.getHistoryId() );
     setAdminId( assetInfo.getAdminId() );
 	setUniqueId( assetInfo.getAssetUniqueId() );
+    setSendToId( assetInfo.getDestUserId() );
 	setAssetHashId( assetInfo.getAssetHashId() );
 	setAssetLen( assetInfo.getAssetLength() );
     setCreationTime( assetInfo.getCreationTime() );
@@ -177,6 +180,7 @@ bool PktBaseSendReq::fillAssetFromPkt( AssetBaseInfo& assetInfo )
     assetInfo.setPluginType( getPluginType() );
 	assetInfo.setAssetType( (EAssetType)getAssetType() );
 	assetInfo.setAssetUniqueId( getUniqueId() );
+    assetInfo.setDestUserId( getSendToId() );
 	assetInfo.setCreatorId( getCreatorId() );
 	assetInfo.setHistoryId( getHistoryId() );
     assetInfo.setAdminId( getAdminId() );

@@ -25,8 +25,8 @@ AcceptCancelWidget::AcceptCancelWidget( QWidget* parent )
 	ui.m_AcceptButton->setIcon( eMyIconCheckMark );
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 	ui.m_CancelButton->setIcon( eMyIconRedX );
-	connect( ui.m_AcceptButton, SIGNAL( clicked() ), this, SLOT( slotAccepted() ) );
-	connect( ui.m_CancelButton, SIGNAL( clicked() ), this, SLOT( slotCanceled() ) );
+	connect( ui.m_AcceptButton, SIGNAL(clicked()), this, SLOT( slotAccepted() ) );
+	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT( slotCanceled() ) );
 	setAcceptCancelWidgetSize( eButtonSizeMedium );
 
 	ui.m_CancelButton->setFocus();

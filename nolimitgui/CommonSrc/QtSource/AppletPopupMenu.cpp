@@ -10,9 +10,10 @@
 
 #include "AppletPopupMenu.h"
 
+#include "ActivityMessageBox.h"	
 #include "AppCommon.h"	
 #include "AppSettings.h"
-#include "VxAppTheme.h"
+
 #include "AppletPeerChangeFriendship.h"
 #include "AppletAboutMeClient.h"
 #include "AppletCamClient.h"
@@ -864,6 +865,16 @@ void AppletPopupMenu::onDeleteDbSelected( int menuId )
 {
     EDatabaseType databaseType = (EDatabaseType)menuId;
 	bool wasDeleted{ false };
+
+	ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "Are you sure you want to delete the database?" );
+	errMsgBox.showCancelButton( true );
+    errMsgBox.exec();
+
+	if( !errMsgBox.wasOkButtonClicked() )
+	{
+		return;
+	}
+
 	switch( menuId )
 	{
     case 0: // database type none

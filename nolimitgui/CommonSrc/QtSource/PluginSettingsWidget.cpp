@@ -86,7 +86,7 @@ void PluginSettingsWidget::setupSettingsWidget( EApplet applet, EPluginType plug
 //============================================================================
 void PluginSettingsWidget::connectServiceWidgets()
 {
-    connect( ui.m_ApplyButton, SIGNAL( clicked() ), this, SLOT( slotApplyServiceSettings() ) );
+    connect( ui.m_ApplyButton, SIGNAL(clicked()), this, SLOT( slotApplyServiceSettings() ) );
 }
 
 //============================================================================

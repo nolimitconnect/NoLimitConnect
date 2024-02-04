@@ -83,7 +83,7 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 	connect( ui.m_StreamsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaStreamComboBoxSelectionChange(int)) );
 
-	connect( ui.m_ReplayButton, SIGNAL( clicked() ), this, SLOT( slotPlayButtonClick() ) );
+	connect( ui.m_ReplayButton, SIGNAL(clicked()), this, SLOT( slotPlayButtonClick() ) );
 
 	onAppletInitialized();
 }

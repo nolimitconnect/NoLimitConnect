@@ -52,9 +52,9 @@ AppletInviteAccept::AppletInviteAccept( AppCommon& app, QWidget* parent )
     ui.m_RejectInviteButton->setFixedSize( eButtonSizeMedium );
     ui.m_RejectInviteButton->setIcon( eMyIconCancelNormal );
 
-    connect( ui.m_CopyInviteFromClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyInviteFromClipboardButtonClicked() ) );
-    connect( ui.m_AcceptInviteButton, SIGNAL( clicked() ), this, SLOT( slotAcceptInviteButtonClicked() ) );
-    connect( ui.m_RejectInviteButton, SIGNAL( clicked() ), this, SLOT( slotRejectInviteButtonClicked() ) );
+    connect( ui.m_CopyInviteFromClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyInviteFromClipboardButtonClicked() ) );
+    connect( ui.m_AcceptInviteButton, SIGNAL(clicked()), this, SLOT( slotAcceptInviteButtonClicked() ) );
+    connect( ui.m_RejectInviteButton, SIGNAL(clicked()), this, SLOT( slotRejectInviteButtonClicked() ) );
 
     // Log is seperate now VxAddLogHandler( this );
     m_MyApp.activityStateChange( this, true );

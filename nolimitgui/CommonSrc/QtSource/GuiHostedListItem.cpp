@@ -28,10 +28,10 @@ GuiHostedListItem::GuiHostedListItem( EHostType hostType, QWidget* parent  )
 	ui.setupUi( this );
     setFocusPolicy( Qt::NoFocus );
     setupIdentLogic();
-    connect( ui.m_JoinButton,		SIGNAL( clicked() ),	this, SLOT( slotJoinButtonClicked() ) );
-    connect( ui.m_ConnectButton,    SIGNAL( clicked() ),    this, SLOT( slotConnectButtonClicked() ) );
-    connect( ui.m_KickButton,       SIGNAL( clicked() ),    this, SLOT( slotKickButtonClicked() ) );
-    connect( ui.m_IgnoreButton,     SIGNAL( clicked() ),    this, SLOT( slotIgnoreButtonClicked() ) );
+    connect( ui.m_JoinButton,		SIGNAL(clicked()),	this, SLOT( slotJoinButtonClicked() ) );
+    connect( ui.m_ConnectButton,    SIGNAL(clicked()),    this, SLOT( slotConnectButtonClicked() ) );
+    connect( ui.m_KickButton,       SIGNAL(clicked()),    this, SLOT( slotKickButtonClicked() ) );
+    connect( ui.m_IgnoreButton,     SIGNAL(clicked()),    this, SLOT( slotIgnoreButtonClicked() ) );
    
     ui.m_MenuButton->setFixedSize( GuiParams::getButtonSize( eButtonSizeMedium ) );
     ui.m_MenuButton->setIcon( eMyIconMenu );

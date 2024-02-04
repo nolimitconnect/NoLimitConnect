@@ -38,9 +38,9 @@ AppletHostNetworkStatus::AppletHostNetworkStatus( AppCommon& app, QWidget* paren
 
     m_MyApp.activityStateChange( this, true );
 
-    connect( ui.m_HostingRequirementsButton, SIGNAL( clicked() ), this, SLOT( slotHostRequirementsButtonClicked() ) );
+    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT( slotHostRequirementsButtonClicked() ) );
     connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
-    connect( ui.m_VistEvalVpnsButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
+    connect( ui.m_VistEvalVpnsButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
 
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();

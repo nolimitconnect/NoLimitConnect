@@ -80,7 +80,7 @@ void AppletServiceBase::setupServiceBaseApplet( EApplet applet, EPluginType plug
 //============================================================================
 void AppletServiceBase::connectServiceWidgets()
 {
-    connect( ui.m_ApplyButton, SIGNAL( clicked() ), this, SLOT( slotApplyServiceSettings() ) );
+    connect( ui.m_ApplyButton, SIGNAL(clicked()), this, SLOT( slotApplyServiceSettings() ) );
     connect( ui.m_RunOnStartupCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotRunOnStartupCheckBoxChange(int)) );
 }
 

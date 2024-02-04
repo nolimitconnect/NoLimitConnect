@@ -117,29 +117,29 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     ui.m_HostJoinedCheckBox->setChecked( true );
     ui.m_ClientJoinedCheckBox->setChecked( true );
 
-    connect( ui.m_ShowLogButton, SIGNAL( clicked() ), this, SLOT( slotShowLogButtonClick() ) );
-    connect( ui.m_ShowAppInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowAppInfoButtonClick() ) );
+    connect( ui.m_ShowLogButton, SIGNAL(clicked()), this, SLOT(slotShowLogButtonClick()) );
+    connect( ui.m_ShowAppInfoButton, SIGNAL(clicked()), this, SLOT(slotShowAppInfoButtonClick()) );
 
-    connect( ui.m_CopyMyUrlButtonIpv4, SIGNAL( clicked() ), this, SLOT( slotCopyMyUrlIpv4ToClipboardClicked() ) );
-    connect( ui.m_CopyMyUrlButtonIpv6, SIGNAL( clicked() ), this, SLOT( slotCopyMyUrlIpv6ToClipboardClicked() ) );
+    connect( ui.m_CopyMyUrlButtonIpv4, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlIpv4ToClipboardClicked()) );
+    connect( ui.m_CopyMyUrlButtonIpv6, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlIpv6ToClipboardClicked()) );
 
-    connect( ui.m_CopyTestUrlButton, SIGNAL( clicked() ), this, SLOT( slotCopyTestUrlToClipboardClicked() ) );
-    connect( ui.m_CopyResultToClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyResultToClipboardClicked() ) );
-    connect( ui.m_ClearResultsButton, SIGNAL( clicked() ), this, SLOT( slotClearResultsButtonClicked() ) );
+    connect( ui.m_CopyTestUrlButton, SIGNAL(clicked()), this, SLOT(slotCopyTestUrlToClipboardClicked()) );
+    connect( ui.m_CopyResultToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyResultToClipboardClicked()) );
+    connect( ui.m_ClearResultsButton, SIGNAL(clicked()), this, SLOT(slotClearResultsButtonClicked()) );
 
-    connect( ui.m_BrowseFilesButton, SIGNAL( clicked() ), this, SLOT( slotBrowseFilesButtonClicked() ) );
+    connect( ui.m_BrowseFilesButton, SIGNAL(clicked()), this, SLOT(slotBrowseFilesButtonClicked()) );
 
-    connect( ui.m_QueryHostIdButton, SIGNAL( clicked() ), this, SLOT( slotQueryHostIdButtonClicked() ) );
-    connect( ui.m_GenerateGuidButton, SIGNAL( clicked() ), this, SLOT( slotGenerateGuidButtonClicked() ) );
-    connect( ui.m_PurgeCacheButton, SIGNAL( clicked() ), this, SLOT( slotPurgeCacheButtonClicked() ) );
-    connect( ui.m_GenKeyButton, SIGNAL( clicked() ), this, SLOT( slotGenKeyButtonClicked() ) );
-    connect( ui.m_ListActionButton, SIGNAL( clicked() ), this, SLOT( slotListActionButtonClicked() ) );
-    connect( ui.m_HostClientTestButton, SIGNAL( clicked() ), this, SLOT( slotHostClientTestButtonClicked() ) );
+    connect( ui.m_QueryHostIdButton, SIGNAL(clicked()), this, SLOT(slotQueryHostIdButtonClicked()) );
+    connect( ui.m_GenerateGuidButton, SIGNAL(clicked()), this, SLOT(slotGenerateGuidButtonClicked()) );
+    connect( ui.m_PurgeCacheButton, SIGNAL(clicked()), this, SLOT(slotPurgeCacheButtonClicked()) );
+    connect( ui.m_GenKeyButton, SIGNAL(clicked()), this, SLOT(slotGenKeyButtonClicked()) );
+    connect( ui.m_ListActionButton, SIGNAL(clicked()), this, SLOT(slotListActionButtonClicked()) );
+    connect( ui.m_HostClientTestButton, SIGNAL(clicked()), this, SLOT(slotHostClientTestButtonClicked()) );
 
-    connect( ui.m_PurgeEverythingButton, SIGNAL( clicked() ), this, SLOT( slotPurgeEverythingButtonClicked() ) );
+    connect( ui.m_PurgeEverythingButton, SIGNAL(clicked()), this, SLOT(slotPurgeEverythingButtonClicked()) );
 
-    connect( ui.m_BrowseDownloadsButton, SIGNAL( clicked() ), this, SLOT( slotBrowseDownloadsButtonClicked() ) );
-    connect( ui.m_BrowseAppDataButton, SIGNAL( clicked() ), this, SLOT( slotBrowseBrowseAppDataButtonClicked() ) );
+    connect( ui.m_BrowseDownloadsButton, SIGNAL(clicked()), this, SLOT(slotBrowseDownloadsButtonClicked()) );
+    connect( ui.m_BrowseAppDataButton, SIGNAL(clicked()), this, SLOT(slotBrowseBrowseAppDataButtonClicked()) );
 
     connect( ui.m_DeleteDbButton, SIGNAL(clicked()), this, SLOT(slotDeleteDbButtonClicked()) );
 

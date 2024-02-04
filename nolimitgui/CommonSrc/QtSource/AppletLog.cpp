@@ -65,9 +65,9 @@ void AppletLog::setupApplet( void )
     getLogEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getLogEdit()->setReadOnly( true );
 
-    connect( ui.gotoWebsiteButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyToClipboardClicked() ) );
-    connect( ui.m_LogSettingsButton, SIGNAL( clicked() ), this, SLOT( slotLogSettingButtonClick() ) );
+    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardClicked() ) );
+    connect( ui.m_LogSettingsButton, SIGNAL(clicked()), this, SLOT( slotLogSettingButtonClick() ) );
 
     connect( this, SIGNAL( signalLogMsg( const QString& ) ), this, SLOT( slotLogMsg( const QString& ) ) );
     connect( this, SIGNAL( signalInfoMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );

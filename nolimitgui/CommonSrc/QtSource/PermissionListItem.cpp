@@ -101,11 +101,11 @@ void PermissionListItem::updateUi( void )
     if( !m_PermissionsConnected )
     {
         m_PermissionsConnected = true;
-        connect( ui.m_PermissionButton, SIGNAL( clicked() ), this, SLOT( slotShowPermissionInformation() ) );
+        connect( ui.m_PermissionButton, SIGNAL(clicked()), this, SLOT( slotShowPermissionInformation() ) );
         connect( ui.m_PermissionComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotHandleSelectionChanged( int ) ) );
-        connect( ui.m_PluginRunButton, SIGNAL( clicked() ), this, SLOT( slotRunPlugin() ) );
-        connect( ui.m_PluginSettingsButton, SIGNAL( clicked() ), this, SLOT( slotSetupPlugin() ) );
-        connect( ui.m_PluginInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowPluginInformation() ) );
+        connect( ui.m_PluginRunButton, SIGNAL(clicked()), this, SLOT( slotRunPlugin() ) );
+        connect( ui.m_PluginSettingsButton, SIGNAL(clicked()), this, SLOT( slotSetupPlugin() ) );
+        connect( ui.m_PluginInfoButton, SIGNAL(clicked()), this, SLOT( slotShowPluginInformation() ) );
     }
 
     updatePermissionIcon();

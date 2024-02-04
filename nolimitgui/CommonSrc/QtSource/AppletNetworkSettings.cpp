@@ -98,40 +98,40 @@ AppletNetworkSettings::~AppletNetworkSettings()
 //============================================================================
 void AppletNetworkSettings::connectSignals( void )
 {
-    connect( ui.m_NetworkHostButton, SIGNAL( clicked() ), this, SLOT( slotShowNetworkHostInformation() ) );
-    connect( ui.m_NetworkHostInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowNetworkHostInformation() ) );
-    connect( ui.m_NetworkKeyInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowNetworkKeyInformation() ) );
-    connect( ui.m_NetworkKeyButton, SIGNAL( clicked() ), this, SLOT( slotShowNetworkKeyInformation() ) );
+    connect( ui.m_NetworkHostButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkHostInformation() ) );
+    connect( ui.m_NetworkHostInfoButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkHostInformation() ) );
+    connect( ui.m_NetworkKeyInfoButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkKeyInformation() ) );
+    connect( ui.m_NetworkKeyButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkKeyInformation() ) );
 
-    connect( ui.AutoDetectProxyRadioButton, SIGNAL( clicked() ), this, SLOT( slotAutoDetectProxyClick() ) );
-    connect( ui.AssumeNoProxyRadioButton, SIGNAL( clicked() ), this, SLOT( slotNoProxyClick() ) );
-    connect( ui.AssumeProxyRadioButton, SIGNAL( clicked() ), this, SLOT( slotYesProxyClick() ) );
+    connect( ui.AutoDetectProxyRadioButton, SIGNAL(clicked()), this, SLOT( slotAutoDetectProxyClick() ) );
+    connect( ui.AssumeNoProxyRadioButton, SIGNAL(clicked()), this, SLOT( slotNoProxyClick() ) );
+    connect( ui.AssumeProxyRadioButton, SIGNAL(clicked()), this, SLOT( slotYesProxyClick() ) );
 
-    connect( ui.RandomPortButton, SIGNAL( clicked() ), this, SLOT( slotRandomPortButtonClick() ) );
-    connect( ui.m_UseUpnpCheckBox, SIGNAL( clicked() ), this, SLOT( slotUseUpnpCheckBoxClick() ) );
-    connect( ui.m_ConnectTestUrlInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowConnectTestUrlInformation() ) );
-    connect( ui.m_ConnectIsOpenInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowConnectTestSettingsInformation() ) );
-    connect( ui.m_SaveSettingsButton, SIGNAL( clicked() ), this, SLOT( onSaveButtonClick() ) );
-    connect( ui.m_DeleteSettingsButton, SIGNAL( clicked() ), this, SLOT( onDeleteButtonClick() ) );
-    connect( ui.m_ApplySettingsButton, SIGNAL( clicked() ), this, SLOT( slotApplySettingsButtonClick() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyMyUrlToClipboard() ) );
-    connect( ui.m_TestIsPortOpenButton, SIGNAL( clicked() ), this, SLOT( slotTestIsMyPortOpenButtonClick() ) );
+    connect( ui.RandomPortButton, SIGNAL(clicked()), this, SLOT( slotRandomPortButtonClick() ) );
+    connect( ui.m_UseUpnpCheckBox, SIGNAL(clicked()), this, SLOT( slotUseUpnpCheckBoxClick() ) );
+    connect( ui.m_ConnectTestUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowConnectTestUrlInformation() ) );
+    connect( ui.m_ConnectIsOpenInfoButton, SIGNAL(clicked()), this, SLOT( slotShowConnectTestSettingsInformation() ) );
+    connect( ui.m_SaveSettingsButton, SIGNAL(clicked()), this, SLOT( onSaveButtonClick() ) );
+    connect( ui.m_DeleteSettingsButton, SIGNAL(clicked()), this, SLOT( onDeleteButtonClick() ) );
+    connect( ui.m_ApplySettingsButton, SIGNAL(clicked()), this, SLOT( slotApplySettingsButtonClick() ) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyMyUrlToClipboard() ) );
+    connect( ui.m_TestIsPortOpenButton, SIGNAL(clicked()), this, SLOT( slotTestIsMyPortOpenButtonClick() ) );
 
-    connect( ui.m_DefaultChatRoomHostButton, SIGNAL( clicked() ), this, SLOT( slotShowDefaultChatRoomUrlInformation() ) );
-    connect( ui.m_ChatRoomUrlInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowDefaultChatRoomUrlInformation() ) );
+    connect( ui.m_DefaultChatRoomHostButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultChatRoomUrlInformation() ) );
+    connect( ui.m_ChatRoomUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultChatRoomUrlInformation() ) );
 
-    connect( ui.m_DefaultGroupHostButton, SIGNAL( clicked() ), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
-    connect( ui.m_DefaultGroupHostUrlInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
+    connect( ui.m_DefaultGroupHostButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
+    connect( ui.m_DefaultGroupHostUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
 
-    connect( ui.m_RandomConnectButton, SIGNAL( clicked() ), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
-    connect( ui.m_RandomConnectUrlInfoButton, SIGNAL( clicked() ), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
+    connect( ui.m_RandomConnectButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
+    connect( ui.m_RandomConnectUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
 
     connect( ui.m_NetworkSettingsNameComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onComboBoxSelectionChange( int ) ) );
     connect( ui.m_NetworkSettingsNameComboBox, SIGNAL( editTextChanged( const QString& ) ), this, SLOT( onComboBoxTextChanged( const QString& ) ) );
 
     connect( m_UpdateTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateTimer() ) );
 
-    connect( ui.m_TestUpnpButton, SIGNAL( clicked() ), this, SLOT( slotTestUpnpButtonClick() ) ); 
+    connect( ui.m_TestUpnpButton, SIGNAL(clicked()), this, SLOT( slotTestUpnpButtonClick() ) ); 
 }
 
 //============================================================================

@@ -54,7 +54,7 @@ AppletLogView::~AppletLogView()
 //============================================================================
 void AppletLogView::connectSignals( void )
 {
-    connect( ui.m_LogSettingsPushButton, SIGNAL( clicked() ), this, SLOT( slotLaunchLogSettings() ) );
+    connect( ui.m_LogSettingsPushButton, SIGNAL(clicked()), this, SLOT( slotLaunchLogSettings() ) );
     connect( &m_LogMgr, SIGNAL( signalLogMsg( uint32_t, const QString& ) ), this, SLOT( slotLogMsg( uint32_t, const QString& ) ) );
 }
 

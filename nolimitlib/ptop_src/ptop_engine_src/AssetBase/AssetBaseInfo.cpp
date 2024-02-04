@@ -576,9 +576,9 @@ bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
 {
 	if( groupieId.getHostType() == eHostTypePeerUser )
 	{
-		// messenger just has to match history id
 		if( getPluginType() == ePluginTypeMessenger &&
-			( groupieId.getUserOnlineId() == m_HistoryId || groupieId.getHostOnlineId() == m_HistoryId ) )
+			( groupieId.getUserOnlineId() == m_HistoryId && groupieId.getHostOnlineId() == m_DestOnlineId ) || // user sent to me
+			( groupieId.getHostOnlineId() == m_HistoryId && groupieId.getUserOnlineId() == m_DestOnlineId ) ) // I sent to user
 		{
 			return true;
 		}

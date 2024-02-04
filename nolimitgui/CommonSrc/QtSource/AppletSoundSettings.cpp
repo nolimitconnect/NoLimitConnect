@@ -94,7 +94,7 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     connect( ui.m_InDeviceComboBox, QOverload<int>::of( &QComboBox::activated ), this, &AppletSoundSettings::inDeviceChanged );
     connect( m_devices, &QMediaDevices::audioInputsChanged, this, &AppletSoundSettings::updateInAudioDevices );
-    connect( ui.m_ApplyDefaultInDeviceButton, SIGNAL( clicked() ), this, SLOT( slotApplyInDeviceChange() ) );
+    connect( ui.m_ApplyDefaultInDeviceButton, SIGNAL(clicked()), this, SLOT( slotApplyInDeviceChange() ) );
     
     updateOutAudioDevices();
 

@@ -46,7 +46,7 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 
     ui.m_CopyToClipboardButton->setVisible( false );
 
-    connect( ui.m_CopyToClipboardButton, SIGNAL( clicked() ), this, SLOT( slotCopyToClipboardClicked() ) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardClicked() ) );
 
 	m_MyApp.activityStateChange( this, true );
 

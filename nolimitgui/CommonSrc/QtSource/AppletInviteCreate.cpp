@@ -59,9 +59,9 @@ AppletInviteCreate::AppletInviteCreate( AppCommon& app, QWidget* parent )
     ui.m_NetworkSettingsInfoButton->setIcon( eMyIconInformation );
     ui.m_NetworkSettingsInfoButton->setFixedSize( eButtonSizeSmall );
 
-    connect( ui.m_CopyInviteButton, SIGNAL( clicked() ), this, SLOT( slotCopyInviteButtonClicked() ) );
-    connect( ui.m_NetworkSettingsInfoButton, SIGNAL( clicked() ), this, SLOT( slotNetworkSettingsInfoButtonClicked() ) );
-    connect( ui.m_SelectGroupButton, SIGNAL( clicked() ), this, SLOT( slotSelectGroupHostButtonClicked() ) );
+    connect( ui.m_CopyInviteButton, SIGNAL(clicked()), this, SLOT( slotCopyInviteButtonClicked() ) );
+    connect( ui.m_NetworkSettingsInfoButton, SIGNAL(clicked()), this, SLOT( slotNetworkSettingsInfoButtonClicked() ) );
+    connect( ui.m_SelectGroupButton, SIGNAL(clicked()), this, SLOT( slotSelectGroupHostButtonClicked() ) );
 
     connect( ui.m_MyUrlCheckBox, SIGNAL( stateChanged( int ) ), this, SLOT( slotUpdateInvite() ) );
     connect( ui.m_MyUrlEdit, SIGNAL( textChanged() ), this, SLOT( slotUpdateInvite() ) );

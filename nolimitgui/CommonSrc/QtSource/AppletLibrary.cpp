@@ -61,7 +61,7 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
     //connect( ui.m_FileItemList, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( slotListItemClicked( QListWidgetItem* ) ) );
     //connect( ui.m_FileItemList, SIGNAL( itemDoubleClicked( QListWidgetItem* ) ), this, SLOT( slotListItemDoubleClicked( QListWidgetItem* ) ) );
 
-    connect( ui.m_AddFilesButton, SIGNAL( clicked() ), this, SLOT( slotAddFilesButtonClicked() ) );
+    connect( ui.m_AddFilesButton, SIGNAL(clicked()), this, SLOT( slotAddFilesButtonClicked() ) );
 
     connect( ui.m_FileFilterComboBox, SIGNAL( signalApplyFileFilter( unsigned char ) ), this, SLOT( slotApplyFileFilter( unsigned char ) ) );
     statusMsg( "Requesting Library File List " );

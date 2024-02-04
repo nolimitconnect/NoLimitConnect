@@ -57,8 +57,8 @@ AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, Q
     m_eFileFilterType = GuiParams::fileFilterToEnum( launchParam );
     setFileFilter( m_eFileFilterType );
 
-    connect( ui.m_BrowseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseForFileButClick() ) );
-    connect( ui.m_OpenFolderButton, SIGNAL( clicked() ), this, SLOT( slotBrowseFolderButClick() ) );
+    connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT( slotBrowseForFileButClick() ) );
+    connect( ui.m_OpenFolderButton, SIGNAL(clicked()), this, SLOT( slotBrowseFolderButClick() ) );
 
     connect( ui.m_FileFilterComboBox, SIGNAL( signalApplyFileFilter( unsigned char ) ), this, SLOT( slotApplyFileFilter( unsigned char ) ) );
     statusMsg( "Requesting File List " );

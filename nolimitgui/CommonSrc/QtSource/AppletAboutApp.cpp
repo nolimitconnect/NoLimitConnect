@@ -35,8 +35,8 @@ AppletAboutApp::AppletAboutApp( AppCommon& app, QWidget* parent )
     
 	m_MyApp.activityStateChange( this, true );
 
-    connect( ui.gotoWebsiteButton, SIGNAL( clicked() ), this, SLOT( gotoWebsite() ) );
-    connect( ui.m_ShowAppInfo, SIGNAL( clicked() ), this, SLOT( slotShowAppInfo() ) );
+    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
+    connect( ui.m_ShowAppInfo, SIGNAL(clicked()), this, SLOT( slotShowAppInfo() ) );
 
     setupAboutMe();
 }

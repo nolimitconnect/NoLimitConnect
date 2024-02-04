@@ -205,7 +205,7 @@ public:
     int64_t						m_ExpiresTime{ 0 }; // time when will be removed. 0 = never
 	EAssetSendState			    m_AssetSendState{ eAssetSendStateNone };
     int						    m_PlayPosition0to100000{ 0 };
+    VxGUID						m_DestOnlineId; 
 
-    VxGUID						m_DestOnlineId; // temporary destination id for xfer of asset
     bool                        m_IsStreaming{ false };  // temporary
 };

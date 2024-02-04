@@ -48,7 +48,7 @@ AppletEditStoryboard::AppletEditStoryboard( AppCommon& app, QWidget* parent )
     ui.m_PermissionWidget->setPluginType( ePluginTypeStoryboardServer );
     ui.m_PermissionWidget->getPluginSettingsButton()->setVisible( false );
 
-    connect( ui.m_ViewStoryboardPageButton, SIGNAL( clicked() ), this, SLOT( slotViewStoryboardButClick() ) );
+    connect( ui.m_ViewStoryboardPageButton, SIGNAL(clicked()), this, SLOT( slotViewStoryboardButClick() ) );
     connect( ui.StoryEditWidget, SIGNAL( signalStoryBoardSavedModified() ), this, SLOT( slotStoryBoardSavedModified() ) );
 
     // get current working directory

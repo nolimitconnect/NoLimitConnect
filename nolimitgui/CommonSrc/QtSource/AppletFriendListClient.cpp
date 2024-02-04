@@ -75,15 +75,15 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
 
     connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
 
-    connect( ui.m_FriendsButton, SIGNAL( clicked() ), this, SLOT( slotFriendsButtonClicked() ) );
-    connect( ui.m_FriendsInfoButton, SIGNAL( clicked() ), this, SLOT( slotFriendsInfoButtonClicked() ) );
-    connect( ui.m_IgnoredButton, SIGNAL( clicked() ), this, SLOT( slotIgnoredButtonClicked() ) );
-    connect( ui.m_IgnoredInfoButton, SIGNAL( clicked() ), this, SLOT( slotIgnoredInfoButtonClicked() ) );
-    connect( ui.m_NearbyButton, SIGNAL( clicked() ), this, SLOT( slotNearbyButtonClicked() ) );
-    connect( ui.m_NearbyInfoButton, SIGNAL( clicked() ), this, SLOT( slotNearbyInfoButtonClicked() ) );
+    connect( ui.m_FriendsButton, SIGNAL(clicked()), this, SLOT( slotFriendsButtonClicked() ) );
+    connect( ui.m_FriendsInfoButton, SIGNAL(clicked()), this, SLOT( slotFriendsInfoButtonClicked() ) );
+    connect( ui.m_IgnoredButton, SIGNAL(clicked()), this, SLOT( slotIgnoredButtonClicked() ) );
+    connect( ui.m_IgnoredInfoButton, SIGNAL(clicked()), this, SLOT( slotIgnoredInfoButtonClicked() ) );
+    connect( ui.m_NearbyButton, SIGNAL(clicked()), this, SLOT( slotNearbyButtonClicked() ) );
+    connect( ui.m_NearbyInfoButton, SIGNAL(clicked()), this, SLOT( slotNearbyInfoButtonClicked() ) );
 
-    connect( ui.m_OfflineButton, SIGNAL( clicked() ), this, SLOT( slotOfflineButtonClicked() ) );
-    connect( ui.m_OfflineInfoButton, SIGNAL( clicked() ), this, SLOT( slotOfflineInfoButtonClicked() ) );
+    connect( ui.m_OfflineButton, SIGNAL(clicked()), this, SLOT( slotOfflineButtonClicked() ) );
+    connect( ui.m_OfflineInfoButton, SIGNAL(clicked()), this, SLOT( slotOfflineInfoButtonClicked() ) );
 
     m_MyApp.activityStateChange( this, true );
 

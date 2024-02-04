@@ -46,7 +46,7 @@ AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget*
 	ui.m_PreferredButton->setFixedSize( eButtonSizeMedium );
 	ui.m_PreferredButton->setAppIcon( eMyIconApp, this ); // use setAppIcon so has color
 
-	connect( ui.ToAdministratorButton, SIGNAL( clicked() ), this, SLOT( onPermissionClick() ) );
+	connect( ui.ToAdministratorButton, SIGNAL(clicked()), this, SLOT( onPermissionClick() ) );
 	connect( ui.ToFriendButton,		SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
 	connect( ui.ToGuestButton,		SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
 	connect( ui.ToAnonymousButton,	SIGNAL(clicked()), this, SLOT(onPermissionClick()) );

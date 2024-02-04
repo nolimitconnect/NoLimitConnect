@@ -70,19 +70,19 @@ AppletUserIdentity::AppletUserIdentity( AppCommon& app, QWidget* parent )
 
     GuiHelpers::setValuesFromIdentity( this, curIdent, ui.m_AgeComboBox, ui.m_GenderComboBox, ui.m_LanguageComboBox, ui.m_ContentComboBox );
 
-    connect( ui.m_ApplyMoodButton, SIGNAL( clicked() ), this, SLOT( onApplyMoodMsgClick() ) );
-    connect( ui.m_ApplyAgeButton, SIGNAL( clicked() ), this, SLOT( onApplyAgeClick() ) );
-    connect( ui.m_ApplyGenderButton, SIGNAL( clicked() ), this, SLOT( onApplyGenderClick() ) );
+    connect( ui.m_ApplyMoodButton, SIGNAL(clicked()), this, SLOT( onApplyMoodMsgClick() ) );
+    connect( ui.m_ApplyAgeButton, SIGNAL(clicked()), this, SLOT( onApplyAgeClick() ) );
+    connect( ui.m_ApplyGenderButton, SIGNAL(clicked()), this, SLOT( onApplyGenderClick() ) );
 
-    connect( ui.m_EditAboutMeButton, SIGNAL( clicked() ), this, SLOT( slotEditAboutMeButClick() ) );
-    connect( ui.m_ViewAboutMeButton, SIGNAL( clicked() ), this, SLOT( slotViewAboutMeButClick() ) );
-    connect( ui.m_EditAvatarImageButton, SIGNAL( clicked() ), this, SLOT( slotEditAvatarButClick() ) );
-    connect( ui.m_AvatarImageButton, SIGNAL( clicked() ), this, SLOT( slotEditAvatarButClick() ) );
-    connect( ui.m_EditStoryboardButton, SIGNAL( clicked() ), this, SLOT( slotEditStoryboardButClick() ) );
-    connect( ui.m_ViewStoryboardButton, SIGNAL( clicked() ), this, SLOT( slotViewStoryboardButClick() ) );
+    connect( ui.m_EditAboutMeButton, SIGNAL(clicked()), this, SLOT( slotEditAboutMeButClick() ) );
+    connect( ui.m_ViewAboutMeButton, SIGNAL(clicked()), this, SLOT( slotViewAboutMeButClick() ) );
+    connect( ui.m_EditAvatarImageButton, SIGNAL(clicked()), this, SLOT( slotEditAvatarButClick() ) );
+    connect( ui.m_AvatarImageButton, SIGNAL(clicked()), this, SLOT( slotEditAvatarButClick() ) );
+    connect( ui.m_EditStoryboardButton, SIGNAL(clicked()), this, SLOT( slotEditStoryboardButClick() ) );
+    connect( ui.m_ViewStoryboardButton, SIGNAL(clicked()), this, SLOT( slotViewStoryboardButClick() ) );
 
-    connect( ui.m_CreateNewAccountButton, SIGNAL( clicked() ), this, SLOT( slotCreateNewAccount() ) );
-    connect( ui.m_DeleteAccountButton, SIGNAL( clicked() ), this, SLOT( slotDeleteAccount() ) );
+    connect( ui.m_CreateNewAccountButton, SIGNAL(clicked()), this, SLOT( slotCreateNewAccount() ) );
+    connect( ui.m_DeleteAccountButton, SIGNAL(clicked()), this, SLOT( slotDeleteAccount() ) );
 
     connect( ui.m_AccountComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotAccountSelectionChanged( int ) ) );
 

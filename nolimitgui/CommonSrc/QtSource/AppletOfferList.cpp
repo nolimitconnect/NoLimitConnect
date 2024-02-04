@@ -46,8 +46,8 @@ AppletOfferList::AppletOfferList(	AppCommon& app, QWidget* parent )
 
     connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
 
-    connect( ui.m_ActiveOffersButton, SIGNAL( clicked() ), this, SLOT( slotActiveOffersButtonClicked() ) );
-    connect( ui.m_OfferHistoryButton, SIGNAL( clicked() ), this, SLOT( slotOfferHistoryButtonClicked() ) );
+    connect( ui.m_ActiveOffersButton, SIGNAL(clicked()), this, SLOT( slotActiveOffersButtonClicked() ) );
+    connect( ui.m_OfferHistoryButton, SIGNAL(clicked()), this, SLOT( slotOfferHistoryButtonClicked() ) );
 
     connect( ui.m_OfferListWidget, SIGNAL( signalOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*) ) );
     connect( ui.m_OfferListWidget, SIGNAL( signalAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*) ) );

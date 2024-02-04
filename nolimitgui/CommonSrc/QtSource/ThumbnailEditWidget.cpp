@@ -42,10 +42,10 @@ ThumbnailEditWidget::ThumbnailEditWidget( QWidget* parent )
     QSize frameSize( GuiParams::getThumbnailSize().width() + 20, GuiParams::getThumbnailSize().height() + 20 );
     ui.m_ThumbnailFrame->setFixedSize( frameSize );
 
-    connect( ui.m_ThumbGalleryButton, SIGNAL( clicked() ), this, SLOT( slotThumbGalleryClick() ) );
-    connect( ui.m_EmoticonGalleryButton, SIGNAL( clicked() ), this, SLOT( slotEmoticonGalleryClick() ) );
-    connect( ui.m_TakeSnapshotButton, SIGNAL( clicked() ), this, SLOT( slotSnapShotButClick() ) );
-    connect( ui.m_BrowsePictureButton, SIGNAL( clicked() ), this, SLOT( slotBrowseButClick() ) );
+    connect( ui.m_ThumbGalleryButton, SIGNAL(clicked()), this, SLOT( slotThumbGalleryClick() ) );
+    connect( ui.m_EmoticonGalleryButton, SIGNAL(clicked()), this, SLOT( slotEmoticonGalleryClick() ) );
+    connect( ui.m_TakeSnapshotButton, SIGNAL(clicked()), this, SLOT( slotSnapShotButClick() ) );
+    connect( ui.m_BrowsePictureButton, SIGNAL(clicked()), this, SLOT( slotBrowseButClick() ) );
 
     m_CameraSourceAvail = m_MyApp.getCamLogic().isCamAvailable();
 }

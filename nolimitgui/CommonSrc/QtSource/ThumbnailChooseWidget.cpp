@@ -48,7 +48,7 @@ ThumbnailChooseWidget::ThumbnailChooseWidget( QWidget* parent )
     ui.m_ThumbnailFrame->setFixedSize( frameSize );
     setFixedHeight( GuiParams::getThumbnailSize().height() + 30 );
 
-    connect( ui.m_ChooseThumbButton, SIGNAL( clicked() ), this, SLOT( slotChooseThumb() ) );
+    connect( ui.m_ChooseThumbButton, SIGNAL(clicked()), this, SLOT( slotChooseThumb() ) );
 }
 
 //============================================================================

@@ -51,7 +51,7 @@ InputVideoWidget::InputVideoWidget( QWidget* parent )
 	connect( ui.m_StartStopRecButton,		SIGNAL(clicked()),	this, SLOT(slotBeginRecord()) );
 	connect( ui.m_RotateCamButton,			SIGNAL(clicked()),	this, SLOT(slotRotateCamButtonClicked()) );
 	connect( ui.m_CancelRecordButton,		SIGNAL(clicked()),	this, SLOT(slotRecordCancelButtonClicked()) );
-    connect( ui.m_BackButton, SIGNAL( clicked() ), this, SLOT( slotExitVideoWidget() ) );
+    connect( ui.m_BackButton, SIGNAL(clicked()), this, SLOT( slotExitVideoWidget() ) );
 }
 
 //============================================================================

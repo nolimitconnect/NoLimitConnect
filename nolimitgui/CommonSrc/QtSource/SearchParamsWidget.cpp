@@ -32,8 +32,8 @@ SearchParamsWidget::SearchParamsWidget( QWidget* parent )
     GuiHelpers::fillLanguage( ui.m_LanguageComboBox );
     GuiHelpers::fillContentRating( ui.m_ContentRatingComboBox );
 
-    connect( getStartButton(), SIGNAL( clicked() ), this, SLOT( slotStartSearch() ) );
-    connect( getStopButton(), SIGNAL( clicked() ), this, SLOT( slotStopSearch() ) );
+    connect( getStartButton(), SIGNAL(clicked()), this, SLOT( slotStartSearch() ) );
+    connect( getStopButton(), SIGNAL(clicked()), this, SLOT( slotStopSearch() ) );
 }
 
 //============================================================================

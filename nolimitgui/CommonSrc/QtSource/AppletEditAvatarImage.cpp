@@ -59,8 +59,8 @@ AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
         }
     }
 
-    connect( ui.m_ApplyAvatarButton, SIGNAL( clicked() ), this, SLOT( onApplyButClick() ) );
-    connect( ui.m_RemoveAvatarButton, SIGNAL( clicked() ), this, SLOT( onRemoveButClick() ) );
+    connect( ui.m_ApplyAvatarButton, SIGNAL(clicked()), this, SLOT( onApplyButClick() ) );
+    connect( ui.m_RemoveAvatarButton, SIGNAL(clicked()), this, SLOT( onRemoveButClick() ) );
 
 	m_MyApp.activityStateChange( this, true );
 }
