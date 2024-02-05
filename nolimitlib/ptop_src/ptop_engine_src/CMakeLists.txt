@@ -91,6 +91,7 @@ list(APPEND ptopengine_SOURCES
     MediaProcessor/AudioUtil.cpp
     MediaProcessor/MediaProcessor.cpp
     Membership/MemberActiveMgr.cpp
+    Membership/MemberConfirmMgr.cpp
     NetServices/NetActionBase.cpp
     NetServices/NetActionIdle.cpp
     NetServices/NetActionIsMyPortOpen.cpp

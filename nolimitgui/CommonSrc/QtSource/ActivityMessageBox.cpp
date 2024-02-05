@@ -27,14 +27,8 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
 , m_OkButtonClicked( false )
 {
 	ui.setupUi(this);
-	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Message") );
 
-    connectBarWidgets();
-
-	showCancelButton( false );
-	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalAccepted()), this, SLOT(onOkButClick()) );
-	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalCanceled()), this, SLOT(onCancelButClick()) );
-	connect( ui.m_TitleBarWidget,				SIGNAL(signalBackButtonClicked()), this, SLOT(onCancelButClick()) );
+	initMessageBoxCommon();
 }
 
 //============================================================================
@@ -43,13 +37,8 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int inf
 , m_OkButtonClicked( false )
 {
 	ui.setupUi(this);
-	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Message") );
 
-    connectBarWidgets();
-
-	showCancelButton( false );
-	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalAccepted()), this, SLOT(onOkButClick()) );
-	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalCanceled()), this, SLOT(onCancelButClick()) );
+	initMessageBoxCommon();
 
 	std::array<char, 4096> szBuffer;
 	va_list arg_ptr;
@@ -71,15 +60,27 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int inf
 , m_OkButtonClicked( false )
 {
 	ui.setupUi(this);
+
+	initMessageBoxCommon();
+
+	setBodyText( msg );
+	this->setFocus();
+}
+
+//============================================================================
+void ActivityMessageBox::initMessageBoxCommon( void )
+{
 	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Message") );
     connectBarWidgets();
+
+	ui.m_ClipboardIconButton->setFixedSize( eButtonSizeMedium );
+    ui.m_ClipboardIconButton->setIcon( eMyIconEditCopy );
 
 	showCancelButton( false );
 	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalAccepted()), this, SLOT(onOkButClick()) );
 	connect( ui.m_AcceptCancelWidget,			SIGNAL(signalCanceled()), this, SLOT(onCancelButClick()) );
-
-	setBodyText( msg );
-	this->setFocus();
+	connect( ui.m_ClipboardButton,				SIGNAL(clicked()),		  this, SLOT(slotCopyToClipboardButtonClicked()) );
+    connect( ui.m_ClipboardIconButton,			SIGNAL(clicked()),		  this, SLOT(slotCopyToClipboardButtonClicked()) );
 }
 
 //============================================================================
@@ -113,4 +114,12 @@ void ActivityMessageBox::setBodyText( QString bodyText )
 void ActivityMessageBox::showCancelButton( bool showButton )
 {
 	ui.m_AcceptCancelWidget->showCancelButton( showButton );
+}
+
+//============================================================================
+void ActivityMessageBox::slotCopyToClipboardButtonClicked( void )
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    clipboard->setText( ui.m_BodyTextLabel->text() );
+    okMessageBox( QObject::tr( "Clipboard" ), QObject::tr( "Text was copied to clipboard" ) );
 }

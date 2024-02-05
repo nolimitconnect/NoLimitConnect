@@ -37,6 +37,8 @@ public:
 
     virtual bool                getIsFavorite( void );
 
+    virtual std::string         dumpUserInfo( void ); // for debug
+
 protected:
     GuiUserMgr&                 m_UserMgr;
 };

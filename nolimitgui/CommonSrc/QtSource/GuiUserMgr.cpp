@@ -9,8 +9,11 @@
 //============================================================================
 
 #include "GuiUserMgr.h"
+
+#include "ActivityMessageBox.h"
 #include "AppCommon.h"
 #include "AccountMgr.h"
+#include "GuiHelpers.h"
 #include "GuiUserUpdateCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -943,4 +946,53 @@ bool GuiUserMgr::getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idLis
     }
 
     return !idList.empty();
+}
+
+//============================================================================
+void GuiUserMgr::dumpUserInfo( GuiUser* guiUser, QWidget* parentFrame )
+{
+    if( !guiUser )
+    {
+        return;
+    }
+
+    std::string userInfo = guiUser->dumpUserInfo();
+
+    ActivityMessageBox msgBox( m_MyApp, parentFrame, LOG_INFO, userInfo.c_str() );
+    msgBox.exec();
+}
+
+//============================================================================
+void GuiUserMgr::deleteUser( GuiUser* guiUser, QWidget* parentFrame )
+{
+    if( !guiUser )
+    {
+        return;
+    }
+
+    std::string userInfo = "Are you sure you want to delete user from database?\nChange do not take effect until restart.\n" + guiUser->dumpUserInfo();
+    ActivityMessageBox msgBox( m_MyApp, parentFrame, LOG_INFO, userInfo.c_str() );
+    msgBox.showCancelButton( true );
+    msgBox.exec();
+    
+    if( msgBox.wasOkButtonClicked() )
+    {
+        bool userDeleted = m_MyApp.getEngine().fromGuiDeleteUser( guiUser->getMyOnlineId() );
+        if( userDeleted )
+        {
+            QString warnTitle = QObject::tr( "User was deleted" );
+            QString warnBody = QObject::tr( "User was deleted from database" );
+
+            QMessageBox warnMsg( QMessageBox::Icon::Information, warnTitle, warnBody, QMessageBox::Ok );
+            warnMsg.exec();
+        }
+        else
+        {
+            QString warnTitle = QObject::tr( "User was NOT deleted" );
+            QString warnBody = QObject::tr( "User failed to be deleted from database" );
+
+            QMessageBox warnMsg( QMessageBox::Icon::Information, warnTitle, warnBody, QMessageBox::Ok );
+            warnMsg.exec();
+        }
+    }
 }

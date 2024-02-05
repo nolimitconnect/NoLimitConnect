@@ -419,6 +419,8 @@ public:
     virtual void				fromGuiSetUserSpecificDir( std::string userDir, bool fromThread = false );
     virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false );
 
+ 	virtual bool				fromGuiDeleteUser( VxGUID& onlineId );
+
     virtual void				fromGuiAppShutdown( void );
 
     virtual uint64_t			fromGuiGetDiskFreeSpace( void );

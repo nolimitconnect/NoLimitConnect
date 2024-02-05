@@ -8,10 +8,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"
 #include "GuiUser.h"
-#include "GuiUserMgr.h"
+
+#include "AppCommon.h"
 #include "GuiParams.h"
+#include "GuiUserMgr.h"
+
+#include <CoreLib/VxParse.h>
+#include <CoreLib/VxTimeUtil.h>
 
 //============================================================================
 GuiUser::GuiUser( AppCommon& app )
@@ -99,4 +103,25 @@ bool GuiUser::compareLessThan( GuiUser* guiOther )
 bool GuiUser::getIsFavorite( void )
 {
     return m_MyApp.getFavoriteMgr().getIsFavorite( getMyOnlineId() );
+}
+
+//============================================================================
+std::string GuiUser::dumpUserInfo( void )
+{
+    std::string userInfo;
+    VxNetIdent& netIdent = getNetIdent();
+    userInfo = "Online Id: " + getMyOnlineId().toOnlineIdString();
+    StdStringAppendText( userInfo, "\nOnline Name: %s \n", getOnlineName().c_str() );
+    StdStringAppendText( userInfo, "Description: %s \n", getOnlineDescription().c_str() );
+    StdStringAppendText( userInfo, "My Friendship to him/her: %s \n", DescribeFriendState(getMyFriendshipToHim()) );
+    StdStringAppendText( userInfo, "His/Her Friendship to me: %s \n", DescribeFriendState(getHisFriendshipToMe()) );
+    StdStringAppendText( userInfo, "Last Connected: %s \n", VxTimeUtil::formatTimeStampIntoDateAndTimeWithTextMonths( netIdent.getLastSessionTimeMs() ).c_str() );
+
+
+    StdStringAppendText( userInfo, "IPv4 URL: %s \n", netIdent.getMyOnlineUrl( false ).c_str() );
+    StdStringAppendText( userInfo, "IPv6 URL: %s \n", netIdent.getMyOnlineUrl( true ).c_str() );
+
+    LogMsg( LOG_INFO, "GuiUser::dumpUserInfo %s ", userInfo.c_str() );
+
+    return userInfo;
 }

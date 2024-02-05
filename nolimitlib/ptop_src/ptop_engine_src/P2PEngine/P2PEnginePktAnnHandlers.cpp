@@ -12,6 +12,7 @@
 
 #include <BigListLib/BigListInfo.h>
 #include <Membership/MemberActiveMgr.h>
+#include <Membership/MemberConfirmMgr.h>
 #include <SendQueue/SendQueueMgr.h>
 
 #include <NetLib/VxSktBase.h>
@@ -114,6 +115,11 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
     getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, true );
     getMemberActiveMgr().updateMemberActive( groupieId, true );
 
+    if( !getConnectIdListMgr().isDirectConnected( pktAnn->getMyOnlineId() ) )
+    {
+        GetMemberConfirmMgr().addMemberConfirm( sktBase, pktAnn->getMyOnlineId() );
+    }
+
     return updateOk && onPktAnnounceCommonHandler( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 }
 
@@ -142,6 +148,8 @@ bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, P
 
     // again request thumbs in case they have changed
     getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
+
+    GetMemberConfirmMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );
 
     return onPktAnnounceCommonHandler( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 }

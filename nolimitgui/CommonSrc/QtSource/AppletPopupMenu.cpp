@@ -276,6 +276,10 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend, bool inGroup )
 	{
 		addMenuItem( (int)eMaxPluginType + 1, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Perferred" ) );
 	}
+#if defined(DEBUG)
+	addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Dump User Info" ) );
+	addMenuItem( (int)eMaxPluginType + 5, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Delete User From Database" ) );
+#endif // defined(DEBUG)
 }
 
 //============================================================================
@@ -372,6 +376,14 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		break;
 	}
 
+	case eMaxPluginType + 4: // debug only .. dump info
+		m_MyApp.getUserMgr().dumpUserInfo( m_SelectedFriend, getParentPageFrame() );
+		break;
+
+
+	case eMaxPluginType + 5: // debug only .. delete user
+		m_MyApp.getUserMgr().deleteUser( m_SelectedFriend, getParentPageFrame() );
+		break;
 
 	default:
 		LogMsg( LOG_ERROR, "Unknown Menu id" );

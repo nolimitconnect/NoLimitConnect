@@ -80,6 +80,8 @@ public:
 
 	bool						updateMemberFriendship( BigListInfo* bigListInfo, bool isMember = true );
 
+	bool				        fromGuiDeleteUser( VxGUID& onlineId );
+
 protected:
 
 	//=== vars ===//

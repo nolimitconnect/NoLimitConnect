@@ -119,8 +119,11 @@ public:
 	virtual void				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) = 0;
 	/// Third call to engine should send path where to put downloads from other users
 	virtual void				fromGuiSetUserXferDir( std::string userDownloadDir, bool fromThread = false ) = 0;
-		/// Called with identity of user that logged on
+	/// Called with identity of user that logged on
 	virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) = 0;
+
+	/// delete user from database.. change does not take effect until next reboot
+	virtual bool				fromGuiDeleteUser( VxGUID& onlineId ) = 0;
 
 	/// Call to engine when application is about to exit
 	virtual void				fromGuiAppShutdown( void ) = 0;

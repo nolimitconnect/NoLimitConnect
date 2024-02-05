@@ -2604,6 +2604,9 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiSendQueueCallback.h">
       <Filter>Source Files\GuiSendQueue</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerInterface.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc">

@@ -81,6 +81,9 @@ public:
 
     void                        connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearbyTimeOrZeroIfNot );
 
+    void                        dumpUserInfo( GuiUser* guiUser, QWidget* parentFrame );
+    void                        deleteUser( GuiUser* guiUser, QWidget* parentFrame );
+
 protected:
     void                        removeUser( VxGUID onlineId );
     GuiUser*                    findUser( VxGUID onlineId );

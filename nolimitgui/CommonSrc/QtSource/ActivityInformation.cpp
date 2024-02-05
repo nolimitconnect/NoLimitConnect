@@ -41,8 +41,8 @@ void ActivityInformation::initActivityInformation( void )
     ui.setupUi( this );
     ui.m_TitleBarWidget->setTitleBarText( QObject::tr( "Information " ) );
     ui.m_TitleBarWidget->setHomeButtonVisibility( false );
-    connect( ui.m_ClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardButtonClicked() ) );
-    connect( ui.m_ClipboardIconButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardButtonClicked() ) );
+    connect( ui.m_ClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardButtonClicked()) );
+    connect( ui.m_ClipboardIconButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardButtonClicked()) );
 
     connectBarWidgets();
 }

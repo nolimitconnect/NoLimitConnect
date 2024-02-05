@@ -205,7 +205,15 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 				return ePktAnnUpdateTypeIgnored;
 			}
 
-			poPktAnnIn->setLastSessionTimeMs( poInfo->getLastSessionTimeMs() );
+			if( poPktAnnIn->getLastSessionTimeMs() > poInfo->getLastSessionTimeMs() )
+			{
+				poInfo->setLastSessionTimeMs( poPktAnnIn->getLastSessionTimeMs() );
+			}
+			else
+			{
+				poPktAnnIn->setLastSessionTimeMs( poInfo->getLastSessionTimeMs() );
+			}
+
 			EFriendState hisFriendshipToMe = poPktAnnIn->getHisFriendshipToMe();
 			if( !useHisFriendshipFromPktAnn && poInfo->getHisFriendshipToMe() > eFriendStateGuest )
 			{
@@ -600,4 +608,34 @@ bool BigListMgr::updateMemberFriendship( BigListInfo* bigListInfo, bool isMember
 	}
 
 	return true;
+}
+
+//============================================================================
+bool BigListMgr::fromGuiDeleteUser( VxGUID& onlineId )
+{
+	if( onlineId == m_Engine.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "BigListMgr::fromGuiDeleteUser cannot delete myself" );
+        vx_assert( false );
+        return false;
+    }
+
+	if( !onlineId.isVxGUIDValid() )
+    {
+        LogMsg( LOG_ERROR, "BigListMgr::fromGuiDeleteUser invalid guid" );
+        vx_assert( false );
+        return false;
+    }
+
+	BigListInfo* bigListInfo = findBigListInfo( onlineId );
+	if( !bigListInfo )
+	{
+        LogMsg( LOG_ERROR, "BigListMgr::fromGuiDeleteUser user not found %s", onlineId.toOnlineIdString().c_str() );
+        vx_assert( false );
+        return false;
+	}
+
+	bigListInfo->setMyFriendshipToHim( eFriendStateIgnore );
+	bool wasDeleted = removeUserFromDatabase( onlineId ) == 0;
+	return wasDeleted;
 }

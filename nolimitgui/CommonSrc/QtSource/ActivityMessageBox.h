@@ -25,6 +25,8 @@ public:
 	ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, QString msg );
 	virtual ~ActivityMessageBox() override = default;
 
+	void						initMessageBoxCommon( void );
+
     // overrides required for dialogs with there own title bar and bottom bar widgets
     virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
     virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
@@ -37,9 +39,10 @@ public:
 
 	QMessageBox::StandardButton getResultButton( void )							{ return m_ResultButton; }
 
-public slots:
+protected slots:
 	void						onOkButClick( void );
 	void						onCancelButClick( void ); 
+	void						slotCopyToClipboardButtonClicked( void );
 
 protected:
 	//=== vars ===//

@@ -111,6 +111,12 @@ void INlc::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
 }
 
 //============================================================================
+bool INlc::fromGuiDeleteUser( VxGUID& onlineId )
+{
+    return getPtoP().fromGuiDeleteUser( onlineId );
+}
+
+//============================================================================
 uint64_t INlc::fromGuiGetDiskFreeSpace( void )
 {
     return getPtoP().fromGuiGetDiskFreeSpace();

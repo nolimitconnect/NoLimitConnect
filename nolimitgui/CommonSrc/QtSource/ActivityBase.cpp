@@ -34,6 +34,7 @@
 #include <QResizeEvent>
 
 #include <stdio.h>
+#include <array>
 
 const int RESIZE_WINDOW_COMPLETED_TIMEOUT = 500;
 
@@ -447,13 +448,14 @@ void ActivityBase::okMessageBox( QString title, QString msg )
 //============================================================================
 void ActivityBase::okMessageBox2( QString title, const char* msg, ... )
 {
-	char szBuffer[2048];
+	std::array<char,2048> szBuffer;
 	va_list argList;
 	va_start( argList, msg );
-	vsnprintf( szBuffer, sizeof( szBuffer ), msg, argList );
+	vsnprintf( szBuffer.data(), 2048, msg, argList);
 	va_end( argList );
+	szBuffer.data()[2047] = 0;
 
-	okMessageBox( title, szBuffer );
+	okMessageBox( title, szBuffer.data() );
 }
 
 //============================================================================
@@ -470,13 +472,14 @@ bool ActivityBase::yesNoMessageBox( QString title, QString msg )
 //============================================================================
 bool ActivityBase::yesNoMessageBox2( QString title, const char* msg, ... )
 {
-	char szBuffer[2048];
+	std::array<char,2048> szBuffer;
 	va_list argList;
 	va_start( argList, msg );
-	vsnprintf( szBuffer, sizeof( szBuffer ), msg, argList );
+	vsnprintf( szBuffer.data(), 2048, msg, argList);
 	va_end( argList );
+	szBuffer.data()[2047] = 0;
 
-	return yesNoMessageBox( title, szBuffer );
+	return yesNoMessageBox( title, szBuffer.data() );
 }
 
 //============================================================================
@@ -490,13 +493,14 @@ void ActivityBase::errMessageBox2( QString title, const char* msg, ... )
 {
 	if( 0 != msg )
 	{
-		char szBuffer[2048];
+		std::array<char,2048> szBuffer;
 		va_list argList;
 		va_start( argList, msg );
-		vsnprintf( szBuffer, sizeof( szBuffer ), msg, argList );
+		vsnprintf( szBuffer.data(), 2048, msg, argList);
 		va_end( argList );
+		szBuffer.data()[2047] = 0;
 
-		errMessageBox( title, szBuffer );
+		errMessageBox( title, szBuffer.data() );
 	}
 }
 

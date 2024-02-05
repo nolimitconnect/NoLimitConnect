@@ -10,10 +10,11 @@
 
 #include "P2PEngine.h"
 
-#include <Plugins/PluginMgr.h>
+#include <Membership/MemberConfirmMgr.h>
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <Network/NetworkStateMachine.h>
 #include <Network/NetworkMgr.h>
+#include <Plugins/PluginMgr.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
@@ -93,6 +94,7 @@ void P2PEngine::onOncePerSecond( void )
     m_NetworkMonitor.onOncePerSecond();
     m_NetworkMgr.onOncePerSecond();
     m_PluginMgr.onOncePerSecond();
+    GetMemberConfirmMgr().onOncePerSecond();
 
     static int thirtySecCntInSeconds = 31;
     thirtySecCntInSeconds--;

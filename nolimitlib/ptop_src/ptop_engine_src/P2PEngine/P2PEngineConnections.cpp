@@ -14,11 +14,13 @@
 #include <GuiInterface/IToGui.h>
 
 #include <BigListLib/BigListInfo.h>
-#include <Plugins/PluginMgr.h>
+
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <Membership/MemberConfirmMgr.h>
+#include <Network/NetworkMgr.h>
+#include <Plugins/PluginMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
-#include <Network/NetworkMgr.h>
 
 #include <PktLib/PktsRelay.h>
 #include <PktLib/PktsPing.h>
@@ -71,6 +73,7 @@ void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
     }
 
 	m_PluginMgr.onConnectionLost( sktBase );
+	GetMemberConfirmMgr().onConnectionLost( sktBase );
 }
 
 //============================================================================

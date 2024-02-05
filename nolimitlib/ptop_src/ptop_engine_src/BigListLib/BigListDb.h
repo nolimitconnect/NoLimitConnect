@@ -34,7 +34,7 @@ public:
 
 	std::string					getNetworkKey( void );
 
-	RCODE						dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime, const char* networkName );
+	RCODE						dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime );
 
 	RCODE						removeUserFromDatabase( VxGUID& onlineId );
 

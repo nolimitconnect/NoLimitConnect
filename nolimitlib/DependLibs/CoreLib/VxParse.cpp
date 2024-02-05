@@ -334,6 +334,23 @@ void StdStringFormat(	std::string & csStr,	// std::string to return formated res
 }
 
 //============================================================================
+//! format additional text and append to existing string
+void StdStringAppendText( std::string& csStr,	// std::string to append text to
+						  const char* pFormat,	// string with format chars etc		
+						  ... )					// vars
+{
+	std::array<char, FMT_BUF_SIZE> fmtBuf;
+
+    va_list argList;
+    va_start(argList, pFormat);
+	vsnprintf( fmtBuf.data(), FMT_BUF_SIZE, pFormat, argList);
+    va_end(argList);
+
+	fmtBuf.data()[FMT_BUF_SIZE - 1] = 0;
+    csStr += fmtBuf.data();
+}
+
+//============================================================================
 //! format into std::string using printf style format
 void StdStringFormat(	std::wstring & csStr,	// std::string to return formated results in
 						const wchar_t * pFormat,	// string with format chars etc		

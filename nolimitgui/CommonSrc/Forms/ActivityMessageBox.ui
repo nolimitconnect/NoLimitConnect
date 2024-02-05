@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>323</width>
-    <height>300</height>
+    <height>489</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -81,21 +81,6 @@
       <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>5</number>
-      </property>
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
       <item>
        <widget class="QLabel" name="m_StatusLabel">
         <property name="text">
@@ -152,6 +137,42 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="VxPushButton" name="m_ClipboardIconButton">
+          <property name="text">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="VxPushButton" name="m_ClipboardButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Copy To Clipboard</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="AcceptCancelWidget" name="m_AcceptCancelWidget">
@@ -211,6 +232,11 @@
    <extends>QFrame</extends>
    <header>AcceptCancelWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxPushButton</class>
+   <extends>QPushButton</extends>
+   <header>VxPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

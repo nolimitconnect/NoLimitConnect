@@ -214,47 +214,19 @@ RCODE BigListDb::dbRestoreAll( void )
 }
 
 //============================================================================
-RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime, const char* networkName )
+RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime )
 {
-	char SQL_Statement[1024];
-
-	int retval;
-	sqlite3_stmt *pStatement;
-	
-	lockDb();
-	RCODE rc = dbOpen();
-	if( rc )
+	if( lastSessionTime )
 	{
-		unlockDb();
-		vx_assert( false );
-		return rc;
+		std::string strHexOnlineId = onlineId.toHexString();
+		DbBindList bindList( lastSessionTime );
+		bindList.add( strHexOnlineId.c_str() );
+		return sqlExec( "UPDATE BigList SET ConnectTime=? WHERE online_id=?", bindList );
 	}
-
-	std::string strHexOnlineId = onlineId.toHexString();
-    sprintf(SQL_Statement, "UPDATE BigList SET ConnectTime=%" PRId64 "WHERE online_id = '%s'", lastSessionTime, strHexOnlineId.c_str() );
-	retval = sqlite3_prepare( m_Db, SQL_Statement, (int)strlen(SQL_Statement), &pStatement, nullptr );
-	if( !( SQLITE_OK == retval ) )
+	else
 	{
-		LogMsg( LOG_ERROR, "BigListDb::dbUpdateSessionTime:sqlite3_prepare:%s", sqlite3_errmsg( m_Db ) );
-		dbClose();
-		unlockDb();
-		return -1;
+		LogMsg( LOG_ERROR, "BigListDb::%s bad param 0 lastSessionTime", __func__ );
 	}
-
-	retval = sqlite3_step( pStatement );
-	if( SQLITE_ERROR == retval )
-	{
-		LogMsg( LOG_ERROR, "BigListDb::dbUpdateSessionTime:sqlite3_step:%s", sqlite3_errmsg( m_Db ) );
-		sqlite3_finalize( pStatement );
-		dbClose();
-		unlockDb();
-		return -1;
-	}
-
-	sqlite3_finalize( pStatement );
-	dbClose();
-	unlockDb();
-	return 0;
 }
 
 //============================================================================
@@ -263,7 +235,7 @@ RCODE BigListDb::dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkN
 {
 	if( !networkName || 0 == strlen( networkName ) )
 	{
-		LogMsg( LOG_ERROR, "BigListDb::dbUpdateBigListInfo bad param" );
+		LogMsg( LOG_ERROR, "BigListDb::%s bad param", __func__ );
 		return -1;
 	}
 

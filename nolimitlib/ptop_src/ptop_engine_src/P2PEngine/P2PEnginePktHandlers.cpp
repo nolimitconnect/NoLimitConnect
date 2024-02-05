@@ -207,6 +207,10 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( isFirstAnnounce )
 	{
+		int64_t timeNow( GetGmtTimeMs() );
+		pktAnn->setLastSessionTimeMs( timeNow );
+		bigListInfo->setLastSessionTimeMs( timeNow );
+		getBigListMgr().dbUpdateSessionTime( pktAnn->getMyOnlineId(), timeNow );
 		updateOk = onFirstPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 	}
 	else

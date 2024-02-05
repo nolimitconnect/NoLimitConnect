@@ -118,6 +118,12 @@ uint64_t P2PEngine::fromGuiClearCache( ECacheType cacheType )
 }
 
 //============================================================================
+bool P2PEngine::fromGuiDeleteUser( VxGUID& onlineId )
+{
+	return getBigListMgr().fromGuiDeleteUser( onlineId );
+}
+
+//============================================================================
 void P2PEngine::fromGuiAppShutdown( void )
 {
 	VxSetAppIsShuttingDown( true );

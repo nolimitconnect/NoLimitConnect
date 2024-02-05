@@ -223,6 +223,8 @@ public:
     virtual void				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;
     virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) override;
 
+	bool				        fromGuiDeleteUser( VxGUID& onlineId ) override;
+
     virtual uint64_t			fromGuiGetDiskFreeSpace( void  ) override;
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) override;
     virtual void				fromGuiAppShutdown( void  ) override;

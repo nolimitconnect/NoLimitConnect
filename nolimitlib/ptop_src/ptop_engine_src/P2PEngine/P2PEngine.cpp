@@ -281,7 +281,7 @@ void P2PEngine::onSessionStart( EPluginType pluginType, VxGUID& onlineId )
 			vx_assert( false );
 		}
 
-		m_BigListMgr.dbUpdateSessionTime( netIdent->getMyOnlineId(), sysTimeMs, getNetworkMgr().getNetworkKey() );
+		m_BigListMgr.dbUpdateSessionTime( netIdent->getMyOnlineId(), sysTimeMs );
 		IToGui::getToGui().toGuiContactLastSessionTimeChange( netIdent );
 	}
 }

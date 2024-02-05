@@ -36,6 +36,10 @@ int								StrStrNoCasePosition( const char* strMain, const char* strSearch );
 void							StdStringFormat(	std::string & csStr,	// std::string to return formated results in
 													const char* pFormat,	// string with format chars etc		
 													... );					// vars
+//! format additional text and append to existing string
+void							StdStringAppendText(	std::string & csStr,	// std::string to append text to
+														const char* pFormat,	// string with format chars etc		
+														... );					// vars
 //! format into std::string using printf style format
 void							StdStringFormat(	std::wstring & csStr,	// std::string to return formated results in
 													const wchar_t * pFormat,	// string with format chars etc		

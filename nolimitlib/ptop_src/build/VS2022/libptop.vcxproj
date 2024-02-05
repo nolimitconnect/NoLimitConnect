@@ -551,6 +551,7 @@
     <ClCompile Include="..\..\ptop_engine_src\MediaProcessor\AudioUtil.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\MediaProcessor\MediaProcessor.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Membership\MemberActiveMgr.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\Membership\MemberConfirmMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\NetServices\NetActionBase.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\NetServices\NetActionIdle.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\NetServices\NetActionIsMyPortOpen.cpp" />
@@ -828,6 +829,7 @@
     <ClInclude Include="..\..\ptop_engine_src\MediaProcessor\RawVideo.h" />
     <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveCallback.h" />
     <ClInclude Include="..\..\ptop_engine_src\Membership\MemberActiveMgr.h" />
+    <ClInclude Include="..\..\ptop_engine_src\Membership\MemberConfirmMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\NetServices\NetActionBase.h" />
     <ClInclude Include="..\..\ptop_engine_src\NetServices\NetActionIdle.h" />
     <ClInclude Include="..\..\ptop_engine_src\NetServices\NetActionIsMyPortOpen.h" />

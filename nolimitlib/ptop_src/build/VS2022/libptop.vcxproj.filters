@@ -748,6 +748,9 @@
     <ClCompile Include="..\..\ptop_engine_src\SendQueue\SendQueInfo.cpp">
       <Filter>Source Files\SendQueue</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\Membership\MemberConfirmMgr.cpp">
+      <Filter>Source Files\Membership</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1553,6 +1556,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\AssetBase\AssetXferCallback.h">
       <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\Membership\MemberConfirmMgr.h">
+      <Filter>Source Files\Membership</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
