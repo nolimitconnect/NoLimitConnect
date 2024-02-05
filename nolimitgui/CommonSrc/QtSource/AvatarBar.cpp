@@ -81,6 +81,7 @@ void AvatarBar::setOnlineId( VxGUID& onlineId )
 				ui.m_Avatar->setImage( image );
 				update();
 			}
+		
 		}
 	}
 }

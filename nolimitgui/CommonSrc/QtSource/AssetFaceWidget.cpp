@@ -58,8 +58,6 @@ void AssetFaceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	{
 		return;
 	}
-	// BRJ temp for debug
-	m_AssetInfo.setAssetSendState( eAssetSendStateTxFail );
 
 	QString faceRes = ":/AppRes/Resources/";
 	faceRes += m_AssetInfo.getAssetName().c_str();
