@@ -81,6 +81,7 @@ namespace
 //============================================================================
 P2PEngine::P2PEngine( VxPeerMgr& peerMgr, 
 					  MemberActiveMgr& memberActiveMgr, 
+					  OfferMgr& offerMgr,
 					  PushToTalkMgr& pushToTalkMgr,
 					  RandConnectMgr& randConnectMgr,
 					  SendQueueMgr& sendQueueMgr )
@@ -99,7 +100,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	, m_NetStatusAccum( *this )
 	, m_AssetMgr( *new AssetMgr( *this, "AssetMgrDb.db3", "AssetStateDb.db3" ) )
 	, m_BlobMgr( *new BlobMgr( *this, "BlobAssetDb.db3", "BlobStateDb.db3" ) )
-	, m_OfferMgr( *new OfferMgr( *this, "OfferDb.db3", "OfferStateDb.db3" ) )
+	, m_OfferMgr( offerMgr )
 	, m_PushToTalkMgr( pushToTalkMgr )
 	, m_ThumbMgr( *new ThumbMgr( *this, "ThumbAssetDb.db3", "ThumbStateDb.db3" ) )
 	, m_ConnectionMgr( *new ConnectionMgr( *this ) )

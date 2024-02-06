@@ -23,16 +23,18 @@ class VxSha1Hash;
 class OfferBaseInfoDb : public DbBase
 {
 public:
-	OfferBaseInfoDb( OfferBaseMgr& mgr, const char*dbName );
+	OfferBaseInfoDb( OfferBaseMgr& mgr );
 	virtual ~OfferBaseInfoDb() = default;
 
 	void						lockOfferInfoDb( void )					{ m_OfferBaseInfoDbMutex.lock(); }
 	void						unlockOfferInfoDb( void )				{ m_OfferBaseInfoDbMutex.unlock(); }
 
-	void						addOffer(	VxGUID&			assetId, 
+	void						addOffer(	VxGUID&			offerId,
 											VxGUID&			creatorId, 
 											VxGUID&			historyId, 
                                             VxGUID&			thumbId, 
+											VxGUID&			sendToId, 
+											VxGUID&			assetId, 
                                             const char*     assetName,
 											int64_t			assetLen, 
 											uint32_t		assetType, 							
@@ -42,7 +44,6 @@ public:
                                             int8_t          pluginType,
                                             const char*     offerMsg,
                                             int64_t			offerExpires,
-											VxGUID&			sessionId,
 											EOfferResponse  offerResponse,
 											EOfferMgrType	offerMgr,
                                             int             isTemp,

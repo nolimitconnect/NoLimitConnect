@@ -9,8 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
-
 #include <CoreLib/DbBase.h>
 #include <CoreLib/VxGUID.h>
 
@@ -22,7 +20,7 @@ public:
 	OfferBaseXferDb( const char* stateDbName );
 	virtual ~OfferBaseXferDb() = default;
 
-	void						lockOfferBaseXferDb( void )			{ m_OfferBaseXferDbMutex.lock(); }
+	void						lockOfferBaseXferDb( void )				{ m_OfferBaseXferDbMutex.lock(); }
 	void						unlockOfferBaseXferDb( void )			{ m_OfferBaseXferDbMutex.unlock(); }
 
 	virtual RCODE				onCreateTables( int iDbVersion );

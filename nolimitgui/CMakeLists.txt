@@ -667,6 +667,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiOfferListWidget.cpp
     CommonSrc/QtSource/GuiOfferMgr.cpp
     CommonSrc/QtSource/GuiOfferMgrBase.cpp
+    CommonSrc/QtSource/GuiOfferMgrBaseCallbacks.cpp
     CommonSrc/QtSource/GuiOfferSession.cpp
     CommonSrc/QtSource/GuiParams.cpp
     CommonSrc/QtSource/GuiPlayerMgr.cpp

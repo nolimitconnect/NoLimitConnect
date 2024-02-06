@@ -1461,9 +1461,6 @@
     <ClInclude Include="..\..\..\GuiInterface\NlcRenderFrame.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferCallbackInterface.h">
-      <Filter>Source Files\OfferBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferMgr.h">
       <Filter>Source Files\OfferBase</Filter>
     </ClInclude>
@@ -1559,6 +1556,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\Membership\MemberConfirmMgr.h">
       <Filter>Source Files\Membership</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferCallback.h">
+      <Filter>Source Files\OfferBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

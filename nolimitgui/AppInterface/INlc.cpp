@@ -16,6 +16,7 @@
 #include "P2PEngine/P2PEngine.h"
 #include "../CommonSrc/QtSource/AppCommon.h"
 #include <Membership/MemberActiveMgr.h>
+#include <OfferBase/OfferMgr.h>
 #include <PushToTalk/PushToTalkMgr.h>
 #include <RandConnect/RandConnectMgr.h>
 #include <SendQueue/SendQueueMgr.h>
@@ -63,10 +64,11 @@ VxPeerMgr& GetVxPeerMgr( void )
 P2PEngine& GetPtoPEngine()
 {
     static MemberActiveMgr memberActiveMgr;
+    static OfferMgr offerMgr;
     static PushToTalkMgr pushToTalkMgr;
     static RandConnectMgr randConnectMgr;
     static SendQueueMgr sendQueueMgr;
-    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr );
+    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, offerMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr );
     return g_P2PEngine;
 }
 

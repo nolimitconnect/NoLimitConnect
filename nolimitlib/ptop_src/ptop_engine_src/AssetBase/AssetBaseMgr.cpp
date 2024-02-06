@@ -153,7 +153,7 @@ AssetBaseInfoDb& AssetBaseMgr::createAssetInfoDb( const char* dbName, EAssetMgrT
 }
 
 //============================================================================
-void AssetBaseMgr::fromGuiUserLoggedOn( void )
+void AssetBaseMgr::onPluginsInitialized( void )
 {
 	if( !m_Initialized )
 	{

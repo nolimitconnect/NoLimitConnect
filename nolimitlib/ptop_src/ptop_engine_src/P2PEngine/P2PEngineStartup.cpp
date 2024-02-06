@@ -10,13 +10,14 @@
 
 #include "P2PEngine.h"
 
-#include <Network/NetworkStateMachine.h>
-
 #include <BigListLib/BigListInfo.h>
-#include <Plugins/PluginNetServices.h>
-#include <Plugins/PluginMgr.h>
 
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <Network/NetworkStateMachine.h>
+
+#include <OfferBase/OfferMgr.h>
+#include <Plugins/PluginNetServices.h>
+#include <Plugins/PluginMgr.h>
 #include <SendQueue/SendQueueMgr.h>
 
 #include <UserJoinMgr/UserJoinMgr.h>
@@ -136,9 +137,6 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         m_PktAnn.setSrcOnlineId( netIdent->getMyOnlineId() );
         m_MyOnlineId = netIdent->getMyOnlineId();
 
-        m_AssetMgr.fromGuiUserLoggedOn();
-        // m_BlobMgr.fromGuiUserLoggedOn();
-        m_ThumbMgr.fromGuiUserLoggedOn();
         m_HostJoinMgr.fromGuiUserLoggedOn();
         m_UserJoinMgr.fromGuiUserLoggedOn();
         m_UserOnlineMgr.fromGuiUserLoggedOn();
@@ -147,6 +145,13 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         startupEngine();
         updateFromEngineSettings( getEngineSettings() );
         m_PluginMgr.fromGuiUserLoggedOn();
+
+        m_AssetMgr.onPluginsInitialized();
+        m_OfferMgr.fromGuiUserLoggedOn();
+        m_OfferMgr.onPluginsInitialized();
+        // m_BlobMgr.fromGuiUserLoggedOn();
+        m_ThumbMgr.onPluginsInitialized();
+
         m_NetworkStateMachine.fromGuiUserLoggedOn();
         m_SendQueueMgr.fromGuiUserLoggedOn();
         LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn done" );

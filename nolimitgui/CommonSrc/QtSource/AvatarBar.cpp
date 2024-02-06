@@ -81,7 +81,15 @@ void AvatarBar::setOnlineId( VxGUID& onlineId )
 				ui.m_Avatar->setImage( image );
 				update();
 			}
-		
+			else
+			{
+				VxAppTheme& appTheme = m_MyApp.getAppTheme();
+				QColor iconColor = appTheme.getColor( eButtonForegroundNormal );
+				QSize imageSize = ui.m_Avatar->geometry().size();
+				QPixmap iconPixmap =  m_MyApp.getMyIcons().getIconPixmap( eMyIconAvatarImage, imageSize, iconColor );
+	
+				ui.m_Avatar->setPixmap( iconPixmap );
+			}	
 		}
 	}
 }

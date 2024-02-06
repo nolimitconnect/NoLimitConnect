@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "OfferCallbackInterface.h"
+#include "OfferCallback.h"
 #include "OfferBaseInfoDb.h"
 
 #include <CoreLib/VxThread.h>
@@ -19,7 +19,7 @@
 class FileInfo;
 class GuiUser;
 class IToGui;
-class OfferCallbackInterface;
+class OfferCallback;
 class OfferBaseInfo;
 class OfferBaseInfoDb;
 class OfferBaseHistoryMgr;
@@ -30,7 +30,8 @@ class QWidget;
 class OfferBaseMgr
 {
 public:
-	OfferBaseMgr( P2PEngine& engine, const char* dbName, const char* stateDbName, EOfferMgrType assetMgrType );
+	OfferBaseMgr() = delete;
+	OfferBaseMgr( EOfferMgrType assetMgrType );
 	virtual ~OfferBaseMgr() = default;
 
     class AutoResourceLock
@@ -41,7 +42,7 @@ public:
         VxMutex&				m_Mutex;
     };
 
-	void                        wantGuiOfferCallbacks( OfferCallbackInterface* client, bool enable );
+	void                        wantOfferCallbacks( OfferCallback* client, bool enable );
 
     virtual OfferBaseInfoDb&    getOfferInfoDb( void ) { return m_OfferBaseInfoDb; }
 
@@ -49,16 +50,12 @@ public:
 
     // startup when user specific directory has been set after user logs on
     virtual void				fromGuiUserLoggedOn( void );
+	virtual void				onPluginsInitialized( void );
+
     virtual bool				fromGuiGetOfferBaseInfo( uint8_t fileTypeFilter );
     virtual bool				fromGuiSetFileIsShared( std::string fileName, bool shareFile, uint8_t * fileHashId );
 
 	virtual void				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo ) {};
-
-    virtual void				announceOfferAdded( OfferBaseInfo* offerInfo );
-    virtual void				announceOfferUpdated( OfferBaseInfo* offerInfo );
-    virtual void				announceOfferRemoved( OfferBaseInfo* offerInfo );
-    virtual void				announceOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param );
-    virtual void				announceOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param );
 
     virtual void                onQueryHistoryOffer( OfferBaseInfo* offerInfo ) {}; // should be overriden
 
@@ -119,6 +116,12 @@ public:
 
 	bool						deleteDatabase( void );
 
+	virtual void				announceOfferAdded( OfferBaseInfo* offerInfo );
+    virtual void				announceOfferUpdated( OfferBaseInfo* offerInfo );
+    virtual void				announceOfferRemoved( OfferBaseInfo* offerInfo );
+    virtual void				announceOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param );
+	virtual void				announceOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param );
+
 protected:
     virtual OfferBaseInfo*     createOfferInfo( std::string fileName, uint64_t fileLen, uint16_t fileType );
     virtual OfferBaseInfo*     createOfferInfo( OfferBaseInfo& offerInfo );
@@ -141,12 +144,11 @@ protected:
 	void						updateOfferDatabaseSendState( VxGUID& assetOfferId, EOfferSendState sendState );
 
     //=== vars ===//
-    P2PEngine&					m_Engine;
     EOfferMgrType               m_OfferMgrType{ eOfferMgrNotSet };
     VxMutex						m_ResourceMutex;
     VxMutex						m_ClientListMutex;
 
-    std::vector<OfferCallbackInterface *> m_OfferClients;
+    std::vector<OfferCallback *> m_OfferClients;
 	bool						m_Initialized{ false };
 
 	std::vector<OfferBaseInfo*>	m_WaitingForHastList;

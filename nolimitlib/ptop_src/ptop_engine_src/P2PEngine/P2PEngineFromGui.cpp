@@ -18,13 +18,16 @@
 
 #include <AssetMgr/AssetInfo.h>
 #include <AssetMgr/AssetMgr.h>
+#include <BigListLib/BigListInfo.h>
 #include <BlobXferMgr/BlobMgr.h>
+
 #include <NetworkTest/IsPortOpenTest.h>
 #include <NetworkTest/RunUrlAction.h>
 #include <MediaProcessor/MediaProcessor.h>
 #include <MediaToolsLib/MediaTools.h>
 
-#include <BigListLib/BigListInfo.h>
+#include <OfferBase/OfferMgr.h>
+
 #include <Plugins/FileToXfer.h>
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginFileShareServer.h>

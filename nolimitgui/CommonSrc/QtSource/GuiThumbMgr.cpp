@@ -296,17 +296,6 @@ bool GuiThumbMgr::requestAvatarImage( GuiUser* guiUser, EPluginType pluginType, 
 //============================================================================
 bool GuiThumbMgr::getAvatarImage( VxGUID& thumbId, QImage& image )
 {
-    if( m_MyApp.getEngine().getThumbMgr().isEmoticonThumbnail( thumbId ) )
-    {
-         GuiThumb* guiThumb = generateEmoticon( thumbId );
-         if( guiThumb )
-         {
-             guiThumb->createImage( image );
-         }
-
-         return !image.isNull();
-    }
-
     bool result = getThumbImage( thumbId, image );
     if( result && !image.isNull() )
     {

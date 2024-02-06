@@ -80,7 +80,7 @@ AssetBaseInfo* ThumbMgr::createAssetInfo( FileInfo& fileInfo )
 }
 
 //============================================================================
-void ThumbMgr::fromGuiUserLoggedOn( void )
+void ThumbMgr::onPluginsInitialized( void )
 {
     // dont call AssetBaseMgr::fromGuiUserLoggedOn because we never generate sha hash for thumbnails
     if( !m_Initialized )

@@ -56,9 +56,13 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<ERunTestStatus>( "ERunTestStatus" );
 	qRegisterMetaType<ENetAvailStatus>( "ENetAvailStatus" );
 	qRegisterMetaType<ENetworkStateType>( "ENetworkStateType" );
+
+	qRegisterMetaType<EOfferAction>( "EOfferAction" );
 	qRegisterMetaType<EOfferResponse>( "EOfferResponse" );
+	qRegisterMetaType<EOfferSendState>( "EOfferSendState" );
 	qRegisterMetaType<EOfferState>( "EOfferState" );
 	qRegisterMetaType<EOfferType>( "EOfferType" );
+
 	qRegisterMetaType<EPluginAccess>( "EPluginAccess" );
 	qRegisterMetaType<EPluginType>( "EPluginType" );
 	qRegisterMetaType<EPushToTalkStatus>( "EPushToTalkStatus" );

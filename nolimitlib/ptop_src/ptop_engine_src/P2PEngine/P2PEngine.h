@@ -30,7 +30,7 @@
 #include <IdentListMgrs/NearbyListMgr.h>
 
 #include <NetworkMonitor/NetStatusAccum.h>
-#include <OfferBase/OfferMgr.h>
+
 #include <PluginSettings/PluginSettingMgr.h>
 #include <ThumbMgr/ThumbCallbackInterface.h>
 #include <ThumbMgr/ThumbMgr.h>
@@ -62,6 +62,7 @@ class HostServerJoinMgr;
 class IToGui;
 class INlc;
 class IsPortOpenTest;
+class OfferMgr;
 class PluginMgr;
 class PushToTalkMgr;
 class RcConnectInfo;
@@ -97,6 +98,7 @@ public:
 
 	P2PEngine( VxPeerMgr& peerMgr, 
                MemberActiveMgr& memberActiveMgr, 
+               OfferMgr& offerMgr,
                PushToTalkMgr& pushToTalkMgr, 
                RandConnectMgr& randConnectMgr,
                SendQueueMgr& sendQueueMgr );

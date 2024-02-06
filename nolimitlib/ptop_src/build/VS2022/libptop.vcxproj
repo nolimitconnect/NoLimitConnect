@@ -872,7 +872,7 @@
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferBaseXferDb.h" />
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferBaseXferMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferBaseXferSession.h" />
-    <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferCallbackInterface.h" />
+    <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferCallback.h" />
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\P2PEngine\ContactList.h" />
     <ClInclude Include="..\..\ptop_engine_src\P2PEngine\EngineParams.h" />

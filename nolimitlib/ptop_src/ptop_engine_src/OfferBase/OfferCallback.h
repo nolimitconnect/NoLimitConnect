@@ -9,15 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
-
 #include <GuiInterface/IDefs.h>
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxSha1Hash.h>
 
 class OfferBaseInfo;
 
-class OfferCallbackInterface
+class OfferCallback
 {
 public:
 	virtual void				callbackFileWasShredded( std::string& fileName ){};
@@ -31,7 +29,6 @@ public:
 
     virtual void				callbackOfferAdded( OfferBaseInfo* assetInfo ){};
     virtual void				callbackOfferUpdated( OfferBaseInfo* assetInfo ){};
-    virtual void				callbackOfferRemoved( OfferBaseInfo* assetInfo ){};
-	virtual void				callbackOfferHistory( void * userData, OfferBaseInfo* assetInfo ){};
+    virtual void				callbackOfferRemoved( VxGUID& offerId ){};
 };
 

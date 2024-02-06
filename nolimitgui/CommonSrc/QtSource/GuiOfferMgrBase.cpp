@@ -30,8 +30,10 @@ GuiOfferMgrBase::GuiOfferMgrBase( AppCommon&  myApp )
 {
 	m_OfferUpdateTimer->setInterval( 2000 );
 	m_RingTimer->setInterval( 1000 );
-	connect( m_OfferUpdateTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateOffersTimer() ) );
-	connect( m_RingTimer, SIGNAL( timeout() ), this, SLOT( slotOncePerSecondRingTimer() ) );
+	connect( m_OfferUpdateTimer, SIGNAL(timeout()), this, SLOT(slotUpdateOffersTimer()) );
+	connect( m_RingTimer, SIGNAL(timeout()), this, SLOT(slotOncePerSecondRingTimer()) );
+
+	connectCallbackSignalsAndSlots();
 
 	m_OfferUpdateTimer->start();
 }

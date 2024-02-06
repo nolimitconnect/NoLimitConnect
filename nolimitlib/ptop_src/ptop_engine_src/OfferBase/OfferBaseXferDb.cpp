@@ -14,8 +14,8 @@
 
 namespace
 {
-	std::string 		TABLE_OFFER_XFER	 			= "asset_xfer";
-	std::string 		CREATE_COLUMNS_OFFER_XFER		= " (unique_id TEXT PRIMARY KEY ) ";
+	std::string 		TABLE_OFFER_XFER	 			= "offer_xfer";
+	std::string 		CREATE_COLUMNS_OFFER_XFER		= " (offerId TEXT PRIMARY KEY ) ";
 }
 
 //============================================================================
@@ -55,11 +55,11 @@ void OfferBaseXferDb::purgeAllOfferBaseXfer( void )
 	unlockOfferBaseXferDb();
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "OfferBaseXferDb::purgeAllOfferBaseXfer error %d\n", rc );
+		LogMsg( LOG_ERROR, "OfferBaseXferDb::purgeAllOfferBaseXfer error %d", rc );
 	}
 	else
 	{
-		LogMsg( LOG_INFO, "OfferBaseXferDb::purgeAllOfferBaseXfer success\n" );
+		LogMsg( LOG_INFO, "OfferBaseXferDb::purgeAllOfferBaseXfer success" );
 	}
 }
 
@@ -69,7 +69,7 @@ void OfferBaseXferDb::removeOffer( VxGUID& assetOfferId )
 	std::string strId;
 	assetOfferId.toHexString( strId );
 	DbBindList bindList( strId.c_str() );
-	sqlExec( "DELETE FROM asset_xfer WHERE unique_id=?", bindList );
+	sqlExec( "DELETE FROM offer_xfer WHERE offerId=?", bindList );
 }
 
 //============================================================================
@@ -78,13 +78,13 @@ void OfferBaseXferDb::addOffer( VxGUID& assetOfferId )
 	std::string strId;
 	assetOfferId.toHexString( strId );
 	DbBindList bindList( strId.c_str() );
-	sqlExec( "DELETE FROM asset_xfer WHERE unique_id=?", bindList );
+	sqlExec( "DELETE FROM offer_xfer WHERE offerId=?", bindList );
 
-	RCODE rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
+	RCODE rc  = sqlExec( "INSERT INTO offer_xfer (offerId) values(?)",
 		bindList );
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "OfferBaseXferDb::addOffer error %d\n", rc );
+		LogMsg( LOG_ERROR, "OfferBaseXferDb::addOffer error %d", rc );
 	}
 }
 
@@ -95,7 +95,7 @@ void OfferBaseXferDb::getAllOffers( std::vector<VxGUID>& assetList )
 	std::string strId;
 	VxGUID uniqueId;
 	lockOfferBaseXferDb();
-	DbCursor * cursor = startQuery( "SELECT * FROM asset_xfer" );
+	DbCursor * cursor = startQuery( "SELECT * FROM offer_xfer" );
 	if( NULL != cursor )
 	{
 		while( cursor->getNextRow() )

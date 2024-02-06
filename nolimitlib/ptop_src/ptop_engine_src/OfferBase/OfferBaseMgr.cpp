@@ -11,7 +11,7 @@
 #include "OfferBaseMgr.h"
 #include "OfferBaseInfo.h"
 #include "OfferBaseInfoDb.h"
-#include "OfferCallbackInterface.h"
+#include "OfferCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/FileInfo.h>
@@ -30,7 +30,8 @@
 
 namespace
 {
-	const char* OFFER_INFO_DB_NAME = "OfferBaseInfoDb.db3";
+	const char* OFFER_INFO_DB_NAME = "OfferInfoDb.db3";
+	const char* OFFER_STATE_DB_NAME = "OfferStateDb.db3";
 
 	//============================================================================
     static void * OfferBaseMgrGenHashIdsThreadFunc( void * pvContext )
@@ -49,10 +50,9 @@ namespace
 }
 
 //============================================================================
-OfferBaseMgr::OfferBaseMgr( P2PEngine& engine, const char* dbName, const char* stateDbName, EOfferMgrType assetMgrType )
-: m_Engine( engine )
-, m_OfferMgrType( assetMgrType )
-, m_OfferBaseInfoDb( *this, dbName )
+OfferBaseMgr::OfferBaseMgr( EOfferMgrType assetMgrType )
+: m_OfferMgrType( assetMgrType )
+, m_OfferBaseInfoDb( *this )
 {
 }
 
@@ -68,20 +68,26 @@ void OfferBaseMgr::fromGuiUserLoggedOn( void )
 	if( !m_Initialized )
 	{
 		// user specific directory should be set
-		std::string dbFileName = VxGetSettingsDirectory();
-		dbFileName += m_OfferBaseInfoDb.getDatabaseName();
+		std::string dbInfoFileName = VxGetSettingsDirectory();
+		dbInfoFileName += OFFER_INFO_DB_NAME;
+
 		lockResources();
 		m_OfferBaseInfoDb.dbShutdown();
-		m_OfferBaseInfoDb.dbStartup( 1, dbFileName );
+		m_OfferBaseInfoDb.dbStartup( 1, dbInfoFileName );
+
 
 		clearOfferInfoList();
 		m_OfferBaseInfoDb.getAllOffers( m_OfferBaseInfoList );
 
 		unlockResources();
-		m_Initialized = true;
-
-		m_GenHashThread.startThread( (VX_THREAD_FUNCTION_T)OfferBaseMgrGenHashIdsThreadFunc, this, "OfferBaseMgrGenHash" );			
+		m_Initialized = true;		
 	}
+}
+
+//============================================================================
+void OfferBaseMgr::onPluginsInitialized( void )
+{
+	m_GenHashThread.startThread( (VX_THREAD_FUNCTION_T)OfferBaseMgrGenHashIdsThreadFunc, this, "OfferBaseMgrGenHash" );			
 }
 
 //============================================================================
@@ -462,6 +468,13 @@ void OfferBaseMgr::announceOfferUpdated( OfferBaseInfo* offerInfo )
 //============================================================================
 void OfferBaseMgr::announceOfferRemoved( OfferBaseInfo* offerInfo )
 {
+	if( !offerInfo )
+    {
+        LogMsg( LOG_ERROR, "OfferHostMgr::announceOfferRemoved null offerInfo" );
+		vx_assert( false );
+		return;
+    }
+
 	//if( offerInfo->getIsOfferBase() )
 	{
 		updateFileListPackets();
@@ -471,7 +484,7 @@ void OfferBaseMgr::announceOfferRemoved( OfferBaseInfo* offerInfo )
 	lockClientList();
 	for( auto client : m_OfferClients )
 	{
-		client->callbackOfferRemoved( offerInfo );
+		client->callbackOfferRemoved( offerInfo->getOfferId() );
 	}
 
 	unlockClientList();
@@ -480,7 +493,7 @@ void OfferBaseMgr::announceOfferRemoved( OfferBaseInfo* offerInfo )
 //============================================================================
 void OfferBaseMgr::announceOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param )
 {
-	LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d start\n", assetSendState );
+	LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d start", assetSendState );
 	lockClientList();
 	for( auto client : m_OfferClients )
 	{
@@ -488,13 +501,13 @@ void OfferBaseMgr::announceOfferXferState( VxGUID& assetOfferId, EOfferSendState
 	}
 
 	unlockClientList();
-	LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d done\n", assetSendState );
+	LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d done", assetSendState );
 }
 
 //============================================================================
 void OfferBaseMgr::announceOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param )
 {
-    LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d start\n", offerAction );
+    LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d start", offerAction );
     lockClientList();
 	for( auto client : m_OfferClients )
 	{
@@ -502,7 +515,7 @@ void OfferBaseMgr::announceOfferAction( VxGUID& assetOfferId, EOfferAction offer
     }
 
     unlockClientList();
-    LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d done\n", offerAction );
+    LogMsg( LOG_INFO, "OfferBaseMgr::announceOfferXferState state %d done", offerAction );
 }
 
 //============================================================================
@@ -625,15 +638,15 @@ void OfferBaseMgr::updateOfferFileTypes( void )
 	m_u16OfferBaseFileTypes = u16FileTypes;
 	bool fileTypesChanged = false;
 
-	m_Engine.lockAnnouncePktAccess();
-	PktAnnounce& pktAnn = m_Engine.getMyPktAnnounce();
+	GetPtoPEngine().lockAnnouncePktAccess();
+	PktAnnounce& pktAnn = GetPtoPEngine().getMyPktAnnounce();
 	if( pktAnn.getSharedFileTypes() != u16FileTypes )
 	{
 		fileTypesChanged = true;
 		pktAnn.setSharedFileTypes( (uint8_t)u16FileTypes );
 	}
 
-	m_Engine.unlockAnnouncePktAccess();
+	GetPtoPEngine().unlockAnnouncePktAccess();
 	if( fileTypesChanged )
 	{
 		lockClientList();
@@ -955,7 +968,7 @@ void OfferBaseMgr::updateOfferXferState( VxGUID& assetOfferId, EOfferSendState a
         announceOfferXferState( assetOfferId, assetSendState, param );
 	}
 
-	LogMsg( LOG_INFO, "OfferBaseMgr::updateOfferXferState state %d done\n", assetSendState );
+	LogMsg( LOG_INFO, "OfferBaseMgr::updateOfferXferState state %d done", assetSendState );
 }
 
 
@@ -972,23 +985,28 @@ bool OfferBaseMgr::isAllowedFileOrDir( std::string strFileName )
 }
 
 //============================================================================
-void OfferBaseMgr::wantGuiOfferCallbacks( OfferCallbackInterface* client, bool enable )
+void OfferBaseMgr::wantOfferCallbacks( OfferCallback* client, bool enable )
 {
 	lockClientList();
-	if( enable )
+
+	bool found{ false };
+	for( auto iter = m_OfferClients.begin(); iter != m_OfferClients.end(); ++iter )
 	{
-		m_OfferClients.push_back( client );
-	}
-	else
-	{
-		for( auto iter = m_OfferClients.begin(); iter != m_OfferClients.end(); ++iter )
+		if( *iter == client )
 		{
-			if( *iter == client )
+			found = true;
+			if( !enable )
 			{
 				m_OfferClients.erase( iter );
-				break;
 			}
+
+			break;
 		}
+	}
+
+	if( enable && !found )
+	{
+		m_OfferClients.push_back( client );
 	}
 
 	unlockClientList();

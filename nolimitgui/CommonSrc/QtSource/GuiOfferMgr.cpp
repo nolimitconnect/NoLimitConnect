@@ -8,17 +8,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or linux Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-
 #include "GuiOfferMgr.h"
 
 #include "AppCommon.h"
 #include "GuiOfferCallback.h"
 
+#include <OfferBase/OfferMgr.h>
+#include <P2PEngine/P2PEngine.h>
+
 //============================================================================
 void GuiOfferMgr::onAppCommonCreated( void )
 {
-   // m_MyApp.getEngine().getOfferMgr().wantGuiOfferCallbacks( this, true );
+   m_MyApp.getEngine().getOfferMgr().wantOfferCallbacks( this, true );
 }
 
 //============================================================================

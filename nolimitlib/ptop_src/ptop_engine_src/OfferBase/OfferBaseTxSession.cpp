@@ -8,13 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
 #include "OfferBaseTxSession.h"
+
+#include <OfferBase/OfferMgr.h>
 
 #include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
-
-#include <stdio.h>
 
 //============================================================================
 OfferBaseTxSession::OfferBaseTxSession( P2PEngine& engine, OfferBaseMgr& offerMgr )

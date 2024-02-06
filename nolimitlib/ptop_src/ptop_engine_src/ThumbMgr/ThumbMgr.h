@@ -37,7 +37,7 @@ public:
 
     void                        addThumbMgrClient( ThumbCallbackInterface * client, bool enable );
 
-    void                        fromGuiUserLoggedOn( void ) override;
+    void                        onPluginsInitialized( void ) override;
     bool				        fromGuiThumbCreated( ThumbInfo& thumbInfo );
     bool				        fromGuiThumbUpdated( ThumbInfo& thumbInfo );
     virtual bool			    fromGuiRequestPluginThumb( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId );

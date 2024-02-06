@@ -226,6 +226,8 @@ RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime 
 	else
 	{
 		LogMsg( LOG_ERROR, "BigListDb::%s bad param 0 lastSessionTime", __func__ );
+		vx_assert( false );
+		return false;
 	}
 }
 

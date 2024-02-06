@@ -8,12 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
 #include "OfferBaseXferSession.h"
-#include <P2PEngine/P2PEngine.h>
-#include <GuiInterface/IToGui.h>
 
-#include <CoreLib/VxGlobals.h>
+#include <OfferBase/OfferMgr.h>
 
 //============================================================================
 OfferBaseXferSession::OfferBaseXferSession( P2PEngine& engine, OfferBaseMgr& offerMgr )

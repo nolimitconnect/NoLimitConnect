@@ -62,7 +62,8 @@ public:
 	static bool                 isEmoticonThumbnail( VxGUID& thumbId );
 
     // startup when user specific directory has been set after user logs on
-    virtual void				fromGuiUserLoggedOn( void );
+    virtual void				onPluginsInitialized( void );
+
     virtual bool				fromGuiGetAssetBaseInfo( uint8_t fileTypeFilter );
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile );
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );

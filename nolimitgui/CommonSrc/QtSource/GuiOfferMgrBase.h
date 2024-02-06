@@ -14,6 +14,8 @@
 #include "GuiUserUpdateCallback.h"
 #include "GuiOfferSession.h"
 
+#include <OfferBase/OfferCallback.h>
+
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxTimer.h>
 
@@ -25,7 +27,7 @@ class QListWidgetItem;
 class QTimer;
 class VxGUID;
 
-class GuiOfferMgrBase : public QWidget, public GuiUserUpdateCallback
+class GuiOfferMgrBase : public QWidget, public GuiUserUpdateCallback, public OfferCallback
 {
 	Q_OBJECT
 public:
@@ -73,7 +75,26 @@ public:
 
 	virtual bool				validateOffer( GuiOfferSession* offerSession, QWidget* contentFrame, bool showErrorMsg = true );
 
+signals:
+	void						signalCallbackFileWasShredded( QString fileName );
+
+	void						signalCallbackOfferSendState( VxGUID assetOfferId, EOfferSendState assetSendState, int param );
+    void						signalCallbackOfferAction( VxGUID assetOfferId, EOfferAction offerAction, int param );
+
+    void						signalCallbackOfferAdded( OfferBaseInfo* assetInfo );
+    void						signalCallbackOfferUpdated( OfferBaseInfo* assetInfo );
+    void						signalCallbackOfferRemoved( VxGUID offerId );
+
 protected slots:
+	void						slotCallbackFileWasShredded( QString fileName );
+
+	void						slotCallbackOfferSendState( VxGUID assetOfferId, EOfferSendState assetSendState, int param );
+    void						slotCallbackOfferAction( VxGUID assetOfferId, EOfferAction offerAction, int param );
+
+    void						slotCallbackOfferAdded( OfferBaseInfo* assetInfo );
+    void						slotCallbackOfferUpdated( OfferBaseInfo* assetInfo );
+    void						slotCallbackOfferRemoved( VxGUID offerId );
+
 	void						slotUpdateOffersTimer( void );
 	void						slotOncePerSecondRingTimer( void );
 
@@ -95,6 +116,19 @@ protected:
 
 	void						checkAndUpdateIfEmptyOfferList( void );
 	void						updateActiveOfferCount( void );
+
+	// callbacks
+	void						connectCallbackSignalsAndSlots( void );
+
+	void						callbackFileWasShredded( std::string& fileName ) override;
+
+	void						callbackOfferSendState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param ) override;
+    void						callbackOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param ) override;
+
+    void						callbackOfferAdded( OfferBaseInfo* assetInfo ) override;
+    void						callbackOfferUpdated( OfferBaseInfo* assetInfo ) override;
+    void						callbackOfferRemoved( VxGUID& offerId ) override;
+
 
 	//=== vars ===//
 	static const int 			RING_COUNT 				= 4; 

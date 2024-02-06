@@ -384,6 +384,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferListWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBase.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBaseCallbacks.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferSession.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiParams.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.cpp" />

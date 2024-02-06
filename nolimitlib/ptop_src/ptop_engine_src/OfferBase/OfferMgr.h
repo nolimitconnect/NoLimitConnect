@@ -15,25 +15,17 @@
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxMutex.h>
 
-class OfferCallbackInterface;
+class OfferCallback;
 
 class OfferMgr : public OfferBaseMgr
 {
 public:
-	OfferMgr( P2PEngine& engine, const char* dbName, const char* stateDbName );
-	virtual ~OfferMgr() = default;
+	OfferMgr();
+	~OfferMgr() override = default;
 
     void                        fromGuiUserLoggedOn( void ) override;
 
     bool				        fromGuiOfferCreated( OfferBaseInfo& offerInfo );
     bool				        fromGuiOfferUpdated( OfferBaseInfo& offerInfo );
-
-    virtual void				announceOfferAdded( OfferBaseInfo* offerInfo ) override;
-    virtual void				announceOfferUpdated( OfferBaseInfo* offerInfo ) override;
-    virtual void				announceOfferRemoved( OfferBaseInfo* offerInfo ) override;
-    virtual void				announceOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param ) override;
-
-protected:
-
 };
 
