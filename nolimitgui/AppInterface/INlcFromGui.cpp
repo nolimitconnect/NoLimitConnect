@@ -117,9 +117,9 @@ bool INlc::fromGuiDeleteUser( VxGUID& onlineId )
 }
 
 //============================================================================
-uint64_t INlc::fromGuiGetDiskFreeSpace( void )
+uint64_t INlc::fromGuiGetDiskFreeSpace( const char* dir )
 {
-    return getPtoP().fromGuiGetDiskFreeSpace();
+    return getPtoP().fromGuiGetDiskFreeSpace( dir );
 }
 
 //============================================================================

@@ -52,6 +52,8 @@ public:
 
     virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int percentProgress );
 
+    virtual void				toGuiFileDeleted( QString& fileName );
+
     virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID&	lclSessionId, QString& fileName, EXferError xferError );
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString& fileName, EXferError xferError );
 

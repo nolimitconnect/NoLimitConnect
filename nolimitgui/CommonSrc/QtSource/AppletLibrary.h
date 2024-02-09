@@ -58,11 +58,12 @@ private slots:
     void						slotListShredIconClicked( QListWidgetItem* item );
 
 protected:
-    virtual void				showEvent( QShowEvent* ev ) override;
-    virtual void				hideEvent( QHideEvent* ev ) override;
+    void				        showEvent( QShowEvent* ev ) override;
+    void				        hideEvent( QHideEvent* ev ) override;
 
-    virtual void				callbackToGuiFileList( FileInfo& fileInfo ) override;
-    virtual void				callbackToGuiFileListCompleted( void ) override;
+    void				        callbackToGuiFileList( FileInfo& fileInfo ) override;
+    void				        callbackToGuiFileListCompleted( void ) override;
+    void				        toGuiFileDeleted( QString& fileName ) override;
 
     FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
     FileItemInfo*				widgetToFileItemInfo( FileShareItemWidget* item );
@@ -71,6 +72,8 @@ protected:
     void						clearFileList( void );
 
     FileShareItemWidget*        findItemByFileName( QString fileName );
+
+    void                        updateStorageSpace( std::string fileName );
 
     //=== vars ===//
     Ui::AppletLibraryUi	        ui;

@@ -141,6 +141,9 @@ public:
 	virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) = 0;
 	/// File transfer progress and/or state
 	virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) = 0;
+	/// File has been deleted from storage
+	virtual void				toGuiFileDeleted( std::string& fileName ) = 0;
+
 
 	/// Video file or audio file or emote icon or text message has been added to Text Chat session
     virtual void				toGuiAssetAdded( AssetBaseInfo* assetInfo ) = 0;

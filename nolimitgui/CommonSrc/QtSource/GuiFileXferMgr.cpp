@@ -165,10 +165,27 @@ void GuiFileXferMgr::toGuiFileXferState( EPluginType pluginType, VxGUID& lclSess
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto iter = m_ToGuiFileXferInterfaceList.begin(); iter != m_ToGuiFileXferInterfaceList.end(); ++iter )
+    for( auto client : m_ToGuiFileXferInterfaceList )
     {
-        ToGuiFileXferInterface* client = *iter;
         client->toGuiFileXferState( pluginType, lclSessionId, xferDir, xferState, xferErr, percentProgress );
+    }
+
+    m_ToGuiFileXferInterfaceBusy = false;
+}
+
+
+//============================================================================
+void GuiFileXferMgr::toGuiFileDeleted( QString& fileName )
+{
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
+    m_ToGuiFileXferInterfaceBusy = true;
+    for( auto client : m_ToGuiFileXferInterfaceList )
+    {
+        client->toGuiFileDeleted( fileName );
     }
 
     m_ToGuiFileXferInterfaceBusy = false;

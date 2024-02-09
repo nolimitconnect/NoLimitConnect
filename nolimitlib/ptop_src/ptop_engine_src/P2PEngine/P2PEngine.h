@@ -227,7 +227,7 @@ public:
 
 	bool				        fromGuiDeleteUser( VxGUID& onlineId ) override;
 
-    virtual uint64_t			fromGuiGetDiskFreeSpace( void  ) override;
+    virtual uint64_t			fromGuiGetDiskFreeSpace( const char* dir = nullptr  ) override;
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) override;
     virtual void				fromGuiAppShutdown( void  ) override;
     virtual void				fromGuiAppPause( void ) override;

@@ -103,10 +103,28 @@ const char* P2PEngine::fromGuiGetAppNameNoSpaces( void )
 }
 
 //============================================================================
-uint64_t P2PEngine::fromGuiGetDiskFreeSpace( void  ) 
+uint64_t P2PEngine::fromGuiGetDiskFreeSpace( const char* dir  ) 
 {
-	std::string incompleteDir =	VxGetIncompleteDirectory();
-	return VxFileUtil::getDiskFreeSpace( incompleteDir.c_str() );
+	if( dir )
+	{
+		std::string storageFile = dir;
+		std::string storageDir;
+		std::string fileName;
+		VxFileUtil::seperatePathAndFile( storageFile, storageDir, fileName );
+		if( !storageDir.empty() )
+		{
+			return VxFileUtil::getDiskFreeSpace( storageDir.c_str() );
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		std::string incompleteDir = VxGetIncompleteDirectory();
+		return VxFileUtil::getDiskFreeSpace( incompleteDir.c_str() );
+	}
 }
 
 //============================================================================
@@ -1560,6 +1578,8 @@ int P2PEngine::fromGuiDeleteFile( std::string fileName, bool shredFile )
 
 			// remove from library and shared files then delete the file
 			getPluginFileShareServer().deleteFile( fileName.c_str(), shredFile );
+
+			getToGui().toGuiFileDeleted( fileName );
 		}
 		else
 		{

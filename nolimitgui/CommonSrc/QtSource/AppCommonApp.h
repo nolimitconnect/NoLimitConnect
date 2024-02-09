@@ -542,6 +542,8 @@ public:
     virtual void				toGuiFileDownloadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
     virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
+    void				        toGuiFileDeleted( std::string& fileName ) override;
+
     virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
 
@@ -669,6 +671,8 @@ signals:
     void                        signalInternalToGuiFileUploadStart( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId, FileInfo fileInfo );
     void                        signalInternalToGuiFileUploadComplete( EPluginType pluginType, VxGUID lclSessionId, QString fileName, EXferError xferError );
     void                        signalInternalToGuiFileXferState( EPluginType pluginType, VxGUID lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 );
+    void                        signalInternalToGuiFileDeleted( QString fileName );
+
     void                        signalInternalToGuiFileList( FileInfo fileInfo );
     void                        signalInternalToGuiFileListCompleted( void );
 
@@ -736,6 +740,8 @@ private slots:
     void                        slotInternalToGuiFileUploadStart( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId, FileInfo fileInfo );
     void                        slotInternalToGuiFileUploadComplete( EPluginType pluginType, VxGUID lclSessionId, QString fileName, EXferError xferError );
     void                        slotInternalToGuiFileXferState( EPluginType pluginType, VxGUID lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 );
+    void                        slotInternalToGuiFileDeleted( QString fileName );
+
     void                        slotInternalToGuiFileList( FileInfo fileInfo );
     void                        slotInternalToGuiFileListCompleted( void );
 

@@ -105,6 +105,11 @@ void AppletLibrary::hideEvent( QHideEvent* ev )
 //============================================================================
 void AppletLibrary::callbackToGuiFileList( FileInfo& fileInfo )
 {
+    if( ui.m_FileItemList->count() == 0 )
+    {
+        updateStorageSpace( fileInfo.getFullFileName() );
+    }
+
     addFile( fileInfo );
 }
 
@@ -113,6 +118,30 @@ void AppletLibrary::callbackToGuiFileListCompleted( void )
 {
     //setActionEnable( true );
     statusMsg( "List Get Completed" );
+}
+
+//============================================================================
+void AppletLibrary::toGuiFileDeleted( QString& fileName )
+{
+    FileShareItemWidget* poWidget;
+    int iIdx = 0;
+    while( iIdx < ui.m_FileItemList->count() )
+    {
+        poWidget = (FileShareItemWidget*)ui.m_FileItemList->item( iIdx );
+        if( poWidget )
+        {
+            FileItemInfo* poFileInfo = (FileItemInfo*)poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+            if( poFileInfo && (poFileInfo->getFullFileName() == fileName) )
+            {
+                poWidget->deleteLater();
+                break;
+            }
+        }
+
+        iIdx++;
+    }
+
+    updateStorageSpace( fileName.toUtf8().constData() );
 }
 
 //============================================================================
@@ -453,4 +482,16 @@ FileShareItemWidget* AppletLibrary::findItemByFileName( QString fileName )
     }
 
     return nullptr;
+}
+
+//============================================================================
+void AppletLibrary::updateStorageSpace( std::string fileName )
+{
+	uint64_t diskFreeSpace = m_Engine.fromGuiGetDiskFreeSpace( fileName.c_str() );
+	if( ( 0 != diskFreeSpace ) && ( diskFreeSpace < 1000000000 ) )
+	{
+        m_MyApp.toGuiUserMessage( "Storage Space is low %s", GuiParams::describeFileLength( diskFreeSpace ).toUtf8().constData() );
+	}
+
+    ui.m_StatusLabel->setText( QObject::tr( "Storage Space Available: " ) + GuiParams::describeFileLength( diskFreeSpace ) );
 }

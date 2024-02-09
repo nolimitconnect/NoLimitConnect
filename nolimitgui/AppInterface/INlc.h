@@ -319,13 +319,6 @@ public:
     virtual void				toGuiContactOnline( VxNetIdent* netIdent ) override;
 
     //! called when contact changes
-    //virtual void				toGuiContactNameChange( VxNetIdent* netIdent ) override;
-    //virtual void				toGuiContactDescChange( VxNetIdent* netIdent ) override;
-    //virtual void				toGuiContactFriendshipChange( VxNetIdent* netIdent ) override;
-
-    //virtual void				toGuiContactSearchFlagsChange( VxNetIdent* netIdent ) override;
-    //virtual void				toGuiPluginPermissionChange( VxNetIdent* netIdent ) override;
-
     virtual void				toGuiContactAnythingChange( VxNetIdent* netIdent ) override;
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override;
 
@@ -362,7 +355,8 @@ public:
     virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
 
-    virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
+    void				        toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
+    void				        toGuiFileDeleted( std::string& fileName ) override;
 
     //=== scan ===//
     virtual void				toGuiScanSearchComplete( EScanType eScanType ) override;
@@ -423,7 +417,7 @@ public:
 
     virtual void				fromGuiAppShutdown( void );
 
-    virtual uint64_t			fromGuiGetDiskFreeSpace( void );
+    virtual uint64_t			fromGuiGetDiskFreeSpace( const char* dir = nullptr );
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType );
 
     virtual void				fromGuiAppPauseOrResume( bool isPaused );

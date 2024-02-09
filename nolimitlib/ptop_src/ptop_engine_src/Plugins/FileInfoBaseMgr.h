@@ -106,7 +106,6 @@ public:
 	bool						loadAboutMePageStaticAssets( void );
 	bool						loadStoryboardPageFileAssets( void );
 
-	// virtual void				fromGuiUserLoggedOn( void ) override;
 	virtual void				onAfterUserLogOnThreaded( void );
 
 	ECommErr					searchRequest( PktFileInfoSearchReply& pktReply, VxGUID& specificAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
@@ -121,8 +120,8 @@ public:
 	virtual void				toGuiFileDownloadStart( VxGUID& onlineId, VxGUID& lclSessionId, FileInfo& fileInfo );
 
 	void						updateToGuiFileXferState( VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param = 0 );
-	virtual void				toGuiFileDownloadComplete( VxGUID& lclSessionId, std::string fileName, EXferError xferError );
-	virtual void				toGuiFileUploadComplete( VxGUID& lclSessionId, std::string fileName, EXferError xferError );
+	void						toGuiFileDownloadComplete( VxGUID& lclSessionId, std::string fileName, EXferError xferError );
+	void						toGuiFileUploadComplete( VxGUID& lclSessionId, std::string fileName, EXferError xferError );
 
 	virtual void				sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID& onlineId, FileInfo& fileInfo );
 
@@ -132,7 +131,7 @@ protected:
 
 	void						addFileToGenHashQue( VxGUID& assetId, std::string fileName );
 	void						removeFileFromGenHashQue( VxGUID& assetId, std::string fileName );
-	virtual void				callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info ) override;
+	void						callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info ) override;
 
 	bool						isFileShareServer( void );
 	bool						isLibraryServer( void );

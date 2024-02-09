@@ -128,7 +128,7 @@ public:
 	/// Call to engine when application is about to exit
 	virtual void				fromGuiAppShutdown( void ) = 0;
 	/// Returns disk space available in incomplete downloads directory
-	virtual uint64_t			fromGuiGetDiskFreeSpace( void ) = 0; 
+	virtual uint64_t			fromGuiGetDiskFreeSpace( const char* dir = nullptr ) = 0; 
 	/// deletes cached files and returns amount of disk space deleted
 	virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) = 0;
 

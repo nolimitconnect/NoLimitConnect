@@ -50,4 +50,6 @@ public:
 	virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString newFileName, EXferError xferError ){};
 
 	virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ){};
+
+	virtual void				toGuiFileDeleted( QString& fileName ){};
 };

@@ -403,6 +403,12 @@ void INlc::toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSession
 }
 
 //============================================================================
+void INlc::toGuiFileDeleted( std::string& fileName )
+{
+    getAppCommon().toGuiFileDeleted( fileName );
+}
+
+//============================================================================
 void INlc::toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError )
 {
     getAppCommon().toGuiFileUploadComplete( pluginType, lclSessionId, fileName, xferError );

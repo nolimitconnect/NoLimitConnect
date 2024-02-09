@@ -86,6 +86,23 @@ void AppCommon::slotInternalToGuiFileXferState( EPluginType pluginType, VxGUID l
 }
 
 //============================================================================
+void AppCommon::toGuiFileDeleted( std::string& fileName )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+    emit signalInternalToGuiFileDeleted( fileName.c_str() );
+}
+
+//============================================================================
+void AppCommon::slotInternalToGuiFileDeleted( QString fileName )
+{
+    getFileXferMgr().toGuiFileDeleted( fileName );
+}
+
+//============================================================================
 void AppCommon::toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError )
 {
 	if( VxIsAppShuttingDown() )

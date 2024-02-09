@@ -63,11 +63,12 @@ protected slots:
 	void						slotAddAllButtonClicked( void );
 	
 protected:
-    virtual void				showEvent( QShowEvent* ev ) override;
-    virtual void				hideEvent( QHideEvent* ev ) override;
+    void						showEvent( QShowEvent* ev ) override;
+    void						hideEvent( QHideEvent* ev ) override;
 
-	virtual void				callbackToGuiFileList( FileInfo& fileInfo ) override;
-	virtual void				callbackToGuiFileListCompleted( void ) override;
+	void						callbackToGuiFileList( FileInfo& fileInfo ) override;
+	void						callbackToGuiFileListCompleted( void ) override;
+	void						toGuiFileDeleted( QString& fileName ) override;
 
 	void						fromListWidgetRequestFileList( void );
 	
@@ -79,6 +80,8 @@ protected:
 	std::string					getDefaultDir( int eFileFilterType );
 
 	void						showAddAllToLibrary( bool visible );
+
+	void                        updateStorageSpace( std::string fileName );
 
 	Ui::BrowseFilesWidget		ui;
 

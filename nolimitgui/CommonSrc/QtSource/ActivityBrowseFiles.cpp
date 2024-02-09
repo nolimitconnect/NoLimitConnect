@@ -238,6 +238,12 @@ void ActivityBrowseFiles::callbackToGuiFileListCompleted( void )
 }
 
 //============================================================================
+void ActivityBrowseFiles::toGuiFileDeleted( QString& fileName )
+{
+    updateStorageSpace( fileName.toUtf8().constData() );
+}
+
+//============================================================================
 void ActivityBrowseFiles::setCurrentBrowseDir( QString browseDir )
 {
 	if( !browseDir.isEmpty() )
@@ -245,6 +251,7 @@ void ActivityBrowseFiles::setCurrentBrowseDir( QString browseDir )
 		m_CurBrowseDirectory = browseDir.toUtf8().constData();
 		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
 		ui.m_CurDirLabel->setTextBreakAnywhere( m_CurBrowseDirectory.c_str(), 4 );
+		updateStorageSpace( m_CurBrowseDirectory );
 	}
 }
 
@@ -771,4 +778,16 @@ void ActivityBrowseFiles::clearFileList( void )
 void ActivityBrowseFiles::showAddAllToLibrary( bool visible )
 {
 	ui.m_AddAllWidget->setVisible( visible );
+}
+
+//============================================================================
+void ActivityBrowseFiles::updateStorageSpace( std::string fileName )
+{
+	uint64_t diskFreeSpace = m_Engine.fromGuiGetDiskFreeSpace( fileName.c_str() );
+	if( (0 != diskFreeSpace) && (diskFreeSpace < 1000000000) )
+	{
+		m_MyApp.toGuiUserMessage( "Storage Space is low %s", GuiParams::describeFileLength( diskFreeSpace ).toUtf8().constData() );
+	}
+
+	ui.m_StatusLabel->setText( QObject::tr( "Storage Space Available: " ) + GuiParams::describeFileLength( diskFreeSpace ) );
 }
