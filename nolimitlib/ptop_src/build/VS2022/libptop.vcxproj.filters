@@ -751,6 +751,9 @@
     <ClCompile Include="..\..\ptop_engine_src\Membership\MemberConfirmMgr.cpp">
       <Filter>Source Files\Membership</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoPersonFileXferMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ptop_engine_src\AssetMgr\AssetCallbackInterface.h">
@@ -1559,6 +1562,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ptop_engine_src\OfferBase\OfferCallback.h">
       <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoPersonFileXferMgr.h">
+      <Filter>Source Files\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

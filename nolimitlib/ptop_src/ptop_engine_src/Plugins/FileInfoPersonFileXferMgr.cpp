@@ -8,20 +8,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "FileInfoSharedFilesMgr.h"
+#include "FileInfoPersonFileXferMgr.h"
 
 #include "PluginBase.h"
 
 //============================================================================
-FileInfoSharedFilesMgr::FileInfoSharedFilesMgr( P2PEngine& engine, PluginBase& plugin, std::string sharedFilesDbName )
+FileInfoPersonFileXferMgr::FileInfoPersonFileXferMgr( P2PEngine& engine, PluginBase& plugin, std::string sharedFilesDbName )
 	: FileInfoDb( sharedFilesDbName )
 	, FileInfoBaseMgr( engine, plugin, *this )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoSharedFilesMgr::FileInfoSharedFilesMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
+	LogMsg( LOG_VERBOSE, "FileInfoPersonFileXferMgr::%s %s %p", __func__, DescribePluginType( plugin.getPluginType() ), this );
 }
 
 //============================================================================
-FileInfoSharedFilesMgr::~FileInfoSharedFilesMgr()
+FileInfoPersonFileXferMgr::~FileInfoPersonFileXferMgr()
 {
 	fileInfoMgrShutdown();
 }

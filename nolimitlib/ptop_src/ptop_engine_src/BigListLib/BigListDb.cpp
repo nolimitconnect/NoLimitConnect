@@ -218,10 +218,13 @@ RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime 
 {
 	if( lastSessionTime )
 	{
+		lockDb();
 		std::string strHexOnlineId = onlineId.toHexString();
 		DbBindList bindList( lastSessionTime );
 		bindList.add( strHexOnlineId.c_str() );
-		return sqlExec( "UPDATE BigList SET ConnectTime=? WHERE online_id=?", bindList );
+		RCODE rc = sqlExec( "UPDATE BigList SET ConnectTime=? WHERE online_id=?", bindList );
+		unlockDb();
+        return rc;
 	}
 	else
 	{

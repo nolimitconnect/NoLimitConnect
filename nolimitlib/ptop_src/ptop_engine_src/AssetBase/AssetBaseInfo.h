@@ -14,7 +14,6 @@
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxSha1Hash.h>
-#include <CoreLib/VxGUID.h>
 
 #include <PktLib/GroupieId.h>
 

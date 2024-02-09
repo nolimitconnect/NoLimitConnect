@@ -637,12 +637,14 @@ bool GuiOfferMgrBase::fromGuiMakePluginOffer( QWidget* parent, EPluginType plugi
 		}
 	}
 
-	m_OffersSentList.push_back( offerInfo );
-
 	bool result = m_MyApp.getFromGuiInterface().fromGuiMakePluginOffer( guiUser->getMyOnlineId(), offerInfo );
 	if( result )
 	{
 		m_OffersSentList.push_back( offerInfo );
+	}
+	else
+	{
+		GuiHelpers::errorMsgBox( eErrMsgOfferSendFailed );
 	}
 
 	return result;

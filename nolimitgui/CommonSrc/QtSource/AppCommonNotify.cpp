@@ -120,9 +120,7 @@ void AppCommon::slotInternalToGuiPluginStatus( EPluginType pluginType, int statu
 }
 
 //============================================================================
-void AppCommon::toGuiInstMsg(	VxNetIdent*	netIdent, 
-								EPluginType		pluginType,
-								const char*	pMsg )
+void AppCommon::toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, const char*	pMsg )
 {
 	if( VxIsAppShuttingDown() )
 	{

@@ -36,9 +36,9 @@ OfferSendWidget::OfferSendWidget( QWidget* parent )
 
     GuiHelpers::fillExpireTimeComboBox( ui.m_ExpiresComboBox );
 
-	connect( ui.m_OfferSendButton,			SIGNAL(clicked()),	this, SLOT( slotOfferSendButtonClicked() ) );
-    connect( ui.m_OfferViewButton,          SIGNAL(clicked()),    this, SLOT( slotOfferViewButtonClicked() ) );
-    connect( ui.m_ExpiresComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotExpiresTimeChange( int ) ) );
+	connect( ui.m_OfferSendButton,			SIGNAL(clicked()),	            this, SLOT(slotOfferSendButtonClicked()) );
+    connect( ui.m_OfferViewButton,          SIGNAL(clicked()),              this, SLOT(slotOfferViewButtonClicked()) );
+    connect( ui.m_ExpiresComboBox,          SIGNAL(currentIndexChanged(int)), this, SLOT(slotExpiresTimeChange(int)) );
 
     ui.m_ExpiresComboBox->setCurrentIndex( (int)eExpireTimeWhenResponseRxed );
 }

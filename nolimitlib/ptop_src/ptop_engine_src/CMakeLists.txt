@@ -166,6 +166,7 @@ list(APPEND ptopengine_SOURCES
     Plugins/FileInfoLibraryMgr.cpp
     Plugins/FileInfoSharedFilesMgr.cpp
     Plugins/FileInfoXferMgr.cpp
+    Plugins/FileInfoPersonFileXferMgr.cpp
     Plugins/FileRxSession.cpp
     Plugins/FileShareXferSession.cpp
     Plugins/FileToXfer.cpp

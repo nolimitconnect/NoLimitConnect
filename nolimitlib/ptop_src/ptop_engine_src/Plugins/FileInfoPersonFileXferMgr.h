@@ -12,14 +12,18 @@
 #include "FileInfoDb.h"
 #include "FileInfoBaseMgr.h"
 
-class FileInfoSharedFilesMgr : public FileInfoDb, public FileInfoBaseMgr
+class FileInfo;
+class PluginBase;
+class P2PEngine;
+
+class FileInfoPersonFileXferMgr : public FileInfoDb, public FileInfoBaseMgr
 {
 public:
-	FileInfoSharedFilesMgr() = delete;
-	FileInfoSharedFilesMgr( const FileInfoSharedFilesMgr& rhs ) = delete;
-	FileInfoSharedFilesMgr( P2PEngine& engine, PluginBase& plugin, std::string sharedFilesDbName );
-	virtual ~FileInfoSharedFilesMgr();
+	FileInfoPersonFileXferMgr() = delete;
+	FileInfoPersonFileXferMgr( const FileInfoPersonFileXferMgr& rhs ) = delete;
+	FileInfoPersonFileXferMgr( P2PEngine& engine, PluginBase& plugin, std::string sharedFilesDbName );
+	virtual ~FileInfoPersonFileXferMgr();
 
-	FileInfoSharedFilesMgr& operator=( const FileInfoSharedFilesMgr& rhs ) = delete;
+	FileInfoPersonFileXferMgr& operator=( const FileInfoPersonFileXferMgr& rhs ) = delete;
 };
 

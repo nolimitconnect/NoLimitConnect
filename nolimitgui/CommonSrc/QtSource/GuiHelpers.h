@@ -30,6 +30,7 @@ enum EErrMsgType
     eErrMsgUserUnavailable,
     eErrMsgAlreadyInSession,
     eErrMsgOfferSent,
+    eErrMsgOfferSendFailed,
     eErrMsgNotConnectedToHost,
     eErrMsgNoUserSelectedToSendTo,
     eErrMsgUserIsOffline,

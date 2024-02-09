@@ -1633,7 +1633,7 @@ EHostType GuiHelpers::comboIdxToHostType( int comboIdx )
 }
 
 //============================================================================
-QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWidget* parent, GuiUser* guiUser )
+QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWidget* parent, GuiUser* guiUser )
 {
     std::string userName = guiUser ? guiUser->getOnlineName().c_str() : "Unknown";
     QMessageBox::StandardButton buttonResult{ QMessageBox::NoButton };
@@ -1652,6 +1652,11 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox(EErrMsgType errMsgType, QWid
     case eErrMsgOfferSent:
         buttonResult = QMessageBox::information( parent, QObject::tr( "Sent User An Offer" ),
             QObject::tr( "Offer Was Sent To  " ) + userName.c_str(), QMessageBox::Ok );
+        break;
+
+    case eErrMsgOfferSendFailed:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "Send Offer Failed" ),
+            QObject::tr( "Offer Send Failed  " ), QMessageBox::Ok );
         break;
 
     case eErrMsgNotConnectedToHost:

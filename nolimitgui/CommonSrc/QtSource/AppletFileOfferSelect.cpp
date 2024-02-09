@@ -160,39 +160,39 @@ FileShareItemWidget* AppletFileOfferSelect::fileToWidget( FileInfo& fileInfo )
     connect( item, SIGNAL( signalFileShareItemClicked(QListWidgetItem*) ), this, SLOT( slotItemClicked(QListWidgetItem*) ) );
 
     connect( item,
-             SIGNAL( signalFileShareItemClicked(QListWidgetItem*) ),
+             SIGNAL(signalFileShareItemClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListItemClicked(QListWidgetItem*) ) );
+             SLOT(slotListItemClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalFileIconClicked(QListWidgetItem*) ),
+             SIGNAL(signalFileIconClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListFileIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListFileIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalPlayButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListPlayIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListPlayIconClicked(QListWidgetItem*)) );
      
     connect( item,
-             SIGNAL( signalPlayExternButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListPlayExternIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListPlayExternIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalLibraryButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListLibraryIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListLibraryIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalFileShareButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListShareFileIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListShareFileIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalShredButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalShredButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListShredIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListShredIconClicked(QListWidgetItem*)) );
 
     item->updateWidgetFromInfo();
     return item;
@@ -498,6 +498,15 @@ void AppletFileOfferSelect::onFileSelected( FileInfo& fileInfo )
     }
 
     OfferBaseInfo offerInfo( fileInfo );
+    offerInfo.setPluginType( getPluginType() );
+    offerInfo.setOnlineId( m_MyApp.getMyOnlineId() );
+    offerInfo.setCreatorId( m_MyApp.getMyOnlineId() );
+    offerInfo.setHistoryId( m_MyApp.getMyOnlineId() );
+    offerInfo.setDestUserId( m_HisIdent->getMyOnlineId() );
+    offerInfo.getOfferId().initializeWithNewVxGUID();
+    offerInfo.getAssetUniqueId().assureIsValidGUID();
+    offerInfo.setOfferMgr( eOfferMgrPeer );
+
     ui.m_OfferSendWidget->setOfferInfo( offerInfo );
     std::string fullFileName = offerInfo.getAssetName();
     std::string justFileName;

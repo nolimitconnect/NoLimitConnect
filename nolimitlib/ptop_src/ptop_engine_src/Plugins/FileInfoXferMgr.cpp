@@ -21,6 +21,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/FileInfo.h>
 #include <OfferBase/OfferBaseInfo.h>
+#include <OfferBase/OfferMgr.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <PktLib/PktsFileShare.h>
@@ -244,8 +245,9 @@ bool FileInfoXferMgr::fromGuiMakePluginOffer( VxGUID& onlineId,	OfferBaseInfo& o
 			sktBase, 
 			&pktReq ) )
 		{
-			FileRxSession* xferSession = findOrCreateRxSession( lclSessionId, onlineId, sktBase);
 			FileInfo fileInfo( offerInfo );
+
+			FileTxSession* xferSession = findOrCreateTxSession( lclSessionId, onlineId, sktBase );
 
 			xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, lclSessionId, lclSessionId ) );
 
@@ -337,31 +339,33 @@ void FileInfoXferMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 //============================================================================
 void FileInfoXferMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-	//PktPluginOfferReq* poPkt = (PktPluginOfferReq *)pktHdr;
-	//FileTxSession* xferSession = findOrCreateTxSession( netIdent, sktBase );
-	//PktFileListReq oPkt;
-	//m_Plugin.txPacket( netIdent, xferSession->getSkt(), &oPkt );
+	PktPluginOfferReq* pktReq = (PktPluginOfferReq *)pktHdr;
+	OfferBaseInfo offerInfo;
+	offerInfo.extractFromBlob( pktReq->getBlobEntry() );
+	m_Engine.getOfferMgr().addOffer( offerInfo );
 }
 
 //============================================================================
 //! packet with remote users reply to offer
 void FileInfoXferMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	PktPluginOfferReply* poPkt = (PktPluginOfferReply*)pktHdr;
+	PktPluginOfferReply* pktReply = (PktPluginOfferReply*)pktHdr;
+	OfferBaseInfo offerInfo;
+	offerInfo.extractFromBlob( pktReply->getBlobEntry() );
+
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
-	FileTxSession* xferSession = findTxSessionSessionId( poPkt->getRmtSessionId() );
+	FileTxSession* xferSession = findTxSessionSessionId( pktReply->getRmtSessionId() );
 	if( xferSession )
 	{
 		std::string fileName = xferSession->m_strOfferFile;
 		if( !fileName.empty() )
 		{
-			FileInfo fileInfo( xferSession->getXferInfo(), poPkt->getSrcOnlineId() );
+			FileInfo fileInfo( xferSession->getXferInfo(), pktReply->getSrcOnlineId() );
 			OfferBaseInfo offerInfo( fileInfo );
 
-			m_FileInfoMgr.toGuiRxedOfferReply( poPkt->getSrcOnlineId(), m_Plugin.getPluginType(), offerInfo, xferSession->getLclSessionId(), poPkt->getOfferResponse());
-			if( eOfferResponseAccept == poPkt->getOfferResponse() )
+			m_FileInfoMgr.toGuiRxedOfferReply( pktReply->getSrcOnlineId(), m_Plugin.getPluginType(), offerInfo, xferSession->getLclSessionId(), pktReply->getOfferResponse());
+			if( eOfferResponseAccept == pktReply->getOfferResponse() )
 			{			
 				xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, xferSession->getLclSessionId(), xferSession->getRmtSessionId() ) );
 				EXferError xferErr = beginFileSend( xferSession );
@@ -839,7 +843,7 @@ void FileInfoXferMgr::endFileXferSession( FileRxSession* poSessionIn )
     }
 
 	FileRxIter oRxIter = m_RxSessions.begin();
-#if defined(TARGET_OS_WINDOWS)
+
 	while( oRxIter != m_RxSessions.end() )
 	{
 		FileRxSession* xferSession = oRxIter->second;
@@ -853,24 +857,6 @@ void FileInfoXferMgr::endFileXferSession( FileRxSession* poSessionIn )
 			++oRxIter;
 		}
 	}
-#else
-    bool erasedSession = true;
-    while( erasedSession )
-    {
-        erasedSession = false;
-        for( oRxIter =  m_RxSessions.begin(); oRxIter !=  m_RxSessions.end(); ++oRxIter )
-        {
-            FileRxSession* xferSession = oRxIter->second;
-            if( poSessionIn == xferSession )
-            {
-                delete xferSession;
-                m_RxSessions.erase(oRxIter);
-                erasedSession = true;
-                break;
-            }
-        }
-    }
-#endif // TARGET_OS_WINDOWS
 }
 
 //============================================================================
@@ -889,8 +875,8 @@ void FileInfoXferMgr::endFileXferSession( FileTxSession* poSessionIn )
 		FileTxSession* xferSession = (*iter);
 		if( xferSession == poSessionIn )
 		{
+			iter = m_TxSessions.erase( iter );
 			delete xferSession;
-			m_TxSessions.erase( iter );
 			break;
 		}
 		else
@@ -946,7 +932,7 @@ FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxGUID sendToId, std::sha
 }
 
 //============================================================================
-FileRxSession*FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
+FileRxSession* FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	FileRxSession* xferSession = findRxSessionSessionId( lclSessionId );
 	if( ( xferSession ) && ( lclSessionId.isVxGUIDValid() ) )
@@ -964,7 +950,7 @@ FileRxSession*FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxGU
 	{
 		xferSession = new FileRxSession( lclSessionId, sktBase, sendToId );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
-		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::findOrCreateRxSession %s %p rxing %d", DescribePluginType( getPluginType() ), this, m_RxSessions.size() );
+		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s %p rxing %d", __func__, DescribePluginType( getPluginType() ), this, m_RxSessions.size() );
 	}
 	else
 	{
@@ -1498,7 +1484,7 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileGetC
 {
 	// done receiving file
 	xferSession->setErrorCode( poPkt->getError() );
-	VxFileXferInfo xferInfo = xferSession->getXferInfo();
+	VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 	if( !xferInfo.isStream() )
 	{
 		if( xferInfo.m_hFile )

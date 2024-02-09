@@ -9,18 +9,11 @@
 //============================================================================
 
 #include "PluginPersonFileXfer.h"
-#include "PluginMgr.h"
-#include "P2PSession.h"
-#include "RxSession.h"
-#include "TxSession.h"
-
-#include <P2PEngine/P2PEngine.h>
-
-#include <CoreLib/VxFileUtil.h>
 
 //============================================================================
 PluginPersonFileXfer::PluginPersonFileXfer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-: PluginBase( engine, pluginMgr, myIdent, pluginType )
+: PluginBaseFiles( engine, pluginMgr, myIdent, pluginType, m_FileInfoPersonFileXferMgr )
+, m_FileInfoPersonFileXferMgr( engine, *this, "PersonFileXfer.db3" )
 {
     setPluginType( ePluginTypePersonFileXfer );
 }

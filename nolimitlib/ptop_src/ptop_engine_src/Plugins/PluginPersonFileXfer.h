@@ -9,9 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginBase.h"
+#include "PluginBaseFiles.h"
 
-class PluginPersonFileXfer : public PluginBase
+#include "FileInfoPersonFileXferMgr.h"
+
+class PluginPersonFileXfer : public PluginBaseFiles
 {
 public:
 
@@ -25,4 +27,6 @@ public:
 
     void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
 
+protected:
+	FileInfoPersonFileXferMgr	m_FileInfoPersonFileXferMgr;
 };

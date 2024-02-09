@@ -628,6 +628,7 @@
     <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoClientFilesMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoDb.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoLibraryMgr.cpp" />
+    <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoPersonFileXferMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoSharedFilesMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\FileInfoXferMgr.cpp" />
     <ClCompile Include="..\..\ptop_engine_src\Plugins\FileRxSession.cpp" />
@@ -891,6 +892,7 @@
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoClientFilesMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoDb.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoLibraryMgr.h" />
+    <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoPersonFileXferMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoSharedFilesMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileInfoXferMgr.h" />
     <ClInclude Include="..\..\ptop_engine_src\Plugins\FileRxSession.h" />

@@ -693,7 +693,6 @@ int P2PEngine::fromGuiGetPluginPermission( EPluginType pluginType )
 //============================================================================
 EPluginServerState P2PEngine::fromGuiGetPluginServerState( EPluginType pluginType )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiGetPluginServerState" );
 	if( eFriendStateIgnore == m_PktAnn.getPluginPermission( pluginType ) )
 	{
 		return ePluginServerStateDisabled;
@@ -706,7 +705,7 @@ EPluginServerState P2PEngine::fromGuiGetPluginServerState( EPluginType pluginTyp
 //! called with offer to create session.. return false if cannot connect
 bool P2PEngine::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiMakePluginOffer" );
+	offerInfo.setDestUserId( onlineId );
 	VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( offerInfo.getPluginType() );
 	if( netIdent && poPlugin )
