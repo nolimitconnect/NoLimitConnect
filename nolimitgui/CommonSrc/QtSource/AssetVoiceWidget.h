@@ -12,6 +12,10 @@
 #include "AssetBaseWidget.h"
 #include "ui_AssetVoiceWidget.h"
 
+#include <vector>
+
+class QTimer;
+
 class AssetVoiceWidget : public AssetBaseWidget
 {
 	Q_OBJECT
@@ -33,6 +37,7 @@ protected slots:
 	void						slotPlayButtonClicked( void );
 	void						slotSliderPressed( void );
 	void						slotSliderReleased( void );
+	void						slotUpdatePlayerControls( void );
 
 protected:
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos ) override;
@@ -43,10 +48,15 @@ protected:
 	void						startMediaPlay( int startPos );
 	void						stopMediaIfPlaying( void );
 
+	void						queueUpdatePlayerControls( bool enable );
+
 	//=== vars ===//
-	bool						m_ActivityCallbacksEnabled;
-	bool						m_IsPlaying;
-	bool						m_SliderIsPressed;
+	bool						m_ActivityCallbacksEnabled{ false };
+	bool						m_IsPlaying{ false };
+	bool						m_SliderIsPressed{ false };
+
+	std::vector<bool>			m_QueuedPlayerControlUpdate;
+	QTimer*						m_QueueUpdateTimer{ nullptr };
 
 	Ui::AssetVoiceWidget		ui;
 

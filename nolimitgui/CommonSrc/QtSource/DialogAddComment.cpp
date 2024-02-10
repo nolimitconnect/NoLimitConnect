@@ -22,12 +22,14 @@ DialogAddComment::DialogAddComment( AssetBaseInfo& assetInfo, QWidget* parent )
 	ui.setupUi(this);
 	// dialog does not get pallette from parent.. force pallette update
 	m_MyApp.getAppTheme().applyTheme( this );
+	this->setWindowFlags( windowFlags() | (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint) );
 
     QSize buttonSize( GuiParams::getButtonSize( eButtonSizeMedium ) );
     ui.m_ExitDlgButton->setFixedSize( buttonSize );
 
 	connect( ui.m_ExitDlgButton,		SIGNAL(clicked()),			this, SLOT(reject()) );
 	connect( ui.m_AcceptCancelWidget,	SIGNAL(signalAccepted()),	this, SLOT(slotAccepted()) );
+	connect( ui.m_AcceptCancelWidget,	SIGNAL(signalCanceled()),	this, SLOT(reject()) );
 
 	ui.m_CommentLineEdit->setFocus();
 }

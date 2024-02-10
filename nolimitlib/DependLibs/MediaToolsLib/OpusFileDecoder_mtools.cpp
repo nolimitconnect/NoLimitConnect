@@ -276,11 +276,18 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLen )
 		m_ResourceMutex.lock();
 		if( freeSpaceLen >= MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN )
 		{
-			uint8_t buf[ MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN ];
+			uint8_t buf[MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN];
 			decodedLen = decodedNextFrame( buf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 			if( decodedLen < MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN )
 			{
-				memset( &buf[decodedLen], 0, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN-decodedLen );
+				memset( &buf[decodedLen], 0, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN - decodedLen );
+				if( !m_TotalSndFramesInFile || m_ConsumedSndFrames == m_TotalSndFramesInFile )
+				{
+					// all done
+					m_InputInitialized = false;
+					enableSpaceAvailCallback( false, false );
+					m_Engine.getToGui().toGuiAssetAction( eAssetActionPlayEnd, m_AssetId, 0 );
+				}
 			}
 			else if( m_TotalSndFramesInFile )
 			{
@@ -290,14 +297,6 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLen )
 			m_MediaProcessor.playAudio( (int16_t *)buf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 		}
 
-		if( 0 == decodedLen )
-		{
-			// all done
-			m_InputInitialized = false;
-			enableSpaceAvailCallback( false, false );
-			m_Engine.getToGui().toGuiAssetAction( eAssetActionPlayEnd, m_AssetId, 0 );
-		}
-
 		m_ResourceMutex.unlock();
 	}
 
@@ -305,7 +304,7 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLen )
 }
 
 //============================================================================
-void OpusFileDecoder::moveOpusFramesToOutput( uint8_t* outBuffer )
+int OpusFileDecoder::moveOpusFramesToOutput( uint8_t* outBuffer )
 {
 	if( m_DecodedFrames.size() )
 	{
@@ -316,10 +315,11 @@ void OpusFileDecoder::moveOpusFramesToOutput( uint8_t* outBuffer )
 		m_DecodedFrames.erase( m_DecodedFrames.begin() );
 		m_ConsumedSndFrames++;
 		delete frame1;
+		return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
 	}
 	else
 	{
-		memset( outBuffer, 0, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
+		return 0;
 	}
 }
 
@@ -328,7 +328,7 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 {
 	if( false == m_DecoderInitialized )
 	{
-		return 0;
+		return moveOpusFramesToOutput( frameBuffer );
 	}
 
 	char *			data{ nullptr };
@@ -466,16 +466,17 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 						//speex_resampler_skip_zeros(m_Resampler);
 					}
 				} 
+				/*
 				else if( 1 == m_PacketCount )
 				{
 					m_HasTagsPacket=1;
-					if(ogg_stream_packetout(&m_StreamState, &m_OggPkt)!=0 || m_OggPage.header[m_OggPage.header_len-1]==255)
+					if(ogg_stream_packetout(&m_StreamState, &m_OggPkt)<0 || m_OggPage.header[m_OggPage.header_len-1]==255)
 					{
 						LogMsg( LOG_ERROR, "Extra packets on initial tags page. Invalid stream.");
 						finishFileDecode();
 						return 0;
 					}
-				} 
+				} */
 				else 
 				{
 					opus_int64 maxout;
@@ -550,11 +551,19 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 
 	if( endOfFile || ( 0 == m_HasOpusStream ) ) 
 	{
-		finishFileDecode();
-	}
+		if( m_DecoderInitialized )
+		{
+			finishFileDecode();
+		}
 
-	moveOpusFramesToOutput( frameBuffer );
-	return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
+		moveOpusFramesToOutput( frameBuffer );
+		return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
+	}
+	else
+	{
+		moveOpusFramesToOutput( frameBuffer );
+		return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
+	}
 }
 
 //============================================================================
@@ -1081,10 +1090,25 @@ bool OpusFileDecoder::readTotalSndFrames( VFile * fileHandle )
                             m_TotalSndFramesInFile = htonU64( totalFrames );
                             return true;
                         }
+						else
+						{
+							LogMsg( LOG_ERROR, "OpusFileDecoder::%s 0 frames read for file %s", __func__, m_FileName.c_str() );
+							return false;
+						}
                     }
                 }
             }
 		}
+		else
+		{
+			LogMsg( LOG_ERROR, "OpusFileDecoder::%s 0 frames failed to read file %s", __func__, m_FileName.c_str() );
+			return false;
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "OpusFileDecoder::%s 0 frames failed to seek file %s", __func__, m_FileName.c_str() );
+		return false;
 	}
 
 	return false;

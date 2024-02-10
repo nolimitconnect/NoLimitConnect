@@ -53,7 +53,7 @@ public:
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
 protected:
-	void						moveOpusFramesToOutput( uint8_t * outBuffer );
+	int							moveOpusFramesToOutput( uint8_t * outBuffer );
 	bool						processOggFileHeader( MyOpusHeader& header, ogg_packet *op, float manualGain );
 	// TODO remove function. system only uses pcm now
 	//int							opusFloatOutputToPcm(	float *			opusOutput, 

@@ -21,7 +21,7 @@ class AssetInfo;
 class ChatEntryWidget;
 class GuiUser;
 class MyIcons;
-class InputClientCallback;
+class InputClientBaseCallback;
 
 class InputBaseWidget : public QWidget
 {
@@ -44,7 +44,7 @@ public:
 	void						setPluginType( EPluginType pluginType )		{ m_PluginType = pluginType; }
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }
 
-	void						setInputClientCallback( InputClientCallback* clientCallback );
+	void						setInputClientCallback( InputClientBaseCallback* clientCallback );
 	bool						canAcceptInput( EAssetType assetType );
 
 signals:
@@ -83,5 +83,5 @@ protected:
 
     GroupieId                   m_GroupieId;
 
-	InputClientCallback*		m_ClientCallback{ nullptr };
+	InputClientBaseCallback*		m_ClientCallback{ nullptr };
 };

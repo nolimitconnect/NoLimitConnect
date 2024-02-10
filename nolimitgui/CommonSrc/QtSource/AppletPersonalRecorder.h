@@ -12,13 +12,17 @@
 #include "ui_AppletPersonalRecorder.h"
 
 #include "AppletBase.h"
+#include "InputClientBaseCallback.h"
 
-class AppletPersonalRecorder : public AppletBase
+class AppletPersonalRecorder : public AppletBase, public InputClientBaseCallback
 {
 	Q_OBJECT
 public:
 	AppletPersonalRecorder( AppCommon& app, QWidget* parent );
 	virtual ~AppletPersonalRecorder();
+    
+	AppCommon&					getMyApp( void ) override									{ return m_MyApp; }
+	EPluginType					getInputClientPluginType( void )							{ return getPluginType(); }
 
     void                        callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 );
 

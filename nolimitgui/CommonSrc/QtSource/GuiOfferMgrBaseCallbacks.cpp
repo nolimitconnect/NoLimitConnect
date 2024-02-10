@@ -80,7 +80,7 @@ void GuiOfferMgrBase::callbackOfferAdded( OfferBaseInfo* assetInfo )
 //========================================================================
 void GuiOfferMgrBase::slotCallbackOfferAdded( OfferBaseInfo* assetInfo )
 {
-
+    toGuiRxedPluginOffer( assetInfo->getCreatorId(), *assetInfo );
     delete assetInfo;
 }
 

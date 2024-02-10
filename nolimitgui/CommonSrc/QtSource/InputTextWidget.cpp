@@ -12,7 +12,7 @@
 #include "AppCommon.h"
 #include "GuiParams.h"
 #include "GuiHelpers.h"
-#include "InputClientCallback.h"
+#include "InputClientBaseCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
 

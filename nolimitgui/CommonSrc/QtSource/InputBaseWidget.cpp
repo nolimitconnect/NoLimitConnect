@@ -14,7 +14,7 @@
 #include "ChatEntryWidget.h"
 #include "DialogAddComment.h"
 #include "GuiHelpers.h"
-#include "InputClientCallback.h"
+#include "InputClientBaseCallback.h"
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
@@ -45,7 +45,7 @@ MyIcons& InputBaseWidget::getMyIcons( void )
 }
 
 //============================================================================
-void InputBaseWidget::setInputClientCallback( InputClientCallback* clientCallback ) 
+void InputBaseWidget::setInputClientCallback( InputClientBaseCallback* clientCallback ) 
 { 
 	m_ClientCallback = clientCallback; 
 	fillAssetBaseInfo( true );
@@ -99,6 +99,7 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
     switch( action )
     {
     case eAssetActionRecordBegin:
+		fillAssetBaseInfo( true );
         m_AssetInfo.generateNewUniqueId();
         if( generateFileName( assetType, m_AssetInfo.getAssetUniqueId() ) )
         {
@@ -131,6 +132,7 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
 		else
 		{
 			m_MyApp.getEngine().fromGuiSndRecord( eSndRecordStateStopRecording, m_AssetInfo.getCreatorId(), m_FileName.c_str() );
+
 			uint64_t fileLen = VxFileUtil::getFileLen( m_FileName.c_str() );
 			m_AssetInfo.setAssetLength( fileLen );
 			if( MIN_OPUS_FILE_LEN < m_AssetInfo.getAssetLength() )
@@ -178,6 +180,7 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 	switch( action )
 	{
 	case eAssetActionRecordBegin:
+		fillAssetBaseInfo( true );
 		m_AssetInfo.generateNewUniqueId();
         if( generateFileName( assetType, m_AssetInfo.getAssetUniqueId() ) )
         {

@@ -245,11 +245,48 @@ bool FileInfoXferMgr::fromGuiMakePluginOffer( VxGUID& onlineId,	OfferBaseInfo& o
 			sktBase, 
 			&pktReq ) )
 		{
+			// create xfer session now. must exist before reply to assure we actually created the offer replied to
 			FileInfo fileInfo( offerInfo );
 
 			FileTxSession* xferSession = findOrCreateTxSession( lclSessionId, onlineId, sktBase );
 
 			xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, lclSessionId, lclSessionId ) );
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//============================================================================
+//! user wants to send offer to friend.. return false if cannot connect
+bool FileInfoXferMgr::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+{
+	VxGUID& lclSessionId = offerInfo.getOfferId();
+	lclSessionId.assureIsValidGUID();
+	std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+	if( sktBase && sktBase->isConnected() )
+	{
+		PktPluginOfferReply pktReq;
+		pktReq.setLclSessionId( lclSessionId );
+		pktReq.setRmtSessionId( lclSessionId );
+		pktReq.setPluginType( m_Plugin.getPluginType() );
+		offerInfo.addToBlob( pktReq.getBlobEntry() );
+		pktReq.calcPktLen();
+		if( true == m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
+			onlineId, 
+			sktBase, 
+			&pktReq ) )
+		{
+			if( offerInfo.getOfferResponse() == eOfferResponseAccept )
+			{ 
+				FileInfo fileInfo( offerInfo );
+
+				FileRxSession* xferSession = findOrCreateRxSession( lclSessionId, onlineId, sktBase );
+
+				xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, lclSessionId, lclSessionId ) );
+			}
 
 			return true;
 		}
@@ -353,39 +390,48 @@ void FileInfoXferMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase
 	OfferBaseInfo offerInfo;
 	offerInfo.extractFromBlob( pktReply->getBlobEntry() );
 
-	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-
-	FileTxSession* xferSession = findTxSessionSessionId( pktReply->getRmtSessionId() );
-	if( xferSession )
+	if( m_Engine.getOfferMgr().hostedOfferExists( offerInfo ) )
 	{
-		std::string fileName = xferSession->m_strOfferFile;
-		if( !fileName.empty() )
-		{
-			FileInfo fileInfo( xferSession->getXferInfo(), pktReply->getSrcOnlineId() );
-			OfferBaseInfo offerInfo( fileInfo );
+		PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
-			m_FileInfoMgr.toGuiRxedOfferReply( pktReply->getSrcOnlineId(), m_Plugin.getPluginType(), offerInfo, xferSession->getLclSessionId(), pktReply->getOfferResponse());
-			if( eOfferResponseAccept == pktReply->getOfferResponse() )
-			{			
-				xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, xferSession->getLclSessionId(), xferSession->getRmtSessionId() ) );
-				EXferError xferErr = beginFileSend( xferSession );
-				if( eXferErrorNone != xferErr )
+		FileTxSession* xferSession = findTxSessionSessionId( pktReply->getRmtSessionId() );
+		if( xferSession )
+		{
+			std::string fileName = xferSession->m_strOfferFile;
+			if( !fileName.empty() )
+			{
+				FileInfo fileInfo( xferSession->getXferInfo(), pktReply->getSrcOnlineId() );
+				OfferBaseInfo offerInfo( fileInfo );
+
+				m_FileInfoMgr.toGuiRxedOfferReply( pktReply->getSrcOnlineId(), m_Plugin.getPluginType(), offerInfo, xferSession->getLclSessionId(), pktReply->getOfferResponse() );
+				if( eOfferResponseAccept == pktReply->getOfferResponse() )
 				{
-					m_FileInfoMgr.updateToGuiFileXferState( xferSession->getLclSessionId(), eXferDirectionTx, eXferStateUploadError, xferErr );
+					xferSession->m_FilesToXferList.push_back( FileToXfer( fileInfo, xferSession->getLclSessionId(), xferSession->getRmtSessionId() ) );
+					EXferError xferErr = beginFileSend( xferSession );
+					if( eXferErrorNone != xferErr )
+					{
+						m_FileInfoMgr.updateToGuiFileXferState( xferSession->getLclSessionId(), eXferDirectionTx, eXferStateUploadError, xferErr );
+					}
+				}
+				else
+				{
+					LogMsg( LOG_ERROR, "FileInfoXferMgr::%s %s offer rejected %s", __func__, DescribePluginType( getPluginType() ), fileName.c_str() );
+					endFileXferSession( xferSession );
 				}
 			}
-
-			LogMsg( LOG_ERROR, "FileInfoXferMgr::onPktPluginOfferReply %s file does not exist %s", DescribePluginType( getPluginType() ), fileName.c_str() );
-			endFileXferSession( xferSession );
+			else
+			{
+				LogMsg( LOG_ERROR, "FileInfoXferMgr::%s %s empty file name", __func__, DescribePluginType( getPluginType() ) );
+			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "FileInfoXferMgr::onPktPluginOfferReply %s empty file name", DescribePluginType( getPluginType() ) );
+			LogMsg( LOG_ERROR, "FileInfoXferMgr::%s session not found %s", __func__, DescribePluginType( getPluginType() ) );
 		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "FileInfoXferMgr::onPktPluginOfferReply session not found %s", DescribePluginType( getPluginType() ) );
+		LogMsg( LOG_ERROR, "FileInfoXferMgr::%s hosted offer does not exist %s", __func__, DescribePluginType( getPluginType() ) );
 	}
 }
 

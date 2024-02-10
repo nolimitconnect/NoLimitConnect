@@ -28,7 +28,7 @@
 OpusFileEncoder::OpusFileEncoder(  )
 : m_AudioEncoder( 0 )
 , m_OggStream( * ( new OggStream() ) )
-, m_FileHandle( 0 )
+, m_FileHandle( nullptr )
 , m_TotalSndFramesInFile( 0 )
 , m_EncoderInitialized( false )
 {
@@ -158,11 +158,12 @@ int OpusFileEncoder::writeEncodedFrame( uint8_t* encodedFrameData, int32_t encod
 //============================================================================
 void OpusFileEncoder::finishFileEncode( void )
 {
-	m_OggStream.closeOggStream();
-	if( m_FileHandle )
+	int64_t bytesWritten = m_OggStream.closeOggStream();
+	// the file was closed by Ogg Stream
+	m_FileHandle = nullptr;
+
+	if( bytesWritten )
 	{
-		VFileClose( m_FileHandle );
-		m_FileHandle = 0;
 		bool writeResult = false;
 		uint64_t fileLen = VxFileUtil::getFileLen( m_FileName.c_str() );
 		VFile* fileHandle = VFileOpen( m_FileName.c_str(), "rb+" );
@@ -187,8 +188,14 @@ bool OpusFileEncoder::writeTotalSndFrames( VFile * fileHandle )
 	std::string hexTotal;
 	VxFileUtil::u64ToHexAscii( htonU64( m_TotalSndFramesInFile ), hexTotal );
 
+	const int hexStrLen = 16;
+	if( hexStrLen != hexTotal.length() )
+	{
+		vx_assert( false );
+	}
+
     uint32_t totalFramesOffs = 0xAD;
-	if( ( 16 == hexTotal.length() ) && ( 0  == VxFileUtil::fileSeek( fileHandle, totalFramesOffs ) ) )
+	if( ( hexStrLen == hexTotal.length() ) && ( 0  == VxFileUtil::fileSeek( fileHandle, totalFramesOffs ) ) )
 	{
         char readBuf[ 512 ];
         if( 0 == VFileSeek64( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS ) )
@@ -199,10 +206,10 @@ bool OpusFileEncoder::writeTotalSndFrames( VFile * fileHandle )
                 {
                     if( 0 == strncmp( NO_LIMIT_OPUS_SIGNITURE, &readBuf[ i ], NO_LIMIT_OPUS_SIGNITURE_LEN ) )
                     {
-                        memcpy( &readBuf[ i + NO_LIMIT_OPUS_SIGNITURE_LEN ], hexTotal.c_str(), 16);
+                        memcpy( &readBuf[ i + NO_LIMIT_OPUS_SIGNITURE_LEN ], hexTotal.c_str(), hexStrLen);
 
                         if( (0 == VFileSeek( fileHandle, NO_LIMIT_OPUS_SIGNITURE_OFFS, SEEK_SET )) &&
-                            (16 == VFileWrite( readBuf, 1, sizeof( readBuf ), fileHandle )) )
+                            sizeof( readBuf ) == VFileWrite( readBuf, 1, sizeof( readBuf ), fileHandle) )
                         {
                             writeSuccess = true;
                             break;
@@ -212,10 +219,15 @@ bool OpusFileEncoder::writeTotalSndFrames( VFile * fileHandle )
             }
         }
 	}
+	else
+	{
+		LogMsg( LOG_ERROR, "OpusFileEncoder::%s wrong total bytes in hex length %s", __func__, m_FileName.c_str() );
+		vx_assert( false );
+	}
 
 	if( false == writeSuccess )
 	{
-		LogMsg( LOG_ERROR, "OpusFileEncoder::writeTotalSndFrames FAILED %s", m_FileName.c_str() );
+		LogMsg( LOG_ERROR, "OpusFileEncoder::%s FAILED %s", __func__, m_FileName.c_str() );
 	}
 
 	return writeSuccess;

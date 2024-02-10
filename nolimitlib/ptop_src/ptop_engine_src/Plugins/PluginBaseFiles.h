@@ -53,6 +53,7 @@ public:
     void						fromGuiCancelUpload( VxGUID& fileInstance ) override;
 
 	bool						fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
+	bool						fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
 	EXferError					fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo ) override;
 

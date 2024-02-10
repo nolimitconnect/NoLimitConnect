@@ -14,12 +14,12 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QTimer>
+
 //============================================================================
 AssetVoiceWidget::AssetVoiceWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
-	, m_ActivityCallbacksEnabled( false )
-	, m_IsPlaying( false )
-	, m_SliderIsPressed( false )
+	, m_QueueUpdateTimer( new QTimer( this  ) )
 {
 	initAssetVoiceWidget();
 }
@@ -27,9 +27,7 @@ AssetVoiceWidget::AssetVoiceWidget( QWidget* parent )
 //============================================================================
 AssetVoiceWidget::AssetVoiceWidget( AppCommon& appCommon, QWidget* parent )
 : AssetBaseWidget( appCommon, parent )
-, m_ActivityCallbacksEnabled( false )
-, m_IsPlaying( false )
-, m_SliderIsPressed( false )
+, m_QueueUpdateTimer( new QTimer( this  ) )
 {
 	initAssetVoiceWidget();
 }
@@ -57,6 +55,9 @@ void AssetVoiceWidget::initAssetVoiceWidget( void )
 	connect( ui.m_PlayPosSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()) );
 	connect( ui.m_LeftAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
 	connect( ui.m_RightAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+
+	m_QueueUpdateTimer->setInterval( 100 );
+	connect( m_QueueUpdateTimer,		SIGNAL(timeout()),				this, SLOT(slotUpdatePlayerControls()) );
 
     ui.m_PlayPosSlider->setVisible( true );
 	QSize sizeHint( 200, GuiParams::getButtonSize( eButtonSizeLarge ).height() + GuiParams::getButtonSize( eButtonSizeTiny ).height() );
@@ -120,7 +121,11 @@ void AssetVoiceWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID&
 		if( false == m_SliderIsPressed )
 		{
 			ui.m_PlayPosSlider->setValue( pos0to100000 );
-			updateGuiPlayControls( true );
+			// cannot update in callback so queue
+			if( true != m_IsPlaying )
+			{
+				queueUpdatePlayerControls( true );
+			}
 		}
 
 		break;
@@ -128,13 +133,41 @@ void AssetVoiceWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID&
 	case eAssetActionPlayEnd:
 		if( false == m_SliderIsPressed )
 		{
-			updateGuiPlayControls( false );
+			ui.m_PlayPosSlider->setValue( 0 );
+			ui.m_PlayPauseButton->setIcon( eMyIconPlayNormal );
+			// cannot update in callback so queue
+			if( false != m_IsPlaying )
+			{
+				queueUpdatePlayerControls( false );
+			}
 		}
 
 		break;
 
 	default:
 		break;
+	}
+}
+
+//============================================================================
+void AssetVoiceWidget::queueUpdatePlayerControls( bool enable )
+{
+	m_QueuedPlayerControlUpdate.push_back( enable );
+	m_QueueUpdateTimer->start();
+}
+
+//============================================================================
+void AssetVoiceWidget::slotUpdatePlayerControls( void )
+{
+	if( m_QueuedPlayerControlUpdate.size() )
+	{
+		bool enableControls = m_QueuedPlayerControlUpdate.front();
+		m_QueuedPlayerControlUpdate.erase( m_QueuedPlayerControlUpdate.begin() );
+		updateGuiPlayControls( enableControls );
+	}
+	else
+	{
+		m_QueueUpdateTimer->stop();
 	}
 }
 
@@ -184,6 +217,7 @@ void AssetVoiceWidget::updateGuiPlayControls( bool isPlaying )
 {	
 	if( m_IsPlaying != isPlaying )
 	{
+
 		m_IsPlaying = isPlaying;
 		if( m_IsPlaying )
 		{

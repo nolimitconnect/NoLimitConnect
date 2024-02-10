@@ -82,6 +82,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="IdentWidget" name="m_IdentWidget" native="true"/>
+      </item>
+      <item>
        <widget class="QLabel" name="m_StatusLabel">
         <property name="text">
          <string notr="true"/>
@@ -237,6 +240,12 @@
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
    <header>VxPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>IdentWidget</class>
+   <extends>QWidget</extends>
+   <header>IdentWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

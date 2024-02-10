@@ -288,5 +288,6 @@ uint64_t OggStream::closeOggStream( void )
 
 	flushStreamToFile();
 	VFileClose( m_FileHandle );
+	m_FileHandle = nullptr;
 	return m_TotalBytesWritten;
 }

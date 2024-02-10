@@ -505,7 +505,7 @@ void AppletFileOfferSelect::onFileSelected( FileInfo& fileInfo )
     offerInfo.setDestUserId( m_HisIdent->getMyOnlineId() );
     offerInfo.getOfferId().initializeWithNewVxGUID();
     offerInfo.getAssetUniqueId().assureIsValidGUID();
-    offerInfo.setOfferMgr( eOfferMgrPeer );
+    offerInfo.setOfferMgr( eOfferMgrHost );
 
     ui.m_OfferSendWidget->setOfferInfo( offerInfo );
     std::string fullFileName = offerInfo.getAssetName();

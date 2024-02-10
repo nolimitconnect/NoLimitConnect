@@ -89,6 +89,7 @@ void HistoryListWidget::onActivityStop( void )
 void HistoryListWidget::setGroupieId( GroupieId& groupieId )
 { 
 	clear();
+	LogMsg( LOG_VERBOSE, "HistoryListWidget::%s %p %s", __func__, this, m_MyApp.describeGroupieId( groupieId ).c_str() );
 	m_GroupieId = groupieId; 
 
 	m_MyApp.wantToGuiActivityCallbacks( this, true );
@@ -121,6 +122,7 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 {
     if( assetInfo.isHistoryMatch( m_GroupieId ) )
 	{
+		LogMsg( LOG_VERBOSE, "HistoryListWidget::%s %p asset match", __func__, this );
 		if( !findAssetWidget( assetInfo.getAssetUniqueId() ) )
 		{
 			// this asset belongs in our history
@@ -142,6 +144,10 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 				this->setItemWidget( (QListWidgetItem*)assetWidget, (QWidget*)assetWidget );
 			}
 		}
+	}
+	else
+	{
+		LogMsg( LOG_VERBOSE, "HistoryListWidget::%s %p asset NOT a match", __func__, this );
 	}
 }
 

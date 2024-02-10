@@ -120,6 +120,7 @@ void AssetVideoWidget::resizeEvent( QResizeEvent* ev )
 		&& isVisible() )
 	{
 		setReadyForCallbacks( true );
+
 		m_Engine.fromGuiAssetAction( eAssetActionPlayOneFrame, m_AssetInfo, 0 );
 	}
 }

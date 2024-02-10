@@ -41,7 +41,7 @@ public:
 
 	void						setCanSend( bool canSend );
 
-	void						setInputClientCallback( InputClientCallback* clientCallback );
+	void						setInputClientCallback( InputClientBaseCallback* clientCallback );
 
 	bool						checkIfCanSend( void );
 
@@ -68,5 +68,5 @@ private:
 
 	bool						m_IsPersonalRecorder{ false };
 
-	InputClientCallback*		m_ClientCallback{ nullptr };
+	InputClientBaseCallback*		m_ClientCallback{ nullptr };
 };

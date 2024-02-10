@@ -346,14 +346,7 @@ void OfferBaseXferMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 //============================================================================
 bool OfferBaseXferMgr::requireFileXfer( EOfferType assetType )
 {
-	return ( ( eOfferTypePhotoFile == assetType )
-		|| ( eOfferTypeAudioFile == assetType )
-		|| ( eOfferTypeVideoFile == assetType )
-		|| ( eOfferTypeDocumentFile == assetType )
-		|| ( eOfferTypeArchiveFile == assetType )
-		|| ( eOfferTypeExecutableFile == assetType )
-		|| ( eOfferTypeOtherFile == assetType ) );
-
+	return eOfferTypePersonFile == assetType;
 }
 
 //============================================================================

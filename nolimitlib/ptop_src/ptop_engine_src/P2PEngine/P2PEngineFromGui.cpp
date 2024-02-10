@@ -413,6 +413,12 @@ bool P2PEngine::fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, con
 bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	AssetBaseInfo* createdAssetInfo = nullptr;
+	if( eAssetActionAddAssetAndSend == assetAction && assetInfo.getPluginType() == ePluginTypePersonalRecorder )
+	{
+		// never send personal recordings
+		assetAction = eAssetActionAddToAssetMgr;
+	}
+
 	if( eAssetActionAddToAssetMgr == assetAction )
 	{
 		return m_AssetMgr.addAsset( assetInfo, createdAssetInfo );

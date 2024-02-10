@@ -34,5 +34,5 @@ protected:
 	void						updateMicrophoneButton( bool isRecording );
 
 	Ui::InputVoiceWidget		ui;
-	bool						m_IsRecording;
+	bool						m_IsRecording{ false };
 };

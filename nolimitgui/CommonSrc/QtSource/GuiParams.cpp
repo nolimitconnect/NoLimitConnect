@@ -1773,22 +1773,8 @@ QString GuiParams::describeOfferType( EOfferType offerType )
         return QObject::tr( "Offer: Join Chat Roome" );
     case eOfferTypeJoinRandomConnect:
         return QObject::tr( "Offer: Join Random Connect" );
-    case eOfferTypePhotoFile:
-        return QObject::tr( "Offer: Photo File" );
-    case eOfferTypeAudioFile:
-        return QObject::tr( "Offer: Audio File" );
-    case eOfferTypeVideoFile:
-        return QObject::tr( "Offer: Video File" );
-    case eOfferTypeDocumentFile:
-        return QObject::tr( "Offer: Document File" );
-    case eOfferTypeArchiveFile:
-        return QObject::tr( "Offer: Archive File" );
-    case eOfferTypeExecutableFile:
-        return QObject::tr( "Offer: Executable File" );
-    case eOfferTypeOtherFile:
-        return QObject::tr( "Offer: Unknown File Type" );
-    case eOfferTypeDirectory:
-        return QObject::tr( "Offer: Folder Of Files" );
+    case eOfferTypePersonFile:
+        return QObject::tr( "Offer: Personal File" );
     case eOfferTypeFriendship:
         return QObject::tr( "Offer: Friendship" );
     case eOfferTypeMessenger:
@@ -1799,19 +1785,9 @@ QString GuiParams::describeOfferType( EOfferType offerType )
         return QObject::tr( "Offer: Video Chat" );
     case eOfferTypeVoicePhone:
         return QObject::tr( "Offer: Voice Phone Call" );
+ //   case eOfferTypeDirectory:
+ //       return QObject::tr( "Offer: Folder Of Files" );
 
-    case eOfferTypeChatText:
-        return QObject::tr( "Offer: Chat Text" );
-    case eOfferTypeChatFace:
-        return QObject::tr( "Offer: Chat Fase" );
-    case eOfferTypeChatStockAvatar:
-        return QObject::tr( "Offer: Stock Avatar" );
-    case eOfferTypeChatCustomAvatar:
-        return QObject::tr( "Offer: Custom Avatar" );
-    case eOfferTypeThumbnail:
-        return QObject::tr( "Offer: Thumbnail" );
-    case eOfferTypeCamRecord:
-        return QObject::tr( "Offer: Cam Recording" );
     default:
         return QObject::tr( "Unknown Offer Type" );
     }

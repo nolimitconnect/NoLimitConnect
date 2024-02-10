@@ -33,19 +33,21 @@ public:
 	OfferBarWidget( QWidget* parent = nullptr );
 	virtual ~OfferBarWidget();
 
-	AppCommon&					getMyApp( void ) { return m_MyApp; }
+	AppCommon&					getMyApp( void )							{ return m_MyApp; }
 	MyIcons&					getMyIcons( void );
 
 	void						setOfferSessionId( VxGUID& offerSessionId ) { m_OfferSessionId = offerSessionId; }
 
 	bool						setUser( GuiUser* guiUser );
 	void						setPluginType( EPluginType pluginType );
+
 	bool						setOfferInfo( OfferBaseInfo& offerInfo );
-	
+	OfferBaseInfo&				getOfferInfo( void )						{ return m_OfferInfo; }
 
 protected slots:
 	void						slotAcceptOfferButtonClicked( void );
 	void						slotRejectOfferButtonClicked( void );
+	void						slotOfferInfoButtonClicked( void );
 
 protected:
 	virtual void				showEvent( QShowEvent* ev );
@@ -67,7 +69,7 @@ protected:
 
 	Ui::OfferBarWidgetUi		ui;
 	AppCommon&				    m_MyApp;
-	GuiOfferMgr&			m_OfferMgr;
+	GuiOfferMgr&				m_OfferMgr;
 	VxGUID						m_OfferSessionId;
 	GuiUser*					m_HisIdent{ nullptr };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };

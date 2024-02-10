@@ -17,7 +17,7 @@
 #include <PktLib/GroupieId.h>
 
 class GuiUser;
-class InputClientCallback;
+class InputClientBaseCallback;
 
 class SessionWidget : public QWidget
 {
@@ -34,7 +34,7 @@ public:
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
 	void						setCanSend( bool canSend );
-	void						setInputClientCallback( InputClientCallback* clientCallback );
+	void						setInputClientCallback( InputClientBaseCallback* clientCallback );
 
 	void						setAppModule( EAppModule appModule );
 
@@ -66,5 +66,5 @@ protected:
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	GroupieId					m_GroupieId;
 
-	InputClientCallback*		m_ClientCallback{ nullptr };
+	InputClientBaseCallback*		m_ClientCallback{ nullptr };
 };

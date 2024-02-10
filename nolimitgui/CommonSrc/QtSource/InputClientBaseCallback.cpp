@@ -76,6 +76,10 @@ bool InputClientBaseCallback::fillAssetBaseInfo( AssetBaseInfo& assetInfo, bool 
 	}
 
 	assetInfo.setPluginType( getInputClientPluginType() );
+    if( getInputClientPluginType() == ePluginTypePersonalRecorder )
+    {
+        assetInfo.setDestUserId( getMyApp().getMyOnlineId());
+    }
 	
 	assetInfo.setCreationTime( GetTimeStampMs() );
 	assetInfo.setCreatorId( getMyApp().getMyOnlineId());

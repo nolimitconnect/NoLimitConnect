@@ -9,17 +9,18 @@
 //============================================================================
 
 #include "InputVoiceWidget.h"
+
 #include "ChatEntryWidget.h"
 #include "AppCommon.h"
 #include "MyIcons.h"
 #include "GuiParams.h"
 
 #include <QDebug>
+#include <QTimer>
 
 //============================================================================
 InputVoiceWidget::InputVoiceWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
-, m_IsRecording( false )
 {
 	qDebug() << "InputVoiceWidget::InputVoiceWidget ";
 	m_AssetInfo.setAssetType( eAssetTypeAudio );

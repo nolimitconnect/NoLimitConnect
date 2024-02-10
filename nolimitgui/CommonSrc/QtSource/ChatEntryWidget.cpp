@@ -12,7 +12,7 @@
 #include "AppSettings.h"
 #include "ChatEntryWidget.h"
 #include "DialogAddComment.h"
-#include "InputClientCallback.h"
+#include "InputClientBaseCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -211,9 +211,11 @@ void ChatEntryWidget::slotAllGalleryButtonClicked( void )
             assetInfo.setCreatorId( GetAppInstance().getUserMgr().getMyOnlineId() );
             assetInfo.setAdminId( m_GroupieId.getHostOnlineId() );
             assetInfo.setHistoryId( m_GroupieId.getUserOnlineId() );
+			assetInfo.setDestUserId( m_GroupieId.getUserOnlineId() );
 			assetInfo.generateNewUniqueId();
 			assetInfo.setCreationTime( GetTimeStampMs() );
 			assetInfo.setPluginType( getPluginType() );
+
 			DialogAddComment addCommentDlg( assetInfo, this );
 			if( QDialog::Accepted == addCommentDlg.exec() )
 			{
@@ -322,9 +324,10 @@ void ChatEntryWidget::setIsPersonalRecorder( bool isPersonal )
 }
 
 //============================================================================
-void ChatEntryWidget::setInputClientCallback( InputClientCallback* clientCallback ) 
+void ChatEntryWidget::setInputClientCallback( InputClientBaseCallback* clientCallback ) 
 { 
 	m_ClientCallback = clientCallback; 
+	m_PluginType = clientCallback->getInputClientPluginType();
 	ui.m_InputAllWidget->setInputClientCallback( clientCallback );
 	ui.m_InputFaceWidget->setInputClientCallback( clientCallback );
 	ui.m_InputPhotoWidget->setInputClientCallback( clientCallback );

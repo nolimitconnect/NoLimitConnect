@@ -350,7 +350,7 @@ size_t VirtStreamMgr::fileWrite( const void* buf, size_t size, size_t count, VFi
 		return providerFileWrite( buf, size, count, fp );
 	}
 
-	int result = fwrite( buf, size, count, fp->m_FILE );
+	size_t result = fwrite( buf, size, count, fp->m_FILE );
 	fp->m_Error = VxGetLastError();
 	LogModule( eLogMediaStream, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	return result;

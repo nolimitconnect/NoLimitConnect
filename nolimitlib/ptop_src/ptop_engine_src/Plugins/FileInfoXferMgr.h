@@ -86,6 +86,7 @@ public:
 	void						fromGuiCancelUpload( VxGUID& fileInstance );
 
 	bool						fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo );
+	bool						fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 
 	EXferError					fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo );
 	// returns -1 if unknown else percent downloaded

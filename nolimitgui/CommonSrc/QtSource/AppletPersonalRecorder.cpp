@@ -21,9 +21,11 @@ AppletPersonalRecorder::AppletPersonalRecorder( AppCommon& app, QWidget* parent 
 : AppletBase( OBJNAME_APPLET_PERSONAL_RECORDER, app, parent )
 {
     setAppletType( eAppletPersonalRecorder );
+    setPluginType( ePluginTypePersonalRecorder );
     ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     ui.m_SessionWidget->setAppModule( eAppModulePersonalNotes );
+    ui.m_SessionWidget->setInputClientCallback( this );
 
     setupMultiSessionActivity();
 	m_MyApp.activityStateChange( this, true );
@@ -45,6 +47,7 @@ void AppletPersonalRecorder::setupMultiSessionActivity( void )
     GroupieId groupieId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypePeerUser );
     ui.m_SessionWidget->setGroupieId( groupieId );
     ui.m_SessionWidget->setEntryMode( eAssetTypeUnknown );
+    ui.m_SessionWidget->initializeHistory();
 }
 
 //============================================================================
@@ -57,9 +60,4 @@ void AppletPersonalRecorder::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnline
 void AppletPersonalRecorder::showEvent( QShowEvent* showEvent )
 {
     AppletBase::showEvent( showEvent );
-    //if( !m_HistoryQueried )
-    //{
-    //    m_HistoryQueried = true;
-    //    ui.m_SessionWidget->initializeHistory();
-    //}
 }

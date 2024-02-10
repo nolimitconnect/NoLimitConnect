@@ -11,7 +11,7 @@
 #include "InputFaceWidget.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
-#include "InputClientCallback.h"
+#include "InputClientBaseCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
 

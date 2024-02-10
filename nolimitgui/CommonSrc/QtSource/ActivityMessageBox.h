@@ -16,11 +16,14 @@
 #include <QMessageBox>
 #include "ui_ActivityMessageBox.h"
 
+class OfferBaseInfo;
+
 class ActivityMessageBox : public ActivityBase
 {
 	Q_OBJECT
 public:
 	ActivityMessageBox( AppCommon& app, QWidget* parent = nullptr );
+	ActivityMessageBox( AppCommon& app, QWidget* parent, QString title, QString msg );
 	ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, const char* msgFormat, ... );
 	ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, QString msg );
 	virtual ~ActivityMessageBox() override = default;
@@ -39,6 +42,8 @@ public:
 
 	QMessageBox::StandardButton getResultButton( void )							{ return m_ResultButton; }
 
+	void						showOfferInfo( OfferBaseInfo& offerInfo );
+
 protected slots:
 	void						onOkButClick( void );
 	void						onCancelButClick( void ); 
@@ -47,6 +52,6 @@ protected slots:
 protected:
 	//=== vars ===//
 	Ui::MessageBoxDialogClass	ui;
-	bool						m_OkButtonClicked;
+	bool						m_OkButtonClicked{ false };
 	QMessageBox::StandardButton m_ResultButton{ QMessageBox::NoButton };
 };

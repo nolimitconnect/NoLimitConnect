@@ -262,6 +262,12 @@ bool PluginBaseFiles::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& o
 }
 
 //============================================================================
+bool PluginBaseFiles::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+{
+	return m_FileInfoXferMgr.fromGuiOfferReply( onlineId, offerInfo );
+}
+
+//============================================================================
 EXferError PluginBaseFiles::fromGuiFileXferControl( VxGUID& onlineId, EXferAction xferAction, FileInfo& fileInfo )
 {
 	return m_FileInfoXferMgr.fromGuiFileXferControl( onlineId, xferAction, fileInfo );

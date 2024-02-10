@@ -220,7 +220,7 @@ OfferBaseInfo* OfferBaseMgr::findOffer( VxSha1Hash& fileHashId )
 {
 	if( false == fileHashId.isHashValid() )
 	{
-		LogMsg( LOG_ERROR, "OfferBaseMgr::findOffer: invalid file hash id\n" );
+		LogMsg( LOG_ERROR, "OfferBaseMgr::findOffer: invalid file hash id" );
 		return 0;
 	}
 
@@ -237,17 +237,17 @@ OfferBaseInfo* OfferBaseMgr::findOffer( VxSha1Hash& fileHashId )
 }
 
 //============================================================================
-OfferBaseInfo* OfferBaseMgr::findOffer( VxGUID& assetId )
+OfferBaseInfo* OfferBaseMgr::findOffer( VxGUID& offerId )
 {
-	if( false == assetId.isVxGUIDValid() )
+	if( false == offerId.isVxGUIDValid() )
 	{
-		//LogMsg( LOG_ERROR, "OfferBaseMgr::findOffer: invalid VxGUID asset id\n" );
+		LogMsg( LOG_ERROR, "OfferBaseMgr::findOffer: invalid VxGUID offer id" );
         return nullptr;
 	}
 
 	for( OfferBaseInfo* offerInfo : m_OfferBaseInfoList )
 	{
-		if( offerInfo->getOfferId() == assetId )
+		if( offerInfo->getOfferId() == offerId )
 		{
 			return offerInfo;
 		}
@@ -818,15 +818,50 @@ bool OfferBaseMgr::getFileFullName( VxSha1Hash& fileHashId, std::string& retFile
 	return isOfferBase;
 }
 
+//============================================================================
+bool OfferBaseMgr::hostedOfferExists( OfferBaseInfo& offerInfo )
+{
+	bool offerExists{ false };
+	lockResources();
+	for( auto offerInfoitem : m_OfferBaseInfoList )
+	{
+		if( eOfferMgrHost == offerInfoitem->getOfferMgr() && offerInfoitem->getOfferId() == offerInfo.getOfferId() )
+		{
+			offerExists = true;
+			break;
+		}
+	}
+
+	unlockResources();
+
+	return offerExists;
+}
+
+//============================================================================
+bool OfferBaseMgr::clientOfferExists( OfferBaseInfo& offerInfo )
+{
+	bool offerExists{ false };
+	lockResources();
+	for( auto offerInfoitem : m_OfferBaseInfoList )
+	{
+		if( eOfferMgrClient == offerInfoitem->getOfferMgr() && offerInfoitem->getOfferId() == offerInfo.getOfferId() )
+		{
+			offerExists = true;
+			break;
+		}
+	}
+
+	unlockResources();
+
+	return offerExists;
+}
 
 //============================================================================
 bool OfferBaseMgr::fromGuiGetOfferBaseInfo( uint8_t fileTypeFilter )
 {
 	lockResources();
-	std::vector<OfferBaseInfo*>::iterator iter;
-	for( iter = m_OfferBaseInfoList.begin(); iter != m_OfferBaseInfoList.end(); ++iter )
+	for( auto offerInfo : m_OfferBaseInfoList )
 	{
-		OfferBaseInfo* offerInfo = (*iter);
 		if( 0 != ( fileTypeFilter & offerInfo->getOfferType() ) )
 		{
 			if( offerInfo->isSharedFileOffer() || offerInfo->isInLibary() )

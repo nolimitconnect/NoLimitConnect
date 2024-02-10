@@ -57,6 +57,9 @@ public:
 
 	virtual void				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo ) {};
 
+	virtual	bool				hostedOfferExists( OfferBaseInfo& offerInfo );
+	virtual	bool				clientOfferExists( OfferBaseInfo& offerInfo );
+
     virtual void                onQueryHistoryOffer( OfferBaseInfo* offerInfo ) {}; // should be overriden
 
     VxMutex&					getResourceMutex( void )					{ return m_ResourceMutex; }
@@ -76,7 +79,7 @@ public:
 
 	OfferBaseInfo*				findOffer( std::string& fileName );
 	OfferBaseInfo*				findOffer( VxSha1Hash& fileHashId );
-	OfferBaseInfo*				findOffer( VxGUID& assetId );
+	OfferBaseInfo*				findOffer( VxGUID& offerId );
 
 	uint16_t					getOfferBaseFileTypes( void )				{ return m_u16OfferBaseFileTypes; }
 	void						updateOfferFileTypes( void );

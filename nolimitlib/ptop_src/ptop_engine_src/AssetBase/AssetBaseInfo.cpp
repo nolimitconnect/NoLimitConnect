@@ -291,7 +291,7 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 //============================================================================
 bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 {
-	bool isValidAsset =  VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid();
+	bool isValidAsset = VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid();
 	if( m_AdminId.isVxGUIDValid() )
 	{
 		isValidAsset &= getPluginType() != ePluginTypeInvalid;
@@ -299,18 +299,19 @@ bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 
 	if( isFileAsset() )
 	{
-		isValidAsset &= isValidFile( logErrIfInvalid )  && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+		isValidAsset &= isValidFile( logErrIfInvalid ) && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}
 	else if( getAssetType() != eAssetTypeThumbnail && getAssetType() != eAssetTypeChatFace )
 	{
-		isValidAsset &= getCreatorId().isVxGUIDValid() &&  0 != m_CreationTime && 0 != m_InfoModifiedTime;
+		isValidAsset &= getCreatorId().isVxGUIDValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}
-	
-	if( logErrIfInvalid )
+
+	if( !isValidAsset )
 	{
-		vx_assert( isValidAsset );
-		if( !isValidAsset )
+		if( logErrIfInvalid )
 		{
+			vx_assert( isValidAsset );
+
 			printValues( LOG_ERROR );
 		}
 	}
@@ -576,7 +577,7 @@ bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
 {
 	if( groupieId.getHostType() == eHostTypePeerUser )
 	{
-		if( getPluginType() == ePluginTypeMessenger &&
+		if( ( getPluginType() == ePluginTypeMessenger || getPluginType() == ePluginTypePersonalRecorder ) &&
 			( groupieId.getUserOnlineId() == m_HistoryId && groupieId.getHostOnlineId() == m_DestOnlineId ) || // user sent to me
 			( groupieId.getHostOnlineId() == m_HistoryId && groupieId.getUserOnlineId() == m_DestOnlineId ) ) // I sent to user
 		{

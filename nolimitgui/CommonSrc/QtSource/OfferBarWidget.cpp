@@ -9,10 +9,12 @@
 //============================================================================
 
 #include "OfferBarWidget.h"
-#include "GuiOfferMgr.h"
 
-#include "MyIcons.h"
+#include "ActivityMessageBox.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
+#include "GuiOfferMgr.h"
+#include "MyIcons.h"
 
 #include <CoreLib/VxGlobals.h>
 
@@ -31,12 +33,15 @@ OfferBarWidget::OfferBarWidget( QWidget* parent )
 	ui.m_OfferViewButton->setFixedSize( eButtonSizeMedium );
 	ui.m_AcceptButton->setFixedSize( eButtonSizeMedium );
 	ui.m_RejectButton->setFixedSize( eButtonSizeMedium );
+	ui.m_OfferInfoButton->setFixedSize( eButtonSizeMedium );
 
 	ui.m_RejectButton->setIcon( eMyIconCancelNormal );
+	ui.m_OfferInfoButton->setIcon( eMyIconInformation );
 
 	connect( ui.m_FriendButton,				SIGNAL(clicked()),		this, SLOT(slotAcceptOfferButtonClicked()) );
 	connect( ui.m_AcceptButton,				SIGNAL(clicked()),		this, SLOT(slotAcceptOfferButtonClicked()) );
 	connect( ui.m_RejectButton,				SIGNAL(clicked()),		this, SLOT(slotRejectOfferButtonClicked()) );
+	connect( ui.m_OfferInfoButton,			SIGNAL(clicked()),		this, SLOT(slotOfferInfoButtonClicked()) );
 	m_OfferMgr.wantGuiOfferCallbacks( this, true );
 }
 
@@ -194,7 +199,16 @@ void OfferBarWidget::slotAcceptOfferButtonClicked( void )
 //============================================================================
 void OfferBarWidget::slotRejectOfferButtonClicked( void )
 {
+
 	m_OfferMgr.rejectOfferButtonClicked( m_PluginType, m_OfferSessionId, m_HisIdent );
+}
+
+//============================================================================
+void OfferBarWidget::slotOfferInfoButtonClicked( void )
+{
+	ActivityMessageBox offerInfoMsgBox( m_MyApp, GuiHelpers::getParentPageFrame( this ) );
+	offerInfoMsgBox.showOfferInfo( getOfferInfo() );
+	offerInfoMsgBox.exec();
 }
 
 //============================================================================

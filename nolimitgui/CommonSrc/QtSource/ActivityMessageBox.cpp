@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "ActivityMessageBox.h"
+
 #include "MyIcons.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "IdentWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -24,7 +26,6 @@
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, false, true )
-, m_OkButtonClicked( false )
 {
 	ui.setupUi(this);
 
@@ -32,9 +33,21 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
 }
 
 //============================================================================
+ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, QString title, QString msg )
+: ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, false, true )
+{
+	ui.setupUi(this);
+
+	initMessageBoxCommon();
+
+	ui.m_TitleBarWidget->setTitleBarText( title );
+	setBodyText( msg );
+	this->setFocus();
+}
+
+//============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, const char* msgFormat, ... )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, true )
-, m_OkButtonClicked( false )
 {
 	ui.setupUi(this);
 
@@ -57,19 +70,18 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int inf
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, QString msg )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, true )
-, m_OkButtonClicked( false )
 {
 	ui.setupUi(this);
 
 	initMessageBoxCommon();
 
 	setBodyText( msg );
-	this->setFocus();
 }
 
 //============================================================================
 void ActivityMessageBox::initMessageBoxCommon( void )
 {
+	ui.m_IdentWidget->setVisible( false );
 	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Message") );
     connectBarWidgets();
 
@@ -122,4 +134,42 @@ void ActivityMessageBox::slotCopyToClipboardButtonClicked( void )
     QClipboard* clipboard = QApplication::clipboard();
     clipboard->setText( ui.m_BodyTextLabel->text() );
     okMessageBox( QObject::tr( "Clipboard" ), QObject::tr( "Text was copied to clipboard" ) );
+}
+
+//============================================================================
+void ActivityMessageBox::showOfferInfo( OfferBaseInfo& offerInfo )
+{
+	QString msg;
+	VxGUID onlineId;
+	if( eOfferMgrClient == offerInfo.getOfferMgr() )
+	{
+		onlineId = offerInfo.getSendToId();
+	}
+	else if( eOfferMgrHost == offerInfo.getOfferMgr() )
+	{
+		onlineId = offerInfo.getCreatorId();
+	}
+	else
+	{
+		setBodyText( QObject::tr( "Invalid Offer Manager" ) );
+		return;
+	}
+
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
+	if( !guiUser )
+	{
+		setBodyText( QObject::tr( "Unknown User" ) );
+		return;
+	}
+
+	ui.m_IdentWidget->setVisible( true );
+	ui.m_IdentWidget->updateIdentity( guiUser, false );
+	msg = QObject::tr( "Offer: " ) + GuiParams::describeOfferType( offerInfo.getOfferType() );
+	if( eOfferTypePersonFile == offerInfo.getOfferType() )
+	{
+		msg += QObject::tr( "\nFile: " ) + offerInfo.getFileInfo().getFileName().c_str();
+		msg += QObject::tr( "\nFile Length: " ) + GuiParams::describeFileLength( offerInfo.getFileInfo().getFileLength() );
+		msg += QObject::tr( "\nFile Type: " ) + GuiParams::describeFileType( offerInfo.getFileInfo().getFileType() );
+	}
+
 }

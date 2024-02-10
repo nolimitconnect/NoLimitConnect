@@ -654,26 +654,13 @@ enum EOfferType
     eOfferTypeJoinGroup		        = 1,
     eOfferTypeJoinChatRoom		    = 2,
     eOfferTypeJoinRandomConnect		= 3,
-    eOfferTypePhotoFile		        = 4,
-    eOfferTypeAudioFile		        = 5,
-    eOfferTypeVideoFile		        = 6,
-    eOfferTypeDocumentFile		    = 7,
-    eOfferTypeArchiveFile		    = 8,    // archive or cd/dvd image
-    eOfferTypeExecutableFile		= 9,    // exe files are not normally allowed but here for error notification
-    eOfferTypeOtherFile		        = 10,   // unrecognized file type
-    eOfferTypeDirectory		        = 11,   // directory of files
-    eOfferTypeFriendship		    = 12, 
-    eOfferTypeMessenger		        = 13,   // instant message session 
-    eOfferTypeTruthOrDare           = 14,	// Video Chat Truth Or Dare game  
-    eOfferTypeVideoPhone            = 15,	// Video Chat with motion detect and stream recording
-    eOfferTypeVoicePhone            = 16,	// VOIP audio only phone call
-
-    eOfferTypeChatText				= 17,
-    eOfferTypeChatFace				= 18,
-    eOfferTypeChatStockAvatar		= 19,
-    eOfferTypeChatCustomAvatar		= 20,
-    eOfferTypeThumbnail             = 21,
-    eOfferTypeCamRecord             = 22,
+    eOfferTypeFriendship		    = 4, 
+    eOfferTypeMessenger		        = 5,    // instant message session 
+    eOfferTypeTruthOrDare           = 6,	// Video Chat Truth Or Dare game  
+    eOfferTypeVideoPhone            = 7,	// Video Chat with motion detect and stream recording
+    eOfferTypeVoicePhone            = 8,	// VOIP audio only phone call
+    eOfferTypePersonFile		    = 9,    // person to person file xfer
+    //eOfferTypeDirectory		        = 10,   // directory of files.. disabled for now due to security risk
 
     eMaxOfferType
 };
@@ -683,9 +670,7 @@ enum EOfferLocation
     eOfferLocUnknown				= 0x00,
     eOfferLocLibrary				= 0x01,
     eOfferLocShared					= 0x02,
-    eOfferLocPersonalRec			= 0x04,
-    eOfferLocThumbDirectory         = 0x08,
-    eOfferLocCamRecord              = 0x10
+    eOfferLocPersonFile			    = 0x04,
 };
 
 enum EOfferAction
@@ -742,9 +727,8 @@ enum EOfferAction
 enum EOfferMgrType
 {
     eOfferMgrNotSet = 0,
-    eOfferMgrClient,
-    eOfferMgrHost,
-    eOfferMgrPeer,
+    eOfferMgrClient,        // reciever of offer.. even if peer to peer plugin
+    eOfferMgrHost,          // sender of offer.. even if peer to peer plugin
 
     eMaxOfferMgrType
 };
@@ -879,7 +863,7 @@ enum EPluginType
     ePluginTypeFileShareClient,     // 60 shared files client
     ePluginTypeCamClient,           // 61 cam server plugin client
 
-    ePluginTypeLibraryServer,  
+    ePluginTypeLibraryServer,       // 62 library
 
     eMaxPluginType	
 };
