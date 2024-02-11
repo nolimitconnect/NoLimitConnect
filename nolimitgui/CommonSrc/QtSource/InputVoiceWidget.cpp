@@ -62,6 +62,7 @@ void InputVoiceWidget::updateMicrophoneButton( bool isRecording )
 	ui.m_CancelRecordButton->setVisible( isRecording );
 	ui.m_RecVoiceButton->setIcon( isRecording ? eMyIconMicrophoneOff : eMyIconMicrophoneOn );
 	ui.m_RecVoiceButton->setNotifyType( isRecording ? eNotifyOnline : eNotifyOffline );
+	ui.m_SlideToCancleLabel->setText( isRecording ? QObject::tr( "Click Microphone To Finish Or X To Cancel" ) : QObject::tr( "Click Microphone To Begin Recording" ) );
 }
 
 //============================================================================

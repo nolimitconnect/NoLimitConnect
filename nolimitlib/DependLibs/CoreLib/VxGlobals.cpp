@@ -43,7 +43,7 @@ namespace
     std::string			g_strApplicationNameNoSpaces	= "NoLimitConnect";
     std::string			g_strApplicationNameNoSpacesLowerCase	= "nolimitconnect";
 	std::string			g_strCompanyWebsite				= "https://nolimitconnect.com";
-    std::string			g_strCompanyDomain				= "nolimitconnect.org";
+    std::string			g_strCompanyDomain				= "nolimitconnect.com";
     std::string			g_strOrginizationName           = "nolimitconnect";
 	bool				g_IsAppCommercial				= false;
 

@@ -1679,6 +1679,21 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
             QObject::tr( "This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.\nThe action cannot be undone\nAre you very sure you want to proceed?" ) );
         break;
 
+    case eErrMsgVoiceMessageTooShort:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "Voice Message Too Short" ),
+            QObject::tr( "The Voice Message was too short and will not be sent." ) );
+        break;
+
+    case eErrMsgVideoClipTooShort:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "Video clip Too Short" ),
+            QObject::tr( "The Video Clip was too short and will not be sent." ) );
+        break;
+
+    case eErrMsgVideoClipFailedToStart:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "Video record failed to start" ),
+            QObject::tr( "Video record failed to start." ) );
+        break;
+
     default:
         buttonResult = QMessageBox::information( parent, QObject::tr( "Unknown Error" ),
             QObject::tr( "Unknown Error " ) + QString::number(errMsgType) + QObject::tr( " for user " ) + userName.c_str(), QMessageBox::Ok );

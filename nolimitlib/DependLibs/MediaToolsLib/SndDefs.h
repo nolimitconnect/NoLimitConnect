@@ -23,6 +23,6 @@
 
 #define MY_OPUS_TARGET_BIT_RATE					ECHO_SAMPLE_RATE
 #define MY_OPUS_SAMPLE_RATE						ECHO_SAMPLE_RATE	// frequency of input samples
-#define MY_OPUS_CHANNELS						AUDIO_CHANNELS	// frequency of input samples
+#define MY_OPUS_CHANNELS						AUDIO_CHANNELS		// nuber of audio channels
 
 

@@ -1226,69 +1226,72 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 //============================================================================
 void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientRemoveList )
 {
-	m_MixerRemoveMutex.lock();
-	for( size_t i = 0; i < clientRemoveList.size(); i++ )
+	if( !clientRemoveList.empty() )
 	{
-		EMediaInputType				mediaType	= clientRemoveList[i].m_MediaType;
-		MediaCallbackInterface *	callback	= clientRemoveList[i].m_Callback;
-		EAppModule					appModule   = clientRemoveList[ i ].m_AppModule;
-
-		std::vector<MediaClient> * clientList = 0;
-		switch( mediaType )
+		m_MixerRemoveMutex.lock();
+		for( size_t i = 0; i < clientRemoveList.size(); i++ )
 		{
-		case eMediaInputAudioPkts:
-			clientList = &m_AudioPktsList;
-			break;
-		case eMediaInputVideoPkts:
-			clientList = &m_VideoPktsList;
-			break;
-		case eMediaInputAudioPcm:
-			clientList = &m_AudioPcmList;
-			break;
-		case eMediaInputVideoJpgSmall:
-			clientList = &m_VideoJpgSmallList;
-			break;
-		case eMediaInputAudioOpus:
-			clientList = &m_AudioOpusList;
-			break;
-		case eMediaInputVideoJpgBig:
-			clientList = &m_VideoJpgBigList;
-			break;
+			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
+			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
+			EAppModule					appModule = clientRemoveList[i].m_AppModule;
 
-		case eMediaInputMixer:
-			clientList = &m_MixerList;
-			break;
-
-		default:
-			LogMsg( LOG_ERROR, "MediaProcessor::doClientRemovals UNKNOWN TYPE");
-			continue;
-		}
-
-		std::vector<EAppModule> appModuleList;
-		std::vector<MediaClient>::iterator iter;
-		for( iter = clientList->begin(); iter != clientList->end(); ++iter )
-		{
-			MediaClient& client = *iter;
-			if( ( client.m_Callback == callback )
-				&& ( client.m_MediaInputType == mediaType ) )
+			std::vector<MediaClient>* clientList = 0;
+			switch( mediaType )
 			{
-				clientList->erase( iter );
+			case eMediaInputAudioPkts:
+				clientList = &m_AudioPktsList;
 				break;
+			case eMediaInputVideoPkts:
+				clientList = &m_VideoPktsList;
+				break;
+			case eMediaInputAudioPcm:
+				clientList = &m_AudioPcmList;
+				break;
+			case eMediaInputVideoJpgSmall:
+				clientList = &m_VideoJpgSmallList;
+				break;
+			case eMediaInputAudioOpus:
+				clientList = &m_AudioOpusList;
+				break;
+			case eMediaInputVideoJpgBig:
+				clientList = &m_VideoJpgBigList;
+				break;
+
+			case eMediaInputMixer:
+				clientList = &m_MixerList;
+				break;
+
+			default:
+				LogMsg( LOG_ERROR, "MediaProcessor::doClientRemovals UNKNOWN TYPE" );
+				continue;
+			}
+
+			std::vector<EAppModule> appModuleList;
+			std::vector<MediaClient>::iterator iter;
+			for( iter = clientList->begin(); iter != clientList->end(); ++iter )
+			{
+				MediaClient& client = *iter;
+				if( (client.m_Callback == callback)
+					&& (client.m_MediaInputType == mediaType) )
+				{
+					clientList->erase( iter );
+					break;
+				}
+			}
+
+			bool stopSpeakerOutput = m_SpeakerOutputEnabled && (0 == m_MixerList.size());
+			// set capture stated before unlocking mutex
+			if( stopSpeakerOutput )
+			{
+				m_SpeakerOutputEnabled = false;
+				LogMsg( LOG_VERBOSE, "MediaProcessor::doMixerClientRemovals stopping speaker output module %s", DescribeAppModule( appModule ) );
+				IToGui::getAudioRequests().toGuiWantSpeakerOutput( appModule, false );
 			}
 		}
 
-		bool stopSpeakerOutput = m_SpeakerOutputEnabled && ( 0 == m_MixerList.size() );
-		// set capture stated before unlocking mutex
-		if( stopSpeakerOutput )
-		{
-			m_SpeakerOutputEnabled = false;
-			LogMsg( LOG_VERBOSE, "MediaProcessor::doMixerClientRemovals stopping speaker output module %s", DescribeAppModule( appModule ) );
-			IToGui::getAudioRequests().toGuiWantSpeakerOutput( appModule, false );
-		}
+		clientRemoveList.clear();
+		m_MixerRemoveMutex.unlock();
 	}
-
-	clientRemoveList.clear();
-	m_MixerRemoveMutex.unlock();
 }
 
 //============================================================================
@@ -1384,68 +1387,71 @@ void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType,
 //============================================================================
 void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientRemoveList )
 {
-	m_AudioRemoveMutex.lock();
-	for( size_t i = 0; i < clientRemoveList.size(); i++ )
+	if( !clientRemoveList.empty() )
 	{
-		EMediaInputType				mediaType	= clientRemoveList[i].m_MediaType;
-		MediaCallbackInterface *	callback	= clientRemoveList[i].m_Callback;
-		EAppModule					appModule   = clientRemoveList[ i ].m_AppModule;
-
-		std::vector<MediaClient> * clientList = 0;
-		switch( mediaType )
+		m_AudioRemoveMutex.lock();
+		for( size_t i = 0; i < clientRemoveList.size(); i++ )
 		{
-		case eMediaInputAudioPkts:
-			clientList = &m_AudioPktsList;
-			break;
-		case eMediaInputVideoPkts:
-			clientList = &m_VideoPktsList;
-			break;
-		case eMediaInputAudioPcm:
-			clientList = &m_AudioPcmList;
-			break;
-		case eMediaInputVideoJpgSmall:
-			clientList = &m_VideoJpgSmallList;
-			break;
-		case eMediaInputAudioOpus:
-			clientList = &m_AudioOpusList;
-			break;
-		case eMediaInputVideoJpgBig:
-			clientList = &m_VideoJpgBigList;
-			break;
+			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
+			MediaCallbackInterface* callback = clientRemoveList[i].m_Callback;
+			EAppModule					appModule = clientRemoveList[i].m_AppModule;
 
-		case eMediaInputMixer:
-			clientList = &m_MixerList;
-			break;
-
-		default:
-			LogMsg( LOG_ERROR, "MediaProcessor::doClientRemovals UNKNOWN TYPE");
-			continue;
-		}
-
-		std::vector<MediaClient>::iterator iter;
-		for( iter = clientList->begin(); iter != clientList->end(); ++iter )
-		{
-			MediaClient& client = *iter;
-			if( ( client.m_Callback == callback )
-				&& ( client.m_MediaInputType == mediaType ) )
+			std::vector<MediaClient>* clientList = 0;
+			switch( mediaType )
 			{
-				clientList->erase( iter );
+			case eMediaInputAudioPkts:
+				clientList = &m_AudioPktsList;
 				break;
+			case eMediaInputVideoPkts:
+				clientList = &m_VideoPktsList;
+				break;
+			case eMediaInputAudioPcm:
+				clientList = &m_AudioPcmList;
+				break;
+			case eMediaInputVideoJpgSmall:
+				clientList = &m_VideoJpgSmallList;
+				break;
+			case eMediaInputAudioOpus:
+				clientList = &m_AudioOpusList;
+				break;
+			case eMediaInputVideoJpgBig:
+				clientList = &m_VideoJpgBigList;
+				break;
+
+			case eMediaInputMixer:
+				clientList = &m_MixerList;
+				break;
+
+			default:
+				LogMsg( LOG_ERROR, "MediaProcessor::doClientRemovals UNKNOWN TYPE" );
+				continue;
+			}
+
+			std::vector<MediaClient>::iterator iter;
+			for( iter = clientList->begin(); iter != clientList->end(); ++iter )
+			{
+				MediaClient& client = *iter;
+				if( (client.m_Callback == callback)
+					&& (client.m_MediaInputType == mediaType) )
+				{
+					clientList->erase( iter );
+					break;
+				}
+			}
+
+			bool stopMicInput = m_MicCaptureEnabled && (0 == (m_AudioPcmList.size() + m_AudioOpusList.size() + m_AudioPktsList.size()));
+			// set capture stated before unlocking mutex
+			if( stopMicInput )
+			{
+				m_MicCaptureEnabled = false;
+				LogMsg( LOG_INFO, "stopping microphone input" );
+				IToGui::getAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
 			}
 		}
 
-		bool stopMicInput = m_MicCaptureEnabled && ( 0 == ( m_AudioPcmList.size() + m_AudioOpusList.size() + m_AudioPktsList.size() ) );
-		// set capture stated before unlocking mutex
-		if( stopMicInput )
-		{
-			m_MicCaptureEnabled = false;
-			LogMsg( LOG_INFO, "stopping microphone input" );
-			IToGui::getAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
-		}
+		clientRemoveList.clear();
+		m_AudioRemoveMutex.unlock();
 	}
-
-	clientRemoveList.clear();
-	m_AudioRemoveMutex.unlock();
 }
 
 //============================================================================
@@ -1457,7 +1463,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 	if( false == wantInput )
 	{
 		// user wants to be removed but is probably being called from a callback function.
-		// if we remove not will crash because iterator may expect more items in array
+		// if we remove now it will crash because iterator may expect more items in array
 		m_VideoRemoveMutex.lock();
 		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, mediaType, callback ) )
 		{
@@ -1470,7 +1476,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 	}
 	else
 	{
-		// if been commanded to remove and now adding remove the previous command
+		// if has been commanded to remove previously and now want input then remove from the to be removed list
 		m_VideoRemoveMutex.lock();
 		clientToRemoveRemoveFromList( m_VideoClientRemoveList, mediaType, callback );
 		m_VideoRemoveMutex.unlock();
@@ -1539,68 +1545,71 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 //============================================================================
 void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientRemoveList )
 {
-	m_VideoRemoveMutex.lock();
-	for( size_t i = 0; i < clientRemoveList.size(); i++ )
+	if( !clientRemoveList.empty() )
 	{
-		EMediaInputType				mediaType	= clientRemoveList[i].m_MediaType;
-		MediaCallbackInterface *	callback	= clientRemoveList[i].m_Callback;
-		EAppModule					appModule   = clientRemoveList[ i ].m_AppModule;
-
-		std::vector<MediaClient> * clientList = 0;
-		switch( mediaType )
+		m_VideoRemoveMutex.lock();
+		for( size_t i = 0; i < clientRemoveList.size(); i++ )
 		{
-		case eMediaInputAudioPkts:
-			clientList = &m_AudioPktsList;
-			break;
-		case eMediaInputVideoPkts:
-			clientList = &m_VideoPktsList;
-			break;
-		case eMediaInputAudioPcm:
-			clientList = &m_AudioPcmList;
-			break;
-		case eMediaInputVideoJpgSmall:
-			clientList = &m_VideoJpgSmallList;
-			break;
-		case eMediaInputAudioOpus:
-			clientList = &m_AudioOpusList;
-			break;
-		case eMediaInputVideoJpgBig:
-			clientList = &m_VideoJpgBigList;
-			break;
+			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
+			MediaCallbackInterface* callback = clientRemoveList[i].m_Callback;
+			EAppModule					appModule = clientRemoveList[i].m_AppModule;
 
-		case eMediaInputMixer:
-			clientList = &m_MixerList;
-			break;
-
-		default:
-			LogMsg( LOG_ERROR, "MediaProcessor::doClientRemovals UNKNOWN TYPE");
-			continue;
-		}
-
-		std::vector<MediaClient>::iterator iter;
-		for( iter = clientList->begin(); iter != clientList->end(); ++iter )
-		{
-			MediaClient& client = *iter;
-			if( ( client.m_Callback == callback )
-				&& ( client.m_MediaInputType == mediaType ) )
+			std::vector<MediaClient>* clientList = 0;
+			switch( mediaType )
 			{
-				clientList->erase( iter );
+			case eMediaInputAudioPkts:
+				clientList = &m_AudioPktsList;
 				break;
+			case eMediaInputVideoPkts:
+				clientList = &m_VideoPktsList;
+				break;
+			case eMediaInputAudioPcm:
+				clientList = &m_AudioPcmList;
+				break;
+			case eMediaInputVideoJpgSmall:
+				clientList = &m_VideoJpgSmallList;
+				break;
+			case eMediaInputAudioOpus:
+				clientList = &m_AudioOpusList;
+				break;
+			case eMediaInputVideoJpgBig:
+				clientList = &m_VideoJpgBigList;
+				break;
+
+			case eMediaInputMixer:
+				clientList = &m_MixerList;
+				break;
+
+			default:
+				LogMsg( LOG_ERROR, "MediaProcessor::doClientRemovals UNKNOWN TYPE" );
+				continue;
+			}
+
+			std::vector<MediaClient>::iterator iter;
+			for( iter = clientList->begin(); iter != clientList->end(); ++iter )
+			{
+				MediaClient& client = *iter;
+				if( (client.m_Callback == callback)
+					&& (client.m_MediaInputType == mediaType) )
+				{
+					clientList->erase( iter );
+					break;
+				}
+			}
+
+			int idsInVidPktListCnt2 = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
+			bool stopVidCapture = m_VidCaptureEnabled && (0 == (m_VideoJpgSmallList.size() + idsInVidPktListCnt2 + m_VideoJpgBigList.size()));
+			if( stopVidCapture )
+			{
+				m_VidCaptureEnabled = false;
+				LogMsg( LOG_INFO, "stopping video capture" );
+				IToGui::getToGui().toGuiWantVideoCapture( appModule, false );
 			}
 		}
 
-		int idsInVidPktListCnt2 = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
-		bool stopVidCapture = m_VidCaptureEnabled && ( 0 == ( m_VideoJpgSmallList.size() + idsInVidPktListCnt2 + m_VideoJpgBigList.size() ) );
-		if( stopVidCapture )
-		{
-			m_VidCaptureEnabled = false;
-			LogMsg( LOG_INFO, "stopping video capture" );
-			IToGui::getToGui().toGuiWantVideoCapture( appModule, false );
-		}
+		clientRemoveList.clear();
+		m_VideoRemoveMutex.unlock();
 	}
-
-	clientRemoveList.clear();
-	m_VideoRemoveMutex.unlock();
 }
 
 //============================================================================

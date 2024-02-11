@@ -35,5 +35,5 @@ protected:
 	void						showEvent( QShowEvent* showEvent );
 
 	Ui::InputVideoWidget		ui;
-	bool						m_IsRecording;
+	bool						m_IsRecording{ false };
 };

@@ -169,19 +169,6 @@ bool OpusAudioDecoder::decodeToPcmData(	uint8_t*	encodedOpusAudio,
 		}
 	}
 
-	// BRJ temp for debugging to see values in debugger
-	//int16_t tempBuf[ MY_OPUS_FRAME_SAMPLE_CNT ];
-	//memcpy( tempBuf, pcmDataBuf, sizeof( tempBuf ) );
-	//int16_t maxVal = -32000;
-	//int16_t minVal = 32000;
-	//for( int i = 0; i < MY_OPUS_FRAME_SAMPLE_CNT; i++ )
-	//{
-	//	minVal = std::min( minVal, tempBuf[ i ] );
-	//	maxVal = std::max( maxVal, tempBuf[ i ] );
-	//}
-
-	//LogMsg( LOG_ERROR, "OpusAudioDecoder::decodeToPcmData min %d max %d", minVal, maxVal );
-
 	return result;
 }
 	
@@ -211,21 +198,7 @@ int OpusAudioDecoder::decodeOneFrameToPcmData(	uint8_t *	encodedOpusAudio,
 	*/
 
 	return ret;
-
-	/*
-	int decodedSampleCnt = ret;
-	int outSampleCnt = opusFloatOutputToPcm( m_OpusOutBuf, m_Channels, decodedSampleCnt, m_Resampler, 0, (uint8_t *)pcmDataBuf, pcmDataBufLen );
-	//audio_size += (fp?4:2)*outsamp*m_Channels;
-	if( outSampleCnt <= 0 )
-	{
-		LogMsg( LOG_INFO,  "WARNING opusFloatOutputToPcm returned %d", outSampleCnt );
-		return 0;
-	}
-
-	return outSampleCnt;
-	*/
 }
-
 
 //============================================================================
 int OpusAudioDecoder::opusFloatOutputToPcm(	float *					opusOutput, 

@@ -31,7 +31,7 @@ class MJPEGWriter : public MediaCallbackInterface
 {
 public:
 	MJPEGWriter( P2PEngine& engine, MediaProcessor& mediaProcessor );
-	virtual ~MJPEGWriter();
+	virtual ~MJPEGWriter() = default;
 
 	void						setIsRecording( bool isRecording )				{ m_IsRecording = isRecording; }
 	bool						getIsRecording( void )							{ return m_IsRecording; }
@@ -40,8 +40,8 @@ public:
 
 
 	bool						fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName  );
-	virtual void				callbackVideoJpgSmall( void * userData, VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 );
-	virtual void				callbackPcm( void * userData, VxGUID& feedId, int16_t * pcmData, uint16_t pcmDataLen );
+	virtual void				callbackVideoJpgSmall( VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
+	virtual void				callbackPcm( VxGUID& feedId, int16_t * pcmData, uint16_t pcmDataLen ) override;
 
 	bool						startAviWrite( const char* fileName, uint32_t MicroSecBetweenFrames, bool beginInPausedState );
 	void						stopAviWrite( bool deleteFile = false );

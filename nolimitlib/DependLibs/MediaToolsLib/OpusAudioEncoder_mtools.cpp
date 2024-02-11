@@ -97,7 +97,7 @@ void OpusAudioEncoder::initEncoder( void )
 	}
 
 	m_OpusHeader.m_LookAhead = lookAhead;
-	//Regardless of the rate we're coding at the ogg timestamping/skip is always timed at 48000.
+	// Regardless of the rate we're coding at the ogg timestamping/skip is always timed at 48000.
 	// this comes to 312
 	m_OpusHeader.m_Preskip = (uint16_t)(m_OpusHeader.m_LookAhead * (48000.0 / m_SampleRate));
 	// Extra samples that need to be read to compensate for the pre-skip 

@@ -55,13 +55,6 @@ public:
 protected:
 	int							moveOpusFramesToOutput( uint8_t * outBuffer );
 	bool						processOggFileHeader( MyOpusHeader& header, ogg_packet *op, float manualGain );
-	// TODO remove function. system only uses pcm now
-	//int							opusFloatOutputToPcm(	float *			opusOutput, 
-	//													int				channels, 
-	//													int				frame_size, 
-	//													SpeexResamplerState *resampler,
-	//													int *			skip, 
-	//													opus_int64		maxout );
 
 	int							opusPcmOutputToPcm( int16_t*		opusOutput,
 													int				channels,

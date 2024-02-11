@@ -36,6 +36,10 @@ enum EErrMsgType
     eErrMsgUserIsOffline,
     eErrMsgPurgeEverythingWarning,
 
+    eErrMsgVoiceMessageTooShort,
+    eErrMsgVideoClipTooShort,
+    eErrMsgVideoClipFailedToStart,
+
     eMaxEErrMsgBoxType
 };
 

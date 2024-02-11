@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "ChatEntryWidget.h"
+#include "GuiHelpers.h"
 #include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -24,7 +25,6 @@
 //============================================================================
 InputVideoWidget::InputVideoWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
-, m_IsRecording( false )
 {
 	qDebug() << "InputVideoWidget::InputVideoWidget ";
 	m_AssetInfo.setAssetType( eAssetTypeVideo );
@@ -36,6 +36,7 @@ InputVideoWidget::InputVideoWidget( QWidget* parent )
     ui.m_SelectVidSrcButton->setSquareButtonSize( eButtonSizeTiny );
     ui.m_BackButton->setSquareButtonSize( eButtonSizeTiny );
 
+	ui.m_CancelRecordButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 	ui.m_CancelRecordButton->setIcons( eMyIconCancelRecord );
     ui.m_CancelRecordButton->setVisible( false );
 
@@ -121,9 +122,15 @@ void InputVideoWidget::slotBeginRecord( void )
 	else
 	{
 		m_IsRecording = true;
-		videoRecord( eAssetActionRecordBegin );
-        ui.m_StartStopRecButton->setIcon( eMyIconCamcorderCancel );
-        ui.m_CancelRecordButton->setVisible( true );
+		if( videoRecord( eAssetActionRecordBegin ) )
+		{
+			ui.m_StartStopRecButton->setIcon( eMyIconCamcorderCancel );
+			ui.m_CancelRecordButton->setVisible( true );
+		}
+		else
+		{
+			GuiHelpers::errorMsgBox( eErrMsgVideoClipFailedToStart, GuiHelpers::getParentPageFrame( this ) );
+		}
 	}
 }
 

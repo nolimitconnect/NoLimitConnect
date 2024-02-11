@@ -145,8 +145,11 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "InputBaseWidget::voiceRecord file len %d too short %s", (uint32_t)m_AssetInfo.getAssetLength(), m_FileName.c_str() );
-				m_MyApp.toGuiUserMessage( "Voice Record file len %d too short %s", (uint32_t)m_AssetInfo.getAssetLength(), m_FileName.c_str() );
+				LogMsg( LOG_ERROR, "InputBaseWidget::voiceRecord file len %s is too short% s", 
+						GuiParams::describeFileLength( m_AssetInfo.getAssetLength() ).toUtf8().constData(), m_FileName.c_str());
+				m_MyApp.toGuiUserMessage( "Voice Record file len %s is too short %s", 
+										 GuiParams::describeFileLength( m_AssetInfo.getAssetLength() ).toUtf8().constData(), m_FileName.c_str() );
+				GuiHelpers::errorMsgBox( eErrMsgVoiceMessageTooShort, GuiHelpers::getParentPageFrame( this ) );
 				VxFileUtil::deleteFile( m_FileName.c_str() );
 				actionResult = false;
 			}
@@ -196,6 +199,7 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 		    else
 		    {
 			    LogMsg( LOG_ERROR, "Could Not start Video Record" );
+				GuiHelpers::errorMsgBox( eErrMsgVideoClipFailedToStart, GuiHelpers::getParentPageFrame( this ) );
 		    }
         }
 
@@ -219,7 +223,9 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 				{
 					// not long enough to be a recording
 					VxFileUtil::deleteFile( m_FileName.c_str() );
-					LogMsg( LOG_ERROR, "InputBaseWidget::videoRecord file %s has to short len %" PRId64, m_FileName.c_str(), fileLen );
+					m_MyApp.toGuiUserMessage( "InputBaseWidget::videoRecord file %s has to short len %s", 
+							m_FileName.c_str(), GuiParams::describeFileLength( fileLen ).toUtf8().constData() );
+					GuiHelpers::errorMsgBox( eErrMsgVideoClipTooShort, GuiHelpers::getParentPageFrame( this ) );
 					actionResult = false;
 				}
 				else

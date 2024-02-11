@@ -21,11 +21,6 @@
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxMacros.h>
 
-namespace
-{
-	const uint32_t OPUS_NOLIMIT_SIGNATURE_OFFSET = 0x9c;
-}
-
 //============================================================================
 SndReader::SndReader( P2PEngine& engine, MediaProcessor& mediaProcessor )
 : m_Engine( engine )
@@ -51,13 +46,14 @@ bool SndReader::fromGuiIsNoLimitAudioFile( const char* fileName )
 		return false;
 	}
 
-
 	VFile * fileHandle = VFileOpen( fileName, "rb" );
 	if( 0 == fileHandle )
 	{
 		LogMsg( LOG_ERROR, "SndReader::fromGuiIsNoLimitAudioFile could not open file %s", fileName );
 		return false;
 	}
+
+	const uint32_t OPUS_NOLIMIT_SIGNATURE_OFFSET = NO_LIMIT_OPUS_SIGNITURE_OFFS;
 
 	if( 0 != VxFileUtil::fileSeek( fileHandle, OPUS_NOLIMIT_SIGNATURE_OFFSET ) )
 	{
@@ -66,7 +62,7 @@ bool SndReader::fromGuiIsNoLimitAudioFile( const char* fileName )
 		return false;
 	}
 
-	// at 0x9c ( should be signature nolimitconnect.org v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
+	// at 0x9c ( should be signature nolimitconnect.com v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
 
 	char junkBuf[ 18 ];
 	if( 18 != VFileRead( junkBuf, 1, 18, fileHandle ) )

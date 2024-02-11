@@ -16,7 +16,7 @@
 
 //============================================================================
 DialogAddComment::DialogAddComment( AssetBaseInfo& assetInfo, QWidget* parent )
-: QDialog( parent, Qt::Popup )
+: QDialog( parent, Qt::Dialog ) // Qt::Popup )
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);

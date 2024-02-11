@@ -45,11 +45,6 @@ MJPEGWriter::MJPEGWriter( P2PEngine& engine, MediaProcessor& mediaProcessor )
 }
 
 //============================================================================
-MJPEGWriter::~MJPEGWriter()
-{
-}
-
-//============================================================================
 bool MJPEGWriter::fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName  )
 {
 	bool result = false;
@@ -79,21 +74,6 @@ bool MJPEGWriter::fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedI
 			// windows does 20fps..
 			m_FeedId = feedId;
 			result = startAviWrite( fileName, 50000, false );
-			//void * pvBuf = 0;
-			//uint32_t u32LenOfJpg = 0;
-			//char fileNameBuf[ 256 ];
-			//for( int i = 0; i < 5; i++ )
-			//{
-			//	sprintf( fileNameBuf, "f:/%d.jpg", i+ 1 );
-			//	RCODE rc = VxFileUtil::readWholeFile( fileNameBuf, &pvBuf, &u32LenOfJpg );
-			//	if( 0 == rc )
-			//	{
-			//		fromGuiJpgFrame( (uint8_t *)pvBuf, u32LenOfJpg );
-			//		delete pvBuf;
-			//	}
-			//}
-
-			//stopAviWrite();
 		}
 
 		break;
@@ -143,7 +123,6 @@ bool MJPEGWriter::startAviWrite( const char* fileName, uint32_t timeBetweenFrame
 	m_TotalElapsedMs					= 0;
 	m_IsFirstFrameAfterResumeRecording	= true;
 
-
 	// start with a guesstimate
 	setAviParameters( 320, 240, m_MicroSecBetweenFrames, 1000, 1000 * 8000 );
 
@@ -172,8 +151,8 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 	if( getIsRecording() )
 	{
 		setIsRecordingPaused( true );
-        m_Engine.getMediaProcessor().wantMediaInput( eMediaInputAudioPcm, this, eAppModuleMediaReader, false );
-        m_Engine.getMediaProcessor().wantMediaInput( eMediaInputVideoJpgSmall, this, eAppModuleMediaReader, false );
+        m_Engine.getMediaProcessor().wantMediaInput( eMediaInputAudioPcm, this, eAppModuleMediaWriter, false );
+        m_Engine.getMediaProcessor().wantMediaInput( eMediaInputVideoJpgSmall, this, eAppModuleMediaWriter, false );
 
 		if( deleteFile )
 		{
@@ -377,7 +356,7 @@ bool MJPEGWriter::writeVideoHeader( void )
 }
 
 //============================================================================
-void MJPEGWriter::callbackVideoJpgSmall( void * /*userData*/, VxGUID& vidFeedId, uint8_t * pu8Jpg, uint32_t u32JpgDataLen, int /*motion0to100000*/ )
+void MJPEGWriter::callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * pu8Jpg, uint32_t u32JpgDataLen, int /*motion0to100000*/ )
 {
 	if( !getIsRecording() || getIsRecordingPaused() || ( vidFeedId != m_FeedId ) )
 	{
@@ -438,7 +417,7 @@ void MJPEGWriter::callbackVideoJpgSmall( void * /*userData*/, VxGUID& vidFeedId,
 }
 
 //============================================================================
-void MJPEGWriter::callbackPcm( void * userData, VxGUID& feedId, int16_t * pcmData, uint16_t pcmDataLen )
+void MJPEGWriter::callbackPcm( VxGUID& feedId, int16_t * pcmData, uint16_t pcmDataLen )
 {
 	if( !getIsRecording() || getIsRecordingPaused() || ( feedId != m_FeedId ) )
 	{

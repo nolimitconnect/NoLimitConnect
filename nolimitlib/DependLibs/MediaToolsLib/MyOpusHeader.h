@@ -12,9 +12,9 @@
 #include <NlcDependLibrariesConfig.h>
 #include "SndDefs.h"
 
-#define	    NO_LIMIT_OPUS_SIGNITURE "nolimitconnect.org v"
+#define	    NO_LIMIT_OPUS_SIGNITURE "nolimitconnect.com v"
 #define	    NO_LIMIT_OPUS_SIGNITURE_LEN 20
-#define	    NO_LIMIT_OPUS_SIGNITURE_OFFS 0x99
+#define	    NO_LIMIT_OPUS_SIGNITURE_OFFS 0x9c
 
 class MyOpusHeader 
 {

@@ -514,7 +514,6 @@ bool P2PEngine::fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAc
 //============================================================================
 bool P2PEngine::fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName   )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiVideoRecord" );
 	return m_MediaProcessor.getMediaTools().fromGuiVideoRecord( eRecState, feedId, fileName );
 }
 

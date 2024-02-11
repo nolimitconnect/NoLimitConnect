@@ -1070,7 +1070,7 @@ bool OpusFileDecoder::seekOpusFile( VFile * fileHandle, int pos0to100000 )
 //============================================================================
 bool OpusFileDecoder::readTotalSndFrames( VFile * fileHandle )
 {
-	// at 0x9c ( should be signature nolimitconnect.org v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
+	// at 0x9c ( should be signature nolimitconnect.com v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
 	m_TotalSndFramesInFile = 0;
 	m_ConsumedSndFrames = 0;
 	char readBuf[ 512 ];
