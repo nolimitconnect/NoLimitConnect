@@ -20,6 +20,7 @@
 // class to avoid stalling the gui thread
 // queues from gui action then calls the function from thread
 
+class AssetBaseInfo;
 class FromGuiActionBase;
 class SearchParams;
 class P2PEngine;
@@ -50,6 +51,8 @@ public:
 	virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
 
 	virtual void				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId );
+
+	virtual void				fromGuiPlayOneFrame( AssetBaseInfo& assetInfo );
 
 	void						fromGuiThreadWork( VxThread* workThread );
 

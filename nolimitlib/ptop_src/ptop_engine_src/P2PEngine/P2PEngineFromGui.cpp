@@ -474,6 +474,12 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 		m_AssetMgr.removeAsset( assetInfo.getAssetUniqueId() );
 		return true;
 	}
+	else if( eAssetActionPlayOneFrame == assetAction )
+	{
+		// takes too much time doing all the file io so queue the command instead
+		getFromGuiMgr().fromGuiPlayOneFrame( assetInfo );
+		return true;
+	}
 
 	return m_MediaProcessor.getMediaTools().fromGuiAssetAction( assetInfo, assetAction, pos0to100000 );
 }

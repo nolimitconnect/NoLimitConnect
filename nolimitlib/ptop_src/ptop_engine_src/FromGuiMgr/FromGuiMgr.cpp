@@ -107,6 +107,11 @@ void FromGuiMgr::fromGuiSearchHost( EHostType hostType, SearchParams& searchPara
 {
 	queFromGuiAction( new FromGuiSearchHostAction( m_Engine, eFromGuiSearchHost, hostType, searchParams, enable ) );
 }
+//============================================================================
+void FromGuiMgr::fromGuiPlayOneFrame( AssetBaseInfo& assetInfo )
+{
+	queFromGuiAction( new FromGuiPlayOneFrame( m_Engine, assetInfo ) );
+}
 
 //============================================================================
 void FromGuiMgr::queFromGuiAction( FromGuiActionBase* fromGuiAction )

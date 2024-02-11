@@ -82,10 +82,6 @@ void InputVideoWidget::hideEvent(QHideEvent* hideEvent)
 		}
 
 		ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getCreatorId(), getAppModule() );
-		if( addOptionalComment() )
-		{
-			m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpgSmall, getAppModule(), false );
-		}
 	}
 
 	InputBaseWidget::hideEvent(hideEvent);

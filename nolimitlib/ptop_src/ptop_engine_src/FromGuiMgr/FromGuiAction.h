@@ -9,6 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <AssetBase/AssetBaseInfo.h>
+
 #include <CoreLib/VxPtopUrl.h>
 
 #include <PktLib/GroupieId.h>
@@ -30,6 +32,8 @@ enum EFromGuiType
 
 	eFromGuiSearchHost,
 	eFromGuiQueryHostListFromNetworkHost,
+
+	eFromGuiPlayOneFrame,
 
 	eMaxFromGuiType
 };
@@ -117,4 +121,16 @@ public:
 	EHostType					m_HostType{ eHostTypeUnknown };
 	VxGUID						m_HostIdIfNullThenAll;
 	VxGUID						m_SearchSessionId;
+};
+
+
+class FromGuiPlayOneFrame : public FromGuiActionBase
+{
+public:
+	FromGuiPlayOneFrame( P2PEngine& engine, AssetBaseInfo& assetBaseInfo );
+	~FromGuiPlayOneFrame() override = default;
+
+	void						executeAction( void ) override;
+
+	AssetBaseInfo				m_AssetBaseInfo;
 };

@@ -22,6 +22,16 @@
 
 #include <CoreLib/VxFileUtil.h>
 
+namespace
+{
+	const int PROCESS_QT_DEFAULT_MS = 50;
+
+	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
+	{
+		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+	}
+}
+
 //============================================================================
 GuiPlayerMgr::GuiPlayerMgr( AppCommon& app )
 	: QObject( &app )
@@ -68,7 +78,12 @@ void GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, u
 	int behindFramCnt = m_BehindFrameCnt;
 	if( behindFramCnt )
 	{
-		return;
+		ProcessQtEvents();
+		behindFramCnt = m_BehindFrameCnt;
+		if( behindFramCnt )
+		{
+			return;
+		}
 	}
 
 	QImage vidFrame;
@@ -100,11 +115,16 @@ void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage
 int GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight )
 {
 	// there seems to be an issue where a QImage may get replaced if there is already one in a queued signal/slot 
-// only allow 1 at a time
+	// only allow 1 at a time
 	int behindFramCnt = m_BehindFrameCnt;
 	if( behindFramCnt )
 	{
-		return behindFramCnt;
+		ProcessQtEvents();
+		behindFramCnt = m_BehindFrameCnt;
+		if( behindFramCnt )
+		{
+			return behindFramCnt;
+		}
 	}
 
 	QImage frameImage;

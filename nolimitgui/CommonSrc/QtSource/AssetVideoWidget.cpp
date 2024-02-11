@@ -19,6 +19,7 @@
 //============================================================================
 AssetVideoWidget::AssetVideoWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
+	, m_ReadyForVideoTimer( new QTimer( this ) )
 {
 	initAssetVideoWidget();
 }
@@ -26,6 +27,7 @@ AssetVideoWidget::AssetVideoWidget( QWidget* parent )
 //============================================================================
 AssetVideoWidget::AssetVideoWidget( AppCommon& appCommon, QWidget* parent )
 	: AssetBaseWidget( appCommon, parent )
+	, m_ReadyForVideoTimer( new QTimer( this ) )
 {
 	initAssetVideoWidget();
 }
@@ -47,7 +49,7 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 	connect( ui.m_PlayPauseButton,	SIGNAL(clicked()),						this, SLOT(slotPlayButtonClicked()) );
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalShredAsset()),				this, SLOT(slotShredAsset()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()),				this, SLOT(slotShredAsset()) );
-	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()),			this, SLOT(slotResendAsset()) );
 	connect( ui.m_PlayPosSlider,	SIGNAL(sliderPressed()),				this, SLOT(slotSliderPressed()) );
 	connect( ui.m_PlayPosSlider,	SIGNAL(sliderReleased()),				this, SLOT(slotSliderReleased()) );
 
@@ -57,6 +59,9 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 
 	connect( ui.m_VidWidget,		SIGNAL(signalFeedRotationChanged(int)), this, SLOT(slotFeedRotationChanged(int)) );
 	connect( ui.m_VidWidget,		SIGNAL(signalCamRotationChanged(int)),  this, SLOT(slotCamRotationChanged(int)) );
+
+	connect( m_ReadyForVideoTimer,	SIGNAL(timeout()),						this, SLOT(slotReadyForVideo()) );
+	m_ReadyForVideoTimer->setInterval( 50 );
 }
 
 //============================================================================
@@ -93,8 +98,8 @@ void AssetVideoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 
 	if( assetInfo.isFileAsset() )
 	{
-		ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconShredderNormal  );
-		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconShredderNormal  );
+		ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
+		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
 	}
 	else
 	{
@@ -108,12 +113,24 @@ void AssetVideoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	}
 
 	updateFromAssetInfo();
+
+	m_ReadyForVideoTimer->start();
+}
+
+//============================================================================
+void AssetVideoWidget::slotReadyForVideo( void )
+{
+	m_ReadyForVideoTimer->stop();
+	setReadyForCallbacks( true );
+
+	m_Engine.fromGuiAssetAction( eAssetActionPlayOneFrame, m_AssetInfo, 0 );
 }
 
 //============================================================================
 void AssetVideoWidget::resizeEvent( QResizeEvent* ev )
 {
 	AssetBaseWidget::resizeEvent( ev );
+	/*
 	if( ( false == VxIsAppShuttingDown() )
 		&& m_AssetInfo.isValid()
 		&& !m_IsPlaying
@@ -123,6 +140,7 @@ void AssetVideoWidget::resizeEvent( QResizeEvent* ev )
 
 		m_Engine.fromGuiAssetAction( eAssetActionPlayOneFrame, m_AssetInfo, 0 );
 	}
+	*/
 }
 
 //============================================================================

@@ -46,6 +46,8 @@ protected slots:
 	void						slotFeedRotationChanged( int feedRotation );
 	void						slotCamRotationChanged( int camRotation );
 
+	void						slotReadyForVideo( void );
+
 protected:
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos ) override;
 	void						initAssetVideoWidget( void );
@@ -64,4 +66,5 @@ protected:
 	bool						m_SliderIsPressed{ false };
 
 	Ui::AssetVideoWidget		ui;
+	QTimer*						m_ReadyForVideoTimer{ nullptr };
 };

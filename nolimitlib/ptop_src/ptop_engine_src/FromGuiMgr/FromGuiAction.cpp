@@ -10,6 +10,8 @@
 
 #include "FromGuiAction.h"
 
+#include <MediaProcessor/MediaProcessor.h>
+#include <MediaToolsLib/MediaTools.h>
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
@@ -195,4 +197,17 @@ void FromGuiQueryHostListFromNetworkHostAction::executeAction( void )
     {
 
     }
+}
+
+//============================================================================	
+FromGuiPlayOneFrame::FromGuiPlayOneFrame( P2PEngine& engine, AssetBaseInfo& assetBaseInfo )
+	: FromGuiActionBase( engine, eFromGuiPlayOneFrame )
+	, m_AssetBaseInfo( assetBaseInfo )
+{
+}
+
+//============================================================================	
+void FromGuiPlayOneFrame::executeAction( void )
+{
+	m_Engine.getMediaProcessor().getMediaTools().fromGuiAssetAction( m_AssetBaseInfo, eAssetActionPlayOneFrame, 0 );
 }

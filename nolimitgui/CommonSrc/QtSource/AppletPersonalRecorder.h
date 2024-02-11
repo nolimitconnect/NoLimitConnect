@@ -22,7 +22,7 @@ public:
 	virtual ~AppletPersonalRecorder();
     
 	AppCommon&					getMyApp( void ) override									{ return m_MyApp; }
-	EPluginType					getInputClientPluginType( void )							{ return getPluginType(); }
+    EPluginType					getInputClientPluginType( void ) override					{ return getPluginType(); }
 
     void                        callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 );
 

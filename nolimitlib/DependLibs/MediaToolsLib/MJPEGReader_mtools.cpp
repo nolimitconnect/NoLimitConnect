@@ -165,7 +165,7 @@ bool MJPEGReader::fromGuiIsNoLimitVideoFile( const char* fileName )
 }
 
 //============================================================================
-bool MJPEGReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction assetAction, int pos0to100000  )
+bool MJPEGReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction assetAction, int pos0to100000 )
 {
 	// LogMsg( LOG_DEBUG, "MJPEGReader:fromGuiAssetAction start" );
 	bool result = false;
@@ -194,7 +194,7 @@ bool MJPEGReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction ass
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "Already playing a movie file\n" );
+			LogMsg( LOG_ERROR, "Already playing a movie file" );
 			result = false;
 		}
 
