@@ -130,17 +130,14 @@ void AssetVideoWidget::slotReadyForVideo( void )
 void AssetVideoWidget::resizeEvent( QResizeEvent* ev )
 {
 	AssetBaseWidget::resizeEvent( ev );
-	/*
+
 	if( ( false == VxIsAppShuttingDown() )
 		&& m_AssetInfo.isValid()
 		&& !m_IsPlaying
 		&& isVisible() )
 	{
-		setReadyForCallbacks( true );
-
 		m_Engine.fromGuiAssetAction( eAssetActionPlayOneFrame, m_AssetInfo, 0 );
 	}
-	*/
 }
 
 //============================================================================

@@ -67,6 +67,9 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	case eFromGuiQueryHostListFromNetworkHost:
 		return "FromGuiType QueryHostListFromNetworkHost";
 
+	case eFromGuiPlayOneFrame:
+		return "FromGuiType PlayOneFrame";
+
 	default:
 		return "FromGuiType Unknown";
 	}

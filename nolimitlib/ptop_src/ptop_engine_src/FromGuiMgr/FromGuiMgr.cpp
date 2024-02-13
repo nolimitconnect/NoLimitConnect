@@ -161,7 +161,7 @@ void FromGuiMgr::fromGuiThreadWork( VxThread* workThread )
 				int64_t timeStart = GetGmtTimeMs();
 				fromGuiAction->executeAction();
 				int64_t timeEnd = GetGmtTimeMs();
-				LogMsg( LOG_VERBOSE, "FromGuiMgr took %d ms executing %s", (int)(timeEnd - timeStart), fromGuiAction->describeGuiAction().c_str() );
+				//LogMsg( LOG_VERBOSE, "FromGuiMgr took %d ms executing %s", (int)(timeEnd - timeStart), fromGuiAction->describeGuiAction().c_str() );
 			}
 		}
 	}

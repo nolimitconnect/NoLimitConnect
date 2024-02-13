@@ -131,6 +131,7 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount() );
     callbackActiveOfferCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
+    wantCallbacks( true );
 }
 
 //============================================================================
@@ -791,6 +792,11 @@ void TitleBarWidget::callbackToGuiSpeakerMuted( bool isMuted )
 //============================================================================
 void TitleBarWidget::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )
 {
+    if( !isVisible() )
+    {
+        return;
+    }
+
     if( !m_MyOnlineId.isVxGUIDValid() )
     {
         m_MyOnlineId = m_MyApp.getMyOnlineId();

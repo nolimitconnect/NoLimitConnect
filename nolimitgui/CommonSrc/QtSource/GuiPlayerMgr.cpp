@@ -84,10 +84,15 @@ void GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, u
 	}
 
 	int behindFramCnt = m_BehindMotionFrameCnt;
-	if( behindFramCnt > 1 )
+	if( behindFramCnt > 3 )
 	{
-		LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
-		return;
+		ProcessQtEvents( 50 );
+		behindFramCnt = m_BehindMotionFrameCnt;
+		if( behindFramCnt > 3 )
+		{
+			LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
+			return;
+		}
 	}
 
 	QImage* vidFrame = new QImage();
@@ -120,7 +125,7 @@ void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage
 //============================================================================
 int GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight )
 {
-	int behindFramCnt = m_BehindFeedFrameCnt;
+	int behindFramCnt = m_BehindMotionFrameCnt;
 	if( m_VideoPlayClients.empty() )
 	{
 		return behindFramCnt;
@@ -132,10 +137,15 @@ int GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, ui
 		return behindFramCnt;
 	}
 
-	if( behindFramCnt > 1 )
+	if( behindFramCnt > 3 )
 	{
-		LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
-		return behindFramCnt;
+		ProcessQtEvents( 50 );
+		behindFramCnt = m_BehindMotionFrameCnt;
+		if( behindFramCnt > 3 )
+		{
+			LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
+			return behindFramCnt;
+		}
 	}
 
 	QImage::Format imageFormat = QImage::Format_ARGB32;
