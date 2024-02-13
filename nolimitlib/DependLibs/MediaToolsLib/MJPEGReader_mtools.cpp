@@ -340,45 +340,6 @@ bool MJPEGReader::playOneFrame( const char* fileName, VxGUID& assetId )
 //============================================================================
 bool MJPEGReader::readFirstVidFrameFromFile( VFile * fileHandle, const char* fileName, VxGUID& assetId )
 {
-	// first see if already loaded.. if so read from chunk list
-	// LogMsg( LOG_DEBUG, "MJPEGReader:readFirstVidFrameFromFile start" );
-	lockResources();
-	if( m_Initialized
-		&& ( assetId == m_AssetId )
-		&& m_AviChunkList.size() )
-	{
-		std::vector<AviChunkOffs>::iterator iter;
-		for( iter = m_AviChunkList.begin(); iter != m_AviChunkList.end(); ++iter )
-		{
-			AviChunkOffs& listChunk = *iter;
-			if( listChunk.isVideoChunk() )
-			{
-				bool isEmpty = listChunk.isDataEmpty();
-				if( isEmpty )
-				{
-					if( false == readChunkFromDisk( fileHandle, &listChunk ) )
-					{
-						unlockResources();
-						LogMsg( LOG_DEBUG, "MJPEGReader:readFirstVidFrameFromFile failed read chunk exit" );
-						return false;
-					}
-				}
-
-				IToGui::getToGui().toGuiPlayVideoFrame( m_AssetId, &listChunk.m_DataPtr[8], listChunk.m_ChunkLen, 0 );
-				if( isEmpty )
-				{
-					listChunk.deleteDataPtr();
-				}
-			
-				unlockResources();
-				// LogMsg( LOG_DEBUG, "MJPEGReader:readFirstVidFrameFromFile played frame exit" );
-				return true;
-			}
-		}
-	}
-
-	unlockResources();
-	// not in chunk list.. read through header then read first frame
 	readRiffHeader( fileHandle );
 	uint32_t totalRead = 12;
 	AviDataChunk aviChunk;
@@ -1193,7 +1154,7 @@ void MJPEGReader::callbackAudioOutSpaceAvail( int freeSpaceLen )
 
 	//LogMsg( LOG_INFO, "callbackAudioOutSpaceAvail::unlockResources\n" );
 	unlockResources();
-	LogMsg( LOG_INFO, "MJPEGReader callbackAudioOutSpaceAvail done %3.3f\n", m_TempTimer.elapsedMs() );
+	LogMsg( LOG_INFO, "MJPEGReader callbackAudioOutSpaceAvail done %3.3f", m_TempTimer.elapsedMs() );
 	m_TempTimer.startTimer();
 	m_VidSemaphore.signal();
 }

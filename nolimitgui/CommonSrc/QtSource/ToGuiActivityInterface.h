@@ -13,16 +13,13 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
 
-#include <CoreLib/VxDefs.h>
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxGUID.h>
-#include <PktLib/VxCommon.h>
 
 #include <GuiInterface/IDefs.h>
 
 #include <QString>
 
-class VxGUID;
 class FileInfo;
 class GuiUser;
 class GuiOfferSession;
@@ -43,13 +40,6 @@ public:
 
 	virtual void				toGuiContactOnline( GuiUser* netIdent ){}; 
 	virtual void				toGuiContactOffline( GuiUser* guiUser ){}; 
-
-    //virtual void				toGuiContactNameChange( GuiUser* guiUser ){}; 
-    //virtual void				toGuiContactDescChange( GuiUser* guiUser ){}; 
-    //virtual void				toGuiContactFriendshipChange( GuiUser* guiUser ){}; 
-
-    //virtual void				toGuiPluginPermissionChange( GuiUser* guiUser ){}; 
-    //virtual void				toGuiContactSearchFlagsChange( GuiUser* guiUser ){}; 
 
     virtual void				toGuiContactLastSessionTimeChange( GuiUser* guiUser ){}; 
     virtual void				toGuiUpdateMyIdent(GuiUser* guiUser ){}; 
@@ -83,7 +73,5 @@ public:
     virtual void				toGuiThumbAdded( ThumbInfo* assetInfo ){};
     virtual void				toGuiThumbUpdated( ThumbInfo* assetInfo ){};
     virtual void				toGuiThumbRemoved( VxGUID& thumbId ){};
-
-    virtual void				toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) {};
 };
 

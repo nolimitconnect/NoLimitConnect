@@ -25,8 +25,10 @@
 #include "AppGlobals.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
+
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "GuiPlayerMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <AssetMgr/AssetMgr.h>

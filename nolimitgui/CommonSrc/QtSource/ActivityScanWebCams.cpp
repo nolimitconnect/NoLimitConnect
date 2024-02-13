@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "ActivityScanWebCams.h"
+
 #include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppCommon.h"
+#include "GuiPlayerMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>

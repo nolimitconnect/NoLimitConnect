@@ -10,10 +10,12 @@
 
 #include "GuiPluginMgr.h"
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
-GuiPluginMgr::GuiPluginMgr( AppCommon& app )
-	: m_MyApp( app )
+GuiPluginMgr::GuiPluginMgr()
 {
+	connect( this, SIGNAL(signalInternalToGuiPluginStatus(EPluginType,int,int)), this, SLOT(slotInternalToGuiPluginStatus(EPluginType,int,int)), Qt::QueuedConnection );
 }
 
 //============================================================================
@@ -62,4 +64,55 @@ void GuiPluginMgr::setPluginVisible( EPluginType pluginType, bool isVisible )
 	{
 		m_VisiblePluginsList.push_back( pluginType );
 	}
+}
+
+//============================================================================
+void GuiPluginMgr::toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
+{
+	emit signalInternalToGuiPluginStatus( pluginType, statusType, statusValue );
+}
+
+//============================================================================
+void GuiPluginMgr::slotInternalToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
+{
+	if( pluginType == ePluginTypeCamServer )
+	{
+		setIsCamServerEnabled( statusType ? true : false );
+		setCamServerClientCount( statusValue );
+	}
+
+	for( auto client : m_CallbackClients )
+	{
+		client->callbackToGuiPluginStatus( pluginType, statusType, statusValue );
+	}
+}
+
+//============================================================================
+void GuiPluginMgr::wantPluginMgrCallbacks( GuiPluginMgrCallback* client, bool enable )
+{
+    if( !client )
+    {
+        LogMsg( LOG_ERROR, "GuiPluginMgr null client" );
+        return;
+    }
+
+    bool wasFound = false;
+    for( auto iter = m_CallbackClients.begin(); iter != m_CallbackClients.end(); ++iter )
+    {
+        if( *iter == client )
+        {
+            wasFound = true;
+            if( !enable )
+            {
+                m_CallbackClients.erase( iter );
+            }
+
+            break;
+        }
+    }
+
+    if( enable && !wasFound )
+    {
+        m_CallbackClients.push_back( client );
+    }
 }

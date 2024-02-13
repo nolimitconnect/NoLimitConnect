@@ -461,9 +461,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommonApp.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1040,9 +1037,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\OfferBarWidget.h">
       <Filter>Header Files\GuiOffer</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.h">
-      <Filter>Header Files\GuiPlayerMgr</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThumbMgr.h">
       <Filter>Header Files\GuiThumb</Filter>
     </QtMoc>
@@ -1147,6 +1141,12 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiSendQueueMgr.h">
       <Filter>Source Files\GuiSendQueue</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.h">
+      <Filter>Source Files\GuiPluginMgr</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.h">
+      <Filter>Source Files\GuiPlayerMgr</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2547,9 +2547,6 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\OfferSessionLogic.h">
       <Filter>Header Files\GuiOffer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPlayerCallback.h">
-      <Filter>Header Files\GuiPlayerMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbCallback.h">
       <Filter>Header Files\GuiThumb</Filter>
     </ClInclude>
@@ -2609,6 +2606,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerInterface.h">
       <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPluginMgrCallback.h">
+      <Filter>Source Files\GuiPluginMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPlayerCallback.h">
+      <Filter>Source Files\GuiPlayerMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

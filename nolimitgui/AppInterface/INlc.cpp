@@ -11,16 +11,17 @@
 #include <QWidget> // for linux error 53 about subscript
 
 #include <AppInterface/INlc.h>
-#include <CoreLib/VxDebug.h>
 
 #include "P2PEngine/P2PEngine.h"
 #include "../CommonSrc/QtSource/AppCommon.h"
+#include "../CommonSrc/QtSource/GuiPlayerMgr.h"
 #include <Membership/MemberActiveMgr.h>
 #include <OfferBase/OfferMgr.h>
 #include <PushToTalk/PushToTalkMgr.h>
 #include <RandConnect/RandConnectMgr.h>
 #include <SendQueue/SendQueueMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxStringUtils.h>

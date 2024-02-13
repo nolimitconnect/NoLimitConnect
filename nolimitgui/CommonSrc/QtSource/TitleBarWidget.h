@@ -14,6 +14,7 @@
 #include "GuiHostJoinCallback.h"
 #include "GuiOfferCallback.h"
 #include "GuiPlayerCallback.h"
+#include "GuiPluginMgrCallback.h"
 #include "MyIconsDefs.h"
 #include "ToGuiActivityInterface.h"
 #include "ToGuiHardwareControlInterface.h"
@@ -31,7 +32,13 @@ class GuiUser;
 class MyIcons;
 class QLabel;
 
-class TitleBarWidget : public QWidget, public ToGuiActivityInterface, public ToGuiHardwareControlInterface, public GuiPlayerCallback, public GuiOfferCallback, public GuiHostJoinCallback
+class TitleBarWidget : public QWidget, 
+				public ToGuiActivityInterface, 
+	public ToGuiHardwareControlInterface, 
+	public GuiPlayerCallback, 
+	public GuiPluginMgrCallback, 
+	public GuiOfferCallback, 
+	public GuiHostJoinCallback
 {
 	Q_OBJECT
 
@@ -166,9 +173,11 @@ protected:
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
 	virtual void				callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame ) override;
 
-	virtual void				toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) override;
+	virtual void				callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) override;
 
 	virtual void				updateWebServerClientCount( void );
+
+	void						wantCallbacks( bool enableCallbacks );
 
 	Ui::TitleBarWidgetClass		ui;
 	AppCommon&					m_MyApp;

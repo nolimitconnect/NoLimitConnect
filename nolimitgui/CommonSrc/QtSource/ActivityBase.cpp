@@ -12,12 +12,14 @@
 #include "ActivityYesNoMsgBox.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
-#include "GuiOfferSession.h"
 #include "ActivityMessageBox.h"
 #include "IdentWidget.h"
 
 #include "GuiHelpers.h"
+#include "GuiOfferSession.h"
+#include "GuiPlayerMgr.h"
 #include "GuiParams.h"
+
 #include "MyIcons.h"
 #include "SoundMgr.h"
 #include "WaitingSpinnerWidget.h"

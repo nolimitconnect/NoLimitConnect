@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "VxTilePositioner.h"
+
 #include "VxWidgetBase.h"
 #include "GuiParams.h"
 
@@ -19,30 +20,27 @@
 # include <math.h>
 #endif // defined(TARGET_OS_ANDROID)
 
-//============================================================================
-VxTilePositioner::VxTilePositioner( AppCommon& myApp )
-: m_MyApp( myApp )
+namespace
 {
-}
-
-// find optimal (largest) tile size for which
-// at least N tiles fit in WxH rectangle
-double optimal_size( double W, double H, int N )
-{
-	int i_min, j_min; // minimum values for which you get at least N tiles 
-	for( int i = round( sqrt( N*W / H ) ); ; i++ ) {
-		if( i*floor( H*i / W ) >= N ) {
-			i_min = i;
-			break;
+	// find optimal (largest) tile size for which
+	// at least N tiles fit in WxH rectangle
+	double optimal_size( double W, double H, int N )
+	{
+		int i_min, j_min; // minimum values for which you get at least N tiles 
+		for( int i = round( sqrt( N*W / H ) ); ; i++ ) {
+			if( i*floor( H*i / W ) >= N ) {
+				i_min = i;
+				break;
+			}
 		}
-	}
-	for( int j = round( sqrt( N*H / W ) ); ; j++ ) {
-		if( floor( W*j / H )*j >= N ) {
-			j_min = j;
-			break;
+		for( int j = round( sqrt( N*H / W ) ); ; j++ ) {
+			if( floor( W*j / H )*j >= N ) {
+				j_min = j;
+				break;
+			}
 		}
+		return std::max( W / i_min, H / j_min );
 	}
-	return std::max( W / i_min, H / j_min );
 }
 
 //============================================================================

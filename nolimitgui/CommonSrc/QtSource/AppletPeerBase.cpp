@@ -11,14 +11,17 @@
 #include "AppletPeerBase.h"
 
 #include "ActivityMessageBox.h"
-#include "GuiOfferSession.h"
-#include "IdentWidget.h"
-#include "AppGlobals.h"
-#include "SoundMgr.h"
 #include "AppCommon.h"
-#include "VidWidget.h"
+#include "AppGlobals.h"
+
+#include "IdentWidget.h"
+#include "SoundMgr.h"
+
+#include "GuiOfferSession.h"
 #include "GuiParams.h"
+#include "GuiPluginMgr.h"
 #include "MyIcons.h"
+#include "VidWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 

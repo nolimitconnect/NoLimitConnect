@@ -11,10 +11,12 @@
 #include "AppletPlayerNlcBase.h"
 
 #include "AppCommon.h"
+#include "GuiPluginMgr.h"
 #include "SoundMgr.h"
 
 #include <AppInterface/INlc.h>
 
+#include "GuiPlayerMgr.h"
 #include "MediaPlayerNlc.h"
 
 #include <P2PEngine/P2PEngine.h>

@@ -17,7 +17,6 @@
 #include "LogMgr.h"
 #include "MyIcons.h"
 #include "SoundMgr.h"
-#include "VxTilePositioner.h"
 
 #include "ActivityCreateAccount.h"
 #include "ActivityMessageBox.h"
@@ -30,18 +29,21 @@
 
 #include "AppletPeerSessionFileOffer.h"
 
-#include "GuiOfferSession.h"
-
 #include "AccountMgr.h"
 #include "AppSettings.h"
 #include "AppletMgr.h"
 
 #include "FileListReplySession.h"
+
 #include "GuiAppLoaderThread.h"
 #include "GuiMemberActiveMgr.h"
+#include "GuiOfferSession.h"
+#include "GuiPlayerMgr.h"
+#include "GuiPluginMgr.h"
 #include "GuiPushToTalkMgr.h"
 #include "GuiSendQueueMgr.h"
 #include "GuiRandConnectMgr.h"
+
 #include "VxPushButton.h"
 
 #include <BlobXferMgr/BlobInfo.h>
@@ -137,6 +139,8 @@ AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp )
 static AppSettings appSettings;
 static AccountMgr accountMgr;
 static GuiMemberActiveMgr memberActiveMgr;
+static GuiPlayerMgr playerMgr;
+static GuiPluginMgr pluginMgr;
 static GuiPushToTalkMgr pushToTalkMgr;
 static GuiRandConnectMgr randConnectMgr;
 static GuiSendQueueMgr sendQueueMgr;
@@ -145,7 +149,8 @@ static MyIcons myIcons;
     {
         // constructor of AppCommon will set g_AppCommon
         new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, 
-					   memberActiveMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr, myIcons );
+					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
+					   sendQueueMgr, myIcons );
     }
 
     return *g_AppCommon;
@@ -171,6 +176,8 @@ AppCommon::AppCommon(	QApplication&	myQApp,
                         AccountMgr&	    accountMgr,
 						INlc&		    nlc,
 						GuiMemberActiveMgr& memberActiveMgr,
+					    GuiPlayerMgr& playerMgr,
+						GuiPluginMgr& pluginMgr,
 						GuiPushToTalkMgr& pushToTalkMgr,
 						GuiRandConnectMgr& randConnectMgr,
 						GuiSendQueueMgr& sendQueueMgr,
@@ -189,6 +196,8 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_ThumbMgr( *this )
 , m_MemberActiveMgr( memberActiveMgr )
 , m_OfferMgr( *this )
+, m_PlayerMgr( playerMgr )
+, m_PluginMgr( pluginMgr )
 , m_PushToTalkMgr( pushToTalkMgr )
 , m_RandConnectMgr( randConnectMgr )
 , m_SendQueueMgr( sendQueueMgr )
@@ -197,15 +206,13 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_HostedListMgr( *this )
 , m_HostJoinMgr( *this )
 , m_UserJoinMgr( *this )
-, m_PlayerMgr( *this )
-, m_PluginMgr( *this )
 , m_WebPageMgr( *this )
 
 , m_MyIcons( myIcons )
 , m_AppTheme( *this )
 , m_AppStyle( *this, m_AppTheme )
 , m_AppDisplay( *this )
-, m_TilePositioner( * new VxTilePositioner( *this ) )
+
 , m_CamLogic( *this )
 
 , m_SoundMgr( * new SoundMgr( *this ) )

@@ -146,28 +146,31 @@ void AssetVideoWidget::resizeEvent( QResizeEvent* ev )
 //============================================================================
 void AssetVideoWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
-	AssetBaseWidget::toGuiClientAssetAction( assetAction, assetId, pos0to100000 );
-	switch( assetAction )
+	if( assetId == m_AssetInfo.getAssetUniqueId() )
 	{
-	case eAssetActionPlayProgress:
-		if( false == m_SliderIsPressed )
+		AssetBaseWidget::toGuiClientAssetAction( assetAction, assetId, pos0to100000 );
+		switch( assetAction )
 		{
-			updateGuiPlayControls( true );
-			ui.m_PlayPosSlider->setValue( pos0to100000 );
+		case eAssetActionPlayProgress:
+			if( false == m_SliderIsPressed )
+			{
+				updateGuiPlayControls( true );
+				ui.m_PlayPosSlider->setValue( pos0to100000 );
+			}
+
+			break;
+
+		case eAssetActionPlayEnd:
+			if( false == m_SliderIsPressed )
+			{
+				updateGuiPlayControls( false );
+			}
+
+			break;
+
+		default:
+			break;
 		}
-
-		break;
-
-	case eAssetActionPlayEnd:
-		if( false == m_SliderIsPressed )
-		{
-			updateGuiPlayControls( false );
-		}
-
-		break;
-
-	default:
-		break;
 	}
 }
 

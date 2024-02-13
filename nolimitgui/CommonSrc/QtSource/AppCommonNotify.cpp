@@ -8,12 +8,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiOfferSession.h"
 #include "AppCommon.h"
-#include "AppGlobals.h"
 
-#include "ToGuiActivityInterface.h"
+#include "AppGlobals.h"
 #include "ActivityNetworkState.h"
+
+#include "GuiFileXferSession.h"
+#include "GuiOfferSession.h"
+#include "GuiPluginMgr.h"
+#include "ToGuiActivityInterface.h"
 
 #include <CoreLib/VxGlobals.h>
 
@@ -98,25 +101,7 @@ void AppCommon::slotInternalMediaError( EAppModule appModule, EMediaError mediaE
 //============================================================================
 void AppCommon::toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
 {
-	emit signalInternalToGuiPluginStatus( pluginType, statusType, statusValue );
-}
-
-//============================================================================
-void AppCommon::slotInternalToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
-{
-	if( pluginType == ePluginTypeCamServer )
-	{
-		getPluginMgr().setIsCamServerEnabled( statusType ? true : false );
-		getPluginMgr().setCamServerClientCount( statusValue );
-	}
-
-	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
-	{
-		client->toGuiPluginStatus( pluginType, statusType, statusValue );
-	}
-
-	m_ToGuiActivityInterfaceBusy = false;
+	getPluginMgr().toGuiPluginStatus( pluginType, statusType, statusValue );
 }
 
 //============================================================================

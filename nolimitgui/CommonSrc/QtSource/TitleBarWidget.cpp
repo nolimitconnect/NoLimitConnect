@@ -15,6 +15,9 @@
 #include "AppletPopupMenu.h"
 #include "GuiOfferMgr.h"
 #include "GuiHelpers.h"
+#include "GuiPlayerMgr.h"
+#include "GuiPluginMgr.h"
+
 #include "MyIcons.h"
 #include "SoundMgr.h"
 
@@ -126,18 +129,26 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     updateTitleBar();
     connect( &m_MyApp,                      SIGNAL(signalSystemReady(bool)),            this, SLOT(slotSystemReady(bool)) );
 
-    m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, true );
     callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount() );
-
-    m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, true );
     callbackActiveOfferCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
 }
 
 //============================================================================
 TitleBarWidget::~TitleBarWidget()
 {
-    m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, false );
-    m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, false );
+    wantCallbacks( false );
+}
+
+//============================================================================
+void TitleBarWidget::wantCallbacks( bool enable )
+{
+    m_CallbacksRequested = enable;
+    m_MyApp.wantToGuiHardwareCtrlCallbacks( this, enable );
+    m_MyApp.wantToGuiActivityCallbacks( this, enable );
+    m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, enable );
+    m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, enable );
+    m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable );
+    m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, enable );
 }
 
 //============================================================================
@@ -188,10 +199,8 @@ void TitleBarWidget::showEvent( QShowEvent* showEvent )
     if( ( false == VxIsAppShuttingDown() )
         && ( false == m_CallbacksRequested ) )
     {
-        m_CallbacksRequested = true;
-        m_MyApp.wantToGuiActivityCallbacks( this, true );
-        m_MyApp.wantToGuiHardwareCtrlCallbacks( this, true );
-        m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
+        wantCallbacks( true );
+
         updateTitleBar();
     }
 }
@@ -201,10 +210,7 @@ void TitleBarWidget::hideEvent( QHideEvent* ev )
 {
     if( m_CallbacksRequested && ( false == VxIsAppShuttingDown() ) )
     {
-        m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
-        m_MyApp.wantToGuiHardwareCtrlCallbacks( this, false );
-        m_MyApp.wantToGuiActivityCallbacks( this, false );
-        m_CallbacksRequested = false;
+        wantCallbacks( false );
     }
 
     QWidget::hideEvent( ev );
@@ -270,7 +276,7 @@ void TitleBarWidget::slotTitleStatusBarMsg( QString msg )
 }
 
 //============================================================================
-void TitleBarWidget::toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
+void TitleBarWidget::callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
 {
     if( ePluginTypeCamServer == pluginType )
     {

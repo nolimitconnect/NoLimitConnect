@@ -24,8 +24,6 @@
 #include "GuiHostServerJoinMgr.h"
 
 #include "GuiOfferMgr.h"
-#include "GuiPlayerMgr.h"
-#include "GuiPluginMgr.h"
 #include "GuiUserJoinMgr.h"
 #include "GuiUserMgr.h"
 #include "GuiThumbMgr.h"
@@ -66,12 +64,16 @@ class AppSettings;
 class BlobInfo;
 class FriendListEntryWidget;
 class FileListReplySession;
+
 class GuiFileXferSession;
 class GuiMemberActiveMgr;
 class GuiOfferSession;
+class GuiPlayerMgr;
+class GuiPluginMgr;
 class GuiPushToTalkMgr;
 class GuiRandConnectMgr;
 class GuiSendQueueMgr;
+
 class KodiThread;
 class MediaPlayerNlc;
 class MyIcons;
@@ -95,6 +97,8 @@ public:
                AccountMgr& myDataHelper,
                INlc& nlc,
                GuiMemberActiveMgr& memberActiveMgr,
+               GuiPlayerMgr& playerMgr,
+               GuiPluginMgr& pluginMgr,
                GuiPushToTalkMgr& pushToTalkMgr,
                GuiRandConnectMgr& randConnectMgr,
                GuiSendQueueMgr& sendQueueMgr,
@@ -168,7 +172,6 @@ public:
     MediaPlayerNlc&             getPlayerNlc( void );
     RenderGlWidget*             getRenderConsumer( void );
     SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
-    VxTilePositioner&           getTilePositioner( void ) { return m_TilePositioner; }
 
     QApplication&               getQApplication( void ) { return m_QApp; }
 
@@ -660,8 +663,6 @@ signals:
 
     void                        signalSystemReady( bool isReady );
 
-    void						signalInternalToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue );
-
     void                        signalInternalNetAvailStatus( ENetAvailStatus netAvailStatus );
     void                        signalInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue );
     void                        signalInternalPluginErrorMsg( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, ECommErr commError );
@@ -729,8 +730,6 @@ signals:
     void                        signalInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg );
 
 private slots:
-    void						slotInternalToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue );
-
     void                        slotInternalNetAvailStatus( ENetAvailStatus netAvailStatus );
     void                        slotInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue );
     void                        slotInternalPluginErrorMsg( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, ECommErr commError );
@@ -845,7 +844,6 @@ protected:
     void						updateFriendList( GuiUser* guiUser, bool sessionTimeChange = false );
 
     void						clearToGuiActivityInterfaceList( void );
-    void						clearFileXferClientList( void );
     void						clearHardwareCtrlList( void );
     void						clearUserUpdateClientList( void );
 
@@ -874,13 +872,13 @@ protected:
     GuiThumbMgr					m_ThumbMgr;
     GuiMemberActiveMgr&         m_MemberActiveMgr;
     GuiOfferMgr		            m_OfferMgr;
+    GuiPlayerMgr&               m_PlayerMgr;
+    GuiPluginMgr&               m_PluginMgr;
     GuiPushToTalkMgr&           m_PushToTalkMgr;
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;
     GuiHostedListMgr			m_HostedListMgr;
     GuiHostedByMeJoinMgr		m_HostJoinMgr;
-    GuiPlayerMgr                m_PlayerMgr;
-    GuiPluginMgr                m_PluginMgr;
 
     GuiRandConnectMgr&          m_RandConnectMgr;
     GuiSendQueueMgr&            m_SendQueueMgr;
@@ -891,7 +889,7 @@ protected:
     VxAppTheme					m_AppTheme;
     VxAppStyle					m_AppStyle;
     VxAppDisplay				m_AppDisplay;
-    VxTilePositioner&           m_TilePositioner;
+
     CamLogic                    m_CamLogic;
 
     SoundMgr&                   m_SoundMgr;

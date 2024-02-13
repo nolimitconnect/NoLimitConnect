@@ -63,12 +63,12 @@ void AppletSettingsPage::setupAppletSettingsgPage( void )
 void AppletSettingsPage::resizeEvent( QResizeEvent* ev )
 {
     ActivityBase::resizeEvent( ev );
-    getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+    VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }
 
 //============================================================================
 void AppletSettingsPage::showEvent( QShowEvent* showEvent )
 {
     AppletLaunchPage::showEvent( showEvent );
-    getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+    VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }

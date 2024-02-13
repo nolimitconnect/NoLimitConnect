@@ -16,18 +16,17 @@
 #include <CoreLib/VxGUID.h>
 
 #include <QObject>
-#include <QImage>
 
 class AppCommon;
 class AssetBaseInfo;
 class GuiPlayerCallback;
+class QImage;
 
 class GuiPlayerMgr : public QObject
 {
 	Q_OBJECT;
 public:
-	GuiPlayerMgr() = delete;
-	GuiPlayerMgr( AppCommon& app );
+	GuiPlayerMgr();
 	GuiPlayerMgr( const GuiPlayerMgr& rhs ) = delete;
 	virtual ~GuiPlayerMgr() = default;
 
@@ -45,19 +44,18 @@ public:
 	void						toGuiPlayerNlcReady( bool isReady );
 
 signals:
-	void						signalInternalPlayVideoFrame( VxGUID feedOnlineId, QImage vidFrame );
-	void						signalInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage vidFrame, int motion0To100000 );
+	void						signalInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
+	void						signalInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 );
 	void						signalInternalPlayerNlcReady( bool isReady );
 
 protected slots:
-	void						slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage vidFrame );
-	void						slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage vidFrame, int motion0To100000 );
+	void						slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
+	void						slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 );
 	void						slotInternalPlayerNlcReady( bool isReady );
 
 protected:
-	AppCommon&					m_MyApp;
-
 	bool						m_VideoPlayClientsBusy{ false };
 	std::vector<GuiPlayerCallback*>  m_VideoPlayClients;
-	QAtomicInt					m_BehindFrameCnt;
+	QAtomicInt					m_BehindFeedFrameCnt;
+	QAtomicInt					m_BehindMotionFrameCnt;
 };

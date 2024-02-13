@@ -1,22 +1,18 @@
 #pragma once
 //============================================================================
-// Copyright (C) 2017 Brett R. Jones
+// Copyright (C) 2024 Brett R. Jones 
 //
-// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license 
 // See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QVector>
+#include <GuiInterface/IDefs.h>
 
-class VxWidgetBase;
-class QWidget;
-
-class VxTilePositioner 
+class GuiPluginMgrCallback 
 {
 public:
-
-	static void					repositionTiles( QVector<VxWidgetBase *>& widgetList, QWidget* parentWindow, int padding = 5 );
+    virtual void				callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) = 0;
 };

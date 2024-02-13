@@ -23,6 +23,11 @@
 #include <CoreLib/VxMacros.h>
 #include <CoreLib/VxFileShredder.h>
 
+namespace
+{
+	const int MS_PER_AUDIO_CHUNK = AUDIO_MS_PER_FRAME;
+}
+
 //============================================================================
 MJPEGWriter::MJPEGWriter( P2PEngine& engine, MediaProcessor& mediaProcessor )
 : m_Engine( engine )
@@ -252,7 +257,9 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 
 		closeAviFile();
 		// rewrite the header with the correct info
-		double msPerFrame = m_TotalElapsedMs / videoTotalFrames;
+		// use the total ms of audio because it will be the most accurate
+		double totalAudioTime = audioTotalChunks * MS_PER_AUDIO_CHUNK;
+		double msPerFrame = totalAudioTime / videoTotalFrames;
 		if( msPerFrame < 32 )
 		{
 			msPerFrame = 32; // couldn't be faster than 30 fps

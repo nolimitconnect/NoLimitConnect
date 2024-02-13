@@ -59,12 +59,12 @@ void AppletNetHostingPage::setupAppletNetHostingPage( void )
 void AppletNetHostingPage::resizeEvent( QResizeEvent* ev )
 {
 	ActivityBase::resizeEvent( ev );
-	getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+	VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }
 
 //============================================================================
 void AppletNetHostingPage::showEvent( QShowEvent* showEvent )
 {
     AppletLaunchPage::showEvent( showEvent );
-    getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+    VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }

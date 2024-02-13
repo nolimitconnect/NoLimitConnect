@@ -171,8 +171,6 @@ void AppCommon::connectSignals( void )
 
 	connect( this, SIGNAL( signalInternalPlayNlcMedia(AssetBaseInfo) ), this, SLOT( slotInternalPlayNlcMedia(AssetBaseInfo) ), Qt::QueuedConnection );
 
-	connect( this, SIGNAL( signalInternalToGuiPluginStatus(EPluginType,int,int) ), this, SLOT( slotInternalToGuiPluginStatus(EPluginType,int,int) ), Qt::QueuedConnection );
-
 	connect( this, SIGNAL( signalInternalToGuiSearchResultFileSearch(VxGUID,EPluginType,VxGUID,FileInfo)), this, 
 		           SLOT( slotInternalToGuiSearchResultFileSearch(VxGUID,EPluginType,VxGUID,FileInfo)), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiFileListReply(VxGUID,EPluginType,FileInfo)), this,

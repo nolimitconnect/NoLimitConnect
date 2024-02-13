@@ -19,10 +19,12 @@
 #include "FileXferWidget.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
-#include "GuiFileXferSession.h"
 #include "FileListReplySession.h"
+
+#include "GuiFileXferSession.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "GuiPlayerMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>

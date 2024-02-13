@@ -15,9 +15,10 @@
 #include "AppletMgr.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
-#include "MyIconsDefs.h"
+#include "GuiPlayerMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VxTimeUtil.h>
 #include <CoreLib/VxTime.h>
 

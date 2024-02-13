@@ -85,12 +85,12 @@ void AppletSearchPage::resizeEvent( QResizeEvent* ev )
 {
 	ActivityBase::resizeEvent( ev );
 	//LogMsg( LOG_DEBUG, "AppletSearchPage::resizeEvent total height %d contentsFrame height %d\n", this->height(), getContentItemsFrame()->height() );
-	getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+	VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }
 
 //============================================================================
 void AppletSearchPage::showEvent( QShowEvent* showEvent )
 {
     AppletLaunchPage::showEvent( showEvent );
-    getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+    VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }

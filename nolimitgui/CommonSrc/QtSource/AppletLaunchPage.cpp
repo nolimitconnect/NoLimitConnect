@@ -81,7 +81,7 @@ void AppletLaunchPage::resizeEvent( QResizeEvent* ev )
 {
     ActivityBase::resizeEvent( ev );
 	//LogMsg( LOG_DEBUG, "AppletLaunchPage::resizeEvent total height %d contentsFrame height %d\n", this->height(), getContentItemsFrame()->height() );
-	getMyApp().getTilePositioner().repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
+	VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }
 
 //============================================================================

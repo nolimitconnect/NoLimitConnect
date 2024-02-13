@@ -674,6 +674,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPluginMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPluginMgrCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiRandConnectCallback.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.h" />

@@ -14,10 +14,12 @@
 #include "AppGlobals.h"
 #include "AppSettings.h"
 #include "ActivityMessageBox.h"
+
 #include "GuiHelpers.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
+#include "GuiPluginMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>

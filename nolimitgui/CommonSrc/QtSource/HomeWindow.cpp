@@ -127,9 +127,9 @@ void HomeWindow::initializeHomePage()
     restoreHomeWindowGeometry();
 
 	initializeNlcDynamicLayout();
-	connect( &m_AppDisplay, SIGNAL( signalDeviceOrientationChanged( int ) ), this, SLOT( slotDeviceOrientationChanged( int ) ) );
-    connect( this, SIGNAL( signalMainWindowResized() ), &m_MyApp, SLOT( slotMainWindowResized() ) );
-    connect( this, SIGNAL( signalMainWindowMoved() ), &m_MyApp, SLOT( slotMainWindowMoved() ) );
+	connect( &m_AppDisplay, SIGNAL(signalDeviceOrientationChanged(int)), this, SLOT(slotDeviceOrientationChanged(int)) );
+    connect( this, SIGNAL(signalMainWindowResized()), &m_MyApp, SLOT(slotMainWindowResized()) );
+    connect( this, SIGNAL(signalMainWindowMoved()), &m_MyApp, SLOT(slotMainWindowMoved()) );
     m_AppDisplay.initializeAppDisplay();
 	m_AppDisplay.forceOrientationUpdate();
 }

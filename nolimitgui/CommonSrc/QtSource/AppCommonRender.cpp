@@ -16,7 +16,6 @@
 #include "ToGuiActivityInterface.h"
 #include "SoundMgr.h"
 #include "MyIcons.h"
-#include "VxTilePositioner.h"
 
 #include "HomeWindow.h"
 

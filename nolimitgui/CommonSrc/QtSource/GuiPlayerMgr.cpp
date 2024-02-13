@@ -33,18 +33,17 @@ namespace
 }
 
 //============================================================================
-GuiPlayerMgr::GuiPlayerMgr( AppCommon& app )
-	: QObject( &app )
-	, m_MyApp( app )
+GuiPlayerMgr::GuiPlayerMgr()
+	: QObject()
 {
 }
 
 //============================================================================
 void GuiPlayerMgr::playerMgrStartup( void )
 {
-	connect( this, SIGNAL( signalInternalPlayVideoFrame(VxGUID,QImage) ), this, SLOT( slotInternalPlayVideoFrame(VxGUID,QImage) ), Qt::QueuedConnection );
-	connect( this, SIGNAL( signalInternalPlayMotionVideoFrame(VxGUID,QImage,int) ), this, SLOT( slotInternalPlayMotionVideoFrame(VxGUID,QImage,int) ), Qt::QueuedConnection );
-	connect( this, SIGNAL( signalInternalPlayerNlcReady(bool) ), this, SLOT( slotInternalPlayerNlcReady(bool) ), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPlayVideoFrame(VxGUID,QImage*,int,int)), this, SLOT(slotInternalPlayVideoFrame(VxGUID,QImage*,int,int)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), this, SLOT(slotInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPlayerNlcReady(bool)), this, SLOT(slotInternalPlayerNlcReady(bool)), Qt::QueuedConnection );
 }
 
 //============================================================================
@@ -73,112 +72,100 @@ void GuiPlayerMgr::wantPlayVideoCallbacks( GuiPlayerCallback* client, bool enabl
 //============================================================================
 void GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 )
 {
-	// there seems to be an issue where a QImage may get replaced if there is already one in a queued signal/slot 
-	// only allow 1 at a time
-	int behindFramCnt = m_BehindFrameCnt;
-	if( behindFramCnt )
+	if( m_VideoPlayClients.empty() )
 	{
-		ProcessQtEvents();
-		behindFramCnt = m_BehindFrameCnt;
-		if( behindFramCnt )
-		{
-			return;
-		}
+		return;
 	}
 
-	QImage vidFrame;
-	if( behindFramCnt < 4 && vidFrame.loadFromData( pu8Jpg, u32JpgDataLen, "JPG" ) )
+	if( !pu8Jpg || !u32JpgDataLen )
 	{
-		m_BehindFrameCnt++;
-		emit signalInternalPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
+		LogMsg( LOG_ERROR, " GuiPlayerMgr::%s invalid image data", __func__ );
+		return;
 	}
-	else
+
+	int behindFramCnt = m_BehindMotionFrameCnt;
+	if( behindFramCnt > 1 )
 	{
-		LogMsg( LOG_WARNING, "GuiPlayerMgr::toGuiPlayVideoFrame skipping frame %d", behindFramCnt );
+		LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
+		return;
 	}
+
+	QImage* vidFrame = new QImage();
+	if( !vidFrame->loadFromData( pu8Jpg, u32JpgDataLen, "JPG") )
+	{
+		LogMsg( LOG_WARNING, "GuiPlayerMgr::%s failed to load JPG", __func__ );
+		delete vidFrame;
+		return;
+	}
+
+	m_BehindMotionFrameCnt++;
+	emit signalInternalPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
 }
 
 //============================================================================
-void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage vidFrame, int motion0To100000 )
+void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 )
 {
-	m_BehindFrameCnt--;
+	m_BehindMotionFrameCnt--;
+
 	m_VideoPlayClientsBusy = true;
 	for( auto guiVidCallback : m_VideoPlayClients )
 	{
-		guiVidCallback->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
+		guiVidCallback->callbackGuiPlayMotionVideoFrame( feedOnlineId, *vidFrame, motion0To100000 );
 	}
 
 	m_VideoPlayClientsBusy = false;
+	delete vidFrame;
 }
 
 //============================================================================
 int GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight )
 {
-	// there seems to be an issue where a QImage may get replaced if there is already one in a queued signal/slot 
-	// only allow 1 at a time
-	int behindFramCnt = m_BehindFrameCnt;
-	if( behindFramCnt )
+	int behindFramCnt = m_BehindFeedFrameCnt;
+	if( m_VideoPlayClients.empty() )
 	{
-		ProcessQtEvents();
-		behindFramCnt = m_BehindFrameCnt;
-		if( behindFramCnt )
-		{
-			return behindFramCnt;
-		}
+		return behindFramCnt;
 	}
 
-	QImage frameImage;
-	if( behindFramCnt < 4 && m_VideoPlayClients.size() )
+	if( !picBuf || picWidth < 10  || picHeight < 10 )
 	{
-		if( picBuf
-			&& (picWidth > 10)
-			&& (picHeight > 10)
-			&& (picBufLen = picWidth * picHeight * 4) )
-		{
-			QImage::Format imageFormat = QImage::Format_ARGB32;
-			//if( picBufLen = ( picWidth * picHeight * 4) )
-			//{
-			//    imageFormat =  QImage::Format_ARGB32_Premultiplied;
-			//}
-
-			QImage	frameImage( picBuf, picWidth, picHeight, imageFormat );
-			if( !frameImage.isNull() )
-			{
-				int behindFrameCnt = m_BehindFrameCnt;
-				LogMsg( LOG_INFO, " GuiPlayerMgr::playVideoFrame len %d behind %d", picBufLen, behindFrameCnt );
-				m_BehindFrameCnt++;
-				emit signalInternalPlayVideoFrame( feedOnlineId, frameImage );
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, " GuiPlayerMgr::playVideoFrame invalid image data" );
-			}
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, " GuiPlayerMgr::playVideoFrame invalid data params" );
-		}
-
+		LogMsg( LOG_ERROR, " GuiPlayerMgr::%s invalid image data", __func__ );
+		return behindFramCnt;
 	}
-	else
+
+	if( behindFramCnt > 1 )
 	{
-		LogMsg( LOG_WARNING, "GuiPlayerMgr::toGuiPlayVideoFrame2 skipping frame %d", behindFramCnt );
+		LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
+		return behindFramCnt;
 	}
+
+	QImage::Format imageFormat = QImage::Format_ARGB32;
+	QImage* vidFrame = new QImage( picBuf, picWidth, picHeight, imageFormat );
+	if( vidFrame->isNull() )
+	{
+		LogMsg( LOG_ERROR, " GuiPlayerMgr::%s invalid image data", __func__ );
+		delete vidFrame;
+		return behindFramCnt;
+	}
+
+	m_BehindFeedFrameCnt++;
+	emit signalInternalPlayVideoFrame( feedOnlineId, vidFrame, picWidth, picHeight );
 
 	return behindFramCnt;
 }
 
 //============================================================================
-void GuiPlayerMgr::slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage vidFrame )
+void GuiPlayerMgr::slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int picWidth, int picHeight )
 {
-	m_BehindFrameCnt--;
+	m_BehindFeedFrameCnt--;
+
 	m_VideoPlayClientsBusy = true;
 	for( auto guiVidCallback : m_VideoPlayClients )
 	{
-		guiVidCallback->callbackGuiPlayVideoFrame( feedOnlineId, vidFrame );
+		guiVidCallback->callbackGuiPlayVideoFrame( feedOnlineId, *vidFrame );
 	}
 
 	m_VideoPlayClientsBusy = false;
+	delete vidFrame;
 }
 
 //============================================================================
@@ -214,25 +201,25 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 {
 	if( eAssetTypeExe == assetInfo.getAssetType() )
 	{
-		QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Attempted to play an executable which is not allowed" ), QString(assetInfo.getAssetName().c_str()) );
+		QMessageBox::warning( &GetAppInstance().getHomePage(), QObject::tr("Attempted to play an executable which is not allowed"), QString(assetInfo.getAssetName().c_str()));
 		return false;
 	}
 
 	if( eAssetTypeArchives == assetInfo.getAssetType() )
 	{
-		QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Attempted to open an archive file which is not allowed" ), QString( assetInfo.getAssetName().c_str() ) );
+		QMessageBox::warning( &GetAppInstance().getHomePage(), QObject::tr( "Attempted to open an archive file which is not allowed" ), QString( assetInfo.getAssetName().c_str() ) );
 		return false;
 	}
 
 	if( assetInfo.getIsStream() || !useExternPlayer )
 	{
-		if( assetInfo.isPhotoAsset() || assetInfo.getIsStream() || !m_MyApp.getAppSettings().getUseSystemMediaPlayer() )
+		if( assetInfo.isPhotoAsset() || assetInfo.getIsStream() || !GetAppInstance().getAppSettings().getUseSystemMediaPlayer() )
 		{
-			EApplet appletType = GuiHelpers::getAppletThatPlaysFile( m_MyApp, assetInfo );
+			EApplet appletType = GuiHelpers::getAppletThatPlaysFile( GetAppInstance(), assetInfo );
 			if( appletType != eAppletUnknown )
 			{
 				// launch the applet that plays this file
-				ActivityBase* applet = m_MyApp.launchApplet( appletType, &m_MyApp.getHomePage(), "", assetInfo.getAssetUniqueId() );
+				ActivityBase* applet = GetAppInstance().launchApplet( appletType, &GetAppInstance().getHomePage(), "", assetInfo.getAssetUniqueId() );
 				if( applet )
 				{
 					return applet->playMedia( assetInfo, pos0to100000 );
@@ -251,7 +238,6 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 	}
 	return true;
 }
-
 
 //============================================================================
 void GuiPlayerMgr::slotInternalPlayerNlcReady( bool isReady )

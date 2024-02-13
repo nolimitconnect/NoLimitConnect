@@ -13,7 +13,7 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
 
-#include <GuiInterface/IDefs.h>
+#include "GuiPluginMgrCallback.h"
 
 #include <QObject>
 
@@ -23,11 +23,9 @@ class GuiPluginMgr : public QObject
 {
     Q_OBJECT
 public:
-    GuiPluginMgr() = delete;
-    GuiPluginMgr( AppCommon& app );
+    GuiPluginMgr();
     GuiPluginMgr( const GuiPluginMgr& rhs ) = delete;
     virtual ~GuiPluginMgr() = default;
-
 
     void						setPluginVisible( EPluginType pluginType, bool isVisible );
     bool						getIsPluginVisible( EPluginType pluginType );
@@ -37,9 +35,18 @@ public:
     void						setCamServerClientCount( int camServerClientCount )     { m_CamServerClientCount = camServerClientCount; }
     int						    getCamServerClientCount( void )                         { return m_CamServerClientCount; }
 
-protected:
-    AppCommon&                  m_MyApp;
+    void                        toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue );
 
+    void                        wantPluginMgrCallbacks( GuiPluginMgrCallback* client, bool enable );
+
+signals:
+    void						signalInternalToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue );
+
+protected slots:
+    void						slotInternalToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue );
+
+protected:
+    std::vector<GuiPluginMgrCallback*> m_CallbackClients;
     QVector<EPluginType>		m_VisiblePluginsList;
 
     bool                        m_CamServerIsEnabled{ false };
