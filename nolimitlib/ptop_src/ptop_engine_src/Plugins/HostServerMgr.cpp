@@ -61,7 +61,7 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
     
     url = m_Engine.getUrlMgr().resolveUrl(false, url);
 
-    if( m_Engine.getMyPktAnnounce().requiresRelay() )
+    if( !m_Engine.getNetStatusAccum().isRxPortOpen() )
     {
         m_Engine.getToGui().toGuiHostAnnounceStatus( hostAnnounce.getHostType(), sessionId, eHostAnnounceFailRequiresOpenPort, "Announce Host Requires An Open Port");
         return;

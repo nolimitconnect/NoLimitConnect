@@ -555,6 +555,16 @@ bool VxNetIdent::userIsHosting( enum EHostType hostType )
 }
 
 //============================================================================
+bool VxNetIdent::requiresAnOpenPort( void )
+{
+	return userIsHosting( eHostTypeNetwork ) || 
+		userIsHosting( eHostTypeGroup ) || 
+		userIsHosting( eHostTypeChatRoom ) || 
+		userIsHosting( eHostTypeRandomConnect ) || 
+		userIsHosting( eHostTypeConnectTest );
+}
+
+//============================================================================
 RCODE VxReportHack(	EHackerLevel hackerLevel, EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* pDescription, ... )	
 {
 	char as8Buf[ 2048 ];

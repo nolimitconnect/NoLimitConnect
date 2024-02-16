@@ -377,6 +377,16 @@ void NetworkMonitor::doNetworkConnectTestThread( VxThread* startupThread )
         m_ConnectedLclIp = determineLocalIp();
         m_ConnectAttemptSucessfull = !m_ConnectedLclIp.empty();
         m_ConnectAttemptCompleted = true;
+        if( m_ConnectAttemptSucessfull && requiresAnOpenPort() )
+        {
+            // when using vpn it may return good result even though has been disabled so confirm open port status
+            EFirewallTestType firewallTestType = m_Engine.getEngineSettings().getFirewallTestSetting();
+            if( firewallTestType != eFirewallTestAssumeNoFirewall )
+            {
+                // also run is my port open test
+                m_Engine.fromGuiRunIsPortOpenTest( m_Engine.getMyPktAnnounce().getMyOnlinePort() );
+            }
+        }
     }
 }
 
@@ -517,4 +527,8 @@ std::string NetworkMonitor::determineLocalIp( void )
     return localIp;
 }
 
-
+//============================================================================
+bool NetworkMonitor::requiresAnOpenPort( void )
+{
+    return m_Engine.getMyPktAnnounce().requiresAnOpenPort();
+}

@@ -812,14 +812,15 @@ void AppCommon::toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, 
 	}
 
     const char* hostStatus = DescribeHostAnnounceStatus( annStatus );
+	const char* hostTypeStr = DescribeHostType( hostType );
     std::string formatedMsg;
     if( msg )
     {
-        StdStringFormat( formatedMsg, "#%s %s", hostStatus, msg );
+        StdStringFormat( formatedMsg, "#%s %s %s", hostTypeStr, hostStatus, msg );
     }
     else
     {
-        StdStringFormat( formatedMsg, "#%s", hostStatus );
+        StdStringFormat( formatedMsg, "#%s %s", hostTypeStr, hostStatus );
     }
 
     emit signalLog( 0, formatedMsg.c_str() );

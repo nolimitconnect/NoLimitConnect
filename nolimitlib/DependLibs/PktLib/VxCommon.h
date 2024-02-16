@@ -131,6 +131,8 @@ public:
 
 	bool						userIsHosting( enum EHostType hostType );
 
+	bool						requiresAnOpenPort( void );
+
 private:
 
 	//=== vars ===//

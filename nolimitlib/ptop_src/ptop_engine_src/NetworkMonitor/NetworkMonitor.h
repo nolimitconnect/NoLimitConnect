@@ -41,6 +41,7 @@ public:
 protected:
     void                        triggerDetermineIp( void );
     std::string                 determineLocalIp( void );
+    bool                        requiresAnOpenPort( void );
 
 	P2PEngine&					m_Engine;
 	bool						m_bIsStarted = false;
