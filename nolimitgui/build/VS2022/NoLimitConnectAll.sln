@@ -160,7 +160,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libglew", "..\..\..\nolimit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QtPri", "QtPri", "{1BBBE95F-B370-40FE-9B2A-901555E8E928}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\cmake\cmake_helpers\OsDetect.cmake = ..\..\..\cmake\cmake_helpers\OsDetect.cmake
+		..\..\..\CMakeLists.txt = ..\..\..\CMakeLists.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvpx", "..\..\..\nolimitlib\DependLibs\libvpx-win64\build\VS2022\vpx.vcxproj", "{DCE19DAF-69AC-46DB-B14A-39F0FAA5DB74}"
@@ -439,7 +439,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ffmpeg", "ffmpeg", "{2A2CBC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cmake_helpers", "cmake_helpers", "{CC7EE85B-8468-4982-97B8-ACEBEA88240A}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\cmake\cmake_helpers\OsDetect.cmake = ..\..\..\cmake\cmake_helpers\OsDetect.cmake
+		..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake = ..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake
+		..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake = ..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake
+		..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake = ..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake
+		..\..\..\cmake\cmake_helpers\NlcAssembler.cmake = ..\..\..\cmake\cmake_helpers\NlcAssembler.cmake
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nolimitgui", "nolimitgui", "{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E}"

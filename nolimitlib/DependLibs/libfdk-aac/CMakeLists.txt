@@ -339,22 +339,41 @@ target_include_directories(fdk-aac
 )
 
 if(DEFINED TARGET_OS_ANDROID)
-    target_compile_definitions(fdk-aac PUBLIC
-        PIC
-        TARGET_CPU_64BIT
-        TARGET_CPU_ARM
-        ANDROID_ARM64=1
-        TARGET_ARCH_NAME=arm64-v8a
-        TARGET_CPU_BITS=64
-        TARGET_ENDIAN_LITTLE=1
-        TARGET_ENDIAN_BIG=0
-         _ISOC99_SOURCE
-        _FILE_OFFSET_BITS=64
-        _LARGEFILE_SOURCE
-        strtod=avpriv_strtod
-        ZLIB_CONST
-        HAVE_AV_CONFIG_H
-    )
+    if(${NLC_CPU} STREQUAL "CPU_ARM64")
+        target_compile_definitions(fdk-aac PUBLIC
+            PIC
+            TARGET_CPU_64BIT
+            TARGET_CPU_ARM
+            ANDROID_ARM64=1
+            TARGET_ARCH_NAME=arm64-v8a
+            TARGET_CPU_BITS=64
+            TARGET_ENDIAN_LITTLE=1
+            TARGET_ENDIAN_BIG=0
+             _ISOC99_SOURCE
+            _FILE_OFFSET_BITS=64
+            _LARGEFILE_SOURCE
+            strtod=avpriv_strtod
+            ZLIB_CONST
+            HAVE_AV_CONFIG_H
+            )
+    elseif(${NLC_CPU} STREQUAL "CPU_ARM32")
+            target_compile_definitions(fdk-aac PUBLIC
+            PIC
+            TARGET_CPU_32BIT
+            TARGET_CPU_ARM
+            ANDROID_ARM64=1
+            TARGET_ARCH_NAME=armeabi-v7a
+            TARGET_CPU_BITS=32
+            TARGET_ENDIAN_LITTLE=1
+            TARGET_ENDIAN_BIG=0
+             _ISOC99_SOURCE
+            _FILE_OFFSET_BITS=64
+            _LARGEFILE_SOURCE
+            strtod=avpriv_strtod
+            ZLIB_CONST
+            HAVE_AV_CONFIG_H
+            )
+    endif()
 
 endif()
 

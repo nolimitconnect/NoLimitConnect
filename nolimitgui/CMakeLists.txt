@@ -2,12 +2,9 @@
 project(nolimitconnect, LANGUAGES CXX)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 
-#=== INCLUSION OF Qt ===#
-#set(minQtVersion 6.6.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -17,7 +14,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
 #=== SETUP EXECUTABLE ===#
 
 # Add the forms directory to the AUOUIC search paths
-list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS 
+list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS
     CommonSrc/Forms
     )
 
@@ -90,7 +87,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletPlayerCamClip.h
     CommonSrc/QtSource/AppletCamClient.h
     CommonSrc/QtSource/AppletCamSettings.h
-    CommonSrc/QtSource/AppletCamServerViewMine.h    
+    CommonSrc/QtSource/AppletCamServerViewMine.h
     CommonSrc/QtSource/AppletChatRoomJoin.h
     CommonSrc/QtSource/AppletChatRoomClient.h
     CommonSrc/QtSource/AppletChatRoomHostAdmin.h
@@ -104,13 +101,13 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletDownloads.h
     CommonSrc/QtSource/AppletEditAboutMe.h
     CommonSrc/QtSource/AppletEditAvatarImage.h
-    CommonSrc/QtSource/AppletEditStoryboard.h 
+    CommonSrc/QtSource/AppletEditStoryboard.h
     CommonSrc/QtSource/AppletFileOfferSelect.h
     CommonSrc/QtSource/AppletFileShareClientView.h
     CommonSrc/QtSource/AppletFileShareServerViewMine.h
     CommonSrc/QtSource/AppletFriendListClient.h
     CommonSrc/QtSource/AppletGalleryImage.h
-    CommonSrc/QtSource/AppletGalleryEmoticon.h  
+    CommonSrc/QtSource/AppletGalleryEmoticon.h
     CommonSrc/QtSource/AppletGalleryThumb.h
     CommonSrc/QtSource/AppletGetStarted.h
     CommonSrc/QtSource/AppletGroupClient.h
@@ -145,11 +142,11 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletNetHostingPage.h
     CommonSrc/QtSource/AppletNetworkSettings.h
     CommonSrc/QtSource/AppletOfferList.h
-    CommonSrc/QtSource/AppletOfferResponse.h 
-    CommonSrc/QtSource/AppletOfferResponseAccept.h 
-    CommonSrc/QtSource/AppletOfferSend.h 
-    CommonSrc/QtSource/AppletOfferView.h 
-	CommonSrc/QtSource/AppletPersonOfferList.h
+    CommonSrc/QtSource/AppletOfferResponse.h
+    CommonSrc/QtSource/AppletOfferResponseAccept.h
+    CommonSrc/QtSource/AppletOfferSend.h
+    CommonSrc/QtSource/AppletOfferView.h
+    CommonSrc/QtSource/AppletPersonOfferList.h
     CommonSrc/QtSource/AppletPeerBase.h
     CommonSrc/QtSource/AppletPeerChangeFriendship.h
     CommonSrc/QtSource/AppletPeerReplyFileOffer.h
@@ -166,8 +163,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletPlayerStream.h
     CommonSrc/QtSource/AppletPopupMenu.h
     CommonSrc/QtSource/AppletRandomConnectHostAdmin.h
-	CommonSrc/QtSource/AppletRandomConnectJoin.h
-	CommonSrc/QtSource/AppletRandomConnectJoinSearch.h
+    CommonSrc/QtSource/AppletRandomConnectJoin.h
+    CommonSrc/QtSource/AppletRandomConnectJoinSearch.h
     CommonSrc/QtSource/AppletRandomConnectListLocalView.h
     CommonSrc/QtSource/AppletSearchPage.h
     CommonSrc/QtSource/AppletServiceAboutMe.h
@@ -188,9 +185,9 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletSettingsHostChatRoom.h
     CommonSrc/QtSource/AppletSettingsHostGroup.h
     CommonSrc/QtSource/AppletSettingsHostNetwork.h
-	CommonSrc/QtSource/AppletSettingsHostRandomConnect.h
+    CommonSrc/QtSource/AppletSettingsHostRandomConnect.h
     CommonSrc/QtSource/AppletSettingsMessenger.h
-	CommonSrc/QtSource/AppletSettingsPage.h
+    CommonSrc/QtSource/AppletSettingsPage.h
     CommonSrc/QtSource/AppletSettingsPushToTalk.h
     CommonSrc/QtSource/AppletSettingsRandomConnect.h
     CommonSrc/QtSource/AppletSettingsShareFiles.h
@@ -205,7 +202,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletSoundSettings.h
     CommonSrc/QtSource/AppletStoryboardClient.h
     CommonSrc/QtSource/AppletStoryboardServerViewMine.h
-	CommonSrc/QtSource/AppletTestAndDebug.h
+    CommonSrc/QtSource/AppletTestAndDebug.h
     CommonSrc/QtSource/AppletTestBase.h
     CommonSrc/QtSource/AppletTestHostClient.h
     CommonSrc/QtSource/AppletTestHostService.h
@@ -214,7 +211,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletUserConnections.h
     CommonSrc/QtSource/AppletUserIdentity.h
     CommonSrc/QtSource/AppletUserPreferences.h
-	CommonSrc/QtSource/AppTranslate.h
+    CommonSrc/QtSource/AppTranslate.h
     CommonSrc/QtSource/AssetFaceWidget.h
     CommonSrc/QtSource/AssetPhotoWidget.h
     CommonSrc/QtSource/AssetTextWidget.h
@@ -223,10 +220,10 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AssetBaseWidget.h
     CommonSrc/QtSource/AvatarBar.h
     CommonSrc/QtSource/BottomBarWidget.h
-	CommonSrc/QtSource/CamTitleBarPreview.h	
+    CommonSrc/QtSource/CamTitleBarPreview.h
     CommonSrc/QtSource/ChatRoomWidget.h
     CommonSrc/QtSource/CamLogic.h
-    CommonSrc/QtSource/ChatEntryWidget.h  
+    CommonSrc/QtSource/ChatEntryWidget.h
     CommonSrc/QtSource/DialogAddComment.h
     CommonSrc/QtSource/DialogConfirmRemoveMessage.h
     CommonSrc/QtSource/EventsQtToNlc.h
@@ -273,36 +270,36 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiOfferListItem.h
     CommonSrc/QtSource/GuiOfferListWidget.h
     CommonSrc/QtSource/GuiOfferMgr.h
-	CommonSrc/QtSource/GuiOfferMgrBase.h
+    CommonSrc/QtSource/GuiOfferMgrBase.h
     CommonSrc/QtSource/GuiOfferSession.h
     CommonSrc/QtSource/GuiOnlineStatusCallback.h
-    CommonSrc/QtSource/GuiPushToTalkMgr.h  
-    CommonSrc/QtSource/GuiParams.h  
-    CommonSrc/QtSource/GuiPlayerCallback.h 
-    CommonSrc/QtSource/GuiPlayerMgr.h 
-    CommonSrc/QtSource/GuiPluginMgr.h 
-    CommonSrc/QtSource/GuiRandConnectCallback.h 
-    CommonSrc/QtSource/GuiRandConnectMgr.h 
+    CommonSrc/QtSource/GuiPushToTalkMgr.h
+    CommonSrc/QtSource/GuiParams.h
+    CommonSrc/QtSource/GuiPlayerCallback.h
+    CommonSrc/QtSource/GuiPlayerMgr.h
+    CommonSrc/QtSource/GuiPluginMgr.h
+    CommonSrc/QtSource/GuiRandConnectCallback.h
+    CommonSrc/QtSource/GuiRandConnectMgr.h
     CommonSrc/QtSource/GuiSendQueueCallback.h
     CommonSrc/QtSource/GuiSendQueueMgr.h
-	CommonSrc/QtSource/GuiThumb.h
-	CommonSrc/QtSource/GuiThumbList.h
-	CommonSrc/QtSource/GuiThumbMgr.h
+    CommonSrc/QtSource/GuiThumb.h
+    CommonSrc/QtSource/GuiThumbList.h
+    CommonSrc/QtSource/GuiThumbMgr.h
     CommonSrc/QtSource/GuiUser.h
     CommonSrc/QtSource/GuiUserBase.h
-	CommonSrc/QtSource/GuiUserJoin.h
+    CommonSrc/QtSource/GuiUserJoin.h
     CommonSrc/QtSource/GuiUserJoinCallback.h
-	CommonSrc/QtSource/GuiUserJoinList.h
+    CommonSrc/QtSource/GuiUserJoinList.h
     CommonSrc/QtSource/GuiUserJoinListItem.h
-	CommonSrc/QtSource/GuiUserJoinListWidget.h
-	CommonSrc/QtSource/GuiUserJoinMgr.h
-	CommonSrc/QtSource/GuiUserJoinSession.h
+    CommonSrc/QtSource/GuiUserJoinListWidget.h
+    CommonSrc/QtSource/GuiUserJoinMgr.h
+    CommonSrc/QtSource/GuiUserJoinSession.h
     CommonSrc/QtSource/GuiUserListItem.h
-	CommonSrc/QtSource/GuiUserListWidget.h
+    CommonSrc/QtSource/GuiUserListWidget.h
     CommonSrc/QtSource/GuiUserMgr.h
     CommonSrc/QtSource/GuiUserMultiListWidget.h
     CommonSrc/QtSource/GuiUserSessionBase.h
-    CommonSrc/QtSource/GuiUserUpdateCallback.h 
+    CommonSrc/QtSource/GuiUserUpdateCallback.h
     CommonSrc/QtSource/GuiWebPageCallback.h
     CommonSrc/QtSource/GuiWebPageMgr.h
     CommonSrc/QtSource/HistoryEntryWidget.h
@@ -350,15 +347,15 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/PluginSettingsWidget.h
     CommonSrc/QtSource/RenderGlOffScreenSurface.h
     CommonSrc/QtSource/RenderGlLogic.h
-    CommonSrc/QtSource/RenderGlShaders.h   
+    CommonSrc/QtSource/RenderGlShaders.h
     CommonSrc/QtSource/RenderGlWidget.h
     CommonSrc/QtSource/RenderLogoShaders.h
     CommonSrc/QtSource/RenderPlayerNlcThread.h
     CommonSrc/QtSource/RenderShaderQt.h
-    CommonSrc/QtSource/RichTextWidget.h   
+    CommonSrc/QtSource/RichTextWidget.h
     CommonSrc/QtSource/SearchBarWidget.h
-	CommonSrc/QtSource/SearchParamsWidget.h
-	CommonSrc/QtSource/ServiceSettingsWidget.h
+    CommonSrc/QtSource/SearchParamsWidget.h
+    CommonSrc/QtSource/ServiceSettingsWidget.h
     CommonSrc/QtSource/SessionWidget.h
     CommonSrc/QtSource/StoryWidget.h
     CommonSrc/QtSource/miniaudioio/AudioBitrate.h
@@ -390,8 +387,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/ToGuiActivityInterface.h
     CommonSrc/QtSource/ToGuiFileXferInterface.h
     CommonSrc/QtSource/ToGuiHardwareControlInterface.h
-	CommonSrc/QtSource/ToGuiUserUpdateInterface.h
-	CommonSrc/QtSource/ToGuiThumbUpdateInterface.h
+    CommonSrc/QtSource/ToGuiUserUpdateInterface.h
+    CommonSrc/QtSource/ToGuiThumbUpdateInterface.h
     CommonSrc/QtSource/TitleBarWidget.h
     CommonSrc/QtSource/VideoSinkGrabber.h
     CommonSrc/QtSource/VxAspectFrame.h
@@ -447,7 +444,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ActivityDownloadItemMenu.cpp
     CommonSrc/QtSource/ActivityFileSearch.cpp
     CommonSrc/QtSource/ActivityGenerateHash.cpp
-	CommonSrc/QtSource/ActivityInformation.cpp
+    CommonSrc/QtSource/ActivityInformation.cpp
     CommonSrc/QtSource/ActivityMessageBox.cpp
     CommonSrc/QtSource/ActivityNetworkState.cpp
     CommonSrc/QtSource/ActivityScanPeopleSearch.cpp
@@ -672,8 +669,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiParams.cpp
     CommonSrc/QtSource/GuiPlayerMgr.cpp
     CommonSrc/QtSource/GuiPluginMgr.cpp
-    CommonSrc/QtSource/GuiPushToTalkMgr.cpp  
-    CommonSrc/QtSource/GuiRandConnectMgr.cpp 
+    CommonSrc/QtSource/GuiPushToTalkMgr.cpp
+    CommonSrc/QtSource/GuiRandConnectMgr.cpp
     CommonSrc/QtSource/GuiSendQueueMgr.cpp
     CommonSrc/QtSource/GuiThumb.cpp
     CommonSrc/QtSource/GuiThumbList.cpp
@@ -883,10 +880,10 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletNetworkKey.ui
     CommonSrc/Forms/AppletNetworkSettings.ui
     CommonSrc/Forms/AppletOfferList.ui
-    CommonSrc/Forms/AppletOfferResponse.ui 
-    CommonSrc/Forms/AppletOfferResponseAccept.ui 
+    CommonSrc/Forms/AppletOfferResponse.ui
+    CommonSrc/Forms/AppletOfferResponseAccept.ui
     CommonSrc/Forms/AppletOfferSend.ui
-    CommonSrc/Forms/AppletOfferView.ui 
+    CommonSrc/Forms/AppletOfferView.ui
     CommonSrc/Forms/AppletPersonOfferList.ui
     CommonSrc/Forms/AppletPeerChangeFriendship.ui
     CommonSrc/Forms/AppletPeerReplyOfferFile.ui
@@ -989,12 +986,24 @@ qt_add_executable(nolimitconnect
     )
 
 if(DEFINED TARGET_OS_ANDROID)
-    set_target_properties(nolimitconnect PROPERTIES
-        ANDROID_TARGET_ARCH arm64-v8a
-        QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/bin-Android"
-        QT_ANDROID_ABIS arm64-v8a
-        CMAKE_ANDROID_ASSETS_DIRECTORIES  "${CMAKE_CURRENT_LIST_DIR}/bin-Android/assets"
-    )
+    message(STATUS "nolimitconnect cpu ${NLC_CPU}")
+    if(${NLC_CPU} STREQUAL "CPU_ARM32")
+        message(STATUS "nolimitconnect api armeabi-v7a")
+        set_target_properties(nolimitconnect PROPERTIES
+            ANDROID_TARGET_ARCH armeabi-v7a
+            QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/bin-Android"
+            QT_ANDROID_ABIS armeabi-v7a
+            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${CMAKE_CURRENT_LIST_DIR}/bin-Android/assets"
+            )
+    else()
+        message(STATUS "nolimitconnect api arm64-v8a")
+        set_target_properties(nolimitconnect PROPERTIES
+            ANDROID_TARGET_ARCH arm64-v8a
+            QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/bin-Android"
+            QT_ANDROID_ABIS arm64-v8a
+            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${CMAKE_CURRENT_LIST_DIR}/bin-Android/assets"
+            )
+    endif()
 else()
     set_target_properties(nolimitconnect PROPERTIES
         WIN32_EXECUTABLE TRUE
@@ -1019,7 +1028,7 @@ target_include_directories(nolimitconnect PUBLIC
     ../nolimitlib/GuiInterface
     ../nolimitlib/ptop_src/ptop_engine_src
     ${OPENSSL_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR} 
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${PROJECT_STATIC_LIB_DIR}
 )
@@ -1095,7 +1104,7 @@ if (DEFINED TARGET_OS_LINUX)
         ogg
         ssh
         netlib
-        pktlib        
+        pktlib
         curl # curl before ssl because dependency md4 from ssl
         ssl # static ssl lib version
         echocancel
@@ -1188,7 +1197,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
         ogg
         ssh
         netlib
-        pktlib       
+        pktlib
         curl # curl before ssl because dependency md4 from ssl
         ssl # static ssl lib version
         echocancel

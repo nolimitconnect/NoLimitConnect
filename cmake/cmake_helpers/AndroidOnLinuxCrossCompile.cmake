@@ -14,7 +14,7 @@ endif()
 
 set(CMAKE_SYSTEM_NAME Android)
 
-set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
+#set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
 
 set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)
 set(ARM_SYSROOT --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot)

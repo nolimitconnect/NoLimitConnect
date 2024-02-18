@@ -81,17 +81,16 @@
 #  define ARCH_X86                      0
 
 #  if defined(TARGET_CPU_64BIT)
-// BRJ FIXME ARCH_ARM no longer supported .. just ARCH_AARCH64
 #   define ARCH_AARCH64                  1
 #   define ARCH_ARM                      0
 #  else
 #   define ARCH_AARCH64                  0
-#   define ARCH_ARM                      0
+#   define ARCH_ARM                      1
 #  endif // defined(TARGET_CPU_64BIT)
 
-#  if (defined(__ARM_NEON__) || defined(__ARM_NEON))
-#   define ARM_FEATURE_NEON 1
-#  endif // (defined(__ARM_NEON__) || defined(__ARM_NEON))
+//#  if (defined(__ARM_NEON__) || defined(__ARM_NEON)) // commented out. both arm7a and aarch64 have neon instruction set
+#  define ARM_FEATURE_NEON 1
+//#  endif // (defined(__ARM_NEON__) || defined(__ARM_NEON))
 
 #  if defined(TARGET_CPU_64BIT)
 #   define ARCH_32_BITS					0
@@ -285,12 +284,16 @@ echo error NLC_ARCH_LITTLE_ENDIAN  is not defined
 //#define HAVE_ARMV6					1
 //#define HAVE_ARMV6T2				1
 #define HAVE_ARMV7					1
-#define HAVE_ARMV8					1
+#if defined(TARGET_CPU_AARCH64)
+# define HAVE_ARMV8 1
+#else
+# define HAVE_ARMV8 0
+#endif // defined(TARGET_CPU_AARCH64)
 /* NE10 library is installed on host. Make sure it is on target! */
 //# define HAVE_ARM_NE10			1
-#if defined(__ARM_NEON) || defined(__ARM_NEON__) || defined(__ARM_FEATURE_NEON)
-# define HAVE_ARM_NEON					1
-#endif // defined(__ARM_NEON) || defined(__ARM_NEON__)
+//#if defined(__ARM_NEON) || defined(__ARM_NEON__) || defined(__ARM_FEATURE_NEON)
+#define HAVE_ARM_NEON				1 // both arm68-v8a and both armeabi-v7a have neon extensions
+//#endif // defined(__ARM_NEON) || defined(__ARM_NEON__)
 
 //==== PPC architectures ===//
 #elif ARCH_PPC

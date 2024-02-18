@@ -14,6 +14,7 @@ if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "player-nlc abi ${ANDROID_ABI}")
     message(STATUS "player-nlc ndk ${ANDROID_NDK}")
     message(STATUS "player-nlc sdk root ${ANDROID_SDK_ROOT}")
+    message(STATUS "player-nlc cpu ${NLC_CPU}")
     
     find_package(Qt6 REQUIRED COMPONENTS Core)
 endif()

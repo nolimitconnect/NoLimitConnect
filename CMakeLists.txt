@@ -11,9 +11,10 @@ set(NLC_VERSION_MAJOR "1")
 set(NLC_VERSION_MINOR "0")
 set(NLC_VERSION_PATCH "0")
 
-set(NLC_QT "6_6_1")
-if(DEFINED QT_VERSION)
-    set(NLC_QT QT_VERSION)
+set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "" FORCE)
+
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    add_definitions(-DDEBUG)
 endif()
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
@@ -29,17 +30,13 @@ if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
 #     NDK 25.1.8937393
 
 
-#    if(${NLC_QT} STREQUAL "6_6_1")
-#        set(Qt6_DIR "F:/Qt/6.6.1/mingw_64/lib/cmake/Qt6")
-#    elseif(${NLC_QT} STREQUAL "6_4_3")
+#    if(${NLC_QT_VER} STREQUAL "6_6_2")
+#        set(Qt6_DIR "F:/Qt/6.6.2/mingw_64/lib/cmake/Qt6")
+#    elseif(${NLC_QT_VER} STREQUAL "6_4_3")
 #        set(Qt6_DIR "F:/Qt/6.4.3/mingw_64/lib/cmake/Qt6")
-#    elseif(${NLC_QT} STREQUAL "6_3_2")
-#        set(Qt6_DIR "F:/Qt/6.3.2/mingw_64/lib/cmake/Qt6")
 #    else()
 #       message(FATAL_ERROR "Windows Build UNKNOWN QT VERSION")
 #    endif()
-
-    message(STATUS "Build Target OS Android on host OS Windows Qt6_DIR " ${Qt6_DIR})
 endif()
 
 # Target OS can be TARGET_OS_WINDOWS or TARGET_OS_LINUX or TARGET_OS_ANDROID
@@ -51,6 +48,7 @@ endif()
 # make
 
 # print command line parameters
+message(STATUS "CMakeArgs: BEGIN")
 get_cmake_property(CacheVars CACHE_VARIABLES)
 foreach(CacheVar ${CacheVars})
   get_property(CacheVarHelpString CACHE ${CacheVar} PROPERTY HELPSTRING)
@@ -65,15 +63,120 @@ foreach(CacheVar ${CacheVars})
   endif()
 endforeach()
 message("CMakeArgs: ${CMakeArgs}")
+message(STATUS "CMakeArgs: END")
 
 message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME}")
+
+message(STATUS "1 - CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
+
+#defaults
+set(NLC_QT "6.4.3")
+set(NLC_POSTPATH "/gcc_64")
+
+set(NLC_CPU "CPU_X64")
+set(NLC_CPU_BITS "64")
+
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+    message(STATUS "Build host OS Windows")
+    set(NLC_PREPATH "F:/Qt/")
+    set(TARGET_OS_ANDROID true)    
+    if(DEFINED ANDROID_NDK)
+        message(STATUS "Command line NDK " ${ANDROID_NDK})
+    else()
+        set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/25.1.8937393)
+    endif()
+
+elseif(DEFINED MAKE_ENV)
+    message(STATUS "Build host GitLab")
+    set(NLC_PREPATH "/opt/qt/")
+
+elseif(DEFINED QT_VERSION)
+    message(STATUS "Build host Command Line Linux")
+    message(STATUS "Build host OS Linux")
+    set(NLC_PREPATH "/home/nolimit/Qt/")
+    if(${QT_VERSION} STREQUAL "6_6_2")
+        set(NLC_QT_VER "6.6.2")
+    elseif(${QT_VERSION} STREQUAL "6_6_1")
+        set(NLC_QT_VER "6.6.1")
+    elseif(${QT_VERSION} STREQUAL "6_4_3")
+        set(NLC_QT_VER "6.4.3")
+    else()
+        message(STATUS "Unknown command line QT_VERSION " ${QT_VERSION})
+    endif()
+
+else()
+    message(STATUS "Build host OS Linux")
+    set(NLC_PREPATH "/home/nolimit/Qt/")
+
+endif()
+
+# when run from command line
+if(DEFINED ARM32)
+    set(NLC_CPU "CPU_ARM32")
+    set(NLC_CPU_BITS "32")
+    set(NLC_POSTPATH "/android_armv7")
+elseif(DEFINED ARM64)
+    set(NLC_CPU "CPU_ARM64")
+    set(NLC_POSTPATH "/android_arm64_v8a")
+else()
+    set(NLC_CPU "CPU_X64")
+endif()
+
+# when run from within QtCreator
+if(DEFINED ANDROID_ABI)
+    if(ANDROID_ABI STREQUAL "armeabi-v7a")
+        set(NLC_CPU "CPU_ARM32")
+        set(NLC_CPU_BITS "32")
+    elseif(ANDROID_ABI STREQUAL "arm64-v8a")
+        set(NLC_CPU "CPU_ARM64")
+        set(NLC_CPU_BITS "64")
+    else()
+        message(STATUS "Unknown Android ABI ")
+    endif()
+
+    set(POS1 -1)
+    if(DEFINED CMAKE_PREFIX_PATH)
+        STRING( FIND "${CMAKE_PREFIX_PATH}" "6.4.3" POS1)
+        if( POS1 GREATER -1)
+            message(STATUS "PREFIX_PATH contains 6.4.3 ")
+            set(NLC_QT_VER " 6.4.3")
+
+        else()  
+            set(POS2 -1)
+            STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.1" POS2)
+            if( POS2 GREATER -1)
+                message(STATUS "PREFIX_PATH contains 6.6.1 ")
+                set(NLC_QT_VER " 6.6.1")
+
+            else()
+                set(POS3 -1)
+                STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.2" POS3)
+                if( POS3 GREATER -1)
+                    message(STATUS "PREFIX_PATH contains 6.6.2 ")
+                    set(NLC_QT_VER " 6.6.2")
+
+                else()
+                    message(ERROR "PREFIX_PATH did not contain any known QT Version ")
+                endif()
+            endif()
+        endif()
+
+    endif()
+
+else()
+    set(ANDROID_ABI "x64")
+endif()
+
+message(STATUS "CPU TYPE " ${NLC_CPU})
+message(STATUS "ANDROID ABI " ${ANDROID_ABI})
 
 #=== set source code root directory ===#
 set(PROJECT_SRC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 #=== detect build enviroment and target os ===#
 if(DEFINED MAKE_ENV)
-    # assume called from gitlab ci pipeline.. linux only compile and cross compile
+    message(STATUS "*** MAKE_ENV (GitLab) ***")
+    #=== assume called from gitlab ci pipeline.. linux only compile and cross compile of android
     set(CI_PIPELINE true)
     add_compile_definitions(CI_PIPELINE)
     message(STATUS "CI Pipeline Build")
@@ -101,17 +204,9 @@ if(DEFINED MAKE_ENV)
 
         # turn off warnings or gitlab will stop logging
         add_compile_options(-Wno-everything)
-        if(${NLC_QT} STREQUAL "6_6_1")
-            set(CMAKE_PREFIX_PATH "/opt/qt/6.6.1/gcc_64")
-        elseif(${NLC_QT} STREQUAL "6_4_3")
-            set(CMAKE_PREFIX_PATH "/opt/qt/6.4.3/gcc_64")
-        elseif(${NLC_QT} STREQUAL "6_3_2")
-            set(CMAKE_PREFIX_PATH "/opt/qt/6.3.2/gcc_64")
-        else()
-           message(FATAL_ERROR "CI Build UNKNOWN QT VERSION")
-        endif()
+        set(NLC_POSTPATH "/gcc_64")
 
-        message(STATUS "CI Build Target OS Linux built on host OS Linux")
+        message(STATUS "CI Build Target OS Linux built on host OS Linux " ${CMAKE_PREFIX_PATH})
 
         enable_language(ASM_NASM)
         set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
@@ -121,11 +216,12 @@ if(DEFINED MAKE_ENV)
         set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
         string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf -DARCH_X86_64=1 ")
     endif()
+
 elseif(DEFINED CMAKE_PREFIX_PATH)
-    ### assumes cmake was called from QCreator
+    message(STATUS "*** CMAKE_PREFIX_PATH (QtCreator) *** ${CMAKE_PREFIX_PATH}")
+    #=== assumes cmake was called from QCreator
     if(DEFINED ANDROID_NDK)
         set(TARGET_OS_ANDROID true)
-
         if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
             message(STATUS "QCreator Build Target OS Android built on host OS Windows")
         elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
@@ -133,13 +229,13 @@ elseif(DEFINED CMAKE_PREFIX_PATH)
         else()
             message(FATAL_ERROR "QCreator Build host is Unknown OS attempting to compile Android")
         endif()
+
     elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         set(TARGET_OS_WINDOWS true)
-
         message(STATUS "QCreator Build Target OS Windows built on host OS Windows")
+
     elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
         set(TARGET_OS_LINUX true)
-
         message(STATUS "QCreator Build Target OS Linux built on host OS Linux")
 
         enable_language(ASM_NASM)
@@ -150,8 +246,10 @@ elseif(DEFINED CMAKE_PREFIX_PATH)
         set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
         string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf -DARCH_X86_64=1 ")
     endif()
+
 else()
-    ### assumes cmake was called from command line and needs the enviroment setup
+    message(STATUS "*** CMD_LINE_MAKE ***")
+    #=== assumes cmake was called from command line and needs the enviroment setup
 
     #set define so can deterimine if need additional enviroment params missing in command line compile
     set(CMD_LINE_MAKE true)
@@ -164,24 +262,19 @@ else()
         if(TARGET_OS_LINUX)
             message(FATAL_ERROR "Target OS Linux built on Windows OS is NOT supported")
         elseif(TARGET_OS_ANDROID)
-            if(${NLC_QT} STREQUAL "6_6_1")
-                list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.6.1/gcc_64)
-                set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/25.1.8937393)
-            elseif(${NLC_QT} STREQUAL "6_4_3")
-                list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.4.3/gcc_64)
-                set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/25.1.8937393)
-            elseif(${NLC_QT} STREQUAL "6_3_2")
-                list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.3.2/gcc_64)
-                set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/23.1.7779620)
+            set(CMAKE_ANDROID_NDK F:/Android/android-sdk/ndk/25.1.8937393)
+            if(${NLC_CPU_BITS} STREQUAL "32")
+                set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang)
             else()
-                message(FATAL_ERROR "Android build on windows UNKNOWN QT VERSION")
+                set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)       
             endif()
-            
 
-            set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)
             set(ARM_SYSROOT --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot)
+       
         elseif(TARGET_OS_WINDOWS)
-            list(APPEND CMAKE_PREFIX_PATH  F:/Qt/6.6.1/gcc_64)
+            set(NLC_POST_PATH, "msvc2019_64")
+
+            list(APPEND CMAKE_PREFIX_PATH  ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
             message(STATUS "qt prefix path ${CMAKE_PREFIX_PATH}")
 
             set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
@@ -193,13 +286,11 @@ else()
         else()
            message(FATAL_ERROR "TARGET OS is not defined.. caller must define TARGET_OS_LINUX, TARGET_OS_WINDOWS or TARGET_OS_ANDROID")
         endif()
+
     elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+        message(STATUS "Build host OS Linux")
         if(TARGET_OS_LINUX)
-            if(${NLC_QT} STREQUAL "6_6_1")
-                list(APPEND CMAKE_PREFIX_PATH /home/nolimit/Qt/6.6.1/gcc_64)
-            else()
-                list(APPEND CMAKE_PREFIX_PATH  /home/nolimit/Qt/6.4.3/gcc_64)
-            endif()
+            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
 
             message(STATUS "qt prefix path ${CMAKE_PREFIX_PATH}")
 
@@ -212,18 +303,18 @@ else()
             string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf -DARCH_X86_64=1 ")
 
        elseif(TARGET_OS_ANDROID)
-            if(${NLC_QT} STREQUAL "6_6_0")
-                list(APPEND CMAKE_PREFIX_PATH /home/nolimit/Qt/6.6.1/gcc_64)
-                set(CMAKE_ANDROID_NDK /home/nolimit/Android/Sdk/ndk/25.1.8937393)
-            else()
-                list(APPEND CMAKE_PREFIX_PATH  /home/nolimit/Qt/6.4.3/gcc_64)
-                set(CMAKE_ANDROID_NDK /home/nolimit/Android/Sdk/ndk/23.1.7779620)
-            endif()
+ 
+           set(CMAKE_ANDROID_NDK /home/nolimit/Android/Sdk/ndk/25.1.8937393)
            
            set(ANDROID_SDK_ROOT /home/nolimit/Android/Sdk)
 
-           set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)
            set(ARM_SYSROOT --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot)
+            if(${NLC_CPU_BITS} STREQUAL "32")
+                set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang)
+            else()
+                set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)       
+            endif()
+
        elseif(TARGET_OS_WINDOWS)
             message(FATAL_ERROR "Target OS Windows built on Linux OS is not yet supported")
        else()
@@ -235,6 +326,7 @@ else()
 endif()
 
 if(DEFINED TARGET_OS_WINDOWS)
+    message(STATUS "*** TARGET_OS_WINDOWS ***")
     add_compile_definitions(TARGET_OS_WINDOWS)
     set(TARGET_CPU_X64 true)
     set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Windows)
@@ -244,20 +336,19 @@ if(DEFINED TARGET_OS_WINDOWS)
     file(MAKE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
 
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-        message(STATUS "Build Target OS Windows built on host OS Windows")
+        message(STATUS "TARGET_OS_WINDOWS Build Target OS Windows built on host OS Windows")
     elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-        message(STATUS "Build Target OS Windows built on host OS Linux is not yet supported")
+        message(STATUS "TARGET_OS_WINDOWS Build Target OS Windows built on host OS Linux is not yet supported")
     else()
         message(FATAL_ERROR "Build host is Unknown OS attempting to compile Windows")
     endif()
 
 elseif(DEFINED TARGET_OS_LINUX)
+    message(STATUS "*** TARGET_OS_LINUX ***")
     add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X86_64 TARGET_POSIX PIC)
     set(TARGET_CPU_X86_64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
     set(TARGET_POSIX true)
 
-    #-fpermissive # to allow address of temp to make VxPeerMgr.cpp
-    #sigaction(SIGPIPE, &((struct sigaction){sigpipe_handler}), NULL); compile
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 
     set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Linux)
@@ -270,31 +361,20 @@ elseif(DEFINED TARGET_OS_LINUX)
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr")
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
     if(WIN32)
-        message(STATUS "Build Target OS Linux built on host OS Windows is not supported")
+        message(STATUS "TARGET_OS_WINDOWS Build Target OS Linux built on host OS Windows is not supported")
     elseif(UNIX)
-        message(STATUS "Build Target OS Linux built on host OS Linux")
+        message(STATUS "TARGET_OS_LINUX Build Target OS Linux built on host OS Linux")
     else()
         message(FATAL_ERROR "Build host is Unknown OS attempting to compile Linux")
     endif()
 
 elseif(DEFINED TARGET_OS_ANDROID)
-
+    message(STATUS "*** TARGET_OS_ANDROID ***")
     set(CMAKE_SYSTEM_NAME Android)
-    if(${NLC_QT} STREQUAL "6_6_1")
-        set(CMAKE_SYSTEM_VERSION 33) # API leve
-        set(ANDROID_PLATFORM "android-24")
-    else()
-        set(CMAKE_SYSTEM_VERSION 33) # API leve
-        set(ANDROID_PLATFORM "android-24")
-    endif()
+    set(ANDROID_PLATFORM "android-24")
 
-    set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
     set(ANDROID_STL c++_static)
-    set(ANDROID_ABI "arm64-v8a")
 
-    add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_AARCH64 TARGET_CPU_ARM TARGET_CPU_64BIT)
-    set(TARGET_CPU_AARCH64 true)
-    set(TARGET_CPU_ARM true)#??
     set(TARGET_POSIX true)
     set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android)
     set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Android/assets)
@@ -305,7 +385,6 @@ elseif(DEFINED TARGET_OS_ANDROID)
     set(ANDROID_APK_OUTPUT_DIR ${PROJECT_PACKAGE_DIR})
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
-    set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} --target=aarch64-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
 
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         message(STATUS "Build Target OS Android built on host OS Windows")
@@ -319,42 +398,30 @@ else()
     message(FATAL_ERROR "TARGET OS is not defined.. caller must define TARGET_OS_LINUX, TARGET_OS_WINDOWS or TARGET_OS_ANDROID")
 endif()
 
-# defines for all projects
-
-add_compile_definitions(TARGET_CPU_64BIT)
-
 #there is a bug in qt.. either set CMAKE_PREFIX_PATH to the qt path or you will need to set Qt6Core_DIR, Qt6Gui_DIR, Qt6Widgets_DIR etc,
 
 if(CMD_LINE_MAKE)
+    message(STATUS "*** CMD_LINE_MAKE ***")
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         message(STATUS "HOST OS Windows")
 
         if(DEFINED TARGET_OS_ANDROID)
-            if(${NLC_QT} STREQUAL "6_6_1")
-                set(CMAKE_PREFIX_PATH "F:/Qt/6.6.1/android_arm64_v8a")
-            else()
-                set(CMAKE_PREFIX_PATH "F:/Qt/6.4.3/android_arm64_v8a")
-            endif()
+            # path should be set correctly already
+
             message(STATUS "CMD_LINE_MAKE Target Android on os windows")
 
         elseif(DEFINED TARGET_OS_WINDOWS)
             if(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-                if(${NLC_QT} STREQUAL "6_6_0")
-                    set(CMAKE_PREFIX_PATH "F:/Qt/6.6.1/msvc2019_64")
-                else()
-                    set(CMAKE_PREFIX_PATH "F:/Qt/6.4.3/msvc2019_64")
-                endif()
+                set(NLC_POSTPATH "/msvc2019_64")
                 
                 message(STATUS "CMD_LINE_MAKE Compiling windows with MSVC")
             else()
-                if(${NLC_QT} STREQUAL "6_6_0")
-                    set(CMAKE_PREFIX_PATH "F:/Qt/6.6.1/mingw_64")
-                else()
-                    set(CMAKE_PREFIX_PATH "F:/Qt/6.4.3/mingw_64")
-                endif()
-                
+                set(NLC_POSTPATH "/mingw_64")
                 message(STATUS "CMD_LINE_MAKE Compiling windows with mingw")
             endif()
+
+            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
+
         else()
             message("CMD_LINE_MAKE TARGET UNKNOWN")
         endif()
@@ -362,33 +429,31 @@ if(CMD_LINE_MAKE)
     elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
         message("HOST OS Linux")
         if(DEFINED TARGET_OS_ANDROID)
-            if(${NLC_QT} STREQUAL "6_6_1")
-                set(CMAKE_PREFIX_PATH "/home/nolimit/Qt/6.6.1/android_arm64_v8a")
-            else()
-                set(CMAKE_PREFIX_PATH "/home/nolimit/Qt/6.4.3/android_arm64_v8a")
-            endif()
+            # path should be set correctly already
+            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
             
             message(STATUS "CMD_LINE_MAKE Target Android")
+
         elseif(DEFINED TARGET_OS_LINUX)
-            if(${NLC_QT} STREQUAL "6_6_1")
-                set(CMAKE_PREFIX_PATH "/home/nolimit/Qt/6.6.1/gcc_64")
-            else()
-                set(CMAKE_PREFIX_PATH "/home/nolimit/Qt/6.4.3/gcc_64")
-            endif()
+            # path should be set correctly already
+            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
             
             message(STATUS "CMD_LINE_MAKE Target Linux")
+
         else()
             message("CMD_LINE_MAKE TARGET UNKNOWN")
         endif()
+
     else()
         message("CMD_LINE_MAKE CMAKE_HOST_SYSTEM_NAME UNKNOWN")
     endif()
 endif()
 
-if(CI_PIPELINE)
+if(CI_PIPELINE)   
+    message(STATUS "*** CI_PIPELINE ***")
     if(DEFINED TARGET_OS_ANDROID)
-        if(${NLC_QT} STREQUAL "6_6_1")
-            set(CMAKE_PREFIX_PATH "/opt/Qt-arm64-6.6.0/")
+        if(${NLC_QT_VER} STREQUAL "6.6.2")
+            set(CMAKE_PREFIX_PATH "/opt/Qt-arm64-6.6.2/")
             set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
         else()
             set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.4.3/android_arm64_v8a")
@@ -401,8 +466,8 @@ if(CI_PIPELINE)
         set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
         message(STATUS "CI Pipeline Target Android")
     elseif(DEFINED TARGET_OS_LINUX)
-        if(${NLC_QT} STREQUAL "6_6_1")
-            set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.0/gcc_64")
+        if(${NLC_QT_VER} STREQUAL "6.6.2")
+            set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.2/gcc_64")
         else()
             set(CMAKE_PREFIX_PATH "/opt/qt/6.4.3/gcc_64")
         endif()
@@ -426,50 +491,51 @@ endif()
 
 #=== project setup ===#
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+#set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-file(MAKE_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
+#file(MAKE_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 
-message(STATUS "bin directory ${PROJECT_BIN_DIR}")
-message(STATUS "assets directory ${PROJECT_ASSETS_DIR}")
-message(STATUS "static lib directory ${PROJECT_STATIC_LIB_DIR}")
-message(STATUS "package directory ${PROJECT_PACKAGE_DIR}")
-message(STATUS "cmake prefix directory ${CMAKE_PREFIX_PATH}")
-message(STATUS "cmake find root directory ${CMAKE_FIND_ROOT_PATH}")
-message(STATUS "source root directory ${PROJECT_SRC_ROOT_DIR}")
-
-if(DEFINED TARGET_OS_ANDROID)
-    message(STATUS "android ndk directory ${CMAKE_ANDROID_NDK}")
-    message(STATUS "android sdk directory ${ANDROID_SDK_ROOT}")
-endif()
-
-#if (CMAKE_CXX_COMPILER_ID MATCHES "(Clang|GNU)")
-#  add_compile_options(-Wall -Wpedantic -Wextra -Werror)
-#  add_compile_options(-fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer)
-#  add_link_options(-fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer)
-#elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-#  set_property(DIRECTORY APPEND PROPERTY COMPILE_OPTIONS "/w")
-#endif()
-
-
+#module path is needed for ConfigStaticDependLib.cmake
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SRC_ROOT_DIR}/cmake/cmake_helpers")
-message(STATUS "nlc cmake modules dir ${CMAKE_MODULE_PATH}")
-message(STATUS "nlc cmake build type ${CMAKE_BUILD_TYPE}")
-
-set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "" FORCE)
-
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-    add_definitions(-DDEBUG)
-endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #=== setup build settings ===#
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
+
+# defines for all projects
+if(${NLC_CPU} STREQUAL "CPU_ARM32")
+    #add_compile_options(-Wno-dev) #suppress dev warnings which even Qt spits out when compiling for armeabi-v7a
+
+    set(NLC_POSTPATH "/android_armv7")
+    set(ANDROID_ABI "armeabi-v7a")
+    set(CMAKE_ANDROID_ARCH_ABI armeabi-v7a)
+    message(STATUS "CMAKE_ANDROID_ARCH_ABI " ${CMAKE_ANDROID_ARCH_ABI})
+
+    set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} --target=arm7a-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
+    set(TARGET_CPU_ARM true) # general cpu type
+    add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_ARM TARGET_CPU_32BIT)
+
+elseif(${NLC_CPU} STREQUAL "CPU_ARM64")
+    set(NLC_POSTPATH "/android_arm64_v8a")
+    set(ANDROID_ABI "arm64-v8a")
+    set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
+    message(STATUS "CMAKE_ANDROID_ARCH_ABI " ${CMAKE_ANDROID_ARCH_ABI})
+
+    set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} --target=aarch64-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
+    set(TARGET_CPU_ARM true) # general cpu type
+    set(TARGET_CPU_AARCH64 true)
+    add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_ARM TARGET_CPU_AARCH64 TARGET_CPU_64BIT)
+
+else()
+    add_compile_definitions(TARGET_CPU_64BIT)
+endif()
+
 if(DEFINED TARGET_OS_ANDROID)
     set(CMAKE_ANDROID_ASSETS_DIRECTORIES "${PROJECT_BIN_DIR}/assets")
+    message(STATUS "CMAKE_ANDROID_ASSETS_DIRECTORIES " ${CMAKE_ANDROID_ASSETS_DIRECTORIES})
+
     project(nolimitconnect LANGUAGES C CXX ASM)
 
 else()
@@ -480,7 +546,24 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}")
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}") does not work for setting the executeable directory when debugging from qt
 
+message(STATUS "CMAKE_PREFIX_PATH " ${CMAKE_PREFIX_PATH})
+message(STATUS "CMAKE_MODULE_PATH " ${CMAKE_MODULE_PATH})
+message(STATUS "CMAKE_FIND_ROOT_PATH " ${CMAKE_FIND_ROOT_PATH})
+message(STATUS "CMAKE_ARCHIVE_OUTPUT_DIRECTORY " ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+if(DEFINED TARGET_OS_ANDROID)
+    message(STATUS "CMAKE_ANDROID_ARCH_ABI ${CMAKE_ANDROID_ARCH_ABI}")
+    message(STATUS "CMAKE_ANDROID_NDK ${CMAKE_ANDROID_NDK}")
+    message(STATUS "android sdk directory ${ANDROID_SDK_ROOT}")
+endif()
 
+message(STATUS "bin directory ${PROJECT_BIN_DIR}")
+message(STATUS "assets directory ${PROJECT_ASSETS_DIR}")
+message(STATUS "static lib directory ${PROJECT_STATIC_LIB_DIR}")
+message(STATUS "package directory ${PROJECT_PACKAGE_DIR}")
+message(STATUS "source root directory ${PROJECT_SRC_ROOT_DIR}")
+
+message(STATUS "project nlc cpu ${NLC_CPU}")
+message(STATUS "project nlc api ${ANDROID_ABI}")
 message(STATUS "project nlc is defined")
 
 #=== project subdirectories ===#

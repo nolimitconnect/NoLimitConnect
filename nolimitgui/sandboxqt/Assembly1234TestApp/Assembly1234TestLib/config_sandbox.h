@@ -67,7 +67,11 @@
 # define HAVE_ARMV5TE 0
 # define HAVE_ARMV6 0
 # define HAVE_ARMV6T2 0
+#if defined(TARGET_CPU_AARCH64)
 # define HAVE_ARMV8 1
+#else
+# define HAVE_ARMV8 0
+#endif // defined(TARGET_CPU_AARCH64)
 #define HAVE_NEON 1
 #define HAVE_VFP 1
 #else

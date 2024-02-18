@@ -11,6 +11,8 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include <stdint.h>
+
 class VxGUID;
 class GuiUser;
 

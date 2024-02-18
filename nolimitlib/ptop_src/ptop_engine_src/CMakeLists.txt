@@ -283,6 +283,7 @@ if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "ptopengine abi ${ANDROID_ABI}")
     message(STATUS "ptopengine ndk ${ANDROID_NDK}")
     message(STATUS "ptopengine sdk root ${ANDROID_SDK_ROOT}")
+    message(STATUS "ptopengine cpu ${NLC_CPU}")
 
     target_link_libraries(ptopengine Qt::Core Qt::CorePrivate Qt6::Quick)
 endif()

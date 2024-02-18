@@ -1,7 +1,7 @@
 
 set(TARGET_OS_ANDROID true)
 set(CMAKE_SYSTEM_NAME Android)
-set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
+#set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
 
 if(${NLC_QT} STREQUAL "6_6_0")
     set(CMAKE_SYSTEM_VERSION 34) # API level
