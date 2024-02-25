@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "config_ffmpeg.h"
+#include "config_ffmpeg_defs.h"
 #include "libavutil/riscv/asm.S"
 
 func ff_bswap32_buf_rvv, zve32x

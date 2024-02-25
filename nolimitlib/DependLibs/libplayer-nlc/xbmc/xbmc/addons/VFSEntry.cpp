@@ -609,7 +609,7 @@ int CVFSEntryIFileWrapper::Truncate(int64_t size)
   return m_addon->Truncate(m_context, size);
 }
 
-ssize_t CVFSEntryIFileWrapper::Read(void* lpBuf, size_t uiBufSize)
+int64_t CVFSEntryIFileWrapper::Read(void* lpBuf, size_t uiBufSize)
 {
   if (!m_context)
     return 0;
@@ -617,7 +617,7 @@ ssize_t CVFSEntryIFileWrapper::Read(void* lpBuf, size_t uiBufSize)
   return m_addon->Read(m_context, lpBuf, uiBufSize);
 }
 
-ssize_t CVFSEntryIFileWrapper::Write(const void* lpBuf, size_t uiBufSize)
+int64_t CVFSEntryIFileWrapper::Write(const void* lpBuf, size_t uiBufSize)
 {
   if (!m_context)
     return 0;

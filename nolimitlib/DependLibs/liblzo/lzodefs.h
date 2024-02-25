@@ -30,6 +30,7 @@
 #define __LZODEFS_H_INCLUDED 1
 
 #include <NlcDependLibrariesConfig.h>
+
 #ifdef TARGET_OS_WINDOWS
 # if ARCH_X86_64
 #  define LZO_OS_WIN64 1

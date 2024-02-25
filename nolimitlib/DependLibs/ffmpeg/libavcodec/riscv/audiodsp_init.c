@@ -22,7 +22,7 @@
 
 #include "libavutil/attributes.h"
 #include "libavutil/cpu_avutil.h"
-#include "libavcodec/audiodsp.h"
+#include "libavcodec/audiodsp_avcodec.h"
 
 void ff_vector_clipf_rvf(float *dst, const float *src, int len, float min, float max);
 

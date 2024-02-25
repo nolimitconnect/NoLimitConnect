@@ -30,7 +30,7 @@
 #include "libavutil/ppc/cpu.h"
 #include "libavutil/ppc/util_altivec.h"
 
-#include "libavcodec/blockdsp.h"
+#include "libavcodec/blockdsp_avcodec.h"
 
 /* ***** WARNING ***** WARNING ***** WARNING ***** */
 /*

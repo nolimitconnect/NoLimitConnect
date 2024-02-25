@@ -92,7 +92,7 @@
 
 #include "config_ffmpeg.h"
 #include "libswscale/rgb2rgb.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/swscale_internal.h"
 #include "libavutil/attributes.h"
 #include "libavutil/cpu_avutil.h"

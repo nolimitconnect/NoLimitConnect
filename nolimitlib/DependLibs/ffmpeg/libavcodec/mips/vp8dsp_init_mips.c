@@ -27,7 +27,7 @@
 #include "libavutil/mips/cpu.h"
 #include "config_ffmpeg.h"
 #include "libavutil/attributes.h"
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 #include "vp8dsp_mips.h"
 
 #define VP8_MC_MIPS_FUNC(IDX, SIZE)            \

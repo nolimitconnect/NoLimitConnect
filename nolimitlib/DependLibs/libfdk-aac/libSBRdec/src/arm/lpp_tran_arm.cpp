@@ -89,6 +89,7 @@ amm-info@iis.fraunhofer.de
 ******************************************************************************/
 
 #include "config_fdk-aac.h"
+#include "common_fix.h"
 #ifdef TARGET_CPU_ARM
 
 #if defined(__arm__)

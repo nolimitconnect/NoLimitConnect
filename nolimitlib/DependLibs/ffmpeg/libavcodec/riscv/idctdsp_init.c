@@ -24,7 +24,7 @@
 #include "libavutil/cpu_avutil.h"
 #include "libavutil/riscv/cpu.h"
 #include "libavcodec/avcodec.h"
-#include "libavcodec/idctdsp.h"
+#include "libavcodec/idctdsp_avcodec.h"
 
 void ff_put_pixels_clamped_rvv(const int16_t *block, uint8_t *pixels,
                                ptrdiff_t stride);

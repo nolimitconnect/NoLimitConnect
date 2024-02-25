@@ -127,7 +127,7 @@ static inline wchar_t *x264_utf8_to_utf16( const char *utf8 )
     int len = MultiByteToWideChar( CP_UTF8, MB_ERR_INVALID_CHARS, utf8, -1, NULL, 0 );
     if( len )
     {
-        wchar_t *utf16 = malloc( len * sizeof( wchar_t ) );
+        wchar_t *utf16 = (wchar_t *)malloc( len * sizeof( wchar_t ) );
         if( utf16 )
         {
             if( MultiByteToWideChar( CP_UTF8, MB_ERR_INVALID_CHARS, utf8, -1, utf16, len ) )

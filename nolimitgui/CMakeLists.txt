@@ -1135,106 +1135,209 @@ if (DEFINED TARGET_OS_LINUX)
 
 elseif (DEFINED TARGET_OS_ANDROID)
     find_package(Qt6 6.4 COMPONENTS Quick Gui REQUIRED)
-    target_link_libraries(nolimitconnect
-        PUBLIC
-        # static nlc libraries
-        #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
-        ptopengine
-        player-nlc
-        avdevice
-        avfilter
-        avformat
-        avcodec
-        postproc
-        swresample
-        swscale
-        avutil
-        ffmpegopus
-        x264
-        x265
-        dav1d
-        # vpx # needed but does not compile yet
-        nfs
-        cdio
-        pcre
-        armrwbenc
-        fdk-aac
-        opencore-amr
-        openmpt
-        mediatools
-        speex
-        lame
-        vorbis2
-        # microhttpd
-        gnu
-        # these are nomally combined into one library depends for command line length issue when build on windows
-        ass
-        cpluff
-        croco
-        exif
-        expat
-        flac
-        fribidi
-        glew
-        iconv
-        ilbc
-        jpg
-        # mdnssd
-        vxvideolib
-        openjpeg
-        shine
-        snappy
-        speex
-        tag
-        theora
-        twolame
-        wavepack
-        webp
-        xslt
-        yajl
-        zvbi
-        # end of these are nomally combined into one library depends
-        ogg
-        ssh
-        netlib
-        pktlib
-        curl # curl before ssl because dependency md4 from ssl
-        ssl # static ssl lib version
-        echocancel
-        fribidi
-        freetype
-        png
-        tinyxml
-        xml2
-        bzip2
-        lzma
-        lzo
-        zip
-        CoreLib
-        zlib
-        crossguid
-        bz2
-        aecm-webrtc
-        miniaudio
-        miniupnpc
-        dl
-        m
-        EGL
-        GLESv2
-        c
-        stdc++
-        jnigraphics
-        android
-        # Qt libraries
-        Qt::Core
-        Qt::CorePrivate
-        Qt::Gui
-        Qt::Multimedia
-        Qt::OpenGL
-        Qt::Widgets
-        Qt::Svg
-        Qt6::Quick
-    )
+    if (DEFINED TARGET_CPU_AARCH64)
+        target_link_libraries(nolimitconnect
+            PUBLIC
+            # static nlc libraries
+            #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
+            ptopengine
+            player-nlc
+            avdevice
+            avfilter
+            avformat
+            avcodec
+            postproc
+            swresample
+            swscale
+            avutil
+            ffmpegopus
+            x264
+            x265
+            dav1d
+            # vpx # needed but does not compile yet
+            nfs
+            cdio
+            pcre
+            armrwbenc
+            fdk-aac
+            opencore-amr
+            openmpt
+            mediatools
+            speex
+            lame
+            vorbis2
+            # microhttpd
+            gnu
+            # these are nomally combined into one library depends for command line length issue when build on windows
+            ass
+            cpluff
+            croco
+            exif
+            expat
+            flac
+            fribidi
+            glew
+            iconv
+            ilbc
+            jpg
+            # mdnssd
+            vxvideolib
+            openjpeg
+            shine
+            snappy
+            speex
+            tag
+            theora
+            twolame
+            wavepack
+            webp
+            xslt
+            yajl
+            zvbi
+            # end of these are nomally combined into one library depends
+            ogg
+            ssh
+            netlib
+            pktlib
+            curl # curl before ssl because dependency md4 from ssl
+            ssl # static ssl lib version
+            echocancel
+            fribidi
+            freetype
+            png
+            tinyxml
+            xml2
+            bzip2
+            lzma
+            lzo
+            zip
+            CoreLib
+            zlib
+            crossguid
+            bz2
+            aecm-webrtc
+            miniaudio
+            miniupnpc
+            dl
+            m
+            EGL
+            GLESv2
+            c
+            stdc++
+            jnigraphics
+            android
+            # Qt libraries
+            Qt::Core
+            Qt::CorePrivate
+            Qt::Gui
+            Qt::Multimedia
+            Qt::OpenGL
+            Qt::Widgets
+            Qt::Svg
+            Qt6::Quick
+        )
+    elseif(DEFINED TARGET_CPU_ARM)
+        target_link_libraries(nolimitconnect
+            PUBLIC
+            # static nlc libraries
+            #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
+            ptopengine
+            player-nlc
+            avdevice
+            avfilter
+            avformat
+            avcodec
+            postproc
+            swresample
+            swscale
+            avutil
+            ffmpegopus
+            #x264
+            #x265 #cannot compile x265 on arm7a
+            dav1d
+            # vpx # needed but does not compile yet
+            nfs
+            cdio
+            pcre
+            armrwbenc
+            fdk-aac
+            opencore-amr
+            openmpt
+            mediatools
+            speex
+            lame
+            vorbis2
+            # microhttpd
+            gnu
+            # these are nomally combined into one library depends for command line length issue when build on windows
+            ass
+            cpluff
+            croco
+            exif
+            expat
+            flac
+            fribidi
+            glew
+            iconv
+            ilbc
+            jpg
+            # mdnssd
+            vxvideolib
+            openjpeg
+            shine
+            snappy
+            speex
+            tag
+            theora
+            twolame
+            wavepack
+            webp
+            xslt
+            yajl
+            zvbi
+            # end of these are nomally combined into one library depends
+            ogg
+            ssh
+            netlib
+            pktlib
+            curl # curl before ssl because dependency md4 from ssl
+            ssl # static ssl lib version
+            echocancel
+            fribidi
+            freetype
+            png
+            tinyxml
+            xml2
+            bzip2
+            lzma
+            lzo
+            zip
+            CoreLib
+            zlib
+            crossguid
+            bz2
+            aecm-webrtc
+            miniaudio
+            miniupnpc
+            dl
+            m
+            EGL
+            GLESv2
+            c
+            stdc++
+            jnigraphics
+            android
+            # Qt libraries
+            Qt::Core
+            Qt::CorePrivate
+            Qt::Gui
+            Qt::Multimedia
+            Qt::OpenGL
+            Qt::Widgets
+            Qt::Svg
+            Qt6::Quick
+        )
+    endif()
 
 elseif (DEFINED TARGET_OS_WINDOWS)
     target_link_libraries(nolimitconnect

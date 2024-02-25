@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "config_ffmpeg.h"
+#include "config_components.h"
 #if HAVE_AS_DN_DIRECTIVE
 #include "rgb2yuv_neon_common.S"
 

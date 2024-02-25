@@ -28,7 +28,7 @@
 #include "libavutil/ppc/util_altivec.h"
 
 #include "libavcodec/avcodec.h"
-#include "libavcodec/mpegvideo.h"
+#include "libavcodec/mpegvideo_avcodec.h"
 #include "libavcodec/me_cmp.h"
 
 #if HAVE_ALTIVEC

@@ -129,7 +129,7 @@ namespace XFILE
           size_t HeaderCallback(void *ptr, size_t size, size_t nmemb);
 
           bool Seek(int64_t pos);
-          ssize_t Read(void* lpBuf, size_t uiBufSize);
+          int64_t Read(void* lpBuf, size_t uiBufSize);
           bool ReadString(char *szLine, int iLineLength);
           int8_t FillBuffer(unsigned int want);
           void SetReadBuffer(const void* lpBuf, int64_t uiBufSize);

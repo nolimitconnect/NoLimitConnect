@@ -34,7 +34,7 @@
 
 #include "libavutil/imgutils_avutil.h"
 #include "libavutil/opt.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "avfilter.h"
 #include "filters.h"
 #include "formats.h"

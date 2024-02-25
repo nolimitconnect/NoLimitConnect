@@ -10,6 +10,18 @@
     <Filter Include="Sources\VisualStudioProps">
       <UniqueIdentifier>{d89f9503-67dc-4f05-91bf-9c9726e7d010}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\arm32">
+      <UniqueIdentifier>{36c83988-d500-46e7-8437-3122b3b5b88c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\arm">
+      <UniqueIdentifier>{9013d1c0-b7cd-43d9-ab54-a48a535f730a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\arm64">
+      <UniqueIdentifier>{991fbd19-ef61-4c23-b189-8ea21038bf75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\config">
+      <UniqueIdentifier>{872ee2f9-4ddc-4ce4-bba8-217c9a83787a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\bitdepth_8_part1.c">
@@ -134,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\x86\cpu.c">
       <Filter>Sources\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\arm\cpu.c">
+      <Filter>Sources\arm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +305,45 @@
     <ClInclude Include="..\..\src\x86\refmvs.h">
       <Filter>Sources\x86</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\arm\asm-offsets.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\cdef.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\cpu.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\filmgrain.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\ipred.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\itx.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\loopfilter.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\looprestoration.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\mc.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\msac.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\arm\refmvs.h">
+      <Filter>Sources\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\config_dav1d.h">
+      <Filter>Sources\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\config_dav1d_arm_internal.h">
+      <Filter>Sources\config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\dav1d.rc.in">
@@ -303,6 +357,129 @@
     </None>
     <None Include="nasm.targets">
       <Filter>Sources\VisualStudioProps</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\cdef.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\cdef_tmpl.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\cdef16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\filmgrain.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\filmgrain16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\ipred.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\ipred16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\itx.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\itx16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\loopfilter.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\loopfilter16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\looprestoration.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\looprestoration_common.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\looprestoration_tmpl.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\looprestoration16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\mc.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\mc16.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\msac.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\refmvs.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\32\util.S">
+      <Filter>Sources\arm32</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\cdef.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\cdef_tmpl.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\cdef16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\filmgrain.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\filmgrain16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\ipred.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\ipred16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\itx.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\itx16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\loopfilter.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\loopfilter16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\looprestoration.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\looprestoration_common.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\looprestoration_tmpl.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\looprestoration16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\mc.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\mc16.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\msac.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\refmvs.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\64\util.S">
+      <Filter>Sources\arm64</Filter>
+    </None>
+    <None Include="..\..\src\arm\asm.S">
+      <Filter>Sources\arm</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -444,10 +621,21 @@
     <NASM Include="..\..\src\x86\refmvs.asm">
       <Filter>Sources\x86</Filter>
     </NASM>
+    <NASM Include="..\..\config_arm.asm">
+      <Filter>Sources\config</Filter>
+    </NASM>
+    <NASM Include="..\..\config_x86.asm">
+      <Filter>Sources\config</Filter>
+    </NASM>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="nasm.xml">
       <Filter>Sources\VisualStudioProps</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt">
+      <Filter>Sources\config</Filter>
+    </Text>
   </ItemGroup>
 </Project>

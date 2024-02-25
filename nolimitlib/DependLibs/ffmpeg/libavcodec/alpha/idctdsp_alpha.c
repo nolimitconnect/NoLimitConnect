@@ -19,7 +19,7 @@
  */
 
 #include "libavutil/attributes.h"
-#include "libavcodec/idctdsp.h"
+#include "libavcodec/idctdsp_avcodec.h"
 #include "idctdsp_alpha.h"
 #include "asm.h"
 

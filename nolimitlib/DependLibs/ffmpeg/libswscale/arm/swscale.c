@@ -18,7 +18,7 @@
 
 #include "config_ffmpeg.h"
 #include "libavutil/attributes.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/swscale_internal.h"
 #include "libavutil/arm/cpu.h"
 

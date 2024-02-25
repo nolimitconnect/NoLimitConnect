@@ -22,7 +22,7 @@
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 #include "libavcodec/avcodec.h"
-#include "libavcodec/mpegvideo.h"
+#include "libavcodec/mpegvideo_avcodec.h"
 #include "mpegvideo_arm.h"
 
 void ff_dct_unquantize_h263_armv5te(int16_t *block, int qmul, int qadd, int count);

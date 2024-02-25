@@ -31,7 +31,7 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_CPU_ARM)
+if(DEFINED TARGET_CPU_AARCH64)
     list(APPEND swresample_SOURCES 
         aarch64/audio_convert_init.c
         aarch64/neontest.c
@@ -39,6 +39,15 @@ if(DEFINED TARGET_CPU_ARM)
         aarch64/audio_convert_neon.S
         aarch64/resample.S
     )
+elseif(DEFINED TARGET_CPU_ARM)
+    list(APPEND swresample_SOURCES
+        arm/audio_convert_init.c
+        arm/neontest.c
+        arm/resample_init.c
+        arm/audio_convert_neon.S
+        arm/resample.S
+    )
+
 endif()
 
 list(APPEND swresample_SOURCES 

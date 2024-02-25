@@ -41,7 +41,7 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_CPU_ARM)
+if(DEFINED TARGET_CPU_AARCH64)
     list(APPEND avutil_SOURCES 
         # tx_float_neon.S causes error
         # error: relocation R_AARCH64_ADD_ABS_LO12_NC cannot be used against symbol ff_tx_tab_4096_float; recompile with -fPIC
@@ -55,6 +55,16 @@ if(DEFINED TARGET_CPU_ARM)
         #included by others aarch64/asm.S
         aarch64/float_dsp_neon.S
         #aarch64/tx_float_neon.S
+    )
+elseif(DEFINED TARGET_CPU_ARM)
+    list(APPEND avutil_SOURCES
+        arm/cpu.c
+        arm/float_dsp_init_arm.c
+        arm/float_dsp_init_neon.c
+        #included by others arm/asm.S
+        arm/float_dsp_init_vfp.c
+        arm/float_dsp_neon.S
+        arm/float_dsp_vfp.S
     )
 endif()
 

@@ -33,7 +33,7 @@
 
 #include "libavcodec/avcodec.h"
 
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 
 typedef struct PrivData {
     unsigned int random_seed;

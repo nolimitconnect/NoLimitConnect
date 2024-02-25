@@ -10,13 +10,21 @@
 #define HAVE_6REGS 0 // 
 
 #if defined(TARGET_OS_ANDROID)
-#define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug --extra-version='\"kodi-4.4.1-Nexus-Alpha1\"' --cc=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang --cxx=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang++ --pkg-config=/home/nolimit/kodi/android-tools/xbmc-depends/x86_64-linux-gnu-native/bin/pkg-config --pkg-config-flags=--static --enable-cross-compile --enable-pic --ar=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar --ranlib=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib --strip=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --disable-doc --disable-devices --disable-programs --disable-sdl2 --enable-gpl --enable-postproc --enable-runtime-cpudetect --enable-pthreads --extra-cflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -Og -g -D_DEBUG -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-cxxflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -frtti -Og -g -D_DEBUG -std=c++17 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-ldflags='-L/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/lib -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -L/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/lib/android-21 ' --enable-neon --target-os=android --extra-libs=-liconv --disable-linux-perf --cpu=cortex-a53 --disable-armv5te --disable-armv6t2 --enable-gnutls --enable-libdav1d --arch=aarch64"
-#define FFMPEG_LICENSE "GPL version 2 or later"
-#define CONFIG_THIS_YEAR 2021
-#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
-#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
-#define CC_IDENT "Android (7155654, based on r399163b1) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)"
-#define OS_NAME android
+ #define FFMPEG_LICENSE "GPL version 2 or later"
+ #define CONFIG_THIS_YEAR 2021
+ #define OS_NAME android
+
+ #if defined(TARGET_CPU_AARCH64)
+	#define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug --extra-version='\"kodi-4.4.1-Nexus-Alpha1\"' --cc=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang --cxx=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang++ --pkg-config=/home/nolimit/kodi/android-tools/xbmc-depends/x86_64-linux-gnu-native/bin/pkg-config --pkg-config-flags=--static --enable-cross-compile --enable-pic --ar=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar --ranlib=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib --strip=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --disable-doc --disable-devices --disable-programs --disable-sdl2 --enable-gpl --enable-postproc --enable-runtime-cpudetect --enable-pthreads --extra-cflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -Og -g -D_DEBUG -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-cxxflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -frtti -Og -g -D_DEBUG -std=c++17 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-ldflags='-L/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/lib -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -L/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/lib/android-21 ' --enable-neon --target-os=android --extra-libs=-liconv --disable-linux-perf --cpu=cortex-a53 --disable-armv5te --disable-armv6t2 --enable-gnutls --enable-libdav1d --arch=aarch64"
+	#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
+	#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
+	#define CC_IDENT "Android (7155654, based on r399163b1) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)"
+ #elif defined(TARGET_CPU_ARM)
+	#define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug --extra-version='\"kodi-4.4.1-Nexus-Alpha1\"' --cc=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang --cxx=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang++ --pkg-config=/home/nolimit/kodi/android-tools/xbmc-depends/x86_64-linux-gnu-native/bin/pkg-config --pkg-config-flags=--static --enable-cross-compile --enable-pic --ar=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar --ranlib=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib --strip=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --disable-doc --disable-devices --disable-programs --disable-sdl2 --enable-gpl --enable-postproc --enable-runtime-cpudetect --enable-pthreads --extra-cflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -Og -g -D_DEBUG -isystem /home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-cxxflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -frtti -Og -g -D_DEBUG -std=c++17 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-ldflags='-L/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/lib -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -L/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/lib/android-21 ' --enable-neon --target-os=android --extra-libs=-liconv --disable-linux-perf --cpu=cortex-a53 --disable-armv5te --disable-armv6t2 --enable-gnutls --enable-libdav1d --arch=arm"
+	#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/share/ffmpeg"
+	#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/share/ffmpeg"
+	#define CC_IDENT "Android (7155654, based on r399163b1) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)"
+ #endif // defined(TARGET_CPU_AARCH64)
 
 #else
 #define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/ffmpegCheckout/ffmpeg_build --pkg-config-flags=--static --extra-cflags=-I/home/nolimit/ffmpegCheckout/ffmpeg_build/include --extra-ldflags=-L/home/nolimit/ffmpegCheckout/ffmpeg_build/lib --extra-libs='-lpthread -lm' --ld=g++ --bindir=/home/nolimit/ffmpegRun --enable-gpl --enable-gnutls --enable-libass --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libdav1d --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265"
@@ -43,10 +51,13 @@
 
 #if defined(TARGET_OS_ANDROID)
 # undef ARCH_ARM
-# define ARCH_ARM 0
-# define ARCH_AARCH64 1
-#else
-# define ARCH_AARCH64 0
+# if defined(TARGET_CPU_AARCH64)
+#  define ARCH_AARCH64 1
+#  define ARCH_ARM 0
+# else
+#  define ARCH_AARCH64 0
+#  define ARCH_ARM 1
+# endif // defined(TARGET_CPU_AARCH64)
 #endif // defined(TARGET_OS_ANDROID)
 
 // #define HAVE_MMX2 HAVE_MMXEXT
@@ -81,14 +92,18 @@
 # define ARCH_X86_32 0
 # undef ARCH_X86_64
 # define ARCH_X86_64 0
-# define HAVE_ARMV5TE 0
-# define HAVE_ARMV6 0
-# define HAVE_ARMV6T2 0
 #if defined(TARGET_CPU_AARCH64)
 # define HAVE_ARMV8 1
+# define HAVE_ARMV5TE 0
+# define HAVE_ARMV6T2 0
+# define HAVE_ARMV6 0
 #else
 # define HAVE_ARMV8 0
+# define HAVE_ARMV5TE 1
+# define HAVE_ARMV6T2 1
+# define HAVE_ARMV6 1
 #endif // defined(TARGET_CPU_AARCH64)
+
 #define HAVE_NEON 1
 #define HAVE_VFP 1
 #else
@@ -200,7 +215,12 @@
 #define HAVE_ARMV6T2_EXTERNAL 0
 
 #if defined(TARGET_OS_ANDROID)
-#define HAVE_ARMV8_EXTERNAL 1
+#if defined(TARGET_CPU_AARCH64)
+	#define HAVE_ARMV8_EXTERNAL 1
+#else
+	#define HAVE_ARMV8_EXTERNAL 0
+#endif // defined(TARGET_CPU_AARCH64)
+
 #define HAVE_NEON_EXTERNAL 1
 #define HAVE_VFP_EXTERNAL 1
 #else
@@ -292,7 +312,12 @@
 #define HAVE_ARMV6T2_INLINE 0
 
 #if defined(TARGET_OS_ANDROID)
-#define HAVE_ARMV8_INLINE 1
+#if defined(TARGET_CPU_AARCH64)
+ #define HAVE_ARMV8_INLINE 1
+#else
+ #define HAVE_ARMV8_INLINE 0
+#endif // defined(TARGET_CPU_AARCH64)
+
 #define HAVE_NEON_INLINE 1
 #define HAVE_VFP_INLINE 1
 #else
@@ -1024,7 +1049,7 @@
 #define CONFIG_LIBCODEC2 0
 
 #if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_WINDOWS)
-#define CONFIG_LIBDAV1D 0
+#define CONFIG_LIBDAV1D 0 // BRJ TODO enable LIBDAVID for windows and android
 #else
 #define CONFIG_LIBDAV1D 1
 #endif // defined(TARGET_OS_ANDROID)
@@ -1094,7 +1119,7 @@
 #define CONFIG_LIBVPX 0
 #elif defined(TARGET_OS_ANDROID)
 #define CONFIG_LIBVORBIS 1
-#define CONFIG_LIBVPX 0
+#define CONFIG_LIBVPX 0 // BRJ TODO LIBVPX for android
 #else
 #define CONFIG_LIBVORBIS 1
 #define CONFIG_LIBVPX 1
@@ -1184,19 +1209,14 @@
 #define CONFIG_FFNVCODEC 0
 #define CONFIG_NVDEC 0
 #define CONFIG_NVENC 0
+#define CONFIG_VAAPI 0
+#define CONFIG_VDPAU 0
+#define CONFIG_VIDEOTOOLBOX 0
+#define CONFIG_VULKAN 0
 
 #if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
-#define CONFIG_VAAPI 0
-#define CONFIG_VDPAU 0
-#define CONFIG_VIDEOTOOLBOX 0
-#define CONFIG_VULKAN 0
 #define CONFIG_V4L2_M2M 0
-
 #else // linux
-#define CONFIG_VAAPI 0
-#define CONFIG_VDPAU 0
-#define CONFIG_VIDEOTOOLBOX 0
-#define CONFIG_VULKAN 0
 #define CONFIG_V4L2_M2M 1
 #endif // defined(TARGET_OS_WINDOWS)
 
@@ -1386,13 +1406,8 @@
 #define CONFIG_TEXTUREDSPENC 1
 #define CONFIG_TPELDSP 1
 
-#if defined(TARGET_OS_LINUX)
-#define CONFIG_VAAPI_1 0
-#define CONFIG_VAAPI_ENCODE 0
-#else
-#define CONFIG_VAAPI_1 0
-#define CONFIG_VAAPI_ENCODE 0
-#endif // defined(TARGET_OS_LINUX)
+#define CONFIG_VAAPI_1 0		// disable even for linux
+#define CONFIG_VAAPI_ENCODE 0	// disable even for linux
 
 #if defined(TARGET_OS_LINUX) || defined(TARGET_OS_WINDOWS)
 #define CONFIG_VC1DSP 0 // requires inline assembly

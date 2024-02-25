@@ -19,7 +19,7 @@
  */
 
 #include <string.h>
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 #include "libavutil/mips/generic_macros_msa.h"
 #include "vp8dsp_mips.h"
 

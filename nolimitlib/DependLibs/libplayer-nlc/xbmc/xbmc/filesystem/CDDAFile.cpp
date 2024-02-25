@@ -105,7 +105,7 @@ int CFileCDDA::Stat(const NlcUrl& url, struct __stat64* buffer)
   return -1;
 }
 
-ssize_t CFileCDDA::Read(void* lpBuf, size_t uiBufSize)
+int64_t CFileCDDA::Read(void* lpBuf, size_t uiBufSize)
 {
   if (!m_pCdIo || !CServiceBroker::GetMediaManager().IsDiscInDrive())
     return -1;

@@ -65,7 +65,7 @@ if(DEFINED TARGET_CPU_X86_64)
         src/x86/msac.asm
         src/x86/refmvs.asm
         )
-else()
+elseif(DEFINED TARGET_CPU_AARCH64)
     list(APPEND dav1d_SOURCES 
         #included by others src/arm/asm.S
         src/arm/cpu.c
@@ -90,6 +90,30 @@ else()
         src/arm/64/refmvs.S
         src/arm/64/util.S
      )
+elseif(DEFINED TARGET_CPU_ARM)
+    list(APPEND dav1d_SOURCES
+         #included by others src/arm/asm.S
+        src/arm/cpu.c
+        src/arm/32/cdef.S
+        src/arm/32/cdef_tmpl.S
+        src/arm/32/filmgrain16.S
+        src/arm/32/filmgrain.S
+        src/arm/32/ipred16.S
+        src/arm/32/ipred.S
+        src/arm/32/itx16.S
+        src/arm/32/itx.S
+        src/arm/32/loopfilter16.S
+        src/arm/32/loopfilter.S
+        src/arm/32/looprestoration16.S
+        src/arm/32/looprestoration_common.S
+        src/arm/32/looprestoration.S
+        src/arm/32/looprestoration_tmpl.S
+        src/arm/32/mc16.S
+        src/arm/32/mc.S
+        src/arm/32/msac.S
+        src/arm/32/refmvs.S
+        src/arm/32/util.S
+    )
 endif()
 
 list(APPEND dav1d_SOURCES

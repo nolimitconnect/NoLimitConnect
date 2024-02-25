@@ -18,7 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "config_ffmpeg.h"
+
+#include "config_components.h"
 #include "libavutil/arm/asm.S"
 
 function swri_oldapi_conv_flt_to_s16_neon, export=1

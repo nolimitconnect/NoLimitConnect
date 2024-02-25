@@ -52,7 +52,7 @@ bool CUDFFile::Open(const NlcUrl& url)
 }
 
 //*********************************************************************************************
-ssize_t CUDFFile::Read(void *lpBuf, size_t uiBufSize)
+int64_t CUDFFile::Read(void *lpBuf, size_t uiBufSize)
 {
   if (uiBufSize > SSIZE_MAX)
     uiBufSize = SSIZE_MAX;

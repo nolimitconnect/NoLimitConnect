@@ -31,7 +31,7 @@
    .fpu neon
    .object_arch armv4t
 
-  .include "celt/arm/armopts-gnu.S"
+  .include "celt/arm/armopts.s"
 
  .if OPUS_ARM_MAY_HAVE_EDSP
   .global celt_pitch_xcorr_edsp

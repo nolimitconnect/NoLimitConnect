@@ -371,7 +371,7 @@ elseif(DEFINED TARGET_OS_LINUX)
 elseif(DEFINED TARGET_OS_ANDROID)
     message(STATUS "*** TARGET_OS_ANDROID ***")
     set(CMAKE_SYSTEM_NAME Android)
-    set(ANDROID_PLATFORM "android-24")
+    set(ANDROID_PLATFORM "android-23")
 
     set(ANDROID_STL c++_static)
 
@@ -513,7 +513,7 @@ if(${NLC_CPU} STREQUAL "CPU_ARM32")
     set(CMAKE_ANDROID_ARCH_ABI armeabi-v7a)
     message(STATUS "CMAKE_ANDROID_ARCH_ABI " ${CMAKE_ANDROID_ARCH_ABI})
 
-    set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} --target=arm7a-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
+    set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -march=armv7-a -mtune=cortex-a9 --target=arm-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
     set(TARGET_CPU_ARM true) # general cpu type
     add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_ARM TARGET_CPU_32BIT)
 

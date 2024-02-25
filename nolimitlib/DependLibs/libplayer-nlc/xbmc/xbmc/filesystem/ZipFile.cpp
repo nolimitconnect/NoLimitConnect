@@ -281,7 +281,7 @@ int CZipFile::Stat(const NlcUrl& url, struct __stat64* buffer)
   return 0;
 }
 
-ssize_t CZipFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t CZipFile::Read(void* lpBuf, size_t uiBufSize)
 {
   if (uiBufSize > SSIZE_MAX)
     uiBufSize = SSIZE_MAX;

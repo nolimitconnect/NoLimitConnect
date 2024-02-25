@@ -42,7 +42,7 @@ static int full_check( video_info_t *info, x264_param_t *param )
 
 #if HAVE_SWSCALE
 #undef DECLARE_ALIGNED
-#include <libswscale/swscale.h>
+#include <libswscale/swscale_swscale.h>
 #include <libavutil/opt.h>
 #include <libavutil/pixdesc.h>
 

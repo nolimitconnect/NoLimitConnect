@@ -74,7 +74,7 @@ int CImageFile::Stat(const NlcUrl& url, struct __stat64* buffer)
   return -1;
 }
 
-ssize_t CImageFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t CImageFile::Read(void* lpBuf, size_t uiBufSize)
 {
   return m_file.Read(lpBuf, uiBufSize);
 }

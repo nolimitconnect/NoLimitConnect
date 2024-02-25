@@ -23,7 +23,7 @@
 #if CONFIG_XMM_CLOBBER_TEST
 
 #include "libavutil/x86/w64xmmtest.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 
 wrap(sws_scale(struct SwsContext *c, const uint8_t *const srcSlice[],
                const int srcStride[], int srcSliceY, int srcSliceH,

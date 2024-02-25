@@ -35,6 +35,12 @@
     <None Include="..\..\..\config_ffmpeg_w64.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="..\..\arm\hscale.S" />
+    <None Include="..\..\arm\output.S" />
+    <None Include="..\..\arm\rgb2yuv_neon_16.S" />
+    <None Include="..\..\arm\rgb2yuv_neon_32.S" />
+    <None Include="..\..\arm\rgb2yuv_neon_common.S" />
+    <None Include="..\..\arm\yuv2rgb_neon.S" />
     <None Include="..\..\libswscale.v" />
     <None Include="..\..\Makefile" />
     <None Include="..\..\x86\Makefile" />

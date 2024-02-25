@@ -55,7 +55,7 @@ bool CISOFile::Open(const NlcUrl& url)
 }
 
 //*********************************************************************************************
-ssize_t CISOFile::Read(void *lpBuf, size_t uiBufSize)
+int64_t CISOFile::Read(void *lpBuf, size_t uiBufSize)
 {
   if (!m_bOpened)
     return -1;

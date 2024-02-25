@@ -89,8 +89,18 @@ endif()
 ####add_subdirectory(libvpx_win) # needed to play some videp types but does not compile yet
 add_subdirectory(libwavepack)
 add_subdirectory(libwebp)
-add_subdirectory(libx264)
-add_subdirectory(libx265)
+
+if(DEFINED TARGET_OS_ANDROID)
+    #libx265 does not compile for arm7a also kodi does not include in arm builds
+    if(DEFINED TARGET_CPU_AARCH64)
+        add_subdirectory(libx264)
+        add_subdirectory(libx265)
+    endif()
+else()
+ add_subdirectory(libx264)
+ add_subdirectory(libx265)
+endif()
+
 #add_subdirectory(libxavs) # not used (video codec)
 add_subdirectory(libxml2)
 add_subdirectory(libxslt)

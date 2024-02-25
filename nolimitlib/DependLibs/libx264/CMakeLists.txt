@@ -45,21 +45,36 @@ endif()
 
 
 if(DEFINED TARGET_OS_ANDROID)
-    list(APPEND x264_SOURCES 
-        common/aarch64/asm-offsets.c
-        common/aarch64/bitstream-a.S
-        common/aarch64/cabac-a.S
-        common/aarch64/dct-a.S
-        common/aarch64/deblock-a.S
-        common/aarch64/mc-a.S
-        common/aarch64/mc-c.c
-        common/aarch64/pixel-a.S
-        common/aarch64/predict-a.S
-        common/aarch64/predict-c.c
-        common/aarch64/quant-a.S
-        # common/aarch64/asm.S // included by others
-
-    )
+    if(DEFINED TARGET_CPU_AARCH64)
+        list(APPEND x264_SOURCES
+            common/aarch64/asm-offsets.c
+            common/aarch64/bitstream-a.S
+            common/aarch64/cabac-a.S
+            common/aarch64/dct-a.S
+            common/aarch64/deblock-a.S
+            common/aarch64/mc-a.S
+            common/aarch64/mc-c.c
+            common/aarch64/pixel-a.S
+            common/aarch64/predict-a.S
+            common/aarch64/predict-c.c
+            common/aarch64/quant-a.S
+            # common/aarch64/asm.S // included by others
+        )
+    elseif(DEFINED TARGET_CPU_ARM)
+        list(APPEND x264_SOURCES
+            common/arm/bitstream-a.S
+            common/arm/cpu-a.S
+            common/arm/dct-a.S
+            common/arm/deblock-a.S
+            common/arm/mc-a.S
+            common/arm/mc-c.c
+            common/arm/pixel-a.S
+            common/arm/predict-a.S
+            common/arm/predict-c.c
+            common/arm/quant-a.S
+            # common/arm/asm.S // included by others
+        )
+    endif()
 endif()
 
 

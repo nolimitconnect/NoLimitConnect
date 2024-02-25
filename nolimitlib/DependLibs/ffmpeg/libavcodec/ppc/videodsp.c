@@ -19,7 +19,7 @@
  */
 
 #include "libavutil/attributes.h"
-#include "libavcodec/videodsp.h"
+#include "libavcodec/videodsp_avcodec.h"
 
 static void prefetch_ppc(const uint8_t *mem, ptrdiff_t stride, int h)
 {

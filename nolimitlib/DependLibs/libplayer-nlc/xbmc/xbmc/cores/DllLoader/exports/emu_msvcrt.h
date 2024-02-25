@@ -19,12 +19,17 @@
 #if defined(TARGET_DARWIN) || defined(TARGET_FREEBSD) || defined(TARGET_OS_ANDROID)
 # ifdef TARGET_OS_ANDROID
    typedef long __off_t;
+#  ifdef TARGET_CPU_32BIT
+    typedef fpos_t __off_t;
+#  else
+    typedef fpos_t fpos64_t;
+#  endif // TARGET_CPU_32BIT
 # else
    typedef off_t __off_t;
+   typedef fpos_t fpos64_t;
 # endif // #ifndef TARGET_OS_ANDROID
 typedef int64_t off64_t;
 typedef off64_t __off64_t;
-typedef fpos_t fpos64_t;
 #endif
 
 #ifdef TARGET_WINDOWS

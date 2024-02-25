@@ -150,13 +150,13 @@ protected:
     //! \param lpBuf Buffer to read data into.
     //! \param[in] uiBufSize Number of bytes to read.
     //! \returns Number of bytes read.
-    ssize_t Read(void* lpBuf, size_t uiBufSize) override;
+    int64_t Read(void* lpBuf, size_t uiBufSize) override;
 
     //! \brief Write data to file.
     //! \param[in] lpBuf Data to write.
     //! \param[in] uiBufSize Number of bytes to write.
     //! \returns Number of bytes written.
-    ssize_t Write(const void* lpBuf, size_t uiBufSize) override;
+    int64_t Write(const void* lpBuf, size_t uiBufSize) override;
 
     //! \brief Seek in file.
     //! \param[in] iFilePosition Position to seek to.

@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 #include "libavutil/mips/generic_macros_msa.h"
 #include "vp8dsp_mips.h"
 

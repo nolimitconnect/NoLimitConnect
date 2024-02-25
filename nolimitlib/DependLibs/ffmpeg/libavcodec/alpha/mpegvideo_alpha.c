@@ -20,7 +20,7 @@
  */
 
 #include "libavutil/attributes.h"
-#include "libavcodec/mpegvideo.h"
+#include "libavcodec/mpegvideo_avcodec.h"
 #include "asm.h"
 
 static void dct_unquantize_h263_axp(int16_t *block, int n_coeffs,

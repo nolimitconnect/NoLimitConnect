@@ -32,7 +32,7 @@
 #include "config_ffmpeg.h"
 #include "compat/va_copy.h"
 #include "libavformat/avformat.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/version.h"
 #include "libswresample/swresample.h"
 #include "libavutil/avassert.h"

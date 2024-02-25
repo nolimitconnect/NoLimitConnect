@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 #include "libavutil/attributes.h"
-#include "libavcodec/audiodsp.h"
+#include "libavcodec/audiodsp_avcodec.h"
 #include "audiodsp_arm.h"
 
 void ff_vector_clipf_neon(float *dst, const float *src, int len, float min, float max);

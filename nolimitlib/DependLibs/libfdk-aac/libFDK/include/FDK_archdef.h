@@ -153,6 +153,12 @@ amm-info@iis.fraunhofer.de
 #define __ARM_NEON__
 #endif
 
+#if defined(TARGET_CPU_AARCH64)
+ #if !defined(__aarch64__) 
+   #define __aarch64__
+ #endif // !defined(__aarch64__) 
+#endif // defined(TARGET_CPU_AARCH64)
+
 #ifdef _M_ARM
 #include "armintr.h"
 #endif

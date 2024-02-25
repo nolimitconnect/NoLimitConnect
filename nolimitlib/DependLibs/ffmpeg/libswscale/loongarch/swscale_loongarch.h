@@ -22,7 +22,7 @@
 #ifndef SWSCALE_LOONGARCH_SWSCALE_LOONGARCH_H
 #define SWSCALE_LOONGARCH_SWSCALE_LOONGARCH_H
 
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/swscale_internal.h"
 
 void ff_hscale_8_to_15_lasx(SwsContext *c, int16_t *dst, int dstW,

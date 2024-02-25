@@ -19,8 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "config_ffmpeg.h"
-#include "asm.S"
+
+#include "config_components.h"
+#include "libavutil/arm/asm.S"
 
 function ff_vector_fmul_neon, export=1
         subs            r3,  r3,  #8

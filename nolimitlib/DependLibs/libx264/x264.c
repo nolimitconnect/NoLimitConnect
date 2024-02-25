@@ -58,7 +58,7 @@
 
 #if HAVE_SWSCALE
 #undef DECLARE_ALIGNED
-#include <libswscale/swscale.h>
+#include <libswscale/swscale_swscale.h>
 #endif
 
 #if HAVE_FFMS

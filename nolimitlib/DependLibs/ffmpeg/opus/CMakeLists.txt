@@ -74,22 +74,40 @@ if(DEFINED TARGET_OS_LINUX)
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)
-    list(APPEND ffmpegopus_SOURCES
-        celt/arm/arm_celt_map.c
-        celt/arm/armcpu.c
-        celt/arm/celt_mdct_ne10.c
-        celt/arm/celt_neon_intr.c
-        celt/arm/pitch_neon_intr.c
-        silk/arm/arm_silk_map.c
-        silk/arm/biquad_alt_neon_intr.c
-        silk/arm/LPC_inv_pred_gain_neon_intr.c
-        silk/arm/NSQ_del_dec_neon_intr.c
-        silk/arm/NSQ_neon.c
+    if(DEFINED TARGET_CPU_AARCH64)
+        list(APPEND ffmpegopus_SOURCES
+            celt/arm/arm_celt_map.c
+            celt/arm/armcpu.c
+            celt/arm/celt_mdct_ne10.c
+            celt/arm/celt_neon_intr.c
+            celt/arm/pitch_neon_intr.c
+            silk/arm/arm_silk_map.c
+            silk/arm/biquad_alt_neon_intr.c
+            silk/arm/LPC_inv_pred_gain_neon_intr.c
+            silk/arm/NSQ_del_dec_neon_intr.c
+            silk/arm/NSQ_neon.c
 
-        #celt/arm/celt_fft_ne10.c
-        #celt/arm/celt_pitch_xcorr_arm.s
-        #celt/arm/celt_pitch_xcorr_arm-gnu.S
-    )
+            #celt/arm/celt_fft_ne10.c
+            #celt/arm/celt_pitch_xcorr_arm.s
+            #celt/arm/celt_pitch_xcorr_arm-gnu.S
+        )
+    elseif(DEFINED TARGET_CPU_ARM)
+        list(APPEND ffmpegopus_SOURCES
+            celt/arm/arm_celt_map.c
+            celt/arm/armcpu.c
+            celt/arm/celt_mdct_ne10.c
+            celt/arm/celt_neon_intr.c
+            celt/arm/pitch_neon_intr.c
+            silk/arm/arm_silk_map.c
+            silk/arm/biquad_alt_neon_intr.c
+            silk/arm/LPC_inv_pred_gain_neon_intr.c
+            silk/arm/NSQ_del_dec_neon_intr.c
+            silk/arm/NSQ_neon.c
+            #celt/arm/celt_fft_ne10.c
+            #celt/arm/celt_pitch_xcorr_arm.s
+            #celt/arm/celt_pitch_xcorr_arm-gnu.S
+        )
+    endif()
 endif()
 
 list(APPEND ffmpegopus_SOURCES 
@@ -231,7 +249,70 @@ list(APPEND ffmpegopus_SOURCES
     src/mlp_data.c
 )
 
-add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES})
+set(ffmpegopus_HEADERS)
+list(APPEND ffmpegopus_HEADERS
+    config_ffmpegopus.h
+    config_opus_aarch64.h
+    config_opus_arm.h
+    config_opus_x64.h
+    celt/arch.h
+    celt/bands.h
+    celt/celt.h
+    celt/celt_lpc.h
+    celt/cpu_support.h
+    celt/cwrs.h
+    celt/ecintrin.h
+    celt/entcode.h
+    celt/entdec.h
+    celt/entenc.h
+    celt/fixed_c5x.h
+    celt/fixed_c6x.h
+    celt/fixed_debug.h
+    celt/fixed_generic.h
+    celt/float_cast.h
+    celt/kiss_fft.h
+    celt/laplace.h
+    celt/mathops.h
+    celt/mdct.h
+    celt/meson.build
+    celt/mfrngcod.h
+    celt/modes.h
+    celt/os_support.h
+    celt/pitch.h
+    celt/quant_bands.h
+    celt/rate.h
+    celt/stack_alloc.h
+    celt/static_modes_fixed.h
+    celt/static_modes_fixed_arm_ne10.h
+    celt/static_modes_float.h
+    celt/static_modes_float_arm_ne10.h
+    celt/vq.h
+    celt/_kiss_fft_guts.h
+    silk/API.h
+    silk/control.h
+    silk/debug.h
+    silk/define.h
+    silk/errors.h
+    silk/Inlines.h
+    silk/MacroCount.h
+    silk/MacroDebug.h
+    silk/macros.h
+    silk/main.h
+    silk/NSQ.h
+    silk/pitch_est_defines.h
+    silk/PLC.h
+    silk/resampler_private.h
+    silk/resampler_rom.h
+    silk/resampler_structs.h
+    silk/SigProc_FIX.h
+    silk/structs.h
+    silk/tables.h
+    silk/tuning_parameters.h
+    silk/typedef.h
+)
+
+
+add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES} ${ffmpegopus_HEADERS})
 
 if(DEFINED TARGET_CPU_X86_64)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse3 -msse4.1")

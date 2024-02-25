@@ -28,7 +28,7 @@
 #include "libavutil/ppc/cpu.h"
 #include "libavutil/ppc/util_altivec.h"
 
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 
 #include "hpeldsp_altivec.h"
 

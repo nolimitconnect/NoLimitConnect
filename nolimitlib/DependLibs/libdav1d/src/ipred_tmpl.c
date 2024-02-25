@@ -727,7 +727,7 @@ static void pal_pred_c(pixel *dst, const ptrdiff_t stride,
 }
 
 #if HAVE_ASM
-#if ARCH_AARCH64 || ARCH_ARM
+#if defined(TARGET_CPU_ARM) || ARCH_ARM
 #include "src/arm/ipred.h"
 #elif ARCH_X86
 #include "src/x86/ipred.h"

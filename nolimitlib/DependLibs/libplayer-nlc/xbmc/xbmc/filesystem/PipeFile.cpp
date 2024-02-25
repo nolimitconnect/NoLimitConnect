@@ -64,7 +64,7 @@ int CPipeFile::Stat(struct __stat64* buffer)
   return 0;
 }
 
-ssize_t CPipeFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t CPipeFile::Read(void* lpBuf, size_t uiBufSize)
 {
   if (!m_pipe)
     return -1;
@@ -75,7 +75,7 @@ ssize_t CPipeFile::Read(void* lpBuf, size_t uiBufSize)
   return m_pipe->Read((char *)lpBuf,(int)uiBufSize);
 }
 
-ssize_t CPipeFile::Write(const void* lpBuf, size_t uiBufSize)
+int64_t CPipeFile::Write(const void* lpBuf, size_t uiBufSize)
 {
   if (!m_pipe)
     return -1;

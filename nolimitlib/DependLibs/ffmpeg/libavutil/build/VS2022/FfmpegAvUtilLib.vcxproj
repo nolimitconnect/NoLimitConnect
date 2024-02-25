@@ -293,6 +293,9 @@
     <None Include="..\..\..\config_ffmpeg_w64.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="..\..\arm\asm.S" />
+    <None Include="..\..\arm\float_dsp_neon.S" />
+    <None Include="..\..\arm\float_dsp_vfp.S" />
     <None Include="..\..\libavutil.v" />
     <None Include="..\..\Makefile" />
     <None Include="..\..\x86\Makefile" />

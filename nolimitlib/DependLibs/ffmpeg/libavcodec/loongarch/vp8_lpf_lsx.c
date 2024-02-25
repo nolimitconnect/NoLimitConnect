@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 #include "vp8dsp_loongarch.h"
 #include "libavutil/loongarch/loongson_intrinsics.h"
 

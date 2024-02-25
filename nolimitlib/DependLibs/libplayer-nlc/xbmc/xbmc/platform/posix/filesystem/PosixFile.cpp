@@ -89,7 +89,7 @@ void CPosixFile::Close()
 }
 
 
-ssize_t CPosixFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t CPosixFile::Read(void* lpBuf, size_t uiBufSize)
 {
   if (m_fd < 0)
     return -1;
@@ -131,7 +131,7 @@ ssize_t CPosixFile::Read(void* lpBuf, size_t uiBufSize)
   return res;
 }
 
-ssize_t CPosixFile::Write(const void* lpBuf, size_t uiBufSize)
+int64_t CPosixFile::Write(const void* lpBuf, size_t uiBufSize)
 {
   if (m_fd < 0)
     return -1;

@@ -62,7 +62,7 @@ int CMusicDatabaseFile::Stat(const NlcUrl& url, struct __stat64* buffer)
   return m_file.Stat(TranslateUrl(url), buffer);
 }
 
-ssize_t CMusicDatabaseFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t CMusicDatabaseFile::Read(void* lpBuf, size_t uiBufSize)
 {
   return m_file.Read(lpBuf, uiBufSize);
 }

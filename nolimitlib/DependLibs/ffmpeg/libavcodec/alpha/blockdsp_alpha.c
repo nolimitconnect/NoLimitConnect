@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 #include "libavutil/attributes.h"
-#include "libavcodec/blockdsp.h"
+#include "libavcodec/blockdsp_avcodec.h"
 #include "asm.h"
 
 static void clear_blocks_axp(int16_t *blocks) {

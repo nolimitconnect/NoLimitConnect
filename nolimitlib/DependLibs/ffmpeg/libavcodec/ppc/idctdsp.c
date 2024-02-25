@@ -40,7 +40,7 @@
 #include "libavutil/ppc/cpu.h"
 #include "libavutil/ppc/util_altivec.h"
 
-#include "libavcodec/idctdsp.h"
+#include "libavcodec/idctdsp_avcodec.h"
 
 #if HAVE_ALTIVEC
 

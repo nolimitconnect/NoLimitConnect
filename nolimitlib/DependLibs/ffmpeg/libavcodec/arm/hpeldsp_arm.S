@@ -19,7 +19,7 @@
 @ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 @
 
-#include "config_ffmpeg.h"
+#include "config_components.h"
 #include "libavutil/arm/asm.S"
 
 #if !HAVE_ARMV5TE_EXTERNAL

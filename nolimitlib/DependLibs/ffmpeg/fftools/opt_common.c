@@ -54,7 +54,7 @@
 #include "libavfilter/avfilter.h"
 #include "libavfilter/version.h"
 
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/version.h"
 
 #include "libswresample/swresample.h"

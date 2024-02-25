@@ -441,7 +441,7 @@ int CFileCache::Stat(const NlcUrl& url, struct __stat64* buffer)
   return CFile::Stat(url.Get(), buffer);
 }
 
-ssize_t CFileCache::Read(void* lpBuf, size_t uiBufSize)
+int64_t CFileCache::Read(void* lpBuf, size_t uiBufSize)
 {
   std::unique_lock<CCriticalSection> lock(m_sync);
   if (!m_pCache)

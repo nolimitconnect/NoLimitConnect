@@ -26,7 +26,7 @@ namespace XFILE
     virtual bool Exists(const NlcUrl& url);
 
     virtual int64_t Seek(int64_t iFilePosition, int iWhence = SEEK_SET);
-    virtual ssize_t Read(void* lpBuf, size_t uiBufSize);
+    virtual int64_t Read(void* lpBuf, size_t uiBufSize);
     virtual int Stat(struct __stat64* buffer);
     virtual int Stat(const NlcUrl& url, struct __stat64* buffer);
     virtual int64_t GetLength();

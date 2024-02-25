@@ -174,7 +174,7 @@ int64_t CAPKFile::Seek(int64_t iFilePosition, int iWhence)
   return m_file_pos;
 }
 
-ssize_t CAPKFile::Read(void *lpBuf, size_t uiBufSize)
+int64_t CAPKFile::Read(void *lpBuf, size_t uiBufSize)
 {
   if (uiBufSize > SSIZE_MAX)
     uiBufSize = SSIZE_MAX;

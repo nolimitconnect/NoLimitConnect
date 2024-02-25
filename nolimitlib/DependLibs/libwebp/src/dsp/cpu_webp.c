@@ -19,7 +19,7 @@
 #endif
 
 #if defined(WEBP_ANDROID_NEON)
-#include <cpu-features.h>
+#include <androidNdk/android/cpufeatures/cpu-features.h>
 #endif
 
 //------------------------------------------------------------------------------

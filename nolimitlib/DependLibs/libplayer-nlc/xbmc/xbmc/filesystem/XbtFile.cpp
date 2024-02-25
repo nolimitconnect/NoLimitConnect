@@ -150,7 +150,7 @@ int CXbtFile::Stat(const NlcUrl& url, struct __stat64* buffer)
   return 0;
 }
 
-ssize_t CXbtFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t CXbtFile::Read(void* lpBuf, size_t uiBufSize)
 {
   if (lpBuf == nullptr || !m_open)
     return -1;

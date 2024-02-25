@@ -33,7 +33,7 @@ public:
   bool Open(const NlcUrl& url) override;
   bool Exists(const NlcUrl& url) override;
   int Stat(const NlcUrl& url, struct __stat64* buffer) override;
-  ssize_t Read(void* lpBuf, size_t uiBufSize) override;
+  int64_t Read(void* lpBuf, size_t uiBufSize) override;
   int64_t Seek(int64_t iFilePosition, int iWhence = SEEK_SET) override;
   void Close() override;
 protected:

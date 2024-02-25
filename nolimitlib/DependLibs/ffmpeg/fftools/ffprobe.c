@@ -56,7 +56,7 @@
 #include "libavutil/timestamp.h"
 #include "libavdevice/avdevice.h"
 #include "libavdevice/version.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/version.h"
 #include "libswresample/swresample.h"
 #include "libswresample/version.h"

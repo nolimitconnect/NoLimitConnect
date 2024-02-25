@@ -20,7 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "config_ffmpeg.h"
 #include "libavutil/arm/asm.S"
 
 function ff_int32_to_float_fmul_scalar_neon, export=1

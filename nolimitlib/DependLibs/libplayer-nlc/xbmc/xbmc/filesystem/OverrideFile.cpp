@@ -81,12 +81,12 @@ int COverrideFile::Stat(struct __stat64* buffer)
   return m_file.Stat(buffer);
 }
 
-ssize_t COverrideFile::Read(void* lpBuf, size_t uiBufSize)
+int64_t COverrideFile::Read(void* lpBuf, size_t uiBufSize)
 {
   return m_file.Read(lpBuf, uiBufSize);
 }
 
-ssize_t COverrideFile::Write(const void* lpBuf, size_t uiBufSize)
+int64_t COverrideFile::Write(const void* lpBuf, size_t uiBufSize)
 {
   if (!m_writable)
     return -1;

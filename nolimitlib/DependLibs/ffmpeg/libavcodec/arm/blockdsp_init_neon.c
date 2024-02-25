@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 #include "libavutil/attributes.h"
-#include "libavcodec/blockdsp.h"
+#include "libavcodec/blockdsp_avcodec.h"
 #include "blockdsp_arm.h"
 
 void ff_clear_block_neon(int16_t *block);

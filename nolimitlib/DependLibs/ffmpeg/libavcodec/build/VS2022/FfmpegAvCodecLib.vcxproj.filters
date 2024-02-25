@@ -1992,6 +1992,39 @@
       <Filter>x86</Filter>
     </ClInclude>
     <ClInclude Include="..\..\vlc2_avcodec.h" />
+    <ClInclude Include="..\..\..\config_aarch64.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\config_arm.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\config_components.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\config_ffmpeg_defs.h">
+      <Filter>FfmpegConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\bswap.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\cpu.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\float_dsp_arm.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\intmath.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\intreadwrite.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\neontest.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libavutil\arm\timer.h">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtPri">
@@ -2008,6 +2041,21 @@
     </Filter>
     <Filter Include="VisualStudioProps">
       <UniqueIdentifier>{d5ea7b4d-174c-446f-a937-61173b4479a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FfmpegConfig\libavutil">
+      <UniqueIdentifier>{1a40e800-dde8-4bc1-8866-39720a49f0e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FfmpegConfig\libavutil\arm">
+      <UniqueIdentifier>{c9ea00fd-c937-43af-b8c1-035be61351ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FfmpegConfig\libavutil\aarch64">
+      <UniqueIdentifier>{96663736-99f4-48f8-aa54-a6c39bf11511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="arm">
+      <UniqueIdentifier>{f92a0df7-843b-445d-b509-960fb819dd44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aarch64">
+      <UniqueIdentifier>{5a2fcf6b-d1cd-43dc-8f9d-7bc0779b9be2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2032,6 +2080,327 @@
     </None>
     <None Include="nasm.targets">
       <Filter>VisualStudioProps</Filter>
+    </None>
+    <None Include="..\..\..\libavutil\arm\asm.S">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </None>
+    <None Include="..\..\..\libavutil\aarch64\asm.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\..\libavutil\arm\float_dsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\arm</Filter>
+    </None>
+    <None Include="..\..\aarch64\aacpsdsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\fft_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\fmtconvert_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\h264cmc_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\h264dsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\h264idct_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\h264pred_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\h264qpel_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\hevcdsp_deblock_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\hevcdsp_epel_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\hevcdsp_idct_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\hevcdsp_qpel_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\hevcdsp_sao_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\hpeldsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\idctdsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\mdct_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\me_cmp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\mpegaudiodsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\opusdsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\pixblockdsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\sbrdsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\simple_idct_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\synth_filter_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vc1dsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\videodsp.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vorbisdsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp8dsp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9itxfm_16bpp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9itxfm_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9lpf_16bpp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9lpf_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9mc_16bpp_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9mc_aarch64.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\aarch64\vp9mc_neon.S">
+      <Filter>FfmpegConfig\libavutil\aarch64</Filter>
+    </None>
+    <None Include="..\..\arm\aacpsdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\ac3dsp_arm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\ac3dsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\ac3dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\audiodsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\blockdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\fft_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\fft_vfp.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\flacdsp_arm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\fmtconvert_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\fmtconvert_vfp.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\g722dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\h264cmc_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\h264dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\h264idct_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\h264pred_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\h264qpel_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hevcdsp_deblock_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hevcdsp_idct_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hevcdsp_qpel_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hevcdsp_sao_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hpeldsp_arm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hpeldsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\hpeldsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\idctdsp_arm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\idctdsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\idctdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\int_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\jrevdct_arm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\lossless_audiodsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mdct_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mdct_vfp.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\me_cmp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mlpdsp_armv5te.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mlpdsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mpegaudiodsp_fixed_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mpegvideo_armv5te_s.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mpegvideo_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\mpegvideoencdsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\pixblockdsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\pixblockdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\rdft_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\rv34dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\rv40dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\sbcdsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\sbcdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\sbrdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\simple_idct_arm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\simple_idct_armv5te.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\simple_idct_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\simple_idct_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\startcode_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\synth_filter_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\synth_filter_vfp.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vc1dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\videodsp_armv5te.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vorbisdsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp3dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp6dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp8_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp8dsp_armv6.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp8dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp9itxfm_16bpp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp9itxfm_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp9lpf_16bpp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp9lpf_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp9mc_16bpp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\vp9mc_neon.S">
+      <Filter>arm</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

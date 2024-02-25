@@ -22,7 +22,7 @@
 #include "config_ffmpeg.h"
 #include "libavutil/attributes.h"
 #include "libavutil/mips/asmdefs.h"
-#include "libavcodec/videodsp.h"
+#include "libavcodec/videodsp_avcodec.h"
 
 static void prefetch_mips(const uint8_t *mem, ptrdiff_t stride, int h)
 {

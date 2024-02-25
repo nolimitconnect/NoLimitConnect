@@ -212,7 +212,8 @@ if(DEFINED TARGET_OS_LINUX)
     )
 endif()
 
-if(DEFINED TARGET_CPU_ARM)
+if(DEFINED TARGET_CPU_AARCH64)
+    message(STATUS "avcodec adding TARGET_CPU_AARCH64 files")
     list(APPEND avcodec_SOURCES 
         aarch64/aacpsdsp_init_aarch64.c
         aarch64/fft_init_aarch64.c
@@ -273,6 +274,132 @@ if(DEFINED TARGET_CPU_ARM)
         aarch64/vp9mc_16bpp_neon.S
         aarch64/vp9mc_aarch64.S
         aarch64/vp9mc_neon.S
+    )
+elseif(DEFINED TARGET_CPU_ARM)
+    message(STATUS "avcodec adding TARGET_CPU_ARM files")
+    list(APPEND avcodec_SOURCES
+        arm/aacpsdsp_init_arm.c
+        arm/aacpsdsp_neon.S
+        arm/ac3dsp_arm.S
+        arm/ac3dsp_armv6.S
+        arm/ac3dsp_init_arm.c
+        arm/ac3dsp_neon.S
+        arm/audiodsp_init_arm.c
+        arm/audiodsp_init_neon.c
+        arm/audiodsp_neon.S
+        arm/blockdsp_init_arm.c
+        arm/blockdsp_init_neon.c
+        arm/blockdsp_neon.S
+        arm/fft_init_arm.c
+        arm/fft_neon.S
+        arm/fft_vfp.S
+        arm/flacdsp_arm.S
+        arm/flacdsp_init_arm.c
+        arm/fmtconvert_init_arm.c
+        arm/fmtconvert_neon.S
+        arm/fmtconvert_vfp.S
+        arm/g722dsp_init_arm.c
+        arm/g722dsp_neon.S
+        arm/h264chroma_init_arm.c
+        arm/h264cmc_neon.S
+        arm/h264dsp_init_arm.c
+        arm/h264dsp_neon.S
+        arm/h264idct_neon.S
+        arm/h264pred_init_arm.c
+        arm/h264pred_neon.S
+        arm/h264qpel_init_arm.c
+        arm/h264qpel_neon.S
+        arm/hevcdsp_deblock_neon.S
+        arm/hevcdsp_idct_neon.S
+        arm/hevcdsp_init_arm.c
+        arm/hevcdsp_init_neon.c
+        arm/hevcdsp_qpel_neon.S
+        arm/hevcdsp_sao_neon.S
+        arm/hpeldsp_arm.S
+        arm/hpeldsp_armv6.S
+        arm/hpeldsp_init_arm.c
+        arm/hpeldsp_init_armv6.c
+        arm/hpeldsp_init_neon.c
+        arm/hpeldsp_neon.S
+        arm/idctdsp_arm.S
+        arm/idctdsp_armv6.S
+        arm/idctdsp_init_arm.c
+        arm/idctdsp_init_armv5te.c
+        arm/idctdsp_init_armv6.c
+        arm/idctdsp_init_neon.c
+        arm/idctdsp_neon.S
+        arm/int_neon.S
+        arm/jrevdct_arm.S
+        arm/lossless_audiodsp_init_arm.c
+        arm/lossless_audiodsp_neon.S
+        arm/mdct_neon.S
+        arm/mdct_vfp.S
+        arm/me_cmp_armv6.S
+        arm/me_cmp_init_arm.c
+        arm/mlpdsp_armv5te.S
+        arm/mlpdsp_armv6.S
+        arm/mlpdsp_init_arm.c
+        arm/mpegaudiodsp_fixed_armv6.S
+        arm/mpegaudiodsp_init_arm.c
+        arm/mpegvideoencdsp_armv6.S
+        arm/mpegvideoencdsp_init_arm.c
+        arm/mpegvideo_arm.c
+        arm/mpegvideo_armv5te.c
+        arm/mpegvideo_armv5te_s.S
+        arm/mpegvideo_neon.S
+        arm/neon.S
+        arm/neontest.c
+        arm/pixblockdsp_armv6.S
+        arm/pixblockdsp_init_arm.c
+        arm/pixblockdsp_neon.S
+        arm/rdft_init_arm.c
+        arm/rdft_neon.S
+        arm/rv34dsp_init_arm.c
+        arm/rv34dsp_neon.S
+        arm/rv40dsp_init_arm.c
+        arm/rv40dsp_neon.S
+        arm/sbcdsp_armv6.S
+        arm/sbcdsp_init_arm.c
+        arm/sbcdsp_neon.S
+        arm/sbrdsp_init_arm.c
+        arm/sbrdsp_neon.S
+        arm/simple_idct_arm.S
+        arm/simple_idct_armv5te.S
+        arm/simple_idct_armv6.S
+        arm/simple_idct_neon.S
+        arm/startcode_armv6.S
+        arm/synth_filter_init_arm.c
+        arm/synth_filter_neon.S
+        arm/synth_filter_vfp.S
+        arm/vc1dsp_init_arm.c
+        arm/vc1dsp_init_neon.c
+        arm/vc1dsp_neon.S
+        arm/videodsp_armv5te.S
+        arm/videodsp_init_arm.c
+        arm/videodsp_init_armv5te.c
+        arm/vorbisdsp_init_arm.c
+        arm/vorbisdsp_neon.S
+        arm/vp3dsp_init_arm.c
+        arm/vp3dsp_neon.S
+        arm/vp6dsp_init_arm.c
+        arm/vp6dsp_neon.S
+        arm/vp8dsp_armv6.S
+        arm/vp8dsp_init_arm.c
+        arm/vp8dsp_init_armv6.c
+        arm/vp8dsp_init_neon.c
+        arm/vp8dsp_neon.S
+        arm/vp8_armv6.S
+        arm/vp9dsp_init_10bpp_arm.c
+        arm/vp9dsp_init_12bpp_arm.c
+        arm/vp9dsp_init_16bpp_arm_template.c
+        arm/vp9dsp_init_arm.c
+        arm/vp9itxfm_16bpp_neon.S
+        arm/vp9itxfm_neon.S
+        arm/vp9lpf_16bpp_neon.S
+        arm/vp9lpf_neon.S
+        arm/vp9mc_16bpp_neon.S
+        arm/vp9mc_neon.S
+        neon/mpegvideo.c
     )
 endif()
 

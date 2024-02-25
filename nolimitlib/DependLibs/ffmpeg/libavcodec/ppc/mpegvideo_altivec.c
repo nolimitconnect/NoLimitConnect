@@ -32,7 +32,7 @@
 #include "libavutil/ppc/cpu.h"
 #include "libavutil/ppc/util_altivec.h"
 
-#include "libavcodec/mpegvideo.h"
+#include "libavcodec/mpegvideo_avcodec.h"
 
 #if HAVE_ALTIVEC
 

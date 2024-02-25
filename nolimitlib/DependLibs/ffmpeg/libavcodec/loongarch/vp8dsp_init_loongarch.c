@@ -25,7 +25,7 @@
  */
 
 #include "libavutil/loongarch/cpu.h"
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 #include "libavutil/attributes.h"
 #include "vp8dsp_loongarch.h"
 

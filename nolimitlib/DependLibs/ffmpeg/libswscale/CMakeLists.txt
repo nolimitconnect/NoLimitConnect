@@ -35,15 +35,25 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_CPU_ARM)
-    list(APPEND swscale_SOURCES 
-      aarch64/rgb2rgb.c
+if(DEFINED TARGET_CPU_AARCH64)
+    list(APPEND swscale_SOURCES
+       aarch64/rgb2rgb.c
        aarch64/swscale.c
        aarch64/swscale_unscaled.c
        aarch64/hscale.S
        aarch64/output.S
        aarch64/rgb2rgb_neon.S
        aarch64/yuv2rgb_neon.S
+    )
+elseif(DEFINED TARGET_CPU_ARM)
+    list(APPEND swscale_SOURCES 
+       arm/hscale.S
+       arm/output.S
+       arm/rgb2yuv_neon_16.S
+       arm/rgb2yuv_neon_32.S
+       arm/swscale.c
+       arm/swscale_unscaled.c
+       arm/yuv2rgb_neon.S
     )
 endif()
 

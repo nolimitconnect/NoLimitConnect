@@ -339,7 +339,7 @@ target_include_directories(fdk-aac
 )
 
 if(DEFINED TARGET_OS_ANDROID)
-    if(${NLC_CPU} STREQUAL "CPU_ARM64")
+    if(DEFINED TARGET_CPU_AARCH64)
         target_compile_definitions(fdk-aac PUBLIC
             PIC
             TARGET_CPU_64BIT
@@ -356,12 +356,12 @@ if(DEFINED TARGET_OS_ANDROID)
             ZLIB_CONST
             HAVE_AV_CONFIG_H
             )
-    elseif(${NLC_CPU} STREQUAL "CPU_ARM32")
+    elseif(DEFINED TARGET_CPU_ARM)
             target_compile_definitions(fdk-aac PUBLIC
             PIC
             TARGET_CPU_32BIT
             TARGET_CPU_ARM
-            ANDROID_ARM64=1
+            ANDROID_ARM64=0
             TARGET_ARCH_NAME=armeabi-v7a
             TARGET_CPU_BITS=32
             TARGET_ENDIAN_LITTLE=1

@@ -26,7 +26,7 @@ public:
   virtual int Stat(const NlcUrl& url, struct __stat64* buffer);
 
   /*! \brief Return 32bit rgba raw bitmap. */
-  virtual ssize_t Read(void* lpBuf, size_t uiBufSize) {return 0;}
+  virtual int64_t Read(void* lpBuf, size_t uiBufSize) {return 0;}
   virtual void Close();
   virtual int64_t GetLength()  {return 0;}
   virtual int64_t Seek(int64_t, int) {return -1;}

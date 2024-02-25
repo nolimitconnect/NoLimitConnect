@@ -26,7 +26,7 @@
 #include "config_ffmpeg.h"
 #include "libavutil/attributes.h"
 #include "libavutil/cpu_avutil.h"
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 #include "libswscale/swscale_internal.h"
 
 #if HAVE_ALTIVEC

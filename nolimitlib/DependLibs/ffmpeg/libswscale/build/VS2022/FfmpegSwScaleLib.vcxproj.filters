@@ -13,6 +13,9 @@
     <Filter Include="VisualStudioProps">
       <UniqueIdentifier>{07ad68dd-5c0f-4989-94d4-487123eaf8df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="arm">
+      <UniqueIdentifier>{388612a4-b59a-45e2-8602-92b6b77b44d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\x86\Makefile">
@@ -36,6 +39,24 @@
     </None>
     <None Include="nasm.targets">
       <Filter>VisualStudioProps</Filter>
+    </None>
+    <None Include="..\..\arm\hscale.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\output.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\rgb2yuv_neon_16.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\rgb2yuv_neon_32.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\rgb2yuv_neon_common.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\yuv2rgb_neon.S">
+      <Filter>arm</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

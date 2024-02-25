@@ -37,7 +37,7 @@ public:
   int Stat(struct __stat64* buffer) override;
   int Stat(const NlcUrl& url, struct __stat64* buffer) override;
 
-  ssize_t Read(void* lpBuf, size_t uiBufSize) override;
+  int64_t Read(void* lpBuf, size_t uiBufSize) override;
   int64_t Seek(int64_t iFilePosition, int iWhence = SEEK_SET) override;
 
   uint32_t GetImageWidth() const;

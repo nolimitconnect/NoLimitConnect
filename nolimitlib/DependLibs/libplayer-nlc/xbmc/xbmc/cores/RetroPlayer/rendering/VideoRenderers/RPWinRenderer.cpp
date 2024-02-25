@@ -20,7 +20,7 @@
 
 extern "C"
 {
-#include "libswscale/swscale.h"
+#include "libswscale/swscale_swscale.h"
 }
 
 #include <cstring>

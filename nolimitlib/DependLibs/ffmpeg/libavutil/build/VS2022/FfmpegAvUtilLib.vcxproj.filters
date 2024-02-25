@@ -345,6 +345,9 @@
     <Filter Include="VisualStudioProps">
       <UniqueIdentifier>{8c0c831d-d244-4bf7-919b-e5613a91fffd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="arm">
+      <UniqueIdentifier>{bb8b2e77-8cbf-4a2e-9cff-daf299af3521}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\libavutil.v" />
@@ -368,6 +371,15 @@
     </None>
     <None Include="nasm.targets">
       <Filter>VisualStudioProps</Filter>
+    </None>
+    <None Include="..\..\arm\asm.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\float_dsp_neon.S">
+      <Filter>arm</Filter>
+    </None>
+    <None Include="..\..\arm\float_dsp_vfp.S">
+      <Filter>arm</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

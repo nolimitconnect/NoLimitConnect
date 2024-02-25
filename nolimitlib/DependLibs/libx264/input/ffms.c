@@ -30,7 +30,7 @@
 
 #undef DECLARE_ALIGNED
 #include <libavcodec/avcodec.h>
-#include <libswscale/swscale.h>
+#include <libswscale/swscale_swscale.h>
 
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "ffms", __VA_ARGS__ )
 

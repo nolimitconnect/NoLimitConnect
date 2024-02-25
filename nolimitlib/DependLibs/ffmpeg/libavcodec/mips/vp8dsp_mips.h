@@ -23,7 +23,7 @@
 #define AVCODEC_MIPS_VP8DSP_MIPS_H
 
 #include "libavutil/mem.h"
-#include "libavcodec/vp8dsp.h"
+#include "libavcodec/vp8dsp_avcodec.h"
 #include "libavcodec/mathops.h"
 #include "constants.h"
 

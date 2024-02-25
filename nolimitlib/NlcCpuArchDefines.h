@@ -80,7 +80,7 @@
 #  define TARGET_CPU_ARM				1  // general cpu type
 #  define ARCH_X86                      0
 
-#  if defined(TARGET_CPU_64BIT)
+#  if defined(TARGET_CPU_AARCH64)	
 #   define ARCH_AARCH64                  1
 #   define ARCH_ARM                      0
 #  else
@@ -244,16 +244,15 @@ echo Nlc CPU Arch Defines error no cpu target defined
 #  define ARCH_64_BITS 0
 # endif // defined(TARGET_CPU_X86)
 
-#if !defined(NLC_ARCH_LITTLE_ENDIAN)
-echo error NLC_ARCH_LITTLE_ENDIAN  is not defined
-#else
-
-# if NLC_ARCH_LITTLE_ENDIAN // has been set to 1
-// just leave HAVE_BIGENDIANv undefined
+# if !defined(NLC_ARCH_LITTLE_ENDIAN)
+  echo error NLC_ARCH_LITTLE_ENDIAN  is not defined
 # else
+#  if NLC_ARCH_LITTLE_ENDIAN // has been set to 1
+// just leave HAVE_BIGENDIAN undefined
+#  else
 #  define HAVE_BIGENDIAN // is a big endian cpu
-# endif // NLC_ARCH_LITTLE_ENDIAN
-#endif // !defined(NLC_ARCH_LITTLE_ENDIAN)
+#  endif // NLC_ARCH_LITTLE_ENDIAN
+# endif // !defined(NLC_ARCH_LITTLE_ENDIAN)
 
 // ONLY INTEL HAS AVX ?
 # define HAVE_AVX 1
@@ -278,23 +277,6 @@ echo error NLC_ARCH_LITTLE_ENDIAN  is not defined
 //# define HAVE_XOP					1
 //# define HAVE_CPUNOP				1
 
-//==== arm architectures ===//
-#elif ARCH_ARM
-//#define HAVE_ARMV5TE				1
-//#define HAVE_ARMV6					1
-//#define HAVE_ARMV6T2				1
-#define HAVE_ARMV7					1
-#if defined(TARGET_CPU_AARCH64)
-# define HAVE_ARMV8 1
-#else
-# define HAVE_ARMV8 0
-#endif // defined(TARGET_CPU_AARCH64)
-/* NE10 library is installed on host. Make sure it is on target! */
-//# define HAVE_ARM_NE10			1
-//#if defined(__ARM_NEON) || defined(__ARM_NEON__) || defined(__ARM_FEATURE_NEON)
-#define HAVE_ARM_NEON				1 // both arm68-v8a and both armeabi-v7a have neon extensions
-//#endif // defined(__ARM_NEON) || defined(__ARM_NEON__)
-
 //==== PPC architectures ===//
 #elif ARCH_PPC
 // For PPC only
@@ -317,6 +299,7 @@ echo Nlc CPU Config error mips processors not supported
 //#define HAVE_MIPS64R6				1
 
 #elif defined(TARGET_OS_ANDROID)
+//==== arm architectures ===//
 # if TARGET_CPU_ARM
 #  define HAVE_SSE           0
 #  define HAVE_SSE2          0
@@ -324,6 +307,29 @@ echo Nlc CPU Config error mips processors not supported
 #  define HAVE_SSE           1
 #  define HAVE_SSE2          1
 # endif // TARGET_CPU_ARM
+
+# define HAVE_ARM_NEON				1 // both arm68-v8a and both armeabi-v7a have neon extensions
+# define HAVE_ARMV7					1
+
+# if defined(TARGET_CPU_AARCH64)
+#  define ARCH_32_BITS				0
+#  define ARCH_64_BITS				1
+
+#  define HAVE_ARMV8				1
+#  define HAVE_ARMV5TE				0
+#  define HAVE_ARMV6				0
+#  define HAVE_ARMV6T2				0
+
+# else
+#  define ARCH_32_BITS				1
+#  define ARCH_64_BITS				0
+
+#  define HAVE_ARMV8				0
+#  define HAVE_ARMV5TE				1
+#  define HAVE_ARMV6				1
+#  define HAVE_ARMV6T2				1
+# endif // defined(TARGET_CPU_AARCH64)
+
 #else
 echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 // don't know what these are
@@ -345,12 +351,6 @@ echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 
 #endif // CPU FEATURES
 
-#if !ARCH_64_BITS && !ARCH_32_BITS
-// default to 64 bits if none defined
-# define ARCH_32_BITS 0
-# define ARCH_64_BITS 1
-#endif // !defined(ARCH_64_BITS) && !defined(ARCH_32_BITS)
-
 #if HAVE_SSE && !defined(__SSE__)
 /* Enable SSE functions, if compiled with SSE/SSE2 (All intel/AMD x86 cpus since 2003) */
 # define __SSE__ 1
@@ -361,21 +361,36 @@ echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 # define __SSE2__ 1
 #endif // HAVE_SSE
 
-# if defined(TARGET_OS_WINDOWS) && defined(_MSC_VER)
-#  define SIZEOF_UNSIGNED_INT 4
-#  define SIZEOF_UNSIGNED_LONG_INT 4
-#  define SIZEOF_INT 4 // microsoft compiler uses 4 byte int in all arch.. only long long is 64 bit
-#  define SIZEOF_LONG 4 // microsoft compiler uses 4 byte long in all arch
-# else
-#  define SIZEOF_UNSIGNED_INT 4
-#  define SIZEOF_UNSIGNED_LONG_INT 8
-#  define SIZEOF_INT 4
-#  define SIZEOF_LONG 8 // everybody else uses long size the same as arch size
-# endif // TARGET_OS_LINUX
+#if !ARCH_64_BITS && !ARCH_32_BITS
+	@echo either ARCH_64_BITS or ARCH_32_BITS must be defined
+#endif // !defined(ARCH_64_BITS) && !defined(ARCH_32_BITS)
 
-// only 64Bit cpus supported so pointer size is always 8
+	
+#if ARCH_32_BITS
+# define SIZEOF_UNSIGNED_LONG_INT 4
+# define SIZEOF_UNSIGNED_INT 4
+# define SIZEOF_INT 4
+# define SIZEOF_LONG 4 
+# define SIZEOF_VOID_P 4
+# define SIZEOF_CHAR_P 4
+
+#elif ARCH_64_BITS
+
+# if defined(TARGET_OS_WINDOWS) && defined(_MSC_VER)
+#  define SIZEOF_LONG 4 // microsoft long is 4 bytes even in 64 bit builds 
+# else
+#  define SIZEOF_LONG 8 // everybody else uses long size the same as arch size
+# endif // defined(TARGET_OS_WINDOWS) && defined(_MSC_VER)
+
+# define SIZEOF_UNSIGNED_LONG_INT 4
+# define SIZEOF_UNSIGNED_INT 4
+# define SIZEOF_INT 4
 # define SIZEOF_VOID_P 8
 # define SIZEOF_CHAR_P 8
+
+#else
+ echo either ARCH_64_BITS or ARCH_32_BITS must be defined
+#endif // ARCH_32_BITS
 
 /* The size of `short', as computed by sizeof. */
 #define SIZEOF_SHORT 2

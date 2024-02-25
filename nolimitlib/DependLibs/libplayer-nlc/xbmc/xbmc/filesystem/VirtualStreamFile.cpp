@@ -37,7 +37,7 @@ VFile* CVirtualStreamFile::OpenVFile( const char * fileName )
 }
 
 //*********************************************************************************************
-ssize_t CVirtualStreamFile::Read( void* lpBuf, size_t uiBufSize )
+int64_t CVirtualStreamFile::Read( void* lpBuf, size_t uiBufSize )
 {
 	if( uiBufSize > SSIZE_MAX )
 		uiBufSize = SSIZE_MAX;

@@ -49,6 +49,9 @@
     <None Include="..\..\..\config_ffmpeg_w64.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="..\..\arm\audio_convert_neon.S" />
+    <None Include="..\..\arm\Makefile" />
+    <None Include="..\..\arm\resample.S" />
     <None Include="..\..\libswresample.v" />
     <None Include="..\..\Makefile" />
     <None Include="..\..\x86\Makefile" />
