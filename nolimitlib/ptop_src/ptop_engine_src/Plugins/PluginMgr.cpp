@@ -283,7 +283,7 @@ PluginBase* PluginMgr::getPlugin( EPluginType pluginType )
 		}
 	}
 
-	LogMsg( LOG_ERROR, "PluginMgr::getPlugin pluin type %d out of range", pluginType );
+	LogMsg( LOG_ERROR, "PluginMgr::getPlugin plugin type %d %s out of range", pluginType, DescribePluginType( pluginType ) );
 	vx_assert( false );
 	return NULL;
 }

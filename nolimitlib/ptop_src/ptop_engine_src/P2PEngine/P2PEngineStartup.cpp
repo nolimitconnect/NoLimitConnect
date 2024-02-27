@@ -75,6 +75,14 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 {
     if( fromThread )
     {
+        static std::string userDir;
+        if( userDir == userSpecificDir )
+        {
+            LogMsg( LOG_INFO, "P2PEngine::fromGuiSetUserSpecificDir %s called twice", userSpecificDir.c_str() );
+            return;
+        }
+
+        userDir = userSpecificDir;
 	    LogMsg( LOG_INFO, "P2PEngine::fromGuiSetUserSpecificDir %s", userSpecificDir.c_str() );
 	    VxSetUserSpecificDataDirectory( userSpecificDir.c_str() );
 

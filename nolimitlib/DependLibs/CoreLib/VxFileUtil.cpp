@@ -155,11 +155,11 @@ extern "C" bool WindowsRelativeToAbsolutePath( char * pathBuf, int bufLen )
         {
             // expand relative path to full path
             AddExtraLongPathPrefix( justPath );
-            const unsigned int bufSize = GetFullPathNameA( justPath.c_str(), 0, NULL, NULL );
+            const unsigned int bufSize = GetFullPathNameA( justPath.c_str(), 0, nullptr, nullptr );
             if( bufSize != 0 )
             {
                 char * buf = new char[ bufSize ];
-                if( GetFullPathNameA( justPath.c_str(), bufSize, buf, NULL ) <= bufSize - 1 )
+                if( GetFullPathNameA( justPath.c_str(), bufSize, buf, nullptr ) <= bufSize - 1 )
                 {
                     std::string absolutePath( buf );
                     RemoveExtraLongPathPrefix( absolutePath );
@@ -333,9 +333,9 @@ RCODE VxFileUtil::getCurrentWorkingDirectory( std::string strRetDir )
 {
 	char* buffer;
 #ifdef TARGET_OS_WINDOWS
-	if( (buffer = _getcwd( NULL, 0 )) == NULL )
+	if( (buffer = _getcwd( nullptr, 0 )) == nullptr )
 #else
-	if( (buffer = getcwd( NULL, 0 )) == NULL )
+	if( (buffer = getcwd( nullptr, 0 )) == nullptr )
 #endif
 	{
 		strRetDir = "";
@@ -432,7 +432,7 @@ bool VxFileUtil::getFileTypeAndLength( const char* fileName, uint64_t& retFileLe
     retFileType = 0;
     if( 0 == fileName )
     {
-        LogMsg( LOG_DEBUG, "VxFileUtil::%s NULL File Name", __func__ );
+        LogMsg( LOG_DEBUG, "VxFileUtil::%s nullptr File Name", __func__ );
 		vx_assert( false );
         return false;
     }
@@ -710,7 +710,7 @@ VFile * VxFileUtil::fileOpen( const char* pFileName, const char* pFileMode )
 {
     VFile * retval;
     retval = VFileOpen( pFileName, pFileMode );
-	if( NULL == retval )
+	if( nullptr == retval )
 	{
 		LogMsg( LOG_INFO, "fileOpen:Could not open file %s", pFileName );
 	}
@@ -924,7 +924,7 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 		{
 			//LogMsg( LOG_INFO, "VxMoveFile: directory %s exists.. opening dir", as8SrcDir );
 			//ok directory exists!
-			if(!(NULL == (pDir = opendir(as8SrcDir))))
+			if(!(nullptr == (pDir = opendir(as8SrcDir))))
 			{
 				//pDir is open
 				while( 0 != (pFileEnt = readdir(pDir)))
@@ -1360,7 +1360,7 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 {
 #ifdef TARGET_OS_WINDOWS
 	wchar_t pRetBuf[ VX_MAX_PATH ];
-	int iRetStrLen = GetModuleFileNameW( NULL, pRetBuf, VX_MAX_PATH );
+	int iRetStrLen = GetModuleFileNameW( nullptr, pRetBuf, VX_MAX_PATH );
 	if( 0 != iRetStrLen )
 	{
 		// remove file name
@@ -1420,7 +1420,7 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 	}
 	pRetBuf[iByteCount] = '\0';
 
-	if(NULL == (pTempBuf = strrchr(pRetBuf,'/')))
+	if(nullptr == (pTempBuf = strrchr(pRetBuf,'/')))
 	{
 		LogMsg( LOG_INFO, "Error %d occured getting module directory", VxGetLastError());
 		return -1;
@@ -1513,7 +1513,7 @@ bool VxFileUtil::fileNameWildMatch( const char  * pMatchName, const char* pWildN
 //============================================================================
 //! allocate memory and read whole file into memory
 //! NOTE: USER MUST DELETE THE RETURED POINTER OR MEMORY LEAK WILL OCCURE
-RCODE	VxFileUtil::readWholeFile(	const char*	pFileName,			// file to read	
+RCODE	VxFileUtil::readWholeFile(	const char*		pFileName,			// file to read	
 									void **			ppvRetBuf,			// return allocated buffer it was read into
                                     uint32_t *		pu32RetLenOfFile )	// return length of file
 {
@@ -1532,7 +1532,7 @@ RCODE	VxFileUtil::readWholeFile(	const char*	pFileName,			// file to read
 	else
 	{
 		char * pTemp = new char[ u32Len + 16 ];
-		RCODE rc = readWholeFile( pFileName, pTemp, u32Len );
+		RCODE rc = readWholeFile( pFileName, pTemp, u32Len, nullptr );
 		if( rc )
 		{
 			// error occurred so delete so no memory leak
@@ -1554,10 +1554,10 @@ RCODE	VxFileUtil::readWholeFile(	const char*	pFileName,			// file to read
 //============================================================================
 //! read whole file of known length into existing buffer
 //! NOTE assumes buffer has enough room for the whole file
-RCODE VxFileUtil::readWholeFile(	const char*	pFileName,				// file to read
+RCODE VxFileUtil::readWholeFile(	const char*		pFileName,				// file to read
 									void *			pvBuf,					// buffer to read into
                                     uint32_t		u32LenToRead,			// length to read ( assumes is same as file length
-                                    uint32_t	*	pu32RetAmountRead )		// return length actually read if not null
+                                    uint32_t*		pu32RetAmountRead )		// return length actually read if not null
 {
 	RCODE rc = 0;
 	if( pu32RetAmountRead  )
@@ -1565,33 +1565,72 @@ RCODE VxFileUtil::readWholeFile(	const char*	pFileName,				// file to read
 		* pu32RetAmountRead = 0;
 	}
 
-	VFile * poFile = VFileOpen( pFileName, "rb" );
-	if( NULL == poFile )
+	if( fileIsProviderFile( pFileName ) )
+	{
+		VFile* poFile = VFileOpen( pFileName, "rb" );
+		if( nullptr == poFile )
+		{
+			rc = VxGetLastError();
+			LogMsg( LOG_INFO, "readWholeFile: error %d opening file %s", rc, pFileName );
+			return rc;
+		}
+
+		size_t iResult = VFileRead( pvBuf, 1, u32LenToRead, poFile );
+		VFileClose( poFile );
+		if( iResult > 0 )
+		{
+			if( pu32RetAmountRead )
+			{
+				*pu32RetAmountRead = (uint32_t)iResult;
+			}
+			// null terminate it
+			if( u32LenToRead > iResult )
+			{
+				((char*)pvBuf)[iResult] = 0;
+			}
+			return 0;
+		}
+
+		rc = VxGetLastError();
+		if( 0 == rc )
+		{
+			rc = -1;
+		}
+
+		LogMsg( LOG_INFO, "readWholeFile: error %d reading file %s", rc, pFileName );
+		return rc;
+	}
+
+	FILE* poFile = fopen( pFileName, "rb" );
+	if( nullptr == poFile )
 	{
 		rc = VxGetLastError();
 		LogMsg( LOG_INFO, "readWholeFile: error %d opening file %s", rc, pFileName );
 		return rc;
 	}
-	size_t iResult = VFileRead( pvBuf, 1, u32LenToRead, poFile );
-	VFileClose( poFile );
+
+	size_t iResult = fread( pvBuf, 1, u32LenToRead, poFile );
+	fclose( poFile );
 	if( iResult > 0 )
 	{
-		if( pu32RetAmountRead  )
+		if( pu32RetAmountRead )
 		{
-			* pu32RetAmountRead = (uint32_t)iResult;
+			*pu32RetAmountRead = (uint32_t)iResult;
 		}
 		// null terminate it
 		if( u32LenToRead > iResult )
 		{
-			((char *)pvBuf)[ iResult ] = 0;
+			((char*)pvBuf)[iResult] = 0;
 		}
 		return 0;
 	}
+
 	rc = VxGetLastError();
 	if( 0 == rc )
 	{
 		rc = -1;
 	}
+
 	LogMsg( LOG_INFO, "readWholeFile: error %d reading file %s", rc, pFileName );
 	return rc;
 }
@@ -1599,16 +1638,16 @@ RCODE VxFileUtil::readWholeFile(	const char*	pFileName,				// file to read
 //============================================================================
 //! allocate memory and read whole file into memory and decrypt
 //! NOTE: USER MUST DELETE THE RETURED POINTER OR MEMORY LEAK WILL OCCURE
-RCODE	VxFileUtil::readWholeFile(	VxKey *			poKey,				// key to decrypt with
-									const char*	pFileName,			// file to read	
-									void **			ppvRetBuf,			// return allocated buffer it was read into
+RCODE	VxFileUtil::readWholeFile(	VxKey *				poKey,				// key to decrypt with
+									const char*			pFileName,			// file to read	
+									void **				ppvRetBuf,			// return allocated buffer it was read into
 									uint32_t *			pu32RetLenOfFile )	// return length of file
 {
 	uint32_t		u32FileLen;
 
 	RCODE rc = readWholeFile( pFileName,
 		                      ppvRetBuf,
-		                      pu32RetLenOfFile );
+							  pu32RetLenOfFile );
 	if( rc )
 	{
 		return rc;
@@ -1623,13 +1662,45 @@ RCODE	VxFileUtil::readWholeFile(	VxKey *			poKey,				// key to decrypt with
 
 //============================================================================
 //! write all of data to a file
-RCODE	VxFileUtil::writeWholeFile(	const char*	pFileName,			// file to write to
+RCODE	VxFileUtil::writeWholeFile(	const char*		pFileName,			// file to write to
 									void *			pvBuf,				// data to write
                                     uint32_t		u32LenOfData )		// data length
 {
 	RCODE rc = 0;
-	VFile * poFile = VFileOpen( pFileName, "wb+" );
-	if( NULL == poFile )
+
+	if( fileIsProviderFile( pFileName ) )
+	{
+		VFile* poFile = VFileOpen( pFileName, "wb+" );
+		if( nullptr == poFile )
+		{
+			rc = VxGetLastError();
+			if( 0 == rc )
+			{
+				rc = -1;
+			}
+			LogMsg( LOG_ERROR, "writeWholeFile: ERROR %d Could not write file %s %d bytes", rc, pFileName, u32LenOfData );
+		}
+		else
+		{
+			uint32_t u32Result = (uint32_t)VFileWrite( pvBuf, 1, u32LenOfData, poFile );
+			if( u32Result != u32LenOfData )
+			{
+				rc = VxGetLastError();
+				if( 0 == rc )
+				{
+					rc = -1;
+				}
+
+				LogMsg( LOG_ERROR, "writeWholeFile: ERROR %d Could not write file %s %d bytes", rc, pFileName, u32LenOfData );
+			}
+
+			VFileClose( poFile );
+		}
+		return rc;
+	}
+
+	FILE* poFile = fopen( pFileName, "wb+" );
+	if( nullptr == poFile )
 	{
 		rc = VxGetLastError();
 		if( 0 == rc )
@@ -1640,7 +1711,7 @@ RCODE	VxFileUtil::writeWholeFile(	const char*	pFileName,			// file to write to
 	}
 	else
 	{
-		uint32_t u32Result = (uint32_t)VFileWrite( pvBuf, 1, u32LenOfData, poFile );
+		uint32_t u32Result = (uint32_t)fwrite( pvBuf, 1, u32LenOfData, poFile );
 		if( u32Result != u32LenOfData )
 		{
 			rc = VxGetLastError();
@@ -1652,15 +1723,16 @@ RCODE	VxFileUtil::writeWholeFile(	const char*	pFileName,			// file to write to
 			LogMsg( LOG_ERROR, "writeWholeFile: ERROR %d Could not write file %s %d bytes", rc, pFileName, u32LenOfData );
 		}
 
-		VFileClose( poFile );
+		fclose( poFile );
 	}
+
 	return rc;
 }
 
 //============================================================================
 //! encrypt and write all of data to a file
 RCODE VxFileUtil::writeWholeFile(	VxKey *			poKey,				// key to encrypt with
-									const char*	pFileName,			// file to write to
+									const char*		pFileName,			// file to write to
 									void *			pvBuf,				// data to write
                                     uint32_t		u32LenOfData )		// data length
 {
@@ -1674,7 +1746,7 @@ RCODE VxFileUtil::writeWholeFile(	VxKey *			poKey,				// key to encrypt with
 }
 
 //============================================================================
-RCODE VxFileUtil::listFilesInDirectory(	const char*				pSrcDir,
+RCODE VxFileUtil::listFilesInDirectory(	const char*					pSrcDir,
 										std::vector<std::string>&	fileList )
 {
 	vx_assert( pSrcDir );
@@ -1749,7 +1821,7 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*				pSrcDir,
 	{
 		//LogMsg( LOG_INFO, "listFilesInDirectory:  directory %s exists.. opening dir", as8SrcDir );
 		//ok directory exists!
-		if(!(NULL == (pDir = opendir(as8SrcDir))))
+		if(!(nullptr == (pDir = opendir(as8SrcDir))))
 		{
 			//pDir is open
 			while( 0 != (pFileEnt = readdir(pDir)))
@@ -1903,7 +1975,7 @@ RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileIn
 	{
 		//LogMsg( LOG_INFO, "listFilesAndFolders:  directory %s exists.. opening dir", as8SrcDir );
 		//ok directory exists!
-		if(!(NULL == (pDir = opendir(as8SrcDir))))
+		if(!(nullptr == (pDir = opendir(as8SrcDir))))
 		{
 			//pDir is open
 			while( 0 != (pFileEnt = readdir(pDir)))

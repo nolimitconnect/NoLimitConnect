@@ -242,7 +242,7 @@ void AppCommon::setupAccountResources( VxNetIdent& userAccountIdent )
 {
     std::string strUserName = userAccountIdent.getOnlineName();
     getEngine().fromGuiSetUserXferDir( getUserXferDirectoryFromAccountUserName( strUserName.c_str() ).c_str() );
-    // gotv (kodi) also needs the directory
+    // kodi also needs the directory
     getNlc().fromGuiSetUserSpecificDir( getUserSpecificDataDirectoryFromAccountUserName( strUserName.c_str() ).c_str() );
 
     // get port to listen on 

@@ -133,38 +133,15 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 {
     GuiMainLoaderThread mainLoaderThread;
 
-#if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    //Request requiered permissions at runtime.. does not seem to work with Qt 6.2.0
-    for(const QString &permission : permissions)
-    {
-        LogMsg( LOG_DEBUG, "requesting permission %s", permission.toUtf8().constData() );
-        auto result = QtAndroid::checkPermission(permission);
-        if(result == QtAndroid::PermissionResult::Denied)
-        {
-            auto resultHash = QtAndroid::requestPermissionsSync(QStringList({permission}));
-            if(resultHash[permission] == QtAndroid::PermissionResult::Denied)
-            {
-                LogMsg( LOG_DEBUG, "DENIED permission %s", permission.toUtf8().constData() );
-                delete myApp;
-                return 0;
-            }
 
-            LogMsg( LOG_DEBUG, "ACCEPTED permission %s", permission.toUtf8().constData() );
-        }
-    }
-
-    LogMsg( LOG_DEBUG, "permission done" );
-#endif
 #if defined (Q_OS_ANDROID)
-
     const QString externStoragePemission(QLatin1String ("android.permission.WRITE_EXTERNAL_STORAGE"));
     auto storagePermissionResult = QtAndroidPrivate::checkPermission(externStoragePemission).result();
     if( storagePermissionResult != QtAndroidPrivate::Authorized )
     {
-        if( QtAndroidPrivate::Authorized !=  QtAndroidPrivate::requestPermission(externStoragePemission).result() )
+        if( QtAndroidPrivate::Authorized != QtAndroidPrivate::requestPermission(externStoragePemission).result() )
         {
-            LogMsg(LOG_INFO, "Cannot Proceed without external storage permission");
-            return 0;
+            LogMsg(LOG_WARN, "NO external storage permission");
         }
     }
 #endif // defined (Q_OS_ANDROID)
