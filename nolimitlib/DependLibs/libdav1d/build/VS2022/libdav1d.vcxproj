@@ -65,6 +65,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\config_dav1d.h" />
     <ClInclude Include="..\..\config_dav1d_arm_internal.h" />
+    <ClInclude Include="..\..\config_dav1d_internal.h" />
+    <ClInclude Include="..\..\config_dav1d_x86_internal.h" />
     <ClInclude Include="..\..\src\arm\asm-offsets.h" />
     <ClInclude Include="..\..\src\arm\cdef.h" />
     <ClInclude Include="..\..\src\arm\cpu.h" />

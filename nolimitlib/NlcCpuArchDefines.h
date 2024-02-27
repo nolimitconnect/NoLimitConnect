@@ -378,13 +378,16 @@ echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported
 
 # if defined(TARGET_OS_WINDOWS) && defined(_MSC_VER)
 #  define SIZEOF_LONG 4 // microsoft long is 4 bytes even in 64 bit builds 
+#  define SIZEOF_UNSIGNED_LONG_INT 4
 # else
 #  define SIZEOF_LONG 8 // everybody else uses long size the same as arch size
+#  define SIZEOF_UNSIGNED_LONG_INT 8
 # endif // defined(TARGET_OS_WINDOWS) && defined(_MSC_VER)
 
-# define SIZEOF_UNSIGNED_LONG_INT 4
+// oddly int is always 4 bytes even on 64 bit builds on windows and linux and android
 # define SIZEOF_UNSIGNED_INT 4
 # define SIZEOF_INT 4
+
 # define SIZEOF_VOID_P 8
 # define SIZEOF_CHAR_P 8
 

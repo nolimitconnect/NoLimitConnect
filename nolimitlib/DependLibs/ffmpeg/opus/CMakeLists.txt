@@ -28,7 +28,6 @@ endif()
 
 if (DEFINED TARGET_OS_ANDROID)
     project(ffmpegopus, LANGUAGES C CXX ASM)
-
 else()
     project(ffmpegopus, LANGUAGES C CXX)
 endif()

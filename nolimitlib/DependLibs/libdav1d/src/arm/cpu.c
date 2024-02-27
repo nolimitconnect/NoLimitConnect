@@ -25,7 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "config_dav1d_arm_internal.h"
+#if defined(TARGET_CPU_ARM)
+#include "config_dav1d_internal.h"
 
 #include "common/attributes.h"
 
@@ -97,3 +98,5 @@ COLD unsigned dav1d_get_cpu_flags_arm(void) {
 
     return flags;
 }
+
+#endif // defined(TARGET_CPU_ARM)

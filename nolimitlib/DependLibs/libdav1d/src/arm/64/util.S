@@ -29,7 +29,7 @@
 #ifndef DAV1D_SRC_ARM_64_UTIL_S
 #define DAV1D_SRC_ARM_64_UTIL_S
 
-#include "config_dav1d_arm_internal.h"
+#include "config_dav1d_internal.h"
 #include "src/arm/asm.S"
 
 .macro  movrel rd, val, offset=0

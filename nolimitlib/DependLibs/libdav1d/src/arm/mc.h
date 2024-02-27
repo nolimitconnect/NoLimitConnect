@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "config_dav1d_arm_internal.h"
+#include "config_dav1d_internal.h"
 
 #include "src/mc.h"
 #include "src/cpu_dav1d.h"

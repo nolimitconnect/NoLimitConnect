@@ -94,6 +94,7 @@ elseif(DEFINED TARGET_CPU_ARM)
     list(APPEND dav1d_SOURCES
          #included by others src/arm/asm.S
         src/arm/cpu.c
+        src/arm/32/cdef16.S
         src/arm/32/cdef.S
         src/arm/32/cdef_tmpl.S
         src/arm/32/filmgrain16.S
@@ -159,7 +160,30 @@ list(APPEND dav1d_SOURCES
     src/wedge.c
 )
 
-add_library(dav1d STATIC ${dav1d_SOURCES})
+set(dav1d_HEADERS)
+
+list(APPEND dav1d_HEADERS
+    config_dav1d.h
+    config_dav1d_arm_internal.h
+    include/vcs_version.h
+    include/common/attributes.h
+    include/common/bitdepth.h
+    include/common/dump.h
+    include/common/frame.h
+    include/common/intops.h
+    include/common/validate.h
+    include/compat/getopt.h
+    include/compat/gcc/stdatomic.h
+    include/compat/msvc/stdatomic.h
+    include/dav1d/common.h
+    include/dav1d/data.h
+    include/dav1d/dav1d.h
+    include/dav1d/headers.h
+    include/dav1d/picture.h
+    include/dav1d/version_dav1d.h
+)
+
+add_library(dav1d STATIC ${dav1d_SOURCES} ${dav1d_HEADERS})
 
 target_include_directories(dav1d
   PRIVATE

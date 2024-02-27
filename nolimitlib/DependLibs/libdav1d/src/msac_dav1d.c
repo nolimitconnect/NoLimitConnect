@@ -33,6 +33,10 @@
 
 #include "src/msac_dav1d.h"
 
+#if ARCH_X86
+#include "x86/msac.h"
+#endif ARCH_X86
+
 #define EC_PROB_SHIFT 6
 #define EC_MIN_PROB 4  // must be <= (1<<EC_PROB_SHIFT)/16
 

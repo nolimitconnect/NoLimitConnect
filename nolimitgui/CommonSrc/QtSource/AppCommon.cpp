@@ -252,6 +252,13 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 
     connect( m_CheckSetupTimer, SIGNAL(timeout()), this, SLOT(slotCheckSetupTimer()) );
 	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()) );
+
+	LogMsg( LOG_DEBUG, "sizeof long %d", sizeof( long ) );
+	LogMsg( LOG_DEBUG, "sizeof int %d", sizeof( int ) );
+	LogMsg( LOG_DEBUG, "sizeof unsigned int %d", sizeof( unsigned int ) );
+	LogMsg( LOG_DEBUG, "sizeof unsigned long int %d", sizeof( unsigned long int ) );
+	LogMsg( LOG_DEBUG, "sizeof void pointer %d", sizeof( void* ) );
+	LogMsg( LOG_DEBUG, "sizeof char pointer %d", sizeof( char* ) );
 }
 
 //============================================================================

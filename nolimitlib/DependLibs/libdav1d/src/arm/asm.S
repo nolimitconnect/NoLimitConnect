@@ -28,7 +28,7 @@
 #ifndef DAV1D_SRC_ARM_ASM_S
 #define DAV1D_SRC_ARM_ASM_S
 
-#include "config_dav1d_arm_internal.h"
+#include "config_dav1d_internal.h"
 
 #if ARCH_AARCH64
 #define x18 do_not_use_x18

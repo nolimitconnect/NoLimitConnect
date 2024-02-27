@@ -52,7 +52,7 @@ decl_cfl_ac_fn(BF(dav1d_ipred_cfl_ac_444, neon));
 
 decl_pal_pred_fn(BF(dav1d_pal_pred, neon));
 
-#if defined(TARGET_CPU_ARM) && BITDEPTH == 8
+#if ARCH_AARCH64 && BITDEPTH == 8
 void BF(dav1d_ipred_z1_upsample_edge, neon)(pixel *out, const int hsz,
                                             const pixel *const in,
                                             const int end);
@@ -199,7 +199,7 @@ static ALWAYS_INLINE void intra_pred_dsp_init_arm(Dav1dIntraPredDSPContext *cons
     c->intra_pred[SMOOTH_PRED]   = BF(dav1d_ipred_smooth, neon);
     c->intra_pred[SMOOTH_V_PRED] = BF(dav1d_ipred_smooth_v, neon);
     c->intra_pred[SMOOTH_H_PRED] = BF(dav1d_ipred_smooth_h, neon);
-#if defined(TARGET_CPU_ARM) && BITDEPTH == 8
+#if ARCH_AARCH64 && BITDEPTH == 8
     c->intra_pred[Z1_PRED]       = ipred_z1_neon;
     c->intra_pred[Z3_PRED]       = ipred_z3_neon;
 #endif
