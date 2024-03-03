@@ -530,6 +530,7 @@ elseif(${NLC_CPU} STREQUAL "CPU_ARM64")
 
 else()
     add_compile_definitions(TARGET_CPU_64BIT)
+    add_compile_definitions(TARGET_CPU_X86_64)
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)

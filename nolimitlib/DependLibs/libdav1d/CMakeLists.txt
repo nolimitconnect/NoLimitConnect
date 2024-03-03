@@ -20,21 +20,25 @@ endif()
 set(dav1d_SOURCES)
 
 if(DEFINED TARGET_CPU_X86_64)
-    list(APPEND dav1d_SOURCES 
+    list(APPEND dav1d_SOURCES
+        #included by others src/x86/filmgrain_common.asm
         src/x86/cpu.c
-        #src/x86/cdef16_avx2.asm
-        #src/x86/cdef16_avx512.asm
-        #src/x86/cdef16_sse.asm
+        src/x86/cdef16_avx2.asm
+        src/x86/cdef16_avx512.asm
+        src/x86/cdef16_sse.asm
         src/x86/cdef_avx2.asm
+        src/x86/cdef_avx512.asm
         src/x86/cdef_sse.asm
         src/x86/cpuid.asm
-        #src/x86/filmgrain16_avx2.asm
-        #src/x86/filmgrain16_avx512.asm
-        #src/x86/filmgrain16_sse.asm
+        src/x86/filmgrain16_avx2.asm
+        src/x86/filmgrain16_avx512.asm
+        src/x86/filmgrain16_sse.asm
         src/x86/filmgrain_avx2.asm
-        src/x86/filmgrain_avx512.asm #included by other .asm src/x86/filmgrain_common.asm
+        src/x86/filmgrain_avx512.asm
         src/x86/filmgrain_sse.asm
-        #src/x86/ipred16_avx2.asm
+        src/x86/ipred16_avx2.asm
+        src/x86/ipred16_avx512.asm
+        src/x86/ipred16_sse.asm
         src/x86/ipred_avx2.asm
         src/x86/ipred_avx512.asm
         src/x86/ipred_sse.asm
@@ -44,28 +48,32 @@ if(DEFINED TARGET_CPU_X86_64)
         src/x86/itx_avx2.asm
         src/x86/itx_avx512.asm
         src/x86/itx_sse.asm
-        #src/x86/loopfilter16_avx2.asm
-        #src/x86/loopfilter16_avx512.asm
-        #src/x86/loopfilter16_sse.asm
+        src/x86/loopfilter16_avx2.asm
+        src/x86/loopfilter16_avx512.asm
+        src/x86/loopfilter16_sse.asm
         src/x86/loopfilter_avx2.asm
         src/x86/loopfilter_avx512.asm
         src/x86/loopfilter_sse.asm
-        #src/x86/looprestoration16_avx2.asm
-        #src/x86/looprestoration16_avx512.asm
-        #src/x86/looprestoration16_sse.asm
+        src/x86/looprestoration16_avx2.asm
+        src/x86/looprestoration16_avx512.asm
+        src/x86/looprestoration16_sse.asm
         src/x86/looprestoration_avx2.asm
         src/x86/looprestoration_avx512.asm
         src/x86/looprestoration_sse.asm
-        #src/x86/mc16_avx2.asm
-        #src/x86/mc16_avx512.asm
-        #src/x86/mc16_sse.asm
+        src/x86/mc16_avx2.asm
+        src/x86/mc16_avx512.asm
+        src/x86/mc16_sse.asm
         src/x86/mc_avx2.asm
         src/x86/mc_avx512.asm
         src/x86/mc_sse.asm
         src/x86/msac.asm
+        src/x86/pal.asm
         src/x86/refmvs.asm
         )
-elseif(DEFINED TARGET_CPU_AARCH64)
+
+endif()
+
+if(DEFINED TARGET_CPU_AARCH64)
     list(APPEND dav1d_SOURCES 
         #included by others src/arm/asm.S
         src/arm/cpu.c
@@ -148,6 +156,7 @@ list(APPEND dav1d_SOURCES
     src/mem.c
     src/msac_dav1d.c
     src/obu.c
+    src/pal.c
     src/picture.c
     src/qm.c
     src/recon_tmpl.c
@@ -181,6 +190,7 @@ list(APPEND dav1d_HEADERS
     include/dav1d/headers.h
     include/dav1d/picture.h
     include/dav1d/version_dav1d.h
+    src/msac_dav1d.h
 )
 
 add_library(dav1d STATIC ${dav1d_SOURCES} ${dav1d_HEADERS})

@@ -78,8 +78,7 @@ static ALWAYS_INLINE void cdef_dsp_init_x86(Dav1dCdefDSPContext *const c) {
     c->fb[1] = BF(dav1d_cdef_filter_4x8, avx2);
     c->fb[2] = BF(dav1d_cdef_filter_4x4, avx2);
 
-    //if (!(flags & DAV1D_X86_CPU_FLAG_AVX512ICL)) return;
-    if (1) return; // don't link esoteric avx512icl
+    if (!(flags & DAV1D_X86_CPU_FLAG_AVX512ICL)) return;
 
     c->fb[0] = BF(dav1d_cdef_filter_8x8, avx512icl);
     c->fb[1] = BF(dav1d_cdef_filter_4x8, avx512icl);

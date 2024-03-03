@@ -1,6 +1,6 @@
 /*
- * Copyright © 2018, VideoLAN and dav1d authors
- * Copyright © 2018, Two Orioles, LLC
+ * Copyright © 2023, VideoLAN and dav1d authors
+ * Copyright © 2023, Two Orioles, LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DAV1D_SRC_OBU_H
-#define DAV1D_SRC_OBU_H
+#ifndef DAV1D_SRC_PAL_H
+#define DAV1D_SRC_PAL_H
 
-#include "dav1d/data.h"
-#include "src/internal.h"
+#include <stdint.h>
 
-ptrdiff_t dav1d_parse_obus(Dav1dContext *c, Dav1dData *in);
+#define decl_pal_idx_finish_fn(name) \
+void (name)(uint8_t *dst, const uint8_t *src, int bw, int bh, int w, int h)
+typedef decl_pal_idx_finish_fn(*pal_idx_finish_fn);
 
-#endif /* DAV1D_SRC_OBU_H */
+typedef struct Dav1dPalDSPContext {
+    pal_idx_finish_fn pal_idx_finish;
+} Dav1dPalDSPContext;
+
+void dav1d_pal_dsp_init(Dav1dPalDSPContext *dsp);
+
+#endif /* DAV1D_SRC_PAL_H */

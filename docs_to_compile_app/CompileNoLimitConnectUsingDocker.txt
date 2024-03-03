@@ -1,0 +1,36 @@
+
+=== Compile No Limit Connect using docker ===
+
+NOTE: These are instructions for Qt 6.6.2 which is tag nlcdevimage-1.0.7 .. substitute version and tag as needed
+
+1.) Run docker image
+docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 bash
+or if dns resolve is broken (recent docker and/or ubuntu changes broke it)
+docker run --net=host -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 bash
+
+
+2.) Create folder for source code check out
+mkdir ./builds
+mkdir ./builds/nolimitconnectapps
+
+3.) Check out source code
+cd ./builds/nolimitconnectapps
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+
+4.) Create build folders
+cd ~/builds/nolimitconnectapps/nolimitapp
+mkdir package
+mkdir package/linux
+mkdir package/android
+mkdir dockerbuild
+mkdir dockerbuild/nlcbuild
+cd dockerbuild/nlcbuild
+
+5.) Build NLC
+for linux use
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
+for android use
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
+
+

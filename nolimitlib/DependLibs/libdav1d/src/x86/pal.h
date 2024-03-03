@@ -1,6 +1,6 @@
 /*
- * Copyright © 2018, VideoLAN and dav1d authors
- * Copyright © 2018, Two Orioles, LLC
+ * Copyright © 2023, VideoLAN and dav1d authors
+ * Copyright © 2023, Two Orioles, LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DAV1D_SRC_OBU_H
-#define DAV1D_SRC_OBU_H
+#include "src/cpu_dav1d.h"
 
-#include "dav1d/data.h"
-#include "src/internal.h"
+decl_pal_idx_finish_fn(dav1d_pal_idx_finish_ssse3);
+decl_pal_idx_finish_fn(dav1d_pal_idx_finish_avx2);
+decl_pal_idx_finish_fn(dav1d_pal_idx_finish_avx512icl);
 
-ptrdiff_t dav1d_parse_obus(Dav1dContext *c, Dav1dData *in);
+static ALWAYS_INLINE void pal_dsp_init_x86(Dav1dPalDSPContext *const c) {
+    const unsigned flags = dav1d_get_cpu_flags();
 
-#endif /* DAV1D_SRC_OBU_H */
+    if (!(flags & DAV1D_X86_CPU_FLAG_SSSE3)) return;
+
+    c->pal_idx_finish = dav1d_pal_idx_finish_ssse3;
+
+#if ARCH_X86_64
+    if (!(flags & DAV1D_X86_CPU_FLAG_AVX2)) return;
+
+    c->pal_idx_finish = dav1d_pal_idx_finish_avx2;
+
+    if (!(flags & DAV1D_X86_CPU_FLAG_AVX512ICL)) return;
+
+    c->pal_idx_finish = dav1d_pal_idx_finish_avx512icl;
+#endif
+}

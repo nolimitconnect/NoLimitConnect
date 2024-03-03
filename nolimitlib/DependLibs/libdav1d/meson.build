@@ -23,14 +23,14 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 project('dav1d', ['c'],
-    version: '1.1.0',
+    version: '1.4.0',
     default_options: ['c_std=c99',
                       'warning_level=2',
                       'buildtype=release',
                       'b_ndebug=if-release'],
     meson_version: '>= 0.49.0')
 
-dav1d_soname_version       = '6.8.0'
+dav1d_soname_version       = '7.0.0'
 dav1d_api_version_array    = dav1d_soname_version.split('.')
 dav1d_api_version_major    = dav1d_api_version_array[0]
 dav1d_api_version_minor    = dav1d_api_version_array[1]
@@ -62,11 +62,13 @@ endforeach
 
 # ASM option
 is_asm_enabled = (get_option('enable_asm') == true and
-    (host_machine.cpu_family() == 'x86' or
-     (host_machine.cpu_family() == 'x86_64' and cc.get_define('__ILP32__').strip() == '') or
-     host_machine.cpu_family() == 'aarch64'      or
+    (host_machine.cpu_family() == 'aarch64' or
      host_machine.cpu_family().startswith('arm') or
-     host_machine.cpu() == 'ppc64le'))
+     host_machine.cpu() == 'ppc64le' or
+     host_machine.cpu_family().startswith('riscv') or
+     host_machine.cpu_family().startswith('loongarch') or
+     host_machine.cpu_family() == 'x86' or
+     (host_machine.cpu_family() == 'x86_64' and cc.get_define('__ILP32__').strip() == '')))
 cdata.set10('HAVE_ASM', is_asm_enabled)
 
 if is_asm_enabled and get_option('b_sanitize') == 'memory'
@@ -134,7 +136,7 @@ if host_machine.system() == 'windows'
     rc_data.set('API_VERSION_MAJOR', dav1d_api_version_major)
     rc_data.set('API_VERSION_MINOR', dav1d_api_version_minor)
     rc_data.set('API_VERSION_REVISION', dav1d_api_version_revision)
-    rc_data.set('COPYRIGHT_YEARS', '2018-2023')
+    rc_data.set('COPYRIGHT_YEARS', '2018-2024')
 else
     thread_dependency = dependency('threads')
     thread_compat_dep = []
@@ -148,6 +150,10 @@ else
             error('clock_gettime not found')
         endif
         cdata.set('HAVE_CLOCK_GETTIME', 1)
+    endif
+
+    if cc.has_function('posix_memalign', prefix : '#include <stdlib.h>', args : test_args)
+        cdata.set('HAVE_POSIX_MEMALIGN', 1)
     endif
 endif
 
@@ -226,17 +232,11 @@ else
     getopt_dependency = []
 endif
 
-if cc.has_function('_aligned_malloc', prefix : '#include <malloc.h>', args : test_args)
-    cdata.set('HAVE_ALIGNED_MALLOC', 1)
-elif cc.has_function('posix_memalign', prefix : '#include <stdlib.h>', args : test_args)
-    cdata.set('HAVE_POSIX_MEMALIGN', 1)
-elif cc.has_function('memalign', prefix : '#include <malloc.h>', args : test_args)
-    cdata.set('HAVE_MEMALIGN', 1)
-endif
-
 if (host_machine.cpu_family() == 'aarch64' or
     host_machine.cpu_family().startswith('arm') or
-    host_machine.cpu() == 'ppc64le')
+    host_machine.cpu_family().startswith('loongarch') or
+    host_machine.cpu() == 'ppc64le' or
+    host_machine.cpu_family().startswith('riscv'))
     if cc.has_function('getauxval', prefix : '#include <sys/auxv.h>', args : test_args)
         cdata.set('HAVE_GETAUXVAL', 1)
     endif
@@ -383,6 +383,14 @@ endif
 
 cdata.set10('ARCH_PPC64LE', host_machine.cpu() == 'ppc64le')
 
+cdata.set10('ARCH_RISCV', host_machine.cpu_family().startswith('riscv'))
+cdata.set10('ARCH_RV32', host_machine.cpu_family() == 'riscv32')
+cdata.set10('ARCH_RV64', host_machine.cpu_family() == 'riscv64')
+
+cdata.set10('ARCH_LOONGARCH', host_machine.cpu_family().startswith('loongarch'))
+cdata.set10('ARCH_LOONGARCH32', host_machine.cpu_family() == 'loongarch32')
+cdata.set10('ARCH_LOONGARCH64', host_machine.cpu_family() == 'loongarch64')
+
 # meson's cc.symbols_have_underscore_prefix() is unfortunately unrelieably
 # when additional flags like '-fprofile-instr-generate' are passed via CFLAGS
 # see following meson issue https://github.com/mesonbuild/meson/issues/5482
@@ -467,6 +475,17 @@ if (is_asm_enabled and
             '-c',
             '-o', '@OUTPUT@'
         ])
+endif
+
+if is_asm_enabled and host_machine.cpu_family().startswith('riscv')
+    as_option_code = '''__asm__ (
+".option arch, +v\n"
+"vsetivli zero, 0, e8, m1, ta, ma"
+);
+'''
+    if not cc.compiles(as_option_code, name : 'RISC-V Vector')
+        error('Compiler doesn\'t support \'.option arch\' asm directive. Update to binutils>=2.38 or clang>=17 or use \'-Denable_asm=false\'.')
+    endif
 endif
 
 # Generate config.h

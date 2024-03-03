@@ -1,0 +1,59 @@
+Setup a docker image for linux and android ci/cd builds
+NOTE: These instructions are for building your own image. You can just use the existing image from 
+https://hub.docker.com/repository/docker/brettrjonesdocker/nolimitappimage/
+
+# special thanks to carlonluca for doing all the hard work of creating images with qt build tools
+# carlonluca blog is https://bugfreeblog.duckdns.org/
+
+1.) Pull image with qt build already created
+docker pull carlonluca/qt-dev:6.6.2
+
+2.) Verify docker image by running docker image with bash shell 
+docker run -it carlonluca/qt-dev:6.6.2 bash
+exit
+
+3.) Create tag for our modified docker image (of course substitute your own docker account and tag)
+docker tag carlonluca/qt-dev:6.6.2 brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7
+
+4.) Log out then into docker (there seems to be an issue if you are currently logged in)
+NOTE: this no longer seems to be an issue so this step can be skipped
+docker logout
+docker login
+<your docker user name>
+<your docker password>
+
+5.) Run the newly created docker image
+docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 bash
+
+6.) Update apt-get 
+apt-get update
+	If you get Temporary failure resolving 'security.ubuntu.com'
+	Then your dns resolve is not working. 
+	This was my solution. it may or may not work for you
+	use --net=host option when running container so
+	docker run -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 bash
+	becomes
+	docker run --net=host -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 bash
+
+7.) Install additional libraries required for nolimitconnect build
+apt-get install build-essential cmake g++ git libglu1-mesa-dev uuid-dev 
+
+8.) Install assembler for linux (done separately because recent ubuntu updates caused issues)
+apt-get install nasm
+
+9.) commit new image to your docker repo
+
+One of the many how to commit tutorials can be found at https://phoenixnap.com/kb/how-to-commit-changes-to-docker-image
+
+
+=== some usefull docker commands ===
+1.) List all containers
+docker container ls
+
+2.) List all images
+docker images
+
+3.) remove a specific image
+docker rmi --force 'image id'
+
+

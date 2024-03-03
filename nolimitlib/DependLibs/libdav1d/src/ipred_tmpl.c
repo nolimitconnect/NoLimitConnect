@@ -715,19 +715,22 @@ cfl_ac_fn(422, 1, 0)
 cfl_ac_fn(444, 0, 0)
 
 static void pal_pred_c(pixel *dst, const ptrdiff_t stride,
-                       const uint16_t *const pal, const uint8_t *idx,
+                       const pixel *const pal, const uint8_t *idx,
                        const int w, const int h)
 {
     for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++)
-            dst[x] = (pixel) pal[idx[x]];
-        idx += w;
+        for (int x = 0; x < w; x += 2) {
+            const int i = *idx++;
+            assert(!(i & 0x88));
+            dst[x + 0] = pal[i & 7];
+            dst[x + 1] = pal[i >> 4];
+        }
         dst += PXSTRIDE(stride);
     }
 }
 
 #if HAVE_ASM
-#if defined(TARGET_CPU_ARM) || ARCH_ARM
+#if ARCH_AARCH64 || ARCH_ARM
 #include "src/arm/ipred.h"
 #elif ARCH_X86
 #include "src/x86/ipred.h"

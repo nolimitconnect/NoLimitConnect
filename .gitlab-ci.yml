@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: brettrjonesdocker/nolimitappimage
-  IMAGE_TAG: nlcdevimage-1.0.3 # for Qt 6.0.0 use nlcdevimage-1.0.5 instead of nlcdevimage-1.0.3 which is for Qt 6.4.3
+  IMAGE_TAG: nlcdevimage-1.0.7 # for Qt 6.6.1 use nlcdevimage-1.0.5, for Qt 6.6.2 ise nlcdevimage-1.0.7
 
 
 stages:
@@ -28,7 +28,7 @@ compile_nlc_linux:
     
   timeout: 6 hours
 
-  # image derived from docker image carlonluca/qt-dev:6.4.3 with the following changes
+  # image derived from docker image carlonluca/qt-dev:6.6.2 with the following changes
   # install nlc build required libraries (most are already installed)
   # apt-get update
   # apt-get install build-essential cmake g++ git libglu1-mesa-dev uuid-dev nasm
@@ -51,7 +51,7 @@ compile_nlc_linux:
 
     - rm -rf *
     - rm -rf ../../package/android
-    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_4_3
+    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
 
     - echo 'start make'
     - make -j$(nproc)
@@ -64,7 +64,7 @@ compile_nlc_linux:
 
     - rm -rf *
     - rm -rf ../../package/linux
-    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI  -DQT_VERSION=6_4_3
+    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
     - make -j$(nproc)
     - cpack -C CPackConfig.cmake
       
