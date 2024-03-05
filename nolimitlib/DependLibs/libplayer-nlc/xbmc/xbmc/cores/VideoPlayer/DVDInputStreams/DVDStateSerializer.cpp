@@ -109,7 +109,7 @@ bool CDVDStateSerializer::XMLToDVDState(DVDState& state, const std::string& xmls
     }
     else
     {
-      CLog::LogF(LOGWARNING, "Unmapped dvd state property {}, ignored.", childElement->Value());
+      CLog::LogF(LOGWARNING, "Unmapped dvd state property %s, ignored.", childElement->Value());
     }
     childElement = childElement->NextSiblingElement();
   }

@@ -276,7 +276,7 @@ int CAEEncoderFFmpeg::Encode(uint8_t *in, int in_size, uint8_t *out, int out_siz
     pkt = av_packet_alloc();
     if (!frame || !pkt)
       throw FFMPEG_HELP_TOOLS::FFMpegException(
-          "Failed to allocate \"AVFrame\" or \"AVPacket\" for encoding (error '{}')",
+          "Failed to allocate \"AVFrame\" or \"AVPacket\" for encoding (error '%s')",
           strerror(errno));
 
   frame->nb_samples = m_CodecCtx->frame_size;
@@ -290,7 +290,7 @@ int CAEEncoderFFmpeg::Encode(uint8_t *in, int in_size, uint8_t *out, int out_siz
   /* encode it */
     err = avcodec_send_frame(m_CodecCtx, frame);
     if (err < 0)
-      throw FFMPEG_HELP_TOOLS::FFMpegException("Error sending a frame for encoding (error '{}')",
+      throw FFMPEG_HELP_TOOLS::FFMpegException("Error sending a frame for encoding (error '%s')",
           FFMPEG_HELP_TOOLS::FFMpegErrorToString(err));
 
     err = avcodec_receive_packet(m_CodecCtx, pkt);
@@ -309,19 +309,19 @@ int CAEEncoderFFmpeg::Encode(uint8_t *in, int in_size, uint8_t *out, int out_siz
       }
       else
       {
-        CLog::LogF(LOGERROR, "Encoded pkt size ({}) is bigger than buffer ({})", pkt->size,
+        CLog::LogF(LOGERROR, "Encoded pkt size (%d) is bigger than buffer (%d)", pkt->size,
                    out_size);
       }
       av_packet_unref(pkt);
     }
     else
     {
-      CLog::LogF(LOGERROR, "Error receiving encoded paket ({})", err);
+      CLog::LogF(LOGERROR, "Error receiving encoded paket (%d)", err);
     }
   }
   catch (const FFMPEG_HELP_TOOLS::FFMpegException& caught)
   {
-    CLog::Log(LOGERROR, "CAEEncoderFFmpeg::{} - {}", __func__, caught.what());
+    CLog::Log(LOGERROR, "CAEEncoderFFmpeg::%s - %s", __func__, caught.what());
   }
 
   av_channel_layout_uninit(&frame->ch_layout);

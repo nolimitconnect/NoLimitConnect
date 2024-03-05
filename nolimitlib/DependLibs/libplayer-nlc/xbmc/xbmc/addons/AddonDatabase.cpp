@@ -646,7 +646,7 @@ bool CAddonDatabase::GetAddon(int id, AddonPtr &addon)
   }
   catch (...)
   {
-    CLog::Log(LOGERROR, "{} failed on addon {}", __FUNCTION__, id);
+    CLog::Log(LOGERROR, "%s failed on addon %d", __FUNCTION__, id);
   }
   return false;
 }

@@ -64,11 +64,11 @@ public:
 
     // if channels are cleared, groups, EPG data and providers must also be cleared
     const std::shared_ptr<CFileItem> itemChannels =
-        std::make_shared<CFileItem>(StringUtils::Format("{}, {}, {}, {}",
-                                                        g_localizeStrings.Get(19019), // Channels
-                                                        g_localizeStrings.Get(19146), // Groups
-                                                        g_localizeStrings.Get(19069), // Guide
-                                                        g_localizeStrings.Get(19334))); // Providers
+        std::make_shared<CFileItem>(StringUtils::Format("%s, %s, %s, %s",
+                                                        g_localizeStrings.Get(19019).c_str(), // Channels
+                                                        g_localizeStrings.Get(19146).c_str(), // Groups
+                                                        g_localizeStrings.Get(19069).c_str(), // Guide
+                                                        g_localizeStrings.Get(19334)).c_str()); // Providers
     itemChannels->SetPath("channels");
     itemChannels->Select(true); // preselect this item in dialog
     options.Add(itemChannels);

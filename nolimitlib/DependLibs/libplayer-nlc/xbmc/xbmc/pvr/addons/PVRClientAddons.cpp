@@ -177,8 +177,8 @@ ADDON_STATUS CPVRClient::Create()
     m_bReadyToUse = GetAddonProperties();
 /*
     CLog::LogFC(LOGDEBUG, LOGPVR,
-                "Created PVR add-on instance {}. readytouse={}, ignoreclient={}, "
-                "connectionstate={}",
+                "Created PVR add-on instance %d. readytouse=%d, ignoreclient=%d, "
+                "connectionstate=%d",
                 GetID(), m_bReadyToUse, IgnoreClient(), GetConnectionState());
          */
   }

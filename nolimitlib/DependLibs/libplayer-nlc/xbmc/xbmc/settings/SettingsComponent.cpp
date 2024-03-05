@@ -265,8 +265,12 @@ bool CSettingsComponent::InitDirectoriesLinux(bool bPlatformDirectories)
   return false;
 #endif
 #endif // 0
+#if defined(TARGET_OS_LINUX) || defined(TARGET_OS_ANDROID)
   CreateUserDirs();
   return true;
+#else
+  return false;
+#endif // defined(TARGET_OS_LINUX) || defined(TARGET_OS_ANDROID)
 }
 
 bool CSettingsComponent::InitDirectoriesOSX(bool bPlatformDirectories)
@@ -357,8 +361,12 @@ bool CSettingsComponent::InitDirectoriesOSX(bool bPlatformDirectories)
   return false;
 #endif
 #endif // 0
+#if defined(TARGET_OS_APPLE)
   CreateUserDirs();
   return true;
+#else
+  return false;
+#endif // defined(TARGET_OS_APPLE)
 }
 
 bool CSettingsComponent::InitDirectoriesWin32(bool bPlatformDirectories)
@@ -386,8 +394,12 @@ bool CSettingsComponent::InitDirectoriesWin32(bool bPlatformDirectories)
   return false;
 #endif
 #endif // 0
+#if defined(TARGET_OS_WINDOWS)
   CreateUserDirs();
   return true;
+#else
+  return false;
+#endif // defined(TARGET_OS_WINDOWS)
 }
 
 void CSettingsComponent::CreateUserDirs() const

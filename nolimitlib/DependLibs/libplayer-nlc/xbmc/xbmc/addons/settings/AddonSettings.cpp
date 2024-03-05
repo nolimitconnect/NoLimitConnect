@@ -776,7 +776,7 @@ std::shared_ptr<CSettingCategory> CAddonSettings::ParseOldCategoryElement(
     uint32_t& categoryId, const TiXmlElement* categoryElement, std::set<std::string>& settingIds)
 {
   // create the category
-  auto category = std::make_shared<CSettingCategory>(StringUtils::Format("category{}", categoryId),
+  auto category = std::make_shared<CSettingCategory>(StringUtils::Format("category%d", categoryId),
                                                      GetSettingsManager());
   categoryId += 1;
 
@@ -848,7 +848,7 @@ SettingPtr CAddonSettings::InitializeFromOldSettingAction(const std::string& set
   // action settings don't require a setting id
   if (settingId.empty())
   {
-    auto actionSettingId = StringUtils::Format("action{}", m_unidentifiedSettingId);
+    auto actionSettingId = StringUtils::Format("action%d", m_unidentifiedSettingId);
     m_unidentifiedSettingId += 1;
 
     auto settingAction = std::make_shared<CSettingAction>(actionSettingId, GetSettingsManager());
@@ -882,7 +882,7 @@ SettingPtr CAddonSettings::InitializeFromOldSettingAction(const std::string& set
 std::shared_ptr<CSetting> CAddonSettings::InitializeFromOldSettingLabel()
 {
   // label settings don't require a setting id
-  auto labelSettingId = StringUtils::Format("label{}", m_unidentifiedSettingId);
+  auto labelSettingId = StringUtils::Format("label%d", m_unidentifiedSettingId);
   m_unidentifiedSettingId += 1;
 
   auto settingLabel = std::make_shared<CSettingString>(labelSettingId, GetSettingsManager());

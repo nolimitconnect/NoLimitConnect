@@ -1181,7 +1181,7 @@ bool CGUIWindowManager::HandleAction(CAction const& action) const
         return false;
       }
       CLog::Log(LOGWARNING,
-                "CGUIWindowManager - {} - ignoring action {}, because topmost modal dialog closing "
+                "CGUIWindowManager - %s - ignoring action %d, because topmost modal dialog closing "
                 "animation is running",
                 __FUNCTION__, action.GetID());
       return true; // do nothing with the action until the anim is finished

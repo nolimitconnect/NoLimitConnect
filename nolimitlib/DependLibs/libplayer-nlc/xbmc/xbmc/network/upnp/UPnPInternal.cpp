@@ -1294,7 +1294,7 @@ NPT_String DecodeObjectId(const std::string& id)
   const std::string decodedObjectId = Base64::Decode(id);
   if (decodedObjectId.empty())
   {
-    CLog::LogF(LOGERROR, "Failed to decode object id {}, not properly Base64 encoded", decodedObjectId);
+    CLog::LogF(LOGERROR, "Failed to decode object id %s, not properly Base64 encoded", decodedObjectId.c_str());
   }
 
   return decodedObjectId.c_str();

@@ -79,7 +79,7 @@ void CPlayerCoreFactory::GetPlayers(std::vector<std::string>&players) const
 void CPlayerCoreFactory::GetPlayers(std::vector<std::string>&players, const bool audio, const bool video) const
 {
   std::unique_lock<CCriticalSection> lock(m_section);
-  CLog::Log(LOGDEBUG, "CPlayerCoreFactory::GetPlayers: for video={}, audio={}", video, audio);
+  CLog::Log(LOGDEBUG, "CPlayerCoreFactory::GetPlayers: for video=%d, audio=%d", video, audio);
 
   for (auto& conf : m_vecPlayerConfigs)
   {

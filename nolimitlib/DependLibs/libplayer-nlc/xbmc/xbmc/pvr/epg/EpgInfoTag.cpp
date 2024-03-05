@@ -93,10 +93,10 @@ CPVREpgInfoTag::CPVREpgInfoTag(const EPG_TAG& data,
     m_channelData = channelData;
 
     if (m_channelData->ClientId() != iClientId)
-      CLog::LogF(LOGERROR, "Client id mismatch (channel: {}, epg: {})!", m_channelData->ClientId(),
+      CLog::LogF(LOGERROR, "Client id mismatch (channel: %d, epg: %d)!", m_channelData->ClientId(),
                  iClientId);
     if (m_channelData->UniqueClientChannelId() != static_cast<int>(data.iUniqueChannelId))
-      CLog::LogF(LOGERROR, "Channel uid mismatch (channel: {}, epg: {})!",
+      CLog::LogF(LOGERROR, "Channel uid mismatch (channel: %d, epg: %d)!",
                  m_channelData->UniqueClientChannelId(), data.iUniqueChannelId);
   }
   else

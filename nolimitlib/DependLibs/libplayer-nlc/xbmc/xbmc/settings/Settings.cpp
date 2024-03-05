@@ -89,7 +89,8 @@ bool CSettings::Initialize()
   // load the settings definitions
   if (!InitializeDefinitions())
   {
-    LogModule( eLogPlayerNlc, LOG_ERROR, "%s InitializeDefinitions failed", __func__ );
+    // player will not function
+    LogMsg( LOG_ERROR, "%s InitializeDefinitions failed and player will not function", __func__ );
     return false;
   }
 
@@ -301,7 +302,7 @@ bool CSettings::InitializeDefinitions()
 
 #if defined(PLATFORM_SETTINGS_FILE)
   if (CFile::Exists(SETTINGS_XML_FOLDER DEF_TO_STR_VALUE(PLATFORM_SETTINGS_FILE)) && !Initialize(SETTINGS_XML_FOLDER DEF_TO_STR_VALUE(PLATFORM_SETTINGS_FILE)))
-    CLog::Log(LOGFATAL, "Unable to load platform-specific settings definitions ({})",
+    CLog::Log(LOGFATAL, "Unable to load platform-specific settings definitions (%s)",
               DEF_TO_STR_VALUE(PLATFORM_SETTINGS_FILE));
 #endif
 
@@ -371,7 +372,7 @@ void CSettings::InitializeDefaults()
   {
     auto setting = GetSettingsManager()->GetSetting(CSettings::SETTING_VIDEOSCREEN_FAKEFULLSCREEN);
     if (!setting)
-      CLog::Log(LOGERROR, "Failed to load setting for: {}",
+      CLog::Log(LOGERROR, "Failed to load setting for: %s",
                 CSettings::SETTING_VIDEOSCREEN_FAKEFULLSCREEN);
     else
       std::static_pointer_cast<CSettingBool>(setting)->SetDefault(false);
@@ -383,7 +384,7 @@ void CSettings::InitializeDefaults()
     auto setting =
         GetSettingsManager()->GetSetting(CSettings::SETTING_POWERMANAGEMENT_SHUTDOWNSTATE);
     if (!setting)
-      CLog::Log(LOGERROR, "Failed to load setting for: {}",
+      CLog::Log(LOGERROR, "Failed to load setting for: %s",
                 CSettings::SETTING_POWERMANAGEMENT_SHUTDOWNSTATE);
     else
       std::static_pointer_cast<CSettingInt>(setting)->SetDefault(POWERSTATE_SHUTDOWN);
@@ -396,7 +397,7 @@ void CSettings::InitializeDefaults()
     const std::string& uuid = StringUtils::CreateUUID();
     auto setting = GetSettingsManager()->GetSetting(CSettings::SETTING_SERVICES_DEVICEUUID);
     if (!setting)
-      CLog::Log(LOGERROR, "Failed to load setting for: {}", CSettings::SETTING_SERVICES_DEVICEUUID);
+      CLog::Log(LOGERROR, "Failed to load setting for: %s", CSettings::SETTING_SERVICES_DEVICEUUID);
     else
       std::static_pointer_cast<CSettingString>(setting)->SetValue(uuid);
   }

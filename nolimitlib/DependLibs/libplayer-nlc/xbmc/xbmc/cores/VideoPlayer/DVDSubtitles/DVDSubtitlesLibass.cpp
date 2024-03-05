@@ -617,7 +617,7 @@ int CDVDSubtitlesLibass::AddEvent(const char* text,
   if (text == NULL || text[0] == '\0')
   {
     CLog::Log(LOGDEBUG,
-              "{} - Add event skipped due to empty text (with start time: {}, stop time {})",
+              "%s - Add event skipped due to empty text (with start time: %3.3f, stop time %3.3f)",
               __FUNCTION__, startTime, stopTime);
     return ASS_NO_ID;
   }

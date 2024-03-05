@@ -839,7 +839,7 @@ bool CApplication::Initialize()
         auto setting = settings->GetSetting( CSettings::SETTING_LOOKANDFEEL_SKIN );
         if( !setting )
         {
-            CLog::Log( LOGFATAL, "Failed to load setting for: {}", CSettings::SETTING_LOOKANDFEEL_SKIN );
+            CLog::Log( LOGFATAL, "Failed to load setting for: %s", CSettings::SETTING_LOOKANDFEEL_SKIN );
             return false;
         }
 
@@ -1859,7 +1859,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     break;
 
     default:
-        CLog::Log( LOGERROR, "{}: Unhandled threadmessage sent, {}", __FUNCTION__, msg );
+        CLog::Log( LOGERROR, "%s: Unhandled threadmessage sent, %d", __FUNCTION__, msg );
         break;
     }
 }
@@ -3719,8 +3719,8 @@ void CApplication::PrintStartupLog()
     CSpecialProtocol::LogPaths();
 
 #ifdef HAS_WEB_SERVER
-    CLog::Log( LOGINFO, "Webserver extra whitelist paths: {}",
-               StringUtils::Join( CCompileInfo::GetWebserverExtraWhitelist(), ", " ) );
+    CLog::Log( LOGINFO, "Webserver extra whitelist paths: %s",
+               StringUtils::Join( CCompileInfo::GetWebserverExtraWhitelist(), ", " ).c_str() );
 #endif
 
     // Check, whether libkodi.so was reused (happens on Android, where the system does not unload

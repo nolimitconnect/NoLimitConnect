@@ -756,24 +756,24 @@ std::string CGUISliderControl::GetDescription() const
   if (m_iType == SLIDER_CONTROL_TYPE_FLOAT)
   {
     if (m_rangeSelection)
-      description = StringUtils::Format("[{:2.2f}, {:2.2f}]", m_floatValues[0], m_floatValues[1]);
+      description = StringUtils::Format("[{%2.2f}, {%2.2f}]", m_floatValues[0], m_floatValues[1]);
     else
-      description = StringUtils::Format("{:2.2f}", m_floatValues[0]);
+      description = StringUtils::Format("{%2.2f}", m_floatValues[0]);
   }
   else if (m_iType == SLIDER_CONTROL_TYPE_INT)
   {
     if (m_rangeSelection)
-      description = StringUtils::Format("[{}, {}]", m_intValues[0], m_intValues[1]);
+      description = StringUtils::Format("[%d, %d]", m_intValues[0], m_intValues[1]);
     else
       description = std::to_string(m_intValues[0]);
   }
   else
   {
     if (m_rangeSelection)
-      description = StringUtils::Format("[{}%, {}%]", MathUtils::round_int(static_cast<double>(m_percentValues[0])),
+      description = StringUtils::Format("[%d%, %d%]", MathUtils::round_int(static_cast<double>(m_percentValues[0])),
                                         MathUtils::round_int(static_cast<double>(m_percentValues[1])));
     else
-      description = StringUtils::Format("{}%", MathUtils::round_int(static_cast<double>(m_percentValues[0])));
+      description = StringUtils::Format("%d%", MathUtils::round_int(static_cast<double>(m_percentValues[0])));
   }
   return description;
 }

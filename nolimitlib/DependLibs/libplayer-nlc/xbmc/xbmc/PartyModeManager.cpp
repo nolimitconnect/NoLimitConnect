@@ -311,7 +311,7 @@ bool CPartyModeManager::AddRandomSongs()
     bool bMusicVideos = false;
     for (int i = m_iMatchingSongsPicked; i < m_iMatchingSongsPicked + iMissingSongs; i++)
     {
-      std::string song = StringUtils::Format("{},", m_songIDCache[i].second);
+      std::string song = StringUtils::Format("%d,", m_songIDCache[i].second);
       if (m_songIDCache[i].first == 1)
       {
         sqlWhereMusic += song;

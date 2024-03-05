@@ -835,7 +835,7 @@ void CActiveAE::StateMachine( int signal, Protocol *port, Message *msg )
 					case CActiveAEControlProtocol::DEVICECOUNTCHANGE:
 					  const char* param;
 					  param = reinterpret_cast<const char*>(msg->data);
-					  CLog::Log(LOGDEBUG, "CActiveAE - device count change event from driver: {}", param);
+					  CLog::Log(LOGDEBUG, "CActiveAE - device count change event from driver: %s", param);
 					  m_sink.EnumerateSinkList(true, param);
 					  if (!m_sink.DeviceExist(m_settings.driver, m_currDevice))
 					  {
@@ -3370,12 +3370,12 @@ IAE::SoundPtr CActiveAE::MakeSound(const std::string& file)
 
     AVPacket* avpkt = av_packet_alloc();
     if (!avpkt)
-        CLog::Log(LOGERROR, "CActiveAE::{} - av_packet_alloc failed: {}", __FUNCTION__,
+        CLog::Log(LOGERROR, "CActiveAE::%s - av_packet_alloc failed: %s", __FUNCTION__,
               strerror(errno));
 
     AVFrame* decoded_frame = av_frame_alloc();
     if (!decoded_frame)
-        CLog::Log(LOGERROR, "CActiveAE::{} - av_frame_alloc failed: {}", __FUNCTION__, strerror(errno));
+        CLog::Log(LOGERROR, "CActiveAE::%s - av_frame_alloc failed: %s", __FUNCTION__, strerror(errno));
 
     bool error = false;
 

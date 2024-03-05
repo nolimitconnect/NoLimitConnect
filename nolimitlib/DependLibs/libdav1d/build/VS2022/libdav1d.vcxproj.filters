@@ -150,6 +150,9 @@
     <ClCompile Include="..\..\src\arm\cpu.c">
       <Filter>Sources\arm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\pal.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\cdef.h">
@@ -632,6 +635,9 @@
     </NASM>
     <NASM Include="..\..\config_x86.asm">
       <Filter>Sources\config</Filter>
+    </NASM>
+    <NASM Include="..\..\src\x86\pal.asm">
+      <Filter>Sources\x86</Filter>
     </NASM>
   </ItemGroup>
   <ItemGroup>

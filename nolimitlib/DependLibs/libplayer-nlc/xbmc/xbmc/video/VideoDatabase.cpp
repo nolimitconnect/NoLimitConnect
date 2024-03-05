@@ -9591,9 +9591,9 @@ void CVideoDatabase::CleanDatabase(CGUIDialogProgressBarHandle* handle,
           InvalidatePathHash(m_pDS->fv("strPath").get_asString());
           m_pDS->next();
         }
-        CLog::LogFC(LOGDEBUG, LOGDATABASE, "Cleaned {} path hashes", pathHashCount);
+        CLog::LogFC(LOGDEBUG, LOGDATABASE, "Cleaned %d path hashes", pathHashCount);
 
-        CLog::Log(LOGDEBUG, LOGDATABASE, "{}: Cleaning files table", __FUNCTION__);
+        CLog::Log(LOGDEBUG, LOGDATABASE, "%s: Cleaning files table", __FUNCTION__);
         sql = "DELETE FROM files WHERE idFile IN " + filesToDelete;
         m_pDS->exec(sql);
       }
@@ -9602,10 +9602,10 @@ void CVideoDatabase::CleanDatabase(CGUIDialogProgressBarHandle* handle,
       {
         std::string moviesToDelete;
         for (const auto& i : movieIDs)
-          moviesToDelete += StringUtils::Format("{},", i);
+          moviesToDelete += StringUtils::Format("%d,", i);
         moviesToDelete = "(" + StringUtils::TrimRight(moviesToDelete, ",") + ")";
 
-        CLog::Log(LOGDEBUG, LOGDATABASE, "{}: Cleaning movie table", __FUNCTION__);
+        CLog::Log(LOGDEBUG, LOGDATABASE, "%s: Cleaning movie table", __FUNCTION__);
         sql = "DELETE FROM movie WHERE idMovie IN " + moviesToDelete;
         m_pDS->exec(sql);
       }
@@ -9614,16 +9614,16 @@ void CVideoDatabase::CleanDatabase(CGUIDialogProgressBarHandle* handle,
       {
         std::string episodesToDelete;
         for (const auto& i : episodeIDs)
-          episodesToDelete += StringUtils::Format("{},", i);
+          episodesToDelete += StringUtils::Format("%d,", i);
         episodesToDelete = "(" + StringUtils::TrimRight(episodesToDelete, ",") + ")";
 
-        CLog::Log(LOGDEBUG, LOGDATABASE, "{}: Cleaning episode table", __FUNCTION__);
+        CLog::Log(LOGDEBUG, LOGDATABASE, "%s: Cleaning episode table", __FUNCTION__);
         sql = "DELETE FROM episode WHERE idEpisode IN " + episodesToDelete;
         m_pDS->exec(sql);
       }
 
       CLog::Log(LOGDEBUG, LOGDATABASE,
-                "{}: Cleaning paths that don't exist and have content set...", __FUNCTION__);
+                "%s: Cleaning paths that don't exist and have content set...", __FUNCTION__);
       sql = "SELECT path.idPath, path.strPath, path.idParentPath FROM path "
             "WHERE NOT ((strContent IS NULL OR strContent = '') "
             "AND (strSettings IS NULL OR strSettings = '') "

@@ -441,7 +441,7 @@ void CSettingConditions::Initialize()
 #ifdef TARGET_DARWIN_TVOS
   m_simpleConditions.emplace("have_tvos");
 #endif
-#if defined(TARGET_WINDOWS)
+#if defined(TARGET_WINDOWS) && !defined(ENABLE_NLC_PLAYER)
   m_simpleConditions.emplace("has_dx");
   m_simpleConditions.emplace("hasdxva2");
 #endif

@@ -349,7 +349,7 @@ std::shared_ptr<CFileItem> CGUIEPGGridContainerModel::GetItem(int iChannel, int 
   if (!result)
   {
     // Must never happen. if it does, fix the root cause, don't tolerate nullptr!
-    CLog::LogF(LOGERROR, "EPG tag ({}, {}) not found!", iChannel, iBlock);
+    CLog::LogF(LOGERROR, "EPG tag (%d, %d) not found!", iChannel, iBlock);
   }
 
   return result;
@@ -394,14 +394,14 @@ GridItem* CGUIEPGGridContainerModel::GetGridItemPtr(int iChannel, int iBlock) co
     const CDateTime startTime = GetStartTimeForBlock(iBlock);
     if (startTime < m_gridStart || m_gridEnd < startTime)
     {
-      CLog::LogF(LOGERROR, "Requested EPG tag ({}, {}) outside grid boundaries!", iChannel, iBlock);
+      CLog::LogF(LOGERROR, "Requested EPG tag (%d, %d) outside grid boundaries!", iChannel, iBlock);
       return nullptr;
     }
 
     const std::shared_ptr<CFileItem> item = GetItem(iChannel, iBlock);
     if (!item)
     {
-      CLog::LogF(LOGERROR, "Got no EPG tag ({}, {})!", iChannel, iBlock);
+      CLog::LogF(LOGERROR, "Got no EPG tag (%d, %d)!", iChannel, iBlock);
       return nullptr;
     }
 

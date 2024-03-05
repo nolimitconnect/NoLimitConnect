@@ -437,7 +437,7 @@ void CApplicationPowerHandling::ActivateScreenSaver(bool forceType /*= false */)
     std::string libPath = m_pythonScreenSaver->LibPath();
     if (CScriptInvocationManager::GetInstance().HasLanguageInvoker(libPath))
     {
-      CLog::Log(LOGDEBUG, "using python screensaver add-on {}", m_screensaverIdInUse);
+      CLog::Log(LOGDEBUG, "using python screensaver add-on %s", m_screensaverIdInUse.c_str());
 
       // Don't allow a previously-scheduled alarm to kill our new screensaver
       g_alarmClock.Stop(SCRIPT_ALARM, true);

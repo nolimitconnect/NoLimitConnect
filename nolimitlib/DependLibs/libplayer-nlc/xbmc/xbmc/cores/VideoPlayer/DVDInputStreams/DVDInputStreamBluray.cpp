@@ -105,7 +105,7 @@ BLURAY_TITLE_INFO* CDVDInputStreamBluray::GetTitleLongest()
     BLURAY_TITLE_INFO *t = bd_get_title_info(m_bd, i, 0);
     if(!t)
     {
-      CLog::Log(LOGDEBUG, "get_main_title - unable to get title {}", i);
+      CLog::Log(LOGDEBUG, "get_main_title - unable to get title %d", i);
       continue;
     }
     if(!s || s->duration < t->duration)
@@ -122,8 +122,8 @@ BLURAY_TITLE_INFO* CDVDInputStreamBluray::GetTitleFile(const std::string& filena
   unsigned int playlist;
   if(sscanf(filename.c_str(), "%05u.mpls", &playlist) != 1)
   {
-    CLog::Log(LOGERROR, "get_playlist_title - unsupported playlist file selected {}",
-              NlcUrl::GetRedacted(filename));
+    CLog::Log(LOGERROR, "get_playlist_title - unsupported playlist file selected %s",
+              NlcUrl::GetRedacted(filename).c_str());
     return nullptr;
   }
 
@@ -226,7 +226,7 @@ bool CDVDInputStreamBluray::Open()
 
   SetupPlayerSettings();
 
-  CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - opening {}", NlcUrl::GetRedacted(root));
+  CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - opening %s", NlcUrl::GetRedacted(root).c_str());
 
   if (openStream)
   {
@@ -273,35 +273,35 @@ bool CDVDInputStreamBluray::Open()
   if (disc_info->bluray_detected)
   {
 #if (BLURAY_VERSION > BLURAY_VERSION_CODE(1,0,0))
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - Disc name           : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - Disc name           : %s",
               disc_info->disc_name ? disc_info->disc_name : "");
 #endif
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - First Play supported: {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - First Play supported: %d",
               disc_info->first_play_supported);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - Top menu supported  : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - Top menu supported  : %d",
               disc_info->top_menu_supported);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - HDMV titles         : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - HDMV titles         : %d",
               disc_info->num_hdmv_titles);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD-J titles         : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD-J titles         : %d",
               disc_info->num_bdj_titles);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD-J handled        : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD-J handled        : %d",
               disc_info->bdj_handled);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - UNSUPPORTED titles  : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - UNSUPPORTED titles  : %d",
               disc_info->num_unsupported_titles);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - AACS detected       : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - AACS detected       : %d",
               disc_info->aacs_detected);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - libaacs detected    : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - libaacs detected    : %d",
               disc_info->libaacs_detected);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - AACS handled        : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - AACS handled        : %d",
               disc_info->aacs_handled);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD+ detected        : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD+ detected        : %d",
               disc_info->bdplus_detected);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - libbdplus detected  : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - libbdplus detected  : %d",
               disc_info->libbdplus_detected);
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD+ handled         : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - BD+ handled         : %d",
               disc_info->bdplus_handled);
 #if (BLURAY_VERSION >= BLURAY_VERSION_CODE(1,0,0))
-    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - no menus (libmmbd, or profile 6 bdj)  : {}",
+    CLog::Log(LOGDEBUG, "CDVDInputStreamBluray::Open - no menus (libmmbd, or profile 6 bdj)  : %d",
               disc_info->no_menu_support);
 #endif
   }

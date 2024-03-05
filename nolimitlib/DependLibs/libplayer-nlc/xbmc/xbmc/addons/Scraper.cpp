@@ -614,7 +614,7 @@ CMusicAlbumInfo FromFileItem<CMusicAlbumInfo>(const CFileItem &item)
   std::string sArtist = item.GetProperty("album.artist").asString();
   std::string sAlbumName;
   if (!sArtist.empty())
-    sAlbumName = StringUtils::Format("{} - {}", sArtist, sTitle);
+    sAlbumName = StringUtils::Format("%s - %s", sArtist.c_str(), sTitle.c_str());
   else
     sAlbumName = sTitle;
 

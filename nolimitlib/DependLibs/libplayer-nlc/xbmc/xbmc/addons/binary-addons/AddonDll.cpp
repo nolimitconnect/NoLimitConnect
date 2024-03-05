@@ -153,7 +153,7 @@ bool CAddonDll::LoadDll()
     m_pDll = nullptr;
 
     std::string heading =
-        StringUtils::Format("{}: {}", CAddonInfo::TranslateType(Type(), true), Name());
+        StringUtils::Format("%s: %s", CAddonInfo::TranslateType(Type(), true).c_str(), Name().c_str());
     HELPERS::ShowOKDialogLines(CVariant{heading}, CVariant{24070}, CVariant{24071});
 
     return false;
@@ -211,7 +211,7 @@ ADDON_STATUS CAddonDll::Create(KODI_ADDON_INSTANCE_STRUCT* firstKodiInstance)
 
     // @todo currently a copy and paste from other function and becomes improved.
     std::string heading =
-        StringUtils::Format("{}: {}", CAddonInfo::TranslateType(Type(), true), Name());
+        StringUtils::Format("%s: %s", CAddonInfo::TranslateType(Type(), true).c_str(), Name().c_str());
     HELPERS::ShowOKDialogLines(CVariant{ heading }, CVariant{ 24070 }, CVariant{ 24071 });
   }
 

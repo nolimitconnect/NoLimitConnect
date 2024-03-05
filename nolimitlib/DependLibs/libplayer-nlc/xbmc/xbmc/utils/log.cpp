@@ -67,7 +67,33 @@ void CLog::Close()
 
 void CLog::Log( int logLevel, const char* format, ... )
 {
-    if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    if( LOGERROR == logLevel || LOGFATAL == logLevel )
+    {
+        // show in log even if not enabled because these messages may stop the movie player from running correctly
+        uint32_t nlcLogLevel = kodiToNlcLogLevel( logLevel );
+
+        std::string strData;
+        strData.reserve( MAX_ERR_MSG_SIZE );
+
+        va_list argList;
+        va_start( argList, format );
+        vsnprintf( (char*)strData.c_str(), MAX_ERR_MSG_SIZE, format, argList );
+        ((char*)strData.c_str())[MAX_ERR_MSG_SIZE - 2] = 0;
+        va_end( argList );
+
+        int stringLen = (int)strlen( strData.c_str() );
+        if( stringLen > 1 )
+        {
+            if( ((char*)strData.c_str())[stringLen - 1] != '\n' )
+            {
+                 ((char*)strData.c_str())[stringLen]  = '\n';
+                 ((char*)strData.c_str())[stringLen + 1]  = 0;
+            }
+
+            LogMsg( nlcLogLevel, strData.c_str() );
+        }
+    }
+    else if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
     {
         std::string strData;
         strData.reserve( MAX_ERR_MSG_SIZE );
@@ -312,7 +338,7 @@ void CLog::PrintDebugString( const std::string& line )
 
 bool CLog::WriteLogString( int logLevel, const std::string& logString )
 {
-    static const char* prefixFormat = "%02d:%02d:%02d.%03d T:%" PRIu64" %7s: ";
+    static const char* prefixFormat = "%02d:%02d:%02d.%03d %04d %" PRIu64" %7s: ";
 
     std::string strData( logString );
     /* fixup newline alignment, number of spaces should equal prefix length */
@@ -371,25 +397,104 @@ CLog& CLog::GetInstance()
 
 void LoggerInstance::Log( int loglevel, const char* format, ... )
 {
+    uint32_t nlcLogLevel = CLog::kodiToNlcLogLevel( loglevel );
 
+    std::string strData;
+    strData.reserve( MAX_ERR_MSG_SIZE );
+
+    va_list argList;
+    va_start( argList, format );
+    vsnprintf( (char*)strData.c_str(), MAX_ERR_MSG_SIZE, format, argList );
+    ((char*)strData.c_str())[MAX_ERR_MSG_SIZE - 2] = 0;
+    va_end( argList );
+
+    int stringLen = (int)strlen( strData.c_str() );
+    if( stringLen > 1 )
+    {
+        if( ((char*)strData.c_str())[stringLen - 1] != '\n' )
+        {
+                ((char*)strData.c_str())[stringLen]  = '\n';
+                ((char*)strData.c_str())[stringLen + 1]  = 0;
+        }
+
+        LogMsg( nlcLogLevel, strData.c_str() );
+    }
 }
 
 void LoggerInstance::log( int loglevel, const char* message )
 {
-
+    uint32_t nlcLogLevel = CLog::kodiToNlcLogLevel( loglevel );
+    LogMsg( nlcLogLevel, message );
 }
 
 void LoggerInstance::warn( const char* format, ... )
 {
+    std::string strData;
+    strData.reserve( MAX_ERR_MSG_SIZE );
 
+    va_list argList;
+    va_start( argList, format );
+    vsnprintf( (char*)strData.c_str(), MAX_ERR_MSG_SIZE, format, argList );
+    ((char*)strData.c_str())[MAX_ERR_MSG_SIZE - 2] = 0;
+    va_end( argList );
+
+    int stringLen = (int)strlen( strData.c_str() );
+    if( stringLen > 1 )
+    {
+        if( ((char*)strData.c_str())[stringLen - 1] != '\n' )
+        {
+                ((char*)strData.c_str())[stringLen]  = '\n';
+                ((char*)strData.c_str())[stringLen + 1]  = 0;
+        }
+
+        LogModule2( eLogPlayerNlc, LOG_WARN, strData.c_str() );
+    }
 }
 
 void LoggerInstance::debug( const char* format, ... )
 {
+    std::string strData;
+    strData.reserve( MAX_ERR_MSG_SIZE );
 
+    va_list argList;
+    va_start( argList, format );
+    vsnprintf( (char*)strData.c_str(), MAX_ERR_MSG_SIZE, format, argList );
+    ((char*)strData.c_str())[MAX_ERR_MSG_SIZE - 2] = 0;
+    va_end( argList );
+
+    int stringLen = (int)strlen( strData.c_str() );
+    if( stringLen > 1 )
+    {
+        if( ((char*)strData.c_str())[stringLen - 1] != '\n' )
+        {
+                ((char*)strData.c_str())[stringLen]  = '\n';
+                ((char*)strData.c_str())[stringLen + 1]  = 0;
+        }
+
+        LogModule2( eLogPlayerNlc, LOG_DEBUG, strData.c_str() );
+    }
 }
 
 void LoggerInstance::error( const char* format, ... )
 {
+    std::string strData;
+    strData.reserve( MAX_ERR_MSG_SIZE );
 
+    va_list argList;
+    va_start( argList, format );
+    vsnprintf( (char*)strData.c_str(), MAX_ERR_MSG_SIZE, format, argList );
+    ((char*)strData.c_str())[MAX_ERR_MSG_SIZE - 2] = 0;
+    va_end( argList );
+
+    int stringLen = (int)strlen( strData.c_str() );
+    if( stringLen > 1 )
+    {
+        if( ((char*)strData.c_str())[stringLen - 1] != '\n' )
+        {
+                ((char*)strData.c_str())[stringLen]  = '\n';
+                ((char*)strData.c_str())[stringLen + 1]  = 0;
+        }
+
+        LogMsg( LOG_ERROR, strData.c_str() );
+    }
 }

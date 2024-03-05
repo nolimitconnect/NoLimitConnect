@@ -134,7 +134,7 @@ void KODI::UTILS::GL::GlErrorCallback(GLenum source, GLenum type, GLuint id, GLe
 
 static void PrintMatrix(const GLfloat* matrix, std::string matrixName)
 {
-  CLog::Log(LOGDEBUG, "%s:\n{:> 10.3f} {:> 10.3f} {:> 10.3f} {:> 10.3f}\n{:> 10.3f} {:> 10.3f} {:> 10.3f} {:> 10.3f}\n{:> 10.3f} {:> 10.3f} {:> 10.3f} {:> 10.3f}\n{:> 10.3f} {:> 10.3f} {:> 10.3f} {:> 10.3f}",
+  CLog::Log(LOGDEBUG, "%s:\n{%10.3f} {%10.3f} {%10.3f} {%10.3f}\n{%10.3f} {%10.3f} {%10.3f} {%10.3f}\n{%10.3f} {%10.3f} {%10.3f} {%10.3f}\n{%10.3f} {%10.3f} {%10.3f} {%10.3f}",
             matrixName.c_str(),
                       matrix[0], matrix[1], matrix[2], matrix[3],
                       matrix[4], matrix[5], matrix[6], matrix[7],
@@ -153,24 +153,24 @@ void _VerifyGLState(const char* szfile, const char* szfunction, int lineno)
   auto error = glErrors.find(err);
   if (error != glErrors.end())
   {
-    CLog::Log(LOGERROR, "GL(ES) ERROR: {}", error->second);
+    CLog::Log(LOGERROR, "GL(ES) ERROR: %d", error->second);
   }
 
   if (szfile && szfunction)
   {
-    CLog::Log(LOGERROR, "In file: {} function: {} line: {}", szfile, szfunction, lineno);
+    CLog::Log(LOGERROR, "In file: %s function: %s line: %d", szfile, szfunction, lineno);
   }
 
   GLboolean scissors;
   glGetBooleanv(GL_SCISSOR_TEST, &scissors);
-  CLog::Log(LOGDEBUG, "Scissor test enabled: {}", scissors == GL_TRUE ? "True" : "False");
+  CLog::Log(LOGDEBUG, "Scissor test enabled: %s", scissors == GL_TRUE ? "True" : "False");
 
   GLfloat matrix[16];
   glGetFloatv(GL_SCISSOR_BOX, matrix);
-  CLog::Log(LOGDEBUG, "Scissor box: {}, {}, {}, {}", matrix[0], matrix[1], matrix[2], matrix[3]);
+  CLog::Log(LOGDEBUG, "Scissor box: %10.3f, %10.3f, %10.3f, %10.3f", matrix[0], matrix[1], matrix[2], matrix[3]);
 
   glGetFloatv(GL_VIEWPORT, matrix);
-  CLog::Log(LOGDEBUG, "Viewport: {}, {}, {}, {}", matrix[0], matrix[1], matrix[2], matrix[3]);
+  CLog::Log(LOGDEBUG, "Viewport: %10.3f, %10.3f, %10.3f, %10.3f", matrix[0], matrix[1], matrix[2], matrix[3]);
 
   PrintMatrix(glMatrixProject.Get(), "Projection Matrix");
   PrintMatrix(glMatrixModview.Get(), "Modelview Matrix");

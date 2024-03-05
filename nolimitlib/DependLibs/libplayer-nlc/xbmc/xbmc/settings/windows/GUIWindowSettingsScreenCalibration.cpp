@@ -449,10 +449,10 @@ bool CGUIWindowSettingsScreenCalibration::UpdateFromControl(int iControl)
         {
           info.Overscan.left = pControl->GetXLocation();
           info.Overscan.top = pControl->GetYLocation();
-          labelDescription = StringUtils::Format("[B]{}[/B][CR]{}", g_localizeStrings.Get(274),
-                                                 g_localizeStrings.Get(276));
+          labelDescription = StringUtils::Format("[B]%s[/B][CR]%s", g_localizeStrings.Get(274).c_str(),
+                                                 g_localizeStrings.Get(276).c_str());
           labelValue =
-              StringUtils::Format("{}, {}", pControl->GetXLocation(), pControl->GetYLocation());
+              StringUtils::Format("%d, %d", pControl->GetXLocation(), pControl->GetYLocation());
           labelValue = StringUtils::Format(g_localizeStrings.Get(20327), labelValue);
           // Update reset control position
           CGUIMoverControl* pControl = dynamic_cast<CGUIMoverControl*>(GetControl(CONTROL_RESET));
@@ -473,9 +473,9 @@ bool CGUIWindowSettingsScreenCalibration::UpdateFromControl(int iControl)
           info.Overscan.bottom = pControl->GetYLocation();
           int iXOff1 = info.iWidth - pControl->GetXLocation();
           int iYOff1 = info.iHeight - pControl->GetYLocation();
-          labelDescription = StringUtils::Format("[B]{}[/B][CR]{}", g_localizeStrings.Get(275),
-                                                 g_localizeStrings.Get(276));
-          labelValue = StringUtils::Format("{}, {}", iXOff1, iYOff1);
+          labelDescription = StringUtils::Format("[B]%s[/B][CR]%s", g_localizeStrings.Get(275).c_str(),
+                                                 g_localizeStrings.Get(276).c_str());
+          labelValue = StringUtils::Format("%d, %d", iXOff1, iYOff1);
           labelValue = StringUtils::Format(g_localizeStrings.Get(20327), labelValue);
           // Update reset control position
           pControl = dynamic_cast<CGUIMoverControl*>(GetControl(CONTROL_RESET));

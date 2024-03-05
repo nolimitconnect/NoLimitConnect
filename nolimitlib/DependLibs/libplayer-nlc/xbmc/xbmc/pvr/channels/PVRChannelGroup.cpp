@@ -125,7 +125,7 @@ bool CPVRChannelGroup::LoadFromDatabase(
     auto channelIt = channels.find(groupMember.first);
     if (channelIt == channels.end())
     {
-      CLog::Log(LOGERROR, "Cannot find group member '{},{}' in channels!", groupMember.first.first,
+      CLog::Log(LOGERROR, "Cannot find group member '%d,%d' in channels!", groupMember.first.first,
                 groupMember.first.second);
       // No workaround here, please. We need to find and fix the root cause of this case!
     }

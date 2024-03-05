@@ -67,7 +67,7 @@ bool CSettingAddon::Deserialize(const TiXmlNode *node, bool update /* = false */
 
   if (!ok && !update)
   {
-    CLog::Log(LOGERROR, "CSettingAddon: error reading the addontype value \"%s\" of \"%s\"",
+    CLog::Log(LOGERROR, "CSettingAddon: error reading the addontype value (%s) of (%s)",
               strAddonType.c_str(), m_id.c_str());
     return false;
   }

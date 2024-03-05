@@ -479,8 +479,8 @@ bool Interface_Filesystem::get_disk_space(
   {
     CLog::Log(
         LOGERROR,
-        "Interface_Filesystem::{} - invalid data (addon='{}', path='{}, capacity='{}, free='{}, "
-        "available='{})",
+        "Interface_Filesystem::%s - invalid data (addon='%p', path='%p, capacity='%p, free='%p, "
+        "available='%p)",
         __FUNCTION__, kodiBase, static_cast<const void*>(path), static_cast<void*>(capacity),
         static_cast<void*>(free), static_cast<void*>(available));
     return false;
@@ -502,7 +502,7 @@ bool Interface_Filesystem::is_internet_stream(void* kodiBase, const char* path, 
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
-    CLog::Log(LOGERROR, "Interface_Filesystem::{} - invalid data (addon='{}', path='{})",
+    CLog::Log(LOGERROR, "Interface_Filesystem::%s - invalid data (addon='%p', path='%p)",
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }

@@ -50,6 +50,7 @@
     <ClCompile Include="..\..\src\mem.c" />
     <ClCompile Include="..\..\src\msac_dav1d.c" />
     <ClCompile Include="..\..\src\obu.c" />
+    <ClCompile Include="..\..\src\pal.c" />
     <ClCompile Include="..\..\src\picture.c" />
     <ClCompile Include="..\..\src\qm.c" />
     <ClCompile Include="..\..\src\recon_tmpl.c" />
@@ -227,6 +228,7 @@
     <NASM Include="..\..\src\x86\mc_avx512.asm" />
     <NASM Include="..\..\src\x86\mc_sse.asm" />
     <NASM Include="..\..\src\x86\msac.asm" />
+    <NASM Include="..\..\src\x86\pal.asm" />
     <NASM Include="..\..\src\x86\refmvs.asm" />
   </ItemGroup>
   <ItemGroup>

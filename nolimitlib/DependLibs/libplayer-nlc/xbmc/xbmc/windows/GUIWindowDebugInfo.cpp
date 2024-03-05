@@ -155,15 +155,15 @@ void CGUIWindowDebugInfo::Process(unsigned int currentTime, CDirtyRegionList &di
       point.y *= CServiceBroker::GetWinSystem()->GetGfxContext().GetGUIScaleY();
       CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(), false);
     }
-    info += StringUtils::Format("Mouse: ({},{})  ", static_cast<int>(point.x),
+    info += StringUtils::Format("Mouse: (%d,%d)  ", static_cast<int>(point.x),
                                 static_cast<int>(point.y));
     if (window)
     {
       CGUIControl *control = window->GetFocusedControl();
       if (control)
         info += StringUtils::Format(
-            "Focused: {} ({})", control->GetID(),
-            CGUIControlFactory::TranslateControlType(control->GetControlType()));
+            "Focused: %s (%s)", control->GetID(),
+            CGUIControlFactory::TranslateControlType(control->GetControlType()).c_str());
     }
   }
 

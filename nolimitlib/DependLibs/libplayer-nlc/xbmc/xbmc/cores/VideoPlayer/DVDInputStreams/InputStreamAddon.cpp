@@ -171,8 +171,8 @@ bool CInputStreamAddon::Open()
     if (props.m_nCountInfoValues >= STREAM_MAX_PROPERTY_COUNT)
     {
       CLog::Log(LOGERROR,
-                "CInputStreamAddon::{} - Hit max count of stream properties, "
-                "have {}, actual count: {}",
+                "CInputStreamAddon::%s - Hit max count of stream properties, "
+                "have %d, actual count: %d",
                 __func__, STREAM_MAX_PROPERTY_COUNT, propsMap.size());
       break;
     }

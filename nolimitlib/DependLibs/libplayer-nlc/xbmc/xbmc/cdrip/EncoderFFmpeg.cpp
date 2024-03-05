@@ -284,7 +284,7 @@ bool CEncoderFFmpeg::WriteFrame()
   AVPacket* pkt = av_packet_alloc();
   if (!pkt)
   {
-    CLog::Log(LOGERROR, "CEncoderFFmpeg::{} - av_packet_alloc failed: {}", __func__,
+    CLog::Log(LOGERROR, "CEncoderFFmpeg::%s - av_packet_alloc failed: %s", __func__,
               strerror(errno));
     return false;
   }
@@ -315,7 +315,7 @@ bool CEncoderFFmpeg::WriteFrame()
     m_BufferSize = 0;
     err = avcodec_send_frame(m_CodecCtx, frame);
     if (err < 0)
-      throw FFMpegException("Error sending a frame for encoding (error '{}')",
+      throw FFMpegException("Error sending a frame for encoding (error '%s')",
                             FFMpegErrorToString(err));
 
     while (err >= 0)
@@ -328,12 +328,12 @@ bool CEncoderFFmpeg::WriteFrame()
     }
       else if (err < 0)
       {
-        throw FFMpegException("Error during encoding (error '{}')", FFMpegErrorToString(err));
+        throw FFMpegException("Error during encoding (error '%s')", FFMpegErrorToString(err));
   	}
 
       err = av_write_frame(m_Format, pkt);
       if (err < 0)
-        throw FFMpegException("Failed to write the frame data (error '{}')",
+        throw FFMpegException("Failed to write the frame data (error '%s')",
                               FFMpegErrorToString(err));
 
 
@@ -342,7 +342,7 @@ bool CEncoderFFmpeg::WriteFrame()
   }
   catch (const FFMpegException& caught)
   {
-    CLog::Log(LOGERROR, "CEncoderFFmpeg::{} - {}", __func__, caught.what());
+    CLog::Log(LOGERROR, "CEncoderFFmpeg::%s - %s", __func__, caught.what());
   }
 
   av_packet_free(&pkt);

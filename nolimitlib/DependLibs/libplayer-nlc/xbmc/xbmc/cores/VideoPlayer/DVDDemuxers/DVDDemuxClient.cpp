@@ -159,7 +159,7 @@ bool CDVDDemuxClient::ParsePacket(DemuxPacket* pkt)
     AVPacket* avpkt = av_packet_alloc();
     if (!avpkt)
     {
-      CLog::LogF(LOGERROR, "av_packet_alloc failed: {}", strerror(errno));
+      CLog::LogF(LOGERROR, "av_packet_alloc failed: s", strerror(errno));
       return false;
     }
 
@@ -576,7 +576,7 @@ void CDVDDemuxClient::SetStreamProps(CDemuxStream *stream, std::map<int, std::sh
 
     if (!source)
     {
-      CLog::Log(LOGERROR, "CDVDDemuxClient::RequestStream - invalid audio ID3 stream with id {}",
+      CLog::Log(LOGERROR, "CDVDDemuxClient::RequestStream - invalid audio ID3 stream with id %d",
                 stream->uniqueId);
       DisposeStreams();
       return;
