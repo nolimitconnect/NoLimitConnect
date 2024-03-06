@@ -132,7 +132,8 @@ const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
     GuiMainLoaderThread mainLoaderThread;
-
+    // register types first so connections made in construction have rergistered signal/slot values
+    AppCommon::registerMetaData();
 
 #if defined (Q_OS_ANDROID)
     const QString externStoragePemission(QLatin1String ("android.permission.WRITE_EXTERNAL_STORAGE"));

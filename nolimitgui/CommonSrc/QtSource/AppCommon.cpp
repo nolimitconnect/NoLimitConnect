@@ -282,8 +282,6 @@ bool AppCommon::loadWithoutThread( void )
     // asset database and user specific setting database will be created in sub directory of account login
     // after user has logged into account
 
-	registerMetaData();
-
 	while( !appLoaderThread.getIsSettingsLoaded() )
 	{
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );

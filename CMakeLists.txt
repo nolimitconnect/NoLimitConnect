@@ -329,7 +329,7 @@ if(DEFINED TARGET_OS_WINDOWS)
     message(STATUS "*** TARGET_OS_WINDOWS ***")
     add_compile_definitions(TARGET_OS_WINDOWS)
     set(TARGET_CPU_X64 true)
-    set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Windows)
+    set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Windows)
     set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Windows/assets)
     set(PROJECT_STATIC_LIB_DIR ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/windows)
     set(PROJECT_PACKAGE_DIR ${PROJECT_SRC_ROOT_DIR}/package/windows)
@@ -351,7 +351,7 @@ elseif(DEFINED TARGET_OS_LINUX)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 
-    set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Linux)
+    set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Linux)
     set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Linux/assets)
     set(PROJECT_STATIC_LIB_DIR ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/linux)
     set(PROJECT_PACKAGE_DIR ${PROJECT_SRC_ROOT_DIR}/package/linux)
@@ -544,8 +544,10 @@ else()
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}")
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}") does not work for setting the executeable directory when debugging from qt
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}") not relevant because no dll or shared libraries
+if(DEFINED TARGET_OS_LINUX)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}")
+endif()
 
 message(STATUS "CMAKE_PREFIX_PATH " ${CMAKE_PREFIX_PATH})
 message(STATUS "CMAKE_MODULE_PATH " ${CMAKE_MODULE_PATH})

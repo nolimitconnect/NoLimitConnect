@@ -618,6 +618,8 @@ public:
     //! throw error if not gui thread
     void                        checkIsGuiThread( void );
 
+    static void					registerMetaData( void );
+
 signals:
     void						signalMessengerReady( bool isReady );    // emitted when messenger ready state changes
     void						signalMainWindowResized( void );    // emitted if main window is resized
@@ -847,7 +849,6 @@ protected:
     void						clearHardwareCtrlList( void );
     void						clearUserUpdateClientList( void );
 
-    void						registerMetaData();
     void						doAccountStartup( void );
 
     void                        checkReadyToLaunchAfterLogonApplets( void );
