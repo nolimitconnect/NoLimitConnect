@@ -40,19 +40,16 @@ rm -rf *
 
 If compiling for Linux
 cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true, -DQT_VERSION=6_6_2
-or
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true, -DQT_VERSION=6_4_3
+
 
 If cross compiling for Android in Linux
 For 64bit arm cpu aarch64 (arm64-v8a)
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_2 -DARM64
-or
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_4_3 -DARM64
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_2 -DARM64=true
+
 
 For 32bit arm cpy arm7 (armeabi-v7a)
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_2 -DARM32
-or
-cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_4_3 -DARM32
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_2 -DARM32=true
+
 
 
 make -j$(nproc)
