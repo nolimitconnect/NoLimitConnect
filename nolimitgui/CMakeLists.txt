@@ -12,7 +12,7 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
 
 #=== SETUP EXECUTABLE ===#
-
+message(STATUS "nolimitconnect gui project prefix ${CMAKE_PREFIX_PATH}")
 # Add the forms directory to the AUOUIC search paths
 list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS
     CommonSrc/Forms
@@ -1134,7 +1134,7 @@ if (DEFINED TARGET_OS_LINUX)
     )
 
 elseif (DEFINED TARGET_OS_ANDROID)
-    find_package(Qt6 6.4 COMPONENTS Quick Gui REQUIRED)
+    find_package(Qt6 6.6 COMPONENTS Quick Gui REQUIRED)
     if (DEFINED TARGET_CPU_AARCH64)
         target_link_libraries(nolimitconnect
             PUBLIC
@@ -1450,10 +1450,11 @@ if(DEFINED TARGET_OS_LINUX)
 
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
 
-    #find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
+    #move requred qt package into bin/usr/lib for packaging Core Gui Multimedia OpenGL Svg Widgets)
+    message(STATUS "POST_BUID_TARGET move shared qt libraries from ${CMAKE_PREFIX_PATH}/lib")
     add_custom_command(POST_BUILD TARGET nolimitconnect
         WORKING_DIRECTORY "${PROJECT_BIN_DIR}"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Core.so*" "${PROJECT_BIN_DIR}/usr/lib"
+
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Core.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Gui.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Multimedia.so*" "${PROJECT_BIN_DIR}/usr/lib"
@@ -1461,11 +1462,11 @@ if(DEFINED TARGET_OS_LINUX)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Svg.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Widgets.so*" "${PROJECT_BIN_DIR}/usr/lib"
         COMMAND_EXPAND_LISTS
-    )
+        )
 
 
     #=== after qt libraries are copied then make installer with cpack ===#
-
+    message(STATUS "Setting up CPACK")
     # common to all packages
     set(CPACK_PACKAGE_NAME "${NLC_NAME}")
     set(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
@@ -1486,6 +1487,7 @@ if(DEFINED TARGET_OS_LINUX)
 
 
     if(DEFINED TARGET_OS_LINUX)
+        message(STATUS "Creating debian package")
         set(CPACK_GENERATOR "DEB")
         include(GNUInstallDirs)
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
@@ -1507,5 +1509,6 @@ if(DEFINED TARGET_OS_LINUX)
 
     # This must always be after all CPACK\_\* variables are defined
     include(CPack)
+    message(STATUS "CPACK complete")
 endif()
 

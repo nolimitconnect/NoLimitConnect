@@ -290,7 +290,6 @@ else()
     elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
         message(STATUS "Build host OS Linux")
         if(TARGET_OS_LINUX)
-            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
 
             message(STATUS "qt prefix path ${CMAKE_PREFIX_PATH}")
 
@@ -398,8 +397,6 @@ else()
     message(FATAL_ERROR "TARGET OS is not defined.. caller must define TARGET_OS_LINUX, TARGET_OS_WINDOWS or TARGET_OS_ANDROID")
 endif()
 
-#there is a bug in qt.. either set CMAKE_PREFIX_PATH to the qt path or you will need to set Qt6Core_DIR, Qt6Gui_DIR, Qt6Widgets_DIR etc,
-
 if(CMD_LINE_MAKE)
     message(STATUS "*** CMD_LINE_MAKE ***")
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
@@ -420,7 +417,7 @@ if(CMD_LINE_MAKE)
                 message(STATUS "CMD_LINE_MAKE Compiling windows with mingw")
             endif()
 
-            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
+            list(APPEND CMAKE_PREFIX_PATH "${NLC_PREPATH}${NLC_QT_VER}${NLC_POSTPATH}")
 
         else()
             message("CMD_LINE_MAKE TARGET UNKNOWN")
@@ -430,15 +427,16 @@ if(CMD_LINE_MAKE)
         message("HOST OS Linux")
         if(DEFINED TARGET_OS_ANDROID)
             # path should be set correctly already
-            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
+            list(APPEND CMAKE_PREFIX_PATH "${NLC_PREPATH}${NLC_QT_VER}${NLC_POSTPATH}")
             
             message(STATUS "CMD_LINE_MAKE Target Android")
 
         elseif(DEFINED TARGET_OS_LINUX)
             # path should be set correctly already
-            list(APPEND CMAKE_PREFIX_PATH ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
+            message(STATUS "*** BEFORE CMD_LINE_MAKE Target Linux with prefix ${CMAKE_PREFIX_PATH}")
+            list(APPEND CMAKE_PREFIX_PATH "${NLC_PREPATH}${NLC_QT_VER}${NLC_POSTPATH}")
             
-            message(STATUS "CMD_LINE_MAKE Target Linux")
+            message(STATUS "*** AFTER CMD_LINE_MAKE Target Linux with prefix ${CMAKE_PREFIX_PATH}")
 
         else()
             message("CMD_LINE_MAKE TARGET UNKNOWN")
@@ -570,16 +568,15 @@ message(STATUS "project nlc api ${ANDROID_ABI}")
 message(STATUS "project nlc is defined")
 
 #=== project subdirectories ===#
+message(STATUS "project nlc adding dependant libs with prefix ${CMAKE_PREFIX_PATH}")
 
 add_subdirectory(nolimitlib)
 
-message(STATUS "project nlc static libs were added")
+message(STATUS "project nlc dependant libs were added with prefix ${CMAKE_PREFIX_PATH}")
 
 add_subdirectory(nolimitgui)
 
-message(STATUS "project nlc applications was added")
-
-message(STATUS "project nlc subdirs were added")
+message(STATUS "project nlc applications was added with prefix ${CMAKE_PREFIX_PATH}")
 
 
 install(TARGETS nolimitconnect
@@ -589,5 +586,5 @@ install(TARGETS nolimitconnect
     ARCHIVE DESTINATION "${PROJECT_STATIC_LIB_DIR}"
 )
 
-message(STATUS "project nlc end")
+message(STATUS "project nlc end with prefix")
 
