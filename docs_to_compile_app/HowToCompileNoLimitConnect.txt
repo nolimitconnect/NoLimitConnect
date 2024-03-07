@@ -22,8 +22,12 @@ Configure and Compile
 === Compile from command line in Linux ===
 
 Export path to desired qt version
-example: 
+example for linux builds: 
 export Qt6_DIR="~/Qt/6.6.2/gcc_64/lib/cmake/Qt6"
+example for android aarch64 builds: 
+export Qt6_DIR="~/Qt/6.6.2/android_arm64_v8a/lib/cmake/Qt6"
+example for android arm7a builds: 
+export Qt6_DIR="~/Qt/6.6.2/android_armv7/lib/cmake/Qt6"
 
 Code Checkout
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
@@ -51,7 +55,7 @@ or
 cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_4_3 -DARM32
 
 
-make
+make -j$(nproc)
 
 
 ====== ANDRROID ISSUES =======

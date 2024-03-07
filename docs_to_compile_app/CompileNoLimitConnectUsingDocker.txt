@@ -27,10 +27,13 @@ mkdir dockerbuild
 mkdir dockerbuild/nlcbuild
 cd dockerbuild/nlcbuild
 
-5.) Build NLC
+5.) Configure NLC
 for linux use
 cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
 for android use
 cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
+
+6.) Build NLC
+make -j$(nproc)
 
 
