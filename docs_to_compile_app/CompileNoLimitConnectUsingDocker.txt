@@ -12,25 +12,29 @@ docker run --net=host -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 ba
 
 2.) Create folder for source code check out
 
-mkdir ./builds
-mkdir ./builds/nolimitconnectapps
+mkdir ~/builds
+mkdir ~/builds/nolimitconnectapps
 
 
 3.) Check out source code
 
-cd ./builds/nolimitconnectapps
+cd ~/builds/nolimitconnectapps
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
-
+cd ~/builds/nolimitconnectapps/nolimitapp
 
 4.) Create build folders
+either run 
+./create_build_directories.sh
+cd build/nlc_build
 
-cd ~/builds/nolimitconnectapps/nolimitapp
+or
+
 mkdir package
 mkdir package/linux
 mkdir package/android
-mkdir dockerbuild
-mkdir dockerbuild/nlcbuild
-cd dockerbuild/nlcbuild
+mkdir build/nlc_build
+cd build/nlc_build
+rm -rf *
 
 
 5.) Configure NLC
