@@ -8,17 +8,20 @@ project(player-nlc, LANGUAGES C CXX)
 
 if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "player-nlc prefix directory ${CMAKE_PREFIX_PATH}")
-    message(STATUS "player-nlc find root directory ${CMAKE_FIND_ROOT_PATH}")
+    message(STATUS "player-nlc find root path ${CMAKE_FIND_ROOT_PATH}")
+    message(STATUS "player-nlc find module path ${CMAKE_MODULE_PATH}")
     message(STATUS "player-nlc toolchain file ${CMAKE_TOOLCHAIN_FILE}")
-    message(STATUS "player-nlc platform ${DANDROID_PLATFORM}")
+    message(STATUS "player-nlc platform ${ANDROID_PLATFORM}")
     message(STATUS "player-nlc abi ${ANDROID_ABI}")
     message(STATUS "player-nlc ndk ${ANDROID_NDK}")
     message(STATUS "player-nlc sdk root ${ANDROID_SDK_ROOT}")
     message(STATUS "player-nlc cpu ${NLC_CPU}")
+    message(STATUS "player-nlc CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
+    message(STATUS "player-nlc Qt6_DIR ${Qt6_DIR}")
+    message(STATUS "player-nlc Qt6Core_DIR ${Qt6Core_DIR}")
     
     find_package(Qt6 REQUIRED COMPONENTS Core)
 endif()
-
 
 
 set(player-nlc_SOURCES)

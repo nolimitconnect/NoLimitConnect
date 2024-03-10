@@ -369,6 +369,7 @@ elseif(DEFINED TARGET_OS_LINUX)
 
 elseif(DEFINED TARGET_OS_ANDROID)
     message(STATUS "*** TARGET_OS_ANDROID ***")
+    add_compile_definitions(ANDROID)
     set(CMAKE_SYSTEM_NAME Android)
     set(ANDROID_PLATFORM "android-23")
 
@@ -457,7 +458,7 @@ if(CI_PIPELINE)
             set(CMAKE_PREFIX_PATH "/opt/Qt-arm64-6.6.2")
         endif()
         
-        list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
+        #list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
         set(ANDROID_SDK_ROOT "/opt/android-sdk")
         
         set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
@@ -487,11 +488,6 @@ endif()
 #=== project setup ===#
 
 #set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-#file(MAKE_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
-
-#module path is needed for ConfigStaticDependLib.cmake
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SRC_ROOT_DIR}/cmake/cmake_helpers")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -544,12 +540,27 @@ if(DEFINED TARGET_OS_LINUX)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}")
 endif()
 
-set(Qt6_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt6")
+if(DEFINED CI_PIPELINE)
+    set(Qt6_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6")       
+    set(Qt6Core_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6Core") 
+    set(Qt6Widgets_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6Widgets") 
+    set(Qt6Svg_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6Svg") 
+    set(Qt6Qt6OpenGL_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6OpenGL") 
+    set(Qt6Qt6OpenGLWidgets_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6OpenGLWidgets") 
+    set(Qt6MultimediaWidgets_DIR "${CMAKE_PRIFIX_PATH}/lib/cmake/Qt6MultimediaWidgets") 
+else() 
+    set(Qt6_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt6")  
+endif() 
 
-message(STATUS "CMAKE_PREFIX_PATH " ${CMAKE_PREFIX_PATH})
-message(STATUS "CMAKE_MODULE_PATH " ${CMAKE_MODULE_PATH})
-message(STATUS "CMAKE_FIND_ROOT_PATH " ${CMAKE_FIND_ROOT_PATH})
-message(STATUS "CMAKE_ARCHIVE_OUTPUT_DIRECTORY " ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+# module path is needed for ConfigStaticDependLib.cmake
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SRC_ROOT_DIR}/cmake/cmake_helpers")  
+
+message(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
+message(STATUS "CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH}")
+message(STATUS "CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
+message(STATUS "CMAKE_TOOLCHAIN_FILE ${CMAKE_TOOLCHAIN_FILE}")
+message(STATUS "CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+
 if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "CMAKE_ANDROID_ARCH_ABI ${CMAKE_ANDROID_ARCH_ABI}")
     message(STATUS "CMAKE_ANDROID_NDK ${CMAKE_ANDROID_NDK}")
@@ -564,6 +575,10 @@ message(STATUS "source root directory ${PROJECT_SRC_ROOT_DIR}")
 
 message(STATUS "project nlc cpu ${NLC_CPU}")
 message(STATUS "project nlc api ${ANDROID_ABI}")
+
+message(STATUS "project-nlc Qt6_DIR ${Qt6_DIR}")
+message(STATUS "project-nlc Qt6Core_DIR ${Qt6Core_DIR}")
+message(STATUS "project-nlc Qt6Widgets_DIR ${Qt6Widgets_DIR}")
 message(STATUS "project nlc is defined")
 
 #=== project subdirectories ===#
