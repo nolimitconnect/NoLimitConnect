@@ -9,6 +9,7 @@ rm -rf build/nlc_build/*
 echo " "
 echo "Compile Instructions:"
 echo "cd ./build/nlc_build"
+echo "If building CI/CD from docker then add -DMAKE_ENV=CI to the following commands"
 echo "To configure build for Linux:"
 echo "cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true, -DQT_VERSION=6_6_2"
 echo " "
