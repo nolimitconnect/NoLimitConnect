@@ -1,7 +1,7 @@
 
 === Compile No Limit Connect using docker ===
 
-NOTE: These are instructions for Qt 6.6.2 which is tag nlcdevimage-1.0.7 .. substitute version and tag as needed
+NOTE: These are instructions for Qt 6.6.2 which is tag nlcdevimage-1.0.7 .. for Qt 6.6.1 use tag nlcdevimage-1.0.5 .. substitute version and tag as needed
 
 1.) Run docker image
 
@@ -14,12 +14,12 @@ docker run --net=host -it brettrjonesdocker/nolimitappimage:nlcdevimage-1.0.7 ba
 
 mkdir ~/builds
 mkdir ~/builds/nolimitconnectapps
-
+cd ~/builds/nolimitconnectapps
 
 3.) Check out source code
 
-cd ~/builds/nolimitconnectapps
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
 cd ~/builds/nolimitconnectapps/nolimitapp
 
 4.) Create build folders
