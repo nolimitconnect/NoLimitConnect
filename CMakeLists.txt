@@ -98,6 +98,8 @@ elseif(DEFINED QT_VERSION)
         set(NLC_QT_VER "6.6.2")
     elseif(${QT_VERSION} STREQUAL "6_6_1")
         set(NLC_QT_VER "6.6.1")
+    elseif(${QT_VERSION} STREQUAL "6_6_0")
+        set(NLC_QT_VER "6.6.0")    
     elseif(${QT_VERSION} STREQUAL "6_4_3")
         set(NLC_QT_VER "6.4.3")
     else()
@@ -489,10 +491,30 @@ if(CI_PIPELINE)
 
 
         elseif(DEFINED TARGET_OS_LINUX)
+            set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.0/gcc_64")
+            message(STATUS "CI Pipeline Target Linux")
+        endif()
+        elseif(QT_VERSION STREQUAL 6_6_0)
+        if(DEFINED TARGET_OS_ANDROID)
+            set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
+            if(DEFINED ARM32)
+                set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.0")
+            else()
+                set(CMAKE_PREFIX_PATH "/opt/Qt-arm64-6.6.0")
+            endif()
+            
+            list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
+            set(ANDROID_SDK_ROOT "/opt/android-sdk")
+            
+            set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+            message(STATUS "CI Pipeline Target Android")
+
+
+        elseif(DEFINED TARGET_OS_LINUX)
             set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.1/gcc_64")
             message(STATUS "CI Pipeline Target Linux")
         endif()
-
+        
     else()
         message("CI_PIPELINE TARGET UNKNOWN")
     endif()

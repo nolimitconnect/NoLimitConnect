@@ -1,7 +1,7 @@
 
 === Compile No Limit Connect using docker ===
 
-NOTE: These are instructions for Qt 6.6.2 which is tag nlcdevimage-1.0.7 .. for Qt 6.6.1 use tag nlcdevimage-1.0.5 .. substitute version and tag as needed
+NOTE: These are instructions for Qt 6.6.2 which is tag nlcdevimage-1.0.7 .. for Qt 6.6.0 use tag nlcdevimage-1.0.5 .. substitute version and tag as needed
 
 1.) Run docker image
 
