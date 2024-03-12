@@ -55,7 +55,7 @@ Thanks to the thousands of open source developers that made No Limit Connect pos
 Special thanks to Carlonluca for his docker image for Qt development - Carlonluca blog at https://bugfreeblog.duckdns.org/
 
 ## License
-Many open source licensed listed in LICENSE and LEGAL file. 
+Many open source licenses listed in LICENSE and LEGAL file. 
 
 ## Project status
 Active Development
