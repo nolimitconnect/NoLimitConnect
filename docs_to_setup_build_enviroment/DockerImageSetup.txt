@@ -3,7 +3,7 @@ NOTE: These instructions are for building your own image. You can just use the e
 https://hub.docker.com/repository/docker/brettrjonesdocker/nolimitappimage/
 
 # special thanks to carlonluca for doing all the hard work of creating images with qt build tools
-# carlonluca blog is https://bugfreeblog.duckdns.org/
+# Carlonluca blog is https://bugfreeblog.duckdns.org/
 
 1.) Pull image with qt build already created
 docker pull carlonluca/qt-dev:6.6.2

@@ -152,6 +152,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libexif", "..\..\..\nolimit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs_to_setup_build_enviroment", "docs_to_setup_build_enviroment", "{88A7F52D-F2B1-4BBD-9A9D-0AD6BC7216E4}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\docs_to_setup_build_enviroment\DockerImageSetup.txt = ..\..\..\docs_to_setup_build_enviroment\DockerImageSetup.txt
 		..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt = ..\..\..\docs_to_setup_build_enviroment\LinuxSetup.txt
 		..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt = ..\..\..\docs_to_setup_build_enviroment\WindowsVisualStudio2022Setup.txt
 	EndProjectSection
@@ -160,6 +161,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libglew", "..\..\..\nolimit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QtPri", "QtPri", "{1BBBE95F-B370-40FE-9B2A-901555E8E928}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\.gitlab-ci.yml = ..\..\..\.gitlab-ci.yml
 		..\..\..\CMakeLists.txt = ..\..\..\CMakeLists.txt
 	EndProjectSection
 EndProject
@@ -464,7 +466,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libminiupnpc", "..\..\..\no
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs_to_compile_app", "docs_to_compile_app", "{538A0DCD-F9F6-4DDE-BE1C-8E0E2CC1859B}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\docs_to_compile_app\CompileNoLimitConnectUsingDocker.txt = ..\..\..\docs_to_compile_app\CompileNoLimitConnectUsingDocker.txt
 		..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt = ..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D56F9D32-37DF-4DBB-8860-38447BBDC941}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\BSDL = ..\..\..\BSDL
+		..\..\..\COPYING = ..\..\..\COPYING
+		..\..\..\GPL = ..\..\..\GPL
+		..\..\..\LEGAL = ..\..\..\LEGAL
+		..\..\..\LICENSE = ..\..\..\LICENSE
+		..\..\..\README.md = ..\..\..\README.md
+		..\..\..\RELEASE-NOTES.txt = ..\..\..\RELEASE-NOTES.txt
 	EndProjectSection
 EndProject
 Global
@@ -1154,7 +1168,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = 6.3.0_msvc2019_64
 		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
+		Qt5Version = 6.3.0_msvc2019_64
 	EndGlobalSection
 EndGlobal

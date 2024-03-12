@@ -21,9 +21,12 @@
 #include <P2PEngine/P2PEngine.h>
 #include "MediaPlayerNlc.h"
 
+#include <QDir>
+
 #include <CoreLib/ObjectCommonDefs.h>
-#include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxFileIsTypeFunctions.h>
+#include <CoreLib/VxGlobals.h>
 
 //============================================================================
 AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
@@ -50,62 +53,33 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 	std::string lastPlayedMovie;
 	m_MyApp.getAppSettings().getLastPlayedMovie( lastPlayedMovie );
-	if( !lastPlayedMovie.empty() )
+	if( !lastPlayedMovie.empty() && VxFileUtil::fileExists( lastPlayedMovie.c_str() ) )
 	{
 		ui.m_LastPlayedFileText->setText( lastPlayedMovie.c_str() );
 	}
 
-#if defined(DEBUG)
 	ui.m_FilesComboBox->setEnabled( false ); // do not enable until media player is ready
-	ui.m_FilesComboBox->addItem( "Debug Media Files" );
 
-	std::string mediaTestFilesPath{""};
+	int mediaFilesCnt{ 0 };
 
-	#if defined(TARGET_OS_WINDOWS)
-		mediaTestFilesPath = "F:/";
-	#elif defined(TARGET_OS_LINUX)
-		mediaTestFilesPath = "/home/nolimit/";
-    #elif defined(TARGET_OS_ANDROID)
-    # if defined(TABLET_K117)
-        mediaTestFilesPath = "/storage/41B0-1007/";
-    # else
-        mediaTestFilesPath = "/storage/emulated/0/NoLimitConnectData/";
-    # endif
-
-	#endif // defined(TARGET_OS_WINDOWS)
-
-	std::vector<std::string> mediaTestFiles;
-
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/MJPEGWithAAC.avi" );
-
-	// these are not checked into git
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/TestAnime.x264.mp4" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x265.HEVC-PSA.mkv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.HEVC.x265.mkv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264-ION10-WithSubs/Test.x264-ION10.mp4" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/TestMkv1.mkv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.FLV.flv" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/Test.x264.mkv" );
-
-	// end not checked into git
-
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudio.mp3" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOn.opus" );
-	// mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudioVbrOff.opus" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/NlcTestAudio.wav" );
-	mediaTestFiles.push_back( mediaTestFilesPath + "MediaTestFiles/DummyFileDoesNotExist.wav" );
-
-	for( auto& mediaFile : mediaTestFiles )
+	QStringList downloadPathList = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
+	for( auto downloadPath : downloadPathList )
 	{
-		if( VxFileUtil::fileExists( mediaFile.c_str() ) )
+		auto mediaPath = downloadPath + "/NlcMediaFiles";
+		QDir mediaDir( mediaPath );
+		if( !mediaDir.exists() )
 		{
-			ui.m_FilesComboBox->addItem( mediaFile.c_str() );
+			continue;
 		}
+
+		mediaFilesCnt += addMediaFilesToComboBox( mediaDir );
 	}
 
-#else
-    ui.m_FilesComboBox->setVisible( false );
-#endif // defined(DEBUG)
+	if( !mediaFilesCnt )
+	{
+		// no files to show
+		ui.m_FilesComboBox->setVisible( false );
+	}
 
 	connect( ui.m_FilesComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaFileComboBoxSelectionChange(int)) );
 
@@ -163,8 +137,15 @@ void AppletPlayerNlc::slotMenuItemSelected( int menuId, EMenuItemType menuItemTy
 //============================================================================
 void AppletPlayerNlc::slotMediaFileComboBoxSelectionChange( int cbIdx )
 {
-	std::string mediaFile = ui.m_FilesComboBox->currentText().toUtf8().constData();
-	playMediaFile( mediaFile, 0, false );
+	if( cbIdx < m_ComboBoxFileList.size() )
+	{
+		std::string mediaFile = m_ComboBoxFileList[ cbIdx ];
+		playSelectedMovie( mediaFile );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "%s invalid combo box index", __func__ );
+	}
 }
 
 //============================================================================
@@ -192,8 +173,17 @@ void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
 {
 	if( VXFILE_TYPE_AUDIO == fileInfo.getFileType() || VXFILE_TYPE_VIDEO == fileInfo.getFileType() )
 	{
-		ui.m_FilesComboBox->addItem( fileInfo.getFileName().c_str() );
-		playSelectedMovie( fileInfo.getFileName() );
+		std::string fullFileName = fileInfo.getFileName();
+		std::string filePath;
+		std::string	fileName;
+                                                        
+		VxFileUtil::seperatePathAndFile( fullFileName.c_str(), filePath, fileName );
+
+		m_ComboBoxFileList.emplace_back( fullFileName );
+		ui.m_FilesComboBox->addItem( fileName.c_str() );
+		ui.m_FilesComboBox->setVisible( true );
+
+		playSelectedMovie( fullFileName );
 	}
 	else
 	{
@@ -213,8 +203,15 @@ void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 //============================================================================
 void AppletPlayerNlc::slotReplayButtonClick( void )
 {
-	QString movieFile = ui.m_LastPlayedFileText->text();
-	playSelectedMovie( movieFile.toUtf8().constData() );
+	std::string movieFile = ui.m_LastPlayedFileText->text().toUtf8().constData();
+	if( VxFileUtil::fileExists( movieFile.c_str() ) )
+	{
+		playSelectedMovie( movieFile );
+	}
+	else if( ui.m_FilesComboBox->currentIndex() >= 0 && ui.m_FilesComboBox->currentIndex() < m_ComboBoxFileList.size() )
+	{
+		playSelectedMovie( m_ComboBoxFileList[ui.m_FilesComboBox->currentIndex()] );
+	}
 }
 
 //============================================================================
@@ -232,4 +229,39 @@ void AppletPlayerNlc::playSelectedMovie( std::string movieFile )
 	{
 		QMessageBox::information( this, QObject::tr( "File does not exist" ), fileName, QMessageBox::Ok );
 	}
+}
+
+//============================================================================
+int AppletPlayerNlc::addMediaFilesToComboBox( QDir& mediaDir )
+{
+	int addedFileCnt{ 0 };
+	mediaDir.setFilter( QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::Readable );
+	mediaDir.setSorting( QDir::Name );
+	QFileInfoList fileList = mediaDir.entryInfoList();
+	for (int i = 0; i < fileList.size(); ++i) 
+	{
+        const QFileInfo fileInfo = fileList.at( i );
+		if( fileInfo.size() > 100 && addFileToComboBox( fileInfo ) )
+		{
+			addedFileCnt++;
+		}
+    }
+
+	return addedFileCnt;
+}
+
+//============================================================================
+bool AppletPlayerNlc::addFileToComboBox( const QFileInfo& fileInfo )
+{
+	bool addedFile{ false };
+	std::string fileName = fileInfo.absoluteFilePath().toUtf8().constData();
+
+	if( VxIsVideoFile( fileName ) || VxIsAudioFile( fileName ) )
+	{
+		m_ComboBoxFileList.emplace_back( fileName );
+		ui.m_FilesComboBox->addItem( fileInfo.fileName() );
+		addedFile = true;
+	}
+
+	return addedFile;
 }

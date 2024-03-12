@@ -16,6 +16,9 @@
 
 #include <QElapsedTimer>
 
+class QDir;
+class QFileInfo;
+
 class AppletPlayerNlc : public AppletPlayerNlcBase
 {
 	Q_OBJECT
@@ -48,8 +51,12 @@ protected:
 	void						onFileSelected( FileInfo& fileInfo );
 	void						playSelectedMovie( std::string movieFile );
 
+	int							addMediaFilesToComboBox( QDir& mediaDir );
+	bool						addFileToComboBox( const QFileInfo& fileInfo );
+
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi		ui;
+	std::vector<std::string>	m_ComboBoxFileList;
 };
 
 

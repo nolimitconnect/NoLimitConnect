@@ -23,15 +23,18 @@ git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 cd ~/builds/nolimitconnectapps/nolimitapp
 
 4.) Create build folders
+
 either run 
 ./create_build_directories.sh
 cd build/nlc_build
+rm -rf *
 
 or
 
 mkdir package
 mkdir package/linux
 mkdir package/android
+mkdir build
 mkdir build/nlc_build
 cd build/nlc_build
 rm -rf *
