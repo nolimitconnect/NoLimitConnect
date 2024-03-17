@@ -1,8 +1,6 @@
 #! /bin/bash
 
-mkdir package
-mkdir package/linux
-mkdir package/android
+
 mkdir build
 mkdir build/nlc_build
 rm -rf build/nlc_build/*

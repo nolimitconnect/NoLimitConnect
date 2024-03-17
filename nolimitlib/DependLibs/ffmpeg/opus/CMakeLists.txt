@@ -1,31 +1,6 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-#NOTE: does not compile with ndk 25.1.8937393
-# because of error: '__nomerge__' attribute cannot be applied to a declaration
-#__noreturn void abort(void) __attribute__((__nomerge__));
-# so use ndk 22.1.7171670
-
-# temporary defines
-#add_compile_definitions(STAND_ALONE)
-#set(STAND_ALONE 1)
-if (DEFINED STAND_ALONE)
-    add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_AARCH64 TARGET_CPU_ARM TARGET_CPU_64BIT)
-    add_compile_definitions(NLC_INLINE=inline OPUS_CUSTOM_EXPORT_STATIC OPUS_BUILD)
-    set(TARGET_OS_ANDROID true)
-    set(TARGET_CPU_AARCH64 true)
-    set(TARGET_CPU_ARM true)#??
-    set(TARGET_POSIX true)
-    set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android)
-    set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android/assets)
-    set(PROJECT_STATIC_LIB_DIR ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/Android)
-    set(PROJECT_PACKAGE_DIR ${PROJECT_SRC_ROOT_DIR}/package/Android)
-    file(MAKE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
-    set(ANDROID_PLATFORM 23)
-    set(CMAKE_SYSTEM_VERSION 23) # API level
-endif()
-
-
 if (DEFINED TARGET_OS_ANDROID)
     project(ffmpegopus, LANGUAGES C CXX ASM)
 else()

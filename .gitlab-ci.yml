@@ -51,16 +51,16 @@ compile_nlc_linux:
 
     - rm -rf *
     - rm -rf ../../package/android
-    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2
+    - cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true -DMAKE_ENV=CI  -DQT_VERSION=6_6_2 -DARM64=true
 
     - echo 'start make'
     - make -j$(nproc)
     - echo 'make complete'
 
     - echo 'publish_android_package'
-    - ls /builds/nolimitconnectapps/nolimitapp/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/debug
+    - ls /builds/nolimitconnectapps/nolimitapp/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/release
     - ssh -o StrictHostKeyChecking=no -i $SSH_NET_SRV_PRIV_KEY root@nolimitconnect.net 
-    - scp -i $SSH_NET_SRV_PRIV_KEY -r /builds/nolimitconnectapps/nolimitapp/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/debug/*.apk root@nolimitconnect.net:/var/www/html/download/android
+    - scp -i $SSH_NET_SRV_PRIV_KEY -r /builds/nolimitconnectapps/nolimitapp/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/release/*.apk root@nolimitconnect.net:/var/www/html/download/android
 
     - rm -rf *
     - rm -rf ../../package/linux

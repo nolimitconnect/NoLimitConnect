@@ -1,6 +1,9 @@
 
 cmake_minimum_required(VERSION 3.22.1)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 #=== application version and info ===#
 set(PROJECT_MAINTAINER bjones.engineer@gmail.com)
 set(PROJECT_WEBSITE_URL nolimitconnect.com)
@@ -17,35 +20,6 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DDEBUG)
 endif()
 
-if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-# what works without the exception when screen is touched on newer galaxy android devices but since
-# the project does not compile as arm 7 we have to live with to exceptions
-#     Qt 6.4.3
-#     Set to Use Clean Enviroment and set ANDROID_NDK_PLATFORM to android-29
-#     jdk-17.0.9.9-hotspot
-#     gradle 34.0.0 (Android build-tools version)
-#     ANDROID_ABI armeabi-v7a
-#     ANDROID_PLATFORM android-29
-#     ANDROID_STL c++_static
-#     NDK 25.1.8937393
-
-
-#    if(${NLC_QT_VER} STREQUAL "6_6_2")
-#        set(Qt6_DIR "F:/Qt/6.6.2/mingw_64/lib/cmake/Qt6")
-#    elseif(${NLC_QT_VER} STREQUAL "6_4_3")
-#        set(Qt6_DIR "F:/Qt/6.4.3/mingw_64/lib/cmake/Qt6")
-#    else()
-#       message(FATAL_ERROR "Windows Build UNKNOWN QT VERSION")
-#    endif()
-endif()
-
-# Target OS can be TARGET_OS_WINDOWS or TARGET_OS_LINUX or TARGET_OS_ANDROID
-# example cmake command line
-# cd ~/nolimitapp/build
-# mkdir nlc_build
-# cd nlc_build
-# cmake  -S ../.. -B . -DCMAKE_BUILD_TYPE=Debug -DTARGET_OS_LINUX=true
-# make
 
 # print command line parameters
 message(STATUS "CMakeArgs: BEGIN")
@@ -179,8 +153,10 @@ endif()
 message(STATUS "CPU TYPE " ${NLC_CPU})
 message(STATUS "ANDROID ABI " ${ANDROID_ABI})
 
-#=== set source code root directory ===#
+#=== set root directories ===#
 set(PROJECT_SRC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
+file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package")
+set(PROJECT_PACKAGE_ROOT_DIR "${PROJECT_SRC_ROOT_DIR}/package")
 
 #=== detect build enviroment and target os ===#
 if(DEFINED MAKE_ENV)
@@ -339,9 +315,6 @@ if(DEFINED TARGET_OS_WINDOWS)
     set(TARGET_CPU_X64 true)
     set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Windows)
     set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Windows/assets)
-    set(PROJECT_STATIC_LIB_DIR ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/windows)
-    set(PROJECT_PACKAGE_DIR ${PROJECT_SRC_ROOT_DIR}/package/windows)
-    file(MAKE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
 
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         message(STATUS "TARGET_OS_WINDOWS Build Target OS Windows built on host OS Windows")
@@ -361,9 +334,6 @@ elseif(DEFINED TARGET_OS_LINUX)
 
     set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Linux)
     set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Linux/assets)
-    set(PROJECT_STATIC_LIB_DIR ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/linux)
-    set(PROJECT_PACKAGE_DIR ${PROJECT_SRC_ROOT_DIR}/package/linux)
-    file(MAKE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
 
     # create the directories the qt shared libraries will be copied to for debian packaging
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr")
@@ -388,9 +358,6 @@ elseif(DEFINED TARGET_OS_ANDROID)
     set(TARGET_POSIX true)
     set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android)
     set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Android/assets)
-    set(PROJECT_STATIC_LIB_DIR ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/Android)
-    set(PROJECT_PACKAGE_DIR ${PROJECT_SRC_ROOT_DIR}/package/android)
-    file(MAKE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
 
     set(ANDROID_APK_OUTPUT_DIR ${PROJECT_PACKAGE_DIR})
 
@@ -538,15 +505,44 @@ if(DEFINED CMD_LINE_MAKE)
     endif()
 endif()
 
-#=== project setup ===#
+#=== project folders setup ===#
+if(DEFINED TARGET_OS_ANDROID)
+    set(NLC_OS_TYPE android)
+elseif(DEFINED TARGET_OS_LINUX)
+    set(NLC_OS_TYPE linux)
+elseif(DEFINED TARGET_OS_WINDOWS)
+    set(NLC_OS_TYPE linux)
+endif()
 
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(NLC_BUILD_TYPE debug)
+else()
+    set(NLC_BUILD_TYPE release)
+endif()
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+if(${NLC_CPU} STREQUAL "CPU_ARM32")
+    set(NLC_CPU_TYPE arm32)
+elseif(${NLC_CPU} STREQUAL "CPU_ARM64")
+    set(NLC_CPU_TYPE arm64)
+elseif(${NLC_CPU_BITS} STREQUAL "32")
+    set(NLC_CPU_TYPE x86)
+else()
+    set(NLC_CPU_TYPE x64)
+endif()
 
-#=== setup build settings ===#
+# set project static libs directory
+file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/build-staticlibs/${NLC_OS_TYPE}")
+file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/build-staticlibs/${NLC_OS_TYPE}/${NLC_BUILD_TYPE}")
+file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/build-staticlibs/${NLC_OS_TYPE}/${NLC_BUILD_TYPE}/${NLC_CPU_TYPE}")
+set(PROJECT_STATIC_LIB_DIR "${PROJECT_SRC_ROOT_DIR}/build-staticlibs/${NLC_OS_TYPE}/${NLC_BUILD_TYPE}/${NLC_CPU_TYPE}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
+
+# set project package directory
+file(MAKE_DIRECTORY "${PROJECT_PACKAGE_ROOT_DIR}/${NLC_OS_TYPE}")
+file(MAKE_DIRECTORY "${PROJECT_PACKAGE_ROOT_DIR}/${NLC_OS_TYPE}/${NLC_BUILD_TYPE}")
+file(MAKE_DIRECTORY "${PROJECT_PACKAGE_ROOT_DIR}/${NLC_OS_TYPE}/${NLC_BUILD_TYPE}/${NLC_CPU_TYPE}")
+set(PROJECT_PACKAGE_DIR "${PROJECT_PACKAGE_ROOT_DIR}/${NLC_OS_TYPE}/${NLC_BUILD_TYPE}/${NLC_CPU_TYPE}")
+
 
 # defines for all projects
 if(${NLC_CPU} STREQUAL "CPU_ARM32")
@@ -587,7 +583,6 @@ else()
     project(nolimitconnect LANGUAGES C CXX)
 endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}") not relevant because no dll or shared libraries
 if(DEFINED TARGET_OS_LINUX)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}")
@@ -603,6 +598,9 @@ message(STATUS "CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH}")
 message(STATUS "CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
 message(STATUS "CMAKE_TOOLCHAIN_FILE ${CMAKE_TOOLCHAIN_FILE}")
 message(STATUS "CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+message(STATUS "CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
+
 
 if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "CMAKE_ANDROID_ARCH_ABI ${CMAKE_ANDROID_ARCH_ABI}")
@@ -638,7 +636,7 @@ message(STATUS "project nlc applications was added with prefix ${CMAKE_PREFIX_PA
 
 install(TARGETS nolimitconnect
     RUNTIME DESTINATION "${PROJECT_BIN_DIR}"
-    BUNDLE DESTINATION "${PROJECT_BIN_DIR}"
+    BUNDLE DESTINATION "${PROJECT_PACKAGE_DIR}"
     LIBRARY DESTINATION "${PROJECT_BIN_DIR}"
     ARCHIVE DESTINATION "${PROJECT_STATIC_LIB_DIR}"
 )

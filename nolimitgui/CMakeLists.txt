@@ -1445,13 +1445,38 @@ endif()
 
 qt_finalize_target(nolimitconnect)
 
+message(STATUS "Post build CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "Post build CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
+message(STATUS "Post build CMAKE_RUNTIME_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIR}")
+
 #=== after compile add qt libraries to bin-TargetOs directory ===#
-if(DEFINED TARGET_OS_LINUX)
+if(DEFINED TARGET_OS_ANDROID)
+
+    if (CMAKE_BUILD_TYPE MATCHES Debug)
+        # for debugging only use apk
+        message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
+        add_custom_command(POST_BUILD TARGET nolimitconnect
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
+            COMMAND_EXPAND_LISTS
+            )
+
+    else()
+        # for release android play store requires aab bundle
+        message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
+        add_custom_command(POST_BUILD TARGET nolimitconnect
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+            COMMAND_EXPAND_LISTS
+            )
+
+    endif()
+
+elseif(DEFINED TARGET_OS_LINUX)
 
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
 
     #move requred qt package into bin/usr/lib for packaging Core Gui Multimedia OpenGL Svg Widgets)
-    message(STATUS "POST_BUID_TARGET move shared qt libraries from ${CMAKE_PREFIX_PATH}/lib")
+    message(STATUS "POST_BUID_TARGET copy shared qt libraries from ${CMAKE_PREFIX_PATH}/lib")
     add_custom_command(POST_BUILD TARGET nolimitconnect
         WORKING_DIRECTORY "${PROJECT_BIN_DIR}"
 
@@ -1482,6 +1507,9 @@ if(DEFINED TARGET_OS_LINUX)
     set(CPACK_RESOURCE_FILE_README "${PROJECT_SRC_ROOT_DIR}/README.md")
     set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SRC_ROOT_DIR}/LICENSE")
 
+    set(CPACK_PACKAGE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
+
+
     # generate postinst file in ${CMAKE_BINARY_DIR} from template                        #
     # CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/contrib/postinst.in" "postinst" @ONLY IMMEDIATE)
 
@@ -1492,18 +1520,12 @@ if(DEFINED TARGET_OS_LINUX)
         include(GNUInstallDirs)
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS "libpthread, libGL, libGLU libuuid")
-        set(CPACK_PACKAGE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package/linux")
-
         INSTALL( DIRECTORY "${PROJECT_ASSETS_DIR}" DESTINATION usr )
 
 
     elseif(DEFINED TARGET_OS_WINDOWS)
         set(CPACK_GENERATOR "NSIS")
         set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/nolimitgui/CommonSrc/Resources/NlcP2P.ico")
-        set(CPACK_PACKAGE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package/windows")
-
-    elseif(DEFINED TARGET_OS_ANDROID)
-        set(CPACK_PACKAGE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package/android")
 
     endif()
 
