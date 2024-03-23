@@ -39,7 +39,15 @@ endforeach()
 message("CMakeArgs: ${CMakeArgs}")
 message(STATUS "CMakeArgs: END")
 
-message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME}")
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+    set(USER_HOME_DIR $ENV{USERPROFILE})
+    message(STATUS "User Windows Home Directory: ${USER_HOME_DIR}")
+elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+    set(USER_HOME_DIR $ENV{HOME})
+    message(STATUS "User Linux Home Directory: ${USER_HOME_DIR}")
+else()
+    message(FATAL_ERROR "Build host is Unknown ${CMAKE_HOST_SYSTEM_NAME}")
+endif()
 
 message(STATUS "1 - CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 
@@ -163,6 +171,7 @@ if(DEFINED MAKE_ENV)
     message(STATUS "*** MAKE_ENV (GitLab) ***")
     #=== assume called from gitlab ci pipeline.. linux only compile and cross compile of android
     set(CI_PIPELINE true)
+    set(MANUAL_PACKAGE true)
     add_compile_definitions(CI_PIPELINE)
     message(STATUS "CI Pipeline Build")
     if(DEFINED TARGET_OS_ANDROID)
@@ -238,6 +247,7 @@ else()
 
     #set define so can deterimine if need additional enviroment params missing in command line compile
     set(CMD_LINE_MAKE true)
+    set(MANUAL_PACKAGE true)
     add_compile_definitions(CMD_LINE_MAKE)
 
     set(CMAKE_GENERATOR "Unix Makefiles")
@@ -377,6 +387,7 @@ endif()
 
 if(CMD_LINE_MAKE)
     message(STATUS "*** CMD_LINE_MAKE ***")
+
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         message(STATUS "HOST OS Windows")
 
@@ -427,6 +438,7 @@ endif()
 
 if(CI_PIPELINE)   
     message(STATUS "*** CI_PIPELINE ***")
+
     if(QT_VERSION STREQUAL 6_6_2)
         if(DEFINED TARGET_OS_ANDROID)
             set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
@@ -482,7 +494,6 @@ if(CI_PIPELINE)
             
             set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
             message(STATUS "CI Pipeline Target Android")
-
 
         elseif(DEFINED TARGET_OS_LINUX)
             set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.0")
@@ -574,6 +585,12 @@ else()
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)
+    if(MANUAL_PACKAGE)
+        message(STATUS "MANUAL_PACKAGE is defined ")
+        set(ANDROID_STL c++_static)
+        add_compile_definitions(ANDROID_STL=c++_static)
+    endif()
+
     set(CMAKE_ANDROID_ASSETS_DIRECTORIES "${PROJECT_BIN_DIR}/assets")
     message(STATUS "CMAKE_ANDROID_ASSETS_DIRECTORIES " ${CMAKE_ANDROID_ASSETS_DIRECTORIES})
 
@@ -643,3 +660,66 @@ install(TARGETS nolimitconnect
 
 message(STATUS "project nlc end with prefix")
 
+
+
+if(DEFINED TARGET_OS_ANDROID)
+    if(DEFINED DO_MANUAL)
+        if(MANUAL_PACKAGE)
+            file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/nolimitgui/android-build")
+            set(APK_ARGS "--input ${CMAKE_BINARY_DIR}/nolimitgui/android-nolimitconnect-deployment-settings.json --output ${CMAKE_BINARY_DIR}/nolimitgui/android-build --android-platform android-33 --jdk $ENV{JAVA_HOME} --verbose --gradle")
+            message(STATUS "Post build MANUAL_PACKAGE is defined ${APK_ARGS}")
+            if(CI_PIPELINE)
+                # androiddeployqt is in path
+                message(STATUS "Create Apk  androiddeployqt ${APK_ARGS}")
+                #add_custom_command(POST_BUILD TARGET nolimitconnect
+
+                add_custom_target(nolimitappsEchoDeploy ALL
+                    COMMAND echo "echo create apk androiddeployqt ${APK_ARGS}")
+                add_custom_target(nolimitappsEchoDeploy ALL
+                    COMMAND androiddeployqt "${APK_ARGS}")
+            else()
+                # need full path to androiddeployqt
+                message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
+                add_custom_target(nolimitappsEchoDeploy ALL
+                    COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
+                add_custom_target(nolimitappsEchoDeploy ALL
+                    COMMAND "${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt" "${APK_ARGS}")
+            endif()
+        else()
+            message(STATUS "Post build MANUAL_PACKAGE is NOT defined")
+            add_custom_target(nolimitappsEchoDeploy ALL
+                COMMAND echo "create apk not required")
+        endif() # if(MANUAL_PACKAGE)
+    endif()
+
+    # copy package to package directory
+    set(NLC_APK_ROOT_DIR "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/")
+    if (CMAKE_BUILD_TYPE MATCHES Debug)
+        # for debugging only use apk
+        message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
+        add_custom_target(nolimitappsCopyDebugApk ALL
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
+            COMMAND_EXPAND_LISTS
+            )
+
+    else()
+        # for release android play store requires aab bundle
+        message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
+        if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
+            add_custom_target(nolimitappsCopyReleaseBundle
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
+                COMMAND_EXPAND_LISTS
+                )
+        else()
+            add_custom_target(nolimitappsCopyReleaseApk
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+                COMMAND_EXPAND_LISTS
+            )
+        endif() # if EXISTS
+    endif() # if (CMAKE_BUILD_TYPE MATCHES Debug)
+endif() #if(DEFINED TARGET_OS_ANDROID)
+
+
+add_custom_target(nolimitappsApk ALL
+    COMMAND echo "echo CMAKE_BINARY_DIR ***** ${CMAKE_BINARY_DIR}")

@@ -1447,32 +1447,12 @@ qt_finalize_target(nolimitconnect)
 
 message(STATUS "Post build CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
 message(STATUS "Post build CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
-message(STATUS "Post build CMAKE_RUNTIME_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIR}")
 
-#=== after compile add qt libraries to bin-TargetOs directory ===#
-if(DEFINED TARGET_OS_ANDROID)
+add_custom_command(TARGET nolimitconnect POST_BUILD
+    COMMAND echo "echo CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
 
-    if (CMAKE_BUILD_TYPE MATCHES Debug)
-        # for debugging only use apk
-        message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
-        add_custom_command(POST_BUILD TARGET nolimitconnect
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
-            COMMAND_EXPAND_LISTS
-            )
-
-    else()
-        # for release android play store requires aab bundle
-        message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
-        add_custom_command(POST_BUILD TARGET nolimitconnect
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-            COMMAND_EXPAND_LISTS
-            )
-
-    endif()
-
-elseif(DEFINED TARGET_OS_LINUX)
-
+if(DEFINED TARGET_OS_LINUX)
+    #=== after compile add qt libraries to bin-TargetOs directory ===#
     file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
 
     #move requred qt package into bin/usr/lib for packaging Core Gui Multimedia OpenGL Svg Widgets)
