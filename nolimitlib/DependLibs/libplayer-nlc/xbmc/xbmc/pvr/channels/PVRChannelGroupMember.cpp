@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelGroupMember.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRDatabase.h"
@@ -141,3 +142,5 @@ bool CPVRChannelGroupMember::QueueDelete()
 
   return database->QueueDeleteQuery(*this);
 }
+
+#endif // HAVE_ADDONS

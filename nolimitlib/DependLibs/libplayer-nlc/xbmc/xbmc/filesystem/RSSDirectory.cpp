@@ -7,6 +7,7 @@
  */
 
 #include "RSSDirectory.h"
+#if HAVE_LIB_CURL
 
 #include <climits>
 #include <utility>
@@ -621,3 +622,5 @@ bool CRSSDirectory::Exists(const NlcUrl& url)
   CCurlFile rss;
   return rss.Exists(url);
 }
+
+#endif // HAVE_LIB_CURL

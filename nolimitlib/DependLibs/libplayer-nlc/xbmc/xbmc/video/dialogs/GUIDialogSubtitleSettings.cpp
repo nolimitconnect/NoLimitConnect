@@ -119,11 +119,13 @@ void CGUIDialogSubtitleSettings::OnSettingChanged(const std::shared_ptr<const CS
 std::string CGUIDialogSubtitleSettings::BrowseForSubtitle()
 {
   std::string extras;
+#if HAVE_ADDONS
   for (const auto& vfsAddon : CServiceBroker::GetVFSAddonCache().GetAddonInstances())
   {
     if (vfsAddon->ID() == "vfs.rar" || vfsAddon->ID() == "vfs.libarchive")
       extras += '|' + vfsAddon->GetExtensions();
   }
+#endif // HAVE_ADDONS
 
   std::string strPath;
   if (URIUtils::IsInRAR(g_application.CurrentFileItem().GetPath()) || URIUtils::IsInZIP(g_application.CurrentFileItem().GetPath()))
@@ -278,7 +280,11 @@ void CGUIDialogSubtitleSettings::InitializeSettings()
     return;
   }
 
+#if HAVE_ADDONS
   bool usePopup = g_SkinInfo->HasSkinFile("DialogSlider.xml");
+#else
+  bool usePopup{ false };
+#endif // HAVE_ADDONS
 
   const CVideoSettings videoSettings = appPlayer->GetVideoSettings();
   

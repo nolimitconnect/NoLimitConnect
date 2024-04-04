@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Skin.h"
 #include "settings/ISubSettings.h"
 #include "threads/CriticalSection.h"
@@ -60,3 +63,5 @@ private:
   CCriticalSection m_critical;
   std::set<ADDON::CSkinSettingPtr> m_settings;
 };
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "LanguageHook.h"
+#if HAVE_ADDONS
 
 #include "utils/GlobalsHandling.h"
 
@@ -39,3 +40,5 @@ namespace XBMCAddon
       lh->Release();
   }
 }
+
+#endif // HAVE_ADDONS

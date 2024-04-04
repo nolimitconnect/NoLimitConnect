@@ -189,6 +189,7 @@ void CAsyncGetItemsForPlaylist::GetItemsForPlaylist(const std::shared_ptr<CFileI
     if (items.GetContent().empty() && !items.IsVideoDb() && !items.IsVirtualDirectoryRoot() &&
         !items.IsSourcesPath() && !items.IsLibraryFolder())
     {
+#if HAVE_ADDONS
       CVideoDatabase db;
       if (db.Open())
       {
@@ -198,6 +199,7 @@ void CAsyncGetItemsForPlaylist::GetItemsForPlaylist(const std::shared_ptr<CFileI
 
         items.SetContent(content);
       }
+#endif // HAVE_ADDONS
     }
 
     if (m_resume)

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_channels.h" // PVR_CHANNEL_INVALID_UID
 #include "settings/SettingConditions.h"
@@ -194,3 +197,5 @@ private:
   unsigned int m_iRecordingGroup = 0;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

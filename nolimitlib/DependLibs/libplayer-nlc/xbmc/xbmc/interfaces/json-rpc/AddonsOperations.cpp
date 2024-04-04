@@ -7,6 +7,7 @@
  */
 
 #include "AddonsOperations.h"
+#if HAVE_ADDONS
 
 #include "JSONUtils.h"
 #include "ServiceBroker.h"
@@ -319,3 +320,5 @@ void CAddonsOperations::FillDetails(const std::shared_ptr<ADDON::IAddon>& addon,
   else
     result = object;
 }
+
+#endif // HAVE_ADDONS

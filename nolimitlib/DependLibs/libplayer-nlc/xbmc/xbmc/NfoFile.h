@@ -29,9 +29,11 @@ class CNfoFile
 {
 public:
   virtual ~CNfoFile() { Close(); }
-
+#if HAVE_ADDONS
   CInfoScanner::INFO_TYPE Create(const std::string&,
                                  const ADDON::ScraperPtr&, int episode=-1);
+#endif // HAVE_ADDONS
+
   template<class T>
     bool GetDetails(T& details, const char* document=NULL,
                     bool prioritise=false)
@@ -48,8 +50,11 @@ public:
   }
 
   void Close();
+
+ #if HAVE_ADDONS
   void SetScraperInfo(ADDON::ScraperPtr info) { m_info = std::move(info); }
   ADDON::ScraperPtr GetScraperInfo() { return m_info; }
+
   const CScraperUrl &ScraperUrl() const { return m_scurl; }
 
   static int Scrape(ADDON::ScraperPtr& scraper, CScraperUrl& url,
@@ -57,13 +62,16 @@ public:
 
   static std::vector<ADDON::ScraperPtr> GetScrapers(ADDON::AddonType type,
                                                     const ADDON::ScraperPtr& selectedScraper);
+ #endif // HAVE_ADDONS
 
 private:
   std::string m_doc;
   size_t m_headPos = 0;
+#if HAVE_ADDONS
   ADDON::ScraperPtr m_info;
   ADDON::AddonType m_type{};
   CScraperUrl m_scurl;
+ #endif // HAVE_ADDONS
 
   int Load(const std::string&);
 };

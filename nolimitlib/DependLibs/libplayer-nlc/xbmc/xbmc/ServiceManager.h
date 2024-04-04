@@ -7,6 +7,7 @@
  */
 
 #pragma once
+
 #include "config_components_kodi.h"
 
 #include <memory>
@@ -14,6 +15,7 @@
 
 class CAppParamParser;
 
+#if HAVE_ADDONS
 namespace ADDON
 {
 class CAddonMgr;
@@ -23,12 +25,14 @@ class CVFSAddonCache;
 class CServiceAddonManager;
 class CRepositoryUpdater;
 }
+
 #if ENABLE_PVR
 namespace PVR
 {
 class CPVRManager;
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 namespace PLAYLIST
 {
@@ -110,7 +114,7 @@ public:
   void DeinitStageOne();
 
   bool HasPlayerFactory() { return m_playerCoreFactory != nullptr; }
-
+#if HAVE_ADDONS
   ADDON::CAddonMgr& GetAddonMgr();
   ADDON::CBinaryAddonManager& GetBinaryAddonManager();
   ADDON::CBinaryAddonCache& GetBinaryAddonCache();
@@ -118,6 +122,8 @@ public:
   ADDON::CVFSAddonCache& GetVFSAddonCache();
   ADDON::CServiceAddonManager& GetServiceAddons();
   ADDON::CRepositoryUpdater& GetRepositoryUpdater();
+#endif // HAVE_ADDONS
+
   CNetworkBase& GetNetwork();
 #ifdef HAS_PYTHON
   XBPython& GetXBPython();
@@ -125,9 +131,11 @@ public:
 #if defined(HAS_FILESYSTEM_SMB)
   WSDiscovery::IWSDiscovery& GetWSDiscovery();
 #endif
+#if HAVE_ADDONS
 #if ENABLE_PVR
   PVR::CPVRManager& GetPVRManager();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
   CContextMenuManager& GetContextMenuManager();
   CDataCacheCore& GetDataCacheCore();
   /**\brief Get the platform object. This is save to be called after Init1() was called
@@ -148,8 +156,9 @@ public:
   CFileExtensionProvider &GetFileExtensionProvider();
 
   CPowerManager &GetPowerManager();
-
+#if HAVE_WEATHER
   CWeatherManager &GetWeatherManager();
+#endif // HAVE_WEATHER
 
   CPlayerCoreFactory &GetPlayerCoreFactory();
 
@@ -179,6 +188,7 @@ protected:
     void operator()(CFavouritesService *p) const;
   };
 
+#if HAVE_ADDONS
   std::unique_ptr<ADDON::CAddonMgr> m_addonMgr;
   std::unique_ptr<ADDON::CBinaryAddonManager> m_binaryAddonManager;
   std::unique_ptr<ADDON::CBinaryAddonCache> m_binaryAddonCache;
@@ -186,15 +196,19 @@ protected:
   std::unique_ptr<ADDON::CVFSAddonCache> m_vfsAddonCache;
   std::unique_ptr<ADDON::CServiceAddonManager> m_serviceAddons;
   std::unique_ptr<ADDON::CRepositoryUpdater> m_repositoryUpdater;
+#endif // HAVE_ADDONS
+
 #if defined(HAS_FILESYSTEM_SMB)
   std::unique_ptr<WSDiscovery::IWSDiscovery> m_WSDiscovery;
 #endif
 #ifdef HAS_PYTHON
   std::unique_ptr<XBPython> m_XBPython;
 #endif
+#if HAVE_ADDONS
 #if ENABLE_PVR
   std::unique_ptr<PVR::CPVRManager> m_PVRManager;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
   std::unique_ptr<CContextMenuManager, delete_contextMenuManager> m_contextMenuManager;
   std::unique_ptr<CDataCacheCore, delete_dataCacheCore> m_dataCacheCore;
   std::unique_ptr<CPlatform> m_Platform;
@@ -211,7 +225,9 @@ protected:
   std::unique_ptr<CFileExtensionProvider> m_fileExtensionProvider;
   std::unique_ptr<CNetworkBase> m_network;
   std::unique_ptr<CPowerManager> m_powerManager;
+#if HAVE_WEATHER
   std::unique_ptr<CWeatherManager> m_weatherManager;
+#endif // HAVE_WEATHER
   std::unique_ptr<CPlayerCoreFactory> m_playerCoreFactory;
   std::unique_ptr<CDatabaseManager> m_databaseManager;
   std::unique_ptr<CMediaManager> m_mediaManager;

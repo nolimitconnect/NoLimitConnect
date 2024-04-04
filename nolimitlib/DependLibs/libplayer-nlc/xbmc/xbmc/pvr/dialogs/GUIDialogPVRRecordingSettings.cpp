@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRRecordingSettings.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -233,3 +234,5 @@ void CGUIDialogPVRRecordingSettings::LifetimesFiller(const SettingConstPtr& sett
   else
     CLog::LogF(LOGERROR, "No dialog");
 }
+
+#endif // HAVE_ADDONS

@@ -188,6 +188,7 @@ bool CFavouritesURL::Parse(CFavouritesURL::Action action, const std::vector<std:
   m_path = StringUtils::Format("favourites://{}", NlcUrl::Encode(GetExecString()));
   m_isDir = URIUtils::HasSlashAtEnd(m_target, true);
 
+#if HAVE_ADDONS
   if (pathIsAddonID || URIUtils::IsPlugin(m_target))
   {
     // get the add-on name
@@ -198,6 +199,8 @@ bool CFavouritesURL::Parse(CFavouritesURL::Action action, const std::vector<std:
     if (addon)
       m_providerLabel = addon->Name();
   }
+#endif // HAVE_ADDONS
+
   if (m_providerLabel.empty())
     m_providerLabel = CSysInfo::GetAppName();
 

@@ -7,6 +7,7 @@
  */
 
 #include "JSONServiceDescription.h"
+#if ENABLE_JSON
 
 #include "AddonsOperations.h"
 #include "ApplicationOperations.h"
@@ -160,10 +161,12 @@ JsonRpcMethodMap CJSONServiceDescription::m_methodMaps[] = {
   { "VideoLibrary.Clean",                           CVideoLibrary::Clean },
   
 // Addon operations
+#if HAVE_ADDONS
   { "Addons.GetAddons",                             CAddonsOperations::GetAddons },
   { "Addons.GetAddonDetails",                       CAddonsOperations::GetAddonDetails },
   { "Addons.SetAddonEnabled",                       CAddonsOperations::SetAddonEnabled },
   { "Addons.ExecuteAddon",                          CAddonsOperations::ExecuteAddon },
+#endif // HAVE_ADDONS
 
 // GUI operations
   { "GUI.GetProperties",                            CGUIOperations::GetProperties },
@@ -173,6 +176,7 @@ JsonRpcMethodMap CJSONServiceDescription::m_methodMaps[] = {
   { "GUI.SetStereoscopicMode",                      CGUIOperations::SetStereoscopicMode },
   { "GUI.GetStereoscopicModes",                     CGUIOperations::GetStereoscopicModes },
 
+#if HAVE_ADDONS
 // PVR operations
   { "PVR.GetProperties",                            CPVROperations::GetProperties },
   { "PVR.GetChannelGroups",                         CPVROperations::GetChannelGroups },
@@ -192,6 +196,7 @@ JsonRpcMethodMap CJSONServiceDescription::m_methodMaps[] = {
   { "PVR.ToggleTimer",                              CPVROperations::ToggleTimer },
   { "PVR.Record",                                   CPVROperations::Record },
   { "PVR.Scan",                                     CPVROperations::Scan },
+#endif // HAVE_ADDONS
 
 // Profiles operations
   { "Profiles.GetProfiles",                         CProfilesOperations::GetProfiles},
@@ -2110,3 +2115,5 @@ CJSONServiceDescription::CJsonRpcMethodMap::JsonRpcMethodIterator CJSONServiceDe
 {
   return m_actionmap.end();
 }
+
+#endif // ENABLE_JSON

@@ -7,6 +7,7 @@
  */
 
 #include "EpgTagsContainer.h"
+#if HAVE_ADDONS
 
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_epg.h"
 #include "pvr/epg/EpgDatabase.h"
@@ -666,3 +667,5 @@ void CPVREpgTagsContainer::QueueDelete()
 
   Clear();
 }
+
+#endif // HAVE_ADDONS

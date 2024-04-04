@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/settings/PVRSettings.h"
 #include "settings/lib/ISettingCallback.h"
 
@@ -56,3 +59,5 @@ private:
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

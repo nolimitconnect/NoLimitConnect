@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUITimerInfo.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -268,3 +269,5 @@ std::shared_ptr<CPVRTimerInfoTag> CPVRGUIRadioTimerInfo::GetNextActiveTimer()
 {
   return CServiceBroker::GetPVRManager().Timers()->GetNextActiveRadioTimer();
 }
+
+#endif // HAVE_ADDONS

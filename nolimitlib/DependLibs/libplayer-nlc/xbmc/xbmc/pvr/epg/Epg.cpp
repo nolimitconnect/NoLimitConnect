@@ -7,6 +7,7 @@
  */
 
 #include "Epg.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -386,6 +387,7 @@ std::pair<CDateTime, CDateTime> CPVREpg::GetFirstAndLastUncommitedEPGDate() cons
 
 bool CPVREpg::UpdateFromScraper(time_t start, time_t end, bool bForceUpdate)
 {
+#if HAVE_ADDONS
   if (m_strScraperName.empty())
   {
     CLog::LogF(LOGERROR, "No EPG scraper defined for table '%s'", m_strName.c_str());
@@ -428,6 +430,7 @@ bool CPVREpg::UpdateFromScraper(time_t start, time_t end, bool bForceUpdate)
     CLog::LogF(LOGERROR, "Loading the EPG via scraper is not yet implemented!");
     //! @todo Add Support for Web EPG Scrapers here
   }
+#endif // HAVE_ADDONS
 
   return false;
 }
@@ -549,3 +552,5 @@ int CPVREpg::CleanupCachedImages(const std::shared_ptr<CPVREpgDatabase>& databas
 
   return CPVRCachedImages::Cleanup({{owner, ""}}, urlsToCheck);
 }
+
+#endif // HAVE_ADDONS

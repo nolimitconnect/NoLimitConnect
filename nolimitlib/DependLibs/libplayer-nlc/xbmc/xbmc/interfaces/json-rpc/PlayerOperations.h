@@ -7,6 +7,7 @@
  */
 
 #pragma once
+
 #include "config_components_kodi.h"
 
 #include "FileItemHandler.h"
@@ -16,11 +17,13 @@
 
 class CVariant;
 
+#if HAVE_ADDONS
 namespace PVR
 {
 class CPVRChannelGroup;
 class CPVREpgInfoTag;
 }
+#endif // HAVE_ADDONS
 
 namespace PLAYLIST
 {
@@ -91,7 +94,9 @@ namespace JSONRPC
 
     static PLAYLIST::RepeatState ParseRepeatState(const CVariant& repeat);
     static double ParseTimeInSeconds(const CVariant &time);
+#if HAVE_ADDONS
     static bool IsPVRChannel();
     static std::shared_ptr<PVR::CPVREpgInfoTag> GetCurrentEpg();
+#endif // HAVE_ADDONS
   };
 }

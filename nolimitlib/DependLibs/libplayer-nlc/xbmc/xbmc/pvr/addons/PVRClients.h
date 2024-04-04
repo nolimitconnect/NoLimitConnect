@@ -8,6 +8,7 @@
 
 #pragma once
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "addons/IAddonManagerCallback.h"
@@ -495,3 +496,4 @@ typedef std::map<int, std::shared_ptr<CPVRClient>> CPVRClientMap;
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

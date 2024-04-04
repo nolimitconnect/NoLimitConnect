@@ -13,6 +13,8 @@
 \brief
 */
 
+#include "config_components_kodi.h"
+
 #include "Artist.h"
 #include "Song.h"
 #include "XBDateTime.h"
@@ -41,7 +43,9 @@ public:
     strArtistDesc.clear();
     strArtistSort.clear();
     genre.clear();
+#if HAVE_LIB_CURL
     thumbURL.Clear();
+#endif // HAVE_LIB_CURL
     moods.clear();
     styles.clear();
     themes.clear();
@@ -149,7 +153,9 @@ public:
   std::string strArtistSort;
   VECARTISTCREDITS artistCredits;
   std::vector<std::string> genre;
+#if HAVE_LIB_CURL
   CScraperUrl thumbURL;
+#endif // HAVE_LIB_CURL
   std::vector<std::string> moods;
   std::vector<std::string> styles;
   std::vector<std::string> themes;

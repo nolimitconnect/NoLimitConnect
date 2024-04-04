@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsChannels.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -424,3 +425,5 @@ std::string CPVRGUIActionsChannels::GetSelectedChannelPath(bool bRadio) const
   std::unique_lock<CCriticalSection> lock(m_critSection);
   return bRadio ? m_selectedChannelPathRadio : m_selectedChannelPathTV;
 }
+
+#endif // HAVE_ADDONS

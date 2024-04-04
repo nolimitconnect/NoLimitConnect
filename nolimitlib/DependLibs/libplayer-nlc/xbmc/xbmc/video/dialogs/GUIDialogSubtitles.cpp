@@ -263,7 +263,7 @@ void CGUIDialogSubtitles::Process(unsigned int currentTime, CDirtyRegionList &di
 void CGUIDialogSubtitles::FillServices()
 {
   ClearServices();
-
+#if HAVE_ADDONS
   VECADDONS addons;
   CServiceBroker::GetAddonMgr().GetAddons(addons, AddonType::SUBTITLE_MODULE);
 
@@ -297,6 +297,7 @@ void CGUIDialogSubtitles::FillServices()
   OnMessage(msg);
 
   SetService(service);
+#endif // HAVE_ADDONS
 }
 
 bool CGUIDialogSubtitles::SetService(const std::string &service)
@@ -316,11 +317,13 @@ bool CGUIDialogSubtitles::SetService(const std::string &service)
 
     SET_CONTROL_LABEL(CONTROL_NAMELABEL, currentService->GetLabel());
 
+#if HAVE_ADDONS
     if (currentService->HasAddonInfo())
     {
       std::string icon = URIUtils::AddFileToFolder(currentService->GetAddonInfo()->Path(), "logo.png");
       SET_CONTROL_FILENAME(CONTROL_NAMELOGO, icon);
     }
+#endif // HAVE_ADDONS
 
     const auto& components = CServiceBroker::GetAppComponents();
     const auto appPlayer = components.GetComponent<CApplicationPlayer>();
@@ -346,6 +349,7 @@ const CFileItemPtr CGUIDialogSubtitles::GetService() const
 
 void CGUIDialogSubtitles::Search(const std::string &search/*=""*/)
 {
+#if HAVE_ADDONS
   if (m_currentService.empty())
     return; // no services available
 
@@ -386,12 +390,14 @@ void CGUIDialogSubtitles::Search(const std::string &search/*=""*/)
 
     preferredLanguage = strLanguage;
   }
+
   else if (StringUtils::EqualsNoCase(preferredLanguage, "default"))
     preferredLanguage = g_langInfo.GetEnglishLanguageName();
 
   url.SetOption("preferredlanguage", preferredLanguage);
 
   AddJob(new CSubtitlesJob(url, ""));
+#endif // HAVE_ADDONS
 }
 
 void CGUIDialogSubtitles::OnJobComplete(unsigned int jobID, bool success, CJob *job)
@@ -443,6 +449,7 @@ void CGUIDialogSubtitles::OnSubtitleServiceContextMenu(int itemIdx)
               g_localizeStrings.Get(24021));
 
   auto idx = static_cast<SUBTITLE_SERVICE_CONTEXT_BUTTONS>(CGUIDialogContextMenu::Show(buttons));
+#if HAVE_ADDONS
   switch (idx)
   {
     case SUBTITLE_SERVICE_CONTEXT_BUTTONS::ADDON_SETTINGS:
@@ -483,6 +490,7 @@ void CGUIDialogSubtitles::OnSubtitleServiceContextMenu(int itemIdx)
     default:
       break;
   }
+#endif // HAVE_ADDONS
 }
 
 void CGUIDialogSubtitles::UpdateStatus(STATUS status)

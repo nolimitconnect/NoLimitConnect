@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <string>
 
 namespace PVR
@@ -86,3 +89,5 @@ namespace PVR
     unsigned int m_iSubChannelNumber = 0;
   };
 }
+
+#endif // HAVE_ADDONS

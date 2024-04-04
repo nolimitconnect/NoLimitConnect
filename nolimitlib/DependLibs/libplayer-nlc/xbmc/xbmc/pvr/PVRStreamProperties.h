@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <string>
 #include <utility>
 #include <vector>
@@ -41,3 +44,5 @@ public:
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

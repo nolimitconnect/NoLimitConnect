@@ -64,6 +64,7 @@ bool CFileItemHandler::GetField(const std::string& field,
       return true;
     }
 
+#if HAVE_ADDONS
     if (item->HasPVRChannelInfoTag())
     {
       // Translate PVR.Details.Broadcast -> List.Item.Base format
@@ -136,6 +137,7 @@ bool CFileItemHandler::GetField(const std::string& field,
         return true;
       }
     }
+#endif // HAVE_ADDONS
   }
 
   // check for serialized values
@@ -377,9 +379,10 @@ void CFileItemHandler::HandleFileItem(const char* ID,
           object["file"] = item->GetVideoInfoTag()->GetPath().c_str();
         if (item->HasMusicInfoTag() && !item->GetMusicInfoTag()->GetURL().empty())
           object["file"] = item->GetMusicInfoTag()->GetURL().c_str();
+#if HAVE_ADDONS
         if (item->HasPVRTimerInfoTag() && !item->GetPVRTimerInfoTag()->Path().empty())
           object["file"] = item->GetPVRTimerInfoTag()->Path().c_str();
-
+#endif // HAVE_ADDONS
         if (!object.isMember("file"))
           object["file"] = item->GetDynPath().c_str();
       }
@@ -402,6 +405,7 @@ void CFileItemHandler::HandleFileItem(const char* ID,
 
     if (ID)
     {
+#if HAVE_ADDONS
 #if ENABLE_PVR
       if (item->HasPVRChannelInfoTag() && item->GetPVRChannelInfoTag()->ChannelID() > 0)
          object[ID] = item->GetPVRChannelInfoTag()->ChannelID();
@@ -414,16 +418,25 @@ void CFileItemHandler::HandleFileItem(const char* ID,
       else if (item->HasMusicInfoTag() && item->GetMusicInfoTag()->GetDatabaseId() > 0)
         object[ID] = item->GetMusicInfoTag()->GetDatabaseId();
 #endif // ENABLE_PVR
+
       else if (item->HasVideoInfoTag() && item->GetVideoInfoTag()->m_iDbId > 0)
         object[ID] = item->GetVideoInfoTag()->m_iDbId;
+#else
+      if (item->HasVideoInfoTag() && item->GetVideoInfoTag()->m_iDbId > 0)
+        object[ID] = item->GetVideoInfoTag()->m_iDbId;
+#endif // HAVE_ADDONS
 
       if (StringUtils::CompareNoCase(ID, "id") == 0)
       {
+#if HAVE_ADDONS
         if (item->HasPVRChannelInfoTag())
           object["type"] = "channel";
         else if (item->HasPVRRecordingInfoTag())
           object["type"] = "recording";
         else if (item->HasMusicInfoTag())
+#else
+        if (item->HasMusicInfoTag())
+#endif // HAVE_ADDONS
         {
           std::string type = item->GetMusicInfoTag()->GetType();
           if (type == MediaTypeAlbum || type == MediaTypeSong || type == MediaTypeArtist)
@@ -468,6 +481,7 @@ void CFileItemHandler::HandleFileItem(const char* ID,
       }
     }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if (item->HasPVRChannelInfoTag())
       FillDetails(item->GetPVRChannelInfoTag().get(), item, fields, object, thumbLoader);
@@ -480,6 +494,7 @@ void CFileItemHandler::HandleFileItem(const char* ID,
     if (item->HasPVRTimerInfoTag())
       FillDetails(item->GetPVRTimerInfoTag().get(), item, fields, object, thumbLoader);
 #endif //  ENABLE_PVR
+#endif // HAVE_ADDONS
     if (item->HasVideoInfoTag())
       FillDetails(item->GetVideoInfoTag(), item, fields, object, thumbLoader);
     if (item->HasMusicInfoTag())

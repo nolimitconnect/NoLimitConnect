@@ -7,6 +7,7 @@
  */
 
 #include "GUIOperations.h"
+#if ENABLE_JSON
 
 #include "GUIInfoManager.h"
 #include "ServiceBroker.h"
@@ -141,6 +142,7 @@ JSONRPC_STATUS CGUIOperations::GetPropertyValue(const std::string &property, CVa
     result["label"] = CServiceBroker::GetGUI()->GetInfoManager().GetLabel(
         CServiceBroker::GetGUI()->GetInfoManager().TranslateString("System.CurrentControl"),
         INFO::DEFAULT_CONTEXT);
+#if HAVE_ADDONS
   else if (property == "skin")
   {
     std::string skinId = CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_LOOKANDFEEL_SKIN);
@@ -153,6 +155,7 @@ JSONRPC_STATUS CGUIOperations::GetPropertyValue(const std::string &property, CVa
     if (addon.get())
       result["name"] = addon->Name();
   }
+#endif // HAVE_ADDONS
   else if (property == "fullscreen")
     result = g_application.IsFullScreen();
   else if (property == "stereoscopicmode")
@@ -176,3 +179,5 @@ CVariant CGUIOperations::GetStereoModeObjectFromGuiMode(const RENDER_STEREO_MODE
   modeObj["label"] = stereoscopicsManager.GetLabelForStereoMode(mode);
   return modeObj;
 }
+
+#endif // ENABLE_JSON

@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRGuideSearch.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/GUIEditControl.h"
@@ -389,3 +390,5 @@ void CGUIDialogPVRGuideSearch::Update()
   UpdateChannelSpin();
   UpdateGenreSpin();
 }
+
+#endif // HAVE_ADDONS

@@ -306,7 +306,9 @@ void CAlbum::MergeScrapedAlbum(const CAlbum& source, bool override /* = true */)
   }
   if((override && !source.strLabel.empty()) || strLabel.empty())
     strLabel = source.strLabel;
+#if HAVE_LIB_CURL
   thumbURL = source.thumbURL;
+#endif // HAVE_LIB_CURL
   moods = source.moods;
   styles = source.styles;
   themes = source.themes;
@@ -541,6 +543,7 @@ bool CAlbum::Load(const TiXmlElement *album, bool append, bool prioritise)
   }
   XMLUtils::GetInt(album, "votes", iVotes);
 
+#if HAVE_LIB_CURL
   size_t iThumbCount = thumbURL.GetUrls().size();
   std::string xmlAdd = thumbURL.GetData();
   const TiXmlElement* thumb = album->FirstChildElement("thumb");
@@ -563,6 +566,7 @@ bool CAlbum::Load(const TiXmlElement *album, bool append, bool prioritise)
     thumbURL.SetUrls(thumbUrls);
     thumbURL.SetData(xmlAdd);
   }
+#endif // HAVE_LIB_CURL
 
   const TiXmlElement* albumArtistCreditsNode = album->FirstChildElement("albumArtistCredits");
   if (albumArtistCreditsNode)
@@ -631,6 +635,7 @@ bool CAlbum::Save(TiXmlNode *node, const std::string &tag, const std::string& st
   XMLUtils::SetString(album, "originalreleasedate", strOrigReleaseDate);
   XMLUtils::SetString(album,       "label", strLabel);
   XMLUtils::SetInt(album, "duration", iAlbumDuration);
+#if HAVE_LIB_CURL
   if (thumbURL.HasData())
   {
     CXBMCTinyXML doc;
@@ -642,6 +647,8 @@ bool CAlbum::Save(TiXmlNode *node, const std::string &tag, const std::string& st
       thumb = thumb->NextSibling("thumb");
     }
   }
+#endif // HAVE_LIB_CURL
+
   XMLUtils::SetString(album,        "path", strPath);
 
   auto* rating = XMLUtils::SetFloat(album, "rating", fRating);

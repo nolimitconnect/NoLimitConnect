@@ -71,7 +71,9 @@
 
 using namespace XFILE;
 using namespace MUSICDATABASEDIRECTORY;
+#if HAVE_ADDONS
 using namespace MUSIC_GRABBER;
+#endif // HAVE_ADDONS
 using namespace MUSIC_INFO;
 using namespace KODI::MESSAGING;
 using KODI::MESSAGING::HELPERS::DialogResponse;
@@ -96,10 +98,12 @@ CGUIWindowMusicBase::~CGUIWindowMusicBase () = default;
 
 bool CGUIWindowMusicBase::OnBack(int actionID)
 {
+#if HAVE_ADDONS
   if (!CMusicLibraryQueue::GetInstance().IsScanningLibrary())
   {
     CUtil::RemoveTempFiles();
   }
+#endif // HAVE_ADDONS
   return CGUIMediaWindow::OnBack(actionID);
 }
 
@@ -275,6 +279,7 @@ bool CGUIWindowMusicBase::OnAction(const CAction &action)
 
 void CGUIWindowMusicBase::OnItemInfoAll(const std::string& strPath, bool refresh)
 {
+#if HAVE_ADDONS
   if (StringUtils::EqualsNoCase(m_vecItems->GetContent(), "albums"))
   {
     if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
@@ -289,6 +294,7 @@ void CGUIWindowMusicBase::OnItemInfoAll(const std::string& strPath, bool refresh
 
     CMusicLibraryQueue::GetInstance().StartArtistScan(strPath, refresh);
   }
+#endif // HAVE_ADDONS
 }
 
 void CGUIWindowMusicBase::OnItemInfo(int iItem)
@@ -313,12 +319,13 @@ void CGUIWindowMusicBase::OnItemInfo(int iItem)
     CGUIDialogVideoInfo::ShowFor(*item);
     return;
   }
-
+#if HAVE_ADDONS
   if (!m_vecItems->IsPlugin() && (item->IsPlugin() || item->IsScript()))
   {
     CGUIDialogAddonInfo::ShowForItem(item);
     return;
   }
+#endif // HAVE_ADDONS
 
   // Match visibility test of CMusicInfo::IsVisible
   if (item->HasMusicInfoTag() && (item->GetMusicInfoTag()->GetType() == MediaTypeSong ||
@@ -411,9 +418,11 @@ void CGUIWindowMusicBase::UpdateButtons()
                               !(m_vecItems->IsVirtualDirectoryRoot() ||
                                 m_vecItems->IsMusicDb()));
 
+#if HAVE_ADDONS
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
     SET_CONTROL_LABEL(CONTROL_BTNSCAN, 14056); // Stop Scan
   else
+#endif // HAVE_ADDONS
     SET_CONTROL_LABEL(CONTROL_BTNSCAN, 102); // Scan
 
   CGUIMediaWindow::UpdateButtons();
@@ -560,10 +569,12 @@ bool CGUIWindowMusicBase::OnContextButton(int itemNumber, CONTEXT_BUTTON button)
     return true;
 
   case CONTEXT_BUTTON_SCAN:
+#if HAVE_ADDONS
     // Check if scanning already and inform user
     if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
       HELPERS::ShowOKDialogText(CVariant{ 189 }, CVariant{ 14057 });
     else
+#endif // HAVE_ADDONS
     OnScan(itemNumber, true);
     return true;
 
@@ -957,6 +968,7 @@ void CGUIWindowMusicBase::OnInitWindow()
   CGUIMediaWindow::OnInitWindow();
   // Prompt for rescan of library to read music file tags that were not processed by previous versions
   // and accommodate any changes to the way some tags are processed
+#if HAVE_ADDONS
   if (m_musicdatabase.GetMusicNeedsTagScan() != 0)
   {
     if (CServiceBroker::GetGUI()
@@ -987,6 +999,7 @@ void CGUIWindowMusicBase::OnInitWindow()
       m_musicdatabase.SetMusicTagScanVersion();
     }
   }
+#endif // HAVE_ADDONS
 }
 
 std::string CGUIWindowMusicBase::GetStartFolder(const std::string &dir)
@@ -1021,6 +1034,7 @@ void CGUIWindowMusicBase::OnScan(int iItem, bool bPromptRescan /*= false*/)
 
 void CGUIWindowMusicBase::DoScan(const std::string &strPath, bool bRescan /*= false*/)
 {
+#if HAVE_ADDONS
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
   {
     CMusicLibraryQueue::GetInstance().StopLibraryScanning();
@@ -1038,6 +1052,7 @@ void CGUIWindowMusicBase::DoScan(const std::string &strPath, bool bRescan /*= fa
   CMusicLibraryQueue::GetInstance().ScanLibrary(strPath, flags, true);
 
   SET_CONTROL_FOCUS(iControl, 0);
+#endif // HAVE_ADDONS
   UpdateButtons();
 }
 
@@ -1092,8 +1107,11 @@ void CGUIWindowMusicBase::OnAssignContent(const std::string& oldName, const CMed
       // Edit default info provider settings so can be applied during scan
       CGUIDialogInfoProviderSettings::Show();
   }  
+
+#if HAVE_ADDONS
   if (rep == DialogResponse::CHOICE_YES)
     CMusicLibraryQueue::GetInstance().ScanLibrary(source.strPath,
                                                   MUSIC_INFO::CMusicInfoScanner::SCAN_NORMAL, true);
+#endif // HAVE_ADDONS
 }
 

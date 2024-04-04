@@ -7,6 +7,7 @@
  */
 
 #include "PVRCachedImages.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "TextureCache.h"
@@ -92,3 +93,5 @@ std::string CPVRCachedImages::UnwrapImageURL(const std::string& url)
 {
   return StringUtils::StartsWith(url, "image://") ? NlcUrl(url).GetHostName() : url;
 }
+
+#endif // HAVE_ADDONS

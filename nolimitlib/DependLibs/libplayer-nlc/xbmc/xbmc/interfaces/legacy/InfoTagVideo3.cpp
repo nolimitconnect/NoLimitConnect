@@ -7,6 +7,7 @@
  */
 
 #include "InfoTagVideo.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "ServiceBroker.h"
@@ -38,10 +39,11 @@ namespace XBMCAddon
       actorInfo.strName = m_name;
       actorInfo.strRole = m_role;
       actorInfo.order = m_order;
+#if HAVE_LIB_CURL
       actorInfo.thumbUrl = CScraperUrl(m_thumbnail);
       if (!actorInfo.thumbUrl.GetFirstThumbUrl().empty())
         actorInfo.thumb = CScraperUrl::GetThumbUrl(actorInfo.thumbUrl.GetFirstUrlByType());
-
+#endif // HAVE_LIB_CURL
       return actorInfo;
     }
 
@@ -182,9 +184,13 @@ namespace XBMCAddon
 
     String InfoTagVideo::getPictureURL()
     {
+#if HAVE_LIB_CURL
       XBMCAddonUtils::GuiLock lock(languageHook, offscreen);
       infoTag->m_strPictureURL.Parse();
       return infoTag->m_strPictureURL.GetFirstThumbUrl();
+#else
+        return "";
+#endif // HAVE_LIB_CURL
     }
 
     String InfoTagVideo::getTVShowTitle()
@@ -228,7 +234,11 @@ namespace XBMCAddon
       actors.reserve(infoTag->m_cast.size());
 
       for (const auto& cast : infoTag->m_cast)
+#if HAVE_LIB_CURL
         actors.push_back(new Actor(cast.strName, cast.strRole, cast.order, cast.thumbUrl.GetFirstUrlByType().m_url));
+#else
+        actors.push_back(new Actor(cast.strName, cast.strRole, cast.order, ""));
+#endif // HAVE_LIB_CURL
 
       return actors;
     }
@@ -1056,8 +1066,12 @@ namespace XBMCAddon
                                               bool isgz,
                                               int season)
     {
+      #if HAVE_LIB_CURL
       infoTag->m_strPictureURL.AddParsedUrl(url, art_type, preview, referrer, cache, post, isgz,
                                             season);
+      #endif // HAVE_LIB_CURL
     }
   }
 }
+
+#endif // HAVE_ADDONS

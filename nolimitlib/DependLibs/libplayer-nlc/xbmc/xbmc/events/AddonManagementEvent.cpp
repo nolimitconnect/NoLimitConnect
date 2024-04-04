@@ -7,6 +7,7 @@
  */
 
 #include "AddonManagementEvent.h"
+ #if HAVE_ADDONS
 
 #include "addons/gui/GUIDialogAddonInfo.h"
 #include "filesystem/AddonsDirectory.h"
@@ -72,3 +73,5 @@ bool CAddonManagementEvent::Execute() const
 
   return CGUIDialogAddonInfo::ShowForItem(addonItem);
 }
+
+ #endif // HAVE_ADDONS

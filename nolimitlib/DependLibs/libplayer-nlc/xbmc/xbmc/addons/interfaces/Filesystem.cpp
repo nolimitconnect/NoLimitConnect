@@ -158,6 +158,7 @@ unsigned int Interface_Filesystem::TranslateFileReadBitsToKodi(unsigned int addo
 
 bool Interface_Filesystem::can_open_directory(void* kodiBase, const char* url)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr)
   {
@@ -165,6 +166,7 @@ bool Interface_Filesystem::can_open_directory(void* kodiBase, const char* url)
               __FUNCTION__, kodiBase, static_cast<const void*>(url));
     return false;
   }
+#endif // HAVE_ADDONS
 
   CFileItemList items;
   return CDirectory::GetDirectory(url, items, "", DIR_FLAG_DEFAULTS | DIR_FLAG_BYPASS_CACHE);
@@ -172,6 +174,7 @@ bool Interface_Filesystem::can_open_directory(void* kodiBase, const char* url)
 
 bool Interface_Filesystem::create_directory(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -179,12 +182,14 @@ bool Interface_Filesystem::create_directory(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
-  return CDirectory::Create(path);
+  return CDirectory::Create(path);  
 }
 
 bool Interface_Filesystem::directory_exists(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -192,12 +197,14 @@ bool Interface_Filesystem::directory_exists(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
-  return CDirectory::Exists(path, false);
+  return CDirectory::Exists(path, false);  
 }
 
 bool Interface_Filesystem::remove_directory(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -205,6 +212,7 @@ bool Interface_Filesystem::remove_directory(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
   // Empty directory
   CFileItemList fileItems;
@@ -217,6 +225,7 @@ bool Interface_Filesystem::remove_directory(void* kodiBase, const char* path)
 
 bool Interface_Filesystem::remove_directory_recursive(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -224,6 +233,7 @@ bool Interface_Filesystem::remove_directory_recursive(void* kodiBase, const char
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CDirectory::RemoveRecursive(path);
 }
@@ -246,6 +256,7 @@ bool Interface_Filesystem::get_directory(void* kodiBase,
                                          struct VFSDirEntry** items,
                                          unsigned int* num_items)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr || mask == nullptr || items == nullptr ||
       num_items == nullptr)
@@ -258,6 +269,7 @@ bool Interface_Filesystem::get_directory(void* kodiBase,
               static_cast<void*>(num_items));
     return false;
   }
+#endif // HAVE_ADDONS
 
   CFileItemList fileItems;
   if (!CDirectory::GetDirectory(path, fileItems, mask,
@@ -283,6 +295,7 @@ void Interface_Filesystem::free_directory(void* kodiBase,
                                           struct VFSDirEntry* items,
                                           unsigned int num_items)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || items == nullptr)
   {
@@ -290,6 +303,7 @@ void Interface_Filesystem::free_directory(void* kodiBase,
               __FUNCTION__, kodiBase, static_cast<void*>(items));
     return;
   }
+#endif // HAVE_ADDONS
 
   for (unsigned int i = 0; i < num_items; ++i)
   {
@@ -303,6 +317,7 @@ void Interface_Filesystem::free_directory(void* kodiBase,
 
 bool Interface_Filesystem::file_exists(void* kodiBase, const char* filename, bool useCache)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -310,6 +325,7 @@ bool Interface_Filesystem::file_exists(void* kodiBase, const char* filename, boo
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CFile::Exists(filename, useCache);
 }
@@ -318,6 +334,7 @@ bool Interface_Filesystem::stat_file(void* kodiBase,
                                      const char* filename,
                                      struct STAT_STRUCTURE* buffer)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr || buffer == nullptr)
   {
@@ -327,6 +344,7 @@ bool Interface_Filesystem::stat_file(void* kodiBase,
               static_cast<void*>(buffer));
     return false;
   }
+#endif // HAVE_ADDONS
 
   struct __stat64 statBuffer;
   if (CFile::Stat(filename, &statBuffer) != 0)
@@ -351,6 +369,7 @@ bool Interface_Filesystem::stat_file(void* kodiBase,
 
 bool Interface_Filesystem::delete_file(void* kodiBase, const char* filename)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -358,6 +377,7 @@ bool Interface_Filesystem::delete_file(void* kodiBase, const char* filename)
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CFile::Delete(filename);
 }
@@ -366,6 +386,7 @@ bool Interface_Filesystem::rename_file(void* kodiBase,
                                        const char* filename,
                                        const char* newFileName)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr || newFileName == nullptr)
   {
@@ -376,12 +397,14 @@ bool Interface_Filesystem::rename_file(void* kodiBase,
         static_cast<const void*>(newFileName));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CFile::Rename(filename, newFileName);
 }
 
 bool Interface_Filesystem::copy_file(void* kodiBase, const char* filename, const char* dest)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr || dest == nullptr)
   {
@@ -390,12 +413,14 @@ bool Interface_Filesystem::copy_file(void* kodiBase, const char* filename, const
         __FUNCTION__, kodiBase, static_cast<const void*>(filename), static_cast<const void*>(dest));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CFile::Copy(filename, dest);
 }
 
 char* Interface_Filesystem::get_file_md5(void* kodiBase, const char* filename)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -403,6 +428,7 @@ char* Interface_Filesystem::get_file_md5(void* kodiBase, const char* filename)
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = CUtil::GetFileDigest(filename, KODI::UTILITY::CDigest::Type::MD5);
   char* buffer = strdup(string.c_str());
@@ -411,6 +437,7 @@ char* Interface_Filesystem::get_file_md5(void* kodiBase, const char* filename)
 
 char* Interface_Filesystem::get_cache_thumb_name(void* kodiBase, const char* filename)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -418,6 +445,7 @@ char* Interface_Filesystem::get_cache_thumb_name(void* kodiBase, const char* fil
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   const auto crc = Crc32::ComputeFromLowerCase(filename);
   const auto hex = StringUtils::Format("{:08x}.tbn", crc);
@@ -427,6 +455,7 @@ char* Interface_Filesystem::get_cache_thumb_name(void* kodiBase, const char* fil
 
 char* Interface_Filesystem::make_legal_filename(void* kodiBase, const char* filename)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -434,6 +463,7 @@ char* Interface_Filesystem::make_legal_filename(void* kodiBase, const char* file
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = CUtil::MakeLegalFileName(filename);
   char* buffer = strdup(string.c_str());
@@ -442,6 +472,7 @@ char* Interface_Filesystem::make_legal_filename(void* kodiBase, const char* file
 
 char* Interface_Filesystem::make_legal_path(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -449,6 +480,7 @@ char* Interface_Filesystem::make_legal_path(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = CUtil::MakeLegalPath(path);
   char* buffer = strdup(string.c_str());
@@ -457,6 +489,7 @@ char* Interface_Filesystem::make_legal_path(void* kodiBase, const char* path)
 
 char* Interface_Filesystem::translate_special_protocol(void* kodiBase, const char* strSource)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || strSource == nullptr)
   {
@@ -464,6 +497,7 @@ char* Interface_Filesystem::translate_special_protocol(void* kodiBase, const cha
               __FUNCTION__, kodiBase, static_cast<const void*>(strSource));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   return strdup(CSpecialProtocol::TranslatePath(strSource).c_str());
 }
@@ -472,7 +506,7 @@ bool Interface_Filesystem::get_disk_space(
     void* kodiBase, const char* path, uint64_t* capacity, uint64_t* free, uint64_t* available)
 {
   using namespace KODI::PLATFORM::FILESYSTEM;
-
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr || capacity == nullptr || free == nullptr ||
       available == nullptr)
@@ -485,6 +519,7 @@ bool Interface_Filesystem::get_disk_space(
         static_cast<void*>(free), static_cast<void*>(available));
     return false;
   }
+#endif // HAVE_ADDONS
 
   std::error_code ec;
   auto freeSpace = space(CSpecialProtocol::TranslatePath(path), ec);
@@ -512,6 +547,7 @@ bool Interface_Filesystem::is_internet_stream(void* kodiBase, const char* path, 
 
 bool Interface_Filesystem::is_on_lan(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -519,12 +555,14 @@ bool Interface_Filesystem::is_on_lan(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return URIUtils::IsOnLAN(path);
 }
 
 bool Interface_Filesystem::is_remote(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -532,12 +570,14 @@ bool Interface_Filesystem::is_remote(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return URIUtils::IsRemote(path);
 }
 
 bool Interface_Filesystem::is_local(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -545,12 +585,14 @@ bool Interface_Filesystem::is_local(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return NlcUrl(path).IsLocal();
 }
 
 bool Interface_Filesystem::is_url(void* kodiBase, const char* path)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || path == nullptr)
   {
@@ -558,6 +600,7 @@ bool Interface_Filesystem::is_url(void* kodiBase, const char* path)
               __FUNCTION__, kodiBase, static_cast<const void*>(path));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return URIUtils::IsURL(path);
 }
@@ -567,6 +610,7 @@ bool Interface_Filesystem::get_mime_type(void* kodiBase,
                                          char** content,
                                          const char* useragent)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr || content == nullptr || useragent == nullptr)
   {
@@ -577,6 +621,7 @@ bool Interface_Filesystem::get_mime_type(void* kodiBase,
               static_cast<const void*>(content), static_cast<const void*>(useragent));
     return false;
   }
+#endif // HAVE_ADDONS
 
   std::string kodiContent;
   bool ret = XFILE::CCurlFile::GetMimeType(NlcUrl(url), kodiContent, useragent);
@@ -592,6 +637,7 @@ bool Interface_Filesystem::get_content_type(void* kodiBase,
                                             char** content,
                                             const char* useragent)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr || content == nullptr || useragent == nullptr)
   {
@@ -602,6 +648,7 @@ bool Interface_Filesystem::get_content_type(void* kodiBase,
               static_cast<const void*>(content), static_cast<const void*>(useragent));
     return false;
   }
+#endif // HAVE_ADDONS
 
   std::string kodiContent;
   bool ret = XFILE::CCurlFile::GetContentType(NlcUrl(url), kodiContent, useragent);
@@ -614,6 +661,7 @@ bool Interface_Filesystem::get_content_type(void* kodiBase,
 
 bool Interface_Filesystem::get_cookies(void* kodiBase, const char* url, char** cookies)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr || cookies == nullptr)
   {
@@ -622,6 +670,7 @@ bool Interface_Filesystem::get_cookies(void* kodiBase, const char* url, char** c
         __FUNCTION__, kodiBase, static_cast<const void*>(url), static_cast<const void*>(cookies));
     return false;
   }
+#endif // HAVE_ADDONS
 
   std::string kodiCookies;
   bool ret = XFILE::CCurlFile::GetCookies(NlcUrl(url), kodiCookies);
@@ -636,12 +685,14 @@ bool Interface_Filesystem::get_http_header(void* kodiBase,
                                            const char* url,
                                            struct KODI_HTTP_HEADER* headers)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr || headers == nullptr || headers->handle == nullptr)
   {
     CLog::Log(LOGERROR, "Interface_Filesystem::{} - invalid data pointer given", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   CHttpHeader* httpHeader = static_cast<CHttpHeader*>(headers->handle);
   return XFILE::CCurlFile::GetHttpHeader(NlcUrl(url), *httpHeader);
@@ -651,6 +702,7 @@ bool Interface_Filesystem::get_http_header(void* kodiBase,
 
 bool Interface_Filesystem::http_header_create(void* kodiBase, struct KODI_HTTP_HEADER* headers)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || headers == nullptr)
   {
@@ -658,6 +710,7 @@ bool Interface_Filesystem::http_header_create(void* kodiBase, struct KODI_HTTP_H
               __FUNCTION__, kodiBase, static_cast<const void*>(headers));
     return false;
   }
+#endif // HAVE_ADDONS
 
   headers->handle = new CHttpHeader;
   headers->get_value = http_header_get_value;
@@ -672,6 +725,7 @@ bool Interface_Filesystem::http_header_create(void* kodiBase, struct KODI_HTTP_H
 
 void Interface_Filesystem::http_header_free(void* kodiBase, struct KODI_HTTP_HEADER* headers)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || headers == nullptr)
   {
@@ -679,6 +733,7 @@ void Interface_Filesystem::http_header_free(void* kodiBase, struct KODI_HTTP_HEA
               __FUNCTION__, kodiBase, static_cast<const void*>(headers));
     return;
   }
+#endif // HAVE_ADDONS
 
   delete static_cast<CHttpHeader*>(headers->handle);
   headers->handle = nullptr;
@@ -686,6 +741,7 @@ void Interface_Filesystem::http_header_free(void* kodiBase, struct KODI_HTTP_HEA
 
 char* Interface_Filesystem::http_header_get_value(void* kodiBase, void* handle, const char* param)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || handle == nullptr || param == nullptr)
   {
@@ -694,6 +750,7 @@ char* Interface_Filesystem::http_header_get_value(void* kodiBase, void* handle, 
               __FUNCTION__, kodiBase, handle, static_cast<const void*>(param));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = static_cast<CHttpHeader*>(handle)->GetValue(param);
 
@@ -708,6 +765,7 @@ char** Interface_Filesystem::http_header_get_values(void* kodiBase,
                                                     const char* param,
                                                     int* length)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || handle == nullptr || param == nullptr || length == nullptr)
   {
@@ -718,7 +776,7 @@ char** Interface_Filesystem::http_header_get_values(void* kodiBase,
               static_cast<const void*>(length));
     return nullptr;
   }
-
+#endif // HAVE_ADDONS
 
   std::vector<std::string> values = static_cast<CHttpHeader*>(handle)->GetValues(param);
   *length = values.size();
@@ -732,6 +790,7 @@ char** Interface_Filesystem::http_header_get_values(void* kodiBase,
 
 char* Interface_Filesystem::http_header_get_header(void* kodiBase, void* handle)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || handle == nullptr)
   {
@@ -739,6 +798,7 @@ char* Interface_Filesystem::http_header_get_header(void* kodiBase, void* handle)
               __FUNCTION__, kodiBase, handle);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = static_cast<CHttpHeader*>(handle)->GetHeader();
 
@@ -750,6 +810,7 @@ char* Interface_Filesystem::http_header_get_header(void* kodiBase, void* handle)
 
 char* Interface_Filesystem::http_header_get_mime_type(void* kodiBase, void* handle)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || handle == nullptr)
   {
@@ -757,6 +818,7 @@ char* Interface_Filesystem::http_header_get_mime_type(void* kodiBase, void* hand
               __FUNCTION__, kodiBase, handle);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = static_cast<CHttpHeader*>(handle)->GetMimeType();
 
@@ -768,6 +830,7 @@ char* Interface_Filesystem::http_header_get_mime_type(void* kodiBase, void* hand
 
 char* Interface_Filesystem::http_header_get_charset(void* kodiBase, void* handle)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || handle == nullptr)
   {
@@ -775,6 +838,7 @@ char* Interface_Filesystem::http_header_get_charset(void* kodiBase, void* handle
               __FUNCTION__, kodiBase, handle);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = static_cast<CHttpHeader*>(handle)->GetCharset();
 
@@ -786,6 +850,7 @@ char* Interface_Filesystem::http_header_get_charset(void* kodiBase, void* handle
 
 char* Interface_Filesystem::http_header_get_proto_line(void* kodiBase, void* handle)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || handle == nullptr)
   {
@@ -793,6 +858,7 @@ char* Interface_Filesystem::http_header_get_proto_line(void* kodiBase, void* han
               __FUNCTION__, kodiBase, handle);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = static_cast<CHttpHeader*>(handle)->GetProtoLine();
 
@@ -806,6 +872,7 @@ char* Interface_Filesystem::http_header_get_proto_line(void* kodiBase, void* han
 
 void* Interface_Filesystem::open_file(void* kodiBase, const char* filename, unsigned int flags)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -813,6 +880,7 @@ void* Interface_Filesystem::open_file(void* kodiBase, const char* filename, unsi
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   CFile* file = new CFile;
   if (file->Open(filename, TranslateFileReadBitsToKodi(flags)))
@@ -826,6 +894,7 @@ void* Interface_Filesystem::open_file_for_write(void* kodiBase,
                                                 const char* filename,
                                                 bool overwrite)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || filename == nullptr)
   {
@@ -833,6 +902,7 @@ void* Interface_Filesystem::open_file_for_write(void* kodiBase,
               __FUNCTION__, kodiBase, static_cast<const void*>(filename));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   CFile* file = new CFile;
   if (file->OpenForWrite(filename, overwrite))
@@ -844,6 +914,7 @@ void* Interface_Filesystem::open_file_for_write(void* kodiBase,
 
 ssize_t Interface_Filesystem::read_file(void* kodiBase, void* file, void* ptr, size_t size)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr || ptr == nullptr)
   {
@@ -851,6 +922,7 @@ ssize_t Interface_Filesystem::read_file(void* kodiBase, void* file, void* ptr, s
               __FUNCTION__, kodiBase, file, ptr);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->Read(ptr, size);
 }
@@ -860,6 +932,7 @@ bool Interface_Filesystem::read_file_string(void* kodiBase,
                                             char* szLine,
                                             int lineLength)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr || szLine == nullptr)
   {
@@ -868,12 +941,14 @@ bool Interface_Filesystem::read_file_string(void* kodiBase,
               __FUNCTION__, kodiBase, file, static_cast<void*>(szLine));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->ReadString(szLine, lineLength);
 }
 
 ssize_t Interface_Filesystem::write_file(void* kodiBase, void* file, const void* ptr, size_t size)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr || ptr == nullptr)
   {
@@ -881,12 +956,14 @@ ssize_t Interface_Filesystem::write_file(void* kodiBase, void* file, const void*
               __FUNCTION__, kodiBase, file, ptr);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->Write(ptr, size);
 }
 
 void Interface_Filesystem::flush_file(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -894,12 +971,14 @@ void Interface_Filesystem::flush_file(void* kodiBase, void* file)
               __FUNCTION__, kodiBase, file);
     return;
   }
+#endif // HAVE_ADDONS
 
   static_cast<CFile*>(file)->Flush();
 }
 
 int64_t Interface_Filesystem::seek_file(void* kodiBase, void* file, int64_t position, int whence)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -907,12 +986,14 @@ int64_t Interface_Filesystem::seek_file(void* kodiBase, void* file, int64_t posi
               __FUNCTION__, kodiBase, file);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->Seek(position, whence);
 }
 
 int Interface_Filesystem::truncate_file(void* kodiBase, void* file, int64_t size)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -920,12 +1001,14 @@ int Interface_Filesystem::truncate_file(void* kodiBase, void* file, int64_t size
               __FUNCTION__, kodiBase, file);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->Truncate(size);
 }
 
 int64_t Interface_Filesystem::get_file_position(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -933,12 +1016,14 @@ int64_t Interface_Filesystem::get_file_position(void* kodiBase, void* file)
               __FUNCTION__, kodiBase, file);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->GetPosition();
 }
 
 int64_t Interface_Filesystem::get_file_length(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -946,12 +1031,14 @@ int64_t Interface_Filesystem::get_file_length(void* kodiBase, void* file)
               __FUNCTION__, kodiBase, file);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->GetLength();
 }
 
 double Interface_Filesystem::get_file_download_speed(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -959,12 +1046,14 @@ double Interface_Filesystem::get_file_download_speed(void* kodiBase, void* file)
               __FUNCTION__, kodiBase, file);
     return 0.0;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->GetDownloadSpeed();
 }
 
 void Interface_Filesystem::close_file(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -972,6 +1061,7 @@ void Interface_Filesystem::close_file(void* kodiBase, void* file)
               __FUNCTION__, kodiBase, file);
     return;
   }
+#endif // HAVE_ADDONS
 
   static_cast<CFile*>(file)->Close();
   delete static_cast<CFile*>(file);
@@ -979,6 +1069,7 @@ void Interface_Filesystem::close_file(void* kodiBase, void* file)
 
 int Interface_Filesystem::get_file_chunk_size(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -986,12 +1077,14 @@ int Interface_Filesystem::get_file_chunk_size(void* kodiBase, void* file)
               kodiBase, file);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->GetChunkSize();
 }
 
 bool Interface_Filesystem::io_control_get_seek_possible(void* kodiBase, void* file)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -999,6 +1092,7 @@ bool Interface_Filesystem::io_control_get_seek_possible(void* kodiBase, void* fi
               kodiBase, file);
     return false;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->IoControl(EIoControl::IOCTRL_SEEK_POSSIBLE, nullptr) != 0
              ? true
@@ -1009,6 +1103,7 @@ bool Interface_Filesystem::io_control_get_cache_status(void* kodiBase,
                                                        void* file,
                                                        struct VFS_CACHE_STATUS_DATA* status)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr || status == nullptr)
   {
@@ -1016,6 +1111,7 @@ bool Interface_Filesystem::io_control_get_cache_status(void* kodiBase,
               __FUNCTION__, kodiBase, file, static_cast<const void*>(status));
     return false;
   }
+#endif // HAVE_ADDONS
 
   SCacheStatus data = {};
   int ret = static_cast<CFile*>(file)->IoControl(EIoControl::IOCTRL_CACHE_STATUS, &data);
@@ -1032,6 +1128,7 @@ bool Interface_Filesystem::io_control_get_cache_status(void* kodiBase,
 
 bool Interface_Filesystem::io_control_set_cache_rate(void* kodiBase, void* file, uint32_t rate)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -1039,6 +1136,7 @@ bool Interface_Filesystem::io_control_set_cache_rate(void* kodiBase, void* file,
               kodiBase, file);
     return false;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->IoControl(EIoControl::IOCTRL_CACHE_SETRATE, &rate) >= 0 ? true
                                                                                             : false;
@@ -1046,6 +1144,7 @@ bool Interface_Filesystem::io_control_set_cache_rate(void* kodiBase, void* file,
 
 bool Interface_Filesystem::io_control_set_retry(void* kodiBase, void* file, bool retry)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -1053,6 +1152,7 @@ bool Interface_Filesystem::io_control_set_retry(void* kodiBase, void* file, bool
               kodiBase, file);
     return false;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->IoControl(EIoControl::IOCTRL_SET_RETRY, &retry) >= 0 ? true
                                                                                          : false;
@@ -1061,6 +1161,7 @@ bool Interface_Filesystem::io_control_set_retry(void* kodiBase, void* file, bool
 char** Interface_Filesystem::get_property_values(
     void* kodiBase, void* file, int type, const char* name, int* numValues)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr || name == nullptr || numValues == nullptr)
   {
@@ -1071,6 +1172,7 @@ char** Interface_Filesystem::get_property_values(
               static_cast<void*>(numValues));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   XFILE::FileProperty internalType;
   switch (type)
@@ -1111,6 +1213,7 @@ char** Interface_Filesystem::get_property_values(
 
 void* Interface_Filesystem::curl_create(void* kodiBase, const char* url)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr)
   {
@@ -1118,6 +1221,7 @@ void* Interface_Filesystem::curl_create(void* kodiBase, const char* url)
               __FUNCTION__, kodiBase, static_cast<const void*>(url));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   CFile* file = new CFile;
   if (file->CURLCreate(url))
@@ -1130,6 +1234,7 @@ void* Interface_Filesystem::curl_create(void* kodiBase, const char* url)
 bool Interface_Filesystem::curl_add_option(
     void* kodiBase, void* file, int type, const char* name, const char* value)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr || name == nullptr || value == nullptr)
   {
@@ -1140,6 +1245,7 @@ bool Interface_Filesystem::curl_add_option(
         static_cast<const void*>(value));
     return false;
   }
+#endif // HAVE_ADDONS
 
   XFILE::CURLOPTIONTYPE internalType;
   switch (type)
@@ -1166,6 +1272,7 @@ bool Interface_Filesystem::curl_add_option(
 
 bool Interface_Filesystem::curl_open(void* kodiBase, void* file, unsigned int flags)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || file == nullptr)
   {
@@ -1173,6 +1280,7 @@ bool Interface_Filesystem::curl_open(void* kodiBase, void* file, unsigned int fl
               __FUNCTION__, kodiBase, file);
     return false;
   }
+#endif // HAVE_ADDONS
 
   return static_cast<CFile*>(file)->CURLOpen(TranslateFileReadBitsToKodi(flags));
 }

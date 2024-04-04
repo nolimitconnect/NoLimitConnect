@@ -7,6 +7,7 @@
  */
 
 #include "WeatherJob.h"
+#if HAVE_WEATHER
 
 #include "GUIUserMessages.h"
 #include "LangInfoKodi.h"
@@ -241,3 +242,5 @@ void CWeatherJob::SetFromProperties()
     }
   }
 }
+
+#endif // HAVE_WEATHER

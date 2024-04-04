@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon_base.h"
 
 extern "C"
@@ -85,3 +87,5 @@ struct Interface_Base
 
 } /* namespace ADDON */
 } /* extern "C" */
+
+#endif // HAVE_ADDONS

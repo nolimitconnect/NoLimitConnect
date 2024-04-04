@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelsPath.h"
+#if HAVE_ADDONS
 
 #include "NlcUrl.h"
 #include "utils/StringUtils.h"
@@ -225,3 +226,5 @@ std::string CPVRChannelsPath::TrimSlashes(const std::string& strString)
 
   return strTrimmed;
 }
+
+#endif // HAVE_ADDONS

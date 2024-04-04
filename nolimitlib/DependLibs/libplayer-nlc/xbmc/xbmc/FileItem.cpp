@@ -69,9 +69,11 @@ using namespace KODI;
 using namespace XFILE;
 using namespace PLAYLIST;
 using namespace MUSIC_INFO;
+#if HAVE_ADDONS
 #if ENABLE_PVR
 using namespace PVR;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 #if ENABLE_GAMES
 using namespace GAME;
 #endif // ENABLE_GAMES
@@ -124,6 +126,7 @@ CFileItem::CFileItem( const CVideoInfoTag& movie )
     SetFromVideoInfoTag( movie );
 }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 namespace
 {
@@ -313,6 +316,7 @@ CFileItem::CFileItem(const std::shared_ptr<CPVRTimerInfoTag>& timer)
     FillInMimeType( false );
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 CFileItem::CFileItem( const CArtist& artist )
 {
@@ -524,6 +528,7 @@ CFileItem& CFileItem::operator=( const CFileItem& item )
         m_gameInfoTag = NULL;
     }
 #endif // ENABLE_GAMES
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_epgInfoTag = item.m_epgInfoTag;
   m_epgSearchFilter = item.m_epgSearchFilter;
@@ -531,6 +536,7 @@ CFileItem& CFileItem::operator=( const CFileItem& item )
     m_pvrRecordingInfoTag = item.m_pvrRecordingInfoTag;
     m_pvrTimerInfoTag = item.m_pvrTimerInfoTag;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
     m_addonInfo = item.m_addonInfo;
     m_eventLogEntry = item.m_eventLogEntry;
 
@@ -602,6 +608,7 @@ void CFileItem::Reset()
     m_musicInfoTag = NULL;
     delete m_videoInfoTag;
     m_videoInfoTag = NULL;
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_epgInfoTag.reset();
   m_epgSearchFilter.reset();
@@ -609,6 +616,7 @@ void CFileItem::Reset()
     m_pvrRecordingInfoTag.reset();
     m_pvrTimerInfoTag.reset();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
     delete m_pictureInfoTag;
     m_pictureInfoTag = NULL;
 #if ENABLE_GAMES
@@ -814,6 +822,7 @@ void CFileItem::ToSortable( SortItem &sortable, Field field ) const
 
     if( HasPictureInfoTag() )
         GetPictureInfoTag()->ToSortable( sortable, field );
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( HasPVRChannelInfoTag() )
         GetPVRChannelInfoTag()->ToSortable( sortable, field );
@@ -821,7 +830,9 @@ void CFileItem::ToSortable( SortItem &sortable, Field field ) const
   if (HasPVRChannelGroupMemberInfoTag())
     GetPVRChannelGroupMemberInfoTag()->ToSortable(sortable, field);
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
+#if HAVE_ADDONS
     if( HasAddonInfo() )
     {
         switch( field )
@@ -839,6 +850,7 @@ void CFileItem::ToSortable( SortItem &sortable, Field field ) const
             break;
         }
     }
+#endif // HAVE_ADDONS
 
 #if ENABLE_GAMES
     if( HasGameInfoTag() )
@@ -921,6 +933,7 @@ bool CFileItem::IsVideo() const
     if( HasPictureInfoTag() )
         return false;
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
     // only tv recordings are videos...
     if( IsPVRRecording() )
@@ -930,6 +943,7 @@ bool CFileItem::IsVideo() const
     if( IsPVR() )
         return false;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     if( URIUtils::IsDVD( m_strPath ) )
         return true;
@@ -950,6 +964,7 @@ bool CFileItem::IsVideo() const
     return URIUtils::HasExtension( m_strPath, CServiceBroker::GetFileExtensionProvider().GetVideoExtensions() );
 }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 bool CFileItem::IsEPG() const
 {
@@ -991,6 +1006,7 @@ bool CFileItem::IsPVRTimer() const
     return HasPVRTimerInfoTag();
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 bool CFileItem::IsDiscStub() const
 {
@@ -1043,10 +1059,12 @@ bool CFileItem::IsAudio() const
 
 bool CFileItem::IsDeleted() const
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( HasPVRRecordingInfoTag() )
         return GetPVRRecordingInfoTag()->IsDeleted();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     return false;
 }
@@ -1101,9 +1119,11 @@ bool CFileItem::IsPicture() const
     if( HasVideoInfoTag() )
         return false;
 
+#if HAVE_ADDONS
   if (HasPVRTimerInfoTag() || HasPVRChannelInfoTag() || HasPVRChannelGroupMemberInfoTag() ||
       HasPVRRecordingInfoTag() || HasEPGInfoTag() || HasEPGSearchFilter())
     return false;
+#endif // HAVE_ADDONS
 
   if (!m_strPath.empty())
     return CUtil::IsPicture( m_strPath );
@@ -1172,10 +1192,12 @@ bool CFileItem::IsFileFolder( EFileFolderType types ) const
             return true;
     }
 
+#if HAVE_ADDONS
   if (CServiceBroker::IsAddonInterfaceUp() &&
       IsType(CServiceBroker::GetFileExtensionProvider().GetFileFolderExtensions().c_str()) &&
       CServiceBroker::GetFileExtensionProvider().CanOperateExtension(m_strPath))
         return true;
+#endif // HAVE_ADDONS
 
     if( types & EFILEFOLDER_TYPE_ONBROWSE )
     {
@@ -1404,12 +1426,14 @@ bool CFileItem::IsURL() const
     return URIUtils::IsURL( m_strPath );
 }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 bool CFileItem::IsPVR() const
 {
   return URIUtils::IsPVR(m_strPath);
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 bool CFileItem::IsLiveTV() const
 {
@@ -1454,12 +1478,14 @@ bool CFileItem::IsReadOnly() const
 
 void CFileItem::FillInDefaultIcon()
 {
+#if HAVE_ADDONS
     if( URIUtils::IsPVRGuideItem( m_strPath ) )
     {
         // epg items never have a default icon. no need to execute this expensive method.
         // when filling epg grid window, easily tens of thousands of epg items are processed.
         return;
     }
+#endif // HAVE_ADDONS
 
     //CLog::Log(LOGINFO, "FillInDefaultIcon(%s)", pItem->GetLabel().c_str());
     // find the default icon for a file or folder item
@@ -1483,6 +1509,7 @@ void CFileItem::FillInDefaultIcon()
              * in mind the complexity of the code behind the check in the
              * case of IsWhatever() returns false.
              */
+#if HAVE_ADDONS
 #if ENABLE_PVR
             if( IsPVRChannel() )
             {
@@ -1495,6 +1522,10 @@ void CFileItem::FillInDefaultIcon()
 #else
             if( IsLiveTV() )
 #endif// ENABLE_PVR
+
+#else
+            if( IsLiveTV() )
+#endif // HAVE_ADDONS
             {
                 // Live TV Channel
         SetArt("icon", "DefaultTVShows.png");
@@ -1639,8 +1670,10 @@ void CFileItem::FillInMimeType( bool lookup /*= true*/ )
     {
         if( m_bIsFolder )
             m_mimetype = "x-directory/normal";
+#if HAVE_ADDONS
     else if (HasPVRChannelInfoTag())
       m_mimetype = GetPVRChannelInfoTag()->MimeType();
+#endif // HAVE_ADDONS
     else if (StringUtils::StartsWithNoCase(GetDynPath(), "shout://") ||
              StringUtils::StartsWithNoCase(GetDynPath(), "http://") ||
              StringUtils::StartsWithNoCase(GetDynPath(), "https://"))
@@ -1648,14 +1681,14 @@ void CFileItem::FillInMimeType( bool lookup /*= true*/ )
             // If lookup is false, bail out early to leave mime type empty
             if( !lookup )
                 return;
-
-      CCurlFile::GetMimeType(GetDynURL(), m_mimetype);
+#if HAVE_LIB_CURL
+             CCurlFile::GetMimeType(GetDynURL(), m_mimetype);
 
             // try to get mime-type again but with an NSPlayer User-Agent
             // in order for server to provide correct mime-type.  Allows us
             // to properly detect an MMS stream
             if( StringUtils::StartsWithNoCase( m_mimetype, "video/x-ms-" ) )
-        CCurlFile::GetMimeType(GetDynURL(), m_mimetype, "NSPlayer/11.00.6001.7000");
+                CCurlFile::GetMimeType(GetDynURL(), m_mimetype, "NSPlayer/11.00.6001.7000");
 
             // make sure there are no options set in mime-type
             // mime-type can look like "video/x-ms-asf ; charset=utf8"
@@ -1663,6 +1696,7 @@ void CFileItem::FillInMimeType( bool lookup /*= true*/ )
             if( i != std::string::npos )
                 m_mimetype.erase( i, m_mimetype.length() - i );
             StringUtils::Trim( m_mimetype );
+#endif // HAVE_LIB_CURL
         }
         else
             m_mimetype = CMime::GetMimeType( *this );
@@ -1773,9 +1807,11 @@ void CFileItem::UpdateInfo( const CFileItem &item, bool replaceLabels /*=true*/ 
 
             m_videoInfoTag = new CVideoInfoTag;
         }
+#if HAVE_ADDONS
 #if ENABLE_PVR
         m_pvrRecordingInfoTag = item.m_pvrRecordingInfoTag;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
         SetOverlayImage( ICON_OVERLAY_UNWATCHED, GetVideoInfoTag()->GetPlayCount() > 0 );
         SetInvalid();
@@ -1820,7 +1856,9 @@ void CFileItem::MergeInfo(const CFileItem& item)
         m_videoInfoTag = new CVideoInfoTag(*item.m_videoInfoTag);
     }
 
+#if ENABLE_PVR && HAVE_ADDONS
     m_pvrRecordingInfoTag = item.m_pvrRecordingInfoTag;
+#endif // ENABLE_PVR && HAVE_ADDONS
 
     SetOverlayImage(ICON_OVERLAY_UNWATCHED, GetVideoInfoTag()->GetPlayCount() > 0);
     SetInvalid();
@@ -3521,6 +3559,7 @@ std::string CFileItem::GetMovieName( bool bUseFolderNames /* = false */ ) const
 
     if( IsLabelPreformatted() )
         return GetLabel();
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( m_pvrRecordingInfoTag )
         return m_pvrRecordingInfoTag->m_strTitle;
@@ -3531,6 +3570,7 @@ std::string CFileItem::GetMovieName( bool bUseFolderNames /* = false */ ) const
             return title;
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   std::string strMovieName;
   if (URIUtils::IsStack(m_strPath))
@@ -3885,17 +3925,22 @@ void CFileItemList::ClearSortState()
 
 bool CFileItem::HasVideoInfoTag() const
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     // Note: CPVRRecording is derived from CVideoInfoTag
     return m_pvrRecordingInfoTag.get() != nullptr || m_videoInfoTag != nullptr;
 #else
     return m_videoInfoTag != nullptr;
 #endif // ENABLE_PVR
+#else
+    return m_videoInfoTag != nullptr;
+#endif // HAVE_ADDONS
 }
 
 CVideoInfoTag* CFileItem::GetVideoInfoTag()
 {
     // Note: CPVRRecording is derived from CVideoInfoTag
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( m_pvrRecordingInfoTag )
         return m_pvrRecordingInfoTag.get();
@@ -3909,16 +3954,26 @@ CVideoInfoTag* CFileItem::GetVideoInfoTag()
 
     return m_videoInfoTag;
 #endif // ENABLE_PVR
+#else
+    if( !m_videoInfoTag )
+        m_videoInfoTag = new CVideoInfoTag;
+
+    return m_videoInfoTag;
+#endif // HAVE_ADDONS
 }
 
 const CVideoInfoTag* CFileItem::GetVideoInfoTag() const
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     // Note: CPVRRecording is derived from CVideoInfoTag
     return m_pvrRecordingInfoTag ? m_pvrRecordingInfoTag.get() : m_videoInfoTag;
 #else
     return m_videoInfoTag;
 #endif // ENABLE_PVR
+#else
+    return m_videoInfoTag;
+#endif // HAVE_ADDONS
 }
 
 CPictureInfoTag* CFileItem::GetPictureInfoTag()
@@ -3947,6 +4002,7 @@ CGameInfoTag* CFileItem::GetGameInfoTag()
 }
 #endif // ENABLE_GAMES
 
+#if HAVE_ADDONS
 bool CFileItem::HasPVRChannelInfoTag() const
 {
   return m_pvrChannelGroupMemberInfoTag && m_pvrChannelGroupMemberInfoTag->Channel() != nullptr;
@@ -3957,6 +4013,7 @@ const std::shared_ptr<PVR::CPVRChannel> CFileItem::GetPVRChannelInfoTag() const
   return m_pvrChannelGroupMemberInfoTag ? m_pvrChannelGroupMemberInfoTag->Channel()
                                         : std::shared_ptr<CPVRChannel>();
 }
+#endif // HAVE_ADDONS
 
 std::string CFileItem::FindTrailer() const
 {
@@ -4068,6 +4125,7 @@ VideoDbContentType CFileItem::GetVideoContentType() const
 
 CFileItem CFileItem::GetItemToPlay() const
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( HasEPGInfoTag() )
     {
@@ -4077,6 +4135,7 @@ CFileItem CFileItem::GetItemToPlay() const
       return CFileItem(groupMember);
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
     return *this;
 }
 

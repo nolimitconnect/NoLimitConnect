@@ -371,6 +371,7 @@ static int PlayerControl(const std::vector<std::string>& params)
   }
   else if (StringUtils::StartsWithNoCase(params[0], "resumelivetv"))
   {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     CFileItem& fileItem(g_application.CurrentFileItem());
     std::shared_ptr<PVR::CPVRChannel> channel = fileItem.HasPVRRecordingInfoTag() ? fileItem.GetPVRRecordingInfoTag()->Channel() : std::shared_ptr<PVR::CPVRChannel>();
@@ -393,8 +394,9 @@ static int PlayerControl(const std::vector<std::string>& params)
         CLog::Log(LOGERROR, "ResumeLiveTv could not play channel: %s", channel->ChannelName().c_str());
         return false;
       }
-#endif // ENABLE_PVR
     }
+#endif // ENABLE_PVR
+#endif // HAVE_ADDONS
   }
   else if (paramlow == "reset")
   {

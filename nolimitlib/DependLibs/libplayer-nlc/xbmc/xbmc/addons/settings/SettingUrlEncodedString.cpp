@@ -7,6 +7,7 @@
  */
 
 #include "SettingUrlEncodedString.h"
+#if HAVE_ADDONS
 
 #include "NlcUrl.h"
 #include "settings/lib/SettingsManager.h"
@@ -42,3 +43,5 @@ bool CSettingUrlEncodedString::SetDecodedValue(const std::string &decodedValue)
 }
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

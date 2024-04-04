@@ -7,6 +7,7 @@
  */
 
 #include "PVRClientCapabilities.h"
+#if HAVE_ADDONS
 
 #include "guilib/LocalizeStrings.h"
 #include "utils/StringUtils.h"
@@ -83,3 +84,5 @@ void CPVRClientCapabilities::GetRecordingsLifetimeValues(
   std::copy(m_recordingsLifetimeValues.cbegin(), m_recordingsLifetimeValues.cend(),
             std::back_inserter(list));
 }
+
+#endif // HAVE_ADDONS

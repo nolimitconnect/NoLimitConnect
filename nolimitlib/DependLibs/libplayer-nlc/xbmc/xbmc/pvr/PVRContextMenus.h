@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "utils/EventStream.h"
 
 #include <memory>
@@ -63,3 +66,5 @@ private:
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

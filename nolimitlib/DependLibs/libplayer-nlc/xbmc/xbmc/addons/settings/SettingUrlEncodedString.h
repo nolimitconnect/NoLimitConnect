@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "settings/lib/Setting.h"
 
 class CSettingsManager;
@@ -31,3 +34,5 @@ namespace ADDON
     bool SetDecodedValue(const std::string& decodedValue);
   };
 }
+
+#endif // HAVE_ADDONS

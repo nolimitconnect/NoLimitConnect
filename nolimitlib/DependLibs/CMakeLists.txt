@@ -21,12 +21,12 @@ add_subdirectory(libasprintf)
 add_subdirectory(libass)
 #add_subdirectory(libbento4) # not used
 add_subdirectory(libbzip2)
-add_subdirectory(libcdio)
+#add_subdirectory(libcdio) # removed
 add_subdirectory(libcpluff)
 add_subdirectory(libcroco)
 add_subdirectory(libcrossguid)
 #add_subdirectory(libcrystalhd) # not used
-add_subdirectory(libcurl)
+#add_subdirectory(libcurl)
 add_subdirectory(libdav1d)
 #add_subdirectory(libdca) # not used
 #add_subdirectory(libdsp-webrtc) # not used
@@ -72,7 +72,7 @@ endif()
 add_subdirectory(libshine)
 add_subdirectory(libsnappy)
 add_subdirectory(libspeex)
-add_subdirectory(libssh)
+#add_subdirectory(libssh)
 add_subdirectory(libtag)
 add_subdirectory(libtheora)
 add_subdirectory(libtinyxml)
@@ -83,7 +83,7 @@ if(DEFINED TARGET_OS_WINDOWS)
 elseif(DEFINED TARGET_OS_LINUX)
 add_subdirectory(libvpx) 
 elseif(DEFINED TARGET_OS_ANDROID)
-#add_subdirectory(libvpx) # needed to play some videp types but does not compile yet
+#add_subdirectory(libvpx) # needed to play some video types but does not compile yet
 endif()
 
 ####add_subdirectory(libvpx_win) # needed to play some videp types but does not compile yet

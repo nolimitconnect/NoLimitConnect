@@ -7,6 +7,7 @@
  */
 
 #include "GUIEPGGridContainerModel.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -722,3 +723,5 @@ std::unique_ptr<CFileItemList> CGUIEPGGridContainerModel::GetCurrentTimeLineItem
   }
   return items;
 }
+
+#endif // HAVE_ADDONS

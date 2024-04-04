@@ -7,6 +7,7 @@
  */
 
 #include "AddonType.h"
+#if HAVE_ADDONS
 
 #include "addons/addoninfo/AddonInfo.h"
 #include "utils/StringUtils.h"
@@ -57,3 +58,5 @@ bool CAddonType::IsDependencyType(AddonType type)
 {
   return dependencyTypes.find(type) != dependencyTypes.end();
 }
+
+#endif // HAVE_ADDONS

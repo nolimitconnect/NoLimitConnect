@@ -7,6 +7,7 @@
  */
 
 #include "PVRTimerType.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -434,3 +435,5 @@ void CPVRTimerType::GetRecordingGroupValues(std::vector< std::pair<std::string, 
   std::copy(m_recordingGroupValues.cbegin(), m_recordingGroupValues.cend(),
             std::back_inserter(list));
 }
+
+#endif // HAVE_ADDONS

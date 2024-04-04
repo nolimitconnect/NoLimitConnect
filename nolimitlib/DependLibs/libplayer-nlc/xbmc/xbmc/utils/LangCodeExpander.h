@@ -7,6 +7,7 @@
  */
 
 #pragma once
+
 #include "config_components_kodi.h"
 
 #include <map>
@@ -151,7 +152,7 @@ protected:
   static std::string CodeToString(long code);
 
   static bool LookupInISO639Tables(const std::string& code, std::string& desc);
-
+#if HAVE_ADDONS
   /*
    * \brief Looks up the language description for given language code
    *        in to the installed language addons.
@@ -160,6 +161,7 @@ protected:
    * \return true if the language description was found, false otherwise.
    */
   static bool LookupInLangAddons(const std::string& code, std::string& desc);
+#endif // HAVE_ADDONS
 
   bool LookupInUserMap(const std::string& code, std::string& desc);
 

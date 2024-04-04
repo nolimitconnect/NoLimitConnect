@@ -7,6 +7,7 @@
  */
 
 #include "InputOperations.h"
+#if ENABLE_JSON
 
 #include "ServiceBroker.h"
 #include "ApplicationComponents.h"
@@ -178,3 +179,5 @@ JSONRPC_STATUS CInputOperations::ShowPlayerProcessInfo(const std::string &method
 {
   return SendAction(ACTION_PLAYER_PROCESS_INFO);
 }
+
+#endif // ENABLE_JSON

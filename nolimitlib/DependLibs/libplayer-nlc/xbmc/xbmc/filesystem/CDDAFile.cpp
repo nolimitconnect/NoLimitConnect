@@ -7,6 +7,8 @@
  */
 
 #include "CDDAFile.h"
+#if HAVE_LIB_CDIO
+
 #include <sys/stat.h>
 #include "NlcUrl.h"
 
@@ -226,3 +228,5 @@ int CFileCDDA::GetChunkSize()
 {
   return SECTOR_COUNT*CDIO_CD_FRAMESIZE_RAW;
 }
+
+#endif // HAVE_LIB_CDIO

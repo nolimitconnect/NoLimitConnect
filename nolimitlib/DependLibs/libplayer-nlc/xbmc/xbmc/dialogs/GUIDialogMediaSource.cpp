@@ -275,6 +275,7 @@ void CGUIDialogMediaSource::OnPathBrowse(int item)
     share1.m_ignore = true;
     extraShares.push_back(share1);
 
+#if HAVE_ADDONS
     // add the recordings dir as needed
     if (CPVRDirectory::HasRadioRecordings())
     {
@@ -288,6 +289,7 @@ void CGUIDialogMediaSource::OnPathBrowse(int item)
       share1.strName = g_localizeStrings.Get(19184); // Deleted recordings
       extraShares.push_back(share1);
     }
+#endif // HAVE_ADDONS
 
     if (CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_AUDIOCDS_RECORDINGPATH) != "")
     {
@@ -328,6 +330,7 @@ void CGUIDialogMediaSource::OnPathBrowse(int item)
     share1.strName = g_localizeStrings.Get(20012);
     extraShares.push_back(share1);
 
+#if HAVE_ADDONS
     // add the recordings dir as needed
     if (CPVRDirectory::HasTVRecordings())
     {
@@ -341,6 +344,8 @@ void CGUIDialogMediaSource::OnPathBrowse(int item)
       share1.strName = g_localizeStrings.Get(19184); // Deleted recordings
       extraShares.push_back(share1);
     }
+#endif // HAVE_ADDONS
+
   }
   else if (m_type == "pictures")
   {

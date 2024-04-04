@@ -7,6 +7,7 @@
  */
 
 #include "Control.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "LanguageHook.h"
@@ -1456,3 +1457,5 @@ namespace XBMCAddon
 
   }
 }
+
+#endif // HAVE_ADDONS

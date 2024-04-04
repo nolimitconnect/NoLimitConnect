@@ -9,6 +9,8 @@
 #pragma once
 
 #include "AddonClass.h"
+#if HAVE_ADDONS
+
 #include "AddonString.h"
 #include "Alternative.h"
 #include "ListItem.h"
@@ -963,3 +965,5 @@ constexpr int ALPHANUM_HIDE_INPUT{2};
 #endif
 } // namespace xbmcgui
 } // namespace XBMCAddon
+
+#endif // HAVE_ADDONS

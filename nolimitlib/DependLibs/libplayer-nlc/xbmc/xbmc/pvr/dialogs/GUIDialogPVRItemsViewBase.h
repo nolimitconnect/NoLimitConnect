@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 #include "view/GUIViewControl.h"
 
@@ -45,3 +48,5 @@ private:
   bool ContextMenu(int iItemIdx);
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "PVRComponentRegistration.h"
+#if HAVE_ADDONS
 
 #include "pvr/guilib/PVRGUIActionsChannels.h"
 #include "pvr/guilib/PVRGUIActionsClients.h"
@@ -50,3 +51,5 @@ CPVRComponentRegistration::~CPVRComponentRegistration()
   DeregisterComponent(typeid(CPVRGUIActionsClients));
   DeregisterComponent(typeid(CPVRGUIActionsChannels));
 }
+
+#endif // HAVE_ADDONS

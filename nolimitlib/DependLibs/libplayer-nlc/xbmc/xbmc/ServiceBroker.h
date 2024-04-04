@@ -12,6 +12,7 @@
 
 #include <memory>
 
+#if HAVE_ADDONS
 namespace ADDON
 {
 class CAddonMgr;
@@ -21,6 +22,7 @@ class CVFSAddonCache;
 class CServiceAddonManager;
 class CRepositoryUpdater;
 } // namespace ADDON
+#endif // HAVE_ADDONS
 
 namespace ANNOUNCEMENT
 {
@@ -32,12 +34,14 @@ namespace MEDIA_DETECT
 class CDetectDVDMedia;
 }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 namespace PVR
 {
   class CPVRManager;
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 namespace PLAYLIST
 {
@@ -141,16 +145,21 @@ public:
   static void RegisterAnnouncementManager(
       std::shared_ptr<ANNOUNCEMENT::CAnnouncementManager> announcementManager);
   static void UnregisterAnnouncementManager();
-
+ #if HAVE_ADDONS
   static ADDON::CAddonMgr &GetAddonMgr();
   static ADDON::CBinaryAddonManager &GetBinaryAddonManager();
   static ADDON::CBinaryAddonCache &GetBinaryAddonCache();
   static KODI::ADDONS::CExtsMimeSupportList& GetExtsMimeSupportList();
   static ADDON::CVFSAddonCache &GetVFSAddonCache();
+#endif // HAVE_ADDONS
+#ifdef HAS_PYTHON
   static XBPython &GetXBPython();
+#endif // HAS_PYTHON
+#if HAVE_ADDONS
 #if ENABLE_PVR
   static PVR::CPVRManager &GetPVRManager();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
   static CContextMenuManager& GetContextMenuManager();
   static CDataCacheCore& GetDataCacheCore();
   static PLAYLIST::CPlayListPlayer& GetPlaylistPlayer();
@@ -161,15 +170,21 @@ public:
   static PERIPHERALS::CPeripherals& GetPeripherals();
 #endif // ENABLE_GAMES
   static CFavouritesService& GetFavouritesService();
+#if HAVE_ADDONS
   static ADDON::CServiceAddonManager& GetServiceAddons();
   static ADDON::CRepositoryUpdater& GetRepositoryUpdater();
+ #endif // HAVE_ADDONS
   static CInputManager& GetInputManager();
   static CFileExtensionProvider &GetFileExtensionProvider();
+#if HAVE_ADDONS
   static bool IsAddonInterfaceUp();
+#endif // HAVE_ADDONS
   static bool IsServiceManagerUp();
   static CNetworkBase& GetNetwork();
   static CPowerManager& GetPowerManager();
+#if HAVE_WEATHER
   static CWeatherManager& GetWeatherManager();
+#endif // HAVE_WEATHER
   static CPlayerCoreFactory &GetPlayerCoreFactory();
   static CDatabaseManager &GetDatabaseManager();
   static CEventLog* GetEventLog();

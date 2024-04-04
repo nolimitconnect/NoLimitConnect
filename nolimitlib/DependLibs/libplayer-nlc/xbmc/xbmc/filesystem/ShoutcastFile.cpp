@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "ShoutcastFile.h"
+#if HAVE_LIB_CURL
+
 #include "guilib/GUIWindowManager.h"
 #include "NlcUrl.h"
 #include "utils/RegExp.h"
@@ -198,3 +200,5 @@ void CShoutcastFile::Process()
     }
   }
 }
+
+#endif // HAVE_LIB_CURL

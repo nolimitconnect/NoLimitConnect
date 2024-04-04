@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/addons/PVRClients.h"
 #include "settings/dialogs/GUIDialogSettingsManualBase.h"
 
@@ -39,3 +42,5 @@ namespace PVR
     std::map<std::string, int> m_changedValues;
   };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

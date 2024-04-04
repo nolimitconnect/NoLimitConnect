@@ -7,6 +7,10 @@
  */
 
 #include "GUIInfoManager.h"
+
+#include "windowing/GraphicContext.h"
+#include "windowing/GraphicContext.h"
+
 #include "NlcCoreUtil.h"
 #include "NlcUrl.h"
 
@@ -32,6 +36,7 @@
 #include "utils/StringUtils.h"
 #include "utils/URIUtils.h"
 #include "utils/log.h"
+//#include "windowing/WinSystem.h"
 
 #include <algorithm>
 #include <array>
@@ -10290,6 +10295,7 @@ int CGUIInfoManager::TranslateSingleString(const std::string &strCondition, bool
           return fanart_label.val;
       }
     }
+#if HAVE_ADDONS
     else if (cat.name == "skin")
     {
       for (const infomap& skin_label : skin_labels)
@@ -10321,6 +10327,7 @@ int CGUIInfoManager::TranslateSingleString(const std::string &strCondition, bool
           return AddMultiInfo(CGUIInfo(SKIN_TIMER_ELAPSEDSECS, prop.param(0)));
       }
     }
+#endif // HAVE_ADDONS
     else if (cat.name == "window")
     {
       if (prop.name == "property" && prop.num_params() == 1)

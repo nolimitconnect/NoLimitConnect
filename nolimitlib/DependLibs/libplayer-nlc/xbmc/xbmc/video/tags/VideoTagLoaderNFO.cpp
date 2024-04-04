@@ -7,6 +7,8 @@
  */
 
 #include "VideoTagLoaderNFO.h"
+#if HAVE_ADDONS
+
 #include "NlcUrl.h"
 
 #include "FileItem.h"
@@ -56,7 +58,9 @@ CInfoScanner::INFO_TYPE CVideoTagLoaderNFO::Load(CVideoInfoTag& tag,
 
   if (result == CInfoScanner::URL_NFO || result == CInfoScanner::COMBINED_NFO)
   {
+#if HAVE_LIB_CURL
     m_url = nfoReader.ScraperUrl();
+#endif // HAVE_LIB_CURL
     m_info = nfoReader.GetScraperInfo();
   }
 
@@ -201,3 +205,4 @@ std::string CVideoTagLoaderNFO::FindNFO(const CFileItem& item,
   return nfoFile;
 }
 
+#endif // HAVE_ADDONS

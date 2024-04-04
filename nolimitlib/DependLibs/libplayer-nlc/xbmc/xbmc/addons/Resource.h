@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Addon.h"
 #include "utils/URIUtils.h"
 
@@ -41,3 +44,5 @@ protected:
 };
 
 }
+
+#endif // HAVE_ADDONS

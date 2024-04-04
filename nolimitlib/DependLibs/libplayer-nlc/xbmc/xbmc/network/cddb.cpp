@@ -8,6 +8,8 @@
 
 #include <libtag/id3v1genres.h>
 #include "cddb.h"
+#if HAVE_LIB_CDIO
+
 #include "CompileInfo.h"
 #include "network/DNSNameCache.h"
 #include "ServiceBroker.h"
@@ -1070,3 +1072,5 @@ std::string Xcddb::TrimToUTF8(const std::string &untrimmedText)
   g_charsetConverter.unknownToUTF8(text);
   return text;
 }
+
+#endif // HAVE_LIB_CDIO

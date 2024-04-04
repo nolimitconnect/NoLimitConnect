@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon_base.h"
 #include "addons/kodi-dev-kit/include/kodi/versions.h"
 #include "threads/CriticalSection.h"
@@ -133,3 +135,5 @@ private:
 };
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRBase.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIUserMessages.h"
@@ -374,6 +375,7 @@ void CGUIWindowPVRBase::SetInvalid()
 
 bool CGUIWindowPVRBase::CanBeActivated() const
 {
+#if HAVE_ADDONS
   // check if there is at least one enabled PVR add-on
   if (!CServiceBroker::GetAddonMgr().HasAddons(ADDON::AddonType::PVRDLL))
   {
@@ -382,6 +384,9 @@ bool CGUIWindowPVRBase::CanBeActivated() const
   }
 
   return true;
+#else
+  return false;
+#endif .. HAVE_ADDONS
 }
 
 bool CGUIWindowPVRBase::OpenChannelGroupSelectionDialog()
@@ -626,3 +631,5 @@ void CGUIWindowPVRBase::HideProgressDialog()
     m_progressHandle = nullptr;
   }
 }
+
+#endif // HAVE_ADDONS

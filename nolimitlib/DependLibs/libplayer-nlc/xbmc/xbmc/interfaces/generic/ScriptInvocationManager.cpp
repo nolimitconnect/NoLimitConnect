@@ -216,6 +216,7 @@ LanguageInvokerPtr CScriptInvocationManager::GetLanguageInvoker(const std::strin
   return LanguageInvokerPtr();
 }
 
+#if HAVE_ADDONS
 int CScriptInvocationManager::ExecuteAsync(
     const std::string& script,
     const ADDON::AddonPtr& addon /* = ADDON::AddonPtr() */,
@@ -343,6 +344,7 @@ int CScriptInvocationManager::ExecuteSync(
 
   return 0;
 }
+#endif // HAVE_ADDONS
 
 bool CScriptInvocationManager::Stop(int scriptId, bool wait /* = false */)
 {

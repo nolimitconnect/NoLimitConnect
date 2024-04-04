@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "DynamicDll.h"
 
 class DllAddonInterface
@@ -33,3 +36,5 @@ public:
     RESOLVE_METHOD_RENAME_OPTIONAL(ADDON_GetTypeMinVersion, GetAddonTypeMinVersion)
   END_METHOD_RESOLVE()
 };
+
+#endif // HAVE_ADDONS

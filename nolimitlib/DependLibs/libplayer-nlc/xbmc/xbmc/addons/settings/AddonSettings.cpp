@@ -7,6 +7,7 @@
  */
 
 #include "AddonSettings.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -168,7 +169,7 @@ std::shared_ptr<CSetting> CAddonSettings::CreateSetting(
     const std::string& settingType,
     const std::string& settingId,
     CSettingsManager* settingsManager /* = nullptr */) const
-{
+{  
   if (StringUtils::EqualsNoCase(settingType, "urlencodedstring"))
     return std::make_shared<CSettingUrlEncodedString>(settingId, settingsManager);
 
@@ -1723,3 +1724,5 @@ void CAddonSettings::FileEnumSettingOptionsFiller(const std::shared_ptr<const CS
 }
 
 } // namespace ADDON
+
+#endif // HAVE_ADDONS

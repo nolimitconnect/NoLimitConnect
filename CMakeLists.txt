@@ -699,6 +699,7 @@ if(DEFINED TARGET_OS_ANDROID)
         message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
         add_custom_target(nolimitappsCopyDebugApk ALL
             COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
+            DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug/android-build-debug.apk"
             COMMAND_EXPAND_LISTS
             )
 
@@ -706,14 +707,16 @@ if(DEFINED TARGET_OS_ANDROID)
         # for release android play store requires aab bundle
         message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
         if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
-            add_custom_target(nolimitappsCopyReleaseBundle
+            add_custom_target(nolimitappsCopyReleaseBundle ALL
                 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
                 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
+                DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
                 COMMAND_EXPAND_LISTS
                 )
         else()
-            add_custom_target(nolimitappsCopyReleaseApk
+            add_custom_target(nolimitappsCopyReleaseApk ALL
                 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+                DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
                 COMMAND_EXPAND_LISTS
             )
         endif() # if EXISTS

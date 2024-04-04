@@ -753,12 +753,14 @@ bool CVideoPlayer::CloseFile( bool reopen )
         StopThread();
     }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_Edl.Clear();
     CServiceBroker::GetDataCacheCore().SetEditList( m_Edl.GetEditList() );
     CServiceBroker::GetDataCacheCore().SetCuts( m_Edl.GetCutMarkers() );
     CServiceBroker::GetDataCacheCore().SetSceneMarkers( m_Edl.GetSceneMarkers() );
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     m_HasVideo = false;
     m_HasAudio = false;
@@ -1304,6 +1306,7 @@ void CVideoPlayer::Prepare()
      * if there was a start time specified as part of the "Start from where last stopped" (aka
      * auto-resume) feature or if there is an EDL cut or commercial break that starts at time 0.
      */
+#if HAVE_ADDONS
     #if ENABLE_PVR
     EDL::Edit edit;
     int starttime = 0;
@@ -1380,6 +1383,7 @@ void CVideoPlayer::Prepare()
         m_clock.Discontinuity( DVD_MSEC_TO_TIME( starttime ) );
     }
     #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     UpdatePlayState( 0 );
 
@@ -1726,6 +1730,7 @@ void CVideoPlayer::ProcessAudioData( CDemuxStream* pStream, DemuxPacket* pPacket
     /*
      * If CheckSceneSkip() returns true then demux point is inside an EDL cut and the packets are dropped.
      */
+#if HAVE_ADDONS
 #if ENABLE_PVR
     EDL::Edit edit;
     if( CheckSceneSkip( m_CurrentAudio ) )
@@ -1736,6 +1741,7 @@ void CVideoPlayer::ProcessAudioData( CDemuxStream* pStream, DemuxPacket* pPacket
         drop = true;
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     m_VideoPlayerAudio->SendMessage( std::make_shared<CDVDMsgDemuxerPacket>( pPacket, drop ) );
 
@@ -2406,6 +2412,7 @@ bool CVideoPlayer::CheckContinuity( CCurrentStream& current, DemuxPacket* pPacke
 
 bool CVideoPlayer::CheckSceneSkip( const CCurrentStream& current )
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( !m_Edl.HasEdits() )
         return false;
@@ -2422,10 +2429,14 @@ bool CVideoPlayer::CheckSceneSkip( const CCurrentStream& current )
 #else
     return false;
 #endif // ENABLE_PVR
+#else
+    return false;
+#endif // HAVE_ADDONS
 }
 
 void CVideoPlayer::CheckAutoSceneSkip()
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( !m_Edl.HasEdits() )
         return;
@@ -2519,6 +2530,7 @@ void CVideoPlayer::CheckAutoSceneSkip()
         }
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 }
 
 
@@ -2731,9 +2743,11 @@ void CVideoPlayer::HandleMessages()
             if( msg.GetRelative() )
                 time = (m_clock.GetClock() + m_State.time_offset) / 1000l + time;
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
             time = msg.GetRestore() ? m_Edl.GetTimeAfterRestoringCuts( time ) : time;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
             // if input stream doesn't support ISeekTime, convert back to pts
             //! @todo
@@ -3000,6 +3014,7 @@ void CVideoPlayer::HandleMessages()
                 m_processInfo->SeekFinished( 0 );
             }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
             if( m_pInputStream->IsStreamType( DVDSTREAM_TYPE_PVRMANAGER ) && speed != m_playSpeed )
             {
@@ -3007,6 +3022,7 @@ void CVideoPlayer::HandleMessages()
                 pvrinputstream->Pause( speed == 0 );
             }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
             // do a seek after rewind, clock is not in sync with current pts
             if( (speed == DVD_PLAYSPEED_NORMAL) &&
@@ -3320,6 +3336,7 @@ void CVideoPlayer::Seek( bool bPlus, bool bLargeStep, bool bChapterOverride )
 
 bool CVideoPlayer::SeekScene( bool bPlus )
 {
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( !m_Edl.HasSceneMarker() )
         return false;
@@ -3351,6 +3368,7 @@ bool CVideoPlayer::SeekScene( bool bPlus )
         return true;
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     return false;
 }
@@ -3521,6 +3539,7 @@ bool CVideoPlayer::SeekTimeRelative( int64_t iTime )
     // EDL cuts remove time from the original file, hence we might seek to
     // positions too far from the current m_clock position. Seek to absolute
     // time instead
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( m_Edl.HasCuts() )
     {
@@ -3528,6 +3547,7 @@ bool CVideoPlayer::SeekTimeRelative( int64_t iTime )
         return true;
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     CDVDMsgPlayerSeek::CMode mode;
     mode.time = (int)iTime;
@@ -3802,6 +3822,7 @@ bool CVideoPlayer::OpenVideoStream( CDVDStreamInfo& hint, bool reset )
         hint.dvd = true;
 #endif // ENABLE_DVD_NAV
     }
+#if HAVE_ADDONS
 #if ENABLE_PVR
     else if( m_pInputStream && m_pInputStream->IsStreamType( DVDSTREAM_TYPE_PVRMANAGER ) )
     {
@@ -3822,6 +3843,7 @@ bool CVideoPlayer::OpenVideoStream( CDVDStreamInfo& hint, bool reset )
         }
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     std::shared_ptr<CDVDInputStream::IMenus> pMenus = std::dynamic_pointer_cast<CDVDInputStream::IMenus>(m_pInputStream);
     if( pMenus && pMenus->IsInMenu() )
@@ -3870,6 +3892,7 @@ bool CVideoPlayer::OpenVideoStream( CDVDStreamInfo& hint, bool reset )
         player->SendMessage( std::make_shared<CDVDMsgBool>( CDVDMsg::GENERAL_PAUSE, m_displayLost ), 1 );
 
         // look for any EDL files
+#if HAVE_ADDONS
 #if ENABLE_PVR
         m_Edl.Clear();
         float fFramesPerSecond = 0.0f;
@@ -3880,6 +3903,7 @@ bool CVideoPlayer::OpenVideoStream( CDVDStreamInfo& hint, bool reset )
         CServiceBroker::GetDataCacheCore().SetCuts( m_Edl.GetCutMarkers() );
         CServiceBroker::GetDataCacheCore().SetSceneMarkers( m_Edl.GetSceneMarkers() );
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
         static_cast<IDVDStreamPlayerVideo*>(player)->SetSpeed( m_streamPlayerSpeed );
         m_CurrentVideo.syncState = IDVDStreamPlayer::SYNC_STARTING;
@@ -5018,6 +5042,7 @@ void CVideoPlayer::UpdatePlayState( double timeout )
         m_processInfo->SetStateRealtime( realtime );
     }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
     if( m_Edl.HasCuts() )
     {
@@ -5025,6 +5050,7 @@ void CVideoPlayer::UpdatePlayState( double timeout )
         state.timeMax = state.timeMax - static_cast<double>(m_Edl.GetTotalCutTime());
     }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
     if( m_caching > CACHESTATE_DONE && m_caching < CACHESTATE_PLAY )
         state.caching = true;

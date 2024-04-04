@@ -6,6 +6,9 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/gui/Window.h"
 
 #include "FileItem.h"
@@ -1492,3 +1495,5 @@ void CGUIAddonWindowDialog::Show_Internal(bool show /* = true */)
 }
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

@@ -66,7 +66,7 @@ bool CVideoLibraryMarkWatchedJob::Work(CVideoDatabase &db)
     if (URIUtils::IsUPnP(item->GetPath()) && UPNP::CUPnP::MarkWatched(*item, m_mark))
       continue;
 #endif
-
+#if HAVE_ADDONS
     if (item->HasPVRRecordingInfoTag() &&
         CServiceBroker::GetPVRManager().Recordings()->MarkWatched(item->GetPVRRecordingInfoTag(), m_mark))
     {
@@ -81,6 +81,7 @@ bool CVideoLibraryMarkWatchedJob::Work(CVideoDatabase &db)
 
       continue;
     }
+#endif // HAVE_ADDONS
 
     markItems.push_back(item);
   }

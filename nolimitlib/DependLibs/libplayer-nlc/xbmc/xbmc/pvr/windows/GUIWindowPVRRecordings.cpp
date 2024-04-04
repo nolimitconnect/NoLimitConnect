@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRRecordings.h"
+#if HAVE_ADDONS
 
 #include "GUIInfoManager.h"
 #include "ServiceBroker.h"
@@ -447,3 +448,5 @@ std::string CGUIWindowPVRRadioRecordings::GetRootPath() const
 {
   return CPVRRecordingsPath(m_bShowDeletedRecordings, true);
 }
+
+#endif // HAVE_ADDONS

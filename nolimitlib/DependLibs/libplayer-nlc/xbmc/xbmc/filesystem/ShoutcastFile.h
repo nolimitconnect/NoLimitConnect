@@ -12,6 +12,9 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CURL
+
 #include "IFile.h"
 #include "CurlFile.h"
 #include "music/tags/MusicInfoTag.h"
@@ -57,3 +60,4 @@ protected:
 };
 }
 
+#endif // HAVE_LIB_CURL

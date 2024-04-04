@@ -7,6 +7,7 @@
  */
 
 #include "InfoTagRadioRDS.h"
+#if HAVE_ADDONS
 
 #include "pvr/channels/PVRChannel.h"
 #include "pvr/channels/PVRRadioRDSInfoTag.h"
@@ -232,3 +233,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

@@ -12,6 +12,7 @@
 #include "TextureDatabase.h"
 #include "music/infoscanner/MusicInfoScanner.h"
 #include "music/tags/MusicInfoTag.h"
+#include "MusicDatabase.h"
 #include "utils/StringUtils.h"
 #include "video/VideoThumbLoader.h"
 

@@ -7,6 +7,7 @@
  */
 
 #include "VideoInfoScanner.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -574,6 +575,7 @@ namespace VIDEO
     if (m_handle)
       m_handle->SetText(pItem->GetMovieName(bDirNames));
 
+#if HAVE_LIB_CURL
     CInfoScanner::INFO_TYPE result=CInfoScanner::NO_NFO;
     CScraperUrl scrUrl;
     // handle .nfo files
@@ -643,6 +645,9 @@ namespace VIDEO
         m_database.SetPathHash(pItem->GetPath(), pItem->GetProperty("hash").asString());
     }
     return INFO_ADDED;
+#else
+    return INFO_NOT_FOUND;
+#endif // HAVE_LIB_CURL
   }
 
   CInfoScanner::INFO_RET
@@ -666,6 +671,7 @@ namespace VIDEO
     if (m_handle)
       m_handle->SetText(pItem->GetMovieName(bDirNames));
 
+#if HAVE_LIB_CURL
     CInfoScanner::INFO_TYPE result = CInfoScanner::NO_NFO;
     CScraperUrl scrUrl;
     // handle .nfo files
@@ -718,6 +724,8 @@ namespace VIDEO
         return INFO_ERROR;
       return INFO_ADDED;
     }
+#endif // HAVE_LIB_CURL
+
     //! @todo This is not strictly correct as we could fail to download information here or error, or be cancelled
     return INFO_NOT_FOUND;
   }
@@ -743,6 +751,7 @@ namespace VIDEO
     if (m_handle)
       m_handle->SetText(pItem->GetMovieName(bDirNames));
 
+#if HAVE_LIB_CURL
     CInfoScanner::INFO_TYPE result = CInfoScanner::NO_NFO;
     CScraperUrl scrUrl;
     // handle .nfo files
@@ -795,6 +804,8 @@ namespace VIDEO
         return INFO_ERROR;
       return INFO_ADDED;
     }
+#endif // HAVE_LIB_CURL
+
     //! @todo This is not strictly correct as we could fail to download information here or error, or be cancelled
     return INFO_NOT_FOUND;
   }
@@ -837,11 +848,13 @@ namespace VIDEO
 
       if (updateSeasonArt)
       {
+#if HAVE_LIB_CURL
         if (!item->IsPlugin() || scraper->ID() != "metadata.local")
         {
           CVideoInfoDownloader loader(scraper);
           loader.GetArtwork(showInfo);
         }
+#endif // HAVE_LIB_CURL
         GetSeasonThumbs(showInfo, seasonArt, CVideoThumbLoader::GetArtTypes(MediaTypeSeason), useLocal && !item->IsPlugin());
         for (std::map<int, std::map<std::string, std::string> >::const_iterator i = seasonArt.begin(); i != seasonArt.end(); ++i)
         {
@@ -1584,7 +1597,9 @@ namespace VIDEO
 
     CVideoInfoTag &movieDetails = *pItem->GetVideoInfoTag();
     movieDetails.m_fanart.Unpack();
+#if HAVE_LIB_CURL
     movieDetails.m_strPictureURL.Parse();
+#endif // HAVE_LIB_CURL
 
     CGUIListItem::ArtMap art = pItem->GetArt();
 
@@ -1655,6 +1670,7 @@ namespace VIDEO
         art.insert(std::make_pair("fanart", fanart));
     }
 
+#if HAVE_LIB_CURL
     // add online art
     for (const auto& url : pItem->GetVideoInfoTag()->m_strPictureURL.GetUrls())
     {
@@ -1673,6 +1689,7 @@ namespace VIDEO
           art.insert(std::make_pair(aspect, image));
       }
     }
+#endif // HAVE_LIB_CURL
 
     if (art.find("thumb") == art.end() &&
         CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(
@@ -1698,6 +1715,7 @@ namespace VIDEO
       ApplyThumbToFolder(parentDir, art["thumb"]);
   }
 
+#if HAVE_LIB_CURL
   std::string CVideoInfoScanner::GetImage(const CScraperUrl::SUrlEntry &image, const std::string& itemPath)
   {
     std::string thumb = CScraperUrl::GetThumbUrl(image);
@@ -1944,12 +1962,14 @@ namespace VIDEO
     }
     return INFO_ADDED;
   }
+  #endif // HAVE_LIB_CURL
 
   bool CVideoInfoScanner::GetDetails(CFileItem *pItem, CScraperUrl &url,
                                      const ScraperPtr& scraper,
                                      IVideoInfoTagLoader* loader,
                                      CGUIDialogProgress* pDialog /* = NULL */)
   {
+#if HAVE_LIB_CURL
     CVideoInfoTag movieDetails;
 
     if (m_handle && !url.GetTitle().empty())
@@ -1975,6 +1995,8 @@ namespace VIDEO
       *pItem->GetVideoInfoTag() = movieDetails;
       return true;
     }
+#endif // HAVE_LIB_CURL
+
     return false; // no info found, or cancelled
   }
 
@@ -2153,6 +2175,7 @@ namespace VIDEO
         seasonArt[season] = art;
       }
     }
+#if HAVE_LIB_CURL
     // add online art
     for (const auto& url : show.m_strPictureURL.GetUrls())
     {
@@ -2170,6 +2193,8 @@ namespace VIDEO
           art.insert(std::make_pair(aspect, image));
       }
     }
+#endif // HAVE_LIB_CURL
+
   }
 
   void CVideoInfoScanner::FetchActorThumbs(std::vector<SActorInfo>& actors, const std::string& strPath)
@@ -2199,8 +2224,10 @@ namespace VIDEO
             break;
           }
         }
+#if HAVE_LIB_CURL
         if (i->thumb.empty() && !i->thumbUrl.GetFirstUrlByType().m_url.empty())
           i->thumb = CScraperUrl::GetThumbUrl(i->thumbUrl.GetFirstUrlByType());
+#endif // HAVE_LIB_CURL
         if (!i->thumb.empty())
           CServiceBroker::GetTextureCache()->BackgroundCacheImage(i->thumb);
       }
@@ -2236,6 +2263,7 @@ namespace VIDEO
 
   int CVideoInfoScanner::FindVideo(const std::string &title, int year, const ScraperPtr &scraper, CScraperUrl &url, CGUIDialogProgress *progress)
   {
+#if HAVE_LIB_CURL
     MOVIELIST movielist;
     CVideoInfoDownloader imdb(scraper);
     int returncode = imdb.FindMovie(title, year, movielist, progress);
@@ -2249,7 +2277,11 @@ namespace VIDEO
       url = movielist[0];
       return 1;  // found a movie
     }
+#endif // HAVE_LIB_CURL
+
     return 0;    // didn't find anything
   }
 
 }
+
+#endif // HAVE_ADDONS

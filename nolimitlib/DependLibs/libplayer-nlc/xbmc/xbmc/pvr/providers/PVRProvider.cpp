@@ -7,6 +7,7 @@
  */
 
 #include "PVRProvider.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -391,3 +392,5 @@ std::string CPVRProvider::GetClientThumbPath() const
   std::unique_lock<CCriticalSection> lock(m_critSection);
   return m_thumbPath.GetClientImage();
 }
+
+#endif // HAVE_ADDONS

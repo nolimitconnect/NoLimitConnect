@@ -7,6 +7,7 @@
  */
 
 #include "Monitor.h"
+#if HAVE_ADDONS
 
 #include "threads/SystemClock.h"
 
@@ -80,3 +81,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

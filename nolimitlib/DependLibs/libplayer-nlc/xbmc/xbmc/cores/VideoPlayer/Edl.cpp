@@ -6,6 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "Edl.h"
@@ -1033,3 +1034,4 @@ void CEdl::AddSceneMarkersAtStartAndEndOfEdits()
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

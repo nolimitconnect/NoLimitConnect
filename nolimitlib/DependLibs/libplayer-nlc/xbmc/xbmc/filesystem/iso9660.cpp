@@ -28,6 +28,8 @@
 
  */
 #include "iso9660.h"
+#if HAVE_LIB_CDIO
+
 #include "storage/IoSupport.h"
 #include "utils/CharsetConverter.h"
 #include "threads/SingleLock.h"
@@ -43,6 +45,7 @@
 #endif
 #include <stdlib.h>
 #include <algorithm>
+
 #include <libcdio/include/cdio/bytesex.h>
  //#define _DEBUG_OUTPUT 1
 
@@ -1068,3 +1071,5 @@ void iso9660::IsoDateTimeToFileTime( iso9660_Datetime* isoDateTime, FILETIME* fi
     time.wMilliseconds = 0;
     SystemTimeToFileTime( &time, filetime );
 }
+
+#endif // HAVE_LIB_CDIO

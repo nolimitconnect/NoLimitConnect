@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "network/httprequesthandler/IHTTPRequestHandler.h"
 
 #include <string>
@@ -36,3 +39,5 @@ private:
   std::string m_responseData;
   CHttpResponseRange m_responseRange;
 };
+
+#endif // HAVE_ADDONS

@@ -157,7 +157,9 @@
 #include "games/windows/GUIWindowGames.h"
 
 using namespace KODI;
+#if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
+#endif // ENABLE_PVR && HAVE_ADDONS
 #if ENABLE_PERIPHERALS
 using namespace PERIPHERALS;
 #endif // ENABLE_PERIPHERALS
@@ -197,7 +199,9 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIWindowLoginScreen);
   Add(new CGUIWindowSettingsProfile);
   Add(new CGUIWindow(WINDOW_SKIN_SETTINGS, "SkinSettings.xml"));
+#if HAVE_ADDONS
   Add(new CGUIWindowAddonBrowser);
+#endif // HAVE_ADDONS
   Add(new CGUIWindowScreensaverDim);
   Add(new CGUIWindowDebugInfo);
   Add(new CGUIWindowPointer);
@@ -218,7 +222,9 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIDialogPlayerProcessInfo);
   Add(new CGUIDialogSlider);
   Add(new CGUIDialogMusicOSD);
+#if HAVE_ADDONS
   Add(new CGUIDialogVisualisationPresetList);
+#endif // HAVE_ADDONS
 #if defined(HAS_GL) || defined(HAS_DX)
   Add(new CGUIDialogCMSSettings);
 #endif
@@ -237,8 +243,10 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIDialogBusy);
   Add(new CGUIDialogBusyNoCancel);
   Add(new CGUIDialogPictureInfo);
+#if HAVE_ADDONS
   Add(new CGUIDialogAddonInfo);
   Add(new CGUIDialogAddonSettings);
+#endif // HAVE_ADDONS
 
   Add(new CGUIDialogLockSettings);
 
@@ -265,6 +273,7 @@ void CGUIWindowManager::CreateWindows()
 
   /* Load PVR related Windows and Dialogs */
   Add(new CGUIDialogTeletext);
+  #if HAVE_ADDONS
   Add(new CGUIWindowPVRTVChannels);
   Add(new CGUIWindowPVRTVRecordings);
   Add(new CGUIWindowPVRTVGuide);
@@ -289,6 +298,7 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIDialogPVRRecordingSettings);
   Add(new CGUIDialogPVRClientPriorities);
   Add(new CGUIDialogPVRGuideControls);
+  #endif // HAVE_ADDONS
 
   Add(new CGUIDialogSelect);
   Add(new CGUIDialogColorPicker);
@@ -301,8 +311,12 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIWindowSlideShow);
 
   Add(new CGUIDialogVideoOSD);
+#if HAVE_ADDONS
   Add(new CGUIWindowScreensaver);
+#endif // HAVE_ADDONS
+#if HAVE_WEATHER
   Add(new CGUIWindowWeather);
+#endif // HAVE_WEATHER
   Add(new CGUIWindowStartup);
   Add(new CGUIWindowSplash);
 
@@ -382,6 +396,7 @@ bool CGUIWindowManager::DestroyWindows()
     DestroyWindow(WINDOW_DIALOG_COLOR_PICKER);
 
     /* Delete PVR related windows and dialogs */
+#if HAVE_ADDONS
     DestroyWindow(WINDOW_TV_CHANNELS);
     DestroyWindow(WINDOW_TV_RECORDINGS);
     DestroyWindow(WINDOW_TV_GUIDE);
@@ -409,6 +424,7 @@ bool CGUIWindowManager::DestroyWindows()
     DestroyWindow(WINDOW_DIALOG_PVR_RECORDING_SETTING);
     DestroyWindow(WINDOW_DIALOG_PVR_CLIENT_PRIORITIES);
     DestroyWindow(WINDOW_DIALOG_PVR_GUIDE_CONTROLS);
+#endif // HAVE_ADDONS
 
     DestroyWindow(WINDOW_DIALOG_TEXT_VIEWER);
 #ifdef HAS_OPTICAL_DRIVE
@@ -622,7 +638,7 @@ void CGUIWindowManager::Add(CGUIWindow* pWindow)
     if (it != m_mapWindows.end())
     {
       CLog::Log(LOGERROR,
-                "Error, trying to add a second window with id {} "
+                "Error, trying to add a second window with id %d "
                 "to the window manager",
                 id);
       return;
@@ -672,7 +688,7 @@ void CGUIWindowManager::Remove(int id)
   else
   {
     CLog::Log(LOGWARNING,
-              "Attempted to remove window {} "
+              "Attempted to remove window %d "
               "from the window manager when it didn't exist",
               id);
   }
@@ -802,14 +818,16 @@ void CGUIWindowManager::ActivateWindow(int iWindowID, const std::vector<std::str
 
 void CGUIWindowManager::ActivateWindow_Internal(int iWindowID, const std::vector<std::string>& params, bool swappingWindows, bool force /* = false */)
 {
+#if HAVE_ADDONS
   // translate virtual windows
   if (iWindowID == WINDOW_START)
   { // virtual start window
     iWindowID = g_SkinInfo->GetStartWindow();
   }
+#endif // HAVE_ADDONS
 
   // debug
-  CLog::Log(LOGDEBUG, "Activating window ID: {}", iWindowID);
+  CLog::Log(LOGDEBUG, "Activating window ID: %d", iWindowID);
 
   // make sure we check mediasources from home
   if (GetActiveWindow() == WINDOW_HOME)
@@ -824,7 +842,7 @@ void CGUIWindowManager::ActivateWindow_Internal(int iWindowID, const std::vector
   if (!g_passwordManager.CheckMenuLock(iWindowID))
   {
     CLog::Log(LOGERROR,
-              "MasterCode or MediaSource-code is wrong: Window with id {} will not be loaded! "
+              "MasterCode or MediaSource-code is wrong: Window with id %d will not be loaded! "
               "Enter a correct code!",
               iWindowID);
     if (GetActiveWindow() == WINDOW_INVALID && iWindowID != WINDOW_HOME)
@@ -836,7 +854,7 @@ void CGUIWindowManager::ActivateWindow_Internal(int iWindowID, const std::vector
   CGUIWindow *pNewWindow = GetWindow(iWindowID);
   if (!pNewWindow)
   { // nothing to see here - move along
-    CLog::Log(LOGERROR, "Unable to locate window with id {}.  Check skin files",
+    CLog::Log(LOGERROR, "Unable to locate window with id %d.  Check skin files",
               iWindowID - WINDOW_HOME);
     if (IsWindowActive(WINDOW_STARTUP_ANIM))
       ActivateWindow(WINDOW_HOME);
@@ -863,7 +881,7 @@ void CGUIWindowManager::ActivateWindow_Internal(int iWindowID, const std::vector
   // don't activate a window if there are active modal dialogs of type MODAL
   if (!force && HasModalDialog(true))
   {
-    CLog::Log(LOGINFO, "Activate of window '{}' refused because there are active modal dialogs",
+    CLog::Log(LOGINFO, "Activate of window '%d' refused because there are active modal dialogs",
               iWindowID);
     CServiceBroker::GetGUI()->GetAudioManager().PlayActionSound(CAction(ACTION_ERROR));
     return;
@@ -1024,6 +1042,7 @@ void CGUIWindowManager::OnApplicationMessage(ThreadMessage* pMsg)
   }
   break;
 
+#if HAVE_ADDONS
   case TMSG_GUI_ADDON_DIALOG:
   {
     if (pMsg->lpVoid)
@@ -1032,6 +1051,7 @@ void CGUIWindowManager::OnApplicationMessage(ThreadMessage* pMsg)
     }
   }
   break;
+#endif // HAVE_ADDONS
 
 #ifdef HAS_PYTHON
   case TMSG_GUI_PYTHON_DIALOG:

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "JSONRPC.h"
+#if ENABLE_JSON
 
 class CVariant;
 
@@ -48,3 +49,5 @@ namespace JSONRPC
     static bool        handleScreenSaver();
   };
 }
+
+#endif // ENABLE_JSON

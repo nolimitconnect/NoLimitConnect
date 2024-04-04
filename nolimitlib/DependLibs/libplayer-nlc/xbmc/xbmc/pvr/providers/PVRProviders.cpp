@@ -7,6 +7,7 @@
  */
 
 #include "PVRProviders.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRCachedImages.h"
@@ -379,3 +380,5 @@ int CPVRProviders::CleanupCachedImages()
   static const std::vector<PVRImagePattern> urlPatterns = {{CPVRProvider::IMAGE_OWNER_PATTERN, ""}};
   return CPVRCachedImages::Cleanup(urlPatterns, urlsToCheck);
 }
+
+#endif // HAVE_ADDONS

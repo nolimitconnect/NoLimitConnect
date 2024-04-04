@@ -8,6 +8,10 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
+#include "Episode.h"
 #include "InfoScanner.h"
 #include "VideoDatabase.h"
 #include "addons/Scraper.h"
@@ -67,7 +71,8 @@ namespace VIDEO
      \return database id of the added item, or -1 on failure.
      */
     long AddVideo(CFileItem *pItem, const CONTENT_TYPE &content, bool videoFolder = false, bool useLocal = true, const CVideoInfoTag *showInfo = NULL, bool libraryImport = false);
-
+    
+#if HAVE_ADDONS
     /*! \brief Retrieve information for a list of items and add them to the database.
      \param items list of items to retrieve info for.
      \param bDirNames whether we should use folder or file names for lookups.
@@ -79,6 +84,7 @@ namespace VIDEO
      \return true if we successfully found information for some items, false otherwise
      */
     bool RetrieveVideoInfo(CFileItemList& items, bool bDirNames, CONTENT_TYPE content, bool useLocal = true, CScraperUrl *pURL = NULL, bool fetchEpisodes = true, CGUIDialogProgress* pDlgProgress = NULL);
+#endif // HAVE_ADDONS
 
     static void ApplyThumbToFolder(const std::string &folder, const std::string &imdbThumb);
     static bool DownloadFailed(CGUIDialogProgress* pDlgProgress);
@@ -99,7 +105,9 @@ namespace VIDEO
      \param useLocal whether to use local thumbs, defaults to true
      */
     static void GetSeasonThumbs(const CVideoInfoTag &show, std::map<int, std::map<std::string, std::string> > &art, const std::vector<std::string> &artTypes, bool useLocal = true);
+#if HAVE_LIB_CURL
     static std::string GetImage(const CScraperUrl::SUrlEntry &image, const std::string& itemPath);
+#endif // HAVE_LIB_CURL
 
     bool EnumerateEpisodeItem(const CFileItem *item, EPISODELIST& episodeList);
 
@@ -109,10 +117,12 @@ namespace VIDEO
     virtual void Process();
     bool DoScan(const std::string& strDirectory) override;
 
+#if HAVE_ADDONS
     INFO_RET RetrieveInfoForTvShow(CFileItem *pItem, bool bDirNames, ADDON::ScraperPtr &scraper, bool useLocal, CScraperUrl* pURL, bool fetchEpisodes, CGUIDialogProgress* pDlgProgress);
     INFO_RET RetrieveInfoForMovie(CFileItem *pItem, bool bDirNames, ADDON::ScraperPtr &scraper, bool useLocal, CScraperUrl* pURL, CGUIDialogProgress* pDlgProgress);
     INFO_RET RetrieveInfoForMusicVideo(CFileItem *pItem, bool bDirNames, ADDON::ScraperPtr &scraper, bool useLocal, CScraperUrl* pURL, CGUIDialogProgress* pDlgProgress);
     INFO_RET RetrieveInfoForEpisodes(CFileItem *item, long showID, const ADDON::ScraperPtr &scraper, bool useLocal, CGUIDialogProgress *progress = NULL);
+#endif // HAVE_ADDONS
 
     /*! \brief Update the progress bar with the heading and line and check for cancellation
      \param progress CGUIDialogProgress bar
@@ -122,6 +132,7 @@ namespace VIDEO
      */
     bool ProgressCancelled(CGUIDialogProgress* progress, int heading, const std::string &line1);
 
+#if HAVE_ADDONS
     /*! \brief Find a url for the given video using the given scraper
      \param title title of the video to lookup
      \param year year of the video to lookup
@@ -154,6 +165,7 @@ namespace VIDEO
                     const ADDON::ScraperPtr &scraper,
                     VIDEO::IVideoInfoTagLoader* nfoFile = nullptr,
                     CGUIDialogProgress* pDialog = nullptr);
+#endif // HAVE_ADDONS
 
     /*! \brief Extract episode and season numbers from a processed regexp
      \param reg Regular expression object with at least 2 matches
@@ -220,6 +232,7 @@ namespace VIDEO
      */
     bool CanFastHash(const CFileItemList &items, const std::vector<std::string> &excludes) const;
 
+#if HAVE_ADDONS
     /*! \brief Process a series folder, filling in episode details and adding them to the database.
      @todo Ideally we would return INFO_HAVE_ALREADY if we don't have to update any episodes
      and we should return INFO_NOT_FOUND only if no information is found for any of
@@ -232,6 +245,7 @@ namespace VIDEO
      INFO_NOT_FOUND if an episode isn't found, or INFO_ADDED if all episodes are added.
      */
     INFO_RET OnProcessSeriesFolder(EPISODELIST& files, const ADDON::ScraperPtr &scraper, bool useLocal, const CVideoInfoTag& showInfo, CGUIDialogProgress* pDlgProgress = NULL);
+#endif // HAVE_ADDONS
 
     bool EnumerateSeriesFolder(CFileItem* item, EPISODELIST& episodeList);
     bool ProcessItemByVideoInfoTag(const CFileItem *item, EPISODELIST &episodeList);
@@ -258,3 +272,4 @@ namespace VIDEO
   };
 }
 
+#endif // HAVE_ADDONS

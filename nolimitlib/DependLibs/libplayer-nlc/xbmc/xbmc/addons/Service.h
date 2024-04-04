@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/Addon.h"
+#if HAVE_ADDONS
+
 #include "addons/AddonEvents.h"
 #include "threads/CriticalSection.h"
 
@@ -58,3 +60,5 @@ namespace ADDON
     std::map<std::string, int> m_services;
   };
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "AddonUtils.h"
+#if HAVE_ADDONS
 
 #include "LanguageHook.h"
 #include "addons/Skin.h"
@@ -121,3 +122,5 @@ namespace XBMCAddonUtils
 
 
 }
+
+#endif // HAVE_ADDONS

@@ -224,6 +224,7 @@ public:
     database.Open();
     if (tag.GetType() == MediaTypeArtist)
     {
+#if HAVE_ADDONS
       ADDON::ScraperPtr scraper;
       if (!database.GetScraper(m_artist.idArtist, CONTENT_ARTISTS, scraper))
         return false;
@@ -240,6 +241,7 @@ public:
       else
         // Tell info dialog, so can show message
         dialog->SetScrapedInfo(true);
+#endif // HAVE_ADDONS
 
       if (dlgProgress->IsCanceled())
         return false;
@@ -253,6 +255,7 @@ public:
     }
     else
     {
+#if HAVE_ADDONS
       // tag.GetType == MediaTypeAlbum
       ADDON::ScraperPtr scraper;
       if (!database.GetScraper(m_album.idAlbum, CONTENT_ALBUMS, scraper))
@@ -270,6 +273,7 @@ public:
       else
         // Tell info dialog, so can show message
         dialog->SetScrapedInfo(true);
+#endif // HAVE_ADDONS
 
       if (dlgProgress->IsCanceled())
         return false;
@@ -601,12 +605,14 @@ void CGUIDialogMusicInfo::RefreshInfo()
   if (!profileManager->GetCurrentProfile().canWriteDatabases() && !g_passwordManager.bMasterUser)
     return;
 
+#if HAVE_ADDONS
   // Check if scanning
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
   {
     HELPERS::ShowOKDialogText(CVariant{ 189 }, CVariant{ 14057 });
     return;
   }
+#endif // HAVE_ADDONS
 
   CGUIDialogProgress* dlgProgress = CServiceBroker::GetGUI()->GetWindowManager().
     GetWindow<CGUIDialogProgress>(WINDOW_DIALOG_PROGRESS);
@@ -788,10 +794,12 @@ void CGUIDialogMusicInfo::OnGetArt()
   // Art type is encoded into the scraper XML as optional "aspect=" field
   // Type "thumb" returns URLs for all types of art including those without aspect.
   // Those URL without aspect are also returned for all other type values.
+#if HAVE_LIB_CURL
   if (m_bArtistInfo)
     m_artist.thumbURL.GetThumbUrls(remotethumbs, type);
   else
     m_album.thumbURL.GetThumbUrls(remotethumbs, type);
+#endif // HAVE_LIB_CURL
 
   for (unsigned int i = 0; i < remotethumbs.size(); ++i)
   {

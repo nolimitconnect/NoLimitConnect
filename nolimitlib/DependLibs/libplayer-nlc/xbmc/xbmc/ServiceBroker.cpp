@@ -95,6 +95,7 @@ void CServiceBroker::UnregisterAnnouncementManager()
   g_serviceBroker.m_pAnnouncementManager.reset();
 }
 
+#if HAVE_ADDONS
 ADDON::CAddonMgr &CServiceBroker::GetAddonMgr()
 {
   return g_application.m_ServiceManager->GetAddonMgr();
@@ -119,6 +120,7 @@ ADDON::CVFSAddonCache &CServiceBroker::GetVFSAddonCache()
 {
   return g_application.m_ServiceManager->GetVFSAddonCache();
 }
+#endif // HAVE_ADDONS
 
 #ifdef HAS_PYTHON
 XBPython& CServiceBroker::GetXBPython()
@@ -141,13 +143,14 @@ MEDIA_DETECT::CDetectDVDMedia& CServiceBroker::GetDetectDVDMedia()
 }
 #endif
 
-
+#if HAVE_ADDONS
 #if ENABLE_PVR
 PVR::CPVRManager &CServiceBroker::GetPVRManager()
 {
   return g_application.m_ServiceManager->GetPVRManager();
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 CContextMenuManager& CServiceBroker::GetContextMenuManager()
 {
@@ -206,6 +209,7 @@ CFavouritesService& CServiceBroker::GetFavouritesService()
   return g_application.m_ServiceManager->GetFavouritesService();
 }
 
+#if HAVE_ADDONS
 ADDON::CServiceAddonManager& CServiceBroker::GetServiceAddons()
 {
   return g_application.m_ServiceManager->GetServiceAddons();
@@ -215,6 +219,7 @@ ADDON::CRepositoryUpdater& CServiceBroker::GetRepositoryUpdater()
 {
   return g_application.m_ServiceManager->GetRepositoryUpdater();
 }
+#endif // HAVE_ADDONS
 
 CInputManager& CServiceBroker::GetInputManager()
 {
@@ -231,10 +236,12 @@ CNetworkBase& CServiceBroker::GetNetwork()
   return g_application.m_ServiceManager->GetNetwork();
 }
 
+#if HAVE_ADDONS
 bool CServiceBroker::IsAddonInterfaceUp()
 {
   return g_application.m_ServiceManager && g_application.m_ServiceManager->init_level > 1;
 }
+#endif // HAVE_ADDONS
 
 bool CServiceBroker::IsServiceManagerUp()
 {
@@ -269,10 +276,12 @@ CPowerManager& CServiceBroker::GetPowerManager()
   return g_application.m_ServiceManager->GetPowerManager();
 }
 
+#if HAVE_WEATHER
 CWeatherManager& CServiceBroker::GetWeatherManager()
 {
   return g_application.m_ServiceManager->GetWeatherManager();
 }
+#endif // HAVE_WEATHER
 
 CPlayerCoreFactory& CServiceBroker::GetPlayerCoreFactory()
 {

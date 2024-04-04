@@ -68,6 +68,7 @@ IFileDirectory* CFileDirectoryFactory::Create(const NlcUrl& url, CFileItem* pIte
   std::string strExtension=URIUtils::GetExtension(url);
   StringUtils::ToLower(strExtension);
 
+#if HAVE_ADDONS
   if (!strExtension.empty() && CServiceBroker::IsAddonInterfaceUp())
   {
     /*!
@@ -139,11 +140,13 @@ IFileDirectory* CFileDirectoryFactory::Create(const NlcUrl& url, CFileItem* pIte
       }
     }
   }
+#endif // HAVE_ADDONS
 
   /**@}*/
-
+#if HAVE_LIB_CURL
   if (pItem->IsRSS())
     return new CRSSDirectory();
+#endif // HAVE_LIB_CURL
 
 
   if (pItem->IsDiscImage())

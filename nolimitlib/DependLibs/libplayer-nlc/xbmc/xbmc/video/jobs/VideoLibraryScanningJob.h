@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "video/VideoInfoScanner.h"
 #include "video/jobs/VideoLibraryJob.h"
 
@@ -50,3 +53,5 @@ private:
   bool m_showProgress;
   bool m_scanAll;
 };
+
+#endif // HAVE_ADDONS

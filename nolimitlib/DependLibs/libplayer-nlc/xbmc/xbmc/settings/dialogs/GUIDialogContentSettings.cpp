@@ -59,6 +59,7 @@ void CGUIDialogContentSettings::ResetContent()
   SetContent(CONTENT_NONE);
 }
 
+#if HAVE_ADDONS
 void CGUIDialogContentSettings::SetScanSettings(const VIDEO::SScanSettings &scanSettings)
 {
   m_scanRecursive       = (scanSettings.recurse > 0 && !scanSettings.parent_name) ||
@@ -144,6 +145,7 @@ bool CGUIDialogContentSettings::Show(ADDON::ScraperPtr& scraper, VIDEO::SScanSet
 
   return confirmed;
 }
+#endif // HAVE_ADDONS
 
 void CGUIDialogContentSettings::OnInitWindow()
 {
@@ -181,7 +183,7 @@ void CGUIDialogContentSettings::OnSettingAction(const std::shared_ptr<const CSet
     return;
 
   CGUIDialogSettingsManualBase::OnSettingAction(setting);
-
+#if HAVE_ADDONS
   const std::string &settingId = setting->GetId();
 
   if (settingId == SETTING_CONTENT_TYPE)
@@ -265,6 +267,7 @@ void CGUIDialogContentSettings::OnSettingAction(const std::shared_ptr<const CSet
   }
   else if (settingId == SETTING_SCRAPER_SETTINGS)
     CGUIDialogAddonSettings::ShowForAddon(m_scraper, false);
+#endif // HAVE_ADDONS
 }
 
 bool CGUIDialogContentSettings::Save()
@@ -281,8 +284,9 @@ void CGUIDialogContentSettings::SetupView()
   SET_CONTROL_HIDDEN(CONTROL_SETTINGS_CUSTOM_BUTTON);
   SET_CONTROL_LABEL(CONTROL_SETTINGS_OKAY_BUTTON, 186);
   SET_CONTROL_LABEL(CONTROL_SETTINGS_CANCEL_BUTTON, 222);
-
+#if HAVE_ADDONS
   SetLabel2(SETTING_CONTENT_TYPE, ADDON::TranslateContent(m_content, true));
+#endif // HAVE_ADDONS
 
   if (m_content == CONTENT_NONE)
   {
@@ -292,6 +296,7 @@ void CGUIDialogContentSettings::SetupView()
   else
   {
     ToggleState(SETTING_SCRAPER_LIST, true);
+#if HAVE_ADDONS
     if (m_scraper != NULL && !CServiceBroker::GetAddonMgr().IsAddonDisabled(m_scraper->ID()))
     {
       SetLabel2(SETTING_SCRAPER_LIST, m_scraper->Name());
@@ -301,6 +306,8 @@ void CGUIDialogContentSettings::SetupView()
         ToggleState(SETTING_SCRAPER_SETTINGS, false);
     }
     else
+#endif // HAVE_ADDONS
+
     {
       SetLabel2(SETTING_SCRAPER_LIST, g_localizeStrings.Get(231)); //Set label2 to "None"
       ToggleState(SETTING_SCRAPER_SETTINGS, false);
@@ -314,8 +321,10 @@ void CGUIDialogContentSettings::InitializeSettings()
 
   if (m_content == CONTENT_NONE)
     m_showScanSettings = false;
+#if HAVE_ADDONS
   else if (m_scraper != NULL && !CServiceBroker::GetAddonMgr().IsAddonDisabled(m_scraper->ID()))
     m_showScanSettings = true;
+#endif // HAVE_ADDONS
 
   std::shared_ptr<CSettingCategory> category = AddCategory("contentsettings", -1);
   if (category == NULL)

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "InputStreamPVRBase.h"
@@ -36,3 +37,4 @@ private:
 };
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

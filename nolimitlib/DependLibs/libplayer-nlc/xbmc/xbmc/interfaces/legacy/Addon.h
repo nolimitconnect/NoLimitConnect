@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "AddonClass.h"
 #include "AddonString.h"
 #include "Exception.h"
@@ -481,3 +484,5 @@ namespace XBMCAddon
     //@}
   }
 }
+
+#endif // HAVE_ADDONS

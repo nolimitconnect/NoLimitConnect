@@ -39,6 +39,7 @@ public:
   */
   int GetReusablePluginHandle(const std::string& script);
 
+#if HAVE_ADDONS
   /*!
    * \brief Executes the given script asynchronously in a separate thread.
    *
@@ -112,6 +113,7 @@ public:
                   const std::vector<std::string>& arguments = std::vector<std::string>(),
                   uint32_t timeoutMs = 0,
                   bool waitShutdown = false);
+  #endif // HAVE_ADDONS
   bool Stop(int scriptId, bool wait = false);
   bool Stop(const std::string &scriptPath, bool wait = false);
 

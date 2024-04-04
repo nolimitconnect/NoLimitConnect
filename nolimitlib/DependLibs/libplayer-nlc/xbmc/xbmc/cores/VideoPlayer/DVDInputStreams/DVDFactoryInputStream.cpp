@@ -114,12 +114,14 @@ std::shared_ptr<CDVDInputStream> CDVDFactoryInputStream::CreateInputStream(IVide
     return std::shared_ptr<CDVDInputStreamNavigator>(new CDVDInputStreamNavigator(pPlayer, fileitem));
 #endif // ENABLE_DVD_NAV
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
   else if (URIUtils::IsPVRChannel(file))
     return std::shared_ptr<CInputStreamPVRChannel>(new CInputStreamPVRChannel(pPlayer, fileitem));
   else if (URIUtils::IsPVRRecording(file))
     return std::shared_ptr<CInputStreamPVRRecording>(new CInputStreamPVRRecording(pPlayer, fileitem));
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 #ifdef HAVE_LIBBLURAY
   else if (fileitem.IsType(".bdmv") || fileitem.IsType(".mpls")
@@ -154,6 +156,7 @@ std::shared_ptr<CDVDInputStream> CDVDFactoryInputStream::CreateInputStream(IVide
   {
     if (finalFileitem.ContentLookup())
     {
+      #if HAVE_LIB_CURL
       NlcUrl origUrl(finalFileitem.GetDynURL());
       XFILE::CCurlFile curlFile;
       // try opening the url to resolve all redirects if any
@@ -177,6 +180,7 @@ std::shared_ptr<CDVDInputStream> CDVDFactoryInputStream::CreateInputStream(IVide
           delete pRedirectEx;
         }
       }
+      #endif // HAVE_LIB_CURL
     }
 
     if (finalFileitem.IsType(".m3u8"))

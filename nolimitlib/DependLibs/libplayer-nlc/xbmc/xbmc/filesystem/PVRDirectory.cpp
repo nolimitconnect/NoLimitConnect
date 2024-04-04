@@ -7,6 +7,7 @@
  */
 
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "PVRDirectory.h"
@@ -59,3 +60,4 @@ bool CPVRDirectory::HasDeletedRadioRecordings()
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

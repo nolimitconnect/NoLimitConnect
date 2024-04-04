@@ -7,6 +7,7 @@
  */
 
 #include "GUIViewStateAddonBrowser.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "filesystem/File.h"
@@ -62,3 +63,5 @@ std::string CGUIViewStateAddonBrowser::GetExtensions()
 {
   return "";
 }
+
+#endif // HAVE_ADDONS

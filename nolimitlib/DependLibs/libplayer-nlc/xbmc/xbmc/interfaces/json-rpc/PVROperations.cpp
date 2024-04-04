@@ -7,6 +7,7 @@
  */
 
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "PVROperations.h"
@@ -546,3 +547,4 @@ std::shared_ptr<CFileItem> CPVROperations::GetRecordingFileItem(int recordingId)
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

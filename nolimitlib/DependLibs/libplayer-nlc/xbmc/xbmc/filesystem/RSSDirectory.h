@@ -9,6 +9,8 @@
 #pragma once
 
 #include "IFileDirectory.h"
+#if HAVE_LIB_CURL
+
 #include "FileItem.h"
 
 namespace XFILE
@@ -30,3 +32,4 @@ namespace XFILE
   };
 }
 
+#endif // HAVE_LIB_CURL

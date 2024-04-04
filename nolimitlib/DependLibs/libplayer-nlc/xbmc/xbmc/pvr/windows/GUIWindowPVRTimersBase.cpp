@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRTimersBase.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -202,3 +203,5 @@ bool CGUIWindowPVRTimersBase::ActionShowTimer(const CFileItem& item)
 
   return bReturn;
 }
+
+#endif // HAVE_ADDONS

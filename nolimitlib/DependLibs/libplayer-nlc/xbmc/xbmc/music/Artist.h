@@ -66,7 +66,9 @@ public:
     strDied.clear();
     strDisbanded.clear();
     yearsActive.clear();
+#if HAVE_LIB_CURL
     thumbURL.Clear();
+#endif // HAVE_LIB_CURL
     art.clear();
     discography.clear();
     idArtist = -1;
@@ -109,7 +111,9 @@ public:
   std::string strDisbanded;
   std::vector<std::string> yearsActive;
   std::string strPath;
+#if HAVE_LIB_CURL
   CScraperUrl thumbURL; // Data for available remote art
+#endif // HAVE_LIB_CURL
   std::map<std::string, std::string> art;  // Current artwork - thumb, fanart etc.
   std::vector<CDiscoAlbum> discography;
   CDateTime dateAdded; // From related file creation or modification times, or when (re-)scanned

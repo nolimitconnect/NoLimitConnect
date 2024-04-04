@@ -7,6 +7,7 @@
  */
 
 #include "PVRTimers.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRDatabase.h"
@@ -1339,3 +1340,5 @@ void CPVRTimers::NotifyTimersEvent(bool bAddedOrDeleted /* = true */)
   CServiceBroker::GetPVRManager().PublishEvent(bAddedOrDeleted ? PVREvent::TimersInvalidated
                                                                : PVREvent::Timers);
 }
+
+#endif // HAVE_ADDONS

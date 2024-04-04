@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+
 #include "XBDateTime.h"
 #include "utils/ScraperUrl.h"
 
@@ -29,7 +31,9 @@ namespace VIDEO
     std::string strPath;
     std::string strTitle;
     CDateTime   cDate;
+#if HAVE_LIB_CURL
     CScraperUrl cScraperUrl;
+#endif // HAVE_LIB_CURL
     std::shared_ptr<CFileItem> item;
     EPISODE(int Season = -1, int Episode = -1, int Subepisode = 0, bool Folder = false)
     {

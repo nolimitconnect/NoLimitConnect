@@ -42,7 +42,9 @@
 
 CBuiltins::CBuiltins()
 {
+#if HAVE_ADDONS
   RegisterCommands<CAddonBuiltins>();
+#endif // HAVE_ADDONS
   RegisterCommands<CApplicationBuiltins>();
   RegisterCommands<CGUIBuiltins>();
   RegisterCommands<CGUIContainerBuiltins>();
@@ -52,12 +54,17 @@ CBuiltins::CBuiltins()
   RegisterCommands<CPictureBuiltins>();
   RegisterCommands<CPlayerBuiltins>();
   RegisterCommands<CProfileBuiltins>();
-#if ENABLE_PVR
+
+#if ENABLE_PVR && HAVE_ADDONS
   RegisterCommands<CPVRBuiltins>();
 #endif // ENABLE_PVR
+#if HAVE_ADDONS
   RegisterCommands<CSkinBuiltins>();
+#endif // HAVE_ADDONS
   RegisterCommands<CSystemBuiltins>();
+#if HAVE_WEATHER
   RegisterCommands<CWeatherBuiltins>();
+#endif // HAVE_WEATHER
 
 #if defined(HAVE_LIBCEC)
   RegisterCommands<CCECBuiltins>();

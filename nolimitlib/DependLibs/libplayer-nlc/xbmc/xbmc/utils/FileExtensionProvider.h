@@ -8,24 +8,32 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
 
+#if HAVE_ADDONS
 namespace ADDON
 {
 enum class AddonType;
 class CAddonMgr;
 struct AddonEvent;
 }
+#endif // HAVE_ADDONS
 
 class CAdvancedSettings;
 
 class CFileExtensionProvider
 {
 public:
+#if HAVE_ADDONS
   CFileExtensionProvider(ADDON::CAddonMgr& addonManager);
+#else
+  CFileExtensionProvider();
+#endif // HAVE_ADDONS
   ~CFileExtensionProvider();
 
   /*!
@@ -71,6 +79,7 @@ public:
   bool CanOperateExtension(const std::string& path) const;
 
 private:
+#if HAVE_ADDONS
   std::string GetAddonExtensions(ADDON::AddonType type) const;
   std::string GetAddonFileFolderExtensions(ADDON::AddonType type) const;
   void SetAddonExtensions();
@@ -78,14 +87,18 @@ private:
 
   void OnAddonEvent(const ADDON::AddonEvent& event);
 
-  // Construction properties
-  std::shared_ptr<CAdvancedSettings> m_advancedSettings;
   ADDON::CAddonMgr &m_addonManager;
 
   // File extension properties
   std::map<ADDON::AddonType, std::string> m_addonExtensions;
   std::map<ADDON::AddonType, std::string> m_addonFileFolderExtensions;
+#endif // HAVE_ADDONS
+
+    // Construction properties
+  std::shared_ptr<CAdvancedSettings> m_advancedSettings;
 
   // Protocols from add-ons with encoded host names
   std::vector<std::string> m_encoded;
 };
+
+

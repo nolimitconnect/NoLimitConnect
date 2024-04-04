@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRTimerSettings.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dialogs/GUIDialogNumeric.h"
@@ -1511,3 +1512,5 @@ bool CGUIDialogPVRTimerSettings::EndAnytimeSetCondition(const std::string& condi
   }
   return false;
 }
+
+#endif // HAVE_ADDONS

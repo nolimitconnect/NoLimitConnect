@@ -68,7 +68,7 @@ bool CVideoLibraryRefreshingJob::Work(CVideoDatabase &db)
 {
   if (m_item == nullptr)
     return false;
-
+#if HAVE_LIB_CURL
   // determine the scraper for the item's path
   VIDEO::SScanSettings scanSettings;
   ADDON::ScraperPtr scraper = db.GetScraperForPath(m_item->GetPath(), scanSettings);
@@ -379,4 +379,7 @@ bool CVideoLibraryRefreshingJob::Work(CVideoDatabase &db)
     HELPERS::ShowOKDialogText(CVariant{195}, CVariant{itemTitle});
 
   return true;
+#else
+  return false;
+#endif // HAVE_LIB_CURL
 }

@@ -225,8 +225,9 @@ void CGUIDialogAudioSettings::InitializeSettings()
     CLog::Log(LOGERROR, "CGUIDialogAudioSettings: unable to setup settings");
     return;
   }
-
+#if HAVE_ADDONS
   bool usePopup = g_SkinInfo->HasSkinFile("DialogSlider.xml");
+#endif // HAVE_ADDONS
 
   const auto& components = CServiceBroker::GetAppComponents();
   const auto appPlayer = components.GetComponent<CApplicationPlayer>();
@@ -274,6 +275,7 @@ void CGUIDialogAudioSettings::InitializeSettings()
   }
 
   // audio delay setting
+  #if HAVE_ADDONS
   if (SupportsAudioFeature(IPC_AUD_OFFSET))
   {
     std::shared_ptr<CSettingNumber> settingAudioDelay = AddSlider(
@@ -284,6 +286,7 @@ void CGUIDialogAudioSettings::InitializeSettings()
         usePopup);
     std::static_pointer_cast<CSettingControlSlider>(settingAudioDelay->GetControl())->SetFormatter(SettingFormatterDelay);
   }
+  #endif // HAVE_ADDONS
   
   // audio stream setting
   if (SupportsAudioFeature(IPC_AUD_SELECT_STREAM))

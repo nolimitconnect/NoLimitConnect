@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/dialogs/GUIDialogPVRItemsViewBase.h"
 
 #include <memory>
@@ -32,3 +35,5 @@ namespace PVR
     std::shared_ptr<CPVRChannel> m_channel;
   };
 }
+
+#endif // HAVE_ADDONS

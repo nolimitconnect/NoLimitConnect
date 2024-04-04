@@ -14,7 +14,7 @@
  //
  //////////////////////////////////////////////////////////////////////
 
-#include "config_kodi.h"
+#include "config_components_kodi.h"
 #include "NlcUrl.h"
 
 #include "IFileTypes.h"

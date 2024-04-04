@@ -611,9 +611,12 @@ protected:
   mutable CCriticalSection m_StateSection;
   XbmcThreads::EndTime<> m_syncTimer;
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
   CEdl m_Edl;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
+
   bool m_SkipCommercials;
 
   bool m_HasVideo;

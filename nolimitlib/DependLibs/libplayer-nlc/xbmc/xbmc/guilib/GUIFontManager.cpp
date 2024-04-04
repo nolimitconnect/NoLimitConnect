@@ -179,6 +179,7 @@ CGUIFont* GUIFontManager::LoadTTF(const std::string& strFontName,
   if (!CheckFont(strPath, "special://home/media/Fonts", file) &&
       !CheckFont(strPath, "special://xbmc/media/Fonts", file))
   {
+#if HAVE_ADDONS
     VECADDONS addons;
     CServiceBroker::GetAddonMgr().GetAddons(addons, AddonType::RESOURCE_FONT);
     for (auto& it : addons)
@@ -187,6 +188,7 @@ CGUIFont* GUIFontManager::LoadTTF(const std::string& strFontName,
       if (font->GetFont(file, strPath))
         break;
     }
+#endif // HAVE_ADDONS
   }
 
   // check if we already have this font file loaded (font object could differ only by color or style)
@@ -426,7 +428,9 @@ bool GUIFontManager::LoadFontsFromFile(const std::string& fontsetFilePath,
   if (LoadXMLData(fontsetFilePath, xmlDoc))
   {
     TiXmlElement* rootElement = xmlDoc.RootElement();
+#if HAVE_ADDONS
     g_SkinInfo->ResolveIncludes(rootElement);
+#endif // HAVE_ADDONS
     const TiXmlElement* fontsetElement = rootElement->FirstChildElement("fontset");
     while (fontsetElement)
     {
@@ -455,10 +459,12 @@ bool GUIFontManager::LoadFontsFromFile(const std::string& fontsetFilePath,
 void GUIFontManager::LoadFonts(const std::string& fontSet)
 {
   std::string firstFontset;
+#if HAVE_ADDONS
   // Try to load the fontset from Font.xml
   const std::string fontsetFilePath = g_SkinInfo->GetSkinPath("Font.xml", &m_skinResolution);
   if (LoadFontsFromFile(fontsetFilePath, fontSet, firstFontset))
     return;
+#endif // HAVE_ADDONS
 
   // If we got here, then the requested fontset was not found in the skin's Font.xml file
   // Look at additional fontsets that are defined in .xml files in the skin's fonts directory
@@ -478,9 +484,11 @@ void GUIFontManager::LoadFonts(const std::string& fontSet)
                fontSet.c_str(), firstFontset.c_str());
     LoadFonts(firstFontset);
   }
+#if HAVE_ADDONS
   else
     CLog::LogF(LOGERROR, "No valid <fontset> found in '%s' or in xml files in fonts directory",
                fontsetFilePath.c_str());
+#endif // HAVE_ADDONS
 }
 
 void GUIFontManager::LoadFonts(const TiXmlNode* fontNode)

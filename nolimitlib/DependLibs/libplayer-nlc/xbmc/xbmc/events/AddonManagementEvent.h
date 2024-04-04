@@ -9,6 +9,7 @@
 #pragma once
 
 #include "events/AddonEvent.h"
+ #if HAVE_ADDONS
 
 class CAddonManagementEvent : public CAddonEvent
 {
@@ -41,3 +42,5 @@ public:
   bool CanExecute() const override { return m_addon != NULL; }
   bool Execute() const override;
 };
+
+ #endif // HAVE_ADDONS

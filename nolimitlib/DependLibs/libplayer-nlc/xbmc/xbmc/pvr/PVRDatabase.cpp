@@ -7,6 +7,7 @@
  */
 
 #include "PVRDatabase.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dbwrappers/dataset.h"
@@ -1225,3 +1226,5 @@ bool CPVRDatabase::DeleteTimers()
   std::unique_lock<CCriticalSection> lock(m_critSection);
   return DeleteValues("timers");
 }
+
+#endif // HAVE_ADDONS

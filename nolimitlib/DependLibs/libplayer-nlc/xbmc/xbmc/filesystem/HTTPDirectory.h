@@ -9,6 +9,7 @@
 #pragma once
 
 #include "IDirectory.h"
+#if HAVE_LIB_CURL
 
 namespace XFILE
 {
@@ -23,3 +24,5 @@ namespace XFILE
     private:
   };
 }
+
+#endif // HAVE_LIB_CURL

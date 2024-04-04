@@ -42,7 +42,9 @@ CVideoLibraryQueue& CVideoLibraryQueue::GetInstance()
 
 void CVideoLibraryQueue::ScanLibrary(const std::string& directory, bool scanAll /* = false */ , bool showProgress /* = true */)
 {
+#if HAVE_ADDONS
   AddJob(new CVideoLibraryScanningJob(directory, scanAll, showProgress));
+#endif // HAVE_ADDONS
 }
 
 bool CVideoLibraryQueue::IsScanningLibrary() const

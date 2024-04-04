@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Resource.h"
 #include "utils/Locale.h"
 
@@ -57,3 +60,5 @@ private:
 };
 
 }
+
+#endif // HAVE_ADDONS

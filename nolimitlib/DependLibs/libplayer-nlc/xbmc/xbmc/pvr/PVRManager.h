@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_general.h"
 #include "interfaces/IAnnouncer.h"
 #include "pvr/PVRComponentRegistration.h"
@@ -464,3 +467,5 @@ private:
   CPVRSettings m_settings;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

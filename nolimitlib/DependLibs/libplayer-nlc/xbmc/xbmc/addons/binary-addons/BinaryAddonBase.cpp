@@ -7,6 +7,7 @@
  */
 
 #include "BinaryAddonBase.h"
+#if HAVE_ADDONS
 
 #include "addons/addoninfo/AddonInfo.h"
 #include "addons/binary-addons/AddonDll.h"
@@ -106,3 +107,5 @@ void CBinaryAddonBase::OnPostUnInstall()
   for (const auto& instance : activeAddonHandlers)
     instance->OnPostUnInstall();
 }
+
+#endif // HAVE_ADDONS

@@ -301,9 +301,11 @@ bool CSystemGUIInfo::GetLabel(std::string& value, const CFileItem *item, int con
       value = thumb.empty() ? "DefaultUser.png" : thumb;
       return true;
     }
+#if HAVE_ADDONS
     case SYSTEM_LANGUAGE:
       value = g_langInfo.GetEnglishLanguageName();
       return true;
+#endif // HAVE_ADDONS
     case SYSTEM_TEMPERATURE_UNITS:
       value = g_langInfo.GetTemperatureUnitString();
       return true;
@@ -330,9 +332,11 @@ bool CSystemGUIInfo::GetLabel(std::string& value, const CFileItem *item, int con
     case SYSTEM_RENDER_VERSION:
       value = CServiceBroker::GetRenderSystem()->GetRenderVersionString();
       return true;
+#if HAVE_ADDONS
     case SYSTEM_ADDON_UPDATE_COUNT:
       value = CServiceBroker::GetAddonMgr().GetLastAvailableUpdatesCountAsString();
       return true;
+#endif // HAVE_ADDONS
 #if defined(TARGET_LINUX)
     case SYSTEM_PLATFORM_WINDOWING:
       value = CServiceBroker::GetWinSystem()->GetName();
@@ -615,12 +619,14 @@ bool CSystemGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int context
     case SYSTEM_HASLOCKS:
       value = CServiceBroker::GetSettingsComponent()->GetProfileManager()->GetMasterProfile().getLockMode() != LOCK_MODE_EVERYONE;
       return true;
+#if HAVE_ADDONS
     case SYSTEM_HAS_PVR:
       value = true;
       return true;
     case SYSTEM_HAS_PVR_ADDON:
       value = CServiceBroker::GetAddonMgr().HasAddons(ADDON::AddonType::PVRDLL);
       return true;
+#endif // HAVE_ADDONS
     case SYSTEM_HAS_CMS:
 #if defined(HAS_GL) || defined(HAS_DX)
       value = true;

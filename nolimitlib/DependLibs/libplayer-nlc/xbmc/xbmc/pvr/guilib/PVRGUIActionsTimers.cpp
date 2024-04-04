@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsTimers.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -1007,3 +1008,5 @@ void CPVRGUIActionsTimers::AnnounceReminders() const
   }
   m_bReminderAnnouncementRunning = false;
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "ModuleXbmcgui.h"
+#if HAVE_ADDONS
 
 #include "LanguageHook.h"
 #include "ServiceBroker.h"
@@ -56,3 +57,5 @@ namespace XBMCAddon
 
   }
 }
+
+#endif // HAVE_ADDONS

@@ -228,8 +228,12 @@ using namespace MEDIA_DETECT;
 using namespace VIDEO;
 using namespace MUSIC_INFO;
 using namespace EVENTSERVER;
+#if ENABLE_JSON
 using namespace JSONRPC;
+#endif // ENABLE_JSON
+#if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
+#endif // ENABLE_PVR && HAVE_ADDONS
 #if ENABLE_PERIPHERALS
 using namespace PERIPHERALS;
 #endif // ENABLE_PERIPHERALS
@@ -643,6 +647,7 @@ bool CApplication::CreateGUI()
         return false;
     }
 
+    #if ENABLE_POWER_HANDLING
     // Set default screen saver mode
     auto screensaverModeSetting = std::static_pointer_cast<CSettingString>(settings->GetSetting( CSettings::SETTING_SCREENSAVER_MODE ));
     // Can only set this after windowing has been initialized since it depends on it
@@ -656,6 +661,7 @@ bool CApplication::CreateGUI()
         // If OS has no screen saver, use Kodi one by default
         screensaverModeSetting->SetDefault( "screensaver.xbmc.builtin.dim" );
     }
+    #endif // ENABLE_POWER_HANDLING
 
     if( sav_res )
         CDisplaySettings::GetInstance().SetCurrentResolution( RES_DESKTOP, true );
@@ -797,6 +803,7 @@ bool CApplication::Initialize()
         std::vector<AddonInfoPtr> incompatibleAddons;
         event.Reset();
 
+#if HAVE_ADDONS
         // Addon migration
         if( CServiceBroker::GetAddonMgr().GetIncompatibleEnabledAddonInfos( incompatibleAddons ) )
         {
@@ -831,9 +838,12 @@ bool CApplication::Initialize()
                     CServiceBroker::GetAddonMgr().DisableIncompatibleAddons( incompatibleAddons );
             }
         }
+#endif // HAVE_ADDONS
 
         // Start splashscreen and load skin
         CServiceBroker::GetRenderSystem()->ShowSplash( "" );
+
+#if HAVE_ADDONS
         skinHandling->m_confirmSkinChange = true;
 
         auto setting = settings->GetSetting( CSettings::SETTING_LOOKANDFEEL_SKIN );
@@ -842,9 +852,11 @@ bool CApplication::Initialize()
             CLog::Log( LOGFATAL, "Failed to load setting for: %s", CSettings::SETTING_LOOKANDFEEL_SKIN );
             return false;
         }
+#endif // HAVE_ADDONS
 
         CServiceBroker::RegisterTextureCache( std::make_shared<CTextureCache>() );
 
+#if HAVE_ADDONS
         std::string skinId = settings->GetString( CSettings::SETTING_LOOKANDFEEL_SKIN );
         if( !skinHandling->LoadSkin( skinId ) )
         {
@@ -857,6 +869,7 @@ bool CApplication::Initialize()
                 return false;
             }
         }
+#endif // HAVE_ADDONS
 
         // initialize splash window after splash screen disappears
         // because we need a real window in the background which gets
@@ -877,6 +890,7 @@ bool CApplication::Initialize()
         }
         else
         {
+#if HAVE_ADDONS
             // activate the configured start window
             int firstWindow = g_SkinInfo->GetFirstWindow();
             CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow( firstWindow );
@@ -888,6 +902,9 @@ bool CApplication::Initialize()
 
             // the startup window is considered part of the initialization as it most likely switches to the final window
             uiInitializationFinished = firstWindow != WINDOW_STARTUP_ANIM;
+#else
+            uiInitializationFinished = true;
+#endif // HAVE_ADDONS
         }
     }
     else //No GUI Created
@@ -930,9 +947,13 @@ bool CApplication::Initialize()
     appListener->RegisterActionListener( &appPlayer->GetSeekHandler() );
     appListener->RegisterActionListener( &CPlayerController::GetInstance() );
 
+#if HAVE_LIB_CURL
     CServiceBroker::GetRepositoryUpdater().Start();
+#endif // HAVE_LIB_CURL
+#if HAVE_ADDONS
     if( !profileManager->UsingLoginScreen() )
         CServiceBroker::GetServiceAddons().Start();
+#endif // HAVE_ADDONS
 
     CLog::Log( LOGINFO, "initialize done" );
 
@@ -1174,8 +1195,12 @@ bool CApplication::OnAction( const CAction& action )
     // built in functions : execute the built-in
     if( action.GetID() == ACTION_BUILT_IN_FUNCTION )
     {
-        if( !CBuiltins::GetInstance().IsSystemPowerdownCommand( action.GetName() ) ||
-            CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
+        if( !CBuiltins::GetInstance().IsSystemPowerdownCommand( action.GetName() )
+#if HAVE_ADDONS
+            || CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
+#else
+            )
+#endif // HAVE_ADDONS
         {
             CBuiltins::GetInstance().Execute( action.GetName() );
             GetComponent<CApplicationPowerHandling>()->ResetNavigationTimer();
@@ -1290,19 +1315,27 @@ bool CApplication::OnAction( const CAction& action )
             return true;
     }
 
+#if HAVE_ADDONS
     // Now check with the player if action can be handled.
     bool bIsPlayingPVRChannel = (CServiceBroker::GetPVRManager().IsStarted() &&
                                   CurrentFileItem().IsPVRChannel());
+#endif // HAVE_ADDONS
 
     bool bNotifyPlayer = false;
     if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_FULLSCREEN_VIDEO )
         bNotifyPlayer = true;
     else if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_FULLSCREEN_GAME )
         bNotifyPlayer = true;
+#if HAVE_ADDONS
     else if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_VISUALISATION && bIsPlayingPVRChannel )
         bNotifyPlayer = true;
-    else if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_DIALOG_VIDEO_OSD ||
-             (CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_DIALOG_MUSIC_OSD && bIsPlayingPVRChannel) )
+#endif // HAVE_ADDONS
+    else if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_DIALOG_VIDEO_OSD 
+#if HAVE_ADDONS
+             || (CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_DIALOG_MUSIC_OSD && bIsPlayingPVRChannel) )
+#else
+        )
+#endif // HAVE_ADDONS
     {
         switch( action.GetID() )
         {
@@ -1568,9 +1601,11 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     uint32_t msg = pMsg->dwMessage;
     if( msg == TMSG_SYSTEM_POWERDOWN )
     {
+#if HAVE_ADDONS
         if( CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
             msg = pMsg->param1; // perform requested shutdown action
         else
+#endif // HAVE_ADDONS
             return; // no shutdown
     }
 
@@ -1734,7 +1769,9 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
         break;
 
     case TMSG_EXECUTE_SCRIPT:
+#if HAVE_ADDONS
         CScriptInvocationManager::GetInstance().ExecuteAsync( pMsg->strParam );
+#endif // HAVE_ADDONS
         break;
 
     case TMSG_EXECUTE_BUILT_IN:
@@ -2202,9 +2239,11 @@ bool CApplication::Stop( int exitCode )
         // kodi may crash or deadlock during exit (shutdown / reboot) due to
         // either a bug in core or misbehaving addons. so try saving
         // skin settings early
+#if HAVE_ADDONS
         CLog::Log( LOGINFO, "Saving skin settings" );
         if( g_SkinInfo != nullptr )
             g_SkinInfo->SaveSettings();
+#endif // HAVE_ADDONS
 
         m_bStop = true;
         // Add this here to keep the same ordering behaviour for now
@@ -2217,9 +2256,11 @@ bool CApplication::Stop( int exitCode )
         // cancel any jobs from the jobmanager
         CServiceBroker::GetJobManager()->CancelJobs();
 
+#if HAVE_ADDONS
         // stop scanning before we kill the network and so on
         if( CMusicLibraryQueue::GetInstance().IsRunning() )
             CMusicLibraryQueue::GetInstance().CancelAllJobs();
+#endif // HAVE_ADDONS
 
         if( CVideoLibraryQueue::GetInstance().IsRunning() )
             CVideoLibraryQueue::GetInstance().CancelAllJobs();
@@ -2236,10 +2277,10 @@ bool CApplication::Stop( int exitCode )
             CZeroconfBrowser::ReleaseInstance();
         }
 #endif
-
+#if HAVE_ADDONS
         for( const auto& vfsAddon : CServiceBroker::GetVFSAddonCache().GetAddonInstances() )
             vfsAddon->DisconnectAll();
-
+#endif // HAVE_ADDONS
 #if defined(TARGET_POSIX) && defined(HAS_FILESYSTEM_SMB)
         smb.Deinit();
 #endif
@@ -2248,9 +2289,10 @@ bool CApplication::Stop( int exitCode )
         if( XBMCHelper::GetInstance().IsAlwaysOn() == false )
             XBMCHelper::GetInstance().Stop();
 #endif
-
+#if HAVE_ADDONS
         // Stop services before unloading Python
         CServiceBroker::GetServiceAddons().Stop();
+#endif // HAVE_ADDONS
 
         // Stop any other python scripts that may be looping waiting for monitor.abortRequested()
         CScriptInvocationManager::GetInstance().StopRunningScripts();
@@ -2380,6 +2422,7 @@ bool CApplication::PlayMedia( CFileItem& item, const std::string& player, PLAYLI
             }
         }
     }
+#if HAVE_ADDONS
     else if( item.IsPVR() )
     {
         return CServiceBroker::GetPVRManager().Get<PVR::GUI::Playback>().PlayMedia( item );
@@ -2396,6 +2439,7 @@ bool CApplication::PlayMedia( CFileItem& item, const std::string& player, PLAYLI
             return PlayFile( addonItem, player, false );
         }
     }
+#endif // HAVE_ADDONS
 
     //nothing special just play
     return PlayFile( item, player, false );
@@ -2650,9 +2694,10 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
     if( gui )
         gui->GetAudioManager().Enable( false );
 #endif
-
+#if HAVE_ADDONS
     if( item.HasPVRChannelInfoTag() )
         CServiceBroker::GetPlaylistPlayer().SetCurrentPlaylist( PLAYLIST::TYPE_NONE );
+#endif // HAVE_ADDONS
 
     onPlayFile();
     return true;
@@ -2795,11 +2840,13 @@ bool CApplication::OnMessage( CGUIMessage& message )
             {
                 // filter addons that are not dependencies
                 std::vector<std::string> disabledAddonNames;
+#if HAVE_ADDONS
                 for( const auto& addoninfo : m_incompatibleAddons )
                 {
                     if( !CAddonType::IsDependencyType( addoninfo->MainType() ) )
                         disabledAddonNames.emplace_back( addoninfo->Name() );
                 }
+#endif // HAVE_ADDONS
 
                 // migration (incompatible addons) dialog
                 auto addonList = StringUtils::Join( disabledAddonNames, ", " );
@@ -3053,9 +3100,13 @@ bool CApplication::ExecuteXBMCAction( std::string actionStr, const CGUIListItemP
     // user has asked for something to be executed
     if( CBuiltins::GetInstance().HasCommand( actionStr ) )
     {
-        if( !CBuiltins::GetInstance().IsSystemPowerdownCommand( actionStr ) ||
-            CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
-            CBuiltins::GetInstance().Execute( actionStr );
+        if( !CBuiltins::GetInstance().IsSystemPowerdownCommand( actionStr )
+#if HAVE_ADDONS
+            || CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
+#else
+            )
+#endif HAVE_ADDONS
+        CBuiltins::GetInstance().Execute( actionStr );
     }
     else
     {
@@ -3111,6 +3162,7 @@ void CApplication::ShowAppMigrationMessage()
 
 void CApplication::ConfigureAndEnableAddons()
 {
+#if HAVE_ADDONS
     std::vector<std::shared_ptr<IAddon>>
         disabledAddons; /*!< Installed addons, but not auto-enabled via manifest */
 
@@ -3172,6 +3224,7 @@ void CApplication::ConfigureAndEnableAddons()
             }
         }
     }
+#endif // HAVE_ADDONS
 }
 
 void CApplication::Process()
@@ -3274,9 +3327,10 @@ void CApplication::ProcessSlow()
     // Pass the slow loop to droid
 //    CXBMCApp::Get().ProcessSlow();
 #endif
-
+#if HAVE_LIB_CURL
     // check for any idle curl connections
     g_curlInterface.CheckIdle();
+#endif // HAVE_LIB_CURL
 
     CServiceBroker::GetGUI()->GetLargeTextureManager().CleanupUnusedImages();
 
@@ -3301,9 +3355,10 @@ void CApplication::ProcessSlow()
 #ifdef HAS_FILESYSTEM_NFS
     gNfsConnection.CheckIfIdle();
 #endif
-
+#if HAVE_ADDONS
     for( const auto& vfsAddon : CServiceBroker::GetVFSAddonCache().GetAddonInstances() )
         vfsAddon->ClearOutIdle();
+#endif // HAVE_ADDONS
 
     CServiceBroker::GetMediaManager().ProcessEvents();
 
@@ -3551,6 +3606,7 @@ std::string CApplication::GetCurrentPlayer()
 
 void CApplication::UpdateLibraries()
 {
+#if HAVE_ADDONS
     const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
     if( settings->GetBool( CSettings::SETTING_VIDEOLIBRARY_UPDATEONSTARTUP ) )
     {
@@ -3566,6 +3622,7 @@ void CApplication::UpdateLibraries()
             "", MUSIC_INFO::CMusicInfoScanner::SCAN_NORMAL,
             !settings->GetBool( CSettings::SETTING_MUSICLIBRARY_BACKGROUNDUPDATE ) );
     }
+#endif // HAVE_ADDONS
 }
 
 void CApplication::UpdateCurrentPlayArt()
@@ -3636,12 +3693,16 @@ bool CApplication::SetLanguage( const std::string& strLanguage )
 bool CApplication::LoadLanguage( bool reload )
 {
     // load the configured language
+#if HAVE_ADDONS
     if( !g_langInfo.SetLanguage( "", reload ) )
         return false;
+#endif // HAVE_ADDONS
 
     // set the proper audio and subtitle languages
     const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
+#if HAVE_ADDONS
     g_langInfo.SetAudioLanguage( settings->GetString( CSettings::SETTING_LOCALE_AUDIOLANGUAGE ) );
+#endif // HAVE_ADDONS
     g_langInfo.SetSubtitleLanguage( settings->GetString( CSettings::SETTING_LOCALE_SUBTITLELANGUAGE ) );
 
     return true;
@@ -3755,9 +3816,10 @@ void CApplication::CloseNetworkShares()
 #ifdef HAS_FILESYSTEM_NFS
     gNfsConnection.Deinit();
 #endif
-
+#if HAVE_ADDONS
     for( const auto& vfsAddon : CServiceBroker::GetVFSAddonCache().GetAddonInstances() )
         vfsAddon->DisconnectAll();
+#endif // HAVE_ADDONS
 }
 
 bool CApplication::SwitchToFullScreen( bool fullScreen )

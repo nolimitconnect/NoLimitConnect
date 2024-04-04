@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/Addon.h"
+#if HAVE_ADDONS
 
 #include <memory>
 #include <vector>
@@ -34,3 +35,5 @@ private:
   std::vector<CContextMenuItem> m_items;
 };
 }
+
+#endif // HAVE_ADDONS

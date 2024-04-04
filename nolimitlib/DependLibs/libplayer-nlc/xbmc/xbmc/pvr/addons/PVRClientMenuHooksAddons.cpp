@@ -7,6 +7,7 @@
  */
 
 #include "PVRClientMenuHooks.h"
+#if HAVE_ADDONS
 
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_menu_hook.h"
 #include "guilib/LocalizeStrings.h"
@@ -183,3 +184,5 @@ std::vector<CPVRClientMenuHook> CPVRClientMenuHooks::GetSettingsHooks() const
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

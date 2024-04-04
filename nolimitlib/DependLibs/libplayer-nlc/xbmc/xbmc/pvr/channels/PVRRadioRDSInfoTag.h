@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 #include "utils/IArchivable.h"
 #include "utils/ISerializable.h"
@@ -206,3 +209,5 @@ private:
   bool m_bHaveRadioTextPlus;
 };
 }
+
+#endif // HAVE_ADDONS

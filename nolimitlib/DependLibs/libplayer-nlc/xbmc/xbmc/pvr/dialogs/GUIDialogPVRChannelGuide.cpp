@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRChannelGuide.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -74,3 +75,5 @@ void CGUIDialogPVRChannelGuide::OnDeinitWindow(int nextWindowID)
   CGUIDialogPVRItemsViewBase::OnDeinitWindow(nextWindowID);
   m_channel.reset();
 }
+
+#endif // HAVE_ADDONS

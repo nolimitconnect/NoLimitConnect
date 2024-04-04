@@ -7,6 +7,7 @@
  */
 
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "PVRBuiltins.h"
@@ -226,3 +227,4 @@ CBuiltins::CommandMap CPVRBuiltins::GetOperations() const
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

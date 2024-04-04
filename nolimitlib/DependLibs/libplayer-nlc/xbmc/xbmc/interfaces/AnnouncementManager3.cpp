@@ -177,6 +177,7 @@ void CAnnouncementManager::DoAnnounce(AnnouncementFlag flag,
   std::string type;
   int id = 0;
 
+#if HAVE_ADDONS
   if(item->HasPVRChannelInfoTag())
   {
     const std::shared_ptr<PVR::CPVRChannel> channel(item->GetPVRChannelInfoTag());
@@ -193,6 +194,9 @@ void CAnnouncementManager::DoAnnounce(AnnouncementFlag flag,
     }
   }
   else if (item->HasVideoInfoTag() && !item->HasPVRRecordingInfoTag())
+#else
+  if (item->HasVideoInfoTag())
+#endif // HAVE_ADDONS
   {
     id = item->GetVideoInfoTag()->m_iDbId;
 

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "IVideoInfoTagLoader.h"
 #include "addons/Scraper.h"
 
@@ -32,3 +35,5 @@ namespace VIDEO
     virtual ~CVideoInfoTagLoaderFactory() = delete;
   };
 }
+
+#endif // HAVE_ADDONS

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/windows/GUIWindowPVRBase.h"
 
 #include <memory>
@@ -34,3 +37,5 @@ private:
   std::shared_ptr<CFileItem> m_currentFileItem;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

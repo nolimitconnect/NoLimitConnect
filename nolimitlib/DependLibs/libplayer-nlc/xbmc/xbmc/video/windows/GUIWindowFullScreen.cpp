@@ -158,6 +158,7 @@ bool CGUIWindowFullScreen::OnAction(const CAction &action)
   case ACTION_SHOW_PLAYLIST:
     {
       CFileItem item(g_application.CurrentFileItem());
+#if HAVE_ADDONS
 #if ENABLE_PVR
       if (item.HasPVRChannelInfoTag())
         CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow(WINDOW_DIALOG_PVR_OSD_CHANNELS);
@@ -165,6 +166,10 @@ bool CGUIWindowFullScreen::OnAction(const CAction &action)
 #else
       if (item.HasVideoInfoTag())
 #endif // ENABLE_PVR
+#else
+      if (item.HasVideoInfoTag())
+#endif // HAVE_ADDONS
+
         CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow(WINDOW_VIDEO_PLAYLIST);
       else if (item.HasMusicInfoTag())
         CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow(WINDOW_MUSIC_PLAYLIST);

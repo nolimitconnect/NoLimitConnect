@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRGroupManager.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -698,3 +699,5 @@ void CGUIDialogPVRGroupManager::ClearSelectedGroupsThumbnail()
 {
   m_thumbLoader.ClearCachedImage(*m_channelGroups->Get(m_iSelectedChannelGroup));
 }
+
+#endif // HAVE_ADDONS

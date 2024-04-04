@@ -454,144 +454,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\filesystem\MusicDatabaseDirectory\DirectoryNodeTop100.cpp">
       <Filter>filesystem\MusicDatabaseDirectory</Filter>
     </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\GameServices.cpp">
-      <Filter>games</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\GameUtils.cpp">
-      <Filter>games</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClient.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientProperties.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientSubsystem.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientTranslator.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientDevice.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientHardware.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientInput.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientJoystick.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientKeyboard.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientMouse.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientPort.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientTopology.cpp">
-      <Filter>games\addons\input</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\Controller.cpp">
-      <Filter>games\controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerLayout.cpp">
-      <Filter>games\controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerManager.cpp">
-      <Filter>games\controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerTranslator.cpp">
-      <Filter>games\controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\dialogs\GUIDialogAxisDetection.cpp">
-      <Filter>games\controllers\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\dialogs\GUIDialogButtonCapture.cpp">
-      <Filter>games\controllers\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\dialogs\GUIDialogIgnoreInput.cpp">
-      <Filter>games\controllers\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUICardinalFeatureButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIControllerButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureControls.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureFactory.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureTranslator.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIGameController.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIScalarFeatureButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUISelectKeyButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIThrottleButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIWheelButton.cpp">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\types\ControllerGrid.cpp">
-      <Filter>games\controllers\types</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\types\ControllerTree.cpp">
-      <Filter>games\controllers\types</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIConfigurationWizard.cpp">
-      <Filter>games\controllers\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIControllerList.cpp">
-      <Filter>games\controllers\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIControllerWindow.cpp">
-      <Filter>games\controllers\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIFeatureList.cpp">
-      <Filter>games\controllers\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\GUIDialogSelectGameClient.cpp">
-      <Filter>games\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameOSD.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVideoFilter.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVideoSelect.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVolume.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\tags\GameInfoTag.cpp">
-      <Filter>games\tags</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\windows\GUIViewStateWindowGames.cpp">
-      <Filter>games\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\games\windows\GUIWindowGames.cpp">
-      <Filter>games\windows</Filter>
-    </ClCompile>
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\interfaces\builtins\AddonBuiltins.cpp">
       <Filter>interfaces\builtins</Filter>
     </ClCompile>
@@ -982,120 +844,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\profiles\windows\GUIWindowSettingsProfile.cpp">
       <Filter>profiles\windows</Filter>
     </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRManager.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRDatabase.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRContextMenus.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRItem.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRChannelNumberInputHandler.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannel.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroup.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupInternal.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroups.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupsContainer.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelNumber.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRRadioRDSInfoTag.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRChannelManager.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRChannelsOSD.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGroupManager.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGuideInfo.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRChannelGuide.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGuideSearch.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRRadioRDSInfo.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRRecordingInfo.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRRecordingSettings.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRTimerSettings.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRClientPriorities.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\recordings\PVRRecording.cpp">
-      <Filter>pvr\recordings</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\recordings\PVRRecordings.cpp">
-      <Filter>pvr\recordings</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\recordings\PVRRecordingsPath.cpp">
-      <Filter>pvr\recordings</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\timers\PVRTimerInfoTag.cpp">
-      <Filter>pvr\timers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\timers\PVRTimers.cpp">
-      <Filter>pvr\timers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\timers\PVRTimerType.cpp">
-      <Filter>pvr\timers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIViewStatePVR.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRBase.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRChannels.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRGuide.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRRecordings.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRSearch.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRTimers.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRTimersBase.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRTimerRules.cpp">
-      <Filter>pvr\windows</Filter>
-    </ClCompile>
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\cores\RetroPlayer\RetroPlayer.cpp">
       <Filter>cores\RetroPlayer</Filter>
     </ClCompile>
@@ -1269,90 +1017,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\XBApplicationEx.cpp" />
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\XBDateTime.cpp" />
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\Autorun.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonBuilder.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\BinaryAddonCache.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonDatabase.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonInstaller.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonManager.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonStatusHandler.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonSystemSettings.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonVersion.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ContextMenuAddon.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\FontResource.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\FilesystemInstaller.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\GameResource.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ImageDecoder.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ImageResource.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\LanguageResource.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\PluginSource.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Repository.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\RepositoryUpdater.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Scraper.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ScreenSaver.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Service.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Skin.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\UISoundsResource.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\VFSEntry.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Visualization.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Webinterface.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\settings\AddonSettings.cpp">
-      <Filter>addons\settings</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\addons\settings\SettingUrlEncodedString.cpp">
-      <Filter>addons\settings</Filter>
-    </ClCompile>
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\dbwrappers\Database.cpp">
       <Filter>dbwrappers</Filter>
     </ClCompile>
@@ -1923,15 +1587,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\view\ViewStateSettings.cpp">
       <Filter>view</Filter>
     </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\weather\GUIWindowWeather.cpp">
-      <Filter>weather</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\weather\WeatherJob.cpp">
-      <Filter>weather</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\weather\WeatherManager.cpp">
-      <Filter>weather</Filter>
-    </ClCompile>
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\windowing\OSScreenSaver.cpp">
       <Filter>windowing</Filter>
     </ClCompile>
@@ -2358,18 +2013,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\cores\VideoPlayer\Process\windows\ProcessInfoWin.cpp">
       <Filter>cores\VideoPlayer\Process\windows</Filter>
     </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\CDDARipJob.cpp">
-      <Filter>cdrip</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\Encoder.cpp">
-      <Filter>cdrip</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\EncoderFFmpeg.cpp">
-      <Filter>cdrip</Filter>
-    </ClCompile>
-    <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\CDDARipper.cpp">
-      <Filter>cdrip</Filter>
-    </ClCompile>
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\network\dacp\dacp.cpp">
       <Filter>network\dacp</Filter>
     </ClCompile>
@@ -2463,7 +2106,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\network\httprequesthandler\python\HTTPPythonWsgiInvoker.cpp">
       <Filter>network\httprequesthandler\python</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\Addon2.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\addons\AudioDecoder2.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\addons\DllLibCPluff.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Progress3.cpp" />
@@ -2525,10 +2167,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\guilib\guiinfo\SystemGUIInfo.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\guilib\guiinfo\VisualisationGUIInfo.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\guilib\guiinfo\WeatherGUIInfo.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\Addon3.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\AddonCallback3.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\AddonClass3.cpp" />
-    <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\AddonUtil3s.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\CallbackFunction3.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\CallbackHandler3.cpp" />
     <ClCompile Include="..\..\xbmc\xbmc\interfaces\legacy\Control3.cpp" />
@@ -2686,30 +2324,6 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\platform\qt\KodiQtApp.cpp">
       <Filter>platform\qt</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\ContextMenus2.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\addons\input\GameClientController.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\addons\GameClientInGameSaves.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreamAudio.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreams.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreamSwFramebuffer.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreamVideo.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\cores\RetroPlayer\playback\GameLoop.cpp">
-      <Filter>games\addons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\cores\RetroPlayer\savestates\SavestateDatabase.cpp">
       <Filter>cores\RetroPlayer\savestates</Filter>
@@ -2879,21 +2493,6 @@
     <ClCompile Include="$(ProjectDir)..\..\xbmc\xbmc\AppParamParser.cpp">
       <Filter>app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\addons\PVRClientCapabilities.cpp">
-      <Filter>pvr\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\addons\PVRClientUID.cpp">
-      <Filter>pvr\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGuideControls.cpp">
-      <Filter>pvr\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\addons\PVRClientAddons.cpp">
-      <Filter>pvr\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\addons\PVRClientMenuHooksAddons.cpp">
-      <Filter>pvr\addons</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\guilib\guiinfo\AddonsGUIInfo.cpp">
       <Filter>guilib\guiinfo</Filter>
     </ClCompile>
@@ -2902,21 +2501,6 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\settings\lib\ISettingControl.cpp">
       <Filter>settings\lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameAdvancedSettings.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameOSDHelp.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameStretchMode.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVideoRotation.cpp">
-      <Filter>games\dialogs\osd</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\games\GameSettings2.cpp">
-      <Filter>games</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\guilib\guiinfo\MusicGUIInfo.cpp">
       <Filter>guilib\guiinfo</Filter>
@@ -3035,126 +2619,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\ApplicationEvents.cpp">
       <Filter>app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\addoninfo\AddonExtensions.cpp">
-      <Filter>addons\addoninfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\addoninfo\AddonInfo.cpp">
-      <Filter>addons\addoninfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\addoninfo\AddonInfoBuilder.cpp">
-      <Filter>addons\addoninfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\addoninfo\AddonType.cpp">
-      <Filter>addons\addoninfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\GUIDialogAddonInfo.cpp">
-      <Filter>addons\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\GUIDialogAddonSettings.cpp">
-      <Filter>addons\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\GUIHelpers.cpp">
-      <Filter>addons\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\GUIViewStateAddonBrowser.cpp">
-      <Filter>addons\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\GUIWindowAddonBrowser.cpp">
-      <Filter>addons\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\skin\SkinTimer.cpp">
-      <Filter>addons\gui\skin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\gui\skin\SkinTimerManager.cpp">
-      <Filter>addons\gui\skin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\GUIEPGGridContainer.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\GUIEPGGridContainerModel.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionListener.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsChannels.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsClients.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsDatabase.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsEPG.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsParentalControl.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsPlayback.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsPowerManagement.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsRecordings.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsTimers.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsUtils.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIChannelIconUpdater.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIChannelNavigator.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIProgressHandler.cpp">
-      <Filter>pvr\guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\guiinfo\PVRGUIInfo.cpp">
-      <Filter>pvr\guilib\guiinfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\guiinfo\PVRGUITimerInfo.cpp">
-      <Filter>pvr\guilib\guiinfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\guilib\guiinfo\PVRGUITimesInfo.cpp">
-      <Filter>pvr\guilib\guiinfo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\ExtsMimeSupportList.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\Epg.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgChannelData.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgContainer.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgDatabase.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgInfoTag.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgSearchFilter.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgSearchPath.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgTagsCache.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\epg\EpgTagsContainer.cpp">
-      <Filter>pvr\epg</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\DirectoryNodeGroupedVideo.cpp">
       <Filter>filesystem\VideoDatabaseDirectory</Filter>
     </ClCompile>
@@ -3166,39 +2630,6 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\DirectoryNodeVideo.cpp">
       <Filter>filesystem\VideoDatabaseDirectory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVRCachedImage.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVRCachedImages.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVRComponentRegistration.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVREdl.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVREventLogJob.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVRPlaybackState.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVRStreamProperties.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\PVRThumbLoader.cpp">
-      <Filter>pvr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupMember.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupSettings.cpp">
-      <Filter>pvr\channels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\channels\PVRChannelsPath.cpp">
-      <Filter>pvr\channels</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\settings\SettingsValueFlatJsonSerializer.cpp">
       <Filter>settings</Filter>
@@ -3212,24 +2643,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\MusicDatabaseDirectory\DirectoryNodeMusic.cpp">
       <Filter>filesystem\MusicDatabaseDirectory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\AddonRepos.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\AddonUpdateRules.cpp">
-      <Filter>addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\binary-addons\AddonDll.cpp">
-      <Filter>addons\binary-addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\binary-addons\AddonInstanceHandler.cpp">
-      <Filter>addons\binary-addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\binary-addons\BinaryAddonBase.cpp">
-      <Filter>addons\binary-addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\binary-addons\BinaryAddonManager.cpp">
-      <Filter>addons\binary-addons</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\utils\ExecString.cpp">
       <Filter>utils</Filter>
     </ClCompile>
@@ -3239,26 +2652,8 @@
     <ClCompile Include="..\..\xbmc\xbmc\cores\playercorefactory\PlayerCoreConfig.cpp">
       <Filter>cores\playercorefactory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\settings\PVRSettings.cpp">
-      <Filter>pvr\settings</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\timers\PVRTimerRuleMatcher.cpp">
-      <Filter>pvr\timers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\timers\PVRTimersPath.cpp">
-      <Filter>pvr\timers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\addons\PVRClients.cpp">
-      <Filter>pvr\addons</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\music\jobs\MusicLibraryImportJob.cpp">
       <Filter>music\jobs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\providers\PVRProvider.cpp">
-      <Filter>pvr\providers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\providers\PVRProviders.cpp">
-      <Filter>pvr\providers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\video\VideoUtils.cpp">
       <Filter>video</Filter>
@@ -3275,12 +2670,6 @@
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\MusicDatabaseDirectory\DirectoryNodeRoot.cpp">
       <Filter>filesystem\MusicDatabaseDirectory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\pvr\filesystem\PVRGUIDirectory.cpp">
-      <Filter>pvr\filesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\AudioEngine.cpp">
-      <Filter>addons\interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\DirectoryNodeOverviewVideo.cpp">
       <Filter>filesystem\VideoDatabaseDirectory</Filter>
     </ClCompile>
@@ -3292,72 +2681,6 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\utils\PlayerUtils.cpp">
       <Filter>utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\General2.cpp">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\GUITranslator.cpp">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\ListItem2.cpp">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Button.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Edit.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\FadeLabel.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Image.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Label.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\RadioButton.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Rendering.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\SettingsSlider.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Slider.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Spin.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\TextBox.cpp">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\ContextMenu.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\ExtendedProgressBar.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\FileBrowser.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\Numeric.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\OK.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\Select.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\TextViewer.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\YesNo.cpp">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\imagefiles\SpecialImageLoaderFactory.cpp">
       <Filter>imagefiles</Filter>
@@ -3376,18 +2699,6 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\filesystem\PluginFile.cpp">
       <Filter>filesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\AddonBase.cpp">
-      <Filter>addons\interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\Filesystem.cpp">
-      <Filter>addons\interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\General.cpp">
-      <Filter>addons\interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\xbmc\addons\interfaces\Network2.cpp">
-      <Filter>addons\interfaces</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\xbmc\utils\ContentUtils.cpp">
       <Filter>utils</Filter>
@@ -3952,171 +3263,6 @@
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\filesystem\MusicDatabaseDirectory\DirectoryNodeTop100.h">
       <Filter>filesystem\MusicDatabaseDirectory</Filter>
     </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\GameServices.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\GameSettings.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\GameTypes.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\GameUtils.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClient.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientCallbacks.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientProperties.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientSubsystem.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\GameClientTranslator.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientDevice.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientHardware.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientInput.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientJoystick.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientKeyboard.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientMouse.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientPort.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\addons\input\GameClientTopology.h">
-      <Filter>games\addons\input</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\Controller.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerDefinitions.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerIDs.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerLayout.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerManager.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerTranslator.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\ControllerTypes.h">
-      <Filter>games\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\dialogs\GUIDialogAxisDetection.h">
-      <Filter>games\controllers\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\dialogs\GUIDialogButtonCapture.h">
-      <Filter>games\controllers\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\dialogs\GUIDialogIgnoreInput.h">
-      <Filter>games\controllers\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUICardinalFeatureButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIControllerButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIControlTypes.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureControls.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureFactory.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIFeatureTranslator.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIGameController.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIScalarFeatureButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUISelectKeyButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIThrottleButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\guicontrols\GUIWheelButton.h">
-      <Filter>games\controllers\guicontrols</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\types\ControllerGrid.h">
-      <Filter>games\controllers\types</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\types\ControllerTree.h">
-      <Filter>games\controllers\types</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIConfigurationWizard.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIControllerDefines.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIControllerList.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIControllerWindow.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\GUIFeatureList.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\controllers\windows\IConfigurationWindow.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\GUIDialogSelectGameClient.h">
-      <Filter>games\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameOSD.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVideoFilter.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVideoSelect.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVolume.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\tags\GameInfoTag.h">
-      <Filter>games\tags</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\windows\GUIViewStateWindowGames.h">
-      <Filter>games\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\games\windows\GUIWindowGames.h">
-      <Filter>games\windows</Filter>
-    </ClInclude>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\interfaces\AnnouncementManager.h">
       <Filter>interfaces</Filter>
     </ClInclude>
@@ -4558,123 +3704,6 @@
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\profiles\windows\GUIWindowSettingsProfile.h">
       <Filter>profiles\windows</Filter>
     </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRDatabase.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRManager.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRContextMenus.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRItem.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRChannelNumberInputHandler.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\PVRGUIProgressHandler.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannel.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroup.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupInternal.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroups.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupsContainer.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRChannelNumber.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\channels\PVRRadioRDSInfoTag.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRChannelManager.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRChannelsOSD.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGroupManager.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGuideInfo.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRChannelGuide.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGuideSearch.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRRadioRDSInfo.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRRecordingInfo.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRRecordingSettings.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRTimerSettings.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRClientPriorities.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\recordings\PVRRecording.h">
-      <Filter>pvr\recordings</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\recordings\PVRRecordings.h">
-      <Filter>pvr\recordings</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\recordings\PVRRecordingsPath.h">
-      <Filter>pvr\recordings</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\timers\PVRTimerInfoTag.h">
-      <Filter>pvr\timers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\timers\PVRTimers.h">
-      <Filter>pvr\timers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\timers\PVRTimerType.h">
-      <Filter>pvr\timers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIViewStatePVR.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRBase.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRChannels.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRGuide.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRRecordings.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRSearch.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRTimerRules.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRTimers.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\pvr\windows\GUIWindowPVRTimersBase.h">
-      <Filter>pvr\windows</Filter>
-    </ClInclude>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cores\RetroPlayer\RetroPlayer.h">
       <Filter>cores\RetroPlayer</Filter>
     </ClInclude>
@@ -4869,114 +3898,6 @@
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\XBDateTime.h" />
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\system_gl.h" />
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\Autorun.h" />
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Addon.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonBuilder.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonEvents.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\BinaryAddonCache.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonDatabase.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonInstaller.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonManager.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonProvider.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonStatusHandler.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonSystemSettings.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AddonVersion.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\AudioDecoder.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ContextMenuAddon.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ContextMenus.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\DllLibCPluff.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\FilesystemInstaller.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\FontResource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\GameResource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\IAddon.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ImageDecoder.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ImageResource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\LanguageResource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\PluginSource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Repository.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\RepositoryUpdater.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Resource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Scraper.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\ScreenSaver.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Service.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Skin.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\UISoundsResource.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\VFSEntry.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Visualization.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\Webinterface.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\settings\AddonSettings.h">
-      <Filter>addons\settings</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\addons\settings\SettingUrlEncodedString.h">
-      <Filter>addons\settings</Filter>
-    </ClInclude>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\dbwrappers\Database.h">
       <Filter>dbwrappers</Filter>
     </ClInclude>
@@ -5697,15 +4618,6 @@
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\view\ViewStateSettings.h">
       <Filter>view</Filter>
     </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\weather\GUIWindowWeather.h">
-      <Filter>weather</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\weather\WeatherJob.h">
-      <Filter>weather</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\weather\WeatherManager.h">
-      <Filter>weather</Filter>
-    </ClInclude>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\windowing\OSScreenSaver.h">
       <Filter>windowing</Filter>
     </ClInclude>
@@ -6225,21 +5137,6 @@
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cores\VideoPlayer\Process\windows\ProcessInfoWin.h">
       <Filter>cores\VideoPlayer\Process\windows</Filter>
     </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\CDDARipJob.h">
-      <Filter>cdrip</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\Encoder.h">
-      <Filter>cdrip</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\EncoderFFmpeg.h">
-      <Filter>cdrip</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\IEncoder.h">
-      <Filter>cdrip</Filter>
-    </ClInclude>
-    <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\cdrip\CDDARipper.h">
-      <Filter>cdrip</Filter>
-    </ClInclude>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\network\dacp\dacp.h">
       <Filter>network\dacp</Filter>
     </ClInclude>
@@ -6696,27 +5593,6 @@
     <ClInclude Include="..\..\xbmc\xbmc\platform\qt\KodiQtApp.h">
       <Filter>platform\qt</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\addons\input\GameClientController.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\addons\GameClientInGameSaves.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreamAudio.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreams.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreamSwFramebuffer.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\addons\streams\GameClientStreamVideo.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\cores\RetroPlayer\playback\GameLoop.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\cores\RetroPlayer\savestates\SavestateDatabase.h">
       <Filter>cores\RetroPlayer\savestates</Filter>
     </ClInclude>
@@ -6942,21 +5818,6 @@
     <ClInclude Include="$(ProjectDir)..\..\xbmc\xbmc\AppParamParser.h">
       <Filter>app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\addons\PVRClient.h">
-      <Filter>pvr\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\addons\PVRClientCapabilities.h">
-      <Filter>pvr\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\addons\PVRClientMenuHooks.h">
-      <Filter>pvr\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\addons\PVRClientUID.h">
-      <Filter>pvr\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\dialogs\GUIDialogPVRGuideControls.h">
-      <Filter>pvr\dialogs</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\guilib\guiinfo\AddonsGUIInfo.h">
       <Filter>guilib\guiinfo</Filter>
     </ClInclude>
@@ -6989,18 +5850,6 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\utils\TimeFormat.h">
       <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameAdvancedSettings.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameOSDHelp.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameStretchMode.h">
-      <Filter>games\dialogs\osd</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\games\dialogs\osd\DialogGameVideoRotation.h">
-      <Filter>games\dialogs\osd</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\guilib\guiinfo\MusicGUIInfo.h">
       <Filter>guilib\guiinfo</Filter>
@@ -7122,173 +5971,14 @@
     <ClInclude Include="..\..\xbmc\xbmc\AppParams.h">
       <Filter>app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\addoninfo\AddonExtensions.h">
-      <Filter>addons\addoninfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\addoninfo\AddonInfo.h">
-      <Filter>addons\addoninfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\addoninfo\AddonInfoBuilder.h">
-      <Filter>addons\addoninfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\addoninfo\AddonType.h">
-      <Filter>addons\addoninfo</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\config_components_kodi.h">
       <Filter>app</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\config_kodi.h">
       <Filter>app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\GUIDialogAddonInfo.h">
-      <Filter>addons\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\GUIDialogAddonSettings.h">
-      <Filter>addons\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\GUIHelpers.h">
-      <Filter>addons\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\GUIViewStateAddonBrowser.h">
-      <Filter>addons\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\GUIWindowAddonBrowser.h">
-      <Filter>addons\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\skin\SkinTimer.h">
-      <Filter>addons\gui\skin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\gui\skin\SkinTimerManager.h">
-      <Filter>addons\gui\skin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\GUIEPGGridContainer.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\GUIEPGGridContainerModel.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionListener.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsChannels.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsClients.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsDatabase.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsEPG.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsParentalControl.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsPlayback.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsPowerManagement.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsRecordings.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsTimers.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIActionsUtils.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIChannelIconUpdater.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIChannelNavigator.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\PVRGUIProgressHandler.h">
-      <Filter>pvr\guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\guiinfo\PVRGUIInfo.h">
-      <Filter>pvr\guilib\guiinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\guiinfo\PVRGUITimerInfo.h">
-      <Filter>pvr\guilib\guiinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\guilib\guiinfo\PVRGUITimesInfo.h">
-      <Filter>pvr\guilib\guiinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\ExtsMimeSupportList.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\Epg.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgChannelData.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgContainer.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgDatabase.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgInfoTag.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgSearchData.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgSearchFilter.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgSearchPath.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgTagsCache.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\epg\EpgTagsContainer.h">
-      <Filter>pvr\epg</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\QueryParams.h">
       <Filter>filesystem\VideoDatabaseDirectory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\IPVRComponent.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVRCachedImage.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVRCachedImages.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVRComponentRegistration.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVREdl.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVREventLogJob.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVRPlaybackState.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVRStreamProperties.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\PVRThumbLoader.h">
-      <Filter>pvr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupMember.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\channels\PVRChannelGroupSettings.h">
-      <Filter>pvr\channels</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\channels\PVRChannelsPath.h">
-      <Filter>pvr\channels</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\settings\SettingsValueFlatJsonSerializer.h">
       <Filter>settings</Filter>
@@ -7296,56 +5986,14 @@
     <ClInclude Include="..\..\xbmc\xbmc\settings\SettingsValueXmlSerializer.h">
       <Filter>settings</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\AddonRepoInfo.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\AddonRepos.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\addons\PVRClients.h">
-      <Filter>pvr\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\AddonUpdateRules.h">
-      <Filter>addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\binary-addons\AddonDll.h">
-      <Filter>addons\binary-addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\binary-addons\AddonInstanceHandler.h">
-      <Filter>addons\binary-addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\binary-addons\BinaryAddonBase.h">
-      <Filter>addons\binary-addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\binary-addons\BinaryAddonManager.h">
-      <Filter>addons\binary-addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\binary-addons\DllAddon.h">
-      <Filter>addons\binary-addons</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\utils\ExecString.h">
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\dialogs\GUIDialogColorPicker.h">
       <Filter>dialogs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\settings\PVRSettings.h">
-      <Filter>pvr\settings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\timers\PVRTimerRuleMatcher.h">
-      <Filter>pvr\timers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\timers\PVRTimersPath.h">
-      <Filter>pvr\timers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\music\jobs\MusicLibraryImportJob.h">
       <Filter>music\jobs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\providers\PVRProvider.h">
-      <Filter>pvr\providers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\providers\PVRProviders.h">
-      <Filter>pvr\providers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\video\VideoUtils.h">
       <Filter>video</Filter>
@@ -7356,12 +6004,6 @@
     <ClInclude Include="..\..\xbmc\xbmc\pictures\SlideShowPictureQt.h">
       <Filter>pictures</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\pvr\filesystem\PVRGUIDirectory.h">
-      <Filter>pvr\filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\AudioEngine.h">
-      <Filter>addons\interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\filesystem\VideoDatabaseDirectory\DirectoryNodeOverview.h">
       <Filter>filesystem\VideoDatabaseDirectory</Filter>
     </ClInclude>
@@ -7370,84 +6012,6 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\utils\PlayerUtils.h">
       <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\General.h">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\GUITranslator.h">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\ListItem.h">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\Window.h">
-      <Filter>addons\interfaces\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Button.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Edit.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\FadeLabel.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Image.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Label.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Progress.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\RadioButton.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Rendering.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\SettingsSlider.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Slider.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\Spin.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\TextBox.h">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\ContextMenu.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\ExtendedProgressBar.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\FileBrowser.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\Keyboard.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\Numeric.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\OK.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\Progress.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\Select.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\TextViewer.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\YesNo.h">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\imagefiles\SpecialImageFileLoader.h">
       <Filter>imagefiles</Filter>
@@ -7469,18 +6033,6 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\filesystem\PluginFile.h">
       <Filter>filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\AddonBase.h">
-      <Filter>addons\interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\Filesystem.h">
-      <Filter>addons\interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\General.h">
-      <Filter>addons\interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\xbmc\addons\interfaces\Network.h">
-      <Filter>addons\interfaces</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\xbmc\utils\ContentUtils.h">
       <Filter>utils</Filter>
@@ -7544,15 +6096,6 @@
     <Filter Include="cores\VideoPlayer\DVDCodecs\Video">
       <UniqueIdentifier>{4510CFA9-52D4-38A0-ACA0-35F236D7F3E5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="games\addons\input">
-      <UniqueIdentifier>{90CABB1E-4C69-3985-B5D4-46C2FBBE8571}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\addons\playback">
-      <UniqueIdentifier>{7E21307B-BFA0-3AAA-A618-032A0F91120D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\addons\savestates">
-      <UniqueIdentifier>{957812A7-C8E6-3C2B-AA78-6F3BDB200F97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="filesystem\MusicDatabaseDirectory">
       <UniqueIdentifier>{17897CA3-906A-33F4-8DD2-52F9E5511431}</UniqueIdentifier>
     </Filter>
@@ -7607,24 +6150,6 @@
     <Filter Include="interfaces\python">
       <UniqueIdentifier>{955A5F52-F70F-3190-9A08-8A63634EDC0A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="games\addons">
-      <UniqueIdentifier>{A13EE7E0-5232-39EB-BB35-F7CB7719E854}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\controllers">
-      <UniqueIdentifier>{AD9F7359-D1D5-36F5-9901-FE6915E4569A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\dialogs">
-      <UniqueIdentifier>{BD50920F-4F3D-3CA0-A218-1E1EC777F949}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\ports">
-      <UniqueIdentifier>{ECE2FF23-D522-3955-857E-031F6EF093AA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\tags">
-      <UniqueIdentifier>{1D67E326-B9A9-3F22-ABEE-473FB6CDB43B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\windows">
-      <UniqueIdentifier>{AF8A1A9F-9E52-35F7-9E88-0A17E9D13D73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="input\hardware">
       <UniqueIdentifier>{19D25997-E6EF-341A-9C69-F0444650B9FA}</UniqueIdentifier>
     </Filter>
@@ -7642,12 +6167,6 @@
     </Filter>
     <Filter Include="input\touch">
       <UniqueIdentifier>{7CA37852-ECC8-3D01-976E-E089F7A3C5BB}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons">
-      <UniqueIdentifier>{876DFA90-4B93-31FF-8FCD-CEA6AF0C54E3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cdrip">
-      <UniqueIdentifier>{A59D3023-CFC8-3639-96FD-189FDBB5A080}</UniqueIdentifier>
     </Filter>
     <Filter Include="commons">
       <UniqueIdentifier>{FC03A241-BBDD-3C41-BF47-AB459BB568AF}</UniqueIdentifier>
@@ -7672,9 +6191,6 @@
     </Filter>
     <Filter Include="filesystem">
       <UniqueIdentifier>{D868696E-7CDD-3F48-B60E-822EFA5F2A8C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games">
-      <UniqueIdentifier>{8C9E560D-6157-3719-9523-F4EFF770275C}</UniqueIdentifier>
     </Filter>
     <Filter Include="guilib">
       <UniqueIdentifier>{55C0A625-55A2-37DB-BA2F-F10079724FC3}</UniqueIdentifier>
@@ -7721,9 +6237,6 @@
     <Filter Include="programs">
       <UniqueIdentifier>{EEC773A0-CDD6-307B-B74E-DF5838565A3B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="pvr">
-      <UniqueIdentifier>{00A5BADD-025B-36DE-8402-9EB73BE48A2C}</UniqueIdentifier>
-    </Filter>
     <Filter Include="rendering">
       <UniqueIdentifier>{072F67DF-EDE9-3E2A-87F8-4E30D71EA4BF}</UniqueIdentifier>
     </Filter>
@@ -7745,20 +6258,11 @@
     <Filter Include="view">
       <UniqueIdentifier>{146905C4-5104-3C0F-94F4-E7E1E64A468F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="weather">
-      <UniqueIdentifier>{CD802DF9-D9F5-39E4-9606-CEB3D0896243}</UniqueIdentifier>
-    </Filter>
     <Filter Include="windowing">
       <UniqueIdentifier>{54F76073-C70E-3C24-AF25-EFABE96793DA}</UniqueIdentifier>
     </Filter>
     <Filter Include="windows">
       <UniqueIdentifier>{C10A4C4E-6569-353F-816A-8C9ACE4987FC}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\binary-addons">
-      <UniqueIdentifier>{2E4A4E3D-7B82-3D6D-85D8-8B64C93A9AC7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\settings">
-      <UniqueIdentifier>{1E6E8941-7CCC-3B7F-9497-95D29EE08ACF}</UniqueIdentifier>
     </Filter>
     <Filter Include="peripherals\addons">
       <UniqueIdentifier>{C6E98459-4926-3142-BF63-F33097C12E52}</UniqueIdentifier>
@@ -7771,18 +6275,6 @@
     </Filter>
     <Filter Include="peripherals\dialogs">
       <UniqueIdentifier>{7C58B8A5-1F08-3DED-AB3C-24C5DAF40495}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\controllers\dialogs">
-      <UniqueIdentifier>{1D928C91-01DB-359D-8CDE-8969AAD137D0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\controllers\guicontrols">
-      <UniqueIdentifier>{FAC932FB-B0E8-39F2-93B0-27FD27D5EDB3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\controllers\types">
-      <UniqueIdentifier>{F5677F29-628B-39E1-B5C4-45776DE5CE88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\controllers\windows">
-      <UniqueIdentifier>{919D8A81-F39C-34A9-A77B-82E927F75E91}</UniqueIdentifier>
     </Filter>
     <Filter Include="input\joysticks\dialogs">
       <UniqueIdentifier>{6C18433A-5A44-3B7A-9EAB-21A2E19DBD0C}</UniqueIdentifier>
@@ -7807,24 +6299,6 @@
     </Filter>
     <Filter Include="video\windows">
       <UniqueIdentifier>{FBB1EC69-E1A8-3992-86A0-13BC2CA04D1F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\addons">
-      <UniqueIdentifier>{7F7552A2-3D21-38DE-B9E1-AAA7113A018C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\channels">
-      <UniqueIdentifier>{E0CACFB7-33E9-31B9-B66A-4307F505C1D9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\dialogs">
-      <UniqueIdentifier>{229F86E7-8DDB-31DF-A382-16C71FBCE456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\recordings">
-      <UniqueIdentifier>{3674BDBF-7B8F-3392-8486-FDF104865E06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\timers">
-      <UniqueIdentifier>{BDF98B9A-BF84-3E7F-A8F1-D67E66CA6892}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\windows">
-      <UniqueIdentifier>{A70E0A31-AA56-3CD2-ACE1-18CBB1103111}</UniqueIdentifier>
     </Filter>
     <Filter Include="cores\AudioEngine">
       <UniqueIdentifier>{4F8042D4-C1D4-381B-9930-B602570965C6}</UniqueIdentifier>
@@ -7879,9 +6353,6 @@
     </Filter>
     <Filter Include="cores\VideoPlayer\Process\windows">
       <UniqueIdentifier>{C2419BC8-231C-3E6C-889C-94C63D0957C6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="games\dialogs\osd">
-      <UniqueIdentifier>{3DF9EF46-09FB-30EA-9BB5-0FF6DB580BDA}</UniqueIdentifier>
     </Filter>
     <Filter Include="cores\AudioEngine\Engines\ActiveAE\AudioDSPAddons">
       <UniqueIdentifier>{76FFE43B-9678-3FE2-BDC7-075861827746}</UniqueIdentifier>
@@ -8018,54 +6489,14 @@
     <Filter Include="guilib\guiinfo">
       <UniqueIdentifier>{6552bc15-a5ac-4665-93bd-7289d539d9f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="addons\addoninfo">
-      <UniqueIdentifier>{dc1d74df-8770-46a0-af38-193f176c8f4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\gui">
-      <UniqueIdentifier>{a4ad3f3e-8e9f-4bd4-b93a-984c80f1fe68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\gui\skin">
-      <UniqueIdentifier>{1826f1d6-2f38-413c-b67e-cd6b7cd6a4ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\guilib">
-      <UniqueIdentifier>{4e865a7a-d6b7-4006-b69a-93bbdc81134d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\guilib\guiinfo">
-      <UniqueIdentifier>{041e1e56-fcea-47ea-b370-3471dd9b332f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\epg">
-      <UniqueIdentifier>{0353abbe-2afe-4317-a2bd-7bf6d61ecd8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\settings">
-      <UniqueIdentifier>{c1c8803f-a9ae-4960-a069-219076f48e8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\providers">
-      <UniqueIdentifier>{4dd3e0b7-db85-47f5-a782-6943b577797a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="input\button">
       <UniqueIdentifier>{40fc61af-9f2a-4abc-a0c8-7003e01fcb6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pvr\filesystem">
-      <UniqueIdentifier>{0498c768-4581-4178-a84a-22a651d53c58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\interfaces">
-      <UniqueIdentifier>{0744deb3-5e27-4870-915a-a5542a10c80a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\interfaces\GUI">
-      <UniqueIdentifier>{8b77abb5-613b-44df-b3e0-f354a37c2b3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\interfaces\GUI\controls">
-      <UniqueIdentifier>{9f6d6697-c167-4f9a-b6bc-63fd181b5397}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\interfaces\GUI\dialogs">
-      <UniqueIdentifier>{0cbcdb32-529f-40d7-938f-4180e088d86a}</UniqueIdentifier>
     </Filter>
     <Filter Include="imagefiles">
       <UniqueIdentifier>{88cd081a-5c62-436f-b434-6f2a14606113}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\xbmc\xbmc\addons\AddonBindings.cmake" />
     <None Include="..\..\xbmc\xbmc\guilib\GUISpinControlEx.dox" />
     <None Include="..\..\xbmc\xbmc\interfaces\python\MethodType.groovy" />
     <None Include="..\..\xbmc\xbmc\interfaces\python\PythonSwig.cpp.template" />
@@ -8084,12 +6515,6 @@
     <None Include="..\..\xbmc\xbmc\fmt\README.rst">
       <Filter>fmt</Filter>
     </None>
-    <None Include="..\..\xbmc\xbmc\addons\gui\skin\SkinTimers.dox">
-      <Filter>addons\gui\skin</Filter>
-    </None>
-    <None Include="..\..\xbmc\xbmc\pvr\guilib\GUIEPGGridContainer.dox">
-      <Filter>pvr\guilib</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\xbmc\xbmc\addons\interfaces\GUI\CMakeLists.txt" />
@@ -8099,15 +6524,6 @@
     </Text>
     <Text Include="..\..\xbmc\xbmc\fmt\VersionIs_3.0.1.txt">
       <Filter>fmt</Filter>
-    </Text>
-    <Text Include="..\..\xbmc\xbmc\addons\interfaces\GUI\controls\CMakeLists.txt">
-      <Filter>addons\interfaces\GUI\controls</Filter>
-    </Text>
-    <Text Include="..\..\xbmc\xbmc\addons\interfaces\GUI\dialogs\CMakeLists.txt">
-      <Filter>addons\interfaces\GUI\dialogs</Filter>
-    </Text>
-    <Text Include="..\..\xbmc\xbmc\addons\interfaces\CMakeLists.txt">
-      <Filter>addons\interfaces</Filter>
     </Text>
   </ItemGroup>
 </Project>

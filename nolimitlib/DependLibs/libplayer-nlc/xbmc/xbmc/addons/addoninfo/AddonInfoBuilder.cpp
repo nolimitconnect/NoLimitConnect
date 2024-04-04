@@ -7,6 +7,7 @@
  */
 
 #include "AddonInfoBuilder.h"
+#if HAVE_ADDONS
 
 #include "CompileInfo.h"
 #include "LangInfoKodi.h"
@@ -873,3 +874,5 @@ bool CAddonInfoBuilder::PlatformSupportsAddon(const AddonInfoPtr& addon)
 }
 
 }
+
+#endif // HAVE_ADDONS

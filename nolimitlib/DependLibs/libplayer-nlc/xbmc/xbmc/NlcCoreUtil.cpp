@@ -85,7 +85,6 @@
 #include "guilib/LocalizeStrings.h"
 #include "utils/Digest.h"
 #include "utils/FileExtensionProvider.h"
-//#include <utils/md5.h>
 #include <utils/TimeUtils.h>
 #include <utils/URIUtils.h>
 #include <utils/log.h>
@@ -101,6 +100,7 @@
 #endif
 
 #include "CompileInfo.h"
+#include "FileItem.h"
 
 #include <CoreLib/OsDetect.h>
 #include <CoreLib/VxDebug.h>
@@ -457,7 +457,7 @@ std::string CUtil::GetTitleFromPath( const NlcUrl& url, bool bIsFolder /* = fals
     if( url.IsProtocol( "upnp" ) )
         strFilename = CUPnPDirectory::GetFriendlyName( url );
 #endif
-
+#if HAVE_LIB_CURL
     if( url.IsProtocol( "rss" ) || url.IsProtocol( "rsss" ) )
     {
         CRSSDirectory dir;
@@ -489,6 +489,12 @@ std::string CUtil::GetTitleFromPath( const NlcUrl& url, bool bIsFolder /* = fals
             strFilename = url.GetHostName();
         }
     }
+
+#else
+    if( strFilename.empty() )
+    {
+    }
+#endif // HAVE_LIB_CURL
 
     // Root file views
     else if( url.IsProtocol( "sources" ) )
@@ -1701,7 +1707,7 @@ bool CUtil::SupportsWriteFileOperations( const std::string& strPath )
         return true;
     if( URIUtils::IsSmb( strPath ) )
         return true;
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
     if( CUtil::IsTVRecording( strPath ) )
         return CPVRDirectory::SupportsWriteFileOperations( strPath );
 #endif // ENABLE_PVR
@@ -1714,6 +1720,7 @@ bool CUtil::SupportsWriteFileOperations( const std::string& strPath )
         return SupportsWriteFileOperations( CStackDirectory::GetFirstStackedFile( strPath ) );
     if( URIUtils::IsMultiPath( strPath ) )
         return CMultiPathDirectory::SupportsWriteFileOperations( strPath );
+#if HAVE_ADDONS
     if( CServiceBroker::IsAddonInterfaceUp() )
     {
         NlcUrl url( strPath );
@@ -1724,6 +1731,7 @@ bool CUtil::SupportsWriteFileOperations( const std::string& strPath )
                 return true;
         }
     }
+#endif // HAVE_ADDONS
 
     return false;
 }

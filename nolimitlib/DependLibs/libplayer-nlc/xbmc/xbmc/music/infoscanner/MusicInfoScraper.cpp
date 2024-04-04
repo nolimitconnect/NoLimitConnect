@@ -7,6 +7,7 @@
  */
 
 #include "MusicInfoScraper.h"
+#if HAVE_LIB_CURL
 
 #include "filesystem/CurlFile.h"
 #include "utils/log.h"
@@ -200,3 +201,5 @@ bool CMusicInfoScraper::CheckValidOrFallback(const std::string &fallbackScraper)
   }
   return false; */
 }
+
+#endif // HAVE_LIB_CURL

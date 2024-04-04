@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/PVRChannelNumberInputHandler.h"
 #include "pvr/windows/GUIWindowPVRBase.h"
 #include "threads/Event.h"
@@ -127,3 +130,5 @@ private:
   CEvent m_done;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

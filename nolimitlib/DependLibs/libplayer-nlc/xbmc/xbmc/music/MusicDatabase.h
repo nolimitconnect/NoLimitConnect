@@ -677,6 +677,7 @@ public:
   /////////////////////////////////////////////////
   // Scraper
   /////////////////////////////////////////////////
+#if HAVE_ADDONS
   bool SetScraper(int id, const CONTENT_TYPE& content, const ADDON::ScraperPtr& scraper);
   bool SetScraperAll(const std::string& strBaseDir, const ADDON::ScraperPtr& scraper);
   bool GetScraper(int id, const CONTENT_TYPE& content, ADDON::ScraperPtr& scraper);
@@ -686,6 +687,7 @@ public:
    \return true if the scraper is in use, false otherwise.
    */
   bool ScraperInUse(const std::string& scraperID) const;
+#endif // HAVE_ADDONS
 
   /////////////////////////////////////////////////
   // Filters
@@ -837,9 +839,11 @@ public:
   \param artType e.g. "thumb", "fanart", etc.
   \return list of URLs
   */
+  #if HAVE_LIB_CURL
   std::vector<CScraperUrl::SUrlEntry> GetAvailableArtForItem(int mediaId,
                                                              const MediaType& mediaType,
                                                              const std::string& artType);
+  #endif // HAVE_LIB_CURL
 
   /////////////////////////////////////////////////
   // Tag Scan Version

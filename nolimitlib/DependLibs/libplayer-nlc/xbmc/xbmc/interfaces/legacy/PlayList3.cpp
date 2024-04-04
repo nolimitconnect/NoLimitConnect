@@ -7,6 +7,7 @@
  */
 
 #include "PlayList.h"
+#if HAVE_ADDONS
 
 #include "PlayListPlayer.h"
 #include "ServiceBroker.h"
@@ -142,3 +143,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 
 #include <string>
@@ -58,3 +61,5 @@ namespace PVR
     InfoControl m_InfoHoroscope;
   };
 }
+
+#endif // HAVE_ADDONS

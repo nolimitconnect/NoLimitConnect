@@ -9,6 +9,8 @@
 #pragma once
 
 #include "AddonCallback.h"
+#if HAVE_ADDONS
+
 #include "AddonString.h"
 #include "Alternative.h"
 #include "Exception.h"
@@ -824,3 +826,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

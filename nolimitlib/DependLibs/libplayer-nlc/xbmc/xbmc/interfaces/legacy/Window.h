@@ -9,6 +9,8 @@
 #pragma once
 
 #include "AddonCallback.h"
+#if HAVE_ADDONS
+
 #include "AddonString.h"
 #include "Control.h"
 #include "swighelper.h"
@@ -876,3 +878,5 @@ namespace XBMCAddon
     ///@}
   }
 }
+
+#endif // HAVE_ADDONS

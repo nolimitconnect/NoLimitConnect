@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "dialogs/GUIDialogSelect.h"
 #include "guilib/GUIDialog.h"
 
@@ -30,3 +33,5 @@ private:
   void SetVisualisation(CGUIVisualisationControl *addon);
   CGUIVisualisationControl* m_viz = nullptr;
 };
+
+#endif // HAVE_ADDONS

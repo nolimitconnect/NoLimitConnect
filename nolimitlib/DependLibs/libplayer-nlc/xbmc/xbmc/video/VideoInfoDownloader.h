@@ -7,6 +7,8 @@
  */
 
 #pragma once
+#include "config_components_kodi.h"
+#if HAVE_LIB_CURL
 
 #include "Episode.h"
 #include "VideoInfoTag.h"
@@ -72,7 +74,9 @@ protected:
   int                 m_movieYear;
   MOVIELIST           m_movieList;
   CVideoInfoTag       m_movieDetails;
+#if HAVE_LIB_CURL
   CScraperUrl         m_url;
+#endif // HAVE_LIB_CURL
   VIDEO::EPISODELIST  m_episode;
   LOOKUP_STATE m_state = DO_NOTHING;
   int m_found = 0;
@@ -85,3 +89,4 @@ protected:
   int InternalFindMovie(const std::string& movieTitle, int movieYear, MOVIELIST& movielist, bool cleanChars = true);
 };
 
+#endif // HAVE_LIB_CURL

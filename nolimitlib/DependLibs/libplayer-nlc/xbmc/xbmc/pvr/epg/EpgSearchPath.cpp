@@ -7,6 +7,7 @@
  */
 
 #include "EpgSearchPath.h"
+#if HAVE_ADDONS
 
 #include "pvr/epg/EpgSearchFilter.h"
 #include "utils/StringUtils.h"
@@ -60,3 +61,5 @@ bool CPVREpgSearchPath::Init(const std::string& strPath)
 
   return m_bValid;
 }
+
+#endif // HAVE_ADDONS

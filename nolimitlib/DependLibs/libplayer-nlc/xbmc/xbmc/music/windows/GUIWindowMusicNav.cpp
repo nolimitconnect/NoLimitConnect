@@ -164,6 +164,7 @@ bool CGUIWindowMusicNav::OnMessage(CGUIMessage& message)
         SetProperty("search", search);
         return true;
       }
+#if HAVE_ADDONS
       else if (iControl == CONTROL_UPDATE_LIBRARY)
       {
         if (!CMusicLibraryQueue::GetInstance().IsScanningLibrary())
@@ -172,6 +173,7 @@ bool CGUIWindowMusicNav::OnMessage(CGUIMessage& message)
           CMusicLibraryQueue::GetInstance().StopLibraryScanning();
         return true;
       }
+#endif // HAVE_ADDONS
     }
     break;
   case GUI_MSG_PLAYBACK_STOPPED:
@@ -230,6 +232,7 @@ bool CGUIWindowMusicNav::ManageInfoProvider(const CFileItemPtr& item)
     id = params.GetArtistId();
   }
 
+#if HAVE_ADDONS
   ADDON::ScraperPtr scraper;
   // Get specific scraper and settings for current  item or use default
   if (!m_musicdatabase.GetScraper(id, content, scraper))
@@ -327,6 +330,8 @@ bool CGUIWindowMusicNav::ManageInfoProvider(const CFileItemPtr& item)
       }
     }
   }
+#endif // HAVE_ADDONS
+
   return true;
 }
 

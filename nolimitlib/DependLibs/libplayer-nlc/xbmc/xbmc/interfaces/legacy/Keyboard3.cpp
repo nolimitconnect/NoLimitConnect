@@ -7,6 +7,7 @@
  */
 
 #include "Keyboard.h"
+#if HAVE_ADDONS
 
 #include "LanguageHook.h"
 #include "guilib/GUIKeyboardFactory.h"
@@ -64,3 +65,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

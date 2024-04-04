@@ -29,6 +29,7 @@
 
 namespace
 {
+#if HAVE_ADDONS
 bool AddonHasSettings(const std::string& condition,
                       const std::string& value,
                       const SettingConstPtr& setting,
@@ -53,6 +54,7 @@ bool AddonHasSettings(const std::string& condition,
 
   return addon->CanHaveAddonOrInstanceSettings();
 }
+#endif // HAVE_ADDONS
 
 bool CheckMasterLock(const std::string& condition,
                      const std::string& value,
@@ -476,7 +478,9 @@ void CSettingConditions::Initialize()
 #endif
 
   // add complex conditions
+#if HAVE_ADDONS
   m_complexConditions.emplace("addonhassettings", AddonHasSettings);
+#endif // HAVE_ADDONS
   m_complexConditions.emplace("checkmasterlock", CheckMasterLock);
   m_complexConditions.emplace("hasperipherals", HasPeripherals);
   m_complexConditions.emplace("hasperipherallibraries", HasPeripheralLibraries);

@@ -7,6 +7,7 @@
  */
 
 #include "TextureOperations.h"
+#if ENABLE_JSON
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -93,3 +94,5 @@ JSONRPC_STATUS CTextureOperations::RemoveTexture(const std::string &method, ITra
 
   return ACK;
 }
+
+#endif // ENABLE_JSON

@@ -435,14 +435,18 @@ void CSettings::InitializeOptionFillers()
   GetSettingsManager()->RegisterSettingOptionsFiller("cmsprimaries", CDisplaySettings::SettingOptionsCmsPrimariesFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("cmsgammamodes", CDisplaySettings::SettingOptionsCmsGammaModesFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("videoseeksteps", CSeekHandler::SettingOptionsSeekStepsFiller);
+#if HAVE_ADDONS
   GetSettingsManager()->RegisterSettingOptionsFiller("startupwindows", ADDON::CSkinInfo::SettingOptionsStartupWindowsFiller);
+#endif // HAVE_ADDONS
   GetSettingsManager()->RegisterSettingOptionsFiller("audiostreamlanguages", CLangInfo::SettingOptionsAudioStreamLanguagesFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("subtitlestreamlanguages", CLangInfo::SettingOptionsSubtitleStreamLanguagesFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("subtitledownloadlanguages", CLangInfo::SettingOptionsSubtitleDownloadlanguagesFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("iso6391languages", CLangInfo::SettingOptionsISO6391LanguagesFiller);
+#if HAVE_ADDONS
   GetSettingsManager()->RegisterSettingOptionsFiller("skincolors", ADDON::CSkinInfo::SettingOptionsSkinColorsFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("skinfonts", ADDON::CSkinInfo::SettingOptionsSkinFontsFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("skinthemes", ADDON::CSkinInfo::SettingOptionsSkinThemesFiller);
+#endif // HAVE_ADDONS
 #ifdef TARGET_LINUX
   GetSettingsManager()->RegisterSettingOptionsFiller("timezonecountries", CPosixTimezone::SettingOptionsTimezoneCountriesFiller);
   GetSettingsManager()->RegisterSettingOptionsFiller("timezones", CPosixTimezone::SettingOptionsTimezonesFiller);
@@ -558,7 +562,9 @@ void CSettings::InitializeISubSettings()
   // register ISubSettings implementations
   RegisterSubSettings(&CDisplaySettings::GetInstance());
   RegisterSubSettings(&CMediaSettings::GetInstance());
+#if HAVE_ADDONS
   RegisterSubSettings(&CSkinSettings::GetInstance());
+#endif // HAVE_ADDONS
   RegisterSubSettings(&g_sysinfo);
   RegisterSubSettings(&CViewStateSettings::GetInstance());
 }
@@ -568,7 +574,9 @@ void CSettings::UninitializeISubSettings()
   // unregister ISubSettings implementations
   UnregisterSubSettings(&CDisplaySettings::GetInstance());
   UnregisterSubSettings(&CMediaSettings::GetInstance());
+#if HAVE_ADDONS
   UnregisterSubSettings(&CSkinSettings::GetInstance());
+#endif // HAVE_ADDONS
   UnregisterSubSettings(&g_sysinfo);
   UnregisterSubSettings(&CViewStateSettings::GetInstance());
 }
@@ -654,11 +662,13 @@ void CSettings::InitializeISettingCallbacks()
 #endif
 
   settingSet.clear();
+#if HAVE_ADDONS
   settingSet.insert(CSettings::SETTING_ADDONS_SHOW_RUNNING);
   settingSet.insert(CSettings::SETTING_ADDONS_MANAGE_DEPENDENCIES);
   settingSet.insert(CSettings::SETTING_ADDONS_REMOVE_ORPHANED_DEPENDENCIES);
   settingSet.insert(CSettings::SETTING_ADDONS_ALLOW_UNKNOWN_SOURCES);
   GetSettingsManager()->RegisterCallback(&ADDON::CAddonSystemSettings::GetInstance(), settingSet);
+#endif // HAVE_ADDONS
 
   settingSet.clear();
   settingSet.insert(CSettings::SETTING_POWERMANAGEMENT_WAKEONACCESS);

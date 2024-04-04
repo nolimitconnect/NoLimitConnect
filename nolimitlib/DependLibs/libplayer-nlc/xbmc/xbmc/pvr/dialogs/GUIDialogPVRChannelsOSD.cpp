@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRChannelsOSD.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -297,3 +298,5 @@ void CGUIDialogPVRChannelsOSD::OnInputDone()
     }
   }
 }
+
+#endif // HAVE_ADDONS

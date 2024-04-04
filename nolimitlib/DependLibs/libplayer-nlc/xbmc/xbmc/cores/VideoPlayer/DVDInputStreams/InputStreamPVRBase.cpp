@@ -7,7 +7,7 @@
  */
 
 #include "InputStreamPVRBase.h"
-
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "ServiceBroker.h"
@@ -369,3 +369,4 @@ void CInputStreamPVRBase::UpdateStreamMap()
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

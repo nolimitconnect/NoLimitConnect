@@ -63,6 +63,8 @@
 #include "utils/log.h"
 #include "view/GUIViewState.h"
 
+#include "utils/JobManager.h"
+
 #include <inttypes.h>
 
 #define CONTROL_BTNVIEWASICONS       2
@@ -734,8 +736,10 @@ bool CGUIMediaWindow::GetDirectory(const std::string &strDirectory, CFileItemLis
   CLog::Log(LOGDEBUG, "CGUIMediaWindow::GetDirectory (%s)", NlcUrl::GetRedacted(strDirectory).c_str());
   CLog::Log(LOGDEBUG, "  ParentPath = [%s]", NlcUrl::GetRedacted(strParentPath).c_str());
 
+#if HAVE_ADDONS
   if (pathToUrl.IsProtocol("plugin") && !pathToUrl.GetHostName().empty())
     CServiceBroker::GetAddonMgr().UpdateLastUsed(pathToUrl.GetHostName());
+#endif // HAVE_ADDONS
 
   // see if we can load a previously cached folder
   CFileItemList cachedItems(strDirectory);
@@ -1053,6 +1057,7 @@ bool CGUIMediaWindow::OnClick(int iItem, const std::string &player)
 
   if (pItem->IsScript())
   {
+#if HAVE_ADDONS
     // execute the script
     NlcUrl url(pItem->GetPath());
     AddonPtr addon;
@@ -1066,6 +1071,7 @@ bool CGUIMediaWindow::OnClick(int iItem, const std::string &player)
       }
       return true;
     }
+#endif // HAVE_ADDONS
   }
 
   if (pItem->m_bIsFolder)
@@ -1157,7 +1163,7 @@ bool CGUIMediaWindow::OnClick(int iItem, const std::string &player)
     }
 
     bool autoplay = m_guiState.get() && m_guiState->AutoPlayNextItem();
-
+#if HAVE_ADDONS
     if (m_vecItems->IsPlugin())
     {
       NlcUrl url(m_vecItems->GetPath());
@@ -1173,6 +1179,7 @@ bool CGUIMediaWindow::OnClick(int iItem, const std::string &player)
         }
       }
     }
+#endif // HAVE_ADDONS
 
     if (autoplay && !g_partyModeManager.IsEnabled())
     {
@@ -1777,6 +1784,7 @@ bool CGUIMediaWindow::OnPopupMenu(int itemIdx)
   }
   auto pluginMenuRange = std::make_pair(static_cast<size_t>(0), buttons.size());
 
+#if HAVE_ADDONS
   //Add the global menu
   auto globalMenu = CServiceBroker::GetContextMenuManager().GetItems(*item, CContextMenuManager::MAIN);
   auto globalMenuRange = std::make_pair(buttons.size(), buttons.size() + globalMenu.size());
@@ -1793,6 +1801,7 @@ bool CGUIMediaWindow::OnPopupMenu(int itemIdx)
   auto addonMenuRange = std::make_pair(buttons.size(), buttons.size() + addonMenu.size());
   for (const auto& menu : addonMenu)
     buttons.emplace_back(~buttons.size(), menu->GetLabel(*item));
+#endif // HAVE_ADDONS
 
   if (buttons.empty())
     return true;
@@ -1812,7 +1821,7 @@ bool CGUIMediaWindow::OnPopupMenu(int itemIdx)
     m_backgroundLoad = saveVal;
     return true;
   }
-
+#if HAVE_ADDONS
   if (InRange(idx, windowMenuRange))
     return OnContextButton(itemIdx, static_cast<CONTEXT_BUTTON>(buttons[idx].first));
 
@@ -1820,6 +1829,9 @@ bool CGUIMediaWindow::OnPopupMenu(int itemIdx)
     return CONTEXTMENU::LoopFrom(*globalMenu[idx - globalMenuRange.first], item);
 
   return CONTEXTMENU::LoopFrom(*addonMenu[idx - addonMenuRange.first], item);
+#else
+  return false;
+#endif // HAVE_ADDONS
 }
 
 void CGUIMediaWindow::GetContextButtons(int itemNumber, CContextButtons &buttons)

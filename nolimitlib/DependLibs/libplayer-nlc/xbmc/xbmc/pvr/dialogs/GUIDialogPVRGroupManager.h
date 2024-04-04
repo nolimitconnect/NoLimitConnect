@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 #include "pvr/PVRThumbLoader.h"
 #include "view/GUIViewControl.h"
@@ -77,3 +80,5 @@ namespace PVR
     CPVRThumbLoader m_thumbLoader;
   };
 }
+
+#endif // HAVE_ADDONS

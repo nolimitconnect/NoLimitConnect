@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "view/GUIViewState.h"
 
 class CGUIViewStateAddonBrowser : public CGUIViewState
@@ -19,3 +22,5 @@ protected:
   void SaveViewState() override;
   std::string GetExtensions() override;
 };
+
+#endif // HAVE_ADDONS

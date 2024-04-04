@@ -7,6 +7,7 @@
  */
 
 #include "SkinSettings.h"
+#if HAVE_ADDONS
 
 #include "GUIInfoManager.h"
 #include "ServiceBroker.h"
@@ -184,3 +185,4 @@ void CSkinSettings::MigrateSettings(const std::shared_ptr<ADDON::CSkinInfo>& ski
   }
 }
 
+#endif // HAVE_ADDONS

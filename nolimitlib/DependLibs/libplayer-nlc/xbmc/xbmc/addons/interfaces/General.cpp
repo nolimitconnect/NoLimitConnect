@@ -68,6 +68,7 @@ void Interface_General::DeInit(AddonGlobalInterface* addonInterface)
 
 char* Interface_General::unknown_to_utf8(void* kodiBase, const char* source, bool* ret, bool failOnBadChar)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon || !source || !ret)
   {
@@ -75,6 +76,7 @@ char* Interface_General::unknown_to_utf8(void* kodiBase, const char* source, boo
               __FUNCTION__, kodiBase, static_cast<const void*>(source), static_cast<void*>(ret));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string;
   *ret = g_charsetConverter.unknownToUTF8(source, string, failOnBadChar);
@@ -84,6 +86,7 @@ char* Interface_General::unknown_to_utf8(void* kodiBase, const char* source, boo
 
 char* Interface_General::get_language(void* kodiBase, int format, bool region)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
@@ -134,6 +137,9 @@ char* Interface_General::get_language(void* kodiBase, int format, bool region)
 
   char* buffer = strdup(string.c_str());
   return buffer;
+#else
+    return "";
+#endif // HAVE_ADDONS
 }
 
 bool Interface_General::queue_notification(void* kodiBase, int type, const char* header,
@@ -141,6 +147,7 @@ bool Interface_General::queue_notification(void* kodiBase, int type, const char*
                                            unsigned int displayTime, bool withSound,
                                            unsigned int messageTime)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || message == nullptr)
   {
@@ -197,11 +204,13 @@ bool Interface_General::queue_notification(void* kodiBase, int type, const char*
   {
     CGUIDialogKaiToast::QueueNotification(imageFile, usedHeader, message, displayTime, withSound, messageTime);
   }
+#endif // HAVE_ADDONS
   return true;
 }
 
 void Interface_General::get_md5(void* kodiBase, const char* text, char* md5)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || text == nullptr)
   {
@@ -209,6 +218,7 @@ void Interface_General::get_md5(void* kodiBase, const char* text, char* md5)
               __FUNCTION__, kodiBase, static_cast<const void*>(text));
     return;
   }
+#endif // HAVE_ADDONS
 
   std::string md5Int = CDigest::Calculate(CDigest::Type::MD5, std::string(text));
   strncpy(md5, md5Int.c_str(), 40);
@@ -216,6 +226,7 @@ void Interface_General::get_md5(void* kodiBase, const char* text, char* md5)
 
 char* Interface_General::get_region(void* kodiBase, const char* id)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || id == nullptr)
   {
@@ -223,6 +234,7 @@ char* Interface_General::get_region(void* kodiBase, const char* id)
               kodiBase, static_cast<const void*>(id));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string result;
   if (StringUtils::CompareNoCase(id, "datelong") == 0)
@@ -299,6 +311,7 @@ void Interface_General::get_free_mem(void* kodiBase, long* free, long* total, bo
 
 int Interface_General::get_global_idle_time(void* kodiBase)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr)
   {
@@ -306,6 +319,7 @@ int Interface_General::get_global_idle_time(void* kodiBase)
               kodiBase);
     return -1;
   }
+#endif // HAVE_ADDONS
 
   auto& components = CServiceBroker::GetAppComponents();
   const auto appPower = components.GetComponent<CApplicationPowerHandling>();
@@ -317,6 +331,7 @@ bool Interface_General::is_addon_avilable(void* kodiBase,
                                           char** version,
                                           bool* enabled)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || id == nullptr || version == nullptr || enabled == nullptr)
   {
@@ -327,6 +342,7 @@ bool Interface_General::is_addon_avilable(void* kodiBase,
         static_cast<void*>(enabled));
     return false;
   }
+#endif // HAVE_ADDONS
 
   AddonPtr addonInfo;
   if (!CServiceBroker::GetAddonMgr().GetAddon(id, addonInfo, OnlyEnabled::CHOICE_NO))
@@ -339,6 +355,7 @@ bool Interface_General::is_addon_avilable(void* kodiBase,
 
 void Interface_General::kodi_version(void* kodiBase, char** compile_name, int* major, int* minor, char** revision, char** tag, char** tagversion)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || compile_name == nullptr || major == nullptr || minor == nullptr ||
      revision == nullptr || tag == nullptr || tagversion == nullptr)
@@ -351,6 +368,7 @@ void Interface_General::kodi_version(void* kodiBase, char** compile_name, int* m
               static_cast<void*>(tagversion));
     return;
   }
+#endif // HAVE_ADDONS
 
   *compile_name = strdup(CCompileInfo::GetAppName());
   *major = CCompileInfo::GetMajor();
@@ -380,6 +398,7 @@ void Interface_General::kodi_version(void* kodiBase, char** compile_name, int* m
 
 char* Interface_General::get_current_skin_id(void* kodiBase)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr)
   {
@@ -387,12 +406,14 @@ char* Interface_General::get_current_skin_id(void* kodiBase)
               kodiBase);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   return strdup(CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_LOOKANDFEEL_SKIN).c_str());
 }
 
 bool Interface_General::get_keyboard_layout(void* kodiBase, char** layout_name, int modifier_key, AddonKeyboardKeyTable* c_layout)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || c_layout == nullptr || layout_name == nullptr)
   {
@@ -402,6 +423,7 @@ bool Interface_General::get_keyboard_layout(void* kodiBase, char** layout_name, 
               static_cast<void*>(layout_name));
     return false;
   }
+#endif // HAVE_ADDONS
 
   std::string activeLayout = CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_LOCALE_ACTIVEKEYBOARDLAYOUT);
 
@@ -431,6 +453,7 @@ bool Interface_General::get_keyboard_layout(void* kodiBase, char** layout_name, 
 
 bool Interface_General::change_keyboard_layout(void* kodiBase, char** layout_name)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || layout_name == nullptr)
   {
@@ -438,6 +461,7 @@ bool Interface_General::change_keyboard_layout(void* kodiBase, char** layout_nam
               __FUNCTION__, kodiBase, static_cast<void*>(layout_name));
     return false;
   }
+#endif // HAVE_ADDONS
 
   std::vector<CKeyboardLayout> layouts;
   unsigned int currentLayout = 0;

@@ -7,6 +7,7 @@
  */
 
 #include "EpgInfoTag.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRManager.h"
@@ -679,3 +680,5 @@ const std::string CPVREpgInfoTag::DeTokenize(const std::vector<std::string>& tok
 {
   return StringUtils::Join(tokens, EPG_STRING_TOKEN_SEPARATOR);
 }
+
+#endif // HAVE_ADDONS

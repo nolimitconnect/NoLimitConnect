@@ -7,6 +7,7 @@
  */
 
 #include "guilib/guiinfo/SkinGUIInfo.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/Skin.h"
@@ -138,3 +139,5 @@ bool CSkinGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int contextWi
 
   return false;
 }
+
+#endif // HAVE_ADDONS

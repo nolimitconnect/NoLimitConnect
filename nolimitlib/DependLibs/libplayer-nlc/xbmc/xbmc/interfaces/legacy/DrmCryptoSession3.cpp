@@ -7,6 +7,7 @@
  */
 
 #include "DrmCryptoSession.h"
+#if HAVE_ADDONS
 
 #include "media/drm/CryptoSession.h"
 
@@ -106,3 +107,5 @@ namespace XBMCAddon
 
   } //namespace xbmcdrm
 } //namespace XBMCAddon
+
+#endif // HAVE_ADDONS

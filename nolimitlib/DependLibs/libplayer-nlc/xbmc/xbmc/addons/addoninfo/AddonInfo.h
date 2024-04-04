@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "addons/AddonVersion.h"
 
@@ -307,3 +310,5 @@ private:
 };
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

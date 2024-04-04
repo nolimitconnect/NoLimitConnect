@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 
 #include <memory>
@@ -282,3 +285,5 @@ private:
   std::unique_ptr<CLastWatchedUpdateTimer> m_lastWatchedUpdateTimer;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

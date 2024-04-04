@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsDatabase.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -339,3 +340,5 @@ bool CPVRGUIActionsDatabase::ResetDatabase(bool bResetEPGOnly)
   pDlgProgress->Close();
   return true;
 }
+
+#endif // HAVE_ADDONS

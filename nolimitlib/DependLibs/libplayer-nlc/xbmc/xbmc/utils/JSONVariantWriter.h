@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include <string>
 
 class CVariant;
@@ -19,3 +22,5 @@ public:
 
   static bool Write(const CVariant &value, std::string& output, bool compact);
 };
+
+#endif // ENABLE_JSON

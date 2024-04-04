@@ -139,8 +139,10 @@ bool CGUIWindowVideoNav::OnMessage(CGUIMessage& message)
             i = -1;
             if (url.GetOption("showinfo") == "true")
             {
+#if HAVE_ADDONS
               ADDON::ScraperPtr scrapper;
               OnItemInfo(*pItem, scrapper);
+#endif // HAVE_ADDONS
             }
             break;
           }
@@ -160,8 +162,10 @@ bool CGUIWindowVideoNav::OnMessage(CGUIMessage& message)
               if (!item.GetVideoInfoTag()->IsEmpty())
               {
                 item.SetPath(item.GetVideoInfoTag()->m_strFileNameAndPath);
+#if HAVE_ADDONS
                 ADDON::ScraperPtr scrapper;
                 OnItemInfo(item, scrapper);
+#endif // HAVE_ADDONS
               }
             }
           }
@@ -653,6 +657,7 @@ void CGUIWindowVideoNav::PlayItem(int iItem)
   CGUIWindowVideoBase::PlayItem(iItem);
 }
 
+#if HAVE_ADDONS
 void CGUIWindowVideoNav::OnItemInfo(const CFileItem& fileItem, ADDON::ScraperPtr& scraper)
 {
   if (!scraper || scraper->Content() == CONTENT_NONE)
@@ -670,6 +675,7 @@ void CGUIWindowVideoNav::OnItemInfo(const CFileItem& fileItem, ADDON::ScraperPtr
   }
   CGUIWindowVideoBase::OnItemInfo(fileItem, scraper);
 }
+#endif // HAVE_ADDONS
 
 void CGUIWindowVideoNav::OnDeleteItem(const CFileItemPtr& pItem)
 {
@@ -756,16 +762,19 @@ void CGUIWindowVideoNav::GetContextButtons(int itemNumber, CContextButtons &butt
     {
       CVideoDatabase database;
       database.Open();
+#if HAVE_ADDONS
       ADDON::ScraperPtr info = database.GetScraperForPath(item->GetPath());
-
+#endif // HAVE_ADDONS
       if (!item->IsLiveTV() && !item->IsAddonsPath() && !URIUtils::IsUPnP(item->GetPath()))
       {
+#if HAVE_ADDONS
         if (info && info->Content() != CONTENT_NONE)
         {
           buttons.Add(CONTEXT_BUTTON_SET_CONTENT, 20442);
           buttons.Add(CONTEXT_BUTTON_SCAN, 13349);
         }
         else
+#endif // HAVE_ADDONS
           buttons.Add(CONTEXT_BUTTON_SET_CONTENT, 20333);
       }
     }
@@ -797,9 +806,11 @@ void CGUIWindowVideoNav::GetContextButtons(int itemNumber, CContextButtons &butt
     }
     if (!item->IsParentFolder())
     {
+#if HAVE_ADDONS
       ADDON::ScraperPtr info;
       VIDEO::SScanSettings settings;
       GetScraperForItem(item.get(), info, settings);
+#endif // HAVE_ADDONS
 
       // can we update the database?
       if (profileManager->GetCurrentProfile().canWriteDatabases() || g_passwordManager.bMasterUser)
@@ -843,18 +854,24 @@ void CGUIWindowVideoNav::GetContextButtons(int itemNumber, CContextButtons &butt
         // add "Set/Change content" to folders
         if (item->m_bIsFolder && !item->IsVideoDb() && !item->IsPlayList() && !item->IsSmartPlayList() && !item->IsLibraryFolder() && !item->IsLiveTV() && !item->IsPlugin() && !item->IsAddonsPath() && !URIUtils::IsUPnP(item->GetPath()))
         {
+#if HAVE_ADDONS
           if (info && info->Content() != CONTENT_NONE)
             buttons.Add(CONTEXT_BUTTON_SET_CONTENT, 20442);
           else
+#endif // HAVE_ADDONS
             buttons.Add(CONTEXT_BUTTON_SET_CONTENT, 20333);
 
+#if HAVE_ADDONS
           if (info && info->Content() != CONTENT_NONE)
             buttons.Add(CONTEXT_BUTTON_SCAN, 13349);
+#endif // HAVE_ADDONS
         }
       }
 
+#if HAVE_ADDONS
       if ((!item->HasVideoInfoTag() || item->GetVideoInfoTag()->m_iDbId == -1) && info && info->Content() != CONTENT_NONE)
         buttons.Add(CONTEXT_BUTTON_SCAN_TO_LIBRARY, 21845);
+#endif // HAVE_ADDONS
 
     }
   }

@@ -63,10 +63,11 @@ bool CVideoLibraryResetResumePointJob::Work(CVideoDatabase &db)
     if (URIUtils::IsUPnP(item->GetPath()) && UPNP::CUPnP::SaveFileState(*item, CBookmark(), false /* updatePlayCount */))
       continue;
 #endif
-
+#if HAVE_ADDONS
     if (item->HasPVRRecordingInfoTag() &&
         CServiceBroker::GetPVRManager().Recordings()->ResetResumePoint(item->GetPVRRecordingInfoTag()))
       continue;
+#endif // HAVE_ADDONS
 
     resetItems.emplace_back(item);
   }

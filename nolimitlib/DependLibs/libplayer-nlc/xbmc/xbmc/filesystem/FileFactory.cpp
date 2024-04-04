@@ -70,7 +70,9 @@
 #include "ServiceBroker.h"
 #include "addons/VFSEntry.h"
 
+#if HAVE_ADDONS
 using namespace ADDON;
+#endif // HAVE_ADDONS
 using namespace XFILE;
 
 CFileFactory::CFileFactory() = default;
@@ -88,6 +90,7 @@ IFile* CFileFactory::CreateLoader(const NlcUrl& url)
   if (!CWakeOnAccess::GetInstance().WakeUpHost(url))
     return NULL;
 
+#if HAVE_ADDONS
   if (!url.GetProtocol().empty() && CServiceBroker::IsAddonInterfaceUp())
   {
     for (const auto& vfsAddon : CServiceBroker::GetVFSAddonCache().GetAddonInstances())
@@ -98,6 +101,7 @@ IFile* CFileFactory::CreateLoader(const NlcUrl& url)
         return new CVFSEntryIFileWrapper(vfsAddon);
     }
   }
+#endif // HAVE_ADDONS
 
 #if defined(TARGET_ANDROID)
   if (url.IsProtocol("apk")) return new CAPKFile();
@@ -153,7 +157,7 @@ IFile* CFileFactory::CreateLoader(const NlcUrl& url)
 #ifdef TARGET_WINDOWS_STORE
   else if (CWinLibraryFile::IsValid(url)) return new CWinLibraryFile();
 #endif
-
+#if HAVE_LIB_CURL
     if (url.IsProtocol("ftp")
     ||  url.IsProtocol("ftps")
     ||  url.IsProtocol("rss")
@@ -162,6 +166,7 @@ IFile* CFileFactory::CreateLoader(const NlcUrl& url)
     ||  url.IsProtocol("https")) return new CCurlFile();
     else if (url.IsProtocol("dav") || url.IsProtocol("davs")) return new CDAVFile();
   else if (url.IsProtocol("shout") || url.IsProtocol("shouts")) return new CShoutcastFile();
+#endif // HAVE_LIB_CURL
 #ifdef HAS_FILESYSTEM_SMB
 #ifdef TARGET_WINDOWS
     else if (url.IsProtocol("smb")) return new CWin32SMBFile();

@@ -291,6 +291,7 @@ int CWindowTranslator::GetVirtualWindow(int windowId)
 {
   if (windowId == WINDOW_FULLSCREEN_VIDEO)
   {
+#if HAVE_ADDONS
     if (g_application.CurrentFileItem().HasPVRChannelInfoTag())
     {
     // special casing for Live TV
@@ -308,6 +309,8 @@ int CWindowTranslator::GetVirtualWindow(int windowId)
       return WINDOW_FULLSCREEN_LIVETV;
     }
     else
+#endif // HAVE_ADDONS
+
     {
       const auto& components = CServiceBroker::GetAppComponents();
       const auto appPlayer = components.GetComponent<CApplicationPlayer>();
@@ -322,6 +325,7 @@ int CWindowTranslator::GetVirtualWindow(int windowId)
   }
   else if (windowId == WINDOW_VISUALISATION)
   {
+#if HAVE_ADDONS
     if (g_application.CurrentFileItem().HasPVRChannelInfoTag())
     {
       // special casing for PVR radio
@@ -339,6 +343,7 @@ int CWindowTranslator::GetVirtualWindow(int windowId)
       return WINDOW_FULLSCREEN_RADIO;
     }
     else
+#endif // HAVE_ADDONS
     {
       const auto& components = CServiceBroker::GetAppComponents();
       const auto appPlayer = components.GetComponent<CApplicationPlayer>();

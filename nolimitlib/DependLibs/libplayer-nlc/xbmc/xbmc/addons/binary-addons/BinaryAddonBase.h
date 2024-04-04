@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 
 #include <memory>
@@ -52,3 +55,5 @@ namespace ADDON
   };
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

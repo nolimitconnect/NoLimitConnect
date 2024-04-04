@@ -7,6 +7,7 @@
  */
 
 #include "PVRSettings.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -230,3 +231,5 @@ bool CPVRSettings::CheckParentalPin(const std::string& condition,
   return CServiceBroker::GetPVRManager().Get<PVR::GUI::Parental>().CheckParentalPIN() ==
          ParentalCheckResult::SUCCESS;
 }
+
+#endif // HAVE_ADDONS

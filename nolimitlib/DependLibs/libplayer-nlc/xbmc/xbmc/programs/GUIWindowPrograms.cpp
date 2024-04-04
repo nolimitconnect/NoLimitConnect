@@ -178,9 +178,11 @@ void CGUIWindowPrograms::OnItemInfo(int iItem)
   if (iItem < 0 || iItem >= m_vecItems->Size())
     return;
 
+#if HAVE_ADDONS
   CFileItemPtr item = m_vecItems->Get(iItem);
   if (!m_vecItems->IsPlugin() && (item->IsPlugin() || item->IsScript()))
   {
     CGUIDialogAddonInfo::ShowForItem(item);
   }
+#endif // HAVE_ADDONS
 }

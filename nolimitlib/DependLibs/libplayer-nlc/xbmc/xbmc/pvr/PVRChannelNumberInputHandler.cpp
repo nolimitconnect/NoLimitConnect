@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelNumberInputHandler.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "settings/AdvancedSettings.h"
@@ -188,3 +189,5 @@ void CPVRChannelNumberInputHandler::SetLabel(const std::string& label)
     m_events.Publish(PVRChannelNumberInputChangedEvent(m_label));
   }
 }
+
+#endif // HAVE_ADDONS

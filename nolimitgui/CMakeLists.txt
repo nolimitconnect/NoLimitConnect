@@ -1062,7 +1062,7 @@ if (DEFINED TARGET_OS_LINUX)
         dav1d
         vpx
         nfs
-        cdio
+        #cdio
         pcre
         armrwbenc
         fdk-aac
@@ -1102,10 +1102,10 @@ if (DEFINED TARGET_OS_LINUX)
         zvbi
         # end of these are nomally combined into one library depends
         ogg
-        ssh
+        #ssh
         netlib
         pktlib
-        curl # curl before ssl because dependency md4 from ssl
+        #curl # curl before ssl because dependency md4 from ssl
         ssl # static ssl lib version
         echocancel
         fribidi
@@ -1156,7 +1156,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             dav1d
             # vpx # needed but does not compile yet
             nfs
-            cdio
+            #cdio
             pcre
             armrwbenc
             fdk-aac
@@ -1196,10 +1196,10 @@ elseif (DEFINED TARGET_OS_ANDROID)
             zvbi
             # end of these are nomally combined into one library depends
             ogg
-            ssh
+            #ssh
             netlib
             pktlib
-            curl # curl before ssl because dependency md4 from ssl
+            #curl # curl before ssl because dependency md4 from ssl
             ssl # static ssl lib version
             echocancel
             fribidi
@@ -1257,7 +1257,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             dav1d
             # vpx # needed but does not compile yet
             nfs
-            cdio
+            #cdio
             pcre
             armrwbenc
             fdk-aac
@@ -1297,10 +1297,10 @@ elseif (DEFINED TARGET_OS_ANDROID)
             zvbi
             # end of these are nomally combined into one library depends
             ogg
-            ssh
+            #ssh
             netlib
             pktlib
-            curl # curl before ssl because dependency md4 from ssl
+            #curl # curl before ssl because dependency md4 from ssl
             ssl # static ssl lib version
             echocancel
             fribidi
@@ -1360,7 +1360,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         dav1d
         #vpx #needed but does not compile on android yet
         nfs
-        cdio
+        #cdio
         pcre
         armrwbenc
         fdk-aac
@@ -1400,11 +1400,11 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         zvbi
         # end of these are nomally combined into one library depends
         ogg
-        ssh
+        #ssh
         netlib
         pktlib
         # curl before ssl because dependency md4 from ssl
-        curl
+        #curl
         # static ssl lib version
         ssl
         echocancel

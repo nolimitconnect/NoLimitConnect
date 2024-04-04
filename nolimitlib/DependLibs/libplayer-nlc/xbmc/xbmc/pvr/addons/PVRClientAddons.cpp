@@ -7,6 +7,7 @@
  */
 
 #include "PVRClient.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/AddonManager.h"
@@ -282,6 +283,7 @@ bool CPVRClient::IgnoreClient() const
 
 bool CPVRClient::IsEnabled() const
 {
+#if HAVE_ADDONS
   if (InstanceId() == ADDON_SINGLETON_INSTANCE_ID)
   {
     return !CServiceBroker::GetAddonMgr().IsAddonDisabled(ID());
@@ -293,6 +295,9 @@ bool CPVRClient::IsEnabled() const
     Addon()->GetSettingBool(ADDON_SETTING_INSTANCE_ENABLED_VALUE, instanceEnabled, InstanceId());
     return instanceEnabled;
   }
+#else
+    return false;
+#endif // HAVE_ADDONS
 }
 
 int CPVRClient::GetID() const
@@ -411,6 +416,7 @@ const std::string& CPVRClient::GetConnectionString() const
 const std::string CPVRClient::GetFriendlyName() const
 {
 
+#if HAVE_ADDONS
   if (Addon()->SupportsInstanceSettings())
   {
     std::string instanceName;
@@ -418,6 +424,8 @@ const std::string CPVRClient::GetFriendlyName() const
     if (!instanceName.empty())
       return StringUtils::Format("{} ({})", Name(), instanceName);
   }
+#endif // HAVE_ADDONS
+
   return Name();
 }
 
@@ -2057,3 +2065,5 @@ PVR_CODEC CPVRClient::cb_get_codec_by_name(const void* kodiInstance, const char*
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

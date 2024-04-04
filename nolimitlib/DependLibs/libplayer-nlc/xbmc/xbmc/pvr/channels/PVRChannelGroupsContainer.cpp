@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelGroupsContainer.h"
+#if HAVE_ADDONS
 
 #include "pvr/channels/PVRChannel.h"
 #include "pvr/channels/PVRChannelGroupMember.h"
@@ -158,3 +159,5 @@ int CPVRChannelGroupsContainer::CleanupCachedImages()
 {
   return m_groupsTV->CleanupCachedImages() + m_groupsRadio->CleanupCachedImages();
 }
+
+#endif // HAVE_ADDONS

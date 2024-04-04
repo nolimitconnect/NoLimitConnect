@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/guiinfo/GUIInfoProvider.h"
 
 namespace KODI
@@ -35,3 +38,6 @@ public:
 } // namespace GUIINFO
 } // namespace GUILIB
 } // namespace KODI
+
+#endif // HAVE_ADDONS
+

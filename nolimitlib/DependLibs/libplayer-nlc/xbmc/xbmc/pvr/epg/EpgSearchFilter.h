@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "pvr/epg/EpgSearchData.h"
 
@@ -169,3 +172,5 @@ namespace PVR
     CDateTime m_lastExecutedDateTime;
   };
 }
+
+#endif // HAVE_ADDONS

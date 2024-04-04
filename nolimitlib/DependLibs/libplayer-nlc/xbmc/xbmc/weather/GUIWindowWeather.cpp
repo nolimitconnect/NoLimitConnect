@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowWeather.h"
+#if HAVE_WEATHER
 
 #include "GUIUserMessages.h"
 #include "LangInfoKodi.h"
@@ -297,3 +298,5 @@ void CGUIWindowWeather::ClearProperties()
     SetProperty(day + "FanartCode", "");
   }
 }
+
+#endif // HAVE_WEATHER

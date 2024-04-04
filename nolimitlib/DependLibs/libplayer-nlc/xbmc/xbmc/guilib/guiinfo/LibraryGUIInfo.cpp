@@ -268,6 +268,7 @@ bool CLibraryGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int contex
       value = CFileUtils::Exists(nodePath);
       return true;
     }
+#if HAVE_ADDONS
     case LIBRARY_IS_SCANNING:
     {
       value = (CMusicLibraryQueue::GetInstance().IsScanningLibrary() ||
@@ -284,6 +285,7 @@ bool CLibraryGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int contex
       value = CMusicLibraryQueue::GetInstance().IsScanningLibrary();
       return true;
     }
+#endif // HAVE_ADDONS
   }
 
   return false;

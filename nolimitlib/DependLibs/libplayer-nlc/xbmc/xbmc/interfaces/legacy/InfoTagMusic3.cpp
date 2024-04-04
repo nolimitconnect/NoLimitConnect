@@ -7,6 +7,7 @@
  */
 
 #include "InfoTagMusic.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "ServiceBroker.h"
@@ -466,3 +467,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

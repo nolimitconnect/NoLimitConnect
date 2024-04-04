@@ -947,6 +947,7 @@ bool CGUIControlButtonSetting::OnClick()
   {
     std::shared_ptr<const CSettingControlButton> buttonControl =
         std::static_pointer_cast<const CSettingControlButton>(control);
+#if HAVE_ADDONS
     if (controlFormat == "addon")
     {
       // prompt for the addon
@@ -979,6 +980,9 @@ bool CGUIControlButtonSetting::OnClick()
         SetValid(setting->SetValue(addonIDs[0]));
     }
     else if (controlFormat == "path" || controlFormat == "file" || controlFormat == "image")
+#else
+    if (controlFormat == "path" || controlFormat == "file" || controlFormat == "image")
+#endif // HAVE_ADDONS
       SetValid(GetPath(std::static_pointer_cast<CSettingPath>(m_pSetting), m_localizer));
     else if (controlFormat == "date")
     {
@@ -1083,6 +1087,7 @@ void CGUIControlButtonSetting::Update(bool fromControl, bool updateDisplayOnly)
               addonIDs.push_back(std::static_pointer_cast<CSettingString>(setting)->GetValue());
 
             std::vector<std::string> addonNames;
+#if HAVE_ADDONS
             for (const auto& addonID : addonIDs)
             {
               ADDON::AddonPtr addon;
@@ -1090,6 +1095,7 @@ void CGUIControlButtonSetting::Update(bool fromControl, bool updateDisplayOnly)
                                                          ADDON::OnlyEnabled::CHOICE_YES))
                 addonNames.push_back(addon->Name());
             }
+#endif // HAVE_ADDONS
 
             if (addonNames.empty())
               strText = g_localizeStrings.Get(231); // None
@@ -1315,6 +1321,7 @@ bool CGUIControlEditSetting::OnClick()
     return false;
 
   // update our string
+#if HAVE_ADDONS
   if (m_pSetting->GetControl()->GetFormat() == "urlencoded")
   {
     std::shared_ptr<CSettingUrlEncodedString> urlEncodedSetting =
@@ -1322,6 +1329,7 @@ bool CGUIControlEditSetting::OnClick()
     SetValid(urlEncodedSetting->SetDecodedValue(m_pEdit->GetLabel2()));
   }
   else
+#endif // HAVE_ADDONS
     SetValid(m_pSetting->FromString(m_pEdit->GetLabel2()));
 
   return IsValid();
@@ -1336,7 +1344,7 @@ void CGUIControlEditSetting::Update(bool fromControl, bool updateDisplayOnly)
 
   std::shared_ptr<const CSettingControlEdit> control =
       std::static_pointer_cast<const CSettingControlEdit>(m_pSetting->GetControl());
-
+#if HAVE_ADDONS
   if (control->GetFormat() == "urlencoded")
   {
     std::shared_ptr<CSettingUrlEncodedString> urlEncodedSetting =
@@ -1344,6 +1352,7 @@ void CGUIControlEditSetting::Update(bool fromControl, bool updateDisplayOnly)
     m_pEdit->SetLabel2(urlEncodedSetting->GetDecodedValue());
   }
   else
+#endif // HAVE_ADDONS
     m_pEdit->SetLabel2(m_pSetting->ToString());
 }
 

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "InfoScanner.h"
 #include "addons/Scraper.h"
 
@@ -46,8 +49,10 @@ public:
                                        bool prioritise,
                                        std::vector<EmbeddedArt>* art = nullptr) = 0;
 
+ #if HAVE_LIB_CURL
   //! \brief Returns url associated with obtained URL (NFO_URL et al).
   const CScraperUrl& ScraperUrl() const { return m_url; }
+#endif // HAVE_LIB_CURL
 
   //! \brief Returns current scaper info.
   const ADDON::ScraperPtr GetAddonInfo() const { return m_info; }
@@ -55,7 +60,11 @@ public:
 protected:
   const CFileItem& m_item; //!< Reference to item to load for
   ADDON::ScraperPtr m_info; //!< Scraper info
+#if HAVE_LIB_CURL
   CScraperUrl m_url; //!< URL for scraper
+#endif // HAVE_LIB_CURL
 };
 
 }
+
+#endif // HAVE_ADDONS

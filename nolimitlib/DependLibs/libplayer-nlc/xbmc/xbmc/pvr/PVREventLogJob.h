@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "events/EventLog.h"
 #include "utils/Job.h"
 
@@ -60,3 +63,5 @@ private:
   std::vector<Event> m_events;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

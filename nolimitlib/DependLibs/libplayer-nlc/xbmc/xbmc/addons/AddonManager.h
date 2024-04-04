@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 #include "utils/EventStream.h"
 
@@ -694,3 +697,5 @@ private:
 };
 
 }; /* namespace ADDON */
+
+#endif // HAVE_ADDONS

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CDIO
+
 #include "IFile.h"
 #include "storage/cdioSupport.h"
 
@@ -42,3 +45,5 @@ protected:
   std::shared_ptr<MEDIA_DETECT::CLibcdio> m_cdio;
 };
 }
+
+#endif // HAVE_LIB_CDIO

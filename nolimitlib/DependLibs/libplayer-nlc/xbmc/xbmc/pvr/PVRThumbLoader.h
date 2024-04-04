@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "ThumbLoader.h"
 
 #include <string>
@@ -39,3 +42,5 @@ private:
 };
 
 }
+
+#endif // HAVE_ADDONS

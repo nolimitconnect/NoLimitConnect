@@ -9,6 +9,8 @@
 #pragma once
 
 #include "JSONRPC.h"
+#if ENABLE_JSON
+
 #include "settings/lib/SettingLevel.h"
 
 #include <vector>
@@ -85,8 +87,10 @@ namespace JSONRPC
                                      CVariant& obj);
     static bool SerializeSettingPath(const std::shared_ptr<const CSettingPath>& setting,
                                      CVariant& obj);
+#if HAVE_ADDONS
     static bool SerializeSettingAddon(const std::shared_ptr<const CSettingAddon>& setting,
                                       CVariant& obj);
+#endif // HAVE_ADDONS
     static bool SerializeSettingDate(const std::shared_ptr<const CSettingDate>& setting,
                                      CVariant& obj);
     static bool SerializeSettingTime(const std::shared_ptr<const CSettingTime>& setting,
@@ -97,3 +101,5 @@ namespace JSONRPC
     static void SerializeSettingListValues(const std::vector<CVariant> &values, CVariant &obj);
   };
 }
+
+#endif // ENABLE_JSON

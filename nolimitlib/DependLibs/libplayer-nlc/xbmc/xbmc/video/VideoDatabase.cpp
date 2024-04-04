@@ -841,8 +841,12 @@ bool CVideoDatabase::GetPathHash(const std::string &path, std::string &hash)
 
 bool CVideoDatabase::GetSourcePath(const std::string &path, std::string &sourcePath)
 {
+#if HAVE_ADDONS
   SScanSettings dummy;
   return GetSourcePath(path, sourcePath, dummy);
+#else
+    return false;
+#endif // HAVE_ADDONS
 }
 
 bool CVideoDatabase::GetSourcePath(const std::string &path, std::string &sourcePath, SScanSettings& settings)
@@ -871,10 +875,12 @@ bool CVideoDatabase::GetSourcePath(const std::string &path, std::string &sourceP
                                         "path.strScraper IS NOT NULL AND path.strScraper != ''", idPath);
       if (m_pDS->query(strSQL) && !m_pDS->eof())
       {
+#if HAVE_ADDONS
         settings.parent_name_root = settings.parent_name = m_pDS->fv(0).get_asBool();
         settings.recurse = m_pDS->fv(1).get_asInt();
         settings.noupdate = m_pDS->fv(2).get_asBool();
         settings.exclude = m_pDS->fv(3).get_asBool();
+#endif // HAVE_ADDONS
 
         m_pDS->close();
         sourcePath = path;
@@ -894,10 +900,12 @@ bool CVideoDatabase::GetSourcePath(const std::string &path, std::string &sourceP
         std::string strScraper = m_pDS->fv(1).get_asString();
         if (!strContent.empty() && !strScraper.empty())
         {
+#if HAVE_ADDONS
           settings.parent_name_root = settings.parent_name = m_pDS->fv(2).get_asBool();
           settings.recurse = m_pDS->fv(3).get_asInt();
           settings.noupdate = m_pDS->fv(4).get_asBool();
           settings.exclude = m_pDS->fv(5).get_asBool();
+#endif // HAVE_ADDONS
           found = true;
           break;
         }
@@ -1870,13 +1878,14 @@ void CVideoDatabase::AddCast(int mediaId, const char *mediaType, const std::vect
 {
   if (cast.empty())
     return;
-
+#if HAVE_LIB_CURL
   int order = std::max_element(cast.begin(), cast.end())->order;
   for (const auto &i : cast)
   {
     int idActor = AddActor(i.strName, i.thumbUrl.GetData(), i.thumb);
     AddLinkToActor(mediaId, mediaType, idActor, i.strRole, i.order >= 0 ? i.order : ++order);
   }
+#endif // HAVE_LIB_CURL
 }
 
 //********************************************************************************************************************************
@@ -4346,7 +4355,9 @@ void CVideoDatabase::GetCast(int media_id, const std::string &media_type, std::v
           }))
       {
         info.order = m_pDS2->fv(2).get_asInt();
+#if HAVE_LIB_CURL
         info.thumbUrl.ParseFromData(m_pDS2->fv(3).get_asString());
+#endif // HAVE_LIB_CURL
         info.thumb = m_pDS2->fv(4).get_asString();
         cast.emplace_back(std::move(info));
       }
@@ -4834,6 +4845,7 @@ std::vector<std::string> GetBasicItemAvailableArtTypes(int mediaId,
   if (tag.m_fanart.GetNumFanarts() && std::find(result.cbegin(), result.cend(), "fanart") == result.cend())
     result.emplace_back("fanart");
 
+#if HAVE_LIB_CURL
   // all other images
   tag.m_strPictureURL.Parse();
   for (const auto& urlEntry : tag.m_strPictureURL.GetUrls())
@@ -4848,6 +4860,8 @@ std::vector<std::string> GetBasicItemAvailableArtTypes(int mediaId,
       result.push_back(artType);
     }
   }
+#endif // HAVE_LIB_CURL
+
   return result;
 }
 
@@ -4860,6 +4874,7 @@ std::vector<std::string> GetSeasonAvailableArtTypes(int mediaId, CVideoDatabase&
 
   CVideoInfoTag sourceShow;
   db.GetTvShowInfo("", sourceShow, tag.m_iIdShow);
+#if HAVE_LIB_CURL
   sourceShow.m_strPictureURL.Parse();
   for (const auto& urlEntry : sourceShow.m_strPictureURL.GetUrls())
   {
@@ -4872,12 +4887,14 @@ std::vector<std::string> GetSeasonAvailableArtTypes(int mediaId, CVideoDatabase&
       result.push_back(artType);
     }
   }
+#endif // HAVE_LIB_CURL
   return result;
 }
 
 std::vector<std::string> GetMovieSetAvailableArtTypes(int mediaId, CVideoDatabase& db)
 {
   std::vector<std::string> result;
+#if HAVE_LIB_CURL
   CFileItemList items;
   std::string baseDir = StringUtils::Format("videodb://movies/sets/{}", mediaId);
   if (db.GetMoviesNav(baseDir, items))
@@ -4898,9 +4915,12 @@ std::vector<std::string> GetMovieSetAvailableArtTypes(int mediaId, CVideoDatabas
       }
     }
   }
+#endif // HAVE_LIB_CURL
+
   return result;
 }
 
+#if HAVE_LIB_CURL
 std::vector<CScraperUrl::SUrlEntry> GetBasicItemAvailableArt(int mediaId,
                                                              VideoDbContentType dbType,
                                                              const std::string& artType,
@@ -4989,6 +5009,7 @@ std::vector<CScraperUrl::SUrlEntry> GetMovieSetAvailableArt(
   }
   return result;
 }
+#endif // HAVE_LIB_CURL
 
 VideoDbContentType CovertMediaTypeToContentType(const MediaType& mediaType)
 {
@@ -5006,6 +5027,7 @@ VideoDbContentType CovertMediaTypeToContentType(const MediaType& mediaType)
 }
 } // namespace
 
+#if HAVE_LIB_CURL
 std::vector<CScraperUrl::SUrlEntry> CVideoDatabase::GetAvailableArtForItem(
   int mediaId, const MediaType& mediaType, const std::string& artType)
 {
@@ -5019,6 +5041,7 @@ std::vector<CScraperUrl::SUrlEntry> CVideoDatabase::GetAvailableArtForItem(
     return GetMovieSetAvailableArt(mediaId, artType, *this);
   return {};
 }
+#endif // HAVE_LIB_CURL
 
 std::vector<std::string> CVideoDatabase::GetAvailableArtTypesForItem(int mediaId,
   const MediaType& mediaType)
@@ -5190,6 +5213,7 @@ void CVideoDatabase::RemoveContentForPath(const std::string& strPath, CGUIDialog
     progress->Close();
 }
 
+ #if HAVE_ADDONS
 void CVideoDatabase::SetScraperForPath(const std::string& filePath, const ScraperPtr& scraper, const VIDEO::SScanSettings& settings)
 {
   // if we have a multipath, set scraper for all contained paths
@@ -5270,6 +5294,7 @@ bool CVideoDatabase::ScraperInUse(const std::string &scraperID) const
   }
   return false;
 }
+#endif // HAVE_ADDONS
 
 class CArtItem
 {
@@ -5911,12 +5936,16 @@ int CVideoDatabase::GetSchemaVersion() const
 
 bool CVideoDatabase::LookupByFolders(const std::string &path, bool shows)
 {
+#if HAVE_ADDONS
   SScanSettings settings;
   bool foundDirectly = false;
   ScraperPtr scraper = GetScraperForPath(path, settings, foundDirectly);
   if (scraper && scraper->Content() == CONTENT_TVSHOWS && !shows)
     return false; // episodes
   return settings.parent_name_root; // shows, movies, musicvids
+#else
+    return false;
+#endif // HAVE_ADDONS
 }
 
 bool CVideoDatabase::GetPlayCounts(const std::string &strPath, CFileItemList &items)
@@ -7074,7 +7103,9 @@ bool CVideoDatabase::GetPeopleNav(const std::string& strBaseDir,
 
         pItem->m_bIsFolder=true;
         pItem->GetVideoInfoTag()->SetPlayCount(i.second.playcount);
+#if HAVE_LIB_CURL
         pItem->GetVideoInfoTag()->m_strPictureURL.ParseFromData(i.second.thumb);
+#endif // HAVE_LIB_CURL
         pItem->GetVideoInfoTag()->m_iDbId = i.first;
         pItem->GetVideoInfoTag()->m_type = type;
         pItem->GetVideoInfoTag()->m_relevance = i.second.appearances;
@@ -7101,7 +7132,9 @@ bool CVideoDatabase::GetPeopleNav(const std::string& strBaseDir,
           pItem->SetPath(itemUrl.ToString());
 
           pItem->m_bIsFolder=true;
+#if HAVE_LIB_CURL
           pItem->GetVideoInfoTag()->m_strPictureURL.ParseFromData(m_pDS->fv(2).get_asString());
+#endif // HAVE_LIB_CURL
           pItem->GetVideoInfoTag()->m_iDbId = m_pDS->fv(0).get_asInt();
           pItem->GetVideoInfoTag()->m_type = type;
           if (idContent != VideoDbContentType::TVSHOWS)
@@ -8184,7 +8217,7 @@ bool CVideoDatabase::HasContent(VideoDbContentType type)
   }
   return result;
 }
-
+ #if HAVE_ADDONS
 ScraperPtr CVideoDatabase::GetScraperForPath( const std::string& strPath )
 {
   SScanSettings settings;
@@ -8354,6 +8387,7 @@ ScraperPtr CVideoDatabase::GetScraperForPath(const std::string& strPath, SScanSe
   }
   return ScraperPtr();
 }
+ #endif // HAVE_ADDONS
 
 bool CVideoDatabase::GetUseAllExternalAudioForVideo(const std::string& videoPath)
 {
@@ -8369,6 +8403,7 @@ bool CVideoDatabase::GetUseAllExternalAudioForVideo(const std::string& videoPath
   return false;
 }
 
+#if HAVE_ADDONS
 std::string CVideoDatabase::GetContentForPath(const std::string& strPath)
 {
   SScanSettings settings;
@@ -8398,6 +8433,7 @@ std::string CVideoDatabase::GetContentForPath(const std::string& strPath)
   }
   return "";
 }
+#endif // HAVE_ADDONS
 
 void CVideoDatabase::GetMovieGenresByName(const std::string& strSearch, CFileItemList& items)
 {
@@ -9840,6 +9876,7 @@ std::vector<int> CVideoDatabase::CleanMediaType(const std::string &mediaType, co
                     parentPathIdField.c_str(),
                     table.c_str(), cleanableFileIDs.c_str());
 
+#if HAVE_ADDONS
   VECSOURCES videoSources(*CMediaSourceSettings::GetInstance().GetSources("video"));
   CServiceBroker::GetMediaManager().GetRemovableDrives(videoSources);
 
@@ -9904,8 +9941,10 @@ std::vector<int> CVideoDatabase::CleanMediaType(const std::string &mediaType, co
                !sourcePathsDeleteDecision->second.second)
         del = false;
 
+#if HAVE_ADDONS
       if (scanSettings.parent_name)
         pathsDeleteDecisions.insert(std::make_pair(m_pDS2->fv(2).get_asInt(), del));
+#endif // HAVE_ADDONS
     }
 
     if (del)
@@ -9917,6 +9956,7 @@ std::vector<int> CVideoDatabase::CleanMediaType(const std::string &mediaType, co
     m_pDS2->next();
   }
   m_pDS2->close();
+#endif // HAVE_ADDONS
 
   return cleanedIDs;
 }
@@ -10497,6 +10537,7 @@ void CVideoDatabase::ExportToXML(const std::string &path, bool singleFile /* = t
       for (const auto &i : paths)
       {
         bool foundDirectly = false;
+        #if HAVE_ADDONS
         SScanSettings settings;
         ScraperPtr info = GetScraperForPath(i, settings, foundDirectly);
         if (info && foundDirectly)
@@ -10509,6 +10550,7 @@ void CVideoDatabase::ExportToXML(const std::string &path, bool singleFile /* = t
           XMLUtils::SetString(pPath,"content", TranslateContent(info->Content()));
           XMLUtils::SetString(pPath,"scraperpath", info->ID());
         }
+        #endif // HAVE_ADDONS
       }
       xmlDoc.SaveFile(xmlFile);
     }
@@ -10614,7 +10656,9 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
     std::string movieSetsDir(URIUtils::AddFileToFolder(path, "moviesets"));
     std::string musicvideosDir(URIUtils::AddFileToFolder(path, "musicvideos"));
     std::string tvshowsDir(URIUtils::AddFileToFolder(path, "tvshows"));
+#if HAVE_ADDONS
     CVideoInfoScanner scanner;
+#endif // HAVE_ADDONS
     // add paths first (so we have scraper settings available)
     TiXmlElement *path = root->FirstChildElement("paths");
     path = path->FirstChildElement();
@@ -10623,7 +10667,7 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
       std::string strPath;
       if (XMLUtils::GetString(path,"url",strPath) && !strPath.empty())
         AddPath(strPath);
-
+#if HAVE_ADDONS
       std::string content;
       if (XMLUtils::GetString(path,"content", content) && !content.empty())
       { // check the scraper exists, if so store the path
@@ -10641,6 +10685,7 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
           SetScraperForPath(strPath,scraper,settings);
         }
       }
+#endif // HAVE_ADDONS
       path = path->NextSiblingElement();
     }
     movie = root->FirstChildElement();
@@ -10657,7 +10702,9 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
           filename += StringUtils::Format("_{}", info.GetYear());
         CFileItem artItem(item);
         artItem.SetPath(GetSafeFile(moviesDir, filename) + ".avi");
+#if HAVE_ADDONS
         scanner.GetArtwork(&artItem, CONTENT_MOVIES, useFolders, true, actorsDir);
+#endif // HAVE_ADDONS
         item.SetArt(artItem.GetArt());
         if (!item.GetVideoInfoTag()->m_set.title.empty())
         {
@@ -10678,7 +10725,9 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
             item.AppendArt(setArt, "set");
           }
         }
+#if HAVE_ADDONS
         scanner.AddVideo(&item, CONTENT_MOVIES, useFolders, true, NULL, true);
+#endif // HAVE_ADDONS
         current++;
       }
       else if (StringUtils::CompareNoCase(movie->Value(), MediaTypeMusicVideo, 10) == 0)
@@ -10691,9 +10740,11 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
           filename += StringUtils::Format("_{}", info.GetYear());
         CFileItem artItem(item);
         artItem.SetPath(GetSafeFile(musicvideosDir, filename) + ".avi");
+#if HAVE_ADDONS
         scanner.GetArtwork(&artItem, CONTENT_MUSICVIDEOS, useFolders, true, actorsDir);
         item.SetArt(artItem.GetArt());
         scanner.AddVideo(&item, CONTENT_MUSICVIDEOS, useFolders, true, NULL, true);
+#endif // HAVE_ADDONS
         current++;
       }
       else if (StringUtils::CompareNoCase(movie->Value(), MediaTypeTvShow, 6) == 0)
@@ -10708,6 +10759,7 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
         CFileItem artItem(showItem);
         std::string artPath(GetSafeFile(tvshowsDir, info.m_strTitle));
         artItem.SetPath(artPath);
+#if HAVE_ADDONS
         scanner.GetArtwork(&artItem, CONTENT_TVSHOWS, useFolders, true, actorsDir);
         showItem.SetArt(artItem.GetArt());
         int showID = scanner.AddVideo(&showItem, CONTENT_TVSHOWS, useFolders, true, NULL, true);
@@ -10720,6 +10772,7 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
           int seasonID = AddSeason(showID, i.first);
           SetArtForItem(seasonID, MediaTypeSeason, i.second);
         }
+#endif // HAVE_ADDONS
         current++;
         // now load the episodes
         TiXmlElement *episode = movie->FirstChildElement("episodedetails");
@@ -10731,11 +10784,13 @@ void CVideoDatabase::ImportFromXML(const std::string &path)
           CFileItem item(info);
           std::string filename =
               StringUtils::Format("s{:02}e{:02}.avi", info.m_iSeason, info.m_iEpisode);
+#if HAVE_ADDONS
           CFileItem artItem(item);
           artItem.SetPath(GetSafeFile(artPath, filename));
           scanner.GetArtwork(&artItem, CONTENT_TVSHOWS, useFolders, true, actorsDir);
           item.SetArt(artItem.GetArt());
           scanner.AddVideo(&item,CONTENT_TVSHOWS, false, false, showItem.GetVideoInfoTag(), true);
+#endif // HAVE_ADDONS
           episode = episode->NextSiblingElement("episodedetails");
         }
       }
@@ -10810,6 +10865,7 @@ void CVideoDatabase::SplitPath(const std::string& strFileNameAndPath, std::strin
 
 void CVideoDatabase::InvalidatePathHash(const std::string& strPath)
 {
+#if HAVE_ADDONS
   SScanSettings settings;
   bool foundDirectly;
   ScraperPtr info = GetScraperForPath(strPath,settings,foundDirectly);
@@ -10825,6 +10881,7 @@ void CVideoDatabase::InvalidatePathHash(const std::string& strPath)
         SetPathHash(strParent, "");
     }
   }
+#endif // HAVE_ADDONS
 }
 
 bool CVideoDatabase::CommitTransaction()

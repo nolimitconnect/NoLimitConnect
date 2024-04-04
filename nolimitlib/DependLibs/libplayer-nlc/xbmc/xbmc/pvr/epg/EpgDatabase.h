@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "dbwrappers/Database.h"
 #include "threads/CriticalSection.h"
 
@@ -375,3 +378,5 @@ namespace PVR
     CCriticalSection m_critSection;
   };
 }
+
+#endif // HAVE_ADDONS

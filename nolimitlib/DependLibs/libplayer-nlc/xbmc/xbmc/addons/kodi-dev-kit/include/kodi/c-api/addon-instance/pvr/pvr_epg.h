@@ -9,6 +9,9 @@
 #ifndef C_API_ADDONINSTANCE_PVR_EPG_H
 #define C_API_ADDONINSTANCE_PVR_EPG_H
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr_defines.h"
 
 #include <time.h>
@@ -653,5 +656,8 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
+
+#endif // HAVE_ADDONS
+
 
 #endif /* !C_API_ADDONINSTANCE_PVR_EPG_H */

@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRRadioRDSInfo.h"
+#if HAVE_ADDONS
 
 #include "GUIUserMessages.h"
 #include "ServiceBroker.h"
@@ -214,3 +215,5 @@ bool CGUIDialogPVRRadioRDSInfo::InfoControl::Update(const std::string& textboxVa
   }
   return false;
 }
+
+#endif // HAVE_ADDONS

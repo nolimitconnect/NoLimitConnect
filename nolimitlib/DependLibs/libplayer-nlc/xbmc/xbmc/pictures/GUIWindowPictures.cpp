@@ -583,11 +583,14 @@ void CGUIWindowPictures::OnItemInfo(int itemNumber)
   CFileItemPtr item = m_vecItems->Get(itemNumber);
   if (!item)
     return;
+#if HAVE_ADDONS
   if (!m_vecItems->IsPlugin() && (item->IsPlugin() || item->IsScript()))
   {
     CGUIDialogAddonInfo::ShowForItem(item);
     return;
   }
+#endif // HAVE_ADDONS
+
   if (item->m_bIsFolder || item->IsZIP() || item->IsRAR() || item->IsCBZ() || item->IsCBR() || !item->IsPicture())
     return;
   CGUIDialogPictureInfo *pictureInfo = CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIDialogPictureInfo>(WINDOW_DIALOG_PICTURE_INFO);

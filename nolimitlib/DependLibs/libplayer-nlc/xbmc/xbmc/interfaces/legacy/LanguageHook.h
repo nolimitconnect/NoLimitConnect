@@ -9,6 +9,8 @@
 #pragma once
 
 #include "AddonClass.h"
+#if HAVE_ADDONS
+
 #include "CallbackHandler.h"
 #include "threads/Event.h"
 
@@ -149,3 +151,4 @@ namespace XBMCAddon
 
 }
 
+#endif // HAVE_ADDONS

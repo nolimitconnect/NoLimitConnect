@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIProgressHandler.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dialogs/GUIDialogExtendedProgressBar.h"
@@ -95,3 +96,5 @@ void CPVRGUIProgressHandler::Process()
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

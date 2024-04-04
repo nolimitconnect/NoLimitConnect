@@ -8,6 +8,7 @@
 
 #pragma once
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 
 #include "ContextMenuItem.h"
 #include "threads/CriticalSection.h"
@@ -56,16 +57,19 @@ private:
     const CContextMenuItem& root,
     const CFileItem& fileItem) const;
 
+#if HAVE_ADDONS
   void ReloadAddonItems();
   void OnEvent(const ADDON::AddonEvent& event);
+#endif // HAVE_ADDONS
 #if ENABLE_PVR
   void OnPVREvent(const PVR::PVRContextMenuEvent& event);
 #endif // ENABLE_PVR
 
   ADDON::CAddonMgr& m_addonMgr;
+  std::vector<CContextMenuItem> m_addonItems;
 
   mutable CCriticalSection m_criticalSection;
-  std::vector<CContextMenuItem> m_addonItems;
+
   std::vector<std::shared_ptr<IContextMenuItem>> m_items;
 };
 
@@ -82,3 +86,5 @@ bool ShowFor(const std::shared_ptr<CFileItem>& fileItem,
    */
 bool LoopFrom(const IContextMenuItem& menu, const std::shared_ptr<CFileItem>& fileItem);
 }
+
+#endif // HAVE_ADDONS

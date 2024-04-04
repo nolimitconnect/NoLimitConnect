@@ -9,6 +9,7 @@
 #pragma once
 
 #include "IVideoInfoTagLoader.h"
+#if HAVE_ADDONS
 
 #include <string>
 #include <vector>
@@ -60,3 +61,4 @@ protected:
   CInfoScanner::INFO_TYPE LoadAVI(CVideoInfoTag& tag, std::vector<EmbeddedArt>* art);
 };
 
+#endif // HAVE_ADDONS

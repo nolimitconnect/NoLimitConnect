@@ -7,6 +7,7 @@
  */
 
 #include "VideoTagLoaderFFmpeg.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "NfoFile.h"
@@ -177,13 +178,15 @@ CInfoScanner::INFO_TYPE CVideoTagLoaderFFmpeg::LoadMKV(CVideoInfoTag& tag,
     const char* content = reinterpret_cast<const char*>(data);
     if (!m_override_data)
     {
-    nfo.GetDetails(tag, content);
-      return CInfoScanner::FULL_NFO;
-  }
+      nfo.GetDetails(tag, content);
+        return CInfoScanner::FULL_NFO;
+    }
     else
     {
       nfo.Create(content, m_info);
+#if HAVE_LIB_CURL
       m_url = nfo.ScraperUrl();
+#endif // HAVE_LIB_CURL
       return CInfoScanner::URL_NFO;
     }
   }
@@ -197,7 +200,9 @@ CInfoScanner::INFO_TYPE CVideoTagLoaderFFmpeg::LoadMKV(CVideoInfoTag& tag,
     {
       CNfoFile nfo;
       nfo.Create(avtag->value, m_info);
+#if HAVE_LIB_CURL
       m_url = nfo.ScraperUrl();
+#endif // HAVE_LIB_CURL
       return CInfoScanner::URL_NFO;
     }
     else if (StringUtils::CompareNoCase(avtag->key, "title") == 0)
@@ -282,3 +287,5 @@ CInfoScanner::INFO_TYPE CVideoTagLoaderFFmpeg::LoadAVI(CVideoInfoTag& tag,
 
   return CInfoScanner::TITLE_NFO;
 }
+
+#endif // HAVE_ADDONS

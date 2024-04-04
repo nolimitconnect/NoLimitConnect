@@ -7,6 +7,7 @@
  */
 
 #include "HTTPWebinterfaceAddonsHandler.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/Addon.h"
@@ -57,4 +58,4 @@ HttpResponseRanges CHTTPWebinterfaceAddonsHandler::GetResponseData() const
   return ranges;
 }
 
-
+#endif // HAVE_ADDONS

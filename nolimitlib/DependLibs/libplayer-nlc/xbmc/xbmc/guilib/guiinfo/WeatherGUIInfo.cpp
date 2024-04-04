@@ -7,6 +7,7 @@
  */
 
 #include "guilib/guiinfo/WeatherGUIInfo.h"
+#if HAVE_WEATHER
 
 #include "FileItem.h"
 #include "LangInfoKodi.h"
@@ -79,3 +80,5 @@ bool CWeatherGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int contex
 
   return false;
 }
+
+#endif // HAVE_WEATHER

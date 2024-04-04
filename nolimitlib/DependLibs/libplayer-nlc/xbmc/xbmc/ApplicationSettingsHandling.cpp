@@ -148,6 +148,7 @@ void CApplicationSettingsHandling::OnSettingAction(const std::shared_ptr<const C
   const std::string& settingId = setting->GetId();
   if (settingId == CSettings::SETTING_LOOKANDFEEL_SKINSETTINGS)
     CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow(WINDOW_SKIN_SETTINGS);
+  #if HAVE_ADDONS
   else if (settingId == CSettings::SETTING_AUDIOCDS_SETTINGS)
   {
     ADDON::AddonPtr addon;
@@ -157,6 +158,7 @@ void CApplicationSettingsHandling::OnSettingAction(const std::shared_ptr<const C
             addon, ADDON::AddonType::AUDIOENCODER, ADDON::OnlyEnabled::CHOICE_YES))
       CGUIDialogAddonSettings::ShowForAddon(addon);
   }
+  #endif // HAVE_ADDONS
   else if (settingId == CSettings::SETTING_VIDEOSCREEN_GUICALIBRATION)
     CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow(WINDOW_SCREEN_CALIBRATION);
   else if (settingId == CSettings::SETTING_SOURCE_VIDEOS)

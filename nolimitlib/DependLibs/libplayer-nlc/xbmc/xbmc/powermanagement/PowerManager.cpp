@@ -196,9 +196,12 @@ void CPowerManager::OnSleep()
     dialog->Open();
 
   CLog::Log(LOGNOTICE, "%s: Running sleep jobs", __FUNCTION__);
+
+#if HAVE_ADDONS
 #if ENABLE_PVR
   CServiceBroker::GetPVRManager().OnSleep();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   StorePlayerState();
 
@@ -242,10 +245,14 @@ void CPowerManager::OnWake()
 
   CServiceBroker::GetActiveAE()->Resume();
   g_application.UpdateLibraries();
+#if HAVE_WEATHER
   CServiceBroker::GetWeatherManager().Refresh();
+#endif // HAVE_WEATHER
+#if HAVE_ADDONS
 #if ENABLE_PVR
   CServiceBroker::GetPVRManager().OnWake();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   RestorePlayerState();
 

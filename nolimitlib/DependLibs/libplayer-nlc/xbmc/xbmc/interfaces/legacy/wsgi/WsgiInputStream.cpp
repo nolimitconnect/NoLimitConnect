@@ -7,6 +7,8 @@
  */
 
 #include "WsgiInputStream.h"
+#if HAVE_ADDONS
+
 #include "network/httprequesthandler/python/HTTPPythonRequest.h"
 #include "utils/StringUtils.h"
 
@@ -163,3 +165,5 @@ namespace XBMCAddon
 #endif
   }
 }
+
+#endif // HAVE_ADDONS

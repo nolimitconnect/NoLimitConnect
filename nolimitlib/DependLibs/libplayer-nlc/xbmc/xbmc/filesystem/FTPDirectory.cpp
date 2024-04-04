@@ -7,6 +7,8 @@
  */
 
 #include "FTPDirectory.h"
+#if HAVE_LIB_CURL
+
 #include "NlcUrl.h"
 
 #include "CurlFile.h"
@@ -112,3 +114,5 @@ bool CFTPDirectory::Exists(const NlcUrl& url)
   NlcUrl url2(file);
   return ftp.Exists(url2);
 }
+
+#endif // HAVE_LIB_CURL

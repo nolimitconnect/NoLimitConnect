@@ -7,6 +7,7 @@
  */
 
 #include "AddonBuiltins.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIPassword.h"
@@ -513,3 +514,5 @@ CBuiltins::CommandMap CAddonBuiltins::GetOperations() const
            {"updatelocaladdons",          {"Check for local add-on changes", 0, UpdateLocals}}
          };
 }
+
+#endif // HAVE_ADDONS

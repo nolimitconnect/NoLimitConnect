@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelGroupSettings.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRManager.h"
@@ -102,3 +103,5 @@ bool CPVRChannelGroupSettings::UpdateStartGroupChannelNumbersFromOne()
       !UseBackendChannelNumbers();
   return m_bStartGroupChannelNumbersFromOne;
 }
+
+#endif // HAVE_ADDONS

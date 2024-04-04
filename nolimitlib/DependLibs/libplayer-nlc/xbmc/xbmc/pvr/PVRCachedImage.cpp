@@ -7,6 +7,7 @@
  */
 
 #include "PVRCachedImage.h"
+#if HAVE_ADDONS
 
 #include "TextureDatabase.h"
 #include "utils/StringUtils.h"
@@ -69,3 +70,5 @@ void CPVRCachedImage::UpdateLocalImage()
   else
     m_localImage = CTextureUtils::GetWrappedImageURL(m_clientImage, m_owner);
 }
+
+#endif // HAVE_ADDONS

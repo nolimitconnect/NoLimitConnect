@@ -7,6 +7,7 @@
  */
 
 #include "PVRContextMenus.h"
+#if HAVE_ADDONS
 
 #include "ContextMenuItem.h"
 #include "FileItem.h"
@@ -778,3 +779,5 @@ void CPVRContextMenuManager::RemoveMenuHook(const CPVRClientMenuHook& hook)
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

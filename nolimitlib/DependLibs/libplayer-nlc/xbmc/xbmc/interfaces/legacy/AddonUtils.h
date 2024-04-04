@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 /*
  * addon.h
  *
@@ -92,4 +95,4 @@ namespace XBMCAddonUtils
 #define XBMC_TRACE
 #endif
 
-
+#endif // HAVE_ADDONS

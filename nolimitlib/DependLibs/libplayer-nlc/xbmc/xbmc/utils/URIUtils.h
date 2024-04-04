@@ -166,10 +166,12 @@ public:
   static bool IsAndroidApp(const std::string& strFile);
   static bool IsLibraryFolder(const std::string& strFile);
   static bool IsLibraryContent(const std::string& strFile);
+#if HAVE_ADDONS
   static bool IsPVR(const std::string& strFile);
   static bool IsPVRChannel(const std::string& strFile);
   static bool IsPVRChannelGroup(const std::string& strFile);
   static bool IsPVRGuideItem(const std::string& strFile);
+#endif // HAVE_ADDONS
 
   static std::string AppendSlash(std::string strFolder);
   static void AddSlashAtEnd(std::string& strFolder);

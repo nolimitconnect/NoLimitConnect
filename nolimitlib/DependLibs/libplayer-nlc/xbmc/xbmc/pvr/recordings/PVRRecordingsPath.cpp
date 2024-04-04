@@ -7,6 +7,7 @@
  */
 
 #include "PVRRecordingsPath.h"
+#if HAVE_ADDONS
 
 #include "NlcUrl.h"
 #include "XBDateTime.h"
@@ -242,3 +243,5 @@ size_t CPVRRecordingsPath::GetDirectoryPathPosition() const
   }
   // unreachable
 }
+
+#endif // HAVE_ADDONS

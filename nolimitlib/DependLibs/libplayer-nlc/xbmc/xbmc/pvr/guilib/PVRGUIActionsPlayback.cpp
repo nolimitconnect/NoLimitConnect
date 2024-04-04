@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsPlayback.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -631,3 +632,5 @@ void CPVRGUIActionsPlayback::SeekBackward(unsigned int iThreshold)
     }
   }
 }
+
+#endif // HAVE_ADDONS

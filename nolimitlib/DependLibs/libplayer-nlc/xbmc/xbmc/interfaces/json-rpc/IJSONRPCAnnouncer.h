@@ -7,6 +7,8 @@
  */
 
 #pragma once
+#include "config_components_kodi.h"
+#if ENABLE_JSON
 
 #include "interfaces/IAnnouncer.h"
 #include "utils/JSONVariantWriter.h"
@@ -44,3 +46,5 @@ namespace JSONRPC
     }
   };
 }
+
+#endif // ENABLE_JSON

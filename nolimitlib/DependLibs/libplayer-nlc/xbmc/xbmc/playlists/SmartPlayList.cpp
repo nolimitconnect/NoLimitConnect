@@ -1379,11 +1379,15 @@ bool CSmartPlaylist::Save(CVariant &obj, bool full /* = true */) const
 
 bool CSmartPlaylist::SaveAsJson(std::string &json, bool full /* = true */) const
 {
+#if ENABLE_JSON
   CVariant xsp(CVariant::VariantTypeObject);
   if (!Save(xsp, full))
     return false;
 
   return CJSONVariantWriter::Write(xsp, json, true) && !json.empty();
+#else
+    return false;
+#endif // ENABLE_JSON
 }
 
 void CSmartPlaylist::Reset()

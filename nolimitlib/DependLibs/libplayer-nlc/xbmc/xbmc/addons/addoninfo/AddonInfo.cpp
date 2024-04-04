@@ -7,6 +7,7 @@
  */
 
 #include "AddonInfo.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "LangInfoKodi.h"
@@ -318,3 +319,5 @@ std::vector<AddonInstanceId> CAddonInfo::GetKnownInstanceIds() const
 }
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

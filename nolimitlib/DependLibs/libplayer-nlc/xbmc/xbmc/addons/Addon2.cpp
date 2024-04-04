@@ -7,6 +7,7 @@
  */
 
 #include "Addon.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/AddonManager.h"
@@ -677,3 +678,5 @@ void OnPostUnInstall(const AddonPtr& addon)
 }
 
 } // namespace ADDON
+
+#endif // HAVE_ADDONS

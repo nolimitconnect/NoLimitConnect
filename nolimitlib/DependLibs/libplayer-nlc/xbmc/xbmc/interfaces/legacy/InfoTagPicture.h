@@ -9,6 +9,7 @@
 #pragma once
 
 #include "AddonClass.h"
+#if HAVE_ADDONS
 
 class CPictureInfoTag;
 
@@ -178,3 +179,5 @@ public:
 
 } // namespace xbmc
 } // namespace XBMCAddon
+
+#endif // HAVE_ADDONS

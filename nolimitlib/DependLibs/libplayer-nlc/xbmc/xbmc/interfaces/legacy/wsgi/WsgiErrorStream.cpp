@@ -7,6 +7,8 @@
  */
 
 #include "WsgiErrorStream.h"
+#if HAVE_ADDONS
+
 #include "network/httprequesthandler/python/HTTPPythonRequest.h"
 #include "utils/log.h"
 #include "utils/StringUtils.h"
@@ -60,3 +62,5 @@ namespace XBMCAddon
 #endif
   }
 }
+
+#endif // HAVE_ADDONS

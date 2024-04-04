@@ -56,6 +56,7 @@ bool CSettingAddon::Deserialize(const TiXmlNode *node, bool update /* = false */
   auto constraints = node->FirstChild("constraints");
   if (constraints != nullptr)
   {
+#if HAVE_ADDONS
     // get the addon type
     if (XMLUtils::GetString(constraints, "addontype", strAddonType) && !strAddonType.empty())
     {
@@ -63,6 +64,7 @@ bool CSettingAddon::Deserialize(const TiXmlNode *node, bool update /* = false */
       if (m_addonType != ADDON::AddonType::UNKNOWN)
         ok = true;
     }
+#endif // HAVE_ADDONS
   }
 
   if (!ok && !update)

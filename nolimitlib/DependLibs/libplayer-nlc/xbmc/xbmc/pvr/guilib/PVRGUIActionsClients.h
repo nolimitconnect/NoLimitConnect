@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/IPVRComponent.h"
 
 namespace PVR
@@ -36,3 +39,5 @@ using Clients = CPVRGUIActionsClients;
 } // namespace GUI
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

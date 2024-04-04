@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "dialogs/GUIDialogContextMenu.h"
 #include "pvr/settings/PVRSettings.h"
 #include "pvr/windows/GUIWindowPVRBase.h"
@@ -70,3 +73,5 @@ public:
   std::string GetRootPath() const override;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

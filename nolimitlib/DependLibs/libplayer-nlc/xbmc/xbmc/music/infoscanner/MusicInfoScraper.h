@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CURL
+
 #include "MusicAlbumInfo.h"
 #include "MusicArtistInfo.h"
 #include "addons/Scraper.h"
@@ -80,3 +83,5 @@ protected:
 };
 
 }
+
+#endif // HAVE_LIB_CURL

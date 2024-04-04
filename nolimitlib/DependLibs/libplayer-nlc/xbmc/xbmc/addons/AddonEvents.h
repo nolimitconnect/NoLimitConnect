@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
 
 #include <string>
 
@@ -124,3 +125,5 @@ struct AutoUpdateStateChanged : AddonEvent
 
 } // namespace AddonEvents
 } // namespace ADDON
+
+#endif // HAVE_ADDONS

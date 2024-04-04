@@ -7,6 +7,7 @@
  */
 
 #include "ContextMenuManager.h"
+#if HAVE_ADDONS
 
 #include "ContextMenuItem.h"
 #include "ContextMenus.h"
@@ -42,7 +43,8 @@ const CContextMenuItem CContextMenuManager::MANAGE = CContextMenuItem::CreateGro
 
 
 CContextMenuManager::CContextMenuManager(CAddonMgr& addonMgr)
-  : m_addonMgr(addonMgr) {}
+  : m_addonMgr(addonMgr) 
+{}
 
 CContextMenuManager::~CContextMenuManager()
 {
@@ -54,13 +56,17 @@ void CContextMenuManager::Deinit()
 #if ENABLE_PVR
   CPVRContextMenuManager::GetInstance().Events().Unsubscribe(this);
 #endif // ENABLE_PVR
+#if HAVE_ADDONS
   m_addonMgr.Events().Unsubscribe(this);
+#endif // HAVE_ADDONS
   m_items.clear();
 }
 
 void CContextMenuManager::Init()
 {
+#if HAVE_ADDONS
   m_addonMgr.Events().Subscribe(this, &CContextMenuManager::OnEvent);
+#endif // HAVE_ADDONS
 #if ENABLE_PVR
   CPVRContextMenuManager::GetInstance().Events().Subscribe(this, &CContextMenuManager::OnPVREvent);
 #endif // ENABLE_PVR
@@ -111,6 +117,7 @@ void CContextMenuManager::Init()
 #endif // ENABLE_PVR
 }
 
+#if HAVE_ADDONS
 void CContextMenuManager::ReloadAddonItems()
 {
   VECADDONS addons;
@@ -166,6 +173,7 @@ void CContextMenuManager::OnEvent(const ADDON::AddonEvent& event)
     }
   }
 }
+#endif // HAVE_ADDONS
 
 #if ENABLE_PVR
 void CContextMenuManager::OnPVREvent(const PVRContextMenuEvent& event)
@@ -302,3 +310,5 @@ bool CONTEXTMENU::LoopFrom(const IContextMenuItem& menu, const std::shared_ptr<C
     return ShowFor(fileItem, static_cast<const CContextMenuItem&>(menu));
   return menu.Execute(fileItem);
 }
+
+#endif // HAVE_ADDONS

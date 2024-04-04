@@ -357,6 +357,7 @@ void CGUIDialogVideoInfo::SetMovie(const CFileItem *item)
         CFileItemPtr item(new CFileItem(it->strName));
         if (!it->thumb.empty())
           item->SetArt("thumb", it->thumb);
+#if HAVE_LIB_CURL
         else if (CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(
                      CSettings::SETTING_VIDEOLIBRARY_ACTORTHUMBS))
         { // backward compatibility
@@ -367,6 +368,8 @@ void CGUIDialogVideoInfo::SetMovie(const CFileItem *item)
             CServiceBroker::GetTextureCache()->BackgroundCacheImage(thumb);
           }
         }
+#endif // HAVE_LIB_CURL
+
         item->SetArt("icon", "DefaultActor.png");
         item->SetLabel(it->strName);
         item->SetLabel2(it->strRole);
@@ -393,6 +396,7 @@ void CGUIDialogVideoInfo::SetMovie(const CFileItem *item)
       CFileItemPtr item(new CFileItem(it->strName));
       if (!it->thumb.empty())
         item->SetArt("thumb", it->thumb);
+#if HAVE_LIB_CURL
       else
       {
         const std::shared_ptr<CSettings> settings =
@@ -409,6 +413,8 @@ void CGUIDialogVideoInfo::SetMovie(const CFileItem *item)
         }
       }
       }
+#endif // HAVE_LIB_CURL
+
       item->SetArt("icon", "DefaultActor.png");
       item->SetLabel(it->strName);
       item->SetLabel2(it->strRole);
@@ -906,6 +912,7 @@ void CGUIDialogVideoInfo::OnGetArt()
     std::string embeddedArt;
     if (URIUtils::HasExtension(m_movieItem->GetVideoInfoTag()->m_strFileNameAndPath, ".mkv"))
     {
+#if HAVE_ADDONS
       CFileItem item(m_movieItem->GetVideoInfoTag()->m_strFileNameAndPath, false);
       CVideoTagLoaderFFmpeg loader(item, nullptr, false);
       CVideoInfoTag tag;
@@ -921,11 +928,13 @@ void CGUIDialogVideoInfo::OnGetArt()
           items.Add(itemF);
         }
       }
+#endif // HAVE_ADDONS
     }
 
+    std::vector<std::string> thumbs;
+#if HAVE_LIB_CURL
     // Grab the thumbnails from the web
     m_movieItem->GetVideoInfoTag()->m_strPictureURL.Parse();
-    std::vector<std::string> thumbs;
     int season = (m_movieItem->GetVideoInfoTag()->m_type == MediaTypeSeason) ? m_movieItem->GetVideoInfoTag()->m_iSeason : -1;
     m_movieItem->GetVideoInfoTag()->m_strPictureURL.GetThumbUrls(thumbs, type, season);
 
@@ -941,6 +950,7 @@ void CGUIDialogVideoInfo::OnGetArt()
       //    CServiceBroker::GetTextureCache()->ClearCachedImage(thumb);
       items.Add(item);
     }
+#endif // HAVE_LIB_CURL
 
     std::string localThumb = CVideoThumbLoader::GetLocalArt(*m_movieItem, type);
     if (!localThumb.empty())
@@ -996,7 +1006,9 @@ void CGUIDialogVideoInfo::OnGetArt()
       m_movieItem->SetArt(type, newThumb);
       if (m_movieItem->HasProperty("set_folder_thumb"))
       { // have a folder thumb to set as well
+#if HAVE_ADDONS
         VIDEO::CVideoInfoScanner::ApplyThumbToFolder(m_movieItem->GetProperty("set_folder_thumb").asString(), newThumb);
+#endif // HAVE_ADDONS
       }
       m_hasUpdatedThumb = true;
     }
@@ -1030,6 +1042,7 @@ void CGUIDialogVideoInfo::OnGetFanart()
   std::string embeddedArt;
   if (URIUtils::HasExtension(m_movieItem->GetVideoInfoTag()->m_strFileNameAndPath, ".mkv"))
   {
+#if HAVE_ADDONS
     CFileItem item(m_movieItem->GetVideoInfoTag()->m_strFileNameAndPath, false);
     CVideoTagLoaderFFmpeg loader(item, nullptr, false);
     CVideoInfoTag tag;
@@ -1045,6 +1058,7 @@ void CGUIDialogVideoInfo::OnGetFanart()
         items.Add(itemF);
       }
     }
+#endif // HAVE_ADDONS
   }
 
   // Grab the thumbnails from the web
@@ -1312,9 +1326,11 @@ int CGUIDialogVideoInfo::ManageVideoItem(const std::shared_ptr<CFileItem>& item)
   //temporary workaround until the context menu ids are removed
   const int addonItemOffset = 10000;
 
+#if HAVE_ADDONS
   auto addonItems = CServiceBroker::GetContextMenuManager().GetAddonItems(*item, CContextMenuManager::MANAGE);
   for (size_t i = 0; i < addonItems.size(); ++i)
     buttons.Add(addonItemOffset + i, addonItems[i]->GetLabel(*item));
+#endif // HAVE_ADDONS
 
   bool result = false;
   int button = CGUIDialogContextMenu::ShowAndGetChoice(buttons);
@@ -1373,8 +1389,10 @@ int CGUIDialogVideoInfo::ManageVideoItem(const std::shared_ptr<CFileItem>& item)
         break;
 
       default:
+#if HAVE_ADDONS
         if (button >= addonItemOffset)
           result = CONTEXTMENU::LoopFrom(*addonItems[button - addonItemOffset], item);
+#endif // HAVE_ADDONS
         break;
     }
   }
@@ -1978,6 +1996,7 @@ namespace
 {
 std::string FindLocalMovieSetArtworkFile(const CFileItemPtr& item, const std::string& artType)
 {
+#if HAVE_ADDONS
   std::string infoFolder = VIDEO::CVideoInfoScanner::GetMovieSetInfoFolder(item->GetLabel());
   if (infoFolder.empty())
     return "";
@@ -1993,6 +2012,8 @@ std::string FindLocalMovieSetArtworkFile(const CFileItemPtr& item, const std::st
     if (StringUtils::EqualsNoCase(candidate, artType))
       return artFile->GetPath();
   }
+#endif // HAVE_ADDONS
+
   return "";
 }
 } // namespace
@@ -2070,8 +2091,10 @@ bool CGUIDialogVideoInfo::ManageVideoItemArtwork(const std::shared_ptr<CFileItem
     if (type == MediaTypeSeason)
     {
       videodb.GetTvShowInfo("", tag, item->GetVideoInfoTag()->m_iIdShow);
+#if HAVE_LIB_CURL
       tag.m_strPictureURL.Parse();
       tag.m_strPictureURL.GetThumbUrls(thumbs, artType, item->GetVideoInfoTag()->m_iSeason);
+#endif // HAVE_LIB_CURL
     }
     else if (type == MediaTypeVideoCollection)
     {
@@ -2080,20 +2103,24 @@ bool CGUIDialogVideoInfo::ManageVideoItemArtwork(const std::shared_ptr<CFileItem
           StringUtils::Format("videodb://movies/sets/{}", item->GetVideoInfoTag()->m_iDbId);
       if (videodb.GetMoviesNav(baseDir, items))
       {
+#if HAVE_LIB_CURL
         for (int i=0; i < items.Size(); i++)
         {
           CVideoInfoTag* pTag = items[i]->GetVideoInfoTag();
           pTag->m_strPictureURL.Parse();
           pTag->m_strPictureURL.GetThumbUrls(thumbs, "set." + artType, -1, true);
         }
+#endif // HAVE_LIB_CURL
       }
     }
+#if HAVE_LIB_CURL
     else
     {
       tag = *item->GetVideoInfoTag();
       tag.m_strPictureURL.Parse();
       tag.m_strPictureURL.GetThumbUrls(thumbs, artType);
     }
+#endif // HAVE_LIB_CURL
 
     for (size_t i = 0; i < thumbs.size(); i++)
     {
@@ -2175,9 +2202,11 @@ bool CGUIDialogVideoInfo::ManageVideoItemArtwork(const std::shared_ptr<CFileItem
   CServiceBroker::GetMediaManager().GetLocalDrives(sources);
   if (type == MediaTypeVideoCollection)
   {
+#if HAVE_ADDONS
     AddItemPathStringToFileBrowserSources(sources,
         VIDEO::CVideoInfoScanner::GetMovieSetInfoFolder(item->GetLabel()),
         g_localizeStrings.Get(36041));
+#endif // HAVE_ADDONS
     AddItemPathStringToFileBrowserSources(sources,
         CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(
             CSettings::SETTING_VIDEOLIBRARY_MOVIESETSFOLDER),
@@ -2395,7 +2424,9 @@ void CGUIDialogVideoInfo::ShowFor(const CFileItem& item)
   auto window = CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIWindowVideoNav>(WINDOW_VIDEO_NAV);
   if (window)
   {
+#if HAVE_ADDONS
     ADDON::ScraperPtr info;
     window->OnItemInfo(item, info);
+#endif // HAVE_ADDONS
   }
 }

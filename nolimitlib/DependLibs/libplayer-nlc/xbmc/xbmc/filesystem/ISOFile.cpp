@@ -9,6 +9,8 @@
  */
 
 #include "ISOFile.h"
+#if HAVE_LIB_CDIO
+
 #include "NlcUrl.h"
 #include "iso9660.h"
 
@@ -161,3 +163,5 @@ int CISOFile::Stat(const NlcUrl& url, struct __stat64* buffer)
   errno = ENOENT;
   return -1;
 }
+
+#endif // HAVE_LIB_CDIO

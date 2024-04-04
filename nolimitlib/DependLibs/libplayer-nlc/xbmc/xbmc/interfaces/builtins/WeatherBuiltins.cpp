@@ -7,6 +7,7 @@
  */
 
 #include "WeatherBuiltins.h"
+#if HAVE_WEATHER
 
 #include "ServiceBroker.h"
 #include "guilib/GUIComponent.h"
@@ -86,3 +87,5 @@ CBuiltins::CommandMap CWeatherBuiltins::GetOperations() const
            {"weather.locationset",      {"Switch to given weather location (parameter can be 1-3)", 1, SetLocation}}
          };
 }
+
+#endif // HAVE_WEATHER

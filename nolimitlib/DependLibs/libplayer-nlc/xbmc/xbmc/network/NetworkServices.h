@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+
 #include "settings/lib/ISettingCallback.h"
 
 class CSettings;
@@ -66,9 +68,11 @@ public:
   bool IsAirTunesServerRunning();
   bool StopAirTunesServer(bool bWait);
 
+  #if ENABLE_JSON
   bool StartJSONRPCServer();
   bool IsJSONRPCServerRunning();
   bool StopJSONRPCServer(bool bWait);
+  #endif // ENABLE_JSON
 
   bool StartEventServer();
   bool IsEventServerRunning();

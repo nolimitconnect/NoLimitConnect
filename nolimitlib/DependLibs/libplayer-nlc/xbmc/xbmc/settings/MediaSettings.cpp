@@ -312,6 +312,7 @@ void CMediaSettings::OnSettingAction(const std::shared_ptr<const CSetting>& sett
   const std::string &settingId = setting->GetId();
   if (settingId == CSettings::SETTING_MUSICLIBRARY_CLEANUP)
   {
+#if HAVE_ADDONS
     if (HELPERS::ShowYesNoDialogText(CVariant{313}, CVariant{333}) == DialogResponse::CHOICE_YES)
     {
       if (CMusicLibraryQueue::GetInstance().IsRunning())
@@ -319,15 +320,18 @@ void CMediaSettings::OnSettingAction(const std::shared_ptr<const CSetting>& sett
       else
         CMusicLibraryQueue::GetInstance().CleanLibrary(true);
     }
+#endif // HAVE_ADDONS
   }
   else if (settingId == CSettings::SETTING_MUSICLIBRARY_EXPORT)
   {
+#if HAVE_ADDONS
     CLibExportSettings m_musicExportSettings;
     if (CGUIDialogLibExportSettings::Show(m_musicExportSettings))
     {
       // Export music library showing progress dialog
       CMusicLibraryQueue::GetInstance().ExportLibrary(m_musicExportSettings, true);
     }
+#endif // HAVE_ADDONS
   }
   else if (settingId == CSettings::SETTING_MUSICLIBRARY_IMPORT)
   {
@@ -339,8 +343,10 @@ void CMediaSettings::OnSettingAction(const std::shared_ptr<const CSetting>& sett
 
     if (CGUIDialogFileBrowser::ShowAndGetFile(shares, "musicdb.xml", g_localizeStrings.Get(651) , path))
     {
+#if HAVE_ADDONS
       // Import data to music library showing progress dialog
       CMusicLibraryQueue::GetInstance().ImportLibrary(path, true);
+#endif // HAVE_ADDONS
     }
   }
   else if (settingId == CSettings::SETTING_VIDEOLIBRARY_CLEANUP)

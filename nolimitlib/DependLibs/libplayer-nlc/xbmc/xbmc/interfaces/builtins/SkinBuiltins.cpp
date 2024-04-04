@@ -7,6 +7,8 @@
  */
 
 #include "SkinBuiltins.h"
+#if HAVE_ADDONS
+
 #include "NlcCoreUtil.h"
 #include "NlcUrl.h"
 
@@ -698,3 +700,5 @@ CBuiltins::CommandMap CSkinBuiltins::GetOperations() const
           {"skin.timerstart", {"Starts a given skin timer", 1, SkinTimerStart}},
           {"skin.timerstop", {"Stops a given skin timer", 1, SkinTimerStop}}};
 }
+
+#endif // HAVE_ADDONS

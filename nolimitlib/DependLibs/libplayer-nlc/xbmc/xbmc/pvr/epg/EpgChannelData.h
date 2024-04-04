@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <ctime>
 #include <string>
 
@@ -57,3 +60,5 @@ private:
   std::string m_strChannelIconPath;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

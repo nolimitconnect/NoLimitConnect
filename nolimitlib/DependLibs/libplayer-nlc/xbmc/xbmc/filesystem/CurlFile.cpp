@@ -7,6 +7,7 @@
  */
 
 #include "CurlFile.h"
+#if HAVE_LIB_CURL
 
 #include "DllLibCurl.h"
 
@@ -2077,3 +2078,5 @@ double CCurlFile::GetDownloadSpeed()
 #endif
   return 0.0;
 }
+
+#endif // HAVE_LIB_CURL

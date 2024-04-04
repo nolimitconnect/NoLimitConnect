@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionListener.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -418,3 +419,5 @@ void CPVRGUIActionListener::OnSettingAction(const std::shared_ptr<const CSetting
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

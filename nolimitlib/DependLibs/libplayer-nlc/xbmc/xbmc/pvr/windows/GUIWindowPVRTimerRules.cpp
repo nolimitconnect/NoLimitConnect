@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRTimerRules.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "pvr/timers/PVRTimersPath.h"
@@ -45,3 +46,5 @@ std::string CGUIWindowPVRRadioTimerRules::GetDirectoryPath()
   const std::string basePath(CPVRTimersPath(true, true).GetPath());
   return URIUtils::PathHasParent(m_vecItems->GetPath(), basePath) ? m_vecItems->GetPath() : basePath;
 }
+
+#endif // HAVE_ADDONS

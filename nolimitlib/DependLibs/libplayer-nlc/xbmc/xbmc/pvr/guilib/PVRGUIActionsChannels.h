@@ -7,6 +7,8 @@
  */
 
 #pragma once
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
 
 #include "pvr/IPVRComponent.h"
 #include "pvr/PVRChannelNumberInputHandler.h"
@@ -180,3 +182,5 @@ using Channels = CPVRGUIActionsChannels;
 } // namespace GUI
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "PVREdl.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_edl.h"
@@ -66,3 +67,5 @@ std::vector<EDL::Edit> CPVREdl::GetEdits(const CFileItem& item)
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

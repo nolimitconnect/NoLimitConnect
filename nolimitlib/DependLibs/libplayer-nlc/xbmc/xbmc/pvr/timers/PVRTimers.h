@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/settings/PVRSettings.h"
 #include "threads/Thread.h"
 
@@ -329,3 +332,5 @@ private:
   std::vector<int> m_failedClients;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

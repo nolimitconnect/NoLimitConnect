@@ -40,8 +40,10 @@ public:
 
   void SetId(int id) { m_id = id; }
   int GetId() const { return m_id; }
+#if HAVE_ADDONS
   const ADDON::AddonPtr& GetAddon() const { return m_addon; }
   void SetAddon(const ADDON::AddonPtr &addon) { m_addon = addon; }
+#endif // HAVE_ADDONS
   InvokerState GetState() const { return m_state; }
   bool IsActive() const;
   bool IsRunning() const;
@@ -66,8 +68,9 @@ protected:
 
   void setState(InvokerState state);
 
+#if HAVE_ADDONS
   ADDON::AddonPtr m_addon;
-
+#endif // HAVE_ADDONS
 private:
   int m_id = -1;
   InvokerState m_state = InvokerStateUninitialized;

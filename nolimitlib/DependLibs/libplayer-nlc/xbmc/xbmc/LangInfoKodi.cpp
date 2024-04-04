@@ -45,7 +45,9 @@ std::string GetDateStringWithFormat(const CDateTime& date, const std::string& fo
 }
 } // namespace
 
+#if HAVE_ADDONS
 using namespace PVR;
+#endif // HAVE_ADDONS
 
 static std::string shortDateFormats[] = {
     // clang-format off
@@ -346,10 +348,11 @@ void CLangInfo::OnSettingChanged(const std::shared_ptr<const CSetting>& setting)
     return;
 
   const std::string &settingId = setting->GetId();
-  if (settingId == CSettings::SETTING_LOCALE_AUDIOLANGUAGE)
-    SetAudioLanguage(std::static_pointer_cast<const CSettingString>(setting)->GetValue());
-  else if (settingId == CSettings::SETTING_LOCALE_SUBTITLELANGUAGE)
+  if (settingId == CSettings::SETTING_LOCALE_SUBTITLELANGUAGE)
     SetSubtitleLanguage(std::static_pointer_cast<const CSettingString>(setting)->GetValue());
+#if HAVE_ADDONS
+  else if (settingId == CSettings::SETTING_LOCALE_AUDIOLANGUAGE)
+    SetAudioLanguage(std::static_pointer_cast<const CSettingString>(setting)->GetValue());
   else if (settingId == CSettings::SETTING_LOCALE_LANGUAGE)
   {
     if (!SetLanguage(std::static_pointer_cast<const CSettingString>(setting)->GetValue()))
@@ -364,6 +367,7 @@ void CLangInfo::OnSettingChanged(const std::shared_ptr<const CSetting>& setting)
       std::static_pointer_cast<CSettingString>(langsetting)->Reset();
     }
   }
+#endif // HAVE_ADDONS
   else if (settingId == CSettings::SETTING_LOCALE_COUNTRY)
     SetCurrentRegion(std::static_pointer_cast<const CSettingString>(setting)->GetValue());
   else if (settingId == CSettings::SETTING_LOCALE_SHORTDATEFORMAT)
@@ -412,6 +416,7 @@ bool CLangInfo::Load(const std::string& strLanguage)
     return false;
   }
 
+#if HAVE_ADDONS
   // get the matching language addon
   m_languageAddon = GetLanguageAddon(strLanguage);
   if (m_languageAddon == NULL)
@@ -438,6 +443,7 @@ bool CLangInfo::Load(const std::string& strLanguage)
 
   if (pRootElement->Attribute("locale"))
     m_defaultRegion.m_strLangLocaleName = pRootElement->Attribute("locale");
+#endif // HAVE_ADDONS
 
 #ifdef TARGET_WINDOWS
   // Windows need 3 chars isolang code
@@ -463,6 +469,7 @@ bool CLangInfo::Load(const std::string& strLanguage)
   if (g_LangCodeExpander.ConvertToISO6391(m_defaultRegion.m_strLangLocaleName, tmp))
     m_defaultRegion.m_strLangLocaleCodeTwoChar = tmp;
 
+#if HAVE_ADDONS
   const TiXmlNode *pRegions = pRootElement->FirstChild("regions");
   if (pRegions && !pRegions->NoChildren())
   {
@@ -549,6 +556,8 @@ bool CLangInfo::Load(const std::string& strLanguage)
     const std::string& strName = CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_LOCALE_COUNTRY);
     SetCurrentRegion(strName);
   }
+#endif // HAVE_ADDONS
+
   g_charsetConverter.reinitCharsetsFromSettings();
 
   return true;
@@ -556,6 +565,7 @@ bool CLangInfo::Load(const std::string& strLanguage)
 
 std::string CLangInfo::GetLanguagePath(const std::string &language)
 {
+#if HAVE_ADDONS
   if (language.empty())
     return "";
 
@@ -565,6 +575,9 @@ std::string CLangInfo::GetLanguagePath(const std::string &language)
   URIUtils::AddSlashAtEnd(path);
 
   return path;
+#else
+    return "";
+#endif // HAVE_ADDONS
 }
 
 std::string CLangInfo::GetLanguageInfoPath(const std::string &language)
@@ -667,6 +680,7 @@ std::string CLangInfo::GetSubtitleCharSet() const
   return charsetSetting->GetValue();
 }
 
+#if HAVE_ADDONS
 void CLangInfo::GetAddonsLanguageCodes(std::map<std::string, std::string>& languages)
 {
   ADDON::VECADDONS addons;
@@ -796,6 +810,7 @@ bool CLangInfo::SetLanguage(std::string language /* = "" */, bool reloadServices
 
   return true;
 }
+#endif // HAVE_ADDONS
 
 // three char language code (not win32 specific)
 const std::string& CLangInfo::GetAudioLanguage() const
@@ -866,10 +881,11 @@ const std::string CLangInfo::GetDVDSubtitleLanguage() const
 
 const CLocale& CLangInfo::GetLocale() const
 {
+#if HAVE_ADDONS
   LanguageResourcePtr language = GetLanguageAddon();
   if (language != NULL)
     return language->GetLocale();
-
+#endif // HAVE_ADDONS
   return CLocale::Empty;
 }
 
@@ -1070,10 +1086,12 @@ void CLangInfo::SetTemperatureUnit(CTemperature::Unit temperatureUnit)
 
   m_temperatureUnit = temperatureUnit;
 
+#if HAVE_WEATHER
   // refresh weather manager as temperatures need re-translating
   // NOTE: this could be called before our service manager is up
   if (CServiceBroker::IsServiceManagerUp())
     CServiceBroker::GetWeatherManager().Refresh();
+#endif // HAVE_WEATHER
 }
 
 void CLangInfo::SetTemperatureUnit(const std::string& temperatureUnit)
@@ -1115,10 +1133,12 @@ void CLangInfo::SetSpeedUnit(CSpeed::Unit speedUnit)
 
   m_speedUnit = speedUnit;
 
+#if HAVE_WEATHER
   // refresh weather manager as speeds need re-translating
   // NOTE: this could be called before our service manager is up
   if (CServiceBroker::IsServiceManagerUp())
     CServiceBroker::GetWeatherManager().Refresh();
+#endif // HAVE_WEATHER
 }
 
 void CLangInfo::SetSpeedUnit(const std::string& speedUnit)
@@ -1202,6 +1222,7 @@ void CLangInfo::SettingOptionsLanguageNamesFiller(const SettingConstPtr& setting
                                                   std::string& current,
                                                   void* data)
 {
+#if HAVE_ADDONS
   // find languages...
   ADDON::VECADDONS addons;
   if (!CServiceBroker::GetAddonMgr().GetAddons(addons, ADDON::AddonType::RESOURCE_LANGUAGE))
@@ -1211,6 +1232,7 @@ void CLangInfo::SettingOptionsLanguageNamesFiller(const SettingConstPtr& setting
     list.emplace_back(addon->Name(), addon->Name());
 
   sort(list.begin(), list.end(), SortLanguage());
+#endif // HAVE_ADDONS
 }
 
 void CLangInfo::SettingOptionsISO6391LanguagesFiller(const SettingConstPtr& setting,

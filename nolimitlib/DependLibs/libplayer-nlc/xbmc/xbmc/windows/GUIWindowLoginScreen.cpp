@@ -125,12 +125,14 @@ bool CGUIWindowLoginScreen::OnAction(const CAction &action)
   // this forces only navigation type actions to be performed.
   if (action.GetID() == ACTION_BUILT_IN_FUNCTION)
   {
+#if HAVE_ADDONS
     std::string actionName = action.GetName();
     StringUtils::ToLower(actionName);
     if ((actionName.find("shutdown") != std::string::npos) &&
         CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown())
       CBuiltins::GetInstance().Execute(action.GetName());
     return true;
+#endif // HAVE_ADDONS
   }
   return CGUIWindow::OnAction(action);
 }

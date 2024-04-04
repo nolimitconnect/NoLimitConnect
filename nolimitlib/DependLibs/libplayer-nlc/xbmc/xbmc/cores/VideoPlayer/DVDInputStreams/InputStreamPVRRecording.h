@@ -9,6 +9,7 @@
 #pragma once
 
 #include "InputStreamPVRBase.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 class CInputStreamPVRRecording : public CInputStreamPVRBase
@@ -29,3 +30,4 @@ protected:
 };
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

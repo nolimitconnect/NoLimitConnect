@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRGuideControls.h"
+#if HAVE_ADDONS
 
 using namespace PVR;
 
@@ -17,3 +18,5 @@ CGUIDialogPVRGuideControls::CGUIDialogPVRGuideControls()
 }
 
 CGUIDialogPVRGuideControls::~CGUIDialogPVRGuideControls() = default;
+
+#endif // HAVE_ADDONS

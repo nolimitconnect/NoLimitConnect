@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "pvr/PVRCachedImage.h"
 #include "threads/CriticalSection.h"
@@ -511,3 +514,5 @@ private:
   int m_iEpgID = -1;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

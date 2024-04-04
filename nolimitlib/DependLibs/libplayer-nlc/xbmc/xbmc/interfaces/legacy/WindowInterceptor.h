@@ -9,6 +9,8 @@
 #pragma once
 
 #include "Window.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIWindow.h"
 
 namespace XBMCAddon
@@ -208,3 +210,5 @@ namespace XBMCAddon
 #endif
   }
 }
+
+#endif // HAVE_ADDONS

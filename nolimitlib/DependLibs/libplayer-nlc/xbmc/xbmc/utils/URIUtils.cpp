@@ -31,7 +31,9 @@
 #include <arpa/inet.h>
 #include <CoreLib/VxDebug.h>
 
+#if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
+#endif //
 using namespace XFILE;
 
 const CAdvancedSettings* URIUtils::m_advancedSettings = nullptr;
@@ -274,12 +276,16 @@ void URIUtils::GetCommonPath(std::string& strParent, const std::string& strPath)
   }
 }
 
-bool URIUtils::HasParentInHostname(const NlcUrl& url)
+bool URIUtils::HasParentInHostname( const NlcUrl& url )
 {
-  return url.IsProtocol("zip") || url.IsProtocol("apk") || url.IsProtocol("bluray") ||
-         url.IsProtocol("udf") || url.IsProtocol("iso9660") || url.IsProtocol("xbt") ||
-         (CServiceBroker::IsAddonInterfaceUp() &&
-          CServiceBroker::GetFileExtensionProvider().EncodedHostName(url.GetProtocol()));
+    return url.IsProtocol( "zip" ) || url.IsProtocol( "apk" ) || url.IsProtocol( "bluray" ) ||
+        url.IsProtocol( "udf" ) || url.IsProtocol( "iso9660" ) || url.IsProtocol( "xbt" )
+#if HAVE_ADDONS
+        || (CServiceBroker::IsAddonInterfaceUp() &&
+             CServiceBroker::GetFileExtensionProvider().EncodedHostName( url.GetProtocol() ));
+#else
+        ;
+#endif // HAVE_ADDONS
 }
 
 bool URIUtils::HasEncodedHostname(const NlcUrl& url)
@@ -983,6 +989,7 @@ bool URIUtils::IsTCP(const std::string& strFile)
   return IsProtocol(strFile, "tcp");
 }
 
+#if HAVE_ADDONS
 bool URIUtils::IsPVR(const std::string& strFile)
 {
   if (IsStack(strFile))
@@ -1014,6 +1021,7 @@ bool URIUtils::IsPVRGuideItem(const std::string& strFile)
 
   return StringUtils::StartsWithNoCase(strFile, "pvr://guide");
 }
+#endif // HAVE_ADDONS
 
 bool URIUtils::IsDAV(const std::string& strFile)
 {
@@ -1255,9 +1263,11 @@ bool URIUtils::HasSlashAtEnd(const std::string& strFile, bool checkURL /* = fals
 
 void URIUtils::RemoveSlashAtEnd(std::string& strFolder)
 {
+#if HAVE_ADDONS
   // performance optimization. pvr guide items are mass objects, uri never has a slash at end, and this method is quite expensive...
   if (IsPVRGuideItem(strFolder))
     return;
+#endif // HAVE_ADDONS
 
   if (IsURL(strFolder))
   {

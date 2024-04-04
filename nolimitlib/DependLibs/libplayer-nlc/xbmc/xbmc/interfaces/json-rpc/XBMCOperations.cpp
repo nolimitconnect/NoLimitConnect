@@ -7,6 +7,7 @@
  */
 
 #include "XBMCOperations.h"
+#if ENABLE_JSON
 
 #include "ServiceBroker.h"
 #include "messaging/ApplicationMessenger.h"
@@ -86,3 +87,5 @@ JSONRPC_STATUS CXBMCOperations::GetInfoBooleans(const std::string &method, ITran
 
   return OK;
 }
+
+#endif // ENABLE_JSON

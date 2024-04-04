@@ -73,7 +73,9 @@ void CGUIDialogCMSSettings::InitializeSettings()
     return;
   }
 
+#if HAVE_ADDONS
   bool usePopup = g_SkinInfo->HasSkinFile("DialogSlider.xml");
+#endif // HAVE_ADDONS
 
   TranslatableIntegerSettingOptions entries;
 
@@ -160,8 +162,10 @@ void CGUIDialogCMSSettings::InitializeSettings()
   float currentGamma = settings->GetInt(SETTING_VIDEO_CMSGAMMA)/100.0f;
   if (currentGamma == 0.0f)
     currentGamma = 2.20f;
+#if HAVE_ADDONS
   std::shared_ptr<CSettingNumber> settingCmsGamma = AddSlider(groupColorManagement, SETTING_VIDEO_CMSGAMMA, 36574, SettingLevel::Basic, currentGamma, 36597, 1.6, 0.05, 2.8, 36574, usePopup);
   settingCmsGamma->SetDependencies(depsCmsGamma);
+#endif // HAVE_ADDONS
 
   int currentLutSize = settings->GetInt(SETTING_VIDEO_CMSLUTSIZE);
   entries.clear();

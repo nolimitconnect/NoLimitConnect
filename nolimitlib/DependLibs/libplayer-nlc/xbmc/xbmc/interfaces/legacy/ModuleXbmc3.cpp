@@ -9,6 +9,7 @@
 //! @todo Need a uniform way of returning an error status
 
 #include "ModuleXbmc.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "FileItem.h"
@@ -618,3 +619,5 @@ namespace XBMCAddon
     const int lLOGDEBUG = LOGDEBUG;
   }
 }
+
+#endif // HAVE_ADDONS

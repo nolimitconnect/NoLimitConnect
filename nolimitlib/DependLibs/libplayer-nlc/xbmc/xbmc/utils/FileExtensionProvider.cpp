@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 
+#if HAVE_ADDONS
 using namespace ADDON;
 using namespace KODI::ADDONS;
 
@@ -37,13 +38,23 @@ CFileExtensionProvider::CFileExtensionProvider(ADDON::CAddonMgr& addonManager)
 
   m_addonManager.Events().Subscribe(this, &CFileExtensionProvider::OnAddonEvent);
 }
+#else
+CFileExtensionProvider::CFileExtensionProvider()
+  : m_advancedSettings(CServiceBroker::GetSettingsComponent()->GetAdvancedSettings())
+{
+}
+#endif // HAVE_ADDONS
 
 CFileExtensionProvider::~CFileExtensionProvider()
 {
+#if HAVE_ADDONS
   m_addonManager.Events().Unsubscribe(this);
+#endif // HAVE_ADDONS
 
   m_advancedSettings.reset();
+#if HAVE_ADDONS
   m_addonExtensions.clear();
+#endif // HAVE_ADDONS
 }
 
 std::string CFileExtensionProvider::GetDiscStubExtensions() const
@@ -54,8 +65,10 @@ std::string CFileExtensionProvider::GetDiscStubExtensions() const
 std::string CFileExtensionProvider::GetMusicExtensions() const
 {
   std::string extensions(m_advancedSettings->m_musicExtensions);
+#if HAVE_ADDONS
   extensions += '|' + GetAddonExtensions(AddonType::VFS);
   extensions += '|' + GetAddonExtensions(AddonType::AUDIODECODER);
+#endif // HAVE_ADDONS
 
   return extensions;
 }
@@ -63,8 +76,10 @@ std::string CFileExtensionProvider::GetMusicExtensions() const
 std::string CFileExtensionProvider::GetPictureExtensions() const
 {
   std::string extensions(m_advancedSettings->m_pictureExtensions);
+#if HAVE_ADDONS
   extensions += '|' + GetAddonExtensions(AddonType::VFS);
   extensions += '|' + GetAddonExtensions(AddonType::IMAGEDECODER);
+#endif // HAVE_ADDONS
 
   return extensions;
 }
@@ -72,7 +87,9 @@ std::string CFileExtensionProvider::GetPictureExtensions() const
 std::string CFileExtensionProvider::GetSubtitleExtensions() const
 {
   std::string extensions(m_advancedSettings->m_subtitlesExtensions);
+#if HAVE_ADDONS
   extensions += '|' + GetAddonExtensions(AddonType::VFS);
+#endif // HAVE_ADDONS
 
   return extensions;
 }
@@ -80,21 +97,27 @@ std::string CFileExtensionProvider::GetSubtitleExtensions() const
 std::string CFileExtensionProvider::GetVideoExtensions() const
 {
   std::string extensions(m_advancedSettings->m_videoExtensions);
+#if HAVE_ADDONS
   if (!extensions.empty())
     extensions += '|';
   extensions += GetAddonExtensions(AddonType::VFS);
+#endif // HAVE_ADDONS
 
   return extensions;
 }
 
 std::string CFileExtensionProvider::GetFileFolderExtensions() const
 {
+#if HAVE_ADDONS
   std::string extensions(GetAddonFileFolderExtensions(AddonType::VFS));
   if (!extensions.empty())
     extensions += '|';
   extensions += GetAddonFileFolderExtensions(AddonType::AUDIODECODER);
 
   return extensions;
+#else
+   return "";
+#endif // HAVE_ADDONS
 }
 
 bool CFileExtensionProvider::CanOperateExtension(const std::string& path) const
@@ -103,9 +126,11 @@ bool CFileExtensionProvider::CanOperateExtension(const std::string& path) const
    * @todo Improve this function to support all cases and not only audio decoder.
    */
 
+#if HAVE_ADDONS
   // Get file extensions to find addon related to it.
   std::string strExtension = URIUtils::GetExtension(path);
   StringUtils::ToLower(strExtension);
+
   if (!strExtension.empty() && CServiceBroker::IsAddonInterfaceUp())
   {
     std::vector<std::unique_ptr<KODI::ADDONS::IAddonSupportCheck>> supportList;
@@ -153,6 +178,7 @@ bool CFileExtensionProvider::CanOperateExtension(const std::string& path) const
         return true;
     }
   }
+#endif // HAVE_ADDONS
 
   /*!
    * If no file extensions present, mark it as not supported.
@@ -160,6 +186,7 @@ bool CFileExtensionProvider::CanOperateExtension(const std::string& path) const
   return false;
 }
 
+#if HAVE_ADDONS
 std::string CFileExtensionProvider::GetAddonExtensions(AddonType type) const
 {
   auto it = m_addonExtensions.find(type);
@@ -256,8 +283,11 @@ void CFileExtensionProvider::OnAddonEvent(const AddonEvent& event)
     SetAddonExtensions();
   }
 }
+#endif // HAVE_ADDONS
 
 bool CFileExtensionProvider::EncodedHostName(const std::string& protocol) const
 {
   return std::find(m_encoded.begin(),m_encoded.end(),protocol) != m_encoded.end();
 }
+
+

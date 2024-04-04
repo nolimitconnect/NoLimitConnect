@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIChannelNavigator.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -371,3 +372,5 @@ void CPVRGUIChannelNavigator::ClearPlayingChannel()
 
   CheckAndPublishPreviewAndPlayerShowInfoChangedEvent();
 }
+
+#endif // HAVE_ADDONS

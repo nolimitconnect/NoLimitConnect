@@ -8,8 +8,10 @@
 
 #pragma once
 
-#include "FileItemHandler.h"
 #include "JSONRPC.h"
+#if ENABLE_JSON
+
+#include "FileItemHandler.h"
 
 class CVariant;
 
@@ -28,3 +30,5 @@ namespace JSONRPC
     static JSONRPC_STATUS GetPropertyValue(const std::string &property, CVariant &result);
   };
 }
+
+#endif // ENABLE_JSON

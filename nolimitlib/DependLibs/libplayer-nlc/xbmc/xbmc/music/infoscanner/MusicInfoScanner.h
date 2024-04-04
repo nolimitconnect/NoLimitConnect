@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "InfoScanner.h"
 #include "MusicAlbumInfo.h"
 #include "MusicInfoScraper.h"
@@ -53,6 +56,7 @@ public:
    */
   static void FileItemsToAlbums(CFileItemList& items, VECALBUMS& albums, MAPSONGS* songsMap = NULL);
 
+#if HAVE_LIB_CURL
   /*! \brief Scrape additional album information and update the music database with it.
   Given an album, search for it using the given scraper.
   If info is found, update the database and artwork with the new
@@ -74,6 +78,7 @@ public:
   \param pDialog [in] a progress dialog which this and downstream functions can update with status, if required
   */
   INFO_RET UpdateArtistInfo(CArtist& artist, const ADDON::ScraperPtr& scraper, bool bAllowSelection, CGUIDialogProgress* pDialog = NULL);
+#endif // HAVE_LIB_CURL
 
 protected:
   virtual void Process();
@@ -97,6 +102,7 @@ protected:
    */
   static void FindArtForAlbums(VECALBUMS &albums, const std::string &path);
 
+  #if HAVE_LIB_CURL
   /*! \brief Scrape additional album information and update the database.
    Search for the given album using the given scraper.
    If info is found, update the database and artwork with the new
@@ -144,6 +150,7 @@ protected:
    \param pDialog [in] a progress dialog which this and downstream functions can update with status, if required
    */
   INFO_RET DownloadArtistInfo(const CArtist& artist, const ADDON::ScraperPtr& scraper, MUSIC_GRABBER::CMusicArtistInfo& artistInfo, bool bUseScrapedMBID, CGUIDialogProgress* pDialog = NULL);
+  #endif // HAVE_LIB_CURL
 
   /*! \brief Get the types of art for an artist or album that are to be
   automatically fetched from local files during scanning
@@ -167,7 +174,7 @@ protected:
                        const std::string& mediaName,
                        const std::string& artfolder,
                        int discnum = 0);
-
+ #if HAVE_LIB_CURL
   /*! \brief Add extra remote artwork for albums and artists
   This common utility fills the gaps in artwork using the first available art of each type from the
   possible art URL results of previous scraping.
@@ -180,6 +187,7 @@ protected:
   bool AddRemoteArtwork(std::map<std::string, std::string>& art,
                         const std::string& mediaType,
                         const CScraperUrl& thumbURL);
+ #endif // HAVE_LIB_CURL
 
   /*! \brief Add art for an artist
   This scans the given folder for local art and/or applies the first available art of each type
@@ -221,7 +229,9 @@ protected:
   int RetrieveMusicInfo(const std::string& strDirectory, CFileItemList& items);
 
   void RetrieveLocalArt();
+#if HAVE_ADDONS
   void ScrapeInfoAddedAlbums();
+#endif // HAVE_ADDONS
 
   /*! \brief Scan in the ID3/Ogg/FLAC tags for a bunch of FileItems
     Given a list of FileItems, scan in the tags for those FileItems
@@ -237,6 +247,7 @@ protected:
   int CountFiles(const CFileItemList& items, bool recursive);
   int CountFilesRecursively(const std::string& strPath);
 
+  #if HAVE_LIB_CURL
   /*! \brief Resolve a MusicBrainzID to a URL
    If we have a MusicBrainz ID for an artist or album,
    resolve it to an MB URL and set up the scrapers accordingly.
@@ -245,6 +256,7 @@ protected:
    \param musicBrainzURL [out] will be populated with the MB URL for the artist/album.
    */
   bool ResolveMusicBrainz(const std::string &strMusicBrainzID, const ADDON::ScraperPtr &preferredScraper, CScraperUrl &musicBrainzURL);
+  #endif // HAVE_LIB_CURL
 
   void ScannerWait(unsigned int milliseconds);
 
@@ -263,3 +275,5 @@ protected:
   CThread m_fileCountReader;
 };
 }
+
+#endif // HAVE_ADDONS

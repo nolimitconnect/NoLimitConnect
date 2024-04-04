@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 
 #include <memory>
@@ -45,3 +48,5 @@ private:
   mutable std::unique_ptr<CRegExp> m_textSearch;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

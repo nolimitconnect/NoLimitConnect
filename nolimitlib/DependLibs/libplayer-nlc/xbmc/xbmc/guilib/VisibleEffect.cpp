@@ -31,8 +31,10 @@ CAnimEffect::CAnimEffect(const TiXmlElement *node, EFFECT_TYPE effect)
   // time and delay
 
   float temp;
+#if HAVE_ADDONS
   if (TIXML_SUCCESS == node->QueryFloatAttribute("time", &temp)) m_length = (unsigned int)(temp * g_SkinInfo->GetEffectsSlowdown());
   if (TIXML_SUCCESS == node->QueryFloatAttribute("delay", &temp)) m_delay = (unsigned int)(temp * g_SkinInfo->GetEffectsSlowdown());
+#endif // HAVE_ADDONS
 
   m_pTweener = GetTweener(node);
 }

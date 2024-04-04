@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include "JSONUtils.h"
 #include "utils/Variant.h"
 
@@ -440,3 +443,5 @@ namespace JSONRPC
     static IncompleteSchemaDefinitionMap m_incompleteDefinitions;
   };
 }
+
+#endif // ENABLE_JSON

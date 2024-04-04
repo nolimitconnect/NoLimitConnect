@@ -56,6 +56,8 @@ extern "C"
 
 #endif // HAVE_OPENSSL
 
+#if HAVE_LIB_CURL
+
 namespace XCURL
 {
     CURLcode DllLibCurl::global_init( long flags )
@@ -381,3 +383,5 @@ namespace XCURL
         return;
     }
 } // namespace XCURL
+
+#endif // HAVE_LIB_CURL

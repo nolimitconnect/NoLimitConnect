@@ -130,6 +130,7 @@ bool CPictureInfoTag::Load(const std::string &path)
 {
   m_isLoaded = false;
 
+#if HAVE_ADDONS
   // Get file extensions to find addon related to it.
   std::string strExtension = URIUtils::GetExtension(path);
   StringUtils::ToLower(strExtension);
@@ -151,6 +152,7 @@ bool CPictureInfoTag::Load(const std::string &path)
       }
     }
   }
+#endif // HAVE_ADDONS
 
   // Load by Kodi's included own way
   if (!m_isLoaded)

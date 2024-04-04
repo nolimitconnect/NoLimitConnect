@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "view/GUIViewState.h"
 
 class CFileItemList;
@@ -76,3 +79,5 @@ protected:
   bool HideParentDirItems() override;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

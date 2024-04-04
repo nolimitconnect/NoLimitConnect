@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "dialogs/GUIDialogContextMenu.h"
 #include "pvr/dialogs/GUIDialogPVRGuideSearch.h"
 #include "pvr/windows/GUIWindowPVRBase.h"
@@ -88,3 +91,5 @@ protected:
   std::string GetDirectoryPath() override;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "dialogs/GUIDialogContextMenu.h"
 #include "guilib/GUIDialog.h"
 #include "view/GUIViewControl.h"
@@ -94,3 +97,5 @@ namespace PVR
     std::vector<std::shared_ptr<CPVRClient>> m_clientsWithSettingsList;
   };
 }
+
+#endif // HAVE_ADDONS

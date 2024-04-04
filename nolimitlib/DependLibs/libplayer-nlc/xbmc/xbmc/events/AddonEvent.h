@@ -8,7 +8,11 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+ #if HAVE_ADDONS
+
 #include "addons/IAddon.h"
+
 #include "events/UniqueEvent.h"
 
 class CAddonEvent : public CUniqueEvent
@@ -37,3 +41,5 @@ public:
 protected:
   ADDON::AddonPtr m_addon;
 };
+
+ #endif // HAVE_ADDONS

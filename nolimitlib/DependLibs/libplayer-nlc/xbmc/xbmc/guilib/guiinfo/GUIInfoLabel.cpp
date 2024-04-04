@@ -14,6 +14,7 @@
 #include "guilib/GUIComponent.h"
 #include "guilib/GUIListItem.h"
 #include "guilib/LocalizeStrings.h"
+#include "ServiceBroker.h"
 #include "utils/StringUtils.h"
 #include "utils/log.h"
 
@@ -309,8 +310,10 @@ void CGUIInfoLabel::Parse(const std::string& label,
           if (format == FORMATVAR || format == FORMATESCVAR)
           {
             info = infoMgr.TranslateSkinVariableString(params[0], context);
+#if HAVE_ADDONS
             if (info == 0)
               info = infoMgr.RegisterSkinVariableString(g_SkinInfo->CreateSkinVariable(params[0], context));
+#endif // HAVE_ADDONS
             if (info == 0) // skinner didn't define this conditional label!
               CLog::Log(LOGWARNING, "Label Formatting: $VAR[%s] is not defined", params[0].c_str());
           }

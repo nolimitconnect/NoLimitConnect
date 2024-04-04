@@ -7,6 +7,7 @@
  */
 
 #include "guilib/guiinfo/AddonsGUIInfo.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -277,3 +278,6 @@ bool CAddonsGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int context
 
   return false;
 }
+
+#endif // HAVE_ADDONS
+

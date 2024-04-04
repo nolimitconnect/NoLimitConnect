@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_epg.h"
 #include "pvr/settings/PVRSettings.h"
 #include "threads/CriticalSection.h"
@@ -358,3 +361,5 @@ namespace PVR
     std::atomic<bool> m_bSuspended = {false};
   };
 }
+
+#endif // HAVE_ADDONS

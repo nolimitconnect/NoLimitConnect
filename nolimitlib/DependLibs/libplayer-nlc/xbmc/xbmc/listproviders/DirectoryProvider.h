@@ -91,9 +91,11 @@ private:
   bool UpdateURL();
   bool UpdateLimit();
   bool UpdateSort();
+#if HAVE_ADDONS
   void OnAddonEvent(const ADDON::AddonEvent& event);
   void OnAddonRepositoryEvent(const ADDON::CRepositoryUpdater::RepositoryUpdated& event);
   void OnPVRManagerEvent(const PVR::PVREvent& event);
+#endif // HAVE_ADDONS
   void OnFavouritesEvent(const CFavouritesService::FavouritesUpdated& event);
   std::string GetTarget(const CFileItem& item) const;
 

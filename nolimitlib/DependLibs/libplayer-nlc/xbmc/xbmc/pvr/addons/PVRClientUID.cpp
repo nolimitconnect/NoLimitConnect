@@ -7,6 +7,7 @@
  */
 
 #include "PVRClientUID.h"
+#if HAVE_ADDONS
 
 #include <functional>
 
@@ -31,3 +32,5 @@ int CPVRClientUID::GetUID() const
 
   return m_uid;
 }
+
+#endif // HAVE_ADDONS

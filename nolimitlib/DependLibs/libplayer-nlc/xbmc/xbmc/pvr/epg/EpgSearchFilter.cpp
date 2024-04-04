@@ -7,6 +7,7 @@
  */
 
 #include "EpgSearchFilter.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRManager.h"
@@ -401,3 +402,5 @@ bool CPVREpgSearchFilter::MatchRecordings(const std::shared_ptr<CPVREpgInfoTag>&
 {
   return (!m_bIgnorePresentRecordings || !CServiceBroker::GetPVRManager().Recordings()->GetRecordingForEpgTag(tag));
 }
+
+#endif // HAVE_ADDONS

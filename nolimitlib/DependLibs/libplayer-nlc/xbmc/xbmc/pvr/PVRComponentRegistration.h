@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/IPVRComponent.h"
 #include "utils/ComponentContainer.h"
 
@@ -20,3 +23,5 @@ public:
   virtual ~CPVRComponentRegistration();
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

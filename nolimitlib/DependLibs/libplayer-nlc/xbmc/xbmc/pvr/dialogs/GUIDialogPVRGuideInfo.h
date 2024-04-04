@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 
 #include <memory>
@@ -42,3 +45,5 @@ private:
   std::shared_ptr<CFileItem> m_progItem;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

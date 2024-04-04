@@ -65,8 +65,13 @@ CGUIWindow::~CGUIWindow()
 
 bool CGUIWindow::Load(const std::string& strFileName, bool bContainsPath)
 {
+#if HAVE_ADDONS
   if (m_windowLoaded || !g_SkinInfo)
     return true;      // no point loading if it's already there
+#else
+  if (m_windowLoaded)
+    return true;      // no point loading if it's already there
+#endif// HAVE_ADDONS
 
 #ifdef _DEBUG
   const auto start = std::chrono::steady_clock::now();
@@ -93,6 +98,7 @@ bool CGUIWindow::Load(const std::string& strFileName, bool bContainsPath)
   std::string strLowerPath;
   if (bContainsPath)
     strPath = strFileName;
+#if HAVE_ADDONS
   else
   {
     // FIXME: strLowerPath needs to eventually go since resToUse can get incorrectly overridden
@@ -101,6 +107,7 @@ bool CGUIWindow::Load(const std::string& strFileName, bool bContainsPath)
     strLowerPath =  g_SkinInfo->GetSkinPath(strFileNameLower, &m_coordsRes);
     strPath = g_SkinInfo->GetSkinPath(strFileName, &m_coordsRes);
   }
+#endif // HAVE_ADDONS
 
   bool ret = LoadXML(strPath, strLowerPath);
   if (ret)
@@ -159,9 +166,11 @@ std::unique_ptr<TiXmlElement> CGUIWindow::Prepare(const std::unique_ptr<TiXmlEle
   // copy the root element as we will manipulate it
   auto preparedRoot = std::make_unique<TiXmlElement>(*rootElement);
 
+#if HAVE_ADDONS
   // Resolve any includes, constants, expressions that may be present
   // and save include's conditions to the given map
   g_SkinInfo->ResolveIncludes(preparedRoot.get(), &m_xmlIncludeConditions);
+#endif // HAVE_ADDONS
 
   return preparedRoot;
 }

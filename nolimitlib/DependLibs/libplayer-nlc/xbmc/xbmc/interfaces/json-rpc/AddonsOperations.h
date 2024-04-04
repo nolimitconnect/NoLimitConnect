@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "JSONRPC.h"
 
 #include <memory>
@@ -39,3 +42,5 @@ namespace JSONRPC
                             bool append = false);
   };
 }
+
+#endif // HAVE_ADDONS

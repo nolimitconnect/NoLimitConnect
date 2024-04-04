@@ -209,7 +209,11 @@ const struct SDbTableOffsets
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_iIdRating) },
   { VIDEODB_TYPE_STRINGARRAY, my_offsetof(CVideoInfoTag,m_writingCredits) },
   { VIDEODB_TYPE_UNUSED, 0 }, // unused
+#if HAVE_LIB_CURL
   { VIDEODB_TYPE_STRING, my_offsetof(CVideoInfoTag,m_strPictureURL.m_data) },
+#else
+  { VIDEODB_TYPE_UNUSED, 0 }, // unused
+#endif // HAVE_LIB_CURL
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_iIdUniqueID) },
   { VIDEODB_TYPE_STRING, my_offsetof(CVideoInfoTag,m_strSortTitle) },
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_duration) },
@@ -258,7 +262,11 @@ const struct SDbTableOffsets DbTvShowOffsets[] =
   { VIDEODB_TYPE_UNUSED, 0 }, //unused
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_iIdRating) },
   { VIDEODB_TYPE_DATE, my_offsetof(CVideoInfoTag,m_premiered) },
+#if HAVE_LIB_CURL
   { VIDEODB_TYPE_STRING, my_offsetof(CVideoInfoTag,m_strPictureURL.m_data) },
+#else
+  { VIDEODB_TYPE_UNUSED, 0 }, // unused
+#endif // HAVE_LIB_CURL
   { VIDEODB_TYPE_UNUSED, 0 }, // unused
   { VIDEODB_TYPE_STRINGARRAY, my_offsetof(CVideoInfoTag,m_genre) },
   { VIDEODB_TYPE_STRING, my_offsetof(CVideoInfoTag,m_strOriginalTitle)},
@@ -328,7 +336,11 @@ const struct SDbTableOffsets DbEpisodeOffsets[] =
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_iIdRating) },
   { VIDEODB_TYPE_STRINGARRAY, my_offsetof(CVideoInfoTag,m_writingCredits) },
   { VIDEODB_TYPE_DATE, my_offsetof(CVideoInfoTag,m_firstAired) },
+#if HAVE_LIB_CURL
   { VIDEODB_TYPE_STRING, my_offsetof(CVideoInfoTag,m_strPictureURL.m_data) },
+#else
+  { VIDEODB_TYPE_UNUSED, 0 }, // unused
+#endif // HAVE_LIB_CURL
   { VIDEODB_TYPE_UNUSED, 0 }, // unused
   { VIDEODB_TYPE_UNUSED, 0 }, // unused
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_duration) },
@@ -370,7 +382,11 @@ typedef enum // this enum MUST match the offset struct further down!! and make s
 const struct SDbTableOffsets DbMusicVideoOffsets[] =
 {
   { VIDEODB_TYPE_STRING, my_offsetof(class CVideoInfoTag,m_strTitle) },
+#if HAVE_LIB_CURL
   { VIDEODB_TYPE_STRING, my_offsetof(CVideoInfoTag,m_strPictureURL.m_data) },
+#else
+  { VIDEODB_TYPE_UNUSED, 0 }, // unused
+#endif // HAVE_LIB_CURL
   { VIDEODB_TYPE_UNUSED, 0 }, // unused
   { VIDEODB_TYPE_UNUSED, 0 }, // unused
   { VIDEODB_TYPE_INT, my_offsetof(CVideoInfoTag,m_duration) },
@@ -656,7 +672,7 @@ public:
   bool GetStreamDetails(CVideoInfoTag& tag) const;
   bool GetDetailsByTypeAndId(CFileItem& item, VideoDbContentType type, int id);
   CVideoInfoTag GetDetailsByTypeAndId(VideoDbContentType type, int id);
-
+ #if HAVE_ADDONS
   // scraper settings
   void SetScraperForPath(const std::string& filePath, const ADDON::ScraperPtr& info, const VIDEO::SScanSettings& settings);
   ADDON::ScraperPtr GetScraperForPath(const std::string& strPath);
@@ -681,6 +697,7 @@ public:
    \return A content type string for the current path.
    */
   std::string GetContentForPath(const std::string& strPath);
+  #endif // HAVE_ADDONS
 
   /*! \brief Get videos of the given content type from the given path
    \param content the content type to fetch.
@@ -960,8 +977,10 @@ public:
   \param artType e.g. "thumb", "fanart", etc.
   \return list of URLs
   */
+  #if HAVE_LIB_CURL
   std::vector<CScraperUrl::SUrlEntry> GetAvailableArtForItem(
     int mediaId, const MediaType& mediaType, const std::string& artType);
+  #endif // HAVE_LIB_CURL
 
   int AddTag(const std::string &tag);
   void AddTagToItem(int idItem, int idTag, const std::string &type);

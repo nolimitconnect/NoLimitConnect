@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelNumber.h"
+#if HAVE_ADDONS
 
 #include "utils/StringUtils.h"
 
@@ -34,3 +35,5 @@ std::string CPVRChannelNumber::ToString(char separator) const
   else
     return StringUtils::Format("{}{}{}", m_iChannelNumber, separator, m_iSubChannelNumber);
 }
+
+#endif // HAVE_ADDONS

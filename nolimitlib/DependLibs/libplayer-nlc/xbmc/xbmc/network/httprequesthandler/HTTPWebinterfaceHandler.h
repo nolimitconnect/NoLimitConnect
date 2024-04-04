@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/IAddon.h"
 #include "network/httprequesthandler/HTTPFileHandler.h"
 
@@ -30,3 +33,5 @@ public:
 protected:
   explicit CHTTPWebinterfaceHandler(const HTTPRequest &request);
 };
+
+#endif // HAVE_ADDONS

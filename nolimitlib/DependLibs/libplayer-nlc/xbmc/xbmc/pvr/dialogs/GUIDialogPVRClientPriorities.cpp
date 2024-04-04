@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRClientPriorities.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/GUIMessage.h"
@@ -100,3 +101,5 @@ bool CGUIDialogPVRClientPriorities::Save()
 
   return true;
 }
+
+#endif // HAVE_ADDONS

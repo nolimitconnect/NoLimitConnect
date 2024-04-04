@@ -9,6 +9,7 @@
 #pragma once
 
 #include "IDirectory.h"
+ #if HAVE_ADDONS
 
 #include <memory>
 #include <vector>
@@ -70,3 +71,5 @@ namespace XFILE
     bool GetSearchResults(const NlcUrl& path, CFileItemList &items);
   };
 }
+
+ #endif // HAVE_ADDONS

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 
 #include <map>
@@ -152,3 +155,5 @@ private:
   unsigned int m_iRadioRecordings = 0;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

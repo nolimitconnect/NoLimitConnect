@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/binary-addons/AddonInstanceHandler.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/screensaver.h"
 
@@ -32,3 +35,5 @@ public:
 
 } /* namespace ADDONS */
 } /* namespace KODI */
+
+#endif // HAVE_ADDONS

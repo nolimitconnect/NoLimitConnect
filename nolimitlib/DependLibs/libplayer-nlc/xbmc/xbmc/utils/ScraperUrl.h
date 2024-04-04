@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CURL
+
 #include <map>
 #include <string>
 #include <vector>
@@ -118,3 +121,7 @@ private:
   std::vector<SUrlEntry> m_urls;
   bool m_parsed;
 };
+
+#else
+class TiXmlElement;
+#endif // HAVE_LIB_CURL

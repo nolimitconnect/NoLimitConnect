@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <functional>
 #include <memory>
 #include <string>
@@ -71,3 +74,5 @@ namespace PVR
     std::unique_ptr<std::vector<CPVRClientMenuHook>> m_hooks;
   };
 }
+
+#endif // HAVE_ADDONS

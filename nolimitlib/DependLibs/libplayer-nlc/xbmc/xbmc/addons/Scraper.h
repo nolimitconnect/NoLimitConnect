@@ -8,6 +8,20 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+
+typedef enum
+{
+  CONTENT_MOVIES,
+  CONTENT_TVSHOWS,
+  CONTENT_MUSICVIDEOS,
+  CONTENT_ALBUMS,
+  CONTENT_ARTISTS,
+  CONTENT_NONE,
+} CONTENT_TYPE;
+
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "addons/Addon.h"
 #include "utils/ScraperParser.h"
@@ -27,16 +41,6 @@ namespace MUSIC_GRABBER
 class CMusicAlbumInfo;
 class CMusicArtistInfo;
 }
-
-typedef enum
-{
-  CONTENT_MOVIES,
-  CONTENT_TVSHOWS,
-  CONTENT_MUSICVIDEOS,
-  CONTENT_ALBUMS,
-  CONTENT_ARTISTS,
-  CONTENT_NONE,
-} CONTENT_TYPE;
 
 namespace XFILE
 {
@@ -180,3 +184,4 @@ private:
 
 }
 
+#endif // HAVE_ADDONS

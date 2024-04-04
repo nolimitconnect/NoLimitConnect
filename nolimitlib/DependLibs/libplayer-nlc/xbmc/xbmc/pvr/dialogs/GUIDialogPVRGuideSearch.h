@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "guilib/GUIDialog.h"
 
@@ -62,3 +65,5 @@ namespace PVR
     CDateTime m_endDateTime;
   };
 }
+
+#endif // HAVE_ADDONS

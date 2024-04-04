@@ -7,7 +7,7 @@
  */
 
 #include "cdioSupport.h"
-
+#if HAVE_LIB_CDIO
 
 #include "threads/SingleLock.h"
 #include "utils/log.h"
@@ -962,3 +962,5 @@ uint32_t CCdIoSupport::CddbDiscId()
 
   return ((n % 0xff) << 24 | t << 8 | m_nNumTracks);
 }
+
+#endif // HAVE_LIB_CDIO

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "DVDInputStream.h"
@@ -86,3 +87,4 @@ protected:
 };
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

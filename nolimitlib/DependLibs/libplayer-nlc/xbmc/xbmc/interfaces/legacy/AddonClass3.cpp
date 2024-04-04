@@ -7,6 +7,8 @@
  */
 
 #include "AddonClass.h"
+#if HAVE_ADDONS
+
 #ifdef XBMC_ADDON_DEBUG_MEMORY
 #include "utils/log.h"
 #endif
@@ -87,4 +89,5 @@ namespace XBMCAddon
 #endif
 }
 
+#endif // HAVE_ADDONS
 

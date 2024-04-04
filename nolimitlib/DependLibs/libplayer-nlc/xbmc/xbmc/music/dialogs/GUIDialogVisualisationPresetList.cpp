@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogVisualisationPresetList.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIUserMessages.h"
@@ -96,3 +97,5 @@ void CGUIDialogVisualisationPresetList::OnDeinitWindow(int nextWindowID)
   ClearVisualisation();
   CGUIDialogSelect::OnDeinitWindow(nextWindowID);
 }
+
+#endif // HAVE_ADDONS

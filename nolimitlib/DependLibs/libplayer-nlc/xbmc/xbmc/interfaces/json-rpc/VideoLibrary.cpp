@@ -577,6 +577,7 @@ JSONRPC_STATUS CVideoLibrary::GetAvailableArt(const std::string& method, ITransp
     return InternalError;
 
   CVariant availableart = CVariant(CVariant::VariantTypeArray);
+#if HAVE_LIB_CURL
   for (const auto& artentry : videodatabase.GetAvailableArtForItem(mediaID, mediaType, artType))
   {
     CVariant item = CVariant(CVariant::VariantTypeObject);
@@ -586,6 +587,8 @@ JSONRPC_STATUS CVideoLibrary::GetAvailableArt(const std::string& method, ITransp
       item["previewurl"] = CTextureUtils::GetWrappedImageURL(artentry.m_preview);
     availableart.append(item);
   }
+#endif // HAVE_LIB_CURL
+
   result = CVariant(CVariant::VariantTypeObject);
   result["availableart"] = availableart;
 
@@ -1086,6 +1089,7 @@ bool CVideoLibrary::FillFileItemList(const CVariant &parameterObject, CFileItemL
   }
   if (recordingID > 0)
   {
+#if HAVE_ADDONS
     std::shared_ptr<CFileItem> recordingFileItem =
         CPVROperations::GetRecordingFileItem(recordingID);
 
@@ -1094,6 +1098,7 @@ bool CVideoLibrary::FillFileItemList(const CVariant &parameterObject, CFileItemL
       list.Add(recordingFileItem);
       success = true;
     }
+#endif // HAVE_ADDONS
   }
 
   return success;

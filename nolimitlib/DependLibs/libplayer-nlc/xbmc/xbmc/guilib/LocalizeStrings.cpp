@@ -102,6 +102,7 @@ static bool LoadStr2Mem(const std::string &pathname_in, const std::string &langu
   if (!XFILE::CDirectory::Exists(pathname))
   {
     bool exists = false;
+#if HAVE_ADDONS
     std::string lang;
     // check if there's a language addon using the old language naming convention
     if (ADDON::CLanguageResource::FindLegacyLanguage(language, lang))
@@ -109,6 +110,7 @@ static bool LoadStr2Mem(const std::string &pathname_in, const std::string &langu
       pathname = CSpecialProtocol::TranslatePathConvertCase(pathname_in + lang);
       exists = XFILE::CDirectory::Exists(pathname);
     }
+#endif // HAVE_ADDONS
 
     if (!exists)
       return false;

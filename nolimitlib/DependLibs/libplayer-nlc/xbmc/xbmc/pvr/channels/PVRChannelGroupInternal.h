@@ -9,6 +9,7 @@
 #pragma once
 
 #include "pvr/channels/PVRChannelGroup.h"
+#if HAVE_ADDONS
 
 #include <memory>
 #include <vector>
@@ -79,3 +80,5 @@ protected:
   void Unload() override;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

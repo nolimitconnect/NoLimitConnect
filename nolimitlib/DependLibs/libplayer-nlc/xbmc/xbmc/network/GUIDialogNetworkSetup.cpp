@@ -26,8 +26,9 @@
 
 #include <utility>
 
-
+#if HAVE_ADDONS
 using namespace ADDON;
+#endif // HAVE_ADDONS
 using namespace KODI::MESSAGING;
 
 
@@ -437,6 +438,8 @@ void CGUIDialogNetworkSetup::UpdateAvailableProtocols()
   // most popular protocol at the first place
   m_protocols.emplace_back(Protocol{true, true, true, false, true, 0, "smb", 20171, ""});
 #endif
+
+#if HAVE_ADDONS
   // protocols from vfs addon next
   if (CServiceBroker::IsAddonInterfaceUp())
   {
@@ -453,6 +456,7 @@ void CGUIDialogNetworkSetup::UpdateAvailableProtocols()
       }
     }
   }
+#endif // HAVE_ADDONS
   // internals
   const std::vector<Protocol> defaults = {{true, true, true, true, false, 443, "https", 20301, ""},
                                           {true, true, true, true, false, 80, "http", 20300, ""},

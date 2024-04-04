@@ -41,6 +41,7 @@ bool CVisualisationGUIInfo::GetLabel(std::string& value, const CFileItem *item, 
       CServiceBroker::GetGUI()->GetWindowManager().SendMessage(msg);
       if (msg.GetPointer())
       {
+#if HAVE_ADDONS
         CGUIVisualisationControl* viz = static_cast<CGUIVisualisationControl*>(msg.GetPointer());
         if (viz)
         {
@@ -48,19 +49,24 @@ bool CVisualisationGUIInfo::GetLabel(std::string& value, const CFileItem *item, 
           URIUtils::RemoveExtension(value);
           return true;
         }
+#endif // HAVE_ADDONS
       }
       break;
     }
     case VISUALISATION_NAME:
     {
-      ADDON::AddonPtr addon;
       value = CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_MUSICPLAYER_VISUALISATION);
+#if HAVE_ADDONS
+      ADDON::AddonPtr addon;
       if (CServiceBroker::GetAddonMgr().GetAddon(value, addon, ADDON::OnlyEnabled::CHOICE_YES) &&
           addon)
       {
         value = addon->Name();
         return true;
       }
+#else
+      return !value.empty();
+#endif // HAVE_ADDONS
       break;
     }
   }
@@ -86,9 +92,11 @@ bool CVisualisationGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int 
       CServiceBroker::GetGUI()->GetWindowManager().SendMessage(msg);
       if (msg.GetPointer())
       {
+#if HAVE_ADDONS
         CGUIVisualisationControl *pVis = static_cast<CGUIVisualisationControl*>(msg.GetPointer());
         value = pVis->IsLocked();
         return true;
+#endif // HAVE_ADDONS
       }
       break;
     }
@@ -103,9 +111,12 @@ bool CVisualisationGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int 
       CServiceBroker::GetGUI()->GetWindowManager().SendMessage(msg);
       if (msg.GetPointer())
       {
+#if HAVE_ADDONS
         CGUIVisualisationControl* viz = static_cast<CGUIVisualisationControl*>(msg.GetPointer());
         value = (viz && viz->HasPresets());
         return true;
+#endif // HAVE_ADDONS
+
       }
       break;
     }

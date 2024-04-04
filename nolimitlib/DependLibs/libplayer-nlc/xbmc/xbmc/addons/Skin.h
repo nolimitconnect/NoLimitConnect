@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Addon.h"
 #include "addons/gui/skin/SkinTimerManager.h"
 #include "guilib/GUIIncludes.h" // needed for the GUIInclude member
@@ -295,3 +298,5 @@ private:
 } /*namespace ADDON*/
 
 extern std::shared_ptr<ADDON::CSkinInfo> g_SkinInfo;
+
+#endif // HAVE_ADDONS

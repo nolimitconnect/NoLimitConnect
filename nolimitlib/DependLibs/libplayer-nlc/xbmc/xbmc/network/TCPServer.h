@@ -9,6 +9,8 @@
 #pragma once
 
 #include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #ifdef TARGET_OS_WINDOWS
 # include "platform/win32/sys/socket.h"
 #endif // TARGET_OS_WINDOWS
@@ -124,3 +126,5 @@ namespace JSONRPC
     static CTCPServer *ServerInstance;
   };
 }
+
+#endif // ENABLE_JSON

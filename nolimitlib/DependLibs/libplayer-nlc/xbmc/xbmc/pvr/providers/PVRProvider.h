@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_providers.h"
 #include "pvr/PVRCachedImage.h"
 #include "threads/CriticalSection.h"
@@ -243,3 +246,5 @@ private:
   mutable CCriticalSection m_critSection;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

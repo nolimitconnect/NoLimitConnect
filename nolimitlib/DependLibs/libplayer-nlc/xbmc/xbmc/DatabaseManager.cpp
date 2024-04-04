@@ -12,8 +12,10 @@
 #include "TextureDatabase.h"
 #include "addons/AddonDatabase.h"
 #include "music/MusicDatabase.h"
+#if HAVE_ADDONS
 #include "pvr/PVRDatabase.h"
 #include "pvr/epg/EpgDatabase.h"
+#endif // HAVE_ADDONS
 #include "settings/AdvancedSettings.h"
 #include "settings/SettingsComponent.h"
 #include "utils/log.h"
@@ -22,16 +24,20 @@
 
 #include <mutex>
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 using namespace PVR;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 CDatabaseManager::CDatabaseManager() :
   m_bIsUpgrading(false)
 {
+#if HAVE_ADDONS
   // Initialize the addon database (must be before the addon manager is init'd)
   ADDON::CAddonDatabase db;
   UpdateDatabase(db);
+#endif // HAVE_ADDONS
 }
 
 CDatabaseManager::~CDatabaseManager() = default;
@@ -48,18 +54,23 @@ void CDatabaseManager::Initialize()
 
   // NOTE: Order here is important. In particular, CTextureDatabase has to be updated
   //       before CVideoDatabase.
+#if HAVE_ADDONS
   {
     ADDON::CAddonDatabase db;
     UpdateDatabase(db);
   }
+#endif // HAVE_ADDONS
+
   { CViewDatabase db; UpdateDatabase(db); }
   { CTextureDatabase db; UpdateDatabase(db); }
   { CMusicDatabase db; UpdateDatabase(db, &advancedSettings->m_databaseMusic); }
   { CVideoDatabase db; UpdateDatabase(db, &advancedSettings->m_databaseVideo); }
+#if HAVE_ADDONS
 #if ENABLE_PVR
   { CPVRDatabase db; UpdateDatabase(db, &advancedSettings->m_databaseTV); }
   { CPVREpgDatabase db; UpdateDatabase(db, &advancedSettings->m_databaseEpg); }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   CLog::Log(LOGDEBUG, "%s, updating databases... DONE", __FUNCTION__);
 

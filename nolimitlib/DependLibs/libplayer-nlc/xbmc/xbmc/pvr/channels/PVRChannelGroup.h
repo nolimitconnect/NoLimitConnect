@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/channels/PVRChannelGroupSettings.h"
 #include "pvr/channels/PVRChannelNumber.h"
 #include "pvr/channels/PVRChannelsPath.h"
@@ -580,3 +583,5 @@ private:
   int m_iClientPosition{0};
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRItemsViewBase.h"
+#if HAVE_ADDONS
 
 #include "ContextMenuManager.h"
 #include "FileItem.h"
@@ -66,9 +67,11 @@ bool CGUIDialogPVRItemsViewBase::OnAction(const CAction& action)
         ShowInfo(m_viewControl.GetSelectedItem());
         return true;
 
+#if HAVE_ADDONS
       case ACTION_CONTEXT_MENU:
       case ACTION_MOUSE_RIGHT_CLICK:
         return ContextMenu(m_viewControl.GetSelectedItem());
+#endif // HAVE_ADDONS
 
       default:
         break;
@@ -97,6 +100,7 @@ void CGUIDialogPVRItemsViewBase::ShowInfo(int itemIdx)
   CServiceBroker::GetPVRManager().Get<PVR::GUI::EPG>().ShowEPGInfo(*item);
 }
 
+#if HAVE_ADDONS
 bool CGUIDialogPVRItemsViewBase::ContextMenu(int itemIdx)
 {
   auto InRange = [](size_t i, std::pair<size_t, size_t> range) {
@@ -140,6 +144,7 @@ bool CGUIDialogPVRItemsViewBase::ContextMenu(int itemIdx)
 
   return CONTEXTMENU::LoopFrom(*addonMenu[idx - addonMenuRange.first], item);
 }
+#endif // HAVE_ADDONS
 
 void CGUIDialogPVRItemsViewBase::Init()
 {
@@ -152,3 +157,5 @@ void CGUIDialogPVRItemsViewBase::Clear()
   m_viewControl.Clear();
   m_vecItems->Clear();
 }
+
+#endif // HAVE_ADDONS

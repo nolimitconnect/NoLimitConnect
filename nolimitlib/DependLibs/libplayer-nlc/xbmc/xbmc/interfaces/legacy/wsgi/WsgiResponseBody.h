@@ -9,6 +9,7 @@
 #pragma once
 
 #include "interfaces/legacy/AddonClass.h"
+#if HAVE_ADDONS
 
 namespace XBMCAddon
 {
@@ -49,3 +50,5 @@ namespace XBMCAddon
     };
   }
 }
+
+#endif // HAVE_ADDONS

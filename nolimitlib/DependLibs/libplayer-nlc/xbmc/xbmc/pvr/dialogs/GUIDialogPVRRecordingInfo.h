@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 
 class CFileItem;
@@ -35,3 +38,5 @@ private:
   CFileItemPtr m_recordItem;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

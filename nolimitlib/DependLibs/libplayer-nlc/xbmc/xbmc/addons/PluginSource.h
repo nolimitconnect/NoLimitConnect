@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/Addon.h"
+#if HAVE_ADDONS
 
 #include <set>
 
@@ -53,3 +54,5 @@ private:
 };
 
 } /*namespace ADDON*/
+
+#endif // HAVE_ADDONS

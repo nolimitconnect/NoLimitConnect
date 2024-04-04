@@ -7,6 +7,7 @@
  */
 
 #include "EpgDatabase.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dbwrappers/dataset.h"
@@ -1492,3 +1493,5 @@ bool CPVREpgDatabase::DeleteSavedSearches()
   std::unique_lock<CCriticalSection> lock(m_critSection);
   return DeleteValues("savedsearches");
 }
+
+#endif // HAVE_ADDONS

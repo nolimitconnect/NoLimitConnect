@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/channels/PVRChannelNumber.h"
 #include "threads/CriticalSection.h"
 #include "threads/Timer.h"
@@ -116,3 +119,5 @@ private:
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

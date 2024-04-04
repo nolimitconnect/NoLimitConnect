@@ -7,6 +7,7 @@
  */
 
 #include "PVRTimerInfoTag.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -1387,3 +1388,5 @@ const std::string& CPVRTimerInfoTag::SeriesLink() const
 {
   return m_strSeriesLink;
 }
+
+#endif // HAVE_ADDONS

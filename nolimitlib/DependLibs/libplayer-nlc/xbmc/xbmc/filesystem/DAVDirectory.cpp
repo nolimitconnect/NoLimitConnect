@@ -8,6 +8,8 @@
 
 #include "DAVDirectory.h"
 
+#if HAVE_LIB_CURL
+
 #include "DAVCommon.h"
 #include "DAVFile.h"
 #include "NlcUrl.h"
@@ -225,3 +227,5 @@ bool CDAVDirectory::Remove(const NlcUrl& url)
 
   return true;
 }
+
+#endif // HAVE_LIB_CURL

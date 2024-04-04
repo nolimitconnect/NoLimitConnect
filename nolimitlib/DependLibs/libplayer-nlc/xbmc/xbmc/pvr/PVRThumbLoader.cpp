@@ -7,6 +7,7 @@
  */
 
 #include "PVRThumbLoader.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -134,3 +135,5 @@ std::string CPVRThumbLoader::CreateChannelGroupThumb(const CFileItem& channelGro
 
   return {};
 }
+
+#endif // HAVE_ADDONS

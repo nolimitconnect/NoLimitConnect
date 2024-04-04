@@ -33,8 +33,9 @@ public:
   bool OnMessage(CGUIMessage& message) override;
   bool OnAction(const CAction &action) override;
 
+#if HAVE_ADDONS
   virtual void OnItemInfo(const CFileItem& fileItem, ADDON::ScraperPtr& scraper);
-
+#endif // HAVE_ADDONS
 
   /*! \brief Show the resume menu for this item (if it has a resume bookmark)
    If a resume bookmark is found, we set the item's m_lStartOffset to STARTOFFSET_RESUME.
@@ -119,11 +120,15 @@ protected:
   using CGUIMediaWindow::LoadPlayList;
   void LoadPlayList(const std::string& strPlayList, PLAYLIST::Id playlistId = PLAYLIST::TYPE_VIDEO);
 
+#if HAVE_ADDONS
   bool ShowIMDB(CFileItemPtr item, const ADDON::ScraperPtr& content, bool fromDB);
+#endif // HAVE_ADDONS
 
   void OnSearch();
   void OnSearchItemFound(const CFileItem* pSelItem);
+#if HAVE_ADDONS
   int GetScraperForItem(CFileItem *item, ADDON::ScraperPtr &info, VIDEO::SScanSettings& settings);
+#endif // HAVE_ADDONS
 
   static bool OnUnAssignContent(const std::string &path, int header, int text);
 

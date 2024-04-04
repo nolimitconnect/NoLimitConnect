@@ -7,6 +7,7 @@
  */
 
 #include "File.h"
+#if HAVE_ADDONS
 
 namespace XBMCAddon
 {
@@ -59,3 +60,5 @@ namespace XBMCAddon
 
   }
 }
+
+#endif // HAVE_ADDONS

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Window.h"
+#if HAVE_ADDONS
 
 // These messages are a side effect of the way dialogs work through the
 // main ApplicationMessenger. At some point it would be nice to remove
@@ -41,3 +42,5 @@ namespace XBMCAddon
     };
   }
 }
+
+#endif // HAVE_ADDONS

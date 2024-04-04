@@ -7,6 +7,7 @@
  */
 
 #include "SettingsOperations.h"
+#if ENABLE_JSON
 
 #include "ServiceBroker.h"
 #include "addons/Addon.h"
@@ -636,11 +637,14 @@ bool CSettingsOperations::SerializeSettingString(
     if (!SerializeSettingPath(std::static_pointer_cast<const CSettingPath>(setting), obj))
       return false;
   }
+#if HAVE_ADDONS
   if (control->GetFormat() == "addon")
   {
     if (!SerializeSettingAddon(std::static_pointer_cast<const CSettingAddon>(setting), obj))
       return false;
   }
+#endif // HAVE_ADDONS
+
   if (control->GetFormat() == "date")
   {
     if (!SerializeSettingDate(std::static_pointer_cast<const CSettingDate>(setting), obj))
@@ -697,6 +701,7 @@ bool CSettingsOperations::SerializeSettingPath(const std::shared_ptr<const CSett
   return true;
 }
 
+#if HAVE_ADDONS
 bool CSettingsOperations::SerializeSettingAddon(const std::shared_ptr<const CSettingAddon>& setting,
                                                 CVariant& obj)
 {
@@ -708,6 +713,7 @@ bool CSettingsOperations::SerializeSettingAddon(const std::shared_ptr<const CSet
 
   return true;
 }
+#endif // HAVE_ADDONS
 
 bool CSettingsOperations::SerializeSettingDate(const std::shared_ptr<const CSettingDate>& setting,
                                                CVariant& obj)
@@ -815,8 +821,9 @@ JSONRPC_STATUS CSettingsOperations::GetSkinSettings(const std::string& method,
                                                     const CVariant& parameterObject,
                                                     CVariant& result)
 {
-  const std::set<ADDON::CSkinSettingPtr> settings = CSkinSettings::GetInstance().GetSettings();
   CVariant varSettings(CVariant::VariantTypeArray);
+#if HAVE_ADDONS
+  const std::set<ADDON::CSkinSettingPtr> settings = CSkinSettings::GetInstance().GetSettings();
 
   for (const auto& setting : settings)
   {
@@ -838,6 +845,7 @@ JSONRPC_STATUS CSettingsOperations::GetSkinSettings(const std::string& method,
 
     varSettings.push_back(varSetting);
   }
+#endif // HAVE_ADDONS
 
   result["skin"] = CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(
       CSettings::SETTING_LOOKANDFEEL_SKIN);
@@ -851,6 +859,7 @@ JSONRPC_STATUS CSettingsOperations::GetSkinSettingValue(const std::string& metho
                                                         const CVariant& parameterObject,
                                                         CVariant& result)
 {
+#if HAVE_ADDONS
   const std::string settingId = parameterObject["setting"].asString();
   ADDON::CSkinSettingPtr setting = CSkinSettings::GetInstance().GetSetting(settingId);
 
@@ -867,6 +876,9 @@ JSONRPC_STATUS CSettingsOperations::GetSkinSettingValue(const std::string& metho
 
   result["value"] = value;
   return OK;
+#else
+    return InvalidParams;
+#endif // HAVE_ADDONS
 }
 
 JSONRPC_STATUS CSettingsOperations::SetSkinSettingValue(const std::string& method,
@@ -875,6 +887,7 @@ JSONRPC_STATUS CSettingsOperations::SetSkinSettingValue(const std::string& metho
                                                         const CVariant& parameterObject,
                                                         CVariant& result)
 {
+#if HAVE_ADDONS
   const std::string settingId = parameterObject["setting"].asString();
   ADDON::CSkinSettingPtr setting = CSkinSettings::GetInstance().GetSetting(settingId);
 
@@ -902,4 +915,9 @@ JSONRPC_STATUS CSettingsOperations::SetSkinSettingValue(const std::string& metho
   }
 
   return OK;
+#else
+  return InvalidParams;
+#endif // HAVE_ADDONS
 }
+
+#endif // ENABLE_JSON

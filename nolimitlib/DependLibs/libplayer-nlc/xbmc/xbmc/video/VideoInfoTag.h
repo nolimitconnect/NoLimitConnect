@@ -32,7 +32,9 @@ struct SActorInfo
   }
   std::string strName;
   std::string strRole;
+  #if HAVE_LIB_CURL
   CScraperUrl thumbUrl;
+  #endif // HAVE_LIB_CURL
   std::string thumb;
   int        order = -1;
 };
@@ -130,7 +132,9 @@ public:
   std::string const &GetTitle();
   void SetTitle(std::string title);
   void SetSortTitle(std::string sortTitle);
+  #if HAVE_LIB_CURL
   void SetPictureURL(CScraperUrl &pictureURL);
+  #endif // HAVE_LIB_CURL
   void SetRating(float rating, int votes, const std::string& type = "", bool def = false);
   void SetRating(CRating rating, const std::string& type = "", bool def = false);
   void SetRating(float rating, const std::string& type = "", bool def = false);
@@ -224,7 +228,9 @@ public:
   std::string m_strPlotOutline;
   std::string m_strTrailer;
   std::string m_strPlot;
+  #if HAVE_LIB_CURL
   CScraperUrl m_strPictureURL;
+  #endif // HAVE_LIB_CURL
   std::string m_strTitle;
   std::string m_strSortTitle;
   std::vector<std::string> m_artist;

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "GUIControl.h"
 #include "cores/AudioEngine/Interfaces/IAudioCallback.h"
 
@@ -15,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#if HAVE_ADDONS
 namespace KODI
 {
 namespace ADDONS
@@ -22,6 +26,7 @@ namespace ADDONS
 class CVisualization;
 } // namespace ADDONS
 } // namespace KODI
+#endif // HAVE_ADDONS
 
 class CAudioBuffer
 {
@@ -98,6 +103,7 @@ private:
   std::string m_name; /*!< To add-on sended name */
   std::string m_presetsPath; /*!< To add-on sended preset path */
   std::string m_profilePath; /*!< To add-on sended profile path */
-
   std::unique_ptr<KODI::ADDONS::CVisualization> m_instance;
 };
+
+#endif // HAVE_ADDONS

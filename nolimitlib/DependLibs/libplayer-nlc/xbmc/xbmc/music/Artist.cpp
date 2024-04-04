@@ -55,8 +55,9 @@ void CArtist::MergeScrapedArtist(const CArtist& source, bool override /* = true 
   strDied = source.strDied;
   strDisbanded = source.strDisbanded;
   yearsActive = source.yearsActive;
-
+#if HAVE_LIB_CURL
   thumbURL = source.thumbURL; // Available remote art
+#endif // HAVE_LIB_CURL
   // Current artwork - thumb, fanart etc., to be stored in art table
   if (!source.art.empty())
     art = source.art;
@@ -91,6 +92,7 @@ bool CArtist::Load(const TiXmlElement *artist, bool append, bool prioritise)
   XMLUtils::GetString(artist,      "died", strDied);
   XMLUtils::GetString(artist, "disbanded", strDisbanded);
 
+#if HAVE_LIB_CURL
   size_t iThumbCount = thumbURL.GetUrls().size();
   std::string xmlAdd = thumbURL.GetData();
 
@@ -115,6 +117,7 @@ bool CArtist::Load(const TiXmlElement *artist, bool append, bool prioritise)
     thumbURL.SetUrls(thumbUrls);
     thumbURL.SetData(xmlAdd);
   }
+  #endif // HAVE_LIB_CURL
 
   // Discography
   const TiXmlElement* node = artist->FirstChildElement("album");
@@ -149,8 +152,10 @@ bool CArtist::Load(const TiXmlElement *artist, bool append, bool prioritise)
       fanart.m_xml << *fanart2;
     fanart.Unpack();
     // Append fanart to other image URLs
+    #if HAVE_LIB_CURL
     for (unsigned int i = 0; i < fanart.GetNumFanarts(); i++)
       thumbURL.AddParsedUrl(fanart.GetImageURL(i), "fanart", fanart.GetPreviewURL(i));
+    #endif // HAVE_LIB_CURL
   }
 
  // Current artwork  - thumb, fanart etc. (the chosen art, not the lists of those available)
@@ -195,6 +200,7 @@ bool CArtist::Save(TiXmlNode *node, const std::string &tag, const std::string& s
   XMLUtils::SetString(artist,                      "died", strDied);
   XMLUtils::SetString(artist,                 "disbanded", strDisbanded);
   // Available remote art
+  #if HAVE_LIB_CURL
   if (thumbURL.HasData())
   {
     CXBMCTinyXML doc;
@@ -206,6 +212,8 @@ bool CArtist::Save(TiXmlNode *node, const std::string &tag, const std::string& s
       thumb = thumb->NextSibling("thumb");
     }
   }
+  #endif // HAVE_LIB_CURL
+
   XMLUtils::SetString(artist,        "path", strPath);
 
   // Discography

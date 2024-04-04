@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_timers.h"
 
 #include <memory>
@@ -415,3 +418,5 @@ namespace PVR
     unsigned int m_iRecordingGroupDefault = 0;
   };
 }
+
+#endif // HAVE_ADDONS

@@ -9,6 +9,8 @@
 #pragma once
 
 #include "Window.h"
+#if HAVE_ADDONS
+
 #include "WindowDialogMixin.h"
 
 namespace XBMCAddon
@@ -86,3 +88,5 @@ namespace XBMCAddon
     ///@}
   }
 }
+
+#endif // HAVE_ADDONS

@@ -8,6 +8,7 @@
 
 #include "ScraperParser.h"
 
+#include "filesystem/Directory.h"   
 #include "guilib/LocalizeStrings.h"
 #include "RegExp.h"
 #include "HTMLUtil.h"
@@ -157,8 +158,10 @@ void CScraperParser::ReplaceBuffers(std::string& strDest)
     size_t iEnd = strDest.find(']', iIndex);
     std::string strInfo = strDest.substr(iIndex+6, iEnd - iIndex - 6);
     std::string strReplace;
+#if HAVE_LIB_CURL
     if (m_scraper)
       strReplace = m_scraper->GetSetting(strInfo);
+#endif // HAVE_LIB_CURL
     strDest.replace(strDest.begin()+iIndex,strDest.begin()+iEnd+1,strReplace);
     iIndex += strReplace.length();
   }
@@ -169,8 +172,10 @@ void CScraperParser::ReplaceBuffers(std::string& strDest)
     size_t iEnd = strDest.find(']', iIndex);
     std::string strInfo = strDest.substr(iIndex+10, iEnd - iIndex - 10);
     std::string strReplace;
+#if HAVE_LIB_CURL
     if (m_scraper)
       strReplace = g_localizeStrings.GetAddonString(m_scraper->ID(), strtol(strInfo.c_str(),NULL,10));
+#endif // HAVE_LIB_CURL
     strDest.replace(strDest.begin()+iIndex,strDest.begin()+iEnd+1,strReplace);
     iIndex += strReplace.length();
   }
@@ -423,8 +428,10 @@ void CScraperParser::ParseNext(TiXmlElement* element)
         szConditional++;
       }
       std::string strSetting;
+#if HAVE_LIB_CURL
       if (m_scraper && m_scraper->HasSettings())
         strSetting = m_scraper->GetSetting(szConditional);
+#endif // HAVE_LIB_CURL
       bExecute = bInverse != (strSetting == "true");
     }
 

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 #include "threads/SystemClock.h"
 #include "windows/GUIMediaWindow.h"
@@ -137,3 +140,5 @@ namespace PVR
         nullptr; /*!< progress dialog that is displayed while the pvr manager is loading */
   };
 }
+
+#endif // HAVE_ADDONS

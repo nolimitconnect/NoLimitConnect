@@ -7,6 +7,7 @@
  */
 
 #include "BinaryAddonManager.h"
+#if HAVE_ADDONS
 
 #include "addons/addoninfo/AddonInfo.h"
 #include "addons/binary-addons/AddonDll.h"
@@ -86,3 +87,5 @@ AddonPtr CBinaryAddonManager::GetRunningAddon(const std::string& addonId) const
 
   return nullptr;
 }
+
+#endif // HAVE_ADDONS

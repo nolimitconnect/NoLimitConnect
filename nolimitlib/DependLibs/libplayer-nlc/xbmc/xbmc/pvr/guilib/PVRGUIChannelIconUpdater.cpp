@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIChannelIconUpdater.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -99,3 +100,5 @@ void CPVRGUIChannelIconUpdater::SearchAndUpdateMissingChannelIcons() const
     }
   }
 }
+
+#endif // HAVE_ADDONS

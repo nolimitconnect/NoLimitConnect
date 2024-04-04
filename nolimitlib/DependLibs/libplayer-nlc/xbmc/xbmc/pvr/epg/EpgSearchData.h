@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 
 #include <string>
@@ -42,3 +45,5 @@ struct PVREpgSearchData
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "EpgTagsCache.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRManager.h"
@@ -177,3 +178,5 @@ void CPVREpgTagsCache::RefreshNextStartingTag(const CDateTime& activeTime)
     }
   }
 }
+
+#endif // HAVE_ADDONS

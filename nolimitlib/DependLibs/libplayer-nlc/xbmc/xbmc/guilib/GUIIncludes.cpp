@@ -17,6 +17,7 @@
 #include "utils/XBMCTinyXML.h"
 #include "utils/XMLUtils.h"
 #include "utils/log.h"
+#include "ServiceBroker.h"
 
 using namespace KODI::GUILIB;
 
@@ -228,6 +229,7 @@ void CGUIIncludes::LoadIncludes(const TiXmlElement *node)
     }
     else if (child->Attribute("file"))
     {
+#if HAVE_ADDONS
       std::string file = g_SkinInfo->GetSkinPath(child->Attribute("file"));
       const char *condition = child->Attribute("condition");
 
@@ -239,6 +241,7 @@ void CGUIIncludes::LoadIncludes(const TiXmlElement *node)
       }
       else
         Load_Internal(file);
+#endif // HAVE_ADDONS
     }
     child = child->NextSiblingElement("include");
   }
@@ -405,10 +408,12 @@ void CGUIIncludes::ResolveIncludes(TiXmlElement *node, std::map<INFO::InfoPtr, b
   TiXmlElement *include = node->FirstChildElement("include");
   while (include)
   {
+#if HAVE_ADDONS
     // file: load includes from specified XML file
     const char *file = include->Attribute("file");
     if (file)
       Load(g_SkinInfo->GetSkinPath(file));
+#endif // HAVE_ADDONS
 
     // condition: process include if condition evals to true
     const char *condition = include->Attribute("condition");

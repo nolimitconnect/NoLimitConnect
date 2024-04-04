@@ -9,6 +9,7 @@
 #pragma once
 
 #include "AddonClass.h"
+#if HAVE_ADDONS
 
 #include <vector>
 
@@ -1032,3 +1033,5 @@ namespace XBMCAddon
     //@}
   }
 }
+
+#endif // HAVE_ADDONS

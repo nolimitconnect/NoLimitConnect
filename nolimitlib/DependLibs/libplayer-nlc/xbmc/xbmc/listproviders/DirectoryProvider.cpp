@@ -117,11 +117,14 @@ public:
       initThumbLoader<CPictureThumbLoader>(InfoTagType::PICTURE);
       return m_thumbloaders[InfoTagType::PICTURE];
     }
+#if HAVE_ADDONS
     if (item->IsPVRChannelGroup())
     {
       initThumbLoader<CPVRThumbLoader>(InfoTagType::PVR);
       return m_thumbloaders[InfoTagType::PVR];
     }
+#endif // HAVE_ADDONS
+
     initThumbLoader<CProgramThumbLoader>(InfoTagType::PROGRAM);
     return m_thumbloaders[InfoTagType::PROGRAM];
   }
@@ -300,6 +303,7 @@ void CDirectoryProvider::Fetch(std::vector<CGUIListItemPtr> &items)
   }
 }
 
+#if HAVE_ADDONS
 void CDirectoryProvider::OnAddonEvent(const ADDON::AddonEvent& event)
 {
   std::unique_lock<CCriticalSection> lock(m_section);
@@ -340,6 +344,7 @@ void CDirectoryProvider::OnPVRManagerEvent(const PVR::PVREvent& event)
       m_updateState = INVALIDATED;
   }
 }
+#endif // HAVE_ADDONS
 
 void CDirectoryProvider::OnFavouritesEvent(const CFavouritesService::FavouritesUpdated& event)
 {
@@ -371,9 +376,11 @@ void CDirectoryProvider::Reset()
     m_isSubscribed = false;
     CServiceBroker::GetAnnouncementManager()->RemoveAnnouncer(this);
     CServiceBroker::GetFavouritesService().Events().Unsubscribe(this);
+#if HAVE_ADDONS
     CServiceBroker::GetRepositoryUpdater().Events().Unsubscribe(this);
     CServiceBroker::GetAddonMgr().Events().Unsubscribe(this);
     CServiceBroker::GetPVRManager().Events().Unsubscribe(this);
+#endif // HAVE_ADDONS
   }
 }
 
@@ -482,6 +489,7 @@ bool CDirectoryProvider::OnInfo(const CGUIListItemPtr& item)
 {
   auto fileItem = std::static_pointer_cast<CFileItem>(item);
 
+#if HAVE_ADDONS
   if (fileItem->HasAddonInfo())
   {
     return CGUIDialogAddonInfo::ShowForItem(fileItem);
@@ -491,6 +499,9 @@ bool CDirectoryProvider::OnInfo(const CGUIListItemPtr& item)
     return CServiceBroker::GetPVRManager().Get<PVR::GUI::Utils>().OnInfo(*fileItem);
   }
   else if (fileItem->HasVideoInfoTag())
+#else
+  if (fileItem->HasVideoInfoTag())
+#endif // HAVE_ADDONS
   {
     auto mediaType = fileItem->GetVideoInfoTag()->m_type;
     if (mediaType == MediaTypeMovie ||
@@ -513,6 +524,7 @@ bool CDirectoryProvider::OnInfo(const CGUIListItemPtr& item)
 
 bool CDirectoryProvider::OnContextMenu(const CGUIListItemPtr& item)
 {
+#if HAVE_ADDONS
   auto fileItem = std::static_pointer_cast<CFileItem>(item);
 
   const std::string target = GetTarget(*fileItem);
@@ -520,6 +532,9 @@ bool CDirectoryProvider::OnContextMenu(const CGUIListItemPtr& item)
     fileItem->SetProperty("targetwindow", target);
 
   return CONTEXTMENU::ShowFor(fileItem);
+#else
+    return false;
+#endif // HAVE_ADDONS
 }
 
 bool CDirectoryProvider::IsUpdating() const
@@ -544,9 +559,11 @@ bool CDirectoryProvider::UpdateURL()
   {
     m_isSubscribed = true;
     CServiceBroker::GetAnnouncementManager()->AddAnnouncer(this);
+#if HAVE_ADDONS
     CServiceBroker::GetAddonMgr().Events().Subscribe(this, &CDirectoryProvider::OnAddonEvent);
     CServiceBroker::GetRepositoryUpdater().Events().Subscribe(this, &CDirectoryProvider::OnAddonRepositoryEvent);
     CServiceBroker::GetPVRManager().Events().Subscribe(this, &CDirectoryProvider::OnPVRManagerEvent);
+#endif // HAVE_ADDONS
     CServiceBroker::GetFavouritesService().Events().Subscribe(this, &CDirectoryProvider::OnFavouritesEvent);
   }
   return true;

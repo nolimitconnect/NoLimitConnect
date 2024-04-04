@@ -9,6 +9,7 @@
 #pragma once
 
 #include "IVideoInfoTagLoader.h"
+#if HAVE_ADDONS
 
 #include <string>
 #include <vector>
@@ -39,3 +40,5 @@ protected:
 
   std::string m_path; //!< Path to nfo file
 };
+
+#endif // HAVE_ADDONS

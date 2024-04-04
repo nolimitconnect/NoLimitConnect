@@ -7,6 +7,7 @@
  */
 
 #include "GUIVisualisationControl.h"
+#if HAVE_ADDONS
 
 #include "GUIComponent.h"
 #include "GUIInfoManager.h"
@@ -360,12 +361,14 @@ bool CGUIVisualisationControl::InitVisualization()
   if (!ae || !winSystem)
     return false;
 
+#if HAVE_ADDONS
   const std::string addon = CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(
       CSettings::SETTING_MUSICPLAYER_VISUALISATION);
   const ADDON::AddonInfoPtr addonBase =
       CServiceBroker::GetAddonMgr().GetAddonInfo(addon, ADDON::AddonType::VISUALIZATION);
   if (!addonBase)
     return false;
+#endif // HAVE_ADDONS
 
   ae->RegisterAudioCallback(this);
 
@@ -450,3 +453,5 @@ void CGUIVisualisationControl::ClearBuffers()
   m_numBuffers = 0;
   m_vecBuffers.clear();
 }
+
+#endif // HAVE_ADDONS

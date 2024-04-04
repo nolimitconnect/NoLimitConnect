@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "settings/LibExportSettings.h"
 #include "threads/CriticalSection.h"
 #include "utils/JobManager.h"
@@ -132,3 +135,5 @@ private:
   bool m_modal = false;
   bool m_cleaning = false;
 };
+
+#endif // HAVE_ADDONS

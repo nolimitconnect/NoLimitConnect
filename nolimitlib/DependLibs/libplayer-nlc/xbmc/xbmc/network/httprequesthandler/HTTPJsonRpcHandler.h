@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include "interfaces/json-rpc/IClient.h"
 #include "interfaces/json-rpc/ITransportLayer.h"
 #include "network/httprequesthandler/IHTTPRequestHandler.h"
@@ -69,3 +72,5 @@ private:
     int m_permissionFlags;
   };
 };
+
+#endif // ENABLE_JSON

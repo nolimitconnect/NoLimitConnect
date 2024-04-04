@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/IPVRComponent.h"
 #include "pvr/settings/PVRSettings.h"
 
@@ -156,3 +159,5 @@ using Playback = CPVRGUIActionsPlayback;
 } // namespace GUI
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

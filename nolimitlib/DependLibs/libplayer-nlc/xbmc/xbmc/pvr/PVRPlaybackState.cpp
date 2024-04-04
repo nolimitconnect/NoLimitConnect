@@ -7,6 +7,7 @@
  */
 
 #include "PVRPlaybackState.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -565,3 +566,5 @@ std::shared_ptr<CPVRChannelGroupMember> CPVRPlaybackState::
   std::unique_lock<CCriticalSection> lock(m_critSection);
   return bRadio ? m_previousToLastPlayedChannelRadio : m_previousToLastPlayedChannelTV;
 }
+
+#endif // HAVE_ADDONS

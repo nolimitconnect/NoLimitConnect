@@ -25,6 +25,8 @@
 #include <vector>
 
 using namespace XFILE;
+
+#if HAVE_ADDONS
 using namespace ADDON;
 
 CInfoScanner::INFO_TYPE CNfoFile::Create(const std::string& strPath,
@@ -35,6 +37,7 @@ CInfoScanner::INFO_TYPE CNfoFile::Create(const std::string& strPath,
   if (Load(strPath) != 0)
     return CInfoScanner::NO_NFO;
 
+#if HAVE_LIB_CURL
   CFileItemList items;
   bool bNfo=false;
 
@@ -100,6 +103,9 @@ CInfoScanner::INFO_TYPE CNfoFile::Create(const std::string& strPath,
       return CInfoScanner::COMBINED_NFO;
   }
   return m_scurl.HasUrls() ? CInfoScanner::URL_NFO : CInfoScanner::NO_NFO;
+#else
+  return CInfoScanner::NO_NFO;
+#endif // HAVE_LIB_CURL
 }
 
 // return value: 0 - success; 1 - no result; skip; 2 - error
@@ -127,6 +133,7 @@ int CNfoFile::Scrape(ScraperPtr& scraper, CScraperUrl& url,
 
   return url.HasUrls() ? 0 : 1;
 }
+#endif // HAVE_ADDONS
 
 int CNfoFile::Load(const std::string& strFile)
 {
@@ -147,9 +154,12 @@ void CNfoFile::Close()
 {
   m_doc.clear();
   m_headPos = 0;
+  #if HAVE_LIB_CURL
   m_scurl.Clear();
+  #endif // HAVE_LIB_CURL
 }
 
+#if HAVE_ADDONS
 std::vector<ScraperPtr> CNfoFile::GetScrapers(AddonType type, const ScraperPtr& selectedScraper)
 {
   AddonPtr addon;
@@ -188,3 +198,4 @@ std::vector<ScraperPtr> CNfoFile::GetScrapers(AddonType type, const ScraperPtr& 
 
   return vecScrapers;
 }
+#endif // HAVE_ADDONS

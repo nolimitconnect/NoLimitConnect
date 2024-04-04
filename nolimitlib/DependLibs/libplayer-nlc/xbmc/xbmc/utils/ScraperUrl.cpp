@@ -8,6 +8,8 @@
 
 #include "ScraperUrl.h"
 
+#if HAVE_LIB_CURL
+
 #include "CharsetConverter.h"
 #include "ServiceBroker.h"
 #include "URIUtils.h"
@@ -432,3 +434,5 @@ bool CScraperUrl::Get(const SUrlEntry& scrURL,
   }
   return true;
 }
+
+#endif // HAVE_LIB_CURL

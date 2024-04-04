@@ -198,6 +198,7 @@ void CMediaManager::GetNetworkLocations(VECSOURCES &locations, bool autolocation
     locations.push_back(share);
 #endif
 
+#if HAVE_ADDONS
     if (CServiceBroker::IsAddonInterfaceUp())
     {
       for (const auto& addon : CServiceBroker::GetVFSAddonCache().GetAddonInstances())
@@ -213,6 +214,7 @@ void CMediaManager::GetNetworkLocations(VECSOURCES &locations, bool autolocation
         }
       }
     }
+#endif // HAVE_ADDONS
   }
 }
 

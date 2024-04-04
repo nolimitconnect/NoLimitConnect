@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/windows/GUIWindowPVRTimersBase.h"
 
 #include <string>
@@ -34,3 +37,5 @@ namespace PVR
     std::string GetDirectoryPath() override;
   };
 }
+
+#endif // HAVE_ADDONS

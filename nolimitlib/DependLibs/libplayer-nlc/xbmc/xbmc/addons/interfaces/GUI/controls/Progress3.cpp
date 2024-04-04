@@ -36,8 +36,9 @@ void Interface_GUIControlProgress::set_visible(KODI_HANDLE kodiBase,
                                                KODI_GUI_CONTROL_HANDLE handle,
                                                bool visible)
 {
-  CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   CGUIProgressControl* control = static_cast<CGUIProgressControl*>(handle);
+#if HAVE_ADDONS
+  CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon || !control)
   {
     CLog::Log(LOGERROR,
@@ -46,16 +47,22 @@ void Interface_GUIControlProgress::set_visible(KODI_HANDLE kodiBase,
                 __func__, kodiBase, handle, addon ? addon->ID().c_str() : "unknown");
     return;
   }
+#endif // HAVE_ADDONS
 
-  control->SetVisible(visible);
+  if( control )
+  {
+    control->SetVisible(visible);
+  }
 }
 
 void Interface_GUIControlProgress::set_percentage(KODI_HANDLE kodiBase,
                                                   KODI_GUI_CONTROL_HANDLE handle,
                                                   float percent)
 {
-  CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   CGUIProgressControl* control = static_cast<CGUIProgressControl*>(handle);
+#if HAVE_ADDONS
+  CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
+
   if (!addon || !control)
   {
     CLog::Log(LOGERROR,
@@ -64,15 +71,18 @@ void Interface_GUIControlProgress::set_percentage(KODI_HANDLE kodiBase,
               __func__, kodiBase, handle, addon ? addon->ID().c_str() : "unknown");
     return;
   }
-
-  control->SetPercentage(percent);
+#endif // HAVE_ADDONS
+  if( control )
+    control->SetPercentage(percent);
 }
 
 float Interface_GUIControlProgress::get_percentage(KODI_HANDLE kodiBase,
                                                    KODI_GUI_CONTROL_HANDLE handle)
 {
-  CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   CGUIProgressControl* control = static_cast<CGUIProgressControl*>(handle);
+#if HAVE_ADDONS
+  CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
+
   if (!addon || !control)
   {
     CLog::Log(LOGERROR,
@@ -81,8 +91,11 @@ float Interface_GUIControlProgress::get_percentage(KODI_HANDLE kodiBase,
               __func__, kodiBase, handle, addon ? addon->ID().c_str() : "unknown");
     return 0.0f;
   }
+#endif // HAVE_ADDONS
+  if( control )
+    return control->GetPercentage();
 
-  return control->GetPercentage();
+  return 0.0f;
 }
 
 } /* namespace ADDON */

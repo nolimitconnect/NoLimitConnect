@@ -92,9 +92,10 @@ bool CLangCodeExpander::Lookup(const std::string& code, std::string& desc)
 
   if (LookupInISO639Tables(code, desc))
     return true;
-
+#if HAVE_ADDONS
   if (LookupInLangAddons(code, desc))
     return true;
+#endif // HAVE_ADDONS
 
   // Language code with subtag is supported only with language addons
   // or with user defined map, then if not found we fallback by obtaining
@@ -208,10 +209,12 @@ bool CLangCodeExpander::ConvertToISO6392B(const std::string& strCharCode,
       }
     }
 
+#if HAVE_ADDONS
     // Try search on language addons
     strISO6392B = g_langInfo.ConvertEnglishNameToAddonLocale(strCharCode);
     if (!strISO6392B.empty())
       return true;
+#endif // HAVE_ADDONS
   }
   return false;
 }
@@ -393,10 +396,12 @@ bool CLangCodeExpander::ReverseLookup(const std::string& desc, std::string& code
     }
   }
 
+#if HAVE_ADDONS
   // Find on language addons
   code = g_langInfo.ConvertEnglishNameToAddonLocale(descTmp);
   if (!code.empty())
     return true;
+#endif // HAVE_ADDONS
 
   return false;
 }
@@ -421,6 +426,7 @@ bool CLangCodeExpander::LookupInUserMap(const std::string& code, std::string& de
   return false;
 }
 
+#if HAVE_ADDONS
 bool CLangCodeExpander::LookupInLangAddons(const std::string& code, std::string& desc)
 {
   if (code.empty())
@@ -434,6 +440,7 @@ bool CLangCodeExpander::LookupInLangAddons(const std::string& code, std::string&
   desc = g_langInfo.GetEnglishLanguageName(sCode);
   return !desc.empty();
 }
+#endif // HAVE_ADDONS
 
 bool CLangCodeExpander::LookupInISO639Tables(const std::string& code, std::string& desc)
 {
@@ -520,7 +527,7 @@ std::vector<std::string> CLangCodeExpander::GetLanguageNames(
   else
     std::transform(g_iso639_1.begin(), g_iso639_1.end(), std::inserter(langMap, langMap.end()),
                    [](const LCENTRY& e) { return std::make_pair(CodeToString(e.code), e.name); });
-
+#if HAVE_ADDONS
   if (list == LANG_LIST::INCLUDE_ADDONS || list == LANG_LIST::INCLUDE_ADDONS_USERDEFINED)
   {
     g_langInfo.GetAddonsLanguageCodes(langMap);
@@ -534,6 +541,7 @@ std::vector<std::string> CLangCodeExpander::GetLanguageNames(
       langMap[value.first] = value.second;
     }
   }
+#endif // HAVE_ADDONS
 
   // Sort by name and remove duplicates
   std::set<std::string, sortstringbyname> languages;

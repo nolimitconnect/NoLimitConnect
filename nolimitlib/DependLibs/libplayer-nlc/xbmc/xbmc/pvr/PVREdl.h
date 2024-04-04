@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <vector>
 
 class CFileItem;
@@ -32,3 +35,5 @@ public:
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

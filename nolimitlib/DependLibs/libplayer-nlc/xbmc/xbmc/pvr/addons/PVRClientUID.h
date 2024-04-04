@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
 
 #include <string>
 
@@ -40,3 +41,5 @@ private:
   mutable int m_uid{0};
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

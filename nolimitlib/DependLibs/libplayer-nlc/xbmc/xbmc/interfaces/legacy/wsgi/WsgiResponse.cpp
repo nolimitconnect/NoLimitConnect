@@ -7,6 +7,7 @@
  */
 
 #include "WsgiResponse.h"
+#if HAVE_ADDONS
 
 #include <utility>
 
@@ -89,3 +90,5 @@ namespace XBMCAddon
 #endif
   }
 }
+
+#endif // HAVE_ADDONS

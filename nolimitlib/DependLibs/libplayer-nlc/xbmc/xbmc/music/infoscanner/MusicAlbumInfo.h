@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Scraper.h"
 #include "music/Album.h"
 #include "utils/ScraperUrl.h"
@@ -33,7 +36,9 @@ public:
   void SetAlbum(CAlbum& album);
   const std::string& GetTitle2() const { return m_strTitle2; }
   void SetTitle(const std::string& strTitle) { m_album.strAlbum = strTitle; }
+#if HAVE_LIB_CURL
   const CScraperUrl& GetAlbumURL() const { return m_albumURL; }
+#endif // HAVE_LIB_CURL
   float GetRelevance() const { return m_relevance; }
   void SetRelevance(float relevance) { m_relevance = relevance; }
 
@@ -44,7 +49,11 @@ protected:
   CAlbum m_album;
   float m_relevance = -1;
   std::string m_strTitle2;
+#if HAVE_LIB_CURL
   CScraperUrl m_albumURL;
+#endif // HAVE_LIB_CURL
 };
 
 }
+
+#endif // HAVE_ADDONS

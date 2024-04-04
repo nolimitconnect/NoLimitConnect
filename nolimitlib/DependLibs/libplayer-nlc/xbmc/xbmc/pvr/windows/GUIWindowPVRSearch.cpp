@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRSearch.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -542,3 +543,5 @@ std::string CGUIWindowPVRRadioSearch::GetDirectoryPath()
              ? m_vecItems->GetPath()
              : CPVREpgSearchPath::PATH_RADIO_SEARCH;
 }
+
+#endif // HAVE_ADDONS

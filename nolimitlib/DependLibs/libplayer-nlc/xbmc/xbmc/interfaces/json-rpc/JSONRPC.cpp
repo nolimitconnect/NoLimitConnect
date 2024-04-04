@@ -7,6 +7,7 @@
  */
 
 #include "config_components_kodi.h"
+#if ENABLE_JSON
 
 #include "JSONRPC.h"
 
@@ -46,11 +47,13 @@ void CJSONRPC::Initialize()
 
   // Add some types/enums at runtime
   std::vector<std::string> enumList;
+#if HAVE_ADDONS
   for (int addonType = static_cast<int>(ADDON::AddonType::UNKNOWN);
        addonType < static_cast<int>(ADDON::AddonType::MAX_TYPES); addonType++)
     enumList.push_back(
         ADDON::CAddonInfo::TranslateType(static_cast<ADDON::AddonType>(addonType), false));
   CJSONServiceDescription::AddEnum("Addon.Types", enumList);
+#endif // HAVE_ADDONS
 
   enumList.clear();
   CActionTranslator::GetActions(enumList);
@@ -392,3 +395,5 @@ void CJSONRPCUtils::NotifyItemUpdated(const CVideoInfoTag& info,
                       GUI_MSG_UPDATE_ITEM, 0, msgItem);
   CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(message);
 }
+
+#endif // ENABLE_JSON

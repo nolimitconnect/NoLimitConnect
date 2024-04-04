@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_epg.h"
 #include "pvr/epg/EpgTagsContainer.h"
@@ -325,3 +328,5 @@ namespace PVR
     CEventSource<PVREvent> m_events;
   };
 }
+
+#endif // HAVE_ADDONS

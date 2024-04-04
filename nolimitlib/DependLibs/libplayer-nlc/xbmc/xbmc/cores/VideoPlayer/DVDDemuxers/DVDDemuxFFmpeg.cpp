@@ -889,9 +889,11 @@ AVDictionary* CDVDDemuxFFmpeg::GetFFMpegOptionsFromInput()
 
 		if( !hasCookies )
 		{
+			#if HAVE_LIB_CURL
 			std::string cookies;
 			if( XFILE::CCurlFile::GetCookies( url, cookies ) )
 				av_dict_set( &options, "cookies", cookies.c_str(), 0 );
+			#endif // HAVE_LIB_CURL
 		}
 	}
 
@@ -2502,6 +2504,7 @@ void CDVDDemuxFFmpeg::ResetVideoStreams()
 
 void CDVDDemuxFFmpeg::GetL16Parameters( int& channels, int& samplerate )
 {
+	#if HAVE_LIB_CURL
 	std::string content;
 	if( XFILE::CCurlFile::GetContentType( m_pInput->GetURL(), content ) )
 	{
@@ -2555,6 +2558,7 @@ void CDVDDemuxFFmpeg::GetL16Parameters( int& channels, int& samplerate )
 			}
 		}
 	}
+	#endif // HAVE_LIB_CURL
 }
 
 StreamHdrType CDVDDemuxFFmpeg::DetermineHdrType( AVStream* pStream )

@@ -7,6 +7,8 @@
  */
 
 #include "HTTPDirectory.h"
+#if HAVE_LIB_CURL
+
 #include "ServiceBroker.h"
 #include "NlcUrl.h"
 #include "CurlFile.h"
@@ -250,3 +252,5 @@ bool CHTTPDirectory::Exists(const NlcUrl &url)
 
   return false;
 }
+
+#endif // HAVE_LIB_CURL

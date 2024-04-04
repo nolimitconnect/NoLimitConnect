@@ -9,6 +9,8 @@
 #pragma once
 
 #include "pvr/channels/PVRChannelGroup.h"
+#if HAVE_ADDONS
+
 #include "pvr/settings/PVRSettings.h"
 #include "settings/lib/ISettingCallback.h"
 #include "threads/CriticalSection.h"
@@ -244,3 +246,5 @@ private:
   std::shared_ptr<CPVRChannelGroup> m_allChannelsGroup;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

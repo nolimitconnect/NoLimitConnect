@@ -7,6 +7,7 @@
  */
 
 #include "Window.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "WindowException.h"
@@ -765,3 +766,5 @@ namespace XBMCAddon
 
   }
 }
+
+#endif // HAVE_ADDONS

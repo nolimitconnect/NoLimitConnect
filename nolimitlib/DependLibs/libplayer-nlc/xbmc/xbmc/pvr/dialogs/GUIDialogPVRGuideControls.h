@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 
 namespace PVR
@@ -19,3 +22,5 @@ public:
   ~CGUIDialogPVRGuideControls() override;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

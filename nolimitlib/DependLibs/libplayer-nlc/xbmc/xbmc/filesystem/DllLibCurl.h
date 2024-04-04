@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CURL
+
 #include "threads/CriticalSection.h"
 
 #include <stdio.h>
@@ -119,3 +122,5 @@ public:
 } // namespace XCURL
 
 extern XCURL::DllLibCurlGlobal g_curlInterface;
+
+#endif // HAVE_LIB_CURL

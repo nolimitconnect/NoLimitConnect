@@ -7,6 +7,7 @@
  */
 
 #include "PVRTimerRuleMatcher.h"
+#if HAVE_ADDONS
 
 #include "XBDateTime.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_channels.h" // PVR_CHANNEL_INVALID_UID
@@ -191,3 +192,5 @@ bool CPVRTimerRuleMatcher::MatchSearchText(const std::shared_ptr<CPVREpgInfoTag>
   else
     return true;
 }
+
+#endif // HAVE_ADDONS

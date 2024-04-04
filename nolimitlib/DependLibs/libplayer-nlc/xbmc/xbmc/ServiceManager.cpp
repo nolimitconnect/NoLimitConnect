@@ -72,7 +72,7 @@ bool CServiceManager::InitForTesting()
     m_network.reset( new CNetwork() );
 
     m_databaseManager.reset( new CDatabaseManager );
-
+#if HAVE_ADDONS
     m_binaryAddonManager.reset( new ADDON::CBinaryAddonManager() );
     m_addonMgr.reset( new ADDON::CAddonMgr() );
     if( !m_addonMgr->Init() )
@@ -82,7 +82,12 @@ bool CServiceManager::InitForTesting()
     }
 
     m_extsMimeSupportList.reset(new ADDONS::CExtsMimeSupportList(*m_addonMgr));
+#endif // HAVE_ADDONS
+#if HAVE_ADDONS
     m_fileExtensionProvider.reset(new CFileExtensionProvider(*m_addonMgr));
+#else
+    m_fileExtensionProvider.reset(new CFileExtensionProvider());
+#endif // HAVE_ADDONS
 
     init_level = 1;
     return true;
@@ -92,9 +97,11 @@ void CServiceManager::DeinitTesting()
 {
     init_level = 0;
     m_fileExtensionProvider.reset();
+#if HAVE_ADDONS
     m_extsMimeSupportList.reset();
     m_binaryAddonManager.reset();
     m_addonMgr.reset();
+#endif // HAVE_ADDONS
     m_databaseManager.reset();
     m_network.reset();
 }
@@ -125,7 +132,7 @@ bool CServiceManager::InitStageTwo(const std::string& profilesUserDataFolder)
 
     m_Platform.reset( CPlatform::CreateInstance() );
     m_Platform->Init();
-
+#if HAVE_ADDONS
     m_binaryAddonManager.reset( new ADDON::CBinaryAddonManager() ); /* Need to constructed before, GetRunningInstance() of binary CAddonDll need to call them */
     m_addonMgr.reset( new ADDON::CAddonMgr() );
     if( !m_addonMgr->Init() )
@@ -140,20 +147,25 @@ bool CServiceManager::InitStageTwo(const std::string& profilesUserDataFolder)
 
     m_vfsAddonCache.reset( new ADDON::CVFSAddonCache() );
     m_vfsAddonCache->Init();
+#endif // HAVE_ADDONS
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_PVRManager.reset( new PVR::CPVRManager() );
 #endif// ENABLE_PVR
+#endif // HAVE_ADDONS
 
     m_dataCacheCore.reset( new CDataCacheCore() );
-
+#if HAVE_ADDONS
     m_binaryAddonCache.reset( new ADDON::CBinaryAddonCache() );
     m_binaryAddonCache->Init();
+#endif HAVE_ADDONS
 
     m_favouritesService.reset( new CFavouritesService( profilesUserDataFolder ) );
-
+#if HAVE_ADDONS
     m_serviceAddons.reset( new ADDON::CServiceAddonManager( *m_addonMgr ) );
 
     m_contextMenuManager.reset( new CContextMenuManager( *m_addonMgr ) );
+#endif // HAVE_ADDONS
 #if ENABLE_GAMES
     m_gameControllerManager = std::make_unique<GAME::CControllerManager>(*m_addonMgr);
 #endif // ENABLE_GAMES
@@ -166,14 +178,19 @@ bool CServiceManager::InitStageTwo(const std::string& profilesUserDataFolder)
 
     m_gameRenderManager.reset( new RETRO::CGUIGameRenderManager );
 #endif // ENABLE_GAMES
-
+#if HAVE_ADDONS
     m_fileExtensionProvider.reset(new CFileExtensionProvider(*m_addonMgr));
+#else
+    m_fileExtensionProvider.reset(new CFileExtensionProvider());
+#endif // HAVE_ADDONS
 
     m_powerManager.reset( new CPowerManager() );
     m_powerManager->Initialize();
     m_powerManager->SetDefaults();
 
+#if HAVE_WEATHER
     m_weatherManager.reset( new CWeatherManager() );
+#endif // HAVE_WEATHER
 
     m_mediaManager.reset(new CMediaManager());
     m_mediaManager->Initialize();
@@ -207,11 +224,14 @@ bool CServiceManager::InitStageThree( const std::shared_ptr<CProfileManager>& pr
       std::make_unique<GAME::CGameServices>(*m_gameControllerManager, *m_gameRenderManager,
                                             *m_peripherals, *profileManager, *m_inputManager);
 #endif // ENABLE_GAMES
-
+#if HAVE_ADDONS
     m_contextMenuManager->Init();
+#endif // HAVE_ADDONS
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_PVRManager->Init();
 #endif //  ENABLE_PVR
+#endif // HAVE_ADDONS
 
     m_playerCoreFactory.reset( new CPlayerCoreFactory( *profileManager ) );
 
@@ -227,10 +247,14 @@ void CServiceManager::DeinitStageThree()
   m_DetectDVDType.reset();
 #endif
     m_playerCoreFactory.reset();
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_PVRManager->Deinit();
 #endif //  ENABLE_PVR
+#endif // HAVE_ADDONS
+#if HAVE_ADDONS
     m_contextMenuManager->Deinit();
+#endif // HAVE_ADDONS
 #if ENABLE_GAMES
     m_gameServices.reset();
     m_peripherals->Clear();
@@ -244,8 +268,9 @@ void CServiceManager::DeinitStageTwo()
 #if defined(HAS_FILESYSTEM_SMB)
   m_WSDiscovery.reset();
 #endif
-
+#if HAVE_WEATHER
     m_weatherManager.reset();
+#endif // HAVE_WEATHER
     m_powerManager.reset();
     m_fileExtensionProvider.reset();
 #if ENABLE_GAMES
@@ -259,18 +284,26 @@ void CServiceManager::DeinitStageTwo()
     m_gameControllerManager.reset();
 #endif // ENABLE_GAMES
     m_contextMenuManager.reset();
+#if HAVE_ADDONS
     m_serviceAddons.reset();
+#endif // HAVE_ADDONS
     m_favouritesService.reset();
+#if HAVE_ADDONS
     m_binaryAddonCache.reset();
+#endif // HAVE_ADDONS
     m_dataCacheCore.reset();
+#if HAVE_ADDONS
 #if ENABLE_PVR
     m_PVRManager.reset();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
+#if HAVE_ADDONS
     m_extsMimeSupportList.reset();
     m_vfsAddonCache.reset();
     m_repositoryUpdater.reset();
     m_binaryAddonManager.reset();
     m_addonMgr.reset();
+#endif // HAVE_ADDONS
   m_mediaManager->Stop();
   m_mediaManager.reset();
 
@@ -297,6 +330,7 @@ WSDiscovery::IWSDiscovery& CServiceManager::GetWSDiscovery()
 }
 #endif
 
+#if HAVE_ADDONS
 ADDON::CAddonMgr &CServiceManager::GetAddonMgr()
 {
     return *m_addonMgr;
@@ -331,6 +365,7 @@ ADDON::CRepositoryUpdater &CServiceManager::GetRepositoryUpdater()
 {
     return *m_repositoryUpdater;
 }
+#endif // HAVE_ADDONS
 
 #ifdef HAS_PYTHON
 XBPython& CServiceManager::GetXBPython()
@@ -346,12 +381,14 @@ MEDIA_DETECT::CDetectDVDMedia& CServiceManager::GetDetectDVDMedia()
 }
 #endif
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 PVR::CPVRManager& CServiceManager::GetPVRManager()
 {
     return *m_PVRManager;
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 CContextMenuManager& CServiceManager::GetContextMenuManager()
 {
@@ -438,10 +475,12 @@ CNetworkBase& CServiceManager::GetNetwork()
     return *m_network;
 }
 
+#if HAVE_WEATHER
 CWeatherManager& CServiceManager::GetWeatherManager()
 {
     return *m_weatherManager;
 }
+#endif // HAVE_WEATHER
 
 CPlayerCoreFactory &CServiceManager::GetPlayerCoreFactory()
 {

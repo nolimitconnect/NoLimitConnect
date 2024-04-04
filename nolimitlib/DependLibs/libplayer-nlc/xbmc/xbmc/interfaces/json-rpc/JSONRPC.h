@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include "JSONRPCUtils.h"
 #include "JSONServiceDescription.h"
 
@@ -70,3 +73,5 @@ namespace JSONRPC
     static bool m_initialized;
   };
 }
+
+#endif // ENABLE_JSON

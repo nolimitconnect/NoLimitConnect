@@ -24,26 +24,38 @@ CGUIInfoProviders::CGUIInfoProviders()
   RegisterProvider(&m_picturesGUIInfo);
   RegisterProvider(&m_playerGUIInfo);
   RegisterProvider(&m_libraryGUIInfo);
+#if HAVE_ADDONS
   RegisterProvider(&m_addonsGUIInfo);
+#endif // HAVE_ADDONS
+#if HAVE_WEATHER
   RegisterProvider(&m_weatherGUIInfo);
+#endif // HAVE_WEATHER
 #if ENABLE_GAMES
   RegisterProvider(&m_gamesGUIInfo);
 #endif // ENABLE_GAMES
   RegisterProvider(&m_systemGUIInfo);
   RegisterProvider(&m_visualisationGUIInfo);
+#if HAVE_ADDONS
   RegisterProvider(&m_skinGUIInfo);
+#endif // HAVE_ADDONS
 }
 
 CGUIInfoProviders::~CGUIInfoProviders()
 {
+#if HAVE_ADDONS
   UnregisterProvider(&m_skinGUIInfo);
+#endif // HAVE_ADDONS
   UnregisterProvider(&m_visualisationGUIInfo);
   UnregisterProvider(&m_systemGUIInfo);
 #if ENABLE_GAMES
   UnregisterProvider(&m_gamesGUIInfo);
 #endif // ENABLE_GAMES
+#if HAVE_WEATHER
   UnregisterProvider(&m_weatherGUIInfo);
+#endif // HAVE_WEATHER
+#if HAVE_ADDONS
   UnregisterProvider(&m_addonsGUIInfo);
+#endif // HAVE_ADDONS
   UnregisterProvider(&m_libraryGUIInfo);
   UnregisterProvider(&m_playerGUIInfo);
   UnregisterProvider(&m_picturesGUIInfo);

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 
 #include <memory>
@@ -137,3 +140,5 @@ private:
   bool m_bIsUpdating = false;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

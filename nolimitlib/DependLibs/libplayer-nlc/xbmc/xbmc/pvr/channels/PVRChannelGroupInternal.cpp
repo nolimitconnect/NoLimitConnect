@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelGroupInternal.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "guilib/LocalizeStrings.h"
@@ -165,3 +166,5 @@ bool CPVRChannelGroupInternal::IsGroupMember(
 {
   return !groupMember->Channel()->IsHidden();
 }
+
+#endif // HAVE_ADDONS

@@ -10,6 +10,8 @@
 
 #include "CurlFile.h"
 
+#if HAVE_LIB_CURL
+
 namespace XFILE
 {
   class CDAVFile : public CCurlFile
@@ -29,3 +31,5 @@ namespace XFILE
     int m_lastResponseCode = 0;
   };
 }
+
+#endif // HAVE_LIB_CURL

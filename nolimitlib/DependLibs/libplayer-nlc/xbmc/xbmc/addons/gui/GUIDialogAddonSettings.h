@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/IAddon.h"
 #include "settings/dialogs/GUIDialogSettingsManagerBase.h"
 
@@ -52,3 +55,5 @@ private:
   ADDON::AddonInstanceId m_instanceId{ADDON::ADDON_SETTINGS_ID};
   bool m_saveToDisk = false;
 };
+
+#endif // HAVE_ADDONS

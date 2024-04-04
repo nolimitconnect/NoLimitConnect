@@ -7,6 +7,7 @@
  */
 
 #include "VideoInfoTagLoaderFactory.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -50,3 +51,5 @@ IVideoInfoTagLoader* CVideoInfoTagLoaderFactory::CreateLoader(const CFileItem& i
 
   return nullptr;
 }
+
+#endif // HAVE_ADDONS

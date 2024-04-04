@@ -234,11 +234,15 @@ using namespace PLAYLIST;
 using namespace VIDEO;
 using namespace MUSIC_INFO;
 using namespace EVENTSERVER;
+#if ENABLE_JSON
 using namespace JSONRPC;
+#endif // ENABLE_JSON
 using namespace ANNOUNCEMENT;
+#if HAVE_ADDONS
 #if ENABLE_PVR
 using namespace PVR;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 #if ENABLE_PERIPHERALS
 using namespace PERIPHERALS;

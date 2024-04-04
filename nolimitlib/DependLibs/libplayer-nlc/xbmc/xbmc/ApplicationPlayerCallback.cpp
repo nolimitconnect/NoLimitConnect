@@ -30,6 +30,7 @@
 #include "settings/AdvancedSettings.h"
 #include "settings/MediaSettings.h"
 #include "settings/SettingsComponent.h"
+#include "utils/JobManager.h"
 #include "utils/SaveFileStateJob.h"
 #include "utils/URIUtils.h"
 #include "utils/log.h"
@@ -45,7 +46,11 @@ void CApplicationPlayerCallback::OnPlayBackEnded()
 {
   CLog::LogF(LOGDEBUG, "CApplicationPlayerCallback::OnPlayBackEnded");
 
+#if HAVE_ADDONS
+#if ENABLE_PVR
   CServiceBroker::GetPVRManager().OnPlaybackEnded(*m_itemCurrentFile);
+#endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   CVariant data(CVariant::VariantTypeObject);
   data["end"] = true;
@@ -91,7 +96,10 @@ void CApplicationPlayerCallback::OnPlayBackStarted(const CFileItem& file)
     CServiceBroker::GetJobManager()->PauseJobs();
   }
 
+#if HAVE_ADDONS
   CServiceBroker::GetPVRManager().OnPlaybackStarted(*m_itemCurrentFile);
+#endif // HAVE_ADDONS
+
   stackHelper->OnPlayBackStarted(file);
 
   m_playerEvent.Reset();
@@ -203,8 +211,9 @@ void CApplicationPlayerCallback::OnPlayBackResumed()
 void CApplicationPlayerCallback::OnPlayBackStopped()
 {
   CLog::LogF(LOGDEBUG, "CApplication::OnPlayBackStopped");
-
+#if HAVE_ADDONS
   CServiceBroker::GetPVRManager().OnPlaybackStopped(*m_itemCurrentFile);
+#endif // HAVE_ADDONS
 
   CVariant data(CVariant::VariantTypeObject);
   data["end"] = false;

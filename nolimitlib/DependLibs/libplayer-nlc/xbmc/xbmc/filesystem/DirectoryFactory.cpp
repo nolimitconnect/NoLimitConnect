@@ -105,6 +105,7 @@ IDirectory* CDirectoryFactory::Create(const NlcUrl& url)
   if (pDir)
     return pDir;
 
+ #if HAVE_ADDONS
   if (!url.GetProtocol().empty() && CServiceBroker::IsAddonInterfaceUp())
   {
     for (const auto& vfsAddon : CServiceBroker::GetVFSAddonCache().GetAddonInstances())
@@ -123,6 +124,7 @@ IDirectory* CDirectoryFactory::Create(const NlcUrl& url)
         }
     }
   }
+ #endif // HAVE_ADDONS
 
 #ifdef TARGET_POSIX
   if (url.GetProtocol().empty() || url.IsProtocol("file"))
@@ -140,7 +142,9 @@ IDirectory* CDirectoryFactory::Create(const NlcUrl& url)
 #endif
   if (url.IsProtocol("special")) return new CSpecialProtocolDirectory();
   if (url.IsProtocol("sources")) return new CSourcesDirectory();
+#if HAVE_ADDONS
   if (url.IsProtocol("addons")) return new CAddonsDirectory();
+#endif // HAVE_ADDONS
 #if defined(HAS_OPTICAL_DRIVE)
   if (url.IsProtocol("cdda")) return new CCDDADirectory();
 #endif
@@ -178,10 +182,11 @@ IDirectory* CDirectoryFactory::Create(const NlcUrl& url)
 #ifdef TARGET_WINDOWS_STORE
   if (CWinLibraryDirectory::IsValid(url)) return new CWinLibraryDirectory();
 #endif
-
+#if HAVE_LIB_CURL
     if (url.IsProtocol("ftp") || url.IsProtocol("ftps")) return new CFTPDirectory();
     if (url.IsProtocol("http") || url.IsProtocol("https")) return new CHTTPDirectory();
     if (url.IsProtocol("dav") || url.IsProtocol("davs")) return new CDAVDirectory();
+#endif // HAVE_LIB_CURL
 #ifdef HAS_FILESYSTEM_SMB
 #ifdef TARGET_WINDOWS
     if (url.IsProtocol("smb")) return new CWin32SMBDirectory();
@@ -192,7 +197,9 @@ IDirectory* CDirectoryFactory::Create(const NlcUrl& url)
 #ifdef HAS_UPNP
     if (url.IsProtocol("upnp")) return new CUPnPDirectory();
 #endif
+#if HAVE_LIB_CURL
     if (url.IsProtocol("rss") || url.IsProtocol("rsss")) return new CRSSDirectory();
+#endif // HAVE_LIB_CURL
 #ifdef HAS_ZEROCONF
     if (url.IsProtocol("zeroconf")) return new CZeroconfDirectory();
 #endif
@@ -200,10 +207,12 @@ IDirectory* CDirectoryFactory::Create(const NlcUrl& url)
     if (url.IsProtocol("nfs")) return new CNFSDirectory();
 #endif
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
   if (url.IsProtocol("pvr"))
     return new CPVRDirectory();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   CLog::Log(LOGWARNING, "%s - unsupported protocol(%s) in %s", __FUNCTION__,  url.GetProtocol().c_str(), url.GetRedacted().c_str() );
   return NULL;

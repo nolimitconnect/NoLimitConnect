@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRRecordingInfo.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -100,3 +101,5 @@ CFileItemPtr CGUIDialogPVRRecordingInfo::GetCurrentListItem(int offset)
 {
   return m_recordItem;
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRChannels.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -416,3 +417,5 @@ std::string CGUIWindowPVRRadioChannels::GetDirectoryPath()
   return CPVRChannelsPath(true, m_bShowHiddenChannels, GetChannelGroup()->GroupName(),
                           GetChannelGroup()->GetClientID());
 }
+
+#endif // HAVE_ADDONS

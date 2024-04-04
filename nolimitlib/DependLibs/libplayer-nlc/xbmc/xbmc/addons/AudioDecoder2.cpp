@@ -6,6 +6,7 @@
  */
 
 #include "AudioDecoder.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "addons/addoninfo/AddonInfo.h"
@@ -256,3 +257,5 @@ int CAudioDecoder::GetTrackCount(const std::string& strPath)
 
   return result;
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "SettingsValueFlatJsonSerializer.h"
+#if ENABLE_JSON
 
 #include "settings/lib/Setting.h"
 #include "settings/lib/SettingDefinitions.h"
@@ -137,3 +138,5 @@ CVariant CSettingsValueFlatJsonSerializer::SerializeSettingValue(
       return CVariant::ConstNullVariant;
   }
 }
+
+#endif // ENABLE_JSON

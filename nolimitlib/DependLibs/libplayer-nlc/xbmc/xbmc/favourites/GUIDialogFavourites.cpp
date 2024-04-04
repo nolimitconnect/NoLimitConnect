@@ -118,10 +118,12 @@ void CGUIDialogFavourites::OnPopupMenu(int item)
   //temporary workaround until the context menu ids are removed
   const int addonItemOffset = 10000;
 
+#if HAVE_ADDONS
   auto addonItems = CServiceBroker::GetContextMenuManager().GetAddonItems(*itemPtr);
 
   for (size_t i = 0; i < addonItems.size(); ++i)
     choices.Add(addonItemOffset + i, addonItems[i]->GetLabel(*itemPtr));
+#endif // HAVE_ADDONS
 
   int button = CGUIDialogContextMenu::ShowAndGetChoice(choices);
 
@@ -138,8 +140,10 @@ void CGUIDialogFavourites::OnPopupMenu(int item)
     OnRename(item);
   else if (button == 5)
     OnDelete(item);
+#if HAVE_ADDONS
   else if (button >= addonItemOffset)
     CONTEXTMENU::LoopFrom(*addonItems.at(button - addonItemOffset), itemPtr);
+#endif // HAVE_ADDONS
 }
 
 void CGUIDialogFavourites::OnMoveItem(int item, int amount)

@@ -7,6 +7,7 @@
  */
 
 #include "ListItem.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "ServiceBroker.h"
@@ -744,9 +745,11 @@ namespace XBMCAddon
             info.strRole = value;
           else if (key == "thumbnail")
           {
+            #if HAVE_LIB_CURL
             info.thumbUrl = CScraperUrl(value);
             if (!info.thumbUrl.GetFirstThumbUrl().empty())
               info.thumb = CScraperUrl::GetThumbUrl(info.thumbUrl.GetFirstUrlByType());
+            #endif // HAVE_LIB_CURL
           }
           else if (key == "order")
             info.order = strtol(value.c_str(), nullptr, 10);
@@ -1058,3 +1061,5 @@ namespace XBMCAddon
     }
   }
 }
+
+#endif // HAVE_ADDONS

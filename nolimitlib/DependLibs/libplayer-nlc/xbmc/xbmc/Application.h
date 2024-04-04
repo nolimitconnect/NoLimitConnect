@@ -80,6 +80,7 @@ namespace ActiveAE
     class CActiveAE;
 }
 
+#if HAVE_ADDONS
 namespace VIDEO
 {
     class CVideoInfoScanner;
@@ -89,6 +90,7 @@ namespace MUSIC_INFO
 {
     class CMusicInfoScanner;
 }
+#endif // HAVE_ADDONS
 
 class CApplication : public IWindowManagerCallback,
     public IMsgTargetCallback,
@@ -273,9 +275,9 @@ protected:
 
     std::chrono::time_point<std::chrono::steady_clock> m_lastRenderTime;
     bool m_skipGuiRender = false;
-
+#if HAVE_ADDONS
     std::unique_ptr<MUSIC_INFO::CMusicInfoScanner> m_musicInfoScanner;
-
+#endif // HAVE_ADDONS
     bool PlayStack( CFileItem& item, bool bRestart );
 
     void HandlePortEvents();

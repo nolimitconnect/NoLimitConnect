@@ -295,9 +295,11 @@ std::string CSysInfoJob::GetCPUFreqInfo()
 CSysData::INTERNET_STATE CSysInfoJob::GetInternetState()
 {
   // Internet connection state!
+#if HAVE_LIB_CURL
   XFILE::CCurlFile http;
   if (http.IsInternet())
     return CSysData::CONNECTED;
+#endif // HAVE_LIB_CURL
   return CSysData::DISCONNECTED;
 }
 

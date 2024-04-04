@@ -1,9 +1,0 @@
-from msys2 terminal
-
-mkdir /f/libvpx_win
-cd /f/libvpx_win
-
-mkdir build
-cd build
-../libvpx/configure --target=x86_64-win64-vs16
-

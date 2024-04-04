@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 
 #include <map>
@@ -59,3 +62,5 @@ private:
 };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

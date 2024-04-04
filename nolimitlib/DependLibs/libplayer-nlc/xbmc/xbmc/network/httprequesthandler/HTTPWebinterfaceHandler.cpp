@@ -7,6 +7,7 @@
  */
 
 #include "HTTPWebinterfaceHandler.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/AddonManager.h"
@@ -130,3 +131,5 @@ bool CHTTPWebinterfaceHandler::ResolveAddon(const std::string &url, ADDON::Addon
 
   return true;
 }
+
+#endif // HAVE_ADDONS

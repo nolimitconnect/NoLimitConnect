@@ -27,11 +27,13 @@ namespace
 {
 bool GetEmbeddedThumb(const std::string& path, const std::string& type, EmbeddedArt& art)
 {
+  std::vector<EmbeddedArt> artv;
+#if HAVE_ADDONS
   CFileItem item(path, false);
   std::unique_ptr<IVideoInfoTagLoader> loader(
       CVideoInfoTagLoaderFactory::CreateLoader(item, ADDON::ScraperPtr(), false));
   CVideoInfoTag tag;
-  std::vector<EmbeddedArt> artv;
+
   if (loader)
     loader->Load(tag, false, &artv);
 
@@ -43,6 +45,7 @@ bool GetEmbeddedThumb(const std::string& path, const std::string& type, Embedded
       break;
     }
   }
+#endif // HAVE_ADDONS
   return !art.Empty();
 }
 } // namespace

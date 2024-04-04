@@ -322,7 +322,9 @@ void CGUIDialogVideoSettings::InitializeSettings()
     return;
   }
 
+#if HAVE_ADDONS
   bool usePopup = g_SkinInfo->HasSkinFile("DialogSlider.xml");
+#endif // HAVE_ADDONS
 
   const auto& components = CServiceBroker::GetAppComponents();
   const auto appPlayer = components.GetComponent<CApplicationPlayer>();
@@ -409,6 +411,7 @@ void CGUIDialogVideoSettings::InitializeSettings()
   {
     AddList(groupVideo, SETTING_VIDEO_VIEW_MODE, 629, SettingLevel::Basic, videoSettings.m_ViewMode, CViewModeSettings::ViewModesFiller, 629);
   }
+#if HAVE_ADDONS
   if (appPlayer->Supports(RENDERFEATURE_ZOOM))
     AddSlider(groupVideo, SETTING_VIDEO_ZOOM, 216, SettingLevel::Basic,
               videoSettings.m_CustomZoomAmount, "{:2.2f}", 0.5f, 0.01f, 2.0f, 216, usePopup);
@@ -418,11 +421,13 @@ void CGUIDialogVideoSettings::InitializeSettings()
   if (appPlayer->Supports(RENDERFEATURE_PIXEL_RATIO))
     AddSlider(groupVideo, SETTING_VIDEO_PIXEL_RATIO, 217, SettingLevel::Basic,
               videoSettings.m_CustomPixelRatio, "{:2.2f}", 0.5f, 0.01f, 2.0f, 217, usePopup);
+  #endif // HAVE_ADDONS
 
   AddList(groupVideo, SETTING_VIDEO_ORIENTATION, 21843, SettingLevel::Basic, videoSettings.m_Orientation, CGUIDialogVideoSettings::VideoOrientationFiller, 21843);
 
   if (appPlayer->Supports(RENDERFEATURE_POSTPROCESS))
     AddToggle(groupVideo, SETTING_VIDEO_POSTPROCESS, 16400, SettingLevel::Basic, videoSettings.m_PostProcess);
+#if HAVE_ADDONS
   if (appPlayer->Supports(RENDERFEATURE_BRIGHTNESS))
     AddPercentageSlider(groupVideo, SETTING_VIDEO_BRIGHTNESS, 464, SettingLevel::Basic, static_cast<int>(videoSettings.m_Brightness), 14047, 1, 464, usePopup);
   if (appPlayer->Supports(RENDERFEATURE_CONTRAST))
@@ -435,6 +440,7 @@ void CGUIDialogVideoSettings::InitializeSettings()
   if (appPlayer->Supports(RENDERFEATURE_SHARPNESS))
     AddSlider(groupVideo, SETTING_VIDEO_VDPAU_SHARPNESS, 16313, SettingLevel::Basic,
               videoSettings.m_Sharpness, "{:2.2f}", -1.0f, 0.02f, 1.0f, 16313, usePopup);
+#endif // HAVE_ADDONS
   if (appPlayer->Supports(RENDERFEATURE_NONLINSTRETCH))
     AddToggle(groupVideo, SETTING_VIDEO_NONLIN_STRETCH, 659, SettingLevel::Basic, videoSettings.m_CustomNonLinStretch);
 
@@ -452,9 +458,11 @@ void CGUIDialogVideoSettings::InitializeSettings()
 
     AddSpinner(groupVideo, SETTING_VIDEO_TONEMAP_METHOD, 36553, SettingLevel::Basic,
                videoSettings.m_ToneMapMethod, entries, false, visible);
+#if HAVE_ADDONS
     AddSlider(groupVideo, SETTING_VIDEO_TONEMAP_PARAM, 36556, SettingLevel::Basic,
               videoSettings.m_ToneMapParam, "{:2.2f}", 0.1f, 0.1f, 5.0f, 36556, usePopup, false,
               visible);
+#endif // HAVE_ADDONS
   }
 
   // stereoscopic settings

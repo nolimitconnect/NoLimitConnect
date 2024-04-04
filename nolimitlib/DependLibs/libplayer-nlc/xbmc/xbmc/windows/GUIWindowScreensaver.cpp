@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowScreensaver.h"
+#if HAVE_ADDONS
 
 #include "GUIPassword.h"
 #include "GUIUserMessages.h"
@@ -104,3 +105,5 @@ bool CGUIWindowScreensaver::OnMessage(CGUIMessage& message)
 
   return CGUIWindow::OnMessage(message);
 }
+
+#endif // HAVE_ADDONS

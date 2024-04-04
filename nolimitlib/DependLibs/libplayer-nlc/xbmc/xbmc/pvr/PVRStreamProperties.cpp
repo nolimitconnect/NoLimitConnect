@@ -7,6 +7,7 @@
  */
 
 #include "PVRStreamProperties.h"
+#if HAVE_ADDONS
 
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_general.h"
 #include "utils/StringUtils.h"
@@ -38,3 +39,5 @@ bool CPVRStreamProperties::EPGPlaybackAsLive() const
   });
   return it != cend() ? StringUtils::EqualsNoCase((*it).second, "true") : false;
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "CallbackHandler.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "commons/Exception.h"
@@ -146,3 +147,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

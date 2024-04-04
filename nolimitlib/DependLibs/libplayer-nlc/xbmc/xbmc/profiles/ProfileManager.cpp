@@ -264,20 +264,27 @@ void CProfileManager::Clear()
 void CProfileManager::PrepareLoadProfile(unsigned int profileIndex)
 {
   CContextMenuManager &contextMenuManager = CServiceBroker::GetContextMenuManager();
-  ADDON::CServiceAddonManager &serviceAddons = CServiceBroker::GetServiceAddons();
+
+  #if HAVE_ADDONS
   #if ENABLE_PVR
   PVR::CPVRManager &pvrManager = CServiceBroker::GetPVRManager();
   #endif // ENABLE_PVR
+  #endif // HAVE_ADDONS
   CNetworkBase &networkManager = CServiceBroker::GetNetwork();
 
+#if HAVE_ADDONS
   contextMenuManager.Deinit();
 
+  ADDON::CServiceAddonManager &serviceAddons = CServiceBroker::GetServiceAddons();
   serviceAddons.Stop();
+#endif // HAVE_ADDONS
 
+#if HAVE_ADDONS
   #if ENABLE_PVR
   // stop PVR related services
   pvrManager.Stop();
   #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   if (profileIndex != 0 || !IsMasterProfile())
     networkManager.NetworkMessage(CNetwork::SERVICES_DOWN, 1);
@@ -308,10 +315,12 @@ bool CProfileManager::LoadProfile(unsigned int index)
   if (m_currentProfile == index)
     return true;
 
+#if HAVE_ADDONS
   // save any settings of the currently used skin but only if the (master)
   // profile hasn't just been loaded as a temporary profile for login
   if (g_SkinInfo != nullptr && !m_previousProfileLoadedForLogin)
     g_SkinInfo->SaveSettings();
+#endif // HAVE_ADDONS
 
   // @todo: why is m_settings not used here?
   const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
@@ -383,13 +392,21 @@ bool CProfileManager::LoadProfile(unsigned int index)
 void CProfileManager::FinalizeLoadProfile()
 {
   CContextMenuManager &contextMenuManager = CServiceBroker::GetContextMenuManager();
+#if HAVE_ADDONS
   ADDON::CServiceAddonManager &serviceAddons = CServiceBroker::GetServiceAddons();
+#endif // HAVE_ADDONS
+#if HAVE_ADDONS
 #if ENABLE_PVR
   PVR::CPVRManager &pvrManager = CServiceBroker::GetPVRManager();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
   CNetworkBase &networkManager = CServiceBroker::GetNetwork();
+#if HAVE_ADDONS
   ADDON::CAddonMgr &addonManager = CServiceBroker::GetAddonMgr();
+#endif // HAVE_ADDONS
+#if HAVE_WEATHER
   CWeatherManager &weatherManager = CServiceBroker::GetWeatherManager();
+#endif // HAVE_WEATHER
   CFavouritesService &favouritesManager = CServiceBroker::GetFavouritesService();
   PLAYLIST::CPlayListPlayer &playlistManager = CServiceBroker::GetPlaylistPlayer();
   CStereoscopicsManager &stereoscopicsManager = CServiceBroker::GetGUI()->GetStereoscopicsManager();
@@ -403,8 +420,10 @@ void CProfileManager::FinalizeLoadProfile()
 
   networkManager.NetworkMessage(CNetworkBase::SERVICES_UP, 1);
 
+#if HAVE_ADDONS
   // reload the add-ons, or we will first load all add-ons from the master account without checking disabled status
   addonManager.ReInit();
+#endif // HAVE_ADDONS
 
   // let CApplication know that we are logging into a new profile
   g_application.SetLoggingIn(true);
@@ -415,34 +434,44 @@ void CProfileManager::FinalizeLoadProfile()
     return;
   }
 
+#if HAVE_WEATHER
   weatherManager.Refresh();
-
+#endif // HAVE_WEATHER
+#if ENABLE_JSON
   JSONRPC::CJSONRPC::Initialize();
-
+#endif // ENABLE_JSON
+#if HAVE_ADDONS
   // Restart context menu manager
   contextMenuManager.Init();
+#endif // HAVE_ADDONS
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
   // Restart PVR services if we are not just loading the master profile for the login screen
   if (m_previousProfileLoadedForLogin || m_currentProfile != 0 || m_lastUsedProfile == 0)
   pvrManager.Init();
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   favouritesManager.ReInit(GetProfileUserDataFolder());
 
   // Start these operations only when a profile is loaded, not on the login screen
   if (!m_profileLoadedForLogin || (m_profileLoadedForLogin && m_lastUsedProfile == 0))
   {
-  serviceAddons.Start();
-  g_application.UpdateLibraries();
+#if HAVE_ADDONS
+    serviceAddons.Start();
+#endif // HAVE_ADDONS
+    g_application.UpdateLibraries();
   }
 
   stereoscopicsManager.Initialize();
 
+#if HAVE_ADDONS
   // Load initial window
   int firstWindow = g_SkinInfo->GetFirstWindow();
 
   CServiceBroker::GetGUI()->GetWindowManager().ChangeActiveWindow(firstWindow);
+#endif // HAVE_ADDONS
 
   //the user interfaces has been fully initialized, let everyone know
   CGUIMessage msg(GUI_MSG_NOTIFY_ALL, WINDOW_SETTINGS_PROFILES, 0, GUI_MSG_UI_READY);
@@ -455,6 +484,7 @@ void CProfileManager::LogOff()
 
   g_application.StopPlaying();
 
+#if HAVE_ADDONS
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
     CMusicLibraryQueue::GetInstance().StopLibraryScanning();
 
@@ -463,6 +493,7 @@ void CProfileManager::LogOff()
 
   // Stop PVR services
   CServiceBroker::GetPVRManager().Stop();
+#endif // HAVE_ADDONS
 
   networkManager.NetworkMessage(CNetworkBase::SERVICES_DOWN, 1);
 

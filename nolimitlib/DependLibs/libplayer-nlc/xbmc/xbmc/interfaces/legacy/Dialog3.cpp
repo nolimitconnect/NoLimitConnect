@@ -6,6 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 #include "Dialog.h"
+#if HAVE_ADDONS
 
 #include "LanguageHook.h"
 #include "ListItem.h"
@@ -620,3 +621,5 @@ namespace XBMCAddon
 
   }
 }
+
+#endif // HAVE_ADDONS

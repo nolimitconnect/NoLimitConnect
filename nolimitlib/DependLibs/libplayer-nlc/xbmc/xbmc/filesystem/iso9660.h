@@ -8,6 +8,8 @@
  */
 
 #pragma once
+#include "config_components_kodi.h"
+#if HAVE_LIB_CDIO
 
 #include <vector>
 #include <string>
@@ -220,3 +222,4 @@ protected:
 };
 extern class iso9660 m_isoReader;
 
+#endif // HAVE_LIB_CDIO

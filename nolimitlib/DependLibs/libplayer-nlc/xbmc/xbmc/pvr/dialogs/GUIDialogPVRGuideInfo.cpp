@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRGuideInfo.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -253,3 +254,5 @@ void CGUIDialogPVRGuideInfo::OnInitWindow()
   if (bHideSetReminder)
     SET_CONTROL_HIDDEN(CONTROL_BTN_SET_REMINDER);
 }
+
+#endif // HAVE_ADDONS

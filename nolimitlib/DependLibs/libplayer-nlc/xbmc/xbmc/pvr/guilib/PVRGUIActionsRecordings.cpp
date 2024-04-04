@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsRecordings.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -359,3 +360,5 @@ bool CPVRGUIActionsRecordings::ShowRecordingSettings(
 
   return pDlgInfo->IsConfirmed();
 }
+
+#endif // HAVE_ADDONS

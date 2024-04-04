@@ -15,6 +15,9 @@
 // by Bobbin007 in 2003
 //  CD-Text support by Mog - Oct 2004
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CDIO
+
 #include "PlatformDefs.h" // for ssize_t typedef
 
 #include <libcdio/include/cdio/cdio.h>
@@ -342,3 +345,5 @@ private:
 };
 
 }
+
+#endif // HAVE_LIB_CDIO

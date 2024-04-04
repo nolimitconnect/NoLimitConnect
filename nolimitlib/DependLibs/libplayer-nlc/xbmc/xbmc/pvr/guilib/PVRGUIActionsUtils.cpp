@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsUtils.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -34,3 +35,5 @@ bool CPVRGUIActionsUtils::OnInfo(const CFileItem& item)
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsEPG.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -215,3 +216,5 @@ bool CPVRGUIActionsEPG::DeleteSavedSearch(const CFileItem& item)
   }
   return false;
 }
+
+#endif // HAVE_ADDONS

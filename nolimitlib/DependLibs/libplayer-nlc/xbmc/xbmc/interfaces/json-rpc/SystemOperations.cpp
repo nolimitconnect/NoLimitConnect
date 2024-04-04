@@ -7,6 +7,8 @@
  */
 
 #include "SystemOperations.h"
+#if ENABLE_JSON
+
 #include "messaging/ApplicationMessenger.h"
 #include "interfaces/builtins/Builtins.h"
 #include "utils/Variant.h"
@@ -99,3 +101,5 @@ JSONRPC_STATUS CSystemOperations::GetPropertyValue(int permissions, const std::s
 
   return OK;
 }
+
+#endif // ENABLE_JSON

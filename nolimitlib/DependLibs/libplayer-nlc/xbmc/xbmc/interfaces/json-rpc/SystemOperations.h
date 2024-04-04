@@ -9,6 +9,7 @@
 #pragma once
 
 #include "JSONRPC.h"
+#if ENABLE_JSON
 
 class CVariant;
 
@@ -29,3 +30,5 @@ namespace JSONRPC
     static JSONRPC_STATUS GetPropertyValue(int permissions, const std::string &property, CVariant &result);
   };
 }
+
+#endif // ENABLE_JSON

@@ -7,6 +7,7 @@
  */
 
 #include "EpgContainer.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_channels.h" // PVR_CHANNEL_INVALID_UID
@@ -1023,3 +1024,5 @@ bool CPVREpgContainer::DeleteSavedSearch(const CPVREpgSearchFilter& search)
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

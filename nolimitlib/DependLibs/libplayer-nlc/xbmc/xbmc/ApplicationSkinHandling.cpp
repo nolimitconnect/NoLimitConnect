@@ -56,6 +56,7 @@ CApplicationSkinHandling::CApplicationSkinHandling(IMsgTargetCallback* msgCb,
 
 bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
 {
+#if HAVE_ADDONS
   std::shared_ptr<ADDON::CSkinInfo> skin;
   {
     ADDON::AddonPtr addon;
@@ -64,6 +65,7 @@ bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
       return false;
     skin = std::static_pointer_cast<ADDON::CSkinInfo>(addon);
   }
+#endif // HAVE_ADDONS
 
   // store player and rendering state
   bool bPreviousPlayingState = false;
@@ -108,6 +110,7 @@ bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
       currentFocusedControlID = pWindow->GetFocusedControlID();
   }
 
+#if HAVE_ADDONS
   UnloadSkin();
 
   skin->Start();
@@ -129,15 +132,19 @@ bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
   CLog::Log(LOGINFO, "  load fonts for skin...");
   CServiceBroker::GetWinSystem()->GetGfxContext().SetMediaDir(skin->Path());
   g_directoryCache.ClearSubPaths(skin->Path());
+#endif // HAVE_ADDONS
 
   const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
   CServiceBroker::GetGUI()->GetColorManager().Load(
       settings->GetString(CSettings::SETTING_LOOKANDFEEL_SKINCOLORS));
 
+#if HAVE_ADDONS
   g_SkinInfo->LoadIncludes();
+#endif // HAVE_ADDONS
 
   g_fontManager.LoadFonts(settings->GetString(CSettings::SETTING_LOOKANDFEEL_FONT));
 
+#if HAVE_ADDONS
   // load in the skin strings
   std::string langPath = URIUtils::AddFileToFolder(skin->Path(), "language");
   URIUtils::AddSlashAtEnd(langPath);
@@ -145,6 +152,7 @@ bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
   g_localizeStrings.LoadSkinStrings(langPath,
                                     settings->GetString(CSettings::SETTING_LOCALE_LANGUAGE));
   g_SkinInfo->LoadTimers();
+#endif // HAVE_ADDONS
 
   const auto start = std::chrono::steady_clock::now();
 
@@ -172,8 +180,10 @@ bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
   CServiceBroker::GetGUI()->GetAudioManager().Load();
   CServiceBroker::GetTextureCache()->Initialize();
 
+#if HAVE_ADDONS
   if (g_SkinInfo->HasSkinFile("DialogFullScreenInfo.xml"))
     CServiceBroker::GetGUI()->GetWindowManager().Add(new CGUIDialogFullScreenInfo);
+#endif // HAVE_ADDONS
 
   CLog::Log(LOGINFO, "  skin loaded...");
 
@@ -219,6 +229,7 @@ bool CApplicationSkinHandling::LoadSkin(const std::string& skinID)
 
 void CApplicationSkinHandling::UnloadSkin()
 {
+#if HAVE_ADDONS
   if (g_SkinInfo != nullptr && m_saveSkinOnUnloading)
     g_SkinInfo->SaveSettings();
   else if (!m_saveSkinOnUnloading)
@@ -226,6 +237,7 @@ void CApplicationSkinHandling::UnloadSkin()
 
   if (g_SkinInfo)
     g_SkinInfo->Unload();
+#endif // HAVE_ADDONS
 
   CGUIComponent* gui = CServiceBroker::GetGUI();
   if (gui)
@@ -256,6 +268,7 @@ void CApplicationSkinHandling::UnloadSkin()
 
 bool CApplicationSkinHandling::LoadCustomWindows()
 {
+#if HAVE_ADDONS
   // Start from wherever home.xml is
   std::vector<std::string> vecSkinPath;
   g_SkinInfo->GetSkinPaths(vecSkinPath);
@@ -371,11 +384,14 @@ bool CApplicationSkinHandling::LoadCustomWindows()
       }
     }
   }
+#endif // HAVE_ADDONS
+
   return true;
 }
 
 void CApplicationSkinHandling::ReloadSkin(bool confirm)
 {
+#if HAVE_ADDONS
   if (!g_SkinInfo || m_bInitializing)
     return; // Don't allow reload before skin is loaded by system
 
@@ -423,10 +439,12 @@ void CApplicationSkinHandling::ReloadSkin(bool confirm)
     }
   }
   m_confirmSkinChange = true;
+#endif // HAVE_ADDONS
 }
 
 bool CApplicationSkinHandling::OnSettingChanged(const CSetting& setting)
 {
+#if HAVE_ADDONS
   const std::string& settingId = setting.GetId();
 
   if (settingId == CSettings::SETTING_LOOKANDFEEL_SKIN ||
@@ -512,12 +530,15 @@ bool CApplicationSkinHandling::OnSettingChanged(const CSetting& setting)
   }
   else
     return false;
+#endif // HAVE_ADDONS
 
   return true;
 }
 
 void CApplicationSkinHandling::ProcessSkin() const
 {
+#if HAVE_ADDONS
   if (g_SkinInfo != nullptr)
     g_SkinInfo->ProcessTimers();
+#endif // HAVE_ADDONS
 }

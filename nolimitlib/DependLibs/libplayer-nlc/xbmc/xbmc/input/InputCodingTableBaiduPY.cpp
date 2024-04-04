@@ -47,7 +47,7 @@ void CInputCodingTableBaiduPY::Process()
       auto work = m_work.front();
       m_work.pop_front();
       lock.Leave();
-
+#if HAVE_LIB_CURL
       std::string data;
       XFILE::CCurlFile http;
       std::string strUrl;
@@ -55,6 +55,7 @@ void CInputCodingTableBaiduPY::Process()
 
       if (http.Get(strUrl, data))
         HandleResponse(work, data);
+#endif // HAVE_LIB_CURL
     }
   }
 }

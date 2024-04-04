@@ -7,6 +7,7 @@
  */
 
 #include "MusicLibraryScanningJob.h"
+#if HAVE_ADDONS
 
 #include "music/MusicDatabase.h"
 
@@ -56,3 +57,5 @@ bool CMusicLibraryScanningJob::Work(CMusicDatabase &db)
 
   return true;
 }
+
+#endif // HAVE_ADDONS

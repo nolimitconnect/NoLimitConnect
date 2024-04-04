@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "settings/dialogs/GUIDialogSettingsManualBase.h"
 
 #include <memory>
@@ -56,3 +59,5 @@ private:
   int m_iLifetime = 0;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

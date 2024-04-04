@@ -7,6 +7,7 @@
  */
 
 #include "HTTPJsonRpcHandler.h"
+#if ENABLE_JSON
 
 #include "ServiceBroker.h"
 #include "NlcUrl.h"
@@ -181,3 +182,5 @@ bool CHTTPJsonRpcHandler::CHTTPClient::SetAnnouncementFlags(int flags)
 {
   return false;
 }
+
+#endif // ENABLE_JSON

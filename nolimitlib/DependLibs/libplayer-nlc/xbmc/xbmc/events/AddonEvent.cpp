@@ -7,6 +7,7 @@
  */
 
 #include "AddonEvent.h"
+#if HAVE_ADDONS
 
 CAddonEvent::CAddonEvent(const ADDON::AddonPtr& addon, const CVariant& description)
   : CUniqueEvent(addon->Name(), description, addon->Icon()), m_addon(addon)
@@ -46,3 +47,5 @@ CAddonEvent::CAddonEvent(const ADDON::AddonPtr& addon,
   : CUniqueEvent(addon->Name(), description, addon->Icon(), details, executionLabel, level),
     m_addon(addon)
 { }
+
+#endif // HAVE_ADDONS

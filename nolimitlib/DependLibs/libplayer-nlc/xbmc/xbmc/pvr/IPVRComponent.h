@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 namespace PVR
 {
 class IPVRComponent
@@ -16,3 +19,5 @@ public:
   virtual ~IPVRComponent() = default;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

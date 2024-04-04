@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannelGroups.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "pvr/PVRCachedImages.h"
@@ -701,3 +702,5 @@ void CPVRChannelGroups::OnPVRManagerEvent(const PVR::PVREvent& event)
     SortGroups();
   }
 }
+
+#endif // HAVE_ADDONS

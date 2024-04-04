@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_WEATHER
+
 #include "settings/lib/ISettingCallback.h"
 #include "utils/InfoLoader.h"
 
@@ -106,3 +109,5 @@ private:
 
   CWeatherInfo m_info;
 };
+
+#endif // HAVE_WEATHER

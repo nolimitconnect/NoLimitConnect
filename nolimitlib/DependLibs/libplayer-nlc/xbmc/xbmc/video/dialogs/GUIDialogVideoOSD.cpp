@@ -23,9 +23,11 @@
 
 #include <CoreLib/VxDebug.h>
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 using namespace PVR;
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
 CGUIDialogVideoOSD::CGUIDialogVideoOSD(void)
     : CGUIDialog(WINDOW_DIALOG_VIDEO_OSD, "VideoOSD.xml")

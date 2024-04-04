@@ -56,7 +56,7 @@
 
 using namespace JSONRPC;
 
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
 #endif // ENABLE_PVR
 
@@ -185,8 +185,10 @@ JSONRPC_STATUS CPlayerOperations::GetItem(const std::string &method, ITransportL
     case Audio:
     {
       fileItem = std::make_shared<CFileItem>(g_application.CurrentFileItem());
+#if HAVE_ADDONS
       if (IsPVRChannel())
         break;
+#endif // HAVE_ADDONS
 
       if (player == Video)
       {
@@ -296,8 +298,11 @@ JSONRPC_STATUS CPlayerOperations::GetItem(const std::string &method, ITransportL
     default:
       return FailedToExecute;
   }
-
+#if HAVE_ADDONS
   HandleFileItem("id", !IsPVRChannel(), "item", fileItem, parameterObject, parameterObject["properties"], result, false);
+#else
+  HandleFileItem("id", true, "item", fileItem, parameterObject, parameterObject["properties"], result, false);
+#endif // HAVE_ADDONS
   return OK;
 }
 
@@ -823,6 +828,7 @@ JSONRPC_STATUS CPlayerOperations::Open(const std::string &method, ITransportLaye
         "playercontrol(partymode(" + parameterObject["item"]["partymode"].asString() + "))");
     return ACK;
   }
+#if HAVE_ADDONS
   else if (parameterObject["item"].isMember("broadcastid"))
   {
     const std::shared_ptr<CPVREpgInfoTag> epgTag =
@@ -873,6 +879,7 @@ JSONRPC_STATUS CPlayerOperations::Open(const std::string &method, ITransportLaye
 
     return ACK;
   }
+#endif // HAVE_ADDONS
   else
   {
     CFileItemList list;
@@ -996,12 +1003,14 @@ JSONRPC_STATUS CPlayerOperations::GoTo(const std::string &method, ITransportLaye
       }
       else if (to.isInteger())
       {
+#if HAVE_ADDONS
         if (IsPVRChannel())
           CServiceBroker::GetAppMessenger()->SendMsg(
               TMSG_GUI_ACTION, WINDOW_INVALID, -1,
               static_cast<void*>(
             new CAction(ACTION_CHANNEL_SWITCH, static_cast<float>(to.asInteger()))));
         else
+#endif // HAVE_ADDONS
           CServiceBroker::GetAppMessenger()->SendMsg(TMSG_PLAYLISTPLAYER_PLAY,
                                                      static_cast<int>(to.asInteger()));
       }
@@ -1044,8 +1053,10 @@ JSONRPC_STATUS CPlayerOperations::SetShuffle(const std::string &method, ITranspo
     case Video:
     case Audio:
     {
+#if HAVE_ADDONS
       if (IsPVRChannel())
         return FailedToExecute;
+#endif // HAVE_ADDONS
 
       PLAYLIST::Id playlistid = GetPlaylist(GetPlayer(parameterObject["playerid"]));
       if (CServiceBroker::GetPlaylistPlayer().IsShuffled(playlistid))
@@ -1098,8 +1109,10 @@ JSONRPC_STATUS CPlayerOperations::SetRepeat(const std::string &method, ITranspor
     case Video:
     case Audio:
     {
+#if HAVE_ADDONS
       if (IsPVRChannel())
         return FailedToExecute;
+#endif // HAVE_ADDONS
 
       PLAYLIST::RepeatState repeat = PLAYLIST::RepeatState::NONE;
       PLAYLIST::Id playlistid = GetPlaylist(GetPlayer(parameterObject["playerid"]));
@@ -1138,8 +1151,10 @@ JSONRPC_STATUS CPlayerOperations::SetPartymode(const std::string &method, ITrans
     case Video:
     case Audio:
     {
+#if HAVE_ADDONS
       if (IsPVRChannel())
         return FailedToExecute;
+#endif // HAVE_ADDONS
 
       bool change = false;
       PartyModeContext context = PARTYMODECONTEXT_UNKNOWN;
@@ -1372,16 +1387,24 @@ JSONRPC_STATUS CPlayerOperations::SetVideoStream(const std::string &method, ITra
 
 int CPlayerOperations::GetActivePlayers()
 {
-  const auto& components = CServiceBroker::GetAppComponents();
-  const auto appPlayer = components.GetComponent<CApplicationPlayer>();
+    const auto& components = CServiceBroker::GetAppComponents();
+    const auto appPlayer = components.GetComponent<CApplicationPlayer>();
 
-  int activePlayers = 0;
-  if (appPlayer->IsPlayingVideo() ||
-      CServiceBroker::GetPVRManager().PlaybackState()->IsPlayingTV() ||
-      CServiceBroker::GetPVRManager().PlaybackState()->IsPlayingRecording())
+    int activePlayers = 0;
+    if( appPlayer->IsPlayingVideo()
+#if HAVE_ADDONS
+        || CServiceBroker::GetPVRManager().PlaybackState()->IsPlayingTV() ||
+        CServiceBroker::GetPVRManager().PlaybackState()->IsPlayingRecording() )
+#else
+        )
+#endif // HAVE_ADDONS
     activePlayers |= Video;
-  if (appPlayer->IsPlayingAudio() ||
-      CServiceBroker::GetPVRManager().PlaybackState()->IsPlayingRadio())
+  if (appPlayer->IsPlayingAudio() 
+#if HAVE_ADDONS
+       || CServiceBroker::GetPVRManager().PlaybackState()->IsPlayingRadio())
+#else
+      )
+#endif // HAVE_ADDONS
     activePlayers |= Audio;
   if (CServiceBroker::GetGUI()->GetWindowManager().IsWindowActive(WINDOW_SLIDESHOW))
     activePlayers |= Picture;
@@ -1515,11 +1538,13 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     {
       case Video:
       case Audio:
+#if HAVE_ADDONS
         if (IsPVRChannel())
         {
           result = false;
           break;
         }
+#endif // HAVE_ADDONS
 
         result = g_partyModeManager.IsEnabled();
         break;
@@ -1566,6 +1591,7 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
       case Audio:
       {
         int ms = 0;
+#if HAVE_ADDONS
 #if ENABLE_PVR
         if (!IsPVRChannel())
           ms = (int)(g_application.GetTime() * 1000.0);
@@ -1576,6 +1602,7 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
             ms = epg->Progress() * 1000;
         }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
         MillisecondsToTimeObject(ms, result);
         break;
@@ -1597,9 +1624,10 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
       case Video:
       case Audio:
       {
+
+#if HAVE_ADDONS
         if (!IsPVRChannel())
           result = g_application.GetPercentage();
-#if ENABLE_PVR
         else
         {
           std::shared_ptr<CPVREpgInfoTag> epg(GetCurrentEpg());
@@ -1610,7 +1638,7 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
         }
 #else
         result = 0;
-#endif // ENABLE_PVR
+#endif // HAVE_ADDONS
         break;
       }
 
@@ -1655,16 +1683,16 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
       case Audio:
       {
         int ms = 0;
+#if HAVE_ADDONS
         if (!IsPVRChannel())
           ms = (int)(g_application.GetTotalTime() * 1000.0);
-#if ENABLE_PVR
         else
         {
           std::shared_ptr<CPVREpgInfoTag> epg(GetCurrentEpg());
           if (epg)
             ms = epg->GetDuration() * 1000;
         }
-#endif // ENABLE_PVR
+#endif // HAVE_ADDONS
         
         MillisecondsToTimeObject(ms, result);
         break;
@@ -1689,8 +1717,12 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     {
       case Video:
       case Audio: /* Return the position of current item if there is an active playlist */
+#if HAVE_ADDONS
         if (!IsPVRChannel() &&
             CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist() == playlistId)
+#else
+        if( CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist() == playlistId)
+#endif // HAVE_ADDONS
         {
           result = CServiceBroker::GetPlaylistPlayer().GetCurrentSong();
         }
@@ -1717,11 +1749,13 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     {
       case Video:
       case Audio:
+#if HAVE_ADDONS
         if (IsPVRChannel())
         {
           result = "off";
           break;
         }
+#endif // HAVE_ADDONS
 
         switch (CServiceBroker::GetPlaylistPlayer().GetRepeat(playlistId))
         {
@@ -1750,11 +1784,13 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     {
       case Video:
       case Audio:
+#if HAVE_ADDONS
         if (IsPVRChannel())
         {
           result = false;
           break;
         }
+#endif // HAVE_ADDONS
 
         result = CServiceBroker::GetPlaylistPlayer().IsShuffled(playlistId);
         break;
@@ -1797,7 +1833,11 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     {
       case Video:
       case Audio:
+#if HAVE_ADDONS
         result = !IsPVRChannel();
+#else
+        result = true;
+#endif // HAVE_ADDONS
         break;
 
       case Picture:
@@ -1858,7 +1898,11 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
       case Video:
       case Audio:
       case Picture:
+#if HAVE_ADDONS
         result = !IsPVRChannel();
+#else
+        result = true;
+#endif // HAVE_ADDONS
         break;
 
       default:
@@ -1872,7 +1916,11 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     {
       case Video:
       case Audio:
+#if HAVE_ADDONS
         result = !IsPVRChannel();
+#else
+          result = true;
+#endif // HAVE_ADDONS
         break;
 
       case Picture:
@@ -2116,7 +2164,11 @@ JSONRPC_STATUS CPlayerOperations::GetPropertyValue(PlayerType player, const std:
     }
   }
   else if (property == "live")
+#if HAVE_ADDONS
     result = IsPVRChannel();
+#else
+    result = false;
+#endif // HAVE_ADDONS
   else
     return InvalidParams;
 
@@ -2151,6 +2203,7 @@ double CPlayerOperations::ParseTimeInSeconds(const CVariant &time)
   return seconds;
 }
 
+#if HAVE_ADDONS
 #if ENABLE_PVR
 bool CPlayerOperations::IsPVRChannel()
 {
@@ -2171,3 +2224,4 @@ std::shared_ptr<CPVREpgInfoTag> CPlayerOperations::GetCurrentEpg()
   return currentChannel->GetEPGNow();
 }
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

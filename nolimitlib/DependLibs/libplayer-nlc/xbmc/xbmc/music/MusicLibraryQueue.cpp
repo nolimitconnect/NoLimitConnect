@@ -7,6 +7,7 @@
  */
 
 #include "MusicLibraryQueue.h"
+#if HAVE_ADDONS
 
 #include "GUIUserMessages.h"
 #include "ServiceBroker.h"
@@ -299,3 +300,5 @@ void CMusicLibraryQueue::OnJobComplete(unsigned int jobID, bool success, CJob *j
 
   return CJobQueue::OnJobComplete(jobID, success, job);
 }
+
+#endif // HAVE_ADDONS

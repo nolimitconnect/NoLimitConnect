@@ -6,6 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 #include "AddonCallback.h"
+#if HAVE_ADDONS
 
 namespace XBMCAddon
 {
@@ -24,3 +25,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

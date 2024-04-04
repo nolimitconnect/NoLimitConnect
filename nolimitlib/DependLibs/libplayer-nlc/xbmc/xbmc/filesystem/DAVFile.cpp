@@ -7,6 +7,7 @@
  */
 
 #include "DAVFile.h"
+#if HAVE_LIB_CURL
 
 #include "DAVCommon.h"
 #include "NlcUrl.h"
@@ -140,3 +141,5 @@ bool CDAVFile::Rename(const NlcUrl& url, const NlcUrl& urlnew)
 
   return true;
 }
+
+#endif // HAVE_LIB_CURL

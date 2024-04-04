@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowPVRGuide.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIUserMessages.h"
@@ -653,6 +654,7 @@ bool CGUIWindowPVRGuideBase::OnContextButtonNavigate(CONTEXT_BUTTON button)
 
   if (button == CONTEXT_BUTTON_NAVIGATE)
   {
+#if HAVE_ADDONS
     if (g_SkinInfo->HasSkinFile("DialogPVRGuideControls.xml"))
     {
       // use controls dialog
@@ -664,6 +666,7 @@ bool CGUIWindowPVRGuideBase::OnContextButtonNavigate(CONTEXT_BUTTON button)
       }
     }
     else
+#endif // HAVE_ADDONS
     {
       // use context menu
       CContextMenuFunctions<CGUIWindowPVRGuideBase> buttons(this);
@@ -971,3 +974,5 @@ std::string CGUIWindowPVRRadioGuide::GetRootPath() const
 {
   return "pvr://guide/radio/";
 }
+
+#endif // HAVE_ADDONS

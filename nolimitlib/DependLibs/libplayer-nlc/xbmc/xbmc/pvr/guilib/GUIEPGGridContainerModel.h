@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 
 #include <functional>
@@ -176,3 +179,5 @@ private:
   int m_lastActiveBlock = 0;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

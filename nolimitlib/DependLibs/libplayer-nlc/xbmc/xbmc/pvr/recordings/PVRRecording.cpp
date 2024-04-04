@@ -7,6 +7,7 @@
  */
 
 #include "PVRRecording.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_recordings.h"
@@ -728,3 +729,5 @@ std::shared_ptr<CPVRProvider> CPVRRecording::GetProvider() const
 
   return provider;
 }
+
+#endif // HAVE_ADDONS

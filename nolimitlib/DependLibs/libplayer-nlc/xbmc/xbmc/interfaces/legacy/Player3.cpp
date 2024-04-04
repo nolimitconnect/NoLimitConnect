@@ -7,6 +7,7 @@
  */
 
 #include "Player.h"
+#if HAVE_ADDONS
 
 #include "AddonUtils.h"
 #include "GUIInfoManager.h"
@@ -607,3 +608,4 @@ namespace XBMCAddon
   }
 }
 
+#endif // HAVE_ADDONS

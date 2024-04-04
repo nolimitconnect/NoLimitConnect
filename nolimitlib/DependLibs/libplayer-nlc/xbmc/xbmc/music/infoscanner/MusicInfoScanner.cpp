@@ -7,6 +7,7 @@
  */
 
 #include "MusicInfoScanner.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -58,8 +59,12 @@
 using namespace MUSIC_INFO;
 using namespace XFILE;
 using namespace MUSICDATABASEDIRECTORY;
+#if HAVE_LIB_CURL
 using namespace MUSIC_GRABBER;
+#endif // HAVE_LIB_CURL
+#if HAVE_ADDONS
 using namespace ADDON;
+#endif // HAVE_ADDONS
 using KODI::UTILITY::CDigest;
 
 CMusicInfoScanner::CMusicInfoScanner()
@@ -151,12 +156,13 @@ void CMusicInfoScanner::Process()
                     CSettings::SETTING_MUSICLIBRARY_ARTWORKLEVEL) !=
                 CSettings::MUSICLIBRARY_ARTWORK_LEVEL_NONE)
               RetrieveLocalArt();
-
+#if HAVE_ADDONS
             if (m_flags & SCAN_ONLINE)
               // Download additional album and artist information for the recently added albums.
               // This also identifies any local artist art if it exists, and gives it priority,
               // otherwise it is set to the first available from the remote art that was scraped.
               ScrapeInfoAddedAlbums();
+#endif // HAVE_ADDONS
           }
         }
         else
@@ -217,13 +223,14 @@ void CMusicInfoScanner::Process()
           m_handle->SetText(album.GetAlbumArtistString() + " - " + album.strAlbum);
           m_handle->SetPercentage(percentage);
         }
-
+#if HAVE_LIB_CURL
         // find album info
         ADDON::ScraperPtr scraper;
         if (!m_musicDatabase.GetScraper(album.idAlbum, CONTENT_ALBUMS, scraper))
           continue;
 
         UpdateDatabaseAlbumInfo(album, scraper, false);
+#endif // HAVE_LIB_CURL
 
         if (m_bStop)
           break;
@@ -251,12 +258,14 @@ void CMusicInfoScanner::Process()
           m_handle->SetPercentage(percentage);
         }
 
+#if HAVE_LIB_CURL
         // find album info
         ADDON::ScraperPtr scraper;
         if (!m_musicDatabase.GetScraper(artist.idArtist, CONTENT_ARTISTS, scraper) || !scraper)
           continue;
 
         UpdateDatabaseArtistInfo(artist, scraper, false);
+#endif // HAVE_LIB_CURL
 
         if (m_bStop)
           break;
@@ -881,6 +890,7 @@ void CMusicInfoScanner::FileItemsToAlbums(CFileItemList& items, VECALBUMS& album
   }
 }
 
+#if HAVE_LIB_CURL
 CInfoScanner::INFO_RET
 CMusicInfoScanner::UpdateAlbumInfo(CAlbum& album,
                                    const ADDON::ScraperPtr& scraper,
@@ -904,6 +914,7 @@ CMusicInfoScanner::UpdateArtistInfo(CArtist& artist,
   m_musicDatabase.Close();
   return result;
 }
+#endif // HAVE_LIB_CURL
 
 int CMusicInfoScanner::RetrieveMusicInfo(const std::string& strDirectory, CFileItemList& items)
 {
@@ -972,6 +983,7 @@ int CMusicInfoScanner::RetrieveMusicInfo(const std::string& strDirectory, CFileI
   return numAdded;
 }
 
+#if HAVE_ADDONS
 void MUSIC_INFO::CMusicInfoScanner::ScrapeInfoAddedAlbums()
 {
   /* Strategy: Having scanned tags, make a list of albums and add them to the library, only then try
@@ -1056,7 +1068,7 @@ void MUSIC_INFO::CMusicInfoScanner::ScrapeInfoAddedAlbums()
           {
             if (m_bStop)
               break;
-
+#if HAVE_LIB_CURL
             CMusicArtistInfo musicArtistInfo;
             if (!m_musicDatabase.HasArtistBeenScraped(artistCredit.GetArtistId()) &&
               artists.find(artistCredit.GetArtistId()) == artists.end())
@@ -1066,12 +1078,14 @@ void MUSIC_INFO::CMusicInfoScanner::ScrapeInfoAddedAlbums()
               m_musicDatabase.GetArtist(artistCredit.GetArtistId(), artist);
               UpdateDatabaseArtistInfo(artist, artistScraper, false);
             }
+#endif // HAVE_LIB_CURL
           }
         }
       }
     }
   }
 }
+#endif // HAVE_ADDONS
 
 /*
   Set thumb for songs and the album(if only one album in folder).
@@ -1278,6 +1292,7 @@ int CMusicInfoScanner::GetPathHash(const CFileItemList &items, std::string &hash
   return count;
 }
 
+#if HAVE_LIB_CURL
 CInfoScanner::INFO_RET
 CMusicInfoScanner::UpdateDatabaseAlbumInfo(CAlbum& album,
                                            const ADDON::ScraperPtr& scraper,
@@ -1325,7 +1340,11 @@ CMusicInfoScanner::UpdateDatabaseAlbumInfo(CAlbum& album,
           eventLog->Add(EventPtr(new CMediaLibraryEvent(
               MediaTypeAlbum, album.strPath, 24146,
               StringUtils::Format(g_localizeStrings.Get(24147), MediaTypeAlbum, album.strAlbum),
+#if HAVE_LIB_CURL
               CScraperUrl::GetThumbUrl(album.thumbURL.GetFirstUrlByType()),
+#else
+              "",
+#endif HAVE_LIB_CURL
               NlcUrl::GetRedacted(album.strPath), EventLevel::Warning)));
       }
     }
@@ -1369,9 +1388,10 @@ CMusicInfoScanner::UpdateDatabaseArtistInfo(CArtist& artist,
   if (!scraper)
     return INFO_ERROR;
 
-  CMusicArtistInfo artistInfo;
   INFO_RET artistDownloadStatus(INFO_CANCELLED);
   std::string origArtist(artist.strArtist);
+#if HAVE_LIB_CURL
+  CMusicArtistInfo artistInfo;
 
   bool stop(false);
   while (!stop)
@@ -1395,7 +1415,11 @@ CMusicInfoScanner::UpdateDatabaseArtistInfo(CArtist& artist,
           eventLog->Add(EventPtr(new CMediaLibraryEvent(
               MediaTypeArtist, artist.strPath, 24146,
               StringUtils::Format(g_localizeStrings.Get(24147), MediaTypeArtist, artist.strArtist),
+#if HAVE_LIB_CURL
               CScraperUrl::GetThumbUrl(artist.thumbURL.GetFirstUrlByType()),
+#else
+              "",
+#endif // HAVE_LIB_CURL
               NlcUrl::GetRedacted(artist.strPath), EventLevel::Warning)));
       }
     }
@@ -1416,6 +1440,7 @@ CMusicInfoScanner::UpdateDatabaseArtistInfo(CArtist& artist,
           CSettings::SETTING_MUSICLIBRARY_ARTWORKLEVEL) ==
       CSettings::MUSICLIBRARY_ARTWORK_LEVEL_NONE)
     return artistDownloadStatus;
+#endif // HAVE_LIB_CURL
 
   // Check artist art.
   // Fill any gaps with local art files, or use first available from scraped
@@ -1458,8 +1483,9 @@ CMusicInfoScanner::DownloadAlbumInfo(const CAlbum& album,
 
   // clear our scraper cache
   info->ClearCache();
-
+#if HAVE_LIB_CURL
   CMusicInfoScraper scraper(info);
+#endif // HAVE_LIB_CURL
   bool bMusicBrainz = false;
   /*
   When the mbid is derived from tags scraping of album information is done directly
@@ -1470,6 +1496,7 @@ CMusicInfoScanner::DownloadAlbumInfo(const CAlbum& album,
   */
   if (!album.strMusicBrainzAlbumID.empty() && (!album.bScrapedMBID || bUseScrapedMBID))
   {
+#if HAVE_LIB_CURL
     CScraperUrl musicBrainzURL;
     if (ResolveMusicBrainz(album.strMusicBrainzAlbumID, info, musicBrainzURL))
     {
@@ -1478,6 +1505,7 @@ CMusicInfoScanner::DownloadAlbumInfo(const CAlbum& album,
       scraper.GetAlbums().push_back(albumNfo);
       bMusicBrainz = true;
     }
+#endif // HAVE_LIB_CURL
   }
 
   // handle nfo files
@@ -1509,6 +1537,7 @@ CMusicInfoScanner::DownloadAlbumInfo(const CAlbum& album,
     else if (result == CInfoScanner::URL_NFO ||
              result == CInfoScanner::COMBINED_NFO)
     {
+#if HAVE_LIB_CURL
       CScraperUrl scrUrl(nfoReader.ScraperUrl());
       CMusicAlbumInfo albumNfo("nfo",scrUrl);
       ADDON::ScraperPtr nfoReaderScraper = nfoReader.GetScraperInfo();
@@ -1517,11 +1546,13 @@ CMusicInfoScanner::DownloadAlbumInfo(const CAlbum& album,
       scraper.SetScraperInfo(nfoReaderScraper);
       scraper.GetAlbums().clear();
       scraper.GetAlbums().push_back(albumNfo);
+#endif // HAVE_LIB_CURL
     }
     else if (result != CInfoScanner::OVERRIDE_NFO)
       CLog::Log(LOGERROR, "Unable to find an url in nfo file: %s", strNfo.c_str());
   }
 
+#if HAVE_LIB_CURL
   if (!scraper.CheckValidOrFallback(CServiceBroker::GetSettingsComponent()->GetSettings()->GetString(CSettings::SETTING_MUSICLIBRARY_ALBUMSSCRAPER)))
   { // the current scraper is invalid, as is the default - bail
     CLog::Log(LOGERROR, "%s - current and default scrapers are invalid.  Pick another one",
@@ -1702,6 +1733,9 @@ CMusicInfoScanner::DownloadAlbumInfo(const CAlbum& album,
     nfoReader.GetDetails(albumInfo.GetAlbum(), NULL, true);
 
   return INFO_ADDED;
+#else
+    return INFO_NOT_FOUND;
+#endif // HAVE_LIB_CURL
 }
 
 CInfoScanner::INFO_RET
@@ -1719,7 +1753,7 @@ CMusicInfoScanner::DownloadArtistInfo(const CArtist& artist,
 
   // clear our scraper cache
   info->ClearCache();
-
+#if HAVE_LIB_CURL
   CMusicInfoScraper scraper(info);
   bool bMusicBrainz = false;
   /*
@@ -1921,6 +1955,9 @@ CMusicInfoScanner::DownloadArtistInfo(const CArtist& artist,
     nfoReader.GetDetails(artistInfo.GetArtist(), NULL, true);
 
   return INFO_ADDED;
+#else
+    return INFO_NOT_FOUND;
+#endif // HAVE_LIB_CURL
 }
 
 bool CMusicInfoScanner::ResolveMusicBrainz(const std::string &strMusicBrainzID, const ScraperPtr &preferredScraper, CScraperUrl &musicBrainzURL)
@@ -1929,6 +1966,7 @@ bool CMusicInfoScanner::ResolveMusicBrainz(const std::string &strMusicBrainzID, 
   // Get a scraper that can resolve it to a MusicBrainz URL & force our
   // search directly to the specific album.
   bool bMusicBrainz = false;
+#if HAVE_LIB_CURL
   try
   {
     musicBrainzURL = preferredScraper->ResolveIDToUrl(strMusicBrainzID);
@@ -1945,9 +1983,11 @@ bool CMusicInfoScanner::ResolveMusicBrainz(const std::string &strMusicBrainzID, 
     CLog::Log(LOGDEBUG, "-- nfo url: %s", musicBrainzURL.GetFirstThumbUrl().c_str());
     bMusicBrainz = true;
   }
+#endif // HAVE_LIB_CURL
 
   return bMusicBrainz;
 }
+#endif // HAVE_LIB_CURL
 
 void CMusicInfoScanner::ScannerWait(unsigned int milliseconds)
 {
@@ -1962,8 +2002,13 @@ void CMusicInfoScanner::ScannerWait(unsigned int milliseconds)
 
 bool CMusicInfoScanner::AddArtistArtwork(CArtist& artist, const std::string& artfolder)
 {
+#if HAVE_LIB_CURL
   if (!artist.thumbURL.HasUrls() && artfolder.empty())
     return false; // No local or scraped possible art to process
+#else
+  if (artfolder.empty())
+    return false; // No local or scraped possible art to process
+#endif // HAVE_LIB_CURL
 
   if (artist.art.empty())
     m_musicDatabase.GetArtForItem(artist.idArtist, MediaTypeArtist, artist.art);
@@ -1979,8 +2024,10 @@ bool CMusicInfoScanner::AddArtistArtwork(CArtist& artist, const std::string& art
       CFileItem item(artfolder, true);
       strArt = item.GetUserMusicThumb(true);
     }
+#if HAVE_LIB_CURL
     if (strArt.empty())
       strArt = CScraperUrl::GetThumbUrl(artist.thumbURL.GetFirstUrlByType("thumb"));
+#endif // HAVE_LIB_CURL
     if (!strArt.empty())
       addedart.insert(std::make_pair("thumb", strArt));
   }
@@ -1989,7 +2036,9 @@ bool CMusicInfoScanner::AddArtistArtwork(CArtist& artist, const std::string& art
   AddLocalArtwork(addedart, MediaTypeArtist, artist.strArtist, artfolder);
 
   // Process remote artist art filling gaps with first of scraped art URLs
+#if HAVE_LIB_CURL
   AddRemoteArtwork(addedart, MediaTypeArtist, artist.thumbURL);
+#endif // HAVE_LIB_CURL
 
   int iArtLevel = CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt(
       CSettings::SETTING_MUSICLIBRARY_ARTWORKLEVEL);
@@ -2022,9 +2071,13 @@ bool CMusicInfoScanner::AddAlbumArtwork(CAlbum& album)
       // When more than one album path is the common path
       URIUtils::GetCommonPath(album.strPath, pathpair.first.c_str());
   }
-
+#if HAVE_LIB_CURL
   if (!album.thumbURL.HasUrls() && album.strPath.empty())
     return false; // No local or scraped possible art to process
+#else
+  if (album.strPath.empty())
+    return false; // No local or scraped possible art to process
+#endif // HAVE_LIB_CURL
 
   if (album.art.empty())
     m_musicDatabase.GetArtForItem(album.idAlbum, MediaTypeAlbum, album.art);
@@ -2052,8 +2105,10 @@ bool CMusicInfoScanner::AddAlbumArtwork(CAlbum& album)
       CFileItem item(album.strPath, true);
       strArt = item.GetUserMusicThumb(true);
     }
+#if HAVE_LIB_CURL
     if (strArt.empty())
       strArt = CScraperUrl::GetThumbUrl(album.thumbURL.GetFirstUrlByType("thumb"));
+#endif // HAVE_LIB_CURL
     if (!strArt.empty())
     {
       if (thumb != album.art.end())
@@ -2082,8 +2137,10 @@ bool CMusicInfoScanner::AddAlbumArtwork(CAlbum& album)
         CFileItem item(pathpair.first.c_str(), true);
         std::string strArtType = StringUtils::Format("{}{}", "thumb", discnum);
         strArt = loader.GetCachedImage(item, "thumb");
+#if HAVE_LIB_CURL
         if (strArt.empty())
           strArt = CScraperUrl::GetThumbUrl(album.thumbURL.GetFirstUrlByType(strArtType));
+#endif // HAVE_LIB_CURL
         if (!strArt.empty())
         {
           addedart.insert(std::make_pair(strArtType, strArt));
@@ -2110,8 +2167,10 @@ bool CMusicInfoScanner::AddAlbumArtwork(CAlbum& album)
     }
   }
 
+#if HAVE_LIB_CURL
   // Process remote album art filling gaps with first of scraped art URLs
   AddRemoteArtwork(addedart, MediaTypeAlbum, album.thumbURL);
+#endif // HAVE_LIB_CURL
 
   int iArtLevel = CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt(
       CSettings::SETTING_MUSICLIBRARY_ARTWORKLEVEL);
@@ -2249,6 +2308,7 @@ bool CMusicInfoScanner::AddLocalArtwork(std::map<std::string, std::string>& art,
   return art.size() > 0;
 }
 
+ #if HAVE_LIB_CURL
 bool CMusicInfoScanner::AddRemoteArtwork(std::map<std::string, std::string>& art,
                                          const std::string& mediaType,
                                          const CScraperUrl& thumbURL)
@@ -2268,6 +2328,7 @@ bool CMusicInfoScanner::AddRemoteArtwork(std::map<std::string, std::string>& art
 
   // Add online art
   // Done for artists and albums, so not need repeating at disc level
+#if HAVE_LIB_CURL
   for (const auto& url : thumbURL.GetUrls())
   {
     // Art type is encoded into the scraper XML held in thumbURL as optional "aspect=" field.
@@ -2291,9 +2352,11 @@ bool CMusicInfoScanner::AddRemoteArtwork(std::map<std::string, std::string>& art
         art.insert(std::make_pair(url.m_aspect, strArt));
     }
   }
+#endif  HAVE_LIB_CURL
 
   return art.size() > 0;
 }
+#endif // HAVE_LIB_CURL
 
 // This function is the Run() function of the IRunnable
 // CFileCountReader and runs in a separate thread.
@@ -2336,3 +2399,5 @@ int CMusicInfoScanner::CountFiles(const CFileItemList &items, bool recursive)
   }
   return count;
 }
+
+#endif // HAVE_ADDONS

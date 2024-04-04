@@ -7,6 +7,7 @@
  */
 
 #include "GUIViewStatePVR.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -180,3 +181,5 @@ bool CGUIViewStateWindowPVRSearch::HideParentDirItems()
   return (CGUIViewState::HideParentDirItems() ||
           CPVREpgSearchPath(m_items.GetPath()).IsSearchRoot());
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "EpgChannelData.h"
+#if HAVE_ADDONS
 
 #include "XBDateTime.h"
 #include "pvr/channels/PVRChannel.h"
@@ -105,3 +106,5 @@ void CPVREpgChannelData::SetChannelIconPath(const std::string& strChannelIconPat
 {
   m_strChannelIconPath = strChannelIconPath;
 }
+
+#endif // HAVE_ADDONS

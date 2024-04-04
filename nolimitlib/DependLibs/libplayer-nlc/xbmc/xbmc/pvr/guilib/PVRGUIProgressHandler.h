@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "threads/CriticalSection.h"
 #include "threads/Thread.h"
 
@@ -57,3 +60,5 @@ namespace PVR
   };
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

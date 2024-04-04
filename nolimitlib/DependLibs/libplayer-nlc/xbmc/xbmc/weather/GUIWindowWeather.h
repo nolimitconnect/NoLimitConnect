@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_WEATHER
+
 #include "guilib/GUIWindow.h"
 
 class CGUIWindowWeather : public CGUIWindow
@@ -29,3 +32,5 @@ protected:
 
   unsigned int m_maxLocation = 0;
 };
+
+#endif // HAVE_WEATHER

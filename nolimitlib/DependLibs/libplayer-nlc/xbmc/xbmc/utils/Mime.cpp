@@ -535,6 +535,7 @@ std::string CMime::GetMimeType(const NlcUrl &url, bool lookup)
     if (!lookup)
       return strMimeType;
 
+#if HAVE_LIB_CURL
     std::string strmime;
     XFILE::CCurlFile::GetMimeType(url, strmime);
 
@@ -551,6 +552,7 @@ std::string CMime::GetMimeType(const NlcUrl &url, bool lookup)
       strmime.erase(i, strmime.length() - i);
     StringUtils::Trim(strmime);
     strMimeType = strmime;
+#endif // HAVE_LIB_CURL
   }
   else
     strMimeType = GetMimeType(url.GetFileType());

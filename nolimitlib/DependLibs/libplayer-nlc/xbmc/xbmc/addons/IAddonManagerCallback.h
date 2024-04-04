@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
 
 #include <string>
 
@@ -30,3 +31,5 @@ public:
 };
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

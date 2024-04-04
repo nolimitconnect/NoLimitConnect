@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "AddonClass.h"
 #include "CallbackFunction.h"
 #include "CallbackHandler.h"
@@ -41,3 +44,5 @@ namespace XBMCAddon
     void invokeCallback(Callback* callback);
   };
 }
+
+#endif // HAVE_ADDONS

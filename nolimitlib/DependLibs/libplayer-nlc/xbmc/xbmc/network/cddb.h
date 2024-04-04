@@ -7,6 +7,8 @@
  */
 
 #pragma once
+#include "config_components_kodi.h"
+#if HAVE_LIB_CDIO
 
 #include <string>
 #include <sstream>
@@ -126,3 +128,5 @@ protected:
   std::string cCacheDir;
 };
 }
+
+#endif // HAVE_LIB_CDIO

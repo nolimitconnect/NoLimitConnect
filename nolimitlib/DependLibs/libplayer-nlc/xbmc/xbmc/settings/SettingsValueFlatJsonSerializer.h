@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if ENABLE_JSON
+
 #include "settings/lib/ISettingsValueSerializer.h"
 #include "utils/Variant.h"
 
@@ -38,3 +41,5 @@ private:
 
   bool m_compact;
 };
+
+#endif // ENABLE_JSON

@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon_base.h"
 #include "threads/CriticalSection.h"
 #include "threads/Thread.h"
@@ -43,3 +45,5 @@ namespace ADDON
       ADDON_STATUS m_status = ADDON_STATUS_UNKNOWN;
   };
 }
+
+#endif // HAVE_ADDONS

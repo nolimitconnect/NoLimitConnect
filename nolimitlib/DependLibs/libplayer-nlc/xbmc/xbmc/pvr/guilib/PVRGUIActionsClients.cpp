@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsClients.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dialogs/GUIDialogSelect.h"
@@ -86,3 +87,5 @@ bool CPVRGUIActionsClients::ProcessSettingsMenuHooks()
   }
   return selectedHook->first->CallSettingsMenuHook(selectedHook->second) == PVR_ERROR_NO_ERROR;
 }
+
+#endif // HAVE_ADDONS

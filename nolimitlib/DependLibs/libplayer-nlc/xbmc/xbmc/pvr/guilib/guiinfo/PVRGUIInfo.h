@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_channels.h"
 #include "guilib/guiinfo/GUIInfoProvider.h"
 #include "pvr/addons/PVRClients.h"
@@ -215,3 +218,5 @@ private:
   bool m_bRegistered;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

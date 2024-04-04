@@ -14,7 +14,9 @@
 #include "addons/AddonManager.h"
 #include "addons/Resource.h"
 
+#if HAVE_ADDONS
 using namespace ADDON;
+#endif // HAVE_ADDONS
 using namespace XFILE;
 
 CResourceFile::CResourceFile()
@@ -42,6 +44,7 @@ bool CResourceFile::TranslatePath(const NlcUrl &url, std::string &translatedPath
   if (url.GetFileName().length() > addonId.length())
     filePath = url.GetFileName().substr(addonId.size() + 1);
 
+#if HAVE_ADDONS
   if (addonId.empty())
     return false;
 
@@ -58,6 +61,7 @@ bool CResourceFile::TranslatePath(const NlcUrl &url, std::string &translatedPath
     return false;
 
   translatedPath = CUtil::ValidatePath(resource->GetFullPath(filePath));
+#endif // HAVE_ADDONS
   return true;
 }
 

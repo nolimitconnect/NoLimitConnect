@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIInfo.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIInfoManager.h"
@@ -2016,3 +2017,5 @@ int CPVRGUIInfo::GetTimeShiftSeekPercent() const
   }
   return progress;
 }
+
+#endif // HAVE_ADDONS

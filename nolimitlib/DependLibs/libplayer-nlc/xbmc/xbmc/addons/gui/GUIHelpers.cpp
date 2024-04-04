@@ -7,6 +7,7 @@
  */
 
 #include "GUIHelpers.h"
+#if HAVE_ADDONS
 
 #include "addons/IAddon.h"
 #include "addons/addoninfo/AddonInfo.h"
@@ -47,3 +48,5 @@ bool CHelpers::DialogAddonLifecycleUseAsk(const std::shared_ptr<const IAddon>& a
 
   return true;
 }
+
+#endif // HAVE_ADDONS

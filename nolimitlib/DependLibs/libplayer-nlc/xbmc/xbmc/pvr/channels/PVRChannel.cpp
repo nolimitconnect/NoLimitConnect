@@ -7,6 +7,7 @@
  */
 
 #include "PVRChannel.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "XBDateTime.h"
@@ -836,3 +837,5 @@ std::shared_ptr<CPVRProvider> CPVRChannel::GetProvider() const
 
   return provider;
 }
+
+#endif // HAVE_ADDONS

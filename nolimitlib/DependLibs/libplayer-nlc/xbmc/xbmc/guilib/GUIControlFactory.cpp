@@ -58,7 +58,9 @@
 
 using namespace KODI;
 using namespace KODI::GUILIB;
+#if HAVE_ADDONS
 using namespace PVR;
+#endif // HAVE_ADDONS
 
 typedef struct
 {
@@ -1461,6 +1463,7 @@ CGUIControl* CGUIControlFactory::Create(int parentID, const CRect &rect, TiXmlEl
       wcontrol->SetUnFocusActions(unfocusActions);
     }
     break;
+#if HAVE_ADDONS
   case CGUIControl::GUICONTAINER_EPGGRID:
     {
       CGUIEPGGridContainer *epgGridContainer = new CGUIEPGGridContainer(parentID, id, posX, posY, width, height, orientation, scrollTime, preloadItems, timeBlocks, rulerUnit, textureProgressIndicator);
@@ -1471,6 +1474,8 @@ CGUIControl* CGUIControlFactory::Create(int parentID, const CRect &rect, TiXmlEl
       epgGridContainer->SetPageControl(pageControl);
     }
     break;
+#endif // HAVE_ADDONS
+
   case CGUIControl::GUICONTAINER_FIXEDLIST:
     {
       CScroller scroller;
@@ -1552,12 +1557,14 @@ CGUIControl* CGUIControlFactory::Create(int parentID, const CRect &rect, TiXmlEl
       scontrol->SetReverse(bReverse);
     }
     break;
+#if HAVE_ADDONS
   case CGUIControl::GUICONTROL_VISUALISATION:
     control = new CGUIVisualisationControl(parentID, id, posX, posY, width, height);
     break;
   case CGUIControl::GUICONTROL_RENDERADDON:
     control = new CGUIRenderingControl(parentID, id, posX, posY, width, height);
     break;
+#endif // HAVE_ADDONS
 #if ENABLE_GAMES
   case CGUIControl::GUICONTROL_GAMECONTROLLER:
   {

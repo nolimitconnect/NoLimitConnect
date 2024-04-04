@@ -79,7 +79,9 @@
 #endif
 
 using namespace KODI::MESSAGING;
+#if ENABLE_JSON
 using namespace JSONRPC;
+#endif // ENABLE_JSON
 using namespace EVENTSERVER;
 #ifdef HAS_UPNP
 using namespace UPNP;
@@ -405,18 +407,24 @@ bool CNetworkServices::OnSettingChanging(const std::shared_ptr<const CSetting>& 
         result = false;
       }
 
+#if ENABLE_JSON
       if (!StartJSONRPCServer())
       {
         HELPERS::ShowOKDialogText(CVariant{33103}, CVariant{33100});
         result = false;
       }
+#endif // ENABLE_JSON
+
       return result;
     }
     else
     {
       bool result = true;
       result = StopEventServer(true, true);
+#if ENABLE_JSON
       result &= StopJSONRPCServer(false);
+#endif // ENABLE_JSON
+
       return result;
     }
   }
@@ -458,8 +466,9 @@ bool CNetworkServices::OnSettingChanging(const std::shared_ptr<const CSetting>& 
       }
     }
 
+#if ENABLE_JSON
     if (m_settings->GetBool(CSettings::SETTING_SERVICES_ESENABLED))
-    {
+    {      
       if (!StopJSONRPCServer(true))
         return false;
 
@@ -467,8 +476,10 @@ bool CNetworkServices::OnSettingChanging(const std::shared_ptr<const CSetting>& 
       {
         HELPERS::ShowOKDialogText(CVariant{33103}, CVariant{33100});
         return false;
-      }
+      }     
     }
+#endif // ENABLE_JSON
+
   }
 
   else if (settingId == CSettings::SETTING_SERVICES_ESINITIALDELAY ||
@@ -550,8 +561,10 @@ void CNetworkServices::Start()
     StartUPnP();
   if (m_settings->GetBool(CSettings::SETTING_SERVICES_ESENABLED) && !StartEventServer())
     CGUIDialogKaiToast::QueueNotification(CGUIDialogKaiToast::Warning, g_localizeStrings.Get(33102), g_localizeStrings.Get(33100));
+#if ENABLE_JSON
   if (m_settings->GetBool(CSettings::SETTING_SERVICES_ESENABLED) && !StartJSONRPCServer())
     CGUIDialogKaiToast::QueueNotification(CGUIDialogKaiToast::Warning, g_localizeStrings.Get(33103), g_localizeStrings.Get(33100));
+#endif // ENABLE_JSON
   
 #ifdef HAS_WEB_SERVER
   // Start web server after eventserver and JSON-RPC server, so users can use these interfaces
@@ -597,12 +610,15 @@ void CNetworkServices::Stop(bool bWait)
     StopWebserver();
 #if ENABLE_RSS
     StopRss();
-
 #endif // ENABLE_RSS
+
   }
 
   StopEventServer(bWait, false);
+#if ENABLE_JSON
   StopJSONRPCServer(bWait);
+#endif // ENABLE_JSON
+
   StopAirPlayServer(bWait);
   StopAirTunesServer(bWait);
   StopWSDiscovery();
@@ -865,6 +881,7 @@ bool CNetworkServices::StopAirTunesServer(bool bWait)
   return false;
 }
 
+#if ENABLE_JSON
 bool CNetworkServices::StartJSONRPCServer()
 {
   if (!m_settings->GetBool(CSettings::SETTING_SERVICES_ESENABLED))
@@ -906,6 +923,7 @@ bool CNetworkServices::StopJSONRPCServer(bool bWait)
 
   return true;
 }
+#endif // ENABLE_JSON
 
 bool CNetworkServices::StartEventServer()
 {

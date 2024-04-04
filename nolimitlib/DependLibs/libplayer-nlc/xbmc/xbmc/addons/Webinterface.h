@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Addon.h"
 
 #define WEBINTERFACE_DEFAULT_ENTRY_POINT  "index.html"
@@ -36,3 +39,5 @@ namespace ADDON
     std::string m_entryPoint;
   };
 }
+
+#endif // HAVE_ADDONS

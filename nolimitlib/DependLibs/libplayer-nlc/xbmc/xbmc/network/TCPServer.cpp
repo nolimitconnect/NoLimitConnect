@@ -7,6 +7,7 @@
  */
 
 #include "TCPServer.h"
+#if ENABLE_JSON
 
 #include "ServiceBroker.h"
 #include "interfaces/AnnouncementManager.h"
@@ -759,3 +760,4 @@ void CTCPServer::CWebSocketClient::Disconnect()
     }
 }
 
+#endif // ENABLE_JSON

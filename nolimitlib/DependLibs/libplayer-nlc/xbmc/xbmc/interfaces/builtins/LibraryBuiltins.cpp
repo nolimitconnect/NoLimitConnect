@@ -65,6 +65,7 @@ static int CleanLibrary(const std::vector<std::string>& params)
               contentPaths.insert(directory);
             else
               db.GetPaths(contentPaths);
+#if HAVE_ADDONS
             for (const std::string& path : contentPaths)
             {
               if (db.GetContentForPath(path) == content)
@@ -78,6 +79,7 @@ static int CleanLibrary(const std::vector<std::string>& params)
                 }
               }
             }
+#endif // HAVE_ADDONS
           }
           if (paths.empty())
             return 0;
@@ -92,6 +94,7 @@ static int CleanLibrary(const std::vector<std::string>& params)
     else
       CLog::Log(LOGERROR, "CleanLibrary is not possible while scanning or cleaning");
   }
+#if HAVE_ADDONS
   else if (StringUtils::EqualsNoCase(params[0], "music"))
   {
     if (!CMusicLibraryQueue::GetInstance().IsScanningLibrary())
@@ -102,6 +105,7 @@ static int CleanLibrary(const std::vector<std::string>& params)
     else
       CLog::Log(LOGERROR, "CleanLibrary is not possible while scanning for media info");
   }
+#endif // HAVE_ADDONS
   else
     CLog::Log(LOGERROR, "Unknown content type '%s' passed to CleanLibrary, ignoring", params[0].c_str());
 
@@ -216,6 +220,7 @@ static int ExportLibrary(const std::vector<std::string>& params)
       videodatabase.ExportToXML(path, singleFile, thumbs, actorThumbs, overwrite);
       videodatabase.Close();
     }
+#if HAVE_ADDONS
     else
     {
       CLibExportSettings settings;
@@ -225,9 +230,11 @@ static int ExportLibrary(const std::vector<std::string>& params)
         settings.SetExportType(ELIBEXPORT_TOLIBRARYFOLDER);
       settings.m_artwork = thumbs;
       settings.m_overwrite = overwrite;
+
       // Export music library (not showing progress dialog)
       CMusicLibraryQueue::GetInstance().ExportLibrary(settings, false);
     }
+#endif // HAVE_ADDONS
   }
 
   return 0;
@@ -285,6 +292,7 @@ static int ExportLibrary2(const std::vector<std::string>& params)
     else if (StringUtils::EqualsNoCase(params[i], "actorthumbs"))
       settings.AddItem(ELIBEXPORT_ACTORTHUMBS);
   }
+#if HAVE_ADDONS
   if (StringUtils::EqualsNoCase(params[0], "music"))
   {
     // Export music library (not showing progress dialog)
@@ -298,6 +306,7 @@ static int ExportLibrary2(const std::vector<std::string>& params)
       settings.m_artwork, settings.IsItemExported(ELIBEXPORT_ACTORTHUMBS), settings.m_overwrite);
     videodatabase.Close();
   }
+#endif // HAVE_ADDONS
   return 0;
 }
 
@@ -309,6 +318,7 @@ static int ExportLibrary2(const std::vector<std::string>& params)
  */
 static int UpdateLibrary(const std::vector<std::string>& params)
 {
+#if HAVE_ADDONS
   bool userInitiated = true;
   if (params.size() > 2)
     userInitiated = StringUtils::EqualsNoCase(params[2], "true");
@@ -329,6 +339,7 @@ static int UpdateLibrary(const std::vector<std::string>& params)
       CVideoLibraryQueue::GetInstance().ScanLibrary(params.size() > 1 ? params[1] : "", false,
                                                     userInitiated);
   }
+#endif // HAVE_ADDONS
 
   return 0;
 }

@@ -37,7 +37,7 @@ void CGUIColorManager::Load(const std::string &colorFile)
   CXBMCTinyXML xmlDoc;
   if (xmlDoc.LoadFile(CSpecialProtocol::TranslatePathConvertCase("special://xbmc/system/colors.xml")))
     LoadXML(xmlDoc);
-
+#if HAVE_ADDONS
   // first load the default color map if it exists
   std::string path = URIUtils::AddFileToFolder(g_SkinInfo->Path(), "colors", "defaults.xml");
 
@@ -55,6 +55,7 @@ void CGUIColorManager::Load(const std::string &colorFile)
 
   if (xmlDoc.LoadFile(path))
     LoadXML(xmlDoc);
+#endif // HAVE_ADDONS
 }
 
 bool CGUIColorManager::LoadXML(CXBMCTinyXML &xmlDoc)

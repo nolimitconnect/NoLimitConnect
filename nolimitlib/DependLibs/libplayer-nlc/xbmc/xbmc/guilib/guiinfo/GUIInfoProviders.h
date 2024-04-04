@@ -138,8 +138,9 @@ public:
 
 private:
   std::vector<IGUIInfoProvider *> m_providers;
-
+#if HAVE_ADDONS
   CAddonsGUIInfo m_addonsGUIInfo;
+#endif // HAVE_ADDONS
 #if ENABLE_GAMES
   CGamesGUIInfo m_gamesGUIInfo;
 #endif // ENABLE_GAMES
@@ -148,11 +149,15 @@ private:
   CMusicGUIInfo m_musicGUIInfo;
   CPicturesGUIInfo m_picturesGUIInfo;
   CPlayerGUIInfo m_playerGUIInfo;
+#if HAVE_ADDONS
   CSkinGUIInfo m_skinGUIInfo;
+#endif // HAVE_ADDONS
   CSystemGUIInfo m_systemGUIInfo;
   CVideoGUIInfo m_videoGUIInfo;
   CVisualisationGUIInfo m_visualisationGUIInfo;
+#if HAVE_WEATHER
   CWeatherGUIInfo m_weatherGUIInfo;
+#endif // HAVE_WEATHER
 };
 
 } // namespace GUIINFO

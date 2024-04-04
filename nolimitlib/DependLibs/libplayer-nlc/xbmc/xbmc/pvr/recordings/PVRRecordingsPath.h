@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <string>
 
 class CDateTime;
@@ -66,3 +69,5 @@ private:
   std::string m_path;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

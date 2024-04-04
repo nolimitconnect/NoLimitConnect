@@ -7,6 +7,7 @@
  */
 
 #include "PVRRadioRDSInfoTag.h"
+#if HAVE_ADDONS
 
 #include "GUIUserMessages.h"
 #include "ServiceBroker.h"
@@ -734,3 +735,5 @@ void CPVRRadioRDSInfoTag::Info::Add(const std::string& text)
   CGUIMessage msg(GUI_MSG_NOTIFY_ALL, 0, 0, GUI_MSG_UPDATE_RADIOTEXT);
   CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
 }
+
+#endif // HAVE_ADDONS

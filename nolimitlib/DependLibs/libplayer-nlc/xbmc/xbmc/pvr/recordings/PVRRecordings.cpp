@@ -7,6 +7,7 @@
  */
 
 #include "PVRRecordings.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_epg.h" // EPG_TAG_INVALID_UID
@@ -359,3 +360,5 @@ int CPVRRecordings::CleanupCachedImages()
   };
   return CPVRCachedImages::Cleanup(urlPatterns, urlsToCheck);
 }
+
+#endif // HAVE_ADDONS

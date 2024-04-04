@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "FileItem.h"
 #include "addons/binary-addons/AddonDll.h"
 #include "addons/binary-addons/AddonInstanceHandler.h"
@@ -310,3 +313,5 @@ protected:
   };
 
 } /*namespace ADDON*/
+
+#endif // HAVE_ADDONS

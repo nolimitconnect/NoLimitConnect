@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+
 #include "settings/lib/ISettingCallback.h"
 #include "settings/lib/ISettingsHandler.h"
 #include "utils/GlobalsHandling.h"
@@ -59,6 +61,7 @@ public:
   // implementation of ISettingsHandler
   void OnSettingsLoaded() override;
 
+#if HAVE_ADDONS
   /*
    * \brief Get language codes list of the installed language addons.
    * \param languages [OUT] The list of languages (language code, name).
@@ -72,6 +75,7 @@ public:
    \return Language addon for the given locale or NULL if the locale is invalid.
    */
   LanguageResourcePtr GetLanguageAddon(const std::string& locale = "") const;
+#endif // HAVE_ADDONS
 
   std::string GetGuiCharSet() const;
   std::string GetSubtitleCharSet() const;
@@ -79,6 +83,7 @@ public:
   // three char language code (not win32 specific)
   const std::string& GetLanguageCode() const { return m_languageCodeGeneral; }
 
+#if HAVE_ADDONS
   /*!
    * \brief Convert an english language name to an addon locale,
    *        by searching in the installed language addons.
@@ -102,6 +107,7 @@ public:
   \return True if the language has been successfully loaded, false otherwise.
   */
   bool SetLanguage(std::string strLanguage = "", bool reloadServices = true);
+ #endif // HAVE_ADDONS
 
   const std::string& GetAudioLanguage() const;
   // language can either be a two char language code as defined in ISO639

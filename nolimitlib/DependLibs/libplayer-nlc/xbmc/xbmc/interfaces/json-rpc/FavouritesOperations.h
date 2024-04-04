@@ -9,6 +9,7 @@
 #pragma once
 
 #include "JSONRPC.h"
+#if ENABLE_JSON
 
 class CVariant;
 
@@ -21,3 +22,5 @@ namespace JSONRPC
     static JSONRPC_STATUS AddFavourite(const std::string &method, ITransportLayer *transport, IClient *client, const CVariant &parameterObject, CVariant &result);
   };
 }
+
+#endif // ENABLE_JSON

@@ -7,6 +7,8 @@
  */
 
 #include "AddonsDirectory.h"
+ #if HAVE_ADDONS
+
 #include "NlcUrl.h"
 
 #include "FileItem.h"
@@ -441,6 +443,7 @@ bool CAddonsDirectory::GetSearchResults(const NlcUrl& path, CFileItemList &items
 
 static void UserInstalledAddons(const NlcUrl& path, CFileItemList &items)
 {
+
   items.ClearItems();
   items.SetLabel(g_localizeStrings.Get(24998));
 
@@ -969,3 +972,4 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, CFileIte
 
 }
 
+ #endif // HAVE_ADDONS

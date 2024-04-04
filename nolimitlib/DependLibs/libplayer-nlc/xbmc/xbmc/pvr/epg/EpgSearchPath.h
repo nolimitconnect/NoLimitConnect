@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include <string>
 
 namespace PVR
@@ -47,3 +50,5 @@ private:
   int m_iId = -1;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

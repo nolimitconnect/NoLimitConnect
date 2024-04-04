@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIActionsParentalControl.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dialogs/GUIDialogNumeric.h"
@@ -72,3 +73,5 @@ ParentalCheckResult CPVRGUIActionsParentalControl::CheckParentalPIN() const
     return ParentalCheckResult::CANCELED;
   }
 }
+
+#endif // HAVE_ADDONS

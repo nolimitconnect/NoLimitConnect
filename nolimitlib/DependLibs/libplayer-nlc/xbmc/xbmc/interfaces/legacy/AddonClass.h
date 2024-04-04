@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 /**
  * Defining LOG_LIFECYCLE_EVENTS will log all instantiations, deletions
  *  and also reference countings (increments and decrements) that take
@@ -207,3 +210,5 @@ namespace XBMCAddon
 
   };
 }
+
+#endif // HAVE_ADDONS

@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
+
 #include "settings/SettingControl.h"
 #include "settings/SettingCreator.h"
 #include "settings/SettingsBase.h"
@@ -202,3 +204,5 @@ class CAddonSettings : public CSettingsBase,
   };
 
 } // namespace ADDON
+
+#endif // HAVE_ADDONS

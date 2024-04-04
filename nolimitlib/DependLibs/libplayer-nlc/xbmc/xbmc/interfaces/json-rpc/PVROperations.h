@@ -8,6 +8,7 @@
 
 #pragma once
 #include "config_components_kodi.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "FileItemHandler.h"
@@ -55,8 +56,10 @@ namespace JSONRPC
 
   private:
     static JSONRPC_STATUS GetPropertyValue(const std::string &property, CVariant &result);
+
     static void FillChannelGroupDetails(const std::shared_ptr<PVR::CPVRChannelGroup> &channelGroup, const CVariant &parameterObject, CVariant &result, bool append = false);
   };
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

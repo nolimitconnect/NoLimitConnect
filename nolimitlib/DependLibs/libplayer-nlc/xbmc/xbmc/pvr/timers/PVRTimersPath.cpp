@@ -7,6 +7,7 @@
  */
 
 #include "PVRTimersPath.h"
+#if HAVE_ADDONS
 
 #include "utils/StringUtils.h"
 #include "utils/URIUtils.h"
@@ -80,3 +81,5 @@ bool CPVRTimersPath::Init(const std::string& strPath)
 
   return m_bValid;
 }
+
+#endif // HAVE_ADDONS

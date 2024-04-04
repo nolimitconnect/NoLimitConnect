@@ -7,6 +7,7 @@
  */
 
 #include "WeatherManager.h"
+#if HAVE_WEATHER
 
 #include "LangInfoKodi.h"
 #include "ServiceBroker.h"
@@ -185,5 +186,7 @@ void CWeatherManager::OnSettingAction(const std::shared_ptr<const CSetting>& set
       Refresh();
     }
   }
+
 }
 
+#endif // HAVE_WEATHER

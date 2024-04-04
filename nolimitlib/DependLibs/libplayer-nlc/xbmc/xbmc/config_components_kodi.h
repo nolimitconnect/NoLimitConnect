@@ -287,7 +287,6 @@
 #define PLT_HTTP_DEFAULT_SERVER "UPnP/1.0 DLNADOC/1.50 Kodi"
 #define PLT_HTTP_DEFAULT_USER_AGENT "UPnP/1.0 DLNADOC/1.50 Kodi"
 
-#define HAVE_DLL_LIB_CURL			0
 #define HAVE_DLL_LIB_ASS			0
 #define HAVE_DLL_LIB_IMAGE			0
 #define HAVE_DLL_LIB_SHAIRPLAY		0
@@ -298,15 +297,20 @@
 #define HAVE_DLL_LIB_EXIF			0
 #define HAVE_DLL_LIB_CPLUFF			0
 
+#define HAVE_LIB_CDIO               0
+#define HAVE_LIB_CURL			    0
+#define HAVE_ADDONS			        0
+#define HAVE_WEATHER			    0
+
 #define ENABLE_ADDON_CODEC          0
 #define ENABLE_ADDONS_BINARY        0
 #define ENABLE_BLURAY               0
 #define ENABLE_DVD_NAV              0
 #define ENABLE_GAMES                0
-#define ENABLE_JSON                 1
+#define ENABLE_JSON                 0
 #define ENABLE_PERIPHERALS          0
 #define ENABLE_POWER_HANDLING       0
-#define ENABLE_PVR                  1
+#define ENABLE_PVR                  0
 #define ENABLE_RADIO                0
 #define ENABLE_RSS                  0
 #define ENABLE_SHAREPLAY            0

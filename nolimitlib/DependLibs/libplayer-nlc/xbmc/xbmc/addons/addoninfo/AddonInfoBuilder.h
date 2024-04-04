@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
 
 #include <map>
 #include <memory>
@@ -107,3 +108,5 @@ private:
   AddonInfoPtr m_addonInfo;
 };
 }
+
+#endif // HAVE_ADDONS

@@ -7,6 +7,7 @@
  */
 
 #include "PVREventLogJob.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "dialogs/GUIDialogKaiToast.h"
@@ -54,3 +55,5 @@ bool CPVREventLogJob::DoWork()
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

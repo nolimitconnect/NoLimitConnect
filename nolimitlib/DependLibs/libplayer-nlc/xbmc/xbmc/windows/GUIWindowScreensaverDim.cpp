@@ -36,6 +36,7 @@ void CGUIWindowScreensaverDim::UpdateVisibility()
     if (m_visible)
       return;
 
+#if HAVE_ADDONS
     std::string usedId = appPower->ScreensaverIdInUse();
     if  (usedId == "screensaver.xbmc.builtin.dim" ||
          usedId == "screensaver.xbmc.builtin.black")
@@ -50,6 +51,10 @@ void CGUIWindowScreensaverDim::UpdateVisibility()
         m_newDimLevel = 100.0f;
       Open();
     }
+#else
+     m_visible = true;
+     Open();
+#endif // HAVE_ADDONS
   }
   else if (m_visible)
   {

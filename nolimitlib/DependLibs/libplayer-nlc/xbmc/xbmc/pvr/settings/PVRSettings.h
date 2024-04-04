@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "settings/lib/ISettingCallback.h"
 #include "settings/lib/ISettingsHandler.h"
 #include "threads/CriticalSection.h"
@@ -74,3 +77,5 @@ namespace PVR
     static unsigned int m_iInstances;
   };
 }
+
+#endif // HAVE_ADDONS

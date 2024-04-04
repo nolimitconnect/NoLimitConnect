@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "music/infoscanner/MusicInfoScanner.h"
 #include "music/jobs/MusicLibraryJob.h"
 
@@ -48,3 +51,5 @@ private:
   bool m_showProgress;
   int m_flags;
 };
+
+#endif // HAVE_ADDONS

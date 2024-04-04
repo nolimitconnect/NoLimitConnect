@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIWindow.h"
 
 #include <memory>
@@ -40,3 +43,5 @@ protected:
 private:
   std::unique_ptr<KODI::ADDONS::CScreenSaver> m_addon;
 };
+
+#endif // HAVE_ADDONS

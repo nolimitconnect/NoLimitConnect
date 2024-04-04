@@ -39,6 +39,7 @@ bool CGUIDialogMusicOSD::OnMessage(CGUIMessage &message)
       unsigned int iControl = message.GetSenderId();
       if (iControl == CONTROL_VIS_BUTTON)
       {
+#if HAVE_ADDONS
         std::string addonID;
         if (CGUIWindowAddonBrowser::SelectAddonID(ADDON::AddonType::VISUALIZATION, addonID, true) ==
             1)
@@ -48,6 +49,7 @@ bool CGUIDialogMusicOSD::OnMessage(CGUIMessage &message)
           settings->Save();
           CServiceBroker::GetGUI()->GetWindowManager().SendMessage(GUI_MSG_VISUALISATION_RELOAD, 0, 0);
         }
+#endif // HAVE_ADDONS
       }
       else if (iControl == CONTROL_LOCK_BUTTON)
       {

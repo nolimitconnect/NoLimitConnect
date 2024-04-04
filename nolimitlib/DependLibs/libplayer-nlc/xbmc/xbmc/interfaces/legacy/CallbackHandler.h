@@ -9,6 +9,8 @@
 #pragma once
 
 #include "AddonClass.h"
+#if HAVE_ADDONS
+
 #include "CallbackFunction.h"
 
 namespace XBMCAddon
@@ -56,3 +58,5 @@ namespace XBMCAddon
   };
 
 }
+
+#endif // HAVE_ADDONS

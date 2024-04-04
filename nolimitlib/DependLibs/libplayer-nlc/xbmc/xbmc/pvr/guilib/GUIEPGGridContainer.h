@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "guilib/DirtyRegion.h"
 #include "guilib/GUIControl.h"
 #include "guilib/GUIListItemLayout.h"
@@ -272,3 +275,5 @@ namespace PVR
     int m_itemStartBlock = 0;
   };
 }
+
+#endif // HAVE_ADDONS

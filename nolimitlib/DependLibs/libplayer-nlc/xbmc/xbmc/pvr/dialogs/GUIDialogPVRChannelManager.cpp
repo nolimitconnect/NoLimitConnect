@@ -7,6 +7,7 @@
  */
 
 #include "GUIDialogPVRChannelManager.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "GUIPassword.h"
@@ -1118,3 +1119,5 @@ void CGUIDialogPVRChannelManager::Renumber()
     }
   }
 }
+
+#endif // HAVE_ADDONS

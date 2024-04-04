@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "AddonString.h"
 #include "Tuple.h"
 
@@ -332,3 +335,5 @@ namespace XBMCAddon
   }
 }
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
+
+#endif // HAVE_ADDONS

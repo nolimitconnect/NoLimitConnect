@@ -365,6 +365,7 @@ std::string CLabelFormatter::GetMaskContent(const CMaskString &mask, const CFile
     if (item->HasProperty("Addon.Status"))
       value = item->GetProperty("Addon.Status").asString();
     break;
+#if HAVE_ADDONS
   case 'i': // Install date
     if (item->HasAddonInfo() && item->GetAddonInfo()->InstallDate().IsValid())
       value = item->GetAddonInfo()->InstallDate().GetAsLocalizedDate();
@@ -377,6 +378,7 @@ std::string CLabelFormatter::GetMaskContent(const CMaskString &mask, const CFile
     if (item->HasAddonInfo() && item->GetAddonInfo()->LastUpdated().IsValid())
       value = item->GetAddonInfo()->LastUpdated().GetAsLocalizedDate();
     break;
+#endif // HAVE_ADDONS
   case 'f': // BPM
     if (music)
       value = std::to_string(music->GetBPM());

@@ -49,7 +49,7 @@ namespace GAME
 #endif // ENABLE_GAMES
 }
 
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
 namespace PVR
 {
 class CPVRChannel;
@@ -119,7 +119,7 @@ public:
   explicit CFileItem(const CGenre& genre);
   explicit CFileItem(const MUSIC_INFO::CMusicInfoTag& music);
   explicit CFileItem(const CVideoInfoTag& movie);
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
   explicit CFileItem(const std::shared_ptr<PVR::CPVREpgInfoTag>& tag);
   explicit CFileItem(const std::shared_ptr<PVR::CPVREpgSearchFilter>& filter);
   explicit CFileItem(const std::shared_ptr<PVR::CPVRChannelGroupMember>& channelGroupMember);
@@ -246,7 +246,8 @@ public:
   bool IsMultiPath() const;
   bool IsMusicDb() const;
   bool IsVideoDb() const;
-#if ENABLE_PVR
+
+#if ENABLE_PVR && HAVE_ADDONS
   bool IsEPG() const;
   bool IsPVRChannel() const;
   bool IsPVRChannelGroup() const;
@@ -275,7 +276,7 @@ public:
   bool IsFileFolder(EFileFolderType types = EFILEFOLDER_MASK_ALL) const;
   bool IsRemovable() const;
 
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
   bool IsPVR() const;
 #else
   bool IsPVR() const { return false; }
@@ -315,6 +316,7 @@ public:
 
   const CVideoInfoTag* GetVideoInfoTag() const;
   
+#if HAVE_ADDONS
   #if ENABLE_PVR
   inline bool HasEPGInfoTag() const
   {
@@ -366,6 +368,7 @@ public:
     return m_pvrTimerInfoTag;
   }
   #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   /*!
    \brief return the item to play. will be almost 'this', but can be different (e.g. "Play recording" from PVR EPG grid window)
@@ -668,10 +671,12 @@ private:
    */
   CBookmark GetResumePoint() const;
 
+  #if ENABLE_PVR && HAVE_ADDONS
   /*!
    \brief Fill item's music tag from given epg tag.
    */
   void FillMusicInfoTag(const std::shared_ptr<PVR::CPVREpgInfoTag>& tag);
+  #endif // ENABLE_PVR && HAVE_ADDONS
 
   std::string m_strPath;            ///< complete path to item
   std::string m_strDynPath;
@@ -685,11 +690,14 @@ private:
   bool m_doContentLookup;
   MUSIC_INFO::CMusicInfoTag* m_musicInfoTag;
   CVideoInfoTag* m_videoInfoTag;
+  #if ENABLE_PVR && HAVE_ADDONS
   std::shared_ptr<PVR::CPVREpgInfoTag> m_epgInfoTag;
   std::shared_ptr<PVR::CPVREpgSearchFilter> m_epgSearchFilter;
   std::shared_ptr<PVR::CPVRRecording> m_pvrRecordingInfoTag;
   std::shared_ptr<PVR::CPVRTimerInfoTag> m_pvrTimerInfoTag;
   std::shared_ptr<PVR::CPVRChannelGroupMember> m_pvrChannelGroupMemberInfoTag;
+  #endif // ENABLE_PVR && HAVE_ADDONS
+
   CPictureInfoTag* m_pictureInfoTag;
   std::shared_ptr<const ADDON::IAddon> m_addonInfo;
   #if ENABLE_GAMES

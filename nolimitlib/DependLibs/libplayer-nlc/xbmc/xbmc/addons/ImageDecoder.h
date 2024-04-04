@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/IAddonSupportCheck.h"
 #include "addons/binary-addons/AddonInstanceHandler.h"
 #include "addons/kodi-dev-kit/include/kodi/addon-instance/ImageDecoder.h"
@@ -71,3 +74,5 @@ private:
 
 } /* namespace ADDONS */
 } /* namespace KODI */
+
+#endif // HAVE_ADDONS

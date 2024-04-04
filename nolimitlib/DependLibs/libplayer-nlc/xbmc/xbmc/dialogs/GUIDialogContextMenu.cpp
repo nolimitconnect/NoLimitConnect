@@ -237,7 +237,11 @@ void CGUIDialogContextMenu::GetContextButtons(const std::string &type, const CFi
       // Note. Temporarily disabled ability to remove plugin sources until installer is operational
 
       NlcUrl url(share->strPath);
+#if HAVE_ADDONS
       bool isAddon = ADDON::TranslateContent(url.GetProtocol()) != CONTENT_NONE;
+#else
+      bool isAddon = false;
+#endif // HAVE_ADDONS
       if (!share->m_ignore && !isAddon)
         buttons.Add(CONTEXT_BUTTON_EDIT_SOURCE, 1027); // Edit Source
       if (type != "video")

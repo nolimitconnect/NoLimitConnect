@@ -55,8 +55,10 @@ void CGUIInfoColor::Parse(const std::string &label, int context)
   {
     label2 = label.substr(5, label.length() - 6);
     m_info = infoMgr.TranslateSkinVariableString(label2, context);
+#if HAVE_ADDONS
     if (!m_info)
       m_info = infoMgr.RegisterSkinVariableString(g_SkinInfo->CreateSkinVariable(label2, context));
+#endif // HAVE_ADDONS
     return;
   }
 

@@ -85,8 +85,10 @@ static void AnnounceRemove(const std::string& content, int id)
   CVariant data;
   data["type"] = content;
   data["id"] = id;
+#if HAVE_ADDONS
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
     data["transaction"] = true;
+#endif // HAVE_ADDONS
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::AudioLibrary, "OnRemove", data);
 }
 
@@ -95,8 +97,10 @@ static void AnnounceUpdate(const std::string& content, int id, bool added = fals
   CVariant data;
   data["type"] = content;
   data["id"] = id;
+#if HAVE_ADDONS
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
     data["transaction"] = true;
+#endif // HAVE_ADDONS
   if (added)
     data["added"] = true;
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::AudioLibrary, "OnUpdate", data);
@@ -916,7 +920,11 @@ bool CMusicDatabase::UpdateAlbum(CAlbum& album)
               StringUtils::Join(album.styles, itemSeparator), //
               StringUtils::Join(album.themes, itemSeparator), //
               album.strReview, //
+#if HAVE_LIB_CURL
               album.thumbURL.GetData(), //
+#else
+               "",
+#endif // HAVE_LIB_CURL
               album.strLabel, //
               album.strType, //
               album.strReleaseStatus, //
@@ -1731,25 +1739,29 @@ bool CMusicDatabase::UpdateArtist(const CArtist& artist)
   const std::string itemSeparator =
       CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_musicItemSeparator;
 
-  UpdateArtist(artist.idArtist, //
-               artist.strArtist, //
-               artist.strSortName, //
-               artist.strMusicBrainzArtistID, //
-               artist.bScrapedMBID, //
-               artist.strType, //
-               artist.strGender, //
-               artist.strDisambiguation, //
-               artist.strBorn, //
-               artist.strFormed, //
-               StringUtils::Join(artist.genre, itemSeparator), //
-               StringUtils::Join(artist.moods, itemSeparator), //
-               StringUtils::Join(artist.styles, itemSeparator), //
-               StringUtils::Join(artist.instruments, itemSeparator), //
-               artist.strBiography, //
-               artist.strDied, //
-               artist.strDisbanded, //
-               StringUtils::Join(artist.yearsActive, itemSeparator).c_str(), //
-               artist.thumbURL.GetData());
+  UpdateArtist( artist.idArtist, //
+                artist.strArtist, //
+                artist.strSortName, //
+                artist.strMusicBrainzArtistID, //
+                artist.bScrapedMBID, //
+                artist.strType, //
+                artist.strGender, //
+                artist.strDisambiguation, //
+                artist.strBorn, //
+                artist.strFormed, //
+                StringUtils::Join( artist.genre, itemSeparator ), //
+                StringUtils::Join( artist.moods, itemSeparator ), //
+                StringUtils::Join( artist.styles, itemSeparator ), //
+                StringUtils::Join( artist.instruments, itemSeparator ), //
+                artist.strBiography, //
+                artist.strDied, //
+                artist.strDisbanded, //
+                StringUtils::Join( artist.yearsActive, itemSeparator ).c_str(), //
+#if HAVE_LIB_CURL
+                artist.thumbURL.GetData() );
+#else
+                "" );
+#endif // HAVE_LIB_CURL
 
   DeleteArtistDiscography(artist.idArtist);
   for (const auto& disc : artist.discography)
@@ -3132,8 +3144,10 @@ CAlbum CMusicDatabase::GetAlbumFromDataset(const dbiplus::sql_record* const reco
   album.strReleaseDate = record->at(offset + album_strReleaseDate).get_asString();
   album.strOrigReleaseDate = record->at(offset + album_strOrigReleaseDate).get_asString();
   album.bBoxedSet = record->at(offset + album_bBoxedSet).get_asInt() == 1;
+  #if HAVE_LIB_CURL
   if (imageURL)
     album.thumbURL.ParseFromData(record->at(offset + album_strThumbURL).get_asString());
+  #endif // HAVE_LIB_CURL
   album.fRating = record->at(offset + album_fRating).get_asFloat();
   album.iUserrating = record->at(offset + album_iUserrating).get_asInt();
   album.iVotes = record->at(offset + album_iVotes).get_asInt();
@@ -3233,10 +3247,12 @@ CArtist CMusicDatabase::GetArtistFromDataset(const dbiplus::sql_record* const re
   artist.SetDateNew(record->at(offset + artist_dateNew).get_asString());
   artist.SetDateUpdated(record->at(offset + artist_dateModified).get_asString());
 
+  #if HAVE_LIB_CURL
   if (needThumb)
   {
     artist.thumbURL.ParseFromData(record->at(artist_strImage).get_asString());
   }
+  #endif // HAVE_LIB_CURL
 
   return artist;
 }
@@ -4806,11 +4822,13 @@ void CMusicDatabase::Clean()
 {
   // If we are scanning for music info in the background,
   // other writing access to the database is prohibited.
+#if HAVE_ADDONS
   if (CMusicLibraryQueue::GetInstance().IsScanningLibrary())
   {
     HELPERS::ShowOKDialogText(CVariant{189}, CVariant{14057});
     return;
   }
+#endif // HAVE_ADDONS
 
   if (HELPERS::ShowYesNoDialogText(CVariant{313}, CVariant{333}) == DialogResponse::CHOICE_YES)
   {
@@ -11432,6 +11450,7 @@ bool CMusicDatabase::CommitTransaction()
   return false;
 }
 
+#if HAVE_ADDONS
 bool CMusicDatabase::SetScraperAll(const std::string& strBaseDir, const ADDON::ScraperPtr& scraper)
 {
   if (nullptr == m_pDB)
@@ -11655,6 +11674,7 @@ bool CMusicDatabase::ScraperInUse(const std::string& scraperID) const
   }
   return false;
 }
+#endif // HAVE_ADDONS
 
 bool CMusicDatabase::GetItems(const std::string& strBaseDir,
                               CFileItemList& items,
@@ -13012,6 +13032,8 @@ bool CMusicDatabase::GetArtTypes(const MediaType& mediaType, std::vector<std::st
 std::vector<std::string> CMusicDatabase::GetAvailableArtTypesForItem(int mediaId,
                                                                      const MediaType& mediaType)
 {
+  std::vector<std::string> result;
+#if HAVE_LIB_CURL
   CScraperUrl thumbURL;
   if (mediaType == MediaTypeArtist)
   {
@@ -13026,7 +13048,6 @@ std::vector<std::string> CMusicDatabase::GetAvailableArtTypesForItem(int mediaId
       thumbURL = album.thumbURL;
   }
 
-  std::vector<std::string> result;
   for (const auto& urlEntry : thumbURL.GetUrls())
   {
     std::string artType = urlEntry.m_aspect;
@@ -13035,9 +13056,12 @@ std::vector<std::string> CMusicDatabase::GetAvailableArtTypesForItem(int mediaId
     if (std::find(result.begin(), result.end(), artType) == result.end())
       result.push_back(artType);
   }
+#endif // HAVE_LIB_CURL
+
   return result;
 }
 
+#if HAVE_LIB_CURL
 std::vector<CScraperUrl::SUrlEntry> CMusicDatabase::GetAvailableArtForItem(
     int mediaId, const MediaType& mediaType, const std::string& artType)
 {
@@ -13065,6 +13089,7 @@ std::vector<CScraperUrl::SUrlEntry> CMusicDatabase::GetAvailableArtForItem(
   }
   return result;
 }
+#endif // HAVE_LIB_CURL
 
 int CMusicDatabase::GetOrderFilter(const std::string& type,
                                    const SortDescription& sorting,

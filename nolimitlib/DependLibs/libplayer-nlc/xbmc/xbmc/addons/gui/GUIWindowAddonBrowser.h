@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "ThumbLoader.h"
 #include "addons/RepositoryUpdater.h"
 #include "windows/GUIMediaWindow.h"
@@ -113,3 +116,5 @@ private:
   void OnEvent(const ADDON::AddonEvent& event);
   CProgramThumbLoader m_thumbLoader;
 };
+
+#endif // HAVE_ADDONS

@@ -9,6 +9,7 @@
 //! @todo use Observable here, so we can use event driven operations later
 
 #include "PVRChannelGroup.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon-instance/pvr/pvr_channel_groups.h"
@@ -1247,3 +1248,5 @@ int CPVRChannelGroup::GetClientPriority() const
   }
   return *m_clientPriority;
 }
+
+#endif // HAVE_ADDONS

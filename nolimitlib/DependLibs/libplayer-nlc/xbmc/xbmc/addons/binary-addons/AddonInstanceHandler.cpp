@@ -7,6 +7,7 @@
  */
 
 #include "AddonInstanceHandler.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "addons/AddonVersion.h"
@@ -384,3 +385,4 @@ bool IAddonInstanceHandler::set_instance_setting_string(const KODI_ADDON_INSTANC
 }
 
 } /* namespace ADDON */
+#endif // HAVE_ADDONS

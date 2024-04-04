@@ -37,6 +37,7 @@ IImage* ImageFactory::CreateLoader(const NlcUrl& url)
 
 IImage* ImageFactory::CreateLoaderFromMimeType(const std::string& strMimeType)
 {
+#if HAVE_ADDONS
   auto addonInfos = CServiceBroker::GetExtsMimeSupportList().GetMimetypeSupportedAddonInfos(
       strMimeType, CExtsMimeSupportList::FilterSelect::all);
   for (const auto& addonInfo : addonInfos)
@@ -54,6 +55,7 @@ IImage* ImageFactory::CreateLoaderFromMimeType(const std::string& strMimeType)
     }
     return result.release();
   }
+#endif // HAVE_ADDONS
 
   return new CFFmpegImage(strMimeType);
 }

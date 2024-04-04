@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Addon.h"
 #include "addons/kodi-dev-kit/include/kodi/c-api/addon_base.h"
 
@@ -161,3 +164,5 @@ private:
 };
 
 } /* namespace ADDON */
+
+#endif // HAVE_ADDONS

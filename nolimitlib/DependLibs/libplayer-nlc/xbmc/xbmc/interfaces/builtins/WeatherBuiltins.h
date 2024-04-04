@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_WEATHER
+
 #include "Builtins.h"
 
 //! \brief Class providing weather related built-in commands.
@@ -17,3 +20,5 @@ public:
   //! \brief Returns the map of operations.
   CBuiltins::CommandMap GetOperations() const;
 };
+
+#endif // HAVE_WEATHER

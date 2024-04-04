@@ -7,6 +7,7 @@
  */
 
 #include "PVRManager.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -1006,3 +1007,5 @@ void CPVRManager::ConnectionStateChange(CPVRClient* client,
     return true;
   });
 }
+
+#endif // HAVE_ADDONS

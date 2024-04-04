@@ -7,6 +7,7 @@
  */
 
 #include "VideoInfoDownloader.h"
+#if HAVE_LIB_CURL
 
 #include "dialogs/GUIDialogProgress.h"
 #include "filesystem/CurlFile.h"
@@ -261,3 +262,4 @@ void CVideoInfoDownloader::CloseThread()
   m_found = 0;
 }
 
+#endif // HAVE_LIB_CURL

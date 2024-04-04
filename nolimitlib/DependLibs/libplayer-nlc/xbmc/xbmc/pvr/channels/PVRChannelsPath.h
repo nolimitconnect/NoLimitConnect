@@ -9,6 +9,7 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
 
 class CDateTime;
 
@@ -77,3 +78,5 @@ namespace PVR
     int m_iChannelUID = -1;
   };
 }
+
+#endif // HAVE_ADDONS

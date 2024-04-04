@@ -7,6 +7,7 @@
  */
 
 #include "InputStreamPVRRecording.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "ServiceBroker.h"
@@ -103,3 +104,4 @@ bool CInputStreamPVRRecording::CanSeekPVRStream()
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

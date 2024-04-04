@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUIDirectory.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -623,3 +624,5 @@ bool CPVRGUIDirectory::GetTimersDirectory(CFileItemList& results) const
 
   return false;
 }
+
+#endif // HAVE_ADDONS

@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/addoninfo/AddonInfo.h"
+#if HAVE_ADDONS
+
 #include "guilib/GUIDialog.h"
 
 #include <memory>
@@ -160,3 +162,5 @@ private:
   std::vector<ADDON::DependencyInfo> m_deps;
   std::vector<CInstalledWithAvailable> m_depsInstalledWithAvailable;
 };
+
+#endif // HAVE_ADDONS

@@ -33,7 +33,9 @@ void CVideoInfoTag::Reset()
   m_strTagLine.clear();
   m_strPlotOutline.clear();
   m_strPlot.clear();
+#if HAVE_LIB_CURL
   m_strPictureURL.Clear();
+#endif // HAVE_LIB_CURL
   m_strTitle.clear();
   m_strShowTitle.clear();
   m_strOriginalTitle.clear();
@@ -162,6 +164,7 @@ bool CVideoInfoTag::Save(TiXmlNode *node, const std::string &tag, bool savePathI
   XMLUtils::SetString(movie, "plot", m_strPlot);
   XMLUtils::SetString(movie, "tagline", m_strTagLine);
   XMLUtils::SetInt(movie, "runtime", GetDuration() / 60);
+#if HAVE_LIB_CURL
   if (m_strPictureURL.HasData())
   {
     CXBMCTinyXML doc;
@@ -173,6 +176,8 @@ bool CVideoInfoTag::Save(TiXmlNode *node, const std::string &tag, bool savePathI
       thumb = thumb->NextSibling("thumb");
     }
   }
+#endif // HAVE_LIB_CURL
+
   if (m_fanart.m_xml.size())
   {
     CXBMCTinyXML doc;
@@ -278,7 +283,9 @@ bool CVideoInfoTag::Save(TiXmlNode *node, const std::string &tag, bool savePathI
     XMLUtils::SetString(node, "name", it->strName);
     XMLUtils::SetString(node, "role", it->strRole);
     XMLUtils::SetInt(node, "order", it->order);
+#if HAVE_LIB_CURL
     XMLUtils::SetString(node, "thumb", it->thumbUrl.GetFirstUrlByType().m_url);
+#endif // HAVE_LIB_CURL
   }
   XMLUtils::SetStringArray(movie, "artist", m_artist);
   XMLUtils::SetStringArray(movie, "showlink", m_showLink);
@@ -339,8 +346,10 @@ void CVideoInfoTag::Merge(CVideoInfoTag& other)
     m_strPlotOutline = other.m_strPlotOutline;
   if (!other.m_strPlot.empty())
     m_strPlot = other.m_strPlot;
+#if HAVE_LIB_CURL
   if (other.m_strPictureURL.HasData())
     m_strPictureURL = other.m_strPictureURL;
+#endif // HAVE_LIB_CURL
   if (!other.m_strTitle.empty())
     m_strTitle = other.m_strTitle;
   if (!other.m_strShowTitle.empty())
@@ -485,7 +494,9 @@ void CVideoInfoTag::Archive(CArchive& ar)
     ar << m_strTagLine;
     ar << m_strPlotOutline;
     ar << m_strPlot;
+#if HAVE_LIB_CURL
     ar << m_strPictureURL.GetData();
+#endif // HAVE_LIB_CURL
     ar << m_fanart.m_xml;
     ar << m_strTitle;
     ar << m_strSortTitle;
@@ -498,7 +509,9 @@ void CVideoInfoTag::Archive(CArchive& ar)
       ar << m_cast[i].strRole;
       ar << m_cast[i].order;
       ar << m_cast[i].thumb;
+#if HAVE_LIB_CURL
       ar << m_cast[i].thumbUrl.GetData();
+#endif // HAVE_LIB_CURL
     }
 
     ar << m_set.title;
@@ -581,7 +594,9 @@ void CVideoInfoTag::Archive(CArchive& ar)
     ar >> m_strPlot;
     std::string data;
     ar >> data;
+#if HAVE_LIB_CURL
     m_strPictureURL.SetData(data);
+#endif // HAVE_LIB_CURL
     ar >> m_fanart.m_xml;
     ar >> m_strTitle;
     ar >> m_strSortTitle;
@@ -599,7 +614,9 @@ void CVideoInfoTag::Archive(CArchive& ar)
       ar >> info.thumb;
       std::string strXml;
       ar >> strXml;
+#if HAVE_LIB_CURL
       info.thumbUrl.ParseFromData(strXml);
+#endif // HAVE_LIB_CURL
       m_cast.push_back(info);
     }
 
@@ -1138,6 +1155,7 @@ void CVideoInfoTag::ParseNative(const TiXmlElement* movie, bool prioritise)
     SetBasePath(value);
 
   // make sure the picture URLs have been parsed
+#if HAVE_LIB_CURL
   m_strPictureURL.Parse();
   size_t iThumbCount = m_strPictureURL.GetUrls().size();
   std::string xmlAdd = m_strPictureURL.GetData();
@@ -1163,6 +1181,7 @@ void CVideoInfoTag::ParseNative(const TiXmlElement* movie, bool prioritise)
     m_strPictureURL.SetUrls(thumbUrls);
     m_strPictureURL.SetData(xmlAdd);
   }
+#endif // HAVE_LIB_CURL
 
   const std::string itemSeparator = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_videoItemSeparator;
 
@@ -1220,7 +1239,9 @@ void CVideoInfoTag::ParseNative(const TiXmlElement* movie, bool prioritise)
       const TiXmlElement* thumb = node->FirstChildElement("thumb");
       while (thumb)
       {
+#if HAVE_LIB_CURL
         info.thumbUrl.ParseAndAppendUrl(thumb);
+#endif // HAVE_LIB_CURL
         thumb = thumb->NextSiblingElement("thumb");
       }
       const char* clear=node->Attribute("clear");
@@ -1502,10 +1523,12 @@ void CVideoInfoTag::SetSortTitle(std::string sortTitle)
   m_strSortTitle = Trim(std::move(sortTitle));
 }
 
+#if HAVE_LIB_CURL
 void CVideoInfoTag::SetPictureURL(CScraperUrl &pictureURL)
 {
   m_strPictureURL = pictureURL;
 }
+#endif // HAVE_LIB_CURL
 
 void CVideoInfoTag::SetRating(float rating, int votes, const std::string& type /* = "" */, bool def /* = false */)
 {

@@ -7,6 +7,8 @@
  */
 
 #include "FavouritesOperations.h"
+#if ENABLE_JSON
+
 #include "NlcUrl.h"
 #include "NlcCoreUtil.h"
 
@@ -161,3 +163,5 @@ JSONRPC_STATUS CFavouritesOperations::AddFavourite(const std::string &method, IT
   else
     return FailedToExecute;
 }
+
+#endif // ENABLE_JSON

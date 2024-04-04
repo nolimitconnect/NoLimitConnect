@@ -722,6 +722,7 @@ JSONRPC_STATUS CAudioLibrary::GetAvailableArt(const std::string& method, ITransp
     return InternalError;
 
   CVariant availableart = CVariant(CVariant::VariantTypeArray);
+#if HAVE_LIB_CURL
   for (const auto& artentry : musicdatabase.GetAvailableArtForItem(mediaID, mediaType, artType))
   {
     CVariant item = CVariant(CVariant::VariantTypeObject);
@@ -731,6 +732,8 @@ JSONRPC_STATUS CAudioLibrary::GetAvailableArt(const std::string& method, ITransp
       item["previewurl"] = CTextureUtils::GetWrappedImageURL(artentry.m_preview);
     availableart.append(item);
   }
+#endif // HAVE_LIB_CURL
+
   result = CVariant(CVariant::VariantTypeObject);
   result["availableart"] = availableart;
 

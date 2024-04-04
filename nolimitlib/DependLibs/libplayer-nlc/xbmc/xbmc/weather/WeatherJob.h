@@ -9,6 +9,7 @@
 #pragma once
 
 #include "WeatherManager.h"
+#if HAVE_WEATHER
 
 #include <map>
 #include <string>
@@ -61,3 +62,5 @@ private:
 
   static bool m_imagesOkay;
 };
+
+#endif // HAVE_WEATHER

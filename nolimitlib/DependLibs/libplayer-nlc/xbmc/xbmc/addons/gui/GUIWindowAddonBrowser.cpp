@@ -7,6 +7,7 @@
  */
 
 #include "GUIWindowAddonBrowser.h"
+#if HAVE_ADDONS
 
 #include "ContextMenuManager.h"
 #include "FileItem.h"
@@ -646,3 +647,5 @@ std::string CGUIWindowAddonBrowser::GetStartFolder(const std::string& dir)
     return CGUIMediaWindow::GetStartFolder(dir);
 #endif // 0
 }
+
+#endif // HAVE_ADDONS

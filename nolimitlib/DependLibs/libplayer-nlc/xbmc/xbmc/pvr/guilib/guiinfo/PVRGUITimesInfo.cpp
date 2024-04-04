@@ -7,6 +7,7 @@
  */
 
 #include "PVRGUITimesInfo.h"
+#if HAVE_ADDONS
 
 #include "ServiceBroker.h"
 #include "cores/DataCacheCore.h"
@@ -422,3 +423,5 @@ bool CPVRGUITimesInfo::IsTimeshifting() const
   std::unique_lock<CCriticalSection> lock(m_critSection);
   return (m_iTimeshiftOffset > static_cast<unsigned int>(CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_iPVRTimeshiftThreshold));
 }
+
+#endif // HAVE_ADDONS

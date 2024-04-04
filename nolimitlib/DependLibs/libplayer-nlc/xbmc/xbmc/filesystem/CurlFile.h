@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CURL
+
 #include "IFile.h"
 #include "utils/RingBuffer.h"
 #include <map>
@@ -200,3 +203,5 @@ namespace XFILE
       long m_httpresponse;
   };
 }
+
+#endif // HAVE_LIB_CURL

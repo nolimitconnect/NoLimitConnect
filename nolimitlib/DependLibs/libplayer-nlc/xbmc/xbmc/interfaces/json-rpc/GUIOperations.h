@@ -9,6 +9,8 @@
 #pragma once
 
 #include "JSONRPC.h"
+#if ENABLE_JSON
+
 #include "rendering/RenderSystemTypes.h"
 
 class CVariant;
@@ -31,3 +33,5 @@ namespace JSONRPC
     static CVariant GetStereoModeObjectFromGuiMode(const RENDER_STEREO_MODE &mode);
   };
 }
+
+#endif // ENABLE_JSON

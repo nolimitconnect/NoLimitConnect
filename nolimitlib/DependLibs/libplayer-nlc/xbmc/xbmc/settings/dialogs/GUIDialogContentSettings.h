@@ -32,19 +32,24 @@ public:
   void SetContent(CONTENT_TYPE content);
   void ResetContent();
 
+#if HAVE_ADDONS
   const ADDON::ScraperPtr& GetScraper() const { return m_scraper; }
   void SetScraper(ADDON::ScraperPtr scraper) { m_scraper = std::move(scraper); }
 
   void SetScanSettings(const VIDEO::SScanSettings &scanSettings);
+#endif // HAVE_ADDONS
   bool GetScanRecursive() const { return m_scanRecursive; }
+
   bool GetUseDirectoryNames() const { return m_useDirectoryNames; }
   bool GetContainsSingleItem() const { return m_containsSingleItem; }
   bool GetExclude() const { return m_exclude; }
   bool GetNoUpdating() const { return m_noUpdating; }
   bool GetUseAllExternalAudio() const { return m_allExternalAudio; }
 
+#if HAVE_ADDONS
   static bool Show(ADDON::ScraperPtr& scraper, CONTENT_TYPE content = CONTENT_NONE);
   static bool Show(ADDON::ScraperPtr& scraper, VIDEO::SScanSettings& settings, CONTENT_TYPE content = CONTENT_NONE);
+#endif // HAVE_ADDONS
 
 protected:
   // specializations of CGUIWindow
@@ -76,10 +81,13 @@ private:
   * @brief The selected content type at dialog creation
   */
   CONTENT_TYPE m_originalContent = CONTENT_NONE;
+
+  #if HAVE_ADDONS
   /*!
   * @brief The currently selected scraper
   */
   ADDON::ScraperPtr m_scraper;
+  #endif // HAVE_ADDONS
 
   bool m_showScanSettings = false;
   bool m_scanRecursive = false;

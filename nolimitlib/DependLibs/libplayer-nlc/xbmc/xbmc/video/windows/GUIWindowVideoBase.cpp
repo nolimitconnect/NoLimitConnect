@@ -64,7 +64,7 @@ using namespace XFILE;
 using namespace VIDEODATABASEDIRECTORY;
 using namespace VIDEO;
 using namespace ADDON;
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
 #endif // ENABLE_PVR
 using namespace KODI::MESSAGING;
@@ -203,6 +203,7 @@ bool CGUIWindowVideoBase::OnMessage(CGUIMessage& message)
   return CGUIMediaWindow::OnMessage(message);
 }
 
+#if HAVE_ADDONS
 void CGUIWindowVideoBase::OnItemInfo(const CFileItem& fileItem, ADDON::ScraperPtr& scraper)
 {
   if (fileItem.IsParentFolder() || fileItem.m_bIsShareOrDrive || fileItem.IsPath("add") ||
@@ -438,6 +439,7 @@ bool CGUIWindowVideoBase::ShowIMDB(CFileItemPtr item, const ScraperPtr &info2, b
 
   return listNeedsUpdating;
 }
+#endif // HAVE_ADDONS
 
 void CGUIWindowVideoBase::OnQueueItem(int iItem, bool first)
 {
@@ -576,6 +578,7 @@ bool CGUIWindowVideoBase::OnItemInfo(int iItem)
      (item->IsPlayList() && !URIUtils::HasExtension(item->GetDynPath(), ".strm")))
     return false;
 
+#if HAVE_ADDONS
   if (!m_vecItems->IsPlugin() && (item->IsPlugin() || item->IsScript()))
     return CGUIDialogAddonInfo::ShowForItem(item);
 
@@ -585,6 +588,7 @@ bool CGUIWindowVideoBase::OnItemInfo(int iItem)
     return ShowIMDB(item, nullptr, true);
 
   ADDON::ScraperPtr scraper;
+#endif // HAVE_ADDONS
 
   // Match visibility test of CMusicInfo::IsVisible
   if (item->IsVideoDb() && item->HasVideoInfoTag() &&
@@ -605,6 +609,7 @@ bool CGUIWindowVideoBase::OnItemInfo(int iItem)
     else
       strDir = URIUtils::GetDirectory(item->GetPath());
 
+#if HAVE_ADDONS
     SScanSettings settings;
     bool foundDirectly = false;
     scraper = m_database.GetScraperForPath(strDir, settings, foundDirectly);
@@ -619,9 +624,12 @@ bool CGUIWindowVideoBase::OnItemInfo(int iItem)
 
     if (scraper && scraper->Content() == CONTENT_TVSHOWS && foundDirectly && !settings.parent_name_root) // dont lookup on root tvshow folder
       return true;
+#endif // HAVE_ADDONS
   }
 
+#if HAVE_ADDONS
   OnItemInfo(*item, scraper);
+#endif // HAVE_ADDONS
 
   // Return whether or not we have information to display.
   // Note: This will cause the default select action to start
@@ -647,8 +655,10 @@ void CGUIWindowVideoBase::LoadVideoInfo(CFileItemList& items,
   // determine content only if it isn't set
   if (content.empty())
   {
+#if HAVE_ADDONS
     content = database.GetContentForPath(items.GetPath());
     items.SetContent((content.empty() && !items.IsPlugin()) ? "files" : content);
+#endif // HAVE_ADDONS
   }
 
   /*
@@ -1016,6 +1026,7 @@ bool CGUIWindowVideoBase::OnContextButton(int itemNumber, CONTEXT_BUTTON button)
     {
       if( !item)
         return false;
+#if HAVE_ADDONS
       ADDON::ScraperPtr info;
       SScanSettings settings;
       GetScraperForItem(item.get(), info, settings);
@@ -1035,6 +1046,7 @@ bool CGUIWindowVideoBase::OnContextButton(int itemNumber, CONTEXT_BUTTON button)
       }
       else
         OnItemInfo(*item, info);
+#endif // HAVE_ADDONS
 
       return true;
     }
@@ -1274,12 +1286,14 @@ bool CGUIWindowVideoBase::GetDirectory(const std::string &strDirectory, CFileIte
   }
 
   m_stackingAvailable = StackingAvailable(items);
+#if HAVE_ADDONS
   // we may also be in a tvshow files listing
   // (ideally this should be removed, and our stack regexps tidied up if necessary
   // No "normal" episodes should stack, and multi-parts should be supported)
   ADDON::ScraperPtr info = m_database.GetScraperForPath(strDirectory);
   if (info && info->Content() == CONTENT_TVSHOWS)
     m_stackingAvailable = false;
+#endif // HAVE_ADDONS
 
   if (m_stackingAvailable && !items.IsStack() && CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(CSettings::SETTING_MYVIDEOS_STACKVIDEOS))
     items.Stack();
@@ -1461,6 +1475,7 @@ void CGUIWindowVideoBase::OnSearchItemFound(const CFileItem* pSelItem)
   m_viewControl.SetFocused();
 }
 
+#if HAVE_ADDONS
 int CGUIWindowVideoBase::GetScraperForItem(CFileItem *item, ADDON::ScraperPtr &info, SScanSettings& settings)
 {
   if (!item)
@@ -1481,6 +1496,7 @@ int CGUIWindowVideoBase::GetScraperForItem(CFileItem *item, ADDON::ScraperPtr &i
   info = m_database.GetScraperForPath(item->HasVideoInfoTag() && !item->GetVideoInfoTag()->m_strPath.empty() ? item->GetVideoInfoTag()->m_strPath : item->GetPath(), settings, foundDirectly);
   return foundDirectly ? 1 : 0;
 }
+#endif // HAVE_ADDONS
 
 void CGUIWindowVideoBase::OnScan(const std::string& strPath, bool scanAll)
 {
@@ -1512,6 +1528,7 @@ void CGUIWindowVideoBase::AppendAndClearSearchItems(CFileItemList &searchItems, 
 
 bool CGUIWindowVideoBase::OnUnAssignContent(const std::string &path, int header, int text)
 {
+#if HAVE_ADDONS
   bool bCanceled;
   CVideoDatabase db;
   db.Open();
@@ -1534,12 +1551,13 @@ bool CGUIWindowVideoBase::OnUnAssignContent(const std::string &path, int header,
     }
   }
   db.Close();
-  
+ #endif /// HAVE_ADDONS 
   return false;
 }
 
 void CGUIWindowVideoBase::OnAssignContent(const std::string &path)
 {
+#if HAVE_ADDONS
   bool bScan=false;
   CVideoDatabase db;
   db.Open();
@@ -1567,4 +1585,5 @@ void CGUIWindowVideoBase::OnAssignContent(const std::string &path)
   {
     CVideoLibraryQueue::GetInstance().ScanLibrary(path, true, true);
   }
+#endif // HAVE_ADDONS
 }

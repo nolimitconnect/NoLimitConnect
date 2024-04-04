@@ -7,6 +7,8 @@
  */
 
 #include "ApplicationOperations.h"
+#if ENABLE_JSON
+
 #include "LangInfoKodi.h"
 #include "NlcCoreUtil.h"
 
@@ -165,3 +167,5 @@ JSONRPC_STATUS CApplicationOperations::GetPropertyValue(const std::string &prope
 
   return OK;
 }
+
+#endif // ENABLE_JSON

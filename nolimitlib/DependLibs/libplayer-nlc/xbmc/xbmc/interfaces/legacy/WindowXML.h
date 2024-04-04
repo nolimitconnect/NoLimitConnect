@@ -9,6 +9,8 @@
 #pragma once
 
 #include "Window.h"
+#if HAVE_ADDONS
+
 #include "WindowDialogMixin.h"
 #include "swighelper.h"
 #include "windows/GUIMediaWindow.h"
@@ -557,3 +559,5 @@ namespace XBMCAddon
     ///@}
   }
 }
+
+#endif // HAVE_ADDONS

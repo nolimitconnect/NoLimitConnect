@@ -10,6 +10,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_LIB_CDIO
+
 // FileISO.h: interface for the CISOFile class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -44,3 +47,4 @@ protected:
 }
 
 #endif // !defined(AFX_FILEISO_H__C2FB9C6D_3319_4182_AB45_65E57EFAC8D1__INCLUDED_)
+#endif // HAVE_LIB_CDIO

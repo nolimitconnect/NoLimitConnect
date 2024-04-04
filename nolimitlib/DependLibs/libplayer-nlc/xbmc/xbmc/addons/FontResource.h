@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/Resource.h"
 
 #include <memory>
@@ -33,3 +36,5 @@ public:
 };
 
 }
+
+#endif // HAVE_ADDONS

@@ -33,6 +33,7 @@ public:
   // specialization of CGUIWindow
   bool HasListItems() const override { return true; }
 
+#if HAVE_ADDONS
   const ADDON::ScraperPtr& GetAlbumScraper() const { return m_albumscraper; }
   void SetAlbumScraper(ADDON::ScraperPtr scraper) { m_albumscraper = std::move(scraper); }
   const ADDON::ScraperPtr& GetArtistScraper() const { return m_artistscraper; }
@@ -45,6 +46,7 @@ public:
   \return 0 settings apply as system default, 1 to all items on node, 2 to just the selected item or -1 if dialog cancelled or error occurs
   */
   static int Show(ADDON::ScraperPtr& scraper);
+#endif // HAVE_ADDONS
 
   /*! \brief Show dialog to change the music scraping settings including default information providers for both artists or albums.
   This saves the settings when the dialog is confirmed.
@@ -75,6 +77,7 @@ private:
   void SetFocus(const std::string &settingid);
   void ResetDefaults();
 
+#if HAVE_ADDONS
   /*!
   * @brief The currently selected album scraper
   */
@@ -83,6 +86,7 @@ private:
   * @brief The currently selected artist scraper
   */
   ADDON::ScraperPtr m_artistscraper;
+#endif // HAVE_ADDONS
 
   std::string m_strArtistInfoPath;
   bool m_showSingleScraper = false;

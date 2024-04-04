@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/IPVRComponent.h"
 
 class CFileItem;
@@ -82,3 +85,5 @@ using EPG = CPVRGUIActionsEPG;
 } // namespace GUI
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

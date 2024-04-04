@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "pvr/PVRChannelNumberInputHandler.h"
 #include "pvr/dialogs/GUIDialogPVRItemsViewBase.h"
 #include "threads/SystemClock.h"
@@ -59,3 +62,5 @@ private:
   XbmcThreads::EndTime<> m_refreshTimeout;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

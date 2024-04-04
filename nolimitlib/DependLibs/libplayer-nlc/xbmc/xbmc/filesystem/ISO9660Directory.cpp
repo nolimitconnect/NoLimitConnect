@@ -7,6 +7,8 @@
  */
 
 #include "ISO9660Directory.h"
+#if HAVE_LIB_CDIO
+
 #include "NlcCoreUtil.h"
 #include "NlcUrl.h"
 
@@ -113,3 +115,5 @@ bool CISO9660Directory::Exists( const NlcUrl& url )
     CFileItemList items;
   return GetDirectory(url, items);
 }
+
+#endif // HAVE_LIB_CDIO

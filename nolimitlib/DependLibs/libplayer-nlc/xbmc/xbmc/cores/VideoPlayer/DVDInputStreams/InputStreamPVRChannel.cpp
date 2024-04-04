@@ -7,6 +7,7 @@
  */
 
 #include "InputStreamPVRChannel.h"
+#if HAVE_ADDONS
 #if ENABLE_PVR
 
 #include "ServiceBroker.h"
@@ -125,3 +126,4 @@ bool CInputStreamPVRChannel::CanSeekPVRStream()
 }
 
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS

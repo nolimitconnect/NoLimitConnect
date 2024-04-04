@@ -42,7 +42,11 @@ CGUIWindowDebugInfo::~CGUIWindowDebugInfo(void) = default;
 
 void CGUIWindowDebugInfo::UpdateVisibility()
 {
+#if HAVE_ADDONS
   if (LOG_LEVEL_DEBUG_FREEMEM <= CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_logLevel || g_SkinInfo->IsDebugging())
+#else
+   if (LOG_LEVEL_DEBUG_FREEMEM <= CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_logLevel)
+#endif // HAVE_ADDONS
     Open();
   else
     Close();
@@ -131,6 +135,7 @@ void CGUIWindowDebugInfo::Process(unsigned int currentTime, CDirtyRegionList &di
 #endif
   }
 
+#if HAVE_ADDONS
   // render the skin debug info
   if (g_SkinInfo->IsDebugging())
   {
@@ -166,6 +171,7 @@ void CGUIWindowDebugInfo::Process(unsigned int currentTime, CDirtyRegionList &di
             CGUIControlFactory::TranslateControlType(control->GetControlType()).c_str());
     }
   }
+#endif // HAVE_ADDONS
 
   float w, h;
   if (m_layout->Update(info))

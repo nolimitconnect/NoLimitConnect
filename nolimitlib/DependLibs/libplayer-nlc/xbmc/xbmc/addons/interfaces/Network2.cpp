@@ -46,6 +46,7 @@ void Interface_Network::DeInit(AddonGlobalInterface* addonInterface)
 
 bool Interface_Network::wake_on_lan(void* kodiBase, const char* mac)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || mac == nullptr)
   {
@@ -53,12 +54,14 @@ bool Interface_Network::wake_on_lan(void* kodiBase, const char* mac)
               kodiBase, static_cast<const void*>(mac));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CServiceBroker::GetNetwork().WakeOnLan(mac);
 }
 
 char* Interface_Network::get_ip_address(void* kodiBase)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr)
   {
@@ -66,6 +69,7 @@ char* Interface_Network::get_ip_address(void* kodiBase)
               kodiBase);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string titleIP;
   CNetworkInterface* iface = CServiceBroker::GetNetwork().GetFirstConnectedInterface();
@@ -82,6 +86,7 @@ char* Interface_Network::get_ip_address(void* kodiBase)
 
 char* Interface_Network::get_hostname(void* kodiBase)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr)
   {
@@ -89,6 +94,7 @@ char* Interface_Network::get_hostname(void* kodiBase)
               kodiBase);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string hostname;
   if (!CServiceBroker::GetNetwork().GetHostName(hostname))
@@ -102,6 +108,7 @@ char* Interface_Network::get_hostname(void* kodiBase)
 
 char* Interface_Network::get_user_agent(void* kodiBase)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr)
   {
@@ -109,6 +116,7 @@ char* Interface_Network::get_user_agent(void* kodiBase)
               kodiBase);
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = CSysInfo::GetUserAgent();
   char* buffer = nullptr;
@@ -119,6 +127,7 @@ char* Interface_Network::get_user_agent(void* kodiBase)
 
 bool Interface_Network::is_local_host(void* kodiBase, const char* hostname)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || hostname == nullptr)
   {
@@ -126,12 +135,14 @@ bool Interface_Network::is_local_host(void* kodiBase, const char* hostname)
               __FUNCTION__, kodiBase, static_cast<const void*>(hostname));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CServiceBroker::GetNetwork().IsLocalHost(hostname);
 }
 
 bool Interface_Network::is_host_on_lan(void* kodiBase, const char* hostname, bool offLineCheck)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || hostname == nullptr)
   {
@@ -139,12 +150,14 @@ bool Interface_Network::is_host_on_lan(void* kodiBase, const char* hostname, boo
               __FUNCTION__, kodiBase, static_cast<const void*>(hostname));
     return false;
   }
+#endif // HAVE_ADDONS
 
   return URIUtils::IsHostOnLAN(hostname, offLineCheck);
 }
 
 char* Interface_Network::dns_lookup(void* kodiBase, const char* url, bool* ret)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr || ret == nullptr)
   {
@@ -152,6 +165,7 @@ char* Interface_Network::dns_lookup(void* kodiBase, const char* url, bool* ret)
               __FUNCTION__, kodiBase, static_cast<const void*>(url), static_cast<void*>(ret));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string;
   *ret = CDNSNameCache::Lookup(url, string);
@@ -163,6 +177,7 @@ char* Interface_Network::dns_lookup(void* kodiBase, const char* url, bool* ret)
 
 char* Interface_Network::url_encode(void* kodiBase, const char* url)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (addon == nullptr || url == nullptr)
   {
@@ -170,6 +185,7 @@ char* Interface_Network::url_encode(void* kodiBase, const char* url)
               kodiBase, static_cast<const void*>(url));
     return nullptr;
   }
+#endif // HAVE_ADDONS
 
   std::string string = NlcUrl::Encode(url);
   char* buffer = nullptr;

@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "XBDateTime.h"
 #include "pvr/timers/PVRTimerType.h"
 #include "threads/CriticalSection.h"
@@ -642,3 +645,5 @@ private:
   mutable bool m_bProbedEpgTag = false;
 };
 } // namespace PVR
+
+#endif // HAVE_ADDONS

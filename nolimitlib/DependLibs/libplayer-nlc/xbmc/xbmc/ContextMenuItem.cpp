@@ -52,6 +52,7 @@ bool CContextMenuItem::Execute(const std::shared_ptr<CFileItem>& item) const
   if (!item || m_library.empty() || IsGroup())
     return false;
 
+#if HAVE_ADDONS
   ADDON::AddonPtr addon;
   if (!CServiceBroker::GetAddonMgr().GetAddon(m_addonId, addon, ADDON::OnlyEnabled::CHOICE_YES))
     return false;
@@ -59,6 +60,7 @@ bool CContextMenuItem::Execute(const std::shared_ptr<CFileItem>& item) const
   bool reuseLanguageInvoker = false;
   if (addon->ExtraInfo().find("reuselanguageinvoker") != addon->ExtraInfo().end())
     reuseLanguageInvoker = addon->ExtraInfo().at("reuselanguageinvoker") == "true";
+#endif // HAVE_ADDONS
 
 #ifdef HAS_PYTHON
   LanguageInvokerPtr invoker(new CContextItemAddonInvoker(&CServiceBroker::GetXBPython(), item));

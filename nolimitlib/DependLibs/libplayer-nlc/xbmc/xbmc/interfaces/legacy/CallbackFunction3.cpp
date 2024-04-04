@@ -7,8 +7,11 @@
  */
 
 #include "CallbackFunction.h"
+#if HAVE_ADDONS
 
 namespace XBMCAddon
 {
   Callback::~Callback() { XBMC_TRACE; deallocating(); }
 }
+
+#endif // HAVE_ADDONS

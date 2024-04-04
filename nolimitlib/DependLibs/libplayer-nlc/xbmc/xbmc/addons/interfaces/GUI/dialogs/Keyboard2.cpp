@@ -54,20 +54,24 @@ bool Interface_GUIDialogKeyboard::show_and_get_input_with_head(KODI_HANDLE kodiB
                                                                bool hidden_input,
                                                                unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!text_in || !text_out || !heading)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (text_in='%p', "
               "text_out='%p', heading='%p') on addon '%s'",
               __func__, static_cast<const void*>(text_in), static_cast<void*>(text_out),
               static_cast<const void*>(heading), addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -85,20 +89,24 @@ bool Interface_GUIDialogKeyboard::show_and_get_input(KODI_HANDLE kodiBase,
                                                      bool allow_empty_result,
                                                      unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::{} - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!text_in || !text_out)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (text_in='%p', "
               "text_out='%p') on addon '%s'",
               __func__, static_cast<const void*>(text_in), static_cast<void*>(text_out),
               addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -116,20 +124,24 @@ bool Interface_GUIDialogKeyboard::show_and_get_new_password_with_head(KODI_HANDL
                                                                       bool allow_empty_result,
                                                                       unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!password_in || !password_out || !heading)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (password_in='%p', "
               "password_out='%p', heading='%p') on addon '%s'",
               __func__, static_cast<const void*>(password_in), static_cast<void*>(password_out),
               static_cast<const void*>(heading), addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -146,20 +158,24 @@ bool Interface_GUIDialogKeyboard::show_and_get_new_password(KODI_HANDLE kodiBase
                                                             char** password_out,
                                                             unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!password_in || !password_out)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (password_in='%d', "
               "password_out='%d') on addon '%s'",
               __func__, static_cast<const void*>(password_in), static_cast<void*>(password_out),
               addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -176,20 +192,24 @@ bool Interface_GUIDialogKeyboard::show_and_verify_new_password_with_head(KODI_HA
                                                                          bool allowEmpty,
                                                                          unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!password_out || !heading)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (password_out='%p', "
               "heading='%p') on addon '%s'",
               __func__, static_cast<void*>(password_out), static_cast<const void*>(heading),
               addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -205,19 +225,23 @@ bool Interface_GUIDialogKeyboard::show_and_verify_new_password(KODI_HANDLE kodiB
                                                                char** password_out,
                                                                unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!password_out)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (password_out='%p') on "
               "addon '%s'",
               __func__, static_cast<void*>(password_out), addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -235,20 +259,24 @@ int Interface_GUIDialogKeyboard::show_and_verify_password(KODI_HANDLE kodiBase,
                                                           int retries,
                                                           unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!password_in || !password_out || !heading)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (password_in='%p', "
               "password_out='%p', heading='%p') on addon '%s'",
               __func__, static_cast<const void*>(password_in), static_cast<void*>(password_out),
               static_cast<const void*>(heading), addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -265,20 +293,24 @@ bool Interface_GUIDialogKeyboard::show_and_get_filter(KODI_HANDLE kodiBase,
                                                       bool searching,
                                                       unsigned int auto_close_ms)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::%s - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   if (!text_in || !text_out)
   {
+#if HAVE_ADDONS
     CLog::Log(LOGERROR,
               "Interface_GUIDialogKeyboard::%s - invalid handler data (text_in='%p', "
               "text_out='%p') on addon '%s'",
               __func__, static_cast<const void*>(text_in), static_cast<void*>(text_out),
               addon->ID().c_str());
+#endif // HAVE_ADDONS
     return false;
   }
 
@@ -294,24 +326,28 @@ bool Interface_GUIDialogKeyboard::send_text_to_active_keyboard(KODI_HANDLE kodiB
                                                                const char* text,
                                                                bool close_keyboard)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::{} - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CGUIKeyboardFactory::SendTextToActiveKeyboard(text, close_keyboard);
 }
 
 bool Interface_GUIDialogKeyboard::is_keyboard_activated(KODI_HANDLE kodiBase)
 {
+#if HAVE_ADDONS
   CAddonDll* addon = static_cast<CAddonDll*>(kodiBase);
   if (!addon)
   {
     CLog::Log(LOGERROR, "Interface_GUIDialogKeyboard::{} - invalid data", __func__);
     return false;
   }
+#endif // HAVE_ADDONS
 
   return CGUIKeyboardFactory::isKeyboardActivated();
 }

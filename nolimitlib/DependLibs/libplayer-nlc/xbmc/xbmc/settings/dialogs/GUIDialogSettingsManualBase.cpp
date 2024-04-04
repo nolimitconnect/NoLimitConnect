@@ -329,6 +329,7 @@ std::shared_ptr<CSettingString> CGUIDialogSettingsManualBase::AddInfoLabelButton
   return setting;
 }
 
+#if HAVE_ADDONS
 std::shared_ptr<CSettingAddon> CGUIDialogSettingsManualBase::AddAddon(
     const SettingGroupPtr& group,
     const std::string& id,
@@ -362,6 +363,7 @@ std::shared_ptr<CSettingAddon> CGUIDialogSettingsManualBase::AddAddon(
   group->AddSetting(setting);
   return setting;
 }
+#endif // HAVE_ADDONS
 
 std::shared_ptr<CSettingPath> CGUIDialogSettingsManualBase::AddPath(
     const SettingGroupPtr& group,

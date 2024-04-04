@@ -7,6 +7,7 @@
  */
 
 #include "ModuleXbmcvfs.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "LanguageHook.h"
@@ -135,3 +136,5 @@ namespace XBMCAddon
     }
   }
 }
+
+#endif // HAVE_ADDONS

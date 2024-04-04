@@ -7,6 +7,7 @@
  */
 
 #include "GUIEPGGridContainer.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -2511,3 +2512,5 @@ void CGUIEPGGridContainer::HandleProgrammeGrid(bool bRender, unsigned int curren
     CServiceBroker::GetWinSystem()->GetGfxContext().RestoreClipRegion();
   }
 }
+
+#endif // HAVE_ADDONS

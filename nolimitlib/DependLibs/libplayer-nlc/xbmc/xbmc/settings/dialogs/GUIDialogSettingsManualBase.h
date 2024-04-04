@@ -139,6 +139,7 @@ protected:
                                                      const std::string& info,
                                                      bool visible = true,
                                                      int help = -1);
+#if HAVE_ADDONS
   std::shared_ptr<CSettingAddon> AddAddon(const std::shared_ptr<CSettingGroup>& group,
                                           const std::string& id,
                                           int label,
@@ -154,6 +155,8 @@ protected:
                                           bool delayed = false,
                                           bool visible = true,
                                           int help = -1);
+#endif // HAVE_ADDONS
+
   std::shared_ptr<CSettingPath> AddPath(
       const std::shared_ptr<CSettingGroup>& group,
       const std::string& id,

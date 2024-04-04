@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "interfaces/legacy/AddonClass.h"
+#if HAVE_ADDONS
 
 struct HTTPPythonRequest;
 
@@ -95,3 +96,5 @@ namespace XBMCAddon
     /// @}
   }
 }
+
+#endif // HAVE_ADDONS

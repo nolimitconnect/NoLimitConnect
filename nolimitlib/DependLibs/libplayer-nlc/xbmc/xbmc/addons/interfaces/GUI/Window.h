@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include "config_components_kodi.h"
+#if HAVE_ADDONS
+
 #include "addons/kodi-dev-kit/include/kodi/c-api/gui/window.h"
 #include "threads/Event.h"
 #include "windows/GUIMediaWindow.h"
@@ -278,3 +281,5 @@ extern "C"
 
   } /* namespace ADDON */
 } /* extern "C" */
+
+#endif // HAVE_ADDONS

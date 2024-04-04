@@ -7,6 +7,7 @@
  */
 
 #include "VideoLibraryScanningJob.h"
+#if HAVE_ADDONS
 
 #include "video/VideoDatabase.h"
 
@@ -48,3 +49,5 @@ bool CVideoLibraryScanningJob::Work(CVideoDatabase &db)
 
   return true;
 }
+
+#endif // HAVE_ADDONS

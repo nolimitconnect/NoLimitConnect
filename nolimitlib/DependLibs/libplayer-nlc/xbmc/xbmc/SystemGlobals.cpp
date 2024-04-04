@@ -35,8 +35,9 @@ std::map<std::string, std::string> CSpecialProtocol::m_pathMap;
   XFILE::CDirectoryCache g_directoryCache;
 
   CGUIPassword       g_passwordManager;
-
+  #if HAVE_LIB_CURL
   XCURL::DllLibCurlGlobal g_curlInterface;
+  #endif // HAVE_LIB_CURL
   CPartyModeManager     g_partyModeManager;
 
   CAlarmClock        g_alarmClock;

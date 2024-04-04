@@ -7,6 +7,7 @@
  */
 
 #include "PVRItem.h"
+#if HAVE_ADDONS
 
 #include "FileItem.h"
 #include "ServiceBroker.h"
@@ -165,3 +166,5 @@ bool CPVRItem::IsRadio() const
 }
 
 } // namespace PVR
+
+#endif // HAVE_ADDONS

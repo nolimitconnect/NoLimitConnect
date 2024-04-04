@@ -47,7 +47,7 @@
 
 using namespace KODI;
 using namespace ADDON;
-#if ENABLE_PVR
+#if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
 #endif // ENABLE_PVR
 
@@ -63,9 +63,10 @@ CGUIViewState* CGUIViewState::GetViewState(int windowId, const CFileItemList& it
     return GetViewState(CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow(),items);
 
   const NlcUrl url=items.GetURL();
-
+#if HAVE_ADDONS
   if (items.IsAddonsPath())
     return new CGUIViewStateAddonBrowser(items);
+#endif // HAVE_ADDONS
 
   if (items.HasSortDetails())
     return new CGUIViewStateFromItems(items);
@@ -128,6 +129,7 @@ CGUIViewState* CGUIViewState::GetViewState(int windowId, const CFileItemList& it
 
   if (windowId == WINDOW_VIDEO_PLAYLIST)
     return new CGUIViewStateWindowVideoPlaylist(items);
+#if HAVE_ADDONS
 #if ENABLE_PVR
   if (windowId == WINDOW_TV_CHANNELS)
     return new CGUIViewStateWindowPVRChannels(windowId, items);
@@ -165,6 +167,7 @@ CGUIViewState* CGUIViewState::GetViewState(int windowId, const CFileItemList& it
   if (windowId == WINDOW_RADIO_SEARCH)
     return new CGUIViewStateWindowPVRSearch(windowId, items);
 #endif // ENABLE_PVR
+#endif // HAVE_ADDONS
 
   if (windowId == WINDOW_PICTURES)
     return new CGUIViewStateWindowPictures(items);
@@ -177,8 +180,10 @@ CGUIViewState* CGUIViewState::GetViewState(int windowId, const CFileItemList& it
     return new GAME::CGUIViewStateWindowGames(items);
 #endif // ENABLE_GAMES
 
+#if HAVE_ADDONS
   if (windowId == WINDOW_ADDON_BROWSER)
     return new CGUIViewStateAddonBrowser(items);
+#endif // HAVE_ADDONS
 
   if (windowId == WINDOW_EVENT_LOG)
     return new CGUIViewStateEventLog(items);
@@ -576,6 +581,7 @@ CGUIViewStateFromItems::CGUIViewStateFromItems(const CFileItemList &items) : CGU
 
   SetViewAsControl(DEFAULT_VIEW_LIST);
 
+#if HAVE_ADDONS
   if (items.IsPlugin())
   {
     NlcUrl url(items.GetPath());
@@ -590,6 +596,7 @@ CGUIViewStateFromItems::CGUIViewStateFromItems(const CFileItemList &items) : CGU
         m_playlist = PLAYLIST::TYPE_VIDEO;
     }
   }
+#endif // HAVE_ADDONS
 
   LoadViewState(items.GetPath(), CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow());
 }
