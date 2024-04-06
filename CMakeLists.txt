@@ -76,14 +76,18 @@ elseif(DEFINED QT_VERSION)
     message(STATUS "Build host Command Line Linux")
     message(STATUS "Build host OS Linux")
     set(NLC_PREPATH "/home/nolimit/Qt/")
-    if(${QT_VERSION} STREQUAL "6_6_2")
+    if(${QT_VERSION} STREQUAL "7_0_2")
+        set(NLC_QT_VER "7.0.2")
+    elseif(${QT_VERSION} STREQUAL "7_0_1")
+        set(NLC_QT_VER "7.0.1")
+    elseif(${QT_VERSION} STREQUAL "6_6_4")
+        set(NLC_QT_VER "6.6.4")
+    elseif(${QT_VERSION} STREQUAL "6_6_3")
+        set(NLC_QT_VER "6.6.0")
+    elseif(${QT_VERSION} STREQUAL "6_6_2")
         set(NLC_QT_VER "6.6.2")
     elseif(${QT_VERSION} STREQUAL "6_6_1")
-        set(NLC_QT_VER "6.6.1")
-    elseif(${QT_VERSION} STREQUAL "6_6_0")
-        set(NLC_QT_VER "6.6.0")    
-    elseif(${QT_VERSION} STREQUAL "6_4_3")
-        set(NLC_QT_VER "6.4.3")
+        set(NLC_QT_VER "6.6.1") 
     else()
         message(STATUS "Unknown command line QT_VERSION " ${QT_VERSION})
     endif()
@@ -120,34 +124,41 @@ if(DEFINED ANDROID_ABI)
 
     set(POS1 -1)
     if(DEFINED CMAKE_PREFIX_PATH)
-        STRING( FIND "${CMAKE_PREFIX_PATH}" "6.4.3" POS1)
+        STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.2" POS1)
         if( POS1 GREATER -1)
-            message(STATUS "PREFIX_PATH contains 6.4.3 ")
-            set(NLC_QT_VER " 6.4.3")
-
+            message(STATUS "PREFIX_PATH contains 6.6.2 ")
+            set(NLC_QT_VER " 6.6.2")
         else()  
             set(POS2 -1)
-            STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.0" POS2)
+            STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.3" POS2)
             if( POS2 GREATER -1)
-                message(STATUS "PREFIX_PATH contains 6.6.0 ")
-                set(NLC_QT_VER " 6.6.0")
+                message(STATUS "PREFIX_PATH contains 6.6.3 ")
+                set(NLC_QT_VER " 6.6.3")
 
             else()
                 set(POS2 -1)
-                STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.1" POS2)
+                STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.4" POS2)
                 if( POS2 GREATER -1)
-                    message(STATUS "PREFIX_PATH contains 6.6.1 ")
-                    set(NLC_QT_VER " 6.6.1")
+                    message(STATUS "PREFIX_PATH contains 6.6.4 ")
+                    set(NLC_QT_VER " 6.6.4")
 
                 else()
-                    set(POS3 -1)
-                    STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.2" POS3)
-                    if( POS3 GREATER -1)
-                        message(STATUS "PREFIX_PATH contains 6.6.2 ")
-                        set(NLC_QT_VER " 6.6.2")
+                    set(POS2 -1)
+                    STRING( FIND "${CMAKE_PREFIX_PATH}" "7.0.0" POS2)
+                    if( POS2 GREATER -1)
+                        message(STATUS "PREFIX_PATH contains 7.0.0 ")
+                        set(NLC_QT_VER " 7.0.0")
 
                     else()
-                        message(ERROR "PREFIX_PATH did not contain any known QT Version ")
+                        set(POS3 -1)
+                        STRING( FIND "${CMAKE_PREFIX_PATH}" "7.0.1" POS3)
+                        if( POS3 GREATER -1)
+                            message(STATUS "PREFIX_PATH contains 7.0.1 ")
+                            set(NLC_QT_VER " 7.0.1")
+
+                        else()
+                            message(ERROR "PREFIX_PATH did not contain any known QT Version ")
+                        endif()
                     endif()
                 endif()
             endif()
@@ -438,8 +449,45 @@ endif()
 
 if(CI_PIPELINE)   
     message(STATUS "*** CI_PIPELINE ***")
+    if(QT_VERSION STREQUAL 6_6_4)
+       if(DEFINED TARGET_OS_ANDROID)
+           set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
+           if(DEFINED ARM32)
+               set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.4/android_armv7")
+           else()
+               set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.4/android_arm64_v8a")
+           endif()
 
-    if(QT_VERSION STREQUAL 6_6_2)
+           list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
+           set(ANDROID_SDK_ROOT "/opt/android-sdk")
+
+           set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+           message(STATUS "CI Pipeline Target Android")
+
+       elseif(DEFINED TARGET_OS_LINUX)
+           set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.4")
+           message(STATUS "CI Pipeline Target Linux")
+       endif()
+    elseif(QT_VERSION STREQUAL 6_6_3)
+       if(DEFINED TARGET_OS_ANDROID)
+           set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
+           if(DEFINED ARM32)
+               set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.3/android_armv7")
+           else()
+               set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.3/android_arm64_v8a")
+           endif()
+
+           list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
+           set(ANDROID_SDK_ROOT "/opt/android-sdk")
+
+           set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+           message(STATUS "CI Pipeline Target Android")
+
+       elseif(DEFINED TARGET_OS_LINUX)
+           set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.3")
+           message(STATUS "CI Pipeline Target Linux")
+       endif()
+    elseif(QT_VERSION STREQUAL 6_6_2)
         if(DEFINED TARGET_OS_ANDROID)
             set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
             if(DEFINED ARM32)
@@ -478,25 +526,6 @@ if(CI_PIPELINE)
 
         elseif(DEFINED TARGET_OS_LINUX)
             set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.1")
-            message(STATUS "CI Pipeline Target Linux")
-        endif()
-     elseif(QT_VERSION STREQUAL 6_6_0)
-        if(DEFINED TARGET_OS_ANDROID)
-            set(CMAKE_ANDROID_NDK "/opt/android-sdk/ndk/25.1.8937393")
-            if(DEFINED ARM32)
-                set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.0/android_armv7")
-            else()
-                set(CMAKE_PREFIX_PATH "/opt/Qt-android-6.6.0/android_arm64_v8a")
-            endif()
-            
-            list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
-            set(ANDROID_SDK_ROOT "/opt/android-sdk")
-            
-            set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
-            message(STATUS "CI Pipeline Target Android")
-
-        elseif(DEFINED TARGET_OS_LINUX)
-            set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-6.6.0")
             message(STATUS "CI Pipeline Target Linux")
         endif()
         
@@ -659,70 +688,3 @@ install(TARGETS nolimitconnect
 )
 
 message(STATUS "project nlc end with prefix")
-
-
-
-if(DEFINED TARGET_OS_ANDROID)
-    if(DEFINED DO_MANUAL)
-        if(MANUAL_PACKAGE)
-            file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/nolimitgui/android-build")
-            set(APK_ARGS "--input ${CMAKE_BINARY_DIR}/nolimitgui/android-nolimitconnect-deployment-settings.json --output ${CMAKE_BINARY_DIR}/nolimitgui/android-build --android-platform android-33 --jdk $ENV{JAVA_HOME} --verbose --gradle")
-            message(STATUS "Post build MANUAL_PACKAGE is defined ${APK_ARGS}")
-            if(CI_PIPELINE)
-                # androiddeployqt is in path
-                message(STATUS "Create Apk  androiddeployqt ${APK_ARGS}")
-                #add_custom_command(POST_BUILD TARGET nolimitconnect
-
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND echo "echo create apk androiddeployqt ${APK_ARGS}")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND androiddeployqt "${APK_ARGS}")
-            else()
-                # need full path to androiddeployqt
-                message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND "${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt" "${APK_ARGS}")
-            endif()
-        else()
-            message(STATUS "Post build MANUAL_PACKAGE is NOT defined")
-            add_custom_target(nolimitappsEchoDeploy ALL
-                COMMAND echo "create apk not required")
-        endif() # if(MANUAL_PACKAGE)
-    endif()
-
-    # copy package to package directory
-    set(NLC_APK_ROOT_DIR "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/")
-    if (CMAKE_BUILD_TYPE MATCHES Debug)
-        # for debugging only use apk
-        message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
-        add_custom_target(nolimitappsCopyDebugApk ALL
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
-            DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug/android-build-debug.apk"
-            COMMAND_EXPAND_LISTS
-            )
-
-    else()
-        # for release android play store requires aab bundle
-        message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
-        if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
-            add_custom_target(nolimitappsCopyReleaseBundle ALL
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
-                DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
-                COMMAND_EXPAND_LISTS
-                )
-        else()
-            add_custom_target(nolimitappsCopyReleaseApk ALL
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-                DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
-                COMMAND_EXPAND_LISTS
-            )
-        endif() # if EXISTS
-    endif() # if (CMAKE_BUILD_TYPE MATCHES Debug)
-endif() #if(DEFINED TARGET_OS_ANDROID)
-
-
-add_custom_target(nolimitappsApk ALL
-    COMMAND echo "echo CMAKE_BINARY_DIR ***** ${CMAKE_BINARY_DIR}")
