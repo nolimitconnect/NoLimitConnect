@@ -150,6 +150,7 @@
 #define HAVE_XOP 0
 #define HAVE_CPUNOP 0
 #define HAVE_I686 0
+#define HAVE_I8MM 0
 
 #elif defined(TARGET_OS_WINDOWS)
 #define HAVE_AESNI 1
@@ -264,7 +265,7 @@
 #define HAVE_FMA4_EXTERNAL 1
 #endif // defined(TARGET_OS_ANDROID)
 
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 #define HAVE_MMX_EXTERNAL 0
 #define HAVE_MMXEXT_EXTERNAL 0
 #define HAVE_SSE_EXTERNAL 0

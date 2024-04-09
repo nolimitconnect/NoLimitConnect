@@ -107,6 +107,23 @@ bool CGUIWindow::Load(const std::string& strFileName, bool bContainsPath)
     strLowerPath =  g_SkinInfo->GetSkinPath(strFileNameLower, &m_coordsRes);
     strPath = g_SkinInfo->GetSkinPath(strFileName, &m_coordsRes);
   }
+#elif defined(ENABLE_NLC_PLAYER)
+  // player-nlc only wants 2 skins .. 
+  // VideoOSD.xml for player controls and Busy
+  //if( strFileName == "VideoOSD.xml" )
+  //{
+  //   std::string strFileNameLower = strFileName;
+  //   StringUtils::ToLower(strFileNameLower);
+  //     // find the closest resolution
+  //    const RESOLUTION_INFO &target = CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo();
+  //    //*res = *std::min_element(m_resolutions.begin(), m_resolutions.end(), closestRes(target));
+  //    m_coordsRes = target;
+
+
+  //    strPath = "F:\\nolimitapp\\nolimitgui\\bin-Windows\\assets\\kodi\\addons\\skin.estuary\\xml\\VideoOSD.xml";
+  //    strLowerPath = "F:\\nolimitapp\\nolimitgui\\bin-Windows\\assets\\kodi\\addons\\skin.estuary\\xml\\videoosd.xml";
+  //}
+
 #endif // HAVE_ADDONS
 
   bool ret = LoadXML(strPath, strLowerPath);

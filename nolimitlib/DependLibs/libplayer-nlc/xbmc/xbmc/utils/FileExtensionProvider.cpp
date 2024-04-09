@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #if HAVE_ADDONS
 using namespace ADDON;

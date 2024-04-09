@@ -1075,6 +1075,8 @@ void CGUIControlButtonSetting::Update(bool fromControl, bool updateDisplayOnly)
         {
           if (controlFormat == "addon")
           {
+            std::vector<std::string> addonNames;
+ #if HAVE_ADDONS
             std::vector<std::string> addonIDs;
             if (m_pSetting->GetType() == SettingType::List)
             {
@@ -1086,8 +1088,6 @@ void CGUIControlButtonSetting::Update(bool fromControl, bool updateDisplayOnly)
             else
               addonIDs.push_back(std::static_pointer_cast<CSettingString>(setting)->GetValue());
 
-            std::vector<std::string> addonNames;
-#if HAVE_ADDONS
             for (const auto& addonID : addonIDs)
             {
               ADDON::AddonPtr addon;
@@ -1096,7 +1096,6 @@ void CGUIControlButtonSetting::Update(bool fromControl, bool updateDisplayOnly)
                 addonNames.push_back(addon->Name());
             }
 #endif // HAVE_ADDONS
-
             if (addonNames.empty())
               strText = g_localizeStrings.Get(231); // None
             else

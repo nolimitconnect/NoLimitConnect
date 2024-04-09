@@ -27,12 +27,14 @@
 #include "utils/StringUtils.h"
 #include "windowing/WinSystem.h"
 
+#include "settings/lib/Setting.h"
+
 namespace
 {
 #if HAVE_ADDONS
 bool AddonHasSettings(const std::string& condition,
                       const std::string& value,
-                      const SettingConstPtr& setting,
+                      const std::shared_ptr<const CSetting>& setting,
                       void* data)
 {
   if (setting == NULL)
@@ -58,7 +60,7 @@ bool AddonHasSettings(const std::string& condition,
 
 bool CheckMasterLock(const std::string& condition,
                      const std::string& value,
-                     const SettingConstPtr& setting,
+                     const std::shared_ptr<const CSetting>& setting,
                      void* data)
 {
   return g_passwordManager.IsMasterLockUnlocked(StringUtils::EqualsNoCase(value, "true"));
@@ -66,7 +68,7 @@ bool CheckMasterLock(const std::string& condition,
 
 bool HasPeripherals(const std::string& condition,
                     const std::string& value,
-                    const SettingConstPtr& setting,
+                    const std::shared_ptr<const CSetting>& setting,
                     void* data)
 {
 #if ENABLE_PERIPHERALS
@@ -78,7 +80,7 @@ bool HasPeripherals(const std::string& condition,
 
 bool HasPeripheralLibraries(const std::string& condition,
                             const std::string& value,
-                            const SettingConstPtr& setting,
+                            const std::shared_ptr<const CSetting>& setting,
                             void* data)
 {
 #if ENABLE_PERIPHERALS
@@ -90,7 +92,7 @@ bool HasPeripheralLibraries(const std::string& condition,
 
 bool HasRumbleFeature(const std::string& condition,
                       const std::string& value,
-                      const SettingConstPtr& setting,
+                      const std::shared_ptr<const CSetting>& setting,
                       void* data)
 {
 #if ENABLE_PERIPHERALS
@@ -102,7 +104,7 @@ bool HasRumbleFeature(const std::string& condition,
 
 bool HasRumbleController(const std::string& condition,
                          const std::string& value,
-                         const SettingConstPtr& setting,
+                         const std::shared_ptr<const CSetting>& setting,
                          void* data)
 {
 #if ENABLE_PERIPHERALS
@@ -114,7 +116,7 @@ bool HasRumbleController(const std::string& condition,
 
 bool HasPowerOffFeature(const std::string& condition,
                         const std::string& value,
-                        const SettingConstPtr& setting,
+                        const std::shared_ptr<const CSetting>& setting,
                         void* data)
 {
 #if ENABLE_PERIPHERALS
@@ -126,7 +128,7 @@ bool HasPowerOffFeature(const std::string& condition,
 
 bool HasSystemSdrPeakLuminance(const std::string& condition,
                                const std::string& value,
-                               const SettingConstPtr& setting,
+                               const std::shared_ptr<const CSetting>& setting,
                                void* data)
 {
   return CServiceBroker::GetWinSystem()->HasSystemSdrPeakLuminance();
@@ -134,7 +136,7 @@ bool HasSystemSdrPeakLuminance(const std::string& condition,
 
 bool SupportsVideoSuperResolution(const std::string& condition,
                                   const std::string& value,
-                                  const SettingConstPtr& setting,
+                                  const std::shared_ptr<const CSetting>& setting,
                                   void* data)
 {
   return CServiceBroker::GetWinSystem()->SupportsVideoSuperResolution();
@@ -142,7 +144,7 @@ bool SupportsVideoSuperResolution(const std::string& condition,
 
 bool SupportsScreenMove(const std::string& condition,
                         const std::string& value,
-                        const SettingConstPtr& setting,
+                        const std::shared_ptr<const CSetting>& setting,
                         void* data)
 {
   return CServiceBroker::GetWinSystem()->SupportsScreenMove();
@@ -150,7 +152,7 @@ bool SupportsScreenMove(const std::string& condition,
 
 bool IsHDRDisplay(const std::string& condition,
                   const std::string& value,
-                  const SettingConstPtr& setting,
+                  const std::shared_ptr<const CSetting>& setting,
                   void* data)
 {
   return CServiceBroker::GetWinSystem()->IsHDRDisplay();
@@ -158,7 +160,7 @@ bool IsHDRDisplay(const std::string& condition,
 
 bool IsMasterUser(const std::string& condition,
                   const std::string& value,
-                  const SettingConstPtr& setting,
+                  const std::shared_ptr<const CSetting>& setting,
                   void* data)
 {
   return g_passwordManager.bMasterUser;
@@ -166,7 +168,7 @@ bool IsMasterUser(const std::string& condition,
 
 bool HasSubtitlesFontExtensions(const std::string& condition,
                                 const std::string& value,
-                                const SettingConstPtr& setting,
+                                const std::shared_ptr<const CSetting>& setting,
                                 void* data)
 {
   auto settingStr = std::dynamic_pointer_cast<const CSettingString>(setting);
@@ -178,7 +180,7 @@ bool HasSubtitlesFontExtensions(const std::string& condition,
 
 bool ProfileCanWriteDatabase(const std::string& condition,
                              const std::string& value,
-                             const SettingConstPtr& setting,
+                             const std::shared_ptr<const CSetting>& setting,
                              void* data)
 {
   return CSettingConditions::GetCurrentProfile().canWriteDatabases();
@@ -186,7 +188,7 @@ bool ProfileCanWriteDatabase(const std::string& condition,
 
 bool ProfileCanWriteSources(const std::string& condition,
                             const std::string& value,
-                            const SettingConstPtr& setting,
+                            const std::shared_ptr<const CSetting>& setting,
                             void* data)
 {
   return CSettingConditions::GetCurrentProfile().canWriteSources();
@@ -194,7 +196,7 @@ bool ProfileCanWriteSources(const std::string& condition,
 
 bool ProfileHasAddons(const std::string& condition,
                       const std::string& value,
-                      const SettingConstPtr& setting,
+                      const std::shared_ptr<const CSetting>& setting,
                       void* data)
 {
   return CSettingConditions::GetCurrentProfile().hasAddons();
@@ -202,7 +204,7 @@ bool ProfileHasAddons(const std::string& condition,
 
 bool ProfileHasDatabase(const std::string& condition,
                         const std::string& value,
-                        const SettingConstPtr& setting,
+                        const std::shared_ptr<const CSetting>& setting,
                         void* data)
 {
   return CSettingConditions::GetCurrentProfile().hasDatabases();
@@ -210,7 +212,7 @@ bool ProfileHasDatabase(const std::string& condition,
 
 bool ProfileHasSources(const std::string& condition,
                        const std::string& value,
-                       const SettingConstPtr& setting,
+                       const std::shared_ptr<const CSetting>& setting,
                        void* data)
 {
   return CSettingConditions::GetCurrentProfile().hasSources();
@@ -218,7 +220,7 @@ bool ProfileHasSources(const std::string& condition,
 
 bool ProfileHasAddonManagerLocked(const std::string& condition,
                                   const std::string& value,
-                                  const SettingConstPtr& setting,
+                                  const std::shared_ptr<const CSetting>& setting,
                                   void* data)
 {
   return CSettingConditions::GetCurrentProfile().addonmanagerLocked();
@@ -226,7 +228,7 @@ bool ProfileHasAddonManagerLocked(const std::string& condition,
 
 bool ProfileHasFilesLocked(const std::string& condition,
                            const std::string& value,
-                           const SettingConstPtr& setting,
+                           const std::shared_ptr<const CSetting>& setting,
                            void* data)
 {
   return CSettingConditions::GetCurrentProfile().filesLocked();
@@ -234,7 +236,7 @@ bool ProfileHasFilesLocked(const std::string& condition,
 
 bool ProfileHasMusicLocked(const std::string& condition,
                            const std::string& value,
-                           const SettingConstPtr& setting,
+                           const std::shared_ptr<const CSetting>& setting,
                            void* data)
 {
   return CSettingConditions::GetCurrentProfile().musicLocked();
@@ -242,7 +244,7 @@ bool ProfileHasMusicLocked(const std::string& condition,
 
 bool ProfileHasPicturesLocked(const std::string& condition,
                               const std::string& value,
-                              const SettingConstPtr& setting,
+                              const std::shared_ptr<const CSetting>& setting,
                               void* data)
 {
   return CSettingConditions::GetCurrentProfile().picturesLocked();
@@ -250,7 +252,7 @@ bool ProfileHasPicturesLocked(const std::string& condition,
 
 bool ProfileHasProgramsLocked(const std::string& condition,
                               const std::string& value,
-                              const SettingConstPtr& setting,
+                              const std::shared_ptr<const CSetting>& setting,
                               void* data)
 {
   return CSettingConditions::GetCurrentProfile().programsLocked();
@@ -258,7 +260,7 @@ bool ProfileHasProgramsLocked(const std::string& condition,
 
 bool ProfileHasSettingsLocked(const std::string& condition,
                               const std::string& value,
-                              const SettingConstPtr& setting,
+                              const std::shared_ptr<const CSetting>& setting,
                               void* data)
 {
   LOCK_LEVEL::SETTINGS_LOCK slValue=LOCK_LEVEL::ALL;
@@ -275,7 +277,7 @@ bool ProfileHasSettingsLocked(const std::string& condition,
 
 bool ProfileHasVideosLocked(const std::string& condition,
                             const std::string& value,
-                            const SettingConstPtr& setting,
+                            const std::shared_ptr<const CSetting>& setting,
                             void* data)
 {
   return CSettingConditions::GetCurrentProfile().videoLocked();
@@ -283,7 +285,7 @@ bool ProfileHasVideosLocked(const std::string& condition,
 
 bool ProfileLockMode(const std::string& condition,
                      const std::string& value,
-                     const SettingConstPtr& setting,
+                     const std::shared_ptr<const CSetting>& setting,
                      void* data)
 {
   char* tmp = nullptr;
@@ -296,7 +298,7 @@ bool ProfileLockMode(const std::string& condition,
 
 bool GreaterThan(const std::string& condition,
                  const std::string& value,
-                 const SettingConstPtr& setting,
+                 const std::shared_ptr<const CSetting>& setting,
                  void* data)
 {
   if (setting == NULL)
@@ -316,7 +318,7 @@ bool GreaterThan(const std::string& condition,
 
 bool GreaterThanOrEqual(const std::string& condition,
                         const std::string& value,
-                        const SettingConstPtr& setting,
+                        const std::shared_ptr<const CSetting>& setting,
                         void* data)
 {
   if (setting == NULL)
@@ -336,7 +338,7 @@ bool GreaterThanOrEqual(const std::string& condition,
 
 bool LessThan(const std::string& condition,
               const std::string& value,
-              const SettingConstPtr& setting,
+              const std::shared_ptr<const CSetting>& setting,
               void* data)
 {
   if (setting == NULL)
@@ -356,7 +358,7 @@ bool LessThan(const std::string& condition,
 
 bool LessThanOrEqual(const std::string& condition,
                      const std::string& value,
-                     const SettingConstPtr& setting,
+                     const std::shared_ptr<const CSetting>& setting,
                      void* data)
 {
   if (setting == NULL)
@@ -532,7 +534,7 @@ const CProfile& CSettingConditions::GetCurrentProfile()
 
 bool CSettingConditions::Check(const std::string& condition,
                                const std::string& value /* = "" */,
-                               const SettingConstPtr& setting /* = NULL */)
+                               const std::shared_ptr<const CSetting>& setting /* = NULL */)
 {
   if (m_simpleConditions.find(condition) != m_simpleConditions.end())
     return true;

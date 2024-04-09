@@ -3105,7 +3105,7 @@ bool CApplication::ExecuteXBMCAction( std::string actionStr, const CGUIListItemP
             || CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
 #else
             )
-#endif HAVE_ADDONS
+#endif // HAVE_ADDONS
         CBuiltins::GetInstance().Execute( actionStr );
     }
     else

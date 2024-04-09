@@ -9,6 +9,8 @@
 #pragma once
 
 #include "addons/IAddon.h"
+#if HAVE_ADDONS
+
 #include "settings/lib/Setting.h"
 
 namespace ADDON
@@ -36,3 +38,5 @@ private:
 
   ADDON::AddonType m_addonType{};
 };
+
+#endif // HAVE_ADDONS

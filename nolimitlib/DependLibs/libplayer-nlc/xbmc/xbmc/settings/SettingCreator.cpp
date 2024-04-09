@@ -15,9 +15,13 @@
 
 std::shared_ptr<CSetting> CSettingCreator::CreateSetting(const std::string &settingType, const std::string &settingId, CSettingsManager *settingsManager /* = nullptr */) const
 {
+#if HAVE_ADDONS
   if (StringUtils::EqualsNoCase(settingType, "addon"))
     return std::make_shared<CSettingAddon>(settingId, settingsManager);
   else if (StringUtils::EqualsNoCase(settingType, "path"))
+#else
+  if (StringUtils::EqualsNoCase(settingType, "path"))
+#endif // HAVE_ADDONS
     return std::make_shared<CSettingPath>(settingId, settingsManager);
   else if (StringUtils::EqualsNoCase(settingType, "date"))
     return std::make_shared<CSettingDate>(settingId, settingsManager);

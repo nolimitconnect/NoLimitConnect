@@ -7,6 +7,7 @@
  */
 
 #include "SettingAddon.h"
+#if HAVE_ADDONS
 
 #include "addons/Addon.h"
 #include "addons/addoninfo/AddonInfo.h"
@@ -56,7 +57,7 @@ bool CSettingAddon::Deserialize(const TiXmlNode *node, bool update /* = false */
   auto constraints = node->FirstChild("constraints");
   if (constraints != nullptr)
   {
-#if HAVE_ADDONS
+
     // get the addon type
     if (XMLUtils::GetString(constraints, "addontype", strAddonType) && !strAddonType.empty())
     {
@@ -64,7 +65,6 @@ bool CSettingAddon::Deserialize(const TiXmlNode *node, bool update /* = false */
       if (m_addonType != ADDON::AddonType::UNKNOWN)
         ok = true;
     }
-#endif // HAVE_ADDONS
   }
 
   if (!ok && !update)
@@ -84,3 +84,5 @@ void CSettingAddon::copyaddontype(const CSettingAddon &setting)
   std::unique_lock<CSharedSection> lock(m_critical);
   m_addonType = setting.m_addonType;
 }
+
+#endif // HAVE_ADDONS

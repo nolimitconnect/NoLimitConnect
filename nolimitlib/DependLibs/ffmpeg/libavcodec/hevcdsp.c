@@ -267,9 +267,9 @@ int i = 0;
 #elif ARCH_PPC
     ff_hevc_dsp_init_ppc(hevcdsp, bit_depth);
 #elif ARCH_X86
-# if !defined(_MSC_VER) // requires parameter in assembly
+//# if !defined(_MSC_VER) // requires parameter in assembly
     ff_hevc_dsp_init_x86(hevcdsp, bit_depth);
-# endif // !defined(_MSC_VER)
+//# endif // !defined(_MSC_VER)
 #elif ARCH_MIPS
     ff_hevc_dsp_init_mips(hevcdsp, bit_depth);
 #elif ARCH_LOONGARCH
