@@ -7,6 +7,8 @@
  */
 
 #include "ApplicationPlayerCallback.h"
+
+#include "Application.h"
 #include "NlcUrl.h"
 
 #include "FileItem.h"
@@ -57,8 +59,12 @@ void CApplicationPlayerCallback::OnPlayBackEnded()
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnStop",
                                                      m_itemCurrentFile, data);
 
+  GetKodiInstance().onPlaybackEnded();
+
+#if HAVE_ADDONS
   CGUIMessage msg(GUI_MSG_PLAYBACK_ENDED, 0, 0);
   CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
+#endif // HAVE_ADDONS
 }
 
 void CApplicationPlayerCallback::OnPlayBackStarted(const CFileItem& file)
@@ -104,8 +110,12 @@ void CApplicationPlayerCallback::OnPlayBackStarted(const CFileItem& file)
 
   m_playerEvent.Reset();
 
+  GetKodiInstance().onPlayStarted();
+
+#if HAVE_ADDONS
   CGUIMessage msg(GUI_MSG_PLAYBACK_STARTED, 0, 0);
   CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
+#endif // HAVE_ADDONS
 }
 
 void CApplicationPlayerCallback::OnPlayerCloseFile(const CFileItem& file,
@@ -193,6 +203,7 @@ void CApplicationPlayerCallback::OnPlayBackPaused()
   param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnPause",
                                                      m_itemCurrentFile, param);
+  GetKodiInstance().onPlaybackPaused();
 }
 
 void CApplicationPlayerCallback::OnPlayBackResumed()
@@ -206,6 +217,7 @@ void CApplicationPlayerCallback::OnPlayBackResumed()
   param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnResume",
                                                      m_itemCurrentFile, param);
+  GetKodiInstance().onPlaybackResumed();
 }
 
 void CApplicationPlayerCallback::OnPlayBackStopped()
@@ -222,6 +234,7 @@ void CApplicationPlayerCallback::OnPlayBackStopped()
 
   CGUIMessage msg(GUI_MSG_PLAYBACK_STOPPED, 0, 0);
   CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
+  GetKodiInstance().onPlaybackStopped();
 }
 
 void CApplicationPlayerCallback::OnPlayBackError()
@@ -231,6 +244,7 @@ void CApplicationPlayerCallback::OnPlayBackError()
   CGUIMessage msg(GUI_MSG_PLAYBACK_ERROR, 0, 0);
   CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
   OnPlayBackStopped();
+  GetKodiInstance().onPlaybackError();
 }
 
 void CApplicationPlayerCallback::OnQueueNextItem()

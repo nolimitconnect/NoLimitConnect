@@ -12,12 +12,13 @@
 
 #include "AppCommon.h"
 #include "GuiPluginMgr.h"
+#include "GuiPlayerMgr.h"
+#include "PlayControlWidget.h"
+#include "MediaPlayerNlc.h"
+#include "RenderGlWidget.h"
 #include "SoundMgr.h"
 
 #include <AppInterface/INlc.h>
-
-#include "GuiPlayerMgr.h"
-#include "MediaPlayerNlc.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -52,6 +53,9 @@ void AppletPlayerNlcBase::initAppletPlayerNlcBase( void )
 	connect( this, SIGNAL(signalInternalStopPlaying(VxGUID)), this, SLOT(slotInternalStopPlaying(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlaybackStopped(VxGUID)), this, SLOT(slotInternalPlaybackStopped(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlaybackEnded(VxGUID)), this, SLOT(slotInternalPlaybackEnded(VxGUID)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPlayPause(VxGUID,bool)), this, SLOT(slotInternalPlayPause(VxGUID,bool)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalCanSeek(VxGUID,bool,bool)), this, SLOT(slotInternalCanSeek(VxGUID,bool,bool)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalUpdatePlayPosition(VxGUID,int)), this, SLOT(slotInternalUpdatePlayPosition(VxGUID,int)), Qt::QueuedConnection );
 
 	INlc::getINlc().getNlcPlayer().wantMediaPlayerCallback( this, true );
 }
@@ -242,12 +246,12 @@ void AppletPlayerNlcBase::updateGuiPlayControls( bool isPlaying )
 			//getPlayPauseButton()->setIcons(eMyIconPauseNormal);
 			setReadyForCallbacks( true );
 		}
-		else
-		{
-			// stop playing
-			//getPlayPauseButton()->setIcons( eMyIconPlayNormal );
-			getPlayPosSlider()->setValue(0);
-		}
+		//else
+		//{
+		//	// stop playing
+		//	getPlayPauseButton()->setIcons( eMyIconPlayNormal );
+		//	getPlayPosSlider()->setValue(0);
+		//}
 	}
 }
 
@@ -258,7 +262,7 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	{
 		m_MyApp.toGuiStatusMessage( "" );
 		m_Engine.fromGuiAssetAction( eAssetActionPlayEnd, m_AssetInfo, 0 );
-		startBusySpinner();
+		stopBusySpinner();
 	}
 
 	updateGuiPlayControls( false );
@@ -286,12 +290,23 @@ void AppletPlayerNlcBase::slotReplayButtonClick( void )
 	{
 		if( VxFileUtil::fileExists( m_LastPlayedMedia.c_str() ) )
 		{
+			startBusySpinner(getPlayControlWidget());
 			playFile( m_LastPlayedMedia.c_str(), 0, false, false );
 		}
 		else
 		{
 			QMessageBox::information( this, QObject::tr( "File does not exist" ), QString(m_LastPlayedMedia.c_str()), QMessageBox::Ok );
 		}
+	}
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotLeftMouseButtonClick( void )
+{
+	PlayControlWidget* playControl = getPlayControlWidget();
+	if( playControl )
+	{
+		playControl->setVisible( !playControl->isVisible() );
 	}
 }
 
@@ -324,6 +339,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId )
 void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	//onPlayStarted( feedId );
 }
 
 //============================================================================
@@ -379,6 +395,43 @@ void AppletPlayerNlcBase::slotInternalPlaybackEnded( VxGUID feedId )
 }
 
 //============================================================================
+void AppletPlayerNlcBase::fromMediaPlayerPlayPause( VxGUID& feedId, bool isPaused )
+{
+	emit signalInternalPlayPause( feedId, isPaused );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotInternalPlayPause( VxGUID feedId, bool isPaused )
+{
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	onPlayPause( feedId, isPaused );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::fromMediaPlayerCanSeek( VxGUID& feedId, bool canSeek, bool canPause )
+{
+	emit signalInternalCanSeek( feedId, canSeek, canPause );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotInternalCanSeek( VxGUID feedId, bool canSeek, bool canPause )
+{
+	onCanSeek( feedId, canSeek, canPause );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::fromMediaPlayerUpdatePlayPosition( VxGUID& feedId, int pos0to100000 )
+{
+	emit signalInternalUpdatePlayPosition( feedId, pos0to100000 );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotInternalUpdatePlayPosition( VxGUID feedId, int pos0to100000 )
+{
+	onUpdatePlayPosition( feedId, pos0to100000 );
+}
+
+//============================================================================
 void AppletPlayerNlcBase::onBackButtonClicked( void )
 {
 	stopMediaIfPlaying();
@@ -388,7 +441,13 @@ void AppletPlayerNlcBase::onBackButtonClicked( void )
 //============================================================================
 void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 {
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	stopBusySpinner();
 	updateGuiPlayControls( true );
+	resetPlayerControls();
+	setIsPlaying( true );
+	INlc::getINlc().getNlcPlayer().fromGuiGetCanSeek();
+	updateLastPlayedFile();
 }
 
 //============================================================================
@@ -401,13 +460,101 @@ void AppletPlayerNlcBase::onStopPlaying( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 {
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	stopBusySpinner();
 	updateGuiPlayControls( false );
+	resetPlayerControls();
+	setIsPlaying( false );
 }
 
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 {
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	stopBusySpinner();
 	updateGuiPlayControls( false );
+	resetPlayerControls();
+	setIsPlaying( false );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onCanSeek( VxGUID& feedId, bool canSeek, bool canPause )
+{
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s is canSeek ? %d canPause ? %d", __func__, canSeek, canPause );
+	stopBusySpinner();
+	getPlayPauseButton()->setEnabled( canPause );
+	getPlayPosSlider()->setEnabled( canSeek );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onPlayPause( VxGUID& feedId, bool isPaused )
+{
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s is paused ? %d", __func__, isPaused );
+	stopBusySpinner();
+	if( isPaused )
+	{ 
+		getPlayPauseButton()->setIcons( eMyIconPauseNormal );
+	}
+	else
+	{
+		getPlayPauseButton()->setIcons( eMyIconPlayNormal );
+	}
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotPlayPauseButtonClick( void )
+{
+	if( isPlaying() )
+	{
+		INlc::getINlc().getNlcPlayer().fromGuiPlayPauseButtonClicked();
+	}
+	else
+	{
+		slotReplayButtonClick();
+	}
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotStopButtonClick( void )
+{
+	INlc::getINlc().getNlcPlayer().fromGuiStopButtonClicked();
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotSliderChanged( int sliderPos )
+{
+	INlc::getINlc().getNlcPlayer().fromGuiMediaPlayerSeek( sliderPos );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotUpdateControlsTimeout( void )
+{
+	if( m_IsPlaying )
+	{
+		INlc::getINlc().getNlcPlayer().fromGuiUpdatePlayPosition();
+	}
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onUpdatePlayPosition( VxGUID& feedId, int pos0to100000 )
+{
+	slotPlayProgress( pos0to100000 );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::resetPlayerControls( void )
+{
+	getPlayPosSlider()->setValue( 0 );
+	getPlayPauseButton()->setIcons( eMyIconPlayNormal );
+	getPlayPauseButton()->setEnabled( true );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::updateLastPlayedFile( void )
+{
+	if( m_AssetInfo.isValidFile() )
+	{
+		m_LastPlayedIsFile = true;
+		m_LastPlayedMedia = m_AssetInfo.getAssetName();
+	}
 }

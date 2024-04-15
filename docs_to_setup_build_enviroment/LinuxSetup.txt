@@ -29,7 +29,7 @@ Run the installer.
 When you see the installation folder dialog leave the path at default by check developement boxes
 
 You may need to run the maintenance tool and install the appropriate qt versions. 
-At the time of this writing Qt 6.4.3 is supported and Qt 6.6.0 is planned for future 
+At the time of this writing Qt verion is 6.6.2 
 	
 === compile enviroment issues ===
 NOTE: on Ubuntu you will likely see these errors. if packages are not found you are probably not running x11 and is normal

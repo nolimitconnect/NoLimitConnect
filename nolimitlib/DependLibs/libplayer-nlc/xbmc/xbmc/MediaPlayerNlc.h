@@ -34,6 +34,11 @@ public:
 
 	bool						fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 ) override;
 
+	void						fromGuiGetCanSeek( void ) override;
+    void						fromGuiPlayPauseButtonClicked( void ) override;
+    void						fromGuiStopButtonClicked( void ) override;
+	void						fromGuiUpdatePlayPosition( void ) override;
+
 protected:
     bool						assureInitialized( void );
 
@@ -45,8 +50,15 @@ protected:
 	void						onPlayFile( void ) override;
     void						onPlayStarted( void ) override;
     void						onStopPlaying( void ) override;
+
+    void						onPlaybackPaused( void ) override;
+    void						onPlaybackResumed( void ) override;
+    void						onPlaybackError( void ) override;
     void						onPlaybackStopped( void )  override;
     void						onPlaybackEnded( void ) override;
+
+	void						onPlayPause( bool isPaused ) override;
+	void						onCanSeek( bool canSeek, bool canPause ) override;
 
 	void						lockClientList( void ) { m_MediaPlayerCallbackMutex.lock(); }
 	void						unlockClientList( void ) { m_MediaPlayerCallbackMutex.unlock(); }

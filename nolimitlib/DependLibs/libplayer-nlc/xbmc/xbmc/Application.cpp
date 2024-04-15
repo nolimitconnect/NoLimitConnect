@@ -1097,9 +1097,15 @@ bool CApplication::OnAction( const CAction& action )
             GetWindowManager().GetWindow<CGUIWindowSlideShow>( WINDOW_SLIDESHOW );
         if( (appPlayer->IsPlaying() && appPlayer->GetPlaySpeed() == 1) ||
             (pSlideShow && pSlideShow->InSlideShow() && !pSlideShow->IsPaused()) )
+        {
+            onPlayPause( true );
             return OnAction( CAction( ACTION_PAUSE ) );
+        }
         else
+        {
+            onPlayPause( false );
             return OnAction( CAction( ACTION_PLAYER_PLAY ) );
+        }
     }
 
     //if the action would start or stop inertial scrolling
@@ -3840,8 +3846,16 @@ bool CApplication::SwitchToFullScreen( bool fullScreen )
     return true;
 }
 
-
 bool CApplication::IsCurrentThread() const
 {
     return CThread::IsCurrentThread( m_threadID );
+}
+
+void CApplication::PlayPauseButtonClicked( void )
+{
+  const auto appPlayer = GetComponent<CApplicationPlayer>();
+  if( appPlayer )
+  {
+      appPlayer->Pause();
+  }
 }

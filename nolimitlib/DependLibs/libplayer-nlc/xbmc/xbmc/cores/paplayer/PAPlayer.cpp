@@ -672,6 +672,7 @@ inline void PAPlayer::ProcessStreams( double& freeBufferTime )
                         m_callback.OnQueueNextItem();
                         si->m_prepareTriggered = true;
                     }
+
                     m_currentStream = NULL;
                 }
                 else
@@ -958,10 +959,12 @@ void PAPlayer::Pause()
     if( m_isPaused )
     {
         SetSpeed( 1 );
+        GetKodiInstance().onPlayPause( false );
     }
     else
     {
         SetSpeed( 0 );
+        GetKodiInstance().onPlayPause( true );
     }
 }
 
@@ -1152,6 +1155,7 @@ void PAPlayer::UpdateGUIData( StreamInfo* si )
     m_playerGUIData.m_sampleRate = si->m_audioFormat.m_sampleRate;
     m_playerGUIData.m_channelCount = si->m_audioFormat.m_channelLayout.Count();
     m_playerGUIData.m_canSeek = si->m_decoder.CanSeek();
+    GetKodiInstance().onCanSeek( m_playerGUIData.m_canSeek, true );
 
     const ICodec* codec = si->m_decoder.GetCodec();
 
@@ -1193,6 +1197,8 @@ void PAPlayer::CloseFileCB( StreamInfo& si )
     bookmark.playerState = GetPlayerState();
 
     g_application.OnPlayerCloseFile( fileItem, bookmark );
+                        
+    GetKodiInstance().onPlaybackEnded();
 }
 
 void PAPlayer::AdvancePlaylistOnError( CFileItem& fileItem )

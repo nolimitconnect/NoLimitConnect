@@ -42,7 +42,7 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 
 	ui.setupUi( getContentItemsFrame() );
-	ui.m_PlayPosSlider->setVisible( false );
+	ui.m_PlayControlWidget->setVisible( false );
     setMenuBottomVisibility( true );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
@@ -85,6 +85,14 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 	connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT( slotBrowseButtonClick() ) );
 	connect( ui.m_ReplayButton, SIGNAL(clicked()), this, SLOT( slotReplayButtonClick() ) );
+
+	connect( ui.m_PlayControlWidget, SIGNAL(signalRestart()), this, SLOT(slotReplayButtonClick()) );
+	connect( ui.m_PlayControlWidget, SIGNAL(signalPlayPauseButtonClicked()), this, SLOT(slotPlayPauseButtonClick()) );
+	connect( ui.m_PlayControlWidget, SIGNAL(signalStopButtonClicked()), this, SLOT(slotStopButtonClick()) );
+	connect( ui.m_PlayControlWidget, SIGNAL(signalSliderChanged(int)), this, SLOT(slotSliderChanged(int)) );
+	connect( ui.m_PlayControlWidget, SIGNAL(signalUpdateControlsTimeout()), this, SLOT(slotUpdateControlsTimeout()) );
+
+	connect( ui.m_RenderWidget, SIGNAL(signalLeftMouseButtonClick()), this, SLOT(slotLeftMouseButtonClick()));
 
 	onAppletInitialized();
 }
@@ -221,6 +229,7 @@ void AppletPlayerNlc::playSelectedMovie( std::string movieFile )
 	QString fileName = movieFile.c_str();
 	if( VxFileUtil::fileExists( movieFile.c_str() ) )
 	{
+		startBusySpinner( getPlayControlWidget() );
 		ui.m_LastPlayedFileText->setText( fileName );
 		m_MyApp.getAppSettings().setLastPlayedMovie( movieFile );
 		playFile( fileName, 0, false, false );

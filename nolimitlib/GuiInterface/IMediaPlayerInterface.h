@@ -32,6 +32,11 @@ public:
     virtual bool				fromGuiMediaPlayerSeek( int position0to100000 ) = 0;
 
     virtual bool				fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 ) = 0;
+
+    virtual void				fromGuiGetCanSeek( void ) = 0;
+    virtual void				fromGuiPlayPauseButtonClicked( void ) = 0;
+    virtual void				fromGuiStopButtonClicked( void ) = 0;
+    virtual void				fromGuiUpdatePlayPosition( void ) = 0;
 };
 
 class VxGUID;
@@ -47,5 +52,8 @@ public:
     virtual void				fromMediaPlayerStopPlaying( VxGUID& feedId ) = 0;
     virtual void				fromMediaPlayerPlaybackStopped( VxGUID& feedId ) = 0;
     virtual void				fromMediaPlayerPlaybackEnded( VxGUID& feedId ) = 0;
+    virtual void				fromMediaPlayerPlayPause( VxGUID& feedId, bool isPaused ) = 0;
 
+    virtual void				fromMediaPlayerCanSeek( VxGUID& feedId, bool canSeek, bool canPause ) = 0;
+    virtual void				fromMediaPlayerUpdatePlayPosition( VxGUID& feedId, int position0to100000 ) = 0;
 };

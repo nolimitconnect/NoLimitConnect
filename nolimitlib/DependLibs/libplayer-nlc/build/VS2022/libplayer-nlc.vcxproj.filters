@@ -6168,9 +6168,6 @@
     <Filter Include="input\touch">
       <UniqueIdentifier>{7CA37852-ECC8-3D01-976E-E089F7A3C5BB}</UniqueIdentifier>
     </Filter>
-    <Filter Include="commons">
-      <UniqueIdentifier>{FC03A241-BBDD-3C41-BF47-AB459BB568AF}</UniqueIdentifier>
-    </Filter>
     <Filter Include="contrib">
       <UniqueIdentifier>{1496DD1D-3F80-3078-A148-C4E174ACC721}</UniqueIdentifier>
     </Filter>

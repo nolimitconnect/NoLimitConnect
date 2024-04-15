@@ -218,7 +218,7 @@ public:
 	bool						confirmDeleteFile( QString fileName, bool shredFile );
 	bool						confirmDeleteFile( AssetBaseInfo& assetInfo, bool shredFile = false );
 
-	virtual void				startBusySpinner( void );
+	virtual void				startBusySpinner( QWidget* parent = nullptr );
 	virtual void				stopBusySpinner( void );
 
 signals:

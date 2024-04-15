@@ -115,6 +115,12 @@ key-enabled.svg
 library.svg
 library-removed.svg (modified)
 linked.svg
+mediacontrol-back-thirty.svg
+mediacontrol-forward-thirty.svg
+mediacontrol-pause.svg
+mediacontrol-play.svg
+mediacontrol-repeat.svg
+mediacontrol-stop.svg
 mediatype-audio.svg
 mediatype-video.svg
 messenger-settings.svg (modified)

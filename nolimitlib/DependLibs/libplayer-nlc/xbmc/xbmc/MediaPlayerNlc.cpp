@@ -1,8 +1,9 @@
 
 #include "MediaPlayerNlc.h"
 
-#include "ServiceManager.h"
+#include "ApplicationPlayer.h"
 #include "NlcUrl.h"
+#include "ServiceManager.h"
 
 #include "../../../../../nolimitgui/AppInterface/INlc.h"
 #include "../../../../GuiInterface/OsInterface/OsInterface.h"
@@ -204,16 +205,6 @@ bool MediaPlayerNlc::fromGuiMediaPlayerAction( EMediaPlayerAction playerAction )
 }
 
 //============================================================================
-bool MediaPlayerNlc::fromGuiMediaPlayerSeek( int position0to100000 )
-{
-	bool result{ false };
-	assureInitialized();
-
-
-	return result;
-}
-
-//============================================================================
 bool MediaPlayerNlc::playAudioFile( int position0to100000 )
 {
     assureInitialized();
@@ -303,4 +294,115 @@ void MediaPlayerNlc::onPlaybackEnded( void )
     }
 
     unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlayPause( bool isPaused )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerPlayPause( m_FeedId, isPaused );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::onCanSeek( bool canSeek, bool canPause )
+{
+	lockClientList();
+    for( auto client : m_MediaPlayerCallbackClients )
+    {
+		client->fromMediaPlayerCanSeek( m_FeedId, canSeek, canPause );
+    }
+
+    unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::fromGuiPlayPauseButtonClicked( void )
+{
+	PlayPauseButtonClicked();
+}
+
+//============================================================================
+void MediaPlayerNlc::fromGuiStopButtonClicked( void )
+{
+	fromGuiMediaPlayerAction( eMediaPlayerActionPlayStop );
+}
+
+//============================================================================
+void MediaPlayerNlc::fromGuiGetCanSeek( void )
+{
+	const auto appPlayer = GetComponent<CApplicationPlayer>();
+	if( appPlayer )
+	{
+		bool canSeek = appPlayer->CanSeek();
+		bool canPause = appPlayer->CanPause();
+		lockClientList();
+		for( auto client : m_MediaPlayerCallbackClients )
+		{
+			client->fromMediaPlayerCanSeek( m_FeedId, canSeek, canPause );
+		}
+
+		unlockClientList();
+	}
+}
+
+//============================================================================
+bool MediaPlayerNlc::fromGuiMediaPlayerSeek( int position0to100000 )
+{
+	bool result{ false };
+	assureInitialized();
+
+	float playPos = (float)(position0to100000) / 1000.0f;
+	const auto appPlayer = GetComponent<CApplicationPlayer>();
+	if( appPlayer )
+	{
+		if( appPlayer->CanSeek() )
+		{
+			appPlayer->SeekPercentage(playPos);
+			result = true;
+		}
+	}
+
+	return result;
+}
+
+//============================================================================
+void MediaPlayerNlc::fromGuiUpdatePlayPosition( void )
+{
+	int playPos{ 0 };
+	const auto appPlayer = GetComponent<CApplicationPlayer>();
+	if( appPlayer && appPlayer->IsPlaying() )
+	{
+		playPos = (int)(appPlayer->GetPercentage() * 1000);
+	}
+
+	lockClientList();
+	for( auto client : m_MediaPlayerCallbackClients )
+	{
+		client->fromMediaPlayerUpdatePlayPosition( m_FeedId, playPos );
+	}
+
+	unlockClientList();
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlaybackPaused( void ) 
+{
+	onPlayPause( true );
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlaybackResumed( void )  
+{
+	onPlayPause( false );
+}
+
+//============================================================================
+void MediaPlayerNlc::onPlaybackError( void ) 
+{
+	onPlaybackStopped();
 }

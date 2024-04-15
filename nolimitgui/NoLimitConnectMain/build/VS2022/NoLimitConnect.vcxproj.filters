@@ -1148,6 +1148,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPlayerMgr.h">
       <Filter>Source Files\GuiPlayerMgr</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -2302,6 +2305,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBaseCallbacks.cpp">
       <Filter>Source Files\GuiOffer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -3143,6 +3149,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerStream.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\PlayControlWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

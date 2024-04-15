@@ -351,6 +351,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/PermissionListItem.h
     CommonSrc/QtSource/PersonOfferListItem.h
     CommonSrc/QtSource/PersonOfferListWidget.h
+    CommonSrc/QtSource/PlayControlWidget.h
     CommonSrc/QtSource/PluginSettingsWidget.h
     CommonSrc/QtSource/RenderGlOffScreenSurface.h
     CommonSrc/QtSource/RenderGlLogic.h
@@ -752,6 +753,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/PermissionListItem.cpp
     CommonSrc/QtSource/PersonOfferListItem.cpp
     CommonSrc/QtSource/PersonOfferListWidget.cpp
+    CommonSrc/QtSource/PlayControlWidget.cpp
     CommonSrc/QtSource/PluginSettingsWidget.cpp
     CommonSrc/QtSource/RenderGlLogic.cpp
     CommonSrc/QtSource/RenderGlMatrix.cpp
@@ -970,6 +972,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/PermissionWidget.ui
     CommonSrc/Forms/PermissionListItemWidget.ui
     CommonSrc/Forms/PersonOfferListItem.ui
+    CommonSrc/Forms/PlayControlWidget.ui
     CommonSrc/Forms/PluginSettingsWidget.ui
     CommonSrc/Forms/SearchBarWidget.ui
     CommonSrc/Forms/SearchParamsWidget.ui

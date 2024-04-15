@@ -210,10 +210,10 @@ void RenderGlWidget::keyPressEvent( QKeyEvent * ev )
     if( ev->isAutoRepeat() )
         return;
 
-    if( ! m_QtToPlayerNlc.fromGuiKeyPressEvent( ev->key() ) )
-    {
-        QWidget::keyPressEvent( ev );
-    }
+    //if( ! m_QtToPlayerNlc.fromGuiKeyPressEvent( ev->key() ) )
+    //{
+    //    QWidget::keyPressEvent( ev );
+    //}
 }
 
 //============================================================================
@@ -222,38 +222,43 @@ void RenderGlWidget::keyReleaseEvent( QKeyEvent * ev )
     if( ev->isAutoRepeat() )
         return;
 
-    if( !m_QtToPlayerNlc.fromGuiKeyReleaseEvent( ev->key() ) )
-    {
-        QWidget::keyReleaseEvent( ev );
-    }
+    //if( !m_QtToPlayerNlc.fromGuiKeyReleaseEvent( ev->key() ) )
+    //{
+    //    QWidget::keyReleaseEvent( ev );
+    //}
 }
 
 //============================================================================
 void RenderGlWidget::mousePressEvent( QMouseEvent * ev )
 {
     // takeSnapshot();
-    if( !m_QtToPlayerNlc.fromGuiMousePressEvent( ev->position().x(), ev->position().y(), ev->button() ) )
+    //if( !m_QtToPlayerNlc.fromGuiMousePressEvent( ev->position().x(), ev->position().y(), ev->button() ) )
+    //{
+    //    QWidget::mousePressEvent( ev );
+    //}
+
+    if( ev->button() == Qt::LeftButton )
     {
-        QWidget::mousePressEvent( ev );
+        emit signalLeftMouseButtonClick();
     }
 }
 
 //============================================================================
 void RenderGlWidget::mouseReleaseEvent( QMouseEvent * ev )
 {
-    if( !m_QtToPlayerNlc.fromGuiMouseReleaseEvent( ev->position().x(), ev->position().y(), ev->button() ) )
-    {
-        QWidget::mouseReleaseEvent( ev );
-    }
+    //if( !m_QtToPlayerNlc.fromGuiMouseReleaseEvent( ev->position().x(), ev->position().y(), ev->button() ) )
+    //{
+    //    QWidget::mouseReleaseEvent( ev );
+    //}
 }
 
 //============================================================================
 void RenderGlWidget::mouseMoveEvent( QMouseEvent * ev )
 {
-    if( !m_QtToPlayerNlc.fromGuiMouseMoveEvent( ev->position().x(), ev->position().y() ) )
-    {
-        QWidget::mouseMoveEvent( ev );
-    }
+    //if( !m_QtToPlayerNlc.fromGuiMouseMoveEvent( ev->position().x(), ev->position().y() ) )
+    //{
+    //    QWidget::mouseMoveEvent( ev );
+    //}
 }
 
 //============================================================================

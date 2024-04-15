@@ -1345,7 +1345,7 @@ void ActivityBase::setNewParentPage( QWidget* newParent )
 }
 
 //============================================================================
-void ActivityBase::startBusySpinner( void )
+void ActivityBase::startBusySpinner( QWidget* parent )
 {
 	if( m_BusySpinner )
 	{
@@ -1353,7 +1353,7 @@ void ActivityBase::startBusySpinner( void )
 		return;
 	}
 
-	m_BusySpinner = new WaitingSpinnerWidget( this );
+	m_BusySpinner = new WaitingSpinnerWidget( parent ? parent : this );
 	m_BusySpinner->startWaiting( m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
 }
 

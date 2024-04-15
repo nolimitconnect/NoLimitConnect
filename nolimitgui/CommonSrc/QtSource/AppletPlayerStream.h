@@ -26,8 +26,10 @@ public:
 	virtual ~AppletPlayerStream();
 
 	RenderGlWidget*				getRenderConsumer( void ) override		{ return ui.m_RenderWidget; }
-	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayPosSlider; }
+	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayControlWidget->getPlayPosSlider(); }
 	QPushButton*				getReplayButton( void ) override		{ return ui.m_ReplayButton; }
+	VxPushButton*				getPlayPauseButton( void ) override		{ return ui.m_PlayControlWidget->getPlayPauseButton(); }
+	PlayControlWidget*			getPlayControlWidget( void ) override	{ return ui.m_PlayControlWidget; }
 
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 
@@ -62,7 +64,6 @@ protected:
 	bool						m_IsPlaying{ false };
 	bool						m_SliderIsPressed{ false };
 
-	QMediaPlayer*				m_QMediaPlayer{ nullptr };
 	QElapsedTimer				m_ElapsedTimer;
 
 	std::vector<AssetBaseInfo>	m_StreamableAssets;

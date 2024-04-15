@@ -3227,10 +3227,12 @@ void CVideoPlayer::Pause()
     if( m_processInfo->GetNewSpeed() == 0 )
     {
         SetSpeed( 1 );
+        GetKodiInstance().onPlayPause( false );
     }
     else
     {
         SetSpeed( 0 );
+        GetKodiInstance().onPlayPause( true );
     }
 }
 
@@ -5092,15 +5094,18 @@ void CVideoPlayer::UpdatePlayState( double timeout )
         state.timeMax = state.time;
         state.timeMin = state.time;
     }
+
     if( state.timeMin == state.timeMax )
     {
         state.canseek = false;
         state.cantempo = false;
+        GetKodiInstance().onCanSeek( false, false );
     }
     else
     {
         state.canseek = true;
         state.canpause = true;
+        GetKodiInstance().onCanSeek( true, true );
     }
 
     m_processInfo->SetPlayTimes( state.startTime, state.time, state.timeMin, state.timeMax );

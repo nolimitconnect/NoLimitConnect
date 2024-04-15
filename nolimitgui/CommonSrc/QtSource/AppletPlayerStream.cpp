@@ -54,7 +54,7 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
 	ui.setupUi( getContentItemsFrame() );
-	ui.m_PlayPosSlider->setVisible( false );
+	ui.m_PlayControlWidget->setVisible( false );
     setMenuBottomVisibility( true );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
@@ -84,6 +84,11 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 	connect( ui.m_StreamsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaStreamComboBoxSelectionChange(int)) );
 
 	connect( ui.m_ReplayButton, SIGNAL(clicked()), this, SLOT( slotPlayButtonClick() ) );
+
+	connect( ui.m_RenderWidget, SIGNAL(signalLeftMouseButtonClick()), this, SLOT(slotLeftMouseButtonClick()));
+
+	connect( ui.m_PlayControlWidget, SIGNAL(signalPlayPauseButtonClicked()), this, SLOT(slotPlayPauseButtonClick()));
+	connect( ui.m_PlayControlWidget, SIGNAL(signalStopButtonClicked()), this, SLOT(slotStopButtonClick()));
 
 	onAppletInitialized();
 }

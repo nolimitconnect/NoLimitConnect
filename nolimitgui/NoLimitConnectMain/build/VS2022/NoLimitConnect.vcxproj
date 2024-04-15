@@ -465,6 +465,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PermissionWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PluginSettingsWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RelayServiceWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderGlLogic.cpp" />
@@ -727,6 +728,7 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\OfferSessionLogic.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\RenderGlShaders.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\RenderLogoShaders.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderPlayerNlcThread.h" />
@@ -1105,6 +1107,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\PermissionListItemWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\PermissionWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\PersonOfferListItem.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\PlayControlWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\PluginSettingsWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\RelayServiceWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\SearchBarWidget.ui" />

@@ -602,6 +602,8 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 		return ":/AppRes/Resources/undo.svg";
 	
 	//=== bottom bar icons ===//
+	case eMyIconMediaStop:
+		return ":/AppRes/Resources/mediacontrol-stop.svg";
 	case eMyIconArrowLeft:
 		return ":/AppRes/Resources/arrow-left.svg";
 	case eMyIcon30SecBackward:

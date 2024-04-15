@@ -299,6 +299,7 @@ enum EMyIcons
 	eMyIconBack,
 
 	//=== bottom bar icons ===//
+	eMyIconMediaStop,
 	eMyIconArrowLeft,
 	eMyIcon30SecBackward,
 	eMyIcon30SecForward,

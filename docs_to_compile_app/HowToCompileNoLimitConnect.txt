@@ -25,6 +25,7 @@ Configure and Compile
 Code Checkout
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 
+mkdir nolimitapp/build
 cd nolimitapp/build
 mkdir nlc_build
 cd nlc_build

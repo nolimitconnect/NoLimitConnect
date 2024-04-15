@@ -211,7 +211,6 @@ public:
     virtual void                glFuncEnableVertexAttribArray( GLuint index ) override;
     virtual void                glFuncDrawArrays( GLenum mode, GLint first, GLsizei count ) override;
     
-
     void                        onThreadFrameRendered() { emit signalFrameRendered(); }
 
 public slots:

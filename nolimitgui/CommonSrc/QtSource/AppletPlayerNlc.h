@@ -12,6 +12,7 @@
 #include "AppletPlayerNlcBase.h"
 
 #include "GuiPlayerCallback.h"
+#include "PlayControlWidget.h"
 #include "ui_AppletPlayerNlc.h"
 
 #include <QElapsedTimer>
@@ -27,8 +28,10 @@ public:
     virtual ~AppletPlayerNlc();
 
 	RenderGlWidget*				getRenderConsumer( void ) override		{ return ui.m_RenderWidget; }
-	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayPosSlider; }
+	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayControlWidget->getPlayPosSlider(); }
 	QPushButton*				getReplayButton( void ) override		{ return ui.m_ReplayButton; }
+	VxPushButton*				getPlayPauseButton( void ) override		{ return ui.m_PlayControlWidget->getPlayPauseButton(); }
+	PlayControlWidget*			getPlayControlWidget( void ) override	{ return ui.m_PlayControlWidget; }
 
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 

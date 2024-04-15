@@ -107,10 +107,11 @@ public:
 
     void                        aboutToDestroy();
 
-    RenderPlayerNlcThread*           m_RenderPlayerNlcThread = nullptr;
+    RenderPlayerNlcThread*      m_RenderPlayerNlcThread = nullptr;
 
 signals:
     void                        signalFrameRendered();
+    void                        signalLeftMouseButtonClick();
 
 protected:
 

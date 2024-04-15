@@ -17,11 +17,13 @@
 
 #include <QElapsedTimer>
 
+class PlayControlWidget;
 class RenderGlWidget;
 class QMediaPlayer;
 class QProgressDialog;
 class QPushButton;
 class QSlider;
+class VxPushButton;
 
 class AppletPlayerNlcBase : public AppletPlayerBase, public GuiPlayerCallback, public IMediaPlayerCallback
 {
@@ -35,6 +37,8 @@ public:
 	virtual RenderGlWidget*		getRenderConsumer( void ) = 0;
 	virtual QSlider*			getPlayPosSlider( void ) = 0;
 	virtual QPushButton*		getReplayButton( void ) = 0;
+	virtual VxPushButton*		getPlayPauseButton( void ) = 0;
+	virtual PlayControlWidget*	getPlayControlWidget( void ) = 0;
 
 	virtual void				onMediaPlayerNlcReady( bool isReady ) {};
 
@@ -42,7 +46,6 @@ public:
 
     void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override {};
 
-	
 	void						fromMediaPlayerInitLevel( int level, bool success ) override;
 
 	void						fromMediaPlayerPlayFile( VxGUID& feedId ) override;
@@ -51,6 +54,17 @@ public:
 	void						fromMediaPlayerStopPlaying( VxGUID& feedId ) override;
 	void						fromMediaPlayerPlaybackStopped( VxGUID& feedId ) override;
 	void						fromMediaPlayerPlaybackEnded( VxGUID& feedId ) override;
+	void						fromMediaPlayerPlayPause( VxGUID& feedId, bool isPaused ) override;
+
+	void						fromMediaPlayerCanSeek( VxGUID& feedId, bool canSeek, bool canPause ) override;
+	void						fromMediaPlayerUpdatePlayPosition( VxGUID& feedId, int pos0to100000 ) override;
+
+	void						setIsPlaying( bool isPlaying )	{ m_IsPlaying = isPlaying; }
+	bool						isPlaying( void )				{ return m_IsPlaying; }
+
+	void						resetPlayerControls( void );
+
+	void						updateLastPlayedFile( void );
 
 signals:
 	void						signalInternalInitLevel( int level, bool success );
@@ -61,6 +75,9 @@ signals:
 	void						signalInternalStopPlaying( VxGUID feedId );
 	void						signalInternalPlaybackStopped( VxGUID feedId );
 	void						signalInternalPlaybackEnded( VxGUID feedId );
+	void						signalInternalPlayPause( VxGUID feedId, bool isPaused );
+	void						signalInternalCanSeek( VxGUID feedId, bool canSeek, bool canPause );
+	void						signalInternalUpdatePlayPosition( VxGUID feedId, int pos0to100000 );
 
 protected slots:
 	void						slotInternalInitLevel( int level, bool success );
@@ -71,6 +88,9 @@ protected slots:
 	void						slotInternalStopPlaying( VxGUID feedId );
 	void						slotInternalPlaybackStopped( VxGUID feedId );
 	void						slotInternalPlaybackEnded( VxGUID feedId );
+	void						slotInternalPlayPause( VxGUID feedId, bool isPaused );
+	void						slotInternalCanSeek( VxGUID feedId, bool canSeek, bool canPause );
+	void						slotInternalUpdatePlayPosition( VxGUID feedId, int pos0to100000 );
 
 	void						slotPlayButtonClicked( void );
 	void						slotSliderPressed( void );
@@ -80,6 +100,13 @@ protected slots:
 	void						slotPlayEnd( void );
 
 	void                        slotReplayButtonClick( void );
+
+	void						slotPlayPauseButtonClick( void );
+	void						slotStopButtonClick( void );
+	void						slotSliderChanged( int sliderPos );
+	void						slotUpdateControlsTimeout( void );
+
+	void                        slotLeftMouseButtonClick( void );
 
 protected:
 	void						initAppletPlayerNlcBase( void );
@@ -105,6 +132,9 @@ protected:
 	virtual void				onStopPlaying( VxGUID& feedId );
 	virtual void				onPlaybackStopped( VxGUID& feedId );
 	virtual void				onPlaybackEnded( VxGUID& feedId );
+	virtual void				onPlayPause( VxGUID& feedId, bool isPaused );
+	virtual void				onCanSeek( VxGUID& feedId, bool canSeek, bool canPause );
+	virtual void				onUpdatePlayPosition( VxGUID& feedId, int pos0to100000 );
 
 	virtual void				onBackButtonClicked( void ) override;
 
@@ -117,7 +147,6 @@ private:
 	bool						m_IsPlaying{ false };
 	bool						m_SliderIsPressed{ false };
 
-	QMediaPlayer*				m_QMediaPlayer{ nullptr };
 	QElapsedTimer				m_ElapsedTimer;
 
 	bool						m_LastPlayedIsStream{ false };

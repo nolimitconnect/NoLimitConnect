@@ -139,11 +139,18 @@ public:
 
     virtual void                onPlayFile( void ) {};
     virtual void                onPlayStarted( void ) {};
+    virtual void                onPlaybackPaused( void ) {};
+    virtual void                onPlaybackResumed( void ) {};
+    virtual void                onPlaybackError( void ) {};
 
     virtual void                onStopPlaying( void ) {};
     virtual void                onPlaybackStopped( void ) {};
     virtual void                onPlaybackEnded( void ) {};
-    
+    virtual void                onPlayPause( bool isPaused ) {};
+    virtual void                onCanSeek( bool canSeek, bool canPause ) {};
+
+    void PlayPauseButtonClicked( void );
+
     //============================================================================
 
     bool Create();
