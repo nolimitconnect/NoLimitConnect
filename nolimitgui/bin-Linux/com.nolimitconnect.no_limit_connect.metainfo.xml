@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.nolimitconnect.no_limit_connect</id>
+  
+  <name>No Limit Connect</name>
+  <summary>A Open Source Social Network</summary>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  
+  <description>
+    <p>
+      Open Source Social Network Suite. Messenger, Video Chat, Hosting, Blogs etc.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">com.nolimitconnect.no_limit_connect.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://nolimitconnect.com/assets/images/nlc-image1.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://nolimitconnect.com/assets/images/nlc-image2.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://nolimitconnect.com/assets/images/nlc-image3.png</image>
+    </screenshot>
+  </screenshots>
+</component>

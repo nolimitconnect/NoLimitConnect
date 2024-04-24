@@ -12,6 +12,7 @@ git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 
 ## Description
 A independent social network designed to be hosted on any device with an internet connection. See docs folder for network design.
+
 Major features:
 o Person to Person and plugin permissions: Ignore, Guest, Friend, Admin
 o Push To Talk VOIP
@@ -22,6 +23,7 @@ o VOIP Voice Phone
 o Messenger
 o About Me user page
 o Storyboard blog page
+o Web Cam Server
 o Media Player (Based on Kodi(TM) and Ffmpeg)
 o Chat Room host and client
 o Random Connect host and client

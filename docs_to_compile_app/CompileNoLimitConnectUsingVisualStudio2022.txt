@@ -1,0 +1,58 @@
+
+=== Windows Compile In Visual Studio ===
+Code Checkout
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+Compile In Visual Studio
+In Visual Studio open nolimitapp/nolimitgui/build/VS2022/NoLimitConnectAll.sln
+Right Click NoLimitConnect and Set As Startup Project
+Compile
+
+
+Depending on your preference do one of the following for Android Or Linux 
+
+=== Compile in Qt Creator ===
+
+Code Checkout
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+In Qt Creator open nolimitapp/CMakeList.txt
+Configure and Compile
+
+
+=== Compile from command line in Linux ===
+
+Code Checkout
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+
+mkdir nolimitapp/build
+cd nolimitapp/build
+mkdir nlc_build
+cd nlc_build
+rm -rf *
+
+To configure build for Linux:
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_LINUX=true, -DQT_VERSION=6_6_2
+
+
+To configure build for 64bit arm cpu aarch64 (arm64-v8a):
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_2 -DARM64=true
+
+
+To configure build for 32bit arm cpu arm7 (armeabi-v7a):
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release -DTARGET_OS_ANDROID=true, -DQT_VERSION=6_6_2 -DARM32=true
+
+Compile Build:
+make -j$(nproc)
+
+====== ANDRROID ISSUES =======
+When debugging on galaxy A8 tablet and galaxy flip phone 5G 
+There seems to be issues with touching the screen causing gralloc4 message stream and sometimes a break somewhere is Java in QCreator
+This may have been resolved. I have opened a bug QTBUG-119061
+The best configuration which at least minimizes the issue is
+NDK KIT 23.1.7779620
+SDK PLATFORM 33
+ANDROID PLATFORM android-23
+if needed set the c compiler to 
+ndk\23.1.7779620\toolchains\llvm\prebuilt\windows-x86_64\bin\aarch64-linux-android23-clang
+

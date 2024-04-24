@@ -1,5 +1,6 @@
 
 project(nolimitconnect, LANGUAGES CXX)
+
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 
 set(CMAKE_CXX_STANDARD 17)
@@ -1453,6 +1454,7 @@ else()
     message(FATAL_ERROR "Unknown Target OS Defined for target_link_libraries")
 endif()
 
+
 qt_finalize_target(nolimitconnect)
 
 message(STATUS "Post build CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
@@ -1590,3 +1592,70 @@ endif() #if(DEFINED TARGET_OS_ANDROID)
 add_custom_target(nolimitappsApk
     COMMAND echo "echo CMAKE_BINARY_DIR ***** ${CMAKE_BINARY_DIR}")
 add_dependencies(nolimitappsApk nolimitconnect)
+
+if(FLATPAKBUILD)
+    message("** Enabling Flatpak workarounds")
+    add_definitions(-DPQMFLATPAKBUILD)
+    include_directories(${GLIB_INCLUDE_DIRS})
+    target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
+    target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
+    target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
+endif()
+
+#=== INSTALL FILES ===#
+if(DEFINED TARGET_OS_LINUX)
+    # Install executeable
+    install(
+        TARGETS nolimitconnect
+        DESTINATION bin/
+    )
+
+    # Install desktop file
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.desktop
+        DESTINATION share/applications
+    )
+
+    # And install all the icons
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/16x16/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/16x16/apps/
+    )
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/32x32/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/32x32/apps/
+    )
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/48x48/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/48x48/apps/
+    )
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/64x64/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/64x64/apps/
+    )
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/128x128/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/128x128/apps/
+    )
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/256x256/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/256x256/apps/
+    )
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/512x512/com.nolimitconnect.NoLimitConnect.png
+        DESTINATION share/icons/hicolor/512x512/apps/
+    )
+    # the max allowed icon size for flathub is 512x512
+    #if(NOT FLATPAKBUILD)
+    #    install(
+    #        FILES ${PROJECT_SRC_ROOT_DIR}/icons/1024x1024/com.nolimitconnect.NoLimitConnect.png
+    #        DESTINATION share/icons/hicolor/1024x1024/apps/
+    #    )
+    #endif()
+    install(
+        FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.metainfo.xml
+        DESTINATION share/metainfo/
+    )
+
+endif()
+

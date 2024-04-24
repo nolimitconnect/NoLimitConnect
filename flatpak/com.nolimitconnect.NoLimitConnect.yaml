@@ -1,0 +1,28 @@
+
+app-id: com.nolimitconnect.ClockNlc
+runtime: org.kde.Platform
+runtime-version: '6.7'
+sdk: org.kde.Sdk
+command: clocknlc
+finish-args: 
+    - --device=dri
+    - --filesystem=host
+    - --share=ipc
+    - --share=network
+    - --socket=fallback-x11       
+    - --socket=wayland
+
+modules:
+ - name: clocknlc
+   buildsystem: cmake-ninja
+   config-opts: 
+    - -DCMAKE_BUILD_TYPE=Release
+    - -DENABLE_QT5=OFF
+    - -DENABLE_QT6=ON
+    - -DFLATPAKBUILD=ON
+    
+   sources:
+    - type: git
+      url: https://gitlab.com/nolimitconnectapps/nlc-sandbox-flatpak.git
+
+

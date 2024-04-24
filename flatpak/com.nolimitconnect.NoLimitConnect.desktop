@@ -1,0 +1,14 @@
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=No Limit Connect
+Comment=A Social Network
+Categories=Network;Qt;
+
+Icon=aboutme_thumb.png
+Exec=nolimitconnect
+Terminal=false
+
+
