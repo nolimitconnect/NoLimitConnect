@@ -1457,153 +1457,23 @@ endif()
 
 qt_finalize_target(nolimitconnect)
 
-message(STATUS "Post build CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
-message(STATUS "Post build CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
+if(DEFINED FLATPAKBUILD)
 
-add_custom_command(TARGET nolimitconnect POST_BUILD
-    COMMAND echo "echo CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
+    #message("** Enabling Flatpak workarounds")
+    #add_definitions(-DPQMFLATPAKBUILD)
+    #include_directories(${GLIB_INCLUDE_DIRS})
+    #target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
+    #target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
+    #target_link_libraries(nolimitconnect PRIVATE "gio-2.0") 
+    
+    #set(INSTALL_DIR "") # empty to not complicate run command
 
-if(DEFINED TARGET_OS_LINUX)
-    #=== after compile add qt libraries to bin-TargetOs directory ===#
-    file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
-
-    #move requred qt package into bin/usr/lib for packaging Core Gui Multimedia OpenGL Svg Widgets)
-    message(STATUS "POST_BUID_TARGET copy shared qt libraries from ${CMAKE_PREFIX_PATH}/lib")
-    add_custom_command(POST_BUILD TARGET nolimitconnect
-        WORKING_DIRECTORY "${PROJECT_BIN_DIR}"
-
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Core.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Gui.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Multimedia.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6OpenGL.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Svg.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Widgets.so*" "${PROJECT_BIN_DIR}/usr/lib"
-        COMMAND_EXPAND_LISTS
-        )
-
-
-    #=== after qt libraries are copied then make installer with cpack ===#
-    message(STATUS "Setting up CPACK")
-    # common to all packages
-    set(CPACK_PACKAGE_NAME "${NLC_NAME}")
-    set(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
-    set(CMAKE_PROJECT_HOMEPAGE_URL  "${PROJECT_WEBSITE_URL}")
-    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-        "No Limit Connect - A Open Source Social Network")
-    set(CPACK_PACKAGE_VERSION "${NLC_VERSION}")
-    set(CPACK_PACKAGE_VERSION_MAJOR "${NLC_VERSION_MAJOR}")
-    set(CPACK_PACKAGE_VERSION_MINOR "${NLC_VERSION_MINOR}")
-    set(CPACK_PACKAGE_VERSION_PATCH "${NLC_VERSION_PATCH}")
-
-    set(CPACK_SET_DESTDIR TRUE)
-    set(CPACK_RESOURCE_FILE_README "${PROJECT_SRC_ROOT_DIR}/README.md")
-    set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SRC_ROOT_DIR}/LICENSE")
-
-    set(CPACK_PACKAGE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
-
-
-    # generate postinst file in ${CMAKE_BINARY_DIR} from template                        #
-    # CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/contrib/postinst.in" "postinst" @ONLY IMMEDIATE)
-
-
-    if(DEFINED TARGET_OS_LINUX)
-        message(STATUS "Creating debian package")
-        set(CPACK_GENERATOR "DEB")
-        include(GNUInstallDirs)
-        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libpthread, libGL, libGLU libuuid")
-        INSTALL( DIRECTORY "${PROJECT_ASSETS_DIR}" DESTINATION usr )
-
-
-    elseif(DEFINED TARGET_OS_WINDOWS)
-        set(CPACK_GENERATOR "NSIS")
-        set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/nolimitgui/CommonSrc/Resources/NlcP2P.ico")
-
-    endif()
-
-    # This must always be after all CPACK\_\* variables are defined
-    include(CPack)
-    message(STATUS "CPACK complete")
-endif()
-
-if(DEFINED TARGET_OS_ANDROID)
-    if(DEFINED DO_MANUAL)
-        if(MANUAL_PACKAGE)
-            file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/nolimitgui/android-build")
-            set(APK_ARGS "--input ${CMAKE_BINARY_DIR}/nolimitgui/android-nolimitconnect-deployment-settings.json --output ${CMAKE_BINARY_DIR}/nolimitgui/android-build --android-platform android-33 --jdk $ENV{JAVA_HOME} --verbose --gradle")
-            message(STATUS "Post build MANUAL_PACKAGE is defined ${APK_ARGS}")
-            if(CI_PIPELINE)
-                # androiddeployqt is in path
-                message(STATUS "Create Apk  androiddeployqt ${APK_ARGS}")
-                #add_custom_command(POST_BUILD TARGET nolimitconnect
-
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND echo "echo create apk androiddeployqt ${APK_ARGS}")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND androiddeployqt "${APK_ARGS}")
-            else()
-                # need full path to androiddeployqt
-                message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND "${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt" "${APK_ARGS}")
-            endif()
-        else()
-            message(STATUS "Post build MANUAL_PACKAGE is NOT defined")
-            add_custom_target(nolimitappsEchoDeploy ALL
-                COMMAND echo "create apk not required")
-        endif() # if(MANUAL_PACKAGE)
-    endif()
-
-    # copy package to package directory
-    set(NLC_APK_ROOT_DIR "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/")
-    if (CMAKE_BUILD_TYPE MATCHES Debug)
-        # for debugging only use apk
-        message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
-        add_custom_target(nolimitappsCopyDebugApk
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
-            COMMAND_EXPAND_LISTS
-            )
-        add_dependencies(nolimitappsCopyDebugApk nolimitconnect)
-
-    else()
-        # for release android play store requires aab bundle
-        message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
-        if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
-            add_custom_target(nolimitappsCopyReleaseBundle
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
-                COMMAND_EXPAND_LISTS
-                )
-            add_dependencies(nolimitappsCopyReleaseBundlenolimitconnect)
-        else()
-            add_custom_target(nolimitappsCopyReleaseApk
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-                DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
-                COMMAND_EXPAND_LISTS
-            )
-        add_dependencies(nolimitappsCopyReleaseApk nolimitconnect)
-        endif() # if EXISTS
-    endif() # if (CMAKE_BUILD_TYPE MATCHES Debug)
-endif() #if(DEFINED TARGET_OS_ANDROID)
-
-
-add_custom_target(nolimitappsApk
-    COMMAND echo "echo CMAKE_BINARY_DIR ***** ${CMAKE_BINARY_DIR}")
-add_dependencies(nolimitappsApk nolimitconnect)
-
-if(FLATPAKBUILD)
-    message("** Enabling Flatpak workarounds")
-    add_definitions(-DPQMFLATPAKBUILD)
-    include_directories(${GLIB_INCLUDE_DIRS})
-    target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
-    target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
-    target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
-endif()
-
-#=== INSTALL FILES ===#
-if(DEFINED TARGET_OS_LINUX)
+    #install(TARGETS nolimitconnect
+    #    RUNTIME DESTINATION "${INSTALL_DIR}"
+    #    BUNDLE DESTINATION "${INSTALL_DIR}"
+    #    LIBRARY DESTINATION "${INSTALL_DIR}"
+    #)
+    
     # Install executeable
     install(
         TARGETS nolimitconnect
@@ -1656,6 +1526,157 @@ if(DEFINED TARGET_OS_LINUX)
         FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.metainfo.xml
         DESTINATION share/metainfo/
     )
+    
+else()
+    message(STATUS "Post build CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
+    message(STATUS "Post build CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
 
-endif()
+    add_custom_command(TARGET nolimitconnect POST_BUILD
+        COMMAND echo "echo CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
+
+    if(DEFINED TARGET_OS_LINUX)
+        #=== after compile add qt libraries to bin-TargetOs directory ===#
+        file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
+
+        #move requred qt package into bin/usr/lib for packaging Core Gui Multimedia OpenGL Svg Widgets)
+        message(STATUS "POST_BUID_TARGET copy shared qt libraries from ${CMAKE_PREFIX_PATH}/lib")
+        add_custom_command(POST_BUILD TARGET nolimitconnect
+            WORKING_DIRECTORY "${PROJECT_BIN_DIR}"
+
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Core.so*" "${PROJECT_BIN_DIR}/usr/lib"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Gui.so*" "${PROJECT_BIN_DIR}/usr/lib"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Multimedia.so*" "${PROJECT_BIN_DIR}/usr/lib"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6OpenGL.so*" "${PROJECT_BIN_DIR}/usr/lib"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Svg.so*" "${PROJECT_BIN_DIR}/usr/lib"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_PREFIX_PATH}/lib/libQt6Widgets.so*" "${PROJECT_BIN_DIR}/usr/lib"
+            COMMAND_EXPAND_LISTS
+            )
+
+
+        #=== after qt libraries are copied then make installer with cpack ===#
+        message(STATUS "Setting up CPACK")
+        # common to all packages
+        set(CPACK_PACKAGE_NAME "${NLC_NAME}")
+        set(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
+        set(CMAKE_PROJECT_HOMEPAGE_URL  "${PROJECT_WEBSITE_URL}")
+        set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
+            "No Limit Connect - A Open Source Social Network")
+        set(CPACK_PACKAGE_VERSION "${NLC_VERSION}")
+        set(CPACK_PACKAGE_VERSION_MAJOR "${NLC_VERSION_MAJOR}")
+        set(CPACK_PACKAGE_VERSION_MINOR "${NLC_VERSION_MINOR}")
+        set(CPACK_PACKAGE_VERSION_PATCH "${NLC_VERSION_PATCH}")
+
+        set(CPACK_SET_DESTDIR TRUE)
+        set(CPACK_RESOURCE_FILE_README "${PROJECT_SRC_ROOT_DIR}/README.md")
+        set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SRC_ROOT_DIR}/LICENSE")
+
+        set(CPACK_PACKAGE_DIRECTORY "${PROJECT_PACKAGE_DIR}")
+
+
+        # generate postinst file in ${CMAKE_BINARY_DIR} from template                        #
+        # CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/contrib/postinst.in" "postinst" @ONLY IMMEDIATE)
+
+
+        if(DEFINED TARGET_OS_LINUX)
+            message(STATUS "Creating debian package")
+            set(CPACK_GENERATOR "DEB")
+            include(GNUInstallDirs)
+            set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
+            set(CPACK_DEBIAN_PACKAGE_DEPENDS "libpthread, libGL, libGLU libuuid")
+            INSTALL( DIRECTORY "${PROJECT_ASSETS_DIR}" DESTINATION usr )
+
+
+        elseif(DEFINED TARGET_OS_WINDOWS)
+            set(CPACK_GENERATOR "NSIS")
+            set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/nolimitgui/CommonSrc/Resources/NlcP2P.ico")
+
+        endif()
+
+        # This must always be after all CPACK\_\* variables are defined
+        include(CPack)
+        message(STATUS "CPACK complete")
+    endif()
+
+    if(DEFINED TARGET_OS_ANDROID)
+        if(DEFINED DO_MANUAL)
+            if(MANUAL_PACKAGE)
+                file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/nolimitgui/android-build")
+                set(APK_ARGS "--input ${CMAKE_BINARY_DIR}/nolimitgui/android-nolimitconnect-deployment-settings.json --output ${CMAKE_BINARY_DIR}/nolimitgui/android-build --android-platform android-33 --jdk $ENV{JAVA_HOME} --verbose --gradle")
+                message(STATUS "Post build MANUAL_PACKAGE is defined ${APK_ARGS}")
+                if(CI_PIPELINE)
+                    # androiddeployqt is in path
+                    message(STATUS "Create Apk  androiddeployqt ${APK_ARGS}")
+                    #add_custom_command(POST_BUILD TARGET nolimitconnect
+
+                    add_custom_target(nolimitappsEchoDeploy ALL
+                        COMMAND echo "echo create apk androiddeployqt ${APK_ARGS}")
+                    add_custom_target(nolimitappsEchoDeploy ALL
+                        COMMAND androiddeployqt "${APK_ARGS}")
+                else()
+                    # need full path to androiddeployqt
+                    message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
+                    add_custom_target(nolimitappsEchoDeploy ALL
+                        COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
+                    add_custom_target(nolimitappsEchoDeploy ALL
+                        COMMAND "${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt" "${APK_ARGS}")
+                endif()
+            else()
+                message(STATUS "Post build MANUAL_PACKAGE is NOT defined")
+                add_custom_target(nolimitappsEchoDeploy ALL
+                    COMMAND echo "create apk not required")
+            endif() # if(MANUAL_PACKAGE)
+        endif()
+
+        # copy package to package directory
+        set(NLC_APK_ROOT_DIR "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/")
+        if (CMAKE_BUILD_TYPE MATCHES Debug)
+            # for debugging only use apk
+            message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
+            add_custom_target(nolimitappsCopyDebugApk
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
+                COMMAND_EXPAND_LISTS
+                )
+            add_dependencies(nolimitappsCopyDebugApk nolimitconnect)
+
+        else()
+            # for release android play store requires aab bundle
+            message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
+            if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
+                add_custom_target(nolimitappsCopyReleaseBundle
+                    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+                    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
+                    COMMAND_EXPAND_LISTS
+                    )
+                add_dependencies(nolimitappsCopyReleaseBundlenolimitconnect)
+            else()
+                add_custom_target(nolimitappsCopyReleaseApk
+                    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+                    DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
+                    COMMAND_EXPAND_LISTS
+                )
+            add_dependencies(nolimitappsCopyReleaseApk nolimitconnect)
+            endif() # if EXISTS
+        endif() # if (CMAKE_BUILD_TYPE MATCHES Debug)
+    endif() #if(DEFINED TARGET_OS_ANDROID)
+
+
+    add_custom_target(nolimitappsApk
+        COMMAND echo "echo CMAKE_BINARY_DIR ***** ${CMAKE_BINARY_DIR}")
+    add_dependencies(nolimitappsApk nolimitconnect)
+
+    if(FLATPAKBUILD)
+        message("** Enabling Flatpak workarounds")
+        add_definitions(-DPQMFLATPAKBUILD)
+        include_directories(${GLIB_INCLUDE_DIRS})
+        target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
+        target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
+        target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
+    endif()
+
+    #=== INSTALL FILES ===#
+    if(DEFINED TARGET_OS_LINUX)
+
+
+    endif()
+endif() # NOT DEFINED FLATPAKBUILD
 

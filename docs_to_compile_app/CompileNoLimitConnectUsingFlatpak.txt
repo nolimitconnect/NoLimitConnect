@@ -2,24 +2,14 @@ https://flathub.org/
 
 Sign in using gitlab
 
-sudo apt install flatpak
-sudo apt install gnome-software-plugin-flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub org.flatpak.Builder
-sudo apt install flatpak-builder
+=== build nolimitconnect ===
+NOTE: to use local sources change sources of com.nolimitconnect.NoLimitConnect.yml to
+   sources:
+      - type: dir
+        path: ./
 
-
-show available platform sdk
-flatpak install org.kde.Platform 
-  //15) runtime/org.kde.Platform/x86_64/6.7
-  
-=== install platform and sdk for Qt applications ===  
-flatpak install flathub org.kde.Platform//6.7 org.kde.Sdk//6.7
-    
-sudo flatpak update
-
-=== build clocknlc example to test flatpak is installed correctly ===
-git clone https://gitlab.com/nolimitconnectapps/nlc-sandbox-flatpak.git
-cd ~/nlc-sandbox-flatpak
-cp flatpak_res/* .
-flatpak-builder build-dir com.nolimitconnect.ClockNlc.yaml
+flatpak-builder build-dir com.nolimitconnect.NoLimitConnect.yml --force-clean
+flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
+# flatpak-builder --repo=myrepo --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
+# flatpak --user remote-add --no-gpg-verify myrepo myrepo
+flatpak run com.nolimitconnect.NoLimitConnect

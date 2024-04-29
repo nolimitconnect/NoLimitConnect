@@ -1,0 +1,10 @@
+
+=== to setup flatpak build enviroment ===
+sudo apt install flatpak
+sudo apt install gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+=== install flatpak builder ===
+sudo apt install flatpak-builder
+flatpak install flathub org.kde.Platform//6.7 org.kde.Sdk//6.7
+
