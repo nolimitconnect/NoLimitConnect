@@ -3,7 +3,6 @@ objs/
 .flatpak-builder/
 build/
 build-dir/
-shared-modules/
 myrepo/
 
 /**/*.user
