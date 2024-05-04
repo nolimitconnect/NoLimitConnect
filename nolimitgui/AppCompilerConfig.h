@@ -1194,7 +1194,7 @@ typedef int64_t              time64_t;
 # define HAVE_FCNTL_H			1
 /* Define to 1 if you have the `ftruncate' function. */
 /* Define to 1 if you have the `fstat' function. */
-# define HAVE_FSTAT
+# define HAVE_FSTAT             1
 # define HAVE_FTRUNCATE			1
 /* Define to 1 if you have the <features.h> header file. */
 # define HAVE_FEATURES_H		1
@@ -1335,7 +1335,7 @@ typedef int64_t              time64_t;
 /* Define to 1 if you have the <netdb.h> header file. */
 #define HAVE_NETDB_H				1
 /* We have AF_NETLINK sockets */
-#define HAVE_NETLINK	
+#define HAVE_NETLINK                1
 
 /* Define if you have POSIX threads libraries and header files. */
 #define HAVE_PTHREAD				1
@@ -1371,7 +1371,7 @@ typedef int64_t              time64_t;
 # define HAVE_SYS_SELECT_H			0
 #else
 /* Define to 1 if you have the <sys/mman.h> header file. */
-#define HAVE_SYS_MMAN_H				1
+# define HAVE_SYS_MMAN_H            1
 # define HAVE_SYS_SELECT_H			1
 #endif // _MSC_VER
 
@@ -1677,7 +1677,7 @@ typedef int64_t              time64_t;
 #ifdef _MSC_VER
 # define HAVE_VISIBILITY			0
 #else
-# define HAVE_VISIBILITY				1
+# define HAVE_VISIBILITY            1
 #endif // _MSC_VER
 
 /* Define to 1 if you have the `vprintf' function. */
@@ -1710,8 +1710,8 @@ typedef int64_t              time64_t;
 
 #ifndef TARGET_OS_WINDOWS
 # define HAS_UTIME					1		/* POSIX utime(path, times)	*/
-# define HAS_UTIME_H					1			/* UTIME header file		*/
-# define HAS_UTIMBUF					1		/* struct utimbuf		*/
+# define HAS_UTIME_H                1       /* UTIME header file		*/
+# define HAS_UTIMBUF                1		/* struct utimbuf		*/
 # define HAS_UTIMES					1		/* use utimes()	syscall instead	*/
 #endif // TARGET_OS_WINDOWS
 

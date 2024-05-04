@@ -9,6 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <stdint.h>
 #include <string>
 
 enum EAssetType

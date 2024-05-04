@@ -21,14 +21,18 @@ echo Nlc Target OS Config error - apple not supported
 # define TARGET_WINDOWS
 # define TARGET_WINDOWS_DESKTOP // need to define this or libxbmc will fail with 'Size': is not a member of 'Windows::Foundation'
 //# define TARGET_WINDOWS_STORE // seems to be windows 10 only for microsoft store.. not sure
+
 #elif defined( TARGET_OS_APPLE)
 #  define TARGET_DARWIN_OSX
+
 #elif defined( TARGET_OS_RASPBERRY_PI)
 # define TARGET_RASPBERRY_PI
 # define TARGET_POSIX
+
 #elif defined( TARGET_OS_ANDROID)
 # define TARGET_ANDROID
 # define TARGET_POSIX 1
+
 #else
 // default to assume linux
 # define TARGET_LINUX

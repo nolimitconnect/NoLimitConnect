@@ -257,14 +257,10 @@ echo Nlc CPU Arch Defines error no cpu target defined
 // ONLY INTEL HAS AVX ?
 # define HAVE_AVX 1
 # define HAVE_AVX2 1
-//#endif // ARCH_64_BITS
-
-///* Define if binary requires SSE2 intrinsics support */
-//# define  OPUS_X86_PRESUME_SSE2	1
 
 # define HAVE_I686					1
-# define HAVE_MMX					1  // redefined to 0 in config_ffmpeg.h because ffmpeg mmx has inline assembly that will not compile in visual studio
-# define HAVE_MMXEXT				1  // redefined to 0 in config_ffmpeg.h because ffmpeg mmx has inline assembly that will not compile in visual studio
+# define HAVE_MMX					1
+# define HAVE_MMXEXT				1
 # define HAVE_SSE					1
 # define HAVE_SSE2					1
 //# define HAVE_AMD3DNOW			1
@@ -275,15 +271,12 @@ echo Nlc CPU Arch Defines error no cpu target defined
 //# define HAVE_SSE42				1
 //# define HAVE_SSSE3				1
 //# define HAVE_XOP					1
-//# define HAVE_CPUNOP				1
+//# define HAVE_CPUNOP				0
 
 //==== PPC architectures ===//
 #elif ARCH_PPC
 // For PPC only
 echo Nlc CPU Config error ppc processors not supported
-//#define HAVE_POWER8				1
-//#define HAVE_PPC4XX				1
-
 
 //==== MIPS architectures ===//
 #elif ARCH_MIPS

@@ -28,13 +28,17 @@
 #include "hb.hh"
 #include "hb-blob.hh"
 
+#ifdef TARGET_OS_LINUX
+#include <unistd.h>
+#include <sys/mman.h>
+#else
 #ifdef HAVE_SYS_MMAN_H
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif /* HAVE_UNISTD_H */
 #include <sys/mman.h>
 #endif /* HAVE_SYS_MMAN_H */
-
+#endif // TARGET_OS_LINUX
 
 /**
  * SECTION: hb-blob

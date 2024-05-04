@@ -8,3 +8,6 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 sudo apt install flatpak-builder
 flatpak install flathub org.kde.Platform//6.7 org.kde.Sdk//6.7
 
+
+
+

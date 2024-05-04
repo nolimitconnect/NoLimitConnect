@@ -6,12 +6,32 @@
  *  See LICENSES/README.md for more information.
  */
 
+#if defined(TARGET_OS_LINUX)
+// required for flatpak build
+
+// Linux needs this to support file operation on files larger then 4+GB
+// But might need better if/def to select just the platforms that needs them.
+
+#ifndef __USE_FILE_OFFSET64
+#define __USE_FILE_OFFSET64
+#endif
+#ifndef __USE_LARGEFILE64
+#define __USE_LARGEFILE64
+#endif
+#ifndef _LARGEFILE64_SOURCE
+#define _LARGEFILE64_SOURCE
+#endif
+#ifndef _FILE_OFFSET_BIT
+#define _FILE_OFFSET_BIT 64
+#endif
+#endif // defined(TARGET_OS_LINUX)
+
 #include "config_components_kodi.h"
 #include "platform/Filesystem.h"
 #include "filesystem/SpecialProtocol.h"
 #include "utils/URIUtils.h"
 
-#if defined(TARGET_LINUX)
+#if defined(TARGET_OS_LINUX)
 #include <sys/statvfs.h>
 #elif defined(TARGET_DARWIN) || defined(TARGET_FREEBSD)
 #include <sys/param.h>
@@ -36,7 +56,7 @@ space_info space(const std::string& path, std::error_code& ec)
 {
   ec.clear();
   space_info sp;
-#if defined(TARGET_LINUX)
+#if defined(TARGET_OS_LINUX)
   struct statvfs64 fsInfo;
   auto result = statvfs64(CSpecialProtocol::TranslatePath(path).c_str(), &fsInfo);
 #else

@@ -27,8 +27,7 @@
  */
 
 #include "config_ffmpeg.h"
-#include "config_components.h""
-
+#include "config_components.h"
 
 #include "avcodec.h"
 #include "blockdsp_avcodec.h"
@@ -50,7 +49,6 @@
 #include "libavutil/avassert.h"
 #include "libavutil/imgutils_avutil.h"
 #include "libavutil/thread.h"
-
 
 #if CONFIG_WMV3IMAGE_DECODER || CONFIG_VC1IMAGE_DECODER
 

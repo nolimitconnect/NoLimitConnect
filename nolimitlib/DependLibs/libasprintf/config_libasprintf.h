@@ -68,6 +68,16 @@
 /* Define to 1 if you have the `vasprintf' function. */
 #define HAVE_VASPRINTF 1
 
+#if !defined(HAVE_WINT_T)
+#if defined(TARGET_OS_WINDOWS)
+/* Define if you have the 'wint_t' type. */
+#define HAVE_WINT_T 1
+#else
+#define HAVE_WINT_T 0
+#endif // defined(_MSC_VER)
+#endif // !defined(HAVE_WINT_T)
+
+#if defined(TARGET_OS_WINDOWS)
 /* Define if you have the 'wchar_t' type. */
 #define HAVE_WCHAR_T 1
 
@@ -79,9 +89,24 @@
 
 /* Define to 1 if you have the `wcsnlen' function. */
 #define HAVE_WCSNLEN 1
+#else
+/* Define if you have the 'wchar_t' type. */
+#undef HAVE_WCHAR_T
+#define HAVE_WCHAR_T 0
 
-/* Define if you have the 'wint_t' type. */
-#define HAVE_WINT_T 1
+/* Define to 1 if you have the `wcrtomb' function. */
+#undef HAVE_WCRTOMB
+#define HAVE_WCRTOMB 0
+
+/* Define to 1 if you have the `wcslen' function. */
+#undef HAVE_WCSLEN
+#define HAVE_WCSLEN 0
+
+/* Define to 1 if you have the `wcsnlen' function. */
+#undef HAVE_WCSNLEN
+#define HAVE_WCSNLEN 0
+
+#endif // defined(TARGET_OS_WINDOWS)
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"

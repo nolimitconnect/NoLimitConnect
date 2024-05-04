@@ -3560,8 +3560,14 @@ undefining macros. */
 /* Define to 1 if the system has the type `sig_atomic_t'. */
 #define HAVE_SIG_ATOMIC_T 1
 
+#if !defined(HAVE_SLEEP)
+#if defined(TARGET_OS_WINDOWS)
 /* Define to 1 if you have the `sleep' function. */
 #define HAVE_SLEEP 1
+#else
+#define HAVE_SLEEP 0
+#endif // defined(TARGET_OS_WINDOWS)
+#endif // !defined(HAVE_SLEEP)
 
 /* Define to 1 if you have the `snprintf' function. */
 #define HAVE_SNPRINTF 1
@@ -6372,7 +6378,6 @@ implementations */
 /* #undef HAVE_INTEL_SYNTAX_PLATFORM_AS */
 
 
-
 /* Defined if the GNU Pth is available */
 /* #undef HAVE_PTH */
 
@@ -6386,10 +6391,6 @@ implementations */
 
 /* Define to 1 if you have the `rand' function. */
 #define HAVE_RAND 1
-
-
-
-
 
 /* Define to 1 if you have the <sys/capability.h> header file. */
 /* #undef HAVE_SYS_CAPABILITY_H */

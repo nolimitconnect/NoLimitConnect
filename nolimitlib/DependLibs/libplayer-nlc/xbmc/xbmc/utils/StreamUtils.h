@@ -9,6 +9,7 @@
 #pragma once
 
 #include <string>
+#include <stdint.h>
 
 static constexpr int MP4_BOX_HEADER_SIZE = 8;
 

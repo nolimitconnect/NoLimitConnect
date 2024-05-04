@@ -43,7 +43,9 @@ VxPeerMgr::VxPeerMgr()
 #ifdef TARGET_OS_LINUX
     // turn broke pipe exception on disconnected sockets into error instead
     // signal( SIGPIPE, SIG_IGN );
-    sigaction(SIGPIPE, &((struct sigaction){sigpipe_handler}), NULL);
+
+    // commented out because not allowed in FLATPAKBUILD
+    //sigaction(SIGPIPE, &((struct sigaction){sigpipe_handler}), NULL);
 #endif
 
 	setReceiveCallback( VxPeerMgrRxCallbackHandler, this );

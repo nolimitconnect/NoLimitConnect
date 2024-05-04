@@ -1,7 +1,7 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-if (DEFINED TARGET_OS_ANDROID)
+if (DEFINED TARGET_OS_ANDROID OR DEFINED FLATPAKBUILD)
     project(avutil, LANGUAGES C CXX ASM)
 else()
     project(avutil, LANGUAGES C CXX)

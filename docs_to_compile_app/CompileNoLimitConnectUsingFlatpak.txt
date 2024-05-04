@@ -1,15 +1,27 @@
 https://flathub.org/
 
-Sign in using gitlab
+Sign in using gitlab (or the other sign in options)
+
+=== checkout ===
+git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+cd nolimitapp
+
+=== allow flatpak submodules (required for GL/glu lib) ===
+git submodule add https://github.com/flathub/shared-modules.git
 
 === build nolimitconnect ===
+flatpak-builder build-dir com.nolimitconnect.NoLimitConnect.yml --force-clean
+flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
+
+# maybe needed?
+# flatpak-builder --repo=myrepo --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
+# flatpak --user remote-add --no-gpg-verify myrepo myrepo
+
+=== run nolimitconnect ===
+flatpak run com.nolimitconnect.NoLimitConnect
+
+=== build nolimitconnect notes ===
 NOTE: to use local sources change sources of com.nolimitconnect.NoLimitConnect.yml to
    sources:
       - type: dir
         path: ./
-
-flatpak-builder build-dir com.nolimitconnect.NoLimitConnect.yml --force-clean
-flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
-# flatpak-builder --repo=myrepo --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
-# flatpak --user remote-add --no-gpg-verify myrepo myrepo
-flatpak run com.nolimitconnect.NoLimitConnect

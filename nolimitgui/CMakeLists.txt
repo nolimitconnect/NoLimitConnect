@@ -1093,7 +1093,7 @@ if (DEFINED TARGET_OS_LINUX)
         expat
         flac
         fribidi
-        glew
+        #glew
         iconv
         ilbc
         jpg
@@ -1187,7 +1187,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             expat
             flac
             fribidi
-            glew
+            #glew
             iconv
             ilbc
             jpg
@@ -1288,7 +1288,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             expat
             flac
             fribidi
-            glew
+            #glew
             iconv
             ilbc
             jpg
@@ -1391,7 +1391,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         expat
         flac
         fribidi
-        glew
+        #glew
         iconv
         ilbc
         jpg

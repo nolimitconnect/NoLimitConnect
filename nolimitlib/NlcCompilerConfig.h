@@ -1580,15 +1580,17 @@ typedef int64_t              time64_t;
 # define HAVE_NANOSLEEP			1
 #endif // TARGET_OS_WINDOWS
 
-#ifdef _MSC_VER
-# if  (_WIN32_WINNT >= 0x0600)
-#  define HAVE_STRUCT_POLLFD		1
+#if !defined(HAVE_STRUCT_POLLFD)
+# ifdef _MSC_VER
+#  if  (_WIN32_WINNT >= 0x0600)
+#   define HAVE_STRUCT_POLLFD		1
+#  else
+#   define HAVE_STRUCT_POLLFD		0
+#  endif //(_WIN32_WINNT >= 0x0600)
 # else
 #  define HAVE_STRUCT_POLLFD		0
-# endif //(_WIN32_WINNT >= 0x0600)
-#else
-# define HAVE_STRUCT_POLLFD		0
-#endif // _MSC_VER
+# endif // _MSC_VER
+#endif // !defined(HAVE_STRUCT_POLLFD)
 
 /* Define if you have the <signal.h> header file.  */
 #define HAVE_SIGNAL_H			1			
@@ -1596,7 +1598,6 @@ typedef int64_t              time64_t;
 #ifndef HAVE_STDINT_H
 # define HAVE_STDINT_H			1
 #endif // HAVE_STDINT_H
-
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H		1
@@ -1688,7 +1689,7 @@ typedef int64_t              time64_t;
 #ifdef _MSC_VER
 # define HAVE_VISIBILITY			0
 #else
-# define HAVE_VISIBILITY				1
+# define HAVE_VISIBILITY            1
 #endif // _MSC_VER
 
 /* Define to 1 if you have the `vprintf' function. */

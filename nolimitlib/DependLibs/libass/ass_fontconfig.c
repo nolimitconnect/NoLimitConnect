@@ -19,7 +19,7 @@
 #include "config_libass.h"
 #include "ass_compat.h"
 
-#ifdef CONFIG_FONTCONFIG
+#if CONFIG_FONTCONFIG
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -181,11 +181,17 @@
 #define HAVE_AVX 1
 #define HAVE_AVX2 1
 #define HAVE_AVX512 1
-#define HAVE_AVX512ICL 1
+#ifndef HAVE_AVX512ICL
+# define HAVE_AVX512ICL 1
+#endif // HAVE_AVX512ICL
 #define HAVE_FMA3 1
 #define HAVE_FMA4 1
-#define HAVE_MMX 1
-#define HAVE_MMXEXT 1
+#ifndef HAVE_MMX
+# define HAVE_MMX 1
+#endif // HAVE_MMX
+#ifndef HAVE_MMXEXT
+# define HAVE_MMXEXT 1
+#endif // HAVE_MMXEXT
 #define HAVE_SSE 1
 #define HAVE_SSE2 1
 #define HAVE_SSE3 1
@@ -386,7 +392,9 @@
 #define HAVE_AVX_INLINE 1
 #define HAVE_AVX2_INLINE 1
 #define HAVE_AVX512_INLINE 1
-#define HAVE_AVX512ICL_INLINE 1
+#ifndef HAVE_AVX512ICL
+# define HAVE_AVX512ICL_INLINE 1
+#endif // HAVE_AVX512ICL
 #define HAVE_FMA3_INLINE 1
 #define HAVE_FMA4_INLINE 1
 
@@ -665,8 +673,10 @@
 #else // linux
 #define HAVE_ARC4RANDOM 0
 #define HAVE_CLOCK_GETTIME 1
-#define HAVE_CLOSESOCKET 1
-#define HAVE_COMMANDLINETOARGVW 1
+#define HAVE_CLOSESOCKET 0
+#ifndef HAVE_COMMANDLINETOARGVW
+# define HAVE_COMMANDLINETOARGVW 1
+#endif // HAVE_COMMANDLINETOARGVW
 #define HAVE_FCNTL 1
 #define HAVE_GETADDRINFO 1
 #define HAVE_GETAUXVAL 1
@@ -751,7 +761,9 @@
 #define HAVE_MMAP 1
 #define HAVE_MPROTECT 1
 #define HAVE_NANOSLEEP 1
-#define HAVE_PEEKNAMEDPIPE 1
+#ifndef HAVE_PEEKNAMEDPIPE
+# define HAVE_PEEKNAMEDPIPE 1
+#endif // HAVE_PEEKNAMEDPIPE
 #define HAVE_POSIX_MEMALIGN 1
 #endif // defined(TARGET_OS_WINDOWS)
 
@@ -1407,14 +1419,21 @@
 #define CONFIG_TEXTUREDSPENC 1
 #define CONFIG_TPELDSP 1
 
-#define CONFIG_VAAPI_1 0		// disable even for linux
-#define CONFIG_VAAPI_ENCODE 0	// disable even for linux
+#if !defined(CONFIG_VAAPI_1)
+# define CONFIG_VAAPI_1 0		// disable even for linux
+#endif // !defined(CONFIG_VAAPI_1)
 
-#if defined(TARGET_OS_LINUX) || defined(TARGET_OS_WINDOWS)
-#define CONFIG_VC1DSP 0 // requires inline assembly
-#else
-#define CONFIG_VC1DSP 1
-#endif // defined(TARGET_OS_LINUX)
+#if !defined(CONFIG_VAAPI_ENCODE)
+# define CONFIG_VAAPI_ENCODE 0	// disable even for linux
+#endif // !defined(CONFIG_VAAPI_ENCODE)
+
+#if !defined(CONFIG_VC1DSP)
+# if defined(TARGET_OS_LINUX) || defined(TARGET_OS_WINDOWS)
+#  define CONFIG_VC1DSP 0 // requires inline assembly
+# else
+#  define CONFIG_VC1DSP 1
+# endif // defined(TARGET_OS_LINUX)
+#endif // !defined(CONFIG_VC1DSP)
 
 #define CONFIG_VIDEODSP 1
 #define CONFIG_VP3DSP 1

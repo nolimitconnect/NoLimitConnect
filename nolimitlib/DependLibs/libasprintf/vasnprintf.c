@@ -66,6 +66,8 @@
 # endif
 #endif
 
+#include <wchar.h>
+
 #include <locale.h>     /* localeconv() */
 #include <stdio.h>      /* snprintf(), sprintf() */
 #include <stdlib.h>     /* abort(), malloc(), realloc(), free() */

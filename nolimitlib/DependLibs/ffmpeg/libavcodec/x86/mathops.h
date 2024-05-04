@@ -112,6 +112,7 @@ __asm__ volatile(\
 
 // avoid +32 for shift optimization (gcc should do that ...)
 #define NEG_SSR32 NEG_SSR32
+#if 0
 static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
     __asm__ ("sarl %1, %0\n\t"
          : "+r" (a)
@@ -119,15 +120,32 @@ static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
     );
     return a;
 }
+#else
+static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
+    return a >> (32-(s));
+}
+#endif
 
 #define NEG_USR32 NEG_USR32
+#if 0
 static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
     __asm__ ("shrl %1, %0\n\t"
-         : "+r" (a)
-         : "ic" ((uint8_t)(-s))
-    );
+            : "+r" (a)
+            : "ic" ((uint8_t)(-s))
+            );
     return a;
 }
+#else
+// some gcc compilers do not correctly handle assembly shift right search Error: operand type mismatch for `shr'
+// clang transforms it into:
+// $ clang libavformat.i -w -S -O2 -o /dev/stdout | grep shr
+//        shrl	$255, %eax
+
+static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
+    return a >> (32-(s));
+}
+
+#endif // !defined(FLATPAKBUILD)
 
 #endif /* HAVE_INLINE_ASM */
 #endif /* AVCODEC_X86_MATHOPS_H */

@@ -13,6 +13,8 @@ finish-args:
     - --socket=wayland
 
 modules:
+ - shared-modules/glu/glu-9.json
+
  - name: nolimitconnect
    buildsystem: cmake-ninja
    config-opts: 

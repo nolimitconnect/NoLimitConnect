@@ -31,6 +31,11 @@ list(APPEND ass_SOURCES
 
 add_library(ass STATIC ${ass_SOURCES})
 
+target_include_directories(ass
+    PRIVATE
+    ../libfreetype/include
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

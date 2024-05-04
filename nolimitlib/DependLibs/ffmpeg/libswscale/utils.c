@@ -22,8 +22,9 @@
 #if defined(TARGET_OS_WINDOWS)
 #include "libavutil/x86/emms.h"
 #endif // defined(TARGET_OS_WINDOWS)
-
-#define _DEFAULT_SOURCE
+#if !defined(_DEFAULT_SOURCE)
+# define _DEFAULT_SOURCE 1
+#endif // !defined(_DEFAULT_SOURCE)
 #define _SVID_SOURCE // needed for MAP_ANONYMOUS
 #define _DARWIN_C_SOURCE // needed for MAP_ANON
 #include <inttypes.h>

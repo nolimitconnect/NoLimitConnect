@@ -10,6 +10,9 @@
 
 #include <string>
 #include <system_error>
+#include <cstdint>
+#include <limits.h>
+
 namespace KODI
 {
 namespace PLATFORM
