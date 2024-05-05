@@ -10,7 +10,10 @@ cd nolimitapp
 git submodule add https://github.com/flathub/shared-modules.git
 
 === build nolimitconnect ===
+# just build
 flatpak-builder build-dir com.nolimitconnect.NoLimitConnect.yml --force-clean
+
+# build and install so is ready to run
 flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
 
 # maybe needed?

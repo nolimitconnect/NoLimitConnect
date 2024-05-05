@@ -16,14 +16,14 @@
 
 //#define ENABLE_ASSERTIONS	0		/* Assertions */
 
-#define PACKAGE_VERSION			"1.0.0"
-#define BUILD_REVISION			"1.0.0"
+#define PACKAGE_VERSION			"1.0.1"
+#define BUILD_REVISION			"1.0.1"
 
 # define HAVE_QT_GUI            1 // define if have qt application interface and rendering
 
 # define PROGRAM_NAME			"NoLimitConnect"
-# define PACKAGE_STRING			"NoLimitConnect 1.0.0"
-# define PACKAGE_URL		    "https://www.nolimitconnect.com"
+# define PACKAGE_STRING			"NoLimitConnect 1.0.1"
+# define PACKAGE_URL		    "https://nolimitconnect.com"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT		PACKAGE_URL
@@ -31,7 +31,7 @@
 #define PACKAGE_TARNAME			PACKAGE_NAME
 
 /* The time this package was configured for a build */
-#define BUILD_TIMESTAMP			"2017-06-11T20:45+0000"
+#define BUILD_TIMESTAMP			"2024-06-11T20:45+0000"
 /* Version number: (major<<16) + (minor<<8) + subminor */
 #define NO_LIMIT_VERSION_BINARY		0x010002
 

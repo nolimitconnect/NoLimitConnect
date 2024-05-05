@@ -27,9 +27,9 @@ list(APPEND aecm-webrtc_SOURCES
 
 add_library(aecm-webrtc STATIC ${aecm-webrtc_SOURCES})
 
-if(DEFINED TARGET_POSIX)
+if(DEFINED TARGET_POSIX OR DEFINED TARGET_OS_LINUX)
     target_compile_definitions(aecm-webrtc
-        PUBLIC
+        PRIVATE
         WEBRTC_POSIX)
 endif()
 

@@ -279,4 +279,4 @@ private:
 
 } // namespace PVR
 
-#endif .. HAVE_ADDONS
+#endif // HAVE_ADDONS

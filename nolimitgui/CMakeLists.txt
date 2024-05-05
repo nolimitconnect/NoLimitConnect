@@ -1614,6 +1614,14 @@ else()
                         COMMAND androiddeployqt "${APK_ARGS}")
                 else()
                     # need full path to androiddeployqt
+                    if(FLATPAKBUILD)
+                        message("** Enabling Flatpak workarounds")
+                        add_definitions(-DPQMFLATPAKBUILD)
+                        include_directories(${GLIB_INCLUDE_DIRS})
+                        target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
+                        target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
+                        target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
+                    endif()
                     message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
                     add_custom_target(nolimitappsEchoDeploy ALL
                         COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
@@ -1663,15 +1671,6 @@ else()
     add_custom_target(nolimitappsApk
         COMMAND echo "echo CMAKE_BINARY_DIR ***** ${CMAKE_BINARY_DIR}")
     add_dependencies(nolimitappsApk nolimitconnect)
-
-    if(FLATPAKBUILD)
-        message("** Enabling Flatpak workarounds")
-        add_definitions(-DPQMFLATPAKBUILD)
-        include_directories(${GLIB_INCLUDE_DIRS})
-        target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
-        target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
-        target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
-    endif()
 
     #=== INSTALL FILES ===#
     if(DEFINED TARGET_OS_LINUX)

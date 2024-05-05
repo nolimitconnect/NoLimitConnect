@@ -11,10 +11,8 @@ if(DEFINED TARGET_OS_ANDROID)
     #android/aarch64 uses clang as assembler
 elseif(DEFINED TARGET_OS_WINDOWS)
     enable_language(ASM_NASM)
-#    string(APPEND CMAKE_ASM_NASM_FLAGS "-Pconfig_ffmpeg_w64.asm ")
 else()
     enable_language(ASM_NASM)
-#    string(APPEND CMAKE_ASM_NASM_FLAGS "-Pconfig_ffmpeg_linux.asm ")
 endif()
 
 set(x264_SOURCES)

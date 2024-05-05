@@ -150,6 +150,9 @@ static void once(void (*func)(void)) {
  * In case of neither pthread for WEBRTC_POSIX nor _WIN32 is present, build
  * system should pick it up.
  */
+#else
+    // fail at compile time instead of link time
+    echo libaemc-webrtc once is not defined
 #endif  /* WEBRTC_POSIX */
 
 void WebRtcSpl_Init() {

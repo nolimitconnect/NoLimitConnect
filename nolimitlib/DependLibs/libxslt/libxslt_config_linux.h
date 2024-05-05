@@ -242,9 +242,9 @@ __inline int c99_snprintf( char *outBuf, size_t size, const char *format, ... )
 
 #endif /* defined(_MSC_VER) && _MSC_VER < 1900 */
 
-#define HAVE_SYS_STAT_H
-#define HAVE__STAT
-#define HAVE_STRING_H
+#define HAVE_SYS_STAT_H 1
+#define HAVE__STAT 1
+#define HAVE_STRING_H 1
 
 #ifndef ATTRIBUTE_UNUSED
 #define ATTRIBUTE_UNUSED

@@ -6,8 +6,9 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 
 === install flatpak builder ===
 sudo apt install flatpak-builder
-flatpak install flathub org.kde.Platform//6.7 org.kde.Sdk//6.7
+flatpak install flathub org.kde.Platform/6.7 org.kde.Sdk/6.7
 
-
+=== allow flatpak submodules (required for GL/glu lib) ===
+git submodule add https://github.com/flathub/shared-modules.git
 
 
