@@ -466,6 +466,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D56F9D32-3
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssl", "..\..\..\nolimitlib\DependLibs\openssl-1.0.2p\build\VS2022\libssl.vcxproj", "{DE65ADF8-0258-46C0-AE8D-220D0DD7E252}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlatpakBuild", "FlatpakBuild", "{84D1A641-2A04-4459-86A2-8CE81B9E0759}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\com.nolimitconnect.NoLimitConnect.desktop = ..\..\..\com.nolimitconnect.NoLimitConnect.desktop
+		..\..\..\com.nolimitconnect.NoLimitConnect.metainfo.xml = ..\..\..\com.nolimitconnect.NoLimitConnect.metainfo.xml
+		..\..\..\com.nolimitconnect.NoLimitConnect.yml = ..\..\..\com.nolimitconnect.NoLimitConnect.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -1129,7 +1136,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 		Qt5Version = 6.3.0_msvc2019_64
+		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 	EndGlobalSection
 EndGlobal
