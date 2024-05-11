@@ -96,23 +96,6 @@ class IFromGui
 {
 public:
 
-	/// set is commercial not currently used ( Is set true or false by compiler define APP_MYP2PWEB )
-	virtual void				fromGuiSetIsAppCommercial( bool isCommercial ) = 0;
-	/// returns true if APP_MYP2PWEB is not defined
-	/// if APP_MYP2PWEB is not defined then is commercial Test App build with source code for sale else is No Limit Connect production build
-	/// Test App has 2 differences from production build of No Limit Connect 
-	///  1.) Encryption is different so is not compatible with No Limit Connect network. 
-	///  2.) Default url for connection test and anchor services is p2pthing.com instead of gotvptop.com 
-	virtual bool				fromGuiGetIsAppCommercial( void ) = 0;
-	/// return engine version in binary
-	virtual uint16_t			fromGuiGetAppVersionBinary( void ) = 0;
-	/// return engine version as a 1.2.3 version number
-	virtual const char*			fromGuiGetAppVersionString( void ) = 0;
-	/// returns No Limit Connect or Test App if commercial build
-	virtual const char*			fromGuiGetAppName( void ) = 0;
-	/// returns MyP2PWeb or TestApp if commercial build
-	virtual const char*			fromGuiGetAppNameNoSpaces( void ) = 0;
-
 	/// First call to engine should send path to assets ( game and app resources ) and path to root of where to write application data
 	virtual void				fromGuiAppStartup( std::string assetsDir, std::string rootDataDir, bool fromThread = false ) = 0;
 	/// Second call to engine should send path where to write login name specific application data 

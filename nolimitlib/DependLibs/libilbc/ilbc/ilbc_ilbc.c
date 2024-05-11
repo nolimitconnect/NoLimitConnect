@@ -25,6 +25,8 @@
 #include "decode.h"
 #include <stdlib.h>
 
+#include <CoreLib/AppVersion.h>
+
 /* Export all functions defined in this file. */
 #ifndef _MSC_VER
 # pragma GCC visibility push(default)

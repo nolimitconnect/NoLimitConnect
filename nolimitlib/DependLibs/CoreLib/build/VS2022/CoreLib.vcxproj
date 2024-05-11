@@ -236,6 +236,7 @@
     <ClInclude Include="..\..\..\..\netinet\tcp.h" />
     <ClInclude Include="..\..\AppDefines.h" />
     <ClInclude Include="..\..\AppErr.h" />
+    <ClInclude Include="..\..\AppVersion.h" />
     <ClInclude Include="..\..\AssetDefs.h" />
     <ClInclude Include="..\..\BinaryBlob.h" />
     <ClInclude Include="..\..\Blowfish.h" />

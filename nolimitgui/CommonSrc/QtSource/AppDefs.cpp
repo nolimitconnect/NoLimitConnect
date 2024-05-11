@@ -24,10 +24,16 @@ const char* DescribeAppFeature( EAppFeatures appFeature )
 		return "FeatureChatRoom";
 	case eAppFeatureRandomConnect:
 		return "FeatureRandomConnnect";
+    case eAppFeatureAboutMePage:
+        return "FeatureAboutMePage";
     case eAppFeatureStoryboard:
         return "FeatureStoryboard";
     case eAppFeatureTheme:
         return "FeatureTheme";
+    case eAppFeatureLanguageChoice:
+        return "FeatureLanguageChoice";
+    case eAppFeaturePreferredContent:
+        return "FeaturePreferredContent";
 
 	case eAppFeatureUnknown:
 	default:

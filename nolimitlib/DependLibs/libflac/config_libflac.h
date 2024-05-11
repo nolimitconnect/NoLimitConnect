@@ -1,5 +1,6 @@
 #pragma once
 #include <NlcDependLibrariesConfig.h>
+#include <CoreLib/AppVersion.h>
 
 /* we need this since some compilers (like MSVC) leave assert()s on release code (and we don't want to use their ASSERT) */
 #ifdef DEBUG

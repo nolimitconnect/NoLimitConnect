@@ -9,10 +9,12 @@
 //============================================================================
 
 #include "VxGlobals.h"
-#include "VxFileUtil.h"
-#include "VxMutex.h"
+
+#include "AppVersion.h"
 #include "VxFileShredder.h"
+#include "VxFileUtil.h"
 #include "VxGUID.h"
+#include "VxMutex.h"
 
 #include <time.h>
 #include <string>
@@ -37,15 +39,12 @@ namespace
 {
 	VxMutex				g_GlobalAccessMutex;
 
-	uint16_t			g_u16AppVersion					= 0x101;
-
-    std::string			g_strApplicationTitle			= "No Limit Connect";
-    std::string			g_strApplicationNameNoSpaces	= "NoLimitConnect";
-    std::string			g_strApplicationNameNoSpacesLowerCase	= "nolimitconnect";
-	std::string			g_strCompanyWebsite				= "https://nolimitconnect.com";
-    std::string			g_strCompanyDomain				= "nolimitconnect.com";
-    std::string			g_strOrginizationName           = "nolimitconnect";
-	bool				g_IsAppCommercial				= false;
+ //   std::string			g_strApplicationTitle			= "No Limit Connect";
+ //   std::string			g_strApplicationNameNoSpaces	= "NoLimitConnect";
+ //   std::string			g_strApplicationNameNoSpacesLowerCase	= "nolimitconnect";
+	//std::string			g_strCompanyWebsite				= "https://nolimitconnect.com";
+ //   std::string			g_strCompanyDomain				= "nolimitconnect.com";
+ //   std::string			g_strOrginizationName           = "nolimitconnect";
 
     std::string			g_strNetworkHostName            = "nolimitconnect.net";
     uint16_t            g_NetworkHostPort               = 45124;
@@ -53,15 +52,23 @@ namespace
 
 
 	// exe and app resouces paths
+	// qt paths
+	std::string			g_strAppData					= "";
+    std::string			g_strAppDownload				= "";
+    std::string			g_strAppMusic					= "";
+	std::string			g_strAppVideo					= "";
+    std::string			g_strAppPictures				= "";
+    std::string			g_strAppDocuments				= "";
+
+	// exe paths
     std::string			g_strAppExeDir                  = "";
 	std::string			g_strKodiExeDir				    = "";
-    std::string			g_strExeDirPython				= "";
-    std::string			g_strExeDirPythonDlls			= "";
-    std::string			g_strExeDirPythonLib			= "";
+
+	// assets
     std::string			g_strExeKodiAssetsDir           = "";
 	std::string			g_strExeNoLimitAssetsDir        = "";
 
-	// user writeable paths
+	// storage paths
 	std::string			g_strRootDataStorageDir         = "";
 	std::string			g_strAppTempDir                 = "";
 	std::string			g_strAppLogsDir                 = "";
@@ -143,34 +150,49 @@ const char*     VxGetNetworkHostUrl( void )                         { return g_s
 //																/camrecord/		web cam recordings
 
 //============================================================================
-void VxSetAppDirectory( EAppDir appDir, const char* setDir )
+void VxSetAppDirectory( enum EAppDir appDir, std::string setDir )
 {
-    if( setDir )
+    if( !setDir.empty() )
     {
         switch (appDir)
         {
+		// qt paths
+		case eAppData:
+            g_strAppData = setDir;
+            break;
+        case eAppDownload:
+            g_strAppDownload = setDir;
+            break;
+        case eAppMusic:
+            g_strAppMusic = setDir;
+            break;
+		case eAppVideo:
+            g_strAppVideo = setDir;
+            break;
+        case eAppPictures:
+            g_strAppPictures = setDir;
+            break;
+        case eAppDocuments:
+            g_strAppDocuments = setDir;
+            break;
+
+		// exe paths
         case eAppDirAppExe:
             g_strAppExeDir = setDir;
             break;
         case eAppDirKodiExe:
             g_strKodiExeDir = setDir;
             break;
+
+		// asset paths
         case eAppDirExeKodiAssets:
             g_strExeKodiAssetsDir = setDir;
             break;
         case eAppDirExeNoLimitAssets:
             g_strExeNoLimitAssetsDir = setDir;
             break;
-        case eAppDirExePython:
-            g_strExeDirPython = setDir;
-            break;
-        case eAppDirExePythonDlls:
-            g_strExeDirPythonDlls = setDir;
-            break;
-        case eAppDirExePythonLibs:
-            g_strExeDirPythonLib = setDir;
-            break;
 
+		// storage
         case eAppDirRootDataStorage:
             g_strRootDataStorageDir = setDir;
             break;
@@ -248,22 +270,33 @@ std::string& VxGetAppDirectory( EAppDir appDir )
 {
 	switch (appDir)
 	{
+	// qt paths
+	case eAppData:
+        return g_strAppData;
+    case eAppDownload:
+        return g_strAppDownload;
+    case eAppMusic:
+        return g_strAppMusic;
+	case eAppVideo:
+        return g_strAppVideo;
+    case eAppPictures:
+        return g_strAppPictures;
+    case eAppDocuments:
+        return g_strAppDocuments;
+
+	// exe paths
     case eAppDirAppExe:
         return g_strAppExeDir;
 	case eAppDirKodiExe:
 		return g_strKodiExeDir;
+
+	// asset paths
 	case eAppDirExeKodiAssets:
 		return g_strExeKodiAssetsDir;
 	case eAppDirExeNoLimitAssets:
 		return g_strExeNoLimitAssetsDir;
 
-	case eAppDirExePython:
-        return g_strExeDirPython;
-	case eAppDirExePythonDlls:
-        return g_strExeDirPythonDlls;
-	case eAppDirExePythonLibs:
-        return g_strExeDirPythonLib;
-
+	// storage
 	case eAppDirRootDataStorage:
 		return g_strRootDataStorageDir;
 	case eAppDirAppTempData:
@@ -349,91 +382,55 @@ std::string VxGetLclIpAddress( void )
 //============================================================================
 const char* VxGetCompanyDomain( void )
 {
-	return g_strCompanyDomain.c_str();
+	return APP_DOMAIN_NAME;
 }
 
 //============================================================================
 const char* VxGetOrginizationName( void )
 {
-    return g_strOrginizationName.c_str();
+	return ""; // there is no organization
 }
 
 //============================================================================
 const char* VxGetCompanyWebsite( void )
 {
-	return g_strCompanyWebsite.c_str();
+	return APP_URL;
 }
 
 //============================================================================
 const char* VxGetApplicationTitle( void )
 {
-	return g_strApplicationTitle.c_str();
-}
-
-//============================================================================
-//! set application name
-void VxSetApplicationNameNoSpaces( const char* pAppName )
-{
-	g_strApplicationNameNoSpaces = pAppName;
-    g_strApplicationNameNoSpacesLowerCase = pAppName;
-    transform(g_strApplicationNameNoSpacesLowerCase.begin(),
-              g_strApplicationNameNoSpacesLowerCase.end(),
-              g_strApplicationNameNoSpacesLowerCase.begin(), ::tolower);
+	return APP_TITLE;
 }
 
 //============================================================================
 const char* VxGetApplicationNameNoSpaces( void )
 {
-	return g_strApplicationNameNoSpaces.c_str();
+	return APP_NAME;
 }
 
 //============================================================================
 const char* VxGetApplicationNameNoSpacesLowerCase( void )
 {
-    return g_strApplicationNameNoSpacesLowerCase.c_str();
+    return APP_DOMAIN_NAME;
 }
 
 //============================================================================
-void VxSetAppVersion( uint16_t u16AppVersion )
+uint16_t VxGetAppVersionShort( void )
 {
-	g_u16AppVersion = u16AppVersion;
+	return ((uint16_t)APP_MAJOR_VERSION << 8) + APP_MINOR_VERSION;
 }
 
 //============================================================================
-uint16_t VxGetAppVersion( void )
+uint32_t VxGetAppVersionFull( void )
 {
-	return g_u16AppVersion;
+	return APP_VERSION_BINARY;
 }
 
 //============================================================================
 const char* VxGetAppVersionString( void )
 {
-	static std::string strAppVersion;
-	static bool isSet = false;
-	if( false == isSet )
-	{
-		uint32_t u16AppVersion = VxGetAppVersion();
-		char as8Buf[32];
-		sprintf( as8Buf, "%d.%d",
-			(u16AppVersion & 0xff00) >> 8,
-			(u16AppVersion & 0x00ff)
-			);
-		strAppVersion = as8Buf;
-	}
-
-	return strAppVersion.c_str();
-}
-
-//============================================================================
-void VxSetIsApplicationCommercial( bool isCommercial )
-{
-	g_IsAppCommercial = isCommercial;
-}
-
-//============================================================================
-bool VxGetIsApplicationCommercial( void )
-{
-	return g_IsAppCommercial;
+	return APP_VERSION;
 }
 
 //============================================================================
@@ -479,23 +476,12 @@ void VxSetAppExeDirectory( const char* exeDir )
 void VxSetKodiExeDirectory(const char* exeDir)
 {
 	g_strKodiExeDir = exeDir;
-    g_strExeDirPython = exeDir;
-    g_strExeDirPythonDlls = exeDir;
-    g_strExeDirPythonDlls = g_strExeDirPythonDlls + PYTHON_RELATIVE_PATH;
-    g_strExeDirPythonLib = g_strExeDirPythonDlls;
-    g_strExeDirPythonDlls = g_strExeDirPythonDlls + "DLLs/";
-    g_strExeDirPythonLib = g_strExeDirPythonLib + "Lib/";
-
 	g_strExeKodiAssetsDir = g_strKodiExeDir + "assets/kodi/";
 }
 
 //============================================================================
 std::string& VxGetAppExeDirectory( void ) { return g_strAppExeDir; }
 std::string& VxGetKodiExeDirectory(void) { return g_strKodiExeDir; }
-
-void VxSetPythonExeDirectory( const char* pythonDir ){ g_strExeDirPython = pythonDir; }
-void VxSetPythonDllDirectory( const char* pythonDir ){ g_strExeDirPythonDlls = pythonDir; }
-void VxSetPythonLibDirectory( const char* pythonDir ){ g_strExeDirPythonLib = pythonDir; }
 
 //============================================================================
 void VxSetRootDataStorageDirectory(const char* rootDataDir)

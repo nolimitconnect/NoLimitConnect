@@ -451,7 +451,7 @@ bool CApplication::Create()
 #endif // ENABLE_RSS
     // CopyUserDataIfNeeded( "special://masterprofile/", "favourites.xml" );
     // CopyUserDataIfNeeded( "special://masterprofile/", "Lircmap.xml" );
-    CopyUserDataIfNeeded( "special://masterprofile/", "guisettings.xml" );
+    // CopyUserDataIfNeeded( "special://masterprofile/", "guisettings.xml" );
 
     if( !m_ServiceManager->InitStageOne() )
     {

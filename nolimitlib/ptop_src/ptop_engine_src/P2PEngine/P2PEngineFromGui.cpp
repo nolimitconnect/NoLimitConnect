@@ -67,42 +67,6 @@ void P2PEngine::assureUserSpecificDirIsSet( const char* checkReason )
 }
 
 //============================================================================
-void P2PEngine::fromGuiSetIsAppCommercial( bool isCommercial )
-{
-	VxSetIsApplicationCommercial( isCommercial );
-}
-
-//============================================================================
-bool P2PEngine::fromGuiGetIsAppCommercial( void )
-{
-	return VxGetIsApplicationCommercial();
-}
-
-//============================================================================
-uint16_t P2PEngine::fromGuiGetAppVersionBinary( void )
-{
-	return VxGetAppVersion();
-}
-
-//============================================================================
-const char* P2PEngine::fromGuiGetAppVersionString( void )
-{
-	return VxGetAppVersionString();
-}
-
-//============================================================================
-const char* P2PEngine::fromGuiGetAppName( void )
-{
-	return VxGetApplicationTitle();
-}
-
-//============================================================================
-const char* P2PEngine::fromGuiGetAppNameNoSpaces( void )
-{
-	return VxGetApplicationNameNoSpaces();
-}
-
-//============================================================================
 uint64_t P2PEngine::fromGuiGetDiskFreeSpace( const char* dir  ) 
 {
 	if( dir )

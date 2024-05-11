@@ -14,8 +14,9 @@
 
 #include <P2PEngine/EngineSettingsDefaultValues.h>
 
-#include <NetLib/VxGetRandomPort.h>
+#include <CoreLib/AppVersion.h>
 #include <CoreLib/VxParse.h>
+#include <NetLib/VxGetRandomPort.h>
 
 #include <QString>
 
@@ -32,6 +33,12 @@ AppSettings::AppSettings()
 {
 	// mark all values as not cached
 	memset( m_AppFeatureIsCached, 0, sizeof( m_AppFeatureIsCached ) );
+}
+
+//============================================================================
+const char* AppSettings::getAppShortName( void )
+{
+	return APP_NAME;
 }
 
 //============================================================================

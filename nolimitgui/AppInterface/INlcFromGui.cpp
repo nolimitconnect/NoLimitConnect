@@ -18,54 +18,6 @@
 //============================================================================
 //=== from gui ===//
 //============================================================================
-void INlc::fromGuiSetupContext( void )
-{
-    //LogMsg( LOG_DEBUG, "INlc::fromGuiSetupContext\n");
-    //if( 0 == m_AudioMgr )
-    //{
-    //    //__android_log_write( ANDROID_LOG_INFO, ENGINE_LOG_TAG, "fromGuiSetupContext create Audio Manager" );
-    //    m_AudioMgr = new webrtc::AudioManager( *this );
-    //    //__android_log_write( ANDROID_LOG_INFO, ENGINE_LOG_TAG, "fromGuiSetupContext initAndroidAudioMgr" );
-    //    m_AudioMgr->initAndroidAudioMgr();
-    //    //__android_log_write( ANDROID_LOG_INFO, ENGINE_LOG_TAG, "fromGuiSetupContext create Audio Manager done" );
-    //}
-}
-
-//============================================================================
-void INlc::fromGuiSetIsAppCommercial( bool isCommercial )
-{
-    VxSetIsApplicationCommercial( isCommercial );
-}
-
-//============================================================================
-bool INlc::fromGuiGetIsAppCommercial( void )
-{
-    return VxGetIsApplicationCommercial();
-}
-
-//============================================================================
-uint16_t INlc::fromGuiGetAppVersionBinary( void )
-{
-    return VxGetAppVersion();
-}
-
-//============================================================================
-const char* INlc::fromGuiGetAppVersionString( void )
-{
-    return VxGetAppVersionString();
-}
-
-//============================================================================
-const char* INlc::fromGuiGetAppName( void )
-{
-    return VxGetApplicationTitle();
-}
-
-//============================================================================
-const char* INlc::fromGuiGetAppNameNoSpaces( void )
-{
-    return VxGetApplicationNameNoSpaces();
-}
 
 //============================================================================
 void INlc::fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread )

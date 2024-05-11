@@ -2,6 +2,7 @@
 #pragma once
 
 #include <NlcDependLibrariesConfig.h>
+#include <CoreLib/AppVersion.h>
 #include <libgnu/g-gnulib.h>
 
 #include <libiconv/iconv.h>

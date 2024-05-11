@@ -213,13 +213,6 @@ public:
 	//========================================================================
 	void						assureUserSpecificDirIsSet( const char* checkReason );
 
-    virtual void				fromGuiSetIsAppCommercial( bool isCommercial ) override;
-    virtual bool				fromGuiGetIsAppCommercial( void ) override;
-    virtual uint16_t			fromGuiGetAppVersionBinary( void ) override;
-    const char*				    fromGuiGetAppVersionString( void ) override;
-    virtual const char*		    fromGuiGetAppName( void ) override;
-    virtual const char*		    fromGuiGetAppNameNoSpaces( void ) override;
-
     virtual void				fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread = false ) override;
     virtual void				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) override;
     virtual void				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;

@@ -301,6 +301,9 @@
     <ClInclude Include="..\..\VirtFileMgr.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\AppVersion.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AppErr_corelib.cpp">

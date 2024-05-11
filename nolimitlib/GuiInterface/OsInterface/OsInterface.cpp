@@ -448,7 +448,13 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     // determine where we can copy assets from
     // this is a special hack for running in linux from qcreator directly when built into nolimitgui/bin-OsName directory
     // the executable is built into a subdirectory of nolimitgui/bin-OsName directory
+#if defined(FLATPAKBUILD)
+    // flatpak cannot accese exe directory and is installed instead so no absolute path available
+    std::string kodiExeAssetsPath = "assets/kodi";
+#else
     std::string kodiExeAssetsPath = exePath + "assets/kodi";
+#endif // defined(FLATPAKBUILD)
+
     std::string assetTest1 = kodiExeAssetsPath + "/userdata/guisettings.xml";
     if( !VxFileUtil::fileExists( assetTest1.c_str() ) )
     {
@@ -523,10 +529,12 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     // map our special drives
 
     VxFileUtil::makeForwardSlashPath( kodiExeAssetsPath );
+    // special://xbmcbin/
     CSpecialProtocol::SetXBMCBinPath( kodiExeAssetsPath );
+    // special://xbmc/   
+    CSpecialProtocol::SetXBMCPath( kodiExeAssetsPath );
 
     VxFileUtil::makeForwardSlashPath( kodiUserStoragePath );
-    CSpecialProtocol::SetXBMCPath( kodiExeAssetsPath );
 
     std::string binAddonPath = kodiUserStoragePath + "/addons";
     VxFileUtil::makeDirectory( binAddonPath );
@@ -543,6 +551,7 @@ bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWri
     CSpecialProtocol::SetMasterProfilePath( masterProfilePath );
 
     // there is not individual users for media player so just use master profile
+    // special://masterprofile/   
     CSpecialProtocol::SetProfilePath( masterProfilePath );
 
     CSpecialProtocol::SetTempPath( tempDir );

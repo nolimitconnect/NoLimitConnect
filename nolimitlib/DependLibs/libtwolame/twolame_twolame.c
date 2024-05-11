@@ -51,7 +51,6 @@
 
 #include "bitbuffer_inline.h"
 
-
 /*
   twolame_init
   Create a set of encoding options and return a pointer to this structure

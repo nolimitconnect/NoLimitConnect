@@ -6,11 +6,11 @@ sdk: org.kde.Sdk
 command: nolimitconnect
 finish-args: 
     - --device=all
-    - --filesystem=host
     - --share=ipc
     - --share=network
     - --socket=fallback-x11       
     - --socket=wayland
+    - --filesystem=host
 
 modules:
  - shared-modules/glu/glu-9.json

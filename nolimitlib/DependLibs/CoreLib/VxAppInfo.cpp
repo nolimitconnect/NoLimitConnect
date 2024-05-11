@@ -1,9 +1,9 @@
 
-#include "config_corelib.h"
-
-
 #include "VxAppInfo.h"
+
 #include "VxGlobals.h"
+#include "AppVersion.h"
+
 #include <cstddef>
 
 //=============================================================================
@@ -39,29 +39,25 @@ const char* VxAppInfo::getCompanyDomain( void )
 //=============================================================================
 int VxAppInfo::getVersionMajor( void )
 {
-	uint16_t	appVer = VxGetAppVersion();
-	return ( ( appVer >> 8 ) & 0xff );
+	return APP_MAJOR_VERSION;
 }
 
 //=============================================================================
 int VxAppInfo::getVersionMinor( void )
 {
-	uint16_t	appVer = VxGetAppVersion();
-	return ( appVer & 0xff );
+	return APP_MINOR_VERSION;
 }
 
 //=============================================================================
 const char* VxAppInfo::getVersionSuffix( void )
 {
-	return "RC1";
+	return "";
 }
 
 //=============================================================================
 std::string VxAppInfo::getVersionString( void )
 {
-    char versionBuf[512];
-    sprintf( versionBuf, "%d.%d %s", getVersionMajor(), getVersionMinor(), getVersionSuffix() );
-    return versionBuf;
+    return APP_VERSION;
 }
 
 //=============================================================================

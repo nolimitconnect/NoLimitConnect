@@ -11,22 +11,25 @@
 
 #include "VxTime.h" // time stamp and other time functions
 
-
-#define DEFAULT_ONLINE_LISTEN_PORT		45124
-#define DEFAULT_GUEST_UDP_PORT			45126
-
 class VxGUID;
 
 enum EAppDir
 {
 	eAppDirUnknown = 0,
+
+	// standard paths set from qt paths
+	eAppData,
+	eAppDownload,
+	eAppMusic,
+	eAppVideo,
+	eAppPictures,
+	eAppDocuments,
+
+	// assets
 	eAppDirAppExe,
     eAppDirKodiExe,
 	eAppDirExeKodiAssets,
 	eAppDirExeNoLimitAssets,
-	eAppDirExePython,
-	eAppDirExePythonDlls,
-	eAppDirExePythonLibs,
 
 	eAppDirRootDataStorage,
 	eAppDirAppTempData,
@@ -72,18 +75,15 @@ void							VxSetNetworkHostUrl( const char* netHostUrl );
 const char*						VxGetNetworkHostUrl( void );
 
 const char*						VxGetApplicationTitle( void );
-void							VxSetApplicationNameNoSpaces( const char* pAppName );
 const char*						VxGetApplicationNameNoSpaces( void );
 const char*						VxGetApplicationNameNoSpacesLowerCase( void );
-void							VxSetIsApplicationCommercial( bool isCommercial );
-bool							VxGetIsApplicationCommercial( void );
 
-void							VxSetAppVersion( uint16_t u16AppVersion );
-uint16_t						VxGetAppVersion( void );
+uint16_t						VxGetAppVersionShort( void );
+uint32_t						VxGetAppVersionFull( void );
 const char*						VxGetAppVersionString( void );
 
 //============================================================================
-void                            VxSetAppDirectory( EAppDir appDir, const char* setDir );
+void                            VxSetAppDirectory( enum EAppDir appDir, std::string setDir );
 std::string& 					VxGetAppDirectory( enum EAppDir appDir );
 
 // exe and app resource path	s
@@ -92,10 +92,6 @@ std::string&					VxGetAppExeDirectory( void );
 
 void							VxSetKodiExeDirectory( const char* exeDir );
 std::string&					VxGetKodiExeDirectory( void );
-
-void							VxSetPythonExeDirectory( const char* pythonDir );
-void							VxSetPythonDllDirectory( const char* pythonDir );
-void							VxSetPythonLibDirectory( const char* pythonDir );
 
 // user writable directories	
 void							VxSetRootDataStorageDirectory( const char* rootDataDir );

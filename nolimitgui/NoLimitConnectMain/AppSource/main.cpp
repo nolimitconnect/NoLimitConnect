@@ -8,11 +8,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
+#include <QWidget> // must be declared first or Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include "GuiMainLoaderThread.h"
 #include "NlcCommonConfig.h"
-#ifdef BUILD_NLC_APP
 
 #include <CommonSrc/QtSource/AppCommon.h>
 #include <CommonSrc/QtSource/HomeWindow.h>
@@ -84,6 +83,7 @@ namespace{
         }
     }
 
+    //============================================================================
     bool setupRootStorageDirectory()
     {
         std::string strRootUserDataDir;
@@ -103,6 +103,8 @@ namespace{
 
         VxFileUtil::makeForwardSlashPath( strRootUserDataDir );
         strRootUserDataDir += "/";
+        VxSetAppDirectory( eAppData, strRootUserDataDir );
+
         // No need to put application in path because when call QCoreApplication::setApplicationName("AppName")
         // it made it a sub directory of DataLocation
         VxSetRootDataStorageDirectory( strRootUserDataDir.c_str() );
@@ -126,9 +128,9 @@ const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
                                     "android.permission.READ_PHONE_STATE",
                                     "android.permission.KILL_BACKGROUND_PROCESSES"});
 
-#endif
+#endif //  defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
-
+//============================================================================
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
     GuiMainLoaderThread mainLoaderThread;
@@ -147,6 +149,13 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     }
 #endif // defined (Q_OS_ANDROID)
 
+    // NOTE OrganizationName and ApplicationName become part of data storage location path
+    QCoreApplication::setOrganizationName( "" ); // leave blank or will become part of data storage path
+    QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
+    QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
+    QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
+    QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
+
     // TODO allow user to change where the data is stored
     if( !setupRootStorageDirectory() )
     {
@@ -158,20 +167,37 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         return -1;
     }
 
+    QStringList downloadPath =  QStandardPaths::standardLocations(QStandardPaths::DownloadLocation );
+    std::string download = downloadPath[0].toUtf8().constData();
+    VxFileUtil::makeForwardSlashPath( download );
+    VxSetAppDirectory( eAppDownload, download + "/" );
+
+    QStringList musicPath =  QStandardPaths::standardLocations(QStandardPaths::MusicLocation );
+    std::string music = musicPath[0].toUtf8().constData();
+    VxFileUtil::makeForwardSlashPath( music );
+    VxSetAppDirectory( eAppMusic, music + "/" );
+
+    QStringList videoPath =  QStandardPaths::standardLocations(QStandardPaths::MoviesLocation );
+    std::string video = videoPath[0].toUtf8().constData();
+    VxFileUtil::makeForwardSlashPath( video );
+    VxSetAppDirectory( eAppVideo, video + "/" );
+
+    QStringList picturePath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation );
+    std::string picture = picturePath[0].toUtf8().constData();
+    VxFileUtil::makeForwardSlashPath( picture );
+    VxSetAppDirectory( eAppPictures, picture + "/" );
+
+    QStringList documentPath =  QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation );
+    std::string document = documentPath[0].toUtf8().constData();
+    VxFileUtil::makeForwardSlashPath( document );
+    VxSetAppDirectory( eAppDocuments, document + "/" );
+
     mainLoaderThread.start();
 
     // initialize display scaling etc
     // the best method I have found to scale the gui is to use the default font height as the scaling factor
     QFontMetrics fontMetrics( myApp->font() );
     GuiParams::initGuiParams(fontMetrics.height());
-
-    // chicken and egg kind of thing.. we need the storage path here
-    QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
-    QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
-    // NOTE OrganizationName and ApplicationName become part of data storage location path
-    QCoreApplication::setOrganizationName( "" ); // leave blank or will become part of data storage path
-    QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
-    QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
 
     LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
 
@@ -201,32 +227,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 	return result;
 }
 
-#endif // BUILD_NLC_APP
-
-#if !defined(TARGET_OS_WINDOWS)
-#include <unistd.h>
-#include <signal.h>
-#include <pthread.h>
-#include <sys/syscall.h>
-
-/*
-void signal_handler(int signum, siginfo_t *info, void *extra)
-{
-    LogMsg( LOG_ERROR, "Signal Handler signum %d thread ID: %d ", signum, syscall(SYS_gettid));
-}
-
-void set_signal_handler( void )
-{
-   static struct sigaction action;
-
-    action.sa_flags = SA_SIGINFO;
-    action.sa_sigaction = signal_handler;
-    sigaction( SIGINT, &action, NULL );
-}
-*/
-
-#endif // !defined(TARGET_OS_WINDOWS)
-
+//============================================================================
 int main( int argc, char** argv )
 {
     // filter out gralloc4: messages

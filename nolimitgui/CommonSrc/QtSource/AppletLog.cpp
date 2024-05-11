@@ -145,11 +145,15 @@ void AppletLog::fillBasicInfo( void )
     }
 
     logMsg( "directories:" );
-    logMsg( "app: %s", VxGetAppDirectory( eAppDirAppExe ).c_str() );
+    logMsg( "app data: %s", VxGetAppDirectory( eAppData ).c_str() );
+    logMsg( "exe: %s", VxGetAppDirectory( eAppDirAppExe ).c_str() );
     logMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
     logMsg( "user: %s", VxGetAppDirectory( eAppDirUserSpecific ).c_str() );
     logMsg( "kodi: %s", VxGetAppDirectory( eAppDirExeKodiAssets ).c_str() );
-    logMsg( "python exe: %s", VxGetAppDirectory( eAppDirExePython ).c_str() );
-    logMsg( "python dlls: %s", VxGetAppDirectory( eAppDirExePythonDlls ).c_str() );
-    logMsg( "python libs: %s", VxGetAppDirectory( eAppDirExePythonLibs ).c_str() );
+
+    logMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
+    logMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
+    logMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
+    logMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
+    logMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
 }

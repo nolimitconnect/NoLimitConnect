@@ -142,6 +142,7 @@ extern "C" void __stdcall init_emu_environ()
 #else
     dll_putenv( "OS=unknown" );
 #endif
+#if defined(HAVE_PYTHON)
 #ifdef TARGET_OS_ANDROID
     // android has all in same directory
 //    std::string pythonPath( "PYTHONPATH=" +
@@ -149,6 +150,7 @@ extern "C" void __stdcall init_emu_environ()
     LogMsg( LOG_DEBUG, "python path 1 (%s)", VxGetAppDirectory( eAppDirExePythonDlls ).c_str() );
     std::string pythonPath( "PYTHONPATH=" + VxGetAppDirectory( eAppDirExePythonDlls ) );
     LogMsg( LOG_DEBUG, "python path 2 (%s)", pythonPath.c_str() );
+
     std::string pythonHome = getenv("KODI_ANDROID_APK");
     LogMsg( LOG_DEBUG, "KODI_ANDROID_APK (%s)", pythonHome.c_str() );
 
@@ -161,20 +163,28 @@ extern "C" void __stdcall init_emu_environ()
                             CSpecialProtocol::TranslatePath( "special://xbmc/system/python/Lib" ) );
     std::string pythonHome( "PYTHONHOME=" + CSpecialProtocol::TranslatePath( "special://xbmc/system/python" ) );
 #endif
+#endif // defined(HAVE_PYTHON)
 
 #if defined( TARGET_OS_ANDROID )
+#if defined(HAVE_PYTHON)
     // android does not translate correctly
     std::string sysPath( "PATH=.;" + VxGetAppDirectory( eAppDirExeKodiAssets ) + ";" + VxGetAppDirectory( eAppDirExePython ) + ";" +  VxGetAppDirectory( eAppDirExePythonDlls ) );
+#else
+    std::string sysPath( "PATH=.;" + VxGetAppDirectory( eAppDirExeKodiAssets ));
+#endif // defined(HAVE_PYTHON)
 #else
     std::string sysPath( "PATH=.;" + CSpecialProtocol::TranslatePath( "special://xbmc" ) + ";" + CSpecialProtocol::TranslatePath( "special://xbmc/system/python" ) + ";" + VxGetAppDirectory( eAppDirAppExe ) );
 #endif // defined( TARGET_OS_ANDROID )
     //CLog::Log( LOGDEBUG, "python path (%s)\n home (%s)\n sys path (%s)", pythonPath.c_str(), pythonHome.c_str(), sysPath.c_str() );
+#if defined(HAVE_PYTHON)
     LogMsg( LOG_DEBUG, "python path (%s)\n home (%s)\n sys path (%s)", pythonPath.c_str(), pythonHome.c_str(), sysPath.c_str() );
     dll_putenv( pythonPath.c_str() );
     dll_putenv( pythonHome.c_str() );
+#endif // defined(HAVE_PYTHON)
     dll_putenv( sysPath.c_str() );
 
-#if defined(TARGET_ANDROID)
+#if defined(HAVE_PYTHON)
+#if defined(TARGET_ANDROID)  
     // even though kodi does not optimize we should be able to.. leave unoptimized until certain
     dll_putenv( "PYTHONOPTIMIZE=" );
     dll_putenv( "PYTHONNOUSERSITE=1" );
@@ -186,19 +196,12 @@ extern "C" void __stdcall init_emu_environ()
 #if defined(TARGET_WINDOWS)
     dll_putenv("PYTHONCASEOK=1");   // windows is case insensitive for file names
 #endif //defined(TARGET_WINDOWS) 
+#endif // defined(HAVE_PYTHON)
 
-    //dll_putenv("PYTHONDEBUG=1");
-    //dll_putenv("PYTHONVERBOSE=2"); // "1" for normal verbose, "2" for more verbose ?
-    //dll_putenv("PYTHONDUMPREFS=1");
-    //dll_putenv("THREADDEBUG=1");
-    //dll_putenv("PYTHONMALLOCSTATS=1");
-    //dll_putenv("PYTHONY2K=1");
     dll_putenv( "TEMP=special://temp/temp" ); // for python tempdir
 
     // libdvdnav
     dll_putenv( "DVDREAD_NOKEYS=1" );
-    //dll_putenv("DVDREAD_VERBOSE=1");
-    //dll_putenv("DVDREAD_USE_DIRECT=1");
 
     // libdvdcss
     dll_putenv( "DVDCSS_METHOD=key" );

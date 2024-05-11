@@ -109,6 +109,19 @@
 using namespace MEDIA_DETECT;
 #endif
 
+#ifdef TARGET_POSIX
+# ifndef INSTALL_PATH
+#  define INSTALL_PATH    "/usr/share/xbmc"
+# endif
+
+# ifndef BIN_INSTALL_PATH
+#  define BIN_INSTALL_PATH "/usr/lib/xbmc"
+# endif
+#else
+# define BIN_INSTALL_PATH        "$(ProjectDir)../../../installed/kodi/lib/kodi";
+# define INSTALL_PATH             "C:/Program Files (x86)/kodi/share/kodi";
+#endif // TARGET_POSIX
+
 using namespace XFILE;
 using namespace PLAYLIST;
 using KODI::UTILITY::CDigest;

@@ -1,0 +1,26 @@
+#pragma once
+
+#define APP_NAME				"NoLimitConnect"
+#define APP_TITLE				"No Limit Connect"
+#define APP_URL					"https://nolimitconnect.com"
+#define APP_DOMAIN_NAME			"nolimitconnect"
+#define APP_PACKAGE				"com.nolimitconnect.NoLimitConnect"
+
+#define APP_VERSION				"1.0.1"
+#define APP_MAJOR_VERSION		1
+#define APP_MINOR_VERSION		0
+#define APP_PATCH_VERSION		1
+/* Version number: (major<<16) + (minor<<8) + patch */
+#define APP_VERSION_BINARY		0x010001
+
+#define PACKAGE_STRING			"NoLimitConnect 1.0.1"
+/* redefine for different library needs */
+#define PACKAGE_BUGREPORT		APP_URL
+#define PACKAGE_NAME			APP_NAME
+#define PACKAGE_TARNAME			APP_PACKAGE
+#define PACKAGE_VERSION			APP_VERSION
+#define BUILD_REVISION			APP_VERSION
+
+/* The time this package was configured for a build */
+#define BUILD_TIMESTAMP			"2024-06-11T20:45+0000"
+

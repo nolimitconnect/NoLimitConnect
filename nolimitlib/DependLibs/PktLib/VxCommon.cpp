@@ -215,7 +215,7 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 //============================================================================
 //============================================================================
 VxNetIdent::VxNetIdent()
-: m_u16AppVersion( htons( VxGetAppVersion() ) )	
+: m_u16AppVersion( htons( VxGetAppVersionShort() ) )	
 {
 }
 

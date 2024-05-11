@@ -399,14 +399,6 @@ public:
     //============================================================================
     //=== from gui ===//
     //============================================================================
-    virtual void				fromGuiSetupContext( void );
-
-    virtual void				fromGuiSetIsAppCommercial( bool isCommercial );
-    virtual bool				fromGuiGetIsAppCommercial( void );
-    virtual uint16_t			fromGuiGetAppVersionBinary( void );
-    const char*				    fromGuiGetAppVersionString( void );
-    virtual const char*		    fromGuiGetAppName( void );
-    virtual const char*		    fromGuiGetAppNameNoSpaces( void );
 
     virtual void				fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread = false );
     virtual void				fromGuiSetUserXferDir( std::string userDir, bool fromThread = false );

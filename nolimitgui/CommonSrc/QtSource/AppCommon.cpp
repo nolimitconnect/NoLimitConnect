@@ -57,6 +57,7 @@
 #include <PktLib/VxCommon.h>
 #include <PktLib/ConnectId.h>
 
+#include <CoreLib/AppVersion.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
@@ -113,23 +114,7 @@ namespace
 	QString GetAppShortName( EDefaultAppMode appMode )
 	{
 		//NOTE: do not translate or will cause new settings each time user changes languages
-		QString appShortName = VxGetApplicationNameNoSpaces(); 
-		switch( appMode )
-		{
-		case eAppModeDefault:
-			return appShortName;
-		case eAppModeNlcViewer:
-			return "NoLimitPlayer";
-		case eAppModeNlcProvider:
-			return "NoLimitProvider";
-		case eAppModeNlcStation:
-			return "NoLimitStation";
-		case eAppModeNlcNetworkHost:
-			return "NoLimitNetHost";
-		case eAppModeUnknown:
-		default:
-			return "NoLimitUnknownApp";
-		}
+		return APP_NAME;
 	}
 }
 
@@ -237,10 +222,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	signal( SIGPIPE, SIG_IGN );
 #endif // !defined(TARGET_OS_WINDOWS)
 
-	// set application short name used for directory paths
-	VxSetApplicationNameNoSpaces( m_AppShortName.toUtf8().constData() );
-	m_AppSettings.setAppShortName( m_AppShortName );
-
 	// this just loads the ini file.
 	// the AppSettings database is not initialized until loadAccountSpecificSettings
 	m_AppSettings.loadProfile();
@@ -252,13 +233,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 
     connect( m_CheckSetupTimer, SIGNAL(timeout()), this, SLOT(slotCheckSetupTimer()) );
 	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()) );
-
-	LogMsg( LOG_DEBUG, "sizeof long %d", sizeof( long ) );
-	LogMsg( LOG_DEBUG, "sizeof int %d", sizeof( int ) );
-	LogMsg( LOG_DEBUG, "sizeof unsigned int %d", sizeof( unsigned int ) );
-	LogMsg( LOG_DEBUG, "sizeof unsigned long int %d", sizeof( unsigned long int ) );
-	LogMsg( LOG_DEBUG, "sizeof void pointer %d", sizeof( void* ) );
-	LogMsg( LOG_DEBUG, "sizeof char pointer %d", sizeof( char* ) );
 }
 
 //============================================================================

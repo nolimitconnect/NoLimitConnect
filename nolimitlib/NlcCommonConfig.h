@@ -9,45 +9,7 @@
 # define CMAKE_INTDIR            "Release"
 #endif
 
-// define one of the following for which type of application
-//#define BUILD_KODIP2P_APP 1
-//#define BUILD_KODIQT_APP 1
-#define BUILD_NLC_APP 1
-
-//#define ENABLE_ASSERTIONS	0		/* Assertions */
-
-#define PACKAGE_VERSION			"1.0.1"
-#define BUILD_REVISION			"1.0.1"
-
 # define HAVE_QT_GUI            1 // define if have qt application interface and rendering
-
-# define PROGRAM_NAME			"NoLimitConnect"
-# define PACKAGE_STRING			"NoLimitConnect 1.0.1"
-# define PACKAGE_URL		    "https://nolimitconnect.com"
-
-/* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT		PACKAGE_URL
-#define PACKAGE_NAME			PROGRAM_NAME
-#define PACKAGE_TARNAME			PACKAGE_NAME
-
-/* The time this package was configured for a build */
-#define BUILD_TIMESTAMP			"2024-06-11T20:45+0000"
-/* Version number: (major<<16) + (minor<<8) + subminor */
-#define NO_LIMIT_VERSION_BINARY		0x010002
-
-#ifdef TARGET_POSIX
-# ifndef INSTALL_PATH
-#  define INSTALL_PATH    "/usr/share/xbmc"
-# endif
-
-# ifndef BIN_INSTALL_PATH
-#  define BIN_INSTALL_PATH "/usr/lib/xbmc"
-# endif
-#else
-# define BIN_INSTALL_PATH        "$(ProjectDir)../../../installed/kodi/lib/kodi"; 
-# define INSTALL_PATH             "C:/Program Files (x86)/kodi/share/kodi"; 
-#endif // TARGET_POSIX
-
 // define USE_STATIC_LIBS if want to create/link static libraries where possible
 #define USE_STATIC_LIBS 1
 

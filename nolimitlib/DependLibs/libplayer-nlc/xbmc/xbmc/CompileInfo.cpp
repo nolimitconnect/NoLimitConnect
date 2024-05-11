@@ -21,8 +21,7 @@
 #include "config_components_kodi.h"
 #include "CompileInfo.h"
 
-
-#include <CoreLib/VxAppInfo.h>
+#include <CoreLib/AppVersion.h>
 
 #include <cstddef>
 #include <string>
@@ -69,7 +68,7 @@ int CCompileInfo::GetMinor()
 
 const char* CCompileInfo::GetPackage()
 {
-    return "com.nolimitconnect.nolimitconnect";
+    return APP_PACKAGE;
 }
 
 const char* CCompileInfo::GetClass()
@@ -86,30 +85,12 @@ const char* CCompileInfo::GetClass()
 
 const char* CCompileInfo::GetAppName()
 {
-//#if BUILD_NLC_APP
-//    return "NoLimitConnect";
-//#elif BUILD_KODIQT_APP
-//    return "KodiQt";
-//#elif BUILD_KODIP2P_APP
-//    return "KodiP2P";
-//#else
-//    echo you must define your application information in NlcAppConfig.h
-//#endif
-    return "NoLimitConnect";
+    return APP_NAME;
 }
 
 const char* CCompileInfo::GetAppNameLowerCase()
 {
-//#if BUILD_NLC_APP
-//    return "nolimitconnect";
-//#elif BUILD_KODIQT_APP
-//    return "kodiqt";
-//#elif BUILD_KODIP2P_APP
-//    return "kodiptop";
-//#else
-//    echo you must define your application information in NlcAppConfig.h
-//#endif
-    return "nolimitconnect";
+    return APP_DOMAIN_NAME;
 }
 
 const char* CCompileInfo::GetSuffix()
@@ -124,12 +105,12 @@ const char* CCompileInfo::GetSCMID()
 
 const char* CCompileInfo::GetCopyrightYears()
 {
-    return "2005-2023";
+    return "2005-2024";
 }
 
 std::string  CCompileInfo::GetBuildDate()
 {
-    const std::string bdate = "20230810";
+    const std::string bdate = "20240510";
     if( !bdate.empty() )
     {
         std::string datestamp = bdate.substr( 0, 4 ) + "-" + bdate.substr( 4, 2 ) + "-" + bdate.substr( 6, 2 );
@@ -141,73 +122,27 @@ std::string  CCompileInfo::GetBuildDate()
 
 const char* CCompileInfo::GetHomeEnvName()
 {
-#if BUILD_NLC_APP
     return "NLC_HOME";
-#elif BUILD_KODIQT_APP
-    return "KODIQT_HOME";
-#elif BUILD_KODIP2P_APP
-    return "KODIP2P_HOME";
-#else
-    echo you must define your application information in NlcAppConfig.h
-#endif
-
 }
-
 
 const char* CCompileInfo::GetBinHomeEnvName()
 {
-#if BUILD_NLC_APP
     return "NLC_BIN_HOME";
-#elif BUILD_KODIQT_APP
-    return "KODIQT_BIN_HOME";
-#elif BUILD_KODIP2P_APP
-    return "KODIP2P_BIN_HOME";
-#else
-    echo you must define your application information in NlcAppConfig.h
-#endif
-
 }
 
 const char* CCompileInfo::GetBinAddonEnvName()
 {
-#if BUILD_NLC_APP
     return "NLC_BINADDON_PATH";
-#elif BUILD_KODIQT_APP
-    return "KODIQT_BINADDON_PATH";
-#elif BUILD_KODIP2P_APP
-    return "KODIP2P_BINADDON_PATH";
-#else
-    echo you must define your application information in NlcAppConfig.h
-#endif
-
 }
 
 const char* CCompileInfo::GetTempEnvName()
 {
-#if BUILD_NLC_APP
     return "NLC_TEMP";
-#elif BUILD_KODIQT_APP
-    return "KODIQT_TEMP";
-#elif BUILD_KODIP2P_APP
-    return "KODIP2P_TEMP";
-#else
-    echo you must define your application information in NlcAppConfig.h
-#endif
-
 }
 
 const char* CCompileInfo::GetUserProfileEnvName()
 {
-#if BUILD_NLC_APP
-    return "KODI_PROFILE_USERDATA";
-#elif BUILD_KODIQT_APP
-    return "KODIQT_PROFILE_USERDATA";
-#elif BUILD_KODIP2P_APP
-    return "KODIP2P_PROFILE_USERDATA";
-#else
-    echo you must define your application information in NlcAppConfig.h
-#endif
-
+    return "NLC_PROFILE_USERDATA";
 }
 
 std::string CCompileInfo::GetSharedLibrarySuffix()
@@ -221,7 +156,7 @@ std::string CCompileInfo::GetSharedLibrarySuffix()
 
 const char* CCompileInfo::GetVersionCode()
 {
-    return "1.0.0";
+    return APP_VERSION;
 }
 
 std::vector<std::string> CCompileInfo::GetWebserverExtraWhitelist()

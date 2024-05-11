@@ -741,7 +741,14 @@ std::string CProfileManager::GetSavestatesFolder() const
 std::string CProfileManager::GetSettingsFile() const
 {
   if (m_currentProfile == 0)
+  {
+#if defined(HAVE_QT_GUI)
+    // user cannot change the settings so use the read only settings in assets
+    return "special://xbmcbin/userdata/guisettings.xml";
+#else
     return "special://masterprofile/guisettings.xml";
+#endif // defined(HAVE_QT_GUI)
+  }
 
   return "special://profile/guisettings.xml";
 }

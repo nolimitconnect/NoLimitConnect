@@ -426,6 +426,8 @@ void AppletTestAndDebug::fillBasicInfo( void )
     {
         infoMsg( "app exe: %s", strExePathAndFileName.c_str() );
     }
+
+    infoMsg( "app data: %s", VxGetAppDirectory( eAppData ).c_str() );
     infoMsg( "app exe directory: %s", VxGetAppDirectory( eAppDirAppExe ).c_str() );
     infoMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
     infoMsg( "personal records: %s", VxGetAppDirectory( eAppDirPersonalRecords ).c_str() );
@@ -434,9 +436,12 @@ void AppletTestAndDebug::fillBasicInfo( void )
     infoMsg( "nolimit assets: %s", VxGetAppDirectory( eAppDirExeNoLimitAssets ).c_str() );
     infoMsg( "thumbs: %s", VxGetAppDirectory( eAppDirThumbs ).c_str() );
     infoMsg( "kodi assets: %s", VxGetAppDirectory( eAppDirExeKodiAssets ).c_str() );
-    infoMsg( "python exe: %s", VxGetAppDirectory( eAppDirExePython ).c_str() );
-    infoMsg( "python dlls: %s", VxGetAppDirectory( eAppDirExePythonDlls ).c_str() );
-    infoMsg( "python libs: %s", VxGetAppDirectory( eAppDirExePythonLibs ).c_str() );
+
+    infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
+    infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
+    infoMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
+    infoMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
+    infoMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
 }
 
 //============================================================================
