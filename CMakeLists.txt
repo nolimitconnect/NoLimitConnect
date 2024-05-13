@@ -13,6 +13,8 @@ set(PROJECT_MAINTAINER bjones.engineer@gmail.com)
 set(PROJECT_WEBSITE_URL nolimitconnect.com)
 set(PROJECT_VENDOR nolimitconnect.com)
 set(NLC_NAME "nolimitconnect")
+
+# version should match the defines in CoreLib/AppVersion.h
 set(NLC_VERSION "1.0.1")
 set(NLC_VERSION_MAJOR "1")
 set(NLC_VERSION_MINOR "0")
