@@ -32,7 +32,7 @@ void GuiOfferMgrBase::connectCallbackSignalsAndSlots( void )
 
     connect( this, SIGNAL(signalCallbackOfferAdded(OfferBaseInfo*)), this, SLOT(slotCallbackOfferAdded(OfferBaseInfo*)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalCallbackOfferUpdated(OfferBaseInfo*)), this, SLOT(slotCallbackOfferUpdated(OfferBaseInfo*)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalCallbackOfferRemoved(OfferBaseInfo*)), this, SLOT(slotCallbackOfferRemoved(OfferBaseInfo*)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalCallbackOfferRemoved(VxGUID)), this, SLOT(slotCallbackOfferRemoved(VxGUID)), Qt::QueuedConnection );
 }
 
 //========================================================================

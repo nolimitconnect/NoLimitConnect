@@ -107,52 +107,11 @@ public:
     virtual void                onLogEvent( uint32_t u32LogFlags, const char* logMsg ) = 0;
 };
 
-
-class LogEntry
-{
-public:
-	LogEntry()
-		: m_LogFlags( 0 )
-		, m_LogText( "" )
-	{}
-	LogEntry(uint32_t flags, const char* text )
-		: m_LogFlags( flags )
-		, m_LogText( text )
-	{}
-	~LogEntry(){}
-	LogEntry( const LogEntry& rhs )
-	{
-		*this = rhs;
-	}
-
-	LogEntry & operator =( const LogEntry &rhs )
-	{
-		if( this != &rhs )
-		{
-			m_LogFlags			= rhs.m_LogFlags;
-			m_LogText			= rhs.m_LogText;
-		}
-
-		return *this;
-	}
-
-	//=== vars ===//
-	uint32_t				m_LogFlags;
-	std::string				m_LogText;
-};
-
-
-// uncomment to enable log listing for retrieval
-//#define ENABLE_LOG_LIST 1
-
-void							VxGetLogMessages( uint32_t u32MsgTypes, std::vector<LogEntry>& retMsgs );
 // add a log handler
 void							VxAddLogHandler( ILogCallbackInterface * logHandler );
 // remove a log handler
 void							VxRemoveLogHandler( ILogCallbackInterface * logHandler );
-
 #endif // __cplusplus
-
 
 #ifdef __cplusplus
 extern "C" {

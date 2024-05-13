@@ -20,34 +20,33 @@
 #include <QQueue>
 
 class AppCommon;
-class VxAppDisplay;
-class AppletLaunchPage;
-class PageMediaPlayer;
-class MessengerPage;
-class AppletMultiMessenger;
-class VxFrame;
 class AppletBase;
+class AppletLaunchPage;
+class AppletMultiMessenger;
+class MessengerPage;
+class PageMediaPlayer;
+class VxAppDisplay;
+class VxFrame;
 
+class QComboBox;
 class QDialogButtonBox;
 class QGroupBox;
-class QComboBox;
 class QSettings;
 
-class HomeWindow : public QDialog 
+// main window
+class HomeWindow : public QDialog
 {
 	Q_OBJECT
 public:
 	HomeWindow( AppCommon&	appCommon, QString title );
-    virtual ~HomeWindow() override = default;
+    ~HomeWindow() override;
 
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
-	MyIcons&					getMyIcons( void );
 
 	void						initializeHomePage( void );
     void                        restoreHomeWindowGeometry( void );
     void                        saveHomeWindowGeometry( void );
 
-	void						launchApplet( EApplet applet );
 	void						switchWindowFocus( QWidget* appIconButton );
 
     void						setIsMaxScreenSize( bool isMessagerFrame, bool isFullSizeWindow );

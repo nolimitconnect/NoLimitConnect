@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.22.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# enable log messages in release buid
+# this should only be uncommented temporarily to debug release builds
+# add_compile_definitions(LOG_IN_RELEASE_BUILD=1)
+
 #=== application version and info ===#
 set(PROJECT_MAINTAINER bjones.engineer@gmail.com)
 set(PROJECT_WEBSITE_URL nolimitconnect.com)

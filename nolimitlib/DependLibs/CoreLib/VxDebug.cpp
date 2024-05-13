@@ -30,11 +30,6 @@
 #include <string.h>
 #include <array>
 
-//#define ENABLE_LOG_LIST 1 // define if want stored log list capabilities
-#if defined(ENABLE_LOG_LIST)
-# include "VxThread.h"
-#endif // defined(ENABLE_LOG_LIST)
-
 #define MAX_ERR_MSG_SIZE 16384
 
 bool g_StreamActive = false;
@@ -44,13 +39,46 @@ NLC_END_CDECLARES
 
 namespace
 {
-#if defined(DEBUG)
+#if defined(LOG_IN_RELEASE_BUILD)
+uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
+    eLogHackers
+    // | eLogMulticast
+    // | eLogConnect
+    // | eLogAcceptConn
+    // | eLogSkt
+    // | eLogPkt
+    // | eLogNetworkState
+    // | eLogNetworkMgr
+    // | eLogIsPortOpenTest
+    // | eLogThread
+    | eLogStorage
+    // | eLogAssets
+    // | eLogPlugins
+    // | eLogWindowPositions
+     | eLogStartup
+    // | eLogHosts
+    // | eLogMediaStream
+    // | eLogSktData
+    //| eLogSktData
+    //| eLogAcceptConn
+    //| eLogPortForward
+    // | eLogNetService
+    // | eLogRunTest
+    // | eLogHostConnect
+    // | eLogHostSearch
+    //| eLogMediaStream
+    | eLogPlayerNlc
+    //| eLogFfmpeg
+    //| eLogAudioIo
+    //| eLogVideoIo
+    );
+#elif defined(DEBUG) || defined(FLATPAKBUILD)
     uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
-        // eLogMulticast
+        // | eLogMulticast
         // | eLogConnect
         // | eLogAcceptConn
-        // eLogSkt
+        // | eLogSkt
         // | eLogPkt
         // | eLogNetworkState
         // | eLogNetworkMgr
@@ -71,7 +99,6 @@ namespace
         // | eLogRunTest
         // | eLogHostConnect
         // | eLogHostSearch
-        | eLogHackers
         //| eLogMediaStream
         | eLogPlayerNlc
         //| eLogFfmpeg
@@ -86,26 +113,16 @@ namespace
 
     VxMutex						g_oLogMutex;
     VxMutex						g_oFileLogMutex;
+#if defined(LOG_IN_RELEASE_BUILD)
+    uint32_t				    g_u32LogFlags = LOG_PRIORITY_MASK & ~LOG_VERBOSE;
+#else
     uint32_t				    g_u32LogFlags = LOG_PRIORITY_MASK;
+#endif // defined(LOG_IN_RELEASE_BUILD)
     void* g_pvUserData = nullptr;
 
     int							g_iLogNameLen = 0;
     char						g_as8LogFileName[VX_MAX_PATH] = { 0 };
 
-#if ENABLE_LOG_LIST
-    std::vector<LogEntry>		g_LogEntryList;
-    void						AddLogEntry( uint32_t flags, const char* text )
-    {
-        g_oFileLogMutex.lock();
-        g_LogEntryList.push_back( LogEntry( flags, text ) );
-        if( 4000 < g_LogEntryList.size() )
-        {
-            g_LogEntryList.erase( g_LogEntryList.begin(), g_LogEntryList.begin() + 1000 );
-        }
-
-        g_oFileLogMutex.unlock();
-    }
-#endif // ENABLE_LOG_LIST
     class VxLogMgr
     {
     public:
@@ -314,31 +331,6 @@ void LogCModule( int logModuleType, uint32_t u32MsgType, const char* msg, ... )
     VxHandleLogMsg( u32MsgType, strData.data() );
 }
 
-//============================================================================
-void VxGetLogMessages( uint32_t u32MsgTypes, std::vector<LogEntry>& retMsgs )
-{
-#if ENABLE_LOG_LIST
-    retMsgs.clear();
-    // FIXME... can cause crash
-    g_oFileLogMutex.lock();
-    g_LogEntryList.clear();
-    return;
-    std::vector<LogEntry>::iterator iter;
-    g_oFileLogMutex.lock();
-    for( iter = g_LogEntryList.begin(); iter != g_LogEntryList.end(); ++iter )
-    {
-        LogEntry& logEntry = (*iter);
-        if( (0 == u32MsgTypes)
-            || (u32MsgTypes && logEntry.m_LogFlags) )
-        {
-            retMsgs.push_back( logEntry );
-        }
-    }
-
-    g_oFileLogMutex.unlock();
-#endif // ENABLE_LOG_LIST
-}
-
 NLC_BEGIN_CDECLARES
 //============================================================================
 
@@ -365,13 +357,17 @@ uint64_t VxGetModuleLogFlags( void )
 //============================================================================
 void  VxSetModuleLogFlags( uint64_t flags )
 {
+#if !defined(LOG_IN_RELEASE_BUILD)
     g_ModuleEnableLoggingFlags = flags;
+#endif // !defined(LOG_IN_RELEASE_BUILD)
 }
 
 //============================================================================
 void  VxSetLogPriorityMask( uint32_t flags )
 {
+#if !defined(LOG_IN_RELEASE_BUILD)
     g_u32LogFlags = flags;
+#endif // !defined(LOG_IN_RELEASE_BUILD)
 }
 
 //============================================================================

@@ -127,23 +127,6 @@ void P2PEngine::fromGuiDebugSettings( uint32_t u32LogFlags, const char* pLogFile
 }
 
 //============================================================================
-void P2PEngine::fromGuiSendLog(	uint32_t u32LogFlags )
-{
-	std::vector<LogEntry> logMsgs;
-	VxGetLogMessages( u32LogFlags, logMsgs );
-	std::vector<LogEntry>::iterator iter;
-	for( iter = logMsgs.begin(); iter != logMsgs.end(); ++iter )
-	{
-		LogEntry logEntry = (*iter);
-		IToGui::getToGui().toGuiLog( logEntry.m_LogFlags, logEntry.m_LogText.c_str() );
-	}
-
-	char buf[ 256 ];
-	sprintf( buf, "End of log messages count %zd", logMsgs.size() );
-	IToGui::getToGui().toGuiLog( 0, buf );
-}
-
-//============================================================================
 void P2PEngine::updateFromEngineSettings( EngineSettings& engineSettings )
 {
 	getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );

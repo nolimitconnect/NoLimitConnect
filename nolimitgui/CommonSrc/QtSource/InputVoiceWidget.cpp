@@ -22,7 +22,7 @@
 InputVoiceWidget::InputVoiceWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
 {
-	qDebug() << "InputVoiceWidget::InputVoiceWidget ";
+    // qDebug() << "InputVoiceWidget::InputVoiceWidget ";
 	m_AssetInfo.setAssetType( eAssetTypeAudio );
 
 	ui.setupUi( this );

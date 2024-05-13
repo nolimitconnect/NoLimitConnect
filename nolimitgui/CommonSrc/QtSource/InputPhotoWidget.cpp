@@ -29,7 +29,7 @@ InputPhotoWidget::InputPhotoWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
 {
 	m_AssetInfo.setAssetType( eAssetTypePhoto );
-	qDebug() << "InputPhotoWidget::InputPhotoWidget ";
+    // qDebug() << "InputPhotoWidget::InputPhotoWidget ";
 
 	ui.setupUi( this );
     ui.m_SnapShotButton->setSquareButtonSize( eButtonSizeTiny );

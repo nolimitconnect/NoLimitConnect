@@ -359,7 +359,7 @@ public:
     virtual bool				fromGuiNearbyBroadcastEnable( bool enable ) override;
 
     virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName = nullptr ) override;
-    virtual void				fromGuiSendLog( uint32_t u32LogFlags ) override;
+
     virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
     virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter ) override;
 

@@ -39,13 +39,6 @@ namespace
 {
 	VxMutex				g_GlobalAccessMutex;
 
- //   std::string			g_strApplicationTitle			= "No Limit Connect";
- //   std::string			g_strApplicationNameNoSpaces	= "NoLimitConnect";
- //   std::string			g_strApplicationNameNoSpacesLowerCase	= "nolimitconnect";
-	//std::string			g_strCompanyWebsite				= "https://nolimitconnect.com";
- //   std::string			g_strCompanyDomain				= "nolimitconnect.com";
- //   std::string			g_strOrginizationName           = "nolimitconnect";
-
     std::string			g_strNetworkHostName            = "nolimitconnect.net";
     uint16_t            g_NetworkHostPort               = 45124;
     std::string			g_strNetworkHostUrl             = "ptop://nolimitconnect.net:45124";
@@ -102,10 +95,10 @@ namespace
 	bool				g_UserMilitaryTime				= true;
 	int32_t				g_MaxMessageHistory				= 200;
 
-	#if defined(_DEBUG) || defined(DEBUG)
-		// default to no logging in release mode
+    #if defined(_DEBUG) || defined(DEBUG) || defined(LOG_IN_RELEASE_BUILD)
 		bool			g_bIsDebugEnabled				= true;
 	#else
+        // default to no logging in release mode
 		bool			g_bIsDebugEnabled				= false;
 	#endif //	_DEBUG
 }

@@ -1480,6 +1480,12 @@ if(DEFINED FLATPAKBUILD)
         DESTINATION bin/
     )
 
+    # Install assets needed by application
+    install(
+        DIRECTORY ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Linux/assets/kodi
+        DESTINATION assets
+    )
+
     # Install desktop file
     install(
         FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.desktop

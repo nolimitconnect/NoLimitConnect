@@ -575,12 +575,6 @@ void INlc::fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName 
 }
 
 //============================================================================
-void INlc::fromGuiSendLog( uint32_t u32LogFlags )
-{
-    getPtoP().fromGuiSendLog( u32LogFlags );
-}
-
-//============================================================================
 bool INlc::fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask )
 {
     return getPtoP().fromGuiBrowseFiles( folderName, fileFilterMask );

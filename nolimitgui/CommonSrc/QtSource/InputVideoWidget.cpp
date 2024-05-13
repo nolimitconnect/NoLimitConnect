@@ -26,7 +26,7 @@
 InputVideoWidget::InputVideoWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
 {
-	qDebug() << "InputVideoWidget::InputVideoWidget ";
+    // qDebug() << "InputVideoWidget::InputVideoWidget ";
 	m_AssetInfo.setAssetType( eAssetTypeVideo );
 
 	ui.setupUi( this );

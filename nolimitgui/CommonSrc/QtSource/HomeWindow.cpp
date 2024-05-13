@@ -50,6 +50,12 @@ HomeWindow::HomeWindow( AppCommon&	appCommon, QString title )
 
     VxAppInfo appInfo;
     m_WindowSettings = new QSettings( appInfo.getCompanyDomain(), appInfo.getAppNameNoSpaces(), this );
+
+}
+
+//============================================================================
+HomeWindow::~HomeWindow()
+{
 }
 
 //============================================================================
@@ -447,12 +453,6 @@ void HomeWindow::slotHomeButtonClicked( void )
 void HomeWindow::slotFrameResized( void )
 {
     emit signalMainWindowResized();
-}
-
-//============================================================================
-MyIcons& HomeWindow::getMyIcons( void )
-{
-	return m_MyApp.getMyIcons();
 }
 
 //============================================================================

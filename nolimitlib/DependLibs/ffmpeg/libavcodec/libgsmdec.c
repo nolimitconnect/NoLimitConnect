@@ -159,4 +159,4 @@ const FFCodec ff_libgsm_ms_decoder = {
 };
 #endif
 
-#endif CONFIG_LIBGSM_DECODER
+#endif // CONFIG_LIBGSM_DECODER
