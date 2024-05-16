@@ -1,8 +1,5 @@
 
 objs/
-.flatpak-builder/
-build/
-build-dir/
 myrepo/
 
 /**/*.user
