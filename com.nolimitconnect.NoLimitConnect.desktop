@@ -1,0 +1,14 @@
+
+[Desktop Entry]
+Version=1.1
+Type=Application
+
+Name=NoLimitConnect
+Comment=Social Network
+Categories=Network;Graphics
+
+Icon=com.nolimitconnect.NoLimitConnect.png
+Exec=nolimitconnect
+Terminal=false
+
+
