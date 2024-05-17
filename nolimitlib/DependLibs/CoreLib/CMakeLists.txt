@@ -6,6 +6,7 @@ project(CoreLib, LANGUAGES CXX)
 set(CoreLib_HEADERS)
 list(APPEND CoreLib_HEADERS
     AppErr.h
+    AppVersion.h
     AssetDefs.h
     BinaryBlob.h
     Blowfish.h

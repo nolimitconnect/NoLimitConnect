@@ -270,7 +270,7 @@ list(APPEND ptopengine_SOURCES
 )
 
 if(DEFINED TARGET_OS_ANDROID)
-find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick)
 endif()
 
 add_library(ptopengine STATIC ${ptopengine_SOURCES} ${ptopengine_HEADERS})

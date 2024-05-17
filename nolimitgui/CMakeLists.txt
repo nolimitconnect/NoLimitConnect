@@ -1145,7 +1145,7 @@ if (DEFINED TARGET_OS_LINUX)
     )
 
 elseif (DEFINED TARGET_OS_ANDROID)
-    find_package(Qt6 6.6 COMPONENTS Quick Gui REQUIRED)
+    find_package(Qt6 COMPONENTS Quick Gui REQUIRED)
     if (DEFINED TARGET_CPU_AARCH64)
         target_link_libraries(nolimitconnect
             PUBLIC

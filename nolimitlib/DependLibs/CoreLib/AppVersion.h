@@ -6,14 +6,14 @@
 #define APP_DOMAIN_NAME			"nolimitconnect"
 #define APP_PACKAGE				"com.nolimitconnect.NoLimitConnect"
 
-#define APP_VERSION				"1.0.4"
+#define APP_VERSION				"1.0.5"
 #define APP_MAJOR_VERSION		1
 #define APP_MINOR_VERSION		0
-#define APP_PATCH_VERSION		4
+#define APP_PATCH_VERSION		5
 /* Version number: (major<<16) + (minor<<8) + patch */
 #define APP_VERSION_BINARY		0x010001
 
-#define PACKAGE_STRING			"NoLimitConnect 1.0.4"
+#define PACKAGE_STRING			"NoLimitConnect 1.0.5"
 /* redefine for different library needs */
 #define PACKAGE_BUGREPORT		APP_URL
 #define PACKAGE_NAME			APP_NAME
@@ -22,5 +22,5 @@
 #define BUILD_REVISION			APP_VERSION
 
 /* The time this package was configured for a build */
-#define BUILD_TIMESTAMP			"2024-05-16T20:45+0000"
+#define BUILD_TIMESTAMP			"2024-05-17T20:45+0000"
 
