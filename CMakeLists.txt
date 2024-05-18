@@ -15,10 +15,10 @@ set(PROJECT_VENDOR nolimitconnect.com)
 set(NLC_NAME "nolimitconnect")
 
 # version should match the defines in CoreLib/AppVersion.h
-set(NLC_VERSION "1.0.5")
+set(NLC_VERSION "1.0.6")
 set(NLC_VERSION_MAJOR "1")
 set(NLC_VERSION_MINOR "0")
-set(NLC_VERSION_PATCH "5")
+set(NLC_VERSION_PATCH "6")
 
 set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "" FORCE)
 
