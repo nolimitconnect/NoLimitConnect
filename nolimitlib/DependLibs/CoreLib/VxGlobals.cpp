@@ -417,7 +417,7 @@ uint16_t VxGetAppVersionShort( void )
 //============================================================================
 uint32_t VxGetAppVersionFull( void )
 {
-	return APP_VERSION_BINARY;
+    return APP_VERSION_BINARY;
 }
 
 //============================================================================

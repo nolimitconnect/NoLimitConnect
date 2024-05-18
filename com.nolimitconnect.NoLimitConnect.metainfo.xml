@@ -8,21 +8,23 @@
     <description>
         <p>NoLimitConnect is a full featured social network.</p>
         <p>A independent social network designed to be hosted on any device with an internet connection.</p>
-        <p>Major features:
-        o Person to Person and plugin permissions: Ignore, Guest, Friend, Admin
-        o Push To Talk VOIP
-        o Stream shared media files
-        o Share and transfer files (No file size limit)
-        o Video Chat
-        o VOIP Voice Phone
-        o Messenger
-        o About Me user page
-        o Storyboard blog page
-        o Web Cam Server
-        o Media Player
-        o Chat Room host and client
-        o Random Connect host and client
-        o Group host and client</p>
+        <p>Major features:</p>
+        <ul>
+            <li>Person to Person and plugin permissions: Ignore, Guest, Friend, Admin</li>
+            <li>Push To Talk VOIP</li>
+            <li>Stream shared media files</li>
+            <li>Share and transfer files (No file size limit)</li>
+            <li>Video Chat</li>
+            <li>VOIP Voice Phone</li>
+            <li>Messenger</li>
+            <li>About Me user page</li>
+            <li>Storyboard blog page</li>
+            <li>Web Cam Server</li>
+            <li>Media Player</li>
+            <li>Chat Room host and client</li>
+            <li>Random Connect host and client</li>
+            <li>Group host and client</li>
+        </ul>
     </description>
     <screenshots>
         <screenshot type="default">
