@@ -40,7 +40,7 @@
             <caption>The Media Player playing a sample mjpeg video</caption>
         </screenshot>
     </screenshots>
-    <launchable type="desktop-id">org.nolimitconnect.NoLimitConnect.desktop</launchable>
+    <launchable type="desktop-id">com.nolimitconnect.NoLimitConnect.desktop</launchable>
     <developer id="brettrjones.nolimitconnect">
         <name>Brett R. Jones</name>
     </developer>
@@ -82,9 +82,9 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
-        <release version="1.0.6" date="2024-05-18">
+        <release version="1.0.8" date="2024-05-18">
             <description>
-                NoLimitConnect v1.0.6 Initial Release.
+                NoLimitConnect v1.0.8 Initial Release.
             </description>
         </release>
     </releases>
