@@ -30,9 +30,9 @@ Major features:
 * o Group host and client
 
 ## Installation
-Android - android Play Store
-Linux - flathub
-Windows - windows installer
+* o Android - Android Play Store
+* o Linux - Flathub https://flathub.org/
+* o Windows - Windows installer. Maybe Microsoft Store 
 
 ## Usage
 Warning: There is no monitoring of communication except what the host admin is willing to do.
