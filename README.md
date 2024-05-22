@@ -14,24 +14,24 @@ git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 A independent social network designed to be hosted on any device with an internet connection. See docs folder for network design.
 
 Major features:
-o Person to Person and plugin permissions: Ignore, Guest, Friend, Admin
-o Push To Talk VOIP
-o Stream shared media files
-o Share and transfer files (No file size limit)
-o Video Chat
-o VOIP Voice Phone
-o Messenger
-o About Me user page
-o Storyboard blog page
-o Web Cam Server
-o Media Player (Based on Kodi(TM) and Ffmpeg)
-o Chat Room host and client
-o Random Connect host and client
-o Group host and client
+* o Person to Person and plugin permissions: Ignore, Guest, Friend, Admin
+* o Push To Talk VOIP
+* o Stream shared media files
+* o Share and transfer files (No file size limit)
+* o Video Chat
+* o VOIP Voice Phone
+* o Messenger
+* o About Me user page
+* o Storyboard blog page
+* o Web Cam Server
+* o Media Player (Based on Kodi(TM) and Ffmpeg)
+* o Chat Room host and client
+* o Random Connect host and client
+* o Group host and client
 
 ## Installation
 Android - android Play Store
-Linux - debian package
+Linux - flathub
 Windows - windows installer
 
 ## Usage
@@ -39,11 +39,12 @@ Warning: There is no monitoring of communication except what the host admin is w
 No log files
 
 ## Support
-None yet. Plan to setup forum and bug tracker.
+https://gitlab.com/nolimitconnectapps/nolimitapp/issues
 
 ## Roadmap
-o Improve media player
-o Fully implement request and accept or deny
+* o Enable IPv6
+* o Improve media player
+* o Fully implement request and accept or deny
 
 ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
