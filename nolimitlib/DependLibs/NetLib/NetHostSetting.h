@@ -47,13 +47,11 @@ public:
     std::string&				getRandomConnectUrl( void )								    { return m_NetRandomConnectUrl; }
     void						setGroupHostUrl( const char* netServiceUrl )		        { m_GroupHostUrl = netServiceUrl; }
     std::string&				getGroupHostUrl( void )								        { return m_GroupHostUrl; }
-    void						setChatRoomHostUrl( const char* netServiceUrl )		    { m_ChatRoomHostUrl = netServiceUrl; }
+    void						setChatRoomHostUrl( const char* netServiceUrl )		        { m_ChatRoomHostUrl = netServiceUrl; }
     std::string&				getChatRoomHostUrl( void )								    { return m_ChatRoomHostUrl; }
 
     void						setUserSpecifiedExternIpAddr( const char* ipAddr )		    { m_ExternIpAddr = ipAddr; }
     std::string&				getUserSpecifiedExternIpAddr( void )						{ return m_ExternIpAddr; }
-    void                        setPreferredNetworkAdapterIp( const char* preferredAdaptIp ) { m_PreferredNetworkAdapterIp = preferredAdaptIp; }
-    std::string&                getPreferredNetworkAdapterIp( void )                        { return m_PreferredNetworkAdapterIp; }
 
     void                        setUseUpnpPortForward( bool useUpnp )                       { m_UseUpnp = useUpnp; }
     bool                        getUseUpnpPortForward( void )                               { return m_UseUpnp; }
@@ -62,6 +60,8 @@ public:
     void                        setFirewallTestType( int32_t firewallTestType )             { m_FirewallType = firewallTestType; }
     int32_t                     getFirewallTestType( void )                                 { return m_FirewallType; }
 
+    void                        setUseIpv6( bool useIpv6 )                                  { m_UseIpv6 = useIpv6; }
+    bool                        getUseIpv6( void )                                          { return m_UseIpv6; }
 
 protected:
 	//=== vars ===//
@@ -74,9 +74,9 @@ protected:
     std::string					m_GroupHostUrl{ NET_DEFAULT_GROUP_HOST_URL };
     std::string					m_ChatRoomHostUrl{ NET_DEFAULT_GROUP_HOST_URL };
     std::string					m_ExternIpAddr{ "" };
-    std::string					m_PreferredNetworkAdapterIp{ "" };
 
     int32_t                     m_FirewallType{ 0 };
     bool						m_UseUpnp{ false };
+    bool						m_UseIpv6{ false };
     uint16_t					m_TcpPort{ NET_DEFAULT_NETSERVICE_PORT };
 };

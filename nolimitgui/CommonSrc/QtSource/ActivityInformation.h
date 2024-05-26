@@ -71,4 +71,5 @@ protected:
     static QString              m_NetworkHostRequrements;
 
     static QString              m_MaxMessageHistory;
+    static QString              m_Ipv6;
 };

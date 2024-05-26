@@ -9,6 +9,8 @@ sudo apt install flatpak-builder
 flatpak install flathub org.kde.Platform/6.7 org.kde.Sdk/6.7
 
 === allow flatpak submodules (required for GL/glu lib) ===
+after checkout
+cd nolimitapp
 git submodule add https://github.com/flathub/shared-modules.git
 
 

@@ -41,7 +41,6 @@ protected slots:
     void						onDeleteButtonClick( void );
     void						slotApplySettingsButtonClick( void );
     void						onComboBoxSelectionChange( int );
-    void						onComboBoxTextChanged( const QString & text );
 
     void                        slotShowNetworkHostInformation( void );
     void                        slotShowNetworkKeyInformation( void );
@@ -54,6 +53,9 @@ protected slots:
     void						slotCopyMyUrlToClipboard( void );
 
     void						slotUpdateTimer( void );
+
+    void						slotShowIpv6Information( void );
+    void						slotUseIpv6CheckBoxClick( void );
 
 protected:
     void						closeEvent( QCloseEvent *event );
