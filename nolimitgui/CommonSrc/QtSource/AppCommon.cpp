@@ -1005,8 +1005,7 @@ void AppCommon::toGuiRandomConnectStatus( ERandomConnectStatus eRandomConnectSta
 //============================================================================
 void AppCommon::startNetworkMonitor( void )
 {
-	std::string overrideWirelessIp = getEngine().getEngineSettings().getPreferredNetworkAdapterIp();
-	getEngine().getNetworkMonitor().networkMonitorStartup( overrideWirelessIp.c_str() );
+	getEngine().getNetworkMonitor().networkMonitorStartup( "" );
 }
 
 //============================================================================

@@ -51,6 +51,9 @@ public:
     void						getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 = false );
     std::string                 getUserSpecifiedExternIpAddr( bool ipv6 = false );
 
+	void						setUseIpv6( bool useIpv6 );
+    bool						getUseIpv6( void );
+
     void						setUseUpnp( bool useUpnp );
     bool						getUseUpnp( void );
 
@@ -76,9 +79,6 @@ public:
 
     void						setFirewallTestSetting( EFirewallTestType eFirewallTestType );
     EFirewallTestType           getFirewallTestSetting( void );
-
-	void						setPreferredNetworkAdapterIp( const char* wirelessIpAddress );
-	std::string					getPreferredNetworkAdapterIp( void );
 
 	//=========================================================================
 	//=== file share settings ===//

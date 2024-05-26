@@ -358,7 +358,7 @@ bool AccountDb::updateNetHostSetting( NetHostSetting& netSetting )
     bindList.add( netSetting.getGroupHostUrl().c_str() );
     bindList.add( netSetting.getChatRoomHostUrl().c_str() );
     bindList.add( netSetting.getUserSpecifiedExternIpAddr().c_str() );
-	bindList.add( netSetting.getPreferredNetworkAdapterIp().c_str() );
+	bindList.add( netSetting.getUseIpv6() ? "1" : "0");
 
     bindList.add( netSetting.getUseUpnpPortForward() );
     bindList.add( netSetting.getTcpPort() );
@@ -386,7 +386,8 @@ bool AccountDb::getNetHostSettingByName( const char* name, NetHostSetting& netSe
             netSetting.setGroupHostUrl( cursor->getString( 5 ) );
             netSetting.setChatRoomHostUrl( cursor->getString( 6 ) );
             netSetting.setUserSpecifiedExternIpAddr( cursor->getString( 7 ) );
-            netSetting.setPreferredNetworkAdapterIp( cursor->getString( 8 ) );
+			std::string useIpv6Str = cursor->getString( 8 );
+            netSetting.setUseIpv6( useIpv6Str == "1" );
 			netSetting.setUseUpnpPortForward( ( 0 == cursor->getS32( 9 ) ) ? false : true );
             netSetting.setTcpPort( cursor->getS32( 10 ) );
 			netSetting.setFirewallTestType( cursor->getS32( 11 ) );
@@ -420,7 +421,8 @@ bool AccountDb::getAllNetHostSettings( std::vector<NetHostSetting>& netSettingLi
             netSetting.setChatRoomHostUrl( cursor->getString( 6 ) );
 
             netSetting.setUserSpecifiedExternIpAddr( cursor->getString( 7 ) );
-            netSetting.setPreferredNetworkAdapterIp( cursor->getString( 8 ) );
+			std::string useIpv6Str = cursor->getString( 8 );
+            netSetting.setUseIpv6( useIpv6Str == "1" );
 
             netSetting.setUseUpnpPortForward( ( 0 == cursor->getS32( 9 ) ) ? false : true );
             netSetting.setTcpPort( cursor->getS32( 10 ) );

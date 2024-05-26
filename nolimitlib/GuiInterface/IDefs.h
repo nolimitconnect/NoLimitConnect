@@ -487,6 +487,8 @@ enum EInfoType
     eInfoTypeHostRandomConnect,
 
     eInfoTypeMaxMessageHistory,
+    
+    eInfoTypeIpv6,
 
     eMaxInfoType // must be last
 };

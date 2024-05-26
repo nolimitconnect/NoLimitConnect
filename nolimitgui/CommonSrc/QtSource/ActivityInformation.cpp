@@ -240,15 +240,12 @@ QString ActivityInformation::m_Permissions( QObject::tr(
 
 QString ActivityInformation::m_NetworkKey( QObject::tr(
     "=== NETWORK KEY ===\n"
-    "The network key is a text string used for person to person network encryption.\n"
+    "The network key is a text string used for user data network encryption.\n"
     "The network key should only be changed if connecting to or hosting a private network seperate from NoLimitConnect.\n"
     "If the network key is changed then connecting to the NoLimitConnect network will no longer be possible.\n"
     "A private network can be hosted/connected to without changing the network key, however, changing the "
     "network key will give you the best privacy NoLimitConnect has to offer.\n"
     "\n"
-    "NoLimitConnect has weak encryption and should NOT be considered secure."
-    "If you truly need anonymity and a secure network you should consider products with security as"
-    " the primary goal such as Tor.\n"
     "\n"
     "Use of a VPN is recommended to improve your privacy."
 ) );
@@ -378,14 +375,22 @@ QString ActivityInformation::m_NetworkHostRequrements( QObject::tr(
 
 QString ActivityInformation::m_MaxMessageHistory( QObject::tr(
     "=== Maximum Message History ===\n"
-    "Limita the message history stored to the specified maximum message history.\n"
+    "Limits the message history stored to the specified maximum message history.\n"
     "The limit is applied per user for messenger.\n"
     "The limit is applied for the total messages recieved in chat room.\n"
     "The limit removes the message from history but does NOT delete any files such as photos and videos etc.\n"
     "To delete files recieved from a user you can delete them using the Library Applet.\n"
-
 ) );
 
+QString ActivityInformation::m_Ipv6( QObject::tr(
+    "=== IPv6 vs IPv4 ===\n"
+    "IPv4 maximum addresses 4,294,967,296 (2^32)\n"
+    "IPv6 maximum addresses 340,282,366,920,938,463,463,374,607,431,768,211,456 (2^128)\n"
+    "IPv6 Protocol is different from IPv4 and a connection from IPv6 to IPv4 is not in the protocols.\n"
+    "If you choose IPv6 then the Network Host and Connection Test Host must also be IPv6 enabled.\n"
+    "This means the host listing on the IPv6 network may not have the same hosts listed as the IPv4 network.\n"
+
+) );
 
 //============================================================================
 QString ActivityInformation::getInfoText( void )
@@ -446,6 +451,8 @@ QString ActivityInformation::getInfoText( void )
         return m_NetworkHostRequrements + m_UserHostRequrements;
     case eInfoTypeMaxMessageHistory:
         return m_MaxMessageHistory;
+    case eInfoTypeIpv6:
+        return m_Ipv6;
     default:
         return m_NoInfoAvailable;
     }

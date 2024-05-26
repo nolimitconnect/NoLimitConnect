@@ -84,8 +84,8 @@ void EngineSettings::getNetHostSettings( NetHostSetting& netSettings )
     getUserSpecifiedExternIpAddr( strValue );
     netSettings.setUserSpecifiedExternIpAddr( strValue.c_str() );
 
-    strValue = getPreferredNetworkAdapterIp();
-    netSettings.setPreferredNetworkAdapterIp( strValue.c_str() );
+    bool useIpv6 = getUseIpv6();
+    netSettings.setUseIpv6( useIpv6 );
 
     bool useUpnp = getUseUpnpPortForward();
     netSettings.setUseUpnpPortForward( useUpnp );
@@ -122,7 +122,7 @@ void EngineSettings::setNetHostSettings( NetHostSetting& netSettings )
     setChatRoomHostUrl( netSettings.getChatRoomHostUrl() );
     setTcpIpPort( netSettings.getTcpPort() );
     setUserSpecifiedExternIpAddr( netSettings.getUserSpecifiedExternIpAddr() );
-    setPreferredNetworkAdapterIp( netSettings.getPreferredNetworkAdapterIp().c_str() );
+    setUseIpv6( netSettings.getUseIpv6() );
     setUseUpnpPortForward( netSettings.getUseUpnpPortForward() );
 
     int32_t firewallType = netSettings.getFirewallTestType();
@@ -192,30 +192,6 @@ void EngineSettings::setWhichContactsToView( EFriendViewType eViewType )
 	setIniValue( MY_SETTINGS_KEY, "WhichContactsToView", whichContactView );
     m_SettingsDbMutex.unlock();
 }
-
-/*
-//============================================================================
-void EngineSettings::getExternalIp( std::string& strIpAddress )
-{
-    strIpAddress = "";
-    //EFirewallTestType firewallType = getFirewallTestSetting();
-    //if( eFirewallTestAssumeNoFirewall == firewallType )
-    //{
-        // only get extern ip if set to assume can connect directly
-        m_SettingsDbMutex.lock();
-        getIniValue( MY_SETTINGS_KEY, "ExternalIp", strIpAddress, "" );
-        m_SettingsDbMutex.unlock();
-   // }  
-}
-
-//============================================================================
-void EngineSettings::setExternalIp( std::string& strIpAddress )
-{
-    m_SettingsDbMutex.lock();
-	setIniValue( MY_SETTINGS_KEY, "ExternalIp", strIpAddress );
-    m_SettingsDbMutex.unlock();
-}
-*/
 
 //============================================================================
 uint16_t EngineSettings::getTcpIpPort( bool bGetRandomIfDoesntExist )
@@ -415,10 +391,28 @@ std::string EngineSettings::getUserSpecifiedExternIpAddr( bool ipv6  )
 }
 
 //============================================================================
-void EngineSettings::setUseUpnp( bool isHost )
+void EngineSettings::setUseIpv6( bool useIpv6 )
 {
     m_SettingsDbMutex.lock();
-	setIniValue( MY_SETTINGS_KEY, "UseUpnp", isHost );
+	setIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6 );
+    m_SettingsDbMutex.unlock();
+}
+
+//============================================================================
+bool EngineSettings::getUseIpv6( void )
+{
+	bool useIpv6 = false;
+    m_SettingsDbMutex.lock();
+	getIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6, false );
+    m_SettingsDbMutex.unlock();
+	return useIpv6;
+}
+
+//============================================================================
+void EngineSettings::setUseUpnp( bool useUpnp )
+{
+    m_SettingsDbMutex.lock();
+	setIniValue( MY_SETTINGS_KEY, "UseUpnp", useUpnp );
     m_SettingsDbMutex.unlock();
 }
 
@@ -697,30 +691,6 @@ bool EngineSettings::getAllowMulticastBroadcast( void )
 	getIniValue( MY_SETTINGS_KEY, "AllowBroadcast", allowBroadcast, false );
     m_SettingsDbMutex.unlock();
 	return allowBroadcast;
-}
-
-//============================================================================
-void EngineSettings::setPreferredNetworkAdapterIp( const char* wirelessIpAddress )
-{
-	std::string strVal = "";
-	if( wirelessIpAddress )
-	{
-		strVal = wirelessIpAddress;
-	}
-
-    m_SettingsDbMutex.lock();
-	setIniValue( MY_SETTINGS_KEY, "AdapterIp", wirelessIpAddress );
-    m_SettingsDbMutex.unlock();
-}
-
-//============================================================================
-std::string EngineSettings::getPreferredNetworkAdapterIp( void )
-{
-	std::string strVal;
-    m_SettingsDbMutex.lock();
-	getIniValue( MY_SETTINGS_KEY, "AdapterIp", strVal, "" );
-    m_SettingsDbMutex.unlock();
-	return strVal;
 }
 
 //============================================================================

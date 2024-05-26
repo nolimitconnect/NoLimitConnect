@@ -17,7 +17,7 @@
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "AccountMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -43,30 +43,15 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
 	ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    // opening a port in network router using upnp rarely works.. just make invisible for now
-    //ui.m_UseUpnpCheckBox->setVisible( false );
-    // using an specific network adapter ip for outgoing connections has some issues with vpn on some systems.. hide for not
-    ui.m_LclIpListComboBox->setVisible(false);
-    ui.m_LocalAdapterIpLabel->setVisible(false);
+    ui.m_NetworkHostInfoButton->setIcon( eMyIconInformation );
+    ui.m_NetworkKeyInfoButton->setIcon( eMyIconInformation );
+    ui.m_ConnectTestUrlInfoButton->setIcon( eMyIconInformation );
+    ui.m_ConnectIsOpenInfoButton->setIcon( eMyIconInformation );
+    ui.m_Ipv6InfoButton->setIcon( eMyIconInformation );
 
-    // default hosts are now handled by last connected.. these could be removed
-    ui.m_DefaultGroupHostButton->setVisible( false );
-    ui.m_GroupHostUrlLabel->setVisible( false );
-    ui.m_GroupHostUrlEdit->setVisible( false );
-    ui.m_DefaultGroupHostUrlInfoButton->setVisible( false );
-
-    ui.m_DefaultChatRoomHostButton->setVisible( false );
-    ui.m_DefaultChatRoomHostUrlLabel->setVisible( false );
-    ui.m_DefaultChatRoomHostUrlEdit->setVisible( false );
-    ui.m_ChatRoomUrlInfoButton->setVisible( false );
-
-    ui.m_RandomConnectButton->setVisible( false );
-    ui.m_RandomConnectUrlLabel->setVisible( false );
-    ui.m_RandomConnectUrlEdit->setVisible( false );
-    ui.m_RandomConnectUrlInfoButton->setVisible( false );
-
-    // probably could remove this button
-    ui.m_ApplySettingsButton->setVisible( false );
+    // hide until ipv6 is ready
+    ui.m_Ipv6InfoButton->setVisible(false);
+    ui.m_UseIpv6Network->setVisible(false);
 
     updateDlgFromSettings( true );
 
@@ -98,40 +83,31 @@ AppletNetworkSettings::~AppletNetworkSettings()
 //============================================================================
 void AppletNetworkSettings::connectSignals( void )
 {
-    connect( ui.m_NetworkHostButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkHostInformation() ) );
-    connect( ui.m_NetworkHostInfoButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkHostInformation() ) );
-    connect( ui.m_NetworkKeyInfoButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkKeyInformation() ) );
-    connect( ui.m_NetworkKeyButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkKeyInformation() ) );
+    connect( ui.m_NetworkHostInfoButton, SIGNAL(clicked()), this, SLOT(slotShowNetworkHostInformation()) );
+    connect( ui.m_NetworkKeyInfoButton, SIGNAL(clicked()), this, SLOT(slotShowNetworkKeyInformation()) );
 
-    connect( ui.AutoDetectProxyRadioButton, SIGNAL(clicked()), this, SLOT( slotAutoDetectProxyClick() ) );
-    connect( ui.AssumeNoProxyRadioButton, SIGNAL(clicked()), this, SLOT( slotNoProxyClick() ) );
-    connect( ui.AssumeProxyRadioButton, SIGNAL(clicked()), this, SLOT( slotYesProxyClick() ) );
+    connect( ui.AutoDetectProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotAutoDetectProxyClick()) );
+    connect( ui.AssumeNoProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotNoProxyClick()) );
+    connect( ui.AssumeProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotYesProxyClick()) );
 
-    connect( ui.RandomPortButton, SIGNAL(clicked()), this, SLOT( slotRandomPortButtonClick() ) );
-    connect( ui.m_UseUpnpCheckBox, SIGNAL(clicked()), this, SLOT( slotUseUpnpCheckBoxClick() ) );
-    connect( ui.m_ConnectTestUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowConnectTestUrlInformation() ) );
-    connect( ui.m_ConnectIsOpenInfoButton, SIGNAL(clicked()), this, SLOT( slotShowConnectTestSettingsInformation() ) );
-    connect( ui.m_SaveSettingsButton, SIGNAL(clicked()), this, SLOT( onSaveButtonClick() ) );
-    connect( ui.m_DeleteSettingsButton, SIGNAL(clicked()), this, SLOT( onDeleteButtonClick() ) );
-    connect( ui.m_ApplySettingsButton, SIGNAL(clicked()), this, SLOT( slotApplySettingsButtonClick() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyMyUrlToClipboard() ) );
-    connect( ui.m_TestIsPortOpenButton, SIGNAL(clicked()), this, SLOT( slotTestIsMyPortOpenButtonClick() ) );
+    connect( ui.RandomPortButton, SIGNAL(clicked()), this, SLOT(slotRandomPortButtonClick()) );
+    connect( ui.m_UseUpnpCheckBox, SIGNAL(clicked()), this, SLOT(slotUseUpnpCheckBoxClick()) );
+    connect( ui.m_ConnectTestUrlInfoButton, SIGNAL(clicked()), this, SLOT(slotShowConnectTestUrlInformation()) );
+    connect( ui.m_ConnectIsOpenInfoButton, SIGNAL(clicked()), this, SLOT(slotShowConnectTestSettingsInformation()) );
+    connect( ui.m_SaveSettingsButton, SIGNAL(clicked()), this, SLOT(onSaveButtonClick()) );
+    connect( ui.m_DeleteSettingsButton, SIGNAL(clicked()), this, SLOT(onDeleteButtonClick()) );
+    connect( ui.m_ApplySettingsButton, SIGNAL(clicked()), this, SLOT(slotApplySettingsButtonClick()) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlToClipboard()) );
+    connect( ui.m_TestIsPortOpenButton, SIGNAL(clicked()), this, SLOT(slotTestIsMyPortOpenButtonClick()) );
 
-    connect( ui.m_DefaultChatRoomHostButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultChatRoomUrlInformation() ) );
-    connect( ui.m_ChatRoomUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultChatRoomUrlInformation() ) );
+    connect( ui.m_NetworkSettingsNameComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxSelectionChange(int)) );
 
-    connect( ui.m_DefaultGroupHostButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
-    connect( ui.m_DefaultGroupHostUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
+    connect( m_UpdateTimer, SIGNAL(timeout()), this, SLOT(slotUpdateTimer()) );
 
-    connect( ui.m_RandomConnectButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
-    connect( ui.m_RandomConnectUrlInfoButton, SIGNAL(clicked()), this, SLOT( slotShowDefaultGroupHostUrlInformation() ) );
+    connect( ui.m_TestUpnpButton, SIGNAL(clicked()), this, SLOT(slotTestUpnpButtonClick()) ); 
 
-    connect( ui.m_NetworkSettingsNameComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onComboBoxSelectionChange( int ) ) );
-    connect( ui.m_NetworkSettingsNameComboBox, SIGNAL( editTextChanged( const QString& ) ), this, SLOT( onComboBoxTextChanged( const QString& ) ) );
-
-    connect( m_UpdateTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateTimer() ) );
-
-    connect( ui.m_TestUpnpButton, SIGNAL(clicked()), this, SLOT( slotTestUpnpButtonClick() ) ); 
+    connect( ui.m_Ipv6InfoButton, SIGNAL(clicked()), this, SLOT(slotShowIpv6Information()) );
+    connect( ui.m_UseIpv6Network, SIGNAL(clicked()), this, SLOT(slotUseIpv6CheckBoxClick()) );
 }
 
 //============================================================================
@@ -211,8 +187,7 @@ void AppletNetworkSettings::fillNetHostSettingFromEngine( NetHostSetting& netSet
     m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( externIP );
     netSetting.setUserSpecifiedExternIpAddr( externIP.c_str() );
 
-    std::string preferredAdapterIP = m_Engine.getEngineSettings().getPreferredNetworkAdapterIp();
-    netSetting.setPreferredNetworkAdapterIp( preferredAdapterIP.c_str() );
+    netSetting.setUseIpv6( m_Engine.getEngineSettings().getUseIpv6() );
 
     uint16_t u16Port = m_Engine.getEngineSettings().getTcpIpPort();
     netSetting.setTcpPort( u16Port );
@@ -253,7 +228,7 @@ void AppletNetworkSettings::applyEngineSettingsFromHostSetting( NetHostSetting& 
 {
     if( 1 == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
     {
-        m_MyApp.getAppGlobals().getMyNetIdent()->setOnlineIpAddress( false, netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
+        m_MyApp.getAppGlobals().getMyNetIdent()->setOnlineIpAddress( ui.m_UseIpv6Network->isChecked(), netHostSetting.getUserSpecifiedExternIpAddr().c_str());
     }
 
     if( m_Engine.getMyNetIdent()->getMyOnlinePort() != netHostSetting.getTcpPort() )
@@ -307,34 +282,7 @@ void AppletNetworkSettings::populateNetHostSettingsFromDlg( NetHostSetting& netH
     strValue = ui.m_ConnectTestUrlEdit->text().toUtf8().constData();
     netHostSetting.setConnectTestUrl( strValue.c_str() );
 
-    strValue = ui.m_RandomConnectUrlEdit->text().toUtf8().constData();
-    if( strValue.empty() )
-    {
-        strValue = "";
-    }
-    netHostSetting.setRandomConnectUrl( strValue.c_str() );
-
-    strValue = ui.m_GroupHostUrlEdit->text().toUtf8().constData();
-    if( strValue.empty() )
-    {
-        strValue = "";
-    }
-    netHostSetting.setGroupHostUrl( strValue.c_str() );
-
-    strValue = ui.m_DefaultChatRoomHostUrlEdit->text().toUtf8().constData();
-    if( strValue.empty() )
-    {
-        strValue = "";
-    }
-    netHostSetting.setChatRoomHostUrl( strValue.c_str() );
-
-    std::string strPreferredIp = "";
-    if( 0 != ui.m_LclIpListComboBox->currentIndex() )
-    {
-        strPreferredIp = ui.m_LclIpListComboBox->currentText().toUtf8().constData();
-    }
-
-    netHostSetting.setPreferredNetworkAdapterIp( strPreferredIp.c_str() );
+    netHostSetting.setUseIpv6( ui.m_UseIpv6Network->isChecked() );
 
     uint16_t u16TcpPort = ui.PortEdit->text().toUShort();
     if( 0 != u16TcpPort )
@@ -493,12 +441,6 @@ void AppletNetworkSettings::slotUseUpnpCheckBoxClick( void )
 }
 
 //============================================================================
-void AppletNetworkSettings::onComboBoxTextChanged( const QString & text )
-{
-    //updateSettingsFromDlg();
-}
-
-//============================================================================
 void AppletNetworkSettings::onComboBoxSelectionChange( int )
 {
     QString netSettingName = ui.m_NetworkSettingsNameComboBox->currentText();
@@ -522,9 +464,6 @@ void AppletNetworkSettings::populateDlgFromNetHostSetting( NetHostSetting& netSe
     ui.m_NetworkKeyEdit->setText( netSetting.getNetworkKey().c_str() );
     m_OriginalNetworkKey = ui.m_NetworkKeyEdit->text();
     ui.m_ConnectTestUrlEdit->setText( netSetting.getConnectTestUrl().c_str() );
-    ui.m_RandomConnectUrlEdit->setText( netSetting.getRandomConnectUrl().c_str() );
-    ui.m_GroupHostUrlEdit->setText( netSetting.getGroupHostUrl().c_str() );
-    ui.m_DefaultChatRoomHostUrlEdit->setText( netSetting.getChatRoomHostUrl().c_str() );
     ui.m_ExternIpEdit->setText( netSetting.getUserSpecifiedExternIpAddr().c_str() );
 
     int32_t firewallType = netSetting.getFirewallTestType();
@@ -548,27 +487,7 @@ void AppletNetworkSettings::populateDlgFromNetHostSetting( NetHostSetting& netSe
     uint16_t u16Port = netSetting.getTcpPort();
     ui.PortEdit->setText( QString( "%1" ).arg( u16Port ) );
 
-    ui.m_LclIpListComboBox->clear();
-    ui.m_LclIpListComboBox->addItem( DEFAULT_ADAPTER_IP_CHOICE );
-
-    std::string strPreferredIp = netSetting.getPreferredNetworkAdapterIp();
-
-    std::vector<InetAddress> lclIpAddresses;
-    VxGetLocalIps( lclIpAddresses );
-    std::vector<InetAddress>::iterator iter;
-    std::string ipAddr;
-    int currIdx = 0;
-    for( iter = lclIpAddresses.begin(); iter != lclIpAddresses.end(); ++iter )
-    {
-        InetAddress& inetAddr = ( *iter );
-        if( inetAddr.isIPv4()
-            && ( false == inetAddr.isLoopBack() ) )
-        {
-            currIdx++;
-            ipAddr = inetAddr.toStdString();
-            ui.m_LclIpListComboBox->addItem( ipAddr.c_str() );
-        }
-    }
+    ui.m_UseIpv6Network->setChecked( netSetting.getUseIpv6() );
 }
 
 //============================================================================
@@ -612,27 +531,6 @@ void AppletNetworkSettings::onSaveButtonClick( void )
         {
             QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Connection Test URL cannot be blank." ) );
             return;
-        }
-
-        std::string randomConnectUrl;
-        randomConnectUrl = ui.m_RandomConnectUrlEdit->text().toUtf8().constData();
-        if( randomConnectUrl.empty() )
-        {
-            randomConnectUrl = "";
-        }
-
-        std::string groupHostUrl;
-        groupHostUrl = ui.m_GroupHostUrlEdit->text().toUtf8().constData();
-        if( groupHostUrl.empty() )
-        {
-            groupHostUrl = "";
-        }
-
-        std::string chatRoomHostUrl;
-        chatRoomHostUrl = ui.m_DefaultChatRoomHostUrlEdit->text().toUtf8().constData();
-        if( chatRoomHostUrl.empty() )
-        {
-            chatRoomHostUrl = "";
         }
 
         NetHostSetting netSetting;
@@ -761,4 +659,17 @@ void AppletNetworkSettings::slotCopyMyUrlToClipboard( void )
 {
     QClipboard * clipboard = QApplication::clipboard();
     clipboard->setText( ui.m_NodeUrlLabel->text() );
+}
+
+//============================================================================
+void AppletNetworkSettings::slotShowIpv6Information( void )
+{
+    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeIpv6 );
+    activityInfo->show();
+}
+
+//============================================================================
+void AppletNetworkSettings::slotUseIpv6CheckBoxClick( void )
+{
+
 }

@@ -1,0 +1,42 @@
+
+app-id: com.nolimitconnect.NoLimitConnect
+runtime: org.kde.Platform
+runtime-version: '6.7'
+sdk: org.kde.Sdk
+command: nolimitconnect
+finish-args: 
+    - --device=all
+    - --share=ipc
+    - --share=network
+    - --socket=fallback-x11       
+    - --socket=wayland
+    - --socket=pulseaudio
+    - --filesystem=host
+
+modules:
+    ########################
+    # GLU 
+    ########################
+ - shared-modules/glu/glu-9.json
+    ########################
+    # No Limit Connect
+    ########################
+ - name: nolimitconnect
+   buildsystem: cmake-ninja
+   config-opts: 
+    - -DCMAKE_BUILD_TYPE=Release
+    - -DFLATPAKBUILD=ON    
+    x-arch-build-options:
+    x86_64: &x86_64-build-options
+      env:
+        FLATPAK_ARCH: FLATPAK_ARCH_X64
+   sources:
+    # - type: git
+    #  url: https://gitlab.com/nolimitconnectapps/nolimitapp.git
+    #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
+    #   tag: v1.0.8
+
+     # for local sources so does not do a git pull each time
+     - type: dir
+       path: ./
+

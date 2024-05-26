@@ -25,8 +25,8 @@ NetHostSetting& NetHostSetting::operator =( const NetHostSetting& rhs )
         m_ExternIpAddr              = rhs.m_ExternIpAddr;
         m_FirewallType              = rhs.m_FirewallType;
         m_UseUpnp                   = rhs.m_UseUpnp;
+        m_UseIpv6                   = rhs.m_UseIpv6;
         m_TcpPort	                = rhs.m_TcpPort;
-        m_PreferredNetworkAdapterIp = rhs.m_PreferredNetworkAdapterIp;
 	}
 
 	return *this;
@@ -45,8 +45,8 @@ bool NetHostSetting::operator == ( const NetHostSetting& rhs ) const
         m_ExternIpAddr == rhs.m_ExternIpAddr &&
         m_FirewallType == rhs.m_FirewallType &&
         m_UseUpnp == rhs.m_UseUpnp &&
-        m_TcpPort == rhs.m_TcpPort &&
-        m_PreferredNetworkAdapterIp == rhs.m_PreferredNetworkAdapterIp;
+        m_UseIpv6 == rhs.m_UseIpv6 &&
+        m_TcpPort == rhs.m_TcpPort;
 }
 
 //============================================================================
