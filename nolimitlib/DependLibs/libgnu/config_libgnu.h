@@ -602,11 +602,10 @@
 /* Define to 1 if the system has the type 'unsigned long long int'. */
 #define HAVE_UNSIGNED_LONG_LONG_INT 1
 
-
-
 /* Define to 1 if you have the <wchar_gnu.h> header file. */
 #define HAVE_WCHAR_H 1
 
+#if defined(TARGET_OS_WINDOWS)
 /* Define if you have the 'wchar_t' type. */
 #define HAVE_WCHAR_T 1
 
@@ -624,6 +623,27 @@
 
 /* Define to 1 if you have the `wcwidth' function. */
 #define HAVE_WCWIDTH 1
+
+#else
+/* Define if you have the 'wchar_t' type. */
+#define HAVE_WCHAR_T 0
+
+/* Define to 1 if you have the `wcrtomb' function. */
+#define HAVE_WCRTOMB 0
+
+/* Define to 1 if you have the `wcslen' function. */
+#define HAVE_WCSLEN 0
+
+/* Define to 1 if you have the `wcsnlen' function. */
+#define HAVE_WCSNLEN 0
+
+/* Define to 1 if you have the <wctype.h> header file. */
+#define HAVE_WCTYPE_H 0
+
+/* Define to 1 if you have the `wcwidth' function. */
+#define HAVE_WCWIDTH 0
+
+#endif // defined(TARGET_OS_WINDOWS)
 
 /* Define if you have the 'wint_t' type. */
 //#define HAVE_WINT_T 1 defined in NlcCompileConfig.h
@@ -1460,33 +1480,6 @@ uintmax_t. */
 
 /* Define to 1 if the system has the type `uint_t'. */
 #define HAVE_UINT_T 1
-
-/* Define to 1 if you have the <wchar_gnu.h> header file. */
-#define HAVE_WCHAR_H 1
-
-/* Define if you have the 'wchar_t' type. */
-#define HAVE_WCHAR_T 1
-
-/* Define to 1 if you have the `wcrtomb' function. */
-#define HAVE_WCRTOMB 1
-
-/* Define to 1 if you have the `wcslen' function. */
-#define HAVE_WCSLEN 1
-
-/* Define to 1 if you have the `wcsnlen' function. */
-#define HAVE_WCSNLEN 1
-
-/* Define to 1 if you have the <wctype.h> header file. */
-#define HAVE_WCTYPE_H 1
-
-/* Define to 1 if you have the `wcwidth' function. */
-#define HAVE_WCWIDTH 1
-
-/* Define to 1 if you have the <winsock2.h> header file. */
-/* #undef HAVE_WINSOCK2_H */
-
-/* Define if you have the 'wint_t' type. */
-//#define HAVE_WINT_T 1
 
 /* Define to 1 if O_NOATIME works. */
 #define HAVE_WORKING_O_NOATIME 0

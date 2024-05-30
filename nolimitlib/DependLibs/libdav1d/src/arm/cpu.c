@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if defined(TARGET_CPU_ARM)
+#if defined(TARGET_CPU_ARM) || defined(TARGET_CPU_AARCH64)
 #include "config_dav1d_internal.h"
 
 #include "common/attributes.h"

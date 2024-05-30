@@ -588,8 +588,6 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 		return ":/AppRes/Resources/power_button.svg";
 	case eMyIconHome:
 		return ":/AppRes/Resources/home.svg";
-    case eMyIconKodi:
-        return ":/AppRes/Resources/kodi.svg";
     case eMyIconUserIdentity:
         return ":/AppRes/Resources/user-ident.svg";
     case eMyIconSharedContent:

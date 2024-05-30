@@ -12,7 +12,9 @@ if(DEFINED TARGET_OS_ANDROID)
 elseif(DEFINED TARGET_OS_WINDOWS)
     enable_language(ASM_NASM)
 else()
-    enable_language(ASM_NASM)
+    if(NOT DEFINED TARGET_CPU_AARCH64)
+        enable_language(ASM_NASM)
+    endif()
 endif()
 
 set(x265_SOURCES)
@@ -49,42 +51,40 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_OS_ANDROID)
-    if(DEFINED TARGET_CPU_AARCH64)
-        list(APPEND x265_SOURCES
-            common/aarch64/arm64-utils.cpp
-            common/aarch64/asm-primitives.cpp
-            common/aarch64/blockcopy8.S
-            common/aarch64/dct-prim.cpp
-            common/aarch64/filter-prim.cpp
-            common/aarch64/intrapred-prim.cpp
-            common/aarch64/ipfilter.S
-            common/aarch64/loopfilter-prim.cpp
-            common/aarch64/mc-a.S
-            common/aarch64/p2s.S
-            common/aarch64/pixel-prim.cpp
-            common/aarch64/pixel-util.S
-            common/aarch64/sad-a.S
-            common/aarch64/ssd-a.S
-            # common/aarch64/asm.S // included by others
-        )
-    elseif(DEFINED TARGET_CPU_ARM)
-        list(APPEND x265_SOURCES
-            common/arm/asm-primitives.cpp
-            common/arm/blockcopy8.S
-            common/arm/cpu-a.S
-            common/arm/dct-a.S
-            common/arm/ipfilter8.S
-            common/arm/mc-a.S
-            common/arm/pixel-util.S
-            common/arm/sad-a.S
-            common/arm/ssd-a.S
-            # common/arm/asm.S // included by others
-        )
-    else()
-      message(STATUS "x265 Android CMake Error")  
-    endif()
+if(DEFINED TARGET_CPU_AARCH64)
+    list(APPEND x265_SOURCES
+        common/aarch64/arm64-utils.cpp
+        common/aarch64/asm-primitives.cpp
+        common/aarch64/blockcopy8.S
+        common/aarch64/dct-prim.cpp
+        common/aarch64/filter-prim.cpp
+        common/aarch64/intrapred-prim.cpp
+        common/aarch64/ipfilter.S
+        common/aarch64/loopfilter-prim.cpp
+        common/aarch64/mc-a.S
+        common/aarch64/p2s.S
+        common/aarch64/pixel-prim.cpp
+        common/aarch64/pixel-util.S
+        common/aarch64/sad-a.S
+        common/aarch64/ssd-a.S
+        # common/aarch64/asm.S // included by others
+    )
+elseif(DEFINED TARGET_CPU_ARM)
+    list(APPEND x265_SOURCES
+        common/arm/asm-primitives.cpp
+        common/arm/blockcopy8.S
+        common/arm/cpu-a.S
+        common/arm/dct-a.S
+        common/arm/ipfilter8.S
+        common/arm/mc-a.S
+        common/arm/pixel-util.S
+        common/arm/sad-a.S
+        common/arm/ssd-a.S
+        # common/arm/asm.S // included by others
+    )
+
 endif()
+
 
 
 list(APPEND x265_SOURCES 
@@ -145,7 +145,13 @@ list(APPEND x265_SOURCES
 
 add_library(x265 STATIC ${x265_SOURCES})
 
+if(DEFINED TARGET_OS_LINUX AND DEFINED TARGET_CPU_AARCH64)
+    message(STATUS "Adding x265 flags -flax-vector-conversions")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flax-vector-conversions")
+endif()
+
 target_compile_definitions(x265 PUBLIC 
+    __LITTLE_ENDIAN__=1
     HIGH_BIT_DEPTH=0
     BIT_DEPTH=8
     EXPORT_C_API=1 
@@ -153,49 +159,6 @@ target_compile_definitions(x265 PUBLIC
     X265_DEPTH=8 
     X265_NS=x265 
 )
-
-
-if(DEFINED TARGET_OS_ANDROID)
-    if(DEFINED TARGET_CPU_AARCH64)
-        target_include_directories(x265 PRIVATE
-            common
-            common/aarch64
-            encoder
-        )
-
-        target_compile_definitions(x265 PUBLIC  
-            PIC
-            X265_ARCH_ARM64=1 
-        )
-    elseif(DEFINED TARGET_CPU_ARM)
-        target_include_directories(x265 PRIVATE
-            common
-            common/arm
-            encoder
-        )
-
-        target_compile_definitions(x265 PUBLIC  
-            PIC
-            X265_ARCH_ARM=1 
-        )
-    else()
-      message(STATUS "x265 Android CMake Error")  
-    endif()
-endif()
-
-if(DEFINED TARGET_OS_LINUX)
-    target_include_directories(x265 PRIVATE
-        common
-        common/x86
-        encoder
-    )
-
-    target_compile_definitions(x265 PUBLIC 
-        PIC 
-        X265_ARCH_X86=1 
-        X86_64=1
-    )
-endif()
 
 if(DEFINED TARGET_OS_WINDOWS)
     target_include_directories(x265 PRIVATE
@@ -208,6 +171,45 @@ if(DEFINED TARGET_OS_WINDOWS)
         X265_ARCH_X86=1 
         X86_64=1
     )
+else()
+    if(DEFINED TARGET_CPU_AARCH64)
+        target_include_directories(x265 PRIVATE
+            common
+            common/aarch64
+            encoder
+        )
+
+        target_compile_definitions(x265 PUBLIC  
+            PIC
+            X265_ARCH_ARM64=1 
+        )
+
+    elseif(DEFINED TARGET_CPU_ARM)
+        target_include_directories(x265 PRIVATE
+            common
+            common/arm
+            encoder
+        )
+
+        target_compile_definitions(x265 PUBLIC  
+            PIC
+            X265_ARCH_ARM=1 
+        )
+
+    else()
+        target_include_directories(x265 PRIVATE
+            common
+            common/x86
+            encoder
+        )
+
+        target_compile_definitions(x265 PUBLIC 
+            PIC 
+            X265_ARCH_X86=1 
+            X86_64=1
+        )
+
+    endif()
 endif()
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

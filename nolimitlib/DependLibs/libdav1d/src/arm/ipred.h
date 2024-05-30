@@ -27,7 +27,7 @@
 #include "src/cpu_dav1d.h"
 #include "src/ipred.h"
 
-#if defined(TARGET_CPU_ARM)
+#if defined(TARGET_CPU_ARM) || defined(TARGET_CPU_AARCH64)
 
 decl_angular_ipred_fn(BF(dav1d_ipred_dc, neon));
 decl_angular_ipred_fn(BF(dav1d_ipred_dc_128, neon));

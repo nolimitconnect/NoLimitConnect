@@ -3,7 +3,11 @@
 #include <NlcDependLibrariesConfig.h>
 
 #if defined(TARGET_OS_LINUX)
-# include "vpx_config_linux.h"
+# if defined(TARGET_CPU_AARCH64)
+#  include "vpx_config_aarch64.h"
+# else
+#  include "vpx_config_linux.h"
+# endif // defined(TARGET_CPU_AARCH64)
 #endif // defined(TARGET_OS_LINUX)
 
 #if defined(TARGET_OS_ANDROID)

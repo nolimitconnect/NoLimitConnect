@@ -309,7 +309,6 @@ enum EMyIcons
     eMyIconWindowShrink,
 
     //=== applet icons ===//
-    eMyIconKodi,
     eMyIconUserIdentity,
     eMyIconSharedContent,
 

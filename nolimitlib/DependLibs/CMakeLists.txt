@@ -81,7 +81,10 @@ add_subdirectory(libvorbis)
 if(DEFINED TARGET_OS_WINDOWS)
 #add_subdirectory(libvpx-win64) # windows only
 elseif(DEFINED TARGET_OS_LINUX)
-add_subdirectory(libvpx) 
+if(NOT DEFINED TARGET_CPU_AARCH64)
+    # FIXME .. compiles on rasberry pi raw so should for aarch64
+    add_subdirectory(libvpx) 
+endif() # if(NOT DEFINED TARGET_CPU_AARCH64)
 elseif(DEFINED TARGET_OS_ANDROID)
 #add_subdirectory(libvpx) # needed to play some video types but does not compile yet
 endif()

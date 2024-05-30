@@ -126,22 +126,25 @@
 #elif defined(TARGET_OS_LINUX)
 
 # define NLC_ARCH_LITTLE_ENDIAN         1
-
-// only 64bit x86 linux is supported
-# define TARGET_CPU_X86_64			    1  // general cpu type
-
-# define ARCH_ALPHA		                0
-# define ARCH_ARM                       0
-# define AARCH64                        0 // the other arm type android cpu
-# define ARCH_X86						1
 # define ARCH_ALPHA                     0
 # define ARCH_SPARC                     0
 # define ARCH_MIPS                      0
 # define ARCH_M68K                      0
 # define ARCH_PPC                       0
+# define ARCH_ALPHA		                0
+# define ARCH_ARM                       0
 
+// only 64bit linux is supported
 # define ARCH_32_BITS					0
 # define ARCH_64_BITS                   1
+
+# if defined(TARGET_CPU_AARCH64)	
+#  define ARCH_AARCH64                  1
+# else
+#  define TARGET_CPU_X86_64			    1  // general cpu type
+#  define ARCH_AARCH64                  0
+# endif // defined(TARGET_CPU_AARCH64)
+
 
 #elif defined(TARGET_OS_APPLE)
 echo error apple and ppc processors not supported
@@ -217,7 +220,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 
 #endif // !ARCH_X86 && !ARCH_ARM
 
-#if !TARGET_CPU_ARM
+#if !defined(TARGET_CPU_ARM) && !defined(TARGET_CPU_AARCH64)
 #if ARCH_32_BITS
 # define ARCH_X86_32 1
 # define ARCH_X86_64 0
@@ -233,7 +236,19 @@ echo Nlc CPU Arch Defines error no cpu target defined
 //============================================================================
 //============================================================================
 //=== cpu features ===//
-#if defined(TARGET_CPU_X86) || defined(TARGET_CPU_X86_64)
+#if defined(TARGET_CPU_AARCH64)
+# define HAVE_ARM_NEON				1 // both arm68-v8a and armeabi-v7a have neon extensions
+# define HAVE_ARMV7					1
+
+#  define ARCH_32_BITS				0
+#  define ARCH_64_BITS				1
+
+#  define HAVE_ARMV8				1
+#  define HAVE_ARMV5TE				0
+#  define HAVE_ARMV6				0
+#  define HAVE_ARMV6T2				0
+
+#elif defined(TARGET_CPU_X86) || defined(TARGET_CPU_X86_64)
 # if defined(TARGET_CPU_X86_64)
 // less work to define TARGET_CPU_X86 also and then check for TARGET_CPU_X86_64 if needed
 #  define TARGET_CPU_X86 1

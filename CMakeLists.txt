@@ -45,14 +45,37 @@ endforeach()
 message("CMakeArgs: ${CMakeArgs}")
 message(STATUS "CMakeArgs: END")
 
+# cmake detection of processor does NOT work
+message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME} CMAKE_HOST_SYSTEM_PROCESSOR ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+
+# if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)
+    if(NOT DEFINED ANDROID_ARCH AND NOT DEFINED TARGET_OS_ANDROID AND NOT DEFINED TARGET_OS_WINDOWS )
+        EXECUTE_PROCESS( COMMAND arch COMMAND tr -d '\n' OUTPUT_VARIABLE BUILD_HOST_ARCH )
+        message(STATUS "Linux Host Arch ${BUILD_HOST_ARCH}")
+        if(NOT DEFINED TARGET_OS_LINUX AND NOT DEFINED TARGET_OS_ANDROID)
+            set(TARGET_OS_LINUX true)
+            add_compile_definitions(TARGET_OS_LINUX)
+            message(STATUS "Linux Host Arch ${BUILD_HOST_ARCH}")
+        endif()
+
+        if(${BUILD_HOST_ARCH} STREQUAL "aarch64" )
+            if(NOT DEFINED ARM64 AND NOT DEFINED ARM32)
+                set(ARM64 true)
+                add_compile_definitions(ARM64=1)
+                set(TARGET_CPU_AARCH64 true)
+                add_compile_definitions(TARGET_CPU_AARCH64=1)
+            endif()   
+        endif()
+    endif()
+endif() # if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+
 #=== set root directories ===#
 set(PROJECT_SRC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package")
 set(PROJECT_PACKAGE_ROOT_DIR "${PROJECT_SRC_ROOT_DIR}/package")
 
 if(DEFINED FLATPAKBUILD)
-    message(STATUS "Flatpak Build Target OS Linux")
-
     project(nolimitconnect LANGUAGES C CXX ASM)
 
     set(FLATPAKBUILD true)
@@ -63,17 +86,35 @@ if(DEFINED FLATPAKBUILD)
     add_compile_definitions(TARGET_POSIX=1)
     set(TARGET_CPU_64BIT true)
     add_compile_definitions(TARGET_CPU_64BIT=1)
-    set(TARGET_CPU_X86_64 true)
-    add_compile_definitions(TARGET_CPU_X86_64=1)
-    set(ARCH_X86_64 true)
-    add_compile_definitions(ARCH_X86_64=1)
     set(ARCH_32_BITS false)
     add_compile_definitions(ARCH_32_BITS=0)
     set(ARCH_64_BITS true)
     add_compile_definitions(ARCH_64_BITS=1)
     add_compile_definitions(NLC_ARCH_LITTLE_ENDIAN=1)
     add_compile_definitions(HAVE_ALIGNED_STACK=1)
+    set(NLC_CPU_BITS "64")
     
+    if(DEFINED X64 OR DEFINED "$ENV{FLATPAK_ARCH_X64}" STREQUAL "FLATPAK_ARCH_X64")
+        message(STATUS "Flatpak TARGET_CPU_X86_64")
+        set(NLC_CPU "CPU_X64")
+        set(NLC_CPU_TYPE x64)
+
+        set(TARGET_CPU_X86_64 true)
+        add_compile_definitions(TARGET_CPU_X86_64=1)
+        set(ARCH_X86_64 true)
+        add_compile_definitions(ARCH_X86_64=1)
+    else()
+        message(STATUS "Flatpak TARGET_CPU_AARCH64")
+        set(NLC_CPU "CPU_ARM64")
+        set(NLC_CPU_TYPE arm64)
+
+        set(TARGET_CPU_AARCH64 true)
+        add_compile_definitions(TARGET_CPU_AARCH64=1)
+        set(ARCH_AARCH64 true)
+        add_compile_definitions(ARCH_AARCH64=1)
+    endif()
+
+
     set(CMAKE_EXECUTE_PROCESS_COMMAND_ECHO STDOUT)
     
     #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z noexecstack")
@@ -85,9 +126,6 @@ if(DEFINED FLATPAKBUILD)
     set(NLC_OS_TYPE linux)
     # set(NLC_BUILD_TYPE debug)
     set(NLC_BUILD_TYPE release)
-    set(NLC_CPU_TYPE x64)
-    set(NLC_CPU "CPU_X64")
-    set(NLC_CPU_BITS "64")
     
     enable_language(ASM_NASM)
     set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
@@ -406,8 +444,10 @@ else()
     elseif(DEFINED TARGET_OS_LINUX)
         message(STATUS "*** TARGET_OS_LINUX ***")
         add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X86_64 TARGET_POSIX PIC)
-        set(TARGET_CPU_X86_64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
         set(TARGET_POSIX true)
+        if(NOT DEFINED TARGET_CPU_AARCH64)
+            set(TARGET_CPU_X86_64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
+        endif()
 
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 
@@ -609,7 +649,7 @@ else()
     elseif(DEFINED TARGET_OS_LINUX)
         set(NLC_OS_TYPE linux)
     elseif(DEFINED TARGET_OS_WINDOWS)
-        set(NLC_OS_TYPE linux)
+        set(NLC_OS_TYPE windows)
     endif()
 
     if(CMAKE_BUILD_TYPE MATCHES Debug)

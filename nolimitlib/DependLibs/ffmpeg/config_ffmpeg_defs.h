@@ -49,7 +49,7 @@
 #define HAVE_MMX2 HAVE_MMXEXT
 #define SWS_MAX_FILTER_SIZE 256
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 # undef ARCH_ARM
 # if defined(TARGET_CPU_AARCH64)
 #  define ARCH_AARCH64 1
@@ -87,7 +87,7 @@
 #define ARCH_TILEGX 0
 #define ARCH_TILEPRO 0
 #define ARCH_TOMI 0
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 # define ARCH_X86 0
 # define ARCH_X86_32 0
 # undef ARCH_X86_64
@@ -129,7 +129,7 @@
 #define HAVE_VSX 0
 #define HAVE_RVV 0
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)  || defined(TARGET_CPU_AARCH64)
 #define HAVE_AESNI 0
 #define HAVE_AMD3DNOW 0
 #define HAVE_AMD3DNOWEXT 0
@@ -221,7 +221,7 @@
 #define HAVE_ARMV6_EXTERNAL 0
 #define HAVE_ARMV6T2_EXTERNAL 0
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)  || defined(TARGET_CPU_AARCH64)
 #if defined(TARGET_CPU_AARCH64)
 	#define HAVE_ARMV8_EXTERNAL 1
 #else
@@ -246,7 +246,7 @@
 #define HAVE_VSX_EXTERNAL 0
 #define HAVE_RVV_EXTERNAL 0
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 #define HAVE_AESNI_EXTERNAL 0
 #else
 #define HAVE_AESNI_EXTERNAL 1
@@ -255,7 +255,7 @@
 #define HAVE_AMD3DNOW_EXTERNAL 0
 #define HAVE_AMD3DNOWEXT_EXTERNAL 0
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 #define HAVE_AVX_EXTERNAL 0
 #define HAVE_AVX2_EXTERNAL 0
 #define HAVE_AVX512_EXTERNAL 0
@@ -271,7 +271,7 @@
 #define HAVE_FMA4_EXTERNAL 1
 #endif // defined(TARGET_OS_ANDROID)
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 #define HAVE_MMX_EXTERNAL 0
 #define HAVE_MMXEXT_EXTERNAL 0
 #define HAVE_SSE_EXTERNAL 0
@@ -318,7 +318,7 @@
 #define HAVE_ARMV6_INLINE 0
 #define HAVE_ARMV6T2_INLINE 0
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_ANDROID)
 #if defined(TARGET_CPU_AARCH64)
  #define HAVE_ARMV8_INLINE 1
 #else
@@ -343,7 +343,7 @@
 #define HAVE_VSX_INLINE 0
 #define HAVE_RVV_INLINE 0
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 #define HAVE_AESNI_INLINE 0
 #define HAVE_AMD3DNOW_INLINE 0
 #define HAVE_AMD3DNOWEXT_INLINE 0
@@ -355,13 +355,13 @@
 #define HAVE_FMA4_INLINE 0
 #define HAVE_MMX_INLINE 0
 #define HAVE_MMXEXT_INLINE 0
-#define HAVE_SSE_INLINE 1
-#define HAVE_SSE2_INLINE 1
-#define HAVE_SSE3_INLINE 1
-#define HAVE_SSE4_INLINE 1
-#define HAVE_SSE42_INLINE 1
-#define HAVE_SSSE3_INLINE 1
-#define HAVE_XOP_INLINE 1
+#define HAVE_SSE_INLINE 0
+#define HAVE_SSE2_INLINE 0
+#define HAVE_SSE3_INLINE 0
+#define HAVE_SSE4_INLINE 0
+#define HAVE_SSE42_INLINE 0
+#define HAVE_SSSE3_INLINE 0
+#define HAVE_XOP_INLINE 0
 
 #elif defined(TARGET_OS_WINDOWS)
 #define HAVE_AESNI_INLINE 1
@@ -400,13 +400,13 @@
 
 #if defined(_MSC_VER)
 //changed #define HAVE_MMX_INLINE 1
-#define HAVE_MMX_INLINE 0 // visual studio does not have inline x64 assembly
+# define HAVE_MMX_INLINE 0 // visual studio does not have inline x64 assembly
 //changed #define HAVE_MMXEXT_INLINE 1
-#define HAVE_MMXEXT_INLINE 0 // visual studio does not have inline x64 assembly
+# define HAVE_MMXEXT_INLINE 0 // visual studio does not have inline x64 assembly
 
 #else
-#define HAVE_MMX_INLINE 1
-#define HAVE_MMXEXT_INLINE 1
+# define HAVE_MMX_INLINE 1
+# define HAVE_MMXEXT_INLINE 1
 #endif // defined(_MSC_VER)
 
 #define HAVE_SSE_INLINE 1
@@ -444,26 +444,30 @@
 #endif // defined(TARGET_OS_WINDOWS)
 
 #if defined(TARGET_OS_ANDROID)
-#define HAVE_FAST_CMOV 0
-#define HAVE_FAST_FLOAT16 1
-#define HAVE_LOCAL_ALIGNED 0
-#define HAVE_SIMD_ALIGN_16 1
-#define HAVE_SIMD_ALIGN_32 0
-#define HAVE_SIMD_ALIGN_64 0
+# define HAVE_FAST_CMOV 0
+# define HAVE_FAST_FLOAT16 1
 #else
-#define HAVE_FAST_CMOV 1
-#define HAVE_FAST_FLOAT16 0
-#define HAVE_LOCAL_ALIGNED 1
-#define HAVE_SIMD_ALIGN_16 1
-#define HAVE_SIMD_ALIGN_32 1
-#define HAVE_SIMD_ALIGN_64 1
+# define HAVE_FAST_CMOV 1
+# define HAVE_FAST_FLOAT16 0
 #endif // defined(TARGET_OS_ANDROID)
+
+#if defined(TARGET_CPU_AARCH64) || defined(TARGET_OS_ANDROID)
+# define HAVE_LOCAL_ALIGNED 0
+# define HAVE_SIMD_ALIGN_16 0
+# define HAVE_SIMD_ALIGN_32 0
+# define HAVE_SIMD_ALIGN_64 0
+#else
+# define HAVE_LOCAL_ALIGNED 1
+# define HAVE_SIMD_ALIGN_16 1
+# define HAVE_SIMD_ALIGN_32 1
+# define HAVE_SIMD_ALIGN_64 1
+#endif // defined(TARGET_CPU_AARCH64) || defined(TARGET_OS_ANDROID)
 
 #define HAVE_ATOMIC_CAS_PTR 0
 #define HAVE_MACHINE_RW_BARRIER 0
 #define HAVE_MEMORYBARRIER 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_WINDOWS)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64) || defined(TARGET_OS_WINDOWS)
 #define HAVE_MM_EMPTY 0
 #else
 #define HAVE_MM_EMPTY 1
@@ -481,10 +485,14 @@
 #define HAVE_INLINE_ASM 0 // Visual Studio inline assembly is missing for x64
 #define HAVE_SYMVER 0
 #define HAVE_X86ASM 1
-#else
+#else // LINUX
 #define HAVE_INLINE_ASM 1
 #define HAVE_SYMVER 1
+#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM)
+#define HAVE_X86ASM 0
+#else
 #define HAVE_X86ASM 1
+#endif // defined(TARGET_CPU_AARCH64)
 #endif // defined(TARGET_OS_ANDROID)
 
 #ifdef NLC_ARCH_BIG_ENDIAN
@@ -559,11 +567,7 @@
 #define HAVE_SYS_SELECT_H 1
 #endif // defined(TARGET_OS_WINDOWS)
 
-#if defined(TARGET_OS_LINUX)
-#define HAVE_SYS_SOUNDCARD_H 1
-#else
-#define HAVE_SYS_SOUNDCARD_H 0
-#endif // defined(TARGET_OS_LINUX)
+#define HAVE_SYS_SOUNDCARD_H 0 // even though linux has.. do not define to 1
 
 #define HAVE_SYS_TIME_H 1
 

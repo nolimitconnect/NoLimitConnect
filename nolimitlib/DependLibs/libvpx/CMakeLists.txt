@@ -1,7 +1,7 @@
 
 cmake_minimum_required (VERSION 3.16.3)
 
-project(vpx, LANGUAGES C CXX)
+project(vpx, LANGUAGES C CXX ASM)
 
 set(vpx_SOURCES)
 
@@ -217,8 +217,13 @@ else()
         vpx_dsp/arm/vpx_convolve8_avg_vert_filter_type1_neon.asm
         vpx_dsp/arm/vpx_convolve_copy_neon_asm.asm
         vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type2_neon.asm
-        ../androidNdk/android/cpufeatures/cpu-features_ndk.c
     )
+    
+    if(DEFINED TARGET_OS_ANDROID)
+        list(APPEND vpx_SOURCES 
+            ../androidNdk/android/cpufeatures/cpu-features_ndk.c
+            )
+    endif()
 endif()
 
 list(APPEND vpx_SOURCES 

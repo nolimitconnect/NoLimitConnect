@@ -39,10 +39,8 @@ if(DEFINED TARGET_CPU_X86_64)
         # common/x86/x86util.asm // included by others
         # common/x86/x86inc.asm // included by others
     )
-endif()
-
-
-if(DEFINED TARGET_OS_ANDROID)
+    
+else()
     if(DEFINED TARGET_CPU_AARCH64)
         list(APPEND x264_SOURCES
             common/aarch64/asm-offsets.c

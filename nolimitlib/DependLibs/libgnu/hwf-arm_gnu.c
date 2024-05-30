@@ -18,7 +18,7 @@
  */
 
 #include <libgnu/config_libgnu.h>
-#ifdef TARGET_CPU_ARM
+#if defined(TARGET_CPU_ARM) || defined(TARGET_CPU_AARCH64)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -29,22 +29,41 @@ if(DEFINED TARGET_OS_WINDOWS)
 endif()
 
 if(DEFINED TARGET_OS_LINUX)
-    list(APPEND ffmpegopus_SOURCES
-        silk/fixed/x86/vector_ops_FIX_sse4_1.c
-        silk/fixed/x86/burg_modified_FIX_sse4_1.c
-        celt/x86/x86cpu.c
-        celt/x86/x86_celt_map.c
-        celt/x86/pitch_sse.c
-        celt/x86/pitch_sse2.c
-        celt/x86/vq_sse2.c
-        celt/x86/celt_lpc_sse4_1.c
-        celt/x86/pitch_sse4_1.c
-        silk/x86/NSQ_sse4_1.c
-        silk/x86/NSQ_del_dec_sse4_1.c
-        silk/x86/VAD_sse4_1.c
-        silk/x86/VQ_WMat_EC_sse4_1.c
-        silk/x86/x86_silk_map.c
+    if(DEFINED TARGET_CPU_AARCH64)
+        list(APPEND ffmpegopus_SOURCES
+        celt/arm/arm_celt_map.c
+        celt/arm/armcpu.c
+        celt/arm/celt_mdct_ne10.c
+        celt/arm/celt_neon_intr.c
+        celt/arm/pitch_neon_intr.c
+        silk/arm/arm_silk_map.c
+        silk/arm/biquad_alt_neon_intr.c
+        silk/arm/LPC_inv_pred_gain_neon_intr.c
+        silk/arm/NSQ_del_dec_neon_intr.c
+        silk/arm/NSQ_neon.c
+
+        #celt/arm/celt_fft_ne10.c
+        #celt/arm/celt_pitch_xcorr_arm.s
+        #celt/arm/celt_pitch_xcorr_arm-gnu.S
     )
+    else()
+        list(APPEND ffmpegopus_SOURCES
+            silk/fixed/x86/vector_ops_FIX_sse4_1.c
+            silk/fixed/x86/burg_modified_FIX_sse4_1.c
+            celt/x86/x86cpu.c
+            celt/x86/x86_celt_map.c
+            celt/x86/pitch_sse.c
+            celt/x86/pitch_sse2.c
+            celt/x86/vq_sse2.c
+            celt/x86/celt_lpc_sse4_1.c
+            celt/x86/pitch_sse4_1.c
+            silk/x86/NSQ_sse4_1.c
+            silk/x86/NSQ_del_dec_sse4_1.c
+            silk/x86/VAD_sse4_1.c
+            silk/x86/VQ_WMat_EC_sse4_1.c
+            silk/x86/x86_silk_map.c
+        )
+    endif()
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)
