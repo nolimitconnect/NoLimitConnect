@@ -19,7 +19,7 @@
 	#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
 	#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
 	#define CC_IDENT "Android (7155654, based on r399163b1) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)"
- #elif defined(TARGET_CPU_ARM)
+ #elif defined(TARGET_CPU_ARM32)
 	#define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug --extra-version='\"kodi-4.4.1-Nexus-Alpha1\"' --cc=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang --cxx=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang++ --pkg-config=/home/nolimit/kodi/android-tools/xbmc-depends/x86_64-linux-gnu-native/bin/pkg-config --pkg-config-flags=--static --enable-cross-compile --enable-pic --ar=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar --ranlib=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib --strip=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --disable-doc --disable-devices --disable-programs --disable-sdl2 --enable-gpl --enable-postproc --enable-runtime-cpudetect --enable-pthreads --extra-cflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -Og -g -D_DEBUG -isystem /home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-cxxflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -frtti -Og -g -D_DEBUG -std=c++17 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-ldflags='-L/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/lib -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -L/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/lib/android-21 ' --enable-neon --target-os=android --extra-libs=-liconv --disable-linux-perf --cpu=cortex-a53 --disable-armv5te --disable-armv6t2 --enable-gnutls --enable-libdav1d --arch=arm"
 	#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/share/ffmpeg"
 	#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/share/ffmpeg"
@@ -318,7 +318,7 @@
 #define HAVE_ARMV6_INLINE 0
 #define HAVE_ARMV6T2_INLINE 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 #if defined(TARGET_CPU_AARCH64)
  #define HAVE_ARMV8_INLINE 1
 #else
@@ -331,7 +331,7 @@
 #define HAVE_ARMV8_INLINE 0
 #define HAVE_NEON_INLINE 0
 #define HAVE_VFP_INLINE 0
-#endif // defined(TARGET_OS_ANDROID)
+#endif // defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 
 #define HAVE_VFPV3_INLINE 0
 #define HAVE_SETEND_INLINE 0
@@ -488,7 +488,7 @@
 #else // LINUX
 #define HAVE_INLINE_ASM 1
 #define HAVE_SYMVER 1
-#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM)
+#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
 #define HAVE_X86ASM 0
 #else
 #define HAVE_X86ASM 1
@@ -885,7 +885,7 @@
 #elif defined(TARGET_OS_WINDOWS)
 #define HAVE_INLINE_ASM_DIRECT_SYMBOL_REFS 1
 #define HAVE_INLINE_ASM_LABELS 1
-#define HAVE_INLINE_ASM_NONLOCAL_LABELS 1
+#define HAVE_INLINE_ASM_NONLOCAL_LABELS 1 fgsfg
 #define HAVE_PRAGMA_DEPRECATED 1
 #define HAVE_RSYNC_CONTIMEOUT 0
 #define HAVE_SYMVER_ASM_LABEL 1
@@ -1053,11 +1053,7 @@
 #define CONFIG_LCMS2 0
 #define CONFIG_LIBAOM 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_WINDOWS)
-#define CONFIG_LIBASS 0
-#else
 #define CONFIG_LIBASS 1
-#endif // defined(TARGET_OS_ANDROID)
 
 #define CONFIG_LIBBLURAY 0
 #define CONFIG_LIBBS2B 0
@@ -1065,22 +1061,14 @@
 #define CONFIG_LIBCELT 0
 #define CONFIG_LIBCODEC2 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_WINDOWS)
-#define CONFIG_LIBDAV1D 0 // BRJ TODO enable LIBDAVID for windows and android
-#else
 #define CONFIG_LIBDAV1D 1
-#endif // defined(TARGET_OS_ANDROID)
 
 #define CONFIG_LIBDC1394 0
 #define CONFIG_LIBDRM 0
 #define CONFIG_LIBFLITE 0
 #define CONFIG_LIBFONTCONFIG 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_WINDOWS)
-#define CONFIG_LIBFREETYPE 0
-#else
 #define CONFIG_LIBFREETYPE 1
-#endif // defined(TARGET_OS_ANDROID)
 
 #define CONFIG_LIBFRIBIDI 0
 #define CONFIG_LIBGLSLANG 0
@@ -1131,14 +1119,13 @@
 #define CONFIG_LIBV4L2 0
 #define CONFIG_LIBVMAF 0
 
+#define CONFIG_LIBVORBIS 1
+
 #if defined(TARGET_OS_WINDOWS)
-#define CONFIG_LIBVORBIS 0
 #define CONFIG_LIBVPX 0
 #elif defined(TARGET_OS_ANDROID)
-#define CONFIG_LIBVORBIS 1
 #define CONFIG_LIBVPX 0 // BRJ TODO LIBVPX for android
 #else
-#define CONFIG_LIBVORBIS 1
 #define CONFIG_LIBVPX 1
 #endif // defined(TARGET_OS_WINDOWS)
 

@@ -22,10 +22,9 @@ set(NLC_VERSION_PATCH "8")
 
 set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "" FORCE)
 
-if (CMAKE_BUILD_TYPE MATCHES Debug)
+if(CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DDEBUG)
 endif()
-
 
 # print command line parameters
 message(STATUS "CMakeArgs: BEGIN")
@@ -48,24 +47,48 @@ message(STATUS "CMakeArgs: END")
 # cmake detection of processor does NOT work
 message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME} CMAKE_HOST_SYSTEM_PROCESSOR ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
+set(BUILD_SYSTEM_FLATPAK false)
+set(BUILD_SYSTEM_CMDLINE false)
+set(BUILD_SYSTEM_QCREATOR false)
+set(BUILD_SYSTEM_CI_PIPELINE false)
+
+project(nolimitconnect LANGUAGES C CXX ASM)
+
 # if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
+set(NLC_BUILD_HOST_ARCH "")
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)
     if(NOT DEFINED ANDROID_ARCH AND NOT DEFINED TARGET_OS_ANDROID AND NOT DEFINED TARGET_OS_WINDOWS )
         EXECUTE_PROCESS( COMMAND arch COMMAND tr -d '\n' OUTPUT_VARIABLE BUILD_HOST_ARCH )
         message(STATUS "Linux Host Arch ${BUILD_HOST_ARCH}")
-        if(NOT DEFINED TARGET_OS_LINUX AND NOT DEFINED TARGET_OS_ANDROID)
-            set(TARGET_OS_LINUX true)
-            add_compile_definitions(TARGET_OS_LINUX)
-            message(STATUS "Linux Host Arch ${BUILD_HOST_ARCH}")
+
+        if(NOT ${BUILD_HOST_ARCH} STREQUAL "")
+            set(NLC_BUILD_HOST_ARCH ${BUILD_HOST_ARCH})
         endif()
 
-        if(${BUILD_HOST_ARCH} STREQUAL "aarch64" )
-            if(NOT DEFINED ARM64 AND NOT DEFINED ARM32)
-                set(ARM64 true)
-                add_compile_definitions(ARM64=1)
-                set(TARGET_CPU_AARCH64 true)
-                add_compile_definitions(TARGET_CPU_AARCH64=1)
-            endif()   
+        if(NOT DEFINED TARGET_OS_LINUX AND NOT DEFINED TARGET_OS_WINDOWS AND NOT DEFINED TARGET_OS_ANDROID AND
+            NOT DEFINED ANDROID_NDK AND NOT DEFINED MAKE_ENV)
+
+            set(TARGET_OS_LINUX true)
+            add_compile_definitions(TARGET_OS_LINUX)
+
+            if(${BUILD_HOST_ARCH} STREQUAL "aarch64" )
+                if(NOT DEFINED ARM64 AND NOT DEFINED ARM32)
+                    set(ARM64 true)
+                    add_compile_definitions(ARM64=1)
+                    set(TARGET_CPU_AARCH64 true)
+                    add_compile_definitions(TARGET_CPU_AARCH64=1)
+                endif()
+            endif()
+
+            if(${BUILD_HOST_ARCH} STREQUAL "x86_64" )
+                if(NOT DEFINED X64)
+                    set(X64 true)
+                    add_compile_definitions(X64=1)
+                    set(TARGET_CPU_X86_64 true)
+                    add_compile_definitions(TARGET_CPU_X86_64=1)
+                endif()
+            endif()
+
         endif()
     endif()
 endif() # if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
@@ -76,7 +99,7 @@ file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package")
 set(PROJECT_PACKAGE_ROOT_DIR "${PROJECT_SRC_ROOT_DIR}/package")
 
 if(DEFINED FLATPAKBUILD)
-    project(nolimitconnect LANGUAGES C CXX ASM)
+    set(BUILD_SYSTEM_FLATPAK true)
 
     set(FLATPAKBUILD true)
 
@@ -94,16 +117,7 @@ if(DEFINED FLATPAKBUILD)
     add_compile_definitions(HAVE_ALIGNED_STACK=1)
     set(NLC_CPU_BITS "64")
     
-    if(DEFINED X64 OR DEFINED "$ENV{FLATPAK_ARCH_X64}" STREQUAL "FLATPAK_ARCH_X64")
-        message(STATUS "Flatpak TARGET_CPU_X86_64")
-        set(NLC_CPU "CPU_X64")
-        set(NLC_CPU_TYPE x64)
-
-        set(TARGET_CPU_X86_64 true)
-        add_compile_definitions(TARGET_CPU_X86_64=1)
-        set(ARCH_X86_64 true)
-        add_compile_definitions(ARCH_X86_64=1)
-    else()
+    if(DEFINED TARGET_CPU_AARCH64)
         message(STATUS "Flatpak TARGET_CPU_AARCH64")
         set(NLC_CPU "CPU_ARM64")
         set(NLC_CPU_TYPE arm64)
@@ -112,12 +126,21 @@ if(DEFINED FLATPAKBUILD)
         add_compile_definitions(TARGET_CPU_AARCH64=1)
         set(ARCH_AARCH64 true)
         add_compile_definitions(ARCH_AARCH64=1)
-    endif()
 
+    else()
+        message(STATUS "Flatpak TARGET_CPU_X86_64")
+        set(NLC_CPU "CPU_X64")
+        set(NLC_CPU_TYPE x64)
+
+        set(TARGET_CPU_X86_64 true)
+        add_compile_definitions(TARGET_CPU_X86_64=1)
+        set(ARCH_X86_64 true)
+        add_compile_definitions(ARCH_X86_64=1)
+
+    endif()
 
     set(CMAKE_EXECUTE_PROCESS_COMMAND_ECHO STDOUT)
     
-    #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z noexecstack")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -no-pie")
     
     # module path is needed for ConfigStaticDependLib.cmake
@@ -126,14 +149,13 @@ if(DEFINED FLATPAKBUILD)
     set(NLC_OS_TYPE linux)
     # set(NLC_BUILD_TYPE debug)
     set(NLC_BUILD_TYPE release)
-    
+
     enable_language(ASM_NASM)
     set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
     set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
     
     set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
     set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
-    #string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf --DARCH_X86_64=1 ")
     set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -DPIC -F dwarf --DARCH_X86_64=1 ")
 
     message(STATUS "Adding subdir nolimitlib")
@@ -144,6 +166,7 @@ if(DEFINED FLATPAKBUILD)
     
     message(STATUS "command line make Flatpak nolimitconnect config done")
 else()
+    # NOT flatpak build
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         set(USER_HOME_DIR $ENV{USERPROFILE})
         message(STATUS "User Windows Home Directory: ${USER_HOME_DIR}")
@@ -159,7 +182,7 @@ else()
     set(NLC_QT "6.6.3")
     set(NLC_POSTPATH "/gcc_64")
 
-    set(NLC_CPU "CPU_X64")
+    set(NLC_CPU "CPU_UNKNOWN")
     set(NLC_CPU_BITS "64")
 
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
@@ -173,10 +196,13 @@ else()
         endif()
 
     elseif(DEFINED MAKE_ENV)
+        set(BUILD_SYSTEM_CI_CD true)
         message(STATUS "Build host GitLab")
+
         set(NLC_PREPATH "/opt/qt/")
 
     elseif(DEFINED QT_VERSION)
+        set(BUILD_SYSTEM_CMDLINE true)
         message(STATUS "Build host Command Line Linux")
         message(STATUS "Build host OS Linux")
         set(NLC_PREPATH "/home/nolimit/Qt/")
@@ -203,21 +229,43 @@ else()
         set(NLC_CPU "CPU_ARM32")
         set(NLC_CPU_BITS "32")
         set(NLC_POSTPATH "/android_armv7")
+
+        set(TARGET_CPU_ARM32 true)
+        add_compile_definitions(TARGET_CPU_ARM32=1)
+
     elseif(DEFINED ARM64)
         set(NLC_CPU "CPU_ARM64")
+        set(NLC_CPU_BITS "64")
         set(NLC_POSTPATH "/android_arm64_v8a")
-    else()
+
+        set(TARGET_CPU_AARCH64 true)
+        add_compile_definitions(TARGET_CPU_AARCH64=1)
+
+    elseif(DEFINED X64)
         set(NLC_CPU "CPU_X64")
     endif()
 
     # when run from within QtCreator
     if(DEFINED ANDROID_ABI)
+        set(BUILD_SYSTEM_QCreator true)
+
+        set(TARGET_OS_ANDROID true)
+        add_compile_definitions(TARGET_OS_ANDROID=1)
+
         if(ANDROID_ABI STREQUAL "armeabi-v7a")
             set(NLC_CPU "CPU_ARM32")
             set(NLC_CPU_BITS "32")
+
+            set(TARGET_CPU_ARM32 true)
+            add_compile_definitions(TARGET_CPU_ARM32=1)
+
         elseif(ANDROID_ABI STREQUAL "arm64-v8a")
             set(NLC_CPU "CPU_ARM64")
             set(NLC_CPU_BITS "64")
+
+            set(TARGET_CPU_AARCH64 true)
+            add_compile_definitions(TARGET_CPU_AARCH64=1)
+
         else()
             message(STATUS "Unknown Android ABI ")
         endif()
@@ -276,6 +324,7 @@ else()
     if(DEFINED MAKE_ENV)
         message(STATUS "*** MAKE_ENV (GitLab) ***")
         #=== assume called from gitlab ci pipeline.. linux only compile and cross compile of android
+        set(BUILD_SYSTEM_CI_PIPELINE true)
         set(CI_PIPELINE true)
         set(MANUAL_PACKAGE true)
         add_compile_definitions(CI_PIPELINE)
@@ -320,6 +369,7 @@ else()
     elseif(DEFINED CMAKE_PREFIX_PATH)
         message(STATUS "*** CMAKE_PREFIX_PATH (QtCreator) *** ${CMAKE_PREFIX_PATH}")
         #=== assumes cmake was called from QCreator
+        set(BUILD_SYSTEM_QCREATOR true)
         if(DEFINED ANDROID_NDK)
             set(TARGET_OS_ANDROID true)
             if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
@@ -336,20 +386,39 @@ else()
 
         elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
             set(TARGET_OS_LINUX true)
-            message(STATUS "QCreator Build Target OS Linux built on host OS Linux")
 
-            enable_language(ASM_NASM)
-            set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
-            set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
+            if(${NLC_BUILD_HOST_ARCH} STREQUAL "aarch64" )
+                message(STATUS "QCreator aarch64 Build Target OS Linux built on host OS Linux")
+                set(ARM64 true)
+                add_compile_definitions(ARM64=1)
+                set(TARGET_CPU_AARCH64 true)
+                add_compile_definitions(TARGET_CPU_AARCH64=1)
+                set(ARCH_ARM64 true)
+                add_compile_definitions(ARCH_ARM64=1)
 
-            set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <FLAGS> <DEFINES> <INCLUDES> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
-            set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
-            string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf -DARCH_X86_64=1 ")
+            elseif(${NLC_BUILD_HOST_ARCH} STREQUAL "x86_64" )
+                message(STATUS "QCreator x86_64 Build Target OS Linux built on host OS Linux")
+                set(X64 true)
+                add_compile_definitions(X64=1)
+                set(TARGET_CPU_X86_64 true)
+                add_compile_definitions(TARGET_CPU_X86_64=1)
+                set(ARCH_X86_64 true)
+                add_compile_definitions(ARCH_X86_64=1)
+
+                enable_language(ASM_NASM)
+                set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
+                set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
+
+                set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
+                set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
+                set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -DPIC -F dwarf --DARCH_X86_64=1 ")
+            endif()
         endif()
 
     else()
         message(STATUS "*** CMD_LINE_MAKE ***")
         #=== assumes cmake was called from command line and needs the enviroment setup
+        set(BUILD_SYSTEM_CMDLINE true)
 
         #set define so can deterimine if need additional enviroment params missing in command line compile
         set(CMD_LINE_MAKE true)
@@ -426,7 +495,32 @@ else()
         endif()
     endif()
 
-    if(DEFINED TARGET_OS_WINDOWS)
+    if(DEFINED TARGET_OS_ANDROID)
+        message(STATUS "*** TARGET_OS_ANDROID ***")
+        add_compile_definitions(ANDROID)
+        set(CMAKE_SYSTEM_NAME Android)
+        set(ANDROID_PLATFORM "android-24")
+        #set(CMAKE_SYSTEM_VERSION 33) # API level
+
+        set(ANDROID_STL c++_static)
+
+        set(TARGET_POSIX true)
+        set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android)
+        set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Android/assets)
+
+        set(ANDROID_APK_OUTPUT_DIR ${PROJECT_PACKAGE_DIR})
+
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+
+        if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+            message(STATUS "Build Target OS Android built on host OS Windows")
+        elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+            message(STATUS "Build Target OS Android built on host OS Linux")
+        else()
+            message(FATAL_ERROR "Build host is Unknown OS attempting to compile Android")
+        endif()
+
+    elseif(DEFINED TARGET_OS_WINDOWS)
         message(STATUS "*** TARGET_OS_WINDOWS ***")
         add_compile_definitions(TARGET_OS_WINDOWS)
         set(TARGET_CPU_X64 true)
@@ -463,31 +557,6 @@ else()
             message(STATUS "TARGET_OS_LINUX Build Target OS Linux built on host OS Linux")
         else()
             message(FATAL_ERROR "Build host is Unknown OS attempting to compile Linux")
-        endif()
-
-    elseif(DEFINED TARGET_OS_ANDROID)
-        message(STATUS "*** TARGET_OS_ANDROID ***")
-        add_compile_definitions(ANDROID)
-        set(CMAKE_SYSTEM_NAME Android)
-        set(ANDROID_PLATFORM "android-24")
-        #set(CMAKE_SYSTEM_VERSION 33) # API level
-
-        set(ANDROID_STL c++_static)
-
-        set(TARGET_POSIX true)
-        set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android)
-        set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Android/assets)
-
-        set(ANDROID_APK_OUTPUT_DIR ${PROJECT_PACKAGE_DIR})
-
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
-
-        if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-            message(STATUS "Build Target OS Android built on host OS Windows")
-        elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-            message(STATUS "Build Target OS Android built on host OS Linux")
-        else()
-            message(FATAL_ERROR "Build host is Unknown OS attempting to compile Android")
         endif()
 
     else()
@@ -692,8 +761,8 @@ else()
         message(STATUS "CMAKE_ANDROID_ARCH_ABI " ${CMAKE_ANDROID_ARCH_ABI})
 
         set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -march=armv7-a -mtune=cortex-a9 --target=arm-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
-        set(TARGET_CPU_ARM true) # general cpu type
-        add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_ARM TARGET_CPU_32BIT)
+        set(TARGET_CPU_ARM32 true) # general cpu type
+        add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_ARM32 TARGET_CPU_32BIT)
 
     elseif(${NLC_CPU} STREQUAL "CPU_ARM64")
         set(NLC_POSTPATH "/android_arm64_v8a")
@@ -702,9 +771,8 @@ else()
         message(STATUS "CMAKE_ANDROID_ARCH_ABI " ${CMAKE_ANDROID_ARCH_ABI})
 
         set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} --target=aarch64-linux-android23 -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Dstrtod=avpriv_strtod -DPIC -DZLIB_CONST -O3 -fPIC -Qunused-arguments -MMD -MF" )
-        set(TARGET_CPU_ARM true) # general cpu type
         set(TARGET_CPU_AARCH64 true)
-        add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_ARM TARGET_CPU_AARCH64 TARGET_CPU_64BIT)
+        add_compile_definitions(TARGET_OS_ANDROID TARGET_POSIX TARGET_CPU_AARCH64 TARGET_CPU_64BIT)
 
     else()
         add_compile_definitions(TARGET_CPU_64BIT)
@@ -721,10 +789,6 @@ else()
         set(CMAKE_ANDROID_ASSETS_DIRECTORIES "${PROJECT_BIN_DIR}/assets")
         message(STATUS "CMAKE_ANDROID_ASSETS_DIRECTORIES " ${CMAKE_ANDROID_ASSETS_DIRECTORIES})
 
-        project(nolimitconnect LANGUAGES C CXX ASM)
-
-    else()
-        project(nolimitconnect LANGUAGES C CXX)
     endif()
 
     #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BIN_DIR}") not relevant because no dll or shared libraries
@@ -758,9 +822,6 @@ else()
     message(STATUS "package directory ${PROJECT_PACKAGE_DIR}")
     message(STATUS "source root directory ${PROJECT_SRC_ROOT_DIR}")
 
-    message(STATUS "project nlc cpu ${NLC_CPU}")
-    message(STATUS "project nlc api ${ANDROID_ABI}")
-
     message(STATUS "project-nlc Qt6_DIR ${Qt6_DIR}")
     message(STATUS "project-nlc Qt6Core_DIR ${Qt6Core_DIR}")
     message(STATUS "project-nlc Qt6Widgets_DIR ${Qt6Widgets_DIR}")
@@ -768,6 +829,83 @@ else()
 
     #=== project subdirectories ===#
     message(STATUS "project nlc adding dependant libs with prefix ${CMAKE_PREFIX_PATH}")
+
+
+    message(STATUS "project nlc cpu ${NLC_CPU}")
+    message(STATUS "project nlc cpu type ${NLC_CPU_TYPE}")
+    message(STATUS "project nlc cpu bits ${NLC_CPU_BITS}")
+    message(STATUS "project nlc android api ${ANDROID_ABI}")
+
+    if(DEFINED TARGET_OS_WINDOWS)
+        message(STATUS "TARGET_OS_WINDOWS is define")
+    endif()
+    if(DEFINED TARGET_OS_LINUX)
+        message(STATUS "TARGET_OS_LINUX is defined")
+    endif()
+    if(DEFINED TARGET_OS_ANDROID)
+        message(STATUS "TARGET_OS_ANDROID is defined")
+    endif()
+
+    if(DEFINED TARGET_CPU_X86_64)
+        message(STATUS "TARGET_CPU_X86_64 is defined")
+        set(TARGET_CPU_64BIT true)
+        add_compile_definitions(TARGET_CPU_64BIT=1)
+        set(ARCH_32_BITS false)
+        add_compile_definitions(ARCH_32_BITS=0)
+        set(ARCH_64_BITS true)
+        add_compile_definitions(ARCH_64_BITS=1)
+    endif()
+    if(DEFINED TARGET_CPU_X86)
+        message(STATUS "TARGET_CPU_X86 is defined")
+        set(TARGET_CPU_32BIT true)
+        add_compile_definitions(TARGET_CPU_32BIT=1)
+        set(ARCH_32_BITS true)
+        add_compile_definitions(ARCH_32_BITS=1)
+        set(ARCH_64_BITS false)
+        add_compile_definitions(ARCH_64_BITS=0)
+    endif()
+    if(DEFINED TARGET_CPU_AARCH64)
+        message(STATUS "TARGET_CPU_AARCH64 is defined")
+        set(TARGET_CPU_64BIT true)
+        add_compile_definitions(TARGET_CPU_64BIT=1)
+        set(ARCH_32_BITS false)
+        add_compile_definitions(ARCH_32_BITS=0)
+        set(ARCH_64_BITS true)
+        add_compile_definitions(ARCH_64_BITS=1)
+    endif()
+    if(DEFINED TARGET_CPU_ARM32)
+        message(STATUS "TARGET_CPU_ARM32 is defined")
+        set(TARGET_CPU_32BIT true)
+        add_compile_definitions(TARGET_CPU_32BIT=1)
+        set(ARCH_32_BITS true)
+        add_compile_definitions(ARCH_32_BITS=1)
+        set(ARCH_64_BITS false)
+        add_compile_definitions(ARCH_64_BITS=0)
+    endif()
+
+    if(DEFINED ARM64)
+        message(STATUS "ARM64 is defined")
+    endif()
+    if(DEFINED ARM32)
+        message(STATUS "ARM32 is defined")
+    endif()
+    if(DEFINED X64)
+        message(STATUS "X64 is defined")
+    endif()
+
+    if(DEFINED TARGET_CPU_64BIT)
+        message(STATUS "TARGET_CPU_64BIT is defined")
+    endif()
+    if(DEFINED TARGET_CPU_32BIT)
+        message(STATUS "TARGET_CPU_32BIT is defined")
+    endif()
+
+    if(ARCH_64_BITS)
+        message(STATUS "ARCH_64_BITS is true")
+    endif()
+    if(ARCH_32_BITS)
+        message(STATUS "ARCH_32_BITS is true")
+    endif()
 
     add_subdirectory(nolimitlib)
 
@@ -787,4 +925,16 @@ else()
 
     message(STATUS "project nlc end with prefix")
 endif() # flatpak build
+if(BUILD_SYSTEM_FLATPAK)
+    message(STATUS "BUILD_SYSTEM_FLATPAK true")
+endif()
+if(BUILD_SYSTEM_CMDLINE)
+    message(STATUS "BUILD_SYSTEM_CMDLINE true")
+endif()
+if(BUILD_SYSTEM_QCREATOR)
+    message(STATUS "BUILD_SYSTEM_QCREATOR true")
+endif()
+if(BUILD_SYSTEM_CI_PIPELINE)
+    message(STATUS "BUILD_SYSTEM_CI_PIPELINE true")
+endif()
 message(STATUS "Root CMakeLists.txt Done")

@@ -1,10 +1,54 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-if (DEFINED TARGET_OS_ANDROID OR DEFINED FLATPAKBUILD)
-    project(dav1d, LANGUAGES C CXX ASM)
-else()
-    project(dav1d, LANGUAGES C CXX)
+project(dav1d, LANGUAGES C CXX ASM)
+
+
+if(DEFINED TARGET_OS_WINDOWS)
+    message(STATUS "dav1d TARGET_OS_WINDOWS is define")
+endif()
+if(DEFINED TARGET_OS_LINUX)
+    message(STATUS "dav1d TARGET_OS_LINUX is defined")
+endif()
+if(DEFINED TARGET_OS_ANDROID)
+    message(STATUS "dav1d TARGET_OS_ANDROID is defined")
+endif()
+
+if(DEFINED TARGET_CPU_X86_64)
+    message(STATUS "dav1d TARGET_CPU_X86_64 is defined")
+endif()
+if(DEFINED TARGET_CPU_X86)
+    message(STATUS "dav1d TARGET_CPU_X86 is defined")
+endif()
+if(DEFINED TARGET_CPU_AARCH64)
+    message(STATUS "dav1d TARGET_CPU_AARCH64 is defined")
+endif()
+if(DEFINED TARGET_CPU_ARM32)
+    message(STATUS "dav1d TARGET_CPU_ARM32 is defined")
+endif()
+
+if(DEFINED ARM64)
+    message(STATUS "dav1d ARM64 is defined")
+endif()
+if(DEFINED ARM32)
+    message(STATUS "dav1d ARM32 is defined")
+endif()
+if(DEFINED X64)
+    message(STATUS "dav1d X64 is defined")
+endif()
+
+if(DEFINED TARGET_CPU_64BIT)
+    message(STATUS "dav1d TARGET_CPU_64BIT is defined")
+endif()
+if(DEFINED TARGET_CPU_32BIT)
+    message(STATUS "dav1d TARGET_CPU_32BIT is defined")
+endif()
+
+if(ARCH_64_BITS)
+    message(STATUS "dav1d ARCH_64_BITS is true")
+endif()
+if(ARCH_32_BITS)
+    message(STATUS "dav1d ARCH_32_BITS is true")
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)
@@ -108,7 +152,7 @@ if(DEFINED TARGET_CPU_AARCH64)
         src/arm/64/refmvs.S
         src/arm/64/util.S
      )
-elseif(DEFINED TARGET_CPU_ARM)
+elseif(DEFINED TARGET_CPU_ARM32)
     list(APPEND dav1d_SOURCES
          #included by others src/arm/asm.S
         src/arm/cpu.c

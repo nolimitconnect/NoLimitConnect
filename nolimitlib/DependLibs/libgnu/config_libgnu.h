@@ -625,23 +625,24 @@
 #define HAVE_WCWIDTH 1
 
 #else
+
 /* Define if you have the 'wchar_t' type. */
-#define HAVE_WCHAR_T 0
+// #define HAVE_WCHAR_T 0
 
 /* Define to 1 if you have the `wcrtomb' function. */
-#define HAVE_WCRTOMB 0
+//#define HAVE_WCRTOMB 0
 
 /* Define to 1 if you have the `wcslen' function. */
-#define HAVE_WCSLEN 0
+// #define HAVE_WCSLEN 0
 
 /* Define to 1 if you have the `wcsnlen' function. */
-#define HAVE_WCSNLEN 0
+// #define HAVE_WCSNLEN 0
 
 /* Define to 1 if you have the <wctype.h> header file. */
-#define HAVE_WCTYPE_H 0
+//#define HAVE_WCTYPE_H 0
 
 /* Define to 1 if you have the `wcwidth' function. */
-#define HAVE_WCWIDTH 0
+//#define HAVE_WCWIDTH 0
 
 #endif // defined(TARGET_OS_WINDOWS)
 

@@ -76,43 +76,41 @@
 #elif defined(TARGET_OS_ANDROID)
 # define NLC_ARCH_LITTLE_ENDIAN			1
 
-# if defined(TARGET_CPU_ARM)
-#  define TARGET_CPU_ARM				1  // general cpu type
+# if defined(TARGET_CPU_AARCH64) || defined(ARM64)
+#  define TARGET_CPU_AARCH64            1
 #  define ARCH_X86                      0
-
-#  if defined(TARGET_CPU_AARCH64)	
-#   define ARCH_AARCH64                  1
-#   define ARCH_ARM                      0
-#  else
-#   define ARCH_AARCH64                  0
-#   define ARCH_ARM                      1
-#  endif // defined(TARGET_CPU_64BIT)
-
-//#  if (defined(__ARM_NEON__) || defined(__ARM_NEON)) // commented out. both arm7a and aarch64 have neon instruction set
-#  define ARM_FEATURE_NEON 1
-//#  endif // (defined(__ARM_NEON__) || defined(__ARM_NEON))
-
-#  if defined(TARGET_CPU_64BIT)
-#   define ARCH_32_BITS					0
-#   define ARCH_64_BITS					1
-#  else
-#   if !defined(ARCH_32_BITS)
-#    define ARCH_32_BITS				1
-#   endif // defined(ARCH_32_BITS)
-#   if !defined(ARCH_32_BITS)
-#    define ARCH_64_BITS				0
-#   endif // defined(ARCH_32_BITS)
-#  endif
-/* Defined if ARM architecture is v6 or newer */
-#  define HAVE_ARM_ARCH_V6				1 // we don't support the really old processors
-# else
-#  define TARGET_CPU_X86				1 // general cpu type
-#  define ARCH_X86                      1
+#  define ARCH_AARCH64                  1
 #  define ARCH_ARM                      0
+
 #  define ARCH_32_BITS					0
 #  define ARCH_64_BITS					1
-/* Defined if ARM architecture is v6 or newer */
-#  define HAVE_ARM_ARCH_V6				0 // we don't support the really old processors
+
+#  define ARM_FEATURE_NEON              1
+#  define HAVE_ARM_ARCH_V6				1
+
+# elif defined(TARGET_CPU_ARM32) || defined(ARM32)
+#  define TARGET_CPU_ARM32				1
+#  define ARCH_X86                      0
+#  define ARCH_AARCH64                  0
+#  define ARCH_ARM                      0
+
+#  define ARCH_32_BITS					1
+#  define ARCH_64_BITS					0
+
+#  define ARM_FEATURE_NEON              1
+#  define HAVE_ARM_ARCH_V6				1				1
+
+# else // X64 android
+#  define TARGET_CPU_X86_64				1
+#  define ARCH_X86                      1
+#  define ARCH_ARM                      0
+
+#  define ARCH_32_BITS					0
+#  define ARCH_64_BITS					1
+
+#  define ARM_FEATURE_NEON              0
+#  define HAVE_ARM_ARCH_V6				0
+
 # endif // defined(__ARMEL__)
 
 # define ARCH_ALPHA		                0
@@ -142,6 +140,7 @@
 #  define ARCH_AARCH64                  1
 # else
 #  define TARGET_CPU_X86_64			    1  // general cpu type
+#  define ARCH_X86                      1
 #  define ARCH_AARCH64                  0
 # endif // defined(TARGET_CPU_AARCH64)
 
@@ -220,7 +219,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 
 #endif // !ARCH_X86 && !ARCH_ARM
 
-#if !defined(TARGET_CPU_ARM) && !defined(TARGET_CPU_AARCH64)
+#if !defined(TARGET_CPU_ARM32) && !defined(TARGET_CPU_AARCH64)
 #if ARCH_32_BITS
 # define ARCH_X86_32 1
 # define ARCH_X86_64 0
@@ -231,7 +230,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 #  define __x86_64__ // needed for libgnu
 # endif // __x86_64__
 #endif // ARCH_32_BITS
-#endif // !TARGET_CPU_ARM
+#endif // !TARGET_CPU_ARM32
 
 //============================================================================
 //============================================================================
@@ -308,13 +307,13 @@ echo Nlc CPU Config error mips processors not supported
 
 #elif defined(TARGET_OS_ANDROID)
 //==== arm architectures ===//
-# if TARGET_CPU_ARM
+# if TARGET_CPU_ARM32
 #  define HAVE_SSE           0
 #  define HAVE_SSE2          0
 # else
 #  define HAVE_SSE           1
 #  define HAVE_SSE2          1
-# endif // TARGET_CPU_ARM
+# endif // TARGET_CPU_ARM32
 
 # define HAVE_ARM_NEON				1 // both arm68-v8a and both armeabi-v7a have neon extensions
 # define HAVE_ARMV7					1

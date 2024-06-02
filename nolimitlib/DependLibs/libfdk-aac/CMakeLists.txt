@@ -343,7 +343,7 @@ if(DEFINED TARGET_OS_ANDROID)
         target_compile_definitions(fdk-aac PUBLIC
             PIC
             TARGET_CPU_64BIT
-            TARGET_CPU_ARM
+            TARGET_CPU_ARM32
             ANDROID_ARM64=1
             TARGET_ARCH_NAME=arm64-v8a
             TARGET_CPU_BITS=64
@@ -356,11 +356,11 @@ if(DEFINED TARGET_OS_ANDROID)
             ZLIB_CONST
             HAVE_AV_CONFIG_H
             )
-    elseif(DEFINED TARGET_CPU_ARM)
+    elseif(DEFINED TARGET_CPU_ARM32)
             target_compile_definitions(fdk-aac PUBLIC
             PIC
             TARGET_CPU_32BIT
-            TARGET_CPU_ARM
+            TARGET_CPU_ARM32
             ANDROID_ARM64=0
             TARGET_ARCH_NAME=armeabi-v7a
             TARGET_CPU_BITS=32

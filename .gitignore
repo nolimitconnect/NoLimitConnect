@@ -3,7 +3,6 @@
 **/myrepo/
 **/.flatpak-builder/
 **/build-dir/
-**/build/
 
 /**/*.user
 /**/*.a

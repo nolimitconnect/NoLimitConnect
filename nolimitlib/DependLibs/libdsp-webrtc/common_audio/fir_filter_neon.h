@@ -12,7 +12,7 @@
 #define COMMON_AUDIO_FIR_FILTER_NEON_H_
 
 #include <NlcDependLibrariesConfig.h>
-#if defined(TARGET_OS_ANDROID) && defined(TARGET_CPU_ARM)
+#if defined(TARGET_OS_ANDROID) && defined(TARGET_CPU_ARM32)
 
 #include <memory>
 
@@ -39,6 +39,6 @@ class FIRFilterNEON : public FIRFilter {
 
 }  // namespace webrtc
 
-#endif // defined(TARGET_OS_ANDROID) && defined(TARGET_CPU_ARM)
+#endif // defined(TARGET_OS_ANDROID) && defined(TARGET_CPU_ARM32)
 
 #endif  // COMMON_AUDIO_FIR_FILTER_NEON_H_

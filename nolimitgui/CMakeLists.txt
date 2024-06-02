@@ -1247,7 +1247,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             Qt::Svg
             Qt6::Quick
         )
-    elseif(DEFINED TARGET_CPU_ARM)
+    elseif(DEFINED TARGET_CPU_ARM32)
         target_link_libraries(nolimitconnect
             PUBLIC
             # static nlc libraries

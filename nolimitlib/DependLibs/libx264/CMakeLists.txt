@@ -1,11 +1,7 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-if (DEFINED TARGET_OS_ANDROID OR DEFINED FLATPAKBUILD)
-    project(x264, LANGUAGES C CXX ASM)
-else()
-    project(x264, LANGUAGES C CXX)
-endif()
+project(x264, LANGUAGES C CXX ASM)
 
 if(DEFINED TARGET_OS_ANDROID)
     #android/aarch64 uses clang as assembler
@@ -56,7 +52,7 @@ else()
             common/aarch64/quant-a.S
             # common/aarch64/asm.S // included by others
         )
-    elseif(DEFINED TARGET_CPU_ARM)
+    elseif(DEFINED TARGET_CPU_ARM32)
         list(APPEND x264_SOURCES
             common/arm/bitstream-a.S
             common/arm/cpu-a.S

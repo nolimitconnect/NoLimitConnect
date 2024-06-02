@@ -1117,7 +1117,7 @@ typedef int64_t              time64_t;
 /* Define to 1 if you have the <libgnu/alloca_gnu.h> header file. */
 #define HAVE_ALLOCA_H			1
 /* Define to 1 if you have the <arpa/inet.h> header file. */
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) || defined( TARGET_OS_WINDOWS )
 # define HAVE_ARPA_INET_H		0
 #else
 # define HAVE_ARPA_INET_H		1
@@ -1128,7 +1128,7 @@ typedef int64_t              time64_t;
 //# define HAVE_ASM_TYPES_H       0 // really 1 for python but causes other fails if defined 1 here
 #else
 # define HAVE_ASM_TYPES_H		0
-#endif // defined( TARGET_OS_LINUX )
+#endif // defined( TARGET_OS_ANDROID )
 
 /* Define to 1 if you have the `asprintf' function. */
 #define HAVE_ASPRINTF			1 // windows simulated in CoreLib

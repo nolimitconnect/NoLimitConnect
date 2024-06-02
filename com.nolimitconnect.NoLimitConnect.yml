@@ -26,9 +26,7 @@ modules:
    config-opts: 
     - -DCMAKE_BUILD_TYPE=Release
     - -DFLATPAKBUILD=ON    
-   x-arch-build-options:
-      env:
-        FLATPAK_ARCH_X64: FLATPAK_ARCH_X64
+
    sources:
     # - type: git
     #  url: https://gitlab.com/nolimitconnectapps/nolimitapp.git

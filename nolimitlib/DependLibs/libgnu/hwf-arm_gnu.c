@@ -18,7 +18,7 @@
  */
 
 #include <libgnu/config_libgnu.h>
-#if defined(TARGET_CPU_ARM) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM32) || defined(TARGET_CPU_AARCH64)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -166,4 +166,4 @@ _gcry_hwf_detect_arm (void)
   return ret;
 }
 
-#endif // TARGET_CPU_ARM
+#endif // TARGET_CPU_ARM32

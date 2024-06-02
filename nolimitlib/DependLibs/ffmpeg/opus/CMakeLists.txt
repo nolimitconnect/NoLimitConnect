@@ -1,11 +1,7 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-if (DEFINED TARGET_OS_ANDROID OR DEFINED FLATPAKBUILD)
-    project(ffmpegopus, LANGUAGES C CXX ASM)
-else()
-    project(ffmpegopus, LANGUAGES C CXX)
-endif()
+project(ffmpegopus, LANGUAGES C CXX ASM)
 
 set(ffmpegopus_SOURCES)
 
@@ -84,7 +80,7 @@ if(DEFINED TARGET_OS_ANDROID)
             #celt/arm/celt_pitch_xcorr_arm.s
             #celt/arm/celt_pitch_xcorr_arm-gnu.S
         )
-    elseif(DEFINED TARGET_CPU_ARM)
+    elseif(DEFINED TARGET_CPU_ARM32)
         list(APPEND ffmpegopus_SOURCES
             celt/arm/arm_celt_map.c
             celt/arm/armcpu.c

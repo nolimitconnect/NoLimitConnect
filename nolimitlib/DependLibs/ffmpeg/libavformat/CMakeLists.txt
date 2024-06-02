@@ -1,7 +1,7 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-project(avformat LANGUAGES C CXX)
+project(avformat LANGUAGES C CXX ASM)
 
 if(DEFINED TARGET_OS_ANDROID)
     #android/aarch64 uses clang as assembler

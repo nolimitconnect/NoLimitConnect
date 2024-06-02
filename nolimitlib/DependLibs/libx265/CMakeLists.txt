@@ -1,11 +1,7 @@
 
 cmake_minimum_required (VERSION 3.22.1)
 
-if (DEFINED TARGET_OS_ANDROID OR DEFINED FLATPAKBUILD)
-    project(x265, LANGUAGES C CXX ASM)
-else()
-    project(x265, LANGUAGES C CXX)
-endif()
+project(x265, LANGUAGES C CXX ASM)
 
 if(DEFINED TARGET_OS_ANDROID)
     #android/aarch64 uses clang as assembler
@@ -69,7 +65,7 @@ if(DEFINED TARGET_CPU_AARCH64)
         common/aarch64/ssd-a.S
         # common/aarch64/asm.S // included by others
     )
-elseif(DEFINED TARGET_CPU_ARM)
+elseif(DEFINED TARGET_CPU_ARM32)
     list(APPEND x265_SOURCES
         common/arm/asm-primitives.cpp
         common/arm/blockcopy8.S
@@ -184,7 +180,7 @@ else()
             X265_ARCH_ARM64=1 
         )
 
-    elseif(DEFINED TARGET_CPU_ARM)
+    elseif(DEFINED TARGET_CPU_ARM32)
         target_include_directories(x265 PRIVATE
             common
             common/arm
