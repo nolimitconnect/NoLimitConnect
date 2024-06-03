@@ -292,7 +292,7 @@
 #define HAVE_SSSE3_EXTERNAL 1
 #endif // defined(TARGET_OS_WINDOWS)
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
 #define HAVE_XOP_EXTERNAL 0
 #else
 #define HAVE_XOP_EXTERNAL 1
@@ -318,17 +318,16 @@
 #define HAVE_ARMV6_INLINE 0
 #define HAVE_ARMV6T2_INLINE 0
 
-#if defined(TARGET_OS_ANDROID)
 #if defined(TARGET_CPU_AARCH64)
  #define HAVE_ARMV8_INLINE 1
 #else
  #define HAVE_ARMV8_INLINE 0
 #endif // defined(TARGET_CPU_AARCH64)
 
+#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
 #define HAVE_NEON_INLINE 1
 #define HAVE_VFP_INLINE 1
 #else
-#define HAVE_ARMV8_INLINE 0
 #define HAVE_NEON_INLINE 0
 #define HAVE_VFP_INLINE 0
 #endif // defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
