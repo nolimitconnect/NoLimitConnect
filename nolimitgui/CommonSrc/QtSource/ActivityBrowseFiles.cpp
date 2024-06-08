@@ -47,6 +47,8 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 
 	ui.m_UpDirectoryButton->setIcon( eMyIconMoveUpDirNormal );
 	ui.m_UpDirectoryButton->setSquareButtonSize( eButtonSizeMedium );
+	ui.m_BrowseButton->setIcon( eMyIconFileBrowseNormal );
+	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeMedium );
 	ui.m_AddAllButton->setIcon( eMyIconLibraryCancel );
 	ui.m_AddAllButton->setSquareButtonSize( eButtonSizeMedium );
 
@@ -62,6 +64,7 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
     connect( ui.m_UpDirectoryButton,    SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
 
     connect( ui.m_BrowseButton,         SIGNAL(clicked()), this, SLOT(slotBrowseButtonClicked()));
+
     connect( ui.m_AddAllButton,         SIGNAL(clicked()), this, SLOT(slotAddAllButtonClicked()) );
 
 	setDefaultCurrentDir( m_eFileFilterType );
@@ -346,7 +349,6 @@ void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 				}
 			}
 
-
 			if( false == itemInserted )
 			{
 				LogMsg( LOG_INFO, "add file %s", fileInfo.getJustFileName().c_str() );
@@ -397,7 +399,7 @@ void ActivityBrowseFiles::slotBrowseButtonClicked( void )
 {
 	QString selectedDir = "";
 	QString curDir = m_CurBrowseDirectory.c_str();
-	QFileDialog dialog( (QWidget*)this->parent(), QObject::tr("Open Directory"), curDir );
+	QFileDialog dialog( (QWidget*)this->parent(), QObject::tr("Select Folder"), curDir );
 
 #if QT_VERSION > QT_VERSION_CHECK(6,0,0)
 	dialog.setFileMode(QFileDialog::Directory);
@@ -438,6 +440,8 @@ void ActivityBrowseFiles::slotBrowseButtonClicked( void )
 		setCurrentBrowseDir( selectedDir );
 		setActionEnable( false );
 		slotRequestFileList();
+		std::string lastDir = selectedDir.toUtf8().constData();
+		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, lastDir );
 	}
 }
 

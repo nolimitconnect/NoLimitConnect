@@ -186,6 +186,9 @@ public:
     virtual void				setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
 	virtual bool 				getIsStream( void )						{ return m_IsStreaming; }
 
+protected:
+    void                        assureValidTimes( void ) override;
+
 public:
     //=== vars ===//
     EPluginType                 m_PluginType{ ePluginTypeInvalid };

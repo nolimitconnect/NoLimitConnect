@@ -50,8 +50,8 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
     ui.m_Ipv6InfoButton->setIcon( eMyIconInformation );
 
     // hide until ipv6 is ready
-    ui.m_Ipv6InfoButton->setVisible(false);
-    ui.m_UseIpv6Network->setVisible(false);
+    //ui.m_Ipv6InfoButton->setVisible(false);
+    //ui.m_UseIpv6Network->setVisible(false);
 
     updateDlgFromSettings( true );
 

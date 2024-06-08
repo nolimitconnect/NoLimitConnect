@@ -27,6 +27,7 @@ BaseInfo::BaseInfo( VxGUID& onlineId, int64_t modifiedTime )
     , m_InfoModifiedTime( modifiedTime )
 {
     assureHasCreatorId();
+    assureValidTimes();
 }
 
 //============================================================================
@@ -36,6 +37,7 @@ BaseInfo::BaseInfo( VxGUID& creatorId, VxGUID& assetId, int64_t modifiedTime )
     , m_InfoModifiedTime( modifiedTime )
 {
     assureHasCreatorId();
+    assureValidTimes();
 }
 
 //============================================================================
@@ -45,6 +47,7 @@ BaseInfo::BaseInfo( const BaseInfo& rhs )
     , m_InfoModifiedTime( rhs.m_InfoModifiedTime )
 {
     assureHasCreatorId();
+    assureValidTimes();
 }
 
 //============================================================================
@@ -54,6 +57,7 @@ BaseInfo::BaseInfo( const FileInfo& rhs )
     , m_InfoModifiedTime( rhs.m_FileTime )
 {
     assureHasCreatorId();
+    assureValidTimes();
 }
 
 //============================================================================
@@ -116,4 +120,13 @@ void BaseInfo::printValues( uint32_t logMsgType ) const
     LogMsg( logMsgType, "m_InfoModifiedTime=(%lld)", m_InfoModifiedTime );
 
     LogMsg( logMsgType, "*End BaseInfo" );
+}
+
+//============================================================================
+void BaseInfo::assureValidTimes( void )
+{
+    if( !m_InfoModifiedTime )
+    {
+        m_InfoModifiedTime = GetTimeStampMs();
+    }
 }

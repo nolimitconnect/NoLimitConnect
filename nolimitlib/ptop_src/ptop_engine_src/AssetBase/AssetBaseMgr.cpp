@@ -535,7 +535,7 @@ bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 	AssetBaseInfo* assetInfoExisting = findAsset( assetInfo->getAssetUniqueId() );
 	if( assetInfoExisting )
 	{
-		LogMsg( LOG_ERROR, "ERROR AssetBaseMgr::insertNewInfo: duplicate assset %s\n", assetInfo->getAssetName().c_str() );
+		LogMsg( LOG_ERROR, "ERROR AssetBaseMgr::insertNewInfo: duplicate assset %s", assetInfo->getAssetName().c_str() );
 		if( assetInfoExisting != assetInfo )
 		{
             // update existing asset

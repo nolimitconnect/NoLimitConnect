@@ -81,10 +81,126 @@ QString GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
 }
 
 //============================================================================
+bool GuiHelpers::browseForFile( QWidget* parent, QString& retFileName, QString startDir, uint8_t fileMask )
+{
+    retFileName = QFileDialog::getOpenFileName( parent, 
+                                                QObject::tr("Select File"),
+                                                startDir,
+                                                fileMaskToFileFilter(fileMask) );
+    return !retFileName.isEmpty();
+}
+
+//============================================================================
+bool GuiHelpers::browseForFile( QWidget* parent, FileInfo& retFileInfo, QString startDir, uint8_t fileMask )
+{
+    QString qFileName;
+    bool result = browseForFile( parent, qFileName, startDir, fileMask );
+    if( !result )
+    {
+        return false;
+    }
+
+    std::string fileName = qFileName.toUtf8().constData();
+    uint64_t fileLen = VxFileUtil::getFileLen( fileName.c_str() );
+    if( !fileLen )
+    {
+        return false;
+    }
+
+    uint8_t fileType = VxFileUtil::fileExtensionToFileTypeFlag( fileName.c_str() );
+
+    retFileInfo = FileInfo( GetAppInstance().getMyOnlineId(), fileName, fileLen, fileType );
+    return true;
+}
+
+//============================================================================
+QString GuiHelpers::fileMaskToFileFilter( uint8_t fileMask )
+{
+    QString filter = "All files (*.*)";
+    std::string fileExtensions = VxGetFileExtensionsFromFileType( fileMask );
+	if( fileMask == VXFILE_TYPE_AUDIO_VIDEO || fileMask == VXFILE_TYPE_AUDIO_VIDEO_PHOTO )
+	{
+        filter += ";;Media (";
+        filter += fileExtensionToFilter( fileExtensions.c_str() );
+        filter += ")";
+	}
+	else if( fileMask == VXFILE_TYPE_ALLNOTEXE )
+	{
+        filter += ";;Known (";
+        filter += fileExtensionToFilter( fileExtensions.c_str() );
+        filter += ")";
+	}
+	else if( fileMask == VXFILE_TYPE_ANY || !fileMask )
+	{
+		return filter;
+	}
+	else
+	{
+		if( fileMask == VXFILE_TYPE_PHOTO )
+		{
+            filter += ";;Photo (";
+            filter += fileExtensionToFilter( fileExtensions.c_str() );
+            filter += ")";
+		}
+		else if( fileMask == VXFILE_TYPE_AUDIO )
+		{
+            filter += ";;Audio (";
+            filter += fileExtensionToFilter( fileExtensions.c_str() );
+            filter += ")";
+		}
+		else if( fileMask == VXFILE_TYPE_VIDEO )
+		{
+	        filter += ";;Video (";
+            filter += fileExtensionToFilter( fileExtensions.c_str() );
+            filter += ")";
+		}
+		else if( fileMask == VXFILE_TYPE_DOC )
+		{
+	        filter += ";;Document (";
+            filter += fileExtensionToFilter( fileExtensions.c_str() );
+            filter += ")";
+		}
+		else if( fileMask == VXFILE_TYPE_ARCHIVE_OR_CDIMAGE )
+		{
+	        filter += ";;Archive (";
+            filter += fileExtensionToFilter( fileExtensions.c_str() );
+            filter += ")";
+		}
+		else if( fileMask == VXFILE_TYPE_EXECUTABLE )
+		{
+	        filter += ";;Executable (";
+            filter += fileExtensionToFilter( fileExtensions.c_str() );
+            filter += ")";
+		}
+	}
+
+    return filter;
+}
+
+//============================================================================
+QString GuiHelpers::fileExtensionToFilter( QString fileExtensions )
+{
+    QString filter;
+    QStringList extList = fileExtensions.split( ',' );
+    for( auto ext : extList )
+    {
+        if( !filter.isEmpty() )
+        {
+            filter += " ";
+        }
+
+        filter += "*.";
+        filter += ext;
+    }
+
+    return filter;
+}
+
+//============================================================================
 bool GuiHelpers::copyResourceToOnDiskFile( QString resourcePath, QString fileNameAndPath )
 {
 	bool resourceCopied = false;
-	//QFileInfo resPathInfo( resourceFile );
+
 	QFile resfile( resourcePath );
 	QFile onDiskFile( fileNameAndPath );
 	if( resfile.open( QIODevice::ReadOnly ) )

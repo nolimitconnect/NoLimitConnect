@@ -45,6 +45,7 @@ private slots:
     void						statusMsg( QString strMsg );
     void						slotRequestFileList( void );
     void						slotApplyFileFilter( unsigned char fileTypeMask );
+    void						slotAddFileButtonClicked( void );
     void						slotAddFilesButtonClicked( void );
 
     void						slotListItemClicked( QListWidgetItem* item );

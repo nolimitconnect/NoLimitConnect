@@ -37,3 +37,5 @@ uint8_t	VxFileExtensionToFileTypeFlag( const char*	pFileExt );
 
 bool VxIsMediaFile( uint8_t u8FileTypeFlag ); // multimedia
 bool VxShouldOpenFile( uint8_t u8FileTypeFlag ); // includes docs
+
+std::string VxGetFileExtensionsFromFileType( uint8_t fileType );

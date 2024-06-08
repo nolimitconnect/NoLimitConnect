@@ -37,6 +37,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType )
     : BaseInfo()
     , m_u16AssetType( (uint16_t) assetType )
 { 
+	assureValidTimes();
 }
 
 //============================================================================
@@ -62,6 +63,7 @@ AssetBaseInfo::AssetBaseInfo( const AssetBaseInfo& rhs )
 , m_IsStreaming( rhs.m_IsStreaming )
 {   
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -76,6 +78,7 @@ AssetBaseInfo::AssetBaseInfo( FileInfo& rhs )
 	, m_CreationTime( rhs.getFileTime() )
 {
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -86,6 +89,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, VxGUID& creatorId, int64_t m
 , m_AccessedTime( m_CreationTime )
 {
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -97,6 +101,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType,  VxGUID& creatorId, VxGUID& 
 , m_AccessedTime( m_CreationTime )
 {
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -109,6 +114,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName )
 { 
     BaseInfo::setInfoModifiedTime( m_CreationTime );
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -122,6 +128,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, VxGUID
 {
 	BaseInfo::setInfoModifiedTime( m_CreationTime );
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -135,6 +142,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, uint64
 {
     BaseInfo::setInfoModifiedTime( m_CreationTime );
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -150,6 +158,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, uint64
 {
 	BaseInfo::setInfoModifiedTime( m_CreationTime );
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -161,6 +170,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, VxGUID& creatorId, VxGUID& a
 , m_AccessedTime( m_CreationTime )
 {
 	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
 }
 
 //============================================================================
@@ -601,4 +611,18 @@ GroupieId AssetBaseInfo::getDestGroupieId( void )
 {
     HostedId hostedId = getHostedId();
     return GroupieId( getDestUserId(), hostedId );
+}
+
+//============================================================================
+void AssetBaseInfo::assureValidTimes( void )
+{
+	if( !m_CreationTime )
+    {
+        m_CreationTime = GetTimeStampMs();
+    }
+
+    if( !m_InfoModifiedTime )
+    {
+        m_InfoModifiedTime = GetTimeStampMs();
+    }
 }

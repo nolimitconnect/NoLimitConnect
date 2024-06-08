@@ -198,6 +198,18 @@ void AppSettings::getLastGalleryDir( std::string& galleryDir )
 }
 
 //============================================================================
+void AppSettings::setLastAddFileDir( std::string& addFileDir )
+{
+	setIniValue( getAppShortName(), "AddFileDir", addFileDir );
+}
+
+//============================================================================
+void AppSettings::getLastAddFileDir( std::string& addFileDir )
+{
+	getIniValue( getAppShortName(), "AddFileDir", addFileDir, "" );
+}
+
+//============================================================================
 void AppSettings::setLastBrowseShareDir( std::string& browseDir )
 {
 	setIniValue( getAppShortName(), "ShareBrowseDir", browseDir );

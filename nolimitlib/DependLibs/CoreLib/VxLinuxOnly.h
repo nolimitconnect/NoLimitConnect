@@ -9,7 +9,6 @@
 //============================================================================
 #ifndef VXLINUXONLY_H_INCLUDED
 #define VXLINUXONLY_H_INCLUDED
-#include <CoreLib/config_corelib.h>
 
 #ifndef TARGET_OS_WINDOWS
 

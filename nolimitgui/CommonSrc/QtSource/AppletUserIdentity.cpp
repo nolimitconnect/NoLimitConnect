@@ -32,8 +32,6 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
-#define SUPPORTED_IMAGE_FILES "Image files (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.xbm *.xpm)"
-
 //============================================================================
 AppletUserIdentity::AppletUserIdentity( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_USER_IDENTITY, app, parent )

@@ -59,9 +59,12 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
 
     ui.m_DoubleTapInstructionLabel->setVisible( m_IsSelectAFileMode );
 
-    //connect( ui.m_FileItemList, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( slotListItemClicked( QListWidgetItem* ) ) );
-    //connect( ui.m_FileItemList, SIGNAL( itemDoubleClicked( QListWidgetItem* ) ), this, SLOT( slotListItemDoubleClicked( QListWidgetItem* ) ) );
+	ui.m_AddFileButton->setIcon( eMyIconLibraryCancel );
+	ui.m_AddFileButton->setSquareButtonSize( eButtonSizeMedium );
+	ui.m_AddFilesButton->setIcon( eMyIconFileAdd );
+	ui.m_AddFilesButton->setSquareButtonSize( eButtonSizeMedium );
 
+    connect( ui.m_AddFileButton, SIGNAL(clicked()), this, SLOT( slotAddFileButtonClicked() ) );
     connect( ui.m_AddFilesButton, SIGNAL(clicked()), this, SLOT( slotAddFilesButtonClicked() ) );
 
     connect( ui.m_FileFilterComboBox, SIGNAL( signalApplyFileFilter( unsigned char ) ), this, SLOT( slotApplyFileFilter( unsigned char ) ) );
@@ -378,6 +381,63 @@ FileShareItemWidget* AppletLibrary::findListEntryWidget( FileInfo& fileInfo )
 }
 
 //============================================================================
+void AppletLibrary::slotAddFileButtonClicked( void )
+{
+    std::string addFileDir;
+    m_MyApp.getAppSettings().getLastAddFileDir( addFileDir );
+    QString curDir;
+    if( !addFileDir.empty() )
+    {
+        curDir = addFileDir.c_str();
+    }
+
+    FileInfo fileInfo;
+    if( GuiHelpers::browseForFile( this, fileInfo, curDir ) )
+    {
+        m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
+        // see if file is already a asset
+        AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
+        assetMgr.lockResources();
+        AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFullFileName() );
+        if( assetInfo )
+        {
+            if( assetInfo->isInLibary() )
+            {
+                assetMgr.unlockResources();
+                QMessageBox::information( this, QObject::tr("Already in library"), QObject::tr( "File is already in library " ), QMessageBox::Ok );
+            }
+            else
+            {
+                assetInfo->setIsInLibary( true );
+                FileInfo fileInfoInLibrary =  assetInfo->getFileInfo();
+                assetMgr.unlockResources();
+
+                addFile( fileInfoInLibrary );
+            }
+        }
+        else
+        {
+            assetMgr.unlockResources();
+
+            AssetInfo newAsset( fileInfo );
+            newAsset.setIsInLibary( true );
+
+            AssetBaseInfo* createdAsset{ nullptr };
+            bool result = assetMgr.addAsset( newAsset, createdAsset );
+            if( result && createdAsset )
+            {
+                FileInfo fileInfoInLibrary = createdAsset->getFileInfo();
+                addFile( fileInfoInLibrary );
+            }
+            else
+            {
+                QMessageBox::information( this, QObject::tr("File Error"), QObject::tr( "Could not add file to library " ), QMessageBox::Ok );
+            }
+        }
+    }
+}
+
+//============================================================================
 void AppletLibrary::slotAddFilesButtonClicked( void )
 {
     ActivityBrowseFiles dlg( m_MyApp, eFileFilterAll, this );
@@ -405,7 +465,7 @@ void AppletLibrary::addFile( FileInfo& fileInfo )
         FileShareItemWidget* item = fileToWidget( fileInfo );
         if( item )
         {
-            //LogMsg( LOG_INFO, "AppletLibrary::addFile: adding widget\n");
+            //LogMsg( LOG_INFO, "AppletLibrary::addFile: adding widget");
             ui.m_FileItemList->addItem( item );
             ui.m_FileItemList->setItemWidget( item, item );
         }

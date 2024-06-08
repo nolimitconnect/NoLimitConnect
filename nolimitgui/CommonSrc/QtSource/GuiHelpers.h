@@ -15,6 +15,7 @@
 
 #include "AppDefs.h"
 
+#include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxGUID.h>
 #include <NetLib/VxXferDefs.h>
 #include <PktLib/VxCommon.h>
@@ -22,7 +23,7 @@
 #include <QMessageBox>
 #include <QString>
 
-#define SUPPORTED_IMAGE_FILES "Image files (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.xbm *.xpm)"
+#define SUPPORTED_IMAGE_FILES "Image files (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tif *.tiff *.svg *.xbm *.xpm)"
 
 enum EErrMsgType
 {
@@ -47,6 +48,7 @@ class ActivityBase;
 class AppCommon;
 class AppletBase;
 class AssetBaseInfo;
+class FileInfo;
 class GuiUser;
 class PluginSetting;
 class PluginSettingsWidget;
@@ -65,6 +67,11 @@ public:
     static QString				getAvailableStorageSpaceText();
 
 	static QString				browseForDirectory( QString startDir = "", QWidget* parent = nullptr );
+    static bool                 browseForFile( QWidget* parent, QString& retFileName, QString startDir = "", uint8_t fileMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    static bool                 browseForFile( QWidget* parent, FileInfo& retFileInfo, QString startDir = "", uint8_t fileMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    static QString              fileMaskToFileFilter( uint8_t fileMask );
+    static QString              fileExtensionToFilter( QString fileExtensions );
+
     static int					calculateTextHeight( QFontMetrics& fontMetrics, QString textStr );
     static bool					copyResourceToOnDiskFile( QString resourcePath, QString fileNameAndPath );
 

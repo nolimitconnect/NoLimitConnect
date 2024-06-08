@@ -7,9 +7,10 @@
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
-#include "config_corelib.h"
 
 #ifndef TARGET_OS_WINDOWS
+#include "config_corelib.h"
+
 #include "VxLinuxOnly.h"
 
 #include <ctype.h>

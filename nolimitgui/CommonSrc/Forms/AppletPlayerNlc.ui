@@ -63,16 +63,40 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="m_BrowseButton">
+      <widget class="VxPushButton" name="m_BrowseButton">
+       <property name="minimumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Browse</string>
+        <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="m_ReplayButton">
+      <widget class="VxPushButton" name="m_ReplayButton">
+       <property name="minimumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Play</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -122,6 +146,11 @@
    <extends>QWidget</extends>
    <header>PlayControlWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxPushButton</class>
+   <extends>QPushButton</extends>
+   <header>VxPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

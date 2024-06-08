@@ -44,6 +44,10 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 	ui.setupUi( getContentItemsFrame() );
 	ui.m_PlayControlWidget->setVisible( false );
     setMenuBottomVisibility( true );
+	ui.m_BrowseButton->setIcon( eMyIconFileBrowseNormal );
+	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeSmall );
+	ui.m_ReplayButton->setIcon( eMyIconPlayNormal );
+	ui.m_ReplayButton->setSquareButtonSize( eButtonSizeSmall );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
     if( bottomBar )

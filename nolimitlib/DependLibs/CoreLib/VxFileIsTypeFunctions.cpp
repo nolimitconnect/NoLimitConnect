@@ -16,14 +16,79 @@
 
 #include <string.h>
 
-#define PHOTO_FILE_EXTENTIONS			"jpg,jpeg,bmp,tga,png,gif,pcx,tif,ico"				
+#define PHOTO_FILE_EXTENTIONS			"jpg,jpeg,bmp,gif,png,pcx,tif,tiff,ico,pbm,pgm,sgv,svgz,tga,wbmp,webp,xbm,xpm"				
 #define AUDIO_FILE_EXTENTIONS			"mp3,wav,wma,ogg,opus"				
 #define VIDEO_FILE_EXTENTIONS			"asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm,flv"				
 #define DOCUMENT_FILE_EXTENTIONS		"doc,txt,htm,html,pdf"	
 #define EXECUTABLE_FILE_EXTENTIONS		"exe,com,bat,cmd"		
 #define CDIMAGE_OR_ARC_FILE_EXTENTIONS	"7z,zip,rar,tar,gz,iso,cue,ccd,img,sub,bin,mds,nrg,pdi,mds,vob"
 #define THUMBNAIL_FILE_EXTENTIONS	    "nlt"
-#define COMBINED_FILE_EXTENTIONS		"opus,jpg,jpeg,bmp,tga,png,gif,pcx,mp3,wav,wma,ogg,asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm,flv,exe,com,bat,cmd,7z,zip,rar,tar,doc,txt,htm,html,pdf,nlt"	
+#define COMBINED_FILE_EXTENTIONS		"jpg,jpeg,bmp,gif,png,pcx,tif,tiff,ico,pbm,pgm,sgv,svgz,tga,wbmp,webp,xbm,xpm,mp3,wav,wma,ogg,asf,mpg,mpeg,mp4,3gp,mov,avi,divx,mkv,wmv,rm,flv,exe,com,bat,cmd,7z,zip,rar,tar,doc,txt,htm,html,pdf,nlt"	
+
+//============================================================================
+std::string VxGetFileExtensionsFromFileType( uint8_t fileType )
+{
+	std::string fileExt;
+	if( fileType == VXFILE_TYPE_AUDIO_VIDEO )
+	{
+		fileExt = VIDEO_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += AUDIO_FILE_EXTENTIONS;
+	}
+	else if( fileType == VXFILE_TYPE_AUDIO_VIDEO_PHOTO )
+	{
+		fileExt = VIDEO_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += AUDIO_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += PHOTO_FILE_EXTENTIONS;
+	}
+	else if( fileType == VXFILE_TYPE_ALLNOTEXE )
+	{
+		fileExt = VIDEO_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += AUDIO_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += PHOTO_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += DOCUMENT_FILE_EXTENTIONS;
+		fileExt += ",";
+		fileExt += CDIMAGE_OR_ARC_FILE_EXTENTIONS;
+	}
+	else if( fileType == VXFILE_TYPE_ANY )
+	{
+		fileExt = COMBINED_FILE_EXTENTIONS;
+	}
+	else
+	{
+		if( fileType == VXFILE_TYPE_PHOTO )
+		{
+			fileExt = PHOTO_FILE_EXTENTIONS;
+		}
+		else if( fileType == VXFILE_TYPE_AUDIO )
+		{
+			fileExt = AUDIO_FILE_EXTENTIONS;
+		}
+		else if( fileType == VXFILE_TYPE_VIDEO )
+		{
+			fileExt = VIDEO_FILE_EXTENTIONS;
+		}
+		else if( fileType == VXFILE_TYPE_DOC )
+		{
+			fileExt = DOCUMENT_FILE_EXTENTIONS;
+		}
+		else if( fileType == VXFILE_TYPE_ARCHIVE_OR_CDIMAGE )
+		{
+			fileExt = CDIMAGE_OR_ARC_FILE_EXTENTIONS;
+		}
+		else if( fileType == VXFILE_TYPE_EXECUTABLE )
+		{
+			fileExt = VXFILE_TYPE_EXECUTABLE;
+		}
+	}
+
+	return fileExt;
+}
 
 //============================================================================
 bool VxIsPhotoFile( std::string & cs )

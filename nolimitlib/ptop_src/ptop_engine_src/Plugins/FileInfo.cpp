@@ -76,7 +76,6 @@ FileInfo::FileInfo( VxGUID& onlineId, const std::string& fileName, uint64_t file
 	assureValidAssetId();
 }
 
-
 //============================================================================
 FileInfo::FileInfo( VxGUID& onlineId, const std::string& fileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId )
 	: m_OnlineId( onlineId ) 

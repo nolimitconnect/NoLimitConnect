@@ -1555,7 +1555,6 @@ int P2PEngine::fromGuiDeleteFile( std::string fileName, bool shredFile )
 		LogMsg( LOG_ERROR, "P2PEngine::fromGuiDeleteFile bad fileName param" );
 	}
 
-
 	return result;
 }
 

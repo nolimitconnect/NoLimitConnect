@@ -39,7 +39,6 @@ public:
 	void						setCurrentBrowseDir( QString browseDir );
 
 	FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
-	void						updateListEntryWidget( FileShareItemWidget* item );
 
 	bool						getWasFileSelected( void )						{ return m_FileWasSelected; }
 	FileInfo&					getSelectedFileInfo( void )						{ return m_SelectedFileInfo; }

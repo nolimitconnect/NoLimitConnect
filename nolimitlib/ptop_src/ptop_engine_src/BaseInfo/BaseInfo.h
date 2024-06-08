@@ -50,6 +50,9 @@ public:
 
     virtual void                printValues( uint32_t logMsgType = 1 ) const;
 
+protected:
+    virtual void                assureValidTimes( void );
+
 public:
 	//=== vars ===//
     VxGUID						m_OnlineId; 
