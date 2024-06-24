@@ -24,6 +24,8 @@
 
 #include <CoreLib/ObjectCommon.h>
 #include <CoreLib/ObjectCommonDefs.h>
+
+#include <CoreLib/VFile.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxFileUtil.h>
@@ -39,12 +41,17 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFile>
+
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPainter>
 #include <QUrl>
 
+#include <QFileSystemModel>
+
 #if defined (Q_OS_ANDROID)
+#include <QtQml/QQmlFile>
+
 # if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #  include <QtAndroid>
 # else
@@ -59,48 +66,234 @@ QString GuiHelpers::getAvailableStorageSpaceText()
 }
 
 //============================================================================
-QString GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
+std::string GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
 {
+    listFilesInFolder( startDir.toUtf8().constData() );
 
-	QString dir = QFileDialog::getExistingDirectory(
-		                                            parent, 
-		                                            QObject::tr("Open Folder"),
-		                                            startDir, 
-		                                            QFileDialog::ShowDirsOnly
-		                                            | QFileDialog::DontResolveSymlinks);
-	if( false == dir.isEmpty() )
+    QFileDialog dialog( parent, QObject::tr("Open Folder"), startDir );
+#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
+	dialog.setFileMode( QFileDialog::Directory );
+#else
+	dialog.setFileMode(QFileDialog::DirectoryOnly);
+#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
+    dialog.setOptions( QFileDialog::ShowDirsOnly );
+    //dialog.setDirectory( startDir );
+
+    QString selectedDir;
+	QStringList fileNames;
+	if (dialog.exec())
 	{
-		dir.replace( "\\", "/" );
-		if( '/' != dir.at(dir.length() - 1) )
+		fileNames = dialog.selectedFiles();
+		if( fileNames.size() )
 		{
-			dir.append( "/" );
+			selectedDir = fileNames[0];
 		}
 	}
 
-	return dir;
+    if( selectedDir.isEmpty() )
+    {
+        return "";
+    }
+
+    std::string folder = selectedDir.toUtf8().constData();
+
+    VxFileUtil::decodePercentEncodingOfSlash( folder );
+
+    VxFileUtil::makeForwardSlashPath( folder );
+    VxFileUtil::assureTrailingDirectorySlash( folder );
+
+    listFilesInFolder( folder );
+
+	return folder;
+}
+
+void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
+{
+    std::string folderName( folder );
+    VxFileUtil::removeTrailingDirectorySlash(folderName);
+    VxFileUtil::encodePercentEncodingOfSlash(folderName);
+
+    std::vector<FileInfo> fileList;
+    if( 0 == fileFilterMask )
+    {
+        fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
+    }
+
+    VxGUID onlineId = GetPtoPEngine().getMyOnlineId();
+    QDir browseDir( folderName.c_str() );
+
+    QFileInfoList fileInfoList = browseDir.entryInfoList();
+    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileList.size(), folderName.c_str() );
+    for( auto fileListInfo : fileInfoList )
+    {
+        std::string fileName = fileListInfo.filePath().toUtf8().constData();
+        VxFileUtil::decodePercentEncodingOfSlash( fileName );
+        if( fileName.empty() )
+        {
+            continue;
+        }
+
+        if( fileListInfo.isDir() )
+        {
+            if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
+            {
+                VxFileUtil::assureTrailingDirectorySlash( fileName );
+                LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
+                //FileInfo dirInfo( onlineId, fileName, 0, VXFILE_TYPE_DIRECTORY );
+                //GetPtoPEngine().getToGui().toGuiFileList( appInstId, dirInfo );
+            }
+        }
+        else if( fileListInfo.isExecutable() )
+        {
+            LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileName.c_str() );
+        }
+        else if( fileListInfo.isReadable() )
+        {
+            int64_t fileLen = fileListInfo.size();
+
+            if( fileLen )
+            {
+                uint8_t fileType = VxFileNameToFileType( fileName );
+                if( fileLen && ( fileType & fileFilterMask ) )
+                {
+                    if( testCanReadFile( fileName ) )
+                    {
+                        LogMsg( LOG_VERBOSE, "Readable File %s len %" PRId64 " type 0x%x ", fileName.c_str(), fileLen, fileType );
+                    }
+                    else
+                    {
+                        LogMsg( LOG_VERBOSE, "NOT Readable File %s len %" PRId64 " type 0x%x ", fileName.c_str(), fileLen, fileType );
+                    }
+
+
+                    // FileInfo fileInfo( onlineId, fileName, fileLen, fileType );
+                    // fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( fileName ) );
+                    // fileInfo.setIsSharedFile( GetPtoPEngine().fromGuiGetIsFileShared( fileInfo ) );
+                }
+            }
+            else
+            {
+                LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
+            }
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileName.c_str() );
+        }
+    }
 }
 
 //============================================================================
-bool GuiHelpers::browseForFile( QWidget* parent, QString& retFileName, QString startDir, uint8_t fileMask )
+bool GuiHelpers::browseForFile( QWidget* parent, std::string& retFileName, QString startDir, uint8_t fileMask )
 {
-    retFileName = QFileDialog::getOpenFileName( parent, 
-                                                QObject::tr("Select File"),
-                                                startDir,
-                                                fileMaskToFileFilter(fileMask) );
-    return !retFileName.isEmpty();
+    contentUrlToFileSystemPath( startDir );
+
+    listFilesInFolder( startDir.toUtf8().constData() );
+
+    QFileDialog dialog( parent, QObject::tr("Select File"), startDir );
+
+    dialog.setFileMode( QFileDialog::FileMode::ExistingFile );
+
+    dialog.setOptions( dialog.options() | QFileDialog::ReadOnly );
+
+    //dialog.setDirectory( startDir );
+
+    QString selectedFile;
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+        if( fileNames.size() )
+        {
+            selectedFile = fileNames[0];
+        }
+    }
+
+    if( selectedFile.isEmpty() )
+    {
+        return false;
+    }
+
+    std::string realFileName = getRealFileName( selectedFile );
+
+
+    //std::string fullFileName = selectedFile.toUtf8().constData();
+
+    std::string fullFileName = realFileName;
+
+    if( !requestAndroidStoragePermissions())
+    {
+        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Access File "), fullFileName.c_str(), QMessageBox::Ok);
+        warnStorage.exec();
+        return false;
+    }
+
+    std::string decodedFileName = VxFileUtil::decodePercentEncodingAll( fullFileName );
+
+    VxFileUtil::makeForwardSlashPath( fullFileName );
+
+    if( !testCanReadFile( fullFileName ) )
+    {
+        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Read File 2"), decodedFileName.c_str(), QMessageBox::Ok);
+        warnStorage.exec();
+    }
+
+    /*
+    QFileInfo fileInfo(selectedFile);
+    QString absolutePath = fileInfo.absoluteFilePath();
+    QString conicalPath = fileInfo.canonicalFilePath();
+
+    std::filesystem::path absPath = fileInfo.filesystemAbsoluteFilePath();
+    std::filesystem::path conPath = fileInfo.filesystemCanonicalFilePath();
+
+    contentUrlToFileSystemPath( selectedFile );
+
+    LogMsg( LOG_VERBOSE, "sel %s \n absolute %s conical %s \n abs %s \n con %s",
+            selectedFile.toUtf8().constData(),
+           absolutePath.toUtf8().constData(),
+           conicalPath.toUtf8().constData(),
+           absPath.c_str(), conPath.c_str() );
+
+    retFileName = selectedFile.toUtf8().constData();
+
+
+
+    VxFileUtil::decodePercentEncodingOfSlash( retFileName );
+    VxFileUtil::makeForwardSlashPath( retFileName );
+*/
+
+    retFileName = fullFileName;
+    return !retFileName.empty();
+}
+
+//============================================================================
+uint64_t GuiHelpers::testCanReadFile( std::string fullFileName )
+{
+    uint64_t fileLen = VxFileUtil::fileExists(fullFileName.c_str());
+    if( fileLen )
+    {
+        VFile* vFile = VxFileUtil::fileOpen( fullFileName.c_str(), "rb" );
+        if( vFile )
+        {
+            VFileClose( vFile );
+            return fileLen;
+        }
+    }
+
+    return 0;
 }
 
 //============================================================================
 bool GuiHelpers::browseForFile( QWidget* parent, FileInfo& retFileInfo, QString startDir, uint8_t fileMask )
 {
-    QString qFileName;
-    bool result = browseForFile( parent, qFileName, startDir, fileMask );
+    std::string fileName;
+    bool result = browseForFile( parent, fileName, startDir, fileMask );
     if( !result )
     {
         return false;
     }
 
-    std::string fileName = qFileName.toUtf8().constData();
     uint64_t fileLen = VxFileUtil::getFileLen( fileName.c_str() );
     if( !fileLen )
     {
@@ -1690,11 +1883,23 @@ uint64_t GuiHelpers::saveToPngFile( QPixmap& bitmap, QString& fileName ) // retu
 }
 
 //============================================================================
+bool GuiHelpers::requestAndroidStoragePermissions( void )
+{
+#if defined (Q_OS_ANDROID)
+    // MANAGE_EXTERNAL_STORAGE always returns false
+    // bool result = checkUserPermission({ "android.permission.MANAGE_EXTERNAL_STORAGE" });
+    // result &= checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
+    // return result;
+    return checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
+#else
+    return true;
+#endif // defined (Q_OS_ANDROID)
+}
+
+//============================================================================
 bool GuiHelpers::checkUserPermission( QString permissionName ) // returns false if user denies permission to use android hardware
 {
-
 #if defined (Q_OS_ANDROID)
-
     if( QtAndroidPrivate::Authorized != QtAndroidPrivate::checkPermission(permissionName).result() )
     {
         if( QtAndroidPrivate::Authorized != QtAndroidPrivate::requestPermission(permissionName).result() )
@@ -1703,11 +1908,55 @@ bool GuiHelpers::checkUserPermission( QString permissionName ) // returns false 
         }
     }
 
-
     return true;
 #else
     return true;
 #endif // defined (Q_OS_ANDROID)
+}
+
+//============================================================================
+bool GuiHelpers::requestPermission( std::string permissionName )
+{
+#if !defined(Q_OS_ANDROID)
+    return true;
+#endif
+
+#if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    //Request required permissions at runtime.. does not seem to work with Qt 6.2.0
+    for(const QString &permission : permissions)
+    {
+        LogMsg( LOG_DEBUG, "requesting permission %s", permission.toUtf8().constData() );
+        auto result = QtAndroid::checkPermission(permission);
+        if(result == QtAndroid::PermissionResult::Denied)
+        {
+            auto resultHash = QtAndroid::requestPermissionsSync(QStringList({permission}));
+            if(resultHash[permission] == QtAndroid::PermissionResult::Denied)
+            {
+                LogMsg( LOG_DEBUG, "DENIED permission %s", permission.toUtf8().constData() );
+                return false;
+            }
+
+            LogMsg( LOG_DEBUG, "ACCEPTED permission %s", permission.toUtf8().constData() );
+        }
+    }
+
+    LogMsg( LOG_DEBUG, "permission done" );
+#endif
+#if defined (Q_OS_ANDROID)
+
+    const QString requiredPermission(QLatin1String( permissionName.c_str() ) );
+    auto permissionResult = QtAndroidPrivate::checkPermission(requiredPermission).result();
+    if( permissionResult != QtAndroidPrivate::Authorized )
+    {
+        if( QtAndroidPrivate::Authorized !=  QtAndroidPrivate::requestPermission(requiredPermission).result() )
+        {
+            LogMsg(LOG_INFO, "Cannot Proceed without %s permission", permissionName.c_str() );
+            return false;
+        }
+    }
+#endif // defined (Q_OS_ANDROID)
+
+    return true;
 }
 
 //============================================================================
@@ -1817,4 +2066,277 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
     }
 
     return buttonResult;
+}
+
+//============================================================================
+void GuiHelpers::processQtEvents( int ms )
+{
+	QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+}
+
+//============================================================================
+static QString getRealPathFromUri(const QUrl &url)
+{
+    QString path = "";
+
+    QFileInfo info = QFileInfo(url.toString());
+    if(info.isFile())
+    {
+        QString abs = QFileInfo(url.toString()).absoluteFilePath();
+        if(!abs.isEmpty() && abs != url.toString() && QFileInfo(abs).isFile())
+        {
+            return abs;
+        }
+    }
+    else if(info.isDir())
+    {
+        QString abs = QFileInfo(url.toString()).absolutePath();
+        if(!abs.isEmpty() && abs != url.toString() && QFileInfo(abs).isDir())
+        {
+            return abs;
+        }
+    }
+    QString localfile = url.toLocalFile();
+    if((QFileInfo(localfile).isFile() || QFileInfo(localfile).isDir()) && localfile != url.toString())
+    {
+        return localfile;
+    }
+#ifdef Q_OS_ANDROID
+    QJniObject jUrl = QJniObject::fromString(url.toString());
+    QJniObject jContext = QtAndroidPrivate::context();
+    QJniObject jContentResolver = jContext.callObjectMethod("getContentResolver", "()Landroid/content/ContentResolver;");
+    QJniObject jUri = QJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", jUrl.object<jstring>());
+    QJniObject jCursor = jContentResolver.callObjectMethod("query", "(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;", jUri.object<jobject>(), nullptr, nullptr, nullptr, nullptr);
+    QJniObject jScheme = jUri.callObjectMethod("getScheme", "()Ljava/lang/String;");
+    QJniObject authority;
+    if(jScheme.isValid())
+    {
+        authority = jUri.callObjectMethod("getAuthority", "()Ljava/lang/String;");
+    }
+    if(authority.isValid() && authority.toString() == "com.android.externalstorage.documents")
+    {
+        QJniObject jPath = jUri.callObjectMethod("getPath", "()Ljava/lang/String;");
+        path = jPath.toString();
+    }
+    else if(jCursor.isValid() && jCursor.callMethod<jboolean>("moveToFirst"))
+    {
+        QJniObject jColumnIndex = QJniObject::fromString("_data");
+        jint columnIndex = jCursor.callMethod<jint>("getColumnIndexOrThrow", "(Ljava/lang/String;)I", jColumnIndex.object<jstring>());
+        QJniObject jRealPath = jCursor.callObjectMethod("getString", "(I)Ljava/lang/String;", columnIndex);
+        path = jRealPath.toString();
+        if(authority.isValid() && authority.toString().startsWith("com.android.providers") && !url.toString().startsWith("content://media/external/"))
+        {
+            QStringList list = path.split(":");
+            if(list.count() == 2)
+            {
+                QString type = list.at(0);
+                QString id = list.at(1);
+                if(type == "image")
+                    type = type + "s";
+                if(type == "document" || type == "documents")
+                    type = "file";
+                if(type == "msf")
+                    type = "downloads";
+                if(QList<QString>({"images","video","audio"}).contains(type))
+                    type = type + "/media";
+                path = "content://media/external/"+type;
+                path = path + "/" + id;
+                return getRealPathFromUri(path);
+            }
+        }
+    }
+    else
+    {
+        QJniObject jPath = jUri.callObjectMethod("getPath", "()Ljava/lang/String;");
+        path = jPath.toString();
+    }
+
+    if(path.startsWith("primary:"))
+    {
+        path = path.remove(0,QString("primary:").length());
+        path = "/sdcard/" + path;
+    }
+    else if(path.startsWith("/document/primary:"))
+    {
+        path = path.remove(0,QString("/document/primary:").length());
+        path = "/sdcard/" + path;
+    }
+    else if(path.startsWith("/tree/primary:"))
+    {
+        path = path.remove(0,QString("/tree/primary:").length());
+        path = "/sdcard/" + path;
+    }
+    else if(path.startsWith("/storage/emulated/0/"))
+    {
+        path = path.remove(0,QString("/storage/emulated/0/").length());
+        path = "/sdcard/" + path;
+    }
+    else if(path.startsWith("/tree//"))
+    {
+        path = path.remove(0,QString("/tree//").length());
+        path = "/" + path;
+    }
+    if(!QFileInfo(path).isFile() && !QFileInfo(path).isDir() && !path.startsWith("/data"))
+        return url.toString();
+    return path;
+#else
+    return url.toString();
+#endif
+
+}
+
+//============================================================================
+void GuiHelpers::contentUrlToFileSystemPath( QString& contentUrl )
+{
+    QString realPath = getRealPathFromUri(contentUrl);
+    QFileInfo fileInfo(contentUrl);
+
+    LogMsg(LOG_DEBUG, "contentUrlToFileSystemPath %s result %s fileInfo %s ",
+            contentUrl.toUtf8().constData(),
+           realPath.toUtf8().constData(), fileInfo.fileName().toUtf8().constData() );
+
+
+               /*
+    QUrl url_path(contentUrl);
+
+    qDebug() << "[Original String]:" << contentUrl;
+    qDebug() << "--------------------------------------------------------------------";
+    qDebug() << "[getRealPathFromUri]:" << getRealPathFromUri(url_path);
+
+
+    qDebug() << "(QUrl::toEncoded)          :" << url_path.toEncoded(QUrl::FullyEncoded);
+    qDebug() << "(QUrl::url)                :" << url_path.url();
+    qDebug() << "(QUrl::toString)           :" << url_path.toString();
+    qDebug() << "(QUrl::toDisplayString)    :" << url_path.toDisplayString(QUrl::FullyEncoded);
+    qDebug() << "(QUrl::fromPercentEncoding):" << url_path.fromPercentEncoding(contentUrl.toUtf8());
+    qDebug() << "(QQmlFile::urlToLocalFileOrQrc):" << QQmlFile::urlToLocalFileOrQrc(contentUrl).toStdString();
+
+
+
+    qDebug() << "(QFileInfo::canonicalPath)      :" << fileInfo.canonicalPath();
+    qDebug() << "(QFileInfo::absolutePath)       :" << fileInfo.absolutePath();
+    qDebug() << "(QFileInfo::path)               :" << fileInfo.path();
+    qDebug() << "(QFileInfo::baseName)           :" << fileInfo.baseName();
+    qDebug() << "(QFileInfo::filePath)           :" << fileInfo.filePath();
+    qDebug() << "(QFileInfo::absoluteFilePath)   :" << fileInfo.absoluteFilePath();
+    qDebug() << "(QFileInfo::canonicalFilePath)  :" << fileInfo.canonicalFilePath();
+
+    QDir dir(contentUrl);
+    qDebug() << "(QDir::canonicalPath)      :" << dir.canonicalPath();
+    qDebug() << "(QDir::absolutePath)       :" << dir.absolutePath();
+    qDebug() << "(QDir::path)               :" << dir.path();
+
+    qDebug() << "(QDir::clean)           :" << dir.cleanPath(contentUrl);
+    qDebug() << "(QDir::absoluteFilePath)   :" << dir.absoluteFilePath(contentUrl);
+*/
+    static QVector<QStringList> locations;
+    if(locations.isEmpty())
+    {
+        locations.push_back( QStandardPaths::standardLocations(QStandardPaths::AppDataLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::DesktopLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::DocumentsLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::MusicLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::MoviesLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::PicturesLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::TempLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::HomeLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::AppLocalDataLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::CacheLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::GenericDataLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::RuntimeLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::ConfigLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::DownloadLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::GenericCacheLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::GenericConfigLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::AppConfigLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::PublicShareLocation ) );
+        locations.push_back( QStandardPaths::standardLocations( QStandardPaths::TemplatesLocation ) );
+    }
+
+    int row = 0;
+    for( auto stringList : locations )
+    {
+        row++;
+        int col = 0;
+        for( auto string : stringList )
+        {
+            col++;
+            QDir dir(string);
+
+
+            LogMsg(LOG_DEBUG, "%d-%d %s \n con %s \n abs %s \n path %s",
+                   row, col, string.toUtf8().constData(),
+                   dir.canonicalPath().toUtf8().constData(),
+                    dir.absolutePath().toUtf8().constData(),
+                        dir.path().toUtf8().constData()
+                );
+        }
+    }
+
+
+    LogMsg(LOG_DEBUG, "END");
+}
+
+std::string GuiHelpers::getRealFileName( QString selectedFileIn )
+{
+#if defined(TARGET_OS_ANDROID)
+    std::string selectedFile = selectedFileIn.toUtf8().constData();
+    std::string justFile;
+    std::string justPath;
+    /*
+    VxFileUtil::seperatePathAndFile( selectedFile, justPath, justFile );
+    if( justPath.empty() || justFile.empty() )
+    {
+        return selectedFile;
+    }
+*/
+
+    QDir browseDir( "content://com.android.externalstorage.documents/document/primary:NoLimitConnectData/MediaTestFiles" );
+
+    QFileInfoList fileInfoList = browseDir.entryInfoList();
+    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), justPath.c_str() );
+    for( auto fileListInfo : fileInfoList )
+    {
+        std::string fileName = fileListInfo.filePath().toUtf8().constData();
+
+        if( fileName.empty() )
+        {
+            continue;
+        }
+
+        if( fileListInfo.isDir() )
+        {
+            LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
+
+
+        }
+        else if( fileListInfo.isExecutable() )
+        {
+            LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileName.c_str() );
+        }
+        else if( fileListInfo.isReadable() )
+        {
+            int64_t fileLen = fileListInfo.size();
+
+            if( fileLen )
+            {
+                uint8_t fileType = VxFileNameToFileType( fileName );
+
+            }
+            else
+            {
+                LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
+            }
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileName.c_str() );
+        }
+    }
+
+    return selectedFile;
+#else
+    return selectedFileIn.toUtf8().constData();
+#endif // defined(TARGET_OS_ANDROID)
 }

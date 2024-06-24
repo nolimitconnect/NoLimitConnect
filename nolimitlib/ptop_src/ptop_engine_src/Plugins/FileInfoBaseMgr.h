@@ -62,9 +62,10 @@ public:
 	// returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState(	uint8_t *		fileHashId );
 	
-	virtual bool				fromGuiBrowseFiles( const char* dir, uint8_t fileFilterMask ) { return false; }
+	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, const char* dir, uint8_t fileFilterMask ) { return false; }
 
-	virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter );
+	virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter );
+
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
 	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
 	virtual bool				fromGuiSetFileIsShared( std::string& fileName, bool isShared );

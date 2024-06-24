@@ -15,6 +15,7 @@
 #include "AppletPopupMenu.h"
 #include "GuiOfferMgr.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 #include "GuiPluginMgr.h"
 

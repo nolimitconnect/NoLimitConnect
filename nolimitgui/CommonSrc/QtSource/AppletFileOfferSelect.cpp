@@ -116,16 +116,22 @@ void AppletFileOfferSelect::hideEvent( QHideEvent* ev )
 }
 
 //============================================================================
-void AppletFileOfferSelect::callbackToGuiFileList( FileInfo& fileInfo )
+void AppletFileOfferSelect::callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo )
 {
-    addFile( fileInfo );
+    if( getAppletInstId() == appInstId )
+    {
+        addFile( fileInfo );
+    }
 }
 
 //============================================================================
-void AppletFileOfferSelect::callbackToGuiFileListCompleted( void )
+void AppletFileOfferSelect::callbackToGuiFileListCompleted( VxGUID& appInstId )
 {
-    //setActionEnable( true );
-    statusMsg( "List Get Completed" );
+    if( getAppletInstId() == appInstId )
+    {
+        //setActionEnable( true );
+        statusMsg( "List Get Completed" );
+    }
 }
 
 //============================================================================
@@ -147,8 +153,8 @@ void AppletFileOfferSelect::slotApplyFileFilter( unsigned char fileTypeMask )
 void AppletFileOfferSelect::slotRequestFileList( void )
 {
     clearFileList();
-    m_FromGui.fromGuiGetFileLibraryList( m_FileFilterMask );
-    m_FromGui.fromGuiGetSharedFiles( m_FileFilterMask );
+    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), m_FileFilterMask );
+    m_FromGui.fromGuiGetSharedFiles( getAppletInstId(), m_FileFilterMask );
 }
 
 //============================================================================

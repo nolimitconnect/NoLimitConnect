@@ -51,6 +51,11 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeMedium );
 	ui.m_AddAllButton->setIcon( eMyIconLibraryCancel );
 	ui.m_AddAllButton->setSquareButtonSize( eButtonSizeMedium );
+	if( m_IsSelectAFileMode )
+	{
+		ui.m_AddAllButton->setVisible( false );
+		ui.m_AddAllLabel->setVisible( false );
+	}
 
 	m_WidgetClickEventFixTimer->setInterval( 10 );
 	connect( m_WidgetClickEventFixTimer, SIGNAL(timeout()), this, SLOT(slotRequestFileList()) );
@@ -78,6 +83,7 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 //============================================================================
 ActivityBrowseFiles::~ActivityBrowseFiles()
 {
+	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
 	clearFileList();
 }
     
@@ -115,7 +121,7 @@ std::string ActivityBrowseFiles::getDefaultDir( int eFileFilterType )
 #else
 			QString picturesLocation = QDesktopServices::storageLocation(QDesktopServices::PicturesLocation);
 #endif //QT_5_OR_GREATER
-			defaultDir = picturesLocation.toStdString();
+			defaultDir = picturesLocation.toUtf8().constData();
 			if( 0 != defaultDir.length() )
 			{
 				VxFileUtil::makeForwardSlashPath( defaultDir );
@@ -134,7 +140,7 @@ std::string ActivityBrowseFiles::getDefaultDir( int eFileFilterType )
 #else
 			QString musicLocation = QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
 #endif //QT_5_OR_GREATER
-			defaultDir = musicLocation.toStdString();
+			defaultDir = musicLocation.toUtf8().constData();
 			if( 0 != defaultDir.length() )
 			{
 				VxFileUtil::makeForwardSlashPath( defaultDir );
@@ -153,7 +159,7 @@ std::string ActivityBrowseFiles::getDefaultDir( int eFileFilterType )
 #else
 			QString moviesLocation = QDesktopServices::storageLocation(QDesktopServices::MoviesLocation);
 #endif //QT_5_OR_GREATER
-			defaultDir = moviesLocation.toStdString();
+			defaultDir = moviesLocation.toUtf8().constData();
 			if( 0 != defaultDir.length() )
 			{
 				VxFileUtil::makeForwardSlashPath( defaultDir );
@@ -171,7 +177,7 @@ std::string ActivityBrowseFiles::getDefaultDir( int eFileFilterType )
 #else
 			QString docsLocation = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 #endif //QT_5_OR_GREATER
-			defaultDir = docsLocation.toStdString();
+			defaultDir = docsLocation.toUtf8().constData();
 			if( 0 != defaultDir.length() )
 			{
 				VxFileUtil::makeForwardSlashPath( defaultDir );
@@ -209,35 +215,41 @@ void ActivityBrowseFiles::hideEvent( QHideEvent* ev )
 }
 
 //============================================================================
-void ActivityBrowseFiles::callbackToGuiFileList( FileInfo& fileInfo )
+void ActivityBrowseFiles::callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo )
 {
-	addFile( fileInfo );
+	if( appInstId == getAppletInstId() )
+	{
+		addFile( fileInfo );
+	}
 }
 
 //============================================================================
-void ActivityBrowseFiles::callbackToGuiFileListCompleted( void )
+void ActivityBrowseFiles::callbackToGuiFileListCompleted( VxGUID& appInstId )
 {
-	setActionEnable( true );
-	bool hasFilesInList{ false };
-	for( int i = 0; i < ui.FileItemList->count(); i++ )
+	if( appInstId == getAppletInstId() )
 	{
-		QListWidgetItem* itemInList = ui.FileItemList->item( i );
-		FileItemInfo* poInfo = ((FileShareItemWidget*)itemInList)->getFileItemInfo();
-		if( poInfo->isDirectory() )
+		setActionEnable( true );
+		bool hasFilesInList{ false };
+		for( int i = 0; i < ui.FileItemList->count(); i++ )
 		{
-			continue;
+			QListWidgetItem* itemInList = ui.FileItemList->item( i );
+			FileItemInfo* poInfo = ((FileShareItemWidget*)itemInList)->getFileItemInfo();
+			if( poInfo->isDirectory() )
+			{
+				continue;
+			}
+
+			if( poInfo->getFileType() == VXFILE_TYPE_EXECUTABLE )
+			{
+				continue;
+			}
+
+			hasFilesInList = true;
+			break;
 		}
 
-		if( poInfo->getFileType() == VXFILE_TYPE_EXECUTABLE )
-		{
-			continue;
-		}
-
-		hasFilesInList = true;
-		break;
+		showAddAllToLibrary( hasFilesInList );
 	}
-
-	showAddAllToLibrary( hasFilesInList );
 }
 
 //============================================================================
@@ -311,6 +323,11 @@ FileShareItemWidget* ActivityBrowseFiles::fileToWidget( FileInfo& fileInfo )
 //============================================================================
 void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 {
+	if( fileExistsInList( fileInfo.getFullFileName().c_str() ) )
+	{
+		return;
+	}
+
 	FileShareItemWidget* item = fileToWidget( fileInfo );
 	if( item )
 	{
@@ -546,7 +563,12 @@ void ActivityBrowseFiles::slotListItemDoubleClicked( QListWidgetItem* item )
 				{
 					m_FileWasSelected			= true;
 					m_SelectedFileInfo			= poInfo->getFileInfo();
-					accept();
+
+					m_MyApp.activityStateChange( this, false );
+					m_MyApp.wantToGuiActivityCallbacks( this, false );					
+					m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+
+					delayedCloseApplet();
 				}
 			}
 		}
@@ -723,14 +745,6 @@ void ActivityBrowseFiles::setActionEnable( bool enable )
 
 	LogMsg( LOG_INFO, "Fetch In Progress %d", m_bFetchInProgress );
 	ui.m_UpDirectoryButton->setEnabled( enable );
-	if( enable )
-	{
-
-	}
-	else
-	{
-		
-	}
 }
 
 //============================================================================
@@ -762,7 +776,7 @@ void ActivityBrowseFiles::slotRequestFileList( void )
 		ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
 		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
 
-        m_MyApp.getEngine().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
+        m_MyApp.getEngine().fromGuiBrowseFiles( getAppletInstId(), m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY);
 	}
 }
 
@@ -794,4 +808,20 @@ void ActivityBrowseFiles::updateStorageSpace( std::string fileName )
 	}
 
 	ui.m_StatusLabel->setText( QObject::tr( "Storage Space Available: " ) + GuiParams::describeFileLength( diskFreeSpace ) );
+}
+
+//============================================================================
+bool ActivityBrowseFiles::fileExistsInList( QString fileName )
+{
+	for(int i = 0; i < ui.FileItemList->count(); ++i)
+	{
+		QListWidgetItem* item = ui.FileItemList->item(i);
+		FileItemInfo * poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
+		if( poInfo && poInfo->getFullFileName() == fileName )
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -32,7 +32,6 @@ int VirtFilePutS(const char* s, VFile* fp);
 int VirtFileGetPos( VFile* fp, fpos_t* pos );
 int VirtFileSetPos( VFile* fp, const fpos_t* pos );
 int VirtFileSeek( VFile* fp, size_t offset, int whence);
-fpos_t VirtFileTell( VFile* fp );
 
 #ifdef __cplusplus
 }

@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <AssetMgr/AssetMgr.h>

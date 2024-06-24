@@ -37,14 +37,16 @@ VirtStorageProvider& GetVirtStorageProvider( void )
 }
 
 //============================================================================
-void VirtStorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask )
+void VirtStorageProvider::fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderNameIn, uint8_t fileFilterMask )
 {
 #if !defined(TARGET_OS_ANDROID)
-    GetPtoPEngine().getFromGuiInterface().fromGuiBrowseFiles( folderName, fileFilterMask );
+    GetPtoPEngine().getFromGuiInterface().fromGuiBrowseFiles( appInstId, folderNameIn, fileFilterMask );
     return;
 #endif // !defined(TARGET_OS_ANDROID)
 
-    std::string testFile;
+    std::string folderName(folderNameIn);
+    VxFileUtil::removeTrailingDirectorySlash(folderName);
+    //VxFileUtil::encodePercentEncodingOfSlash(folderName);
 
 	std::vector<FileInfo> fileList;
 	if( 0 == fileFilterMask )
@@ -60,6 +62,11 @@ void VirtStorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t f
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();
+        //VxFileUtil::decodePercentEncodingOfSlash( fileName );
+        if( fileName.empty() )
+        {
+            continue;
+        }
 
 		if( fileListInfo.isDir() )
 		{
@@ -69,7 +76,7 @@ void VirtStorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t f
 			{
 				VxFileUtil::assureTrailingDirectorySlash( fileName );
 				FileInfo dirInfo( onlineId, fileName, 0, VXFILE_TYPE_DIRECTORY );
-                GetPtoPEngine().getToGui().toGuiFileList( dirInfo );
+                GetPtoPEngine().getToGui().toGuiFileList( appInstId, dirInfo );
 			}
 		}
 		else if( fileListInfo.isExecutable() )
@@ -78,41 +85,23 @@ void VirtStorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t f
 		}
 		else if( fileListInfo.isReadable() )
 		{
-            int64_t fileLen{ 0 };
-            std::string resolvedName;
-#if defined(TARGET_OS_ANDROID)
-            QString contentPath( fileName.c_str() );
-            QUrl contentUrl(contentPath);
-            QString fileNameResolved = QQmlFile::urlToLocalFileOrQrc(contentUrl);
-            resolvedName = fileNameResolved.toStdString();
-#endif // defined(TARGET_OS_ANDROID)
+            int64_t fileLen = fileListInfo.size();
 
-            //if( StorageFile::resolveFileNameAndLength( fileName, resolvedName, fileLen ) )
-            if( !resolvedName.empty() )
+            if( fileLen )
             {
-                LogMsg( LOG_VERBOSE, "Readable File len1 %" PRId64 " resolved to %s from %s",
-                       fileLen, resolvedName.c_str(), fileName.c_str());
-
 			    uint8_t fileType = VxFileNameToFileType( fileName );
-                if( fileLen && fileType & fileFilterMask )
+                if( fileLen && ( fileType & fileFilterMask ) )
 			    {
-                    LogMsg( LOG_VERBOSE, "Readable File %s len %" PRId64 " type 0x%x ", resolvedName.c_str(), fileLen, fileType );
-                    std::size_t found = resolvedName.find( "Test.x264-ION10.mp4" );
-                    if( found != std::string::npos )
-                    {
-                        testFile = resolvedName;
-                    }
+                    LogMsg( LOG_VERBOSE, "Readable File %s len %" PRId64 " type 0x%x ", fileName.c_str(), fileLen, fileType );
 
-				    FileInfo fileInfo( onlineId, resolvedName, fileLen, fileType );
-				    fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( resolvedName ) );
+                    FileInfo fileInfo( onlineId, fileName, fileLen, fileType );
+                    fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( fileName ) );
 				    fileInfo.setIsSharedFile( GetPtoPEngine().fromGuiGetIsFileShared( fileInfo ) );
-
-				    // GetAppInstance().getFileXferMgr().toGuiFileList( fileInfo );
 			    }
             }
             else
             {
-                LogMsg( LOG_VERBOSE, "Could Not Resolve length %" PRId64 " File %s", fileLen, fileName.c_str() );
+                LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
             }
 		}
 		else
@@ -121,7 +110,7 @@ void VirtStorageProvider::fromGuiBrowseFiles( std::string& folderName, uint8_t f
 		}
     }
 
-    GetPtoPEngine().getToGui().toGuiFileListCompleted();
+    GetPtoPEngine().getToGui().toGuiFileListCompleted( appInstId );
 }
 
 //============================================================================
@@ -142,7 +131,13 @@ void VirtStorageProvider::loadUrl( const QUrl &url )
 //============================================================================
 bool VirtStorageProvider::requestAndroidStoragePermissions( void )
 {
-    return checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE"});
+#if defined (Q_OS_ANDROID)
+    bool result = checkUserPermission({ "android.permission.MANAGE_EXTERNAL_STORAGE" });
+    result &= checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
+    return result;
+#else
+    return true;
+#endif // defined (Q_OS_ANDROID)
 }
 
 //============================================================================

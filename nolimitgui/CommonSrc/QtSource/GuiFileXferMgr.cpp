@@ -18,6 +18,7 @@
 #include "AppSettings.h"
 #include "FileListReplySession.h"
 #include "GuiFileXferSession.h"
+#include "GuiParams.h"
 #include "ToGuiFileXferInterface.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -226,7 +227,7 @@ void GuiFileXferMgr::toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lc
 }
 
 //============================================================================
-void GuiFileXferMgr::toGuiFileList( FileInfo& fileInfo )
+void GuiFileXferMgr::toGuiFileList( VxGUID appInstId, FileInfo& fileInfo )
 {
     if( VxIsAppShuttingDown() )
     {
@@ -236,14 +237,14 @@ void GuiFileXferMgr::toGuiFileList( FileInfo& fileInfo )
     m_ToGuiFileXferInterfaceBusy = true;
     for( auto client : m_ToGuiFileXferInterfaceList )
     {
-        client->callbackToGuiFileList( fileInfo );
+        client->callbackToGuiFileList( appInstId, fileInfo );
     }
 
     m_ToGuiFileXferInterfaceBusy = false;
 }
 
 //============================================================================
-void GuiFileXferMgr::toGuiFileListCompleted( void )
+void GuiFileXferMgr::toGuiFileListCompleted( VxGUID appInstId )
 {
     if( VxIsAppShuttingDown() )
     {
@@ -253,7 +254,7 @@ void GuiFileXferMgr::toGuiFileListCompleted( void )
     m_ToGuiFileXferInterfaceBusy = true;
     for( auto client : m_ToGuiFileXferInterfaceList )
     {
-        client->callbackToGuiFileListCompleted();
+        client->callbackToGuiFileListCompleted(appInstId);
     }
 
     m_ToGuiFileXferInterfaceBusy = false;

@@ -104,24 +104,6 @@ int FastNextPow2(int Number)
     return r;
 #endif // _MSC_VER*/
 }
-//nVidia FastSqrt
-//table for fast sqrt
-extern unsigned long g_au32FastSqrtTable[ 0x10000 ];
-//floating point bits
-#define F32Bits(fp) (*(unsigned *)&(fp))
-
-//============================================================================
-float FastSqrtf( float x )
-{
-    if( 0 == F32Bits( x ) )
-    {
-        return 0.0f;
-    }
-    F32Bits(x) = g_au32FastSqrtTable[( F32Bits(x) >> 8) & 0xFFFF] |
-        ((((F32Bits(x) - 0x3F800000) >> 1) + 0x3F800000) & 0x7F800000);
-
-    return x;
-}
 
 //============================================================================
 float AngleModulus( float fAngle )

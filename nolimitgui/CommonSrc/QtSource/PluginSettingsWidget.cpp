@@ -11,8 +11,9 @@
 #include "PluginSettingsWidget.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 

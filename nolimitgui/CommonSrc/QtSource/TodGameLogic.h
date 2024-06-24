@@ -14,12 +14,13 @@
 #include "TodGameDefs.h"
 #include <PktLib/VxCommon.h>
 
+class EngineSettings;
+class GuiUser;
 class QFrame;
-class VxPushButton;
 class QLabel;
 class TodGameWidget;
+class VxPushButton;
 class VidWidget;
-class EngineSettings;
 
 class TodGameLogic : public QWidget
 {

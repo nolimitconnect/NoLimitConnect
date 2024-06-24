@@ -67,7 +67,7 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
     connect( ui.m_AddFileButton, SIGNAL(clicked()), this, SLOT( slotAddFileButtonClicked() ) );
     connect( ui.m_AddFilesButton, SIGNAL(clicked()), this, SLOT( slotAddFilesButtonClicked() ) );
 
-    connect( ui.m_FileFilterComboBox, SIGNAL( signalApplyFileFilter( unsigned char ) ), this, SLOT( slotApplyFileFilter( unsigned char ) ) );
+    connect( ui.m_FileFilterComboBox, SIGNAL(signalApplyFileFilter(unsigned char)), this, SLOT(slotApplyFileFilter(unsigned char)) );
     statusMsg( "Requesting Library File List " );
     m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
     slotApplyFileFilter( ui.m_FileFilterComboBox->getCurrentFileFilterMask() );
@@ -107,21 +107,27 @@ void AppletLibrary::hideEvent( QHideEvent* ev )
 }
 
 //============================================================================
-void AppletLibrary::callbackToGuiFileList( FileInfo& fileInfo )
+void AppletLibrary::callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo )
 {
-    if( ui.m_FileItemList->count() == 0 )
+    if( appInstId == getAppletInstId() )
     {
-        updateStorageSpace( fileInfo.getFullFileName() );
-    }
+        if( ui.m_FileItemList->count() == 0 )
+        {
+            updateStorageSpace( fileInfo.getFullFileName() );
+        }
 
-    addFile( fileInfo );
+        addFile( fileInfo );
+    }
 }
 
 //============================================================================
-void AppletLibrary::callbackToGuiFileListCompleted( void )
+void AppletLibrary::callbackToGuiFileListCompleted( VxGUID& appInstId )
 {
-    //setActionEnable( true );
-    statusMsg( "List Get Completed" );
+    if( appInstId == getAppletInstId() )
+    {
+        //setActionEnable( true );
+        statusMsg( "List Get Completed" );
+    }
 }
 
 //============================================================================
@@ -167,7 +173,7 @@ void AppletLibrary::slotApplyFileFilter( unsigned char fileTypeMask )
 void AppletLibrary::slotRequestFileList( void )
 {
     clearFileList();
-    m_FromGui.fromGuiGetFileLibraryList( m_FileFilterMask );
+    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), m_FileFilterMask );
 }
 
 //============================================================================
@@ -180,39 +186,39 @@ FileShareItemWidget* AppletLibrary::fileToWidget( FileInfo& fileInfo )
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant( ( quint64 )poItemInfo ) );
 
     connect( item,
-             SIGNAL( signalFileShareItemClicked(QListWidgetItem*) ),
+             SIGNAL(signalFileShareItemClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListItemClicked(QListWidgetItem*) ) );
+             SLOT(slotListItemClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalFileIconClicked(QListWidgetItem*) ),
+             SIGNAL(signalFileIconClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListFileIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListFileIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalPlayButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListPlayIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListPlayIconClicked(QListWidgetItem*)) );
         
     connect( item,
-             SIGNAL( signalPlayExternButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListPlayExternIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListPlayExternIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalLibraryButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListLibraryIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListLibraryIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalFileShareButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListShareFileIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListShareFileIconClicked(QListWidgetItem*)) );
 
     connect( item,
-             SIGNAL( signalShredButtonClicked(QListWidgetItem*) ),
+             SIGNAL(signalShredButtonClicked(QListWidgetItem*)),
              this,
-             SLOT( slotListShredIconClicked(QListWidgetItem*) ) );
+             SLOT(slotListShredIconClicked(QListWidgetItem*)) );
 
     item->updateWidgetFromInfo();
     return item;
@@ -394,7 +400,10 @@ void AppletLibrary::slotAddFileButtonClicked( void )
     FileInfo fileInfo;
     if( GuiHelpers::browseForFile( this, fileInfo, curDir ) )
     {
+        std::string fileName = fileInfo.getFullFileName();
         m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
+        m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
+
         // see if file is already a asset
         AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
         assetMgr.lockResources();
@@ -444,7 +453,7 @@ void AppletLibrary::slotAddFilesButtonClicked( void )
     dlg.exec();
     clearFileList();
     statusMsg( "Requesting Library File List " );
-    m_FromGui.fromGuiGetFileLibraryList( m_FileFilterMask );
+    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), m_FileFilterMask );
 }
 
 //============================================================================

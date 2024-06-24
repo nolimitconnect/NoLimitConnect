@@ -52,12 +52,15 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
 , m_EAppletType( eAppletType )
 , m_ePluginType( ePluginTypeInvalid )
 , m_ResizingTimer( new QTimer(this) )
+, m_DelayedCloseTimer( new QTimer(this) )
 , m_IsDialog( isDialog )
 , m_IsPopup( isPopup )
 , m_FullWindowSize( fullWindowSize )
 {
     vx_assert( objName );
     setObjectName( objName );
+	m_AppInstId.initializeWithNewVxGUID();
+
 	VxAppStyle::clearFocusFrameWidget();
 
 	if( 0xcdcdcdcdcdcdcdcd == (uint64_t)parent )
@@ -118,7 +121,8 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
 	connect( this,				SIGNAL(signalShowShouldExitMsgBox(QString)),	this, SLOT(slotShowShouldExitMsgBox(QString)), Qt::QueuedConnection );
 	connect( this,				SIGNAL(finished(int)),							this, SLOT(slotActivityFinished(int)) );
 
-	connect( m_ResizingTimer,	SIGNAL( timeout() ), this, SLOT( slotResizeWindowTimeout() ) );
+	connect( m_ResizingTimer,		SIGNAL(timeout()), this, SLOT(slotResizeWindowTimeout()) );
+	connect( m_DelayedCloseTimer,	SIGNAL(timeout()), this, SLOT(slotBackButtonClicked()), Qt::QueuedConnection );
 
 	connect(	this, 
 				SIGNAL(signalPlayNotifySound()), 
@@ -1362,7 +1366,7 @@ void ActivityBase::stopBusySpinner( void )
 {
 	if( !m_BusySpinner )
 	{
-		LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner already exists", __func__ );
+        //LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner does NOT exists", __func__ );
 		return;
 	}
 

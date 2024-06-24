@@ -129,8 +129,8 @@ public:
 	//! Send list of contacts shared files to GUI
 	virtual void				toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInfo& fileInfo ) = 0;
 	//! Send list of files to GUI.. used to send directory listing or shared files or files that are in library
-	virtual void				toGuiFileList( FileInfo& fileInfo ) = 0;
-	virtual void				toGuiFileListCompleted( void ) = 0;
+	virtual void				toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) = 0;
+	virtual void				toGuiFileListCompleted( VxGUID& appInstId ) = 0;
 	//! Upload a file started
 	virtual void				toGuiFileUploadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) = 0;
 	/// Upload a file completed

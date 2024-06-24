@@ -472,6 +472,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlatpakBuild", "FlatpakBuil
 		..\..\..\com.nolimitconnect.NoLimitConnect.metainfo.xml = ..\..\..\com.nolimitconnect.NoLimitConnect.metainfo.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "local_build_flathub", "local_build_flathub", "{887FDEA3-D3E9-42F4-85A9-80995B75725A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\local_build_flathub\com.nolimitconnect.NoLimitConnect.yml = ..\..\..\local_build_flathub\com.nolimitconnect.NoLimitConnect.yml
+		..\..\..\local_build_flathub\flatpak_local_build_notes.txt = ..\..\..\local_build_flathub\flatpak_local_build_notes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -1135,7 +1141,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 		Qt5Version = 6.3.0_msvc2019_64
+		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 	EndGlobalSection
 EndGlobal

@@ -58,7 +58,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AccountMgr.h
     CommonSrc/QtSource/AcceptCancelWidget.h
     CommonSrc/QtSource/ActivityAppSetup.h
-    CommonSrc/QtSource/ActivityAddRemoveLibraryFiles.h
     CommonSrc/QtSource/ActivityBrowseFiles.h
     CommonSrc/QtSource/ActivityChooseTestWebsiteUrl.h
     CommonSrc/QtSource/ActivityCreateAccount.h
@@ -76,7 +75,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/ActivityShowHelp.h
     CommonSrc/QtSource/ActivitySoundOptions.h
     CommonSrc/QtSource/ActivityTimedMessage.h
-    CommonSrc/QtSource/ActivityViewLibraryFiles.h
     CommonSrc/QtSource/ActivityBase.h
     CommonSrc/QtSource/ActivityYesNoMsgBox.h
     CommonSrc/QtSource/AppDefs.h
@@ -444,7 +442,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AcceptCancelWidget.cpp
     CommonSrc/QtSource/AccountDb.cpp
     CommonSrc/QtSource/AccountMgr.cpp
-    CommonSrc/QtSource/ActivityAddRemoveLibraryFiles.cpp
     CommonSrc/QtSource/ActivityAppSetup.cpp
     CommonSrc/QtSource/ActivityBase.cpp
     CommonSrc/QtSource/ActivityBrowseFiles.cpp
@@ -464,7 +461,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ActivityShowHelp.cpp
     CommonSrc/QtSource/ActivitySoundOptions.cpp
     CommonSrc/QtSource/ActivityTimedMessage.cpp
-    CommonSrc/QtSource/ActivityViewLibraryFiles.cpp
     CommonSrc/QtSource/ActivityYesNoMsgBox.cpp
     CommonSrc/QtSource/AppCommon.cpp
     CommonSrc/QtSource/AppCommonAudio.cpp
@@ -817,7 +813,6 @@ list(APPEND nlc_SOURCES
 
 set(nlc_FORMS)
 list(APPEND nlc_FORMS
-    CommonSrc/Forms/ActivityAddRemoveLibraryFiles.ui
     CommonSrc/Forms/ActivityAppSetup.ui
     CommonSrc/Forms/ActivityBrowseFiles.ui
     CommonSrc/Forms/ActivityChooseTestWebsiteUrl.ui
@@ -840,7 +835,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/ActivitySoundOptions.ui
     CommonSrc/Forms/ActivityTimedMessage.ui
     CommonSrc/Forms/ActivityVideoOptions.ui
-    CommonSrc/Forms/ActivityViewLibraryFiles.ui
     CommonSrc/Forms/ActivityYesNo.ui
     CommonSrc/Forms/ActivityBase.ui
     CommonSrc/Forms/AcceptCancelWidget.ui

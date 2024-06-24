@@ -14,6 +14,7 @@
 
 #include "AppCommon.h"
 #include "GuiUserBase.h"
+#include "GuiParams.h"
 
 #include <ConnectIdListMgr/ConnectIdListMgr.h>
 #include <P2PEngine/P2PEngine.h>

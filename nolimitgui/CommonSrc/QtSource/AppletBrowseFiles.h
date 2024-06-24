@@ -35,13 +35,16 @@ public:
 	void						setCurrentDirectory( QString browseDir );
 
 	FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
-	void						updateListEntryWidget( FileShareItemWidget* item );
+
 	bool						getWasFileSelected( void )						{ return m_FileWasSelected; }
 	uint8_t						getSelectedFileType( void )						{ return m_SelectedFileType; }
 	QString						getSelectedFileName( void )						{ return m_SelectedFileName; }
 	uint64_t					getSelectedFileLen( void )						{ return m_SelectedFileLen; }
 	bool						getSelectedFileIsShared( void )					{ return m_SelectedFileIsShared; }
 	bool						getSelectedFileIsInLibrary( void )				{ return m_SelectedFileIsInLibrary; }
+
+signals:
+	void						signalFileWasSelected( QString fileName );
 
 protected slots:
     void						slotHomeButtonClicked( void ) override;
@@ -65,12 +68,12 @@ protected:
     virtual void				showEvent( QShowEvent* ev ) override;
     virtual void				hideEvent( QHideEvent* ev ) override;
 
-    virtual void				callbackToGuiFileList( FileInfo& fileInfo ) override;
-	virtual void				callbackToGuiFileListCompleted( void ) override;
+    virtual void				callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
+	virtual void				callbackToGuiFileListCompleted( VxGUID& appInstId ) override;
 
 	void						fromListWidgetRequestFileList( void );
 	void						setActionEnable( bool enable );
-	void						addFile( FileInfo&	fileInfo );
+	void						addFile( FileInfo& fileInfo );
 
 	void						clearFileList( void );
 	void						setDefaultCurrentDir( EFileFilterType eFileFilterType );
@@ -78,6 +81,8 @@ protected:
 	void						setCurrentBrowseDir( QString browseDir );
 
 	void						showAddAllToLibrary( bool visible );
+
+	bool						fileExistsInList( QString fileName );
 
 	Ui::AppletBrowseFilesUi		ui;
 

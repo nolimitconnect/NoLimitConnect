@@ -195,6 +195,8 @@ bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000, bool isStre
 		return false;
 	}
 
+    LogMsg( LOG_VERBOSE, "%s file %s pos %d", __func__, fullFileName.toUtf8().constData(), pos0to100000 );
+
 	AssetInfo newAsset( GuiParams::fileTypeToAssetType( fileType ), fullFileName.toUtf8().constData(), fileLen );
 	newAsset.setIsStream( isStream );
 	return playMedia( newAsset, useExternPlayer, pos0to100000 );

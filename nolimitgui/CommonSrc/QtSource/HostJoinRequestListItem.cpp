@@ -22,8 +22,8 @@ HostJoinRequestListItem::HostJoinRequestListItem( QWidget* parent )
 {
 	ui.setupUi( this );
     setupIdentLogic();
-    connect( ui.m_AcceptButton,		  SIGNAL(clicked()),	this, SLOT(slotAcceptButtonPressed()) );
-    connect( ui.m_RejectButton,       SIGNAL(clicked()), this, SLOT( slotRejectButtonPressed() ) );
+    connect( ui.m_AcceptButton,		  SIGNAL(clicked()), this, SLOT(slotAcceptButtonPressed()) );
+    connect( ui.m_RejectButton,       SIGNAL(clicked()), this, SLOT(slotRejectButtonPressed()) );
    
     ui.m_AvatarButton->setFixedSize( eButtonSizeLarge );
     ui.m_AvatarButton->setIcon( eMyIconAvatarImage );

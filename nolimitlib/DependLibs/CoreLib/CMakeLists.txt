@@ -57,7 +57,6 @@ list(APPEND CoreLib_HEADERS
     VxParse.h
     VxProfile.h
     VxPtopUrl.h
-    VxRefCount.h
     VxSemaphore.h
     VxSettings.h
     VxSha1Hash.h
@@ -107,7 +106,6 @@ list(APPEND CoreLib_SOURCES
     VxColorUtil.cpp
     VxCrypto.cpp
     VxDebug.cpp
-    VxDefs.cpp
     VxFileCopier.cpp
     VxFileCrc32.cpp
     VxFileInfo.cpp
@@ -131,7 +129,6 @@ list(APPEND CoreLib_SOURCES
     VxParse.cpp
     VxProfile.cpp
     VxPtopUrl.cpp
-    VxRefCount.cpp
     VxSemaphore.cpp
     VxSettings.cpp
     VxSha1Hash.cpp

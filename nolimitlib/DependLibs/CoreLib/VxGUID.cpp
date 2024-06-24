@@ -15,8 +15,6 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxDebug.h>
 
-#include <PktLib/PktBlobEntry.h>
-
 #include <libcrossguid/guid.h>
 
 #ifdef TARGET_OS_ANDROID
@@ -68,24 +66,6 @@ VxGUID::VxGUID( uint64_t u64HiPart, uint64_t u64LoPart )
 , m_u64LoPart(u64LoPart)
 {
 }
-
-/* commented out because of linux order of dependency linking issue
-//============================================================================
-bool VxGUID::addToBlob( PktBlobEntry& blob )
-{
-    bool result = blob.setValue( m_u64HiPart );
-    result &= blob.setValue( m_u64LoPart );
-    return result;
-}
-
-//============================================================================
-bool VxGUID::extractFromBlob( PktBlobEntry& blob )
-{
-    bool result = blob.getValue( m_u64HiPart );
-    result &= blob.getValue( m_u64LoPart );
-    return result;
-}
-*/
 
 //============================================================================
 VxGUID & VxGUID::operator =( const VxGUID &rhs )
@@ -173,8 +153,6 @@ bool VxGUID::isEqualTo( const VxGUID& guid )
 {
 	return ( ( m_u64LoPart == guid.m_u64LoPart ) && ( m_u64HiPart == guid.m_u64HiPart ) );
 }
-
-#include <libcrossguid/guid.h>
 
 //============================================================================
 void VxGUID::generateNewVxGUID( VxGUID& retNewGUID )

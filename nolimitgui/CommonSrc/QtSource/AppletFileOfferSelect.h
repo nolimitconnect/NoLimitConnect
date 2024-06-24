@@ -60,8 +60,8 @@ protected:
     virtual void				showEvent( QShowEvent* ev ) override;
     virtual void				hideEvent( QHideEvent* ev ) override;
 
-    virtual void				callbackToGuiFileList( FileInfo& fileInfo ) override;
-    virtual void				callbackToGuiFileListCompleted( void ) override;
+    virtual void				callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
+    virtual void				callbackToGuiFileListCompleted( VxGUID& appInstId ) override;
 
     FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
     FileItemInfo*				widgetToFileItemInfo( FileShareItemWidget* item );

@@ -16,7 +16,8 @@
 #include "GuiHelpers.h"
 #include "GuiHostedListMgr.h"
 #include "GuiMemberActiveMgr.h"
-#include "MyIcons.h"
+#include "GuiParams.h"
+#include "MyIconsDefs.h"
 
 //============================================================================
 BottomBarWidget::BottomBarWidget( QWidget* parent )

@@ -25,7 +25,6 @@
 #include "VxMd5.h"
 
 #include "VxParse.h"
-#include <PktLib/VxCommon.h>
 
 //===========================================//
 //=== cheezy crypto with known weeknesses ===//

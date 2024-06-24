@@ -11,7 +11,9 @@
 #include "AppletHelpNetSignalBars.h"
 
 #include "AppCommon.h"
-#include "AppSettings.h"
+#include "GuiParams.h"
+
+#include <GuiInterface/IAudioDefs.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>

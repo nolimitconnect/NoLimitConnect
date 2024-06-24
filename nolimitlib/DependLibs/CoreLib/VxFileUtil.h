@@ -188,6 +188,11 @@ namespace VxFileUtil
 	std::string					describeDiskSpace( std::string pathOnDisk );
 
 	std::string					describeFileSize( uint64_t fileLen );
+
+    std::string                 decodePercentEncodingAll( std::string& fileName );
+	void						decodePercentEncodingOfSlash( std::string& fileName );
+    void						encodePercentEncodingOfSlash( std::string& fileName );
+
 } // namespace VxFileUtil
 
 size_t FindLastPathSeperator( std::string& path );

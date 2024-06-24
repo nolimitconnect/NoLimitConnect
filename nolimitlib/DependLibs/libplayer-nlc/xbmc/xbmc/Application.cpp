@@ -2687,7 +2687,7 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
         };
         int dMsgCount = CServiceBroker::GetGUI()->GetWindowManager().RemoveThreadMessageByMessageIds( &previousMsgsIgnoredByNewPlaying[0] );
         if( dMsgCount > 0 )
-            CLog::LogF( LOGDEBUG, "Ignored {} playback thread messages", dMsgCount );
+            CLog::LogF( LOGDEBUG, "Ignored %d playback thread messages", dMsgCount );
     }
 
     const auto appVolume = GetComponent<CApplicationVolumeHandling>();

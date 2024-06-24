@@ -85,7 +85,6 @@ namespace
 	AppCommon * g_AppCommon = 0;
 
 	const int PROCESS_QT_DEFAULT_MS = 50;
-
 	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
 	{
 		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );

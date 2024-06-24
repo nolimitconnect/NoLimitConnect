@@ -10,7 +10,6 @@
 //============================================================================
 
 #define OBJNAME_ACTIVITY_ABOUT							"ActivityAbout"
-#define OBJNAME_ACTIVITY_ADD_REMOVE_LIB_FILES			"ActivityAddRemoveLibraryFiles"
 #define OBJNAME_ACTIVITY_APP_SETUP          			"ActivityAppSetup"
 #define OBJNAME_ACTIVITY_BROWSE_FILES					"ActivityBrowseFiles"
 #define OBJNAME_ACTIVITY_CHOOSE_TEST_WEBSITE_URL		"ActivityChooseTestWebsiteUrl"
@@ -45,8 +44,7 @@
 #define OBJNAME_ACTIVITY_TO_FRIEND_VOICE_PHONE	        "ActivityToFriendVoicePhone"
 #define OBJNAME_ACTIVITY_UPLOADS						"AppletUploads"
 #define OBJNAME_ACTIVITY_VIDEO_OPTIONS	                "ActivityVideoOptions"
-#define OBJNAME_ACTIVITY_VIEW_LIBRARY_FILES				"ActivityViewLibraryFiles"
-#define OBJNAME_ACTIVITY_VIEW_MY_SHARED_FILES			"ActivityViewMySharedFiles"
+
 #define OBJNAME_ACTIVITY_YES_NO_MSG_BOX					"ActivityYesNoMsgBox"
 
 #define OBJNAME_APPLET_ABOUT_APP						"AppletAboutApp"

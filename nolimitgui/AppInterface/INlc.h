@@ -345,8 +345,8 @@ public:
                                               const char*	    pMsg ) override;
 
     virtual void				toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInfo& fileInfo ) override;
-    virtual void				toGuiFileList( FileInfo& fileInfo ) override;
-    virtual void				toGuiFileListCompleted( void ) override;
+    virtual void				toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
+    virtual void				toGuiFileListCompleted( VxGUID& appInstId ) override;
 
     virtual void				toGuiFileUploadStart( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
@@ -536,8 +536,8 @@ public:
 #endif // ENABLE_COMPONENT_NEARBY
     virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName = NULL );
 
-    virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
-    virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter );
+    virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
+    virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter );
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool addFisSharedile );
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo );
     virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ); // for remove before deletion
@@ -549,7 +549,7 @@ public:
     virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo );
     virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName );
 
-    virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter );
+    virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter );
 
     virtual bool				fromGuiRemoveFromLibrary( std::string& fileNamee ); // for remove before deletion
 

@@ -185,8 +185,9 @@ void AppCommon::connectSignals( void )
         SLOT( slotInternalToGuiFileUploadComplete(EPluginType,VxGUID,QString,EXferError) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiFileXferState(EPluginType,VxGUID,EXferDirection,EXferState,EXferError,int) ), this,
         SLOT( slotInternalToGuiFileXferState(EPluginType,VxGUID,EXferDirection,EXferState,EXferError,int) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiFileList(FileInfo) ), this, SLOT( slotInternalToGuiFileList(FileInfo) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalToGuiFileListCompleted() ), this, SLOT( slotInternalToGuiFileListCompleted() ), Qt::QueuedConnection );
+
+    connect( this, SIGNAL( signalInternalToGuiFileList(VxGUID,FileInfo) ), this, SLOT( slotInternalToGuiFileList(VxGUID,FileInfo) ), Qt::QueuedConnection );
+    connect( this, SIGNAL( signalInternalToGuiFileListCompleted(VxGUID) ), this, SLOT( slotInternalToGuiFileListCompleted(VxGUID) ), Qt::QueuedConnection );
 
 	connect( this, SIGNAL( signalInternalToGuiRxedPluginOffer(VxGUID,OfferBaseInfo) ), this,
 		SLOT( slotInternalToGuiRxedPluginOffer(VxGUID,OfferBaseInfo) ), Qt::QueuedConnection );

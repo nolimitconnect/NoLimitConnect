@@ -29,16 +29,146 @@
 
 
 //============================================================================
-RCODE VxFileFinder::FindFilesByExtension(	std::string				csPath,					//start path to search in
-											std::vector<std::string> &acsExtensionList,		//Extensions
-											std::vector<VxFileInfo> &aoFileList,			//return FileInfo in array
-											bool					bRecurse,				//recurse subdirectories if true
-											bool					bUseFilterListToExclude	//if true dont return files matching filter else return files that do
+std::string	VxFileList::getFileAtIndex( int listIdx )
+{
+	if( listIdx >= 0 && listIdx < m_FileList.size() )
+	{
+		return m_FileList[listIdx];
+	}
+	else
+	{
+		return "";
+	}
+}
+
+//============================================================================
+bool VxFileList::addFileToFront( std::string fileName, bool checkIfFileExists )
+{
+	if( fileName.empty() )
+	{
+		return false;
+	}
+
+	if( checkIfFileExists && !doesFileExistInDiskStorage( fileName ) )
+	{
+		return false;
+	}
+
+	for( auto file : m_FileList )
+	{
+		if( file == fileName )
+		{
+			// already exists
+			return true;
+		}
+	}
+
+	m_FileList.insert( m_FileList.begin(), fileName );
+	if( m_ListLimit && m_FileList.size() > m_ListLimit )
+	{
+		return removeFileFromBack();
+	}
+
+	return true;
+}
+
+//============================================================================
+bool VxFileList::removeFileFromFront( void )
+{
+	if( m_FileList.size() )
+	{
+		m_FileList.erase( m_FileList.begin() );
+		return true;
+	}
+
+	return false;
+}
+
+//============================================================================
+bool VxFileList::addFileToBack( std::string fileName, bool checkIfFileExists )
+{
+	if( fileName.empty() )
+	{
+		return false;
+	}
+
+	if( checkIfFileExists && !doesFileExistInDiskStorage( fileName ) )
+	{
+		return false;
+	}
+
+	for( auto file : m_FileList )
+	{
+		if( file == fileName )
+		{
+			// already exists
+			return true;
+		}
+	}
+
+	m_FileList.emplace_back( fileName );
+
+	if( m_ListLimit && m_FileList.size() > m_ListLimit )
+	{
+		return removeFileFromBack();
+	}
+
+	return true;
+}
+
+//============================================================================
+bool VxFileList::removeFileFromBack( void )
+{
+	if( m_FileList.size() )
+	{
+		m_FileList.pop_back();
+		return true;
+	}
+
+	return false;
+}
+
+//============================================================================
+void VxFileList::removeFile( std::string fileName )
+{
+	for( auto iter = m_FileList.begin(); iter != m_FileList.end(); ++iter )
+	{
+		if( *iter == fileName )
+		{
+			m_FileList.erase( iter );
+			break;
+		}
+	}
+}
+
+//============================================================================
+bool VxFileList::doesFileExistInDiskStorage( std::string& fileName )
+{
+	return VxFileUtil::fileExists( fileName.c_str(), false ) != 0;
+}
+
+//============================================================================
+void VxFileList::dumpToLog( uint32_t dbgLevel )
+{
+    int fileNum = 0;
+    for( auto fileName : m_FileList )
+    {
+        fileNum++;
+        LogMsg( dbgLevel, "VxFileList %d - %s", fileNum, fileName.c_str() );
+    }
+}
+
+//============================================================================
+int VxFileFinder::FindFilesByExtension(	std::string				csPath,					//start path to search in
+                                        std::vector<std::string> &acsExtensionList,		//Extensions
+                                        std::vector<VxFileInfo> &aoFileList,			//return FileInfo in array
+                                        bool					bRecurse,				//recurse subdirectories if true
+                                        bool					bUseFilterListToExclude	//if true dont return files matching filter else return files that do
 											)
 {
 	m_bAbort = false;
     VxFileInfo oCurFileNode;
-    RCODE rc = 0;
+    int rc = 0;
 #ifdef TARGET_OS_WINDOWS
     HANDLE hFind = INVALID_HANDLE_VALUE;
     WIN32_FIND_DATAW sFindData;
@@ -237,7 +367,7 @@ bool VxFileFinder::HasSameExtension(	std::string csCurrentNode,
     return false;
 }
 //============================================================================
-RCODE VxFileFinder::FindFilesByName(	std::string csPath,	//start path to search in
+int VxFileFinder::FindFilesByName(	std::string csPath,	//start path to search in
 										std::vector<std::string> &acsWildNameList,	//Name match strings with wildcards
 										std::vector<VxFileInfo> &aoFileList,//return FileInfo in array
 										bool bRecurse,								//recurse subdirectories if true
@@ -246,7 +376,7 @@ RCODE VxFileFinder::FindFilesByName(	std::string csPath,	//start path to search 
 {
 	m_bAbort = false;
     VxFileInfo oCurFileNode;
-    RCODE rc = 0;
+    int rc = 0;
 
 #ifdef TARGET_OS_WINDOWS
 	// windows version of find files
@@ -429,8 +559,9 @@ bool VxFileFinder::HasMatchingName( std::string csCurrentNode,
 	return false;
 
 }
+
 //============================================================================
-RCODE VxFindFilesByExtension(std::string csPath,				//start path to search in
+int VxFindFilesByExtension(std::string csPath,				//start path to search in
                 std::vector<std::string> &acsExtensionList,//Extensions ( file extentions )
                 std::vector<VxFileInfo> &aoFileList,//return FileInfo in array
 				bool bRecurse,						//recurse subdirectories if true
@@ -445,7 +576,9 @@ RCODE VxFindFilesByExtension(std::string csPath,				//start path to search in
 				bUseFilterListToExclude			//if true dont return files matching filter else return files that do
 				);
 }
-RCODE VxFindFilesByName(std::string csPath,				//start path to search in
+
+//============================================================================
+int VxFindFilesByName(std::string csPath,				//start path to search in
                 std::vector<std::string> &acsWildNameList,//Extensions ( file extentions )
                 std::vector<VxFileInfo> &aoFileList,//return FileInfo in array
 				bool bRecurse,						//recurse subdirectories if true

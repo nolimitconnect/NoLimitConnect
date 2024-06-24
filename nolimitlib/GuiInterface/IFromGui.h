@@ -303,9 +303,9 @@ public:
 															int32_t			actionValue ) = 0;
 
 	/// Send directory listing to GUI
-	virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) = 0;
+	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) = 0;
 	/// Send list of shared files to GUI
-	virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter ) = 0;
+	virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter ) = 0;
 
 	
 	/// Share/Unshare a file
@@ -324,7 +324,7 @@ public:
 	virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) = 0;
 	virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) = 0;
 	/// Send to GUI file that are in library of the given file type mask
-	virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter ) = 0;
+	virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) = 0;
 	virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) = 0; // for remove before deletion
 	/// Return true if video file was created by No Limit Connect
 	virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) = 0;

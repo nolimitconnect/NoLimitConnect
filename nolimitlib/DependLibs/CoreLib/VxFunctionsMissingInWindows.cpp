@@ -9,6 +9,12 @@
 #include <stdlib.h>  
 #include <stdarg.h>  
 #include <io.h>  
+#include <time.h>
+#include <sys/stat.h>
+
+#include "dirent_sim.h"
+
+#define strnicmp _strnicmp
 
 // this function was copied from libnfs .. implements linux like poll() function
 int win32_poll( struct pollfd *fds, unsigned int nfds, int timo )

@@ -12,7 +12,6 @@
 #include "ActivityYesNoMsgBox.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
 
 #include "FileShareItemWidget.h"
 #include "GuiHelpers.h"
@@ -58,8 +57,15 @@ AppletBrowseFiles::AppletBrowseFiles( AppCommon& app, QWidget* parent, QString l
 
 	ui.m_UpDirectoryButton->setIcon( eMyIconMoveUpDirNormal );
 	ui.m_UpDirectoryButton->setSquareButtonSize( eButtonSizeMedium );
+	ui.m_BrowseButton->setIcon( eMyIconFileBrowseNormal );
+	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeMedium );
 	ui.m_AddAllButton->setIcon( eMyIconLibraryCancel );
 	ui.m_AddAllButton->setSquareButtonSize( eButtonSizeMedium );
+	if( m_IsSelectAFileMode )
+	{
+		ui.m_AddAllButton->setVisible( false );
+		ui.m_AddAllLabel->setVisible( false );
+	}
 
 	m_WidgetClickEventFixTimer->setInterval( 10 );
 	connect( m_WidgetClickEventFixTimer, SIGNAL(timeout()), this, SLOT(slotRequestFileList()) );
@@ -79,8 +85,8 @@ AppletBrowseFiles::AppletBrowseFiles( AppCommon& app, QWidget* parent, QString l
     connect(this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet()));
 
     m_MyApp.activityStateChange(this, true);
-	
 	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+
 	setActionEnable( false );
 	setFileFilter( m_eFileFilterType );
 	connect( ui.m_FileFilterComboBox, SIGNAL(signalApplyFileFilter(unsigned char)), this,  SLOT(slotApplyFileFilter(unsigned char)) );
@@ -92,6 +98,9 @@ AppletBrowseFiles::AppletBrowseFiles( AppCommon& app, QWidget* parent, QString l
 AppletBrowseFiles::~AppletBrowseFiles()
 {
 	clearFileList();
+	
+	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+	m_MyApp.activityStateChange(this, false);
 }
     
 //========================================================================
@@ -221,35 +230,41 @@ void AppletBrowseFiles::hideEvent( QHideEvent* ev )
 }
 
 //============================================================================
-void AppletBrowseFiles::callbackToGuiFileList( FileInfo& fileInfo )
+void AppletBrowseFiles::callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo )
 {
-	addFile( fileInfo );
+	if( appInstId == getAppletInstId() )
+	{
+		addFile( fileInfo );
+	}
 }
 
 //============================================================================
-void AppletBrowseFiles::callbackToGuiFileListCompleted( void )
+void AppletBrowseFiles::callbackToGuiFileListCompleted( VxGUID& appInstId )
 {
-	setActionEnable( true );
-	bool hasFilesInList{ false };
-	for( int i = 0; i < ui.FileItemList->count(); i++ )
+	if( appInstId == getAppletInstId() )
 	{
-		QListWidgetItem* itemInList = ui.FileItemList->item( i );
-		FileItemInfo* poInfo = ((FileShareItemWidget*)itemInList)->getFileItemInfo();
-		if( poInfo->isDirectory() )
+		setActionEnable( true );
+		bool hasFilesInList{ false };
+		for( int i = 0; i < ui.FileItemList->count(); i++ )
 		{
-			continue;
+			QListWidgetItem* itemInList = ui.FileItemList->item( i );
+			FileItemInfo* poInfo = ((FileShareItemWidget*)itemInList)->getFileItemInfo();
+			if( poInfo->isDirectory() )
+			{
+				continue;
+			}
+
+			if( poInfo->getFileType() == VXFILE_TYPE_EXECUTABLE )
+			{
+				continue;
+			}
+
+			hasFilesInList = true;
+			break;
 		}
 
-		if( poInfo->getFileType() == VXFILE_TYPE_EXECUTABLE )
-		{
-			continue;
-		}
-
-		hasFilesInList = true;
-		break;
+		showAddAllToLibrary( hasFilesInList );
 	}
-
-	showAddAllToLibrary( hasFilesInList );
 }
 
 //============================================================================
@@ -323,6 +338,11 @@ FileShareItemWidget* AppletBrowseFiles::fileToWidget( FileInfo& fileInfo )
 //============================================================================
 void AppletBrowseFiles::addFile( FileInfo& fileInfo )
 {
+	if( fileExistsInList( fileInfo.getFullFileName().c_str() ) )
+	{
+		return;
+	}
+
 	FileShareItemWidget* item = fileToWidget( fileInfo );
 	if( item )
 	{
@@ -360,7 +380,6 @@ void AppletBrowseFiles::addFile( FileInfo& fileInfo )
 					break;
 				}
 			}
-
 
 			if( false == itemInserted )
 			{
@@ -410,15 +429,25 @@ void AppletBrowseFiles::slotUpDirectoryClicked( void )
 //============================================================================
 void AppletBrowseFiles::slotBrowseButtonClicked( void )
 {
-	QString selectedDir = "";
 	QString curDir = m_CurBrowseDirectory.c_str();
-	QFileDialog dialog( (QWidget*)this->parent(), QObject::tr("Open Directory"), curDir );
+
+	std::string selectedDir = GuiHelpers::browseForDirectory( curDir, this );
+
+	/*
+	QFileDialog dialog( (QWidget*)this->parent(), QObject::tr("Select Folder"), curDir );
+
 #if QT_VERSION > QT_VERSION_CHECK(6,0,0)
 	dialog.setFileMode( QFileDialog::Directory );
 #else
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
 #endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
+#if defined(TARGET_OS_ANDROID)
+    dialog.setOptions( QFileDialog::ShowDirsOnly );
+#else
 	dialog.setOptions( QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks );
+#endif // defined(TARGET_OS_ANDROID)
+
 	dialog.setDirectory( curDir );
 	QStringList fileNames;
 	if (dialog.exec())
@@ -438,16 +467,18 @@ void AppletBrowseFiles::slotBrowseButtonClicked( void )
 			selectedDir.append( "/" );
 		}
 	}
+	*/
 
-	//QString strDir = GuiHelpers::browseForDirectory( m_CurBrowseDirectory.c_str(), this );
-	if( !selectedDir.isEmpty() )
+	if( !selectedDir.empty() )
 	{
-		setCurrentBrowseDir( selectedDir );
+		setCurrentBrowseDir( selectedDir.c_str() );
 		setActionEnable( false );
+
+		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, selectedDir );
+
 		slotRequestFileList();
 	}
 }
-
 
 //============================================================================
 void AppletBrowseFiles::slotAddAllButtonClicked( void )
@@ -549,12 +580,20 @@ void AppletBrowseFiles::slotListItemDoubleClicked( QListWidgetItem* item )
 				if( poInfo->shouldOpenFile() )
 				{
 					m_FileWasSelected			= true;
+
+					emit signalFileWasSelected( poInfo->getFullFileName() );
+
 					m_SelectedFileType			= poInfo->getFileType();
 					m_SelectedFileName			= poInfo->getFullFileName().toUtf8().constData();
 					m_SelectedFileLen			= poInfo->getFileLength();
 					m_SelectedFileIsShared		= poInfo->getIsSharedFile();
 					m_SelectedFileIsInLibrary	= poInfo->getIsInLibrary();
-					accept();
+					
+					m_MyApp.activityStateChange( this, false );
+					m_MyApp.wantToGuiActivityCallbacks( this, false );					
+					m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+
+					delayedCloseApplet();
 				}
 			}
 		}
@@ -637,7 +676,11 @@ void AppletBrowseFiles::slotListPlayIconClicked( QListWidgetItem* item )
 	FileItemInfo * poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
 	if( poInfo )
 	{
-		if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+		if( m_IsSelectAFileMode )
+		{
+			slotListItemDoubleClicked( item );
+		}
+		else if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
 		{
 			if( false == m_bFetchInProgress )
 			{
@@ -740,9 +783,10 @@ void AppletBrowseFiles::fromListWidgetRequestFileList( void )
 //============================================================================
 void AppletBrowseFiles::slotApplyFileFilter( unsigned char fileMask )
 {
-	m_eFileFilterType = ui.m_FileFilterComboBox->getCurrentFileFilterType();
-	setDefaultCurrentDir( ui.m_FileFilterComboBox->getCurrentFileFilterType() );
 	m_FileFilterMask = fileMask;
+
+	m_eFileFilterType = ui.m_FileFilterComboBox->getCurrentFileFilterType();
+	//setDefaultCurrentDir( ui.m_FileFilterComboBox->getCurrentFileFilterType() );
 	slotRequestFileList();
 }
 
@@ -751,9 +795,10 @@ void AppletBrowseFiles::slotRequestFileList( void )
 {
 	m_WidgetClickEventFixTimer->stop();
 	clearFileList();
+
 	ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
 	m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
-	m_Engine.getFromGuiInterface().fromGuiBrowseFiles( m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
+	m_Engine.getFromGuiInterface().fromGuiBrowseFiles( getAppletInstId(), m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY );
 }
 
 //============================================================================
@@ -772,4 +817,20 @@ void AppletBrowseFiles::clearFileList( void )
 void AppletBrowseFiles::showAddAllToLibrary( bool visible )
 {
 	ui.m_AddAllWidget->setVisible( visible );
+}
+
+//============================================================================
+bool AppletBrowseFiles::fileExistsInList( QString fileName )
+{
+	for(int i = 0; i < ui.FileItemList->count(); ++i)
+	{
+		QListWidgetItem* item = ui.FileItemList->item(i);
+		FileItemInfo * poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
+		if( poInfo && poInfo->getFullFileName() == fileName )
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -550,8 +550,8 @@ public:
     virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, std::string& fileName, EXferError xferError ) override;
 
-    virtual void				toGuiFileList( FileInfo& fileInfo ) override;
-    virtual void				toGuiFileListCompleted( void ) override;
+    virtual void				toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
+    virtual void				toGuiFileListCompleted( VxGUID& appInstId ) override;
     //=== to gui search ===//
     virtual void				toGuiScanResultSuccess( EScanType eScanType, VxNetIdent* netIdent ) override;
     virtual void				toGuiSearchResultError( EScanType eScanType, VxNetIdent* netIdent, int errCode ) override;
@@ -676,8 +676,8 @@ signals:
     void                        signalInternalToGuiFileXferState( EPluginType pluginType, VxGUID lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 );
     void                        signalInternalToGuiFileDeleted( QString fileName );
 
-    void                        signalInternalToGuiFileList( FileInfo fileInfo );
-    void                        signalInternalToGuiFileListCompleted( void );
+    void                        signalInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo );
+    void                        signalInternalToGuiFileListCompleted( VxGUID appInstId );
 
     void                        signalInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
     void                        signalInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
@@ -743,8 +743,8 @@ private slots:
     void                        slotInternalToGuiFileXferState( EPluginType pluginType, VxGUID lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 );
     void                        slotInternalToGuiFileDeleted( QString fileName );
 
-    void                        slotInternalToGuiFileList( FileInfo fileInfo );
-    void                        slotInternalToGuiFileListCompleted( void );
+    void                        slotInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo );
+    void                        slotInternalToGuiFileListCompleted( VxGUID appInstId );
 
     void                        slotInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
     void                        slotInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );

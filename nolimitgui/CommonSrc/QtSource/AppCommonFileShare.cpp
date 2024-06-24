@@ -137,35 +137,35 @@ void AppCommon::slotInternalToGuiFileUploadComplete( EPluginType pluginType, VxG
 }
 
 //============================================================================
-void AppCommon::toGuiFileList( FileInfo& fileInfo )
+void AppCommon::toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalToGuiFileList( fileInfo );
+	emit signalInternalToGuiFileList( appInstId, fileInfo );
 }
 
 //============================================================================
-void AppCommon::slotInternalToGuiFileList( FileInfo fileInfo )
+void AppCommon::slotInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo )
 {
-    getFileXferMgr().toGuiFileList( fileInfo );
+    getFileXferMgr().toGuiFileList( appInstId, fileInfo );
 }
 
 //============================================================================
-void AppCommon::toGuiFileListCompleted( void )
+void AppCommon::toGuiFileListCompleted( VxGUID& appInstId )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalToGuiFileListCompleted();
+	emit signalInternalToGuiFileListCompleted(appInstId);
 }
 
 //============================================================================
-void AppCommon::slotInternalToGuiFileListCompleted( void )
+void AppCommon::slotInternalToGuiFileListCompleted( VxGUID appInstId )
 {
-    getFileXferMgr().toGuiFileListCompleted();
+    getFileXferMgr().toGuiFileListCompleted(appInstId);
 }

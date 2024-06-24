@@ -12,8 +12,9 @@
 #include "ui_InstMsgWidget.h"
 #include <GuiInterface/IDefs.h>
 
-class P2PEngine;
 class AppCommon;
+class GuiUser;
+class P2PEngine;
 class VxNetIdent;
 
 class InstMsgWidget : public QWidget

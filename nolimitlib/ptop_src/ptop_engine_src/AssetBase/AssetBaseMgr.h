@@ -64,7 +64,6 @@ public:
     // startup when user specific directory has been set after user logs on
     virtual void				onPluginsInitialized( void );
 
-    virtual bool				fromGuiGetAssetBaseInfo( uint8_t fileTypeFilter );
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile );
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
     virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash );

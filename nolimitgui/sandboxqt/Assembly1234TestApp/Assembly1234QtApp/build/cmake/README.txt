@@ -1,1 +1,0 @@
-read nolimitapp/cmake/docs_cmake_setup/CMakeSetup.txt for instructions

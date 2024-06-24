@@ -15,6 +15,8 @@
 #include "PlayControlWidget.h"
 #include "ui_AppletPlayerNlc.h"
 
+#include <CoreLib/VxFileLists.h>
+
 #include <QElapsedTimer>
 
 class QDir;
@@ -35,6 +37,8 @@ public:
 
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 
+	bool						isMediaPlayerReady( bool notifyIfNotReady = false );
+
 protected slots:
     void                        slotAppletClosing( void );
 
@@ -44,6 +48,9 @@ protected slots:
 
 	void						slotBrowseButtonClick( void );
 	void						slotReplayButtonClick( void );
+    void                        slotSelectFileButtonClick( void );
+
+	void						slotFileWasSelected( QString fileName );
 
 protected:
 	void						initAppletPlayerNlc( void );
@@ -54,12 +61,15 @@ protected:
 	void						onFileSelected( FileInfo& fileInfo );
 	void						playSelectedMovie( std::string movieFile );
 
-	int							addMediaFilesToComboBox( QDir& mediaDir );
-	bool						addFileToComboBox( const QFileInfo& fileInfo );
+	int							addMediaFilesToRecentList( QDir& mediaDir );
+
+	void						refreshRecentFilesComboBox( void );
+	void						updateRecentListVisibility( void );
 
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi		ui;
-	std::vector<std::string>	m_ComboBoxFileList;
+	static VxFileList			m_RecentFiles;
+	bool						m_MediaPlayerReady{ false };
 };
 
 

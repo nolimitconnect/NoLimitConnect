@@ -38,7 +38,7 @@
 #endif
 
 #include <algorithm>
-
+#include <regex>
 
 #define PATH_SEP_CHAR   '/'
 #define PATH_ALT_SEP_CHAR   '\\'
@@ -2428,4 +2428,59 @@ std::string VxFileUtil::describeFileSize( uint64_t fileLen )
 	strcat( textBuf, as8Buf );
 	strcat( textBuf, as8Suffix );
 	return textBuf;
+}
+
+
+//============================================================================
+std::string VxFileUtil::decodePercentEncodingAll( std::string& fileName )
+{
+    std::string resultName = fileName;
+
+#if defined(TARGET_OS_ANDROID)
+    if( !fileName.empty() )
+    {
+        // android file content providers use percent encoding of not allowed url characters
+        resultName = std::regex_replace(fileName, std::regex("%2F"), "/");
+        resultName = std::regex_replace(fileName, std::regex("%3A"), ":");
+    }
+#else
+    // do nothing
+#endif // defined(TARGET_OS_ANDROID)
+    return resultName;
+}
+
+//============================================================================
+void VxFileUtil::decodePercentEncodingOfSlash( std::string& fileName )
+{
+#if 0 // defined(TARGET_OS_ANDROID) // sigh android is so screwy this does not work
+//#if defined(TARGET_OS_ANDROID)
+	if( fileName.empty() )
+	{
+        return;
+	}
+
+	// android file content providers use percent encoding of not allowed url characters
+	// we cannot unencode all because it also encodes colon so just decode the slashes back into characters
+	fileName = std::regex_replace(fileName, std::regex("%2F"), "/");
+#else
+    // do nothing
+#endif // defined(TARGET_OS_ANDROID)
+}
+
+//============================================================================
+void VxFileUtil::encodePercentEncodingOfSlash( std::string& fileName )
+{
+#if 0 // defined(TARGET_OS_ANDROID) // sigh android is so screwy this does not work
+//#if defined(TARGET_OS_ANDROID)
+    if( fileName.empty() )
+    {
+        return;
+    }
+
+    // android file content providers use percent encoding of not allowed url characters
+    // we cannot unencode all because it also encodes colon so just decode the slashes back into characters
+    fileName = std::regex_replace(fileName, std::regex("/"), "%2F");
+#else
+	// do nothing
+#endif // defined(TARGET_OS_ANDROID)
 }

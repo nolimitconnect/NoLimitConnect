@@ -173,7 +173,7 @@ void RenderGlWidget::resizeEvent( QResizeEvent* ev )
 {
     QWidget::resizeEvent( ev );
 
-    handleGlResize( ev->size().width(), ev->size().width() );
+    handleGlResize( ev->size().width(), ev->size().height() );
 }
 
 //============================================================================

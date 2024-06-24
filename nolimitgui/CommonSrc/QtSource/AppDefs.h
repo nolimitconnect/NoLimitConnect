@@ -235,6 +235,16 @@ enum EApplet
 	eMaxApplets // must be last
 };
 
+enum EButtonSize
+{
+    eButtonSizeTiny,
+    eButtonSizeSmall,
+    eButtonSizeMedium,
+    eButtonSizeLarge,
+
+    eMaxButtonSize
+};
+
 enum EDefaultAppMode
 {
 	eAppModeUnknown,

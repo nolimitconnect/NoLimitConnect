@@ -10,6 +10,8 @@
 
 #include "VxSpinProgress.h"
 
+#include "GuiParams.h"
+
 #include <CoreLib/VxDebug.h>
 
 #include <QTimer>

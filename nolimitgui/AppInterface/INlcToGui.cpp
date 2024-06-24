@@ -361,9 +361,9 @@ void INlc::toGuiInstMsg( VxNetIdent*	    netIdent,
 }
 
 //============================================================================
-void INlc::toGuiFileList( FileInfo& fileInfo )
+void INlc::toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo )
 {
-    getAppCommon().toGuiFileList( fileInfo );
+    getAppCommon().toGuiFileList( appInstId, fileInfo );
 }
 
 //============================================================================
@@ -373,9 +373,9 @@ void INlc::toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInf
 }
 
 //============================================================================
-void INlc::toGuiFileListCompleted( void )
+void INlc::toGuiFileListCompleted( VxGUID& appInstId )
 {
-    getAppCommon().toGuiFileListCompleted();
+    getAppCommon().toGuiFileListCompleted( appInstId );
 }
 
 //============================================================================

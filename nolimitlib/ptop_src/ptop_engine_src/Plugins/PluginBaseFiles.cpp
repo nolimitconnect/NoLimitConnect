@@ -95,7 +95,7 @@ void PluginBaseFiles::fromGuiCancelUpload( VxGUID& fileInstance )
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMask )
+bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, uint8_t fileFilterMask )
 {
 	if( 0 == fileFilterMask )
 	{
@@ -130,7 +130,7 @@ bool PluginBaseFiles::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMa
 				fileInfo.setIsInLibrary( isInLibrary );
 				fileInfo.setIsSharedFile( isShared );
 
-				IToGui::getToGui().toGuiFileList( fileInfo );
+				IToGui::getToGui().toGuiFileList( appInstId, fileInfo );
 			}
 			else
 			{
@@ -151,14 +151,14 @@ bool PluginBaseFiles::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMa
 		}
 	}
 
-	IToGui::getToGui().toGuiFileListCompleted();
+	IToGui::getToGui().toGuiFileListCompleted(appInstId);
 	return isPluginEnabled();
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
+bool PluginBaseFiles::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-	return m_FileInfoMgr.fromGuiGetSharedFiles( fileTypeFilter );
+	return m_FileInfoMgr.fromGuiGetSharedFiles( appInstId, fileTypeFilter );
 }
 
 //============================================================================

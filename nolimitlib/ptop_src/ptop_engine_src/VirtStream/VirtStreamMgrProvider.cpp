@@ -443,7 +443,10 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
 {
     fileList.clear();
 #if defined(TARGET_OS_ANDROID)
+
     std::string folderName( srcDir );
+    //VxFileUtil::removeTrailingDirectorySlash(folderName);
+    //VxFileUtil::encodePercentEncodingOfSlash(folderName);
 
     if( 0 == fileFilterMask )
     {
@@ -458,6 +461,7 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();
+        VxFileUtil::decodePercentEncodingOfSlash( fileName );
 
         VxFileInfo vxFileInfo;
 
@@ -479,10 +483,19 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
         }
         else if( fileListInfo.isReadable() )
         {
-            vxFileInfo.setFileName( fileName.c_str() );
-            vxFileInfo.setFileType( VxFileNameToFileType( fileName ) );
-            vxFileInfo.setFileLength( fileListInfo.size() );
-            fileList.push_back( vxFileInfo );
+            int64_t fileLen = fileListInfo.size();
+
+            if( fileLen )
+            {
+                vxFileInfo.setFileName( fileName.c_str() );
+                vxFileInfo.setFileType( VxFileNameToFileType( fileName ) );
+                vxFileInfo.setFileLength( fileLen );
+                fileList.push_back( vxFileInfo );
+            }
+            else
+            {
+                LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
+            }
         }
         else
         {

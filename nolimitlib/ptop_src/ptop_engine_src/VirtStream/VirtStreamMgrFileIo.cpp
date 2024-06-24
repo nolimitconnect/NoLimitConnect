@@ -172,7 +172,6 @@ bool VirtStreamMgr::fileIsProviderFile( const char* fileName )
     return false;
 #endif // defined(TARGET_OS_ANDROID)
 }
-
 	
 //============================================================================
 bool VirtStreamMgr::seperatePathAndFile( const char* pFullPath,		// path and file name			
@@ -188,8 +187,9 @@ bool VirtStreamMgr::seperatePathAndFile( const char* pFullPath,		// path and fil
 		size_t strPos = fullPath.rfind ( speratorStr );
 		if( strPos != std::string::npos )
 		{
-			strRetFile = fullPath.substr( strPos, fullPath.length() - strPos );
+            strRetFile = fullPath.substr( strPos + speratorStr.length(), fullPath.length() - strPos );
 			strRetPath = fullPath.substr( 0, strPos );
+
 		}
 		else
 		{

@@ -24,16 +24,6 @@
 #include <QSize>
 #include <QCamera>
 
-enum EButtonSize
-{
-    eButtonSizeTiny,
-    eButtonSizeSmall,
-    eButtonSizeMedium,
-    eButtonSizeLarge,
-
-    eMaxButtonSize
-};
-
 class GuiUser;
 
 class GuiParams

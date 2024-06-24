@@ -857,31 +857,6 @@ bool OfferBaseMgr::clientOfferExists( OfferBaseInfo& offerInfo )
 }
 
 //============================================================================
-bool OfferBaseMgr::fromGuiGetOfferBaseInfo( uint8_t fileTypeFilter )
-{
-	lockResources();
-	for( auto offerInfo : m_OfferBaseInfoList )
-	{
-		if( 0 != ( fileTypeFilter & offerInfo->getOfferType() ) )
-		{
-			if( offerInfo->isSharedFileOffer() || offerInfo->isInLibary() )
-			{
-				FileInfo fileInfo( offerInfo->getCreatorId(), offerInfo->getOfferName(), offerInfo->getOfferLength(),
-					(uint8_t)offerInfo->getOfferType(), offerInfo->getOfferId(), offerInfo->getOfferHashId() );
-				fileInfo.setIsInLibrary( offerInfo->isInLibary() );
-				fileInfo.setIsSharedFile( offerInfo->isSharedFileOffer() );
-
-				IToGui::getToGui().toGuiFileList( fileInfo );
-			}
-		}
-	}
-
-	unlockResources();
-	IToGui::getToGui().toGuiFileListCompleted();
-	return true;
-}
-
-//============================================================================
 void OfferBaseMgr::updateDatabase( OfferBaseInfo* offerInfo )
 {
 	m_OfferBaseInfoDb.addOffer( offerInfo );

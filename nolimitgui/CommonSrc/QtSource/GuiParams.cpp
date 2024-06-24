@@ -13,6 +13,7 @@
 #include "AppDefs.h"
 #include "AppTranslate.h"
 #include "GuiParams.h"
+#include "GuiUser.h"
 
 #include <QApplication>
 #include <QScreen>
@@ -21,10 +22,6 @@
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
 #include <CoreLib/VxDebug.h>
-
-#if !defined(SANDBOX_APP)
-#include "GuiUser.h"
-#endif // !defined(SANDBOX_APP)
 
 namespace
 {

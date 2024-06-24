@@ -52,7 +52,6 @@ public:
     virtual void				fromGuiUserLoggedOn( void );
 	virtual void				onPluginsInitialized( void );
 
-    virtual bool				fromGuiGetOfferBaseInfo( uint8_t fileTypeFilter );
     virtual bool				fromGuiSetFileIsShared( std::string fileName, bool shareFile, uint8_t * fileHashId );
 
 	virtual void				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo ) {};

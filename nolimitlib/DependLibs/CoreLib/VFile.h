@@ -52,7 +52,7 @@ int		VFileSetPos( VFile* fp, const fpos_t* pos );
 int		VFileSeek( VFile* fp, size_t offset, int whence );
 int		VFileSeek64( VFile* fp, uint64_t offs );
 
-int		VFilePrintf( VFile* fp, char* msg, ... );
+int		VFilePrintf( VFile* fp, const char* msg, ... );
 
 #ifdef __cplusplus
 }

@@ -360,8 +360,8 @@ public:
 
     virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName = nullptr ) override;
 
-    virtual bool				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
-    virtual bool				fromGuiGetSharedFiles( uint8_t fileTypeFilter ) override;
+    virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
+    virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
 
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
@@ -376,7 +376,7 @@ public:
     virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) override;
     virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) override;
 
-    virtual void				fromGuiGetFileLibraryList( uint8_t fileTypeFilter ) override;
+    virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
 
     virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) override; // for remove before deletion
 

@@ -65,8 +65,8 @@ protected:
     void						showEvent( QShowEvent* ev ) override;
     void						hideEvent( QHideEvent* ev ) override;
 
-	void						callbackToGuiFileList( FileInfo& fileInfo ) override;
-	void						callbackToGuiFileListCompleted( void ) override;
+	void						callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
+	void						callbackToGuiFileListCompleted( VxGUID& appInstId ) override;
 	void						toGuiFileDeleted( QString& fileName ) override;
 
 	void						fromListWidgetRequestFileList( void );
@@ -81,6 +81,8 @@ protected:
 	void						showAddAllToLibrary( bool visible );
 
 	void                        updateStorageSpace( std::string fileName );
+
+	bool						fileExistsInList( QString fileName );
 
 	Ui::BrowseFilesWidget		ui;
 

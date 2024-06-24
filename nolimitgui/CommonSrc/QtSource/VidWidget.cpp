@@ -15,6 +15,7 @@
 #include "AppletMgr.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 
 #include <P2PEngine/P2PEngine.h>

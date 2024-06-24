@@ -1050,7 +1050,7 @@ void FileInfoBaseMgr::toGuiFileUploadComplete( VxGUID& lclSessionId, std::string
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
+bool FileInfoBaseMgr::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
 	int sharedFilesCnt{ 0 };
 	lockFileList();
@@ -1081,14 +1081,14 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
 			fileInfo.setIsInLibrary( isInLibrary );
 			fileInfo.setIsSharedFile( isShared );
 
-			IToGui::getToGui().toGuiFileList( fileInfo );
+			IToGui::getToGui().toGuiFileList( appInstId, fileInfo );
 
 			sharedFilesCnt++;
 		}
 	}
 
 	unlockFileList();
-	IToGui::getToGui().toGuiFileListCompleted();
+	IToGui::getToGui().toGuiFileListCompleted(appInstId);
 	return sharedFilesCnt;
 }
 

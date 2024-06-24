@@ -67,6 +67,7 @@ namespace{
 #include <QtAndroid>
 const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
                                     "android.permission.WRITE_EXTERNAL_STORAGE",
+                                    "android.permission.MANAGE_DOCUMENTS",
                                     "android.permission.INTERNET",
                                     "android.permission.ACCESS_WIFI_STATE",
                                     "android.permission.CHANGE_WIFI_STATE",

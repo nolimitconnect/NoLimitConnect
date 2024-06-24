@@ -23,6 +23,7 @@
 // Android 11 (API level 30) implemented scoped storage which is why this class exists
 
 class QUrl;
+class VxGUID;
 
 class VirtStorageProvider
 {
@@ -33,7 +34,7 @@ public:
 	virtual ~VirtStorageProvider() = default;
 
 
-    void				fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
+    void				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
 
 protected:
     bool                requestAndroidStoragePermissions( void );

@@ -9,18 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-enum EPushToTalkStatus
-{
-    ePushToTalkStatusInvalid,
-    ePushToTalkStatusNotActive,
-    ePushToTalkStatusTxEnabled,
-    ePushToTalkStatusRxEnabled,
-    ePushToTalkStatusDuplexEnabled,
-
-    ePushToTalStatusNoConnection,
-
-    eMaxStatusPushToTalk
-};
+#include <GuiInterface/IAudioDefs.h>
 
 class VxGUID;
 

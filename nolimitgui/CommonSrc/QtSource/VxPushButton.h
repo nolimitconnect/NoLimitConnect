@@ -9,9 +9,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppDefs.h"
 #include "SoundDefs.h"
 #include "MyIconsDefs.h"
-#include "GuiParams.h"
+#include <GuiInterface/IAudioDefs.h>
 
 #include <QPushButton>
 

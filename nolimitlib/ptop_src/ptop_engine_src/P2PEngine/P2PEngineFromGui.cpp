@@ -1429,15 +1429,15 @@ void P2PEngine::fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const
 }
 
 //============================================================================
-bool P2PEngine::fromGuiBrowseFiles( std::string& dir, uint8_t fileFilterMask )
+bool P2PEngine::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, uint8_t fileFilterMask )
 {
-	return getPluginFileShareServer().fromGuiBrowseFiles( dir, fileFilterMask );
+	return getPluginFileShareServer().fromGuiBrowseFiles( appInstId, dir, fileFilterMask );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
+bool P2PEngine::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-	return getPluginFileShareServer().fromGuiGetSharedFiles( fileTypeFilter );
+	return getPluginFileShareServer().fromGuiGetSharedFiles( appInstId, fileTypeFilter );
 }
 
 //============================================================================
@@ -1483,9 +1483,9 @@ bool P2PEngine::fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibra
 }
 
 //============================================================================
-void P2PEngine::fromGuiGetFileLibraryList( uint8_t fileTypeFilter )
+void P2PEngine::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-	getPluginLibraryServer().fromGuiGetFileLibraryList(	fileTypeFilter );
+	getPluginLibraryServer().fromGuiGetFileLibraryList(	appInstId, fileTypeFilter );
 }
 
 //============================================================================

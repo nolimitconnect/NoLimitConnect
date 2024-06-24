@@ -575,15 +575,15 @@ void INlc::fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName 
 }
 
 //============================================================================
-bool INlc::fromGuiBrowseFiles( std::string& folderName, uint8_t fileFilterMask )
+bool INlc::fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask )
 {
-    return getPtoP().fromGuiBrowseFiles( folderName, fileFilterMask );
+    return getPtoP().fromGuiBrowseFiles( appInstId, folderName, fileFilterMask );
 }
 
 //============================================================================
-bool INlc::fromGuiGetSharedFiles( uint8_t fileTypeFilter )
+bool INlc::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-    return getPtoP().fromGuiGetSharedFiles( fileTypeFilter );
+    return getPtoP().fromGuiGetSharedFiles( appInstId, fileTypeFilter );
 }
 
 //============================================================================
@@ -629,9 +629,9 @@ bool INlc::fromGuiSetFileIsInLibrary( std::string fileName, bool inLibrary )
 }
 
 //============================================================================
-void INlc::fromGuiGetFileLibraryList( uint8_t fileTypeFilter )
+void INlc::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-    getPtoP().fromGuiGetFileLibraryList( fileTypeFilter );
+    getPtoP().fromGuiGetFileLibraryList( appInstId, fileTypeFilter );
 }
 
 //============================================================================

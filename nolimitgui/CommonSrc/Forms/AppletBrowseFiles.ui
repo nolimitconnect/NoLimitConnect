@@ -117,13 +117,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="m_BrowseButton">
-          <property name="text">
-           <string>Browse</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
@@ -132,7 +125,7 @@
       <item>
        <widget class="QLabel" name="m_DoubleTapInstructionLabel">
         <property name="text">
-         <string>Double Click File Item to Select The File</string>
+         <string>Click File Icon or Double Click File Item to Select The File</string>
         </property>
        </widget>
       </item>
@@ -185,7 +178,39 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Move Up A Directory</string>
+            <string>Move Up A Folder</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxPushButton" name="m_BrowseButton">
+           <property name="minimumSize">
+            <size>
+             <width>48</width>
+             <height>48</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>48</width>
+             <height>48</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Selected A Folder</string>
            </property>
           </widget>
          </item>

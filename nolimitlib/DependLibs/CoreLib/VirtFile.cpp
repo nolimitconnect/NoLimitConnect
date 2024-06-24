@@ -42,18 +42,7 @@ VirtFile::VirtFile( VFile* vFile, const char* fileName, const char* fileMode )
 //============================================================================
 VFile* VirtFileOpen( const char* fileName, const char* fileMode )
 {
-	VFile* vFile = (VFile*)malloc( sizeof( VFile ) );
-	vx_assert( vFile );
-
-	if( GetVirtFileMgr().fileOpen( vFile ) )
-	{
-		return vFile;
-	}
-	else
-	{
-		free( vFile );
-		return nullptr;
-	}
+	return GetVirtFileMgr().fileOpen( fileName, fileMode );
 }
 
 //============================================================================
@@ -128,9 +117,4 @@ int VirtFileSetPos( VFile* fp, const fpos_t* pos )
 int VirtFileSeek( VFile* fp, size_t offset, int whence )
 {
 	return GetVirtFileMgr().fileSeek( fp, offset, whence );
-}
-
-fpos_t VirtFileTell( VFile* fp )
-{
-	return GetVirtFileMgr().fileTell( fp );
 }

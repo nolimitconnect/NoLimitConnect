@@ -124,7 +124,7 @@ int VFileSeek64( VFile* fp, uint64_t offs )
 }
 
 //============================================================================
-int	VFilePrintf( VFile* fp, char* msg, ... )
+int	VFilePrintf( VFile* fp, const char* msg, ... )
 {
 	const int MAX_PRINTF_LEN = 4096;
 	std::array<char, MAX_PRINTF_LEN> szBuffer;

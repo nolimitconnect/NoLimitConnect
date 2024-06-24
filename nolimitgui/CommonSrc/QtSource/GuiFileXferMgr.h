@@ -57,8 +57,8 @@ public:
     virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID&	lclSessionId, QString& fileName, EXferError xferError );
     virtual void				toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString& fileName, EXferError xferError );
 
-    virtual void				toGuiFileList( FileInfo& fileInfo );
-    virtual void				toGuiFileListCompleted( void );
+    virtual void				toGuiFileList( VxGUID appInstId, FileInfo& fileInfo );
+    virtual void				toGuiFileListCompleted( VxGUID appInstId );
 
     virtual void				beginDownload( EApplet appletType, GuiFileXferSession* xferSession );
     virtual void				acceptDownload( EApplet appletType, GuiFileXferSession* xferSession );

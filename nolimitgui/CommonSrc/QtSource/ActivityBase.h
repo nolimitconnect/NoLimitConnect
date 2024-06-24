@@ -52,6 +52,8 @@ public:
     QWidget*				    getParentPageFrame( void ); // get home page frame ( Launch or Messenger Page )
 	QString						getParentPageFrameName( void ); // get home page frame name ( Object name of Launch or Messenger Page )
 
+	VxGUID&						getAppletInstId( void )				{ return m_AppInstId; }
+
     void                        setIsMaxScreenSize( bool fullScreen );
     bool                        getIsMaxScreenSize( void );
 
@@ -221,6 +223,12 @@ public:
 	virtual void				startBusySpinner( QWidget* parent = nullptr );
 	virtual void				stopBusySpinner( void );
 
+	virtual void				delayedCloseApplet( void )
+	{
+		m_DelayedCloseTimer->setSingleShot( true );
+		m_DelayedCloseTimer->start(10);
+	}
+
 signals:
 	//=== title bar signals ====//
 	void						signalPowerButtonClicked( void );
@@ -326,6 +334,7 @@ protected:
 
     GuiUser*				    m_HisIdent{nullptr};
     QTimer *					m_ResizingTimer{nullptr};
+	QTimer *					m_DelayedCloseTimer{nullptr};
     bool						m_IsResizing{false};
 	QSize						m_ResizingWindowSize;
     bool						m_IsDialog{false};
@@ -336,4 +345,6 @@ protected:
 	QString						m_PreviousTitle;
 
 	WaitingSpinnerWidget*		m_BusySpinner{ nullptr };
+
+	VxGUID						m_AppInstId;
 };

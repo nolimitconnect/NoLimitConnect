@@ -196,9 +196,6 @@
     <ClInclude Include="..\..\VxProfile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VxRefCount.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\VxSemaphore.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -304,6 +301,9 @@
     <ClInclude Include="..\..\AppVersion.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\VirtFile.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AppErr_corelib.cpp">
@@ -369,9 +369,6 @@
     <ClCompile Include="..\..\VxDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VxDefs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\VxFileCrc32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -430,9 +427,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxProfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VxRefCount.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxSemaphore.cpp">
@@ -517,6 +511,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VirtFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

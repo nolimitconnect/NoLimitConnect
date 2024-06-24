@@ -9,8 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppDefs.h"
+
 #include <QLabel>
-#include "GuiParams.h"
 
 class QTimer;
 

@@ -14,6 +14,7 @@
 #include "ChatEntryWidget.h"
 #include "DialogAddComment.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 #include "InputClientBaseCallback.h"
 
 #include <CoreLib/VxGlobals.h>

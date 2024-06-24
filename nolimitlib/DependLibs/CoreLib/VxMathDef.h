@@ -207,15 +207,6 @@ long FastFtol(float f);
 //fast way to make number the next power of 2
 int FastNextPow2(int Number);
 
-//nVidia FastSqrt
-//table for fast sqrt
-extern unsigned long g_au32FastSqrtTable[ 0x10000 ];
-//floating point bits
-#define F32Bits(fp) (*(unsigned *)&(fp))
-
-//============================================================================
-float FastSqrtf( float x );
-
 //============================================================================
 float AngleModulus( float fAngle );
 

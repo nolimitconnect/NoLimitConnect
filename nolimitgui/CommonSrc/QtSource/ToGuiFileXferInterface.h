@@ -30,8 +30,8 @@ class FileInfo;
 class ToGuiFileXferInterface 
 {
 public:
-	virtual void				callbackToGuiFileList( FileInfo& fileInfo ){};
-	virtual void				callbackToGuiFileListCompleted( void ) {};
+	virtual void				callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ){};
+	virtual void				callbackToGuiFileListCompleted( VxGUID& appInstId ) {};
 
 	virtual void				callbackBeginDownload( EApplet appletType, GuiFileXferSession* xferSession ) {};
 	virtual void				callbackAcceptDownload( EApplet appletType, GuiFileXferSession* xferSession ) {};

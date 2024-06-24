@@ -788,9 +788,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
@@ -843,9 +840,6 @@
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.h">
@@ -2206,9 +2200,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.cpp">
       <Filter>Source Files\GuiMemberActive</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
@@ -2264,9 +2255,6 @@
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.cpp">
@@ -2627,9 +2615,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\CommonSrc\Forms\AcceptCancelWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAddRemoveLibraryFiles.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAppSetup.ui">
@@ -3065,9 +3050,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletCamClient.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityViewLibraryFiles.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFileShareClientView.ui">

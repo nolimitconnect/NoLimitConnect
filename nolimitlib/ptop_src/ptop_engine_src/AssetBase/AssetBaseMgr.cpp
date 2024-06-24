@@ -457,8 +457,16 @@ bool AssetBaseMgr::addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreate
 
 	AssetBaseInfo* newAssetBaseInfo = createAssetInfo( assetInfo );
 	LogMsg( LOG_VERBOSE, "AssetBaseMgr::addAsset" );
-	retCreatedAsset = newAssetBaseInfo;
-	return newAssetBaseInfo != nullptr && insertNewInfo( newAssetBaseInfo );
+
+	if( newAssetBaseInfo != nullptr && insertNewInfo( newAssetBaseInfo ) )
+	{
+		retCreatedAsset = newAssetBaseInfo;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 //============================================================================
@@ -1056,32 +1064,6 @@ bool AssetBaseMgr::getFileFullName( VxSha1Hash& fileHashId, std::string& retFile
 
 	unlockResources();
 	return isAssetBase;
-}
-
-//============================================================================
-bool AssetBaseMgr::fromGuiGetAssetBaseInfo( uint8_t fileTypeFilter )
-{
-	lockResources();
-	for( auto* assetInfo : m_AssetBaseInfoList )
-	{
-		if( 0 != ( fileTypeFilter & assetInfo->getAssetType() ) )
-		{
-			if( assetInfo->isSharedFileAsset() || assetInfo->isInLibary() )
-			{
-				FileInfo fileInfo( assetInfo->getCreatorId(), assetInfo->getAssetName(), assetInfo->getAssetLength(),
-					(uint8_t)assetInfo->getAssetType(), assetInfo->getAssetUniqueId(), assetInfo->getAssetHashId() );
-
-				fileInfo.setIsInLibrary( assetInfo->isInLibary() );
-				fileInfo.setIsSharedFile( assetInfo->isSharedFileAsset() );
-
-				IToGui::getToGui().toGuiFileList( fileInfo );
-			}
-		}
-	}
-
-	unlockResources();
-	IToGui::getToGui().toGuiFileListCompleted();
-	return true;
 }
 
 //============================================================================

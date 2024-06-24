@@ -149,7 +149,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountDb.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountMgr.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp" />
@@ -169,7 +168,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommon.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonAudio.cpp" />
@@ -565,7 +563,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityViewLibraryFiles.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommonApp.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h" />
@@ -939,14 +936,12 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAddRemoveLibraryFiles.h" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\CommonSrc\Forms\AcceptCancelWidget.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAddRemoveLibraryFiles.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAppSetup.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBrowseFiles.ui" />
@@ -973,7 +968,6 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivitySoundOptions.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityTimedMessage.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityVideoOptions.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityViewLibraryFiles.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityYesNo.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletAboutApp.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletAboutMeClient.ui" />

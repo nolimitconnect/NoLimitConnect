@@ -267,6 +267,7 @@
     <ClInclude Include="..\..\VarToString.h" />
     <ClInclude Include="..\..\VFile.h" />
     <ClInclude Include="..\..\VFileDefs.h" />
+    <ClInclude Include="..\..\VirtFile.h" />
     <ClInclude Include="..\..\VirtFileMgr.h" />
     <ClInclude Include="..\..\VxAppInfo.h" />
     <ClInclude Include="..\..\VxBuffer.h" />
@@ -304,7 +305,6 @@
     <ClInclude Include="..\..\VxParse.h" />
     <ClInclude Include="..\..\VxProfile.h" />
     <ClInclude Include="..\..\VxPtopUrl.h" />
-    <ClInclude Include="..\..\VxRefCount.h" />
     <ClInclude Include="..\..\VxSemaphore.h" />
     <ClInclude Include="..\..\VxSettings.h" />
     <ClInclude Include="..\..\VxSha1Hash.h" />
@@ -346,6 +346,7 @@
     <ClCompile Include="..\..\StringListBinary.cpp" />
     <ClCompile Include="..\..\TimeIntervalEstimator.cpp" />
     <ClCompile Include="..\..\VFile.cpp" />
+    <ClCompile Include="..\..\VirtFile.cpp" />
     <ClCompile Include="..\..\VxAppInfo.cpp" />
     <ClCompile Include="..\..\VxBuffer.cpp" />
     <ClCompile Include="..\..\VxChop.cpp" />
@@ -353,7 +354,6 @@
     <ClCompile Include="..\..\VxColorUtil.cpp" />
     <ClCompile Include="..\..\VxCrypto.cpp" />
     <ClCompile Include="..\..\VxDebug.cpp" />
-    <ClCompile Include="..\..\VxDefs.cpp" />
     <ClCompile Include="..\..\VxFileCopier.cpp" />
     <ClCompile Include="..\..\VxFileCrc32.cpp" />
     <ClCompile Include="..\..\VxFileInfo.cpp" />
@@ -380,7 +380,6 @@
     <ClCompile Include="..\..\VxParse.cpp" />
     <ClCompile Include="..\..\VxProfile.cpp" />
     <ClCompile Include="..\..\VxPtopUrl.cpp" />
-    <ClCompile Include="..\..\VxRefCount.cpp" />
     <ClCompile Include="..\..\VxSemaphore.cpp" />
     <ClCompile Include="..\..\VxSettings.cpp" />
     <ClCompile Include="..\..\VxSha1Hash.cpp" />

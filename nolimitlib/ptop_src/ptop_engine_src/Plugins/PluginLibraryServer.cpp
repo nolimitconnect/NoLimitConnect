@@ -85,9 +85,9 @@ bool PluginLibraryServer::fromGuiSetFileIsInLibrary( std::string& fileName, bool
 }
 
 //============================================================================
-void PluginLibraryServer::fromGuiGetFileLibraryList( uint8_t fileTypeFilter )
+void PluginLibraryServer::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-	m_FileInfoMgr.fromGuiGetSharedFiles( fileTypeFilter );
+	m_FileInfoMgr.fromGuiGetSharedFiles( appInstId, fileTypeFilter );
 }
 
 //============================================================================
