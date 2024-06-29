@@ -9,11 +9,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <CoreLib/GroupieId.h>
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxThread.h>
-
-#include <PktLib/GroupieId.h>
 
 #include <deque>
 

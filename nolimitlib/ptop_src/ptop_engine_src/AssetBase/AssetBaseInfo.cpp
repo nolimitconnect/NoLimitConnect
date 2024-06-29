@@ -15,8 +15,8 @@
 #include <Plugins/FileInfo.h>
 
 #include <PktLib/VxSearchDefs.h>
-#include <PktLib/PktBlobEntry.h>
 
+#include <CoreLib/PktBlobEntry.h>
 #include <CoreLib/VxFileLists.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxFileUtil.h>

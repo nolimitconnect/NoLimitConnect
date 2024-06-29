@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "VxOnlineStatusFlags.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #define ONLINE_STATUS_AUTOMATED_HOST		0x01
 #define ONLINE_STATUS_FROM_SEARCH_PKT		0x02 // is from search list.. never connected to

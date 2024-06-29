@@ -20,7 +20,7 @@
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsGroupie.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 //============================================================================
 GroupieListMgr::GroupieListMgr( P2PEngine& engine )

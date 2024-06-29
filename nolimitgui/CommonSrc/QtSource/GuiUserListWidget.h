@@ -17,7 +17,7 @@
 #include "GuiMemberActiveCallback.h"
 #include "PushToTalk/PushToTalkCallback.h"
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 class GuiUserMgr;
 class GuiUserSessionBase;

@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "PktTypes.h"
-#include "GroupieId.h"
+#include <CoreLib/GroupieId.h>
 
 #pragma pack(push)
 #pragma pack(1)

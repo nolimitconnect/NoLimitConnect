@@ -10,11 +10,10 @@
 
 #include "RenderGlWidget.h"
 #include "AppCommon.h"
-#include "AppGlobals.h"
+
 #include "AppSettings.h"
-#include "MyIcons.h"
+
 #include "GuiHelpers.h"
-#include "MyIcons.h"
 
 #include <GuiInterface/NlcRenderFrame.h>
 

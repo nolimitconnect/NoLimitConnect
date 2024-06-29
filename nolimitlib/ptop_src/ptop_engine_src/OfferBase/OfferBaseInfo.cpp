@@ -10,7 +10,7 @@
 
 #include "OfferBaseInfo.h"
 
-#include <PktLib/PktBlobEntry.h>
+#include <CoreLib/PktBlobEntry.h>
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxTimer.h>
 

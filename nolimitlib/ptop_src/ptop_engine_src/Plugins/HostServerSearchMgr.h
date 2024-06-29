@@ -12,7 +12,7 @@
 #include "HostBaseMgr.h"
 #include "HostSearchEntry.h"
 
-#include <PktLib/PluginId.h>
+#include <CoreLib/PluginId.h>
 
 #include <CoreLib/VxGUIDList.h>
 #include <CoreLib/VxMutex.h>

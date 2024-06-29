@@ -10,7 +10,7 @@
 //============================================================================
 
 #include <IdentListMgrs/IdentListMgrBase.h>
-#include <PktLib/ConnectId.h>
+#include <CoreLib/ConnectId.h>
 
 #include <vector>
 #include <set>

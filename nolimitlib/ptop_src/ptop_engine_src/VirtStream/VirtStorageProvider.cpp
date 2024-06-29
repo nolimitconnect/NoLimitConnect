@@ -58,7 +58,7 @@ void VirtStorageProvider::fromGuiBrowseFiles( VxGUID& appInstId, std::string& fo
     QDir browseDir( folderName.c_str() );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileList.size(), folderName.c_str() );
+    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), folderName.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();

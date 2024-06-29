@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ConnectId.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/ConnectId.h>
+#include <CoreLib/PktBlobEntry.h>
 
 //============================================================================
 ConnectId::ConnectId( VxGUID& socketId )

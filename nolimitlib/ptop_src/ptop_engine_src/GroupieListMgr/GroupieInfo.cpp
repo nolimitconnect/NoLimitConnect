@@ -10,7 +10,7 @@
 
 #include "GroupieInfo.h"
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 #include <PktLib/PktsGroupie.h>
 
 #include <CoreLib/VxDebug.h>

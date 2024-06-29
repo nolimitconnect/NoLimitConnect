@@ -12,7 +12,7 @@
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/DbBase.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 #include <map>
 
 class P2PEngine;

@@ -8,55 +8,62 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "HostedId.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/GroupieId.h>
+#include <CoreLib/PktBlobEntry.h>
 
 //============================================================================
-HostedId::HostedId( VxGUID& onlineId, EHostType hostType )
-    : m_HostOnlineId( onlineId )
-    , m_HostType( hostType )
+GroupieId::GroupieId( VxGUID& userOnlineId, VxGUID& hostOnlineId, EHostType hostType )
+    : m_UserOnlineId( userOnlineId )
+    , m_HostedId( hostOnlineId, hostType )
 {
 }
 
 //============================================================================
-HostedId::HostedId( const HostedId& rhs )
-    : m_HostOnlineId( rhs.m_HostOnlineId )
-    , m_HostType( rhs.m_HostType )
+GroupieId::GroupieId( VxGUID& userOnlineId, HostedId& hostedId )
+    : m_UserOnlineId( userOnlineId )
+    , m_HostedId( hostedId )
 {
 }
 
 //============================================================================
-HostedId& HostedId::operator =( const HostedId& rhs )
+GroupieId::GroupieId( const GroupieId& rhs )
+    : m_UserOnlineId( rhs.m_UserOnlineId )
+    , m_HostedId( rhs.m_HostedId )
+{
+}
+
+//============================================================================
+GroupieId& GroupieId::operator =( const GroupieId& rhs )
 {
 	if( this != &rhs )
 	{
-        m_HostOnlineId          = rhs.m_HostOnlineId;
-        m_HostType              = rhs.m_HostType;
+        m_UserOnlineId            = rhs.m_UserOnlineId;
+        m_HostedId                = rhs.m_HostedId;
 	}
 
 	return *this;
 }
 
 //============================================================================
-bool HostedId::operator == ( const HostedId& rhs ) const
+bool GroupieId::operator == ( const GroupieId& rhs ) const
 {
-    return (m_HostOnlineId == rhs.m_HostOnlineId) && ( m_HostType == rhs.m_HostType );
+    return m_UserOnlineId == rhs.m_UserOnlineId &&  m_HostedId == rhs.m_HostedId;
 }
 
 //============================================================================
-bool HostedId::operator != ( const HostedId& rhs ) const
+bool GroupieId::operator != ( const GroupieId& rhs ) const
 {
     return !(*this == rhs);
 }
 
 //============================================================================
-bool HostedId::operator < ( const HostedId& rhs ) const
+bool GroupieId::operator < ( const GroupieId& rhs ) const
 {
-    return m_HostOnlineId < rhs.m_HostOnlineId || (m_HostOnlineId == rhs.m_HostOnlineId && m_HostType < rhs.m_HostType );
+    return m_UserOnlineId < rhs.m_UserOnlineId || (m_UserOnlineId == rhs.m_UserOnlineId && m_HostedId < rhs.m_HostedId );
 }
 
 //============================================================================
-bool HostedId::operator <= ( const HostedId& rhs ) const
+bool GroupieId::operator <= ( const GroupieId& rhs ) const
 {
     if( *this == rhs )
     {
@@ -72,13 +79,13 @@ bool HostedId::operator <= ( const HostedId& rhs ) const
 }
 
 //============================================================================
-bool HostedId::operator > ( const HostedId& rhs ) const
+bool GroupieId::operator > ( const GroupieId& rhs ) const
 {
-    return m_HostOnlineId > rhs.m_HostOnlineId || (m_HostOnlineId == rhs.m_HostOnlineId && m_HostType > rhs.m_HostType );
+    return m_UserOnlineId > rhs.m_UserOnlineId || (m_UserOnlineId == rhs.m_UserOnlineId && m_HostedId > rhs.m_HostedId );
 }
 
 //============================================================================
-bool HostedId::operator >= ( const HostedId& rhs ) const
+bool GroupieId::operator >= ( const GroupieId& rhs ) const
 {
     if( *this == rhs )
     {
@@ -94,38 +101,38 @@ bool HostedId::operator >= ( const HostedId& rhs ) const
 }
 
 //============================================================================
-bool HostedId::addToBlob( PktBlobEntry& blob )
+bool GroupieId::addToBlob( PktBlobEntry& blob )
 {
-    bool result = blob.setValue( m_HostOnlineId );
-    result &= blob.setValue( m_HostType );
+    bool result = blob.setValue( m_UserOnlineId );
+    result &= m_HostedId.addToBlob( blob );
     return result;
 }
 
 //============================================================================
-bool HostedId::extractFromBlob( PktBlobEntry& blob )
+bool GroupieId::extractFromBlob( PktBlobEntry& blob )
 {
-    bool result = blob.getValue( m_HostOnlineId );
-    result &= blob.getValue( m_HostType );
+    bool result = blob.getValue( m_UserOnlineId );
+    result &= m_HostedId.extractFromBlob( blob );
     return result;
 }
 
 // returns 0 if equal else -1 if less or 1 if greater
 //============================================================================
-int HostedId::compareTo( HostedId& pluginId )
+int GroupieId::compareTo( GroupieId& groupieId )
 {
     int result = 0;
-    if( m_HostType > pluginId.m_HostType )
+    if( *this > groupieId )
     {
         result = 1;
     }
-    else if( m_HostType < pluginId.m_HostType )
+    else if( *this < groupieId )
     {
         result = -1;
     }
 
     if( 0 == result )
     {
-        result = m_HostOnlineId.compareTo( pluginId.getHostOnlineId() );
+        result = m_UserOnlineId.compareTo( groupieId.getUserOnlineId() );
     }
 
     return result;
@@ -133,28 +140,30 @@ int HostedId::compareTo( HostedId& pluginId )
 
 // returns true if guids are same value
 //============================================================================
-bool HostedId::isEqualTo( const HostedId& pluginId )
+bool GroupieId::isEqualTo( const GroupieId& groupieId )
 {
-    return *this == pluginId;
+    return *this == groupieId;
 }
 
 // get a description of the plugin id
 //============================================================================
-std::string HostedId::describeHostedId( void ) const
+std::string GroupieId::describeGroupieId( void ) const
 {
-    std::string desc = DescribeHostType( getHostType() );
-    desc += m_HostOnlineId.toOnlineIdString();
+    std::string desc = m_HostedId.describeHostedId();
+    desc += " user ";
+    desc += m_UserOnlineId.toOnlineIdString();
+
     return desc;
 }
 
 //============================================================================
-EPluginType HostedId::getHostPluginType( void )
+EPluginType GroupieId::getHostPluginType( void )
 {
     return HostTypeToHostPlugin( getHostType() );
 }
 
 //============================================================================
-EPluginType HostedId::getClientPluginType( void )
+EPluginType GroupieId::getClientPluginType( void )
 {
     return HostTypeToClientPlugin( getHostType() );
 }

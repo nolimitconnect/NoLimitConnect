@@ -11,7 +11,7 @@
 
 #include "ToGuiActivityInterface.h"
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <QListWidget>
 

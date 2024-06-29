@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "VxFriendMatch.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 //============================================================================
 FriendMatch::FriendMatch( const FriendMatch& rhs ) 

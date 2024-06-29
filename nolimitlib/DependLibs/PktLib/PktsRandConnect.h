@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "PktTypes.h"
-#include "GroupieId.h"
+#include <CoreLib/GroupieId.h>
 
 #include "PktsRandConnectDefs.h"
 

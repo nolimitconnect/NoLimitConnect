@@ -13,7 +13,7 @@
 #include "UserJoinedLastDb.h"
 
 #include <CoreLib/VxMutex.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <map>
 #include <memory>

@@ -10,16 +10,15 @@
 
 #include "RenderGlWidget.h"
 #include "AppCommon.h"
-#include "AppGlobals.h"
+
 #include "AppSettings.h"
-#include "MyIcons.h"
+
 #include "GuiHelpers.h"
-#include "MyIcons.h"
+
 #include "RenderGlOffScreenSurface.h"
 
 #include <GuiInterface/NlcRenderFrame.h>
 
-#include <P2PEngine/P2PEngine.h>
 #include <CoreLib/VxTimeUtil.h>
 
 #include <QDebug>

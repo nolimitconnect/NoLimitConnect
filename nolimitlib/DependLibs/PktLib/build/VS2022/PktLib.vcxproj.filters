@@ -118,9 +118,6 @@
     <ClInclude Include="..\..\PktsHostSearch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PktBlobEntry.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\PktsBlobXfer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -134,9 +131,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PktsSearch.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PluginId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PluginIdList.h">
@@ -163,22 +157,13 @@
     <ClInclude Include="..\..\PktsHostInvite.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HostedId.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\PktsGroupie.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GroupieId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PktsFileInfo.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PktsHostUser.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ConnectId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HostUserSessionId.h">
@@ -300,9 +285,6 @@
     <ClCompile Include="..\..\PktsHostSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\PktBlobEntry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\PktsBlobXfer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -316,9 +298,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\PktsSearch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PluginId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\PluginIdList.cpp">
@@ -345,16 +324,7 @@
     <ClCompile Include="..\..\PktsHostInvite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HostedId.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\PktsGroupie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GroupieId.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ConnectId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\PktsFileInfo.cpp">

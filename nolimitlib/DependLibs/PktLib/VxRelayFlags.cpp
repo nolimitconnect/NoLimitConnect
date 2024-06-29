@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 #include "VxRelayFlags.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #define RC_PROXY_FLAG_REQUIRES_PROXY			0x01	// user requires proxy to connect to him
 #define RC_PROXY_FLAG_HAS_PROXY					0x02	// user has at least one proxy that may be used to connect to him

@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "PluginBase.h"
-#include <PktLib/HostedId.h>
+#include <CoreLib/HostedId.h>
 
 class PluginBaseService : public PluginBase
 {

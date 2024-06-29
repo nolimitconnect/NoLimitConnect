@@ -10,8 +10,8 @@
 
 #include "PktAnnounce.h"
 #include "PktTypes.h"
-#include "PktBlobEntry.h"
 
+#include <CoreLib/PktBlobEntry.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxMutex.h>

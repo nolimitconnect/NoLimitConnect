@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "SearchParams.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #include <CoreLib/VxTime.h>
 

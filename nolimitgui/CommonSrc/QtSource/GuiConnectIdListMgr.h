@@ -15,7 +15,7 @@
 
 #include <ConnectIdListMgr/ConnectIdListCallback.h>
 
-#include <PktLib/ConnectId.h>
+#include <CoreLib/ConnectId.h>
 
 #include <set>
 #include <map>

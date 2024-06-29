@@ -23,7 +23,7 @@
 #include <PktLib/PktAnnounce.h>
 #include <PktLib/PktsPluginOffer.h>
 #include <PktLib/PktsSession.h>
-#include <PktLib/PktBlobEntry.h>
+#include <CoreLib/PktBlobEntry.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>

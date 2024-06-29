@@ -6,14 +6,10 @@ project(pktlib, LANGUAGES CXX)
 set(pktlib_SOURCES)
 
 list(APPEND pktlib_SOURCES 
-    ConnectId.cpp
-    GroupieId.cpp
-    HostedId.cpp
     HostUserSessionId.cpp
     MatchParams.cpp
 	PktAnnList.cpp
     PktAnnounce.cpp
-	PktBlobEntry.cpp
     PktChatReq.cpp
     PktDebugHelpers.cpp
 	PktsOfferXfer.cpp
@@ -53,7 +49,6 @@ list(APPEND pktlib_SOURCES
     PktsTodGame.cpp
     PktsVideoFeed.cpp
     PktsWebServer.cpp
-	PluginId.cpp
 	PluginIdList.cpp
 	SearchParams.cpp
     VxCommon.cpp

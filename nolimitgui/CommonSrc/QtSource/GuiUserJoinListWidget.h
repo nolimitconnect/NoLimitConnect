@@ -18,7 +18,7 @@
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/VxTimer.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <QListWidget>
 

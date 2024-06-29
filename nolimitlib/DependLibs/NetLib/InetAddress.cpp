@@ -12,7 +12,7 @@
 #include "VxSktUtil.h"
 
 #include <CoreLib/VxDebug.h>
-#include <PktLib/PktBlobEntry.h>
+#include <CoreLib/PktBlobEntry.h>
 
 #include <string>
 #include <array>

@@ -13,7 +13,7 @@
 
 #include <PktLib/PluginIdList.h>
 #include <PktLib/SearchParams.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <set>
 

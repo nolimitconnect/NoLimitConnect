@@ -11,7 +11,7 @@
 
 #include <ConnectIdListMgr/OnlineStatusCallback.h>
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <CoreLib/VxMutex.h>
 

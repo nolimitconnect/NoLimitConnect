@@ -12,7 +12,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
-#include <PktLib/PktBlobEntry.h>
+#include <CoreLib/PktBlobEntry.h>
 #include <CoreLib/BinaryBlob.h>
 #include <CoreLib/StringListBinary.h>
 #include <CoreLib/VxDebug.h>

@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "HostUserSessionId.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 //============================================================================
 HostUserSessionId::HostUserSessionId( VxGUID& socketId )

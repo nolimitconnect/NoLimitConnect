@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "PluginId.h"
+#include <CoreLib/PluginId.h>
 #include <vector>
 
 class PluginIdList

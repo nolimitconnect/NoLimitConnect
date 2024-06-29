@@ -10,7 +10,7 @@
 
 #include "VxConnectInfo.h"
 #include "VxNetIdentBase.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #include <P2PEngine/P2PEngine.h>
 

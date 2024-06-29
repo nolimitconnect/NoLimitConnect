@@ -14,7 +14,7 @@
 
 #include <CoreLib/VxMutex.h>
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 #include <PktLib/PktsRandConnectDefs.h>
 
 #include <vector>

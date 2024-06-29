@@ -10,7 +10,7 @@
 
 #include "VxSearchFlags.h"
 #include "VxSearchDefs.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #include <CoreLib/VxFileInfo.h>
 

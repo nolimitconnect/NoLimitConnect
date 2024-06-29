@@ -15,7 +15,7 @@
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxSha1Hash.h>
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <stdint.h>
 #include <string>

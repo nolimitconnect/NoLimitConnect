@@ -11,7 +11,7 @@
 
 #include "VxCommon.h"
 #include "PktTypes.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #pragma pack(push)
 #pragma pack(1)

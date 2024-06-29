@@ -13,7 +13,7 @@
 #include <OfferBase/OfferBaseInfo.h>
 
 #include <PktLib/VxSearchDefs.h>
-#include <PktLib/PktBlobEntry.h>
+#include <CoreLib/PktBlobEntry.h>
 
 #include <NetLib/VxFileXferInfo.h>
 

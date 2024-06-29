@@ -13,7 +13,7 @@
 #include <User/UserList.h>
 
 #include <PktLib/PktsHostInvite.h>
-#include <PktLib/PluginId.h>
+#include <CoreLib/PluginId.h>
 
 class HostServerMgr : public HostServerSearchMgr
 {

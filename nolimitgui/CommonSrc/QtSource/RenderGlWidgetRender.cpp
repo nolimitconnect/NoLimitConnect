@@ -9,17 +9,15 @@
 //============================================================================
 
 #include "RenderGlWidget.h"
-#include "RenderGlWidget.h"
-#include "AppGlobals.h"
+
 #include "AppSettings.h"
-#include "MyIcons.h"
+
 #include "GuiHelpers.h"
 #include "RenderPlayerNlcThread.h"
 #include "RenderGlOffScreenSurface.h"
 
 #include <GuiInterface/NlcRenderFrame.h>
 
-#include <P2PEngine/P2PEngine.h>
 #include <CoreLib/VxTimeUtil.h>
 
 #include "rendering/MatrixGL.h"

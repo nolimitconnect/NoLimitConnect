@@ -11,7 +11,7 @@
 
 #include "VxPktHdr.h"
 #include "VxCommon.h"
-#include "HostedId.h"
+#include <CoreLib/HostedId.h>
 
 #define PKT_ANN_ANNOUNCE_VERSION 1
 #define P2P_ENGINE_VERSION 1

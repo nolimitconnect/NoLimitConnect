@@ -20,7 +20,11 @@
 # define PRIdS      "zd"
 # define PRIuS      "u"
 # ifndef PRId64
-#  define PRId64    "lld"
+#  if defined(TARGET_OS_ANDROID)
+#   define PRId64    "ld" // crazy android defines int64_t as long
+#  else
+#   define PRId64    "lld"
+#  endif // defined(TARGET_OS_ANDROID)
 # endif // PRId64
 #endif // TARGET_OS_WINDOWS
 

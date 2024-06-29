@@ -114,7 +114,7 @@ void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
     VxFileUtil::removeTrailingDirectorySlash(folderName);
     VxFileUtil::encodePercentEncodingOfSlash(folderName);
 
-    std::vector<FileInfo> fileList;
+
     if( 0 == fileFilterMask )
     {
         fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
@@ -124,7 +124,7 @@ void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
     QDir browseDir( folderName.c_str() );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileList.size(), folderName.c_str() );
+    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), folderName.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();

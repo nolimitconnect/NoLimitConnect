@@ -11,7 +11,7 @@
 
 #include "SendQueueDefs.h"
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 class SendQueInfo : public GroupieId
 {

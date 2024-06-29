@@ -5,16 +5,22 @@ project(CoreLib, LANGUAGES CXX)
 
 set(CoreLib_HEADERS)
 list(APPEND CoreLib_HEADERS
+
     AppErr.h
     AppVersion.h
     AssetDefs.h
     BinaryBlob.h
     Blowfish.h
+    ConnectId.h
     DbBase.h
     DbDataset.h
     DbQueryData.h
+    GroupieId.h
+    HostedId.h
     ObjectCommon.h
     OsDetect.h
+    PktBlobEntry.h
+    PluginId.h
     rsa.h
     SHA1.h
     Sha1ClientInfo.h
@@ -81,11 +87,16 @@ list(APPEND CoreLib_SOURCES
     AssetDefs.cpp
 	BinaryBlob.cpp
     Blowfish_corelib.cpp
+    ConnectId.cpp
     DbBase_corelib.cpp
     DbDataset_corelib.cpp
     DbQueryData_corelib.cpp
+    GroupieId.cpp
+    HostedId.cpp
     ObjectCommon_corelib.cpp
     OsDetect_corelib.cpp
+    PktBlobEntry.cpp
+    PluginId.cpp
     rsa_eay_corelib.c
     rsa_gen_corelib.c
     SHA1_corelib.cpp

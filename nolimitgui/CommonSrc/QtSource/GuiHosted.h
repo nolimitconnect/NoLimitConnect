@@ -13,7 +13,7 @@
 
 #include <GuiInterface/IDefs.h>
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <vector>
 

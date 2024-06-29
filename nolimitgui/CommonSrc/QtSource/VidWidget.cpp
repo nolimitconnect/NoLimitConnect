@@ -11,7 +11,7 @@
 #include "VidWidget.h"
 
 #include "AppCommon.h"
-#include "AppGlobals.h"
+
 #include "AppletMgr.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
@@ -41,7 +41,7 @@ VidWidget::VidWidget(QWidget* parent)
 , m_MyApp( GetAppInstance() )
 , m_Engine( m_MyApp.getEngine() )
 , m_AppSettings( m_MyApp.getAppSettings() )
-, m_MyOnlineId( m_MyApp.getAppGlobals().getMyNetIdent()->getMyOnlineId() )
+, m_MyOnlineId( m_MyApp.getMyOnlineId() )
 , m_ThumbnailPreview( 0 )
 , m_DisablePreview( false )
 , m_DisableRecordControls( false )

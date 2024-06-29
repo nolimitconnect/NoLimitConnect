@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ConnectId.h"
+#include <CoreLib/ConnectId.h>
 
 #include <CoreLib/VxGUID.h>
 

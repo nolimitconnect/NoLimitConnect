@@ -9,9 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GroupieId.h"
+#include <CoreLib/GroupieId.h>
 #include "PktTypes.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #include <GuiInterface/IDefs.h>
 

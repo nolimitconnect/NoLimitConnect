@@ -14,7 +14,7 @@
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/AssetDefs.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 class GuiUser;
 class InputClientBaseCallback;

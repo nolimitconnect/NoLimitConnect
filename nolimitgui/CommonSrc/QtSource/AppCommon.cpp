@@ -55,7 +55,7 @@
 #include <ThumbMgr/ThumbInfo.h>
 
 #include <PktLib/VxCommon.h>
-#include <PktLib/ConnectId.h>
+#include <CoreLib/ConnectId.h>
 
 #include <CoreLib/AppVersion.h>
 #include <CoreLib/VxFileUtil.h>

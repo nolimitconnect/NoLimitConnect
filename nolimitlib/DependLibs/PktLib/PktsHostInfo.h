@@ -10,8 +10,8 @@
 //============================================================================
 
 #include "VxPktHdr.h"
-#include "PktBlobEntry.h"
-#include "PluginId.h"
+#include <CoreLib/PktBlobEntry.h>
+#include <CoreLib/PluginId.h>
 
 #pragma pack(push)
 #pragma pack(1)

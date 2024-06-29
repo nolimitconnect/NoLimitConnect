@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "VxConnectInfo.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxParse.h>

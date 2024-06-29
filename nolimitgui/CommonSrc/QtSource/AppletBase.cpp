@@ -11,8 +11,7 @@
 #include "AppletBase.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "MyIcons.h"
-#include "AppCommon.h"
+
 #include "GuiHelpers.h"
 #include "GuiMemberActiveMgr.h"
 

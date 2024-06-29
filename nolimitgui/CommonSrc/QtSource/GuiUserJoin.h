@@ -11,7 +11,7 @@
 
 #include <QWidget>
 
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <vector>
 

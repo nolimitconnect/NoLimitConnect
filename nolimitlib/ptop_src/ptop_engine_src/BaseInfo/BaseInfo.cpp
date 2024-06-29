@@ -15,7 +15,7 @@
 #include <Plugins/FileInfo.h>
 
 #include <PktLib/VxCommon.h>
-#include <PktLib/PktBlobEntry.h>
+#include <CoreLib/PktBlobEntry.h>
 
 #include <CoreLib/VxDebug.h>
 

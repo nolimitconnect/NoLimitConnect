@@ -1139,7 +1139,6 @@ libopenjpeg.lib
     <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt" />
     <Text Include="..\..\..\CMakeLists.txt" />
     <Text Include="..\..\..\CommonSrc\Resources\CreditsArt.txt" />
-    <Text Include="..\..\..\sandboxqt\Assembly1234TestApp\Assembly1234QtApp\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\..\bin-Android\AndroidManifest.xml" />

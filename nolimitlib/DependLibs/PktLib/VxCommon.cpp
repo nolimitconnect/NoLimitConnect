@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "VxCommon.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 #include <NetLib/VxSktBase.h>
 #include <NetLib/VxSktUtil.h>

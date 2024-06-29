@@ -179,14 +179,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ConnectId.h" />
-    <ClInclude Include="..\..\GroupieId.h" />
-    <ClInclude Include="..\..\HostedId.h" />
     <ClInclude Include="..\..\HostUserSessionId.h" />
     <ClInclude Include="..\..\MatchParams.h" />
     <ClInclude Include="..\..\PktAnnList.h" />
     <ClInclude Include="..\..\PktAnnounce.h" />
-    <ClInclude Include="..\..\PktBlobEntry.h" />
     <ClInclude Include="..\..\PktChatReq.h" />
     <ClInclude Include="..\..\PktDebugHelpers.h" />
     <ClInclude Include="..\..\PktPluginHandlerBase.h" />
@@ -229,7 +225,6 @@
     <ClInclude Include="..\..\PktTypes.h" />
     <ClInclude Include="..\..\PktVoiceReply.h" />
     <ClInclude Include="..\..\PktVoiceReq.h" />
-    <ClInclude Include="..\..\PluginId.h" />
     <ClInclude Include="..\..\PluginIdList.h" />
     <ClInclude Include="..\..\SearchParams.h" />
     <ClInclude Include="..\..\VxCommon.h" />
@@ -244,14 +239,10 @@
     <ClInclude Include="..\..\VxSearchFlags.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ConnectId.cpp" />
-    <ClCompile Include="..\..\GroupieId.cpp" />
-    <ClCompile Include="..\..\HostedId.cpp" />
     <ClCompile Include="..\..\HostUserSessionId.cpp" />
     <ClCompile Include="..\..\MatchParams.cpp" />
     <ClCompile Include="..\..\PktAnnList.cpp" />
     <ClCompile Include="..\..\PktAnnounce.cpp" />
-    <ClCompile Include="..\..\PktBlobEntry.cpp" />
     <ClCompile Include="..\..\PktChatReq.cpp" />
     <ClCompile Include="..\..\PktDebugHelpers.cpp" />
     <ClCompile Include="..\..\PktPluginHandlerBase.cpp" />
@@ -291,7 +282,6 @@
     <ClCompile Include="..\..\PktTcpPunch.cpp" />
     <ClCompile Include="..\..\PktVoiceReply.cpp" />
     <ClCompile Include="..\..\PktVoiceReq.cpp" />
-    <ClCompile Include="..\..\PluginId.cpp" />
     <ClCompile Include="..\..\PluginIdList.cpp" />
     <ClCompile Include="..\..\SearchParams.cpp" />
     <ClCompile Include="..\..\VxCommon.cpp" />

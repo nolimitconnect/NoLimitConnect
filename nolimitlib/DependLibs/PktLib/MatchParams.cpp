@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "MatchParams.h"
-#include "PktBlobEntry.h"
+#include <CoreLib/PktBlobEntry.h>
 
 //============================================================================
 MatchParams::MatchParams( const MatchParams& rhs )

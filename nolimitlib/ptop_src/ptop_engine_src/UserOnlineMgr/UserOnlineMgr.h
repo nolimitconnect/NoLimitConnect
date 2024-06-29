@@ -12,7 +12,7 @@
 #include <ConnectIdListMgr/ConnectIdListCallback.h>
 
 #include <CoreLib/VxMutex.h>
-#include <PktLib/GroupieId.h>
+#include <CoreLib/GroupieId.h>
 
 #include <memory>
 

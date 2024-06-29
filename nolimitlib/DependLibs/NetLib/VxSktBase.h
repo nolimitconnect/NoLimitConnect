@@ -15,8 +15,8 @@
 #include "InetAddress.h"
 
 #include <PktLib/PktAnnounce.h>
-#include <PktLib/GroupieId.h>
 
+#include <CoreLib/GroupieId.h>
 #include <CoreLib/VxThread.h>
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxMutex.h>

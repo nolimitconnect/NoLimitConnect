@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <PktLib/HostedId.h>
+#include <CoreLib/HostedId.h>
 
 class GuiHosted;
 
