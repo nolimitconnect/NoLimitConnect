@@ -10,8 +10,6 @@
 
 #include "AssetInfo.h"
 
-#include <PktLib/VxSearchDefs.h>
-
 #include <CoreLib/VxFileLists.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxFileUtil.h>

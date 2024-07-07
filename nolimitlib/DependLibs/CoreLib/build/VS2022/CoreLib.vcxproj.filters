@@ -82,9 +82,6 @@
     <ClInclude Include="..\..\OsDetect.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\rsa.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\SHA1.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -343,12 +340,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\OsDetect_corelib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\rsa_eay_corelib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\rsa_gen_corelib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\SHA1_corelib.cpp">

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>670</width>
-    <height>630</height>
+    <width>229</width>
+    <height>171</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Player Controls</string>
+   <string>Applet Player</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">

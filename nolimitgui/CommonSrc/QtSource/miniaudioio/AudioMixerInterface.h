@@ -11,6 +11,8 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include <inttypes.h>
+
 class AudioMixerInterface
 {
 public:

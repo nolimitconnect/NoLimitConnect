@@ -284,3 +284,5 @@ char *alloca ();
 //#define BUILD_NETTLE_SHADATA 1 // define to build nettle_shadata main
 
 #define BUILD_NETTLE_GENERIC 1 // define to build nettle without asm where possible
+
+#define ENABLE_NETTLE_RSA 0

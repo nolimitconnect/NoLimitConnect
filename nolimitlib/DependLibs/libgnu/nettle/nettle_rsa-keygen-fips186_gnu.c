@@ -24,9 +24,8 @@
  */
 
 #include "config_nettle.h"
+#if ENABLE_NETTLE_RSA
 
-
-#include <openssl/rsa.h>
 #include <libgnu/nettle/nettle_dsa-fips.h>
 #include <libgnu/nettle/nettle_rsa-fips.h>
 
@@ -404,3 +403,5 @@ rsa_generate_fips186_4_keypair(struct rsa_public_key *pub,
 	return _rsa_generate_fips186_4_keypair(pub, key, seed_length, seed,
 					       progress_ctx, progress, n_size);
 }
+
+#endif // ENABLE_NETTLE_RSA

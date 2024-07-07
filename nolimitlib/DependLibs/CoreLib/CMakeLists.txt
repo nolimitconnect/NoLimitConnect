@@ -21,7 +21,6 @@ list(APPEND CoreLib_HEADERS
     OsDetect.h
     PktBlobEntry.h
     PluginId.h
-    rsa.h
     SHA1.h
     Sha1ClientInfo.h
     Sha1GeneratorMgr.h
@@ -97,8 +96,6 @@ list(APPEND CoreLib_SOURCES
     OsDetect_corelib.cpp
     PktBlobEntry.cpp
     PluginId.cpp
-    rsa_eay_corelib.c
-    rsa_gen_corelib.c
     SHA1_corelib.cpp
     Sha1ClientInfo.cpp
     Sha1GeneratorMgr.cpp

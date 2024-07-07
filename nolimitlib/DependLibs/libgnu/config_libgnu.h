@@ -6733,3 +6733,11 @@ typedef uint32_t ucs4_t;
 //#define BUILD_PLURALS_TOOL				1
 
 //#define ENABLE_COMMON_GNU					1 // most functions are already in gnutls
+
+#if !defined(LIBDIR)
+#define LIBDIR					".libs/"
+#endif // !defined(LIBDIR)
+
+#if !defined(LOCALEDIR)
+#define LOCALEDIR				".libs/"
+#endif // !defined(LOCALEDIR)
