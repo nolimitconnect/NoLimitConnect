@@ -323,14 +323,14 @@ QString ActivityBase::getParentPageFrameName( void )
 // overridden in dialogs
 TitleBarWidget * ActivityBase::getTitleBarWidget( void )
 {
-	return ui.m_TitleBarWidget;
+	return getTitleBarWidget();
 }
 
 //============================================================================
 // overridden in dialogs
 BottomBarWidget * ActivityBase::getBottomBarWidget( void )
 {
-	return ui.m_BottomBarWidget;
+	return getBottomBarWidget();
 }
 
 //============================================================================
@@ -601,11 +601,11 @@ void ActivityBase::updateExpandWindowIcon( void )
     {
         if( m_MyApp.getIsMaxScreenSize( isMessagerFrame() ) )
         {
-            ui.m_BottomBarWidget->setExpandWindowButtonIcon( eMyIconWindowShrink );
+            getBottomBarWidget()->setExpandWindowButtonIcon( eMyIconWindowShrink );
         }
         else
         {
-            ui.m_BottomBarWidget->setExpandWindowButtonIcon( eMyIconWindowExpand );
+            getBottomBarWidget()->setExpandWindowButtonIcon( eMyIconWindowExpand );
         }
     }
     else if( getBottomBarWidget() )
@@ -688,97 +688,97 @@ void ActivityBase::repositionToParent( void )
 //============================================================================
 void ActivityBase::setPowerButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setPowerButtonVisibility( visible );
+	getTitleBarWidget()->setPowerButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setHomeButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setHomeButtonVisibility( visible );
+	getTitleBarWidget()->setHomeButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setNetStatusVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setNetStatusVisibility( visible );
+	getTitleBarWidget()->setNetStatusVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setOfferListButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setOfferListButtonVisibility( visible );
+	getTitleBarWidget()->setOfferListButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setHostJoinRequestListButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setHostJoinRequestListButtonVisibility( visible );
+	getTitleBarWidget()->setHostJoinRequestListButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMuteSpeakerVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setMuteSpeakerVisibility( visible );
+	getTitleBarWidget()->setMuteSpeakerVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMuteMicrophoneVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setMuteMicrophoneVisibility( visible );
+	getTitleBarWidget()->setMuteMicrophoneVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMicrophoneVolumeVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setMicrophoneVolumeVisibility( visible );
+	getTitleBarWidget()->setMicrophoneVolumeVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setCameraButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setCameraButtonVisibility( visible );
+	getTitleBarWidget()->setCameraButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setCamPreviewVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setCamPreviewVisibility( visible );
+	getTitleBarWidget()->setCamPreviewVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setCamViewerCountVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setCamViewerCountVisibility( visible );
+	getTitleBarWidget()->setCamViewerCountVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setTrashButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setTrashButtonVisibility( visible );
+	getTitleBarWidget()->setTrashButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setShareButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setShareButtonVisibility( visible );
+	getTitleBarWidget()->setShareButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMenuTopButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setMenuTopButtonVisibility( visible );
+	getTitleBarWidget()->setMenuTopButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMenuListButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setMenuListButtonVisibility( visible );
+	getTitleBarWidget()->setMenuListButtonVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setBackButtonVisibility( bool visible )
 {
-	ui.m_TitleBarWidget->setBackButtonVisibility( visible );
+	getTitleBarWidget()->setBackButtonVisibility( visible );
 }
 
 //=== bottom bar button visibility ===// 
@@ -786,67 +786,67 @@ void ActivityBase::setBackButtonVisibility( bool visible )
 //============================================================================
 void ActivityBase::setArrowLeftVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setArrowLeftVisibility( visible );
+	getBottomBarWidget()->setArrowLeftVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::set30SecBackwardVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->set30SecBackwardVisibility( visible );
+	getBottomBarWidget()->set30SecBackwardVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMediaPlayVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setMediaPlayVisibility( visible );
+	getBottomBarWidget()->setMediaPlayVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMediaTrashVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setMediaTrashVisibility( visible );
+	getBottomBarWidget()->setMediaTrashVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMediaFileShareVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setMediaFileShareVisibility( visible );
+	getBottomBarWidget()->setMediaFileShareVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMediaLibraryVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setMediaLibraryVisibility( visible );
+	getBottomBarWidget()->setMediaLibraryVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::set30SecForwardVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->set30SecForwardVisibility( visible );
+	getBottomBarWidget()->set30SecForwardVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setArrowRightVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setArrowRightVisibility( visible );
+	getBottomBarWidget()->setArrowRightVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMediaRepeatVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setMediaRepeatVisibility( visible );
+	getBottomBarWidget()->setMediaRepeatVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setMenuBottomVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setMenuBottomVisibility( visible );
+	getBottomBarWidget()->setMenuBottomVisibility( visible );
 }
 
 //============================================================================
 void ActivityBase::setExpandWindowVisibility( bool visible )
 {
-	ui.m_BottomBarWidget->setExpandWindowVisibility( visible );
+	getBottomBarWidget()->setExpandWindowVisibility( visible );
 }
 
 //============================================================================
@@ -854,122 +854,122 @@ void ActivityBase::setExpandWindowVisibility( bool visible )
 //============================================================================
 void ActivityBase::setPowerButtonIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setPowerButtonIcon( myIcon );
+	getTitleBarWidget()->setPowerButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setHomeButtonIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setHomeButtonIcon( myIcon );
+	getTitleBarWidget()->setHomeButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMicrophoneIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setMicrophoneIcon( myIcon );
+	getTitleBarWidget()->setMicrophoneIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setSpeakerIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setSpeakerIcon( myIcon );
+	getTitleBarWidget()->setSpeakerIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setCameraIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setCameraIcon( myIcon );
+	getTitleBarWidget()->setCameraIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setTrashButtonIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setTrashButtonIcon( myIcon );
+	getTitleBarWidget()->setTrashButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setShareButtonIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setShareButtonIcon( myIcon );
+	getTitleBarWidget()->setShareButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setTopMenuButtonIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setTopMenuButtonIcon( myIcon );
+	getTitleBarWidget()->setTopMenuButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setBackButtonIcon( EMyIcons myIcon )
 {
-	ui.m_TitleBarWidget->setBackButtonIcon( myIcon );
+	getTitleBarWidget()->setBackButtonIcon( myIcon );
 }
 
 //=== bottom bar button icon ===// 
 //============================================================================
 void ActivityBase::setArrowLeftButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setArrowLeftButtonIcon( myIcon );
+	getBottomBarWidget()->setArrowLeftButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::set30SecBackwardButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setArrowLeftButtonIcon( myIcon );
+	getBottomBarWidget()->setArrowLeftButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMediaPlayButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setMediaPlayButtonIcon( myIcon );
+	getBottomBarWidget()->setMediaPlayButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMediaTrashButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setMediaTrashButtonIcon( myIcon );
+	getBottomBarWidget()->setMediaTrashButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMediaFileShareButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setMediaFileShareButtonIcon( myIcon );
+	getBottomBarWidget()->setMediaFileShareButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMediaLibraryButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setMediaLibraryButtonIcon( myIcon );
+	getBottomBarWidget()->setMediaLibraryButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::set30SecForwardButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->set30SecForwardButtonIcon( myIcon );
+	getBottomBarWidget()->set30SecForwardButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setArrowRightButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setArrowLeftButtonIcon( myIcon );
+	getBottomBarWidget()->setArrowLeftButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMediaRepeatButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setMediaRepeatButtonIcon( myIcon );
+	getBottomBarWidget()->setMediaRepeatButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setMenuBottomButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setMenuBottomButtonIcon( myIcon );
+	getBottomBarWidget()->setMenuBottomButtonIcon( myIcon );
 }
 
 //============================================================================
 void ActivityBase::setExpandWindowButtonIcon( EMyIcons myIcon )
 {
-	ui.m_BottomBarWidget->setExpandWindowButtonIcon( myIcon );
+	getBottomBarWidget()->setExpandWindowButtonIcon( myIcon );
 }
 
 //============================================================================
@@ -977,55 +977,55 @@ void ActivityBase::setExpandWindowButtonIcon( EMyIcons myIcon )
 //============================================================================
 void ActivityBase::setPowerButtonColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setPowerButtonColor( iconColor );
+	getTitleBarWidget()->setPowerButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setHomeButtonColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setHomeButtonColor( iconColor );
+	getTitleBarWidget()->setHomeButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMicrophoneColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setMicrophoneColor( iconColor );
+	getTitleBarWidget()->setMicrophoneColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setSpeakerColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setSpeakerColor( iconColor );
+	getTitleBarWidget()->setSpeakerColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setCameraColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setCameraColor( iconColor );
+	getTitleBarWidget()->setCameraColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setTrashButtonColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setTrashButtonColor( iconColor );
+	getTitleBarWidget()->setTrashButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setShareButtonColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setShareButtonColor( iconColor );
+	getTitleBarWidget()->setShareButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setTopMenuButtonColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setTopMenuButtonColor( iconColor );
+	getTitleBarWidget()->setTopMenuButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setBackButtonColor( QColor iconColor )
 {
-	ui.m_TitleBarWidget->setBackButtonColor( iconColor );
+	getTitleBarWidget()->setBackButtonColor( iconColor );
 }
 
 //============================================================================
@@ -1033,73 +1033,73 @@ void ActivityBase::setBackButtonColor( QColor iconColor )
 //============================================================================
 void ActivityBase::setPlayProgressBarColor( QColor iconColor ) 
 {
-	ui.m_BottomBarWidget->setPlayProgressBarColor( iconColor );
+	getBottomBarWidget()->setPlayProgressBarColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setArrowLeftButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setArrowLeftButtonColor( iconColor );
+	getBottomBarWidget()->setArrowLeftButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::set30SecBackwardButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->set30SecBackwardButtonColor( iconColor );
+	getBottomBarWidget()->set30SecBackwardButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMediaPlayButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setMediaPlayButtonColor( iconColor );
+	getBottomBarWidget()->setMediaPlayButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMediaTrashButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setMediaTrashButtonColor( iconColor );
+	getBottomBarWidget()->setMediaTrashButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMediaFileShareButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setMediaFileShareButtonColor( iconColor );
+	getBottomBarWidget()->setMediaFileShareButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMediaLibraryButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setMediaLibraryButtonColor( iconColor );
+	getBottomBarWidget()->setMediaLibraryButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::set30SecForwardButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->set30SecForwardButtonColor( iconColor );
+	getBottomBarWidget()->set30SecForwardButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setArrowRightButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setArrowRightButtonColor( iconColor );
+	getBottomBarWidget()->setArrowRightButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMediaRepeatButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setMediaRepeatButtonColor( iconColor );
+	getBottomBarWidget()->setMediaRepeatButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setMenuBottomButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setMenuBottomButtonColor( iconColor );
+	getBottomBarWidget()->setMenuBottomButtonColor( iconColor );
 }
 
 //============================================================================
 void ActivityBase::setExpandWindowButtonColor( QColor iconColor )
 {
-	ui.m_BottomBarWidget->setExpandWindowButtonColor( iconColor );
+	getBottomBarWidget()->setExpandWindowButtonColor( iconColor );
 }
 
 //============================================================================

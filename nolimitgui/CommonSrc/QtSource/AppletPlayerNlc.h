@@ -11,7 +11,6 @@
 
 #include "AppletPlayerNlcBase.h"
 
-#include "GuiPlayerCallback.h"
 #include "PlayControlWidget.h"
 #include "ui_AppletPlayerNlc.h"
 

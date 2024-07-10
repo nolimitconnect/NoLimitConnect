@@ -91,9 +91,6 @@
     <ClCompile Include="..\..\NetHostSetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VxXferDefs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\VxHackerMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -199,9 +196,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\VxSktWaitingList.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VxXferDefs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\NetHostSetting.h">

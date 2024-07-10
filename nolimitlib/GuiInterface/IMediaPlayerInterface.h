@@ -23,8 +23,8 @@ class IMediaPlayerRequests
 public:
     virtual void				fromGuiInitCommandLine( int argc, char** arg ) = 0;
 
-    virtual bool				fromStartModule( EAppModule appModule ) = 0;
-    virtual bool				fromStopModule( EAppModule appModule ) = 0;
+    virtual bool				fromGuiStartModule( EAppModule appModule ) = 0;
+    virtual bool				fromGuiStopModule( EAppModule appModule ) = 0;
     virtual bool				fromGuiIsModuleRunning( EAppModule appModule ) = 0;
 
     virtual bool				fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) = 0;

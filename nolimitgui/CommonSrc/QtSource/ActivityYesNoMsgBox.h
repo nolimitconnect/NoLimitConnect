@@ -23,10 +23,6 @@ public:
 							bool			showNeverAgainCheckBox = false); 
 	virtual ~ActivityYesNoMsgBox() override = default;
 
-    // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
-
 	void						setTitle( QString strTitle );
 	void						setBodyText( QString strBodyText );
 	void						hideCancelButton( void );
@@ -37,6 +33,10 @@ private slots:
     void						slotHomeButtonClicked( void ) override;
 
 protected:
+	// overrides required for dialogs with there own title bar and bottom bar widgets
+    TitleBarWidget *			getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
+    BottomBarWidget *			getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	QFrame*						getContentItemsFrame( void ) override { return ui.m_ItemsFrame; }
 
 	//=== vars ===//
 	Ui::YesNoMsgBoxClass		ui;

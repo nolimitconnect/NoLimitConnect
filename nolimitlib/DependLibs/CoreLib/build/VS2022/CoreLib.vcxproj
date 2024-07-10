@@ -324,6 +324,7 @@
     <ClInclude Include="..\..\VxTimeUtil.h" />
     <ClInclude Include="..\..\VxUrl.h" />
     <ClInclude Include="..\..\VxValuePair.h" />
+    <ClInclude Include="..\..\VxXferDefs.h" />
     <ClInclude Include="..\..\VxXml.h" />
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +400,7 @@
     <ClCompile Include="..\..\VxTimeUtil.cpp" />
     <ClCompile Include="..\..\VxUrl.cpp" />
     <ClCompile Include="..\..\VxValuePair.cpp" />
+    <ClCompile Include="..\..\VxXferDefs.cpp" />
     <ClCompile Include="..\..\VxXml.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -24,8 +24,8 @@ public:
 
 	void						fromGuiInitCommandLine( int argc, char** argv ) override;
 
-	bool						fromStartModule( EAppModule appModule ) override;
-	bool						fromStopModule( EAppModule appModule ) override;
+	bool						fromGuiStartModule( EAppModule appModule ) override;
+	bool						fromGuiStopModule( EAppModule appModule ) override;
 	bool						fromGuiIsModuleRunning( EAppModule appModule ) override;
 
 	bool						fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;

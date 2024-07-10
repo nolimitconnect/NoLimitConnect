@@ -73,6 +73,7 @@ list(APPEND CoreLib_HEADERS
     VxTime.h
     VxTimer.h
     VxValuePair.h
+    VxXferDefs.h
     VxXml.h
     VxUrl.h
     VxJava.h
@@ -148,6 +149,7 @@ list(APPEND CoreLib_SOURCES
     VxTime.cpp
     VxTimer.cpp
     VxValuePair.cpp
+    VxXferDefs.cpp
     VxXml.cpp
     VxUrl.cpp
     VxJava.cpp

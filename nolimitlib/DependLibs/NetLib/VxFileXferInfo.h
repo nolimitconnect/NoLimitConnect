@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxXferDefs.h"
+#include <CoreLib/VxXferDefs.h>
 
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxSha1Hash.h>

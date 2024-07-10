@@ -119,7 +119,7 @@ bool INlc::toGuiRunModule( EAppModule appModule )
 {
     if( eAppModulePlayerNlc == appModule )
     {
-        m_NlcPlayer.fromStartModule( appModule );
+        m_NlcPlayer.fromGuiStartModule( appModule );
         return true;
     }
 
@@ -131,7 +131,7 @@ bool INlc::toGuiStopModule( EAppModule appModule )
 {
     if( eAppModulePlayerNlc == appModule )
     {
-        m_NlcPlayer.fromStopModule( appModule );
+        m_NlcPlayer.fromGuiStopModule( appModule );
         return true;
     }
 

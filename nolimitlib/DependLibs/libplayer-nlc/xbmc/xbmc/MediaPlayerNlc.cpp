@@ -73,7 +73,7 @@ void MediaPlayerNlc::fromGuiInitCommandLine( int argc, char** argv )
 
 //============================================================================
 /// NOTE: 
-bool MediaPlayerNlc::fromStartModule( EAppModule appModule )
+bool MediaPlayerNlc::fromGuiStartModule( EAppModule appModule )
 {
 	if( eAppModulePlayerNlc == appModule && !m_ModuleIsRunning )
 	{
@@ -95,7 +95,7 @@ bool MediaPlayerNlc::fromStartModule( EAppModule appModule )
 }
 
 //============================================================================
-bool MediaPlayerNlc::fromStopModule( EAppModule appModule )
+bool MediaPlayerNlc::fromGuiStopModule( EAppModule appModule )
 {
 	if( eAppModulePlayerNlc == appModule && m_ModuleIsRunning )
 	{

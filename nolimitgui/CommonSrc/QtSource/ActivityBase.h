@@ -70,7 +70,7 @@ public:
 
     virtual TitleBarWidget *	getTitleBarWidget( void );
     virtual BottomBarWidget *	getBottomBarWidget( void );
-    /// get parent frame of this activity
+    /// get content frame of this activity (frame between title and bottom bar)
     virtual QFrame*				getContentItemsFrame( void );
     /// get content frame of launch page
     virtual QFrame*				getContentFrameOfLaunchFrame( void );

@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <NetLib/VxXferDefs.h>
+#include <CoreLib/VxXferDefs.h>
 
 #define ENABLE_COMPONENT_NEARBY         0 // enable/disable nearby users discovery 
 #define ENABLE_IPV6                     0 // if not zero enable ipv6 listen and usage 

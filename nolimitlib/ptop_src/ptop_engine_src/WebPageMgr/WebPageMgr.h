@@ -10,7 +10,7 @@
 //============================================================================
 
 #include <GuiInterface/IDefs.h>
-#include <NetLib/VxXferDefs.h>
+
 #include <CoreLib/VxMutex.h>
 #include <map>
 

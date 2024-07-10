@@ -17,7 +17,7 @@
 
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxGUID.h>
-#include <NetLib/VxXferDefs.h>
+#include <CoreLib/VxXferDefs.h>
 #include <PktLib/VxCommon.h>
 
 #include <QMessageBox>

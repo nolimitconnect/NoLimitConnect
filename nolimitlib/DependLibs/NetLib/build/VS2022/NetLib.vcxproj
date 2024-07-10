@@ -282,7 +282,6 @@
     </ClCompile>
     <ClCompile Include="..\..\VxSktUtil.cpp" />
     <ClCompile Include="..\..\VxSktWaitingList.cpp" />
-    <ClCompile Include="..\..\VxXferDefs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\InetAddress.h" />
@@ -322,7 +321,6 @@
     <ClInclude Include="..\..\VxSktUdpBroadcast.h" />
     <ClInclude Include="..\..\VxSktUtil.h" />
     <ClInclude Include="..\..\VxSktWaitingList.h" />
-    <ClInclude Include="..\..\VxXferDefs.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
