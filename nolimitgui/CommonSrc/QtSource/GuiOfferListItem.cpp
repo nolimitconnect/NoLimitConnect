@@ -12,6 +12,7 @@
 #include "GuiOfferListItem.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -37,12 +38,6 @@ GuiOfferListItem::~GuiOfferListItem()
 QSize GuiOfferListItem::calculateSizeHint( void )
 {
     return QSize( (int)( GuiParams::getGuiScale() * 200 ), (int)( GuiParams::getButtonSize( eButtonSizeMedium ).height() + 8 ) );
-}
-
-//============================================================================
-MyIcons& GuiOfferListItem::getMyIcons( void )
-{
-    return m_MyApp.getMyIcons();
 }
 
 //============================================================================
@@ -155,7 +150,7 @@ void GuiOfferListItem::updateThumb( GuiThumb* guiThumb )
         QImage thumbImage;
         if( guiThumb->createImage( thumbImage ) && !thumbImage.isNull() )
         {
-            ui.m_AvatarButton->setIconOverrideImage( thumbImage );
+            getIdentAvatarButton()->setIconOverrideImage( thumbImage );
             update();
         }
     }

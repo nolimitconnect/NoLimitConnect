@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "HomeWindow.h"
 #include "VxAppTheme.h"
 
 #include <CoreLib/ObjectCommonDefs.h>

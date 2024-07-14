@@ -38,7 +38,6 @@ list(APPEND netlib_SOURCES
     VxSktUdpBroadcast.cpp
     VxSktUtil.cpp
     VxSktWaitingList.cpp
-    VxXferDefs.cpp
 )
 
 add_library(netlib STATIC ${netlib_SOURCES})

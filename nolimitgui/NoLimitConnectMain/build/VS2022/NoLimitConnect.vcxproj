@@ -564,7 +564,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommonApp.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppGlobals.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.h" />
@@ -917,7 +916,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletApplicationInfo.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutApp.h" />
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppCommon.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommon.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.h" />
@@ -1078,7 +1077,6 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiHostedListItem.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiUserMultiListWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\HistoryEntryWidget.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\HomeWindow.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\HostJoinRequestListItem.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\IdentWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ImageListEntry.ui" />

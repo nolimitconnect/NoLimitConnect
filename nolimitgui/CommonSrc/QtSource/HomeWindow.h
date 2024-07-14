@@ -15,7 +15,6 @@
 
 #include "AppDefs.h"
 
-#include "ui_HomeWindow.h"
 #include <QDialog>
 #include <QQueue>
 
@@ -30,7 +29,10 @@ class VxFrame;
 
 class QComboBox;
 class QDialogButtonBox;
+class QFrame;
+class QGridLayout;
 class QGroupBox;
+class QLabel;
 class QSettings;
 
 // main window
@@ -87,7 +89,6 @@ protected:
     AppletBase *                findActiveApplet( void );
 
 	//=== vars ===//
-	Ui::HomeWindowClass			ui;
 	AppCommon&					m_MyApp;
     VxAppDisplay&               m_AppDisplay;
 	QString						m_AppTitle;
@@ -108,22 +109,6 @@ protected:
 
     bool						m_MessengerIsFullSize{false};
     bool						m_HomeFrameFullSize{false};
-
-	//=== demo mode vars ===//
-    QGroupBox *					rotableGroupBox{nullptr};
-    QQueue<QWidget*>			rotableWidgets;
-
-    QGroupBox *					optionsGroupBox{nullptr};
-    QLabel *					buttonsOrientationLabel{nullptr};
-    QComboBox *					buttonsOrientationComboBox{nullptr};
-
-    QDialogButtonBox *			buttonBox{nullptr};
-    QPushButton *				closeButton{nullptr};
-    QPushButton *				helpButton{nullptr};
-    QPushButton *				rotateWidgetsButton{nullptr};
-
-    QGridLayout *				rotableLayout{nullptr};
-    QGridLayout *				optionsLayout{nullptr};
     bool                        m_EngineInitialized{false};
 };
 

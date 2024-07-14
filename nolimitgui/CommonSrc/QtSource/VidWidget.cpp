@@ -17,6 +17,7 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "GuiPlayerMgr.h"
+#include "HomeWindow.h"
 
 #include <P2PEngine/P2PEngine.h>
 

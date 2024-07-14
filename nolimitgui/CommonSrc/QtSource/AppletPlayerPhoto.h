@@ -11,8 +11,17 @@
 
 #include "AppletPlayerBase.h"
 
+#include "MenuDefs.h"
+
 #include "GuiPlayerCallback.h"
-#include "ui_AppletPlayerPhoto.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPlayerPhotoUi;
+}
+QT_END_NAMESPACE
+
+class VxMenuButton;
 
 class AppletPlayerPhoto : public AppletPlayerBase, public GuiPlayerCallback
 {
@@ -63,7 +72,7 @@ protected:
 	bool						m_IsPlaying;
 	bool						m_SliderIsPressed;
 
-	Ui::AppletPlayerPhotoUi		ui;
+	Ui::AppletPlayerPhotoUi&	ui;
 };
 
 

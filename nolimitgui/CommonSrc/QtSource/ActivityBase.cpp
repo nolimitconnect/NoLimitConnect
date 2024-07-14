@@ -19,6 +19,7 @@
 #include "GuiOfferSession.h"
 #include "GuiPlayerMgr.h"
 #include "GuiParams.h"
+#include "HomeWindow.h"
 
 #include "MyIcons.h"
 #include "SoundMgr.h"
@@ -38,12 +39,15 @@
 #include <stdio.h>
 #include <array>
 
+#include "ui_ActivityBase.h"
+
 const int RESIZE_WINDOW_COMPLETED_TIMEOUT = 500;
 
 //============================================================================
 ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent, EApplet eAppletType, bool isDialog, bool isPopup, bool fullWindowSize )
 : QDialog( parent, Qt::Widget )
 , ObjectCommon( objName )
+, ui(*(new Ui::ActivityBaseClass))
 , m_MyApp( app )
 , m_UserMgr( app.getUserMgr() )
 , m_Engine( app.getEngine() )
@@ -323,14 +327,14 @@ QString ActivityBase::getParentPageFrameName( void )
 // overridden in dialogs
 TitleBarWidget * ActivityBase::getTitleBarWidget( void )
 {
-	return getTitleBarWidget();
+    return ui.m_TitleBarWidget;
 }
 
 //============================================================================
 // overridden in dialogs
 BottomBarWidget * ActivityBase::getBottomBarWidget( void )
 {
-	return getBottomBarWidget();
+    return ui.m_BottomBarWidget;
 }
 
 //============================================================================
@@ -1374,4 +1378,11 @@ void ActivityBase::stopBusySpinner( void )
 	m_BusySpinner->close();
 	m_BusySpinner->deleteLater();
 	m_BusySpinner = nullptr;
+}
+
+//============================================================================
+void ActivityBase::delayedCloseApplet( void )
+{
+    m_DelayedCloseTimer->setSingleShot( true );
+    m_DelayedCloseTimer->start(10);
 }

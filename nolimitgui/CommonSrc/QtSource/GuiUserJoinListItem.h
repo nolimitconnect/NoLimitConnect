@@ -31,7 +31,6 @@ public:
 	virtual ~GuiUserJoinListItem();
 
     AppCommon&					getMyApp( void ) { return m_MyApp; }
-    MyIcons&					getMyIcons( void );
 
     void                        setUserJoinSession( GuiUserJoinSession* hostSession );
     GuiUserJoinSession*         getUserJoinSession( void );

@@ -201,8 +201,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 
 , m_SoundMgr( * new SoundMgr( *this ) )
 
-, m_HomePage( *this, m_AppTitle )
-
 , m_OncePerSecondTimer( new QTimer( this ) )
 , m_eLastSelectedWhichContactsToView( eFriendViewEverybody )
 , m_bUserCanceledCreateProfile( false )
@@ -260,14 +258,7 @@ bool AppCommon::loadWithoutThread( void )
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
-	if( getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
-	{
-		getQApplication().setStyle( &m_AppStyle );
-
-		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
-
-		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &getHomePage() );
-	}
+	getQApplication().setStyle( &m_AppStyle );
 
 	while( !appLoaderThread.getIsAccountMgrLoaded() )
 	{
@@ -307,9 +298,12 @@ bool AppCommon::loadWithoutThread( void )
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
-    m_HomePage.initializeHomePage();
-    connect( &m_HomePage, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
-    m_HomePage.show();
+	m_HomePage = new HomeWindow( *this, m_AppTitle );
+	getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), m_HomePage );
+    m_HomePage->initializeHomePage();
+
+    connect( m_HomePage, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
+    m_HomePage->show();
 
 	connect( this, SIGNAL(signalInternalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotInternalNetAvailStatus(ENetAvailStatus)), Qt::QueuedConnection );
 
@@ -412,20 +406,20 @@ void AppCommon::shutdownAppCommon( void )
 //============================================================================
 void AppCommon::setIsMaxScreenSize( bool isMessagerFrame, bool isFullSizeWindow )
 {
-    m_HomePage.setIsMaxScreenSize( isMessagerFrame, isFullSizeWindow );
+    m_HomePage->setIsMaxScreenSize( isMessagerFrame, isFullSizeWindow );
     emit signalMainWindowResized();
 }
 
 //============================================================================
 bool AppCommon::getIsMaxScreenSize( bool isMessagerFrame )
 {
-    return m_HomePage.getIsMaxScreenSize( isMessagerFrame );
+    return m_HomePage->getIsMaxScreenSize( isMessagerFrame );
 }
 
 //============================================================================
 void AppCommon::switchWindowFocus( QWidget* appIconButton )
 {
-	m_HomePage.switchWindowFocus( appIconButton );
+	m_HomePage->switchWindowFocus( appIconButton );
 }
 
 //============================================================================

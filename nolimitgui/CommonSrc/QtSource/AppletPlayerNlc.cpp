@@ -14,14 +14,18 @@
 #include "AppletMgr.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "BottomBarWidget.h"
 #include "GuiHelpers.h"
 #include "GuiPlayerMgr.h"
 #include "SoundMgr.h"
+#include "VxMenuButton.h"
 
 #include <AppInterface/INlc.h>
 
 #include <P2PEngine/P2PEngine.h>
 #include "MediaPlayerNlc.h"
+
+#include "PlayControlWidget.h"
 
 #include <QDir>
 
@@ -30,11 +34,20 @@
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletPlayerNlc.h"
+
 VxFileList AppletPlayerNlc::m_RecentFiles;
+
+RenderGlWidget*		AppletPlayerNlc::getRenderConsumer( void )		{ return ui.m_RenderWidget; }
+QSlider*			AppletPlayerNlc::getPlayPosSlider( void )		{ return ui.m_PlayControlWidget->getPlayPosSlider(); }
+QPushButton*		AppletPlayerNlc::getReplayButton( void )		{ return ui.m_ReplayButton; }
+VxPushButton*		AppletPlayerNlc::getPlayPauseButton( void )		{ return ui.m_PlayControlWidget->getPlayPauseButton(); }
+PlayControlWidget*	AppletPlayerNlc::getPlayControlWidget( void )	{ return ui.m_PlayControlWidget; }
 
 //============================================================================
 AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 : AppletPlayerNlcBase( OBJNAME_APPLET_PLAYER_NLC, app, parent )
+, ui(*(new Ui::AppletPlayerNlcUi))
 {
 	initAppletPlayerNlc();
 }

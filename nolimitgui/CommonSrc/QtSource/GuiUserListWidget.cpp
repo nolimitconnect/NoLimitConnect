@@ -19,6 +19,7 @@
 #include "AppCommon.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiParams.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
 

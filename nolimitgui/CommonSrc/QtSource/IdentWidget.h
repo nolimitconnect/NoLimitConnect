@@ -9,8 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_IdentWidget.h"
 #include "IdentLogicInterface.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class IdentWidget;
+}
+QT_END_NAMESPACE
 
 class IdentWidget : public IdentLogicInterface
 {
@@ -32,5 +37,5 @@ public:
 	virtual QLabel*				getIdentLine3( void ) override;
 
 protected:
-	Ui::IdentWidget				ui;
+	Ui::IdentWidget&			ui;
 };

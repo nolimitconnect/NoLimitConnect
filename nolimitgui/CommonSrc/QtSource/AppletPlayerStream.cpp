@@ -12,8 +12,10 @@
 
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "BottomBarWidget.h"
 #include "GuiPlayerMgr.h"
 #include "SoundMgr.h"
+#include "VxMenuButton.h"
 
 #include <AppInterface/INlc.h>
 
@@ -25,6 +27,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
+
+#include "ui_AppletPlayerStream.h"
 
 #define ENABLE_NLC_PLAYER_STREAMS 1
 
@@ -38,9 +42,16 @@ namespace
 	}
 }
 
+RenderGlWidget*		AppletPlayerStream::getRenderConsumer( void )		{ return ui.m_RenderWidget; }
+QSlider*			AppletPlayerStream::getPlayPosSlider( void )		{ return ui.m_PlayControlWidget->getPlayPosSlider(); }
+QPushButton*		AppletPlayerStream::getReplayButton( void )			{ return ui.m_ReplayButton; }
+VxPushButton*		AppletPlayerStream::getPlayPauseButton( void )		{ return ui.m_PlayControlWidget->getPlayPauseButton(); }
+PlayControlWidget*	AppletPlayerStream::getPlayControlWidget( void )	{ return ui.m_PlayControlWidget; }
+
 //============================================================================
 AppletPlayerStream::AppletPlayerStream( AppCommon& app, QWidget* parent )
 : AppletPlayerNlcBase( OBJNAME_APPLET_PLAYER_STREAM, app, parent )
+, ui(*(new Ui::AppletPlayerStreamUi))
 {
 	initAppletPlayerStream();
 }

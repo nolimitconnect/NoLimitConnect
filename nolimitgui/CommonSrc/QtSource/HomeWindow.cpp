@@ -14,14 +14,14 @@
 #include "VxAppTheme.h"
 #include "VxAppDisplay.h"
 
+#include "AppletBase.h"
 #include "AppletLaunchPage.h"
 #include "AppletMultiMessenger.h"
 #include "MessengerPage.h"
 #include "GuiParams.h"
 #include "GuiHelpers.h"
-
+#include "TitleBarWidget.h"
 #include "VxFrame.h"
-#include "AppletBase.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxAppInfo.h>

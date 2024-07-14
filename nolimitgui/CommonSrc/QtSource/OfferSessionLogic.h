@@ -11,6 +11,8 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include <OfferBase/OfferBaseInfo.h>
+
 #include <CoreLib/VxSha1Hash.h>
 
 #include <string>
@@ -18,6 +20,7 @@
 class ActivityBase;
 class AppCommon;
 class AppletBase;
+class GuiOfferMgr;
 class GuiOfferSession;
 class GuiOfferCallback;
 class VxNetIdent;

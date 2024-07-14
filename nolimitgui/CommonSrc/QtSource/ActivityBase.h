@@ -10,7 +10,6 @@
 //============================================================================
 
 #include "ToGuiActivityInterface.h"
-#include "ui_ActivityBase.h"
 
 #include "AppDefs.h"
 #include "SoundDefs.h"
@@ -22,6 +21,12 @@
 #include <CoreLib/VxGUID.h>
 
 #include <QDialog>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class ActivityBaseClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class AssetBaseInfo;
@@ -223,11 +228,7 @@ public:
 	virtual void				startBusySpinner( QWidget* parent = nullptr );
 	virtual void				stopBusySpinner( void );
 
-	virtual void				delayedCloseApplet( void )
-	{
-		m_DelayedCloseTimer->setSingleShot( true );
-		m_DelayedCloseTimer->start(10);
-	}
+    virtual void				delayedCloseApplet( void );
 
 signals:
 	//=== title bar signals ====//
@@ -317,7 +318,7 @@ protected:
     virtual void                onAppIconSpecialClick( ActivityBase* activityBase );
 
 	//=== vars ===//
-	Ui::ActivityBaseClass		ui;
+    Ui::ActivityBaseClass&		ui;
 
 	AppCommon&					m_MyApp;
     GuiUserMgr&                 m_UserMgr;

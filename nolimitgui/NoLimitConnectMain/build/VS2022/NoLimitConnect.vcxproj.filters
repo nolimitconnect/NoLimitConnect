@@ -458,9 +458,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommonApp.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\OfferSendWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1141,6 +1138,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.h">
       <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2430,9 +2430,6 @@
     <ClInclude Include="..\..\..\..\nolimitlib\NlcTargetOsConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2615,9 +2612,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAppSetup.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBrowseFiles.ui">
@@ -2867,9 +2861,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\HistoryEntryWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\HomeWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\IdentWidget.ui">
@@ -3131,6 +3122,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\PlayControlWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -99,7 +99,7 @@ bool MediaPlayerNlc::fromGuiStopModule( EAppModule appModule )
 {
 	if( eAppModulePlayerNlc == appModule && m_ModuleIsRunning )
 	{
-		m_ModuleIsRunning = !INlc::getINlc().toGuiStopModule( eAppModulePlayerNlc );
+		//m_ModuleIsRunning = !INlc::getINlc().toGuiStopModule( eAppModulePlayerNlc );
 	}
 
 	return m_ModuleIsRunning;

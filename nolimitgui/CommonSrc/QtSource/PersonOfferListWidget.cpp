@@ -8,13 +8,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "FriendListEntryWidget.h"
 #include "PersonOfferListWidget.h"
 
-#include "MyIcons.h"
+#include "FriendListEntryWidget.h"
+
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "MyIcons.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 

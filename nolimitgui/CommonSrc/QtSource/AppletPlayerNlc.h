@@ -11,15 +11,20 @@
 
 #include "AppletPlayerNlcBase.h"
 
-#include "PlayControlWidget.h"
-#include "ui_AppletPlayerNlc.h"
+#include "MenuDefs.h"
 
 #include <CoreLib/VxFileLists.h>
 
-#include <QElapsedTimer>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPlayerNlcUi;
+}
+QT_END_NAMESPACE
 
+class PlayControlWidget;
 class QDir;
 class QFileInfo;
+class VxMenuButton;
 
 class AppletPlayerNlc : public AppletPlayerNlcBase
 {
@@ -28,11 +33,11 @@ public:
 	AppletPlayerNlc( AppCommon& app, QWidget* parent );
     virtual ~AppletPlayerNlc();
 
-	RenderGlWidget*				getRenderConsumer( void ) override		{ return ui.m_RenderWidget; }
-	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayControlWidget->getPlayPosSlider(); }
-	QPushButton*				getReplayButton( void ) override		{ return ui.m_ReplayButton; }
-	VxPushButton*				getPlayPauseButton( void ) override		{ return ui.m_PlayControlWidget->getPlayPauseButton(); }
-	PlayControlWidget*			getPlayControlWidget( void ) override	{ return ui.m_PlayControlWidget; }
+	RenderGlWidget*				getRenderConsumer( void ) override;
+	QSlider*					getPlayPosSlider( void ) override;
+	QPushButton*				getReplayButton( void ) override;
+	VxPushButton*				getPlayPauseButton( void ) override;
+	PlayControlWidget*			getPlayControlWidget( void ) override;
 
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 
@@ -66,7 +71,7 @@ protected:
 	void						updateRecentListVisibility( void );
 
 	//=== vars ===//
-	Ui::AppletPlayerNlcUi		ui;
+	Ui::AppletPlayerNlcUi&		ui;
 	static VxFileList			m_RecentFiles;
 	bool						m_MediaPlayerReady{ false };
 };

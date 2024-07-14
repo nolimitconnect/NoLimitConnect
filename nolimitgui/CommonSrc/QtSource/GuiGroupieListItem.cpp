@@ -8,8 +8,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-
 #include "GuiGroupieListItem.h"
 #include "GuiGroupieListSession.h"
 #include "GuiParams.h"
@@ -37,12 +35,6 @@ GuiGroupieListItem::~GuiGroupieListItem()
 QSize GuiGroupieListItem::calculateSizeHint( void )
 {
     return QSize( ( int )( GuiParams::getGuiScale() * 200 ), ( int )( GuiParams::getButtonSize( eButtonSizeMedium ).height() + 8 ) );
-}
-
-//============================================================================
-MyIcons& GuiGroupieListItem::getMyIcons( void )
-{
-    return m_MyApp.getMyIcons();
 }
 
 //============================================================================

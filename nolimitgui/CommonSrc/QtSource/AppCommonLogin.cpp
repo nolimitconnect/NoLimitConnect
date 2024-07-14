@@ -485,17 +485,17 @@ void AppCommon::checkReadyToLaunchAfterLogonApplets( void )
     {
         m_LauchedAfterLogonApplets = true;
 
-        EApplet lastLaunchedHomeFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameHome );
-        if( lastLaunchedHomeFrameApplet != eAppletUnknown )
-        {
-            m_AppletMgr.launchApplet( lastLaunchedHomeFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameHome ) );
-        }
+        //EApplet lastLaunchedHomeFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameHome );
+        //if( lastLaunchedHomeFrameApplet != eAppletUnknown )
+        //{
+        //    m_AppletMgr.launchApplet( lastLaunchedHomeFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameHome ) );
+        //}
 
-        EApplet lastLaunchedMessengerFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameMessenger );
-        if( lastLaunchedMessengerFrameApplet != eAppletUnknown )
-        {
-            m_AppletMgr.launchApplet( lastLaunchedMessengerFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameMessenger ) );
-        }
+        //EApplet lastLaunchedMessengerFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameMessenger );
+        //if( lastLaunchedMessengerFrameApplet != eAppletUnknown )
+        //{
+        //    m_AppletMgr.launchApplet( lastLaunchedMessengerFrameApplet, m_AppletMgr.getLaunchParentFrame( eLaunchFrameMessenger ) );
+        //}
 
         checkReadyToConnectToLastConnectedHost();
     }

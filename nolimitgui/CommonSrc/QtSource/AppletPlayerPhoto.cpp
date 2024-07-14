@@ -21,9 +21,12 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletPlayerPhoto.h"
+
 //============================================================================
 AppletPlayerPhoto::AppletPlayerPhoto( AppCommon& app, QWidget* parent )
 : AppletPlayerBase( OBJNAME_APPLET_PLAYER_PHOTO, app, parent )
+, ui(*(new Ui::AppletPlayerPhotoUi ))
 , m_ActivityCallbacksEnabled( false )
 , m_IsPlaying( false )
 , m_SliderIsPressed( false )

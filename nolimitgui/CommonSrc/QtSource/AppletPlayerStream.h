@@ -12,11 +12,16 @@
 #include "AppletPlayerNlcBase.h"
 
 #include "GuiPlayerCallback.h"
-#include "ui_AppletPlayerStream.h"
 
-#include <QElapsedTimer>
+#include "MenuDefs.h"
 
-class QMediaPlayer;
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPlayerStreamUi;
+}
+QT_END_NAMESPACE
+
+class VxMenuButton;
 
 class AppletPlayerStream : public AppletPlayerNlcBase
 {
@@ -25,11 +30,11 @@ public:
 	AppletPlayerStream( AppCommon& app, QWidget* parent );
 	virtual ~AppletPlayerStream();
 
-	RenderGlWidget*				getRenderConsumer( void ) override		{ return ui.m_RenderWidget; }
-	QSlider*					getPlayPosSlider( void ) override		{ return ui.m_PlayControlWidget->getPlayPosSlider(); }
-	QPushButton*				getReplayButton( void ) override		{ return ui.m_ReplayButton; }
-	VxPushButton*				getPlayPauseButton( void ) override		{ return ui.m_PlayControlWidget->getPlayPauseButton(); }
-	PlayControlWidget*			getPlayControlWidget( void ) override	{ return ui.m_PlayControlWidget; }
+	RenderGlWidget*				getRenderConsumer( void ) override;
+	QSlider*					getPlayPosSlider( void ) override;
+	QPushButton*				getReplayButton( void ) override;
+	VxPushButton*				getPlayPauseButton( void ) override;
+	PlayControlWidget*			getPlayControlWidget( void ) override;
 
 	void						onMediaPlayerNlcReady( bool isReady ) override;
 
@@ -58,7 +63,7 @@ protected:
 
 
 	//=== vars ===//
-	Ui::AppletPlayerStreamUi	ui;
+	Ui::AppletPlayerStreamUi&	ui;
 	EAppModule					m_AppModule{ eAppModulePlayerNlc };
 	bool						m_ActivityCallbacksEnabled{ false };
 	bool						m_IsPlaying{ false };

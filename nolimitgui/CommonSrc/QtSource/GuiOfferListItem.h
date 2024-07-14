@@ -13,7 +13,6 @@
 
 #include <QListWidgetItem>
 
-
 class GuiOfferSession;
 class GuiThumb;
 
@@ -25,7 +24,6 @@ public:
 	virtual ~GuiOfferListItem();
 
     AppCommon&					getMyApp( void ) { return m_MyApp; }
-    MyIcons&					getMyIcons( void );
 
     void                        setOfferSession( GuiOfferSession* hostSession );
     GuiOfferSession*            getOfferSession( void );

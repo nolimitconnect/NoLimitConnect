@@ -17,6 +17,7 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "GuiPlayerCallback.h"
+#include "HomeWindow.h"
 
 #include <AssetMgr/AssetInfo.h>
 

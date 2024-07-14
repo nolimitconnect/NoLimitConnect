@@ -47,9 +47,12 @@
 #include <QMessageBox>
 #include <QTimer>
 
+#include "ui_AppletPopupMenu.h"
+
 //============================================================================
 AppletPopupMenu::AppletPopupMenu( AppCommon& app, QWidget* parent, VxGUID assetId )
 : AppletBase( OBJNAME_APPLET_POPUP_MENU, app, parent )
+, ui(*(new Ui::AppletPopupMenuUi))
 {
     setAppletType( eAppletPopupMenu );
 	initAppletPopupMenu();

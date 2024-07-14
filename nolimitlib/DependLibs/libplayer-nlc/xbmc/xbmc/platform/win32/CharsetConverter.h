@@ -11,7 +11,7 @@
 #include "config_components_kodi.h"
 #include <string>
 
-#if defined(TARGET_WINDOWS)
+#if defined(TARGET_OS_WINDOWS)
 namespace KODI
 {
 namespace PLATFORM

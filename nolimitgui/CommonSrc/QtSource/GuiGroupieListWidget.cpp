@@ -17,6 +17,7 @@
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
  

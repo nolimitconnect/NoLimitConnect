@@ -52,6 +52,9 @@ class FileInfo;
 class GuiUser;
 class PluginSetting;
 class PluginSettingsWidget;
+class BottomBarWidget;
+class TitleBarWidget;
+class VxFrame;
 class VxNetIdent;
 
 class QComboBox;
@@ -116,6 +119,11 @@ public:
     static QFrame*              getOppositePageFrame( QWidget* curWidget );
     /// @brief get frame with given object name
     static QFrame*              findContentFrame( QString& contentFrameObjName );
+
+    static VxFrame*             getVxFrame( QWidget* curWidget );
+    //static QFrame*              getVxFrameContentItemsFrame( QWidget* curWidget );
+    //static TitleBarWidget*      getVxFrameTitleBarWidget( QWidget* curWidget );
+    //static BottomBarWidget*     getVxFrameBottomBarWidget( QWidget* curWidget );
 
     static bool                 validateUserName( QWidget* curWidget, QString strUserName );
     static bool                 validateMoodMessage( QWidget* curWidget, QString strMoodMsg );

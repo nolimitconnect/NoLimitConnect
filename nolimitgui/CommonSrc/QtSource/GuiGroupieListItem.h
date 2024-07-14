@@ -22,8 +22,6 @@ public:
 	GuiGroupieListItem( QWidget* parent=nullptr );
 	virtual ~GuiGroupieListItem();
 
-    MyIcons&					getMyIcons( void );
-
     void                        setHostSession( GuiGroupieListSession* hostSession );
     GuiGroupieListSession*      getHostSession( void );
 

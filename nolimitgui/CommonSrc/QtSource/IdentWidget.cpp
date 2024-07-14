@@ -12,12 +12,15 @@
 #include "AppletPeerChangeFriendship.h"
 #include "GuiHelpers.h"
 #include "GuiUser.h"
-#include "MyIcons.h"
+
 #include "AppCommon.h"
+
+#include "ui_IdentWidget.h"
 
 //============================================================================
 IdentWidget::IdentWidget(QWidget* parent)
 : IdentLogicInterface(parent)
+, ui(*(new Ui::IdentWidget))
 {
 	ui.setupUi(this);
 	setupIdentLogic( eButtonSizeMedium );

@@ -28,7 +28,6 @@ public:
     virtual bool                compareLessThanItem( GuiUserListItem* rhs );
 
     AppCommon&					getMyApp( void ) { return m_MyApp; }
-    MyIcons&					getMyIcons( void );
 
     void                        setUserSession( GuiUserSessionBase* hostSession );
     GuiUserSessionBase*         getUserSession( void );

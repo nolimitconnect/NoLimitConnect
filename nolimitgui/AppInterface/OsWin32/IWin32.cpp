@@ -19,9 +19,10 @@
  */
 
 // some of this code is copied from Kodi
+
+#ifdef TARGET_OS_WINDOWS
 #include "AppCommon.h"	
 #include "IWin32.h"
-#ifdef TARGET_OS_WINDOWS
 
 #include <dbghelp.h>
 #include <mmsystem.h>

@@ -11,13 +11,14 @@
 #include "AcceptCancelWidget.h"
 
 #include "AppCommon.h"
-#include "VxAppTheme.h"
 #include "GuiParams.h"
-#include "VxAppTheme.h"
+
+#include "ui_AcceptCancelWidget.h"
 
 //============================================================================
 AcceptCancelWidget::AcceptCancelWidget( QWidget* parent )
 : QFrame( parent )
+, ui(*(new Ui::AcceptCancelWidgetClass))
 , m_MyApp(GetAppInstance())
 {
 	ui.setupUi( this );

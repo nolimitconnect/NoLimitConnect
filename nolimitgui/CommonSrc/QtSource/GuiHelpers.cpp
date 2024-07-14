@@ -18,9 +18,10 @@
 #include "AppCommon.h"
 #include "AppDefs.h"
 #include "AppTranslate.h"
+#include "HomeWindow.h"
 #include "MyIconsDefs.h"
-#include "VxFrame.h"
 #include "PluginSettingsWidget.h"
+#include "VxFrame.h"
 
 #include <CoreLib/ObjectCommon.h>
 #include <CoreLib/ObjectCommonDefs.h>
@@ -1107,6 +1108,79 @@ QFrame* GuiHelpers::getOppositePageFrame( QWidget* curWidget )
 
     return pageFrame;
 }
+
+//============================================================================
+VxFrame* GuiHelpers::getVxFrame( QWidget* curWidget )
+{
+    VxFrame* vxFrame{ nullptr };
+    QObject * curParent = curWidget;
+
+    static QString launchPageObjName = OBJNAME_FRAME_LAUNCH_PAGE;
+    static QString messengerPageObjName = OBJNAME_FRAME_MESSAGER_PAGE;
+
+    while (curParent)
+    {
+        QString objName = curParent->objectName();
+        if ((objName == launchPageObjName) || (objName == messengerPageObjName))
+        {
+            vxFrame = dynamic_cast<VxFrame*>(curParent);
+            if( !vxFrame )
+            {
+                LogMsg( LOG_WARNING, "%s could not dynamic cast VxFrame", __func__ );
+                return nullptr;
+            }
+
+            break;
+        }
+
+        if (!curParent->parent())
+        {
+            LogMsg( LOG_WARNING, "Object %s has no parent", objName.toUtf8().constData() );
+        }
+
+        curParent = dynamic_cast<QObject *>(curParent->parent());
+    }
+
+    return vxFrame;
+}
+
+#if 0
+//============================================================================
+QFrame* GuiHelpers::getVxFrameContentItemsFrame( QWidget* curWidget )
+{
+    VxFrame* vxFrame = getVxFrame( curWidget );
+    if( vxFrame )
+    {
+        return vxFrame->getContentItemsFrame();
+    }
+
+    return nullptr;
+}
+
+//============================================================================
+TitleBarWidget* GuiHelpers::getVxFrameTitleBarWidget( QWidget* curWidget )
+{
+    VxFrame* vxFrame = getVxFrame( curWidget );
+    if( vxFrame )
+    {
+        return vxFrame->getTitleBarWidget();
+    }
+
+    return nullptr;
+}
+
+//============================================================================
+BottomBarWidget* GuiHelpers::getVxFrameBottomBarWidget( QWidget* curWidget )
+{
+    VxFrame* vxFrame = getVxFrame( curWidget );
+    if( vxFrame )
+    {
+        return vxFrame->getBottomBarWidget();
+    }
+
+    return nullptr;
+}
+#endif // 0
 
 //============================================================================
 QFrame* GuiHelpers::findContentFrame( QString& contentFrameObjName )

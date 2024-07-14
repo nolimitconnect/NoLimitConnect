@@ -53,7 +53,6 @@ list(APPEND nlc_HEADERS
     AppInterface/OsLinux/ILinux.h
     AppInterface/OsWin32/IWin32.h
     CommonSrc/QtSource/AppCommon.h
-    CommonSrc/QtSource/AppCommonApp.h
     CommonSrc/QtSource/AccountDb.h
     CommonSrc/QtSource/AccountMgr.h
     CommonSrc/QtSource/AcceptCancelWidget.h
@@ -836,7 +835,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/ActivityTimedMessage.ui
     CommonSrc/Forms/ActivityVideoOptions.ui
     CommonSrc/Forms/ActivityYesNo.ui
-    CommonSrc/Forms/ActivityBase.ui
     CommonSrc/Forms/AcceptCancelWidget.ui
     CommonSrc/Forms/AppletAboutApp.ui
     CommonSrc/Forms/AppletAboutMeClient.ui
@@ -945,7 +943,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/GuiUserMultiListWidget.ui
     CommonSrc/Forms/HostJoinRequestListItem.ui
     CommonSrc/Forms/HistoryEntryWidget.ui
-    CommonSrc/Forms/HomeWindow.ui
     CommonSrc/Forms/IdentWidget.ui
     CommonSrc/Forms/ImageListEntry.ui
     CommonSrc/Forms/ImageListRow.ui

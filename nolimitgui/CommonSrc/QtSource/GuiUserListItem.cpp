@@ -8,10 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"
 #include "GuiUserListItem.h"
+
+#include "AppCommon.h"
 #include "GuiUserSessionBase.h"
 #include "GuiParams.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -37,12 +39,6 @@ GuiUserListItem::~GuiUserListItem()
 QSize GuiUserListItem::calculateSizeHint( void )
 {
     return QSize( (int)( GuiParams::getGuiScale() * 200 ), (int)( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 8 ) );
-}
-
-//============================================================================
-MyIcons& GuiUserListItem::getMyIcons( void )
-{
-    return m_MyApp.getMyIcons();
 }
 
 //============================================================================
@@ -153,7 +149,7 @@ void GuiUserListItem::updateThumb( GuiThumb* guiThumb )
         QImage thumbImage;
         if( guiThumb->createImage( thumbImage ) && !thumbImage.isNull() )
         {
-            ui.m_AvatarButton->setIconOverrideImage( thumbImage );
+            getIdentAvatarButton()->setIconOverrideImage( thumbImage );
             update();
         }
     }

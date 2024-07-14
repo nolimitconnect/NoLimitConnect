@@ -16,6 +16,7 @@
 #include "GuiFileXferSession.h"
 #include "GuiOfferSession.h"
 #include "GuiPluginMgr.h"
+#include "HomeWindow.h"
 #include "ToGuiActivityInterface.h"
 
 #include <CoreLib/VxGlobals.h>

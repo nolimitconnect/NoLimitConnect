@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "HomeWindow.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <ThumbMgr/ThumbInfo.h>

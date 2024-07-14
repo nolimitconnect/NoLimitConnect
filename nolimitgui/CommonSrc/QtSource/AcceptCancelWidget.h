@@ -9,9 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AcceptCancelWidget.h"
+#include "AppDefs.h"
 
 #include <QFrame>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AcceptCancelWidgetClass;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 
 class AcceptCancelWidget : public QFrame
 {
@@ -34,6 +42,6 @@ protected slots:
 
 protected:
 	AppCommon&						m_MyApp;
-	Ui::AcceptCancelWidgetClass		ui;
+	Ui::AcceptCancelWidgetClass&	ui;
 };
 

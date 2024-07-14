@@ -14,6 +14,8 @@
 #include "GuiUserJoinListItem.h"
 #include "GuiUserJoinSession.h"
 #include "GuiParams.h"
+#include "IdentWidget.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -42,12 +44,6 @@ GuiUserJoinListItem::~GuiUserJoinListItem()
 QSize GuiUserJoinListItem::calculateSizeHint( void )
 {
     return QSize( (int)( GuiParams::getGuiScale() * 200 ), (int)( GuiParams::getButtonSize().height() + 8 ) );
-}
-
-//============================================================================
-MyIcons& GuiUserJoinListItem::getMyIcons( void )
-{
-    return m_MyApp.getMyIcons();
 }
 
 //============================================================================
@@ -117,7 +113,7 @@ void GuiUserJoinListItem::updateThumb( GuiThumb* guiThumb )
         QImage thumbImage;
         if( guiThumb->createImage( thumbImage ) && !thumbImage.isNull() )
         {
-            ui.m_AvatarButton->setIconOverrideImage( thumbImage );
+            getIdentAvatarButton()->setIconOverrideImage(thumbImage);
             update();
         }
     }

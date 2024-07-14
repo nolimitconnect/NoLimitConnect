@@ -11,7 +11,6 @@
 
 #include "AppletBase.h"
 #include "AppDefs.h"
-#include "ui_AppletPopupMenu.h"
 
 #include <CoreLib/MediaCallbackInterface.h>
 
@@ -32,10 +31,17 @@ enum class EPopupMenuType
 	eMaxPopupMenu
 };
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPopupMenuUi;
+}
+QT_END_NAMESPACE
+
 class GuiHostSession;
 class GuiHostedListSession;
 class GuiGroupieListSession;
 class GuiUserSessionBase;
+class QListWidgetItem;
 
 class AppletPopupMenu : public AppletBase, public MediaCallbackInterface
 {
@@ -93,7 +99,7 @@ protected:
 	void						initAppletPopupMenu( void );
 
     //=== vars ===//
-    Ui::AppletPopupMenuUi		ui;
+    Ui::AppletPopupMenuUi&		ui;
 	AppletBase*					m_ParentActivity{ nullptr };
 	int							m_iMenuItemHeight{ 48 };
 	GuiHostSession*				m_HostSession{ nullptr };

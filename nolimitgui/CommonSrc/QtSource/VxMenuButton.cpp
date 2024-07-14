@@ -9,7 +9,9 @@
 //============================================================================
 
 #include "VxMenuButton.h"
+
 #include "AppCommon.h"
+#include "HomeWindow.h"
 
 //============================================================================
 VxMenuButton::VxMenuButton( QWidget* parent )
