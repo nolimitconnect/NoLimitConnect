@@ -14,9 +14,17 @@
 
 #include <QDebug>
 
+#include "ui_SessionWidget.h"
+
+QLabel *                    SessionWidget::getSessionStatusLabel( void )				{ return ui.m_StatusLabel; }
+HistoryListWidget *         SessionWidget::getSessionHistoryList( void )				{ return ui.m_HistoryList; }
+ChatEntryWidget *           SessionWidget::getSessionChatEntry( void )					{ return ui.m_ChatEntry; }
+void						SessionWidget::initializeHistory( void )					{ getSessionHistoryList()->initializeHistory(); }
+
 //============================================================================
 SessionWidget::SessionWidget( QWidget* parent, EAssetType inputMode )
 : QWidget( parent )
+, ui(*(new Ui::SessionWidgetClass))
 , m_MyApp(GetAppInstance())
 , m_InputMode( inputMode )
 {

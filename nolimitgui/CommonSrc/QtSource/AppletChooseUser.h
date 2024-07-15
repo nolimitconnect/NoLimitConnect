@@ -9,8 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletChooseUser.h"
-
 #include "AppletBase.h"
 
 enum EChooseUserReason
@@ -25,6 +23,15 @@ enum EChooseUserReason
 
     eMaxChooseUserReason
 };
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletChooseUserUi;
+}
+QT_END_NAMESPACE
+
+class GuiUserSessionBase;
+class GuiUserListItem;
 
 class AppletChooseUser : public AppletBase
 {
@@ -52,7 +59,7 @@ protected:
     void                        showEvent( QShowEvent* ev ) override;
 
     //=== vars ===//
-    Ui::AppletChooseUserUi	    ui;
+    Ui::AppletChooseUserUi&	    ui;
     EChooseUserReason           m_ChooseUserReason{ eChooseUserReasonUnknown };
 };
 

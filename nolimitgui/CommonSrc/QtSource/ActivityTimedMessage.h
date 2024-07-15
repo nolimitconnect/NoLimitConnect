@@ -11,7 +11,12 @@
 
 #include <QDialog>
 #include <QTimer>
-#include "ui_ActivityTimedMessage.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class TimedMessageDlg;
+}
+QT_END_NAMESPACE
 
 class ActivityTimedMessage : public QDialog
 {
@@ -21,12 +26,8 @@ public:
 	ActivityTimedMessage( QString strTitle, QString strMessage, int iTimeoutSeconds = 4, QWidget* parent = nullptr );
 	virtual ~ActivityTimedMessage() override = default;
 
-    // overrides required for dialogs with there own title bar and bottom bar widgets
-    //virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    //virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
-
 private:
-	Ui::TimedMessageDlg			ui;
+	Ui::TimedMessageDlg&		ui;
 	QTimer						m_CloseDlgTimer;
 
 };

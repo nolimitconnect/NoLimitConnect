@@ -9,9 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_TestWidget.h"
-
 #include <QFrame>
+
+#include "AppDefs.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class TestWidgetUi;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 
 class TestWidget : public QFrame
 {
@@ -32,6 +40,6 @@ protected slots:
 
 protected:
 	AppCommon&						m_MyApp;
-	Ui::TestWidgetUi				ui;
+	Ui::TestWidgetUi&				ui;
 };
 

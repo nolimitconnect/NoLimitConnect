@@ -18,9 +18,12 @@
 
 #include <QCloseEvent>
 
+#include "ui_SearchBarWidget.h"
+
 //============================================================================
 SearchBarWidget::SearchBarWidget( QWidget* parent )
 : QFrame( parent )
+, ui(*(new Ui::SearchBarWidgetUi))
 {
 	ui.setupUi( this );
 	ui.m_SearchButton->setFixedSize( eButtonSizeTiny );

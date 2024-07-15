@@ -28,9 +28,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
 
+#include "ui_AppletPersonOfferList.h"
+
 //============================================================================
 AppletPersonOfferList::AppletPersonOfferList( AppCommon& app,  QWidget* parent )
 : AppletPeerBase( OBJNAME_APPLET_PERSONS_OFFER_LIST, app, parent )
+, ui(*(new Ui::AppletPersonOfferListUi))
 {
     setAppletType( eAppletPersonOfferList );
     ui.setupUi( getContentItemsFrame() );

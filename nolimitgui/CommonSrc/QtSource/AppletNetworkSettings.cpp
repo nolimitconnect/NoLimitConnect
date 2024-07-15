@@ -29,14 +29,19 @@
 #include <NetLib/VxSktUtil.h>
 #include <NetLib/VxPortForward.h>
 
+#include "ui_AppletNetworkSettings.h"
+
 namespace
 {
     QString				DEFAULT_ADAPTER_IP_CHOICE = "default";
 }
 
+QString						AppletNetworkSettings::getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text(); }
+
 //============================================================================
 AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_NETWORK_SETTINGS, app, parent )
+, ui(*(new Ui::AppletNetworkSettingsUi))
 , m_UpdateTimer( new QTimer(this) )
 {
 	setAppletType( eAppletNetworkSettings );

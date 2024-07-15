@@ -26,9 +26,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 
+#include "ui_AppletUploads.h"
+
 //============================================================================
 AppletUploads::AppletUploads( AppCommon& app, QWidget*	parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_UPLOADS, app, parent )
+, ui(*(new Ui::AppletUploadsUi))
 {
     setAppletType( eAppletUploads );
     ui.setupUi( getContentItemsFrame() );

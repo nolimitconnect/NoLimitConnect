@@ -20,11 +20,14 @@
 
 #include <CoreLib/VxGlobals.h>
 
-#include <QDebug>
+//#include <QDebug>
+
+#include "ui_InputVideoWidget.h"
 
 //============================================================================
 InputVideoWidget::InputVideoWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
+, ui(*(new Ui::InputVideoWidget))
 {
     // qDebug() << "InputVideoWidget::InputVideoWidget ";
 	m_AssetInfo.setAssetType( eAssetTypeVideo );

@@ -41,6 +41,8 @@
 #include <QScopedPointer>
 #include <QMediaDevices>
 
+#include "ui_AppletSoundSettings.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
@@ -49,6 +51,7 @@ namespace
 //============================================================================
 AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 : AppletClientBase( OBJNAME_APPLET_SOUND_SETTINGS, app, parent )
+, ui(*(new Ui::AppletSoundSettingsUi))
 , m_PeakTimer( new QTimer( this ) )
 , m_devices( new QMediaDevices( this ) )
 {

@@ -9,19 +9,46 @@
 //============================================================================
 
 #include "PluginSettingsWidget.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "MyIconsDefs.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "ThumbnailViewWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
 
+#include "ui_PluginSettingsWidget.h"
+
+QLabel *            PluginSettingsWidget::getServiceUrlLabel( bool ipv6 )     { return ipv6 ? ui.m_UrlDescriptionLabelIpv4 : ui.m_UrlDescriptionLabelIpv6; }
+QLineEdit *         PluginSettingsWidget::getServiceUrlEdit( bool ipv6 )      { return ipv6 ? ui.m_UrlEditIpv4 : ui.m_UrlEditIpv6; }
+QLineEdit *         PluginSettingsWidget::getServiceTitleEdit()       { return ui.m_ServiceTitleEdit; }
+
+QPlainTextEdit *    PluginSettingsWidget::getServiceDescriptionEdit() { return ui.m_DescriptionEdit; }
+QPlainTextEdit *    PluginSettingsWidget::getGreetingEdit()           { return ui.m_GreetingEdit; }
+QPlainTextEdit *    PluginSettingsWidget::getRejectEdit()             { return ui.m_RejectEdit; }
+
+QPushButton *       PluginSettingsWidget::getStartButton()            { return ui.m_StartButton; }
+QPushButton *       PluginSettingsWidget::getStopButton()             { return ui.m_StopButton; }
+QPushButton *       PluginSettingsWidget::getApplyButton()            { return ui.m_ApplyButton; }
+
+QComboBox *         PluginSettingsWidget::getAgeComboBox()            { return ui.m_AgeComboBox; }
+QComboBox *         PluginSettingsWidget::getContentRatingComboBox()  { return ui.m_ContentRatingComboBox; }
+QComboBox *         PluginSettingsWidget::getGenderComboBox()         { return ui.m_GenderComboBox; }
+QComboBox *         PluginSettingsWidget::getLanguageComboBox()       { return ui.m_LanguageComboBox; }
+
+PermissionWidget *  PluginSettingsWidget::getPermissionWidget()       { return ui.m_PermissionWidget; }
+InformationWidget * PluginSettingsWidget::getInformationWidget()      { return ui.m_InfoWidget; }
+
+ThumbnailChooseWidget * PluginSettingsWidget::getThumbnailChooseWidget()  { return ui.m_ThumbnailChooseWidget; }
+
 //============================================================================
 PluginSettingsWidget::PluginSettingsWidget( QWidget* parent )
     : QWidget( parent )
+    , ui(*(new Ui::PluginSettingsUi))
     , m_MyApp( GetAppInstance() )
 {
     m_ParentApplet = GuiHelpers::findParentApplet( parent );

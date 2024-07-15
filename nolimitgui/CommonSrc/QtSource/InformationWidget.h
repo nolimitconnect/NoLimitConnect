@@ -9,8 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_InformationWidget.h"
+#include <QWidget>
 
+#include <GuiInterface/IDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InformationWidgetUi;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 class ActivityInformation;
 
 class InformationWidget : public QWidget
@@ -30,7 +39,7 @@ protected:
 	void						initInformationWidget( void );
     void						updateInformation( void );
 
-    Ui::InformationWidgetUi	    ui;
+    Ui::InformationWidgetUi&	ui;
     AppCommon&                  m_MyApp;
     ActivityInformation *       m_ActivityInfo = nullptr;
     EPluginType                 m_PluginType = ePluginTypeInvalid;

@@ -13,7 +13,11 @@
 
 #include "TodGameLogic.h"
 
-#include "ui_AppletPeerTodGame.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPeerTodGameUi;
+}
+QT_END_NAMESPACE
 
 class GuiOfferSession;
 
@@ -39,7 +43,7 @@ protected:
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 
 	//=== vars ===//
-	Ui::AppletPeerTodGameUi	    ui;
+	Ui::AppletPeerTodGameUi&	ui;
 	TodGameLogic				m_TodGameLogic;
 	
 };

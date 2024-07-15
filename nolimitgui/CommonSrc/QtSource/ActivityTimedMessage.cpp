@@ -10,9 +10,12 @@
 
 #include "ActivityTimedMessage.h"
 
+#include "ui_ActivityTimedMessage.h"
+
 //============================================================================
 ActivityTimedMessage::ActivityTimedMessage( QString strTitle, QString strMessage, int iTimeoutSeconds, QWidget* parent )
 	: QDialog( parent, Qt::SubWindow )
+	, ui(*(new Ui::TimedMessageDlg))
 {
 	ui.setupUi(this);
 	QRect oRect = parent->geometry();

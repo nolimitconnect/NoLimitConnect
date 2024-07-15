@@ -11,10 +11,17 @@
 
 #include <QWidget>
 
+#include "AppDefs.h"
+
 #include <OfferBase/OfferBaseInfo.h>
 
-#include "ui_OfferSendWidget.h"
 #include <QListWidgetItem>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class OfferSendWidgetUi;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class GuiOfferMgr;
@@ -63,7 +70,7 @@ protected:
 	bool						validateOffer( bool showErrorMsg = false );
 	void						updateExpireStatus( EExpireTime expireTime );
 
-	Ui::OfferSendWidgetUi		ui;
+	Ui::OfferSendWidgetUi&		ui;
 	AppCommon&				    m_MyApp;
 	GuiUser*					m_HisIdent{ nullptr };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };

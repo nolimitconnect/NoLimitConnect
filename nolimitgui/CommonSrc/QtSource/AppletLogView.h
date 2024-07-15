@@ -9,10 +9,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletLogView.h"
-
 #include "AppletBase.h"
 #include "AppDefs.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletLogViewWidget;
+}
+QT_END_NAMESPACE
 
 class LogMgr;
 
@@ -36,7 +40,7 @@ protected:
     void						updateDlgFromSettings( bool initialSettings );
     void						updateSettingsFromDlg( void );
 
-	Ui::AppletLogViewWidget		ui;
+	Ui::AppletLogViewWidget&	ui;
     LogMgr&                     m_LogMgr;
 };
 

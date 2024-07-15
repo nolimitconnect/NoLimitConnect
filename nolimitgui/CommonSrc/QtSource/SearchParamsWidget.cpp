@@ -16,9 +16,27 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include "ui_SearchParamsWidget.h"
+
+QLineEdit *         SearchParamsWidget::getSearchTextEdit()         { return ui.m_SearchTextEdit; }
+
+QLabel *            SearchParamsWidget::getSearchDescriptionLabel() { return ui.m_SearchDescriptionLabel; }
+
+QPushButton *       SearchParamsWidget::getStartButton()            { return ui.m_StartButton; }
+QPushButton *       SearchParamsWidget::getStopButton()             { return ui.m_StopButton; }
+
+QComboBox *         SearchParamsWidget::getSearchTypeComboBox()     { return ui.m_SearchTypeComboBox; }
+QComboBox *         SearchParamsWidget::getAgeComboBox()            { return ui.m_AgeComboBox; }
+QComboBox *         SearchParamsWidget::getContentRatingComboBox()  { return ui.m_ContentRatingComboBox; }
+QComboBox *         SearchParamsWidget::getGenderComboBox()         { return ui.m_GenderComboBox; }
+QComboBox *         SearchParamsWidget::getLanguageComboBox()       { return ui.m_LanguageComboBox; }
+void                SearchParamsWidget::setSearchListAll( bool listAll )    { m_SearchParams.setSearchListAll( listAll ); }
+bool                SearchParamsWidget::getSearchListAll( void )            { return m_SearchParams.getSearchListAll(); }
+
 //============================================================================
 SearchParamsWidget::SearchParamsWidget( QWidget* parent )
     : QWidget( parent )
+    , ui(*(new Ui::SearchParamsUi))
     , m_MyApp( GetAppInstance() )
 {
     m_ParentApplet = GuiHelpers::findParentApplet( parent );

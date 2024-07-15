@@ -39,6 +39,7 @@
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include "ui_AppletTestAndDebug.h"
 
 namespace
 {
@@ -46,9 +47,12 @@ namespace
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+QPlainTextEdit *            AppletTestAndDebug::getInfoEdit( void )     { return ui.m_InfoPlainTextEdit; }
+
 //============================================================================
 AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_TEST_AND_DEBUG, app, parent )
+, ui(*(new Ui::AppletTestAndDebugUi))
 , m_SpinnerTimer( new QTimer( this ) )
 {
     setAppletType( eAppletTestAndDebug );

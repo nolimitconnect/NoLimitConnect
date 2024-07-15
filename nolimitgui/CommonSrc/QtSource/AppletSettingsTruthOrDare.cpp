@@ -15,9 +15,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletSettingsNoUserSettings.h"
+
 //============================================================================
 AppletSettingsTruthOrDare::AppletSettingsTruthOrDare( AppCommon& app, QWidget* parent )
 : AppletServiceBaseSettings( OBJNAME_APPLET_SETTINGS_TRUTH_OR_DARE, app, parent )
+, ui(*(new Ui::AppletSettingsNoUserSettingsUi))
 {
 	ui.setupUi( getContentItemsFrame() );
 	setAppletType( eAppletSettingsTruthOrDare );

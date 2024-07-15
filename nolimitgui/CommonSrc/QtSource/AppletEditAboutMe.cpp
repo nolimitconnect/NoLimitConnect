@@ -20,6 +20,7 @@
 #include "AppCommon.h"
 #include "AccountMgr.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 
 #include <QMessageBox>
 #include <QUuid>
@@ -33,9 +34,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletEditAboutMe.h"
+
 //============================================================================
 AppletEditAboutMe::AppletEditAboutMe( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_EDIT_ABOUT_ME, app, parent )
+, ui(*(new Ui::AppletEditAboutMeUi))
 {
     setAppletType( eAppletEditAboutMe );
     ui.setupUi( getContentItemsFrame() );

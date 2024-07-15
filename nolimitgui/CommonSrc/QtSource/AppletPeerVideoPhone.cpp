@@ -18,9 +18,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletPeerVideoPhone.h"
+
 //============================================================================
 AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_VIDEO_PHONE, app, parent )
+, ui(*(new Ui::AppletPeerVideoPhoneUi))
 {
     setPluginType( ePluginTypeVideoPhone );
     setAppletType( eAppletPeerVideoPhone );

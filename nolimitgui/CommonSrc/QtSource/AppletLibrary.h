@@ -13,9 +13,13 @@
 #include <Plugins/FileInfo.h>
 #include "ToGuiFileXferInterface.h"
 
-#include "ui_AppletLibrary.h"
-
 #include <PktLib/VxCommon.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletLibraryUi;
+}
+QT_END_NAMESPACE
 
 class FileShareItemWidget;
 class VxNetIdent;
@@ -23,6 +27,7 @@ class VxSha1Hash;
 class FileItemInfo;
 class FileListReplySession;
 class FileInfo;
+class QListWidgetItem;
 
 class AppletLibrary : public AppletBase, public ToGuiFileXferInterface
 {
@@ -77,7 +82,7 @@ protected:
     void                        updateStorageSpace( std::string fileName );
 
     //=== vars ===//
-    Ui::AppletLibraryUi	        ui;
+    Ui::AppletLibraryUi&	    ui;
     EPluginType					m_ePluginType;
     bool						m_IsSelectAFileMode;
     bool						m_FileWasSelected;

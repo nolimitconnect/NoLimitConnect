@@ -29,9 +29,15 @@
 #include <QTimer>
 #include <QFileDialog>
 
+#include "ui_ActivityBrowseFiles.h"
+
+TitleBarWidget *  ActivityBrowseFiles::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget * ActivityBrowseFiles::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileFilter, QWidget* parent, bool isSelectAFileMode )
 : ActivityBase( OBJNAME_ACTIVITY_BROWSE_FILES, app, parent, eActivityBrowseFiles, true )
+, ui(*(new Ui::BrowseFilesWidget))
 , m_WidgetClickEventFixTimer( new QTimer( this ) )
 , m_bFetchInProgress( false )
 , m_IsSelectAFileMode( isSelectAFileMode )

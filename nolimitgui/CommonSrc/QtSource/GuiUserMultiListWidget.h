@@ -9,13 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_GuiUserMultiListWidget.h"
-
 #include "AppletPeerBase.h"
 #include "GuiOfferCallback.h"
 #include "GuiMemberActiveCallback.h"
 #include "MultiSessionState.h"
 #include "TodGameLogic.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class GuiUserMultiListWidgetUi;
+}
+QT_END_NAMESPACE
 
 class EngineSettings;
 class GuiHosted;
@@ -35,7 +39,7 @@ public:
 	void						setHostViewType( EHostType hostType );
 
 	void                        setUserViewType( EUserViewType viewType );
-	EUserViewType               getUserViewType( void )						{ return ui.m_UserListWidget->getUserViewType(); };
+	EUserViewType               getUserViewType( void );
 
 	void						setHostAdminId( GroupieId& adminId );
     GroupieId&                  getHostAdminId( void )                      { return m_HostAdminId; };
@@ -85,7 +89,7 @@ protected:
 	void						callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostType hostType, bool isJoined ) override;
 
 	//=== vars ===//
-	Ui::GuiUserMultiListWidgetUi	ui;
+	Ui::GuiUserMultiListWidgetUi&	ui;
 
 	AppCommon&					m_MyApp;
 	GuiMemberActiveMgr&			m_MemberActiveMgr;

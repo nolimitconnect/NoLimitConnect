@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletTestAndDebug.h"
+
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/VxDebug.h> // needed for ILogCallbackInterface
@@ -19,7 +19,14 @@
 #include <QMutex>
 #include <QFile>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletTestAndDebugUi;
+}
+QT_END_NAMESPACE
+
 class QTimer;
+class QPlainTextEdit;
 class VxUrl;
 class WaitingSpinnerWidget;
 
@@ -82,7 +89,7 @@ protected slots:
 protected:
     void						updateDlgFromSettings( void );
     void						updateSettingsFromDlg( void );
-    QPlainTextEdit *            getInfoEdit( void )     { return ui.m_InfoPlainTextEdit; }
+    QPlainTextEdit *            getInfoEdit( void );
     void                        fillBasicInfo( void );
     void                        fillExtraInfo( void );
     void                        fillCpuInfo( void );
@@ -104,7 +111,7 @@ protected:
     WaitingSpinnerWidget*       m_BusySpinner{ nullptr };
     QTimer*                     m_SpinnerTimer{ nullptr };
 
-    Ui::AppletTestAndDebugUi    ui;
+    Ui::AppletTestAndDebugUi&   ui;
 };
 
 

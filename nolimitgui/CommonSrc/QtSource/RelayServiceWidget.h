@@ -11,7 +11,11 @@
 
 #include "AppCommon.h"
 
-#include "ui_RelayServiceWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class RelayServiceWidgetUi;
+}
+QT_END_NAMESPACE
 
 class RelayServiceWidget : public QWidget
 {
@@ -36,7 +40,7 @@ protected:
     void						updatePermissionIcon( void );
     void                        updateUi( void );
 
-    Ui::RelayServiceWidgetUi	    ui;
+    Ui::RelayServiceWidgetUi&	ui;
     AppCommon&                  m_MyApp;
     EPluginType                 m_PluginType = ePluginTypeInvalid;
     int                         m_SubPluginType = 0;

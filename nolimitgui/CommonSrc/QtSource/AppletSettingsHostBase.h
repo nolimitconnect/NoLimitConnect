@@ -17,7 +17,11 @@
 #include <GuiInterface/IToGui.h>
 #include <PluginSettings/PluginSettingMgr.h>
 
-#include "ui_AppletSettingsHostBase.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSettingsHostBaseUi;
+}
+QT_END_NAMESPACE
  
 class AppletSettingsHostBase : public AppletSettingsBase
 {
@@ -26,7 +30,7 @@ public:
     AppletSettingsHostBase( const char* ObjName, AppCommon& app, QWidget* parent );
 	virtual ~AppletSettingsHostBase() = default;
             
-    PluginSettingsWidget*       getPluginSettingsWidget() { return ui.m_PluginSettingsWidget; }
+    PluginSettingsWidget*       getPluginSettingsWidget();
 
 protected slots:
     void                        slotHostRequirementsButtonClicked();
@@ -36,7 +40,7 @@ protected:
     void                        loadPluginSetting();
     bool                        savePluginSetting();
 
-    Ui::AppletSettingsHostBaseUi ui;
+    Ui::AppletSettingsHostBaseUi& ui;
 };
 
 

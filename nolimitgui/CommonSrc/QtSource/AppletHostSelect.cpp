@@ -23,9 +23,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletHostSelect.h"
+
 //============================================================================
 AppletHostSelect::AppletHostSelect( AppCommon& app,  QWidget* parent )
 : AppletBase( OBJNAME_APPLET_HOST_SELECT, app, parent )
+, ui(*(new Ui::AppletHostSelectUi))
 , m_HostJoinMgr( app.getHostJoinMgr() )
 {
     setAppletType( eAppletHostSelect );

@@ -12,7 +12,12 @@
 
 #include <CoreLib/AssetDefs.h>
 #include <QDialog>
-#include "ui_DialogConfirmRemoveMessage.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ConfirmRemoveMessageClass;
+}
+QT_END_NAMESPACE
 
 class AssetBaseInfo;
 class AppCommon;
@@ -37,7 +42,7 @@ protected slots:
 	void						slotShredFileButtonClicked( void );
 
 protected:
-	Ui::ConfirmRemoveMessageClass	ui;
+	Ui::ConfirmRemoveMessageClass&	ui;
 	AppCommon&					m_MyApp;
     AssetBaseInfo&				m_AssetInfo;
 	EAssetAction				m_AssetAction;

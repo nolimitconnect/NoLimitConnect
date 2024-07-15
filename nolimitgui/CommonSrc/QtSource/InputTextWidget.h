@@ -11,7 +11,11 @@
 
 #include "InputBaseWidget.h"
 
-#include "ui_InputTextWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InputTextWidgetClass;
+}
+QT_END_NAMESPACE
 
 class InputTextWidget : public InputBaseWidget
 {
@@ -27,5 +31,5 @@ private slots:
 	void						slotSendButtonClicked( void );
 
 private:
-	Ui::InputTextWidgetClass	ui;
+	Ui::InputTextWidgetClass&	ui;
 };

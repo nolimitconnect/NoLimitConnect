@@ -12,7 +12,12 @@
 
 #include <CoreLib/AssetDefs.h>
 #include <QDialog>
-#include "ui_DialogAddComment.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class DialogAddCommentUi;
+}
+QT_END_NAMESPACE
 
 class AssetBaseInfo;
 class AppCommon;
@@ -33,7 +38,7 @@ protected slots:
 	void						slotAccepted( void );
 
 protected:
-	Ui::DialogAddCommentUi		ui;
+	Ui::DialogAddCommentUi&		ui;
 	AppCommon&					m_MyApp;
 	QString						m_CommentText;
 };

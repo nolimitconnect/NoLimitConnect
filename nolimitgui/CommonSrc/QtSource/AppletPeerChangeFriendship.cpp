@@ -18,9 +18,12 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_AppletPeerChangeFriendship.h"
+
 //============================================================================
 AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget* parent )
 	: AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_CHANGE_FRIENDSHIP, app, parent )
+	, ui(*(new Ui::AppletPeerChangeFriendshipUi))
 {
     setAppletType( eAppletPeerChangeFriendship );
 	ui.setupUi( getContentItemsFrame() );

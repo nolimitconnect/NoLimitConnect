@@ -11,10 +11,13 @@
 
 #include "ActivityBase.h"
 
-#include <PktLib/VxCommon.h>
-
 #include <QMessageBox>
-#include "ui_ActivityMessageBox.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class MessageBoxDialogClass;
+}
+QT_END_NAMESPACE
 
 class OfferBaseInfo;
 
@@ -31,8 +34,8 @@ public:
 	void						initMessageBoxCommon( void );
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    virtual TitleBarWidget*     getTitleBarWidget( void ) override;
+    virtual BottomBarWidget*    getBottomBarWidget( void ) override;
 
 	void						setTitleText( QString titleText );
 	void						setBodyText( QString bodyText );
@@ -51,7 +54,7 @@ protected slots:
 
 protected:
 	//=== vars ===//
-	Ui::MessageBoxDialogClass	ui;
+	Ui::MessageBoxDialogClass&	ui;
 	bool						m_OkButtonClicked{ false };
 	QMessageBox::StandardButton m_ResultButton{ QMessageBox::NoButton };
 };

@@ -9,10 +9,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletChatRoomClient.h"
-
 #include "AppletBase.h"
 #include "InputClientBaseCallback.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletChatRoomClientUi;
+}
+QT_END_NAMESPACE
 
 class AppletChatRoomHostAdmin : public AppletBase, public InputClientBaseCallback
 {
@@ -29,7 +33,7 @@ protected:
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
-    Ui::AppletChatRoomClientUi ui;
+    Ui::AppletChatRoomClientUi& ui;
 };
 
 

@@ -22,10 +22,16 @@
 # pragma warning(disable: 4003) //not enough actual parameters for macro 'mkdir'
 #endif
 
+#include "ui_ActivitySoundOptions.h"
+
+TitleBarWidget *	ActivitySoundOptions::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivitySoundOptions::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivitySoundOptions::	ActivitySoundOptions(	AppCommon& app, 
 												QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_SOUND_OPTIONS, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::SoundOptionsDialog))
 {
 	ui.setupUi(this);
 	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Sound Options"));

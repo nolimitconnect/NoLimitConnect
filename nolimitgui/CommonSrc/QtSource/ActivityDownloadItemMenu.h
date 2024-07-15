@@ -15,7 +15,12 @@
 
 #include "GuiUser.h"
 #include "AppletPeerBase.h"
-#include "ui_ActivityDownloadItemMenu.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class CancelDownloadDialog;
+}
+QT_END_NAMESPACE
 
 class GuiFileXferSession;
 class P2PEngine;
@@ -36,7 +41,7 @@ protected:
 	void						setPluginIcon( EPluginType pluginType, EFriendState ePluginPermission );
 
 	//=== vars ===//
-	Ui::CancelDownloadDialog	ui;
+	Ui::CancelDownloadDialog&	ui;
 	EPluginType					m_ePluginType{ ePluginTypeInvalid };
 	GuiFileXferSession*			m_Session{ nullptr };
 	VxNetIdent*					m_Ident{ nullptr };

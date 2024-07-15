@@ -13,9 +13,12 @@
 #include "FileActionBarWidget.h"
 #include "AppCommon.h"
 
+#include "ui_FileActionBarWidget.h"
+
 //============================================================================
 FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 : QFrame(parent)
+, ui(*(new Ui::FileActionBarWidgetClass))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);

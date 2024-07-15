@@ -10,17 +10,25 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include "ui_ActivityBrowseFiles.h"
+
 #include "FileItemInfo.h"
 #include "ToGuiFileXferInterface.h"
 
 #include <CoreLib/VxTimer.h>
+#include <CoreLib/VxFileTypeMasks.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class BrowseFilesWidget;
+}
+QT_END_NAMESPACE
 
 class FileShareItemWidget;
 class FromGuiInterface;
 class FromEngineInterface;
 class P2PEngine;
 class QTimer;
+class QListWidgetItem;
 
 class ActivityBrowseFiles : public ActivityBase, public ToGuiFileXferInterface
 {
@@ -31,8 +39,8 @@ public:
 	virtual ~ActivityBrowseFiles();
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	TitleBarWidget*				getTitleBarWidget( void ) override;
+	BottomBarWidget*			getBottomBarWidget( void ) override;
 
 public:
 	void						setFileFilter( EFileFilterType eFileFilter );
@@ -84,7 +92,7 @@ protected:
 
 	bool						fileExistsInList( QString fileName );
 
-	Ui::BrowseFilesWidget		ui;
+	Ui::BrowseFilesWidget&		ui;
 
 	std::string					m_CurBrowseDirectory;
 	std::string					m_LastBrowseDir;

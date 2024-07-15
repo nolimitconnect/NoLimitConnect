@@ -10,7 +10,6 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletJoinHostList.h"
 
 #include "GuiUserUpdateCallback.h"
 #include "GuiHostedListCallback.h"
@@ -19,6 +18,12 @@
 #include "GuiUserJoinCallback.h"
 
 #include <CoreLib/VxPtopUrl.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletJoinHostListUi;
+}
+QT_END_NAMESPACE
 
 class GuiHostedListItem;
 class GuiHostedListSession;
@@ -97,7 +102,7 @@ protected:
     bool                        launchClientApplet( GuiHosted* guiHosted );
 
 protected:
-    Ui::AppletJoinHostListUi    ui;
+    Ui::AppletJoinHostListUi&   ui;
     VxGUID                      m_JoinedHostSession;
     bool                        m_UserListMode{ false };
     GroupieId                   m_AdminGroupieId;

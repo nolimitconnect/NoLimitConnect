@@ -11,7 +11,11 @@
 
 #include "AppletPeerBase.h"
 
-#include "ui_AppletPeerVideoPhone.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPeerVideoPhoneUi;
+}
+QT_END_NAMESPACE
 
 class P2PEngine;
 class GuiOfferSession;
@@ -36,6 +40,6 @@ protected:
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 
 	//=== vars ===//
-	Ui::AppletPeerVideoPhoneUi	ui;
+	Ui::AppletPeerVideoPhoneUi&	ui;
 };
 

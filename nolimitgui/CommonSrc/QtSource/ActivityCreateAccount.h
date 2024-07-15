@@ -14,7 +14,12 @@
 #include <PktLib/VxCommon.h>
 
 #include <QDialog>
-#include "ui_ActivityCreateAccount.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class CreateAccountClass;
+}
+QT_END_NAMESPACE
 
 class P2PEngine;
 
@@ -26,8 +31,8 @@ public:
 	virtual ~ActivityCreateAccount() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	TitleBarWidget*				getTitleBarWidget( void ) override;
+	BottomBarWidget*			getBottomBarWidget( void ) override;
 
 	void						setRootUserDataDirectory( const char* userDir ) { m_strRootUserDataDir = userDir; };
 	//! validate user input
@@ -42,7 +47,7 @@ private slots:
 
 protected:
 	//=== vars ===//
-	Ui::CreateAccountClass		ui;
+	Ui::CreateAccountClass&		ui;
 	VxNetIdent					m_UserAccount;
 	std::string					m_strRootUserDataDir;
 };

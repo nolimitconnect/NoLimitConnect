@@ -14,19 +14,23 @@
 #include "ChatEntryWidget.h"
 #include "GuiParams.h"
 #include "InputClientBaseCallback.h"
+#include "VxLabel.h"
 
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
 
-#include <QDebug>
+//#include <QDebug>
 
 #include <time.h>
+
+#include "ui_InputPhotoWidget.h"
 
 //============================================================================
 InputPhotoWidget::InputPhotoWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
+, ui(*(new Ui::InputPhotoWidget))
 {
 	m_AssetInfo.setAssetType( eAssetTypePhoto );
     // qDebug() << "InputPhotoWidget::InputPhotoWidget ";

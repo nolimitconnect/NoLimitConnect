@@ -39,9 +39,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
+#include "ui_AppletOfferView.h"
+
 //============================================================================
 AppletOfferView::AppletOfferView( AppCommon& app, QWidget* parent, QString launchParam )
     : AppletBase( OBJNAME_APPLET_OFFER_VIEW, app, parent )
+    , ui(*(new Ui::AppletOfferViewUi))
 {
     setAppletType( eAppletOfferView );
     ui.setupUi( getContentItemsFrame() );

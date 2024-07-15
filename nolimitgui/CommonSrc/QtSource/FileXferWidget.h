@@ -10,9 +10,14 @@
 //============================================================================
 
 #include "GuiFileXferSession.h"
-#include "ui_FileXferWidget.h"
 
 #include <QListWidgetItem>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class FileXferWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class MyIcons;
@@ -74,6 +79,6 @@ protected:
     virtual void				resizeEvent( QResizeEvent* resizeEvent ) override;
 	virtual void				updateXferInfo( void );
 
-	Ui::FileXferWidgetClass		ui;
+	Ui::FileXferWidgetClass&	ui;
 	AppCommon&					m_MyApp;
 };

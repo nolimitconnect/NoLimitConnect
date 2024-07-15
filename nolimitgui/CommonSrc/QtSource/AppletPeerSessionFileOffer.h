@@ -15,7 +15,12 @@
 
 #include "GuiUser.h"
 #include "ActivityBase.h"
-#include "ui_AppletPeerSessionFileOffer.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPeerSessionFileOfferUi;
+}
+QT_END_NAMESPACE
 
 class GuiOfferSession;
 
@@ -37,6 +42,6 @@ protected:
 	void						setPluginIcon( EPluginType pluginType, EFriendState ePluginPermission );
 
 	//=== vars ===//
-	Ui::AppletPeerSessionFileOfferUi	ui;
+	Ui::AppletPeerSessionFileOfferUi&	ui;
 	EPluginType					m_ePluginType;
 };

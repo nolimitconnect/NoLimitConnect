@@ -15,9 +15,12 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_AssetFaceWidget.h"
+
 //============================================================================
 AssetFaceWidget::AssetFaceWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
+	, ui(*(new Ui::AssetFaceWidget))
 {
 	initAssetFaceWidget();
 }
@@ -25,6 +28,7 @@ AssetFaceWidget::AssetFaceWidget( QWidget* parent )
 //============================================================================
 AssetFaceWidget::AssetFaceWidget( AppCommon& appCommon, QWidget* parent )
 : AssetBaseWidget( appCommon, parent )
+, ui(*(new Ui::AssetFaceWidget))
 {
 	initAssetFaceWidget();
 }

@@ -35,9 +35,12 @@
 #include <QMessageBox>
 #include <QTimer>
 
+#include "ui_AppletPlayerCamClip.h"
+
 //============================================================================
 AppletPlayerCamClip::AppletPlayerCamClip( AppCommon& app, QWidget* parent, VxGUID assetId )
 : AppletAssetPlayerBase( OBJNAME_APPLET_CAM_CLIP_PLAYER, app, parent )
+, ui(*(new Ui::AppletCamClipPlayerUi))
 {
     setAppletType( eAppletPlayerCamClip );
     setPluginType( ePluginTypeCamServer );

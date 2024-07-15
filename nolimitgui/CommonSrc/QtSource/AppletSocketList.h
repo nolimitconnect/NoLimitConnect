@@ -11,12 +11,14 @@
 
 #include "AppletBase.h"
 
-#include "ui_AppletSocketList.h"
-
 #include <QMutex>
 #include <QFile>
 
-#include <CoreLib/VxDebug.h>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSocketListUi;
+}
+QT_END_NAMESPACE
 
 class VxSktStatRecord;
 
@@ -39,7 +41,7 @@ protected:
     void                        refreshSktList( void );
     void                        addSocketStat( VxSktStatRecord& sktStat );
 
-    Ui::AppletSocketListUi      ui;
+    Ui::AppletSocketListUi&     ui;
 };
 
 

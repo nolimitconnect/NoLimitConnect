@@ -22,9 +22,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletIgnoredHosts.h"
+
 //============================================================================
 AppletIgnoredHosts::AppletIgnoredHosts( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_IGNORED_HOSTS, app, parent )
+, ui(*(new Ui::AppletIgnoredHostsUi))
 {
 	ui.setupUi( getContentItemsFrame() );
     setAppletType( eAppletIgnoredHosts );

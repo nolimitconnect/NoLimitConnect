@@ -13,7 +13,18 @@
 #include <GuiInterface/IToGui.h>
 #include <PluginSettings/PluginSettingMgr.h>
 
-#include "ui_AppletServiceBase.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletServiceBaseUi;
+}
+QT_END_NAMESPACE
+
+class InformationWidget;
+class PermissionWidget;
+class QCheckBox;
+class QLineEdit;
+class QPlainTextEdit;
+class ThumbnailEditWidget;
 
 class AppletServiceBase : public AppletBase
 {
@@ -24,29 +35,29 @@ public:
 
     void						setupServiceBaseApplet( EApplet applet, EPluginType pluginType );
 
-    virtual QLabel *            getServiceTitle() { return ui.m_ServiceTitleLabel; }
+    virtual QLabel*             getServiceTitle();
 
-    virtual QLabel *            getServiceUrlLabel( bool ipv6 ) { return ipv6 ? ui.m_UrlDescriptionLabelIpv6 : ui.m_UrlDescriptionLabelIpv4; }
-    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 ) { return ipv6 ? ui.m_UrlEditIpv6 : ui.m_UrlEditIpv4; }
+    virtual QLabel *            getServiceUrlLabel( bool ipv6 );
+    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 );
 
-    virtual QLabel *            getServiceNameLabel() { return ui.m_UserDisplayedNameLabel; }
-    virtual QLineEdit *         getServiceNameEdit() { return ui.m_NameEdit; }
+    virtual QLabel *            getServiceNameLabel();
+    virtual QLineEdit *         getServiceNameEdit();
 
-    virtual QLabel *            getServiceKeyWordsLabel() { return ui.m_KeyWordsLabel; }
-    virtual QLineEdit *         getServiceKeyWordsEdit() { return ui.m_KeyWordsEdit; }
+    virtual QLabel *            getServiceKeyWordsLabel();
+    virtual QLineEdit *         getServiceKeyWordsEdit();
 
-    virtual QLabel *            getServiceDescriptionLabel() { return ui.m_DescriptionLabel; }
-    virtual QPlainTextEdit *    getServiceDescriptionEdit() { return ui.m_DescriptionEdit; }
+    virtual QLabel *            getServiceDescriptionLabel();
+    virtual QPlainTextEdit *    getServiceDescriptionEdit();
 
-    virtual QPushButton *       getStartButton() { return ui.m_StartButton; }
-    virtual QPushButton *       getStopButton() { return ui.m_StopButton; }
+    virtual QPushButton *       getStartButton();
+    virtual QPushButton *       getStopButton();
 
-    virtual PermissionWidget *  getPermissionWidget() { return ui.m_PermissionWidget; }
-    virtual InformationWidget * getInformationWidget() { return ui.m_InfoWidget; }
+    virtual PermissionWidget *  getPermissionWidget();
+    virtual InformationWidget * getInformationWidget();
 
-    virtual ThumbnailEditWidget *   getThumbEditWidget() { return ui.m_ThumbnailEditWidget; }
+    virtual ThumbnailEditWidget*   getThumbEditWidget();
 
-    virtual QCheckBox*          getRunOnAppStartCheckbox() { return ui.m_RunOnStartupCheckBox; }
+    virtual QCheckBox*          getRunOnAppStartCheckbox();
 
 protected slots:
     virtual void                slotApplyServiceSettings();
@@ -59,8 +70,8 @@ protected:
     virtual void                loadUiFromSetting();
     virtual void                saveUiToSetting();
 
-    Ui::AppletServiceBaseUi     ui;
-    QWidget*                   m_HostServiceWidget;
+    Ui::AppletServiceBaseUi&    ui;
+    QWidget*                    m_HostServiceWidget;
     PluginSetting               m_PluginSetting;
     EFriendState                m_OrigPermissionLevel = eFriendStateIgnore;
 };

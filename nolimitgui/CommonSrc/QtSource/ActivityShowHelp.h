@@ -11,10 +11,13 @@
 
 #include "ActivityBase.h"
 
-#include "ui_ActivityShowHelp.h"
-#include "ActivityShowHelp.h"
-
 #include <CoreLib/VxDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ShowHelpDialog;
+}
+QT_END_NAMESPACE
 
 class P2PEngine;
 
@@ -27,8 +30,8 @@ public:
 	virtual ~ActivityShowHelp() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    virtual TitleBarWidget*     getTitleBarWidget( void ) override;
+    virtual BottomBarWidget*    getBottomBarWidget( void ) override;
 
 protected slots:
 	void						slotReject();
@@ -40,5 +43,5 @@ protected:
 
 
 	//=== vars ===//
-	Ui::ShowHelpDialog			ui;
+	Ui::ShowHelpDialog&			ui;
 };

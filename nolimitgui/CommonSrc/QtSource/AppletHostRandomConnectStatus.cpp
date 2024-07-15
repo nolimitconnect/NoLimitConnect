@@ -19,9 +19,15 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletHostNetworkStatus.h"
+
+PermissionWidget*           AppletHostRandomConnectStatus::getRandomConnectHostPermissionWidget()    { return ui.m_HostPermissionWidget; }
+PermissionWidget*           AppletHostRandomConnectStatus::getConnectionTestWidget()         { return ui.m_ConnectTestPermissionWidget; }
+
 //============================================================================
 AppletHostRandomConnectStatus::AppletHostRandomConnectStatus( AppCommon& app, QWidget* parent )
     : AppletBase( OBJNAME_APPLET_HOST_RANDOM_CONNECT_STATUS, app, parent )
+    , ui(*(new Ui::AppletHostNetworkStatusUi))
     , m_UpdateStatusTimer( new QTimer( this ) )
 {
     ui.setupUi( getContentItemsFrame() );

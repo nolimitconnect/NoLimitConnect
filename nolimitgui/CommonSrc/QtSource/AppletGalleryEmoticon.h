@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletGalleryEmoticon.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletGalleryEmoticonUi;
+}
+QT_END_NAMESPACE
 
 class ThumbnailViewWidget;
 class ThumbMgr;
@@ -35,7 +40,7 @@ protected:
     void                        loadAssets( void );
 
 	//=== vars ===//
-	Ui::AppletGalleryEmoticonUi	ui;
+	Ui::AppletGalleryEmoticonUi&	ui;
     
     bool                        m_isShown = false;
     bool                        m_isLoaded = false;

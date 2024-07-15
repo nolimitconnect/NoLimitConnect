@@ -27,14 +27,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
-namespace
-{
-    const int MAX_INFO_MSG_SIZE = 2048;
-}
+#include "ui_AppletNearbyListClient.h"
 
 //============================================================================
 AppletNearbyListClient::AppletNearbyListClient(	AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_NEARBY_LIST_CLIENT, app, parent )
+, ui(*(new Ui::AppletNearbyListClientUi))
 {
     setAppletType( eAppletNearbyListClient );
     setHostType( eHostTypeGroup );

@@ -15,9 +15,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletSettingsNoUserSettings.h"
+
 //============================================================================
 AppletSettingsStoryboard::AppletSettingsStoryboard( AppCommon& app, QWidget* parent )
 : AppletServiceBaseSettings( OBJNAME_APPLET_SETTINGS_SHARE_STORYBOARD, app, parent )
+, ui(*(new Ui::AppletSettingsNoUserSettingsUi))
 {
 	ui.setupUi( getContentItemsFrame() );
 	setAppletType( eAppletSettingsStoryboard );

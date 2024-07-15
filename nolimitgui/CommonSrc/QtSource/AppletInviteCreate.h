@@ -10,7 +10,14 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletInviteCreate.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletInviteCreateUi;
+}
+QT_END_NAMESPACE
+
+class QPlainTextEdit;
 
 class AppletInviteCreate : public AppletBase
 {
@@ -34,13 +41,13 @@ protected slots:
     void                        slotUpdateInvite( void );
 
 protected:
-    QPlainTextEdit *            getInviteMessageEdit( void )    { return ui.m_InviteMessageTextEdit; }
-    QPlainTextEdit*             getInviteTextEdit( void )       { return ui.m_InviteTextEdit; }
+    QPlainTextEdit *            getInviteMessageEdit( void );
+    QPlainTextEdit*             getInviteTextEdit( void );
     void                        addInviteText( QString text );
     void                        updateUrls( void );
     bool                        populateNetSettingUrl( EHostType hostType, std::string& ptopUrl );
 
-    Ui::AppletInviteCreateUi    ui;
+    Ui::AppletInviteCreateUi&   ui;
 };
 
 

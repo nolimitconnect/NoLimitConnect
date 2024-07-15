@@ -16,9 +16,12 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AssetVideoWidget.h"
+
 //============================================================================
 AssetVideoWidget::AssetVideoWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
+	, ui(*(new Ui::AssetVideoWidget))
 	, m_ReadyForVideoTimer( new QTimer( this ) )
 {
 	initAssetVideoWidget();
@@ -27,6 +30,7 @@ AssetVideoWidget::AssetVideoWidget( QWidget* parent )
 //============================================================================
 AssetVideoWidget::AssetVideoWidget( AppCommon& appCommon, QWidget* parent )
 	: AssetBaseWidget( appCommon, parent )
+	, ui(*(new Ui::AssetVideoWidget))
 	, m_ReadyForVideoTimer( new QTimer( this ) )
 {
 	initAssetVideoWidget();

@@ -10,10 +10,16 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletGalleryImage.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletGalleryImageUi;
+}
+QT_END_NAMESPACE
 
 class ImageListEntry;
 class AssetMgr;
+class ThumbnailViewWidget;
 
 class AppletGalleryImage : public AppletBase
 {
@@ -31,6 +37,6 @@ private slots:
 protected:
 
 	//=== vars ===//
-	Ui::AppletGalleryImageUi	ui;
+	Ui::AppletGalleryImageUi&	ui;
     AssetMgr&					m_AssetMgr;
 };

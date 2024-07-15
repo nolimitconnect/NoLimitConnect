@@ -9,13 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletRandomConnectClient.h"
-
 #include "AppletClientBase.h"
 #include "InputClientBaseCallback.h"
 
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IToGui.h> 
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletRandomConnectClientUi;
+}
+QT_END_NAMESPACE
 
 class AppletRandomConnectClient : public AppletClientBase, public InputClientBaseCallback
 {
@@ -41,7 +45,7 @@ protected:
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
-    Ui::AppletRandomConnectClientUi	ui;
+    Ui::AppletRandomConnectClientUi&	ui;
 };
 
 

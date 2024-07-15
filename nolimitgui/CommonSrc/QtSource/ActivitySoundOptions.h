@@ -11,8 +11,13 @@
 
 #include "ActivityBase.h"
 
-#include "ui_ActivitySoundOptions.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class SoundOptionsDialog;
+}
+QT_END_NAMESPACE
 
+class VxNetIdent;
 
 class ActivitySoundOptions : public ActivityBase
 {
@@ -24,8 +29,8 @@ public:
 	virtual ~ActivitySoundOptions() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    virtual TitleBarWidget*     getTitleBarWidget( void ) override;
+    virtual BottomBarWidget*    getBottomBarWidget( void ) override;
 
 public slots:
 	void						onApplyButClick();
@@ -33,8 +38,8 @@ public slots:
 
 protected:
 	//=== vars ===//
-	Ui::SoundOptionsDialog		ui;
+	Ui::SoundOptionsDialog&		ui;
 	EPluginType					m_ePluginType;
-	VxNetIdent*				m_Friend;
+	VxNetIdent*					m_Friend{ nullptr };
 
 };

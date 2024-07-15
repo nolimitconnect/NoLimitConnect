@@ -10,13 +10,14 @@
 //============================================================================
 
 #include "AppletPeerBase.h"
-#include "ui_AppletFileShareClientView.h"
+
 #include "ToGuiFileXferInterface.h"
 
-#include <PktLib/VxCommon.h>
-
-#include <QString>
-#include <QDialog>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletFileShareClientViewUi;
+}
+QT_END_NAMESPACE
 
 class FileXferWidget;
 class GuiFileXferSession;
@@ -24,6 +25,7 @@ class FileListReplySession;
 class GuiUser;
 class VxSha1Hash;
 class FileInfo;
+class QListWidgetItem;
 
 class AppletFileShareClientView : public AppletPeerBase, public ToGuiFileXferInterface
 {
@@ -81,7 +83,7 @@ protected:
 	bool						confirmDeleteFile( bool shredFile );
 
 	//=== vars ===//
-	Ui::AppletFileShareClientViewUi	ui;
+	Ui::AppletFileShareClientViewUi&	ui;
     GuiUser*				    m_Friend{ nullptr };
 	int							m_iMenuItemHeight{ 34 };
 	std::string					m_strCurrentDirectory;

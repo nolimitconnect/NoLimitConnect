@@ -9,10 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"
+#include <QWidget>
+
 #include "AppDefs.h"
 
-#include "ui_ServiceSettingsWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ServiceSettingsWidgetUi;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 
 class ServiceSettingsWidget : public QWidget
 {
@@ -22,7 +29,7 @@ public:
     ServiceSettingsWidget( QWidget* parent = nullptr );
 
     void						setPluginType( EPluginType pluginType ) { m_PluginType = pluginType;  updateUi();  updateIcons(); }
-    void						setViewServiceVisible( bool visible )   { ui.m_ViewServiceFrame->setVisible( visible ); }
+    void						setViewServiceVisible( bool visible );
 
 protected slots:
     void                        slotServiceSettingsClicked();
@@ -37,5 +44,5 @@ protected:
 
     AppCommon&                  m_MyApp;
     EPluginType                 m_PluginType = ePluginTypeInvalid;
-	Ui::ServiceSettingsWidgetUi	ui;
+	Ui::ServiceSettingsWidgetUi&	ui;
 };

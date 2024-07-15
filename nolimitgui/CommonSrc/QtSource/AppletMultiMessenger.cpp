@@ -20,6 +20,7 @@
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
 #include "GuiPluginMgr.h"
+#include "TodGameWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
@@ -29,9 +30,12 @@
 
 #include <QMessageBox>
 
+#include "ui_AppletMultiMessenger.h"
+
 //============================================================================
 AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_APPLET_MULTI_MESSENGER, app, parent )
+, ui(*(new Ui::AppletMultiMessengerUi))
 , m_TodGameLogic( app, app.getEngine(), ePluginTypeMessenger, this )
 {
     setPluginType( ePluginTypeMessenger );
@@ -358,7 +362,7 @@ void AppletMultiMessenger::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId
 	if( m_IsInitialized )
 	{
 		ui.m_SessionWidget->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
-		m_TodGameWidget->ui.TruthOrDareWidget->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
+		m_TodGameWidget->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
 		if( m_VidChatWidget && m_VidChatWidget->isVisible() )
 		{
 			m_VidChatWidget->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );

@@ -10,9 +10,14 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletCamSettings.h"
 
 #include <CoreLib/MediaCallbackInterface.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletCamSettingsUi;
+}
+QT_END_NAMESPACE
 
 class ThumbnailViewWidget;
 class AssetMgr;
@@ -53,7 +58,7 @@ protected:
     void						setCameraButtonVisibility( bool visible );
 
     //=== vars ===//
-    Ui::AppletCamSettingsUi	    ui;
+    Ui::AppletCamSettingsUi&	ui;
     bool						m_IsMyself{ false };
     bool 					    m_CameraSourceAvail{ false };
     QTimer *                    m_CloseAppletTimer{ nullptr };

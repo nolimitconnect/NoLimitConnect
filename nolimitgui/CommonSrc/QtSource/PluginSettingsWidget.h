@@ -10,12 +10,25 @@
 //============================================================================
 
 #include "AppletBase.h"
+
 #include <GuiInterface/IToGui.h>
 #include <PluginSettings/PluginSettingMgr.h>
 
-#include "ui_PluginSettingsWidget.h"
-
 #include "ThumbnailChooseWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PluginSettingsUi;
+}
+QT_END_NAMESPACE
+
+class QComboBox;
+class QLineEdit;
+class QPlainTextEdit;
+class QPushButton;
+class PermissionWidget;
+class InformationWidget;
+class ThumbnailChooseWidget;
 
 class PluginSettingsWidget : public QWidget
 {
@@ -29,28 +42,26 @@ public:
     void                        setPluginSetting( PluginSetting& pluginSetting )    { m_PluginSetting = pluginSetting; }
     PluginSetting&              getPluginSetting( void )                            { return m_PluginSetting; }
 
-    virtual QLabel *            getServiceUrlLabel( bool ipv6 )     { return ipv6 ? ui.m_UrlDescriptionLabelIpv4 : ui.m_UrlDescriptionLabelIpv6; }
-    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 )      { return ipv6 ? ui.m_UrlEditIpv4 : ui.m_UrlEditIpv6; }
+    virtual QLabel *            getServiceUrlLabel( bool ipv6 );
+    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 );
 
-    virtual QLineEdit *         getServiceTitleEdit()       { return ui.m_ServiceTitleEdit; }
+    virtual QLineEdit *         getServiceTitleEdit();
 
-    virtual QPlainTextEdit *    getServiceDescriptionEdit() { return ui.m_DescriptionEdit; }
-    virtual QPlainTextEdit *    getGreetingEdit()           { return ui.m_GreetingEdit; }
-    virtual QPlainTextEdit *    getRejectEdit()             { return ui.m_RejectEdit; }
+    virtual QPlainTextEdit *    getServiceDescriptionEdit();
+    virtual QPlainTextEdit *    getGreetingEdit();
+    virtual QPlainTextEdit *    getRejectEdit();
 
-    virtual QPushButton *       getStartButton()            { return ui.m_StartButton; }
-    virtual QPushButton *       getStopButton()             { return ui.m_StopButton; }
-    virtual QPushButton *       getApplyButton()            { return ui.m_ApplyButton; }
+    virtual QPushButton *       getStartButton();
+    virtual QPushButton *       getStopButton();
+    virtual QPushButton *       getApplyButton();
+    virtual QComboBox *         getAgeComboBox();
+    virtual QComboBox *         getContentRatingComboBox();
+    virtual QComboBox *         getGenderComboBox();
+    virtual QComboBox *         getLanguageComboBox();
+    virtual PermissionWidget *  getPermissionWidget();
+    virtual InformationWidget * getInformationWidget();
 
-    virtual QComboBox *         getAgeComboBox()            { return ui.m_AgeComboBox; }
-    virtual QComboBox *         getContentRatingComboBox()  { return ui.m_ContentRatingComboBox; }
-    virtual QComboBox *         getGenderComboBox()         { return ui.m_GenderComboBox; }
-    virtual QComboBox *         getLanguageComboBox()       { return ui.m_LanguageComboBox; }
-
-    virtual PermissionWidget *  getPermissionWidget()       { return ui.m_PermissionWidget; }
-    virtual InformationWidget * getInformationWidget()      { return ui.m_InfoWidget; }
-
-    virtual ThumbnailChooseWidget * getThumbnailChooseWidget()  { return ui.m_ThumbnailChooseWidget; }
+    virtual ThumbnailChooseWidget * getThumbnailChooseWidget();
 
 signals:
     void                        signalPluginSettingsApplied();
@@ -71,7 +82,7 @@ protected:
     virtual void                loadUiFromSetting();
     virtual void                saveUiToSetting();
 
-    Ui::PluginSettingsUi        ui;
+    Ui::PluginSettingsUi&       ui;
     AppCommon&                  m_MyApp;
     EApplet                     m_EAppletType = eAppletUnknown;
     EPluginType                 m_PluginType = ePluginTypeInvalid;

@@ -15,9 +15,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletGetStarted.h"
+
 //============================================================================
 AppletGetStarted::AppletGetStarted( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GET_STARTED, app, parent )
+, ui(*(new Ui::AppletGetStartedUi))
 {
 	ui.setupUi( getContentItemsFrame() );
     setAppletType( eAppletGetStarted );

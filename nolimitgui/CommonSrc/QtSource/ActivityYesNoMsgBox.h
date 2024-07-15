@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include "ui_ActivityYesNo.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class YesNoMsgBoxClass;
+}
+QT_END_NAMESPACE
 
 class ActivityYesNoMsgBox : public ActivityBase
 {
@@ -34,12 +39,12 @@ private slots:
 
 protected:
 	// overrides required for dialogs with there own title bar and bottom bar widgets
-    TitleBarWidget *			getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    BottomBarWidget *			getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
-	QFrame*						getContentItemsFrame( void ) override { return ui.m_ItemsFrame; }
+    TitleBarWidget*				getTitleBarWidget( void ) override;
+    BottomBarWidget*			getBottomBarWidget( void ) override;
+	QFrame*						getContentItemsFrame( void ) override;
 
 	//=== vars ===//
-	Ui::YesNoMsgBoxClass		ui;
+	Ui::YesNoMsgBoxClass&		ui;
 };
 
 

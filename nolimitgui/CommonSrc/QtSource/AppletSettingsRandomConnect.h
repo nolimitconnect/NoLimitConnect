@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletSettingsBase.h"
-#include "ui_AppletSettingsNoUserSettings.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSettingsNoUserSettingsUi;
+}
+QT_END_NAMESPACE
 
 class AppletSettingsRandomConnect : public AppletSettingsBase
 {
@@ -20,7 +25,7 @@ public:
 	virtual ~AppletSettingsRandomConnect() override;
 
 protected:
-	Ui::AppletSettingsNoUserSettingsUi ui;
+	Ui::AppletSettingsNoUserSettingsUi& ui;
 };
 
 

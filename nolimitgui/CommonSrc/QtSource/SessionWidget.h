@@ -9,15 +9,25 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_SessionWidget.h"
-
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/GroupieId.h>
 
+#include <QWidget>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class SessionWidgetClass;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
+class ChatEntryWidget;
 class GuiUser;
+class HistoryListWidget;
 class InputClientBaseCallback;
+class QLabel;
 
 class SessionWidget : public QWidget
 {
@@ -45,10 +55,10 @@ public:
 
 	void						onActivityStop( void );
 
-    QLabel *                    getSessionStatusLabel( void )				{ return ui.m_StatusLabel; }
-    HistoryListWidget *         getSessionHistoryList( void )				{ return ui.m_HistoryList; }
-    ChatEntryWidget *           getSessionChatEntry( void )					{ return ui.m_ChatEntry; }
-	void						initializeHistory( void )					{ getSessionHistoryList()->initializeHistory(); }
+    QLabel *                    getSessionStatusLabel( void );
+    HistoryListWidget *         getSessionHistoryList( void );
+    ChatEntryWidget *           getSessionChatEntry( void );
+	void						initializeHistory( void );
 
 signals:
 	void						signalUserInputButtonClicked( void );
@@ -59,12 +69,12 @@ protected slots:
 protected:
 	void						hideVideoCaptureInput( void );
 
-	Ui::SessionWidgetClass		ui;
+	Ui::SessionWidgetClass&		ui;
     AppCommon&                  m_MyApp;
 	EAssetType					m_InputMode;
 	bool						m_IsInitialized{ false };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	GroupieId					m_GroupieId;
 
-	InputClientBaseCallback*		m_ClientCallback{ nullptr };
+	InputClientBaseCallback*	m_ClientCallback{ nullptr };
 };

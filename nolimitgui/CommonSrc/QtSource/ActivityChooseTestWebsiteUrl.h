@@ -9,11 +9,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "ActivityBase.h"
-#include "ui_ActivityChooseTestWebsiteUrl.h"
 
 #include <QDialog>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ChooseTestWebsiteUrlDlg;
+}
+QT_END_NAMESPACE
 
 class P2PEngine;
 
@@ -25,8 +29,8 @@ public:
 	virtual ~ActivityChooseTestWebsiteUrl() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	TitleBarWidget*				getTitleBarWidget( void ) override;
+	BottomBarWidget*			getBottomBarWidget( void ) override;
 
 public slots:
 	void						updateValues();
@@ -35,7 +39,7 @@ public slots:
 
 protected:
 	//=== vars ===//
-	Ui::ChooseTestWebsiteUrlDlg	ui;
-	AppCommon&				m_MyApp;
+	Ui::ChooseTestWebsiteUrlDlg&	ui;
+	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;
 };

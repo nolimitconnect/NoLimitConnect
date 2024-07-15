@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AssetBaseWidget.h"
-#include "ui_AssetPhotoWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AssetPhotoWidget;
+}
+QT_END_NAMESPACE
 
 class AssetPhotoWidget : public AssetBaseWidget
 {
@@ -34,5 +39,5 @@ protected:
 	void						initAssetPhotoWidget( void );
 	//=== vars ===//
 
-	Ui::AssetPhotoWidget	ui;
+	Ui::AssetPhotoWidget&		ui;
 };

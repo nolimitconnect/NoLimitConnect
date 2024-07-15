@@ -21,9 +21,14 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_ServiceSettingsWidget.h"
+
+void						ServiceSettingsWidget::setViewServiceVisible( bool visible )   { ui.m_ViewServiceFrame->setVisible( visible ); }
+
 //============================================================================
 ServiceSettingsWidget::ServiceSettingsWidget( QWidget* parent )
 	: QWidget( parent )
+    , ui(*(new Ui::ServiceSettingsWidgetUi))
     , m_MyApp( GetAppInstance() )
 {
 	initServiceSettingsWidget();

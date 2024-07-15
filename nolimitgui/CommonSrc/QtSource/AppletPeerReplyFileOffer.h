@@ -11,11 +11,13 @@
 
 #include "AppletPeerBase.h"
 
-#include <PktLib/VxCommon.h>
-
-#include <QDialog>
 #include "GuiUser.h"
-#include "ui_AppletPeerReplyOfferFile.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPeerReplyFileOfferUi;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class P2PEngine;
@@ -37,6 +39,6 @@ protected:
 	void						setPluginIcon( EPluginType pluginType, EFriendState ePluginPermission );
 
 	//=== vars ===//
-	Ui::AppletPeerReplyFileOfferUi	ui;
+	Ui::AppletPeerReplyFileOfferUi&	ui;
     GuiOfferSession*			m_Offer{ nullptr };
 };

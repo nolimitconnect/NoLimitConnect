@@ -9,9 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AvatarBarWidget.h"
+#include <QWidget>
+
+#include "MyIconsDefs.h"
 
 #include <CoreLib/VxGUID.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AvatarBarWidgetUi;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 
@@ -45,7 +53,7 @@ signals:
 
 protected:
 	//=== vars ===//
-	Ui::AvatarBarWidgetUi		ui;
+	Ui::AvatarBarWidgetUi&		ui;
 	AppCommon&					m_MyApp;
 	VxGUID						m_OnlineId;
 	bool						m_ThumbnailQueried{ false };

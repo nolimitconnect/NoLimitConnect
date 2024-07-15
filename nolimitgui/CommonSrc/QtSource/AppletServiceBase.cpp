@@ -20,9 +20,36 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletServiceBase.h"
+
+QLabel *            AppletServiceBase::getServiceTitle() { return ui.m_ServiceTitleLabel; }
+
+QLabel *            AppletServiceBase::getServiceUrlLabel( bool ipv6 ) { return ipv6 ? ui.m_UrlDescriptionLabelIpv6 : ui.m_UrlDescriptionLabelIpv4; }
+QLineEdit *         AppletServiceBase::getServiceUrlEdit( bool ipv6 ) { return ipv6 ? ui.m_UrlEditIpv6 : ui.m_UrlEditIpv4; }
+
+QLabel *            AppletServiceBase::getServiceNameLabel() { return ui.m_UserDisplayedNameLabel; }
+QLineEdit *         AppletServiceBase::getServiceNameEdit() { return ui.m_NameEdit; }
+
+QLabel *            AppletServiceBase::getServiceKeyWordsLabel() { return ui.m_KeyWordsLabel; }
+QLineEdit *         AppletServiceBase::getServiceKeyWordsEdit() { return ui.m_KeyWordsEdit; }
+
+QLabel *            AppletServiceBase::getServiceDescriptionLabel() { return ui.m_DescriptionLabel; }
+QPlainTextEdit *    AppletServiceBase::getServiceDescriptionEdit() { return ui.m_DescriptionEdit; }
+
+QPushButton *       AppletServiceBase::getStartButton() { return ui.m_StartButton; }
+QPushButton *       AppletServiceBase::getStopButton() { return ui.m_StopButton; }
+
+PermissionWidget *  AppletServiceBase::getPermissionWidget() { return ui.m_PermissionWidget; }
+InformationWidget * AppletServiceBase::getInformationWidget() { return ui.m_InfoWidget; }
+
+ThumbnailEditWidget*   AppletServiceBase::getThumbEditWidget() { return ui.m_ThumbnailEditWidget; }
+
+QCheckBox*          AppletServiceBase::getRunOnAppStartCheckbox() { return ui.m_RunOnStartupCheckBox; }
+
 //============================================================================
 AppletServiceBase::AppletServiceBase( const char* objName, AppCommon& app, QWidget* parent )
     : AppletBase( objName, app, parent )
+    , ui(*(new Ui::AppletServiceBaseUi))
 {
 }
 

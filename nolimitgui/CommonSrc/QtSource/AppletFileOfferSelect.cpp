@@ -43,9 +43,14 @@
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletFileOfferSelect.h"
+
+//#include <PktLib/VxCommon.h>
+
 //============================================================================
 AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, QString launchParam )
     : AppletBase( OBJNAME_APPLET_FILE_OFFER_SELECT, app, parent )
+    , ui(*(new Ui::AppletFileOfferSelectUi))
     , m_IsSelectAFileMode( !launchParam.isEmpty() ? true : false )
     , m_FileWasSelected( false )
     , m_eFileFilterType( eFileFilterAll )

@@ -32,9 +32,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletAboutMeClient.h"
+
 //============================================================================
 AppletAboutMeClient::AppletAboutMeClient( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_ABOUT_ME_CLIENT, app, parent )
+, ui(*(new Ui::AppletAboutMeClientUi))
 {
     setAppletType( eAppletAboutMeClient );
     setPluginType( ePluginTypeAboutMePageClient );

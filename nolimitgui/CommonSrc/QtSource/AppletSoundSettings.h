@@ -23,7 +23,11 @@
 #include <QIODevice>
 #include <QTimer>
 
-#include "ui_AppletSoundSettings.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSoundSettingsUi;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
@@ -76,7 +80,7 @@ protected:
     void                        showEchoDelayTestResults( void );
 
     //=== vars ===//
-    Ui::AppletSoundSettingsUi   ui;
+    Ui::AppletSoundSettingsUi&  ui;
     QTimer*                     m_PeakTimer{ nullptr };
 
     QMediaDevices*              m_devices = nullptr;

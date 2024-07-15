@@ -10,9 +10,14 @@
 //============================================================================
 
 #include "AssetBaseWidget.h"
-#include "ui_AssetVoiceWidget.h"
 
 #include <vector>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AssetVoiceWidget;
+}
+QT_END_NAMESPACE
 
 class QTimer;
 
@@ -58,6 +63,6 @@ protected:
 	std::vector<bool>			m_QueuedPlayerControlUpdate;
 	QTimer*						m_QueueUpdateTimer{ nullptr };
 
-	Ui::AssetVoiceWidget		ui;
+	Ui::AssetVoiceWidget&		ui;
 
 };

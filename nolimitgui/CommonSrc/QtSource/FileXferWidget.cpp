@@ -17,9 +17,12 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
+#include "ui_FileXferWidget.h"
+
 //============================================================================
 FileXferWidget::FileXferWidget(QWidget* parent)
 : QWidget(parent)
+, ui(*(new Ui::FileXferWidgetClass))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);

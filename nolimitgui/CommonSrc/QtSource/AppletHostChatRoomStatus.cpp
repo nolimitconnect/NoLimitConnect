@@ -20,9 +20,15 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletHostNetworkStatus.h"
+
+PermissionWidget*           AppletHostChatRoomStatus::getChatRoomHostPermissionWidget()   { return ui.m_HostPermissionWidget; }
+PermissionWidget*           AppletHostChatRoomStatus::getConnectionTestWidget()           { return ui.m_ConnectTestPermissionWidget; }
+
 //============================================================================
 AppletHostChatRoomStatus::AppletHostChatRoomStatus( AppCommon& app, QWidget* parent )
     : AppletBase( OBJNAME_APPLET_HOST_CHAT_ROOM_STATUS, app, parent )
+    , ui(*(new Ui::AppletHostNetworkStatusUi))
     , m_UpdateStatusTimer( new QTimer( this ) )
 {
     ui.setupUi( getContentItemsFrame() );

@@ -14,9 +14,12 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_AppletPeerSessionFileOffer.h"
+
 //============================================================================
 AppletPeerSessionFileOffer::AppletPeerSessionFileOffer(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_SESSION_FILE_OFFER, app, parent )
+, ui(*(new Ui::AppletPeerSessionFileOfferUi))
 , m_ePluginType(ePluginTypePersonFileXfer)
 {
     setPluginType( ePluginTypePersonFileXfer );

@@ -13,9 +13,13 @@
 #include <Plugins/FileInfo.h>
 #include "ToGuiFileXferInterface.h"
 
-#include "ui_AppletOfferView.h"
+#include <OfferBase/OfferBaseInfo.h>
 
-#include <PktLib/VxCommon.h>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletOfferViewUi;
+}
+QT_END_NAMESPACE
 
 class FileShareItemWidget;
 class FileItemInfo;
@@ -45,7 +49,7 @@ protected:
     bool                        verifyFile( void );
 
     //=== vars ===//
-    Ui::AppletOfferViewUi	    ui;
+    Ui::AppletOfferViewUi&	    ui;
 
 	VxGUID						m_OfferSessionId;
 	GuiUser*					m_HisIdent{ nullptr };

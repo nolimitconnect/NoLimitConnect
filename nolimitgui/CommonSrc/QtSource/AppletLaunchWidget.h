@@ -11,10 +11,16 @@
 
 #include "AppDefs.h"
 #include "VxWidgetBase.h"
-#include "ui_AppletLaunchWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class LaunchWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class AppletLaunchPage;
+class VxPushButton;
 
 class AppletLaunchWidget : public VxWidgetBase
 {
@@ -30,7 +36,7 @@ public slots:
 
 public:
 	//=== vars ===//
-	Ui::LaunchWidgetClass		ui;
+	Ui::LaunchWidgetClass&		ui;
 	AppCommon&					m_MyApp;
 	EApplet						m_AppletType;
 	AppletLaunchPage*			m_AppletLaunchPage;

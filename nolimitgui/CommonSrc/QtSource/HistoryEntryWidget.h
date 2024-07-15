@@ -9,8 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_HistoryEntryWidget.h"
 #include <QListWidgetItem>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class HistoryEntryWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class P2PEngine;
@@ -23,7 +28,7 @@ public:
 	HistoryEntryWidget(QWidget* parent=nullptr);
 
 protected:
-	Ui::HistoryEntryWidgetClass	ui;
+	Ui::HistoryEntryWidgetClass&	ui;
 
 	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;

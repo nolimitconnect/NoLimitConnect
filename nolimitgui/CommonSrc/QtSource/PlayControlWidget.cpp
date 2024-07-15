@@ -13,9 +13,17 @@
 
 #include <QTimer>
 
+#include "ui_PlayControlWidget.h"
+
+
+QSlider*					PlayControlWidget::getPlayPosSlider( void )		{ return ui.m_PlayPosSlider; }
+VxPushButton*				PlayControlWidget::getPlayPauseButton( void )		{ return ui.m_PlayPauseButton; }
+
 //============================================================================
 PlayControlWidget::PlayControlWidget( QWidget* parent )
-	: m_UpdateTimer( new QTimer( this  ) )
+: QWidget(parent)
+, ui(*(new Ui::PlayControlUi))
+, m_UpdateTimer( new QTimer( this  ) )
 {
 	ui.setupUi( this );
 	QSize buttonSize( GuiParams::getButtonSize( eButtonSizeTiny ) );

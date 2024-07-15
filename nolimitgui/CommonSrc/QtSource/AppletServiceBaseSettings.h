@@ -13,7 +13,18 @@
 #include <GuiInterface/IToGui.h>
 #include <PluginSettings/PluginSettingMgr.h>
 
-#include "ui_AppletServiceBaseSettings.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletServiceBaseSettingsUi;
+}
+QT_END_NAMESPACE
+
+class InformationWidget;
+class PermissionWidget;
+class LogWidget;
+class QLineEdit;
+class QPlainTextEdit;
+class QPushButton;
 
 class AppletServiceBaseSettings : public AppletBase
 {
@@ -25,24 +36,21 @@ public:
     // override so we do initialization after applet type is set
     virtual void                setupServiceBaseApplet( EApplet applet, EPluginType pluginType );
 
-    virtual QLabel *            getServiceTitle() { return ui.m_ServiceTitleLabel; }
-    //virtual QLabel *            getStatusLabel() { return ui.m_StatusLabel; }
-    //virtual QLabel *            getServiceStatusLabel() { return ui.m_ServiceStatusLabel; }
+    virtual QLabel *            getServiceTitle();
 
-    virtual QLabel *            getServiceUrlLabel() { return ui.m_UrlDescriptionLabel; }
-    virtual QLineEdit *         getServiceUrlEdit() { return ui.m_UrlEdit; }
+    virtual QLabel *            getServiceUrlLabel();
+    virtual QLineEdit *         getServiceUrlEdit();
+    virtual QLabel *            getServiceNameLabel();
+    virtual QLabel *            getServiceDescriptionLabel();
 
-    virtual QLabel *            getServiceNameLabel() { return ui.m_UserDisplayedNameLabel; }
-    virtual QLabel *            getServiceDescriptionLabel() { return ui.m_DescriptionLabel; }
+    virtual QLineEdit *         getServiceNameEdit();
+    virtual QPlainTextEdit *    getServiceDescriptionEdit();
 
-    virtual QLineEdit *         getServiceNameEdit() { return ui.m_NameEdit; }
-    virtual QPlainTextEdit *    getServiceDescriptionEdit() { return ui.m_DescriptionEdit; }
+    virtual QPushButton *       getApplyButton();
 
-    virtual QPushButton *       getApplyButton()            { return ui.m_ApplyButton; }
-
-    virtual PermissionWidget *  getPermissionWidget()       { return ui.m_PermissionWidget; }
-    virtual InformationWidget * getInformationWidget()      { return ui.m_InfoWidget; }
-    virtual LogWidget *         getLogWidget()              { return ui.m_LogWidget; }
+    virtual PermissionWidget *  getPermissionWidget();
+    virtual InformationWidget * getInformationWidget();
+    virtual LogWidget *         getLogWidget();
 
 protected slots:
     virtual void                slotApplyButtonClicked();
@@ -55,7 +63,7 @@ protected:
     virtual void                saveUiToSetting();
 
 
-    Ui::AppletServiceBaseSettingsUi ui;
+    Ui::AppletServiceBaseSettingsUi& ui;
 
     QWidget*                   m_HostServiceWidget;
     PluginSetting               m_PluginSetting;

@@ -18,9 +18,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletTheme.h"
+
 //============================================================================
 AppletTheme::AppletTheme( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_THEME, app, parent )
+, ui(*(new Ui::ThemeWidgetClass))
 , m_SavedTheme( eThemeTypeUnknown )
 , m_CurTheme( eThemeTypeUnknown )
 {

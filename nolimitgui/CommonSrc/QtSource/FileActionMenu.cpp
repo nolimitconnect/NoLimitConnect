@@ -17,6 +17,7 @@
 #include "ActivityMessageBox.h"
 
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 #include "MyIcons.h"
 
@@ -26,6 +27,8 @@
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_FileActionMenu.h"
+
 //============================================================================
 FileActionMenu::FileActionMenu( AppCommon&		app, 
 								QWidget*		parent, 
@@ -34,6 +37,7 @@ FileActionMenu::FileActionMenu( AppCommon&		app,
 								bool			isInLibrary,
 								GuiUser*		selectedFriend )
 : ActivityBase( OBJNAME_FILE_ACTION_MENU, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::FileActionMenuClass))
 , m_FileInfo( fileInfo )
 , m_IsShared( isShared )
 , m_IsInLibrary( isInLibrary )

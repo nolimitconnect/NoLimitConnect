@@ -11,9 +11,12 @@
 
 #include "AppletPeerBase.h"
 #include "ToGuiFileXferInterface.h"
-#include "ui_AppletPersonOfferList.h"
 
-#include <PktLib/VxCommon.h>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPersonOfferListUi;
+}
+QT_END_NAMESPACE
 
 class FileXferWidget;
 class P2PEngine;
@@ -65,5 +68,5 @@ protected:
     */
 
 	//=== vars ===//
-	Ui::AppletPersonOfferListUi		ui;
+	Ui::AppletPersonOfferListUi&	ui;
 };

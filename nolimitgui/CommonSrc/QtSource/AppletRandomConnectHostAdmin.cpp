@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiMemberActiveMgr.h"
+#include "GuiUserListWidget.h"
 #include "GuiUserMultiListWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -20,9 +21,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletChatRoomClient.h"
+
 //============================================================================
 AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_RANDOM_CONNECT_HOST_ADMIN, app, parent )
+, ui(*(new Ui::AppletChatRoomClientUi))
 {
     setAppletType( eAppletRandomConnectHostAdmin );
     ui.setupUi( getContentItemsFrame() );

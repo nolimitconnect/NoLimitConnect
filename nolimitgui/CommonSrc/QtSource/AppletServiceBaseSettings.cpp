@@ -20,9 +20,29 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletServiceBaseSettings.h"
+
+QLabel *            AppletServiceBaseSettings::getServiceTitle() { return ui.m_ServiceTitleLabel; }
+
+QLabel *            AppletServiceBaseSettings::getServiceUrlLabel() { return ui.m_UrlDescriptionLabel; }
+QLineEdit *         AppletServiceBaseSettings::getServiceUrlEdit() { return ui.m_UrlEdit; }
+
+QLabel *            AppletServiceBaseSettings::getServiceNameLabel() { return ui.m_UserDisplayedNameLabel; }
+QLabel *            AppletServiceBaseSettings::getServiceDescriptionLabel() { return ui.m_DescriptionLabel; }
+
+QLineEdit *         AppletServiceBaseSettings::getServiceNameEdit() { return ui.m_NameEdit; }
+QPlainTextEdit *    AppletServiceBaseSettings::getServiceDescriptionEdit() { return ui.m_DescriptionEdit; }
+
+QPushButton *       AppletServiceBaseSettings::getApplyButton()            { return ui.m_ApplyButton; }
+
+PermissionWidget *  AppletServiceBaseSettings::getPermissionWidget()       { return ui.m_PermissionWidget; }
+InformationWidget * AppletServiceBaseSettings::getInformationWidget()      { return ui.m_InfoWidget; }
+LogWidget *         AppletServiceBaseSettings::getLogWidget()              { return ui.m_LogWidget; }
+
 //============================================================================
 AppletServiceBaseSettings::AppletServiceBaseSettings( const char* objName, AppCommon& app, QWidget* parent )
     : AppletBase( objName, app, parent )
+    , ui(*(new Ui::AppletServiceBaseSettingsUi))
 {
 }
 

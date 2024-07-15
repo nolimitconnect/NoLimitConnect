@@ -9,10 +9,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletUserPreferences.h"
-
 #include "AppletBase.h"
 #include "AppDefs.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletUserPreferencesUi;
+}
+QT_END_NAMESPACE
 
 class AppletUserPreferences : public AppletBase
 {
@@ -34,7 +38,7 @@ protected:
     void						updateDlgFromSettings( void );
     void						updateSettingsFromDlg( void );
 
-	Ui::AppletUserPreferencesUi	ui;
+	Ui::AppletUserPreferencesUi&	ui;
 };
 
 

@@ -9,12 +9,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_GuiHostedListItem.h"
 #include "IdentLogicInterface.h"
 
 #include <QListWidgetItem>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class GuiHostedListItemUi;
+}
+QT_END_NAMESPACE
+
 class GuiHostedListSession;
+class MyIcons;
 
 class GuiHostedListItem : public IdentLogicInterface, public QListWidgetItem
 {
@@ -29,12 +35,12 @@ public:
     void                        setHostSession( GuiHostedListSession* hostSession );
     GuiHostedListSession*       getHostSession( void );
 
-    VxPushButton*               getIdentAvatarButton( void ) override         { return ui.m_IconButton; }
-    VxPushButton*               getIdentFriendshipButton( void ) override { return ui.m_FriendshipButton; }
-    VxPushButton*               getIdentMenuButton( void ) override { return ui.m_MenuButton; }
+    VxPushButton*               getIdentAvatarButton( void ) override;
+    VxPushButton*               getIdentFriendshipButton( void ) override;
+    VxPushButton*               getIdentMenuButton( void ) override;
 
-    virtual QLabel*             getIdentLine1( void ) override { return ui.m_TitlePart1; }
-    virtual QLabel*             getIdentLine2( void ) override { return ui.m_DescPart1; }
+    virtual QLabel*             getIdentLine1( void ) override;
+    virtual QLabel*             getIdentLine2( void ) override;
 
     void						onIdentAvatarButtonClicked( void ) override;
     void						onIdentMenuButtonClicked( void ) override;
@@ -78,7 +84,7 @@ protected:
     void                        showIgnoreButton( bool isVisible );
 
 	//=== vars ===//
-    Ui::GuiHostedListItemUi	    ui;
+    Ui::GuiHostedListItemUi&	ui;
     AppCommon&					m_MyApp;
     EHostType                   m_HostType{ eHostTypeUnknown };
     bool                        m_IsThumbUpdated{ false };

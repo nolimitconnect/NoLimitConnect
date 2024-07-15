@@ -13,12 +13,15 @@
 
 #include <CoreLib/VxDefs.h>
 
-#include <QString>
-#include <QDialog>
-#include "ui_ActivityFileSearch.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class FileSearchDialog;
+}
+QT_END_NAMESPACE
 
 class P2PEngine;
 class VxNetIdent;
+class QListWidgetItem;
 
 class ActivityFileSearch : public ActivityBase
 {
@@ -28,8 +31,8 @@ public:
 	virtual ~ActivityFileSearch() override;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	TitleBarWidget*				getTitleBarWidget( void ) override;
+	BottomBarWidget*			getBottomBarWidget( void ) override;
 
 	void						setTitle( QString strTitle );
 	void						addFile(	VxNetIdent*	netIdent, 
@@ -45,7 +48,7 @@ private slots:
 
 protected:
 	//=== vars ===//
-	Ui::FileSearchDialog		ui;
+	Ui::FileSearchDialog&		ui;
 };
 
 extern ActivityFileSearch * g_poFileSearchActivity;

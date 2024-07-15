@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AssetBaseWidget.h"
-#include "ui_AssetVideoWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AssetVideoWidget;
+}
+QT_END_NAMESPACE
 
 class AssetVideoWidget : public AssetBaseWidget
 {
@@ -65,6 +70,6 @@ protected:
 	bool						m_IsPlaying{ false };
 	bool						m_SliderIsPressed{ false };
 
-	Ui::AssetVideoWidget		ui;
+	Ui::AssetVideoWidget&		ui;
 	QTimer*						m_ReadyForVideoTimer{ nullptr };
 };

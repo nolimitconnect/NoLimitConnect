@@ -9,14 +9,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletNetworkSettings.h"
-
 #include "AppletBase.h"
 #include "AppDefs.h"
 
 #include <NetLib/NetHostSetting.h>
 
 #include <QTimer>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletNetworkSettingsUi;
+}
+QT_END_NAMESPACE
 
 class AppletNetworkSettings : public AppletBase
 {
@@ -62,7 +66,7 @@ protected:
 
     void						connectSignals( void );
 
-    QString						getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text(); }
+    QString						getNetworkKey( void );
     bool                        verifyNetworkKey( QString& keyVal );
 
     void						updateDlgFromSettings( bool initialSettings );
@@ -74,7 +78,7 @@ protected:
 
     void                        fillNetHostSettingFromEngine( NetHostSetting& netSettings );
 
-	Ui::AppletNetworkSettingsUi	ui;
+	Ui::AppletNetworkSettingsUi&	ui;
     NetHostSetting              m_OriginalSettings;
     QTimer *                    m_UpdateTimer{ nullptr };
     QString                     m_OriginalNetworkKey;

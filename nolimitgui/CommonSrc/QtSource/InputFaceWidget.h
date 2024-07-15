@@ -11,7 +11,13 @@
 
 #include "InputBaseWidget.h"
 
-#include "ui_InputFaceWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InputFaceWidgetClass;
+}
+QT_END_NAMESPACE
+
+class VxLabel;
 
 class InputFaceWidget : public InputBaseWidget
 {
@@ -62,6 +68,6 @@ protected:
 	virtual QSize				sizeHint() const;
 	void						faceLabelClicked( int faceIdx );
 
-	Ui::InputFaceWidgetClass	ui;
+	Ui::InputFaceWidgetClass&	ui;
 	QVector<VxLabel *>		m_FaceList;	
 };

@@ -11,9 +11,11 @@
 
 #include "AppletPeerBase.h"
 
-#include <PktLib/VxCommon.h>
-#include <QDialog>
-#include "ui_AppletPeerChangeFriendship.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPeerChangeFriendshipUi;
+}
+QT_END_NAMESPACE
 
 class GuiUser;
 
@@ -47,7 +49,7 @@ protected:
 	void						updatePreferredText( void );
 
 	//=== vars ===//
-	Ui::AppletPeerChangeFriendshipUi	ui;
+	Ui::AppletPeerChangeFriendshipUi&	ui;
 	GuiUser*					m_Friend{ nullptr };
 	bool						m_PreferredUser{ false };
 };

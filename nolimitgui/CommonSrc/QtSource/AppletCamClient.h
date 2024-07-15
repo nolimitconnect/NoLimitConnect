@@ -10,9 +10,14 @@
 //============================================================================
 
 #include "AppletClientBase.h"
-#include "ui_AppletCamClient.h"
 
 #include <CoreLib/MediaCallbackInterface.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletCamClientUi;
+}
+QT_END_NAMESPACE
 
 class AppletCamClient : public AppletBase, public MediaCallbackInterface
 {
@@ -50,7 +55,7 @@ protected:
     void						setCameraButtonVisibility( bool visible );
 
     //=== vars ===//
-    Ui::AppletCamClientUi	    ui;
+    Ui::AppletCamClientUi&      ui;
     bool						m_IsMyself{ false };
     bool 					    m_CameraSourceAvail{ false };
     QTimer*                     m_CloseAppletTimer{ nullptr };

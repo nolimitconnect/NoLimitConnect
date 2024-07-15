@@ -10,9 +10,14 @@
 //============================================================================
 
 #include "AppletAssetPlayerBase.h"
-#include "ui_AppletPlayerCamClip.h"
 
 #include <CoreLib/MediaCallbackInterface.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletCamClipPlayerUi;
+}
+QT_END_NAMESPACE
 
 class ThumbnailViewWidget;
 class AssetMgr;
@@ -70,5 +75,5 @@ protected:
 	bool						m_SliderIsPressed{ false };
 
     //=== vars ===//
-    Ui::AppletCamClipPlayerUi	ui;
+    Ui::AppletCamClipPlayerUi&	ui;
 };

@@ -15,11 +15,17 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_ActivityFileSearch.h"
+
 ActivityFileSearch * g_poFileSearchActivity = NULL;
+
+TitleBarWidget *  ActivityFileSearch::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget * ActivityFileSearch::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
 
 //============================================================================
 ActivityFileSearch::ActivityFileSearch(	AppCommon& app,  QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_FILE_SEARCH, app, parent, eAppletScanSharedFiles, true, false )
+, ui(*(new Ui::FileSearchDialog))
 {
 	ui.setupUi(this);
 	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("File Search" ) );

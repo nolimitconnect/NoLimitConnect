@@ -15,9 +15,12 @@
 #include "GuiParams.h"
 #include "VxAppTheme.h"
 
+#include "ui_TestWidget.h"
+
 //============================================================================
 TestWidget::TestWidget( QWidget* parent )
 : QFrame( parent )
+, ui(*(new Ui::TestWidgetUi))
 , m_MyApp(GetAppInstance())
 {
 	ui.setupUi( this );

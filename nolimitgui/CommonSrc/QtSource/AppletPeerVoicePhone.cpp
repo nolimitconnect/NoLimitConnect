@@ -19,9 +19,12 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_AppletPeerVoicePhone.h"
+
 //============================================================================
 AppletPeerVoicePhone::AppletPeerVoicePhone(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_VOICE_PHONE, app, parent )
+, ui(*(new Ui::AppletPeerVoicePhoneUi))
 {
     setPluginType( ePluginTypeVoicePhone );
     setAppletType( eAppletPeerVoicePhone );

@@ -10,15 +10,18 @@
 
 #include "ActivityScanWebCams.h"
 
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppCommon.h"
 #include "GuiPlayerMgr.h"
+#include "MyIcons.h"
+#include "VxLabel.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+
+#include "ui_ActivityScanWebCams.h"
 
 namespace
 {
@@ -26,10 +29,14 @@ namespace
 	const int COUNTDOWN_INTERVAL_MS = 1000;
 }
 
+TitleBarWidget *	ActivityScanWebCams::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityScanWebCams::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityScanWebCams::ActivityScanWebCams(	AppCommon&	app, 
 											QWidget*		parent )
 : ActivityBase( OBJNAME_ACTIVITY_SCAN_WEB_CAMS, app, parent, eAppletScanWebCam, true ) //Qt::Popup ) //
+, ui(*(new Ui::ScanWebCamsDialog))
 , m_HisIdent( NULL )
 , m_iCountdownCnt( 0 )
 , m_bPaused( false )

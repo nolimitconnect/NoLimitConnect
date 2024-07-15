@@ -24,9 +24,15 @@
 #include <QMessageBox>
 #include <QUuid>
 
+#include "ui_ActivityCreateAccount.h"
+
+TitleBarWidget *  ActivityCreateAccount::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget * ActivityCreateAccount::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityCreateAccount::ActivityCreateAccount( AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_CREATE_ACCOUNT, app, parent, eAppletCreateAccount, true, false, true )
+, ui(*(new Ui::CreateAccountClass))
 {
     ui.setupUi( this );
     setTitleBarText( QObject::tr( "Create Account" ) );

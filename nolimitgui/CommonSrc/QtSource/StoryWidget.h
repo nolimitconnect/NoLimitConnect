@@ -9,9 +9,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QWidget>
 #include <QMap>
 #include <QPointer>
-#include "ui_StoryWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class StoryWidgetClass;
+}
+QT_END_NAMESPACE
 
 QT_FORWARD_DECLARE_CLASS(QAction)
 QT_FORWARD_DECLARE_CLASS(QComboBox)
@@ -82,7 +88,7 @@ private:
     void                        colorChanged(const QColor &c);
 
     //=== vars ===//
-    Ui::StoryWidgetClass        ui;
+    Ui::StoryWidgetClass&       ui;
     QString                     m_strFileName;
     QTextEdit *                 m_TextEdit;
 };

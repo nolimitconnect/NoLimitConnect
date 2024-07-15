@@ -10,6 +10,7 @@
 //============================================================================
 
 #include "MatchParams.h"
+
 #include <CoreLib/VxGUID.h>
 
 class SearchParams : public MatchParams

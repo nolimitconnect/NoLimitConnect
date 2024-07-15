@@ -11,7 +11,11 @@
 
 #include "InputBaseWidget.h"
 
-#include "ui_InputVideoWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InputVideoWidget;
+}
+QT_END_NAMESPACE
 
 class InputVideoWidget : public InputBaseWidget
 {
@@ -34,6 +38,6 @@ protected:
 	void						hideEvent( QHideEvent* hideEvent );
 	void						showEvent( QShowEvent* showEvent );
 
-	Ui::InputVideoWidget		ui;
+	Ui::InputVideoWidget&		ui;
 	bool						m_IsRecording{ false };
 };

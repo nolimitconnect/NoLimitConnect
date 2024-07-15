@@ -15,9 +15,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletSettingsNoUserSettings.h"
+
 //============================================================================
 AppletSettingsRandomConnect::AppletSettingsRandomConnect( AppCommon& app, QWidget* parent )
 : AppletSettingsBase( OBJNAME_APPLET_SETTINGS_RANDOM_CONNECT, app, parent )
+, ui(*(new Ui::AppletSettingsNoUserSettingsUi))
 {
 	ui.setupUi( getContentItemsFrame() );
 	setAppletType( eAppletSettingsRandomConnect );

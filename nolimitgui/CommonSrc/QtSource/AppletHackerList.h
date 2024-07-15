@@ -11,12 +11,14 @@
 
 #include "AppletBase.h"
 
-#include "ui_AppletHackerList.h"
-
 #include <QMutex>
 #include <QFile>
 
-#include <CoreLib/VxDebug.h>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletHackerListUi;
+}
+QT_END_NAMESPACE
 
 class VxHackerRecord;
 
@@ -37,7 +39,7 @@ protected:
     void                        refreshHackerList( void );
     void                        addHacker( VxHackerRecord& hackerRec );
 
-    Ui::AppletHackerListUi      ui;
+    Ui::AppletHackerListUi&      ui;
 };
 
 

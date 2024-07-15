@@ -9,10 +9,19 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_PermissionWidget.h"
+#include <QWidget>
+
+#include <GuiInterface/IDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PermissionWidgetUi;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class AppletBase;
+class VxPushButton;
 
 class PermissionWidget : public QWidget
 {
@@ -26,8 +35,8 @@ public:
 
     void						setPermissionLevel( EFriendState permLevel );
     EFriendState                getPermissionLevel( void );
-    VxPushButton *              getPluginRunButton()            { return ui.m_PluginRunButton; }
-    VxPushButton *              getPluginSettingsButton()       { return ui.m_PluginSettingsButton; }
+    VxPushButton *              getPluginRunButton();
+    VxPushButton *              getPluginSettingsButton();
 
 protected slots:
     void                        slotHandleSelectionChanged( int );
@@ -43,7 +52,7 @@ protected:
     void						updatePermissionIcon( void );
     void                        updateUi( void );
 
-    Ui::PermissionWidgetUi	    ui;
+    Ui::PermissionWidgetUi&	    ui;
     AppCommon&                  m_MyApp;
     AppletBase*                 m_ParentApplet{ nullptr };
     EPluginType                 m_PluginType = ePluginTypeInvalid;

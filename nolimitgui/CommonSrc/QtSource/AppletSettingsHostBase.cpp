@@ -12,12 +12,18 @@
 
 #include "AppCommon.h"
 #include "ActivityInformation.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
+
+#include "ui_AppletSettingsHostBase.h"
+
+PluginSettingsWidget*       AppletSettingsHostBase::getPluginSettingsWidget() { return ui.m_PluginSettingsWidget; }
 
 //============================================================================
 AppletSettingsHostBase::AppletSettingsHostBase( const char* ObjName, AppCommon& app, QWidget* parent )
     : AppletSettingsBase( ObjName, app, parent )
+    , ui(*(new Ui::AppletSettingsHostBaseUi))
 {
     ui.setupUi( getContentItemsFrame() );
 

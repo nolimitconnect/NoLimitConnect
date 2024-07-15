@@ -13,8 +13,12 @@
 
 #include <GuiInterface/IDefs.h>
 #include <QString>
-#include <QDialog>
-#include "ui_ActivityScanPeopleSearch.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PeopleSearchDlg;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 
@@ -29,8 +33,8 @@ public:
 	virtual ~ActivityScanPeopleSearch() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	virtual TitleBarWidget*		getTitleBarWidget( void ) override;
+	virtual BottomBarWidget*	getBottomBarWidget( void ) override;
 
 	EScanType					getScanType() { return m_eScanType; }
 	void						searchResult( GuiUser* guiUser );
@@ -57,6 +61,6 @@ protected:
     void						hideEvent( QHideEvent* ev ) override;
 
 	//=== vars ===//
-	Ui::PeopleSearchDlg			ui;
+	Ui::PeopleSearchDlg&		ui;
 	EScanType					m_eScanType;
 };

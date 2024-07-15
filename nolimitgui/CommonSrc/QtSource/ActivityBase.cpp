@@ -24,6 +24,7 @@
 #include "MyIcons.h"
 #include "SoundMgr.h"
 #include "WaitingSpinnerWidget.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -174,7 +175,7 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
 		connect( titleBar, SIGNAL( signalShareButtonClicked() ), this, SLOT( slotShareButtonClicked() ) );
 		connect( titleBar, SIGNAL( signalMenuTopButtonClicked() ), this, SLOT( slotMenuTopButtonClicked() ) );
 		connect( titleBar, SIGNAL( signalBackButtonClicked() ), this, SLOT( slotBackButtonClicked() ) );
-		VxPushButton * titleButton = titleBar->getAppIconPushButton();
+		VxPushButton* titleButton = titleBar->getAppIconPushButton();
         if( titleButton )
         {
             connect( titleButton, SIGNAL( signalAppIconSpecialClick() ), this, SLOT( slotAppIconSpecialClick() ) );

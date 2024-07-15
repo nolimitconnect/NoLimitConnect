@@ -15,9 +15,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletSettingsNoUserSettings.h"
+
 //============================================================================
 AppletSettingsVideoPhone::AppletSettingsVideoPhone( AppCommon& app, QWidget* parent )
 : AppletServiceBaseSettings( OBJNAME_APPLET_SETTINGS_VIDEO_PHONE, app, parent )
+, ui(*(new Ui::AppletSettingsNoUserSettingsUi))
 {
 	ui.setupUi( getContentItemsFrame() );
 	setAppletType( eAppletSettingsVideoPhone );

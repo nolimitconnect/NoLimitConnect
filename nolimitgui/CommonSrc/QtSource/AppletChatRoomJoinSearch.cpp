@@ -22,15 +22,20 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletChatRoomJoinSearch.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+QString                     AppletChatRoomJoinSearch::getSearchText( void ) { return ui.m_SearchsParamWidget->getSearchTextEdit()->text(); }
+
 //============================================================================
 AppletChatRoomJoinSearch::AppletChatRoomJoinSearch(	AppCommon&		    app, 
 													QWidget*			parent )
 : AppletClientBase( OBJNAME_APPLET_CHAT_ROOM_JOIN_SEARCH, app, parent )
+, ui(*(new Ui::AppletChatRoomJoinSearchUi))
 {
     setAppletType( eAppletChatRoomJoinSearch );
     setHostType( eHostTypeChatRoom );

@@ -12,7 +12,11 @@
 #include "AppletBase.h"
 #include "UserProfile.h"
 
-#include "ui_AppletUserIdentity.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletUserIdentityUi;
+}
+QT_END_NAMESPACE
 
 class ThumbInfo;
 class AppletUserIdentity : public AppletBase
@@ -57,11 +61,11 @@ protected:
     static const int CAMERA_SNAPSHOT = 1; // selector for image gallery call
 
     //=== vars ===//
-    Ui::AppletUserIdentityUi	ui;
+    Ui::AppletUserIdentityUi&	ui;
     std::vector<VxNetIdent>     m_AccountList;
 
     UserProfile 				m_UserProfile;
-    VxNetIdent*				m_CurIdent = nullptr;
+    VxNetIdent*				    m_CurIdent = nullptr;
     QString                     m_strOrigOnlineName;
     QString                     m_strOrigMoodMessage;
 

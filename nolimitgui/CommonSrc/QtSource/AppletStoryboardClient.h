@@ -12,7 +12,11 @@
 #include "AppletBase.h"
 #include "GuiWebPageCallback.h"
 
-#include "ui_AppletStoryBoardClient.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletStoryboardClientUi;
+}
+QT_END_NAMESPACE
 
 class AppletStoryboardClient : public AppletBase, public GuiWebPageCallback
 {
@@ -28,7 +32,7 @@ protected:
     virtual void				toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, QString& paramValue ) override;
 
     //=== vars ===//
-    Ui::AppletStoryboardClientUi	ui;
+    Ui::AppletStoryboardClientUi&	ui;
     VxNetIdent*                 m_MyIdent = nullptr;
     QString                     m_strOrigOnlineName;
     QString                     m_strOrigMoodMessage;

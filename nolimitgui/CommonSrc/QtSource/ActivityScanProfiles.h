@@ -15,10 +15,15 @@
 #include <QDialog>
 #include <QListWidgetItem>
 #include <QTimer>
-#include "ui_ActivityScanProfiles.h"
 
 #include <GuiInterface/IDefs.h>
 #include <CoreLib/VxDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ScanProfilesDialog;
+}
+QT_END_NAMESPACE
 
 class ScanProfilePair
 {
@@ -62,8 +67,8 @@ public:
 	virtual ~ActivityScanProfiles() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    virtual TitleBarWidget*     getTitleBarWidget( void ) override;
+    virtual BottomBarWidget*    getBottomBarWidget( void ) override;
 
 public:
     virtual void				toGuiClientScanSearchComplete( EScanType eScanType ) override;
@@ -102,7 +107,7 @@ protected:
 
 
 	//=== vars ===//
-	Ui::ScanProfilesDialog		ui;
+	Ui::ScanProfilesDialog&		ui;
 
     GuiUser*				    m_Ident;
 	int							m_iCountdownCnt;

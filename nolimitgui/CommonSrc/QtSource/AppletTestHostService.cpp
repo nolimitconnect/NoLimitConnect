@@ -15,9 +15,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletTestHostService.h"
+
 //============================================================================
 AppletTestHostService::AppletTestHostService( AppCommon& app, QWidget* parent )
 : AppletTestBase( OBJNAME_APPLET_TEST_HOST_SERVICE, app, parent )
+, ui(*(new Ui::AppletTestHostServiceUi))
 {
 	ui.setupUi( getContentItemsFrame() );
     setAppletType( eAppletTestHostService );

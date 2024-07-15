@@ -17,11 +17,14 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_ActivityDownloadItemMenu.h"
+
 //============================================================================
 ActivityDownloadItemMenu::ActivityDownloadItemMenu(	AppCommon& app, 
 													GuiFileXferSession* poSession, 
 													QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_DOWNLOAD_ITEM_MENU, app, parent, eAppletMessengerFrame, false, true )
+, ui(*(new Ui::CancelDownloadDialog))
 , m_ePluginType( ePluginTypeFileShareServer )
 , m_Session( poSession )
 {

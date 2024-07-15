@@ -23,9 +23,12 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_OfferSendWidget.h"
+
 //============================================================================
 OfferSendWidget::OfferSendWidget( QWidget* parent )
 : QWidget( parent )
+, ui(*(new Ui::OfferSendWidgetUi))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi( this );

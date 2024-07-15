@@ -9,9 +9,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_FileActionBarWidget.h"
 #include <QListWidgetItem>
 #include <QFrame>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class FileActionBarWidgetClass;
+}
+QT_END_NAMESPACE
 
 class FileItemInfo;
 class AppCommon;
@@ -45,7 +50,7 @@ protected slots:
 	void						slotShredButtonClicked( void );
 
 protected:
-	Ui::FileActionBarWidgetClass	ui;
+	Ui::FileActionBarWidgetClass&	ui;
     AppCommon&					m_MyApp;
 	bool						m_SelectAFileMode{ false };
 };

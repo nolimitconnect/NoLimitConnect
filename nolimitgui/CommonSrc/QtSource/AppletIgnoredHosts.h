@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletJoinBase.h"
-#include "ui_AppletIgnoredHosts.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletIgnoredHostsUi;
+}
+QT_END_NAMESPACE
 
 #include <IdentListMgrs/IgnoreListMgr.h>
 
@@ -40,7 +45,7 @@ protected:
     void                        insertIntoHostList( IgnoredHostInfo& hostInfo );
 
 protected:
-    Ui::AppletIgnoredHostsUi       ui;
+    Ui::AppletIgnoredHostsUi&   ui;
     std::map<VxGUID, IgnoredHostInfo> m_IgnoredHostList;
 };
 

@@ -18,9 +18,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletUserConnections.h"
+
 //============================================================================
 AppletUserConnections::AppletUserConnections( AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_USER_CONNECTIONS, app, parent )
+, ui(*(new Ui::AppletUserConnectionsUi))
 {
 	setAppletType( eAppletUserConnections );
     setHostType( eHostTypeChatRoom );

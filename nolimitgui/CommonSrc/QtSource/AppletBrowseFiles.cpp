@@ -29,9 +29,12 @@
 #include <QTimer>
 #include <QFileDialog>
 
+#include "ui_AppletBrowseFiles.h"
+
 //============================================================================
 AppletBrowseFiles::AppletBrowseFiles( AppCommon& app, QWidget* parent, QString launchParam )
 : AppletBase( OBJNAME_APPLET_BROWSE_FILES, app, parent )
+, ui(*(new Ui::AppletBrowseFilesUi))
 , m_bFetchInProgress( false )
 , m_WidgetClickEventFixTimer( new QTimer( this ) )
 , m_IsSelectAFileMode( launchParam.isEmpty() ? false : true )

@@ -32,15 +32,22 @@
 #include <QDesktopWidget>
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
+#include "ui_AppletApplicationInfo.h"
+
 namespace
 {
     const int MAX_LOG_EDIT_BLOCK_CNT = 1000;
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+void                        AppletApplicationInfo::clear()                 { getLogEdit()->clear(); }
+QPlainTextEdit *            AppletApplicationInfo::getInfoEdit( void )     { return ui.m_InfoPlainTextEdit; }
+QPlainTextEdit *            AppletApplicationInfo::getLogEdit( void )      { return ui.m_LogPlainTextEdit; }
+
 //============================================================================
 AppletApplicationInfo::AppletApplicationInfo( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_APPLICATION_INFO, app, parent )
+, ui(*(new Ui::AppletApplicationInfoUi))
 {
     setAppletType( eAppletApplicationInfo );
     ui.setupUi( getContentItemsFrame() );

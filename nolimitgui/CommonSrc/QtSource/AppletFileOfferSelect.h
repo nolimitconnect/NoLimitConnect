@@ -13,9 +13,11 @@
 #include <Plugins/FileInfo.h>
 #include "ToGuiFileXferInterface.h"
 
-#include "ui_AppletFileOfferSelect.h"
-
-#include <PktLib/VxCommon.h>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletFileOfferSelectUi;
+}
+QT_END_NAMESPACE
 
 class FileShareItemWidget;
 class VxNetIdent;
@@ -23,6 +25,7 @@ class VxSha1Hash;
 class FileItemInfo;
 class FileListReplySession;
 class FileInfo;
+class QListWidgetItem;
 
 class AppletFileOfferSelect : public AppletBase, public ToGuiFileXferInterface
 {
@@ -77,7 +80,7 @@ protected:
     bool                        verifyFile( void );
 
     //=== vars ===//
-    Ui::AppletFileOfferSelectUi	ui;
+    Ui::AppletFileOfferSelectUi&	ui;
     bool						m_IsSelectAFileMode{ false };
     bool						m_FileWasSelected{ false };
     FileInfo                    m_FileInfo;

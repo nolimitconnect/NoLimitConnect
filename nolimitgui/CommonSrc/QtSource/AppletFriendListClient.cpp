@@ -25,6 +25,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletFriendListClient.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
@@ -33,6 +35,7 @@ namespace
 //============================================================================
 AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_FRIEND_LIST_CLIENT, app, parent )
+, ui(*(new Ui::AppletFriendListClientUi))
 {
     setAppletType( eAppletFriendListClient );
     setHostType( eHostTypeGroup );

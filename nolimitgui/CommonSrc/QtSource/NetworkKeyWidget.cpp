@@ -15,9 +15,14 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_NetworkKeyWidget.h"
+
+QString						NetworkKeyWidget::getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text();  }
+
 //============================================================================
 NetworkKeyWidget::NetworkKeyWidget( QWidget* parent )
 	: QWidget( parent )
+    , ui(*(new Ui::NetworkKeyWidgetUi))
     , m_MyApp( GetAppInstance() )
 {
 	initNetworkKeyWidget();

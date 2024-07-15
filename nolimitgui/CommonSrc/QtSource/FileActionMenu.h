@@ -10,7 +10,7 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include "ui_FileActionMenu.h"
+
 #include <Plugins/FileInfo.h>
 
 class VxNetIdent;
@@ -59,6 +59,14 @@ public:
 	EFileMenuAction				m_MenuAction;
 };
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class FileActionMenuClass;
+}
+QT_END_NAMESPACE
+
+class QListWidgetItem;
+
 class FileActionMenu : public ActivityBase
 {
 	Q_OBJECT
@@ -84,7 +92,7 @@ protected:
 	bool						confirmDeleteFile( bool shredFile );
 
 	//=== vars ===//
-	Ui::FileActionMenuClass		ui;
+	Ui::FileActionMenuClass&	ui;
 	FileInfo					m_FileInfo;
 	bool						m_IsShared;
 	bool						m_IsInLibrary;

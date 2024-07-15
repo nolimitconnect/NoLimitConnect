@@ -9,12 +9,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletPermissionList.h"
-
 #include "AppletBase.h"
 #include "AppDefs.h"
 
 #include <QTimer>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletPermissionListtUi;
+}
+QT_END_NAMESPACE
 
 class AppletPermissionList : public AppletBase
 {
@@ -29,7 +33,7 @@ protected:
 
     void						connectSignals( void );
 
-	Ui::AppletPermissionListtUi	ui;
+	Ui::AppletPermissionListtUi&	ui;
     QVector<EPluginType>        m_PluginList;
 };
 

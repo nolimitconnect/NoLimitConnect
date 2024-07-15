@@ -20,13 +20,14 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
-#include <QString>
+#include "ui_ActivityScanPeopleSearch.h"
 
 //============================================================================
 ActivityScanPeopleSearch::ActivityScanPeopleSearch(	AppCommon&		    app, 
 													EScanType			eSearchType,
 													QWidget*			parent )
 : ActivityBase( OBJNAME_ACTIVITY_PEOPLE_SEARCH, app, parent, eAppletSearchPersons, true )
+, ui(*(new Ui::PeopleSearchDlg))
 , m_eScanType( eSearchType )
 {
 	ui.setupUi(this);
@@ -52,6 +53,9 @@ ActivityScanPeopleSearch::ActivityScanPeopleSearch(	AppCommon&		    app,
 		ui.SearchLabel->setText( QObject::tr( "Search for mood message (at least 3 characters)" ) );
 	}
 }
+
+TitleBarWidget *	ActivityScanPeopleSearch::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityScanPeopleSearch::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
 
 //============================================================================
 void ActivityScanPeopleSearch::setTitle( QString strTitle )

@@ -11,8 +11,11 @@
 
 #include "AppletBase.h"
 
-#include "ui_AppletEditStoryBoard.h"
-#include "ui_StoryWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletEditStoryboardUi;
+}
+QT_END_NAMESPACE
 
 class AppletEditStoryboard : public AppletBase
 {
@@ -27,7 +30,7 @@ private slots:
 
 protected:
     //=== vars ===//
-    Ui::AppletEditStoryboardUi	ui;
+    Ui::AppletEditStoryboardUi&	ui;
     std::string					m_strSavedCwd;
     std::string					m_strStoryBoardDir;
     std::string					m_strStoryBoardFile;

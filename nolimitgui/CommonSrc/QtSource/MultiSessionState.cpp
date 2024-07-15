@@ -17,6 +17,7 @@
 #include "VxPushButton.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "VidWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 

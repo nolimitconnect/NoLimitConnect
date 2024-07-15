@@ -33,14 +33,12 @@
 #include <QDesktopWidget>
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
-namespace
-{
-    const int MAX_INFO_MSG_SIZE = 2048;
-}
+#include "ui_AppletHackerList.h"
 
 //============================================================================
 AppletHackerList::AppletHackerList( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_LOG, app, parent )
+, ui(*(new Ui::AppletHackerListUi))
 {
     setAppletType( eAppletHackerList );
     ui.setupUi( getContentItemsFrame() );

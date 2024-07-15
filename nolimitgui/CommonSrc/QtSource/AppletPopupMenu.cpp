@@ -31,6 +31,8 @@
 #include "GuiGroupieListSession.h"
 #include "GuiHostSession.h"
 #include "GuiHostedListSession.h"
+#include "BottomBarWidget.h"
+#include "TitleBarWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <AssetMgr/AssetMgr.h>

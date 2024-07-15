@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "InstMsgWidget.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 
@@ -19,9 +19,12 @@
 
 #include <time.h>
 
+#include "ui_InstMsgWidget.h"
+
 //============================================================================
 InstMsgWidget::InstMsgWidget( QWidget* parent )
 : QWidget( parent )
+, ui(*(new Ui::InstMsgWidgetClass))
 , m_MyApp( GetAppInstance() )
 , m_Engine( m_MyApp.getEngine() )
 , m_ePluginType( ePluginTypeInvalid )

@@ -13,9 +13,12 @@
 #include "MyIcons.h"
 #include "AppCommon.h"
 
+#include "ui_ImagePickBar.h"
+
 //============================================================================
 ImagePickBar::ImagePickBar( QWidget* parent )
     : QWidget( parent )
+    , ui(*(new Ui::ImagePickBarClass))
     , m_MyApp( GetAppInstance() )
 {
 }

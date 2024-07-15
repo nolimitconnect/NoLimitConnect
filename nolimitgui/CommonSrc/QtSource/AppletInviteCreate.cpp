@@ -39,14 +39,20 @@
 #include <QDesktopWidget>
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
+#include "ui_AppletInviteCreate.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+QPlainTextEdit *            AppletInviteCreate::getInviteMessageEdit( void )    { return ui.m_InviteMessageTextEdit; }
+QPlainTextEdit*             AppletInviteCreate::getInviteTextEdit( void )       { return ui.m_InviteTextEdit; }
+
 //============================================================================
 AppletInviteCreate::AppletInviteCreate( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_INVITE_CREATE, app, parent )
+, ui(*(new Ui::AppletInviteCreateUi))
 {
     setAppletType( eAppletInviteCreate );
     ui.setupUi( getContentItemsFrame() );

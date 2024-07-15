@@ -9,12 +9,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_PersonOfferListItem.h"
 #include "IdentLogicInterface.h"
 
 #include <QListWidgetItem>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PersonOfferListItemUi;
+}
+QT_END_NAMESPACE
+
 class GuiOfferSession;
+class MyIcons;
+class QLabel;
+class VxPushButton;
 
 class PersonOfferListItem : public IdentLogicInterface, public QListWidgetItem
 {
@@ -32,14 +40,14 @@ public:
     void						updateWidgetFromInfo( void );
     QSize                       calculateSizeHint( void );
 
-    VxPushButton*               getIdentAvatarButton( void ) override       { return ui.m_AvatarButton; }
-    VxPushButton*               getIdentFriendshipButton( void ) override   { return ui.m_FriendshipButton; }
-    VxPushButton*               getIdentMenuButton( void )  override        { return ui.m_MenuButton; }
-    VxPushButton*               getAcceptButton( void )                     { return ui.m_AcceptButton; }
-    VxPushButton*               getRejectButton( void )                     { return ui.m_RejectButton; }
+    VxPushButton*               getIdentAvatarButton( void ) override;
+    VxPushButton*               getIdentFriendshipButton( void ) override;
+    VxPushButton*               getIdentMenuButton( void )  override;
+    VxPushButton*               getAcceptButton( void );
+    VxPushButton*               getRejectButton( void );
 
-    virtual QLabel*             getIdentLine1( void ) override              { return ui.m_TitlePart1; }
-    virtual QLabel*             getIdentLine2( void ) override              { return ui.m_Line2Label; }
+    QLabel*                     getIdentLine1( void ) override;
+    QLabel*                     getIdentLine2( void ) override;
 
     void						onIdentAvatarButtonClicked( void ) override;
     void						onIdentMenuButtonClicked( void ) override;
@@ -54,7 +62,7 @@ protected:
     virtual void				resizeEvent( QResizeEvent* resizeEvent ) override;
 
 	//=== vars ===//
-    Ui::PersonOfferListItemUi	ui;
+    Ui::PersonOfferListItemUi&	ui;
     AppCommon&					m_MyApp;
 };
 

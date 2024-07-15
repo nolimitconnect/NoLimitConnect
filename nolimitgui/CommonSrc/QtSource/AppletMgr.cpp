@@ -168,6 +168,7 @@
 #include "AppletUserIdentity.h"
 #include "AppletUserPreferences.h"
 
+#include "GuiParams.h"
 #include "HomeWindow.h"
 
 #include <CoreLib/ObjectCommonDefs.h>

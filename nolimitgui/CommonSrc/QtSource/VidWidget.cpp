@@ -30,6 +30,8 @@
 
 #include <time.h>
 
+#include "ui_VidWidget.h"
+
 namespace
 {
 	const int		MOTION_ALARM_EXPIRE_MS		= 5000;
@@ -39,6 +41,7 @@ namespace
 //============================================================================
 VidWidget::VidWidget(QWidget* parent)
 : QWidget(parent)
+, ui(*(new Ui::VidWidgetClass))
 , m_MyApp( GetAppInstance() )
 , m_Engine( m_MyApp.getEngine() )
 , m_AppSettings( m_MyApp.getAppSettings() )

@@ -22,14 +22,19 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletGroupListClient.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+ QString                     AppletGroupListClient::getSearchText( void ) { return ui.m_SearchsParamWidget->getSearchTextEdit()->text(); }
+
 //============================================================================
 AppletGroupListClient::AppletGroupListClient( AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_GROUP_LIST_CLIENT, app, parent )
+, ui(*(new Ui::AppletGroupListClientUi))
 {
     setAppletType( eAppletGroupListClient );
     setHostType( eHostTypeGroup );

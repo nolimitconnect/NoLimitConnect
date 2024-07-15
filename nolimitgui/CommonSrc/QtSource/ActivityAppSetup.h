@@ -14,7 +14,11 @@
 
 #include <GuiInterface/IDefs.h>
 
-#include "ui_ActivityAppSetup.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ActivityAppSetupUi;
+}
+QT_END_NAMESPACE
 
 class ActivityAppSetup : public ActivityBase
 {
@@ -27,8 +31,8 @@ public:
 	virtual ~ActivityAppSetup() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    TitleBarWidget*             getTitleBarWidget( void ) override;
+    BottomBarWidget*            getBottomBarWidget( void ) override;
 
     bool                        isSetupCompleted( void ) { return m_SetupCompleted; }
 
@@ -42,7 +46,7 @@ protected:
 
     void						initActivityAppSetup( void );
 	//=== vars ===//
-	Ui::ActivityAppSetupUi		ui;
+	Ui::ActivityAppSetupUi&		ui;
     AppSetup *                  m_AppSetup = nullptr;
     bool                        m_SetupCompleted = false;
 };

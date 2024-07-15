@@ -9,8 +9,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_InstMsgWidget.h"
+#include <QWidget>
+
 #include <GuiInterface/IDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InstMsgWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class GuiUser;
@@ -40,7 +47,7 @@ private:
 	void						sendChatMsg( QString strChatMsg );
 	void						appendHistoryMsg( QString strChatMsg );
 
-	Ui::InstMsgWidgetClass		ui;
+	Ui::InstMsgWidgetClass&		ui;
 	AppCommon&				    m_MyApp;
 	P2PEngine&					m_Engine;
 	EPluginType					m_ePluginType;

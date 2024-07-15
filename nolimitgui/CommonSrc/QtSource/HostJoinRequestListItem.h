@@ -9,13 +9,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_HostJoinRequestListItem.h"
 #include "IdentLogicInterface.h"
 
 #include <QListWidgetItem>
 #include <QWidget>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class HostJoinRequestListItemUi;
+}
+QT_END_NAMESPACE
+
 class GuiHostJoinSession;
+class MyIcons;
+class VxPushButton;
 
 class HostJoinRequestListItem : public IdentLogicInterface, public QListWidgetItem
 {
@@ -30,14 +37,14 @@ public:
     void                        setHostSession( GuiHostJoinSession* hostSession );
     GuiHostJoinSession*         getHostSession( void );
 
-    VxPushButton*               getIdentAvatarButton( void ) override        { return ui.m_AvatarButton; }
-    VxPushButton*               getIdentFriendshipButton( void ) override    { return ui.m_FriendshipButton; }
-    VxPushButton*               getIdentMenuButton( void )  override         { return ui.m_MenuButton; }
-    VxPushButton*               getAcceptButton( void )                     { return ui.m_AcceptButton; }
-    VxPushButton*               getRejectButton( void )                     { return ui.m_RejectButton; }
+    VxPushButton*               getIdentAvatarButton( void ) override;
+    VxPushButton*               getIdentFriendshipButton( void ) override;
+    VxPushButton*               getIdentMenuButton( void )  override;
+    VxPushButton*               getAcceptButton( void );
+    VxPushButton*               getRejectButton( void );
 
-    virtual QLabel*             getIdentLine1( void ) override { return ui.m_TitlePart1; }
-    virtual QLabel*             getIdentLine2( void ) override { return ui.m_DescPart1; }
+    virtual QLabel*             getIdentLine1( void ) override;
+    virtual QLabel*             getIdentLine2( void ) override;
 
     void						onIdentAvatarButtonClicked( void ) override;
     void						onIdentMenuButtonClicked( void ) override;
@@ -66,7 +73,7 @@ protected:
     virtual void                showRejectButton( bool makeVisible );
 
 	//=== vars ===//
-    Ui::HostJoinRequestListItemUi	        ui;
+    Ui::HostJoinRequestListItemUi&	        ui;
     AppCommon&					m_MyApp;
     EJoinState                  m_JoinedState{ eJoinStateNone };
 };

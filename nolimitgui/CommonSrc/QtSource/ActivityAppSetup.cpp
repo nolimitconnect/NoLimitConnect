@@ -19,9 +19,15 @@
 
 #include <QClipboard>
 
+#include "ui_ActivityAppSetup.h"
+
+TitleBarWidget*	    ActivityAppSetup::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget*	ActivityAppSetup::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityAppSetup::ActivityAppSetup( AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_APP_SETUP, app, parent, eActivityAppSetup, true, false, true )
+, ui(*(new Ui::ActivityAppSetupUi))
 {
     initActivityAppSetup();
 }

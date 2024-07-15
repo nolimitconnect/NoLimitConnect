@@ -12,7 +12,11 @@
 #include "ActivityBase.h"
 #include <GuiInterface/IDefs.h>
 
-#include "ui_ActivityInformation.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InformationDialog;
+}
+QT_END_NAMESPACE
 
 class ActivityInformation : public ActivityBase
 {
@@ -26,8 +30,8 @@ public:
 	virtual ~ActivityInformation() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	TitleBarWidget*				getTitleBarWidget( void ) override;
+	BottomBarWidget*			getBottomBarWidget( void ) override;
 
     void						setPluginType( EPluginType pluginType ) override { m_InfoType = eInfoTypePlugin; m_PluginType = pluginType; updateInformation(); }
     void						setInformationType( EInfoType infoType ) { m_InfoType = infoType; updateInformation(); }
@@ -45,7 +49,7 @@ protected:
     QString                     getInfoText( void );
 
 	//=== vars ===//
-	Ui::InformationDialog		ui;
+	Ui::InformationDialog&		ui;
     EInfoType                   m_InfoType = eInfoTypeInvalid;
     EPluginType                 m_PluginType = ePluginTypeInvalid;
 

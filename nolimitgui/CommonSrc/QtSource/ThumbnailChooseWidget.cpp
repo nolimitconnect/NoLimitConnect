@@ -18,6 +18,7 @@
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "ThumbnailEditWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <AssetMgr/AssetMgr.h>
@@ -36,9 +37,19 @@
 #include <QMessageBox>
 #include <QPainter>
 
+#include "ui_ThumbnailChooseWidget.h"
+
+ThumbnailViewWidget*        ThumbnailChooseWidget::getThumbnailViewWidget()                        { return ui.m_ThumbnailViewWidget; }
+
+void                        ThumbnailChooseWidget::setIsUserPickedImage( bool userPicked )         { ui.m_ThumbnailViewWidget->setIsUserPickedImage( userPicked ); }
+bool                        ThumbnailChooseWidget::getIsUserPickedImage( void )                    { return ui.m_ThumbnailViewWidget->getIsUserPickedImage(); }
+bool                        ThumbnailChooseWidget::saveToPngFile( QString& fileName )              { return ui.m_ThumbnailViewWidget->saveToPngFile( fileName ); }
+
+
 //============================================================================
 ThumbnailChooseWidget::ThumbnailChooseWidget( QWidget* parent )
     : QLabel( parent )
+    , ui(*(new Ui::ThumnailChooseWidgetUi))
     , m_MyApp( GetAppInstance() )
     , m_ThumbMgr( m_MyApp.getEngine().getThumbMgr() )
 {

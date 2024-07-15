@@ -12,7 +12,13 @@
 #include "ActivityBase.h"
 #include <CoreLib/Sha1GeneratorCallback.h>
 
-#include "ui_ActivityGenerateHash.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ActivityGenerateHashUi;
+}
+QT_END_NAMESPACE
+
+class VxSha1Hash;
 
 class ActivityGenerateHash : public ActivityBase, public Sha1GeneratorCallback
 {
@@ -22,8 +28,8 @@ public:
 	virtual ~ActivityGenerateHash() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+	TitleBarWidget*				getTitleBarWidget( void ) override;
+	BottomBarWidget*			getBottomBarWidget( void ) override;
 
 	void						setTitle( QString strTitle );
 	void						setBodyText( QString strBodyText );
@@ -41,7 +47,7 @@ protected:
 	virtual void				callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& fileId, Sha1Info& sha1Info ) override;
 
 	//=== vars ===//
-	Ui::ActivityGenerateHashUi	ui;
+	Ui::ActivityGenerateHashUi&	ui;
 
 	std::string					m_FileName;
 	VxSha1Hash&					m_HashId;

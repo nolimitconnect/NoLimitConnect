@@ -16,9 +16,12 @@
 
 #include <QTimer>
 
+#include "ui_AssetVoiceWidget.h"
+
 //============================================================================
 AssetVoiceWidget::AssetVoiceWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
+	, ui(*(new Ui::AssetVoiceWidget))
 	, m_QueueUpdateTimer( new QTimer( this  ) )
 {
 	initAssetVoiceWidget();
@@ -27,6 +30,7 @@ AssetVoiceWidget::AssetVoiceWidget( QWidget* parent )
 //============================================================================
 AssetVoiceWidget::AssetVoiceWidget( AppCommon& appCommon, QWidget* parent )
 : AssetBaseWidget( appCommon, parent )
+, ui(*(new Ui::AssetVoiceWidget))
 , m_QueueUpdateTimer( new QTimer( this  ) )
 {
 	initAssetVoiceWidget();

@@ -32,9 +32,12 @@
 
 #include <QResizeEvent>
 
+#include "ui_AppletGalleryThumb.h"
+
 //============================================================================
 AppletGalleryThumb::AppletGalleryThumb(	AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GALLERY_THUMB, app, parent )
+, ui(*(new Ui::AppletGalleryThumbUi))
 , m_ThumbMgr( app.getEngine().getThumbMgr() )
 {
     setAppletType( eAppletGalleryThumb );

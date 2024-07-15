@@ -25,9 +25,14 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include "ui_NetworkTestWidget.h"
+
+LogWidget*			NetworkTestWidget::getLogWidget( void ) { return ui.m_LogWidget; }
+
 //============================================================================
 NetworkTestWidget::NetworkTestWidget( QWidget* parent )
     : QWidget( parent )
+    , ui(*(new Ui::NetworkTestWidget))
     , m_MyApp( GetAppInstance() )
     , m_Timer(new QTimer(this))
 {

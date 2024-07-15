@@ -10,9 +10,14 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletSnapshot.h"
 
 #include <CoreLib/MediaCallbackInterface.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSnapshotUi;
+}
+QT_END_NAMESPACE
 
 class ThumbnailViewWidget;
 class AssetMgr;
@@ -40,7 +45,7 @@ protected:
     virtual void                onCloseEvent( void ) override;
 
 
-    Ui::AppletSnapshotUi		ui;
+    Ui::AppletSnapshotUi&		ui;
     bool 					    m_CameraSourceAvail = false;
     QTimer *                    m_CloseDlgTimer = nullptr;
     bool 					    m_SnapShotPending = false;

@@ -40,9 +40,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
+#include "ui_AppletOfferSend.h"
+
 //============================================================================
 AppletOfferSend::AppletOfferSend( AppCommon& app, QWidget* parent, QString launchParam )
     : AppletBase( OBJNAME_APPLET_OFFER_SEND, app, parent )
+    , ui(*(new Ui::AppletOfferSendUi))
 {
     setAppletType( eAppletOfferSend );
     ui.setupUi( getContentItemsFrame() );

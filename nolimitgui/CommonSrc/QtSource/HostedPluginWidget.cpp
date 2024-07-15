@@ -17,9 +17,19 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include "ui_GuiHostedListItem.h"
+
+VxPushButton*              HostedPluginWidget:: getIdentAvatarButton( void )        { return ui.m_IconButton; }
+VxPushButton*               HostedPluginWidget::getIdentFriendshipButton( void ) { return ui.m_FriendshipButton; }
+VxPushButton*               HostedPluginWidget::getIdentMenuButton( void ) { return ui.m_MenuButton; }
+
+QLabel*             HostedPluginWidget::getIdentLine1( void ) { return ui.m_TitlePart1; }
+QLabel*             HostedPluginWidget::getIdentLine2( void ) { return ui.m_DescPart1; }
+
 //============================================================================
 HostedPluginWidget::HostedPluginWidget( QWidget* parent )
 : IdentLogicInterface( parent )
+, ui(*(new Ui::GuiHostedListItemUi))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi( this );

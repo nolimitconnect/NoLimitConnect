@@ -18,9 +18,12 @@
 #include <QDebug>
 #include <QTimer>
 
+#include "ui_InputVoiceWidget.h"
+
 //============================================================================
 InputVoiceWidget::InputVoiceWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
+, ui(*(new Ui::InputVoiceWidget))
 {
     // qDebug() << "InputVoiceWidget::InputVoiceWidget ";
 	m_AssetInfo.setAssetType( eAssetTypeAudio );

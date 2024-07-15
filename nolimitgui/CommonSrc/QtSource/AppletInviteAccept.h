@@ -10,9 +10,15 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletInviteAccept.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletInviteAcceptUi;
+}
+QT_END_NAMESPACE
 
 class VxUrl;
+class QPlainTextEdit;
 
 class AppletInviteAccept : public AppletBase
 {
@@ -34,10 +40,10 @@ protected slots:
 
 protected:
     void						setupApplet( void );
-    QPlainTextEdit *            getInviteEdit( void )     { return ui.m_InviteTextEdit; }
+    QPlainTextEdit *            getInviteEdit( void );
     void                        updateInvite( void );
 
-    Ui::AppletInviteAcceptUi    ui;
+    Ui::AppletInviteAcceptUi&   ui;
 
 };
 

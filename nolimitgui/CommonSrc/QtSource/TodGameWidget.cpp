@@ -10,9 +10,22 @@
 
 #include "TodGameWidget.h"
 
+#include "ui_TodGameWidget.h"
+
+VxPushButton*				TodGameWidget::getTruthButton( void ) { return ui.m_TruthButton; }
+VxPushButton*				TodGameWidget::getDareButton( void ) { return ui.m_DareButton; }
+VxLabel*					TodGameWidget::getChallengeImageLabel( void ) { return ui.m_ChallengeImageLabel; }
+QLabel*						TodGameWidget::getChallengeTextLabel( void ) { return ui.m_ChallengeTextLabel; }
+QLabel*						TodGameWidget::getMyDaresLabel( void ) { return ui.MyDaresLabel; }
+QLabel*						TodGameWidget::getMyTruthsLabel( void ) { return ui.MyTruthsLabel; }
+QLabel*						TodGameWidget::getFriendDaresLabel( void ) { return ui.FriendDaresLabel; }
+QLabel*						TodGameWidget::getFriendTruthsLabel( void ) { return ui.FriendTruthsLabel; }
+QLabel*						TodGameWidget::getTodStatusLabel( void ) { return ui.m_TodStatusLabel; }
+
 //============================================================================
 TodGameWidget::TodGameWidget(QWidget* parent)
 : QWidget(parent)
+, ui(*(new Ui::TodGameWidgetUi))
 {
 	ui.setupUi(this);
 

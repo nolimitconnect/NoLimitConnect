@@ -36,9 +36,13 @@
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
 
+
+#include "ui_AppletLibrary.h"
+
 //============================================================================
 AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchParam )
     : AppletBase( OBJNAME_APPLET_LIBRARY, app, parent )
+    , ui(*(new Ui::AppletLibraryUi))
     , m_ePluginType( ePluginTypeInvalid )
     , m_IsSelectAFileMode( !launchParam.isEmpty() ? true : false )
     , m_FileWasSelected( false )

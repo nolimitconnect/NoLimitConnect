@@ -20,9 +20,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletChooseUser.h"
+
 //============================================================================
 AppletChooseUser::AppletChooseUser( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_CHOOSE_USER, app, parent )
+, ui(*(new Ui::AppletChooseUserUi))
 {
 	setAppletType( eAppletChooseUser );
 	ui.setupUi( getContentItemsFrame() );

@@ -20,9 +20,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 
+#include "ui_AppletTestHostClient.h"
+
 //============================================================================
 AppletTestHostClient::AppletTestHostClient( AppCommon& app, QWidget* parent )
 : AppletTestBase( OBJNAME_APPLET_TEST_HOST_CLIENT, app, parent )
+, ui(*(new Ui::AppletTestHostClientUi))
 {
 	ui.setupUi( getContentItemsFrame() );
     setAppletType( eAppletTestHostClient );

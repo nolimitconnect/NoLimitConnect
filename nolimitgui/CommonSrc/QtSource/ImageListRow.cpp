@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "ImageListRow.h"
+
 #include "ThumbnailViewWidget.h"
 #include "GuiParams.h"
 
@@ -17,10 +17,13 @@
 
 #include <QResizeEvent>
 
+#include "ui_ImageListRow.h"
+
 //============================================================================
 ImageListRow::ImageListRow( QListWidget * parent  )
 : QWidget( 0 )
 , QListWidgetItem( parent )
+, ui(*(new Ui::ImageListRowUi))
 , m_SizeHint( ( GuiParams::getThumbnailSize().width() + 20 ) * 2, GuiParams::getThumbnailSize().height() + 30 )
 {
     ui.setupUi( this );

@@ -19,9 +19,15 @@
 
 #include <QClipboard>
 
+#include "ui_ActivityInformation.h"
+
+TitleBarWidget *  ActivityInformation::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget * ActivityInformation::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityInformation::ActivityInformation( AppCommon& app, QWidget* parent, EPluginType pluginType )
 : ActivityBase( OBJNAME_ACTIVITY_INFORMATION, app, parent, eAppletActivityDialog )
+, ui(*(new Ui::InformationDialog))
 , m_PluginType( pluginType )
 {
     initActivityInformation();
@@ -30,6 +36,7 @@ ActivityInformation::ActivityInformation( AppCommon& app, QWidget* parent, EPlug
 //============================================================================
 ActivityInformation::ActivityInformation( AppCommon& app, QWidget* parent, EInfoType infoType )
     : ActivityBase( OBJNAME_ACTIVITY_INFORMATION, app, parent, eAppletActivityDialog )
+    , ui(*(new Ui::InformationDialog))
     , m_InfoType( infoType )
 {
     initActivityInformation();

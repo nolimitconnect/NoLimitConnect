@@ -26,9 +26,14 @@
 #include <CoreLib/VxTime.h>
 #include <QFrame>
 
+#include "ui_TitleBarWidget.h"
+
+VxPushButton * TitleBarWidget::getBackButton( void ) { return ui.m_BackDlgButton; }
+
 //============================================================================
 TitleBarWidget::TitleBarWidget( QWidget* parent )
 : QWidget( parent )
+, ui(*(new Ui::TitleBarWidgetClass))
 , m_MyApp( GetAppInstance() )
 , m_OfferMgr( m_MyApp.getOfferMgr() )
 , m_CamTimer(new QTimer(this))

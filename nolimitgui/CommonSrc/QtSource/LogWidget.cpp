@@ -16,15 +16,20 @@
 #include <QScrollBar>
 #include <QClipboard>
 
+#include "ui_LogWidget.h"
+
 namespace
 {
     const int MAX_LOG_EDIT_BLOCK_CNT = 1000;
 }
 
+QPlainTextEdit* LogWidget::getLogEdit( void )  { return ui.m_LogPlainTextEdit;  }
+
 //============================================================================
 LogWidget::LogWidget( QWidget* parent )
     : QWidget( parent )
     , m_MyApp( GetAppInstance() )
+    , ui(*(new Ui::LogWidgetClass))
 {
     ui.setupUi( this );
     ui.m_VerboseCheckBox->setVisible( false );

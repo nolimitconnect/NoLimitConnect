@@ -22,6 +22,7 @@
 #include "GuiHelpers.h"
 #include "TitleBarWidget.h"
 #include "VxFrame.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxAppInfo.h>

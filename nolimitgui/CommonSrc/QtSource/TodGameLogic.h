@@ -14,8 +14,10 @@
 #include "TodGameDefs.h"
 #include <PktLib/VxCommon.h>
 
+class AppCommon;
 class EngineSettings;
 class GuiUser;
+class P2PEngine;
 class QFrame;
 class QLabel;
 class TodGameWidget;

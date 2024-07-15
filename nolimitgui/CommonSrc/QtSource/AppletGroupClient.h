@@ -9,13 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletGroupClient.h"
-
 #include "AppletClientBase.h"
 #include "InputClientBaseCallback.h"
 
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IToGui.h> 
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletGroupClientUi;
+}
+QT_END_NAMESPACE
 
 class AppletGroupClient : public AppletClientBase, public InputClientBaseCallback
 {
@@ -41,7 +45,7 @@ protected:
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
-    Ui::AppletGroupClientUi	ui;
+    Ui::AppletGroupClientUi&	ui;
 };
 
 

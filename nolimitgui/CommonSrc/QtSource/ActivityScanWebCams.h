@@ -12,14 +12,18 @@
 #include "ActivityBase.h"
 #include "GuiPlayerCallback.h"
 
-#include "ui_ActivityScanWebCams.h"
-
 #include <GuiInterface/IDefs.h>
 #include <CoreLib/VxDefs.h>
 
 #include <QString>
 #include <QDialog>
 #include <QTimer>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ScanWebCamsDialog;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class VxGUID;
@@ -33,8 +37,8 @@ public:
 	virtual ~ActivityScanWebCams() override;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    virtual TitleBarWidget*     getTitleBarWidget( void ) override;
+    virtual BottomBarWidget*    getBottomBarWidget( void ) override;
 
 public:
 	void						setTitle( QString strTitle );
@@ -81,7 +85,7 @@ protected:
 
 
 	//=== vars ===//
-	Ui::ScanWebCamsDialog		ui;
+	Ui::ScanWebCamsDialog&		ui;
     GuiUser*				    m_HisIdent;
 	int							m_iCountdownCnt;
 	bool						m_bPaused;

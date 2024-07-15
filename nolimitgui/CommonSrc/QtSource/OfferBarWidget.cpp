@@ -20,9 +20,12 @@
 
 #include <QCloseEvent>
 
+#include "ui_OfferBarWidget.h"
+
 //============================================================================
 OfferBarWidget::OfferBarWidget( QWidget* parent )
 : QFrame( parent )
+, ui(*(new Ui::OfferBarWidgetUi))
 , m_MyApp( GetAppInstance() )
 , m_OfferMgr( m_MyApp.getOfferMgr() )
 , m_HisIdent( 0 )

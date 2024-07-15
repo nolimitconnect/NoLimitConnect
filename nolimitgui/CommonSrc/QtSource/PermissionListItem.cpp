@@ -21,9 +21,12 @@
 #include <P2PEngine/P2PEngine.h>
 #include <PluginSettings/PluginSetting.h>
 
+#include "ui_PermissionListItemWidget.h"
+
 //============================================================================
 PermissionListItem::PermissionListItem( QListWidget * parent, AppletBase *parentApplet )
 : QWidget( parent )
+, ui(*(new Ui::PermissionListItemUi))
 , m_MyApp( GetAppInstance() )
 , m_ParentApplet( parentApplet )
 , m_SizeHint( parent ? parent->geometry().width() : 200, GuiParams::getButtonSize(eButtonSizeMedium).height() + 8 )

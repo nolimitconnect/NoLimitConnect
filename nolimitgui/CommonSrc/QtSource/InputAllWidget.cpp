@@ -8,15 +8,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or linux Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-
 #include "InputAllWidget.h"
+
 #include "AppCommon.h"
 #include "GuiParams.h"
+
+#include "ui_InputAllWidget.h"
 
 //============================================================================
 InputAllWidget::InputAllWidget( QWidget* parent )
 	: InputBaseWidget( GetAppInstance(), parent )
+	, ui(*(new Ui::InputAllWidget))
 {
 	ui.setupUi( this );
 

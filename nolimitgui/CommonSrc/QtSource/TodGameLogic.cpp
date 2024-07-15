@@ -9,12 +9,19 @@
 //============================================================================
 
 #include "TodGameLogic.h"
+
 #include "AppCommon.h"
 #include "MyIcons.h"
 #include "AppGlobals.h"
+#include "TodGameWidget.h"
+
+#include "VxLabel.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
+
+#include <QLabel>
 
 namespace
 {
@@ -44,8 +51,8 @@ void TodGameLogic::setGuiWidgets(	GuiUser*	hisIdent,
 	loadMyGameStats();
 	updateMyStats();
 
-	connect( m_TodGameWidget->ui.m_TruthButton,	SIGNAL(clicked()), this, SLOT(slotTruthButtonClicked()) );
-	connect( m_TodGameWidget->ui.m_DareButton,	SIGNAL(clicked()), this, SLOT(slotDareButtonClicked()) );
+	connect( m_TodGameWidget->getTruthButton(), SIGNAL(clicked()), this, SLOT(slotTruthButtonClicked()));
+	connect( m_TodGameWidget->getDareButton(), SIGNAL(clicked()), this, SLOT(slotDareButtonClicked()));
 }
 
 //============================================================================
@@ -62,15 +69,15 @@ void TodGameLogic::setVisible( bool visible )
 //============================================================================
 void TodGameLogic::showChallengeStatus( bool showChallenge )
 {
-	m_TodGameWidget->ui.m_ChallengeImageLabel->setVisible( showChallenge );
-	m_TodGameWidget->ui.m_ChallengeTextLabel->setVisible( showChallenge );
+	m_TodGameWidget->getChallengeImageLabel()->setVisible(showChallenge);
+	m_TodGameWidget->getChallengeTextLabel()->setVisible(showChallenge);
 }
 
 //============================================================================
 void TodGameLogic::setChallengeStatus( QString statusIcon, QString statusText )
 {
-	m_TodGameWidget->ui.m_ChallengeImageLabel->setResourceImage( statusIcon );
-	m_TodGameWidget->ui.m_ChallengeTextLabel->setText( statusText );
+	m_TodGameWidget->getChallengeImageLabel()->setResourceImage(statusIcon);
+	m_TodGameWidget->getChallengeTextLabel()->setText(statusText);
 }
 
 //============================================================================
@@ -183,10 +190,10 @@ void TodGameLogic::enableGameButton( EGameButton eButton, bool bEnable )
 	switch( eButton )
 	{
 	case eGameButtonDare:
-		m_TodGameWidget->ui.m_DareButton->setVisible( bEnable );
+		m_TodGameWidget->getDareButton()->setVisible(bEnable);
 		break;
 	case eGameButtonTruth:
-		m_TodGameWidget->ui.m_TruthButton->setVisible( bEnable );
+		m_TodGameWidget->getTruthButton()->setVisible(bEnable);
 		break;
 	default:
 		break;
@@ -198,10 +205,10 @@ void TodGameLogic::setGameButtonText( EGameButton eButton, QString strText )
 	switch( eButton )
 	{
 	case eGameButtonDare:
-		m_TodGameWidget->ui.m_DareButton->setText( strText );
+		m_TodGameWidget->getDareButton()->setText(strText);
 		break;
 	case eGameButtonTruth:
-		m_TodGameWidget->ui.m_TruthButton->setText( strText );
+		m_TodGameWidget->getTruthButton()->setText(strText);
 		break;
 	default:
 		break;
@@ -366,7 +373,7 @@ void TodGameLogic::setGameStatus( EGameStatus eGameStatus )
 //============================================================================
 void TodGameLogic::setTodStatusMsg( QString strStatus )
 {
-	m_TodGameWidget->ui.m_TodStatusLabel->setText( strStatus );
+	m_TodGameWidget->getTodStatusLabel()->setText(strStatus);
 }
 
 //============================================================================
@@ -410,12 +417,12 @@ void TodGameLogic::setGameActionVar( long s32VarId, long s32VarValue )
 //============================================================================
 void TodGameLogic::updateMyStats( void )
 {
-	m_TodGameWidget->ui.MyDaresLabel->setText(QString( tr(" My Dares Accepted %1 Rejected %2 Challenges %3") ).
+	m_TodGameWidget->getMyDaresLabel()->setText(QString(tr(" My Dares Accepted %1 Rejected %2 Challenges %3")).
 		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdDareAcceptedCnt)).
 		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdDareRejectedCnt)).
 		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdDareChallengeCnt)) );
 
-	m_TodGameWidget->ui.MyTruthsLabel->setText(QString( tr(" My Truths Accepted %1 Rejected %2 Challenges %3") ).
+	m_TodGameWidget->getMyTruthsLabel()->setText(QString(tr(" My Truths Accepted %1 Rejected %2 Challenges %3")).
 		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdTruthAcceptedCnt)).
 		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdTruthRejectedCnt)).
 		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdTruthChallengeCnt)) );
@@ -424,13 +431,13 @@ void TodGameLogic::updateMyStats( void )
 //============================================================================
 void TodGameLogic::updateFriendStats( void )
 {
-	m_TodGameWidget->ui.FriendDaresLabel->setText(QString( tr(" %1 Dares Accepted %2 Rejected %3 Challenges %4") ).
+	m_TodGameWidget->getFriendDaresLabel()->setText(QString(tr(" %1 Dares Accepted %2 Rejected %3 Challenges %4")).
 		arg(m_HisIdent->getOnlineName().c_str() ).
 		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdDareChallengeCnt)).
 		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdDareAcceptedCnt)).
 		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdDareRejectedCnt)) );
 
-	m_TodGameWidget->ui.FriendTruthsLabel->setText(QString( tr(" %1 Truths Accepted %2 Rejected %3 Challenges %4") ).
+	m_TodGameWidget->getFriendTruthsLabel()->setText(QString(tr(" %1 Truths Accepted %2 Rejected %3 Challenges %4")).
 		arg(m_HisIdent->getOnlineName().c_str() ).
 		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdTruthAcceptedCnt)).
 		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdTruthRejectedCnt)).

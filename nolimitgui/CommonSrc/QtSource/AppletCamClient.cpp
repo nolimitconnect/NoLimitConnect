@@ -18,9 +18,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletCamClient.h"
+
 //============================================================================
 AppletCamClient::AppletCamClient( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_CAM_CLIENT, app, parent )
+, ui(*(new Ui::AppletCamClientUi))
 , m_CloseAppletTimer( new QTimer( this ) )
 {
 	setAppletType( eAppletCamClient );

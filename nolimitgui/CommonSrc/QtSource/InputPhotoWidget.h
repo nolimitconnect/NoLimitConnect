@@ -11,7 +11,11 @@
 
 #include "InputBaseWidget.h"
 
-#include "ui_InputPhotoWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InputPhotoWidget;
+}
+QT_END_NAMESPACE
 
 class InputPhotoWidget : public InputBaseWidget
 {
@@ -36,6 +40,6 @@ protected:
 	void						hideEvent( QHideEvent* hideEvent );
 	void						showEvent( QShowEvent* showEvent );
 
-	Ui::InputPhotoWidget		ui;
+	Ui::InputPhotoWidget&		ui;
 	QImage						m_PicImage;
 };

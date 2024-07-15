@@ -22,6 +22,8 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletChatRoomListLocalView.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
@@ -30,6 +32,7 @@ namespace
 //============================================================================
 AppletChatRoomListLocalView::AppletChatRoomListLocalView(	AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_CHAT_ROOM_LIST_LOCAL_VIEW, app, parent )
+, ui(*(new Ui::AppletChatRoomListLocalViewUi))
 , m_CloseAppletTimer( new QTimer( this ) )
 {
     setAppletType( eAppletChatRoomListLocalView );

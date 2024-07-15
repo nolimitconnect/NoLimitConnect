@@ -16,9 +16,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletPersonalRecorder.h"
+
 //============================================================================
 AppletPersonalRecorder::AppletPersonalRecorder( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_PERSONAL_RECORDER, app, parent )
+, ui(*(new Ui::PersonalRecorderUi))
 {
     setAppletType( eAppletPersonalRecorder );
     setPluginType( ePluginTypePersonalRecorder );

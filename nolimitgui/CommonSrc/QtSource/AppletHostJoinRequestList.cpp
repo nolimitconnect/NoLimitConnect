@@ -23,9 +23,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletHostJoinRequestList.h"
+
 //============================================================================
 AppletHostJoinRequestList::AppletHostJoinRequestList( AppCommon& app,  QWidget* parent )
 : AppletBase( OBJNAME_APPLET_HOST_JOIN_REQUEST_LIST, app, parent )
+, ui(*(new Ui::AppletHostJoinRequestListUi))
 , m_HostJoinMgr( app.getHostJoinMgr() )
 {
     setAppletType( eAppletHostJoinRequestList );

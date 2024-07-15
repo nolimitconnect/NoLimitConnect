@@ -24,6 +24,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletOfferList.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
@@ -32,6 +34,7 @@ namespace
 //============================================================================
 AppletOfferList::AppletOfferList(	AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_OFFER_LIST, app, parent )
+, ui(*(new Ui::AppletOfferListUi))
 {
     setAppletType( eAppletOfferList );
     ui.setupUi( getContentItemsFrame() );

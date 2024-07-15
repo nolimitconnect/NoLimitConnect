@@ -17,6 +17,7 @@
 #include "MediaPlayerNlc.h"
 #include "RenderGlWidget.h"
 #include "SoundMgr.h"
+#include "VxPushButton.h"
 
 #include <AppInterface/INlc.h>
 

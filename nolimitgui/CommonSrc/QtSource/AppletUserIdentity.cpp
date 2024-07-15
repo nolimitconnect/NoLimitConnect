@@ -8,9 +8,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "AppletUserIdentity.h"
+
 #include "ActivityCreateAccount.h"
 #include "AppletMgr.h"
-#include "AppletUserIdentity.h"
+
 #include "AppletEditAvatarImage.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
@@ -32,9 +34,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletUserIdentity.h"
+
 //============================================================================
 AppletUserIdentity::AppletUserIdentity( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_USER_IDENTITY, app, parent )
+, ui(*(new Ui::AppletUserIdentityUi))
 , m_bUserPickedImage( false )
 , m_bUsingDefaultImage( true )
 {

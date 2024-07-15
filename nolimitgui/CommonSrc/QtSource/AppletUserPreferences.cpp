@@ -21,9 +21,12 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_AppletUserPreferences.h"
+
 //============================================================================
 AppletUserPreferences::AppletUserPreferences( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_USER_PREFERENCES, app, parent )
+, ui(*(new Ui::AppletUserPreferencesUi))
 {
 	setAppletType( eAppletUserPreferences );
 	ui.setupUi( getContentItemsFrame() );

@@ -15,9 +15,12 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_AssetTextWidget.h"
+
 //============================================================================
 AssetTextWidget::AssetTextWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
+	, ui(*(new Ui::AssetTextWidget))
 {
 	initAssetTextWidget();
 }
@@ -25,6 +28,7 @@ AssetTextWidget::AssetTextWidget( QWidget* parent )
 //============================================================================
 AssetTextWidget::AssetTextWidget( AppCommon& appCommon, QWidget* parent )
 : AssetBaseWidget( appCommon, parent )
+, ui(*(new Ui::AssetTextWidget))
 {
 	initAssetTextWidget();
 }

@@ -32,9 +32,12 @@
 
 #include <QResizeEvent>
 
+#include "ui_AppletGalleryEmoticon.h"
+
 //============================================================================
 AppletGalleryEmoticon::AppletGalleryEmoticon(	AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GALLERY_EMOTICON, app, parent )
+, ui(*(new Ui::AppletGalleryEmoticonUi))
 {
     setAppletType( eAppletGalleryEmoticon );
     ui.setupUi( getContentItemsFrame() );

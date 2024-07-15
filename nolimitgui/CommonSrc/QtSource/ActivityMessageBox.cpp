@@ -23,9 +23,15 @@
 #include <stdarg.h>
 #include <array>
 
+#include "ui_ActivityMessageBox.h"
+
+TitleBarWidget *	ActivityMessageBox::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityMessageBox::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, false, true )
+, ui(*(new Ui::MessageBoxDialogClass))
 {
 	ui.setupUi(this);
 
@@ -35,6 +41,7 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent )
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, QString title, QString msg )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, false, true )
+, ui(*(new Ui::MessageBoxDialogClass))
 {
 	ui.setupUi(this);
 
@@ -48,6 +55,7 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, QString
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, const char* msgFormat, ... )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::MessageBoxDialogClass))
 {
 	ui.setupUi(this);
 
@@ -70,6 +78,7 @@ ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int inf
 //============================================================================
 ActivityMessageBox::ActivityMessageBox( AppCommon& app, QWidget* parent, int infoLevel, QString msg )
 : ActivityBase( OBJNAME_ACTIVITY_MESSAGE_BOX, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::MessageBoxDialogClass))
 {
 	ui.setupUi(this);
 

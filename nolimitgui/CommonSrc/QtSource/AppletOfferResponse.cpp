@@ -40,9 +40,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
+#include "ui_AppletOfferResponse.h"
+
 //============================================================================
 AppletOfferResponse::AppletOfferResponse( AppCommon& app, QWidget* parent, QString launchParam )
     : AppletBase( OBJNAME_APPLET_OFFER_RESPONSE, app, parent )
+    , ui(*(new Ui::AppletOfferResponseUi))
 {
     setAppletType( eAppletOfferResponse );
     ui.setupUi( getContentItemsFrame() );

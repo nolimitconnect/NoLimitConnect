@@ -9,11 +9,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_ImageListRow.h"
-
 #include <QListWidgetItem>
 #include <QObject>
 #include <QPushButton>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ImageListRowUi;
+}
+QT_END_NAMESPACE
 
 class ThumbnailViewWidget;
 class QHBoxLayout;
@@ -44,7 +48,7 @@ protected:
     virtual QSize				sizeHint() const override;
 
     //=== vars ===//
-    Ui::ImageListRowUi	        ui;
+    Ui::ImageListRowUi&	        ui;
     QSize                       m_SizeHint;
     bool                        m_LayoutInited = false;
     int                         m_ThumbnailCnt = 0;

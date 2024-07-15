@@ -13,9 +13,18 @@
 #include <GuiInterface/IToGui.h>
 #include <PktLib/SearchParams.h>
 
-#include "ui_SearchParamsWidget.h"
-
 #include "ThumbnailChooseWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class SearchParamsUi;
+}
+QT_END_NAMESPACE
+
+class QComboBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
 
 class SearchParamsWidget : public QWidget
 {
@@ -26,24 +35,24 @@ public:
 
     void						setupSearchParamsWidget( EApplet applet, EPluginType pluginType );
 
-    virtual QLineEdit *         getSearchTextEdit()         { return ui.m_SearchTextEdit; }
+    virtual QLineEdit *         getSearchTextEdit();
 
-    virtual QLabel *            getSearchDescriptionLabel() { return ui.m_SearchDescriptionLabel; }
+    virtual QLabel *            getSearchDescriptionLabel();
 
-    virtual QPushButton *       getStartButton()            { return ui.m_StartButton; }
-    virtual QPushButton *       getStopButton()             { return ui.m_StopButton; }
+    virtual QPushButton *       getStartButton();
+    virtual QPushButton *       getStopButton();
 
-    virtual QComboBox *         getSearchTypeComboBox()     { return ui.m_SearchTypeComboBox; }
-    virtual QComboBox *         getAgeComboBox()            { return ui.m_AgeComboBox; }
-    virtual QComboBox *         getContentRatingComboBox()  { return ui.m_ContentRatingComboBox; }
-    virtual QComboBox *         getGenderComboBox()         { return ui.m_GenderComboBox; }
-    virtual QComboBox *         getLanguageComboBox()       { return ui.m_LanguageComboBox; }
+    virtual QComboBox *         getSearchTypeComboBox();
+    virtual QComboBox *         getAgeComboBox();
+    virtual QComboBox *         getContentRatingComboBox();
+    virtual QComboBox *         getGenderComboBox();
+    virtual QComboBox *         getLanguageComboBox();
 
     virtual bool                toSearchParams( SearchParams& params );
     virtual bool                fromSearchParams( SearchParams& params );
 
-    virtual void                setSearchListAll( bool listAll )    { m_SearchParams.setSearchListAll( listAll ); }
-    virtual bool                getSearchListAll( void )            { return m_SearchParams.getSearchListAll(); }
+    virtual void                setSearchListAll( bool listAll );
+    virtual bool                getSearchListAll( void );
 
 signals:
     void                        signalSearchState(bool searchStarted);
@@ -60,7 +69,7 @@ protected:
     EPluginType                 getPluginType() { return m_PluginType; }
 
     //=== vars ===//
-    Ui::SearchParamsUi          ui;
+    Ui::SearchParamsUi&         ui;
     AppCommon&                  m_MyApp;
     EApplet                     m_EAppletType{ eAppletUnknown };
     EPluginType                 m_PluginType{ ePluginTypeInvalid };

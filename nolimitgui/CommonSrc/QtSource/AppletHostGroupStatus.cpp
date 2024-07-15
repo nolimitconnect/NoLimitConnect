@@ -20,9 +20,17 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "PermissionWidget.h"
+
+#include "ui_AppletHostNetworkStatus.h"
+
+PermissionWidget*           AppletHostGroupStatus::getGroupHostPermissionWidget()    { return ui.m_HostPermissionWidget; }
+PermissionWidget*           AppletHostGroupStatus::getConnectionTestWidget()         { return ui.m_ConnectTestPermissionWidget; }
+
 //============================================================================
 AppletHostGroupStatus::AppletHostGroupStatus( AppCommon& app, QWidget* parent )
     : AppletBase( OBJNAME_APPLET_GROUP_HOST_STATUS, app, parent )
+    , ui(*(new Ui::AppletHostNetworkStatusUi))
     , m_UpdateStatusTimer( new QTimer( this ) )
 {
     ui.setupUi( getContentItemsFrame() );

@@ -38,9 +38,12 @@
 #include <QMessageBox>
 #include <QTimer>
 
+#include "ui_AppletSnapshot.h"
+
 //============================================================================
 AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_SNAPSHOT, app, parent )
+, ui(*(new Ui::AppletSnapshotUi))
 , m_CloseDlgTimer( new QTimer( this ) )
 {
     setAppletType( eAppletSnapshot );

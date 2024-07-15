@@ -22,6 +22,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletRandomConnectListLocalView.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
@@ -30,6 +32,7 @@ namespace
 //============================================================================
 AppletRandomConnectListLocalView::AppletRandomConnectListLocalView(	AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_RANDOM_CONNECT_LIST_LOCAL_VIEW, app, parent )
+, ui(*(new Ui::AppletRandomConnectListLocalViewUi))
 , m_CloseAppletTimer( new QTimer( this ) )
 {
     setAppletType( eAppletRandomConnectListLocalView );

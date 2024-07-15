@@ -13,9 +13,12 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_AssetPhotoWidget.h"
+
 //============================================================================
 AssetPhotoWidget::AssetPhotoWidget( QWidget* parent )
 	: AssetBaseWidget( GetAppInstance(), parent )
+	, ui(*(new Ui::AssetPhotoWidget))
 {
 	initAssetPhotoWidget();
 }
@@ -23,6 +26,7 @@ AssetPhotoWidget::AssetPhotoWidget( QWidget* parent )
 //============================================================================
 AssetPhotoWidget::AssetPhotoWidget( AppCommon& appCommon, QWidget* parent )
 	: AssetBaseWidget( appCommon, parent )
+	, ui(*(new Ui::AssetPhotoWidget))
 {
 	initAssetPhotoWidget();
 }

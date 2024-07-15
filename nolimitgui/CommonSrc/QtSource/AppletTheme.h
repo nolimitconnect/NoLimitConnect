@@ -9,11 +9,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletTheme.h"
-
 #include "AppletBase.h"
 #include "AppDefs.h"
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ThemeWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppletTheme : public AppletBase
 {
@@ -44,7 +47,7 @@ protected:
 	void						restoreSavedTheme( void );
 	int							getVertScrollBarWidth( void );
 
-	Ui::ThemeWidgetClass		ui;
+	Ui::ThemeWidgetClass&		ui;
 	EThemeType					m_SavedTheme;
 	EThemeType					m_CurTheme;
 	ENotifyType					m_ExampleButtonNotifyType{ eNotifyNone };

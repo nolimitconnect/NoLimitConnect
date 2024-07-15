@@ -29,9 +29,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletChooseThumbnail.h"
+
 //============================================================================
 AppletChooseThumbnail::AppletChooseThumbnail( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_CHOOSE_THUMBNAIL, app, parent )
+, ui(*(new Ui::AppletChooseThumbnailUi))
 {
     setAppletType( eAppletChooseThumbnail );
     ui.setupUi( getContentItemsFrame() );

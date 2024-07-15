@@ -18,9 +18,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletCamSettings.h"
+
 //============================================================================
 AppletCamSettings::AppletCamSettings( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_CAM_SETTINGS, app, parent )
+, ui(*(new Ui::AppletCamSettingsUi))
 , m_CloseAppletTimer( new QTimer( this ) )
 {
     setAppletType( eAppletCamSettings );

@@ -36,7 +36,7 @@
 #include <QtDebug>
 #include <QCloseEvent>
 #include <QMessageBox>
-//#include <QPrintPreviewDialog>
+
 #include <QUrl>
 #include <QImageReader>
 #include <QMimeData>
@@ -45,9 +45,12 @@
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_StoryWidget.h"
+
 //============================================================================
 StoryWidget::StoryWidget(QWidget* parent, QString initialFile)
 : QWidget(parent)
+, ui(*(new Ui::StoryWidgetClass))
 , m_strFileName(initialFile)
 {
 	ui.setupUi(this);

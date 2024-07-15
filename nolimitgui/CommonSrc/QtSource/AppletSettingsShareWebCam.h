@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletServiceBaseSettings.h"
-#include "ui_AppletSettingsNoUserSettings.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSettingsNoUserSettingsUi;
+}
+QT_END_NAMESPACE
 
 class AppletSettingsShareWebCam : public AppletServiceBaseSettings
 {
@@ -20,7 +25,7 @@ public:
 	virtual ~AppletSettingsShareWebCam() override;
 
 protected:
-	Ui::AppletSettingsNoUserSettingsUi ui;
+	Ui::AppletSettingsNoUserSettingsUi& ui;
 };
 
 

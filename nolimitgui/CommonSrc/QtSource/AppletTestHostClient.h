@@ -10,11 +10,18 @@
 //============================================================================
 
 #include "AppletTestBase.h"
-#include "ui_AppletTestHostClient.h"
 
 #include "GuiUserUpdateCallback.h"
 #include "GuiHostedListCallback.h"
 #include "GuiGroupieListCallback.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletTestHostClientUi;
+}
+QT_END_NAMESPACE
+
+class QComboBox;
 
 class AppletTestHostClient : public AppletTestBase, public GuiUserUpdateCallback, public GuiHostedListCallback, public GuiGroupieListCallback
 {
@@ -49,7 +56,7 @@ protected:
     bool                        updateHostedUrlComboBox( std::string& hostUrlipv4, std::string& hostUrlipv6 );
     void                        updateHostedIdent( GuiHosted* guiHosted );
 
-    Ui::AppletTestHostClientUi  ui;
+    Ui::AppletTestHostClientUi&  ui;
     VxGUID                      m_NetworkHostOnlineId;
 };
 

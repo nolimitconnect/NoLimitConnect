@@ -18,9 +18,12 @@
 
 #include <time.h>
 
+#include "ui_InputTextWidget.h"
+
 //============================================================================
 InputTextWidget::InputTextWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
+, ui(*(new Ui::InputTextWidgetClass))
 {
 	m_AssetInfo.setAssetType( eAssetTypeChatText );
 

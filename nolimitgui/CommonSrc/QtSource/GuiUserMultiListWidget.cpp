@@ -26,9 +26,14 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_GuiUserMultiListWidget.h"
+
+EUserViewType               GuiUserMultiListWidget::getUserViewType( void )						{ return ui.m_UserListWidget->getUserViewType(); };
+
 //============================================================================
 GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 : QWidget( parent )
+, ui(*(new Ui::GuiUserMultiListWidgetUi))
 , m_MyApp( GetAppInstance() )
 , m_MemberActiveMgr( m_MyApp.getMemberActiveMgr() )
 {

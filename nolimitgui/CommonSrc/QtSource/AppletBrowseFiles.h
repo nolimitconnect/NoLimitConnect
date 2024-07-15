@@ -10,16 +10,23 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletBrowseFiles.h"
+
 #include "FileItemInfo.h"
 #include "ToGuiFileXferInterface.h"
 
 #include <CoreLib/VxTimer.h>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletBrowseFilesUi;
+}
+QT_END_NAMESPACE
+
 class FileShareItemWidget;
 class FromGuiInterface;
 class FromEngineInterface;
 class P2PEngine;
+class QListWidgetItem;
 class QTimer;
 
 class AppletBrowseFiles : public AppletBase, public ToGuiFileXferInterface
@@ -84,7 +91,7 @@ protected:
 
 	bool						fileExistsInList( QString fileName );
 
-	Ui::AppletBrowseFilesUi		ui;
+	Ui::AppletBrowseFilesUi&	ui;
 
 	std::string					m_CurBrowseDirectory;
 	bool						m_bFetchInProgress;

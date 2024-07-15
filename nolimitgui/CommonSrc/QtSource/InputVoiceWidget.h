@@ -11,7 +11,11 @@
 
 #include "InputBaseWidget.h"
 
-#include "ui_InputVoiceWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InputVoiceWidget;
+}
+QT_END_NAMESPACE
 
 class InputVoiceWidget : public InputBaseWidget
 {
@@ -33,6 +37,6 @@ private slots:
 protected:
 	void						updateMicrophoneButton( bool isRecording );
 
-	Ui::InputVoiceWidget		ui;
+	Ui::InputVoiceWidget&		ui;
 	bool						m_IsRecording{ false };
 };

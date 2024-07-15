@@ -12,7 +12,11 @@
 #include "AppletBase.h"
 #include "GuiWebPageCallback.h"
 
-#include "ui_AppletAboutMeClient.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletAboutMeClientUi;
+}
+QT_END_NAMESPACE
 
 class AppletAboutMeClient : public AppletBase, public GuiWebPageCallback
 {
@@ -28,8 +32,8 @@ protected:
     virtual void				toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, QString& paramValue ) override;
 
     //=== vars ===//
-    Ui::AppletAboutMeClientUi	ui;
-    VxNetIdent*				m_MyIdent = nullptr;
+    Ui::AppletAboutMeClientUi&	ui;
+    VxNetIdent*				    m_MyIdent = nullptr;
     QString                     m_strOrigOnlineName;
     QString                     m_strOrigMoodMessage;
 

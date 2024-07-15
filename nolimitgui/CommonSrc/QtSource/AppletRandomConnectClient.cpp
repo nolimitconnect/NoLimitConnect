@@ -20,9 +20,12 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletRandomConnectClient.h"
+
 //============================================================================
 AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_RANDOM_CONNECT_CLIENT, app, parent )
+, ui(*(new Ui::AppletRandomConnectClientUi))
 {
     setAppletType( eAppletRandomConnectClient );
     setHostType( eHostTypeRandomConnect );

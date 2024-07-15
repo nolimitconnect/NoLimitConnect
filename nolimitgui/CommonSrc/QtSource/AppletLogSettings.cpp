@@ -20,6 +20,8 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/ObjectCommon.h>
 
+#include "ui_AppletLogSettings.h"
+
 //============================================================================
 static QString describeLogModule( ELogModule logModule )
 {
@@ -76,6 +78,7 @@ static QString describeLogModule( ELogModule logModule )
 //============================================================================
 AppletLogSettings::AppletLogSettings( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_LOG_SETTINGS, app, parent )
+, ui(*(new Ui::AppletLogSettingsWidget))
 , m_LogMgr( GetLogMgrInstance() )
 {
 	setAppletType( eAppletLogSettings );

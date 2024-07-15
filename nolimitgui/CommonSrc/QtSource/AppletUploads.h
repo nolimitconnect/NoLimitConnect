@@ -11,12 +11,16 @@
 
 #include "AppletPeerBase.h"
 #include "ToGuiFileXferInterface.h"
-#include "ui_AppletUploads.h"
 
-#include <PktLib/VxCommon.h>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletUploadsUi;
+}
+QT_END_NAMESPACE
 
 class GuiFileXferSession;
 class FileXferWidget;
+class QListWidgetItem;
 
 class AppletUploads : public AppletPeerBase, public ToGuiFileXferInterface
 {
@@ -62,6 +66,6 @@ protected:
 	void						updateSession( GuiFileXferSession* xferSession, bool resetState = false );
 
 	//=== vars ===//
-	Ui::AppletUploadsUi			ui;
+	Ui::AppletUploadsUi&		ui;
 };
 

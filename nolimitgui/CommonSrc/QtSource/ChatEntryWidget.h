@@ -9,10 +9,19 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_ChatEntryWidget.h"
+#include <QWidget>
 
+#include <GuiInterface/IDefs.h>
 #include <CoreLib/AssetDefs.h>
+#include <CoreLib/GroupieId.h>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ChatEntryWidget;
+}
+QT_END_NAMESPACE
+
+class InputClientBaseCallback;
 class VxNetIdent;
 
 class ChatEntryWidget : public QWidget
@@ -59,7 +68,7 @@ private slots:
 	void						slotInputCompleted( void );
 
 private:
-	Ui::ChatEntryWidget			ui;
+	Ui::ChatEntryWidget&		ui;
 	EAssetType					m_InputMode{ eAssetTypeUnknown };
 	GroupieId					m_GroupieId;
 
@@ -68,5 +77,5 @@ private:
 
 	bool						m_IsPersonalRecorder{ false };
 
-	InputClientBaseCallback*		m_ClientCallback{ nullptr };
+	InputClientBaseCallback*	m_ClientCallback{ nullptr };
 };

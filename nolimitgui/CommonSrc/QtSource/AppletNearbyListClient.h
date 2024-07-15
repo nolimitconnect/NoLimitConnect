@@ -17,10 +17,11 @@
 
 #include <PluginSettings/PluginSetting.h>
 
-#include <QString>
-#include <QDialog>
-
-#include "ui_AppletNearbyListClient.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletNearbyListClientUi;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
@@ -80,7 +81,7 @@ protected:
     void                        updateFriendList( EUserViewType listType, std::vector<std::pair<VxGUID, int64_t>> idList );
 
     //=== vars ===//
-    Ui::AppletNearbyListClientUi ui;
+    Ui::AppletNearbyListClientUi& ui;
     EUserViewType             m_FriendListType{ eUserViewTypeFriends };
 };
 

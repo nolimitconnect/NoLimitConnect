@@ -19,11 +19,16 @@
 #include "ToGuiActivityInterface.h"
 #include "ToGuiHardwareControlInterface.h"
 
-#include "ui_TitleBarWidget.h"
 #include <QListWidgetItem>
 #include <QTimer>
 
 #include <CoreLib/VxGUID.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class TitleBarWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class GuiOfferMgr;
@@ -31,6 +36,7 @@ class GuiOfferSession;
 class GuiUser;
 class MyIcons;
 class QLabel;
+class VxPushButton;
 
 class TitleBarWidget : public QWidget, 
 				public ToGuiActivityInterface, 
@@ -53,8 +59,8 @@ public:
 	QString						getTitleBarText( void );
 	void						setTitleStatusBarMsg( QString statusMsg );
 	QLabel *					getTitleStatusBarLabel( void );
-	VxPushButton *				getAppIconPushButton( void );
-    VxPushButton *				getBackButton( void ) { return ui.m_BackDlgButton; }
+	VxPushButton*				getAppIconPushButton( void );
+	VxPushButton*				getBackButton( void );
 
 	void						enableAudioControls( bool enable );
 	void						enableVideoControls( bool enable );
@@ -179,7 +185,7 @@ protected:
 
 	void						wantCallbacks( bool enableCallbacks );
 
-	Ui::TitleBarWidgetClass		ui;
+	Ui::TitleBarWidgetClass&	ui;
 	AppCommon&					m_MyApp;
     GuiOfferMgr&				m_OfferMgr;
 	bool						m_MutedMic{ false };

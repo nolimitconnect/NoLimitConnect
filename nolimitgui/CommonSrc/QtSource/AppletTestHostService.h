@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletTestBase.h"
-#include "ui_AppletTestHostService.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletTestHostServiceUi;
+}
+QT_END_NAMESPACE
 
 class AppletTestHostService : public AppletTestBase
 {
@@ -20,7 +25,7 @@ public:
 	virtual ~AppletTestHostService();
 
 protected:
-    Ui::AppletTestHostServiceUi          ui;
+    Ui::AppletTestHostServiceUi&          ui;
 };
 
 

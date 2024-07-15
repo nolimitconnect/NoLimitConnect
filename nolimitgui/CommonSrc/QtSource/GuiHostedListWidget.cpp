@@ -18,6 +18,7 @@
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 

@@ -11,7 +11,13 @@
 
 #include "AppletBase.h"
 
-#include "ui_AppletChooseThumbnail.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletChooseThumbnailUi;
+}
+QT_END_NAMESPACE
+
+class ThumbnailEditWidget;
 
 class AppletChooseThumbnail : public AppletBase
 {
@@ -28,7 +34,7 @@ private slots:
 
 protected:
     //=== vars ===//
-    Ui::AppletChooseThumbnailUi	ui;
+    Ui::AppletChooseThumbnailUi&	ui;
     std::string					m_strSavedCwd;
     std::string					m_strStoryBoardDir;
     std::string					m_strStoryBoardFile;

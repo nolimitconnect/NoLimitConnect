@@ -14,12 +14,17 @@
 #include <GuiInterface/IDefs.h>
 #include "GuiHostedListCallback.h"
 
-#include <QString>
-#include <QDialog>
-#include "ui_AppletChatRoomJoinSearch.h"
+#include <PktLib/SearchParams.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletChatRoomJoinSearchUi;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
+class GuiHostedListItem;
 
 class AppletChatRoomJoinSearch : public AppletClientBase, public GuiHostedListCallback
 {
@@ -35,7 +40,7 @@ public:
 	void						setStatusLabel( QString strMsg );
     void                        setInfoLabel( QString strMsg );
 
-    QString                     getSearchText( void ) { return ui.m_SearchsParamWidget->getSearchTextEdit()->text(); }
+    QString                     getSearchText( void );
 
     virtual void				callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId ) override;
 
@@ -66,7 +71,7 @@ protected:
     void						hideEvent( QHideEvent* ev ) override;
 
 	//=== vars ===//
-	Ui::AppletChatRoomJoinSearchUi  ui;
+	Ui::AppletChatRoomJoinSearchUi&  ui;
     SearchParams                m_SearchParams;
     bool                        m_SearchStarted{ false };
 };

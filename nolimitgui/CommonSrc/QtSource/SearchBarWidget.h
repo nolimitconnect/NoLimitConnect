@@ -11,7 +11,11 @@
 
 #include <QFrame>
 
-#include "ui_SearchBarWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class SearchBarWidgetUi;
+}
+QT_END_NAMESPACE
 
 class SearchBarWidget : public QFrame
 {
@@ -39,5 +43,5 @@ protected:
 	void						updateSearch( void );
 	void						stopSearch( void );
 
-	Ui::SearchBarWidgetUi		ui;
+	Ui::SearchBarWidgetUi&		ui;
 };

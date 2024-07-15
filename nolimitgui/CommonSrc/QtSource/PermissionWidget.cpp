@@ -20,9 +20,15 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_PermissionWidget.h"
+
+VxPushButton *              PermissionWidget::getPluginRunButton()            { return ui.m_PluginRunButton; }
+VxPushButton *              PermissionWidget::getPluginSettingsButton()       { return ui.m_PluginSettingsButton; }
+
 //============================================================================
 PermissionWidget::PermissionWidget( QWidget* parent )
 	: QWidget( parent )
+    , ui(*(new Ui::PermissionWidgetUi))
     , m_MyApp( GetAppInstance() )
 {
     m_ParentApplet = GuiHelpers::findParentApplet(parent);

@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "ActivityYesNoMsgBox.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "GuiHelpers.h"
@@ -18,6 +18,12 @@
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_ActivityYesNo.h"
+
+TitleBarWidget*		ActivityYesNoMsgBox::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget*	ActivityYesNoMsgBox::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+QFrame*				ActivityYesNoMsgBox::getContentItemsFrame( void ) { return ui.m_ItemsFrame; }
+
 //============================================================================
 ActivityYesNoMsgBox::ActivityYesNoMsgBox(	AppCommon&		app, 
 											QWidget*		parent, 
@@ -25,6 +31,7 @@ ActivityYesNoMsgBox::ActivityYesNoMsgBox(	AppCommon&		app,
 											QString			bodyText,
 											bool			showNeverAgainCheckBox )
 : ActivityBase( OBJNAME_ACTIVITY_YES_NO_MSG_BOX, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::YesNoMsgBoxClass))
 {
 	ui.setupUi(this);
 	ui.m_NeverShowAgainCheckBox->setVisible( showNeverAgainCheckBox );

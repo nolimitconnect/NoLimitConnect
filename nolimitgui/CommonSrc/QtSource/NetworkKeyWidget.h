@@ -9,7 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_NetworkKeyWidget.h"
+#include <QWidget>
+
+#include <GuiInterface/IDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class NetworkKeyWidgetUi;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 
 class NetworkKeyWidget : public QWidget
 {
@@ -18,7 +28,7 @@ class NetworkKeyWidget : public QWidget
 public:
     NetworkKeyWidget( QWidget* parent = nullptr );
 
-    QString						getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text();  }
+    QString						getNetworkKey( void );
 
 protected slots:
     void                        slotShowNetworkKeyInformation( void );
@@ -34,5 +44,5 @@ protected:
 
     AppCommon&                  m_MyApp;
     EPluginType                 m_PluginType = ePluginTypeInvalid;
-	Ui::NetworkKeyWidgetUi	    ui;
+	Ui::NetworkKeyWidgetUi&	    ui;
 };

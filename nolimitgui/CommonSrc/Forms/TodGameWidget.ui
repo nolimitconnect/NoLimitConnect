@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TodGameWidget</class>
- <widget class="QWidget" name="TodGameWidget">
+ <class>TodGameWidgetUi</class>
+ <widget class="QWidget" name="TodGameWidgetUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -154,7 +154,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="m_TruthButton">
+      <widget class="VxPushButton" name="m_TruthButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -179,7 +179,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="m_DareButton">
+      <widget class="VxPushButton" name="m_DareButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -218,6 +218,11 @@
    <extends>QWidget</extends>
    <header>VidWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxPushButton</class>
+   <extends>QPushButton</extends>
+   <header>VxPushButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -19,9 +19,12 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include "ui_RelayServiceWidget.h"
+
 //============================================================================
 RelayServiceWidget::RelayServiceWidget( QWidget* parent )
 	: QWidget( parent )
+    , ui(*(new Ui::RelayServiceWidgetUi))
     , m_MyApp( GetAppInstance() )
 {
 	initRelayServiceWidget();

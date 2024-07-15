@@ -14,9 +14,12 @@
 #include "AppCommon.h"
 #include "GuiParams.h"
 
+#include "ui_DialogAddComment.h"
+
 //============================================================================
 DialogAddComment::DialogAddComment( AssetBaseInfo& assetInfo, QWidget* parent )
 : QDialog( parent, Qt::Dialog ) // Qt::Popup )
+, ui(*(new Ui::DialogAddCommentUi))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);

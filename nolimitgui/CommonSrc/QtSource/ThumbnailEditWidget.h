@@ -10,14 +10,21 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_ThumbnailEditWidget.h"
 
 #include <CoreLib/VxGUID.h>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ThumnailEditWidgetUi;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 class AppletBase;
 class IVxVidCap;
 class ThumbInfo;  
 class ThumbMgr;
+class ThumbnailViewWidget;
 
 class ThumbnailEditWidget : public QWidget
 {
@@ -26,14 +33,14 @@ public:
     ThumbnailEditWidget( QWidget* parent );
     ~ThumbnailEditWidget() override = default;
 
-    void                        setIsUserPickedImage( bool userPicked )         { ui.m_ThumbnailViewWidget->setIsUserPickedImage( userPicked ); }
-    bool                        getIsUserPickedImage( void )                    { return ui.m_ThumbnailViewWidget->getIsUserPickedImage(); }
+    void                        setIsUserPickedImage( bool userPicked );
+    bool                        getIsUserPickedImage( void );
 
-    void                        setThumnailIsCircular( bool isCircle )          { m_ThumbnailIsCircular = isCircle;  ui.m_ThumbnailViewWidget->setThumnailIsCircular( isCircle ); }
-    bool                        getThumbnailIsCircular( void )                  { return m_ThumbnailIsCircular; }
+    void                        setThumnailIsCircular( bool isCircle );
+    bool                        getThumbnailIsCircular( void );
 
     bool                        loadFromAsset( ThumbInfo* thumbAsset );
-    bool                        saveToPngFile( QString& fileName )              { return ui.m_ThumbnailViewWidget->saveToPngFile( fileName ); }
+    bool                        saveToPngFile( QString& fileName );
 
     void                        setAssetId( VxGUID& assetGuid )                 { m_AsssetId = assetGuid; }
     VxGUID&                     getAssetId( void )                              { return m_AsssetId; }
@@ -63,7 +70,7 @@ protected slots:
 protected:
     QPixmap                     makeCircleImage( QPixmap& pixmap );
 
-    Ui::ThumnailEditWidgetUi	ui;
+    Ui::ThumnailEditWidgetUi&	ui;
     AppCommon&					m_MyApp;
     ThumbMgr&                   m_ThumbMgr;
     AppletBase*                 m_ParentApplet{ nullptr };

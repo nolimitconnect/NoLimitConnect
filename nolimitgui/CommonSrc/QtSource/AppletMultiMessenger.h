@@ -9,13 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletMultiMessenger.h"
-
 #include "AppletPeerBase.h"
 #include "GuiOfferCallback.h"
 #include "InputClientBaseCallback.h"
 #include "MultiSessionState.h"
 #include "TodGameLogic.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletMultiMessengerUi;
+}
+QT_END_NAMESPACE
 
 class EngineSettings;
 class GuiHosted;
@@ -95,7 +99,7 @@ protected:
 	bool						sendRandConnectSelected( VxGUID& onlineId, bool isSelected );
 
 	//=== vars ===//
-	Ui::AppletMultiMessengerUi	ui;
+	Ui::AppletMultiMessengerUi&	ui;
     TodGameLogic				m_TodGameLogic;
     QVector<MultiSessionState*> m_MSessionsList;
     QFrame*						m_OffersFrame{ nullptr };

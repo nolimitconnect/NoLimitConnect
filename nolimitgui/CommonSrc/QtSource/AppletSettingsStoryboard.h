@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletServiceBaseSettings.h"
-#include "ui_AppletSettingsNoUserSettings.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletSettingsNoUserSettingsUi;
+}
+QT_END_NAMESPACE
 
 class AppletSettingsStoryboard : public AppletServiceBaseSettings
 {
@@ -20,7 +25,7 @@ public:
 	virtual ~AppletSettingsStoryboard();
 
 protected:
-	Ui::AppletSettingsNoUserSettingsUi ui;
+	Ui::AppletSettingsNoUserSettingsUi& ui;
 };
 
 

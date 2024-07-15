@@ -11,33 +11,27 @@
 #include "AppletGalleryImage.h"
 
 #include "AppCommon.h"	
-#include "AppGlobals.h"
-#include "AppSettings.h"
-#include "FileShareItemWidget.h"
+
 #include "AppletPopupMenu.h"
-#include "FileItemInfo.h"
-#include "FileActionMenu.h"
+
 #include "GuiHelpers.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <AssetMgr/AssetMgr.h>
 
-#include <PktLib/VxSearchDefs.h>
-#include <NetLib/VxFileXferInfo.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
-#include <CoreLib/VxFileInfo.h>
+
+#include "ui_AppletGalleryImage.h"
 
 //============================================================================
 AppletGalleryImage::AppletGalleryImage(	AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GALLERY_IMAGE, app, parent )
+, ui(*(new Ui::AppletGalleryImageUi))
 , m_AssetMgr( app.getEngine().getAssetMgr() )
 {
     setAppletType( eAppletGalleryImage );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
-
-
 
     m_MyApp.activityStateChange( this, true );
 }

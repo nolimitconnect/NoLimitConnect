@@ -22,15 +22,20 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletRandomConnectJoinSearch.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+QString                     AppletRandomConnectJoinSearch::getSearchText( void ) { return ui.m_SearchsParamWidget->getSearchTextEdit()->text(); }
+
 //============================================================================
 AppletRandomConnectJoinSearch::AppletRandomConnectJoinSearch(	AppCommon&		    app, 
 												                QWidget*			parent )
 : AppletClientBase( OBJNAME_APPLET_RANDOM_CONNECT_JOIN_SEARCH, app, parent )
+, ui(*(new Ui::AppletRandomConnectJoinSearchUi))
 {
     setAppletType( eAppletRandomConnectJoinSearch );
     setHostType( eHostTypeRandomConnect );

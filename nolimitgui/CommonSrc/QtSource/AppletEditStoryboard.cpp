@@ -34,9 +34,13 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletEditStoryBoard.h"
+//#include "ui_StoryWidget.h"
+
 //============================================================================
 AppletEditStoryboard::AppletEditStoryboard( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_EDIT_STORYBOARD, app, parent )
+, ui(*(new Ui::AppletEditStoryboardUi))
 {
     setAppletType( eAppletEditStoryboard );
     ui.setupUi( getContentItemsFrame() );

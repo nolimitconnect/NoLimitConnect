@@ -12,9 +12,14 @@
 #include "AppletBase.h"
 #include "UserProfile.h"
 
-#include "ui_AppletEditAvatarImage.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletEditAvatarImageUi;
+}
+QT_END_NAMESPACE
 
 class AssetMgr;
+class ThumbMgr;
 
 class AppletEditAvatarImage : public AppletBase
 {
@@ -38,10 +43,10 @@ protected:
     static const int CAMERA_SNAPSHOT = 1; // selector for image gallery call
 
     //=== vars ===//
-    Ui::AppletEditAvatarImageUi	ui;
+    Ui::AppletEditAvatarImageUi&	ui;
     ThumbMgr&                   m_ThumbMgr;
     UserProfile 				m_UserProfile;
-    VxNetIdent*				m_MyIdent = nullptr;
+    VxNetIdent*				    m_MyIdent = nullptr;
     QString                     m_strOrigOnlineName;
     QString                     m_strOrigMoodMessage;
 };

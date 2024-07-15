@@ -9,8 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_FileShareItemWidget.h"
 #include <QListWidgetItem>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class FileShareItemWidget;
+}
+QT_END_NAMESPACE
 
 class FileItemInfo;
 class AppCommon;
@@ -62,7 +67,7 @@ protected:
 	virtual void				mousePressEvent(QMouseEvent * event);
 	virtual void				resizeEvent(QResizeEvent* resizeEvent);
 
-	Ui::FileShareItemWidget		ui;
+	Ui::FileShareItemWidget&	ui;
 	AppCommon&					m_MyApp;
 	bool						m_SelectAFileMode{ false };
 };

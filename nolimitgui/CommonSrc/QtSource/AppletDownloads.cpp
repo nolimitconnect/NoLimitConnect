@@ -30,9 +30,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
 
+#include "ui_AppletDownloads.h"
+
 //============================================================================
 AppletDownloads::AppletDownloads( AppCommon& app,  QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_DOWNLOADS, app, parent ) 
+, ui(*(new Ui::AppletDownloadsUi))
 {
     setAppletType( eAppletDownloads );
     ui.setupUi( getContentItemsFrame() );

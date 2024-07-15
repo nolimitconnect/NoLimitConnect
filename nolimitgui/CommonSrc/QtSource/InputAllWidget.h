@@ -11,7 +11,11 @@
 
 #include "InputBaseWidget.h"
 
-#include "ui_InputAllWidget.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class InputAllWidget;
+}
+QT_END_NAMESPACE
 
 class InputAllWidget : public InputBaseWidget
 {
@@ -45,5 +49,5 @@ private slots:
 	void						slotMicButtonReleased( void );
 
 protected:
-	Ui::InputAllWidget			ui;
+	Ui::InputAllWidget&			ui;
 };

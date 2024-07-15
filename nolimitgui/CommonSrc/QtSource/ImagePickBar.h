@@ -9,8 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_ImagePickBar.h"
 #include <QListWidgetItem>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ImagePickBarClass;
+}
+QT_END_NAMESPACE
 
 class GuiUser;
 class GuiOfferSession;
@@ -27,7 +32,7 @@ public:
     virtual ~ImagePickBar(){};
 
 
-    Ui::ImagePickBarClass       ui;
+    Ui::ImagePickBarClass&      ui;
     AppCommon &					m_MyApp;
 
 };

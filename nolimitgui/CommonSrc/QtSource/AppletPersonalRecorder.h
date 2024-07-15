@@ -9,10 +9,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletPersonalRecorder.h"
-
 #include "AppletBase.h"
 #include "InputClientBaseCallback.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PersonalRecorderUi;
+}
+QT_END_NAMESPACE
 
 class AppletPersonalRecorder : public AppletBase, public InputClientBaseCallback
 {
@@ -30,7 +34,7 @@ protected:
     void						setupMultiSessionActivity( void );
     void                        showEvent( QShowEvent* showEvent ) override;
 
-    Ui::PersonalRecorderUi	    ui;
+    Ui::PersonalRecorderUi&	    ui;
     bool                        m_HistoryQueried{ false };
 };
 

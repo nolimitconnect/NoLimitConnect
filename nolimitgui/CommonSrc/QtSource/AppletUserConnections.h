@@ -9,11 +9,15 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletUserConnections.h"
-
 #include "AppletClientBase.h"
 #include "GuiUserJoinCallback.h"
 #include "GuiHostJoinCallback.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletUserConnectionsUi;
+}
+QT_END_NAMESPACE
 
 enum EUpdateType
 {
@@ -70,7 +74,7 @@ protected:
     void                        refreshList( void );
 
     //=== vars ===//
-    Ui::AppletUserConnectionsUi	ui;
+    Ui::AppletUserConnectionsUi&	ui;
 };
 
 

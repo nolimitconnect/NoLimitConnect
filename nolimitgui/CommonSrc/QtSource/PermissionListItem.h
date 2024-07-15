@@ -9,10 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_PermissionListItemWidget.h"
-
 #include <QListWidgetItem>
 
+#include <GuiInterface/IDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PermissionListItemUi;
+}
+QT_END_NAMESPACE
+
+class AppCommon;
 class AppletBase;
 
 class PermissionListItem : public QWidget, public QListWidgetItem
@@ -41,7 +48,7 @@ protected:
     void						updatePermissionIcon( void );
     void                        updateUi( void );
 
-    Ui::PermissionListItemUi	ui;
+    Ui::PermissionListItemUi&	ui;
     AppCommon&                  m_MyApp;
     AppletBase *                m_ParentApplet{ nullptr };
     QSize                       m_SizeHint;

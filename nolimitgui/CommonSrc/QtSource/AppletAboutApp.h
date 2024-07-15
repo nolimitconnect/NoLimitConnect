@@ -11,7 +11,11 @@
 
 #include "AppletBase.h"
 
-#include "ui_AppletAboutApp.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletAboutAppUi;
+}
+QT_END_NAMESPACE
 
 class AppletAboutApp : public AppletBase
 {
@@ -27,7 +31,7 @@ protected slots:
 protected:
     void						setupAboutMe( void );
 
-    Ui::AppletAboutAppUi        ui;
+    Ui::AppletAboutAppUi&        ui;
 };
 
 

@@ -14,6 +14,7 @@
 #include "GuiHostSession.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiUserMultiListWidget.h"
+#include "GuiUserListWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 

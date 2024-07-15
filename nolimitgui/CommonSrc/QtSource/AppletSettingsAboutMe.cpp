@@ -18,9 +18,10 @@
 //============================================================================
 AppletSettingsAboutMe::AppletSettingsAboutMe( AppCommon& app, QWidget* parent )
 : AppletServiceBaseSettings( OBJNAME_APPLET_SETTINGS_ABOUT_ME, app, parent )
+//, ui(*(new Ui::AppletMultiMessengerUi))
 {
     setAppletType( eAppletSettingsAboutMe );
-    ui.setupUi( this );
+    //ui.setupUi( this );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
 	m_MyApp.activityStateChange( this, true );

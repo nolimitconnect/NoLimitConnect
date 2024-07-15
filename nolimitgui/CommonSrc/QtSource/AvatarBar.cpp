@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "AvatarBar.h"
+
 #include "AppCommon.h"
 #include "MyIcons.h"
 #include "GuiParams.h"
@@ -20,9 +20,12 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTimeUtil.h>
 
+#include "ui_AvatarBarWidget.h"
+
 //============================================================================
 AvatarBar::AvatarBar( QWidget* parent )
 : QWidget( parent )
+, ui(*(new Ui::AvatarBarWidgetUi))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi( this );

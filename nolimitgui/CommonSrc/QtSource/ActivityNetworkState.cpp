@@ -19,14 +19,20 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#include "ui_ActivityNetworkStatus.h"
+
 namespace
 {
 	const int					MAX_NET_HELP_LINES			= 8;	
 }
 
+TitleBarWidget *	ActivityNetworkState::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityNetworkState::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityNetworkState::ActivityNetworkState( AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_NETWORK_STATE, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::ActivityNetworkStatusClass))
 {
 	ui.setupUi(this);
 	ui.m_TitleBarWidget->setTitleBarText( QObject::tr( "Network State" ) );

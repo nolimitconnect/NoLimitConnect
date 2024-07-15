@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletGetStarted.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletGetStartedUi;
+}
+QT_END_NAMESPACE
 
 class AppletGetStarted : public AppletBase
 {
@@ -20,7 +25,7 @@ public:
 	virtual ~AppletGetStarted();
 
 protected:
-    Ui::AppletGetStartedUi          ui;
+    Ui::AppletGetStartedUi&     ui;
 };
 
 

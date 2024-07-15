@@ -15,8 +15,13 @@
 
 #include <OfferBase/OfferBaseInfo.h>
 
-#include "ui_OfferBarWidget.h"
 #include <QListWidgetItem>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class OfferBarWidgetUi;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 class GuiOfferMgr;
@@ -67,7 +72,7 @@ protected:
 	bool						getIsOfferAvailable( void );
 
 
-	Ui::OfferBarWidgetUi		ui;
+	Ui::OfferBarWidgetUi&		ui;
 	AppCommon&				    m_MyApp;
 	GuiOfferMgr&				m_OfferMgr;
 	VxGUID						m_OfferSessionId;

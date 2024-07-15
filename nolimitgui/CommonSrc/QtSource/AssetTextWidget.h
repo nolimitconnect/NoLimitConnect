@@ -10,7 +10,12 @@
 //============================================================================
 
 #include "AssetBaseWidget.h"
-#include "ui_AssetTextWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AssetTextWidget;
+}
+QT_END_NAMESPACE
 
 class AssetTextWidget : public AssetBaseWidget
 {
@@ -37,6 +42,6 @@ protected:
 	void 						calculateHint( void );
 
 	//=== vars ===//
-	Ui::AssetTextWidget			ui;
+	Ui::AssetTextWidget&		ui;
 
 };

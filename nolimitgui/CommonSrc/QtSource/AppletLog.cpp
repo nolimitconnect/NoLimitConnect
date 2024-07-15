@@ -30,6 +30,9 @@
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QPlainTextEdit>
+
+#include "ui_AppletLog.h"
 
 namespace
 {
@@ -37,9 +40,13 @@ namespace
     const int MAX_INFO_MSG_SIZE = 2048;
 }
 
+QPlainTextEdit *            AppletLog::getLogEdit( void )      { return ui.m_LogPlainTextEdit; }
+void                        AppletLog::clear()                 { getLogEdit()->clear(); }
+
 //============================================================================
 AppletLog::AppletLog( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_LOG, app, parent )
+, ui(*(new Ui::AppletLogUi))
 {
     setAppletType( eAppletLog );
     ui.setupUi( getContentItemsFrame() );

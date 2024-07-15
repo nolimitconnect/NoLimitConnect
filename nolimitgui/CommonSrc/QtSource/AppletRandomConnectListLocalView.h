@@ -14,13 +14,15 @@
 
 #include <GuiInterface/IDefs.h>
 
-#include <QString>
-#include <QDialog>
-
-#include "ui_AppletRandomConnectListLocalView.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletRandomConnectListLocalViewUi;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
+class GuiHostedListItem;
 
 class AppletRandomConnectListLocalView : public AppletClientBase, public GuiHostedListCallback
 {
@@ -67,7 +69,7 @@ protected:
     void						hideEvent( QHideEvent* ev ) override;
 
     //=== vars ===//
-    Ui::AppletRandomConnectListLocalViewUi ui;
+    Ui::AppletRandomConnectListLocalViewUi& ui;
     bool                        m_SearchStarted{ false };
     VxGUID                      m_SearchSessionId;
     QTimer*                     m_CloseAppletTimer{ nullptr };

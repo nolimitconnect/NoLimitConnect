@@ -14,13 +14,15 @@
 
 #include <GuiInterface/IDefs.h>
 
-#include <QString>
-#include <QDialog>
-
-#include "ui_AppletOfferList.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletOfferListUi;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
+class GuiOfferListItem;
 
 class AppletOfferList : public AppletBase, public GuiUserUpdateCallback
 {
@@ -74,6 +76,6 @@ protected:
     void                        updateOfferList( EOfferViewType offerViewType );
 
     //=== vars ===//
-    Ui::AppletOfferListUi       ui;
+    Ui::AppletOfferListUi&      ui;
     EOfferViewType              m_ListViewType{ eOfferViewTypeNone };
 };

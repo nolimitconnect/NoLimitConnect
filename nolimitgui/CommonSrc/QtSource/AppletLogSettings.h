@@ -9,12 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_AppletLogSettings.h"
-
 #include "AppletBase.h"
 #include "AppDefs.h"
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletLogSettingsWidget;
+}
+QT_END_NAMESPACE
+
 class LogMgr;
+class QCheckBox;
 
 class AppletLogSettings : public AppletBase
 {
@@ -41,7 +46,7 @@ protected:
     void						updateSettingsFromDlg( void );
 
 
-	Ui::AppletLogSettingsWidget	ui;
+	Ui::AppletLogSettingsWidget&	ui;
     LogMgr&                     m_LogMgr;
     QVector<QCheckBox*>         m_LogLevelList;
     QVector<QCheckBox*>         m_LogModuleList;

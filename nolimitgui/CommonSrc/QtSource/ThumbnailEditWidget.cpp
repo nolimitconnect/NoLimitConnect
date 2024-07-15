@@ -31,9 +31,20 @@
 #include <QMessageBox>
 #include <QPainter>
 
+#include "ui_ThumbnailEditWidget.h"
+
+void                        ThumbnailEditWidget::setIsUserPickedImage( bool userPicked )         { ui.m_ThumbnailViewWidget->setIsUserPickedImage( userPicked ); }
+bool                        ThumbnailEditWidget::getIsUserPickedImage( void )                    { return ui.m_ThumbnailViewWidget->getIsUserPickedImage(); }
+
+void                        ThumbnailEditWidget::setThumnailIsCircular( bool isCircle )          { m_ThumbnailIsCircular = isCircle;  ui.m_ThumbnailViewWidget->setThumnailIsCircular( isCircle ); }
+bool                        ThumbnailEditWidget::getThumbnailIsCircular( void )                  { return m_ThumbnailIsCircular; }
+
+bool                        ThumbnailEditWidget::saveToPngFile( QString& fileName )              { return ui.m_ThumbnailViewWidget->saveToPngFile( fileName ); }
+
 //============================================================================
 ThumbnailEditWidget::ThumbnailEditWidget( QWidget* parent )
     : QWidget( parent )
+    , ui(*(new Ui::ThumnailEditWidgetUi))
     , m_MyApp( GetAppInstance() )
     , m_ThumbMgr( m_MyApp.getEngine().getThumbMgr() )
 {

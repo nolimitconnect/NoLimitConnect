@@ -15,9 +15,12 @@
 #include "GuiHelpers.h"
 #include "AppCommon.h"
 
+#include "ui_FileShareItemWidget.h"
+
 //============================================================================
 FileShareItemWidget::FileShareItemWidget(QWidget* parent )
 : QWidget(parent)
+, ui(*(new Ui::FileShareItemWidget))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);

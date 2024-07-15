@@ -24,9 +24,12 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#include "ui_AppletAboutApp.h"
+
 //============================================================================
 AppletAboutApp::AppletAboutApp( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_ABOUT_APP, app, parent )
+, ui(*(new Ui::AppletAboutAppUi))
 {
     setAppletType( eAppletAboutNoLimitConnect );
     ui.setupUi( getContentItemsFrame() );

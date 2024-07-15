@@ -16,7 +16,11 @@
 #include <GuiInterface/IToGui.h>
 #include <PluginSettings/PluginSettingMgr.h>
 
-#include "ui_AppletHostNetworkStatus.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletHostNetworkStatusUi;
+}
+QT_END_NAMESPACE
  
 class AppletHostGroupStatus : public AppletBase
 {
@@ -25,8 +29,8 @@ public:
     AppletHostGroupStatus( AppCommon& app, QWidget* parent );
 	virtual ~AppletHostGroupStatus();
 
-    PermissionWidget*           getGroupHostPermissionWidget()      { return ui.m_HostPermissionWidget; }
-    PermissionWidget*           getConnectionTestWidget()           { return ui.m_ConnectTestPermissionWidget; }
+    PermissionWidget*           getGroupHostPermissionWidget();
+    PermissionWidget*           getConnectionTestWidget();
 
 protected slots:
     void						gotoWebsite( void );
@@ -36,7 +40,7 @@ protected slots:
 protected:
     void                        updateOnlineMembers( void );
 
-    Ui::AppletHostNetworkStatusUi     ui;
+    Ui::AppletHostNetworkStatusUi&     ui;
 
     QTimer*                     m_UpdateStatusTimer;
 };

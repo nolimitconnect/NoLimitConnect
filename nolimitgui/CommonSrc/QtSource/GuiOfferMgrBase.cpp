@@ -17,6 +17,7 @@
 #include "GuiOfferSession.h"
 #include "GuiOfferSession.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 

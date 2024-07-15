@@ -25,9 +25,12 @@
 #include <NetLib/VxGetRandomPort.h>
 #include <NetLib/VxSktUtil.h>
 
+#include "ui_AppletPermissionList.h"
+
 //============================================================================
 AppletPermissionList::AppletPermissionList( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_PERMISSION_LIST, app, parent )
+, ui(*(new Ui::AppletPermissionListtUi))
 {
 	setAppletType( eAppletPermissionList );
 	ui.setupUi( getContentItemsFrame() );

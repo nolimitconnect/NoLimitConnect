@@ -22,6 +22,7 @@
 #include "GuiPluginMgr.h"
 #include "MyIcons.h"
 #include "VidWidget.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 

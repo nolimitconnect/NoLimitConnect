@@ -22,15 +22,21 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_ActivityScanProfiles.h"
+
 namespace
 {
 	const int SCAN_INTERVAL_SEC			= 10;
 	const int COUNTDOWN_INTERVAL_MS		= 1000;
 }
 
+TitleBarWidget *	ActivityScanProfiles::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityScanProfiles::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityScanProfiles::ActivityScanProfiles(	AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_SCAN_PROFILES, app, parent, eAppletScanAboutMe, true )
+, ui(*(new Ui::ScanProfilesDialog))
 , m_Ident( NULL )
 , m_iCountdownCnt( 0 )
 , m_bPaused( false )

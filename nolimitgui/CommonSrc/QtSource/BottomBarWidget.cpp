@@ -19,9 +19,12 @@
 #include "GuiParams.h"
 #include "MyIconsDefs.h"
 
+#include "ui_BottomBarWidget.h"
+
 //============================================================================
 BottomBarWidget::BottomBarWidget( QWidget* parent )
 : QFrame( parent )
+, ui(*(new Ui::BottomBarWidgetClass))
 , m_MyApp( GetAppInstance() )
 {
     ui.setupUi( this );

@@ -20,9 +20,15 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/Sha1GeneratorMgr.h>
 
+#include "ui_ActivityGenerateHash.h"
+
+TitleBarWidget *  ActivityGenerateHash::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget * ActivityGenerateHash::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityGenerateHash::ActivityGenerateHash(	AppCommon& app, QWidget* parent, std::string fileName, VxSha1Hash& hashId )
 : ActivityBase( OBJNAME_ACTIVITY_GENERATE_HASH, app, parent, eAppletMessengerFrame, true )
+, ui(*(new Ui::ActivityGenerateHashUi))
 , m_FileName( fileName )
 , m_HashId( hashId )
 {

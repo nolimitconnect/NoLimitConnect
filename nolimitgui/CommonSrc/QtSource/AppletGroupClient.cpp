@@ -20,9 +20,12 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletGroupClient.h"
+
 //============================================================================
 AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_GROUP_CLIENT, app, parent )
+, ui(*(new Ui::AppletGroupClientUi))
 {
     setAppletType( eAppletGroupClient );
     setHostType( eHostTypeGroup );
@@ -48,7 +51,6 @@ AppletGroupClient::~AppletGroupClient()
 {
     m_MyApp.activityStateChange( this, false );
 }
-
 
 //============================================================================
 void AppletGroupClient::userJoinedHost( GuiHosted* guiHosted )

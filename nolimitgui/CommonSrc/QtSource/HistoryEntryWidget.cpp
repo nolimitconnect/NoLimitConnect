@@ -8,13 +8,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "HistoryEntryWidget.h"
+
 #include "AppCommon.h"
+
+#include "ui_HistoryEntryWidget.h"
 
 //============================================================================
 HistoryEntryWidget::HistoryEntryWidget(QWidget* parent)
 : QWidget( parent )
+, ui(*(new Ui::HistoryEntryWidgetClass))
 , m_MyApp( GetAppInstance() )
 , m_Engine( GetAppInstance().getEngine() )
 {

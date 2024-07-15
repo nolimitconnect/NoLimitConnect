@@ -8,17 +8,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "DialogConfirmRemoveMessage.h"
+
 #include "MyIcons.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
 
 #include <AssetMgr/AssetInfo.h>
 
+#include "ui_DialogConfirmRemoveMessage.h"
+
 //============================================================================
 DialogConfirmRemoveMessage::DialogConfirmRemoveMessage( AssetBaseInfo& assetInfo, QWidget* parent )
 : QDialog( parent, Qt::Popup )
+, ui(*(new Ui::ConfirmRemoveMessageClass))
 , m_MyApp( GetAppInstance() )
 , m_AssetInfo( assetInfo )
 , m_AssetAction( eAssetActionUnknown )

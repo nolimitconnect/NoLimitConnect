@@ -32,9 +32,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletEditAvatarImage.h"
+
 //============================================================================
 AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_EDIT_AVATAR_IMAGE, app, parent )
+, ui(*(new Ui::AppletEditAvatarImageUi))
 , m_ThumbMgr( app.getEngine().getThumbMgr() )
 {
     setAppletType( eAppletEditAvatarImage );

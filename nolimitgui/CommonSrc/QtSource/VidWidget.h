@@ -9,14 +9,22 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_VidWidget.h"
+#include <QWidget>
 
 #include "GuiPlayerCallback.h"
 
 #include <CoreLib/VxGUID.h>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class VidWidgetClass;
+}
+QT_END_NAMESPACE
+
 class AppCommon;
 class AppSettings;
+class VxLabel;
+class MyIcons;
 class P2PEngine;
 
 class VidWidget : public QWidget, public GuiPlayerCallback
@@ -106,7 +114,7 @@ protected:
 	void						enableVidFilesButton( bool enable );
 
 	//=== vars ===//
-	Ui::VidWidgetClass			ui;
+	Ui::VidWidgetClass&			ui;
 	AppCommon&				    m_MyApp;
 	P2PEngine&					m_Engine;
 	AppSettings&				m_AppSettings;

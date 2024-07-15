@@ -20,9 +20,12 @@
 
 #include <QClipboard>
 
+#include "ui_AppletHelpNetSignalBars.h"
+
 //============================================================================
 AppletHelpNetSignalBars::AppletHelpNetSignalBars( AppCommon& app, QWidget* parent )
     : AppletBase( OBJNAME_APPLET_HELP_NET_SIGNAL_BARS, app, parent )
+    , ui(*(new Ui::AppletHelpNetSignalBarsUi))
 {
     ui.setupUi( getContentItemsFrame() );
     setAppletType( eAppletHelpNetSignalBars );

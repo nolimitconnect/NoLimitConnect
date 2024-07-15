@@ -10,11 +10,18 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "ui_AppletHostSelect.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletHostSelectUi;
+}
+QT_END_NAMESPACE
 
 class GuiHostJoin;
 class GuiHostedByMeJoinMgr;
 class GroupieId;
+class GuiHostJoinSession;
+class HostJoinRequestListItem;
 
 class AppletHostSelect : public AppletBase
 {
@@ -44,8 +51,8 @@ protected:
 	void						updateHostJoinRequest( GuiHostJoin* guiHostJoin );
 
 	//=== vars ===//
-	Ui::AppletHostSelectUi		ui;
-	GuiHostedByMeJoinMgr&				m_HostJoinMgr;
+	Ui::AppletHostSelectUi&		ui;
+	GuiHostedByMeJoinMgr&		m_HostJoinMgr;
 	EHostType					m_HostType{ eHostTypeGroup };
 	EJoinState					m_JoinState{ eJoinStateJoinRequested };
 };

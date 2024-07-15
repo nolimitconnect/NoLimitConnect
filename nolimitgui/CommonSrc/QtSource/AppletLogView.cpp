@@ -19,14 +19,12 @@
 #include <CoreLib/ObjectCommon.h>
 #include <CoreLib/ObjectCommonDefs.h>
 
-namespace
-{
-    //QString				DEFAULT_ADAPTER_IP_CHOICE = "default";
-}
+#include "ui_AppletLogView.h"
 
 //============================================================================
 AppletLogView::AppletLogView( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_LOG_VIEW, app, parent )
+, ui(*(new Ui::AppletLogViewWidget))
 , m_LogMgr( GetLogMgrInstance() )
 {
 	setAppletType( eAppletLogView );

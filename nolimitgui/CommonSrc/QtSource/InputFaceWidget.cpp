@@ -21,9 +21,12 @@
 
 #include <time.h>
 
+#include "ui_InputFaceWidget.h"
+
 //============================================================================
 InputFaceWidget::InputFaceWidget( QWidget* parent )
 : InputBaseWidget( GetAppInstance(), parent )
+, ui(*(new Ui::InputFaceWidgetClass))
 {
 	m_AssetInfo.setAssetType( eAssetTypeChatFace );
 	qDebug() << "InputFaceWidget::InputFaceWidget ";

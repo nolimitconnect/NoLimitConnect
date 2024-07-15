@@ -9,13 +9,17 @@
 //============================================================================
 
 #include "InformationWidget.h"
+
 #include "AppCommon.h"
 #include "MyIcons.h"
 #include "ActivityInformation.h"
 
+#include "ui_InformationWidget.h"
+
 //============================================================================
 InformationWidget::InformationWidget( QWidget* parent )
 	: QWidget( parent )
+    , ui(*(new Ui::InformationWidgetUi))
     , m_MyApp( GetAppInstance() )
 {
 	initInformationWidget();

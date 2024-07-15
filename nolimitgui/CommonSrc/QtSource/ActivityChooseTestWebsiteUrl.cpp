@@ -18,9 +18,15 @@
 
 #include <QMessageBox>
 
+#include "ui_ActivityChooseTestWebsiteUrl.h"
+
+TitleBarWidget *  ActivityChooseTestWebsiteUrl::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget * ActivityChooseTestWebsiteUrl::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityChooseTestWebsiteUrl::ActivityChooseTestWebsiteUrl(	AppCommon& app, QWidget* parent )
 : ActivityBase(  OBJNAME_ACTIVITY_CHOOSE_TEST_WEBSITE_URL, app, parent )
+, ui(*(new Ui::ChooseTestWebsiteUrlDlg))
 , m_MyApp( app )
 , m_Engine( app.getEngine() )
 {

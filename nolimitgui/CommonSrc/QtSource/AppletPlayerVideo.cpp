@@ -13,7 +13,9 @@
 #include "ActivityBrowseFiles.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "BottomBarWidget.h"
 #include "GuiPlayerMgr.h"
+#include "VxMenuButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 

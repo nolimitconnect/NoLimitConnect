@@ -14,8 +14,14 @@
 #include <QString>
 #include <QDialog>
 #include <QTimer>
-#include "ui_ActivityScanStoryBoards.h"
+
 #include <GuiInterface/IDefs.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class ScanStoryBoardsDialog;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 
@@ -28,8 +34,8 @@ public:
 	virtual ~ActivityScanStoryBoards() override;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
-    virtual TitleBarWidget *	getTitleBarWidget( void ) override { return ui.m_TitleBarWidget; }
-    virtual BottomBarWidget *	getBottomBarWidget( void ) override { return ui.m_BottomBarWidget; }
+    virtual TitleBarWidget*     getTitleBarWidget( void ) override;
+    virtual BottomBarWidget*    getBottomBarWidget( void ) override;
 
 public:
 	void						setTitle( QString strTitle );
@@ -49,7 +55,7 @@ protected:
 	void						setupIdentWidget( VxNetIdent* netIdent );
 
 	//=== vars ===//
-	Ui::ScanStoryBoardsDialog	ui;
+	Ui::ScanStoryBoardsDialog&	ui;
 	bool						m_bAutoScan;
 	QTimer *					m_SessionTimer;
 	EScanType					m_eScanType;

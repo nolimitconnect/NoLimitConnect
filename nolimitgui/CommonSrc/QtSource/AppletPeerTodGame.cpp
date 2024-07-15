@@ -14,12 +14,15 @@
 
 #include "GuiOfferSession.h"
 #include "AppGlobals.h"
+#include "VidWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
+
+#include "ui_AppletPeerTodGame.h"
 
 namespace
 {
@@ -29,6 +32,7 @@ namespace
 //============================================================================
 AppletPeerTodGame::AppletPeerTodGame( AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_TOD_GAME, app, parent )
+, ui(*(new Ui::AppletPeerTodGameUi))
 , m_TodGameLogic( app, app.getEngine(), ePluginTypeTruthOrDare, this )
 {
     setPluginType( ePluginTypeTruthOrDare );

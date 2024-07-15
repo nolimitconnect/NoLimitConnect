@@ -11,12 +11,18 @@
 
 #include "AppletBase.h"
 
-#include "ui_AppletApplicationInfo.h"
-
 #include <QMutex>
 #include <QFile>
 
 #include <CoreLib/VxDebug.h>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletApplicationInfoUi;
+}
+QT_END_NAMESPACE
+
+class QPlainTextEdit;
 
 class AppletApplicationInfo : public AppletBase, public ILogCallbackInterface
 {
@@ -46,9 +52,9 @@ protected slots:
 
 protected:
     void						setupApplet( void );
-    void                        clear()                 { getLogEdit()->clear(); }
-    QPlainTextEdit *            getInfoEdit( void )     { return ui.m_InfoPlainTextEdit; }
-    QPlainTextEdit *            getLogEdit( void )      { return ui.m_LogPlainTextEdit; }
+    void                        clear();
+    QPlainTextEdit *            getInfoEdit( void );
+    QPlainTextEdit *            getLogEdit( void );
     void                        fillBasicInfo( void );
     void                        fillExtraInfo( void );
 
@@ -58,7 +64,7 @@ protected:
     void *                      m_OldLogUserData{ nullptr};
     bool                        m_VerboseLog{ false };
 
-    Ui::AppletApplicationInfoUi ui;
+    Ui::AppletApplicationInfoUi& ui;
 };
 
 

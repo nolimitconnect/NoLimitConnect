@@ -12,9 +12,12 @@
 #include "AppletLaunchPage.h"
 #include "AppCommon.h"
 
+#include "ui_AppletLaunchWidget.h"
+
 //============================================================================
 AppletLaunchWidget::AppletLaunchWidget( AppCommon& myApp, EApplet appletType, AppletLaunchPage * parent )
 : VxWidgetBase( parent->getContentItemsFrame() )
+, ui(*(new Ui::LaunchWidgetClass))
 , m_MyApp( myApp )
 , m_AppletType( appletType )
 , m_AppletLaunchPage( parent )

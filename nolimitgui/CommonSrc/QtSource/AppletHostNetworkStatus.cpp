@@ -19,9 +19,15 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include "ui_AppletHostNetworkStatus.h"
+
+PermissionWidget*           AppletHostNetworkStatus::getNetworkHostPermissionWidget()    { return ui.m_HostPermissionWidget; }
+PermissionWidget*           AppletHostNetworkStatus::getConnectionTestWidget()         { return ui.m_ConnectTestPermissionWidget; }
+
 //============================================================================
 AppletHostNetworkStatus::AppletHostNetworkStatus( AppCommon& app, QWidget* parent )
     : AppletBase( OBJNAME_APPLET_HOST_NETWORK_STATUS, app, parent )
+    , ui(*(new Ui::AppletHostNetworkStatusUi))
     , m_UpdateStatusTimer( new QTimer( this ) )
 {
     ui.setupUi( getContentItemsFrame() );

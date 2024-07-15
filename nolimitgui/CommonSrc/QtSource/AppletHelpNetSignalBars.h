@@ -12,7 +12,11 @@
 #include "AppletBase.h"
 #include <GuiInterface/IDefs.h>
 
-#include "ui_AppletHelpNetSignalBars.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletHelpNetSignalBarsUi;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 
@@ -27,7 +31,7 @@ public:
 protected:
 
 	//=== vars ===//
-	Ui::AppletHelpNetSignalBarsUi		    ui;
+	Ui::AppletHelpNetSignalBarsUi&		    ui;
 
     static QString              m_NoInfoAvailable;
     static QString              m_NetworkDesign;

@@ -18,15 +18,21 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_ActivityScanStoryBoards.h"
+
 #define SESSION_TIMEOUT 15000
 
 ActivityScanStoryBoards * g_poScanStoryBoardsActivity = NULL;
+
+TitleBarWidget *	ActivityScanStoryBoards::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityScanStoryBoards::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
 
 //============================================================================
 //! constructor
 ActivityScanStoryBoards::ActivityScanStoryBoards(	AppCommon& app, 
 													QWidget*		parent )
 	: ActivityBase( OBJNAME_ACTIVITY_SCAN_STORYBOARDS, app, parent, eAppletScanStoryboard, true ) //Qt::Popup ) //
+	, ui(*(new Ui::ScanStoryBoardsDialog))
 	, m_bAutoScan(true)
 	, m_eScanType(eScanTypeCamServer)
 {

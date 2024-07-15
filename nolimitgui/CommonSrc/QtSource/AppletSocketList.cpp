@@ -31,6 +31,8 @@
 
 #include <QStandardItemModel>
 
+#include "ui_AppletSocketList.h"
+
 namespace
 {
     const int MAX_INFO_MSG_SIZE = 2048;
@@ -39,6 +41,7 @@ namespace
 //============================================================================
 AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_SOCKET_LIST, app, parent )
+, ui(*(new Ui::AppletSocketListUi))
 {
     setAppletType( eAppletSocketList );
     ui.setupUi( getContentItemsFrame() );

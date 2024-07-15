@@ -36,10 +36,13 @@
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxFileUtil.h>
 
+#include "ui_AppletFileShareClientView.h"
+
 //============================================================================
 AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_VIEW_SHARED_FILES, app, parent )
 , m_u8FileFilter( VXFILE_TYPE_ALLNOTEXE )
+, ui(*(new Ui::AppletFileShareClientViewUi))
 {
 	m_LclSessionId.initializeWithNewVxGUID();
     setPluginType( ePluginTypeFileShareClient );

@@ -15,10 +15,11 @@
 #include <GuiInterface/IDefs.h>
 #include <PluginSettings/PluginSetting.h>
 
-#include <QString>
-#include <QDialog>
-
-#include "ui_AppletFriendListClient.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletFriendListClientUi;
+}
+QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
@@ -73,6 +74,6 @@ protected:
     void                        updateFriendList( EUserViewType listType, std::vector<std::pair<VxGUID, int64_t>> idList );
 
     //=== vars ===//
-    Ui::AppletFriendListClientUi ui;
+    Ui::AppletFriendListClientUi& ui;
     EUserViewType             m_FriendListType{ eUserViewTypeFriendsOnline };
 };

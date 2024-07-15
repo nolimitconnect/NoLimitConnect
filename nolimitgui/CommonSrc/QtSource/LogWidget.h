@@ -13,11 +13,15 @@
 
 #include <CoreLib/VxDebug.h>
 
-#include "ui_LogWidget.h"
-
 #include <QPlainTextEdit>
 #include <QFile>
 #include <QMutex>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class LogWidgetClass;
+}
+QT_END_NAMESPACE
 
 class AppCommon;
 
@@ -43,9 +47,9 @@ protected slots:
     void                        slotCopyToClipboardClicked( void );
 
 protected:
-    QPlainTextEdit *            getLogEdit( void )  { return ui.m_LogPlainTextEdit;  }
+    QPlainTextEdit*             getLogEdit( void );
 
-    Ui::LogWidgetClass	        ui;
+    Ui::LogWidgetClass&	        ui;
     AppCommon&                  m_MyApp;
     QFile                       m_LogFile;
     QMutex                      m_LogMutex;

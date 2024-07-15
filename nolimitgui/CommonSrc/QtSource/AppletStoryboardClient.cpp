@@ -29,9 +29,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletStoryBoardClient.h"
+
 //============================================================================
 AppletStoryboardClient::AppletStoryboardClient( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_STORYBOARD_CLIENT, app, parent )
+, ui(*(new Ui::AppletStoryboardClientUi))
 {
     setAppletType( eAppletStoryboardClient );
     setPluginType( ePluginTypeStoryboardClient );

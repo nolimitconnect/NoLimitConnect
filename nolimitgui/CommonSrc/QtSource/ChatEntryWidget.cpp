@@ -25,9 +25,12 @@
 
 #include <time.h>
 
+#include "ui_ChatEntryWidget.h"
+
 //============================================================================
 ChatEntryWidget::ChatEntryWidget( QWidget* parent, EAssetType inputMode )
 : QWidget( parent )
+, ui(*(new Ui::ChatEntryWidget))
 , m_InputMode( inputMode )
 {
 	qDebug() << "ChatEntryWidget input mode " << inputMode;

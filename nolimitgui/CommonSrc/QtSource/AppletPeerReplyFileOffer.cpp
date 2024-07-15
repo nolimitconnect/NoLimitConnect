@@ -14,10 +14,13 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include "ui_AppletPeerReplyOfferFile.h"
+
 //============================================================================
 AppletPeerReplyFileOffer::AppletPeerReplyFileOffer(	AppCommon& app, 
 												    QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_REPLY_FILE_OFFER, app, parent )
+, ui(*(new Ui::AppletPeerReplyFileOfferUi))
 {
     setPluginType( ePluginTypePersonFileXfer );
     setAppletType( eAppletPeerReplyOfferFile );

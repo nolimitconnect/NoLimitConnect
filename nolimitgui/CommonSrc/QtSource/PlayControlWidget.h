@@ -9,13 +9,19 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ui_PlayControlWidget.h"
-
 #include <QWidget>
 
 #include <vector>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class PlayControlUi;
+}
+QT_END_NAMESPACE
+
+class QSlider;
 class QTimer;
+class VxPushButton;
 
 class PlayControlWidget : public QWidget
 {
@@ -24,8 +30,8 @@ class PlayControlWidget : public QWidget
 public:
 	PlayControlWidget( QWidget* parent = nullptr );
 
-	QSlider*					getPlayPosSlider( void )		{ return ui.m_PlayPosSlider; }
-	VxPushButton*				getPlayPauseButton( void )		{ return ui.m_PlayPauseButton; }
+	QSlider*					getPlayPosSlider( void );
+	VxPushButton*				getPlayPauseButton( void );
 
 	void						setSliderMax( int maxPosition );
 	void						setSliderPosition( int sliderPosition );
@@ -59,6 +65,6 @@ protected:
 
 	QTimer*						m_UpdateTimer{ nullptr };
 
-	Ui::PlayControlUi			ui;
+	Ui::PlayControlUi&			ui;
 
 };

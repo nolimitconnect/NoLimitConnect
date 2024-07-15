@@ -14,14 +14,15 @@
 #include "GuiMemberActiveMgr.h"
 #include "GuiUserMultiListWidget.h"
 
-#include <P2PEngine/P2PEngine.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
+
+#include "ui_AppletChatRoomClient.h"
 
 //============================================================================
 AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GROUP_HOST_ADMIN, app, parent )
+, ui(*(new Ui::AppletChatRoomClientUi))
 {
     setAppletType( eAppletGroupHostAdmin );
     ui.setupUi( getContentItemsFrame() );
@@ -36,8 +37,6 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
     connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
-
-
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 

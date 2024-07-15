@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "NetAvailStatusWidget.h"
+
 #include "AppCommon.h"
 #include "GuiParams.h"
 

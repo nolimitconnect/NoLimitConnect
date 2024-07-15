@@ -12,7 +12,11 @@
 #include "AppletBase.h"
 #include "UserProfile.h"
 
-#include "ui_AppletEditAboutMe.h"
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class AppletEditAboutMeUi;
+}
+QT_END_NAMESPACE
 
 class AppletEditAboutMe : public AppletBase
 {
@@ -48,9 +52,9 @@ protected:
     static const int CAMERA_SNAPSHOT = 1; // selector for image gallery call
 
     //=== vars ===//
-    Ui::AppletEditAboutMeUi	    ui;
+    Ui::AppletEditAboutMeUi&	ui;
     UserProfile 				m_UserProfile;
-    VxNetIdent*				m_MyIdent = nullptr;
+    VxNetIdent*				    m_MyIdent = nullptr;
     QString                     m_strOrigOnlineName;
     QString                     m_strOrigMoodMessage;
 

@@ -18,9 +18,15 @@
 
 #include <QMessageBox>
 
+#include "ui_ActivityShowHelp.h"
+
+TitleBarWidget *	ActivityShowHelp::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget *	ActivityShowHelp::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+
 //============================================================================
 ActivityShowHelp::ActivityShowHelp( AppCommon& app, QWidget* parent )
 : ActivityBase( OBJNAME_ACTIVITY_SHOW_HELP, app, 0 )
+, ui(*(new Ui::ShowHelpDialog))
 {
 	Q_UNUSED(parent);
 	ui.setupUi(this);

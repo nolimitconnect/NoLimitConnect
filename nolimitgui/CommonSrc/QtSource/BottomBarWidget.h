@@ -14,13 +14,20 @@
 #include "GuiHostJoinCallback.h"
 #include "GuiMemberActiveCallback.h"
 
-#include "ui_BottomBarWidget.h"
+#include "MyIconsDefs.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class BottomBarWidgetClass;
+}
+QT_END_NAMESPACE
 
 class GuiUser;
 class GuiOfferSession;
 class QLabel;
 class AppCommon;
 class MyIcons;
+class VxMenuButton;
 
 class BottomBarWidget : public QFrame, public GuiHostJoinCallback, public GuiMemberActiveCallback
 {
@@ -32,7 +39,7 @@ public:
 
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
 	MyIcons&					getMyIcons( void );
-    VxMenuButton *              getMenuButton( void );
+    VxMenuButton*               getMenuButton( void );
 
 	//=== host server state callbacks GuiHostJoinCallback ===// 
 	void						callbackJoinRequestCount( int requestCnt ) override;
@@ -122,6 +129,6 @@ protected:
 	void						refreshUserJoinedToHostStates( void );
 	void						launchJoinHostView( EHostType hostType );
 
-	Ui::BottomBarWidgetClass	ui;
+	Ui::BottomBarWidgetClass&	ui;
 	AppCommon&					m_MyApp;
 };

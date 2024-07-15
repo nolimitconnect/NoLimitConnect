@@ -10,13 +10,18 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include <QDialog>
-#include "ui_NetworkTestWidget.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class NetworkTestWidget;
+}
+QT_END_NAMESPACE
 
 #include <CoreLib/VxDefs.h>
 #include <GuiInterface/IToGui.h>
 
 class AppCommon;
+class LogWidget;
 class P2PEngine;
 
 class NetworkTestWidget : public QWidget
@@ -33,7 +38,7 @@ protected slots:
     void                        slotIsPortOpenButClick( void );
 
 protected:
-    LogWidget*                  getLogWidget( void ) { return ui.m_LogWidget; }
+	LogWidget*					getLogWidget( void );
 	//void						setupNetworkTestWidget( void );
 
 	//void						showNoInternetHelp( void );
@@ -47,7 +52,7 @@ protected:
 	//void						setHelpLine( int lineIdx, QString helpText );
 
 	//=== vars ===//
-	Ui::NetworkTestWidget	    ui;
+	Ui::NetworkTestWidget&	    ui;
     AppCommon&                  m_MyApp;
     QTimer *                    m_Timer;
 
