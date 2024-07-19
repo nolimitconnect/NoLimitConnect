@@ -618,7 +618,6 @@ NLC_END_CDECLARES
 # define usleep_os(exp)		VxSleep(exp/1000)
 
 # define VxGetLastError		GetLastError
-# define VX_MAX_PATH		260
 
 #ifndef MIN
 # define MIN(x,y) (((x) < (y)) ? (x) : (y))
@@ -1079,7 +1078,7 @@ typedef struct tWAVEFORMATEX
 
 # define     VxGetLastError()	errno
 # define	 VxMkDir(exp,exp2)	mkdir(exp,exp2)     //make directory command we can use in windows like linux
-# define     VX_MAX_PATH			260
+
 # define     INVALID_SOCKET		-1		// use windows style socket define
 # define     SOCKET_ERROR		-1		// use windows style socket define
 
@@ -1850,3 +1849,6 @@ it. */
 # endif // TARGET_OS_WINDOWS
 #endif // __PRETTY_FUNCTION__
 
+#ifndef	VX_MAX_PATH
+# define	VX_MAX_PATH	1024
+#endif

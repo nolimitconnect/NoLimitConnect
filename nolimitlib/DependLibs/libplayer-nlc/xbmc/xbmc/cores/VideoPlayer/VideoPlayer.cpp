@@ -5099,14 +5099,25 @@ void CVideoPlayer::UpdatePlayState( double timeout )
     {
         state.canseek = false;
         state.cantempo = false;
-        GetKodiInstance().onCanSeek( false, false );
+        if( m_LastCanSeek || m_LastCanPause )
+        {
+            m_LastCanSeek = false;
+            m_LastCanPause = false;
+            GetKodiInstance().onCanSeek( false, false );
+        }    
     }
     else
     {
         state.canseek = true;
         state.canpause = true;
-        GetKodiInstance().onCanSeek( true, true );
+        if( !m_LastCanSeek || !m_LastCanPause )
+        {
+            m_LastCanSeek = true;
+            m_LastCanPause = true;
+            GetKodiInstance().onCanSeek( true, true );
+        } 
     }
+
 
     m_processInfo->SetPlayTimes( state.startTime, state.time, state.timeMin, state.timeMax );
 

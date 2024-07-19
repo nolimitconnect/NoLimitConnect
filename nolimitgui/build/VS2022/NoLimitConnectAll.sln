@@ -115,6 +115,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppConfig", "AppConfig", "{
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\nolimitlib\config_appcorelibs.h = ..\..\..\nolimitlib\config_appcorelibs.h
 		..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg.h = ..\..\..\nolimitlib\DependLibs\ffmpeg\config_ffmpeg.h
+		..\..\..\nolimitlib\config_libkodi.h = ..\..\..\nolimitlib\config_libkodi.h
+		..\..\..\nolimitlib\config_libptop.h = ..\..\..\nolimitlib\config_libptop.h
+		..\..\..\nolimitlib\dlfcn.h = ..\..\..\nolimitlib\dlfcn.h
+		..\..\..\nolimitlib\grp.h = ..\..\..\nolimitlib\grp.h
+		..\..\..\nolimitlib\langinfo.h = ..\..\..\nolimitlib\langinfo.h
+		..\..\..\nolimitlib\NlcCommonConfig.h = ..\..\..\nolimitlib\NlcCommonConfig.h
+		..\..\..\nolimitlib\NlcCompilerConfig.h = ..\..\..\nolimitlib\NlcCompilerConfig.h
+		..\..\..\nolimitlib\NlcCpuArchDefines.h = ..\..\..\nolimitlib\NlcCpuArchDefines.h
+		..\..\..\nolimitlib\NlcDependLibrariesConfig.h = ..\..\..\nolimitlib\NlcDependLibrariesConfig.h
+		..\..\..\nolimitlib\NlcPtoPVersion.txt = ..\..\..\nolimitlib\NlcPtoPVersion.txt
+		..\..\..\nolimitlib\NlcTargetOsConfig.h = ..\..\..\nolimitlib\NlcTargetOsConfig.h
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "..\..\..\nolimitlib\DependLibs\libpng\build\VS2022\libpng.vcxproj", "{1E3986AE-8AB8-4D85-9BA7-E5582D8DA983}"
@@ -1141,7 +1152,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = 6.3.0_msvc2019_64
 		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
+		Qt5Version = 6.3.0_msvc2019_64
 	EndGlobalSection
 EndGlobal

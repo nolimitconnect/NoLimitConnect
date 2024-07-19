@@ -72,7 +72,40 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     //| eLogAudioIo
     //| eLogVideoIo
     );
-#elif defined(DEBUG) || defined(FLATPAKBUILD)
+#elif defined(CAMERATESTBUILD)
+        uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
+        eLogHackers
+        // | eLogMulticast
+        // | eLogConnect
+        // | eLogAcceptConn
+        // | eLogSkt
+        // | eLogPkt
+        // | eLogNetworkState
+        // | eLogNetworkMgr
+        // | eLogIsPortOpenTest
+        // | eLogThread
+        // | eLogStorage
+        // | eLogAssets
+        // | eLogPlugins
+        // | eLogWindowPositions
+         | eLogStartup
+        // | eLogHosts
+        // | eLogMediaStream
+        // | eLogSktData
+        //| eLogSktData
+        //| eLogAcceptConn
+        //| eLogPortForward
+        // | eLogNetService
+        // | eLogRunTest
+        // | eLogHostConnect
+        // | eLogHostSearch
+        //| eLogMediaStream
+        | eLogPlayerNlc
+        | eLogFfmpeg
+        | eLogAudioIo
+        | eLogVideoIo
+        );
+#elif defined(DEBUG) || defined(_DEBUG) || defined(FLATPAKBUILD)
     uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
         // | eLogMulticast

@@ -289,7 +289,7 @@ void AppletPlayerNlc::playSelectedMovie( std::string fullFileName )
 
 		m_RecentFiles.removeFile( fullFileName );
 		m_RecentFiles.addFileToFront( fullFileName );
-        m_RecentFiles.dumpToLog( LOG_VERBOSE );
+        //m_RecentFiles.dumpToLog( LOG_VERBOSE );
 		refreshRecentFilesComboBox();
 
 		ui.m_LastPlayedFileText->setText( fileName );

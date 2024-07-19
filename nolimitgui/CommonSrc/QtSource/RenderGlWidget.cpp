@@ -76,7 +76,7 @@ RenderGlWidget::~RenderGlWidget()
 //============================================================================
 void RenderGlWidget::takeSnapshot()
 {
-    if( m_WidgetGlInitialized && getIsRenderInitialized() )
+    if( getIsRenderInitialized() )
     {
         lockRenderer();
         QImage frameImage = getLastRenderedImage();

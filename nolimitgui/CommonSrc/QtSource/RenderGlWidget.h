@@ -259,8 +259,5 @@ protected:
     QTimer *					m_ResizingTimer = nullptr;
 	bool						m_IsResizing = false;
 
- 
     QMatrix4x4                  m_ColorMatrix;
-
-    bool                        m_WidgetGlInitialized = false;
 };

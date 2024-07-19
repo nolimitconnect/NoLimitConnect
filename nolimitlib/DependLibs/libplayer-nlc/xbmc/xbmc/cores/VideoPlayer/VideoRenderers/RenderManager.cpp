@@ -97,7 +97,6 @@ void CRenderManager::SetVideoSettings( const CVideoSettings& settings )
 
 bool CRenderManager::Configure( const VideoPicture& picture, float fps, unsigned int orientation, int buffers )
 {
-
     // check if something has changed
     {
         std::unique_lock<CCriticalSection> lock( m_statelock );
@@ -176,6 +175,7 @@ bool CRenderManager::Configure( const VideoPicture& picture, float fps, unsigned
         return false;
     }
 
+    INlc::getINlc().verifyGlState();
     return true;
 }
 
@@ -511,11 +511,14 @@ void CRenderManager::CreateRenderer()
             }
         }
 
+        if( !m_pRenderer )
+        {
+            m_pRenderer = VIDEOPLAYER::CRendererFactory::CreateRenderer( "default", buffer );
+        }
 
-        m_pRenderer = VIDEOPLAYER::CRendererFactory::CreateRenderer( "default", buffer );
+        // cannot verify gl here
+        // INlc::getINlc().verifyGlState();
     }
-
-    INlc::getINlc().verifyGlState();
 }
 
 void CRenderManager::DeleteRenderer()

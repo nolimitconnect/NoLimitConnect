@@ -3,6 +3,10 @@
 **/myrepo/
 **/.flatpak-builder/
 **/build-dir/
+build-staticlibs/
+.vs/
+build/Android*
+
 
 /**/*.user
 /**/*.a

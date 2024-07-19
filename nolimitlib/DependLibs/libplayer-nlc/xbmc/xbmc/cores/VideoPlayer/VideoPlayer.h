@@ -625,4 +625,7 @@ protected:
   bool m_UpdateStreamDetails;
 
   std::atomic<bool> m_displayLost;
+
+  bool m_LastCanSeek{ false };
+  bool m_LastCanPause{ false };
 };
