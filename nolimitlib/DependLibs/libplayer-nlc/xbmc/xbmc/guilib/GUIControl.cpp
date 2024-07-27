@@ -185,30 +185,30 @@ void CGUIControl::DoRender()
             RENDER_STEREO_MODE_MONO &&
         CServiceBroker::GetWinSystem()->GetGfxContext().GetStereoMode() != RENDER_STEREO_MODE_OFF;
 
-    CServiceBroker::GetWinSystem()->GetGfxContext().SetTransform(m_cachedTransform);
-    if (m_hasCamera)
-      CServiceBroker::GetWinSystem()->GetGfxContext().SetCameraPosition(m_camera);
-    if (hasStereo)
-      CServiceBroker::GetWinSystem()->GetGfxContext().SetStereoFactor(m_stereo);
+    //CServiceBroker::GetWinSystem()->GetGfxContext().SetTransform(m_cachedTransform);
+    //if (m_hasCamera)
+    //  CServiceBroker::GetWinSystem()->GetGfxContext().SetCameraPosition(m_camera);
+    //if (hasStereo)
+    //  CServiceBroker::GetWinSystem()->GetGfxContext().SetStereoFactor(m_stereo);
 
     GUIPROFILER_RENDER_BEGIN(this);
 
-    if (m_hitColor != 0xffffffff)
-    {
-      UTILS::COLOR::Color color =
-          CServiceBroker::GetWinSystem()->GetGfxContext().MergeAlpha(m_hitColor);
-      CGUITextureBase::DrawQuad(CServiceBroker::GetWinSystem()->GetGfxContext().GenerateAABB(m_hitRect), color);
-    }
+    //if (m_hitColor != 0xffffffff)
+    //{
+    //  UTILS::COLOR::Color color =
+    //      CServiceBroker::GetWinSystem()->GetGfxContext().MergeAlpha(m_hitColor);
+    //  CGUITextureBase::DrawQuad(CServiceBroker::GetWinSystem()->GetGfxContext().GenerateAABB(m_hitRect), color);
+    //}
 
     Render();
 
     GUIPROFILER_RENDER_END(this);
 
-    if (hasStereo)
-      CServiceBroker::GetWinSystem()->GetGfxContext().RestoreStereoFactor();
-    if (m_hasCamera)
-      CServiceBroker::GetWinSystem()->GetGfxContext().RestoreCameraPosition();
-    CServiceBroker::GetWinSystem()->GetGfxContext().RemoveTransform();
+    //if (hasStereo)
+    //  CServiceBroker::GetWinSystem()->GetGfxContext().RestoreStereoFactor();
+    //if (m_hasCamera)
+    //  CServiceBroker::GetWinSystem()->GetGfxContext().RestoreCameraPosition();
+    //CServiceBroker::GetWinSystem()->GetGfxContext().RemoveTransform();
   }
 }
 

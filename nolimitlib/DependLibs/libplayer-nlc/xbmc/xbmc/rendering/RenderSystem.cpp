@@ -57,6 +57,7 @@ bool CRenderSystemBase::SupportsStereo(RENDER_STEREO_MODE mode) const
 
 void CRenderSystemBase::ShowSplash(const std::string& message)
 {
+    return;
   if (!CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_splashImage && !(m_splashImage || !message.empty()))
     return;
 

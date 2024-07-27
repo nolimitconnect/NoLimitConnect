@@ -371,13 +371,13 @@ void CGUIWindow::DoRender()
   // to occur.
   if (!m_bAllocated) return;
 
-  CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(m_coordsRes, m_needsScaling);
+  //CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(m_coordsRes, m_needsScaling);
 
-  CServiceBroker::GetWinSystem()->GetGfxContext().AddGUITransform();
+  //CServiceBroker::GetWinSystem()->GetGfxContext().AddGUITransform();
   CGUIControlGroup::DoRender();
-  CServiceBroker::GetWinSystem()->GetGfxContext().RemoveTransform();
+  //CServiceBroker::GetWinSystem()->GetGfxContext().RemoveTransform();
 
-  if (CGUIControlProfiler::IsRunning()) CGUIControlProfiler::Instance().EndFrame();
+  //if (CGUIControlProfiler::IsRunning()) CGUIControlProfiler::Instance().EndFrame();
 }
 
 void CGUIWindow::AfterRender()

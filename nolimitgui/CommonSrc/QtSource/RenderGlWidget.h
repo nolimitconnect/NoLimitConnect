@@ -49,6 +49,8 @@ public:
     //! take a snapshot of current render
     void                        takeSnapshot();
 
+    void                        showAppIcon( void );
+
     //! ignore from kodi
     void                        initialiseShaders() override;
     //! ignore from kodi

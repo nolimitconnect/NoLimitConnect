@@ -63,7 +63,7 @@ public:
     // Functions called from render thread
     void GetVideoRect(CRect& source, CRect& dest, CRect& view) const;
     float GetAspectRatio() const;
-    void FrameMove();
+    bool FrameMove();
     void FrameWait(std::chrono::milliseconds duration);
     void Render( bool clear, DWORD flags = 0, DWORD alpha = 255, bool gui = true );
     bool IsVideoLayer();

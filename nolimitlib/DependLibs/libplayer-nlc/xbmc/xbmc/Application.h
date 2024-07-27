@@ -115,6 +115,8 @@ public:
     virtual enum EAppModule     getAppModule( void ) { return eAppModuleMediaPlayer; }
     virtual bool                testQuitFlag() { return false; }
 
+    virtual bool                getIsPlayingMedia( void ) = 0;
+
     //============================================================================
     //=== nlc events ===//
     //============================================================================

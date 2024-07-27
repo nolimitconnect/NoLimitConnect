@@ -315,6 +315,11 @@ void AppletPlayerNlcBase::slotLeftMouseButtonClick( void )
 void AppletPlayerNlcBase::callbackGuiMediaPlayerNlcReady( bool isReady )
 {
 	LogMsg( LOG_DEBUG, "%s %d", __func__, isReady );
+	if( isReady )
+	{
+		getRenderConsumer()->showAppIcon();
+	}
+
 	onMediaPlayerNlcReady( isReady );
 }
 

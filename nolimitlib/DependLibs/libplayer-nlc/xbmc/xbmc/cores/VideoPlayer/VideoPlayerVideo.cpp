@@ -410,6 +410,7 @@ void CVideoPlayerVideo::Process()
             if( m_picture.videoBuffer )
             {
                 m_picture.pts = pts;
+                LogModule( eLogVideoIo, LOG_DEBUG, "CVideoPlayerVideo::Process wait timeout. Output last picture pts %3.3f", pts );
                 m_outputSate = OutputPicture( &m_picture );
                 pts += frametime;
             }
@@ -708,6 +709,13 @@ bool CVideoPlayerVideo::ProcessDecoderOutput( double& frametime, double& pts )
     if( decoderState == CDVDVideoCodec::VC_PICTURE )
     {
         bool hasTimestamp = true;
+        //static int picCnt = 0;
+        //picCnt++;
+        //if( picCnt > 10 )
+        //{
+        //    LogMsg( LOG_ERROR, "CVideoPlayerVideo::ProcessDecoderOutput calling exit " );
+        //    exit(1);
+        //}
 
         m_picture.iDuration = frametime;
 

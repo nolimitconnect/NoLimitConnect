@@ -1283,14 +1283,14 @@ void CGUIWindowManager::RenderPass() const
   }
 
   // we render the dialogs based on their render order.
-  auto renderList = m_activeDialogs;
-  stable_sort(renderList.begin(), renderList.end(), RenderOrderSortFunction);
+  //auto renderList = m_activeDialogs;
+  //stable_sort(renderList.begin(), renderList.end(), RenderOrderSortFunction);
 
-  for (const auto& window : renderList)
-  {
-    if (window->IsDialogRunning())
-      window->DoRender();
-  }
+  //for (const auto& window : renderList)
+  //{
+  //  if (window->IsDialogRunning())
+  //    window->DoRender();
+  //}
 }
 
 void CGUIWindowManager::RenderEx() const

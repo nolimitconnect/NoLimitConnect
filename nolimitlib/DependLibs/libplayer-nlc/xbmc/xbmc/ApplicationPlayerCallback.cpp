@@ -200,7 +200,7 @@ void CApplicationPlayerCallback::OnPlayBackPaused()
 
   CVariant param;
   param["player"]["speed"] = 0;
-  param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+  param["player"]["playerid"] = -1; // = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnPause",
                                                      m_itemCurrentFile, param);
   GetKodiInstance().onPlaybackPaused();
@@ -214,7 +214,7 @@ void CApplicationPlayerCallback::OnPlayBackResumed()
 
   CVariant param;
   param["player"]["speed"] = 1;
-  param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+  param["player"]["playerid"] = -1; // = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnResume",
                                                      m_itemCurrentFile, param);
   GetKodiInstance().onPlaybackResumed();
@@ -271,7 +271,7 @@ void CApplicationPlayerCallback::OnPlayBackSeek(int64_t iTime, int64_t seekOffse
   CVariant param;
   JSONRPC::CJSONUtils::MillisecondsToTimeObject(iTime, param["player"]["time"]);
   JSONRPC::CJSONUtils::MillisecondsToTimeObject(seekOffset, param["player"]["seekoffset"]);
-  param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+  param["player"]["playerid"] = -1; // CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   const auto& components = CServiceBroker::GetAppComponents();
   const auto appPlayer = components.GetComponent<CApplicationPlayer>();
   param["player"]["speed"] = static_cast<int>(appPlayer->GetPlaySpeed());
@@ -296,7 +296,7 @@ void CApplicationPlayerCallback::OnPlayBackSpeedChanged(int iSpeed)
 
   CVariant param;
   param["player"]["speed"] = iSpeed;
-  param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+  param["player"]["playerid"] = -1; // CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnSpeedChanged",
                                                      m_itemCurrentFile, param);
 }
@@ -307,12 +307,12 @@ void CApplicationPlayerCallback::OnAVChange()
 
   CServiceBroker::GetGUI()->GetStereoscopicsManager().OnStreamChange();
 
-  CGUIMessage msg(GUI_MSG_PLAYBACK_AVCHANGE, 0, 0);
-  CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
+  //CGUIMessage msg(GUI_MSG_PLAYBACK_AVCHANGE, 0, 0);
+  //CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
 
   CVariant param;
   param["player"]["speed"] = 1;
-  param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+  param["player"]["playerid"] = -1; // CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnAVChange",
                                                      m_itemCurrentFile, param);
 }
@@ -321,50 +321,50 @@ void CApplicationPlayerCallback::OnAVStarted(const CFileItem& file)
 {
   CLog::LogF(LOGDEBUG, "CApplication::OnAVStarted");
 
-  CGUIMessage msg(GUI_MSG_PLAYBACK_AVSTARTED, 0, 0);
-  CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
+  //CGUIMessage msg(GUI_MSG_PLAYBACK_AVSTARTED, 0, 0);
+  //CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
 
   CVariant param;
   param["player"]["speed"] = 1;
-  param["player"]["playerid"] = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+  param["player"]["playerid"] = -1; // CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
   CServiceBroker::GetAnnouncementManager()->Announce(ANNOUNCEMENT::Player, "OnAVStart",
                                                      m_itemCurrentFile, param);
 }
 
 void CApplicationPlayerCallback::RequestVideoSettings(const CFileItem& fileItem)
 {
-  CVideoDatabase dbs;
-  if (dbs.Open())
-  {
-    CLog::Log(LOGDEBUG, "Loading settings for %s", NlcUrl::GetRedacted(fileItem.GetPath()).c_str());
+  //CVideoDatabase dbs;
+  //if (dbs.Open())
+  //{
+  //  CLog::Log(LOGDEBUG, "Loading settings for %s", NlcUrl::GetRedacted(fileItem.GetPath()).c_str());
 
-    // Load stored settings if they exist, otherwise use default
-    CVideoSettings vs;
-    if (!dbs.GetVideoSettings(fileItem, vs))
-      vs = CMediaSettings::GetInstance().GetDefaultVideoSettings();
+  //  // Load stored settings if they exist, otherwise use default
+  //  CVideoSettings vs;
+  //  if (!dbs.GetVideoSettings(fileItem, vs))
+  //    vs = CMediaSettings::GetInstance().GetDefaultVideoSettings();
 
-    auto& components = CServiceBroker::GetAppComponents();
-    const auto appPlayer = components.GetComponent<CApplicationPlayer>();
-    appPlayer->SetVideoSettings(vs);
+  //  auto& components = CServiceBroker::GetAppComponents();
+  //  const auto appPlayer = components.GetComponent<CApplicationPlayer>();
+  //  appPlayer->SetVideoSettings(vs);
 
-    dbs.Close();
-  }
+  //  dbs.Close();
+  //}
 }
 
 void CApplicationPlayerCallback::StoreVideoSettings(const CFileItem& fileItem,
                                                     const CVideoSettings& vs)
 {
-  CVideoDatabase dbs;
-  if (dbs.Open())
-  {
-    if (vs != CMediaSettings::GetInstance().GetDefaultVideoSettings())
-    {
-      dbs.SetVideoSettings(fileItem, vs);
-    }
-    else
-    {
-      dbs.EraseVideoSettings(fileItem);
-    }
-    dbs.Close();
-  }
+  //CVideoDatabase dbs;
+  //if (dbs.Open())
+  //{
+  //  if (vs != CMediaSettings::GetInstance().GetDefaultVideoSettings())
+  //  {
+  //    dbs.SetVideoSettings(fileItem, vs);
+  //  }
+  //  else
+  //  {
+  //    dbs.EraseVideoSettings(fileItem);
+  //  }
+  //  dbs.Close();
+  //}
 }

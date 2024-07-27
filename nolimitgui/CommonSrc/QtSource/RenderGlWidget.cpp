@@ -9,11 +9,11 @@
 //============================================================================
 
 #include "RenderGlWidget.h"
+
 #include "AppCommon.h"
-
 #include "AppSettings.h"
-
 #include "GuiHelpers.h"
+#include "MyIcons.h"
 
 #include "RenderGlOffScreenSurface.h"
 
@@ -62,7 +62,7 @@ RenderGlWidget::RenderGlWidget(QWidget* parent)
     memset( m_TexSize, 0, sizeof( m_TexSize ) );
 
 	connect( m_ResizingTimer, SIGNAL( timeout() ), this, SLOT( slotResizeWindowTimeout() ) );
-    connect( this, SIGNAL( signalFrameRendered() ), this, SLOT( slotOnFrameRendered() ) );
+    connect( this, SIGNAL(signalFrameRendered()), this, SLOT(slotOnFrameRendered()) );
     initRenderGlContext();
 }
 
@@ -268,4 +268,13 @@ void RenderGlWidget::slotResizeWindowTimeout()
 		m_IsResizing = false;
 		onResizeEnd( m_ResizingWindowSize );
 	}
+}
+
+//============================================================================
+void RenderGlWidget::showAppIcon( void )
+{
+    QPixmap pixmap = m_MyApp.getMyIcons().getIconPixmap( eMyIconApp, geometry().size() );
+    QImage image = pixmap.toImage();
+    setLastRenderedImage( image );
+    update();
 }

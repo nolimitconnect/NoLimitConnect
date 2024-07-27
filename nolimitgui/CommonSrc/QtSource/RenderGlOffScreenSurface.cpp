@@ -175,6 +175,17 @@ void RenderGlOffScreenSurface::presentRenderGl( bool rendered, bool videoLayer )
         {
             m_RenderGlLogic->VerifyGLStateQt();
             QImage image = grabFramebuffer();
+            static QImage lastImage;
+            if( image == lastImage )
+            {
+                //image.fill( Qt::red );
+                return;
+            }
+            else
+            {
+                lastImage = image;
+            }
+
             m_RenderGlLogic->setLastRenderedImage( image );
             m_RenderGlLogic->VerifyGLStateQt();
             //swapBuffers(); // broken do not use
@@ -183,7 +194,7 @@ void RenderGlOffScreenSurface::presentRenderGl( bool rendered, bool videoLayer )
             m_RenderGlLogic->VerifyGLStateQt();
 
 			//doneCurrent(); // broken do not use
-            m_RenderGlLogic->VerifyGLStateQt();
+            //m_RenderGlLogic->VerifyGLStateQt();
         }
 
         //LogMsg( LOG_DEBUG, " RenderGlOffScreenSurface::presentRender done size x(%d) y(%d)", m_SurfaceSize.width(), m_SurfaceSize.height() );

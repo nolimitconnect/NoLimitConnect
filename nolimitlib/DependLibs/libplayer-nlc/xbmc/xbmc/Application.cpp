@@ -1030,7 +1030,7 @@ void CApplication::Render()
     }
 
     // render video layer
-    CServiceBroker::GetGUI()->GetWindowManager().RenderEx();
+    //CServiceBroker::GetGUI()->GetWindowManager().RenderEx();
 
     CServiceBroker::GetRenderSystem()->EndRender();
 
@@ -2058,7 +2058,14 @@ int CApplication::Run()
 
         if( renderGUI && !m_bStop )
         {
-            Render();
+            if( getIsPlayingMedia() )
+            {
+                Render();
+            }
+            else
+            {
+                KODI::TIME::Sleep( std::chrono::milliseconds( 20 ) );
+            }
         }
         else if( !renderGUI )
         {

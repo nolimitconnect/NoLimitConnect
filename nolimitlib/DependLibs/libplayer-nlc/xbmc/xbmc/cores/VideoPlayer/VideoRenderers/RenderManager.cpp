@@ -45,6 +45,7 @@
 
 #include "../../../../../nolimitgui/AppInterface/INlc.h"
 
+#include <CoreLib/VxDebug.h>
 
 using namespace std::chrono_literals;
 using namespace KODI::MESSAGING;
@@ -175,7 +176,6 @@ bool CRenderManager::Configure( const VideoPicture& picture, float fps, unsigned
         return false;
     }
 
-    INlc::getINlc().verifyGlState();
     return true;
 }
 
@@ -231,6 +231,7 @@ bool CRenderManager::Configure()
         m_discard.clear();
         m_free.clear();
         m_presentsource = 0;
+        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::Configure m_presentsource %d", m_presentsource );
         m_presentsourcePast = -1;
         for( int i = 1; i < m_QueueSize; i++ )
             m_free.push_back( i );
@@ -298,21 +299,22 @@ bool CRenderManager::IsPresenting()
         return false;
 }
 
-void CRenderManager::FrameMove()
+bool CRenderManager::FrameMove()
 {
     bool firstFrame = false;
+    bool shouldRender = false;
     UpdateResolution();
 
     {
         std::unique_lock<CCriticalSection> lock( m_statelock );
 
         if( m_renderState == STATE_UNCONFIGURED )
-            return;
+            return false;
         else if( m_renderState == STATE_CONFIGURING )
         {
             lock.unlock();
             if( !Configure() )
-                return;
+                return false;
 
             firstFrame = true;
             FrameWait( 50ms );
@@ -326,6 +328,7 @@ void CRenderManager::FrameMove()
         if( m_queued.empty() )
         {
             m_presentstep = PRESENT_IDLE;
+            shouldRender = false;
         }
         else
         {
@@ -338,6 +341,7 @@ void CRenderManager::FrameMove()
         if( m_presentstep == PRESENT_FLIP )
         {
             m_presentstep = PRESENT_FRAME;
+            LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::FrameMove PRESENT_FRAME" );
             m_presentevent.notifyAll();
         }
 
@@ -363,6 +367,7 @@ void CRenderManager::FrameMove()
     m_playerPort->UpdateGuiRender( IsGuiLayer() || firstFrame );
 
     ManageCaptures();
+    return shouldRender;
 }
 
 void CRenderManager::PreInit()
@@ -757,6 +762,9 @@ void CRenderManager::Render( bool clear, DWORD flags, DWORD alpha, bool gui )
         m_overlays.SetVideoRect( src, dst, view );
         m_overlays.Render( m_presentsource );
 
+        //LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::Render src %d dest %dx%d view %dx%d",
+        //           m_presentsource, dst.Width(), dst.Height(), view.Width(), view.Height() );
+
         if( m_renderDebug )
         {
             DEBUG_INFO_PLAYER info;
@@ -781,6 +789,7 @@ void CRenderManager::Render( bool clear, DWORD flags, DWORD alpha, bool gui )
             m_renderedOverlay = true;
         }
     }
+
 
     const SPresent& m = m_Queue[m_presentsource];
 
@@ -843,6 +852,19 @@ bool CRenderManager::IsVideoLayer()
 void CRenderManager::PresentSingle( bool clear, DWORD flags, DWORD alpha )
 {
     const SPresent& m = m_Queue[m_presentsource];
+    static int lastSource{ 0 };
+    static int sourcePast{ 0 };
+    static int lastStep{ 0 };
+    if( lastSource != m_presentsource ||
+        m_presentsourcePast != sourcePast ||
+        m_presentstep != lastStep )
+    {
+        lastSource = m_presentsource;
+        sourcePast = m_presentsourcePast;
+        lastStep = m_presentstep;
+        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::PresentSingle source %d sourcePast %d m_presentstep %d", 
+                   m_presentsource, m_presentsourcePast, m_presentstep );
+    }
 
     if( m.presentfield == FS_BOT )
         m_pRenderer->RenderUpdate( m_presentsource, m_presentsourcePast, clear, flags | RENDER_FLAG_BOT, alpha );
@@ -1013,11 +1035,15 @@ bool CRenderManager::AddVideoPicture( const VideoPicture& picture, volatile std:
         }
     }
 
-
     SPresent& m = m_Queue[index];
     m.presentfield = displayField;
     m.presentmethod = presentmethod;
     m.pts = picture.pts;
+    if( m.pts )
+    {
+        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::AddVideoPicture SPresent %d pts %3.3f present method %d", index, m.pts, presentmethod);
+    }
+
     m_queued.push_back( m_free.front() );
     m_free.pop_front();
     m_playerPort->UpdateRenderBuffers( m_queued.size(), m_discard.size(), m_free.size() );
@@ -1157,6 +1183,13 @@ void CRenderManager::PrepareNextRender()
     double renderPts = frameOnScreen + m_displayLatency;
 
     double nextFramePts = m_Queue[m_queued.front()].pts;
+    LogModule( eLogVideoIo, LOG_DEBUG, "PrepareNextRender nextFrame %3.3fms frametime %3.3f dispLatency %3.3f renderPts %3.3f nextFramePts %3.3f",
+               (nextFramePts - renderPts)/1000, frametime, m_displayLatency, renderPts, nextFramePts );
+    if( renderPts > 0 && nextFramePts - renderPts > 100000.0 )
+    {
+        LogModule( eLogVideoIo, LOG_ERROR, "PrepareNextRender ERROR nextFramePts out of reach %3.3f us", nextFramePts - renderPts );
+    }
+
     if( m_dvdClock.GetClockSpeed() < 0 )
         nextFramePts = renderPts;
 
@@ -1231,6 +1264,7 @@ void CRenderManager::PrepareNextRender()
         m_presentstep = PRESENT_FLIP;
         m_discard.push_back( m_presentsource );
         m_presentsource = idx;
+        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::PrepareNextRender m_presentsource %d", idx );
         m_queued.pop_front();
         m_presentpts = m_Queue[idx].pts - m_displayLatency;
         m_presentevent.notifyAll();

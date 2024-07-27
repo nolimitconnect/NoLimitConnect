@@ -13,6 +13,8 @@
 #include "settings/AdvancedSettings.h"
 #include "settings/SettingsComponent.h"
 
+#include <CoreLib/VxDebug.h>
+
 #include <mutex>
 
 CCriticalSection createSection;
@@ -538,6 +540,10 @@ void CProcessInfo::SetFrameAdvance(bool fa)
   std::unique_lock<CCriticalSection> lock(m_stateSection);
 
   m_frameAdvance = fa;
+  if( fa )
+  {
+      LogModule( eLogVideoIo, LOG_DEBUG, "frame advance true" );
+  }
 
   if (m_dataCache)
     m_dataCache->SetFrameAdvance(fa);

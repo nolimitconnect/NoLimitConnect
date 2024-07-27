@@ -251,6 +251,7 @@ void MediaPlayerNlc::onPlayFile( void )
 //============================================================================
 void MediaPlayerNlc::onPlayStarted( void )
 {
+	setIsPlayingMedia( true );
 	lockClientList();
     for( auto client : m_MediaPlayerCallbackClients )
     {
@@ -287,6 +288,7 @@ void MediaPlayerNlc::onPlaybackStopped( void )
 //============================================================================
 void MediaPlayerNlc::onPlaybackEnded( void )
 {
+	setIsPlayingMedia( false );
 	lockClientList();
     for( auto client : m_MediaPlayerCallbackClients )
     {

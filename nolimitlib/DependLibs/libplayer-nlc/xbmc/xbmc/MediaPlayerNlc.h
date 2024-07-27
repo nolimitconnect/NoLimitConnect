@@ -22,6 +22,9 @@ public:
 	enum EAppModule				getAppModule( void ) override;
     bool						testQuitFlag() override;
 
+	void						setIsPlayingMedia( bool isPlaying ) { m_IsPlayingMedia = isPlaying; }
+	bool						getIsPlayingMedia( void ) override { return m_IsPlayingMedia; }
+
 	void						fromGuiInitCommandLine( int argc, char** argv ) override;
 
 	bool						fromGuiStartModule( EAppModule appModule ) override;
@@ -70,6 +73,7 @@ protected:
 
 	bool						m_ModuleIsInitialized{ false };
 	bool						m_ModuleIsRunning{ false };
+	bool						m_IsPlayingMedia{ false };
 
 	std::vector<IMediaPlayerCallback*>    m_MediaPlayerCallbackClients;
     VxMutex						m_MediaPlayerCallbackMutex;

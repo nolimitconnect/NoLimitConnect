@@ -47,6 +47,8 @@
 
 #include "../../../../../nolimitgui/AppInterface/INlc.h"
 
+#include <CoreLib/VxDebug.h>
+
 
 #if defined(__ARM_NEON__) && !defined(__LP64__)
 #include "yuv2rgb.neon.h"
@@ -226,6 +228,7 @@ int CRendererQt::NextYV12Texture()
 //============================================================================
 void CRendererQt::AddVideoPicture( const VideoPicture &picture, int index )
 {
+    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::AddVideoPicture YUVBUFFER %d", index );
     YUVBUFFER &buf = m_buffers[ index ];
     buf.videoBuffer = picture.videoBuffer;
     buf.videoBuffer->Acquire();
@@ -413,6 +416,9 @@ void CRendererQt::RenderUpdate( int index, int index2, bool clear, unsigned int 
     if( !buf.fields[ FIELD_FULL ][ 0 ].id )
         return;
 
+    if( buf.loaded )
+        return;
+
     ManageRenderArea();
 
     if( clear )
@@ -443,7 +449,10 @@ void CRendererQt::RenderUpdate( int index, int index2, bool clear, unsigned int 
     if( ( flags & RENDER_FLAG_TOP ) && ( flags & RENDER_FLAG_BOT ) )
         CLog::Log( LOGERROR, "GLES: Cannot render stipple!" );
     else
+    {
+        //LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::RenderUpdate YUVBUFFER %d", index );
         Render( flags, index );
+    }
 
     VerifyGLState();
     glEnable( GL_BLEND );
@@ -691,13 +700,14 @@ bool CRendererQt::UploadTexture( int index )
         return false;
 
     if( m_buffers[ index ].loaded )
-        return true;
+        return false;
 
     bool ret = false;
 
     YuvImage &dst = m_buffers[ index ].image;
     m_buffers[ index ].videoBuffer->GetPlanes( dst.plane );
     m_buffers[ index ].videoBuffer->GetStrides( dst.stride );
+    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::UploadTexture %d", index );
 
     if( m_format == AV_PIX_FMT_NV12 )
     {
@@ -728,6 +738,7 @@ void CRendererQt::Render( unsigned int flags, int index )
     else
         m_currentField = FIELD_FULL;
 
+    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::Render %d", index );
     // call texture load function
     if( !UploadTexture( index ) )
     {
@@ -770,6 +781,8 @@ void CRendererQt::Render( unsigned int flags, int index )
 void CRendererQt::RenderSinglePass( int index, int field )
 {
     YUVPLANE( &planes )[ YuvImage::MAX_PLANES ] = m_buffers[ index ].fields[ field ];
+
+    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::RenderSinglePass %d", index );
 
     if( m_reloadShaders )
     {
@@ -892,6 +905,7 @@ void CRendererQt::RenderToFBO( int index, int field, bool weave /*= false*/ )
         }
     }
 
+    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::RenderToFBO %d", index );
     m_INlc.glFuncDisable( GL_DEPTH_TEST );
     glDisable( GL_DEPTH_TEST );
 
