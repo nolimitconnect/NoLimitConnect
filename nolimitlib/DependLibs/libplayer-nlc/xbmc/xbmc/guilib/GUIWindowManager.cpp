@@ -318,7 +318,7 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIWindowWeather);
 #endif // HAVE_WEATHER
   Add(new CGUIWindowStartup);
-  Add(new CGUIWindowSplash);
+  //Add(new CGUIWindowSplash);
 
   Add(new CGUIWindowEventLog);
 
@@ -511,6 +511,7 @@ bool CGUIWindowManager::SendMessage(int message, int senderID, int destID, int p
 
 bool CGUIWindowManager::SendMessage(CGUIMessage& message)
 {
+    return true;
   bool handled = false;
   //  CLog::Log(LOGDEBUG,"SendMessage: mess={} send={} control={} param1={}", message.GetMessage(), message.GetSenderId(), message.GetControlId(), message.GetParam1());
   // Send the message to all none window targets
@@ -1227,22 +1228,27 @@ void CGUIWindowManager::Process(unsigned int currentTime)
   assert(CServiceBroker::GetAppMessenger()->IsProcessThread());
   std::unique_lock<CCriticalSection> lock(CServiceBroker::GetWinSystem()->GetGfxContext());
 
-  m_dirtyregions.clear();
+  //m_dirtyregions.clear();
 
   CGUIWindow* pWindow = GetWindow(GetActiveWindow());
   if (pWindow)
     pWindow->DoProcess(currentTime, m_dirtyregions);
 
-  // process all dialogs - visibility may change etc.
-  for (const auto& entry : m_mapWindows)
-  {
-    CGUIWindow *pWindow = entry.second;
-    if (pWindow && pWindow->IsDialog())
-      pWindow->DoProcess(currentTime, m_dirtyregions);
-  }
+  //// process all dialogs - visibility may change etc.
+  //for (const auto& entry : m_mapWindows)
+  //{
+  //  CGUIWindow *pWindow = entry.second;
+  //  if (pWindow && pWindow->IsDialog())
+  //    pWindow->DoProcess(currentTime, m_dirtyregions);
+  //}
 
-  for (auto& itr : m_dirtyregions)
-    m_tracker.MarkDirtyRegion(itr);
+  //m_dirtyregions.clear();
+  //m_dirtyregions.emplace_back( CDirtyRegion(0,0,float(CServiceBroker::GetWinSystem()->GetGfxContext().GetWidth()), 
+  //                                           float(CServiceBroker::GetWinSystem()->GetGfxContext().GetHeight())) );
+
+  //for (auto& itr : m_dirtyregions)
+  //  m_tracker.MarkDirtyRegion(itr);
+  MarkDirty();
 }
 
 void CGUIWindowManager::MarkDirty()
@@ -1318,44 +1324,45 @@ bool CGUIWindowManager::Render()
 
   CDirtyRegionList dirtyRegions = m_tracker.GetDirtyRegions();
 
-  bool hasRendered = false;
-  // If we visualize the regions we will always render the entire viewport
-  if (CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiVisualizeDirtyRegions || CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_FILL_VIEWPORT_ALWAYS)
-  {
-    RenderPass();
-    hasRendered = true;
-  }
-  else if (CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_FILL_VIEWPORT_ON_CHANGE)
-  {
-    if (!dirtyRegions.empty())
-    {
-      RenderPass();
-      hasRendered = true;
-    }
-  }
-  else
-  {
-    for (const auto& i : dirtyRegions)
-    {
-      if (i.IsEmpty())
-        continue;
+  bool hasRendered = true;
+  RenderPass();
+  //// If we visualize the regions we will always render the entire viewport
+  //if (CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiVisualizeDirtyRegions || CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_FILL_VIEWPORT_ALWAYS)
+  //{
+  //  RenderPass();
+  //  hasRendered = true;
+  //}
+  //else if (CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_FILL_VIEWPORT_ON_CHANGE)
+  //{
+  //  if (!dirtyRegions.empty())
+  //  {
+  //    RenderPass();
+  //    hasRendered = true;
+  //  }
+  //}
+  //else
+  //{
+  //  for (const auto& i : dirtyRegions)
+  //  {
+  //    if (i.IsEmpty())
+  //      continue;
 
-      CServiceBroker::GetWinSystem()->GetGfxContext().SetScissors(i);
-      RenderPass();
-      hasRendered = true;
-    }
-    CServiceBroker::GetWinSystem()->GetGfxContext().ResetScissors();
-  }
+  //    CServiceBroker::GetWinSystem()->GetGfxContext().SetScissors(i);
+  //    RenderPass();
+  //    hasRendered = true;
+  //  }
+  //  CServiceBroker::GetWinSystem()->GetGfxContext().ResetScissors();
+  //}
 
-  if (CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiVisualizeDirtyRegions)
-  {
-    CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(), false);
-    const CDirtyRegionList &markedRegions  = m_tracker.GetMarkedRegions();
-    for (const auto& i : markedRegions)
-      CGUITextureBase::DrawQuad(i, 0x0fff0000);
-    for (const auto& i : dirtyRegions)
-      CGUITextureBase::DrawQuad(i, 0x4c00ff00);
-  }
+  //if (CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiVisualizeDirtyRegions)
+  //{
+  //  CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(), false);
+  //  const CDirtyRegionList &markedRegions  = m_tracker.GetMarkedRegions();
+  //  for (const auto& i : markedRegions)
+  //    CGUITextureBase::DrawQuad(i, 0x0fff0000);
+  //  for (const auto& i : dirtyRegions)
+  //    CGUITextureBase::DrawQuad(i, 0x4c00ff00);
+  //}
 
   return hasRendered;
 }

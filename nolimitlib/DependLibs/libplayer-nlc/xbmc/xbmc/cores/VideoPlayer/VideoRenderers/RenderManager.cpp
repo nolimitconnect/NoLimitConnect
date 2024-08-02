@@ -120,7 +120,8 @@ bool CRenderManager::Configure( const VideoPicture& picture, float fps, unsigned
         }
     }
 
-    CLog::Log( LOGDEBUG, "CRenderManager::Configure - change configuration. %dx%d. display: %dx%d. framerate: %4.2f.", picture.iWidth, picture.iHeight, picture.iDisplayWidth, picture.iDisplayHeight, fps );
+    CLog::Log( LOGDEBUG, "CRenderManager::Configure - change configuration. %dx%d. display: %dx%d. framerate: %4.2f.", 
+               picture.iWidth, picture.iHeight, picture.iDisplayWidth, picture.iDisplayHeight, fps );
 
     // make sure any queued frame was fully presented
     {
@@ -225,7 +226,7 @@ bool CRenderManager::Configure()
 
         m_playerPort->UpdateRenderInfo( info );
         m_playerPort->UpdateGuiRender( true );
-        m_playerPort->UpdateVideoRender( !m_pRenderer->IsGuiLayer() );
+        //m_playerPort->UpdateVideoRender( !m_pRenderer->IsGuiLayer() );
 
         m_queued.clear();
         m_discard.clear();
@@ -341,8 +342,11 @@ bool CRenderManager::FrameMove()
         if( m_presentstep == PRESENT_FLIP )
         {
             m_presentstep = PRESENT_FRAME;
-            LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::FrameMove PRESENT_FRAME" );
+            //static int cnt = 0;
+            //cnt++;
+            //LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::FrameMove PRESENT_FRAME %d", cnt );
             m_presentevent.notifyAll();
+            shouldRender = true;
         }
 
         // release all previous
@@ -366,7 +370,13 @@ bool CRenderManager::FrameMove()
 
     m_playerPort->UpdateGuiRender( IsGuiLayer() || firstFrame );
 
+    //static int cnt = 0;
+    //cnt++;
+    //LogMsg( LOG_DEBUG, "CRenderManager::FrameMove %d IsGuiLayer %d m_bRenderGUI %d m_queued %d", 
+    //        cnt, IsGuiLayer(), m_bRenderGUI, m_queued.size() );
+
     ManageCaptures();
+
     return shouldRender;
 }
 
@@ -814,6 +824,10 @@ void CRenderManager::Render( bool clear, DWORD flags, DWORD alpha, bool gui )
 
         m_presentevent.notifyAll();
     }
+
+    //static int cnt = 0;
+    //cnt++;
+    //LogMsg( LOG_DEBUG, "CRenderManager::Render %d m_presentsource %d step %d pts %3.3f", cnt, m_presentsource, m_presentstep, m_Queue[m_presentsource].pts );
 }
 
 bool CRenderManager::IsGuiLayer()
@@ -862,8 +876,8 @@ void CRenderManager::PresentSingle( bool clear, DWORD flags, DWORD alpha )
         lastSource = m_presentsource;
         sourcePast = m_presentsourcePast;
         lastStep = m_presentstep;
-        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::PresentSingle source %d sourcePast %d m_presentstep %d", 
-                   m_presentsource, m_presentsourcePast, m_presentstep );
+        //LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::PresentSingle source %d sourcePast %d m_presentstep %d", 
+        //           m_presentsource, m_presentsourcePast, m_presentstep );
     }
 
     if( m.presentfield == FS_BOT )
@@ -1039,10 +1053,10 @@ bool CRenderManager::AddVideoPicture( const VideoPicture& picture, volatile std:
     m.presentfield = displayField;
     m.presentmethod = presentmethod;
     m.pts = picture.pts;
-    if( m.pts )
-    {
-        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::AddVideoPicture SPresent %d pts %3.3f present method %d", index, m.pts, presentmethod);
-    }
+    //if( m.pts )
+    //{
+    //    LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::AddVideoPicture SPresent %d pts %3.3f present method %d", index, m.pts, presentmethod);
+    //}
 
     m_queued.push_back( m_free.front() );
     m_free.pop_front();
@@ -1183,11 +1197,11 @@ void CRenderManager::PrepareNextRender()
     double renderPts = frameOnScreen + m_displayLatency;
 
     double nextFramePts = m_Queue[m_queued.front()].pts;
-    LogModule( eLogVideoIo, LOG_DEBUG, "PrepareNextRender nextFrame %3.3fms frametime %3.3f dispLatency %3.3f renderPts %3.3f nextFramePts %3.3f",
-               (nextFramePts - renderPts)/1000, frametime, m_displayLatency, renderPts, nextFramePts );
+    //LogModule( eLogVideoIo, LOG_DEBUG, "PrepareNextRender nextFrame %3.3fms frametime %3.3f dispLatency %3.3f renderPts %3.3f nextFramePts %3.3f",
+    //           (nextFramePts - renderPts)/1000, frametime, m_displayLatency, renderPts, nextFramePts );
     if( renderPts > 0 && nextFramePts - renderPts > 100000.0 )
     {
-        LogModule( eLogVideoIo, LOG_ERROR, "PrepareNextRender ERROR nextFramePts out of reach %3.3f us", nextFramePts - renderPts );
+        LogModule( eLogVideoIo, LOG_ERROR, "PrepareNextRender ERROR nextFramePts out of reach %3.3f ms", (nextFramePts - renderPts)/1000 );
     }
 
     if( m_dvdClock.GetClockSpeed() < 0 )
@@ -1214,7 +1228,8 @@ void CRenderManager::PrepareNextRender()
         m_dvdClock.SetVsyncAdjust( 0 );
     }
 
-//    CLog::LogFC( LOGDEBUG, LOGAVTIMING, "frameOnScreen: %f renderPts: %f nextFramePts: %f -> diff: %f  render: %u forceNext: %u", frameOnScreen, renderPts, nextFramePts, (renderPts - nextFramePts), renderPts >= nextFramePts, m_forceNext );
+    //LogModule( eLogVideoIo, LOG_DEBUG, "frameOnScreen: %f renderPts: %f nextFramePts: %f -> diff: %f  render: %u forceNext: %u", 
+    //           frameOnScreen, renderPts, nextFramePts, (renderPts - nextFramePts), renderPts >= nextFramePts, m_forceNext );
 
     bool combined = false;
     if( m_presentsourcePast >= 0 )
@@ -1249,6 +1264,7 @@ void CRenderManager::PrepareNextRender()
             if( m_presentsourcePast >= 0 )
             {
                 m_discard.push_back( m_presentsourcePast );
+                LogModule( eLogVideoIo, LOG_DEBUG, "m_QueueSkip m_presentsourcePast %d", m_presentsourcePast );
                 m_QueueSkip++;
             }
             m_presentsourcePast = m_queued.front();
@@ -1261,10 +1277,11 @@ void CRenderManager::PrepareNextRender()
         else
             m_lateframes = 0;
 
+        LogModule( eLogVideoIo, LOG_DEBUG, "lateframes %d m_Queue idx %d pts %3.3f m_fps %3.3f m_displayLatency %3.3f", 
+                       lateframes, idx, m_Queue[idx].pts, m_fps, m_displayLatency );
         m_presentstep = PRESENT_FLIP;
         m_discard.push_back( m_presentsource );
         m_presentsource = idx;
-        LogModule( eLogVideoIo, LOG_DEBUG, "CRenderManager::PrepareNextRender m_presentsource %d", idx );
         m_queued.pop_front();
         m_presentpts = m_Queue[idx].pts - m_displayLatency;
         m_presentevent.notifyAll();

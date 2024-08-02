@@ -452,7 +452,7 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 	updateGuiPlayControls( true );
 	resetPlayerControls();
 	setIsPlaying( true );
-	INlc::getINlc().getNlcPlayer().fromGuiGetCanSeek();
+	//INlc::getINlc().getNlcPlayer().fromGuiGetCanSeek();
 	updateLastPlayedFile();
 }
 

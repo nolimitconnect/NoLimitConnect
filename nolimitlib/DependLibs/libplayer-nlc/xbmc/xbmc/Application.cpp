@@ -208,6 +208,8 @@
 
 #include "../../../../../nolimitgui/AppInterface/INlc.h"
 
+#include <GuiInterface/INlcRender.h>
+
 #include "MediaPlayerNlc.h"
 MediaPlayerNlc& GetNlcPlayerInstance()
 {
@@ -874,7 +876,7 @@ bool CApplication::Initialize()
         // initialize splash window after splash screen disappears
         // because we need a real window in the background which gets
         // rendered while we load the main window or enter the master lock key
-        CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow( WINDOW_SPLASH );
+        //CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow( WINDOW_SPLASH );
 
         if( settings->GetBool( CSettings::SETTING_MASTERLOCK_STARTUPLOCK ) &&
             profileManager->GetMasterProfile().getLockMode() != LOCK_MODE_EVERYONE &&
@@ -982,74 +984,34 @@ bool CApplication::OnSettingsSaving() const
 
 void CApplication::Render()
 {
+    CServiceBroker::GetAppMessenger()->ProcessMessages();
+
     // do not render if we are stopped or in background
     if( m_bStop )
         return;
 
+    //Process();
+
     const auto appPlayer = GetComponent<CApplicationPlayer>();
-    const auto appPower = GetComponent<CApplicationPowerHandling>();
 
     bool hasRendered = false;
 
     // Whether externalplayer is playing and we're unfocused
-    bool extPlayerActive = appPlayer->IsExternalPlaying() && !m_AppFocused;
+    //bool extPlayerActive = appPlayer->IsExternalPlaying() && !m_AppFocused;
 
-    if( !extPlayerActive && CServiceBroker::GetWinSystem()->GetGfxContext().IsFullScreenVideo() &&
-        !appPlayer->IsPausedPlayback() )
+    if( appPlayer->IsRenderingVideo() )
     {
-        appPower->ResetScreenSaver();
+        //if( !CServiceBroker::GetRenderSystem()->BeginRender() )
+        //    return;
+
+        appPlayer->Render( true, 255 );
+
+        hasRendered = true;
+
+        //CServiceBroker::GetRenderSystem()->EndRender();
+
+        INlc::getINlc().presentRender( true, false );
     }
-
-    if( !CServiceBroker::GetRenderSystem()->BeginRender() )
-        return;
-
-    // render gui layer
-    if( appPower->GetRenderGUI() && !m_skipGuiRender )
-    {
-        if( CServiceBroker::GetWinSystem()->GetGfxContext().GetStereoMode() )
-        {
-            CServiceBroker::GetWinSystem()->GetGfxContext().SetStereoView( RENDER_STEREO_VIEW_LEFT );
-            hasRendered |= CServiceBroker::GetGUI()->GetWindowManager().Render();
-
-            if( CServiceBroker::GetWinSystem()->GetGfxContext().GetStereoMode() != RENDER_STEREO_MODE_MONO )
-            {
-                CServiceBroker::GetWinSystem()->GetGfxContext().SetStereoView( RENDER_STEREO_VIEW_RIGHT );
-                hasRendered |= CServiceBroker::GetGUI()->GetWindowManager().Render();
-            }
-            CServiceBroker::GetWinSystem()->GetGfxContext().SetStereoView( RENDER_STEREO_VIEW_OFF );
-        }
-        else
-        {
-            hasRendered |= CServiceBroker::GetGUI()->GetWindowManager().Render();
-        }
-
-        // execute post rendering actions (finalize window closing)
-        CServiceBroker::GetGUI()->GetWindowManager().AfterRender();
-
-        m_lastRenderTime = std::chrono::steady_clock::now();
-    }
-
-    // render video layer
-    //CServiceBroker::GetGUI()->GetWindowManager().RenderEx();
-
-    CServiceBroker::GetRenderSystem()->EndRender();
-
-    // reset our info cache - we do this at the end of Render so that it is
-    // fresh for the next process(), or after a windowclose animation (where process()
-    // isn't called)
-    CGUIInfoManager& infoMgr = CServiceBroker::GetGUI()->GetInfoManager();
-    infoMgr.ResetCache();
-    infoMgr.GetInfoProviders().GetGUIControlsInfoProvider().ResetContainerMovingCache();
-
-    if( hasRendered )
-    {
-        infoMgr.GetInfoProviders().GetSystemInfoProvider().UpdateFPS();
-    }
-
-    CServiceBroker::GetWinSystem()->GetGfxContext().Flip( hasRendered,
-                                                          appPlayer->IsRenderingVideoLayer() );
-
-    CTimeUtils::UpdateFrameTime( hasRendered );
 }
 
 bool CApplication::OnAction( const CAction& action )
@@ -1607,12 +1569,8 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     uint32_t msg = pMsg->dwMessage;
     if( msg == TMSG_SYSTEM_POWERDOWN )
     {
-#if HAVE_ADDONS
-        if( CServiceBroker::GetPVRManager().Get<PVR::GUI::PowerManagement>().CanSystemPowerdown() )
-            msg = pMsg->param1; // perform requested shutdown action
-        else
-#endif // HAVE_ADDONS
-            return; // no shutdown
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SYSTEM_POWERDOWN" );
+        return; // no shutdown
     }
 
     const auto appPlayer = GetComponent<CApplicationPlayer>();
@@ -1620,60 +1578,73 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     switch( msg )
     {
     case TMSG_POWERDOWN:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_POWERDOWN" );
         if( Stop( EXITCODE_POWERDOWN ) )
             CServiceBroker::GetPowerManager().Powerdown();
         break;
 
     case TMSG_QUIT:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_QUIT" );
         Stop( EXITCODE_QUIT );
         break;
 
     case TMSG_SHUTDOWN:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SHUTDOWN" );
         GetComponent<CApplicationPowerHandling>()->HandleShutdownMessage();
         break;
 
     case TMSG_RENDERER_FLUSH:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_RENDERER_FLUSH" );
         appPlayer->FlushRenderer();
         break;
 
     case TMSG_HIBERNATE:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_HIBERNATE" );
         CServiceBroker::GetPowerManager().Hibernate();
         break;
 
     case TMSG_SUSPEND:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SUSPEND" );
         CServiceBroker::GetPowerManager().Suspend();
         break;
 
     case TMSG_RESTART:
     case TMSG_RESET:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_RESTART" );
         if( Stop( EXITCODE_REBOOT ) )
             CServiceBroker::GetPowerManager().Reboot();
         break;
 
     case TMSG_RESTARTAPP:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_RESTARTAPP" );
 #if defined(TARGET_WINDOWS) || defined(TARGET_LINUX)
         Stop( EXITCODE_RESTARTAPP );
 #endif
         break;
 
     case TMSG_INHIBITIDLESHUTDOWN:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_INHIBITIDLESHUTDOWN" );
         GetComponent<CApplicationPowerHandling>()->InhibitIdleShutdown( pMsg->param1 != 0 );
         break;
 
     case TMSG_INHIBITSCREENSAVER:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_INHIBITSCREENSAVER" );
         GetComponent<CApplicationPowerHandling>()->InhibitScreenSaver( pMsg->param1 != 0 );
         break;
 
     case TMSG_ACTIVATESCREENSAVER:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_ACTIVATESCREENSAVER" );
         GetComponent<CApplicationPowerHandling>()->ActivateScreenSaver();
         break;
 
     case TMSG_RESETSCREENSAVER:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_RESETSCREENSAVER" );
         GetComponent<CApplicationPowerHandling>()->m_bResetScreenSaver = true;
         break;
 
     case TMSG_VOLUME_SHOW:
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_VOLUME_SHOW" );
         CAction action( pMsg->param1 );
         GetComponent<CApplicationVolumeHandling>()->ShowVolumeBar( &action );
     }
@@ -1699,24 +1670,34 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     break;
 
     case TMSG_NETWORKMESSAGE:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_NETWORKMESSAGE" );
         m_ServiceManager->GetNetwork().NetworkMessage( static_cast<CNetworkBase::EMESSAGE>(pMsg->param1),
                                                        pMsg->param2 );
         break;
 
     case TMSG_SETLANGUAGE:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SETLANGUAGE" );
         SetLanguage( pMsg->strParam );
         break;
 
 
     case TMSG_SWITCHTOFULLSCREEN:
     {
-        CGUIComponent* gui = CServiceBroker::GetGUI();
-        if( gui )
-            gui->GetWindowManager().SwitchToFullScreen( true );
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SWITCHTOFULLSCREEN" );
+        CServiceBroker::GetWinSystem()->GetGfxContext().SetFullScreenVideo( true );
+        //CGUIComponent* gui = CServiceBroker::GetGUI();
+        //if( gui )
+        //{
+        //    //gui->GetWindowManager().SwitchToFullScreen( true );
+        //    std::string path;
+        //    gui->GetWindowManager().ForceActivateWindow( WINDOW_FULLSCREEN_VIDEO, path );
+        //}
+
         break;
     }
     case TMSG_VIDEORESIZE:
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_VIDEORESIZE" );
         XBMC_Event newEvent = {};
         newEvent.type = XBMC_VIDEORESIZE;
         newEvent.resize.w = pMsg->param1;
@@ -1727,23 +1708,28 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     break;
 
     case TMSG_SETVIDEORESOLUTION:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SETVIDEORESOLUTION" );
         CServiceBroker::GetWinSystem()->GetGfxContext().SetVideoResolution( static_cast<RESOLUTION>(pMsg->param1), pMsg->param2 == 1 );
         break;
 
     case TMSG_TOGGLEFULLSCREEN:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_TOGGLEFULLSCREEN" );
         CServiceBroker::GetWinSystem()->GetGfxContext().ToggleFullScreen();
         appPlayer->TriggerUpdateResolution();
         break;
 
     case TMSG_MOVETOSCREEN:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_MOVETOSCREEN" );
         CServiceBroker::GetWinSystem()->MoveToScreen( static_cast<int>(pMsg->param1) );
         break;
 
     case TMSG_MINIMIZE:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_MINIMIZE" );
         CServiceBroker::GetWinSystem()->Minimize();
         break;
 
     case TMSG_EXECUTE_OS:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_EXECUTE_OS" );
         // Suspend AE temporarily so exclusive or hog-mode sinks
         // don't block external player's access to audio device
         IAE* audioengine;
@@ -1775,17 +1761,17 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
         break;
 
     case TMSG_EXECUTE_SCRIPT:
-#if HAVE_ADDONS
-        CScriptInvocationManager::GetInstance().ExecuteAsync( pMsg->strParam );
-#endif // HAVE_ADDONS
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_EXECUTE_SCRIPT" );
         break;
 
     case TMSG_EXECUTE_BUILT_IN:
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_EXECUTE_BUILT_IN" );
         CBuiltins::GetInstance().Execute( pMsg->strParam );
         break;
 
     case TMSG_PICTURE_SHOW:
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_PICTURE_SHOW" );
         CGUIWindowSlideShow* pSlideShow = CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIWindowSlideShow>( WINDOW_SLIDESHOW );
         if( !pSlideShow ) return;
 
@@ -1834,6 +1820,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 
     case TMSG_PICTURE_SLIDESHOW:
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_PICTURE_SLIDESHOW" );
         CGUIWindowSlideShow* pSlideShow = CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIWindowSlideShow>( WINDOW_SLIDESHOW );
         if( !pSlideShow ) return;
 
@@ -1872,6 +1859,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 
     case TMSG_LOADPROFILE:
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_LOADPROFILE" );
         const int profile = pMsg->param1;
         if( profile >= 0 )
             CServiceBroker::GetSettingsComponent()->GetProfileManager()->LoadProfile( static_cast<unsigned int>(profile) );
@@ -1883,6 +1871,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     {
         if( pMsg->lpVoid )
         {
+            LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_EVENT" );
             XBMC_Event* event = static_cast<XBMC_Event*>(pMsg->lpVoid);
             OnEvent( *event );
             delete event;
@@ -1892,6 +1881,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 
     case TMSG_UPDATE_PLAYER_ITEM:
     {
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_UPDATE_PLAYER_ITEM" );
         std::unique_ptr<CFileItem> item{static_cast<CFileItem*>(pMsg->lpVoid)};
         if( item )
         {
@@ -1900,9 +1890,14 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
         }
     }
     break;
+    
+    case TMSG_RENDERER_UNINIT:
+        CLog::Log( LOGERROR, "CApplication::OnApplicationMessage %s: TMSG_RENDERER_UNINIT rxed", __func__ );
+        break;
 
     default:
-        CLog::Log( LOGERROR, "%s: Unhandled threadmessage sent, %d", __FUNCTION__, msg );
+        LogModule( eLogVideoIo, LOG_ERROR, "CApplication::OnApplicationMessage %s: Unhandled threadmessage sent, %d", __FUNCTION__, msg );
+        //CLog::Log( LOGERROR, "%s: Unhandled threadmessage sent, %d", __FUNCTION__, msg );
         break;
     }
 }
@@ -1925,7 +1920,7 @@ void CApplication::UnlockFrameMoveGuard()
 void CApplication::FrameMove( bool processEvents, bool processGUI )
 {
     const auto appPlayer = GetComponent<CApplicationPlayer>();
-    bool renderGUI = GetComponent<CApplicationPowerHandling>()->GetRenderGUI();
+    bool renderGUI = true; // GetComponent<CApplicationPowerHandling>()->GetRenderGUI();
     if( processEvents )
     {
         // currently we calculate the repeat time (ie time from last similar keypress) just global as fps
@@ -1998,18 +1993,18 @@ void CApplication::FrameMove( bool processEvents, bool processGUI )
           m_skipGuiRender = true;
         */
 
-        if( CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiSmartRedraw && m_guiRefreshTimer.IsTimePast() )
-        {
-            CServiceBroker::GetGUI()->GetWindowManager().SendMessage( GUI_MSG_REFRESH_TIMER, 0, 0 );
-            m_guiRefreshTimer.Set( 500ms );
-        }
+        //if( CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiSmartRedraw && m_guiRefreshTimer.IsTimePast() )
+        //{
+        //    CServiceBroker::GetGUI()->GetWindowManager().SendMessage( GUI_MSG_REFRESH_TIMER, 0, 0 );
+        //    m_guiRefreshTimer.Set( 500ms );
+        //}
 
-        if( !m_bStop )
-        {
-            if( !m_skipGuiRender )
-                CServiceBroker::GetGUI()->GetWindowManager().Process( CTimeUtils::GetFrameTime() );
-        }
-        CServiceBroker::GetGUI()->GetWindowManager().FrameMove();
+        //if( !m_bStop )
+        //{
+        //    if( !m_skipGuiRender )
+        //        CServiceBroker::GetGUI()->GetWindowManager().Process( CTimeUtils::GetFrameTime() );
+        //}
+        //CServiceBroker::GetGUI()->GetWindowManager().FrameMove();
     }
 
     appPlayer->FrameMove();
@@ -2047,10 +2042,10 @@ int CApplication::Run()
     {
         // Animate and render a frame
 
-        lastFrameTime = std::chrono::steady_clock::now();
-        Process();
+        //lastFrameTime = std::chrono::steady_clock::now();
+        //Process();
 
-        bool renderGUI = GetComponent<CApplicationPowerHandling>()->GetRenderGUI();
+        bool renderGUI = true; //GetComponent<CApplicationPowerHandling>()->GetRenderGUI();
         if( !m_bStop )
         {
             FrameMove( true, renderGUI );
@@ -2069,10 +2064,10 @@ int CApplication::Run()
         }
         else if( !renderGUI )
         {
-            auto now = std::chrono::steady_clock::now();
-            frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastFrameTime);
-            if( frameTime.count() < noRenderFrameTime )
-                KODI::TIME::Sleep( std::chrono::milliseconds( noRenderFrameTime - frameTime.count() ) );
+            //auto now = std::chrono::steady_clock::now();
+            //frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastFrameTime);
+            //if( frameTime.count() < noRenderFrameTime )
+            //    KODI::TIME::Sleep( std::chrono::milliseconds( noRenderFrameTime - frameTime.count() ) );
         }
     }
 
@@ -2636,38 +2631,40 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
             return true;
     }
 
-    // this really aught to be inside !bRestart, but since PlayStack
-    // uses that to init playback, we have to keep it outside
-    const PLAYLIST::Id playlistId = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
-    if( item.IsAudio() && playlistId == PLAYLIST::TYPE_MUSIC )
-    { // playing from a playlist by the looks
-      // don't switch to fullscreen if we are not playing the first item...
-        options.fullscreen = !CServiceBroker::GetPlaylistPlayer().HasPlayedFirstFile() &&
-            CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(
-                CSettings::SETTING_MUSICFILES_SELECTACTION ) &&
-            !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-    }
-    else if( item.IsVideo() && playlistId == PLAYLIST::TYPE_VIDEO &&
-             CServiceBroker::GetPlaylistPlayer().GetPlaylist( playlistId ).size() > 1 )
-    { // playing from a playlist by the looks
-      // don't switch to fullscreen if we are not playing the first item...
-        options.fullscreen = !CServiceBroker::GetPlaylistPlayer().HasPlayedFirstFile() &&
-            CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_fullScreenOnMovieStart &&
-            !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-    }
-    else if( stackHelper->IsPlayingRegularStack() )
-    {
-        //! @todo - this will fail if user seeks back to first file in stack
-        if( stackHelper->GetCurrentPartNumber() == 0 ||
-            stackHelper->GetRegisteredStack( item )->GetStartOffset() != 0 )
-            options.fullscreen = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->
-            m_fullScreenOnMovieStart && !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-        else
-            options.fullscreen = false;
-    }
-    else
-        options.fullscreen = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->
-        m_fullScreenOnMovieStart && !CMediaSettings::GetInstance().DoesMediaStartWindowed();
+    //// this really aught to be inside !bRestart, but since PlayStack
+    //// uses that to init playback, we have to keep it outside
+    //const PLAYLIST::Id playlistId = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+    //if( item.IsAudio() && playlistId == PLAYLIST::TYPE_MUSIC )
+    //{ // playing from a playlist by the looks
+    //  // don't switch to fullscreen if we are not playing the first item...
+    //    options.fullscreen = !CServiceBroker::GetPlaylistPlayer().HasPlayedFirstFile() &&
+    //        CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(
+    //            CSettings::SETTING_MUSICFILES_SELECTACTION ) &&
+    //        !CMediaSettings::GetInstance().DoesMediaStartWindowed();
+    //}
+    //else if( item.IsVideo() && playlistId == PLAYLIST::TYPE_VIDEO &&
+    //         CServiceBroker::GetPlaylistPlayer().GetPlaylist( playlistId ).size() > 1 )
+    //{ // playing from a playlist by the looks
+    //  // don't switch to fullscreen if we are not playing the first item...
+    //    options.fullscreen = !CServiceBroker::GetPlaylistPlayer().HasPlayedFirstFile() &&
+    //        CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_fullScreenOnMovieStart &&
+    //        !CMediaSettings::GetInstance().DoesMediaStartWindowed();
+    //}
+    //else if( stackHelper->IsPlayingRegularStack() )
+    //{
+    //    //! @todo - this will fail if user seeks back to first file in stack
+    //    if( stackHelper->GetCurrentPartNumber() == 0 ||
+    //        stackHelper->GetRegisteredStack( item )->GetStartOffset() != 0 )
+    //        options.fullscreen = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->
+    //        m_fullScreenOnMovieStart && !CMediaSettings::GetInstance().DoesMediaStartWindowed();
+    //    else
+    //        options.fullscreen = false;
+    //}
+    //else
+    //    options.fullscreen = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->
+    //    m_fullScreenOnMovieStart && !CMediaSettings::GetInstance().DoesMediaStartWindowed();
+
+    options.fullscreen = true;
 
     // stereo streams may have lower quality, i.e. 32bit vs 16 bit
     options.preferStereo = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_videoPreferStereoStream &&
@@ -3242,36 +3239,36 @@ void CApplication::ConfigureAndEnableAddons()
 
 void CApplication::Process()
 {
-    // dispatch the messages generated by python or other threads to the current window
-    CServiceBroker::GetGUI()->GetWindowManager().DispatchThreadMessages();
+    //// dispatch the messages generated by python or other threads to the current window
+    //CServiceBroker::GetGUI()->GetWindowManager().DispatchThreadMessages();
 
-    // process messages which have to be send to the gui
-    // (this can only be done after CServiceBroker::GetGUI()->GetWindowManager().Render())
-    CServiceBroker::GetAppMessenger()->ProcessWindowMessages();
+    //// process messages which have to be send to the gui
+    //// (this can only be done after CServiceBroker::GetGUI()->GetWindowManager().Render())
+    //CServiceBroker::GetAppMessenger()->ProcessWindowMessages();
 
-    // handle any active scripts
+    //// handle any active scripts
 
-    {
-        // Allow processing of script threads to let them shut down properly.
-        CSingleExit ex( CServiceBroker::GetWinSystem()->GetGfxContext() );
-        m_frameMoveGuard.unlock();
-        CScriptInvocationManager::GetInstance().Process();
-        m_frameMoveGuard.lock();
-    }
+    //{
+    //    // Allow processing of script threads to let them shut down properly.
+    //    CSingleExit ex( CServiceBroker::GetWinSystem()->GetGfxContext() );
+    //    m_frameMoveGuard.unlock();
+    //    CScriptInvocationManager::GetInstance().Process();
+    //    m_frameMoveGuard.lock();
+    //}
 
     // process messages, even if a movie is playing
     CServiceBroker::GetAppMessenger()->ProcessMessages();
     if( m_bStop ) return; //we're done, everything has been unloaded
 
     // update sound
-    GetComponent<CApplicationPlayer>()->DoAudioWork();
+    //GetComponent<CApplicationPlayer>()->DoAudioWork();
 
-    // do any processing that isn't needed on each run
-    if( m_slowTimer.GetElapsedMilliseconds() > 500 )
-    {
-        m_slowTimer.Reset();
-        ProcessSlow();
-    }
+    //// do any processing that isn't needed on each run
+    //if( m_slowTimer.GetElapsedMilliseconds() > 500 )
+    //{
+    //    m_slowTimer.Reset();
+    //    ProcessSlow();
+    //}
 }
 
 // We get called every 500ms

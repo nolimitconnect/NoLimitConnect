@@ -34,12 +34,12 @@ void CGUIWindowSplash::Render()
 {
   CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(), true);
 
-  if (!m_image)
-    return;
+  //if (!m_image)
+  //  return;
 
-  m_image->SetWidth(CServiceBroker::GetWinSystem()->GetGfxContext().GetWidth());
-  m_image->SetHeight(CServiceBroker::GetWinSystem()->GetGfxContext().GetHeight());
-  m_image->AllocResources();
-  m_image->Render();
-  m_image->FreeResources();
+  //m_image->SetWidth(CServiceBroker::GetWinSystem()->GetGfxContext().GetWidth());
+  //m_image->SetHeight(CServiceBroker::GetWinSystem()->GetGfxContext().GetHeight());
+  //m_image->AllocResources();
+  //m_image->Render();
+  //m_image->FreeResources();
 }

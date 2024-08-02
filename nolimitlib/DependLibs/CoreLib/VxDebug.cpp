@@ -30,6 +30,8 @@
 #include <string.h>
 #include <array>
 
+#include "VxTimer.h"
+
 #define MAX_ERR_MSG_SIZE 16384
 
 bool g_StreamActive = false;
@@ -226,6 +228,34 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     }
 }
 
+VxTimer g_LogTimer;
+static bool g_enableLogTimer{ false };
+
+//============================================================================
+void EnableLogTimer( bool enable )
+{
+    g_enableLogTimer = enable;
+    if( g_enableLogTimer )
+    {
+        g_LogTimer.startTimer();
+    }
+}
+
+//============================================================================
+std::string GetLogTime( void )
+{
+    if( g_enableLogTimer )
+    {
+        const int maxTimeStrLen = 128;
+        double elapsed = g_LogTimer.elapsedSec();
+        std::array<char, maxTimeStrLen> strData;
+        snprintf( strData.data(), maxTimeStrLen, "%3.3f ", elapsed);
+        return strData.data();
+    }
+
+    return "";
+}
+
 //============================================================================
 // add a log handler
 void VxAddLogHandler( ILogCallbackInterface* callbackHandler )
@@ -293,10 +323,17 @@ void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... )
     }
 
     std::array<char, MAX_ERR_MSG_SIZE> strData;
+        int timeLen = 0;
+    if( g_enableLogTimer )
+    {
+        std::string timeStamp = GetLogTime();
+        timeLen = timeStamp.length();
+        strcpy( strData.data(), timeStamp.c_str() );
+    }
 
     va_list argList;
     va_start( argList, msg );
-    vsnprintf( strData.data(), MAX_ERR_MSG_SIZE, msg, argList );
+    vsnprintf( &strData.data()[timeLen], MAX_ERR_MSG_SIZE, msg, argList );
     strData.data()[MAX_ERR_MSG_SIZE - 2] = 0;
 
     LogAppendLineFeed( strData.data(), MAX_ERR_MSG_SIZE - 2 );
@@ -352,10 +389,17 @@ void LogCModule( int logModuleType, uint32_t u32MsgType, const char* msg, ... )
     }
 
     std::array<char, MAX_ERR_MSG_SIZE> strData;
+    int timeLen = 0;
+    if( g_enableLogTimer )
+    {
+        std::string timeStamp = GetLogTime();
+        timeLen = timeStamp.length();
+        strcpy( strData.data(), timeStamp.c_str() );
+    }
 
     va_list argList;
     va_start( argList, msg );
-    vsnprintf( strData.data(), MAX_ERR_MSG_SIZE, msg, argList );
+    vsnprintf( &strData.data()[timeLen], MAX_ERR_MSG_SIZE, msg, argList );
     strData.data()[MAX_ERR_MSG_SIZE - 2] = 0;
 
     LogAppendLineFeed( strData.data(), MAX_ERR_MSG_SIZE - 2 );

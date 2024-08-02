@@ -168,6 +168,8 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 			m_FileItem.SetProperty( "StartPercent", kodiPercent.c_str() );
 		}
 
+		EnableLogTimer( true );
+
 		if( m_AssetInfo.isVideoAsset() )
 		{
 			result = playVideoFile( pos0to100000 );

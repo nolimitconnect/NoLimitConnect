@@ -34,12 +34,12 @@ using namespace std::chrono_literals;
 CVideoPlayerAudioID3::CVideoPlayerAudioID3(CProcessInfo& processInfo)
   : IDVDStreamPlayer(processInfo), CThread("VideoPlayerAudioID3"), m_messageQueue("id3")
 {
-  CLog::Log(LOGDEBUG, "Audio ID3 tag processor - new {}", __FUNCTION__);
+  CLog::Log(LOGDEBUG, "Audio ID3 tag processor - new %s", __FUNCTION__);
 }
 
 CVideoPlayerAudioID3::~CVideoPlayerAudioID3()
 {
-  CLog::Log(LOGDEBUG, "Audio ID3 tag processor - delete {}", __FUNCTION__);
+  CLog::Log(LOGDEBUG, "Audio ID3 tag processor - delete %s", __FUNCTION__);
   StopThread();
 }
 

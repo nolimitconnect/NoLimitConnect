@@ -295,17 +295,23 @@ void CGraphicContext::ResetScissors()
 
 const CRect CGraphicContext::GetViewWindow() const
 {
-    if( m_bCalibrating || m_bFullScreenVideo )
-    {
-        CRect rect;
-        RESOLUTION_INFO info = GetResInfo();
-        rect.x1 = ( float )info.Overscan.left;
-        rect.y1 = ( float )info.Overscan.top;
-        rect.x2 = ( float )info.Overscan.right;
-        rect.y2 = ( float )info.Overscan.bottom;
-        return rect;
-    }
-    return m_videoRect;
+    //if( m_bCalibrating || m_bFullScreenVideo )
+    //{
+    //    CRect rect;
+    //    RESOLUTION_INFO info = GetResInfo();
+    //    rect.x1 = ( float )info.Overscan.left;
+    //    rect.y1 = ( float )info.Overscan.top;
+    //    rect.x2 = ( float )info.Overscan.right;
+    //    rect.y2 = ( float )info.Overscan.bottom;
+    //    return rect;
+    //}
+
+    //m_videoRect = CRect( 0, 0, info.iWidth, info.iHeight );
+
+    //return m_videoRect;
+
+    RESOLUTION_INFO info = GetResInfo();
+    return CRect( 0, 0, info.iWidth, info.iHeight );
 }
 
 void CGraphicContext::SetViewWindow( float left, float top, float right, float bottom )
@@ -318,7 +324,10 @@ void CGraphicContext::SetViewWindow( float left, float top, float right, float b
 
 void CGraphicContext::SetFullScreenVideo( bool bOnOff )
 {
-  std::unique_lock<CCriticalSection> lock(*this);
+    std::unique_lock<CCriticalSection> lock(*this);
+    m_bFullScreenVideo = false;
+    SetVideoResolution( RES_WINDOW, false );
+    return;
 
     m_bFullScreenVideo = bOnOff;
 

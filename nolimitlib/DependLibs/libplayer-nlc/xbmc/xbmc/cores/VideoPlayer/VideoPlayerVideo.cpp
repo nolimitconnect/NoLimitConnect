@@ -342,10 +342,10 @@ void CVideoPlayerVideo::Process()
         std::shared_ptr<CDVDMsg> pMsg;
         MsgQueueReturnCode ret = GetMessage( pMsg, timeout, iPriority );
 
-        if( !iPriority )
-        {
-            LogModule( eLogVideoIo, LOG_VERBOSE, " CVideoPlayerVideo::Process msg %d prio %d queue timeout %d frame rate %3.3f", ret, iPriority, timeout, m_fFrameRate );
-        }
+        //if( !iPriority )
+        //{
+        //    LogModule( eLogVideoIo, LOG_VERBOSE, " CVideoPlayerVideo::Process msg %d prio %d queue timeout %d frame rate %3.3f", ret, iPriority, timeout, m_fFrameRate );
+        //}
 
         onlyPrioMsgs = false;
 
@@ -357,7 +357,7 @@ void CVideoPlayerVideo::Process()
         }
         else if( ret == MSGQ_TIMEOUT )
         {
-            LogModule( eLogVideoIo, LOG_ERROR, " CVideoPlayerVideo::Process msg MSGQ_TIMEOUT iQueueTimeOut %d iPriority %d", timeout, iPriority );
+            //LogModule( eLogVideoIo, LOG_ERROR, " CVideoPlayerVideo::Process msg MSGQ_TIMEOUT iQueueTimeOut %d iPriority %d", timeout, iPriority );
             if( m_outputSate == OUTPUT_AGAIN &&
                 m_picture.videoBuffer )
             {
@@ -373,7 +373,7 @@ void CVideoPlayerVideo::Process()
                        m_processInfo.IsFrameAdvance() ||
                        m_syncState != IDVDStreamPlayer::SYNC_INSYNC) && !m_paused )
             {
-                LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVidee::Process ProcessDecoderOutput not ready for render" );
+                //LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVidee::Process ProcessDecoderOutput not ready for render" );
                 if( ProcessDecoderOutput( frametime, pts ) )
                 {
                     onlyPrioMsgs = true;
@@ -384,12 +384,12 @@ void CVideoPlayerVideo::Process()
             // if we only wanted priority messages, this isn't a stall
             if( iPriority )
             {
-                LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVidee MSGQ_TIMEOUT continue 2" );
+                //LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVidee MSGQ_TIMEOUT continue 2" );
                 continue;
             }
 
 
-            LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVidee::Process ProcessDecoderOutput should render" );
+            //LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVidee::Process ProcessDecoderOutput should render" );
             //Okey, start rendering at stream fps now instead, we are likely in a stillframe
             if( !m_stalled )
             {
@@ -614,8 +614,8 @@ void CVideoPlayerVideo::Process()
                 }
 
                 m_PktCnt++;
-                LogModule( eLogVideoIo, LOG_DEBUG, " CVideoPlayerVideo::Process msg DEMUXER_PACKET add vid pkt %d size %d pts %3.3f frametime %3.3f prio %d",
-                           m_PktCnt, pPacket->iSize, pts, frametime, onlyPrioMsgs );
+                //LogModule( eLogVideoIo, LOG_DEBUG, " CVideoPlayerVideo::Process msg DEMUXER_PACKET add vid pkt %d size %d pts %3.3f frametime %3.3f prio %d",
+                //           m_PktCnt, pPacket->iSize, pts, frametime, onlyPrioMsgs );
             }
             else
             {
@@ -637,12 +637,12 @@ bool CVideoPlayerVideo::ProcessDecoderOutput( double& frametime, double& pts )
     if( lastDecoderState != decoderState )
     {
         lastDecoderState = decoderState;
-        LogModule( eLogVideoIo, LOG_VERBOSE, " CVideoPlayerVideo GetPicture pkt %d decoder state %d", m_PktCnt, decoderState );
+        //LogModule( eLogVideoIo, LOG_VERBOSE, " CVideoPlayerVideo GetPicture pkt %d decoder state %d", m_PktCnt, decoderState );
     }
 
     if( decoderState == CDVDVideoCodec::VC_BUFFER )
     {
-        LogModule( eLogVideoIo, LOG_VERBOSE, " CVideoPlayerVideo VC_BUFFER pkt %d ", m_PktCnt );
+        //LogModule( eLogVideoIo, LOG_VERBOSE, " CVideoPlayerVideo VC_BUFFER pkt %d ", m_PktCnt );
         return false;
     }
 
@@ -709,18 +709,18 @@ bool CVideoPlayerVideo::ProcessDecoderOutput( double& frametime, double& pts )
     if( decoderState == CDVDVideoCodec::VC_PICTURE )
     {
         bool hasTimestamp = true;
-        //static int picCnt = 0;
-        //picCnt++;
-        //if( picCnt > 10 )
-        //{
-        //    LogMsg( LOG_ERROR, "CVideoPlayerVideo::ProcessDecoderOutput calling exit " );
-        //    exit(1);
-        //}
+        static int picCnt = 0;
+        picCnt++;
+        if( picCnt == 15 )
+        {
+            LogMsg( LOG_ERROR, "CVideoPlayerVideo::ProcessDecoderOutput 15 frametime %3.3f ", frametime );
+            //exit(1);
+        }
 
         m_picture.iDuration = frametime;
 
         // validate picture timing,
-    // if both dts/pts invalid, use pts calculated from picture.iDuration
+        // if both dts/pts invalid, use pts calculated from picture.iDuration
         // if pts invalid use dts, else use picture.pts as passed
         if( m_picture.dts == DVD_NOPTS_VALUE && m_picture.pts == DVD_NOPTS_VALUE )
         {
@@ -786,8 +786,8 @@ bool CVideoPlayerVideo::ProcessDecoderOutput( double& frametime, double& pts )
             pts += m_picture.iDuration * m_speed / abs( m_speed );
 
         m_outputSate = OutputPicture( &m_picture );
-        LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVideo VC_PICTURE pts %3.3f duration %3.3f state %d w%d h%d",
-                   m_picture.pts, m_picture.iDuration, m_outputSate, m_picture.iDisplayWidth, m_picture.iDisplayHeight );
+        LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVideo VC_PICTURE cnt %d pts %3.3f duration %3.3f state %d w%d h%d",
+                   picCnt, m_picture.pts, m_picture.iDuration, m_outputSate, m_picture.iDisplayWidth, m_picture.iDisplayHeight );
 
         if( m_outputSate == OUTPUT_AGAIN )
         {
@@ -894,7 +894,7 @@ void CVideoPlayerVideo::ProcessOverlays( const VideoPicture* pSource, double pts
 CVideoPlayerVideo::EOutputState CVideoPlayerVideo::OutputPicture( const VideoPicture* pPicture )
 {
     m_bAbortOutput = false;
-    LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVideo::OutputPicture" );
+    //LogModule( eLogVideoIo, LOG_VERBOSE, "CVideoPlayerVideo::OutputPicture" );
     if( m_processInfo.GetVideoStereoMode() != pPicture->stereoMode )
     {
         m_processInfo.SetVideoStereoMode( pPicture->stereoMode );
@@ -1141,12 +1141,20 @@ int CVideoPlayerVideo::CalcDropRequirement( double pts )
 
     // get decoder stats
     if( !m_pVideoCodec->GetCodecStats( iDecoderPts, iDroppedFrames, iSkippedPicture ) )
+    {
+        LogModule( eLogVideoIo, LOG_DEBUG, "!m_pVideoCodec->GetCodecStats pts %3.3f dpts %3.3f dropped %d skipped %d", 
+                   pts, iDecoderPts, iDroppedFrames, iSkippedPicture );
         iDecoderPts = pts;
+    }
+
     if( iDecoderPts == DVD_NOPTS_VALUE )
         iDecoderPts = pts;
 
     // get render stats
     m_renderManager.GetStats( lateframes, iRenderPts, queued, discard );
+    //LogModule( eLogVideoIo, LOG_DEBUG, "m_renderManager.GetStats lateframes %d RenderPts %3.3f queued %d discard %d", 
+    //               lateframes, iRenderPts, queued, discard );
+
     iBufferLevel = queued + discard;
 
     if( iBufferLevel < 0 )
@@ -1191,6 +1199,10 @@ int CVideoPlayerVideo::CalcDropRequirement( double pts )
 
     // calculate lateness
     int lateness = lateframes - m_droppingStats.m_totalGain;
+    if( lateframes )
+    {
+        LogModule( eLogVideoIo, LOG_DEBUG, "lateframes %d totalGain %d", lateframes, m_droppingStats.m_totalGain );
+    }
 
     if( lateness > 0 && m_speed )
     {

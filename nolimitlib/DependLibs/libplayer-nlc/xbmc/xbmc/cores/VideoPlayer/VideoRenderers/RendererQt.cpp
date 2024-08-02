@@ -228,7 +228,7 @@ int CRendererQt::NextYV12Texture()
 //============================================================================
 void CRendererQt::AddVideoPicture( const VideoPicture &picture, int index )
 {
-    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::AddVideoPicture YUVBUFFER %d", index );
+    //LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::AddVideoPicture YUVBUFFER %d", index );
     YUVBUFFER &buf = m_buffers[ index ];
     buf.videoBuffer = picture.videoBuffer;
     buf.videoBuffer->Acquire();
@@ -738,7 +738,7 @@ void CRendererQt::Render( unsigned int flags, int index )
     else
         m_currentField = FIELD_FULL;
 
-    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::Render %d", index );
+    //LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::Render %d", index );
     // call texture load function
     if( !UploadTexture( index ) )
     {
@@ -782,7 +782,7 @@ void CRendererQt::RenderSinglePass( int index, int field )
 {
     YUVPLANE( &planes )[ YuvImage::MAX_PLANES ] = m_buffers[ index ].fields[ field ];
 
-    LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::RenderSinglePass %d", index );
+    //LogModule( eLogVideoIo, LOG_DEBUG, "CRendererQt::RenderSinglePass %d", index );
 
     if( m_reloadShaders )
     {

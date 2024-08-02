@@ -165,70 +165,17 @@ double CVideoReferenceClock::UpdateInterval() const
 //called from dvdclock to get the time
 int64_t CVideoReferenceClock::GetTime(bool interpolated /* = true*/)
 {
-  std::unique_lock<CCriticalSection> SingleLock(m_CritSection);
+    std::unique_lock<CCriticalSection> SingleLock(m_CritSection);
 
-  //when using vblank, get the time from that, otherwise use the systemclock
-  if (m_UseVblank)
-  {
-    int64_t  NextVblank;
-    int64_t  Now;
-
-    Now = CurrentHostCounter();        //get current system time
-    NextVblank = TimeOfNextVblank();   //get time when the next vblank should happen
-
-    while(Now >= NextVblank)  //keep looping until the next vblank is in the future
-    {
-      UpdateClockInternal(1, false); //update clock when next vblank should have happened already
-      NextVblank = TimeOfNextVblank(); //get time when the next vblank should happen
-    }
-
-    if (interpolated)
-    {
-      //interpolate from the last time the clock was updated
-      double elapsed = static_cast<double>(Now - m_VblankTime) * m_ClockSpeed;
-      //don't interpolate more than 2 vblank periods
-      elapsed = std::min(elapsed, UpdateInterval() * 2.0);
-
-      //make sure the clock doesn't go backwards
-      int64_t intTime = m_CurrTime + static_cast<int64_t>(elapsed);
-      if (intTime > m_LastIntTime)
-        m_LastIntTime = intTime;
-
-      return m_LastIntTime;
-    }
-    else
-    {
-      return m_CurrTime;
-    }
-  }
-  else
-  {
     return CurrentHostCounter();
-  }
 }
 
 void CVideoReferenceClock::SetSpeed(double Speed)
 {
-  std::unique_lock<CCriticalSection> SingleLock(m_CritSection);
-  //VideoPlayer can change the speed to fit the rereshrate
-  if (m_UseVblank)
-  {
-    if (Speed != m_ClockSpeed)
-    {
-      m_ClockSpeed = Speed;
-      CLog::Log(LOGDEBUG, "CVideoReferenceClock: Clock speed %f%%", m_ClockSpeed * 100.0);
-    }
-  }
 }
 
 double CVideoReferenceClock::GetSpeed()
 {
-  std::unique_lock<CCriticalSection> SingleLock(m_CritSection);
-
-  //VideoPlayer needs to know the speed for the resampler
-  if (m_UseVblank)
-    return m_ClockSpeed;
-  else
     return 1.0;
 }
 

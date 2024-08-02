@@ -149,7 +149,8 @@ void CAnnouncementManager::DoAnnounce(AnnouncementFlag flag,
                                       const std::string& message,
                                       const CVariant& data)
 {
-  CLog::Log(LOGDEBUG, "CAnnouncementManager - Announcement: %s from %s", message.c_str(), sender.c_str());
+  CLog::Log(LOGDEBUG, "CAnnouncementManager - Announcement1: %s from %s", message.c_str(), sender.c_str());
+    return;
 
   std::unique_lock<CCriticalSection> lock(m_announcersCritSection);
 
@@ -166,6 +167,8 @@ void CAnnouncementManager::DoAnnounce(AnnouncementFlag flag,
                                       const std::shared_ptr<CFileItem>& item,
                                       const CVariant& data)
 {
+    CLog::Log(LOGDEBUG, "CAnnouncementManager - Announcement2: %s from %s", message.c_str(), sender.c_str());
+    return;
   if (item == nullptr)
   {
     DoAnnounce(flag, sender, message, data);

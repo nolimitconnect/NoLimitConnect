@@ -1473,9 +1473,15 @@ void CVideoPlayer::Process()
             if( m_CurrentVideo.id >= 0 )
                 videoLevel = m_processInfo->GetLevelVQ();
             if( videoLevel < 85 && audioLevel < 85 )
-            {
+              {
                 fillBuffer = true;
+                //LogModule( eLogVideoIo, LOG_DEBUG, "CVideoPlayer::Process fill video %d audio %d", videoLevel, audioLevel );
             }
+            else
+            {
+                //LogModule( eLogVideoIo, LOG_DEBUG, "CVideoPlayer::Process NO fill video %d audio %d", videoLevel, audioLevel );
+            }
+
             if( m_pDemuxer )
                 m_pDemuxer->FillBuffer( fillBuffer );
         }
@@ -2084,19 +2090,27 @@ void CVideoPlayer::HandlePlaySpeed()
                 m_playSpeed == DVD_PLAYSPEED_PAUSE )
             {
                 clock = m_CurrentVideo.starttime;
+                LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync1: clock %3.3f", clock );
             }
             else if( m_CurrentAudio.starttime != DVD_NOPTS_VALUE && m_CurrentAudio.packets > 0 )
             {
                 if( m_pInputStream->IsRealtime() )
+                {
                     clock = m_CurrentAudio.starttime - m_CurrentAudio.cachetotal - DVD_MSEC_TO_TIME( 400 );
+                    LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync2: clock %3.3f", clock );
+                }
                 else
+                {
                     clock = m_CurrentAudio.starttime - m_CurrentAudio.cachetime;
+                    LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync3: clock %3.3f", clock );
+                }
 
                 if( m_CurrentVideo.starttime != DVD_NOPTS_VALUE && (m_CurrentVideo.packets > 0) )
                 {
                     if( m_CurrentVideo.starttime - m_CurrentVideo.cachetotal < clock )
                     {
                         clock = m_CurrentVideo.starttime - m_CurrentVideo.cachetotal;
+                        LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync4: clock %3.3f", clock );
                     }
                     else if( m_CurrentVideo.starttime > m_CurrentAudio.starttime &&
                              !m_pInputStream->IsRealtime() )
@@ -2105,15 +2119,22 @@ void CVideoPlayer::HandlePlaySpeed()
                         //@todo hardcoded 8 seconds in message queue
                         double maxAudioTime = clock + DVD_MSEC_TO_TIME( 80 * audioLevel );
                         if( (m_CurrentVideo.starttime - m_CurrentVideo.cachetotal) > maxAudioTime )
+                        {
                             clock = maxAudioTime;
+                            LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync5: clock %3.3f", clock );
+                        }
                         else
+                        {
                             clock = m_CurrentVideo.starttime - m_CurrentVideo.cachetotal;
+                            LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync6: clock %3.3f", clock );
+                        }
                     }
                 }
             }
             else if( m_CurrentVideo.starttime != DVD_NOPTS_VALUE && m_CurrentVideo.packets > 0 )
             {
                 clock = m_CurrentVideo.starttime - m_CurrentVideo.cachetotal;
+                LogModule( eLogVideoIo, LOG_DEBUG, "VideoPlayer::Sync7: clock %3.3f", clock );
             }
 
             m_clock.Discontinuity( clock );

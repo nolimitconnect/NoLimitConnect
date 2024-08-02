@@ -348,19 +348,19 @@ void CGUIWindow::CenterWindow()
 
 void CGUIWindow::DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions)
 {
-  if (!IsControlDirty() && CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiSmartRedraw)
-    return;
+  //if (!IsControlDirty() && CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_guiSmartRedraw)
+  //  return;
 
-  CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(m_coordsRes, m_needsScaling);
-  CServiceBroker::GetWinSystem()->GetGfxContext().AddGUITransform();
+  //CServiceBroker::GetWinSystem()->GetGfxContext().SetRenderingResolution(m_coordsRes, m_needsScaling);
+  //CServiceBroker::GetWinSystem()->GetGfxContext().AddGUITransform();
   CGUIControlGroup::DoProcess(currentTime, dirtyregions);
-  CServiceBroker::GetWinSystem()->GetGfxContext().RemoveTransform();
+  //CServiceBroker::GetWinSystem()->GetGfxContext().RemoveTransform();
 
   // check if currently focused control can have it
   // and fallback to default control if not
-  CGUIControl* focusedControl = GetFocusedControl();
-  if (focusedControl && !focusedControl->CanFocus())
-    SET_CONTROL_FOCUS(m_defaultControl, 0);
+  //CGUIControl* focusedControl = GetFocusedControl();
+  //if (focusedControl && !focusedControl->CanFocus())
+  //  SET_CONTROL_FOCUS(m_defaultControl, 0);
 }
 
 void CGUIWindow::DoRender()

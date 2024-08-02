@@ -183,6 +183,9 @@ void RenderGlOffScreenSurface::presentRenderGl( bool rendered, bool videoLayer )
             }
             else
             {
+                //static int cnt = 0;
+                //cnt++;
+                //LogMsg( LOG_DEBUG, "new image %d", cnt );
                 lastImage = image;
             }
 

@@ -764,7 +764,7 @@ CDVDVideoCodec::VCReturn CDVDVideoCodecFFmpeg::GetPicture( VideoPicture* pVideoP
     }
     else if( ret == AVERROR( EAGAIN ) )
     {
-        LogModule( eLogVideoIo, LOG_VERBOSE, " CDVDVideoCodecFFmpeg::GetPicture EAGAIN" );
+        //LogModule( eLogVideoIo, LOG_VERBOSE, " CDVDVideoCodecFFmpeg::GetPicture EAGAIN" );
         return VC_BUFFER;
     }
     else if( ret )
@@ -775,7 +775,11 @@ CDVDVideoCodec::VCReturn CDVDVideoCodecFFmpeg::GetPicture( VideoPicture* pVideoP
 
     // here we got a frame
     int64_t framePTS = m_pDecodedFrame->best_effort_timestamp;
-    LogModule( eLogVideoIo, LOG_VERBOSE, " CDVDVideoCodecFFmpeg::GetPicture got frame pts %3.3f", framePTS );
+    //if( framePTS )
+	//{
+	//	LogModule( eLogVideoIo, LOG_VERBOSE, " CDVDVideoCodecFFmpeg::GetPicture got frame pts %lld", framePTS );
+	//}
+
     if( m_pCodecContext->skip_frame > AVDISCARD_DEFAULT )
     {
         if( m_dropCtrl.m_state == CDropControl::VALID &&

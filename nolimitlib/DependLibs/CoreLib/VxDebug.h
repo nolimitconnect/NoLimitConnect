@@ -56,7 +56,7 @@ enum ELogModule
 	eLogSkt				= 0x0100, // 9
 	eLogSktData         = 0x0200, // 10
 	eLogPkt				= 0x0400, // 11
-	eLogUserEvent	= 0x0800, // 12 
+	eLogUserEvent		= 0x0800, // 12 
 
 	eLogNetAccessStatus = 0x1000, // 13
 	eLogNetworkState	= 0x2000, // 14
@@ -83,9 +83,10 @@ enum ELogModule
 	eLogVideoIo			= 0x40000000, // 31
 	eLogMembership		= 0x80000000, // 31
 
-
     eMaxLogModule
 };
+
+void EnableLogTimer( bool enable );
 
 void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... );
 /// @brief no vargs version
