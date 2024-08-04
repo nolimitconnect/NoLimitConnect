@@ -1028,7 +1028,7 @@ target_include_directories(nolimitconnect PUBLIC
     ../nolimitlib/DependLibs/ffmpeg
     ../nolimitlib/DependLibs/libechocancel
     ../nolimitlib/GuiInterface
-    ../nolimitlib/ptop_src/ptop_engine_src
+    ../nolimitlib/DependLibs/libptopengine
     ${OPENSSL_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}

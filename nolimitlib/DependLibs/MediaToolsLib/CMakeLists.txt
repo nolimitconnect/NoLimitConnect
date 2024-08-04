@@ -219,7 +219,7 @@ target_include_directories(mediatools
     opus/celt
     opus/silk
     opus/silk/float
-    ../../ptop_src/ptop_engine_src
+    ../libptopengine
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

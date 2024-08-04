@@ -67,6 +67,7 @@ if(DEFINED TARGET_OS_WINDOWS)
     add_subdirectory(libpthread) # only needed on windows
 endif()
 
+add_subdirectory(libptopengine)
 #add_subdirectory(librapidjson) # used by player-nlc but does not need built
 
 add_subdirectory(libshine)

@@ -297,7 +297,6 @@ target_include_directories(ptopengine
   PRIVATE
     ../..
     ../../DependLibs
-    ../../ptop_src/ptop_engine_src
     ../../DependLibs/openssl-1.0.2p
     ../../DependLibs/openssl-1.0.2p/include
     ../../DependLibs/libplayer-nlc/xbmc/xbmc

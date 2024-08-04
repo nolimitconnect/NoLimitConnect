@@ -44,7 +44,7 @@ add_library(netlib STATIC ${netlib_SOURCES})
 
 target_include_directories(netlib
   PRIVATE
-    ../../ptop_src/ptop_engine_src
+    ../libptopengine
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

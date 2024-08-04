@@ -6,4 +6,3 @@ add_compile_definitions(HAVE_CONFIG_H LIB_STATIC ENABLE_NLC_PLAYER)
 
 add_subdirectory(DependLibs)
 
-add_subdirectory(ptop_src)

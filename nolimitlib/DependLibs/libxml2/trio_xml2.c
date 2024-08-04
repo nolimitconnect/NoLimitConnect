@@ -61,6 +61,7 @@
 #include <math.h>
 #include <limits.h>
 #include <float.h>
+#include <errno.h>
 
 #if (defined(__STDC_ISO_10646__) || defined(MB_LEN_MAX) \
      || defined(USE_MULTIBYTE) || TRIO_WIDECHAR) \

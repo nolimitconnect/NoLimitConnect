@@ -1509,7 +1509,7 @@ target_include_directories(player-nlc
     ../libpcre
     ../libfreetype/include
     ../libpthread 
-    ../../ptop_src/ptop_engine_src
+    ../libptopengine
 )
 
 target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)

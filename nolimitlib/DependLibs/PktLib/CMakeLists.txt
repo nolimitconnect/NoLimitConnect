@@ -66,7 +66,7 @@ add_library(pktlib STATIC ${pktlib_SOURCES})
 
 target_include_directories(pktlib
   PRIVATE
-    ../../ptop_src/ptop_engine_src
+    ../libptopengine
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
