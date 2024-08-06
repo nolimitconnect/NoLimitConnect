@@ -21,6 +21,9 @@
 #include "RenderGlOffScreenSurface.h"
 #include "RenderGlWidget.h"
 
+#include <GuiInterface/IMediaPlayerRequests.h>
+#include "MediaPlayerNlc.h"
+
 //============================================================================
 RenderPlayerNlcThread::RenderPlayerNlcThread( RenderGlLogic& renderLogic )
 : QThread()
@@ -67,13 +70,8 @@ void RenderPlayerNlcThread::run()
         qDebug() << "worker thread done " << VxGetCurrentThreadId();
 #else
         // will not return from doRun until kodi is shutdown
-        IToGui::getToGui().toGuiRunModule( eAppModulePlayerNlc );
-        // 
+        IMediaPlayerRequests::getNlcPlayer().fromThreadStartModule( eAppModulePlayerNlc );
 
-        // BRJ FIXME
-        // BRJ for no reason I can see g_RunKodi->deleteLater() will let memory allocated by Qt to be overwritten by normal malloc calls in kodi
-        //    g_RunKodi->deleteLater();
-        //g_RunKodi = nullptr;
 #endif // RENDER_LOGO_INSTEAD_OF_KODI
         isKodiRunning = false;
     }

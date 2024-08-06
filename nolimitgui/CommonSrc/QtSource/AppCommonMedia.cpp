@@ -9,14 +9,15 @@
 //============================================================================
 
 #include "AppCommon.h"
+
+#include "AppModuleState.h"
 #include "AppSettings.h"
 #include "GuiPlayerMgr.h"
+#include "HomeWindow.h"
 
 #include "ActivityScanWebCams.h"
 #include "ToGuiActivityInterface.h"
 #include "ToGuiHardwareControlInterface.h"
-
-#include "AppInterface/INlc.h"
 
 #include <VxVideoLib/VxVideoLib.h>
 #include <CoreLib/VxGlobals.h>
@@ -50,31 +51,25 @@ void AppCommon::toGuiMediaError( EAppModule appModule, EMediaError mediaError, c
 //============================================================================
 void AppCommon::toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning )
 {
-	m_Nlc.toGuiSetIsAppModuleRunning( appModule, isRunning );
+	m_AppModuleState.toGuiSetIsAppModuleRunning( appModule, isRunning );
 }
 
 //============================================================================
 bool AppCommon::toGuiGetIsAppModuleRunning( EAppModule appModule )
 {
-	return m_Nlc.toGuiGetIsAppModuleRunning( appModule );
+	return m_AppModuleState.toGuiGetIsAppModuleRunning( appModule );
 }
 
 //============================================================================
 bool AppCommon::toGuiRunModule( EAppModule appModule )
 {
-	return m_Nlc.toGuiRunModule( appModule );
+	return m_AppModuleState.toGuiRunModule( appModule );
 }
 
 //============================================================================
 bool AppCommon::toGuiStopModule( EAppModule appModule )
 {
-    return m_Nlc.toGuiStopModule( appModule );
-}
-
-//============================================================================
-void AppCommon::toGuiCreateUserDirs( void )
-{
-	m_Nlc.createUserDirs();
+    return m_AppModuleState.toGuiStopModule( appModule );
 }
 
 //============================================================================
@@ -170,4 +165,27 @@ int AppCommon::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint3
 	}
 
 	return m_PlayerMgr.toGuiPlayVideoFrame( feedOnlineId, picBuf, picBufLen, picWidth, picHeight );
+}
+
+//============================================================================
+void AppCommon::slotInternalMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, QString fileName )
+{
+	LogMsg( LOG_VERBOSE, "Media Action %d val %d fileName %s", playerAction, actionVal, fileName.toUtf8().constData() );
+}
+
+//============================================================================
+void AppCommon::slotInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg )
+{
+    static bool isBusy{false};
+	LogMsg( LOG_ERROR, "Media Error %d %s", mediaError, msg.toUtf8().constData() );
+
+	if( isBusy )
+	{
+		// just log instead of show message box if user has not acked the previous message	
+		return;
+	}
+
+	isBusy = true;
+	QMessageBox::warning(&getHomeWindow(), QObject::tr("Media Error"), msg);
+	isBusy = false;
 }

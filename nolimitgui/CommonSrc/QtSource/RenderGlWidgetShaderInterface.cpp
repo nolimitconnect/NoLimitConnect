@@ -206,7 +206,7 @@ void RenderGlWidget::shaderDisableVertexAttribArray( ESHADERMETHOD shader, int a
 
 //============================================================================
 //! ignore from kodi
-void RenderGlWidget::initialiseShaders()
+void RenderGlWidget::initializeShaders()
 {
 }
 

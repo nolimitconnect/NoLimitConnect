@@ -44,8 +44,8 @@ bool RenderGlWidget::firstBegin( CGUIFontTTFQt * font )
 
     if( font->m_textureStatus == CGUIFontTTFQt::TEXTURE_REALLOCATED )
     {
-        if( getGlFunctions()->glIsTexture( font->m_nTexture ) )
-            CServiceBroker::GetGUI()->GetTextureManager().ReleaseHwTexture( font->m_nTexture );
+        //if( getGlFunctions()->glIsTexture( font->m_nTexture ) )
+        //    CServiceBroker::GetGUI()->GetTextureManager().ReleaseHwTexture( font->m_nTexture );
         font->m_textureStatus = CGUIFontTTFQt::TEXTURE_VOID;
     }
 
@@ -247,8 +247,8 @@ void RenderGlWidget::deleteHardwareTexture( CGUIFontTTFQt * font )
 {
     if( font->m_textureStatus != CGUIFontTTFQt::TEXTURE_VOID )
     {
-        if( getGlFunctions()->glIsTexture( font->m_nTexture ) )
-            CServiceBroker::GetGUI()->GetTextureManager().ReleaseHwTexture( font->m_nTexture );
+        //if( getGlFunctions()->glIsTexture( font->m_nTexture ) )
+        //    CServiceBroker::GetGUI()->GetTextureManager().ReleaseHwTexture( font->m_nTexture );
 
         font->m_textureStatus = CGUIFontTTFQt::TEXTURE_VOID;
         font->m_updateY1 = font->m_updateY2 = 0;

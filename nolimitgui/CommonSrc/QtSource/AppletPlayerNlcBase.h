@@ -13,7 +13,7 @@
 
 #include "GuiPlayerCallback.h"
 
-#include <GuiInterface/IMediaPlayerInterface.h>
+#include <GuiInterface/IMediaPlayerCallback.h>
 
 #include <QElapsedTimer>
 
@@ -47,6 +47,7 @@ public:
     void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override {};
 
 	void						fromMediaPlayerInitLevel( int level, bool success ) override;
+	void						fromMediaPlayerIsRunning( bool isRunning ) override;
 
 	void						fromMediaPlayerPlayFile( VxGUID& feedId ) override;
 	void						fromMediaPlayerPlayStarted( VxGUID& feedId ) override;
@@ -68,6 +69,7 @@ public:
 
 signals:
 	void						signalInternalInitLevel( int level, bool success );
+	void						signalInternalPlayerNlcIsRunning( bool isRunning );
 
 	void						signalInternalPlayFile( VxGUID feedId );
 	void						signalInternalPlayStarted( VxGUID feedId );
@@ -81,6 +83,7 @@ signals:
 
 protected slots:
 	void						slotInternalInitLevel( int level, bool success );
+	void						slotInternalPlayerNlcIsRunning( bool isRunning );
 
 	void						slotInternalPlayFile( VxGUID feedId );
 	void						slotInternalPlayStarted( VxGUID feedId );

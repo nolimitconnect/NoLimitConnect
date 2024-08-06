@@ -541,7 +541,7 @@ void RunUrlAction::sendRunTestStatus( UrlActionInfo& urlAction, std::string& url
 
     if( !urlAction.getResultInterface() )
     {
-        IToGui::getToGui().toGuiRunTestStatus( urlActionName.c_str(), eStatus, cmdMsg.c_str() );
+        IToGui::getIToGui().toGuiRunTestStatus( urlActionName.c_str(), eStatus, cmdMsg.c_str() );
     }
     else
     {
@@ -560,6 +560,6 @@ void RunUrlAction::sendTestLog( UrlActionInfo& urlAction, std::string& urlAction
         vsnprintf( as8Buf, sizeof( as8Buf ), msg, argList );
         as8Buf[sizeof( as8Buf ) - 1] = 0;
         va_end( argList );
-        IToGui::getToGui().toGuiRunTestStatus( urlActionName.c_str(), eRunTestStatusLogMsg, as8Buf );
+        IToGui::getIToGui().toGuiRunTestStatus( urlActionName.c_str(), eRunTestStatusLogMsg, as8Buf );
     }
 }

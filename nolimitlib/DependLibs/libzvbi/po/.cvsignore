@@ -1,8 +1,0 @@
-*.gmo
-*.insert-header
-*.pot
-*.sed
-Makefile
-Makefile.in
-POTFILES
-stamp-po

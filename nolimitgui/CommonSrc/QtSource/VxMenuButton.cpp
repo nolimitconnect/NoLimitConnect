@@ -35,7 +35,7 @@ VxMenuButton::VxMenuButton( const QString & text, QWidget* parent )
 //============================================================================
 void VxMenuButton::slotMenuButtonClicked( void )
 {
-    QPoint rightPoint = m_MyApp.getHomePage().mapToGlobal( this->geometry().topRight() );
+    QPoint rightPoint = m_MyApp.getHomeWindow().mapToGlobal( this->geometry().topRight() );
     QPoint topPoint;
 
     if( m_ContextMenu.getIsShowMenuAbove() )

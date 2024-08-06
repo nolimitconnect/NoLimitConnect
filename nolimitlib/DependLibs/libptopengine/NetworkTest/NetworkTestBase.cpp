@@ -90,7 +90,7 @@ void NetworkTestBase::sendRunTestStatus( ERunTestStatus eStatus, const char* msg
     vsnprintf( as8Buf.data(), as8Buf.size(), msg, argList);
     as8Buf[ as8Buf.size() - 1 ] = 0;
     va_end( argList );
-    IToGui::getToGui().toGuiRunTestStatus( getTestName().c_str(), eStatus, as8Buf.data() );
+    IToGui::getIToGui().toGuiRunTestStatus( getTestName().c_str(), eStatus, as8Buf.data() );
 }
 
 //============================================================================
@@ -102,5 +102,5 @@ void NetworkTestBase::sendTestLog( const char* msg, ... )
     vsnprintf( as8Buf.data(), as8Buf.size(), msg, argList);
     as8Buf[ as8Buf.size() - 1 ] = 0;
     va_end( argList );
-    IToGui::getToGui().toGuiRunTestStatus( getTestName().c_str(), eRunTestStatusLogMsg, as8Buf.data() );
+    IToGui::getIToGui().toGuiRunTestStatus( getTestName().c_str(), eRunTestStatusLogMsg, as8Buf.data() );
 }

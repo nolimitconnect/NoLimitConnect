@@ -43,7 +43,7 @@ public:
 	EThemeType					getLastSelectedTheme( void );
 
 	void						setHomePageLayout( EHomeLayout homeLayout );
-	EHomeLayout					getHomePageLayout( void );
+	EHomeLayout					getHomeWindowLayout( void );
 
 	void						setMutePhoneRing( bool bMutePhoneRing );
 	bool						getMutePhoneRing( void );

@@ -14,11 +14,11 @@
 //============================================================================
 void P2PEngine::callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen )
 {
-	IToGui::getToGui().toGuiPlayVideoFrame( vidFeedId, jpgData, jpgDataLen, 0 );
+	IToGui::getIToGui().toGuiPlayVideoFrame( vidFeedId, jpgData, jpgDataLen, 0 );
 }
 
 //============================================================================
 void P2PEngine::callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
 {
-	IToGui::getToGui().toGuiPlayVideoFrame( vidFeedId, jpgData, jpgDataLen, motion0to100000 );
+	IToGui::getIToGui().toGuiPlayVideoFrame( vidFeedId, jpgData, jpgDataLen, motion0to100000 );
 }

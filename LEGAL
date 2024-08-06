@@ -71,8 +71,8 @@ This might not be a complete list.
  nolimitapp/nolimitlib/DependLibs/libopenmpt/include/portaudio/LICENSE.txt
  nolimitapp/nolimitlib/DependLibs/libplayer-nlc/LICENSE.GPL
  nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/LICENSE.GPL
- nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/xbmc/fmt/LICENSE.rst
- nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/xbmc/interfaces/json-rpc/schema/license.txt
+ nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/fmt/LICENSE.rst
+ nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/interfaces/json-rpc/schema/license.txt
  nolimitapp/nolimitlib/DependLibs/libpng/LICENSE
  nolimitapp/nolimitlib/DependLibs/libpng/contrib/gregbook/LICENSE
  nolimitapp/nolimitlib/DependLibs/librapidjson/license.txt

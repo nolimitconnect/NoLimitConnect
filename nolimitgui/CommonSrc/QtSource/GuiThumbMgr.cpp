@@ -346,7 +346,7 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
     if( !thumbId.isVxGUIDValid() )
     {
         QString msgText = QObject::tr( "Invalid emoticon id" );
-        QMessageBox::warning( &m_MyApp.getHomePage(), msgText, msgText, QMessageBox::Ok );
+        QMessageBox::warning( &m_MyApp.getHomeWindow(), msgText, msgText, QMessageBox::Ok );
         return nullptr;
     }
 
@@ -385,7 +385,7 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
     if( !GuiHelpers::createThumbFileName( thumbId, fileName ) )
     {
         QString msgText = QObject::tr( "Could create emoticon file name" );
-        QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Error occured creating emoticon file " ), msgText, QMessageBox::Ok );
+        QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon file " ), msgText, QMessageBox::Ok );
         return nullptr;
     }
 
@@ -419,7 +419,7 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
     if( !foundId || emoticonNum > (int)emoticonIdList.size() )
     {
         QString msgText = QObject::tr( "Invalid emoticon id" );
-        QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Invalid emoticon id " ), msgText + thumbId.toOnlineIdString().c_str(), QMessageBox::Ok );
+        QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Invalid emoticon id " ), msgText + thumbId.toOnlineIdString().c_str(), QMessageBox::Ok );
     }
 
     QPixmap image;
@@ -447,19 +447,19 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
             if( !thumbMgr.fromGuiThumbCreated( assetInfo ) )
             {
                 QString msgText = QObject::tr( "Could not create emoticon asset" );
-                QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Error occured creating emoticon asset " ) + fileName, msgText, QMessageBox::Ok );
+                QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon asset " ) + fileName, msgText, QMessageBox::Ok );
             }
         }
         else
         {
             QString msgText = QObject::tr( "Could not create emoticon png file" );
-            QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Error occured creating emoticon file " ) + fileName, msgText, QMessageBox::Ok );
+            QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon file " ) + fileName, msgText, QMessageBox::Ok );
         }
     }
     else
     {
         QString msgText = QObject::tr( "Could not create emoticon image" );
-        QMessageBox::warning( &m_MyApp.getHomePage(), QObject::tr( "Error occured creating emoticon image %1" ).arg( emoticonNum ), msgText, QMessageBox::Ok );
+        QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon image %1" ).arg( emoticonNum ), msgText, QMessageBox::Ok );
     }
 
     return guiThumb;

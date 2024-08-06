@@ -57,7 +57,7 @@ bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppM
 					//LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
 					m_AudioPktsRequested = true;
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
-					m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, true );
+					IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, true );
 				}
 
 				updatePushToTalkStatus( onlineId );
@@ -80,7 +80,7 @@ bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppM
 	}
 	else
 	{
-		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
+		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
 		sendPushToTalkStop( onlineId, sktBase );
 		removePushToTalkUser( onlineId, true );
 		updatePushToTalkStatus( onlineId );
@@ -155,7 +155,7 @@ void PushToTalkFeedMgr::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase,
 		{
 			m_MixerInputRequesed = true;
 			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, true );
-            m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, srcOnlineId, true );
+            IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, srcOnlineId, true );
 			//LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::enableCapture done\n" );
 		}
 
@@ -321,7 +321,7 @@ bool PushToTalkFeedMgr::addPushToTalkUser( VxGUID& onlineId, std::shared_ptr<VxS
 			m_AudioPktsRequested = false;
 			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, false );
 			m_MixerInputRequesed = false;
-			m_Engine.getToGui().getAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
+			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
 			LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
 		}
 	}
@@ -337,7 +337,7 @@ bool PushToTalkFeedMgr::addPushToTalkUser( VxGUID& onlineId, std::shared_ptr<VxS
 			m_AudioPktsRequested = false;
 			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, false );
 			m_MixerInputRequesed = false;
-			m_Engine.getToGui().getAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
+			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
 			LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
 		}
 	}
@@ -360,7 +360,7 @@ bool PushToTalkFeedMgr::removePushToTalkUser( VxGUID& onlineId, bool txOnly, boo
 			m_AudioPktsRequested = false;
 			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, false );
 			m_MixerInputRequesed = false;
-			m_Engine.getToGui().getAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
+			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
 			LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
 		}
 	}
@@ -376,7 +376,7 @@ bool PushToTalkFeedMgr::removePushToTalkUser( VxGUID& onlineId, bool txOnly, boo
 			m_AudioPktsRequested = false;
 			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, false );
 			m_MixerInputRequesed = false;
-			m_Engine.getToGui().getAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
+			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
 			LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
 		}
 	}
@@ -432,13 +432,13 @@ void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 	if( !m_Engine.isUserConnected( onlineId ) )
 	{
 		status = ePushToTalStatusNoConnection;
-		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
-		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, false );
+		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
+		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, false );
 	}
 	else
 	{
-		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, isTx );
-		m_Engine.getToGui().getAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, isRx );
+		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, isTx );
+		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, isRx );
 	}	
 
 	if( status != prevStatus )

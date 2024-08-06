@@ -18,6 +18,9 @@
 #include "RenderGlOffScreenSurface.h"
 
 #include <GuiInterface/NlcRenderFrame.h>
+#include <GuiInterface/IMediaPlayerRequests.h>
+
+#include "MediaPlayerNlc.h"
 
 #include <CoreLib/VxTimeUtil.h>
 
@@ -54,14 +57,11 @@ RenderGlWidget::RenderGlWidget(QWidget* parent)
 , m_MyApp( GetAppInstance() )
 , m_QtToPlayerNlc( m_MyApp )
 , m_ScreenSize( 1, 1 )
-, m_ResizingWindowSize( 1, 1 )
-, m_ResizingTimer( new QTimer( this ) )
 {
     memset( m_viewPort, 0, sizeof( m_viewPort ) );
     memset( m_TextureIds, 0, sizeof( m_TextureIds ) );
     memset( m_TexSize, 0, sizeof( m_TexSize ) );
 
-	connect( m_ResizingTimer, SIGNAL( timeout() ), this, SLOT( slotResizeWindowTimeout() ) );
     connect( this, SIGNAL(signalFrameRendered()), this, SLOT(slotOnFrameRendered()) );
     initRenderGlContext();
 }
@@ -123,24 +123,18 @@ void RenderGlWidget::paintEvent( QPaintEvent * ev )
 void RenderGlWidget::handleGlResize( int width, int height )
 {
     LogMsg( LOG_DEBUG, "handleGlResize x(%d) y(%d)", width, height );
-
-    QSize screenSize = QSize( width, height );
-    if( screenSize != m_ScreenSize )
+    if( width > 1 && height > 1 )
     {
-        m_ScreenSize = QSize( width, height );
-        m_ResizingWindowSize = m_ScreenSize;
 
-        setSurfaceSize( m_ScreenSize );
-        if( !m_IsResizing )
+        QSize screenSize = QSize( width, height );
+        if( screenSize != m_ScreenSize )
         {
-            m_IsResizing = true;
-            onResizeBegin( m_ResizingWindowSize );
-        }
+            m_ScreenSize = QSize( width, height );
 
-        onResizeEvent( m_ResizingWindowSize );
-        m_ResizingTimer->stop();
-        m_ResizingTimer->setSingleShot( true );
-        m_ResizingTimer->start( RESIZE_WINDOW_COMPLETED_TIMEOUT );
+            setSurfaceSize( m_ScreenSize );
+ 
+            IMediaPlayerRequests::getNlcPlayer().fromGuiRenderWindowResize( eAppModulePlayerNlc, m_ScreenSize.width(), m_ScreenSize.height() );
+        }
     }
 }
 
@@ -176,30 +170,12 @@ void RenderGlWidget::resizeEvent( QResizeEvent* ev )
 }
 
 //============================================================================
-void RenderGlWidget::onResizeBegin( QSize& newSize )
-{
-	m_QtToPlayerNlc.fromGuiResizeBegin( newSize.width(), newSize.height() );
-}
-
-//============================================================================
-void RenderGlWidget::onResizeEvent( QSize& newSize )
-{
-	m_QtToPlayerNlc.fromGuiResizeEvent( newSize.width(), newSize.height() );
-}
-
-//============================================================================
-void RenderGlWidget::onResizeEnd( QSize& newSize )
-{
-	m_QtToPlayerNlc.fromGuiResizeEnd( newSize.width(), newSize.height() );
-}
-
-//============================================================================
 void RenderGlWidget::onModuleState( EAppModule moduleNum, EModuleState moduleState )
 {
 	if( ( moduleNum == eAppModulePlayerNlc ) && ( moduleState == eModuleStateInitialized ) )
 	{
 		// send a resize message so kodi will resize to fit window
-		m_QtToPlayerNlc.fromGuiResizeEnd( m_ScreenSize.width(), m_ScreenSize.height() );
+		//m_QtToPlayerNlc.fromGuiResizeEnd( m_ScreenSize.width(), m_ScreenSize.height() );
 	}
 }
 
@@ -258,16 +234,6 @@ void RenderGlWidget::mouseMoveEvent( QMouseEvent * ev )
     //{
     //    QWidget::mouseMoveEvent( ev );
     //}
-}
-
-//============================================================================
-void RenderGlWidget::slotResizeWindowTimeout()
-{
-	if( m_IsResizing )
-	{
-		m_IsResizing = false;
-		onResizeEnd( m_ResizingWindowSize );
-	}
 }
 
 //============================================================================

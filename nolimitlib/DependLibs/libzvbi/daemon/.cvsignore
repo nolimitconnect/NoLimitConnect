@@ -1,7 +1,0 @@
-.deps
-.libs
-Makefile
-Makefile.in
-zvbi-chains
-zvbid
-zvbid.init

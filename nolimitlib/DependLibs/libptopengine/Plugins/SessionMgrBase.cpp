@@ -24,7 +24,7 @@ SessionMgrBase::SessionMgrBase( P2PEngine& engine, PluginBase& plugin, PluginMgr
 //============================================================================
 IToGui&	SessionMgrBase::getToGui( void )
 { 
-    return IToGui::getToGui(); 
+    return IToGui::getIToGui(); 
 }
 
 //============================================================================

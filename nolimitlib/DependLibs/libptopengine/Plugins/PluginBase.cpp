@@ -615,7 +615,7 @@ void PluginBase::handleToGuiOfferRequest( VxNetIdent* netIdent, PktPluginOfferRe
     OfferBaseInfo offerInfo;
     if( offerInfo.extractFromBlob( pktReq->getBlobEntry() ) )
     {
-        IToGui::getToGui().toGuiRxedPluginOffer( netIdent->getMyOnlineId(), offerInfo);
+        IToGui::getIToGui().toGuiRxedPluginOffer( netIdent->getMyOnlineId(), offerInfo);
     }
 }
 
@@ -625,7 +625,7 @@ void PluginBase::handleToGuiOfferResponse( VxNetIdent* netIdent, PktPluginOfferR
     OfferBaseInfo offerInfo;
     if( offerInfo.extractFromBlob( pktReply->getBlobEntry() ) )
     {
-        IToGui::getToGui().toGuiRxedOfferReply( netIdent->getMyOnlineId(), offerInfo );
+        IToGui::getIToGui().toGuiRxedOfferReply( netIdent->getMyOnlineId(), offerInfo );
     }
 }
 

@@ -33,6 +33,8 @@ public:
 class IAudioRequests
 {
 public:
+    static IAudioRequests&		getIAudioRequests( void );
+
     // return true if any microphone device is available to be enabled
     virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) = 0;
 

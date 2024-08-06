@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "IDefs.h"
+#include "IFromGuiDefs.h"
 
 #include <HostListMgr/HostedInfo.h>
 
@@ -27,63 +27,6 @@ class AssetBaseInfo;
 class FileShareSettings;
 class InetAddress;
 class VxSha1Hash;
-
-// Plugin server state
-enum EPluginServerState
-{
-	ePluginServerStateDisabled,		//< server is disabled
-	ePluginServerStateStarted,		//< server is running
-	ePluginServerStateStopped,		//< server is enabled but not running
-
-	eMaxPluginServerState
-};
-
-// Video recording state
-enum EVideoRecordState
-{
-	eVideoRecordStateDisabled,
-	eVideoRecordStateStopRecording,
-	eVideoRecordStateStartRecording,
-	eVideoRecordStateStartRecordingInPausedState,
-	eVideoRecordStatePauseRecording,
-	eVideoRecordStateResumeRecording,
-	eVideoRecordStateCancelRecording,
-	eVideoRecordStateError,
-
-	eMaxVideoRecordState
-};
-
-//! \public Audio recording state
-enum ESndRecordState
-{
-	eSndRecordStateDisabled,
-	eSndRecordStateStopRecording,
-	eSndRecordStateStartRecording,
-	eSndRecordStateStartRecordingInPausedState,
-	eSndRecordStatePauseRecording,
-	eSndRecordStateResumeRecording,
-	eSndRecordStateCancelRecording,
-	eSndRecordStateError,
-
-	eMaxSndRecordState
-};
-
-//! \public Media request for callback when processed MediaProcessor types
-enum EMediaInputType
-{
-	eMediaInputNone,
-	eMediaInputAudioPkts,
-	eMediaInputAudioOpus,
-	eMediaInputAudioPcm,
-
-	eMediaInputVideoPkts,
-	eMediaInputVideoJpgSmall,   // 320x240 jpg video
-	eMediaInputVideoJpgBig,     // really for photos only
-
-	eMediaInputMixer,
-
-	eMaxMediaInputType
-};
 
 class FileInfo;
 class GroupieInfo;

@@ -130,7 +130,7 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 				fileInfo.setIsInLibrary( isInLibrary );
 				fileInfo.setIsSharedFile( isShared );
 
-				IToGui::getToGui().toGuiFileList( appInstId, fileInfo );
+				IToGui::getIToGui().toGuiFileList( appInstId, fileInfo );
 			}
 			else
 			{
@@ -151,7 +151,7 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 		}
 	}
 
-	IToGui::getToGui().toGuiFileListCompleted(appInstId);
+	IToGui::getIToGui().toGuiFileListCompleted(appInstId);
 	return isPluginEnabled();
 }
 

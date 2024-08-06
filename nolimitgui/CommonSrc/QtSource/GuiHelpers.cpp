@@ -1083,7 +1083,7 @@ QFrame* GuiHelpers::getOppositePageFrame( QWidget* curWidget )
                 for( auto iter = childList.begin();  iter != childList.end(); ++iter )
                 {
                     QFrame* childFrame = dynamic_cast<QFrame*>(*iter);
-                    if( childFrame && childFrame->objectName() == otherPageObjeName && childFrame == GetAppInstance().getHomePage().getMessengerParentFrame() )
+                    if( childFrame && childFrame->objectName() == otherPageObjeName && childFrame == GetAppInstance().getHomeWindow().getMessengerParentFrame() )
                     {
                         pageFrame = childFrame;
                         foundOtherFrame = true;
@@ -1187,11 +1187,11 @@ QFrame* GuiHelpers::findContentFrame( QString& contentFrameObjName )
 {
     if( OBJNAME_FRAME_MESSAGER_PAGE == contentFrameObjName )
     {
-        return GetAppInstance().getHomePage().getMessengerParentFrame();
+        return GetAppInstance().getHomeWindow().getMessengerParentFrame();
     }
     else
     {
-        return GetAppInstance().getHomePage().getLaunchPageFrame();
+        return GetAppInstance().getHomeWindow().getLaunchPageFrame();
     }
 }
 

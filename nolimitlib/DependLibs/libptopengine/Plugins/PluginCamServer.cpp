@@ -44,7 +44,7 @@ PluginCamServer::PluginCamServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNet
 void PluginCamServer::setIsPluginInSession( bool isInSession )
 {
 	setIsServerInSession( isInSession );
-	IToGui::getToGui().toGuiPluginStatus( m_ePluginType, isInSession ? 1 : 0, isInSession ? m_PluginSessionMgr.getSessionCount() : -1 );
+	IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, isInSession ? 1 : 0, isInSession ? m_PluginSessionMgr.getSessionCount() : -1 );
 }
 
 //============================================================================
@@ -413,7 +413,7 @@ void PluginCamServer::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase
 	OfferBaseInfo offerInfo;
 	if( offerInfo.extractFromBlob( pktReply->getBlobEntry() ) )
 	{
-		IToGui::getToGui().toGuiRxedOfferReply( pktReply->getSrcOnlineId(), offerInfo);
+		IToGui::getIToGui().toGuiRxedOfferReply( pktReply->getSrcOnlineId(), offerInfo);
 	}
 
 	PluginBase::AutoPluginLock pluginMutexLock( this );
@@ -446,7 +446,7 @@ void PluginCamServer::onPktSessionStartReq( std::shared_ptr<VxSktBase>& sktBase,
         }
 		else
 		{
-			IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount( true ) );
+			IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount( true ) );
 		}
 	}
 	else
@@ -488,7 +488,7 @@ void PluginCamServer::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, 
 	m_PluginSessionMgr.removeTxSessionByOnlineId( netIdent->getMyOnlineId(), false );
 	if( getIsServerInSession() )
 	{
-		IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
 	}
 }
 
@@ -518,7 +518,7 @@ void PluginCamServer::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase,
 			m_PluginSessionMgr.removeTxSessionByOnlineId( netIdent->getMyOnlineId(), true );
 			if( getIsServerInSession() )
 			{
-				IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount( true ) );
+				IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount( true ) );
 			}
 		}
 	}
@@ -529,7 +529,7 @@ void PluginCamServer::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase,
 		LogMsg( LOG_INFO, "PluginCamServer::onPktVideoFeedStatus %d", pktVideoStatus->getFeedStatus() );
 		if( eFeedStatusOnline != pktVideoStatus->getFeedStatus() )
 		{
-			//IToGui::getToGui().toGuiRxedOfferReply( netIdent,
+			//IToGui::getIToGui().toGuiRxedOfferReply( netIdent,
 			//	m_ePluginType,
 			//	0,				// plugin defined data
 			//	(eFeedStatusBusy == pktVideoStatus->getFeedStatus()) ? eOfferResponseBusy : eOfferResponseEndSession,
@@ -679,7 +679,7 @@ void PluginCamServer::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 	m_PluginSessionMgr.onConnectionLost( sktBase );
 	if( getIsServerInSession() )
 	{
-		IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
 	}
 }
 
@@ -689,7 +689,7 @@ void PluginCamServer::onContactWentOffline( VxNetIdent* netIdent, std::shared_pt
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 	if( getIsServerInSession() )
 	{
-		IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
 	}
 }
 

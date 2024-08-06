@@ -16,17 +16,17 @@
 //============================================================================
 void P2PEngine::callbackBlobAdded( BlobInfo* blobInfo )
 {
-    IToGui::getToGui().toGuiBlobAdded( blobInfo );
+    IToGui::getIToGui().toGuiBlobAdded( blobInfo );
 }
 
 //============================================================================
 void P2PEngine::callbackBlobRemoved( BlobInfo* blobInfo )
 {
-    IToGui::getToGui().toGuiBlobAction( eAssetActionRemoveFromAssetMgr, blobInfo->getAssetUniqueId(), 0 );
+    IToGui::getIToGui().toGuiBlobAction( eAssetActionRemoveFromAssetMgr, blobInfo->getAssetUniqueId(), 0 );
 }
 
 //============================================================================
 void P2PEngine::callbackBlobHistory( BlobInfo* blobInfo )
 {
-	IToGui::getToGui().toGuiBlobSessionHistory( blobInfo );
+	IToGui::getIToGui().toGuiBlobSessionHistory( blobInfo );
 }

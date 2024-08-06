@@ -520,7 +520,7 @@ bool MJPEGReader::readFirstVidFrameFromFile( VFile * fileHandle, const char* fil
 				{
 					VxGUID onlineId;
 					onlineId.setVxGUID( assetId );
-					IToGui::getToGui().toGuiPlayVideoFrame( onlineId, payloadData, aviChunk.m_PayloadDataSize, 0 );
+					IToGui::getIToGui().toGuiPlayVideoFrame( onlineId, payloadData, aviChunk.m_PayloadDataSize, 0 );
 					delete[] payloadData;
 					return true;
 				}
@@ -1058,7 +1058,7 @@ void MJPEGReader::readerThread( void )
 			&& aviChunk->hasData() )
 		{
 			// LogMsg( LOG_INFO, "MJPEGReader vid chunk %d start", m_VidWriteIdx );
-			IToGui::getToGui().toGuiPlayVideoFrame( m_AssetId, &aviChunk->m_DataPtr[8], aviChunk->m_ChunkLen, 0 );
+			IToGui::getIToGui().toGuiPlayVideoFrame( m_AssetId, &aviChunk->m_DataPtr[8], aviChunk->m_ChunkLen, 0 );
 			// LogMsg( LOG_INFO, "MJPEGReader vid chunk %d end", m_VidWriteIdx );
 			m_VidChunksInMemory--;
 			aviChunk->deleteDataPtr();
@@ -1068,7 +1068,7 @@ void MJPEGReader::readerThread( void )
 		//LogMsg( LOG_INFO, "readerThread::unlockResources\n" );
 		unlockResources();
 		// LogMsg( LOG_INFO, "MJPEGReader progress %d start", progress );
-		IToGui::getToGui().toGuiAssetAction(  eAssetActionPlayProgress, m_AssetId, progress );
+		IToGui::getIToGui().toGuiAssetAction(  eAssetActionPlayProgress, m_AssetId, progress );
 		// LogMsg( LOG_INFO, "MJPEGReader progress %d done", progress );
 		if( ( 0 == m_VidChunksInMemory )
 			&& ( m_VidWriteIdx >= m_AviChunkList.size() ) )
@@ -1093,7 +1093,7 @@ void MJPEGReader::readerThread( void )
 		return;
 
 	// LogMsg( LOG_INFO, "MJPEGReader eAssetActionPlayEnd start" );
-	IToGui::getToGui().toGuiAssetAction( eAssetActionPlayEnd, m_AssetId, 0 );
+	IToGui::getIToGui().toGuiAssetAction( eAssetActionPlayEnd, m_AssetId, 0 );
 	// LogMsg( LOG_INFO, "MJPEGReader eAssetActionPlayEnd end" );
 }
 

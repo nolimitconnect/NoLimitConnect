@@ -408,7 +408,7 @@ void OfferBaseXferMgr::onPktOfferSendReq( std::shared_ptr<VxSktBase>& sktBase, V
 			EXferError xferErr = beginOfferBaseReceive( xferSession, poPkt, pktReply );
 			if( eXferErrorNone != xferErr )
 			{
-				//IToGui::getToGui().toGuiUpdateOfferDownload( xferSession->getLclSessionId(), 0, rc );
+				//IToGui::getIToGui().toGuiUpdateOfferDownload( xferSession->getLclSessionId(), 0, rc );
 				endOfferBaseXferSession( xferSession, true );
 			}
 		}
@@ -460,7 +460,7 @@ void OfferBaseXferMgr::onPktOfferSendReply( std::shared_ptr<VxSktBase>& sktBase,
 				//RCODE rc = txNextOfferBaseChunk( xferSession );
 				//if( rc )
 				//{
-				//	//IToGui::getToGui().toGuiUpdateOfferUpload( xferSession->getLclSessionId(), 0, rc );
+				//	//IToGui::getIToGui().toGuiUpdateOfferUpload( xferSession->getLclSessionId(), 0, rc );
 				//	LogMsg( LOG_ERROR, "OfferBaseXferMgr::onPktOfferSendReply beginOfferBaseSend returned error %d", rc );
 				//	endOfferBaseXferSession( xferSession, true );
 				//}
@@ -567,7 +567,7 @@ static int cnt = 0;
 			EXferError xferErr = txNextOfferBaseChunk( xferSession, poPkt->getError(), true );
 			if( eXferErrorNone != xferErr )
 			{
-				//IToGui::getToGui().toGuiUpdateOfferUpload( xferSession->getLclSessionId(), 0, rc );
+				//IToGui::getIToGui().toGuiUpdateOfferUpload( xferSession->getLclSessionId(), 0, rc );
 				endOfferBaseXferSession( xferSession, true, false );
 			}
 		}
@@ -1370,7 +1370,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 	VxFileXferInfo& xferInfo = xferSession->getXferInfo();
 	if( poPkt->getError() )
 	{
-		//IToGui::getToGui().toGuiUpdateOfferDownload( poPkt->getRmtSessionId(), 0, poPkt->getError() );
+		//IToGui::getIToGui().toGuiUpdateOfferDownload( poPkt->getRmtSessionId(), 0, poPkt->getError() );
 		xferErr = (EXferError)poPkt->getError();
 		return xferErr;
 	}

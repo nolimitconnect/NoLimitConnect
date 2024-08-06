@@ -19,7 +19,6 @@
 #include "GuiHelpers.h"
 #include "AccountMgr.h"
 
-#include <AppInterface/INlc.h>
 #include <P2PEngine/EngineSettings.h>
 #include <P2PEngine/P2PEngine.h>
 
@@ -71,7 +70,7 @@ void AppCommon::doLogin()
     //AppSetup appSetup;
     //if( false == appSetup.areUserAssetsInitilized() )
     //{
-    //    m_AppSetupDlg = new ActivityAppSetup( *this, &getHomePage() );
+    //    m_AppSetupDlg = new ActivityAppSetup( *this, &getHomeWindow() );
     //    m_AppSetupDlg->show();
     //}
     //else
@@ -243,7 +242,7 @@ void AppCommon::setupAccountResources( VxNetIdent& userAccountIdent )
     std::string strUserName = userAccountIdent.getOnlineName();
     getEngine().fromGuiSetUserXferDir( getUserXferDirectoryFromAccountUserName( strUserName.c_str() ).c_str() );
     // kodi also needs the directory
-    getNlc().fromGuiSetUserSpecificDir( getUserSpecificDataDirectoryFromAccountUserName( strUserName.c_str() ).c_str() );
+    getEngine().fromGuiSetUserSpecificDir( getUserSpecificDataDirectoryFromAccountUserName( strUserName.c_str() ).c_str() );
 
     // get port to listen on 
     uint16_t tcpPort = getEngine().getEngineSettings().getTcpIpPort();
@@ -294,7 +293,7 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
     getEngine().fromGuiSetUserXferDir( getUserXferDirectoryFromAccountUserName( userName ).c_str() );
     std::string strUserSpecificDir = getUserSpecificDataDirectoryFromAccountUserName( userName );
     // gotv (kodi) also needs the directory
-    getNlc().fromGuiSetUserSpecificDir( strUserSpecificDir.c_str() );
+    getEngine().fromGuiSetUserSpecificDir( strUserSpecificDir.c_str() );
 
     copyAssetsToFoldersIfRequired();
 

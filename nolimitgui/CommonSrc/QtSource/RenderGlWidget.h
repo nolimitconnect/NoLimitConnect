@@ -52,7 +52,7 @@ public:
     void                        showAppIcon( void );
 
     //! ignore from kodi
-    void                        initialiseShaders() override;
+    void                        initializeShaders() override;
     //! ignore from kodi
     void                        releaseShaders() override;
 
@@ -99,11 +99,6 @@ public:
     virtual int                 shaderVertexAttribPointer( ESHADERMETHOD shader, unsigned int index, int size, int type, bool normalized, int stride, const void * pointer ) override;
     virtual void                shaderEnableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
     virtual void                shaderDisableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
-
-	// resizing window
-	virtual void				onResizeBegin( QSize& newSize );
-	virtual void				onResizeEvent( QSize& newSize );
-	virtual void				onResizeEnd( QSize& newSize );
 
 	void						onModuleState( EAppModule moduleNum, EModuleState moduleState );
 
@@ -216,7 +211,6 @@ public:
     void                        onThreadFrameRendered() { emit signalFrameRendered(); }
 
 public slots:
-	void						slotResizeWindowTimeout();
     void                        slotOnFrameRendered();
 
 protected:
@@ -256,10 +250,6 @@ protected:
 
 	// sizing window
     QSize                       m_ScreenSize;
-    QSize						m_ResizingWindowSize;
-
-    QTimer *					m_ResizingTimer = nullptr;
-	bool						m_IsResizing = false;
 
     QMatrix4x4                  m_ColorMatrix;
 };

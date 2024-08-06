@@ -46,7 +46,7 @@ PluginCamClient::PluginCamClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNet
 void PluginCamClient::setIsPluginInSession( bool isInSession )
 {
 	setIsServerInSession( isInSession );
-	IToGui::getToGui().toGuiPluginStatus( m_ePluginType, isInSession ? 1 : 0, isInSession ? m_PluginSessionMgr.getSessionCount() : -1 );
+	IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, isInSession ? 1 : 0, isInSession ? m_PluginSessionMgr.getSessionCount() : -1 );
 }
 
 //============================================================================
@@ -513,7 +513,7 @@ void PluginCamClient::onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, 
 	m_PluginSessionMgr.removeTxSessionByOnlineId( netIdent->getMyOnlineId(), false );
 	if( getIsServerInSession() )
 	{
-		IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
 	}
 }
 
@@ -542,7 +542,7 @@ void PluginCamClient::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase,
 		LogMsg( LOG_INFO, "PluginCamServer::onPktVideoFeedStatus %d", pktVideoStatus->getFeedStatus() );
 		if( eFeedStatusOnline != pktVideoStatus->getFeedStatus() )
 		{
-			//IToGui::getToGui().toGuiRxedOfferReply( netIdent,
+			//IToGui::getIToGui().toGuiRxedOfferReply( netIdent,
 			//	m_ePluginType,
 			//	0,				// plugin defined data
 			//	(eFeedStatusBusy == pktVideoStatus->getFeedStatus()) ? eOfferResponseBusy : eOfferResponseEndSession,
@@ -722,7 +722,7 @@ void PluginCamClient::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 	m_PluginSessionMgr.onConnectionLost( sktBase );
 	if( getIsServerInSession() )
 	{
-		IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
 	}
 }
 
@@ -732,7 +732,7 @@ void PluginCamClient::onContactWentOffline( VxNetIdent* netIdent, std::shared_pt
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 	if( getIsServerInSession() )
 	{
-		IToGui::getToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
 	}
 }
 

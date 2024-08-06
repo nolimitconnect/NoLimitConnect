@@ -215,7 +215,7 @@ QWidget* AppletMgr::getActiveWindow( void )
 	QWidget* activeWidget = QApplication::activeWindow();
 	if( 0 == activeWidget )
 	{
-		activeWidget = &m_MyApp.getHomePage();
+		activeWidget = &m_MyApp.getHomeWindow();
 	}
 
 	return activeWidget;
@@ -300,7 +300,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 		parent = getActiveWindow();
 	}
 
-    QWidget* launchFrame = m_MyApp.getHomePage().getLaunchPageFrame();
+    QWidget* launchFrame = m_MyApp.getHomeWindow().getLaunchPageFrame();
 
 	QString appletMissingTitle = QObject::tr( "Applet Not Yet Implemented" );
 	switch( applet )
@@ -731,7 +731,7 @@ void AppletMgr::removeApplet( ActivityBase* activity )
 //============================================================================
 void AppletMgr::makeMessengerFullSized( void )
 {
-    m_MyApp.getHomePage().setIsMaxScreenSize( true, true );
+    m_MyApp.getHomeWindow().setIsMaxScreenSize( true, true );
 }
 
 //============================================================================
@@ -791,7 +791,7 @@ bool AppletMgr::launchAppletAllowed( EApplet applet )
 //============================================================================
 QFrame* AppletMgr::getLaunchParentFrame( ELaunchFrame launchFrame )
 {
-    return m_MyApp.getHomePage().getLaunchParentFrame( launchFrame );
+    return m_MyApp.getHomeWindow().getLaunchParentFrame( launchFrame );
 }
 
 //============================================================================

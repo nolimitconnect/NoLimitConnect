@@ -388,13 +388,13 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 	else if( eAssetActionAssetSend == assetAction )
 	{
 		assetInfo.setAssetSendState( eAssetSendStateTxProgress );
-		IToGui::getToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
+		IToGui::getIToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
 		return fromGuiSendAsset( assetInfo );
 	}
 	else if( eAssetActionAssetResend == assetAction )
 	{
 		assetInfo.setAssetSendState( eAssetSendStateTxProgress );
-		IToGui::getToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
+		IToGui::getIToGui().toGuiAssetAction( eAssetActionTxBegin, assetInfo.getAssetUniqueId(), 0 );
 		return fromGuiSendAsset( assetInfo );
 	}
 	else if( eAssetActionShreadFile == assetAction )
@@ -515,7 +515,7 @@ bool P2PEngine::fromGuiPlayLocalMedia( const char*  fileName, uint64_t fileLen, 
                 }
                 else
                 {
-                    IToGui::getToGui().toGuiPlayNlcMedia( assetInfo );
+                    IToGui::getIToGui().toGuiPlayNlcMedia( assetInfo );
                 }
             }
             else if( eAssetTypeAudio == assetInfo->getAssetType() )
@@ -526,12 +526,12 @@ bool P2PEngine::fromGuiPlayLocalMedia( const char*  fileName, uint64_t fileLen, 
                 }
                 else
                 {
-                    IToGui::getToGui().toGuiPlayNlcMedia( assetInfo );
+                    IToGui::getIToGui().toGuiPlayNlcMedia( assetInfo );
                 }
             }
 			else if( eAssetTypePhoto == assetInfo->getAssetType() )
 			{
-				IToGui::getToGui().toGuiPlayNlcMedia( assetInfo );
+				IToGui::getIToGui().toGuiPlayNlcMedia( assetInfo );
 			}
         }
     }

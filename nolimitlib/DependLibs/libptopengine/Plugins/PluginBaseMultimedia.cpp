@@ -460,7 +460,7 @@ void PluginBaseMultimedia::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& skt
 		}
 	}
 
-	IToGui::getToGui().toGuiMultiSessionAction( eMSessionAction, pktReq->getSrcOnlineId(), pktReq->getMSessionParam() );
+	IToGui::getIToGui().toGuiMultiSessionAction( eMSessionAction, pktReq->getSrcOnlineId(), pktReq->getMSessionParam() );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReq autoLock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
@@ -482,7 +482,7 @@ void PluginBaseMultimedia::onPktMultiSessionReply( std::shared_ptr<VxSktBase>& s
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReply start" );
 	PktMultiSessionReply * pktReply = (PktMultiSessionReply *)pktHdr;
 
-	IToGui::getToGui().toGuiMultiSessionAction( ( EMSessionAction )pktReply->getMSessionAction(), netIdent->getMyOnlineId(), pktReply->getMSessionParam() );
+	IToGui::getIToGui().toGuiMultiSessionAction( ( EMSessionAction )pktReply->getMSessionAction(), netIdent->getMyOnlineId(), pktReply->getMSessionParam() );
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReply done" );
 }
 
@@ -492,24 +492,24 @@ void PluginBaseMultimedia::onPktTodGameStats( std::shared_ptr<VxSktBase>& sktBas
 	PktTodGameStats * poPkt = (PktTodGameStats *)pktHdr;
 	for( int i = 0; i < eMaxTodGameStatId; ++i )
 	{
-		IToGui::getToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), i, poPkt->getVar((ETodGameVarId)i) );
+		IToGui::getIToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), i, poPkt->getVar((ETodGameVarId)i) );
 	}
 
-	IToGui::getToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), eTodGameActionSendStats, 1 );
+	IToGui::getIToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), eTodGameActionSendStats, 1 );
 }
 
 //============================================================================
 void PluginBaseMultimedia::onPktTodGameAction( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameAction * poPkt = (PktTodGameAction *)pktHdr;
-	IToGui::getToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getActionVarId(), poPkt->getActionVarValue() );
+	IToGui::getIToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getActionVarId(), poPkt->getActionVarValue() );
 }
 
 //============================================================================
 void PluginBaseMultimedia::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameValue * poPkt = (PktTodGameValue *)pktHdr;
-	IToGui::getToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getValueVarId(), poPkt->getValueVar() );
+	IToGui::getIToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getValueVarId(), poPkt->getValueVar() );
 }
 
 //============================================================================

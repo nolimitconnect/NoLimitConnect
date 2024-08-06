@@ -66,21 +66,6 @@
     <Filter Include="Source Files\GuiInterface">
       <UniqueIdentifier>{b197040c-2823-4a70-ade2-89ce94db8cbf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\AppInterface">
-      <UniqueIdentifier>{1a2a1bc0-f094-4368-a7bd-82c7e5c0e125}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AppInterface\OsWin32">
-      <UniqueIdentifier>{7a26134f-e66d-487a-a1e7-ff0c18a11baf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AppInterface\OsAndroid">
-      <UniqueIdentifier>{b3abd0f0-f29f-4404-b3f2-4881f62f9d74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AppInterface\OsApple">
-      <UniqueIdentifier>{1fb530cf-bf3e-47ef-b14f-03067d131694}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AppInterface\OsLinux">
-      <UniqueIdentifier>{05a6d5fa-b641-40f6-8931-dfa6313ca473}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GuiFileXfer">
       <UniqueIdentifier>{e711297a-f8ae-4dc1-80bc-1c5f8caf7a11}</UniqueIdentifier>
     </Filter>
@@ -1142,6 +1127,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -1633,33 +1621,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiWebPageMgr.cpp">
       <Filter>Source Files\GuiWebPage</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\OsWin32\IWin32.cpp">
-      <Filter>Source Files\AppInterface\OsWin32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\INlc.cpp">
-      <Filter>Source Files\AppInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\INlcFromGui.cpp">
-      <Filter>Source Files\AppInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\INlcRender.cpp">
-      <Filter>Source Files\AppInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\INlcToGui.cpp">
-      <Filter>Source Files\AppInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\ILog.cpp">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\OsLinux\ILinux.cpp">
-      <Filter>Source Files\AppInterface\OsLinux</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\OsApple\IApple.cpp">
-      <Filter>Source Files\AppInterface\OsApple</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\OsAndroid\IAndroid.cpp">
-      <Filter>Source Files\AppInterface\OsAndroid</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFileXferSession.cpp">
       <Filter>Source Files\GuiFileXfer</Filter>
     </ClCompile>
@@ -1722,9 +1683,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\DialogAddComment.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AppInterface\INlcLog.cpp">
-      <Filter>Source Files\AppInterface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioBitrate.cpp">
       <Filter>Source Files\miniaudioio</Filter>
@@ -2260,9 +2218,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.cpp">
       <Filter>Source Files\InputWidgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.cpp">
       <Filter>Source Files\GuiLoaderThread</Filter>
     </ClCompile>
@@ -2291,6 +2246,15 @@
       <Filter>Source Files\GuiOffer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\ILog.cpp">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppModuleState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2385,9 +2349,6 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountDb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AppInterface\OsWin32\IWin32.h">
-      <Filter>Source Files\AppInterface\OsWin32</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\NlcRenderFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2396,12 +2357,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\OsInterface\OsInterface.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AppInterface\INlc.h">
-      <Filter>Source Files\AppInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AppInterface\OsLinux\ILinux.h">
-      <Filter>Source Files\AppInterface\OsLinux</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AppCompilerConfig.h">
       <Filter>CompilerConfig</Filter>
@@ -2592,14 +2547,23 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiSendQueueCallback.h">
       <Filter>Source Files\GuiSendQueue</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerInterface.h">
-      <Filter>Source Files\GuiInterface</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPluginMgrCallback.h">
       <Filter>Source Files\GuiPluginMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPlayerCallback.h">
       <Filter>Source Files\GuiPlayerMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGuiDefs.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerCallback.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerInterface.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerRequests.h">
+      <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

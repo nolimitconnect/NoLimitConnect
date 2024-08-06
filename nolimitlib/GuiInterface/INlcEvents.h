@@ -21,9 +21,10 @@ public:
     virtual void                fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton ) = 0;
     virtual void                fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos ) = 0;
 
-	virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) = 0;
-	virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) = 0;
-	virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) = 0;
+	//virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) = 0;
+	//virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) = 0;
+	//virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) = 0;
+    //virtual void                fromGuiRenderWindowResize( EAppModule appModule, int winWidth, int winHeight ) = 0;
 
     virtual void                fromGuiCloseEvent( EAppModule appModule ) = 0;
     virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) = 0;

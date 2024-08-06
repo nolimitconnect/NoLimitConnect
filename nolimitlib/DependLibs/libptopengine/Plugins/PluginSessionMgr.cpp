@@ -499,7 +499,7 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 		}
 
 		// for call missed
-		IToGui::getToGui().toGuiRxedPluginOffer(srcOnlineId, offerInfo );
+		IToGui::getIToGui().toGuiRxedPluginOffer(srcOnlineId, offerInfo );
 
 		return;
 	}
@@ -524,7 +524,7 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 	pluginSession->setRmtSessionId( pktReq->getLclSessionId() );
 	pluginSession->setOfferInfo( offerInfo );
 
-	IToGui::getToGui().toGuiRxedPluginOffer( srcOnlineId, offerInfo );
+	IToGui::getIToGui().toGuiRxedPluginOffer( srcOnlineId, offerInfo );
 }
 
 //============================================================================
@@ -557,7 +557,7 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 			}
 		}
 
-        IToGui::getToGui().toGuiRxedOfferReply( onlineId, offerInfo);
+        IToGui::getIToGui().toGuiRxedOfferReply( onlineId, offerInfo);
 	}
 	else
 	{

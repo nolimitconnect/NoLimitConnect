@@ -19,8 +19,6 @@
 #include "SoundMgr.h"
 #include "VxPushButton.h"
 
-#include <AppInterface/INlc.h>
-
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
@@ -47,6 +45,7 @@ AppletPlayerNlcBase::AppletPlayerNlcBase( const char* ObjName, AppCommon& app, Q
 void AppletPlayerNlcBase::initAppletPlayerNlcBase( void )
 {
 	connect( this, SIGNAL(signalInternalInitLevel(int,bool)), this, SLOT(slotInternalInitLevel(int,bool)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPlayerNlcIsRunning(bool)), this, SLOT(slotInternalPlayerNlcIsRunning(bool)), Qt::QueuedConnection );
 
 	connect( this, SIGNAL(signalInternalPlayFile(VxGUID)), this, SLOT(slotInternalPlayFile(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayStarted(VxGUID)), this, SLOT(slotInternalPlayStarted(VxGUID)), Qt::QueuedConnection );
@@ -58,14 +57,14 @@ void AppletPlayerNlcBase::initAppletPlayerNlcBase( void )
 	connect( this, SIGNAL(signalInternalCanSeek(VxGUID,bool,bool)), this, SLOT(slotInternalCanSeek(VxGUID,bool,bool)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalUpdatePlayPosition(VxGUID,int)), this, SLOT(slotInternalUpdatePlayPosition(VxGUID,int)), Qt::QueuedConnection );
 
-	INlc::getINlc().getNlcPlayer().wantMediaPlayerCallback( this, true );
+	IMediaPlayerRequests::getNlcPlayer().wantMediaPlayerCallback( this, true );
 }
 
 //============================================================================
 AppletPlayerNlcBase::~AppletPlayerNlcBase()
 {
 	stopMediaIfPlaying();
-	INlc::getINlc().getNlcPlayer().wantMediaPlayerCallback( this, false );
+	IMediaPlayerRequests::getNlcPlayer().wantMediaPlayerCallback( this, false );
 
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
 	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
@@ -129,7 +128,7 @@ bool AppletPlayerNlcBase::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 
 	stopMediaIfPlaying();
 	AppletPlayerBase::setAssetInfo( assetInfo );
 
-	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
+	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
 }
 
 //============================================================================
@@ -156,7 +155,7 @@ bool AppletPlayerNlcBase::playMediaFile( std::string mediaFile, int pos0to100000
 bool AppletPlayerNlcBase::waitForPlayerThread( void )
 {
 	m_ElapsedTimer.start();
-	while( !INlc::getINlc().getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
+	while( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
 	{
 		ProcessQtEvents( 100 );
 		if( m_ElapsedTimer.elapsed() > 6000 )
@@ -336,6 +335,18 @@ void AppletPlayerNlcBase::slotInternalInitLevel( int level, bool success )
 }
 
 //============================================================================
+void AppletPlayerNlcBase::fromMediaPlayerIsRunning( bool isRunning )
+{
+	emit signalInternalPlayerNlcIsRunning( isRunning );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::slotInternalPlayerNlcIsRunning( bool isRunning )
+{
+	callbackGuiMediaPlayerNlcReady( isRunning );
+}
+
+//============================================================================
 void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId )
 {
 	emit signalInternalPlayFile( feedId );
@@ -452,7 +463,7 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 	updateGuiPlayControls( true );
 	resetPlayerControls();
 	setIsPlaying( true );
-	//INlc::getINlc().getNlcPlayer().fromGuiGetCanSeek();
+	//IMediaPlayerRequests::getNlcPlayer().fromGuiGetCanSeek();
 	updateLastPlayedFile();
 }
 
@@ -512,7 +523,7 @@ void AppletPlayerNlcBase::slotPlayPauseButtonClick( void )
 {
 	if( isPlaying() )
 	{
-		INlc::getINlc().getNlcPlayer().fromGuiPlayPauseButtonClicked();
+		IMediaPlayerRequests::getNlcPlayer().fromGuiPlayPauseButtonClicked();
 	}
 	else
 	{
@@ -523,13 +534,13 @@ void AppletPlayerNlcBase::slotPlayPauseButtonClick( void )
 //============================================================================
 void AppletPlayerNlcBase::slotStopButtonClick( void )
 {
-	INlc::getINlc().getNlcPlayer().fromGuiStopButtonClicked();
+	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
 }
 
 //============================================================================
 void AppletPlayerNlcBase::slotSliderChanged( int sliderPos )
 {
-	INlc::getINlc().getNlcPlayer().fromGuiMediaPlayerSeek( sliderPos );
+	IMediaPlayerRequests::getNlcPlayer().fromGuiMediaPlayerSeek( sliderPos );
 }
 
 //============================================================================
@@ -537,7 +548,7 @@ void AppletPlayerNlcBase::slotUpdateControlsTimeout( void )
 {
 	if( m_IsPlaying )
 	{
-		INlc::getINlc().getNlcPlayer().fromGuiUpdatePlayPosition();
+		IMediaPlayerRequests::getNlcPlayer().fromGuiUpdatePlayPosition();
 	}
 }
 

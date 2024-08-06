@@ -11,6 +11,7 @@
 #include "AcceptCancelWidget.h"
 
 #include "AppCommon.h"
+#include "VxAppTheme.h"
 #include "GuiParams.h"
 
 #include "ui_AcceptCancelWidget.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "NlcDependLibrariesConfig.h"
-#include "libplayer-nlc//xbmc/xbmc/config_components_kodi.h"
+#include "libplayer-nlc//xbmc/config_components_kodi.h"
 #if 0
 
 #ifndef NPT_CONFIG_ENABLE_LOGGING

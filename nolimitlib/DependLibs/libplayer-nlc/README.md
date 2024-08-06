@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/xbmc/xbmc.svg?branch=master)](https://travis-ci.org/xbmc/xbmc)
-[![Documentation](https://codedocs.xyz/xbmc/xbmc.svg)](https://codedocs.xyz/xbmc/xbmc/)
+[![Documentation](https://codedocs.xyz/xbmc/xbmc.svg)](https://codedocs.xyz/xbmc/)
 
 ![Kodi logo](https://raw.githubusercontent.com/xbmc/xbmc-forum/master/xbmc/images/logo-sbs-black.png)
 # Kodi Home Theater Software
@@ -36,13 +36,13 @@ computer will become a fully functional multimedia jukebox.
 
 ## Installation
 
-See [docs/README.xxx] (https://github.com/xbmc/xbmc/tree/master/docs) for specific platform build information.
+See [docs/README.xxx] (https://github.com/xbmc/tree/master/docs) for specific platform build information.
 
 ## Quick Kodi development links
 
-* [Contributing] (https://github.com/xbmc/xbmc/blob/master/CONTRIBUTING.md)
+* [Contributing] (https://github.com/xbmc/blob/master/CONTRIBUTING.md)
 * [Submitting a patch] (http://kodi.wiki/view/HOW-TO_submit_a_patch)
-* [Code guidelines] (https://codedocs.xyz/xbmc/xbmc/code_guidelines.html)
+* [Code guidelines] (https://codedocs.xyz/xbmc/code_guidelines.html)
 * [Kodi development] (http://kodi.wiki/view/Development)
 
 ## Useful links

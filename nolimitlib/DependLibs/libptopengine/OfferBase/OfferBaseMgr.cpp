@@ -880,7 +880,7 @@ void OfferBaseMgr::queryHistoryOffers( VxGUID& historyId )
 		if( offerInfo->getHistoryId() == historyId )
 		{
             onQueryHistoryOffer( offerInfo );
-			// BRJ IToGui::getToGui().toGuiOfferSessionHistory( offerInfo );
+			// BRJ IToGui::getIToGui().toGuiOfferSessionHistory( offerInfo );
 		}
 	}
 

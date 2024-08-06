@@ -681,23 +681,23 @@ bool EventsQtToNlc::fromGuiMouseMoveEvent( int mouseXPos, int mouseyPos )
     return false;
 }
 
-//============================================================================
-void EventsQtToNlc::fromGuiResizeBegin( int winWidth, int winHeight )
-{
-	m_MyApp.fromGuiResizeBegin( eAppModulePlayerNlc, winWidth, winHeight );
-}
-
-//============================================================================
-void EventsQtToNlc::fromGuiResizeEvent( int winWidth, int winHeight )
-{
-    m_MyApp.fromGuiResizeEvent( eAppModulePlayerNlc, winWidth, winHeight );
-}
-
-//============================================================================
-void EventsQtToNlc::fromGuiResizeEnd( int winWidth, int winHeight )
-{
-	m_MyApp.fromGuiResizeEnd( eAppModulePlayerNlc, winWidth, winHeight );
-}
+////============================================================================
+//void EventsQtToNlc::fromGuiResizeBegin( int winWidth, int winHeight )
+//{
+//	m_MyApp.fromGuiResizeBegin( eAppModulePlayerNlc, winWidth, winHeight );
+//}
+//
+////============================================================================
+//void EventsQtToNlc::fromGuiResizeEvent( int winWidth, int winHeight )
+//{
+//    m_MyApp.fromGuiResizeEvent( eAppModulePlayerNlc, winWidth, winHeight );
+//}
+//
+////============================================================================
+//void EventsQtToNlc::fromGuiResizeEnd( int winWidth, int winHeight )
+//{
+//	m_MyApp.fromGuiResizeEnd( eAppModulePlayerNlc, winWidth, winHeight );
+//}
 
 //============================================================================
 void EventsQtToNlc::fromGuiCloseEvent( )

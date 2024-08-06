@@ -11,11 +11,11 @@
 
 #include "IDefs.h"
 #include "INlcGeometry.h"
-#include <libplayer-nlc/xbmc/xbmc/utils/TransformMatrix.h>
-#include <libplayer-nlc/xbmc/xbmc/rendering/RenderSystemTypes.h>
-#include <libplayer-nlc/xbmc/xbmc/guilib/GUIFont.h>
-#include <libplayer-nlc/xbmc/xbmc/guilib/GUIFontTTF.h>
-#include <libplayer-nlc/xbmc/xbmc/cores/VideoPlayer/VideoRenderers/VideoShaders/ShaderFormats.h>
+#include <libplayer-nlc/xbmc/utils/TransformMatrix.h>
+#include <libplayer-nlc/xbmc/rendering/RenderSystemTypes.h>
+#include <libplayer-nlc/xbmc/guilib/GUIFont.h>
+#include <libplayer-nlc/xbmc/guilib/GUIFontTTF.h>
+#include <libplayer-nlc/xbmc/cores/VideoPlayer/VideoRenderers/VideoShaders/ShaderFormats.h>
 # if defined(TARGET_OS_APPLE)
 #  include <OpenGLES/ES2/gl.h>
 # elif defined(TARGET_OS_ANDROID)
@@ -89,6 +89,7 @@ class CScreenshotSurface;
 class INlcRender
 {
 public:
+    static INlcRender&          getINlcRender( void );
 
     virtual void                verifyGlState( const char* msg = nullptr ) = 0; // show gl error if any
 
@@ -98,7 +99,7 @@ public:
     virtual void                createTextureObject( CTextureQt * texture ) = 0;
     virtual void                destroyTextureObject( CTextureQt * texture ) = 0;
     virtual bool                loadToGPU( CTextureQt * texture ) = 0;
-    virtual void                bindToUnit(  CTextureQt * texture, unsigned int unit ) = 0;
+    virtual void                bindToUnit( CTextureQt * texture, unsigned int unit ) = 0;
 
     virtual void                beginGuiTexture( CGUITextureQt * guiTexture, NlcColor color ) = 0;
     virtual void                drawGuiTexture( CGUITextureQt * textrue, float * x, float * y, float * z, const NlcRect& texture, const NlcRect& diffuse, int orientation ) = 0;
@@ -159,7 +160,7 @@ public:
 
     virtual std::string         getShaderPath( const std::string &filename ) { return ""; }
 
-    virtual void                initialiseShaders() = 0;
+    virtual void                initializeShaders() = 0;
     virtual void                releaseShaders() = 0;
     virtual bool                enableShader( ESHADERMETHOD method ) = 0;
     virtual bool                isShaderValid( ESHADERMETHOD method ) = 0;

@@ -30,6 +30,7 @@
 #include "AppletPeerSessionFileOffer.h"
 
 #include "AccountMgr.h"
+#include "AppModuleState.h"
 #include "AppSettings.h"
 #include "AppletMgr.h"
 
@@ -63,8 +64,6 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VxGUID.h>
-
-#include <AppInterface/INlc.h>
 
 #include <NetLib/VxPeerMgr.h>
 
@@ -118,8 +117,9 @@ namespace
 }
 
 //============================================================================
-AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp )
+AppCommon& CreateAppInstance( QApplication* myApp )
 {
+static AppModuleState appModuleState;
 static AppSettings appSettings;
 static AccountMgr accountMgr;
 static GuiMemberActiveMgr memberActiveMgr;
@@ -132,7 +132,7 @@ static MyIcons myIcons;
     if( !g_AppCommon )
     {
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appSettings, accountMgr, nlc, 
+        new AppCommon( *myApp, eAppModeDefault, appModuleState, appSettings, accountMgr, 
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
 					   sendQueueMgr, myIcons );
     }
@@ -156,9 +156,9 @@ void DestroyAppInstance()
 //============================================================================
 AppCommon::AppCommon(	QApplication&	myQApp,
 						EDefaultAppMode appDefaultMode,
+						AppModuleState& appModuleState,
 						AppSettings&	appSettings, 
                         AccountMgr&	    accountMgr,
-						INlc&		    nlc,
 						GuiMemberActiveMgr& memberActiveMgr,
 					    GuiPlayerMgr& playerMgr,
 						GuiPluginMgr& pluginMgr,
@@ -169,12 +169,12 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 : QWidget()
 , m_QApp( myQApp )
 , m_AppDefaultMode( appDefaultMode )
+, m_AppModuleState(appModuleState)
 , m_AppGlobals( *this )
 , m_AppSettings( appSettings )
 , m_AppShortName( GetAppShortName( appDefaultMode ) )
 , m_AppTitle( GetAppTitle( appDefaultMode ) )
 , m_AccountMgr( accountMgr )
-, m_Nlc( nlc )
 , m_ConnectIdListMgr( *this )
 , m_FileXferMgr( *this )
 , m_ThumbMgr( *this )
@@ -425,7 +425,7 @@ void AppCommon::switchWindowFocus( QWidget* appIconButton )
 //============================================================================
 QFrame* AppCommon::getAppletFrame( EApplet applet )
 {
-	return getHomePage().getAppletFrame( applet );
+	return getHomeWindow().getAppletFrame( applet );
 }
 
 //============================================================================
@@ -1868,12 +1868,6 @@ bool AppCommon::hasExistingAccount( void )
 	}
 
 	return false;
-}
-
-//============================================================================
-MediaPlayerNlc& AppCommon::getPlayerNlc( void )
-{
-	return INlc::getINlc().getNlcPlayer();
 }
 
 //============================================================================

@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libptopengine;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libplayer-nlc\xbmc\xbmc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc\abseil;$(ProjectDir)..\..\..\..\nolimitlib;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs;$(ProjectDir);$(ProjectDir)..\..\..\;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\CommonSrc\QtSource;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\ffmpeg;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\openssl-1.0.2p\include;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libpcre;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libfreetype\include;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libptopengine;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libplayer-nlc\xbmc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc\abseil;$(ProjectDir)..\..\..\..\nolimitlib;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs;$(ProjectDir);$(ProjectDir)..\..\..\;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\CommonSrc\QtSource;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\ffmpeg;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\openssl-1.0.2p\include;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libpcre;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libfreetype\include;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;ENABLE_NLC_PLAYER;CONSOLE;WIN64;TARGET_OS_WINDOWS;LIB_STATIC;$(Qt_DEFINES_);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -77,24 +77,16 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\..\nolimitlib\build-sharedlibs\Windows\$(Platform)\;$(ProjectDir)..\..\..\..\nolimitlib\build-staticlibs\Windows\$(Platform)\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew64sd.lib;libminiupnpcD.lib;libdav1dD.lib;libx264D.lib;libx265D.lib;libfdk-aacD.lib;libplayer-nlcD.lib;libasprintfD.lib;
-libassD.lib;
-libexifD.lib
-;libcrocoD.lib
-;
-libcpluffD.lib;
-libopenjpegD.lib
-;libnfsD.lib
-;libpngD.lib
-;libpcreD.lib
-;libtagD.lib;libaecm-webrtcD.lib;libminiaudioD.lib;libsslD.lib;libfreetypeD.lib;libfribidiD.lib;libptopengineD.lib;glu32.lib;opengl32.lib;libpthreadD.lib;ole32.lib;winmm.lib;Rpcrt4.lib;libopenmpt-fullD.lib;libnfsD.lib;VxVideoLibD.lib;libexpatD.lib;libzipD.lib;libopencore-amrD.lib;libfaacD.lib;libxavsD.lib;Secur32.lib;CoreLibD.lib;FfmpegAvCodecLibD.lib;FfmpegAvDeviceLibD.lib;FfmpegAvFilterLibD.lib;FfmpegAvFormatLibD.lib;FfmpegAvUtilLibD.lib;FfmpegPostProcLibD.lib;FfmpegSwResampleLibD.lib;FfmpegSwScaleLibD.lib;libarmrwbencD.lib;libbzip2D.lib;libcrossguidD.lib;libcrystalhdD.lib;libffmpegopusD.lib;libflacD.lib;libgnuD.lib;libgsmD.lib;libiconvD.lib;libilbcD.lib;libjpgD.lib;liblameD.lib;liblzmaD.lib;liblzoD.lib;liboggD.lib;libshineD.lib;libsnappyD.lib;libspeexD.lib;libtheoraD.lib;libtinyxmlD.lib;libtwolameD.lib;libvorbisD.lib;libvpxD.lib;libwavepackD.lib;libwebpD.lib;libwelsdecD.lib;libxml2D.lib;libxsltD.lib;libxvidD.lib;libyajlD.lib;libzlibD.lib;libzvbiD.lib;MediaToolsLibD.lib;NetLibD.lib;PktLibD.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew64sd.lib;libminiupnpcD.lib;libdav1dD.lib;libx264D.lib;libx265D.lib;libplayer-nlcD.lib;libasprintfD.lib;
+libassD.lib;libpcreD.lib
+;libtagD.lib;libaecm-webrtcD.lib;libminiaudioD.lib;libfreetypeD.lib;libfribidiD.lib;libptopengineD.lib;glu32.lib;opengl32.lib;libpthreadD.lib;ole32.lib;winmm.lib;Rpcrt4.lib;VxVideoLibD.lib;libzipD.lib;libopencore-amrD.lib;libfaacD.lib;libxavsD.lib;Secur32.lib;CoreLibD.lib;FfmpegAvCodecLibD.lib;FfmpegAvDeviceLibD.lib;FfmpegAvFilterLibD.lib;FfmpegAvFormatLibD.lib;FfmpegAvUtilLibD.lib;FfmpegPostProcLibD.lib;FfmpegSwResampleLibD.lib;FfmpegSwScaleLibD.lib;libcrossguidD.lib;libffmpegopusD.lib;libgnuD.lib;libiconvD.lib;libjpgD.lib;liblameD.lib;liblzmaD.lib;liblzoD.lib;liboggD.lib;libspeexD.lib;libtheoraD.lib;libtinyxmlD.lib;libtwolameD.lib;libvorbisD.lib;libvpxD.lib;libxml2D.lib;libxvidD.lib;libzlibD.lib;MediaToolsLibD.lib;NetLibD.lib;PktLibD.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;ENABLE_NLC_PLAYER;CONSOLE;WIN64;TARGET_OS_WINDOWS;LIB_STATIC;$(Qt_DEFINES_);%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\nolimitlib\libptopengine;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libplayer-nlc\xbmc\xbmc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc\abseil;$(ProjectDir)..\..\..\..\nolimitlib;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs;$(ProjectDir);$(ProjectDir)..\..\..\;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\..\nolimitlib\libgotvptop;$(ProjectDir)..\..\..\CommonSrc\QtSource;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\xbmc;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\ffmpeg;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\openssl-1.0.2p\include;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libpcre;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libfreetype\include;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.kodi.guilib;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.xbmc.addon;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.xbmc.pvr;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.kodi.adsp;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.xbmc.codec;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\nolimitlib\libptopengine;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libplayer-nlc\xbmc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libdsp-webrtc\abseil;$(ProjectDir)..\..\..\..\nolimitlib;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs;$(ProjectDir);$(ProjectDir)..\..\..\;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\..\nolimitlib\libgotvptop;$(ProjectDir)..\..\..\CommonSrc\QtSource;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\ffmpeg;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\openssl-1.0.2p\include;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libpcre;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\..\nolimitlib\DependLibs\libfreetype\include;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.kodi.guilib;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.xbmc.addon;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.xbmc.pvr;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.kodi.adsp;$(ProjectDir)..\..\..\..\nolimitlib\kodi_src\xbmc\addons\library.xbmc.codec;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -137,15 +129,6 @@ libopenjpeg.lib
   <ItemGroup>
     <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp" />
     <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\ILog.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\INlc.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\INlcFromGui.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\INlcLog.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\INlcRender.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\INlcToGui.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\OsAndroid\IAndroid.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\OsApple\IApple.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\OsLinux\ILinux.cpp" />
-    <ClCompile Include="..\..\..\AppInterface\OsWin32\IWin32.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountDb.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountMgr.cpp" />
@@ -320,6 +303,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppModuleState.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppProfile.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSettings.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSetup.cpp" />
@@ -532,8 +516,11 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioInterface.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGui.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGuiDefs.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ILog.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerCallback.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerInterface.h" />
+    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerRequests.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcEvents.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcGeometry.h" />
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcRender.h" />
@@ -551,11 +538,8 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\AppCompilerConfig.h" />
     <ClInclude Include="..\..\..\AppCpuArchDefines.h" />
     <ClInclude Include="..\..\..\AppDependLibrariesConfig.h" />
-    <ClInclude Include="..\..\..\AppInterface\INlc.h" />
     <ClInclude Include="..\..\..\AppInterface\OsAndroid\IAndroid.h" />
     <ClInclude Include="..\..\..\AppInterface\OsApple\IApple.h" />
-    <ClInclude Include="..\..\..\AppInterface\OsLinux\ILinux.h" />
-    <ClInclude Include="..\..\..\AppInterface\OsWin32\IWin32.h" />
     <ClInclude Include="..\..\..\AppTargetOsConfig.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountDb.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountMgr.h" />
@@ -622,6 +606,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />

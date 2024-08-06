@@ -41,7 +41,8 @@ protected slots:
 	void							slotCanceled( void );
 
 protected:
+    Ui::AcceptCancelWidgetClass&	ui;
 	AppCommon&						m_MyApp;
-	Ui::AcceptCancelWidgetClass&	ui;
+
 };
 

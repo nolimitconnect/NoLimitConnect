@@ -998,7 +998,7 @@ void MediaProcessor::wantAppIdle( EPluginType pluginType, bool bWantAppIdle )
 		{
 			LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle calling java to start idle" );
 			// idle runs all the time.. TODO remove all idle code ?
-			//IToGui::getToGui().toGuiStartAppIdle();
+			//IToGui::getIToGui().toGuiStartAppIdle();
 		}
 	}
 	else
@@ -1015,7 +1015,7 @@ void MediaProcessor::wantAppIdle( EPluginType pluginType, bool bWantAppIdle )
 		if( 0 == m_aoWantAppIdle.size() )
 		{
 			LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle calling java to stop idle" );
-			//IToGui::getToGui().toGuiStopAppIdle();
+			//IToGui::getIToGui().toGuiStopAppIdle();
 		}
 	}
 }
@@ -1163,8 +1163,8 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 		{
 			m_SpeakerOutputEnabled = false;
 			LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeAppModule( appModule ) );
-			IToGui::getAudioRequests().toGuiWantSpeakerOutput( appModule, false );
-			IToGui::getAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
+			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, false );
+			IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
 		}
 		return;
 	}
@@ -1219,7 +1219,7 @@ void MediaProcessor::wantMixerMediaInput(	EMediaInputType				mediaType,
 	if( startSpeakerOutput )
 	{
 		LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeAppModule( appModule ) );
-		IToGui::getAudioRequests().toGuiWantSpeakerOutput( appModule, true );	
+		IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, true );	
 	}
 }
 
@@ -1285,7 +1285,7 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 			{
 				m_SpeakerOutputEnabled = false;
 				LogMsg( LOG_VERBOSE, "MediaProcessor::doMixerClientRemovals stopping speaker output module %s", DescribeAppModule( appModule ) );
-				IToGui::getAudioRequests().toGuiWantSpeakerOutput( appModule, false );
+				IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, false );
 			}
 		}
 
@@ -1380,7 +1380,7 @@ void MediaProcessor::wantAudioMediaInput(	EMediaInputType				mediaType,
 	if( startMicInput )
 	{
 		LogMsg( LOG_INFO, "starting microphone input" );
-		IToGui::getAudioRequests().toGuiWantMicrophoneRecording( appModule, true );
+		IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, true );
 	}
 }
 
@@ -1445,7 +1445,7 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 			{
 				m_MicCaptureEnabled = false;
 				LogMsg( LOG_INFO, "stopping microphone input" );
-				IToGui::getAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
+				IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
 			}
 		}
 
@@ -1538,7 +1538,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 		#endif // TEST_JPG_SPEED
 		m_VidCaptureEnabled = true;
 		LogMsg( LOG_INFO, "starting video capture" );
-		IToGui::getToGui().toGuiWantVideoCapture( appModule, true );
+		IToGui::getIToGui().toGuiWantVideoCapture( appModule, true );
 	}
 }
 
@@ -1603,7 +1603,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			{
 				m_VidCaptureEnabled = false;
 				LogMsg( LOG_INFO, "stopping video capture" );
-				IToGui::getToGui().toGuiWantVideoCapture( appModule, false );
+				IToGui::getIToGui().toGuiWantVideoCapture( appModule, false );
 			}
 		}
 
@@ -1673,11 +1673,11 @@ void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen )
 	m_MixerBufferMutex.lock();
 	if( !m_MixerBufUsed || m_MuteSpeaker )
 	{
-		IToGui::getAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE, true );
+		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE, true );
 	}
 	else
 	{
-		IToGui::getAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE, false );
+		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE, false );
 	}
 
 	m_MixerBufUsed = false;

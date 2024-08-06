@@ -136,7 +136,7 @@ bool PluginVideoPhone::fromGuiInstMsg( VxGUID& onlineId,
 void PluginVideoPhone::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktChatReq * pkt = (PktChatReq *)pktHdr;
-	IToGui::getToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)pkt->getDataPayload() );
+	IToGui::getIToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)pkt->getDataPayload() );
 }
 
 //============================================================================

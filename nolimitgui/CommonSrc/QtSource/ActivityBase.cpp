@@ -557,7 +557,7 @@ void ActivityBase::showEvent( QShowEvent* showEvent )
 #if defined(TARGET_OS_ANDROID)
     // not sure why but android seems to loose the theme text color so reapply
     m_MyApp.getAppTheme().applyTheme( this );
-    m_MyApp.getAppTheme().selectTheme( m_MyApp.getAppSettings().getLastSelectedTheme(), &m_MyApp.getHomePage() );
+    m_MyApp.getAppTheme().selectTheme( m_MyApp.getAppSettings().getLastSelectedTheme(), &m_MyApp.getHomeWindow() );
 #endif // defined(TARGET_OS_ANDROID)
 	if( isAlwaysAvailableApplet() )
 	{

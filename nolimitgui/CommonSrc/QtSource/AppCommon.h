@@ -13,6 +13,7 @@
 
 #include "AppDefs.h"
 #include "AppGlobals.h"
+
 #include "CamLogic.h"
 
 #include "FriendList.h"
@@ -55,6 +56,7 @@ class ActivityCreateAccount;
 class ActivityShowHelp;
 class ActivityOfferListDlg;
 
+class AppModuleState;
 class AppletMultiMessenger;
 class AppletDownloads;
 class AppletMgr;
@@ -95,9 +97,9 @@ class AppCommon : public QWidget, public IToGui, public INlcRender, public INlcE
 public:
     AppCommon( QApplication& myQApp,
                EDefaultAppMode appDefaultMode,
+               AppModuleState& appModuleState,
                AppSettings& appSettings,
                AccountMgr& myDataHelper,
-               INlc& nlc,
                GuiMemberActiveMgr& memberActiveMgr,
                GuiPlayerMgr& playerMgr,
                GuiPluginMgr& pluginMgr,
@@ -108,6 +110,10 @@ public:
 
     AppCommon( const AppCommon& rhs ) = delete;
     virtual ~AppCommon() override = default;
+
+    INlcRender&                 getINlcRender( void ) { return *this; }
+    IToGui&                     getIToGui( void ) { return *this; }
+    IAudioRequests&             getIAudioRequests( void ) { return *this; }
 
     // elapsed high resolution timer 
     int64_t                     elapsedMilliseconds( void );
@@ -142,8 +148,8 @@ public:
     CamLogic&                   getCamLogic( void ) { return m_CamLogic; }
     P2PEngine&                  getEngine( void );
     IFromGui&                   getFromGuiInterface( void );
-    INlc&                       getNlc( void ) { return m_Nlc; }
-    HomeWindow&                 getHomePage( void ) { return *m_HomePage; }
+
+    HomeWindow&                 getHomeWindow( void ) { return *m_HomePage; }
     bool						getIsVidCaptureEnabled( void ) { return m_VidCaptureEnabled; }
     bool						getIsMicrophoneHardwareEnabled( void ) { return m_MicrophoneHardwareEnabled; }
     bool						getIsSpeakerHardwareEnabled( void ) { return m_SpeakerHardwareEnabled; }
@@ -171,7 +177,6 @@ public:
     GuiWebPageMgr&              getWebPageMgr( void ) { return m_WebPageMgr; }
     GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
 
-    MediaPlayerNlc&             getPlayerNlc( void );
     RenderGlWidget*             getRenderConsumer( void );
     SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
 
@@ -251,9 +256,9 @@ public:
     virtual void                fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
     virtual void                fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseyPos ) override;
 
-    virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) override;
-    virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) override;
-    virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) override;
+    //virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) override;
+    //virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) override;
+    //virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) override;
 
     virtual void                fromGuiCloseEvent( EAppModule appModule ) override;
     virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
@@ -350,7 +355,7 @@ public:
     //=== shaders ===//
     std::string                 getShaderPath( const std::string& filename ) override { return ""; }
 
-    void                        initialiseShaders() override;
+    void                        initializeShaders() override;
     void                        releaseShaders() override;
     bool                        enableShader( ESHADERMETHOD method ) override;
     bool                        isShaderValid( ESHADERMETHOD method ) override;
@@ -446,8 +451,6 @@ public:
 
     virtual bool                toGuiRunModule( EAppModule appModule ) override;
     virtual bool                toGuiStopModule( EAppModule appModule ) override;
-
-    virtual void                toGuiCreateUserDirs( void ) override;
 
     virtual void				toGuiPlayNlcMedia( AssetBaseInfo* assetInfo ) override;
     virtual void				toGuiLog( int logFlags, const char* pMsg ) override;
@@ -858,16 +861,16 @@ protected:
 
     void                        checkReadyToConnectToLastConnectedHost( void );
 
-
     //=== vars ===//
     QApplication&               m_QApp;
     EDefaultAppMode				m_AppDefaultMode;
+    AppModuleState&             m_AppModuleState;
+
     AppGlobals					m_AppGlobals;
     AppSettings&                m_AppSettings;
     QString						m_AppShortName;
     QString						m_AppTitle;
     AccountMgr&                 m_AccountMgr;
-    INlc&                       m_Nlc;
 
     GuiConnectIdListMgr			m_ConnectIdListMgr;
     GuiFavoriteMgr			    m_FavoriteMgr;
@@ -954,7 +957,7 @@ protected:
     bool                        m_ConnectToLastConnectedHost{ false };
 };
 
-AppCommon& CreateAppInstance( INlc& nlc, QApplication* myApp );
+AppCommon& CreateAppInstance( QApplication* myApp );
 
 AppCommon& GetAppInstance( void );
 

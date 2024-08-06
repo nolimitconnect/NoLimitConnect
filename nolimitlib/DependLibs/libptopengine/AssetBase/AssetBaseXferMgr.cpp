@@ -2439,7 +2439,7 @@ void AssetBaseXferMgr::assetXferComplete( VxGUID& assetId, VxGUID& sktConnectId 
 //============================================================================
 void AssetBaseXferMgr::sendToGuiAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
-	IToGui::getToGui().toGuiAssetAction( assetAction, assetId, pos0to100000 );
+	IToGui::getIToGui().toGuiAssetAction( assetAction, assetId, pos0to100000 );
 }
 
 //============================================================================

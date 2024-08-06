@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppConfigHeaders", "AppConf
 		..\..\AppTargetOsConfig.h = ..\..\AppTargetOsConfig.h
 		..\..\config_appcorelibs.h = ..\..\config_appcorelibs.h
 		..\..\DependLibs\ffmpeg\config_ffmpeg.h = ..\..\DependLibs\ffmpeg\config_ffmpeg.h
-		..\..\kodi_src\xbmc\xbmc\config_kodi.h = ..\..\kodi_src\xbmc\xbmc\config_kodi.h
+		..\..\kodi_src\xbmc\config_kodi.h = ..\..\kodi_src\xbmc\config_kodi.h
 		..\..\config_libkodi.h = ..\..\config_libkodi.h
 		..\..\config_libptop.h = ..\..\config_libptop.h
 	EndProjectSection

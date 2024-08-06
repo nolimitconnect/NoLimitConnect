@@ -60,7 +60,7 @@ void AppletTheme::resizeEvent( QResizeEvent* ev )
 void AppletTheme::slotThemeAccepted( void )
 {
 	m_MyApp.getAppSettings().setLastSelectedTheme( m_CurTheme );
-    getMyApp().getAppTheme().selectTheme( m_CurTheme, &getMyApp().getHomePage() );
+    getMyApp().getAppTheme().selectTheme( m_CurTheme, &getMyApp().getHomeWindow() );
     m_MyApp.activityStateChange( this, false );
 	closeApplet();
 }
@@ -139,13 +139,13 @@ void AppletTheme::saveCurrentTheme( void )
 void AppletTheme::applyTheme( EThemeType themeType )
 {
 	m_CurTheme = themeType;
-	getMyApp().getAppTheme().selectTheme( m_CurTheme, &getMyApp().getHomePage() );
+	getMyApp().getAppTheme().selectTheme( m_CurTheme, &getMyApp().getHomeWindow() );
 }
 
 //============================================================================
 void AppletTheme::restoreSavedTheme( void )
 {
-	getMyApp().getAppTheme().selectTheme( m_SavedTheme, &getMyApp().getHomePage() );
+	getMyApp().getAppTheme().selectTheme( m_SavedTheme, &getMyApp().getHomeWindow() );
 }
 
 //============================================================================

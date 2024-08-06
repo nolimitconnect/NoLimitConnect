@@ -219,7 +219,7 @@ void PluginPushToTalk::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
 	if( poSession )
 	{
-		IToGui::getToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)poPkt->getDataPayload() );
+		IToGui::getIToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)poPkt->getDataPayload() );
 	}
 }
 

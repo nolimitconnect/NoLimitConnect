@@ -393,7 +393,7 @@ void FileShareXferMgr::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktH
 	FileTxSession * xferSession = findTxSession( poPkt->getRmtSessionId() );
 	if( xferSession )
 	{
-		IToGui::getToGui().toGuiRxedOfferReply(	netIdent,		// identity of friend
+		IToGui::getIToGui().toGuiRxedOfferReply(	netIdent,		// identity of friend
 															m_Plugin.getPluginType(),			// plugin type
 															0,				// plugin defined data
 															poPkt->getOfferResponse(),
@@ -413,7 +413,7 @@ void FileShareXferMgr::onPktPluginOfferReply( VxSktBase* sktBase, VxPktHdr* pktH
 			EXferError xferErr = beginFileSend( xferSession );
 			if( eXferErrorNone != xferErr )
 			{
-				IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
+				IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
 			}
 		}
 		else
@@ -469,13 +469,13 @@ void FileShareXferMgr::onPktFileGetReq( VxSktBase* sktBase, VxPktHdr* pktHdr, Vx
 
 		if( eXferErrorNone != xferErr )
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), poPkt->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), poPkt->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
 			endFileXferSession( xferSession );
 		}
 		else
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), poPkt->getLclSessionId(), eXferStateBeginUpload, 0, 0 );
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), poPkt->getLclSessionId(), eXferStateInUploadXfer, 0, 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), poPkt->getLclSessionId(), eXferStateBeginUpload, 0, 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), poPkt->getLclSessionId(), eXferStateInUploadXfer, 0, 0 );
 		}
 	}
 	else
@@ -504,13 +504,13 @@ void FileShareXferMgr::onPktFileSendReq( VxSktBase* sktBase, VxPktHdr* pktHdr, V
 		EXferError xferErr = beginFileReceive( xferSession, poPkt );
 		if( eXferErrorNone != xferErr )
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateDownloadError, xferErr, xferErr );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateDownloadError, xferErr, xferErr );
 			endFileXferSession( xferSession );
 		}
 		else
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateBeginDownload, 0, 0 );
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateInDownloadXfer, 0, 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateBeginDownload, 0, 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateInDownloadXfer, 0, 0 );
 		}
 
 		pktReply.setError( xferErr );
@@ -534,7 +534,7 @@ void FileShareXferMgr::onPktFileSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr,
 	if( xferSession )
 	{
 		// notify gui of response
-		IToGui::getToGui().toGuiRxedOfferReply(	
+		IToGui::getIToGui().toGuiRxedOfferReply(	
 													xferSession->getIdent(),		// identity of friend
 													m_Plugin.getPluginType(),			// plugin
 													0,					// plugin defined data
@@ -545,17 +545,17 @@ void FileShareXferMgr::onPktFileSendReply( VxSktBase* sktBase, VxPktHdr* pktHdr,
 													xferSession->getRmtSessionId() );
 		if( eOfferResponseAccept == poPkt->getOfferResponse() )
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateBeginUpload, 0, 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateBeginUpload, 0, 0 );
 			EXferError xferErr = beginFileSend( xferSession );
 			if( eXferErrorNone != xferErr )
 			{
-				IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
+				IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
 				endFileXferSession( xferSession );
 			}
 		}
 		else
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadOfferRejected, 0, 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadOfferRejected, 0, 0 );
 			endFileXferSession( xferSession );
 		}
 	}
@@ -577,7 +577,7 @@ void FileShareXferMgr::onPktFileChunkReq( VxSktBase* sktBase, VxPktHdr* pktHdr, 
 		EXferError xferErr = rxFileChunk( xferSession, poPkt );
 		if( eXferErrorNone != xferErr )
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateDownloadError, xferErr, xferErr );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateDownloadError, xferErr, xferErr );
 			endFileXferSession( xferSession );
 		}
 	}
@@ -605,7 +605,7 @@ static int cnt = 0;
 		EXferError xferErr = txNextFileChunk( xferSession );
 		if( eXferErrorNone != xferErr )
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferSession->getLclSessionId(), eXferStateUploadError, xferErr, xferErr );
 			endFileXferSession( xferSession );
 		}
 	}
@@ -704,7 +704,7 @@ void FileShareXferMgr::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr,
 	if( 0 != rc )
 	{
 		LogMsg( LOG_ERROR, "FileShareXferMgr::onPktFileListReply error %d", rc );
-		IToGui::getToGui().toGuiFileListReply( netIdent, m_Plugin.getPluginType(), 0, 0, "", VxGUID::nullVxGUID(), 0 );
+		IToGui::getIToGui().toGuiFileListReply( netIdent, m_Plugin.getPluginType(), 0, 0, "", VxGUID::nullVxGUID(), 0 );
 		return;
 	}
 
@@ -722,7 +722,7 @@ void FileShareXferMgr::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr,
 	for( iter = fileList.begin(); iter != fileList.end(); ++iter )
 	{
 		VxFileInfo& fileInfo = (*iter);
-		IToGui::getToGui().toGuiFileListReply( netIdent, 
+		IToGui::getIToGui().toGuiFileListReply( netIdent, 
 									m_Plugin.getPluginType(), 
 									fileInfo.getFileType(), 
 									fileInfo.getFileLength(),
@@ -734,7 +734,7 @@ void FileShareXferMgr::onPktFileListReply( VxSktBase* sktBase, VxPktHdr* pktHdr,
 	if( poPkt->getIsListCompleted() 
 		|| ( 0 == poPkt->getFileCount() ) )
 	{
-		IToGui::getToGui().toGuiFileListReply( netIdent, m_Plugin.getPluginType(), 0, 0, "", VxGUID::nullVxGUID(), 0 );
+		IToGui::getIToGui().toGuiFileListReply( netIdent, m_Plugin.getPluginType(), 0, 0, "", VxGUID::nullVxGUID(), 0 );
 		endFileXferSession( xferSession );
 	}
 }
@@ -1099,7 +1099,7 @@ EXferError FileShareXferMgr::beginFileSend( FileTxSession * xferSession )
 
 	if( eXferErrorNone == xferErr )
 	{
-		IToGui::getToGui().toGuiStartUpload(	xferSession->getIdent(), 
+		IToGui::getIToGui().toGuiStartUpload(	xferSession->getIdent(), 
 													m_Plugin.getPluginType(), 
 													xferInfo.getLclSessionId(), 
 													u8FileType, 
@@ -1138,7 +1138,7 @@ EXferError FileShareXferMgr::beginFileReceive( FileRxSession * rxSession, PktFil
 	if( poPkt->getError() )
 	{
 		xferErr = (EXferError)poPkt->getError();
-		IToGui::getToGui().toGuiFileXferState( getPluginType(), poPkt->getRmtSessionId(), eXferStateDownloadError, xferErr, xferErr );
+		IToGui::getIToGui().toGuiFileXferState( getPluginType(), poPkt->getRmtSessionId(), eXferStateDownloadError, xferErr, xferErr );
 		endFileXferSession( rxSession );
 		return xferErr;
 	}
@@ -1151,7 +1151,7 @@ EXferError FileShareXferMgr::beginFileReceive( FileRxSession * rxSession, PktFil
 			(const char *)xferInfo.getLclFileName().c_str() );
 
 		uint8_t u8FileType = VxFileUtil::fileExtensionToFileTypeFlag( xferInfo.getRmtFileName().c_str() );
-		IToGui::getToGui().toGuiStartDownload( 
+		IToGui::getIToGui().toGuiStartDownload( 
 													rxSession->getIdent(), 
 													m_Plugin.getPluginType(), 
 													xferInfo.getLclSessionId(), 
@@ -1199,7 +1199,7 @@ EXferError FileShareXferMgr::txNextFileChunk( FileTxSession * xferSession )
 		m_Plugin.txPacket(  xferSession->getIdent(), xferSession->getSkt(), &oPkt );
 
 		LogMsg( LOG_ERROR, "FileShareXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
-		IToGui::getToGui().toGuiFileUploadComplete( getPluginType(), xferInfo.getLclSessionId(), xferInfo.getLclFileName(), eXferErrorNone );
+		IToGui::getIToGui().toGuiFileUploadComplete( getPluginType(), xferInfo.getLclSessionId(), xferInfo.getLclFileName(), eXferErrorNone );
 		onFileSent( xferSession, xferInfo.getLclFileName().c_str(), eXferErrorNone );
 		return eXferErrorNone;
 	}
@@ -1259,12 +1259,12 @@ EXferError FileShareXferMgr::rxFileChunk( FileRxSession * xferSession, PktFileCh
 	{
 		if( xferInfo.calcProgress() )
 		{
-			IToGui::getToGui().toGuiFileXferState( getPluginType(), xferInfo.getLclSessionId(), eXferStateInDownloadXfer, xferInfo.getProgress(), 0 );
+			IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferInfo.getLclSessionId(), eXferStateInDownloadXfer, xferInfo.getProgress(), 0 );
 		}
 	}
 	else
 	{
-		IToGui::getToGui().toGuiFileXferState( getPluginType(), xferInfo.getLclSessionId(), eXferStateDownloadError, xferErr, xferErr );
+		IToGui::getIToGui().toGuiFileXferState( getPluginType(), xferInfo.getLclSessionId(), eXferStateDownloadError, xferErr, xferErr );
 	}
 
 	return xferErr;
@@ -1321,17 +1321,17 @@ void FileShareXferMgr::onFileReceived( FileRxSession * xferSession, std::string 
 		if( 0 == ( rc = VxFileUtil::moveAFile( incompleteFile.c_str(), completedFile.c_str() ) ) )
 		{
 			m_FileLibraryMgr.fromGuiAddFileToLibrary( completedFile.c_str(), true, xferInfo.getFileHashId().getHashData() );
-			IToGui::getToGui().toGuiFileDownloadComplete( gePluginType(), xferSession->getLclSessionId(), completedFile, eXferErrorNone );
+			IToGui::getIToGui().toGuiFileDownloadComplete( gePluginType(), xferSession->getLclSessionId(), completedFile, eXferErrorNone );
 		}
 		else
 		{
 			LogMsg( LOG_ERROR, "FileShareXferMgr::onFileReceived ERROR %d moving %s to %s", rc, incompleteFile.c_str(), completedFile.c_str() );
-			IToGui::getToGui().toGuiFileDownloadComplete( gePluginType(), xferSession->getLclSessionId(), incompleteFile, eXferErrorFileMoveError );
+			IToGui::getIToGui().toGuiFileDownloadComplete( gePluginType(), xferSession->getLclSessionId(), incompleteFile, eXferErrorFileMoveError );
 		}
 	}
 	else
 	{
-		IToGui::getToGui().toGuiFileDownloadComplete( gePluginType(), xferSession->getLclSessionId(), xferInfo.getRmtFileName(), xferError );
+		IToGui::getIToGui().toGuiFileDownloadComplete( gePluginType(), xferSession->getLclSessionId(), xferInfo.getRmtFileName(), xferError );
 	}
 
 	endFileXferSession( xferSession );
@@ -1340,7 +1340,7 @@ void FileShareXferMgr::onFileReceived( FileRxSession * xferSession, std::string 
 //============================================================================
 void FileShareXferMgr::onFileSent( FileTxSession * xferSession, std::string pFileName, EXferError error )
 {
-	IToGui::getToGui().toGuiFileUploadComplete( gePluginType(), xferSession->getLclSessionId(), pFileName, error );
+	IToGui::getIToGui().toGuiFileUploadComplete( gePluginType(), xferSession->getLclSessionId(), pFileName, error );
 	endFileXferSession( xferSession );
 
 	checkQueForMoreFilesToSend();

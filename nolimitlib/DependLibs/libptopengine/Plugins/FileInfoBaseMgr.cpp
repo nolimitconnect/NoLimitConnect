@@ -1081,14 +1081,14 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileType
 			fileInfo.setIsInLibrary( isInLibrary );
 			fileInfo.setIsSharedFile( isShared );
 
-			IToGui::getToGui().toGuiFileList( appInstId, fileInfo );
+			IToGui::getIToGui().toGuiFileList( appInstId, fileInfo );
 
 			sharedFilesCnt++;
 		}
 	}
 
 	unlockFileList();
-	IToGui::getToGui().toGuiFileListCompleted(appInstId);
+	IToGui::getIToGui().toGuiFileListCompleted(appInstId);
 	return sharedFilesCnt;
 }
 

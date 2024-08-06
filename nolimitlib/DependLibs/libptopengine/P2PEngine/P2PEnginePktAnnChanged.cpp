@@ -77,5 +77,5 @@ void P2PEngine::doPktAnnHasChanged( bool connectionListIsLocked )
 void P2PEngine::doPktAnnConnectionInfoChanged( bool connectionListIsLocked )
 {
 	doPktAnnHasChanged( connectionListIsLocked );
-	IToGui::getToGui().toGuiUpdateMyIdent( &m_PktAnn );
+	IToGui::getIToGui().toGuiUpdateMyIdent( &m_PktAnn );
 }

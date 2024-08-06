@@ -88,7 +88,7 @@ void P2PEngine::onContactConnected( RcConnectInfo * poInfo, bool connectionListI
 			//LogMsg( LOG_INFO, "toGuiContactOnline id %s name %s\n", 
 			//	poInfo->m_BigListInfo->getMyOnlineId().describeVxGUID().c_str(),
 			//	strName.c_str() );
-			IToGui::getToGui().toGuiContactOnline( poInfo->m_BigListInfo->getVxNetIdent() );
+			IToGui::getIToGui().toGuiContactOnline( poInfo->m_BigListInfo->getVxNetIdent() );
 		}
 		//else
 		//{

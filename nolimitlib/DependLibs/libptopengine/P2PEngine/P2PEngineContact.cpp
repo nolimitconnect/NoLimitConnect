@@ -90,7 +90,7 @@ int P2PEngine::toGuiSendAdministratorList( int iSentCnt, int iMaxSendCnt )
 		if( shouldNotifyGui( poInfo ) )
 		{
 			LogMsg( LOG_INFO, "toGuiSendAdministratorList: %s", poInfo->getOnlineName());
-			IToGui::getToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
+			IToGui::getIToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
 		}
 
 		iSentCnt++;
@@ -118,7 +118,7 @@ int P2PEngine::toGuiSendFriendList( int iSentCnt, int iMaxSendCnt )
 		if( shouldNotifyGui( poInfo ) )
 		{
 			LogMsg( LOG_INFO, "toGuiSendFriendList: %s" , poInfo->getOnlineName());
-			IToGui::getToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
+			IToGui::getIToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
 		}
 
 		iSentCnt++;
@@ -147,7 +147,7 @@ int P2PEngine::toGuiSendGuestList( int iSentCnt, int iMaxSendCnt )
 			if( shouldNotifyGui( poInfo ) )
 			{
 				LogMsg( LOG_INFO, "toGuiSendGuestList: %s", poInfo->getOnlineName());
-				IToGui::getToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
+				IToGui::getIToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
 			}
 
 			iSentCnt++;
@@ -176,7 +176,7 @@ int P2PEngine::toGuiSendAnonymousList( int iSentCnt, int iMaxSendCnt )
 		if( shouldNotifyGui( poInfo ) )
 		{
 			LogMsg( LOG_INFO, "toGuiSendAnonymousList: %s", poInfo->getOnlineName());
-			IToGui::getToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
+			IToGui::getIToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
 		}
 
 		iSentCnt++;
@@ -204,7 +204,7 @@ int P2PEngine::toGuiSendIgnoreList( int iSentCnt, int iMaxSendCnt )
 		if( shouldNotifyGui( poInfo ) )
 		{
 			LogMsg( LOG_INFO, "toGuiSendIgnoreList: %s", poInfo->getOnlineName());
-			IToGui::getToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
+			IToGui::getIToGui().toGuiContactOnline( poInfo->getVxNetIdent() );
 		}
 
 		iSentCnt++;
@@ -343,7 +343,7 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 //	if( shouldNotifyGui( netIdent ) )
 //	{
 //		LogMsg( LOG_INFO, "toGuiContactNameChange:");
-//		IToGui::getToGui().toGuiContactNameChange( netIdent );
+//		IToGui::getIToGui().toGuiContactNameChange( netIdent );
 //	}
 //}
 //
@@ -354,7 +354,7 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 //	if( shouldNotifyGui( netIdent ) )
 //	{
 //		LogMsg( LOG_INFO, "toGuiContactDescChange:" );
-//		IToGui::getToGui().toGuiContactDescChange( netIdent );
+//		IToGui::getIToGui().toGuiContactDescChange( netIdent );
 //	}
 //}
 //
@@ -365,7 +365,7 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 //	if( shouldNotifyGui( netIdent ) )
 //	{
 //		LogMsg( LOG_INFO, "toGuiContactFriendshipChange:" );
-//		IToGui::getToGui().toGuiContactFriendshipChange( netIdent );
+//		IToGui::getIToGui().toGuiContactFriendshipChange( netIdent );
 //	}
 //}
 //
@@ -376,7 +376,7 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 //	if( shouldNotifyGui( netIdent ) )
 //	{
 //		LogMsg( LOG_INFO, "toGuiPluginPermissionChange:" );
-//		IToGui::getToGui().toGuiPluginPermissionChange( netIdent );
+//		IToGui::getIToGui().toGuiPluginPermissionChange( netIdent );
 //	}
 //}
 
@@ -387,7 +387,7 @@ void P2PEngine::toGuiContactAnythingChange( VxNetIdent* netIdent )
 	if( shouldNotifyGui( netIdent ) )
 	{
 		LogMsg( LOG_INFO, "toGuiContactAnythingChange" );
-		IToGui::getToGui().toGuiContactAnythingChange( netIdent );
+		IToGui::getIToGui().toGuiContactAnythingChange( netIdent );
 	}
 }
 

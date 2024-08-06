@@ -156,7 +156,7 @@ void AppSettings::setHomePageLayout( EHomeLayout homeLayout )
 }
 
 //============================================================================
-EHomeLayout AppSettings::getHomePageLayout( void )
+EHomeLayout AppSettings::getHomeWindowLayout( void )
 {
 	uint32_t homeLayoutType = 1;
 	getIniValue( getAppShortName(), HOME_LAYOUT_TYPE, homeLayoutType, 1 );

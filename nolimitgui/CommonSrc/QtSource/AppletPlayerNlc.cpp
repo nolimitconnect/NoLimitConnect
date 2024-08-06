@@ -20,8 +20,6 @@
 #include "SoundMgr.h"
 #include "VxMenuButton.h"
 
-#include <AppInterface/INlc.h>
-
 #include <P2PEngine/P2PEngine.h>
 #include "MediaPlayerNlc.h"
 

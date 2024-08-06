@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#if defined(ENABLE_LIB_SSH)
 #include <fcntl.h>
 #define LIBSSH_STATIC
 #include <libssh/sftp.h>
@@ -505,3 +506,5 @@ const URLProtocol ff_libssh_protocol = {
     .priv_data_class     = &libssh_context_class,
     .flags               = URL_PROTOCOL_FLAG_NETWORK,
 };
+
+#endif // defined(ENABLE_LIB_SSH)

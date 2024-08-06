@@ -17,8 +17,6 @@
 #include "SoundMgr.h"
 #include "VxMenuButton.h"
 
-#include <AppInterface/INlc.h>
-
 #include <P2PEngine/P2PEngine.h>
 #include <VirtStream/VirtStreamMgr.h>
 
@@ -195,14 +193,14 @@ bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 	}
 
 
-	return INlc::getINlc().getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
+	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
 }
 
 //============================================================================
 bool AppletPlayerStream::playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
 	GetVirtStreamMgr().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
-	return INlc::getINlc().getNlcPlayer().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
+	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
 }
 
 //========================================================================

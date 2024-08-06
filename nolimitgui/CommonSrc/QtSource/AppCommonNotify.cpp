@@ -77,29 +77,6 @@ void AppCommon::slotInternalToGuiPluginSessionEnded( VxGUID onlineId, EPluginTyp
 }
 
 //============================================================================
-void AppCommon::slotInternalMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, QString fileName )
-{
-	LogMsg( LOG_VERBOSE, "Media Action %d val %d fileName %s", playerAction, actionVal, fileName.toUtf8().constData() );
-}
-
-//============================================================================
-void AppCommon::slotInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg )
-{
-    static bool isBusy{false};
-	LogMsg( LOG_ERROR, "Media Error %d %s", mediaError, msg.toUtf8().constData() );
-
-	if( isBusy )
-	{
-		// just log instead of show message box if user has not acked the previous message	
-		return;
-	}
-
-	isBusy = true;
-	QMessageBox::warning(&getHomePage(), QObject::tr("Media Error"), msg);
-	isBusy = false;
-}
-
-//============================================================================
 void AppCommon::toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
 {
 	getPluginMgr().toGuiPluginStatus( pluginType, statusType, statusValue );

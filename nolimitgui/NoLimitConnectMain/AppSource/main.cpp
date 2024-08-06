@@ -40,15 +40,14 @@
 #include <CoreLib/VxFileUtil.h>
 #include "AccountMgr.h"
 #include <NetLib/VxPeerMgr.h>
-#include <AppInterface/INlc.h>
 
 #include "MediaPlayerNlc.h"
 
-#include <libplayer-nlc/xbmc/xbmc/filesystem/Directory.h>
-#include <libplayer-nlc/xbmc/xbmc/filesystem/SpecialProtocol.h>
-#include <libplayer-nlc/xbmc/xbmc/filesystem/File.h>
-#include <libplayer-nlc/xbmc/xbmc/platform/Environment.h>
-#include <libplayer-nlc/xbmc/xbmc/utils/log.h>
+#include <libplayer-nlc/xbmc/filesystem/Directory.h>
+#include <libplayer-nlc/xbmc/filesystem/SpecialProtocol.h>
+#include <libplayer-nlc/xbmc/filesystem/File.h>
+#include <libplayer-nlc/xbmc/platform/Environment.h>
+#include <libplayer-nlc/xbmc/utils/log.h>
 
 using namespace XFILE;
 
@@ -206,8 +205,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         ProcessQtEvents(50);
     }
 
-    INlc& nolimit = INlc::getINlc();
-    AppCommon& appCommon = CreateAppInstance( nolimit, myApp );
+    AppCommon& appCommon = CreateAppInstance( myApp );
 
     LogMsg( LOG_VERBOSE, "runApplication appCommon create complete" );
 
@@ -218,7 +216,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     }
 
     // send command line parameters to Kodi
-    INlc::getINlc().getNlcPlayer().fromGuiInitCommandLine( argc, argv );
+    IMediaPlayerRequests::getNlcPlayer().fromGuiInitCommandLine( argc, argv );
 
     LogMsg( LOG_VERBOSE, "myApp->exec" );
 

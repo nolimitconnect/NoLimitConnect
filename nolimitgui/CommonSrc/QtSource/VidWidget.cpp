@@ -525,7 +525,7 @@ void VidWidget::slotVidFilesButtonClicked( void )
 	if( !m_MotionRecordOn
 		&& !m_InNormalRecord )
 	{
-		m_MyApp.getAppletMgr().launchApplet( eAppletLibrary, &m_MyApp.getHomePage(), GuiParams::describeFileFilter( eFileFilterVideo ) );
+		m_MyApp.getAppletMgr().launchApplet( eAppletLibrary, &m_MyApp.getHomeWindow(), GuiParams::describeFileFilter( eFileFilterVideo ) );
 	}
 	else
 	{

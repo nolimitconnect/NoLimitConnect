@@ -1164,53 +1164,53 @@ void AssetBaseMgr::updateAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId
 				case eAssetSendStateTxProgress:
 					if( eAssetSendStateNone == oldSendState )
 					{
-						IToGui::getToGui().toGuiAssetAction( eAssetActionTxBegin, assetUniqueId, param );
+						IToGui::getIToGui().toGuiAssetAction( eAssetActionTxBegin, assetUniqueId, param );
 					}
 
-					IToGui::getToGui().toGuiAssetAction( eAssetActionTxProgress, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionTxProgress, assetUniqueId, param );
 					break;
 
 				case eAssetSendStateRxProgress:
 					if( eAssetSendStateNone == oldSendState )
 					{
-						IToGui::getToGui().toGuiAssetAction( eAssetActionRxBegin, assetUniqueId, param );
+						IToGui::getIToGui().toGuiAssetAction( eAssetActionRxBegin, assetUniqueId, param );
 					}
 
-					IToGui::getToGui().toGuiAssetAction( eAssetActionRxProgress, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionRxProgress, assetUniqueId, param );
 					break;
 
 				case eAssetSendStateRxSuccess:
 					if( ( eAssetSendStateNone == oldSendState )
 						|| ( eAssetSendStateRxProgress == oldSendState ) )
 					{
-						IToGui::getToGui().toGuiAssetAction( eAssetActionRxSuccess, assetUniqueId, param );
-						IToGui::getToGui().toGuiAssetAction( eAssetActionRxNotifyNewMsg, assetInfo->getCreatorId(), 100 );
+						IToGui::getIToGui().toGuiAssetAction( eAssetActionRxSuccess, assetUniqueId, param );
+						IToGui::getIToGui().toGuiAssetAction( eAssetActionRxNotifyNewMsg, assetInfo->getCreatorId(), 100 );
 					}
 					else 
 					{
-						IToGui::getToGui().toGuiAssetAction( eAssetActionRxSuccess, assetUniqueId, param );
+						IToGui::getIToGui().toGuiAssetAction( eAssetActionRxSuccess, assetUniqueId, param );
 					}
 
 					break;
 
 				case eAssetSendStateTxSuccess:
-					IToGui::getToGui().toGuiAssetAction( eAssetActionTxSuccess, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionTxSuccess, assetUniqueId, param );
 					break;
 
 				case eAssetSendStateRxFail:
-					IToGui::getToGui().toGuiAssetAction( eAssetActionRxError, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionRxError, assetUniqueId, param );
 					break;
 
 				case eAssetSendStateTxFail:
-					IToGui::getToGui().toGuiAssetAction( eAssetActionTxError, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionTxError, assetUniqueId, param );
 					break;
 
 				case eAssetSendStateTxPermissionErr:
-					IToGui::getToGui().toGuiAssetAction( eAssetActionTxError, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionTxError, assetUniqueId, param );
 					break;
 
 				case eAssetSendStateRxPermissionErr:
-					IToGui::getToGui().toGuiAssetAction( eAssetActionRxError, assetUniqueId, param );
+					IToGui::getIToGui().toGuiAssetAction( eAssetActionRxError, assetUniqueId, param );
 					break;
 
 

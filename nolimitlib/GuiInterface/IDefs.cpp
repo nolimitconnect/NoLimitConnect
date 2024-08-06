@@ -11,6 +11,71 @@
 #include "IDefs.h"
 #include <CoreLib/VxDebug.h>
 
+#include "INlcRender.h"
+#include "IMediaPlayerCallback.h"
+#include "IMediaPlayerRequests.h"
+
+#include "AppCommon.h"
+#include "MediaPlayerNlc.h"
+
+#include "OsInterface/OsInterface.h"
+#include "OsInterface/OsInterface.cpp"
+
+#if defined( TARGET_OS_WINDOWS )
+# include "OsWin32/IWin32.h"
+# include "OsWin32/IWin32.cpp"
+#elif defined(TARGET_OS_LINUX)
+# include "OsLinux/ILinux.h"
+# include "OsLinux/ILinux.cpp"
+#elif defined(TARGET_OS_ANDROID)
+# include "OsAndroid/IAndroid.h"
+# include "OsAndroid/IAndroid.cpp"
+# include <CoreLib/VxJava.h>
+
+# include "platform/qt/qtandroid/jni/Context.h"
+
+#else 
+echo traget os is not defined
+#endif 
+
+//============================================================================
+INlcRender& INlcRender::getINlcRender( void )
+{
+    return GetAppInstance().getINlcRender();
+}
+
+//============================================================================
+IToGui& IToGui::getIToGui( void )
+{
+    return GetAppInstance().getIToGui();
+}
+
+//============================================================================
+IAudioRequests& IAudioRequests::getIAudioRequests( void )
+{
+    return GetAppInstance().getIAudioRequests();
+}
+
+//============================================================================
+MediaPlayerNlc& IMediaPlayerRequests::getNlcPlayer( void )
+{
+    return GetNlcPlayerInstance();
+}
+
+////============================================================================
+OsInterface& IMediaPlayerRequests::getOsInterface( void )
+{
+    #ifdef TARGET_OS_WINDOWS
+    static IWin32 osInterface;
+    #elif TARGET_OS_LINUX
+    static ILinux osInterface;
+    #elif TARGET_OS_ANDROID
+    static IAndroid osInterface;
+    #endif 
+
+    return osInterface;
+}
+
 namespace
 {
     const char* ENUM_BAD_PARM = "ENUM BAD PARAM ";

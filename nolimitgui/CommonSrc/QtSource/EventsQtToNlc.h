@@ -24,9 +24,9 @@ public:
     bool                        fromGuiMouseReleaseEvent( int mouseXPos, int mouseYPos, int mouseButton );
     bool                        fromGuiMouseMoveEvent( int mouseXPos, int mouseYPos );
 
-	void                        fromGuiResizeBegin( int winWidth, int winHeight );
-	void                        fromGuiResizeEvent( int winWidth, int winHeight );
-	void                        fromGuiResizeEnd( int winWidth, int winHeight );
+	//void                        fromGuiResizeBegin( int winWidth, int winHeight );
+	//void                        fromGuiResizeEvent( int winWidth, int winHeight );
+	//void                        fromGuiResizeEnd( int winWidth, int winHeight );
 
     void                        fromGuiCloseEvent( );
     void                        fromGuiVisibleEvent( bool isVisible );

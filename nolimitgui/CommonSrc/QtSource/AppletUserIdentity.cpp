@@ -310,7 +310,7 @@ void AppletUserIdentity::slotCreateNewAccount( void )
 
     if( QMessageBox::Yes == QMessageBox::question( this, title, msgText, QMessageBox::Yes | QMessageBox::No ) )
     {
-        ActivityCreateAccount * createAccountActivity = new ActivityCreateAccount( m_MyApp, &m_MyApp.getHomePage() );
+        ActivityCreateAccount * createAccountActivity = new ActivityCreateAccount( m_MyApp, &m_MyApp.getHomeWindow() );
         createAccountActivity->show();
         closeApplet();
     }

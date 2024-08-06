@@ -646,12 +646,12 @@ void AppCommon::project( float &x, float &y, float &z )
 //============================================================================
 
 //============================================================================
-void AppCommon::initialiseShaders()
+void AppCommon::initializeShaders()
 {
     RenderGlWidget * glWidget = getRenderConsumer();
     if( glWidget )
     {
-        glWidget->initialiseShaders();
+        glWidget->initializeShaders();
         glWidget->verifyGlState( "initialiseShaders" );
     }
 }

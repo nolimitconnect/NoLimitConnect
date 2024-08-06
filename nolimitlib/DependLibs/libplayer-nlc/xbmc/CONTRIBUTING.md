@@ -35,7 +35,7 @@ Before [creating a pull request](https://help.github.com/articles/creating-a-pul
 
 ###### Please follow these guidelines; it's the best way to get your work included in the project!
 
-- [Click here](https://github.com/xbmc/xbmc/fork/) to **fork Kodi** project,
+- [Click here](https://github.com/xbmc/fork/) to **fork Kodi** project,
    and [configure the remote](https://help.github.com/articles/configuring-a-remote-for-a-fork/):
 
    ```bash

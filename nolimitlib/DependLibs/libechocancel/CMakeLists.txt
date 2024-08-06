@@ -61,12 +61,6 @@ list(APPEND echocancel_SOURCES
 
 add_library(echocancel STATIC ${echocancel_SOURCES})
 
-target_include_directories(echocancel
-  PRIVATE
-    ../openssl-1.0.2p
-    ../openssl-1.0.2p/include
-    ../../kodi_src/xbmc/xbmc
-)
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)

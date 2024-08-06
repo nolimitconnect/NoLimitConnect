@@ -214,13 +214,13 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 {
 	if( eAssetTypeExe == assetInfo.getAssetType() )
 	{
-		QMessageBox::warning( &GetAppInstance().getHomePage(), QObject::tr("Attempted to play an executable which is not allowed"), QString(assetInfo.getAssetName().c_str()));
+		QMessageBox::warning( &GetAppInstance().getHomeWindow(), QObject::tr("Attempted to play an executable which is not allowed"), QString(assetInfo.getAssetName().c_str()));
 		return false;
 	}
 
 	if( eAssetTypeArchives == assetInfo.getAssetType() )
 	{
-		QMessageBox::warning( &GetAppInstance().getHomePage(), QObject::tr( "Attempted to open an archive file which is not allowed" ), QString( assetInfo.getAssetName().c_str() ) );
+		QMessageBox::warning( &GetAppInstance().getHomeWindow(), QObject::tr( "Attempted to open an archive file which is not allowed" ), QString( assetInfo.getAssetName().c_str() ) );
 		return false;
 	}
 
@@ -232,7 +232,7 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 			if( appletType != eAppletUnknown )
 			{
 				// launch the applet that plays this file
-				ActivityBase* applet = GetAppInstance().launchApplet( appletType, &GetAppInstance().getHomePage(), "", assetInfo.getAssetUniqueId() );
+				ActivityBase* applet = GetAppInstance().launchApplet( appletType, &GetAppInstance().getHomeWindow(), "", assetInfo.getAssetUniqueId() );
 				if( applet )
 				{
 					return applet->playMedia( assetInfo, pos0to100000 );

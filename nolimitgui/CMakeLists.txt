@@ -44,14 +44,6 @@ list(APPEND nlc_HEADERS
     AppCpuArchDefines.h
     AppDependLibrariesConfig.h
     AppTargetOsConfig.h
-    AppInterface/INlc.h
-    AppInterface/OsWin32/IWin32.h
-    AppInterface/OsLinux/ILinux.h
-    AppInterface/OsAndroid/IAndroid.h
-    AppInterface/OsAndroid/IAndroid.h
-    AppInterface/OsApple/IApple.h
-    AppInterface/OsLinux/ILinux.h
-    AppInterface/OsWin32/IWin32.h
     CommonSrc/QtSource/AppCommon.h
     CommonSrc/QtSource/AccountDb.h
     CommonSrc/QtSource/AccountMgr.h
@@ -428,15 +420,7 @@ set(nlc_SOURCES)
 list(APPEND nlc_SOURCES
     NoLimitConnectMain/AppSource/main.cpp
     CommonSrc/QtSource/AccountMgr.cpp
-    AppInterface/INlc.cpp
-    AppInterface/INlcFromGui.cpp
-    AppInterface/INlcLog.cpp
-    AppInterface/INlcRender.cpp
-    AppInterface/INlcToGui.cpp
-    AppInterface/OsAndroid/IAndroid.cpp
-    AppInterface/OsApple/IApple.cpp
-    AppInterface/OsLinux/ILinux.cpp
-    AppInterface/OsWin32/IWin32.cpp
+
     NoLimitConnectMain/AppSource/main.cpp
     CommonSrc/QtSource/AcceptCancelWidget.cpp
     CommonSrc/QtSource/AccountDb.cpp
@@ -477,6 +461,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppCommonSignalsAndSlots.cpp
     CommonSrc/QtSource/AppDefs.cpp
     CommonSrc/QtSource/AppGlobals.cpp
+    CommonSrc/QtSource/AppModuleState.cpp
     CommonSrc/QtSource/AppProfile.cpp
     CommonSrc/QtSource/AppSettings.cpp
     CommonSrc/QtSource/AppSetup.cpp
@@ -1024,7 +1009,7 @@ target_include_directories(nolimitconnect PUBLIC
     CommonSrc/QtSource
     ../nolimitlib
     ../nolimitlib/DependLibs
-    ../nolimitlib/DependLibs/libplayer-nlc/xbmc/xbmc
+    ../nolimitlib/DependLibs/libplayer-nlc/xbmc
     ../nolimitlib/DependLibs/ffmpeg
     ../nolimitlib/DependLibs/libechocancel
     ../nolimitlib/GuiInterface
@@ -1035,87 +1020,79 @@ target_include_directories(nolimitconnect PUBLIC
     ${PROJECT_STATIC_LIB_DIR}
 )
 
+# common to all builds
+target_link_libraries(nolimitconnect
+    PUBLIC
+    # Qt libraries
+    Qt::Core
+    Qt::CorePrivate
+    Qt::Gui
+    Qt::Multimedia
+    Qt::OpenGL
+    Qt::Svg
+    Qt::Widgets
+
+    # static libraries
+    player-nlc
+    avdevice
+    avfilter
+    avformat
+    avcodec
+    postproc
+    swresample
+    swscale
+    avutil
+    ffmpegopus
+    ptopengine
+    miniaudio
+)
+
 if (DEFINED TARGET_OS_LINUX)
     target_link_libraries(nolimitconnect
         PUBLIC
-        # Qt libraries
-        Qt::Core
-        Qt::CorePrivate
-        Qt::Gui
-        Qt::Multimedia
-        Qt::OpenGL
-        Qt::Widgets
-        Qt::Svg
-        # static nlc libraries
-        #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
-        ptopengine
-        player-nlc
-        avdevice
-        avfilter
-        avformat
-        avcodec
-        postproc
-        swresample
-        swscale
-        avutil
-        ffmpegopus
+
         x264
         x265
         dav1d
         vpx
-        nfs
-        #cdio
+
         pcre
-        armrwbenc
-        fdk-aac
+
         opencore-amr
-        openmpt
+
         mediatools
         speex
         lame
         vorbis2
-        # microhttpd
+
         gnu
-        # these are nomally combined into one library depends for command line length issue when build on windows
+
         ass
-        cpluff
-        croco
-        exif
-        expat
-        flac
+
         fribidi
         #glew
         iconv
-        ilbc
+
         jpg
-        # mdnssd
+
         vxvideolib
-        openjpeg
-        shine
-        snappy
-        speex
+
         tag
         theora
         twolame
-        wavepack
-        webp
-        xslt
-        yajl
-        zvbi
-        # end of these are nomally combined into one library depends
+
         ogg
-        #ssh
+
         netlib
         pktlib
-        #curl # curl before ssl because dependency md4 from ssl
-        ssl # static ssl lib version
+
         echocancel
         fribidi
         freetype
-        png
+
         tinyxml
         xml2
-        bzip2
+
         lzma
         lzo
         zip
@@ -1141,82 +1118,57 @@ elseif (DEFINED TARGET_OS_ANDROID)
         target_link_libraries(nolimitconnect
             PUBLIC
             # static nlc libraries
-            #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
-            ptopengine
-            player-nlc
-            avdevice
-            avfilter
-            avformat
-            avcodec
-            postproc
-            swresample
-            swscale
-            avutil
-            ffmpegopus
+
             x264
             x265
             dav1d
             # vpx # needed but does not compile yet
-            nfs
-            #cdio
+
             pcre
-            armrwbenc
-            fdk-aac
+
             opencore-amr
-            openmpt
+
             mediatools
             speex
             lame
             vorbis2
-            # microhttpd
+
             gnu
-            # these are nomally combined into one library depends for command line length issue when build on windows
+
             ass
-            cpluff
-            croco
-            exif
-            expat
-            flac
+
             fribidi
             #glew
             iconv
-            ilbc
+
             jpg
-            # mdnssd
+
             vxvideolib
-            openjpeg
-            shine
-            snappy
+
             speex
             tag
             theora
             twolame
-            wavepack
-            webp
-            xslt
-            yajl
-            zvbi
-            # end of these are nomally combined into one library depends
+
             ogg
-            #ssh
+
             netlib
             pktlib
-            #curl # curl before ssl because dependency md4 from ssl
-            ssl # static ssl lib version
+
             echocancel
             fribidi
             freetype
-            png
+
             tinyxml
             xml2
-            bzip2
+
             lzma
             lzo
             zip
             CoreLib
             zlib
             crossguid
-            bz2
+
             aecm-webrtc
             miniaudio
             miniupnpc
@@ -1242,64 +1194,41 @@ elseif (DEFINED TARGET_OS_ANDROID)
         target_link_libraries(nolimitconnect
             PUBLIC
             # static nlc libraries
-            #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
-            ptopengine
-            player-nlc
-            avdevice
-            avfilter
-            avformat
-            avcodec
-            postproc
-            swresample
-            swscale
-            avutil
-            ffmpegopus
+
             #x264
             #x265 #cannot compile x265 on arm7a
             dav1d
             # vpx # needed but does not compile yet
-            nfs
-            #cdio
+
             pcre
-            armrwbenc
-            fdk-aac
+
             opencore-amr
-            openmpt
+
             mediatools
             speex
             lame
             vorbis2
-            # microhttpd
+
             gnu
             # these are nomally combined into one library depends for command line length issue when build on windows
             ass
-            cpluff
-            croco
-            exif
-            expat
-            flac
+
             fribidi
             #glew
             iconv
-            ilbc
+
             jpg
-            # mdnssd
+
             vxvideolib
-            openjpeg
-            shine
-            snappy
+
             speex
             tag
             theora
             twolame
-            wavepack
-            webp
-            xslt
-            yajl
-            zvbi
+
             # end of these are nomally combined into one library depends
             ogg
-            #ssh
+
             netlib
             pktlib
             #curl # curl before ssl because dependency md4 from ssl
@@ -1307,10 +1236,10 @@ elseif (DEFINED TARGET_OS_ANDROID)
             echocancel
             fribidi
             freetype
-            png
+
             tinyxml
             xml2
-            bzip2
+
             lzma
             lzo
             zip
@@ -1345,77 +1274,49 @@ elseif (DEFINED TARGET_OS_WINDOWS)
     target_link_libraries(nolimitconnect
         PUBLIC
         # static nlc libraries
-        #NOTE: link order is important.. otherwise you will get link errors like libvorbisenc.so.2: error adding symbols: DSO   missing from command line
-        ptopengine
-        player-nlc
-        avdevice
-        avfilter
-        avformat
-        avcodec
-        postproc
-        swresample
-        swscale
-        avutil
-        ffmpegopus
+
         x264
         x265
         dav1d
         #vpx #needed but does not compile on android yet
-        nfs
-        #cdio
+
         pcre
-        armrwbenc
-        fdk-aac
+
         opencore-amr
-        openmpt
+
         mediatools
         speex
         lame
         vorbis2
-        # microhttpd
+
         gnu
-        # these are nomally combined into one library depends for command line length issue when build on windows
+
         ass
-        cpluff
-        croco
-        exif
-        expat
-        flac
+
         fribidi
         #glew
         iconv
-        ilbc
+        ilb
         jpg
-        # mdnssd
+
         vxvideolib
-        openjpeg
-        shine
-        snappy
+
         speex
         tag
         theora
         twolame
-        wavepack
-        webp
-        xslt
-        yajl
-        zvbi
-        # end of these are nomally combined into one library depends
         ogg
-        #ssh
+
         netlib
         pktlib
-        # curl before ssl because dependency md4 from ssl
-        #curl
-        # static ssl lib version
-        ssl
+
         echocancel
         fribidi
         freetype
-        png
+
         tinyxml
         xml2
-        bzip2
+
         lzma
         lzo
         zip

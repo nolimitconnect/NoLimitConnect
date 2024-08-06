@@ -21,7 +21,6 @@ list(APPEND ptopengine_HEADERS
 set(ptopengine_SOURCES)
 
 list(APPEND ptopengine_SOURCES 
-    ../../GuiInterface/OsInterface/OsInterface.cpp
     AssetBase/AssetBaseInfo.cpp
     AssetBase/AssetBaseInfoDb.cpp
     AssetBase/AssetBaseMgr.cpp
@@ -144,6 +143,7 @@ list(APPEND ptopengine_SOURCES
     P2PEngine/P2PEngineFromGui.cpp
     P2PEngine/P2PEngineHostList.cpp
     P2PEngine/P2PEngineIgnoredAndHackers.cpp
+    P2PEngine/P2PEngineInit.cpp
     P2PEngine/P2PEngineMediaProcessorCallbacks.cpp
     P2PEngine/P2PEnginePktAnnChanged.cpp
     P2PEngine/P2PEnginePktAnnHandlers.cpp
@@ -297,9 +297,7 @@ target_include_directories(ptopengine
   PRIVATE
     ../..
     ../../DependLibs
-    ../../DependLibs/openssl-1.0.2p
-    ../../DependLibs/openssl-1.0.2p/include
-    ../../DependLibs/libplayer-nlc/xbmc/xbmc
+    ../../DependLibs/libplayer-nlc/xbmc
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

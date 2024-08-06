@@ -55,14 +55,14 @@ echo Nlc Compiler Config error no os defined
 #define HAVE_LIBPLIST       1
 #define HAVE_LIBPTHREAD		1	// simulated in vs with libpthread
 
-#define HAVE_LIBSSL         1
+//#define HAVE_LIBSSL         1
 // #define HAVE_LIBUDEV
 #define HAVE_LIBVORBISENC   1
-#define HAVE_LIBXSLT        1
+//#define HAVE_LIBXSLT        1
 #define HAVE_LIBZ           1
-#define HAVE_OPENSSL        1    
+//#define HAVE_OPENSSL        1    
 
-#define HAVE_LCMS2          1 
+//#define HAVE_LCMS2          1
 
 // EGL detected. Dont use GLX!
 #ifdef HAVE_LIBEGL

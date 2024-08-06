@@ -745,6 +745,9 @@
     <ClCompile Include="..\..\Plugins\FileInfoPersonFileXferMgr.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineInit.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">

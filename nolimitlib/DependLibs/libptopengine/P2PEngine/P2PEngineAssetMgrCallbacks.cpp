@@ -32,18 +32,18 @@ void P2PEngine::callbackSharedPktFileListUpdated( void )
 //============================================================================
 void P2PEngine::callbackAssetAdded( AssetBaseInfo* assetInfo )
 {
-    IToGui::getToGui().toGuiAssetAdded( assetInfo );
+    IToGui::getIToGui().toGuiAssetAdded( assetInfo );
 }
 
 //============================================================================
 void P2PEngine::callbackAssetRemoved( AssetBaseInfo* assetInfo )
 {
-    IToGui::getToGui().toGuiAssetAction( eAssetActionRemoveFromAssetMgr, assetInfo->getAssetUniqueId(), 0 );
+    IToGui::getIToGui().toGuiAssetAction( eAssetActionRemoveFromAssetMgr, assetInfo->getAssetUniqueId(), 0 );
 }
 
 //============================================================================
 void P2PEngine::callbackAssetHistory( void * /*userData*/, AssetBaseInfo* assetInfo )
 {
-	IToGui::getToGui().toGuiAssetSessionHistory( assetInfo );
+	IToGui::getIToGui().toGuiAssetSessionHistory( assetInfo );
 }
 

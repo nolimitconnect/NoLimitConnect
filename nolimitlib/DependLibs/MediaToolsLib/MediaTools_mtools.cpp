@@ -41,7 +41,7 @@ MediaTools::~MediaTools()
 //============================================================================
 IToGui&	MediaTools::getToGui()
 {
-    return IToGui::getToGui();
+    return IToGui::getIToGui();
 }
 
 //============================================================================

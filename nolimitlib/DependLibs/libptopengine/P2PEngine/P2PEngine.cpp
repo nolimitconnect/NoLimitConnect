@@ -13,8 +13,6 @@
 #include "P2PConnectList.h"
 #include "VxSktLoopback.h"
 
-#include <GuiInterface/IToGui.h>
-
 #include <AssetMgr/AssetMgr.h>
 #include <BlobXferMgr/BlobMgr.h>
 #include <BigListLib/BigListInfo.h>
@@ -156,13 +154,13 @@ P2PEngine::~P2PEngine()
 //============================================================================
 IToGui& P2PEngine::getToGui()
 {
-    return IToGui::getToGui();
+    return IToGui::getIToGui();
 }
 
 //============================================================================
 IAudioRequests& P2PEngine::getAudioRequest()
 {
-    return IToGui::getAudioRequests();
+    return IAudioRequests::getIAudioRequests();
 }
 
 //============================================================================
@@ -283,7 +281,7 @@ void P2PEngine::onSessionStart( EPluginType pluginType, VxGUID& onlineId )
 		}
 
 		m_BigListMgr.dbUpdateSessionTime( netIdent->getMyOnlineId(), sysTimeMs );
-		IToGui::getToGui().toGuiContactLastSessionTimeChange( netIdent );
+		IToGui::getIToGui().toGuiContactLastSessionTimeChange( netIdent );
 	}
 }
 

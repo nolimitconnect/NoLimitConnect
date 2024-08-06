@@ -103,7 +103,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>$(ProjectName)D</TargetName>
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\build-staticlibs\Windows\$(Platform)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\build-staticlibs\Windows\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)objs\$(TargetName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -605,6 +605,7 @@
     <ClCompile Include="..\..\P2PEngine\P2PEngineFromGui.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEngineHostList.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEngineIgnoredAndHackers.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineInit.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEngineMediaProcessorCallbacks.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnChanged.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnHandlers.cpp" />
