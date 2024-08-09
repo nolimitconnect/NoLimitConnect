@@ -479,25 +479,13 @@ void MediaPlayerNlc::initVideoSettings( void )
     settings->GetSettingsManager()->AddSettingInternal( useDisplayAsClock );
     settings->SetBool( CSettings::SETTING_VIDEOPLAYER_USEDISPLAYASCLOCK, false );
 
-	SettingPtr subsCustomPath = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_SUBTITLES_CUSTOMPATH, settings->GetSettingsManager() );
-    settings->GetSettingsManager()->AddSettingInternal( subsCustomPath );
-    settings->SetString( CSettings::SETTING_SUBTITLES_CUSTOMPATH, "" );
-
 	SettingPtr audioPassthrough = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_AUDIOOUTPUT_PASSTHROUGH, settings->GetSettingsManager() );
     settings->GetSettingsManager()->AddSettingInternal( audioPassthrough );
     settings->SetBool( CSettings::SETTING_AUDIOOUTPUT_PASSTHROUGH, false );
 
-	SettingPtr localeSubLanguage = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_LOCALE_SUBTITLELANGUAGE, settings->GetSettingsManager() );
-    settings->GetSettingsManager()->AddSettingInternal( localeSubLanguage );
-    settings->SetString( CSettings::SETTING_LOCALE_SUBTITLELANGUAGE, "original" );
-
 	SettingPtr stereoscopicPlayback = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_VIDEOPLAYER_STEREOSCOPICPLAYBACKMODE, settings->GetSettingsManager() );
     settings->GetSettingsManager()->AddSettingInternal( stereoscopicPlayback );
     settings->SetInt( CSettings::SETTING_VIDEOPLAYER_STEREOSCOPICPLAYBACKMODE, 0 ); // should probably be 100 (ignore) instead of ask
-	
-	SettingPtr parseCaptions = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_PARSECAPTIONS, settings->GetSettingsManager() );
-    settings->GetSettingsManager()->AddSettingInternal( parseCaptions );
-    settings->SetBool( CSettings::SETTING_SUBTITLES_PARSECAPTIONS, false );
 
 	SettingPtr playerStretch = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_VIDEOPLAYER_STRETCH43, settings->GetSettingsManager() );
     settings->GetSettingsManager()->AddSettingInternal( playerStretch );
@@ -515,4 +503,122 @@ void MediaPlayerNlc::initVideoSettings( void )
     settings->GetSettingsManager()->AddSettingInternal( allowAspectErr );
     settings->SetInt( CSettings::SETTING_VIDEOPLAYER_ERRORINASPECT, 0 );
 
+	// <setting id="subtitles.align" default="true">0</setting>
+	SettingPtr settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_ALIGN, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_ALIGN, 0 );
+
+	// <setting id="subtitles.bgcolor" default="true">0</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_BGCOLOR, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_BGCOLOR, 0 );
+
+	// <setting id="subtitles.bgopacity" default="true">0</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_BGOPACITY, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_BGOPACITY, 0 );
+
+	// <setting id="subtitles.charset" default="true">DEFAULT</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_SUBTITLES_CHARSET, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_SUBTITLES_CHARSET, "DEFAULT" );
+
+	// <setting id="subtitles.color" default="true">1</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_COLOR, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_COLOR, 1 );
+    
+    // <setting id = "subtitles.custompath" default = "true">< / setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_SUBTITLES_CUSTOMPATH, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_SUBTITLES_CUSTOMPATH, "" );
+
+    // <setting id="subtitles.downloadfirst" default="true">false</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_DOWNLOADFIRST, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetBool( CSettings::SETTING_SUBTITLES_DOWNLOADFIRST, false );
+
+    // <setting id="subtitles.font" default="true">arial.ttf</setting>
+	SettingPtr subsCustomPath = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_SUBTITLES_FONTNAME, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( subsCustomPath );
+    settings->SetString( CSettings::SETTING_SUBTITLES_FONTNAME, "arial.ttf" );
+	
+    // <setting id="subtitles.height" default="true">28</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_FONTSIZE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_FONTSIZE, 28 );
+
+	// <setting id="subtitles.overrideassfonts" default="true">false</setting> 
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_OVERRIDEFONTS, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetBool( CSettings::SETTING_SUBTITLES_OVERRIDEFONTS, false );
+
+    // <setting id="subtitles.languages" default="true">English</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_SUBTITLES_LANGUAGES, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_SUBTITLES_LANGUAGES, "English" );
+
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_LOCALE_SUBTITLELANGUAGE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_LOCALE_SUBTITLELANGUAGE, "original" );
+	
+    // <setting id="subtitles.movie" default="true"></setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_MOVIE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetBool( CSettings::SETTING_SUBTITLES_MOVIE, true );
+
+	// <setting id="subtitles.tv" default="true"></setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_TV, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetBool( CSettings::SETTING_SUBTITLES_TV, true );
+	
+    // <setting id="subtitles.parsecaptions" default="true">false</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_PARSECAPTIONS, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetBool( CSettings::SETTING_SUBTITLES_PARSECAPTIONS, false );
+
+    // <setting id="subtitles.pauseonsearch" default="true">true</setting>
+	SettingPtr parseCaptions = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_SUBTITLES_PAUSEONSEARCH, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( parseCaptions );
+    settings->SetBool( CSettings::SETTING_SUBTITLES_PAUSEONSEARCH, true );
+
+    // <setting id="subtitles.stereoscopicdepth" default="true">0</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_STEREOSCOPICDEPTH, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_STEREOSCOPICDEPTH, 0 );
+
+    // <setting id="subtitles.storagemode" default="true">0</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_STORAGEMODE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_STORAGEMODE, 0 );
+
+    // <setting id="subtitles.style" default="true">1</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "integer", CSettings::SETTING_SUBTITLES_STYLE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetInt( CSettings::SETTING_SUBTITLES_STYLE, 1 );
+
+	// <setting id="locale.audiolanguage" default="true">mediadefault</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_LOCALE_AUDIOLANGUAGE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_LOCALE_AUDIOLANGUAGE, "mediadefault" );
+
+	// <setting id="locale.charset" default="true">DEFAULT</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_LOCALE_CHARSET, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_LOCALE_CHARSET, "DEFAULT" );
+
+	// <setting id="locale.language" default="true">resource.language.en_gb</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_LOCALE_LANGUAGE, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_LOCALE_LANGUAGE, "resource.language.en_gb" );
+
+	// <setting id="locale.country" default="true">USA (12h)</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "string", CSettings::SETTING_LOCALE_COUNTRY, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetString( CSettings::SETTING_LOCALE_COUNTRY, "USA (12h)" );
+
+	// <setting id="videoplayer.preferdefaultflag" default="true">true</setting>
+	settingPtr = settings->GetSettingsManager()->CreateSetting( "boolean", CSettings::SETTING_VIDEOPLAYER_PREFERDEFAULTFLAG, settings->GetSettingsManager() );
+    settings->GetSettingsManager()->AddSettingInternal( settingPtr );
+    settings->SetBool( CSettings::SETTING_VIDEOPLAYER_PREFERDEFAULTFLAG, true );
 }

@@ -146,7 +146,7 @@
 #define OBJNAME_APPLET_SEARCH_PAGE					    "AppletSearchPage"
 
 #define OBJNAME_APPLET_SERVICE_ABOUT_ME				    "AppletServiceAboutMe"
-#define OBJNAME_APPLET_SERVICE_AVATAR_IMAGE				"AppletServiceAvatarImage"
+
 #define OBJNAME_APPLET_SERVICE_CONNECT_TEST				"AppletServiceConnectTest"
 
 #define OBJNAME_APPLET_SERVICE_HOST_NETWORK			    "AppletServiceHostNetwork"

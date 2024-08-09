@@ -12,6 +12,7 @@
 #include "AppSettings.h"
 #include "ChatEntryWidget.h"
 #include "DialogAddComment.h"
+#include "GuiHelpers.h"
 #include "InputClientBaseCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -156,8 +157,6 @@ void ChatEntryWidget::slotAllCameraButtonClicked( void )
 {
 	setEntryMode( eAssetTypePhoto );	
 }
-
-#define SUPPORTED_IMAGE_FILES "Image files (*.bmp *.jpg *.jpeg *.png)"
 
 //============================================================================
 void ChatEntryWidget::slotAllGalleryButtonClicked( void )

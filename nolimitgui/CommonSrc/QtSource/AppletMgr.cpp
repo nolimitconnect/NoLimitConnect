@@ -107,7 +107,7 @@
 #include "AppletRandomConnectListLocalView.h"
 
 #include "AppletServiceAboutMe.h"
-#include "AppletServiceAvatarImage.h"
+
 #include "AppletServiceConnectionTest.h"
 #include "AppletServiceHostNetwork.h"
 #include "AppletServiceShareFiles.h"
@@ -458,7 +458,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletShareServicesPage:          if( launchAppletAllowed( eAppletShareServicesPage ) ) appletDialog = new AppletShareServicesPage( m_MyApp, parent ); break;
 
     case eAppletServiceAboutMe:             if( launchAppletAllowed( eAppletServiceAboutMe ) ) appletDialog = new AppletServiceAboutMe( m_MyApp, parent ); break;
-    case eAppletServiceAvatarImage:         if( launchAppletAllowed( eAppletServiceAvatarImage ) ) appletDialog = new AppletServiceAvatarImage( m_MyApp, parent ); break;
+    //case eAppletServiceAvatarImage:         if( launchAppletAllowed( eAppletServiceAvatarImage ) ) appletDialog = new AppletServiceAvatarImage( m_MyApp, parent ); break;
     case eAppletServiceConnectionTest:      if( launchAppletAllowed( eAppletServiceConnectionTest ) ) appletDialog = new AppletServiceConnectionTest( m_MyApp, parent ); break;
 
     case eAppletPermissionList:             if( launchAppletAllowed( eAppletPermissionList ) ) appletDialog = new AppletPermissionList( m_MyApp, parent ); break;

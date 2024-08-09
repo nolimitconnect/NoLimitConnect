@@ -65,6 +65,10 @@ public:
 
 	void						setLastGalleryDir( std::string& galleryDir );
 	void						getLastGalleryDir( std::string& galleryDir );
+	void						setLastVideoFileDir( std::string& fileDir );
+	void						getLastVideoFileDir( std::string& fileDir );
+	void						setLastAudioFileDir( std::string& fileDir );
+	void						getLastAudioFileDir( std::string& fileDir );
 
     void						setLastHostSearchText( ESearchType searchType, std::string& searchText );
     void						getLastHostSearchText( ESearchType searchType, std::string& searchText );

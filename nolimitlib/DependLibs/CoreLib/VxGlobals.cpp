@@ -29,12 +29,6 @@
 // globals
 //============================================================================
 
-#if defined(TARGET_OS_ANDROID)
-# define PYTHON_RELATIVE_PATH "assets/kodi/python2.7/lib/python2.7/"
-#else
-# define PYTHON_RELATIVE_PATH "assets/kodi/system/Python/"
-#endif // TARGET_OS_WINDOWS
-
 namespace
 {
 	VxMutex				g_GlobalAccessMutex;
@@ -67,6 +61,7 @@ namespace
 	std::string			g_strAppLogsDir                 = "";
 	std::string			g_strAppNoLimitDataDir          = "";
 	std::string			g_strAppKodiDataDir             = "";
+	std::string			g_strFontsDir					= "";
 
 	// user specific writable paths
 	std::string			g_strRootUserDataDir            = "";
@@ -124,8 +119,9 @@ const char*     VxGetNetworkHostUrl( void )                         { return g_s
 //                    android ?
 // /storage/nolimitconnect/temp/		temporary files path
 //                  /logs/		log files path
-//                  /nolimit/		ShredFilesDb.db3 and app generated files
+//                  /nolimit/	ShredFilesDb.db3 and app generated files
 //                  /kodi/		kodi plugins and writable data directory
+//					/fonts/		fonts for subtitiles directory
 //                  /nolimit/gui/	gui assets
 //						 /shaders/ opengl shaders
 //                       /profile/ profile default files
@@ -248,6 +244,9 @@ void VxSetAppDirectory( enum EAppDir appDir, std::string setDir )
         case eAppDirCamRecord:
             g_strAppCamRecord = setDir;
             break;
+        case eAppDirFonts:
+            g_strFontsDir = setDir;
+            break;
         default:
             LogMsg( LOG_ERROR, "VxSetAppDirectory invalid param %d", appDir);
         }
@@ -332,6 +331,8 @@ std::string& VxGetAppDirectory( EAppDir appDir )
         return g_strAppThumbsDir;
     case eAppDirCamRecord:
         return g_strAppCamRecord;
+    case eAppDirFonts:
+        return g_strFontsDir;
     default:
         break;
 	}
@@ -492,9 +493,11 @@ void VxSetRootDataStorageDirectory(const char* rootDataDir)
 	g_strAppNoLimitDataDir = g_strRootDataStorageDir + "nolimit/";
 	VxFileUtil::makeDirectory(g_strAppNoLimitDataDir.c_str());
 
-
 	g_strAppKodiDataDir = g_strRootDataStorageDir + "kodi/";
 	VxFileUtil::makeDirectory( g_strAppKodiDataDir.c_str());
+
+	g_strFontsDir = g_strRootDataStorageDir + "fonts/";
+	VxFileUtil::makeDirectory( g_strFontsDir.c_str());
 
 	GetVxFileShredder().initShredder( g_strAppNoLimitDataDir );
 }
@@ -538,6 +541,7 @@ void VxSetUserSpecificDataDirectory( const char* userDataDir  )
 //============================================================================
 std::string& VxGetUserSpecificDataDirectory( void )			{ return g_strUserSpecificDataDir; }
 std::string& VxGetSettingsDirectory( void )					{ return g_strSettingsDir; }
+std::string& VxGetFontDirectory( void )						{ return g_strFontsDir; }
 std::string& VxGetAboutMePageServerDirectory( void )		{ return g_strAboutMePageServerDir; }
 std::string& VxGetStoryBoardPageServerDirectory( void )		{ return g_strStoryBoardPageServerDir; }
 

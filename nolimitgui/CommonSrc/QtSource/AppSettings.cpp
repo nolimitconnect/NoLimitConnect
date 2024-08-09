@@ -193,6 +193,30 @@ void AppSettings::getLastGalleryDir( std::string& galleryDir )
 }
 
 //============================================================================
+void AppSettings::setLastVideoFileDir( std::string& fileDir )
+{
+	setIniValue( getAppShortName(), "VideoFileDir", fileDir );
+}
+
+//============================================================================
+void AppSettings::getLastVideoFileDir( std::string& fileDir )
+{
+	getIniValue( getAppShortName(), "VideoFileDir", fileDir, "" );
+}
+
+//============================================================================
+void AppSettings::setLastAudioFileDir( std::string& fileDir )
+{
+	setIniValue( getAppShortName(), "AudioFileDir", fileDir );
+}
+
+//============================================================================
+void AppSettings::getLastAudioFileDir( std::string& fileDir )
+{
+	getIniValue( getAppShortName(), "AudioFileDir", fileDir, "" );
+}
+
+//============================================================================
 void AppSettings::setLastAddFileDir( std::string& addFileDir )
 {
 	setIniValue( getAppShortName(), "AddFileDir", addFileDir );

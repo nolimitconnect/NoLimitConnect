@@ -52,7 +52,8 @@ protected slots:
 
 	void						slotBrowseButtonClick( void );
 	void						slotReplayButtonClick( void );
-    void                        slotSelectFileButtonClick( void );
+    void                        slotOpenVideoFileButtonClick( void );
+    void                        slotOpenAudioFileButtonClick( void );
 
 	void						slotFileWasSelected( QString fileName );
 

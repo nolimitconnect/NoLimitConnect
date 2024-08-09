@@ -165,7 +165,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletRandomConnectListLocalView.h
     CommonSrc/QtSource/AppletSearchPage.h
     CommonSrc/QtSource/AppletServiceAboutMe.h
-    CommonSrc/QtSource/AppletServiceAvatarImage.h
+
     CommonSrc/QtSource/AppletServiceBase.h
     CommonSrc/QtSource/AppletServiceBaseSettings.h
     CommonSrc/QtSource/AppletServiceConnectionTest.h
@@ -557,7 +557,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletRandomConnectListLocalView.cpp
     CommonSrc/QtSource/AppletSearchPage.cpp
     CommonSrc/QtSource/AppletServiceAboutMe.cpp
-    CommonSrc/QtSource/AppletServiceAvatarImage.cpp
+
     CommonSrc/QtSource/AppletServiceBase.cpp
     CommonSrc/QtSource/AppletServiceBaseSettings.cpp
     CommonSrc/QtSource/AppletServiceConnectionTest.cpp

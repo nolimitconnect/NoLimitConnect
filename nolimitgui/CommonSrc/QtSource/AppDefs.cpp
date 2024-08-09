@@ -129,7 +129,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletUserPreferences:			return eMyIconUserPreferences;
 
     case eAppletServiceAboutMe:             return eMyIconServiceShareAboutMe;
-    case eAppletServiceAvatarImage:         return eMyIconServiceAvatarImage;
+
     case eAppletServiceShareFiles:          return eMyIconServiceShareFiles;
     case eAppletServiceShareWebCam:         return eMyIconServiceShareWebCam;
     case eAppletServiceStoryboard:          return eMyIconServiceShareStoryboard;
@@ -333,7 +333,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletShareServicesPage:          return QObject::tr( "Share With Others Services" );
     case eAppletServiceAboutMe:             return QObject::tr( "Share About Me Page" );
-    case eAppletServiceAvatarImage:         return QObject::tr( "Share Your Avatar Image For Contact List" );
+    
     case eAppletServiceConnectionTest:      return QObject::tr( "Service Connection Test" );
     case eAppletServiceHostNetwork:         return QObject::tr( "Host A NoLimitConnect Network" );
     case eAppletServiceShareFiles:			return QObject::tr( "Share Media Files" );

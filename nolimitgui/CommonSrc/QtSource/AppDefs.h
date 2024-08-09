@@ -51,7 +51,7 @@ enum EApplet
     eAppletPersonalRecorder,
     eAppletLibrary,
     eAppletPlayerNlc,
-    eAppletPlayerStream, // temp for debugging.. really belongs in the not launched by user category
+    
     eAppletDownloads,
     eAppletUploads,
     eAppletShareServicesPage,       // page to setup share with others services
@@ -193,7 +193,7 @@ enum EApplet
     eAppletSnapShot,
     eActivityBrowseFiles,
 
-    eAppletMultiMessenger,          // messenger for all hosts and friend
+    eAppletMultiMessenger,          // messenger for all hosts and friends
     eAppletPeerChangeFriendship,
     eAppletPeerReplyOfferFile,
     eAppletPeerTruthOrDare,
@@ -223,11 +223,11 @@ enum EApplet
     eAppletOfferResponseAccept,
     eAppletOfferView,
 
-    eAppletServiceAvatarImage, // TODO: this service can probably be removed
-
     eAppletIgnoredHosts,
 
     eAppletIsPortOpenTest,
+
+    eAppletPlayerStream, 
 
     eAppletHomeFrame, // left or top frame
     eAppletMessengerFrame, // right or bottom frame

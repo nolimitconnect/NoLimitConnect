@@ -63,8 +63,10 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeSmall );
 	ui.m_ReplayButton->setIcon( eMyIconPlayNormal );
 	ui.m_ReplayButton->setSquareButtonSize( eButtonSizeSmall );
-    ui.m_SelectFileButton->setIcon( eMyIconPlayerNlc );
-    ui.m_SelectFileButton->setSquareButtonSize( eButtonSizeSmall );
+    ui.m_OpenVideoFileButton->setIcon( eMyIconVideo );
+    ui.m_OpenVideoFileButton->setSquareButtonSize( eButtonSizeSmall );
+    ui.m_OpenAudioFileButton->setIcon( eMyIconMusic );
+    ui.m_OpenAudioFileButton->setSquareButtonSize( eButtonSizeSmall );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
     if( bottomBar )
@@ -75,7 +77,8 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 	ui.m_FilesComboBox->setVisible( false ); // do not show until media player is ready
 	ui.m_BrowseButton->setVisible( false );
     ui.m_ReplayButton->setVisible( false );
-    ui.m_SelectFileButton->setVisible( false );
+    ui.m_OpenVideoFileButton->setVisible( false );
+    ui.m_OpenAudioFileButton->setVisible( false );
 
 	QStringList downloadPathList = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
 	for( auto downloadPath : downloadPathList )
@@ -105,7 +108,9 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 	connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseButtonClick()) );
 	connect( ui.m_ReplayButton, SIGNAL(clicked()), this, SLOT(slotReplayButtonClick()) );
-    connect( ui.m_SelectFileButton, SIGNAL(clicked()), this, SLOT(slotSelectFileButtonClick()) );
+    connect( ui.m_OpenVideoFileButton, SIGNAL(clicked()), this, SLOT(slotOpenVideoFileButtonClick()) );
+    connect( ui.m_OpenAudioFileButton, SIGNAL(clicked()), this, SLOT(slotOpenAudioFileButtonClick()) );
+
 
 	connect( ui.m_PlayControlWidget, SIGNAL(signalRestart()), this, SLOT(slotReplayButtonClick()) );
 	connect( ui.m_PlayControlWidget, SIGNAL(signalPlayPauseButtonClicked()), this, SLOT(slotPlayPauseButtonClick()) );
@@ -252,31 +257,6 @@ void AppletPlayerNlc::slotReplayButtonClick( void )
 }
 
 //============================================================================
-void AppletPlayerNlc::slotSelectFileButtonClick( void )
-{
-    std::string addFileDir;
-    m_MyApp.getAppSettings().getLastAddFileDir( addFileDir );
-    QString curDir;
-    if( !addFileDir.empty() )
-    {
-        curDir = addFileDir.c_str();
-    }
-
-    FileInfo fileInfo;
-    if( GuiHelpers::browseForFile( this, fileInfo, curDir ) )
-    {
-        std::string fileName = fileInfo.getFullFileName();
-        if( VxFileUtil::fileExists( fileName.c_str() ) )
-        {
-            m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
-            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
-
-            playSelectedMovie( fileName );
-        }
-    }
-}
-
-//============================================================================
 void AppletPlayerNlc::playSelectedMovie( std::string fullFileName )
 {
 	stopMediaIfPlaying();
@@ -370,7 +350,8 @@ void AppletPlayerNlc::updateRecentListVisibility( void )
 	{
 		ui.m_BrowseButton->setVisible( true );
 		ui.m_ReplayButton->setVisible( true );
-        ui.m_SelectFileButton->setVisible( true );
+        ui.m_OpenVideoFileButton->setVisible( true );
+        ui.m_OpenAudioFileButton->setVisible( true );
 	}
 }
 
@@ -378,4 +359,58 @@ void AppletPlayerNlc::updateRecentListVisibility( void )
 void AppletPlayerNlc::slotFileWasSelected( QString fileName )
 {
 	playSelectedMovie(fileName.toUtf8().constData());
+}
+
+//============================================================================
+void AppletPlayerNlc::slotOpenVideoFileButtonClick( void )
+{
+    std::string addFileDir;
+    m_MyApp.getAppSettings().getLastAddFileDir( addFileDir );
+    QString curDir;
+    if( !addFileDir.empty() )
+    {
+        curDir = addFileDir.c_str();
+    }
+    
+    std::string fileName;
+    if( GuiHelpers::browseForFile( this, eMediaFileVideo, fileName, curDir ) )
+    {
+        if( VxFileUtil::fileExists( fileName.c_str() ) )
+        {
+            std::string filePath;
+            std::string justFileName;
+            VxFileUtil::seperatePathAndFile(fileName, filePath, justFileName );
+            m_MyApp.getAppSettings().setLastAddFileDir( filePath );
+            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
+            
+            playSelectedMovie( fileName );
+        }
+    }
+}
+
+//============================================================================
+void AppletPlayerNlc::slotOpenAudioFileButtonClick( void )
+{
+    std::string addFileDir;
+    m_MyApp.getAppSettings().getLastAddFileDir( addFileDir );
+    QString curDir;
+    if( !addFileDir.empty() )
+    {
+        curDir = addFileDir.c_str();
+    }
+    
+    std::string fileName;
+    if( GuiHelpers::browseForFile( this, eMediaFileAudio, fileName, curDir ) )
+    {
+        if( VxFileUtil::fileExists( fileName.c_str() ) )
+        {
+            std::string filePath;
+            std::string justFileName;
+            VxFileUtil::seperatePathAndFile(fileName, filePath, justFileName );
+            m_MyApp.getAppSettings().setLastAddFileDir( filePath );
+            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
+            
+            playSelectedMovie( fileName );
+        }
+    }
 }

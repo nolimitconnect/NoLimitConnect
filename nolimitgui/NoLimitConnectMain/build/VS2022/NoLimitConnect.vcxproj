@@ -260,7 +260,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectListLocalView.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSearchPage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceAboutMe.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceAvatarImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceBaseSettings.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceConnectionTest.cpp" />

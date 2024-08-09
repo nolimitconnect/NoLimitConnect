@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>229</width>
-    <height>171</height>
+    <width>335</width>
+    <height>212</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -63,7 +63,7 @@
       </widget>
      </item>
      <item>
-      <widget class="VxPushButton" name="m_SelectFileButton">
+      <widget class="VxPushButton" name="m_OpenVideoFileButton">
        <property name="minimumSize">
         <size>
          <width>48</width>
@@ -77,7 +77,26 @@
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="VxPushButton" name="m_OpenAudioFileButton">
+       <property name="minimumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -96,7 +115,7 @@
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -115,7 +134,7 @@
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
       </widget>
      </item>

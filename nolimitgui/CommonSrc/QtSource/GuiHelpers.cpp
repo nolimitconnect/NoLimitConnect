@@ -269,6 +269,112 @@ bool GuiHelpers::browseForFile( QWidget* parent, std::string& retFileName, QStri
 }
 
 //============================================================================
+bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, std::string& retFileName, QString startDir )
+{
+    contentUrlToFileSystemPath( startDir );
+
+    listFilesInFolder( startDir.toUtf8().constData() );
+
+    QString title = QObject::tr( "Select Media File" );
+    QString supportedFileTypes = QObject::tr( "All Files (*.*)" );
+    switch( mediaFileType )
+    {
+    case eMediaFileVideo:
+        title = QObject::tr( "Select Video File" );
+        supportedFileTypes = QObject::tr( "Video Files (*.asf *.mpg *.mpeg *.mp4 *.3gp *.mov *.avi *.divx *.mkv *.wmv *.rm *.flv)" );
+        break;
+
+    case eMediaFileAudio:
+        title = QObject::tr( "Select Audio File" );
+        supportedFileTypes = QObject::tr( "Audio Files (*.mp3 *.wav *.wma *.ogg *.opus)" );
+        break;
+
+    case eMediaFileImage:
+        title = QObject::tr( "Select Image File" );
+        supportedFileTypes = QObject::tr( "Image Files (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tif *.tiff *.svg *.xbm *.xpm)" );
+        break;
+
+    default:
+        break;
+    }
+
+    QFileDialog dialog( parent, title, startDir );
+
+    dialog.setFileMode( QFileDialog::FileMode::ExistingFile );
+
+    dialog.setOptions( dialog.options() | QFileDialog::ReadOnly );
+
+    dialog.setNameFilter(supportedFileTypes);
+
+    QString selectedFile;
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+        if( fileNames.size() )
+        {
+            selectedFile = fileNames[0];
+        }
+    }
+
+    if( selectedFile.isEmpty() )
+    {
+        return false;
+    }
+
+    std::string realFileName = getRealFileName( selectedFile );
+
+
+    //std::string fullFileName = selectedFile.toUtf8().constData();
+
+    std::string fullFileName = realFileName;
+
+    if( !requestAndroidStoragePermissions())
+    {
+        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Access File "), fullFileName.c_str(), QMessageBox::Ok);
+        warnStorage.exec();
+        return false;
+    }
+
+    std::string decodedFileName = VxFileUtil::decodePercentEncodingAll( fullFileName );
+
+    VxFileUtil::makeForwardSlashPath( fullFileName );
+
+    if( !testCanReadFile( fullFileName ) )
+    {
+        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Read File 2"), decodedFileName.c_str(), QMessageBox::Ok);
+        warnStorage.exec();
+    }
+
+    /*
+    QFileInfo fileInfo(selectedFile);
+    QString absolutePath = fileInfo.absoluteFilePath();
+    QString conicalPath = fileInfo.canonicalFilePath();
+
+    std::filesystem::path absPath = fileInfo.filesystemAbsoluteFilePath();
+    std::filesystem::path conPath = fileInfo.filesystemCanonicalFilePath();
+
+    contentUrlToFileSystemPath( selectedFile );
+
+    LogMsg( LOG_VERBOSE, "sel %s \n absolute %s conical %s \n abs %s \n con %s",
+            selectedFile.toUtf8().constData(),
+           absolutePath.toUtf8().constData(),
+           conicalPath.toUtf8().constData(),
+           absPath.c_str(), conPath.c_str() );
+
+    retFileName = selectedFile.toUtf8().constData();
+
+
+
+    VxFileUtil::decodePercentEncodingOfSlash( retFileName );
+    VxFileUtil::makeForwardSlashPath( retFileName );
+*/
+
+    retFileName = fullFileName;
+    return !retFileName.empty();
+}
+
+//============================================================================
 uint64_t GuiHelpers::testCanReadFile( std::string fullFileName )
 {
     uint64_t fileLen = VxFileUtil::fileExists(fullFileName.c_str());
@@ -500,7 +606,6 @@ int GuiHelpers::calculateTextHeight( QFontMetrics& fontMetrics, QString textStr 
 bool GuiHelpers::isAppletAService( EApplet applet )
 {
     return ( ( eAppletServiceAboutMe == applet )
-             || ( eAppletServiceAvatarImage == applet )
              || ( eAppletServiceShareFiles == applet )
              || ( eAppletServiceShareWebCam == applet )
              || ( eAppletServiceAboutMe == applet )
@@ -533,7 +638,7 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
     case eAppletCamClient:                  return ePluginTypeCamServer;
     case eAppletAvatarImageClient:          return ePluginTypeClientPeerUser;
     case eAppletConnectionTestClient:       return ePluginTypeClientConnectTest;
-    case eAppletGroupClient:            return ePluginTypeHostGroup;
+    case eAppletGroupClient:                return ePluginTypeHostGroup;
     case eAppletHostGroupListingClient:     return ePluginTypeNetworkSearchList;
     case eAppletHostNetworkClient:          return ePluginTypeHostNetwork;
     case eAppletRandomConnectClient:        return ePluginTypeClientRandomConnect;
@@ -542,7 +647,7 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
     case eAppletFileShareClientView:        return ePluginTypeFileShareClient;
 
     case eAppletServiceAboutMe:              return ePluginTypeAboutMePageServer;
-    case eAppletServiceAvatarImage:          return ePluginTypeHostPeerUser;
+
     case eAppletServiceConnectionTest:       return ePluginTypeHostConnectTest;
     case eAppletChatRoomHostAdmin:           return ePluginTypeHostChatRoom;
     case eAppletGroupHostAdmin:              return ePluginTypeHostGroup;

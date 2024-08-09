@@ -44,6 +44,16 @@ enum EErrMsgType
     eMaxEErrMsgBoxType
 };
 
+enum EMediaFileType
+{
+    eMediaFileAny = 0,
+    eMediaFileVideo,
+    eMediaFileAudio,
+    eMediaFileImage,
+
+    eMaxMediaFileType
+};
+
 class ActivityBase;
 class AppCommon;
 class AppletBase;
@@ -73,6 +83,8 @@ public:
     static void                 listFilesInFolder( std::string folder, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE );
     static bool                 browseForFile( QWidget* parent, std::string& retFileName, QString startDir = "", uint8_t fileMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
     static bool                 browseForFile( QWidget* parent, FileInfo& retFileInfo, QString startDir = "", uint8_t fileMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    static bool                 browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, std::string& retFileName, QString startDir = "" );
+
     static uint64_t             testCanReadFile( std::string fullFileName );
 
     static QString              fileMaskToFileFilter( uint8_t fileMask );

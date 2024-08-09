@@ -348,5 +348,7 @@
         <file>Resources/play-extern.svg</file>
         <file>Resources/msg_state_fail_permission.png</file>
         <file>Resources/mediacontrol-stop.svg</file>
+        <file>Resources/arial.ttf</file>
+        <file>Resources/teletext.ttf</file>
     </qresource>
 </RCC>

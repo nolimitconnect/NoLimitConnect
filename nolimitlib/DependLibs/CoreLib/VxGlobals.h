@@ -55,6 +55,8 @@ enum EAppDir
     eAppDirThumbs,
     eAppDirCamRecord,
 
+	eAppDirFonts,
+
 	eMaxAppDir
 
 };
@@ -109,6 +111,8 @@ std::string&					VxGetRootUserDataDirectory( void );
 void							VxSetUserSpecificDataDirectory( const char* userDataDir  );
 std::string&					VxGetUserSpecificDataDirectory( void  );
 std::string&					VxGetSettingsDirectory( void );
+
+std::string&                    VxGetFontDirectory( void );
 
 std::string&					VxGetAboutMePageServerDirectory( void ); 
 std::string                     VxGetAboutMePageClientDirectory( VxGUID& onlineId );

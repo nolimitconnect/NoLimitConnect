@@ -2002,9 +2002,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceAboutMe.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceAvatarImage.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletServiceBase.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
