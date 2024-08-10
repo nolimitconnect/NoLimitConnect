@@ -488,10 +488,12 @@ list(APPEND player-nlc_SOURCES
 
     xbmc/utils/Speed.cpp
     xbmc/utils/SortUtils.cpp
-    xbmc/utils/StopWatch.cpp
+    xbmc/utils/Stopwatch.h
+    xbmc/utils/Stopwatch.cpp
     xbmc/utils/StreamDetails.cpp
     xbmc/utils/StreamUtils.cpp
     xbmc/utils/StringUtils2.cpp
+    xbmc/utils/SysfsUtils.cpp
     xbmc/utils/SystemInfo.cpp
 
     xbmc/utils/TextureUtils.h

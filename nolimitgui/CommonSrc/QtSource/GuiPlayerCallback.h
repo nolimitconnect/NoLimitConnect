@@ -21,6 +21,5 @@ class GuiPlayerCallback
 public:
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) = 0;
 	virtual void				callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame ) {};
-	virtual void				callbackGuiMediaPlayerNlcReady( bool isReady ) {};
 };
 

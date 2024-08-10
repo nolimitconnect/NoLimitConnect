@@ -41,17 +41,15 @@ public:
 	void						toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 );
 	virtual int				    toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight );
 
-	void						toGuiPlayerNlcReady( bool isReady );
+    //void						toGuiPlayerNlcReady( bool isReady );
 
 signals:
 	void						signalInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
 	void						signalInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 );
-	void						signalInternalPlayerNlcReady( bool isReady );
 
 protected slots:
 	void						slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
 	void						slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 );
-	void						slotInternalPlayerNlcReady( bool isReady );
 
 protected:
 	bool						m_VideoPlayClientsBusy{ false };

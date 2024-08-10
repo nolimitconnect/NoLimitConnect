@@ -9,12 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QWidget>
+
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/GroupieId.h>
-
-#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

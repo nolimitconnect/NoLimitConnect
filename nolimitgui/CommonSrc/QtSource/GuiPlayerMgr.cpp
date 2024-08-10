@@ -44,7 +44,6 @@ void GuiPlayerMgr::playerMgrStartup( void )
 {
 	connect( this, SIGNAL(signalInternalPlayVideoFrame(VxGUID,QImage*,int,int)), this, SLOT(slotInternalPlayVideoFrame(VxGUID,QImage*,int,int)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), this, SLOT(slotInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), Qt::QueuedConnection );
-	connect( this, SIGNAL(signalInternalPlayerNlcReady(bool)), this, SLOT(slotInternalPlayerNlcReady(bool)), Qt::QueuedConnection );
 }
 
 //============================================================================
@@ -252,20 +251,3 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 	return true;
 }
 
-//============================================================================
-void GuiPlayerMgr::slotInternalPlayerNlcReady( bool isReady )
-{
-	m_VideoPlayClientsBusy = true;
-	for( auto guiVidCallback : m_VideoPlayClients )
-	{
-		guiVidCallback->callbackGuiMediaPlayerNlcReady( isReady );
-	}
-
-	m_VideoPlayClientsBusy = false;
-}
-
-//============================================================================
-void GuiPlayerMgr::toGuiPlayerNlcReady( bool isReady )
-{
-	emit signalInternalPlayerNlcReady( isReady );
-}

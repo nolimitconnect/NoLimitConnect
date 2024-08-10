@@ -25,6 +25,7 @@
 #include <mutex>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 extern "C" {
 #include <libavfilter/avfilter.h>
@@ -567,6 +568,11 @@ static int64_t pts_dtoi( double pts )
 
 bool CDVDVideoCodecFFmpeg::AddData( const DemuxPacket& packet )
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return false;
+    }
+
 	if( !m_pCodecContext )
 		return true;
 
@@ -1155,6 +1161,7 @@ bool CDVDVideoCodecFFmpeg::GetPictureCommon( VideoPicture* pVideoPicture )
 
 int CDVDVideoCodecFFmpeg::FilterOpen( const std::string& filters, bool scale )
 {
+    return 0;
 	int result;
 
 	if( m_pFilterGraph )

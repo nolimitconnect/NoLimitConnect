@@ -142,7 +142,6 @@ protected:
 	virtual void				onBackButtonClicked( void ) override;
 
 private:
-	void						callbackGuiMediaPlayerNlcReady( bool isReady ) override;
 
 	//=== vars ===//
 	EAppModule					m_AppModule{ eAppModulePlayerNlc };

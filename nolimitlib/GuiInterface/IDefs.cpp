@@ -8,6 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QWidget>
+
 #include "IDefs.h"
 #include <CoreLib/VxDebug.h>
 

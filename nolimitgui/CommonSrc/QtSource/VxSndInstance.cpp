@@ -78,6 +78,7 @@ VxSndInstance::~VxSndInstance()
 //============================================================================
 void VxSndInstance::startPlay( bool loopContinuous )
 {
+    return;
 	if( ( eSndDefNone >= m_SndDef )
 		|| ( eMaxSndDef <= m_SndDef ) )
 	{

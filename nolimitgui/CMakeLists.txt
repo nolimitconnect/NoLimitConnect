@@ -31,15 +31,6 @@ list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS
 set(nlc_HEADERS)
 list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AccountMgr.h
-    ../nolimitlib/GuiInterface/IAudioInterface.h
-    ../nolimitlib/GuiInterface/ILog.h
-    ../nolimitlib/GuiInterface/INlcEvents.h
-    ../nolimitlib/GuiInterface/IFromGui.h
-    ../nolimitlib/GuiInterface/INlcGeometry.h
-    ../nolimitlib/GuiInterface/INlcRender.h
-    ../nolimitlib/GuiInterface/IScan.h
-    ../nolimitlib/GuiInterface/NlcRenderFrame.h
-    ../nolimitlib/GuiInterface/OsInterface/OsInterface.h
     AppCompilerConfig.h
     AppCpuArchDefines.h
     AppDependLibrariesConfig.h
@@ -1099,7 +1090,7 @@ if (DEFINED TARGET_OS_LINUX)
         CoreLib
         zlib
         crossguid
-        bz2
+
         aecm-webrtc
         miniaudio
         miniupnpc
@@ -1246,7 +1237,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             CoreLib
             zlib
             crossguid
-            bz2
+
             aecm-webrtc
             miniaudio
             miniupnpc
@@ -1323,7 +1314,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         CoreLib
         zlib
         crossguid
-        bz2
+
         aecm-webrtc
         miniaudio
         miniupnpc

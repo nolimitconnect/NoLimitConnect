@@ -78,19 +78,6 @@ void GuiMainLoaderThread::run()
     LogMsg( LOG_VERBOSE, "cache storage path %s disk space %s", appCachePath.c_str(), VxFileUtil::describeDiskSpace( appCachePath ).c_str() );
     LogMsg( LOG_VERBOSE, "user storage path %s disk space %s", userWriteablePath.c_str(), VxFileUtil::describeDiskSpace( userWriteablePath ).c_str() );
 
-    std::string fontDir = VxGetFontDirectory();
-    std::string defaultFont = fontDir + "arial.ttf";
-    if( false == VxFileUtil::fileExists( defaultFont.c_str() ) )
-    {
-        GuiHelpers::copyResourceToOnDiskFile( ":/AppRes/Resources/arial.ttf", defaultFont.c_str() );
-    }
-
-    std::string teletextFont = fontDir + "teletext.ttf";
-    if( false == VxFileUtil::fileExists( teletextFont.c_str() ) )
-    {
-        GuiHelpers::copyResourceToOnDiskFile( ":/AppRes/Resources/teletext.ttf", teletextFont.c_str() );
-    }
-
     bool result = IMediaPlayerRequests::getOsInterface().doPreStartup();
 
     result &= IMediaPlayerRequests::getOsInterface().initUserPaths( appCachePath, userWriteablePath );

@@ -88,6 +88,7 @@
 #include "settings/DisplaySettings.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <cmath>
 
@@ -1277,10 +1278,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 #endif
 
     case TMSG_START_ANDROID_ACTIVITY:
-    {
-
-    }
-    break;
+        break;
 
     case TMSG_NETWORKMESSAGE:
         //m_ServiceManager->GetNetwork().NetworkMessage( static_cast<CNetworkBase::EMESSAGE>(pMsg->param1),
@@ -1630,7 +1628,7 @@ int CApplication::Run()
     const unsigned int noRenderFrameTime = 15; // Simulates ~66fps
     onPlayerRunning( true );
     // Run the app
-    while( !m_bStop )
+    while( !m_bStop && !VxIsAppShuttingDown()  )
     {
         // Animate and render a frame
 

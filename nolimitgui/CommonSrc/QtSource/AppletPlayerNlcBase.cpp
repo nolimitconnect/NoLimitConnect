@@ -311,18 +311,6 @@ void AppletPlayerNlcBase::slotLeftMouseButtonClick( void )
 }
 
 //============================================================================
-void AppletPlayerNlcBase::callbackGuiMediaPlayerNlcReady( bool isReady )
-{
-	LogMsg( LOG_DEBUG, "%s %d", __func__, isReady );
-	if( isReady )
-	{
-		getRenderConsumer()->showAppIcon();
-	}
-
-	onMediaPlayerNlcReady( isReady );
-}
-
-//============================================================================
 void AppletPlayerNlcBase::fromMediaPlayerInitLevel( int level, bool success )
 {
 	emit signalInternalInitLevel( level, success );
@@ -343,7 +331,13 @@ void AppletPlayerNlcBase::fromMediaPlayerIsRunning( bool isRunning )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayerNlcIsRunning( bool isRunning )
 {
-	callbackGuiMediaPlayerNlcReady( isRunning );
+    LogMsg( LOG_DEBUG, "%s %d", __func__, isRunning );
+    if( isRunning )
+    {
+        getRenderConsumer()->showAppIcon();
+    }
+
+    onMediaPlayerNlcReady( isRunning );
 }
 
 //============================================================================

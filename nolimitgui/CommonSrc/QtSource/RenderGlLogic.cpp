@@ -38,6 +38,9 @@
 
 #include <QApplication>
 
+#include <GuiInterface/IMediaPlayerRequests.h>
+#include "MediaPlayerNlc.h"
+
 namespace
 {
     const int PROCESS_QT_DEFAULT_MS = 50;
@@ -64,6 +67,7 @@ void RenderGlLogic::aboutToDestroy()
     if( m_RenderPlayerNlcThread  )
     {
         LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waiting for thread" );
+        IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eAppModulePlayerNlc );
         VxTimer waitTimer;
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
         while( m_RenderPlayerNlcThread->isRunning() )

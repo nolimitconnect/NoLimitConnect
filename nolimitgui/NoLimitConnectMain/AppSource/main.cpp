@@ -38,7 +38,10 @@
 
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
+
 #include "AccountMgr.h"
+#include "GuiHelpers.h"
+
 #include <NetLib/VxPeerMgr.h>
 
 #include "MediaPlayerNlc.h"
@@ -208,6 +211,19 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     AppCommon& appCommon = CreateAppInstance( myApp );
 
     LogMsg( LOG_VERBOSE, "runApplication appCommon create complete" );
+
+    std::string fontDir = VxGetFontDirectory();
+    std::string defaultFont = fontDir + "arial.ttf";
+    if( false == VxFileUtil::fileExists( defaultFont.c_str() ) )
+    {
+        GuiHelpers::copyResourceToOnDiskFile( ":/AppRes/Resources/arial.ttf", defaultFont.c_str() );
+    }
+
+    std::string teletextFont = fontDir + "teletext.ttf";
+    if( false == VxFileUtil::fileExists( teletextFont.c_str() ) )
+    {
+        GuiHelpers::copyResourceToOnDiskFile( ":/AppRes/Resources/teletext.ttf", teletextFont.c_str() );
+    }
 
     if( !appCommon.loadWithoutThread() )
     {

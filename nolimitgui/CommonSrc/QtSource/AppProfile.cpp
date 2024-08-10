@@ -47,190 +47,88 @@ void AppProfile::loadProfile( void )
 	// if has ini file then use settings in it 
 	VxFileUtil::getExecuteDirectory( m_strExeDir );
 
-    uint32_t u32UseExeDir = 0;
+    //=== determine root path to store all application data and settings etc ===//
 
-#if 0 // BRJ no longer relevant
-    std::string strIniFileName = m_strExeDir + INI_FILE;
-	if( fileExists( strIniFileName.c_str() ) )
-	{
+    QString dataPath =  QStandardPaths::writableLocation(QStandardPaths::AppDataLocation );
 
-		m_u16TcpPort = (uint16_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"network",
-			"TcpPort",
-			0 );
-
-		m_u16UdpPort = (uint16_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"network",
-			"UdpPort",
-			0 );
-
-		getProfileString( 
-			strIniFileName.c_str(),
-			"network",
-			"LocalHostIp",
-			"",
-			m_strLocalHostIp );
-
-		m_u32EnableDebug = (uint32_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"debug",
-			"EnableDebug",
-			0 );
-
-		m_u32DisableUdp = (uint32_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"debug",
-			"DisableUdp",
-			0x0 );
-
-		m_u32LogFlags = (uint32_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"debug",
-			"LogFlags",
-			0x7fffffff );
-
-		m_u32LogToFile = (uint32_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"debug",
-			"LogToFile",
-			0 );
-
-		getProfileString( 
-			strIniFileName.c_str(),
-			"id",
-			"UserName",
-			"",
-			m_strUserName );
-
-		getProfileString( 
-			strIniFileName.c_str(),
-			"id",
-			"guid",
-			"",
-			m_strUserGuid );
-
-		getProfileString( 
-			strIniFileName.c_str(),
-			"id",
-			"network",
-			"",
-			m_strNetworkName );
-
-		m_u32NetServiceOnly = getProfileLong( 
-			strIniFileName.c_str(),
-			"netservices",
-			"NetServiceOnly",
-			0x0 );
-
-		u32UseExeDir = (uint32_t)getProfileLong( 
-			strIniFileName.c_str(),
-			"debug",
-			"UseExeDirectory",
-			0x0 );
-	}
-#endif // 0
-
-	if( u32UseExeDir )
-	{
-        m_strRootUserDataDir = m_strExeDir + VxGetApplicationNameNoSpacesLowerCase();
-		m_strRootUserDataDir += "/";
-		VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
-		m_strRootXferDir = m_strRootUserDataDir;
-
-		m_strRootUserDataDir += "data/";
-		VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
-
-		m_strRootXferDir  += "xfer/";
-		VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
-	}
-	else
-	{
-		//=== determine root path to store all application data and settings etc ===//
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-        QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-#else
-        QString dataPath =  QStandardPaths::writableLocation(QStandardPaths::AppDataLocation );
-#endif //TARGET_OS_WINDOWS
-		m_strRootUserDataDir = dataPath.toUtf8().constData();
+    m_strRootUserDataDir = dataPath.toUtf8().constData();
 
 #ifdef DEBUG
-		// remove the D from the end so release and debug builds use the same storage directory
-		if( !m_strRootUserDataDir.empty() && ( m_strRootUserDataDir.c_str()[m_strRootUserDataDir.length() - 1] == 'D' ) )
-		{
-			m_strRootUserDataDir = m_strRootUserDataDir.substr( 0, m_strRootUserDataDir.length() - 1 );
-		}
+    // remove the D from the end so release and debug builds use the same storage directory
+    if( !m_strRootUserDataDir.empty() && ( m_strRootUserDataDir.c_str()[m_strRootUserDataDir.length() - 1] == 'D' ) )
+    {
+        m_strRootUserDataDir = m_strRootUserDataDir.substr( 0, m_strRootUserDataDir.length() - 1 );
+    }
 #endif // DEBUG
 
-		VxFileUtil::makeForwardSlashPath( m_strRootUserDataDir );
-        VxFileUtil::assurePathEndWithSlash( m_strRootUserDataDir );
+    VxFileUtil::makeForwardSlashPath( m_strRootUserDataDir );
+    VxFileUtil::assurePathEndWithSlash( m_strRootUserDataDir );
 
-        VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
+    VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
 
-		m_NlcPathPrefix = "nlc/";
+    m_NlcPathPrefix = "";
 
-        VxFileUtil::assurePathEndWithSlash( m_strRootUserDataDir );
-        VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
-        if(!VxFileUtil::directoryExists(m_strRootUserDataDir.c_str()))
-        {
-            LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create root data dir %s", m_strRootUserDataDir.c_str());
-        }
+    VxFileUtil::assurePathEndWithSlash( m_strRootUserDataDir );
+    VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
+    if(!VxFileUtil::directoryExists(m_strRootUserDataDir.c_str()))
+    {
+        LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create root data dir %s", m_strRootUserDataDir.c_str());
+    }
 
-        m_strRootUserDataDir += m_NlcPathPrefix;
-        VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
-        if(!VxFileUtil::directoryExists(m_strRootUserDataDir.c_str()))
-        {
-            LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create prefixed root data dir %s", m_strRootUserDataDir.c_str());
-        }
+    m_strRootUserDataDir += m_NlcPathPrefix;
+    VxFileUtil::makeDirectory( m_strRootUserDataDir.c_str() );
+    if(!VxFileUtil::directoryExists(m_strRootUserDataDir.c_str()))
+    {
+        LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create prefixed root data dir %s", m_strRootUserDataDir.c_str());
+    }
 
-        // it made it a sub directory of DataLocation
-        VxSetRootDataStorageDirectory( m_strRootUserDataDir.c_str() );
+    // it made it a sub directory of DataLocation
+    VxSetRootDataStorageDirectory( m_strRootUserDataDir.c_str() );
 
-		VxSetRootUserDataDirectory( m_strRootUserDataDir.c_str() );
+    VxSetRootUserDataDirectory( m_strRootUserDataDir.c_str() );
 
-		//=== determine root path for data xfer like incomplete/downloads/uploads etc ===//
+    //=== determine root path for data xfer like incomplete/downloads/uploads etc ===//
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-	#ifdef TARGET_OS_WINDOWS
-			QString docsPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-	#else
-			// linux hides document under .local so use desktop if possible
-			QString docsPath = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
-			if( docsPath.isEmpty() )
-			{
-				docsPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-			}
-	#endif // TARGET_OS_WINDOWS		
+#ifdef TARGET_OS_WINDOWS
+        QString docsPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 #else
-    #if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
-        QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-	#else
-		// linux hides document under .local so use desktop if possible
-		QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-		if( docsPath.isEmpty() )
-		{
-			docsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-		}
-	#endif // TARGET_OS_WINDOWS		
+        // linux hides document under .local so use desktop if possible
+        QString docsPath = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
+        if( docsPath.isEmpty() )
+        {
+            docsPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+        }
+#endif // TARGET_OS_WINDOWS
+#else
+#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+    QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+#else
+    // linux hides document under .local so use desktop if possible
+    QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    if( docsPath.isEmpty() )
+    {
+        docsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    }
+#endif // TARGET_OS_WINDOWS
 #endif //QT_VERSION < QT_VERSION_CHECK
 
-		m_strRootXferDir = docsPath.toUtf8().constData();
+    m_strRootXferDir = docsPath.toUtf8().constData();
 
-		VxFileUtil::makeForwardSlashPath( m_strRootXferDir );
-        VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
+    VxFileUtil::makeForwardSlashPath( m_strRootXferDir );
+    VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
 
-        m_strRootXferDir += VxGetApplicationNameNoSpacesLowerCase();
-        VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
+    m_strRootXferDir += VxGetApplicationNameNoSpacesLowerCase();
+    VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
 
-		VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
-		m_strRootXferDir += m_NlcPathPrefix;
-        VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
-		VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
-        if(!VxFileUtil::directoryExists(m_strRootXferDir.c_str()))
-        {
-            LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create xfer dir %s", m_strRootXferDir.c_str());
-        }
-	}
+    VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
+    m_strRootXferDir += m_NlcPathPrefix;
+    VxFileUtil::assurePathEndWithSlash( m_strRootXferDir );
+    VxFileUtil::makeDirectory( m_strRootXferDir.c_str() );
+    if(!VxFileUtil::directoryExists(m_strRootXferDir.c_str()))
+    {
+        LogMsg( LOG_ERROR, "AppProfile::loadProfile Could not create xfer dir %s", m_strRootXferDir.c_str());
+    }
+
 
 	LogMsg( LOG_INFO, "User Data Dir %s Xfer Dir %s app data dir %s doc dir %s", 
 			m_strRootUserDataDir.c_str(),

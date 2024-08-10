@@ -30,10 +30,6 @@ AppModuleState::~AppModuleState()
 void AppModuleState::toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning )
 { 
     m_IsRunning[ appModule ] = isRunning; 
-    if( eAppModulePlayerNlc == appModule )
-    {
-        GetAppInstance().getPlayerMgr().toGuiPlayerNlcReady( isRunning );
-    }
 }
 
 //============================================================================
