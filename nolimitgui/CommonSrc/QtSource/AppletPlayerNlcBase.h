@@ -127,7 +127,7 @@ protected:
 	virtual void				updateGuiPlayControls( bool isPlaying );
 
 	void						startMediaPlay( int startPos );
-	void						stopMediaIfPlaying( void );
+    virtual void				stopMediaIfPlaying( void );
 
 	bool						waitForPlayerThread( void );
 
@@ -139,7 +139,10 @@ protected:
 	virtual void				onCanSeek( VxGUID& feedId, bool canSeek, bool canPause );
 	virtual void				onUpdatePlayPosition( VxGUID& feedId, int pos0to100000 );
 
-	virtual void				onBackButtonClicked( void ) override;
+    void                        onBackButtonClicked( void ) override;
+    void                        onActivityFinish( void ) override;
+
+    void                        onAboutToDestroyApplet( void );
 
 private:
 

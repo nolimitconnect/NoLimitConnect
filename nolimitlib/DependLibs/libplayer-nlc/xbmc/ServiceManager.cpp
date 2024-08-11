@@ -71,7 +71,7 @@ bool CServiceManager::InitStageOne()
     return true;
 }
 
-bool CServiceManager::InitStageTwo(const std::string& profilesUserDataFolder)
+bool CServiceManager::InitStageTwo()
 {
     // Initialize the addon database (must be before the addon manager is init'd)
     //m_databaseManager.reset( new CDatabaseManager );

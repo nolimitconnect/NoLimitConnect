@@ -128,11 +128,10 @@ protected:
 
     QImage                      m_LastRenderedImage;
 
-    bool                        m_RenderSystemReady = false;
-    bool                        m_RenderRunning = false;
-
-    bool                        m_exiting = false;
-    bool                        m_RenderWindowVisible = false;
+    bool                        m_RenderSystemReady{ false };
+    bool                        m_RenderRunning{ false };
+    bool                        m_RenderWindowVisible{ false };
+    bool                        m_AboutToDestroyCalled{ false };
 
     unsigned int                m_RenderThreadId = 0;
 };

@@ -262,6 +262,7 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	{
 		m_MyApp.toGuiStatusMessage( "" );
 		m_Engine.fromGuiAssetAction( eAssetActionPlayEnd, m_AssetInfo, 0 );
+
 		stopBusySpinner();
 	}
 
@@ -446,7 +447,16 @@ void AppletPlayerNlcBase::slotInternalUpdatePlayPosition( VxGUID feedId, int pos
 void AppletPlayerNlcBase::onBackButtonClicked( void )
 {
 	stopMediaIfPlaying();
+    onAboutToDestroyApplet();
 	AppletPlayerBase::onBackButtonClicked();
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onActivityFinish( void )
+{
+    stopMediaIfPlaying();
+    onAboutToDestroyApplet();
+    AppletPlayerBase::onActivityFinish();
 }
 
 //============================================================================
@@ -528,7 +538,7 @@ void AppletPlayerNlcBase::slotPlayPauseButtonClick( void )
 //============================================================================
 void AppletPlayerNlcBase::slotStopButtonClick( void )
 {
-	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
+    stopMediaIfPlaying();
 }
 
 //============================================================================
@@ -568,4 +578,10 @@ void AppletPlayerNlcBase::updateLastPlayedFile( void )
 		m_LastPlayedIsFile = true;
 		m_LastPlayedMedia = m_AssetInfo.getAssetName();
 	}
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onAboutToDestroyApplet( void )
+{
+    getRenderConsumer()->aboutToDestroy();
 }

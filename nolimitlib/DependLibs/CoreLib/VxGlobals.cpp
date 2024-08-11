@@ -47,21 +47,14 @@ namespace
     std::string			g_strAppPictures				= "";
     std::string			g_strAppDocuments				= "";
 
-	// exe paths
-    std::string			g_strAppExeDir                  = "";
-	std::string			g_strKodiExeDir				    = "";
-
-	// assets
-    std::string			g_strExeKodiAssetsDir           = "";
-	std::string			g_strExeNoLimitAssetsDir        = "";
-
 	// storage paths
 	std::string			g_strRootDataStorageDir         = "";
 	std::string			g_strAppTempDir                 = "";
 	std::string			g_strAppLogsDir                 = "";
 	std::string			g_strAppNoLimitDataDir          = "";
-	std::string			g_strAppKodiDataDir             = "";
-	std::string			g_strFontsDir					= "";
+    std::string			g_strPlayerNlcDataDir          = "";
+
+    std::string			g_strFontsDir					= "";
 
 	// user specific writable paths
 	std::string			g_strRootUserDataDir            = "";
@@ -107,12 +100,6 @@ void            VxSetNetworkHostUrl( const char* netHostUrl )       { g_strNetwo
 const char*     VxGetNetworkHostUrl( void )                         { return g_strNetworkHostUrl.c_str(); }
 
 // directory structure on disk
-// exe paths
-// /exe/								all executables including python
-// /exe/assets/kodi/system/Python/Lib	python libs path
-// /exe/assets/kodi/system/Python/DLLs	python dlls path
-// /exe/assets/kodi		kodi exe assets path
-//            /nolimit  no limit connect assets path
 
 // data storage paths linux      /home/user/.local/share/nolimitconnect
 //                    windows    C:\Users\user\AppData\Roaming\NoLimitConnect
@@ -120,18 +107,10 @@ const char*     VxGetNetworkHostUrl( void )                         { return g_s
 // /storage/nolimitconnect/temp/		temporary files path
 //                  /logs/		log files path
 //                  /nolimit/	ShredFilesDb.db3 and app generated files
-//                  /kodi/		kodi plugins and writable data directory
 //					/fonts/		fonts for subtitiles directory
-//                  /nolimit/gui/	gui assets
-//						 /shaders/ opengl shaders
-//                       /profile/ profile default files
-//                       /thumbs/ thumbnail assets directory
 //
-// user specific directories.. NOTE: hasnum is 4 digit hash of exe path and userId is user login name
-//                  /storage/NoLimitConnect/hashnum/accounts/userId/settings/		databases for user settings etc
-//									 /hashnum/accounts/userId/profile/		profile and story board user web pages
 // user xfer directories      
-//                  Documents Directory/NoLimitConnect/hashnum/userId/downloads
+//                  Documents Directory/NoLimitConnect/userId/downloads
 //																/uploads		uploading directory
 //																/incomplete		not yet completed downloads
 //																/me/			personal recordings
@@ -165,22 +144,6 @@ void VxSetAppDirectory( enum EAppDir appDir, std::string setDir )
             g_strAppDocuments = setDir;
             break;
 
-		// exe paths
-        case eAppDirAppExe:
-            g_strAppExeDir = setDir;
-            break;
-        case eAppDirKodiExe:
-            g_strKodiExeDir = setDir;
-            break;
-
-		// asset paths
-        case eAppDirExeKodiAssets:
-            g_strExeKodiAssetsDir = setDir;
-            break;
-        case eAppDirExeNoLimitAssets:
-            g_strExeNoLimitAssetsDir = setDir;
-            break;
-
 		// storage
         case eAppDirRootDataStorage:
             g_strRootDataStorageDir = setDir;
@@ -191,11 +154,13 @@ void VxSetAppDirectory( enum EAppDir appDir, std::string setDir )
         case eAppDirAppLogs:
             g_strAppLogsDir = setDir;
             break;
-        case eAppDirAppKodiData:
-            g_strAppKodiDataDir = setDir;
-            break;
+
         case eAppDirAppNoLimitData:
             g_strAppNoLimitDataDir = setDir;
+            break;
+
+        case eAppDirPlayerNlcData:
+            g_strPlayerNlcDataDir = setDir;
             break;
 
         case eAppDirRootUserData:
@@ -276,18 +241,6 @@ std::string& VxGetAppDirectory( EAppDir appDir )
     case eAppDocuments:
         return g_strAppDocuments;
 
-	// exe paths
-    case eAppDirAppExe:
-        return g_strAppExeDir;
-	case eAppDirKodiExe:
-		return g_strKodiExeDir;
-
-	// asset paths
-	case eAppDirExeKodiAssets:
-		return g_strExeKodiAssetsDir;
-	case eAppDirExeNoLimitAssets:
-		return g_strExeNoLimitAssetsDir;
-
 	// storage
 	case eAppDirRootDataStorage:
 		return g_strRootDataStorageDir;
@@ -295,10 +248,11 @@ std::string& VxGetAppDirectory( EAppDir appDir )
 		return g_strAppTempDir;
 	case eAppDirAppLogs:
 		return g_strAppLogsDir;
-	case eAppDirAppKodiData:
-		return g_strAppKodiDataDir;
+
 	case eAppDirAppNoLimitData:
 		return g_strAppNoLimitDataDir;
+    case eAppDirPlayerNlcData:
+        return g_strPlayerNlcDataDir;
 
 	case eAppDirRootUserData:
 		return g_strRootUserDataDir;
@@ -442,40 +396,20 @@ bool VxGetDebugLoggingEnable( void )
 //============================================================================
 //=== miscellaneous ===//
 //============================================================================
+
 //============================================================================
 //! set true if loop back is allowed ( default is false )
 void VxSetNetworkLoopbackAllowed( bool bIsLoopbackAllowed )
 {
-	g_bIsNetLoopbackAllowed = bIsLoopbackAllowed;
+    g_bIsNetLoopbackAllowed = bIsLoopbackAllowed;
 }
 
 //============================================================================
 //! return true if loop back is allowed
 bool VxIsNetworkLoopbackAllowed( void )
 {
-	return g_bIsNetLoopbackAllowed;
+    return g_bIsNetLoopbackAllowed;
 }
-
-//============================================================================
-//=== directories ===//
-//============================================================================
-void VxSetAppExeDirectory( const char* exeDir )
-{
-    g_strAppExeDir = exeDir;
-	VxFileUtil::assureTrailingDirectorySlash( g_strAppExeDir );
-	g_strExeNoLimitAssetsDir = g_strAppExeDir + "assets/nolimit/";
-}
-
-//============================================================================
-void VxSetKodiExeDirectory(const char* exeDir)
-{
-	g_strKodiExeDir = exeDir;
-	g_strExeKodiAssetsDir = g_strKodiExeDir + "assets/kodi/";
-}
-
-//============================================================================
-std::string& VxGetAppExeDirectory( void ) { return g_strAppExeDir; }
-std::string& VxGetKodiExeDirectory(void) { return g_strKodiExeDir; }
 
 //============================================================================
 void VxSetRootDataStorageDirectory(const char* rootDataDir)
@@ -493,8 +427,8 @@ void VxSetRootDataStorageDirectory(const char* rootDataDir)
 	g_strAppNoLimitDataDir = g_strRootDataStorageDir + "nolimit/";
 	VxFileUtil::makeDirectory(g_strAppNoLimitDataDir.c_str());
 
-	g_strAppKodiDataDir = g_strRootDataStorageDir + "kodi/";
-	VxFileUtil::makeDirectory( g_strAppKodiDataDir.c_str());
+    g_strPlayerNlcDataDir = g_strRootDataStorageDir + "playernlc/";
+    VxFileUtil::makeDirectory(g_strPlayerNlcDataDir.c_str());
 
 	g_strFontsDir = g_strRootDataStorageDir + "fonts/";
 	VxFileUtil::makeDirectory( g_strFontsDir.c_str());
@@ -507,7 +441,6 @@ std::string& VxGetRootDataStorageDirectory(void) { return g_strRootDataStorageDi
 std::string& VxGetAppTempDirectory(void) { return g_strAppTempDir; }
 std::string& VxGetAppLogsDirectory(void) { return g_strAppLogsDir; }
 std::string& VxGetAppNoLimitDataDirectory(void) { return g_strAppNoLimitDataDir; }
-std::string& VxGetAppKodiDataDirectory(void) { return g_strAppKodiDataDir; }
 std::string& VxGetAppThumbnailDirectory(void) { return g_strAppThumbsDir; }
 
 //============================================================================

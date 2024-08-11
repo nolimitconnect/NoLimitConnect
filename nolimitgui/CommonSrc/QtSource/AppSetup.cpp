@@ -73,10 +73,11 @@ void AppSetup::slotError( QString err )
 //============================================================================
 void AppSetupWorker::process()
 {
-    std::string srcPath = VxGetAppDirectory( eAppDirAppExe );
-    srcPath += "assets/";
-    std::string destPath = VxGetAppDirectory( eAppDirRootDataStorage );
+    //std::string srcPath = VxGetAppDirectory( eAppDirAppExe );
+    //srcPath += "assets/";
+    //std::string destPath = VxGetAppDirectory( eAppDirRootDataStorage );
     int64_t bytesCopied = 0;
-    RCODE rc = VxFileUtil::recursiveCopyDirectory( srcPath.c_str(), destPath.c_str(), bytesCopied );
+    //RCODE rc = VxFileUtil::recursiveCopyDirectory( srcPath.c_str(), destPath.c_str(), bytesCopied );
+    RCODE rc = 0;
     emit signalSetupResult( rc, bytesCopied );
 }

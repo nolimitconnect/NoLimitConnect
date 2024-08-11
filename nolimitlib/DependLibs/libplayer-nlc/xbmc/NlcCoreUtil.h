@@ -68,9 +68,7 @@ public:
 	static void					GetQualifiedFilename( const std::string &strBasePath, std::string &strFilename );
 	static void					RunShortcut( const char* szPath );
 
-	static std::string			GetExecutablePath( void );
-    static std::string          GetHomePath( std::string strTarget ); // default target is "KODI_HOME"
-  	//static void 				GetHomePath( std::string& strPath, const std::string& strTarget ); 
+    static std::string          GetHomePath( std::string strTarget );
 	static std::string 			GetHomePath();
 
 #if ENABLE_PVR

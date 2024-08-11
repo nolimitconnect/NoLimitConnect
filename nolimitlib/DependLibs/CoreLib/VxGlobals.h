@@ -25,17 +25,12 @@ enum EAppDir
 	eAppPictures,
 	eAppDocuments,
 
-	// assets
-	eAppDirAppExe,
-    eAppDirKodiExe,
-	eAppDirExeKodiAssets,
-	eAppDirExeNoLimitAssets,
-
 	eAppDirRootDataStorage,
 	eAppDirAppTempData,
 	eAppDirAppLogs,
-	eAppDirAppKodiData,
+
 	eAppDirAppNoLimitData,
+    eAppDirPlayerNlcData,
 
 	eAppDirRootUserData,
 
@@ -88,20 +83,12 @@ const char*						VxGetAppVersionString( void );
 void                            VxSetAppDirectory( enum EAppDir appDir, std::string setDir );
 std::string& 					VxGetAppDirectory( enum EAppDir appDir );
 
-// exe and app resource path	s
-void							VxSetAppExeDirectory( const char* exeDir );
-std::string&					VxGetAppExeDirectory( void );
-
-void							VxSetKodiExeDirectory( const char* exeDir );
-std::string&					VxGetKodiExeDirectory( void );
-
 // user writable directories	
 void							VxSetRootDataStorageDirectory( const char* rootDataDir );
 std::string&					VxGetRootDataStorageDirectory( void );
 
 std::string&					VxGetAppTempDirectory( void );
 std::string&					VxGetAppLogsDirectory( void );
-std::string&					VxGetAppKodiDataDirectory( void );
 std::string&					VxGetAppNoLimitDataDirectory( void );
 std::string&					VxGetAppThumbnailDirectory( void );
 

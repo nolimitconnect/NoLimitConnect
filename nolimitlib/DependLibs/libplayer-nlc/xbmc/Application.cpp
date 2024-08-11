@@ -385,17 +385,17 @@ bool CApplication::Create()
     }
 
     CLog::Log( LOGINFO, "creating subdirectories" );
-    const std::shared_ptr<CProfileManager> profileManager = settingsComponent->GetProfileManager();
-    const std::shared_ptr<CSettings> settings = settingsComponent->GetSettings();
-    CLog::Log( LOGINFO, "userdata folder: %s",
-               NlcUrl::GetRedacted( profileManager->GetProfileUserDataFolder() ).c_str() );
+    //const std::shared_ptr<CProfileManager> profileManager = settingsComponent->GetProfileManager();
+    //const std::shared_ptr<CSettings> settings = settingsComponent->GetSettings();
+    //CLog::Log( LOGINFO, "userdata folder: %s",
+    //           NlcUrl::GetRedacted( profileManager->GetProfileUserDataFolder() ).c_str() );
     //CLog::Log( LOGINFO, "recording folder: %s",
     //           NlcUrl::GetRedacted( settings->GetString( CSettings::SETTING_AUDIOCDS_RECORDINGPATH ) ).c_str() );
     //CLog::Log( LOGINFO, "screenshots folder: %s",
     //           NlcUrl::GetRedacted( settings->GetString( CSettings::SETTING_DEBUG_SCREENSHOTPATH ) ).c_str() );
-    CDirectory::Create( profileManager->GetUserDataFolder() );
-    CDirectory::Create( profileManager->GetProfileUserDataFolder() );
-    profileManager->CreateProfileFolders();
+    //CDirectory::Create( profileManager->GetUserDataFolder() );
+    //CDirectory::Create( profileManager->GetProfileUserDataFolder() );
+    //profileManager->CreateProfileFolders();
 
     //update_emu_environ();//apply the GUI settings
 
@@ -403,8 +403,7 @@ bool CApplication::Create()
     m_pAppPort = std::make_shared<CAppInboundProtocol>( *this );
     CServiceBroker::RegisterAppPort( m_pAppPort );
 
-    if( !m_ServiceManager->InitStageTwo(
-        settingsComponent->GetProfileManager()->GetProfileUserDataFolder() ) )
+    if( !m_ServiceManager->InitStageTwo() )
     {
         onInitLevel( 2, false );
         return false;
@@ -581,7 +580,7 @@ bool CApplication::Initialize()
     GUIFontManager& guiFontManager = g_fontManager;
     CServiceBroker::GetJobManager()->Submit( [&guiFontManager, &event]() {
         guiFontManager.Initialize();
-        event.Set();
+        //event.Set(); // TODO track down sometimes crash in notifyAll
                                              } );
 
     //CServiceBroker::GetRenderSystem()->ShowSplash( "" );
@@ -1820,7 +1819,11 @@ bool CApplication::Stop( int exitCode )
         //if( CVideoLibraryQueue::GetInstance().IsRunning() )
         //    CVideoLibraryQueue::GetInstance().CancelAllJobs();
 
-        CServiceBroker::GetAppMessenger()->Cleanup();
+        if( CServiceBroker::GetAppMessenger() )
+        {
+            CServiceBroker::GetAppMessenger()->Cleanup();
+        }
+
 
 #if defined(TARGET_DARWIN_OSX)
         if( XBMCHelper::GetInstance().IsAlwaysOn() == false )

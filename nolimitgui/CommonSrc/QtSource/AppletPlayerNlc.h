@@ -71,6 +71,8 @@ protected:
 	void						refreshRecentFilesComboBox( void );
 	void						updateRecentListVisibility( void );
 
+    void                        stopMediaIfPlaying( void ) override;
+
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi&		ui;
 	static VxFileList			m_RecentFiles;

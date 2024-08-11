@@ -1343,13 +1343,6 @@ RCODE	VxFileUtil::getExecuteFullPathAndName( std::string& strRetExePathAndFileNa
 //! Get directory we execute from
 RCODE	VxFileUtil::getExecuteDirectory( std::string& strRetExeDir )
 {
-	// try cached version first
-	strRetExeDir = VxGetAppExeDirectory();
-	if (!strRetExeDir.empty())
-	{
-		return 0;
-	}
-
 	std::string strRetExeFileName;
 	return getExecutePathAndName( strRetExeDir, strRetExeFileName );
 }

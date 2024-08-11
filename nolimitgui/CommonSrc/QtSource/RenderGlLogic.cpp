@@ -63,6 +63,13 @@ RenderGlLogic::RenderGlLogic( RenderGlWidget& renderWidget, QWidget* parent )
 //============================================================================
 void RenderGlLogic::aboutToDestroy()
 {
+    if(m_AboutToDestroyCalled)
+    {
+        // already called
+        return;
+    }
+
+    m_AboutToDestroyCalled = true;
     setRenderPlayerNlcThreadShouldRun( false );
     if( m_RenderPlayerNlcThread  )
     {

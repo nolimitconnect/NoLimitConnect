@@ -205,10 +205,9 @@ void AppletApplicationInfo::fillBasicInfo( void )
 
     infoMsg( "directories:" );
     infoMsg( "app data: %s", VxGetAppDirectory( eAppData ).c_str() );
-    infoMsg( "exe: %s", VxGetAppDirectory( eAppDirAppExe ).c_str() );
+
     infoMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
     infoMsg( "user: %s", VxGetAppDirectory( eAppDirUserSpecific ).c_str() );
-    infoMsg( "kodi: %s", VxGetAppDirectory( eAppDirExeKodiAssets ).c_str() );
 
     infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
     infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );

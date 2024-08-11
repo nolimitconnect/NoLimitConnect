@@ -60,7 +60,7 @@ public:
 
   bool InitForTesting();
   bool InitStageOne();
-  bool InitStageTwo(const std::string& profilesUserDataFolder);
+  bool InitStageTwo();
   bool InitStageThree(const std::shared_ptr<CProfileManager>& profileManager);
   void DeinitTesting();
   void DeinitStageThree();

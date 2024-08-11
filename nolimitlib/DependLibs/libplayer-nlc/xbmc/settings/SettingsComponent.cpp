@@ -62,6 +62,11 @@ bool CSettingsComponent::Load()
 {
   if (m_state == State::INITED)
   {
+      // no need to read setting files
+      CSpecialProtocol::RegisterProfileManager(*m_profileManager);
+      XFILE::IDirectory::RegisterProfileManager(*m_profileManager);
+      m_state = State::LOADED;
+      return true;
     if (!m_profileManager->Load())
     {
       CLog::Log(LOGFATAL, "unable to load profile");

@@ -149,7 +149,7 @@ void CSettingsBase::Uninitialize()
   UninitializeISettingCallbacks();
 
   // cleanup the settings manager
-  m_settingsManager->Clear();
+  //m_settingsManager->Clear();
 
   // unregister ISubSettings implementations
   UninitializeISubSettings();

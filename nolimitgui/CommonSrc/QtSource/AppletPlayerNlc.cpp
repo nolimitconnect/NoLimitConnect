@@ -126,7 +126,7 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 //============================================================================
 AppletPlayerNlc::~AppletPlayerNlc()
 {
-    stopMediaIfPlaying();
+
 }
 
 //============================================================================
@@ -413,4 +413,11 @@ void AppletPlayerNlc::slotOpenAudioFileButtonClick( void )
             playSelectedMovie( fileName );
         }
     }
+}
+
+//============================================================================
+void AppletPlayerNlc::stopMediaIfPlaying( void )
+{
+    AppletPlayerNlcBase::stopMediaIfPlaying();
+    IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
 }

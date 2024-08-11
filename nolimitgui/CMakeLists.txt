@@ -148,6 +148,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletPlayerPhoto.h
     CommonSrc/QtSource/AppletPlayerVideo.h
     CommonSrc/QtSource/AppletPlayerNlc.h
+    CommonSrc/QtSource/AppletPlayerNlcBase.h
     CommonSrc/QtSource/AppletPlayerStream.h
     CommonSrc/QtSource/AppletPopupMenu.h
     CommonSrc/QtSource/AppletRandomConnectHostAdmin.h
@@ -1361,12 +1362,6 @@ if(DEFINED FLATPAKBUILD)
     install(
         TARGETS nolimitconnect
         DESTINATION bin/
-    )
-
-    # Install assets needed by application
-    install(
-        DIRECTORY ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Linux/assets/kodi
-        DESTINATION assets
     )
 
     # Install desktop file

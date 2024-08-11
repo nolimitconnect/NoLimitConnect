@@ -432,14 +432,13 @@ void AppletTestAndDebug::fillBasicInfo( void )
     }
 
     infoMsg( "app data: %s", VxGetAppDirectory( eAppData ).c_str() );
-    infoMsg( "app exe directory: %s", VxGetAppDirectory( eAppDirAppExe ).c_str() );
+
     infoMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
     infoMsg( "personal records: %s", VxGetAppDirectory( eAppDirPersonalRecords ).c_str() );
     infoMsg( "downloads: %s", VxGetAppDirectory( eAppDirDownloads ).c_str() );
     infoMsg( "user account specific: %s", VxGetAppDirectory( eAppDirUserSpecific ).c_str() );
-    infoMsg( "nolimit assets: %s", VxGetAppDirectory( eAppDirExeNoLimitAssets ).c_str() );
+
     infoMsg( "thumbs: %s", VxGetAppDirectory( eAppDirThumbs ).c_str() );
-    infoMsg( "kodi assets: %s", VxGetAppDirectory( eAppDirExeKodiAssets ).c_str() );
 
     infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
     infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );

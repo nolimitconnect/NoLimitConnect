@@ -423,6 +423,8 @@ bool CProfileManager::DeleteProfile(unsigned int index)
 
 void CProfileManager::CreateProfileFolders()
 {
+    // no setting files needed
+    return;
   CDirectory::Create(GetDatabaseFolder());
   CDirectory::Create(GetCDDBFolder());
   CDirectory::Create(GetLibraryFolder());
@@ -435,8 +437,9 @@ void CProfileManager::CreateProfileFolders()
   for (size_t hex = 0; hex < 16; hex++)
     CDirectory::Create(URIUtils::AddFileToFolder(GetThumbnailsFolder(), StringUtils::Format("%lx", hex)));
 
-  CDirectory::Create("special://profile/addon_data");
-  CDirectory::Create("special://profile/keymaps");
+  // no addons or keyboard
+  //CDirectory::Create("special://profile/addon_data");
+  //CDirectory::Create("special://profile/keymaps");
 }
 
 const CProfile& CProfileManager::GetMasterProfile() const

@@ -209,28 +209,13 @@ char CUtil::GetPathSeperator( void )
 //========================================================================
 std::string  CUtil::GetHomePath( )
 {
-    //std::string strPath = CEnvironment::getenv( CCompileInfo::GetHomeEnvName() );
-    return VxFileUtil::makeKodiPath( VxGetAppDirectory( eAppDirAppKodiData ).c_str() );
-    //return GetHomePath( strPath );
+    return VxFileUtil::makeKodiPath( VxGetAppDirectory( eAppDirAppNoLimitData ).c_str() );
 }
 
 //========================================================================
 std::string  CUtil::GetHomePath( std::string strTarget )
 {
-    std::string strPath = VxGetAppDirectory( eAppDirAppKodiData );
- 
-    return strPath;
-}
-
-
-//========================================================================
-//========================================================================
-std::string CUtil::GetExecutablePath( void )
-{
-    // grab the executable path 
-    std::string strPath = VxGetAppDirectory( eAppDirKodiExe );
-
-    return strPath;
+    return VxGetAppDirectory( eAppDirAppNoLimitData );
 }
 
 //========================================================================
@@ -611,6 +596,8 @@ void CUtil::GetDVDDriveIcon( const std::string& strPath, std::string& strIcon )
 //========================================================================
 void CUtil::RemoveTempFiles()
 {
+    // NLC will remove temp files
+    return;
     const std::shared_ptr<CProfileManager> profileManager = CServiceBroker::GetSettingsComponent()->GetProfileManager();
     std::string searchPath = profileManager->GetDatabaseFolder();
     CFileItemList items;
