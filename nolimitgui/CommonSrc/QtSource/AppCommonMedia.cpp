@@ -185,7 +185,7 @@ void AppCommon::slotInternalMediaError( EAppModule appModule, EMediaError mediaE
 		return;
 	}
 
-	isBusy = true;
-	QMessageBox::warning(&getHomeWindow(), QObject::tr("Media Error"), msg);
-	isBusy = false;
+	//isBusy = true;
+	//QMessageBox::warning(&getHomeWindow(), QObject::tr("Media Error"), msg);
+	//isBusy = false;
 }

@@ -22,8 +22,7 @@ public:
 
     virtual void				fromMediaPlayerPlayFile( VxGUID& feedId ) = 0;
 
-    virtual void				fromMediaPlayerPlayStarted( VxGUID& feedId ) = 0;
-    virtual void				fromMediaPlayerStopPlaying( VxGUID& feedId ) = 0;
+    virtual void				fromMediaPlayerPlaybackStarted( VxGUID& feedId ) = 0;
     virtual void				fromMediaPlayerPlaybackStopped( VxGUID& feedId ) = 0;
 
     virtual void				fromMediaPlayerPlaybackEnded( VxGUID& feedId ) = 0;

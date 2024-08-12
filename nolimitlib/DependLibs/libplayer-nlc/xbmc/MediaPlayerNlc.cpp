@@ -7,13 +7,16 @@
 #include "ServiceBroker.h"
 #include "ServiceManager.h"
 
-#include "windowing/WinSystem.h"
-#include "windowing/GraphicContext.h"
+#include "messaging/ApplicationMessenger.h"
+#include "messaging/ThreadMessage.h"
 
 #include "settings/DisplaySettings.h"
 #include "settings/SettingsComponent.h"
 #include "settings/Settings.h"
 #include "settings/lib/SettingsManager.h"
+
+#include "windowing/WinSystem.h"
+#include "windowing/GraphicContext.h"
 
 #include <GuiInterface/IToGui.h>
 #include <GuiInterface/OsInterface/OsInterface.h>
@@ -22,7 +25,6 @@
 
 #include <CoreLib/VxDebug.h>
 
-//CAppParamParser MediaPlayerNlc::m_AppParamParser;
 
 //============================================================================
 MediaPlayerNlc& GetNlcPlayerInstance()
@@ -110,6 +112,7 @@ bool MediaPlayerNlc::fromThreadStartModule( EAppModule appModule )
 		}
 
 		m_ModuleIsRunning = true;
+		m_ModuleStopCalled = false;
 		getOsInterface().doRun( appModule ); // will stay in this function until kodi is shutdown
 		m_ModuleIsRunning = false;
 	}
@@ -122,7 +125,16 @@ bool MediaPlayerNlc::fromGuiStopModule( EAppModule appModule )
 {
 	if( eAppModulePlayerNlc == appModule && m_ModuleIsRunning )
 	{
-        Stop( 0 );
+        StopPlaying();
+		if( !m_ModuleStopCalled )
+		{
+			m_ModuleStopCalled = true;
+			m_ModuleIsInitialized = false;
+			if( !m_bStop && CServiceBroker::GetAppMessenger() )
+			{
+				CServiceBroker::GetAppMessenger()->PostMsg( TMSG_QUIT );
+			}           
+		}
 	}
 
 	return m_ModuleIsRunning;
@@ -212,7 +224,11 @@ bool MediaPlayerNlc::fromGuiMediaPlayerAction( EMediaPlayerAction playerAction )
 	bool result{ false };
 	if( eMediaPlayerActionPlayStop == playerAction )
 	{
-		StopPlaying();
+		if( m_ModuleIsRunning )
+		{
+			StopPlaying();
+		}
+		
 		return true;
 	}
 
@@ -228,6 +244,10 @@ bool MediaPlayerNlc::playAudioFile( int position0to100000 )
     assureInitialized();
 	const std::string audioPlayerName( "audiodefaultplayer" );
 	bool result = PlayFile( m_FileItem, audioPlayerName, false );
+	if( result )
+	{
+		setIsPlayingMedia( true );
+	}
 
 	return result;
 }
@@ -238,6 +258,11 @@ bool MediaPlayerNlc::playVideoFile( int position0to100000 )
     assureInitialized();
 	const std::string videoPlayerName( "videodefaultplayer" );
 	bool result = PlayFile( m_FileItem, videoPlayerName, false );
+	if( result )
+	{
+		setIsPlayingVideo( true );
+		setIsPlayingMedia( true );
+	}
 
 	return result;
 }
@@ -286,11 +311,10 @@ void MediaPlayerNlc::onPlayFile( void )
 //============================================================================
 void MediaPlayerNlc::onPlayStarted( void )
 {
-	setIsPlayingMedia( true );
 	lockClientList();
     for( auto client : m_MediaPlayerCallbackClients )
     {
-		client->fromMediaPlayerPlayStarted( m_FeedId );
+		client->fromMediaPlayerPlaybackStarted( m_FeedId );
     }
 
     unlockClientList();
@@ -299,13 +323,8 @@ void MediaPlayerNlc::onPlayStarted( void )
 //============================================================================
 void MediaPlayerNlc::onStopPlaying( void )
 {
-	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
-    {
-		client->fromMediaPlayerStopPlaying( m_FeedId );
-    }
-
-    unlockClientList();
+	setIsPlayingMedia( false );
+	setIsPlayingVideo( false );
 }
 
 //============================================================================
@@ -323,6 +342,7 @@ void MediaPlayerNlc::onPlaybackStopped( void )
 //============================================================================
 void MediaPlayerNlc::onPlaybackEnded( void )
 {
+	setIsPlayingVideo( false );
 	setIsPlayingMedia( false );
 	lockClientList();
     for( auto client : m_MediaPlayerCallbackClients )

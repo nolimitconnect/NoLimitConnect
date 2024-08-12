@@ -650,9 +650,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAboutMe.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAvatarImage.h">
-      <Filter>Header Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBase.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>

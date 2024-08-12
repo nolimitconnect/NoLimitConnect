@@ -854,7 +854,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceConnectionTest.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBaseSettings.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceBase.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAvatarImage.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletServiceAboutMe.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSearchPage.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectJoinSearch.h" />

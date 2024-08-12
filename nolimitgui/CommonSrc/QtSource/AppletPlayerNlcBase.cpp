@@ -50,7 +50,6 @@ void AppletPlayerNlcBase::initAppletPlayerNlcBase( void )
 	connect( this, SIGNAL(signalInternalPlayFile(VxGUID)), this, SLOT(slotInternalPlayFile(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayStarted(VxGUID)), this, SLOT(slotInternalPlayStarted(VxGUID)), Qt::QueuedConnection );
 
-	connect( this, SIGNAL(signalInternalStopPlaying(VxGUID)), this, SLOT(slotInternalStopPlaying(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlaybackStopped(VxGUID)), this, SLOT(slotInternalPlaybackStopped(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlaybackEnded(VxGUID)), this, SLOT(slotInternalPlaybackEnded(VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayPause(VxGUID,bool)), this, SLOT(slotInternalPlayPause(VxGUID,bool)), Qt::QueuedConnection );
@@ -87,6 +86,13 @@ void AppletPlayerNlcBase::hideEvent( QHideEvent* hideEvent )
 void AppletPlayerNlcBase::resizeEvent( QResizeEvent* ev )
 {
 	AppletBase::resizeEvent( ev );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::closeEvent( QCloseEvent* ev )
+{
+	AppletBase::closeEvent( ev );
+	onAboutToDestroyApplet();
 }
 
 //============================================================================
@@ -355,7 +361,7 @@ void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId )
 }
 
 //============================================================================
-void AppletPlayerNlcBase::fromMediaPlayerPlayStarted( VxGUID& feedId )
+void AppletPlayerNlcBase::fromMediaPlayerPlaybackStarted( VxGUID& feedId )
 {
 	emit signalInternalPlayStarted( feedId );
 }
@@ -365,19 +371,6 @@ void AppletPlayerNlcBase::slotInternalPlayStarted( VxGUID feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlayStarted( feedId );
-}
-
-//============================================================================
-void AppletPlayerNlcBase::fromMediaPlayerStopPlaying( VxGUID& feedId )
-{
-	emit signalInternalStopPlaying( feedId );
-}
-
-//============================================================================
-void AppletPlayerNlcBase::slotInternalStopPlaying( VxGUID feedId )
-{
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
-	onStopPlaying( feedId );
 }
 
 //============================================================================
@@ -447,7 +440,7 @@ void AppletPlayerNlcBase::slotInternalUpdatePlayPosition( VxGUID feedId, int pos
 void AppletPlayerNlcBase::onBackButtonClicked( void )
 {
 	stopMediaIfPlaying();
-    onAboutToDestroyApplet();
+    //onAboutToDestroyApplet();
 	AppletPlayerBase::onBackButtonClicked();
 }
 
@@ -467,15 +460,7 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 	updateGuiPlayControls( true );
 	resetPlayerControls();
 	setIsPlaying( true );
-	//IMediaPlayerRequests::getNlcPlayer().fromGuiGetCanSeek();
 	updateLastPlayedFile();
-}
-
-//============================================================================
-void AppletPlayerNlcBase::onStopPlaying( VxGUID& feedId )
-{
-	stopBusySpinner();
-	updateGuiPlayControls( false );
 }
 
 //============================================================================
@@ -584,4 +569,5 @@ void AppletPlayerNlcBase::updateLastPlayedFile( void )
 void AppletPlayerNlcBase::onAboutToDestroyApplet( void )
 {
     getRenderConsumer()->aboutToDestroy();
+	IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eAppModulePlayerNlc );
 }

@@ -109,6 +109,7 @@ public:
     virtual void                onPlayerRunning( bool isRunning ) = 0;
 
     virtual bool                getIsPlayingMedia( void ) = 0;
+    virtual bool                getIsPlayingVideo( void ) = 0;
 
     virtual void                setRenderWindowSize( int winWidth, int winHeight );
     virtual void                getRenderWindowSize( int& winWidth, int& winHeight );

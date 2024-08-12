@@ -61,9 +61,9 @@ RenderGlLogic::RenderGlLogic( RenderGlWidget& renderWidget, QWidget* parent )
 }
 
 //============================================================================
-void RenderGlLogic::aboutToDestroy()
+void RenderGlLogic::aboutToDestroy( void )
 {
-    if(m_AboutToDestroyCalled)
+    if( m_AboutToDestroyCalled )
     {
         // already called
         return;
@@ -71,10 +71,15 @@ void RenderGlLogic::aboutToDestroy()
 
     m_AboutToDestroyCalled = true;
     setRenderPlayerNlcThreadShouldRun( false );
+}
+
+//============================================================================
+void RenderGlLogic::waitForPlayerExit( void )
+{
     if( m_RenderPlayerNlcThread  )
     {
         LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waiting for thread" );
-        IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eAppModulePlayerNlc );
+        //IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eAppModulePlayerNlc );
         VxTimer waitTimer;
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
         while( m_RenderPlayerNlcThread->isRunning() )

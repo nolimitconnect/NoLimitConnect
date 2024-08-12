@@ -50,11 +50,11 @@ public:
 	void						fromMediaPlayerIsRunning( bool isRunning ) override;
 
 	void						fromMediaPlayerPlayFile( VxGUID& feedId ) override;
-	void						fromMediaPlayerPlayStarted( VxGUID& feedId ) override;
 
-	void						fromMediaPlayerStopPlaying( VxGUID& feedId ) override;
+	void						fromMediaPlayerPlaybackStarted( VxGUID& feedId ) override;
 	void						fromMediaPlayerPlaybackStopped( VxGUID& feedId ) override;
 	void						fromMediaPlayerPlaybackEnded( VxGUID& feedId ) override;
+
 	void						fromMediaPlayerPlayPause( VxGUID& feedId, bool isPaused ) override;
 
 	void						fromMediaPlayerCanSeek( VxGUID& feedId, bool canSeek, bool canPause ) override;
@@ -74,7 +74,6 @@ signals:
 	void						signalInternalPlayFile( VxGUID feedId );
 	void						signalInternalPlayStarted( VxGUID feedId );
 
-	void						signalInternalStopPlaying( VxGUID feedId );
 	void						signalInternalPlaybackStopped( VxGUID feedId );
 	void						signalInternalPlaybackEnded( VxGUID feedId );
 	void						signalInternalPlayPause( VxGUID feedId, bool isPaused );
@@ -88,7 +87,6 @@ protected slots:
 	void						slotInternalPlayFile( VxGUID feedId );
 	void						slotInternalPlayStarted( VxGUID feedId );
 
-	void						slotInternalStopPlaying( VxGUID feedId );
 	void						slotInternalPlaybackStopped( VxGUID feedId );
 	void						slotInternalPlaybackEnded( VxGUID feedId );
 	void						slotInternalPlayPause( VxGUID feedId, bool isPaused );
@@ -119,6 +117,7 @@ protected:
 	void						showEvent( QShowEvent* ev ) override;
 	void						hideEvent( QHideEvent* ev ) override;
 	void						resizeEvent( QResizeEvent* ev ) override;
+	void						closeEvent( QCloseEvent* ev ) override;
 
 	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
 	bool						playMediaFile( std::string fileStr, int pos0to100000, bool isStream );
@@ -132,7 +131,6 @@ protected:
 	bool						waitForPlayerThread( void );
 
 	virtual void				onPlayStarted( VxGUID& feedId );
-	virtual void				onStopPlaying( VxGUID& feedId );
 	virtual void				onPlaybackStopped( VxGUID& feedId );
 	virtual void				onPlaybackEnded( VxGUID& feedId );
 	virtual void				onPlayPause( VxGUID& feedId, bool isPaused );

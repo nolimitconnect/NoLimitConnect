@@ -70,7 +70,7 @@ RenderGlWidget::RenderGlWidget(QWidget* parent)
 RenderGlWidget::~RenderGlWidget()
 {
     m_QtToPlayerNlc.fromGuiCloseEvent();
-    aboutToDestroy();
+    waitForPlayerExit();
 }
 
 //============================================================================
@@ -157,7 +157,7 @@ void RenderGlWidget::closeEvent( QCloseEvent * ev )
 {
     m_QtToPlayerNlc.fromGuiCloseEvent();
     setRenderPlayerNlcThreadShouldRun(false);
-    aboutToDestroy();
+    //aboutToDestroy();
     QWidget::closeEvent( ev );
 }
 

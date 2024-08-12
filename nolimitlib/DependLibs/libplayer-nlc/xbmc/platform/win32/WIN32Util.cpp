@@ -352,7 +352,7 @@ std::string CWIN32Util::GetProfilePath()
   std::string strHomePath = CUtil::GetHomePath();
 
   //if( g_application.PlatformDirectoriesEnabled() )
-	  strProfilePath = VxFileUtil::makeKodiPath( VxGetAppKodiDataDirectory().c_str() ); //URIUtils::AddFileToFolder(GetSpecialFolder(CSIDL_APPDATA|CSIDL_FLAG_CREATE), CCompileInfo::GetAppName());
+	  strProfilePath = VxFileUtil::makeKodiPath( VxGetAppDirectory(eAppDirPlayerNlcData).c_str() ); //URIUtils::AddFileToFolder(GetSpecialFolder(CSIDL_APPDATA|CSIDL_FLAG_CREATE), CCompileInfo::GetAppName());
   //else
   //  strProfilePath = URIUtils::AddFileToFolder(strHomePath , "portable_data");
 

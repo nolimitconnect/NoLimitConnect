@@ -46,6 +46,7 @@
 #include <GuiInterface/INlcRender.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 
 using namespace std::chrono_literals;
@@ -452,6 +453,9 @@ void CRenderManager::UnInit()
 bool CRenderManager::Flush( bool wait, bool saveBuffers )
 {
     if( !m_pRenderer )
+        return true;
+
+    if( VxIsAppShuttingDown() )
         return true;
 
     if( g_application.IsCurrentThread() )

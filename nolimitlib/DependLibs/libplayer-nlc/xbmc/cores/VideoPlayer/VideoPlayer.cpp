@@ -80,6 +80,7 @@
 #include <GuiInterface/INlcRender.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 using namespace KODI::MESSAGING;
 using namespace std::chrono_literals;
@@ -676,14 +677,17 @@ CVideoPlayer::CVideoPlayer( IPlayerCallback& callback )
 
 CVideoPlayer::~CVideoPlayer()
 {
-    CServiceBroker::GetWinSystem()->Unregister( this );
-
-    CloseFile();
-    DestroyPlayers();
-
-    while( m_outboundEvents->IsProcessing() )
+    if( !VxIsAppShuttingDown() )
     {
-        CThread::Sleep( 10ms );
+        CServiceBroker::GetWinSystem()->Unregister( this );
+
+        CloseFile();
+        DestroyPlayers();
+
+        while( m_outboundEvents->IsProcessing() )
+        {
+            CThread::Sleep( 10ms );
+        }
     }
 }
 
@@ -737,7 +741,7 @@ bool CVideoPlayer::CloseFile( bool reopen )
     if( m_pInputStream )
         m_pInputStream->Abort();
 
-    m_renderManager.UnInit();
+    //BRJ m_renderManager.UnInit();
 
     CLog::Log( LOGNOTICE, "VideoPlayer: waiting for threads to exit" );
 
@@ -748,15 +752,6 @@ bool CVideoPlayer::CloseFile( bool reopen )
         CSingleExit exitlock( CServiceBroker::GetWinSystem()->GetGfxContext() );
         StopThread();
     }
-
-#if HAVE_ADDONS
-#if ENABLE_PVR
-    m_Edl.Clear();
-    CServiceBroker::GetDataCacheCore().SetEditList( m_Edl.GetEditList() );
-    CServiceBroker::GetDataCacheCore().SetCuts( m_Edl.GetCutMarkers() );
-    CServiceBroker::GetDataCacheCore().SetSceneMarkers( m_Edl.GetSceneMarkers() );
-#endif // ENABLE_PVR
-#endif // HAVE_ADDONS
 
     m_HasVideo = false;
     m_HasAudio = false;
@@ -2586,27 +2581,30 @@ void CVideoPlayer::OnExit()
     // subtitles are added from video player. after video player has finished, overlays have to be cleared.
     CloseStream( m_CurrentSubtitle, false );  // clear overlay container
 
-    CServiceBroker::GetWinSystem()->UnregisterRenderLoop( this );
+    if( CServiceBroker::GetWinSystem() )
+    {
+        CServiceBroker::GetWinSystem()->UnregisterRenderLoop( this );
+    }
 
     IPlayerCallback* cb = &m_callback;
-    CVideoSettings vs = m_processInfo->GetVideoSettings();
-    m_outboundEvents->Submit( [=]() {
-        cb->StoreVideoSettings( fileItem, vs );
-                              } );
+    //CVideoSettings vs = m_processInfo->GetVideoSettings();
+    //m_outboundEvents->Submit( [=]() {
+    //    cb->StoreVideoSettings( fileItem, vs );
+    //                          } );
 
-    CBookmark bookmark;
-    bookmark.totalTimeInSeconds = 0;
-    bookmark.timeInSeconds = 0;
-    if( m_State.startTime == 0 )
-    {
-        bookmark.totalTimeInSeconds = m_State.timeMax / 1000;
-        bookmark.timeInSeconds = m_State.time / 1000;
-    }
-    bookmark.player = m_name;
-    bookmark.playerState = GetPlayerState();
-    m_outboundEvents->Submit( [=]() {
-        cb->OnPlayerCloseFile( fileItem, bookmark );
-                              } );
+    //CBookmark bookmark;
+    //bookmark.totalTimeInSeconds = 0;
+    //bookmark.timeInSeconds = 0;
+    //if( m_State.startTime == 0 )
+    //{
+    //    bookmark.totalTimeInSeconds = m_State.timeMax / 1000;
+    //    bookmark.timeInSeconds = m_State.time / 1000;
+    //}
+    //bookmark.player = m_name;
+    //bookmark.playerState = GetPlayerState();
+    //m_outboundEvents->Submit( [=]() {
+    //    cb->OnPlayerCloseFile( fileItem, bookmark );
+    //                          } );
 
     // destroy objects
     m_renderManager.Flush( false, false );
@@ -2623,19 +2621,21 @@ void CVideoPlayer::OnExit()
 
     m_messenger.End();
 
-    //m_Nlc.getILog().clearFfmpegLogLevel();
     m_bStop = true;
 
-    bool error = m_error;
-    bool close = m_bCloseRequest;
-    m_outboundEvents->Submit( [=]() {
-        if( close )
-            cb->OnPlayBackStopped();
-        else if( error )
-            cb->OnPlayBackError();
-        else
-            cb->OnPlayBackEnded();
-                              } );
+    if( !VxIsAppShuttingDown() )
+    {
+        bool error = m_error;
+        bool close = m_bCloseRequest;
+        m_outboundEvents->Submit( [=]() {
+            if( close )
+                cb->OnPlayBackStopped();
+            else if( error )
+                cb->OnPlayBackError();
+            else
+                cb->OnPlayBackEnded();
+                                  } );
+    }
 }
 
 void CVideoPlayer::HandleMessages()

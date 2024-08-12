@@ -241,9 +241,11 @@ CApplication::CApplication( void )
 
 CApplication::~CApplication( void )
 {
-
-    DeregisterComponent( typeid(CApplicationPlayer) );
-    DeregisterComponent( typeid(CApplicationActionListeners) );
+    if( !VxIsAppShuttingDown() )
+    {
+        DeregisterComponent( typeid(CApplicationPlayer) );
+        DeregisterComponent( typeid(CApplicationActionListeners) );
+    }
 }
 
 bool CApplication::OnEvent( XBMC_Event& newEvent )
@@ -1188,14 +1190,10 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
         return; // no shutdown
     }
 
-    const auto appPlayer = GetComponent<CApplicationPlayer>();
-
     switch( msg )
     {
     case TMSG_POWERDOWN:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_POWERDOWN" );
-        //if( Stop( EXITCODE_POWERDOWN ) )
-        //    CServiceBroker::GetPowerManager().Powerdown();
         break;
 
     case TMSG_QUIT:
@@ -1205,22 +1203,19 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 
     case TMSG_SHUTDOWN:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SHUTDOWN" );
-        //GetComponent<CApplicationPowerHandling>()->HandleShutdownMessage();
         break;
 
     case TMSG_RENDERER_FLUSH:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_RENDERER_FLUSH" );
-        appPlayer->FlushRenderer();
+        GetComponent<CApplicationPlayer>()->FlushRenderer();
         break;
 
     case TMSG_HIBERNATE:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_HIBERNATE" );
-        // CServiceBroker::GetPowerManager().Hibernate();
         break;
 
     case TMSG_SUSPEND:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SUSPEND" );
-        //CServiceBroker::GetPowerManager().Suspend();
         break;
 
     case TMSG_RESTART:
@@ -1294,9 +1289,6 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     {
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_SWITCHTOFULLSCREEN" );
         CServiceBroker::GetWinSystem()->GetGfxContext().SetFullScreenVideo( true );
-        //CGUIComponent* gui = CServiceBroker::GetGUI();
-        //if( gui )
-        //    gui->GetWindowManager().SwitchToFullScreen( true );
         break;
     }
     case TMSG_VIDEORESIZE:
@@ -1307,7 +1299,6 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
         newEvent.resize.w = pMsg->param1;
         newEvent.resize.h = pMsg->param2;
         OnEvent( newEvent );
-        //CServiceBroker::GetGUI()->GetWindowManager().MarkDirty();
     }
     break;
 
@@ -1319,7 +1310,7 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
     case TMSG_TOGGLEFULLSCREEN:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_TOGGLEFULLSCREEN" );
         CServiceBroker::GetWinSystem()->GetGfxContext().ToggleFullScreen();
-        appPlayer->TriggerUpdateResolution();
+        GetComponent<CApplicationPlayer>()->TriggerUpdateResolution();
         break;
 
     case TMSG_MOVETOSCREEN:
@@ -1370,94 +1361,22 @@ void CApplication::OnApplicationMessage( ThreadMessage* pMsg )
 
     case TMSG_EXECUTE_BUILT_IN:
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_EXECUTE_BUILT_IN" );
-        //CBuiltins::GetInstance().Execute( pMsg->strParam );
         break;
 
     case TMSG_PICTURE_SHOW:
     {
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_PICTURE_SHOW" );
-        //CGUIWindowSlideShow* pSlideShow = CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIWindowSlideShow>( WINDOW_SLIDESHOW );
-        //if( !pSlideShow ) return;
 
         // stop playing file
-        if( appPlayer->IsPlayingVideo() )
+        if( GetComponent<CApplicationPlayer>()->IsPlayingVideo() )
             StopPlaying();
 
-        //if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_FULLSCREEN_VIDEO )
-        //    CServiceBroker::GetGUI()->GetWindowManager().PreviousWindow();
-
-        //const auto appPower = GetComponent<CApplicationPowerHandling>();
-        //appPower->ResetScreenSaver();
-        //appPower->WakeUpScreenSaverAndDPMS();
-
-        //if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() != WINDOW_SLIDESHOW )
-        //    CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow( WINDOW_SLIDESHOW );
-        //if( URIUtils::IsZIP( pMsg->strParam ) || URIUtils::IsRAR( pMsg->strParam ) ) // actually a cbz/cbr
-        //{
-        //    CFileItemList items;
-        //    NlcUrl pathToUrl;
-        //    if( URIUtils::IsZIP( pMsg->strParam ) )
-        //        pathToUrl = URIUtils::CreateArchivePath( "zip", NlcUrl( pMsg->strParam ), "" );
-        //    else
-        //        pathToUrl = URIUtils::CreateArchivePath( "rar", NlcUrl( pMsg->strParam ), "" );
-
-        //    CUtil::GetRecursiveListing( pathToUrl.Get(), items, CServiceBroker::GetFileExtensionProvider().GetPictureExtensions(), XFILE::DIR_FLAG_NO_FILE_DIRS );
-        //    if( items.Size() > 0 )
-        //    {
-        //        pSlideShow->Reset();
-        //        for( int i = 0; i < items.Size(); ++i )
-        //        {
-        //            pSlideShow->Add( items[i].get() );
-        //        }
-        //        pSlideShow->Select( items[0]->GetPath() );
-        //    }
-        //}
-        //else
-        //{
-        //    CFileItem item( pMsg->strParam, false );
-        //    pSlideShow->Reset();
-        //    pSlideShow->Add( &item );
-        //    pSlideShow->Select( pMsg->strParam );
-        //}
     }
     break;
 
     case TMSG_PICTURE_SLIDESHOW:
     {
         LogModule( eLogVideoIo, LOG_VERBOSE, "CApplication::OnApplicationMessage TMSG_PICTURE_SLIDESHOW" );
-        //CGUIWindowSlideShow* pSlideShow = CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIWindowSlideShow>( WINDOW_SLIDESHOW );
-        //if( !pSlideShow ) return;
-
-        //if( appPlayer->IsPlayingVideo() )
-        //    StopPlaying();
-
-        //pSlideShow->Reset();
-
-        //CFileItemList items;
-        //std::string strPath = pMsg->strParam;
-        //std::string extensions = CServiceBroker::GetFileExtensionProvider().GetPictureExtensions();
-        //if( pMsg->param1 )
-        //    extensions += "|.tbn";
-        //CUtil::GetRecursiveListing( strPath, items, extensions );
-
-        //if( items.Size() > 0 )
-        //{
-        //    for( int i = 0; i < items.Size(); ++i )
-        //        pSlideShow->Add( items[i].get() );
-        //    pSlideShow->StartSlideShow(); //Start the slideshow!
-        //}
-
-        //if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() != WINDOW_SLIDESHOW )
-        //{
-        //    //if( items.Size() == 0 )
-        //    //{
-        //    //    CServiceBroker::GetSettingsComponent()->GetSettings()->SetString( CSettings::SETTING_SCREENSAVER_MODE, "screensaver.xbmc.builtin.dim" );
-        //    //    GetComponent<CApplicationPowerHandling>()->ActivateScreenSaver();
-        //    //}
-        //    //else
-        //    //    CServiceBroker::GetGUI()->GetWindowManager().ActivateWindow( WINDOW_SLIDESHOW );
-        //}
-
     }
     break;
 
@@ -1642,13 +1561,13 @@ int CApplication::Run()
 
         if( renderGUI && !m_bStop )
         {
-            if( getIsPlayingMedia() )
+            if( getIsPlayingVideo() )
             {
                 Render();
             }
             else
             {
-                KODI::TIME::Sleep( std::chrono::milliseconds( 20 ) );
+                KODI::TIME::Sleep( std::chrono::milliseconds( 0 ) );
             }           
         }
         else if( !renderGUI )
@@ -2172,8 +2091,9 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
     //}
 
     options.fullscreen = true;
-    //const auto appVolume = GetComponent<CApplicationVolumeHandling>();
+
     appPlayer->OpenFile( item, options, m_ServiceManager->GetPlayerCoreFactory(), player, *this );
+
     //appPlayer->SetVolume( appVolume->GetVolumeRatio() );
     //appPlayer->SetMute( appVolume->IsMuted() );
 
@@ -2255,28 +2175,13 @@ bool CApplication::IsFullScreen()
 
 void CApplication::StopPlaying()
 {
-    CGUIComponent* gui = CServiceBroker::GetGUI();
-
-    if( gui )
+    if( GetComponent<CApplicationPlayer>() && GetComponent<CApplicationPlayer>()->IsPlaying() )
     {
-        //int iWin = gui->GetWindowManager().GetActiveWindow();
-        const auto appPlayer = GetComponent<CApplicationPlayer>();
-        if( appPlayer->IsPlaying() )
-        {
-            appPlayer->ClosePlayer();
 
-            //// turn off visualisation window when stopping
-            //if( (iWin == WINDOW_VISUALISATION ||
-            //      iWin == WINDOW_FULLSCREEN_VIDEO ||
-            //      iWin == WINDOW_FULLSCREEN_GAME) &&
-            //    !m_bStop )
-            //    gui->GetWindowManager().PreviousWindow();
+        GetComponent<CApplicationPlayer>()->ClosePlayer();
 
-            //g_partyModeManager.Disable();
-        }
+        onStopPlaying();
     }
-
-    onStopPlaying();
 }
 
 bool CApplication::OnMessage( CGUIMessage& message )

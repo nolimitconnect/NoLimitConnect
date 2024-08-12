@@ -28,6 +28,8 @@ public:
 
 	void						setIsPlayingMedia( bool isPlaying ) { m_IsPlayingMedia = isPlaying; }
 	bool						getIsPlayingMedia( void ) override { return m_IsPlayingMedia; }
+	void						setIsPlayingVideo( bool isPlaying ) { m_IsPlayingVideo = isPlaying; }
+	bool						getIsPlayingVideo( void ) override { return m_IsPlayingVideo; }
 
 	void						fromGuiInitCommandLine( int argc, char** argv ) override;
 
@@ -82,7 +84,10 @@ protected:
 
 	bool						m_ModuleIsInitialized{ false };
 	bool						m_ModuleIsRunning{ false };
+	bool						m_ModuleStopCalled{ false };
+	
 	bool						m_IsPlayingMedia{ false };
+	bool						m_IsPlayingVideo{ false };
 
 	std::vector<IMediaPlayerCallback*>    m_MediaPlayerCallbackClients;
     VxMutex						m_MediaPlayerCallbackMutex;

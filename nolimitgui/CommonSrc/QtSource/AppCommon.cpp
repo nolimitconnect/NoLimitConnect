@@ -393,6 +393,12 @@ void AppCommon::shutdownAppCommon( void )
         hasBeenShutdown = true;
         VxSetAppIsShuttingDown( true );
         fromGuiCloseEvent( eAppModuleAll );
+		ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
+		if( appPlayer )
+		{
+			// to force media player stop before exit application
+			appPlayer->onActivityFinish();
+		}
 
 		VxSleep( 1000 );
 		m_SoundMgr.sndMgrShutdown();

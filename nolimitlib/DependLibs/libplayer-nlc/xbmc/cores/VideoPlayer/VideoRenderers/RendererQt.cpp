@@ -48,6 +48,7 @@
 #include <GuiInterface/INlcRender.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 #if defined(__ARM_NEON__) && !defined(__LP64__)
 #include "yuv2rgb.neon.h"
@@ -651,19 +652,22 @@ void CRendererQt::ReleaseShaders()
 //============================================================================
 void CRendererQt::UnInit()
 {
-    CLog::Log( LOGDEBUG, "CRendererQt::UnInit: Cleaning up GL resources" );
-    CSingleLock lock( CServiceBroker::GetWinSystem()->GetGfxContext() );
+    if( !VxIsAppShuttingDown() )
+    {
+        CLog::Log( LOGDEBUG, "CRendererQt::UnInit: Cleaning up GL resources" );
+        CSingleLock lock( CServiceBroker::GetWinSystem()->GetGfxContext() );
 
-    glFinish();
+        glFinish();
 
-    // YV12 textures
-    for( int i = 0; i < NUM_BUFFERS; ++i )
-        DeleteTexture( i );
+        // YV12 textures
+        for( int i = 0; i < NUM_BUFFERS; ++i )
+            DeleteTexture( i );
 
-    // cleanup framebuffer object if it was in use
-    m_fbo.fbo.Cleanup();
-    m_bValidated = false;
-    m_bConfigured = false;
+        // cleanup framebuffer object if it was in use
+        m_fbo.fbo.Cleanup();
+        m_bValidated = false;
+        m_bConfigured = false;
+    }
 }
 
 //============================================================================

@@ -114,6 +114,7 @@ signals:
     void                        signalLeftMouseButtonClick();
 
 protected:
+    void                        waitForPlayerExit( void );
 
     RenderGlWidget&             m_RenderWidget;
     RenderGlShaders             m_RenderGlShaders;

@@ -124,11 +124,10 @@ void CServiceManager::DeinitStageTwo()
 
     m_dataCacheCore.reset();
 
-  m_mediaManager->Stop();
-  m_mediaManager.reset();
+    m_mediaManager->Stop();
+    m_mediaManager.reset();
 
     m_Platform.reset();
-    //m_databaseManager.reset();
 }
 
 void CServiceManager::DeinitStageOne()
