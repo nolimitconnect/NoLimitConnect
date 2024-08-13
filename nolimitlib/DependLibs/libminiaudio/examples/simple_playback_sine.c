@@ -52,9 +52,6 @@ int main(int argc, char** argv)
     ma_device device;
     ma_waveform_config sineWaveConfig;
 
-    sineWaveConfig = ma_waveform_config_init(DEVICE_FORMAT, DEVICE_CHANNELS, DEVICE_SAMPLE_RATE, ma_waveform_type_sine, 0.2, 220);
-    ma_waveform_init(&sineWaveConfig, &sineWave);
-
     deviceConfig = ma_device_config_init(ma_device_type_playback);
     deviceConfig.playback.format   = DEVICE_FORMAT;
     deviceConfig.playback.channels = DEVICE_CHANNELS;
@@ -68,6 +65,9 @@ int main(int argc, char** argv)
     }
 
     printf("Device Name: %s\n", device.playback.name);
+
+    sineWaveConfig = ma_waveform_config_init(device.playback.format, device.playback.channels, device.sampleRate, ma_waveform_type_sine, 0.2, 220);
+    ma_waveform_init(&sineWaveConfig, &sineWave);
 
     if (ma_device_start(&device) != MA_SUCCESS) {
         printf("Failed to start playback device.\n");
@@ -83,6 +83,7 @@ int main(int argc, char** argv)
 #endif
     
     ma_device_uninit(&device);
+    ma_waveform_uninit(&sineWave);  /* Uninitialize the waveform after the device so we don't pull it from under the device while it's being reference in the data callback. */
     
     (void)argc;
     (void)argv;
