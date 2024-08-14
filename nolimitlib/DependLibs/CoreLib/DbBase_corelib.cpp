@@ -580,7 +580,7 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 	bool				incrExStep			= true;
 	bool				paramObtained		= false;
 	const char*			srcStr				= "DbBase:sqlite3_exec: error";
-	DbBindParam*		pBindParam;
+	DbBindParam*		pBindParam{ nullptr };
 	RCODE				expectedResult		= SQLITE_OK;
 	RCODE				retVal				= SQLITE_OK;
     RCODE				result				= 0;

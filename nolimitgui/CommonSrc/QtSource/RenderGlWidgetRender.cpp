@@ -19,6 +19,7 @@
 #include <GuiInterface/NlcRenderFrame.h>
 
 #include <CoreLib/VxTimeUtil.h>
+#include <CoreLib/VxThread.h>
 
 #include "rendering/MatrixGL.h"
 
@@ -45,9 +46,7 @@
 // if never gets called then kodi failed to initialize and is a fatal error
 bool RenderGlWidget::initRenderSystem()
 {
-#ifdef DEBUG_RENDER_THREADS
     setRenderThreadId( VxGetCurrentThreadId() );
-#endif // DEBUG_RENDER_THREADS
 
     RenderGlLogic::initRenderGlSystem();
 

@@ -118,14 +118,12 @@ void RenderGlWidget::paintEvent( QPaintEvent * ev )
     }
 }
 
-
 //============================================================================
 void RenderGlWidget::handleGlResize( int width, int height )
 {
     LogMsg( LOG_DEBUG, "handleGlResize x(%d) y(%d)", width, height );
     if( width > 1 && height > 1 )
     {
-
         QSize screenSize = QSize( width, height );
         if( screenSize != m_ScreenSize )
         {
@@ -142,6 +140,7 @@ void RenderGlWidget::handleGlResize( int width, int height )
 void RenderGlWidget::showEvent( QShowEvent* ev )
 {
     QWidget::showEvent( ev );
+    
     setRenderWindowVisible( true );
 }
 
@@ -166,7 +165,12 @@ void RenderGlWidget::resizeEvent( QResizeEvent* ev )
 {
     QWidget::resizeEvent( ev );
 
-    handleGlResize( ev->size().width(), ev->size().height() );
+    if( ev->size().width() > 1 && ev->size().height() > 1 )
+    {
+        handleGlResize( ev->size().width(), ev->size().height() );
+        m_ScreenSize = QSize( ev->size().width(), ev->size().height() );
+        IMediaPlayerRequests::getNlcPlayer().fromGuiRenderWindowResize( eAppModulePlayerNlc, m_ScreenSize.width(), m_ScreenSize.height() );
+    }
 }
 
 //============================================================================
@@ -206,6 +210,7 @@ void RenderGlWidget::keyReleaseEvent( QKeyEvent * ev )
 //============================================================================
 void RenderGlWidget::mousePressEvent( QMouseEvent * ev )
 {
+    QWidget::mousePressEvent( ev );
     // takeSnapshot();
     //if( !m_QtToPlayerNlc.fromGuiMousePressEvent( ev->position().x(), ev->position().y(), ev->button() ) )
     //{
@@ -221,6 +226,7 @@ void RenderGlWidget::mousePressEvent( QMouseEvent * ev )
 //============================================================================
 void RenderGlWidget::mouseReleaseEvent( QMouseEvent * ev )
 {
+    QWidget::mouseReleaseEvent( ev );
     //if( !m_QtToPlayerNlc.fromGuiMouseReleaseEvent( ev->position().x(), ev->position().y(), ev->button() ) )
     //{
     //    QWidget::mouseReleaseEvent( ev );
@@ -230,6 +236,7 @@ void RenderGlWidget::mouseReleaseEvent( QMouseEvent * ev )
 //============================================================================
 void RenderGlWidget::mouseMoveEvent( QMouseEvent * ev )
 {
+    QWidget::mouseMoveEvent( ev );
     //if( !m_QtToPlayerNlc.fromGuiMouseMoveEvent( ev->position().x(), ev->position().y() ) )
     //{
     //    QWidget::mouseMoveEvent( ev );

@@ -141,9 +141,7 @@ bool RenderGlOffScreenSurface::beginRenderGl()
         m_Glf->glViewport( 0, 0, getSurfaceSize().width(), getSurfaceSize().height() );
     }
 
-    //glClearColor(   0, 0, 1, 1 );
     getGlFunctions()->glClearColor( 0.2f, 0.1f, 0.2f, 1.0f );
-
 
     // testTexureRender( true );
     return true;
@@ -165,11 +163,10 @@ void RenderGlOffScreenSurface::presentRenderGl( bool rendered, bool videoLayer )
     // endRender
     // presentRender
 
-    // LogMsg( LOG_DEBUG, " RenderGlOffScreenSurface::endRender swapBuffers" );
     if( isValid() )
     {
         // make sure all paint operation have been processed
-        // m_functions->glFlush();
+        // m_functions->glFlush(); // not neccessary
 
         if( rendered )
         {
@@ -188,16 +185,15 @@ void RenderGlOffScreenSurface::presentRenderGl( bool rendered, bool videoLayer )
                 //LogMsg( LOG_DEBUG, "new image %d", cnt );
                 lastImage = image;
             }
-
+            
             m_RenderGlLogic->setLastRenderedImage( image );
-            m_RenderGlLogic->VerifyGLStateQt();
+
             //swapBuffers(); // broken do not use
 
             checkForSizeChange();
             m_RenderGlLogic->VerifyGLStateQt();
 
 			//doneCurrent(); // broken do not use
-            //m_RenderGlLogic->VerifyGLStateQt();
         }
 
         //LogMsg( LOG_DEBUG, " RenderGlOffScreenSurface::presentRender done size x(%d) y(%d)", m_SurfaceSize.width(), m_SurfaceSize.height() );
@@ -307,7 +303,7 @@ void RenderGlOffScreenSurface::setRenderFunctions( QOpenGLFunctions * glFunction
 /// @brief  change surface size in thread if required
 void RenderGlOffScreenSurface::checkForSizeChange()
 {
-    if( m_NextSurfaceSize != m_SurfaceSize )
+    if( m_NextSurfaceSize != m_SurfaceSize && m_NextSurfaceSize.width() > 1 && m_NextSurfaceSize.height() > 1 )
     {
         m_SurfaceSize = m_NextSurfaceSize;
 
@@ -534,6 +530,7 @@ void RenderGlOffScreenSurface::swapBuffersInternal()
 //============================================================================
 void RenderGlOffScreenSurface::recreateFBOAndPaintDevice()
 {
+    updateSurfaceSize();
     if( m_RenderThreadContext && ( ( m_fbo == nullptr ) || ( m_fbo->size() != bufferSize() ) ) )
     {
         m_RenderThreadContext->makeCurrent( this );
@@ -641,3 +638,14 @@ QSize RenderGlOffScreenSurface::bufferSize() const
     return ( m_SurfaceSize );
 }
 
+//============================================================================
+bool RenderGlOffScreenSurface::updateSurfaceSize()
+{
+    if( m_SurfaceSize != m_NextSurfaceSize && m_NextSurfaceSize.width() > 1 && m_NextSurfaceSize.height() > 1 )
+    {
+        m_SurfaceSize = m_NextSurfaceSize;
+        return true;
+    }
+
+    return false;
+}

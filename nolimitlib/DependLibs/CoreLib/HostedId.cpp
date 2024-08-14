@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "HostedId.h"
-#include <CoreLib/PktBlobEntry.h>
+#include "PktBlobEntry.h"
 
 //============================================================================
 HostedId::HostedId( VxGUID& onlineId, EHostType hostType )

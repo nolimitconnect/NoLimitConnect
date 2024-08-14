@@ -148,6 +148,8 @@ protected:
     /// @brief get gl function
     QOpenGLExtraFunctions *     getGlExtraFunctions() { return m_GlfExtra; }
 
+    bool                        updateSurfaceSize();
+
 public slots:
     /// @brief Lazy update routine like QWidget::update().
     void                        update();

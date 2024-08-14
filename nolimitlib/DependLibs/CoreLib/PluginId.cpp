@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CoreLib/PluginId.h>
-#include <CoreLib/PktBlobEntry.h>
+#include "PluginId.h"
+#include "PktBlobEntry.h"
 
 //============================================================================
 PluginId::PluginId( VxGUID& onlineId, EPluginType pluginType )

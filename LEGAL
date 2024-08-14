@@ -73,8 +73,6 @@ This might not be a complete list.
  nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/LICENSE.GPL
  nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/fmt/LICENSE.rst
  nolimitapp/nolimitlib/DependLibs/libplayer-nlc/xbmc/interfaces/json-rpc/schema/license.txt
- nolimitapp/nolimitlib/DependLibs/libpng/LICENSE
- nolimitapp/nolimitlib/DependLibs/libpng/contrib/gregbook/LICENSE
  nolimitapp/nolimitlib/DependLibs/librapidjson/license.txt
  nolimitapp/nolimitlib/DependLibs/librapidjson/contrib/natvis/LICENSE
  nolimitapp/nolimitlib/DependLibs/libtheora/LICENSE
@@ -100,46 +98,3 @@ This might not be a complete list.
  nolimitapp/nolimitlib/DependLibs/libzlib/contrib/dotzlib/LICENSE_1_0.txt
  nolimitapp/nolimitlib/DependLibs/openssl-1.0.2p/LICENSE
 
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/pvr.mediaportal.tvserver/LICENSE.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/resource.images.weathericons.default/License.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/resource.images.weathericons.default/resources/License.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/service.xbmc.versioncheck/LICENSE.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/skin.estouchy/LICENSE.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/skin.estouchy/fonts/noto_license.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/skin.estuary/LICENSE.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/skin.estuary/extras/home-images/LICENSE
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/skin.estuary/fonts/noto_license.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/skin.estuary/fonts/roboto_license.txt
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/webinterface.default/lang/en/license.html
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/webinterface.default/lang/pl/license.html
- nolimitapp/nolimitgui/bin-Android/assets/kodi/addons/webinterface.default/themes/base/fonts/material/LICENSE.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/metadata.tvshows.themoviedb.org/LICENSE.TXT
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/resource.images.weathericons.default/License.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/resource.images.weathericons.default/resources/License.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/service.xbmc.versioncheck/LICENSE.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estouchy/LICENSE.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estouchy/fonts/noto_license.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estuary/LICENSE.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estuary/extras/home-images/LICENSE
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estuary/fonts/mardoto_license.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estuary/fonts/noto_license.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estuary/fonts/roboto_license.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/skin.estuary/media/windows/subtitles/flags/LICENSE.txt
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/webinterface.default/lang/en/license.html
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/webinterface.default/lang/pl/license.html
- nolimitapp/nolimitgui/bin-Linux/assets/kodi/addons/webinterface.default/themes/base/fonts/material/LICENSE.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/metadata.tvshows.themoviedb.org/LICENSE.TXT
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/resource.images.weathericons.default/License.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/resource.images.weathericons.default/resources/License.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/service.xbmc.versioncheck/LICENSE.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estouchy/LICENSE.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estouchy/fonts/noto_license.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estuary/LICENSE.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estuary/extras/home-images/LICENSE
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estuary/fonts/mardoto_license.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estuary/fonts/noto_license.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estuary/fonts/roboto_license.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/skin.estuary/media/windows/subtitles/flags/LICENSE.txt
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/webinterface.default/lang/en/license.html
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/webinterface.default/lang/pl/license.html
- nolimitapp/nolimitgui/bin-Windows/assets/kodi/addons/webinterface.default/themes/base/fonts/material/LICENSE.txt

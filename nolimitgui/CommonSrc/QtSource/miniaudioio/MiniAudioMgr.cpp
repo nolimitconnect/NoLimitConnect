@@ -13,7 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include <MediaProcessor/MediaProcessor.h>
+
 
 #include <QSurface>
 #include <qmath.h>
