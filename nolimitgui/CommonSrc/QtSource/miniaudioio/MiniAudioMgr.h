@@ -185,17 +185,12 @@ public:
     void                        processAudioThreaded( void );
     void                        processToSpeakerThreaded( void );
 
-    void                        addReadSpeakerCount( int readCnt )              { m_SpeakerReadSampleCnt += readCnt; }
-    void                        subtractReadSpeakerCount( int processedCnt ) 
-                                    { int val = m_SpeakerReadSampleCnt; if( val >= processedCnt ) m_SpeakerReadSampleCnt -= processedCnt; else m_SpeakerReadSampleCnt = 0; }
-    int                         getReadSpeakerCount( void )                     { return m_SpeakerReadSampleCnt; }
-
     void                        addEchoCanceledSamples( int16_t* pcmData, int sampleCnt );
 
     void                        clearAllBuffers();
 
-    void                        lockToSpeaker( void )                               { m_ToSpeakerMutex.lock(); }
-    void                        unlockToSpeaker( void )                             { m_ToSpeakerMutex.unlock(); }
+    void                        lockModuleMixerBuffer( void )                       { m_ModuleMixerMutex.lock(); }
+    void                        unlockModuleMixerBuffer( void )                     { m_ModuleMixerMutex.unlock(); }
 
     void                        lockSpeakerRead( void )                             { m_SpeakerReadMutex.lock(); }
     void                        unlockSpeakerRead( void )                           { m_SpeakerReadMutex.unlock(); }
@@ -205,6 +200,9 @@ public:
 
     void                        lockMicWriteBuffer( void )                          { m_AudioWriteMutex.lock(); }
     void                        unlockMicWriteBuffer( void )                        { m_AudioWriteMutex.unlock(); }
+
+    void                        lockEchoCanceledBuffer( void )                      { m_EchoCanceledBufMutex.lock(); }
+    void                        unlockEchoCanceledBuffer( void )                    { m_EchoCanceledBufMutex.unlock(); }
 
 signals:
     void                        signalNeedMoreAudioData( int requiredLen );
@@ -315,7 +313,7 @@ protected:
     VxMutex                     m_SpeakerReadMutex;
 
     std::map<EAppModule, AudioMixerBuf> m_AppModuleToSpeakerMap;
-    VxMutex                     m_ToSpeakerMutex;
+    VxMutex                     m_ModuleMixerMutex;
 
     AudioSampleBuf              m_PlayerCacheBuf;
     VxMutex                     m_PlayerCacheMutex;
@@ -326,9 +324,10 @@ protected:
     VxThread					m_ProcessAudioThread;
     VxSemaphore					m_ProcessAudioSemaphore;
 
-    std::atomic<int>            m_SpeakerReadSampleCnt{ 0 };
-
     bool                        m_PlayerNlcActive{ false };
 
     bool                        m_LastSpeakerRequestWasFullfilled{false};
+    int                         m_SpeakerRequestSize{0};
+
+    ma_context_config           m_ContextConfig;
 };

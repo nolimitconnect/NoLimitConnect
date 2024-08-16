@@ -166,15 +166,9 @@ int MiniAudioOut::callbackAudioRead( int16_t* pcmData, int sampleCnt )
         return 0;
     }
 
-    if( !pcmData )
+    if( !pcmData || !sampleCnt )
     {
-        LogMsg( LOG_ERROR, "MiniAudioOut::callbackAudioRead has null pcmData." );
-        return sampleCnt;
-    }
-
-    if( !sampleCnt )
-    {
-        LogMsg( LOG_ERROR, "MiniAudioOut::callbackAudioRead has 0 sampleCnt.");
+        LogMsg( LOG_ERROR, "MiniAudioOut::callbackAudioRead has null pcmData or sampleCnt." );
         return sampleCnt;
     }
 
@@ -325,7 +319,7 @@ int MiniAudioOut::callbackAudioRead( int16_t* pcmData, int sampleCnt )
     {
         m_PeakAudioOutAmplitude = AudioUtils::peakPcmAmplitude0to100( pcmData, sampleCnt );
     }
-    */
 
     return sampleCnt;
+    */
 }

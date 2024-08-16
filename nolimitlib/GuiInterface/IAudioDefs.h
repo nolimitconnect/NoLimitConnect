@@ -39,8 +39,8 @@ constexpr int AUDIO_BYTES_PER_SAMPLE = 2;			// PCM 2 bytes per sample
 
 // internal to application a frame is 60 ms
 constexpr int AUDIO_MS_PER_FRAME = 60;               // 60 ms = 0.06 sec of audio data (required to be a multiple of 960 samples per frame to play nice with opus)
-constexpr int AUDIO_SAMPLES_PER_FRAME = (ECHO_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000;	
-constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; 
+constexpr int AUDIO_SAMPLES_PER_FRAME = (ECHO_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000; // 960 samples
+constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; // 1,920 bytes
 
 constexpr int PLAYER_CACHE_FRAMES_CNT = 4; // how many frames of audio to cache for player
 

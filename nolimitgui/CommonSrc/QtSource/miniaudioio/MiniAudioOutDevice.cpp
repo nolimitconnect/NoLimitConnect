@@ -112,6 +112,16 @@ bool MiniAudioOutDevice::initalizeDevice( int deviceIndex, int sampleRate )
         ma_device_uninit( &m_MaDevice );
     }
     
+/*
+    int contextResult = ma_context_init(NULL, 0, NULL, &m_MaContext);
+    if (contextResult != MA_SUCCESS) {
+        LogMsg( LOG_ERROR, "%s Failed to initialize context.", __func__ );
+        return false;
+    }
+
+    m_MaContext.threadPriority = ma_thread_priority_realtime;
+    */
+    
     m_MaDeviceConfig = ma_device_config_init( ma_device_type_playback );
     m_MaDeviceConfig.playback.pDeviceID = m_AudioIoMgr.getAudioOutDeviceId( deviceIndex );
     m_MaDeviceConfig.playback.format = ma_format_s16;
@@ -121,8 +131,11 @@ bool MiniAudioOutDevice::initalizeDevice( int deviceIndex, int sampleRate )
     m_MaDeviceConfig.dataCallback = MiniAudioOutCallback;
     m_MaDeviceConfig.pUserData = this;
 
-    //m_MaDeviceConfig.periodSizeInMilliseconds = AUDIO_MS_PER_FRAME;
+    m_MaDeviceConfig.noPreSilencedOutputBuffer = true;
+    //m_MaDeviceConfig.performanceProfile = ma_performance_profile_conservative;
+    m_MaDeviceConfig.periodSizeInMilliseconds = AUDIO_MS_PER_FRAME % 3 ? AUDIO_MS_PER_FRAME / 2 : AUDIO_MS_PER_FRAME / 3;
 
+    //ma_result result = ma_device_init( &m_MaContext, &m_MaDeviceConfig, &m_MaDevice );
     ma_result result = ma_device_init( NULL, &m_MaDeviceConfig, &m_MaDevice );
     if( result != MA_SUCCESS ) 
     {
