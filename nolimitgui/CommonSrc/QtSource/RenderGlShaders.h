@@ -38,7 +38,7 @@ public:
     // shader method to string for debugging
     const char*                describeShaderMethod( ESHADERMETHOD method );
 
-    //virtual void                initialiseShaders();
+    //virtual void                initializeShaders();
     //virtual void                releaseShaders();
 
     bool                        enableShader( ESHADERMETHOD method );

@@ -13,7 +13,7 @@
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGUID.h>
-#include <CoreLib/Invite.h>
+
 #include <CoreLib/VxDebug.h>
 
 #include <stdio.h>

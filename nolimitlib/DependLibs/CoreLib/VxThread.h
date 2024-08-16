@@ -12,7 +12,7 @@
 #include "VxDefs.h"
 
 #ifndef TARGET_OS_WINDOWS
-	#include <libpthread/pthread.h>
+#include <libpthread/pthread.h>
 #endif // TARGET_OS_WINDOWS
 
 #define VX_FLAG_THREAD_ABORT		0x01

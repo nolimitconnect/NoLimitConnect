@@ -46,8 +46,10 @@ public:
 
     AppCommon&				    getMyApp() { return  m_MyApp; }
 
+    QSize                       getRenderWindowSize( void ) { return m_ScreenSize; }
+
     //! take a snapshot of current render
-    void                        takeSnapshot();
+    void                        takeSnapshot( void );
 
     void                        showAppIcon( void );
 
@@ -237,7 +239,7 @@ protected:
 
     GLuint                      m_TextureIds[ MAX_RENDER_PLANES ];
     GlTextureSize               m_TexSize[ MAX_RENDER_PLANES ];
-    bool                        m_TexturesInited = false;
+    bool                        m_TexturesInited{ false };
     GlTextureDescriptor         m_TexDescriptor;
     int                         m_MaxTextureSize = 2048;
 
@@ -250,6 +252,8 @@ protected:
 
 	// sizing window
     QSize                       m_ScreenSize;
-
+ 
     QMatrix4x4                  m_ColorMatrix;
+
+    bool                        m_RenderLogicInitialized{ false };
 };

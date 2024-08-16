@@ -107,7 +107,7 @@ public:
 
     void                        aboutToDestroy();
 
-    RenderPlayerNlcThread*      m_RenderPlayerNlcThread = nullptr;
+    RenderPlayerNlcThread*      m_RenderPlayerNlcThread{ nullptr };
 
 signals:
     void                        signalFrameRendered();
@@ -119,11 +119,11 @@ protected:
     RenderGlWidget&             m_RenderWidget;
     RenderGlShaders             m_RenderGlShaders;
 
-    QOpenGLContext *            m_ThreadGlContext = nullptr;
-    QOpenGLFunctions *          m_Glf = nullptr;
-    QOpenGLExtraFunctions *     m_GlfExtra = nullptr;
+    QOpenGLContext *            m_ThreadGlContext{ nullptr };
+    QOpenGLFunctions *          m_Glf{ nullptr };
+    QOpenGLExtraFunctions *     m_GlfExtra{ nullptr };
 
-    RenderGlOffScreenSurface *  m_RenderThreadSurface = nullptr;
+    RenderGlOffScreenSurface *  m_RenderThreadSurface{ nullptr };
 
     QMutex                      m_renderMutex;
 

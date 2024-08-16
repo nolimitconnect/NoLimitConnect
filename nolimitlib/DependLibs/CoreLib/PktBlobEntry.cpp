@@ -8,8 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CoreLib/PktBlobEntry.h>
-#include <CoreLib/PluginId.h>
+#include "PktBlobEntry.h"
+#include "PluginId.h"
 
 #include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VxGUID.h>

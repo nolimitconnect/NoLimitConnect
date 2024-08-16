@@ -103,10 +103,11 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogHostSearch
         //| eLogMediaStream
         | eLogPlayerNlc
-        | eLogFfmpeg
+        //| eLogFfmpeg
         | eLogAudioIo
         | eLogVideoIo
         );
+
 #elif defined(DEBUG) || defined(_DEBUG) || defined(FLATPAKBUILD)
     uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
