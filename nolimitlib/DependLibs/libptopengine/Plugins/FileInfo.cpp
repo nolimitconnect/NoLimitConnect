@@ -34,12 +34,9 @@ FileInfo::FileInfo()
 
 //============================================================================
 FileInfo::FileInfo( const FileInfo& rhs )
-    : m_OnlineId( rhs.m_OnlineId )
-    , m_FullFileName( rhs.m_FullFileName )
-    , m_ShortFileName( rhs.m_ShortFileName )
-    , m_s64FileLen( rhs.m_s64FileLen )
+    : VxFileInfoBase( rhs )
+    , m_OnlineId( rhs.m_OnlineId )
     , m_u32Attributes( rhs.m_u32Attributes )
-    , m_u8FileType( rhs.m_u8FileType )
     , m_FileHash( rhs.m_FileHash )
     , m_ContainedInDir( rhs.m_ContainedInDir )
     , m_AssetId( rhs.m_AssetId )
@@ -53,60 +50,58 @@ FileInfo::FileInfo( const FileInfo& rhs )
     assureValidAssetId();
 }
 
+//============================================================================
+FileInfo::FileInfo( const VxFileInfoBase& rhs )
+    : VxFileInfoBase( rhs )
+{
+
+}
 
 //============================================================================
-FileInfo::FileInfo( VxGUID& onlineId, const std::string& fileName )
-	: m_OnlineId( onlineId )
-	, m_FullFileName( fileName )
+FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str() )
+    , m_OnlineId( onlineId )
 { 
-	determineShortName();
+    determineFilePath();
 	assureValidAssetId();
 }
 
 //============================================================================
-FileInfo::FileInfo( VxGUID& onlineId, const std::string& fileName, uint64_t fileLen, uint8_t fileType )
-	: m_OnlineId( onlineId )
-	, m_FullFileName( fileName )
-	, m_s64FileLen(fileLen) 
+FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileType, fileLen )
+    , m_OnlineId( onlineId )
 	, m_u32Attributes(0) 
-	, m_u8FileType(fileType)
 	, m_ContainedInDir("")
 { 
-	determineShortName();
+    determineFilePath();
 	assureValidAssetId();
 }
 
 //============================================================================
-FileInfo::FileInfo( VxGUID& onlineId, const std::string& fileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId )
-	: m_OnlineId( onlineId ) 
-	, m_FullFileName( fileName )
-	, m_s64FileLen( fileLen )
-	, m_u8FileType( fileType )
+FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileType, fileLen )
+    , m_OnlineId( onlineId )
 	, m_AssetId( assetId )
 {
-	determineShortName();
+    determineFilePath();
 	assureValidAssetId(); // in case assetId is invalid
 }
 
 //============================================================================
-FileInfo::FileInfo( VxGUID& onlineId, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId, VxSha1Hash& sha1Hash )
-	: m_OnlineId( onlineId )
-	, m_FullFileName( fullFileName )
-	, m_s64FileLen( fileLen )
-	, m_u8FileType( fileType )
+FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId, VxSha1Hash& sha1Hash )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileType, fileLen )
+    , m_OnlineId( onlineId )
 	, m_FileHash( sha1Hash )
     , m_AssetId( assetId )
 {
-	determineShortName();
+    determineFilePath();
 	assureValidAssetId(); // in case assetId is invalid
 }
 
 //============================================================================
 FileInfo::FileInfo( AssetBaseInfo& assetInfo )
-	: m_OnlineId( assetInfo.getCreatorId() )
-	, m_FullFileName( assetInfo.getAssetName() )
-	, m_s64FileLen( assetInfo.getAssetLength() )
-	, m_u8FileType( (uint8_t)assetInfo.getAssetType() )
+    : VxFileInfoBase( assetInfo.getAssetName().c_str(), assetInfo.getAssetNameAndPath().c_str(), (uint8_t)assetInfo.getAssetType(), assetInfo.getAssetLength() )
+    , m_OnlineId( assetInfo.getCreatorId() )
 	, m_AssetId( assetInfo.getAssetUniqueId() )
 	, m_ThumbId( assetInfo.getThumbId() )
 	, m_FileTime( assetInfo.getCreationTime() )
@@ -115,7 +110,7 @@ FileInfo::FileInfo( AssetBaseInfo& assetInfo )
 	, m_IsStreaming( assetInfo.getIsStream() )
 {
 	setIsStream( assetInfo.getIsStream() );
-	determineShortName();
+    determineFilePath();
 	assureValidAssetId();
 }
 
@@ -129,10 +124,8 @@ FileInfo::FileInfo( AssetBaseInfo& assetInfo, VxSha1Hash& sha1Hash )
 
 //============================================================================
 FileInfo::FileInfo( OfferBaseInfo& offerInfo )
-	: m_OnlineId( offerInfo.getHistoryId() )
-	, m_FullFileName( offerInfo.getOfferName() )
-	, m_s64FileLen( offerInfo.getOfferLength() )
-	, m_u8FileType( (uint8_t)offerInfo.getOfferType() )
+	: VxFileInfoBase( offerInfo.getAssetName().c_str(), offerInfo.getAssetNameAndPath().c_str(), (uint8_t)offerInfo.getAssetType(), offerInfo.getAssetLength() )
+	, m_OnlineId( offerInfo.getHistoryId() )
 	, m_FileHash( offerInfo.getOfferHashId() )
     , m_AssetId( offerInfo.getOfferId() )
     , m_ThumbId( offerInfo.getThumbId() )
@@ -143,10 +136,8 @@ FileInfo::FileInfo( OfferBaseInfo& offerInfo )
 
 //============================================================================
 FileInfo::FileInfo( VxFileXferInfo& xferInfo, VxGUID onlineId )
-	: m_OnlineId( onlineId )
-	, m_FullFileName( xferInfo.getLclFileName() )
-	, m_s64FileLen( xferInfo.getFileLength() )
-	, m_u8FileType( VxFileUtil::fileExtensionToFileTypeFlag( xferInfo.getRmtFileName().c_str() ) )
+	: VxFileInfoBase( xferInfo.getRmtFileName().c_str(), xferInfo.getLclFileName().c_str(), (uint8_t)xferInfo.getAssetType(), xferInfo.getFileLength() )
+	, m_OnlineId( onlineId )
 	, m_FileHash( xferInfo.getFileHashId() )
     , m_AssetId( xferInfo.getAssetId() )
     , m_ThumbId()
@@ -160,12 +151,9 @@ FileInfo& FileInfo::operator=( const FileInfo& rhs )
 {	
     if( &rhs != this)
     {
+        getFileInfoBase()       = rhs;
         m_OnlineId				= rhs.m_OnlineId;
-        m_FullFileName			= rhs.m_FullFileName;
-        m_ShortFileName			= rhs.m_ShortFileName;
-        m_s64FileLen			= rhs.m_s64FileLen;
         m_u32Attributes			= rhs.m_u32Attributes;
-        m_u8FileType			= rhs.m_u8FileType;
         m_FileHash				= rhs.m_FileHash;
         m_ContainedInDir		= rhs.m_ContainedInDir;
         m_AssetId				= rhs.m_AssetId;
@@ -190,7 +178,7 @@ VxGUID& FileInfo::initializeNewXferSessionId( void )
 //============================================================================
 bool FileInfo::isValid( bool includeHashValid )
 {
-	bool valid = !m_FullFileName.empty() && !m_ShortFileName.empty() && m_s64FileLen && m_u8FileType && m_AssetId.isVxGUIDValid();
+    bool valid = !getFileNameAndPath().empty() && !getFileName().empty() && m_s64FileLen && m_u8FileType && m_AssetId.isVxGUIDValid();
 	if( includeHashValid )
 	{
 		valid &= m_FileHash.isHashValid();
@@ -200,68 +188,13 @@ bool FileInfo::isValid( bool includeHashValid )
 }
 
 //============================================================================
-void FileInfo::setFullFileName( std::string fileName )
+void FileInfo::setFileNameAndPath( std::string fileNameAndPath )
 {
-	if( !fileName.empty() )
+    if( !fileNameAndPath.empty() )
 	{
-		m_FullFileName = fileName;
-		determineShortName();
+        m_FileNameAndPath = fileNameAndPath;
+        determineFilePath();
 	}
-}
-
-//============================================================================
-bool FileInfo::determineShortName( std::string containingDir )
-{
-	bool result{ false };
-	m_ContainedInDir = containingDir;
-	std::string shortFileName{ "" };
-	if( !m_ContainedInDir.empty()
-		&& ( getFullFileName().length() > m_ContainedInDir.length() ) )
-	{
-		const char* lclFileName = getFullFileName().c_str();
-		shortFileName = &lclFileName[m_ContainedInDir.length()];
-		result = true;
-	}
-	else
-	{
-		std::string filePath;
-		RCODE rc = VxFileUtil::seperatePathAndFile( getFullFileName(),
-			filePath,
-			shortFileName );
-		if( 0 == rc )
-		{
-			m_ShortFileName = shortFileName;
-			result = true;
-		}
-		else
-		{
-			shortFileName = "";
-			if( !getFullFileName().empty() )
-			{
-				LogMsg( LOG_ERROR, "FileInfo::determineShortName failed error %d file %s", rc, getFullFileName().c_str() );
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "FileInfo::determineShortName failed error %d empty file name", rc );
-			}			
-		}
-	}
-
-	return result;
-}
-
-//============================================================================
-bool FileInfo::determineFullFileName( std::string containingDir )
-{
-	bool result{ false };
-	m_ContainedInDir = containingDir;
-	if( !m_ContainedInDir.empty() && !getShortFileName().empty() )
-	{
-		m_FullFileName = m_ContainedInDir + getShortFileName();
-		result = true;
-	}
-
-	return result && isValid( false );
 }
 
 //============================================================================
@@ -271,18 +204,18 @@ bool FileInfo::determineFilePath( void )
 	{
 		if( isDirectory() )
 		{
-			if( !m_FullFileName.empty() )
+            if( !getFileNameAndPath().empty() )
 			{
-				m_ContainedInDir = m_FullFileName;
+                m_ContainedInDir = getFileNameAndPath();
 			}
 		}
-		else if( !m_FullFileName.empty() )
+        else if( !getFileNameAndPath().empty() )
 		{
 			std::string fileName;
-			RCODE rc = VxFileUtil::seperatePathAndFile( getFullFileName(), m_ContainedInDir, fileName );
+            RCODE rc = VxFileUtil::seperatePathAndFile( getFileNameAndPath().c_str(), m_ContainedInDir, fileName );
 			if( 0 != rc || m_ContainedInDir.empty() )
 			{
-				LogMsg( LOG_ERROR, "FileInfo::determineFilePath Failed to get path from %s", getFullFileName().c_str() );
+                LogMsg( LOG_ERROR, "FileInfo::determineFilePath Failed to get path from %s", getFileNameAndPath().c_str() );
 			}
 		}
 	}
@@ -291,16 +224,15 @@ bool FileInfo::determineFilePath( void )
 }
 
 //============================================================================
-std::string& FileInfo::getFilePath( void )
+std::string FileInfo::getFilePath( void )
 {
 	determineFilePath();
-	return m_ContainedInDir;
-}
+	if( !m_ContainedInDir.empty() )
+	{
+		return m_ContainedInDir;
+	}
 
-//============================================================================
-bool FileInfo::isDirectory( void )
-{
-	return ( VXFILE_TYPE_DIRECTORY & m_u8FileType ) ? true : false;
+	return VxFileInfoBase::getFilePath();
 }
 
 //============================================================================
@@ -355,7 +287,7 @@ bool FileInfo::matchTextAndType( std::string& searchStr, uint8_t fileType )
 //============================================================================
 bool FileInfo::matchText( std::string& searchStr )
 {
-	return CaseInsensitiveFindSubstr( m_ShortFileName, searchStr ) >= 0;
+    return CaseInsensitiveFindSubstr( m_FileName, searchStr ) >= 0;
 }
 
 //============================================================================
@@ -363,7 +295,7 @@ int FileInfo::calcBlobLen( void )
 {
 	int blobLen{ 0 };
 	blobLen += sizeof( int64_t); // m_s64FileLen
-	blobLen += m_ShortFileName.length() + sizeof(uint32_t); // m_ShortFileName
+    blobLen += getFileName().length() + sizeof(uint32_t); // m_JustFileName
 	blobLen += sizeof( uint8_t ); // m_u8FileType
 	blobLen += sizeof( int64_t ); // m_FileTime
 	blobLen += sizeof( uint64_t ) * 4; // m_AssetId + m_ThumbId
@@ -375,7 +307,7 @@ int FileInfo::calcBlobLen( void )
 bool FileInfo::addToBlob( PktBlobEntry& blob )
 {
 	bool result = blob.setValue( m_s64FileLen ); 
-	result &= blob.setValue( m_ShortFileName );
+    result &= blob.setValue( m_FileName );
 	result &= blob.setValue( m_u8FileType );
 	result &= blob.setValue( m_FileTime );
 	result &= blob.setValue( m_AssetId );
@@ -388,7 +320,7 @@ bool FileInfo::addToBlob( PktBlobEntry& blob )
 bool FileInfo::extractFromBlob( PktBlobEntry& blob )
 {
 	bool result = blob.getValue( m_s64FileLen );
-	result &= blob.getValue( m_ShortFileName );
+    result &= blob.getValue( m_FileName );
 	result &= blob.getValue( m_u8FileType );
 	result &= blob.getValue( m_FileTime );
 	result &= blob.getValue( m_AssetId );

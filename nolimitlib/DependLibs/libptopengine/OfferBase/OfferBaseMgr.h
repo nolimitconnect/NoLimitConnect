@@ -52,7 +52,7 @@ public:
     virtual void				fromGuiUserLoggedOn( void );
 	virtual void				onPluginsInitialized( void );
 
-    virtual bool				fromGuiSetFileIsShared( std::string fileName, bool shareFile, uint8_t * fileHashId );
+    virtual bool				fromGuiSetFileIsShared( std::string fileName, std::string fileNameAndPath, bool shareFile, uint8_t * fileHashId );
 
 	virtual void				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo ) {};
 
@@ -88,16 +88,18 @@ public:
 	std::vector<PktFileListReply*>&	getFileListPackets( void )			{ return m_FileListPackets; }
 	void						updateFileListPackets( void );
 
-    OfferBaseInfo* 				addOfferFile( const char* fileName, uint64_t fileLen, uint16_t fileType );
+    OfferBaseInfo* 				addOfferFile( const char* fileName, const char*	fileNameAndPath, uint64_t fileLen, uint16_t fileType );
 
-	bool						addOfferFile(	const char*	fileName, 
+	bool						addOfferFile(	const char*		fileName, 
+												const char*		fileNameAndPath,
 												VxGUID&			assetId,  
 												uint8_t *		hashId = 0, 
 												EOfferLocation	locationFlags = eOfferLocUnknown, 
 												const char*	assetTag = "", 
 												int64_t		    timestamp = 0 );
 
-	bool						addOfferFile(	const char*	fileName, 
+	bool						addOfferFile(	const char*		fileName, 
+												const char*		fileNameAndPath,
 												VxGUID&			assetId,  
 												VxGUID&		    creatorId, 
 												VxGUID&		    historyId, 
@@ -109,11 +111,11 @@ public:
 	bool						addOffer( OfferBaseInfo& offerInfo );
 
     bool						updateOffer( OfferBaseInfo& offerInfo );
-	bool						removeOffer( std::string fileName );
+	bool						removeOffer( std::string fileNameAndPath );
 	bool						removeOffer( VxGUID& assetOfferId );
 	void						queryHistoryOffers( VxGUID& historyId );
 
-	void						generateHashForFile( std::string fileName );
+	void						generateHashForFile( std::string fileNameAndPath );
 	void						updateOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param = 0 );
 
 	bool						deleteDatabase( void );
@@ -125,8 +127,8 @@ public:
 	virtual void				announceOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param );
 
 protected:
-    virtual OfferBaseInfo*     createOfferInfo( std::string fileName, uint64_t fileLen, uint16_t fileType );
-    virtual OfferBaseInfo*     createOfferInfo( OfferBaseInfo& offerInfo );
+    virtual OfferBaseInfo*      createOfferInfo( std::string fileName, std::string fileNameAndPath, uint64_t fileLen, uint16_t fileType );
+    virtual OfferBaseInfo*      createOfferInfo( OfferBaseInfo& offerInfo );
 
    void							lockClientList( void )						{ m_ClientListMutex.lock(); }
    void							unlockClientList( void )					{ m_ClientListMutex.unlock(); }
@@ -135,11 +137,12 @@ protected:
 	void						generateHashIds( VxThread* thread );
 	void						clearOfferFileListPackets( void );
 	void						clearOfferInfoList( void );
-	OfferBaseInfo*				createOfferInfo( std::string fileName,
+	OfferBaseInfo*				createOfferInfo(	std::string		fileName,
+													std::string		fileNameAndPath,
 													VxGUID&			assetId,  
 													uint8_t *		hashId, 
 													EOfferLocation	locationFlags = eOfferLocUnknown, 
-													const char*	assetTag = "", 
+													const char*		assetTag = "", 
 													int64_t			timestamp = 0 );
 	bool						insertNewInfo( OfferBaseInfo* offerInfo );
 	void						updateDatabase( OfferBaseInfo* offerInfo );

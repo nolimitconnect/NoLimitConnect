@@ -37,6 +37,7 @@ public:
 											VxGUID&			sendToId,
                                             VxGUID&			thumbId, 
 											const char*		assetName, 
+										    const char*		fileNameAndPath,
 											int64_t			assetLen, 
 											uint32_t		assetType, 							
 											VxSha1Hash&		hashId, 
@@ -51,7 +52,7 @@ public:
 
 	bool 						addAsset( AssetBaseInfo* assetInfo );
 
-	void						removeAsset( const char* assetName );
+	void						removeAsset( const char* fileNameAndPath );
 	void						removeAsset( VxGUID& assetId );
 	void						removeAsset( AssetBaseInfo* assetInfo );
 
@@ -60,7 +61,7 @@ public:
 	void						updateAssetSendState( VxGUID& assetId, EAssetSendState sendState );
 
 protected:
-    virtual AssetBaseInfo*     createAssetInfo( EAssetType assetType, const char* assetName, uint64_t assetLen ) = 0;
+    virtual AssetBaseInfo*     createAssetInfo( EAssetType assetType, const char* assetName, const char* fileNameAndPath, uint64_t assetLen ) = 0;
     virtual AssetBaseInfo*     createAssetInfo( AssetBaseInfo& assetInfo ) = 0;
 
 	virtual RCODE				onCreateTables( int iDbVersion );

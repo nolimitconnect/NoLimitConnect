@@ -1727,7 +1727,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
 	{
 		xferInfo.setXferDirection( eXferDirectionTx );
 		xferInfo.setLclFileName( xferSession->getAssetBaseInfo().getAssetName().c_str() );
-		VxFileUtil::getJustFileName( xferSession->getAssetBaseInfo().getAssetName().c_str(), xferInfo.getRmtFileName() );
+		VxFileUtil::getFileName( xferSession->getAssetBaseInfo().getAssetName().c_str(), xferInfo.getRmtFileName() );
 		xferInfo.setLclSessionId( xferSession->getLclSessionId() );
 		xferInfo.setRmtSessionId( xferSession->getRmtSessionId() );
 		xferInfo.setFileHashId( xferSession->getFileHashId() );

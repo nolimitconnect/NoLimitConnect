@@ -42,15 +42,14 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType )
 
 //============================================================================
 AssetBaseInfo::AssetBaseInfo( const AssetBaseInfo& rhs )
-: BaseInfo( rhs )
+: VxFileInfoBase( rhs )
+, BaseInfo( rhs )
 , m_PluginType( rhs.m_PluginType )
-, m_AssetName( rhs.m_AssetName )
 , m_AssetTag( rhs.m_AssetTag )
 , m_UniqueId( rhs.m_UniqueId )
 , m_HistoryId( rhs.m_HistoryId )
 , m_AdminId( rhs.m_AdminId )
 , m_AssetHash( rhs.m_AssetHash )
-, m_s64AssetLen( rhs.m_s64AssetLen )
 , m_u16AssetType( rhs.m_u16AssetType )
 , m_AttributeFlags( rhs.m_AttributeFlags )
 , m_LocationFlags( rhs.m_LocationFlags )
@@ -67,16 +66,25 @@ AssetBaseInfo::AssetBaseInfo( const AssetBaseInfo& rhs )
 }
 
 //============================================================================
+AssetBaseInfo::AssetBaseInfo( const VxFileInfoBase& rhs )
+: VxFileInfoBase( rhs )
+{   
+	m_u16AssetType = VxFileNameToAssetType( getFileName() );
+	m_UniqueId.assureIsValidGUID();
+	assureValidTimes();
+}
+
+//============================================================================
 AssetBaseInfo::AssetBaseInfo( FileInfo& rhs )
-	: BaseInfo( rhs )
-	, m_AssetName( rhs.getFullFileName() )
+    : VxFileInfoBase( rhs )
+    , BaseInfo( rhs )
 	, m_UniqueId( rhs.getAssetId() )
 	, m_HistoryId( rhs.getOnlineId() )
 	, m_AssetHash( rhs.getFileHashId() )
-	, m_s64AssetLen( rhs.getFileLength() )
-	, m_u16AssetType( VxFileNameToAssetType( rhs.getFullFileName() ) )
+    , m_u16AssetType( VxFileNameToAssetType( getFileName() ) )
 	, m_CreationTime( rhs.getFileTime() )
 {
+	m_u16AssetType = rhs.getFileType();
 	m_UniqueId.assureIsValidGUID();
 	assureValidTimes();
 }
@@ -105,9 +113,9 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType,  VxGUID& creatorId, VxGUID& 
 }
 
 //============================================================================
-AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName )
-: BaseInfo()
-, m_AssetName( fileName )
+AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath )
+: VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), (uint8_t)assetType )
+, BaseInfo()
 , m_u16AssetType( (uint16_t) assetType )
 , m_CreationTime( GetTimeStampMs() )
 , m_AccessedTime( m_CreationTime )
@@ -118,9 +126,9 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName )
 }
 
 //============================================================================
-AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, VxGUID& assetId )
-	: BaseInfo()
-	, m_AssetName( fileName )
+AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath, VxGUID& assetId )
+    : VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), (uint8_t)assetType )
+    , BaseInfo()
     , m_UniqueId( assetId )
     , m_u16AssetType( (uint16_t)assetType )
 	, m_CreationTime( GetTimeStampMs() )
@@ -132,10 +140,9 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, VxGUID
 }
 
 //============================================================================
-AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, uint64_t fileLen )
-: BaseInfo()
-, m_AssetName( fileName )
-, m_s64AssetLen( fileLen )
+AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen )
+: VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), fileLen, (uint8_t)assetType )
+, BaseInfo()
 , m_u16AssetType( (uint16_t) assetType )
 , m_CreationTime( GetTimeStampMs() )
 , m_AccessedTime( m_CreationTime )
@@ -146,11 +153,10 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, uint64
 }
 
 //============================================================================
-AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, uint64_t fileLen, VxGUID& assetId )
-	: BaseInfo()
-	, m_AssetName( fileName )
+AssetBaseInfo::AssetBaseInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen, VxGUID& assetId )
+    : VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), fileLen, (uint8_t)assetType )
+    , BaseInfo()
     , m_UniqueId( assetId )
-	, m_s64AssetLen( fileLen )
     , m_u16AssetType( (uint16_t)assetType )
 	, m_CreationTime( GetTimeStampMs() )
 	, m_AccessedTime( m_CreationTime )
@@ -188,7 +194,8 @@ FileInfo AssetBaseInfo::getFileInfo( void )
 //============================================================================
 void AssetBaseInfo::clear( void )
 {
-	m_AssetName.clear();
+    m_FileName.clear();
+    m_FileNameAndPath.clear();
 }
 
 //============================================================================
@@ -199,12 +206,12 @@ bool AssetBaseInfo::addToBlob( PktBlobEntry& blob )
 	{
 		uint8_t pluginType = (uint8_t)m_PluginType;
 		bool result = blob.setValue( pluginType );
-		result &= blob.setValue( m_AssetName );
+        result &= blob.setValue( m_FileName );
 		result &= blob.setValue( m_UniqueId );
 		result &= blob.setValue( m_HistoryId );
 		result &= blob.setValue( m_AdminId );
 		result &= blob.setValue( m_AssetHash );
-		result &= blob.setValue( m_s64AssetLen );
+        result &= blob.setValue( m_s64FileLen );
 		result &= blob.setValue( m_u16AssetType );
 		result &= blob.setValue( m_AttributeFlags );
 		result &= blob.setValue( m_LocationFlags );
@@ -216,8 +223,9 @@ bool AssetBaseInfo::addToBlob( PktBlobEntry& blob )
 		return result;
 
 		// not sent in blob
-		//m_AssetSendState = rhs.m_AssetSendState;
-		//m_PlayPosition0to100000 = rhs.m_PlayPosition0to100000;
+        // m_AssetNameAndPath
+        // m_AssetSendState
+        // m_PlayPosition0to100000
 	}
 
 	return false;
@@ -231,12 +239,12 @@ bool AssetBaseInfo::extractFromBlob( PktBlobEntry& blob )
 	{
 		uint8_t pluginType{ 0 };
 		bool result = blob.getValue( pluginType );
-		result &= blob.getValue( m_AssetName );
+        result &= blob.getValue( m_FileName );
 		result &= blob.getValue( m_UniqueId );
 		result &= blob.getValue( m_HistoryId );
 		result &= blob.getValue( m_AdminId );
 		result &= blob.getValue( m_AssetHash );
-		result &= blob.getValue( m_s64AssetLen );
+        result &= blob.getValue( m_s64FileLen );
 		result &= blob.getValue( m_u16AssetType );
 		result &= blob.getValue( m_AttributeFlags );
 		result &= blob.getValue( m_LocationFlags );
@@ -249,8 +257,9 @@ bool AssetBaseInfo::extractFromBlob( PktBlobEntry& blob )
 		return result;
 
 		// not sent in blob
-		//m_AssetSendState = rhs.m_AssetSendState;
-		//m_PlayPosition0to100000 = rhs.m_PlayPosition0to100000;
+        // m_AssetNameAndPath
+        // m_AssetSendState
+        // m_PlayPosition0to100000
 	}
 
 	return false;
@@ -260,7 +269,7 @@ bool AssetBaseInfo::extractFromBlob( PktBlobEntry& blob )
 bool AssetBaseInfo::validateAssetExist( void )
 {
 	bool exists = true;
-	if( ( isFileAsset() || isThumbAsset() )  && !VxFileUtil::fileExists( m_AssetName.c_str() ) )
+    if( ( isFileAsset() || isThumbAsset() )  && !VxFileUtil::fileExists( getFileNameAndPath().c_str() ) )
 	{
 		exists = false;
 	}
@@ -273,14 +282,13 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 {	
 	if( this != &rhs )
 	{
+        VxFileInfoBase::operator=( rhs );
         BaseInfo::operator=( rhs );
 		m_PluginType				= rhs.m_PluginType;
-		m_AssetName					= rhs.m_AssetName;
 		m_UniqueId					= rhs.m_UniqueId;
 		m_HistoryId					= rhs.m_HistoryId; 
 		m_AdminId					= rhs.m_AdminId; 
 		m_AssetHash					= rhs.m_AssetHash;
-		m_s64AssetLen				= rhs.m_s64AssetLen;
 		m_u16AssetType				= rhs.m_u16AssetType;
         m_AttributeFlags			= rhs.m_AttributeFlags;
         m_LocationFlags				= rhs.m_LocationFlags;
@@ -290,7 +298,6 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 		m_AssetTag					= rhs.m_AssetTag;
 		m_AssetSendState			= rhs.m_AssetSendState;
         m_PlayPosition0to100000     = rhs.m_PlayPosition0to100000;
-
 		m_DestOnlineId				= rhs.m_DestOnlineId;
 		m_IsStreaming				= rhs.m_IsStreaming;
 	}
@@ -332,10 +339,10 @@ bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 //============================================================================
 bool AssetBaseInfo::isValidFile( bool logErrIfInvalid )
 {
-    bool valid = !m_AssetName.empty() && m_s64AssetLen == (int64_t)VxFileUtil::fileExists( m_AssetName.c_str() );
+    bool valid = !getFileName().empty() && m_s64FileLen == (int64_t)VxFileUtil::fileExists( getFileNameAndPath().c_str() );
 	if( !valid && logErrIfInvalid )
 	{
-		LogMsg( LOG_ERROR, "AssetBaseInfo::isValidFile fail %" PRId64 " %s ", m_s64AssetLen, m_AssetName.empty() ? "NO FILE NAME" : m_AssetName.c_str() );
+        LogMsg( LOG_ERROR, "AssetBaseInfo::isValidFile fail %" PRId64 " %s ", m_s64FileLen, m_FileName.empty() ? "NO FILE NAME" : m_FileName.c_str() );
 		vx_assert( false );
 	}
 
@@ -422,37 +429,12 @@ bool AssetBaseInfo::isDirectory( void )
 }
 
 //============================================================================
-void AssetBaseInfo::setAssetName( const char* assetName )
-{
-	if (assetName)
-		m_AssetName = assetName;
-	else
-		m_AssetName = "";
-}
-
-//============================================================================
 void AssetBaseInfo::setAssetTag( const char* assetTagText )
 {
 	if( assetTagText )
 		m_AssetTag = assetTagText;
 	else
 		m_AssetTag = "";
-}
-
-//============================================================================
-std::string AssetBaseInfo::getRemoteAssetName( void )
-{
-	std::string rmtAssetName("");
-	std::string assetPath;
-	RCODE rc = VxFileUtil::seperatePathAndFile(	getAssetName(),					
-												assetPath,		
-												rmtAssetName );	
-	if( 0 != rc )
-	{
-		LogMsg( LOG_ERROR, "AssetBaseInfo::getRemoteAssetName failed error %d asset %s", rc, getAssetName().c_str() );
-	}
-
-	return rmtAssetName;
 }
 
 //============================================================================
@@ -499,7 +481,7 @@ const char* AssetBaseInfo::getSubDirectoryName( EAssetType assetType )
 		break;
 
 	case eAssetTypePhoto:
-		subDir = "photos/";
+        subDir = "image/";
 		break;
 
 	case eAssetTypeAudio:
@@ -527,13 +509,14 @@ void AssetBaseInfo::updateAssetInfo( VxThread* callingThread )
 void AssetBaseInfo::printValues( uint32_t logMsgType ) const
 {
 	LogMsg( logMsgType, "*Begin AssetBaseInfo" );
-	LogMsg( logMsgType, "m_AssetName=(%s)", m_AssetName.c_str() );
+    LogMsg( logMsgType, "m_AssetName=(%s)", m_FileName.c_str() );
+    LogMsg( logMsgType, "m_AssetNameAndPath=(%s)", m_FileNameAndPath.c_str() );
 	LogMsg( logMsgType, "m_PluginType=(%s)", GetPluginName( m_PluginType ) );
 	LogMsg( logMsgType, "m_UniqueId=(%s)", m_UniqueId.toOnlineIdString().c_str() );
 	LogMsg( logMsgType, "m_HistoryId=(%s)", m_HistoryId.toOnlineIdString().c_str() );
 	LogMsg( logMsgType, "m_AdminId=(%s)", m_AdminId.toOnlineIdString().c_str() );
 	LogMsg( logMsgType, "m_AssetHash=(%s)", m_AssetHash.toString().c_str() );
-	LogMsg( logMsgType, "m_s64AssetLen=(%lld)", m_s64AssetLen );
+    LogMsg( logMsgType, "m_s64AssetLen=(%lld)", m_s64FileLen );
 	LogMsg( logMsgType, "m_u16AssetType=(%d)", m_u16AssetType );
 	LogMsg( logMsgType, "m_AttributeFlags=(0x%4.4X)", m_AttributeFlags );
 	LogMsg( logMsgType, "m_AttributeFlags=(0x%8.8X)", m_LocationFlags );
@@ -552,7 +535,7 @@ void AssetBaseInfo::printValues( uint32_t logMsgType ) const
 void AssetBaseInfo::updateAssetLength( int64_t assetLength )
 {
 	// TODO regenerate hash id
-	m_s64AssetLen = assetLength;
+    setFileLength( assetLength );
 }
 
 //============================================================================

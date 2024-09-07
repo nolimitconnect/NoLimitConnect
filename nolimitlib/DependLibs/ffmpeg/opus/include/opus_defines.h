@@ -800,4 +800,14 @@ OPUS_EXPORT const char *opus_get_version_string(void);
 }
 #endif
 
+#define OPUSTOOLS             1
+#define SPX_RESAMPLE_EXPORT
+
+#define OPUS_FLOATING_POINT   1
+#define SPX_RESAMPLE_EXPORT
+
+#define OPUS_BUILD            1
+
+#define USE_ALLOCA            1
+
 #endif /* OPUS_DEFINES_H */

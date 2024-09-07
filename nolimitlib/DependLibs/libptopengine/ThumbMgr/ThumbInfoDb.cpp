@@ -19,9 +19,9 @@ ThumbInfoDb::ThumbInfoDb( AssetBaseMgr& hostListMgr, const char* dbname )
 }
 
 //============================================================================
-AssetBaseInfo* ThumbInfoDb::createAssetInfo( EAssetType assetType, const char* assetName, uint64_t assetLen )
+AssetBaseInfo* ThumbInfoDb::createAssetInfo( EAssetType assetType, const char* assetName, const char* fileNameAndPath, uint64_t assetLen )
 {
-    return new ThumbInfo( assetName, assetLen );
+    return new ThumbInfo( assetName, fileNameAndPath, assetLen );
 }
 
 //============================================================================

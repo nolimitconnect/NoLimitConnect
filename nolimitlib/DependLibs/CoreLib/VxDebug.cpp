@@ -36,9 +36,6 @@
 
 bool g_StreamActive = false;
 
-NLC_BEGIN_CDECLARES
-NLC_END_CDECLARES
-
 namespace
 {
 #if defined(LOG_IN_RELEASE_BUILD)
@@ -102,10 +99,10 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogHostConnect
         // | eLogHostSearch
         //| eLogMediaStream
-        | eLogPlayerNlc
+        //| eLogPlayerNlc
         //| eLogFfmpeg
         | eLogAudioIo
-        | eLogVideoIo
+        //| eLogVideoIo
         );
 
 #elif defined(DEBUG) || defined(_DEBUG) || defined(FLATPAKBUILD)
@@ -136,9 +133,9 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogHostConnect
         // | eLogHostSearch
         //| eLogMediaStream
-        | eLogPlayerNlc
+        //| eLogPlayerNlc
         //| eLogFfmpeg
-        //| eLogAudioIo
+        | eLogAudioIo
         //| eLogVideoIo
         );
 
@@ -500,7 +497,7 @@ void VxSetLogToFile( const char* pFileName )
 //============================================================================
 void LogAppendLineFeed( char* buf, size_t sizeOfBuf )
 {
-    int strLen = strlen( buf );
+    size_t strLen = strlen( buf );
     if( ((int)sizeOfBuf > 2) && (0 < strLen) && (strLen < ((int)sizeOfBuf - 2)) )
     {
         if( buf[strLen - 1] != '\n' )
@@ -778,7 +775,7 @@ void DumpInt8( uint32_t u32MsgType, int8_t* data, int dataLen, int instance, cha
     {
         for( int i = 0; i < 16; i++ )
         {
-            int curIdx = strlen( outBuf );
+            size_t curIdx = strlen( outBuf );
             sprintf( &outBuf[curIdx], "%d ", data[sampleIdx] );
             sampleIdx++;
         }
@@ -793,7 +790,7 @@ void DumpInt8( uint32_t u32MsgType, int8_t* data, int dataLen, int instance, cha
         outBuf[0] = 0;
         while( sampleCnt )
         {
-            int curIdx = strlen( outBuf );
+            size_t curIdx = strlen( outBuf );
             sprintf( &outBuf[curIdx], "%d ", data[sampleIdx] );
             sampleIdx++;
             sampleCnt--;
@@ -816,7 +813,7 @@ void DumpInt16( uint32_t u32MsgType, int16_t* data, int dataLen, int instance, c
     {
         for( int i = 0; i < 16; i++ )
         {
-            int curIdx = strlen( outBuf );
+            size_t curIdx = strlen( outBuf );
             sprintf( &outBuf[curIdx], "%d ", data[sampleIdx] );
             sampleIdx++;
         }
@@ -831,7 +828,7 @@ void DumpInt16( uint32_t u32MsgType, int16_t* data, int dataLen, int instance, c
         outBuf[0] = 0;
         while( sampleCnt )
         {
-            int curIdx = strlen( outBuf );
+            size_t curIdx = strlen( outBuf );
             sprintf( &outBuf[curIdx], "%d ", data[sampleIdx] );
             sampleIdx++;
             sampleCnt--;
@@ -854,7 +851,7 @@ void DumpFloat( uint32_t u32MsgType, float* data, int dataLen, int instance, cha
     {
         for( int i = 0; i < 16; i++ )
         {
-            int curIdx = strlen( outBuf );
+            size_t curIdx = strlen( outBuf );
             sprintf( &outBuf[curIdx], "%3.3f ", data[sampleIdx] );
             sampleIdx++;
         }
@@ -869,7 +866,7 @@ void DumpFloat( uint32_t u32MsgType, float* data, int dataLen, int instance, cha
         outBuf[0] = 0;
         while( sampleCnt )
         {
-            int curIdx = strlen( outBuf );
+            size_t curIdx = strlen( outBuf );
             sprintf( &outBuf[curIdx], "%3.3f ", data[sampleIdx] );
             sampleIdx++;
             sampleCnt--;

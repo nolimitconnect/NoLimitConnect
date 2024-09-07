@@ -156,8 +156,7 @@ bool VideoPlayerCodec::Init( const CFileItem &file, unsigned int filecache )
 
     CDVDStreamInfo hint( *pStream, true );
 
-    CAEStreamInfo::DataType ptStreamTye =
-        GetPassthroughStreamType(hint.codec, hint.samplerate, hint.profile);
+    CAEStreamInfo::DataType ptStreamTye = GetPassthroughStreamType(hint.codec, hint.samplerate, hint.profile);
     m_pAudioCodec = CDVDFactoryCodec::CreateAudioCodec(hint, *m_processInfo, true, true, ptStreamTye);
     if( !m_pAudioCodec )
     {
@@ -181,6 +180,12 @@ bool VideoPlayerCodec::Init( const CFileItem &file, unsigned int filecache )
     else if( m_strContentType == "audio/x-ape" ||
         m_strContentType == "audio/ape" )
         strFallbackFileExtension = "ape";
+
+    if(strFallbackFileExtension.empty())
+    {
+        strFallbackFileExtension = file.getFileExtension();
+    }
+
     CTagLoaderTagLib tagLoaderTagLib;
   tagLoaderTagLib.Load(file.GetDynPath(), m_tag, strFallbackFileExtension);
 

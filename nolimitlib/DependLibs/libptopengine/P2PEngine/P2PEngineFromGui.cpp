@@ -472,15 +472,15 @@ bool P2PEngine::fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId,
 
 //! play video or audio file
 //============================================================================
-bool P2PEngine::fromGuiPlayLocalMedia( const char* fileName, uint64_t fileLen, uint8_t fileType, int pos0to100000 )
+bool P2PEngine::fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, int pos0to100000 )
 {
-	return fromGuiPlayLocalMedia( fileName, fileLen, fileType, VxGUID::nullVxGUID(), pos0to100000 );
+	return fromGuiPlayLocalMedia( fileName, fileNameAndPath, fileLen, fileType, VxGUID::nullVxGUID(), pos0to100000 );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiPlayLocalMedia( const char*  fileName, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos0to100000  )
+bool P2PEngine::fromGuiPlayLocalMedia( const char*  fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos0to100000  )
 {
-    std::string fileNameStr = fileName;
+    std::string fileNameStr = fileNameAndPath;
     bool result = true;
     EAssetType assetType = VxFileTypeToAssetType( fileType );
     if( !fileNameStr.empty() &&  fileLen && eAssetTypeUnknown != assetType )
@@ -490,11 +490,11 @@ bool P2PEngine::fromGuiPlayLocalMedia( const char*  fileName, uint64_t fileLen, 
         {
 			if( assetId.isVxGUIDValid() )
 			{
-				assetInfo = dynamic_cast<AssetInfo*>(getAssetMgr().addAssetFile( assetType, fileName, fileLen, assetId ));
+				assetInfo = dynamic_cast<AssetInfo*>(getAssetMgr().addAssetFile( assetType, fileName, fileNameAndPath, fileLen, assetId ));
 			}
 			else
 			{
-				assetInfo = dynamic_cast<AssetInfo*>(getAssetMgr().addAssetFile( assetType, fileName, fileLen ));
+				assetInfo = dynamic_cast<AssetInfo*>(getAssetMgr().addAssetFile( assetType, fileName, fileNameAndPath, fileLen ));
 			}
 
             assetInfo->setPlayPosition( pos0to100000 );
@@ -1862,7 +1862,7 @@ bool P2PEngine::fromGuiDownloadFileListCancel( EPluginType pluginType, VxGUID& o
 //============================================================================
 bool P2PEngine::fromGuiQueryFileHash( FileInfo& fileInfo )
 {
-	if( fileInfo.getFileLength() && !fileInfo.getFullFileName().empty() )
+	if( fileInfo.getFileLength() && !fileInfo.getFileNameAndPath().empty() )
 	{
 		bool result = getPluginLibraryServer().fromGuiQueryFileHash( fileInfo );
 		if( !result )

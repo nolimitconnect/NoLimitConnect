@@ -1650,11 +1650,11 @@ EXferError FileInfoXferMgr::beginFileGet( FileRxSession* xferSession )
 	{
         LogMsg( LOG_VERBOSE, "%s from %s %s asset %s", __func__,
                 m_Engine.describeUser( xferSession->getSendToId() ).c_str(), 
-				xferSession->m_FilesToXferList[0].getShortFileName().c_str(),
+				xferSession->m_FilesToXferList[0].getFileName().c_str(),
 				xferSession->m_FilesToXferList[0].getAssetId().toHexString().c_str() );
 		PktFileGetReq pktReq;
 		pktReq.setIsStream( xferSession->getIsStream() );
-		pktReq.setFileName( xferSession->m_FilesToXferList[0].getShortFileName() );
+		pktReq.setFileName( xferSession->m_FilesToXferList[0].getFileName() );
 		pktReq.setLclSessionId( xferSession->m_FilesToXferList[0].getLclSessionId() );
 		pktReq.setRmtSessionId( xferSession->m_FilesToXferList[0].getRmtSessionId() );
 		pktReq.setAssetId( xferSession->m_FilesToXferList[0].getAssetId() );
@@ -1705,17 +1705,17 @@ bool FileInfoXferMgr::isViewFileListMatch( FileTxSession* xferSession, FileInfo&
 	size_t viewDirLen = xferSession->m_strViewDirectory.length();
 	bool bRootDir = viewDirLen ? false : true;
 
-	if( fileInfo.getLocalFileName().length() >= viewDirLen )
+	if( fileInfo.getFilePath().length() >= viewDirLen )
 	{
-		if( VXFILE_TYPE_DIRECTORY == fileInfo.m_u8FileType )
+		if( VXFILE_TYPE_DIRECTORY == fileInfo.getFileType() )
 		{
 			if( bRootDir )
 			{
 				return true;
 			}
-			else if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), fileInfo.getLocalFileName().c_str(), viewDirLen ) )
+			else if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), fileInfo.getFilePath().c_str(), viewDirLen ) )
 			{
-				if( fileInfo.getLocalFileName().length() == viewDirLen )
+				if( fileInfo.getFilePath().length() == viewDirLen )
 				{
 					// is this directory
 					return false;
@@ -1728,9 +1728,9 @@ bool FileInfoXferMgr::isViewFileListMatch( FileTxSession* xferSession, FileInfo&
 		}
 		else
 		{
-			if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), fileInfo.getLocalFileName().c_str(), viewDirLen ) )
+			if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), fileInfo.getFilePath().c_str(), viewDirLen ) )
 			{
-				const char* pLeftOver = &(fileInfo.getLocalFileName().c_str()[viewDirLen]);
+				const char* pLeftOver = &(fileInfo.getFilePath().c_str()[viewDirLen]);
 				if( strchr(pLeftOver, '/') )
 				{
 					// is in one of the sub dirs
@@ -1893,7 +1893,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 bool FileInfoXferMgr::makeIncompleteFileName( std::string& strRemoteFileName, std::string& strRetIncompleteFileName, VxGUID& sendToId )
 {
 	std::string justFileName;
-	VxFileUtil::getJustFileName( strRemoteFileName.c_str(), justFileName );
+	VxFileUtil::getFileName( strRemoteFileName.c_str(), justFileName );
 	//strRetIncompleteFileName = VxGetIncompleteDirectory() + justFileName;
 	strRetIncompleteFileName = m_FileInfoMgr.getIncompleteFileXferDirectory( sendToId ) + justFileName;
 	while( VxFileUtil::fileExists( strRetIncompleteFileName.c_str() ) )

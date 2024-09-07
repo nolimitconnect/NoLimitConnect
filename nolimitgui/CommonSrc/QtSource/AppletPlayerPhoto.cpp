@@ -119,7 +119,7 @@ void AppletPlayerPhoto::slotMenuItemSelected( int menuId, EMenuItemType menuItem
         dlgBrowse->exec();
         if( dlgBrowse->getWasFileSelected() )
         {
-            QString fileName = dlgBrowse->getSelectedFileInfo().getFullFileName().c_str();
+            QString fileName = dlgBrowse->getSelectedFileInfo().getFileNameAndPath().c_str();
             playFile( VXFILE_TYPE_PHOTO, fileName, VxGUID::nullVxGUID(), false );
          }
 

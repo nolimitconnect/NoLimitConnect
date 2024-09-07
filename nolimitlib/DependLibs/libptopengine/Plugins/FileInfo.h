@@ -12,6 +12,7 @@
 #include <CoreLib/VxDefs.h>
 #include <CoreLib/VxSha1Hash.h>
 #include <CoreLib/VxGUID.h>
+#include <CoreLib/VxFileInfo.h>
 
 #include <string>
 
@@ -19,7 +20,7 @@ class AssetBaseInfo;
 class OfferBaseInfo;
 class VxFileXferInfo;
 
-class FileInfo 
+class FileInfo : public VxFileInfoBase
 {
 public:
 	static const int FILE_INFO_SHORTEST_SEARCH_TEXT_LEN = 3;
@@ -27,10 +28,11 @@ public:
 
 	FileInfo();
     FileInfo( const FileInfo& rhs );
-	FileInfo( VxGUID& onlineId, const std::string& fullFileName );
-	FileInfo( VxGUID& onlineId, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType );
-	FileInfo( VxGUID& onlineId, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId );
-	FileInfo( VxGUID& onlineId, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId, VxSha1Hash& sha1Hash );
+    FileInfo( const VxFileInfoBase& rhs );
+    FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName );
+    FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType );
+    FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId );
+    FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId, VxSha1Hash& sha1Hash );
 	FileInfo( AssetBaseInfo& assetInfo );
 	FileInfo( AssetBaseInfo& assetInfo, VxSha1Hash& sha1Hash );
 	FileInfo( OfferBaseInfo& offerInfo );
@@ -38,9 +40,10 @@ public:
 
 	FileInfo&					operator=( const FileInfo& rhs );
 
+    VxFileInfoBase&             getFileInfoBase( void ) { return *this; }
+
 	bool						isValid( bool includeHashValid = true );
 
-	bool						isDirectory( void );
 	bool						isStremable( void );
 
 	void						setIsInLibrary( bool inLibrary )		{ m_IsInLibrary = inLibrary; }
@@ -49,15 +52,11 @@ public:
 	void						setIsSharedFile( bool isSharedFile )	{ m_IsSharedFile = isSharedFile; }
 	bool						getIsSharedFile( void )				    { return m_IsSharedFile; }
 
-	void						setFullFileName( std::string fileName );
-	std::string&				getFullFileName( void )					{ return m_FullFileName; }
-	std::string&				getJustFileName( void )					{ return m_ShortFileName; }
-	std::string&				getShortFileName( void )				{ return m_ShortFileName; }
+    void                        setFileNameAndPath( std::string fileNameAndPath ) override;
+    std::string&				getLocalFullFileName( void )			{ return getFileNameAndPath(); }
+    std::string					getRemoteFileName( void )				{ return getFileName(); }
 
-	std::string&				getLocalFileName( void )				{ return m_FullFileName; }
-	std::string					getRemoteFileName( void )				{ return m_ShortFileName; }
-
-	std::string&				getFilePath( void );
+    std::string					getFilePath( void ) override;
 
 	void						setXferSessionId( VxGUID& sessionId )	{ m_XferSessionId = sessionId; }
 	VxGUID&						getXferSessionId( void )				{ return m_XferSessionId; }
@@ -72,25 +71,12 @@ public:
 	void						setThumbId( VxGUID& assetId )			{ m_ThumbId = assetId; }
 	VxGUID&						getThumbId( void )						{ return m_ThumbId; }
 
-	void						setFileName( const char* fileName )	    { m_FullFileName = fileName; }
-	void						setFileName( std::string& fileName )	{ m_FullFileName = fileName; }
-	std::string&				getFileName( void )						{ return m_FullFileName; }
-
-	void						setFileType( uint8_t fileType )			{ m_u8FileType = fileType; }
-	uint8_t						getFileType( void )	const				{ return m_u8FileType; }
-	void						setFileLength( int64_t fileLength )		{ m_s64FileLen = fileLength; }
-	int64_t						getFileLength( void ) const				{ return m_s64FileLen; }
-
 	void						setFileTime( int64_t fileTime )			{ m_FileTime = fileTime; }
 	int64_t						getFileTime( void )	const				{ return m_FileTime; }
 
 	void						setFileHashId( VxSha1Hash& id )			{ m_FileHash = id; }
 	void						setFileHashId( uint8_t * id )			{ m_FileHash.setHashData( id ); }
 	VxSha1Hash&					getFileHashId( void )					{ return m_FileHash; }
-
-	bool						determineShortName( std::string containingDir = "" );
-	bool						determineFullFileName( std::string containingDir = "" );
-	bool						determineFilePath( void );
 
 	bool						matchTextAndType( std::string& searchStr, uint8_t fileType );
 	bool						matchText( std::string& searchStr );
@@ -104,17 +90,14 @@ public:
 	void						setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
 	bool 						getIsStream( void )						{ return m_IsStreaming; }
 
-private:
+protected:
+    bool						determineFilePath( void );
 	void						generateAssetId( void );
 
 public:
 	//=== vars ===//
 	VxGUID						m_OnlineId;
-	std::string					m_FullFileName;
-	std::string					m_ShortFileName;
-	int64_t						m_s64FileLen{ 0 };
 	uint32_t					m_u32Attributes{ 0 };
-	uint8_t						m_u8FileType{ 0 };
 	VxSha1Hash					m_FileHash;
 	std::string					m_ContainedInDir;
 	VxGUID						m_AssetId;

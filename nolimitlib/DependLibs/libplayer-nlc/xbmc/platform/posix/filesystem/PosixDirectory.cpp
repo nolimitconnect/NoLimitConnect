@@ -86,7 +86,7 @@ bool CPosixDirectory::GetDirectory(const NlcUrl& url, CFileItemList &items)
         pItem->m_dateTime = localTime;
 
         if (!pItem->m_bIsFolder)
-          pItem->m_dwSize = buffer.st_size;
+            pItem->setFileLength( buffer.st_size );
       }
     }
     items.Add(pItem);

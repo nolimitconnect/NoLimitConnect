@@ -8,54 +8,120 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "config_corelib.h"
-
 #include "VxFileInfo.h"
+
 #include "VxFileIsTypeFunctions.h"
 #include "VxFileUtil.h"
 
 //============================================================================
-VxFileInfo::VxFileInfo( const char* fileName, uint8_t fileType )
+VxFileInfoBase::VxFileInfoBase( const char* fileName, const char* fileNameAndPath, uint8_t fileType )
 : m_u8FileType( fileType )
 , m_FileName(fileName)
+    , m_FileNameAndPath( fileNameAndPath )
 { 
 }
 
 //============================================================================
-VxFileInfo::VxFileInfo(const VxFileInfo& other)
+VxFileInfoBase::VxFileInfoBase( const char* fileName, const char* fileNameAndPath, int64_t fileLen, uint8_t fileType )
+    : m_s64FileLen( fileLen )
+    , m_u8FileType( fileType )
+    , m_FileName( fileName )
+    , m_FileNameAndPath( fileNameAndPath )
 {
-	*this = other;
 }
 
 //============================================================================
-bool VxFileInfo::isDirectory( void )	
+VxFileInfoBase::VxFileInfoBase( const VxFileInfoBase& rhs )
+    : m_s64FileLen( rhs.m_s64FileLen )
+    , m_u8FileType( rhs.m_u8FileType )
+    , m_FileName( rhs.m_FileName )
+    , m_FileNameAndPath( rhs.m_FileNameAndPath )
 { 
-	return (VXFILE_TYPE_DIRECTORY & m_u8FileType)?true:false; 
 }
 
 //============================================================================
-bool VxFileInfo::isExecutableFile( void )	
+VxFileInfoBase& VxFileInfoBase::operator=(const VxFileInfoBase& rhs)
 { 
-	return (VXFILE_TYPE_EXECUTABLE & m_u8FileType)?true:false; 
+    if( this != &rhs )
+    {
+        m_s64FileLen		= rhs.m_s64FileLen;
+        m_u8FileType		= rhs.m_u8FileType;
+        m_FileName			= rhs.m_FileName;
+        m_FileNameAndPath   = rhs.m_FileNameAndPath;
+    }
+
+    return *this;
 }
 
 //============================================================================
-bool VxFileInfo::isShortcutFile( void )		
+std::string VxFileInfoBase::getFileExtension( void ) const
 { 
-	return VxIsShortcutFile( getFileName() ); 
+    if( !m_FileName.empty() )
+    {
+        auto periodPos = m_FileName.rfind( '.' );
+        if (periodPos != std::string::npos)
+        {
+            return m_FileName.substr(periodPos + 1, m_FileName.length());
+        }
+    }
+
+    return "";
 }
 
 //============================================================================
-void VxFileInfo::assureTrailingDirectorySlash( void )
+std::string VxFileInfoBase::getFilePath( void )
+{
+    std::string path;
+    if( !isContentProviderFile() )
+    {
+        std::string fileName;
+        VxFileUtil::seperatePathAndFile( m_FileNameAndPath, path, fileName );
+    }
+
+    return path;
+}
+
+//============================================================================
+bool VxFileInfoBase::fileIsAvailable( void )
+{
+    return VxFileUtil::fileExists( m_FileNameAndPath.c_str() );
+}
+
+//============================================================================
+bool VxFileInfoBase::isContentProviderFile( void ) const
+{
+    return VxFileUtil::fileIsProviderFile( m_FileNameAndPath.c_str() );
+}
+
+//============================================================================
+bool VxFileInfoBase::isExecutableFile( void )
+{
+    return (VXFILE_TYPE_EXECUTABLE & m_u8FileType);
+}
+
+//============================================================================
+bool VxFileInfoBase::isDirectory( void )
+{
+    return (VXFILE_TYPE_DIRECTORY & m_u8FileType);
+}
+
+//============================================================================
+bool VxFileInfoBase::isShortcutFile( void )
+{
+    return VxIsShortcutFile( getFileNameAndPath() );
+}
+
+//============================================================================
+void VxFileInfoBase::assureTrailingDirectorySlash( void )
 {
 	if( isDirectory() )
 	{
-		VxFileUtil::assureTrailingDirectorySlash( getFileName() );
+        VxFileUtil::assureTrailingDirectorySlash( getFileNameAndPath() );
 	}
 }
 
 //============================================================================
-const char* VxFileInfo::describeFileType( uint8_t fileType )
+const char* VxFileInfoBase::describeFileType( uint8_t fileType )
 {
 	switch( fileType )
 	{
@@ -79,16 +145,29 @@ const char* VxFileInfo::describeFileType( uint8_t fileType )
 }
 
 //============================================================================
+VxFileInfo::VxFileInfo( const char* fileName, const char* fileNameAndPath, uint8_t fileType )
+: VxFileInfoBase( fileName, fileNameAndPath, fileType )
+{ 
+}
+
+//============================================================================
+VxFileInfo::VxFileInfo(const VxFileInfo& rhs)
+    : VxFileInfoBase( rhs )
+    , m_FileHashId( rhs.m_FileHashId )
+    , m_IsInLibrary( rhs.m_IsInLibrary )
+    , m_IsShared( rhs.m_IsShared )
+{
+}
+
+//============================================================================
 VxFileInfo& VxFileInfo::operator=(const VxFileInfo& rhs) 
 {	
 	if( this != &rhs )
 	{
-		m_s64FileLen		= rhs.m_s64FileLen;
-		m_u8FileType		= rhs.m_u8FileType;
+        VxFileInfoBase::operator=( rhs );
 		m_FileHashId		= rhs.m_FileHashId;
 		m_IsInLibrary		= rhs.m_IsInLibrary;
 		m_IsShared			= rhs.m_IsShared;
-		m_FileName			= rhs.m_FileName;
 	}
 
 	return *this;

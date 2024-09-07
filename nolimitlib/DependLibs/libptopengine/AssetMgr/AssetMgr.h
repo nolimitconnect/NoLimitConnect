@@ -22,8 +22,8 @@ protected:
 	AssetBaseInfo*				createAssetInfo( AssetBaseInfo& assetInfo ) override;
 	AssetBaseInfo*				createAssetInfo( FileInfo& fileInfo ) override;
 
-	AssetBaseInfo*				createAssetInfo( enum EAssetType assetType, const char* fileName, uint64_t fileLen ) override;
-    AssetBaseInfo*				createAssetInfo( enum EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId ) override;
+	AssetBaseInfo*				createAssetInfo( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen ) override;
+    AssetBaseInfo*				createAssetInfo( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId ) override;
 
 };
 

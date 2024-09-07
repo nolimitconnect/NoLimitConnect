@@ -73,8 +73,8 @@ public:
 protected:
     virtual bool				addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAsset ) override;
 
-    AssetBaseInfo*              createAssetInfo( EAssetType assetType, const char* fileName, uint64_t fileLen ) override;
-    AssetBaseInfo*              createAssetInfo( EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId ) override;
+    AssetBaseInfo*              createAssetInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen ) override;
+    AssetBaseInfo*              createAssetInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId ) override;
     AssetBaseInfo*              createAssetInfo( AssetBaseInfo& assetInfo ) override;
     AssetBaseInfo*				createAssetInfo( FileInfo& fileInfo ) override;
 

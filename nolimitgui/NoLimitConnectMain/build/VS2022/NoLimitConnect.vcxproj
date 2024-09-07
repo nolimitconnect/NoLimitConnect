@@ -481,6 +481,13 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStorageProvider.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamCache.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamFile.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgr.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgrFileIo.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgrProvider.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppDisplay.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppStyle.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppTheme.cpp" />
@@ -726,6 +733,11 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiUserUpdateInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\UserProfile.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStorageProvider.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamCache.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamFile.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxAppStyle.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxResourceToRealFile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxTilePositioner.h" />

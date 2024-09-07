@@ -18,7 +18,7 @@ namespace
 {
 	std::string 		TABLE_ASSETS	 				= "tblAssets";
 
-	std::string 		CREATE_COLUMNS_ASSETS			= " (unique_id TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, adminId TEXT, thumbId TEXT, assetName TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER, sendToId TEXT) ";
+	std::string 		CREATE_COLUMNS_ASSETS			= " (unique_id TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, adminId TEXT, thumbId TEXT, assetName TEXT, fileNameAndPath TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER, sendToId TEXT) ";
 
 	const int			COLUMN_ASSET_UNIQUE_ID			= 0;
 	const int			COLUMN_ASSET_CREATOR_ID			= 1;
@@ -26,18 +26,19 @@ namespace
 	const int			COLUMN_ASSET_ADMIN_ID			= 3;
     const int			COLUMN_ASSET_THUMB_ID			= 4;
 	const int			COLUMN_ASSET_NAME				= 5;
-	const int			COLUMN_ASSET_LEN				= 6;
-	const int			COLUMN_ASSET_TYPE				= 7;
-	const int			COLUMN_ASSET_HASH_ID			= 8;
-	const int			COLUMN_LOCATION_FLAGS			= 9;
-    const int			COLUMN_ATTRIBUTE_FLAGS			= 10;
-    const int			COLUMN_CREATION_TIME			= 11;
-    const int			COLUMN_MODIFIED_TIME			= 12;
-    const int			COLUMN_ACCESSED_TIME			= 13;
-	const int			COLUMN_ASSET_TAG				= 14;
-	const int			COLUMN_ASSET_SEND_STATE			= 15;
-	const int			COLUMN_PLUGIN_TYPE				= 16;
-	const int			COLUMN_SEND_TO_ID				= 17;
+	const int			COLUMN_FILE_NAME_AND_PATH		= 6;
+	const int			COLUMN_ASSET_LEN				= 7;
+	const int			COLUMN_ASSET_TYPE				= 8;
+	const int			COLUMN_ASSET_HASH_ID			= 9;
+	const int			COLUMN_LOCATION_FLAGS			= 10;
+    const int			COLUMN_ATTRIBUTE_FLAGS			= 11;
+    const int			COLUMN_CREATION_TIME			= 12;
+    const int			COLUMN_MODIFIED_TIME			= 13;
+    const int			COLUMN_ACCESSED_TIME			= 14;
+	const int			COLUMN_ASSET_TAG				= 15;
+	const int			COLUMN_ASSET_SEND_STATE			= 16;
+	const int			COLUMN_PLUGIN_TYPE				= 17;
+	const int			COLUMN_SEND_TO_ID				= 18;
 }
 
 //============================================================================
@@ -87,10 +88,10 @@ void AssetBaseInfoDb::purgeAllAssets( void )
 }
 
 //============================================================================
-void AssetBaseInfoDb::removeAsset( const char* assetName )
+void AssetBaseInfoDb::removeAsset( const char* fileNameAndPath )
 {
-	DbBindList bindList( assetName );
-	sqlExec( "DELETE FROM tblAssets WHERE assetName=?", bindList );
+	DbBindList bindList( fileNameAndPath );
+	sqlExec( "DELETE FROM tblAssets WHERE fileNameAndPath=?", bindList );
 }
 
 //============================================================================
@@ -119,6 +120,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
 								VxGUID&			sendToId,
                                 VxGUID&			thumbId,
                                 const char*		assetName,
+								const char*		fileNameAndPath,
                                 int64_t			assetLen,
                                 uint32_t		assetType,
                                 VxSha1Hash&		hashId,
@@ -151,6 +153,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
 	bindList.add( adminIdStr.c_str() );
     bindList.add( thumbIdStr.c_str() );
     bindList.add( assetName );
+	bindList.add( fileNameAndPath );
     bindList.add( assetLen );
     bindList.add( (int)assetType );
     bindList.add( (void *)hashId.getHashData(), 20 );
@@ -169,7 +172,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
 		LogMsg( LOG_VERBOSE, "AssetBaseInfoDb::addAsset no plugin type" );
 	}
 
-    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,sendToId) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,sendToId) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     if( rc )
     {
@@ -218,6 +221,7 @@ bool AssetBaseInfoDb::addAsset( AssetBaseInfo* assetInfo )
 						assetInfo->getSendToId(),
                         assetInfo->getThumbId(),
 				        assetInfo->getAssetName().c_str(),
+						assetInfo->getFileNameAndPath().c_str(),
 				        assetInfo->getAssetLength(),
 				        (uint32_t)assetInfo->getAssetType(),				
 				        assetInfo->getAssetHashId(),
@@ -236,6 +240,7 @@ bool AssetBaseInfoDb::addAsset( AssetBaseInfo* assetInfo )
 void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList )
 {
 	std::string assetName;
+	std::string fileNameAndPath;
 	EAssetType assetType;
 	uint64_t assetLen;
 	std::string destasset;
@@ -250,10 +255,11 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 		while( cursor->getNextRow() )
 		{
 			assetName = cursor->getString( COLUMN_ASSET_NAME );
+			fileNameAndPath = cursor->getString( COLUMN_FILE_NAME_AND_PATH );
 			assetLen =  (uint64_t)cursor->getS64( COLUMN_ASSET_LEN );
 			assetType = (EAssetType)cursor->getS32( COLUMN_ASSET_TYPE );
 
-			AssetBaseInfo* assetInfo = createAssetInfo( assetType, assetName.c_str(), assetLen );
+			AssetBaseInfo* assetInfo = createAssetInfo( assetType, assetName.c_str(), fileNameAndPath.c_str(), assetLen );
 			assetInfo->setAssetUniqueId( cursor->getString( COLUMN_ASSET_UNIQUE_ID ) );
 			assetInfo->setCreatorId( cursor->getString( COLUMN_ASSET_CREATOR_ID ) );
 			assetInfo->setHistoryId( cursor->getString( COLUMN_ASSET_HISTORY_ID ) );
@@ -308,6 +314,6 @@ void AssetBaseInfoDb::insertAssetInTimeOrder( AssetBaseInfo*assetInfo, std::vect
 		}
 	}
 
-	assetList.push_back( assetInfo );
+	assetList.emplace_back( assetInfo );
 }
 

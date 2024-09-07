@@ -68,32 +68,33 @@ public:
 
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
 	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
-	virtual bool				fromGuiSetFileIsShared( std::string& fileName, bool isShared );
-	virtual bool				fromGuiGetFileIsShared( std::string& fileName );
+	virtual bool				fromGuiSetFileIsShared( std::string& fileNameAndPath, bool isShared );
+	virtual bool				fromGuiGetFileIsShared( std::string& fileNameAndPath );
 	virtual bool				fromGuiAddSharedFile( FileInfo& fileInfo, bool isShared );
 	virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo );
 
 
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
-	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash );
+	virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
 
 	virtual void				updateFileTypes( void );
 
-	virtual bool				isFileShared( std::string& fileName, bool listIsLocked = false );
+	virtual bool				isFileShared( std::string& fileNameAndPath, bool listIsLocked = false);
 	virtual bool				isFileShared( VxGUID& assetId, bool listIsLocked = false );
 	virtual bool				isFileShared( VxSha1Hash& fileHashId, bool listIsLocked = false );
 	virtual bool				isFileShared( VxGUID& assetId, VxSha1Hash& fileHashId, bool listIsLocked = false );
 
 	virtual bool				addFileToDbAndList( FileInfo& fileInfoIn );
-	virtual bool				addFileToDbAndList( VxGUID& onlineId, std::string& fileName, VxGUID& assetId );
+	virtual bool				addFileToDbAndList( VxGUID& onlineId, std::string& fileName, std::string& fileNameAndPath, VxGUID& assetId );
 	virtual bool				addFileToDbAndList( VxGUID&			onlineId,
 													VxGUID&			assetId,
 													std::string		fileName,
+													std::string		fileNameAndPath,
 													uint64_t		fileLen,
 													uint8_t			fileType,
 													VxSha1Hash&		fileHashId );
 
-	virtual bool				removeFromDbAndList( std::string& fileName, bool listIsLocked = false );
+	virtual bool				removeFromDbAndList( std::string& fileNameAndPath, bool listIsLocked = false );
 
 	bool						isAllowedFileOrDir( std::string strFileName );
 

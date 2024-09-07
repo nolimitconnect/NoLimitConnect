@@ -40,7 +40,7 @@ public:
     void						setFileInfo( FileInfo& fileInfo )	    { m_FileInfo = fileInfo; }
     FileInfo&				    getFileInfo( void )						{ return m_FileInfo; }
 
-    QString  					getFullFileName( void )					{ return m_FileInfo.getFullFileName().c_str(); }
+    QString  					getFileNameAndPath( void )					{ return m_FileInfo.getFileNameAndPath().c_str(); }
     void						setFileType( uint8_t	fileType )		{ m_FileInfo.setFileType( fileType ); }
     uint8_t						getFileType( void ) const				{ return m_FileInfo.getFileType(); }
     void						setFileLength( uint64_t fileLen )		{ m_FileInfo.setFileLength( fileLen ); }
@@ -49,7 +49,7 @@ public:
     void						setFileHashId( uint8_t * fileHashData )	{ m_FileInfo.setFileHashId( fileHashData ); }
     VxSha1Hash&					getFileHashId( void )					{ return m_FileInfo.getFileHashId(); }
 
-    QString 					getJustFileName( void )					{ return m_FileInfo.getJustFileName().c_str(); }
+    QString 					getFileName( void )					{ return m_FileInfo.getFileName().c_str(); }
 
     void                        setPluginType( EPluginType pluginType ) { m_PluginType = pluginType; }
     EPluginType                 getPluginType( void )                   { return m_PluginType; }

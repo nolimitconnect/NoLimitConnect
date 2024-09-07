@@ -139,3 +139,10 @@ int	VFilePrintf( VFile* fp, const char* msg, ... )
 
 	return len;
 }
+
+
+//============================================================================
+bool VFileGetFileInfo( const char* fileNameAndPath, VxFileInfoBase& fileInfoBase )
+{
+    return GetVirtFileMgr().getFileInfo( fileNameAndPath, fileInfoBase );
+}

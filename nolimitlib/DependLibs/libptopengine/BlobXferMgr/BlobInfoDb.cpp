@@ -19,9 +19,9 @@ BlobInfoDb::BlobInfoDb( AssetBaseMgr& hostListMgr, const char* dbName )
 }
 
 //============================================================================
-AssetBaseInfo* BlobInfoDb::createAssetInfo( EAssetType assetType, const char* assetName, uint64_t assetLen )
+AssetBaseInfo* BlobInfoDb::createAssetInfo( EAssetType assetType, const char* assetName, const char* fileNameAndPath, uint64_t assetLen )
 {
-    return new BlobInfo( assetType, assetName, assetLen );
+    return new BlobInfo( assetType, assetName, fileNameAndPath, assetLen );
 }
 
 //============================================================================

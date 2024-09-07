@@ -44,6 +44,31 @@ protected:
 	std::vector<std::string>	m_FileList;
 };
 
+class VxFileInfoList
+{
+public:
+    // if list limit then files added after list full will add to front and remove from back
+    void						setListLimit( int listItems ) { m_ListLimit = listItems; }
+
+    bool 						empty( void ) { return m_FileInfoList.empty(); }
+    size_t						size( void ) { return m_FileInfoList.size(); }
+
+    std::string                 getFileNameFromNameAndPath( std::string fileNameAndPath );
+    std::string					getFileNameAtIndex( int listIdx );
+    std::string					getFileNameAndPathAtIndex( int listIdx );
+
+    std::vector<VxFileInfoBase>& getFileInfoList( void ) { return m_FileInfoList; };
+
+    void                        moveToTopOfList( VxFileInfoBase& fileInfo );
+    void                        moveToTopOfList( std::string fileNameAndPath );
+
+protected:
+    bool						doesFileExistInDiskStorage( std::string& fileNameAndPath );
+
+    size_t						m_ListLimit{0};
+    std::vector<VxFileInfoBase>	m_FileInfoList;
+};
+
 class VxFileFinder
 {
 public:

@@ -932,7 +932,7 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
 
     if( speakerFreeSpace < AUDIO_SAMPLES_PER_FRAME )
     {
-        LogModule( eLogAudioIo, LOG_VERBOSE, "Waiting for speaker space" );
+        //LogModule( eLogAudioIo, LOG_VERBOSE, "Waiting for speaker space" );
         // wait until speaker buf can hold one frame
         return;
     }

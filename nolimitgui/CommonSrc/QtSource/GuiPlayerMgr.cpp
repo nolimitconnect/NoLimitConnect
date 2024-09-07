@@ -179,26 +179,26 @@ void GuiPlayerMgr::slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidF
 }
 
 //============================================================================
-bool GuiPlayerMgr::playFile( QString fullFileName, int pos0to100000, bool isStream, bool useExternPlayer )
+bool GuiPlayerMgr::playFile( QString fileNameAndPath, int pos0to100000, bool isStream, bool useExternPlayer )
 {
-	if( fullFileName.isEmpty() )
+    if( fileNameAndPath.isEmpty() )
 	{
 		LogMsg( LOG_WARNING, "GuiPlayerMgr::playFile Empty File Name" );
 		return false;
 	}
 
-	uint8_t fileType;
-	uint64_t fileLen;
-	if( !VxFileUtil::getFileTypeAndLength( fullFileName.toUtf8().constData(), fileLen, fileType ) )
+    VxFileInfoBase fileInfo;
+    if( !VxFileUtil::getFileInfo( fileNameAndPath.toUtf8().constData(), fileInfo ) )
 	{
-		LogMsg( LOG_WARNING, "File no longer available %s", fullFileName.toUtf8().constData() );
+        LogMsg( LOG_WARNING, "File no longer available %s", fileNameAndPath.toUtf8().constData() );
 		return false;
 	}
 
-    LogMsg( LOG_VERBOSE, "%s file %s pos %d", __func__, fullFileName.toUtf8().constData(), pos0to100000 );
+    LogMsg( LOG_VERBOSE, "%s file name %s file %s pos %d", __func__, fileInfo.getFileName().c_str(), fileInfo.getFileNameAndPath().c_str(), pos0to100000 );
 
-	AssetInfo newAsset( GuiParams::fileTypeToAssetType( fileType ), fullFileName.toUtf8().constData(), fileLen );
+    AssetInfo newAsset( fileInfo );
 	newAsset.setIsStream( isStream );
+
 	return playMedia( newAsset, useExternPlayer, pos0to100000 );
 }
 

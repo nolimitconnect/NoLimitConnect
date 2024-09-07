@@ -64,7 +64,7 @@ protected:
 
 	void						browseForMovie( void );
 	void						onFileSelected( FileInfo& fileInfo );
-	void						playSelectedMovie( std::string movieFile );
+	void						playSelectedMedia( std::string movieFile );
 
 	int							addMediaFilesToRecentList( QDir& mediaDir );
 
@@ -75,7 +75,7 @@ protected:
 
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi&		ui;
-	static VxFileList			m_RecentFiles;
+	static VxFileInfoList		m_RecentFiles;
 	bool						m_MediaPlayerReady{ false };
 };
 

@@ -171,7 +171,7 @@ void AppletFileShareClientView::toGuiFileDownloadComplete( EPluginType pluginTyp
 	{
 		if( !newFileName.isEmpty() )
 		{
-			xferSession->setFullFileName( newFileName.toUtf8().constData() );
+			xferSession->setFileNameAndPath( newFileName.toUtf8().constData() );
 		}
 
         xferSession->setXferState( eXferStateCompletedDownload, xferError, 100 );
@@ -310,7 +310,7 @@ FileXferWidget* AppletFileShareClientView::findListEntryWidget( VxGUID lclSessio
 //============================================================================
 void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginType, FileInfo& fileInfo )
 {
-    if( fileInfo.getFileLength() && !fileInfo.getFullFileName().empty() )
+    if( fileInfo.getFileLength() && !fileInfo.getFileNameAndPath().empty() )
 	{
         FileXferWidget* item = fileToWidget( guiUser, pluginType, fileInfo );
 		if( item )
@@ -324,7 +324,7 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 				EXferState xferState = xferSession->getXferState();
 				if( eXferStateUploadNotStarted == xferState || eXferStateDownloadNotStarted == xferState)
 				{
-					std::string fileName = xferSession->getFullFileName().toUtf8().constData();
+					std::string fileName = xferSession->getFileNameAndPath().toUtf8().constData();
                     int64_t fileLen = (int64_t)VxFileUtil::fileExists( fileName.c_str() );
 					if( fileLen && fileLen == fileInfo.getFileLength() )
 					{
@@ -520,7 +520,7 @@ void AppletFileShareClientView::cancelDownload( GuiFileXferSession* xferSession,
 	}
 	else
 	{
-		std::string fileName = xferSession->getFileInfo().getFullFileName();
+		std::string fileName = xferSession->getFileInfo().getFileNameAndPath();
 		if( VxFileUtil::fileExists( fileName.c_str() ) )
 		{
 			if( confirmDeleteFile( true ) )
@@ -548,7 +548,7 @@ void AppletFileShareClientView::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false, false );
+		this->playFile( xferSession->getFileNameAndPath(), 0, false, false );
 	}
 }
 
@@ -558,7 +558,7 @@ void AppletFileShareClientView::slotPlayExternButtonClicked( QListWidgetItem* it
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false, true );
+		this->playFile( xferSession->getFileNameAndPath(), 0, false, true );
 	}
 }
 
@@ -596,7 +596,7 @@ void AppletFileShareClientView::slotShredButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( xferSession )
 	{
-		QString fileName = xferSession->getFullFileName();
+		QString fileName = xferSession->getFileNameAndPath();
 		if( confirmDeleteFile( true ) )
 		{
 			removeDownload( xferSession, item );
@@ -649,7 +649,7 @@ void AppletFileShareClientView::promptForDownload( GuiFileXferSession* poInfo )
     popupMenu.setBottomBarWidget( this->getBottomBarWidget() );
     popupMenu.setTitle( QObject::tr( "Download A File" ) );
     popupMenu.addMenuItem( 1, getMyIcons().getIcon(eMyIconFileDownload), QObject::tr( "Download A File" ) );
-    popupMenu.addMenuItem( 2, getMyIcons().getIcon(getMyIcons().getFileIcon(poInfo->getFileType())), poInfo->getJustFileName() );
+    popupMenu.addMenuItem( 2, getMyIcons().getIcon(getMyIcons().getFileIcon(poInfo->getFileType())), poInfo->getFileName() );
     connect( &popupMenu, SIGNAL(menuItemClicked(int, PopupMenu *, ActivityBase*)), this, SLOT(slotDownloadFileSelected(int, PopupMenu *, ActivityBase*)));
 
     popupMenu.exec();*/

@@ -15,9 +15,7 @@
 
 #include <CoreLib/VFile.h>
 #include <CoreLib/VxFileUtil.h>
-
 #include <NetLib/VxSktBase.h>
-
 #include <PktLib/PktsStreamCtrl.h>
 
 //============================================================================

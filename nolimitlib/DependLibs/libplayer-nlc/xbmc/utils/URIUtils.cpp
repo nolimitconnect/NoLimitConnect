@@ -29,7 +29,9 @@
 #include <cassert>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxFileUtil.h>
 
 #if ENABLE_PVR && HAVE_ADDONS
 using namespace PVR;
@@ -56,6 +58,11 @@ std::string URIUtils::GetExtension(const NlcUrl& url)
 
 std::string URIUtils::GetExtension(const std::string& strFileName)
 {
+    if (VxFileUtil::fileIsProviderFile(strFileName.c_str()))
+    {
+        return "";
+    }
+
   if (IsURL(strFileName))
   {
     NlcUrl url(strFileName);
@@ -93,6 +100,8 @@ bool URIUtils::HasExtension(const NlcUrl& url, const std::string& strExtensions)
 
 bool URIUtils::HasExtension(const std::string& strFileName, const std::string& strExtensions)
 {
+  if( strFileName.empty() ) { return false; }
+
   if (IsURL(strFileName))
   {
     NlcUrl url(strFileName);
@@ -119,6 +128,7 @@ bool URIUtils::HasExtension(const std::string& strFileName, const std::string& s
 
 void URIUtils::RemoveExtension(std::string& strFileName)
 {
+  if( strFileName.empty() ) { return; }
   if(IsURL(strFileName))
   {
     NlcUrl url(strFileName);
@@ -156,6 +166,7 @@ void URIUtils::RemoveExtension(std::string& strFileName)
 std::string URIUtils::ReplaceExtension(const std::string& strFile,
                                       const std::string& strNewExtension)
 {
+    if( strFile.empty() ) { return strFile; }
   if(IsURL(strFile))
   {
     NlcUrl url(strFile);
@@ -559,6 +570,11 @@ std::string URIUtils::SubstitutePath(const std::string& strPath, bool reverse /*
 
 bool URIUtils::IsProtocol(const std::string& url, const std::string &type)
 {
+    if(url.empty() )
+    {
+        return false;
+    }
+
   return StringUtils::StartsWithNoCase(url, type + "://");
 }
 
@@ -772,6 +788,8 @@ bool URIUtils::IsHD(const std::string& strFileName)
 
 bool URIUtils::IsDVD(const std::string& strFile)
 {
+    if( strFile.empty() ) { return false; }
+
   std::string strFileLow = strFile;
   StringUtils::ToLower(strFileLow);
   if (strFileLow.find("video_ts.ifo") != std::string::npos && IsOnDVD(strFile))
@@ -824,6 +842,7 @@ bool URIUtils::IsRAR(const std::string& strFile)
 
 bool URIUtils::IsInArchive(const std::string &strFile)
 {
+      if( strFile.empty() ) { return false; }
   NlcUrl url(strFile);
 
   bool archiveProto = url.IsProtocol("archive") && !url.GetFileName().empty();
@@ -832,6 +851,7 @@ bool URIUtils::IsInArchive(const std::string &strFile)
 
 bool URIUtils::IsInAPK(const std::string& strFile)
 {
+      if( strFile.empty() ) { return false; }
   NlcUrl url(strFile);
 
   return url.IsProtocol("apk") && !url.GetFileName().empty();
@@ -839,6 +859,7 @@ bool URIUtils::IsInAPK(const std::string& strFile)
 
 bool URIUtils::IsInZIP(const std::string& strFile)
 {
+      if( strFile.empty() ) { return false; }
   NlcUrl url(strFile);
 
   if (url.GetFileName().empty())
@@ -852,6 +873,7 @@ bool URIUtils::IsInZIP(const std::string& strFile)
 
 bool URIUtils::IsInRAR(const std::string& strFile)
 {
+      if( strFile.empty() ) { return false; }
   NlcUrl url(strFile);
 
   if (url.GetFileName().empty())
@@ -1126,6 +1148,11 @@ bool URIUtils::IsMusicDb(const std::string& strFile)
 
 bool URIUtils::IsNfs(const std::string& strFile)
 {
+    if(strFile.empty())
+    {
+        return false;
+    }
+
   if (IsStack(strFile))
     return IsNfs(CStackDirectory::GetFirstStackedFile(strFile));
 
@@ -1182,12 +1209,18 @@ bool URIUtils::IsDOSPath(const std::string &path)
 
 std::string URIUtils::AppendSlash(std::string strFolder)
 {
+    if(strFolder.empty())
+    {
+        return strFolder;
+    }
   AddSlashAtEnd(strFolder);
   return strFolder;
 }
 
 void URIUtils::AddSlashAtEnd(std::string& strFolder)
 {
+    if (strFolder.empty()) return;
+
   if (IsURL(strFolder))
   {
     NlcUrl url(strFolder);

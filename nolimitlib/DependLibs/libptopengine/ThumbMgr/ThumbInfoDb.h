@@ -23,7 +23,7 @@ public:
     bool                        saveToDatabase( ThumbInfo& thumbInfo );
 
 protected:
-    virtual AssetBaseInfo*     createAssetInfo( EAssetType assetType, const char* fileName, uint64_t fileLen ) override;
+    virtual AssetBaseInfo*     createAssetInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen ) override;
     virtual AssetBaseInfo*     createAssetInfo( AssetBaseInfo& assetInfo ) override;
 };
 

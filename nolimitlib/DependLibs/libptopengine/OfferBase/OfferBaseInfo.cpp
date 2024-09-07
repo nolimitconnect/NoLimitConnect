@@ -26,14 +26,14 @@ OfferBaseInfo::OfferBaseInfo( const OfferBaseInfo& rhs )
 }
 
 //============================================================================
-OfferBaseInfo::OfferBaseInfo( std::string fileName )
-	: AssetInfo( VxFileNameToAssetType( fileName ), fileName )
+OfferBaseInfo::OfferBaseInfo( std::string fileName, std::string fileNameAndPath )
+	: AssetInfo( VxFileNameToAssetType( fileName ), fileName, fileNameAndPath )
 {
 }
 
 //============================================================================
-OfferBaseInfo::OfferBaseInfo( std::string fileName, uint64_t assetLen, uint16_t assetType )
-	: AssetInfo( VxFileNameToAssetType( fileName ), fileName, assetLen )
+OfferBaseInfo::OfferBaseInfo( std::string fileName, std::string fileNameAndPath, uint64_t assetLen, uint16_t assetType )
+	: AssetInfo( VxFileNameToAssetType( fileName ), fileName, fileNameAndPath, assetLen )
 {
 }
 

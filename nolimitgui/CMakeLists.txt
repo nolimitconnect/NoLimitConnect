@@ -406,6 +406,11 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/VxAppDisplay.h
     CommonSrc/QtSource/VxPlainTextEdit.h
     CommonSrc/QtSource/WaitingSpinnerWidget.h
+    CommonSrc/QtSource/VirtStream/VirtProviderFile.h
+    CommonSrc/QtSource/VirtStream/VirtStorageProvider.h
+    CommonSrc/QtSource/VirtStream/VirtStreamCache.h
+    CommonSrc/QtSource/VirtStream/VirtStreamFile.h
+    CommonSrc/QtSource/VirtStream/VirtStreamMgr.h
    )
 
 set(nlc_SOURCES)
@@ -783,6 +788,13 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxAppDisplay.cpp
     CommonSrc/QtSource/VxPlainTextEdit.cpp
     CommonSrc/QtSource/WaitingSpinnerWidget.cpp
+    CommonSrc/QtSource/VirtStream/VirtProviderFile.cpp
+    CommonSrc/QtSource/VirtStream/VirtStorageProvider.cpp
+    CommonSrc/QtSource/VirtStream/VirtStreamCache.cpp
+    CommonSrc/QtSource/VirtStream/VirtStreamFile.cpp
+    CommonSrc/QtSource/VirtStream/VirtStreamMgr.cpp
+    CommonSrc/QtSource/VirtStream/VirtStreamMgrFileIo.cpp
+    CommonSrc/QtSource/VirtStream/VirtStreamMgrProvider.cpp
     ../nolimitlib/GuiInterface/ILog.cpp
     ../nolimitlib/GuiInterface/IDefs.cpp
    )

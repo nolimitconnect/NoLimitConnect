@@ -8,12 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(TARGET_OS_ANDROID)
-
 #include "VirtStorageProvider.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/FileInfo.h>
+
+#include <CoreLib/VirtFileMgr.h>
 
 #include <QDir>
 #include <QUrl>
@@ -61,52 +61,38 @@ void VirtStorageProvider::fromGuiBrowseFiles( VxGUID& appInstId, std::string& fo
     LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), folderName.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
-        std::string fileName = fileListInfo.filePath().toUtf8().constData();
-        //VxFileUtil::decodePercentEncodingOfSlash( fileName );
-        if( fileName.empty() )
+        VxFileInfoBase fileInfoBase;
+        if( !GetVirtFileMgr().qtFileInfoToVxFileInfo( fileListInfo, fileInfoBase, fileFilterMask ) )
         {
             continue;
         }
 
 		if( fileListInfo.isDir() )
 		{
-			LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
+            LogMsg( LOG_VERBOSE, "Directory %s", fileInfoBase.getFileName().c_str() );
 
 			if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
 			{
-				VxFileUtil::assureTrailingDirectorySlash( fileName );
-				FileInfo dirInfo( onlineId, fileName, 0, VXFILE_TYPE_DIRECTORY );
+                VxFileUtil::assureTrailingDirectorySlash( fileInfoBase.getFileNameAndPath() );
+                FileInfo dirInfo( fileInfoBase );
+                dirInfo.setOnlineId( onlineId );
                 GetPtoPEngine().getToGui().toGuiFileList( appInstId, dirInfo );
 			}
 		}
 		else if( fileListInfo.isExecutable() )
 		{
-			LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileName.c_str() );
+            LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileInfoBase.getFileName().c_str() );
 		}
 		else if( fileListInfo.isReadable() )
 		{
-            int64_t fileLen = fileListInfo.size();
-
-            if( fileLen )
-            {
-			    uint8_t fileType = VxFileNameToFileType( fileName );
-                if( fileLen && ( fileType & fileFilterMask ) )
-			    {
-                    LogMsg( LOG_VERBOSE, "Readable File %s len %" PRId64 " type 0x%x ", fileName.c_str(), fileLen, fileType );
-
-                    FileInfo fileInfo( onlineId, fileName, fileLen, fileType );
-                    fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( fileName ) );
-				    fileInfo.setIsSharedFile( GetPtoPEngine().fromGuiGetIsFileShared( fileInfo ) );
-			    }
-            }
-            else
-            {
-                LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
-            }
-		}
+            FileInfo fileInfo( fileInfoBase );
+            fileInfo.setOnlineId( onlineId );
+            fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( fileInfoBase.getFileNameAndPath() ) );
+            fileInfo.setIsSharedFile( GetPtoPEngine().fromGuiGetIsFileShared( fileInfo ) );
+        }
 		else
 		{
-			LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileName.c_str() );
+            LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileInfoBase.getFileName().c_str() );
 		}
     }
 
@@ -132,8 +118,8 @@ void VirtStorageProvider::loadUrl( const QUrl &url )
 bool VirtStorageProvider::requestAndroidStoragePermissions( void )
 {
 #if defined (Q_OS_ANDROID)
-    bool result = checkUserPermission({ "android.permission.MANAGE_EXTERNAL_STORAGE" });
-    result &= checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
+    bool result = requestPermission({ "android.permission.MANAGE_EXTERNAL_STORAGE" });
+    result &= requestPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
     return result;
 #else
     return true;
@@ -141,7 +127,7 @@ bool VirtStorageProvider::requestAndroidStoragePermissions( void )
 }
 
 //============================================================================
-bool VirtStorageProvider::checkUserPermission( QString permissionName ) // returns false if user denies permission to use android hardware
+bool VirtStorageProvider::requestPermission( QString permissionName ) // returns false if user denies permission to use android hardware
 {
 
 #if defined (Q_OS_ANDROID)
@@ -161,4 +147,3 @@ bool VirtStorageProvider::checkUserPermission( QString permissionName ) // retur
 #endif // defined (Q_OS_ANDROID)
 }
 
-#endif // defined(TARGET_OS_ANDROID)

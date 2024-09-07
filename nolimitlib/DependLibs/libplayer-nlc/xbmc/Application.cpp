@@ -241,11 +241,11 @@ CApplication::CApplication( void )
 
 CApplication::~CApplication( void )
 {
-    if( !VxIsAppShuttingDown() )
-    {
-        DeregisterComponent( typeid(CApplicationPlayer) );
-        DeregisterComponent( typeid(CApplicationActionListeners) );
-    }
+    //if( !VxIsAppShuttingDown() )
+    //{
+    //    DeregisterComponent( typeid(CApplicationPlayer) );
+    //    DeregisterComponent( typeid(CApplicationActionListeners) );
+    //}
 }
 
 bool CApplication::OnEvent( XBMC_Event& newEvent )
@@ -1567,7 +1567,7 @@ int CApplication::Run()
             }
             else
             {
-                KODI::TIME::Sleep( std::chrono::milliseconds( 0 ) );
+                KODI::TIME::Sleep( std::chrono::milliseconds( 20 ) );
             }           
         }
         else if( !renderGUI )
@@ -2091,9 +2091,7 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
     //}
 
     options.fullscreen = true;
-
     appPlayer->OpenFile( item, options, m_ServiceManager->GetPlayerCoreFactory(), player, *this );
-
     //appPlayer->SetVolume( appVolume->GetVolumeRatio() );
     //appPlayer->SetMute( appVolume->IsMuted() );
 

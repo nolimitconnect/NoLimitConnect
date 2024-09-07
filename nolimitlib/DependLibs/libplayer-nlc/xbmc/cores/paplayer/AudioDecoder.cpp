@@ -70,14 +70,16 @@ bool CAudioDecoder::Create(const CFileItem &file, int64_t seekOffset)
   m_eof = false;
 
   // get correct cache size
-  const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
-  unsigned int filecache = settings->GetInt(CSettings::SETTING_CACHEAUDIO_INTERNET);
-  if ( file.IsHD() )
-    filecache = settings->GetInt(CSettings::SETTING_CACHE_HARDDISK);
-  else if ( file.IsOnDVD() )
-    filecache = settings->GetInt(CSettings::SETTING_CACHEAUDIO_DVDROM);
-  else if ( file.IsOnLAN() )
-    filecache = settings->GetInt(CSettings::SETTING_CACHEAUDIO_LAN);
+  //const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
+  //unsigned int filecache = settings->GetInt(CSettings::SETTING_CACHEAUDIO_INTERNET);
+  //if ( file.IsHD() )
+  //  filecache = settings->GetInt(CSettings::SETTING_CACHE_HARDDISK);
+  //else if ( file.IsOnDVD() )
+  //  filecache = settings->GetInt(CSettings::SETTING_CACHEAUDIO_DVDROM);
+  //else if ( file.IsOnLAN() )
+  //  filecache = settings->GetInt(CSettings::SETTING_CACHEAUDIO_LAN);
+
+  unsigned int filecache = false;
 
   // create our codec
   m_codec=CodecFactory::CreateCodecDemux(file, filecache * 1024);

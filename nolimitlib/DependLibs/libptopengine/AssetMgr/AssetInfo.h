@@ -20,11 +20,12 @@ public:
     AssetInfo( enum EAssetType assetType );
 	AssetInfo( const AssetInfo& rhs );
     AssetInfo( const AssetBaseInfo& rhs );
+    AssetInfo( const VxFileInfoBase& rhs );
     AssetInfo( FileInfo& rhs );
-    AssetInfo( enum EAssetType assetType, std::string fileName );
-    AssetInfo( enum EAssetType assetType, std::string fileName, VxGUID& assetId );
-    AssetInfo( enum EAssetType assetType, std::string fileName, uint64_t fileLen );
-    AssetInfo( enum EAssetType assetType, std::string fileName, uint64_t fileLen, VxGUID& assetId );
+    AssetInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath );
+    AssetInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath, VxGUID& assetId );
+    AssetInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen );
+    AssetInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen, VxGUID& assetId );
 
 	AssetInfo&					operator=( const AssetInfo& rhs ); 
 

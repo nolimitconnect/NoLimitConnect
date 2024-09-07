@@ -27,6 +27,6 @@
 - [ ] My code follows the [Code guidelines](https://codedocs.xyz/xbmc/code_guidelines.html) of this project 
 - [ ] My change requires a change to the documentation, either Doxygen or wiki
 - [ ] I have updated the documentation accordingly
-- [ ] I have read the [CONTRIBUTING](https://github.com/xbmc/blob/master/CONTRIBUTING.md) document
+- [ ] I have read the [CONTRIBUTING](https://github.com/xbmc/xbmc/blob/master/CONTRIBUTING.md) document
 - [ ] I have added tests to cover my change
 - [ ] All new and existing tests passed

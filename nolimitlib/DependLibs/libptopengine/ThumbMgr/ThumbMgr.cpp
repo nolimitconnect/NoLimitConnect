@@ -38,27 +38,27 @@ ThumbMgr::ThumbMgr( P2PEngine& engine, const char* dbName, const char* dbStateNa
 }
 
 //============================================================================
-AssetBaseInfo* ThumbMgr::createAssetInfo( EAssetType assetType, const char* fileName, uint64_t assetLen )
+AssetBaseInfo* ThumbMgr::createAssetInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t assetLen )
 {
     if( eAssetTypeThumbnail == assetType )
     {
         LogMsg( LOG_ERROR, "ThumbMgr::createAssetInfo creating thumbnail asset of asset type %s", DescribeAssetType( assetType ) );
     }
 
-    ThumbInfo* assetInfo = new ThumbInfo( fileName, assetLen );
+    ThumbInfo* assetInfo = new ThumbInfo( fileName, fileNameAndPath, assetLen );
     assetInfo->assureHasCreatorId();
     return assetInfo;
 }
 
 //============================================================================
-AssetBaseInfo* ThumbMgr::createAssetInfo( EAssetType assetType, const char* fileName, uint64_t assetLen, VxGUID& assetId )
+AssetBaseInfo* ThumbMgr::createAssetInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t assetLen, VxGUID& assetId )
 {
     if( eAssetTypeThumbnail == assetType )
     {
         LogMsg( LOG_ERROR, "ThumbMgr::createAssetInfo creating thumbnail asset of asset type %s", DescribeAssetType( assetType ) );
     }
 
-    ThumbInfo* assetInfo = new ThumbInfo( fileName, assetLen, assetId );
+    ThumbInfo* assetInfo = new ThumbInfo( fileName, fileNameAndPath, assetLen, assetId );
     assetInfo->assureHasCreatorId();
     return assetInfo;
 }

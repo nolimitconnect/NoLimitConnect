@@ -56,11 +56,11 @@ void BlobXferDb::purgeAllBlobXfer( void )
 	unlockBlobXferDb();
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "BlobXferDb::purgeAllBlobXfer error %d\n", rc );
+		LogMsg( LOG_ERROR, "BlobXferDb::purgeAllBlobXfer error %d", rc );
 	}
 	else
 	{
-		LogMsg( LOG_INFO, "BlobXferDb::purgeAllBlobXfer success\n" );
+		LogMsg( LOG_INFO, "BlobXferDb::purgeAllBlobXfer success" );
 	}
 }
 
@@ -85,7 +85,7 @@ void BlobXferDb::addBlob( VxGUID& assetUniqueId )
 		bindList );
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "BlobXferDb::addBlob error %d\n", rc );
+		LogMsg( LOG_ERROR, "BlobXferDb::addBlob error %d", rc );
 	}
 }
 

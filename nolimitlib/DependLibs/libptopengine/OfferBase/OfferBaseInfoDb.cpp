@@ -27,22 +27,23 @@ namespace
 	const int			COLUMN_OFFER_SEND_TO_ID			= 4;
 	const int			COLUMN_OFFER_UNIQUE_ID			= 5;
 	const int			COLUMN_OFFER_NAME				= 6;
-	const int			COLUMN_OFFER_LEN				= 7;
-	const int			COLUMN_OFFER_TYPE				= 8;
-	const int			COLUMN_OFFER_HASH_ID			= 9;
-	const int			COLUMN_LOCATION_FLAGS			= 10;
-    const int			COLUMN_ATTRIBUTE_FLAGS			= 11;
-    const int			COLUMN_CREATION_TIME			= 12;
-    const int			COLUMN_MODIFIED_TIME			= 13;
-    const int			COLUMN_ACCESSED_TIME			= 14;
-	const int			COLUMN_OFFER_TAG				= 15;
-	const int			COLUMN_OFFER_SEND_STATE			= 16;
-    const int			COLUMN_PLUGIN_TYPE			    = 17;
-    const int			COLUMN_OFFER_MSG			    = 18;
-    const int			COLUMN_OFFER_EXPIRES			= 19;
-    const int			COLUMN_IS_TEMPORARY			    = 20;
-	const int			COLUMN_OFFER_RESPONSE			= 21;
-	const int			COLUMN_OFFER_MGR				= 22;
+	const int			COLUMN_FILE_NAME_AND_PATH		= 7;
+	const int			COLUMN_OFFER_LEN				= 8;
+	const int			COLUMN_OFFER_TYPE				= 9;
+	const int			COLUMN_OFFER_HASH_ID			= 10;
+	const int			COLUMN_LOCATION_FLAGS			= 11;
+    const int			COLUMN_ATTRIBUTE_FLAGS			= 12;
+    const int			COLUMN_CREATION_TIME			= 13;
+    const int			COLUMN_MODIFIED_TIME			= 14;
+    const int			COLUMN_ACCESSED_TIME			= 15;
+	const int			COLUMN_OFFER_TAG				= 16;
+	const int			COLUMN_OFFER_SEND_STATE			= 17;
+    const int			COLUMN_PLUGIN_TYPE			    = 18;
+    const int			COLUMN_OFFER_MSG			    = 19;
+    const int			COLUMN_OFFER_EXPIRES			= 20;
+    const int			COLUMN_IS_TEMPORARY			    = 21;
+	const int			COLUMN_OFFER_RESPONSE			= 22;
+	const int			COLUMN_OFFER_MGR				= 23;
 }
 
 //============================================================================
@@ -124,6 +125,7 @@ void OfferBaseInfoDb::addOffer( VxGUID&			offerId,
 								VxGUID&			sendToId,
 								VxGUID&			assetId,
                                 const char*     assetName,
+								const char*     fileNameAndPath,
                                 int64_t			assetLen,
                                 uint32_t		assetType,
                                 VxSha1Hash&		hashId,
@@ -158,6 +160,7 @@ void OfferBaseInfoDb::addOffer( VxGUID&			offerId,
 	bindList.add( sendToIdStr.c_str() );
 	bindList.add( assetIdStr.c_str() );
     bindList.add( assetName );
+	bindList.add( fileNameAndPath );
     bindList.add( assetLen );
     bindList.add( (int)assetType );
     bindList.add( (void *)hashId.getHashData(), 20 );
@@ -176,7 +179,7 @@ void OfferBaseInfoDb::addOffer( VxGUID&			offerId,
 	bindList.add( offerIdStr.c_str() );
 	bindList.add( (int)offerMgr );
 
-    RCODE rc = sqlExec( "INSERT INTO tblOffers (offerId,creatorId,historyId,thumbId,sendToId,assetId,assetName,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,offerMsg,offerExpires,isTemp,offerResponse,offerMgr) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblOffers (offerId,creatorId,historyId,thumbId,sendToId,assetId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,offerMsg,offerExpires,isTemp,offerResponse,offerMgr) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     if( rc )
     {
@@ -208,6 +211,7 @@ void OfferBaseInfoDb::addOffer( OfferBaseInfo* offerInfo )
 				offerInfo->getSendToId(),
 				offerInfo->getAssetUniqueId(),
 				offerInfo->getOfferName().c_str(),
+				offerInfo->getFileNameAndPath().c_str(),
 				offerInfo->getOfferLength(),
 				(uint32_t)offerInfo->getOfferType(),				
 				offerInfo->getOfferHashId(),
@@ -231,6 +235,7 @@ void OfferBaseInfoDb::addOffer( OfferBaseInfo* offerInfo )
 void OfferBaseInfoDb::getAllOffers( std::vector<OfferBaseInfo*>& OfferList )
 {
 	std::string assetName;
+	std::string fileNameAndPath;
 	uint16_t assetType;
 	uint64_t assetLen;
 	std::string destasset;
@@ -242,11 +247,12 @@ void OfferBaseInfoDb::getAllOffers( std::vector<OfferBaseInfo*>& OfferList )
 		while( cursor->getNextRow() )
 		{
 			assetName = cursor->getString( COLUMN_OFFER_NAME );
+			fileNameAndPath = cursor->getString( COLUMN_FILE_NAME_AND_PATH );
 			assetLen =  (uint64_t)cursor->getS64( COLUMN_OFFER_LEN );
 			assetType = (uint16_t)cursor->getS32( COLUMN_OFFER_TYPE );
             uint16_t offerExpires =  (uint16_t)cursor->getS64( COLUMN_OFFER_EXPIRES );
 
-			OfferBaseInfo* offerInfo = new OfferBaseInfo( assetName, assetLen, assetType );
+			OfferBaseInfo* offerInfo = new OfferBaseInfo( assetName, fileNameAndPath, assetLen, assetType );
 			offerInfo->setOfferId( cursor->getString( COLUMN_OFFER_ID ) );
 			offerInfo->setCreatorId( cursor->getString( COLUMN_OFFER_CREATOR_ID ) );
 			offerInfo->setHistoryId( cursor->getString( COLUMN_OFFER_HISTORY_ID ) );

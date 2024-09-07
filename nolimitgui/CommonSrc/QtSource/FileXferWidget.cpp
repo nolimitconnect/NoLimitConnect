@@ -241,7 +241,7 @@ void FileXferWidget::updateWidgetFromInfo( void )
 	}
 	else
 	{
-		ui.m_FileNameLabel->setText( xferSession->getJustFileName() );
+		ui.m_FileNameLabel->setText( xferSession->getFileName() );
 		ui.m_FilePathLabel->setText( xferSession->getFilePath() );
 		ui.m_FileSizeLabel->setText( xferSession->describeFileLength() );
 		ui.m_FilePathLabel->setTextBreakAnywhere( xferSession->getFilePath(), 3 );

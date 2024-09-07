@@ -19,10 +19,10 @@ public:
     ThumbInfo( const AssetBaseInfo& rhs );
     ThumbInfo( VxGUID& onlineId, int64_t modifiedTime = 0 );
     ThumbInfo( VxGUID& onlineId, VxGUID& assetId, int64_t modifiedTime = 0 );
-	ThumbInfo( const std::string& fileName );
-    ThumbInfo( const std::string& fileName, VxGUID& assetId );
-    ThumbInfo( const char* fileName, uint64_t fileLen );
-    ThumbInfo( const char* fileName, uint64_t fileLen, VxGUID& assetId );
+	ThumbInfo( const std::string& fileName, const std::string& fileNameAndPath );
+    ThumbInfo( const std::string& fileName, const std::string& fileNameAndPath, VxGUID& assetId );
+    ThumbInfo( const char* fileName, const char* fileNameAndPath, uint64_t fileLen );
+    ThumbInfo( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId );
     virtual ~ThumbInfo();
 
 	ThumbInfo&				    operator=( const ThumbInfo& rhs ); 

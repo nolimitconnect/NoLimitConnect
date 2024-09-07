@@ -73,7 +73,7 @@ AppletNearbyListClient::AppletNearbyListClient(	AppCommon& app, QWidget* parent 
 
     m_MyApp.activityStateChange( this, true );
     m_UserMgr.wantGuiUserUpdateCallbacks( this, true );
-    if( !GuiHelpers::checkUserPermission( "android.permission.CHANGE_WIFI_MULTICAST_STATE" ) )
+    if( !GuiHelpers::requestPermission( "android.permission.CHANGE_WIFI_MULTICAST_STATE" ) )
     {
         okMessageBox( QObject::tr( "Broadcast Permission" ), QObject::tr( "Cannot discover nearby users without Broadcast Permission" ) );
     }
@@ -278,7 +278,7 @@ void AppletNearbyListClient::slotIgnoredButtonClicked( void )
 //============================================================================
 void AppletNearbyListClient::slotNearbyButtonClicked( void )
 {
-    if( !GuiHelpers::checkUserPermission("android.permission.CHANGE_WIFI_MULTICAST_STATE") )
+    if( !GuiHelpers::requestPermission("android.permission.CHANGE_WIFI_MULTICAST_STATE") )
     {
         okMessageBox(QObject::tr("Broadcast Permission"), QObject::tr("Cannot discover nearby users without Broadcast Permission"));
         ui.m_FriendsButton->setFocus();

@@ -60,7 +60,7 @@ bool CDVDInputStreamFile::Open()
       content == "video/x-matroska-3d")
     flags |= READ_MULTI_STREAM;
 
-  if( m_item.IsVirtualStream() )
+  if( m_item.isVirtualStream() || m_item.isContentProviderFile() )
   {
       flags |= READ_VIRT_STREAM_FILE;
   }

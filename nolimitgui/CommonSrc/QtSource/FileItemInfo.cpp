@@ -82,7 +82,7 @@ bool FileItemInfo::toAsssetInfo( AppCommon& myApp, AssetBaseInfo& assetInfoOut, 
         *retIsNewAsset = false;
     }
 
-    std::string assetFileName = getFullFileName().toUtf8().constData();
+    std::string assetFileName = getFileNameAndPath().toUtf8().constData();
     VxGUID assetId = getAssetId();
 
     if( VXFILE_TYPE_DIRECTORY == getFileType() )
@@ -116,7 +116,8 @@ bool FileItemInfo::toAsssetInfo( AppCommon& myApp, AssetBaseInfo& assetInfoOut, 
                     assetId.initializeWithNewVxGUID();
                 }
 
-                AssetInfo newAsset( GuiParams::fileTypeToAssetType( getFileType() ), assetFileName.c_str(), fileLen, assetId );
+                AssetInfo newAsset( m_FileInfo );
+                newAsset.setAssetUniqueId( assetId );
                 assetInfoOut = newAsset;
                 if( retIsNewAsset )
                 {

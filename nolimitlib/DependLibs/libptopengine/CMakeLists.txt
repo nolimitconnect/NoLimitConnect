@@ -11,11 +11,6 @@ list(APPEND ptopengine_HEADERS
     SendQueue/SendQueueCallback.h
     SendQueue/SendQueueDb.h
     SendQueue/SendQueueMgr.h
-    VirtStream/VirtProviderFile.h
-    VirtStream/VirtStorageProvider.h
-    VirtStream/VirtStreamCache.h
-    VirtStream/VirtStreamFile.h
-    VirtStream/VirtStreamMgr.h
 )
 
 set(ptopengine_SOURCES)
@@ -259,13 +254,6 @@ list(APPEND ptopengine_SOURCES
 	UserJoinMgr/UserJoinInfoDb.cpp
 	UserJoinMgr/UserJoinMgr.cpp
 	UserOnlineMgr/UserOnlineMgr.cpp
-    VirtStream/VirtProviderFile.cpp
-    VirtStream/VirtStorageProvider.cpp
-    VirtStream/VirtStreamCache.cpp
-    VirtStream/VirtStreamFile.cpp
-    VirtStream/VirtStreamMgr.cpp
-    VirtStream/VirtStreamMgrFileIo.cpp
-    VirtStream/VirtStreamMgrProvider.cpp
     WebPageMgr/WebPageMgr.cpp 
 )
 

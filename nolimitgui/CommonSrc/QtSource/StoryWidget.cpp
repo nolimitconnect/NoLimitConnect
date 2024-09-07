@@ -640,7 +640,7 @@ void StoryWidget::insertPicture()
 	{
 		//! remove the path and return just the file name
 		std::string	strJustFileName;
-		VxFileUtil::getJustFileName(	fileName.toUtf8().constData(),	// file name may be full or just file name
+		VxFileUtil::getFileName(	fileName.toUtf8().constData(),	// file name may be full or just file name
 										strJustFileName );		// return file name
 		if( strJustFileName.length() )
 		{

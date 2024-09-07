@@ -41,26 +41,26 @@ BlobInfo::BlobInfo( const AssetBaseInfo& rhs )
 }
 
 //============================================================================
-BlobInfo::BlobInfo( EAssetType assetType, const std::string& fileName )
-: AssetBaseInfo( assetType, fileName )
+BlobInfo::BlobInfo( EAssetType assetType, const std::string& fileName, const std::string& fileNameAndPath )
+: AssetBaseInfo( assetType, fileName, fileNameAndPath )
 { 
 }
 
 //============================================================================
-BlobInfo::BlobInfo( EAssetType assetType, const std::string& fileName, VxGUID& assetId )
-	: AssetBaseInfo( assetType, fileName, assetId )
+BlobInfo::BlobInfo( EAssetType assetType, const std::string& fileName, const std::string& fileNameAndPath, VxGUID& assetId )
+	: AssetBaseInfo( assetType, fileName, fileNameAndPath, assetId )
 {
 }
 
 //============================================================================
-BlobInfo::BlobInfo( EAssetType assetType, const char* fileName, uint64_t fileLen )
-: AssetBaseInfo( assetType, fileName, fileLen )
+BlobInfo::BlobInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen )
+: AssetBaseInfo( assetType, fileName, fileNameAndPath, fileLen )
 {
 }
 
 //============================================================================
-BlobInfo::BlobInfo( EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId )
-	: AssetBaseInfo( assetType, fileName, fileLen, assetId )
+BlobInfo::BlobInfo( EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId )
+	: AssetBaseInfo( assetType, fileName, fileNameAndPath, fileLen, assetId )
 {
 }
 

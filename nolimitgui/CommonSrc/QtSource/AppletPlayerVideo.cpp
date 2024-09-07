@@ -96,7 +96,7 @@ void AppletPlayerVideo::slotMenuItemSelected( int menuId, EMenuItemType menuItem
         dlgBrowse->exec();
         if( dlgBrowse->getWasFileSelected() )
         {
-            QString fileName = dlgBrowse->getSelectedFileInfo().getFullFileName().c_str();
+            QString fileName = dlgBrowse->getSelectedFileInfo().getFileNameAndPath().c_str();
             playFile( fileName, 0, false, false );
          }
 

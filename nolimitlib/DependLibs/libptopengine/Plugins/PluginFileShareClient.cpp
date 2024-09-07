@@ -97,7 +97,7 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 			if( result )
 			{
 				// all done
-				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, foundFileInfo.getFullFileName() );
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, foundFileInfo.getFileNameAndPath() );
 			}
 			else
 			{
@@ -120,7 +120,7 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 				for( auto iter = m_CompletedFileInfoList.begin(); iter != m_CompletedFileInfoList.end(); ++iter )
 				{
 					FileInfo& fileInfo = *iter;
-					if( fileInfo.getShortFileName() == getWebIndexFileName() )
+					if( fileInfo.getFileName() == getWebIndexFileName() )
 					{
 						indexFileInfo = fileInfo;
 						result = true;
@@ -132,7 +132,7 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 				if( result )
 				{
 					// all done
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFullFileName() );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
 				}
 				else
 				{
@@ -274,17 +274,13 @@ bool PluginFileShareClient::onConnectForFileListDownload( std::shared_ptr<VxSktB
 //============================================================================
 bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, FileInfo& fileInfo )
 {
-	bool result{ false };
-	if( fileInfo.determineFullFileName( m_DownloadFileFolder ) )
+	bool result = fileInfo.isValid( true );
+	if( result )
 	{
-		result = fileInfo.isValid( true );
-		if( result )
-		{
-			lockSearchFileList();
-			m_SearchFileInfoList.push_back( fileInfo );
-			unlockSearchFileList();
-			sendFileSearchResultToGui( searchSessionId, onlineId, fileInfo );
-		}
+		lockSearchFileList();
+		m_SearchFileInfoList.push_back( fileInfo );
+		unlockSearchFileList();
+		sendFileSearchResultToGui( searchSessionId, onlineId, fileInfo );
 	}
 
 	return result;

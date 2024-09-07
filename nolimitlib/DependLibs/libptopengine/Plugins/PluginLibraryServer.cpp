@@ -60,7 +60,7 @@ void PluginLibraryServer::onFilesChanged( int64_t lastFileUpdateTime, int64_t to
 //============================================================================
 bool PluginLibraryServer::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
 {
-	return fromGuiGetIsFileInLibrary( fileInfo.getFullFileName() );
+	return fromGuiGetIsFileInLibrary( fileInfo.getFileNameAndPath() );
 }
 
 //============================================================================
@@ -74,7 +74,7 @@ bool PluginLibraryServer::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool in
 	}
 	else
 	{
-		return m_FileInfoMgr.removeFromDbAndList( fileInfo.getFullFileName() );
+		return m_FileInfoMgr.removeFromDbAndList( fileInfo.getFileNameAndPath() );
 	}
 }
 

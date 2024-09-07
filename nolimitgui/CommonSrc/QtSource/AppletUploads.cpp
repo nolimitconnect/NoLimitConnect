@@ -156,7 +156,7 @@ FileXferWidget* AppletUploads::addUpload( GuiFileXferSession* xferSession )
 	ui.m_FileItemList->setItemWidget( item, item );
 	if( eXferStateUploadNotStarted == xferSession->getXferState() || eXferStateDownloadNotStarted == xferSession->getXferState() )
 	{
-		std::string fileName = xferSession->getFullFileName().toUtf8().constData();
+		std::string fileName = xferSession->getFileNameAndPath().toUtf8().constData();
         int64_t fileLen = (int64_t)VxFileUtil::fileExists( fileName.c_str() );
 		if( fileLen && fileLen == xferSession->getFileInfo().getFileLength() )
 		{
@@ -266,7 +266,7 @@ void AppletUploads::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false, false );
+		this->playFile( xferSession->getFileNameAndPath(), 0, false, false );
 	}
 }
 
@@ -276,7 +276,7 @@ void AppletUploads::slotPlayExternButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false, true );
+		this->playFile( xferSession->getFileNameAndPath(), 0, false, true );
 	}
 }
 
@@ -314,7 +314,7 @@ void AppletUploads::slotShredButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		QString fileName = xferSession->getFullFileName();
+		QString fileName = xferSession->getFileNameAndPath();
 		if( confirmDeleteFile( true ) )
 		{
 			ui.m_FileItemList->removeItemWidget( item );

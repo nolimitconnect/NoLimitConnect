@@ -9,7 +9,8 @@
 //============================================================================
 #pragma once
 
-#include <stdint.h>
+#include <CoreLib/VxFileInfo.h>
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,6 +54,8 @@ int		VFileSeek( VFile* fp, size_t offset, int whence );
 int		VFileSeek64( VFile* fp, uint64_t offs );
 
 int		VFilePrintf( VFile* fp, const char* msg, ... );
+
+bool    VFileGetFileInfo( const char* fileNameAndPath, VxFileInfoBase& fileInfoBase );
 
 #ifdef __cplusplus
 }

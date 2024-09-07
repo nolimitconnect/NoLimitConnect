@@ -9,8 +9,6 @@
 //============================================================================
 #pragma once
 
-#if defined(TARGET_OS_ANDROID)
-
 #include <CoreLib/VFile.h>
 
 #include <string>
@@ -37,4 +35,3 @@ public:
 	int							m_Error{ 0 };
 };
 
-#endif // defined( TARGET_OS_ANDROID )

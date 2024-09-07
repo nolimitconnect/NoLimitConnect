@@ -42,7 +42,7 @@ public:
 
 	virtual void				onAfterUserLogOnThreaded( void ) override;
 
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
     virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
     virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
@@ -62,21 +62,21 @@ public:
 	virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter );
 
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
-	virtual bool				fromGuiSetFileIsShared( std::string& fileName, bool isShared );
+	virtual bool				fromGuiSetFileIsShared( std::string& fileNameAndPath, bool isShared );
 	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
-	virtual bool				fromGuiGetIsFileShared( std::string& fileName );
+	virtual bool				fromGuiGetIsFileShared( std::string& fileNameAndPath );
 
 	virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo );
 	// returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId );
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
-	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash );
+	virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
 
     virtual void				onSharedFilesUpdated( uint16_t u16FileTypes ) override;
 
 	virtual bool				isServingFiles( void );
 
-	virtual void				deleteFile( std::string fileName, bool shredFile );
+	virtual void				deleteFile( std::string fileNameAndPath, bool shredFile );
 
 protected:
 	virtual void				sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID& onlineId, FileInfo& fileInfo );
@@ -119,7 +119,7 @@ protected:
 	virtual bool                fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, FileInfo& fileInfo ) { return false; };
 	virtual void                fileInfoSearchCompleted( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, ECommErr commErr ) {};
 
-    bool						isFileShared( std::string& fileName );
+    bool						isFileShared( std::string& fileNameAndPath );
     virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override;
     virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
     virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override;	

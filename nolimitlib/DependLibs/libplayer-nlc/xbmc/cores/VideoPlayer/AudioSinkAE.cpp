@@ -159,7 +159,7 @@ unsigned int CAudioSinkAE::AddPackets( const DVDAudioFrame& audioframe )
     m_playingPts = audioframe.pts + audioframe.duration - GetDelay();
     m_timeOfPts = m_pClock->GetAbsoluteClock();
 
-    LogModule( eLogAudioIo, LOG_VERBOSE, " CAudioSinkAE::AddPackets frames %d duration %3.3f pts %3.3f clock %3.3f", frames, audioframe.duration, m_playingPts, m_timeOfPts );
+    //LogModule( eLogAudioIo, LOG_VERBOSE, " CAudioSinkAE::AddPackets frames %d duration %3.3f pts %3.3f clock %3.3f", frames, audioframe.duration, m_playingPts, m_timeOfPts );
 
     return total - frames;
 }

@@ -59,6 +59,8 @@
 #include "settings/AdvancedSettings.h"
 #include "settings/SettingsComponent.h"
 
+#include <CoreLib/VxFileUtil.h>
+
 #if TAGLIB_MAJOR_VERSION <= 1 && TAGLIB_MINOR_VERSION < 11
 #include "utils/Base64.h"
 #endif
@@ -1187,15 +1189,24 @@ void CTagLoaderTagLib::AddArtistInstrument(CMusicInfoTag &tag, const std::vector
 
 bool CTagLoaderTagLib::Load(const std::string& strFileName, CMusicInfoTag& tag, const std::string& fallbackFileExtension, EmbeddedArt *art /* = NULL */)
 {
-  std::string strExtension = URIUtils::GetExtension(strFileName);
-  StringUtils::TrimLeft(strExtension, ".");
+    if(strFileName.empty())
+    {
+        return false;
+    }
 
-  if (strExtension.empty())
+    if( VxFileUtil::fileIsProviderFile( strFileName.c_str() ) )
   {
-    strExtension = fallbackFileExtension;
-    if (strExtension.empty())
       return false;
   }
+
+    std::string strExtension = fallbackFileExtension;
+    if(strExtension.empty())
+    {
+        URIUtils::GetExtension(strFileName);
+        StringUtils::TrimLeft(strExtension, ".");
+    }
+
+
 
   StringUtils::ToLower(strExtension);
   TagLibVFSStream*           stream = new TagLibVFSStream(strFileName, true);

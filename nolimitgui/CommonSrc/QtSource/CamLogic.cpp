@@ -81,7 +81,7 @@ bool CamLogic::isCamAvailable( void )
 {
     if( getCamStartupCompleted() )
     {
-        if( !GuiHelpers::checkUserPermission( "android.permission.CAMERA" ) )
+        if( !GuiHelpers::requestPermission( QLatin1String("android.permission.CAMERA") ) )
         {
             QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
             return false;
@@ -96,14 +96,8 @@ bool CamLogic::isCamAvailable( void )
 //============================================================================
 bool CamLogic::updateCamAvailable( void )
 {
-    if( getCamStartupCompleted() )
+    if( getCamStartupCompleted() && isCamAvailable() )
     {
-        if( !GuiHelpers::checkUserPermission( "android.permission.CAMERA" ) )
-        {
-            QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
-            return false;
-        }
-
         // force update.. a camera device may have become available
         if( m_CamIsStarted )
         {

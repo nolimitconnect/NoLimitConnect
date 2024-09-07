@@ -97,18 +97,28 @@ bool ThumbnailEditWidget::generateThumbAsset( ThumbInfo& assetInfoOut )
     fileName += ".nlt"; // use extension not known as image so thumbs will not be scanned by android image gallery etc
     if( saveToPngFile( fileName ) && VxFileUtil::fileExists( fileName.toUtf8().constData() ) )
     {
-        ThumbInfo assetInfo( ( const char* )fileName.toUtf8().constData(), VxFileUtil::fileExists( fileName.toUtf8().constData() ) );
-        assetInfo.setAssetUniqueId( assetGuid );
-        assetInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
-        assetInfo.setCreationTime( GetTimeStampMs() );
-        if( m_ThumbMgr.fromGuiThumbCreated( assetInfo ) )
+        VxFileInfo fileInfo;
+        if( VxFileUtil::getFileInfo( fileName.toUtf8().constData(), fileInfo ) )
         {
-            assetGenerated = true;
-            assetInfoOut = assetInfo;
+            fileInfo.setFileType( VXFILE_TYPE_OTHER );
+            ThumbInfo assetInfo( fileInfo );
+            assetInfo.setAssetUniqueId( assetGuid );
+            assetInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
+            assetInfo.setCreationTime( GetTimeStampMs() );
+            if( m_ThumbMgr.fromGuiThumbCreated( assetInfo ) )
+            {
+                assetGenerated = true;
+                assetInfoOut = assetInfo;
+            }
+            else
+            {
+                QString msgText = QObject::tr( "Could not create thumbnail asset" );
+                QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + fileName, msgText );
+            }
         }
         else
         {
-            QString msgText = QObject::tr( "Could not create thumbnail asset" );
+            QString msgText = QObject::tr( "Could not get thumbnail file info" );
             QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + fileName, msgText );
         }
     }

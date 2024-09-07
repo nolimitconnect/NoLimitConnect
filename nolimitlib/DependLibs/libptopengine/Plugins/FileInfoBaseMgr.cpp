@@ -81,7 +81,7 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 	for( auto iter = dbFileList.begin(); iter != dbFileList.end(); ++iter )
 	{
 		FileInfo& fileInfo = iter->second;
-        int64_t curFileLen = VxFileUtil::fileExists( fileInfo.getFileName().c_str() );
+        int64_t curFileLen = VxFileUtil::fileExists( fileInfo.getFileNameAndPath().c_str() );
 		if( curFileLen && fileInfo.isValid( false ) )
 		{
 			if( curFileLen == fileInfo.getFileLength() && fileInfo.isValid( true ) )
@@ -192,7 +192,7 @@ int FileInfoBaseMgr::fromGuiGetFileDownloadState( uint8_t * fileHashId )
 }
 
 //============================================================================
-bool FileInfoBaseMgr::addFileToDbAndList( VxGUID& onlineId, std::string& fileName, VxGUID& assetId )
+bool FileInfoBaseMgr::addFileToDbAndList( VxGUID& onlineId, std::string& fileName, std::string& fileNameAndPath, VxGUID& assetId )
 {
 	if( fileName.empty() )
 	{
@@ -202,7 +202,7 @@ bool FileInfoBaseMgr::addFileToDbAndList( VxGUID& onlineId, std::string& fileNam
 
 
 	// file is not currently in library and should be
-	uint64_t fileLen = VxFileUtil::fileExists( fileName.c_str() );
+	uint64_t fileLen = VxFileUtil::fileExists( fileNameAndPath.c_str() );
 	uint8_t fileType = VxFileExtensionToFileTypeFlag( fileName.c_str() );
 	if( ( false == isAllowedFileOrDir( fileName ) )
 		|| ( 0 == fileLen ) )
@@ -210,7 +210,7 @@ bool FileInfoBaseMgr::addFileToDbAndList( VxGUID& onlineId, std::string& fileNam
 		return false;
 	}
 
-	FileInfo fileInfo( onlineId, fileName, fileLen, fileType, assetId );
+	FileInfo fileInfo( onlineId, fileName, fileNameAndPath, fileLen, fileType, assetId );
 	if( isLibraryServer() )
 	{
 		fileInfo.setIsInLibrary( true );
@@ -243,9 +243,9 @@ bool FileInfoBaseMgr::addFileToDbAndList( FileInfo& fileInfoIn )
 
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileInfoIn.getFileName() == iter->second.getFileName() )
+		if( fileInfoIn.getFileNameAndPath() == iter->second.getFileNameAndPath() )
 		{
-			m_FileInfoDb.removeFile( fileInfoIn.getFileName() );
+			m_FileInfoDb.removeFile( fileInfoIn.getFileNameAndPath() );
 
 			m_FileInfoList.erase( iter );
 			unlockFileList();
@@ -276,21 +276,22 @@ bool FileInfoBaseMgr::addFileToDbAndList( FileInfo& fileInfoIn )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "FileInfoBaseMgr::fromGuiSetFileIsInLibrary invalid %s", fileInfoIn.getFileName().c_str() );
+		LogMsg( LOG_ERROR, "%s invalid %s", __func__, fileInfoIn.getFileName().c_str() );
 	}
 
 	return result;
 }
 
 //============================================================================
-bool FileInfoBaseMgr::addFileToDbAndList( VxGUID&			onlineId,
+bool FileInfoBaseMgr::addFileToDbAndList(   VxGUID&			onlineId,
 											VxGUID&			assetId, 
 											std::string		fileName,
+											std::string		fileNameAndPath,
 											uint64_t		fileLen, 
 											uint8_t			fileType,
 											VxSha1Hash&		fileHashId )
 {
-	FileInfo fileInfo( onlineId, fileName, fileLen, fileType, assetId, fileHashId );
+	FileInfo fileInfo( onlineId, fileName, fileNameAndPath, fileLen, fileType, assetId, fileHashId );
 	return addFileToDbAndList( fileInfo );
 }
 
@@ -303,9 +304,9 @@ bool FileInfoBaseMgr::cancelAndDelete( VxGUID& assetId )
 	auto iter = m_FileInfoList.find( assetId );
 	if( iter != m_FileInfoList.end() )
 	{
-		m_FileInfoXferMgr.fileAboutToBeDeleted( iter->second.getFileName() );
-		m_FileInfoDb.removeFile( iter->second.getFileName() );
-		VxFileUtil::deleteFile( iter->second.getFileName().c_str() );
+		m_FileInfoXferMgr.fileAboutToBeDeleted( iter->second.getFileNameAndPath() );
+		m_FileInfoDb.removeFile( iter->second.getFileNameAndPath() );
+		VxFileUtil::deleteFile( iter->second.getFileNameAndPath().c_str() );
 		m_FileInfoList.erase( iter );
 	}
 
@@ -315,7 +316,7 @@ bool FileInfoBaseMgr::cancelAndDelete( VxGUID& assetId )
 }
 
 //============================================================================
-bool FileInfoBaseMgr::isFileShared( std::string& fileName, bool listIsLocked )
+bool FileInfoBaseMgr::isFileShared( std::string& fileNameAndPath, bool listIsLocked )
 {
 	bool isInLib = false;
 	if( !listIsLocked )
@@ -325,7 +326,7 @@ bool FileInfoBaseMgr::isFileShared( std::string& fileName, bool listIsLocked )
 
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileName == iter->second.getFileName() )
+		if( fileNameAndPath == iter->second.getFileNameAndPath() )
 		{
 			isInLib = true;
 			break;
@@ -339,9 +340,9 @@ bool FileInfoBaseMgr::isFileShared( std::string& fileName, bool listIsLocked )
 
 	if( isInLib )
 	{
-		if( 0 == VxFileUtil::fileExists( fileName.c_str() ) )
+		if( 0 == VxFileUtil::fileExists( fileNameAndPath.c_str() ) )
 		{
-			removeFromDbAndList( fileName );
+			removeFromDbAndList( fileNameAndPath );
 			isInLib = false;
 		}
 	}
@@ -353,7 +354,7 @@ bool FileInfoBaseMgr::isFileShared( std::string& fileName, bool listIsLocked )
 bool FileInfoBaseMgr::isFileShared( VxSha1Hash& fileHashId, bool listIsLocked )
 {
 	bool isInLib = false;
-	std::string fileName("");
+	std::string fileName;
 	if( !listIsLocked )
 	{
 		lockFileList();
@@ -364,7 +365,7 @@ bool FileInfoBaseMgr::isFileShared( VxSha1Hash& fileHashId, bool listIsLocked )
 		if( fileHashId == iter->second.getFileHashId() )
 		{
 			isInLib = true;
-			fileName = iter->second.getFileName();
+			fileName = iter->second.getFileNameAndPath();
 			break;
 		}
 	}
@@ -401,7 +402,7 @@ bool FileInfoBaseMgr::isFileShared( VxGUID& assetId, bool listIsLocked )
 		if( assetId == iter->second.getAssetId() )
 		{
 			isInLib = true;
-			fileName = iter->second.getFileName();
+			fileName = iter->second.getFileNameAndPath();
 			break;
 		}
 	}
@@ -436,7 +437,7 @@ bool FileInfoBaseMgr::isFileShared( VxGUID& assetId, VxSha1Hash& fileHashId, boo
 }
 
 //============================================================================
-bool FileInfoBaseMgr::removeFromDbAndList( std::string& fileName, bool listIsLocked )
+bool FileInfoBaseMgr::removeFromDbAndList( std::string& fileNameAndPath, bool listIsLocked )
 {
 	bool wasRemoved{ false };
 	if( !listIsLocked )
@@ -446,9 +447,9 @@ bool FileInfoBaseMgr::removeFromDbAndList( std::string& fileName, bool listIsLoc
 
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileName == iter->second.getFileName() )
+		if( fileNameAndPath == iter->second.getFileNameAndPath() )
 		{
-			m_FileInfoDb.removeFile( fileName );
+			m_FileInfoDb.removeFile( fileNameAndPath );
 			m_FileInfoList.erase( iter );
 			wasRemoved = true;
 			break;
@@ -459,7 +460,7 @@ bool FileInfoBaseMgr::removeFromDbAndList( std::string& fileName, bool listIsLoc
 	for( auto iter = m_FileInfoNeedHashAndSaveList.begin(); iter != m_FileInfoNeedHashAndSaveList.end(); )
 	{
 		FileInfo& fileInfo = *iter;
-		if( fileName == fileInfo.getFullFileName() )
+		if( fileNameAndPath == fileInfo.getFileNameAndPath() )
 		{
 			iter = m_FileInfoNeedHashAndSaveList.erase( iter );
 			
@@ -490,7 +491,7 @@ bool FileInfoBaseMgr::getFileFullName( VxGUID& assetId, VxSha1Hash& fileHashId, 
 		if( assetId == fileInfo.second.getAssetId() && fileHashId == fileInfo.second.getFileHashId() )
 		{
 			isShared = true;
-			retFileFullName = fileInfo.second.getFullFileName();
+			retFileFullName = fileInfo.second.getFileNameAndPath();
 			break;
 		}
 	}
@@ -506,7 +507,7 @@ bool FileInfoBaseMgr::getFileHashId( std::string& fileFullName, VxSha1Hash& retF
 	lockFileList();
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileFullName == iter->second.getFullFileName() )
+		if( fileFullName == iter->second.getFileNameAndPath() )
 		{
 			retFileHashId = iter->second.getFileHashId();
 			foundHash = retFileHashId.isHashValid();
@@ -575,7 +576,7 @@ bool FileInfoBaseMgr::fromGuiAddSharedFile( FileInfo& fileInfo, bool isShared )
 	}
 	else
 	{
-		return removeFromDbAndList( fileInfo.getFullFileName() );
+		return removeFromDbAndList( fileInfo.getFileNameAndPath() );
 	}
 }
 
@@ -586,7 +587,7 @@ bool FileInfoBaseMgr::fromGuiQueryFileHash( FileInfo& fileInfo )
 	lockFileList();
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileInfo.getFileLength() == iter->second.getFileLength() && fileInfo.getFullFileName() == iter->second.getFullFileName() )
+		if( fileInfo.getFileLength() == iter->second.getFileLength() && fileInfo.getFileNameAndPath() == iter->second.getFileNameAndPath() )
 		{
 			if( iter->second.getFileHashId().isHashValid() )
 			{
@@ -608,7 +609,7 @@ void FileInfoBaseMgr::fromGuiFileHashGenerated( std::string& fileName, int64_t f
 	lockFileList();
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileLen == iter->second.getFileLength() && fileName == iter->second.getFullFileName() )
+		if( fileLen == iter->second.getFileLength() && fileName == iter->second.getFileNameAndPath() )
 		{
 			if( !iter->second.getFileHashId().isHashValid() || !iter->second.getFileHashId().isEqualTo( fileHash.getHashData() ) )
 			{
@@ -653,7 +654,7 @@ bool FileInfoBaseMgr::loadAboutMePageStaticAssets( void )
 			VxSha1Hash sha1Hash;
 			if( sha1Hash.generateHashFromFile( fullFileName.c_str() ) )
 			{
-				FileInfo fileInfo( getEngine().getMyOnlineId(), fullFileName, fileLen, VxFileExtensionToFileTypeFlag( fullFileName.c_str() ), assetId, sha1Hash );
+				FileInfo fileInfo( getEngine().getMyOnlineId(), fileShortName, fullFileName, fileLen, VxFileExtensionToFileTypeFlag( fullFileName.c_str() ), assetId, sha1Hash );
 				if( fileInfo.isValid( true ) )
 				{
 					lockFileList();
@@ -725,20 +726,34 @@ bool FileInfoBaseMgr::loadStoryboardPageFileAssets( void )
 			VxSha1Hash sha1Hash;
 			if( sha1Hash.generateHashFromFile( fullFileName.c_str() ) )
 			{
-				FileInfo fileInfo( getEngine().getMyOnlineId(), fullFileName, fileLen, VxFileExtensionToFileTypeFlag( fullFileName.c_str() ), assetId, sha1Hash );
-				if( fileInfo.isValid( true ) )
+				VxFileInfoBase fileInfoBase;
+				if( VxFileUtil::getFileInfo( fullFileName.c_str(), fileInfoBase ) )
 				{
-					lockFileList();
-					m_FileInfoList[assetId] = fileInfo;
-					unlockFileList();
-					fileCount++;
+					FileInfo fileInfo( fileInfoBase );
+					fileInfo.setFileHashId( sha1Hash );
+					fileInfo.setAssetId( assetId );
+					fileInfo.setOnlineId( getEngine().getMyOnlineId() );
+					if( fileInfo.isValid( true ) )
+					{
+						lockFileList();
+						m_FileInfoList[assetId] = fileInfo;
+						unlockFileList();
+						fileCount++;
+					}
+					else
+					{
+						LogMsg( LOG_ERROR, "%s Invalid File %s", __func__, fullFileName.c_str() );
+						result = false;
+						break;
+					}
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "%s Invalid File %s", __func__, fullFileName.c_str() );
+					LogMsg( LOG_ERROR, "%s Invalid File Info %s", __func__, fullFileName.c_str() );
 					result = false;
 					break;
 				}
+
 			}
 			else
 			{
@@ -1065,7 +1080,7 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileType
 			if( isFileShareServer() )
 			{
 				isShared = true;
-				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getLocalFileName() );
+				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getFileNameAndPath() );
 			}
 			else if( isLibraryServer() )
 			{
@@ -1074,7 +1089,7 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileType
 			}
 			else
 			{
-				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getLocalFileName() );
+				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getFileNameAndPath() );
 				isShared = getEngine().fromGuiGetIsFileShared( fileInfo );
 			}
 
@@ -1088,21 +1103,21 @@ bool FileInfoBaseMgr::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileType
 	}
 
 	unlockFileList();
-	IToGui::getIToGui().toGuiFileListCompleted(appInstId);
+	IToGui::getIToGui().toGuiFileListCompleted( appInstId );
 	return sharedFilesCnt;
 }
 
 //============================================================================
 bool FileInfoBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfoIn, bool isShared )
 {
-	std::string fileName = fileInfoIn.getFullFileName();
+	std::string fileName = fileInfoIn.getFileNameAndPath();
 	return fromGuiSetFileIsShared( fileName, isShared );
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShared )
+bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileNameAndPath, bool isShared )
 {
-	if( fileName.empty() )
+	if( fileNameAndPath.empty() )
 	{
 		LogMsg( LOG_ERROR, "%s empty file name", __func__ );
 		return false;
@@ -1110,14 +1125,14 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 
 	lockFileList();
 
-	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter)
+	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
 		FileInfo& fileInfo = iter->second;
-		if( fileName == fileInfo.getFileName() )
+		if( fileNameAndPath == fileInfo.getFileNameAndPath() )
 		{
 			if( false == isShared )
 			{
-				m_FileInfoDb.removeFile( fileName );
+				m_FileInfoDb.removeFile( fileNameAndPath );
 				m_FileInfoList.erase( iter );
 				unlockFileList();
 				updateFileTypes();
@@ -1145,19 +1160,21 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 	if( isShared )
 	{
 		// file is not currently shared and should be
-		uint64_t fileLen = VxFileUtil::fileExists( fileName.c_str() );
-		if( (false == isAllowedFileOrDir( fileName ))
+		uint64_t fileLen = VxFileUtil::fileExists( fileNameAndPath.c_str() );
+		if( (false == isAllowedFileOrDir( fileNameAndPath ))
 			|| (0 == fileLen) )
 		{
-			LogMsg( LOG_ERROR, "%s file does not exist or not allowed %s", __func__, fileName.c_str() );
+			LogMsg( LOG_ERROR, "%s file does not exist or not allowed %s", __func__, fileNameAndPath.c_str() );
 			return false;
 		}
 
-		VxGUID assetId; 
+		VxGUID assetId;
+		std::string justFileName;
 		getEngine().getAssetMgr().lockResources();
-		AssetBaseInfo* assetInfo = getEngine().getAssetMgr().findAsset( fileName );
+		AssetBaseInfo* assetInfo = getEngine().getAssetMgr().findAsset( fileNameAndPath );
 		if( assetInfo )
 		{
+			justFileName = assetInfo->getFileName();
 			// if already exists as asset be sure to use the same asset id
 			if( isLibraryServer() )
 			{
@@ -1175,9 +1192,17 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 		{
 			getEngine().getAssetMgr().unlockResources();
 			assetId.initializeWithNewVxGUID();
+			VxFileInfoBase fileInfo;
+			if( VxFileUtil::getFileInfo( fileNameAndPath.c_str(), fileInfo) )
+			{
+				justFileName = fileInfo.getFileName();
+			}
 		}
 
-		return addFileToDbAndList( getEngine().getMyOnlineId(), fileName, assetId );
+		if( !justFileName.empty() )
+		{
+			return addFileToDbAndList( getEngine().getMyOnlineId(), justFileName, fileNameAndPath, assetId );
+		}	
 	}
 
 	return false;
@@ -1186,7 +1211,7 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileName, bool isShar
 //============================================================================
 bool FileInfoBaseMgr::fromGuiRemoveSharedFile( FileInfo& fileInfo )
 {
-	m_FileInfoXferMgr.fileAboutToBeDeleted( fileInfo.getFullFileName() );
+	m_FileInfoXferMgr.fileAboutToBeDeleted( fileInfo.getFileNameAndPath() );
 
 	return fromGuiSetFileIsShared( fileInfo, false );
 }
@@ -1194,7 +1219,7 @@ bool FileInfoBaseMgr::fromGuiRemoveSharedFile( FileInfo& fileInfo )
 //============================================================================
 bool FileInfoBaseMgr::fromGuiGetFileIsShared( FileInfo& fileInfo )
 {
-	return isFileShared( fileInfo.getFullFileName() );
+	return isFileShared( fileInfo.getFileNameAndPath() );
 }
 
 //============================================================================

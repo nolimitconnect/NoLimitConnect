@@ -217,7 +217,7 @@ void AppSettings::getLastAudioFileDir( std::string& fileDir )
 }
 
 //============================================================================
-void AppSettings::setLastAddFileDir( std::string& addFileDir )
+void AppSettings::setLastAddFileDir( std::string addFileDir )
 {
 	setIniValue( getAppShortName(), "AddFileDir", addFileDir );
 }

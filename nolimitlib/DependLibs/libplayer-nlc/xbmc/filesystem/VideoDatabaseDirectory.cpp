@@ -87,7 +87,7 @@ bool CVideoDatabaseDirectory::GetDirectory(const NlcUrl& url, CFileItemList &ite
 {
   std::string path = CLegacyPathTranslation::TranslateVideoDbPath(url);
   items.SetPath(path);
-  items.m_dwSize = -1;  // No size
+  items.setFileLength( -1 );  // No size
   std::unique_ptr<CDirectoryNode> pNode(CDirectoryNode::ParseURL(path));
 
   if (!pNode)

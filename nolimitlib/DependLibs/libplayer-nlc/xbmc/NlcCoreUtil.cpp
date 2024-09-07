@@ -1878,6 +1878,10 @@ void CUtil::GetItemsToScan( const std::string& videoPath,
                             CFileItemList& items )
 {
     int flags = DIR_FLAG_NO_FILE_DIRS | DIR_FLAG_NO_FILE_INFO;
+    if( videoPath.empty() || VxFileUtil::fileIsProviderFile( videoPath.c_str() ) )
+    {
+        return;
+    }
 
     if( !videoPath.empty() )
         CDirectory::GetDirectory( videoPath, items, item_exts, flags );
@@ -1943,6 +1947,11 @@ int CUtil::ScanArchiveForAssociatedItems( const std::string& strArchivePath,
                                           const std::vector<std::string>& item_exts,
                                           std::vector<std::string>& associatedFiles )
 {
+    if( strArchivePath.empty() || VxFileUtil::fileIsProviderFile( strArchivePath.c_str() ) )
+    {
+        return 0;
+    }
+
   CLog::LogF(LOGDEBUG, "Scanning archive %s", NlcUrl::GetRedacted(strArchivePath).c_str());
     int nItemsAdded = 0;
     CFileItemList ItemList;
@@ -1997,6 +2006,11 @@ int CUtil::ScanArchiveForAssociatedItems( const std::string& strArchivePath,
 //========================================================================
 void CUtil::ScanForExternalSubtitles( const std::string& strMovie, std::vector<std::string>& vecSubtitles )
 {
+    if( strMovie.empty() || VxFileUtil::fileIsProviderFile( strMovie.c_str() ) )
+    {
+        return;
+    }
+
     unsigned int startTimer = XbmcThreadsNoChrono::SystemClockMillis();
 
     CFileItem item( strMovie, false );
@@ -2310,12 +2324,19 @@ void CUtil::ScanForExternalDemuxSub( const std::string& videoPath, std::vector<s
 //========================================================================
 void CUtil::ScanForExternalAudio( const std::string& videoPath, std::vector<std::string>& vecAudio )
 {
+    if( videoPath.empty() || VxFileUtil::fileIsProviderFile( videoPath.c_str() ) )
+    {
+        // android provider files do not allow directory scan
+        return;
+    }
+
     CFileItem item( videoPath, false );
     if( item.IsInternetStream()
         || item.IsPlayList()
         || item.IsLiveTV()
         || item.IsPVR()
-        || !item.IsVideo() )
+        || !item.IsVideo()
+        || item.isContentProviderFile()) // android content providers do not allow scanning of directories
         return;
 
     std::string strBasePath;

@@ -177,7 +177,6 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
         return false;
     }
 
-	// to do stop previous media
 	if( assetInfo.getIsStream() || assetInfo.isValidFile() )
 	{
 		m_AssetInfo = assetInfo;
@@ -186,14 +185,28 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 			m_FeedId = m_AssetInfo.getAssetUniqueId();
 		}
 
-		NlcUrl fileUrl;
-		fileUrl.SetFileName( m_AssetInfo.getAssetName() );
-		m_FileItem = CFileItem( fileUrl, false );
-		m_FileItem.SetIsVirtualStream( assetInfo.getIsStream() );
+        m_FileItem = CFileItem( assetInfo );
+        m_FileItem.setIsVirtualStream( assetInfo.getIsStream() );
 		if( pos0to100000 )
 		{
 			std::string kodiPercent = std::to_string( 100000.0f / (float)pos0to100000 );
 			m_FileItem.SetProperty( "StartPercent", kodiPercent.c_str() );
+		}
+
+        // because android file name has a content provider path instead of file path,
+        // always set the meta data
+        if( assetInfo.isVideoAsset() )
+        {
+            std::string metadata = "video/";
+            metadata += assetInfo.getFileExtension();
+            m_FileItem.SetMimeType(metadata);
+        }
+
+        if( assetInfo.isAudioAsset() )
+        {
+            std::string metadata = "audio/";
+            metadata += assetInfo.getFileExtension();
+            m_FileItem.SetMimeType(metadata);
 		}
 
 		EnableLogTimer( true );
@@ -262,6 +275,10 @@ bool MediaPlayerNlc::playVideoFile( int position0to100000 )
 	{
 		setIsPlayingVideo( true );
 		setIsPlayingMedia( true );
+	}
+    else
+    {
+        onPlaybackError();
 	}
 
 	return result;

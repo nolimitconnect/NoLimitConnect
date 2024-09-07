@@ -158,7 +158,7 @@ DbBindList::DbBindList( int intVal )
 
 	pBindParam = new DbBindParam( intVal );
 	vx_assert( ( DbBindParam* )0 != pBindParam );
-	m_ParamList.push_back( pBindParam );
+	m_ParamList.emplace_back( pBindParam );
 	m_CurrParamIter = m_ParamList.begin();
 }
 
@@ -169,7 +169,7 @@ DbBindList::DbBindList( int64_t s64Val )
 
 	pBindParam = new DbBindParam( s64Val );
 	vx_assert( ( DbBindParam* )0 != pBindParam );
-	m_ParamList.push_back( pBindParam );
+	m_ParamList.emplace_back( pBindParam );
 	m_CurrParamIter = m_ParamList.begin();
 }
 
@@ -195,7 +195,7 @@ void DbBindList::add( const char* strVal )
 
 	pBindParam = new DbBindParam( strVal );
 	vx_assert( ( DbBindParam* )0 != pBindParam );
-	m_ParamList.push_back( pBindParam );
+	m_ParamList.emplace_back( pBindParam );
 	m_CurrParamIter = m_ParamList.begin();
 }
 
@@ -206,7 +206,7 @@ void DbBindList::add( int64_t s64Val )
 
 	pBindParam = new DbBindParam( s64Val );
 	vx_assert( ( DbBindParam* )0 != pBindParam );
-	m_ParamList.push_back( pBindParam );
+	m_ParamList.emplace_back( pBindParam );
 	m_CurrParamIter = m_ParamList.begin();
 }
 
@@ -217,7 +217,7 @@ void DbBindList::add( void * blob, int blobLen )
 
 	pBindParam = new DbBindParam( blob, blobLen );
 	vx_assert( ( DbBindParam* )0 != pBindParam );
-	m_ParamList.push_back( pBindParam );
+	m_ParamList.emplace_back( pBindParam );
 	m_CurrParamIter = m_ParamList.begin();
 }
 

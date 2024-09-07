@@ -109,6 +109,9 @@ list(APPEND CoreLib_SOURCES
     VxAppInfo.cpp
     Invite.cpp
     VFile.cpp
+    VFileMgr.cpp
+    VFileMgrFileIo.cpp
+
     VxBuffer.cpp
     VxChop.cpp
     VxChopMap.cpp
@@ -120,6 +123,7 @@ list(APPEND CoreLib_SOURCES
     VxFileInfo.cpp
     VxFileIsTypeFunctions.cpp
     VxFileLists.cpp
+
     VxFileShredder.cpp
     VxFileShredderDb.cpp
     VxFileUtil.cpp

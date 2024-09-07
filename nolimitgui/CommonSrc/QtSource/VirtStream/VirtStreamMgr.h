@@ -30,9 +30,13 @@ public:
 	VirtStreamMgr() = delete;
 	VirtStreamMgr( P2PEngine& engine );
 
-	bool                        directoryExists( const char* dirPath )  override;
-    uint64_t                    fileExists( const char* fileName )  override;
-    bool                        fileIsProviderFile( const char* fileName )  override;
+	bool                        directoryExists( const char* dirPath ) override;
+    uint64_t                    fileExists( const char* fileName ) override;
+    bool                        fileIsProviderFile( const char* fileName ) override;
+
+	bool						getFileInfo( const char* fileNameAndPath, VxFileInfoBase& retFileInfo ) override;
+    bool                        qtFileInfoToVxFileInfo( const QFileInfo& fileInfo, VxFileInfoBase& retFileInfo,
+                                                        uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO ) override;
 
 	bool						seperatePathAndFile( const char* pFullPath,		// path and file name			
 													 std::string& strRetPath,	// return path of file
@@ -54,7 +58,7 @@ public:
 	int							fileSeek( VFile* fp, size_t offset, int whence ) override;
 	int							fileSeek64( VFile* fp, uint64_t offs ) override;
 
-	int							listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask ) override;
+	int							listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfoBase>& fileList, uint8_t fileFilterMask ) override;
 
 	virtual bool				fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 );
 
@@ -79,6 +83,8 @@ protected:
 
 	bool						providerDirectoryExists( std::string dirPath );
     uint64_t                    providerFileExists( std::string fileName );
+
+	bool						providerGetFileInfo( std::string fileNameAndPath, VxFileInfoBase& retFileInfo );
 
     VFile*						providerFileOpen( std::string fileName, std::string mode );
     int							providerFileClose( VFile* fp );

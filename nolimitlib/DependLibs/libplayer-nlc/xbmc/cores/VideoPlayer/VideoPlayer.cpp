@@ -785,24 +785,18 @@ bool CVideoPlayer::OpenInputStream()
 
     CLog::Log( LOGNOTICE, "Creating InputStream" );
 
-    // correct the filename if needed
-    std::string filename( m_item.GetPath() );
-    if( URIUtils::IsProtocol( filename, "dvd" ) ||
-        StringUtils::EqualsNoCase( filename, "iso9660://video_ts/video_ts.ifo" ) )
-    {
-    m_item.SetPath(CServiceBroker::GetMediaManager().TranslateDevicePath(""));
-    }
-
     m_pInputStream = CDVDFactoryInputStream::CreateInputStream( this, m_item, true );
     if( m_pInputStream == nullptr )
     {
-        CLog::Log( LOGERROR, "CVideoPlayer::OpenInputStream - unable to create input stream for [%s]", NlcUrl::GetRedacted( m_item.GetPath() ).c_str() );
+        CLog::Log( LOGERROR, "CVideoPlayer::OpenInputStream - unable to create input stream for %s [%s]",
+                  m_item.getFileName().c_str(), m_item.getFileNameAndPath().c_str() );
         return false;
     }
 
     if( !m_pInputStream->Open() )
     {
-        CLog::Log( LOGERROR, "CVideoPlayer::OpenInputStream - error opening [%s]", NlcUrl::GetRedacted( m_item.GetPath() ).c_str() );
+        CLog::Log( LOGERROR, "CVideoPlayer::OpenInputStream - error opening %s [%s]",
+                  m_item.getFileName().c_str(), m_item.getFileNameAndPath().c_str() );
         return false;
     }
 
@@ -976,10 +970,6 @@ void CVideoPlayer::OpenDefaultStreams( bool reset )
     }
     if( !valid )
         CloseStream( m_CurrentSubtitle, false );
-#if ENABLE_DVD_NAV
-    if( !std::dynamic_pointer_cast<CDVDInputStreamNavigator>(m_pInputStream) || m_playerOptions.state.empty() )
-        SetSubtitleVisibleInternal( visible ); // only set subtitle visibility if state not stored by dvd navigator, because navigator will restore it (if visible)
-#endif // ENABLE_DVD_NAV
 
     // open teletext stream
     valid = false;
@@ -1281,90 +1271,6 @@ void CVideoPlayer::Prepare()
 
     if( !discStateRestored )
         OpenDefaultStreams();
-
-    /*
-     * Check to see if the demuxer should start at something other than time 0. This will be the case
-     * if there was a start time specified as part of the "Start from where last stopped" (aka
-     * auto-resume) feature or if there is an EDL cut or commercial break that starts at time 0.
-     */
-#if HAVE_ADDONS
-    #if ENABLE_PVR
-    EDL::Edit edit;
-    int starttime = 0;
-    if( m_playerOptions.starttime > 0 || m_playerOptions.startpercent > 0 )
-    {
-        if( m_playerOptions.startpercent > 0 && m_pDemuxer )
-        {
-            int playerStartTime = static_cast<int>((static_cast<double>(
-                m_pDemuxer->GetStreamLength() * (m_playerOptions.startpercent / 100.0))));
-            starttime = m_Edl.GetTimeAfterRestoringCuts( playerStartTime );
-        }
-        else
-        {
-            starttime = m_Edl.GetTimeAfterRestoringCuts(
-                static_cast<int>(m_playerOptions.starttime * 1000) ); // s to ms
-        }
-        CLog::Log( LOGDEBUG, "%s - Start position set to last stopped position: %d", __FUNCTION__, starttime );
-    }
-    else if( m_Edl.InEdit( starttime, &edit ) )
-    {
-        // save last edit times
-        m_Edl.SetLastEditTime( edit.start );
-        m_Edl.SetLastEditActionType( edit.action );
-
-        if( edit.action == EDL::Action::CUT )
-        {
-            starttime = edit.end;
-            CLog::Log( LOGDEBUG, "{} - Start position set to end of first cut: {}", __FUNCTION__,
-                       starttime );
-        }
-        else if( edit.action == EDL::Action::COMM_BREAK )
-        {
-            if( m_SkipCommercials )
-            {
-                starttime = edit.end;
-                CLog::Log( LOGDEBUG, "{} - Start position set to end of first commercial break: {}",
-                           __FUNCTION__, starttime );
-            }
-
-            const std::shared_ptr<CAdvancedSettings> advancedSettings =
-                CServiceBroker::GetSettingsComponent()->GetAdvancedSettings();
-            if( advancedSettings && advancedSettings->m_EdlDisplayCommbreakNotifications )
-            {
-                const std::string timeString =
-                    StringUtils::SecondsToTimeString( edit.end / 1000, TIME_FORMAT_MM_SS );
-                CGUIDialogKaiToast::QueueNotification( g_localizeStrings.Get( 25011 ), timeString );
-            }
-        }
-    }
-
-
-    if( starttime > 0 )
-    {
-        double startpts = DVD_NOPTS_VALUE;
-        if( m_pDemuxer )
-        {
-            if( m_pDemuxer->SeekTime( starttime, true, &startpts ) )
-            {
-                FlushBuffers( starttime / 1000 * AV_TIME_BASE, true, true );
-                CLog::Log( LOGDEBUG, "%s - starting demuxer from: %d", __FUNCTION__, starttime );
-            }
-            else
-                CLog::Log( LOGDEBUG, "%s - failed to start demuxing from: %d", __FUNCTION__, starttime );
-        }
-
-        if( m_pSubtitleDemuxer )
-        {
-            if( m_pSubtitleDemuxer->SeekTime( starttime, true, &startpts ) )
-                CLog::Log( LOGDEBUG, "%s - starting subtitle demuxer from: %d", __FUNCTION__, starttime );
-            else
-                CLog::Log( LOGDEBUG, "%s - failed to start subtitle demuxing from: %d", __FUNCTION__, starttime );
-        }
-
-        m_clock.Discontinuity( DVD_MSEC_TO_TIME( starttime ) );
-    }
-    #endif // ENABLE_PVR
-#endif // HAVE_ADDONS
 
     UpdatePlayState( 0 );
 

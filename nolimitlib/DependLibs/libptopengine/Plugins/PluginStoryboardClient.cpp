@@ -83,7 +83,7 @@ bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shar
 				for( auto iter = m_CompletedFileInfoList.begin(); iter != m_CompletedFileInfoList.end(); ++iter )
 				{
 					FileInfo& fileInfo = *iter;
-					if( fileInfo.getShortFileName() == getWebIndexFileName() )
+					if( fileInfo.getFileName() == getWebIndexFileName() )
 					{
 						indexFileInfo = fileInfo;
 						result = true;
@@ -95,7 +95,7 @@ bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shar
 				if( result )
 				{
 					// all done
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFullFileName() );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
 				}
 				else
 				{
@@ -229,16 +229,12 @@ bool PluginStoryboardClient::fromGuiCancelWebPage( EWebPageType webPageType, VxG
 //============================================================================
 bool PluginStoryboardClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, FileInfo& fileInfo )
 {
-	bool result{ false };
-	if( fileInfo.determineFullFileName( m_DownloadFileFolder ) )
+	bool result = fileInfo.isValid( true );
+	if( result )
 	{
-		result = fileInfo.isValid( true );
-		if( result )
-		{
-			lockSearchFileList();
-			m_SearchFileInfoList.push_back( fileInfo );
-			unlockSearchFileList();
-		}
+		lockSearchFileList();
+		m_SearchFileInfoList.push_back( fileInfo );
+		unlockSearchFileList();
 	}
 
 	return result;

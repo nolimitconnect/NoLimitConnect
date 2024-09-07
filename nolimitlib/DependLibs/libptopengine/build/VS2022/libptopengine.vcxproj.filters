@@ -706,29 +706,8 @@
     <ClCompile Include="..\..\PushToTalk\PushToTalkMgr.cpp">
       <Filter>Source Files\PushToTalk</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtStreamFile.cpp">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtStreamMgr.cpp">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtStreamCache.cpp">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtStreamMgrFileIo.cpp">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\RandConnect\RandConnectMgr.cpp">
       <Filter>Source Files\RandConnect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtStreamMgrProvider.cpp">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtProviderFile.cpp">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VirtStream\VirtStorageProvider.cpp">
-      <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
     <ClCompile Include="..\..\SendQueue\SendQueueMgr.cpp">
       <Filter>Source Files\SendQueue</Filter>
@@ -1467,29 +1446,14 @@
     <ClInclude Include="..\..\PushToTalk\PushToTalkMgr.h">
       <Filter>Source Files\PushToTalk</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VirtStream\VirtStreamFile.h">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VirtStream\VirtStreamMgr.h">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Plugins\FileXferCallback.h">
       <Filter>Source Files\Plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VirtStream\VirtStreamCache.h">
-      <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
     <ClInclude Include="..\..\RandConnect\RandConnectCallback.h">
       <Filter>Source Files\RandConnect</Filter>
     </ClInclude>
     <ClInclude Include="..\..\RandConnect\RandConnectMgr.h">
       <Filter>Source Files\RandConnect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VirtStream\VirtProviderFile.h">
-      <Filter>Source Files\VirtStream</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VirtStream\VirtStorageProvider.h">
-      <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SendQueue\SendQueueCallback.h">
       <Filter>Source Files\SendQueue</Filter>
@@ -1669,9 +1633,6 @@
     </Filter>
     <Filter Include="Source Files\PushToTalk">
       <UniqueIdentifier>{49a51a9a-7732-452a-b517-f9984a034821}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\VirtStream">
-      <UniqueIdentifier>{db258203-5095-49aa-ba86-4d8d1188af1b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\RandConnect">
       <UniqueIdentifier>{d670aa14-a948-4813-b129-485ea8782c59}</UniqueIdentifier>

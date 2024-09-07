@@ -54,7 +54,7 @@ public:
 	void						setIsConfirmDeleteDisabled( bool confirmIsDisabled );
 	bool						getIsConfirmDeleteDisabled( void );
 
-	void						setLastAddFileDir( std::string& addFileDir );
+	void						setLastAddFileDir( std::string addFileDir );
 	void						getLastAddFileDir( std::string& addFileDir );
 
 	void						setLastBrowseShareDir( std::string& browseDir );

@@ -117,7 +117,7 @@ void AppletLibrary::callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo
     {
         if( ui.m_FileItemList->count() == 0 )
         {
-            updateStorageSpace( fileInfo.getFullFileName() );
+            updateStorageSpace( fileInfo.getFileNameAndPath() );
         }
 
         addFile( fileInfo );
@@ -145,7 +145,7 @@ void AppletLibrary::toGuiFileDeleted( QString& fileName )
         if( poWidget )
         {
             FileItemInfo* poFileInfo = (FileItemInfo*)poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-            if( poFileInfo && (poFileInfo->getFullFileName() == fileName) )
+            if( poFileInfo && (poFileInfo->getFileNameAndPath() == fileName) )
             {
                 poWidget->deleteLater();
                 break;
@@ -296,7 +296,7 @@ void AppletLibrary::slotListPlayIconClicked( QListWidgetItem* item )
             }
             else
             {
-                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFullFileName().toUtf8().constData(), QMessageBox::Ok );
+                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFileNameAndPath().toUtf8().constData(), QMessageBox::Ok );
                 ui.m_FileItemList->removeItemWidget( item );
             }
         }
@@ -328,7 +328,7 @@ void AppletLibrary::slotListPlayExternIconClicked( QListWidgetItem* item )
             }
             else
             {
-                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFullFileName().toUtf8().constData(), QMessageBox::Ok );
+                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFileNameAndPath().toUtf8().constData(), QMessageBox::Ok );
                 ui.m_FileItemList->removeItemWidget( item );
             }
         }
@@ -378,7 +378,7 @@ FileShareItemWidget* AppletLibrary::findListEntryWidget( FileInfo& fileInfo )
         if( poWidget )
         {
             FileItemInfo* poFileInfo = ( FileItemInfo* )poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-            if( poFileInfo && ( poFileInfo->getFileInfo().getFullFileName() == fileInfo.getFullFileName() ) )
+            if( poFileInfo && ( poFileInfo->getFileInfo().getFileNameAndPath() == fileInfo.getFileNameAndPath() ) )
             {
                 return poWidget;
             }
@@ -401,17 +401,21 @@ void AppletLibrary::slotAddFileButtonClicked( void )
         curDir = addFileDir.c_str();
     }
 
-    FileInfo fileInfo;
-    if( GuiHelpers::browseForFile( this, fileInfo, curDir ) )
+    VxFileInfoBase fileInfo;
+    if( GuiHelpers::browseForFile( this, eMediaFileAny, fileInfo, curDir ) )
     {
-        std::string fileName = fileInfo.getFullFileName();
-        m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
+        std::string fileName = fileInfo.getFileNameAndPath();
+        if( !fileInfo.getFilePath().empty() )
+        {
+            m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
+        }
+        
         m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
 
         // see if file is already a asset
         AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
         assetMgr.lockResources();
-        AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFullFileName() );
+        AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
         if( assetInfo )
         {
             if( assetInfo->isInLibary() )
@@ -463,7 +467,7 @@ void AppletLibrary::slotAddFilesButtonClicked( void )
 //============================================================================
 void AppletLibrary::addFile( FileInfo& fileInfo )
 {
-    FileShareItemWidget* existingItem = findItemByFileName( fileInfo.getFullFileName().c_str() );
+    FileShareItemWidget* existingItem = findItemByFileName( fileInfo.getFileNameAndPath().c_str() );
     if( existingItem )
     {
         FileItemInfo* poItemInfo = existingItem->getFileItemInfo();
@@ -503,7 +507,7 @@ void AppletLibrary::slotListItemClicked( QListWidgetItem* item )
         {
             m_FileWasSelected = true;
             m_SelectedFileType = fileInfo.getFileType();
-            m_SelectedFileName = fileInfo.getFullFileName().c_str();
+            m_SelectedFileName = fileInfo.getFileNameAndPath().c_str();
             m_SelectedFileLen = fileInfo.getFileLength();
             m_SelectedFileIsShared = poInfo->getIsSharedFile();
             m_SelectedFileIsInLibrary = poInfo->getIsInLibrary();
@@ -517,7 +521,7 @@ void AppletLibrary::slotListItemClicked( QListWidgetItem* item )
             //										poInfo->getIsSharedFile(),
             //										poInfo->getIsInLibrary() );
             //fileActionMenuDialog.exec();
-            playFile( fileInfo.getFullFileName().c_str(), 0, false, false );
+            playFile( fileInfo.getFileNameAndPath().c_str(), 0, false, false );
         }
     }
 }
@@ -546,7 +550,7 @@ FileShareItemWidget* AppletLibrary::findItemByFileName( QString fileName )
         if( poWidget )
         {
             FileItemInfo* poFileInfo = (FileItemInfo*)poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-            if( poFileInfo && (poFileInfo->getFullFileName() == fileName) )
+            if( poFileInfo && (poFileInfo->getFileNameAndPath() == fileName) )
             {
                 return poWidget;
             }

@@ -91,10 +91,10 @@ public:
 	virtual bool				fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName  ) = 0;
 
     //! play video or audio file
-	virtual bool				fromGuiPlayLocalMedia( const char*  fileName, uint64_t fileLen, uint8_t fileType, int pos ) = 0;
+	virtual bool				fromGuiPlayLocalMedia( const char*  fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, int pos ) = 0;
 
 	//! play video or audio file
-	virtual bool				fromGuiPlayLocalMedia( const char* fileName, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos ) = 0;
+	virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos ) = 0;
 
 	/// Called when raw camera capture video data is available ( u32FourCc is the video data format )
 	virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) = 0;

@@ -150,9 +150,9 @@ public:
 
 	//! start query and use DbCursor to access column's data.. be sure to call DbCursor.close() when done
 	//! returns null if error
-	virtual DbCursor *			startQuery( const char* pSqlString );
-	virtual DbCursor *			startQueryInsecure( const char* pSqlString, ... );
-	virtual DbCursor *			startQuery( const char* pSqlString, const char* textParam );
+	virtual DbCursor*			startQuery( const char* pSqlString );
+	virtual DbCursor*			startQueryInsecure( const char* pSqlString, ... );
+	virtual DbCursor*			startQuery( const char* pSqlString, const char* textParam );
 	virtual DbCursor*			startQuery( const char* pSqlString, const char* textParam, int secondParam );
 	virtual DbCursor*			startQuery( const char* pSqlString, const char* textParam1, const char* textParam2, int thirdParam );
 

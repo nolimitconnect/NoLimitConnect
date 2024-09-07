@@ -27,7 +27,8 @@
     #pragma warning( disable : 4244)
 #endif
 
-
+//============================================================================
+// VxFileList
 //============================================================================
 std::string	VxFileList::getFileAtIndex( int listIdx )
 {
@@ -158,6 +159,100 @@ void VxFileList::dumpToLog( uint32_t dbgLevel )
     }
 }
 
+
+//============================================================================
+// VxFileInfoList
+//============================================================================
+std::string	VxFileInfoList::getFileNameAtIndex( int listIdx )
+{
+    if( listIdx >= 0 && listIdx < m_FileInfoList.size() )
+    {
+        return m_FileInfoList[listIdx].getFileName();
+    }
+    else
+    {
+        return "";
+    }
+}
+
+//============================================================================
+std::string	VxFileInfoList::getFileNameAndPathAtIndex( int listIdx )
+{
+    if( listIdx >= 0 && listIdx < m_FileInfoList.size() )
+    {
+        return m_FileInfoList[listIdx].getFileNameAndPath();
+    }
+    else
+    {
+        return "";
+    }
+}
+
+//============================================================================
+std::string VxFileInfoList::getFileNameFromNameAndPath( std::string fileNameAndPath )
+{
+    for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
+    {
+        if( fileNameAndPath == iter->getFileNameAndPath() )
+        {
+            return iter->getFileName();
+        }
+    }
+
+    return "";
+}
+
+//============================================================================
+void VxFileInfoList::moveToTopOfList( std::string fileNameAndPath )
+{
+    VxFileInfoBase fileInfo;
+    bool found{false};
+    for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
+    {
+        if( fileNameAndPath == iter->getFileNameAndPath() )
+        {
+            found = true;
+            fileInfo = *iter;
+            m_FileInfoList.erase(iter);
+            break;
+        }
+    }
+
+    if(found)
+    {
+        m_FileInfoList.insert( m_FileInfoList.begin(), fileInfo );
+    }
+	else if( VxFileUtil::getFileInfo( fileNameAndPath.c_str(), fileInfo ) )
+	{
+		m_FileInfoList.insert( m_FileInfoList.begin(), fileInfo );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "%s failed to get fileInfo" );
+	}
+}
+
+//============================================================================
+void VxFileInfoList::moveToTopOfList( VxFileInfoBase& fileInfo )
+{
+    std::string fileNameAndPath = fileInfo.getFileNameAndPath();
+    bool found{false};
+    for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
+    {
+        if( fileNameAndPath == iter->getFileNameAndPath() )
+        {
+            found = true;
+            fileInfo = *iter;
+            m_FileInfoList.erase(iter);
+            break;
+        }
+    }
+
+    m_FileInfoList.insert(m_FileInfoList.begin(), fileInfo);
+}
+
+//============================================================================
+// VxFileFinder
 //============================================================================
 int VxFileFinder::FindFilesByExtension(	std::string				csPath,					//start path to search in
                                         std::vector<std::string> &acsExtensionList,		//Extensions

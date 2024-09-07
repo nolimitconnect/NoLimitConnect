@@ -9,8 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(TARGET_OS_ANDROID)
-
 #if defined(TARGET_OS_LINUX)
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
@@ -22,8 +20,10 @@
 
 // Android 11 (API level 30) implemented scoped storage which is why this class exists
 
-class QUrl;
+class VxFileInfoBase;
 class VxGUID;
+class QFileInfo;
+class QUrl;
 
 class VirtStorageProvider
 {
@@ -41,10 +41,10 @@ protected:
 
     void                loadUrl( const QUrl &url );
 
-    bool                checkUserPermission( QString permissionName ); // returns false if user denies permission to use android hardware
+    bool                requestPermission( QString permissionName ); // returns false if user denies permission to use android hardware
 
 };
 
 VirtStorageProvider& GetVirtStorageProvider( void );
 
-#endif // defined(TARGET_OS_ANDROID)
+

@@ -102,7 +102,7 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 		fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
 	}
 
-	std::vector<VxFileInfo> fileList;
+	std::vector<VxFileInfoBase> fileList;
 	RCODE rc = VxFileUtil::listFilesAndFolders( dir.c_str(), fileList, fileFilterMask );
 	if( rc )
 	{
@@ -121,11 +121,11 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 			{
 				LogMsg( LOG_VERBOSE, "PluginBaseFiles::fromGuiBrowseFiles sending file %d %s", fileNum, vxFileInfo.getFileName().c_str() );
 
-				FileInfo fileInfo( m_Engine.getMyOnlineId(), vxFileInfo.getFileName(), vxFileInfo.getFileLength(),
+				FileInfo fileInfo( m_Engine.getMyOnlineId(), vxFileInfo.getFileName(), vxFileInfo.getFileNameAndPath(), vxFileInfo.getFileLength(),
 					vxFileInfo.getFileType(), VxGUID::nullVxGUID() );
 
 				bool isShared = m_Engine.fromGuiGetIsFileShared( fileInfo );
-				bool isInLibrary = m_Engine.fromGuiGetIsFileInLibrary( vxFileInfo.getFileName() );
+				bool isInLibrary = m_Engine.fromGuiGetIsFileInLibrary( vxFileInfo.getFileNameAndPath() );
 
 				fileInfo.setIsInLibrary( isInLibrary );
 				fileInfo.setIsSharedFile( isShared );

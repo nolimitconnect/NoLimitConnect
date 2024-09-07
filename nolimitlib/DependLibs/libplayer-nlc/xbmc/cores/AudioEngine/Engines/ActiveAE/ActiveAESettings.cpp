@@ -64,14 +64,14 @@ CActiveAESettings::CActiveAESettings(CActiveAE &ae) : m_audioEngine(ae)
 
 CActiveAESettings::~CActiveAESettings()
 {
-  const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
+  //const std::shared_ptr<CSettings> settings = CServiceBroker::GetSettingsComponent()->GetSettings();
 
-  std::unique_lock<CCriticalSection> lock(m_cs);
-  settings->GetSettingsManager()->UnregisterSettingOptionsFiller("aequalitylevels");
-  settings->GetSettingsManager()->UnregisterSettingOptionsFiller("audiodevices");
-  settings->GetSettingsManager()->UnregisterSettingOptionsFiller("audiodevicespassthrough");
-  settings->GetSettingsManager()->UnregisterSettingOptionsFiller("audiostreamsilence");
-  settings->GetSettingsManager()->UnregisterCallback(this);
+  //std::unique_lock<CCriticalSection> lock(m_cs);
+  //settings->GetSettingsManager()->UnregisterSettingOptionsFiller("aequalitylevels");
+  //settings->GetSettingsManager()->UnregisterSettingOptionsFiller("audiodevices");
+  //settings->GetSettingsManager()->UnregisterSettingOptionsFiller("audiodevicespassthrough");
+  //settings->GetSettingsManager()->UnregisterSettingOptionsFiller("audiostreamsilence");
+  //settings->GetSettingsManager()->UnregisterCallback(this);
   m_instance = nullptr;
 }
 

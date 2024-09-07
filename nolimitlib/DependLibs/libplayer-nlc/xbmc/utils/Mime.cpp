@@ -515,6 +515,12 @@ std::string CMime::GetMimeType(const std::string &extension)
 
 std::string CMime::GetMimeType(const CFileItem &item)
 {
+    if(item.isContentProviderFile())
+    {
+        // android content provider files do not have extension in its path
+        return item.getFileExtension();
+    }
+
   std::string path = item.GetDynPath();
   if (item.HasVideoInfoTag() && !item.GetVideoInfoTag()->GetPath().empty())
     path = item.GetVideoInfoTag()->GetPath();

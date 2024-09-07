@@ -80,19 +80,19 @@ public:
     void						unlockResources( void )						{ m_ResourceMutex.unlock(); }
 
     void						addAssetMgrClient( AssetBaseCallbackInterface * client, bool enable );
-    bool						isAllowedFileOrDir( std::string strFileName );
+    bool						isAllowedFileOrDir( std::string fileNameAndPath );
 
 	virtual bool				isAssetListInitialized( void )				{ return m_AssetBaseListInitialized; }
 
 	void						assetInfoMgrStartup( VxThread* startupThread );
 	void						assetInfoMgrShutdown( void );
 
-    bool						getFileHashId( std::string& fileFullName, VxSha1Hash& retFileHashId );
+    bool						getFileHashId( std::string& fileNameAndPath, VxSha1Hash& retFileHashId );
 	bool						getFileFullName( VxSha1Hash& fileHashId, std::string& retFileFullName );
 
     virtual bool				doesAssetExist( AssetBaseInfo& assetInfo ); // check if file still exists in directory or database
 
-	AssetBaseInfo*				findAsset( std::string& fileName );
+    AssetBaseInfo*				findAsset( std::string& fileNameAndPath );
 	AssetBaseInfo*				findAsset( VxSha1Hash& fileHashId );
 	AssetBaseInfo*				findAsset( VxGUID& assetId );
 
@@ -104,11 +104,12 @@ public:
 	std::vector<PktFileListReply*>&	getFileListPackets( void )				{ return m_FileListPackets; }
 	void						updateFileListPackets( void );
 
-    AssetBaseInfo* 			    addAssetFile( enum EAssetType assetType, const char* fileName, uint64_t fileLen );
-    AssetBaseInfo*				addAssetFile( enum EAssetType assetType, const char* fileName, uint64_t fileLen, VxGUID& assetId );
+    AssetBaseInfo* 			    addAssetFile( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen );
+    AssetBaseInfo*				addAssetFile( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId );
 
     bool						addAssetFile(   enum EAssetType assetType,
                                                 const char*	    fileName, 
+                                                const char*     fileNameAndPath,
 												VxGUID&			assetId,  
 												uint8_t *		hashId = 0, 
 												EAssetLocation	locationFlags = eAssetLocUnknown, 
@@ -117,6 +118,7 @@ public:
 
     bool						addAssetFile(	enum EAssetType assetType,
                                                 const char*	    fileName, 
+                                                const char*     fileNameAndPath,
 												VxGUID&			assetId,  
 												VxGUID&		    creatorId, 
 												VxGUID&		    historyId, 
@@ -130,7 +132,7 @@ public:
     bool						updateAsset( AssetBaseInfo& assetInfo );
     bool						updateAsset( FileInfo& fileInfo );
 
-	bool						removeAsset( std::string fileName, bool deleteFile = false );
+    bool						removeAsset( std::string fileNameAndPath, bool deleteFile = false );
 	bool						removeAsset( VxGUID& assetUniqueId, bool deleteFile = false );
 	void						fromGuiQuerySessionHistory( GroupieId& groupieId );
     void                        sendHistoryAssetsToGuiByThread( VxThread* poThread );
@@ -144,8 +146,8 @@ public:
 protected:
     virtual AssetBaseInfo*      createAssetInfo( AssetBaseInfo& assetInfo ) = 0;
     virtual AssetBaseInfo*      createAssetInfo( FileInfo& fileInfo ) = 0;
-    virtual AssetBaseInfo*      createAssetInfo( enum EAssetType asset, const char* fileName, uint64_t fileLen ) = 0;
-    virtual AssetBaseInfo*      createAssetInfo( enum EAssetType asset, const char* fileName, uint64_t fileLen, VxGUID& assetId ) = 0;
+    virtual AssetBaseInfo*      createAssetInfo( enum EAssetType asset, const char* fileName, const char* fileNameAndPath, uint64_t fileLen ) = 0;
+    virtual AssetBaseInfo*      createAssetInfo( enum EAssetType asset, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId ) = 0;
 
     void						lockClientList( void )						{ m_ClientListMutex.lock(); }
     void						unlockClientList( void )					{ m_ClientListMutex.unlock(); }
@@ -159,6 +161,7 @@ protected:
 	void						clearAssetInfoList( void );
     AssetBaseInfo*				createAssetInfo(	enum EAssetType assetType,
                                                     const char*	    fileName, 
+                                                    const char*	    fileNameAndPath,
 													VxGUID&			assetId,  
 													uint8_t *		hashId, 
                                                     enum EAssetLocation	locationFlags = eAssetLocUnknown,

@@ -36,6 +36,7 @@ public:
 											VxGUID&			sendToId, 
 											VxGUID&			assetId, 
                                             const char*     assetName,
+										    const char*     fileNameAndPath,
 											int64_t			assetLen, 
 											uint32_t		assetType, 							
 											VxSha1Hash&		hashId, 

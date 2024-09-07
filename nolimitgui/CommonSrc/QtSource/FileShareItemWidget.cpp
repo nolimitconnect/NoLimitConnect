@@ -187,7 +187,7 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 	{
 		ui.m_FileActionBar->setVisible( false );
 		ui.m_FileIconButton->setIcon( eMyIconFileBrowseNormal );
-		ui.m_FileNameLabel->setText( poInfo->getFullFileName() );
+		ui.m_FileNameLabel->setText( poInfo->getFileNameAndPath() );
 		ui.m_FileSizeLabel->setVisible( false );
 
 		return;
@@ -201,6 +201,6 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 
 	ui.m_FileIconButton->setIcon( getMyIcons().getFileIcon( poInfo->getFileType() ) );
 
-	ui.m_FileNameLabel->setText( poInfo->getJustFileName() );
+	ui.m_FileNameLabel->setText( poInfo->getFileName() );
 	ui.m_FileSizeLabel->setText( poInfo->describeFileLength() );
 }

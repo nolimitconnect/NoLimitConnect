@@ -18,8 +18,8 @@ class OfferBaseInfo : public AssetInfo
 public:
     OfferBaseInfo() = default;
     OfferBaseInfo( const OfferBaseInfo& rhs );
-    OfferBaseInfo( std::string fileName );
-    OfferBaseInfo( std::string fileName, uint64_t assetLen, uint16_t assetType );
+    OfferBaseInfo( std::string fileName, std::string fileNameAndPath );
+    OfferBaseInfo( std::string fileName, std::string fileNameAndPath, uint64_t assetLen, uint16_t assetType );
     OfferBaseInfo( FileInfo& fileInfo );
 
     OfferBaseInfo& operator=( const OfferBaseInfo& rhs );

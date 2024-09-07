@@ -32,7 +32,7 @@ public:
 
 	void						playerMgrStartup( void );
 
-	bool						playFile( QString fullFileName, int pos0to100000, bool isStream, bool useExternPlayer );
+	bool						playFile( QString fileNameAndPath, int pos0to100000, bool isStream, bool useExternPlayer );
 	bool						playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, int pos0to100000 = 0 );
 	bool						playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 = 0 );
 

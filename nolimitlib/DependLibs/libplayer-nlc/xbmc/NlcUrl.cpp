@@ -11,6 +11,7 @@
 #include <utils/log.h>
 #include <utils/URIUtils.h>
 #include <utils/StringUtils.h>
+#include "CoreLib/VxFileUtil.h"
 #include "NlcCoreUtil.h"
 #include "filesystem/File.h"
 #include "FileItem.h"
@@ -49,6 +50,21 @@ void NlcUrl::Reset()
 void NlcUrl::Parse( const std::string& strURL1 )
 {
 	Reset();
+    if( strURL1.empty() )
+    {
+        return;
+    }
+
+    if( VxFileUtil::fileIsProviderFile(strURL1.c_str()) )
+    {
+        m_strProtocol = "content";
+
+        // android provider file is encoded with no real path/name
+        // need the full url as file stream
+        m_strFileName = strURL1;
+        return;
+    }
+
 	// start by validating the path
 	std::string strURL = CUtil::ValidatePath( strURL1 );
 
@@ -621,6 +637,11 @@ std::string NlcUrl::GetRedacted() const
 
 std::string NlcUrl::GetRedacted( const std::string& path )
 {
+    if( VxFileUtil::fileIsProviderFile( path.c_str() ) )
+    {
+        return path;
+    }
+
 	return NlcUrl( path ).GetRedacted();
 }
 

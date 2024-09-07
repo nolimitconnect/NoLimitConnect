@@ -64,10 +64,13 @@ class PluginSetting;
 class PluginSettingsWidget;
 class BottomBarWidget;
 class TitleBarWidget;
+class VxFileInfoBase;
 class VxFrame;
 class VxNetIdent;
 
 class QComboBox;
+class QDir;
+class QFileInfo;
 class QFrame;
 class QFontMetrics;
 class QImage;
@@ -80,12 +83,15 @@ public:
     static QString				getAvailableStorageSpaceText();
 
 	static std::string			browseForDirectory( QString startDir = "", QWidget* parent = nullptr );
-    static void                 listFilesInFolder( std::string folder, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE );
-    static bool                 browseForFile( QWidget* parent, std::string& retFileName, QString startDir = "", uint8_t fileMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
-    static bool                 browseForFile( QWidget* parent, FileInfo& retFileInfo, QString startDir = "", uint8_t fileMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+
+    static bool                 browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, FileInfo& retFileInfo, QString startDir = "" );
+    static bool                 browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, VxFileInfoBase& retFileInfo, QString startDir = "" );
     static bool                 browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, std::string& retFileName, QString startDir = "" );
 
-    static uint64_t             testCanReadFile( std::string fullFileName );
+    static void                 listFilesInFolder( QDir& folder, std::vector<VxFileInfoBase>& retFileList, uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    static bool                 qtFileInfoToVxFileInfo( const QFileInfo& fileInfo, VxFileInfoBase& retFileInfo, uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+
+    static uint64_t             testCanReadFile( std::string fileNameAndPath );
 
     static QString              fileMaskToFileFilter( uint8_t fileMask );
     static QString              fileExtensionToFilter( QString fileExtensions );
@@ -194,9 +200,9 @@ public:
     static uint64_t             saveToPngFile( QImage& image, QString& fileName ); // returns file length
     static uint64_t             saveToPngFile( QPixmap& pixmap, QString& fileName ); // returns file length
 
-    static bool                 requestAndroidStoragePermissions( void );
-    static bool                 checkUserPermission( QString permissionName ); // returns false if user denies permission to use android hardware
-    static bool                 requestPermission( std::string permissionName );
+    static bool                 requestFilePermission( enum EMediaFileType permissionType );
+    static void                 showFilePermissionError( void );
+    static bool                 requestPermission( QString permissionName );
 
     static void                 fillHostType( QComboBox* comboBox, bool excludePeerHost = true );
     static EHostType            comboIdxToHostType( int comboIdx );

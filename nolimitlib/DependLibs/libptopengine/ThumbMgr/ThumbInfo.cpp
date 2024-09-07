@@ -53,26 +53,26 @@ ThumbInfo::ThumbInfo( VxGUID& onlineId, VxGUID& assetId, int64_t modifiedTime )
 }
 
 //============================================================================
-ThumbInfo::ThumbInfo( const std::string& fileName )
-    : AssetBaseInfo( eAssetTypeThumbnail, fileName )
+ThumbInfo::ThumbInfo( const std::string& fileName, const std::string& fileNameAndPath )
+    : AssetBaseInfo( eAssetTypeThumbnail, fileName, fileNameAndPath )
 { 
 }
 
 //============================================================================
-ThumbInfo::ThumbInfo( const std::string& fileName, VxGUID& assetId )
-	: AssetBaseInfo( eAssetTypeThumbnail, fileName, assetId )
+ThumbInfo::ThumbInfo( const std::string& fileName, const std::string& fileNameAndPath, VxGUID& assetId )
+	: AssetBaseInfo( eAssetTypeThumbnail, fileName, fileNameAndPath, assetId )
 {
 }
 
 //============================================================================
-ThumbInfo::ThumbInfo( const char* fileName, uint64_t fileLen )
-: AssetBaseInfo( eAssetTypeThumbnail, fileName, fileLen )
+ThumbInfo::ThumbInfo( const char* fileName, const char* fileNameAndPath, uint64_t fileLen )
+: AssetBaseInfo( eAssetTypeThumbnail, fileName, fileNameAndPath, fileLen )
 {
 }
 
 //============================================================================
-ThumbInfo::ThumbInfo( const char* fileName, uint64_t fileLen, VxGUID& assetId )
-	: AssetBaseInfo( eAssetTypeThumbnail, fileName, fileLen, assetId )
+ThumbInfo::ThumbInfo( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId )
+	: AssetBaseInfo( eAssetTypeThumbnail, fileName, fileNameAndPath, fileLen, assetId )
 {
 }
 

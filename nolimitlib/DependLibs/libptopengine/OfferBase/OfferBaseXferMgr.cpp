@@ -1286,7 +1286,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 	{
 		xferInfo.setXferDirection( eXferDirectionTx );
 		xferInfo.setLclFileName( xferSession->getOfferInfo().getOfferName().c_str() );
-		VxFileUtil::getJustFileName( xferSession->getOfferInfo().getOfferName().c_str(), xferInfo.getRmtFileName() );
+		VxFileUtil::getFileName( xferSession->getOfferInfo().getOfferName().c_str(), xferInfo.getRmtFileName() );
 		xferInfo.setLclSessionId( xferSession->getLclSessionId() );
 		xferInfo.setRmtSessionId( xferSession->getRmtSessionId() );
 		xferInfo.setFileHashId( xferSession->getFileHashId() );

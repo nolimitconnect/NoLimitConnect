@@ -223,15 +223,15 @@ void CEngineStats::GetSyncInfo( CAESyncInfo& info, CActiveAEStream *stream )
     {
         if( str.m_streamId == stream->m_id )
         {
-      std::unique_lock<CCriticalSection> lock(stream->m_statsLock);
-      float buffertime = static_cast<float>(str.m_bufferedTime) + stream->m_bufferedTime;
-      status.delay += static_cast<double>(buffertime) / str.m_resampleRatio;
-            info.delay = status.GetDelay();
-            info.error = str.m_syncError;
-            info.errortime = str.m_errorTime;
-            info.state = str.m_syncState;
-            info.rr = str.m_resampleRatio;
-            return;
+          std::unique_lock<CCriticalSection> lock(stream->m_statsLock);
+          float buffertime = static_cast<float>(str.m_bufferedTime) + stream->m_bufferedTime;
+          status.delay += static_cast<double>(buffertime) / str.m_resampleRatio;
+                info.delay = status.GetDelay();
+                info.error = str.m_syncError;
+                info.errortime = str.m_errorTime;
+                info.state = str.m_syncState;
+                info.rr = str.m_resampleRatio;
+                return;
         }
     }
 }

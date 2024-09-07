@@ -201,7 +201,7 @@ void PAPlayer::CloseAllStreams( bool fade/* = true */ )
 
 bool PAPlayer::OpenFile( const CFileItem& file, const CPlayerOptions& options )
 {
-    m_defaultCrossfadeMS = CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt( CSettings::SETTING_MUSICPLAYER_CROSSFADE ) * 1000;
+    m_defaultCrossfadeMS = 0; // CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt( CSettings::SETTING_MUSICPLAYER_CROSSFADE ) * 1000;
     m_fullScreen = options.fullscreen;
 
     if( m_streams.size() > 1 || !m_defaultCrossfadeMS || m_isPaused )
@@ -256,25 +256,25 @@ bool PAPlayer::OpenFile( const CFileItem& file, const CPlayerOptions& options )
 void PAPlayer::UpdateCrossfadeTime( const CFileItem& file )
 {
     // we explicitly disable crossfading for audio cds
-    if( file.IsCDDA() )
-        m_upcomingCrossfadeMS = 0;
-    else
-        m_upcomingCrossfadeMS = m_defaultCrossfadeMS = CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt( CSettings::SETTING_MUSICPLAYER_CROSSFADE ) * 1000;
+    //if( file.IsCDDA() )
+    //    m_upcomingCrossfadeMS = 0;
+    //else
+    //    m_upcomingCrossfadeMS = m_defaultCrossfadeMS = CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt( CSettings::SETTING_MUSICPLAYER_CROSSFADE ) * 1000;
 
-    if( m_upcomingCrossfadeMS )
-    {
-        if( !m_currentStream ||
-            (file.HasMusicInfoTag() && !CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool( CSettings::SETTING_MUSICPLAYER_CROSSFADEALBUMTRACKS ) &&
-              m_currentStream->m_fileItem->HasMusicInfoTag() &&
-              (m_currentStream->m_fileItem->GetMusicInfoTag()->GetAlbum() != "") &&
-              (m_currentStream->m_fileItem->GetMusicInfoTag()->GetAlbum() == file.GetMusicInfoTag()->GetAlbum()) &&
-              (m_currentStream->m_fileItem->GetMusicInfoTag()->GetDiscNumber() == file.GetMusicInfoTag()->GetDiscNumber()) &&
-              (m_currentStream->m_fileItem->GetMusicInfoTag()->GetTrackNumber() == file.GetMusicInfoTag()->GetTrackNumber() - 1)) )
-        {
-            //do not crossfade when playing consecutive albumtracks
-            m_upcomingCrossfadeMS = 0;
-        }
-    }
+    //if( m_upcomingCrossfadeMS )
+    //{
+    //    if( !m_currentStream ||
+    //        (file.HasMusicInfoTag() && !CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool( CSettings::SETTING_MUSICPLAYER_CROSSFADEALBUMTRACKS ) &&
+    //          m_currentStream->m_fileItem->HasMusicInfoTag() &&
+    //          (m_currentStream->m_fileItem->GetMusicInfoTag()->GetAlbum() != "") &&
+    //          (m_currentStream->m_fileItem->GetMusicInfoTag()->GetAlbum() == file.GetMusicInfoTag()->GetAlbum()) &&
+    //          (m_currentStream->m_fileItem->GetMusicInfoTag()->GetDiscNumber() == file.GetMusicInfoTag()->GetDiscNumber()) &&
+    //          (m_currentStream->m_fileItem->GetMusicInfoTag()->GetTrackNumber() == file.GetMusicInfoTag()->GetTrackNumber() - 1)) )
+    //    {
+    //        //do not crossfade when playing consecutive albumtracks
+    //        m_upcomingCrossfadeMS = 0;
+    //    }
+    //}
 }
 
 bool PAPlayer::QueueNextFile( const CFileItem& file )

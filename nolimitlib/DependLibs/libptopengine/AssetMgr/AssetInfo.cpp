@@ -45,32 +45,38 @@ AssetInfo::AssetInfo( const AssetBaseInfo& rhs )
 }
 
 //============================================================================
+AssetInfo::AssetInfo( const VxFileInfoBase& rhs )
+    : AssetBaseInfo( rhs )
+{
+}
+
+//============================================================================
 AssetInfo::AssetInfo( FileInfo& rhs )
 	: AssetBaseInfo( rhs )
 {
 }
 
 //============================================================================
-AssetInfo::AssetInfo( EAssetType assetType, std::string fileName )
-: AssetBaseInfo( assetType, fileName )
+AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath )
+: AssetBaseInfo( assetType, fileName, fileNameAndPath )
 { 
 }
 
 //============================================================================
-AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, VxGUID& assetId )
-	: AssetBaseInfo( assetType, fileName, assetId )
+AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath, VxGUID& assetId )
+    : AssetBaseInfo( assetType, fileName, fileNameAndPath, assetId )
 {
 }
 
 //============================================================================
-AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, uint64_t fileLen )
-: AssetBaseInfo( assetType, fileName, fileLen )
+AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen )
+: AssetBaseInfo( assetType, fileName, fileNameAndPath, fileLen )
 {
 }
 
 //============================================================================
-AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, uint64_t fileLen, VxGUID& assetId )
-	: AssetBaseInfo( assetType, fileName, fileLen, assetId )
+AssetInfo::AssetInfo( EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen, VxGUID& assetId )
+    : AssetBaseInfo( assetType, fileName, fileNameAndPath, fileLen, assetId )
 {
 }
 

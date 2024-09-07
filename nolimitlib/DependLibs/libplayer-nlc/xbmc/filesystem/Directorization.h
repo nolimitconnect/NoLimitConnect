@@ -125,7 +125,7 @@ namespace XFILE
       item->SetPath(itemPath);
       item->m_bIsFolder = isFolder;
       if (isFolder)
-        item->m_dwSize = 0;
+          item->setFileLength( 0 );
 
       items.Add(item);
     }

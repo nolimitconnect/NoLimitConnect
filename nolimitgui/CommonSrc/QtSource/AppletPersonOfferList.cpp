@@ -248,7 +248,7 @@ void AppletPersonOfferList::slotToGuiFileDownloadComplete(	VxGUID lclSessionId, 
 	{
 		if( !newFileName.isEmpty() )
 		{
-			xferSession->setFullFileName( newFileName );
+			xferSession->setFileNameAndPath( newFileName );
 		}
 
 		xferSession->setXferState( eXferStateCompletedDownload, xferError, 0 );
@@ -321,7 +321,7 @@ void AppletPersonOfferList::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName() );
+		this->playFile( xferSession->getFileNameAndPath() );
 	}
 }
 
@@ -334,7 +334,7 @@ void AppletPersonOfferList::slotLibraryButtonClicked( QListWidgetItem* item )
 		bool inLibary = xferSession->getIsInLibrary();
 		inLibary = !inLibary;
 		xferSession->setIsInLibrary( inLibary );
-		m_Engine.fromGuiSetFileIsInLibrary( xferSession->getFullFileName().toUtf8().constData(), inLibary, xferSession->getFileHashId().getHashData() );
+		m_Engine.fromGuiSetFileIsInLibrary( xferSession->getFileNameAndPath().toUtf8().constData(), inLibary, xferSession->getFileHashId().getHashData() );
 		((FileXferWidget*)item)->updateWidgetFromInfo();
 	}	
 }
@@ -359,7 +359,7 @@ void AppletPersonOfferList::slotShredButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		QString fileName = xferSession->getFullFileName();
+		QString fileName = xferSession->getFileNameAndPath();
 		if( confirmDeleteFile( true ) )
 		{
 			ui.m_FileItemList->removeItemWidget( item );

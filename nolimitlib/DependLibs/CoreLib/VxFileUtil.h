@@ -33,11 +33,13 @@ namespace VxFileUtil
     //! append file name to path.. account for url etc
 	std::string					addFileToFolder( std::string& strFolder, std::string& strFile );
 
-	bool						fileIsProviderFile( const char* fileName ); // return true if is an android content storage provider file
+    bool						fileIsProviderFile( const char* fileNameAndPath ); // return true if is an android content storage provider file
+
+    bool						getFileInfo( const char* fileNameAndPath, VxFileInfoBase& retFileInfo );
+
 	//! returns file size or 0 if doesn't exist
-	uint64_t					fileExists( const char* pFileName, bool printLogIfDoesNotExist = true );
-	uint64_t					getFileLen( const char* pFileName, bool printLogIfDoesNotExist = true );
-    bool						getFileTypeAndLength( const char* pFileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist = true );
+    uint64_t					fileExists( const char* fileNameAndPath, bool printLogIfDoesNotExist = true );
+    uint64_t					getFileLen( const char* fileNameAndPath, bool printLogIfDoesNotExist = true );
 	bool						directoryExists( const char* pDir );
 
 	//! Make all directories that don't exist in a given path
@@ -85,7 +87,7 @@ namespace VxFileUtil
                                                                 std::string&	strRetExtensionPart );	// return .ext part
 
 	//! remove the path and return just the file name
-    void						getJustFileName(	const char*     pFullPath,	                // file name may be full or just file name
+    void						getFileName(	const char*     pFullPath,	                // file name may be full or just file name
 													std::string&	strRetJustFileName );		// return file name
     //! remove the file name and return just the path
     std::string					getJustPath( std::string fullPath );	// file name and path
@@ -158,7 +160,7 @@ namespace VxFileUtil
 														std::vector<std::string>&	fileList );
 
     RCODE						listFilesAndFolders(	const char*                 pSrcDir,
-														std::vector<VxFileInfo>&	fileList,
+                                                        std::vector<VxFileInfoBase>&	fileList,
 														uint8_t						fileFilterMask = VXFILE_TYPE_ANY | VXFILE_TYPE_DIRECTORY );
 
 	bool						deleteFilesInFolder( std::string fileFolder, bool folderNameEndsWithOnlineId );
@@ -189,9 +191,6 @@ namespace VxFileUtil
 
 	std::string					describeFileSize( uint64_t fileLen );
 
-    std::string                 decodePercentEncodingAll( std::string& fileName );
-	void						decodePercentEncodingOfSlash( std::string& fileName );
-    void						encodePercentEncodingOfSlash( std::string& fileName );
 
 } // namespace VxFileUtil
 

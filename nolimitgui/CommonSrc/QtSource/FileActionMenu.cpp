@@ -70,7 +70,7 @@ void FileActionMenu::setupFileInfo( void )
 {
 	ui.m_FileIconButton->setIcon( getMyIcons().getFileIcon( m_FileInfo.getFileType() ) );
 
-	QString fileName = m_FileInfo.getFullFileName().c_str();
+	QString fileName = m_FileInfo.getFileNameAndPath().c_str();
 	QString path = m_FileInfo.getFilePath().c_str();
 
 	ui.m_FileNameLabel->setText( fileName );
@@ -173,7 +173,7 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 		switch( menuAction )
 		{
 		case eFileMenuActionOpen:
-			m_MyApp.getPlayerMgr().playFile( m_FileInfo.getFullFileName().c_str(), 0, false, false );
+			m_MyApp.getPlayerMgr().playFile( m_FileInfo.getFileNameAndPath().c_str(), 0, false, false );
 			break;
 
 		case eFileMenuActionSendToFriend:
@@ -206,11 +206,11 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 		case eFileMenuActionDelete:
 			if( confirmDeleteFile( false ) )
 			{
-				int result = m_Engine.fromGuiDeleteFile( m_FileInfo.getFullFileName(), false );
+				int result = m_Engine.fromGuiDeleteFile( m_FileInfo.getFileNameAndPath(), false );
 				if( result )
 				{
 					QString title = "Could Not Delete File";
-					QString bodyText =  QString("OS returned error %1 accessing file %2 for deletion").arg(result).arg(m_FileInfo.getFullFileName().c_str());
+					QString bodyText =  QString("OS returned error %1 accessing file %2 for deletion").arg(result).arg(m_FileInfo.getFileNameAndPath().c_str());
 					ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
 					dlg.hideCancelButton();
 					dlg.exec();
@@ -221,11 +221,11 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 		case eFileMenuActionShred:
 			if( confirmDeleteFile( true ) )
 			{
-				int result = m_Engine.fromGuiDeleteFile( m_FileInfo.getFullFileName(), true );
+				int result = m_Engine.fromGuiDeleteFile( m_FileInfo.getFileNameAndPath(), true );
 				if( result )
 				{
 					QString title = "Could Not Shred File";
-					QString bodyText =  QString("OS returned error %1 accessing file %2 for shredding").arg(result).arg(m_FileInfo.getFullFileName().c_str());
+					QString bodyText =  QString("OS returned error %1 accessing file %2 for shredding").arg(result).arg(m_FileInfo.getFileNameAndPath().c_str());
 					ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
 					dlg.hideCancelButton();
 					dlg.exec();

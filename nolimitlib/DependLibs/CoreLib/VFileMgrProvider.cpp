@@ -8,17 +8,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VirtStreamMgr.h"
+#include "VFileMgr.h"
 
-#include "VirtProviderFile.h"
+#include <VirtStream/VirtProviderFile.h>
 
-#include <P2PEngine/P2PEngine.h>
-
+#include <CoreLib/AssetDefs.h>
+#include <CoreLib/VxDefs.h>
 #include <CoreLib/VFile.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxGUID.h>
 
 
-#if defined (TARGET_OS_ANDROID)
 #include <QtQml/QQmlFile>
 #include <QDir>
 #include <QUrl>
@@ -27,9 +27,9 @@
 # if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #  include <QtAndroid>
 # else
-#  include <QtCore/private/qandroidextras_p.h>
+//#  include <QtCore/private/qandroidextras_p.h>
 # endif
-#endif //defined (TARGET_OS_ANDROID)
+
 
 #if defined (Q_OS_ANDROID)
 namespace
@@ -67,38 +67,36 @@ namespace
 #endif // defined (Q_OS_ANDROID)
 
 //============================================================================
-VirtProviderFile* VirtStreamMgr::findProviderFile( VFile* fp )
+VirtProviderFile* VFileMgr::findProviderFile( VFile* fp )
 {
-#if defined (TARGET_OS_ANDROID)
+
     auto iter = std::find_if(m_ProviderFiles.begin(), m_ProviderFiles.end(),
                              [&](VirtProviderFile* file) { return file->m_VFile == fp; });
     if( iter != m_ProviderFiles.end() )
     {
         return *iter;
     }
-#endif // defined (TARGET_OS_ANDROID)
+
 
     return nullptr;
 }
 
 //============================================================================
-bool VirtStreamMgr::providerDirectoryExists( std::string dirPath )
+bool VFileMgr::providerDirectoryExists( std::string dirPath )
 {
     bool dirExists{ false };
 
-#if defined (TARGET_OS_ANDROID)
     QDir qDir( dirPath.c_str() );
     dirExists = qDir.exists();
-#endif // defined (TARGET_OS_ANDROID)
 
     return dirExists;
 }
 
 //============================================================================
-uint64_t VirtStreamMgr::providerFileExists( std::string fileName )
+uint64_t VFileMgr::providerFileExists( std::string fileName )
 {
     uint64_t fileLen{0};
-#if defined (TARGET_OS_ANDROID)
+
     VirtProviderFile* providerFile = new VirtProviderFile(fileName.c_str());
     if( providerFile->open( QIODevice::ReadOnly ) )
     {
@@ -107,19 +105,36 @@ uint64_t VirtStreamMgr::providerFileExists( std::string fileName )
     }
 
     delete providerFile;
-#endif // defined (TARGET_OS_ANDROID)
+
 
     return fileLen;
 }
 
 //============================================================================
-VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string fileMode )
+VFile* VFileMgr::providerFileOpen( std::string fileNameIn, std::string fileMode )
 {
-#if defined( TARGET_OS_ANDROID )
+
     QString contentPath( fileNameIn.c_str() );
+    QFileInfo fileInfo(contentPath);
     QUrl contentUrl(contentPath);
 
-    QString fileName = QQmlFile::urlToLocalFileOrQrc(contentUrl);
+    qDebug() << "(QUrl::authority)          :" << contentUrl.authority();
+    qDebug() << "(QUrl::query)              :" << contentUrl.query();
+    qDebug() << "(QUrl::path)               :" << contentUrl.path();
+    qDebug() << "(QUrl::toString)           :" << contentUrl.toString();
+    qDebug() << "(QUrl::fileName)           :" << contentUrl.fileName();
+    qDebug() << "(QUrl::url)                :" << contentUrl.url();
+    qDebug() << "(QUrl::scheme)             :" << contentUrl.scheme();
+
+    qDebug() << "(QFileInfo::canonicalPath)      :" << fileInfo.canonicalPath();
+    qDebug() << "(QFileInfo::absolutePath)       :" << fileInfo.absolutePath();
+    qDebug() << "(QFileInfo::path)               :" << fileInfo.path();
+    qDebug() << "(QFileInfo::baseName)           :" << fileInfo.baseName();
+    qDebug() << "(QFileInfo::filePath)           :" << fileInfo.filePath();
+    qDebug() << "(QFileInfo::absoluteFilePath)   :" << fileInfo.absoluteFilePath();
+    qDebug() << "(QFileInfo::canonicalFilePath)  :" << fileInfo.canonicalFilePath();
+
+    QString fileName = contentUrl.toLocalFile();
 
     VirtProviderFile* providerFile = new VirtProviderFile(fileName);
     if( providerFile->open( QIODevice::ReadOnly ) )
@@ -142,16 +157,16 @@ VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string file
 
     delete providerFile;
 
-#endif // defined( TARGET_OS_ANDROID )
+
 
 	return nullptr;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileClose( VFile* fp )
+int VFileMgr::providerFileClose( VFile* fp )
 {
 	int retVal = -1;
-#if defined(TARGET_OS_ANDROID)
+
 	lockProviderMgr();
     auto iter = std::find_if(m_ProviderFiles.begin(), m_ProviderFiles.end(), 
                               [&](VirtProviderFile* file) { return file->m_VFile == fp; });
@@ -165,21 +180,21 @@ int VirtStreamMgr::providerFileClose( VFile* fp )
     }
 
 	unlockProviderMgr();
-#endif // defined(TARGET_OS_ANDROID)
+
 
 	return retVal;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileEof( VFile* fp )
+int VFileMgr::providerFileEof( VFile* fp )
 {
     bool eof{ false };
-#if defined(TARGET_OS_ANDROID)
+
 	lockProviderMgr();
     VirtProviderFile* providerFile = findProviderFile( fp );
     if( !providerFile )
 	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VFileMgr::%s wrong VFile", __func__ );
 		unlockProviderMgr();
 		vx_assert( false );
 		return 0;
@@ -187,47 +202,45 @@ int VirtStreamMgr::providerFileEof( VFile* fp )
 
     eof = fp->m_FileOffs == fp->m_FileLen;
 	unlockProviderMgr();
-#endif // defined(TARGET_OS_ANDROID)
+
 
 	return eof;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileError( VFile* fp )
+int VFileMgr::providerFileError( VFile* fp )
 {
 	int retVal = -1;
 	lockProviderMgr();
     VirtProviderFile* providerFile = findProviderFile( fp );
     if( !providerFile )
 	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VFileMgr::%s wrong VFile", __func__ );
 		unlockProviderMgr();
 		vx_assert( false );
 		return retVal;
 	}
 	
-	m_LiveStream.isConnected();
-	retVal = m_LiveStream.getError();
 	unlockProviderMgr();
-	return retVal;
+	return 0;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileFlush( VFile* fp )
+int VFileMgr::providerFileFlush( VFile* fp )
 {
 	return 0;
 }
 
 //============================================================================
-size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VFile* fp )
+size_t VFileMgr::providerFileRead( void* buf, size_t size, size_t count, VFile* fp )
 {
 	int retVal = -1;
-#if defined(TARGET_OS_ANDROID)
+
 	lockProviderMgr();
     VirtProviderFile* providerFile = findProviderFile( fp );
     if( !providerFile )
 	{
-		LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+		LogMsg( LOG_ERROR, "VFileMgr::%s wrong VFile", __func__ );
 		unlockProviderMgr();
 		vx_assert( false );
 		return retVal;
@@ -235,7 +248,7 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 
     if( !providerFile->isOpen() )
     {
-        LogMsg( LOG_ERROR, "VirtStreamMgr::%s file not open", __func__ );
+        LogMsg( LOG_ERROR, "VFileMgr::%s file not open", __func__ );
         unlockProviderMgr();
         vx_assert( false );
         return retVal;
@@ -253,20 +266,18 @@ size_t VirtStreamMgr::providerFileRead( void* buf, size_t size, size_t count, VF
 
 	unlockProviderMgr();
 	return retVal ? retVal : readLen;
-#else
-    return 0;
-#endif // defined(TARGET_OS_ANDROID)
+
 }
 
 //============================================================================
-size_t VirtStreamMgr::providerFileWrite(const void* buf, size_t size, size_t count, VFile* fp)
+size_t VFileMgr::providerFileWrite(const void* buf, size_t size, size_t count, VFile* fp)
 {
 	// not implemented
 	return -1;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileGetC( VFile* fp )
+int VFileMgr::providerFileGetC( VFile* fp )
 {
     if( fp->m_FileOffs == fp->m_FileLen )
     {
@@ -281,14 +292,14 @@ int VirtStreamMgr::providerFileGetC( VFile* fp )
 }
 
 //============================================================================
-char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
+char* VFileMgr::providerFileGetS( char* buf, int size, VFile* fp )
 {
-#if defined(TARGET_OS_ANDROID)
+
 	lockProviderMgr();
     VirtProviderFile* providerFile = findProviderFile( fp );
     if( !providerFile )
     {
-        LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+        LogMsg( LOG_ERROR, "VFileMgr::%s wrong VFile", __func__ );
         unlockProviderMgr();
         vx_assert( false );
         return nullptr;
@@ -325,19 +336,19 @@ char* VirtStreamMgr::providerFileGetS( char* buf, int size, VFile* fp )
 		memcpy( buf, readStr.c_str(), readStr.length() );
 		return buf;
 	}
-#endif // defined(TARGET_OS_ANDROID)
+
 
 	return nullptr;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
+int VFileMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
 {
     lockProviderMgr();
     VirtProviderFile* providerFile = findProviderFile( fp );
     if( !providerFile )
     {
-        LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+        LogMsg( LOG_ERROR, "VFileMgr::%s wrong VFile", __func__ );
         unlockProviderMgr();
         vx_assert( false );
         return -1;
@@ -355,35 +366,35 @@ int VirtStreamMgr::providerFileGetPos( VFile* fp, fpos_t* pos )
 }
 
 //============================================================================
-int VirtStreamMgr::providerFilePutC(int ch, VFile* fp)
+int VFileMgr::providerFilePutC(int ch, VFile* fp)
 {
 	// not implemented
 	return -1;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFilePutS(const char* s, VFile* fp)
+int VFileMgr::providerFilePutS(const char* s, VFile* fp)
 {
 	// not implemented
 	return -1;
 }
 //============================================================================
-int VirtStreamMgr::providerFileSetPos( VFile* fp, const fpos_t* pos )
+int VFileMgr::providerFileSetPos( VFile* fp, const fpos_t* pos )
 {
 	// not implemented
 	return -1;
 }
 
 //============================================================================
-int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
+int VFileMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
 {
     int result = -1;
-#if defined(TARGET_OS_ANDROID)
+
 	lockProviderMgr();
     VirtProviderFile* providerFile = findProviderFile( fp );
     if( !providerFile )
     {
-        LogMsg( LOG_ERROR, "VirtStreamMgr::%s wrong VFile", __func__ );
+        LogMsg( LOG_ERROR, "VFileMgr::%s wrong VFile", __func__ );
         unlockProviderMgr();
         vx_assert( false );
         return -1;
@@ -433,16 +444,16 @@ int VirtStreamMgr::providerFileSeek( VFile* fp, size_t offset, int whence )
     }
 
 	unlockProviderMgr();
-#endif // defined(TARGET_OS_ANDROID)
+
 
     return result;
 }
 
 //============================================================================
-int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask )
+int VFileMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask )
 {
     fileList.clear();
-#if defined(TARGET_OS_ANDROID)
+
 
     std::string folderName( srcDir );
     //VxFileUtil::removeTrailingDirectorySlash(folderName);
@@ -453,11 +464,11 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
         fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
     }
 
-    VxGUID onlineId = m_Engine.getMyOnlineId();
+
     QDir browseDir( srcDir );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "VirtStreamMgr::%s %d files in dir %s", __func__, fileList.size(), folderName.c_str() );
+    LogMsg( LOG_VERBOSE, "VFileMgr::%s %d files in dir %s", __func__, fileList.size(), folderName.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();
@@ -504,7 +515,5 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
     }
 
 	return 0;
-#else
-    return -1;
-#endif // defined(TARGET_OS_ANDROID)
+
 }

@@ -42,7 +42,7 @@ ActivityDownloadItemMenu::ActivityDownloadItemMenu(	AppCommon& app,
 	ui.PermissionButton->setIcon( getMyIcons().getFileIcon( poSession->getFileType() ) );
 	ui.PermissionLabel->setText( poSession->describeFileType() );
 
-	ui.FileNameEdit->setText( m_Session->getJustFileName() );
+	ui.FileNameEdit->setText( m_Session->getFileName() );
 
 	connect( ui.CancelButton, SIGNAL(clicked()), this, SLOT(onCancelButClick()) );
 }

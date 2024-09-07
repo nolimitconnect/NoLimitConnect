@@ -145,7 +145,7 @@ void PktFileListReply::getFileList( std::vector<VxFileInfo>& retFileList )
 
 		//char as8Buf[ VX_MAX_PATH ];
 		//VxUnchopStr( (unsigned char *)entry->m_FileName, as8Buf );
-		VxFileInfo fileInfo( entry->m_FileName );
+		VxFileInfo fileInfo( entry->m_FileName, "" );
 		fileInfo.setFileHashData( entry->m_FileHashData );
 		fileInfo.setFileLength( ntohU64( entry->m_FileLen ) );
 		fileInfo.setFileType( entry->m_FileTypeFlags );

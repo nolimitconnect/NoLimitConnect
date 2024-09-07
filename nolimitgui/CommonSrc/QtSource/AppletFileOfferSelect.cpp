@@ -286,7 +286,7 @@ void AppletFileOfferSelect::slotListPlayIconClicked( QListWidgetItem* item )
             }
             else
             {
-                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFullFileName().toUtf8().constData(), QMessageBox::Ok );
+                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFileNameAndPath().toUtf8().constData(), QMessageBox::Ok );
                 ui.m_FileItemList->removeItemWidget( item );
             }
         }
@@ -319,7 +319,7 @@ void AppletFileOfferSelect::slotListPlayExternIconClicked( QListWidgetItem* item
             }
             else
             {
-                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFullFileName().toUtf8().constData(), QMessageBox::Ok );
+                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFileNameAndPath().toUtf8().constData(), QMessageBox::Ok );
                 ui.m_FileItemList->removeItemWidget( item );
             }
         }
@@ -370,7 +370,7 @@ FileShareItemWidget* AppletFileOfferSelect::findListEntryWidget( FileInfo& fileI
         if( poWidget )
         {
             FileItemInfo* poFileInfo = ( FileItemInfo* )poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-            if( poFileInfo && ( poFileInfo->getFileInfo().getFullFileName() == fileInfo.getFullFileName() ) )
+            if( poFileInfo && ( poFileInfo->getFileInfo().getFileNameAndPath() == fileInfo.getFileNameAndPath() ) )
             {
                 return poWidget;
             }
@@ -385,7 +385,7 @@ FileShareItemWidget* AppletFileOfferSelect::findListEntryWidget( FileInfo& fileI
 //============================================================================
 void AppletFileOfferSelect::addFile( FileInfo& fileInfo )
 {
-    FileShareItemWidget* existingItem = findItemByFileName( fileInfo.getFullFileName().c_str() );
+    FileShareItemWidget* existingItem = findItemByFileName( fileInfo.getFileNameAndPath().c_str() );
     if( existingItem )
     {
         FileItemInfo* poItemInfo = existingItem->getFileItemInfo();
@@ -457,7 +457,7 @@ FileShareItemWidget* AppletFileOfferSelect::findItemByFileName( QString fileName
         if( poWidget )
         {
             FileItemInfo* poFileInfo = (FileItemInfo*)poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-            if( poFileInfo && (poFileInfo->getFullFileName() == fileName) )
+            if( poFileInfo && (poFileInfo->getFileNameAndPath() == fileName) )
             {
                 return poWidget;
             }
@@ -535,7 +535,7 @@ void AppletFileOfferSelect::onFileSelected( FileInfo& fileInfo )
 //============================================================================
 void AppletFileOfferSelect::onFileRemoved( FileInfo& fileInfo )
 {
-    if( fileInfo.getJustFileName().c_str() == ui.m_FileNameEdit->text() )
+    if( fileInfo.getFileName().c_str() == ui.m_FileNameEdit->text() )
     {
         ui.m_FileNameEdit->clear();
         ui.m_Path->clear();

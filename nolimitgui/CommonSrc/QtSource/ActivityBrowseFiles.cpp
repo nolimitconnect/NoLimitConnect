@@ -329,7 +329,7 @@ FileShareItemWidget* ActivityBrowseFiles::fileToWidget( FileInfo& fileInfo )
 //============================================================================
 void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 {
-	if( fileExistsInList( fileInfo.getFullFileName().c_str() ) )
+	if( fileExistsInList( fileInfo.getFileNameAndPath().c_str() ) )
 	{
 		return;
 	}
@@ -341,19 +341,19 @@ void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 		{
 			if( 0 == ui.FileItemList->count() )
 			{
-				LogMsg( LOG_INFO, "add directory %s", fileInfo.getJustFileName().c_str() );
+				LogMsg( LOG_INFO, "add directory %s", fileInfo.getFileNameAndPath().c_str() );
 				ui.FileItemList->addItem( item );
 			}
 			else
 			{
-				LogMsg( LOG_INFO, "insert 0 directory %s", fileInfo.getJustFileName().c_str() );
+				LogMsg( LOG_INFO, "insert 0 directory %s", fileInfo.getFileNameAndPath().c_str() );
 				ui.FileItemList->insertItem( 0, (QListWidgetItem*)item );
 			}
 		}
 		else
 		{
 			bool itemInserted = false;
-			QString justFileName = fileInfo.getJustFileName().c_str();
+			QString justFileName = fileInfo.getFileName().c_str();
 			for(int i = 0; i < ui.FileItemList->count(); i++ )
 			{
 				QListWidgetItem* itemInList = ui.FileItemList->item(i);
@@ -363,10 +363,10 @@ void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 					continue;
 				}
 
-				if( poInfo->getJustFileName() > justFileName )
+				if( poInfo->getFileName() > justFileName )
 				{
 					itemInserted = true;
-					LogMsg( LOG_INFO, "inserted %d file %s", i, fileInfo.getJustFileName().c_str() );
+					LogMsg( LOG_INFO, "inserted %d file %s", i, fileInfo.getFileName().c_str() );
 					ui.FileItemList->insertItem( i, (QListWidgetItem*)item );
 					break;
 				}
@@ -374,7 +374,7 @@ void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 
 			if( false == itemInserted )
 			{
-				LogMsg( LOG_INFO, "add file %s", fileInfo.getJustFileName().c_str() );
+				LogMsg( LOG_INFO, "add file %s", fileInfo.getFileName().c_str() );
 				ui.FileItemList->addItem( item );
 			}
 		}
@@ -517,9 +517,9 @@ void ActivityBrowseFiles::slotListItemClicked( QListWidgetItem* item )
 	{
 		if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
 		{
-            if( ! poInfo->getFullFileName().isEmpty() )
+            if( ! poInfo->getFileNameAndPath().isEmpty() )
 			{
-                m_CurBrowseDirectory =  poInfo->getFullFileName().toUtf8().constData();
+                m_CurBrowseDirectory =  poInfo->getFileNameAndPath().toUtf8().constData();
 				VxFileUtil::assureTrailingDirectorySlash( m_CurBrowseDirectory );
 				m_WidgetClickEventFixTimer->start(10);
 			}
@@ -537,7 +537,7 @@ void ActivityBrowseFiles::slotListItemClicked( QListWidgetItem* item )
 			m_ClickToFastTimer.startTimer();
 			if( poInfo->shouldOpenFile() )
 			{
-				this->playFile( poInfo->getFullFileName(), 0, false, false );
+				this->playFile( poInfo->getFileNameAndPath(), 0, false, false );
 			}
 		}
 	}
@@ -601,7 +601,7 @@ void ActivityBrowseFiles::slotListShareFileIconClicked( QListWidgetItem* item )
 		{
 			if( false == m_bFetchInProgress )
 			{
-				std::string strDir = poInfo->getFullFileName().toUtf8().constData();
+				std::string strDir = poInfo->getFileNameAndPath().toUtf8().constData();
 				if( strDir.length() )
 				{
 					m_CurBrowseDirectory = strDir;
@@ -631,7 +631,7 @@ void ActivityBrowseFiles::slotListLibraryIconClicked( QListWidgetItem* item )
 		{
 			if( false == m_bFetchInProgress )
 			{
-				std::string strDir = poInfo->getFullFileName().toUtf8().constData();
+				std::string strDir = poInfo->getFileNameAndPath().toUtf8().constData();
 				if( strDir.length() )
 				{
 					m_CurBrowseDirectory = strDir;
@@ -665,7 +665,7 @@ void ActivityBrowseFiles::slotListPlayIconClicked( QListWidgetItem* item )
 		{
 			if( false == m_bFetchInProgress )
 			{
-				std::string strDir = poInfo->getFullFileName().toUtf8().constData();
+				std::string strDir = poInfo->getFileNameAndPath().toUtf8().constData();
 				if( strDir.length() )
 				{
 					m_CurBrowseDirectory = strDir;
@@ -678,7 +678,7 @@ void ActivityBrowseFiles::slotListPlayIconClicked( QListWidgetItem* item )
 		else
 		{
 			// play file
-			this->playFile( poInfo->getFullFileName(), 0, false, false );
+			this->playFile( poInfo->getFileNameAndPath(), 0, false, false );
 		}
 	}	
 }
@@ -693,7 +693,7 @@ void ActivityBrowseFiles::slotListPlayExternIconClicked( QListWidgetItem* item )
 		{
 			if( false == m_bFetchInProgress )
 			{
-				std::string strDir = poInfo->getFullFileName().toUtf8().constData();
+				std::string strDir = poInfo->getFileNameAndPath().toUtf8().constData();
 				if( strDir.length() )
 				{
 					m_CurBrowseDirectory = strDir;
@@ -706,7 +706,7 @@ void ActivityBrowseFiles::slotListPlayExternIconClicked( QListWidgetItem* item )
 		else
 		{
 			// play file
-			this->playFile( poInfo->getFullFileName(), 0, false, true );
+			this->playFile( poInfo->getFileNameAndPath(), 0, false, true );
 		}
 	}	
 }
@@ -721,7 +721,7 @@ void ActivityBrowseFiles::slotListShredIconClicked( QListWidgetItem* item )
 		{
 			if( false == m_bFetchInProgress )
 			{
-				std::string strDir = poInfo->getFullFileName().toUtf8().constData();
+				std::string strDir = poInfo->getFileNameAndPath().toUtf8().constData();
 				if( strDir.length() )
 				{
 					m_CurBrowseDirectory = strDir;
@@ -734,7 +734,7 @@ void ActivityBrowseFiles::slotListShredIconClicked( QListWidgetItem* item )
 		else
 		{
 			// shred file
-			QString fileName = poInfo->getFullFileName();
+			QString fileName = poInfo->getFileNameAndPath();
 			if( confirmDeleteFile( fileName, true ) )
 			{
 				ui.FileItemList->removeItemWidget( item );
@@ -823,7 +823,7 @@ bool ActivityBrowseFiles::fileExistsInList( QString fileName )
 	{
 		QListWidgetItem* item = ui.FileItemList->item(i);
 		FileItemInfo * poInfo = ((FileShareItemWidget*)item)->getFileItemInfo();
-		if( poInfo && poInfo->getFullFileName() == fileName )
+		if( poInfo && poInfo->getFileNameAndPath() == fileName )
 		{
 			return true;
 		}

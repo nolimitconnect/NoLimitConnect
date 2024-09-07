@@ -389,11 +389,11 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
         return nullptr;
     }
 
-    uint64_t fileLen = VxFileUtil::fileExists( fileName.toUtf8().constData() );
-    if( fileLen )
+    VxFileInfoBase fileInfo;
+    if( VxFileUtil::getFileInfo( fileName.toUtf8().constData(), fileInfo ) )
     {
         // file exists so create a thumbnail instance
-        ThumbInfo thumbInfo( fileName.toUtf8().constData(), fileLen, thumbId );
+        ThumbInfo thumbInfo( fileInfo );
         return updateThumb( thumbInfo );
     }
 
@@ -438,16 +438,26 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
         uint64_t fileLen = GuiHelpers::saveToPngFile( finalThumbnail, fileName );
         if( fileLen )
         {
-            ThumbInfo assetInfo( ( const char* )fileName.toUtf8().constData(), fileLen, thumbId );
-            assetInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
-            assetInfo.setCreationTime( GetTimeStampMs() );
-            assetInfo.setModifiedTime( assetInfo.getCreationTime() );
-            guiThumb = updateThumb( assetInfo );
-
-            if( !thumbMgr.fromGuiThumbCreated( assetInfo ) )
+            VxFileInfoBase fileInfo;
+            if( VxFileUtil::getFileInfo( fileName.toUtf8().constData(), fileInfo ) )
             {
-                QString msgText = QObject::tr( "Could not create emoticon asset" );
-                QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon asset " ) + fileName, msgText, QMessageBox::Ok );
+                ThumbInfo assetInfo( fileInfo );
+                assetInfo.setAssetUniqueId( thumbId );
+                assetInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
+                assetInfo.setCreationTime( GetTimeStampMs() );
+                assetInfo.setModifiedTime( assetInfo.getCreationTime() );
+                guiThumb = updateThumb( assetInfo );
+
+                if( !thumbMgr.fromGuiThumbCreated( assetInfo ) )
+                {
+                    QString msgText = QObject::tr( "Could not create emoticon asset" );
+                    QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon asset " ) + fileName, msgText, QMessageBox::Ok );
+                }
+            }
+            else
+            {
+                QString msgText = QObject::tr( "Could not get file info of emoticon png file" );
+                QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon file " ) + fileName, msgText, QMessageBox::Ok );
             }
         }
         else

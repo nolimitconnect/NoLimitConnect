@@ -19,6 +19,8 @@
 #include "utils/ISortable.h"
 #include "utils/SortUtils.h"
 
+#include <CoreLib/VxFileInfo.h>
+
 #include <map>
 #include <memory>
 #include <string>
@@ -79,10 +81,11 @@ enum EFileFolderType {
   \sa CFileItemList
   */
 class CFileItem :
-  public CGUIListItem, public IArchivable, public ISerializable, public ISortable
+  public VxFileInfoBase, public CGUIListItem, public IArchivable, public ISerializable, public ISortable
 {
 public:
   CFileItem(void);
+  CFileItem( const VxFileInfoBase& rhs );
   CFileItem(const CFileItem& item);
   explicit CFileItem(const CGUIListItem& item);
   explicit CFileItem(const std::string& strLabel);
@@ -99,21 +102,25 @@ public:
   explicit CFileItem(const CVideoInfoTag& movie);
 
   explicit CFileItem(const CMediaSource& share);
-  explicit CFileItem(std::shared_ptr<const ADDON::IAddon> addonInfo);
+
   explicit CFileItem(const EventPtr& eventLogEntry);
 
   ~CFileItem(void) override;
   CGUIListItem* Clone() const override { return new CFileItem(*this); }
 
-  void SetIsVirtualStream( bool isStream ) { m_bIsVirtualStream = isStream; }
-  bool IsVirtualStream( void ) const { return m_bIsVirtualStream; }
+  void setIsVirtualStream( bool isStream ) { m_IsVirtualStream = isStream; }
+  bool isVirtualStream( void ) const { return m_IsVirtualStream || isContentProviderFile(); }
 
   const NlcUrl GetURL() const;
   void SetURL(const NlcUrl& url);
   bool IsURL(const NlcUrl& url) const;
-  const std::string &GetPath() const { return m_strPath; };
+
+  const std::string &GetPath() const { if(!m_strPath.empty()) return m_strPath; return m_FileNameAndPath; }; //{ return m_strPath; };
   void SetPath(const std::string &path) { m_strPath = path; };
   bool IsPath(const std::string& path, bool ignoreURLOptions = false) const;
+
+  const std::string &GetFileName() const { return m_FileName; };
+  void SetFileName(const std::string &fileName) { setFileName( fileName ); };
 
   const NlcUrl GetDynURL() const;
   void SetDynURL(const NlcUrl& url);
@@ -239,11 +246,8 @@ public:
   bool IsFileFolder(EFileFolderType types = EFILEFOLDER_MASK_ALL) const;
   bool IsRemovable() const;
 
-#if ENABLE_PVR && HAVE_ADDONS
-  bool IsPVR() const;
-#else
   bool IsPVR() const { return false; }
-#endif // ENABLE_PVR
+
 
   bool IsLiveTV() const;
   bool IsRSS() const;
@@ -347,23 +351,6 @@ public:
   {
     return m_pictureInfoTag;
   }
-
-  bool HasAddonInfo() const { return m_addonInfo != nullptr; }
-  const std::shared_ptr<const ADDON::IAddon> GetAddonInfo() const { return m_addonInfo; }
-
-  #if ENABLE_GAMES
-  inline bool HasGameInfoTag() const
-  {
-    return m_gameInfoTag != NULL;
-  }
-
-  KODI::GAME::CGameInfoTag* GetGameInfoTag();
-
-  inline const KODI::GAME::CGameInfoTag* GetGameInfoTag() const
-  {
-    return m_gameInfoTag;
-  }
-  #endif // ENABLE_GAMES
 
   CPictureInfoTag* GetPictureInfoTag();
 
@@ -553,7 +540,7 @@ public:
   bool m_bIsShareOrDrive;    ///< is this a root share/drive
   int m_iDriveType;     ///< If \e m_bIsShareOrDrive is \e true, use to get the share type. Types see: CMediaSource::m_iDriveType
   CDateTime m_dateTime;             ///< file creation date & time
-  int64_t m_dwSize;             ///< file size (0 for folders)
+
   std::string m_strDVDLabel;
   std::string m_strTitle;
   int m_iprogramCount;
@@ -581,13 +568,6 @@ private:
    */
   CBookmark GetResumePoint() const;
 
-  #if ENABLE_PVR && HAVE_ADDONS
-  /*!
-   \brief Fill item's music tag from given epg tag.
-   */
-  void FillMusicInfoTag(const std::shared_ptr<PVR::CPVREpgInfoTag>& tag);
-  #endif // ENABLE_PVR && HAVE_ADDONS
-
   std::string m_strPath;            ///< complete path to item
   std::string m_strDynPath;
 
@@ -600,26 +580,16 @@ private:
   bool m_doContentLookup;
   MUSIC_INFO::CMusicInfoTag* m_musicInfoTag;
   CVideoInfoTag* m_videoInfoTag;
-  #if ENABLE_PVR && HAVE_ADDONS
-  std::shared_ptr<PVR::CPVREpgInfoTag> m_epgInfoTag;
-  std::shared_ptr<PVR::CPVREpgSearchFilter> m_epgSearchFilter;
-  std::shared_ptr<PVR::CPVRRecording> m_pvrRecordingInfoTag;
-  std::shared_ptr<PVR::CPVRTimerInfoTag> m_pvrTimerInfoTag;
-  std::shared_ptr<PVR::CPVRChannelGroupMember> m_pvrChannelGroupMemberInfoTag;
-  #endif // ENABLE_PVR && HAVE_ADDONS
 
   CPictureInfoTag* m_pictureInfoTag;
-  std::shared_ptr<const ADDON::IAddon> m_addonInfo;
-  #if ENABLE_GAMES
-  KODI::GAME::CGameInfoTag* m_gameInfoTag;
-  #endif // ENABLE_GAMES
+
   EventPtr m_eventLogEntry;
   bool m_bIsAlbum;
   int64_t m_lStartOffset;
   int64_t m_lEndOffset;
 
   CCueDocumentPtr m_cueDocument;
-  bool m_bIsVirtualStream{ false };
+  bool m_IsVirtualStream{ false };
 };
 
 /*!

@@ -193,7 +193,7 @@ FileXferWidget* AppletDownloads::addDownload( GuiFileXferSession* xferSession )
 		ui.m_FileItemList->setItemWidget( item, item );
 		if( eXferStateUploadNotStarted == xferSession->getXferState() || eXferStateDownloadNotStarted == xferSession->getXferState() )
 		{
-			std::string fileName = xferSession->getFullFileName().toUtf8().constData();
+			std::string fileName = xferSession->getFileNameAndPath().toUtf8().constData();
             int64_t fileLen = (int64_t)VxFileUtil::fileExists( fileName.c_str() );
 			if( fileLen && fileLen == xferSession->getFileInfo().getFileLength() )
 			{
@@ -252,7 +252,7 @@ void AppletDownloads::toGuiFileDownloadComplete( EPluginType pluginType, VxGUID&
 	{
 		if( !newFileName.isEmpty() )
 		{
-			xferSession->setFullFileName( newFileName );
+			xferSession->setFileNameAndPath( newFileName );
 		}
 
         xferSession->setXferState( eXferStateCompletedDownload, xferError, 0 );
@@ -309,7 +309,7 @@ void AppletDownloads::slotPlayButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false, false );
+		this->playFile( xferSession->getFileNameAndPath(), 0, false, false );
 	}
 }
 
@@ -319,7 +319,7 @@ void AppletDownloads::slotPlayExternButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		this->playFile( xferSession->getFullFileName(), 0, false, true );
+		this->playFile( xferSession->getFileNameAndPath(), 0, false, true );
 	}
 }
 
@@ -357,7 +357,7 @@ void AppletDownloads::slotShredButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
 	if( xferSession )
 	{
-		QString fileName = xferSession->getFullFileName();
+		QString fileName = xferSession->getFileNameAndPath();
 		if( confirmDeleteFile( true ) )
 		{
 			ui.m_FileItemList->removeItemWidget( item );

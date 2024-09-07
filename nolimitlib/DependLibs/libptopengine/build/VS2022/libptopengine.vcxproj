@@ -721,13 +721,6 @@
     <ClCompile Include="..\..\UserOnlineMgr\UserOnlineMgr.cpp" />
     <ClCompile Include="..\..\User\User.cpp" />
     <ClCompile Include="..\..\User\UserList.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtProviderFile.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtStorageProvider.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtStreamCache.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtStreamFile.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtStreamMgr.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtStreamMgrFileIo.cpp" />
-    <ClCompile Include="..\..\VirtStream\VirtStreamMgrProvider.cpp" />
     <ClCompile Include="..\..\WebPageMgr\WebPageMgr.cpp" />
     <ClInclude Include="..\..\..\..\GuiInterface\IAudioDefs.h" />
     <ClInclude Include="..\..\..\..\GuiInterface\IAudioInterface.h" />
@@ -991,11 +984,6 @@
     <ClInclude Include="..\..\UserOnlineMgr\UserOnlineMgr.h" />
     <ClInclude Include="..\..\User\User.h" />
     <ClInclude Include="..\..\User\UserList.h" />
-    <ClInclude Include="..\..\VirtStream\VirtProviderFile.h" />
-    <ClInclude Include="..\..\VirtStream\VirtStorageProvider.h" />
-    <ClInclude Include="..\..\VirtStream\VirtStreamCache.h" />
-    <ClInclude Include="..\..\VirtStream\VirtStreamFile.h" />
-    <ClInclude Include="..\..\VirtStream\VirtStreamMgr.h" />
     <ClInclude Include="..\..\WebPageMgr\WebPageCallbackInterface.h" />
     <ClInclude Include="..\..\WebPageMgr\WebPageMgr.h" />
   </ItemGroup>

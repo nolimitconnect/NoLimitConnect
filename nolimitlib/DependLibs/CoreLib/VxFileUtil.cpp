@@ -339,7 +339,7 @@ RCODE VxFileUtil::getCurrentWorkingDirectory( std::string strRetDir )
 #endif
 	{
 		strRetDir = "";
-        LogMsg( LOG_INFO, "getCurrentWorkingDirectory: getcwd error" );
+        LogMsg( LOG_INFO, "%s: getcwd error", __func__ );
 		return -1;
 	}
 	else
@@ -370,6 +370,98 @@ bool VxFileUtil::fileIsProviderFile( const char* fileName )
 #else
     return false;
 #endif // defined(TARGET_OS_ANDROID)
+}
+
+//============================================================================
+bool VxFileUtil::getFileInfo( const char* fileNameAndPath, VxFileInfoBase& retFileInfo )
+{
+    if(!fileNameAndPath)
+    {
+        LogMsg( LOG_ERROR, "%s: null file name", __func__ );
+        return true;
+    }
+
+    if( fileIsProviderFile( fileNameAndPath ) )
+    {
+        return VFileGetFileInfo( fileNameAndPath, retFileInfo );
+    }
+
+    char acBuf[ VX_MAX_PATH ];
+    strcpy( acBuf, fileNameAndPath );
+    bool isDir = true;
+    struct stat oFileStat;
+
+    if( strlen( acBuf ) > 3 )
+    {
+        //if not root of drive remove the trailing backslash
+        if( ('/' == acBuf[ strlen( acBuf ) - 1 ]) ||
+            ('\\' == acBuf[ strlen( acBuf ) - 1 ]) )
+        {
+            acBuf[ strlen( acBuf ) - 1 ] = 0;
+        }
+    }
+
+    memset( &oFileStat, 0, sizeof( struct stat ) );
+#ifdef TARGET_OS_WINDOWS
+    oFileStat.st_mode = _S_IFDIR; //check for dir not file
+    if( 0 == stat( acBuf, &oFileStat ) )
+    {
+        if( false == ( oFileStat.st_mode & _S_IFDIR ))
+        {
+            //path is not valid directory
+            isDir = false;
+        }
+    }
+    else
+    {
+        isDir = false;
+    }
+#else // LINUX or android
+    oFileStat.st_mode = S_IFDIR; //check for dir not file
+    if( 0 == stat( acBuf, &oFileStat ) )
+    {
+        if( false == ( oFileStat.st_mode & S_IFDIR ))
+        {
+            //path is not valid directory
+            isDir = false;
+        }
+    }
+    else
+    {
+        isDir = false;
+    }
+#endif // LINUX
+
+    if( isDir )
+    {
+        retFileInfo.setFileName( fileNameAndPath );
+        retFileInfo.setFileNameAndPath( fileNameAndPath );
+        retFileInfo.setFileLength( 0 );
+        retFileInfo.setFileType( VXFILE_TYPE_DIRECTORY );
+        return true;
+    }
+
+    uint64_t fileLen = fileExists( fileNameAndPath );
+    if(!fileLen)
+    {
+        LogMsg(LOG_ERROR, "%s %s does not exist", __func__, fileNameAndPath );
+        return false;
+    }
+
+    std::string	filePath;
+    std::string	justFileName;
+    //! separate Path and file name into separate strings
+    if( 0 != seperatePathAndFile( fileNameAndPath, filePath, justFileName ) )
+    {
+        LogMsg(LOG_ERROR, "%s %s failed to separate name and path", __func__, fileNameAndPath );
+        return false;
+    }
+
+    retFileInfo.setFileName( justFileName );
+    retFileInfo.setFileNameAndPath( fileNameAndPath );
+    retFileInfo.setFileLength( fileLen );
+    retFileInfo.setFileType( VxFileUtil::fileExtensionToFileTypeFlag( retFileInfo.getFileName().c_str() ) );
+    return true;
 }
 
 //============================================================================
@@ -422,36 +514,6 @@ uint64_t VxFileUtil::fileExists( const char* fileName, bool printLogIfDoesNotExi
 		//return file size
 		return gStat.st_size;
 	}
-}
-
-//============================================================================
-//! return false if no longer exists
-bool VxFileUtil::getFileTypeAndLength( const char* fileName, uint64_t& retFileLen, uint8_t& retFileType, bool printLogIfDoesNotExist )
-{
-    retFileLen = 0;
-    retFileType = 0;
-    if( 0 == fileName )
-    {
-        LogMsg( LOG_DEBUG, "VxFileUtil::%s nullptr File Name", __func__ );
-		vx_assert( false );
-        return false;
-    }
-
-    if( directoryExists( fileName ) )
-    {
-        retFileType = VXFILE_TYPE_DIRECTORY;
-        return true;
-    }
-    
-	retFileLen = fileExists( fileName );
-
-    if( retFileLen )
-    {
-        retFileType = fileExtensionToFileTypeFlag( fileName );
-        return true;
-    }
-
-	return false;
 }
 
 //============================================================================
@@ -1051,12 +1113,12 @@ void VxFileUtil::seperateFileNameAndExtension(	std::string &	fileNameWithExt,		/
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "seperateFileNameAndExtension.. no extension..has slash" );
+            LogMsg( LOG_ERROR, "%s.. no extension..has slash", __func__ );
 		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "seperateFileNameAndExtension.. no extension" );
+        LogMsg( LOG_ERROR, "%s.. no extension", __func__ );
 	}
 }
 
@@ -1107,7 +1169,7 @@ RCODE VxFileUtil::seperatePathAndFile(	const char*	pFullPath,		// path and file 
 
 //============================================================================
 //! remove the path and return just the file name
-void	VxFileUtil::getJustFileName(	const char*	pFullPath,				// file name may be full or just file name
+void	VxFileUtil::getFileName(	const char*	pFullPath,				// file name may be full or just file name
 										std::string&	strRetJustFileName )	// return file name
 {
 	std::string	strRetPath;
@@ -1116,7 +1178,7 @@ void	VxFileUtil::getJustFileName(	const char*	pFullPath,				// file name may be 
 									strRetJustFileName );	// return file name
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "getJustFileName: error %d file %s", rc, pFullPath );
+		LogMsg( LOG_ERROR, "getFileName: error %d file %s", rc, pFullPath );
 		strRetJustFileName = pFullPath;
 	}
 }
@@ -1293,13 +1355,13 @@ bool VxFileUtil::makeShortFileName( const char* pFullFileName, std::string & str
 			}
 			else
 			{
-				getJustFileName( pFullFileName, strRetShortName);
+				getFileName( pFullFileName, strRetShortName);
 			}
 		}
 		else
 		{
 			// return just file name
-			getJustFileName( pFullFileName, strRetShortName);
+			getFileName( pFullFileName, strRetShortName);
 		}
 	}
 	else if( isFullPath( pFullFileName ) )
@@ -1877,7 +1939,7 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*					pSrcDir,
 }
 
 //============================================================================
-RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileInfo>& fileList, uint8_t fileFilterMask )
+RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileInfoBase>& fileList, uint8_t fileFilterMask )
 {
 	vx_assert( pSrcDir );
 
@@ -1926,8 +1988,19 @@ RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileIn
 		}
 		else
 		{
-			VxFileInfo fileInfo( WideToUtf8( srcFile ).c_str() );
-			fileInfo.setFileLength( oStat.st_size );
+			std::string fileNameAndPath = WideToUtf8( srcFile ).c_str();
+			std::string fileNameOnly;
+			std::string filePath;
+			if( _S_IFDIR & oStat.st_mode )
+			{
+				fileNameOnly = fileNameAndPath;
+			}
+			else
+			{
+				VxFileUtil::seperatePathAndFile( fileNameAndPath, filePath, fileNameOnly );
+			}
+
+            VxFileInfoBase fileInfo( fileNameOnly.c_str(), fileNameAndPath.c_str(), (int64_t)oStat.st_size );
 
 			if( _S_IFDIR & oStat.st_mode )
 			{
@@ -2001,7 +2074,7 @@ RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileIn
 					continue;
 				}
 
-				VxFileInfo fileInfo( as8SrcFile );
+                VxFileInfoBase fileInfo( pFileEnt->d_name, as8SrcFile );
                 fileInfo.setFileLength( oStat.st_size );
 
 				if( pFileEnt->d_type == DT_DIR )
@@ -2421,59 +2494,4 @@ std::string VxFileUtil::describeFileSize( uint64_t fileLen )
 	strcat( textBuf, as8Buf );
 	strcat( textBuf, as8Suffix );
 	return textBuf;
-}
-
-
-//============================================================================
-std::string VxFileUtil::decodePercentEncodingAll( std::string& fileName )
-{
-    std::string resultName = fileName;
-
-#if defined(TARGET_OS_ANDROID)
-    if( !fileName.empty() )
-    {
-        // android file content providers use percent encoding of not allowed url characters
-        resultName = std::regex_replace(fileName, std::regex("%2F"), "/");
-        resultName = std::regex_replace(fileName, std::regex("%3A"), ":");
-    }
-#else
-    // do nothing
-#endif // defined(TARGET_OS_ANDROID)
-    return resultName;
-}
-
-//============================================================================
-void VxFileUtil::decodePercentEncodingOfSlash( std::string& fileName )
-{
-#if 0 // defined(TARGET_OS_ANDROID) // sigh android is so screwy this does not work
-//#if defined(TARGET_OS_ANDROID)
-	if( fileName.empty() )
-	{
-        return;
-	}
-
-	// android file content providers use percent encoding of not allowed url characters
-	// we cannot unencode all because it also encodes colon so just decode the slashes back into characters
-	fileName = std::regex_replace(fileName, std::regex("%2F"), "/");
-#else
-    // do nothing
-#endif // defined(TARGET_OS_ANDROID)
-}
-
-//============================================================================
-void VxFileUtil::encodePercentEncodingOfSlash( std::string& fileName )
-{
-#if 0 // defined(TARGET_OS_ANDROID) // sigh android is so screwy this does not work
-//#if defined(TARGET_OS_ANDROID)
-    if( fileName.empty() )
-    {
-        return;
-    }
-
-    // android file content providers use percent encoding of not allowed url characters
-    // we cannot unencode all because it also encodes colon so just decode the slashes back into characters
-    fileName = std::regex_replace(fileName, std::regex("/"), "%2F");
-#else
-	// do nothing
-#endif // defined(TARGET_OS_ANDROID)
 }

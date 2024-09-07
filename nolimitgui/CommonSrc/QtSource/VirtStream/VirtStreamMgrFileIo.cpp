@@ -30,6 +30,8 @@
 	#include <sys/statfs.h> 
 #endif
 
+#include <QFileInfo>
+
 #define VERIFY_CACHE_DATA 0
 
 namespace
@@ -65,7 +67,59 @@ namespace
 		return strResult;
 	#endif // TARGET_OS_WINDOWS
 	}
+}
 
+//============================================================================
+bool VirtStreamMgr::qtFileInfoToVxFileInfo( const QFileInfo& fileInfo, VxFileInfoBase& retFileInfo, uint8_t fileFilterMask )
+{
+    bool isAvailable{false};
+    std::string fileName = fileInfo.fileName().toUtf8().constData();
+
+    if( fileName.empty() )
+    {
+        return false;
+    }
+
+    if( fileInfo.isDir() )
+    {
+        if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
+        {
+            std::string fileNameAndPath = fileInfo.path().toUtf8().constData();
+            VxFileUtil::assureTrailingDirectorySlash( fileName );
+            LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
+            retFileInfo = VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), 0,  VXFILE_TYPE_DIRECTORY );
+            isAvailable = true;
+        }
+    }
+    else if( fileInfo.isExecutable() )
+    {
+        LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileName.c_str() );
+    }
+    else if( fileInfo.isReadable() )
+    {
+        int64_t fileLen = fileInfo.size();
+
+        if( fileLen )
+        {
+            uint8_t fileType = VxFileNameToFileType( fileName );
+            std::string fileNameAndPath = fileInfo.path().toUtf8().constData();
+            if( fileLen && ( fileType & fileFilterMask ) )
+            {
+                retFileInfo = VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), fileLen, fileType );
+                isAvailable = true;
+            }
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileName.c_str() );
+    }
+
+    return isAvailable;
 }
 
 //============================================================================
@@ -171,6 +225,17 @@ bool VirtStreamMgr::fileIsProviderFile( const char* fileName )
 #else
     return false;
 #endif // defined(TARGET_OS_ANDROID)
+}
+
+//============================================================================
+bool VirtStreamMgr::getFileInfo( const char* fileNameAndPath, VxFileInfoBase& retFileInfo )
+{
+    if( fileIsProviderFile( fileNameAndPath ) )
+    {
+        return providerGetFileInfo( fileNameAndPath, retFileInfo );
+    }
+
+    return VxFileUtil::getFileInfo( fileNameAndPath, retFileInfo );
 }
 	
 //============================================================================

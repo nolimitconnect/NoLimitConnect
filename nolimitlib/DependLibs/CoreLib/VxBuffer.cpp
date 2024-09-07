@@ -8,14 +8,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "config_corelib.h"
+#include <algorithm>    // std::min
 
-#include "VxDefs.h"
+//#include "config_corelib.h"
+
+//#include "VxDefs.h"
 #include "VxBuffer.h"
 #include <memory.h>
 #include <malloc.h>
 #include <stdlib.h>
-#include <algorithm>    // std::min
+
 
 //============================================================================
 VxBuffer::VxBuffer( int iPreAllocSize, int iReallocSize )

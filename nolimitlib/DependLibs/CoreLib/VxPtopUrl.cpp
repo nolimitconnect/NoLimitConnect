@@ -23,28 +23,11 @@
 #include <string.h>
 namespace
 {
-	const char* PROTOCOL_DELIM = "://";
-	const char* COLON_DELIM = ":";
-	const char* SLASH_DELIM = "/";
+    const char* PROTOCOL_DELIM = "://";
+    const char* COLON_DELIM = ":";
+    const char* SLASH_DELIM = "/";
     const char* ONLINE_ID_DELIM = "!";
-
-    //============================================================================
-    const char* VxStripIPv6ScopeID( const char*addr, std::string &buf )
-    {
-        std::string addrStr = addr;
-        if ( true == VxIsIPv6Address( addr ) )
-        {
-            size_t pos = (int)addrStr.find( "%" );
-            if ( pos != std::string::npos )
-            {
-                addrStr = addrStr.substr( 0, pos );
-            }
-        }
-
-        buf = addrStr;
-        return buf.c_str();
-    }
-}
+};
 
 //============================================================================
 VxPtopUrl::VxPtopUrl( std::string& url )

@@ -60,44 +60,20 @@ void CApplicationPlayerCallback::OnPlayBackStarted(const CFileItem& file)
 {
   CLog::LogF(LOGDEBUG, "CApplication::OnPlayBackStarted");
 
-  // check if VideoPlayer should set file item stream details from its current streams
-  const bool isBlu_dvd_image_or_stream = (URIUtils::IsBluray(file.GetPath()) || file.IsDVDFile() ||
-                                          file.IsDiscImage() || file.IsInternetStream());
-
-  const bool hasNoStreamDetails =
-      (!file.HasVideoInfoTag() || !file.GetVideoInfoTag()->HasStreamDetails());
-
-  if (file.GetProperty("get_stream_details_from_player").asBoolean() ||
-      (hasNoStreamDetails && isBlu_dvd_image_or_stream))
-  {
-    auto& components = CServiceBroker::GetAppComponents();
-    const auto appPlayer = components.GetComponent<CApplicationPlayer>();
-    appPlayer->SetUpdateStreamDetails();
-  }
-
-  auto& components = CServiceBroker::GetAppComponents();
-  //const auto stackHelper = components.GetComponent<CApplicationStackHelper>();
-  //if (stackHelper->IsPlayingISOStack() || stackHelper->IsPlayingRegularStack())
-  //  m_itemCurrentFile.reset(new CFileItem(*stackHelper->GetRegisteredStack(file)));
-  //else
     m_itemCurrentFile.reset(new CFileItem(file));
 
   /* When playing video pause any low priority jobs, they will be unpaused  when playback stops.
    * This should speed up player startup for files on internet filesystems (eg. webdav) and
    * increase performance on low powered systems (Atom/ARM).
    */
-  if (file.IsVideo() || file.IsGame())
+  if (file.IsVideo())
   {
     CServiceBroker::GetJobManager()->PauseJobs();
   }
 
-
-  //stackHelper->OnPlayBackStarted(file);
-
   m_playerEvent.Reset();
 
   GetKodiInstance().onPlayStarted();
-
 }
 
 void CApplicationPlayerCallback::OnPlayerCloseFile(const CFileItem& file,
@@ -117,18 +93,6 @@ void CApplicationPlayerCallback::OnPlayerCloseFile(const CFileItem& file,
   // Make sure we don't reset existing bookmark etc. on eg. player start failure
   if (bookmark.timeInSeconds == 0.0)
     return;
-
-  //if (stackHelper->GetRegisteredStack(fileItem) != nullptr &&
-  //    stackHelper->GetRegisteredStackTotalTimeMs(fileItem) > 0)
-  //{
-  //  // regular stack case: we have to save the bookmark on the stack
-  //  fileItem = *stackHelper->GetRegisteredStack(file);
-  //  // the bookmark coming from the player is only relative to the current part, thus needs to be corrected with these attributes (start time will be 0 for non-stackparts)
-  //  bookmark.timeInSeconds += stackHelper->GetRegisteredStackPartStartTimeMs(file) / 1000.0;
-  //  if (stackHelper->GetRegisteredStackTotalTimeMs(file) > 0)
-  //    bookmark.totalTimeInSeconds = stackHelper->GetRegisteredStackTotalTimeMs(file) / 1000.0;
-  //  bookmark.partNumber = stackHelper->GetRegisteredStackPartNumber(file);
-  //}
 
   percent = bookmark.timeInSeconds / bookmark.totalTimeInSeconds * 100;
 

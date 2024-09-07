@@ -16,16 +16,17 @@
 namespace
 {
 	std::string 		TABLE_FILE_INFO	 				= "file_info";
-	std::string 		CREATE_COLUMNS_FILE_INFO		= " (asset_id TEXT PRIMARY KEY, thumb_id TEXT, online_id TEXT, file_name TEXT, file_length BIGINT, file_type INTEGER, file_time BIGINT, file_hash BLOB ) ";
+	std::string 		CREATE_COLUMNS_FILE_INFO		= " (asset_id TEXT PRIMARY KEY, thumb_id TEXT, online_id TEXT, file_name TEXT, fileNameAndPath TEXT, file_length BIGINT, file_type INTEGER, file_time BIGINT, file_hash BLOB ) ";
 
 	const int			COLUMN_FILE_INFO_ASSET_ID		= 0;
 	const int			COLUMN_FILE_INFO_THUMB_ID		= 1;
 	const int			COLUMN_FILE_INFO_ONLINE_ID		= 2;
 	const int			COLUMN_FILE_INFO_FILE_NAME		= 3;
-	const int			COLUMN_FILE_INFO_FILE_LEN		= 4;
-	const int			COLUMN_FILE_INFO_FILE_TYPE		= 5;
-	const int			COLUMN_FILE_INFO_FILE_TIME		= 6;
-	const int			COLUMN_FILE_INFO_FILE_HASH		= 7;
+	const int			COLUMN_FILE_NAME_AND_PATH		= 4;
+	const int			COLUMN_FILE_INFO_FILE_LEN		= 5;
+	const int			COLUMN_FILE_INFO_FILE_TYPE		= 6;
+	const int			COLUMN_FILE_INFO_FILE_TIME		= 7;
+	const int			COLUMN_FILE_INFO_FILE_HASH		= 8;
 }
 
 //============================================================================
@@ -93,7 +94,7 @@ void FileInfoDb::removeFile( VxGUID& onlineId, VxGUID& assetId )
 }
 
 //============================================================================
-void FileInfoDb::addFile( VxGUID& onlineId, std::string& fileName, int64_t fileLen, uint8_t fileType, VxGUID& assetId, VxGUID& thumbId, VxSha1Hash& fileHashId, int64_t fileTime )
+void FileInfoDb::addFile( VxGUID& onlineId, std::string& fileName, std::string& fileNameAndPath, int64_t fileLen, uint8_t fileType, VxGUID& assetId, VxGUID& thumbId, VxSha1Hash& fileHashId, int64_t fileTime )
 {
 	removeFile( fileName );
 
@@ -102,12 +103,13 @@ void FileInfoDb::addFile( VxGUID& onlineId, std::string& fileName, int64_t fileL
 	bindList.add( thumbId.toHexString().c_str() );
 	bindList.add( onlineId.toHexString().c_str() );
 	bindList.add( fileName.c_str() );
+	bindList.add( fileNameAndPath.c_str() );
 	bindList.add( fileLen );
 	bindList.add( (int)fileType );
 	bindList.add( fileTime );
 	bindList.add( (void *)fileHashId.getHashData(), 20 );
 	
-	RCODE rc  = sqlExec( "INSERT INTO file_info (asset_id,thumb_id,online_id,file_name,file_length,file_type,file_time,file_hash) values(?,?,?,?,?,?,?,?)",
+	RCODE rc  = sqlExec( "INSERT INTO file_info (asset_id,thumb_id,online_id,file_name,fileNameAndPath,file_length,file_type,file_time,file_hash) values(?,?,?,?,?,?,?,?,?)",
 		bindList );
 	if( rc )
 	{
@@ -122,6 +124,7 @@ void FileInfoDb::addFile( FileInfo& libFileInfo )
 {
 	addFile(	libFileInfo.getOnlineId(),
 				libFileInfo.getFileName(),
+				libFileInfo.getFileNameAndPath(),
 				libFileInfo.getFileLength(),
 				libFileInfo.getFileType(),
 				libFileInfo.getAssetId(),
@@ -135,6 +138,7 @@ void FileInfoDb::addFile( FileInfo& libFileInfo )
 void FileInfoDb::getAllFiles( std::map<VxGUID, FileInfo>& sharedFileList )
 {
 	std::string fileName;
+	std::string fileNameAndPath;
 	uint8_t fileType;
 	int64_t fileLen;
 	std::string destfile;
@@ -161,12 +165,13 @@ void FileInfoDb::getAllFiles( std::map<VxGUID, FileInfo>& sharedFileList )
 			thumbId.fromVxGUIDHexString( thumbIdStr.c_str() );
 
 			fileName = cursor->getString( COLUMN_FILE_INFO_FILE_NAME );
+			fileNameAndPath = cursor->getString( COLUMN_FILE_NAME_AND_PATH );
 			fileLen =  cursor->getS64( COLUMN_FILE_INFO_FILE_LEN );
 			fileType = (uint8_t)cursor->getS32( COLUMN_FILE_INFO_FILE_TYPE );
 
 			if( fileLen && onlineId.isVxGUIDValid() && assetId.isVxGUIDValid() )
 			{
-				FileInfo libFileInfo( onlineId, fileName, fileLen, fileType, assetId );
+				FileInfo libFileInfo( onlineId, fileName, fileNameAndPath, fileLen, fileType, assetId );
 				libFileInfo.setFileHashId( ( uint8_t* )cursor->getBlob( COLUMN_FILE_INFO_FILE_HASH ) );
 				uint64_t fileTime = cursor->getS64( COLUMN_FILE_INFO_FILE_TIME );
 				libFileInfo.setFileTime( fileTime );

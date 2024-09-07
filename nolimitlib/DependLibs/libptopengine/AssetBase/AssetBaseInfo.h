@@ -12,10 +12,12 @@
 #include <BaseInfo/BaseInfo.h>
 
 #include <CoreLib/AssetDefs.h>
+#include <CoreLib/GroupieId.h>
+#include <CoreLib/HostedId.h>
+#include <CoreLib/PktBlobEntry.h>
+#include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxSha1Hash.h>
-
-#include <CoreLib/GroupieId.h>
 
 #include <stdint.h>
 #include <string>
@@ -32,25 +34,27 @@
 class FileInfo;
 class VxThread;
 
-class AssetBaseInfo : public BaseInfo
+class AssetBaseInfo : public VxFileInfoBase, public BaseInfo
 {
 public:
     AssetBaseInfo();
     AssetBaseInfo( const AssetBaseInfo& rhs );
+    AssetBaseInfo( const VxFileInfoBase& rhs );
     AssetBaseInfo( FileInfo& rhs );
     AssetBaseInfo( enum EAssetType assetType );
     AssetBaseInfo( enum EAssetType assetType, VxGUID& onlineId, int64_t modifiedTime = 0 );
     AssetBaseInfo( enum EAssetType assetType, VxGUID& onlineId, VxGUID& assetId, int64_t modifiedTime = 0 );
-    AssetBaseInfo( enum EAssetType assetType, std::string fileName );
-    AssetBaseInfo( enum EAssetType assetType, std::string fileName, VxGUID& assetId );
-    AssetBaseInfo( enum EAssetType assetType, std::string fileName, uint64_t fileLen );
-    AssetBaseInfo( enum EAssetType assetType, std::string fileName, uint64_t fileLen, VxGUID& assetId );
+    AssetBaseInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath );
+    AssetBaseInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath, VxGUID& assetId );
+    AssetBaseInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen );
+    AssetBaseInfo( enum EAssetType assetType, std::string fileName, std::string fileNameAndPath, uint64_t fileLen, VxGUID& assetId );
     AssetBaseInfo( enum EAssetType assetType, VxGUID& creatorId, VxGUID& assetId );
     virtual ~AssetBaseInfo() = default;
 
     AssetBaseInfo&				operator=( const AssetBaseInfo& rhs );
 
     virtual FileInfo            getFileInfo( void );
+    virtual VxFileInfoBase      getFileInfoBase( void ) { return *this; }
 
     virtual void                clear( void );
 
@@ -76,7 +80,7 @@ public:
 
     virtual bool                validateAssetExist( void );
 
-    virtual bool				isDirectory( void );
+    virtual bool				isDirectory( void ) override;
     virtual bool				isUnknownAsset( void )                          { return ( 0 == m_u16AssetType ) ? true : false; }
     virtual bool				isChatTextAsset( void )                         { return ( eAssetTypeChatText & m_u16AssetType ) ? true : false; }
     virtual bool				isChatFaceAsset( void )                         { return ( eAssetTypeChatFace & m_u16AssetType ) ? true : false; }
@@ -106,11 +110,14 @@ public:
 
     virtual bool                getIsQueued( void )                             { return eAssetSendStateQueued == m_AssetSendState; }
 
-    // assetName is usually the file name
-    virtual void				setAssetName( const char* assetName );
-    virtual void				setAssetName( std::string& assetName )          { m_AssetName = assetName; }
-    virtual std::string&		getAssetName( void )                            { return m_AssetName; }
-    virtual std::string			getRemoteAssetName( void );
+    // assetName is usually just the file name
+    virtual void				setAssetName( std::string assetName )           { setFileName( assetName ); }
+    virtual std::string&		getAssetName( void )                            { return getFileName(); }
+
+    virtual void				setAssetNameAndPath( std::string assetNameAndPath ) { setFileNameAndPath( assetNameAndPath ); }
+    virtual std::string&		getAssetNameAndPath( void )                     { return getFileNameAndPath(); }
+
+    virtual std::string			getRemoteAssetName( void )                      { return getFileName(); }
 
     virtual void				setAssetTag( const char* assetTagText );
     virtual void				setAssetTag( std::string& assetTagText )        { m_AssetTag = assetTagText; }
@@ -119,8 +126,8 @@ public:
     virtual void				setAssetType( enum EAssetType assetType )       { m_u16AssetType = (uint16_t)assetType; }
     virtual EAssetType			getAssetType( void )                            { return (EAssetType)m_u16AssetType; }
 
-    virtual void				setAssetLength( int64_t assetLength )           { m_s64AssetLen = assetLength; }
-    virtual int64_t				getAssetLength( void )                          { return m_s64AssetLen; }
+    virtual void				setAssetLength( int64_t assetLength )           { setFileLength( assetLength ); }
+    virtual int64_t				getAssetLength( void )                          { return getFileLength(); }
     virtual void				updateAssetLength( int64_t assetLength );
 
     virtual void				setAssetHashId( VxSha1Hash& id )                { m_AssetHash = id; }
@@ -192,13 +199,11 @@ protected:
 public:
     //=== vars ===//
     EPluginType                 m_PluginType{ ePluginTypeInvalid };
-    std::string					m_AssetName; // usually file name but can be message
 	std::string					m_AssetTag;
 	VxGUID						m_UniqueId;
 	VxGUID						m_HistoryId; 
     VxGUID						m_AdminId; 
 	VxSha1Hash					m_AssetHash;
-    int64_t						m_s64AssetLen{ 0 };
     uint16_t					m_u16AssetType{ VXFILE_TYPE_UNKNOWN };
     uint16_t					m_AttributeFlags{ 0 };
 	uint32_t					m_LocationFlags{ 0 };

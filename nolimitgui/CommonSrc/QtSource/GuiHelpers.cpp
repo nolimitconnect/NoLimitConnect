@@ -46,6 +46,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPainter>
+#include <QStandardPaths>
 #include <QUrl>
 
 #include <QFileSystemModel>
@@ -69,15 +70,9 @@ QString GuiHelpers::getAvailableStorageSpaceText()
 //============================================================================
 std::string GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
 {
-    listFilesInFolder( startDir.toUtf8().constData() );
-
     QFileDialog dialog( parent, QObject::tr("Open Folder"), startDir );
-#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
-	dialog.setFileMode( QFileDialog::Directory );
-#else
-	dialog.setFileMode(QFileDialog::DirectoryOnly);
-#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
 
+	dialog.setFileMode( QFileDialog::Directory );
     dialog.setOptions( QFileDialog::ShowDirsOnly );
     //dialog.setDirectory( startDir );
 
@@ -99,37 +94,125 @@ std::string GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
 
     std::string folder = selectedDir.toUtf8().constData();
 
-    VxFileUtil::decodePercentEncodingOfSlash( folder );
-
     VxFileUtil::makeForwardSlashPath( folder );
     VxFileUtil::assureTrailingDirectorySlash( folder );
 
-    listFilesInFolder( folder );
+    //listFilesInFolder( folder );
 
 	return folder;
 }
 
-void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
+/*
+//============================================================================
+void GuiHelpers::listFilesInFolder( std::string& folder, std::vector<VxFileInfoBase>& retFileList, uint8_t fileFilterMask )
 {
     std::string folderName( folder );
     VxFileUtil::removeTrailingDirectorySlash(folderName);
-    VxFileUtil::encodePercentEncodingOfSlash(folderName);
-
 
     if( 0 == fileFilterMask )
     {
         fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
     }
 
-    VxGUID onlineId = GetPtoPEngine().getMyOnlineId();
-    QDir browseDir( folderName.c_str() );
+    QDir folderDir( folderName.c_str() );
+    return listFilesInFolder( folderDir, retFileList, fileFilterMask );
+}
+*/
 
-    QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), folderName.c_str() );
+//============================================================================
+void GuiHelpers::listFilesInFolder( QDir& folder, std::vector<VxFileInfoBase>& retFileList, uint8_t fileFilterMask )
+{
+    QFileInfoList fileInfoList = folder.entryInfoList();
+    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), folder.path().toUtf8().constData() );
     for( auto fileListInfo : fileInfoList )
     {
-        std::string fileName = fileListInfo.filePath().toUtf8().constData();
-        VxFileUtil::decodePercentEncodingOfSlash( fileName );
+        VxFileInfoBase fileInfo;
+        if( qtFileInfoToVxFileInfo( fileListInfo, fileInfo, fileFilterMask ) )
+        {
+            retFileList.emplace_back(fileInfo);
+        }
+    }
+}
+
+//============================================================================
+bool GuiHelpers::qtFileInfoToVxFileInfo( const QFileInfo& fileInfo, VxFileInfoBase& retFileInfo, uint8_t fileFilterMask )
+{
+    bool isAvailable{false};
+    std::string fileName = fileInfo.fileName().toUtf8().constData();
+
+    if( fileName.empty() )
+    {
+        return false;
+    }
+
+    if( fileInfo.isDir() )
+    {
+        if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
+        {
+            std::string fileNameAndPath = fileInfo.path().toUtf8().constData();
+            VxFileUtil::assureTrailingDirectorySlash( fileName );
+            LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
+            isAvailable = true;
+            retFileInfo = VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), 0,  VXFILE_TYPE_DIRECTORY );
+        }
+    }
+    else if( fileInfo.isExecutable() )
+    {
+        LogMsg( LOG_VERBOSE, "Executable ignored File %s", fileName.c_str() );
+    }
+    else if( fileInfo.isReadable() )
+    {
+        int64_t fileLen = fileInfo.size();
+
+        if( fileLen )
+        {
+            uint8_t fileType = VxFileNameToFileType( fileName );
+            std::string fileNameAndPath = fileInfo.path().toUtf8().constData();
+            if( fileLen && ( fileType & fileFilterMask ) )
+            {
+                retFileInfo = VxFileInfoBase( fileName.c_str(), fileNameAndPath.c_str(), fileLen, fileType );
+            }
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "Could Not Resolve file length of file %s", fileName.c_str() );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_VERBOSE, "NOT Readable File %s", fileName.c_str() );
+    }
+
+
+    return isAvailable;
+}
+
+//============================================================================
+void dumpFileInfo(QString selectedFile)
+{
+    QFileInfo fileInfo(selectedFile);
+
+    std::string fileNameAndPath = selectedFile.toUtf8().constData();
+    std::string fileName = fileInfo.fileName().toUtf8().constData();
+    std::string filePath = fileInfo.dir().path().toUtf8().constData();
+    int64_t fileLen = fileInfo.size();
+
+    LogMsg(LOG_VERBOSE, "dumpFileInfo %s \n display name %s \n len %lld \n path %s ",
+           fileNameAndPath.c_str(), fileName.c_str(), fileLen,
+           filePath.c_str() );
+}
+
+//============================================================================
+void listFiles( QDir browseDir, uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO )
+{
+    //QDir browseDir( filePath.c_str() );
+
+    QFileInfoList fileInfoList = browseDir.entryInfoList();
+    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), browseDir.path().toUtf8().constData() );
+    for( auto fileListInfo : fileInfoList )
+    {
+        std::string fileName = fileListInfo.fileName().toUtf8().constData();
+        std::string fileNameAndPath = fileListInfo.canonicalFilePath().toUtf8().constData();
         if( fileName.empty() )
         {
             continue;
@@ -139,10 +222,9 @@ void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
         {
             if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
             {
-                VxFileUtil::assureTrailingDirectorySlash( fileName );
-                LogMsg( LOG_VERBOSE, "Directory %s", fileName.c_str() );
-                //FileInfo dirInfo( onlineId, fileName, 0, VXFILE_TYPE_DIRECTORY );
-                //GetPtoPEngine().getToGui().toGuiFileList( appInstId, dirInfo );
+                VxFileUtil::assureTrailingDirectorySlash( fileNameAndPath );
+                LogMsg( LOG_VERBOSE, "Directory %s", fileNameAndPath.c_str() );
+
             }
         }
         else if( fileListInfo.isExecutable() )
@@ -158,7 +240,7 @@ void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
                 uint8_t fileType = VxFileNameToFileType( fileName );
                 if( fileLen && ( fileType & fileFilterMask ) )
                 {
-                    if( testCanReadFile( fileName ) )
+                    if( GuiHelpers::testCanReadFile( fileNameAndPath ) )
                     {
                         LogMsg( LOG_VERBOSE, "Readable File %s len %" PRId64 " type 0x%x ", fileName.c_str(), fileLen, fileType );
                     }
@@ -166,11 +248,6 @@ void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
                     {
                         LogMsg( LOG_VERBOSE, "NOT Readable File %s len %" PRId64 " type 0x%x ", fileName.c_str(), fileLen, fileType );
                     }
-
-
-                    // FileInfo fileInfo( onlineId, fileName, fileLen, fileType );
-                    // fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( fileName ) );
-                    // fileInfo.setIsSharedFile( GetPtoPEngine().fromGuiGetIsFileShared( fileInfo ) );
                 }
             }
             else
@@ -186,131 +263,109 @@ void GuiHelpers::listFilesInFolder( std::string folder, uint8_t fileFilterMask )
 }
 
 //============================================================================
-bool GuiHelpers::browseForFile( QWidget* parent, std::string& retFileName, QString startDir, uint8_t fileMask )
+int countDirEntries( QDir testDir )
 {
-    contentUrlToFileSystemPath( startDir );
-
-    listFilesInFolder( startDir.toUtf8().constData() );
-
-    QFileDialog dialog( parent, QObject::tr("Select File"), startDir );
-
-    dialog.setFileMode( QFileDialog::FileMode::ExistingFile );
-
-    dialog.setOptions( dialog.options() | QFileDialog::ReadOnly );
-
-    //dialog.setDirectory( startDir );
-
-    QString selectedFile;
-    QStringList fileNames;
-    if (dialog.exec())
+    QFileInfoList fileInfoList = testDir.entryInfoList();
+    if(fileInfoList.size())
     {
-        fileNames = dialog.selectedFiles();
-        if( fileNames.size() )
-        {
-            selectedFile = fileNames[0];
-        }
+        //listFiles(testDir);
+        LogMsg( LOG_DEBUG, "Files count %d found dir %s", fileInfoList.size(), testDir.path().toUtf8().constData() );
+        return fileInfoList.size();
     }
-
-    if( selectedFile.isEmpty() )
+    else
     {
-        return false;
+        LogMsg( LOG_DEBUG, "No files found dir %s", testDir.path().toUtf8().constData() );
+        return 0;
     }
-
-    std::string realFileName = getRealFileName( selectedFile );
-
-
-    //std::string fullFileName = selectedFile.toUtf8().constData();
-
-    std::string fullFileName = realFileName;
-
-    if( !requestAndroidStoragePermissions())
-    {
-        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Access File "), fullFileName.c_str(), QMessageBox::Ok);
-        warnStorage.exec();
-        return false;
-    }
-
-    std::string decodedFileName = VxFileUtil::decodePercentEncodingAll( fullFileName );
-
-    VxFileUtil::makeForwardSlashPath( fullFileName );
-
-    if( !testCanReadFile( fullFileName ) )
-    {
-        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Read File 2"), decodedFileName.c_str(), QMessageBox::Ok);
-        warnStorage.exec();
-    }
-
-    /*
-    QFileInfo fileInfo(selectedFile);
-    QString absolutePath = fileInfo.absoluteFilePath();
-    QString conicalPath = fileInfo.canonicalFilePath();
-
-    std::filesystem::path absPath = fileInfo.filesystemAbsoluteFilePath();
-    std::filesystem::path conPath = fileInfo.filesystemCanonicalFilePath();
-
-    contentUrlToFileSystemPath( selectedFile );
-
-    LogMsg( LOG_VERBOSE, "sel %s \n absolute %s conical %s \n abs %s \n con %s",
-            selectedFile.toUtf8().constData(),
-           absolutePath.toUtf8().constData(),
-           conicalPath.toUtf8().constData(),
-           absPath.c_str(), conPath.c_str() );
-
-    retFileName = selectedFile.toUtf8().constData();
-
-
-
-    VxFileUtil::decodePercentEncodingOfSlash( retFileName );
-    VxFileUtil::makeForwardSlashPath( retFileName );
-*/
-
-    retFileName = fullFileName;
-    return !retFileName.empty();
 }
 
 //============================================================================
-bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, std::string& retFileName, QString startDir )
+int countPathEntries( QString testPath )
 {
-    contentUrlToFileSystemPath( startDir );
+    QDir testDir(testPath);
+    return countDirEntries(testDir);
+}
 
-    listFilesInFolder( startDir.toUtf8().constData() );
+//============================================================================
+bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, FileInfo& retFileInfo, QString startDir )
+{
+    VxFileInfoBase fileInfoBase;
+    bool result = browseForFile( parent, mediaFileType, fileInfoBase, startDir );
+    if( !result )
+    {
+        return false;
+    }
+
+    FileInfo fileInfo( fileInfoBase );
+    fileInfo.setOnlineId( GetAppInstance().getMyOnlineId() );
+
+    retFileInfo = fileInfo;
+    return true;
+}
+
+//============================================================================
+bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, VxFileInfoBase& retFileInfo, QString startDir )
+{
+    std::string fileNameAndPath;
+    if( browseForFile( parent, mediaFileType, fileNameAndPath, startDir ) )
+    {
+        return VxFileUtil::getFileInfo( fileNameAndPath.c_str(), retFileInfo );
+    }
+
+    return false;
+}
+
+//============================================================================
+bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, std::string& retFileNameAndPath, QString startDir )
+{
+    bool filePerm = requestFilePermission(mediaFileType);
+    if( !requestFilePermission(mediaFileType))
+    {
+        return false;
+    }
 
     QString title = QObject::tr( "Select Media File" );
-    QString supportedFileTypes = QObject::tr( "All Files (*.*)" );
+    QString supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    QString defaultDir = QDir::homePath();
+
     switch( mediaFileType )
     {
     case eMediaFileVideo:
         title = QObject::tr( "Select Video File" );
-        supportedFileTypes = QObject::tr( "Video Files (*.asf *.mpg *.mpeg *.mp4 *.3gp *.mov *.avi *.divx *.mkv *.wmv *.rm *.flv)" );
+        supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_VIDEO );
+        defaultDir = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath());
         break;
 
     case eMediaFileAudio:
         title = QObject::tr( "Select Audio File" );
-        supportedFileTypes = QObject::tr( "Audio Files (*.mp3 *.wav *.wma *.ogg *.opus)" );
+        supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_AUDIO );
+        defaultDir = QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath());
         break;
 
     case eMediaFileImage:
         title = QObject::tr( "Select Image File" );
-        supportedFileTypes = QObject::tr( "Image Files (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tif *.tiff *.svg *.xbm *.xpm)" );
+        supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_PHOTO );
+        defaultDir = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).value(0, QDir::homePath());
         break;
 
     default:
         break;
     }
 
-    QFileDialog dialog( parent, title, startDir );
+    QFileDialog fileDialog( parent, title, startDir );
+    fileDialog.setAcceptMode( QFileDialog::AcceptOpen );
+    fileDialog.setFileMode( QFileDialog::FileMode::ExistingFile );
+    fileDialog.setOptions( fileDialog.options() | QFileDialog::ReadOnly );
 
-    dialog.setFileMode( QFileDialog::FileMode::ExistingFile );
-
-    dialog.setOptions( dialog.options() | QFileDialog::ReadOnly );
-
-    dialog.setNameFilter(supportedFileTypes);
+#if !defined(TARGET_OS_ANDROID)
+    // does not work in android.. some are greyed out even though have correct extension
+    fileDialog.setNameFilter(supportedFileTypes);
+#endif // !defined(TARGET_OS_ANDROID)
 
     QString selectedFile;
-    QStringList fileNames;
-    if (dialog.exec())
+    if (fileDialog.exec() == QDialog::Accepted)
     {
-        fileNames = dialog.selectedFiles();
+        QStringList fileNames = fileDialog.selectedFiles();
         if( fileNames.size() )
         {
             selectedFile = fileNames[0];
@@ -322,28 +377,46 @@ bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileTy
         return false;
     }
 
-    std::string realFileName = getRealFileName( selectedFile );
+    QFileInfo fileInfo(selectedFile);
+    dumpFileInfo(selectedFile);
+
+    // this is the only one that works on android but is the app storage directory
+    // it is not the directory the media file is in
+    //QDir dir1 = fileDialog.directory();
+    //countDirEntries(dir1);
+    //countPathEntries(dir1.path());
 
 
-    //std::string fullFileName = selectedFile.toUtf8().constData();
+    QUrl url = fileDialog.directoryUrl();
 
-    std::string fullFileName = realFileName;
+    QDir dir2 = fileInfo.dir();
+    QDir absoluteDir = fileInfo.dir();
+    QString fileDir1 = fileInfo.filePath();
+    QString fileDir2 = fileInfo.absolutePath();
+    QString fileDir3 = fileInfo.canonicalFilePath();
+    QString fileDir4 = fileInfo.canonicalFilePath();
 
-    if( !requestAndroidStoragePermissions())
-    {
-        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Access File "), fullFileName.c_str(), QMessageBox::Ok);
-        warnStorage.exec();
-        return false;
-    }
+    //countPathEntries(url.toString());
+    //countPathEntries(url.toLocalFile());
 
-    std::string decodedFileName = VxFileUtil::decodePercentEncodingAll( fullFileName );
+    //countDirEntries(dir1);
+    //countPathEntries(dir1.path());
+
+    //QDir dirDoc("content://com.android.providers.media.documents/document");
+    //countDirEntries(dirDoc);
+
+    countDirEntries(dir2);
+    countPathEntries(dir2.path());
+
+    std::string fullFileName = selectedFile.toUtf8().constData();
 
     VxFileUtil::makeForwardSlashPath( fullFileName );
 
     if( !testCanReadFile( fullFileName ) )
     {
-        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Read File 2"), decodedFileName.c_str(), QMessageBox::Ok);
+        QMessageBox warnStorage( QMessageBox::Icon::Information, QObject::tr("Cannot Read File"), fullFileName.c_str(), QMessageBox::Ok);
         warnStorage.exec();
+        return false;
     }
 
     /*
@@ -370,8 +443,8 @@ bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileTy
     VxFileUtil::makeForwardSlashPath( retFileName );
 */
 
-    retFileName = fullFileName;
-    return !retFileName.empty();
+    retFileNameAndPath = fullFileName;
+    return !retFileNameAndPath.empty();
 }
 
 //============================================================================
@@ -392,33 +465,11 @@ uint64_t GuiHelpers::testCanReadFile( std::string fullFileName )
 }
 
 //============================================================================
-bool GuiHelpers::browseForFile( QWidget* parent, FileInfo& retFileInfo, QString startDir, uint8_t fileMask )
-{
-    std::string fileName;
-    bool result = browseForFile( parent, fileName, startDir, fileMask );
-    if( !result )
-    {
-        return false;
-    }
-
-    uint64_t fileLen = VxFileUtil::getFileLen( fileName.c_str() );
-    if( !fileLen )
-    {
-        return false;
-    }
-
-    uint8_t fileType = VxFileUtil::fileExtensionToFileTypeFlag( fileName.c_str() );
-
-    retFileInfo = FileInfo( GetAppInstance().getMyOnlineId(), fileName, fileLen, fileType );
-    return true;
-}
-
-//============================================================================
 QString GuiHelpers::fileMaskToFileFilter( uint8_t fileMask )
 {
     QString filter = "All files (*.*)";
     std::string fileExtensions = VxGetFileExtensionsFromFileType( fileMask );
-	if( fileMask == VXFILE_TYPE_AUDIO_VIDEO || fileMask == VXFILE_TYPE_AUDIO_VIDEO_PHOTO )
+    if( fileMask == VXFILE_TYPE_AUDIO_VIDEO_PHOTO )
 	{
         filter += ";;Media (";
         filter += fileExtensionToFilter( fileExtensions.c_str() );
@@ -438,7 +489,7 @@ QString GuiHelpers::fileMaskToFileFilter( uint8_t fileMask )
 	{
 		if( fileMask == VXFILE_TYPE_PHOTO )
 		{
-            filter += ";;Photo (";
+            filter += ";;Image (";
             filter += fileExtensionToFilter( fileExtensions.c_str() );
             filter += ")";
 		}
@@ -2062,74 +2113,77 @@ uint64_t GuiHelpers::saveToPngFile( QPixmap& bitmap, QString& fileName ) // retu
 }
 
 //============================================================================
-bool GuiHelpers::requestAndroidStoragePermissions( void )
+bool GuiHelpers::requestFilePermission( enum EMediaFileType permissionType )
 {
-#if defined (Q_OS_ANDROID)
-    // MANAGE_EXTERNAL_STORAGE always returns false
-    // bool result = checkUserPermission({ "android.permission.MANAGE_EXTERNAL_STORAGE" });
-    // result &= checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
-    // return result;
-    return checkUserPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
+#ifdef Q_OS_ANDROID
+    // if you change this then must also change
+    // VirtStorageProvider::requestAndroidStoragePermissions
+    bool result{true};
+
+    QStringList permissionList;
+    switch(permissionType)
+    {
+    case eMediaFileAny:
+        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_VIDEO"));
+        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_AUDIO"));
+        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_IMAGES"));
+        break;
+
+    case eMediaFileImage:
+        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_IMAGES"));
+        break;
+
+    case eMediaFileAudio:
+        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_AUDIO"));
+        break;
+
+    case eMediaFileVideo:
+        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_VIDEO"));
+        break;
+
+    default:
+        break;
+    }
+
+    for( auto permission : permissionList )
+    {
+        if( !requestPermission( permission ) )
+        {
+            LogMsg( LOG_ERROR, "%s permission denied %s", __func__, permission.toUtf8().constData() );
+            result = false;
+            break;
+        }
+    }
+
+    if(!result)
+    {
+        showFilePermissionError();
+    }
+
+    return result;
 #else
     return true;
-#endif // defined (Q_OS_ANDROID)
+#endif // Q_OS_ANDROID
 }
 
 //============================================================================
-bool GuiHelpers::checkUserPermission( QString permissionName ) // returns false if user denies permission to use android hardware
+void GuiHelpers::showFilePermissionError( void )
+{
+    QString deniedPermTitle = QObject::tr("Access File Permissions Denied By User");
+    QString deniedPermMsg = QObject::tr("Access File Permissions Denied By User");
+    QMessageBox warnStorage( QMessageBox::Icon::Information, deniedPermMsg, deniedPermMsg, QMessageBox::Ok);
+    warnStorage.exec();
+}
+
+//============================================================================
+bool GuiHelpers::requestPermission( QString permissionName ) // returns false if user denies permission to use android hardware
 {
 #if defined (Q_OS_ANDROID)
     if( QtAndroidPrivate::Authorized != QtAndroidPrivate::checkPermission(permissionName).result() )
     {
-        if( QtAndroidPrivate::Authorized != QtAndroidPrivate::requestPermission(permissionName).result() )
+        QtAndroidPrivate::PermissionResult result = QtAndroidPrivate::requestPermission(permissionName).result();
+        if( QtAndroidPrivate::Denied == result )
         {
-            return false;
-        }
-    }
-
-    return true;
-#else
-    return true;
-#endif // defined (Q_OS_ANDROID)
-}
-
-//============================================================================
-bool GuiHelpers::requestPermission( std::string permissionName )
-{
-#if !defined(Q_OS_ANDROID)
-    return true;
-#endif
-
-#if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    //Request required permissions at runtime.. does not seem to work with Qt 6.2.0
-    for(const QString &permission : permissions)
-    {
-        LogMsg( LOG_DEBUG, "requesting permission %s", permission.toUtf8().constData() );
-        auto result = QtAndroid::checkPermission(permission);
-        if(result == QtAndroid::PermissionResult::Denied)
-        {
-            auto resultHash = QtAndroid::requestPermissionsSync(QStringList({permission}));
-            if(resultHash[permission] == QtAndroid::PermissionResult::Denied)
-            {
-                LogMsg( LOG_DEBUG, "DENIED permission %s", permission.toUtf8().constData() );
-                return false;
-            }
-
-            LogMsg( LOG_DEBUG, "ACCEPTED permission %s", permission.toUtf8().constData() );
-        }
-    }
-
-    LogMsg( LOG_DEBUG, "permission done" );
-#endif
-#if defined (Q_OS_ANDROID)
-
-    const QString requiredPermission(QLatin1String( permissionName.c_str() ) );
-    auto permissionResult = QtAndroidPrivate::checkPermission(requiredPermission).result();
-    if( permissionResult != QtAndroidPrivate::Authorized )
-    {
-        if( QtAndroidPrivate::Authorized !=  QtAndroidPrivate::requestPermission(requiredPermission).result() )
-        {
-            LogMsg(LOG_INFO, "Cannot Proceed without %s permission", permissionName.c_str() );
             return false;
         }
     }
@@ -2459,6 +2513,7 @@ void GuiHelpers::contentUrlToFileSystemPath( QString& contentUrl )
 
 std::string GuiHelpers::getRealFileName( QString selectedFileIn )
 {
+    return selectedFileIn.toUtf8().constData();
 #if defined(TARGET_OS_ANDROID)
     std::string selectedFile = selectedFileIn.toUtf8().constData();
     std::string justFile;

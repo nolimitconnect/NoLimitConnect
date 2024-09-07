@@ -18,17 +18,17 @@ AssetMgr::AssetMgr( P2PEngine& engine, const char* dbName, const char* dbStateNa
 }
 
 //============================================================================
-AssetBaseInfo* AssetMgr::createAssetInfo( EAssetType assetType, const char* assetName, uint64_t assetLen )
+AssetBaseInfo* AssetMgr::createAssetInfo( EAssetType assetType, const char* assetName, const char* fileNameAndPath, uint64_t assetLen )
 {
-    AssetInfo* assetInfo = new AssetInfo( assetType, assetName, assetLen );
+    AssetInfo* assetInfo = new AssetInfo( assetType, assetName, fileNameAndPath, assetLen );
     assetInfo->assureHasCreatorId();
     return assetInfo;
 }
 
 //============================================================================
-AssetBaseInfo* AssetMgr::createAssetInfo( EAssetType assetType, const char* assetName, uint64_t assetLen, VxGUID& assetId )
+AssetBaseInfo* AssetMgr::createAssetInfo( EAssetType assetType, const char* assetName, const char* fileNameAndPath, uint64_t assetLen, VxGUID& assetId )
 {
-    AssetInfo* assetInfo = new AssetInfo( assetType, assetName, assetLen, assetId );
+    AssetInfo* assetInfo = new AssetInfo( assetType, assetName, fileNameAndPath, assetLen, assetId );
     assetInfo->assureHasCreatorId();
     return assetInfo;
 }

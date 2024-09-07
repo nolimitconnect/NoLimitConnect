@@ -8,8 +8,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(TARGET_OS_ANDROID)
-
 #include "VirtProviderFile.h"
 
 //============================================================================
@@ -33,4 +31,3 @@ void VirtProviderFile::closeFile( void )
     m_FileName.clear();
 }
 
-#endif // defined(TARGET_OS_ANDROID)

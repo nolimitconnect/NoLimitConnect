@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
+
 
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxGUID.h>

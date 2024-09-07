@@ -133,7 +133,7 @@ bool CopyIfRequiredAssetDirectory( std::string assetFileDir, std::string destDir
             {
                 //! remove the path and return just the file name
                 std::string justFileName;
-                VxFileUtil::getJustFileName( fileNameAndPath.c_str(), justFileName );
+                VxFileUtil::getFileName( fileNameAndPath.c_str(), justFileName );
 
                 result &= CopyIfRequiredAssetFile( assetFileDir + justFileName, destDir + justFileName, replaceIfDifferent );
             }

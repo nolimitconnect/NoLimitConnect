@@ -207,6 +207,9 @@
     <Filter Include="Source Files\GuiSendQueue">
       <UniqueIdentifier>{c04e7488-aba3-44af-afbe-50926f77dea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\VirtStream">
+      <UniqueIdentifier>{c6ffb0a5-d2cc-4782-bf56-ca8f277df493}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -2251,6 +2254,27 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppModuleState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStorageProvider.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamCache.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamFile.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgr.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgrFileIo.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgrProvider.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2558,6 +2582,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerRequests.h">
       <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStorageProvider.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamCache.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamFile.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgr.h">
+      <Filter>Source Files\VirtStream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
