@@ -52,11 +52,9 @@ public:
 protected:
 	std::string&				getOsSpecificAppDataDir( void );
 	std::string&				getOsSpecificHomeDir( void );
-	std::string&				getOsSpecificDocumentsDir( void );
 
 	std::string					m_strOsSpecificAppDataDir;
 	std::string					m_strOsSpecificHomeDir;
-	std::string					m_strOsSpecificDocumentsDir;
 
 	std::string					m_strLocalHostIp;
 };

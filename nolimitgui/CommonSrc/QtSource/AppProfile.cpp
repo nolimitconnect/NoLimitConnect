@@ -130,22 +130,10 @@ void AppProfile::loadProfile( void )
     }
 
 
-	LogMsg( LOG_INFO, "User Data Dir %s Xfer Dir %s app data dir %s doc dir %s", 
+    LogMsg( LOG_INFO, "User Data Dir (%s) Xfer Dir (%s)",
 			m_strRootUserDataDir.c_str(),
-			m_strRootXferDir.c_str(),
-			getOsSpecificAppDataDir().c_str(),
-			getOsSpecificHomeDir().c_str()
+            m_strRootXferDir.c_str()
 			);
-	//LogMsg( LOG_INFO, "App Data Directory %s\n", m_strRootAppDataDir.c_str() );
-
-	std::string strLogDataDir = m_strRootUserDataDir + "logs/";
-	VxFileUtil::makeDirectory( strLogDataDir.c_str() );
-	m_strDebugFileName = strLogDataDir + "DebugLog.txt";
-
-	if( m_u32LogToFile )
-	{
-		VxSetLogToFile( m_strDebugFileName.c_str() );
-	}
 }
 
 //============================================================================
@@ -233,26 +221,4 @@ std::string& AppProfile::getOsSpecificHomeDir( void )
     }
 
 	return m_strOsSpecificHomeDir;
-}
-
-//============================================================================
-std::string& AppProfile::getOsSpecificDocumentsDir( void )
-{
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-	QStringList paths = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
-	QString docsLocation = paths[0];
-#else
-	QString docsLocation = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-#endif //QT_5_OR_GREATER
-	m_strOsSpecificDocumentsDir = docsLocation.toStdString();
-	VxFileUtil::makeForwardSlashPath( m_strOsSpecificDocumentsDir );
-    VxFileUtil::assurePathEndWithSlash( m_strOsSpecificDocumentsDir );
-    m_strOsSpecificDocumentsDir += m_NlcPathPrefix;
-    VxFileUtil::makeDirectory( m_strOsSpecificDocumentsDir.c_str() );
-    if(!VxFileUtil::directoryExists(m_strOsSpecificDocumentsDir.c_str()))
-    {
-        LogMsg( LOG_ERROR, "AppProfile::getOsSpecificDocumentsDir Could not create documents dir %s", m_strOsSpecificDocumentsDir.c_str());
-    }
-
-	return m_strOsSpecificDocumentsDir;
 }

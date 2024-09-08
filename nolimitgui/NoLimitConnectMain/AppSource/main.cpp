@@ -140,7 +140,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     AppCommon::registerMetaData();
 
 #if defined (Q_OS_ANDROID)
-    const QString externStoragePemission(QLatin1String ("android.permission.WRITE_EXTERNAL_STORAGE"));
+    const QString externStoragePemission(QLatin1String ("android.permission.READ_EXTERNAL_STORAGE"));
     auto storagePermissionResult = QtAndroidPrivate::checkPermission(externStoragePemission).result();
     if( storagePermissionResult != QtAndroidPrivate::Authorized )
     {

@@ -446,7 +446,7 @@ std::string& VxGetAppThumbnailDirectory(void) { return g_strAppThumbsDir; }
 //============================================================================
 void VxSetRootUserDataDirectory( const char* rootUserDataDir )
 {
-	// basically /storage/ NoLimitConnect/hasnum/ where hashnum is hash of exe path
+    // basically /storage/NoLimitConnect/
 	g_strRootUserDataDir = rootUserDataDir;
 	VxFileUtil::assureTrailingDirectorySlash( g_strRootUserDataDir );
 	VxFileUtil::makeDirectory( g_strRootUserDataDir.c_str() );
