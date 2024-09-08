@@ -49,7 +49,6 @@ if(DEFINED TARGET_OS_WINDOWS)
 endif()
 
 add_subdirectory(libptopengine)
-#add_subdirectory(librapidjson) # used by player-nlc but does not need built
 
 add_subdirectory(libspeex)
 add_subdirectory(libtag)
@@ -68,13 +67,13 @@ elseif(DEFINED TARGET_OS_ANDROID)
 #add_subdirectory(libvpx) # needed to play some video types but does not compile yet
 endif()
 
-####add_subdirectory(libvpx_win) # needed to play some videp types but does not compile yet
-
 #libx265 does not compile for arm7a also kodi does not include in arm builds
 if(NOT DEFINED TARGET_CPU_ARM32)
- add_subdirectory(libx264)
  add_subdirectory(libx265)
 endif()
+
+
+add_subdirectory(libx264)
 
 #add_subdirectory(libxavs) # not used (video codec)
 add_subdirectory(libxml2)

@@ -520,14 +520,13 @@ else()
         message(STATUS "*** TARGET_OS_ANDROID ***")
         add_compile_definitions(ANDROID)
         set(CMAKE_SYSTEM_NAME Android)
-        set(ANDROID_PLATFORM "android-24")
-        #set(CMAKE_SYSTEM_VERSION 33) # API level
+        set(ANDROID_PLATFORM "android-23")
 
         set(ANDROID_STL c++_static)
 
         set(TARGET_POSIX true)
         set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android)
-        set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Android/assets)
+        set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/bin-Android/assets)
 
         set(ANDROID_APK_OUTPUT_DIR ${PROJECT_PACKAGE_DIR})
 

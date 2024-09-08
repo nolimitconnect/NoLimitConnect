@@ -982,17 +982,17 @@ if(DEFINED TARGET_OS_ANDROID)
         message(STATUS "nolimitconnect api armeabi-v7a")
         set_target_properties(nolimitconnect PROPERTIES
             ANDROID_TARGET_ARCH armeabi-v7a
-            QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/bin-Android"
+            QT_ANDROID_PACKAGE_SOURCE_DIR "${PROJECT_SRC_ROOT_DIR}/nolimitgui/android"
             QT_ANDROID_ABIS armeabi-v7a
-            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${CMAKE_CURRENT_LIST_DIR}/bin-Android/assets"
+            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${PROJECT_SRC_ROOT_DIR}/bin-Android/assets"
             )
     else()
         message(STATUS "nolimitconnect api arm64-v8a")
         set_target_properties(nolimitconnect PROPERTIES
             ANDROID_TARGET_ARCH arm64-v8a
-            QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/bin-Android"
+            QT_ANDROID_PACKAGE_SOURCE_DIR "${PROJECT_SRC_ROOT_DIR}/nolimitgui/android"
             QT_ANDROID_ABIS arm64-v8a
-            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${CMAKE_CURRENT_LIST_DIR}/bin-Android/assets"
+            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${PROJECT_SRC_ROOT_DIR}/bin-Android/assets"
             )
     endif()
 else()
@@ -1007,8 +1007,6 @@ target_compile_definitions(nolimitconnect
     ENABLE_NLC_PLAYER
 )
 
-set(OPENSSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../nolimitlib/DependLibs/openssl-1.0.2p/include")
-
 target_include_directories(nolimitconnect PUBLIC
     CommonSrc/QtSource
     ../nolimitlib
@@ -1018,7 +1016,6 @@ target_include_directories(nolimitconnect PUBLIC
     ../nolimitlib/DependLibs/libechocancel
     ../nolimitlib/GuiInterface
     ../nolimitlib/DependLibs/libptopengine
-    ${OPENSSL_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${PROJECT_STATIC_LIB_DIR}
@@ -1054,39 +1051,31 @@ target_link_libraries(nolimitconnect
 if (DEFINED TARGET_OS_LINUX)
     target_link_libraries(nolimitconnect
         PUBLIC
-
         x264
         x265
         dav1d
         vpx
-
         pcre
 
         opencore-amr
-
         mediatools
         speex
         lame
         vorbis2
 
         gnu
-
         ass
-
         fribidi
         #glew
         iconv
 
         jpg
-
         vxvideolib
-
         tag
         theora
         twolame
 
         ogg
-
         netlib
         pktlib
 
@@ -1127,38 +1116,30 @@ elseif (DEFINED TARGET_OS_ANDROID)
             x265
             dav1d
             # vpx # needed but does not compile yet
-
             pcre
 
             opencore-amr
-
             mediatools
             speex
             lame
             vorbis2
 
             gnu
-
             ass
-
             fribidi
             #glew
             iconv
 
             jpg
-
             vxvideolib
-
             speex
             tag
             theora
             twolame
 
             ogg
-
             netlib
             pktlib
-
             echocancel
             fribidi
             freetype
@@ -1184,28 +1165,17 @@ elseif (DEFINED TARGET_OS_ANDROID)
             stdc++
             jnigraphics
             android
-            # Qt libraries
-            Qt::Core
-            Qt::CorePrivate
-            Qt::Gui
-            Qt::Multimedia
-            Qt::OpenGL
-            Qt::Widgets
-            Qt::Svg
-            Qt6::Quick
         )
     elseif(DEFINED TARGET_CPU_ARM32)
         target_link_libraries(nolimitconnect
             PUBLIC
             # static nlc libraries
 
-            #x264
+            x264
             #x265 #cannot compile x265 on arm7a
             dav1d
             # vpx # needed but does not compile yet
-
             pcre
-
             opencore-amr
 
             mediatools
@@ -1214,29 +1184,21 @@ elseif (DEFINED TARGET_OS_ANDROID)
             vorbis2
 
             gnu
-            # these are nomally combined into one library depends for command line length issue when build on windows
             ass
-
             fribidi
             #glew
             iconv
 
             jpg
-
             vxvideolib
-
             speex
             tag
             theora
             twolame
 
-            # end of these are nomally combined into one library depends
             ogg
-
             netlib
             pktlib
-            #curl # curl before ssl because dependency md4 from ssl
-            ssl # static ssl lib version
             echocancel
             fribidi
             freetype
@@ -1262,15 +1224,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             stdc++
             jnigraphics
             android
-            # Qt libraries
-            Qt::Core
-            Qt::CorePrivate
-            Qt::Gui
-            Qt::Multimedia
-            Qt::OpenGL
-            Qt::Widgets
-            Qt::Svg
-            Qt6::Quick
         )
     endif()
 
@@ -1282,10 +1235,9 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         x264
         x265
         dav1d
-        #vpx #needed but does not compile on android yet
+        #vpx #needed but does not compile on windows yet
 
         pcre
-
         opencore-amr
 
         mediatools
@@ -1294,7 +1246,6 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         vorbis2
 
         gnu
-
         ass
 
         fribidi
@@ -1336,14 +1287,6 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         ole32
         winmm
         Rpcrt4
-        # Qt libraries
-        Qt::Core
-        Qt::CorePrivate
-        Qt::Gui
-        Qt::Multimedia
-        Qt::OpenGL
-        Qt::Widgets
-        Qt::Svg
     )
 
 else()
