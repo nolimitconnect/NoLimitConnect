@@ -248,6 +248,8 @@
     <ClInclude Include="..\..\dirent_sim.h" />
     <ClInclude Include="..\..\GroupieId.h" />
     <ClInclude Include="..\..\HostedId.h" />
+    <ClInclude Include="..\..\InetAddress.h" />
+    <ClInclude Include="..\..\InetAddressParse.h" />
     <ClInclude Include="..\..\Invite.h" />
     <ClInclude Include="..\..\IsBigEndianCpu.h" />
     <ClInclude Include="..\..\MediaCallbackInterface.h" />
@@ -309,11 +311,13 @@
     <ClInclude Include="..\..\VxParse.h" />
     <ClInclude Include="..\..\VxProfile.h" />
     <ClInclude Include="..\..\VxPtopUrl.h" />
+    <ClInclude Include="..\..\VxResolveHost.h" />
     <ClInclude Include="..\..\VxSemaphore.h" />
     <ClInclude Include="..\..\VxSettings.h" />
     <ClInclude Include="..\..\VxSha1Hash.h" />
     <ClInclude Include="..\..\VxShortcut.h" />
     <ClInclude Include="..\..\VxSingleton.h" />
+    <ClInclude Include="..\..\VxSktUtil.h" />
     <ClInclude Include="..\..\VxStringUtils.h" />
     <ClInclude Include="..\..\VxSupportedFiles.h" />
     <ClInclude Include="..\..\VxTextStreamReader.h" />
@@ -339,6 +343,8 @@
     <ClCompile Include="..\..\dirent_sim.cpp" />
     <ClCompile Include="..\..\GroupieId.cpp" />
     <ClCompile Include="..\..\HostedId.cpp" />
+    <ClCompile Include="..\..\InetAddress.cpp" />
+    <ClCompile Include="..\..\InetAddressParse.cpp" />
     <ClCompile Include="..\..\Invite.cpp" />
     <ClCompile Include="..\..\ObjectCommon_corelib.cpp" />
     <ClCompile Include="..\..\OsDetect_corelib.cpp" />
@@ -388,10 +394,12 @@
     <ClCompile Include="..\..\VxParse.cpp" />
     <ClCompile Include="..\..\VxProfile.cpp" />
     <ClCompile Include="..\..\VxPtopUrl.cpp" />
+    <ClCompile Include="..\..\VxResolveHost.cpp" />
     <ClCompile Include="..\..\VxSemaphore.cpp" />
     <ClCompile Include="..\..\VxSettings.cpp" />
     <ClCompile Include="..\..\VxSha1Hash.cpp" />
     <ClCompile Include="..\..\VxShortcut.cpp" />
+    <ClCompile Include="..\..\VxSktUtil.cpp" />
     <ClCompile Include="..\..\VxStringUtils.cpp" />
     <ClCompile Include="..\..\VxTextStreamReader.cpp" />
     <ClCompile Include="..\..\VxThread.cpp" />

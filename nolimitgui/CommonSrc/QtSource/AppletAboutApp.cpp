@@ -56,7 +56,7 @@ void AppletAboutApp::setupAboutMe( void )
     ui.m_AvailSpace->setText( GuiHelpers::getAvailableStorageSpaceText() );
     VxNetIdent oMyIdent;
     m_FromGui.fromGuiQueryMyIdent( &oMyIdent );
-    std::string strOnlineIp = oMyIdent.getOnlineIpAddress(false).toStdString();
+    std::string strOnlineIp = oMyIdent.getOnlineIpAddress(false).toString();
     QString strText = QString( "Online Name: %1" ).arg( oMyIdent.getOnlineName() );
     ui.labelMeLine1->setText( QString( "Online Name: %1" ).arg( oMyIdent.getOnlineName() ) );
     std::string strMyId = oMyIdent.m_DirectConnectId.describeVxGUID();
@@ -69,7 +69,7 @@ void AppletAboutApp::setupAboutMe( void )
 }
 
 //============================================================================
-void  AppletAboutApp::slotShowAppInfo( void )
+void AppletAboutApp::slotShowAppInfo( void )
 {
     m_MyApp.launchApplet( eAppletApplicationInfo, getContentFrameOfOppositePageFrame() );
 }

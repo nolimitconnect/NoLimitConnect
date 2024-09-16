@@ -23,7 +23,7 @@
 #include <NetLib/VxSktConnect.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktCrypto.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <PktLib/PktsRelay.h>
 
@@ -710,7 +710,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectI
     if( bUseLanIp
         && connectInfo.getLanIPv4().isValid() )
     {
-        ipAddr = connectInfo.getLanIPv4().toStdString();
+        ipAddr = connectInfo.getLanIPv4().toString();
     }
     else
     {
@@ -1054,7 +1054,7 @@ bool ConnectionMgr::tryIPv6Connect(	VxConnectInfo& connectInfo, std::shared_ptr<
         && connectInfo.getMyOnlineIPv6().isValid() )
     {
         std::string ipv6;
-        ipv6 = connectInfo.getMyOnlineIPv6().toStdString();
+        ipv6 = connectInfo.getMyOnlineIPv6().toString();
         // not likely to succeed so just see if we can get a socket
         SOCKET skt = ::VxConnectToIPv6( ipv6.c_str(), connectInfo.getOnlinePort() );
         if( INVALID_SOCKET != skt )

@@ -9,7 +9,7 @@
 //============================================================================
 #pragma once
 
-#include "ISktStatCallbackInterface.h"
+#include <CoreLib/ISktStatCallbackInterface.h>
 #include "VxSktStatRecord.h"
 
 #include <CoreLib/VxMutex.h>

@@ -56,14 +56,16 @@
 #include <ThumbMgr/ThumbInfo.h>
 
 #include <PktLib/VxCommon.h>
-#include <CoreLib/ConnectId.h>
 
 #include <CoreLib/AppVersion.h>
+#include <CoreLib/ConnectId.h>
+#include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
-#include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VxGUID.h>
+
+#include <CoreLib/INetAddressParse.h>
 
 #include <NetLib/VxPeerMgr.h>
 

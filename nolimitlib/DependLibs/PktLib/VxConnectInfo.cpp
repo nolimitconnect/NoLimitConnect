@@ -15,7 +15,7 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <memory.h>
 
@@ -87,7 +87,15 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( bool ipv6, EHostType hostType )
     bool validIp = m_DirectConnectId.getIpAddress( ipv6, strIP );
     if( validIp )
     {
-        StdStringFormat( myUrl, "ptop://%s:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
+        if( ipv6 )
+        {
+            StdStringFormat( myUrl, "ptop://[%s]:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
+        }
+        else
+        {
+            StdStringFormat( myUrl, "ptop://%s:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
+        }
+        
         if( hostType != eHostTypeUnknown )
         {
             Invite::appendHostTypeSuffix( hostType, myUrl );

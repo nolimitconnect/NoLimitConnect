@@ -11,7 +11,7 @@
 
 #include <CoreLib/VxGUID.h>
 
-#include <NetLib/InetAddress.h>
+#include <CoreLib/InetAddress.h>
 
 #include <string>
 

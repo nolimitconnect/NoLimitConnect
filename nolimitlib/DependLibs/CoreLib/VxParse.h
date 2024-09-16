@@ -21,6 +21,8 @@ bool							WildMatchString( std::string& cs, std::string& csWildStr );
 
 bool							GetLine( std::string cs, unsigned int n, std::string &r );
 bool							IsHexDecString( std::string& cs );
+std::string						BinaryToHexString( unsigned char* pbyBin, int nLen );
+
 int								CountChars( const char* pStr, char cCharToLookFor );
 int								CountChars( std::string& csStr, char cCharToLookFor );
 

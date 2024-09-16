@@ -24,7 +24,7 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktConnectSimple.h>
 

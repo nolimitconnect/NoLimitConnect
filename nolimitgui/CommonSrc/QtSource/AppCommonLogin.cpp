@@ -252,8 +252,8 @@ void AppCommon::setupAccountResources( VxNetIdent& userAccountIdent )
     userAccountIdent.m_DirectConnectId.m_IPv4OnlineIp.setIp( getEngine().fromGuiGetMyIPv4Address().getIPv4AddressInHostOrder(), true );
 
     userAccountIdent.m_DirectConnectId.m_IPv6OnlineIp = getEngine().fromGuiGetMyIPv6Address();
-    std::string myIPv4 = userAccountIdent.m_DirectConnectId.m_IPv4OnlineIp.toStdString();
-    std::string myIPv6 = userAccountIdent.m_DirectConnectId.m_IPv6OnlineIp.toStdString();
+    std::string myIPv4 = userAccountIdent.m_DirectConnectId.m_IPv4OnlineIp.toString();
+    std::string myIPv6 = userAccountIdent.m_DirectConnectId.m_IPv6OnlineIp.toString();
 
     LogMsg( LOG_VERBOSE, "Account %s IPv4 %s IPv6 %s", strUserName.c_str(), myIPv4.c_str(), myIPv6.c_str() );
 

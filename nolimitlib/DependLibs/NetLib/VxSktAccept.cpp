@@ -11,9 +11,9 @@
 #include "VxSktAccept.h"
 #include "VxServerMgr.h"
 #include "VxSktBaseMgr.h"
-#include "VxSktUtil.h"
 
 #include <CoreLib/VxParse.h>
+#include <CoreLib/VxSktUtil.h>
 
 #if !defined(TARGET_OS_WINDOWS)
 #include <sys/signal.h>
@@ -49,8 +49,8 @@ RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
     signal(SIGPIPE, SIG_IGN);
 #endif // !defined(TARGET_OS_WINDOWS)
 
-	m_strLclIp = m_LclIp.toStdString();
-	m_strRmtIp = m_RmtIp.toStdString();
+	m_strLclIp = m_LclIp.toString();
+	m_strRmtIp = m_RmtIp.toString();
 
     LogModule( eLogConnect, LOG_INFO, "VxSktAccept accept Lcl ip %s port %d (0x%4.4x) Rmt ip %s port %d (0x%4.4x) thread 0x%x", 
 		m_strLclIp.c_str(),

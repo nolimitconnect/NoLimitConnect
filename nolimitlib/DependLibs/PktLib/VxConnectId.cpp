@@ -11,7 +11,7 @@
 #include "VxConnectId.h"
 #include <CoreLib/PktBlobEntry.h>
 
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxDebug.h>
 
@@ -93,11 +93,16 @@ bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasCha
 	inetAddr.setIp( ipAddr.c_str() );
 	if( inetAddr.isValid() )
 	{
-		if( inetAddr.isIPv6() && ipv6 )
+		if( inetAddr.isIPv6() )
 		{
+			if( !ipv6 )
+			{
+				LogMsg( LOG_DEBUG, "VxConnectId::setIpAddress: setting IPv6 '%s' when ipv4 was specified", ipAddr.c_str() );
+			}
+
 			if( retIpHasChanged )
             {
-                if( m_IPv6OnlineIp.toStdString() != ipAddr )
+                if( m_IPv6OnlineIp.toString() != ipAddr )
                 {
                     *retIpHasChanged = true;
                 }
@@ -108,6 +113,11 @@ bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasCha
 		}
 		else
 		{
+			if( ipv6 )
+			{
+				LogMsg( LOG_DEBUG, "VxConnectId::setIpAddress: setting IPv4 '%s' when ipv6 was specified", ipAddr.c_str() );
+			}
+
 			bool changed = m_IPv4OnlineIp.setIp( inetAddr.getIPv4AddressInNetOrder() );
 			valid = m_IPv4OnlineIp.isValid();
 			if( retIpHasChanged && changed && valid )
@@ -126,12 +136,12 @@ bool VxConnectId::getIpAddress( bool ipv6, std::string& retString )
 {
 	if( ipv6 && m_IPv6OnlineIp.isValid() )
 	{
-		retString = m_IPv6OnlineIp.toStdString();
+		retString = m_IPv6OnlineIp.toString();
 		return true;
 	}
 	else if( m_IPv4OnlineIp.isValid() )
 	{
-		retString = m_IPv4OnlineIp.toStdString(); 
+		retString = m_IPv4OnlineIp.toString(); 
 		return true;
 	}
 

@@ -9,9 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxSktUtil.h"
-
 #include <CoreLib/VxCrypto.h>
+#include <CoreLib/VxSktUtil.h>
 
 class VxSktConnectSimple
 {
@@ -22,7 +21,7 @@ public:
 	SOCKET						getSktHandle( void )							{ return m_Socket; }
 
 	uint16_t					getRemotePort( void )							{ return m_RmtIp.getPort(); }
-    std::string				    getRemoteIpAddress( void )                      { return m_RmtIp.toStdString(); }
+    std::string				    getRemoteIpAddress( void )                      { return m_RmtIp.toString(); }
 	uint16_t					getLocalPort( void )							{ return m_LclIp.getPort(); }
     void				        setLocalIpAddress( const char* lclIp )			{ m_LclIp.setIp( lclIp ); }
 	std::string					getLocalIpAddress( void );

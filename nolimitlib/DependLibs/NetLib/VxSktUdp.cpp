@@ -9,10 +9,10 @@
 //============================================================================
 
 #include "VxSktUdp.h"
-#include "VxSktUtil.h"
-#include "ISktStatCallbackInterface.h"
 
+#include <CoreLib/ISktStatCallbackInterface.h>
 #include <CoreLib/VxParse.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <time.h>
 #include <memory.h>
@@ -77,7 +77,7 @@ RCODE VxSktUdp::udpOpen( InetAddress& oLclIp, uint16_t u16Port, bool enableRecei
 	{
 		if( VxGetSktStatCallback() )
 		{
-			VxGetSktStatCallback()->sktConnected4( m_Socket, oLclIp.toStdString(), eSktTypeUdp, eConnectReasonUnknown );
+			VxGetSktStatCallback()->sktConnected4( m_Socket, oLclIp.toString(), eSktTypeUdp, eConnectReasonUnknown );
 		}
 
 		startReceive();
@@ -114,7 +114,7 @@ RCODE VxSktUdp::udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port )
 	{
 		if( VxGetSktStatCallback() )
 		{
-			VxGetSktStatCallback()->sktConnected4( m_Socket, oLclIp.toStdString(), eSktTypeUdp, eConnectReasonUnknown );
+			VxGetSktStatCallback()->sktConnected4( m_Socket, oLclIp.toString(), eSktTypeUdp, eConnectReasonUnknown );
 		}
 
 		startReceive();
@@ -138,7 +138,7 @@ RCODE VxSktUdp::udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, boo
 	}
 
 	// only ipV4 supported
-	m_strLclIp = m_LclIp.toStdString();
+	m_strLclIp = m_LclIp.toString();
 	setMulticastGroupIp( broadcastIp );
 	setMulticastPort( u16Port );
 
@@ -250,7 +250,7 @@ RCODE VxSktUdp::udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port
 	}
 
 	// only ipV4 supported
-	m_strLclIp = m_LclIp.toStdString();
+	m_strLclIp = m_LclIp.toString();
 	setMulticastGroupIp( multicastGroupIp );
 	setMulticastPort( u16Port );
 
@@ -362,7 +362,7 @@ RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addr
 	}
 
 	m_LclIp = oLclIp;
-	m_strLclIp = m_LclIp.toStdString();
+	m_strLclIp = m_LclIp.toString();
 
 	m_LclIp.setPort( u16Port );
 	m_RmtIp.setPort( u16Port );
@@ -486,7 +486,7 @@ RCODE VxSktUdp::sendTo(		const char*		pData,		// data to send
 
 	struct sockaddr_storage oSktAddr;
     oRmtIp.fillAddress( oSktAddr, u16Port );
-	std::string ip = oRmtIp.toStdString();
+	std::string ip = oRmtIp.toString();
 #ifdef DEBUG_UDP
 	LogMsg( LOG_INFO, "VxSktUdp::sendTo: ip %s port %d \n", ip.c_str(), u16Port );
 #endif // DEBUG_UDP

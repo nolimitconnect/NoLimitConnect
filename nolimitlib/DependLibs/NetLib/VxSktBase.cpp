@@ -9,19 +9,20 @@
 //============================================================================
 
 #include "VxSktBase.h"
+
 #include "VxSktBaseMgr.h"
-#include "VxResolveHost.h"
-#include "VxSktUtil.h"
-#include "InetAddress.h"
-#include "ISktStatCallbackInterface.h"
+
+#include <CoreLib/InetAddress.h>
+#include <CoreLib/ISktStatCallbackInterface.h>
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxParse.h>
+#include <CoreLib/VxResolveHost.h>
+#include <CoreLib/VxSktUtil.h>
+#include <CoreLib/VxTimeUtil.h>
 
 #include <PktLib/PktTypes.h>
 #include <PktLib/PktsImAlive.h>
-
-#include <CoreLib/VxParse.h>
-#include <CoreLib/VxDebug.h>
-#include <CoreLib/VxGlobals.h>
-#include <CoreLib/VxTimeUtil.h>
 
 #include <time.h>
 #include <memory.h>
@@ -255,7 +256,7 @@ const char*VxSktBase::stripIPv6ScopeID( const char*addr, std::string &buf )
 RCODE VxSktBase::joinMulticastGroup( InetAddress& oLclAddress, const char* muliticastGroupIp )
 {
 	setLastSktError( 0 );
-	std::string strLclIp = oLclAddress.toStdString();
+	std::string strLclIp = oLclAddress.toString();
 
 	struct ip_mreq mreq = {};
 	mreq.imr_multiaddr.s_addr = inet_addr( muliticastGroupIp );
@@ -430,7 +431,7 @@ RCODE VxSktBase::connectTo(	InetAddress&	oLclIp,
 							int				iTimeoutMilliSeconds)	// milli seconds before connect attempt times out
 {
 	m_LclIp = oLclIp;
-	m_strLclIp = m_LclIp.toStdString();
+	m_strLclIp = m_LclIp.toString();
 	if( isConnected() )
 	{
 		LogMsg( LOG_ERROR, "VxSktBase::connectTo: skt %d connect attempt on already connected socket", m_SktNumber );
@@ -520,8 +521,8 @@ RCODE VxSktBase::doConnectTo( void )
 			m_rcLastSktError = 0;
 		}
 
-        m_strLclIp = m_LclIp.toStdString();
-        m_strRmtIp = m_RmtIp.toStdString();
+        m_strLclIp = m_LclIp.toString();
+        m_strRmtIp = m_RmtIp.toString();
 
         LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::doConnectTo: SUCCESS %s", describeSktConnection().c_str() );
 		m_bIsConnected = true;
@@ -1067,14 +1068,14 @@ std::string VxSktBase::getLocalIp( void )
 void VxSktBase::setRmtAddress( struct sockaddr_storage& oSktAddr )
 {
 	m_RmtIp.setIpAndPort( oSktAddr );
-	m_strRmtIp = m_RmtIp.toStdString();
+	m_strRmtIp = m_RmtIp.toString();
 }
 
 //============================================================================
 void VxSktBase::setRmtAddress( struct sockaddr& oSktAddr )
 {
 	m_RmtIp.setIpAndPort( oSktAddr );
-	m_strRmtIp = m_RmtIp.toStdString();
+	m_strRmtIp = m_RmtIp.toString();
 }
 
 //============================================================================
@@ -1091,7 +1092,7 @@ void VxSktBase::setRmtAddress( struct sockaddr_in& oSktAddrIn )
 void VxSktBase::setLclAddress( struct sockaddr_storage& oSktAddr )
 {
 	m_LclIp.setIpAndPort( oSktAddr );
-	m_strLclIp = m_LclIp.toStdString();
+	m_strLclIp = m_LclIp.toString();
 }
 
 //============================================================================
@@ -1304,7 +1305,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 						else
 						{
 							sktBase->m_RmtIp.m_u16Port = sktBase->m_RmtIp.setIp( oAddr );
-							sktBase->m_strRmtIp = sktBase->m_RmtIp.toStdString();
+							sktBase->m_strRmtIp = sktBase->m_RmtIp.toString();
 
 							LogModule( eLogSktData, LOG_VERBOSE, "udp recvfrom skt %d skt id %d len %d port %d thread 0x%x",
 								sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, sktBase->m_RmtIp.getPort(), VxGetCurrentThreadId() );
@@ -1313,7 +1314,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 								if( false == sktBase->m_RxKey.isValidDataLen( iDataLen ) )
 								{
 									// throw away the data because not valid length
-									LogMsg( LOG_INFO, "udp recvfrom not valid data length\n" );
+									LogMsg( LOG_INFO, "udp recvfrom not valid data length" );
 									continue;
 								}
 								// set encryption context

@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "VxSktUdpBroadcast.h"
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 VxSktUdpBroadcast::VxSktUdpBroadcast()
 {

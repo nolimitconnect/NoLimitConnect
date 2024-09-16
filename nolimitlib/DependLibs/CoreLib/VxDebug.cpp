@@ -705,7 +705,7 @@ static void DumpMsg( uint32_t u32MsgType, int instance, int sampleCnt, char* msg
 {
     if( msg && strlen( msg ) )
     {
-        LogMsg( u32MsgType, "Dump %d Cnt %d %s\n", instance, sampleCnt, msg );
+        LogMsg( u32MsgType, "Dump %d Cnt %d %s", instance, sampleCnt, msg );
     }
 }
 
@@ -762,6 +762,7 @@ void HexDump( uint32_t u32MsgType, unsigned char* data, int dataLen, int instanc
     }
 }
 
+//============================================================================
 void DumpInt8( uint32_t u32MsgType, int8_t* data, int dataLen, int instance, char* msg )
 {
     int sampleCnt = dataLen / sizeof( int8_t );
@@ -800,6 +801,7 @@ void DumpInt8( uint32_t u32MsgType, int8_t* data, int dataLen, int instance, cha
     }
 }
 
+//============================================================================
 void DumpInt16( uint32_t u32MsgType, int16_t* data, int dataLen, int instance, char* msg )
 {
     int sampleCnt = dataLen / sizeof( int16_t );
@@ -838,6 +840,7 @@ void DumpInt16( uint32_t u32MsgType, int16_t* data, int dataLen, int instance, c
     }
 }
 
+//============================================================================
 void DumpFloat( uint32_t u32MsgType, float* data, int dataLen, int instance, char* msg )
 {
     int sampleCnt = dataLen / sizeof( float );

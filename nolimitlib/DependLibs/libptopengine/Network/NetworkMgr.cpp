@@ -137,7 +137,7 @@ void NetworkMgr::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetw
 #if ENABLE_COMPONENT_NEARBY
 		m_Engine.getMyPktAnnounce().getLanIPv4().setIp( lclIp );
 #endif // ENABLE_COMPONENT_NEARBY
-		m_Engine.getNetStatusAccum().setLanIpAddress( false, m_LocalIp.toStdString() );
+		m_Engine.getNetStatusAccum().setLanIpAddress( false, m_LocalIp.toString() );
 	}
 	else
 	{

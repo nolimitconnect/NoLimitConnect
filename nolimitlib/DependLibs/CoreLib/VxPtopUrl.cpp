@@ -16,7 +16,7 @@
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxDebug.h>
 
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <stdio.h>
 #include <stdlib.h>

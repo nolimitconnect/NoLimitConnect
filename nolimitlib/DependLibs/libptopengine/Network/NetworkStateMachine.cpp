@@ -28,8 +28,8 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
-#include <NetLib/VxSktUtil.h>
-#include <NetLib/VxResolveHost.h>
+#include <CoreLib/VxSktUtil.h>
+#include <CoreLib/VxResolveHost.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxPortForward.h>
 

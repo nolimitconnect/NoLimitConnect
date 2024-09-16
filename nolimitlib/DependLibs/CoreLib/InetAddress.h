@@ -39,8 +39,13 @@ public:
 	InetAddress( const char* pIpAddress );
 	InetAddress( uint32_t u32IpAddr );
     InetAddress( const InetAddress& rhs );
+
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
+
+	// set ip from string.. returns port if is part of addr.. example 1.1.1.1:80 returns 80
+	uint16_t                    fromString( const char* pIpAddress );
+	std::string					toString( void );
 
     InetAddress&                operator=(const InetAddress& inetAddr);
 	bool                        operator == (const InetAddress& inetAddr) const;
@@ -69,8 +74,6 @@ public:
 	//! fill address with this ip address and the given port.. returns struct len
     int                         fillAddress( struct sockaddr_storage& oAddr, uint16_t port );
 
-    std::string                 toStdString( void );
-
     uint32_t                    getIPv4AddressInHostOrder( void ) const;
     uint32_t                    getIPv4AddressInNetOrder( void ) const;
 
@@ -91,8 +94,7 @@ protected:
     int                         fillAddress( struct sockaddr_in6& oIPv6Addr, uint16_t port );
 
     bool                        isIPv4String( const char* pIpAddress ) const;
-	// set ip from string.. returns port if is part of addr.. example 1.1.1.1:80 returns 80
-	uint16_t                    fromString( const char* pIpAddress );
+
 
     static bool                 isLittleEndian( void );
     static void                 litteEndianToNetIPv6( uint16_t * src, uint16_t * dest);
@@ -112,8 +114,13 @@ public:
 	InetAddrAndPort( const char* ipAddr, uint16_t port );
     InetAddrAndPort( const InetAddrAndPort& rhs );
     InetAddrAndPort( const InetAddress& rhs );
+
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
+
+	// set ip from string
+	bool                        fromString( const char* pIpAddress );
+	std::string					toString( void );
 
 	InetAddrAndPort&            operator=(const InetAddress& inetAddr);
 	InetAddrAndPort&            operator=(const InetAddrAndPort& inetAddr);
@@ -155,8 +162,13 @@ public:
 	InetAddrIPv4( const char* pIpAddress );
 	InetAddrIPv4( uint32_t u32IpAddr );
     InetAddrIPv4( const InetAddrIPv4& rhs );
+
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
+
+	// set ip from string
+	bool                        fromString( const char* pIpAddress );
+	std::string					toString( void );
 
 	InetAddrIPv4&               operator=(const InetAddrIPv4& inetAddr);
 	bool                        operator != (const InetAddrIPv4& inetAddr) const;
@@ -184,7 +196,6 @@ public:
 	//! fill address with this ip address and the given port.. returns struct len
 	int                         fillAddress( struct sockaddr_storage& oAddr, uint16_t port );
 
-	std::string                 toStdString( void );
 	InetAddress				    toInetAddress( void );
 
 	uint32_t                    getIPv4AddressInHostOrder( void ) const;
@@ -200,8 +211,6 @@ private:
 	int                         fillAddress( struct sockaddr_in& oIPv4Addr, uint16_t port );
 
 	bool                        isIPv4String( const char* pIpAddress ) const;
-	// set ip from string
-	void                        fromString( const char* pIpAddress );
 
 	static bool                 isLittleEndian( void );
 	static uint32_t             swap32Bit( uint32_t src );
@@ -216,8 +225,13 @@ class InetAddrIPv4AndPort : public InetAddrIPv4
 public:
 	InetAddrIPv4AndPort() = default;
     InetAddrIPv4AndPort( const InetAddrIPv4AndPort& rhs );
+
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
+
+	// set ip from string
+	bool                        fromString( const char* pIpAddress );
+	std::string					toString( void );
 
 	InetAddrIPv4AndPort&        operator=(const InetAddrIPv4& inetAddr);
 	InetAddrIPv4AndPort&        operator=(const InetAddrIPv4AndPort& inetAddr);
@@ -235,3 +249,5 @@ public:
 };
 
 #pragma pack(pop)
+
+void TestInetAddress( void );

@@ -10,7 +10,7 @@
 
 #include "UrlMgr.h"
 
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 #include <string.h>
 
 //============================================================================
@@ -226,7 +226,7 @@ bool UrlMgr::fillUrlInfo( bool ipv6, std::string& hostUrl, UrlInfo& urlInfo )
         }
         else if( VxResolveUrl( strHost.c_str(), tcpPort, inetAddr, ipv6 ) )
         {
-           ipv6 ?  urlInfo.m_IpAddrIpv6 = inetAddr.toStdString() : urlInfo.m_IpAddrIpv4 = inetAddr.toStdString();
+           ipv6 ?  urlInfo.m_IpAddrIpv6 = inetAddr.toString() : urlInfo.m_IpAddrIpv4 = inetAddr.toString();
         }
         else
         {

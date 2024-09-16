@@ -12,7 +12,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include "NetworkMgr.h"
 
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 #include <PktLib/PktAnnounce.h>
 #include <CoreLib/VxGlobals.h>
 

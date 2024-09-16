@@ -319,6 +319,18 @@
     <ClInclude Include="..\..\VxXferDefs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\InetAddress.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\InetAddressParse.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VxSktUtil.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VxResolveHost.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AppErr_corelib.cpp">
@@ -541,6 +553,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxXferDefs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\InetAddress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\InetAddressParse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VxSktUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VxResolveHost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

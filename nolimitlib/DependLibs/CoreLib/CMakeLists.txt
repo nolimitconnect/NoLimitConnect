@@ -17,6 +17,8 @@ list(APPEND CoreLib_HEADERS
     DbQueryData.h
     GroupieId.h
     HostedId.h
+    InetAddress.h
+    InetAddressParse.h
     ObjectCommon.h
     OsDetect.h
     PktBlobEntry.h
@@ -62,10 +64,13 @@ list(APPEND CoreLib_HEADERS
     VxParse.h
     VxProfile.h
     VxPtopUrl.h
+
+    VxResolveHost.h
     VxSemaphore.h
     VxSettings.h
     VxSha1Hash.h
     VxShortcut.h
+    VxSktUtil.h
     VxStringUtils.h
     VxTextStreamReader.h
     VxThread.h
@@ -93,6 +98,8 @@ list(APPEND CoreLib_SOURCES
     DbQueryData_corelib.cpp
     GroupieId.cpp
     HostedId.cpp
+    InetAddress.cpp
+    InetAddressParse.cpp
     ObjectCommon_corelib.cpp
     OsDetect_corelib.cpp
     PktBlobEntry.cpp
@@ -142,10 +149,13 @@ list(APPEND CoreLib_SOURCES
     VxParse.cpp
     VxProfile.cpp
     VxPtopUrl.cpp
+
+    VxResolveHost.cpp
     VxSemaphore.cpp
     VxSettings.cpp
     VxSha1Hash.cpp
     VxShortcut.cpp
+    VxSktUtil.cpp
     VxStringUtils.cpp
     VxTextStreamReader.cpp
     VxThread.cpp

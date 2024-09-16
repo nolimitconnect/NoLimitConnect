@@ -10,9 +10,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\InetAddress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\NetSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,9 +41,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VxResolveHost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxServerMgr.cpp">
@@ -82,9 +76,6 @@
     <ClCompile Include="..\..\VxSktUdpBroadcast.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VxSktUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\VxSktWaitingList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,9 +99,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\InetAddress.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\NetSettings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -145,9 +133,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\VxProxy.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VxResolveHost.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\VxServerMgr.h">
@@ -190,9 +175,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\VxSktUdpBroadcast.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VxSktUtil.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\VxSktWaitingList.h">

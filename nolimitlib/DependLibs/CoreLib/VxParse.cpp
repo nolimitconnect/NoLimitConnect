@@ -186,6 +186,29 @@ bool IsHexDecString( std::string& cs )
 }
 
 //============================================================================
+std::string BinaryToHexString( unsigned char* pbyBin, int nLen )
+{
+    std::string hexString;
+    char buf[4];
+    int i;
+    for ( i = 0; i < nLen; ++i )
+    {
+        if( i == nLen - 1 )
+        {
+            sprintf( buf, "%02x", pbyBin[i] );
+        }
+        else
+        {
+            sprintf( buf, "%02x ", pbyBin[i] );
+        }
+        
+        hexString += buf;
+    }
+
+    return hexString;
+}
+
+//============================================================================
 int CountChars( const char* pStr, char cCharToLookFor )
 {
 	int iCnt = 0;

@@ -10,9 +10,8 @@
 
 #include "VxSktStatMgr.h"
 
-#include "VxSktUtil.h"
-
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxSktUtil.h>
 
 namespace
 {

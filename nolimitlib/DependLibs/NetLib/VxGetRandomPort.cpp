@@ -8,12 +8,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxSktUtil.h"
-#include <CoreLib/VxTime.h>
-
-
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxSktUtil.h>
+#include <CoreLib/VxTime.h>
 
 #include <stdlib.h>
 

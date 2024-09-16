@@ -49,7 +49,7 @@
 #include <CoreLib/VxPtopUrl.h>
 
 #include <NetLib/VxPeerMgr.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <PktLib/PktsBaseXfer.h>
 

@@ -63,7 +63,7 @@ void ActivityNetworkState::slotNetworkStateChanged( ENetworkStateType eNetworkSt
 {
     VxNetIdent myIdent;
 	m_FromGui.fromGuiQueryMyIdent( &myIdent );
-	std::string strOnlineIp = myIdent.getOnlineIpAddress(false).toStdString();
+	std::string strOnlineIp = myIdent.getOnlineIpAddress(false).toString();
 	uint16_t tcpPort = myIdent.getMyOnlinePort();
 	ui.m_IPAddressValueLabel->setText( strOnlineIp.c_str() );
 	ui.m_TcpPortValueLabel->setText( QString("%1").arg( tcpPort ) );

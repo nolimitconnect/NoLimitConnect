@@ -19,8 +19,8 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxPtopUrl.h>
 
-#include <NetLib/InetAddress.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/InetAddress.h>
+#include <CoreLib/VxSktUtil.h>
 #include <NetLib/VxSktConnectSimple.h>
 #include <NetLib/VxSktBase.h>
 
@@ -343,7 +343,7 @@ std::string NetworkMonitor::determineLocalIp( void )
         InetAddrAndPort lclAddr;
         if( 0 == VxGetLclAddress( skt, lclAddr ) )
         {
-            localIp = lclAddr.toStdString();
+            localIp = lclAddr.toString();
             if( localIp == "0.0.0.0" )
             {
                 LogModule( eLogNetworkState, LOG_INFO, "determineLocalIp sktConnect.connectTo invalid local ip %s", VxGetNetworkHostName() );
@@ -409,7 +409,7 @@ std::string NetworkMonitor::determineLocalIp( void )
             InetAddrAndPort lclAddr;
             if( 0 == VxGetLclAddress( skt, lclAddr ) )
             {
-                localIp = lclAddr.toStdString();
+                localIp = lclAddr.toString();
                 if( localIp == "0.0.0.0" )
                 {
                     LogModule( eLogNetworkState, LOG_INFO, "determineLocalIp sktConnect.connectTo invalid local ip" );

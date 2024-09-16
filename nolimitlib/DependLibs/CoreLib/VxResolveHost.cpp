@@ -54,7 +54,7 @@ bool VxResolveHostToIp(	const char*		pUrl,			// web name to resolve
 			u16RetPort,
 			oAddr ))
 		{
-			strRetIp = oAddr.toStdString();
+			strRetIp = oAddr.toString();
 			return true;
 		}
 	}
@@ -126,7 +126,7 @@ bool VxResolveHostToIp(	const char*		pHostOnly,			//web host name to resolve
 		InetAddrAndPort rmtIp;				// local ip address
 
 		rmtIp.setIp( *((struct sockaddr_storage *)aip->ai_addr) );
-		std::string strRmtIp = rmtIp.toStdString();
+		std::string strRmtIp = rmtIp.toString();
         #ifdef DEBUG_NETLIB
         double elapsed = resolveTimer.elapsedSec();
             LogMsg( LOG_INFO, "Resolve %s to %s:%d in %3.3f sec on try %d",
@@ -146,7 +146,7 @@ bool VxResolveHostToIp(	const char*		pHostOnly,			//web host name to resolve
 			oRetIp.setIp( strRmtIp.c_str() );
 			double connectSuccessTime = resolveTimer.elapsedSec();
 			LogMsg( LOG_INFO, "Resolve Connect Success to %s:%d in %3.3f sec on try %d\n", 
-				oRetIp.toStdString().c_str(), u16Port,
+				oRetIp.toString().c_str(), u16Port,
 				connectSuccessTime - elapsed,
 				tryCnt );
 			break;
@@ -170,7 +170,7 @@ bool VxResolveHostToIp(	const char*		pHostOnly,			//web host name to resolve
             #ifdef DEBUG_NETLIB
             double connectSuccessTime = resolveTimer.elapsedSec();
                 LogMsg( LOG_INFO, "Resolve Connect Success to %s:%d in %3.3f sec on try %d",
-                        oRetIp.toStdString().c_str(), u16Port,
+                        oRetIp.toString().c_str(), u16Port,
                         connectSuccessTime - elapsed,
                         tryCnt );
             #endif// DEBUG_NETLIB

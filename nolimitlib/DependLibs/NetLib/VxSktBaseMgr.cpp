@@ -9,11 +9,12 @@
 //============================================================================
 
 #include "VxSktBase.h"
-#include "VxSktBaseMgr.h"
-#include "VxSktUtil.h"
+
 #include "VxSktAccept.h"
+#include "VxSktBaseMgr.h"
 
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <stdio.h>
 #include <memory.h>

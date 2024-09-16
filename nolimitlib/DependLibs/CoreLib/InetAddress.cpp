@@ -9,10 +9,13 @@
 //============================================================================
 
 #include "InetAddress.h"
-#include "VxSktUtil.h"
 
-#include <CoreLib/VxDebug.h>
-#include <CoreLib/PktBlobEntry.h>
+#include "InetAddressParse.h"
+
+#include "PktBlobEntry.h"
+#include "VxDebug.h"
+#include "VxParse.h"
+#include "VxSktUtil.h"
 
 #include <string>
 #include <array>
@@ -77,6 +80,51 @@ bool InetAddrIPv4::addToBlob( PktBlobEntry& blob )
 bool InetAddrIPv4::extractFromBlob( PktBlobEntry& blob )
 {
     return blob.getValue( m_u32AddrIPv4 );
+}
+
+//============================================================================
+bool InetAddrIPv4::fromString( const char* pIpAddress )
+{
+	if( ( NULL == pIpAddress ) || 
+		( 0 == strlen( pIpAddress ) ) ||
+		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
+		( 0 == strcmp( "::", pIpAddress ) ) )
+	{
+		setToInvalid();
+		return false;
+	}
+	else if( isIPv4String( pIpAddress ) )
+	{
+		uint32_t u32Ip;
+		VxIPv4_pton( pIpAddress, &u32Ip, false );
+		setIp( u32Ip );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::fromString %s is invalid", pIpAddress );
+	}
+}
+
+//============================================================================
+std::string InetAddrIPv4::toString( void )
+{
+	std::string retIpAddress;
+	char as8Buf[ INET6_MAX_STR_LEN ];
+	as8Buf[0] = 0; 
+
+	if( isValid() )
+	{
+		uint32_t u32Ip = getIPv4AddressInNetOrder();
+		VxIPv4_ntop( &u32Ip, as8Buf, sizeof( as8Buf ), false );
+			//LogMsg( LOG_INFO, "InetAddress::toString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
+		retIpAddress = as8Buf;
+	}
+	else
+	{
+		retIpAddress = "0.0.0.0";
+	}
+
+	return retIpAddress;
 }
 
 //============================================================================
@@ -161,28 +209,6 @@ InetAddress InetAddrIPv4::toInetAddress( void )
 }
 
 //============================================================================
-void InetAddrIPv4::fromString( const char* pIpAddress )
-{
-	if( ( NULL == pIpAddress ) || 
-		( 0 == strlen( pIpAddress ) ) ||
-		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
-		( 0 == strcmp( "::", pIpAddress ) ) )
-	{
-		setToInvalid();
-	}
-	else if( isIPv4String( pIpAddress ) )
-	{
-		uint32_t u32Ip;
-		VxIPv4_pton( pIpAddress, &u32Ip, false );
-		setIp( u32Ip );
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::fromString %s is invalid\n", pIpAddress );
-	}
-}
-
-//============================================================================
 bool InetAddrIPv4::isIPv4String( const char* pIpAddress ) const
 {
 	if( pIpAddress
@@ -234,7 +260,11 @@ bool InetAddrIPv4::setIp( uint32_t u32IPv4Addr, bool bIsHostOrder )
 bool InetAddrIPv4::setIp( const char* pIp )
 {
     uint32_t oldAddrIPv4 = m_u32AddrIPv4;
-	fromString( pIp );
+	if( !fromString( pIp ) )
+	{
+		return false;
+	}
+
     return oldAddrIPv4 != m_u32AddrIPv4;
 }
 
@@ -256,13 +286,13 @@ uint16_t InetAddrIPv4::setIp( struct sockaddr& ipAddr )
 	}
 	else if( AF_INET6 == ipAddr.sa_family )
 	{
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::setIp tried to set IPv6 address\n" );
+		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::setIp tried to set IPv6 address" );
 		setToInvalid();
 		return 0;
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "InetAddress::setIp unknown family\n" );
+		LogMsg( LOG_ERROR, "InetAddress::setIp unknown family" );
 		return 0;
 	}
 }
@@ -329,30 +359,8 @@ int InetAddrIPv4::fillAddress( struct sockaddr_in& oIPv4Addr, uint16_t u16Port )
 }
 
 //============================================================================
-std::string InetAddrIPv4::toStdString( void )
-{
-	std::string retIpAddress;
-	char as8Buf[ INET6_MAX_STR_LEN ];
-	as8Buf[0] = 0; 
-
-	if( isValid() )
-	{
-		uint32_t u32Ip = getIPv4AddressInNetOrder();
-		VxIPv4_ntop( &u32Ip, as8Buf, sizeof( as8Buf ), false );
-			//LogMsg( LOG_INFO, "InetAddress::toStdString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
-		retIpAddress = as8Buf;
-	}
-	else
-	{
-		retIpAddress = "0.0.0.0";
-	}
-
-	return retIpAddress;
-}
-
-//============================================================================
 //! returns port in host order
-uint16_t	InetAddrIPv4::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
+uint16_t InetAddrIPv4::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
 {
 	uint16_t u16Port = 0;
 	char as8Addr[ INET6_MAX_STR_LEN ];
@@ -411,6 +419,54 @@ bool InetAddrIPv4AndPort::extractFromBlob( PktBlobEntry& blob )
     bool result = InetAddrIPv4::extractFromBlob( blob );
     result &= blob.getValue( m_u16Port );
     return result;
+}
+
+//============================================================================
+bool InetAddrIPv4AndPort::fromString( const char* pIpAddress )
+{
+	uint16_t port = 0;
+	bool parsedIsIpv6 = false;
+	uint8_t buf[16];
+	if( ParseIPv4OrIPv6( pIpAddress, buf, port, parsedIsIpv6 ) )
+	{
+		if( !parsedIsIpv6 )
+		{
+			m_u32AddrIPv4 = *((uint32_t*)(&buf[0]));
+			if( port )
+			{
+				m_u16Port = port;
+			}
+			else
+			{
+				LogMsg( LOG_ERROR, "%s no port specified in address %s", __func__, pIpAddress );
+			}
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "%s attempted to set ip6 address %s", __func__, pIpAddress );
+		}
+
+		return port;
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "%s invalid ip %s", __func__, pIpAddress );
+	}
+
+	return false;
+}
+
+//============================================================================
+std::string InetAddrIPv4AndPort::toString( void )
+{
+	std::string ipAddr = InetAddrIPv4::toString();
+	if( !ipAddr.empty() && m_u16Port )
+	{
+		ipAddr += ":";
+		ipAddr += std::to_string( m_u16Port );
+	}
+
+	return ipAddr;
 }
 
 //============================================================================
@@ -508,6 +564,69 @@ bool InetAddress::extractFromBlob( PktBlobEntry& blob )
 }
 
 //============================================================================
+uint16_t InetAddress::fromString( const char* pIpAddress )
+{
+	if( ( NULL == pIpAddress ) || 
+		( 0 == strlen( pIpAddress ) ) ||
+		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
+		( 0 == strcmp( "::", pIpAddress ) ) ) // TODO support IPv6
+	{
+		LogMsg( LOG_ERROR, "InetAddress::fromString invalid ip %s", pIpAddress ? pIpAddress : "NULL" );
+		setToInvalid();
+		return 0;
+	}
+
+	uint16_t port = 0;
+	bool parsedIsIpv6 = false;
+	if( ParseIPv4OrIPv6( pIpAddress, (unsigned char *)this, port, parsedIsIpv6 ) )
+	{
+		if( !parsedIsIpv6 )
+		{
+			m_u64AddrHi = 0xffffffffffffffffULL;
+		}
+
+		return port;
+	}
+
+	setToInvalid();
+	return 0;
+}
+
+//============================================================================
+std::string InetAddress::toString( void )
+{
+	std::string retIpAddress;
+	std::array<char, INET6_MAX_STR_LEN> as8Buf;
+	as8Buf.data()[0] = 0; 
+
+	if( isValid() )
+	{
+		if( isIPv4() )
+		{
+			uint32_t u32Ip = getIPv4AddressInNetOrder();
+            VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
+			//LogMsg( LOG_INFO, "InetAddress::toString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
+		}
+		else
+		{
+			VxIPv6_ntop( this, as8Buf.data(), as8Buf.size());
+		}
+
+		retIpAddress = as8Buf.data();
+		if( retIpAddress.empty() )
+		{
+			retIpAddress = "";
+		}
+	}
+	else
+	{
+		retIpAddress = "0.0.0.0";
+	}
+
+	return retIpAddress;
+}
+
+//============================================================================
 InetAddress InetAddress::getDefaultIp( void )
 {
 	 std::vector<InetAddress> retAddresses;
@@ -530,7 +649,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 	//first get host name
 	if( gethostname( as8HostName, sizeof( as8HostName ) ) )
 	{
-        LogMsg( LOG_ERROR, "getAllAddresses: Unable to get host name\n" );
+        LogMsg( LOG_ERROR, "getAllAddresses: Unable to get host name" );
 		#ifdef TARGET_OS_WINDOWS
 			return WSAGetLastError();
 		#else
@@ -558,7 +677,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 	{
 		//char * pErr = gai_strerror(RetVal);
 		//printf("getaddrinfo() failed with error %d: %s\n", RetVal, pErr );
-        LogMsg( LOG_ERROR, "InetAddress::getAllAddresses getaddrinfo error %d\n", RetVal );
+        LogMsg( LOG_ERROR, "InetAddress::getAllAddresses getaddrinfo error %d", RetVal );
 		return RetVal;
 	}
 
@@ -578,9 +697,9 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 
         struct sockaddr_storage * poSktAddr = (struct sockaddr_storage *)AI->ai_addr;
         InetAddress oTestAddr;
-        VxSetSktAddressPort(poSktAddr, 0);
+        VxSetSktAddressPort( poSktAddr, 0 );
         oTestAddr.setIp( *poSktAddr );
-        std::string strTestIpAddress = oTestAddr.toStdString();        
+        std::string strTestIpAddress = oTestAddr.toString();        
 
         if( ( false == oTestAddr.isValid() ) ||
             ( oTestAddr.isLoopBack() ) )
@@ -611,11 +730,11 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 #ifdef TEST_CONNECTION
         if( false == VxTestConnection( oSkt, oTestAddr ) )
         {
-            LogMsg( LOG_INFO, "Connection using local address %s OK\n", strTestIpAddress.c_str() );
+            LogMsg( LOG_INFO, "Connection using local address %s OK", strTestIpAddress.c_str() );
         }
         else
         {
-            LogMsg( LOG_INFO, "Connection using local address %s FAIL\n", strTestIpAddress.c_str() );
+            LogMsg( LOG_INFO, "Connection using local address %s FAIL", strTestIpAddress.c_str() );
         }
 #else
 		//LogMsg( LOG_INFO, "closing skt %d\n", oSkt );
@@ -633,7 +752,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
     if(getifaddrs(&myaddrs) != 0)
     {
         perror("InetAddress::getAllAddresses: getifaddrs");
-        LogMsg( LOG_ERROR, "InetAddress::getAllAddresses: getifaddrs FAIL\n" );
+        LogMsg( LOG_ERROR, "InetAddress::getAllAddresses: getifaddrs FAIL" );
     }
 
     for (ifa = myaddrs; ifa != NULL; ifa = ifa->ifa_next)
@@ -658,7 +777,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 
         if (!inet_ntop(ifa->ifa_addr->sa_family, poSktAddr, buf, sizeof(buf)))
         {
-           LogMsg( LOG_ERROR, "InetAddress::getAllAddresses: %s: inet_ntop failed!\n", ifa->ifa_name);
+           LogMsg( LOG_ERROR, "InetAddress::getAllAddresses: %s: inet_ntop failed!", ifa->ifa_name);
         }
         else
         {
@@ -676,7 +795,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
             InetAddress oTestAddr;
             VxSetSktAddressPort(poSktAddr, 0);
             oTestAddr.setIp( *poSktAddr );
-            std::string strTestIpAddress = oTestAddr.toStdString();
+            std::string strTestIpAddress = oTestAddr.toString();
 
             if( ( false == oTestAddr.isValid() ) ||
                 ( oTestAddr.isLoopBack() ) )
@@ -695,7 +814,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 
             if( false == VxBindSkt( oSkt, poSktAddr ) )
             {
-                LogMsg( LOG_INFO, "InetAddress::getAllAddresses: could not bind addr %s\n", strTestIpAddress.c_str() );
+                LogMsg( LOG_INFO, "InetAddress::getAllAddresses: could not bind addr %s", strTestIpAddress.c_str() );
                 VxCloseSkt( oSkt );
                 continue;
             }
@@ -710,11 +829,11 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
     #ifdef TEST_CONNECTION
             if( false == VxTestConnection( oSkt, oTestAddr ) )
             {
-                LogMsg( LOG_INFO, "Connection using local address %s OK\n", strTestIpAddress.c_str() );
+                LogMsg( LOG_INFO, "Connection using local address %s OK", strTestIpAddress.c_str() );
             }
             else
             {
-                LogMsg( LOG_INFO, "Connection using local address %s FAIL\n", strTestIpAddress.c_str() );
+                LogMsg( LOG_INFO, "Connection using local address %s FAIL", strTestIpAddress.c_str() );
             }
     #else
             VxCloseSkt( oSkt );
@@ -842,7 +961,7 @@ void InetAddress::dumpAddresses( std::vector<InetAddress>& addressList )
     for( InetAddress& addr : addressList )
     {
         addrIdx++;
-        LogMsg( LOG_INFO, "Addr %d - %s isIPv4 %d isLoopback %d isLocal %d", addrIdx, addr.toStdString().c_str(), addr.isIPv4(), addr.isLoopBack(), addr.isLocalAddress() );
+        LogMsg( LOG_INFO, "Addr %d - %s isIPv4 %d isLoopback %d isLocal %d", addrIdx, addr.toString().c_str(), addr.isIPv4(), addr.isLoopBack(), addr.isLocalAddress() );
     }
 }
 
@@ -990,51 +1109,6 @@ void InetAddress::setToInvalid( void )
 }
 
 //============================================================================
-uint16_t InetAddress::fromString( const char* pIpAddress )
-{
-	if( ( NULL == pIpAddress ) || 
-		( 0 == strlen( pIpAddress ) ) ||
-		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
-		( 0 == strcmp( "::", pIpAddress ) ) ) // TODO support IPv6
-	{
-		LogMsg( LOG_ERROR, "InetAddress::fromString invalid ip %s", pIpAddress ? pIpAddress : "NULL" );
-		setToInvalid();
-		return 0;
-	}
-
-	std::string ipAddr( pIpAddress );
-	std::string ipPort;
-	int colonPosition = ipAddr.rfind( ':' );
-	if( std::string::npos != colonPosition )
-	{
-		ipPort = ipAddr.substr( colonPosition + 1, ipAddr.length() - colonPosition );
-		ipAddr = ipAddr.substr( 0, colonPosition );
-	}
-
-	if( isIPv4String( ipAddr.c_str() ) )
-	{
-		uint32_t u32Ip;
-		VxIPv4_pton( ipAddr.c_str(), &u32Ip, false );
-		setIp( u32Ip );
-	}
-	else
-	{
-        VxIPv6_pton( ipAddr.c_str(), this );
-	}
-
-	if( !ipPort.empty() )
-	{
-		int port = std::stoi( ipPort );
-		if( port > 1 )
-		{
-			return (uint16_t)port;
-		}
-	}
-
-	return 0;
-}
-
-//============================================================================
 bool InetAddress::isIPv4String( const char* pIpAddress ) const
 {
 	if( pIpAddress
@@ -1051,18 +1125,18 @@ bool InetAddress::isIPv4String( const char* pIpAddress ) const
 //============================================================================
 bool InetAddress::isIPv4( void ) const
 {
-	if( (false == isValid() ) ||
-		(0xffffffffffffffffULL == m_u64AddrHi)) 
+	if( 0xffffffffffffffffULL == m_u64AddrHi ) 
 	{
 		return true;
 	}
+
 	return false;
 }
 
 //============================================================================
 bool InetAddress::isIPv6( void ) const
 {
-	return isIPv4() ? false : true;
+	return isValid() && !isIPv4();
 }
 
 //============================================================================
@@ -1216,41 +1290,6 @@ int InetAddress::fillAddress( struct sockaddr_in6& oIPv6Addr, uint16_t u16Port )
 	return (int)sizeof( struct sockaddr_in6);
 }
 
-
-//============================================================================
-std::string InetAddress::toStdString( void )
-{
-	std::string retIpAddress;
-	std::array<char, INET6_MAX_STR_LEN> as8Buf;
-	as8Buf.data()[0] = 0; 
-
-	if( isValid() )
-	{
-		if( isIPv4() )
-		{
-			uint32_t u32Ip = getIPv4AddressInNetOrder();
-            VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
-			//LogMsg( LOG_INFO, "InetAddress::toStdString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
-		}
-		else
-		{
-			VxIPv6_ntop( this, as8Buf.data(), as8Buf.size());
-		}
-
-		retIpAddress = as8Buf.data();
-		if( retIpAddress.empty() )
-		{
-			retIpAddress = "";
-		}
-	}
-	else
-	{
-		retIpAddress = "0.0.0.0";
-	}
-
-	return retIpAddress;
-}
-
 //============================================================================
 //! returns port in host order
 uint16_t InetAddress::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
@@ -1363,6 +1402,47 @@ bool InetAddrAndPort::extractFromBlob( PktBlobEntry& blob )
 }
 
 //============================================================================
+bool InetAddrAndPort::fromString( const char* pIpAddress )
+{
+	setToInvalid();
+	uint16_t port = InetAddress::fromString( pIpAddress );
+	if( isValid() )
+	{
+		if( port )
+		{
+			m_u16Port = port;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+//============================================================================
+std::string	InetAddrAndPort::toString( void )
+{
+	std::string ipAddr;
+	if( isValid() )
+	{
+		std::string ipAddrNoPort = InetAddress::toString();
+		if( m_u16Port )
+		{
+			ipAddr = "[";
+			ipAddr += ipAddrNoPort;
+			ipAddr = "]:";
+			ipAddr += std::to_string( m_u16Port );
+		}
+		else
+		{
+			ipAddr = ipAddrNoPort;
+		}
+	}
+	
+	return ipAddr;
+}
+
+//============================================================================
 InetAddrAndPort::InetAddrAndPort( const char* ipAddr, uint16_t port )
 : InetAddress( ipAddr )
 , m_u16Port( port )
@@ -1426,4 +1506,68 @@ void InetAddrAndPort::setIpAndPort( const char* ipAddr, uint16_t port )
 {
     setIp( ipAddr );
     m_u16Port = port;
+}
+
+//============================================================================
+void inet_addr_testcase ( const char* pszTest )
+{
+    unsigned char abyAddr[16];
+    bool bIsIPv6;
+    uint16_t nPort;
+    bool bSuccess;
+
+    LogMsg( LOG_DEBUG, "Inet Test case '%s'", pszTest );
+    const char* pszTextCursor = pszTest;
+    bSuccess = ParseIPv4OrIPv6( pszTest, abyAddr, nPort, bIsIPv6 );
+    if ( ! bSuccess )
+    {
+        LogMsg( LOG_DEBUG, "parse failed, at about index %d; rest: '%s'", pszTextCursor - pszTest, pszTextCursor );
+    }
+    
+    LogMsg( LOG_DEBUG, "addr:  %s", BinaryToHexString( abyAddr, bIsIPv6 ? 16 : 4 ).c_str() );
+
+    if ( 0 == nPort )
+        LogMsg( LOG_DEBUG, "port absent" );
+    else
+        LogMsg( LOG_DEBUG, "port:  %d", htons ( nPort ) );
+    LogMsg( LOG_DEBUG, "\n" );
+    
+}
+
+//============================================================================
+void TestInetAddress( void )
+{  
+    //The "localhost" IPv4 address
+    inet_addr_testcase ( "127.0.0.1" );
+
+	inet_addr_testcase ( "0000:0000:0000:0000:0000:0000:0000:0001/128" );
+    
+    //The "localhost" IPv4 address, with a specified port (80)
+    inet_addr_testcase ( "127.0.0.1:80" );
+    //The "localhost" IPv6 address
+    inet_addr_testcase ( "::1" );
+    //The "localhost" IPv6 address, with a specified port (80)
+    inet_addr_testcase ( "[::1]:80" );
+    //Rosetta Code's primary server's public IPv6 address
+    inet_addr_testcase ( "2605:2700:0:3::4713:93e3" );
+    //Rosetta Code's primary server's public IPv6 address, with a specified port (80)
+    inet_addr_testcase ( "[2605:2700:0:3::4713:93e3]:80" );
+    
+    //ipv4 space
+    inet_addr_testcase ( "::ffff:192.168.173.22" );
+    //ipv4 space with port
+    inet_addr_testcase ( "[::ffff:192.168.173.22]:80" );
+    //trailing compression
+    inet_addr_testcase ( "1::" );
+    //trailing compression with port
+    inet_addr_testcase ( "[1::]:80" );
+    //'any' address compression
+    inet_addr_testcase ( "::" );
+    //'any' address compression with port
+    inet_addr_testcase ( "[::]:80" );
+
+    inet_addr_testcase( "2604:980:7003:e6:29e::1" );
+    inet_addr_testcase( "[2604:980:7003:e6:29e::1]:45124" );
+    
+
 }

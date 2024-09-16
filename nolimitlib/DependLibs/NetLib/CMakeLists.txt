@@ -7,7 +7,6 @@ set(netlib_SOURCES)
 
 list(APPEND netlib_SOURCES 
     NetHostSetting.cpp
-    InetAddress.cpp
     NetSettings.cpp
     VxBaseSktInfo.cpp
     VxClientMgr.cpp
@@ -22,7 +21,6 @@ list(APPEND netlib_SOURCES
     VxPeerMgr.cpp
     VxPortForward.cpp
     VxProxy.cpp
-    VxResolveHost.cpp
     VxServerMgr.cpp
     VxSktAccept.cpp
     VxSktBase.cpp
@@ -36,7 +34,6 @@ list(APPEND netlib_SOURCES
     VxSktThrottle.cpp
     VxSktUdp.cpp
     VxSktUdpBroadcast.cpp
-    VxSktUtil.cpp
     VxSktWaitingList.cpp
 )
 

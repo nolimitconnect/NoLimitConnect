@@ -36,7 +36,7 @@ void P2PEngine::hackerOffense(  EHackerLevel	hackerLevel,
         va_end( argList );
     }
 
-    std::string strIp = ipAddr.toStdString();
+    std::string strIp = ipAddr.toString();
     LogModule( eLogHackers, LOG_SEVERE, "%s %s: ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ), strIp.c_str(), szBuffer.data() );
     if( hackerLevel >= eHackerLevelMedium )
     {
@@ -69,7 +69,7 @@ void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,
         oIpAddr = poContactIdent->getOnlineIpAddress( false );
     }
 
-	std::string strIp = oIpAddr.toStdString();
+	std::string strIp = oIpAddr.toString();
     LogModule( eLogHackers, LOG_SEVERE, "%s %s: ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ), strIp.c_str(), szBuffer.data() );
     if( hackerLevel >= eHackerLevelMedium )
     {

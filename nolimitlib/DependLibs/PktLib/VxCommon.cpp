@@ -12,10 +12,11 @@
 #include <CoreLib/PktBlobEntry.h>
 
 #include <NetLib/VxSktBase.h>
-#include <NetLib/VxSktUtil.h>
-#include <CoreLib/VxParse.h>
+
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxParse.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <memory.h>
 #include <stdio.h>
@@ -42,10 +43,16 @@ bool GenerateConnectionKey(  bool					ipv6,
 {
     std::string strNetName = networkName;
     std::string strIP;
-    poConnectId->getIpAddress( ipv6, strIP );
-    uint16_t u16Port = poConnectId->getPort();
 
-    return GenerateConnectionKey( ipv6, poRetKey, strIP, u16Port, poConnectId->getOnlineId(), cryptoPort, strNetName );
+	if( poConnectId->getIpAddress( ipv6, strIP ) )
+	{
+		uint16_t u16Port = poConnectId->getPort();
+
+		return GenerateConnectionKey( ipv6, poRetKey, strIP, u16Port, poConnectId->getOnlineId(), cryptoPort, strNetName );
+	}
+
+	LogMsg( LOG_ERROR, "GenerateConnectionKey Invalid ip address" );
+	return false;
 }
 
 //============================================================================

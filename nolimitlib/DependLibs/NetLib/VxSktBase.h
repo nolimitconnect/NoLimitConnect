@@ -12,7 +12,7 @@
 #include "VxSktDefs.h"
 #include "VxSktBuf.h"
 #include "VxSktThrottle.h"
-#include "InetAddress.h"
+#include <CoreLib/InetAddress.h>
 
 #include <PktLib/PktAnnounce.h>
 

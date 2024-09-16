@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "InetAddress.h"
+#include <CoreLib/InetAddress.h>
 #include "VxSktBase.h"
 
 class VxSktUdp : public VxSktBase

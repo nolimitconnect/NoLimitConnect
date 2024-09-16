@@ -9,13 +9,14 @@
 //============================================================================
 
 #include "VxSktConnectSimple.h"
-#include "VxResolveHost.h"
-#include "VxSktUtil.h"
-#include "ISktStatCallbackInterface.h"
 
+#include <CoreLib/ISktStatCallbackInterface.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxResolveHost.h>
+#include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxThread.h>
+
 #include <PktLib/VxPktHdr.h>
 
 #include <memory.h>
@@ -40,7 +41,7 @@ VxSktConnectSimple::~VxSktConnectSimple()
 //============================================================================
 std::string VxSktConnectSimple::getLocalIpAddress( void )
 { 
-	std::string lclIp = m_LclIp.toStdString();
+	std::string lclIp = m_LclIp.toString();
 	if( lclIp.empty() )
 	{
 		lclIp = "";
@@ -160,7 +161,7 @@ SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local a
                     m_bIsConnected = true;
                     if( VxGetSktStatCallback() )
                     {
-                        VxGetSktStatCallback()->sktConnected4( m_Socket, rmtIpAddr.toStdString(), eSktTypeSimple, eConnectReasonUnknown );
+                        VxGetSktStatCallback()->sktConnected4( m_Socket, rmtIpAddr.toString(), eSktTypeSimple, eConnectReasonUnknown );
                     }
                 }
             }
@@ -293,7 +294,7 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
     setLastError( 0 );
 	m_bIsConnected	= false;
 	m_Socket = VxConnectToWebsite( m_LclIp, m_RmtIp, pWebsiteUrl, strHost, strFile, u16Port, iConnectTimeoutMs );
-	strResolveIpAddr = m_RmtIp.toStdString();
+	strResolveIpAddr = m_RmtIp.toString();
 	if( INVALID_SOCKET != m_Socket )
 	{
 		m_bIsConnected = true;
@@ -466,11 +467,11 @@ void VxSktConnectSimple::dumpConnectionInfo( void )
 
         VxGetRmtAddress( m_Socket, rmtAddr );
         uint16_t rmtPort = rmtAddr.getPort();
-        std::string rmtIp = rmtAddr.toStdString();
+        std::string rmtIp = rmtAddr.toString();
 
         VxGetLclAddress( m_Socket, lclAddr );
         uint16_t lclPort = lclAddr.getPort();
-        std::string lclIp = lclAddr.toStdString();
+        std::string lclIp = lclAddr.toString();
 
         LogMsg( LOG_INFO, "VxSktConnectSimple: Rmt ip %s port %d Lcl ip %s port %d thread 0x%x",
                 rmtIp.c_str(),
@@ -479,10 +480,10 @@ void VxSktConnectSimple::dumpConnectionInfo( void )
                 lclPort, VxGetCurrentThreadId() );
 
         rmtPort = m_RmtIp.getPort();
-        rmtIp = m_RmtIp.toStdString();
+        rmtIp = m_RmtIp.toString();
 
         lclPort = m_LclIp.getPort();
-        lclIp = m_LclIp.toStdString();
+        lclIp = m_LclIp.toString();
         LogMsg( LOG_INFO, "VxSktConnectSimple: 2 Rmt ip %s port %d Lcl ip %s port %d thread 0x%x",
             rmtIp.c_str(),
             rmtPort,

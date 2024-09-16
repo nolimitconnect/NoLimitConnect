@@ -23,7 +23,7 @@
 
 #include <PktLib/VxCommon.h>
 #include <CoreLib/VxPtopUrl.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 //============================================================================
 GuiHostedListMgr::GuiHostedListMgr( AppCommon& app )

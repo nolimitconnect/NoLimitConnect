@@ -134,7 +134,7 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 
 #ifdef DEBUG_CONNECT_LIST
     BigListInfo * poBigListInfo = poInfo->m_BigListInfo;
-    std::string strOnlineIp = poBigListInfo->getOnlineIpAddress().toStdString();
+    std::string strOnlineIp = poBigListInfo->getOnlineIpAddress().toString();
 	LogMsg( LOG_INFO, "P2PConnectList::addConnection: %s %s Hi 0x%llX Lo 0x%llX port %d ip %s my proxy %d", 
 						m_Engine.knownContactNameFromId( poBigListInfo ),
 						poBigListInfo->getOnlineName(),

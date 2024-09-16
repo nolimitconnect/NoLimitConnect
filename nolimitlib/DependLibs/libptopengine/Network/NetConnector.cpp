@@ -22,7 +22,7 @@
 #include <NetLib/VxSktConnect.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktCrypto.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <PktLib/PktsRelay.h>
 
@@ -261,7 +261,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 		&& connectInfo.getMyOnlineIPv4().isValid()
 		&& connectInfo.getLanIPv4().isValid() )
 	{
-		strDirectConnectIp = connectInfo.getLanIPv4().toStdString();
+		strDirectConnectIp = connectInfo.getLanIPv4().toString();
 		// probably on same LAN network
 		if( 0 == directConnectTo(	connectInfo, 
 									sktBase, 
@@ -351,7 +351,7 @@ bool NetConnector::tryIPv6Connect(	VxConnectInfo&				connectInfo,
 		&& connectInfo.getMyOnlineIPv6().isValid() )
 	{
 		std::string ipv6;
-		ipv6 = connectInfo.getMyOnlineIPv6().toStdString();
+		ipv6 = connectInfo.getMyOnlineIPv6().toString();
 		// not likely to succeed so just see if we can get a socket
 		SOCKET skt = ::VxConnectToIPv6( ipv6.c_str(), connectInfo.getOnlinePort() );
 		if( INVALID_SOCKET != skt )
@@ -378,7 +378,7 @@ RCODE NetConnector::directConnectTo(	VxConnectInfo&				connectInfo,
 	if( ( connectReason == eConnectReasonNearbyLan || connectReason == eConnectReasonSameExternalIp )
 		&& connectInfo.getLanIPv4().isValid() )
 	{
-		connectIpAddress = connectInfo.getLanIPv4().toStdString();
+		connectIpAddress = connectInfo.getLanIPv4().toString();
 		iConnectTimeout = LAN_CONNECT_TIMEOUT;
 	}
 	else

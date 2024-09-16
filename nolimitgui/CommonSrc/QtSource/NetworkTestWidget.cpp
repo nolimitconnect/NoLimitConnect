@@ -13,7 +13,7 @@
 #include "ActivityChooseTestWebsiteUrl.h"
 
 #include <P2PEngine/EngineSettings.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 #include <P2PEngine/P2PEngine.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxParse.h>

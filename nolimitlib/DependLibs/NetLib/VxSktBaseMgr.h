@@ -11,8 +11,8 @@
 
 #include "VxSktThrottle.h"
 #include "VxSktDefs.h"
-#include "InetAddress.h"
 
+#include <CoreLib/InetAddress.h>
 #include <CoreLib/VxMutex.h>
 
 #include <vector>

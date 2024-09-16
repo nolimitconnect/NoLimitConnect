@@ -8,19 +8,22 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CoreLib/VxDefs.h>
+#include "VxSktUtil.h"
 
 #include "ISktStatCallbackInterface.h"
-#include "VxSktUtil.h"
+
 #include "VxResolveHost.h"
 
+#include "InetAddressParse.h"
+#include "IsBigEndianCpu.h"
+#include "VxDefs.h"
+#include "VxDebug.h"
+#include "VxThread.h"
+#include "VxTimer.h"
+#include "VxTime.h"
+#include "VxLinuxOnly.h"
+
 #include <PktLib/VxCommon.h>
-#include <CoreLib/VxDebug.h>
-#include <CoreLib/VxThread.h>
-#include <CoreLib/VxTimer.h>
-#include <CoreLib/VxTime.h>
-#include <CoreLib/VxLinuxOnly.h>
-#include <CoreLib/IsBigEndianCpu.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -355,7 +358,6 @@ void VxIPv6_pton( const char* pIpStringIn,  void* pvBinary )
 		vx_assert( false );
 	}
 
-
 	uint16_t * pBinary = (uint16_t *)pvBinary; 
 	std::vector<uint16_t> aoValues;
 	
@@ -533,7 +535,7 @@ bool VxLocalIpExists(  std::string& strIpAddress )
 	std::vector<InetAddress>::iterator iter;
 	for( iter = g_aoAllIps.begin(); iter != g_aoAllIps.end(); ++iter )
 	{
-		if( strIpAddress == (*iter).toStdString() )
+		if( strIpAddress == (*iter).toString() )
 		{
 			return true;
 		}
@@ -781,7 +783,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 	}
 
     SOCKET			sktHandle = INVALID_SOCKET;
-	std::string		strRmtIp = rmtIp.toStdString();
+	std::string		strRmtIp = rmtIp.toString();
 	bool ipv6 = rmtIp.isIPv6();
 
 	RCODE rc = 0;
@@ -875,7 +877,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 
 	if( g_SktStatCallback && INVALID_SOCKET != sktHandle )
 	{
-        g_SktStatCallback->sktSetRemoteAddr( sktHandle, rmtIp.toStdString() );
+        g_SktStatCallback->sktSetRemoteAddr( sktHandle, rmtIp.toString() );
 	}
 
     return sktHandle;
@@ -1389,12 +1391,12 @@ SOCKET VxConnectTo(		InetAddrAndPort&	lclIp,
 	if( INVALID_SOCKET == sktHandle )
 	{
         LogModule( eLogConnect, LOG_DEBUG, "VxConnectTo: FAIL connect %3.3f sec lcl ip %s:%d to %s:%d timeout %d error %d thread 0x%x",
-	               connectToTimer.elapsedSec(), lclIp.toStdString().c_str(), lclIp.getPort(), rmtIp.toStdString().c_str(), u16Port, iTimeoutMilliSeconds, retSktError ? *retSktError : -1, VxGetCurrentThreadId() );
+	               connectToTimer.elapsedSec(), lclIp.toString().c_str(), lclIp.getPort(), rmtIp.toString().c_str(), u16Port, iTimeoutMilliSeconds, retSktError ? *retSktError : -1, VxGetCurrentThreadId() );
 	}
 	else
 	{
         LogModule( eLogConnect, LOG_DEBUG, "VxConnectTo: SUCCESS connect %3.3f sec lcl ip %s:%d to %s:%d thread 0x%x",
-			       connectToTimer.elapsedSec(), lclIp.toStdString().c_str(), lclIp.getPort(), rmtIp.toStdString().c_str(), u16Port, VxGetCurrentThreadId());
+			       connectToTimer.elapsedSec(), lclIp.toString().c_str(), lclIp.getPort(), rmtIp.toString().c_str(), u16Port, VxGetCurrentThreadId());
 	}
 
 	return sktHandle;
@@ -1451,7 +1453,7 @@ bool VxBindSkt( SOCKET oSocket, InetAddress & oLclAddr, uint16_t u16Port )
 bool VxTestConnectionOnSpecificLclAddress( InetAddress& oLclAddr )
 {
 	bool bConnectionOk = false;
-	std::string strLclAddr = oLclAddr.toStdString();
+	std::string strLclAddr = oLclAddr.toString();
 
 	InetAddress oRmtAddr;
 	if ( VxResolveUrl( "www.nolimitconnect.com", 80, oRmtAddr ) )
@@ -1578,7 +1580,7 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, 
 				continue;
 			}
 
-			resolvedIp = inetAddr.toStdString();
+			resolvedIp = inetAddr.toString();
 			bResult = true;
 			break;
 		}
@@ -1691,7 +1693,7 @@ RCODE VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpl
 		// dont attempt to set skt rmt address if is simple socket.. else will log error when cannot find the skt handle
 		if( g_SktStatCallback && !isSimpleSkt )
 		{
-			g_SktStatCallback->sktSetRemoteAddr( sktHandle, oRetAddr.toStdString() );
+			g_SktStatCallback->sktSetRemoteAddr( sktHandle, oRetAddr.toString() );
 		}
 	}
 
@@ -1736,7 +1738,7 @@ std::string	VxGetLclIpAddress( SOCKET sktHandle, uint16_t* retPort )
 		uint16_t port = inetAddr.setIp( sktAddr );
 		if( port )
 		{
-			ipAddr = inetAddr.toStdString();
+			ipAddr = inetAddr.toString();
 			if( retPort )
 			{
 				*retPort = port;
@@ -2846,4 +2848,20 @@ bool VxSktAddrGetParams( bool ipv6, struct sockaddr_storage& sockAddrStorage, st
 	}
 	
 	return true;
+}
+
+//============================================================================
+EIpAddrType VxGetIpAddrType( const char* ipAddr )
+{
+    EIpAddrType addrType{ eIpAddrTypeUnknown };
+    const char* pszTextLocal = ipAddr;
+    uint16_t pnPort;
+	bool pbIsIPv6;
+    unsigned char abyAddr[16];
+    if( ParseIPv4OrIPv6( pszTextLocal, abyAddr, pnPort, pbIsIPv6 ) )
+    {
+        addrType = pbIsIPv6 ? eIpAddrTypeIpv6 : eIpAddrTypeIpv4;
+    }
+
+    return addrType;
 }

@@ -25,7 +25,7 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxSktBase.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 #include <PktLib/PktsTestConnection.h>
 #include <PktLib/PktsQueryHostUrl.h>
 
@@ -270,7 +270,7 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktB
 
 	InetAddrAndPort rmtAddr;
     VxGetRmtAddress( sktBase->m_Socket, rmtAddr );
-	std::string strRmtAddr = rmtAddr.toStdString().c_str();
+	std::string strRmtAddr = rmtAddr.toString().c_str();
 
 	std::string toClientContent = "0-"; // assume fail
 	toClientContent += strRmtAddr;

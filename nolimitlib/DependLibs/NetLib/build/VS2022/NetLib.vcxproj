@@ -195,7 +195,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\InetAddress.cpp" />
     <ClCompile Include="..\..\NetHostSetting.cpp" />
     <ClCompile Include="..\..\NetSettings.cpp" />
     <ClCompile Include="..\..\VxBaseSktInfo.cpp" />
@@ -211,12 +210,6 @@
     <ClCompile Include="..\..\VxPeerMgr.cpp" />
     <ClCompile Include="..\..\VxPortForward.cpp" />
     <ClCompile Include="..\..\VxProxy.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\VxResolveHost.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -280,11 +273,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\VxSktUtil.cpp" />
     <ClCompile Include="..\..\VxSktWaitingList.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\InetAddress.h" />
     <ClInclude Include="..\..\ISktStatCallbackInterface.h" />
     <ClInclude Include="..\..\NetHostSetting.h" />
     <ClInclude Include="..\..\NetSettings.h" />
@@ -302,7 +293,6 @@
     <ClInclude Include="..\..\VxPeerMgr.h" />
     <ClInclude Include="..\..\VxPortForward.h" />
     <ClInclude Include="..\..\VxProxy.h" />
-    <ClInclude Include="..\..\VxResolveHost.h" />
     <ClInclude Include="..\..\VxServerMgr.h" />
     <ClInclude Include="..\..\VxSktAccept.h" />
     <ClInclude Include="..\..\VxSktBase.h" />
@@ -319,7 +309,6 @@
     <ClInclude Include="..\..\VxSktThrottle.h" />
     <ClInclude Include="..\..\VxSktUdp.h" />
     <ClInclude Include="..\..\VxSktUdpBroadcast.h" />
-    <ClInclude Include="..\..\VxSktUtil.h" />
     <ClInclude Include="..\..\VxSktWaitingList.h" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxSktUtil.h"
+#include <CoreLib/VxSktUtil.h>
 #include "VxSktAccept.h"
 #include "VxServerMgr.h"
 #include <P2PEngine/P2PEngine.h>
@@ -369,7 +369,7 @@ void VxServerMgr::listenForConnectionsToAccept( bool ipv6, VxThread* poVxThread 
 {
 #ifdef DEBUG_SKT_CONNECTIONS
 	//LogMsg( LOG_INFO, "111 IN THREAD VxServerMgr::listenForConnectionsToAccept started\n" ); 
-	//LogMsg( LOG_INFO, "111 IN THREAD VxServerMgr::listen port %d ip %s skt %d\n", m_LclIp.getPort(), m_LclIp.toStdString().c_str(), m_aoListenSkts[0] ); 
+	//LogMsg( LOG_INFO, "111 IN THREAD VxServerMgr::listen port %d ip %s skt %d\n", m_LclIp.getPort(), m_LclIp.toString().c_str(), m_aoListenSkts[0] ); 
 #endif // DEBUG_SKT_CONNECTIONS
 
 start_over:
@@ -443,7 +443,7 @@ start_over:
                 if( listenErrCnt > 50 )
                 {
                     listenErrCnt = 0;
-                    LogModule( eLogAcceptConn, LOG_DEBUG, "listenForConnectionsToAccept: try again: listen ip %s port %d skt %d error %d thread 0x%x", m_LclIp.toStdString().c_str(), m_u16ListenPort, getListenSkt( ipv6 ), rc, VxGetCurrentThreadId());
+                    LogModule( eLogAcceptConn, LOG_DEBUG, "listenForConnectionsToAccept: try again: listen ip %s port %d skt %d error %d thread 0x%x", m_LclIp.toString().c_str(), m_u16ListenPort, getListenSkt( ipv6 ), rc, VxGetCurrentThreadId());
                 }
 
                 VxSleep( 200 );

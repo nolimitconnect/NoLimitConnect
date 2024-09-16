@@ -36,8 +36,8 @@
 #include <locks.h>
 #ifdef _MSC_VER
 # include <direct.h> // for _mkdir
-# undef strtok_r
-# define strtok_r strtok
+//# undef strtok_r
+//# define strtok_r strtok
 #else
 # include <string.h>
 #endif // _MSC_VER

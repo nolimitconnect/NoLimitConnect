@@ -23,7 +23,7 @@
 #include <CoreLib/VxDebug.h>
 #include <NetLib/NetHostSetting.h>
 #include <NetLib/VxGetRandomPort.h>
-#include <NetLib/VxSktUtil.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include "ui_AppletPermissionList.h"
 
