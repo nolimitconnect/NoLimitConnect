@@ -1704,17 +1704,17 @@ QString GuiParams::describeFileLength( uint64_t fileLen )
     else if( fileLen >= 1000000 )
     {
         scaleText = QObject::tr( "MB" );
-        sprintf( buf, "%3.1fMB ", (double)(fileLen) / 1000000.0);
+        sprintf( buf, "%3.1f ", (double)(fileLen) / 1000000.0);
     }
     else if( fileLen >= 1000 )
     {
         scaleText = QObject::tr( "KB" );
-        sprintf( buf, "%3.1fKB ", (double)(fileLen) / 1000.0);
+        sprintf( buf, "%3.1f ", (double)(fileLen) / 1000.0);
     }
     else
     {
         scaleText = QObject::tr( "Bytes" );
-        sprintf( buf, "%3.1fBytes ", (double)fileLen );
+        sprintf( buf, "%3.1f ", (double)fileLen );
     }
 
     QString strFormatedLen = buf;
