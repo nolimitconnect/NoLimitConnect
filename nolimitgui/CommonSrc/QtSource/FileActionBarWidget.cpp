@@ -49,6 +49,13 @@ void FileActionBarWidget::setSelectAFileMode( bool selectAFile )
 }
 
 //============================================================================
+void FileActionBarWidget::setIsMediaFile( bool isMediaFile )
+{
+	ui.m_PlayFileButton->setVisible( isMediaFile );
+	ui.m_PlayExternallyButton->setVisible( isMediaFile );
+}
+
+//============================================================================
 void FileActionBarWidget::slotPlayButtonClicked( void )
 {
 	emit signalPlayButtonClicked();

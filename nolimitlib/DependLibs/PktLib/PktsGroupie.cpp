@@ -40,24 +40,22 @@ void PktGroupieInfoReply::calcPktLen( void )
 }
 
 //============================================================================
-bool PktGroupieInfoReply::setGroupieUrlAndTitleAndDescription(std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool PktGroupieInfoReply::setGroupieUrlAndTitleAndDescription(std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     m_BlobEntry.resetWrite();
     bool result = m_BlobEntry.setValue( lastModifiedTime );
-    result &= m_BlobEntry.setValue( groupieUrlIpv4 );
-    result &= m_BlobEntry.setValue( groupieUrlIpv6 );
+    result &= m_BlobEntry.setValue( groupieUrl );
     result &= m_BlobEntry.setValue( groupieTitle );
     result &= m_BlobEntry.setValue( groupieDesc );
     return result;
 }
 
 //============================================================================
-bool PktGroupieInfoReply::getGroupieUrlAndTitleAndDescription( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool PktGroupieInfoReply::getGroupieUrlAndTitleAndDescription( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     m_BlobEntry.resetRead();
     bool result = m_BlobEntry.getValue( lastModifiedTime );
-    result &= m_BlobEntry.getValue( groupieUrlIpv4 );
-    result &= m_BlobEntry.getValue( groupieUrlIpv6 );
+    result &= m_BlobEntry.getValue( groupieUrl );
     result &= m_BlobEntry.getValue( groupieTitle );
     result &= m_BlobEntry.getValue( groupieDesc );
     return result;
@@ -74,15 +72,14 @@ PktGroupieAnnounceReq::PktGroupieAnnounceReq()
 }
 
 //============================================================================
-bool PktGroupieAnnounceReq::setGroupieInfo( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool PktGroupieAnnounceReq::setGroupieInfo( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
-    bool result = lastModifiedTime && ( !groupieUrlIpv4.empty() ||  !groupieUrlIpv6.empty() ) && !groupieTitle.empty() && !groupieDesc.empty();
+    bool result = lastModifiedTime && !groupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty();
     if( result )
     {
         m_BlobEntry.resetWrite();
         result &= m_BlobEntry.setValue( lastModifiedTime );
-        result &= m_BlobEntry.setValue( groupieUrlIpv4 );
-        result &= m_BlobEntry.setValue( groupieUrlIpv6 );
+        result &= m_BlobEntry.setValue( groupieUrl );
         result &= m_BlobEntry.setValue( groupieTitle );
         result &= m_BlobEntry.setValue( groupieDesc );
         calcPktLen();
@@ -92,16 +89,15 @@ bool PktGroupieAnnounceReq::setGroupieInfo( std::string& groupieUrlIpv4, std::st
 }
 
 //============================================================================
-bool PktGroupieAnnounceReq::getGroupieInfo( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool PktGroupieAnnounceReq::getGroupieInfo( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     m_BlobEntry.resetRead();
     bool result = m_BlobEntry.getValue( lastModifiedTime );
-    result &= m_BlobEntry.getValue( groupieUrlIpv4 );
-    result &= m_BlobEntry.getValue( groupieUrlIpv6 );
+    result &= m_BlobEntry.getValue( groupieUrl );
     result &= m_BlobEntry.getValue( groupieTitle );
     result &= m_BlobEntry.getValue( groupieDesc );
     
-    return result && lastModifiedTime && ( !groupieUrlIpv4.empty() || !groupieUrlIpv6.empty() ) && !groupieTitle.empty() && !groupieDesc.empty();
+    return result && lastModifiedTime && !groupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty();
 }
 
 //============================================================================
@@ -186,15 +182,14 @@ PktGroupieSearchReply::PktGroupieSearchReply()
 }
 
 //============================================================================
-bool PktGroupieSearchReply::addGroupieInfo( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool PktGroupieSearchReply::addGroupieInfo( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     bool result{ false };
-    int requiredSpace = groupieUrlIpv4.length() + groupieUrlIpv6.length() + groupieTitle.length() + groupieDesc.length() + 4 * sizeof( uint32_t );
+    int requiredSpace = groupieUrl.length() + groupieTitle.length() + groupieDesc.length() + 4 * sizeof( uint32_t );
     if( m_BlobEntry.haveRoom( requiredSpace ) )
     {
         result = m_BlobEntry.setValue( lastModifiedTime );
-        result &= m_BlobEntry.setValue( groupieUrlIpv4 );
-        result &= m_BlobEntry.setValue( groupieUrlIpv6 );
+        result &= m_BlobEntry.setValue( groupieUrl );
         result &= m_BlobEntry.setValue( groupieTitle );
         result &= m_BlobEntry.setValue( groupieDesc );
     }

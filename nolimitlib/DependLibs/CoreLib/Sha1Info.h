@@ -18,7 +18,7 @@ class Sha1Info
 {
 public:
 	Sha1Info() = default;
-	Sha1Info( VxGUID& assetId, std::string& fileName );
+	Sha1Info( VxGUID& assetId, std::string& fileName, std::string& fileNameAndPath );
     Sha1Info( const Sha1Info& rhs );
 	~Sha1Info() = default;
 
@@ -39,11 +39,15 @@ public:
 	void						setFileName( std::string& fileName )		{ m_FileName = fileName; }
 	std::string&				getFileName( void )							{ return m_FileName; }
 
+	void						setFileNameAndPath( std::string& fileNameAndPath )	{ m_FileNameAndPath = fileNameAndPath; }
+	std::string&				getFileNameAndPath( void )							{ return m_FileNameAndPath; }
+
 protected:
 	VxSha1Hash					m_Sha1Hash;
 	VxGUID						m_AssetId;
 	uint64_t					m_FileLen{ 0 };
-    std::string					m_FileName{ "" };
+    std::string					m_FileName;
+	std::string					m_FileNameAndPath;
 };
 
 

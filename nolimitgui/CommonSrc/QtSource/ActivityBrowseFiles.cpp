@@ -35,14 +35,13 @@ TitleBarWidget *  ActivityBrowseFiles::getTitleBarWidget( void ) { return ui.m_T
 BottomBarWidget * ActivityBrowseFiles::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
 
 //============================================================================
-ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileFilter, QWidget* parent, bool isSelectAFileMode )
+ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app, EFileFilterType fileFilter, QWidget* parent, bool isSelectAFileMode )
 : ActivityBase( OBJNAME_ACTIVITY_BROWSE_FILES, app, parent, eActivityBrowseFiles, true )
 , ui(*(new Ui::BrowseFilesWidget))
 , m_WidgetClickEventFixTimer( new QTimer( this ) )
 , m_bFetchInProgress( false )
 , m_IsSelectAFileMode( isSelectAFileMode )
 , m_eFileFilterType( fileFilter )
-, m_FileFilterMask( VXFILE_TYPE_ALLNOTEXE )
 {
 	ui.setupUi( this );
     setFileFilter( m_eFileFilterType );
@@ -66,11 +65,10 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 	m_WidgetClickEventFixTimer->setInterval( 10 );
 	connect( m_WidgetClickEventFixTimer, SIGNAL(timeout()), this, SLOT(slotRequestFileList()) );
 
-
     connect( ui.FileItemList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotListItemClicked(QListWidgetItem*)));
     connect( ui.FileItemList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotListItemDoubleClicked(QListWidgetItem*)));
 
-    connect( ui.m_UpDirectoryLabel, SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
+    connect( ui.m_UpDirectoryLabel,		SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
 
     connect( ui.m_UpDirectoryButton,    SIGNAL(clicked()), this, SLOT(slotUpDirectoryClicked()));
 
@@ -78,12 +76,15 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app,  EFileFilterType fileF
 
     connect( ui.m_AddAllButton,         SIGNAL(clicked()), this, SLOT(slotAddAllButtonClicked()) );
 
-	setDefaultCurrentDir( m_eFileFilterType );
+
+	setFileFilter( m_eFileFilterType );
 	
     m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
 	setActionEnable( false );
-	setFileFilter( m_eFileFilterType );
-	connect( ui.m_FileFilterComboBox, SIGNAL(signalApplyFileFilter(unsigned char)), this,  SLOT(slotApplyFileFilter(unsigned char)) );
+
+	connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this,  SLOT(slotApplyFileFilter(EFileFilterType)) );
+	// will be requested when setCurrentBrowseDir is called // slotRequestFileList();
+	setCurrentBrowseDir( getAppletFolder( getAppletType(), m_eFileFilterType ).c_str() );
 }
 
 //============================================================================
@@ -92,125 +93,13 @@ ActivityBrowseFiles::~ActivityBrowseFiles()
 	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
 	clearFileList();
 }
-    
-//========================================================================
-void ActivityBrowseFiles::setDefaultCurrentDir( EFileFilterType eFileFilterType )
-{
-    std::string strLastDir = "";
-	m_MyApp.getAppSettings().getLastBrowseDir( eFileFilterType, strLastDir );
-	if( 0 == strLastDir.length() )
-	{
-		strLastDir = getDefaultDir( eFileFilterType );
-	}
-    
-	if( 0 == strLastDir.length() )
-	{
-		strLastDir = VxGetDownloadsDirectory();
-	}
-	   	
-	setCurrentBrowseDir( strLastDir.c_str() );
-}
-
-//========================================================================
-std::string ActivityBrowseFiles::getDefaultDir( int eFileFilterType )
-{
-	std::string defaultDir = "";
-
-	switch( eFileFilterType )
-	{
-	case eFileFilterPhoto:
-    case eFileFilterPhotoOnly:
-		{
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-			QString picturesLocation = paths[0];
-#else
-			QString picturesLocation = QDesktopServices::storageLocation(QDesktopServices::PicturesLocation);
-#endif //QT_5_OR_GREATER
-			defaultDir = picturesLocation.toUtf8().constData();
-			if( 0 != defaultDir.length() )
-			{
-				VxFileUtil::makeForwardSlashPath( defaultDir );
-				defaultDir += "/";
-			}
-		}
-    	
-    	break;
-    	
-	case eFileFilterAudio:
-    case eFileFilterAudioOnly:
-		{
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::MusicLocation);
-			QString musicLocation = paths[0];
-#else
-			QString musicLocation = QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
-#endif //QT_5_OR_GREATER
-			defaultDir = musicLocation.toUtf8().constData();
-			if( 0 != defaultDir.length() )
-			{
-				VxFileUtil::makeForwardSlashPath( defaultDir );
-				defaultDir += "/";
-			}
-		}
-    	
-    	break;
-    	
-	case eFileFilterVideo:
-    case eFileFilterVideoOnly:
-		{
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
-			QString moviesLocation = paths[0];
-#else
-			QString moviesLocation = QDesktopServices::storageLocation(QDesktopServices::MoviesLocation);
-#endif //QT_5_OR_GREATER
-			defaultDir = moviesLocation.toUtf8().constData();
-			if( 0 != defaultDir.length() )
-			{
-				VxFileUtil::makeForwardSlashPath( defaultDir );
-				defaultDir += "/";
-			}
-		}
-
-		break;
-
-	case eFileFilterDocuments:
-		{
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
-			QString docsLocation = paths[0];
-#else
-			QString docsLocation = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-#endif //QT_5_OR_GREATER
-			defaultDir = docsLocation.toUtf8().constData();
-			if( 0 != defaultDir.length() )
-			{
-				VxFileUtil::makeForwardSlashPath( defaultDir );
-				defaultDir += "/";
-			}
-		}
-    	
-    	break;
-    	
-    default:
-		break;
-	}
-	
-	if( 0 == defaultDir.length() )
-	{
-		defaultDir = VxGetDownloadsDirectory();
-	}
-	
-	return defaultDir;
-}
 
 //============================================================================
 void ActivityBrowseFiles::showEvent( QShowEvent* ev )
 {
 	ActivityBase::showEvent( ev );
 	repositionToParent();
-	slotRequestFileList();
+	//slotRequestFileList();
 }
 
 //============================================================================
@@ -270,22 +159,17 @@ void ActivityBrowseFiles::setCurrentBrowseDir( QString browseDir )
 	if( !browseDir.isEmpty() )
 	{
 		m_CurBrowseDirectory = browseDir.toUtf8().constData();
-		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
 		ui.m_CurDirLabel->setTextBreakAnywhere( m_CurBrowseDirectory.c_str(), 4 );
 		updateStorageSpace( m_CurBrowseDirectory );
+		slotRequestFileList();
 	}
 }
 
 //============================================================================
 void ActivityBrowseFiles::setFileFilter( EFileFilterType eFileFilter )
 {
-    ui.m_FileFilterComboBox->setFileFilter( eFileFilter );
-	m_FileFilterMask = ui.m_FileFilterComboBox->getMaskFromFileFilterType( eFileFilter );
-	//if( m_eFileFilterType != eFileFilter )
-	{
-		m_eFileFilterType = eFileFilter;
-		setDefaultCurrentDir( eFileFilter );
-	}
+	m_eFileFilterType = eFileFilter;
+    ui.m_FileFilterSelectWidget->setFileFilter( eFileFilter );
 }
 
 //============================================================================
@@ -420,51 +304,18 @@ void ActivityBrowseFiles::slotUpDirectoryClicked( void )
 //============================================================================
 void ActivityBrowseFiles::slotBrowseButtonClicked( void )
 {
-	QString selectedDir = "";
 	QString curDir = m_CurBrowseDirectory.c_str();
-	QFileDialog dialog( (QWidget*)this->parent(), QObject::tr("Select Folder"), curDir );
 
-#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
-	dialog.setFileMode(QFileDialog::Directory);
-#else
-	dialog.setFileMode(QFileDialog::DirectoryOnly);
-#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
+	std::string selectedDir = GuiHelpers::browseForDirectory( curDir, this );
 
-#if defined(TARGET_OS_ANDROID)
-    dialog.setOptions( QFileDialog::ShowDirsOnly );
-#else
-    dialog.setOptions( QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks );
-#endif // defined(TARGET_OS_ANDROID)
-
-	dialog.setDirectory( curDir );
-	QStringList fileNames;
-	if (dialog.exec())
+	if( !selectedDir.empty() )
 	{
-		fileNames = dialog.selectedFiles();
-		if( fileNames.size() )
-		{
-			selectedDir = fileNames[0];
-		}
-	}
-
-	if( false == selectedDir.isEmpty() )
-	{
-#if !defined(TARGET_OS_ANDROID)
-		selectedDir.replace( "\\", "/" );
-		if( '/' != selectedDir.at(selectedDir.length() - 1) )
-		{
-			selectedDir.append( "/" );
-		}
-#endif // !defined(TARGET_OS_ANDROID)
-	}
-
-	if( !selectedDir.isEmpty() )
-	{
-		setCurrentBrowseDir( selectedDir );
+		setCurrentBrowseDir( selectedDir.c_str() );
 		setActionEnable( false );
+
+		setAppletFolder( getAppletType(), m_eFileFilterType, selectedDir );
+
 		slotRequestFileList();
-		std::string lastDir = selectedDir.toUtf8().constData();
-		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, lastDir );
 	}
 }
 
@@ -762,28 +613,23 @@ void ActivityBrowseFiles::fromListWidgetRequestFileList( void )
 }
 
 //============================================================================
-void ActivityBrowseFiles::slotApplyFileFilter( unsigned char fileMask )
+void ActivityBrowseFiles::slotApplyFileFilter( EFileFilterType fileFilter )
 {
-	m_eFileFilterType = ui.m_FileFilterComboBox->getCurrentFileFilterType();
-	setDefaultCurrentDir( ui.m_FileFilterComboBox->getCurrentFileFilterType() );
-	m_FileFilterMask = fileMask;
+	m_eFileFilterType = fileFilter;
+	m_CurBrowseDirectory = getAppletFolder( getAppletType(), fileFilter );
 	slotRequestFileList();
 }
 
 //============================================================================
 void ActivityBrowseFiles::slotRequestFileList( void )
 {
-	if( m_CurBrowseDirectory != m_LastBrowseDir || m_FileFilterMask != m_LastFileFilterMask )
-	{
-		m_LastBrowseDir = m_CurBrowseDirectory;
-		m_LastFileFilterMask = m_FileFilterMask;
-		m_WidgetClickEventFixTimer->stop();
-		clearFileList();
-		ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
-		m_MyApp.getAppSettings().setLastBrowseDir( m_eFileFilterType, m_CurBrowseDirectory );
+	m_WidgetClickEventFixTimer->stop();
+	clearFileList();
 
-        m_MyApp.getEngine().fromGuiBrowseFiles( getAppletInstId(), m_CurBrowseDirectory, m_FileFilterMask | VXFILE_TYPE_DIRECTORY);
-	}
+	ui.m_CurDirLabel->setText( m_CurBrowseDirectory.c_str() );
+	setAppletFileFilter( getAppletType(), m_eFileFilterType );
+	setAppletFolder( getAppletType(), m_eFileFilterType, m_CurBrowseDirectory );
+	m_Engine.getFromGuiInterface().fromGuiBrowseFiles( getAppletInstId(), m_CurBrowseDirectory, FileFilterToVxFileType( m_eFileFilterType ) | VXFILE_TYPE_DIRECTORY );
 }
 
 //============================================================================

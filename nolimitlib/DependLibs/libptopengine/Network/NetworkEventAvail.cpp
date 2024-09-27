@@ -49,13 +49,12 @@ void NetworkEventAvail::runNetworkEvent( void )
 	LogModule( eLogNetworkState, LOG_VERBOSE, "NetworkEventAvail::runNetworkEvent start" );
 	m_NetworkStateMachine.resolveWebsiteUrls();
     uint16_t listenPort = m_Engine.getEngineSettings().getTcpIpPort();
+	bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
     m_Engine.getNetStatusAccum().setIpPort( listenPort );
 
-	bool ipv6{ false };
 	if( VxIsIpValid( m_LclIp ) )
 	{
-		ipv6 = VxIsIPv6Address( m_LclIp.c_str() );
-		m_Engine.getNetStatusAccum().setLanIpAddress( ipv6, m_LclIp );
+		m_Engine.getNetStatusAccum().setLocalIpAddress( m_LclIp );
 	}
 
 	if( listenPort != m_PktAnn.getOnlinePort() )
@@ -64,7 +63,7 @@ void NetworkEventAvail::runNetworkEvent( void )
         m_Engine.getToGui().toGuiUpdateMyIdent( &m_PktAnn );
     }
 
-    if( !m_Engine.getPeerMgr().isListening( false ) || ( listenPort != m_Engine.getPeerMgr().getListenPort() ) )
+    if( !m_Engine.getPeerMgr().isListening( ipv6 ) || ( listenPort != m_Engine.getPeerMgr().getListenPort() ) )
     {
 
         m_Engine.getPeerMgr().startListening( ipv6, m_Engine.getEngineSettings().getTcpIpPort() );

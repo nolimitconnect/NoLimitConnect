@@ -67,8 +67,7 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     VxNetIdent oMyIdent;
     m_FromGui.fromGuiQueryMyIdent( &oMyIdent );
 
-    ui.m_MyUrlEditIpv4->setText( QString( oMyIdent.getMyOnlineUrl( false ).c_str() ) );
-    ui.m_MyUrlEditIpv6->setText( QString( oMyIdent.getMyOnlineUrl( true ).c_str() ) );
+    ui.m_MyUrlEdit->setText( QString( oMyIdent.getMyOnlineUrl().c_str() ) );
 
     fillCpuInfo();
     std::string strValue;
@@ -124,8 +123,7 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_ShowLogButton, SIGNAL(clicked()), this, SLOT(slotShowLogButtonClick()) );
     connect( ui.m_ShowAppInfoButton, SIGNAL(clicked()), this, SLOT(slotShowAppInfoButtonClick()) );
 
-    connect( ui.m_CopyMyUrlButtonIpv4, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlIpv4ToClipboardClicked()) );
-    connect( ui.m_CopyMyUrlButtonIpv6, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlIpv6ToClipboardClicked()) );
+    connect( ui.m_CopyMyUrlButton, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlToClipboardClicked()) );
 
     connect( ui.m_CopyTestUrlButton, SIGNAL(clicked()), this, SLOT(slotCopyTestUrlToClipboardClicked()) );
     connect( ui.m_CopyResultToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyResultToClipboardClicked()) );
@@ -231,7 +229,7 @@ void AppletTestAndDebug::slotQueryHostIdButtonClicked( void )
 void AppletTestAndDebug::startUrlTest( ENetCmdType netCmdType )
 {
     getInfoEdit()->clear();
-    VxUrl myUrl( ui.m_MyUrlEditIpv4->text().toUtf8().constData() );
+    VxUrl myUrl( ui.m_MyUrlEdit->text().toUtf8().constData() );
     VxUrl testUrl( ui.m_TestUrlEdit->text().toUtf8().constData() );
 
     if( myUrl.validateUrl( true ) && testUrl.validateUrl( false ) )
@@ -358,17 +356,10 @@ void AppletTestAndDebug::slotShowAppInfoButtonClick( void )
 }
 
 //============================================================================
-void AppletTestAndDebug::slotCopyMyUrlIpv4ToClipboardClicked( void )
+void AppletTestAndDebug::slotCopyMyUrlToClipboardClicked( void )
 {
     QClipboard * clipboard = QApplication::clipboard();
-    clipboard->setText( ui.m_MyUrlEditIpv4->text() );
-}
-
-//============================================================================
-void AppletTestAndDebug::slotCopyMyUrlIpv6ToClipboardClicked( void )
-{
-    QClipboard * clipboard = QApplication::clipboard();
-    clipboard->setText( ui.m_MyUrlEditIpv6->text() );
+    clipboard->setText( ui.m_MyUrlEdit->text() );
 }
 
 //============================================================================

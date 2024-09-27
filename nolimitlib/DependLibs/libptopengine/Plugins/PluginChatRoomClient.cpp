@@ -33,27 +33,27 @@ PluginChatRoomClient::PluginChatRoomClient( P2PEngine& engine, PluginMgr& plugin
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginChatRoomClient::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiAnnounceHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiAnnounceHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginChatRoomClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiJoinHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginChatRoomClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginChatRoomClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================

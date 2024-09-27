@@ -9,10 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
-#ifdef TARGET_OS_WINDOWS
-# include "WS2tcpip.h"
-#endif // TARGET_OS_WINDOWS
 // #define USE_BIND_LOCAL_IP 1  // bind to local ip address when using vpn causes connect fail with error 110 (Connection timed out)
 
 #define EIM_ALIVE_TIMEDOUT          20000
@@ -36,13 +32,6 @@ const int INET6_MAX_STR_LEN = 68 + 6; // plus 6 in case port is appended
 const int INET6_MAX_BINARY_LEN = 16; // 16 bytes
 
 #ifdef __cplusplus
-
-enum EIpAddrType
-{
-	eIpAddrTypeUnknown,
-	eIpAddrTypeIpv4,
-	eIpAddrTypeIpv6
-};
 
 #include "InetAddress.h"
 

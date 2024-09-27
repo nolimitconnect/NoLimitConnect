@@ -22,7 +22,7 @@ public:
 	VxPeerMgr();
 	virtual ~VxPeerMgr();
 
-	void						sktMgrStartup( void ) override;
+	void						sktMgrStartup( bool ipv6 ) override;
     void						sktMgrShutdown( void ) override;
 
 	VxClientMgr&				getClientMgr( void )			                            { return m_ClientMgr; }

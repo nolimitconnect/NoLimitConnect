@@ -85,15 +85,14 @@ public:
 class FromGuiHostAction : public FromGuiActionBase
 {
 public:
-	FromGuiHostAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 );
+	FromGuiHostAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
 	~FromGuiHostAction() override = default;
 
 	void						executeAction( void ) override;
 
 	HostedId					m_AdminId;
 	VxGUID						m_SessionId;
-	std::string					m_HostUrlIpv4;
-	std::string					m_HostUrlIpv6;
+	std::string					m_HostUrl;
 };
 
 class FromGuiSearchHostAction : public FromGuiActionBase

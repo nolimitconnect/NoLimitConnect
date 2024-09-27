@@ -97,7 +97,7 @@ void AppletHostChatRoomStatus::slotUpdateStatusTimeout()
     //int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeChatRoomSearchList );
     //ui.m_GroupListCountLabel->setText( QString::number( availGroupsCnt ) );
     std::string url;
-    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
+    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );
     ui.m_UrlText->setText( url.c_str() );
     // BRJ TODO investigate why this is needed. there should be nothing to set it to disabled
     getChatRoomHostPermissionWidget()->setEnabled( true );

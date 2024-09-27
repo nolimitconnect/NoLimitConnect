@@ -66,7 +66,7 @@ void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,
     InetAddress oIpAddr = IpAddr;
     if( poContactIdent )
     {
-        oIpAddr = poContactIdent->getOnlineIpAddress( false );
+        oIpAddr = poContactIdent->getOnlineIpAddress();
     }
 
 	std::string strIp = oIpAddr.toString();

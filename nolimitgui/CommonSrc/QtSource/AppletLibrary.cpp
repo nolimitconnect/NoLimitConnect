@@ -45,36 +45,30 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
     , ui(*(new Ui::AppletLibraryUi))
     , m_ePluginType( ePluginTypeInvalid )
     , m_IsSelectAFileMode( !launchParam.isEmpty() ? true : false )
-    , m_FileWasSelected( false )
-    , m_SelectedFileType( 0 )
-    , m_SelectedFileName( "" )
-    , m_SelectedFileLen( 0 )
-    , m_SelectedFileIsShared( false )
-    , m_SelectedFileIsInLibrary( false )
-    , m_eFileFilterType( eFileFilterAll )
-    , m_FileFilterMask( VXFILE_TYPE_ALLNOTEXE )
 {
     setAppletType( eAppletLibrary );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    m_eFileFilterType = GuiParams::fileFilterToEnum( launchParam );
+    m_eFileFilterType = getAppletFileFilter( getAppletType() );
     setFileFilter( m_eFileFilterType );
 
     ui.m_DoubleTapInstructionLabel->setVisible( m_IsSelectAFileMode );
 
 	ui.m_AddFileButton->setIcon( eMyIconLibraryCancel );
 	ui.m_AddFileButton->setSquareButtonSize( eButtonSizeMedium );
-	ui.m_AddFilesButton->setIcon( eMyIconFileAdd );
-	ui.m_AddFilesButton->setSquareButtonSize( eButtonSizeMedium );
+	ui.m_BrowseButton->setIcon( eMyIconFileAdd );
+	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeMedium );
 
-    connect( ui.m_AddFileButton, SIGNAL(clicked()), this, SLOT( slotAddFileButtonClicked() ) );
-    connect( ui.m_AddFilesButton, SIGNAL(clicked()), this, SLOT( slotAddFilesButtonClicked() ) );
+    connect( ui.m_AddFileButton, SIGNAL(clicked()), this, SLOT(slotAddFileButtonClicked()) );
+    connect( ui.m_AddFileLabel, SIGNAL(clicked()), this, SLOT(slotAddFileLabelClicked()) );
+    connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseButtonClicked()) );
+    connect( ui.m_BrowseFilesLabel, SIGNAL(clicked()), this, SLOT(slotBrowseLabelClicked()) );
 
-    connect( ui.m_FileFilterComboBox, SIGNAL(signalApplyFileFilter(unsigned char)), this, SLOT(slotApplyFileFilter(unsigned char)) );
+    connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
     statusMsg( "Requesting Library File List " );
     m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
-    slotApplyFileFilter( ui.m_FileFilterComboBox->getCurrentFileFilterMask() );
+    slotApplyFileFilter( m_eFileFilterType );
     connectBarWidgets();
 
     m_MyApp.activityStateChange( this, true );
@@ -84,13 +78,6 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
 AppletLibrary::~AppletLibrary()
 {
     m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-void AppletLibrary::statusMsg( QString strMsg )
-{
-    //LogMsg( LOG_INFO, strMsg.toStdString().c_str() );
-    ui.m_StatusMsgLabel->setText( strMsg );
 }
 
 //============================================================================
@@ -129,7 +116,6 @@ void AppletLibrary::callbackToGuiFileListCompleted( VxGUID& appInstId )
 {
     if( appInstId == getAppletInstId() )
     {
-        //setActionEnable( true );
         statusMsg( "List Get Completed" );
     }
 }
@@ -159,17 +145,16 @@ void AppletLibrary::toGuiFileDeleted( QString& fileName )
 }
 
 //============================================================================
-void AppletLibrary::setFileFilter( EFileFilterType eFileFilter )
+void AppletLibrary::setFileFilter( EFileFilterType fileFilter )
 {
-    m_eFileFilterType = eFileFilter;
-    m_FileFilterMask = ui.m_FileFilterComboBox->getMaskFromFileFilterType( m_eFileFilterType );
-    ui.m_FileFilterComboBox->setFileFilter( eFileFilter );
+    m_eFileFilterType = fileFilter;
+    ui.m_FileFilterSelectWidget->setFileFilter( m_eFileFilterType );
 }
 
 //============================================================================
-void AppletLibrary::slotApplyFileFilter( unsigned char fileTypeMask )
+void AppletLibrary::slotApplyFileFilter( EFileFilterType fileFilter )
 {
-    m_FileFilterMask = fileTypeMask;
+    m_eFileFilterType = fileFilter;
     slotRequestFileList();
 }
 
@@ -177,7 +162,8 @@ void AppletLibrary::slotApplyFileFilter( unsigned char fileTypeMask )
 void AppletLibrary::slotRequestFileList( void )
 {
     clearFileList();
-    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), m_FileFilterMask );
+    setAppletFileFilter( getAppletType(), m_eFileFilterType );
+    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
 }
 
 //============================================================================
@@ -455,13 +441,25 @@ void AppletLibrary::slotAddFileButtonClicked( void )
 }
 
 //============================================================================
-void AppletLibrary::slotAddFilesButtonClicked( void )
+void AppletLibrary::slotAddFileLabelClicked( void )
 {
-    ActivityBrowseFiles dlg( m_MyApp, eFileFilterAll, this );
+    ui.m_AddFileButton->emulateUserClicked();
+}
+
+//============================================================================
+void AppletLibrary::slotBrowseButtonClicked( void )
+{
+    ActivityBrowseFiles dlg( m_MyApp, m_eFileFilterType, this );
     dlg.exec();
     clearFileList();
     statusMsg( "Requesting Library File List " );
-    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), m_FileFilterMask );
+    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
+}
+
+//============================================================================
+void AppletLibrary::slotBrowseLabelClicked( void )
+{
+    ui.m_BrowseButton->emulateUserClicked();
 }
 
 //============================================================================
@@ -563,13 +561,20 @@ FileShareItemWidget* AppletLibrary::findItemByFileName( QString fileName )
 }
 
 //============================================================================
-void AppletLibrary::updateStorageSpace( std::string fileName )
+void AppletLibrary::updateStorageSpace( std::string fileNameAndPath )
 {
-	uint64_t diskFreeSpace = m_Engine.fromGuiGetDiskFreeSpace( fileName.c_str() );
+	uint64_t diskFreeSpace = m_Engine.fromGuiGetDiskFreeSpace( fileNameAndPath.c_str() );
 	if( ( 0 != diskFreeSpace ) && ( diskFreeSpace < 1000000000 ) )
 	{
         m_MyApp.toGuiUserMessage( "Storage Space is low %s", GuiParams::describeFileLength( diskFreeSpace ).toUtf8().constData() );
 	}
 
     ui.m_StatusLabel->setText( QObject::tr( "Storage Space Available: " ) + GuiParams::describeFileLength( diskFreeSpace ) );
+}
+
+//============================================================================
+void AppletLibrary::statusMsg( QString strMsg )
+{
+    //LogMsg( LOG_INFO, strMsg.toStdString().c_str() );
+    ui.m_StatusLabel->setText( strMsg );
 }

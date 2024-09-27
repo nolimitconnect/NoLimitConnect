@@ -22,27 +22,27 @@ PluginRandomConnectClient::PluginRandomConnectClient( P2PEngine& engine, PluginM
     setPluginType( ePluginTypeClientRandomConnect );
 }
 //============================================================================
-void PluginRandomConnectClient::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginRandomConnectClient::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiAnnounceHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiAnnounceHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginRandomConnectClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiJoinHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginRandomConnectClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginRandomConnectClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================

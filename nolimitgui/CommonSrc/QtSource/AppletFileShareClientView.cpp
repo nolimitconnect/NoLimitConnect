@@ -41,7 +41,6 @@
 //============================================================================
 AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_VIEW_SHARED_FILES, app, parent )
-, m_u8FileFilter( VXFILE_TYPE_ALLNOTEXE )
 , ui(*(new Ui::AppletFileShareClientViewUi))
 {
 	m_LclSessionId.initializeWithNewVxGUID();
@@ -54,7 +53,7 @@ AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	p
 
     connect(ui.FileItemList, SIGNAL(itemClicked(QListWidgetItem*)),							this, SLOT(slotItemClicked(QListWidgetItem*)));
     connect(ui.FileItemList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),					this, SLOT(slotItemClicked(QListWidgetItem*)));
-	connect( ui.m_FileFilterComboBox, SIGNAL(signalApplyFileFilter(unsigned char)),			this,  SLOT(slotApplyFileFilter(unsigned char)) );
+    connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
 
 	m_MyApp.activityStateChange( this, true );
 	m_MyApp.wantToGuiActivityCallbacks( this, true );
@@ -84,7 +83,7 @@ void AppletFileShareClientView::setIdentity( GuiUser* guiUser )
 		ui.m_IdentWidget->setupIdentLogic();
 		ui.m_IdentWidget->updateIdentity( guiUser );
 		m_HisOnlineId = guiUser->getMyOnlineId();
-		if( !m_MyApp.getEngine().fromGuiDownloadFileList( getPluginType(), m_HisOnlineId, m_LclSessionId, m_u8FileFilter ) )
+		if( !m_MyApp.getEngine().fromGuiDownloadFileList( getPluginType(), m_HisOnlineId, m_LclSessionId, FileFilterToVxFileType( m_eFileFilterType ) ) )
 		{
 			GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, this, guiUser );
 			close();
@@ -190,9 +189,9 @@ void AppletFileShareClientView::statusMsg( QString strMsg )
 }
 
 //============================================================================
-void AppletFileShareClientView::slotApplyFileFilter( unsigned char fileTypeMask )
+void AppletFileShareClientView::slotApplyFileFilter( EFileFilterType fileFilter )
 {
-	m_u8FileFilter = fileTypeMask;
+	m_eFileFilterType = fileFilter;
 	int iIdx = 0;
 	FileXferWidget* poWidget;
 	while( iIdx < ui.FileItemList->count() )
@@ -253,7 +252,7 @@ void AppletFileShareClientView::updateListEntryWidget( FileXferWidget* item, Gui
 	}
 
 	item->updateWidgetFromInfo();
-	if( 0 == ( xferSession->getFileType() & m_u8FileFilter ) )
+	if( 0 == ( xferSession->getFileType() & FileFilterToVxFileType( m_eFileFilterType ) ) )
 	{
 		item->setVisible( false );
 	}

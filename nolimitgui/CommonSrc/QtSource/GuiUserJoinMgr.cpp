@@ -571,8 +571,7 @@ void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
 
             if( ptopUrl.getOnlineId() != m_MyApp.getMyOnlineId() )
             {
-                std::string ptopUrlIpv4 = ptopUrl.getHostUrl( false );
-                std::string ptopUrlIpv6 = ptopUrl.getHostUrl( true );
+                std::string hostUrl = ptopUrl.getHostUrl();
 
                 VxGUID sessionId;
                 sessionId.initializeWithNewVxGUID();
@@ -580,7 +579,7 @@ void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
                 LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", m_ReconnectToHost.c_str() );
 
                 HostedId adminId( ptopUrl.getOnlineId(), hostType );
-                m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+                m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, sessionId, hostUrl );
             }
             else
             {

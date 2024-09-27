@@ -20,6 +20,13 @@
 	#include <unistd.h> 
 #endif // TARGET_OS_WINDOWS
 
+enum EIpAddrType
+{
+	eIpAddrTypeUnknown,
+	eIpAddrTypeIpv4,
+	eIpAddrTypeIpv6
+};
+
 #pragma pack(push)
 #pragma pack(1)
 
@@ -46,6 +53,7 @@ public:
 	// set ip from string.. returns port if is part of addr.. example 1.1.1.1:80 returns 80
 	uint16_t                    fromString( const char* pIpAddress );
 	std::string					toString( void );
+	EIpAddrType					getIpAddrType( void );
 
     InetAddress&                operator=(const InetAddress& inetAddr);
 	bool                        operator == (const InetAddress& inetAddr) const;

@@ -101,22 +101,19 @@ public:
     bool                        isP2PAvailable( void )              { return m_FixedIpAddr || ( m_DirectConnectTested && (!m_RequriesRelay || m_ConnectedToRelay) ); };
     bool                        isRxPortOpen( void )                { return m_FixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
     bool                        requiresRelay( void )               { return m_RequriesRelay; };
-    void                        getNodeUrl( bool ipv6, std::string& retNodeUrl );
+    void                        getNodeUrl( std::string& retNodeUrl );
 
     void                        setIpPort( uint16_t ipPort);
     uint16_t                    getIpPort( void );
 
-    void                        setExternalIpAddress( bool ipv6 , std::string ipAddr );
-    std::string                 getExternalIpAddress( bool ipv6 );
+    void                        setExternalIpAddress( std::string ipAddr );
+    std::string                 getExternalIpAddress( void );
 
-    void                        setLanIpAddress( bool ipv6, std::string ipAddr );
-    std::string                 getLanIpAddress( bool ipv6 );
+    void                        setLocalIpAddress( std::string ipAddr );
+    std::string                 getLocalIpAddress( void );
 
     EInternetStatus             getInternetStatus( void )           { return m_InternetStatus; }
     ENetAvailStatus             getNetAvailStatus( void )           { m_AccumMutex.lock(); ENetAvailStatus status = m_NetAvailStatus;  m_AccumMutex.unlock(); return status;  }
-
-    void                        setNearbyAvailable( bool avail )    { m_NearbyAvailable = avail; }
-    bool                        getNearbyAvailable( void )          { return m_NearbyAvailable && (!m_LanIpAddrIpv4.empty() || !m_LanIpAddrIpv6.empty() ); }
 
     void                        setJoinedHost( EHostType hostType, std::string hostUrl, VxGUID& connectId );
     bool                        isConnectedToHost( EHostType hostType );
@@ -147,11 +144,8 @@ protected:
     bool                        m_IsExternalIpValid{ false };
 
     uint16_t                    m_IpPort{ 0 };
-    std::string                 m_ExternAddrIpv6;
-    std::string                 m_ExternAddrIpv4;
-
-    std::string                 m_LanIpAddrIpv6;
-    std::string                 m_LanIpAddrIpv4;
+    std::string                 m_ExternAddr;
+    std::string                 m_LocalAddr;
 
     bool                        m_NetHostIdAvail{ false };
     VxGUID                      m_NetNostOnlineId;

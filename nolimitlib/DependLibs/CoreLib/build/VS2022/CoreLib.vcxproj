@@ -375,6 +375,7 @@
     <ClCompile Include="..\..\VxFileLists.cpp" />
     <ClCompile Include="..\..\VxFileShredder.cpp" />
     <ClCompile Include="..\..\VxFileShredderDb.cpp" />
+    <ClCompile Include="..\..\VxFileTypeMasks.cpp" />
     <ClCompile Include="..\..\VxFileUtil.cpp" />
     <ClCompile Include="..\..\VxFunctionsMissingInAndroid.cpp" />
     <ClCompile Include="..\..\VxFunctionsMissingInPosix.cpp" />

@@ -44,12 +44,13 @@ public:
 
 public:
 	void						setFileFilter( EFileFilterType eFileFilter );
-	void						setCurrentBrowseDir( QString browseDir );
 
 	FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
 
 	bool						getWasFileSelected( void )						{ return m_FileWasSelected; }
 	FileInfo&					getSelectedFileInfo( void )						{ return m_SelectedFileInfo; }
+
+	void						setCurrentBrowseDir( QString browseDir );
 
 protected slots:
     void						slotHomeButtonClicked( void ) override;
@@ -57,7 +58,7 @@ protected slots:
 	void						slotBrowseButtonClicked( void );
 
 	void						slotRequestFileList( void );
-	void						slotApplyFileFilter( unsigned char fileMask );
+	void						slotApplyFileFilter( EFileFilterType fileFilter );
 
 	void						slotListItemClicked( QListWidgetItem* item );
 	void						slotListItemDoubleClicked( QListWidgetItem* item );
@@ -83,8 +84,6 @@ protected:
 	void						addFile( FileInfo& fileInfo );
 
 	void						clearFileList( void );
-	void						setDefaultCurrentDir( EFileFilterType eFileFilterType );
-	std::string					getDefaultDir( int eFileFilterType );
 
 	void						showAddAllToLibrary( bool visible );
 
@@ -106,8 +105,6 @@ protected:
 	FileInfo					m_SelectedFileInfo;
 
 	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
-	uint8_t						m_FileFilterMask{ 0 };
-	uint8_t						m_LastFileFilterMask{ 0 };
 };
 
 

@@ -30,6 +30,7 @@
 
 #include "AppSettings.h"
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <QRect>
 #include <QWidget>
@@ -1250,7 +1251,7 @@ void ActivityBase::fillMyNodeUrl( QLabel * myUrlLabel )
     if( myUrlLabel )
     {
         std::string url;
-        m_MyApp.getEngine().fromGuiGetNodeUrl( false, url );
+        m_MyApp.getEngine().fromGuiGetNodeUrl( url );
         if( !url.empty() )
         {
             myUrlLabel->setText( QString( url.c_str() ) );
@@ -1386,4 +1387,173 @@ void ActivityBase::delayedCloseApplet( void )
 {
     m_DelayedCloseTimer->setSingleShot( true );
     m_DelayedCloseTimer->start(10);
+}
+
+//============================================================================
+void ActivityBase::setAppletFileFilter( EApplet applet, EFileFilterType fileFilter )
+{
+	switch( applet )
+	{
+	case eAppletPeerSessionFileOffer:
+		m_MyApp.getAppSettings().setLastFileOfferFilter( fileFilter );
+		break;
+
+	case eAppletFileShareClientView:
+		m_MyApp.getAppSettings().setLastFileShareViewFilter( fileFilter );
+		break;
+
+	case eAppletLibrary:
+		m_MyApp.getAppSettings().setLastLibraryFilter( fileFilter );
+		break;
+
+	case eActivityBrowseFiles:
+	case eAppletBrowseFiles:
+	default:
+		m_MyApp.getAppSettings().setLastBrowseFilter( fileFilter );
+	}
+}
+
+//============================================================================
+EFileFilterType ActivityBase::getAppletFileFilter( EApplet applet )
+{
+	switch( applet )
+	{
+	case eAppletPeerSessionFileOffer:
+		return m_MyApp.getAppSettings().getLastFileOfferFilter();
+
+	case eAppletFileShareClientView:
+		return m_MyApp.getAppSettings().getLastFileShareViewFilter();
+
+	case eAppletLibrary:
+		return m_MyApp.getAppSettings().getLastLibraryFilter();
+
+	case eActivityBrowseFiles:
+	case eAppletBrowseFiles:
+	default:
+		return m_MyApp.getAppSettings().getLastBrowseFilter();
+	}
+}
+
+//============================================================================
+void ActivityBase::setAppletFolder( EApplet applet, EFileFilterType fileFilter, std::string folder )
+{
+	if( folder.empty() )
+	{
+		LogMsg( LOG_ERROR, "%s attempted set empty folder", __func__ );
+		return;
+	}
+
+	m_MyApp.getAppSettings().setLastBrowseDir( fileFilter, folder );
+}
+
+//============================================================================
+std::string ActivityBase::getAppletFolder( EApplet applet, EFileFilterType fileFilter )
+{
+	std::string folder;
+	m_MyApp.getAppSettings().getLastBrowseDir( fileFilter, folder );
+	if( folder.empty() )
+	{
+		folder = getDefaultFolder( fileFilter );
+	}
+
+	if( folder.empty() )
+	{
+		LogMsg( LOG_ERROR, "%s folder could not be determined for %d", __func__, fileFilter  );
+	}
+
+	return folder;
+}
+
+//========================================================================
+std::string ActivityBase::getDefaultFolder( EFileFilterType fileFilter )
+{
+	std::string defaultDir;
+
+	switch( fileFilter )
+	{
+	case eFileFilterPhoto:
+    case eFileFilterPhotoOnly:
+		{
+
+			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+			if( !paths.isEmpty() )
+			{
+				QString picturesLocation = paths[0];
+
+				defaultDir = picturesLocation.toStdString();
+				if( 0 != defaultDir.length() )
+				{
+					VxFileUtil::makeForwardSlashPath( defaultDir );
+					defaultDir += "/";
+				}
+			}
+		}
+    	
+    	break;
+    	
+	case eFileFilterAudio:
+    case eFileFilterAudioOnly:
+		{
+			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::MusicLocation);
+			if( !paths.isEmpty() )
+			{
+				QString musicLocation = paths[0];
+				defaultDir = musicLocation.toStdString();
+				if( !defaultDir.empty() )
+				{
+					VxFileUtil::makeForwardSlashPath( defaultDir );
+					defaultDir += "/";
+				}
+			}
+		}
+    	
+    	break;
+    	
+	case eFileFilterVideo:
+    case eFileFilterVideoOnly:
+		{
+			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
+			if( !paths.isEmpty() )
+			{
+				QString moviesLocation = paths[0];
+
+				defaultDir = moviesLocation.toStdString();
+				if(  !defaultDir.empty() )
+				{
+					VxFileUtil::makeForwardSlashPath( defaultDir );
+					defaultDir += "/";
+				}
+			}
+		}
+
+		break;
+
+	case eFileFilterDocuments:
+		{
+			QStringList paths = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+			if( !paths.isEmpty() )
+			{
+				QString docsLocation = paths[0];
+
+				defaultDir = docsLocation.toStdString();
+				if(  !defaultDir.empty() )
+				{
+					VxFileUtil::makeForwardSlashPath( defaultDir );
+					defaultDir += "/";
+				}
+			}
+		}
+    	
+    	break;
+    	
+    default:
+		break;
+	}
+	
+	if( defaultDir.empty() || !VxFileUtil::directoryExists( defaultDir.c_str() ) )
+	{
+		defaultDir = VxGetDownloadsDirectory();
+	}
+	
+	return defaultDir;
 }

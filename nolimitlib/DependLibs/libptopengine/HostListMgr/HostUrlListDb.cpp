@@ -21,9 +21,8 @@ namespace
 {
 	const int			COLUMN_IDX_ONLINE_ID			= 0;
 	const int			COLUMN_IDX_HOST_TYPE			= 1;
-	const int			COLUMN_IDX_HOST_URL_IPV4		= 2;
-	const int			COLUMN_IDX_HOST_URL_IPV6		= 3;
-	const int			COLUMN_IDX_TIMESTAMP			= 4;
+	const int			COLUMN_IDX_HOST_URL				= 2;
+	const int			COLUMN_IDX_TIMESTAMP			= 3;
 }
 
 //============================================================================
@@ -48,7 +47,7 @@ RCODE HostUrlListDb::hostUrlListDbShutdown( void )
 //============================================================================
 RCODE HostUrlListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblHostUrl (online_id TEXT, host_type INTEGER, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT, timestamp BIGINT)" );
+	RCODE rc = sqlExec( "CREATE TABLE tblHostUrl (online_id TEXT, host_type INTEGER, hostUrl TEXT, timestamp BIGINT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -74,8 +73,7 @@ void HostUrlListDb::getAllHostUrls( std::vector<HostUrlInfo>& hostUrlList )
 
 			hostInfo.getOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_ONLINE_ID ) );
 			hostInfo.setHostType( (EHostType)cursor->getS32( COLUMN_IDX_HOST_TYPE ) );
-			hostInfo.setHostUrl( false, cursor->getString( COLUMN_IDX_HOST_URL_IPV4 ) );
-			hostInfo.setHostUrl( true, cursor->getString( COLUMN_IDX_HOST_URL_IPV6 ) );
+			hostInfo.setHostUrl( cursor->getString( COLUMN_IDX_HOST_URL ) );
 			hostInfo.setTimestamp( ( int64_t )cursor->getS64( COLUMN_IDX_TIMESTAMP ) );			
 
 			hostUrlList.push_back( hostInfo );
@@ -111,20 +109,19 @@ bool HostUrlListDb::saveHostUrl( HostUrlInfo& hostUrlInfo )
 		cursor->close();
 	}
 
-	DbBindList bindList( hostUrlInfo.getHostUrl(false).c_str() );
-	bindList.add( hostUrlInfo.getHostUrl(true).c_str() );
+	DbBindList bindList( hostUrlInfo.getHostUrl().c_str() );
 	bindList.add( hostUrlInfo.getTimestamp() );
 	bindList.add( onlineId.c_str() );
 	bindList.add( (int)hostUrlInfo.getHostType() );
 
 	if( bExists )
 	{
-		rc = sqlExec( "UPDATE tblHostUrl SET hostUrlIpv4=?,hostUrlIpv6=?,timestamp=? WHERE online_id=? AND host_type=?", bindList );
+		rc = sqlExec( "UPDATE tblHostUrl SET hostUrl=?,timestamp=? WHERE online_id=? AND host_type=?", bindList );
 	}
 	else
 	{
 		// insert new record
-		rc = sqlExec( "INSERT INTO tblHostUrl (hostUrlIpv4, hostUrlIpv6, timestamp, online_id, host_type) VALUES(?,?,?,?,?)", bindList );
+		rc = sqlExec( "INSERT INTO tblHostUrl (hostUrl, timestamp, online_id, host_type) VALUES(?,?,?,?)", bindList );
 	}
 
 	if( rc )

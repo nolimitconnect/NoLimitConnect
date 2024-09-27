@@ -29,27 +29,27 @@ PluginGroupClient::PluginGroupClient( P2PEngine& engine, PluginMgr& pluginMgr, V
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginGroupClient::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiAnnounceHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiAnnounceHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginGroupClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiJoinHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginGroupClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void PluginGroupClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrlIpv4, ptopUrlIpv6 );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
 }
 
 //============================================================================

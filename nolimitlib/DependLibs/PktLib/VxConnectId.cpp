@@ -9,20 +9,22 @@
 //============================================================================
 
 #include "VxConnectId.h"
-#include <CoreLib/PktBlobEntry.h>
 
-#include <CoreLib/VxSktUtil.h>
-#include <CoreLib/VxParse.h>
+#include <CoreLib/PktBlobEntry.h>
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxParse.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <memory.h>
 
 //============================================================================
 VxConnectId::VxConnectId( const VxConnectId &rhs )
 : VxGUID(rhs)
-, m_IPv6OnlineIp( rhs.m_IPv6OnlineIp )
-, m_IPv4OnlineIp( rhs.m_IPv4OnlineIp )
+, m_OnlineIp( rhs.m_OnlineIp )
 , m_u16OnlinePort( rhs.m_u16OnlinePort )
+, m_IpAddrType( rhs.m_IpAddrType )
+, m_u8Reseved1( rhs.m_u8Reseved1 )
+, m_u32Reseved2( rhs.m_u32Reseved2 )
 {
 }
 
@@ -30,10 +32,11 @@ VxConnectId::VxConnectId( const VxConnectId &rhs )
 bool VxConnectId::addToBlob( PktBlobEntry& blob )
 {
     bool result = blob.setValue( *( (VxGUID *)this ) );
-    result &= m_IPv6OnlineIp.addToBlob( blob );
-    result &= m_IPv4OnlineIp.addToBlob( blob );
+    result &= m_OnlineIp.addToBlob( blob );
     result &= blob.setValue( m_u16OnlinePort );
-	result &= blob.setValue( m_u16ResConnectId1 );
+	result &= blob.setValue( m_IpAddrType );
+	result &= blob.setValue( m_u8Reseved1 );
+	result &= blob.setValue( m_u32Reseved2 );
     return result;
 }
 
@@ -41,10 +44,11 @@ bool VxConnectId::addToBlob( PktBlobEntry& blob )
 bool VxConnectId::extractFromBlob( PktBlobEntry& blob )
 {
     bool result = blob.getValue( *( (VxGUID *)this ) );
-    result &= m_IPv6OnlineIp.extractFromBlob( blob );
-    result &= m_IPv4OnlineIp.extractFromBlob( blob );
+    result &= m_OnlineIp.extractFromBlob( blob );
     result &= blob.getValue( m_u16OnlinePort );
-	result &= blob.getValue( m_u16ResConnectId1 );
+	result &= blob.getValue( m_IpAddrType );
+	result &= blob.getValue( m_u8Reseved1 );
+	result &= blob.getValue( m_u32Reseved2 );
     return result;
 }
 
@@ -54,10 +58,11 @@ VxConnectId& VxConnectId::operator =( const VxConnectId &rhs )
 	if( this != &rhs )
 	{
         *((VxGUID*)this) = *((VxGUID*)&rhs);
-        m_IPv6OnlineIp = rhs.m_IPv6OnlineIp;
-        m_IPv4OnlineIp = rhs.m_IPv4OnlineIp;
+        m_OnlineIp = rhs.m_OnlineIp;
         m_u16OnlinePort = rhs.m_u16OnlinePort;
-		m_u16ResConnectId1 = rhs.m_u16ResConnectId1;
+		m_IpAddrType = rhs.m_IpAddrType;
+		m_u8Reseved1 = rhs.m_u8Reseved1;
+		m_u32Reseved2 = rhs.m_u32Reseved2;
 	}
 
 	return *this;
@@ -76,10 +81,18 @@ bool VxConnectId::operator !=( const VxConnectId &rhs )  const
 }
 
 //============================================================================
-bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasChanged  )		
+bool VxConnectId::setIpAddress( std::string ipAddr, bool* retIpHasChanged  )		
 {
 	if( ipAddr.empty() )
 	{
+		LogMsg( LOG_ERROR, "VxConnectId::%s: bad param empty ipAddr", __func__ );
+		return false;
+	}
+
+	EIpAddrType addrType = VxGetIpAddrType( ipAddr.c_str() );
+	if( addrType == eIpAddrTypeUnknown )
+	{
+		LogMsg( LOG_ERROR, "VxConnectId::%s: bad param ipAddr %s", __func__, ipAddr.c_str() );
 		return false;
 	}
 
@@ -88,78 +101,56 @@ bool VxConnectId::setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasCha
 		*retIpHasChanged = false;
 	}
 
-    bool valid = false;
-	InetAddress inetAddr;
-	inetAddr.setIp( ipAddr.c_str() );
-	if( inetAddr.isValid() )
+	EIpAddrType curAddrType{ eIpAddrTypeUnknown };
+	std::string curIp;
+	if( getIpAddress( curIp, curAddrType ) )
 	{
-		if( inetAddr.isIPv6() )
+		if( curAddrType == addrType && curIp == ipAddr )
 		{
-			if( !ipv6 )
-			{
-				LogMsg( LOG_DEBUG, "VxConnectId::setIpAddress: setting IPv6 '%s' when ipv4 was specified", ipAddr.c_str() );
-			}
-
-			if( retIpHasChanged )
-            {
-                if( m_IPv6OnlineIp.toString() != ipAddr )
-                {
-                    *retIpHasChanged = true;
-                }
-			}
-
-			m_IPv6OnlineIp = inetAddr; 
-			valid = m_IPv6OnlineIp.isValid();
-		}
-		else
-		{
-			if( ipv6 )
-			{
-				LogMsg( LOG_DEBUG, "VxConnectId::setIpAddress: setting IPv4 '%s' when ipv6 was specified", ipAddr.c_str() );
-			}
-
-			bool changed = m_IPv4OnlineIp.setIp( inetAddr.getIPv4AddressInNetOrder() );
-			valid = m_IPv4OnlineIp.isValid();
-			if( retIpHasChanged && changed && valid )
-			{
-				*retIpHasChanged = true;
-			}
+			// no change
+			return true;
 		}
 	}
+
+	m_OnlineIp.fromString( ipAddr.c_str() );
+	bool valid = m_OnlineIp.isValid();
 
 	vx_assert( valid );
     return valid;
 };
 
 //============================================================================
-bool VxConnectId::getIpAddress( bool ipv6, std::string& retString )
+bool VxConnectId::setIpAddress( InetAddress& ipAddr )
 {
-	if( ipv6 && m_IPv6OnlineIp.isValid() )
+	m_OnlineIp = ipAddr;
+	m_IpAddrType = m_OnlineIp.getIpAddrType();
+	return m_OnlineIp.isValid();
+}
+
+//============================================================================
+bool VxConnectId::getIpAddress( std::string& retString, EIpAddrType& retIpAddrType )
+{
+	bool result = false;
+	EIpAddrType addrType = m_OnlineIp.getIpAddrType();
+	if( addrType != eIpAddrTypeUnknown )
 	{
-		retString = m_IPv6OnlineIp.toString();
-		return true;
-	}
-	else if( m_IPv4OnlineIp.isValid() )
-	{
-		retString = m_IPv4OnlineIp.toString(); 
+		retString = m_OnlineIp.toString();
+		retIpAddrType = addrType;
 		return true;
 	}
 
 	retString.clear();
+	retIpAddrType = eIpAddrTypeUnknown;
 	return false;
 };
-
-//============================================================================
-bool VxConnectId::isIpAddressValid( bool ipv6 )
-{
-	return ipv6 ? m_IPv6OnlineIp.isValid() : m_IPv4OnlineIp.isValid();
-}
 
 //============================================================================
 void VxConnectId::clear( void )
 {
 	clearVxGUID();
 	m_u16OnlinePort = 0;
-	m_IPv4OnlineIp.setToInvalid();
-	m_IPv6OnlineIp.setToInvalid();
+	m_IpAddrType = 0;
+	m_u8Reseved1 = 0;
+	m_u32Reseved2 = 0;
+	m_OnlineIp.setToInvalid();
 }

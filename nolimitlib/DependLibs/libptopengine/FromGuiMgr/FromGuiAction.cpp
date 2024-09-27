@@ -130,12 +130,11 @@ void FromGuiUserLogon::executeAction( void )
 }
 
 //============================================================================
-FromGuiHostAction::FromGuiHostAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+FromGuiHostAction::FromGuiHostAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
 	: FromGuiActionBase( engine, fromGuiType )
 	, m_AdminId( adminId )
 	, m_SessionId( sessionId )
-	, m_HostUrlIpv4( hostUrlIpv4 )
-	, m_HostUrlIpv6( hostUrlIpv6 )
+	, m_HostUrl( hostUrl )
 {
 }
 
@@ -146,19 +145,19 @@ void FromGuiHostAction::executeAction( void )
 	{
 
 	case eFromGuiAnnounceHost:
-		m_Engine.fromGuiAnnounceHost( m_AdminId, m_SessionId, m_HostUrlIpv4, m_HostUrlIpv6, true );
+		m_Engine.fromGuiAnnounceHost( m_AdminId, m_SessionId, m_HostUrl, true );
 		break;
 
 	case eFromGuiJoinHost:
-		m_Engine.fromGuiJoinHost( m_AdminId, m_SessionId, m_HostUrlIpv4, m_HostUrlIpv6, true );
+		m_Engine.fromGuiJoinHost( m_AdminId, m_SessionId, m_HostUrl, true );
 		break;
 
 	case eFromGuiLeaveHost:
-		m_Engine.fromGuiLeaveHost( m_AdminId, m_SessionId, m_HostUrlIpv4, m_HostUrlIpv6, true );
+		m_Engine.fromGuiLeaveHost( m_AdminId, m_SessionId, m_HostUrl, true );
 		break;
 
 	case eFromGuiUnJoinHost:
-		m_Engine.fromGuiUnJoinHost( m_AdminId, m_SessionId, m_HostUrlIpv4, m_HostUrlIpv6, true );
+		m_Engine.fromGuiUnJoinHost( m_AdminId, m_SessionId, m_HostUrl, true );
 		break;
 
 	default:

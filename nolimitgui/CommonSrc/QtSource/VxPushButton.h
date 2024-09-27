@@ -114,6 +114,8 @@ public:
     void                        setPushToTalkStatus( EPushToTalkStatus pushToTalkStatus );
     EPushToTalkStatus           getPushToTalkStatus( void )                         { return m_PushToTalkStatus; }
 
+    void                        emulateUserClicked( void );
+
 signals:
 	void						buttonToggleState( bool isOn );
 	void						slideLeftCompleted( void );

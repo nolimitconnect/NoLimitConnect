@@ -16,7 +16,7 @@ class Sha1ClientInfo
 {
 public:
 	Sha1ClientInfo() = default;
-	Sha1ClientInfo( VxGUID& fileId, std::string& fileName, Sha1GeneratorCallback* client );
+	Sha1ClientInfo( VxGUID& fileId, std::string& fileName, std::string& fileNameAndPath, Sha1GeneratorCallback* client );
 	Sha1ClientInfo( const Sha1Info& sha1Info, Sha1GeneratorCallback* client );
     Sha1ClientInfo( const Sha1ClientInfo& rhs );
 	~Sha1ClientInfo() = default;
@@ -33,6 +33,8 @@ public:
 	Sha1GeneratorCallback*		getClient( void )							{ return m_Client; }
 
 	std::string&				getFileName( void )							{ return m_Sha1Info.getFileName(); }
+	std::string&				getFileNameAndPath( void )					{ return m_Sha1Info.getFileNameAndPath(); }
+	VxGUID&						getAssetId( void )							{ return m_Sha1Info.getAssetId(); }
 
 protected:
 	Sha1Info					m_Sha1Info;

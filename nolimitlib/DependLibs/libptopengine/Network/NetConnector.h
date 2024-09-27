@@ -73,9 +73,6 @@ protected:
 													std::shared_ptr<VxSktBase>&	ppoRetSkt,
 													EConnectReason				connectReason );
 
-	bool						tryIPv6Connect(	VxConnectInfo&				connectInfo, 
-												std::shared_ptr<VxSktBase>&	ppoRetSkt );
-
 	bool						txPacket(	VxGUID&						destinationId, 
 											std::shared_ptr<VxSktBase>&	sktBase, 
 											VxPktHdr*					poPkt );

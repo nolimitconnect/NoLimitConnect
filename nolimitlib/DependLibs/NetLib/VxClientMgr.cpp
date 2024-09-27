@@ -18,7 +18,7 @@ VxClientMgr::VxClientMgr()
 }
 
 //============================================================================
-void VxClientMgr::sktMgrStartup( void )
+void VxClientMgr::sktMgrStartup( bool ipv6 )
 {
 	// empty
 }

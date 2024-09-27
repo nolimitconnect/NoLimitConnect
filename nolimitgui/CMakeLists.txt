@@ -114,6 +114,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletHostNetworkStatus.h
     CommonSrc/QtSource/AppletHostSelect.h
     CommonSrc/QtSource/AppletIgnoredHosts.h
+    CommonSrc/QtSource/AppletInvites.h
     CommonSrc/QtSource/AppletInviteAccept.h
     CommonSrc/QtSource/AppletInviteCreate.h
     CommonSrc/QtSource/AppletIsPortOpenTest.h
@@ -221,9 +222,11 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/FriendListDelegate.h
     CommonSrc/QtSource/FileActionBarWidget.h
     CommonSrc/QtSource/FileActionMenu.h
+    CommonSrc/QtSource/FileFilterSelectWidget.h
     CommonSrc/QtSource/FileListReplySession.h
-    CommonSrc/QtSource/FileShareItemWidget.h
+    CommonSrc/QtSource/FileShareItemWidget.h   
     CommonSrc/QtSource/FileXferWidget.h
+
     CommonSrc/QtSource/FriendListEntryWidget.h
     CommonSrc/QtSource/FriendListWidget.h
     CommonSrc/QtSource/GuiAppLoaderThread.h
@@ -386,7 +389,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/VxComboBox.h
     CommonSrc/QtSource/VxAvatarImage.h
     CommonSrc/QtSource/VxPushButton.h
-    CommonSrc/QtSource/VxComboBoxFileFilter.h
+
     CommonSrc/QtSource/VxLabel.h
     CommonSrc/QtSource/VxSndInstance.h
     CommonSrc/QtSource/VxFrame.h
@@ -511,6 +514,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletHostSelect.cpp
     CommonSrc/QtSource/AppletHostRandomConnectStatus.cpp
     CommonSrc/QtSource/AppletIgnoredHosts.cpp
+    CommonSrc/QtSource/AppletInvites.cpp
     CommonSrc/QtSource/AppletInviteAccept.cpp
     CommonSrc/QtSource/AppletInviteCreate.cpp
     CommonSrc/QtSource/AppletIsPortOpenTest.cpp
@@ -615,9 +619,11 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/EventsQtToNlc.cpp
     CommonSrc/QtSource/FileActionBarWidget.cpp
     CommonSrc/QtSource/FileActionMenu.cpp
+     CommonSrc/QtSource/FileFilterSelectWidget.cpp
     CommonSrc/QtSource/FileItemInfo.cpp
     CommonSrc/QtSource/FileListReplySession.cpp
     CommonSrc/QtSource/FileShareItemWidget.cpp
+   
     CommonSrc/QtSource/FileXferWidget.cpp
     CommonSrc/QtSource/FriendList.cpp
     CommonSrc/QtSource/FriendListDelegate.cpp
@@ -765,6 +771,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VideoSinkGrabber.cpp
     CommonSrc/QtSource/VxAspectFrame.cpp
     CommonSrc/QtSource/VxComboBox.cpp
+
     CommonSrc/QtSource/VxContextMenu.cpp
     CommonSrc/QtSource/VxAvatarImage.cpp
     CommonSrc/QtSource/VxFrame.cpp
@@ -772,7 +779,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxMenuButtonBottom.cpp
     CommonSrc/QtSource/VxMenuButtonTop.cpp
     CommonSrc/QtSource/VxPushButton.cpp
-    CommonSrc/QtSource/VxComboBoxFileFilter.cpp
     CommonSrc/QtSource/VxLabel.cpp
     CommonSrc/QtSource/VxSndInstance.cpp
     CommonSrc/QtSource/VxResourceToRealFile.cpp
@@ -924,6 +930,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/FileActionBarWidget.ui
     CommonSrc/Forms/FileActionMenu.ui
     CommonSrc/Forms/FileDisplayWidget.ui
+    CommonSrc/Forms/FileFilterSelectWidget.ui
     CommonSrc/Forms/FileShareItemWidget.ui
     CommonSrc/Forms/FileXferWidget.ui
     CommonSrc/Forms/FriendListDlg.ui

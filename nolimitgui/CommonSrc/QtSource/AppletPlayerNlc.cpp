@@ -292,7 +292,7 @@ void AppletPlayerNlc::playSelectedMedia( std::string fileNameAndPath )
 			QSize screenSize = getRenderConsumer()->getRenderWindowSize();
 
 			// does not work but do anyway so NLC icon is not showing when playing audio
-			if(fileList.at(0).isAudioFile())
+			if(fileList.at(0).getIsAudioFile())
 			{
 				// set file icon to screen for audio
 				QImage iconImage = m_MyApp.getMyIcons().getIconPixmap( eMyIconMusic, screenSize ).toImage();

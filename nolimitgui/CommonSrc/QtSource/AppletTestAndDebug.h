@@ -54,8 +54,7 @@ protected slots:
     void                        slotLogMsg( const QString& text );
     void                        slotInfoMsg( const QString& text );
 
-    void                        slotCopyMyUrlIpv4ToClipboardClicked( void );
-    void                        slotCopyMyUrlIpv6ToClipboardClicked( void );
+    void                        slotCopyMyUrlToClipboardClicked( void );
 
     void                        slotCopyTestUrlToClipboardClicked( void );
     void                        slotCopyResultToClipboardClicked( void );

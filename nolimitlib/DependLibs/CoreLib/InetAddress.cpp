@@ -627,6 +627,18 @@ std::string InetAddress::toString( void )
 }
 
 //============================================================================
+EIpAddrType InetAddress::getIpAddrType( void )
+{
+	EIpAddrType addrType{ eIpAddrTypeUnknown };
+	if( isValid() )
+	{
+		addrType = isIPv4() ? eIpAddrTypeIpv4 : eIpAddrTypeIpv6;
+	}
+
+	return addrType;
+}
+
+//============================================================================
 InetAddress InetAddress::getDefaultIp( void )
 {
 	 std::vector<InetAddress> retAddresses;

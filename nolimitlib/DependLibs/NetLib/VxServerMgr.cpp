@@ -85,9 +85,9 @@ VxServerMgr::VxServerMgr()
 }
 
 //============================================================================
-void VxServerMgr::sktMgrStartup( void )
+void VxServerMgr::sktMgrStartup( bool ipv6 )
 {
-	startListeningThreads();
+	startListeningThreads( ipv6 );
 }
 
 //============================================================================
@@ -98,19 +98,22 @@ void VxServerMgr::sktMgrShutdown( void )
 }
 
 //============================================================================
-RCODE VxServerMgr::startListeningThreads( void )
+RCODE VxServerMgr::startListeningThreads( bool ipv6 )
 {
-    std::string ipv4ThreadName;
-    StdStringFormat( ipv4ThreadName, "VxServerMgr%dIPv4", m_iMgrId );
-    RCODE rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, ipv4ThreadName.c_str() );
-#if ENABLE_IPV6
-    if( 0 == rc )
+    RCODE rc = 0;
+    if( ipv6 )
     {
         std::string ipv6ThreadName;
-        StdStringFormat( ipv4ThreadName, "VxServerMgr%dIPv6", m_iMgrId );
-        rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, ipv4ThreadName.c_str() );
+        StdStringFormat( ipv6ThreadName, "VxServerMgr%dIPv6", m_iMgrId );
+        rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, ipv6ThreadName.c_str() );
     }
-#endif // ENABLE_IPV6
+    else
+    {
+        std::string ipv4ThreadName;
+        StdStringFormat( ipv4ThreadName, "VxServerMgr%dIPv4", m_iMgrId );
+        RCODE rc = m_ListenThreadIpv4.startThread( (VX_THREAD_FUNCTION_T)VxServerMgrVxThreadFunc, this, ipv4ThreadName.c_str() );
+    }
+
     return rc;
 }
 
@@ -121,11 +124,12 @@ void VxServerMgr::stopListeningThreads( void )
     m_ListenThreadIpv4.abortThreadRun( true );
     listenSettingsUpdated( false, true );
     setIsReadyToAcceptConnections( false , false );
-#if ENABLE_IPV6
-    m_ListenThreadIpv4.abortThreadRun( true );
+
+    setIsReadyToAcceptConnections( true, false );
+    m_ListenThreadIpv6.abortThreadRun( true );
     listenSettingsUpdated( true, true );
     setIsReadyToAcceptConnections( true, false );
-#endif // ENABLE_IPV6
+
      
     if( m_ListenThreadIpv4.isThreadRunning() )
     {
@@ -137,8 +141,6 @@ void VxServerMgr::stopListeningThreads( void )
         }
     }
 
-#if ENABLE_IPV6
-
     if( m_ListenThreadIpv6.isThreadRunning() )
     {
         m_ListenThreadIpv6.killThread();
@@ -148,7 +150,6 @@ void VxServerMgr::stopListeningThreads( void )
             ::VxCloseSktNow( skt );
         }
     }
-#endif // ENABLE_IPV6
 }
 
 //============================================================================

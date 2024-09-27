@@ -21,8 +21,8 @@
 #include <string.h>
 
 //============================================================================
-Sha1ClientInfo::Sha1ClientInfo( VxGUID& fileId, std::string& fileName,  Sha1GeneratorCallback* client )
-    : m_Sha1Info( fileId, fileName )
+Sha1ClientInfo::Sha1ClientInfo( VxGUID& fileId, std::string& fileName, std::string& fileNameAndPath,  Sha1GeneratorCallback* client )
+    : m_Sha1Info( fileId, fileName, fileNameAndPath )
     , m_Client( client )
 {
 }

@@ -140,26 +140,16 @@
    <item>
     <widget class="QLabel" name="m_UrlDescriptionLabelIpv4">
      <property name="text">
-      <string>IPv4 Service URL or IP Address </string>
+      <string>Service URL or IP Address </string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="m_UrlEditIpv4">
+    <widget class="QLineEdit" name="m_UrlEdit">
      <property name="maxLength">
       <number>63</number>
      </property>
     </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="m_UrlDescriptionLabelIpv6">
-     <property name="text">
-      <string>IPv6 Service URL or IP Address </string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="m_UrlEditIpv6"/>
    </item>
    <item>
     <widget class="QLabel" name="m_UserDisplayedNameLabel">

@@ -93,7 +93,7 @@ void AppletHostNetworkStatus::slotUpdateStatusTimeout()
     int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeNetworkSearchList );
     ui.m_GroupListCountLabel->setText( QString::number( availGroupsCnt ) );
     std::string url;
-    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( false, url );
+    m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );
     ui.m_UrlText->setText( url.c_str() );
 }
 

@@ -23,10 +23,9 @@ public:
     void                        updateOnlineId( VxGUID& onlineId );
     void                        updateUrl( bool ipv6 );
 
-    std::string                 m_UrlIpv4;
-    std::string                 m_UrlIpv6;
-    std::string                 m_IpAddrIpv4;
-    std::string                 m_IpAddrIpv6;
+    std::string                 m_Url;
+    std::string                 m_IpAddr;
+
     VxGUID                      m_OnlineId;
     uint16_t                    m_Port{ 0 };
     uint64_t                    m_ModifiedTimestamp{ 0 };
@@ -38,17 +37,17 @@ public:
     UrlMgr() = default;
     ~UrlMgr() = default;
 
-    void                        setMyOnlineNodeUrl( bool ipv6, std::string& myNodeUrl );
+    void                        setMyOnlineNodeUrl( std::string& myNodeUrl );
 
-    std::string                 resolveUrl( bool ipv6, std::string& hostUrl );
-    void                        updateUrlCache( bool ipv6, std::string& hostUrl, VxGUID& onlineId );
+    std::string                 resolveUrl( std::string& hostUrl );
+    void                        updateUrlCache( std::string& hostUrl, VxGUID& onlineId );
 
     bool                        lookupOnlineId( std::string& hostUrl, VxGUID& onlineId );
 
 protected:
-    bool                        addUrl( bool ipv6, std::string& hostUrl );
-    bool                        addUrlAndOnlineId( bool ipv6, std::string& hostUrl, VxGUID& onlineId );
-    bool                        fillUrlInfo( bool ipv6, std::string& hostUrl, UrlInfo& urlInfo );
+    bool                        addUrl( std::string& hostUrl );
+    bool                        addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId );
+    bool                        fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo );
 
     VxMutex                     m_UrlMutex;
     std::map<std::string, UrlInfo> m_UrlMap;

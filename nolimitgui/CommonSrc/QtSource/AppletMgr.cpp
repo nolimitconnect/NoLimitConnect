@@ -72,6 +72,7 @@
 #include "AppletIsPortOpenTest.h"
 #include "AppletInviteAccept.h"
 #include "AppletInviteCreate.h"
+#include "AppletInvites.h"
 
 #include "AppletLibrary.h"
 #include "AppletLog.h"
@@ -449,6 +450,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletInviteAccept:               if( launchAppletAllowed( eAppletInviteAccept ) ) appletDialog = new AppletInviteAccept( m_MyApp, parent ); break;
     case eAppletInviteCreate:               if( launchAppletAllowed( eAppletInviteCreate ) ) appletDialog = new AppletInviteCreate( m_MyApp, parent ); break;
+    case eAppletInvites:                    if( launchAppletAllowed( eAppletInvites ) ) appletDialog = new AppletInvites( m_MyApp, parent ); break;
 
     case eAppletNetHostingPage:             if( launchAppletAllowed( eAppletNetHostingPage ) ) appletDialog = new AppletNetHostingPage( m_MyApp, parent ); break;
     case eAppletHostJoinRequestList:        if( launchAppletAllowed( eAppletHostJoinRequestList ) ) appletDialog = new AppletHostJoinRequestList( m_MyApp, parent ); break;

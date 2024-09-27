@@ -37,6 +37,12 @@
    </property>
    <item>
     <widget class="QGroupBox" name="FileItemsBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -72,6 +78,16 @@
         </property>
         <property name="text">
          <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="FileFilterSelectWidget" name="m_FileFilterSelectWidget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
        </widget>
       </item>
@@ -118,9 +134,6 @@
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="VxComboBoxFileFilter" name="m_FileFilterComboBox"/>
       </item>
       <item>
        <widget class="QLabel" name="m_DoubleTapInstructionLabel">
@@ -323,9 +336,10 @@
    <header>VxLabel.h</header>
   </customwidget>
   <customwidget>
-   <class>VxComboBoxFileFilter</class>
-   <extends>QComboBox</extends>
-   <header>VxComboBoxFileFilter.h</header>
+   <class>FileFilterSelectWidget</class>
+   <extends>QWidget</extends>
+   <header>FileFilterSelectWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

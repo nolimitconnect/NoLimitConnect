@@ -66,7 +66,6 @@ bool PluginLibraryServer::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
 //============================================================================
 bool PluginLibraryServer::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary )
 {
-	return fromGuiSetFileIsShared( fileInfo, inLibrary );
 	fileInfo.setIsInLibrary( inLibrary );
 	if( inLibrary )
 	{
@@ -79,9 +78,9 @@ bool PluginLibraryServer::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool in
 }
 
 //============================================================================
-bool PluginLibraryServer::fromGuiSetFileIsInLibrary( std::string& fileName, bool inLibrary )
+bool PluginLibraryServer::fromGuiSetFileIsInLibrary( std::string& fileNameAndPath, bool inLibrary )
 {
-	return m_FileInfoMgr.fromGuiSetFileIsShared( fileName, inLibrary );
+	return m_FileInfoMgr.fromGuiSetFileIsShared( fileNameAndPath, inLibrary );
 }
 
 //============================================================================
@@ -91,21 +90,21 @@ void PluginLibraryServer::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t 
 }
 
 //============================================================================
-bool PluginLibraryServer::fromGuiGetIsFileInLibrary( std::string& fileName )
+bool PluginLibraryServer::fromGuiGetIsFileInLibrary( std::string& fileNameAndPath )
 {
-	return isFileInLibrary( fileName );
+	return isFileInLibrary( fileNameAndPath );
 }
 
 //============================================================================
-bool PluginLibraryServer::fromGuiRemoveFromLibrary( std::string& fileName )
+bool PluginLibraryServer::fromGuiRemoveFromLibrary( std::string& fileNameAndPath )
 {
-	return m_FileInfoMgr.removeFromDbAndList( fileName );
+	return m_FileInfoMgr.removeFromDbAndList( fileNameAndPath );
 }
 
 //============================================================================
-bool PluginLibraryServer::isFileInLibrary( std::string& fileName )
+bool PluginLibraryServer::isFileInLibrary( std::string& fileNameAndPath )
 {
-	return m_FileInfoMgr.isFileShared( fileName );
+	return m_FileInfoMgr.isFileShared( fileNameAndPath );
 }
 
 //============================================================================

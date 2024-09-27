@@ -68,7 +68,7 @@ public:
     VxGUID&                     getMyOnlineId( void )                   { return m_OnlineId; }
     std::string                 getOnlineName( void )                   { return std::string( m_NetIdent.getOnlineName() ); }
     std::string                 getOnlineDescription( void )            { return std::string( m_NetIdent.getOnlineDescription() ); }
-    std::string                 getMyOnlineUrl( bool ipv6 = false )     { return m_NetIdent.getMyOnlineUrl( ipv6 ); }
+    std::string                 getMyOnlineUrl( void )                  { return m_NetIdent.getMyOnlineUrl(); }
     VxGUID                      getHostThumbId( EHostType hostType, bool defaultToAvatarThumbId ) { return m_NetIdent.getHostThumbId( hostType, defaultToAvatarThumbId ); } 
     VxGUID                      getAvatarThumbId( void )                { return m_NetIdent.getAvatarThumbGuid(); }
 

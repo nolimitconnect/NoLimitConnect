@@ -1703,9 +1703,15 @@ EXferError FileInfoXferMgr::canTxFile( VxGUID sendToId, VxGUID& assetId, VxSha1H
 bool FileInfoXferMgr::isViewFileListMatch( FileTxSession* xferSession, FileInfo& fileInfo )
 {
 	size_t viewDirLen = xferSession->m_strViewDirectory.length();
+    std::string filePath = fileInfo.getFilePath();
+    if( filePath.empty() )
+    {
+        return false;
+    }
+
 	bool bRootDir = viewDirLen ? false : true;
 
-	if( fileInfo.getFilePath().length() >= viewDirLen )
+    if( filePath.length() >= viewDirLen )
 	{
 		if( VXFILE_TYPE_DIRECTORY == fileInfo.getFileType() )
 		{
@@ -1713,9 +1719,9 @@ bool FileInfoXferMgr::isViewFileListMatch( FileTxSession* xferSession, FileInfo&
 			{
 				return true;
 			}
-			else if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), fileInfo.getFilePath().c_str(), viewDirLen ) )
+            else if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), filePath.c_str(), viewDirLen ) )
 			{
-				if( fileInfo.getFilePath().length() == viewDirLen )
+                if( filePath.length() == viewDirLen )
 				{
 					// is this directory
 					return false;
@@ -1728,9 +1734,9 @@ bool FileInfoXferMgr::isViewFileListMatch( FileTxSession* xferSession, FileInfo&
 		}
 		else
 		{
-			if( 0 == strncmp( xferSession->m_strViewDirectory.c_str(), fileInfo.getFilePath().c_str(), viewDirLen ) )
+            if( filePath.length() > viewDirLen && 0 == strncmp( xferSession->m_strViewDirectory.c_str(), filePath.c_str(), viewDirLen ) )
 			{
-				const char* pLeftOver = &(fileInfo.getFilePath().c_str()[viewDirLen]);
+                const char* pLeftOver = &(filePath.c_str()[viewDirLen]);
 				if( strchr(pLeftOver, '/') )
 				{
 					// is in one of the sub dirs

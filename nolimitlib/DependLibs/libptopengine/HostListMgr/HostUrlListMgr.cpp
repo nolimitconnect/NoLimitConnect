@@ -38,7 +38,7 @@ RCODE HostUrlListMgr::hostUrlListMgrShutdown( void )
 }
 
 //============================================================================
-void HostUrlListMgr::updateHostUrl( EHostType hostType, VxGUID& onlineId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, int64_t timestampMs )
+void HostUrlListMgr::updateHostUrl( enum EHostType hostType, VxGUID& onlineId, std::string& hostUrl, int64_t timestampMs )
 {
     if( !onlineId.isVxGUIDValid() )
     {
@@ -52,8 +52,7 @@ void HostUrlListMgr::updateHostUrl( EHostType hostType, VxGUID& onlineId, std::s
     {
         if( iter->getHostType() == hostType && iter->getOnlineId() == onlineId )
         {
-            iter->setHostUrl( false, hostUrlIpv4 );
-            iter->setHostUrl( true, hostUrlIpv6 );
+            iter->setHostUrl( hostUrl );
             if( timestampMs )
             {
                 iter->setTimestamp( timestampMs );
@@ -68,7 +67,7 @@ void HostUrlListMgr::updateHostUrl( EHostType hostType, VxGUID& onlineId, std::s
     if( !wasUpdated )
     {
         std::string emptyUrl;
-        HostUrlInfo hostUrlInfo( hostType, onlineId, hostUrlIpv4, hostUrlIpv6, timestampMs );
+        HostUrlInfo hostUrlInfo( hostType, onlineId, hostUrl, timestampMs );
         m_HostUrlsList.push_back( hostUrlInfo );
         if( timestampMs )
         {
@@ -145,14 +144,13 @@ void HostUrlListMgr::updateHostUrls( VxNetIdent* netIdent, int64_t timestampMs )
     }
     else
     {     
-        std::string nodeUrlIpv4 = netIdent->getMyOnlineUrl( false );
-        std::string nodeUrlIpv6 = netIdent->getMyOnlineUrl( true );
+        std::string nodeUrl = netIdent->getMyOnlineUrl();
         for( int i = eHostTypeUnknown + 1; i < eMaxHostType; ++i )
         {
             EHostType hostType = ( EHostType )i;
             if( netIdent->canRequestJoin( hostType ) )
             {
-                updateHostUrl( hostType, netIdent->getMyOnlineId(), nodeUrlIpv4, nodeUrlIpv6, timestampMs );
+                updateHostUrl( hostType, netIdent->getMyOnlineId(), nodeUrl, timestampMs );
             }
         }
     }

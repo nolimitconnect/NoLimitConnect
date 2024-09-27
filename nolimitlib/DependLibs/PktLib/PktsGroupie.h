@@ -67,8 +67,8 @@ public:
     void                        setCommError( enum ECommErr commError ) { m_CommError = ( uint8_t )commError; }
     ECommErr                    getCommError( void ) const { return ( ECommErr )m_CommError; }
 
-    bool                        setGroupieUrlAndTitleAndDescription( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
-    bool                        getGroupieUrlAndTitleAndDescription( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        setGroupieUrlAndTitleAndDescription( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        getGroupieUrlAndTitleAndDescription( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
 
     PktBlobEntry&               getBlobEntry( void ) { return m_BlobEntry; }
 
@@ -99,8 +99,8 @@ public:
     void						setSessionId( VxGUID& guid )        { m_SessionId = guid; }
     VxGUID&                     getSessionId( void )                { return m_SessionId; }
 
-    bool                        setGroupieInfo( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
-    bool                        getGroupieInfo( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        setGroupieInfo( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        getGroupieInfo( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
 
     PktBlobEntry&               getBlobEntry( void ) { return m_BlobEntry; }
 
@@ -196,7 +196,7 @@ public:
     void                        setCommError( enum ECommErr commError )      { m_CommError = ( uint8_t )commError; }
     ECommErr                    getCommError( void ) const              { return ( ECommErr )m_CommError; }
 
-    bool                        addGroupieInfo( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
+    bool                        addGroupieInfo( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime );
 
     void						setGroupieCountThisPkt( uint16_t inviteCnt ) { m_GroupieThisPktCount = inviteCnt; }
     uint16_t&                   getGroupieCountThisPkt( void )           { return m_GroupieThisPktCount; }

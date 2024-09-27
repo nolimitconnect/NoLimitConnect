@@ -280,16 +280,7 @@ bool VxPtopUrl::isUrlIpv6( void )
 }
 
 //============================================================================
-std::string VxPtopUrl::getHostUrl( bool ipv6 )
+std::string VxPtopUrl::getHostUrl( void )
 {
-    if( ipv6 && isUrlIpv6() )
-    {
-        return m_Url;
-    }
-    else if( !ipv6 && isUrlIpv4() )
-    {
-        return m_Url;
-    }
-
-    return "";
+    return m_Url;
 }

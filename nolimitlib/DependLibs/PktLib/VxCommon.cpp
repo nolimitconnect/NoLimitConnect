@@ -35,8 +35,7 @@ void VxSetHackReportCallback( IHackReportCallbackInterface* hackReportCallback )
 
 //============================================================================
 //! generate connection key from network identity
-bool GenerateConnectionKey(  bool					ipv6,	
-							 VxKey *				poRetKey,		// set this key
+bool GenerateConnectionKey(  VxKey *				poRetKey,		// set this key
                              VxConnectId *			poConnectId,	// network identity
                              uint16_t				cryptoPort,
                              const char*			networkName )
@@ -44,11 +43,12 @@ bool GenerateConnectionKey(  bool					ipv6,
     std::string strNetName = networkName;
     std::string strIP;
 
-	if( poConnectId->getIpAddress( ipv6, strIP ) )
+	EIpAddrType addrType{ eIpAddrTypeUnknown };
+	if( poConnectId->getIpAddress( strIP, addrType ) && addrType != eIpAddrTypeUnknown )
 	{
 		uint16_t u16Port = poConnectId->getPort();
 
-		return GenerateConnectionKey( ipv6, poRetKey, strIP, u16Port, poConnectId->getOnlineId(), cryptoPort, strNetName );
+		return GenerateConnectionKey( poRetKey, strIP, u16Port, poConnectId->getOnlineId(), cryptoPort, strNetName );
 	}
 
 	LogMsg( LOG_ERROR, "GenerateConnectionKey Invalid ip address" );
@@ -56,8 +56,7 @@ bool GenerateConnectionKey(  bool					ipv6,
 }
 
 //============================================================================
-bool GenerateConnectionKey(  bool						ipv6,	
-							 VxKey *					poRetKey,		// set this key
+bool GenerateConnectionKey(  VxKey *					poRetKey,		// set this key
                              std::string&               ipAddr,
                              uint16_t                   port,
                              VxGUID&                    onlineId,
@@ -513,19 +512,17 @@ bool VxNetIdent::canJoinImmediate( EHostType hostType ) // request to join will 
 //! dump identity
 void VxNetIdent::debugDumpIdent( void )
 {
-	std::string strIPv4; 
-	m_DirectConnectId.getIpAddress( false, strIPv4 );
-	std::string strIPv6; 
-	m_DirectConnectId.getIpAddress( true, strIPv6 );
+	std::string strIP; 
+	EIpAddrType addrType{ eIpAddrTypeUnknown };
+	m_DirectConnectId.getIpAddress( strIP, addrType );
 
-	LogMsg( LOG_INFO, "Ident %s id %s my friendship %s his friendship %s search 0x%x ipv4 %s ipv6 %s port %d proxy flags 0x%x ",
+	LogMsg( LOG_INFO, "Ident %s id %s my friendship %s his friendship %s search 0x%x ip %s port %d proxy flags 0x%x ",
 		getOnlineName(),
 		getMyOnlineId().describeVxGUID().c_str(),
 		DescribeFriendState(getMyFriendshipToHim()),
 		DescribeFriendState(getHisFriendshipToMe()),
 		getSearchFlags(),
-		strIPv4.c_str(),
-		strIPv6.c_str(),
+		strIP.c_str(),
 		m_DirectConnectId.getPort(),
 		m_u8RelayFlags
 		);

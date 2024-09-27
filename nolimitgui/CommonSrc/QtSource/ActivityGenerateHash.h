@@ -24,7 +24,7 @@ class ActivityGenerateHash : public ActivityBase, public Sha1GeneratorCallback
 {
 	Q_OBJECT
 public:
-	ActivityGenerateHash( AppCommon& app, QWidget* parent, std::string fileName, VxSha1Hash& hashId );
+	ActivityGenerateHash( AppCommon& app, QWidget* parent, std::string fileName, std::string fileNameAndPath, VxSha1Hash& hashId );
 	virtual ~ActivityGenerateHash() override = default;
 
     // overrides required for dialogs with there own title bar and bottom bar widgets
@@ -50,6 +50,7 @@ protected:
 	Ui::ActivityGenerateHashUi&	ui;
 
 	std::string					m_FileName;
+	std::string					m_FileNameAndPath;
 	VxSha1Hash&					m_HashId;
 	VxGUID						m_HashInstanceId;
 };

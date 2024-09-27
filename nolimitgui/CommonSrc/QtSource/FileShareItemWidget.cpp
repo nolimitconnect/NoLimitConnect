@@ -163,6 +163,18 @@ void FileShareItemWidget::setIsInLibrary( bool isInLibrary )
 }
 
 //============================================================================
+bool FileShareItemWidget::getIsMediaFile( void )
+{
+	FileItemInfo* poInfo = getFileItemInfo();
+	if( poInfo )
+	{
+		return poInfo->getIsMediaFile();
+	}
+
+	return false;
+}
+
+//============================================================================
 void FileShareItemWidget::setFileItemInfo( FileItemInfo* fileItemInfo )
 {
     QListWidgetItem::setData( Qt::UserRole + 1, QVariant((quint64)fileItemInfo) );
@@ -191,6 +203,13 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 		ui.m_FileSizeLabel->setVisible( false );
 
 		return;
+	}
+	
+	bool isMediaFile = poInfo->getIsMediaFile();
+	if( !isMediaFile )
+	{
+		// hide play button if not a media file
+		ui.m_FileActionBar->setIsMediaFile( isMediaFile );
 	}
 
 	ui.m_FileActionBar->setSelectAFileMode( m_SelectAFileMode );

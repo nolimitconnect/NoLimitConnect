@@ -59,7 +59,7 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
         return;
     }
     
-    url = m_Engine.getUrlMgr().resolveUrl(false, url);
+    url = m_Engine.getUrlMgr().resolveUrl(url);
 
     if( !m_Engine.getNetStatusAccum().isRxPortOpen() )
     {

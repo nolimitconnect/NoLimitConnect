@@ -38,7 +38,7 @@ public:
 	virtual void *				getTxCallbackUserData( void )					{ return m_pvTxCallbackUserData; }
 
 	//virtual void				sktMgrSetLocalIp( InetAddress& oLclIp );
-	virtual void				sktMgrStartup( void ) = 0;
+	virtual void				sktMgrStartup( bool ipv6 ) = 0;
 	virtual void				sktMgrShutdown( void );
 
 	virtual int					getActiveSktCnt( void )		{ lockSktList(); int activeCnt = (int)m_aoSkts.size(); unlockSktList(); return activeCnt; }

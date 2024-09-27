@@ -26,10 +26,11 @@ TitleBarWidget *  ActivityGenerateHash::getTitleBarWidget( void ) { return ui.m_
 BottomBarWidget * ActivityGenerateHash::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
 
 //============================================================================
-ActivityGenerateHash::ActivityGenerateHash(	AppCommon& app, QWidget* parent, std::string fileName, VxSha1Hash& hashId )
+ActivityGenerateHash::ActivityGenerateHash(	AppCommon& app, QWidget* parent, std::string fileName, std::string fileNameAndPath, VxSha1Hash& hashId )
 : ActivityBase( OBJNAME_ACTIVITY_GENERATE_HASH, app, parent, eAppletMessengerFrame, true )
 , ui(*(new Ui::ActivityGenerateHashUi))
 , m_FileName( fileName )
+, m_FileNameAndPath( fileNameAndPath )
 , m_HashId( hashId )
 {
 	ui.setupUi(this);
@@ -52,7 +53,7 @@ ActivityGenerateHash::ActivityGenerateHash(	AppCommon& app, QWidget* parent, std
 	ui.m_BodyTextLabel->setText( bodyText );
 
 	m_HashInstanceId.initializeWithNewVxGUID();
-	GetSha1GeneratorMgr().generateSha1( m_HashInstanceId, m_FileName, this );
+	GetSha1GeneratorMgr().generateSha1( m_HashInstanceId, m_FileName, m_FileNameAndPath, this );
 }
 
 //============================================================================

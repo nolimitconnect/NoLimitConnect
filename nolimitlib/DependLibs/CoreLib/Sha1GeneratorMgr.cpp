@@ -48,14 +48,14 @@ Sha1GeneratorMgr::Sha1GeneratorMgr()
 }
 
 //============================================================================
-void Sha1GeneratorMgr::generateSha1( VxGUID& fileId, std::string& fileName, Sha1GeneratorCallback* client )
+void Sha1GeneratorMgr::generateSha1( VxGUID& fileId, std::string& fileName, std::string& fileNameAndPath, Sha1GeneratorCallback* client )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	Sha1ClientInfo clienInfo( fileId, fileName, client );
+	Sha1ClientInfo clienInfo( fileId, fileName, fileNameAndPath, client );
 	m_Sha1ListMutex.lock();
 
 	for( auto iter = m_Sha1List.begin(); iter != m_Sha1List.end(); ++iter )
@@ -76,20 +76,19 @@ void Sha1GeneratorMgr::generateSha1( VxGUID& fileId, std::string& fileName, Sha1
 }
 
 //============================================================================
-void Sha1GeneratorMgr::cancelGenerateSha1( VxGUID& fileId, std::string& fileName, Sha1GeneratorCallback* client )
+void Sha1GeneratorMgr::cancelGenerateSha1( VxGUID& fileId, std::string& fileNameAndPath, Sha1GeneratorCallback* client )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	Sha1ClientInfo clienInfo( fileId, fileName, client );
 	m_Sha1ListMutex.lock();
 	for( auto iter = m_Sha1List.begin(); iter != m_Sha1List.end(); ++iter )
 	{
-		if( *iter == clienInfo )
+		if( iter->getAssetId() == fileId && iter->getFileNameAndPath() == fileNameAndPath )
 		{
-			LogMsg( LOG_VERBOSE, "Sha1GeneratorMgr::cancelGenerateSha1 file %s", clienInfo.getFileName().c_str() );
+			LogMsg( LOG_VERBOSE, "Sha1GeneratorMgr::cancelGenerateSha1 file %s", fileNameAndPath.c_str() );
 			m_Sha1List.erase( iter );
 			break;
 		}
@@ -125,7 +124,7 @@ void Sha1GeneratorMgr::threadGenerateSha1( VxThread* vxThread )
 
 				if( clientInfo.isValid( false ) )
 				{
-					if( clientInfo.getSha1Info().getSha1Hash().generateHashFromFile( clientInfo.getFileName().c_str(), vxThread ) )
+					if( clientInfo.getSha1Info().getSha1Hash().generateHashFromFile( clientInfo.getFileNameAndPath().c_str(), vxThread ) )
 					{
 						announceResult( eSha1GenResultNoError, clientInfo );
 					}

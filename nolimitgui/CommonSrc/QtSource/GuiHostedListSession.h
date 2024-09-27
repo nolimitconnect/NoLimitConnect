@@ -33,7 +33,7 @@ public:
 
     GuiUser*                    getGuiUser( void )                          { return m_GuiHosted ? m_GuiHosted->getUser() : nullptr; }
 
-    std::string                 getHostUrl( bool ipv6 );
+    std::string                 getHostUrl( void );
     std::string                 getHostTitle( void );
     std::string                 getHostDescription( void );
 

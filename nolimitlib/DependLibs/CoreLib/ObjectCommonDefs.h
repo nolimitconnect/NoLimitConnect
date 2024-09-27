@@ -100,6 +100,8 @@
 #define OBJNAME_APPLET_HOST_SELECT						"AppletHostSelect"
 
 #define OBJNAME_APPLET_IGNORED_HOSTS					"AppletIgnoredHosts"
+
+#define OBJNAME_APPLET_INVITES							"AppletInvites"
 #define OBJNAME_APPLET_INVITE_CREATE					"AppletInviteCreate"
 #define OBJNAME_APPLET_INVITE_ACCEPT					"AppletInviteAccepte"
 

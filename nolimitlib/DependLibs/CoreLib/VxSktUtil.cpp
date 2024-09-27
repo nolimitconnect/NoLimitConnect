@@ -10,6 +10,10 @@
 
 #include "VxSktUtil.h"
 
+#ifdef TARGET_OS_WINDOWS
+# include "WS2tcpip.h"
+#endif // TARGET_OS_WINDOWS
+
 #include "ISktStatCallbackInterface.h"
 
 #include "VxResolveHost.h"

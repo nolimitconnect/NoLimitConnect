@@ -13,6 +13,12 @@
     <height>417</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>Browse Files</string>
   </property>
@@ -88,82 +94,14 @@
        <number>2</number>
       </property>
       <item>
-       <widget class="QLabel" name="m_StatusLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Folder:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="VxLabel" name="m_CurDirLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="scaledContents">
-           <bool>false</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="VxComboBoxFileFilter" name="m_FileFilterComboBox"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_DoubleTapInstructionLabel">
-        <property name="text">
-         <string>Double Click File Item to Select The File</string>
-        </property>
-       </widget>
+       <widget class="FileFilterSelectWidget" name="m_FileFilterSelectWidget" native="true"/>
       </item>
       <item>
        <widget class="QWidget" name="m_UpDirWidget" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>2</number>
+         </property>
          <property name="leftMargin">
           <number>2</number>
          </property>
@@ -252,6 +190,9 @@
       <item>
        <widget class="QWidget" name="m_AddAllWidget" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>2</number>
+         </property>
          <property name="leftMargin">
           <number>2</number>
          </property>
@@ -303,6 +244,77 @@
           </widget>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_StatusLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Folder:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="VxLabel" name="m_CurDirLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_DoubleTapInstructionLabel">
+        <property name="text">
+         <string>Double Click File Item to Select The File</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -374,9 +386,10 @@
    <header>VxLabel.h</header>
   </customwidget>
   <customwidget>
-   <class>VxComboBoxFileFilter</class>
-   <extends>QComboBox</extends>
-   <header>VxComboBoxFileFilter.h</header>
+   <class>FileFilterSelectWidget</class>
+   <extends>QWidget</extends>
+   <header>FileFilterSelectWidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>TitleBarWidget</class>

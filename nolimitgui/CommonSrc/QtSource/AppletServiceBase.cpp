@@ -24,8 +24,8 @@
 
 QLabel *            AppletServiceBase::getServiceTitle() { return ui.m_ServiceTitleLabel; }
 
-QLabel *            AppletServiceBase::getServiceUrlLabel( bool ipv6 ) { return ipv6 ? ui.m_UrlDescriptionLabelIpv6 : ui.m_UrlDescriptionLabelIpv4; }
-QLineEdit *         AppletServiceBase::getServiceUrlEdit( bool ipv6 ) { return ipv6 ? ui.m_UrlEditIpv6 : ui.m_UrlEditIpv4; }
+QLabel *            AppletServiceBase::getServiceUrlLabel( void ) { return ui.m_UrlDescriptionLabelIpv4; }
+QLineEdit *         AppletServiceBase::getServiceUrlEdit( void ) { return ui.m_UrlEdit; }
 
 QLabel *            AppletServiceBase::getServiceNameLabel() { return ui.m_UserDisplayedNameLabel; }
 QLineEdit *         AppletServiceBase::getServiceNameEdit() { return ui.m_NameEdit; }
@@ -64,10 +64,10 @@ void AppletServiceBase::setupServiceBaseApplet( EApplet applet, EPluginType plug
 
     ui.m_RunOnStartupCheckBox->setVisible( false );
     
-    getServiceUrlLabel(false)->setVisible( false );
-    getServiceUrlLabel(true)->setVisible( false );
-    getServiceUrlEdit(false)->setVisible( false );
-    getServiceUrlEdit(true)->setVisible( false );
+    getServiceUrlLabel()->setVisible( false );
+
+    getServiceUrlEdit()->setVisible( false );
+
     getStartButton()->setVisible( false );
     getStopButton()->setVisible( false );
     getInformationWidget()->setVisible( false );
@@ -140,8 +140,8 @@ void AppletServiceBase::loadUiFromSetting()
     {
         ui.m_ContentRatingComboBox->setCurrentIndex( GuiHelpers::contentRatingToIndex( m_PluginSetting.getContentRating() ) );
         ui.m_LanguageComboBox->setCurrentIndex( GuiHelpers::languageToIndex( m_PluginSetting.getLanguage() ) );
-        ui.m_UrlEditIpv4->setText( m_PluginSetting.getPluginUrl(false).c_str() );
-        ui.m_UrlEditIpv6->setText( m_PluginSetting.getPluginUrl(true).c_str() );
+        ui.m_UrlEdit->setText( m_PluginSetting.getPluginUrl().c_str() );
+
         ui.m_NameEdit->setText( m_PluginSetting.getTitle().c_str() );
         ui.m_DescriptionEdit->appendPlainText( m_PluginSetting.getDescription().c_str() );
         ui.m_ThumbnailEditWidget->loadThumbnail( m_PluginSetting.getThumnailId() );
@@ -156,8 +156,8 @@ void AppletServiceBase::saveUiToSetting()
     {
         m_PluginSetting.setContentRating( ( EContentRating)ui.m_ContentRatingComboBox->currentIndex() );
         m_PluginSetting.setLanguage( ( ELanguageType )ui.m_LanguageComboBox->currentIndex() );
-        m_PluginSetting.setPluginUrl( false, ui.m_UrlEditIpv4->text().toUtf8().constData() );
-        m_PluginSetting.setPluginUrl( true, ui.m_UrlEditIpv6->text().toUtf8().constData() );
+        m_PluginSetting.setPluginUrl( ui.m_UrlEdit->text().toUtf8().constData() );
+
         m_PluginSetting.setTitle( ui.m_NameEdit->text().toUtf8().constData() );
         m_PluginSetting.setKeyWords( ui.m_KeyWordsEdit->text().toUtf8().constData() );
         m_PluginSetting.setThumnailId( ui.m_ThumbnailEditWidget->updateAndGetThumbnailId(), ui.m_ThumbnailEditWidget->getThumbnailIsCircular() );

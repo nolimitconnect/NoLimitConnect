@@ -118,8 +118,7 @@ std::string GuiUser::dumpUserInfo( void )
     StdStringAppendText( userInfo, "Last Connected: %s \n", VxTimeUtil::formatTimeStampIntoDateAndTimeWithTextMonths( netIdent.getLastSessionTimeMs() ).c_str() );
 
 
-    StdStringAppendText( userInfo, "IPv4 URL: %s \n", netIdent.getMyOnlineUrl( false ).c_str() );
-    StdStringAppendText( userInfo, "IPv6 URL: %s \n", netIdent.getMyOnlineUrl( true ).c_str() );
+    StdStringAppendText( userInfo, "IP URL: %s \n", netIdent.getMyOnlineUrl().c_str() );
 
     LogMsg( LOG_INFO, "GuiUser::dumpUserInfo %s ", userInfo.c_str() );
 

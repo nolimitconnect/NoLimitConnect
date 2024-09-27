@@ -16,7 +16,7 @@
 
 #include "AppGlobals.h"
 #include "AppCommon.h"
-#include "AppSettings.h"
+
 #include "MyIconsDefs.h"
 #include "AccountMgr.h"
 
@@ -233,12 +233,12 @@ void AppletNetworkSettings::applyEngineSettingsFromHostSetting( NetHostSetting& 
 {
     if( 1 == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
     {
-        m_MyApp.getAppGlobals().getMyNetIdent()->setOnlineIpAddress( ui.m_UseIpv6Network->isChecked(), netHostSetting.getUserSpecifiedExternIpAddr().c_str());
+        m_MyApp.getAppGlobals().getMyNetIdent()->setOnlineIpAddress( netHostSetting.getUserSpecifiedExternIpAddr().c_str());
     }
 
-    if( m_Engine.getMyNetIdent()->getMyOnlinePort() != netHostSetting.getTcpPort() )
+    if( m_Engine.getMyNetIdent()->getOnlinePort() != netHostSetting.getTcpPort() )
     {
-        m_Engine.getMyNetIdent()->setMyOnlinePort( netHostSetting.getTcpPort() );
+        m_Engine.getMyNetIdent()->setOnlinePort( netHostSetting.getTcpPort() );
         m_Engine.setPktAnnLastModTime( GetTimeStampMs() );
     }
 
@@ -431,7 +431,7 @@ void AppletNetworkSettings::slotTestUpnpButtonClick( void )
         m_MyApp.launchApplet( eAppletLogView, getParentPageFrame() );
         updateSettingsFromDlg();
         VxPortForward::setEnablePortForward( true );
-        VxPortForward::addPortForward( false, m_MyApp.getEngine().getNetStatusAccum().getLanIpAddress( false ), u16Port );
+        VxPortForward::addPortForward( false, m_MyApp.getEngine().getNetStatusAccum().getLocalIpAddress(), u16Port );
         VxPortForward::listPortForward( false );
     }
     else

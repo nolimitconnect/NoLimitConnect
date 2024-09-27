@@ -239,7 +239,7 @@ void GroupieListMgr::announceGroupieInfoSearchResult( GroupieInfo* groupieInfo, 
 }
 
 //============================================================================
-void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& nodeUrlIpv4, std::string& nodeUrlIpv6, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool requiresSendGroupieInfoRequest{ false };
     bool requiresAnnounceUpdate{ false };
@@ -257,25 +257,15 @@ void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGU
                 requiresSendGroupieInfoRequest = true;
             }
 
-            if( nodeUrlIpv4 != iter->getGroupieUrl( false ) )
+            if( nodeUrl != iter->getGroupieUrl() )
             {
                 urlChanged = true;
-                iter->setGroupieUrl( false, nodeUrlIpv4 );
+                iter->setGroupieUrl( nodeUrl );
                 if( !requiresSendGroupieInfoRequest && iter->isValidForGui() )
                 {
                     requiresAnnounceUpdate = true;
                 }
-            }       
-
-            if( nodeUrlIpv6 != iter->getGroupieUrl( true ) )
-            {
-                urlChanged = true;
-                iter->setGroupieUrl( true, nodeUrlIpv6 );
-                if( !requiresSendGroupieInfoRequest && iter->isValidForGui() )
-                {
-                    requiresAnnounceUpdate = true;
-                }
-            }   
+            }         
 
             if( iter->shouldSaveToDb() )
             {
@@ -299,7 +289,7 @@ void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGU
     if( !wasFound )
     {
         requiresSendGroupieInfoRequest = true;
-        GroupieInfo groupieInfo( groupieOnlineId, hostOnlineId, hostType, nodeUrlIpv4, nodeUrlIpv6 );
+        GroupieInfo groupieInfo( groupieOnlineId, hostOnlineId, hostType, nodeUrl );
         groupieInfo.setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
         m_GroupieInfoList.push_back( groupieInfo );
     }
@@ -647,18 +637,11 @@ void GroupieListMgr::onGroupieAnnounceUpdated( EHostType hostType, GroupieInfo& 
 // returns true if retGroupieInfo was filled
 bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, GroupieInfo* retResultInfo )
 {
-    bool ipv6{ false };
-    VxPtopUrl ptopUrl( groupieInfo.getGroupieUrl(false) );
+    VxPtopUrl ptopUrl( groupieInfo.getGroupieUrl() );
     if( !ptopUrl.isValid() )
     {
-        ptopUrl.setUrl( groupieInfo.getGroupieUrl(true) );
-        if( !ptopUrl.isValid() )
-        {
-            LogMsg( LOG_ERROR, "GroupieListMgr::hostSearchResult INVALID url" );
-            return false;
-        }
-
-        ipv6 = true;
+        LogMsg( LOG_ERROR, "GroupieListMgr::hostSearchResult INVALID url" );
+        return false;
     }
 
     bool filledResultInfo = false;
@@ -674,13 +657,13 @@ bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupie
         else
         {
             needsIdentityReq = true;
-            m_Engine.getHostUrlListMgr().requestIdentity( groupieInfo.getGroupieUrl( ipv6 ) );
+            m_Engine.getHostUrlListMgr().requestIdentity( groupieInfo.getGroupieUrl() );
         }
     }
 
-    LogMsg( LOG_VERBOSE, "GroupieListMgr::hostSearchResult title %s desc %s time %lld host url ip4 %s ip6 %s", 
+    LogMsg( LOG_VERBOSE, "GroupieListMgr::hostSearchResult title %s desc %s time %lld host url ip %s", 
             groupieInfo.getGroupieTitle().c_str(), groupieInfo.getGroupieDescription().c_str(), groupieInfo.getGroupieInfoTimestamp(), 
-            groupieInfo.getGroupieUrl(false).c_str(), groupieInfo.getGroupieUrl(true).c_str() );
+            groupieInfo.getGroupieUrl().c_str() );
 
     bool alreadyExisted{ false };
     bool groupieInfoUpdated{ false };
@@ -698,28 +681,15 @@ bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupie
                 iter->setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
             }
 
-            if( iter->getGroupieUrl(false) != groupieInfo.getGroupieUrl(false) )
+            if( iter->getGroupieUrl() != groupieInfo.getGroupieUrl() )
             {
                 // url has changed. just update
-                iter->setGroupieUrl( false, groupieInfo.getGroupieUrl(false) );
+                iter->setGroupieUrl( groupieInfo.getGroupieUrl() );
                 // update our url list also
                 //m_Engine.getHostUrlListMgr().updateHostUrl( hostType, groupieInfo.getOnlineId(), groupieInfo.getGroupieUrl() );
                 if( iter->shouldSaveToDb() )
                 {
-                    m_GroupieInfoListDb.updateGroupieUrl( false, iter->getUserOnlineId(), iter->getHostOnlineId(), iter->getHostType(), groupieInfo.getGroupieUrl( false ) );
-                }
-                // TODO do we need to update if just url changed ?
-            }
-
-            if( iter->getGroupieUrl(true) != groupieInfo.getGroupieUrl(true) )
-            {
-                // url has changed. just update
-                iter->setGroupieUrl( true, groupieInfo.getGroupieUrl(true) );
-                // update our url list also
-                //m_Engine.getHostUrlListMgr().updateHostUrl( hostType, groupieInfo.getOnlineId(), groupieInfo.getGroupieUrl() );
-                if( iter->shouldSaveToDb() )
-                {
-                    m_GroupieInfoListDb.updateGroupieUrl( true, iter->getUserOnlineId(), iter->getHostOnlineId(), iter->getHostType(), groupieInfo.getGroupieUrl( true ) );
+                    m_GroupieInfoListDb.updateGroupieUrl( false, iter->getUserOnlineId(), iter->getHostOnlineId(), iter->getHostType(), groupieInfo.getGroupieUrl() );
                 }
                 // TODO do we need to update if just url changed ?
             }
@@ -803,12 +773,11 @@ void GroupieListMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, Vx
 {
     GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), sessionInfo.getHostType() );
 
-    std::string groupieUrlIpv4 = netIdent->getMyOnlineUrl( false );
-    std::string groupieUrlIpv6 = netIdent->getMyOnlineUrl( true );
+    std::string groupieUrl = netIdent->getMyOnlineUrl();
     std::string groupieTitle = netIdent->getOnlineName();
     std::string groupieDesc = netIdent->getOnlineDescription();
 
-    GroupieInfo groupieInfo( groupieId, groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, GetGmtTimeMs() );
+    GroupieInfo groupieInfo( groupieId, groupieUrl, groupieTitle, groupieDesc, GetGmtTimeMs() );
     GroupieInfo retResultInfo;
     updateGroupieInfo( sessionInfo.getHostType(), groupieInfo, netIdent, sktBase, &retResultInfo );
 }
@@ -829,17 +798,16 @@ void GroupieListMgr::onPktGroupieInfoReq( std::shared_ptr<VxSktBase>& sktBase, V
     pktReply.setSessionId( pktReq->getSessionId() );
     if( eCommErrNone == commErr )
     {
-        std::string groupieUrlIpv4;
-        std::string groupieUrlIpv6;
+        std::string groupieUrl;
         std::string groupieTitle;
         std::string groupieDesc;
         int64_t lastModifiedTime;
         VxGUID groupieOnlineId = pktReq->getUserOnlineId();
         GroupieId groupieId( groupieOnlineId, m_Engine.getMyOnlineId(), pktReq->getHostType() );
         bool foundGroupie{ false };
-        if( groupieId.isValid() && getGroupieUrlAndTitleAndDescription( groupieId, groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime ) )
+        if( groupieId.isValid() && getGroupieUrlAndTitleAndDescription( groupieId, groupieUrl, groupieTitle, groupieDesc, lastModifiedTime ) )
         {
-            foundGroupie = pktReply.setGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime );
+            foundGroupie = pktReply.setGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, lastModifiedTime );
         }
 
         if( !foundGroupie )
@@ -863,8 +831,7 @@ void GroupieListMgr::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase,
     PktGroupieInfoReply* pktReply = ( PktGroupieInfoReply* )pktHdr;
 
     EHostType hostType = pktReply->getHostType();
-    std::string groupieUrlIpv4;
-    std::string groupieUrlIpv6;
+    std::string groupieUrl;
     VxGUID groupieOnlineId;
     std::string groupieTitle;
     std::string groupieDesc;
@@ -872,17 +839,12 @@ void GroupieListMgr::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase,
     ECommErr commErr = pktReply->getCommError();
     if( eCommErrNone == commErr )
     {
-        if( pktReply->getGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime ) )
+        if( pktReply->getGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, lastModifiedTime ) )
         {
-            VxPtopUrl ptopUrlipv4( groupieUrlIpv4 );
-            if( ptopUrlipv4.isValid() )
+            VxPtopUrl ptopUrl( groupieUrl );
+            if( ptopUrl.isValid() )
             {
-                groupieOnlineId = ptopUrlipv4.getOnlineId();
-            }
-            else
-            {
-                VxPtopUrl ptopUrlipv6( groupieUrlIpv6 );
-                groupieOnlineId = ptopUrlipv4.getOnlineId();
+                groupieOnlineId = ptopUrl.getOnlineId();
             }
 
             if( groupieOnlineId.isVxGUIDValid() )
@@ -890,7 +852,7 @@ void GroupieListMgr::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase,
                 if( !groupieTitle.empty() && !groupieDesc.empty() && lastModifiedTime )
                 {
                     GroupieId groupieId( groupieOnlineId, netIdent->getMyOnlineId(), hostType );
-                    if( groupieId.isValid() && setGroupieUrlAndTitleAndDescription( groupieId, groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime ) )
+                    if( groupieId.isValid() && setGroupieUrlAndTitleAndDescription( groupieId, groupieUrl, groupieTitle, groupieDesc, lastModifiedTime ) )
                     {
                         result = true;
                     }              
@@ -933,34 +895,26 @@ void GroupieListMgr::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, Vx
     pktReply.setCommError( commErr );
     if( eCommErrNone == commErr )
     {
-        std::string groupieUrlIpv4;
-        std::string groupieUrlIpv6;
+        std::string groupieUrl;
         std::string groupieTitle;
         std::string groupieDesc;
         int64_t timeModified{ 0 };
 
-        if( pktReq->getGroupieInfo( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified ) )
+        if( pktReq->getGroupieInfo( groupieUrl, groupieTitle, groupieDesc, timeModified ) )
         {
             VxGUID onlineId;
-            VxPtopUrl ptopUrlIp4( groupieUrlIpv4 );
+            VxPtopUrl ptopUrl( groupieUrl );
             {
-                ptopUrlIp4.isValid();
-                onlineId = ptopUrlIp4.getOnlineId();
+                ptopUrl.isValid();
+                onlineId = ptopUrl.getOnlineId();
             }
 
-            VxPtopUrl ptopUrlIp6( groupieUrlIpv6 );
-            {
-                ptopUrlIp6.isValid() && !onlineId.isVxGUIDValid();
-                onlineId = ptopUrlIp6.getOnlineId();
-            }
-
-
-            if( ( ptopUrlIp4.isValid() || ptopUrlIp4.isValid() ) && onlineId.isVxGUIDValid() && (!groupieUrlIpv4.empty() || !groupieUrlIpv6.empty()) && !groupieTitle.empty() && !groupieDesc.empty() && timeModified )
+            if( ptopUrl.isValid() && onlineId.isVxGUIDValid() && !groupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty() && timeModified )
             {
                 GroupieId groupieId( onlineId, m_Engine.getMyOnlineId(), pktReq->getHostType() );
                 if( groupieId.isValid() )
                 {
-                    setGroupieUrlAndTitleAndDescription( groupieId, groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified );
+                    setGroupieUrlAndTitleAndDescription( groupieId, groupieUrl, groupieTitle, groupieDesc, timeModified );
                 }
             }
             else
@@ -1015,15 +969,14 @@ void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase,
 
                 if( iter->isSearchTextMatch( searchText ) )
                 {
-                    std::string groupieUrlIpv4;
-                    std::string groupieUrlIpv6;
+                    std::string groupieUrl;
                     std::string groupieTitle;
                     std::string groupieDesc;
                     int64_t timeModified{ 0 };
 
-                    if( iter->getGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified ) )
+                    if( iter->getGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, timeModified ) )
                     {
-                        if( !pktReply.addGroupieInfo( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified ) )
+                        if( !pktReply.addGroupieInfo( groupieUrl, groupieTitle, groupieDesc, timeModified ) )
                         {
                             LogModule( eLogHostSearch, LOG_DEBUG, "GroupieListMgr::onPktGroupieSearchReq search text full count %d", pktReply.getGroupieCountThisPkt() );
                             // normally would set next online id so client can ask for more but because is a text search we just quit when a single packet is full
@@ -1058,16 +1011,15 @@ void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase,
 
                     if( iter->isIdMatch( groupieId ) )
                     {
-                        std::string groupieUrlIpv4;
-                        std::string groupieUrlIpv6;
+                        std::string groupieUrl;
                         std::string groupieTitle;
                         std::string groupieDesc;
                         int64_t timeModified{ 0 };
 
-                        foundUser = iter->getGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified );
+                        foundUser = iter->getGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, timeModified );
                         if( foundUser )
                         {
-                            foundUser = pktReply.addGroupieInfo( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified );
+                            foundUser = pktReply.addGroupieInfo( groupieUrl, groupieTitle, groupieDesc, timeModified );
                         }
                    
                         break;
@@ -1101,15 +1053,14 @@ void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase,
                 int spaceRequired = iter->getSearchBlobSpaceRequirement();
                 if( blobEntry.haveRoom( spaceRequired ) )
                 {
-                    std::string groupieUrlIpv4;
-                    std::string groupieUrlIpv6;
+                    std::string groupieUrl;
                     std::string groupieTitle;
                     std::string groupieDesc;
                     int64_t timeModified{ 0 };
 
-                    if( iter->getGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified ) )
+                    if( iter->getGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, timeModified ) )
                     {
-                        pktReply.addGroupieInfo( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, timeModified );
+                        pktReply.addGroupieInfo( groupieUrl, groupieTitle, groupieDesc, timeModified );
                     }
                 }
                 else
@@ -1236,7 +1187,7 @@ void GroupieListMgr::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase,
 }
 
 //============================================================================
-bool GroupieListMgr::setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool GroupieListMgr::setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     bool result{ false };
     bool foundGroupie{ false };
@@ -1245,7 +1196,7 @@ bool GroupieListMgr::setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, 
     {
         if( iter->isIdMatch( groupieId ) )
         {
-            result = iter->setGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime );
+            result = iter->setGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, lastModifiedTime );
             foundGroupie = true;
             break;
         }
@@ -1253,7 +1204,7 @@ bool GroupieListMgr::setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, 
 
     if( !foundGroupie )
     {
-        GroupieInfo groupieInfo( groupieId, groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime );
+        GroupieInfo groupieInfo( groupieId, groupieUrl, groupieTitle, groupieDesc, lastModifiedTime );
         if( groupieInfo.isValidForGui() )
         {
             m_GroupieInfoList.push_back( groupieInfo );
@@ -1266,7 +1217,7 @@ bool GroupieListMgr::setGroupieUrlAndTitleAndDescription( GroupieId& groupieId, 
 }
 
 //============================================================================
-bool GroupieListMgr::getGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool GroupieListMgr::getGroupieUrlAndTitleAndDescription( GroupieId& groupieId, std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     bool result{ false };
     lockList();
@@ -1274,7 +1225,7 @@ bool GroupieListMgr::getGroupieUrlAndTitleAndDescription( GroupieId& groupieId, 
     {
         if( iter->isIdMatch( groupieId ) )
         {
-            result = iter->getGroupieUrlAndTitleAndDescription( groupieUrlIpv4, groupieUrlIpv6, groupieTitle, groupieDesc, lastModifiedTime );
+            result = iter->getGroupieUrlAndTitleAndDescription( groupieUrl, groupieTitle, groupieDesc, lastModifiedTime );
             break;
         }
     }
@@ -1324,7 +1275,7 @@ bool GroupieListMgr::requestMoreGroupiesFromHost( EHostType hostType, VxGUID& se
 //============================================================================
 void GroupieListMgr::connectToGroupieIfPossible( GroupieInfo& groupieInfo, EConnectReason connectReason )
 {
-    VxPtopUrl ptopUrl( groupieInfo.getGroupieUrl( false ) );
+    VxPtopUrl ptopUrl( groupieInfo.getGroupieUrl() );
     if( ptopUrl.isValid() )
     {
         if( !m_Engine.getConnectIdListMgr().isUserOnline( ptopUrl.getOnlineId() ) )

@@ -54,7 +54,7 @@ void PingResponseServer::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBa
 }
 
 //============================================================================
-RCODE PingResponseServer::startListeningThreads( void )
+RCODE PingResponseServer::startListeningThreads( bool ipv6 )
 {
 #if 0 // TODO BRJ is this even needed? was used to test ports other than the listen port
     std::string ipv4ThreadName;

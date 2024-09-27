@@ -8,7 +8,7 @@
 
 #pragma once
 
-#ifndef TARGET_WINDOWS
+#ifndef TARGET_OS_WINDOWS
 //compile fix for TinyXml < 2.6.0
 #define DOCUMENT    TINYXML_DOCUMENT
 #define ELEMENT     TINYXML_ELEMENT

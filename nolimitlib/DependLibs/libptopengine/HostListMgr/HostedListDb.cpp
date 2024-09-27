@@ -21,15 +21,14 @@ namespace
 {
 	const int			COLUMN_IDX_ONLINE_ID			= 0;
 	const int			COLUMN_IDX_HOST_TYPE			= 1;
-	const int			COLUMN_IDX_HOST_URL_IPV4		= 2;
-	const int			COLUMN_IDX_HOST_URL_IPV6		= 3;
-	const int			COLUMN_IDX_HOST_TITLE			= 4;
-	const int			COLUMN_IDX_HOST_DESC			= 5;
-	const int			COLUMN_IDX_IS_FAVORITE			= 6;
-	const int			COLUMN_IDX_CONNECT_TIME			= 7;
-	const int			COLUMN_IDX_JOIN_TIME			= 8;
-	const int			COLUMN_IDX_HOST_INFO_TIME		= 9;
-	const int			COLUMN_IDX_THUMB_ID				= 10;
+	const int			COLUMN_IDX_HOST_URL				= 2;
+	const int			COLUMN_IDX_HOST_TITLE			= 3;
+	const int			COLUMN_IDX_HOST_DESC			= 4;
+	const int			COLUMN_IDX_IS_FAVORITE			= 5;
+	const int			COLUMN_IDX_CONNECT_TIME			= 6;
+	const int			COLUMN_IDX_JOIN_TIME			= 7;
+	const int			COLUMN_IDX_HOST_INFO_TIME		= 8;
+	const int			COLUMN_IDX_THUMB_ID				= 9;
 }
 
 //============================================================================
@@ -54,7 +53,7 @@ RCODE HostedListDb::hostedListDbShutdown( void )
 //============================================================================
 RCODE HostedListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblHosted (online_id TEXT, host_type INTEGER, hostUrlIpv4 TEXT, hostUrlIpv6 TEXT, host_title TEXT, host_desc TEXT, favorite INTEGER, connect_time BIGINT, join_time BIGINT, info_time BIGINT, thumb_id TEXT)" );
+	RCODE rc = sqlExec( "CREATE TABLE tblHosted (online_id TEXT, host_type INTEGER, hostUrl, host_title TEXT, host_desc TEXT, favorite INTEGER, connect_time BIGINT, join_time BIGINT, info_time BIGINT, thumb_id TEXT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -80,8 +79,7 @@ void HostedListDb::getAllHosteds( std::vector<HostedInfo>& hostedList )
 
 			hostInfo.getAdminOnlineId().fromVxGUIDHexString( cursor->getString( COLUMN_IDX_ONLINE_ID ) );
 			hostInfo.setHostType( (EHostType)cursor->getS32( COLUMN_IDX_HOST_TYPE ) );
-			hostInfo.setHostInviteUrl( false, cursor->getString( COLUMN_IDX_HOST_URL_IPV4 ) );
-			hostInfo.setHostInviteUrl( true, cursor->getString( COLUMN_IDX_HOST_URL_IPV6 ) );
+			hostInfo.setHostInviteUrl( cursor->getString( COLUMN_IDX_HOST_URL ) );
 			hostInfo.setHostTitle( cursor->getString( COLUMN_IDX_HOST_TITLE ) );
 			hostInfo.setHostDescription( cursor->getString( COLUMN_IDX_HOST_DESC ) );
 			hostInfo.setIsFavorite( cursor->getS32( COLUMN_IDX_IS_FAVORITE ) );
@@ -110,7 +108,7 @@ void HostedListDb::removeClosedPortIdent( VxGUID& onlineId )
 }
 
 //============================================================================
-void HostedListDb::removeHostedInfo( EHostType hostType, VxGUID& onlineId )
+void HostedListDb::removeHostedInfo( enum EHostType hostType, VxGUID& onlineId )
 {
 	m_DbMutex.lock();
 	std::string onlineIdHex = onlineId.toHexString();
@@ -121,7 +119,7 @@ void HostedListDb::removeHostedInfo( EHostType hostType, VxGUID& onlineId )
 }
 
 //============================================================================
-bool HostedListDb::doesHostInfoExist( EHostType hostType, VxGUID& onlineId, std::string& retOnlineHexStr )
+bool HostedListDb::doesHostInfoExist( enum EHostType hostType, VxGUID& onlineId, std::string& retOnlineHexStr )
 {
 	if( !onlineId.isVxGUIDValid() || !onlineId.toHexString( retOnlineHexStr ) )
 	{
@@ -148,7 +146,7 @@ bool HostedListDb::doesHostInfoExist( EHostType hostType, VxGUID& onlineId, std:
 }
 
 //============================================================================
-bool HostedListDb::updateIsFavorite( EHostType hostType, VxGUID& onlineId, bool isFavorite )
+bool HostedListDb::updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, bool isFavorite )
 {
 	std::string onlineHexStr;
 	bool result = doesHostInfoExist( hostType, onlineId, onlineHexStr );
@@ -168,7 +166,7 @@ bool HostedListDb::updateIsFavorite( EHostType hostType, VxGUID& onlineId, bool 
 }
 
 //============================================================================
-bool HostedListDb::updateLastConnected( EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime )
+bool HostedListDb::updateLastConnected( enum EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime )
 {
 	std::string onlineHexStr;
 	bool result = doesHostInfoExist( hostType, onlineId, onlineHexStr );
@@ -188,7 +186,7 @@ bool HostedListDb::updateLastConnected( EHostType hostType, VxGUID& onlineId, in
 }
 
 //============================================================================
-bool HostedListDb::updateLastJoined( EHostType hostType, VxGUID& onlineId, int64_t lastJoinedTime )
+bool HostedListDb::updateLastJoined( enum EHostType hostType, VxGUID& onlineId, int64_t lastJoinedTime )
 {
 	std::string onlineHexStr;
 	bool result = doesHostInfoExist( hostType, onlineId, onlineHexStr );
@@ -208,7 +206,7 @@ bool HostedListDb::updateLastJoined( EHostType hostType, VxGUID& onlineId, int64
 }
 
 //============================================================================
-bool HostedListDb::updateHostUrl( bool ipv6, EHostType hostType, VxGUID& onlineId, std::string& hostUrl )
+bool HostedListDb::updateHostUrl( enum EHostType hostType, VxGUID& onlineId, std::string& hostUrl )
 {
 	std::string onlineHexStr;
 	bool result = doesHostInfoExist( hostType, onlineId, onlineHexStr );
@@ -219,16 +217,7 @@ bool HostedListDb::updateHostUrl( bool ipv6, EHostType hostType, VxGUID& onlineI
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc{ 0 };
-		if( ipv6 )
-		{
-			RCODE rc = sqlExec( "UPDATE tblHosted SET host_url=? WHERE online_id=? AND host_type=?", bindList );
-		}
-		else
-		{
-
-		}
-		
+		RCODE rc = sqlExec( "UPDATE tblHosted SET host_url=? WHERE online_id=? AND host_type=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -237,7 +226,7 @@ bool HostedListDb::updateHostUrl( bool ipv6, EHostType hostType, VxGUID& onlineI
 }
 
 //============================================================================
-bool HostedListDb::updateHostTitleAndDescription( EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxGUID& thumbId )
+bool HostedListDb::updateHostTitleAndDescription( enum EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxGUID& thumbId )
 {
 	std::string onlineHexStr;
 	bool result = doesHostInfoExist( hostType, onlineId, onlineHexStr );
@@ -277,8 +266,7 @@ bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 	DbBindList bindList( onlineId.c_str() );
 	bindList.add( ( int )hostedInfo.getHostType() );
 
-	bindList.add( hostedInfo.getHostInviteUrl( false ).c_str() );
-	bindList.add( hostedInfo.getHostInviteUrl( true ).c_str() );
+	bindList.add( hostedInfo.getHostInviteUrl().c_str() );
 
 	bindList.add( hostedInfo.getHostTitle().c_str() );
 	bindList.add( hostedInfo.getHostDescription().c_str() );
@@ -291,7 +279,7 @@ bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 	bindList.add( hostedInfo.getThumbId().toHexString().c_str() );
 
 	// insert new record
-	RCODE rc = sqlExec( "INSERT INTO tblHosted (online_id, host_type, hostUrlIpv4, hostUrlIpv6, host_title, host_desc, favorite, connect_time, join_time, info_time, thumb_id) VALUES(?,?,?,?,?,?,?,?,?,?,?)", bindList );
+	RCODE rc = sqlExec( "INSERT INTO tblHosted (online_id, host_type, hostUrl, host_title, host_desc, favorite, connect_time, join_time, info_time, thumb_id) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
 
 	if( rc )
 	{

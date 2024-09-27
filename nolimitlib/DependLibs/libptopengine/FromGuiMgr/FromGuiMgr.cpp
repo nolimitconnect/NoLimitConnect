@@ -73,27 +73,27 @@ void FromGuiMgr::fromGuiUserLoggedOn( VxNetIdent* netIdent )
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+void FromGuiMgr::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
 {
-	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiAnnounceHost, adminId, sessionId, hostUrlIpv4, hostUrlIpv6 ) );
+	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiAnnounceHost, adminId, sessionId, hostUrl ) );
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+void FromGuiMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
 {
-	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiJoinHost, adminId, sessionId, hostUrlIpv4, hostUrlIpv6 ) );
+	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiJoinHost, adminId, sessionId, hostUrl ) );
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+void FromGuiMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
 {
-	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiLeaveHost, adminId, sessionId, hostUrlIpv4, hostUrlIpv6 ) );
+	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiLeaveHost, adminId, sessionId, hostUrl ) );
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+void FromGuiMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
 {
-	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiUnJoinHost, adminId, sessionId, hostUrlIpv4, hostUrlIpv6 ) );
+	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiUnJoinHost, adminId, sessionId, hostUrl ) );
 }
 
 //============================================================================

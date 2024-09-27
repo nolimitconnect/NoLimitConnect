@@ -19,7 +19,7 @@ namespace
 {
     std::string 		TABLE_USER_HOST	 				= "tblHostJoins";
 
-    std::string 		CREATE_COLUMNS_USER_HOST		= " (onlineId TEXT, thumbId TEXT, infoModMs BIGINT, pluginType INTEGER, friendState INTEGER, joinState INTEGER, lastConnMs BIGINT, lastJoinMs BIGINT, hostFlags INTEGER, userUrlIpv4 TEXT,  userUrlIpv6 TEXT) ";
+    std::string 		CREATE_COLUMNS_USER_HOST		= " (onlineId TEXT, thumbId TEXT, infoModMs BIGINT, pluginType INTEGER, friendState INTEGER, joinState INTEGER, lastConnMs BIGINT, lastJoinMs BIGINT, hostFlags INTEGER, userUrl TEXT) ";
 
     const int			COLUMN_ONLINE_ID			    = 0;
     const int			COLUMN_HOST_THUMB_ID			= 1;
@@ -30,8 +30,7 @@ namespace
     const int			COLUMN_LAST_CONN_MS				= 6;
     const int			COLUMN_LAST_JOIN_MS			    = 7;
     const int			COLUMN_HOST_FLAGS			    = 8;
-    const int			COLUMN_USER_URL_IPV4			= 9;
-    const int			COLUMN_USER_URL_IPV6			= 10;
+    const int			COLUMN_USER_URL			        = 9;
 }
 
 //============================================================================
@@ -101,8 +100,7 @@ bool HostJoinInfoDb::addHostJoin(   GroupieId&      groupieId,
                                     uint64_t		lastJoinMs,
                                     EFriendState    friendState,
                                     uint32_t        hostFlags,
-                                    std::string     hostUrlIpv4,
-                                    std::string     hostUrlIpv6
+                                    std::string     hostUrl
                                    )
 {
     // always change is granted to was granted so when loaded the app knows have not rejoined yet
@@ -128,9 +126,9 @@ bool HostJoinInfoDb::addHostJoin(   GroupieId&      groupieId,
     bindList.add( lastConnectMs );
     bindList.add( lastJoinMs ); 
     bindList.add( (int)hostFlags );
-    bindList.add( hostUrlIpv4.c_str() );
-    bindList.add( hostUrlIpv6.c_str() );
-    RCODE rc = sqlExec( "INSERT INTO tblHostJoins (onlineId, thumbId, infoModMs, pluginType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, userUrlIpv4, userUrlIpv6) values(?,?,?,?,?,?,?,?,?,?,?)",
+    bindList.add( hostUrl.c_str() );
+
+    RCODE rc = sqlExec( "INSERT INTO tblHostJoins (onlineId, thumbId, infoModMs, pluginType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, userUrl) values(?,?,?,?,?,?,?,?,?,?)",
         bindList );
     unlockHostJoinInfoDb();
     vx_assert( 0 == rc );
@@ -153,8 +151,7 @@ bool HostJoinInfoDb::addHostJoin( HostJoinInfo* hostInfo )
                         hostInfo->BaseJoinInfo::getLastJoinTime(),
                         hostInfo->getFriendState(),
                         hostInfo->getHostFlags(),
-                        hostInfo->getUserUrl( true ),
-                        hostInfo->getUserUrl( false )
+                        hostInfo->getUserUrl()
         );
 }
 
@@ -178,8 +175,7 @@ void HostJoinInfoDb::getAllHostJoins( std::map<GroupieId, HostJoinInfo*>& HostJo
             hostInfo->setLastConnectTime( (uint64_t)cursor->getS64( COLUMN_LAST_CONN_MS ) );
             hostInfo->setLastJoinTime(  (uint64_t)cursor->getS64( COLUMN_LAST_JOIN_MS ) ); 
             hostInfo->setHostFlags( (uint32_t)cursor->getS32( COLUMN_HOST_FLAGS ) );
-            hostInfo->setUserUrl( false, cursor->getString( COLUMN_USER_URL_IPV4 ) );
-            hostInfo->setUserUrl( true, cursor->getString( COLUMN_USER_URL_IPV6 ) );
+            hostInfo->setUserUrl( cursor->getString( COLUMN_USER_URL ) );
 
             EPluginType pluginType = HostTypeToHostPlugin( hostType );
             if( !IsAnnounceHostOrClientPluginType( pluginType ) )
@@ -190,7 +186,7 @@ void HostJoinInfoDb::getAllHostJoins( std::map<GroupieId, HostJoinInfo*>& HostJo
 
             hostInfo->setHostType( hostType );
 
-            VxPtopUrl ptopUrl( hostInfo->getUserUrl( false ) );
+            VxPtopUrl ptopUrl( hostInfo->getUserUrl() );
             if( ptopUrl.isValid() && hostInfo->getOnlineId().isVxGUIDValid() )
             {
                 GroupieId groupieId( ptopUrl.getOnlineId(), m_Engine.getMyOnlineId(), hostInfo->getHostType() );

@@ -29,7 +29,7 @@ public:
 
 	bool						isUrlIpv4( void );
 	bool						isUrlIpv6( void );
-	std::string					getHostUrl( bool ipv6 );
+	std::string					getHostUrl( void );
 
 	void						setUrl( std::string& url );
 	void						setUrl( const char* url );

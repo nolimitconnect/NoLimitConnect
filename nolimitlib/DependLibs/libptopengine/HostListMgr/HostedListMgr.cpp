@@ -50,7 +50,7 @@ RCODE HostedListMgr::hostedListMgrShutdown( void )
 }
 
 //============================================================================
-void HostedListMgr::updateHosted( EHostType hostType, VxGUID& onlineId, std::string& hosted, int64_t timestampMs )
+void HostedListMgr::updateHosted( enum EHostType hostType, VxGUID& onlineId, std::string& hosted, int64_t timestampMs )
 {
     if( !onlineId.isVxGUIDValid() )
     {
@@ -113,13 +113,13 @@ void HostedListMgr::updateHostedList( VxNetIdent* netIdent, std::shared_ptr<VxSk
             return;
         }
 
-        std::string nodeUrlIpv4 = netIdent->getMyOnlineUrl( false );
+        std::string nodeUrl = netIdent->getMyOnlineUrl();
         for( int i = eHostTypeUnknown + 1; i < eMaxHostType; ++i )
         {
-            EHostType hostType = ( EHostType )i;
+            enum EHostType hostType = ( EHostType )i;
             if( netIdent->canRequestJoin( hostType ) )
             {
-                updateAndRequestInfoIfNeeded( false, hostType, onlineId, nodeUrlIpv4, netIdent, sktBase );
+                updateAndRequestInfoIfNeeded( hostType, onlineId, nodeUrl, netIdent, sktBase );
             }
         }
     }
@@ -146,7 +146,7 @@ void HostedListMgr::removeClosedPortIdent( VxGUID& onlineId )
 }
 
 //============================================================================
-void HostedListMgr::removeHostedInfo( EHostType hostType, VxGUID& onlineId )
+void HostedListMgr::removeHostedInfo( enum EHostType hostType, VxGUID& onlineId )
 {
     bool wasRemoved{ false };
     lockList();
@@ -225,7 +225,7 @@ void HostedListMgr::announceHostInfoUpdated( HostedInfo* hostedInfo )
 }
 
 //============================================================================
-void HostedListMgr::announceHostInfoRemoved( EHostType hostType, VxGUID& hostOnlineId )
+void HostedListMgr::announceHostInfoRemoved( enum EHostType hostType, VxGUID& hostOnlineId )
 {
     // removeFromDatabase( hostOnlineId, hostType, false );
     lockClientList();
@@ -258,7 +258,7 @@ void HostedListMgr::announceHostInfoSearchResult( HostedInfo* hostedInfo, VxGUID
 
 
 //============================================================================
-void HostedListMgr::announceHostInfoSearchComplete( EHostType hostType, VxGUID& sessionId )
+void HostedListMgr::announceHostInfoSearchComplete( enum EHostType hostType, VxGUID& sessionId )
 {
     if( hostType != eHostTypeUnknown )
     {
@@ -277,7 +277,7 @@ void HostedListMgr::announceHostInfoSearchComplete( EHostType hostType, VxGUID& 
 }
 
 //============================================================================
-void HostedListMgr::updateAndRequestInfoIfNeeded( bool ipv6, EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+void HostedListMgr::updateAndRequestInfoIfNeeded( enum EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool requiresSendHostInfoRequest{ false };
     bool requiresAnnounceUpdate{ false };
@@ -295,10 +295,10 @@ void HostedListMgr::updateAndRequestInfoIfNeeded( bool ipv6, EHostType hostType,
                 requiresSendHostInfoRequest = true;
             }
 
-            if( nodeUrl != iter->getHostInviteUrl( ipv6 ) )
+            if( nodeUrl != iter->getHostInviteUrl() )
             {
                 urlChanged = true;
-                iter->setHostInviteUrl( ipv6, nodeUrl );
+                iter->setHostInviteUrl( nodeUrl );
                 if( !requiresSendHostInfoRequest && iter->isValidForGui() )
                 {
                     requiresAnnounceUpdate = true;
@@ -324,19 +324,6 @@ void HostedListMgr::updateAndRequestInfoIfNeeded( bool ipv6, EHostType hostType,
         }
     }
 
-    if( !wasFound )
-    {
-        requiresSendHostInfoRequest = true;
-        VxGUID thumbId = netIdent->getHostThumbId( hostType, true );
-
-        std::string otherNodeUrl = netIdent->getMyOnlineUrl( !ipv6 );
-        
-        HostedInfo hostedInfo( hostType, onlineId, ipv6 ? otherNodeUrl : nodeUrl, ipv6 ? nodeUrl : otherNodeUrl, thumbId );
-
-        hostedInfo.setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
-        m_HostedInfoList.push_back( hostedInfo );
-    }
-
     unlockList();
 
     if( requiresSendHostInfoRequest )
@@ -346,7 +333,7 @@ void HostedListMgr::updateAndRequestInfoIfNeeded( bool ipv6, EHostType hostType,
 }
 
 //============================================================================
-bool HostedListMgr::updateLastConnected( EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime )
+bool HostedListMgr::updateLastConnected( enum EHostType hostType, VxGUID& onlineId, int64_t lastConnectedTime )
 {
     bool result{ false };
     lockList();
@@ -369,7 +356,7 @@ bool HostedListMgr::updateLastConnected( EHostType hostType, VxGUID& onlineId, i
 }
 
 //============================================================================
-bool HostedListMgr::updateLastJoined( EHostType hostType, VxGUID& onlineId, int64_t lastJoinedTime )
+bool HostedListMgr::updateLastJoined( enum EHostType hostType, VxGUID& onlineId, int64_t lastJoinedTime )
 {
     bool result{ false };
     lockList();
@@ -402,7 +389,7 @@ bool HostedListMgr::updateLastJoined( EHostType hostType, VxGUID& onlineId, int6
 }
 
 //============================================================================
-bool HostedListMgr::updateIsFavorite( EHostType hostType, VxGUID& onlineId, bool isFavorite )
+bool HostedListMgr::updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, bool isFavorite )
 {
     bool result{ false };
     lockList();
@@ -453,7 +440,7 @@ bool HostedListMgr::getIsFavorite( VxGUID& onlineId )
 }
 
 //============================================================================
-bool HostedListMgr::updateHostTitleAndDescription( EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxNetIdent* netIdent )
+bool HostedListMgr::updateHostTitleAndDescription( enum EHostType hostType, VxGUID& onlineId, std::string& title, std::string& description, int64_t lastDescUpdateTime, VxNetIdent* netIdent )
 {
     bool result{ false };
     lockList();
@@ -485,7 +472,7 @@ bool HostedListMgr::updateHostTitleAndDescription( EHostType hostType, VxGUID& o
 }
 
 //============================================================================
-bool HostedListMgr::requestHostedInfo( EHostType hostType, VxGUID& onlineId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+bool HostedListMgr::requestHostedInfo( enum EHostType hostType, VxGUID& onlineId, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     bool result{ false };
     // only hosts that announce to network respond to Host Info requests
@@ -546,7 +533,7 @@ void HostedListMgr::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 }
 
 //============================================================================
-bool HostedListMgr::fromGuiQueryMyHostedInfo( EHostType hostType, std::vector<HostedInfo>& hostedInfoList )
+bool HostedListMgr::fromGuiQueryMyHostedInfo( enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList )
 {
     hostedInfoList.clear();
     PluginBase* pluginBase = m_Engine.getPluginMgr().getPlugin( HostTypeToHostPlugin( hostType ) );
@@ -563,7 +550,7 @@ bool HostedListMgr::fromGuiQueryMyHostedInfo( EHostType hostType, std::vector<Ho
 }
 
 //============================================================================
-bool HostedListMgr::fromGuiQueryHostedInfoList( EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll )
+bool HostedListMgr::fromGuiQueryHostedInfoList( enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll )
 {
     hostedInfoList.clear();
     lockList();
@@ -615,7 +602,7 @@ bool HostedListMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, 
 }
 
 //============================================================================
-bool HostedListMgr::fromGuiQueryGroupiesFromHosted( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& onlineIdIfNullThenAll )
+bool HostedListMgr::fromGuiQueryGroupiesFromHosted( VxPtopUrl& netHostUrl, enum EHostType hostType, VxGUID& onlineIdIfNullThenAll )
 {
     if( netHostUrl.isValid() )
     {
@@ -654,7 +641,7 @@ bool HostedListMgr::fromGuiQueryGroupiesFromHosted( VxPtopUrl& netHostUrl, EHost
 }
 
 //============================================================================
-void HostedListMgr::connectToHostAttempt( HostedId adminId, std::string& ptopUrlAttempted, bool ipv6 )
+void HostedListMgr::connectToHostAttempt( HostedId adminId, std::string& ptopUrlAttempted )
 {
     bool found = false;
     bool updated = false;
@@ -665,19 +652,13 @@ void HostedListMgr::connectToHostAttempt( HostedId adminId, std::string& ptopUrl
         if( hostInfo.getAdminId() == adminId )
         {
             found = true;
-            if( hostInfo.getHostInviteUrl( ipv6 ).empty() )
-            {
-                hostInfo.setHostInviteUrl( ipv6, ptopUrlAttempted );
-                updatedHostedInfo = hostInfo;
-            }
-
             break;
         }
     }
 
     if( !found )
     {
-        updatedHostedInfo = HostedInfo( adminId, ptopUrlAttempted, ipv6 );
+        updatedHostedInfo = HostedInfo( adminId, ptopUrlAttempted );
         m_HostedInfoList.emplace_back( updatedHostedInfo );
     }
 
@@ -852,7 +833,7 @@ void HostedListMgr::addToListInJoinedTimestampOrder( std::vector<HostedInfo>& ho
 }
 
 //============================================================================
-void HostedListMgr::hostSearchResult( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, HostedInfo& hostedInfo )
+void HostedListMgr::hostSearchResult( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, HostedInfo& hostedInfo )
 {
     HostedInfo resultInfo;
     if( updateHostInfo( hostType, hostedInfo, netIdent, sktBase, true, &resultInfo ) )
@@ -862,7 +843,7 @@ void HostedListMgr::hostSearchResult( EHostType hostType, VxGUID& searchSessionI
 }
 
 //============================================================================
-void HostedListMgr::hostSearchCompleted( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
+void HostedListMgr::hostSearchCompleted( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
 {
     if( commErr )
     {
@@ -878,14 +859,14 @@ void HostedListMgr::hostSearchCompleted( EHostType hostType, VxGUID& searchSessi
 }
 
 //============================================================================
-void HostedListMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
+void HostedListMgr::onHostInviteAnnounceAdded( enum EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
     LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceAdded %s from %s ", DescribeHostType( hostType), netIdent->getOnlineName() );
     updateHostInfo( hostType, hostedInfo, netIdent, sktBase );
 }
 
 //============================================================================
-void HostedListMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged )
+void HostedListMgr::onHostInviteAnnounceUpdated( enum EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged )
 {
     LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceUpdated %s from %s ", DescribeHostType( hostType ), netIdent->getOnlineName() );
     updateHostInfo( hostType, hostedInfo, netIdent, sktBase, infoChanged );
@@ -893,21 +874,14 @@ void HostedListMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo&
 
 //============================================================================
 // returns true if retHostedInfo was filled
-bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged, HostedInfo* retResultInfo )
+bool HostedListMgr::updateHostInfo( enum EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged, HostedInfo* retResultInfo )
 {
-    VxPtopUrl ptopUrlIpv4( hostedInfo.getHostInviteUrl( false ) );
-    VxPtopUrl ptopUrlIpv6( hostedInfo.getHostInviteUrl( true ) );
-    bool ipv6{ false };
+    VxPtopUrl ptopUrl( hostedInfo.getHostInviteUrl() );
     VxGUID onlineId;
 
-    if( ptopUrlIpv4.isValid() )
+    if( ptopUrl.isValid() )
     {
-        onlineId = ptopUrlIpv4.getOnlineId();
-    }
-    else if( ptopUrlIpv6.isValid() )
-    {
-        onlineId = ptopUrlIpv6.getOnlineId();
-        ipv6 = true;
+        onlineId = ptopUrl.getOnlineId();
     }
     
     if( !onlineId.isVxGUIDValid() )
@@ -929,12 +903,12 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
         else
         {
             needsIdentityReq = true;
-            m_Engine.getHostUrlListMgr().requestIdentity( hostedInfo.getHostInviteUrl( ipv6 ) );
+            m_Engine.getHostUrlListMgr().requestIdentity( hostedInfo.getHostInviteUrl() );
         }
     }
 
     LogMsg( LOG_VERBOSE, "HostedListMgr::hostSearchResult title %s desc %s time %lld host url %s", 
-        hostedInfo.getHostTitle().c_str(), hostedInfo.getHostDescription().c_str(), hostedInfo.getHostInfoTimestamp(), hostedInfo.getHostInviteUrl( ipv6 ).c_str() );
+        hostedInfo.getHostTitle().c_str(), hostedInfo.getHostDescription().c_str(), hostedInfo.getHostInfoTimestamp(), hostedInfo.getHostInviteUrl().c_str() );
 
     bool alreadyExisted{ false };
     bool hostedInfoUpdated{ false };
@@ -952,15 +926,15 @@ bool HostedListMgr::updateHostInfo( EHostType hostType, HostedInfo& hostedInfo, 
                 iter->setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
             }
 
-            if( iter->getHostInviteUrl( ipv6 ) != hostedInfo.getHostInviteUrl( ipv6 ) || infoChanged )
+            if( iter->getHostInviteUrl() != hostedInfo.getHostInviteUrl() || infoChanged )
             {
                 // url has changed. just update
-                iter->setHostInviteUrl( ipv6, hostedInfo.getHostInviteUrl( ipv6 ) );
+                iter->setHostInviteUrl( hostedInfo.getHostInviteUrl() );
                 // update our url list also
-                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostedInfo.getAdminOnlineId(), hostedInfo.getHostInviteUrl( false ), hostedInfo.getHostInviteUrl( true ) );
+                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, hostedInfo.getAdminOnlineId(), hostedInfo.getHostInviteUrl() );
                 if( iter->shouldSaveToDb() )
                 {
-                    m_HostedInfoListDb.updateHostUrl( ipv6, iter->getHostType(), iter->getAdminOnlineId(), hostedInfo.getHostInviteUrl( ipv6 )  );
+                    m_HostedInfoListDb.updateHostUrl( iter->getHostType(), iter->getAdminOnlineId(), hostedInfo.getHostInviteUrl()  );
                 }
                 // TODO do we need to update if just url changed ?
             }

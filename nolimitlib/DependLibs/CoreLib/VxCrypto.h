@@ -133,15 +133,13 @@ RCODE VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
 	                char *			pRetBuf = 0 );	// if null then encrypted data put in pData
 
 //============================================================================
-bool GenerateConnectionKey(  bool						ipv6,	
-							 VxKey *					poRetKey,		// set this key
+bool GenerateConnectionKey(  VxKey *					poRetKey,		// set this key
 							 VxConnectId *				poConnectId,	// network identity
 							 uint16_t					cryptoPort,
 							 const char*				networkName );
 
 //============================================================================
-bool GenerateConnectionKey(  bool						ipv6,	
-							 VxKey *					poRetKey,		// set this key
+bool GenerateConnectionKey(  VxKey *					poRetKey,		// set this key
                              std::string&               ipAddr,
                              uint16_t                   port,
                              VxGUID&                    onlineId,

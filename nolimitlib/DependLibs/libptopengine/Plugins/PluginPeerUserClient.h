@@ -30,9 +30,9 @@ public:
     virtual EAppModule			getAppModule( void ) override { return eAppModulePeerUserClient; }
 
     //=== hosting ===//
-    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
-    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
-    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 ) override;
+    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
+    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
+    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
 
 protected:

@@ -26,7 +26,7 @@
 
 namespace
 {
-	const int PROCESS_QT_DEFAULT_MS = 50;
+	constexpr int PROCESS_QT_DEFAULT_MS = 50;
 
 	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
 	{
@@ -74,11 +74,13 @@ AppletPlayerNlcBase::~AppletPlayerNlcBase()
 void AppletPlayerNlcBase::showEvent( QShowEvent* showEvent )
 {
 	AppletBase::showEvent( showEvent );
+	m_MyApp.wantToGuiActivityCallbacks( this, true );
 }
 
 //============================================================================
 void AppletPlayerNlcBase::hideEvent( QHideEvent* hideEvent )
 {
+	m_MyApp.wantToGuiActivityCallbacks( this, false );
 	AppletBase::hideEvent( hideEvent );
 }
 

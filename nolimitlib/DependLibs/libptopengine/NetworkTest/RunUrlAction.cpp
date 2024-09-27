@@ -62,8 +62,8 @@ UrlActionInfo::UrlActionInfo()
 }
 
 //============================================================================
-UrlActionInfo::UrlActionInfo( P2PEngine& engine, EHostType hostType, VxGUID& sessionId, ENetCmdType testType, const char* ptopUrl, const char* myUrl, 
-                              UrlActionResultInterface* cbInterface, IConnectRequestCallback* cbConnectReq, EConnectReason connectReason )
+UrlActionInfo::UrlActionInfo( P2PEngine& engine, enum EHostType hostType, VxGUID& sessionId, enum ENetCmdType testType, const char* ptopUrl, const char* myUrl, 
+                              UrlActionResultInterface* cbInterface, IConnectRequestCallback* cbConnectReq, enum EConnectReason connectReason )
     : m_Engine( engine )
     , m_HostType( hostType )
     , m_ResultCbInterface( cbInterface )
@@ -76,7 +76,7 @@ UrlActionInfo::UrlActionInfo( P2PEngine& engine, EHostType hostType, VxGUID& ses
 {
     if( nullptr == myUrl )
     {
-        m_MyUrl.setUrl( m_Engine.getMyOnlineUrl( false ) );
+        m_MyUrl.setUrl( m_Engine.getMyOnlineUrl() );
     }
 }
 
@@ -153,8 +153,8 @@ void RunUrlAction::runTestShutdown( void )
 }
 
 //============================================================================
-void RunUrlAction::runUrlAction( VxGUID& sessionId, ENetCmdType netCmdType, const char* ptopUrl, const char* myUrl, UrlActionResultInterface* cbInterface, 
-                                 IConnectRequestCallback* cbConnectRequest, EHostType hostType, EConnectReason connectReason )
+void RunUrlAction::runUrlAction( VxGUID& sessionId, enum ENetCmdType netCmdType, const char* ptopUrl, const char* myUrl, UrlActionResultInterface* cbInterface, 
+                                 IConnectRequestCallback* cbConnectRequest, enum EHostType hostType, enum EConnectReason connectReason )
 {
     UrlActionInfo urlAction( getEngine(), hostType, sessionId, netCmdType, ptopUrl, myUrl, cbInterface, cbConnectRequest, connectReason );
     std::string actionName = urlAction.getTestName();
@@ -245,7 +245,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 {
     std::string actionName = urlAction.getTestName();
     std::string nodeUrl = urlAction.getRemoteUrl();
-    ENetCmdType netCmdType = urlAction.getNetCmdType();
+    enum ENetCmdType netCmdType = urlAction.getNetCmdType();
     if( eNetCmdQueryHostOnlineIdReq == netCmdType && urlAction.getResultInterface() )
     {
         // if we are quering the host id a previous query for another service may have already gotten it for the given ip/port
@@ -439,7 +439,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
                     urlAction.getResultInterface()->callbackPingSuccess( urlAction, strMyIP.c_str() );
                 }
 
-                m_Engine.getNetStatusAccum().setExternalIpAddress( false, strMyIP );
+                m_Engine.getNetStatusAccum().setExternalIpAddress( strMyIP );
             }
         }
     }
@@ -487,7 +487,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         else
         {
             sendRunTestStatus(  urlAction, actionName, eRunTestStatusMyPortIsClosed, netServiceHdr.getError(), "My ip %s port %d is NOT open (Relay will be required)", retMyExternalIp.c_str(), myPort );
-            if( m_Engine.getNetStatusAccum().getLanIpAddress( false ).length()
+            if( m_Engine.getNetStatusAccum().getLocalIpAddress().length()
                 && m_Engine.getNetworkStateMachine().isCellularNetwork() )
             {
                 sendTestLog(  urlAction, actionName, "Cellular data network. Cell phone providers block all ports. Consider using a VPN with port forward feature");
@@ -527,7 +527,7 @@ ERunTestStatus RunUrlAction::doRunTestSuccess( UrlActionInfo& urlAction, std::st
 }
 
 //============================================================================
-void RunUrlAction::sendRunTestStatus( UrlActionInfo& urlAction, std::string& urlActionName, ERunTestStatus eStatus, ENetCmdError cmdErr, const char* msg, ... )
+void RunUrlAction::sendRunTestStatus( UrlActionInfo& urlAction, std::string& urlActionName, enum ERunTestStatus eStatus, enum ENetCmdError cmdErr, const char* msg, ... )
 {
     char as8Buf[ 1024 ];
     va_list argList;

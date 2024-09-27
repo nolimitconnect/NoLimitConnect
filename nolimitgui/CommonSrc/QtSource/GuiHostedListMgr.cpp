@@ -296,8 +296,7 @@ GuiHosted* GuiHostedListMgr::updateHostedInfo( HostedInfo& hostedInfo )
         guiHosted->setConnectedTimestamp( hostedInfo.getConnectedTimestamp() );
         guiHosted->setJoinedTimestamp( hostedInfo.getJoinedTimestamp() );
         guiHosted->setHostInfoTimestamp( hostedInfo.getHostInfoTimestamp() );
-        guiHosted->setHostInviteUrl( false, hostedInfo.getHostInviteUrl( false ) );
-        guiHosted->setHostInviteUrl( true, hostedInfo.getHostInviteUrl( true ) );
+        guiHosted->setHostInviteUrl( hostedInfo.getHostInviteUrl() );
         guiHosted->setHostTitle( hostedInfo.getHostTitle() );
         guiHosted->setHostDescription( hostedInfo.getHostDescription() );
         if( updated )
@@ -415,49 +414,36 @@ void GuiHostedListMgr::announceHostedListSearchComplete( EHostType hostType, VxG
 }
 
 //============================================================================
-void GuiHostedListMgr::setJoinOnStartup( std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool enable )
+void GuiHostedListMgr::setJoinOnStartup( std::string& hostUrl, bool enable )
 {
-    if( !enable && isJoinOnStartup( hostUrlIpv4, hostUrlIpv6 ) )
+    if( !enable && isJoinOnStartup( hostUrl ) )
     {
         m_FavoriteHostGroup.clear();
         m_MyApp.getAppSettings().setFavoriteHostGroupUrl( m_FavoriteHostGroup );
         return;
     }
 
-    VxPtopUrl urlIpv4( hostUrlIpv4 );
-    if( enable && urlIpv4.isValid() )
+    VxPtopUrl ptopUrl( hostUrl );
+    if( enable && ptopUrl.isValid() )
     {
-        m_FavoriteHostGroup = hostUrlIpv4;
+        m_FavoriteHostGroup = hostUrl;
         m_MyApp.getAppSettings().setFavoriteHostGroupUrl( m_FavoriteHostGroup );
         return;
-    }
-
-    VxPtopUrl urlIpv6( hostUrlIpv6 );
-    if( enable && urlIpv6.isValid() )
-    {
-        m_FavoriteHostGroup = hostUrlIpv6;
-        m_MyApp.getAppSettings().setFavoriteHostGroupUrl( m_FavoriteHostGroup );
     }
 }
 
 //============================================================================
-bool GuiHostedListMgr::isJoinOnStartup( std::string& hostUrlIpv4, std::string& hostUrlIpv6 )
+bool GuiHostedListMgr::isJoinOnStartup( std::string& hostUrl )
 {
     if( m_FavoriteHostGroup.empty() )
     {
         return false;
     }
 
-    if( m_FavoriteHostGroup == hostUrlIpv4 )
+    if( m_FavoriteHostGroup == hostUrl )
     {
         VxPtopUrl nowUrl( m_FavoriteHostGroup );
-        VxPtopUrl checkUrl( hostUrlIpv4 );
-        return nowUrl.isValid() && checkUrl.isValid() && nowUrl.getOnlineId() == checkUrl.getOnlineId() && nowUrl.getHostType() == checkUrl.getHostType();
-    }
-    else if( m_FavoriteHostGroup == hostUrlIpv6 )
-    {
-        VxPtopUrl nowUrl( m_FavoriteHostGroup );
-        VxPtopUrl checkUrl( hostUrlIpv6 );
+        VxPtopUrl checkUrl( hostUrl );
         return nowUrl.isValid() && checkUrl.isValid() && nowUrl.getOnlineId() == checkUrl.getOnlineId() && nowUrl.getHostType() == checkUrl.getHostType();
     }
 
@@ -486,10 +472,8 @@ void GuiHostedListMgr::checkAutoJoinGroupHost( void )
         if( checkUrl.isValid() )
         {
             std::string host = checkUrl.getHost();
-            std::string empyUrl;
-            bool ipv6 = VxIsIpv6Address( host );
             HostedId hostId( checkUrl.getOnlineId(), eHostTypeGroup );
-            m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostId, sessionId, ipv6 ? empyUrl : m_FavoriteHostGroup, ipv6 ? m_FavoriteHostGroup : empyUrl );
+            m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostId, sessionId, m_FavoriteHostGroup );
         }
     }
 }

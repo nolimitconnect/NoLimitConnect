@@ -63,11 +63,11 @@ void ActivityNetworkState::slotNetworkStateChanged( ENetworkStateType eNetworkSt
 {
     VxNetIdent myIdent;
 	m_FromGui.fromGuiQueryMyIdent( &myIdent );
-	std::string strOnlineIp = myIdent.getOnlineIpAddress(false).toString();
-	uint16_t tcpPort = myIdent.getMyOnlinePort();
+	std::string strOnlineIp = myIdent.getOnlineIpAddress().toString();
+	uint16_t tcpPort = myIdent.getOnlinePort();
 	ui.m_IPAddressValueLabel->setText( strOnlineIp.c_str() );
 	ui.m_TcpPortValueLabel->setText( QString("%1").arg( tcpPort ) );
-	ui.m_MyNodeUrlValueLabel->setText( QString("My IPv4 Url: http://%1:%2").arg( strOnlineIp.c_str() ).arg(tcpPort) );
+	ui.m_MyNodeUrlValueLabel->setText( QString("My IP Url: %1").arg( strOnlineIp.c_str() ).arg(tcpPort) );
 
 	bool networkConnected = true;
 	switch( eNetworkState )

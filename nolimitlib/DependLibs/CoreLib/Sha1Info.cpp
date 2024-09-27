@@ -12,12 +12,13 @@
 #include "VxFileUtil.h"
 
 //============================================================================
-Sha1Info::Sha1Info( VxGUID& assetId, std::string& fileName )
+Sha1Info::Sha1Info( VxGUID& assetId, std::string& fileName, std::string& fileNameAndPath )
     : m_Sha1Hash()
     , m_AssetId( assetId )
     , m_FileName( fileName )
+    , m_FileNameAndPath( fileNameAndPath )
 {
-   m_FileLen = VxFileUtil::fileExists( fileName.c_str() );
+   m_FileLen = VxFileUtil::fileExists( fileNameAndPath.c_str() );
 }
 
 //============================================================================
@@ -26,6 +27,7 @@ Sha1Info::Sha1Info( const Sha1Info& rhs )
     , m_AssetId( rhs.m_AssetId )
     , m_FileLen( rhs.m_FileLen )
     , m_FileName( rhs.m_FileName )
+    , m_FileNameAndPath( rhs.m_FileNameAndPath )
 {
 }
 
@@ -38,6 +40,7 @@ Sha1Info& Sha1Info::operator = ( const Sha1Info& rhs )
         m_AssetId = rhs.m_AssetId;
         m_FileLen = rhs.m_FileLen;
         m_FileName = rhs.m_FileName;
+        m_FileNameAndPath = rhs.m_FileNameAndPath;
     }
 
     return *this;
@@ -46,13 +49,14 @@ Sha1Info& Sha1Info::operator = ( const Sha1Info& rhs )
 //============================================================================
 bool Sha1Info::operator == ( const Sha1Info& rhs ) const
 {
-    return m_Sha1Hash == rhs.m_Sha1Hash && m_AssetId == rhs.m_AssetId && m_FileName == rhs.m_FileName && m_FileLen == rhs.m_FileLen;
+    return m_Sha1Hash == rhs.m_Sha1Hash && m_AssetId == rhs.m_AssetId 
+        && m_FileName == rhs.m_FileName && m_FileNameAndPath == rhs.m_FileNameAndPath && m_FileLen == rhs.m_FileLen;
 }
 
 //============================================================================
 bool Sha1Info::isValid( bool checkHashValid )
 {
-    bool isValid = m_AssetId.isVxGUIDValid() && m_FileLen&& !m_FileName.empty();
+    bool isValid = m_AssetId.isVxGUIDValid() && m_FileLen && !m_FileName.empty() && !m_FileNameAndPath.empty();
     if( checkHashValid )
     {
         isValid &= m_Sha1Hash.isHashValid();

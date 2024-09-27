@@ -54,7 +54,6 @@ AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, Q
     , m_IsSelectAFileMode( !launchParam.isEmpty() ? true : false )
     , m_FileWasSelected( false )
     , m_eFileFilterType( eFileFilterAll )
-    , m_FileFilterMask( VXFILE_TYPE_ALLNOTEXE )
 {
     setAppletType( eAppletFileOfferSelect );
     ui.setupUi( getContentItemsFrame() );
@@ -67,10 +66,10 @@ AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, Q
     connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT( slotBrowseForFileButClick() ) );
     connect( ui.m_OpenFolderButton, SIGNAL(clicked()), this, SLOT( slotBrowseFolderButClick() ) );
 
-    connect( ui.m_FileFilterComboBox, SIGNAL( signalApplyFileFilter( unsigned char ) ), this, SLOT( slotApplyFileFilter( unsigned char ) ) );
+    connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
     statusMsg( "Requesting File List " );
     m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
-    slotApplyFileFilter( ui.m_FileFilterComboBox->getCurrentFileFilterMask() );
+    slotApplyFileFilter( m_eFileFilterType );
     connectBarWidgets();
 
     m_MyApp.activityStateChange( this, true );
@@ -140,17 +139,16 @@ void AppletFileOfferSelect::callbackToGuiFileListCompleted( VxGUID& appInstId )
 }
 
 //============================================================================
-void AppletFileOfferSelect::setFileFilter( EFileFilterType eFileFilter )
+void AppletFileOfferSelect::setFileFilter( EFileFilterType fileFilter )
 {
-    m_eFileFilterType = eFileFilter;
-    m_FileFilterMask = ui.m_FileFilterComboBox->getMaskFromFileFilterType( m_eFileFilterType );
-    ui.m_FileFilterComboBox->setFileFilter( eFileFilter );
+    m_eFileFilterType = fileFilter;
+    ui.m_FileFilterSelectWidget->setFileFilter( fileFilter );
 }
 
 //============================================================================
-void AppletFileOfferSelect::slotApplyFileFilter( unsigned char fileTypeMask )
+void AppletFileOfferSelect::slotApplyFileFilter( EFileFilterType fileFilter )
 {
-    m_FileFilterMask = fileTypeMask;
+    m_eFileFilterType = fileFilter;
     slotRequestFileList();
 }
 
@@ -158,8 +156,8 @@ void AppletFileOfferSelect::slotApplyFileFilter( unsigned char fileTypeMask )
 void AppletFileOfferSelect::slotRequestFileList( void )
 {
     clearFileList();
-    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), m_FileFilterMask );
-    m_FromGui.fromGuiGetSharedFiles( getAppletInstId(), m_FileFilterMask );
+    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
+    m_FromGui.fromGuiGetSharedFiles( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
 }
 
 //============================================================================

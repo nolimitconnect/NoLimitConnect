@@ -35,6 +35,8 @@ public:
 	void						setSelectAFileMode( bool selectAFile );
 	bool						getSelectAFileMode( void ) { return m_SelectAFileMode; }
 
+	void						setIsMediaFile( bool isMediaFile );
+
 signals:
 	void						signalPlayButtonClicked( void );
 	void						signalPlayExternButtonClicked( void );

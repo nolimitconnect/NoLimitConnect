@@ -8,8 +8,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-
 #include "GuiGroupie.h"
 #include "AppCommon.h"
 #include "GuiGroupieListMgr.h"
@@ -45,8 +43,7 @@ GuiGroupie::GuiGroupie( AppCommon& app, GuiUser* guiUser, GroupieId& groupieId, 
     , m_SessionId( sessionId )
 {
     setGroupieInfoTimestamp( m_MyApp.elapsedMilliseconds() );
-    setGroupieUrl( false, guiUser->getNetIdent().getMyOnlineUrl( false ) );
-    setGroupieUrl( true, guiUser->getNetIdent().getMyOnlineUrl( true ) );
+    setGroupieUrl( guiUser->getNetIdent().getMyOnlineUrl() );
     setGroupieTitle( guiUser->getOnlineName() );
     setGroupieDescription( guiUser->getOnlineDescription() );
 }
@@ -61,8 +58,7 @@ GuiGroupie::GuiGroupie( AppCommon& app, GuiUser* guiUser, VxGUID& sessionId, Gro
     , m_SessionId( sessionId )
     , m_IsFavorite( groupieInfo.getIsFavorite() )
     , m_GroupieInfoTimestampMs( groupieInfo.getGroupieInfoTimestamp() )
-    , m_GroupieUrlIpv4( groupieInfo.getGroupieUrl( false ) )
-    , m_GroupieUrlIpv6( groupieInfo.getGroupieUrl( true ) )
+    , m_GroupieUrl( groupieInfo.getGroupieUrl() )
     , m_GroupieTitle( groupieInfo.getGroupieTitle() )
     , m_GroupieDesc( groupieInfo.getGroupieDescription() )
 {
@@ -78,8 +74,7 @@ GuiGroupie::GuiGroupie( const GuiGroupie& rhs )
     , m_SessionId( rhs.m_SessionId )
     , m_IsFavorite( rhs.m_IsFavorite )
     , m_GroupieInfoTimestampMs( rhs.m_GroupieInfoTimestampMs )
-    , m_GroupieUrlIpv4( rhs.m_GroupieUrlIpv4 )
-    , m_GroupieUrlIpv6( rhs.m_GroupieUrlIpv6 )
+    , m_GroupieUrl( rhs.m_GroupieUrl )
     , m_GroupieTitle( rhs.m_GroupieTitle )
     , m_GroupieDesc( rhs.m_GroupieDesc )
 {

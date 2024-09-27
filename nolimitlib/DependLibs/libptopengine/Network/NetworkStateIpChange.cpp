@@ -24,13 +24,13 @@
 #include <stdio.h>
 
 //============================================================================
-NetworkStateIpChange::NetworkStateIpChange( bool ipv6, NetworkStateMachine& stateMachine,  std::string oldIp, std::string newIp )
+NetworkStateIpChange::NetworkStateIpChange( NetworkStateMachine& stateMachine,  std::string oldIp, std::string newIp )
 : NetworkStateBase( stateMachine )
 , m_DirectConnectTester( stateMachine.getDirectConnectTester() )
-, m_Ipv6( ipv6 )
 , m_OldIp( oldIp )
 , m_NewIp( newIp )
 {
+    m_Ipv6 = eIpAddrTypeIpv6 == VxGetIpAddrType( newIp.c_str() );
 	setNetworkStateType( eNetworkStateTypeIpChange );
 }
 
@@ -62,7 +62,7 @@ void NetworkStateIpChange::runNetworkState( void )
 
     std::string netServiceUrl;
     m_Engine.getEngineSettings().getConnectTestUrl( netServiceUrl );
-    netServiceUrl = m_Engine.getUrlMgr().resolveUrl( false, netServiceUrl );
+    netServiceUrl = m_Engine.getUrlMgr().resolveUrl( netServiceUrl );
 
 	// NOTE: it seems that while upnp is communicating with router the router may temporarily stop accepting incoming connections
 	// so startup order has been changed. 
@@ -268,7 +268,7 @@ void NetworkStateIpChange::runNetworkState( void )
 	}
     else
     {
-        m_Engine.getNetStatusAccum().setExternalIpAddress( false, directConnectTestResults.m_MyIpAddr );
+        m_Engine.getNetStatusAccum().setExternalIpAddress( directConnectTestResults.m_MyIpAddr );
     }
 
     bool canDirectConnect = false;
@@ -346,11 +346,10 @@ void NetworkStateIpChange::runNetworkState( void )
 			m_NetworkStateMachine.changeNetworkState( eNetworkStateTypeTestConnection );
             testConnectHadError = true;
 		}
-	}
-
-    m_Engine.getNetStatusAccum().setNearbyAvailable( true );
+	} 
 
 #if ENABLE_COMPONENT_NEARBY
+    m_Engine.getNetStatusAccum().setNearbyAvailable( true );
     m_NetworkStateMachine.getNetworkMgr().getNearbyMgr().onPktAnnUpdated();
 #endif // ENABLE_COMPONENT_NEARBY
 }

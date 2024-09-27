@@ -9,9 +9,9 @@
 //============================================================================
 
 #include "VxConnectInfo.h"
-#include <CoreLib/PktBlobEntry.h>
 
 #include <CoreLib/Invite.h>
+#include <CoreLib/PktBlobEntry.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
@@ -31,7 +31,6 @@ VxConnectBaseInfo::VxConnectBaseInfo( const VxConnectBaseInfo &rhs )
     , VxRelayFlags( rhs )
     , FriendMatch( rhs )
     , VxSearchFlags( rhs )
-    , m_LanIPv4( rhs.m_LanIPv4 )
     , m_DirectConnectId( rhs.m_DirectConnectId )
 {
 }
@@ -44,7 +43,6 @@ bool VxConnectBaseInfo::addToBlob( PktBlobEntry& blob )
     result &= VxRelayFlags::addToBlob( blob );
     result &= FriendMatch::addToBlob( blob );
     result &= VxSearchFlags::addToBlob( blob );
-    result &= m_LanIPv4.addToBlob( blob );
     result &= m_DirectConnectId.addToBlob( blob );
     return result;
 }
@@ -57,7 +55,6 @@ bool VxConnectBaseInfo::extractFromBlob( PktBlobEntry& blob )
     result &= VxRelayFlags::extractFromBlob( blob );
     result &= FriendMatch::extractFromBlob( blob );
     result &= VxSearchFlags::extractFromBlob( blob );
-    result &= m_LanIPv4.extractFromBlob( blob );
     result &= m_DirectConnectId.extractFromBlob( blob );
     return result;
 }
@@ -72,7 +69,6 @@ VxConnectBaseInfo& VxConnectBaseInfo::operator =( const VxConnectBaseInfo &rhs )
         *((VxRelayFlags*)this) = *((VxRelayFlags*)&rhs);
         *((FriendMatch*)this) = *((FriendMatch*)&rhs);
         *((VxSearchFlags*)this) = *((VxSearchFlags*)&rhs);
-        m_LanIPv4 = rhs.m_LanIPv4;
         m_DirectConnectId = rhs.m_DirectConnectId;
 	}
 
@@ -80,14 +76,15 @@ VxConnectBaseInfo& VxConnectBaseInfo::operator =( const VxConnectBaseInfo &rhs )
 }
 
 //============================================================================
-std::string VxConnectBaseInfo::getMyOnlineUrl( bool ipv6, EHostType hostType )
+std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType )
 {
     std::string myUrl;
     std::string strIP; 
-    bool validIp = m_DirectConnectId.getIpAddress( ipv6, strIP );
-    if( validIp )
+    EIpAddrType addrType;
+    bool validIp = m_DirectConnectId.getIpAddress( strIP, addrType );
+    if( validIp && eIpAddrTypeUnknown != addrType )
     {
-        if( ipv6 )
+        if( addrType == eIpAddrTypeIpv6 )
         {
             StdStringFormat( myUrl, "ptop://[%s]:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
         }
@@ -125,7 +122,7 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( bool ipv6, EHostType hostType )
         if( 10000 < timeNow - lastLogTime )
         {
             lastLogTime = timeNow;
-            LogMsg( LOG_VERBOSE, "  VxConnectBaseInfo::getMyOnlineUrl invalid ip %s", ipv6 ? "IPV6" : "IPV4" );
+            LogMsg( LOG_VERBOSE, "  VxConnectBaseInfo::getMyOnlineUrl invalid ip" );
         }
     }
 
@@ -146,65 +143,49 @@ VxGUID& VxConnectBaseInfo::getMyOnlineId()
 
 bool			VxConnectBaseInfo::getMyOnlineId( std::string& strRetId )		{ return m_DirectConnectId.toHexString( strRetId ); }
 
-void			VxConnectBaseInfo::setMyOnlinePort( uint16_t port )				{ m_DirectConnectId.setPort( port ); }		
-uint16_t		VxConnectBaseInfo::getMyOnlinePort( void )						{ return m_DirectConnectId.getPort(); }
+void			VxConnectBaseInfo::setOnlinePort( uint16_t port )				{ m_DirectConnectId.setPort( port ); }		
+uint16_t		VxConnectBaseInfo::getOnlinePort( void )						{ return m_DirectConnectId.getPort(); }
 
-bool			VxConnectBaseInfo::setMyOnlineIpAddress( bool ipv6, std::string& ipAddress )	{ return m_DirectConnectId.setIpAddress( ipv6, ipAddress ); }
-bool			VxConnectBaseInfo::getMyOnlineIpAddress( bool ipv6, std::string& strRetIp )	{ return m_DirectConnectId.getIpAddress( ipv6, strRetIp ); }
-
-InetAddrIPv4&	VxConnectBaseInfo::getMyOnlineIPv4( void )						{ return m_DirectConnectId.m_IPv4OnlineIp; }
-InetAddress&	VxConnectBaseInfo::getMyOnlineIPv6( void )						{ return m_DirectConnectId.m_IPv6OnlineIp;}
-
+bool			VxConnectBaseInfo::setOnlineIpAddress( std::string ipAddress )	{ return m_DirectConnectId.setIpAddress( ipAddress ); }
 
 //============================================================================
-//! get ip based on if we can connect ipv6 or ipv4 if not
-InetAddress	VxConnectBaseInfo::getOnlineIpAddress( bool ipv6 )
-{
-	return ipv6 ? m_DirectConnectId.m_IPv6OnlineIp : m_DirectConnectId.m_IPv4OnlineIp.toInetAddress();
-}
-
-//============================================================================
-bool VxConnectBaseInfo::setOnlineIpAddress( bool ipv6, const char* pIp)			
+bool VxConnectBaseInfo::getOnlineIpAddress( std::string& strRetIp, EIpAddrType& retIpType )	
 { 
-	return m_DirectConnectId.setIpAddress( ipv6, pIp ); 
+    return m_DirectConnectId.getIpAddress( strRetIp, retIpType );
 }
 
 //============================================================================
-bool VxConnectBaseInfo::isOnlineIpAddressValid( bool ipv6 )
+InetAddress& VxConnectBaseInfo::getOnlineIpAddress( void )
 {
-    return m_DirectConnectId.isIpAddressValid( ipv6 );
+	return m_DirectConnectId.m_OnlineIp;
 }
 
 //============================================================================
-bool VxConnectBaseInfo::setOnlineIpAddress( InetAddress& oIp )			
+bool VxConnectBaseInfo::setOnlineIpAddress( InetAddress& ipAddr )			
 { 
-	if( oIp.isIPv4() )
+	if( ipAddr.isIPv4() )
 	{
-		return m_DirectConnectId.m_IPv4OnlineIp.setIp( oIp.getIPv4AddressInNetOrder() );
-	}
-	else
-	{
-		m_DirectConnectId.m_IPv6OnlineIp  = oIp;
+		m_DirectConnectId.m_OnlineIp = ipAddr;
+        m_DirectConnectId.setIpAddressType( eIpAddrTypeIpv4 );
         return true;
 	}
+    else if( ipAddr.isIPv6() )
+    {
+        m_DirectConnectId.m_OnlineIp = ipAddr;
+        m_DirectConnectId.setIpAddressType( eIpAddrTypeIpv6 );
+        return true;
+    }
+    else
+	{
+        LogMsg( LOG_ERROR, "VxConnectBaseInfo::%s: invalid address ", __func__ );
+        return false;
+	}
 }
-
-//============================================================================
-uint16_t	VxConnectBaseInfo::getOnlinePort( void )							
-{ 
-	return m_DirectConnectId.getPort(); 
-};
 
 //============================================================================
 void VxConnectBaseInfo::getOnlinePort( std::string& strRetPort )	
 { 
     strRetPort = std::to_string( m_DirectConnectId.getPort() );
-}
-
-//============================================================================
-void VxConnectBaseInfo::setOnlinePort( uint16_t u16Port )				
-{ 
-	m_DirectConnectId.setPort( u16Port ); 
 }
 
 //============================================================================

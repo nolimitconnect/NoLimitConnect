@@ -103,7 +103,7 @@ public:
 	void                        setNetLayerState( ENetLayerType layerType, ENetLayerState layerState );
 	ENetLayerState              getNetLayerState( ENetLayerType layerType );
 
-	void						externalIpAddressHasChanged( bool ipv6, std::string& oldIpAddress, std::string& newIpAddress );
+	void						externalIpAddressHasChanged( std::string& oldIpAddress, std::string& newIpAddress );
 
 protected:
 	void						destroyNetworkStates( void );

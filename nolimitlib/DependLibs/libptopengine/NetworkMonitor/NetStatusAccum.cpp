@@ -59,14 +59,9 @@ void NetStatusAccum::onNetStatusChange( void )
         internetStatus = eInternetAssumeDirectConnect;
         netAvailStatus = eNetAvailP2PAvail; // must be at least P2P available or will not accept incomming accept sockets
 
-        if( m_ExternAddrIpv4.empty() )
+        if( m_ExternAddr.empty() )
         {
-            setExternalIpAddress( false, m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( false ) );
-        }
-
-        if( m_ExternAddrIpv6.empty() )
-        {
-            setExternalIpAddress( true, m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( true ) );
+            setExternalIpAddress( m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr() );
         }
 
         if( isDirectConnectTested() )
@@ -125,8 +120,8 @@ void NetStatusAccum::onNetStatusChange( void )
                     }
                     else
                     {
-                        std::string ipAddrIpv4 = getExternalIpAddress( false );
-                        if( !m_NetworkHostAvail && m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost ) && m_WebsiteUrlsResolved && !ipAddrIpv4.empty() )
+                        std::string ipAddr = getExternalIpAddress();
+                        if( !m_NetworkHostAvail && m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost ) && m_WebsiteUrlsResolved && !ipAddr.empty() )
                         {
                             // normally if we are network host then we have a static ip and m_NetworkHostAvail is false
                             // if we tested the connection and can direct connect and our ip is not the tested ip
@@ -134,7 +129,7 @@ void NetStatusAccum::onNetStatusChange( void )
                             EngineParams& engineParams = m_Engine.getEngineParams();
                             std::string netHostAddr;
                             engineParams.getLastHostWebsiteResolvedIp( netHostAddr );
-                            if( !netHostAddr.empty() && netHostAddr != ipAddrIpv4 )
+                            if( !netHostAddr.empty() && netHostAddr != ipAddr )
                             {
                                 m_NetworkHostAvail = true;
                             }
@@ -291,10 +286,6 @@ void NetStatusAccum::setInternetAvail( bool avail )
     {
         m_InternetAvail = avail;
         LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Internet available %d", avail );
-        if( !avail )
-        {
-            setNearbyAvailable( false );
-        }
 
         onNetStatusChange();
     }
@@ -329,14 +320,14 @@ void NetStatusAccum::setDirectConnectTested( bool isTested, bool requiresRelay, 
     {
         if( requiresRelay )
         {
-            m_Engine.sendToGuiStatusMessage( "Your TCP Port %d IS CLOSED :( IP %s", m_Engine.getMyPktAnnounce().getMyOnlinePort(), myExternalIp.c_str() );
+            m_Engine.sendToGuiStatusMessage( "Your TCP Port %d IS CLOSED :( IP %s", m_Engine.getMyPktAnnounce().getOnlinePort(), myExternalIp.c_str() );
         }
         else
         {
-            m_Engine.sendToGuiStatusMessage( "Your TCP Port %d IS OPEN :) IP %s", m_Engine.getMyPktAnnounce().getMyOnlinePort(), myExternalIp.c_str() );
+            m_Engine.sendToGuiStatusMessage( "Your TCP Port %d IS OPEN :) IP %s", m_Engine.getMyPktAnnounce().getOnlinePort(), myExternalIp.c_str() );
         }
 
-        setExternalIpAddress( false, myExternalIp );
+        setExternalIpAddress( myExternalIp );
 
         if( isTested != m_ConnectionTestAvail || isTested != m_DirectConnectTested || requiresRelay != m_RequriesRelay )
         {
@@ -345,7 +336,7 @@ void NetStatusAccum::setDirectConnectTested( bool isTested, bool requiresRelay, 
             m_RequriesRelay = requiresRelay;
             if( isTested && !myExternalIp.empty() )
             {
-                setExternalIpAddress( false, myExternalIp );
+                setExternalIpAddress( myExternalIp );
             }
 
             LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Direct Connect Tested %d relay required ? %d extern ip %s", isTested, requiresRelay, myExternalIp.c_str() );
@@ -357,7 +348,7 @@ void NetStatusAccum::setDirectConnectTested( bool isTested, bool requiresRelay, 
             }
         }
 
-        std::string externIp =  getExternalIpAddress( false );
+        std::string externIp =  getExternalIpAddress();
         m_Engine.onNetworkConnectionReady( requiresRelay, externIp, m_IpPort);
     }
 }
@@ -395,17 +386,28 @@ void NetStatusAccum::setWebsiteUrlsResolved( bool resolved )
 }
 
 //============================================================================
-void NetStatusAccum::getNodeUrl( bool ipv6, std::string& retNodeUrl )
+void NetStatusAccum::getNodeUrl( std::string& retNodeUrl )
 {
     retNodeUrl = "";
 
     if( isInternetAvailable() )
     {
-        std::string ipAddr = getExternalIpAddress( ipv6 );
-        if( VxIsIpValid( ipAddr ) && VxIsPortValid( m_IpPort ) )
+        std::string ipAddr = getExternalIpAddress();
+        EIpAddrType addrType = VxGetIpAddrType( ipAddr.c_str() );
+        if( addrType != eIpAddrTypeUnknown && VxIsPortValid( m_IpPort ) )
         {
             retNodeUrl = "ptop://";
-            retNodeUrl += ipAddr;
+            if( addrType == eIpAddrTypeIpv4 )
+            {
+                retNodeUrl += ipAddr;
+            }
+            else
+            {
+                retNodeUrl += "[";
+                retNodeUrl += ipAddr;
+                retNodeUrl += "]";
+            }
+            
             retNodeUrl += ":";
             retNodeUrl += std::to_string( m_IpPort );
         }
@@ -516,20 +518,15 @@ void NetStatusAccum::setIpPort( uint16_t ipPort )
 }
 
 //============================================================================
-void NetStatusAccum::setExternalIpAddress( bool ipv6, std::string ipAddr )
+void NetStatusAccum::setExternalIpAddress( std::string ipAddr )
 {
     if( VxIsIpValid( ipAddr ) )
     {
         bool changedIp{false};
         m_AccumMutex.lock();
-        if( ipv6 && m_ExternAddrIpv6 != ipAddr )
+        if( m_ExternAddr != ipAddr )
         {
-            m_ExternAddrIpv6 = ipAddr;
-            changedIp = true;
-        }
-        else if( !ipv6 && m_ExternAddrIpv4 != ipAddr )
-        {
-            m_ExternAddrIpv4 = ipAddr;
+            m_ExternAddr = ipAddr;
             changedIp = true;
         }
 
@@ -537,72 +534,63 @@ void NetStatusAccum::setExternalIpAddress( bool ipv6, std::string ipAddr )
         if( changedIp )
         {
             m_Engine.lockAnnouncePktAccess();
-            m_Engine.getMyPktAnnounce().setOnlineIpAddress( ipv6, ipAddr.c_str() );
-            std::string myNodeUrl = m_Engine.getMyPktAnnounce().getMyOnlineUrl( ipv6 );
+            m_Engine.getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
+            std::string myNodeUrl = m_Engine.getMyPktAnnounce().getMyOnlineUrl();
             m_Engine.unlockAnnouncePktAccess();
 
-            m_Engine.getUrlMgr().setMyOnlineNodeUrl( ipv6, myNodeUrl );
+            m_Engine.getUrlMgr().setMyOnlineNodeUrl( myNodeUrl );
         }
     }
     else
     {
-        LogMsg( LOG_ERROR, "NetStatusAccum::setExternalIpAddress invalid ip %s", ipAddr.c_str() );
+        LogMsg( LOG_ERROR, "NetStatusAccum::%s invalid ip %s", __func__, ipAddr.c_str() );
     }
 }
 
 //============================================================================
-std::string NetStatusAccum::getExternalIpAddress( bool ipv6 )
+std::string NetStatusAccum::getExternalIpAddress( void )
 {
     m_AccumMutex.lock();
-    std::string ipAddr = ipv6 ? m_ExternAddrIpv6 : m_ExternAddrIpv4;
+    std::string ipAddr = m_ExternAddr;
     m_AccumMutex.unlock();
     return ipAddr;
 }
 
 //============================================================================
-void NetStatusAccum::setLanIpAddress( bool ipv6, std::string ipAddr )
+void NetStatusAccum::setLocalIpAddress( std::string ipAddr )
 {
     if( VxIsIpValid( ipAddr ) )
     {
         bool changedIp{false};
         m_AccumMutex.lock();
-        if( ipv6 && m_LanIpAddrIpv6 != ipAddr )
+        if( m_LocalAddr != ipAddr )
         {
-            m_LanIpAddrIpv6 = ipAddr;
-            changedIp = true;
-        }
-        else if( !ipv6 && m_LanIpAddrIpv4 != ipAddr )
-        {
-            m_LanIpAddrIpv4 = ipAddr;
+            m_LocalAddr = ipAddr;
             changedIp = true;
         }
 
         m_AccumMutex.unlock();
         if( changedIp )
         {
-#if ENABLE_COMPONENT_NEARBY
-            if( !ipv6 )
-            {
-                m_Engine.lockAnnouncePktAccess();
-                m_Engine.getMyPktAnnounce().getLanIPv4().setIp( ipAddr.c_str() );
-                m_Engine.unlockAnnouncePktAccess();
-            }
-#endif // ENABLE_COMPONENT_NEARBY
+            m_Engine.lockAnnouncePktAccess();
+            m_Engine.getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
+            std::string myNodeUrl = m_Engine.getMyPktAnnounce().getMyOnlineUrl();
+            m_Engine.unlockAnnouncePktAccess();
 
-            m_Engine.getPeerMgr().setLocalIp( ipv6, ipAddr );
+            m_Engine.getUrlMgr().setMyOnlineNodeUrl( myNodeUrl );
         }
     }
     else
     {
-        LogMsg( LOG_ERROR, "NetStatusAccum::setLanIpAddress invalid ip %s", ipAddr.c_str() );
+        LogMsg( LOG_ERROR, "NetStatusAccum::%s invalid ip %s", __func__, ipAddr.c_str() );
     }
 }
 
 //============================================================================
-std::string NetStatusAccum::getLanIpAddress( bool ipv6 )
+std::string NetStatusAccum::getLocalIpAddress( void )
 {
     m_AccumMutex.lock();
-    std::string ipAddr = ipv6 ? m_LanIpAddrIpv6 : m_LanIpAddrIpv4;
+    std::string ipAddr = m_LocalAddr;
     m_AccumMutex.unlock();
-    return ipAddr; 
+    return ipAddr;
 }

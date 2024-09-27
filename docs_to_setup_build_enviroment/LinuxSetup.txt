@@ -2,19 +2,19 @@ These instructions assume Ubuntu 20.4 but should work for most linux distributio
 Note: Using Ubuntu 22.4 there seems to be some qt ssl issuses when configuring so 20.4 is recommended then update to 22.4 later if desired
 
 ==== Prerequisite tools required to build nolimitconnect ======
-1.) sudo apt-get install g++
-2.) sudo apt-get install nasm
+1.) sudo apt install g++
+2.) sudo apt install nasm
 3.) uuid required but may be missing in your linux version
-	sudo apt-get install uuid-dev
+	sudo apt install uuid-dev
 4.) Open Gl
-	sudo apt-get install libglu1-mesa-dev
+	sudo apt install libglu1-mesa-dev
 5.) Needed by Qt or may have compile failure even if git already works
 	sudo apt install git	
 6.) Other Qt specifically required for online installer
-	a. sudo apt-get install build-essential
-	b. sudo apt-get install -y libxcb-xinerama0
+	a. sudo apt install build-essential
+	b. sudo apt install -y libxcb-xinerama0
 7.) Optional if you plan on compiling using the docker image
-	a. sudo apt-get install docker
+	a. sudo apt install docker
 	Give current user docker login privileges (optional)
 	b. sudo groupadd docker
 	c. sudo usermod -aG docker ${USER}

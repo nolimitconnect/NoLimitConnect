@@ -14,6 +14,8 @@
 
 #ifdef __cplusplus
 
+constexpr int FILE_HASH_LEN_BYTES = 20;
+
 #pragma pack(push)
 #pragma pack(1)
 class VxThread;
@@ -42,7 +44,7 @@ protected:
     char						lowNibbleChar( uint8_t val ) const		{ return nibbleToHex( val & 0x0F ); }
 	char						nibbleToHex( uint8_t val ) const		{ return val > 9 ? (val - 10) + 'A' : val + 0x30; }
 
-	uint8_t						m_HashId[20];
+	uint8_t						m_HashId[FILE_HASH_LEN_BYTES];
 };
 #pragma pack(pop)
 

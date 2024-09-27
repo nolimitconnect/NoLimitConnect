@@ -555,7 +555,7 @@ bool P2PEngine::validateIdent( VxNetIdent* netIdent )
 		return false;
 	}
 
-	return netIdent->getMyOnlinePort() > 0;
+	return netIdent->getOnlinePort() > 0;
 }
 
 //============================================================================
@@ -582,19 +582,13 @@ bool P2PEngine::isMemberGuest( EPluginType pluginType, VxGUID& onlineId )
 }
 
 //============================================================================
-VxGUID P2PEngine::getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+VxGUID P2PEngine::getOnlineIdFromUrl( std::string& ptopUrl )
 {
 	VxGUID onlineId;
-	VxPtopUrl hostUrlIpv4( ptopUrlIpv4 );
-    VxPtopUrl hostUrlIpv6( ptopUrlIpv6 );
-
-    if( hostUrlIpv4.isValid() )
+	VxPtopUrl hostUrl( ptopUrl );
+    if( hostUrl.isValid() )
     {
-        onlineId = hostUrlIpv4.getOnlineId();
-    }
-    else if( hostUrlIpv6.isValid() )
-    {
-        onlineId = hostUrlIpv6.getOnlineId();
+        onlineId = hostUrl.getOnlineId();
     }
 
 	return onlineId;

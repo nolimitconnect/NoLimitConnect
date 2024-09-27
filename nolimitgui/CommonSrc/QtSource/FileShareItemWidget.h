@@ -37,6 +37,8 @@ public:
 	void						setIsInLibrary( bool isInLibrary );
 	bool						getIsInLibrary( void );
 
+	bool						getIsMediaFile( void );
+
 	void						setSelectAFileMode( bool selectAFile );
 	bool						getSelectAFileMode( void ) { return m_SelectAFileMode; }
 

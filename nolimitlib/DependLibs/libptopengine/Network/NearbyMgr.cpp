@@ -315,11 +315,11 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
 
     m_MulticastIdentMutex.unlock();
 
-    if( !netIdent->getLanIPv4().isIPv4() || 80 > netIdent->getOnlinePort() )
-    {
-        // not valid to connect to across lan
-        return;
-    }
+    //if( !netIdent->getLanIPv4().isIPv4() || 80 > netIdent->getOnlinePort() )
+    //{
+    //    // not valid to connect to across lan
+    //    return;
+    //}
 
     if( !m_Engine.validateIdent( netIdent ) )
     {

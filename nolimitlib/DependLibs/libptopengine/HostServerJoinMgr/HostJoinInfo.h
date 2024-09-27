@@ -25,7 +25,7 @@ public:
 	HostJoinInfo&				operator=( const HostJoinInfo& rhs ); 
 
     bool                        isValid( void )                                     { return m_NetIdent != nullptr;  }
-    bool                        isUrlValid( bool ipv6 );
+    bool                        isUrlValid( void );
 
     void			            setHostType( enum EHostType hostType ) override;
 
@@ -43,8 +43,8 @@ public:
     void                        setGroupieId( GroupieId& groupieId )                { m_GroupieId = groupieId; }
     GroupieId&                  getGroupieId( void )                                { return m_GroupieId; }
 
-    virtual void			    setUserUrl( bool ipv6, std::string userUrl )        { if( userUrl.empty() ) return; ipv6 ? m_UserUrlIpv6 = userUrl : m_UserUrlIpv4 = userUrl; }
-    virtual std::string&	    getUserUrl( bool ipv6 )                             { return ipv6 ? m_UserUrlIpv6 : m_UserUrlIpv4; }
+    virtual void			    setUserUrl( std::string userUrl )                   { if( userUrl.empty() ) return; m_UserUrl = userUrl; }
+    virtual std::string&	    getUserUrl( void )                                  { return m_UserUrl; }
     virtual void			    setFriendState( enum EFriendState friendshipToHim ) { m_FriendState = friendshipToHim; }
     virtual EFriendState	    getFriendState( void )                              { return m_FriendState; }
 
@@ -60,8 +60,7 @@ protected:
     EFriendState                m_FriendState{ eFriendStateIgnore };
     uint32_t                    m_HostFlags{ 0 };
     GroupieId                   m_GroupieId;
-    std::string                 m_UserUrlIpv4;
-    std::string                 m_UserUrlIpv6;
+    std::string                 m_UserUrl;
 
     // temporaries
     VxGUID                      m_ConnectionId;

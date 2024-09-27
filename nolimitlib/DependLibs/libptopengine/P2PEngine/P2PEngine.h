@@ -163,15 +163,15 @@ public:
     std::shared_ptr<VxSktBase>& getSktLoopback( void )                          { return m_SktLoopback; }
 
 	bool						isAppPaused( void )								{ return m_AppIsPaused; }
-    bool                        isNearbyAvailable( void );
+
     bool						isInternetAvailable( void );        // is internet available
     bool						isDirectConnectTested( void );      // has direct connect test completed
 	bool						isP2POnline( void );
     bool                        isDirectConnectReady( void );       // true if have open port and ready to recieve
     bool                        isNetworkHostEnabled( void );       // true if netowrk host plugin is enabled
 
-    bool                        getIsMyHostServiceEnabled( EHostServiceType hostService );
-    bool                        getIsMyHostServiceEnabled( EHostType hostService );
+    bool                        getIsMyHostServiceEnabled( enum EHostServiceType hostService );
+    bool                        getIsMyHostServiceEnabled( enum EHostType hostService );
 
     bool                        getHasAnyAnnonymousHostService( void );
     bool                        getHasFixedIpAddress( void );
@@ -186,12 +186,12 @@ public:
     int64_t                     getPktAnnLastModTime( void )                    { return m_PktAnnLastModTime; }
 
     VxGUID&						getMyOnlineId( void )							{ return m_MyOnlineId; }
-    std::string					getMyOnlineUrl( bool ipv6, EHostType hostType = eHostTypeUnknown ) { m_AnnouncePktMutex.lock(); std::string myUrl( m_PktAnn.getMyOnlineUrl( ipv6, hostType ) ); m_AnnouncePktMutex.unlock(); return myUrl; }
+    std::string					getMyOnlineUrl( enum EHostType hostType = eHostTypeUnknown ) { m_AnnouncePktMutex.lock(); std::string myUrl( m_PktAnn.getMyOnlineUrl( hostType ) ); m_AnnouncePktMutex.unlock(); return myUrl; }
     VxNetIdent*				    getMyNetIdent( void )						    { return &m_PktAnn; }
     bool						addMyIdentToBlob( PktBlobEntry& blobEntry );
 
     bool                        setPluginSetting( PluginSetting& pluginSetting );
-    bool                        getPluginSetting( EPluginType pluginType, PluginSetting& pluginSetting );
+    bool                        getPluginSetting( enum EPluginType pluginType, PluginSetting& pluginSetting );
 
     virtual void				setPluginPermission( EPluginType pluginType, int iPluginPermission );
     virtual EFriendState		getPluginPermission( int iPluginType );
@@ -203,10 +203,10 @@ public:
 	virtual void				setHasPicture( int bHasPicture );
 	virtual void				setHasSharedWebCam( int bHasShaeredWebCam );
 	bool						isContactConnected( VxGUID& onlineId );
-	bool						isSystemPlugin( EPluginType	pluginType );
+	bool						isSystemPlugin( enum EPluginType	pluginType );
 
     bool                        isUserConnected( VxGUID& onlineId );
-    bool                        isMemberGuest( EPluginType pluginType, VxGUID& onlineId ); // true if user is member of same host as I am
+    bool                        isMemberGuest( enum EPluginType pluginType, VxGUID& onlineId ); // true if user is member of same host as I am
 
 	//========================================================================
 	// from gui
@@ -237,9 +237,9 @@ public:
     virtual void				fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffers ) override;
 
     virtual bool				fromGuiOrientationEvent( float f32RotX, float f32RotY, float f32RotZ  ) override;
-    virtual bool				fromGuiMouseEvent( EMouseButtonType eMouseButType, EMouseEventType eMouseEventType, int iMouseXPos, int iMouseYPos  ) override;
+    virtual bool				fromGuiMouseEvent( enum EMouseButtonType eMouseButType, enum EMouseEventType eMouseEventType, int iMouseXPos, int iMouseYPos  ) override;
     virtual bool				fromGuiMouseWheel( float f32MouseWheelDist ) override;
-    virtual bool				fromGuiKeyEvent( EKeyEventType eKeyEventType, EKeyCode eKey, int iFlags = 0 ) override;
+    virtual bool				fromGuiKeyEvent( enum EKeyEventType eKeyEventType, EKeyCode eKey, int iFlags = 0 ) override;
 
     virtual void				fromGuiNativeGlInit( void ) override;
     virtual void				fromGuiNativeGlResize( int w, int h ) override;
@@ -253,18 +253,18 @@ public:
     virtual void				fromGuiMuteSpeaker(	bool muteSpeaker ) override;
     virtual bool				fromGuiIsSpeakerMuted( void ) override;
 
-    virtual bool				fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
-    virtual bool				fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
+    virtual bool				fromGuiSndRecord( enum ESndRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
+    virtual bool				fromGuiVideoRecord( enum EVideoRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
     virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, int pos0to100000 = 0 ) override;
     virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos0to100000 = 0 ) override;
 
-    virtual bool				fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
-    bool				        fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
-    virtual bool				fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
+    virtual bool				fromGuiAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+    bool				        fromGuiQueueAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+    virtual bool				fromGuiAssetAction( enum EPluginType pluginType, enum EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
     virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
 
-    virtual void				fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput ) override;
-    virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, bool wantInput ) override;
+    virtual void				fromGuiWantMediaInput( enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, bool wantInput ) override;
+    virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, bool wantInput ) override;
 
     virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) override;
     virtual bool				fromGuiMovieDone( void ) override							{ return true; };
@@ -275,14 +275,14 @@ public:
 
     virtual void				fromGuiNetworkSettingsChanged( void ) override;
 
-    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
-    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
-    virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
-    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) override;
+    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
 
-    virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
+    virtual void				fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
 
-    void				        fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) override;
+    void				        fromGuiSendAnnouncedList( enum EHostType hostType, VxGUID& sessionId ) override;
 
     void				        fromGuiDisconnectFromUser( VxGUID& onlineId ) override;
 
@@ -305,36 +305,37 @@ public:
     virtual void				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings ) override;
     virtual void				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings ) override;
 
-    virtual void				fromGuiSetPluginPermission( EPluginType pluginType, EFriendState eFriendState ) override;
-    virtual int					fromGuiGetPluginPermission( EPluginType pluginType ) override;
-    virtual EPluginServerState	fromGuiGetPluginServerState( EPluginType pluginType ) override;
+    virtual void				fromGuiSetPluginPermission( enum EPluginType pluginType, enum EFriendState eFriendState ) override;
+    virtual int					fromGuiGetPluginPermission( enum EPluginType pluginType ) override;
+    virtual EPluginServerState	fromGuiGetPluginServerState( enum EPluginType pluginType ) override;
 
-    virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
-    virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( enum EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( enum EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
+    virtual bool				fromGuiIsPluginInSession( enum EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
     virtual bool				fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
-    virtual EXferError			fromGuiFileXferControl( EPluginType pluginType, EXferAction xferAction, FileInfo& fileInfo ) override;
+    virtual EXferError			fromGuiFileXferControl( enum EPluginType pluginType, enum EXferAction xferAction, FileInfo& fileInfo ) override;
 
-	virtual bool				fromGuiInstMsg(	EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg ) override;
+	virtual bool				fromGuiInstMsg(	enum EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg ) override;
                                                    
     virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk ) override;
 
-	virtual bool				fromGuiChangeMyFriendshipToHim(	VxGUID&	onlineId, EFriendState myFriendshipToHim, EFriendState hisFriendshipToMe ) override;															
+	virtual bool				fromGuiChangeMyFriendshipToHim(	VxGUID&	onlineId, enum EFriendState myFriendshipToHim, enum EFriendState hisFriendshipToMe ) override;															
                                                                 
-    virtual void				fromGuiSendContactList( EFriendViewType eFriendView, int maxContactsToSend ) override;
+    virtual void				fromGuiSendContactList( enum EFriendViewType eFriendView, int maxContactsToSend ) override;
     virtual void				fromGuiRefreshContactList( int maxContactsToSend ) override;
 
     virtual void				fromGuiRequireRelay( bool bRequireRelay ) override;
 
     virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount );
 
-    virtual void				fromGuiStartScan( EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern = "" ) override;
-    virtual void				fromGuiNextScan( EScanType eScanType ) override;
-    virtual void				fromGuiStopScan( EScanType eScanType ) override;
+    virtual void				fromGuiStartScan( enum EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern = "" ) override;
+    virtual void				fromGuiNextScan( enum EScanType eScanType ) override;
+    virtual void				fromGuiStopScan( enum EScanType eScanType ) override;
 
+    virtual InetAddress			fromGuiGetMyIpAddress( void ) override;
     virtual InetAddress			fromGuiGetMyIPv4Address( void ) override;
     virtual InetAddress			fromGuiGetMyIPv6Address( void ) override;
 
@@ -343,15 +344,15 @@ public:
     virtual void				fromGuiCancelDownload( VxGUID& fileInstance ) override;
     virtual void				fromGuiCancelUpload( VxGUID& fileInstance ) override;
 
-	virtual bool				fromGuiSetGameValueVar( EPluginType	pluginType, VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
+	virtual bool				fromGuiSetGameValueVar( enum EPluginType	pluginType, VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
 														                                            
-	virtual bool				fromGuiSetGameActionVar( EPluginType pluginType, VxGUID& onlineId, int32_t actionId, int32_t actionValue ) override;
+	virtual bool				fromGuiSetGameActionVar( enum EPluginType pluginType, VxGUID& onlineId, int32_t actionId, int32_t actionValue ) override;
 
-	virtual bool				fromGuiTestCmd(	ETestParam1 testParam1, int	testParam2 = 0, const char* testParam3 = nullptr ) override;                                            
+	virtual bool				fromGuiTestCmd(	enum ETestParam1 testParam1, int	testParam2 = 0, const char* testParam3 = nullptr ) override;                                            
 
     virtual uint16_t			fromGuiGetRandomTcpPort( void ) override;
     /// Get url for this node
-    virtual void                fromGuiGetNodeUrl( bool ipv6, std::string& nodeUrl ) override;
+    virtual void                fromGuiGetNodeUrl( std::string& nodeUrl ) override;
     /// Get internet status
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) override;
     /// Get network status
@@ -386,32 +387,32 @@ public:
     virtual int					fromGuiDeleteFile( std::string fileName, bool shredFile ) override;
 
     virtual void				fromGuiQuerySessionHistory( GroupieId& groupieId ) override;
-    virtual bool				fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual int					fromGuiGetJoinedListCount( EPluginType pluginType ) override;
-    virtual void                fromGuiListAction( EListAction listAction ) override;
-    virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType ) override;
-    virtual bool                fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl ) override;
+    virtual bool				fromGuiMultiSessionAction( enum EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual int					fromGuiGetJoinedListCount( enum EPluginType pluginType ) override;
+    virtual void                fromGuiListAction( enum EListAction listAction ) override;
+    virtual std::string			fromGuiQueryDefaultUrl( enum EHostType hostType ) override;
+    virtual bool                fromGuiSetDefaultUrl( enum EHostType hostType, std::string& hostUrl ) override;
     virtual bool				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) override;
     virtual bool				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) override;
-    virtual bool				fromGuiQueryHosts( std::string& netHostUrl, EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll ) override;
-    virtual bool				fromGuiQueryMyHostedInfo( EHostType hostType, std::vector<HostedInfo>& hostedInfoList ) override;
-    virtual bool				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll ) override;
-    virtual bool				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, EHostType hostType, VxGUID& onlineIdIfNullThenAll ) override;
+    virtual bool				fromGuiQueryHosts( std::string& netHostUrl, enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll ) override;
+    virtual bool				fromGuiQueryMyHostedInfo( enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList ) override;
+    virtual bool				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, enum EHostType hostType, VxGUID& hostIdIfNullThenAll ) override;
+    virtual bool				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, enum EHostType hostType, VxGUID& onlineIdIfNullThenAll ) override;
 
-    virtual bool				fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
-    virtual bool				fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
+    virtual bool				fromGuiDownloadWebPage( enum EWebPageType webPageType, VxGUID& onlineId ) override;
+    virtual bool				fromGuiCancelWebPage( enum EWebPageType webPageType, VxGUID& onlineId ) override;
 
-    virtual bool				fromGuiDownloadFileList( EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) override;
-    virtual bool				fromGuiDownloadFileListCancel( EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId ) override;
+    virtual bool				fromGuiDownloadFileList( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) override;
+    virtual bool				fromGuiDownloadFileListCancel( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId ) override;
 
-    virtual EJoinState		    fromGuiQueryJoinState( EHostType hostType, VxNetIdent& netIdent ) override;
+    virtual EJoinState		    fromGuiQueryJoinState( enum EHostType hostType, VxNetIdent& netIdent ) override;
 
-    virtual void				fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission ) override;
+    virtual void				fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum EFriendState pluginPermission ) override;
 
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
     virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) override;
 
-    bool				        fromGuiDeleteDatabase( EDatabaseType databaseType ) override;
+    bool				        fromGuiDeleteDatabase( enum EDatabaseType databaseType ) override;
 
     void				        fromGuiSetIsAutomatedHost( bool automatedHost ) override;
 
@@ -479,7 +480,7 @@ public:
     void                        onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase );
 	void						onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 
-	void						onSessionStart( EPluginType pluginType, VxGUID& onlineId );
+	void						onSessionStart( enum EPluginType pluginType, VxGUID& onlineId );
 	//========================================================================
 	//========================================================================
 
@@ -511,20 +512,20 @@ public:
     void                        sktMgrStatusCallback( std::string& statParam, int64_t statValue );
 
 	//! called if hacker offense is detected
-    void						hackerOffense(  EHackerLevel	hackerLevel,
-                                                EHackerReason   hackerReason,
+    void						hackerOffense(  enum EHackerLevel	hackerLevel,
+                                                enum EHackerReason   hackerReason,
                                                 InetAddress		ipAddr,					// ip address 
                                                 VxGUID          signatureGuid,			// users identity info ( may be null if not known then use ipAddress )
                                                 const char*     pMsg, ... );			// message about the offense
 
-	void						hackerOffense(	EHackerLevel	hackerLevel,			    
-                                                EHackerReason   hackerReason,
+	void						hackerOffense(	enum EHackerLevel	hackerLevel,			    
+                                                enum EHackerReason   hackerReason,
                                                 VxNetIdent*	    poContactIdent,			// users identity info ( may be null if not known then use ipAddress )
 												InetAddress		IpAddr,					// ip address if identity not known
 												const char*	    pMsg, ... );			// message about the offense
 
-    void                        hackerOffense(  EHackerLevel	hackerLevel,			    
-                                                EHackerReason   hackerReason,
+    void                        hackerOffense(  enum EHackerLevel	hackerLevel,			    
+                                                enum EHackerReason   hackerReason,
                                                 VxPktHdr*	    pktHdr,			// users identity info ( may be null if not known then use ipAddress )
                                                 std::shared_ptr<VxSktBase>&      sktBase,
                                                 const char*	    pMsg, ... );			// message about the offense
@@ -730,7 +731,7 @@ public:
     void                        onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort );
 
     /// extract online id from either url if url is valid
-    static VxGUID               getOnlineIdFromUrl( std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 );
+    static VxGUID               getOnlineIdFromUrl( std::string& ptopUrl );
 
     std::string                 describeGroupieId( GroupieId& groupieId );
     std::string                 describeHostedId( HostedId& hostedId );
@@ -741,12 +742,12 @@ protected:
     //========================================================================
     void						iniitializePtoPEngine( void );
 
-	virtual bool				txPluginPkt( 	EPluginType			pluginType, 
+	virtual bool				txPluginPkt( 	enum EPluginType			pluginType, 
 												VxNetIdentBase *	netIdent, 
 												std::shared_ptr<VxSktBase>&			sktBase, 
 												VxPktHdr*			poPkt );
 
-	virtual void				doAppStateChange( EAppState eAppState );
+	virtual void				doAppStateChange( enum EAppState eAppState );
 	virtual bool				shouldNotifyGui( VxNetIdent* netIdent );
 
 	// pkt ann has changed and needs to be re announced
@@ -759,15 +760,15 @@ protected:
     // called when connected to or recieve pkt announce
     bool                        updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo, bool nearbyLanConnected );
 
-    bool						onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
-    bool						onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
-    bool						onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
-    bool                        onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
-    bool						onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool                        onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
     bool						onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
-    EMembershipState            getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, EPluginType pluginType, EFriendState myFriendshipToHim );
+    EMembershipState            getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, enum EPluginType pluginType, enum EFriendState myFriendshipToHim );
 
 	//=== vars ===//
 	VxPeerMgr&					m_PeerMgr;
@@ -825,9 +826,9 @@ protected:
 
 	RcScan						m_RcScan;
 
-    EAppState					m_eAppState{ eAppStateInvalid };
+    enum EAppState				m_eAppState{ eAppStateInvalid };
 
-    EFriendViewType				m_eFriendView{ eFriendViewEverybody };
+    enum EFriendViewType		m_eFriendView{ eFriendViewEverybody };
 	unsigned int				m_iCurPreferredRelayConnectIdx{ 0 };
 	VxGUID						m_NextFileInstance;
     bool						m_AppStartupCalled{ false };

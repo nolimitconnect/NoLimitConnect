@@ -181,6 +181,66 @@ void AppSettings::getLastBrowseDir( EFileFilterType eFileFilterType, std::string
 }
 
 //============================================================================
+void AppSettings::setLastBrowseFilter( EFileFilterType fileFilterType )
+{
+	int32_t filterType = (int32_t)fileFilterType;
+	setIniValue( getAppShortName(), "LastBrowseFilter", filterType );
+}
+
+//============================================================================
+EFileFilterType AppSettings::getLastBrowseFilter( void )
+{
+	uint32_t filterType = 0;
+	getIniValue( getAppShortName(), "LastBrowseFilter", filterType, (int)eFileFilterVideo );
+	return (EFileFilterType)filterType;	
+}
+
+//============================================================================
+void AppSettings::setLastFileOfferFilter( EFileFilterType fileFilterType )
+{
+	int32_t filterType = (int32_t)fileFilterType;
+	setIniValue( getAppShortName(), "LastFileOfferFilter", filterType );
+}
+
+//============================================================================
+EFileFilterType AppSettings::getLastFileOfferFilter( void )
+{
+	uint32_t filterType = 0;
+	getIniValue( getAppShortName(), "LastFileOfferFilter", filterType, (int)eFileFilterVideo );
+	return (EFileFilterType)filterType;	
+}
+
+//============================================================================
+void AppSettings::setLastFileShareViewFilter( EFileFilterType fileFilterType )
+{
+	int32_t filterType = (int32_t)fileFilterType;
+	setIniValue( getAppShortName(), "LastShareViewFilter", filterType );
+}
+
+//============================================================================
+EFileFilterType AppSettings::getLastFileShareViewFilter( void )
+{
+	uint32_t filterType = 0;
+	getIniValue( getAppShortName(), "LastShareViewFilter", filterType, (int)eFileFilterVideo );
+	return (EFileFilterType)filterType;	
+}
+
+//============================================================================
+void AppSettings::setLastLibraryFilter( EFileFilterType fileFilterType )
+{
+	int32_t filterType = (int32_t)fileFilterType;
+	setIniValue( getAppShortName(), "LastLibraryFilter", filterType );
+}
+
+//============================================================================
+EFileFilterType AppSettings::getLastLibraryFilter( void )
+{
+	uint32_t filterType = 0;
+	getIniValue( getAppShortName(), "LastLibraryFilter", filterType, (int)eFileFilterVideo );
+	return (EFileFilterType)filterType;	
+}
+
+//============================================================================
 void AppSettings::setLastGalleryDir( std::string& galleryDir )
 {
 	setIniValue( getAppShortName(), "GalleryDir", galleryDir );

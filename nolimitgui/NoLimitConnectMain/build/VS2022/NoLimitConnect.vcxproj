@@ -217,6 +217,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletIgnoredHosts.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInviteAccept.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInvites.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletJoinBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLaunchPage.cpp" />
@@ -324,6 +325,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileActionBarWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileActionMenu.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileItemInfo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileListReplySession.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileShareItemWidget.cpp" />
@@ -494,7 +496,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAspectFrame.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAvatarImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxComboBox.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxComboBoxFileFilter.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxContextMenu.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxFrame.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxLabel.cpp" />
@@ -613,12 +614,14 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AudioBuffer.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\DialogAddComment.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FileItemInfo.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendListDelegate.h" />
@@ -755,7 +758,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxLabel.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxFrame.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxContextMenu.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxComboBoxFileFilter.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxComboBox.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxAvatarImage.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxAspectFrame.h" />
@@ -997,6 +999,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIgnoredHosts.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletInviteAccept.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletInviteCreate.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletInvites.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIsPortOpenTest.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletJoinHostList.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletLaunchWidget.ui" />
@@ -1065,6 +1068,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\FileActionBarWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileActionMenu.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileDisplayWidget.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\FileFilterSelectWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileShareItemWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileXferWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FriendListDlg.ui" />
@@ -1096,7 +1100,6 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\PersonOfferListItem.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\PlayControlWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\PluginSettingsWidget.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\RelayServiceWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\SearchBarWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\SearchParamsWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ServiceSettingsWidget.ui" />

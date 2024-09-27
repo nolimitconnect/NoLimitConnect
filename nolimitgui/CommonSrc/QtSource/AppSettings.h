@@ -60,8 +60,20 @@ public:
 	void						setLastBrowseShareDir( std::string& browseDir );
 	void						getLastBrowseShareDir( std::string& browseDir );
 
-	void						setLastBrowseDir( EFileFilterType eFileFilterType, std::string& browseDir );
-	void						getLastBrowseDir( EFileFilterType eFileFilterType, std::string& browseDir );
+	void						setLastBrowseDir( EFileFilterType fileFilterType, std::string& browseDir );
+	void						getLastBrowseDir( EFileFilterType fileFilterType, std::string& browseDir );
+
+	void						setLastBrowseFilter( EFileFilterType fileFilterType );
+	EFileFilterType				getLastBrowseFilter( void );
+
+	void						setLastFileOfferFilter( EFileFilterType fileFilterType );
+	EFileFilterType				getLastFileOfferFilter( void );
+
+	void						setLastFileShareViewFilter( EFileFilterType fileFilterType );
+	EFileFilterType				getLastFileShareViewFilter( void );
+
+	void						setLastLibraryFilter( EFileFilterType fileFilterType );
+	EFileFilterType				getLastLibraryFilter( void );
 
 	void						setLastGalleryDir( std::string& galleryDir );
 	void						getLastGalleryDir( std::string& galleryDir );

@@ -23,10 +23,10 @@ class PktBlobEntry;
 //! derived from 16 bytes
 //! size 
 //	  16 bytes VxGUID
-// +  16 bytes m_IPv6OnlineIp
-// +   4 bytes m_IPv4OnlineIp
+// +  16 bytes m_IPOnlineIp
 // +   2 bytes m_u16OnlinePort
 // +   2 bytes m_u16ResConnectId1
+// +   2 bytes m_u32ResConnectId2
 // =  40 bytes total
 class VxConnectId : public VxGUID
 {
@@ -43,26 +43,29 @@ public:
 	void						setPort( uint16_t port )			{ m_u16OnlinePort = htons( port ); }
 	uint16_t					getPort( void )						{ return ntohs( m_u16OnlinePort ); }
 
-	bool						setIpAddress( bool ipv6, std::string ipAddr, bool* retIpHasChanged = nullptr ); 
-	bool						getIpAddress( bool ipv6, std::string& retIpAddr );
+	bool						setIpAddress( std::string ipAddr, bool* retIpHasChanged = nullptr ); 
+	bool						getIpAddress( std::string& retIpAddr, EIpAddrType& retIpAddrType );
 
-	bool						isIpAddressValid( bool ipv6 );
+	bool						setIpAddress( InetAddress& ipAddr );
+	InetAddress&				getIpAddress( void )						{ return m_OnlineIp; }
 
-	InetAddress&				getIPv6( void )						{ return m_IPv6OnlineIp; }
-	InetAddrIPv4&				getIPv4( void )						{ return m_IPv4OnlineIp; }
+	void						setIpAddressType( EIpAddrType addrType )	{ m_IpAddrType = (uint8_t)addrType; }
+	EIpAddrType					getIpAddressType( void )					{ return (EIpAddrType)m_IpAddrType; }
+
+	bool						isIpAddressValid( void )			{ return m_IpAddrType != eIpAddrTypeUnknown; }
 
 	void						clear( void );
 
 	VxGUID&						getOnlineId( void )					{ return *this; }
 
-
 	//=== vars ===//
-	InetAddress					m_IPv6OnlineIp;						// users ip6 address
-	InetAddrIPv4				m_IPv4OnlineIp;						// users ip4 address
+	InetAddress					m_OnlineIp;							// users ip address
 
 protected:
 	uint16_t					m_u16OnlinePort{ 0 };				// users incoming connection port
-	uint16_t					m_u16ResConnectId1{ 0 };			// reserved for possible ipv6 port or local port
+	uint8_t						m_IpAddrType{ 0 };
+	uint8_t						m_u8Reseved1{ 0 };					// reserved for possible future use
+	uint32_t					m_u32Reseved2{ 0 };					// reserved for possible future use
 };
 
 #pragma pack(pop)

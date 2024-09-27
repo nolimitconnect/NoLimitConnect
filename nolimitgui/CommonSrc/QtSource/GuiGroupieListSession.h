@@ -28,11 +28,11 @@ public:
 
     GroupieId&                  getGroupieId( void )                        { return m_GroupieId; }
     GuiGroupie*                 getGroupie( void )                          { return m_GuiGroupie; }
-    VxGUID&					    getUserOnlineId( void )                  { return m_GroupieId.getUserOnlineId(); }
-    VxGUID&                     getHostOnlineId( void )                   { return m_GroupieId.getHostOnlineId(); }
+    VxGUID&					    getUserOnlineId( void )                     { return m_GroupieId.getUserOnlineId(); }
+    VxGUID&                     getHostOnlineId( void )                     { return m_GroupieId.getHostOnlineId(); }
     EHostType                   getHostType( void )                         { return m_GroupieId.getHostType(); }
 
-    std::string                 getGroupieUrl( bool ipv6 );
+    std::string                 getGroupieUrl( void );
     std::string                 getGroupieTitle( void );
     std::string                 getGroupieDescription( void );
 

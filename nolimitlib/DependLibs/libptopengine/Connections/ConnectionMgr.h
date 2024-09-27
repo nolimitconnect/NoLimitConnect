@@ -101,8 +101,7 @@ protected:
                                                  std::shared_ptr<VxSktBase>& retSktBase,
                                                  VxGUID                      sessionId,
                                                  enum EConnectReason         connectReason,
-                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT,
-                                                 bool                        ipv6 = false );  
+                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT );  
 
     EConnectStatus				directConnectTo(	VxConnectInfo&			    connectInfo,		 
                                                     std::shared_ptr<VxSktBase>& ppoRetSkt,		
@@ -111,8 +110,7 @@ protected:
                                                     bool					    useLanIp = false,
                                                     bool					    useUdpIp = false,
                                                     IConnectRequestCallback*    callback = nullptr,                                                
-                                                    enum EConnectReason         connectReason = eConnectReasonUnknown,
-                                                    bool                        ipv6 = false );
+                                                    enum EConnectReason         connectReason = eConnectReasonUnknown );
 
     EConnectStatus              directConnectTo(    std::string                 ipAddr,
                                                     uint16_t                    port,
@@ -121,8 +119,7 @@ protected:
                                                     IConnectRequestCallback*    callback,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
-                                                    int					        iConnectTimeoutMs,
-                                                    bool                        ipv6 = false );
+                                                    int					        iConnectTimeoutMs );
 
     void                        addConnectRequestToQue( VxConnectInfo& connectInfo, enum EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting );
     void                        addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting );
@@ -130,9 +127,6 @@ protected:
                                                     std::shared_ptr<VxSktBase>&		ppoRetSkt,
                                                     VxGUID&                         sessionId,
                                                     bool&				            retIsNewConnection );
-
-    bool                        tryIPv6Connect( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt );
-
 
     bool                        txPacket( VxGUID&				        destinationId,
                                           std::shared_ptr<VxSktBase>&	sktBase,

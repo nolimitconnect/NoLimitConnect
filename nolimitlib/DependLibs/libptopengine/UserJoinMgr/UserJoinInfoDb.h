@@ -44,8 +44,7 @@ protected:
                                                 uint64_t		lastJoinMs,
                                                 EFriendState    friendState,
                                                 uint32_t        hostFlags,
-                                                std::string     hostUrlIpv4,
-                                                std::string     hostUrlIpv6
+                                                std::string     hostUrl
                                             );
 
     virtual RCODE				onCreateTables( int iDbVersion );

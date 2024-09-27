@@ -11,11 +11,10 @@
 #include "HostUrlInfo.h"
 
 //============================================================================
-HostUrlInfo::HostUrlInfo( EHostType hostType, VxGUID& onlineId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, int64_t timestamp )
+HostUrlInfo::HostUrlInfo( EHostType hostType, VxGUID& onlineId, std::string& hostUrl, int64_t timestamp )
     : m_HostType( hostType )
     , m_OnlineId( onlineId )
-    , m_HostUrlIpv4( hostUrlIpv4 )
-    , m_HostUrlIpv6( hostUrlIpv6 )
+    , m_HostUrl( hostUrl )
     , m_TimestampMs( timestamp )
 {
 }
@@ -24,8 +23,7 @@ HostUrlInfo::HostUrlInfo( EHostType hostType, VxGUID& onlineId, std::string& hos
 HostUrlInfo::HostUrlInfo( const HostUrlInfo& rhs )
     : m_HostType( rhs.m_HostType )
     , m_OnlineId( rhs.m_OnlineId )
-    , m_HostUrlIpv4( rhs.m_HostUrlIpv4 )
-    , m_HostUrlIpv6( rhs.m_HostUrlIpv6 )
+    , m_HostUrl( rhs.m_HostUrl )
     , m_TimestampMs( rhs.m_TimestampMs )
 {
 }
@@ -37,8 +35,7 @@ HostUrlInfo& HostUrlInfo::operator=( const HostUrlInfo& rhs )
 	{
         m_HostType = rhs.m_HostType;
         m_OnlineId = rhs.m_OnlineId;
-        m_HostUrlIpv4 = rhs.m_HostUrlIpv4;
-        m_HostUrlIpv6 = rhs.m_HostUrlIpv6;
+        m_HostUrl = rhs.m_HostUrl;
         m_TimestampMs = rhs.m_TimestampMs;
     }
 

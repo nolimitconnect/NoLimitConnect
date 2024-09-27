@@ -83,14 +83,15 @@ std::string NetServicesMgr::getNetworkKey( void )
 //============================================================================
 uint16_t NetServicesMgr::getRxNetServicePort( void )
 {
-    return m_Engine.getMyPktAnnounce().getMyOnlinePort();
+    return m_Engine.getMyPktAnnounce().getOnlinePort();
 }
 
 //============================================================================
 std::string NetServicesMgr::getRxNetIpAddress( void )
 {
 	std::string strRetIp;
-    m_Engine.getMyPktAnnounce().getMyOnlineIpAddress( false, strRetIp );
+	EIpAddrType addrType{ eIpAddrTypeUnknown };
+    m_Engine.getMyPktAnnounce().getOnlineIpAddress( strRetIp, addrType );
 	return strRetIp;
 }
 
@@ -1146,12 +1147,12 @@ bool NetServicesMgr::fetchExternalIpAddress( VxSktConnectSimple* sktSimple, std:
 
 	if( !VxIsIPv4Address( ipAddr.c_str(), true ) )
 	{
-		LogMsg( LOG_VERBOSE, "fetchExternalIpAddress Invalid ip v4 addr %s", ipAddr.c_str() );
+		LogMsg( LOG_VERBOSE, "fetchExternalIpAddress Invalid ip addr %s", ipAddr.c_str() );
 		return false;
 	}
 
 	retExternIpAddr = ipAddr;
-	m_Engine.getNetStatusAccum().setExternalIpAddress( false, ipAddr );
+	m_Engine.getNetStatusAccum().setExternalIpAddress( ipAddr );
 	return true;
 }
 

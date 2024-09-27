@@ -9,6 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <stdint.h>
+
 #define VXFILE_TYPE_UNKNOWN					0x00
 
 #define VXFILE_TYPE_MASK					0xff		
@@ -29,6 +31,7 @@
 enum EFileFilterType 
 {
 	eFileFilterAll					= 0,
+
 	eFileFilterPhoto				= 1,
 	eFileFilterAudio				= 2,
 	eFileFilterVideo				= 3,
@@ -44,3 +47,5 @@ enum EFileFilterType
 
 	eMaxFileFilterType
 };
+
+uint8_t FileFilterToVxFileType( EFileFilterType fileFilter );

@@ -95,13 +95,13 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 				
 				m_FileInfoNeedHashAndSaveList.push_back( fileInfo );
 				
-				addFileToGenHashQue( fileInfo.getAssetId(), fileInfo.getFileName() );
+				addFileToGenHashQue( fileInfo.getAssetId(), fileInfo.getFileName(), fileInfo.getFileNameAndPath() );
 			}
 		}
 		else
 		{
 			// file no longer exists
-			toDeleteFiles.push_back( fileInfo.getFileName() );
+			toDeleteFiles.push_back( fileInfo.getFileNameAndPath() );
 		}
 
 		if( VxIsAppShuttingDown() )
@@ -136,15 +136,15 @@ void FileInfoBaseMgr::fileInfoMgrShutdown( void )
 }
 
 //============================================================================
-void FileInfoBaseMgr::addFileToGenHashQue( VxGUID& fileId, std::string fileName )
+void FileInfoBaseMgr::addFileToGenHashQue( VxGUID& fileId, std::string fileName, std::string fileNameAndPath )
 {
-	GetSha1GeneratorMgr().generateSha1( fileId, fileName, this );
+	GetSha1GeneratorMgr().generateSha1( fileId, fileName, fileNameAndPath, this );
 }
 
 //============================================================================
-void FileInfoBaseMgr::removeFileFromGenHashQue( VxGUID& fileId, std::string fileName )
+void FileInfoBaseMgr::removeFileFromGenHashQue( VxGUID& fileId, std::string fileNameAndPath )
 {
-	GetSha1GeneratorMgr().cancelGenerateSha1( fileId, fileName, this );
+	GetSha1GeneratorMgr().cancelGenerateSha1( fileId, fileNameAndPath, this );
 }
 
 //============================================================================
@@ -154,7 +154,6 @@ void FileInfoBaseMgr::clearLibraryFileList( void )
 	m_s64TotalByteCnt = 0;
 
 	m_FileInfoList.clear();
-
 
 	m_FileInfoNeedHashAndSaveList.clear();
 }
@@ -271,7 +270,7 @@ bool FileInfoBaseMgr::addFileToDbAndList( FileInfo& fileInfoIn )
 		lockFileList();
 		m_FileInfoNeedHashAndSaveList.push_back( fileInfoIn );
 		unlockFileList();
-		addFileToGenHashQue( fileInfoIn.getAssetId(), fileInfoIn.getFileName() );
+		addFileToGenHashQue( fileInfoIn.getAssetId(), fileInfoIn.getFileName(), fileInfoIn.getFileNameAndPath() );
 		result = true;
 	}
 	else

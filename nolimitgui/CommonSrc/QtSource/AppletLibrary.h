@@ -47,11 +47,13 @@ public:
 
 private slots:
     void						slotHomeButtonClicked( void ) override;
-    void						statusMsg( QString strMsg );
+
     void						slotRequestFileList( void );
-    void						slotApplyFileFilter( unsigned char fileTypeMask );
+    void						slotApplyFileFilter( EFileFilterType eFileFilter );
     void						slotAddFileButtonClicked( void );
-    void						slotAddFilesButtonClicked( void );
+    void						slotAddFileLabelClicked( void );
+    void						slotBrowseButtonClicked( void );
+    void						slotBrowseLabelClicked( void );
 
     void						slotListItemClicked( QListWidgetItem* item );
     void						slotListItemDoubleClicked( QListWidgetItem* item );
@@ -81,18 +83,19 @@ protected:
 
     void                        updateStorageSpace( std::string fileName );
 
+    void                        statusMsg( QString strMsg );
+
     //=== vars ===//
     Ui::AppletLibraryUi&	    ui;
     EPluginType					m_ePluginType;
-    bool						m_IsSelectAFileMode;
-    bool						m_FileWasSelected;
-    uint8_t						m_SelectedFileType;
+    bool						m_IsSelectAFileMode{ false };
+    bool						m_FileWasSelected{ false };
+    uint8_t						m_SelectedFileType{ 0 };
     QString						m_SelectedFileName;
-    uint64_t					m_SelectedFileLen;
-    bool						m_SelectedFileIsShared;
-    bool						m_SelectedFileIsInLibrary;
-    EFileFilterType				m_eFileFilterType;
-    uint8_t						m_FileFilterMask;
+    uint64_t					m_SelectedFileLen{ 0 };
+    bool						m_SelectedFileIsShared{ false };
+    bool						m_SelectedFileIsInLibrary{ false };
+    EFileFilterType				m_eFileFilterType{ eFileFilterAll };
 };
 
 

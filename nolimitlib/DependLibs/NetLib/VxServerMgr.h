@@ -32,7 +32,7 @@ public:
 	virtual ~VxServerMgr() = default;
 
 
-    void				        sktMgrStartup( void ) override;
+    void				        sktMgrStartup( bool ipv6 ) override;
 	void				        sktMgrShutdown( void ) override;
 
 	// overrides SktMgrBase
@@ -75,7 +75,7 @@ public:
     int							m_iMgrId{ 0 };			// unique id for this manager
 
 protected:
-    virtual RCODE				startListeningThreads( void );
+    virtual RCODE				startListeningThreads( bool ipv6 );
 	void						stopListeningThreads( void );
 
     void                        onListenSettingsChanged( bool ipv6 );

@@ -56,13 +56,13 @@ void AppletAboutApp::setupAboutMe( void )
     ui.m_AvailSpace->setText( GuiHelpers::getAvailableStorageSpaceText() );
     VxNetIdent oMyIdent;
     m_FromGui.fromGuiQueryMyIdent( &oMyIdent );
-    std::string strOnlineIp = oMyIdent.getOnlineIpAddress(false).toString();
+    std::string strOnlineIp = oMyIdent.getOnlineIpAddress().toString();
     QString strText = QString( "Online Name: %1" ).arg( oMyIdent.getOnlineName() );
     ui.labelMeLine1->setText( QString( "Online Name: %1" ).arg( oMyIdent.getOnlineName() ) );
     std::string strMyId = oMyIdent.m_DirectConnectId.describeVxGUID();
     ui.labelMeLine2->setText( QString( "Id: %1" ).arg( strMyId.c_str() ) );
-    ui.labelMeLine3->setText( QString( "My IPv4 Url:%1" ).arg( oMyIdent.getMyOnlineUrl(false).c_str() ) );
-    ui.labelMeLine4->setText( QString( "My IPv6 Url:%1" ).arg( oMyIdent.getMyOnlineUrl(true).c_str() ) );
+    ui.labelMeLine3->setText( QString( "My Url: %1" ).arg( oMyIdent.getMyOnlineUrl().c_str() ) );
+    ui.labelMeLine4->setText( QString( "Local IP Address: %1" ).arg( m_MyApp.getEngine().getNetStatusAccum().getLocalIpAddress().c_str()));
     ui.labelMeLine6->setText( QString( "Requires Relay?: %1 " ).arg( oMyIdent.requiresRelay() ) );
     ui.labelMeLine7->setText( QString( "Has Profile Pic?: %1" ).arg( oMyIdent.hasProfilePicture() ) );
     ui.labelMeLine9->setText( QString( "Is Big Endian CPU ?: %1" ).arg( IsBigEndianCpu() ? "true" : "false" ) );

@@ -43,7 +43,7 @@ bool GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&		sktBase,
 	sktBase->lockCryptoAccess();
 	if( false == sktBase->m_RxKey.isKeySet() )
 	{
-		result = GenerateConnectionKey( sktBase->getIsIpv6Connection(), &sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName);
+		result = GenerateConnectionKey( &sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName);
 		if( result )
 		{
             // LogMsg( LOG_VERBOSE, "GenerateRxConnectionKey %s skt %d id %d", sktBase->m_RxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );
@@ -67,7 +67,7 @@ bool GenerateTxConnectionKey(	std::shared_ptr<VxSktBase>&		sktBase,
 	sktBase->lockCryptoAccess();
 	if( false == sktBase->m_TxKey.isKeySet() )
 	{
-		result = GenerateConnectionKey(	sktBase->getIsIpv6Connection(), &sktBase->m_TxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName );
+		result = GenerateConnectionKey(	 &sktBase->m_TxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName );
 		if( result )
 		{
             // LogMsg( LOG_VERBOSE, "GenerateTxConnectionKey %s skt %d id %d", sktBase->m_TxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );
@@ -94,7 +94,7 @@ bool GenerateTxConnectionKey(  std::shared_ptr<VxSktBase>&	sktBase,
     std::string strNetworkName = networkName;
     if( false == sktBase->m_TxKey.isKeySet() )
     {
-        result = GenerateConnectionKey(	sktBase->getIsIpv6Connection(), &sktBase->m_TxKey, ipAddr, port, onlineId, sktBase->getCryptoKeyPort(), strNetworkName );
+        result = GenerateConnectionKey(	&sktBase->m_TxKey, ipAddr, port, onlineId, sktBase->getCryptoKeyPort(), strNetworkName );
         if (result )
         {
             // LogMsg( LOG_VERBOSE, "GenerateTxConnectionKey %s skt %d id %d", sktBase->m_TxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );

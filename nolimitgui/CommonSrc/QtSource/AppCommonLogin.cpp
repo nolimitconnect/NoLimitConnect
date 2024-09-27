@@ -248,14 +248,15 @@ void AppCommon::setupAccountResources( VxNetIdent& userAccountIdent )
     uint16_t tcpPort = getEngine().getEngineSettings().getTcpIpPort();
     userAccountIdent.m_DirectConnectId.setPort( tcpPort );
 
-    // get current default ips
-    userAccountIdent.m_DirectConnectId.m_IPv4OnlineIp.setIp( getEngine().fromGuiGetMyIPv4Address().getIPv4AddressInHostOrder(), true );
+    // get current default ip
+    InetAddress defaultIp = getEngine().fromGuiGetMyIpAddress();
+    if( defaultIp.isValid() )
+    {
+        userAccountIdent.m_DirectConnectId.setIpAddress(defaultIp);
+        std::string myIP = userAccountIdent.m_DirectConnectId.m_OnlineIp.toString();
 
-    userAccountIdent.m_DirectConnectId.m_IPv6OnlineIp = getEngine().fromGuiGetMyIPv6Address();
-    std::string myIPv4 = userAccountIdent.m_DirectConnectId.m_IPv4OnlineIp.toString();
-    std::string myIPv6 = userAccountIdent.m_DirectConnectId.m_IPv6OnlineIp.toString();
-
-    LogMsg( LOG_VERBOSE, "Account %s IPv4 %s IPv6 %s", strUserName.c_str(), myIPv4.c_str(), myIPv6.c_str() );
+        LogMsg( LOG_VERBOSE, "Account %s IP %s", strUserName.c_str(), myIP.c_str() );
+    }
 
     copyAssetsToFoldersIfRequired();
 
@@ -303,8 +304,8 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
     // get port to listen on 
     uint16_t tcpPort = getEngine().getEngineSettings().getTcpIpPort();
     getEngine().getMyNetIdent()->setIsAutomatedHost( m_AppSettings.getIsAutomatedHost() );
-    getEngine().getMyNetIdent()->setMyOnlinePort( tcpPort );
-    getEngine().getMyNetIdent()->m_DirectConnectId.m_IPv6OnlineIp = getEngine().getFromGuiInterface().fromGuiGetMyIPv6Address();
+    getEngine().getMyNetIdent()->setOnlinePort( tcpPort );
+    getEngine().getMyNetIdent()->m_DirectConnectId.m_OnlineIp = getEngine().getFromGuiInterface().fromGuiGetMyIPv6Address();
 
     getEngine().setPktAnnLastModTime( GetTimeStampMs() );
 

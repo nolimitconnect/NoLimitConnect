@@ -119,37 +119,37 @@ EConnectReason HostBaseMgr::getSearchConnectReason( EHostType hostType )
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    if( ptopUrlIpv4.empty() || adminId.getHostType() == eHostTypeUnknown )
+    if( ptopUrl.empty() || adminId.getHostType() == eHostTypeUnknown )
     {
         m_Engine.getToGui().toGuiHostAnnounceStatus( adminId.getHostType(), sessionId, eHostAnnounceInvalidUrl );
         return;
     }
 
-    connectToHost( adminId.getHostType(), sessionId, ptopUrlIpv4, HostTypeToConnectAnnounceReason( adminId.getHostType() ) );
+    connectToHost( adminId.getHostType(), sessionId, ptopUrl, HostTypeToConnectAnnounceReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectJoinReason( adminId.getHostType() ) );
+    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrl, HostTypeToConnectJoinReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectLeaveReason( adminId.getHostType() ) );
+    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrl, HostTypeToConnectLeaveReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6 )
+void HostBaseMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
 {
-    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrlIpv4, ptopUrlIpv6, HostTypeToConnectUnJoinReason( adminId.getHostType() ) );
+    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrl, HostTypeToConnectUnJoinReason( adminId.getHostType() ) );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )
+void HostBaseMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable )
 {
     std::string url = searchParams.getSearchUrl();
     if( url.empty() )
@@ -183,7 +183,7 @@ void HostBaseMgr::fromGuiSearchHost( EHostType hostType, SearchParams& searchPar
     }
     else
     {
-        EConnectReason connectReason = eConnectReasonUnknown;
+        enum EConnectReason connectReason = eConnectReasonUnknown;
         switch( searchParams.getSearchType() )
         {
         case eSearchChatRoomHost:	        //!< Search for Chat Room to Join
@@ -218,7 +218,7 @@ void HostBaseMgr::fromGuiSearchHost( EHostType hostType, SearchParams& searchPar
 }
 
 //============================================================================
-bool HostBaseMgr::isAnnounceConnectReason( EConnectReason connectReason )
+bool HostBaseMgr::isAnnounceConnectReason( enum EConnectReason connectReason )
 {
     bool isAnnounceReason = false;
     switch( connectReason )
@@ -236,31 +236,31 @@ bool HostBaseMgr::isAnnounceConnectReason( EConnectReason connectReason )
 }
 
 //============================================================================
-bool HostBaseMgr::isJoinConnectReason( EConnectReason connectReason )
+bool HostBaseMgr::isJoinConnectReason( enum EConnectReason connectReason )
 {
     return IsConnectReasonJoin( connectReason );
 }
 
 //============================================================================
-bool HostBaseMgr::isLeaveConnectReason( EConnectReason connectReason )
+bool HostBaseMgr::isLeaveConnectReason( enum EConnectReason connectReason )
 {
     return IsConnectReasonLeave( connectReason );
 }
 
 //============================================================================
-bool HostBaseMgr::isUnJoinConnectReason( EConnectReason connectReason )
+bool HostBaseMgr::isUnJoinConnectReason( enum EConnectReason connectReason )
 {
     return IsConnectReasonUnJoin( connectReason );
 }
 
 //============================================================================
-bool HostBaseMgr::isSearchConnectReason( EConnectReason connectReason )
+bool HostBaseMgr::isSearchConnectReason( enum EConnectReason connectReason )
 {
     return IsConnectReasonSearch( connectReason );
 }
 
 //============================================================================
-void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EConnectReason connectReason, EHostAnnounceStatus hostAnnStatus, std::string url )
+void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionId, enum EConnectReason connectReason, enum EHostAnnounceStatus hostAnnStatus, std::string url )
 {
     LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
         DescribeHostAnnounceStatus(hostAnnStatus), url.c_str());
@@ -269,7 +269,7 @@ void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EC
 }
 
 //============================================================================
-void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EConnectReason connectReason, EHostJoinStatus hostJoinStatus, std::string url )
+void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionId, enum EConnectReason connectReason, enum EHostJoinStatus hostJoinStatus, std::string url )
 {
     LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
            DescribeHostJoinStatus(hostJoinStatus), url.c_str());
@@ -278,7 +278,7 @@ void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EC
 }
 
 //============================================================================
-void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EConnectReason connectReason, EHostSearchStatus hostSearchStatus, std::string url )
+void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionId, enum EConnectReason connectReason, enum EHostSearchStatus hostSearchStatus, std::string url )
 {
     LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
         DescribeHostSearchStatus(hostSearchStatus), url.c_str());
@@ -288,7 +288,7 @@ void HostBaseMgr::onConnectToHostFail( EHostType hostType, VxGUID& sessionId, EC
 }
 
 //============================================================================
-bool HostBaseMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onConnectToHostSuccess( enum EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     bool result{ true };
     LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s success ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
@@ -341,14 +341,14 @@ bool HostBaseMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionId,
 }
 
 //============================================================================
-void HostBaseMgr::onConnectionToHostDisconnect( EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::onConnectionToHostDisconnect( enum EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     LogMsg( LOG_VERBOSE, "HostBaseMgr onConnectionToHostDisconnect reason %s to host %s ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
     removeSession( sessionId, connectReason );
 }
 
 //============================================================================
-EHostType HostBaseMgr::connectReasonToHostType( EConnectReason connectReason )
+EHostType HostBaseMgr::connectReasonToHostType( enum EConnectReason connectReason )
 {
     EHostType hostType = eHostTypeUnknown;
     switch( connectReason )
@@ -391,7 +391,7 @@ EHostType HostBaseMgr::connectReasonToHostType( EConnectReason connectReason )
 }
 
 //============================================================================
-bool HostBaseMgr::onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url, VxGUID& onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url, VxGUID& onlineId, enum EConnectReason connectReason )
 {
     bool result{ false };
     EHostType hostType = connectReasonToHostType( connectReason );
@@ -506,7 +506,7 @@ bool HostBaseMgr::onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url
 }
 
 //============================================================================
-void HostBaseMgr::onUrlActionQueryIdFail( VxGUID& sessionId, std::string& url, ERunTestStatus testStatus, EConnectReason connectReason, ECommErr commErr )
+void HostBaseMgr::onUrlActionQueryIdFail( VxGUID& sessionId, std::string& url, enum ERunTestStatus testStatus, enum EConnectReason connectReason, enum ECommErr commErr )
 {
     EHostType hostType = connectReasonToHostType( connectReason );
     if( eHostTypeUnknown != hostType )
@@ -550,7 +550,7 @@ void HostBaseMgr::onUrlActionQueryIdFail( VxGUID& sessionId, std::string& url, E
 }
 
 //============================================================================
-bool HostBaseMgr::onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     EHostType hostType = connectReasonToHostType( connectReason );
     if( eHostTypeUnknown != hostType )
@@ -577,7 +577,7 @@ bool HostBaseMgr::onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSkt
 }
 
 //============================================================================
-void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     std::string url = sktBase ? sktBase->describeSktConnection() : "HostBaseMgr::onHandshakeTimeout";
     EHostType hostType = connectReasonToHostType( connectReason );
@@ -619,13 +619,13 @@ void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBa
 }
 
 //============================================================================
-void HostBaseMgr::onContactSessionDone( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::onContactSessionDone( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     LogMsg( LOG_INFO, "onContactSessionDone  Reason %s", DescribeConnectReason( connectReason ) );
 }
 
 //============================================================================
-bool HostBaseMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+bool HostBaseMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     bool result{ false };
     EHostType hostType = connectReasonToHostType( connectReason );
@@ -642,7 +642,7 @@ bool HostBaseMgr::onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBa
 }
 
 //============================================================================
-void HostBaseMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     std::string url = sktBase ? sktBase->describeSktConnection() : "";
     url += m_Engine.describeUser( onlineId );
@@ -671,7 +671,7 @@ void HostBaseMgr::onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSk
 }
 
 //============================================================================
-void HostBaseMgr::onConnectRequestFail( VxGUID& sessionId, VxGUID& onlineId, EConnectStatus connectStatus, EConnectReason connectReason, ECommErr commErr )
+void HostBaseMgr::onConnectRequestFail( VxGUID& sessionId, VxGUID& onlineId, enum EConnectStatus connectStatus, enum EConnectReason connectReason, enum ECommErr commErr )
 {
     EHostType hostType = connectReasonToHostType( connectReason );
     if( hostType != eHostTypeUnknown )
@@ -700,7 +700,7 @@ void HostBaseMgr::onConnectRequestFail( VxGUID& sessionId, VxGUID& onlineId, ECo
 }
 
 //============================================================================
-void HostBaseMgr::sendAnnounceRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendAnnounceRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     LogModule( eLogHostConnect, LOG_DEBUG, "HostBaseMgr:: sendAnnounceRequest not done %s", DescribeConnectReason( connectReason ) );
@@ -719,7 +719,7 @@ void HostBaseMgr::sendAnnounceRequest( GroupieId& groupieId, VxGUID& sessionId, 
 }
 
 //============================================================================
-void HostBaseMgr::sendJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     PktHostJoinReq pktJoin;
@@ -735,7 +735,7 @@ void HostBaseMgr::sendJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std:
 }
 
 //============================================================================
-void HostBaseMgr::sendLeaveRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendLeaveRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     PktHostLeaveReq pktReq;
@@ -751,7 +751,7 @@ void HostBaseMgr::sendLeaveRequest( GroupieId& groupieId, VxGUID& sessionId, std
 }
 
 //============================================================================
-void HostBaseMgr::sendUnJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, EConnectReason connectReason )
+void HostBaseMgr::sendUnJoinRequest( GroupieId& groupieId, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     vx_assert( nullptr != sktBase );
     PktHostUnJoinReq pktJoin;
@@ -853,37 +853,30 @@ void HostBaseMgr::onUserOffline( VxGUID& onlineId, VxGUID& sessionId )
 }
 
 //============================================================================
-EJoinState HostBaseMgr::getJoinState( VxNetIdent* netIdent, EHostType hostType )
+EJoinState HostBaseMgr::getJoinState( VxNetIdent* netIdent, enum EHostType hostType )
 {
     // BRJ TODO if has been accepted to host then should return eJoinStateJoinGranted
     return getPluginAccessState( netIdent ) == ePluginAccessOk ? eJoinStateJoinWasGranted : eJoinStateJoinRequested;
 }
 
 //============================================================================
-EMembershipState HostBaseMgr::getMembershipState( VxNetIdent* netIdent, EHostType hostType )
+EMembershipState HostBaseMgr::getMembershipState( VxNetIdent* netIdent, enum EHostType hostType )
 {
     // BRJ TODO if has been accepted to host then should return eJoinStateJoinGranted
     return getPluginAccessState( netIdent ) == ePluginAccessOk ? eMembershipStateJoined : eMembershipStateJoinDenied;
 }
 
 //============================================================================
-bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& sessionId, std::string& ptopUrlIpv4, std::string& ptopUrlIpv6, EConnectReason connectReason )
+bool HostBaseMgr::connectToHostByPtopUrlAndReason( enum EHostType hostType, VxGUID& sessionId, std::string& ptopUrl, enum EConnectReason connectReason )
 {
-    VxPtopUrl hostUrlIpv4( ptopUrlIpv4 );
-    VxPtopUrl hostUrlIpv6( ptopUrlIpv6 );
+    VxPtopUrl hostUrl( ptopUrl );
+
     VxGUID onlineId;
     std::string ptopUrlAttemptConnect;
-    bool ipv6 = false;
-    if( hostUrlIpv4.isValid() )
+    if( hostUrl.isValid() )
     {
-        onlineId = hostUrlIpv4.getOnlineId();
-        ptopUrlAttemptConnect = ptopUrlIpv4;
-    }
-    else if( hostUrlIpv6.isValid() )
-    {
-        onlineId = hostUrlIpv6.getOnlineId();
-        ptopUrlAttemptConnect = ptopUrlIpv6;
-        ipv6 = true;
+        onlineId = hostUrl.getOnlineId();
+        ptopUrlAttemptConnect = ptopUrl;
     }
 
     if( !onlineId.isVxGUIDValid() || hostType == eHostTypeUnknown )
@@ -896,15 +889,15 @@ bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& s
     if( IsHostARelayForUsers( hostType ) )
     {
         // for the case of join last then there is no host listing because user did not get host list from network host
-        m_Engine.getHostedListMgr().connectToHostAttempt( HostedId( onlineId, hostType ), ptopUrlAttemptConnect, ipv6 );
+        m_Engine.getHostedListMgr().connectToHostAttempt( HostedId( onlineId, hostType ), ptopUrlAttemptConnect );
     }
 
     bool result{ false };
 
-    if( hostUrlIpv4.isValid() )
+    if( hostUrl.isValid() )
     {
         std::shared_ptr<VxSktBase> sktBase( nullptr );
-        if( m_Engine.getConnectMgr().isConnectedToHost( hostType, hostUrlIpv4, sktBase ) )
+        if( m_Engine.getConnectMgr().isConnectedToHost( hostType, hostUrl, sktBase ) )
         {
             // handle already connected
             result = true;
@@ -923,21 +916,17 @@ bool HostBaseMgr::connectToHostByPtopUrlAndReason( EHostType hostType, VxGUID& s
             else
             {
                 // connect without having to query host id
-                result = connectToHost( hostType, sessionId, ptopUrlIpv4, connectReason );
+                result = connectToHost( hostType, sessionId, ptopUrl, connectReason );
             }
         }
     }
-    else
-    {
-        // the url may not have online id and will have to be queried from host
-        result = connectToHost( hostType, sessionId, ptopUrlIpv4, connectReason );
-    }
+
 
     return result;
 }
 
 //============================================================================
-bool HostBaseMgr::connectToHost( EHostType hostType, VxGUID& sessionId, std::string& urlIn, EConnectReason connectReason )
+bool HostBaseMgr::connectToHost( enum EHostType hostType, VxGUID& sessionId, std::string& urlIn, enum EConnectReason connectReason )
 {
     bool result{ false };
     std::string url;
@@ -949,7 +938,7 @@ bool HostBaseMgr::connectToHost( EHostType hostType, VxGUID& sessionId, std::str
     }
     else
     {
-        url = m_Engine.getUrlMgr().resolveUrl( false, urlIn );
+        url = m_Engine.getUrlMgr().resolveUrl( urlIn );
     }
 
     if( !url.empty() )

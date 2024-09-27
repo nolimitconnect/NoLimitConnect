@@ -862,7 +862,7 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 
 	if( eNetCmdClientPong == expectedRxNetCmd )
 	{
-		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getMyOnlinePort(), "0.0.0.0" );
+		generateNetPktCryptoPassword( cryptoPwd, getNetworkKey(), m_Engine.getMyPktAnnounce().getOnlinePort(), "0.0.0.0" );
 	}
 	else
 	{

@@ -28,7 +28,7 @@ distribution.
 
 // BRJ force stl 
 #ifndef TIXML_USE_STL
-#define TIXML_USE_STL
+#define TIXML_USE_STL 1
 #endif
 
 #ifdef _MSC_VER

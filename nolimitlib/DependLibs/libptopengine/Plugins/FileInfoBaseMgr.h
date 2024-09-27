@@ -131,7 +131,7 @@ protected:
 	void						checkForInitializeCompleted( void );
 	bool						findFileAsset( VxGUID& fileAssetId, FileInfo& fileInfo ); // assumes file list is already locked
 
-	void						addFileToGenHashQue( VxGUID& assetId, std::string fileName );
+	void						addFileToGenHashQue( VxGUID& assetId, std::string fileName, std::string fileNameAndPath );
 	void						removeFileFromGenHashQue( VxGUID& assetId, std::string fileName );
 	void						callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info ) override;
 

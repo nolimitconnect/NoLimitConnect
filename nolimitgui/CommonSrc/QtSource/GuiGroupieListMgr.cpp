@@ -238,8 +238,7 @@ GuiGroupie* GuiGroupieListMgr::updateGroupieInfo( GroupieInfo& groupieInfo )
         // make sure is up to date. search results should be the latest info
         guiGroupie->setGroupieInfoTimestamp( groupieInfo.getGroupieInfoTimestamp() );
         // skip setIsFavorite.. is probably not set correctly in search result
-        guiGroupie->setGroupieUrl( false, groupieInfo.getGroupieUrl( false ) );
-        guiGroupie->setGroupieUrl( true, groupieInfo.getGroupieUrl( true ) );
+        guiGroupie->setGroupieUrl( groupieInfo.getGroupieUrl() );
         guiGroupie->setGroupieTitle( groupieInfo.getGroupieTitle() );
         guiGroupie->setGroupieDescription( groupieInfo.getGroupieDescription() );
     }

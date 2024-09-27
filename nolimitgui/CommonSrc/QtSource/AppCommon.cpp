@@ -19,15 +19,11 @@
 #include "SoundMgr.h"
 
 #include "ActivityCreateAccount.h"
-#include "ActivityMessageBox.h"
 #include "ActivitySoundOptions.h"
 #include "ActivityShowHelp.h"
-#include "ActivityTimedMessage.h"
 
 #include "AppletDownloads.h"
 #include "AppletUploads.h"
-
-#include "AppletPeerSessionFileOffer.h"
 
 #include "AccountMgr.h"
 #include "AppModuleState.h"
@@ -65,7 +61,7 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxGUID.h>
 
-#include <CoreLib/INetAddressParse.h>
+#include <CoreLib/InetAddressParse.h>
 
 #include <NetLib/VxPeerMgr.h>
 

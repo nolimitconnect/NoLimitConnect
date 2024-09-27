@@ -212,7 +212,7 @@ std::string P2PEngine::describeContact( BigListInfo * bigListInfo )
 			bigListInfo->getOnlineName(),
 			getConnectIdListMgr().isUserOnline( bigListInfo->getMyOnlineId() ),
 			hexId.c_str(), 
-			connectInfo.getMyOnlineIPv4().toString().c_str() );
+			connectInfo.getOnlineIpAddress().toString().c_str() );
 	}
 
 	return strDesc;
@@ -242,7 +242,7 @@ std::string P2PEngine::describeContact( VxConnectInfo& connectInfo )
 		StdStringFormat( strDesc, " name %s ID %s at ip %s ", 
 			(0 == strlen( connectInfo.getOnlineName() )) ? "UNKNOWN" : connectInfo.getOnlineName(),
 			hexId.c_str(), 
-			connectInfo.getMyOnlineIPv4().toString().c_str() );
+			connectInfo.getOnlineIpAddress().toString().c_str() );
 	}
 	
 	return strDesc;

@@ -426,7 +426,7 @@ void VxSktBase::updateLastSessionTime( void )
 
 //============================================================================
 RCODE VxSktBase::connectTo(	InetAddress&	oLclIp,
-							const char*	pIpUrlOrIp,				// remote ip 
+							const char*		pIpUrlOrIp,				// remote ip 
 							uint16_t		u16Port,				// port to connect to
 							int				iTimeoutMilliSeconds)	// milli seconds before connect attempt times out
 {

@@ -32,7 +32,7 @@ public:
 
 	void 						addFile( VxGUID& onlineId, std::string& fileName, std::string& fileNameAndPath, int64_t fileLen, uint8_t fileType, VxGUID& assetId, VxGUID& thumbId, VxSha1Hash& fileHashId, int64_t fileTime = 0 );
 	void 						addFile( FileInfo& libFileInfo );
-	void						removeFile( std::string& fileName );
+	void						removeFile( std::string& fileNameAndPath );
 	void						removeFile( VxGUID& onlineId, VxGUID& assetId );
 
 	void						getAllFiles( std::map<VxGUID, FileInfo>& sharedFileList );

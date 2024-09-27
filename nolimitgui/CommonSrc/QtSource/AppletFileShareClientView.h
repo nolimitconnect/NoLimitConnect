@@ -41,7 +41,7 @@ public:
 private slots:
     void						slotHomeButtonClicked( void ) override;
 	void						statusMsg( QString strMsg );
-	void						slotApplyFileFilter( unsigned char fileTypeMask );
+	void						slotApplyFileFilter( EFileFilterType fileFilter );
 	void						slotDownloadFileSelected( int iMenuId, QWidget* popupMenu );
 
 	void						slotItemClicked( QListWidgetItem* item );
@@ -88,7 +88,7 @@ protected:
 	int							m_iMenuItemHeight{ 34 };
 	std::string					m_strCurrentDirectory;
 	GuiFileXferSession*			m_SelectedFileInfo{ nullptr };
-	uint8_t						m_u8FileFilter{ 0 };
+	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
 	VxGUID						m_LclSessionId;
 	VxGUID                      m_HisOnlineId;
 };

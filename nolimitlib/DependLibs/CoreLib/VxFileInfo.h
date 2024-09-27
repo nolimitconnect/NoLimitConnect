@@ -37,6 +37,11 @@ public:
     virtual void				setFileType( uint8_t fileType )			{ m_u8FileType = fileType; }
     virtual uint8_t				getFileType( void ) const				{ return m_u8FileType; }
 
+    virtual bool				getIsMediaFile( void ) const			{ return m_u8FileType & VXFILE_TYPE_AUDIO_VIDEO_PHOTO; }
+    virtual bool				getIsVideoFile( void ) const            { return m_u8FileType & VXFILE_TYPE_VIDEO; }
+    virtual bool				getIsAudioFile( void ) const            { return m_u8FileType & VXFILE_TYPE_AUDIO; }
+    virtual bool				getIsImageFile( void ) const            { return m_u8FileType & VXFILE_TYPE_PHOTO; }
+
     virtual void				setFileLength( int64_t fileLen )		{ m_s64FileLen = fileLen; }
     virtual int64_t				getFileLength( void ) const				{ return m_s64FileLen; }
 
@@ -46,10 +51,6 @@ public:
     virtual bool				isDirectory( void );
     virtual bool				isExecutableFile( void );
     virtual bool				isShortcutFile( void );
-
-    virtual bool				isVideoFile( void ) const               { return m_u8FileType & VXFILE_TYPE_VIDEO; }
-    virtual bool				isAudioFile( void ) const               { return m_u8FileType & VXFILE_TYPE_AUDIO; }
-    virtual bool				isImageFile( void ) const               { return m_u8FileType & VXFILE_TYPE_PHOTO; }
 
     virtual void				assureTrailingDirectorySlash( void );
 

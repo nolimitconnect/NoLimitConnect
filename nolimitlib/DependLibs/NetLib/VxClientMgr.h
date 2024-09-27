@@ -20,7 +20,7 @@ public:
 	VxClientMgr();
 	virtual ~VxClientMgr() = default;
 
-	void								sktMgrStartup( void ) override;
+	void								sktMgrStartup( bool ipv6 ) override;
 
     virtual std::shared_ptr<VxSktBase>	makeNewSkt( void ) override;
 

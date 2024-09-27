@@ -269,9 +269,8 @@ void AppletJoinBase::slotMenuButtonClicked( GuiHostedListSession* hostSession, G
 //============================================================================
 void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, GuiHostedListItem* hostItem )
 {
-	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
-	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
-	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
+	std::string joinUrl = hostSession->getHostUrl();
+
 	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", joinUrl.c_str() );
     VxPtopUrl ptopUrl( joinUrl );
     if( ptopUrl.isValid() )
@@ -280,7 +279,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
         {
             m_MyApp.getUserJoinMgr().setLastJoinAttempted( joinUrl );
 			HostedId adminId( ptopUrl.getOnlineId(), hostSession->getHostType() );
-            m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+            m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, hostSession->getSessionId(), joinUrl );
         }
         else
         {
@@ -300,10 +299,8 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 //============================================================================
 void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession, GuiHostedListItem* hostItem )
 {
-	std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
-	std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
+	std::string joinUrl = hostSession->getHostUrl();
 
-	std::string joinUrl = ptopUrlIpv4.empty() ? ptopUrlIpv6 : ptopUrlIpv4;
 	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotConnectButtonClicked url %s", joinUrl.c_str() );
 
     VxPtopUrl ptopUrl( joinUrl );
@@ -321,7 +318,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
 
             if( joinState == eJoinStateJoinIsGranted )
             {
-                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostedId(), hostSession->getSessionId(), joinUrl );
 				GuiUser* hostUser = hostSession->getGuiUser();
 				if( hostUser->getMyFriendshipToHim() <= eFriendStateGuest )
 				{
@@ -340,7 +337,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
             }
             else
             {
-                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+                m_MyApp.getFromGuiInterface().fromGuiJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), joinUrl );
             }
         }
         else
@@ -364,9 +361,8 @@ void AppletJoinBase::slotKickButtonClicked( GuiHostedListSession* hostSession, G
 	LogModule( eLogUserEvent, LOG_VERBOSE, "AppletJoinBase::slotKickButtonClicked" );
 	if( yesNoMessageBox( QObject::tr( "Revoke Membership" ), QObject::tr( "Are You Sure You Want To Revoke Membership?" ) ) )
 	{
-		std::string ptopUrlIpv4 = hostSession->getHostUrl(false);
-		std::string ptopUrlIpv6 = hostSession->getHostUrl(true);
-		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrlIpv4, ptopUrlIpv6 );
+		std::string ptopUrl = hostSession->getHostUrl();
+		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrl );
 	}
 }
 
@@ -380,7 +376,7 @@ void AppletJoinBase::slotIgnoreButtonClicked( GuiHostedListSession* hostSession,
 		return;
 	}
 
-    if( m_MyApp.getEngine().getIgnoreListMgr().addHostIgnore( guiHosted->getAdminId().getHostOnlineId(), guiHosted->getHostInviteUrl(false), guiHosted->getHostInviteUrl(true),
+    if( m_MyApp.getEngine().getIgnoreListMgr().addHostIgnore( guiHosted->getAdminId().getHostOnlineId(), guiHosted->getHostInviteUrl(),
 		guiHosted->getHostTitle(), guiHosted->getThumbId(), guiHosted->getHostDescription() ) )
 	{
 		ui.m_GuiHostedListWidget->removeItemWidget( hostItem );

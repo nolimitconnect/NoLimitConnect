@@ -124,8 +124,8 @@ public:
     //! set to default values for case use has not set anything but has enabled the plugin
     bool                        setDefaultValues( P2PEngine& engine, EPluginType pluginType );
 
-    void                        setPluginUrl( bool ipv6, std::string url )          { ipv6 ? (m_PluginUrlIpv6 = url.empty() ? "" : url) :  (m_PluginUrlIpv4 = url.empty() ? "" : url); }
-    std::string&                getPluginUrl( bool ipv6 )                           { return ipv6 ? m_PluginUrlIpv6 : m_PluginUrlIpv4; }
+    void                        setPluginUrl( std::string url )                     { m_PluginUrl = url.empty() ? "" : url; }
+    std::string&                getPluginUrl( void )                                { return m_PluginUrl; }
 
     void                        setTitle( std::string title )                       { m_PluginTitle = title.empty() ? "" : title; }
     std::string&                getTitle( void )                                    { return m_PluginTitle; }
@@ -154,8 +154,7 @@ public:
 protected:
 
     //=== vars ===//
-    std::string                 m_PluginUrlIpv6;
-    std::string                 m_PluginUrlIpv4;
+    std::string                 m_PluginUrl;
     std::string                 m_PluginTitle;
     std::string                 m_PluginDesc;
     std::string                 m_GreetingMsg;

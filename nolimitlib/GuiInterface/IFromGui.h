@@ -147,10 +147,10 @@ public:
     /// Run test on the given url
     virtual void				fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType ) = 0;
 
-    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) = 0;
-    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) = 0;
-	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) = 0;
-	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread = false ) = 0;
+    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
+    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
+	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
+	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
 
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) = 0;
 
@@ -221,6 +221,8 @@ public:
 	// misc
 	//============================================================================
 
+	/// Get current IP Address (IPv4 or IPv6 depending on if ipv6 is enabled)
+	virtual InetAddress			fromGuiGetMyIpAddress( void ) = 0;
 	/// Get current IPv4 IP Address
 	virtual InetAddress			fromGuiGetMyIPv4Address( void ) = 0;
 	/// Get current IPv6 IP Address
@@ -294,7 +296,7 @@ public:
 	virtual uint16_t			fromGuiGetRandomTcpPort( void ) = 0;
 
     /// Get url for this node
-    virtual void                fromGuiGetNodeUrl( bool ipv6, std::string& nodeUrl ) = 0;
+    virtual void                fromGuiGetNodeUrl( std::string& nodeUrl ) = 0;
     /// Get internet status
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) = 0;
     /// Get network status

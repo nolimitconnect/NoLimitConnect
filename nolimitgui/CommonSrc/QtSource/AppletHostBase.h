@@ -26,7 +26,7 @@ public:
     AppletHostBase( const char* objName, AppCommon& app, QWidget* parent );
 	virtual ~AppletHostBase();
 
-    void                        setHostType( EHostType hostType )           { m_HostType = hostType; }
+    void                        setHostType( enum EHostType hostType )           { m_HostType = hostType; }
     EHostType                   getHostType(  void )                        { return m_HostType; }
 
     void                        setSearchType( ESearchType searchType )     { m_SearchType = searchType; }
@@ -42,8 +42,8 @@ public:
     virtual void                removeUser( VxGUID& onlineId );
 
 protected:
-    virtual void				callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
-    virtual void				callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;
+    virtual void				callbackIndentListUpdate( enum EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
+    virtual void				callbackIndentListRemove( enum EUserViewType listType, VxGUID& onlineId ) override;
 
     virtual void				callbackUserAdded( GuiUser* guiUser ) override;
     virtual void				callbackUserUpdated( GuiUser* guiUser ) override;
@@ -54,8 +54,7 @@ protected:
     ESearchType                 m_SearchType{ eSearchNone };
     GuiUserMultiListWidget*     m_UserMultiList{ nullptr };
     GuiUserListWidget*          m_UserList{ nullptr };
-    std::string                 m_HostUrlIpv4;
-    std::string                 m_HostUrlIpv6;
+    std::string                 m_HostUrl;
     VxGUID                      m_HostSessionId;
 
     GuiHosted*                  m_LastGuiHosted{ nullptr };

@@ -58,8 +58,7 @@ bool PluginSetting::addToBlob( PktBlobEntry& blob )
 
     result &= blob.setValue( m_PluginTitle );
     result &= blob.setValue( m_PluginDesc );
-    result &= blob.setValue( m_PluginUrlIpv4 );
-    result &= blob.setValue( m_PluginUrlIpv6 );
+    result &= blob.setValue( m_PluginUrl );
     result &= blob.setValue( m_GreetingMsg );
     result &= blob.setValue( m_RejectMsg );
     result &= blob.setValue( m_KeyWords );
@@ -118,8 +117,7 @@ bool PluginSetting::extractFromBlob( PktBlobEntry& blob )
 
     result &= blob.getValue( m_PluginTitle );
     result &= blob.getValue( m_PluginDesc );
-    result &= blob.getValue( m_PluginUrlIpv4 );
-    result &= blob.getValue( m_PluginUrlIpv6 );
+    result &= blob.getValue( m_PluginUrl );
     result &= blob.getValue( m_GreetingMsg );
     result &= blob.getValue( m_RejectMsg );
     result &= blob.getValue( m_KeyWords );
@@ -174,8 +172,7 @@ bool PluginSetting::toBinary( BinaryBlob& binaryBlob, bool networkOrder )
 
     result &= binaryBlob.setValue( m_PluginTitle );
     result &= binaryBlob.setValue( m_PluginDesc );
-    result &= binaryBlob.setValue( m_PluginUrlIpv4 );
-    result &= binaryBlob.setValue( m_PluginUrlIpv6 );
+    result &= binaryBlob.setValue( m_PluginUrl );
     result &= binaryBlob.setValue( m_GreetingMsg );
     result &= binaryBlob.setValue( m_RejectMsg );
     result &= binaryBlob.setValue( m_KeyWords );
@@ -226,8 +223,7 @@ bool PluginSetting::fromBinary( BinaryBlob& binaryBlob, bool networkOrder )
 
     result &= binaryBlob.getValue( m_PluginTitle );
     result &= binaryBlob.getValue( m_PluginDesc );
-    result &= binaryBlob.getValue( m_PluginUrlIpv4 );
-    result &= binaryBlob.getValue( m_PluginUrlIpv6 );
+    result &= binaryBlob.getValue( m_PluginUrl );
     result &= binaryBlob.getValue( m_GreetingMsg );
     result &= binaryBlob.getValue( m_RejectMsg );
     result &= binaryBlob.getValue( m_KeyWords );
@@ -257,7 +253,7 @@ bool PluginSetting::fillSearchStrings( std::vector<std::string>& searchStrings )
 bool PluginSetting::isValid()
 {
     return ePluginTypeInvalid != getPluginType() && !getTitle().empty() && !m_PluginDesc.empty() && 
-        (!m_PluginUrlIpv6.empty() || !m_PluginUrlIpv4.empty());
+        !m_PluginUrl.empty();
 }
 
 //============================================================================
@@ -270,8 +266,7 @@ bool PluginSetting::setDefaultValues( P2PEngine& engine, EPluginType pluginType 
     engine.copyMyPktAnnounce(pktAnn);
     std::string onlineName = pktAnn.getOnlineName();
     std::string onlineDesc = pktAnn.getOnlineDescription();
-    m_PluginUrlIpv4 = pktAnn.getMyOnlineUrl( false );
-    m_PluginUrlIpv6 = pktAnn.getMyOnlineUrl( true );
+    m_PluginUrl = pktAnn.getMyOnlineUrl();
 
     m_PluginTitle = DescribePluginType( pluginType );
     m_PluginTitle += " - ";
@@ -279,7 +274,7 @@ bool PluginSetting::setDefaultValues( P2PEngine& engine, EPluginType pluginType 
     m_PluginDesc = DescribePluginType( pluginType );
     m_PluginDesc += " - ";
     m_PluginDesc += onlineDesc;
-    return !m_PluginUrlIpv4.empty() || !m_PluginUrlIpv6.empty();
+    return !m_PluginUrl.empty();
 }
 
 //============================================================================

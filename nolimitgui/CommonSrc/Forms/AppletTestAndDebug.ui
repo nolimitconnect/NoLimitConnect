@@ -108,46 +108,21 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="m_MyUrlLabelIpv4">
+         <widget class="QLabel" name="m_MyUrlLabel">
           <property name="text">
-           <string>My URL IPv4:</string>
+           <string>My URL:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="m_MyUrlEditIpv4">
+         <widget class="QLineEdit" name="m_MyUrlEdit">
           <property name="enabled">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_CopyMyUrlButtonIpv4">
-          <property name="text">
-           <string>Copy To Clipboard</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_34">
-        <item>
-         <widget class="QLabel" name="m_MyUrlLabelIpv6">
-          <property name="text">
-           <string>My URL IPv6:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="m_MyUrlEditIpv6">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="m_CopyMyUrlButtonIpv6">
+         <widget class="QPushButton" name="m_CopyMyUrlButton">
           <property name="text">
            <string>Copy To Clipboard</string>
           </property>

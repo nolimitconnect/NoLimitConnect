@@ -19,6 +19,7 @@
 
 #include <CoreLib/ObjectCommon.h>
 #include <CoreLib/VxGUID.h>
+#include <CoreLib/VxFileTypeMasks.h>
 
 #include <QDialog>
 
@@ -316,6 +317,15 @@ protected:
     void                        fillMyNodeUrl( QLabel * myUrlLabel );
 
     virtual void                onAppIconSpecialClick( ActivityBase* activityBase );
+
+	virtual void				setAppletFileFilter( EApplet applet, EFileFilterType fileFilter );
+	virtual EFileFilterType		getAppletFileFilter( EApplet applet );
+
+	virtual void				setAppletFolder( EApplet applet, EFileFilterType fileFilter, std::string folder );
+	virtual std::string			getAppletFolder( EApplet applet, EFileFilterType fileFilter );
+
+	virtual std::string			getDefaultFolder( EFileFilterType fileFilter );
+
 
 	//=== vars ===//
     Ui::ActivityBaseClass&		ui;

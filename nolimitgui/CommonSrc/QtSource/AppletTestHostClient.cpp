@@ -216,7 +216,7 @@ void AppletTestHostClient::callbackGuiHostedListSearchResult( HostedId& hostedId
 {
 	if( hostedId.getHostType() == m_HostType && guiHosted )
 	{
-		if( updateHostedUrlComboBox( guiHosted->getHostInviteUrl( false ), guiHosted->getHostInviteUrl( true ) ) )
+		if( updateHostedUrlComboBox( guiHosted->getHostInviteUrl() ) )
 		{
 			updateHostedIdent( guiHosted );
 		}
@@ -235,27 +235,16 @@ void AppletTestHostClient::callbackGuiGroupieListSearchResult( GroupieId& groupi
 }
 
 //============================================================================
-bool AppletTestHostClient::updateHostedUrlComboBox( std::string& hostUrlipv4, std::string& hostUrlipv6 )
+bool AppletTestHostClient::updateHostedUrlComboBox( std::string& hostUrl )
 {
 	bool result = 0 == ui.m_HostListUrlComboBox->count();
 		
-	if( !hostUrlipv4.empty() )
+	if( !hostUrl.empty() )
 	{
-		VxPtopUrl urlIpv4( hostUrlipv4 );
-		if( urlIpv4.isValid() )
+		VxPtopUrl ptopUrl( hostUrl );
+		if( ptopUrl.isValid() )
 		{
-			QString url = hostUrlipv4.c_str();
-			ui.m_HostListUrlComboBox->addItem( url );
-			result = true;
-		}
-	}
-
-	if( !hostUrlipv6.empty() )
-	{
-		VxPtopUrl urlIpv6( hostUrlipv6 );
-		if( urlIpv6.isValid() )
-		{
-			QString url = hostUrlipv6.c_str();
+			QString url = hostUrl.c_str();
 			ui.m_HostListUrlComboBox->addItem( url );
 			result = true;
 		}

@@ -60,7 +60,7 @@ protected slots:
     void                        slotAddAllButtonClicked( void );
 
 	void						slotRequestFileList( void );
-	void						slotApplyFileFilter( unsigned char fileMask );
+	void						slotApplyFileFilter( EFileFilterType fileFilter );
 
 	void						slotListItemClicked( QListWidgetItem* item );
 	void						slotListItemDoubleClicked( QListWidgetItem* item );
@@ -83,8 +83,7 @@ protected:
 	void						addFile( FileInfo& fileInfo );
 
 	void						clearFileList( void );
-	void						setDefaultCurrentDir( EFileFilterType eFileFilterType );
-	std::string					getDefaultDir( int eFileFilterType );
+
 	void						setCurrentBrowseDir( QString browseDir );
 
 	void						showAddAllToLibrary( bool visible );
@@ -94,18 +93,17 @@ protected:
 	Ui::AppletBrowseFilesUi&	ui;
 
 	std::string					m_CurBrowseDirectory;
-	bool						m_bFetchInProgress;
-	QTimer *					m_WidgetClickEventFixTimer;
-	bool						m_IsSelectAFileMode;
-	bool						m_FileWasSelected;
-	uint8_t						m_SelectedFileType;
+	bool						m_bFetchInProgress{ false };
+	QTimer*						m_WidgetClickEventFixTimer{ nullptr };
+	bool						m_IsSelectAFileMode{ false };
+	bool						m_FileWasSelected{ false };
+	uint8_t						m_SelectedFileType{ 0 };
 	QString						m_SelectedFileName;
-	uint64_t					m_SelectedFileLen;
-	bool						m_SelectedFileIsShared;
-	bool						m_SelectedFileIsInLibrary;
+	uint64_t					m_SelectedFileLen{ 0 };
+	bool						m_SelectedFileIsShared{ false };
+	bool						m_SelectedFileIsInLibrary{ false };
 
-	EFileFilterType				m_eFileFilterType;
-	uint8_t						m_FileFilterMask;
+	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
 	VxTimer						m_ClickToFastTimer;
 };
 

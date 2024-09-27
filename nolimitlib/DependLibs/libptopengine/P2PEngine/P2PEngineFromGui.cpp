@@ -786,12 +786,6 @@ bool P2PEngine::isUserConnected( VxGUID& onlineId )
 }
 
 //============================================================================
-bool P2PEngine::isNearbyAvailable( void )
-{
-	return m_NetStatusAccum.getNearbyAvailable();
-}
-
-//============================================================================
 bool P2PEngine::isInternetAvailable( void )
 {
 	return m_NetStatusAccum.isInternetAvailable();
@@ -1018,6 +1012,13 @@ void P2PEngine::fromGuiRelayPermissionCount( int userPermittedCount, int anonymo
 }
 
 //============================================================================
+InetAddress P2PEngine::fromGuiGetMyIpAddress( void )
+{
+	bool ipv6 = getEngineSettings().getUseIpv6();
+	return ipv6 ? VxGetMyGlobalIPv6Address() : VxGetDefaultIPv4Address();
+}
+
+//============================================================================
 InetAddress P2PEngine::fromGuiGetMyIPv4Address( void )
 {
 	return VxGetDefaultIPv4Address();
@@ -1076,25 +1077,34 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
         {
             if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
             {
-				getMyPktAnnounce().setOnlineIpAddress( false, netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
+				getMyPktAnnounce().setOnlineIpAddress( netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
                 setPktAnnLastModTime( GetTimeStampMs() );
 				haveFixedIp = true;
             }
         }
 
-        if( origSettings.getTcpPort() != netHostSetting.getTcpPort() )
+        if( origSettings.getTcpPort() != netHostSetting.getTcpPort() || origSettings.getUseIpv6() != netHostSetting.getUseIpv6())
         {
+			bool ipv6 = netHostSetting.getUseIpv6();
+
             getPeerMgr().stopListening( false );
-            getMyPktAnnounce().setMyOnlinePort( netHostSetting.getTcpPort() );
+			getPeerMgr().stopListening( true );
+            getMyPktAnnounce().setOnlinePort( netHostSetting.getTcpPort() );
             setPktAnnLastModTime( GetTimeStampMs() );
             getNetStatusAccum().setIpPort( netHostSetting.getTcpPort() );
-            getPeerMgr().startListening( false, netHostSetting.getTcpPort() );   
+			
+            getPeerMgr().startListening( ipv6, netHostSetting.getTcpPort() );   
+			if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) )
+			{
+				// for connection test we listen for both ipv6 and ipv4 connections
+				getPeerMgr().startListening( !ipv6, netHostSetting.getTcpPort() );   
+			}
         }
 
 		if( haveFixedIp )
 		{
-            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl( false );
-            getUrlMgr().setMyOnlineNodeUrl( false, myOnlineUrl );
+            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl();
+            getUrlMgr().setMyOnlineNodeUrl( myOnlineUrl );
 		}
 
         if( origSettings.getNetworkHostUrl() != netHostSetting.getNetworkHostUrl() )
@@ -1249,9 +1259,9 @@ uint16_t P2PEngine::fromGuiGetRandomTcpPort( void )
 
 /// Get url for this node
 //============================================================================
-void P2PEngine::fromGuiGetNodeUrl( bool ipv6, std::string& nodeUrl )
+void P2PEngine::fromGuiGetNodeUrl( std::string& nodeUrl )
 {
-    nodeUrl = getMyOnlineUrl( ipv6 );
+    nodeUrl = getMyOnlineUrl();
 }
 
 //============================================================================
@@ -1279,14 +1289,14 @@ bool P2PEngine::fromGuiNearbyBroadcastEnable( bool enable )
 }
 
 //============================================================================
-void P2PEngine::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
+void P2PEngine::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
 {
 	if( fromThread )
 	{
 		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
 		if( plugin )
 		{
-			plugin->fromGuiAnnounceHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+			plugin->fromGuiAnnounceHost( adminId, sessionId, hostUrl );
 		}
 		else
 		{
@@ -1296,19 +1306,19 @@ void P2PEngine::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::
 	}
 	else
 	{
-		m_FromGuiMgr.fromGuiAnnounceHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		m_FromGuiMgr.fromGuiAnnounceHost( adminId, sessionId, hostUrl );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
+void P2PEngine::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
 {
 	if( fromThread )
 	{
 		PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
 		if( plugin )
 		{
-			plugin->fromGuiJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+			plugin->fromGuiJoinHost( adminId, sessionId, hostUrl );
 		}
 		else
 		{
@@ -1318,12 +1328,12 @@ void P2PEngine::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::stri
 	}
 	else
 	{
-		m_FromGuiMgr.fromGuiJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		m_FromGuiMgr.fromGuiJoinHost( adminId, sessionId, hostUrl );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
+void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
 {
 	if( fromThread )
 	{
@@ -1332,7 +1342,7 @@ void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::str
 			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
 			if( plugin )
 			{
-				plugin->fromGuiLeaveHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+				plugin->fromGuiLeaveHost( adminId, sessionId, hostUrl );
 			}
 			else
 			{
@@ -1344,12 +1354,12 @@ void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::str
 	}
 	else
 	{
-		m_FromGuiMgr.fromGuiLeaveHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		m_FromGuiMgr.fromGuiLeaveHost( adminId, sessionId, hostUrl );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrlIpv4, std::string& hostUrlIpv6, bool fromThread )
+void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
 {
 	if( fromThread )
 	{
@@ -1358,7 +1368,7 @@ void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::st
 			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
 			if( plugin )
 			{
-				plugin->fromGuiUnJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+				plugin->fromGuiUnJoinHost( adminId, sessionId, hostUrl );
 			}
 			else
 			{
@@ -1369,7 +1379,7 @@ void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::st
 	}
 	else
 	{
-		m_FromGuiMgr.fromGuiUnJoinHost( adminId, sessionId, hostUrlIpv4, hostUrlIpv6 );
+		m_FromGuiMgr.fromGuiUnJoinHost( adminId, sessionId, hostUrl );
 	}
 }
 
@@ -1638,7 +1648,7 @@ std::string P2PEngine::fromGuiQueryDefaultUrl( EHostType hostType )
 	}
 
 	std::string defaultUrl = getEngineSettings().fromGuiQueryDefaultUrl( hostType );
-    std::string resolvedUrl = getUrlMgr().resolveUrl( false, defaultUrl );
+    std::string resolvedUrl = getUrlMgr().resolveUrl( defaultUrl );
 	Invite::appendHostTypeSuffix( hostType, resolvedUrl );
 	return resolvedUrl;
 }

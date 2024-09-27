@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -58,6 +58,12 @@
    </property>
    <item>
     <widget class="QGroupBox" name="FileItemsBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -84,44 +90,13 @@
        <number>2</number>
       </property>
       <item>
-       <widget class="QLabel" name="m_StatusLabel">
-        <property name="text">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Status:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="m_StatusMsgLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="FileFilterSelectWidget" name="m_FileFilterSelectWidget" native="true"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>2</number>
+        </property>
         <item>
          <widget class="VxPushButton" name="m_AddFileButton">
           <property name="minimumSize">
@@ -161,7 +136,7 @@
          </widget>
         </item>
         <item>
-         <widget class="VxPushButton" name="m_AddFilesButton">
+         <widget class="VxPushButton" name="m_BrowseButton">
           <property name="minimumSize">
            <size>
             <width>32</width>
@@ -195,36 +170,10 @@
        </layout>
       </item>
       <item>
-       <widget class="QGroupBox" name="m_FileFilterGroupBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="QLabel" name="m_StatusLabel">
+        <property name="text">
+         <string notr="true"/>
         </property>
-        <property name="title">
-         <string>Apply Filter Of Type Of Files To View</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <property name="leftMargin">
-          <number>5</number>
-         </property>
-         <property name="topMargin">
-          <number>5</number>
-         </property>
-         <property name="rightMargin">
-          <number>5</number>
-         </property>
-         <property name="bottomMargin">
-          <number>5</number>
-         </property>
-         <item>
-          <widget class="VxComboBoxFileFilter" name="m_FileFilterComboBox"/>
-         </item>
-        </layout>
        </widget>
       </item>
       <item>
@@ -274,14 +223,15 @@
    <header>VxPushButton.h</header>
   </customwidget>
   <customwidget>
-   <class>VxComboBoxFileFilter</class>
-   <extends>QComboBox</extends>
-   <header>VxComboBoxFileFilter.h</header>
-  </customwidget>
-  <customwidget>
    <class>VxLabel</class>
    <extends>QLabel</extends>
    <header>VxLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FileFilterSelectWidget</class>
+   <extends>QWidget</extends>
+   <header>FileFilterSelectWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

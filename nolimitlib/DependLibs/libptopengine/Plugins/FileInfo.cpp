@@ -54,7 +54,6 @@ FileInfo::FileInfo( const FileInfo& rhs )
 FileInfo::FileInfo( const VxFileInfoBase& rhs )
     : VxFileInfoBase( rhs )
 {
-
 }
 
 //============================================================================
@@ -68,7 +67,7 @@ FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std
 
 //============================================================================
 FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType )
-    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileType, fileLen )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileLen, fileType )
     , m_OnlineId( onlineId )
 	, m_u32Attributes(0) 
 	, m_ContainedInDir("")
@@ -79,7 +78,7 @@ FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std
 
 //============================================================================
 FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId )
-    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileType, fileLen )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileLen, fileType )
     , m_OnlineId( onlineId )
 	, m_AssetId( assetId )
 {
@@ -89,7 +88,7 @@ FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std
 
 //============================================================================
 FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std::string& fullFileName, uint64_t fileLen, uint8_t fileType, VxGUID& assetId, VxSha1Hash& sha1Hash )
-    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileType, fileLen )
+    : VxFileInfoBase( justFileName.c_str(), fullFileName.c_str(), fileLen, fileType )
     , m_OnlineId( onlineId )
 	, m_FileHash( sha1Hash )
     , m_AssetId( assetId )
@@ -100,7 +99,7 @@ FileInfo::FileInfo( VxGUID& onlineId, const std::string& justFileName, const std
 
 //============================================================================
 FileInfo::FileInfo( AssetBaseInfo& assetInfo )
-    : VxFileInfoBase( assetInfo.getAssetName().c_str(), assetInfo.getAssetNameAndPath().c_str(), (uint8_t)assetInfo.getAssetType(), assetInfo.getAssetLength() )
+    : VxFileInfoBase( assetInfo )
     , m_OnlineId( assetInfo.getCreatorId() )
 	, m_AssetId( assetInfo.getAssetUniqueId() )
 	, m_ThumbId( assetInfo.getThumbId() )

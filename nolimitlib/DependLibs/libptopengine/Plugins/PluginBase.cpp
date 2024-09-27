@@ -762,17 +762,7 @@ bool PluginBase::assureIdentityExist( HostedInfo& hostedInfo )
         VxNetIdent tempIdent;
 
         bool ipv6{ false };
-        std::string url;
-        if( !hostedInfo.getHostInviteUrl( false ).empty() )
-        {
-            url = hostedInfo.getHostInviteUrl( false );
-        }
-        else
-        {
-            ipv6 = true;
-            url = hostedInfo.getHostInviteUrl( ipv6 );
-        }
-
+        std::string url = hostedInfo.getHostInviteUrl();
         VxPtopUrl ptopUrl( url );
         if( ptopUrl.isValid() )
         {
@@ -785,8 +775,8 @@ bool PluginBase::assureIdentityExist( HostedInfo& hostedInfo )
                 return false;
             }
 
-            tempIdent.setMyOnlinePort( ptopUrl.getPort() );
-            tempIdent.setMyOnlineIpAddress( ipv6, ptopUrl.getHost() );
+            tempIdent.setOnlinePort( ptopUrl.getPort() );
+            tempIdent.setOnlineIpAddress( ptopUrl.getHost() );
             tempIdent.setMyOnlineId( ptopUrl.getOnlineId() );
 
             tempIdent.setOnlineName( hostedInfo.getHostTitle().c_str());

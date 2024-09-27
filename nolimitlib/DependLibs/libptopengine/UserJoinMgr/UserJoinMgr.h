@@ -43,7 +43,7 @@ public:
 
     void                        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline );
 
-    bool                        getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrlIpv4, std::string& retHostUrlIpv6 );
+    bool                        getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrl );
 
     void                        addUserJoinMgrClient( UserJoinCallbackInterface * client, bool enable );
 

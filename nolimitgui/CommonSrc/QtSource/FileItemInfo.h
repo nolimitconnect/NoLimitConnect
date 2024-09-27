@@ -31,12 +31,17 @@ public:
 	void						setIsInLibrary( bool isInLibrary )		{ m_FileInfo.setIsInLibrary( isInLibrary ); }
 	bool						getIsInLibrary( void )					{ return m_FileInfo.getIsInLibrary(); }
 
-	QString					    getFileNameAndPath( void )					{ return m_FileInfo.getFileNameAndPath().c_str(); }
-	QString						getFileName( void )					{ return m_FileInfo.getFileName().c_str(); }
+	QString					    getFileNameAndPath( void )				{ return m_FileInfo.getFileNameAndPath().c_str(); }
+	QString						getFileName( void )						{ return m_FileInfo.getFileName().c_str(); }
 
     uint8_t						getFileType( void )						{ return m_FileInfo.getFileType(); }
     uint64_t					getFileLength( void )					{ return m_FileInfo.getFileLength(); }
 	VxSha1Hash&					getFileHashId( void )					{ return m_FileInfo.getFileHashId(); }
+
+	bool						getIsMediaFile( void )					{ return m_FileInfo.getIsMediaFile(); }
+	bool						getIsVideoFile( void )					{ return m_FileInfo.getIsVideoFile(); }
+	bool						getIsAudoFile( void )					{ return m_FileInfo.getIsAudioFile(); }
+	bool						getIsImageFile( void )					{ return m_FileInfo.getIsImageFile(); }
 
 	void 						setAssetId( VxGUID& assetId )			{ m_FileInfo.setAssetId( assetId ); }
 	VxGUID						getAssetId( void )						{ return m_FileInfo.getAssetId(); }

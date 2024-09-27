@@ -34,7 +34,7 @@ public:
 
     bool                        hasIgnoredHosts( void )                 { return !m_IgnoredHostList.empty(); }
     bool                        isHostIgnored( VxGUID& onlineId );
-    bool                        addHostIgnore( VxGUID& onlineId, std::string hostUrlIpv4, std::string hostUrlIpv6, std::string hostTitle, VxGUID& thumbId, std::string hostDescription );
+    bool                        addHostIgnore( VxGUID& onlineId, std::string hostUrl, std::string hostTitle, VxGUID& thumbId, std::string hostDescription );
     bool                        removeHostIgnore( VxGUID& onlineId );
 
     std::vector<std::pair<VxGUID, int64_t>>& getIdentList()             { return m_IgnoreIdentList; };

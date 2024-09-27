@@ -42,12 +42,11 @@ EPluginType PluginBaseNetworkService::getClientPluginType( void )
 bool PluginBaseNetworkService::getHostedInfo( HostedInfo& hostedInfo )
 {
     bool result = false;
-    if( ( !m_HostInviteUrlIpv4.empty() || !m_HostInviteUrlIpv6.empty() )  && !m_HostTitle.empty() && !m_HostDescription.empty() && m_HostInfoModifiedTime )
+    if( !m_HostInviteUrl.empty()  && !m_HostTitle.empty() && !m_HostDescription.empty() && m_HostInfoModifiedTime )
     {
         m_AnnMutex.lock();
         hostedInfo.setHostInfoTimestamp( m_HostInfoModifiedTime );
-        hostedInfo.setHostInviteUrl( false, m_HostInviteUrlIpv4 );
-        hostedInfo.setHostInviteUrl( true, m_HostInviteUrlIpv6 );
+        hostedInfo.setHostInviteUrl( m_HostInviteUrl );
         hostedInfo.setHostTitle( m_HostTitle );
         hostedInfo.setHostDescription( m_HostDescription );
         hostedInfo.setAdminId( getHostedId() );
@@ -261,13 +260,13 @@ void PluginBaseNetworkService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& skt
         {
             m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
             // join request sent to disabled plugin.. this should not happen
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got join request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl(false).c_str() );
+            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got join request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
         }
         else if( ePluginAccessIgnored == joinReply.getAccessState() )
         {
             m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
             // TODO .. should we drop the connection of ignored person?
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got join request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl(false).c_str() );
+            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got join request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
         }
 
         if( broadcastPkt )
@@ -349,12 +348,12 @@ void PluginBaseNetworkService::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sk
         else if( ePluginAccessDisabled == pktReply.getAccessState() )
         {
             // join request sent to disabled plugin.. this should not happen
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl(false).c_str() );
+            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
         }
         else if( ePluginAccessIgnored == pktReply.getAccessState() )
         {
             // TODO .. should we drop the connection of ignored person?
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl(false).c_str() );
+            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
         }
 
         if( broadcastPkt )
@@ -420,12 +419,12 @@ void PluginBaseNetworkService::onPktHostUnJoinReq( std::shared_ptr<VxSktBase>& s
         else if( ePluginAccessDisabled == joinReply.getAccessState() )
         {
             // join request sent to disabled plugin.. this should not happen
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got unjoin request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl(false).c_str() );
+            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got unjoin request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
         }
         else if( ePluginAccessIgnored == joinReply.getAccessState() )
         {
             // TODO .. should we drop the connection of ignored person?
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got unjoin request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl(false).c_str() );
+            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got unjoin request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
         }
 
         if( broadcastPkt )
@@ -636,28 +635,25 @@ void PluginBaseNetworkService::updateHostInviteUrl( void )
     {
         m_Engine.lockAnnouncePktAccess();
         PktAnnounce& pktAnn = m_Engine.getMyPktAnnounce();
-        std::string myOnlineUrlIpv4 = pktAnn.getMyOnlineUrl( false );
-        std::string myOnlineUrlIpv6 = pktAnn.getMyOnlineUrl( true );
+        std::string myOnlineUrl = pktAnn.getMyOnlineUrl();
         pktAnn.setHostOrThumbModifiedTime( getPluginType(), m_HostInfoModifiedTime );
         m_Engine.getToGui().toGuiSaveMyIdent( pktAnn.getVxNetIdent() );
         m_Engine.unlockAnnouncePktAccess();
 
         m_Engine.setPktAnnLastModTime( GetGmtTimeMs() );
 
-        std::string inviteUrlIpv4 = Invite::makeInviteUrl( getHostType(), myOnlineUrlIpv4 );
-        std::string inviteUrlIpv6 = Invite::makeInviteUrl( getHostType(), myOnlineUrlIpv6 );
-        if( !inviteUrlIpv4.empty() ||  !inviteUrlIpv6.empty() )
+        std::string inviteUrl = Invite::makeInviteUrl( getHostType(), myOnlineUrl );
+        if( !inviteUrl.empty() )
         {
             VxGUID sessionId;
             sessionId.initializeWithNewVxGUID();
 
             m_AnnMutex.lock();
-            m_HostInviteUrlIpv4 = inviteUrlIpv4;
-            m_HostInviteUrlIpv6 = inviteUrlIpv6;
+            m_HostInviteUrl = inviteUrl;
             m_PktHostInviteAnnounceReq.setHostType( getHostType() );
             m_PktHostInviteAnnounceReq.setSessionId( sessionId );
             VxGUID thumbId = pktAnn.getHostThumbId( getHostType(), true );
-            bool result = m_PktHostInviteAnnounceReq.setHostInviteInfo( m_HostInviteUrlIpv4, m_HostInviteUrlIpv6, m_HostTitle, m_HostDescription, m_HostInfoModifiedTime, thumbId );
+            bool result = m_PktHostInviteAnnounceReq.setHostInviteInfo( m_HostInviteUrl, m_HostTitle, m_HostDescription, m_HostInfoModifiedTime, thumbId );
             m_AnnMutex.unlock();
 
             if( result )

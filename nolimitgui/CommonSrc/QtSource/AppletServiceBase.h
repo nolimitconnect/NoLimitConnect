@@ -37,8 +37,8 @@ public:
 
     virtual QLabel*             getServiceTitle();
 
-    virtual QLabel *            getServiceUrlLabel( bool ipv6 );
-    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 );
+    virtual QLabel *            getServiceUrlLabel( void );
+    virtual QLineEdit *         getServiceUrlEdit( void );
 
     virtual QLabel *            getServiceNameLabel();
     virtual QLineEdit *         getServiceNameEdit();

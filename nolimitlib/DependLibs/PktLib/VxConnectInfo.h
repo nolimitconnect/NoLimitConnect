@@ -19,7 +19,7 @@
 #define OS_LINUX_FLAG				0x04	
 #define OS_WINDOWS_FLAG				0x08	
 
-#define MAX_ONLINE_NAME_LEN		    28	//maximum length of online name including 0 terminator
+#define MAX_ONLINE_NAME_LEN		    32	//maximum length of online name including 0 terminator
 #define MAX_ONLINE_DESC_LEN		    32	//maximum length of online description including 0 terminator
 #define MAX_NET_HOST_URL_LEN		64	//maximum length of a ptop url including 0 terminator
 
@@ -67,9 +67,8 @@ private:
 // +  1 byte VxRelayFlags
 // +  1 byte FriendMatch
 // +  2 bytes VxSearchFlags
-// +  4 bytes m_LanIPv4
 // + 40 bytes m_DirectConnectId
-// = 50 bytes 
+// = 46 bytes 
 class VxConnectBaseInfo : public P2PEngineVersion, public MyOSVersion, public VxRelayFlags, public FriendMatch, public VxSearchFlags
 {
 public:
@@ -80,43 +79,31 @@ public:
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
 
-    std::string                 getMyOnlineUrl( bool ipv6, EHostType hostType = eHostTypeUnknown );
+    std::string                 getMyOnlineUrl( EHostType hostType = eHostTypeUnknown );
 
 	void						setMyOnlineId( VxGUID& onlineId );
 	VxGUID&						getMyOnlineId();
 	bool						getMyOnlineId( std::string& strRetId );
     std::string				    getMyOnlineIdHexString( void )  { return m_DirectConnectId.toHexString(); }
 
-	void						setMyOnlinePort( uint16_t port );
-	uint16_t					getMyOnlinePort( void );
+	bool						setOnlineIpAddress( std::string ipAddress );
+    bool						setOnlineIpAddress( InetAddress& ipAddr );
+    bool						getOnlineIpAddress( std::string& retIpAddress, EIpAddrType& retIpType );
+    InetAddress&				getOnlineIpAddress( void );
 
-    bool						setMyOnlineIpAddress( bool ipv6, std::string& ipAddress );
-	bool						getMyOnlineIpAddress( bool ipv6, std::string& strRetIp );
-
-	InetAddrIPv4&				getMyOnlineIPv4( void );
-	InetAddress&				getMyOnlineIPv6( void );
-
-    void                        setLanIPv4( InetAddrIPv4& ipV4 )    { m_LanIPv4 = ipV4; }
-	InetAddrIPv4&				getLanIPv4( void )					{ return m_LanIPv4; }
-
-	InetAddress					getOnlineIpAddress( bool ipv6 );
-
-    bool						setOnlineIpAddress( InetAddress& oIp );
-	bool						setOnlineIpAddress( bool ipv6, const char* pIp );
-    bool						isOnlineIpAddressValid( bool ipv6 );
+    bool						isOnlineIpAddressValid( void )                  { return m_DirectConnectId.isIpAddressValid(); }
 
 	uint16_t					getOnlinePort( void );
 	void						getOnlinePort( std::string& strRetPort );
 	void						setOnlinePort( uint16_t u16Port );
 
-	VxConnectId&				getDirectConnectId( void )							{ return m_DirectConnectId; }
+	VxConnectId&				getDirectConnectId( void )						{ return m_DirectConnectId; }
 
 	//=== vars ===//
-	InetAddrIPv4				m_LanIPv4;
 	VxConnectId					m_DirectConnectId;
 };
 
-// +  28 bytes Online Name
+// +  32 bytes Online Name
 // +  32 bytes Online Mood Message
 // +   8 bytes m_TimeLastContactMs
 // +   2 bytes m_PrimaryLanguage
@@ -130,7 +117,7 @@ public:
 // +  64 bytes (4x16 host guids)
 // + 120 bytes (5x24 thumb guids and modified times)
 // = 266 bytes
-// +  50 bytes VxConnectBaseInfo
+// +  46 bytes VxConnectBaseInfo
 // = 320 bytes
 
 class VxConnectIdent : public VxConnectBaseInfo

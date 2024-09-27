@@ -116,7 +116,7 @@ bool OfferSendWidget::setOfferInfo( OfferBaseInfo& offerInfo, GuiUser* guiUser )
     m_NeedFileHash = m_OfferInfo.isFileAsset() && !m_OfferInfo.isFileHashValid();
     if( m_NeedFileHash )
     {
-        ActivityGenerateHash genHashDlg( m_MyApp, this, m_OfferInfo.getAssetName(), m_OfferInfo.getAssetHashId() );
+        ActivityGenerateHash genHashDlg( m_MyApp, this, m_OfferInfo.getAssetName(), m_OfferInfo.getAssetNameAndPath(), m_OfferInfo.getAssetHashId() );
         if( QDialog::Accepted == genHashDlg.exec() && m_OfferInfo.getAssetHashId().isHashValid() )
         {
             m_MyApp.getEngine().fromGuiFileHashGenerated( m_OfferInfo.getAssetName(), m_OfferInfo.getAssetLength(), m_OfferInfo.getAssetHashId() );

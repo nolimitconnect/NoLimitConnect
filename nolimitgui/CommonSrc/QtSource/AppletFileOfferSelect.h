@@ -44,7 +44,7 @@ protected slots:
     void						slotHomeButtonClicked( void ) override;
     void						statusMsg( QString strMsg );
     void						slotRequestFileList( void );
-    void						slotApplyFileFilter( unsigned char fileTypeMask );
+    void						slotApplyFileFilter( EFileFilterType fileFilter );
 
     void						slotListItemClicked( QListWidgetItem* item );
     void						slotListItemDoubleClicked( QListWidgetItem* item );
@@ -85,7 +85,6 @@ protected:
     bool						m_FileWasSelected{ false };
     FileInfo                    m_FileInfo;
     EFileFilterType				m_eFileFilterType{ eFileFilterAll };
-    uint8_t						m_FileFilterMask{ 0 };
 };
 
 

@@ -39,13 +39,11 @@ enum EApplet
     eAppletGetStarted,
 
     eAppletFriendListClient,
-#if ENABLE_COMPONENT_NEARBY
-    eAppletNearbyListClient,
-#endif // ENABLE_COMPONENT_NEARBY
 
     eAppletGroupJoin,
     eAppletChatRoomJoin,
     eAppletRandomConnectJoin,
+    eAppletInvites,
     // eAppletSearchPage, // Remvoed from home page until can be fully implemented
     eAppletUserIdentity,
     eAppletPersonalRecorder,

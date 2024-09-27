@@ -42,8 +42,8 @@ public:
     void                        setPluginSetting( PluginSetting& pluginSetting )    { m_PluginSetting = pluginSetting; }
     PluginSetting&              getPluginSetting( void )                            { return m_PluginSetting; }
 
-    virtual QLabel *            getServiceUrlLabel( bool ipv6 );
-    virtual QLineEdit *         getServiceUrlEdit( bool ipv6 );
+    virtual QLabel *            getServiceUrlLabel( void );
+    virtual QLineEdit *         getServiceUrlEdit( void );
 
     virtual QLineEdit *         getServiceTitleEdit();
 

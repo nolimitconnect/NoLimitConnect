@@ -88,7 +88,7 @@ void AppletPlayerPhoto::setupBottomMenu( VxMenuButton * menuButton )
 //============================================================================
 bool AppletPlayerPhoto::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
-	std::string fullFileName = assetInfo.getAssetName();
+	std::string fullFileName = assetInfo.getFileNameAndPath();
 
 	QPixmap pixmap;
 	pixmap.load( fullFileName.c_str() );

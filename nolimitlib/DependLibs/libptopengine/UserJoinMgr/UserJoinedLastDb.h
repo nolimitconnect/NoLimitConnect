@@ -29,8 +29,8 @@ public:
     bool						setJoinedLastHostType( EHostType hostType );
     bool						getJoinedLastHostType( EHostType& hostType );
 
-    bool						setJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t lastJoinMs, std::string hostUrlIpv4, std::string hostUrlIpv6 );
-    bool						getJoinedLast( EHostType pluginType, VxGUID& onlineId, int64_t& lastJoinMs, std::string hostUrlIpv4, std::string hostUrlIpv6 );
+    bool						setJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t lastJoinMs, std::string hostUrl );
+    bool						getJoinedLast( EHostType pluginType, VxGUID& onlineId, int64_t& lastJoinMs, std::string hostUrl );
 
     void						removeJoinedLast( EHostType hostType );
     void						purgeAllJoinedLast( void );

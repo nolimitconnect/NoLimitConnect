@@ -386,9 +386,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxComboBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxComboBoxFileFilter.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxContextMenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1130,6 +1127,12 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h">
       <Filter>Source Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -1361,9 +1364,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxComboBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VxComboBoxFileFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxContextMenu.cpp">
@@ -2275,6 +2275,12 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgrProvider.cpp">
       <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInvites.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2920,9 +2926,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\PluginSettingsWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\RelayServiceWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\SearchParamsWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3122,6 +3125,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletInvites.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\FileFilterSelectWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

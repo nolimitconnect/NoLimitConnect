@@ -73,8 +73,7 @@ void AppletHostBase::manageUsers( GuiUserListWidget* userList )
 //============================================================================
 void AppletHostBase::manageHostSession( GuiHostSession* hostSession, bool requestJoin )
 {
-    m_HostUrlIpv4 = hostSession->getHostUrl( false );
-    m_HostUrlIpv6 = hostSession->getHostUrl( true );
+    m_HostUrl = hostSession->getHostUrl();
 
     if( requestJoin )
     {
@@ -83,7 +82,7 @@ void AppletHostBase::manageHostSession( GuiHostSession* hostSession, bool reques
             VxGUID::generateNewVxGUID( m_HostSessionId );
 
             HostedId adminId( hostSession->getOnlineId(), hostSession->getHostType() );
-            m_Engine.fromGuiJoinHost( adminId, m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+            m_Engine.fromGuiJoinHost( adminId, m_HostSessionId, m_HostUrl );
         }
         else
         {
@@ -119,8 +118,7 @@ void AppletHostBase::userJoinedHost( GuiHosted* guiHosted )
                     }
                 }
      
-                m_HostUrlIpv4 = guiHosted->getHostInviteUrl( false );
-                m_HostUrlIpv6 = guiHosted->getHostInviteUrl( true );
+                m_HostUrl = guiHosted->getHostInviteUrl();
           
                 if( adminId.isValid() )
                 {                 
@@ -131,7 +129,7 @@ void AppletHostBase::userJoinedHost( GuiHosted* guiHosted )
 
                     if( !m_MyApp.getMemberActiveMgr().isMemberActive( groupieId ) )
                     {
-                        m_Engine.fromGuiJoinHost( adminId, m_HostSessionId, m_HostUrlIpv4, m_HostUrlIpv6 );
+                        m_Engine.fromGuiJoinHost( adminId, m_HostSessionId, m_HostUrl );
                     }
                 }
                 else

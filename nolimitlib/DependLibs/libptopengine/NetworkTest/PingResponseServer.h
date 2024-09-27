@@ -21,7 +21,7 @@ public:
 
 	void						handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase );
 
-	RCODE						startListeningThreads( void ) override;
+	RCODE						startListeningThreads( bool ipv6 ) override;
 
 private:
 	IsPortOpenTest&				m_IsPortOpenTest;

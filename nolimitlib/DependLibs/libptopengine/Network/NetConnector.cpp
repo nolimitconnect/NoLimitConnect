@@ -253,44 +253,8 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 	bool requiresRelay = connectInfo.requiresRelay();
 
 	VxGUID peerOnlineId = connectInfo.getMyOnlineId();
-	connectInfo.m_DirectConnectId.getIpAddress( false, strDirectConnectIp );
-
-#if ENABLE_COMPONENT_NEARBY
-	if( ( connectInfo.getMyOnlineIPv4() == m_PktAnn.getMyOnlineIPv4() // uses same external ip
-		|| connectReason == eConnectReasonNearbyLan || eConnectReasonSameExternalIp == connectReason ) // on same lan network
-		&& connectInfo.getMyOnlineIPv4().isValid()
-		&& connectInfo.getLanIPv4().isValid() )
-	{
-		strDirectConnectIp = connectInfo.getLanIPv4().toString();
-		// probably on same LAN network
-		if( 0 == directConnectTo(	connectInfo, 
-									sktBase, 
-									eConnectReasonSameExternalIp ) )
-		{		
-			LogModule( eLogConnect, LOG_VERBOSE, "connectUsingTcp: SUCCESS skt %d LAN connect to %s ip %s port %d",
-				sktBase->m_SktNumber,
-				connectInfo.getOnlineName(),
-				strDirectConnectIp.c_str(),
-				connectInfo.m_DirectConnectId.getPort() );
-
-			requiresRelay = false;
-			ppoRetSkt = sktBase;
-
-			return sendMyPktAnnounce( peerOnlineId, sktBase, true, false, false );
-		}
-		else
-		{
-			LogModule( eLogConnect, LOG_VERBOSE, "connectUsingTcp: FAIL LAN connect to %s ip %s port %d",
-						connectInfo.getOnlineName(),
-						strDirectConnectIp.c_str(),
-						connectInfo.m_DirectConnectId.getPort() );
-		}
-	}
-
-	LogModule( eLogConnect, LOG_VERBOSE, "connectUsingTcp %s id %s ip %s", connectInfo.getOnlineName(),
-				peerOnlineId.toOnlineIdString().c_str(), strDirectConnectIp.c_str());
-#endif // ENABLE_COMPONENT_NEARBY
-
+	EIpAddrType addrType{ eIpAddrTypeUnknown };
+	connectInfo.m_DirectConnectId.getIpAddress(strDirectConnectIp, addrType );
 	if( false == requiresRelay )
 	{
 #ifdef DEBUG_CONNECTIONS
@@ -322,11 +286,8 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 							strDirectConnectIp.c_str(),
 							connectInfo.m_DirectConnectId.getPort() );
 			#endif // DEBUG_CONNECTIONS
-			#if ENABLE_IPV6
-				return tryIPv6Connect( connectInfo, ppoRetSkt );
-			#else
-				return false; // no ipv6 support
-			#endif // SUPPORT_IPV6
+
+			return false; 
 		}
 	}
 
@@ -335,33 +296,7 @@ bool NetConnector::connectUsingTcp(	VxConnectInfo&				connectInfo,
 		return true;
 	}
 
-	#if ENABLE_IPV6
-		return tryIPv6Connect( connectInfo, ppoRetSkt );
-	#else
-		return false; // no ipv6 support
-	#endif // SUPPORT_IPV6
-}
-
-//============================================================================
-bool NetConnector::tryIPv6Connect(	VxConnectInfo&				connectInfo, 
-									std::shared_ptr<VxSktBase>&	ppoRetSkt )
-{
-	bool connectSuccess{ false };
-	if( m_PktAnn.getMyOnlineIPv6().isValid()
-		&& connectInfo.getMyOnlineIPv6().isValid() )
-	{
-		std::string ipv6;
-		ipv6 = connectInfo.getMyOnlineIPv6().toString();
-		// not likely to succeed so just see if we can get a socket
-		SOCKET skt = ::VxConnectToIPv6( ipv6.c_str(), connectInfo.getOnlinePort() );
-		if( INVALID_SOCKET != skt )
-		{
-			ppoRetSkt = m_PeerMgr.createConnectionUsingSocket( skt, ipv6.c_str(), connectInfo.getOnlinePort() );
-			connectSuccess = ( nullptr != ppoRetSkt.get() );
-		}
-	}
-
-	return connectSuccess;
+	return false; // no ipv6 support
 }
 
 //============================================================================-
@@ -375,20 +310,20 @@ RCODE NetConnector::directConnectTo(	VxConnectInfo&				connectInfo,
 
 	std::string connectIpAddress;
 
-	if( ( connectReason == eConnectReasonNearbyLan || connectReason == eConnectReasonSameExternalIp )
-		&& connectInfo.getLanIPv4().isValid() )
-	{
-		connectIpAddress = connectInfo.getLanIPv4().toString();
-		iConnectTimeout = LAN_CONNECT_TIMEOUT;
-	}
-	else
-	{
-		connectInfo.m_DirectConnectId.getIpAddress( false, connectIpAddress );
-		if( eConnectReasonRelayService == connectReason )
-		{
-			iConnectTimeout = MY_PROXY_CONNECT_TIMEOUT;
-		}
-	}
+	//if( ( connectReason == eConnectReasonNearbyLan || connectReason == eConnectReasonSameExternalIp )
+	//	&& connectInfo.getLanIPv4().isValid() )
+	//{
+	//	connectIpAddress = connectInfo.getLanIPv4().toString();
+	//	iConnectTimeout = LAN_CONNECT_TIMEOUT;
+	//}
+	//else
+	//{
+	//	connectInfo.m_DirectConnectId.getIpAddress( false, connectIpAddress );
+	//	if( eConnectReasonRelayService == connectReason )
+	//	{
+	//		iConnectTimeout = MY_PROXY_CONNECT_TIMEOUT;
+	//	}
+	//}
 
 	std::shared_ptr<VxSktBase> sktBase = m_PeerMgr.connectTo( connectIpAddress.c_str(),			// remote ip or url 
 													connectInfo.getOnlinePort(),	// port to connect to
@@ -680,30 +615,6 @@ void NetConnector::handleConnectSuccess( BigListInfo * bigListInfo, std::shared_
 		}
 	}
 }
-
-////============================================================================
-//void NetConnector::handlePossibleRelayConnect(	VxConnectInfo&		connectInfo, 
-//												std::shared_ptr<VxSktBase>&			sktBase,
-//												bool				isNewConnection,
-//												EConnectReason		connectReason )
-//{
-//	NetworkStateMachine& netStateMachine = m_Engine.getNetworkStateMachine();
-//	netStateMachine.lockResources();
-//	NetworkStateBase * netState = netStateMachine.getCurNetworkState();
-//	netStateMachine.unlockResources();
-//	if( eNetworkStateTypeRelaySearch == netState->getNetworkStateType() )
-//	{
-//		( ( NetworkStateRelaySearch *)netState )->handlePossibleRelayConnect(	connectInfo, 
-//																				sktBase,
-//																				isNewConnection,
-//																				connectReason );
-//	}
-//	else
-//	{
-//		BigListInfo * bigListInfo = m_Engine.getBigListMgr().findBigListInfo( connectInfo.getMyOnlineId() );
-//		handleConnectSuccess( bigListInfo, sktBase, isNewConnection, connectReason );
-//	}
-//}
 
 //============================================================================
 void  NetConnector::closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo )

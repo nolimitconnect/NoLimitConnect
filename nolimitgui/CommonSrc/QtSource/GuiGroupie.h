@@ -56,8 +56,8 @@ public:
     virtual void			    setGroupieInfoTimestamp( int64_t timestampMs ) { m_GroupieInfoTimestampMs = timestampMs; }
     virtual int64_t             getGroupieInfoTimestamp( void )             { return m_GroupieInfoTimestampMs; }
 
-    virtual void			    setGroupieUrl( bool ipv6, std::string hostUrl )  { ipv6 ? m_GroupieUrlIpv6 = hostUrl : m_GroupieUrlIpv4 = hostUrl; }
-    virtual std::string&        getGroupieUrl( bool ipv6 )                       { return ipv6 ? m_GroupieUrlIpv6 : m_GroupieUrlIpv4; }
+    virtual void			    setGroupieUrl( std::string hostUrl )        { m_GroupieUrl = hostUrl; }
+    virtual std::string&        getGroupieUrl( void )                       { return m_GroupieUrl; }
 
     virtual void                setGroupieTitle( std::string hostTitle )    { m_GroupieTitle = hostTitle; }
     virtual std::string&        getGroupieTitle( void )                     { return m_GroupieTitle; }
@@ -75,8 +75,7 @@ protected:
     
     bool                        m_IsFavorite{ false };
     int64_t                     m_GroupieInfoTimestampMs{ 0 };
-    std::string                 m_GroupieUrlIpv4;
-    std::string                 m_GroupieUrlIpv6;
+    std::string                 m_GroupieUrl;
     std::string                 m_GroupieTitle;
     std::string                 m_GroupieDesc;
 };

@@ -8,10 +8,11 @@
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
-#include "config_corelib.h"
 
 #include "VxSha1Hash.h"
+
 #include "SHA1.h"
+#include "VxDebug.h"
 
 //============================================================================
 VxSha1Hash::VxSha1Hash()
@@ -99,6 +100,10 @@ bool VxSha1Hash::generateHashFromFile( const char* fileName, VxThread* workThrea
 	{
 		shaInstance.Final();
 		shaInstance.GetHash( m_HashId );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "%s failed to generate hash for file %s", __func__, fileName );
 	}
 
 	return result;

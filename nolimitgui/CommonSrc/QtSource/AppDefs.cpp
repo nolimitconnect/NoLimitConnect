@@ -81,6 +81,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletIgnoredHosts:	            return eMyIconIgnored;
     case eAppletInviteAccept:	            return eMyIconInviteAccept;
     case eAppletInviteCreate:	            return eMyIconInviteCreate;
+    case eAppletInvites:	                return eMyIconInvite;
 
     case eAppletLibrary:				    return eMyIconLibraryNormal;
     case eAppletLog:	                    return eMyIconDebug;
@@ -90,9 +91,6 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletMessengerFrame:				return eMyIconMessenger;
     case eAppletMultiMessenger:				return eMyIconMessenger;
 
-#if ENABLE_COMPONENT_NEARBY
-    case eAppletNearbyListClient:	        return eMyIconFriendBroadcast;
-#endif // ENABLE_COMPONENT_NEARBY
     case eAppletNetHostingPage:             return eMyIconServiceHostNetwork;
     case eAppletNetworkSettings:	        return eMyIconNetworkSettings;
 
@@ -285,9 +283,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletInviteAccept:               return QObject::tr( "Open Invite" );
     case eAppletInviteCreate:               return QObject::tr( "Create Invite" );
-#if ENABLE_COMPONENT_NEARBY
-    case eAppletNearbyListClient:	        return QObject::tr( "Nearby List" );
-#endif // ENABLE_COMPONENT_NEARBY
+    case eAppletInvites:                    return QObject::tr( "Invites" );
 
     case eAppletLibrary:				    return QObject::tr( "My Library Of Media" );
     case eAppletLog:                        return QObject::tr( "Application Log" );

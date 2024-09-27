@@ -43,9 +43,9 @@ public:
     bool                        fromGuiQueryMyHostedInfo( enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList );
     bool                        fromGuiQueryHostedInfoList(enum  EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll );
     bool                        fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll );
-    virtual bool				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, EHostType hostType, VxGUID& onlineIdIfNullThenAll );
+    virtual bool				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, enum EHostType hostType, VxGUID& onlineIdIfNullThenAll );
 
-    void                        connectToHostAttempt( HostedId adminId, std::string& ptopUrlAttempted, bool ipv6 );
+    void                        connectToHostAttempt( HostedId adminId, std::string& ptopUrlAttempted );
     void                        connectToHostSuccess( HostedId adminId );
     void                        joinedToHostSuccess( HostedId adminId );
 
@@ -81,7 +81,7 @@ protected:
     void						removeHostedInfo( EHostType hostType, VxGUID& onlineId );
     void						clearHostedInfoList( void );
 
-    void                        updateAndRequestInfoIfNeeded( bool ipv6, enum EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
+    void                        updateAndRequestInfoIfNeeded( enum EHostType hostType, VxGUID& onlineId, std::string& nodeUrl, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
     bool                        updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, bool isFavorite );
     bool                        getIsFavorite( VxGUID& groupieOnlineId );

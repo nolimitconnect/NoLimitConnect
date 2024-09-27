@@ -33,7 +33,7 @@ public:
 
     GuiUser*                    getUserIdent( void )                        { return m_HostIdent; }
     EHostType                   getHostType( void )                         { return m_HostType; }
-    std::string                 getHostUrl( bool ipv6 );
+    std::string                 getHostUrl( void );
 
     VxGUID&					    getOnlineId( void )                         { return m_OnlineId; }
 

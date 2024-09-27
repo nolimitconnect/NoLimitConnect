@@ -210,8 +210,8 @@ void HostServerJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& s
         int64_t timeNowMs = GetTimeStampMs();
         joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
         joinInfo->setJoinState( eJoinStateJoinRequested );
-        joinInfo->setUserUrl( false, netIdent->getMyOnlineUrl( false ) );
-        joinInfo->setUserUrl( true, netIdent->getMyOnlineUrl( true ) );
+
+        joinInfo->setUserUrl( netIdent->getMyOnlineUrl() );
         joinInfo->setFriendState( netIdent->getMyFriendshipToHim() );
 
         joinInfo->setConnectionId( sktBase->getSocketId() );
@@ -262,8 +262,7 @@ void HostServerJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>&
         int64_t timeNowMs = GetTimeStampMs();
         joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
         joinInfo->setJoinState( eJoinStateNone );
-        joinInfo->setUserUrl( false, netIdent->getMyOnlineUrl( false ) );
-        joinInfo->setUserUrl( true, netIdent->getMyOnlineUrl( true ) );
+        joinInfo->setUserUrl( netIdent->getMyOnlineUrl() );
         joinInfo->setFriendState( netIdent->getMyFriendshipToHim() );
 
         joinInfo->setConnectionId( sktBase->getSocketId() );
@@ -306,8 +305,7 @@ void HostServerJoinMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase,
         int64_t timeNowMs = GetTimeStampMs();
         joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
         joinInfo->setJoinState( eJoinStateJoinIsGranted );
-        joinInfo->setUserUrl( false, netIdent->getMyOnlineUrl( false ) );
-        joinInfo->setUserUrl( true, netIdent->getMyOnlineUrl( true ) );
+        joinInfo->setUserUrl( netIdent->getMyOnlineUrl() );
         joinInfo->setFriendState( netIdent->getMyFriendshipToHim() );
 
         joinInfo->setConnectionId( sktBase->getSocketId() );
@@ -357,8 +355,7 @@ void HostServerJoinMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, V
         int64_t timeNowMs = GetTimeStampMs();
         joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
         joinInfo->setJoinState( eJoinStateJoinLeaveHost );
-        joinInfo->setUserUrl( false, netIdent->getMyOnlineUrl( false ) );
-        joinInfo->setUserUrl( true, netIdent->getMyOnlineUrl( true ) );
+        joinInfo->setUserUrl( netIdent->getMyOnlineUrl() );
         joinInfo->setFriendState( netIdent->getMyFriendshipToHim() );
 
         joinInfo->setConnectionId( sktBase->getSocketId() );
@@ -398,8 +395,7 @@ void HostServerJoinMgr::onHostUnJoinedByUser( std::shared_ptr<VxSktBase>& sktBas
         int64_t timeNowMs = GetTimeStampMs();
         joinInfo->setThumbId( netIdent->getThumbId( sessionInfo.getHostType() ) );
         joinInfo->setJoinState( eJoinStateJoinLeaveHost );
-        joinInfo->setUserUrl( false, netIdent->getMyOnlineUrl( false ) );
-        joinInfo->setUserUrl( true, netIdent->getMyOnlineUrl( true ) );
+        joinInfo->setUserUrl( netIdent->getMyOnlineUrl() );
         joinInfo->setFriendState( netIdent->getMyFriendshipToHim() );
 
         joinInfo->setConnectionId( sktBase->getSocketId() );

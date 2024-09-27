@@ -76,11 +76,11 @@ void FileInfoDb::purgeAllFileLibrary( void )
 }
 
 //============================================================================
-void FileInfoDb::removeFile( std::string& fileName )
+void FileInfoDb::removeFile( std::string& fileNameAndPath )
 {
 	lockFileInfoDb();
-	DbBindList bindList( fileName.c_str() );
-	sqlExec( "DELETE FROM file_info WHERE file_name=?", bindList );
+	DbBindList bindList( fileNameAndPath.c_str() );
+	sqlExec( "DELETE FROM file_info WHERE fileNameAndPath=?", bindList );
 	unlockFileInfoDb();
 }
 
@@ -96,7 +96,7 @@ void FileInfoDb::removeFile( VxGUID& onlineId, VxGUID& assetId )
 //============================================================================
 void FileInfoDb::addFile( VxGUID& onlineId, std::string& fileName, std::string& fileNameAndPath, int64_t fileLen, uint8_t fileType, VxGUID& assetId, VxGUID& thumbId, VxSha1Hash& fileHashId, int64_t fileTime )
 {
-	removeFile( fileName );
+	removeFile( fileNameAndPath );
 
 	lockFileInfoDb();
 	DbBindList bindList( assetId.toHexString().c_str() );
@@ -107,13 +107,13 @@ void FileInfoDb::addFile( VxGUID& onlineId, std::string& fileName, std::string& 
 	bindList.add( fileLen );
 	bindList.add( (int)fileType );
 	bindList.add( fileTime );
-	bindList.add( (void *)fileHashId.getHashData(), 20 );
+	bindList.add( (void *)fileHashId.getHashData(), FILE_HASH_LEN_BYTES );
 	
 	RCODE rc  = sqlExec( "INSERT INTO file_info (asset_id,thumb_id,online_id,file_name,fileNameAndPath,file_length,file_type,file_time,file_hash) values(?,?,?,?,?,?,?,?,?)",
 		bindList );
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "FileInfoDb::addFile error %d", rc );
+		LogMsg( LOG_ERROR, "FileInfoDb::%s error %d", __func__, rc );
 	}
 
 	unlockFileInfoDb();
@@ -151,7 +151,7 @@ void FileInfoDb::getAllFiles( std::map<VxGUID, FileInfo>& sharedFileList )
 	lockFileInfoDb();
 	std::vector<std::string> deletedFiles; 
 	DbCursor * cursor = startQuery( "SELECT * FROM file_info" );
-	if( NULL != cursor )
+	if( cursor )
 	{
 		while( cursor->getNextRow() )
 		{

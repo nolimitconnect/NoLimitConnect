@@ -1083,3 +1083,11 @@ void VxPushButton::setPushToTalkStatus( EPushToTalkStatus pushToTalkStatus )
         setNotifyType( eNotifyNone );
     }
 }
+
+//============================================================================
+void VxPushButton::emulateUserClicked( void )
+{
+    setFocus();
+    emit clicked();
+    m_MyApp.playSound( m_ESndDefPressed );
+}

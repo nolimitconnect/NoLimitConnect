@@ -39,9 +39,7 @@ public:
 
 	P2PEngine&					getEngine( void )											{ return m_Engine; }
 	VxPeerMgr&					getPeerMgr( void )											{ return m_PeerMgr; }
-#if ENABLE_COMPONENT_NEARBY
-	NearbyMgr&					getNearbyMgr( void )										{ return m_NearbyMgr; }
-#endif // ENABLE_COMPONENT_NEARBY
+
 	void						setLocalIpAddress( std::string lclIp )						{ m_strLocalIpAddr = lclIp; }
 	std::string					getLocalIpAddress( void )									{ return m_strLocalIpAddr; }
 	void						setNetworkKey( std::string networkName );
@@ -71,9 +69,6 @@ protected:
     VxPeerMgr&					m_PeerMgr;
 	BigListMgr&					m_BigListMgr;
 	P2PConnectList&				m_ConnectList;
-#if ENABLE_COMPONENT_NEARBY
-	NearbyMgr					m_NearbyMgr;
-#endif // ENABLE_COMPONENT_NEARBY
 
 	std::string					m_NetworkName;
 

@@ -113,12 +113,12 @@ void NetworkStateMachine::stateMachineStartup( void )
 
 	m_NetworkStateLost = new NetworkStateLost(  *this );
 	m_CurNetworkState = m_NetworkStateLost;
-	m_NetworkStateList.push_back( m_NetworkStateLost );
-	m_NetworkStateList.push_back( new NetworkStateAvail( *this ) );
-	m_NetworkStateList.push_back( new NetworkStateTestConnection( *this ) );
-	m_NetworkStateList.push_back( new NetworkStateOnlineDirect( *this ) );
-	m_NetworkStateList.push_back( new NetworkStateWaitForRelay( *this ) );
-	m_NetworkStateList.push_back( new NetworkStateOnlineThroughRelay( *this ) );
+	m_NetworkStateList.emplace_back( m_NetworkStateLost );
+	m_NetworkStateList.emplace_back( new NetworkStateAvail( *this ) );
+	m_NetworkStateList.emplace_back( new NetworkStateTestConnection( *this ) );
+	m_NetworkStateList.emplace_back( new NetworkStateOnlineDirect( *this ) );
+	m_NetworkStateList.emplace_back( new NetworkStateWaitForRelay( *this ) );
+	m_NetworkStateList.emplace_back( new NetworkStateOnlineThroughRelay( *this ) );
 	m_StateMachineInitialized = true;
 
     m_NetworkStateThread.startThread( (VX_THREAD_FUNCTION_T)NetworkStateMachineThreadFunc, this, "NetworkStateMachineThread" );
@@ -398,20 +398,43 @@ void NetworkStateMachine::restartNetwork( void )
 //============================================================================
 void NetworkStateMachine::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetwork )
 {
+	if( !lclIp )
+	{
+		LogMsg( LOG_ERROR, "%s invalid param NULL ip", __func__ );
+		return;
+	}
+
     bool hasChanged = ( m_LocalNetworkIp != lclIp );
     uint16_t u16TcpPort = m_Engine.getEngineSettings().getTcpIpPort();
     hasChanged |= ( m_PktAnn.getOnlinePort() != u16TcpPort );
     hasChanged |= ( m_bIsCellNetwork != isCellularNetwork );
 
-    if( hasChanged )
-    {
+	if( hasChanged )
+	{
+		EIpAddrType addrType = VxGetIpAddrType( lclIp );
+		if( addrType == eIpAddrTypeUnknown )
+		{
+			LogMsg( LOG_ERROR, "%s invalid ip %s", __func__, lclIp );
+			return;
+		}
+
 		m_Engine.getPeerMgr().setUpnpEnable( m_Engine.getEngineSettings().getUseUpnpPortForward() );
 
-        m_LocalNetworkIp = lclIp;
-        m_bIsCellNetwork = isCellularNetwork;
-        VxSetLclIpAddress( lclIp );
-        m_PktAnn.getLanIPv4().setIp( lclIp );
+		m_LocalNetworkIp = lclIp;
+		m_bIsCellNetwork = isCellularNetwork;
+		VxSetLclIpAddress( lclIp );
+#if ENABLE_COMPONENT_NEARBY
+		if( addrType == eIpAddrTypeIpv4 )
+		{
+			m_Engine.lockAnnouncePktAccess();
+			m_PktAnn.getLanIPv4().setIp( lclIp );
+			m_Engine.unlockAnnouncePktAccess();
+		}
+#endif // ENABLE_COMPONENT_NEARBY
+		m_Engine.lockAnnouncePktAccess();
         m_PktAnn.setOnlinePort( u16TcpPort );
+		m_Engine.unlockAnnouncePktAccess();
+
         m_Engine.getToGui().toGuiUpdateMyIdent( &m_PktAnn );
         m_Engine.getNetStatusAccum().setIpPort( u16TcpPort );
         LogModule( eLogNetworkState, LOG_INFO, " fromGuiNetworkAvailable hasChanged %s", m_LocalNetworkIp.c_str() );
@@ -420,7 +443,7 @@ void NetworkStateMachine::fromGuiNetworkAvailable( const char* lclIp, bool isCel
     LogModule( eLogNetworkState, LOG_INFO, "NetworkStateMachine::fromGuiNetworkAvailable creating network available event %s", lclIp );
 
 	m_NetworkStateMutex.lock();
-	m_NetworkEventList.push_back( new NetworkEventAvail( *this, lclIp, isCellularNetwork ) );
+	m_NetworkEventList.emplace_back( new NetworkEventAvail( *this, lclIp, isCellularNetwork ) );
 	m_NetworkStateMutex.unlock();
 
 }
@@ -432,7 +455,7 @@ void NetworkStateMachine::fromGuiNetworkLost( void )
 	m_Engine.getPeerMgr().stopListening( false );
 	m_LocalNetworkIp = "";
 	m_NetworkStateMutex.lock();
-	m_NetworkEventList.push_back( new NetworkEventLost( *this ) );
+	m_NetworkEventList.emplace_back( new NetworkEventLost( *this ) );
 	m_NetworkStateMutex.unlock();
 }
 
@@ -500,7 +523,13 @@ void NetworkStateMachine::fromGuiNetworkSettingsChanged( void )
 		std::string ip = m_LocalNetworkIp;
         LogModule( eLogNetworkState, LOG_INFO, "NetworkStateMachine::fromGuiNetworkSettingsChanged" );
 		fromGuiNetworkLost();
-		m_PktAnn.getLanIPv4().setIp( ip.c_str() );
+#if ENABLE_COMPONENT_NEARBY
+		EIpAddrType addrType = VxGetIpAddrType( ip.c_str() );
+		if( eIpAddrTypeIpv4 == addrType )
+		{
+			m_PktAnn.getLanIPv4().setIp( ip.c_str() );
+		}
+#endif // ENABLE_COMPONENT_NEARBY
 		m_Engine.getNetStatusAccum().fromGuiNetworkSettingsChanged();
 		fromGuiNetworkAvailable( ip.c_str(), isCell );
 	}
@@ -543,7 +572,7 @@ void NetworkStateMachine::startUpnpOpenPort( void )
 		if( u16Port != m_PktAnn.getOnlinePort() )
 		{
             LogModule( eLogNetworkState, LOG_INFO, "startUpnpOpenPort engine port %d different than pkt ann port %d", u16Port, m_PktAnn.getOnlinePort() );
-			m_PktAnn.setMyOnlinePort( u16Port );
+			m_PktAnn.setOnlinePort( u16Port );
 		}
 
 		if( m_Engine.getEngineSettings().getUseUpnpPortForward() )
@@ -606,14 +635,14 @@ bool NetworkStateMachine::didUpnpOpenPortSucceed( void )
 void NetworkStateMachine::setPktAnnounceWithCanDirectConnect( std::string& myIpAddr, bool requiresRelay )
 {
 	m_PktAnn.setRequiresRelay( requiresRelay );
-	m_PktAnn.m_DirectConnectId.getIPv4().setIp( myIpAddr.c_str() );
+	m_PktAnn.m_DirectConnectId.setIpAddress( myIpAddr.c_str() );
 	if( false == requiresRelay )
 	{
 		m_PktAnn.setHasRelay( false );
-		if( false == m_PktAnn.m_DirectConnectId.getIPv4().isValid() )
+		if( false == m_PktAnn.m_DirectConnectId.getIpAddress().isValid() )
 		{
-			vx_assert( m_PktAnn.m_DirectConnectId.getIPv4().isValid() );
-			m_PktAnn.m_DirectConnectId.getIPv4().setIp( m_LastKnownExternalIpAddr.c_str() );
+			vx_assert( m_PktAnn.m_DirectConnectId.getIpAddress().isValid() );
+			m_PktAnn.m_DirectConnectId.getIpAddress().setIp( m_LastKnownExternalIpAddr.c_str() );
 		}
 		else
 		{
@@ -742,11 +771,11 @@ void NetworkStateMachine::onOncePerHour( void )
 }
 
 //============================================================================
-void NetworkStateMachine::externalIpAddressHasChanged( bool ipv6, std::string& oldIpAddress, std::string& newIpAddress )
+void NetworkStateMachine::externalIpAddressHasChanged( std::string& oldIpAddress, std::string& newIpAddress )
 {
-	m_Engine.getNetStatusAccum().setExternalIpAddress( ipv6, newIpAddress );
+	m_Engine.getNetStatusAccum().setExternalIpAddress( newIpAddress );
 	m_LocalNetworkIp = "";
 	m_NetworkStateMutex.lock();
-	m_NetworkStateList.push_back( new NetworkStateIpChange( ipv6, *this, oldIpAddress, newIpAddress ) );
+	m_NetworkStateList.emplace_back( new NetworkStateIpChange( *this, oldIpAddress, newIpAddress ) );
 	m_NetworkStateMutex.unlock();
 }

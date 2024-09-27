@@ -18,19 +18,17 @@
 #include <CoreLib/VxParse.h>
 
 //============================================================================
-GroupieInfo::GroupieInfo( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& groupieUrlIpv4, std::string& groupieUrlIpv6 )
+GroupieInfo::GroupieInfo( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& groupieUrl )
     : m_GroupieId( groupieOnlineId, hostOnlineId, hostType )
-    , m_GroupieUrlIpv4( groupieUrlIpv4 )
-    , m_GroupieUrlIpv6( groupieUrlIpv6 )
+    , m_GroupieUrl( groupieUrl )
 {
 }
 
 //============================================================================
-GroupieInfo::GroupieInfo( GroupieId& groupieId, std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t timeModified )
+GroupieInfo::GroupieInfo( GroupieId& groupieId, std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t timeModified )
     : m_GroupieId( groupieId )
     , m_GroupieInfoTimestampMs( timeModified )
-    , m_GroupieUrlIpv4( groupieUrlIpv4 )
-    , m_GroupieUrlIpv6( groupieUrlIpv6 )
+    , m_GroupieUrl( groupieUrl )
     , m_GroupieTitle( groupieTitle )
     , m_GroupieDesc( groupieDesc )
 {
@@ -43,8 +41,7 @@ GroupieInfo::GroupieInfo( const GroupieInfo& rhs )
     , m_JoinedTimestampMs( rhs.m_JoinedTimestampMs )
     , m_GroupieInfoTimestampMs( rhs.m_GroupieInfoTimestampMs )
     , m_IsFavorite( rhs.m_IsFavorite )
-    , m_GroupieUrlIpv4( rhs.m_GroupieUrlIpv4 )
-    , m_GroupieUrlIpv6( rhs.m_GroupieUrlIpv6 )
+    , m_GroupieUrl( rhs.m_GroupieUrl )
     , m_GroupieTitle( rhs.m_GroupieTitle )
     , m_GroupieDesc( rhs.m_GroupieDesc )
 {
@@ -60,8 +57,7 @@ GroupieInfo& GroupieInfo::operator=( const GroupieInfo& rhs )
         m_JoinedTimestampMs = rhs.m_JoinedTimestampMs;
         m_GroupieInfoTimestampMs = rhs.m_GroupieInfoTimestampMs;
         m_IsFavorite = rhs.m_IsFavorite;
-        m_GroupieUrlIpv4 = rhs.m_GroupieUrlIpv4;
-        m_GroupieUrlIpv6 = rhs.m_GroupieUrlIpv6;
+        m_GroupieUrl = rhs.m_GroupieUrl;
         m_GroupieTitle = rhs.m_GroupieTitle;
         m_GroupieDesc = rhs.m_GroupieDesc;
     }
@@ -78,14 +74,14 @@ bool GroupieInfo::shouldSaveToDb( void )
 //============================================================================
 bool GroupieInfo::isValidForGui( void )
 {
-    return ( !m_GroupieUrlIpv4.empty() || !m_GroupieUrlIpv6.empty() ) && !m_GroupieTitle.empty() && !m_GroupieDesc.empty();
+    return !m_GroupieUrl.empty() && !m_GroupieTitle.empty() && !m_GroupieDesc.empty();
 }
 
 //============================================================================
 int GroupieInfo::getSearchBlobSpaceRequirement( void )
 {
     // the +3 is for string \0 terminators
-    return sizeof( int64_t ) + m_GroupieUrlIpv4.length() + m_GroupieUrlIpv6.length() + m_GroupieTitle.length() + m_GroupieDesc.length() + 4 * 5; // each string requires null terminator and 4 byte length of data in the blob
+    return sizeof( int64_t ) + m_GroupieUrl.length() + m_GroupieTitle.length() + m_GroupieDesc.length() + 3 * 5; // each string requires null terminator and 4 byte length of data in the blob
 }
 
 //============================================================================
@@ -95,8 +91,7 @@ bool GroupieInfo::fillSearchBlob( PktBlobEntry& blobEntry )
     if( getSearchBlobSpaceRequirement() <= blobEntry.getRemainingStorageLen() )
     {
         result &= blobEntry.setValue( m_GroupieInfoTimestampMs );
-        result &= blobEntry.setValue( m_GroupieUrlIpv4 );
-        result &= blobEntry.setValue( m_GroupieUrlIpv6 );
+        result &= blobEntry.setValue( m_GroupieUrl );
         result &= blobEntry.setValue( m_GroupieTitle );
         result &= blobEntry.setValue( m_GroupieDesc );  
     }
@@ -112,13 +107,12 @@ bool GroupieInfo::fillSearchBlob( PktBlobEntry& blobEntry )
 bool GroupieInfo::extractFromSearchBlob( PktBlobEntry& blobEntry )
 {
     bool result = blobEntry.getValue( m_GroupieInfoTimestampMs );
-    result &= blobEntry.getValue( m_GroupieUrlIpv4 );
-    result &= blobEntry.getValue( m_GroupieUrlIpv6 );
+    result &= blobEntry.getValue( m_GroupieUrl );
     result &= blobEntry.getValue( m_GroupieTitle );
     result &= blobEntry.getValue( m_GroupieDesc );
     if( result )
     {
-        VxPtopUrl hostUrl( m_GroupieUrlIpv4 );
+        VxPtopUrl hostUrl( m_GroupieUrl );
         result = hostUrl.isValid() && m_GroupieInfoTimestampMs && !m_GroupieTitle.empty() && !m_GroupieDesc.empty();
         if( result )
         {
@@ -136,22 +130,20 @@ bool GroupieInfo::extractFromSearchBlob( PktBlobEntry& blobEntry )
 //============================================================================
 bool GroupieInfo::fillFromGroupie( PktGroupieAnnounceReq* hostAnn )
 {
-    std::string hostInviteUrlIpv4;
-    std::string hostInviteUrlIpv6;
+    std::string hostInviteUrl;
     std::string hostTitle;
     std::string hostDesc;
     int64_t hostTimestampMs{ 0 };
 
-    if( hostAnn->getGroupieInfo( hostInviteUrlIpv4, hostInviteUrlIpv6, hostTitle, hostDesc, hostTimestampMs ) )
+    if( hostAnn->getGroupieInfo( hostInviteUrl, hostTitle, hostDesc, hostTimestampMs ) )
     {
-        VxPtopUrl hostUrl( hostInviteUrlIpv4 );
+        VxPtopUrl hostUrl( hostInviteUrl );
         if( hostUrl.isValid() && hostTimestampMs && !hostTitle.empty() && !hostDesc.empty() )
         {
             setUserOnlineId( hostUrl.getOnlineId() );
             setHostOnlineId( hostUrl.getOnlineId() );
             setHostType( hostAnn->getHostType() );
-            setGroupieUrl( false,  hostInviteUrlIpv4 );
-            setGroupieUrl( true,  hostInviteUrlIpv6 );
+            setGroupieUrl( hostInviteUrl );
             setGroupieTitle( hostTitle );
             setGroupieDescription( hostDesc );
             setGroupieInfoTimestamp( hostTimestampMs );
@@ -174,7 +166,7 @@ bool GroupieInfo::fillFromGroupie( PktGroupieAnnounceReq* hostAnn )
 bool GroupieInfo::isGroupieValid( void )
 {
     return m_GroupieId.isValid() && 
-        m_GroupieInfoTimestampMs && ( !m_GroupieUrlIpv4.empty() || !m_GroupieUrlIpv6.empty() ) && !m_GroupieTitle.empty() && !m_GroupieDesc.empty();
+        m_GroupieInfoTimestampMs && !m_GroupieUrl.empty() && !m_GroupieTitle.empty() && !m_GroupieDesc.empty();
 }
 
 //============================================================================
@@ -201,13 +193,12 @@ bool GroupieInfo::isSearchTextMatch( std::string& searchText )
 }
 
 //============================================================================
-bool GroupieInfo::setGroupieUrlAndTitleAndDescription( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool GroupieInfo::setGroupieUrlAndTitleAndDescription( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
-    if( ( !groupieUrlIpv4.empty() || !groupieUrlIpv6.empty() ) && !groupieTitle.empty() && !groupieDesc.empty() && lastModifiedTime)
+    if( !groupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty() && lastModifiedTime)
     {
         m_GroupieInfoTimestampMs = lastModifiedTime;
-        m_GroupieUrlIpv4 = groupieUrlIpv4;
-        m_GroupieUrlIpv6 = groupieUrlIpv6;
+        m_GroupieUrl = groupieUrl;
         m_GroupieTitle = groupieTitle;
         m_GroupieDesc = groupieDesc;
         return true;
@@ -217,15 +208,14 @@ bool GroupieInfo::setGroupieUrlAndTitleAndDescription( std::string& groupieUrlIp
 }
 
 //============================================================================
-bool GroupieInfo::getGroupieUrlAndTitleAndDescription( std::string& groupieUrlIpv4, std::string& groupieUrlIpv6, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
+bool GroupieInfo::getGroupieUrlAndTitleAndDescription( std::string& groupieUrl, std::string& groupieTitle, std::string& groupieDesc, int64_t& lastModifiedTime )
 {
     lastModifiedTime = m_GroupieInfoTimestampMs;
-    groupieUrlIpv4 = m_GroupieUrlIpv4;
-    groupieUrlIpv6 = m_GroupieUrlIpv6;
+    groupieUrl = m_GroupieUrl;
     groupieTitle = m_GroupieTitle;
     groupieDesc = m_GroupieDesc;
 
-    return ( !m_GroupieUrlIpv4.empty() || !m_GroupieUrlIpv6.empty() ) && !groupieTitle.empty() && !groupieDesc.empty() && lastModifiedTime;
+    return !m_GroupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty() && lastModifiedTime;
 }
 
 //============================================================================
