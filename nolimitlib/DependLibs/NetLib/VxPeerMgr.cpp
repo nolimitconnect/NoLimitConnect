@@ -256,26 +256,6 @@ bool VxPeerMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReason 
 }
 
 //============================================================================
-void VxPeerMgr::startListening( bool ipv6, uint16_t port )
-{
-	setListenEnable( ipv6, false );
-	setListenPort( port );
-	setListenEnable( ipv6, true );
-}
-
-//============================================================================
-void VxPeerMgr::stopListening( bool ipv6 )
-{
-	setListenEnable( ipv6, false );
-}
-
-//============================================================================
-bool VxPeerMgr::isReadyToAcceptConnections( bool ipv6 )
-{
-	return isListening( ipv6 );
-}
-
-//============================================================================
 void VxPeerMgr::onOncePer30Seconds( VxGUID& myOnlineId )
 {
 	VxSktBaseMgr::onOncePer30Seconds( myOnlineId );

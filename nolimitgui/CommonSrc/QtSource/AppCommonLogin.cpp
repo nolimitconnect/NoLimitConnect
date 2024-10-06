@@ -147,10 +147,6 @@ void AppCommon::doAccountStartup( void )
     sendAppSettingsToEngine();
     LogModule( eLogStartup, LOG_DEBUG, "sendAppSettingsToEngine" );
 
-    LogModule( eLogStartup, LOG_DEBUG, "startNetworkMonitor" );
-    startNetworkMonitor();
-    LogModule( eLogStartup, LOG_DEBUG, "after startNetworkMonitor" );
-
     completeLogin();
     LogModule( eLogStartup, LOG_DEBUG, "completed Login" );
 

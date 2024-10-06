@@ -74,6 +74,7 @@ bool VxSktConnectSimple::isConnected( void )
 //! connect to remote ip
 SOCKET VxSktConnectSimple::connectTo(	const char*		pIpOrUrl,				// remote ip or url
 										uint16_t		u16Port,				// port to connect to
+                                        EIpAddrType     addrType,
 										int				iTimeoutMilliSeconds )	// milli seconds before connect attempt times out
 {
 	if( isConnected() )
@@ -83,7 +84,7 @@ SOCKET VxSktConnectSimple::connectTo(	const char*		pIpOrUrl,				// remote ip or 
 	}
 
 	m_bIsConnected	= false;
-	m_Socket		= VxConnectTo( m_LclIp, m_RmtIp, pIpOrUrl, u16Port, iTimeoutMilliSeconds );
+	m_Socket		= VxConnectTo( m_LclIp, m_RmtIp, pIpOrUrl, u16Port, addrType, iTimeoutMilliSeconds );
 	if( INVALID_SOCKET != m_Socket )
 	{
 		VxGetLclAddress( m_Socket, m_LclIp );
@@ -101,6 +102,7 @@ SOCKET VxSktConnectSimple::connectTo(	const char*		pIpOrUrl,				// remote ip or 
 SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local adapter ip
                                       const char*	pIpOrUrl,						// remote ip or url
                                       uint16_t		u16Port,						// port to connect to
+                                      EIpAddrType   addrType,
                                       int			iTimeoutMilliSeconds )	        // timeout attempt to connect
 {
     InetAddrAndPort	rmtIpAddr;
@@ -109,7 +111,7 @@ SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local a
         rmtIpAddr.setIp( pIpOrUrl );
         rmtIpAddr.setPort( u16Port );
     }
-    else if( VxResolveHostToIp( pIpOrUrl, u16Port, rmtIpAddr ) )
+    else if( VxResolveHostToIp( pIpOrUrl, u16Port, rmtIpAddr, addrType ) )
     {
         rmtIpAddr.setPort( u16Port );
     }
@@ -270,6 +272,7 @@ bool VxSktConnectSimple::connectToWebsite(	const char*			pWebsiteUrl,
 											std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
 											std::string&		strFile,		// return file name.. images/me.png
 											uint16_t&           u16Port,
+                                            EIpAddrType			addrType,
 											int					iConnectTimeoutMs )
 {
 	std::string strResolveIpAddr;
@@ -278,6 +281,7 @@ bool VxSktConnectSimple::connectToWebsite(	const char*			pWebsiteUrl,
 							strFile,		// return file name.. images/me.png
 							u16Port,
 							strResolveIpAddr,
+                            addrType,
 							iConnectTimeoutMs );
 
 }
@@ -288,12 +292,13 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
 											std::string&		strFile,		// return file name.. images/me.png
 											uint16_t&			u16Port,
 											std::string&		strResolveIpAddr,
+                                            EIpAddrType			addrType,
 											int					iConnectTimeoutMs )
 {
 	closeSkt( 99 );
     setLastError( 0 );
 	m_bIsConnected	= false;
-	m_Socket = VxConnectToWebsite( m_LclIp, m_RmtIp, pWebsiteUrl, strHost, strFile, u16Port, iConnectTimeoutMs );
+	m_Socket = VxConnectToWebsite( m_LclIp, m_RmtIp, pWebsiteUrl, strHost, strFile, u16Port, addrType, iConnectTimeoutMs );
 	strResolveIpAddr = m_RmtIp.toString();
 	if( INVALID_SOCKET != m_Socket )
 	{

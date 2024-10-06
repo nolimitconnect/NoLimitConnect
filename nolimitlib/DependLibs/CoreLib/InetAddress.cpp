@@ -11,6 +11,7 @@
 #include "InetAddress.h"
 
 #include "InetAddressParse.h"
+#include "IsBigEndianCpu.h"
 
 #include "PktBlobEntry.h"
 #include "VxDebug.h"
@@ -21,14 +22,17 @@
 #include <array>
 
 #ifdef TARGET_OS_WINDOWS
-	#include "Winsock2.h"
+	#include <Winsock2.h>
 	#include <Ws2tcpip.h>  
 #else
-    #include <netdb.h>
-    #include <sys/socket.h>
-    #include <sys/types.h>
     #include <arpa/inet.h>
     #include <net/if.h>
+    #include <netdb.h>        /* getaddrinfo(3) et al.                       */
+    #include <netinet/in.h>   /* sockaddr_in & sockaddr_in6 definition.      */
+	#include <unistd.h> 
+    #include <sys/socket.h>
+    #include <sys/types.h>
+
 	#ifndef TARGET_OS_ANDROID
 		#include <ifaddrs.h>
 	#endif
@@ -43,11 +47,13 @@
     #include <arpa/inet.h>
 #endif
 
-#include <string.h>
 #include <memory.h>
 #include <stdio.h>
 
-#define IP4_PREFIX 0x0000ffff00000000ULL
+namespace 
+{
+  const uint64_t IP4_BINARY_INDICATOR = 0xffffffffffffffffULL;
+};
 
 //============================================================================
 // InetAddrIPv4
@@ -90,6 +96,7 @@ bool InetAddrIPv4::fromString( const char* pIpAddress )
 		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
 		( 0 == strcmp( "::", pIpAddress ) ) )
 	{
+		LogMsg( LOG_ERROR, "InetAddrIPv4::%s %s is invalid", __func__, pIpAddress ? pIpAddress : "null" );
 		setToInvalid();
 		return false;
 	}
@@ -101,7 +108,7 @@ bool InetAddrIPv4::fromString( const char* pIpAddress )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::fromString %s is invalid", pIpAddress );
+		LogMsg( LOG_ERROR, "InetAddrIPv4::%s %s is not ipv4", __func__, pIpAddress );
 	}
 }
 
@@ -164,7 +171,7 @@ InetAddrIPv4& InetAddrIPv4::operator=( const InetAddress& inetAddr )
 	else
 	{
 		setToInvalid();
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::operator=( const InetAddress& inetAddr ) is invalid\n" );
+		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::operator=( const InetAddress& inetAddr ) is invalid" );
 	}
 
 	return *this;
@@ -457,10 +464,10 @@ bool InetAddrIPv4AndPort::fromString( const char* pIpAddress )
 }
 
 //============================================================================
-std::string InetAddrIPv4AndPort::toString( void )
+std::string InetAddrIPv4AndPort::toString( bool includePort )
 {
 	std::string ipAddr = InetAddrIPv4::toString();
-	if( !ipAddr.empty() && m_u16Port )
+	if( includePort && !ipAddr.empty() && m_u16Port )
 	{
 		ipAddr += ":";
 		ipAddr += std::to_string( m_u16Port );
@@ -566,10 +573,9 @@ bool InetAddress::extractFromBlob( PktBlobEntry& blob )
 //============================================================================
 uint16_t InetAddress::fromString( const char* pIpAddress )
 {
-	if( ( NULL == pIpAddress ) || 
+	if( !pIpAddress || 
 		( 0 == strlen( pIpAddress ) ) ||
-		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
-		( 0 == strcmp( "::", pIpAddress ) ) ) // TODO support IPv6
+		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) )
 	{
 		LogMsg( LOG_ERROR, "InetAddress::fromString invalid ip %s", pIpAddress ? pIpAddress : "NULL" );
 		setToInvalid();
@@ -578,11 +584,19 @@ uint16_t InetAddress::fromString( const char* pIpAddress )
 
 	uint16_t port = 0;
 	bool parsedIsIpv6 = false;
-	if( ParseIPv4OrIPv6( pIpAddress, (unsigned char *)this, port, parsedIsIpv6 ) )
+	uint8_t ipBinary[16];
+	if( ParseIPv4OrIPv6( pIpAddress, ipBinary, port, parsedIsIpv6 ) )
 	{
-		if( !parsedIsIpv6 )
+		// the parser sets in the order is is parsed which host order but we want is stored as net order
+		if( parsedIsIpv6 )
 		{
-			m_u64AddrHi = 0xffffffffffffffffULL;
+			m_u64AddrLo = htonU64( *((uint64_t*)ipBinary) );
+			m_u64AddrHi = htonU64( *((uint64_t*)(&ipBinary[8])));
+		}
+		else
+		{
+			m_u64AddrLo = htonl( *((uint32_t*)ipBinary) );
+			m_u64AddrHi = IP4_BINARY_INDICATOR; // indicator is a ipv4 address
 		}
 
 		return port;
@@ -599,28 +613,26 @@ std::string InetAddress::toString( void )
 	std::array<char, INET6_MAX_STR_LEN> as8Buf;
 	as8Buf.data()[0] = 0; 
 
-	if( isValid() )
+	if( !isValid() )
 	{
-		if( isIPv4() )
-		{
-			uint32_t u32Ip = getIPv4AddressInNetOrder();
-            VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
-			//LogMsg( LOG_INFO, "InetAddress::toString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
-		}
-		else
-		{
-			VxIPv6_ntop( this, as8Buf.data(), as8Buf.size());
-		}
+		return retIpAddress;
+	}
 
-		retIpAddress = as8Buf.data();
-		if( retIpAddress.empty() )
-		{
-			retIpAddress = "";
-		}
+	if( isIPv4() )
+	{
+		uint32_t u32Ip = getIPv4AddressInNetOrder();
+        VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
+		//LogMsg( LOG_INFO, "InetAddress::toString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
 	}
 	else
 	{
-		retIpAddress = "0.0.0.0";
+		VxIPv6_ntop( this, as8Buf.data(), as8Buf.size());
+	}
+
+	retIpAddress = as8Buf.data();
+	if( retIpAddress.empty() )
+	{
+		retIpAddress = "";
 	}
 
 	return retIpAddress;
@@ -718,7 +730,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
         {
             if( ! oTestAddr.isLoopBack() )
             {
-                LogMsg( LOG_INFO, "InetAddress::getAllAddresses: invalid addr %s\n", strTestIpAddress.c_str() );
+                LogMsg( LOG_INFO, "InetAddress::%s: invalid addr %s", __func__, strTestIpAddress.c_str() );
             }
 
             VxCloseSkt( oSkt );
@@ -728,7 +740,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 		//LogMsg( LOG_INFO, "binding skt %d\n", oSkt );
 		if( false == VxBindSkt( oSkt, poSktAddr ) )
         {
-            LogMsg( LOG_INFO, "InetAddress::getAllAddresses: could not bind addr %s\n", strTestIpAddress.c_str() );
+            LogMsg( LOG_INFO, "InetAddress::%s: could not bind addr %s", __func__, strTestIpAddress.c_str() );
             continue;
         }
 
@@ -1137,7 +1149,7 @@ bool InetAddress::isIPv4String( const char* pIpAddress ) const
 //============================================================================
 bool InetAddress::isIPv4( void ) const
 {
-	if( 0xffffffffffffffffULL == m_u64AddrHi ) 
+	if( IP4_BINARY_INDICATOR == m_u64AddrHi && 0 != m_u64AddrLo ) 
 	{
 		return true;
 	}
@@ -1155,8 +1167,7 @@ bool InetAddress::isIPv6( void ) const
 bool InetAddress::isIPv6GlobalAddress( void ) const
 {
 	// NOTE: bad assumption. better to check for locals instead.
-	if( isIPv6() && 
-		( false == isLocalAddress() ) )
+	if( isIPv6() && !isLocalAddress() )
 	{
 		return true;
 	}
@@ -1187,9 +1198,8 @@ void InetAddress::setIp( uint32_t u32IPv4Addr, bool bIsHostOrder )
 
 	if( u32IPv4Addr )
 	{
-		m_u64AddrLo = 0;
 		*((uint32_t*)&m_u64AddrLo) = u32IPv4Addr;
-		m_u64AddrHi = 0xffffffffffffffffULL;
+		m_u64AddrHi = IP4_BINARY_INDICATOR;
 	}
 	else
 	{
@@ -1432,17 +1442,32 @@ bool InetAddrAndPort::fromString( const char* pIpAddress )
 }
 
 //============================================================================
-std::string	InetAddrAndPort::toString( void )
+std::string	InetAddrAndPort::toString( bool includePort )
 {
 	std::string ipAddr;
 	if( isValid() )
 	{
 		std::string ipAddrNoPort = InetAddress::toString();
-		if( m_u16Port )
+		if( ipAddrNoPort.empty() )
 		{
-			ipAddr = "[";
-			ipAddr += ipAddrNoPort;
-			ipAddr = "]:";
+			LogMsg( LOG_ERROR, "InetAddrAndPort::%s empty addr" );
+			return ipAddr;
+		}
+
+		if( includePort && m_u16Port )
+		{
+			if( isIPv6() )
+			{
+				ipAddr = "[";
+				ipAddr += ipAddrNoPort;
+				ipAddr = "]:";
+			}
+			else
+			{
+				ipAddr = ipAddrNoPort;
+				ipAddr += ":";
+			}
+
 			ipAddr += std::to_string( m_u16Port );
 		}
 		else

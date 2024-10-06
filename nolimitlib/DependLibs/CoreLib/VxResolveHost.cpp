@@ -28,7 +28,8 @@
 //============================================================================
 bool VxResolveHostToIp(	const char*		pUrl,			// web name to resolve
 						std::string &	strRetIp,		// return dotted ip string 
-						uint16_t&		u16RetPort )	// return port
+						uint16_t&		u16RetPort, 	// return port
+						EIpAddrType		addrType )
 {
 	std::string strHost;
 	std::string strFileName;
@@ -52,7 +53,8 @@ bool VxResolveHostToIp(	const char*		pUrl,			// web name to resolve
 		InetAddrAndPort oAddr;
 		if( VxResolveHostToIp(	strHost.c_str(),			//web host name to resolve
 			u16RetPort,
-			oAddr ))
+			oAddr,
+			addrType ) )
 		{
 			strRetIp = oAddr.toString();
 			return true;
@@ -62,9 +64,10 @@ bool VxResolveHostToIp(	const char*		pUrl,			// web name to resolve
 }
 
 //============================================================================
-bool VxResolveHostToIp(	const char*		pHostOnly,			//web host name to resolve
+bool VxResolveHostToIp(	const char*		pHostOnly,			// web host name to resolve
 						uint16_t		u16Port,
-						InetAddress&	oRetIp )
+						InetAddress&	retIpAddr,
+						EIpAddrType		addrType )
 {
 	if( VxIsAppShuttingDown() )
 	{
@@ -73,121 +76,67 @@ bool VxResolveHostToIp(	const char*		pHostOnly,			//web host name to resolve
 
     if( ( 0 == pHostOnly ) || ( 0 == u16Port ) )
     {
-        LogMsg( LOG_DEBUG, "VxResolveHostToIp bad parameter " );
+        LogMsg( LOG_DEBUG, "%s bad parameter", __func__ );
         return false;
     }
 
 	//resolve host into ip address
 	struct addrinfo *res, *aip;
 	struct addrinfo hints;
-	//SOCKET sock = -1;
-	int error;
 
-	memset(&hints, 0, sizeof(hints));
+	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_flags = AI_ADDRCONFIG;
-	//hints.ai_family = AF_UNSPEC;
-	//hints.ai_family = AF_INET
-	//hints.ai_family = AF_INET6
-	hints.ai_family = AF_INET;
+
+	switch( addrType )
+	{
+	case eIpAddrTypeIpv6:
+		hints.ai_family = AF_INET6;
+		break;
+	case eIpAddrTypeIpv4:
+		hints.ai_family = AF_INET;
+		break;
+	default:
+		hints.ai_family = AF_UNSPEC;
+	}
+
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 
-
-	char as8Port[ 10 ];
+	char as8Port[ 16 ];
 	sprintf( as8Port, "%d", u16Port );
-	VxTimer resolveTimer;
-#ifdef DEBUG_NETLIB
-	LogMsg( LOG_INFO, "Resolving %s", pHostOnly ); 
-#endif// DEBUG_NETLIB
 
-	error = getaddrinfo(pHostOnly, as8Port, &hints, &res);
+	int error = getaddrinfo(pHostOnly, as8Port, &hints, &res);
 	if (error != 0) 
 	{
-        #ifdef DEBUG_NETLIB
-            LogMsg( LOG_ERROR,
-                    "VxResolveHostToIp: getaddrinfo: %s for host %s service %s",
-                    gai_strerror(error), pHostOnly, as8Port );
-        #endif// DEBUG_NETLIB
+        LogMsg( LOG_ERROR, "%s: error %s for host %s port %s",
+                    __func__, gai_strerror(error), pHostOnly, as8Port );
 		return false;
 	}
 
 	bool bFoundAddr = false;;
-	int tryCnt = 0;
-	/* Try all returned addresses until one works */
+
+	// Try all returned addresses until one works 
 	for( aip = res; aip != NULL; aip = aip->ai_next ) 
 	{
-		tryCnt++;
 		if( VxIsAppShuttingDown() )
 		{
 			break;
 		}
 
-		InetAddress lclIp( VxGetLclIpAddress().c_str() );				// local ip address
-		InetAddrAndPort rmtIp;				// local ip address
+		InetAddrAndPort rmtIp;	
 
 		rmtIp.setIp( *((struct sockaddr_storage *)aip->ai_addr) );
-		std::string strRmtIp = rmtIp.toString();
-        #ifdef DEBUG_NETLIB
-        double elapsed = resolveTimer.elapsedSec();
-            LogMsg( LOG_INFO, "Resolve %s to %s:%d in %3.3f sec on try %d",
-                pHostOnly,
-                strRmtIp.c_str(), u16Port,
-                elapsed,
-                tryCnt );
-        #endif// DEBUG_NETLIB
-		// NOTE:should do connect to verify but if internet connection is too overloaded it may fail
-		// and the resolved address seems to be always correct so this is commented out for now
-		/*
-		sock		= VxConnectTo( lclIp, rmtIp, strRmtIp.c_str(), u16Port, 15000 );
-		if( INVALID_SOCKET != sock )
-		{
-			bFoundAddr = true;
-			VxCloseSkt( sock );
-			oRetIp.setIp( strRmtIp.c_str() );
-			double connectSuccessTime = resolveTimer.elapsedSec();
-			LogMsg( LOG_INFO, "Resolve Connect Success to %s:%d in %3.3f sec on try %d\n", 
-				oRetIp.toString().c_str(), u16Port,
-				connectSuccessTime - elapsed,
-				tryCnt );
-			break;
-		}
-		else
-		{
-			double connectFailTime = resolveTimer.elapsedSec();
-			LogMsg( LOG_INFO, "Resolve Connect Failed to %s:%d in %3.3f sec on try %d error %s\n", 
-				strRmtIp.c_str(), u16Port,
-				connectFailTime - elapsed,
-				tryCnt,
-				VxDescribeSktError( VxGetLastError() ) );
-			continue;
-		}
-		*/
+		std::string strRmtIp = rmtIp.toString( false );
+
 		if( rmtIp.isValid() 
 			&& ( false == rmtIp.isLoopBack() ) )
 		{
 			bFoundAddr = true;
-			oRetIp.setIp( strRmtIp.c_str() );
-            #ifdef DEBUG_NETLIB
-            double connectSuccessTime = resolveTimer.elapsedSec();
-                LogMsg( LOG_INFO, "Resolve Connect Success to %s:%d in %3.3f sec on try %d",
-                        oRetIp.toString().c_str(), u16Port,
-                        connectSuccessTime - elapsed,
-                        tryCnt );
-            #endif// DEBUG_NETLIB
+			retIpAddr.setIp( strRmtIp.c_str() );
 			break;
-
 		}
 		else
 		{
-        #ifdef DEBUG_NETLIB
-            double connectFailTime = resolveTimer.elapsedSec();
-                LogMsg( LOG_INFO, "Resolve Connect Failed to %s:%d in %3.3f sec on try %d",
-														pHostOnly, 
-														u16Port,
-														connectFailTime - elapsed,
-                                                        tryCnt );
-        #endif // DEBUG_NETLIB
-
 			continue;
 		}
 	}
@@ -197,9 +146,10 @@ bool VxResolveHostToIp(	const char*		pHostOnly,			//web host name to resolve
 }
 
 //============================================================================
-bool VxResolveHostToIps(	const char* pHostOnly,			//web host name to resolve
+bool VxResolveHostToIps(	const char* pHostOnly,			// web host name to resolve
 							uint16_t u16Port,
-							std::vector<InetAddress>& aoRetIps )
+							std::vector<InetAddress>& retAddrList,
+							EIpAddrType	addrType )
 {
 	if( VxIsAppShuttingDown() )
 	{
@@ -212,7 +162,7 @@ bool VxResolveHostToIps(	const char* pHostOnly,			//web host name to resolve
 	SOCKET sock = -1;
 	int error;
 
-	aoRetIps.clear();
+	retAddrList.clear();
 
 	/* Get host address. Any type of address will do. */
 	memset(&hints, 0, sizeof(hints));
@@ -223,12 +173,12 @@ bool VxResolveHostToIps(	const char* pHostOnly,			//web host name to resolve
 	sprintf( as8Port, "%d", u16Port );
 
 	//LogMsg( LOG_INFO, "VxResolveHostToIps %s\n", pHostOnly ); 
-	error = getaddrinfo(pHostOnly, as8Port, &hints, &res);
+	error = getaddrinfo( pHostOnly, as8Port, &hints, &res );
 	if (error != 0) 
 	{
         #ifdef DEBUG_NETLIB
 		LogMsg( LOG_ERROR,
-			"getaddrinfo: %s for host %s service %s\n",
+			"getaddrinfo: %s for host %s service %s",
 			gai_strerror(error), pHostOnly, as8Port);
         #endif // DEBUG_NETLIB
 		return false;
@@ -236,6 +186,17 @@ bool VxResolveHostToIps(	const char* pHostOnly,			//web host name to resolve
 	/* Try all returned addresses until one works */
 	for (aip = res; aip != NULL; aip = aip->ai_next) 
 	{
+		if( addrType == eIpAddrTypeIpv4 && aip->ai_family != AF_INET )
+		{
+			LogMsg( LOG_WARN, "%s excluding non ipv4", __func__ );
+			continue;
+		}
+		else if( addrType == eIpAddrTypeIpv6 && aip->ai_family != AF_INET6 )
+		{
+			LogMsg( LOG_WARN, "%s excluding non ipv6", __func__ );
+			continue;
+		}
+
 		/*
 		* Open socket. The address type depends on what
 		* getaddrinfo() gave us.
@@ -244,9 +205,8 @@ bool VxResolveHostToIps(	const char* pHostOnly,			//web host name to resolve
 		if (sock == -1) 
 		{
             #ifdef DEBUG_NETLIB
-                LogMsg( LOG_ERROR, "VxResolveHostToIps: could not create socket\n" );
+                LogMsg( LOG_ERROR, "VxResolveHostToIps: could not create socket" );
             #endif // DEBUG_NETLIB
-			freeaddrinfo(res);
 			continue;
 		}
 
@@ -254,15 +214,16 @@ bool VxResolveHostToIps(	const char* pHostOnly,			//web host name to resolve
 		if( -1 == connect(sock, aip->ai_addr, (int)aip->ai_addrlen) ) 
 		{
 			VxCloseSkt( sock );
+			LogMsg( LOG_WARN, "%s failed to connect", __func__ );
 			continue;
 		}
 
 		// found a ip
 		InetAddress oAddr;
 		oAddr.setIp( *((struct sockaddr_storage *)aip->ai_addr) );
-		aoRetIps.push_back( oAddr );
+		retAddrList.push_back( oAddr );
 	}
 
 	freeaddrinfo(res);
-	return aoRetIps.size() ? true : false;
+	return !retAddrList.empty();
 }

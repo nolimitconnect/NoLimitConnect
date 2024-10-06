@@ -54,7 +54,7 @@ FT_Message( const char*  fmt, ... )
 	va_list args;
 	va_start( args, fmt );
 	//vfprintf (stderr, format, args);
-	LogMsgVarg( LOG_ERROR, args, fmt );
+	LogMsgVarg( LOG_ERROR, fmt, args );
 	va_end( args );
 }
 
@@ -65,7 +65,7 @@ FT_Panic( const char*  fmt, ... )
 	va_list args;
 	va_start( args, fmt );
 	//vfprintf (stderr, format, args);
-	LogMsgVarg( LOG_FATAL, args, fmt );
+	LogMsgVarg( LOG_FATAL, fmt, args );
 	va_end( args );
 
 	exit( EXIT_FAILURE );

@@ -13,16 +13,18 @@
 
 #include "P2PConnectList.h"
 #include "../NetServices/NetServicesMgr.h"
-#include <Network/NetworkMgr.h>
-#include <Network/NetworkStateMachine.h>
 
 #include <AssetMgr/AssetInfo.h>
 #include <AssetMgr/AssetMgr.h>
 #include <BigListLib/BigListInfo.h>
 #include <BlobXferMgr/BlobMgr.h>
 
+#include <Network/NetworkMgr.h>
+#include <Network/NetworkStateMachine.h>
+#include <NetworkMonitor/NetworkMonitor.h>
 #include <NetworkTest/IsPortOpenTest.h>
 #include <NetworkTest/RunUrlAction.h>
+
 #include <MediaProcessor/MediaProcessor.h>
 #include <MediaToolsLib/MediaTools.h>
 
@@ -768,18 +770,6 @@ bool P2PEngine::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk )
 }
 
 //============================================================================
-bool P2PEngine::isSystemPlugin( EPluginType	pluginType )
-{
-	//assureUserSpecificDirIsSet( "P2PEngine::isSystemPlugin" );
-	if( ( ePluginTypeInvalid < pluginType ) && ( eMaxUserPluginType > pluginType ) )
-	{
-		return false;
-	}
-
-	return true;
-}
-
-//============================================================================
 bool P2PEngine::isUserConnected( VxGUID& onlineId )
 {
 	return m_ConnectIdListMgr.isUserOnline( onlineId );
@@ -842,29 +832,37 @@ bool P2PEngine::getIsMyHostServiceEnabled( EHostType hostService )
 }
 
 //============================================================================
+bool P2PEngine::getHasAnyHostServiceEnabled( void )
+{
+	return m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostChatRoom ) != eFriendStateIgnore ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) != eFriendStateIgnore;
+}
+
+//============================================================================
 bool P2PEngine::getHasAnyAnnonymousHostService( void )
 {
-	bool hasAnnonService{ false };
-
-	hasAnnonService |= m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) == eFriendStateAnonymous;
-	hasAnnonService |= m_PktAnn.getPluginPermission( ePluginTypeHostChatRoom ) == eFriendStateAnonymous;
-	hasAnnonService |= m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) == eFriendStateAnonymous;
-	hasAnnonService |= m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) == eFriendStateAnonymous;
-	hasAnnonService |= m_PktAnn.getPluginPermission( ePluginTypeHostConnectTest ) == eFriendStateAnonymous;
-
-	return hasAnnonService;
+	return m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) == eFriendStateAnonymous ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostChatRoom ) == eFriendStateAnonymous ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) == eFriendStateAnonymous ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) == eFriendStateAnonymous ||
+		m_PktAnn.getPluginPermission( ePluginTypeHostConnectTest ) == eFriendStateAnonymous;
 }
 
 //============================================================================
 bool P2PEngine::getHasFixedIpAddress( void )
 {
+	bool ipv6 = getEngineSettings().getUseIpv6();
     if( eFirewallTestAssumeNoFirewall == getEngineSettings().getFirewallTestSetting() )
     {
         std::string externIp;
-        getEngineSettings().getUserSpecifiedExternIpAddr( externIp );
+        getEngineSettings().getUserSpecifiedExternIpAddr( externIp, ipv6 );
         if( externIp.empty() )
         {
-            LogMsg( LOG_WARN, "Firewall assume no Firewall set but external ip is empty" );
+            LogMsg( LOG_ERROR, "%s Assume no Firewall set but external ip is empty", __func__ );
+			return false;
         }
 
         return true;
@@ -1062,26 +1060,86 @@ void P2PEngine::fromGuiGetNetSettings( NetSettings& netSettings )
 }
 
 //============================================================================
+void P2PEngine::updateMyPktAnnIpAddress( std::string ipAddr )
+{
+	if( ipAddr.empty() )
+	{
+		LogMsg( LOG_ERROR, "%s empty ip addr", __func__ );
+		return;
+	}
+
+	EIpAddrType ipType;
+	std::string origIpAddr;
+	if( getMyPktAnnounce().getOnlineIpAddress( origIpAddr, ipType ) &&
+		origIpAddr == ipAddr )
+	{
+		LogMsg( LOG_WARN, "%s same ip %s", __func__, ipAddr.c_str() );
+		return;
+	}
+
+	getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
+	setPktAnnLastModTime( GetTimeStampMs() );
+
+	updateMyNetworkServiceUrl( eHostTypeNetwork );
+	updateMyNetworkServiceUrl( eHostTypeConnectTest );
+}
+
+//============================================================================
+void P2PEngine::updateMyNetworkServiceUrl( EHostType hostType )
+{
+	if( getIsMyHostServiceEnabled( hostType ) )
+    {
+        // I am the host
+        std::string myUrl = getMyOnlineUrl();
+		VxGUID myOnlineId = getMyOnlineId();
+		getConnectionMgr().updateMyEnabledHostUrl( hostType, myUrl, myOnlineId );
+;
+        getUrlMgr().updateUrlCache( myUrl, myOnlineId );
+        getHostUrlListMgr().updateHostUrl( hostType, myOnlineId, myUrl );
+    }
+}
+
+//============================================================================
 void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 {
 	getPeerMgr().setUpnpEnable( netHostSetting.getUseUpnpPortForward() );
 
     NetHostSetting origSettings;
     m_EngineSettings.getNetHostSettings( origSettings );
+	bool settingsHaveChange = origSettings != netHostSetting;
+	if( settingsHaveChange )
+	{
+		m_EngineSettings.setNetHostSettings( netHostSetting );
+	}
 
-    if( origSettings != netHostSetting )
-    {
+	// so listen thread gets a head start
+	getNetStatusAccum().setUseIpv6( netHostSetting.getUseIpv6(), netHostSetting.getTcpPort() );
+
+	//static bool firstNetSetup = true;
+	//if( firstNetSetup )
+	//{
+	//	firstNetSetup = false;
+
+	//}
+	if( settingsHaveChange )
+	{
 		bool haveFixedIp{ false };
-        m_EngineSettings.setNetHostSettings( netHostSetting );
+        
         if( origSettings.getUserSpecifiedExternIpAddr() != netHostSetting.getUserSpecifiedExternIpAddr() )
         {
             if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
             {
-				getMyPktAnnounce().setOnlineIpAddress( netHostSetting.getUserSpecifiedExternIpAddr().c_str() );
-                setPktAnnLastModTime( GetTimeStampMs() );
-				haveFixedIp = true;
+				std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
+				if( !externIp.empty() )
+				{
+					updateMyPktAnnIpAddress( externIp );
+					getNetStatusAccum().setUseFixedIp( externIp );
+					haveFixedIp = true;
+				}
             }
         }
+
+		
 
         if( origSettings.getTcpPort() != netHostSetting.getTcpPort() || origSettings.getUseIpv6() != netHostSetting.getUseIpv6())
         {
@@ -1091,12 +1149,14 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 			getPeerMgr().stopListening( true );
             getMyPktAnnounce().setOnlinePort( netHostSetting.getTcpPort() );
             setPktAnnLastModTime( GetTimeStampMs() );
-            getNetStatusAccum().setIpPort( netHostSetting.getTcpPort() );
+			getNetStatusAccum().setIpPort( netHostSetting.getTcpPort() );
 			
             getPeerMgr().startListening( ipv6, netHostSetting.getTcpPort() );   
-			if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) )
+
+			if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) ||
+				eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostNetwork ) )
 			{
-				// for connection test we listen for both ipv6 and ipv4 connections
+				// for connection test or network host we listen for both ipv6 and ipv4 connections
 				getPeerMgr().startListening( !ipv6, netHostSetting.getTcpPort() );   
 			}
         }
@@ -1134,6 +1194,12 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 
         fromGuiNetworkSettingsChanged();
     }
+
+	if( settingsHaveChange )
+	{
+		// wait to start monitoring network until listen has a chance to start
+		getNetworkMonitor().networkMonitorStartup();
+	}
 }
 
 //============================================================================

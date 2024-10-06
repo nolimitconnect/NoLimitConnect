@@ -97,7 +97,13 @@ void VxSktStatMgr::sktConnected4( SOCKET skt, std::string ipAddr, ESktType sktTy
 {
 	if( skt <= 0 )
 	{
-		LogMsg( LOG_ERROR, "VxSktStatMgr::sktConnected3 invalid socket %d", skt );
+		LogMsg( LOG_ERROR, "VxSktStatMgr::%s invalid socket %d", __func__, skt );
+		return;
+	}
+
+	if( ipAddr.empty() )
+	{
+		LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::%s socket %d ipAddr empty", __func__, skt );
 		return;
 	}
 

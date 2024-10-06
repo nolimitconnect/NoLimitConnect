@@ -30,5 +30,4 @@ public:
 
 
 	static bool m_ForwardEnable;
-
 };

@@ -60,6 +60,8 @@ void NetworkStateAvail::runNetworkState( void )
 		return;
 	}
 
+    bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
+
     std::string netServiceUrl;
     m_Engine.getEngineSettings().getConnectTestUrl( netServiceUrl );
     netServiceUrl = m_Engine.getUrlMgr().resolveUrl( netServiceUrl );
@@ -99,7 +101,7 @@ void NetworkStateAvail::runNetworkState( void )
     EFirewallTestType firewallTestType = m_Engine.getEngineSettings().getFirewallTestSetting();
 	if( eFirewallTestAssumeNoFirewall == firewallTestType )
 	{
-		std::string externIp = m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr();
+		std::string externIp = m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( ipv6 );
 		
 		InetAddress externAddr;
 		externAddr.setIp( externIp.c_str() );
@@ -130,7 +132,7 @@ void NetworkStateAvail::runNetworkState( void )
 	//LogMsg( LOG_INFO, "111 NetworkStateAvail::runNetworkState checking listen ready %3.3f\n", availTimer.elapsedSec() );
 	int waitForListenCnt = 0;
 	while( ( false == m_NetworkStateMachine.checkAndHandleNetworkEvents() )
-		&& ( false == m_Engine.getPeerMgr().isReadyToAcceptConnections( false ) ) )
+		&& ( false == m_Engine.getPeerMgr().getIsReadyToAcceptConnections( ipv6 ) ) )
 	{
 		VxSleep( 1000 );
 		waitForListenCnt++;
@@ -166,7 +168,7 @@ void NetworkStateAvail::runNetworkState( void )
             break;
         }
 
-        if( m_Engine.getPeerMgr().isListening( false ) )
+        if( m_Engine.getPeerMgr().isListening( ipv6 ) )
         {
             // already listening
             LogMsg( LOG_INFO, "Listening on port %d at time %3.3f", m_Engine.getPeerMgr().getListenPort(), availTimer.elapsedSec() );

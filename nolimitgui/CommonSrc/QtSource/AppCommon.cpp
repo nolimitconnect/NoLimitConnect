@@ -1000,12 +1000,6 @@ void AppCommon::toGuiRandomConnectStatus( ERandomConnectStatus eRandomConnectSta
 }
 
 //============================================================================
-void AppCommon::startNetworkMonitor( void )
-{
-	getEngine().getNetworkMonitor().networkMonitorStartup( "" );
-}
-
-//============================================================================
 	// prompt user to confirm wants to shutdown app.. caller must call appCommonShutdown if answer is yes
 bool AppCommon::confirmAppShutdown( QWidget* parentWindow )
 {

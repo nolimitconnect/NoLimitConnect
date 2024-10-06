@@ -844,7 +844,6 @@ protected:
 
     void						showUserNameInTitle();
     void						sendAppSettingsToEngine( void );
-    void						startNetworkMonitor( void );
 
     void						removePluginSessionOffer( EPluginType pluginType, GuiUser* poFriend );
 

@@ -64,11 +64,6 @@ public:
 
 	virtual bool				closeConnection( VxGUID& socketId, ESktCloseReason closeReason ) override;
 
-	virtual void				startListening( bool ipv6, uint16_t port );
-	virtual void				stopListening( bool ipv6 );
-
-	virtual bool				isReadyToAcceptConnections( bool ipv6 );
-
     virtual void				onOncePer30Seconds( VxGUID& myOnlineId ) override;
 
 protected:

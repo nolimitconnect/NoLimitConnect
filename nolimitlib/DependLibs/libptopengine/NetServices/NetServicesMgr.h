@@ -110,9 +110,9 @@ public:
 	VxSktConnectSimple *		actionReqConnectToHost( void );
 	bool						actionReqConnectToHost( VxSktConnectSimple& sktSimple );
 
-	bool						doNetCmdPing( const char* ipAddress, uint16_t u16Port, std::string& retPong, bool isClientPing );
+	bool						doNetCmdPing( const char* ipAddr, uint16_t u16Port, std::string& retPong, bool isClientPing );
 
-	ENetCmdError				doIsMyPortOpen( std::string& retMyExternalIp, bool testLoopbackFirst = false );
+	ENetCmdError				doIsMyPortOpen( std::string& retMyExternalIp );
 	bool						testLoobackPing( std::string localIP, uint16_t tcpListenPort );
 	ENetCmdError				sendAndRecieveIsMyPortOpen( VxTimer&				portTestTimer,
 															VxSktConnectSimple *	sktSimple, 
@@ -172,6 +172,8 @@ protected:
 
     bool                        m_TestConnectionActive{ false };
 	bool						m_QueryUrlActive{ false };
+
+	VxMutex						m_IsPortOpenMutex;
 };
 
 

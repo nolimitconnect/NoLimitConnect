@@ -9,6 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <CoreLib/InetAddress.h>
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxMutex.h>
 
@@ -21,7 +22,7 @@ public:
     ~UrlInfo() = default;
 
     void                        updateOnlineId( VxGUID& onlineId );
-    void                        updateUrl( bool ipv6 );
+    void                        updateUrl( void );
 
     std::string                 m_Url;
     std::string                 m_IpAddr;
@@ -37,22 +38,21 @@ public:
     UrlMgr() = default;
     ~UrlMgr() = default;
 
-    void                        setMyOnlineNodeUrl( std::string& myNodeUrl );
+    void                        setMyOnlineNodeUrl( std::string& myNodeUrl, EIpAddrType addrType = eIpAddrTypeUnknown );
 
-    std::string                 resolveUrl( std::string& hostUrl );
-    void                        updateUrlCache( std::string& hostUrl, VxGUID& onlineId );
+    std::string                 resolveUrl( std::string& hostUrl, EIpAddrType addrType = eIpAddrTypeUnknown );
+    void                        updateUrlCache( std::string& hostUrl, VxGUID& onlineId, EIpAddrType addrType = eIpAddrTypeUnknown );
 
     bool                        lookupOnlineId( std::string& hostUrl, VxGUID& onlineId );
 
 protected:
-    bool                        addUrl( std::string& hostUrl );
-    bool                        addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId );
-    bool                        fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo );
+    bool                        addUrl( std::string& hostUrl, EIpAddrType addrType = eIpAddrTypeUnknown );
+    bool                        addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId, EIpAddrType addrType = eIpAddrTypeUnknown );
+    bool                        fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo, EIpAddrType addrType = eIpAddrTypeUnknown );
 
     VxMutex                     m_UrlMutex;
     std::map<std::string, UrlInfo> m_UrlMap;
-    std::string                 m_MyNodeUrlIpv4;
-    std::string                 m_MyNodeUrlIpv6;
+    std::string                 m_MyNodeUrl;
     UrlInfo                     m_MyUrlInfo;
 };
 

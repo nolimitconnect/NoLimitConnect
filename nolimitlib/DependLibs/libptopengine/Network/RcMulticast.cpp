@@ -97,20 +97,20 @@ bool RcMulticast::multicastEnable( bool enable )
 				if( 0 == rc )
 				{
 
-					LogModule( eLogMulticast, LOG_VERBOSE, "RcMulticast::multicastEnable success %s %d", m_MulticastGroupIp.c_str(), m_MulticastPort );
+					LogModule( eLogUdp, LOG_VERBOSE, "RcMulticast::multicastEnable success %s %d", m_MulticastGroupIp.c_str(), m_MulticastPort );
 					result = true;
 					m_BroadcastEnabled = true;
 					m_SktUdp.setIsConnected( true );
 				}
 				else
 				{
-					LogModule( eLogMulticast, LOG_ERROR, "RcMulticast::multicastEnable failed error %d %d", rc, VxDescribeSktError( rc ) );
+					LogModule( eLogUdp, LOG_ERROR, "RcMulticast::multicastEnable failed error %d %d", rc, VxDescribeSktError( rc ) );
 					m_SktUdp.setIsConnected( false );
 				}
 			}
 			else
 			{
-				LogModule( eLogMulticast, LOG_ERROR, "RcMulticast::multicastEnable could not create broadcast ip" );
+				LogModule( eLogUdp, LOG_ERROR, "RcMulticast::multicastEnable could not create broadcast ip" );
 				m_SktUdp.setIsConnected( false );
 			}
 		}
@@ -252,7 +252,7 @@ void RcMulticast::sendMulticast( void )
 
 	if( getUdpSkt().isConnected() )
 	{
-		LogModule( eLogMulticast, LOG_INFO, "RcMulticast::sendMulticast PktAnn len %d", sizeof( m_PktAnnEncrypted ) );
+		LogModule( eLogUdp, LOG_INFO, "RcMulticast::sendMulticast PktAnn len %d", sizeof( m_PktAnnEncrypted ) );
 		m_MulticastMutex.lock();
 		RCODE rc = getUdpSkt().sendToMulticast( ( const char* )&m_PktAnnEncrypted, sizeof( m_PktAnnEncrypted ), m_MulticastGroupIp.c_str(), getUdpSkt().getMulticastPort() );
 		if( rc )

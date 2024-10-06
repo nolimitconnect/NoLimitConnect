@@ -10,23 +10,24 @@
 
 #include "AppletNetworkSettings.h"
 
-#include "AppletIsPortOpenTest.h"
 #include "ActivityNetworkState.h"
 #include "ActivityInformation.h"
+#include "ActivityYesNoMsgBox.h"
+#include "AppletIsPortOpenTest.h"
 
+#include "AccountMgr.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
-
 #include "MyIconsDefs.h"
-#include "AccountMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxSktUtil.h>
+
 #include <NetLib/NetHostSetting.h>
 #include <NetLib/VxGetRandomPort.h>
-#include <CoreLib/VxSktUtil.h>
 #include <NetLib/VxPortForward.h>
 
 #include "ui_AppletNetworkSettings.h"
@@ -53,6 +54,11 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
     ui.m_ConnectTestUrlInfoButton->setIcon( eMyIconInformation );
     ui.m_ConnectIsOpenInfoButton->setIcon( eMyIconInformation );
     ui.m_Ipv6InfoButton->setIcon( eMyIconInformation );
+
+    ui.m_SaveSettingsButton->setIcon( eMyIconFileSave );
+    ui.m_SaveSettingsButton->setFixedSize( eButtonSizeSmall );
+    ui.m_DeleteSettingsButton->setIcon( eMyIconTrash );
+    ui.m_DeleteSettingsButton->setFixedSize( eButtonSizeSmall );
 
     // hide until ipv6 is ready
     //ui.m_Ipv6InfoButton->setVisible(false);
@@ -99,9 +105,13 @@ void AppletNetworkSettings::connectSignals( void )
     connect( ui.m_UseUpnpCheckBox, SIGNAL(clicked()), this, SLOT(slotUseUpnpCheckBoxClick()) );
     connect( ui.m_ConnectTestUrlInfoButton, SIGNAL(clicked()), this, SLOT(slotShowConnectTestUrlInformation()) );
     connect( ui.m_ConnectIsOpenInfoButton, SIGNAL(clicked()), this, SLOT(slotShowConnectTestSettingsInformation()) );
+
     connect( ui.m_SaveSettingsButton, SIGNAL(clicked()), this, SLOT(onSaveButtonClick()) );
+    connect( ui.m_SaveSettingsLabel, SIGNAL(clicked()), this, SLOT(slotSaveLabelClick()) );
+
     connect( ui.m_DeleteSettingsButton, SIGNAL(clicked()), this, SLOT(onDeleteButtonClick()) );
-    connect( ui.m_ApplySettingsButton, SIGNAL(clicked()), this, SLOT(slotApplySettingsButtonClick()) );
+    connect( ui.m_DeleteSettingsLabel, SIGNAL(clicked()), this, SLOT(slotDeleteLabelClick()) );
+
     connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlToClipboard()) );
     connect( ui.m_TestIsPortOpenButton, SIGNAL(clicked()), this, SLOT(slotTestIsMyPortOpenButtonClick()) );
 
@@ -188,8 +198,11 @@ void AppletNetworkSettings::fillNetHostSettingFromEngine( NetHostSetting& netSet
     m_Engine.getEngineSettings().getConnectTestUrl( strValue );
     netSetting.setConnectTestUrl( strValue.c_str() );
 
+    bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
+    netSetting.setUseIpv6( ipv6 );
+
     std::string externIP;
-    m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( externIP );
+    m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( externIP, ipv6 );
     netSetting.setUserSpecifiedExternIpAddr( externIP.c_str() );
 
     netSetting.setUseIpv6( m_Engine.getEngineSettings().getUseIpv6() );
@@ -221,7 +234,7 @@ void AppletNetworkSettings::fillNetHostSettingFromEngine( NetHostSetting& netSet
 }
 
 //============================================================================
-void AppletNetworkSettings::slotApplySettingsButtonClick( void )
+void AppletNetworkSettings::applySettingsToEngine( void )
 {
     NetHostSetting netHostSetting;
     populateNetHostSettingsFromDlg( netHostSetting );
@@ -502,8 +515,28 @@ void AppletNetworkSettings::closeEvent( QCloseEvent * event )
 }
 
 //============================================================================
+void AppletNetworkSettings::slotSaveLabelClick( void )
+{
+    ui.m_SaveSettingsButton->emulateUserClicked();
+}
+
+//============================================================================
 void AppletNetworkSettings::onSaveButtonClick( void )
 {
+    if( ui.m_UseIpv6Network->isChecked() )
+    {
+		QString title = QObject::tr( "Confirm Use Experimental IPv6 Network?" );
+		QString bodyText = QObject::tr( "IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network" );
+
+		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+		dlg.makeNeverShowAgainVisible( false );
+        bool confirmed = (QDialog::Accepted == dlg.exec());
+        if( !confirmed )
+		{
+			return;
+		}
+    }
+
     QString keyVal = getNetworkKey();
     if( verifyNetworkKey( keyVal ) )
     {
@@ -553,10 +586,16 @@ void AppletNetworkSettings::onSaveButtonClick( void )
         m_MyApp.getEngine().getEngineSettings().setNetworkKey( keyString );
         updateSettingsFromDlg();
         // need to apply settings also or what is used in ptop engine may not be what is shown in dialog which is confusing
-        slotApplySettingsButtonClick();
+        applySettingsToEngine();
         QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Network setting was saved." ) );
         //QMessageBox::warning( this, QObject::tr( "Network Key" ), QObject::tr( "You may need to restart application to avoid connection problems." ) );
     }
+}
+
+//============================================================================
+void AppletNetworkSettings::slotDeleteLabelClick( void )
+{
+    ui.m_DeleteSettingsButton->emulateUserClicked();
 }
 
 //============================================================================

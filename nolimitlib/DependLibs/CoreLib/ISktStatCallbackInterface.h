@@ -10,7 +10,9 @@
 //============================================================================
 
 #include <GuiInterface/IDefs.h>
-#include "VxSktUtil.h"
+#include "VxDefs.h"
+
+#include <string>
 
 class ISktStatCallbackInterface
 {

@@ -118,22 +118,22 @@ protected:
 	NetServicesMgr&				m_NetServicesMgr;
 	NetConnector&				m_NetConnector;
 
-	bool						m_StateMachineInitialized;
+	bool						m_StateMachineInitialized{ false };
 
 	//NetPortForward				m_NetPortForward;
 	VxTimer						m_PortForwardTimer;
 
 	DirectConnectTester			m_DirectConnectTester;
 
-	bool						m_bUserLoggedOn;
+	bool						m_bUserLoggedOn{ false };
 	std::string					m_LocalNetworkIp;
-	bool						m_bIsCellNetwork;
-	bool						m_bRelayServiceConnected;
+	bool						m_bIsCellNetwork{ false };
+	bool						m_bRelayServiceConnected{ false };
 
 	std::vector<NetworkStateBase*>	m_NetworkStateList;
-	NetworkStateLost*				m_NetworkStateLost;
-	NetworkStateBase*				m_CurNetworkState;
-	ENetworkStateType				m_eCurRunningStateType;
+	NetworkStateLost*				m_NetworkStateLost{ nullptr };
+	NetworkStateBase*				m_CurNetworkState{ nullptr };
+	ENetworkStateType				m_eCurRunningStateType{ eNetworkStateTypeLost };
 
 	VxThread					m_NetworkStateThread;
 	VxMutex						m_NetworkStateMutex;
@@ -141,20 +141,20 @@ protected:
 	std::vector<NetworkEventBase*>	m_NetworkEventList;
 
 	std::string					m_HostIp;
-	uint16_t					m_u16HostPort;
+	uint16_t					m_u16HostPort{ 0 };
 	std::string					m_LastResolvedHostWebsite;
 
 	std::string					m_NetServiceIp;
-	uint16_t					m_u16NetServicePort;
+	uint16_t					m_u16NetServicePort{ 0 };
 	std::string					m_LastResolvedConnectTest;
 
-	bool						m_bWebsiteUrlsResolved;
-	bool						m_bHostIpMatch;
-	bool						m_bNetServiceIpMatch;
-	std::string					m_LastKnownExternalIpAddr;
+	bool						m_bWebsiteUrlsResolved{ false };
+	bool						m_bHostIpMatch{ false };
+	bool						m_bNetServiceIpMatch{ false };
+	std::string					m_LastKnownExternalIpAddr{ "0.0.0.0" };
 
-	time_t						m_LastUpnpForwardTime;
-	uint16_t					m_LastUpnpForwardPort;
+	time_t						m_LastUpnpForwardTime{ 0 };
+	uint16_t					m_LastUpnpForwardPort{ 0 };
 	std::string					m_LastUpnpForwardIp;
 
 	ENetLayerState              m_NetLayerStates[eMaxNetLayerType];

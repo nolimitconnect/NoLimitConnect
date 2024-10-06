@@ -51,20 +51,19 @@ namespace
 //============================================================================
 NetworkMonitor::NetworkMonitor( P2PEngine& engine )
 : m_Engine( engine )
-, m_bIsStarted( false )
-, m_iCheckInterval( NET_MONITOR_CHECK_INTERVAL_SEC )
 , m_NetMonitorThread()
 , m_NetSemaphore()
 {
 }
 
 //============================================================================
-void NetworkMonitor::networkMonitorStartup( const char* preferredNetIp, const char* cellNetIp )
+void NetworkMonitor::networkMonitorStartup( void )
 {
-    m_strPreferredAdapterIp	= preferredNetIp;
-    m_strCellNetIp			= cellNetIp;
-    m_bIsStarted			= true;
-    LogModule( eLogStartup, LOG_INFO, "networkMonitorStartup preferred ip %s cell ip %s", m_strPreferredAdapterIp.c_str(), m_strCellNetIp.c_str() );
+    if( !m_bIsStarted )
+    {
+        m_bIsStarted = true;
+        triggerDetermineNetworkState();
+    } 
 }
 
 //============================================================================
@@ -72,8 +71,8 @@ void NetworkMonitor::networkMonitorShutdown( void )
 {
     m_NetMonitorThread.abortThreadRun( true );
     m_bIsStarted		= false;
-    m_strPreferredAdapterIp	= "";
-    m_strCellNetIp		= "";
+    m_strPreferredAdapterIp.clear();
+    m_strCellNetIp.clear();
     m_NetMonitorThread.killThread();
     //m_Engine.fromGuiNetworkLost();
 }
@@ -89,7 +88,7 @@ void NetworkMonitor::setIsInternetAvailable( bool isAvail )
 void NetworkMonitor::onOncePerSecond( void )
 {
     // LogMsg( LOG_INFO, " NetworkMonitor::onOncePerSecond start" );
-    if( ( false == m_bIsStarted )
+    if( (false == m_bIsStarted)
         || VxIsAppShuttingDown() )
     {
         // LogMsg( LOG_INFO, " NetworkMonitor::onOncePerSecond not started exit" );
@@ -105,11 +104,18 @@ void NetworkMonitor::onOncePerSecond( void )
 
     m_iCheckInterval = 1;
 
+    triggerDetermineNetworkState();
+}
+
+//============================================================================
+void  NetworkMonitor::triggerDetermineNetworkState( void )
+{
+    bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
     bool assumeFixedIp = m_Engine.getHasFixedIpAddress();
     if( assumeFixedIp )
     {
         std::string externIp;
-        m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( externIp );
+        m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( externIp, ipv6 );
         if( !externIp.empty() && externIp != m_LastConnectedLclIp )
         {
             m_LastConnectedLclIp = externIp;
@@ -193,7 +199,7 @@ void NetworkMonitor::onOncePerSecond( void )
         m_LastConnectAttemptTimeGmtMs = timeNow;
         m_ConnectAttemptCompleted = false;
         m_ConnectAttemptSucessfull = false;
-        m_ConnectedLclIp = "";
+        m_ConnectedLclIp.clear();
 
         // start thread that will run ping/pong is port open test
         triggerDetermineIp();
@@ -324,16 +330,18 @@ void NetworkMonitor::doNetworkConnectTestThread( VxThread* startupThread )
 //============================================================================
 std::string NetworkMonitor::determineLocalIp( void )
 {
-    std::string localIp("");
+    std::string localIp;
     static std::string lastLocalIp;
 
     VxSktConnectSimple sktConnect;
     static int connectAttemptCnt = 0;
     connectAttemptCnt++;
 
+    EIpAddrType addrType = m_Engine.getEngineSettings().getUseIpv6() ? eIpAddrTypeIpv6 : eIpAddrTypeIpv4;
     // try network host 
     SOCKET skt = sktConnect.connectTo( VxGetNetworkHostName(),		// remote ip or url
                                        VxGetNetworkHostPort(),		// port to connect to
+                                       addrType,
                                        NET_MONITOR_CONNECT_TO_HOST_TIMOUT_MS );	// timeout attempt to connect
     if( INVALID_SOCKET != skt )
     {
@@ -344,7 +352,7 @@ std::string NetworkMonitor::determineLocalIp( void )
         if( 0 == VxGetLclAddress( skt, lclAddr ) )
         {
             localIp = lclAddr.toString();
-            if( localIp == "0.0.0.0" )
+            if( localIp.empty() || localIp == "0.0.0.0" )
             {
                 LogModule( eLogNetworkState, LOG_INFO, "determineLocalIp sktConnect.connectTo invalid local ip %s", VxGetNetworkHostName() );
                 localIp = "";
@@ -395,11 +403,12 @@ std::string NetworkMonitor::determineLocalIp( void )
         connectToGoogleCnt = 0;
         std::string connTestServiceIp = m_Engine.getNetworkStateMachine().getNetServiceIp();
         uint16_t connTestServicePort = m_Engine.getNetworkStateMachine().getNetServicePort();
-        LogModule( eLogNetworkState, LOG_WARNING, "Attempting conection to  ptop://%s:%d", connTestServiceIp.c_str(), connTestServicePort);
+        LogModule( eLogNetworkState, LOG_WARNING, "Attempting conection to  ptop://%s port %d", connTestServiceIp.c_str(), connTestServicePort);
 
         // try using net connection service
         SOCKET skt = sktConnect.connectTo( connTestServiceIp.c_str(),		// remote ip or url
                                            connTestServicePort,				// port to connect to
+                                           addrType,
                                            NET_MONITOR_CONNECT_TO_HOST_TIMOUT_MS );	// timeout attempt to connect
         if( INVALID_SOCKET != skt )
         {
@@ -439,7 +448,7 @@ std::string NetworkMonitor::determineLocalIp( void )
 
             if( localIp.empty() )
             {
-                LogModule( eLogNetworkState, LOG_WARNING, "Failed verify internet conection to http://%s:%d", connTestServiceIp.c_str(), connTestServicePort);
+                LogModule( eLogNetworkState, LOG_WARNING, "Failed verify internet connection to ptop://%s port %d", connTestServiceIp.c_str(), connTestServicePort);
             }
             else
             {

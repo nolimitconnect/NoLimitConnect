@@ -47,9 +47,9 @@ public:
 	void						setNetworkHostUrl( std::string& strWebsiteUrl );
 	void						getNetworkHostUrl( std::string& strWebsiteUrl );
 
-    void						setUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 = false );
-    void						getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 = false );
-    std::string                 getUserSpecifiedExternIpAddr( bool ipv6 = false );
+    void						setUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 );
+    void						getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 );
+    std::string                 getUserSpecifiedExternIpAddr( bool ipv6 );
 
 	void						setUseIpv6( bool useIpv6 );
     bool						getUseIpv6( void );
@@ -113,9 +113,14 @@ public:
 	bool    					fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl );
 
 private:
-	bool						m_Initialized;
+	bool						m_Initialized{ false };
 	std::string					m_CachedNetworkName; // network is used so often we keep a cached copy
     VxMutex                     m_SettingsDbMutex; // protection from multiple thread access
 	std::string					m_CachedExternIpv4;
 	std::string					m_CachedExternIpv6;
+	bool						m_HasUseIpv6BeenCached{ false };
+	bool						m_CachedUseIpv6{ false };
+
+	EFirewallTestType			m_CachedFirewallTestType{ eFirewallTestUrlConnectionTest };
+	bool						m_HaveCachedFirewallTestType{ false };
 };

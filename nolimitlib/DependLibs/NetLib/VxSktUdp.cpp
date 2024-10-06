@@ -363,15 +363,16 @@ RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addr
 
 	m_LclIp = oLclIp;
 	m_strLclIp = m_LclIp.toString();
+	EIpAddrType addrType = VxGetIpAddrType( m_strLclIp.c_str() );
 
 	m_LclIp.setPort( u16Port );
 	m_RmtIp.setPort( u16Port );
-	m_strRmtIp = "";
+	m_strRmtIp.clear();
 	m_eSktCallbackReason = eSktCallbackReasonConnecting;
 
 	struct addrinfo * poResultAddr;
 	struct addrinfo oHints;
-	VxFillHints( oHints, true );
+	VxFillHints( oHints, addrType );
 
 	char as8Port[16];
 	sprintf( as8Port, "%d", u16Port);
@@ -379,18 +380,18 @@ RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addr
 	int err;
 	if( 0 != ( err = getaddrinfo( NULL, as8Port, &oHints, &poResultAddr ) ) )
 	{
-		LogMsg( LOG_ERROR, "VxSktUdp::createSocket ERROR %d\n", err );
+		LogMsg( LOG_ERROR, "VxSktUdp::%s ERROR %d", __func__, err );
 		return err;
 	}
 
 	* ppoResultAddr = poResultAddr;
-	m_Socket = socket(poResultAddr->ai_family, poResultAddr->ai_socktype, poResultAddr->ai_protocol);
+	m_Socket = socket( poResultAddr->ai_family, poResultAddr->ai_socktype, poResultAddr->ai_protocol );
 	if( INVALID_SOCKET == m_Socket )
 	{
 		// create socket error
 		m_eSktCallbackReason = eSktCallbackReasonConnectError;
 		m_rcLastSktError = VxGetLastError();
-		LogMsg( LOG_ERROR, "VxSktBase::udpOpen: socket create error %s", VxDescribeSktError( m_rcLastSktError ) );
+		LogMsg( LOG_ERROR, "VxSktUdp::%s: socket create error %s", __func__, VxDescribeSktError( m_rcLastSktError ) );
 		if( m_pfnReceive )
 		{
 			m_pfnReceive( getThisSkt(), getRxCallbackUserData() );
@@ -407,9 +408,7 @@ RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addr
 		}
 	}
 
-#ifdef DEBUG_VXSKT_UDP
-	LogMsg( LOG_INFO, "VxSktUdp::createSocket Success port %d skt handle %d ip %s\n", u16Port, m_Socket, m_strLclIp.c_str() );
-#endif // DEBUG_VXSKT_UDP
+	LogModule( eLogUdp, LOG_INFO, "VxSktUdp::%s Success port %d skt handle %d ip %s", __func__, u16Port, m_Socket, m_strLclIp.c_str() );
 
 	return m_rcLastSktError;
 }
@@ -458,7 +457,7 @@ RCODE  VxSktUdp::sendToMulticast(	const char*		pData,				// data to send
 	if( setsockopt( m_Socket, IPPROTO_IP, IP_ADD_MEMBERSHIP,(char*)&mreq, sizeof(mreq)) < 0)
 	{
 		m_rcLastSktError = VxGetLastError();
-		LogModule( eLogMulticast, LOG_ERROR, "VxSktUdp::sendToMulticast setsockopt mreq failed %s", VxDescribeSktError( m_rcLastSktError ) );
+		LogModule( eLogUdp, LOG_ERROR, "VxSktUdp::sendToMulticast setsockopt mreq failed %s", VxDescribeSktError( m_rcLastSktError ) );
 	}
 	*/
 

@@ -41,7 +41,7 @@ namespace
 #if defined(LOG_IN_RELEASE_BUILD)
 uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     eLogHackers
-    // | eLogMulticast
+    // | eLogUdp
     // | eLogConnect
     // | eLogAcceptConn
     // | eLogSkt
@@ -74,7 +74,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
 #elif defined(CAMERATESTBUILD)
         uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
-        // | eLogMulticast
+        // | eLogUdp
         // | eLogConnect
         // | eLogAcceptConn
         // | eLogSkt
@@ -108,7 +108,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
 #elif defined(DEBUG) || defined(_DEBUG) || defined(FLATPAKBUILD)
     uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
-        // | eLogMulticast
+        // | eLogUdp
         // | eLogConnect
         // | eLogAcceptConn
         // | eLogSkt

@@ -13,9 +13,10 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxSktUtil.h>
 #include <NetLib/VxPeerMgr.h>
 #include <PktLib/PktAnnounce.h>
-#include <CoreLib/VxGlobals.h>
 
 //============================================================================
 NetworkEventAvail::NetworkEventAvail( NetworkStateMachine& stateMachine, const char* lclIp, bool isCellularNetwork )
@@ -28,7 +29,7 @@ NetworkEventAvail::NetworkEventAvail( NetworkStateMachine& stateMachine, const c
 	}
 	else
 	{
-		m_LclIp = "";
+		m_LclIp.clear();
 	}
 
 	VxSetLclIpAddress( m_LclIp.c_str() );
@@ -48,6 +49,7 @@ void NetworkEventAvail::runNetworkEvent( void )
 
 	LogModule( eLogNetworkState, LOG_VERBOSE, "NetworkEventAvail::runNetworkEvent start" );
 	m_NetworkStateMachine.resolveWebsiteUrls();
+	uint16_t prevPort = m_Engine.getNetStatusAccum().getIpPort();
     uint16_t listenPort = m_Engine.getEngineSettings().getTcpIpPort();
 	bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
     m_Engine.getNetStatusAccum().setIpPort( listenPort );
@@ -63,10 +65,9 @@ void NetworkEventAvail::runNetworkEvent( void )
         m_Engine.getToGui().toGuiUpdateMyIdent( &m_PktAnn );
     }
 
-    if( !m_Engine.getPeerMgr().isListening( ipv6 ) || ( listenPort != m_Engine.getPeerMgr().getListenPort() ) )
+    if( !m_Engine.getPeerMgr().isListening( ipv6 ) || listenPort != prevPort )
     {
-
-        m_Engine.getPeerMgr().startListening( ipv6, m_Engine.getEngineSettings().getTcpIpPort() );
+        m_Engine.getPeerMgr().startListening( ipv6, listenPort );
     }
 
     LogModule( eLogNetworkState, LOG_VERBOSE, "NetworkEventAvail::runNetworkEvent done" );

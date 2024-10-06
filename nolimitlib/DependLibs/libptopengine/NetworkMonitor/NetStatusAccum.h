@@ -81,8 +81,13 @@ public:
 
     void                        resetNetStatus( void );
 
-    void                        setIsFixedIpAddress( bool fixedIpAddr ) { m_FixedIpAddr = fixedIpAddr; }
-    bool                        isFixedIpAddress( void )                { return m_FixedIpAddr; }
+    void                        setUseIpv6( bool useIpv6, uint16_t ipPort );
+    bool                        getUseIpv6( void ) { return m_UseIpv6; }
+
+    void                        setUseFixedIp( std::string externIp );
+
+    void                        setIsFixedIpAddress( bool fixedIpAddr ) { m_HasFixedIpAddr = fixedIpAddr; }
+    bool                        isFixedIpAddress( void )                { return m_HasFixedIpAddr; }
 
     void                        setInternetAvail( bool avail );
     void                        setNetHostAvail( bool avail );
@@ -98,8 +103,8 @@ public:
     bool                        isNetHostAvailable( void )          { return m_NetworkHostAvail; };
     bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
     bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
-    bool                        isP2PAvailable( void )              { return m_FixedIpAddr || ( m_DirectConnectTested && (!m_RequriesRelay || m_ConnectedToRelay) ); };
-    bool                        isRxPortOpen( void )                { return m_FixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
+    bool                        isP2PAvailable( void )              { return m_HasFixedIpAddr || ( m_DirectConnectTested && (!m_RequriesRelay || m_ConnectedToRelay) ); };
+    bool                        isRxPortOpen( void )                { return m_HasFixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
     bool                        requiresRelay( void )               { return m_RequriesRelay; };
     void                        getNodeUrl( std::string& retNodeUrl );
 
@@ -123,14 +128,15 @@ public:
 protected:
     void                        onNetStatusChange( void );
 
+    void                        lockAccum( void ) { m_AccumMutex.lock(); }
+    void                        unlockAccum( void ) { m_AccumMutex.unlock(); }
+
     P2PEngine&					m_Engine;
     VxMutex                     m_AccumMutex;
     VxMutex                     m_AccumCallbackMutex;
     std::vector<NetAvailStatusCallbackInterface*> m_CallbackList;
 
-    bool                        m_NearbyAvailable{ false };
-
-    bool                        m_FixedIpAddr{ false };
+    bool                        m_HasFixedIpAddr{ false };
 
     bool                        m_InternetAvail{ false };
     bool                        m_NetworkHostAvail{ false };
@@ -144,8 +150,12 @@ protected:
     bool                        m_IsExternalIpValid{ false };
 
     uint16_t                    m_IpPort{ 0 };
+    bool                        m_UseIpv6{ false };
+
     std::string                 m_ExternAddr;
     std::string                 m_LocalAddr;
+    std::string                 m_LocalAddrIpv4;
+    std::string                 m_LocalAddrIpv6;
 
     bool                        m_NetHostIdAvail{ false };
     VxGUID                      m_NetNostOnlineId;

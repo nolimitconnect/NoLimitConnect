@@ -29,7 +29,7 @@ static QString describeLogModule( ELogModule logModule )
     {
     case eLogNone: return QObject::tr( "Log None" );
 
-    case eLogMulticast: return QObject::tr( "Log Multicast" );
+    case eLogUdp: return QObject::tr( "Log Multicast" );
     case eLogConnect: return QObject::tr( "Log Connect" );
     case eLogAcceptConn: return QObject::tr( "Log Accept Connection" );
     case eLogRelay : return QObject::tr( "Log Relay" );

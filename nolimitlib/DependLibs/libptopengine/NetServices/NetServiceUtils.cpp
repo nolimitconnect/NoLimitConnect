@@ -656,7 +656,7 @@ RCODE NetServiceUtils::buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdTyp
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "NetServiceUtils::buildAndSendCmd build failed for simiple socket" );
+		LogMsg( LOG_ERROR, "NetServiceUtils::buildAndSendCmd build failed for simple socket" );
 	}
 
 	return rc;
@@ -763,7 +763,8 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 {
 	if( netCmd.length() < MIN_NET_CMD_LEN || netCmd.length() > MAX_NET_CMD_LEN )
 	{
-		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: invalid net cmd len %d type %s cmd %s", netCmd.length(), DescribeNetCmdType( netCmdRequestType ), netCmd.c_str() );
+		LogMsg( LOG_ERROR, "NetServiceUtils::%s: invalid net cmd len %d type %s cmd %s", 
+				__func__, netCmd.length(), DescribeNetCmdType( netCmdRequestType ), netCmd.c_str() );
 		return false;
 	}
 
@@ -774,7 +775,7 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 
 	if( netCmd.empty() )
 	{
-		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: empty crypto key. Is network name not set?" );
+		LogMsg( LOG_ERROR, "NetServiceUtils::%s: empty crypto key. Is network name not set?", __func__ );
 		return false;
 	}
 
@@ -811,16 +812,18 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 		txCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
 		if(0 == txCrypto->encrypt( pktData, pktLen ) )
 		{
+			LogModule( eLogNetService, LOG_DEBUG, "NetServicesMgr::%s: cmd %s %s pwd %s ",
+					   __func__, DescribeNetCmdType( netCmdRequestType ), netCmd.c_str(), cryptoPwd.c_str() );
 			RCODE rc = netServConn->sendData( (char *)pktData, pktLen, txDataTimeout );
 			wasSent = 0 == rc;
 			if( !wasSent )
 			{
-				LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: simple sendData failed timout %d error %d %s", txDataTimeout, rc, VxDescribeSktError( rc ) );
+				LogMsg( LOG_ERROR, "NetServicesMgr::%s: simple sendData failed timout %d error %d %s", __func__, txDataTimeout, rc, VxDescribeSktError( rc ) );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "NetServicesMgr::sendNetServicePacket: simple could not encrypt len %d", pktLen );
+			LogMsg( LOG_ERROR, "NetServicesMgr::%s: simple could not encrypt len %d", __func__, pktLen );
 			return false;
 		}
 	}
@@ -846,7 +849,7 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	if( eNetCmdHostPong != expectedRxNetCmd && eNetCmdClientPong != expectedRxNetCmd &&
 		eNetCmdIsMyPortOpenReply != expectedRxNetCmd && eNetCmdQueryHostOnlineIdReply  != expectedRxNetCmd ) 
 	{
-		LogMsg( LOG_ERROR, "NetActionAnnounce::sendNetServiceRequest: unknown net cmd request %d", expectedRxNetCmd );
+		LogMsg( LOG_ERROR, "NetServiceUtils::%s: unknown net cmd request %d", __func__, expectedRxNetCmd );
 		return false;
 	}
 

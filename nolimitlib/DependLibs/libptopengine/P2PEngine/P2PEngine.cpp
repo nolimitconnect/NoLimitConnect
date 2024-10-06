@@ -172,14 +172,14 @@ UrlMgr& P2PEngine::getUrlMgr()
 //============================================================================
 void P2PEngine::startupEngine()
 {
-    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine startupEngine start" );
+    LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::%s start", __func__ );
     iniitializePtoPEngine();
 
 	m_RandConnectMgr.onEngineStartup();
 	m_NetworkStateMachine.stateMachineStartup();
 	m_PluginMgr.onAppStartup();
 	m_IsPortOpenTest.isPortOpenTestStartup();
-    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine startupEngine done" );
+    LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::%s done", __func__ );
 }
 
 //============================================================================

@@ -48,7 +48,7 @@ enum ELogModule
 	eLogStorage         = 0x0004, // 3
 	eLogAssets			= 0x0008, // 4
 
-	eLogMulticast 		= 0x0010, // 5
+	eLogUdp 		= 0x0010, // 5
 	eLogConnect			= 0x0020, // 6 
 	eLogAcceptConn		= 0x0040, // 7
 	eLogRelay           = 0x0080, // 8

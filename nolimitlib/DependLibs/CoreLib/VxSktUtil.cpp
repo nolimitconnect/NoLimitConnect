@@ -156,6 +156,41 @@ bool VxIsIpv4Address( std::string& ipAddr )
 }
 
 //============================================================================
+bool VxMakePtopUrl( std::string& ipAddr, uint16_t port, std::string& retPtopUrl )
+{
+	if( ipAddr.empty() || !port )
+	{
+		LogMsg( LOG_ERROR, "VxMakePtopUrl bad param" );
+		return false;
+	}
+
+	std::string ptopUrl( "ptop://" );
+
+    EIpAddrType addrType = VxGetIpAddrType( ipAddr.c_str() );
+    if( eIpAddrTypeIpv6 == addrType )
+    {
+        ptopUrl += "[";
+        ptopUrl += ipAddr;
+        ptopUrl += "]";
+    }
+    else if( eIpAddrTypeIpv4 == addrType )
+    {
+        ptopUrl += ipAddr;
+    }
+	else
+	{
+		LogMsg( LOG_ERROR, "VxMakePtopUrl invalid ip address %s", ipAddr.c_str() );
+		return false;
+	}
+
+    ptopUrl += ":";
+    ptopUrl += std::to_string( port );
+	retPtopUrl = ptopUrl;
+
+	return true;
+}
+
+//============================================================================
 void VxIpInNetOrderToString( uint32_t u32IpAddr, std::string& retIp )
 {
 	char as8Buf[ 32 ];
@@ -771,7 +806,7 @@ bool VxSetSktAllowReuseAddress( SOCKET skt )
     int reuseOpt = 1;
     if( setsockopt( skt, SOL_SOCKET, SO_REUSEADDR, (char *)&reuseOpt, sizeof(reuseOpt)) < 0 )
 	{
-        LogMsg( LOG_ERROR,  "VxSktBase::setReuseSocket error %d %s", VxGetLastError(), strerror(errno) );
+        LogMsg( LOG_ERROR,  "%s error %d %s", __func__, VxGetLastError(), strerror(errno) );
 		return false;
 	}
 
@@ -787,53 +822,16 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 	}
 
     SOCKET			sktHandle = INVALID_SOCKET;
-	std::string		strRmtIp = rmtIp.toString();
+	std::string		strRmtIp = rmtIp.toString( false );
+	if( strRmtIp.empty() )
+	{
+        LogMsg( LOG_ERROR,  "%s empty remote ip", __func__ );
+		return false;
+	}
+
 	bool ipv6 = rmtIp.isIPv6();
 
 	RCODE rc = 0;
-
-	// Try all returned addresses until one works
-#if USE_SKT_HINTS
-    struct addrinfo * poAddrInfo;
-    struct addrinfo * poResultAddr;
-    struct addrinfo oHints;
-    VxFillHints( oHints, false, false );
-
-    char as8Port[ 16 ];
-    sprintf( as8Port, "%d", u16Port );
-
-    //LogMsg( LOG_INFO, "VxConnectTo port %d ms %d", u16Port, iConnectTimeoutMs ); 
-    int error = getaddrinfo( strRmtIp.c_str(), as8Port, &oHints, &poAddrInfo );
-    if( error != 0 )
-    {
-        if( 0 != retSktErr )
-        {
-            LogMsg( LOG_INFO, "VxConnectTo port %d ms %d getaddrinfo FAILED with error %d", u16Port, iConnectTimeoutMs, error );
-            *retSktErr = error;
-        }
-
-        return INVALID_SOCKET;
-    }
-
-    for( poResultAddr = poAddrInfo; poResultAddr != NULL; poResultAddr = poResultAddr->ai_next )
-    {
-        sktHandle = socket( poResultAddr->ai_family, poResultAddr->ai_socktype, poResultAddr->ai_protocol );
-        if( INVALID_SOCKET == sktHandle )
-        {
-            // create socket error
-            rc = VxGetLastError();
-            LogModule( eLogConnect, LOG_VERBOSE, "VxConnectTo: socket create error %s", VxDescribeSktError( rc ) );
-            continue;
-        }
-
-        socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
-        sktHandle = VxConnectToAddr( sktHandle, poAddrInfo, sktAddrLen, iConnectTimeoutMs, retSktErr );
-        if( INVALID_SOCKET != sktHandle )
-        {
-            break;
-        }
-    }
-#else
     struct sockaddr_storage sktAddrStorage;
 	socklen_t sktAddrLen = VxSktAddrInit( ipv6, sktAddrStorage, strRmtIp, u16Port );
 
@@ -856,11 +854,10 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 			rc = VxGetLastError();
 		}
     }
-#endif // USE_SKT_HINTS
 
     if( INVALID_SOCKET == sktHandle )
 	{
-        LogModule( eLogConnect, LOG_VERBOSE, "VxConnectTo: socket connect error %s to %s", VxDescribeSktError( rc ), strRmtIp.c_str() );
+        LogModule( eLogConnect, LOG_VERBOSE, "%s: socket connect error %s to %s", __func__, VxDescribeSktError( rc ), strRmtIp.c_str() );
         if( 0 != retSktErr )
         {
             if( 0 == *retSktErr )
@@ -899,12 +896,16 @@ std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool in
 			std::array<char, INET6_ADDRSTRLEN> ipData{};
 			VxIPv6_ntop( &sktAddrIn->sin6_addr, ipData.data(), ipData.size() );
 
-			ipAndPort = ipData.data();
-			
-			if( ipAndPort.length() && includePort )
+			if( includePort )
 			{
-				ipAndPort += ":";
+				ipAndPort = "[";
+				ipAndPort += ipData.data();
+				ipAndPort += "]:";
 				ipAndPort += std::to_string( ntohs( sktAddrIn->sin6_port ) );
+			}
+			else
+			{
+				ipAndPort = ipData.data();
 			}
         }
 		else if( sktAddr->sa_family == AF_INET )
@@ -1372,21 +1373,22 @@ SOCKET VxConnectTo(		InetAddrAndPort&	lclIp,
 						InetAddrAndPort&	rmtIp,
 						const char*			pIpAddr,				// remote ip
 						uint16_t			u16Port,				// port to connect to
+						EIpAddrType			addrType,
 						int					iTimeoutMilliSeconds,
 						RCODE *				retSktError )	// milli seconds before connect attempt times out
 {
-	if( VxIsIPv4Address( pIpAddr) || VxIsIPv6Address( pIpAddr) )
+	if( VxIsIPv4Address( pIpAddr ) || VxIsIPv6Address( pIpAddr ) )
 	{
 		rmtIp.setIp( pIpAddr );
         rmtIp.setPort( u16Port );
 	}
-    else if( VxResolveHostToIp( pIpAddr, u16Port, rmtIp ) )
+    else if( VxResolveHostToIp( pIpAddr, u16Port, rmtIp, addrType ) )
     {
         rmtIp.setPort( u16Port );
     }
     else
 	{
-        LogModule( eLogConnect, LOG_INFO, "VxConnectTo: FAILED to resolve %s", pIpAddr );
+        LogModule( eLogConnect, LOG_INFO, "%s: FAILED to resolve %s", __func__, pIpAddr );
 		return INVALID_SOCKET;
 	}
 
@@ -1394,13 +1396,13 @@ SOCKET VxConnectTo(		InetAddrAndPort&	lclIp,
 	SOCKET sktHandle = VxConnectTo( lclIp, rmtIp, u16Port, iTimeoutMilliSeconds, retSktError );
 	if( INVALID_SOCKET == sktHandle )
 	{
-        LogModule( eLogConnect, LOG_DEBUG, "VxConnectTo: FAIL connect %3.3f sec lcl ip %s:%d to %s:%d timeout %d error %d thread 0x%x",
-	               connectToTimer.elapsedSec(), lclIp.toString().c_str(), lclIp.getPort(), rmtIp.toString().c_str(), u16Port, iTimeoutMilliSeconds, retSktError ? *retSktError : -1, VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_DEBUG, "%s: FAIL connect %3.3f sec lcl ip %s to %s:%d timeout %d error %d thread 0x%x", __func__,
+	               connectToTimer.elapsedSec(), lclIp.toString().c_str(), rmtIp.toString().c_str(), u16Port, iTimeoutMilliSeconds, retSktError ? *retSktError : -1, VxGetCurrentThreadId() );
 	}
 	else
 	{
-        LogModule( eLogConnect, LOG_DEBUG, "VxConnectTo: SUCCESS connect %3.3f sec lcl ip %s:%d to %s:%d thread 0x%x",
-			       connectToTimer.elapsedSec(), lclIp.toString().c_str(), lclIp.getPort(), rmtIp.toString().c_str(), u16Port, VxGetCurrentThreadId());
+        LogModule( eLogConnect, LOG_DEBUG, "%s: SUCCESS connect %3.3f sec lcl ip %s to %s:%d thread 0x%x", __func__,
+			       connectToTimer.elapsedSec(), lclIp.toString().c_str(), rmtIp.toString().c_str(), u16Port, VxGetCurrentThreadId());
 	}
 
 	return sktHandle;
@@ -1414,6 +1416,7 @@ SOCKET VxConnectToWebsite(	InetAddrAndPort&	lclIp,			// ip of adapter to use
 							std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
 							std::string&		strFile,		// return file name.. images/me.png
 							uint16_t&			u16Port,		// return port
+						    EIpAddrType			addrType,
 							int					iConnectTimeoutMs )
 {
 	// split host name from file path
@@ -1434,6 +1437,7 @@ SOCKET VxConnectToWebsite(	InetAddrAndPort&	lclIp,			// ip of adapter to use
 									rmtIp,					// return ip and port url resolves to
 									hostname,				// remote ip or url
 									u16Port,				// port to connect to
+								    addrType,
 									iConnectTimeoutMs );	// timeout attempt to connect
 	if( INVALID_SOCKET == hSocket )
 	{
@@ -1460,7 +1464,7 @@ bool VxTestConnectionOnSpecificLclAddress( InetAddress& oLclAddr )
 	std::string strLclAddr = oLclAddr.toString();
 
 	InetAddress oRmtAddr;
-	if ( VxResolveUrl( "www.nolimitconnect.com", 80, oRmtAddr ) )
+	if( VxResolveUrl( "nolimitconnect.com", 80, oRmtAddr, VxGetIpAddrType( strLclAddr.c_str() ) ) )
 	{
 		// attempt connect
 		// Open a socket with the correct address family for this address.
@@ -1504,10 +1508,10 @@ bool VxTestConnectionOnSpecificLclAddress( InetAddress& oLclAddr )
 }
 
 //============================================================================
-bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr, bool ipv6Only )
+bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr, EIpAddrType addrType )
 {
 	std::string resolvedIp;
-	if( VxResolveUrl( pUrl, u16Port, resolvedIp, ipv6Only ) )
+	if( VxResolveUrl( pUrl, u16Port, resolvedIp, addrType ) )
 	{
 		retInetAddr.setIp( resolvedIp.c_str() );
 		return true;
@@ -1520,7 +1524,7 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr,
 }
 
 //============================================================================
-bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, bool ipv6Only  )
+bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, EIpAddrType addrType  )
 {
 	std::string strHost;
 	std::string strFile;
@@ -1528,11 +1532,11 @@ bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr
 
 	bool result = VxSplitHostAndFile( urlIn.c_str(), strHost, strFile, tcpPort );
 	retPort = tcpPort;
-    return result && VxResolveUrl( strHost.c_str(), tcpPort, retIpAddr, ipv6Only );
+    return result && VxResolveUrl( strHost.c_str(), tcpPort, retIpAddr, addrType );
 }
 
 //============================================================================
-bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, bool ipv6Only  ) // assumes pUrl is just host name
+bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, EIpAddrType addrType  ) // assumes pUrl is just host name
 {
 	if( !pUrl || strlen( pUrl ) < 5 )
 	{
@@ -1554,8 +1558,19 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, 
 	struct addrinfo* AddrInfo;
 
 	memset( &Hints, 0, sizeof( Hints ) );
+	switch( addrType )
+	{
+	case eIpAddrTypeIpv6:
+		Hints.ai_family = PF_INET6;
+		break;
+	case eIpAddrTypeIpv4:
+		Hints.ai_family = PF_INET;
+		break;
+	case eIpAddrTypeUnknown:
+	default:
+		Hints.ai_family = PF_UNSPEC;
+	}
 
-	Hints.ai_family = ipv6Only ? PF_INET6 : PF_UNSPEC;
 	Hints.ai_socktype = SOCK_STREAM;
 	Hints.ai_protocol = IPPROTO_TCP;
 
@@ -1705,24 +1720,26 @@ RCODE VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpl
 }
 
 //============================================================================
-RCODE VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr )
+RCODE VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& retAddr )
 {
 	// Get the IP address of the the local side of connection
 	RCODE rc = 0;
-	struct sockaddr oSktAddr;
-    memset( &oSktAddr, 0, sizeof( struct sockaddr ) );
-	socklen_t iSktAddrLen = sizeof( struct sockaddr );
+	struct sockaddr_storage sktStorage;
+	socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
+	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
 
-    if( getsockname( sktHandle, ( struct sockaddr* )&oSktAddr, &iSktAddrLen ) )
+	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktStorage);
+
+    if( getsockname( sktHandle, sktAddr, &sktAddrLen ) )
 	{
 		// error occurred
-		oRetAddr.setToInvalid();
+		retAddr.setToInvalid();
 		rc = VxGetLastError();
         LogMsg( LOG_DEBUG, "VxGetRmtAddress: skt handle %d error %d %s", sktHandle, rc, VxDescribeSktError( rc ) );
 	}
 	else
 	{
-		oRetAddr.setIpAndPort( oSktAddr );
+		retAddr.setIpAndPort( *sktAddr );
 	}
 
 	return rc;
@@ -1731,15 +1748,18 @@ RCODE VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr )
 //============================================================================
 std::string	VxGetLclIpAddress( SOCKET sktHandle, uint16_t* retPort )
 {
-	std::string ipAddr( "" );
-	struct sockaddr sktAddr;
-	memset( &sktAddr, 0, sizeof( struct sockaddr ) );
-	socklen_t iSktAddrLen = sizeof( struct sockaddr );
+	std::string ipAddr;
 
-	if( 0 == getsockname( sktHandle, ( struct sockaddr* )&sktAddr, &iSktAddrLen ) )
+	struct sockaddr_storage sktStorage;
+	socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
+	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
+
+	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktStorage);
+
+	if( 0 == getsockname( sktHandle, sktAddr, &sktAddrLen ) )
 	{
 		InetAddress inetAddr;
-		uint16_t port = inetAddr.setIp( sktAddr );
+		uint16_t port = inetAddr.setIp( *sktAddr );
 		if( port )
 		{
 			ipAddr = inetAddr.toString();
@@ -1749,6 +1769,11 @@ std::string	VxGetLclIpAddress( SOCKET sktHandle, uint16_t* retPort )
 			}
 		}
 	}
+	else
+	{
+		RCODE rc = VxGetLastError();
+		LogMsg( LOG_ERROR, "%s error %d %s", __func__, rc, VxDescribeSktError( rc ) );
+	}
 
 	return ipAddr;
 }
@@ -1756,123 +1781,96 @@ std::string	VxGetLclIpAddress( SOCKET sktHandle, uint16_t* retPort )
 //============================================================================
 std::string VxGetRmtHostName( SOCKET& skt )
 {
-	struct sockaddr_in	oSktAddr;
-	socklen_t			sktAddrlen;
-	struct hostent		*hp;
-	char				hostName[ 255 ];
+	std::string ipAddr;
 
-	hostName[ 0 ] = 0;
 	// get peer address/port
-	sktAddrlen = sizeof( oSktAddr );
-	memset( &oSktAddr, 0, sizeof( oSktAddr ) );
-	if ( 0 > getpeername( skt, ( struct sockaddr * )&oSktAddr, &sktAddrlen ) )
+	struct sockaddr_storage sktStorage;
+	socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
+	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
+
+	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktStorage);
+
+	if ( 0 == getpeername( skt, sktAddr, &sktAddrLen ) )
 	{
-		strcpy( hostName, "UNKNOWN" );
-		VxReportHack( eHackerLevelSuspicious, eHackerReasonPeerName, skt, hostName, "HACK ALERT:getpeername failed: %.100s",
-					  strerror( errno ) );
+		InetAddress inetAddr;
+		uint16_t port = inetAddr.setIp( *sktAddr );
+		if( port )
+		{
+			ipAddr = inetAddr.toString();
+		}
 	}
 	else
 	{
-		// get host name
-		hp = gethostbyaddr( (char *)&oSktAddr.sin_addr, sizeof( struct in_addr ), oSktAddr.sin_family );
-		if ( hp )
-		{
-			strncpy( hostName, hp->h_name, sizeof( hostName ) );
-			hostName[ sizeof( hostName ) - 1 ] = '\0';
-
-			// convert to all lower case
-			for ( int i = 0; hostName[ i ]; i++ )
-				if ( isupper( hostName[ i ] ) )
-					hostName[ i ] = tolower( hostName[ i ] );
-
-			// Map it back to an IP address and check that the given address actually
-			// is an address of this host as a security check against spoofing a ip
-			hp = gethostbyname( hostName );
-			if ( !hp )
-			{
-				strcpy( hostName, inet_ntoa( oSktAddr.sin_addr ) );
-				VxReportHack( eHackerLevelSuspicious, eHackerReasonHostByName, skt, hostName, "reverse mapping checking gethostbyname for %.700s failed",
-							  hostName );
-			}
-			else
-			{
-				// find the address from the list of addresses
-				int addrIdx;
-				for ( addrIdx = 0; hp->h_addr_list[ addrIdx ]; addrIdx++ )
-					if ( 0 == memcmp( hp->h_addr_list[ addrIdx ], &oSktAddr.sin_addr, sizeof( oSktAddr.sin_addr ) ) )
-						break;
-				if ( !hp->h_addr_list[ addrIdx ] )
-				{
-					// address not found for the host name 
-					strcpy( hostName, inet_ntoa( oSktAddr.sin_addr ) );
-					VxReportHack( eHackerLevelSuspicious, eHackerReasonNoHostIpAddr, skt, hostName, "Address %.100s maps to %.600s, but does not map back to the address",
-								  hostName );
-				}
-			}
-		}
-		else
-		{
-			// Host name not found. use ip address. 
-			strcpy( hostName, inet_ntoa( oSktAddr.sin_addr ) );
-			LogMsg( LOG_ERROR, "Could not find host name of address %.100s.", hostName );
-		}
+		RCODE rc = VxGetLastError();
+		LogMsg( LOG_ERROR, "%s error %d %s", __func__, rc, VxDescribeSktError( rc ) );
 	}
 
 #ifdef IP_OPTIONS
-	// If IP options are supported, make sure there are none 
-	// options can be used to pretend you are from a ip address you are not from
-	// close any connection with options
-	unsigned char		options[ 200 ];
-	unsigned char *		ucp;
-	char text[ 1024 ], *cp;
-	socklen_t			optionLen;
-	int					ipproto;
-	struct protoent *	ip;
-
-	if ( NULL != ( ip = getprotobyname( "ip" ) ) )
-		ipproto = ip->p_proto;
-	else
-		ipproto = IPPROTO_IP;
-	optionLen = sizeof( options );
-	if ( ( 0 >= getsockopt( skt, ipproto, IP_OPTIONS, (char *)options, &optionLen ) )
-		 && ( 0 != optionLen ) )
+	if( !ipAddr.empty() )
 	{
-		cp = text;
-		if ( optionLen > 256 )
-			optionLen = 256;
-		//NOTE: buffer must be at least 3 times as big as options
-		for ( ucp = options; optionLen > 0; ucp++, optionLen--, cp += 3 )
-			sprintf( cp, " %2.2x", *ucp );
-		VxReportHack( eHackerLevelSuspicious, eHackerReasonHostIpOptions, skt, hostName, "Connection from %.100s with IP options:%.800s",
-					  inet_ntoa( oSktAddr.sin_addr ), text );
-		VxCloseSktNow( skt );
-	}
-#endif
+		// If IP options are supported, make sure there are none 
+		// options can be used to pretend you are from a ip address you are not from
+		// close any connection with options
+		unsigned char		options[ 200 ];
+		unsigned char *		ucp;
+		char text[ 1024 ], *cp;
+		socklen_t			optionLen;
+		int					ipproto;
+		struct protoent *	ip;
 
-	return std::string( hostName );
+		if ( NULL != ( ip = getprotobyname( "ip" ) ) )
+			ipproto = ip->p_proto;
+		else
+			ipproto = IPPROTO_IP;
+		optionLen = sizeof( options );
+		if ( ( 0 >= getsockopt( skt, ipproto, IP_OPTIONS, (char *)options, &optionLen ) )
+			 && ( 0 != optionLen ) )
+		{
+			cp = text;
+			if ( optionLen > 256 )
+				optionLen = 256;
+			//NOTE: buffer must be at least 3 times as big as options
+			for ( ucp = options; optionLen > 0; ucp++, optionLen--, cp += 3 )
+				sprintf( cp, " %2.2x", *ucp );
+			VxReportHack( eHackerLevelSuspicious, eHackerReasonHostIpOptions, skt, ipAddr.c_str(), "Connection from %s with IP options:%.800s",
+						  ipAddr.c_str(), text );
+			VxCloseSktNow( skt );
+		}
+	}
+#endif // IP_OPTIONS
+
+
+	return ipAddr;
 }
 
 //============================================================================
 std::string VxGetRemoteIpAddress( SOCKET skt )
 {
-	struct sockaddr oSktAddr;
-	socklen_t addrLen = sizeof( oSktAddr );
-	memset( &oSktAddr, 0, sizeof( oSktAddr ) );
-	if ( 0 > getpeername( skt, ( struct sockaddr * )&oSktAddr, &addrLen ) )
+	std::string ipAddr;
+
+	// get peer address/port
+	struct sockaddr_storage sktStorage;
+	socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
+	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
+
+	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktStorage);
+
+	if ( 0 == getpeername( skt, sktAddr, &sktAddrLen ) )
 	{
-		return std::string( "UNKNOWN" );
+		InetAddress inetAddr;
+		uint16_t port = inetAddr.setIp( *sktAddr );
+		if( port )
+		{
+			ipAddr = inetAddr.toString();
+		}
 	}
 
-	if( g_SktStatCallback )
+	if( !ipAddr.empty() && g_SktStatCallback )
 	{
-		std::string rmtIp = VxIpToString( &oSktAddr );
-		g_SktStatCallback->sktSetRemoteAddr( skt, rmtIp );
-		return rmtIp;
+		g_SktStatCallback->sktSetRemoteAddr( skt, ipAddr );
 	}
-	else
-	{
-		return VxIpToString( &oSktAddr );
-	}
+
+	return ipAddr;
 }
 
 //============================================================================
@@ -2780,9 +2778,9 @@ socklen_t VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddrStorage, ui
 //============================================================================
 socklen_t VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddrStorage, std::string ipAddr, uint16_t sktPort )
 {
-	if( sktPort < 80 )
+	if( sktPort < 9 )
 	{
-		LogMsg( LOG_ERROR, "VxSktAddrInit Invalid Port %d", sktPort );
+		LogMsg( LOG_ERROR, "%s Invalid Port %d", __func__, sktPort );
 	}
 
 	memset( &sockAddrStorage, 0, sizeof( sockAddrStorage ) );
@@ -2795,6 +2793,10 @@ socklen_t VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddrStorage, st
 		if( !ipAddr.empty() )
 		{
 			inet_pton( AF_INET6, ipAddr.c_str(), &addrIn->sin6_addr );
+		}
+		else
+		{
+			addrIn->sin6_addr = in6addr_any;
 		}
 
 		return sizeof( struct sockaddr_in6 );
@@ -2868,4 +2870,62 @@ EIpAddrType VxGetIpAddrType( const char* ipAddr )
     }
 
     return addrType;
+}
+
+//============================================================================
+bool VxGetDefaultLocalIp( bool ipv6, std::string& retLocalIp )
+{
+#if defined(TARGET_OS_WINDOWS)
+	static bool WsaInited = false;
+	if( !WsaInited )
+	{
+		WSADATA wsaData;
+
+		if (WSAStartup(MAKEWORD(1,1), &wsaData))
+			return 0;
+		WsaInited = true;
+	}
+#endif // defined(TARGET_OS_WINDOWS)
+
+	retLocalIp.clear();
+	// use udp so there is no actual internet connection traffic
+	SOCKET skt = socket( ipv6 ? PF_INET6 : PF_INET, SOCK_DGRAM, 0 );
+	if( INVALID_SOCKET == skt )
+	{
+		RCODE rc = VxGetLastError();
+		LogMsg( LOG_ERROR, "%s could not create udp socket %s error %s", __func__, ipv6 ? "ipv6" :  "ipv4", VxDescribeSktError( rc ) );
+		return false;
+	}
+
+	struct sockaddr_storage sktStorage;
+	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
+	// google.com address although does not matter because no internet traffic will result
+	std::string testIpAddr = ipv6 ? "2001:4860:4860::8888" : "142.250.191.206";
+	int addrLen = VxSktAddrInit( ipv6, sktStorage, testIpAddr, 9 ); // 9 is debugging port
+	sockaddr* sktAddr = reinterpret_cast<sockaddr*>( &sktStorage );
+	if( !sktAddr )
+	{
+		LogMsg( LOG_ERROR, "%s cast to sockaddr failed %s", __func__, ipv6 ? "ipv6" :  "ipv4" );
+		VxCloseSkt( skt );
+		return false;
+	}
+
+	if (connect(skt, sktAddr, addrLen) == -1) 
+	{
+		LogMsg( LOG_ERROR, "%s could not connect %s error %s", __func__, ipv6 ? "ipv6" :  "ipv4", VxDescribeSktError( VxGetLastError() ) );
+		VxCloseSkt( skt );
+		return false;
+    }
+
+	InetAddrAndPort inetAddr;
+	RCODE rc = VxGetLclAddress( skt, inetAddr );
+	VxCloseSkt( skt );
+	if( rc ) 
+	{
+		LogMsg( LOG_ERROR, "%s get local ip %s error %s", __func__, ipv6 ? "ipv6" :  "ipv4", VxDescribeSktError( rc ) );	
+		return false;
+    }
+
+	retLocalIp = inetAddr.toString( false );
+	return !retLocalIp.empty();
 }

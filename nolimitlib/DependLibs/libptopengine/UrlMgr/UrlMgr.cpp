@@ -31,12 +31,11 @@ void UrlInfo::updateOnlineId( VxGUID& onlineId )
 
     m_OnlineId = onlineId;
 
-    updateUrl( false );
-    updateUrl( true );
+    updateUrl();
 }
 
 //============================================================================
-void UrlInfo::updateUrl( bool ipv6 )
+void UrlInfo::updateUrl( void )
 {
     std::string url( "ptop://" );
     if( m_Url.size() > 7 && 0 == strncmp( m_Url.c_str(), "http://", 7 ) )
@@ -85,11 +84,10 @@ bool UrlMgr::lookupOnlineId( std::string& hostUrl, VxGUID& onlineId )
 }
 
 //============================================================================
-void UrlMgr::setMyOnlineNodeUrl( std::string& myNodeUrl )
+void UrlMgr::setMyOnlineNodeUrl( std::string& myNodeUrl, EIpAddrType addrType )
 {
     if( fillUrlInfo( myNodeUrl, m_MyUrlInfo ) )
-    {
-        
+    {        
         m_UrlMutex.lock();
         for( auto iter = m_UrlMap.begin(); iter != m_UrlMap.end(); ++iter )
         {
@@ -107,7 +105,7 @@ void UrlMgr::setMyOnlineNodeUrl( std::string& myNodeUrl )
 }
 
 //============================================================================
-std::string UrlMgr::resolveUrl( std::string& hostUrl )
+std::string UrlMgr::resolveUrl( std::string& hostUrl, EIpAddrType addrType )
 {
     if( hostUrl.empty() )
     {
@@ -141,7 +139,7 @@ std::string UrlMgr::resolveUrl( std::string& hostUrl )
 }
 
 //============================================================================
-void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
+void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId, EIpAddrType addrType )
 {
     if( !onlineId.isVxGUIDValid() )
     {
@@ -151,7 +149,7 @@ void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
     std::string ipAddr;
     uint16_t tcpPort{ 0 };
 
-    bool result = VxResolveUrl( hostUrl, tcpPort, ipAddr );
+    bool result = VxResolveUrl( hostUrl, tcpPort, ipAddr, addrType );
 
     bool foundUrl = false;
     m_UrlMutex.lock();
@@ -177,16 +175,16 @@ void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
 
     if( !foundUrl )
     {
-        addUrlAndOnlineId( hostUrl, onlineId );
+        addUrlAndOnlineId( hostUrl, onlineId, addrType );
     }
 }
 
 //============================================================================
-bool UrlMgr::addUrl( std::string& hostUrl )
+bool UrlMgr::addUrl( std::string& hostUrl, EIpAddrType addrType )
 {
     bool urlAdded{ false };
     UrlInfo urlInfo;
-    if( fillUrlInfo( hostUrl, urlInfo ) )
+    if( fillUrlInfo( hostUrl, urlInfo, addrType ) )
     {
         m_UrlMutex.lock();
         m_UrlMap[hostUrl] = urlInfo;
@@ -198,11 +196,11 @@ bool UrlMgr::addUrl( std::string& hostUrl )
 }
 
 //============================================================================
-bool UrlMgr::addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId )
+bool UrlMgr::addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId, EIpAddrType addrType )
 {
     bool urlAdded{ false };
     UrlInfo urlInfo;
-    if( fillUrlInfo( hostUrl, urlInfo ) )
+    if( fillUrlInfo( hostUrl, urlInfo, addrType ) )
     {
         urlInfo.updateOnlineId( onlineId );
         m_UrlMutex.lock();
@@ -215,7 +213,7 @@ bool UrlMgr::addUrlAndOnlineId( std::string& hostUrl, VxGUID& onlineId )
 }
 
 //============================================================================
-bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
+bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo, EIpAddrType addrType )
 {
     std::string strHost;
     std::string strFile;
@@ -234,7 +232,7 @@ bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
         {
             urlInfo.m_IpAddr = strHost;
         }
-        else if( VxResolveUrl( strHost.c_str(), tcpPort, inetAddr ) )
+        else if( VxResolveUrl( strHost.c_str(), tcpPort, inetAddr, addrType ) )
         {
            urlInfo.m_IpAddr = inetAddr.toString();
         }
@@ -263,32 +261,7 @@ bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo )
             hadOnlineId = true;
         }
 
-        std::string url( "ptop://" );
-        if( hostUrl.size() > 7 && 0 == strncmp( hostUrl.c_str(), "http://", 7 ) )
-        {
-            url = "http://";
-        }
-
-        if( addrType == eIpAddrTypeIpv4 )
-        {
-            url += urlInfo.m_IpAddr;
-        }
-        else
-        {
-            url += "[";
-            url += urlInfo.m_IpAddr;
-            url += "]";
-        }
-        
-        url += ":";
-        url += std::to_string( tcpPort );
-        if( hadOnlineId )
-        {
-            url += "/";
-            url += strFile;
-        }
-
-        urlInfo.m_Url = url;
+        result = VxMakePtopUrl( urlInfo.m_IpAddr, tcpPort, urlInfo.m_Url );
     }
 
     return result;

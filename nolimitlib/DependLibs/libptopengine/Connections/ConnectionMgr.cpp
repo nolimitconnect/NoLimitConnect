@@ -273,21 +273,6 @@ void ConnectionMgr::resetDefaultHostUrl( EHostType hostType )
 //============================================================================
 void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUrlIn )
 {
-    if( m_Engine.getIsMyHostServiceEnabled( hostType ) )
-    {
-        // I am the host
-        std::string myUrl = m_Engine.getMyOnlineUrl();
-        lockConnectionList();
-        m_DefaultHostUrlList[ hostType ] = myUrl;
-        m_DefaultHostIdList[ hostType ] = m_Engine.getMyOnlineId();
-        unlockConnectionList();
-
-        updateUrlCache( myUrl, m_Engine.getMyOnlineId() );
-        m_Engine.getUrlMgr().updateUrlCache( myUrl, m_Engine.getMyOnlineId() );
-        m_Engine.getHostUrlListMgr().updateHostUrl( hostType, m_Engine.getMyOnlineId(), myUrl );
-        return;
-    }
-
     std::string hostUrl = m_Engine.getUrlMgr().resolveUrl( hostUrlIn );
 
     lockConnectionList();
@@ -327,6 +312,17 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
             m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, hostUrl.c_str(), myUrl.c_str(), this, nullptr, hostType );
         }
     }
+}
+
+//============================================================================
+void ConnectionMgr::updateMyEnabledHostUrl( EHostType hostType, std::string& myUrl, VxGUID myOnlineId )
+{
+    lockConnectionList();
+    m_DefaultHostUrlList[hostType] = myUrl;
+    m_DefaultHostIdList[hostType] = myOnlineId;
+    unlockConnectionList();
+
+    updateUrlCache( myUrl, myOnlineId );
 }
 
 //============================================================================

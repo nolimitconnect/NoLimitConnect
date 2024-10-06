@@ -82,16 +82,10 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType )
     std::string strIP; 
     EIpAddrType addrType;
     bool validIp = m_DirectConnectId.getIpAddress( strIP, addrType );
-    if( validIp && eIpAddrTypeUnknown != addrType )
+    if( validIp && eIpAddrTypeUnknown != addrType && VxMakePtopUrl( strIP, m_DirectConnectId.getPort(), myUrl ) )
     {
-        if( addrType == eIpAddrTypeIpv6 )
-        {
-            StdStringFormat( myUrl, "ptop://[%s]:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
-        }
-        else
-        {
-            StdStringFormat( myUrl, "ptop://%s:%d/%s", strIP.c_str(), m_DirectConnectId.getPort(), getMyOnlineId().toOnlineIdString().c_str() );
-        }
+        myUrl += "/";
+        myUrl += getMyOnlineId().toOnlineIdString().c_str();
         
         if( hostType != eHostTypeUnknown )
         {

@@ -27,7 +27,7 @@ public:
 	NetworkMonitor( P2PEngine& engine );
     ~NetworkMonitor() = default;
 
-	void						networkMonitorStartup( const char* preferredNetIp = "", const char* cellNetIp = "" );
+	void						networkMonitorStartup( void );
 	void						networkMonitorShutdown( void );
 
 	void						onOncePerSecond( void );
@@ -39,13 +39,15 @@ public:
     void                        doNetworkConnectTestThread( VxThread* startupThread );
 
 protected:
+    void                        triggerDetermineNetworkState( void );
+
     void                        triggerDetermineIp( void );
     std::string                 determineLocalIp( void );
     bool                        requiresAnOpenPort( void );
 
 	P2PEngine&					m_Engine;
-	bool						m_bIsStarted = false;
-    bool						m_InternetAvailable = false;
+	bool						m_bIsStarted{ false };
+    bool						m_InternetAvailable{ false };
     int							m_iCheckInterval{ NET_MONITOR_CHECK_INTERVAL_SEC / 2 }; // shorten time till first connection test
     VxThread                    m_NetMonitorThread;
     VxSemaphore                 m_NetSemaphore;

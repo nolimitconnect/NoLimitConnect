@@ -9,16 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CoreLib/VxDefs.h>
-
 #include <string>
 #include <vector>
-
-#ifndef TARGET_OS_WINDOWS
-    #include <netdb.h>        /* getaddrinfo(3) et al.                       */
-    #include <netinet/in.h>   /* sockaddr_in & sockaddr_in6 definition.      */
-	#include <unistd.h> 
-#endif // TARGET_OS_WINDOWS
 
 enum EIpAddrType
 {
@@ -35,6 +27,11 @@ class InetAddrAndPort;
 class InetAddrIPv4;
 class InetAddrIPv4AndPort;
 class PktBlobEntry;
+
+struct sockaddr;
+struct sockaddr_in;
+struct sockaddr_in6;
+struct sockaddr_storage;
 
 //============================================================================
 // size 16 bytes
@@ -128,7 +125,7 @@ public:
 
 	// set ip from string
 	bool                        fromString( const char* pIpAddress );
-	std::string					toString( void );
+	std::string					toString( bool includePort = false );
 
 	InetAddrAndPort&            operator=(const InetAddress& inetAddr);
 	InetAddrAndPort&            operator=(const InetAddrAndPort& inetAddr);
@@ -239,7 +236,7 @@ public:
 
 	// set ip from string
 	bool                        fromString( const char* pIpAddress );
-	std::string					toString( void );
+	std::string					toString( bool includePort = false );
 
 	InetAddrIPv4AndPort&        operator=(const InetAddrIPv4& inetAddr);
 	InetAddrIPv4AndPort&        operator=(const InetAddrIPv4AndPort& inetAddr);

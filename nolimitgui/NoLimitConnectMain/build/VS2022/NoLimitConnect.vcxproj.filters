@@ -326,9 +326,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PluginSettingsWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\RelayServiceWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderGlLogic.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1268,9 +1265,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PluginSettingsWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\RelayServiceWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderGlLogic.cpp">

@@ -76,18 +76,8 @@ NetworkStateMachine::NetworkStateMachine(	P2PEngine& engine,
 , m_NetworkMgr( networkMgr )
 , m_NetServicesMgr( engine.getNetServicesMgr() )
 , m_NetConnector( engine.getNetConnector() )
-, m_StateMachineInitialized( false )
 //, m_NetPortForward( *this )
 , m_DirectConnectTester( *this )
-, m_bUserLoggedOn( false )
-, m_bIsCellNetwork( false )
-, m_bRelayServiceConnected( false )
-, m_eCurRunningStateType( eNetworkStateTypeLost )
-, m_bWebsiteUrlsResolved( false )
-, m_LastKnownExternalIpAddr( "0.0.0.0" )
-, m_LastUpnpForwardTime( 0 )
-, m_LastUpnpForwardPort( 0 )
-, m_LastUpnpForwardIp( "" )
 {
     for( int i = 0; i < eMaxNetLayerType; i++ )
     {
@@ -127,7 +117,7 @@ void NetworkStateMachine::stateMachineStartup( void )
 //============================================================================
 void NetworkStateMachine::startupNetworkModules( void )
 {
-	LogModule( eLogNetworkState, LOG_DEBUG, "NetworkStateMachine::startupNetworkModules" );
+	LogModule( eLogNetworkState, LOG_DEBUG, "NetworkStateMachine::%s", __func__ );
 	m_NetworkMgr.networkMgrStartup();
 
 	m_NetServicesMgr.netServicesStartup();
@@ -356,12 +346,13 @@ void NetworkStateMachine::updateFromEngineSettings( EngineSettings& engineSettin
     m_Engine.getNetStatusAccum().setIpPort( u16TcpPort );
 	m_Engine.getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );
 
+	bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
 	EFirewallTestType firewallTestType = engineSettings.getFirewallTestSetting();
 	m_Engine.getNetStatusAccum().setFirewallTestType( firewallTestType );
 	if( eFirewallTestAssumeNoFirewall == firewallTestType )
 	{
 		std::string externIp;
-		engineSettings.getUserSpecifiedExternIpAddr( externIp );
+		engineSettings.getUserSpecifiedExternIpAddr( externIp, ipv6 );
 		if( !externIp.empty() )
 		{
 			m_Engine.getNetStatusAccum().setDirectConnectTested( true, false, externIp );
@@ -375,8 +366,7 @@ void NetworkStateMachine::updateFromEngineSettings( EngineSettings& engineSettin
         m_NetworkMgr.setNetworkKey( networkKey.c_str() );
         // will restore only if network key has changed
         m_Engine.getBigListMgr().dbRestoreAll();
-
-    }
+    }	
 }
 
 //============================================================================
@@ -423,14 +413,7 @@ void NetworkStateMachine::fromGuiNetworkAvailable( const char* lclIp, bool isCel
 		m_LocalNetworkIp = lclIp;
 		m_bIsCellNetwork = isCellularNetwork;
 		VxSetLclIpAddress( lclIp );
-#if ENABLE_COMPONENT_NEARBY
-		if( addrType == eIpAddrTypeIpv4 )
-		{
-			m_Engine.lockAnnouncePktAccess();
-			m_PktAnn.getLanIPv4().setIp( lclIp );
-			m_Engine.unlockAnnouncePktAccess();
-		}
-#endif // ENABLE_COMPONENT_NEARBY
+
 		m_Engine.lockAnnouncePktAccess();
         m_PktAnn.setOnlinePort( u16TcpPort );
 		m_Engine.unlockAnnouncePktAccess();
@@ -452,7 +435,7 @@ void NetworkStateMachine::fromGuiNetworkAvailable( const char* lclIp, bool isCel
 void NetworkStateMachine::fromGuiNetworkLost( void )
 {
     LogModule( eLogNetworkState, LOG_INFO, "NetworkStateMachine::fromGuiNetworkLost" );
-	m_Engine.getPeerMgr().stopListening( false );
+	m_Engine.getPeerMgr().stopListening( m_Engine.getEngineSettings().getUseIpv6() );
 	m_LocalNetworkIp = "";
 	m_NetworkStateMutex.lock();
 	m_NetworkEventList.emplace_back( new NetworkEventLost( *this ) );
@@ -515,21 +498,37 @@ ENetLayerState NetworkStateMachine::getNetLayerState( ENetLayerType netLayer )
 //============================================================================
 void NetworkStateMachine::fromGuiNetworkSettingsChanged( void )
 {
-    m_Engine.getNetStatusAccum().setFirewallTestType( m_Engine.getEngineSettings().getFirewallTestSetting() );
+	EFirewallTestType firewallType = m_Engine.getEngineSettings().getFirewallTestSetting();
+    m_Engine.getNetStatusAccum().setFirewallTestType( firewallType );
 
-	if( m_LocalNetworkIp.length() )
+	bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
+	std::string externIp;
+	if( eFirewallTestAssumeNoFirewall == firewallType )
+	{
+		m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( externIp, ipv6 );
+	}
+
+	if( !externIp.empty() )
+	{
+		EIpAddrType addrType{ eIpAddrTypeUnknown };
+		std::string myIp;
+		m_Engine.getMyPktAnnounce().getOnlineIpAddress( myIp, addrType );
+		if( externIp != myIp )
+		{
+			m_Engine.getMyPktAnnounce().setOnlineIpAddress( externIp );
+		}
+
+		fromGuiNetworkLost();
+		m_Engine.getNetStatusAccum().fromGuiNetworkSettingsChanged();
+		fromGuiNetworkAvailable( externIp.c_str(), false );
+	}
+	else if( m_LocalNetworkIp.length() )
 	{
 		bool isCell = isCellularNetwork();
 		std::string ip = m_LocalNetworkIp;
         LogModule( eLogNetworkState, LOG_INFO, "NetworkStateMachine::fromGuiNetworkSettingsChanged" );
 		fromGuiNetworkLost();
-#if ENABLE_COMPONENT_NEARBY
-		EIpAddrType addrType = VxGetIpAddrType( ip.c_str() );
-		if( eIpAddrTypeIpv4 == addrType )
-		{
-			m_PktAnn.getLanIPv4().setIp( ip.c_str() );
-		}
-#endif // ENABLE_COMPONENT_NEARBY
+
 		m_Engine.getNetStatusAccum().fromGuiNetworkSettingsChanged();
 		fromGuiNetworkAvailable( ip.c_str(), isCell );
 	}

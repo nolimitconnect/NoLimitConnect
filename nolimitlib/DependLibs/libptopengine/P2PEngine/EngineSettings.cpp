@@ -81,11 +81,11 @@ void EngineSettings::getNetHostSettings( NetHostSetting& netSettings )
     uint16_t u16Port = getTcpIpPort();
     netSettings.setTcpPort( u16Port );
 
-    getUserSpecifiedExternIpAddr( strValue );
-    netSettings.setUserSpecifiedExternIpAddr( strValue.c_str() );
-
     bool useIpv6 = getUseIpv6();
     netSettings.setUseIpv6( useIpv6 );
+
+    getUserSpecifiedExternIpAddr( strValue, useIpv6 );
+    netSettings.setUserSpecifiedExternIpAddr( strValue.c_str() );
 
     bool useUpnp = getUseUpnpPortForward();
     netSettings.setUseUpnpPortForward( useUpnp );
@@ -114,6 +114,7 @@ void EngineSettings::getNetHostSettings( NetHostSetting& netSettings )
 //============================================================================
 void EngineSettings::setNetHostSettings( NetHostSetting& netSettings )
 {
+    bool ipv6 = netSettings.getUseIpv6();
     setNetworkKey( netSettings.getNetworkKey() );
     setNetworkHostUrl( netSettings.getNetworkHostUrl() );
     setConnectTestUrl( netSettings.getConnectTestUrl() );
@@ -121,8 +122,8 @@ void EngineSettings::setNetHostSettings( NetHostSetting& netSettings )
     setGroupHostUrl( netSettings.getGroupHostUrl() );
     setChatRoomHostUrl( netSettings.getChatRoomHostUrl() );
     setTcpIpPort( netSettings.getTcpPort() );
-    setUserSpecifiedExternIpAddr( netSettings.getUserSpecifiedExternIpAddr() );
-    setUseIpv6( netSettings.getUseIpv6() );
+    setUserSpecifiedExternIpAddr( netSettings.getUserSpecifiedExternIpAddr(), ipv6 );
+    setUseIpv6( ipv6 );
     setUseUpnpPortForward( netSettings.getUseUpnpPortForward() );
 
     int32_t firewallType = netSettings.getFirewallTestType();
@@ -395,15 +396,24 @@ void EngineSettings::setUseIpv6( bool useIpv6 )
 {
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6 );
+    m_HasUseIpv6BeenCached = true;
+    m_CachedUseIpv6 = useIpv6;
     m_SettingsDbMutex.unlock();
 }
 
 //============================================================================
 bool EngineSettings::getUseIpv6( void )
 {
+    if( m_HasUseIpv6BeenCached )
+    {
+        return m_CachedUseIpv6;
+    }
+
 	bool useIpv6 = false;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6, false );
+    m_HasUseIpv6BeenCached = true;
+    m_CachedUseIpv6 = useIpv6;
     m_SettingsDbMutex.unlock();
 	return useIpv6;
 }
@@ -509,11 +519,19 @@ void EngineSettings::setUseNatPortForward( bool bUseNatPortForward )
 //============================================================================
 EFirewallTestType EngineSettings::getFirewallTestSetting( void )
 {
+    if( m_HaveCachedFirewallTestType )
+    {
+        return m_CachedFirewallTestType;
+    }
+
 	uint16_t u16Setting;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "FirewallTest", u16Setting, 0 );
+    m_CachedFirewallTestType = ( EFirewallTestType )u16Setting;
+    m_HaveCachedFirewallTestType = true;
     m_SettingsDbMutex.unlock();
-	return ( EFirewallTestType)u16Setting;
+
+	return m_CachedFirewallTestType;
 }
 
 //============================================================================
@@ -522,6 +540,8 @@ void EngineSettings::setFirewallTestSetting( EFirewallTestType eFirewallTestType
 	uint16_t u16Setting = (uint16_t)eFirewallTestType;
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "FirewallTest", u16Setting );
+    m_CachedFirewallTestType = eFirewallTestType;
+    m_HaveCachedFirewallTestType = true;
     m_SettingsDbMutex.unlock();
 }
 

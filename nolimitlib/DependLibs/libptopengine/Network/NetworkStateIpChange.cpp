@@ -18,6 +18,7 @@
 
 #include <NetLib/VxPeerMgr.h>
 
+#include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxParse.h>
 
@@ -96,10 +97,11 @@ void NetworkStateIpChange::runNetworkState( void )
         return;
     }
 
+    bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
     EFirewallTestType firewallTestType = m_Engine.getEngineSettings().getFirewallTestSetting();
 	if( eFirewallTestAssumeNoFirewall == firewallTestType )
 	{
-		std::string externIp = m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr();
+		std::string externIp = m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( ipv6 );
 		
 		InetAddress externAddr;
 		externAddr.setIp( externIp.c_str() );
@@ -128,13 +130,14 @@ void NetworkStateIpChange::runNetworkState( void )
 	}
 
 	//LogMsg( LOG_INFO, "111 NetworkStateIpChange::runNetworkState checking listen ready %3.3f\n", availTimer.elapsedSec() );
+
 	int waitForListenCnt = 0;
 	while( ( false == m_NetworkStateMachine.checkAndHandleNetworkEvents() )
-		&& ( false == m_Engine.getPeerMgr().isReadyToAcceptConnections( false ) ) )
+		&& ( false == m_Engine.getPeerMgr().getIsReadyToAcceptConnections( ipv6 ) ) )
 	{
-		VxSleep( 1000 );
+		VxSleep( 500 );
 		waitForListenCnt++;
-		if( waitForListenCnt > 5 )
+		if( waitForListenCnt > 10 )
 		{
             if( IsLogEnabled( eLogNetworkState ) )
             {
@@ -148,11 +151,7 @@ void NetworkStateIpChange::runNetworkState( void )
 		}
 	}
 
-    if( IsLogEnabled( eLogNetworkState ) )
-    {
-	    LogMsg( LOG_INFO, "Notify GUI Starting Direct connect Test %3.3f", availTimer.elapsedSec() );            
-        m_Engine.getToGui().toGuiStatusMessage( "#Network Testing if port is open" );
-    }
+    LogModule( eLogNetworkState, LOG_INFO, "Notify GUI Starting Direct connect Test %3.3f", availTimer.elapsedSec() );   
 
     // wait for listen port time to open
     bool shouldAbort = false;
@@ -176,7 +175,7 @@ void NetworkStateIpChange::runNetworkState( void )
 
         LogMsg( LOG_INFO, "Waiting for listen port %d to open at sec %3.3f", m_Engine.getPeerMgr().getListenPort(), availTimer.elapsedSec() );
         m_Engine.getToGui().toGuiStatusMessage( "#Network Testing waiting for our listen port to open" );
-        VxSleep( 1000 );
+        VxSleep( 500 );
         timeEnd = GetGmtTimeMs();
     }
 

@@ -59,9 +59,10 @@ void NetStatusAccum::onNetStatusChange( void )
         internetStatus = eInternetAssumeDirectConnect;
         netAvailStatus = eNetAvailP2PAvail; // must be at least P2P available or will not accept incomming accept sockets
 
+        bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
         if( m_ExternAddr.empty() )
         {
-            setExternalIpAddress( m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr() );
+            setExternalIpAddress( m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( ipv6 ) );
         }
 
         if( isDirectConnectTested() )
@@ -396,20 +397,7 @@ void NetStatusAccum::getNodeUrl( std::string& retNodeUrl )
         EIpAddrType addrType = VxGetIpAddrType( ipAddr.c_str() );
         if( addrType != eIpAddrTypeUnknown && VxIsPortValid( m_IpPort ) )
         {
-            retNodeUrl = "ptop://";
-            if( addrType == eIpAddrTypeIpv4 )
-            {
-                retNodeUrl += ipAddr;
-            }
-            else
-            {
-                retNodeUrl += "[";
-                retNodeUrl += ipAddr;
-                retNodeUrl += "]";
-            }
-            
-            retNodeUrl += ":";
-            retNodeUrl += std::to_string( m_IpPort );
+            VxMakePtopUrl( ipAddr, m_IpPort, retNodeUrl );
         }
     }
 }
@@ -593,4 +581,82 @@ std::string NetStatusAccum::getLocalIpAddress( void )
     std::string ipAddr = m_LocalAddr;
     m_AccumMutex.unlock();
     return ipAddr;
+}
+
+//============================================================================
+void NetStatusAccum::setUseFixedIp( std::string externIp )
+{
+    m_AccumMutex.lock();
+    m_HasFixedIpAddr = true;
+    m_ExternAddr = externIp;
+    m_AccumMutex.unlock();
+}
+
+//============================================================================
+void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
+{
+    // this will only get called on startup or engine settings changed
+    // use it to get default local addresses
+    bool addrChanged{ false };
+    bool portChanged{ false };
+    bool useIpv6Changed{ false };
+    
+    if( m_LocalAddrIpv6.empty() )
+    {
+        if( VxGetDefaultLocalIp( true, m_LocalAddrIpv6 ) )
+        {        
+            addrChanged |= true;
+        }
+    }
+
+    if( m_LocalAddrIpv4.empty() )
+    {
+        if( VxGetDefaultLocalIp( false, m_LocalAddrIpv4 ) )
+        {
+            addrChanged |= true;
+        }
+    }
+
+    std::string useThisLocaIpAddr;
+    lockAccum();
+    if( ipPort != m_IpPort )
+    {
+        m_IpPort = ipPort;
+        portChanged = true;
+    }
+
+    if( useIpv6 != m_UseIpv6 )
+    {
+        m_UseIpv6 = useIpv6;
+        useIpv6Changed = true;
+    }
+
+    if( useIpv6 && ( m_LocalAddr.empty() || ( !m_LocalAddrIpv6.empty() && m_LocalAddr != m_LocalAddrIpv6 ) ) )
+    {
+        m_LocalAddr = m_LocalAddrIpv6;
+        addrChanged |= true;
+    }
+    else if( m_LocalAddr.empty() || ( !m_LocalAddrIpv4.empty() && m_LocalAddr != m_LocalAddrIpv4 )  )
+    {
+        m_LocalAddr = m_LocalAddrIpv4;
+        addrChanged |= true;
+    }
+
+    useThisLocaIpAddr = m_LocalAddr;
+    unlockAccum();
+
+    // we want to open port and start listening as soon as possible in startup
+    if( addrChanged || portChanged || useIpv6Changed )
+    {
+        if( !useThisLocaIpAddr.empty() )
+        {
+            m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
+            m_Engine.getPeerMgr().startListening( useIpv6, ipPort );
+            if( addrChanged )
+            {
+                // if we have a local ip address we have internet
+                setInternetAvail( true );
+            }
+        }
+    }
 }

@@ -24,9 +24,9 @@ NetActionIsMyPortOpen::NetActionIsMyPortOpen( NetServicesMgr& netServicesMgr )
 //============================================================================
 void NetActionIsMyPortOpen::doAction( void )
 {
-	std::string myIp = "";
-	ENetCmdError eResult = m_NetServicesMgr.doIsMyPortOpen( myIp, false );
-	LogModule( eLogIsPortOpenTest, LOG_INFO, "NetActionIsMyPortOpen::doAction result %s ip %s", DescribeNetCmdError( eResult ), myIp.c_str() );
+	std::string externIp;
+	ENetCmdError eResult = m_NetServicesMgr.doIsMyPortOpen( externIp );
+	LogModule( eLogIsPortOpenTest, LOG_INFO, "NetActionIsMyPortOpen::doAction %s result %s ", externIp.c_str(), DescribeNetCmdError( eResult ) );
 }
 
 

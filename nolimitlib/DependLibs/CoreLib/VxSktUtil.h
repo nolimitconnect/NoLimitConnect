@@ -9,13 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-// #define USE_BIND_LOCAL_IP 1  // bind to local ip address when using vpn causes connect fail with error 110 (Connection timed out)
-
 #define EIM_ALIVE_TIMEDOUT          20000
 
 #define WEBSITE_CONNECT_TIMEOUT		12000
 #define NETSERVICE_CONNECT_TIMEOUT	15000
-#define ANCHOR_CONNECT_TIMEOUT		15000
+#define NETSERVICE_IS_PORT_OPEN_TXRX_TIMEOUT	25000
+
 #define SKT_CONNECT_TIMEOUT			6000
 #define SKT_IPV6_CONNECT_TIMEOUT	4000
 #define SKT_SEND_TIMEOUT			3000
@@ -26,10 +25,12 @@
 #define VX_NO_HOST_IPS_FOUND	    -1
 #define VX_INVALID_SOCK_ADDRESS     -2
 
-#define VX_MAX_HOST_IPS             10 //maximum host ips returned by VxGetLocalIps
+#define VX_MAX_HOST_IPS             10 // maximum host ips returned by VxGetLocalIps
 
-const int INET6_MAX_STR_LEN = 68 + 6; // plus 6 in case port is appended
-const int INET6_MAX_BINARY_LEN = 16; // 16 bytes
+const int INET6_MAX_STR_LEN = 68 + 8;  // plus 8 in case port is appended and ip is in brackets
+const int INET6_MAX_BINARY_LEN = 16;   // 16 bytes
+
+#include "VxDefs.h"
 
 #ifdef __cplusplus
 
@@ -48,17 +49,19 @@ bool                            VxIsIpValid( std::string& ipAddr );
 bool                            VxIsIpv6Address( std::string& ipAddr );
 bool							VxIsIpv4Address( std::string& ipAddr );
 
+bool							VxMakePtopUrl( std::string& ipAddr, uint16_t port, std::string& retPtopUrl );
+
 std::string						VxGetRemoteIpAddress( SOCKET skt );
 std::string						VxGetRmtHostName( SOCKET& skt );
 //! split host name from website file path
 bool							VxSplitHostAndFile( const char* pFullUrl,			// full url.. example http://www.mysite.com/index.html or www.mysite.com/images/me.png
 													std::string& strRetHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
 													std::string& strRetFileName,	// return file name.. images/me.png
-													uint16_t& u16RetPort );				// return port if specified else return 80 as default	
+													uint16_t& u16RetPort );			// return port if specified else return 80 as default	
 void							VxIpInNetOrderToString( uint32_t u32IpAddr, std::string& retIp );
 uint32_t						VxStringToIpInNetOrder( std::string ip );
 std::string						VxIpToString( struct sockaddr * addr );
-void							VxFillHints( struct addrinfo& oHints, bool bUdpSkt = false, bool ipv6Only = false );
+void							VxFillHints( struct addrinfo& retHints, EIpAddrType addrType );
 void							VxGetLocalIps( std::vector<InetAddress>& aRetIpAddress );
 
 InetAddress						VxGetSelectedLocalIp( void );
@@ -66,9 +69,9 @@ InetAddress						VxGetMyGlobalIPv6Address( void );
 InetAddress						VxGetDefaultIPv4Address( void );
 InetAddress						VxGetDefaultIPv6Address( void );
 bool							VxTestConnectionOnSpecificLclAddress( InetAddress &oLclAddr );
-bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& oRetAddr, bool ipv6Only = false );
-bool							VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, bool ipv6Only = false );
-bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, bool ipv6Only = false ); // assumes pUrl is just host name
+bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& oRetAddr, EIpAddrType addrType );
+bool							VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, EIpAddrType addrType );
+bool							VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, EIpAddrType addrType ); // assumes pUrl is just host name
 
 //! return true if ip is in list of local ips
 bool							VxLocalIpExists( std::string& strIpAddress );
@@ -79,6 +82,7 @@ SOCKET							VxConnectToWebsite( InetAddrAndPort&	oLclIp,			// ip of adapter to 
 													std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
 													std::string&		strFile,		// return file name.. images/me.png
                                                     uint16_t&			u16Port,		// return port
+													EIpAddrType			addrType,
 													int					iConnectTimeoutMs );
 
 bool							VxBindSkt( SOCKET sktHandle, InetAddress & oLclAddr, uint16_t u16Port );
@@ -87,6 +91,7 @@ SOCKET							VxConnectTo( InetAddrAndPort&	oLclIp,
 											 InetAddrAndPort&	oRmtIp,
 											 const char*		pIpOrUrl,				// remote ip or url
                                              uint16_t			u16Port,				// port to connect to
+											 EIpAddrType		addrType,
                                              int				iTimeoutMilliSeconds,	// milli seconds before connect attempt times out
                                              RCODE *			retSktErr = 0 );		// return connect error if retSktErr is not null
 SOCKET                          VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs = SKT_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr);
@@ -124,6 +129,8 @@ ISktStatCallbackInterface*		VxGetSktStatCallback( void );
 socklen_t						VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddr, uint16_t sktPort = 0 );
 socklen_t						VxSktAddrInit( bool ipv6, struct sockaddr_storage& sockAddr, std::string ipAddr, uint16_t sktPort );
 bool							VxSktAddrGetParams( bool ipv6, struct sockaddr_storage& sockAddr, std::string& retIp, uint16_t& retPort );
+
+bool							VxGetDefaultLocalIp( bool ipv6, std::string& retLocalIp );
 
 #endif // __cplusplus
 

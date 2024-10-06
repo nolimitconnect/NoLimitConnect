@@ -63,7 +63,7 @@ bool NearbyMgr::fromGuiNearbyBroadcastEnable( bool enable )
         {
             setBroadcastPort( u16MulticastPort );
             result = setBroadcastEnable( enable );
-            LogModule( eLogMulticast, LOG_INFO, "fromGuiNearbyBroadcastEnable enable %d port %d", enable, u16MulticastPort );
+            LogModule( eLogUdp, LOG_INFO, "fromGuiNearbyBroadcastEnable enable %d port %d", enable, u16MulticastPort );
         }
         else
         {
@@ -207,7 +207,7 @@ bool NearbyMgr::setBroadcastEnable( bool enable )
     bool result = multicastEnable( enable );
     if( !result )
     {
-        LogModule( eLogMulticast, LOG_ERROR, "setBroadcastEnable %d failed", enable);
+        LogModule( eLogUdp, LOG_ERROR, "setBroadcastEnable %d failed", enable);
     }
 
     return result;
@@ -224,11 +224,11 @@ void NearbyMgr::handleMulticastSktCallback( std::shared_ptr<VxSktBase>& sktBase 
     switch( sktBase->getCallbackReason() )
     {
     case eSktCallbackReasonConnectError:
-        LogModule( eLogMulticast, LOG_ERROR, "NetworkMgr:Multicast Skt %d connect error %s thread 0x%x", sktBase->m_SktNumber, sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
+        LogModule( eLogUdp, LOG_ERROR, "NetworkMgr:Multicast Skt %d connect error %s thread 0x%x", sktBase->m_SktNumber, sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
         break;
 
     case eSktCallbackReasonConnected:
-        LogModule( eLogMulticast, LOG_VERBOSE, "NetworkMgr:Multicast Skt %d connected from %s port %d thread 0x%x", sktBase->m_SktNumber, sktBase->getRemoteIp().c_str(), sktBase->m_LclIp.getPort(), VxGetCurrentThreadId() );
+        LogModule( eLogUdp, LOG_VERBOSE, "NetworkMgr:Multicast Skt %d connected from %s port %d thread 0x%x", sktBase->m_SktNumber, sktBase->getRemoteIp().c_str(), sktBase->m_LclIp.getPort(), VxGetCurrentThreadId() );
         break;
 
     case eSktCallbackReasonData:
@@ -236,19 +236,19 @@ void NearbyMgr::handleMulticastSktCallback( std::shared_ptr<VxSktBase>& sktBase 
         break;
 
     case eSktCallbackReasonClosed:
-        LogModule( eLogMulticast, LOG_VERBOSE, "NetworkMgr:Multicast Skt %d closed %s thread 0x%x", sktBase->m_SktNumber, sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
+        LogModule( eLogUdp, LOG_VERBOSE, "NetworkMgr:Multicast Skt %d closed %s thread 0x%x", sktBase->m_SktNumber, sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
         break;
 
     case eSktCallbackReasonError:
-        LogModule( eLogMulticast, LOG_ERROR, "NetworkMgr:Multicast Skt %d error %s thread 0x%x", sktBase->m_SktNumber, sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
+        LogModule( eLogUdp, LOG_ERROR, "NetworkMgr:Multicast Skt %d error %s thread 0x%x", sktBase->m_SktNumber, sktBase->describeSktError( sktBase->getLastSktError() ), VxGetCurrentThreadId() );
         break;
 
     case eSktCallbackReasonClosing:
-        LogModule( eLogMulticast, LOG_VERBOSE, "NetworkMgr:Multicast eSktCallbackReasonClosing Skt %d thread 0x%x", sktBase->m_SktNumber, VxGetCurrentThreadId() );
+        LogModule( eLogUdp, LOG_VERBOSE, "NetworkMgr:Multicast eSktCallbackReasonClosing Skt %d thread 0x%x", sktBase->m_SktNumber, VxGetCurrentThreadId() );
         break;
 
     case eSktCallbackReasonConnecting:
-        LogModule( eLogMulticast, LOG_VERBOSE, "NetworkMgr:Multicast eSktCallbackReasonConnecting Skt %d thread 0x%x", sktBase->m_SktNumber, VxGetCurrentThreadId() );
+        LogModule( eLogUdp, LOG_VERBOSE, "NetworkMgr:Multicast eSktCallbackReasonConnecting Skt %d thread 0x%x", sktBase->m_SktNumber, VxGetCurrentThreadId() );
         break;
 
     default:
@@ -279,15 +279,15 @@ void NearbyMgr::callbackNetAvailStatusChanged( ENetAvailStatus netAvalilStatus )
 //============================================================================
 void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktAnnounce* pktAnnounce )
 {
-    LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr::multicastPktAnnounceAvail" );
+    LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr::multicastPktAnnounceAvail" );
     if( !pktAnnounce->getMyOnlineId().isVxGUIDValid() )
     {
-        LogModule( eLogMulticast, LOG_ERROR, "NearbyMgr multicast pktAnnounce invalid " );
+        LogModule( eLogUdp, LOG_ERROR, "NearbyMgr multicast pktAnnounce invalid " );
     }
 
     if( pktAnnounce->getMyOnlineId() == m_Engine.getMyOnlineId() )
     {
-        LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr multicast pktAnnounce cannot nearby myself" );
+        LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr multicast pktAnnounce cannot nearby myself" );
         return;
     }
 
@@ -299,7 +299,7 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
     {
         if( 0 == memcmp( &iter->second, netIdent, sizeof( VxNetIdent ) ) )
         {
-            LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr multicast pktAnnounce is duplicate" );
+            LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr multicast pktAnnounce is duplicate" );
             m_MulticastIdentMutex.unlock();
             return;
         }
@@ -323,7 +323,7 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
 
     if( !m_Engine.validateIdent( netIdent ) )
     {
-        LogModule( eLogMulticast, LOG_ERROR, "NearbyMgr multicast pktAnnounce ident invalid " );
+        LogModule( eLogUdp, LOG_ERROR, "NearbyMgr multicast pktAnnounce ident invalid " );
         return;
     }
 
@@ -337,7 +337,7 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
         isIgnored = hisInfo->isIgnored();
         if( isIgnored )
         {
-            LogModule( eLogMulticast, LOG_ERROR, "NearbyMgr multicast pktAnnounce ignoring %s ", netIdent->getOnlineName() );
+            LogModule( eLogUdp, LOG_ERROR, "NearbyMgr multicast pktAnnounce ignoring %s ", netIdent->getOnlineName() );
             return;
         }
 
@@ -366,17 +366,17 @@ void NearbyMgr::multicastPktAnnounceAvail( std::shared_ptr<VxSktBase>& skt, PktA
             }
         }
 
-        LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr attempting connect on lan to %s ", netIdent->getOnlineName() );
+        LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr attempting connect on lan to %s ", netIdent->getOnlineName() );
 
         std::shared_ptr<VxSktBase> sktBase( nullptr );
         bool newConnection = false;
         if( true == m_Engine.connectToContact( netIdent->getConnectInfo(), sktBase, newConnection, eConnectReasonNearbyLan ) )
         {
-            LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr SUCCESS connect on lan to %s ", netIdent->getOnlineName() );
+            LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr SUCCESS connect on lan to %s ", netIdent->getOnlineName() );
         }
         else
         {
-            LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr FAILED to connect on lan to %s ", netIdent->getOnlineName() );
+            LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr FAILED to connect on lan to %s ", netIdent->getOnlineName() );
         }
     }
 }
@@ -415,7 +415,7 @@ void NearbyMgr::handleTcpLanConnectSuccess( BigListInfo* bigListInfo, std::share
         //bigListInfo->setIsNearby( true );
         if( !bigListInfo->isIgnored() )
         {
-            LogModule( eLogMulticast, LOG_VERBOSE, "NearbyMgr connected to to %s ", bigListInfo->getOnlineName() );
+            LogModule( eLogUdp, LOG_VERBOSE, "NearbyMgr connected to to %s ", bigListInfo->getOnlineName() );
             onNearbyUserUpdated( bigListInfo, GetGmtTimeMs() );
         }
     }

@@ -450,7 +450,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PluginSettingsWidget.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\RelayServiceWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderGlLogic.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderGlMatrix.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderGlOffScreenSurface.cpp" />
@@ -778,7 +777,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderGlWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderGlOffScreenSurface.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderGlLogic.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\RelayServiceWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PluginSettingsWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PermissionWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PermissionListItem.h" />

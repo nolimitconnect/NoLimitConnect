@@ -173,7 +173,10 @@ public:
     bool                        getIsMyHostServiceEnabled( enum EHostServiceType hostService );
     bool                        getIsMyHostServiceEnabled( enum EHostType hostService );
 
+    bool                        getHasAnyHostServiceEnabled( void );
+ 
     bool                        getHasAnyAnnonymousHostService( void );
+
     bool                        getHasFixedIpAddress( void );
 
     void						lockAnnouncePktAccess( void )					{ m_AnnouncePktMutex.lock(); }
@@ -203,7 +206,6 @@ public:
 	virtual void				setHasPicture( int bHasPicture );
 	virtual void				setHasSharedWebCam( int bHasShaeredWebCam );
 	bool						isContactConnected( VxGUID& onlineId );
-	bool						isSystemPlugin( enum EPluginType	pluginType );
 
     bool                        isUserConnected( VxGUID& onlineId );
     bool                        isMemberGuest( enum EPluginType pluginType, VxGUID& onlineId ); // true if user is member of same host as I am
@@ -769,6 +771,9 @@ protected:
     bool						onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
     EMembershipState            getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, enum EPluginType pluginType, enum EFriendState myFriendshipToHim );
+
+    void                        updateMyPktAnnIpAddress( std::string ipAddr );
+    void                        updateMyNetworkServiceUrl( EHostType hostType );
 
 	//=== vars ===//
 	VxPeerMgr&					m_PeerMgr;

@@ -42,8 +42,11 @@ protected slots:
     void						slotUseUpnpCheckBoxClick( void );
 
     void						onSaveButtonClick( void );
+    void						slotSaveLabelClick( void );
+
     void						onDeleteButtonClick( void );
-    void						slotApplySettingsButtonClick( void );
+    void						slotDeleteLabelClick( void );
+
     void						onComboBoxSelectionChange( int );
 
     void                        slotShowNetworkHostInformation( void );
@@ -74,6 +77,8 @@ protected:
     void						populateDlgFromNetHostSetting( NetHostSetting& netSettings );
     void						setFirewallTest( EFirewallTestType eFirewallType );
     void                        populateNetHostSettingsFromDlg( NetHostSetting& netHostSetting );
+
+    void						applySettingsToEngine( void );
     void                        applyEngineSettingsFromHostSetting( NetHostSetting& netHostSetting );
 
     void                        fillNetHostSettingFromEngine( NetHostSetting& netSettings );

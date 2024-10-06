@@ -266,10 +266,15 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 	double sendTime= 0;
 	double reponseTime= 0;
 
+    EIpAddrType addrType = eIpAddrTypeUnknown;
     switch( netCmdType )
     {
-    case eNetCmdHostPing:
     case eNetCmdIsMyPortOpenReq:
+        // for port open test we have to connect with the correct ipv type (ipv4 or ipv6)
+        addrType = m_Engine.getEngineSettings().getUseIpv6() ? eIpAddrTypeIpv6 : eIpAddrTypeIpv4;
+        break;
+
+    case eNetCmdHostPing:
     case eNetCmdQueryHostOnlineIdReq:
         break;
     default:
@@ -281,12 +286,13 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 
     LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: sec %3.3f : connecting to %s thread 0x%x", 
                testTimer.elapsedSec(), nodeUrl.c_str(), VxGetCurrentThreadId() );
-    std::string resolveIp("");
+    std::string resolveIp;
 	if( false == netServConn.connectToWebsite(	nodeUrl.c_str(), 
 		                                        strHost, 
 		                                        strFile, 
 		                                        u16Port, 
                                                 resolveIp,
+                                                addrType,
 		                                        NETSERVICE_CONNECT_TIMEOUT ) )
 	{
         sendRunTestStatus( urlAction, actionName, eRunTestStatusConnectFail, eNetCmdErrorConnectFailed, "Could not connect to %s IP %s..tried %3.3f seconds Please check settings", 

@@ -89,7 +89,7 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
 	double connectTime = 0;
 	double sendTime= 0;
 	double reponseTime= 0;
-	std::string strResolveIp( "" );
+	std::string strResolveIp;
 
     LogModule( eLogRunTest, LOG_INFO, "QueryHostIdTest: sec %3.3f : connecting to %s thread 0x%x", 
                testTimer.elapsedSec(), nodeUrl.c_str(), VxGetCurrentThreadId() );
@@ -98,6 +98,7 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
 		strFile, 
 		u16Port, 
 		strResolveIp,
+		eIpAddrTypeUnknown,
 		NETSERVICE_CONNECT_TIMEOUT ) )
 	{
         sendRunTestStatus( eRunTestStatusConnectFail, "%s Could not connect to %s IP %s..tried %3.3f seconds Please check settings", 

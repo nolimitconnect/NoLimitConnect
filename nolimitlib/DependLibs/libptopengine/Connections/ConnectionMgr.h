@@ -42,6 +42,9 @@ public:
 
     /// set default url from network settings
     void                        applyDefaultHostUrl( enum EHostType hostType, std::string& hostUrl );
+    /// update default url for my hosted network service
+    void                        updateMyEnabledHostUrl( EHostType hostType, std::string& myUrl, VxGUID myOnlineId );
+
     /// get default url for given host type
     std::string                 getDefaultHostUrl( enum EHostType hostType );
 
