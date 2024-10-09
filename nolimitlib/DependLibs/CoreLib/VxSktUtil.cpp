@@ -51,6 +51,7 @@
 	#include <ctype.h>
 	#include <fcntl.h>
     #include <sys/types.h>
+    #include <unistd.h>
 # ifdef TARGET_OS_ANDROID
 # include <sys/ioctl.h>
 # endif
@@ -2169,7 +2170,7 @@ void VxFlushThenCloseSkt( SOCKET oSocket )
 				//pdisc(oSocket, NULL, TF_REUSE_SOCKET, NULL); 
 				pdisc(oSocket, NULL, TF_WRITE_BEHIND, NULL);		
 			}
-			*/
+            */_save
 			shutdown (oSocket, SD_SEND );
 		#else
 			//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d setting linger", m_SktNumber );
