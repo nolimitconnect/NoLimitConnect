@@ -71,11 +71,15 @@ protected:
 
     QString						getNetworkKey( void );
     bool                        verifyNetworkKey( QString& keyVal );
+    bool                        verifyFirewallSettings( void );
+
+    void						setFirewallTestType( EFirewallTestType eFirewallType );
+    EFirewallTestType			getFirewallTestType( void );
 
     void						updateDlgFromSettings( bool initialSettings );
     void						updateSettingsFromDlg( void );
     void						populateDlgFromNetHostSetting( NetHostSetting& netSettings );
-    void						setFirewallTest( EFirewallTestType eFirewallType );
+
     void                        populateNetHostSettingsFromDlg( NetHostSetting& netHostSetting );
 
     void						applySettingsToEngine( void );

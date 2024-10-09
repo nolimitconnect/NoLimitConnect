@@ -151,7 +151,7 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
 
         // set network settings from saved settings
         startupEngine();
-        updateFromEngineSettings( getEngineSettings() );
+        //updateFromEngineSettings( getEngineSettings() );
         m_PluginMgr.fromGuiUserLoggedOn();
 
         m_AssetMgr.onPluginsInitialized();

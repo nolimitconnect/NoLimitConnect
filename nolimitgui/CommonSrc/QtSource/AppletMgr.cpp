@@ -78,7 +78,6 @@
 #include "AppletLog.h"
 #include "AppletLogSettings.h"
 #include "AppletLogView.h"
-#include "AppletNearbyListClient.h"
 
 #include "AppletNetHostingPage.h"
 #include "AppletNetworkSettings.h"
@@ -424,19 +423,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletRandomConnectClient:        if( launchAppletAllowed( eAppletRandomConnectClient ) ) appletDialog = new AppletRandomConnectClient( m_MyApp, parent ); break;
 
     case eAppletFriendListClient:           if( launchAppletAllowed( eAppletFriendListClient ) ) appletDialog = new AppletFriendListClient( m_MyApp, parent ); break;
-#if ENABLE_COMPONENT_NEARBY
-    case eAppletNearbyListClient: 
-        if( m_MyApp.getEngine().isNearbyAvailable() )
-        {
-            appletDialog = new AppletNearbyListClient( m_MyApp, parent );
-        }
-        else
-        {
-            QMessageBox::information( parent, QObject::tr( "Wait For Connection Test" ), QObject::tr( "Requires Connection Test Completion Before Launching Nearby " ), QMessageBox::Ok );
-        }
-        
-        break;
-#endif // ENABLE_COMPONENT_NEARBY
         
     case eAppletGroupListClient:            if( launchAppletAllowed( eAppletGroupListClient ) ) appletDialog = new AppletGroupListClient( m_MyApp, parent ); break;
 

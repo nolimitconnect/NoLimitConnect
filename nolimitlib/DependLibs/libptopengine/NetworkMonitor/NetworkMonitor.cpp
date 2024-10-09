@@ -110,6 +110,7 @@ void NetworkMonitor::onOncePerSecond( void )
 //============================================================================
 void  NetworkMonitor::triggerDetermineNetworkState( void )
 {
+    return; // for now disabled
     bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
     bool assumeFixedIp = m_Engine.getHasFixedIpAddress();
     if( assumeFixedIp )

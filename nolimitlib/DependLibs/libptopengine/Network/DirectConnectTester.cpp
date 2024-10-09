@@ -49,7 +49,7 @@ void DirectConnectTester::testCanDirectConnect( void )
 
 	m_NetServicesMgr.setMyPortOpenResultCallback( MyPortOpenCallback, this );
 
-	m_NetServicesMgr.addNetActionIsMyPortOpenToQueue();
+	m_NetServicesMgr.addNetActionToQueue( eNetActionIsPortOpen );
 }
 
 //============================================================================

@@ -68,7 +68,7 @@ void HostUrlListMgr::updateHostUrl( enum EHostType hostType, VxGUID& onlineId, s
     {
         std::string emptyUrl;
         HostUrlInfo hostUrlInfo( hostType, onlineId, hostUrl, timestampMs );
-        m_HostUrlsList.push_back( hostUrlInfo );
+        m_HostUrlsList.emplace_back( hostUrlInfo );
         if( timestampMs )
         {
             m_HostUrlListDb.saveHostUrl( hostUrlInfo );
@@ -87,7 +87,7 @@ bool HostUrlListMgr::getHostUrls( EHostType hostType, std::vector<HostUrlInfo>& 
     {
         if( iter->getHostType() == hostType )
         {
-            retHostUrls.push_back( *iter );
+            retHostUrls.emplace_back( *iter );
         }
     }
 
@@ -95,6 +95,27 @@ bool HostUrlListMgr::getHostUrls( EHostType hostType, std::vector<HostUrlInfo>& 
 
     return !retHostUrls.empty();
 }
+
+
+//============================================================================
+bool HostUrlListMgr::getResolvedHostUrl( EHostType hostType, VxGUID& hostOnlineId, std::string& retHostUrl )
+{
+    retHostUrl.clear();
+    lockList();
+    for( auto urlInfo : m_HostUrlsList )
+    {
+        if( urlInfo.getHostType() == hostType && urlInfo.getOnlineId() == hostOnlineId )
+        {
+            retHostUrl = urlInfo.getHostUrl();
+            break;
+        }
+    }
+
+    unlockList();
+
+    return !retHostUrl.empty();
+}
+
 
 //============================================================================
 /// return false if one time use and packet has been sent. Connect Manager will disconnect if nobody else needs the connection

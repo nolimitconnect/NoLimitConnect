@@ -579,8 +579,12 @@ enum EModuleState
 enum ENetActionType
 {
     eNetActionUnknown = 0,
-    eNetActionIdle = 1,
-    eNetActionIsPortOpen = 2,
+    eNetActionIdle,
+    eNetActionIsPortOpen,
+    eNetActionResolveConnectTestUrl,
+    eNetActionResolveDefaultUserHosts,
+    eNetActionResolveNetworkHostUrl,
+    eNetActionWaitForInternet,
 
     eMaxNetAction
 };

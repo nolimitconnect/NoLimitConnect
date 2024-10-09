@@ -52,6 +52,7 @@
 
 #include <NetLib/VxGetRandomPort.h>
 #include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktBase.h>
 
 #include <PktLib/PktsRandConnect.h>
 
@@ -126,46 +127,6 @@ void P2PEngine::fromGuiDebugSettings( uint32_t u32LogFlags, const char* pLogFile
 	{
 		VxSetLogToFile( pLogFileName );
 	}
-}
-
-//============================================================================
-void P2PEngine::updateFromEngineSettings( EngineSettings& engineSettings )
-{
-	getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );
-
-    std::string netHostUrl;
-    engineSettings.getNetworkHostUrl( netHostUrl );
-
-    // we need to update the globals so accessable everywhere
-    std::string webHostName;
-    std::string webFileName;
-    uint16_t port = 0;
-    VxSplitHostAndFile( netHostUrl.c_str(), webHostName, webFileName, port );
-    if( !webHostName.empty() )
-    {
-        VxSetNetworkHostName( webHostName.c_str() );
-        VxSetNetworkHostPort( port );
-        VxSetNetworkHostUrl( netHostUrl.c_str() );
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "Empty Network Host Name" );
-    }
-
-    getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, netHostUrl );
-
-    std::string hostUrl;
-	engineSettings.getConnectTestUrl( hostUrl );
-	getConnectionMgr().applyDefaultHostUrl( eHostTypeConnectTest, hostUrl );
-
-    // engineSettings.getChatRoomHostUrl( hostUrl );
-    // getConnectionMgr().applyDefaultHostUrl( eHostTypeChatRoom, hostUrl );
-    //engineSettings.getGroupHostUrl( hostUrl );
-    //getConnectionMgr().applyDefaultHostUrl( eHostTypeGroup, hostUrl );
-    //engineSettings.getRandomConnectUrl( hostUrl );
-    //getConnectionMgr().applyDefaultHostUrl( eHostTypeRandomConnect, hostUrl );
-
-    m_NetworkStateMachine.updateFromEngineSettings( engineSettings );
 }
 
 //============================================================================
@@ -1100,109 +1061,6 @@ void P2PEngine::updateMyNetworkServiceUrl( EHostType hostType )
 }
 
 //============================================================================
-void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
-{
-	getPeerMgr().setUpnpEnable( netHostSetting.getUseUpnpPortForward() );
-
-    NetHostSetting origSettings;
-    m_EngineSettings.getNetHostSettings( origSettings );
-	bool settingsHaveChange = origSettings != netHostSetting;
-	if( settingsHaveChange )
-	{
-		m_EngineSettings.setNetHostSettings( netHostSetting );
-	}
-
-	// so listen thread gets a head start
-	getNetStatusAccum().setUseIpv6( netHostSetting.getUseIpv6(), netHostSetting.getTcpPort() );
-
-	//static bool firstNetSetup = true;
-	//if( firstNetSetup )
-	//{
-	//	firstNetSetup = false;
-
-	//}
-	if( settingsHaveChange )
-	{
-		bool haveFixedIp{ false };
-        
-        if( origSettings.getUserSpecifiedExternIpAddr() != netHostSetting.getUserSpecifiedExternIpAddr() )
-        {
-            if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
-            {
-				std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
-				if( !externIp.empty() )
-				{
-					updateMyPktAnnIpAddress( externIp );
-					getNetStatusAccum().setUseFixedIp( externIp );
-					haveFixedIp = true;
-				}
-            }
-        }
-
-		
-
-        if( origSettings.getTcpPort() != netHostSetting.getTcpPort() || origSettings.getUseIpv6() != netHostSetting.getUseIpv6())
-        {
-			bool ipv6 = netHostSetting.getUseIpv6();
-
-            getPeerMgr().stopListening( false );
-			getPeerMgr().stopListening( true );
-            getMyPktAnnounce().setOnlinePort( netHostSetting.getTcpPort() );
-            setPktAnnLastModTime( GetTimeStampMs() );
-			getNetStatusAccum().setIpPort( netHostSetting.getTcpPort() );
-			
-            getPeerMgr().startListening( ipv6, netHostSetting.getTcpPort() );   
-
-			if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) ||
-				eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostNetwork ) )
-			{
-				// for connection test or network host we listen for both ipv6 and ipv4 connections
-				getPeerMgr().startListening( !ipv6, netHostSetting.getTcpPort() );   
-			}
-        }
-
-		if( haveFixedIp )
-		{
-            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl();
-            getUrlMgr().setMyOnlineNodeUrl( myOnlineUrl );
-		}
-
-        if( origSettings.getNetworkHostUrl() != netHostSetting.getNetworkHostUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, netHostSetting.getNetworkHostUrl() );
-        }
-
-        if( origSettings.getConnectTestUrl() != netHostSetting.getConnectTestUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeConnectTest, netHostSetting.getConnectTestUrl() );
-        }
-
-        if( origSettings.getRandomConnectUrl() != netHostSetting.getRandomConnectUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeRandomConnect, netHostSetting.getRandomConnectUrl() );
-        }
-
-        if( origSettings.getGroupHostUrl() != netHostSetting.getGroupHostUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeGroup, netHostSetting.getGroupHostUrl() );
-        }
-
-        if( origSettings.getChatRoomHostUrl() != netHostSetting.getChatRoomHostUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeChatRoom, netHostSetting.getChatRoomHostUrl() );
-        }
-
-        fromGuiNetworkSettingsChanged();
-    }
-
-	if( settingsHaveChange )
-	{
-		// wait to start monitoring network until listen has a chance to start
-		getNetworkMonitor().networkMonitorStartup();
-	}
-}
-
-//============================================================================
 void P2PEngine::fromGuiSetNetSettings( NetSettings& netSettings )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetNetSettings" );
@@ -2033,4 +1891,154 @@ bool P2PEngine::fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelecte
 	}
 
 	return result;
+}
+
+//============================================================================
+void P2PEngine::updateFromEngineSettings( EngineSettings& engineSettings )
+{
+	getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );
+
+    std::string netHostUrl;
+    engineSettings.getNetworkHostUrl( netHostUrl );
+
+    // we need to update the globals so accessable everywhere
+    std::string webHostName;
+    std::string webFileName;
+    uint16_t port = 0;
+    VxSplitHostAndFile( netHostUrl.c_str(), webHostName, webFileName, port );
+    if( !webHostName.empty() )
+    {
+        VxSetNetworkHostName( webHostName.c_str() );
+        VxSetNetworkHostPort( port );
+        VxSetNetworkHostUrl( netHostUrl.c_str() );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "Empty Network Host Name" );
+    }
+
+    getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, netHostUrl );
+
+    std::string hostUrl;
+	engineSettings.getConnectTestUrl( hostUrl );
+	getConnectionMgr().applyDefaultHostUrl( eHostTypeConnectTest, hostUrl );
+
+
+    m_NetworkStateMachine.updateFromEngineSettings( engineSettings );
+}
+
+//============================================================================
+void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
+{
+	getPeerMgr().setUpnpEnable( netHostSetting.getUseUpnpPortForward() );
+
+    NetHostSetting origSettings;
+    m_EngineSettings.getNetHostSettings( origSettings );
+	bool settingsHaveChange = origSettings != netHostSetting;
+	if( settingsHaveChange )
+	{
+		m_EngineSettings.setNetHostSettings( netHostSetting );
+		m_NetworkStateMachine.updateFromEngineSettings( m_EngineSettings );
+	}
+
+	// so listen thread gets a head start
+	getNetStatusAccum().setUseIpv6( netHostSetting.getUseIpv6(), netHostSetting.getTcpPort() );
+
+	static bool firstNetSetup = true;
+	if( firstNetSetup || origSettings.getNetworkKey() != netHostSetting.getNetworkKey() ) // if network key changes then all communication encryption changes
+	{
+		firstNetSetup = false;
+		bool haveFixedIp{ false };
+		
+		m_NetServicesMgr.addNetActionToQueue( eNetActionWaitForInternet );
+
+        if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
+        {
+			std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
+			if( !externIp.empty() )
+			{
+				updateMyPktAnnIpAddress( externIp );
+				getNetStatusAccum().setUseFixedIp( externIp );
+				haveFixedIp = true;
+			}
+        }
+
+		if( !haveFixedIp )
+		{
+			m_NetServicesMgr.addNetActionToQueue( eNetActionResolveConnectTestUrl );
+			m_NetServicesMgr.addNetActionToQueue( eNetActionIsPortOpen );
+		}
+
+		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveNetworkHostUrl );
+		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveDefaultUserHosts );
+	}
+	else if( settingsHaveChange )
+	{
+		bool haveFixedIp{ false };
+        
+        if( origSettings.getUserSpecifiedExternIpAddr() != netHostSetting.getUserSpecifiedExternIpAddr() )
+        {
+            if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
+            {
+				std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
+				if( !externIp.empty() )
+				{
+					updateMyPktAnnIpAddress( externIp );
+					getNetStatusAccum().setUseFixedIp( externIp );
+					haveFixedIp = true;
+				}
+            }
+        }	
+
+        if( origSettings.getTcpPort() != netHostSetting.getTcpPort() || origSettings.getUseIpv6() != netHostSetting.getUseIpv6())
+        {
+			bool ipv6 = netHostSetting.getUseIpv6(); 
+
+			if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) ||
+				eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostNetwork ) )
+			{
+				// for connection test or network host we listen for both ipv6 and ipv4 connections
+				getPeerMgr().startListening( !ipv6, netHostSetting.getTcpPort() );   
+			}
+        }
+
+		if( haveFixedIp )
+		{
+            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl();
+            getUrlMgr().setMyOnlineNodeUrl( myOnlineUrl );
+		}
+
+        if( origSettings.getNetworkHostUrl() != netHostSetting.getNetworkHostUrl() )
+        {
+            getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, netHostSetting.getNetworkHostUrl() );
+        }
+
+        if( origSettings.getConnectTestUrl() != netHostSetting.getConnectTestUrl() )
+        {
+            getConnectionMgr().applyDefaultHostUrl( eHostTypeConnectTest, netHostSetting.getConnectTestUrl() );
+        }
+
+        if( origSettings.getRandomConnectUrl() != netHostSetting.getRandomConnectUrl() )
+        {
+            getConnectionMgr().applyDefaultHostUrl( eHostTypeRandomConnect, netHostSetting.getRandomConnectUrl() );
+        }
+
+        if( origSettings.getGroupHostUrl() != netHostSetting.getGroupHostUrl() )
+        {
+            getConnectionMgr().applyDefaultHostUrl( eHostTypeGroup, netHostSetting.getGroupHostUrl() );
+        }
+
+        if( origSettings.getChatRoomHostUrl() != netHostSetting.getChatRoomHostUrl() )
+        {
+            getConnectionMgr().applyDefaultHostUrl( eHostTypeChatRoom, netHostSetting.getChatRoomHostUrl() );
+        }
+
+        fromGuiNetworkSettingsChanged();
+    }
+
+	if( settingsHaveChange )
+	{
+		// wait to start monitoring network until listen has a chance to start
+		getNetworkMonitor().networkMonitorStartup();
+	}
 }

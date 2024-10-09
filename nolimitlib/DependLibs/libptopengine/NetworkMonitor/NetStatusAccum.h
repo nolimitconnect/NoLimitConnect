@@ -90,17 +90,21 @@ public:
     bool                        isFixedIpAddress( void )                { return m_HasFixedIpAddr; }
 
     void                        setInternetAvail( bool avail );
-    void                        setNetHostAvail( bool avail );
+    bool                        isInternetAvailable( void )             { return m_InternetAvail; };
+
     void                        setConnectionTestAvail( bool avail );
+    bool                        isConnectionTestAvailable( void )       { return m_ConnectionTestAvail; };
+
+    void                        setNetHostAvail( bool avail );
+    bool                        isNetHostAvailable( void )              { return m_NetworkHostAvail; };
+
     void                        setDirectConnectTested( bool isTested, bool requiresRelay, std::string& myExternalIp );
 
     void                        setConnectToRelay( bool connectedToRelay );
 
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
-    void                        setWebsiteUrlsResolved( bool resolved );
-
-    bool                        isInternetAvailable( void )         { return m_InternetAvail; };
-    bool                        isNetHostAvailable( void )          { return m_NetworkHostAvail; };
+    void                        setWebsiteUrlsResolved( bool resolved ); 
+    
     bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
     bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
     bool                        isP2PAvailable( void )              { return m_HasFixedIpAddr || ( m_DirectConnectTested && (!m_RequriesRelay || m_ConnectedToRelay) ); };
@@ -125,6 +129,9 @@ public:
     std::string                 getConnectedHostUrl( EHostType hostType );
     void                        onConnectionLost( VxGUID& connectId );
 
+    bool                        isHostResolved( EHostType hostType );
+    bool                        getResolvedHost( EHostType hostType, std::string& retHostUrl );
+
 protected:
     void                        onNetStatusChange( void );
 
@@ -142,7 +149,7 @@ protected:
     bool                        m_NetworkHostAvail{ false };
     bool                        m_ConnectionTestAvail{ false };
     bool                        m_DirectConnectTested{ false };
-    bool                        m_RequriesRelay{ false };
+    bool                        m_RequriesRelay{ true }; // assume requires relay until proved does not require relay
     bool                        m_ConnectedToRelay{ false };
     bool                        m_GroupListHostAvail{ false };
     bool                        m_GroupHostAvail{ false };

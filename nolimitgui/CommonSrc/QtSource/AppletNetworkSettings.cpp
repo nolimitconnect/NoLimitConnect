@@ -60,10 +60,6 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
     ui.m_DeleteSettingsButton->setIcon( eMyIconTrash );
     ui.m_DeleteSettingsButton->setFixedSize( eButtonSizeSmall );
 
-    // hide until ipv6 is ready
-    //ui.m_Ipv6InfoButton->setVisible(false);
-    //ui.m_UseIpv6Network->setVisible(false);
-
     updateDlgFromSettings( true );
 
     connectSignals();
@@ -323,15 +319,7 @@ void AppletNetworkSettings::populateNetHostSettingsFromDlg( NetHostSetting& netH
         netHostSetting.setUserSpecifiedExternIpAddr( externIp.c_str() );
     }
 
-    EFirewallTestType eFirewallTestType = eFirewallTestUrlConnectionTest;
-    if( ui.AssumeNoProxyRadioButton->isChecked() )
-    {
-        eFirewallTestType = eFirewallTestAssumeNoFirewall;
-    }
-    else if( ui.AssumeProxyRadioButton->isChecked() )
-    {
-        eFirewallTestType = eFirewallTestAssumeFirewalled;
-    }
+    EFirewallTestType eFirewallTestType = getFirewallTestType();
 
     switch( eFirewallTestType )
     {
@@ -367,23 +355,23 @@ void AppletNetworkSettings::slotGoToNetHostSettingsButtonClick()
 //============================================================================
 void AppletNetworkSettings::slotAutoDetectProxyClick( void )
 {
-    setFirewallTest( eFirewallTestUrlConnectionTest );
+    setFirewallTestType( eFirewallTestUrlConnectionTest );
 }
 
 //============================================================================
 void AppletNetworkSettings::slotNoProxyClick( void )
 {
-    setFirewallTest( eFirewallTestAssumeNoFirewall );
+    setFirewallTestType( eFirewallTestAssumeNoFirewall );
 }
 
 //============================================================================
 void AppletNetworkSettings::slotYesProxyClick( void )
 {
-    setFirewallTest( eFirewallTestAssumeFirewalled );
+    setFirewallTestType( eFirewallTestAssumeFirewalled );
 }
 
 //============================================================================
-void AppletNetworkSettings::setFirewallTest( EFirewallTestType eFirewallType )
+void AppletNetworkSettings::setFirewallTestType( EFirewallTestType eFirewallType )
 {
     ui.AutoDetectProxyRadioButton->setChecked( false );
     ui.AssumeNoProxyRadioButton->setChecked( false );
@@ -405,6 +393,22 @@ void AppletNetworkSettings::setFirewallTest( EFirewallTestType eFirewallType )
         ui.AutoDetectProxyRadioButton->setChecked( true );
         break;
     }
+}
+
+//============================================================================
+EFirewallTestType AppletNetworkSettings::getFirewallTestType( void )
+{
+    EFirewallTestType eFirewallTestType = eFirewallTestUrlConnectionTest;
+    if( ui.AssumeNoProxyRadioButton->isChecked() )
+    {
+        eFirewallTestType = eFirewallTestAssumeNoFirewall;
+    }
+    else if( ui.AssumeProxyRadioButton->isChecked() )
+    {
+        eFirewallTestType = eFirewallTestAssumeFirewalled;
+    }
+
+    return eFirewallTestType;
 }
 
 //============================================================================
@@ -525,7 +529,7 @@ void AppletNetworkSettings::onSaveButtonClick( void )
 {
     if( ui.m_UseIpv6Network->isChecked() )
     {
-		QString title = QObject::tr( "Confirm Use Experimental IPv6 Network?" );
+		QString title = QObject::tr( "Confirm Use Of Experimental IPv6 Network?" );
 		QString bodyText = QObject::tr( "IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network" );
 
 		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
@@ -535,6 +539,11 @@ void AppletNetworkSettings::onSaveButtonClick( void )
 		{
 			return;
 		}
+    }
+
+    if( !verifyFirewallSettings() )
+    {
+        return;
     }
 
     QString keyVal = getNetworkKey();
@@ -563,13 +572,17 @@ void AppletNetworkSettings::onSaveButtonClick( void )
             return;
         }
 
-        std::string connectTestUrl;
-        connectTestUrl = ui.m_ConnectTestUrlEdit->text().toUtf8().constData();
-        if( connectTestUrl.empty() )
-        {
-            QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Connection Test URL cannot be blank." ) );
-            return;
-        }
+         EFirewallTestType firewallTestType = getFirewallTestType();
+         if( eFirewallTestAssumeNoFirewall != firewallTestType )
+         {
+             std::string connectTestUrl;
+             connectTestUrl = ui.m_ConnectTestUrlEdit->text().toUtf8().constData();
+             if( connectTestUrl.empty() )
+             {
+                 QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Connection Test URL cannot be blank." ) );
+                 return;
+             }
+         }
 
         NetHostSetting netSetting;
         if( m_MyApp.getAccountMgr().getNetHostSettingByName( netSettingsName.c_str(), netSetting ) )
@@ -588,7 +601,6 @@ void AppletNetworkSettings::onSaveButtonClick( void )
         // need to apply settings also or what is used in ptop engine may not be what is shown in dialog which is confusing
         applySettingsToEngine();
         QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Network setting was saved." ) );
-        //QMessageBox::warning( this, QObject::tr( "Network Key" ), QObject::tr( "You may need to restart application to avoid connection problems." ) );
     }
 }
 
@@ -696,6 +708,50 @@ bool AppletNetworkSettings::verifyNetworkKey( QString& keyVal )
     }
 
     return isValid;
+}
+
+//============================================================================
+bool AppletNetworkSettings::verifyFirewallSettings( void )
+{
+    EFirewallTestType firewallTestType = getFirewallTestType();
+    if( eFirewallTestAssumeNoFirewall == firewallTestType )
+    {
+        QString title = QObject::tr( "Invalid External IP Address" );
+        std::string externIp = ui.m_ExternIpEdit->text().toUtf8().constData();
+        if( externIp.empty() )
+        {
+            QMessageBox::warning( this, title, QObject::tr( "If no firewall is assumed then external IP must be specified." ) );
+            return false;
+        }
+
+        EIpAddrType addrType = VxGetIpAddrType( externIp.c_str() );
+        
+        if( eIpAddrTypeUnknown == addrType )
+        {
+            QMessageBox::warning( this, title, QObject::tr( "External IP is invalid." ) );
+            return false;
+        }
+
+        bool ipv6 = ui.m_UseIpv6Network->isChecked();
+        if( ipv6 )
+        {
+            if( eIpAddrTypeIpv4 == addrType )
+            {
+                QMessageBox::warning( this, title, QObject::tr( "When using IPv4 network a IPv4 external IP must be specified." ) );
+                return false;
+            }
+        }
+        else
+        {
+            if( eIpAddrTypeIpv6 == addrType )
+            {
+                QMessageBox::warning( this, title, QObject::tr( "When using IPv6 network a IPv6 external IP must be specified." ) );
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
 
 //============================================================================

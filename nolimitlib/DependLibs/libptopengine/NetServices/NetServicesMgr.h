@@ -87,7 +87,7 @@ public:
 	void						netServicesStartup( void );
 	void						netServicesShutdown( void );
 
-	void						addNetActionIsMyPortOpenToQueue( void );
+	void						addNetActionToQueue( enum ENetActionType netAction );
 
 	void						netActionResultIsMyPortOpen( ENetCmdError eCmdErr, std::string& myExternalIp );
     void                        netActionResultQueryHostId( ENetCmdError eCmdErr, VxGUID& hostId );
@@ -112,7 +112,7 @@ public:
 
 	bool						doNetCmdPing( const char* ipAddr, uint16_t u16Port, std::string& retPong, bool isClientPing );
 
-	ENetCmdError				doIsMyPortOpen( std::string& retMyExternalIp );
+	ENetCmdError				doIsMyPortOpen( std::string& retMyExternalIp, bool isUserTest = false );
 	bool						testLoobackPing( std::string localIP, uint16_t tcpListenPort );
 	ENetCmdError				sendAndRecieveIsMyPortOpen( VxTimer&				portTestTimer,
 															VxSktConnectSimple *	sktSimple, 
@@ -135,12 +135,16 @@ public:
                                                         std::string&        netCmd,
                                                         int                 txDataTimeout );
 protected:
+	bool						shouldAbort( void );
+
 	void						addNetActionCommand( NetActionBase * netActionBase );
 	bool						isActionQued( ENetActionType eNetActionType );
 	RCODE						sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, bool isClientPing );
 
 	bool						buildAndSendPktTestConnPingReply( std::shared_ptr<VxSktBase>& sktBase, bool isClientPing );
 	bool						buildAndSendPktQueryUrlReply( std::shared_ptr<VxSktBase>& sktBase );
+
+	void						sendUserLog( const char* msg, ... );
 
 	//=== vars ===//
 #ifdef TARGET_OS_WINDOWS
@@ -153,9 +157,9 @@ protected:
 	NetworkMgr&					m_NetworkMgr;
 	NetServiceUtils				m_NetServiceUtils;
 
-	std::vector<NetActionBase*>	m_NetActionList;
+	std::vector<NetActionBase*>	m_NetActionQueue;
 	NetActionIdle				m_NetActionIdle;
-	NetActionBase *				m_CurNetAction;
+	NetActionBase *				m_CurNetAction{nullptr};
 
 	VxThread					m_NetActionThread;
 	VxMutex						m_NetActionMutex;

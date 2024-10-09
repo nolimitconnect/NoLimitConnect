@@ -89,12 +89,15 @@ list(APPEND ptopengine_SOURCES
     NetServices/NetActionBase.cpp
     NetServices/NetActionIdle.cpp
     NetServices/NetActionIsMyPortOpen.cpp
+    NetServices/NetActionResolveConnectTestUrl.cpp
+    NetServices/NetActionResolveDefaultUserHosts.cpp
+    NetServices/NetActionResolveNetworkHostUrl.cpp
+    NetServices/NetActionWaitForInternet.cpp
     NetServices/NetServiceUtils.cpp
     NetServices/NetServicesMgr.cpp
     Network/ConnectRequest.cpp
     Network/DirectConnectTester.cpp
     Network/Firewall.cpp
-    Network/NearbyMgr.cpp
     Network/NetConnector.cpp
     Network/NetworkEventAvail.cpp
     Network/NetworkEventBase.cpp

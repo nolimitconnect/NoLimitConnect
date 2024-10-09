@@ -306,7 +306,8 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
             m_DefaultHostRequiresOnlineId[hostType] = hostUrl;
             unlockConnectionList();
 
-            std::string myUrl = m_Engine.getMyOnlineUrl();
+            // for query online id my url is probably not valid yet and not needed
+            std::string myUrl; // = m_Engine.getMyOnlineUrl();
             static VxGUID sessionId;
             VxGUID::generateNewVxGUID( sessionId );
             m_Engine.getRunUrlAction().runUrlAction( sessionId, eNetCmdQueryHostOnlineIdReq, hostUrl.c_str(), myUrl.c_str(), this, nullptr, hostType );

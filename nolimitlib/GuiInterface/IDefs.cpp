@@ -1170,7 +1170,7 @@ const char* DescribeHostType( enum EHostType eHostType )
     return HostTypeEnumStrings[ eHostType ];
 }
 
-//! Internet Status as text
+//============================================================================
 const char* DescribeInternetStatus( enum EInternetStatus internetStatus )
 {
     if( internetStatus < 0 || eMaxInternetStatus <= internetStatus )
@@ -1240,6 +1240,18 @@ const char* DescribeNetAction( enum ENetActionType netAction )
     case eNetActionIsPortOpen:
         return "eNetActionIsPortOpen";
 
+    case eNetActionResolveConnectTestUrl:
+        return "eNetActionResolveConnectTestUrl";
+
+    case eNetActionResolveDefaultUserHosts:
+        return "eNetActionResolveDefaultUserHosts";
+
+    case eNetActionResolveNetworkHostUrl:
+        return "eNetActionResolveNetworkHostUrl";
+
+    case eNetActionWaitForInternet:
+        return "eNetActionWaitForInternet";
+
     default:
         return "UNKNOWN ENetActionType";
     }
@@ -1263,7 +1275,7 @@ const char* DescribeModuleState( enum EModuleState moduleState )
     }
 }
 
-//! Net Available Status as text
+//============================================================================
 const char* DescribeNetAvailStatus( enum ENetAvailStatus netAvailStatus )
 {
     if( netAvailStatus < 0 || eMaxNetAvailStatus <= netAvailStatus )
@@ -1274,6 +1286,7 @@ const char* DescribeNetAvailStatus( enum ENetAvailStatus netAvailStatus )
     return NetAvailStatusEnumStrings[ netAvailStatus ];
 }
 
+//============================================================================
 const char* DescribeNetworkState( enum ENetworkStateType networkStateType )
 {
     if( networkStateType < 0 || eMaxNetworkStateType <= networkStateType )
@@ -1284,6 +1297,7 @@ const char* DescribeNetworkState( enum ENetworkStateType networkStateType )
     return NetworkStateEnumStrings[ networkStateType ];
 }
 
+//============================================================================
 const char* DescribeRelayError( enum ERelayErr relayError )
 {
     if( relayError < 0 || eMaxRelayErr <= relayError )
@@ -1294,6 +1308,7 @@ const char* DescribeRelayError( enum ERelayErr relayError )
     return RelayErrEnumStrings[ relayError ];
 }
 
+//============================================================================
 const char* DescribePortOpenStatus( enum EIsPortOpenStatus ePortOpenStatus )
 {
     if( ePortOpenStatus < 0 || eMaxIsPortOpenStatusType <= ePortOpenStatus )
@@ -1304,6 +1319,7 @@ const char* DescribePortOpenStatus( enum EIsPortOpenStatus ePortOpenStatus )
     return PortOpenStatusEnumStrings[ ePortOpenStatus ];
 }
 
+//============================================================================
 const char* DescribeRunTestStatus( enum ERunTestStatus eTestStatus )
 {
     if( eTestStatus < 0 || eMaxRunTestStatusType <= eTestStatus )
@@ -1314,6 +1330,7 @@ const char* DescribeRunTestStatus( enum ERunTestStatus eTestStatus )
     return RunTestStatusEnumStrings[ eTestStatus ];
 }
 
+//============================================================================
 const char* DescribeRandomConnectStatus( enum ERandomConnectStatus eRandomConnectStatus )
 {
     if( eRandomConnectStatus < 0 || eMaxRandomConnectStatusType <= eRandomConnectStatus )

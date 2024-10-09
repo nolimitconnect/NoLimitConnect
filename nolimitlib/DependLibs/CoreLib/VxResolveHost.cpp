@@ -23,6 +23,7 @@
 #include <Ws2tcpip.h>  
 #else
 #include <ctype.h>
+#include <netdb.h>
 #endif
 
 //============================================================================

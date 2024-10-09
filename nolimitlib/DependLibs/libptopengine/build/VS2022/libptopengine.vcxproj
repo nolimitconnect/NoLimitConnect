@@ -552,6 +552,10 @@
     <ClCompile Include="..\..\NetServices\NetActionBase.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionIdle.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionIsMyPortOpen.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionResolveConnectTestUrl.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionResolveDefaultUserHosts.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionResolveNetworkHostUrl.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionWaitForInternet.cpp" />
     <ClCompile Include="..\..\NetServices\NetServicesMgr.cpp" />
     <ClCompile Include="..\..\NetServices\NetServiceUtils.cpp" />
     <ClCompile Include="..\..\NetworkMonitor\NetStatusAccum.cpp" />
@@ -564,7 +568,6 @@
     <ClCompile Include="..\..\Network\ConnectRequest.cpp" />
     <ClCompile Include="..\..\Network\DirectConnectTester.cpp" />
     <ClCompile Include="..\..\Network\Firewall.cpp" />
-    <ClCompile Include="..\..\Network\NearbyMgr.cpp" />
     <ClCompile Include="..\..\Network\NetConnector.cpp" />
     <ClCompile Include="..\..\Network\NetworkEventAvail.cpp" />
     <ClCompile Include="..\..\Network\NetworkEventBase.cpp" />
@@ -824,6 +827,10 @@
     <ClInclude Include="..\..\NetServices\NetActionBase.h" />
     <ClInclude Include="..\..\NetServices\NetActionIdle.h" />
     <ClInclude Include="..\..\NetServices\NetActionIsMyPortOpen.h" />
+    <ClInclude Include="..\..\NetServices\NetActionResolveConnectTestUrl.h" />
+    <ClInclude Include="..\..\NetServices\NetActionResolveDefaultUserHosts.h" />
+    <ClInclude Include="..\..\NetServices\NetActionResolveNetworkHostUrl.h" />
+    <ClInclude Include="..\..\NetServices\NetActionWaitForInternet.h" />
     <ClInclude Include="..\..\NetServices\NetServiceDefs.h" />
     <ClInclude Include="..\..\NetServices\NetServiceHdr.h" />
     <ClInclude Include="..\..\NetServices\NetServicesMgr.h" />
@@ -838,7 +845,6 @@
     <ClInclude Include="..\..\Network\ConnectRequest.h" />
     <ClInclude Include="..\..\Network\DirectConnectTester.h" />
     <ClInclude Include="..\..\Network\Firewall.h" />
-    <ClInclude Include="..\..\Network\NearbyMgr.h" />
     <ClInclude Include="..\..\Network\NetConnector.h" />
     <ClInclude Include="..\..\Network\NetworkDefs.h" />
     <ClInclude Include="..\..\Network\NetworkEventAvail.h" />

@@ -19,7 +19,7 @@ public:
 	NetActionIdle( NetServicesMgr& netServicesMgr );
 	virtual ~NetActionIdle();
 
-	virtual ENetActionType		getNetActionType( void )			{ return eNetActionIdle; }
-	virtual void				doAction( void );
+	ENetActionType				getNetActionType( void ) override			{ return eNetActionIdle; }
+	void						doAction( void )  override;
 };
 

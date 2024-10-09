@@ -127,7 +127,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletLogView.h
     CommonSrc/QtSource/AppletMultiMessenger.h
     CommonSrc/QtSource/AppletMgr.h
-    CommonSrc/QtSource/AppletNearbyListClient.h
     CommonSrc/QtSource/AppletNetHostingPage.h
     CommonSrc/QtSource/AppletNetworkSettings.h
     CommonSrc/QtSource/AppletOfferList.h
@@ -527,7 +526,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletLogView.cpp
     CommonSrc/QtSource/AppletMgr.cpp
     CommonSrc/QtSource/AppletMultiMessenger.cpp
-    CommonSrc/QtSource/AppletNearbyListClient.cpp
     CommonSrc/QtSource/AppletNetHostingPage.cpp
     CommonSrc/QtSource/AppletNetworkSettings.cpp
     CommonSrc/QtSource/AppletOfferList.cpp
@@ -873,7 +871,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletLogSettings.ui
     CommonSrc/Forms/AppletLogView.ui
     CommonSrc/Forms/AppletMultiMessenger.ui
-    CommonSrc/Forms/AppletNearbyListClient.ui
     CommonSrc/Forms/AppletNetworkKey.ui
     CommonSrc/Forms/AppletNetworkSettings.ui
     CommonSrc/Forms/AppletOfferList.ui

@@ -45,17 +45,17 @@ public:
 	void						startupNetworkModules( void );
 	void						shutdownNetworkModules( void );
 
-	P2PEngine& getEngine( void ) { return m_Engine; }
-	PktAnnounce& getMyPktAnnounce( void ) { return m_PktAnn; }
-	NetworkMgr& getNetworkMgr( void ) { return m_NetworkMgr; }
+	P2PEngine&					getEngine( void ) { return m_Engine; }
+	PktAnnounce&				getMyPktAnnounce( void ) { return m_PktAnn; }
+	NetworkMgr&					getNetworkMgr( void ) { return m_NetworkMgr; }
 	DirectConnectTester& getDirectConnectTester( void ) { return m_DirectConnectTester; }
 
 	bool						isThisNodeHostWebsite( void ) { return m_bHostIpMatch; }
 	bool						isThisNodeConnectTest( void ) { return m_bNetServiceIpMatch; }
 	bool						isNetworkWebsitesResolved( void ) { return m_bWebsiteUrlsResolved; }
-	std::string& getHostIp( void ) { return m_HostIp; }
+	std::string&				getHostIp( void ) { return m_HostIp; }
 	uint16_t					getHostPort( void ) { return m_u16HostPort; }
-	std::string& getNetServiceIp( void ) { return m_NetServiceIp; }
+	std::string&				getNetServiceIp( void ) { return m_NetServiceIp; }
 	uint16_t					getNetServicePort( void ) { return m_u16NetServicePort; }
 
 	bool						isP2POnline( void );

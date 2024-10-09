@@ -18,6 +18,10 @@
 #include <memory.h>
 #include <stdio.h>
 
+#if !defined(TARGET_OS_WINDOWS)
+# include <netdb.h>
+#endif // defined(TARGET_OS_WINDOWS)
+
 //#define DEBUG_VXSKT_UDP 1
 
 //============================================================================

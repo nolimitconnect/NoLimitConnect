@@ -36,6 +36,7 @@ public:
 
     void                        updateHostUrl( enum EHostType hostType, VxGUID& hostGuid, std::string& hostUrl, int64_t timestampMs = 0 );
     bool                        getHostUrls( enum EHostType hostType, std::vector<HostUrlInfo>& retHostUrls );
+    bool                        getResolvedHostUrl( EHostType hostType, VxGUID& hostOnlineId, std::string& retHostUrl );
 
     void                        requestIdentity( std::string& url );
     void                        updateHostUrls( VxNetIdent* netIdent, int64_t timestampMs = 0 );

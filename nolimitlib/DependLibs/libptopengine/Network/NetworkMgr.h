@@ -11,12 +11,13 @@
 //============================================================================
 
 #include "NetworkDefs.h"
-#include "NearbyMgr.h"
 
-#include <CoreLib/VxDefs.h>
+#include <CoreLib/InetAddress.h>
 #include <PktLib/VxFriendMatch.h>
 
 #include <GuiInterface/IDefs.h>
+
+#include <memory>
 
 class P2PEngine;
 class VxPeerMgr;

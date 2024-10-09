@@ -105,10 +105,12 @@ bool InetAddrIPv4::fromString( const char* pIpAddress )
 		uint32_t u32Ip;
 		VxIPv4_pton( pIpAddress, &u32Ip, false );
 		setIp( u32Ip );
+        return true;
 	}
 	else
 	{
 		LogMsg( LOG_ERROR, "InetAddrIPv4::%s %s is not ipv4", __func__, pIpAddress );
+        return false;
 	}
 }
 

@@ -53,7 +53,7 @@ void NetStatusAccum::fromGuiNetworkSettingsChanged( void )
 void NetStatusAccum::onNetStatusChange( void )
 {
     ENetAvailStatus netAvailStatus = eNetAvailNoInternet;
-    EInternetStatus internetStatus = m_InternetAvail ? eInternetNoInternet : eInternetInternetAvailable;
+    EInternetStatus internetStatus = m_InternetAvail ? eInternetInternetAvailable : eInternetNoInternet;
     if( eFirewallTestAssumeNoFirewall == m_FirewallTestType )
     {
         internetStatus = eInternetAssumeDirectConnect;
@@ -317,40 +317,52 @@ void NetStatusAccum::setConnectionTestAvail( bool avail )
 //============================================================================
 void NetStatusAccum::setDirectConnectTested( bool isTested, bool requiresRelay, std::string& myExternalIp )
 {
-    if( VxIsIpValid( myExternalIp ) )
+    if( !VxIsIpValid( myExternalIp ) )
     {
-        if( requiresRelay )
-        {
-            m_Engine.sendToGuiStatusMessage( "Your TCP Port %d IS CLOSED :( IP %s", m_Engine.getMyPktAnnounce().getOnlinePort(), myExternalIp.c_str() );
-        }
-        else
-        {
-            m_Engine.sendToGuiStatusMessage( "Your TCP Port %d IS OPEN :) IP %s", m_Engine.getMyPktAnnounce().getOnlinePort(), myExternalIp.c_str() );
-        }
+        LogMsg( LOG_ERROR, "NetStatusAccum::setDirectConnectTested invalid external Ip" );
+        return;
+    }
 
+    if( !isTested )
+    {
+        LogMsg( LOG_ERROR, "NetStatusAccum::setDirectConnectTested isTested should not be false" );
+        return;
+    }
+
+    bool requresRelayChanged{ false };
+    bool directConnectTestedChanged{ false };
+    bool externIpChanged{ false };
+
+    std::string prevExternIp = getExternalIpAddress();
+    if( prevExternIp != myExternalIp )
+    {
+        externIpChanged = true;
         setExternalIpAddress( myExternalIp );
+    }
 
-        if( isTested != m_ConnectionTestAvail || isTested != m_DirectConnectTested || requiresRelay != m_RequriesRelay )
+    if( m_RequriesRelay != requiresRelay )
+    {
+        requresRelayChanged = true;
+        m_RequriesRelay = requiresRelay;
+    }
+
+    if( m_DirectConnectTested != isTested )
+    {
+        directConnectTestedChanged = true;
+        m_ConnectionTestAvail = isTested;
+        m_DirectConnectTested = isTested;
+    }
+
+    if( requresRelayChanged || directConnectTestedChanged || externIpChanged )
+    {
+        // if assumed no firewall then network ready was called when extern ip was set
+        if( m_Engine.getEngineSettings().getFirewallTestSetting() != eFirewallTestAssumeNoFirewall )
         {
-            m_ConnectionTestAvail = isTested;
-            m_DirectConnectTested = isTested;
-            m_RequriesRelay = requiresRelay;
-            if( isTested && !myExternalIp.empty() )
-            {
-                setExternalIpAddress( myExternalIp );
-            }
+            // no need to wait because open port is assumed
+            m_Engine.onNetworkConnectionReady( requiresRelay, myExternalIp, m_IpPort );
+        } 
 
-            LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Direct Connect Tested %d relay required ? %d extern ip %s", isTested, requiresRelay, myExternalIp.c_str() );
-            onNetStatusChange();
-
-            if( m_DirectConnectTested )
-            {
-                m_Engine.getPluginMgr().onMyOnlineUrlIsValid( true );
-            }
-        }
-
-        std::string externIp =  getExternalIpAddress();
-        m_Engine.onNetworkConnectionReady( requiresRelay, externIp, m_IpPort);
+        onNetStatusChange();
     }
 }
 
@@ -527,6 +539,12 @@ void NetStatusAccum::setExternalIpAddress( std::string ipAddr )
             m_Engine.unlockAnnouncePktAccess();
 
             m_Engine.getUrlMgr().setMyOnlineNodeUrl( myNodeUrl );
+            m_Engine.getPluginMgr().onMyOnlineUrlIsValid( true );
+            if( m_Engine.getEngineSettings().getFirewallTestSetting() == eFirewallTestAssumeNoFirewall )
+            {
+                // no need to wait because open port is assumed
+                m_Engine.onNetworkConnectionReady( false, ipAddr, m_IpPort );
+            }          
         }
     }
     else
@@ -558,15 +576,6 @@ void NetStatusAccum::setLocalIpAddress( std::string ipAddr )
         }
 
         m_AccumMutex.unlock();
-        if( changedIp )
-        {
-            m_Engine.lockAnnouncePktAccess();
-            m_Engine.getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
-            std::string myNodeUrl = m_Engine.getMyPktAnnounce().getMyOnlineUrl();
-            m_Engine.unlockAnnouncePktAccess();
-
-            m_Engine.getUrlMgr().setMyOnlineNodeUrl( myNodeUrl );
-        }
     }
     else
     {
@@ -648,6 +657,12 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
     // we want to open port and start listening as soon as possible in startup
     if( addrChanged || portChanged || useIpv6Changed )
     {
+        if( portChanged )
+        {
+            m_Engine.getMyPktAnnounce().setOnlinePort( ipPort );
+            m_Engine.setPktAnnLastModTime( GetTimeStampMs() );
+        }
+
         if( !useThisLocaIpAddr.empty() )
         {
             m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
@@ -659,4 +674,28 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
             }
         }
     }
+}
+
+//============================================================================
+bool NetStatusAccum::isHostResolved( EHostType hostType )
+{
+    VxGUID retHostOnlineId;
+    if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( hostType, retHostOnlineId ) )
+    {
+        return retHostOnlineId.isVxGUIDValid();
+    }
+
+    return false;
+}
+
+//============================================================================
+bool NetStatusAccum::getResolvedHost( EHostType hostType, std::string& retHostUrl )
+{
+    VxGUID hostOnlineId;
+    if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( hostType, hostOnlineId ) && hostOnlineId.isVxGUIDValid() )
+	{
+        return m_Engine.getHostUrlListMgr().getResolvedHostUrl( hostType, hostOnlineId, retHostUrl );
+	} 
+
+    return false;
 }

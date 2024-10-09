@@ -581,9 +581,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNearbyListClient.h">
-      <Filter>Header Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
@@ -1906,9 +1903,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletNearbyListClient.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -3005,9 +2999,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiGroupieListItem.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletNearbyListClient.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletSettingsNoUserSettings.ui">

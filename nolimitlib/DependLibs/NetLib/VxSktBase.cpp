@@ -34,6 +34,7 @@
 #else
     #include <sys/signal.h>
 	#include <sys/ioctl.h>
+    #include <netdb.h>
 #endif // TARGET_OS_WINDOWS
 
 namespace

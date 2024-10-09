@@ -20,6 +20,7 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktBase.h>
 
 namespace
 {

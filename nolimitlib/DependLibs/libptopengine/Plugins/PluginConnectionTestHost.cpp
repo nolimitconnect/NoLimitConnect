@@ -32,7 +32,7 @@ PluginConnectionTestHost::PluginConnectionTestHost( P2PEngine& engine, PluginMgr
 //============================================================================
 void PluginConnectionTestHost::testIsMyPortOpen( void )
 {
-    m_NetServicesMgr.addNetActionIsMyPortOpenToQueue();
+    m_NetServicesMgr.addNetActionToQueue( eNetActionIsPortOpen );
 }
 
 //============================================================================
