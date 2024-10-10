@@ -234,7 +234,7 @@ bool VxResolvePtopUrl( std::string ptopUrl, std::string& retIpAddr, uint16_t& re
 	if( resolved )
 	{
 		retPort = port;
-		retIpAddr = hostName;
+		retIpAddr = resolvedIp;
 		return true;
 	}
 	
