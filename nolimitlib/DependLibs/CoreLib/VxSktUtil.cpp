@@ -51,6 +51,7 @@
 	#include <ctype.h>
 	#include <fcntl.h>
     #include <sys/types.h>
+	#include <unistd.h>
 # ifdef TARGET_OS_ANDROID
 # include <sys/ioctl.h>
 # endif
