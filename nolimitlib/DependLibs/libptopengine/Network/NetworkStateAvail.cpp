@@ -45,6 +45,7 @@ void NetworkStateAvail::enterNetworkState( void )
 //============================================================================
 void NetworkStateAvail::runNetworkState( void )
 {
+    return; // TODO this is replaced by NetServices actions and should be removed
     VxTimer availTimer;
     LogModule( eLogNetworkState, LOG_VERBOSE, "111 NetworkStateAvail::runNetworkState start" ); 
 
@@ -90,7 +91,7 @@ void NetworkStateAvail::runNetworkState( void )
 	}
     else
     {
-        m_Engine.getNetStatusAccum().setWebsiteUrlsResolved( true );
+        //m_Engine.getNetStatusAccum().setWebsiteUrlsResolved( true );
     }
 
     if( m_NetworkStateMachine.checkAndHandleNetworkEvents() )

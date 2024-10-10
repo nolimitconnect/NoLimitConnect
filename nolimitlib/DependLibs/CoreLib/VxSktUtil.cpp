@@ -191,6 +191,57 @@ bool VxMakePtopUrl( std::string& ipAddr, uint16_t port, std::string& retPtopUrl 
 }
 
 //============================================================================
+bool VxResolvePtopUrl( std::string ptopUrl, std::string& retIpAddr, uint16_t& retPort, bool preferIpv6 )
+{
+	if( ptopUrl.empty() )
+	{
+		LogMsg( LOG_ERROR, "VxResolvePtopUrl empty ptopUrl" );
+		return false;
+	}
+
+	std::string hostName;
+	std::string fileName;
+	uint16_t port;
+	bool wasSplit = VxSplitHostAndFile( ptopUrl.c_str(), hostName, fileName, port );
+	if( !wasSplit || hostName.empty() )
+	{
+		LogMsg( LOG_ERROR, "VxResolvePtopUrl failed split url %s", ptopUrl.c_str() );
+		return false;
+	}
+
+	if( VxIsIPv4Address( hostName.c_str() ) || VxIsIPv6Address( hostName.c_str() ) )
+	{
+		retPort = port;
+		retIpAddr = hostName;
+		return true;
+	}
+
+	uint16_t portForResolve = port;
+	if( !portForResolve )
+	{
+		portForResolve = 80;
+	}
+
+	std::string resolvedIp;
+	bool resolved = VxResolveUrl( hostName.c_str(), portForResolve, resolvedIp, preferIpv6 ? eIpAddrTypeIpv6 : eIpAddrTypeUnknown );
+	if( !resolved && preferIpv6 )
+	{
+		// ipv6 was probably not available so try again
+		resolved = VxResolveUrl( hostName.c_str(), portForResolve, resolvedIp, eIpAddrTypeIpv4 );
+	}
+	
+	if( resolved )
+	{
+		retPort = port;
+		retIpAddr = hostName;
+		return true;
+	}
+	
+	LogMsg( LOG_ERROR, "VxResolvePtopUrl FAILED resolve %s", ptopUrl.c_str() );
+	return false;
+}
+
+//============================================================================
 void VxIpInNetOrderToString( uint32_t u32IpAddr, std::string& retIp )
 {
 	char as8Buf[ 32 ];
@@ -1524,7 +1575,7 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, InetAddress& retInetAddr,
 }
 
 //============================================================================
-bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, EIpAddrType addrType  )
+bool VxResolveUrl( std::string& urlIn, uint16_t& retPort, std::string& retIpAddr, EIpAddrType addrType )
 {
 	std::string strHost;
 	std::string strFile;

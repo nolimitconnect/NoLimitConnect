@@ -12,6 +12,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxSktUtil.h>
+
 //============================================================================
 NetActionResolveConnectTestUrl::NetActionResolveConnectTestUrl( NetServicesMgr& netServicesMgr )
 : NetActionBase( netServicesMgr )
@@ -30,6 +32,7 @@ void NetActionResolveConnectTestUrl::doAction( void )
         if( !externIp.empty() )
         {
 			m_Engine.getNetStatusAccum().setExternalIpAddress( externIp );
+			m_Engine.getNetStatusAccum().setConnectionTestAvail( true );
             LogMsg( LOG_INFO, "NetActionResolveConnectTestUrl::%s: user specified fixed ip %s",
 					__func__, externIp.c_str() );
 			return;
@@ -43,6 +46,22 @@ void NetActionResolveConnectTestUrl::doAction( void )
 		m_Engine.getNetStatusAccum().setConnectionTestAvail( false );
 		LogMsg( LOG_ERROR, "NetActionResolveConnectTestUrl:%s Empty connectTestUrl url", __func__ );
 		return;
+	}
+
+	// check if url resolves to our ip address
+	bool preferIpv6Resolve = VxGetIpAddrType( m_Engine.getNetStatusAccum().getLocalIpAddress().c_str() ) == eIpAddrTypeIpv6;
+	std::string resolvedIpAddr;
+	uint16_t resovedPort{ 0 };
+	bool wasResolved = VxResolvePtopUrl( connectTestUrl, resolvedIpAddr, resovedPort, preferIpv6Resolve );
+	if( wasResolved )
+	{
+		if( m_Engine.getNetStatusAccum().getExternalIpAddress() == resolvedIpAddr ||
+			m_Engine.getNetStatusAccum().getLocalIpAddress() == resolvedIpAddr )
+		{
+			LogMsg( LOG_INFO, "NetActionResolveConnectTestUrl:%s we are the resolved url", __func__ );
+			m_Engine.getNetStatusAccum().setConnectionTestAvail( true );
+			return;
+		}
 	}
 
 	std::vector<HostUrlInfo> hostUrls;
@@ -71,7 +90,7 @@ void NetActionResolveConnectTestUrl::doAction( void )
 		m_Engine.getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, networkHostUrl );
 	}
 
-	bool wasResolved = false;
+	wasResolved = false;
 	int waitCnt = 0;
 	VxGUID hostOnlineId;
 	while( waitCnt < 20 )

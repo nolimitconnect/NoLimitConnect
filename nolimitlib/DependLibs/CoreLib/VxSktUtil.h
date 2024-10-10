@@ -50,6 +50,7 @@ bool                            VxIsIpv6Address( std::string& ipAddr );
 bool							VxIsIpv4Address( std::string& ipAddr );
 
 bool							VxMakePtopUrl( std::string& ipAddr, uint16_t port, std::string& retPtopUrl );
+bool							VxResolvePtopUrl( std::string ptopUrl, std::string& retIpAddr, uint16_t& retPort, bool preferIpv6 = false );
 
 std::string						VxGetRemoteIpAddress( SOCKET skt );
 std::string						VxGetRmtHostName( SOCKET& skt );

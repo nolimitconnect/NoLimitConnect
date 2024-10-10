@@ -720,7 +720,7 @@ bool AppletNetworkSettings::verifyFirewallSettings( void )
         std::string externIp = ui.m_ExternIpEdit->text().toUtf8().constData();
         if( externIp.empty() )
         {
-            QMessageBox::warning( this, title, QObject::tr( "If no firewall is assumed then external IP must be specified." ) );
+            QMessageBox::warning( this, title, QObject::tr( "If assumed user can direct connect then external IP must be specified." ) );
             return false;
         }
 

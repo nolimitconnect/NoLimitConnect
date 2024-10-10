@@ -89,7 +89,7 @@ void NetworkStateIpChange::runNetworkState( void )
 	}
     else
     {
-        m_Engine.getNetStatusAccum().setWebsiteUrlsResolved( true );
+        //m_Engine.getNetStatusAccum().setWebsiteUrlsResolved( true );
     }
 
     if( m_NetworkStateMachine.checkAndHandleNetworkEvents() )

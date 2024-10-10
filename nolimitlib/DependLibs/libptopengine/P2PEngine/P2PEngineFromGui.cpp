@@ -1944,10 +1944,10 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 	// so listen thread gets a head start
 	getNetStatusAccum().setUseIpv6( netHostSetting.getUseIpv6(), netHostSetting.getTcpPort() );
 
-	static bool firstNetSetup = true;
-	if( firstNetSetup || origSettings.getNetworkKey() != netHostSetting.getNetworkKey() ) // if network key changes then all communication encryption changes
-	{
-		firstNetSetup = false;
+	//static bool firstNetSetup = true;
+	//if( firstNetSetup || origSettings.getNetworkKey() != netHostSetting.getNetworkKey() ) // if network key changes then all communication encryption changes
+	//{
+	//	firstNetSetup = false;
 		bool haveFixedIp{ false };
 		
 		m_NetServicesMgr.addNetActionToQueue( eNetActionWaitForInternet );
@@ -1971,74 +1971,74 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 
 		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveNetworkHostUrl );
 		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveDefaultUserHosts );
-	}
-	else if( settingsHaveChange )
-	{
-		bool haveFixedIp{ false };
-        
-        if( origSettings.getUserSpecifiedExternIpAddr() != netHostSetting.getUserSpecifiedExternIpAddr() )
-        {
-            if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
-            {
-				std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
-				if( !externIp.empty() )
-				{
-					updateMyPktAnnIpAddress( externIp );
-					getNetStatusAccum().setUseFixedIp( externIp );
-					haveFixedIp = true;
-				}
-            }
-        }	
+	//}
+	//else if( settingsHaveChange )
+	//{
+	//	bool haveFixedIp{ false };
+ //       
+ //       if( origSettings.getUserSpecifiedExternIpAddr() != netHostSetting.getUserSpecifiedExternIpAddr() )
+ //       {
+ //           if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
+ //           {
+	//			std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
+	//			if( !externIp.empty() )
+	//			{
+	//				updateMyPktAnnIpAddress( externIp );
+	//				getNetStatusAccum().setUseFixedIp( externIp );
+	//				haveFixedIp = true;
+	//			}
+ //           }
+ //       }	
 
-        if( origSettings.getTcpPort() != netHostSetting.getTcpPort() || origSettings.getUseIpv6() != netHostSetting.getUseIpv6())
-        {
-			bool ipv6 = netHostSetting.getUseIpv6(); 
+ //       if( origSettings.getTcpPort() != netHostSetting.getTcpPort() || origSettings.getUseIpv6() != netHostSetting.getUseIpv6())
+ //       {
+	//		bool ipv6 = netHostSetting.getUseIpv6(); 
 
-			if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) ||
-				eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostNetwork ) )
-			{
-				// for connection test or network host we listen for both ipv6 and ipv4 connections
-				getPeerMgr().startListening( !ipv6, netHostSetting.getTcpPort() );   
-			}
-        }
+	//		if( eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) ||
+	//			eFriendStateIgnore != getMyPktAnnounce().getPluginPermission( ePluginTypeHostNetwork ) )
+	//		{
+	//			// for connection test or network host we listen for both ipv6 and ipv4 connections
+	//			getPeerMgr().startListening( !ipv6, netHostSetting.getTcpPort() );   
+	//		}
+ //       }
 
-		if( haveFixedIp )
-		{
-            std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl();
-            getUrlMgr().setMyOnlineNodeUrl( myOnlineUrl );
-		}
+	//	if( haveFixedIp )
+	//	{
+ //           std::string myOnlineUrl = getMyPktAnnounce().getMyOnlineUrl();
+ //           getUrlMgr().setMyOnlineNodeUrl( myOnlineUrl );
+	//	}
 
-        if( origSettings.getNetworkHostUrl() != netHostSetting.getNetworkHostUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, netHostSetting.getNetworkHostUrl() );
-        }
+ //       if( origSettings.getNetworkHostUrl() != netHostSetting.getNetworkHostUrl() )
+ //       {
+ //           getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, netHostSetting.getNetworkHostUrl() );
+ //       }
 
-        if( origSettings.getConnectTestUrl() != netHostSetting.getConnectTestUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeConnectTest, netHostSetting.getConnectTestUrl() );
-        }
+ //       if( origSettings.getConnectTestUrl() != netHostSetting.getConnectTestUrl() )
+ //       {
+ //           getConnectionMgr().applyDefaultHostUrl( eHostTypeConnectTest, netHostSetting.getConnectTestUrl() );
+ //       }
 
-        if( origSettings.getRandomConnectUrl() != netHostSetting.getRandomConnectUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeRandomConnect, netHostSetting.getRandomConnectUrl() );
-        }
+ //       if( origSettings.getRandomConnectUrl() != netHostSetting.getRandomConnectUrl() )
+ //       {
+ //           getConnectionMgr().applyDefaultHostUrl( eHostTypeRandomConnect, netHostSetting.getRandomConnectUrl() );
+ //       }
 
-        if( origSettings.getGroupHostUrl() != netHostSetting.getGroupHostUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeGroup, netHostSetting.getGroupHostUrl() );
-        }
+ //       if( origSettings.getGroupHostUrl() != netHostSetting.getGroupHostUrl() )
+ //       {
+ //           getConnectionMgr().applyDefaultHostUrl( eHostTypeGroup, netHostSetting.getGroupHostUrl() );
+ //       }
 
-        if( origSettings.getChatRoomHostUrl() != netHostSetting.getChatRoomHostUrl() )
-        {
-            getConnectionMgr().applyDefaultHostUrl( eHostTypeChatRoom, netHostSetting.getChatRoomHostUrl() );
-        }
+ //       if( origSettings.getChatRoomHostUrl() != netHostSetting.getChatRoomHostUrl() )
+ //       {
+ //           getConnectionMgr().applyDefaultHostUrl( eHostTypeChatRoom, netHostSetting.getChatRoomHostUrl() );
+ //       }
 
-        fromGuiNetworkSettingsChanged();
-    }
+ //       fromGuiNetworkSettingsChanged();
+ //   }
 
-	if( settingsHaveChange )
-	{
-		// wait to start monitoring network until listen has a chance to start
-		getNetworkMonitor().networkMonitorStartup();
-	}
+	//if( settingsHaveChange )
+	//{
+	//	// wait to start monitoring network until listen has a chance to start
+	//	getNetworkMonitor().networkMonitorStartup();
+	//}
 }

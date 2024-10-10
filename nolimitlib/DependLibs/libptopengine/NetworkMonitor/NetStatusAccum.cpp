@@ -27,18 +27,29 @@ NetStatusAccum::NetStatusAccum( P2PEngine& engine )
 }
 
 //============================================================================
-void NetStatusAccum::resetNetStatus( void )
+void NetStatusAccum::resetConnectionTestStatus( void )
 {
-    m_InternetAvail = false;
-    m_NetworkHostAvail = false;
     m_ConnectionTestAvail = false;
     m_DirectConnectTested = false;
-    m_RequriesRelay = false;
+    m_RequriesRelay = true;
+
+    m_IsExternalIpValid = false;
+
+    onNetStatusChange();
+}
+
+//============================================================================
+void NetStatusAccum::resetNetworkStatusAll( void )
+{
+    resetConnectionTestStatus();
+
+    m_InternetAvail = false;
+    m_NetworkHostAvail = false;
+
     m_ConnectedToRelay = false;
     m_GroupListHostAvail = false;
     m_GroupHostAvail = false;
     m_IsConnectedGroupHost = false;
-    m_IsExternalIpValid = false;
 
     onNetStatusChange();
 }
@@ -46,7 +57,7 @@ void NetStatusAccum::resetNetStatus( void )
 //============================================================================
 void NetStatusAccum::fromGuiNetworkSettingsChanged( void )
 {
-    resetNetStatus();
+    resetNetworkStatusAll();
 }
 
 //============================================================================
@@ -121,21 +132,6 @@ void NetStatusAccum::onNetStatusChange( void )
                     }
                     else
                     {
-                        std::string ipAddr = getExternalIpAddress();
-                        if( !m_NetworkHostAvail && m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost ) && m_WebsiteUrlsResolved && !ipAddr.empty() )
-                        {
-                            // normally if we are network host then we have a static ip and m_NetworkHostAvail is false
-                            // if we tested the connection and can direct connect and our ip is not the tested ip
-                            // then say host is available so the network bars in gui update
-                            EngineParams& engineParams = m_Engine.getEngineParams();
-                            std::string netHostAddr;
-                            engineParams.getLastHostWebsiteResolvedIp( netHostAddr );
-                            if( !netHostAddr.empty() && netHostAddr != ipAddr )
-                            {
-                                m_NetworkHostAvail = true;
-                            }
-                        }
-
                         internetStatus = eInternetCanDirectConnect;
                     }
                 }
@@ -388,14 +384,6 @@ void NetStatusAccum::setFirewallTestType( EFirewallTestType firewallTestType )
 
         onNetStatusChange();
     }
-}
-
-//============================================================================
-void NetStatusAccum::setWebsiteUrlsResolved( bool resolved )
-{
-    m_AccumMutex.lock();
-    m_WebsiteUrlsResolved = resolved;
-    m_AccumMutex.unlock();
 }
 
 //============================================================================

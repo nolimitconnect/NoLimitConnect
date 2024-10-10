@@ -79,7 +79,8 @@ public:
 
     void                        fromGuiNetworkSettingsChanged( void );
 
-    void                        resetNetStatus( void );
+    void                        resetNetworkStatusAll( void );
+    void                        resetConnectionTestStatus( void );
 
     void                        setUseIpv6( bool useIpv6, uint16_t ipPort );
     bool                        getUseIpv6( void ) { return m_UseIpv6; }
@@ -103,7 +104,6 @@ public:
     void                        setConnectToRelay( bool connectedToRelay );
 
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
-    void                        setWebsiteUrlsResolved( bool resolved ); 
     
     bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
     bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
@@ -170,6 +170,6 @@ protected:
     EFirewallTestType           m_FirewallTestType{ eFirewallTestUrlConnectionTest };
     EInternetStatus             m_InternetStatus{ eInternetNoInternet };
     ENetAvailStatus             m_NetAvailStatus{ eNetAvailNoInternet };
-    bool                        m_WebsiteUrlsResolved{ false };
+
     std::map<EHostType, HostConnection> m_HostConnectionMap;
 };
