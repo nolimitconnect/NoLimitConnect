@@ -1941,6 +1941,7 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 		m_NetworkStateMachine.updateFromEngineSettings( m_EngineSettings );
 	}
 
+	getNetStatusAccum().setFirewallTestType( (EFirewallTestType)netHostSetting.getFirewallTestType() );
 	// so listen thread gets a head start
 	getNetStatusAccum().setUseIpv6( netHostSetting.getUseIpv6(), netHostSetting.getTcpPort() );
 
