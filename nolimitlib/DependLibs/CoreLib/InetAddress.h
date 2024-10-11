@@ -88,6 +88,8 @@ public:
     static int				    getAllAddresses( std::vector<InetAddress>& retAddress );
     static void                 dumpAddresses( std::vector<InetAddress>& addressList );
 
+	static std::string			ipv6BinaryToString( uint8_t ipBinary[16] );
+	static std::string			removeLeadingZeros( std::string hexStr );
 protected:
 	//! returns port in host order
     uint16_t                    setIp( struct sockaddr_in& oIPv4Addr );

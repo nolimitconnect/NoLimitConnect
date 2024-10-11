@@ -248,10 +248,6 @@ void VxIpInNetOrderToString( uint32_t u32IpAddr, std::string& retIp )
 	char as8Buf[ 32 ];
 	unsigned char * pTemp = (unsigned char * )&u32IpAddr;
 	sprintf( as8Buf, "%i.%i.%i.%i", pTemp[0], pTemp[1], pTemp[2], pTemp[3] );
-
-	//int32_t u32IpHostOrder = ntohl( u32IpAddr );
-	//unsigned char * pTemp = (unsigned char * )&u32IpHostOrder;
-	//sprintf( as8Buf, "%i.%i.%i.%i", pTemp[0], pTemp[1], pTemp[2], pTemp[3] );
 	retIp  = as8Buf;
 }
 
@@ -384,7 +380,7 @@ void VxIPv6_ntop( void * pvBinary, char * pBuf, int iBufLen )
 			}
 			else
 			{
-				sprintf(&pBuf[strlen(pBuf)], "%4.4x", htons(pVal[i]));
+				sprintf(&pBuf[strlen(pBuf)], "%x", htons(pVal[i]));
 				colonCount = 0;
 				if( 7 != i )
 				{

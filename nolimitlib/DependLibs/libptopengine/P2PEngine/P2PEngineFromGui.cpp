@@ -1945,33 +1945,37 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 	// so listen thread gets a head start
 	getNetStatusAccum().setUseIpv6( netHostSetting.getUseIpv6(), netHostSetting.getTcpPort() );
 
-	//static bool firstNetSetup = true;
-	//if( firstNetSetup || origSettings.getNetworkKey() != netHostSetting.getNetworkKey() ) // if network key changes then all communication encryption changes
-	//{
-	//	firstNetSetup = false;
-		bool haveFixedIp{ false };
+	bool haveFixedIp{ false };
 		
-		m_NetServicesMgr.addNetActionToQueue( eNetActionWaitForInternet );
+	m_NetServicesMgr.addNetActionToQueue( eNetActionWaitForInternet );
 
-        if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
-        {
-			std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
-			if( !externIp.empty() )
-			{
-				updateMyPktAnnIpAddress( externIp );
-				getNetStatusAccum().setUseFixedIp( externIp );
-				haveFixedIp = true;
-			}
-        }
-
-		if( !haveFixedIp )
+    if( eFirewallTestAssumeNoFirewall == netHostSetting.getFirewallTestType() && !netHostSetting.getUserSpecifiedExternIpAddr().empty() )
+    {
+		std::string externIp = netHostSetting.getUserSpecifiedExternIpAddr();
+		if( !externIp.empty() )
 		{
-			m_NetServicesMgr.addNetActionToQueue( eNetActionResolveConnectTestUrl );
-			m_NetServicesMgr.addNetActionToQueue( eNetActionIsPortOpen );
-		}
+			InetAddress inetAddr;
+			inetAddr.setIp( externIp.c_str() );
+			std::string netIp = inetAddr.toString();
+			if( netIp != externIp )
+			{
+				LogMsg( LOG_ERROR, "IP %s does not match %s ", netIp.c_str(), externIp.c_str() );
+			}
 
-		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveNetworkHostUrl );
-		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveDefaultUserHosts );
+			updateMyPktAnnIpAddress( externIp );
+			getNetStatusAccum().setUseFixedIp( externIp );
+			haveFixedIp = true;
+		}
+    }
+
+	if( !haveFixedIp )
+	{
+		m_NetServicesMgr.addNetActionToQueue( eNetActionResolveConnectTestUrl );
+		m_NetServicesMgr.addNetActionToQueue( eNetActionIsPortOpen );
+	}
+
+	m_NetServicesMgr.addNetActionToQueue( eNetActionResolveNetworkHostUrl );
+	m_NetServicesMgr.addNetActionToQueue( eNetActionResolveDefaultUserHosts );
 	//}
 	//else if( settingsHaveChange )
 	//{

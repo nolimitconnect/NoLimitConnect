@@ -186,7 +186,7 @@ bool IsHexDecString( std::string& cs )
 }
 
 //============================================================================
-std::string BinaryToHexString( unsigned char* pbyBin, int nLen )
+std::string BinaryToHexString( unsigned char* pbyBin, int nLen, bool noSpaces )
 {
     std::string hexString;
     char buf[4];
@@ -199,7 +199,14 @@ std::string BinaryToHexString( unsigned char* pbyBin, int nLen )
         }
         else
         {
-            sprintf( buf, "%02x ", pbyBin[i] );
+			if( noSpaces )
+			{
+				sprintf( buf, "%02x", pbyBin[i] );
+			}
+			else
+			{
+				sprintf( buf, "%02x ", pbyBin[i] );
+			}
         }
         
         hexString += buf;

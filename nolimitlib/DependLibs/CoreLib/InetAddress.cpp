@@ -589,15 +589,16 @@ uint16_t InetAddress::fromString( const char* pIpAddress )
 	uint8_t ipBinary[16];
 	if( ParseIPv4OrIPv6( pIpAddress, ipBinary, port, parsedIsIpv6 ) )
 	{
-		// the parser sets in the order is is parsed which host order but we want is stored as net order
+		// the parser uses net order so no need to change it
 		if( parsedIsIpv6 )
 		{
-			m_u64AddrLo = htonU64( *((uint64_t*)ipBinary) );
-			m_u64AddrHi = htonU64( *((uint64_t*)(&ipBinary[8])));
+			memcpy( &m_u64AddrHi, ipBinary, sizeof( m_u64AddrHi ) );
+			memcpy( &m_u64AddrLo, &ipBinary[8], sizeof(m_u64AddrLo));
 		}
 		else
 		{
-			m_u64AddrLo = htonl( *((uint32_t*)ipBinary) );
+			m_u64AddrLo = 0;
+			memcpy( &m_u64AddrLo, ipBinary, sizeof( uint32_t ) );
 			m_u64AddrHi = IP4_BINARY_INDICATOR; // indicator is a ipv4 address
 		}
 
@@ -624,11 +625,13 @@ std::string InetAddress::toString( void )
 	{
 		uint32_t u32Ip = getIPv4AddressInNetOrder();
         VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
-		//LogMsg( LOG_INFO, "InetAddress::toString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
 	}
 	else
 	{
-		VxIPv6_ntop( this, as8Buf.data(), as8Buf.size());
+		uint8_t ipBinary[16];
+		memcpy( ipBinary, &m_u64AddrHi, sizeof( m_u64AddrHi ) );
+		memcpy( &ipBinary[8], &m_u64AddrLo, sizeof(m_u64AddrLo) );
+		return ipv6BinaryToString( ipBinary );
 	}
 
 	retIpAddress = as8Buf.data();
@@ -1381,6 +1384,52 @@ void InetAddress::litteEndianToNetIPv6( uint16_t * src, uint16_t * dest )
 		*((uint32_t *)(&dest[4])) = htonl(u32Lo2);
 		*((uint32_t *)(&dest[6])) = htonl(u32Lo1);
 	}
+}
+
+//============================================================================
+std::string InetAddress::ipv6BinaryToString( uint8_t ipBinary[16] )
+{
+	std::string ipAddr;
+	std::vector<std::string> ipWords;
+	for( int i = 0; i < 16; i += 2 )
+	{
+		ipWords.emplace_back( BinaryToHexString( &ipBinary[i], 2, true ) );
+	}
+
+	int wordIdx{ 0 };
+	for( auto hexStr : ipWords )
+	{
+		wordIdx++;
+		ipAddr += removeLeadingZeros( hexStr );
+		if( wordIdx < ipWords.size() )
+		{
+			if( ipAddr.size() < 2 || ipAddr.substr( ipAddr.size() - 2 ) != "::" )
+			{
+				ipAddr += ':';
+			}
+		}
+	}
+
+	return ipAddr;
+}
+
+//============================================================================
+std::string InetAddress::removeLeadingZeros( std::string hexStr )
+{
+	int leadZeroCnt = 0;
+	for( int i = 0; i < hexStr.size(); i++ )
+	{
+		if( hexStr.at( i ) == '0' )
+		{
+			leadZeroCnt++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return hexStr.substr( leadZeroCnt );
 }
 
 //============================================================================
