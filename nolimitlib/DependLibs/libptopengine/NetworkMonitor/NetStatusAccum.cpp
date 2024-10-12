@@ -579,6 +579,24 @@ std::string NetStatusAccum::getLocalIpAddress( void )
 }
 
 //============================================================================
+std::string NetStatusAccum::getLocalIpv4( void )
+{
+    m_AccumMutex.lock();
+    std::string ipAddr = m_LocalAddrIpv4;
+    m_AccumMutex.unlock();
+    return ipAddr;
+}
+
+//============================================================================
+std::string NetStatusAccum::getLocalIpv6( void )
+{
+    m_AccumMutex.lock();
+    std::string ipAddr = m_LocalAddrIpv6;
+    m_AccumMutex.unlock();
+    return ipAddr;
+}
+
+//============================================================================
 void NetStatusAccum::setUseFixedIp( std::string externIp )
 {
     m_AccumMutex.lock();

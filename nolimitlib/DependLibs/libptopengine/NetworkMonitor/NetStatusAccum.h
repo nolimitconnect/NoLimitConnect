@@ -120,6 +120,8 @@ public:
 
     void                        setLocalIpAddress( std::string ipAddr );
     std::string                 getLocalIpAddress( void );
+    std::string                 getLocalIpv4( void );
+    std::string                 getLocalIpv6( void );
 
     EInternetStatus             getInternetStatus( void )           { return m_InternetStatus; }
     ENetAvailStatus             getNetAvailStatus( void )           { m_AccumMutex.lock(); ENetAvailStatus status = m_NetAvailStatus;  m_AccumMutex.unlock(); return status;  }

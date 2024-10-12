@@ -2948,7 +2948,9 @@ bool VxGetDefaultLocalIp( bool ipv6, std::string& retLocalIp )
 	struct sockaddr_storage sktStorage;
 	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
 	// google.com address although does not matter because no internet traffic will result
-	std::string testIpAddr = ipv6 ? "2001:4860:4860::8888" : "142.250.191.206";
+	// "2001:4860:4860::8888" // ping6 hangs on rasberry pi
+	// "2a00:1450:4016:80a::200e"
+	std::string testIpAddr = ipv6 ? "2a00:1450:4016:80a::200e" : "142.250.191.206";
 	int addrLen = VxSktAddrInit( ipv6, sktStorage, testIpAddr, 9 ); // 9 is debugging port
 	sockaddr* sktAddr = reinterpret_cast<sockaddr*>( &sktStorage );
 	if( !sktAddr )

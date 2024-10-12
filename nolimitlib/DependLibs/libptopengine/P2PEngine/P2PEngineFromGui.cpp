@@ -1879,6 +1879,12 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 	if( settingsHaveChange )
 	{
 		std::string networkKey = netHostSetting.getNetworkKey();
+		if( networkKey.empty() )
+		{
+			LogMsg( LOG_FATAL, "P2PEngine::%s empty network key", __func__ );
+			vx_assert( false );
+		}
+
 		getNetStatusAccum().setNetworkKey( networkKey );
 
 		// TODO remove this and use status accum instead
