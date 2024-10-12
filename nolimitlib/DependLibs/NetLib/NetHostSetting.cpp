@@ -10,6 +10,8 @@
 
 #include "NetHostSetting.h"
 
+#include "NetHostSettingDefs.h"
+
 //============================================================================
 NetHostSetting& NetHostSetting::operator =( const NetHostSetting& rhs )
 {
@@ -53,4 +55,34 @@ bool NetHostSetting::operator == ( const NetHostSetting& rhs ) const
 bool NetHostSetting::operator != ( const NetHostSetting& rhs ) const
 {
     return !( *this == rhs );
+}
+
+//============================================================================
+void NetHostSetting::resetToDefaultSettings( bool ipv6 )
+{
+    m_UseIpv6 = ipv6;
+    m_UseUpnp = true;
+    m_TcpPort = NET_DEFAULT_NETSERVICE_PORT;
+    m_FirewallType = 0;
+    m_ExternIpAddr.clear();
+    if( ipv6 )
+    {
+        m_NetHostSettingName = "default ipv6";
+
+        m_NetworkHostUrl = NET_DEFAULT_NET_HOST_URL_IPV6;
+        m_NetConnectTestUrl = NET_DEFAULT_CONNECT_TEST_URL_IP6;
+        m_NetRandomConnectUrl = NET_DEFAULT_RANDOM_CONNECT_URL_IPV6;
+        m_GroupHostUrl = NET_DEFAULT_GROUP_HOST_URL_IPV6;
+        m_ChatRoomHostUrl = NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV6;
+    }
+    else
+    {
+        m_NetHostSettingName = "default ipv4";
+
+        m_NetworkHostUrl = NET_DEFAULT_NET_HOST_URL_IPV4;
+        m_NetConnectTestUrl = NET_DEFAULT_CONNECT_TEST_URL_IPV4;
+        m_NetRandomConnectUrl = NET_DEFAULT_RANDOM_CONNECT_URL_IPV4;
+        m_GroupHostUrl = NET_DEFAULT_GROUP_HOST_URL_IPV4;
+        m_ChatRoomHostUrl = NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV4;
+    }
 }

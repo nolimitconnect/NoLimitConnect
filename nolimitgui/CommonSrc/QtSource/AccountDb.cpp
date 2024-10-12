@@ -12,14 +12,15 @@
 
 #include <CoreLib/sqlite3.h>
 #include <PktLib/VxCommon.h>
+
 #include <NetLib/NetHostSetting.h>
+#include <NetLib/VxGetRandomPort.h>
 
 #include <stdio.h>
 
 namespace
 {
 	std::string 		DATABASE_NAME 					= "nolimitconnect_acct.db";
-//	const int 			DATABASE_VERSION 				= 1;
 
 	std::string 		TABLE_LAST_LOGIN	 			= "last_login";
 	std::string 		TABLE_ACCOUNT_LOGIN	 			= "account_login";
@@ -72,6 +73,11 @@ RCODE AccountDb::onCreateTables( int iDbVersion )
 	rc |= sqlExec( exeStr );
 	exeStr = "CREATE TABLE " + TABLE_NET_HOST_SETTINGS + CREATE_COLUMNS_NET_HOST_SETTINGS;
 	rc |= sqlExec( exeStr );
+	if( 0 == rc )
+	{
+		createDefaultNetworkSettings();
+	}
+
 	return rc;
 }
 
@@ -176,7 +182,7 @@ bool AccountDb::getAccountByName(const char* name, VxNetIdent& oUserAccount )
 {
     if( NULL == name )
     {
-        LogMsg( LOG_ERROR, "AccountDb::getAccountByName: null name\n" );
+        LogMsg( LOG_ERROR, "AccountDb::%s: null name", __func__ );
         return false;
     }
 
@@ -195,14 +201,14 @@ bool AccountDb::getAccountByName(const char* name, VxNetIdent& oUserAccount )
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "AccountDb::getAccountByName: incorrect blob len in db.. was code changed????\n");
+				LogMsg( LOG_ERROR, "AccountDb::getAccountByName: incorrect blob len in db.. was code changed????");
 				cursor->close();
 				// remove the invalid blob
 				DbBindList bindList( name );
 				RCODE rc = sqlExec(  "DELETE FROM account_login WHERE online_name=?", bindList );
 				if( rc )
 				{
-					LogMsg( LOG_ERROR, "AccountDb::getAccountByName: could not remove login by name %s\n", name );
+					LogMsg( LOG_ERROR, "AccountDb::getAccountByName: could not remove login by name %s", name );
 				}
 
 				return false;
@@ -275,7 +281,7 @@ bool AccountDb::getUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfile 
 }
 
 //============================================================================
-//! update friend profile
+//! update user profile
 bool AccountDb::updateUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfile ) 
 {
 	RCODE rc = 0;
@@ -476,7 +482,6 @@ std::string AccountDb::getLastNetHostSettingName( void )
 	return strSettingName;
 }
 
-
 //============================================================================
 bool AccountDb::getAllAccounts( std::vector<VxNetIdent>& accountList )
 {
@@ -497,14 +502,14 @@ bool AccountDb::getAllAccounts( std::vector<VxNetIdent>& accountList )
             }
             else if( iBlobLen >= (int)sizeof( VxConnectIdent ) )
             {
-                LogMsg( LOG_ERROR, "AccountDb::getAllAccounts: incorrect blob len in db.. was code changed????\n" );
+                LogMsg( LOG_ERROR, "AccountDb::getAllAccounts: incorrect blob len in db.. was code changed????" );
                 cursor->close();
                 // remove the invalid blob
                 DbBindList bindList( netIdent->getOnlineName() );
                 RCODE rc = sqlExec( "DELETE FROM account_login WHERE online_name=?", bindList );
                 if( rc )
                 {
-                    LogMsg( LOG_ERROR, "AccountDb::getAccountByName: could not remove login by name %s\n", netIdent->getOnlineName() );
+                    LogMsg( LOG_ERROR, "AccountDb::getAccountByName: could not remove login by name %s", netIdent->getOnlineName() );
                 }
 
                 return false;
@@ -514,6 +519,32 @@ bool AccountDb::getAllAccounts( std::vector<VxNetIdent>& accountList )
         cursor->close();
     }
 
-
     return bResult && accountList.size() > 0;
+}
+
+//============================================================================
+void AccountDb::createDefaultNetworkSettings( void )
+{
+	// get port to listen on 
+    uint16_t tcpPort = VxGetRandomTcpPort();
+
+	NetHostSetting netHostSetting;
+	// default ipv4 settings
+	netHostSetting.resetToDefaultSettings( false );
+	if( tcpPort )
+	{
+		netHostSetting.setTcpPort( tcpPort );
+	}
+
+	updateNetHostSetting( netHostSetting );
+	updateLastNetHostSettingName( netHostSetting.getNetHostSettingName().c_str() );
+
+	// default ipv6 settings
+	netHostSetting.resetToDefaultSettings( true );
+	if( tcpPort )
+	{
+		netHostSetting.setTcpPort( tcpPort );
+	}
+
+	updateNetHostSetting( netHostSetting );
 }

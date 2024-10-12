@@ -112,8 +112,6 @@ uint16_t VxGetRandomTcpPort( bool bAbove10000 )
 
 		if( VxIsIpPortInUse( u16RandPort, nullptr, true ))
 		{
-            // sleep a bit or the whole app will look like it is hung
-            VxSleep( 100 );
 			continue;
 		}
 

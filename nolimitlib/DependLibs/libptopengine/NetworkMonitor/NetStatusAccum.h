@@ -132,6 +132,15 @@ public:
     bool                        isHostResolved( EHostType hostType );
     bool                        getResolvedHost( EHostType hostType, std::string& retHostUrl );
 
+    void                        setNetworkKey( std::string networkName );
+    std::string                 getNetworkKey( void );
+
+    void                        setNetworkHostUrl( std::string netHostUrl );
+    std::string                 getNetworkHostUrl( void );
+
+    std::string                 getNetworkHostName( void ); // just host name or ip
+    uint16_t                    getNetworkHostPort( void );
+
 protected:
     void                        onNetStatusChange( void );
 
@@ -163,6 +172,12 @@ protected:
     std::string                 m_LocalAddr;
     std::string                 m_LocalAddrIpv4;
     std::string                 m_LocalAddrIpv6;
+
+    std::string                 m_NetworkKey; // used as key for all encryption
+
+    std::string                 m_NetHostUrl; // full network host url
+    std::string                 m_NetHostName; // just host name or ip
+    uint16_t                    m_NetHostPort{ 0 }; // network host port
 
     bool                        m_NetHostIdAvail{ false };
     VxGUID                      m_NetNostOnlineId;

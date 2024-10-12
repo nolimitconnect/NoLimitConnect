@@ -279,6 +279,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\ISktStatCallbackInterface.h" />
     <ClInclude Include="..\..\NetHostSetting.h" />
+    <ClInclude Include="..\..\NetHostSettingDefs.h" />
     <ClInclude Include="..\..\NetSettings.h" />
     <ClInclude Include="..\..\VxAnyRandomPort.h" />
     <ClInclude Include="..\..\VxBaseSktInfo.h" />

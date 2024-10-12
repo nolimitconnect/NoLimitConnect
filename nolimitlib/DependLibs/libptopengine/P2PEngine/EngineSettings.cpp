@@ -11,6 +11,7 @@
 #include "EngineSettings.h"
 #include "EngineSettingsDefaultValues.h"
 #include <NetLib/VxGetRandomPort.h>
+#include <NetLib/NetHostSettingDefs.h>
 
 #define MY_SETTINGS_DBVERSION 1
 #define MY_SETTINGS_KEY "RCKEY"
@@ -207,7 +208,8 @@ uint16_t EngineSettings::getTcpIpPort( bool bGetRandomIfDoesntExist )
         {
             u16IpPort = VxGetRandomTcpPort();
         }
-        else
+        
+        if( !u16IpPort )
         {
             u16IpPort = NET_DEFAULT_NETSERVICE_PORT;
         }
@@ -262,7 +264,7 @@ void EngineSettings::getMulticastEnable( bool& enableMulticast )
 void EngineSettings::getConnectTestUrl( std::string& strWebsiteUrl )
 {
     m_SettingsDbMutex.lock();
-	getIniValue( MY_SETTINGS_KEY, "ConnectTestUrl", strWebsiteUrl, NET_DEFAULT_CONNECT_TEST_URL );
+	getIniValue( MY_SETTINGS_KEY, "ConnectTestUrl", strWebsiteUrl, NET_DEFAULT_CONNECT_TEST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
 }
 
@@ -278,7 +280,7 @@ void EngineSettings::setConnectTestUrl( std::string& strWebsiteUrl )
 void EngineSettings::getNetworkHostUrl( std::string& strWebsiteUrl )
 {
     m_SettingsDbMutex.lock();
-	getIniValue( MY_SETTINGS_KEY, "NetHostUrl", strWebsiteUrl, NET_DEFAULT_NET_HOST_URL );
+	getIniValue( MY_SETTINGS_KEY, "NetHostUrl", strWebsiteUrl, NET_DEFAULT_NET_HOST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
 }
 
@@ -302,7 +304,7 @@ void EngineSettings::setRandomConnectUrl( std::string& strWebsiteUrl )
 void EngineSettings::getRandomConnectUrl( std::string& strWebsiteUrl )
 {
     m_SettingsDbMutex.lock();
-    getIniValue( MY_SETTINGS_KEY, "RandConnectUrl", strWebsiteUrl, NET_DEFAULT_RANDOM_CONNECT_URL );
+    getIniValue( MY_SETTINGS_KEY, "RandConnectUrl", strWebsiteUrl, NET_DEFAULT_RANDOM_CONNECT_URL_IPV4 );
     m_SettingsDbMutex.unlock();
 }
 
@@ -318,7 +320,7 @@ void EngineSettings::setGroupHostUrl( std::string& strWebsiteUrl )
 void EngineSettings::getGroupHostUrl( std::string& strWebsiteUrl )
 {
     m_SettingsDbMutex.lock();
-    getIniValue( MY_SETTINGS_KEY, "GroupHostUrl", strWebsiteUrl, NET_DEFAULT_GROUP_HOST_URL );
+    getIniValue( MY_SETTINGS_KEY, "GroupHostUrl", strWebsiteUrl, NET_DEFAULT_GROUP_HOST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
 }
 
@@ -334,7 +336,7 @@ void EngineSettings::setChatRoomHostUrl( std::string& strWebsiteUrl )
 void EngineSettings::getChatRoomHostUrl( std::string& strWebsiteUrl )
 {
     m_SettingsDbMutex.lock();
-    getIniValue( MY_SETTINGS_KEY, "ChatRoomHostUrl", strWebsiteUrl, NET_DEFAULT_CHAT_ROOM_HOST_URL );
+    getIniValue( MY_SETTINGS_KEY, "ChatRoomHostUrl", strWebsiteUrl, NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
 }
 

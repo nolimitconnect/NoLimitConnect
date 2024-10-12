@@ -13,15 +13,6 @@
 
 #include <string>
 
-#define NET_DEFAULT_NETWORK_NAME			"NoLimitNet"
-#define NET_DEFAULT_NET_HOST_URL			"ptop://nolimitconnect.net:45124"
-#define NET_DEFAULT_CONNECT_TEST_URL		"ptop://nolimitconnect.xyz:45124" // for connection test.. for now same as Network Host but could be seperated to spread network load
-#define NET_DEFAULT_RANDOM_CONNECT_URL		"ptop://nolimitconnect.net:45124" // for random connect.. for now same as Network Host but could be seperated to spread network load
-#define NET_DEFAULT_GROUP_HOST_URL		    "ptop://nolimitconnect.net:45124" // for default group host.. for now same as Network Host but could be seperated to spread network load
-#define NET_DEFAULT_CHAT_ROOM_HOST_URL		"ptop://nolimitconnect.net:45124" // for default chat room host.. for now same as Network Host but could be seperated to spread network load
-#define NET_DEFAULT_NETSERVICE_PORT			45124
-#define NET_DEFAULT_UDP_PORT			    45123
-
 class NetHostSetting
 {
 public:
@@ -38,7 +29,7 @@ public:
 	void						setNetworkKey( const char* networkName )					{ m_NetworkName = networkName; }
 	std::string&				getNetworkKey( void )										{ return m_NetworkName; }
 
-	void						setNetworkHostUrl( const char* anchorUrl )				    { m_NetworkHostUrl = anchorUrl; }
+	void						setNetworkHostUrl( const char* netHostUrl )				    { m_NetworkHostUrl = netHostUrl; }
 	std::string&				getNetworkHostUrl( void )								    { return m_NetworkHostUrl; }
     void						setConnectTestUrl( const char* netServiceUrl )		        { m_NetConnectTestUrl = netServiceUrl; }
     std::string&				getConnectTestUrl( void )								    { return m_NetConnectTestUrl; }
@@ -63,20 +54,22 @@ public:
     void                        setUseIpv6( bool useIpv6 )                                  { m_UseIpv6 = useIpv6; }
     bool                        getUseIpv6( void )                                          { return m_UseIpv6; }
 
+    void                        resetToDefaultSettings( bool ipv6 );
+
 protected:
 	//=== vars ===//
-    std::string					m_NetHostSettingName{ "default" };
-    std::string					m_NetworkName{ NET_DEFAULT_NETWORK_NAME };
+    std::string					m_NetHostSettingName;
+    std::string					m_NetworkName;
 
-    std::string					m_NetworkHostUrl{ NET_DEFAULT_NET_HOST_URL };
-	std::string					m_NetConnectTestUrl{ NET_DEFAULT_CONNECT_TEST_URL };
-    std::string					m_NetRandomConnectUrl{ NET_DEFAULT_RANDOM_CONNECT_URL };
-    std::string					m_GroupHostUrl{ NET_DEFAULT_GROUP_HOST_URL };
-    std::string					m_ChatRoomHostUrl{ NET_DEFAULT_GROUP_HOST_URL };
-    std::string					m_ExternIpAddr{ "" };
+    std::string					m_NetworkHostUrl;
+	std::string					m_NetConnectTestUrl;
+    std::string					m_NetRandomConnectUrl;
+    std::string					m_GroupHostUrl;
+    std::string					m_ChatRoomHostUrl;
+    std::string					m_ExternIpAddr;
 
     int32_t                     m_FirewallType{ 0 };
     bool						m_UseUpnp{ false };
     bool						m_UseIpv6{ false };
-    uint16_t					m_TcpPort{ NET_DEFAULT_NETSERVICE_PORT };
+    uint16_t					m_TcpPort{ 0 };
 };

@@ -67,16 +67,7 @@ void AppCommon::updateMyIdent( VxNetIdent* myIdent, bool permissionAndStateOnly 
 //============================================================================
 void AppCommon::doLogin()
 {
-    //AppSetup appSetup;
-    //if( false == appSetup.areUserAssetsInitilized() )
-    //{
-    //    m_AppSetupDlg = new ActivityAppSetup( *this, &getHomeWindow() );
-    //    m_AppSetupDlg->show();
-    //}
-    //else
-    //{
-        doLoginStep2();
-    //}
+    doLoginStep2();
 }
 
 //============================================================================
@@ -289,7 +280,7 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
 
     getEngine().fromGuiSetUserXferDir( getUserXferDirectoryFromAccountUserName( userName ).c_str() );
     std::string strUserSpecificDir = getUserSpecificDataDirectoryFromAccountUserName( userName );
-    // gotv (kodi) also needs the directory
+    // media player also needs the directory
     getEngine().fromGuiSetUserSpecificDir( strUserSpecificDir.c_str() );
 
     copyAssetsToFoldersIfRequired();
@@ -297,18 +288,9 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
     m_CamSourceId = m_AppSettings.getCamSourceId();
     m_CamCaptureRotation = m_AppSettings.getCamRotation( m_CamSourceId );
 
-    // get port to listen on 
-    uint16_t tcpPort = getEngine().getEngineSettings().getTcpIpPort();
-    getEngine().getMyNetIdent()->setIsAutomatedHost( m_AppSettings.getIsAutomatedHost() );
-    getEngine().getMyNetIdent()->setOnlinePort( tcpPort );
-    getEngine().getMyNetIdent()->m_DirectConnectId.m_OnlineIp = getEngine().getFromGuiInterface().fromGuiGetMyIPv6Address();
-
-    getEngine().setPktAnnLastModTime( GetTimeStampMs() );
-
-    uint64_t aliveMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Account Loaded ms %" PRId64 " alive ms %" PRId64 "", aliveMs - loadStartMs, aliveMs );
+    //uint64_t aliveMs = GetApplicationAliveMs();
+    //LogMsg( LOG_DEBUG, "Account Loaded ms %" PRId64 " alive ms %" PRId64 "", aliveMs - loadStartMs, aliveMs );
     setIsAppInitialized( true );
-    getEngine().getNetStatusAccum().setIpPort( tcpPort );
 }
 
 //============================================================================

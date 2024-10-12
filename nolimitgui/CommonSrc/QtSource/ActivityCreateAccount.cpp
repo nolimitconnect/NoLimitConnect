@@ -71,9 +71,9 @@ void ActivityCreateAccount::slotButtonLoginClicked( void )
         memcpy( m_MyApp.getAppGlobals().getMyNetIdent(), &m_UserAccount, sizeof( VxNetIdent ) );
         m_MyApp.getUserMgr().updateMyIdent( m_MyApp.getAppGlobals().getMyNetIdent() );
 
-        // fill in database info-1
+        // fill in database info
         LogMsg( LOG_VERBOSE, "created acct name %s UUID %s", m_UserAccount.getOnlineName(), m_UserAccount.getMyOnlineId().toOnlineIdString().c_str() );
-        if( true == m_MyApp.getAccountMgr().insertAccount( m_UserAccount ) )
+        if( m_MyApp.getAccountMgr().insertAccount( m_UserAccount ) )
         {
             m_MyApp.getAccountMgr().updateLastLogin( m_UserAccount.getOnlineName() );
             accept();

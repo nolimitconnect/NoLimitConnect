@@ -76,16 +76,16 @@ NetworkMgr::NetworkMgr( P2PEngine&		engine,
 void NetworkMgr::networkMgrStartup( void )
 {
 	// set the network key immediately so services like NetService has it available durring startup
-	NetHostSetting netHostSettings;
-	m_Engine.getEngineSettings().getNetHostSettings( netHostSettings );
-	setNetworkKey( netHostSettings.getNetworkKey() );
-	m_PeerMgr.sktMgrStartup(netHostSettings.getUseIpv6());
+	//NetHostSetting netHostSettings;
+	//m_Engine.getEngineSettings().getNetHostSettings( netHostSettings );
+	//setNetworkKey( netHostSettings.getNetworkKey() );
+	//m_PeerMgr.sktMgrStartup(netHostSettings.getUseIpv6());
 }
 
 //============================================================================
 void NetworkMgr::networkMgrShutdown( void )
 {
-	m_PeerMgr.sktMgrShutdown();
+	//m_PeerMgr.sktMgrShutdown();
 }
 
 //============================================================================

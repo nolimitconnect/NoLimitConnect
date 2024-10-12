@@ -228,7 +228,6 @@ public:
     virtual void				fromGuiAppPause( void ) override;
     virtual void				fromGuiAppResume( void ) override;
 
-    void                        updateFromEngineSettings( EngineSettings& engineSettings ); 
     virtual void				fromGuiOnlineNameChanged( const char* newOnlineName ) override;
     virtual void				fromGuiMoodMessageChanged( const char* newMoodMessage ) override;
     virtual void				fromGuiIdentPersonalInfoChanged( int age, int gender, int language, int preferredContent ) override;
@@ -270,12 +269,6 @@ public:
 
     virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) override;
     virtual bool				fromGuiMovieDone( void ) override							{ return true; };
-
-    virtual void				fromGuiNetworkAvailable( const char* lclIp = nullptr, bool isCellularNetwork = false ) override;
-    virtual void				fromGuiNetworkLost( void ) override;
-    virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet ) override;
-
-    virtual void				fromGuiNetworkSettingsChanged( void ) override;
 
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;

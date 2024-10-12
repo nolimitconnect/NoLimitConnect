@@ -131,17 +131,10 @@ public:
 	virtual void				fromGuiSetNetSettings( NetSettings& netSettings ) = 0;
 	/// Get network settings
 	virtual void				fromGuiGetNetSettings( NetSettings& netSettings ) = 0;
-	/// Prompt network state machine to reconnect with new settings
-	virtual void				fromGuiNetworkSettingsChanged( void ) = 0;
+
 	/// Set number of users that can use device as relay
 	virtual void				fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMaxCnt ) = 0;
 
-	/// Call when internet connection is available
-	virtual void				fromGuiNetworkAvailable( const char* lclIp = NULL, bool isCellularNetwork = false ) = 0;
-	/// Call when internet connection is disconnected
-	virtual void				fromGuiNetworkLost( void ) = 0;
-    /// state of a network layer
-    virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet ) = 0;
 	/// Run test to see if TCP port is open and what the external IP Address is
 	virtual void				fromGuiRunIsPortOpenTest( uint16_t port ) = 0;
     /// Run test on the given url

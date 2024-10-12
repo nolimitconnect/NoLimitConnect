@@ -41,8 +41,6 @@ void NetStatusAccum::resetConnectionTestStatus( void )
 //============================================================================
 void NetStatusAccum::resetNetworkStatusAll( void )
 {
-    resetConnectionTestStatus();
-
     m_InternetAvail = false;
     m_NetworkHostAvail = false;
 
@@ -51,7 +49,7 @@ void NetStatusAccum::resetNetworkStatusAll( void )
     m_GroupHostAvail = false;
     m_IsConnectedGroupHost = false;
 
-    onNetStatusChange();
+    resetConnectionTestStatus();
 }
 
 //============================================================================
@@ -686,4 +684,72 @@ bool NetStatusAccum::getResolvedHost( EHostType hostType, std::string& retHostUr
 	} 
 
     return false;
+}
+
+//============================================================================
+void NetStatusAccum::setNetworkKey( std::string networkName )
+{
+    lockAccum();
+    m_NetworkKey = networkName;
+    unlockAccum();
+}
+
+//============================================================================
+std::string NetStatusAccum::getNetworkKey( void )
+{
+    lockAccum();
+    std::string netKey = m_NetworkKey;
+    unlockAccum();
+    return netKey;
+}
+
+//============================================================================
+void NetStatusAccum::setNetworkHostUrl( std::string netHostUrl )
+{
+    lockAccum();
+    m_NetHostUrl = netHostUrl;
+    unlockAccum();
+
+    std::string webHostName;
+    std::string webFileName;
+    uint16_t port = 0;
+    VxSplitHostAndFile( netHostUrl.c_str(), webHostName, webFileName, port );
+    if( !webHostName.empty() )
+    {
+        lockAccum();
+        m_NetHostName = webHostName;
+        if( port )
+        {
+            m_NetHostPort = port;
+        }
+
+        unlockAccum();
+    }
+}
+
+//============================================================================
+std::string NetStatusAccum::getNetworkHostUrl( void )
+{
+    lockAccum();
+    std::string netHostUrl = m_NetHostUrl;
+    unlockAccum();
+    return netHostUrl;
+}
+
+//============================================================================
+std::string NetStatusAccum::getNetworkHostName( void ) 
+{
+    lockAccum();
+    std::string netHostName = m_NetHostName;
+    unlockAccum();
+    return netHostName;
+}
+
+//============================================================================
+uint16_t NetStatusAccum::getNetworkHostPort( void )
+{
+    lockAccum();
+    uint16_t netHostPort = m_NetHostPort;
+    unlockAccum();
+    return netHostPort;
 }

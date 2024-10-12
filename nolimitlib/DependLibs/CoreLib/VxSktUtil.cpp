@@ -107,7 +107,7 @@ RCODE VxSocketsStartup( void )
 	}
 #endif // TARGET_OS_WINDOWS
 
-	VxRefreshDefaultIps();
+	//VxRefreshDefaultIps();
 	bIsInitialized = true;
 	return  0;
 }

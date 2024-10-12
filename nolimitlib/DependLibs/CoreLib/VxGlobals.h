@@ -64,13 +64,6 @@ const char*						VxGetCompanyDomain( void );
 const char*						VxGetOrginizationName( void );
 const char*						VxGetCompanyWebsite( void );
 
-void							VxSetNetworkHostName( const char* netHostName );
-const char*						VxGetNetworkHostName( void );
-void							VxSetNetworkHostPort( uint16_t netHostPort );
-uint16_t						VxGetNetworkHostPort( void );
-void							VxSetNetworkHostUrl( const char* netHostUrl );
-const char*						VxGetNetworkHostUrl( void );
-
 const char*						VxGetApplicationTitle( void );
 const char*						VxGetApplicationNameNoSpaces( void );
 const char*						VxGetApplicationNameNoSpacesLowerCase( void );

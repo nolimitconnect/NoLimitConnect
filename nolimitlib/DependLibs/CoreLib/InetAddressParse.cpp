@@ -306,6 +306,12 @@ bool ParseIPv4OrIPv6( const char* pszText, unsigned char* abyAddr, uint16_t& ret
     {
         retIsIPv6 = pbIsIPv6 ? true : false;
         retPort = (uint16_t)pnPort;
+        if( retPort == 1 )
+        {
+            // parser uses 1 to indicate no port was parsed
+            retPort = 0;
+        }
+
         return true;
     }
 

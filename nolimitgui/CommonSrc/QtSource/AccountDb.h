@@ -31,10 +31,10 @@ public:
 	void						setIsValid( bool bValid )				{ m_bIsValid = bValid; }
 
 	//=== overrides ===//
-	//! delete tables from database 
-	virtual RCODE				onDeleteTables( int oldVersion );
+    //! delete tables from database
+    virtual RCODE				onDeleteTables( int oldVersion ) override;
 	//! create tables in database 
-	virtual RCODE				onCreateTables( int iDbVersion );
+	virtual RCODE				onCreateTables( int iDbVersion ) override;
 
 	//=== methods ===//
 	//! return true if online id exists in table
@@ -42,9 +42,9 @@ public:
 	//=========================================================================
 	//=== login ===//
 	//! update last login name
-	bool						updateLastLogin( std::string& strThingName ) { return updateLastLogin( strThingName.c_str() ); } 
+    bool						updateLastLogin( std::string& loginName ) { return updateLastLogin( loginName.c_str() ); }
 	//! update last login name
-	bool						updateLastLogin( const char* pThingName );
+    bool						updateLastLogin( const char* loginName );
 	//! get last login name.. return "" if doesn't exist
 	std::string					getLastLogin(); 
 	//=========================================================================
@@ -85,6 +85,8 @@ public:
     //=========================================================================
 
 protected:
+	void						createDefaultNetworkSettings( void );
+
 	//=== vars ===//
 	bool						m_bIsValid;
 };

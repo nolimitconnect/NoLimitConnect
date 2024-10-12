@@ -27,6 +27,7 @@
 #include <CoreLib/VxSktUtil.h>
 
 #include <NetLib/NetHostSetting.h>
+#include <NetLib/NetHostSettingDefs.h>
 #include <NetLib/VxGetRandomPort.h>
 #include <NetLib/VxPortForward.h>
 

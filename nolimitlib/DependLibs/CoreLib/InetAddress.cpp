@@ -593,7 +593,7 @@ uint16_t InetAddress::fromString( const char* pIpAddress )
 		if( parsedIsIpv6 )
 		{
 			memcpy( &m_u64AddrHi, ipBinary, sizeof( m_u64AddrHi ) );
-			memcpy( &m_u64AddrLo, &ipBinary[8], sizeof(m_u64AddrLo));
+			memcpy( &m_u64AddrLo, &ipBinary[8], sizeof( m_u64AddrLo ));
 		}
 		else
 		{
@@ -610,7 +610,7 @@ uint16_t InetAddress::fromString( const char* pIpAddress )
 }
 
 //============================================================================
-std::string InetAddress::toString( void )
+std::string InetAddress::toString( void ) const
 {
 	std::string retIpAddress;
 	std::array<char, INET6_MAX_STR_LEN> as8Buf;
@@ -1007,21 +1007,10 @@ bool InetAddress::isLoopBack() const
 	}
 	else
 	{
-		uint8_t * pu8Bytes = (uint8_t * )this;
-		for(int i = 0; i < 16; i++ )
-		{
-			if( pu8Bytes[i] && (i != 15) )
-			{
-				isLoopBack = false;
-				break;
-			}
-			else if(  (1 == pu8Bytes[i]) && (i == 15) )
-			{
-				isLoopBack = true;
-				break;
-			}
-		}
+		std::string ipAddr = toString();
+		isLoopBack = ipAddr == "::1";
 	}
+
 	return isLoopBack;
 }
 
@@ -1275,45 +1264,47 @@ uint16_t InetAddress::setIp( struct sockaddr_storage& oAddr )
 
 //============================================================================
 //! fill address with this ip address and the given port
-int InetAddress::fillAddress( struct sockaddr_storage& oAddr, uint16_t u16Port )
+int InetAddress::fillAddress( struct sockaddr_storage& storageAddr, uint16_t u16Port )
 {
-    memset( &oAddr, 0, sizeof( struct sockaddr_storage ) );
+    memset( &storageAddr, 0, sizeof( struct sockaddr_storage ) );
 	if( isIPv4() )
 	{
-        return fillAddress( *((struct sockaddr_in*)&oAddr), u16Port );
+        return fillAddress( *((struct sockaddr_in*)&storageAddr), u16Port );
 	}
 	else
 	{
-        return fillAddress( *((struct sockaddr_in6*)&oAddr), u16Port );
+        return fillAddress( *((struct sockaddr_in6*)&storageAddr), u16Port );
 	}
 }
 
 //============================================================================
 //! fill address with this ip address and the given port.. returns struct len
-int InetAddress::fillAddress( struct sockaddr_in& oIPv4Addr, uint16_t u16Port )
+int InetAddress::fillAddress( struct sockaddr_in& ipv4Addr, uint16_t u16Port )
 {
 	// setup the address and port
-	memset( &oIPv4Addr, 0, sizeof( sockaddr_in ) );
+	memset( &ipv4Addr, 0, sizeof( sockaddr_in ) );
 
-	oIPv4Addr.sin_family			= AF_INET;
-	*((long*)&oIPv4Addr.sin_addr)	= getIPv4AddressInHostOrder();
+	ipv4Addr.sin_family			= AF_INET;
+	*((uint32_t*)&ipv4Addr.sin_addr) = getIPv4AddressInNetOrder();
 
-	oIPv4Addr.sin_port				= htons( u16Port );
+	ipv4Addr.sin_port				= htons( u16Port );
 	return (int)sizeof( struct sockaddr_in);
 }
 
 //============================================================================
 //! fill address with this ip address and the given port.. returns struct len
-int InetAddress::fillAddress( struct sockaddr_in6& oIPv6Addr, uint16_t u16Port )
+int InetAddress::fillAddress( struct sockaddr_in6& ipv6Addr, uint16_t u16Port )
 {
 	// setup the address and port
-	memset( &oIPv6Addr, 0, sizeof( sockaddr_in6 ) );
+	memset( &ipv6Addr, 0, sizeof( sockaddr_in6 ) );
 
-	oIPv6Addr.sin6_family			= AF_INET6;
+	ipv6Addr.sin6_family			= AF_INET6;
+	uint8_t* addrBuf = (uint8_t*) & ipv6Addr.sin6_addr;
 
-	memcpy( &oIPv6Addr.sin6_addr, this, 16 );
+	memcpy( addrBuf, &m_u64AddrHi, 8 );
+	memcpy( &addrBuf[8], &m_u64AddrLo, 8 );
 
-	oIPv6Addr.sin6_port	= htons( u16Port );
+	ipv6Addr.sin6_port	= htons( u16Port );
 	return (int)sizeof( struct sockaddr_in6);
 }
 
@@ -1400,7 +1391,7 @@ std::string InetAddress::ipv6BinaryToString( uint8_t ipBinary[16] )
 	for( auto hexStr : ipWords )
 	{
 		wordIdx++;
-		ipAddr += removeLeadingZeros( hexStr );
+		ipAddr += removeLeadingZeros( hexStr, wordIdx < 4 );
 		if( wordIdx < ipWords.size() )
 		{
 			if( ipAddr.size() < 2 || ipAddr.substr( ipAddr.size() - 2 ) != "::" )
@@ -1414,7 +1405,7 @@ std::string InetAddress::ipv6BinaryToString( uint8_t ipBinary[16] )
 }
 
 //============================================================================
-std::string InetAddress::removeLeadingZeros( std::string hexStr )
+std::string InetAddress::removeLeadingZeros( std::string hexStr, bool leaveAtLeastOneZeroIfEmpty )
 {
 	int leadZeroCnt = 0;
 	for( int i = 0; i < hexStr.size(); i++ )
@@ -1429,7 +1420,13 @@ std::string InetAddress::removeLeadingZeros( std::string hexStr )
 		}
 	}
 
-	return hexStr.substr( leadZeroCnt );
+	std::string retStr = hexStr.substr( leadZeroCnt );
+	if( leaveAtLeastOneZeroIfEmpty && retStr.empty() )
+	{
+		retStr = "0";
+	}
+
+	return retStr;
 }
 
 //============================================================================

@@ -60,6 +60,7 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxGUID.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <CoreLib/InetAddressParse.h>
 
@@ -129,6 +130,9 @@ static GuiSendQueueMgr sendQueueMgr;
 static MyIcons myIcons;
     if( !g_AppCommon )
     {
+		// need sockets right away so can check for port in use when creating new account
+		VxSocketsStartup();
+
         // constructor of AppCommon will set g_AppCommon
         new AppCommon( *myApp, eAppModeDefault, appModuleState, appSettings, accountMgr, 
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 

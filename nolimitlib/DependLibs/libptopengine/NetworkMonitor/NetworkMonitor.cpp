@@ -125,7 +125,7 @@ void  NetworkMonitor::triggerDetermineNetworkState( void )
             m_Engine.getNetStatusAccum().setIsFixedIpAddress( true );
             setIsInternetAvailable( true );
             m_Engine.getNetStatusAccum().setDirectConnectTested( true, false, externIp );
-            m_Engine.fromGuiNetworkAvailable( externIp.c_str(), false );
+            //m_Engine.fromGuiNetworkAvailable( externIp.c_str(), false );
         }
 
         if( m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost ) )
@@ -174,7 +174,7 @@ void  NetworkMonitor::triggerDetermineNetworkState( void )
                 LogModule( eLogNetworkState, LOG_INFO, " NetworkMonitor::onOncePerSecond new ip %s", m_ConnectedLclIp.c_str() );
                 setIsInternetAvailable( true );
                 // LogMsg( LOG_INFO, " NetworkMonitor::onOncePerSecond fromGuiNetworkAvailable" );
-                m_Engine.fromGuiNetworkAvailable( m_ConnectedLclIp.c_str(), false );
+                //m_Engine.fromGuiNetworkAvailable( m_ConnectedLclIp.c_str(), false );
              }
         }
         else
@@ -186,7 +186,7 @@ void  NetworkMonitor::triggerDetermineNetworkState( void )
                 m_Engine.getNetStatusAccum().setNetHostAvail( false );
                 setIsInternetAvailable( false );
                 // LogMsg( LOG_INFO, " NetworkMonitor::onOncePerSecond fromGuiNetworkLost" );
-                m_Engine.fromGuiNetworkLost();
+                //m_Engine.fromGuiNetworkLost();
             }
         }
 
@@ -340,8 +340,8 @@ std::string NetworkMonitor::determineLocalIp( void )
 
     EIpAddrType addrType = m_Engine.getEngineSettings().getUseIpv6() ? eIpAddrTypeIpv6 : eIpAddrTypeIpv4;
     // try network host 
-    SOCKET skt = sktConnect.connectTo( VxGetNetworkHostName(),		// remote ip or url
-                                       VxGetNetworkHostPort(),		// port to connect to
+    SOCKET skt = sktConnect.connectTo( m_Engine.getNetStatusAccum().getNetworkHostName().c_str(),		// remote ip or url
+                                       m_Engine.getNetStatusAccum().getNetworkHostPort(),		// port to connect to
                                        addrType,
                                        NET_MONITOR_CONNECT_TO_HOST_TIMOUT_MS );	// timeout attempt to connect
     if( INVALID_SOCKET != skt )
@@ -355,7 +355,7 @@ std::string NetworkMonitor::determineLocalIp( void )
             localIp = lclAddr.toString();
             if( localIp.empty() || localIp == "0.0.0.0" )
             {
-                LogModule( eLogNetworkState, LOG_INFO, "determineLocalIp sktConnect.connectTo invalid local ip %s", VxGetNetworkHostName() );
+                LogModule( eLogNetworkState, LOG_INFO, "determineLocalIp sktConnect.connectTo invalid local ip %s", m_Engine.getNetStatusAccum().getNetworkHostName().c_str() );
                 localIp = "";
                 m_Engine.getNetStatusAccum().setNetHostAvail( false );
             }
@@ -392,7 +392,8 @@ std::string NetworkMonitor::determineLocalIp( void )
 
     if( localIp.empty() )
     {
-        LogModule( eLogNetworkState, LOG_WARNING, "Failed verify No Limit Hosted internet conection to ptop://%s:%d", VxGetNetworkHostName(), VxGetNetworkHostPort() );
+        LogModule( eLogNetworkState, LOG_WARNING, "Failed verify No Limit Hosted internet conection to ptop://%s:%d", 
+                   m_Engine.getNetStatusAccum().getNetworkHostName().c_str(), m_Engine.getNetStatusAccum().getNetworkHostPort() );
         static int connectToGoogleCnt = 0;
         connectToGoogleCnt++;
         if( connectToGoogleCnt < 100 && !lastLocalIp.empty() )

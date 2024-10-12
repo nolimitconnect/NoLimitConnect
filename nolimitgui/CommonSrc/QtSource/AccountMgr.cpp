@@ -72,15 +72,15 @@ bool AccountMgr::updateUserProfile( VxNetIdent& userAccount, UserProfile& oProfi
 }
 
 //============================================================================
-bool AccountMgr::updateNetHostSetting( NetHostSetting& anchorSetting )
+bool AccountMgr::updateNetHostSetting( NetHostSetting& netHostSetting )
 {
-    return m_AccountDb.updateNetHostSetting( anchorSetting );
+    return m_AccountDb.updateNetHostSetting( netHostSetting );
 }
 
 //============================================================================
-bool AccountMgr::getNetHostSettingByName( const char* name, NetHostSetting& anchorSetting )
+bool AccountMgr::getNetHostSettingByName( const char* name, NetHostSetting& netHostSetting )
 {
-    return m_AccountDb.getNetHostSettingByName( name, anchorSetting );
+    return m_AccountDb.getNetHostSettingByName( name, netHostSetting );
 }
 
 //============================================================================
@@ -90,9 +90,9 @@ std::string AccountMgr::getLastLogin()
 }
 
 //============================================================================
-bool AccountMgr::getAllNetHostSettings( std::vector<NetHostSetting>& anchorSettingList )
+bool AccountMgr::getAllNetHostSettings( std::vector<NetHostSetting>& netHostSettingList )
 {
-    return m_AccountDb.getAllNetHostSettings( anchorSettingList );
+    return m_AccountDb.getAllNetHostSettings( netHostSettingList );
 }
 
 //============================================================================

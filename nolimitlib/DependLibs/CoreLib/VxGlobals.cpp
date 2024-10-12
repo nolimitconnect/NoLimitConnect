@@ -92,12 +92,12 @@ namespace
 }
 
 //============================================================================
-void            VxSetNetworkHostName( const char* netHostName )     { g_strNetworkHostName = netHostName; }
-const char*     VxGetNetworkHostName( void )                        { return g_strNetworkHostName.c_str(); }
-void            VxSetNetworkHostPort( uint16_t netHostPort )        { g_NetworkHostPort = netHostPort; }
-uint16_t        VxGetNetworkHostPort( void )                        { return g_NetworkHostPort; }
-void            VxSetNetworkHostUrl( const char* netHostUrl )       { g_strNetworkHostUrl = netHostUrl; }
-const char*     VxGetNetworkHostUrl( void )                         { return g_strNetworkHostUrl.c_str(); }
+//void            VxSetNetworkHostName( const char* netHostName )     { g_strNetworkHostName = netHostName; }
+//const char*     VxGetNetworkHostName( void )                        { return g_strNetworkHostName.c_str(); }
+//void            VxSetNetworkHostPort( uint16_t netHostPort )        { g_NetworkHostPort = netHostPort; }
+//uint16_t        VxGetNetworkHostPort( void )                        { return g_NetworkHostPort; }
+//void            VxSetNetworkHostUrl( const char* netHostUrl )       { g_strNetworkHostUrl = netHostUrl; }
+//const char*     VxGetNetworkHostUrl( void )                         { return g_strNetworkHostUrl.c_str(); }
 
 // directory structure on disk
 

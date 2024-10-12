@@ -49,7 +49,7 @@ public:
 
 	// set ip from string.. returns port if is part of addr.. example 1.1.1.1:80 returns 80
 	uint16_t                    fromString( const char* pIpAddress );
-	std::string					toString( void );
+	std::string					toString( void ) const;
 	EIpAddrType					getIpAddrType( void );
 
     InetAddress&                operator=(const InetAddress& inetAddr);
@@ -89,16 +89,16 @@ public:
     static void                 dumpAddresses( std::vector<InetAddress>& addressList );
 
 	static std::string			ipv6BinaryToString( uint8_t ipBinary[16] );
-	static std::string			removeLeadingZeros( std::string hexStr );
+	static std::string			removeLeadingZeros( std::string hexStr, bool leaveAtLeastOneZeroIfEmpty );
 protected:
 	//! returns port in host order
-    uint16_t                    setIp( struct sockaddr_in& oIPv4Addr );
+    uint16_t                    setIp( struct sockaddr_in& ipv4Addr );
 	//! returns port in host order
-    uint16_t                    setIp( struct sockaddr_in6& oIPv6Addr );
+    uint16_t                    setIp( struct sockaddr_in6& ipv6Addr );
 	//! fill address with this ip address and the given port.. returns struct len
-    int                         fillAddress( struct sockaddr_in& oIPv4Addr, uint16_t port );
+    int                         fillAddress( struct sockaddr_in& ipv4Addr, uint16_t port );
 	//! fill address with this ip address and the given port.. returns struct len
-    int                         fillAddress( struct sockaddr_in6& oIPv6Addr, uint16_t port );
+    int                         fillAddress( struct sockaddr_in6& ipv6Addr, uint16_t port );
 
     bool                        isIPv4String( const char* pIpAddress ) const;
 
@@ -138,8 +138,8 @@ public:
     uint16_t                    getPort( void )	const			                    { return m_u16Port; }
     void                        setPort( uint16_t u16Port )			                { m_u16Port = u16Port; }
 
-    void                        setIpAndPort( struct sockaddr_storage& oAddr );
-	void                        setIpAndPort( struct sockaddr& oAddr );
+    void                        setIpAndPort( struct sockaddr_storage& storageAddr );
+	void                        setIpAndPort( struct sockaddr& sockAddr );
     void                        setIpAndPort( const char* ipAddr, uint16_t port );
 
     // these shadow InetAddress on purpose to avoid issues with override packet size change over internet
@@ -151,9 +151,9 @@ public:
     //! returns port in host order
     uint16_t                    setIp( struct sockaddr& ipAddr )                            { return InetAddress::setIp( ipAddr ); };
     //! returns port in host order
-    uint16_t                    setIp( struct sockaddr_in& oIPv4Addr )                      { m_u16Port = InetAddress::setIp( oIPv4Addr ); return m_u16Port; };
+    uint16_t                    setIp( struct sockaddr_in& ipv4Addr )                       { m_u16Port = InetAddress::setIp( ipv4Addr ); return m_u16Port; };
     //! returns port in host order
-    uint16_t                    setIp( struct sockaddr_in6& oIPv6Addr )                     { m_u16Port = InetAddress::setIp( oIPv6Addr ); return m_u16Port; };
+    uint16_t                    setIp( struct sockaddr_in6& ipv6Addr )                      { m_u16Port = InetAddress::setIp( ipv6Addr ); return m_u16Port; };
 
 
 	//=== vars ===//

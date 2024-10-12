@@ -38,7 +38,7 @@ public:
 
 protected:
 	//=== vars ===//
-    uint16_t					m_u16MyMulticastPort{ NET_DEFAULT_UDP_PORT };
+    uint16_t					m_u16MyMulticastPort{ 0 };
 	bool						m_bMulticastEnable{ false };
 	int							m_UserRelayPermissionCount{ 0 };
 	int							m_SystemRelayPermissionCount{ 0 };
