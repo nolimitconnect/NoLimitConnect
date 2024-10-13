@@ -1025,7 +1025,7 @@ bool InetAddress::isLocalAddress( bool forLocalListening ) const
 
 	if( isIPv6() ) 
 	{
-		uint32_t * netOrder = (uint32_t *)this;
+		uint32_t * netOrder = (uint32_t *)&m_u64AddrHi;
 
 		uint32_t ip0 = ntohl(netOrder[0]);
 		uint32_t ip1 = ntohl(netOrder[1]);
@@ -1093,7 +1093,6 @@ bool InetAddress::operator != (const InetAddress& oAddr)  const
 	return (m_u64AddrHi != oAddr.m_u64AddrHi) || (m_u64AddrLo != oAddr.m_u64AddrLo);
 }
 
-
 //============================================================================
 InetAddress& InetAddress::operator=(const InetAddrIPv4& inetAddr) 
 {
@@ -1116,7 +1115,7 @@ bool InetAddress::operator != (const InetAddrIPv4& inetAddr)  const
 //============================================================================
 bool InetAddress::isValid( void ) const
 {
-	return ( 0 != m_u64AddrLo );
+	return isIPv4() || !( 0 == m_u64AddrHi && 0 == m_u64AddrLo );
 }
 
 //============================================================================
@@ -1209,18 +1208,21 @@ uint16_t InetAddress::setIp( const char* pIp )
 
 //============================================================================
 //! returns port in host order
-uint16_t InetAddress::setIp( struct sockaddr_in& oIPv4Addr )
+uint16_t InetAddress::setIp( struct sockaddr_in& ipv4Addr )
 {
-    setIp(*((uint32_t*)&oIPv4Addr.sin_addr), true );
-	return ntohs( oIPv4Addr.sin_port );
+    setIp(*((uint32_t*)&ipv4Addr.sin_addr), true );
+	return ntohs( ipv4Addr.sin_port );
 }
 
 //============================================================================
 //! returns port in host order
-uint16_t InetAddress::setIp( struct sockaddr_in6& oIPv6Addr )
+uint16_t InetAddress::setIp( struct sockaddr_in6& ipv6Addr )
 {
-	memcpy(this, &oIPv6Addr.sin6_addr, sizeof(struct sockaddr_in6) < sizeof( InetAddress ) ? sizeof(struct sockaddr_in6) : sizeof( InetAddress ) );
-	return ntohs( oIPv6Addr.sin6_port );
+	uint8_t* binaryIp = (uint8_t*)&ipv6Addr.sin6_addr;
+	memcpy( &m_u64AddrHi, binaryIp, sizeof( m_u64AddrHi ) );
+	memcpy( &m_u64AddrLo, &binaryIp[8], sizeof( m_u64AddrLo ) );
+
+	return ntohs( ipv6Addr.sin6_port );
 }
 
 //============================================================================
@@ -1336,54 +1338,18 @@ uint16_t InetAddress::getIpFromAddr(const struct sockaddr *sa, std::string& retS
 }
 
 //============================================================================
-bool InetAddress::isLittleEndian( void )
-{
-	return ( 4L == ntohl(4L));
-}
-
-//============================================================================
-uint64_t InetAddress::swap64Bit( uint64_t src )
-{
-	uint64_t dest;
-	uint16_t * pu8Src = (uint16_t *)&src;
-	uint16_t * pu8Dest = (uint16_t *)&dest;
-	pu8Dest[1] = htons(pu8Src[0]);
-	pu8Dest[0] = htons(pu8Src[1]);
-	pu8Dest[3] = htons(pu8Src[2]);
-	pu8Dest[2] = htons(pu8Src[3]);
-	return dest;
-}
-
-//============================================================================
-void InetAddress::litteEndianToNetIPv6( uint16_t * src, uint16_t * dest )
-{
-	if( isLittleEndian() )
-	{
-		uint64_t u64Hi = *((uint64_t *)src);
-		uint64_t u64Lo = *((uint64_t *)(&src[4]));
-		*((uint64_t *)dest) = swap64Bit(u64Hi);
-		*((uint64_t *)(&dest[4])) = swap64Bit(u64Lo);
-	}
-	else
-	{
-		uint32_t u32Hi1 = *((uint32_t *)src);
-		uint32_t u32Hi2 = *((uint32_t *)(&src[2]));
-		uint32_t u32Lo1 = *((uint32_t *)(&src[4]));
-		uint32_t u32Lo2 = *((uint32_t *)(&src[6]));
-		*((uint32_t *)dest) = htonl(u32Hi2);
-		*((uint32_t *)(&dest[2])) = htonl(u32Hi1);
-		*((uint32_t *)(&dest[4])) = htonl(u32Lo2);
-		*((uint32_t *)(&dest[6])) = htonl(u32Lo1);
-	}
-}
-
-//============================================================================
 std::string InetAddress::ipv6BinaryToString( uint8_t ipBinary[16] )
 {
 	std::string ipAddr;
 	std::vector<std::string> ipWords;
+	bool firstQuadHasValue{ false };
 	for( int i = 0; i < 16; i += 2 )
 	{
+		if( i < 8 && *((uint16_t*)&ipBinary[i]) )
+		{
+			firstQuadHasValue = true;
+		}
+
 		ipWords.emplace_back( BinaryToHexString( &ipBinary[i], 2, true ) );
 	}
 
@@ -1391,7 +1357,7 @@ std::string InetAddress::ipv6BinaryToString( uint8_t ipBinary[16] )
 	for( auto hexStr : ipWords )
 	{
 		wordIdx++;
-		ipAddr += removeLeadingZeros( hexStr, wordIdx < 4 );
+		ipAddr += removeLeadingZeros( hexStr, firstQuadHasValue && wordIdx < 4 );
 		if( wordIdx < ipWords.size() )
 		{
 			if( ipAddr.size() < 2 || ipAddr.substr( ipAddr.size() - 2 ) != "::" )
@@ -1620,8 +1586,43 @@ void inet_addr_testcase ( const char* pszTest )
 }
 
 //============================================================================
+void inet_to_from_testcase( std::string ipAddr )
+{
+	InetAddress inetAddr;
+	inetAddr.setIp( ipAddr.c_str() );
+	std::string ipResult1 = inetAddr.toString();
+	if( ipResult1 != ipAddr )
+	{
+		LogMsg( LOG_DEBUG, "inet_to_from_testcase 1 failed %s %s", ipAddr.c_str(), ipResult1.c_str() );
+	}
+
+	struct sockaddr_storage addrStorage;
+	inetAddr.fillAddress( addrStorage, 9 );
+	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&addrStorage);
+	inetAddr.setIp( *sktAddr );
+	std::string ipResult2 = inetAddr.toString();
+	if( ipResult2 != ipAddr )
+	{
+		LogMsg( LOG_DEBUG, "inet_to_from_testcase 2 failed %s %s", ipAddr.c_str(), ipResult2.c_str() );
+	}
+
+	if( !inetAddr.isValid() )
+	{
+		LogMsg( LOG_DEBUG, "inet_to_from_testcase 3 failed not valid ip %s", ipAddr.c_str() );
+	}
+
+	if( ipAddr == "::1" && !inetAddr.isLoopBack() )
+	{
+		LogMsg( LOG_DEBUG, "inet_to_from_testcase 4 failed is loopback ip %s", ipAddr.c_str() );
+	}
+}
+
+//============================================================================
 void TestInetAddress( void )
 {  
+	inet_to_from_testcase("2a07:85c0:0:122::");
+	inet_to_from_testcase("::1");
+
     //The "localhost" IPv4 address
     inet_addr_testcase ( "127.0.0.1" );
 

@@ -79,7 +79,7 @@ public:
     uint16_t                    setIp( struct sockaddr& ipAddr );
 	
 	//! fill address with this ip address and the given port.. returns struct len
-    int                         fillAddress( struct sockaddr_storage& oAddr, uint16_t port );
+    int                         fillAddress( struct sockaddr_storage& addrStorage, uint16_t port );
 
     uint32_t                    getIPv4AddressInHostOrder( void ) const;
     uint32_t                    getIPv4AddressInNetOrder( void ) const;
@@ -103,11 +103,6 @@ protected:
     int                         fillAddress( struct sockaddr_in6& ipv6Addr, uint16_t port );
 
     bool                        isIPv4String( const char* pIpAddress ) const;
-
-
-    static bool                 isLittleEndian( void );
-    static void                 litteEndianToNetIPv6( uint16_t * src, uint16_t * dest);
-    static uint64_t             swap64Bit( uint64_t src );
 
 public:
 	uint64_t					m_u64AddrHi{ 0 };
