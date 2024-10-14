@@ -667,10 +667,10 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
     }
 
     LogModule( eLogIsPortOpenTest, LOG_DEBUG, "%s Starting IsPortOpen port %d test url %s app sec %d thread 0x%x", __func__, lclIp.c_str(), tcpListenPort, netSrvUrl.c_str(), GetApplicationAliveSec(), VxGetCurrentThreadId() );
-    m_Engine.sendToGuiStatusMessage( "Attempting Connect lcl ip %s to connect service %s", lclIp.c_str(), netSrvUrl.c_str() );
+    m_Engine.sendToGuiStatusMessage( "Attempting Connect lcl ip %s to connect test service %s", lclIp.c_str(), netSrvUrl.c_str() );
 	if( userTest )
 	{
-		sendUserLog( "Attempting Connect lcl ip %s to connect service %s", lclIp.c_str(), netSrvUrl.c_str() );
+		sendUserLog( "Attempting Connect lcl ip %s to connect test service %s", lclIp.c_str(), netSrvUrl.c_str() );
 	}
 
     std::string strHost;
@@ -687,12 +687,12 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 				m_pfuncPortOpenCallbackHandler( m_PortOpenCallbackUserData, eNetCmdErrorConnectFailed, retMyExternalIp );
 			}
 
-            LogModule( eLogIsPortOpenTest, LOG_ERROR, "NetServicesMgr::%s: FAILED to Connect lcl ip %s to connect service %s thread 0x%x", __func__, lclIp.c_str(), netSrvUrl.c_str(), VxGetCurrentThreadId() );
-            m_Engine.sendToGuiStatusMessage( "FAILED Connect lcl ip %s to connect service %s", lclIp.c_str(), netSrvUrl.c_str() );
+            LogModule( eLogIsPortOpenTest, LOG_ERROR, "NetServicesMgr::%s: FAILED to Connect lcl ip %s to connect test service %s thread 0x%x", __func__, lclIp.c_str(), netSrvUrl.c_str(), VxGetCurrentThreadId() );
+            m_Engine.sendToGuiStatusMessage( "FAILED Connect lcl ip %s to connect test service %s", lclIp.c_str(), netSrvUrl.c_str() );
 			m_IsPortOpenMutex.unlock();
 			if( userTest )
 			{
-				sendUserLog( "FAILED Connect lcl ip %s to connect service %s", lclIp.c_str(), netSrvUrl.c_str() );
+				sendUserLog( "FAILED Connect lcl ip %s to connect test service %s", lclIp.c_str(), netSrvUrl.c_str() );
 			}
             return eNetCmdErrorConnectFailed;
         }
@@ -707,10 +707,10 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 				}
 			}
 
-            m_Engine.sendToGuiStatusMessage( "Success Connect lcl ip %s to connect service %s.. starting test", lclIp.c_str(), netSrvUrl.c_str() );
+            m_Engine.sendToGuiStatusMessage( "Success Connect lcl ip %s to connect test service %s.. starting test", lclIp.c_str(), netSrvUrl.c_str() );
 			if( userTest )
 			{
-				sendUserLog( "Success Connect lcl ip %s to connect service %s.. starting is port open test", lclIp.c_str(), netSrvUrl.c_str() );
+				sendUserLog( "Success Connect lcl ip %s to connect test service %s.. starting is port open test", lclIp.c_str(), netSrvUrl.c_str() );
 			}
 
             portOpenTestError = sendAndRecieveIsMyPortOpen( portTestTimer,

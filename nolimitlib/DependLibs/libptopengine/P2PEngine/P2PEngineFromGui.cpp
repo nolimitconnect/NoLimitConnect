@@ -1871,6 +1871,16 @@ bool P2PEngine::fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelecte
 //============================================================================
 void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 {
+	static bool firstSet{ true };
+	if( firstSet )
+	{
+		// clear any previous determined external ip and detect ip again
+		firstSet = false;
+		lockAnnouncePktAccess();
+		m_PktAnn.clearOnlineIpAddress();
+		unlockAnnouncePktAccess();
+	}
+
 	getPeerMgr().setUpnpEnable( netHostSetting.getUseUpnpPortForward() );
 
     NetHostSetting origSettings;

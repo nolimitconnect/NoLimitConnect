@@ -93,25 +93,18 @@ bool VxListenLogic::startListeningThread( void )
 void VxListenLogic::stopListeningThread( void )
 {
     setIsReadyToAcceptConnections( false );
-
     // set thread to abort
     m_ListenThread.abortThreadRun( true );
-    // set socket to non blocking so will release the thred   
-    SOCKET skt = getListenSkt();
-    if( INVALID_SOCKET != skt )
-    {
-        VxSetSktBlocking( skt, false );
-    }
      
     if( m_ListenThread.isThreadRunning() )
     {
         // give thread a while to exit
         m_ListenThread.killThread();
-        SOCKET skt = getListenSkt();
-        if( INVALID_SOCKET != skt )
-        {
-            ::VxCloseSktNow( skt );
-        }
+    }
+
+    if( m_ListenThread.isThreadRunning() )
+    {
+        LogMsg( LOG_FATAL, "%s could not stop listen thread", __func__ );
     }
 }
 
@@ -137,8 +130,9 @@ bool VxListenLogic::startListening( uint16_t port )
 //============================================================================
 void VxListenLogic::stopListening( void )
 {
-    stopListeningThread();
+    m_ListenThread.abortThreadRun( true );
     closeListenSocket();
+    stopListeningThread();
 }
 
 //============================================================================
@@ -335,6 +329,9 @@ void VxListenLogic::closeListenSocket( void )
     if( INVALID_SOCKET != sktToClose )
     {
         setListenSkt( INVALID_SOCKET );
+        setIsReadyToAcceptConnections( false );
+        VxSetSktBlocking( sktToClose, false ); // so should release accept but seems to hang sometimes
+
         LogModule( eLogAcceptConn, LOG_INFO, "VxListenLogic:listenForConnectionsToAccept closing listen skt %d", sktToClose );
         
         // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
@@ -400,37 +397,3 @@ bool VxListenLogic::getIsReadyToAcceptConnections( void )
 
     return isReadyToAccept;
 }
-
-////============================================================================
-//void VxListenLogic::setUpnpEnable( bool enable )
-//{
-//    if( enable != VxPortForward::getEnablePortForward() )
-//    {
-//        VxPortForward::setEnablePortForward( enable );
-//        if( enable )
-//        {
-//            setIsListenParamsChanged( false, true );
-//            setIsListenParamsChanged( true, true );
-//        }
-//    }
-//}
-//
-////============================================================================
-//bool VxListenLogic::getUpnpEnable( void )
-//{
-//    return VxPortForward::getEnablePortForward();
-//}
-
-////============================================================================
-//bool VxListenLogic::doPortForward(  bool addPort )
-//{
-//    uint16_t port = getListenPort();
-//    if( addPort )
-//    {
-//        return VxPortForward::addPortForward( ipv6, getLocalIp( ipv6 ), port );
-//    }
-//    else
-//    {
-//        return VxPortForward::removePortForward( ipv6, port );
-//    }
-//}

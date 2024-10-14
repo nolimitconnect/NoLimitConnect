@@ -883,11 +883,55 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
     struct sockaddr_storage sktAddrStorage;
 	socklen_t sktAddrLen = VxSktAddrInit( ipv6, sktAddrStorage, strRmtIp, u16Port );
 
+	// test code only.. test if can connect using ipv6 without timeout/select
+	/*
+	if( ipv6 )
+	{
+		// 
+		InetAddress inetAddr;
+		inetAddr.setIp( sktAddrStorage );
+		std::string ipAfterStore = inetAddr.toString();
+		if( ipAfterStore != strRmtIp )
+		{
+			LogMsg( LOG_WARN, "%s storage %s does not match remote ip %s", __func__, ipAfterStore.c_str(), strRmtIp.c_str() );
+		}
+
+		struct sockaddr_storage sktStorage3;
+		inetAddr.fillAddress( sktStorage3, u16Port );
+		sockaddr_in6* sktAddr62 = (struct sockaddr_in6*)&sktStorage3;
+
+		struct sockaddr_storage sktStorage;
+		memset( &sktStorage, 0, sizeof( sktStorage ) );
+		struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktStorage);
+		sktAddr->sa_family = AF_INET6;
+		sockaddr_in6* sktAddr6 = (struct sockaddr_in6*)sktAddr;
+		inet_pton( AF_INET6, strRmtIp.c_str(), &sktAddr6->sin6_addr );
+		sktAddr6->sin6_port = htons( u16Port );
+		int addrLen = sizeof( struct sockaddr_storage );
+
+		struct sockaddr_storage sktStorage2;
+		inetAddr.fillAddress( sktStorage2, u16Port );
+		sockaddr_in6* sktAddr63 = (struct sockaddr_in6*)&sktStorage2;
+
+
+		SOCKET skt = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP );
+		int connectResult = connect( skt, sktAddr, addrLen );
+		RCODE rc = VxGetLastError();
+		if( connectResult != 0 )
+		{
+			LogMsg( LOG_ERROR, "%s error %d %s connecting to ip %s", __func__, rc, VxDescribeSktError( rc ), strRmtIp.c_str());
+		}
+
+		VxCloseSkt( skt );
+	}
+	*/
+
 	RCODE sktErr = 0;
     sktHandle = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP );
+	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktAddrStorage);
     if( INVALID_SOCKET != sktHandle )
     {		
-        sktHandle = VxConnectToAddr( sktHandle, (struct sockaddr*)&sktAddrStorage, sktAddrLen, iConnectTimeoutMs, retSktErr ? retSktErr : &sktErr );
+        sktHandle = VxConnectToAddr( sktHandle, sktAddr, sktAddrLen, iConnectTimeoutMs, retSktErr ? retSktErr : &sktErr );
 		if( retSktErr )
 		{
 			rc = *retSktErr;

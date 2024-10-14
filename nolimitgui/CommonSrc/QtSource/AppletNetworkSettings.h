@@ -87,6 +87,9 @@ protected:
 
     void                        fillNetHostSettingFromEngine( NetHostSetting& netSettings );
 
+    bool                        verifyIpv6Capable( void );
+
+
 	Ui::AppletNetworkSettingsUi&	ui;
     NetHostSetting              m_OriginalSettings;
     QTimer *                    m_UpdateTimer{ nullptr };

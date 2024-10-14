@@ -579,7 +579,7 @@ uint16_t InetAddress::fromString( const char* pIpAddress )
 		( 0 == strlen( pIpAddress ) ) ||
 		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) )
 	{
-		LogMsg( LOG_ERROR, "InetAddress::fromString invalid ip %s", pIpAddress ? pIpAddress : "NULL" );
+		LogMsg( LOG_WARN, "InetAddress::fromString invalid ip %s", pIpAddress ? pIpAddress : "NULL" );
 		setToInvalid();
 		return 0;
 	}

@@ -55,6 +55,7 @@ public:
 	bool						isIpAddressValid( void )			{ return m_IpAddrType != eIpAddrTypeUnknown; }
 
 	void						clear( void );
+	void						clearIpAddress( void );
 
 	VxGUID&						getOnlineId( void )					{ return *this; }
 

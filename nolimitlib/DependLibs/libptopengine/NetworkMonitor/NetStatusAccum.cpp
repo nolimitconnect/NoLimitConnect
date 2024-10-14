@@ -616,9 +616,13 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
     
     if( m_LocalAddrIpv6.empty() )
     {
-        if( VxGetDefaultLocalIp( true, m_LocalAddrIpv6 ) )
+        if( VxGetDefaultLocalIp( true, m_LocalAddrIpv6 ) && !m_LocalAddrIpv6.empty() )
         {        
             addrChanged |= true;
+        }
+        else if( useIpv6 )
+        {
+            LogMsg( LOG_WARN, "NetStatusAccum::setUseIpv6 Device NO IPv6 Local Address" );
         }
     }
 
@@ -669,6 +673,8 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
 
         if( !useThisLocaIpAddr.empty() )
         {
+            VxSetLclIpAddress( useThisLocaIpAddr.c_str() ); // global
+
             m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
             m_Engine.getPeerMgr().startListening( useIpv6, ipPort );
             if( addrChanged )

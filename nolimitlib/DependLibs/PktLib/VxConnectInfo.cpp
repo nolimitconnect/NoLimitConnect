@@ -140,7 +140,11 @@ bool			VxConnectBaseInfo::getMyOnlineId( std::string& strRetId )		{ return m_Dir
 void			VxConnectBaseInfo::setOnlinePort( uint16_t port )				{ m_DirectConnectId.setPort( port ); }		
 uint16_t		VxConnectBaseInfo::getOnlinePort( void )						{ return m_DirectConnectId.getPort(); }
 
-bool			VxConnectBaseInfo::setOnlineIpAddress( std::string ipAddress )	{ return m_DirectConnectId.setIpAddress( ipAddress ); }
+//============================================================================
+bool VxConnectBaseInfo::setOnlineIpAddress( std::string ipAddress )	
+{ 
+    return m_DirectConnectId.setIpAddress( ipAddress ); 
+}
 
 //============================================================================
 bool VxConnectBaseInfo::getOnlineIpAddress( std::string& strRetIp, EIpAddrType& retIpType )	
@@ -174,6 +178,12 @@ bool VxConnectBaseInfo::setOnlineIpAddress( InetAddress& ipAddr )
         LogMsg( LOG_ERROR, "VxConnectBaseInfo::%s: invalid address ", __func__ );
         return false;
 	}
+}
+
+//============================================================================
+void VxConnectBaseInfo::clearOnlineIpAddress( void )
+{
+    m_DirectConnectId.clearIpAddress();
 }
 
 //============================================================================

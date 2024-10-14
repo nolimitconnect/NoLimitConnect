@@ -91,6 +91,8 @@ public:
     bool						getOnlineIpAddress( std::string& retIpAddress, EIpAddrType& retIpType );
     InetAddress&				getOnlineIpAddress( void );
 
+    void                        clearOnlineIpAddress( void ); // set to empty ip address
+
     bool						isOnlineIpAddressValid( void )                  { return m_DirectConnectId.isIpAddressValid(); }
 
 	uint16_t					getOnlinePort( void );

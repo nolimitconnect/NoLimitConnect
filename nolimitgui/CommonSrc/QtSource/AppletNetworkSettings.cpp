@@ -424,6 +424,11 @@ void AppletNetworkSettings::slotRandomPortButtonClick( void )
 //============================================================================
 void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
 {
+    if( !verifyIpv6Capable() )
+    {
+        return;
+    }
+
     uint16_t u16Port = ui.PortEdit->text().toUShort();
     if( 0 != u16Port )
     {
@@ -530,6 +535,11 @@ void AppletNetworkSettings::onSaveButtonClick( void )
 {
     if( ui.m_UseIpv6Network->isChecked() )
     {
+        if( !verifyIpv6Capable() )
+        {
+            return;
+        }
+
 		QString title = QObject::tr( "Confirm Use Of Experimental IPv6 Network?" );
 		QString bodyText = QObject::tr( "IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network" );
 
@@ -773,4 +783,26 @@ void AppletNetworkSettings::slotShowIpv6Information( void )
 void AppletNetworkSettings::slotUseIpv6CheckBoxClick( void )
 {
 
+}
+
+//============================================================================
+bool AppletNetworkSettings::verifyIpv6Capable( void )
+{
+    std::string ipv6LclIp;
+    if( VxGetDefaultLocalIp( true, ipv6LclIp ) && !ipv6LclIp.empty() )
+    {
+        return true;
+    }
+
+    QString title = QObject::tr( "Your device does not seem to be capable of IPv6" );
+    QString bodyText = QObject::tr( "Your device does not seem to be capable of IPv6. Continue Anyway?" );
+
+    ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+    bool confirmed = (QDialog::Accepted == dlg.exec());
+    if( !confirmed )
+    {
+        return false;
+    }
+
+    return true;
 }

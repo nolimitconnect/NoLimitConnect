@@ -154,3 +154,9 @@ void VxConnectId::clear( void )
 	m_u32Reseved2 = 0;
 	m_OnlineIp.setToInvalid();
 }
+
+//============================================================================
+void VxConnectId::clearIpAddress( void )
+{
+	m_OnlineIp.setToInvalid();
+}
