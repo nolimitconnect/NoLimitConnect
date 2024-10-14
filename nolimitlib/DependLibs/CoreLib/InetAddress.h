@@ -26,8 +26,6 @@ enum EIpAddrType
 
 class InetAddress;
 class InetAddrAndPort;
-class InetAddrIPv4;
-class InetAddrIPv4AndPort;
 class PktBlobEntry;
 
 struct sockaddr;
@@ -50,17 +48,13 @@ public:
     bool                        extractFromBlob( PktBlobEntry& blob );
 
 	// set ip from string.. returns port if is part of addr.. example 1.1.1.1:80 returns 80
-	uint16_t                    fromString( const char* pIpAddress );
+	uint16_t                    fromString( const char* ipAddress );
 	std::string					toString( void ) const;
 	EIpAddrType					getIpAddrType( void );
 
     InetAddress&                operator=(const InetAddress& inetAddr);
 	bool                        operator == (const InetAddress& inetAddr) const;
     bool                        operator != (const InetAddress& inetAddr) const;
-
-	InetAddress&                operator=(const InetAddrIPv4& inetAddr);
-	bool                        operator == (const InetAddrIPv4& inetAddr) const;
-	bool                        operator != (const InetAddrIPv4& inetAddr) const;
 
     bool                        isValid( void ) const;
     void                        setToInvalid( void );
@@ -70,9 +64,9 @@ public:
 	bool					    isLocalAddress( bool forLocalListening = false ) const;
 	bool                        isIPv6GlobalAddress( void ) const;
 
-	uint16_t                    setIp( const char* pIpAddress );
-	// note.. u32IPv4Addr must be in host order
-    void                        setIp( uint32_t u32IPv4Addr, bool bIsHostOrder = false );
+	uint16_t                    setIp( const char* ipAddress );
+	// note.. ipv4Addr must be in network order
+    void                        setIp( uint32_t ipv4Addr );
 	//! returns port in host order
     uint16_t                    setIp( struct sockaddr_storage& ipAddr );
 	//! returns port in host order
@@ -90,6 +84,7 @@ public:
     static int				    getAllAddresses( std::vector<InetAddress>& retAddress );
     static void                 dumpAddresses( std::vector<InetAddress>& addressList );
 
+	static std::string			ipv4BinaryToString( uint8_t ipBinary[4] );
 	static std::string			ipv6BinaryToString( uint8_t ipBinary[16] );
 	static std::string			removeLeadingZeros( std::string hexStr, bool leaveAtLeastOneZeroIfEmpty );
 protected:
@@ -123,14 +118,11 @@ public:
     bool                        extractFromBlob( PktBlobEntry& blob );
 
 	// set ip from string
-	bool                        fromString( const char* pIpAddress );
+	bool                        fromString( const char* ipAddress );
 	std::string					toString( bool includePort = false );
 
 	InetAddrAndPort&            operator=(const InetAddress& inetAddr);
 	InetAddrAndPort&            operator=(const InetAddrAndPort& inetAddr);
-
-	InetAddrAndPort&            operator=(const InetAddrIPv4& inetAddr);
-	InetAddrAndPort&            operator=(const InetAddrIPv4AndPort& inetAddr);
 
     uint16_t                    getPort( void )	const			                    { return m_u16Port; }
     void                        setPort( uint16_t u16Port )			                { m_u16Port = u16Port; }
@@ -139,10 +131,10 @@ public:
 	void                        setIpAndPort( struct sockaddr& sockAddr );
     void                        setIpAndPort( const char* ipAddr, uint16_t port );
 
-    // these shadow InetAddress on purpose to avoid issues with override packet size change over internet
-	uint16_t                    setIp( const char* pIpAddress )                             { return InetAddress::setIp( pIpAddress ); };
-    // note.. u32IPv4Addr must be in host order
-    void                        setIp( uint32_t u32IPv4Addr, bool bIsHostOrder = false )    { return InetAddress::setIp( u32IPv4Addr, bIsHostOrder ); };
+    // these shadow InetAddress on purpose to avoid issues with overrides changing the packet size that is sent over internet
+	uint16_t                    setIp( const char* ipAddress )                              { return InetAddress::setIp( ipAddress ); };
+	// ipv4Addr must be in network order
+    void                        setIp( uint32_t ipv4Addr )									{ return InetAddress::setIp( ipv4Addr ); };
     //! returns port in host order
     uint16_t                    setIp( struct sockaddr_storage& ipAddr )                    { return InetAddress::setIp( ipAddr ); };
     //! returns port in host order
@@ -155,101 +147,6 @@ public:
 
 	//=== vars ===//
     uint16_t                    m_u16Port{ 0 };
-};
-
-//============================================================================
-// size 4 bytes
-class InetAddrIPv4
-{
-public:
-	InetAddrIPv4() = default;
-	InetAddrIPv4( const char* pIpAddress );
-	InetAddrIPv4( uint32_t u32IpAddr );
-    InetAddrIPv4( const InetAddrIPv4& rhs );
-
-    bool                        addToBlob( PktBlobEntry& blob );
-    bool                        extractFromBlob( PktBlobEntry& blob );
-
-	// set ip from string
-	bool                        fromString( const char* pIpAddress );
-	std::string					toString( void );
-
-	InetAddrIPv4&               operator=(const InetAddrIPv4& inetAddr);
-	bool                        operator != (const InetAddrIPv4& inetAddr) const;
-	bool                        operator == (const InetAddrIPv4& inetAddr) const;
-
-	InetAddrIPv4&               operator=(const InetAddress& inetAddr);
-	bool                        operator != (const InetAddress& inetAddr) const;
-	bool                        operator == (const InetAddress& inetAddr) const;
-
-	bool                        isValid( void ) const;
-	void                        setToInvalid( void );
-	bool                        isIPv4( void ) const						{ return isValid(); }
-	bool                        isIPv6( void ) const						{ return false; }
-	bool                        isLoopBack( void ) const;
-	bool					    isLocalAddress( void ) const;
-
-	bool                        setIp( const char* pIpAddress );
-	// note.. u32IPv4Addr must be in host order
-    bool                        setIp( uint32_t u32IPv4Addr, bool bIsHostOrder = false );
-	//! returns port in host order
-	uint16_t                    setIp( struct sockaddr_storage& ipAddr );
-	//! returns port in host order
-	uint16_t                    setIp( struct sockaddr& ipAddr );
-
-	//! fill address with this ip address and the given port.. returns struct len
-	int                         fillAddress( struct sockaddr_storage& oAddr, uint16_t port );
-
-	InetAddress				    toInetAddress( void );
-
-	uint32_t                    getIPv4AddressInHostOrder( void ) const;
-	uint32_t                    getIPv4AddressInNetOrder( void ) const;
-
-	//! returns port in host order
-	static uint16_t				getIpFromAddr(const struct sockaddr *sa, std::string& retStr);
-
-private:
-	//! returns port in host order
-	uint16_t                    setIp( struct sockaddr_in& oIPv4Addr );
-	//! fill address with this ip address and the given port.. returns struct len
-	int                         fillAddress( struct sockaddr_in& oIPv4Addr, uint16_t port );
-
-	bool                        isIPv4String( const char* pIpAddress ) const;
-
-	static bool                 isLittleEndian( void );
-	static uint32_t             swap32Bit( uint32_t src );
-
-public:
-    uint32_t					m_u32AddrIPv4{ 0 };
-};
-
-//============================================================================
-class InetAddrIPv4AndPort : public InetAddrIPv4
-{
-public:
-	InetAddrIPv4AndPort() = default;
-    InetAddrIPv4AndPort( const InetAddrIPv4AndPort& rhs );
-
-    bool                        addToBlob( PktBlobEntry& blob );
-    bool                        extractFromBlob( PktBlobEntry& blob );
-
-	// set ip from string
-	bool                        fromString( const char* pIpAddress );
-	std::string					toString( bool includePort = false );
-
-	InetAddrIPv4AndPort&        operator=(const InetAddrIPv4& inetAddr);
-	InetAddrIPv4AndPort&        operator=(const InetAddrIPv4AndPort& inetAddr);
-
-	InetAddrIPv4AndPort&        operator=(const InetAddress& oAddr);
-	InetAddrIPv4AndPort&        operator=(const InetAddrAndPort& oAddr);
-
-	uint16_t                    getPort( void )	const		    { return m_u16Port; }
-	void                        setPort( uint16_t u16Port )		{ m_u16Port = u16Port; }
-
-	void                        setIpAndPort( struct sockaddr_storage& oAddr );
-	void                        setIpAndPort( struct sockaddr& oAddr );
-
-	uint16_t                    m_u16Port{ 0 };
 };
 
 #pragma pack(pop)

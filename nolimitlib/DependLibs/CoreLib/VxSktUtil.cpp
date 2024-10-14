@@ -279,14 +279,11 @@ std::string	VxIpToString( struct sockaddr * addr )
 {
 	if( AF_INET == addr->sa_family )
 	{
-		return std::string( inet_ntoa( ((sockaddr_in *)(addr))->sin_addr ) );
+		return InetAddress::ipv4BinaryToString( (uint8_t*) & (((sockaddr_in*)(addr))->sin_addr) );
 	}
 	else if( AF_INET6 == addr->sa_family )
 	{
-		std::array<char, INET6_MAX_STR_LEN> ip6Buf;
-		ip6Buf.data()[0] = 0;
-		VxIP_ntop( AF_INET6, &((sockaddr_in6 *)(addr))->sin6_addr, ip6Buf.data(), ip6Buf.size(), true);
-		return std::string( ip6Buf.data() );
+		return InetAddress::ipv6BinaryToString( (uint8_t*) & (((sockaddr_in6*)(addr))->sin6_addr) );
 	}
 
 	vx_assert( false );
@@ -304,213 +301,6 @@ void VxFillHints( struct addrinfo& hints, bool bUdpSkt, bool ipv6Only )
 	hints.ai_socktype = bUdpSkt ? SOCK_DGRAM : SOCK_STREAM;
 	hints.ai_protocol = bUdpSkt ? IPPROTO_UDP : IPPROTO_TCP;
 	//hints.ai_flags = AI_PASSIVE; // AI_NUMERICHOST | AI_PASSIVE
-}
-
-//============================================================================
-void VxIP_ntop( int family, void * pvBinary, char * pBuf, int iBufLen, bool isHostOrder )
-{
-	if( AF_INET == family )
-	{
-		VxIPv4_ntop( pvBinary, pBuf, iBufLen, isHostOrder );
-	}
-	else
-	{
-		VxIPv6_ntop( pvBinary, pBuf, iBufLen );
-	}
-}
-
-//============================================================================
-void VxIPv4_ntop( void * pvBinary, char * pBuf, int iBufLen, bool isHostOrder )
-{
-    uint8_t * pTemp = 0;
-	uint32_t u32NetOrder;
-	if( isHostOrder )
-	{
-		// change to net order
-        uint32_t * binaryIPv4 = static_cast<uint32_t*>(pvBinary);
-        u32NetOrder = (uint32_t)htonl( *binaryIPv4 );
-		pTemp = (uint8_t *)&u32NetOrder;
-	}
-	else
-	{
-		pTemp = (uint8_t *)pvBinary;
-	}
-
-    snprintf( pBuf, iBufLen-1, "%i.%i.%i.%i", pTemp[3], pTemp[2], pTemp[1], pTemp[0] );
-	pBuf[iBufLen - 1] = 0;
-}
-
-//============================================================================
-void VxIPv6_ntop( void * pvBinary, char * pBuf, int iBufLen )
-{
-	uint16_t * pVal = (uint16_t *)pvBinary;
-
-	bool isValid = false;
-	for( int i = 0; i <8; ++i )
-	{
-		if( 0 != pVal[i] )
-		{
-			isValid = true;
-			break;
-		}
-	}
-
-	if( false == isValid )
-	{
-		strcat( pBuf, "::" );
-	}
-	else
-	{
-		int colonCount = 0;
-		for( int i = 0; i < 8; i++)
-		{
-			if( 0 == pVal[i])
-			{
-				if( 0 == colonCount )
-				{
-					// beginning of address
-					strcat( pBuf, "::");
-					colonCount = 2;
-				}
-				else if( 1 == colonCount )
-				{
-					strcat( pBuf, ":");
-					colonCount++;
-				}
-			}
-			else
-			{
-				sprintf(&pBuf[strlen(pBuf)], "%x", htons(pVal[i]));
-				colonCount = 0;
-				if( 7 != i )
-				{
-					strcat( pBuf, ":" );
-					colonCount = 1;
-				}
-			}
-		}
-	}
-
-	vx_assert( strlen( pBuf ) < iBufLen );
-}
-
-//============================================================================
-void VxIPv4_pton( const char* pIpStr, void * pvBinary, bool wantHostOrder )
-{
-	uint32_t u32Ip = 0;
-	if( NULL == pIpStr )
-	{
-		vx_assert( pIpStr );
-		return;
-	}
-
-	int iStrLen = (int)strlen( pIpStr );
-	if( ( iStrLen >=  7 ) &&
-		( iStrLen <  16 ) && 
-		isdigit( pIpStr[0] ) )
-	{
-		u32Ip = inet_addr(pIpStr);	
-	}
-	else
-	{
-		vx_assert( iStrLen >=  7 );
-		vx_assert( iStrLen <  16 );
-		vx_assert( isdigit( pIpStr[0] ) );
-		u32Ip = 0;
-	}
-
-	if( wantHostOrder )
-	{
-		*((uint32_t *)pvBinary) = u32Ip;
-	}
-	else
-	{
-		*((uint32_t *)pvBinary) = htonl( u32Ip );
-	}
-}
-
-//============================================================================
-void VxIPv6_pton( const char* pIpStringIn,  void* pvBinary )
-{
-	if( !pIpStringIn || !pvBinary )
-	{
-		LogMsg( LOG_ERROR, "VxIPv6_pton invalid param" );
-		vx_assert( false );
-	}
-
-	size_t iStrLen = strlen( pIpStringIn );
-	if( iStrLen < 6 )
-	{
-		LogMsg( LOG_ERROR, "VxIPv6_pton invalid ip string len" );
-		vx_assert( false );
-	}
-
-	uint16_t * pBinary = (uint16_t *)pvBinary; 
-	std::vector<uint16_t> aoValues;
-	
-	std::vector<char> ipVec;
-	ipVec.reserve( iStrLen + 1 );
-
-	strcpy( ipVec.data(), pIpStringIn);
-
-	int ipIdx{ 0 };
-	while( 0 != ipVec[ipIdx] )
-	{
-		if( ':' == ipVec[ipIdx] )
-		{
-			aoValues.push_back(0);
-			ipIdx += 1;
-		}
-		else 
-		{
-			uint16_t u16Value;
-			if( strchr( &ipVec[ ipIdx ], ':') )
-			{
-				char * pValue = strtok( (char *)&ipVec[ ipIdx ], ":");
-				if( pValue )
-				{
-					u16Value = (uint16_t)strtol( &ipVec[ ipIdx ], NULL, 16 );
-					aoValues.push_back( htons( u16Value ) );
-					ipIdx += strlen( pValue );
-				}
-
-				ipIdx += + 1;
-				
-			}
-			else
-			{
-				u16Value = (uint16_t)strtol(  &ipVec[ ipIdx ], NULL, 16 );
-				aoValues.push_back( htons( u16Value ) );
-				break;
-			}
-		}
-	}
-	int iSize =  (int)aoValues.size();
-	if( 8 != iSize )
-	{
-		int iZerosToAdd = 8 - iSize;
-		uint16_t u16Zero = 0;
-		std::vector<uint16_t>::iterator iter;
-		for( iter = aoValues.begin(); iter != aoValues.end(); ++iter )
-		{
-			if( 0 == *iter )
-			{
-				aoValues.insert( iter, iZerosToAdd, u16Zero );
-				break;
-			}
-		}
-	}
-	if( 8 == aoValues.size() )
-	{
-		for( int i = 0; i < 8; i++ )
-		{
-			pBinary[i] = aoValues[i];
-		}
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "Invalid IP %s", pIpStringIn );
-	}
 }
 
 //============================================================================
@@ -984,20 +774,17 @@ std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool in
     {
 		if( sktAddr->sa_family == AF_INET6 )
         {
-			struct sockaddr_in6* sktAddrIn = (struct sockaddr_in6*)sktAddr;
-			std::array<char, INET6_ADDRSTRLEN> ipData{};
-			VxIPv6_ntop( &sktAddrIn->sin6_addr, ipData.data(), ipData.size() );
-
+			std::string ipAddr = InetAddress::ipv6BinaryToString( (uint8_t*)&((struct sockaddr_in6*)sktAddr)->sin6_addr );
 			if( includePort )
 			{
 				ipAndPort = "[";
-				ipAndPort += ipData.data();
+				ipAndPort += ipAddr;
 				ipAndPort += "]:";
-				ipAndPort += std::to_string( ntohs( sktAddrIn->sin6_port ) );
+				ipAndPort += std::to_string( ntohs( ((struct sockaddr_in6*)sktAddr)->sin6_port ) );
 			}
 			else
 			{
-				ipAndPort = ipData.data();
+				ipAndPort = ipAddr;
 			}
         }
 		else if( sktAddr->sa_family == AF_INET )
@@ -1509,7 +1296,8 @@ SOCKET VxConnectToWebsite(	InetAddrAndPort&	lclIp,			// ip of adapter to use
 							std::string&		strFile,		// return file name.. images/me.png
 							uint16_t&			u16Port,		// return port
 						    EIpAddrType			addrType,
-							int					iConnectTimeoutMs )
+							int					iConnectTimeoutMs,
+						    RCODE*				retErrorCode )
 {
 	// split host name from file path
 	bool bSplitOk = VxSplitHostAndFile(	pWebsiteUrl,	// full url.. example http://www.mysite.com/index.html or www.mysite.com/images/me.png
@@ -1530,7 +1318,8 @@ SOCKET VxConnectToWebsite(	InetAddrAndPort&	lclIp,			// ip of adapter to use
 									hostname,				// remote ip or url
 									u16Port,				// port to connect to
 								    addrType,
-									iConnectTimeoutMs );	// timeout attempt to connect
+									iConnectTimeoutMs,
+									retErrorCode );	// timeout attempt to connect
 	if( INVALID_SOCKET == hSocket )
 	{
 		//LogMsg( LOG_ERROR, "VxConnectToWebsite: failed to connect to %s %s", hostname, VxDescribeSktError( VxGetLastError() ) );
@@ -2927,8 +2716,7 @@ bool VxSktAddrGetParams( bool ipv6, struct sockaddr_storage& sockAddrStorage, st
 			return false;
 		}
 
-		VxIPv6_ntop( &sktInAddr->sin6_addr, ipAddr.data(), ipAddr.size() );
-		retIp = ipAddr.data();
+		retIp = InetAddress::ipv6BinaryToString( (uint8_t*) &sktInAddr->sin6_addr );
 		retPort = ntohs( sktInAddr->sin6_port );
 	}
 	else
@@ -2940,8 +2728,7 @@ bool VxSktAddrGetParams( bool ipv6, struct sockaddr_storage& sockAddrStorage, st
 			return false;
 		}
 
-		VxIPv4_ntop( &sktInAddr->sin_addr, ipAddr.data(), ipAddr.size(), false );
-		retIp = ipAddr.data();
+		retIp = InetAddress::ipv4BinaryToString( (uint8_t*) &sktInAddr->sin_addr );
 		retPort = ntohs( sktInAddr->sin_port );
 	}
 	

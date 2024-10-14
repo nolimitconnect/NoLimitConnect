@@ -79,12 +79,13 @@ bool							VxLocalIpExists( std::string& strIpAddress );
 // connects to website and returns socket.. if fails returns INVALID_SOCKET
 SOCKET							VxConnectToWebsite( InetAddrAndPort&	oLclIp,			// ip of adapter to use
 													InetAddrAndPort&	oRmtIp,			// return ip and port url resolves to
-													const char*		pWebsiteUrl,
+													const char*			pWebsiteUrl,
 													std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
 													std::string&		strFile,		// return file name.. images/me.png
                                                     uint16_t&			u16Port,		// return port
 													EIpAddrType			addrType,
-													int					iConnectTimeoutMs );
+													int					iConnectTimeoutMs,
+													RCODE*				retErrorCode = nullptr );
 
 bool							VxBindSkt( SOCKET sktHandle, InetAddress & oLclAddr, uint16_t u16Port );
 SOCKET							VxConnectTo( InetAddrAndPort& oLclIp, InetAddrAndPort& oRmtIp, uint16_t u16Port, int iTimeoutMs = SKT_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr );
@@ -94,7 +95,7 @@ SOCKET							VxConnectTo( InetAddrAndPort&	oLclIp,
                                              uint16_t			u16Port,				// port to connect to
 											 EIpAddrType		addrType,
                                              int				iTimeoutMilliSeconds,	// milli seconds before connect attempt times out
-                                             RCODE *			retSktErr = 0 );		// return connect error if retSktErr is not null
+                                             RCODE*			    retSktErr = 0 );		// return connect error if retSktErr is not null
 SOCKET                          VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs = SKT_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr);
 std::string                     VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool includePort = true );
 
@@ -160,12 +161,5 @@ uint16_t						VxGetRmtPort( SOCKET skt );
 const char*						VxDescribeSktError( int iErr );
 
 bool							VxIsFatalSktError( int iErr );
-
-//============================================================================
-void							VxIP_ntop( int family, void * pvBinary, char * pBuf, int iBufLen, bool isHostOrder );
-void							VxIPv4_ntop( void * pvBinary, char * pBuf, int iBufLen, bool isHostOrder );
-void							VxIPv6_ntop( void * pvBinary, char * pBuf, int iBufLen );
-void							VxIPv4_pton( const char* pIpString,  void * pvBinary, bool wantHostOrder );
-void							VxIPv6_pton( const char* pIpString,  void * pvBinary );
 
 NLC_END_CDECLARES

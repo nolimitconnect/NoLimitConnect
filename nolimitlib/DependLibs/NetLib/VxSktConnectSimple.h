@@ -34,20 +34,23 @@ public:
     virtual SOCKET				connectTo( const char*	pIpOrUrl,						// remote ip or url
                                            uint16_t		u16Port,						// port to connect to
 										   EIpAddrType  addrType = eIpAddrTypeUnknown,
-                                           int			iTimeoutMilliSeconds = WEBSITE_CONNECT_TIMEOUT );	// timeout attempt to connect
+                                           int			iTimeoutMilliSeconds = WEBSITE_CONNECT_TIMEOUT,
+										   RCODE*		retErrorCode = nullptr );	
 
     virtual SOCKET				connectTo( const char* lclAdapterIp,					// local adapter ip
                                            const char*	pIpOrUrl,						// remote ip or url
                                            uint16_t		u16Port,						// port to connect to
 										   EIpAddrType  addrType = eIpAddrTypeUnknown,
-                                           int			iTimeoutMilliSeconds = WEBSITE_CONNECT_TIMEOUT );	// timeout attempt to connect
+                                           int			iTimeoutMilliSeconds = WEBSITE_CONNECT_TIMEOUT,
+										   RCODE*		retErrorCode = nullptr );	
 
 	virtual bool				connectToWebsite(	const char*			pWebsiteUrl,
 													std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
 													std::string&		strFile,		// return file name.. images/me.png
 													uint16_t&			u16Port,
 													EIpAddrType			addrType = eIpAddrTypeUnknown,
-													int					iConnectTimeoutMs = WEBSITE_CONNECT_TIMEOUT );
+													int					iConnectTimeoutMs = WEBSITE_CONNECT_TIMEOUT,
+													RCODE*				retErrorCode = nullptr );	
 
 	virtual bool				connectToWebsite(	const char*			pWebsiteUrl,
 													std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
@@ -55,7 +58,8 @@ public:
 													uint16_t&			u16Port,
 													std::string&		strResolveIpAddr,
 													EIpAddrType			addrType = eIpAddrTypeUnknown,
-													int					iConnectTimeoutMs = WEBSITE_CONNECT_TIMEOUT );
+													int					iConnectTimeoutMs = WEBSITE_CONNECT_TIMEOUT,
+												    RCODE*				retErrorCode = nullptr );	
 
 	virtual RCODE				sendData(	const char*		pData,							// data to send
 											int				iDataLen,						// length of data	

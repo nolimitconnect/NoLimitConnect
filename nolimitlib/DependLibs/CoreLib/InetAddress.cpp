@@ -56,486 +56,6 @@ namespace
 };
 
 //============================================================================
-// InetAddrIPv4
-//============================================================================
-InetAddrIPv4::InetAddrIPv4(const InetAddrIPv4& rhs)
-: m_u32AddrIPv4(rhs.m_u32AddrIPv4)
-{
-}
-
-//============================================================================
-InetAddrIPv4::InetAddrIPv4( const char* pIpAddress )
-: m_u32AddrIPv4(0)
-{
-	fromString( pIpAddress );
-}
-
-//============================================================================
-InetAddrIPv4::InetAddrIPv4( uint32_t u32IpAddr )
-{
-	setIp( u32IpAddr );
-}
-
-//============================================================================
-bool InetAddrIPv4::addToBlob( PktBlobEntry& blob )
-{
-    return blob.setValue( m_u32AddrIPv4 );
-}
-
-//============================================================================
-bool InetAddrIPv4::extractFromBlob( PktBlobEntry& blob )
-{
-    return blob.getValue( m_u32AddrIPv4 );
-}
-
-//============================================================================
-bool InetAddrIPv4::fromString( const char* pIpAddress )
-{
-	if( ( NULL == pIpAddress ) || 
-		( 0 == strlen( pIpAddress ) ) ||
-		( 0 == strcmp( "0.0.0.0", pIpAddress ) ) ||
-		( 0 == strcmp( "::", pIpAddress ) ) )
-	{
-		LogMsg( LOG_ERROR, "InetAddrIPv4::%s %s is invalid", __func__, pIpAddress ? pIpAddress : "null" );
-		setToInvalid();
-		return false;
-	}
-	else if( isIPv4String( pIpAddress ) )
-	{
-		uint32_t u32Ip;
-		VxIPv4_pton( pIpAddress, &u32Ip, false );
-		setIp( u32Ip );
-        return true;
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "InetAddrIPv4::%s %s is not ipv4", __func__, pIpAddress );
-        return false;
-	}
-}
-
-//============================================================================
-std::string InetAddrIPv4::toString( void )
-{
-	std::string retIpAddress;
-	char as8Buf[ INET6_MAX_STR_LEN ];
-	as8Buf[0] = 0; 
-
-	if( isValid() )
-	{
-		uint32_t u32Ip = getIPv4AddressInNetOrder();
-		VxIPv4_ntop( &u32Ip, as8Buf, sizeof( as8Buf ), false );
-			//LogMsg( LOG_INFO, "InetAddress::toString %s uint32_t 0x%x host order false\n", as8Buf, u32Ip );
-		retIpAddress = as8Buf;
-	}
-	else
-	{
-		retIpAddress = "0.0.0.0";
-	}
-
-	return retIpAddress;
-}
-
-//============================================================================
-InetAddrIPv4& InetAddrIPv4::operator=( const InetAddrIPv4& inetAddr ) 
-{
-	if( inetAddr.isValid() )
-	{
-		m_u32AddrIPv4 = inetAddr.getIPv4AddressInNetOrder();
-	}
-	else
-	{
-		setToInvalid();
-	}
-
-	return *this;
-}
-
-//============================================================================
-bool InetAddrIPv4::operator != ( const InetAddrIPv4& inetAddr )  const
-{
-	return ! (inetAddr.isIPv4() && ( m_u32AddrIPv4 == inetAddr.getIPv4AddressInNetOrder() ));
-}
-
-//============================================================================
-bool InetAddrIPv4::operator == (const InetAddrIPv4& inetAddr)  const
-{
-	return inetAddr.isIPv4() && ( m_u32AddrIPv4 == inetAddr.getIPv4AddressInNetOrder() );
-}
-
-//============================================================================
-InetAddrIPv4& InetAddrIPv4::operator=( const InetAddress& inetAddr ) 
-{
-	if( inetAddr.isIPv4() && inetAddr.isValid() )
-	{
-		setIp( inetAddr.getIPv4AddressInNetOrder() );
-	}
-	else
-	{
-		setToInvalid();
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::operator=( const InetAddress& inetAddr ) is invalid" );
-	}
-
-	return *this;
-}
-
-//============================================================================
-bool InetAddrIPv4::operator != ( const InetAddress& inetAddr )  const
-{
-	return ! (inetAddr.isIPv4() && ( this->m_u32AddrIPv4 == inetAddr.getIPv4AddressInNetOrder() ));
-}
-
-//============================================================================
-bool InetAddrIPv4::operator == (const InetAddress& inetAddr)  const
-{
-	return (inetAddr.isIPv4() && ( this->m_u32AddrIPv4 == inetAddr.getIPv4AddressInNetOrder() ));
-}
-
-//============================================================================
-bool InetAddrIPv4::isValid( void ) const
-{
-	return ( 0 != m_u32AddrIPv4 );
-}
-
-//============================================================================
-void InetAddrIPv4::setToInvalid( void )
-{
-	m_u32AddrIPv4 = 0;
-}
-
-//============================================================================
-bool InetAddrIPv4::isLoopBack() const
-{
-	return ( 0x7f000001 != m_u32AddrIPv4 );
-}
-
-//============================================================================
-InetAddress InetAddrIPv4::toInetAddress( void )
-{
-	InetAddress inetAddr;
-	inetAddr.setIp( this->getIPv4AddressInNetOrder(), false );
-	return inetAddr;
-}
-
-//============================================================================
-bool InetAddrIPv4::isIPv4String( const char* pIpAddress ) const
-{
-	if( pIpAddress
-		&& (strlen(pIpAddress) < 16 )
-		&& strchr(pIpAddress, '.')
-		&& ( 0 == strchr(pIpAddress, ':')) )
-	{
-		return true;
-	}
-
-	return false;
-}
-
-//============================================================================
-uint32_t InetAddrIPv4::getIPv4AddressInHostOrder( void ) const
-{
-	return ntohl( m_u32AddrIPv4 );
-}
-
-//============================================================================
-uint32_t InetAddrIPv4::getIPv4AddressInNetOrder( void ) const
-{
-	return m_u32AddrIPv4;
-}
-
-//============================================================================
-// note.. internally kept in network order instead of host order
-bool InetAddrIPv4::setIp( uint32_t u32IPv4Addr, bool bIsHostOrder )
-{
-    uint32_t oldAddrIPv4 = m_u32AddrIPv4;
-	if( bIsHostOrder )
-	{
-		u32IPv4Addr = htonl( u32IPv4Addr );
-	}
-
-	if( u32IPv4Addr )
-	{
-		m_u32AddrIPv4 = u32IPv4Addr;
-	}
-	else
-	{
-		setToInvalid();
-	}
-
-    return oldAddrIPv4 != m_u32AddrIPv4;
-}
-
-//============================================================================
-bool InetAddrIPv4::setIp( const char* pIp )
-{
-    uint32_t oldAddrIPv4 = m_u32AddrIPv4;
-	if( !fromString( pIp ) )
-	{
-		return false;
-	}
-
-    return oldAddrIPv4 != m_u32AddrIPv4;
-}
-
-//============================================================================
-//! returns port in host order
-uint16_t InetAddrIPv4::setIp( struct sockaddr_in& oIPv4Addr )
-{
-	setIp(*((uint32_t*)&oIPv4Addr.sin_addr), true );
-	return ntohs( oIPv4Addr.sin_port );
-}
-
-//============================================================================
-//! returns port in host order
-uint16_t InetAddrIPv4::setIp( struct sockaddr& ipAddr )
-{
-	if( AF_INET == ipAddr.sa_family )
-	{
-		return setIp( *((sockaddr_in *)&ipAddr) );
-	}
-	else if( AF_INET6 == ipAddr.sa_family )
-	{
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::setIp tried to set IPv6 address" );
-		setToInvalid();
-		return 0;
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "InetAddress::setIp unknown family" );
-		return 0;
-	}
-}
-
-//============================================================================
-//! returns port in host order
-uint16_t InetAddrIPv4::setIp( struct sockaddr_storage& oAddr )
-{
-	switch( oAddr.ss_family ) 
-	{
-	case AF_INET:
-		return setIp(*((struct sockaddr_in *)&oAddr));
-		break;
-
-	case AF_INET6:
-		LogMsg( LOG_ERROR, "ERROR InetAddrIPv4::setIp tried to set IPv6 address" );
-		setToInvalid();
-		break;
-
-	default:
-		//vx_assert(false);
-		break;
-	};
-
-	return 0;
-}
-
-//============================================================================
-bool InetAddrIPv4::isLocalAddress( void ) const
-{
-	uint32_t hostOrderIpv4 = getIPv4AddressInHostOrder();
-	if( ( 0x00000000 == ( hostOrderIpv4 & 0xff000000 ) ) || // 0.
-		( 0x7f000000 == ( hostOrderIpv4 & 0xff000000 ) ) || // 127.
-		( 0x0a000000 == ( hostOrderIpv4 & 0xff000000 ) ) || // 10.		
-		( 0xc0a80000 == ( hostOrderIpv4 & 0xffff0000 ) ) || // 192.168.
-		( 0xa9fe0000 == ( hostOrderIpv4 & 0xffff0000 ) ) || // 169.254.
-		( 0xac100000 == ( hostOrderIpv4 & 0xfff00000 ) ) )  // 172.16?
-	{
-		return true;
-	}
-
-	return false;
-}
-
-//============================================================================
-//! fill address with this ip address and the given port
-int InetAddrIPv4::fillAddress( struct sockaddr_storage& oAddr, uint16_t u16Port )
-{
-	return fillAddress( *((struct sockaddr_in*)&oAddr), u16Port );
-}
-
-//============================================================================
-//! fill address with this ip address and the given port.. returns struct len
-int InetAddrIPv4::fillAddress( struct sockaddr_in& oIPv4Addr, uint16_t u16Port )
-{
-	// setup the address and port
-	memset( &oIPv4Addr, 0, sizeof( sockaddr_in ) );
-
-	oIPv4Addr.sin_family			= AF_INET;
-	*((long*)&oIPv4Addr.sin_addr)	= getIPv4AddressInHostOrder();
-
-	oIPv4Addr.sin_port				= htons( u16Port );
-	return (int)sizeof( struct sockaddr_in);
-}
-
-//============================================================================
-//! returns port in host order
-uint16_t InetAddrIPv4::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
-{
-	uint16_t u16Port = 0;
-	char as8Addr[ INET6_MAX_STR_LEN ];
-	switch(sa->sa_family)
-	{
-	case AF_INET:
-		VxIPv4_ntop(&(((struct sockaddr_in *)sa)->sin_addr), as8Addr, sizeof(as8Addr), true );
-		u16Port = ntohs( (((struct sockaddr_in *)sa)->sin_port) );
-		break;
-
-	case AF_INET6:
-		VxIPv6_ntop( &(((struct sockaddr_in6 *)sa)->sin6_addr), as8Addr, sizeof(as8Addr) );
-		u16Port = ntohs( (((struct sockaddr_in6 *)sa)->sin6_port) );
-		break;
-
-	default:
-		strcpy(as8Addr, "Unknown AF");
-		return 0;
-	}
-	retStr = as8Addr;
-	return u16Port;
-}
-
-//============================================================================
-bool InetAddrIPv4::isLittleEndian( void )
-{
-	return ( ntohl(4L) == 4L );
-}
-
-//============================================================================
-uint32_t InetAddrIPv4::swap32Bit( uint32_t src )
-{
-	return htonl( src );
-}
-
-//============================================================================
-// InetAddrIPv4AndPort
-//============================================================================
-InetAddrIPv4AndPort::InetAddrIPv4AndPort( const InetAddrIPv4AndPort& rhs )
-    : InetAddrIPv4( rhs )
-    , m_u16Port( rhs.m_u16Port )
-{
-}
-
-//============================================================================
-bool InetAddrIPv4AndPort::addToBlob( PktBlobEntry& blob )
-{
-    bool result = InetAddrIPv4::addToBlob( blob );
-    result &= blob.setValue( m_u16Port );
-    return result;
-}
-
-//============================================================================
-bool InetAddrIPv4AndPort::extractFromBlob( PktBlobEntry& blob )
-{
-    bool result = InetAddrIPv4::extractFromBlob( blob );
-    result &= blob.getValue( m_u16Port );
-    return result;
-}
-
-//============================================================================
-bool InetAddrIPv4AndPort::fromString( const char* pIpAddress )
-{
-	uint16_t port = 0;
-	bool parsedIsIpv6 = false;
-	uint8_t buf[16];
-	if( ParseIPv4OrIPv6( pIpAddress, buf, port, parsedIsIpv6 ) )
-	{
-		if( !parsedIsIpv6 )
-		{
-			m_u32AddrIPv4 = *((uint32_t*)(&buf[0]));
-			if( port )
-			{
-				m_u16Port = port;
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "%s no port specified in address %s", __func__, pIpAddress );
-			}
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "%s attempted to set ip6 address %s", __func__, pIpAddress );
-		}
-
-		return port;
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "%s invalid ip %s", __func__, pIpAddress );
-	}
-
-	return false;
-}
-
-//============================================================================
-std::string InetAddrIPv4AndPort::toString( bool includePort )
-{
-	std::string ipAddr = InetAddrIPv4::toString();
-	if( includePort && !ipAddr.empty() && m_u16Port )
-	{
-		ipAddr += ":";
-		ipAddr += std::to_string( m_u16Port );
-	}
-
-	return ipAddr;
-}
-
-//============================================================================
-InetAddrIPv4AndPort& InetAddrIPv4AndPort::operator=(const InetAddrIPv4& inetAddr) 
-{
-	if( this != &inetAddr )
-	{
-		m_u32AddrIPv4	= inetAddr.getIPv4AddressInNetOrder();
-	}
-
-	return *this;
-}
-
-//============================================================================
-//! equal operator
-InetAddrIPv4AndPort& InetAddrIPv4AndPort::operator=(const InetAddrIPv4AndPort& inetAddr) 
-{
-	if( this != &inetAddr )
-	{
-		m_u32AddrIPv4	= inetAddr.getIPv4AddressInNetOrder();
-		m_u16Port		= inetAddr.getPort();
-	}
-
-	return *this;
-}
-
-//============================================================================
-InetAddrIPv4AndPort& InetAddrIPv4AndPort::operator=(const InetAddress& inetAddr) 
-{
-	m_u32AddrIPv4	= inetAddr.getIPv4AddressInNetOrder();
-	return *this;
-}
-
-//============================================================================
-InetAddrIPv4AndPort& InetAddrIPv4AndPort::operator=(const InetAddrAndPort& inetAddr) 
-{
-	m_u16Port		= inetAddr.getPort();
-	m_u32AddrIPv4	= inetAddr.getIPv4AddressInNetOrder();
-	return *this;
-}
-
-//============================================================================
-void InetAddrIPv4AndPort::setIpAndPort( struct sockaddr_storage& oAddr )
-{
-	m_u16Port = setIp( oAddr );
-}
-
-//============================================================================
-void InetAddrIPv4AndPort::setIpAndPort( struct sockaddr& oAddr )
-{
-	m_u16Port = setIp( oAddr );
-}
-
-//============================================================================
-//============================================================================
-//============================================================================
-//============================================================================
-// InetAddress
-
-//============================================================================
 InetAddress::InetAddress( const char* pIpAddress )
 : m_u64AddrHi(0)
 , m_u64AddrLo(0)
@@ -624,7 +144,7 @@ std::string InetAddress::toString( void ) const
 	if( isIPv4() )
 	{
 		uint32_t u32Ip = getIPv4AddressInNetOrder();
-        VxIPv4_ntop( &u32Ip, as8Buf.data(), as8Buf.size(), false);
+		return ipv4BinaryToString( (uint8_t *)&u32Ip );
 	}
 	else
 	{
@@ -1094,25 +614,6 @@ bool InetAddress::operator != (const InetAddress& oAddr)  const
 }
 
 //============================================================================
-InetAddress& InetAddress::operator=(const InetAddrIPv4& inetAddr) 
-{
-	setIp( inetAddr.getIPv4AddressInNetOrder() );
-	return *this;
-}
-
-//============================================================================
-bool InetAddress::operator == (const InetAddrIPv4& inetAddr)  const
-{
-	return ( getIPv4AddressInNetOrder() == inetAddr.getIPv4AddressInHostOrder() );
-}
-
-//============================================================================
-bool InetAddress::operator != (const InetAddrIPv4& inetAddr)  const
-{
-	return ( getIPv4AddressInNetOrder() != inetAddr.getIPv4AddressInHostOrder() );
-}
-
-//============================================================================
 bool InetAddress::isValid( void ) const
 {
 	return isIPv4() || !( 0 == m_u64AddrHi && 0 == m_u64AddrLo );
@@ -1182,13 +683,8 @@ uint32_t InetAddress::getIPv4AddressInNetOrder( void ) const
 
 //============================================================================
 // note.. internally kept in network order instead of host order
-void InetAddress::setIp( uint32_t u32IPv4Addr, bool bIsHostOrder )
+void InetAddress::setIp( uint32_t u32IPv4Addr )
 {
-    if( bIsHostOrder )
-	{
-		u32IPv4Addr = htonl( u32IPv4Addr );
-	}
-
 	if( u32IPv4Addr )
 	{
 		*((uint32_t*)&m_u64AddrLo) = u32IPv4Addr;
@@ -1210,7 +706,7 @@ uint16_t InetAddress::setIp( const char* pIp )
 //! returns port in host order
 uint16_t InetAddress::setIp( struct sockaddr_in& ipv4Addr )
 {
-    setIp(*((uint32_t*)&ipv4Addr.sin_addr), true );
+    setIp( *((uint32_t*)&ipv4Addr.sin_addr) );
 	return ntohs( ipv4Addr.sin_port );
 }
 
@@ -1315,26 +811,32 @@ int InetAddress::fillAddress( struct sockaddr_in6& ipv6Addr, uint16_t u16Port )
 uint16_t InetAddress::getIpFromAddr(const struct sockaddr *sa, std::string& retStr)
 {
 	uint16_t u16Port = 0;
-	std::array<char, INET6_MAX_STR_LEN> as8Addr;
     switch(sa->sa_family)
     {
 		case AF_INET:
-			VxIPv4_ntop(&(((struct sockaddr_in *)sa)->sin_addr), as8Addr.data(), as8Addr.size(), true);
+			retStr = ipv4BinaryToString( (uint8_t *) & (((struct sockaddr_in*)sa)->sin_addr) );
 			u16Port = ntohs( (((struct sockaddr_in *)sa)->sin_port) );
 			break;
 
 		case AF_INET6:
-			VxIPv6_ntop( &(((struct sockaddr_in6 *)sa)->sin6_addr), as8Addr.data(), as8Addr.size() );
+			retStr = ipv6BinaryToString( (uint8_t *) & (((struct sockaddr_in6*)sa)->sin6_addr) );
 			u16Port = ntohs( (((struct sockaddr_in6 *)sa)->sin6_port) );
 			break;
 
 		default:
-			strcpy(as8Addr.data(), "Unknown AF");
+			retStr = "Unknown AF";
             return 0;
 	}
 
-    retStr = as8Addr.data();
 	return u16Port;
+}
+
+//============================================================================
+std::string InetAddress::ipv4BinaryToString( uint8_t ipBinary[4] )
+{
+	char ipBuf[16];
+	snprintf( ipBuf, sizeof( ipBuf ), "%d.%d.%d.%d", ipBinary[0], ipBinary[1], ipBinary[2], ipBinary[3] );
+	return ipBuf;
 }
 
 //============================================================================
@@ -1522,21 +1024,6 @@ InetAddrAndPort& InetAddrAndPort::operator=(const InetAddrAndPort& oAddr)
 		m_u16Port = oAddr.m_u16Port;
 	}
 
-	return *this;
-}
-
-//============================================================================
-InetAddrAndPort& InetAddrAndPort::operator=(const InetAddrIPv4& inetAddr) 
-{
-	setIp( inetAddr.getIPv4AddressInHostOrder() );
-	return *this;
-}
-
-//============================================================================
-InetAddrAndPort& InetAddrAndPort::operator=(const InetAddrIPv4AndPort& inetAddr) 
-{
-	setIp( inetAddr.getIPv4AddressInHostOrder() );
-	m_u16Port = inetAddr.getPort();
 	return *this;
 }
 
