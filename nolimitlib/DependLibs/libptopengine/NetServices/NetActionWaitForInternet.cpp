@@ -32,13 +32,5 @@ void NetActionWaitForInternet::doAction( void )
 //============================================================================
 bool NetActionWaitForInternet::checkInternetAvailable( void )
 {
-	bool useIpv6 = m_Engine.getNetStatusAccum().getUseIpv6();
-	std::string lclIpAddr;
-	bool internetAvail = VxGetDefaultLocalIp( useIpv6, lclIpAddr );
-	if( internetAvail )
-	{
-		m_Engine.getNetStatusAccum().setLocalIpAddress( lclIpAddr );
-	}
-
-	return internetAvail;
+	return m_Engine.getNetStatusAccum().isInternetAvailable();
 }

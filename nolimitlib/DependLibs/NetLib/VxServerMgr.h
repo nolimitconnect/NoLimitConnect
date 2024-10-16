@@ -29,7 +29,7 @@ public:
 
     int                         getMgrId( void ) const { return m_iMgrId; }
 
-    bool						startListening( bool ipv6, uint16_t port );
+    bool						startListening( bool ipv6, uint16_t port, bool usePortForwardIfEnabled );
     void						stopListening( bool ipv6 );
 
     bool				        isListening( bool ipv6 );

@@ -74,10 +74,14 @@ std::shared_ptr<VxSktBase> VxServerMgr::makeNewAcceptSkt( bool ipv6 )
 }
 
 //============================================================================
-bool VxServerMgr::startListening( bool ipv6, uint16_t port )
+bool VxServerMgr::startListening( bool ipv6, uint16_t port, bool usePortForwardIfEnabled )
 {
     setListenPort( port );
-    checkPortForward( ipv6 );
+    if( usePortForwardIfEnabled )
+    {
+        checkPortForward( ipv6 );
+    }
+    
     return ipv6 ? m_ListenLogicIpv6.startListening( port ) : m_ListenLogicIpv4.startListening( port );
 }
 

@@ -12,15 +12,16 @@
 
 #include "ToGuiActivityInterface.h"
 
-#include "GuiParams.h"
 #include "HomeWindow.h"
+#include "GuiParams.h"
 #include "LogMgr.h"
 #include "MyIcons.h"
 #include "SoundMgr.h"
 
 #include "ActivityCreateAccount.h"
-#include "ActivitySoundOptions.h"
 #include "ActivityShowHelp.h"
+#include "ActivitySoundOptions.h"
+#include "ActivityYesNoMsgBox.h"
 
 #include "AppletDownloads.h"
 #include "AppletUploads.h"
@@ -1021,16 +1022,16 @@ bool AppCommon::confirmAppShutdown( QWidget* parentWindow )
         return true;
     }
 
-    QMessageBox::StandardButton retBtn = QMessageBox::question( this, QObject::tr("Close Application"),
-            tr( "Are you sure you want to exit?" ),
-            QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-            QMessageBox::Yes );
+	// to get here we must be on the home page
+	QString title = QObject::tr( "Close Application" );
+	QString body = QObject::tr( "Are you sure you want to exit?" );
 
-    if( retBtn == QMessageBox::Yes )
-    {
+	ActivityYesNoMsgBox confirmExit( *this, parentWindow, title, body );
+	if( QDialog::Accepted == confirmExit.exec() )
+	{
         confirmedExit = true;
         return true;
-    }
+	}
 
 	return false;
 }

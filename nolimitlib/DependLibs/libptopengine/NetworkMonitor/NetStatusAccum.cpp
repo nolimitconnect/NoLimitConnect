@@ -20,6 +20,25 @@
 #include <CoreLib/VxSktUtil.h>
 #include <NetLib/VxPeerMgr.h>
 
+namespace
+{
+	//============================================================================
+    void * NetStatusAccumThreadFunc( void * pvContext )
+	{
+		VxThread* poThread = (VxThread*)pvContext;
+		poThread->setIsThreadRunning( true );
+
+		NetStatusAccum * poMgr = (NetStatusAccum *)poThread->getThreadUserParam();
+        if( poMgr && false == poThread->isAborted() )
+        {
+            poMgr->threadedSetupListen();
+        }
+
+		poThread->threadAboutToExit();
+        return nullptr;
+	}
+}
+
 //============================================================================
 NetStatusAccum::NetStatusAccum( P2PEngine& engine )
     : m_Engine(engine)
@@ -385,6 +404,15 @@ void NetStatusAccum::setFirewallTestType( EFirewallTestType firewallTestType )
 }
 
 //============================================================================
+EFirewallTestType NetStatusAccum::getFirewallTestType( void )
+{
+    m_AccumMutex.lock();
+    EFirewallTestType firewallTestType = m_FirewallTestType;
+    m_AccumMutex.unlock();
+    return firewallTestType;
+}
+
+//============================================================================
 void NetStatusAccum::getNodeUrl( std::string& retNodeUrl )
 {
     retNodeUrl = "";
@@ -608,33 +636,13 @@ void NetStatusAccum::setUseFixedIp( std::string externIp )
 //============================================================================
 void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
 {
-    // this will only get called on startup or engine settings changed
+    // this function will only get called on startup or engine settings changed
+
     // use it to get default local addresses
-    bool addrChanged{ false };
+
     bool portChanged{ false };
     bool useIpv6Changed{ false };
-    
-    if( m_LocalAddrIpv6.empty() )
-    {
-        if( VxGetDefaultLocalIp( true, m_LocalAddrIpv6 ) && !m_LocalAddrIpv6.empty() )
-        {        
-            addrChanged |= true;
-        }
-        else if( useIpv6 )
-        {
-            LogMsg( LOG_WARN, "NetStatusAccum::setUseIpv6 Device NO IPv6 Local Address" );
-        }
-    }
-
-    if( m_LocalAddrIpv4.empty() )
-    {
-        if( VxGetDefaultLocalIp( false, m_LocalAddrIpv4 ) )
-        {
-            addrChanged |= true;
-        }
-    }
-
-    std::string useThisLocaIpAddr;
+    bool hostsConnectTestChanged{ false };
     lockAccum();
     if( ipPort != m_IpPort )
     {
@@ -648,41 +656,121 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
         useIpv6Changed = true;
     }
 
-    if( useIpv6 && ( m_LocalAddr.empty() || ( !m_LocalAddrIpv6.empty() && m_LocalAddr != m_LocalAddrIpv6 ) ) )
+    bool isConnectTestHost = m_Engine.getMyPktAnnounce().getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore;
+    if( isConnectTestHost != m_IsConnectTestHost )
     {
-        m_LocalAddr = m_LocalAddrIpv6;
-        addrChanged |= true;
-    }
-    else if( m_LocalAddr.empty() || ( !m_LocalAddrIpv4.empty() && m_LocalAddr != m_LocalAddrIpv4 )  )
-    {
-        m_LocalAddr = m_LocalAddrIpv4;
-        addrChanged |= true;
+        m_IsConnectTestHost = isConnectTestHost;
+        hostsConnectTestChanged = true;
     }
 
-    useThisLocaIpAddr = m_LocalAddr;
+    unlockAccum();
+    if( portChanged )
+    {
+        m_Engine.getMyPktAnnounce().setOnlinePort( ipPort );
+        m_Engine.setPktAnnLastModTime( GetTimeStampMs() );
+    }
+
+    if( hostsConnectTestChanged || portChanged || useIpv6Changed || m_LocalAddrIpv6.empty() || m_LocalAddrIpv4.empty() )
+    {
+        // launch thread that will detect local ips and start listen thread(s)
+        lockAccum();
+        m_InternetAvail = false;
+        unlockAccum();
+        startSetupListenThread();
+    }
+}
+
+//============================================================================
+void NetStatusAccum::startSetupListenThread( void )
+{
+    if( !m_SetupListenThread.isThreadRunning() )
+    {
+        m_SetupListenThread.startThread( ( VX_THREAD_FUNCTION_T )NetStatusAccumThreadFunc, this, "NetStatusAccumThread" );
+    }
+}
+
+//============================================================================
+void NetStatusAccum::threadedSetupListen( void )
+{
+    lockAccum();
+    uint16_t ipPort = m_IpPort;
+    bool useIpv6 = m_UseIpv6;
+    bool isConnectTestHost = m_IsConnectTestHost;
+    std::string origLocalIp = m_LocalAddr;
+    std::string origLocalIp4 = m_LocalAddrIpv4;
+    std::string origLocalIp6 = m_LocalAddrIpv6;
     unlockAccum();
 
-    // we want to open port and start listening as soon as possible in startup
-    if( addrChanged || portChanged || useIpv6Changed )
+    std::string localAddrIpv4;
+    std::string localAddrIpv6;
+    std::string useThisLocaIpAddr;
+
+    bool addrChanged{ false };
+    bool foundLclIp{ false };
+    for( int i = 0; i < 3; i++ )
     {
-        if( portChanged )
+        if( useIpv6 || isConnectTestHost )
         {
-            m_Engine.getMyPktAnnounce().setOnlinePort( ipPort );
-            m_Engine.setPktAnnLastModTime( GetTimeStampMs() );
+            // some systems do not support ipv6 and take a long time to fail
+            // so only retrieve ipv6 if needed
+            VxGetDefaultLocalIp( true, localAddrIpv6 );
         }
 
+        VxGetDefaultLocalIp( false, localAddrIpv4 );
+
+        useThisLocaIpAddr = useIpv6 ? localAddrIpv6 : localAddrIpv4;
         if( !useThisLocaIpAddr.empty() )
         {
-            VxSetLclIpAddress( useThisLocaIpAddr.c_str() ); // global
+            foundLclIp = true;
+            break;
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "NetStatusAccum::%s: FAILED to retrieve local ip retrying", __func__ );
+            VxSleep( 1000 );
+        }
+    }
 
-            m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
-            m_Engine.getPeerMgr().startListening( useIpv6, ipPort );
-            if( addrChanged )
+    addrChanged = origLocalIp != useThisLocaIpAddr || origLocalIp4 != localAddrIpv4 || origLocalIp6 != localAddrIpv6;
+    if( addrChanged && foundLclIp )
+    {
+        lockAccum();
+        m_LocalAddr = useThisLocaIpAddr;
+        m_LocalAddrIpv4 = localAddrIpv4;
+        m_LocalAddrIpv6 = localAddrIpv6;
+        unlockAccum();
+    }
+
+    if( !useThisLocaIpAddr.empty() )
+    {
+        VxSetLclIpAddress( useThisLocaIpAddr.c_str() ); // global
+
+        m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
+        EFirewallTestType firewallTestType = getFirewallTestType();
+        m_Engine.getPeerMgr().startListening( useIpv6, ipPort, eFirewallTestAssumeNoFirewall != firewallTestType );
+
+        // if we have a local ip address we have internet
+        setInternetAvail( true );
+        LogMsg( LOG_VERBOSE, "NetStatusAccum::%s: Listening on port %d local ip %s", __func__, ipPort, useThisLocaIpAddr.c_str() );
+        if( isConnectTestHost )
+        {
+            // if we are a connection test host then try to listen for both ipv4 and ipv6
+            // this is not required but convenient for testing
+            
+            if( firewallTestType == eFirewallTestAssumeNoFirewall )
             {
-                // if we have a local ip address we have internet
-                setInternetAvail( true );
+                std::string otherLclIp = useIpv6 ? localAddrIpv4 : localAddrIpv6;
+                if( !otherLclIp.empty() )
+                {
+                    m_Engine.getPeerMgr().startListening( !useIpv6, ipPort, false );
+                    LogMsg( LOG_VERBOSE, "NetStatusAccum::%s: Also listening on port %d local ip %s", __func__, ipPort, otherLclIp.c_str() );
+                }
             }
         }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "NetStatusAccum::%s: NO INTERNET ACCESS", __func__ );
     }
 }
 

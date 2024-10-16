@@ -51,7 +51,8 @@ void NetworkEventAvail::runNetworkEvent( void )
 	m_NetworkStateMachine.resolveWebsiteUrls();
 	uint16_t prevPort = m_Engine.getNetStatusAccum().getIpPort();
     uint16_t listenPort = m_Engine.getEngineSettings().getTcpIpPort();
-	bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
+	bool ipv6 = m_Engine.getNetStatusAccum().getUseIpv6();
+	EFirewallTestType firewallTestType = m_Engine.getNetStatusAccum().getFirewallTestType();
     m_Engine.getNetStatusAccum().setIpPort( listenPort );
 
 	if( VxIsIpValid( m_LclIp ) )
@@ -67,7 +68,7 @@ void NetworkEventAvail::runNetworkEvent( void )
 
     if( !m_Engine.getPeerMgr().isListening( ipv6 ) || listenPort != prevPort )
     {
-        m_Engine.getPeerMgr().startListening( ipv6, listenPort );
+        m_Engine.getPeerMgr().startListening( ipv6, listenPort, eFirewallTestAssumeNoFirewall != firewallTestType );
     }
 
     LogModule( eLogNetworkState, LOG_VERBOSE, "NetworkEventAvail::runNetworkEvent done" );

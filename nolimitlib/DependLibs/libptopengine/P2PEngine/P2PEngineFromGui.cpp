@@ -1903,6 +1903,7 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 		getNetStatusAccum().setNetworkHostUrl( netHostSetting.getNetworkHostUrl() );
 
 		m_EngineSettings.setNetHostSettings( netHostSetting );
+		// TODO remove NetworkStateMachine
 		m_NetworkStateMachine.updateFromEngineSettings( m_EngineSettings );
 	}
 

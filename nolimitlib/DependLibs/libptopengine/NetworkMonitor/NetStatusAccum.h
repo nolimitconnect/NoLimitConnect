@@ -10,8 +10,9 @@
 //============================================================================
 
 #include <GuiInterface/IDefs.h>
-#include <CoreLib/VxMutex.h>
 #include <CoreLib/VxGUID.h>
+#include <CoreLib/VxMutex.h>
+#include <CoreLib/VxThread.h>
 
 #include <map>
 
@@ -104,6 +105,7 @@ public:
     void                        setConnectToRelay( bool connectedToRelay );
 
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
+    EFirewallTestType           getFirewallTestType( void );
     
     bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
     bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
@@ -143,11 +145,15 @@ public:
     std::string                 getNetworkHostName( void ); // just host name or ip
     uint16_t                    getNetworkHostPort( void );
 
+    void                        threadedSetupListen( void );
+
 protected:
     void                        onNetStatusChange( void );
 
     void                        lockAccum( void ) { m_AccumMutex.lock(); }
     void                        unlockAccum( void ) { m_AccumMutex.unlock(); }
+
+    void                        startSetupListenThread( void );
 
     P2PEngine&					m_Engine;
     VxMutex                     m_AccumMutex;
@@ -169,6 +175,7 @@ protected:
 
     uint16_t                    m_IpPort{ 0 };
     bool                        m_UseIpv6{ false };
+    bool                        m_IsConnectTestHost{ false };
 
     std::string                 m_ExternAddr;
     std::string                 m_LocalAddr;
@@ -189,4 +196,6 @@ protected:
     ENetAvailStatus             m_NetAvailStatus{ eNetAvailNoInternet };
 
     std::map<EHostType, HostConnection> m_HostConnectionMap;
+
+    VxThread                    m_SetupListenThread;
 };

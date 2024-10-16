@@ -39,8 +39,7 @@ void GuiThumbMgr::onAppCommonCreated( void )
     // LogMsg( LOG_VERBOSE, "GuiThumbMgr::onAppCommonCreated emoticon list size %d", emoticonList.size() );
     int emoticonNum = 0;
     for( auto& guid : emoticonList )
-    {
-        
+    {     
         if( guid.isVxGUIDValid() )
         {
             // LogMsg( LOG_VERBOSE, "GuiThumbMgr::onAppCommonCreated emoticon  %d is valid %s", emoticonNum, guid.toOnlineIdString().c_str() );
