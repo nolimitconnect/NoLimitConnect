@@ -8,7 +8,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "FriendList.h"
 
 //============================================================================
@@ -96,7 +95,7 @@ void FriendList::updateFriendList( GuiUser* guiUser, bool sessionTimeChange )
 
 		if( false == wasInserted )
 		{
-			m_aoFriends.push_back( guiUser );
+			m_aoFriends.emplace_back( guiUser );
 		}
 	}
 

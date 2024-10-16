@@ -146,11 +146,13 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
 
 	// perform accept
 	// setup address
-    struct sockaddr_storage acceptAddr;
-    socklen_t acceptAddrLen = VxSktAddrInit( ipv6, acceptAddr );
+    struct sockaddr_storage acceptAddrStorage;
+    memset( &acceptAddrStorage, 0, sizeof( struct sockaddr_storage ) );
+    struct sockaddr* acceptAddr = reinterpret_cast<sockaddr*>(&acceptAddrStorage);
+    socklen_t acceptAddrLen = sizeof( struct sockaddr_storage );
 
     // NOTE: in android the return to blocking on listen doesn't work so we just set it once before start listening so accept does not get hung
-    SOCKET acceptSkt = accept( listenSkt, (sockaddr *) &acceptAddr, &acceptAddrLen);
+    SOCKET acceptSkt = accept( listenSkt, acceptAddr, &acceptAddrLen);
 
     if( poVxThread->isAborted()  )
 	{
@@ -253,14 +255,16 @@ static int dumpSktStatsCnt = 0;
 		return 0; // keep running until number of connections clear up
 	}
 
-    struct sockaddr_storage sktAddr;
-    socklen_t sktAddrLen = VxSktAddrInit( ipv6, sktAddr );
+    struct sockaddr_storage peerAddrStorage;
+    memset( &peerAddrStorage, 0, sizeof( peerAddrStorage ) );
+    struct sockaddr* peerAddr = reinterpret_cast<sockaddr*>(&peerAddrStorage);
+    socklen_t peerAddrLen = sizeof( struct sockaddr_storage );
 
     std::string rmtIp;
     uint16_t rmtPort{ 0 };
-    if( 0 == getpeername( acceptSkt, (struct sockaddr*)&sktAddr, &sktAddrLen ) )
+    if( 0 == getpeername( acceptSkt, peerAddr, &peerAddrLen ) )
     {
-        VxSktAddrGetParams( ipv6, sktAddr, rmtIp, rmtPort );
+        rmtPort = InetAddress::getIpFromAddr( peerAddr, rmtIp );
     }
 
     if( rmtIp.empty() )
@@ -277,7 +281,7 @@ static int dumpSktStatsCnt = 0;
     }
 
 	// add a skt to our list	
-	std::shared_ptr<VxSktBase> sktBase = makeNewAcceptSkt( ipv6 );
+	std::shared_ptr<VxSktBase> sktBase = makeNewAcceptSkt( VxIsIPv6Address( rmtIp.c_str() ) );
 	m_SktMgrMutex.lock(__FILE__, __LINE__); // dont let other threads mess with array while we add
 	m_aoSkts.emplace_back( sktBase );
 	// do tell skt to do accept stuff
@@ -288,7 +292,7 @@ static int dumpSktStatsCnt = 0;
 
     LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s doing accept skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
-    RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *(( struct sockaddr * )&acceptAddr) );
+    RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *acceptAddr );
 	if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == listenSkt )
 	{
 		sktBase->closeSkt(eSktCloseAcceptFailed);

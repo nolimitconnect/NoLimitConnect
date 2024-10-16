@@ -193,7 +193,7 @@ void RunUrlAction::runUrlAction( VxGUID& sessionId, enum ENetCmdType netCmdType,
         }
         else
         {
-            m_UrlActionList.push_back( urlAction );
+            m_UrlActionList.emplace_back( urlAction );
             m_ActionListMutex.unlock();
             startUrlActionThread();
         }

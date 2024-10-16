@@ -154,10 +154,9 @@ void AppCommon::completeLogin( void )
 
     m_UserMgr.updateMyIdent( netIdent );
 
-    // get settings from engine
-    m_eLastSelectedWhichContactsToView = getEngine().getEngineSettings().getWhichContactsToView();
-
-    slotListViewTypeChanged( m_eLastSelectedWhichContactsToView );
+    // TODO remove if not really needed
+    // m_eLastSelectedWhichContactsToView = getEngine().getEngineSettings().getWhichContactsToView();
+    // slotListViewTypeChanged( m_eLastSelectedWhichContactsToView );
 
     onUserLoggedOn();
 
