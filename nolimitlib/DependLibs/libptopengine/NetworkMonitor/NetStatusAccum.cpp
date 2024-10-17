@@ -625,6 +625,36 @@ std::string NetStatusAccum::getLocalIpv6( void )
 }
 
 //============================================================================
+std::string NetStatusAccum::getMyNetServiceIpAddress( bool isIpv6Connection )
+{
+    std::string rxIpAddr = getExternalIpAddress();
+    bool isIpv6 = VxIsIPv6Address(rxIpAddr.c_str());
+    if( isIpv6 != isIpv6Connection )
+    {
+        std::string localIp = isIpv6Connection ? getLocalIpv6() : getLocalIpv4();
+        if( localIp.empty() )
+        {
+            LogMsg( LOG_WARN, "NetStatusAccum::%s: alternative net serve ip is empty", __func__ );
+        }
+        else
+        {
+            InetAddress inetAddress;
+            inetAddress.setIp( localIp.c_str() );
+            if(inetAddress.isLocalAddress())
+            {
+                LogMsg( LOG_WARN, "NetStatusAccum::%s: alternative net serve ip is LAN only", __func__ );
+            }
+            else
+            {
+                rxIpAddr = localIp;
+            }
+        }
+    }
+
+    return rxIpAddr;
+}
+
+//============================================================================
 void NetStatusAccum::setUseFixedIp( std::string externIp )
 {
     m_AccumMutex.lock();
@@ -642,7 +672,7 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
 
     bool portChanged{ false };
     bool useIpv6Changed{ false };
-    bool hostsConnectTestChanged{ false };
+    bool hostServicesChanged{ false };
     lockAccum();
     if( ipPort != m_IpPort )
     {
@@ -660,7 +690,14 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
     if( isConnectTestHost != m_IsConnectTestHost )
     {
         m_IsConnectTestHost = isConnectTestHost;
-        hostsConnectTestChanged = true;
+        hostServicesChanged = true;
+    }
+
+    bool isNetworkHost = m_Engine.getMyPktAnnounce().getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore;
+    if( isNetworkHost != m_IsNetworkHost )
+    {
+        m_IsNetworkHost = isNetworkHost;
+        hostServicesChanged = true;
     }
 
     unlockAccum();
@@ -670,7 +707,7 @@ void NetStatusAccum::setUseIpv6( bool useIpv6, uint16_t ipPort )
         m_Engine.setPktAnnLastModTime( GetTimeStampMs() );
     }
 
-    if( hostsConnectTestChanged || portChanged || useIpv6Changed || m_LocalAddrIpv6.empty() || m_LocalAddrIpv4.empty() )
+    if( hostServicesChanged || portChanged || useIpv6Changed || m_LocalAddrIpv6.empty() || m_LocalAddrIpv4.empty() )
     {
         // launch thread that will detect local ips and start listen thread(s)
         lockAccum();
@@ -696,6 +733,7 @@ void NetStatusAccum::threadedSetupListen( void )
     uint16_t ipPort = m_IpPort;
     bool useIpv6 = m_UseIpv6;
     bool isConnectTestHost = m_IsConnectTestHost;
+    bool isNetworkHost = m_IsNetworkHost;
     std::string origLocalIp = m_LocalAddr;
     std::string origLocalIp4 = m_LocalAddrIpv4;
     std::string origLocalIp6 = m_LocalAddrIpv6;
@@ -709,7 +747,7 @@ void NetStatusAccum::threadedSetupListen( void )
     bool foundLclIp{ false };
     for( int i = 0; i < 3; i++ )
     {
-        if( useIpv6 || isConnectTestHost )
+        if( useIpv6 || isConnectTestHost || isNetworkHost )
         {
             // some systems do not support ipv6 and take a long time to fail
             // so only retrieve ipv6 if needed
@@ -752,7 +790,9 @@ void NetStatusAccum::threadedSetupListen( void )
         // if we have a local ip address we have internet
         setInternetAvail( true );
         LogMsg( LOG_VERBOSE, "NetStatusAccum::%s: Listening on port %d local ip %s", __func__, ipPort, useThisLocaIpAddr.c_str() );
-        if( isConnectTestHost )
+
+        // listen on both ipv4 and ipv6 if possible
+        if( isConnectTestHost || isNetworkHost )
         {
             // if we are a connection test host then try to listen for both ipv4 and ipv6
             // this is not required but convenient for testing

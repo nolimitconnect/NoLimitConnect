@@ -266,12 +266,26 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
         return false;
     }
 
-    std::string emptyLclIp; // seems that VPNs work better without the bind to a specific address
-    struct sockaddr_storage sockAddr;
-    socklen_t sockAddrLen = VxSktAddrInit( m_IsIpv6, sockAddr, emptyLclIp, m_ListenPort );
+    NetStatusAccum& netStatusAccum = GetPtoPEngine().getNetStatusAccum();
+
+    std::string bindLclIp; // seems that VPNs work better without the bind to a specific address
+
+    if( ( netStatusAccum.getIsConnectTestHost() || netStatusAccum.getIsNetworkHost() )  &&
+        eFirewallTestAssumeNoFirewall == netStatusAccum.getFirewallTestType() )
+    {
+        // if we are a connection service or network host service and assumed no firewall
+        // then need to bind to a specific address or we will recieve ipv4 connections on ipv6 listen
+        // socket which gets the wrong remote ip for connection tests
+        bindLclIp = m_IsIpv6 ? netStatusAccum.getLocalIpv6() : netStatusAccum.getLocalIpv4();
+    }
+
+    struct sockaddr_storage sockAddrStorage;
+    struct sockaddr* sockAddr = reinterpret_cast<sockaddr*>(&sockAddrStorage);
+
+    socklen_t sockAddrLen = VxSktAddrInit( m_IsIpv6, sockAddrStorage, bindLclIp, m_ListenPort );
 
     // Bind Socket
-    int bindStatus = bind( listenSock, (struct sockaddr*)&sockAddr, sockAddrLen );
+    int bindStatus = bind( listenSock, sockAddr, sockAddrLen );
     int retryCnt = 0;
     while( bindStatus < 0 )
     {

@@ -118,8 +118,8 @@ void P2PEngine::onOncePerSecond( void )
 
         if( sktThreadCnt || activeSktCnt || toDeleteSktCnt )
         {
-            LogMsg( LOG_VERBOSE, "Running Skt Rx Threads Cnt %d active %d to delete %d", 
-                    sktThreadCnt, activeSktCnt, toDeleteSktCnt );
+            //LogMsg( LOG_VERBOSE, "Running Skt Rx Threads Cnt %d active %d to delete %d",
+             //       sktThreadCnt, activeSktCnt, toDeleteSktCnt );
         }
     }
 

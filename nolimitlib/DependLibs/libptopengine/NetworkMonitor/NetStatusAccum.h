@@ -124,6 +124,7 @@ public:
     std::string                 getLocalIpAddress( void );
     std::string                 getLocalIpv4( void );
     std::string                 getLocalIpv6( void );
+    std::string                 getMyNetServiceIpAddress( bool isIpv6Connection );
 
     EInternetStatus             getInternetStatus( void )           { return m_InternetStatus; }
     ENetAvailStatus             getNetAvailStatus( void )           { m_AccumMutex.lock(); ENetAvailStatus status = m_NetAvailStatus;  m_AccumMutex.unlock(); return status;  }
@@ -144,6 +145,9 @@ public:
 
     std::string                 getNetworkHostName( void ); // just host name or ip
     uint16_t                    getNetworkHostPort( void );
+
+    bool                        getIsConnectTestHost( void ) { return m_IsConnectTestHost; }
+    bool                        getIsNetworkHost( void ) { return m_IsNetworkHost; }
 
     void                        threadedSetupListen( void );
 
@@ -176,6 +180,7 @@ protected:
     uint16_t                    m_IpPort{ 0 };
     bool                        m_UseIpv6{ false };
     bool                        m_IsConnectTestHost{ false };
+    bool                        m_IsNetworkHost{ false };
 
     std::string                 m_ExternAddr;
     std::string                 m_LocalAddr;

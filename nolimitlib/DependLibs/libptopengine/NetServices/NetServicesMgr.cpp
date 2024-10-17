@@ -102,12 +102,9 @@ uint16_t NetServicesMgr::getRxNetServicePort( void )
 }
 
 //============================================================================
-std::string NetServicesMgr::getRxNetIpAddress( void )
+std::string NetServicesMgr::getRxNetIpAddress( bool isIpv6Connection )
 {
-	std::string strRetIp;
-	EIpAddrType addrType{ eIpAddrTypeUnknown };
-    m_Engine.getMyPktAnnounce().getOnlineIpAddress( strRetIp, addrType );
-	return strRetIp;
+    return m_Engine.getNetStatusAccum().getMyNetServiceIpAddress( isIpv6Connection );
 }
 
 //============================================================================
@@ -1207,7 +1204,7 @@ bool NetServicesMgr::getNetPktRxCryptoPassword( std::string& retPwd, std::shared
 	}
 	else
 	{
-		return NetServiceUtils::generateNetPktCryptoPassword( retPwd, getNetworkKey(), getRxNetServicePort(), getRxNetIpAddress() );
+        return NetServiceUtils::generateNetPktCryptoPassword( retPwd, getNetworkKey(), getRxNetServicePort(), getRxNetIpAddress(sktBase->getIsIpv6Connection()) );
 	}
 }
 
@@ -1420,7 +1417,7 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
 	std::unique_ptr<VxPktHdr> pktPtr;
 	std::string cryptoPwd;
 	uint16_t keyPort = sktBase->isAcceptSocket() ? getRxNetServicePort() : sktBase->getRemotePort();
-	std::string keyIpAddr = sktBase->isAcceptSocket() ? getRxNetIpAddress()  : sktBase->getRemoteIpAddress();
+    std::string keyIpAddr = sktBase->isAcceptSocket() ? getRxNetIpAddress(sktBase->getIsIpv6Connection())  : sktBase->getRemoteIpAddress();
 	if( eNetCmdClientPong == netCmdRequestType )
 	{
 		//keyPort = m_Engine.getNetworkStateMachine().getNetServicePort();

@@ -64,7 +64,7 @@ public:
 
     std::string                 getNetworkKey( void );
 	uint16_t					getRxNetServicePort( void );
-	std::string					getRxNetIpAddress( void );
+    std::string					getRxNetIpAddress( bool isIpv6Connection );
 
 	void                        setIsTestConnectionActive( bool isActive )      { m_TestConnectionActive = isActive; }
     bool                        getIsTestConnectionActive( void )               { return m_TestConnectionActive; }
