@@ -10,14 +10,14 @@
 
 #include "AppletNetworkSettings.h"
 
-#include "ActivityNetworkState.h"
 #include "ActivityInformation.h"
+#include "ActivityNetworkState.h"
 #include "ActivityYesNoMsgBox.h"
 #include "AppletIsPortOpenTest.h"
 
 #include "AccountMgr.h"
-#include "AppGlobals.h"
 #include "AppCommon.h"
+#include "AppGlobals.h"
 #include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -32,13 +32,6 @@
 #include <NetLib/VxPortForward.h>
 
 #include "ui_AppletNetworkSettings.h"
-
-namespace
-{
-    QString				DEFAULT_ADAPTER_IP_CHOICE = "default";
-}
-
-QString						AppletNetworkSettings::getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text(); }
 
 //============================================================================
 AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
@@ -121,6 +114,9 @@ void AppletNetworkSettings::connectSignals( void )
     connect( ui.m_Ipv6InfoButton, SIGNAL(clicked()), this, SLOT(slotShowIpv6Information()) );
     connect( ui.m_UseIpv6Network, SIGNAL(clicked()), this, SLOT(slotUseIpv6CheckBoxClick()) );
 }
+
+//============================================================================
+QString	AppletNetworkSettings::getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text(); }
 
 //============================================================================
 void AppletNetworkSettings::updateDlgFromSettings( bool origSettings )
@@ -416,8 +412,7 @@ EFirewallTestType AppletNetworkSettings::getFirewallTestType( void )
 void AppletNetworkSettings::slotRandomPortButtonClick( void )
 {
     uint16_t u16TcpPort = VxGetRandomTcpPort();
-    QString strPort(u16TcpPort);
-    ui.PortEdit->setText( strPort );
+    ui.PortEdit->setText( std::to_string(u16TcpPort).c_str() );
     updateSettingsFromDlg();
 }
 
@@ -441,7 +436,7 @@ void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
     }
     else
     {
-        QMessageBox::information( this, tr( "Error" ), tr( "TCP Listen Port cannot be zero." ) );
+        QMessageBox::information( this, QObject::tr( "TCP Listen Port Error" ), QObject::tr( "TCP Listen Port cannot be zero." ) );
     }
 }
 
@@ -459,7 +454,7 @@ void AppletNetworkSettings::slotTestUpnpButtonClick( void )
     }
     else
     {
-        QMessageBox::information( this, tr( "Error" ), tr( "UPNP must be enabled and Listen Port cannot be zero." ) );
+        QMessageBox::information( this, QObject::tr( "UPNP Error" ), QObject::tr( "UPNP must be enabled and Listen Port cannot be zero." ) );
     }
 }
 
