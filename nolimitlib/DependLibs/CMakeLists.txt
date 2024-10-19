@@ -56,11 +56,12 @@ add_subdirectory(libtheora)
 add_subdirectory(libtinyxml)
 add_subdirectory(libtwolame)
 add_subdirectory(libvorbis)
+
 if(DEFINED TARGET_OS_WINDOWS)
 #add_subdirectory(libvpx-win64) # windows only
 elseif(DEFINED TARGET_OS_LINUX)
 if(NOT DEFINED TARGET_CPU_AARCH64)
-    # FIXME .. compiles on rasberry pi raw so should for aarch64
+    # FIXME .. rasberry pi aarch64 libvpx/vpx_dsp/arm/highbd_avg_neon.c:27:26: error: incompatible types when initializing type ‘int32x4_t’ using type ‘int’
     add_subdirectory(libvpx) 
 endif() # if(NOT DEFINED TARGET_CPU_AARCH64)
 elseif(DEFINED TARGET_OS_ANDROID)

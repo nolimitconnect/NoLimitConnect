@@ -657,8 +657,14 @@
 #define CONFIG_LIBVPX_VP9_DECODER 0
 #else
 #define CONFIG_LIBVORBIS_DECODER 1
-#define CONFIG_LIBVPX_VP8_DECODER 1
-#define CONFIG_LIBVPX_VP9_DECODER 1
+#if defined(TARGET_CPU_AARCH64)
+// libvpx does not compile on raspberry pi
+#  define CONFIG_LIBVPX_VP8_DECODER 0
+#  define CONFIG_LIBVPX_VP9_DECODER 0
+# else
+#  define CONFIG_LIBVPX_VP8_DECODER 1
+#  define CONFIG_LIBVPX_VP9_DECODER 1
+# endif
 #endif // #if defined(TARGET_OS_WINDOWS)
 
 #define CONFIG_LIBZVBI_TELETEXT_DECODER 0
@@ -891,13 +897,14 @@
 #define CONFIG_LIBVO_AMRWBENC_ENCODER 0
 #define CONFIG_LIBVORBIS_ENCODER 1
 
-#if defined(TARGET_OS_ANDROID)
-#define CONFIG_LIBVPX_VP8_ENCODER 0
-#define CONFIG_LIBVPX_VP9_ENCODER 0
-#else
+// libvpx does not compile on android or raspberry pi or windows
+#if defined(TARGET_OS_LINUX) && !defined(TARGET_CPU_AARCH64)
 #define CONFIG_LIBVPX_VP8_ENCODER 1
 #define CONFIG_LIBVPX_VP9_ENCODER 1
-#endif // defined(TARGET_OS_ANDROID)
+#else
+#define CONFIG_LIBVPX_VP8_ENCODER 0
+#define CONFIG_LIBVPX_VP9_ENCODER 0
+#endif
 
 #define CONFIG_LIBWEBP_ANIM_ENCODER 0
 #define CONFIG_LIBWEBP_ENCODER 0

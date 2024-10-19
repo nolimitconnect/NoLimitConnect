@@ -1053,61 +1053,120 @@ target_link_libraries(nolimitconnect
 )
 
 if (DEFINED TARGET_OS_LINUX)
-    target_link_libraries(nolimitconnect
-        PUBLIC
-        x264
-        x265
-        dav1d
-        vpx
-        pcre
+    if (DEFINED TARGET_CPU_AARCH64)
+        #libvpx will not compile on raspberry pi
+        target_link_libraries(nolimitconnect
+            PUBLIC
+            x264
+            x265
+            dav1d
+            #vpx
+            pcre
 
-        opencore-amr
-        mediatools
-        speex
-        lame
-        vorbis2
+            opencore-amr
+            mediatools
+            speex
+            lame
+            vorbis2
 
-        gnu
-        ass
-        fribidi
-        #glew
-        iconv
+            gnu
+            ass
+            fribidi
+            #glew
+            iconv
 
-        jpg
-        vxvideolib
-        tag
-        theora
-        twolame
+            jpg
+            vxvideolib
+            tag
+            theora
+            twolame
 
-        ogg
-        netlib
-        pktlib
+            ogg
+            netlib
+            pktlib
 
-        echocancel
-        fribidi
-        freetype
+            echocancel
+            fribidi
+            freetype
 
-        tinyxml
-        xml2
+            tinyxml
+            xml2
 
-        lzma
-        lzo
-        zip
-        CoreLib
-        zlib
-        crossguid
+            lzma
+            lzo
+            zip
+            CoreLib
+            zlib
+            crossguid
 
-        aecm-webrtc
-        miniaudio
-        miniupnpc
-        pthread
-        dl
-        GLU
-        GL
-        m
-        uuid
-        rt
-    )
+            aecm-webrtc
+            miniaudio
+            miniupnpc
+            pthread
+            dl
+            GLU
+            GL
+            m
+            uuid
+            rt
+        )
+    else()
+        target_link_libraries(nolimitconnect
+            PUBLIC
+            x264
+            x265
+            dav1d
+            vpx
+            pcre
+
+            opencore-amr
+            mediatools
+            speex
+            lame
+            vorbis2
+
+            gnu
+            ass
+            fribidi
+            #glew
+            iconv
+
+            jpg
+            vxvideolib
+            tag
+            theora
+            twolame
+
+            ogg
+            netlib
+            pktlib
+
+            echocancel
+            fribidi
+            freetype
+
+            tinyxml
+            xml2
+
+            lzma
+            lzo
+            zip
+            CoreLib
+            zlib
+            crossguid
+
+            aecm-webrtc
+            miniaudio
+            miniupnpc
+            pthread
+            dl
+            GLU
+            GL
+            m
+            uuid
+            rt
+        )
+    endif()
 
 elseif (DEFINED TARGET_OS_ANDROID)
     find_package(Qt6 COMPONENTS Quick Gui REQUIRED)
@@ -1359,12 +1418,7 @@ if(DEFINED FLATPAKBUILD)
         DESTINATION share/icons/hicolor/512x512/apps/
     )
     # the max allowed icon size for flathub is 512x512
-    #if(NOT FLATPAKBUILD)
-    #    install(
-    #        FILES ${PROJECT_SRC_ROOT_DIR}/icons/1024x1024/com.nolimitconnect.NoLimitConnect.png
-    #        DESTINATION share/icons/hicolor/1024x1024/apps/
-    #    )
-    #endif()
+
     install(
         FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.metainfo.xml
         DESTINATION share/metainfo/
