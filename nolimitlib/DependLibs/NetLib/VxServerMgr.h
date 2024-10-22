@@ -60,7 +60,8 @@ public:
 
 protected:
 
-    bool                        checkPortForward( bool ipv6 );
+    bool                        addPortForward( bool ipv6, uint16_t port );
+    bool                        isPortForwarded( bool ipv6 ) { return ipv6 ? m_UpnpIsPortForwaredIpv6 : m_UpnpIsPortForwaredIpv4; }
     bool                        removePortForward( bool ipv6 );
 
     VxListenLogic               m_ListenLogicIpv4;
@@ -74,9 +75,11 @@ protected:
 
     uint16_t                    m_LastUpnpPortIpv4{ 0 };
     std::string                 m_LastUpnpIpAddrIpv4;
+    bool                        m_UpnpIsPortForwaredIpv4{ false };
 
     uint16_t                    m_LastUpnpPortIpv6{ 0 };
     std::string                 m_LastUpnpIpAddrIpv6;
+    bool                        m_UpnpIsPortForwaredIpv6{ false };
 
     int							m_iMgrId{ 0 };			// unique id for this manager
 

@@ -23,8 +23,11 @@
    */
 
 #include <libfreetype/include/ft2build.h>
+
 #include FT_ADVANCES_H
 #include FT_INTERNAL_DEBUG_H
+
+#include <libfreetype/include/freetype/internal/ftdebug.h>
 
 #include "afglobal.h"
 #include "afpic.h"

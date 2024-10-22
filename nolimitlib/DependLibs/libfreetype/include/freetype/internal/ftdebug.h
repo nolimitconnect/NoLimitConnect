@@ -32,6 +32,8 @@
 
 FT_BEGIN_HEADER
 
+void FT_Message( const char*  fmt, ... );
+
 
   /* force the definition of FT_DEBUG_LEVEL_ERROR if FT_DEBUG_LEVEL_TRACE */
   /* is already defined; this simplifies the following #ifdefs            */

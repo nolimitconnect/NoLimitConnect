@@ -36,7 +36,6 @@ ActivityYesNoMsgBox::ActivityYesNoMsgBox(	AppCommon&		app,
 	ui.setupUi(this);
 	ui.m_NeverShowAgainCheckBox->setVisible( showNeverAgainCheckBox );
 
-    connectBarWidgets();
 	ui.m_AcceptButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
 	ui.m_AcceptButton->setIcon( eMyIconAcceptNormal );
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
@@ -44,14 +43,16 @@ ActivityYesNoMsgBox::ActivityYesNoMsgBox(	AppCommon&		app,
 	setTitle( title );
 	ui.m_BodyTextLabel->setText( bodyText );
 
+	getBottomBarWidget()->setVisible( false );
+    getTitleBarWidget()->setPopupVisibility( true );
+
     connect(ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT(slotHomeButtonClicked()));
 
 	connect( ui.m_AcceptButton, SIGNAL(clicked()), this, SLOT(accept()) );
 	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT(reject()) );
-	this->setFocus();
-	ui.m_AcceptButton->setFocus();
+    this->setFocus(); // required for android or just shuts down when prompting are you an adult
+    ui.m_AcceptButton->setFocus();
 }
-
 
 //============================================================================
 void ActivityYesNoMsgBox::setTitle( QString strTitle )

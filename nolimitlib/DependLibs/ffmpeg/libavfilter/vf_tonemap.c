@@ -39,6 +39,7 @@
 #include "libavutil/pixdesc.h"
 
 #include "avfilter.h"
+#include "colorspace_avfilter.h"
 #include "libavutil/colorspace.h"
 #include "formats.h"
 #include "internal_avfilter.h"

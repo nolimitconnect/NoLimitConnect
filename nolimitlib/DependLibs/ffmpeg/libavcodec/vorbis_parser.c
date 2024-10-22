@@ -27,6 +27,7 @@
 
 #include "config_components.h"
 
+#include "libavutil/internal_avutil.h"
 #include "libavutil/log.h"
 
 #include "get_bits.h"

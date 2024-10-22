@@ -14,8 +14,6 @@
 
 #include <P2PEngine/P2PEngine.h>
 
-#include "VxPortForward.h"
-
 #include <CoreLib/AppErr.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>

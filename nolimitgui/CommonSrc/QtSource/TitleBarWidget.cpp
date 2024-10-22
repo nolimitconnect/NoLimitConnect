@@ -395,8 +395,9 @@ void TitleBarWidget::slotBackButtonClicked( void )
 
 //======= button visibility ====//
 //============================================================================
-void TitleBarWidget::setPopupVisibility( void )
+void TitleBarWidget::setPopupVisibility( bool hideBackButton )
 {
+    m_IsPopupDialog = true;
     setNetStatusVisibility( false );
     setOfferListButtonVisibility( false );
     setHostJoinRequestListButtonVisibility( false );
@@ -404,9 +405,14 @@ void TitleBarWidget::setPopupVisibility( void )
 
     enableAudioControls( false );
     setMicrophoneVolumeVisibility( false );
+    setMuteSpeakerVisibility( false );
     enableVideoControls( false );
     setMenuTopButtonVisibility( false );
     setMenuListButtonVisibility( false );
+    if( hideBackButton )
+    {
+        setBackButtonVisibility( false );
+    }
 }
 
 //============================================================================
@@ -444,7 +450,6 @@ void TitleBarWidget::setNetStatusVisibility( bool visible )
 {
     ui.m_NetAvailStatusWidget->setVisible( visible );
 }
-
 
 //============================================================================
 void TitleBarWidget::setTrashButtonVisibility( bool visible )
@@ -695,18 +700,19 @@ void TitleBarWidget::checkTitleBarIconsFit( void )
         iconCnt += 2;
     }
 
-    // remove icons from title bar if title bar cannot fit all of them
-    if( !GuiParams::canFitIcons( eButtonSizeSmall, iconCnt, geometry().width() ) )
+    if( !m_IsPopupDialog )
     {
-        //ui.m_NoLimitAppButton->setVisible( false );
-        ui.m_MuteSpeakerButton->setVisible( false );
-        ui.m_NetAvailStatusWidget->setVisible( false );
-    }
-    else
-    {
-        //ui.m_NoLimitAppButton->setVisible( true );
-        ui.m_MuteSpeakerButton->setVisible( true );
-        ui.m_NetAvailStatusWidget->setVisible( true );
+        // remove icons from title bar if title bar cannot fit all of them
+        if( !GuiParams::canFitIcons( eButtonSizeSmall, iconCnt, geometry().width() ) )
+        {
+            ui.m_MuteSpeakerButton->setVisible( false );
+            ui.m_NetAvailStatusWidget->setVisible( false );
+        }
+        else
+        {
+            ui.m_MuteSpeakerButton->setVisible( true );
+            ui.m_NetAvailStatusWidget->setVisible( true );
+        }
     }
 }
 

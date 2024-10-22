@@ -20,6 +20,8 @@ public:
 	AppletLaunchPage( AppCommon& app, QWidget* parent, EApplet eAppletType, const char* objName );
 	virtual ~AppletLaunchPage() = default;
 
+	void                        startSpinner( void );
+    void                        stopSpinner( void );
 
 protected slots:
     void						slotPowerButtonClicked( void ) override;
@@ -34,6 +36,8 @@ private:
 
 	bool						m_IsInitialized;
 	QVector<VxWidgetBase*>		m_AppletList;
+	
+    WaitingSpinnerWidget*       m_BusySpinner{ nullptr };
 };
 
 

@@ -20,6 +20,8 @@
  * are permitted provided that the following conditions are met:
  */
 
+#if defined(CONFIG_FFMPEG_H)
+
 #include "libavutil/avassert.h"
 #include "avfilter.h"
 #include "formats.h"
@@ -116,3 +118,5 @@ void fn(gaussian_blur)(int w, int h,
     memcpy(dstp, srcp, w*sizeof(pixel)); dstp += dst_linesize; srcp += src_linesize;
     memcpy(dstp, srcp, w*sizeof(pixel));
 }
+
+#endif // defined(CONFIG_FFMPEG_H)

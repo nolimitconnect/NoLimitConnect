@@ -50,6 +50,7 @@
 #include "thread.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxThread.h>
 
 int testFfmpegDecodeStarted = 0; //BRJ
 int testDecodeFrameCnt = 0;

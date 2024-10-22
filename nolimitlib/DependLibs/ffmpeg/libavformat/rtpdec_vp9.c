@@ -22,6 +22,7 @@
 #include "config_ffmpeg.h"
 #if CONFIG_RTPDEC
 
+#include "libavutil/internal_avutil.h"
 #include "libavutil/intreadwrite.h"
 
 #include "avio_internal.h"

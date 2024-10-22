@@ -10,11 +10,12 @@
 
 #include "AppletLaunchPage.h"
 
-#include "AppletLaunchWidget.h"
 #include "AppCommon.h"
+#include "AppletLaunchWidget.h"
 #include "AppSettings.h"
 #include "TitleBarWidget.h"
 #include "VxTilePositioner.h"
+#include "WaitingSpinnerWidget.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -89,4 +90,35 @@ void AppletLaunchPage::resizeEvent( QResizeEvent* ev )
 void AppletLaunchPage::showEvent( QShowEvent* showEvent )
 {
     ActivityBase::showEvent( showEvent );
+    static bool firstShowHomePage{ true };
+    if( firstShowHomePage )
+    {    
+        if( eAppletHomePage == getAppletType() )
+        {
+            firstShowHomePage = false;
+            startSpinner();
+        }        
+    }
+}
+
+//============================================================================
+void AppletLaunchPage::startSpinner( void )
+{
+    if( !m_BusySpinner )
+    {
+        m_BusySpinner = new WaitingSpinnerWidget( this );
+        m_BusySpinner->startWaiting(  m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
+    }
+}
+
+//============================================================================
+void AppletLaunchPage::stopSpinner( void )
+{
+    if( m_BusySpinner )
+    {
+        m_BusySpinner->stopWaiting();
+	    m_BusySpinner->close();
+	    //m_BusySpinner->deleteLater();
+	    m_BusySpinner = nullptr;
+    }
 }

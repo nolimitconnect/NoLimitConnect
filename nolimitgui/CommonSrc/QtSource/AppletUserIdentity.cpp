@@ -301,8 +301,7 @@ void AppletUserIdentity::slotViewStoryboardButClick( void )
     m_MyApp.getAppletMgr().launchApplet( eAppletStoryboardServerViewMine, this );
 }
 
-//============================================================================
-//! Implement the OnClickListener callback    
+//============================================================================   
 void AppletUserIdentity::slotCreateNewAccount( void )
 {
     QString title = QObject::tr( "Confirm Create New Account" );
@@ -316,8 +315,7 @@ void AppletUserIdentity::slotCreateNewAccount( void )
     }
 }
 
-//============================================================================
-//! Implement the OnClickListener callback    
+//============================================================================  
 void AppletUserIdentity::slotDeleteAccount( void )
 {
     if( ( m_AccountList.size() > 1 ) && ui.m_AccountListWidget->currentItem() )

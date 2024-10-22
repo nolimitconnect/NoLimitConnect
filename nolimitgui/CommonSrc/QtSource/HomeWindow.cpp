@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "HomeWindow.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "VxAppTheme.h"
@@ -51,7 +52,6 @@ HomeWindow::HomeWindow( AppCommon&	appCommon, QString title )
 
     VxAppInfo appInfo;
     m_WindowSettings = new QSettings( appInfo.getCompanyDomain(), appInfo.getAppNameNoSpaces(), this );
-
 }
 
 //============================================================================
@@ -181,7 +181,6 @@ void HomeWindow::saveHomeWindowGeometry()
 
     //settings.setValue( "mainWindowState", saveState() );
 #endif // !defined(TARGET_OS_ANDROID)
-
 }
 
 //============================================================================

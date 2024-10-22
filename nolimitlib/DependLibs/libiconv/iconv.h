@@ -93,7 +93,7 @@ extern NLC_EXPORT iconv_t iconv_open (const char* tocode, const char* fromcode);
 ///////////////////////// 삭제 / DELETE / УДАЛИТЬ ///////////////////////
 //extern NLC_EXPORT size_t iconv (iconv_t cd, @ICONV_CONST@ char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
 ///////////////////////// 추가 / ADD / ДОВАВЛЯТЬ //////////////////////
-extern NLC_EXPORT size_t iconv( iconv_t cd, const char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
+extern size_t iconv( iconv_t cd, const char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Frees resources allocated for conversion descriptor ‘cd’. */

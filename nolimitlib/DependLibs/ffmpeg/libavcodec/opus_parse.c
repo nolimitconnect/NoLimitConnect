@@ -27,6 +27,7 @@
 #include "libavutil/attributes.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/error.h"
+#include "libavutil/internal_avutil.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/log.h"
 #include "libavutil/mem.h"
@@ -34,6 +35,7 @@
 #include "avcodec.h"
 #include "internal_avcodec.h"
 #include "mathops.h"
+
 #include "opus.h"
 #include "opus_parse.h"
 #include "vorbis_data.h"

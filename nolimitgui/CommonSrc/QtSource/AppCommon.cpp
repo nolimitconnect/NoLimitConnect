@@ -268,21 +268,6 @@ bool AppCommon::loadWithoutThread( void )
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
-	if( !hasExistingAccount() )
-    {
-        // adult warning
-        QString warnAdultTitle = QObject::tr( "You must be an adult to use No Limit Connect Application" );
-        QString warnAdultBody = QObject::tr( "Although No Limit Connect does not host any offensive media, users of No Limit Connect may host offensive material or act in an offensive manner.\n"
-            "No Limit Connect does not monitor or log any user actions or content.\n\n"
-            "Are you an adult and at least 18 years old?" );
-
-        QMessageBox warnAdult( QMessageBox::Icon::Question, warnAdultTitle, warnAdultBody, QMessageBox::Yes | QMessageBox::No );
-        if( QMessageBox::No == warnAdult.exec() )
-        {
-            return false;
-        }
-    }
-
 	m_ThumbMgr.onAppCommonCreated();
 	m_UserMgr.onAppCommonCreated();
 	m_OfferMgr.onAppCommonCreated();
@@ -301,12 +286,28 @@ bool AppCommon::loadWithoutThread( void )
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
-	m_HomePage = new HomeWindow( *this, m_AppTitle );
-	getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), m_HomePage );
-    m_HomePage->initializeHomePage();
+	if( !hasExistingAccount() )
+    {
+        // adult warning
+        QString warnAdultTitle = QObject::tr( "You must be an adult to use No Limit Connect application" );
+        QString warnAdultBody = QObject::tr( "Although No Limit Connect does not host any offensive media, users of No Limit Connect may host offensive material or act in an offensive manner.\n"
+                                            "No Limit Connect does not monitor or log any user actions or content.\n\n"
+                                            "Are you an adult and at least 18 years old?" );
 
-    connect( m_HomePage, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
-    m_HomePage->show();
+        ActivityYesNoMsgBox confirmAdult( *this, nullptr, warnAdultTitle, warnAdultBody );
+		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &confirmAdult );
+        if( QDialog::Rejected == confirmAdult.exec() )
+        {
+            return false;
+        }
+    }
+
+	m_HomeWindow = new HomeWindow( *this, m_AppTitle );
+	getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), m_HomeWindow );
+    m_HomeWindow->initializeHomePage();
+
+    connect( m_HomeWindow, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
+	m_HomeWindow->show();
 
 	connect( this, SIGNAL(signalInternalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotInternalNetAvailStatus(ENetAvailStatus)), Qt::QueuedConnection );
 
@@ -415,20 +416,20 @@ void AppCommon::shutdownAppCommon( void )
 //============================================================================
 void AppCommon::setIsMaxScreenSize( bool isMessagerFrame, bool isFullSizeWindow )
 {
-    m_HomePage->setIsMaxScreenSize( isMessagerFrame, isFullSizeWindow );
+    m_HomeWindow->setIsMaxScreenSize( isMessagerFrame, isFullSizeWindow );
     emit signalMainWindowResized();
 }
 
 //============================================================================
 bool AppCommon::getIsMaxScreenSize( bool isMessagerFrame )
 {
-    return m_HomePage->getIsMaxScreenSize( isMessagerFrame );
+    return m_HomeWindow->getIsMaxScreenSize( isMessagerFrame );
 }
 
 //============================================================================
 void AppCommon::switchWindowFocus( QWidget* appIconButton )
 {
-	m_HomePage->switchWindowFocus( appIconButton );
+	m_HomeWindow->switchWindowFocus( appIconButton );
 }
 
 //============================================================================

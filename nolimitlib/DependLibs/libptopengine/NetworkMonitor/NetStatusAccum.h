@@ -121,7 +121,10 @@ public:
     std::string                 getExternalIpAddress( void );
 
     void                        setLocalIpAddress( std::string ipAddr );
-    std::string                 getLocalIpAddress( void );
+    std::string                 getLocalIpAddress( void ); 
+
+    std::string                 getLocalIpAddress( bool ipv6 );  
+
     std::string                 getLocalIpv4( void );
     std::string                 getLocalIpv6( void );
     std::string                 getMyNetServiceIpAddress( bool isIpv6Connection );

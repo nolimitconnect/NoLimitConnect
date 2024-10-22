@@ -28,7 +28,7 @@
 
 // defines so less work converting Linux code
 #define LOG_WARNING		LOG_WARN
-#define LOG_ERR			LOG_ERROR
+//#define LOG_ERR			LOG_ERROR
 #define LOG_CRIT		LOG_FATAL
 
 typedef void ( *LOG_FUNCTION )( void *, uint32_t, const char * );

@@ -26,6 +26,7 @@ class MessengerPage;
 class PageMediaPlayer;
 class VxAppDisplay;
 class VxFrame;
+class WaitingSpinnerWidget;
 
 class QComboBox;
 class QDialogButtonBox;

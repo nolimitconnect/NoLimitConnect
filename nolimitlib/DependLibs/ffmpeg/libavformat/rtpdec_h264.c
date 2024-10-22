@@ -38,6 +38,7 @@
 
 #include "libavutil/attributes.h"
 #include "libavutil/base64.h"
+#include "libavutil/internal_avutil.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/avstring.h"
 #include "avformat.h"

@@ -614,7 +614,7 @@ void ActivityBase::updateExpandWindowIcon( void )
             getBottomBarWidget()->setExpandWindowButtonIcon( eMyIconWindowExpand );
         }
     }
-    else if( getBottomBarWidget() )
+    else if( getBottomBarWidget() && getBottomBarWidget()->isVisible() )
     {
         if( m_MyApp.getIsMaxScreenSize( isMessagerFrame() ) )
         {

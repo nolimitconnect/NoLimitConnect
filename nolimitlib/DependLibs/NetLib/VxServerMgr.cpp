@@ -79,7 +79,7 @@ bool VxServerMgr::startListening( bool ipv6, uint16_t port, bool usePortForwardI
     setListenPort( port );
     if( usePortForwardIfEnabled )
     {
-        checkPortForward( ipv6 );
+        addPortForward( ipv6, port );
     }
     
     return ipv6 ? m_ListenLogicIpv6.startListening( port ) : m_ListenLogicIpv4.startListening( port );
@@ -389,7 +389,7 @@ void VxServerMgr::setLocalIp( std::string ipAddr )
     unlockListenSettings();
     if( ipChanged )
     {
-        checkPortForward( eIpAddrTypeIpv6 == addrType );
+        //checkPortForward( eIpAddrTypeIpv6 == addrType );
     }
 }
 
@@ -419,49 +419,64 @@ bool VxServerMgr::getUpnpEnable( void )
 }
 
 //============================================================================
-bool VxServerMgr::checkPortForward( bool ipv6 )
+bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
 {
     if( !getUpnpEnable() )
     {
         return false;
     }
 
-    uint16_t port = getListenPort();
     if( !port )
     {
-        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::%s invalid port", __func__ );
+        LogModule( eLogPortForward, LOG_ERROR, "VxServerMgr::%s invalid port", __func__ );
         return false;
     }
 
-    std::string lclIp = getLocalIp( ipv6 );
+    std::string lclIp = GetPtoPEngine().getNetStatusAccum().getLocalIpAddress( ipv6 );
     if( lclIp.empty() )
     {
-        VxGetDefaultLocalIp( ipv6, lclIp );
+        LogModule( eLogPortForward, LOG_ERROR, "VxServerMgr::%s no local address for %s", __func__, ipv6 ? "ipv6" : "ipv4" );
+        return false;
     }
 
-    if( lclIp.empty() )
-    {
-        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::%s no local ip available", __func__ );
-        return false;
+    std::string prevAddr = ipv6 ? m_LastUpnpIpAddrIpv6 : m_LastUpnpIpAddrIpv4;
+    uint16_t prevPort = ipv6 ? m_LastUpnpPortIpv6 : m_LastUpnpPortIpv4;
+    if( isPortForwarded( ipv6 ) )
+    {      
+        if( lclIp == prevAddr && port == prevPort )
+        {
+            LogModule( eLogPortForward, LOG_VERBOSE, "VxServerMgr::%s port %d addr %s is already port forwarded", 
+                       __func__, port, lclIp.c_str() );
+            return true;
+        }
+
+        removePortForward( ipv6 );
     }
 
     if( ipv6 )
     {
-        if( port != m_LastUpnpPortIpv6 || lclIp != m_LastUpnpIpAddrIpv6 )
+        bool result = VxPortForward::addPortForward( ipv6, lclIp, port );
+        if( result )
         {
+            m_UpnpIsPortForwaredIpv6 = true;
             m_LastUpnpPortIpv6 = port;
             m_LastUpnpIpAddrIpv6 = lclIp;
-            return VxPortForward::addPortForward( ipv6, lclIp, port );
         }
-    }
-    else if( port != m_LastUpnpPortIpv4 || lclIp != m_LastUpnpIpAddrIpv4 )
-    {
-        m_LastUpnpPortIpv4 = port;
-        m_LastUpnpIpAddrIpv4 = lclIp;
-        return VxPortForward::addPortForward( ipv6, lclIp, port );
-    }
 
-    return true;
+        return result;
+    }
+    else
+    {
+        bool result = VxPortForward::addPortForward( ipv6, lclIp, port );
+        if( result )
+        {
+            m_UpnpIsPortForwaredIpv4 = true;
+            m_LastUpnpPortIpv4 = port;
+            m_LastUpnpIpAddrIpv4 = lclIp;
+        }
+
+        return result;
+    }
 }
 
 //============================================================================
@@ -474,16 +489,28 @@ bool VxServerMgr::removePortForward( bool ipv6 )
 
     if( ipv6 )
     {
-        bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv6 );
-        m_LastUpnpPortIpv6 = 0;
-        m_LastUpnpIpAddrIpv6.clear();
-        return result;
+        if( m_UpnpIsPortForwaredIpv6 )
+        {
+            m_UpnpIsPortForwaredIpv6 = false;
+            bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv6 );
+            m_LastUpnpPortIpv6 = 0;
+            m_LastUpnpIpAddrIpv6.clear();
+            return result;
+        }
+
+        return true;
     }
     else
     {
-        bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv4 );
-        m_LastUpnpPortIpv4 = 0;
-        m_LastUpnpIpAddrIpv4.clear();
-        return result;
+        if( m_UpnpIsPortForwaredIpv4 )
+        {
+            m_UpnpIsPortForwaredIpv4 = false;
+            bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv4 );
+            m_LastUpnpPortIpv4 = 0;
+            m_LastUpnpIpAddrIpv4.clear();
+            return result;
+        }
+
+        return true;
     }
 }

@@ -149,7 +149,7 @@ public:
     P2PEngine&                  getEngine( void );
     IFromGui&                   getFromGuiInterface( void );
 
-    HomeWindow&                 getHomeWindow( void ) { return *m_HomePage; }
+    HomeWindow&                 getHomeWindow( void ) { return *m_HomeWindow; }
     bool						getIsVidCaptureEnabled( void ) { return m_VidCaptureEnabled; }
     bool						getIsMicrophoneHardwareEnabled( void ) { return m_MicrophoneHardwareEnabled; }
     bool						getIsSpeakerHardwareEnabled( void ) { return m_SpeakerHardwareEnabled; }
@@ -899,7 +899,7 @@ protected:
 
     SoundMgr&                   m_SoundMgr;
 
-    HomeWindow*					m_HomePage{ nullptr };
+    HomeWindow*					m_HomeWindow{ nullptr };
 
     ActivityCreateAccount*      m_CreateAccountDlg{ nullptr };
     ActivityShowHelp*           m_ActivityShowHelpDlg{ nullptr };

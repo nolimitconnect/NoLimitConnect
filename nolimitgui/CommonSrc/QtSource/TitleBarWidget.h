@@ -66,7 +66,7 @@ public:
 	void						enableVideoControls( bool enable );
 
 	//=== button visiblility ====//
-	void						setPopupVisibility( void );// for popup dialogs
+	void						setPopupVisibility( bool hideBackButton = false );// for popup dialogs
 
     void				        setBackButtonVisibility( bool visible );
 	void						setCamPreviewVisibility( bool visible );
@@ -200,4 +200,6 @@ protected:
 	QTimer*						m_MicrophonePeekTimer;
 	bool                        m_MicrophonePlaying{ false };
 	uint64_t                    m_LastMicrophonePeekTimeMs{ 0 };
+
+	bool						m_IsPopupDialog{ false };
 };

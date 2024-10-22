@@ -17,8 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVFILTER_COLORSPACE_H
-#define AVFILTER_COLORSPACE_H
+#pragma once
 
 #include "libavutil/csp.h"
 #include "libavutil/frame.h"
@@ -38,4 +37,4 @@ void ff_fill_rgb2yuv_table(const AVLumaCoefficients *coeffs,
 double ff_determine_signal_peak(AVFrame *in);
 void ff_update_hdr_metadata(AVFrame *in, double peak);
 
-#endif
+

@@ -26,6 +26,7 @@
 #include "avio_internal.h"
 #include "rtpdec.h"
 #include "rtpdec_formats.h"
+#include "libavutil/internal_avutil.h"
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/jpegtables.h"
 #include "libavcodec/mjpeg.h"

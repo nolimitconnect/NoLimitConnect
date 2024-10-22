@@ -9,15 +9,16 @@
 //============================================================================
 
 #include "AppCommon.h"	
+
+#include "AccountMgr.h"
+#include "ActivityAppSetup.h"
+#include "ActivityCreateAccount.h"
 #include "AppSettings.h"
 #include "AppSetup.h"
 #include "AppletMgr.h"
-
-#include "ActivityAppSetup.h"
-#include "ActivityCreateAccount.h"
-
 #include "GuiHelpers.h"
-#include "AccountMgr.h"
+#include "HomeWindow.h"
+#include "AppletLaunchPage.h"
 
 #include <P2PEngine/EngineSettings.h>
 #include <P2PEngine/P2PEngine.h>
@@ -289,7 +290,10 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
 
     //uint64_t aliveMs = GetApplicationAliveMs();
     //LogMsg( LOG_DEBUG, "Account Loaded ms %" PRId64 " alive ms %" PRId64 "", aliveMs - loadStartMs, aliveMs );
+
     setIsAppInitialized( true );
+
+    m_HomeWindow->getLaunchPage()->stopSpinner();
 }
 
 //============================================================================

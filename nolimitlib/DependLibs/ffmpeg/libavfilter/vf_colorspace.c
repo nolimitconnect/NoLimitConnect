@@ -34,6 +34,7 @@
 #include "libavutil/pixfmt.h"
 
 #include "avfilter.h"
+#include "colorspace_avfilter.h"
 #include "colorspacedsp_avfilter.h"
 #include "formats.h"
 #include "internal_avfilter.h"

@@ -607,6 +607,15 @@ std::string NetStatusAccum::getLocalIpAddress( void )
 }
 
 //============================================================================
+std::string NetStatusAccum::getLocalIpAddress( bool ipv6 )
+{
+    m_AccumMutex.lock();
+    std::string ipAddr = ipv6 ? m_LocalAddrIpv6 : m_LocalAddrIpv4;
+    m_AccumMutex.unlock();
+    return ipAddr;
+}
+
+//============================================================================
 std::string NetStatusAccum::getLocalIpv4( void )
 {
     m_AccumMutex.lock();
