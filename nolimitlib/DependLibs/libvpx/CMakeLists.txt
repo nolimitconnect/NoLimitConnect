@@ -7,119 +7,182 @@ set(vpx_SOURCES)
 
 if(DEFINED TARGET_CPU_X86_64)
     list(APPEND vpx_SOURCES 
-        vpx_ports/emms_mmx.c
+
         vp9/common/x86/vp9_idct_intrin_sse2.c
         vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
-        vp9/common/x86/vp9_highbd_iht8x8_add_sse4.c
-        vp9/common/x86/vp9_highbd_iht16x16_add_sse4.c
-        vp9/encoder/x86/vp9_quantize_avx2.c
-        vp9/encoder/x86/vp9_quantize_ssse3.c
-        vp9/encoder/x86/vp9_quantize_sse2.c
-        vp9/encoder/x86/vp9_error_avx2.c
-        vp9/encoder/x86/vp9_diamond_search_sad_avx.c
-        # vp9/encoder/x86/vp9_denoiser_sse2.c
-        vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
-        vp9/encoder/x86/vp9_dct_intrin_sse2.c
-        vp9/encoder/x86/temporal_filter_sse4.c
-        vp9/encoder/x86/highbd_temporal_filter_sse4.c
-        vp9/encoder/x86/vp9_frame_scale_ssse3.c
-        vp8/encoder/x86/denoising_sse2.c
-        vp8/encoder/x86/quantize_sse4.c
-        vp8/encoder/x86/vp8_quantize_ssse3.c
-        vp8/encoder/x86/vp8_quantize_sse2.c
-        vp8/encoder/x86/vp8_enc_stubs_sse2.c
-        vp8/common/x86/vp8_asm_stubs.c
-        vp8/common/x86/loopfilter_x86.c
-        vp8/common/x86/idct_blk_sse2.c
+
         vp8/common/x86/bilinear_filter_sse2.c
-        vp8/common/x86/idct_blk_mmx.c
-        vpx_dsp/x86/sad4d_avx512.c
-        vpx_dsp/x86/avg_intrin_sse2.c
-        vpx_dsp/x86/loopfilter_avx2.c
-        vpx_dsp/x86/quantize_sse2.c
-        vpx_dsp/x86/highbd_intrapred_intrin_sse2.c
-        vpx_dsp/x86/highbd_loopfilter_sse2.c
-        vpx_dsp/x86/highbd_idct32x32_add_sse4.c
-        vpx_dsp/x86/sum_squares_sse2.c
-        vpx_dsp/x86/quantize_avx.c
-        vpx_dsp/x86/highbd_idct8x8_add_sse2.c
-        vpx_dsp/x86/inv_txfm_sse2.c
-        vpx_dsp/x86/avg_intrin_avx2.c
-        vpx_dsp/x86/fwd_txfm_sse2.c
-        vpx_dsp/x86/highbd_quantize_intrin_avx2.c
-        vpx_dsp/x86/sad_avx2.c
-        vpx_dsp/x86/highbd_idct8x8_add_sse4.c
-        vpx_dsp/x86/highbd_idct4x4_add_sse2.c
-        vpx_dsp/x86/variance_sse2.c
-        vpx_dsp/x86/post_proc_sse2.c
-        vpx_dsp/x86/highbd_sad_avx2.c
-        vpx_dsp/x86/vpx_subpixel_8t_intrin_avx2.c
-        vpx_dsp/x86/highbd_idct16x16_add_sse2.c
-        vpx_dsp/x86/quantize_avx2.c
-        vpx_dsp/x86/highbd_idct4x4_add_sse4.c
-        vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c
-        vpx_dsp/x86/highbd_intrapred_intrin_ssse3.c
-        vpx_dsp/x86/highbd_sad4d_avx2.c
-        vpx_dsp/x86/variance_avx2.c
-        vpx_dsp/x86/highbd_idct32x32_add_sse2.c
-        vpx_dsp/x86/highbd_convolve_avx2.c
-        vpx_dsp/x86/sad4d_avx2.c
-        vpx_dsp/x86/highbd_idct16x16_add_sse4.c
-        vpx_dsp/x86/subtract_avx2.c
-        vpx_dsp/x86/fwd_txfm_avx2.c
-        vpx_dsp/x86/inv_txfm_ssse3.c
-        vpx_dsp/x86/highbd_quantize_intrin_sse2.c
-        vpx_dsp/x86/highbd_variance_sse2.c
-        vpx_dsp/x86/avg_pred_sse2.c
-        vpx_dsp/x86/loopfilter_sse2.c
-        vpx_dsp/x86/vpx_subpixel_8t_intrin_ssse3.c
-        vpx_dsp/x86/quantize_ssse3.c
-        vpx_ports/emms_mmx.asm
-        vpx_dsp/x86/intrapred_sse2.asm
-        vpx_dsp/x86/intrapred_ssse3.asm
-        vpx_dsp/x86/highbd_intrapred_sse2.asm
-        vpx_dsp/x86/add_noise_sse2.asm
-        vpx_dsp/x86/deblock_sse2.asm
-        vpx_dsp/x86/vpx_subpixel_8t_sse2.asm
-        vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm
-        vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm
-        vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm
-        vpx_dsp/x86/vpx_high_subpixel_8t_sse2.asm
-        vpx_dsp/x86/vpx_high_subpixel_bilinear_sse2.asm
-        vpx_dsp/x86/vpx_convolve_copy_sse2.asm
-        vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm
-        vpx_dsp/x86/inv_wht_sse2.asm
-        vpx_dsp/x86/avg_ssse3_x86_64.asm
-        vpx_dsp/x86/sad4d_sse2.asm
-        vpx_dsp/x86/sad_sse2.asm
-        vpx_dsp/x86/subtract_sse2.asm
-        vpx_dsp/x86/highbd_sad4d_sse2.asm
-        vpx_dsp/x86/highbd_sad_sse2.asm
-        vpx_dsp/x86/ssim_opt_x86_64.asm
-        vpx_dsp/x86/subpel_variance_sse2.asm
-        vpx_dsp/x86/highbd_variance_impl_sse2.asm
-        vpx_dsp/x86/highbd_subpel_variance_impl_sse2.asm
         vp8/common/x86/dequantize_mmx.asm
+        vp8/common/x86/idct_blk_mmx.c
+        vp8/common/x86/idct_blk_sse2.c
         vp8/common/x86/idctllm_mmx.asm
-        vp8/common/x86/recon_mmx.asm
-        vp8/common/x86/subpixel_mmx.asm
         vp8/common/x86/idctllm_sse2.asm
-        vp8/common/x86/recon_sse2.asm
-        vp8/common/x86/subpixel_sse2.asm
-        vp8/common/x86/loopfilter_sse2.asm
         vp8/common/x86/iwalsh_sse2.asm
-        vp8/common/x86/subpixel_ssse3.asm
-        vp8/common/x86/mfqe_sse2.asm
         vp8/common/x86/loopfilter_block_sse2_x86_64.asm
+        vp8/common/x86/loopfilter_sse2.asm
+        vp8/common/x86/loopfilter_x86.c
+        vp8/common/x86/mfqe_sse2.asm
+        vp8/common/x86/recon_mmx.asm
+        vp8/common/x86/recon_sse2.asm
+        vp8/common/x86/subpixel_mmx.asm
+        vp8/common/x86/subpixel_sse2.asm
+        vp8/common/x86/subpixel_ssse3.asm
+        vp8/common/x86/vp8_asm_stubs.c
+
+        vp8/encoder/x86/block_error_sse2.asm
         vp8/encoder/x86/copy_sse2.asm
         vp8/encoder/x86/copy_sse3.asm
         vp8/encoder/x86/dct_sse2.asm
+        vp8/encoder/x86/denoising_sse2.c
         vp8/encoder/x86/fwalsh_sse2.asm
-        vp8/encoder/x86/block_error_sse2.asm
+        vp8/encoder/x86/quantize_sse4.c
         vp8/encoder/x86/temporal_filter_apply_sse2.asm
+        vp8/encoder/x86/vp8_enc_stubs_sse2.c
+        vp8/encoder/x86/vp8_quantize_sse2.c
+        vp8/encoder/x86/vp8_quantize_ssse3.c
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vp9/common/x86/vp9_highbd_iht16x16_add_sse4.c
+        #vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
+        #vp9/common/x86/vp9_highbd_iht8x8_add_sse4.c
+
+        vp9/common/x86/vp9_idct_intrin_sse2.c
+        vp9/common/x86/vp9_mfqe_sse2.asm
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vp9/encoder/x86/highbd_temporal_filter_avx2.c
+        #vp9/encoder/x86/highbd_temporal_filter_sse4.c
+        #vp9/encoder/x86/highbd_temporal_filter_ssse3.c
+
+        vp9/encoder/x86/temporal_filter_avx2.c
+        vp9/encoder/x86/temporal_filter_sse4.c
+        vp9/encoder/x86/temporal_filter_ssse3.c
+        vp9/encoder/x86/vp9_dct_intrin_sse2.c
         vp9/encoder/x86/vp9_dct_sse2.asm
+        vp9/encoder/x86/vp9_denoiser_sse2.c
+        vp9/encoder/x86/vp9_error_avx2.c
         vp9/encoder/x86/vp9_error_sse2.asm
+        vp9/encoder/x86/vp9_frame_scale_ssse3.c
+        vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
+        vp9/encoder/x86/vp9_quantize_avx2.c
+        vp9/encoder/x86/vp9_quantize_sse2.c
+        vp9/encoder/x86/vp9_quantize_ssse3.c
+
+        vpx_dsp/x86/add_noise_sse2.asm
+        vpx_dsp/x86/avg_intrin_avx2.c
+        vpx_dsp/x86/avg_intrin_sse2.c
+        vpx_dsp/x86/avg_pred_avx2.c
+        vpx_dsp/x86/avg_pred_sse2.c
+        vpx_dsp/x86/avg_ssse3_x86_64.asm
+        vpx_dsp/x86/bitdepth_conversion_avx2.h
+        vpx_dsp/x86/bitdepth_conversion_sse2.asm
+        vpx_dsp/x86/bitdepth_conversion_sse2.h
+        vpx_dsp/x86/convolve_avx2.h
+        vpx_dsp/x86/convolve.h
+        vpx_dsp/x86/convolve_sse2.h
+        vpx_dsp/x86/convolve_ssse3.h
+        vpx_dsp/x86/deblock_sse2.asm
+        vpx_dsp/x86/fwd_dct32x32_impl_avx2.h
+        vpx_dsp/x86/fwd_dct32x32_impl_sse2.h
+        vpx_dsp/x86/fwd_txfm_avx2.c
+        vpx_dsp/x86/fwd_txfm_impl_sse2.h
+        vpx_dsp/x86/fwd_txfm_sse2.c
+        vpx_dsp/x86/fwd_txfm_sse2.h
+        vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vpx_dsp/x86/highbd_convolve_avx2.c
+        #vpx_dsp/x86/highbd_idct16x16_add_sse2.c
+        #vpx_dsp/x86/highbd_idct16x16_add_sse4.c
+        #vpx_dsp/x86/highbd_idct32x32_add_sse2.c
+        #vpx_dsp/x86/highbd_idct32x32_add_sse4.c
+        #vpx_dsp/x86/highbd_idct4x4_add_sse2.c
+        #vpx_dsp/x86/highbd_idct4x4_add_sse4.c
+        #vpx_dsp/x86/highbd_idct8x8_add_sse2.c
+        #vpx_dsp/x86/highbd_idct8x8_add_sse4.c
+        #vpx_dsp/x86/highbd_intrapred_intrin_sse2.c
+        #vpx_dsp/x86/highbd_intrapred_intrin_ssse3.c
+        #vpx_dsp/x86/highbd_intrapred_sse2.asm
+        #vpx_dsp/x86/highbd_inv_txfm_sse2.h
+        #vpx_dsp/x86/highbd_inv_txfm_sse4.h
+        #vpx_dsp/x86/highbd_loopfilter_sse2.c
+        #vpx_dsp/x86/highbd_quantize_intrin_avx2.c
+        #vpx_dsp/x86/highbd_quantize_intrin_sse2.c
+        #vpx_dsp/x86/highbd_sad4d_avx2.c
+        #vpx_dsp/x86/highbd_sad4d_sse2.asm
+        #vpx_dsp/x86/highbd_sad_avx2.c
+        #vpx_dsp/x86/highbd_sad_sse2.asm
+        #vpx_dsp/x86/highbd_subpel_variance_impl_sse2.asm
+        #vpx_dsp/x86/highbd_variance_impl_sse2.asm
+        #vpx_dsp/x86/highbd_variance_sse2.c
+
+        vpx_dsp/x86/intrapred_sse2.asm
+        vpx_dsp/x86/intrapred_ssse3.asm
+        vpx_dsp/x86/inv_txfm_avx2.c
+        vpx_dsp/x86/inv_txfm_sse2.c
+        vpx_dsp/x86/inv_txfm_sse2.h
+        vpx_dsp/x86/inv_txfm_ssse3.c
+        vpx_dsp/x86/inv_txfm_ssse3.h
+        vpx_dsp/x86/inv_wht_sse2.asm
+        vpx_dsp/x86/loopfilter_avx2.c
+        vpx_dsp/x86/loopfilter_sse2.c
+        vpx_dsp/x86/mem_sse2.h
+        vpx_dsp/x86/post_proc_sse2.c
+        vpx_dsp/x86/quantize_avx2.c
+        vpx_dsp/x86/quantize_avx.c
+        vpx_dsp/x86/quantize_sse2.c
+        vpx_dsp/x86/quantize_sse2.h
+        vpx_dsp/x86/quantize_ssse3.c
+        vpx_dsp/x86/quantize_ssse3.h
+
+        vpx_dsp/x86/sad4d_avx2.c
+        vpx_dsp/x86/sad4d_avx512.c
+        vpx_dsp/x86/sad4d_sse2.asm
+        vpx_dsp/x86/sad_avx2.c
+        vpx_dsp/x86/sad_sse2.asm
+        vpx_dsp/x86/sse_avx2.c
+        vpx_dsp/x86/sse_sse4.c
+        vpx_dsp/x86/ssim_opt_x86_64.asm
+        vpx_dsp/x86/subpel_variance_sse2.asm
+        vpx_dsp/x86/subtract_avx2.c
+        vpx_dsp/x86/subtract_sse2.asm
+        vpx_dsp/x86/sum_squares_sse2.c
+        vpx_dsp/x86/transpose_sse2.h
+        vpx_dsp/x86/txfm_common_sse2.h
+        vpx_dsp/x86/variance_avx2.c
+        vpx_dsp/x86/variance_sse2.c
+        vpx_dsp/x86/vpx_convolve_copy_sse2.asm
+        vpx_dsp/x86/vpx_high_subpixel_8t_sse2.asm
+        vpx_dsp/x86/vpx_high_subpixel_bilinear_sse2.asm
+        vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c
+        vpx_dsp/x86/vpx_subpixel_8t_intrin_avx2.c
+        vpx_dsp/x86/vpx_subpixel_8t_intrin_ssse3.c
+        vpx_dsp/x86/vpx_subpixel_8t_sse2.asm
+        vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm
+        vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm
+        vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm
+
+
+        vpx_ports/emms_mmx.asm
+        vpx_ports/emms_mmx.c
+
     )
+
+    if(DEFINED TARGET_OS_WINDOWS)
+        list(APPEND vpx_SOURCES
+            vpx_dsp/sse.c
+            vpx_config_win_x64.c
+            vpx_config_win_x64.asm
+        )
+    else()
+        if(DEFINED TARGET_OS_LINUX)
+            list(APPEND vpx_SOURCES
+                vpx_dsp/sse.c
+                vpx_config_linux_x64.c
+                vpx_config_linux_x64.asm
+            )
+        endif()
+    endif()
 else()
     list(APPEND vpx_SOURCES 
         vpx_ports/arm_cpudetect.c
@@ -192,7 +255,7 @@ else()
         vpx_dsp/arm/highbd_vpx_convolve_neon.c
         #vpx_dsp/arm/sad_neon.c
         vpx_dsp/arm/highbd_idct8x8_add_neon.c
-        vpx_dsp/arm/loopfilter_neon.c
+        vpx_dsp/arm/loopfilter_neon.c../androidNdk/android/cpufeatures/cpu-features_ndk.c
         vpx_dsp/arm/vpx_convolve_copy_neon.c
         vpx_dsp/arm/highbd_variance_neon.c
         vpx_dsp/arm/subpel_variance_neon.c
@@ -218,11 +281,27 @@ else()
         vpx_dsp/arm/vpx_convolve_copy_neon_asm.asm
         vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type2_neon.asm
     )
+
+    if(DEFINED TARGET_OS_LINUX)
+        list(APPEND vpx_SOURCES
+            vpx_config_linux_arm64.c
+            )
+    endif()
     
     if(DEFINED TARGET_OS_ANDROID)
         list(APPEND vpx_SOURCES 
             ../androidNdk/android/cpufeatures/cpu-features_ndk.c
             )
+        if(DEFINED TARGET_CPU_AARCH64)
+            list(APPEND vpx_SOURCES
+                vpx_config_android_arm64.c
+                )
+        else()
+            list(APPEND vpx_SOURCES
+                vpx_config_android_arm32.c
+                )
+        endif()
+
     endif()
 endif()
 
@@ -320,7 +399,7 @@ list(APPEND vpx_SOURCES
     vpx/src/vpx_image.c
     vpx/src/vpx_encoder.c
     warnings.c
-    tools_common.c
+    #tools_common.c // not used in new vpx
     #vp8/decoder/error_concealment.c
     vp8/decoder/threading.c
     vp8/decoder/decodeframe.c
@@ -385,14 +464,14 @@ list(APPEND vpx_SOURCES
     vp8/common/vp8_skin_detection.c
     vp8/common/dequantize.c
     vp8/common/quant_common.c
-    tools/tiny_ssim.c
+    #tools/tiny_ssim.c not used in new vpx
     y4minput.c
     vpxstats.c
     md5_utils.c
     args.c
     vpxdec.c
     video_reader.c
-    vpx_config.c
+    #vpx_config.c
     ivfdec.c
     ivfenc.c
     vpx_dsp/fwd_txfm.c
@@ -416,10 +495,26 @@ list(APPEND vpx_SOURCES
     vpx_dsp/sum_squares.c
     vpx_dsp/bitreader_buffer.c
     vpx_dsp/quantize.c
-    vpx_dsp/vpx_dsp_rtcd.c
+
     vpx_dsp/subtract.c
     vpx_dsp/avg.c
 )
+
+if(DEFINED TARGET_OS_LINUX)
+    if(DEFINED TARGET_CPU_X86_64)
+        list(APPEND vpx_SOURCES
+            vpx_dsp/vpx_dsp_rtcd.c
+        )
+    endif()
+endif()
+
+if(DEFINED TARGET_OS_WINDOWS)
+    if(DEFINED TARGET_CPU_X86_64)
+        list(APPEND vpx_SOURCES
+            vpx_dsp/vpx_dsp_rtcd.c
+        )
+    endif()
+endif()
 
 add_library(vpx STATIC ${vpx_SOURCES})
 

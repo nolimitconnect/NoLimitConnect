@@ -127,12 +127,6 @@ specialize qw/vp8_copy_mem8x4 mmx neon dspr2 msa mmi/;
 #
 if (vpx_config("CONFIG_POSTPROC") eq "yes") {
 
-    add_proto qw/void vp8_blend_mb_inner/, "unsigned char *y, unsigned char *u, unsigned char *v, int y_1, int u_1, int v_1, int alpha, int stride";
-
-    add_proto qw/void vp8_blend_mb_outer/, "unsigned char *y, unsigned char *u, unsigned char *v, int y_1, int u_1, int v_1, int alpha, int stride";
-
-    add_proto qw/void vp8_blend_b/, "unsigned char *y, unsigned char *u, unsigned char *v, int y_1, int u_1, int v_1, int alpha, int stride";
-
     add_proto qw/void vp8_filter_by_weight16x16/, "unsigned char *src, int src_stride, unsigned char *dst, int dst_stride, int src_weight";
     specialize qw/vp8_filter_by_weight16x16 sse2 msa/;
 
@@ -146,9 +140,7 @@ if (vpx_config("CONFIG_POSTPROC") eq "yes") {
 # Subpixel
 #
 add_proto qw/void vp8_sixtap_predict16x16/, "unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch";
-# TODO(https://crbug.com/webm/1795): enable neon after buffer overflows are
-# fixed.
-specialize qw/vp8_sixtap_predict16x16 sse2 ssse3 dspr2 msa mmi lsx/;
+specialize qw/vp8_sixtap_predict16x16 sse2 ssse3 neon dspr2 msa mmi lsx/;
 
 add_proto qw/void vp8_sixtap_predict8x8/, "unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch";
 specialize qw/vp8_sixtap_predict8x8 sse2 ssse3 neon dspr2 msa mmi lsx/;

@@ -42,7 +42,7 @@ static int frame_is_boosted(const VP9_COMP *cpi) {
 // Sets a partition size down to which the auto partition code will always
 // search (can go lower), based on the image dimensions. The logic here
 // is that the extent to which ringing artefacts are offensive, depends
-// partly on the screen area that over which they propogate. Propogation is
+// partly on the screen area that over which they propagate. Propagation is
 // limited by transform block size but the screen area take up by a given block
 // size will be larger for a small image format stretched to full screen.
 static BLOCK_SIZE set_partition_min_limit(VP9_COMMON *const cm) {
@@ -70,6 +70,7 @@ static void set_good_speed_feature_framesize_dependent(VP9_COMP *cpi,
   const int is_720p_or_larger = min_frame_size >= 720;
   const int is_1080p_or_larger = min_frame_size >= 1080;
   const int is_2160p_or_larger = min_frame_size >= 2160;
+  const int boosted = frame_is_boosted(cpi);
 
   // speed 0 features
   sf->partition_search_breakout_thr.dist = (1 << 20);
@@ -100,6 +101,13 @@ static void set_good_speed_feature_framesize_dependent(VP9_COMP *cpi,
       sf->rd_ml_partition.search_breakout_thresh[1] = 1.5f;
       sf->rd_ml_partition.search_breakout_thresh[2] = 1.5f;
     }
+  }
+
+  if (!is_720p_or_larger) {
+    if (is_480p_or_larger)
+      sf->prune_single_mode_based_on_mv_diff_mode_rate = boosted ? 0 : 1;
+    else
+      sf->prune_single_mode_based_on_mv_diff_mode_rate = 1;
   }
 
   if (speed >= 1) {
@@ -223,14 +231,20 @@ static void set_good_speed_feature_framesize_independent(VP9_COMP *cpi,
   sf->allow_skip_recode = 1;
   sf->less_rectangular_check = 1;
   sf->mv.auto_mv_step_size = 1;
+  sf->mv.use_downsampled_sad = 1;
   sf->prune_ref_frame_for_rect_partitions = 1;
   sf->temporal_filter_search_method = NSTEP;
   sf->tx_size_search_breakout = 1;
   sf->use_square_partition_only = !boosted;
   sf->early_term_interp_search_plane_rd = 1;
   sf->cb_pred_filter_search = 1;
+  sf->trellis_opt_tx_rd.method = sf->optimize_coefficients
+                                     ? ENABLE_TRELLIS_OPT_TX_RD_RESIDUAL_MSE
+                                     : DISABLE_TRELLIS_OPT;
+  sf->trellis_opt_tx_rd.thresh = boosted ? 4.0 : 3.0;
 
   sf->intra_y_mode_mask[TX_32X32] = INTRA_DC_H_V;
+  sf->comp_inter_joint_search_iter_level = 1;
 
   // Reference masking is not supported in dynamic scaling mode.
   sf->reference_masking = oxcf->resize_mode != RESIZE_DYNAMIC;
@@ -275,8 +289,10 @@ static void set_good_speed_feature_framesize_independent(VP9_COMP *cpi,
 
     sf->allow_txfm_domain_distortion = 1;
     sf->tx_domain_thresh = tx_dom_thresholds[(speed < 6) ? speed : 5];
-    sf->allow_quant_coeff_opt = sf->optimize_coefficients;
-    sf->quant_opt_thresh = qopt_thresholds[(speed < 6) ? speed : 5];
+    sf->trellis_opt_tx_rd.method = sf->optimize_coefficients
+                                       ? ENABLE_TRELLIS_OPT_TX_RD_SRC_VAR
+                                       : DISABLE_TRELLIS_OPT;
+    sf->trellis_opt_tx_rd.thresh = qopt_thresholds[(speed < 6) ? speed : 5];
     sf->less_rectangular_check = 1;
     sf->use_rd_breakout = 1;
     sf->adaptive_motion_search = 1;
@@ -316,7 +332,7 @@ static void set_good_speed_feature_framesize_independent(VP9_COMP *cpi,
             : FLAG_SKIP_INTRA_DIRMISMATCH | FLAG_SKIP_INTRA_BESTINTER |
                   FLAG_SKIP_COMP_BESTINTRA | FLAG_SKIP_INTRA_LOWVAR;
     sf->disable_filter_search_var_thresh = 100;
-    sf->comp_inter_joint_search_thresh = BLOCK_SIZES;
+    sf->comp_inter_joint_search_iter_level = 2;
     sf->auto_min_max_partition_size = RELAXED_NEIGHBORING_MIN_MAX;
     sf->recode_tolerance_high = 45;
     sf->enhanced_full_pixel_motion_search = 0;
@@ -382,7 +398,6 @@ static void set_good_speed_feature_framesize_independent(VP9_COMP *cpi,
   }
 
   if (speed >= 5) {
-    int i;
     sf->optimize_coefficients = 0;
     sf->mv.search_method = HEX;
     sf->disable_filter_search_var_thresh = 500;
@@ -470,8 +485,8 @@ static void set_rt_speed_feature_framesize_independent(
   if (speed >= 1) {
     sf->allow_txfm_domain_distortion = 1;
     sf->tx_domain_thresh = 0.0;
-    sf->allow_quant_coeff_opt = 0;
-    sf->quant_opt_thresh = 0.0;
+    sf->trellis_opt_tx_rd.method = DISABLE_TRELLIS_OPT;
+    sf->trellis_opt_tx_rd.thresh = 0.0;
     sf->use_square_partition_only = !frame_is_intra_only(cm);
     sf->less_rectangular_check = 1;
     sf->tx_size_search_method =
@@ -516,7 +531,7 @@ static void set_rt_speed_feature_framesize_independent(
     }
 
     sf->disable_filter_search_var_thresh = 50;
-    sf->comp_inter_joint_search_thresh = BLOCK_SIZES;
+    sf->comp_inter_joint_search_iter_level = 2;
     sf->auto_min_max_partition_size = RELAXED_NEIGHBORING_MIN_MAX;
     sf->lf_motion_threshold = LOW_MOTION_THRESHOLD;
     sf->adjust_partitioning_from_last_frame = 1;
@@ -661,7 +676,7 @@ static void set_rt_speed_feature_framesize_independent(
       if (cpi->content_state_sb_fd == NULL &&
           (!cpi->use_svc ||
            svc->spatial_layer_id == svc->number_spatial_layers - 1)) {
-        CHECK_MEM_ERROR(cm, cpi->content_state_sb_fd,
+        CHECK_MEM_ERROR(&cm->error, cpi->content_state_sb_fd,
                         (uint8_t *)vpx_calloc(
                             (cm->mi_stride >> 3) * ((cm->mi_rows >> 3) + 1),
                             sizeof(uint8_t)));
@@ -817,13 +832,13 @@ static void set_rt_speed_feature_framesize_independent(
     }
     if (cpi->count_arf_frame_usage == NULL) {
       CHECK_MEM_ERROR(
-          cm, cpi->count_arf_frame_usage,
+          &cm->error, cpi->count_arf_frame_usage,
           (uint8_t *)vpx_calloc((cm->mi_stride >> 3) * ((cm->mi_rows >> 3) + 1),
                                 sizeof(*cpi->count_arf_frame_usage)));
     }
     if (cpi->count_lastgolden_frame_usage == NULL)
       CHECK_MEM_ERROR(
-          cm, cpi->count_lastgolden_frame_usage,
+          &cm->error, cpi->count_lastgolden_frame_usage,
           (uint8_t *)vpx_calloc((cm->mi_stride >> 3) * ((cm->mi_rows >> 3) + 1),
                                 sizeof(*cpi->count_lastgolden_frame_usage)));
   }
@@ -844,6 +859,15 @@ static void set_rt_speed_feature_framesize_independent(
   // off for now.
   if (speed <= 3 && cpi->oxcf.aq_mode == CYCLIC_REFRESH_AQ)
     cpi->oxcf.aq_mode = 0;
+  // For all speeds for rt mode: if the deadline mode changed (was good/best
+  // quality on previous frame and now is realtime) set nonrd_keyframe to 1 to
+  // avoid entering rd pickmode. This causes issues, such as: b/310663186.
+  if (cpi->oxcf.mode != cpi->deadline_mode_previous_frame)
+    sf->nonrd_keyframe = 1;
+
+  // TODO(marpan): Force this feature off always, for the issue: 366146260
+  // Remove this disabling when underlying issue is resolved.
+  sf->svc_use_lowres_part = 0;
 }
 
 void vp9_set_speed_features_framesize_dependent(VP9_COMP *cpi, int speed) {
@@ -913,13 +937,15 @@ void vp9_set_speed_features_framesize_independent(VP9_COMP *cpi, int speed) {
   sf->coeff_prob_appx_step = 1;
   sf->mv.auto_mv_step_size = 0;
   sf->mv.fullpel_search_step_param = 6;
-  sf->comp_inter_joint_search_thresh = BLOCK_4X4;
+  sf->mv.use_downsampled_sad = 0;
+  sf->comp_inter_joint_search_iter_level = 0;
   sf->tx_size_search_method = USE_FULL_RD;
   sf->use_lp32x32fdct = 0;
   sf->adaptive_motion_search = 0;
   sf->enhanced_full_pixel_motion_search = 1;
   sf->adaptive_pred_interp_filter = 0;
   sf->adaptive_mode_search = 0;
+  sf->prune_single_mode_based_on_mv_diff_mode_rate = 0;
   sf->cb_pred_filter_search = 0;
   sf->early_term_interp_search_plane_rd = 0;
   sf->cb_partition_search = 0;
@@ -946,8 +972,9 @@ void vp9_set_speed_features_framesize_independent(VP9_COMP *cpi, int speed) {
   sf->adaptive_interp_filter_search = 0;
   sf->allow_txfm_domain_distortion = 0;
   sf->tx_domain_thresh = 99.0;
-  sf->allow_quant_coeff_opt = sf->optimize_coefficients;
-  sf->quant_opt_thresh = 99.0;
+  sf->trellis_opt_tx_rd.method =
+      sf->optimize_coefficients ? ENABLE_TRELLIS_OPT : DISABLE_TRELLIS_OPT;
+  sf->trellis_opt_tx_rd.thresh = 99.0;
   sf->allow_acl = 1;
   sf->enable_tpl_model = oxcf->enable_tpl_model;
   sf->prune_ref_frame_for_rect_partitions = 0;

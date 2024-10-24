@@ -20,6 +20,8 @@ extern "C" {
 #endif
 #define log2f(x) (log(x) / (float)M_LOG2_E)
 
+#define TPL_DEP_COST_SCALE_LOG2 4
+
 typedef struct GF_PICTURE {
   YV12_BUFFER_CONFIG *frame;
   int ref_frame[3];
@@ -29,6 +31,7 @@ typedef struct GF_PICTURE {
 void vp9_init_tpl_buffer(VP9_COMP *cpi);
 void vp9_setup_tpl_stats(VP9_COMP *cpi);
 void vp9_free_tpl_buffer(VP9_COMP *cpi);
+void vp9_estimate_tpl_qp_gop(VP9_COMP *cpi);
 
 void vp9_wht_fwd_txfm(int16_t *src_diff, int bw, tran_low_t *coeff,
                       TX_SIZE tx_size);

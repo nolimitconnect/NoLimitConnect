@@ -1,12 +1,12 @@
-# pkg-config file from libvpx v1.13.0
-prefix=/home/nolimit/ffmpeg_build
+# pkg-config file from libvpx v1.14.1-383-gc21ed8d7a
+prefix=/usr/local
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: vpx
 Description: WebM Project VPx codec implementation
-Version: 1.13.0
+Version: 1.14.1
 Requires:
 Conflicts:
 Libs: -L${libdir} -lvpx -lm
