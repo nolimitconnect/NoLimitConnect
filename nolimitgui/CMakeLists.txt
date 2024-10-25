@@ -1494,75 +1494,75 @@ else()
         message(STATUS "CPACK complete")
     endif()
 
-    if(DEFINED TARGET_OS_ANDROID)
-        if(DEFINED DO_MANUAL)
-            if(MANUAL_PACKAGE)
-                file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/nolimitgui/android-build")
-                set(APK_ARGS "--input ${CMAKE_BINARY_DIR}/nolimitgui/android-nolimitconnect-deployment-settings.json --output ${CMAKE_BINARY_DIR}/nolimitgui/android-build --android-platform android-33 --jdk $ENV{JAVA_HOME} --verbose --gradle")
-                message(STATUS "Post build MANUAL_PACKAGE is defined ${APK_ARGS}")
-                if(CI_PIPELINE)
-                    # androiddeployqt is in path
-                    message(STATUS "Create Apk  androiddeployqt ${APK_ARGS}")
-                    #add_custom_command(POST_BUILD TARGET nolimitconnect
+    # if(DEFINED TARGET_OS_ANDROID)
+    #     if(DEFINED DO_MANUAL)
+    #         if(MANUAL_PACKAGE)
+    #             file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/nolimitgui/android-build")
+    #             set(APK_ARGS "--input ${CMAKE_BINARY_DIR}/nolimitgui/android-nolimitconnect-deployment-settings.json --output ${CMAKE_BINARY_DIR}/nolimitgui/android-build --android-platform android-34 --jdk $ENV{JAVA_HOME} --verbose --gradle")
+    #             message(STATUS "Post build MANUAL_PACKAGE is defined ${APK_ARGS}")
+    #             if(CI_PIPELINE)
+    #                 # androiddeployqt is in path
+    #                 message(STATUS "Create Apk  androiddeployqt ${APK_ARGS}")
+    #                 #add_custom_command(POST_BUILD TARGET nolimitconnect
 
-                    add_custom_target(nolimitappsEchoDeploy ALL
-                        COMMAND echo "echo create apk androiddeployqt ${APK_ARGS}")
-                    add_custom_target(nolimitappsEchoDeploy ALL
-                        COMMAND androiddeployqt "${APK_ARGS}")
-                else()
-                    # need full path to androiddeployqt
-                    if(FLATPAKBUILD)
-                        message("** Enabling Flatpak workarounds")
-                        add_definitions(-DPQMFLATPAKBUILD)
-                        include_directories(${GLIB_INCLUDE_DIRS})
-                        target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
-                        target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
-                        target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
-                    endif()
-                    message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
-                    add_custom_target(nolimitappsEchoDeploy ALL
-                        COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
-                    add_custom_target(nolimitappsEchoDeploy ALL
-                        COMMAND "${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt" "${APK_ARGS}")
-                endif()
-            else()
-                message(STATUS "Post build MANUAL_PACKAGE is NOT defined")
-                add_custom_target(nolimitappsEchoDeploy ALL
-                    COMMAND echo "create apk not required")
-            endif() # if(MANUAL_PACKAGE)
-        endif()
+    #                 add_custom_target(nolimitappsEchoDeploy ALL
+    #                     COMMAND echo "echo create apk androiddeployqt ${APK_ARGS}")
+    #                 add_custom_target(nolimitappsEchoDeploy ALL
+    #                     COMMAND androiddeployqt "${APK_ARGS}")
+    #             else()
+    #                 # need full path to androiddeployqt
+    #                 if(FLATPAKBUILD)
+    #                     message("** Enabling Flatpak workarounds")
+    #                     add_definitions(-DPQMFLATPAKBUILD)
+    #                     include_directories(${GLIB_INCLUDE_DIRS})
+    #                     target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
+    #                     target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
+    #                     target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
+    #                 endif()
+    #                 message(STATUS "Create Apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
+    #                 add_custom_target(nolimitappsEchoDeploy ALL
+    #                     COMMAND echo "echo create apk ${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt ${APK_ARGS}")
+    #                 add_custom_target(nolimitappsEchoDeploy ALL
+    #                     COMMAND "${USER_HOME_DIR}/Qt/${NLC_QT_VER}/gcc_64/bin/androiddeployqt" "${APK_ARGS}")
+    #             endif()
+    #         else()
+    #             message(STATUS "Post build MANUAL_PACKAGE is NOT defined")
+    #             add_custom_target(nolimitappsEchoDeploy ALL
+    #                 COMMAND echo "create apk not required")
+    #         endif() # if(MANUAL_PACKAGE)
+    #     endif()
 
-        # copy package to package directory
-        set(NLC_APK_ROOT_DIR "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/")
-        if (CMAKE_BUILD_TYPE MATCHES Debug)
-            # for debugging only use apk
-            message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
-            add_custom_target(nolimitappsCopyDebugApk
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
-                COMMAND_EXPAND_LISTS
-                )
-            add_dependencies(nolimitappsCopyDebugApk nolimitconnect)
+    #     # copy package to package directory
+    #     set(NLC_APK_ROOT_DIR "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/")
+    #     if (CMAKE_BUILD_TYPE MATCHES Debug)
+    #         # for debugging only use apk
+    #         message(STATUS "POST_BUID_TARGET copy debug android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug to package directory ${PROJECT_PACKAGE_DIR}")
+    #         add_custom_target(nolimitappsCopyDebugApk
+    #             COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/debug" "${PROJECT_PACKAGE_DIR}"
+    #             COMMAND_EXPAND_LISTS
+    #             )
+    #         add_dependencies(nolimitappsCopyDebugApk nolimitconnect)
 
-        else()
-            # for release android play store requires aab bundle
-            message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
-            if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
-                add_custom_target(nolimitappsCopyReleaseBundle
-                    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-                    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
-                    COMMAND_EXPAND_LISTS
-                    )
-                add_dependencies(nolimitappsCopyReleaseBundlenolimitconnect)
-            else()
-                add_custom_target(nolimitappsCopyReleaseApk
-                    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
-                    DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
-                    COMMAND_EXPAND_LISTS
-                )
-            add_dependencies(nolimitappsCopyReleaseApk nolimitconnect)
-            endif() # if EXISTS
-        endif() # if (CMAKE_BUILD_TYPE MATCHES Debug)
-    endif() #if(DEFINED TARGET_OS_ANDROID)
+    #     else()
+    #         # for release android play store requires aab bundle
+    #         message(STATUS "POST_BUID_TARGET copy release android packages from ${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release to package directory ${PROJECT_PACKAGE_DIR}")
+    #         if(EXISTS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release")
+    #             add_custom_target(nolimitappsCopyReleaseBundle
+    #                 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+    #                 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/bundle/release" "${PROJECT_PACKAGE_DIR}"
+    #                 COMMAND_EXPAND_LISTS
+    #                 )
+    #             add_dependencies(nolimitappsCopyReleaseBundlenolimitconnect)
+    #         else()
+    #             add_custom_target(nolimitappsCopyReleaseApk
+    #                 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release" "${PROJECT_PACKAGE_DIR}"
+    #                 DEPENDS "${CMAKE_BINARY_DIR}/nolimitgui/android-build/build/outputs/apk/release/android-build-release.apk"
+    #                 COMMAND_EXPAND_LISTS
+    #             )
+    #         add_dependencies(nolimitappsCopyReleaseApk nolimitconnect)
+    #         endif() # if EXISTS
+    #     endif() # if (CMAKE_BUILD_TYPE MATCHES Debug)
+    # endif() #if(DEFINED TARGET_OS_ANDROID)
 
 
     add_custom_target(nolimitappsApk

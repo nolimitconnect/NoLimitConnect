@@ -26,6 +26,7 @@
 #include "libavutil/aarch64/cpu.h"
 #include "libavcodec/vp9dsp.h"
 #include "vp9dsp_init.h"
+#include "vp9.h"
 
 #define declare_fpel(type, sz)                                          \
 void ff_vp9_##type##sz##_neon(uint8_t *dst, ptrdiff_t dst_stride,       \

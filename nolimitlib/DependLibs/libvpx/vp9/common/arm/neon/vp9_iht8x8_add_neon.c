@@ -18,6 +18,7 @@
 #include "vpx_dsp/arm/idct_neon.h"
 #include "vpx_dsp/arm/mem_neon.h"
 #include "vpx_dsp/arm/transpose_neon.h"
+#include "vp9/common/vp9_enums.h"
 
 void vp9_iht8x8_64_add_neon(const tran_low_t *input, uint8_t *dest, int stride,
                             int tx_type) {

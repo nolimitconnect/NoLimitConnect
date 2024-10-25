@@ -176,7 +176,9 @@ void CServiceManager::delete_dataCacheCore::operator()( CDataCacheCore *p ) cons
 
 void CServiceManager::delete_contextMenuManager::operator()( CContextMenuManager *p ) const
 {
+#if HAVE_ADDONS
     delete p;
+#endif // HAVE_ADDONS
 }
 
 

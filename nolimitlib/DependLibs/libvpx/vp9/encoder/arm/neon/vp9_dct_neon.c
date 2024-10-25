@@ -22,6 +22,8 @@
 #include "vpx_dsp/arm/fdct8x8_neon.h"
 #include "vpx_dsp/arm/fdct16x16_neon.h"
 
+#include "vp9/common/vp9_enums.h"
+
 static INLINE void load_buffer_4x4(const int16_t *input, int16x8_t *in,
                                    int stride) {
   // { 0, 1, 1, 1 };
