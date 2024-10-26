@@ -207,7 +207,7 @@ n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 // (because it won't see this pragma).
 # pragma clang diagnostic ignored "-Wc++11-extensions"
 # define NLC_OVERRIDE override
-#elif defined(__GNUC__) && __cplusplus >= 201103 && \
+#elif defined(__GNUC__) && defined(__cplusplus) && __cplusplus >= 201103 && \
     (__GNUC__ * 10000 + __GNUC_MINOR__ * 100) >= 40700
 // GCC 4.7 supports explicit virtual overrides when C++11 support is enabled.
 # define NLC_OVERRIDE override

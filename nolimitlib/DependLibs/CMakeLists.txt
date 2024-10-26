@@ -3,6 +3,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. $
 
 include(ConfigStaticDependLib)
 
+add_subdirectory(libvpx)
+
 add_subdirectory(ffmpeg)
 
 add_subdirectory(CoreLib)
@@ -56,8 +58,6 @@ add_subdirectory(libtheora)
 add_subdirectory(libtinyxml)
 add_subdirectory(libtwolame)
 add_subdirectory(libvorbis)
-
-add_subdirectory(libvpx) 
 
 #libx265 does not compile for arm7a also kodi does not include in arm builds
 if(NOT DEFINED TARGET_CPU_ARM32)

@@ -973,11 +973,6 @@ target_compile_definitions(gnu
     BUILD_GNU_INTERNAL
 )
 
-target_include_directories(gnu
-  PRIVATE
-    ../openssl-1.0.2p/include
-)
-
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

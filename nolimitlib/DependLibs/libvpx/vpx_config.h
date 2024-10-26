@@ -1,6 +1,8 @@
 #pragma once
 
+#if !defined(TARGET_CPU_AARCH64)
 #include <NlcDependLibrariesConfig.h>
+#endif // defined(TARGET_CPU_AARCH64)
 
 #if defined(TARGET_OS_LINUX)
 # if defined(TARGET_CPU_AARCH64)

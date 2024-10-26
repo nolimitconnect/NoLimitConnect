@@ -324,13 +324,14 @@
  #define HAVE_ARMV8_INLINE 0
 #endif // defined(TARGET_CPU_AARCH64)
 
-#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
-#define HAVE_NEON_INLINE 1
-#define HAVE_VFP_INLINE 1
-#else
-#define HAVE_NEON_INLINE 0
-#define HAVE_VFP_INLINE 0
-#endif // defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+// these are defined in CMakeLists.txt
+// #if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
+// #define HAVE_NEON_INLINE 1
+// #define HAVE_VFP_INLINE 1
+// #else
+// #define HAVE_NEON_INLINE 0
+// #define HAVE_VFP_INLINE 0
+// #endif // defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
 
 #define HAVE_VFPV3_INLINE 0
 #define HAVE_SETEND_INLINE 0
@@ -593,11 +594,12 @@
 #define HAVE_WINSOCK2_H 0
 #endif // defined(TARGET_OS_WINDOWS)
 
-#if defined(TARGET_OS_ANDROID)
-#define HAVE_INTRINSICS_NEON 1
-#else
-#define HAVE_INTRINSICS_NEON 0
-#endif // defined(TARGET_OS_ANDROID)
+// defined in CMakeLists.txt
+// #if defined(TARGET_OS_ANDROID)
+// #define HAVE_INTRINSICS_NEON 1
+// #else
+// #define HAVE_INTRINSICS_NEON 0
+// #endif // defined(TARGET_OS_ANDROID)
 
 #define HAVE_ATANF 1
 #define HAVE_ATAN2F 1
@@ -891,7 +893,8 @@
 #define HAVE_SYMVER_GNU_ASM 0
 #define HAVE_VFP_ARGS 0
 #define HAVE_XFORM_ASM 0
-#define HAVE_XMM_CLOBBERS 1
+// defined in CMakeLists.txt
+//#define HAVE_XMM_CLOBBERS 1
 #define HAVE_DPI_AWARENESS_CONTEXT 1
 #define HAVE_IDXGIOUTPUT5 1
 
@@ -905,7 +908,8 @@
 #define HAVE_SYMVER_GNU_ASM 1
 #define HAVE_VFP_ARGS 0
 #define HAVE_XFORM_ASM 0
-#define HAVE_XMM_CLOBBERS 1
+// defined in CMakeLists.txt
+//#define HAVE_XMM_CLOBBERS 1
 #define HAVE_DPI_AWARENESS_CONTEXT 0
 #define HAVE_IDXGIOUTPUT5 0
 #endif // defined(TARGET_OS_ANDROID)

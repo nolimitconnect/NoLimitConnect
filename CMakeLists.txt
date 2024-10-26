@@ -424,6 +424,7 @@ else()
                 add_compile_definitions(X64=1)
                 set(TARGET_CPU_X86_64 true)
                 add_compile_definitions(TARGET_CPU_X86_64=1)
+                message(STATUS "NLC_BUILD_HOST_ARCH TARGET_CPU_X86_64")
                 set(ARCH_X86_64 true)
                 add_compile_definitions(ARCH_X86_64=1)
 
@@ -560,10 +561,16 @@ else()
 
     elseif(DEFINED TARGET_OS_LINUX)
         message(STATUS "*** TARGET_OS_LINUX ***")
-        add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X86_64 TARGET_POSIX PIC)
+
         set(TARGET_POSIX true)
-        if(NOT DEFINED TARGET_CPU_AARCH64)
+        if(DEFINED TARGET_CPU_AARCH64)
+            set(TARGET_CPU_AARCH64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
+            message(STATUS "TARGET_OS_LINUX TARGET_CPU_AARCH64")
+            add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_AARCH64=1 TARGET_POSIX PIC)
+        else()
             set(TARGET_CPU_X86_64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
+            message(STATUS "TARGET_OS_LINUX TARGET_CPU_X86_64")
+            add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X86_64 TARGET_POSIX PIC)
         endif()
 
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
@@ -747,9 +754,10 @@ else()
         set(TARGET_CPU_AARCH64 true)
 
 
-    else()
+    elseif(${NLC_CPU} STREQUAL "CPU_ARM64")
         add_compile_definitions(TARGET_CPU_64BIT)
-        add_compile_definitions(TARGET_CPU_X86_64)
+        add_compile_definitions(TARGET_CPU_AARCH64)
+        message(STATUS "NLC_CPU TARGET_CPU_AARCH64")
     endif()
 
     if(DEFINED TARGET_OS_ANDROID)
