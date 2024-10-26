@@ -277,9 +277,10 @@ size_t
 rpl_iconv (iconv_t cd,
            ICONV_CONST char **inbuf, size_t *inbytesleft,
            char **outbuf, size_t *outbytesleft)
+#if REPLACE_ICONV_UTF
 #undef iconv
 {
-#if REPLACE_ICONV_UTF
+
   switch ((uintptr_t) cd)
     {
       {
@@ -444,6 +445,8 @@ rpl_iconv (iconv_t cd,
         }
       }
     }
-#endif
+#else
+{
   return iconv (cd, inbuf, inbytesleft, outbuf, outbytesleft);
+#endif
 }

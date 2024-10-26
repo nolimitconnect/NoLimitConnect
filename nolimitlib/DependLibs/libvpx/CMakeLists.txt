@@ -121,7 +121,7 @@ if(DEFINED TARGET_CPU_X86_64)
         #vpx_dsp/x86/highbd_subpel_variance_impl_sse2.asm
         #vpx_dsp/x86/highbd_variance_impl_sse2.asm
         #vpx_dsp/x86/highbd_variance_sse2.c
-armv8.2
+
         vpx_dsp/x86/intrapred_sse2.asm
         vpx_dsp/x86/intrapred_ssse3.asm
         vpx_dsp/x86/inv_txfm_avx2.c
@@ -157,7 +157,7 @@ armv8.2
         vpx_dsp/x86/txfm_common_sse2.h
         vpx_dsp/x86/variance_avx2.c
         vpx_dsp/x86/variance_sse2.c
-        vpx_dsp/x86/vpx_convolve_copy_sse2.asmarmv8.2
+        vpx_dsp/x86/vpx_convolve_copy_sse2.asm
         vpx_dsp/x86/vpx_high_subpixel_8t_sse2.asm
         vpx_dsp/x86/vpx_high_subpixel_bilinear_sse2.asm
         vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c
@@ -173,8 +173,8 @@ armv8.2
         vpx_ports/emms_mmx.c
         vp8/encoder/denoising.c
         vp8/encoder/denoising.h
-        vp9/encoder/vp9_denoiser.c
-        vp9/encoder/vp9_denoiser.h
+        #vp9/encoder/vp9_denoiser.c
+        #vp9/encoder/vp9_denoiser.h
         vp9/encoder/x86/vp9_denoiser_sse2.c
         vp8/encoder/x86/denoising_sse2.c
 
@@ -405,6 +405,7 @@ list(APPEND vpx_SOURCES
 
     vp8/common/alloccommon.c
     vp8/common/alloccommon.h
+
     vp8/common/blockd.c
     vp8/common/blockd.h
     vp8/common/coefupdateprobs.h
@@ -425,6 +426,9 @@ list(APPEND vpx_SOURCES
     vp8/common/filter.h
     vp8/common/findnearmv.c
     vp8/common/findnearmv.h
+
+    vp8/common/generic/systemdependent.c
+
     vp8/common/header.h
     vp8/common/idctllm.c
     vp8/common/idct_blk.c
@@ -442,8 +446,11 @@ list(APPEND vpx_SOURCES
     vp8/common/onyx.h
     vp8/common/onyxc_int.h
     vp8/common/onyxd.h
-    vp8/common/postproc.c
-    vp8/common/postproc.h
+
+    # no postproc
+    #vp8/common/postproc.c
+    #vp8/common/postproc.h
+
     vp8/common/ppflags.h
     vp8/common/quant_common.c
     vp8/common/quant_common.h
@@ -825,9 +832,14 @@ if(DEFINED TARGET_CPU_X86_64)
         vp8/common/rtcd.c
         vpx_dsp/vpx_dsp_rtcd.c
         vpx_scale/vpx_scale_rtcd.c
-
-        vpx_config_linux_x64.h
     )
+
+    if(DEFINED TARGET_OS_LINUX)
+        list(APPEND vpx_SOURCES
+            vpx_config_linux_x64.h
+            vpx_config_linux_x64
+        )
+    endif()
 endif()
 if(DEFINED TARGET_CPU_AARCH64)
     list(APPEND vpx_SOURCES
