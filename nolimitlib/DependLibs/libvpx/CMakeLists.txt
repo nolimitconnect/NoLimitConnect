@@ -198,6 +198,12 @@ if(DEFINED TARGET_CPU_X86_64)
     endif()
 else()
     list(APPEND vpx_SOURCES 
+        vp8_rtcd_arm64.h
+        vp9_rtcd_arm64.h
+        vpx_dsp_rtcd_arm64.h
+        vpx_scale_rtcd_arm64.h
+
+
         vp8/common/arm/loopfilter_arm.c
         vp8/common/arm/neon/bilinearpredict_neon.c
         vp8/common/arm/neon/copymem_neon.c
