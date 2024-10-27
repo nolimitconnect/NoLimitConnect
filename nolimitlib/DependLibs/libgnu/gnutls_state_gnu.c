@@ -51,6 +51,10 @@
 #include <libgnu/dtls.h>
 #include "gnutls_dtls.h"
 
+int
+_gnutls_mac_init(mac_hd_st * mac, const mac_entry_st * e,
+                 const void *key, int keylen);
+
 /* These should really be static, but src/tests.c calls them.  Make
    them public functions?  */
 void

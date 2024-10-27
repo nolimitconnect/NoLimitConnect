@@ -36,6 +36,8 @@
 #include <gnutls_random.h>
 #include <nettle/nettle_pbkdf2.h>
 
+#if defined(ENABLE_PKCS7) && defined(ENABLE_PKCS12)
+
 static int _decode_pkcs8_ecc_key( ASN1_TYPE pkcs8_asn,
 								  gnutls_x509_privkey_t pkey );
 static
@@ -2675,3 +2677,5 @@ error:
 	asn1_delete_structure2( &pkcs7_asn, ASN1_DELETE_FLAG_ZEROIZE );
 	return result;
 }
+
+#endif // #if defined(ENABLE_PKCS7) && defined(ENABLE_PKCS12)

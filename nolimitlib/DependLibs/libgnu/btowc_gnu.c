@@ -21,6 +21,8 @@
 /* Specification.  */
 #include <wchar_gnu.h>
 
+#if !defined(TARGET_OS_ANDROID)
+
 #if !HAVE_WINT_T && !defined(wint_t)
 # define wint_t int
 # ifndef WEOF
@@ -45,4 +47,7 @@ wint_t btowc (int c)
   return WEOF;
 }
 
+#endif // !defined(TARGET_OS_ANDROID)
+
 #endif // _MSC_VER
+

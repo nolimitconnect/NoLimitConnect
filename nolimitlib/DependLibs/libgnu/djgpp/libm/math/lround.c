@@ -57,8 +57,8 @@ ANSI C, POSIX
 
 #define ROUND_MANTISSAH_TO_INTEGER(num, unbiased_exponent)   ((long int)((((uint32_t)(num).dt.mantissah | 0x00100000UL) + (0x0080000UL >> (unbiased_exponent))) >> (BIN_DIGITS_IN_MANTISSAH - (unbiased_exponent))))
 
-#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         (((uint64_t)(num).dt.mantissah | 0x00100000ULL) << ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH))
-#define SHIFT_LEFT_MANTISSAL(num, unbiased_exponent)         ((uint64_t)(num).dt.mantissal << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION))
+#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         (((uint64)(num).dt.mantissah | 0x00100000ULL) << ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH))
+#define SHIFT_LEFT_MANTISSAL(num, unbiased_exponent)         ((uint64)(num).dt.mantissal << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION))
 #define CONVERT_MANTISSA_TO_INTEGER(num, unbiased_exponent)  ((long int)(SHIFT_LEFT_MANTISSAH(num, unbiased_exponent) | SHIFT_LEFT_MANTISSAL(num, unbiased_exponent)))
 #define ROUND_MANTISSA_TO_INTEGER(num, unbiased_exponent)                                                                                         \
 (__gnuc_extension__                                                                                                                               \

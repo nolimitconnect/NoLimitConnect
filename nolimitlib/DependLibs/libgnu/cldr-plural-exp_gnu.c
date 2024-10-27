@@ -28,6 +28,10 @@
 #include "cldr-plural-exp.h"
 #include "cldr-plural.h"
 
+#ifndef MAX
+# define MAX(x,y) (((x) > (y)) ? (x) : (y))
+#endif // MAX
+
 /* The grammar of Unicode CLDR plural rules is defined at:
    http://unicode.org/reports/tr35/tr35-numbers.html#Plural_rules_syntax
 

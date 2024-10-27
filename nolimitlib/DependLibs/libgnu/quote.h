@@ -19,11 +19,16 @@
 #include <libgnu/config_libgnu.h>
 
 #include <stdbool.h>
+#include <stddef.h>
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* Return an unambiguous printable representation of ARG, suitable for
+   diagnostics.  */
+char const *quote (char const *arg);
 
 static void
 scan_quoted (const char *input, size_t length,

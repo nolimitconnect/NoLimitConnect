@@ -23,6 +23,10 @@
 void * rawmemchr( const void *s, int c_in );
 #else
 
+#if defined(TARGET_OS_ANDROID)
+// declare function impilemented in rawmemchr_gnu.c
+void * rawmemchr( const void *s, int c_in );
+#endif // defined(TARGET_OS_ANDROID)
 
 #if __GNUC__ >= 3
 #pragma GCC system_header
@@ -1291,78 +1295,20 @@ _GL_WARN_ON_USE (strerror, "strerror is unportable - "
                  "use gnulib module strerror to guarantee non-NULL result");
 #endif
 
-/* Map any int, typically from errno, into an error message.  Multithread-safe.
-   Uses the POSIX declaration, not the glibc declaration.  */
-#if 0
-# if 0
-#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#   undef strerror_r
-#   define strerror_r rpl_strerror_r
-#  endif
-_GL_FUNCDECL_RPL (strerror_r, int, (int errnum, char *buf, size_t buflen)
-                                   _GL_ARG_NONNULL ((2)));
-_GL_CXXALIAS_RPL (strerror_r, int, (int errnum, char *buf, size_t buflen));
-# else
-#  if !1
-_GL_FUNCDECL_SYS (strerror_r, int, (int errnum, char *buf, size_t buflen)
-                                   _GL_ARG_NONNULL ((2)));
-#  endif
-_GL_CXXALIAS_SYS (strerror_r, int, (int errnum, char *buf, size_t buflen));
-# endif
-# if 1
-_GL_CXXALIASWARN (strerror_r);
-# endif
-#elif defined GNULIB_POSIXCHECK
-# undef strerror_r
-# if HAVE_RAW_DECL_STRERROR_R
-_GL_WARN_ON_USE (strerror_r, "strerror_r is unportable - "
-                 "use gnulib module strerror_r-posix for portability");
-# endif
-#endif
-
-#if 0
-# if 0
-#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#   define strsignal rpl_strsignal
-#  endif
-_GL_FUNCDECL_RPL (strsignal, char *, (int __sig));
-_GL_CXXALIAS_RPL (strsignal, char *, (int __sig));
-# else
-#  if ! 1
-_GL_FUNCDECL_SYS (strsignal, char *, (int __sig));
-#  endif
-/* Need to cast, because on Cygwin 1.5.x systems, the return type is
-   'const char *'.  */
-_GL_CXXALIAS_SYS_CAST (strsignal, char *, (int __sig));
-# endif
-_GL_CXXALIASWARN (strsignal);
-#elif defined GNULIB_POSIXCHECK
-# undef strsignal
-# if HAVE_RAW_DECL_STRSIGNAL
-_GL_WARN_ON_USE (strsignal, "strsignal is unportable - "
-                 "use gnulib module strsignal for portability");
-# endif
-#endif
-
-#if 0
-# if !1
-_GL_FUNCDECL_SYS (strverscmp, int, (const char *, const char *)
-                                   _GL_ATTRIBUTE_PURE
-                                   _GL_ARG_NONNULL ((1, 2)));
-# endif
-_GL_CXXALIAS_SYS (strverscmp, int, (const char *, const char *));
-_GL_CXXALIASWARN (strverscmp);
-#elif defined GNULIB_POSIXCHECK
-# undef strverscmp
-# if HAVE_RAW_DECL_STRVERSCMP
-_GL_WARN_ON_USE (strverscmp, "strverscmp is unportable - "
-                 "use gnulib module strverscmp for portability");
-# endif
-#endif
-
-
 #endif /* _GL_STRING_H */
 #endif /* _GL_STRING_H */
 #endif
 
 #endif // _MSC_VER
+
+#if defined(TARGET_OS_ANDROID)
+#include "gnutls_str.h"
+extern char * strchrnul (const char *s, int c_in);
+// implemented in CoreLib/VxFunctionsMissingInAndroid.cpp
+/* Compare S1 and S2 as strings holding indices/version numbers,
+    returning less than, equal to or greater than zero if S1 is less than,
+    equal to or greater than S2 (for more info, see the texinfo doc).
+    */
+extern int strverscmp( const char*s1, const char*s2 );
+
+#endif // defined(TARGET_OS_ANDROID)

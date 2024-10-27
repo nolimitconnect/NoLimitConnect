@@ -24,7 +24,7 @@
 #define ROUND_MANTISSAH_TO_INTEGER(num, unbiased_exponent)                                                 \
 (__gnuc_extension__                                                                                        \
   ({                                                                                                       \
-     uint64_t rounded_mantissah = (uint64_t)(num).ldt.mantissah + (0x40000000ULL >> (unbiased_exponent));  \
+     uint64 rounded_mantissah = (uint64)(num).ldt.mantissah + (0x40000000ULL >> (unbiased_exponent));  \
      if (CARRY_INTO_INTEGER_PART(rounded_mantissah))                                                       \
      {                                                                                                     \
        rounded_mantissah >>= 1;                                                                            \
@@ -34,8 +34,8 @@
   })                                                                                                       \
 )
 
-#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         ((uint64_t)(num).ldt.mantissah << BIN_DIGITS_IN_MANTISSAL)
-#define CONVERT_MANTISSA_TO_INTEGER(num, unbiased_exponent)  ((long long int)((SHIFT_LEFT_MANTISSAH(num, unbiased_exponent) | (uint64_t)(num).ldt.mantissal) << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION)))
+#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         ((uint64)(num).ldt.mantissah << BIN_DIGITS_IN_MANTISSAL)
+#define CONVERT_MANTISSA_TO_INTEGER(num, unbiased_exponent)  ((long long int)((SHIFT_LEFT_MANTISSAH(num, unbiased_exponent) | (uint64)(num).ldt.mantissal) << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION)))
 #define ROUND_MANTISSA_TO_INTEGER(num, unbiased_exponent)                                                                                         \
 (__gnuc_extension__                                                                                                                               \
   ({                                                                                                                                              \

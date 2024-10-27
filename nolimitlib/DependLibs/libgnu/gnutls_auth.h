@@ -28,16 +28,16 @@
 typedef struct mod_auth_st_int {
 	const char *name;	/* null terminated */
 	int (*gnutls_generate_server_certificate) (gnutls_session_t,
-						   gnutls_buffer_st *);
+                           struct gnutls_buffer_st *);
 	int (*gnutls_generate_client_certificate) (gnutls_session_t,
-						   gnutls_buffer_st *);
+                           struct gnutls_buffer_st *);
 	int (*gnutls_generate_server_kx) (gnutls_session_t,
-					  gnutls_buffer_st *);
+                      struct gnutls_buffer_st *);
 	int (*gnutls_generate_client_kx) (gnutls_session_t, gnutls_buffer_st *);	/* used in SRP */
 	int (*gnutls_generate_client_crt_vrfy) (gnutls_session_t,
-						gnutls_buffer_st *);
+                        struct gnutls_buffer_st *);
 	int (*gnutls_generate_server_crt_request) (gnutls_session_t,
-						   gnutls_buffer_st *);
+                           struct gnutls_buffer_st *);
 
 	int (*gnutls_process_server_certificate) (gnutls_session_t,
 						  uint8_t *, size_t);

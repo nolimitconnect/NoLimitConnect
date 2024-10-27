@@ -49,6 +49,8 @@
 
 #include "pathmax.h"
 
+#include "stdlib_gnu.h"
+
 #if _LIBC_GNU
 # define struct_stat64 struct stat64
 #else

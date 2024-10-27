@@ -23,6 +23,8 @@
 
 #include <string.h>		/* for strverscmp */
 
+#include <string_gnu.h>		/* for strverscmp android */
+
 #include "libtasn1.h"
 
 /**

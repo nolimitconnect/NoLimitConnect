@@ -44,6 +44,9 @@
 #include "unistr.h"
 #include "gettext.h"
 
+#include "string_gnu.h"
+#include "wchar_gnu.h"
+
 #define _(str) gettext (str)
 
 #define SIZEOF(a) (sizeof(a) / sizeof(a[0]))

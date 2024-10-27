@@ -20,10 +20,19 @@
  *
  */
 
-#ifndef GNUTLS_STR_H
-#define GNUTLS_STR_H
+#pragma once
 
 #include <libgnu/config_libgnu.h>
+
+
+typedef struct gnutls_buffer_st {
+    uint8_t *allocd;	/* pointer to allocated data */
+    uint8_t *data;		/* API: pointer to data to copy from */
+    size_t max_length;
+    size_t length;		/* API: current length */
+} gnutls_buffer_st;
+
+
 #include <libgnu/gnutls_int.h>
 #include <libgnu/gnutls_datum.h>
 
@@ -40,14 +49,6 @@ void _gnutls_str_cpy(char *dest, size_t dest_tot_size, const char *src);
 void _gnutls_mem_cpy(char *dest, size_t dest_tot_size, const char *src,
 		     size_t src_size);
 void _gnutls_str_cat(char *dest, size_t dest_tot_size, const char *src);
-
-typedef struct gnutls_buffer_st {
-	uint8_t *allocd;	/* pointer to allocated data */
-	uint8_t *data;		/* API: pointer to data to copy from */
-	size_t max_length;
-	size_t length;		/* API: current length */
-} gnutls_buffer_st;
-
 /* Initialize a buffer */
 void _gnutls_buffer_init(gnutls_buffer_st *);
 
@@ -218,4 +219,4 @@ int _gnutls_hostname_compare(const char *certname, size_t certnamesize,
         o = (void *) (intptr_t)(s); \
     }
 
-#endif
+

@@ -90,6 +90,22 @@ static INLINE int saturate_cast_double_to_int(double d) {
   return (int)d;
 }
 
+#if defined(TARGET_OS_ANDROID)
+// declarations so will compile android with Qt 6.7.3
+void vpx_fdct4x4_neon(const int16_t *input, tran_low_t *final_output, int stride);
+void vpx_fdct8x8_neon(const int16_t *input, tran_low_t *final_output, int stride);
+void vpx_fdct16x16_neon(const int16_t *input, tran_low_t *output, int stride);
+uint64_t vpx_sum_squares_2d_i16(const int16_t *src, int stride, int size);
+#include "vpx_scale/yv12config.h"
+void vpx_extend_frame_borders(struct yv12_buffer_config *ybf);
+#include "vp9/common/vp9_filter.h"
+void vp9_scale_and_extend_frame_c(const YV12_BUFFER_CONFIG *src,
+                                     YV12_BUFFER_CONFIG *dst,
+                                     INTERP_FILTER filter_type,
+                                     int phase_scaler);
+
+#endif // defined(TARGET_OS_ANDROID)
+
 #ifdef __cplusplus
 }  // extern "C"
 #endif

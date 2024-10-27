@@ -22,6 +22,10 @@
  *
  */
 
+#if !defined(MIN)
+#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
+#endif // !defined(MIN)
+
 
 /* write 1 bit from the bit stream */
 static NLC_INLINE void buffer_put1bit(bit_stream * bs, int bit)

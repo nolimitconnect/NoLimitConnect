@@ -134,7 +134,7 @@ static void
 padlock_sha1_digest(struct sha1_ctx *ctx,
 		    size_t length, uint8_t * digest)
 {
-	uint64_t bit_count;
+	uint64 bit_count;
 
 	assert(length <= SHA1_DIGEST_SIZE);
 
@@ -154,7 +154,7 @@ static void
 padlock_sha256_digest(struct sha256_ctx *ctx,
 		      size_t length, uint8_t * digest)
 {
-	uint64_t bit_count;
+	uint64 bit_count;
 
 	assert(length <= SHA256_DIGEST_SIZE);
 
@@ -176,7 +176,7 @@ static void
 padlock_sha512_digest(struct sha512_ctx *ctx,
 		      size_t length, uint8_t * digest)
 {
-	uint64_t high, low;
+	uint64 high, low;
 
 	unsigned i;
 	unsigned words;
@@ -205,7 +205,7 @@ padlock_sha512_digest(struct sha512_ctx *ctx,
 
 	if (leftover) {
 		/* Truncate to the right size */
-		uint64_t word = ctx->state[i] >> (8 * (8 - leftover));
+		uint64 word = ctx->state[i] >> (8 * (8 - leftover));
 
 		do {
 			digest[--leftover] = word & 0xff;

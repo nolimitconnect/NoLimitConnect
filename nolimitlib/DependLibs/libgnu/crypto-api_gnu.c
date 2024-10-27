@@ -330,7 +330,6 @@ gnutls_hmac_init(gnutls_hmac_hd_t * dig,
 		if (algorithm == GNUTLS_MAC_MD5)
 			return gnutls_assert_val(GNUTLS_E_UNWANTED_ALGORITHM);
 	}
-#endif
 
 	*dig = gnutls_malloc(sizeof(mac_hd_st));
 	if (*dig == NULL) {
@@ -340,6 +339,9 @@ gnutls_hmac_init(gnutls_hmac_hd_t * dig,
 
 	return _gnutls_mac_init(((mac_hd_st *) * dig),
 				mac_to_entry(algorithm), key, keylen);
+#else
+    return GNUTLS_E_MEMORY_ERROR;
+#endif
 }
 
 /**

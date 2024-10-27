@@ -42,7 +42,7 @@
 /* GCM mode */
 
 typedef struct {
-	uint64_t hi, lo;
+	uint64 hi, lo;
 } u128;
 
 /* This is the gcm128 structure used in openssl. It
@@ -50,7 +50,7 @@ typedef struct {
  */
 struct gcm128_context {
 	union {
-		uint64_t u[2];
+		uint64 u[2];
 		uint32_t d[4];
 		uint8_t c[16];
 	} Yi, EKi, EK0, len, Xi, H;
@@ -62,10 +62,10 @@ struct aes_gcm_ctx {
 	struct gcm128_context gcm;
 };
 
-void gcm_init_clmul(u128 Htable[16], const uint64_t Xi[2]);
-void gcm_ghash_clmul(uint64_t Xi[2], const u128 Htable[16],
+void gcm_init_clmul(u128 Htable[16], const uint64 Xi[2]);
+void gcm_ghash_clmul(uint64 Xi[2], const u128 Htable[16],
 		     const uint8_t * inp, size_t len);
-void gcm_gmult_clmul(uint64_t Xi[2], const u128 Htable[16]);
+void gcm_gmult_clmul(uint64 Xi[2], const u128 Htable[16]);
 
 static void aes_gcm_deinit(void *_ctx)
 {
@@ -245,7 +245,7 @@ static void aes_gcm_tag(void *_ctx, void *tag, size_t tagsize)
 {
 	struct aes_gcm_ctx *ctx = _ctx;
 	uint8_t buffer[GCM_BLOCK_SIZE];
-	uint64_t alen, clen;
+	uint64 alen, clen;
 
 	alen = ctx->gcm.len.u[0] * 8;
 	clen = ctx->gcm.len.u[1] * 8;

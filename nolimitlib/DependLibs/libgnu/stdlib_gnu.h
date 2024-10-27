@@ -16,6 +16,8 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
+#pragma once
+
 #include <config_libgnu.h>
 #include <stdlib.h>
 
@@ -38,8 +40,7 @@
 ///* The include_next requires a split double-inclusion guard.  */
 //#include_next <stdlib.h>
 
-#ifndef _GL_STDLIB_H
-#define _GL_STDLIB_H
+
 
 /* NetBSD 5.0 mis-defines NULL.  */
 #include <stddef.h>
@@ -1290,5 +1291,8 @@ _GL_CXXALIASWARN (wctomb);
 #endif
 
 
-#endif /* _GL_STDLIB_H */
+#if defined(TARGET_OS_ANDROID)
+// implemented in secure_getenv.c
+char * secure_getenv (char const *name);
+#endif // defined(TARGET_OS_ANDROID)
 

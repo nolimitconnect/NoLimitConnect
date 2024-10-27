@@ -17,6 +17,8 @@
 
 # include <libgnu/config_libgnu.h>
 
+#include  <string_gnu.h>
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>

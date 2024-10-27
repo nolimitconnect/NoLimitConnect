@@ -38,6 +38,7 @@
 #include <atfork.h>
 #include <system-keys.h>
 #include <gnutls_str.h>
+#include <string_gnu.h>
 
 /* Minimum library versions we accept. */
 #define GNUTLS_MIN_LIBTASN1_VERSION "0.3.4"

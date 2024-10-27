@@ -842,9 +842,17 @@ if(DEFINED TARGET_CPU_X86_64)
     endif()
 endif()
 if(DEFINED TARGET_CPU_AARCH64)
-    list(APPEND vpx_SOURCES
-        vpx_config_linux_arm64.h
-    )
+    if(DEFINED TARGET_OS_LINUX)
+        list(APPEND vpx_SOURCES
+            vpx_config_linux_arm64.h
+        )
+    endif()
+
+    if(DEFINED TARGET_OS_ANDROID)
+        list(APPEND vpx_SOURCES
+            vpx_config_android_arm64.h
+        )
+    endif()
 endif()
 
 add_library(vpx STATIC ${vpx_SOURCES})
@@ -857,7 +865,7 @@ endif()
 if(DEFINED TARGET_CPU_AARCH64)
     if(DEFINED TARGET_OS_ANDROID)
     # android flags
-    #set(CMAKE_C_FLAGS "  -march=armv8-a -DNDEBUG -O3 -fPIC -Wdisabled-optimization -Wfloat-conversion -Wformat=2 -Wpointer-arith -Wtype-limits -Wcast-qual -Wvla -Wimplicit-function-declaration -Wmissing-declarations -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wuninitialized -Wunused -Wextra -Wundef -Wframe-larger-than=52000 -Winline" )
+    set(CMAKE_C_FLAGS "  -march=armv8.8-a -DNDEBUG -O3 -fPIC -Wdisabled-optimization -Wfloat-conversion -Wformat=2 -Wpointer-arith -Wtype-limits -Wcast-qual -Wvla -Wimplicit-function-declaration -Wmissing-declarations -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wuninitialized -Wunused -Wextra -Wundef -Wframe-larger-than=52000 -Winline" )
     #set(CMAKE_CXX_FLAGS "  -march=armv8-a -DNDEBUG -O3 -fPIC -Wall -Wdisabled-optimization -Wextra-semi -Wfloat-conversion -Wformat=2 -Wpointer-arith -Wtype-limits -Wcast-qual -Wvla -Wmissing-declarations -Wshadow -Wuninitialized -Wunused -Wextra -Wno-psabi -Wc++14-extensions -Wc++17-extensions -Wc++20-extensions -Wnon-virtual-dtor -std=gnu++11")
     endif()
     if(DEFINED TARGET_OS_LINUX)

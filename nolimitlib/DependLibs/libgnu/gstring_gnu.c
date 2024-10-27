@@ -33,6 +33,7 @@
  */
 
 #include "NlcDependLibrariesConfig.h"
+#include <gnutls.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

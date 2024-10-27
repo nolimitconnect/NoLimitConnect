@@ -24,12 +24,26 @@
 #ifndef __GNUTLS_INT_H
 #define __GNUTLS_INT_H 1
 
+/* some systems had problems with long long int, thus,
+ * it is not used.
+ */
+typedef struct {
+	unsigned char i[8];
+} uint64;
+
+typedef struct {
+	unsigned char pint[4];
+} uint24;
 
 #include <libgnu/abstract_gnu.h>
 #include <libgnu/openpgp.h>
 
 #include <libgnu/random_gnu.h>
 #include <libgnu/x509/gnutls-idna.h>
+#include <libgnu/gnutls.h>
+#include <libgnu/gnutls_str.h>
+#include <libgnu/gnutls_mem.h>
+#include <libgnu/gnutls_num.h>
 
 #include <stddef.h>
 #include <string.h>
@@ -79,12 +93,6 @@ typedef int ssize_t;
 # define likely
 # define unlikely
 #endif
-/* some systems had problems with long long int, thus,
- * it is not used.
- */
-typedef struct {
-	unsigned char i[8];
-} uint64;
 
 #include <libgnu/gnutls.h>
 #include <libgnu/dtls.h>
@@ -203,10 +211,6 @@ typedef enum record_flush_t {
 
 #define GNUTLS_KX_INVALID (-1)
 
-typedef struct {
-	uint8_t pint[3];
-} uint24;
-
 #include <libgnu/gnutls_mpi.h>
 
 typedef enum handshake_state_t { STATE0 = 0, STATE1, STATE2,
@@ -296,7 +300,7 @@ typedef struct {
 	uint8_t header[MAX_HANDSHAKE_HEADER_SIZE];
 	int header_size;
 
-	gnutls_buffer_st data;
+    struct gnutls_buffer_st data;
 } handshake_buffer_st;
 
 typedef struct mbuffer_st {

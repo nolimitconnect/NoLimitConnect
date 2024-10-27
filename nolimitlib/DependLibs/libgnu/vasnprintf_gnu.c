@@ -72,6 +72,10 @@
 # include <libgnu/xsize_gnu.h>
 # include <libgnu/localcharset.h>
 
+#if defined(TARGET_OS_ANDROID)
+#include <wchar.h>
+#endif // defined(TARGET_OS_ANDROID)
+
 #include  <locale.h>     /* localeconv() */
 #include  <stdio.h>      /* snprintf(), sprintf() */
 #include  <stdlib.h>     /* abort(), malloc(), realloc(), free() */

@@ -20,6 +20,8 @@
 #include "vpx_dsp/vpx_filter.h"
 #include "vpx_scale/yv12config.h"
 
+#include "vpx_dsp/vpx_dsp_common.h"
+
 // Note: The scaling functions could write extra rows and columns in dst, which
 // exceed the right and bottom boundaries of the destination frame. We rely on
 // the following frame extension function to fix these rows and columns.

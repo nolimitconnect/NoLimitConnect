@@ -23,7 +23,7 @@
 #define ROUND_MANTISSAH_TO_INTEGER(num, unbiased_exponent)                                                 \
 (__gnuc_extension__                                                                                        \
   ({                                                                                                       \
-     uint64_t rounded_mantissah = (uint64_t)(num).ldt.mantissah + (0x40000000ULL >> (unbiased_exponent));  \
+     uint64 rounded_mantissah = (uint64)(num).ldt.mantissah + (0x40000000ULL >> (unbiased_exponent));  \
      if (CARRY_INTO_INTEGER_PART(rounded_mantissah))                                                       \
      {                                                                                                     \
        rounded_mantissah >>= 1;                                                                            \
@@ -33,8 +33,8 @@
   })                                                                                                       \
 )
 
-#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         ((uint64_t)(num).ldt.mantissah << ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH))
-#define SHIFT_LEFT_MANTISSAL(num, unbiased_exponent)         ((uint64_t)(num).ldt.mantissal << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION))
+#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         ((uint64)(num).ldt.mantissah << ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH))
+#define SHIFT_LEFT_MANTISSAL(num, unbiased_exponent)         ((uint64)(num).ldt.mantissal << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION))
 #define CONVERT_MANTISSA_TO_INTEGER(num, unbiased_exponent)  ((long int)(SHIFT_LEFT_MANTISSAH(num, unbiased_exponent) | SHIFT_LEFT_MANTISSAL(num, unbiased_exponent)))
 #define ROUND_MANTISSA_TO_INTEGER(num, unbiased_exponent)                                                                                         \
 (__gnuc_extension__                                                                                                                               \
@@ -42,7 +42,7 @@
      uint32_t rounded_mantissal = (uint32_t)(num).ldt.mantissal + (0x80000000UL >> ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH));              \
      if (result = (long int)(num).ldt.mantissah, rounded_mantissal < (num).ldt.mantissal)                                                         \
      {                                                                                                                                            \
-       uint64_t rounded_mantissah = (uint64_t)result + 1;                                                                                         \
+       uint64 rounded_mantissah = (uint64)result + 1;                                                                                         \
        if (CARRY_INTO_INTEGER_PART(rounded_mantissah))                                                                                            \
          result = (long int)(rounded_mantissah >> 1);                                                                                             \
      }                                                                                                                                            \

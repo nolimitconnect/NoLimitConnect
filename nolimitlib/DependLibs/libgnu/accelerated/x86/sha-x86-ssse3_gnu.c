@@ -187,10 +187,10 @@ void x86_sha512_update(struct sha512_ctx *ctx, size_t length,
 		     const uint8_t * data)
 {
 	struct {
-		uint64_t h[8];
-		uint64_t Nl, Nh;
+		uint64 h[8];
+		uint64 Nl, Nh;
 		union {
-			uint64_t d[16];
+			uint64 d[16];
 			uint8_t p[16*8];
 		} u;
 		unsigned int num;

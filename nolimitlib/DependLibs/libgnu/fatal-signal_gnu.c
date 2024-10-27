@@ -85,6 +85,7 @@ static int fatal_signals[] =
 static void
 init_fatal_signals (void)
 {
+  /* signals should be handled by app
   static bool fatal_signals_initialized = false;
   if (!fatal_signals_initialized)
     {
@@ -101,6 +102,7 @@ init_fatal_signals (void)
 
       fatal_signals_initialized = true;
     }
+*/
 }
 
 
@@ -134,6 +136,7 @@ static struct sigaction saved_sigactions[64];
 static void
 uninstall_handlers (void)
 {
+/*
   size_t i;
 
   for (i = 0; i < num_fatal_signals; i++)
@@ -144,6 +147,7 @@ uninstall_handlers (void)
           saved_sigactions[sig].sa_handler = SIG_DFL;
 		gnu_sigaction(sig, &saved_sigactions[sig], NULL);
       }
+*/
 }
 
 
@@ -151,9 +155,10 @@ uninstall_handlers (void)
 static void
 fatal_signal_handler (int sig)
 {
+/*
   for (;;)
     {
-      /* Get the last registered cleanup action, in a reentrant way.  */
+      // Get the last registered cleanup action, in a reentrant way.
       action_t action;
       size_t n = actions_count;
       if (n == 0)
@@ -161,17 +166,20 @@ fatal_signal_handler (int sig)
       n--;
       actions_count = n;
       action = actions[n].action;
-      /* Execute the action.  */
+      // Execute the action.
       action ();
     }
+    */
 
   /* Now execute the signal's default action.
      If the signal being delivered was blocked, the re-raised signal would be
      delivered when this handler returns.  But the way we install this handler,
      no signal is blocked, and the re-raised signal is delivered already
      during raise().  */
+    /*
   uninstall_handlers ();
   raise (sig);
+  */
 }
 
 
@@ -179,6 +187,7 @@ fatal_signal_handler (int sig)
 static void
 install_handlers (void)
 {
+#if 0
   size_t i;
   struct sigaction action;
 
@@ -197,6 +206,7 @@ install_handlers (void)
           abort ();
         gnu_sigaction (sig, &action, &saved_sigactions[sig]);
       }
+#endif
 }
 
 
@@ -205,6 +215,7 @@ install_handlers (void)
 void
 at_fatal_signal (action_t action)
 {
+#if 0
   static bool cleanup_initialized = false;
   if (!cleanup_initialized)
     {
@@ -242,6 +253,7 @@ at_fatal_signal (action_t action)
      actions[actions_count].  */
   actions[actions_count].action = action;
   actions_count++;
+#endif
 }
 
 
@@ -253,6 +265,7 @@ static sigset_t fatal_signal_set;
 static void
 init_fatal_signal_set (void)
 {
+#if 0
   static bool fatal_signal_set_initialized = false;
   if (!fatal_signal_set_initialized)
     {
@@ -267,20 +280,25 @@ init_fatal_signal_set (void)
 
       fatal_signal_set_initialized = true;
     }
+#endif
 }
 
 /* Temporarily delay the catchable fatal signals.  */
 void
 block_fatal_signals (void)
 {
+#if 0
   init_fatal_signal_set ();
   sigprocmask (SIG_BLOCK, &fatal_signal_set, NULL);
+#endif
 }
 
 /* Stop delaying the catchable fatal signals.  */
 void
 unblock_fatal_signals (void)
 {
+#if 0
   init_fatal_signal_set ();
   sigprocmask (SIG_UNBLOCK, &fatal_signal_set, NULL);
+#endif
 }

@@ -49,6 +49,9 @@
 #include "xalloc.h"
 #include "gettext.h"
 
+#include "string_gnu.h"
+#include "wchar_gnu.h"
+
 
 /* Tests whether STRING contains trim (SUB), starting and ending at word
    boundaries.

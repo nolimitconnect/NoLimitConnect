@@ -29,7 +29,7 @@
 #pragma once
 #include <libgnu/config_libgnu.h>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(TARGET_OS_ANDROID)
 # include <wchar.h>
 #endif // _MSC_VER
 
@@ -438,7 +438,7 @@ typedef unsigned int rpl_wint_t;
 /* Override mbstate_t if it is too small.
    On IRIX 6.5, sizeof (mbstate_t) == 1, which is not sufficient for
    implementing mbrtowc for encodings like UTF-8.  */
-#ifndef TARGET_OS_WINDOWS
+#if !defined(TARGET_OS_WINDOWS) && !defined(TARGET_OS_ANDROID)
 # if !GNULIB_defined_mbstate_t
 typedef int rpl_mbstate_t;
 #  undef mbstate_t
@@ -1343,3 +1343,10 @@ _GL_WARN_ON_USE (wcswidth, "wcswidth is unportable - "
 #endif /* _GL_WCHAR_H */
 #endif /* _GL_WCHAR_H */
 #endif
+
+#if defined(TARGET_OS_ANDROID)
+
+int mbsinit (const mbstate_t *ps);
+size_t mbslen (const char *string);
+
+#endif // defined(TARGE_OS_ANDROID)

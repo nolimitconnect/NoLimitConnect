@@ -36,6 +36,8 @@
 #endif
 
 #include <stdint.h>
+#include <string.h>
+#include <memory.h>
 
 //============================================================================
 //! returns file size or 0 if does not exist

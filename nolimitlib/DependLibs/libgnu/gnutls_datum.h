@@ -23,7 +23,8 @@
 #ifndef GNUTLS_DATUM_H
 #define GNUTLS_DATUM_H
 
-# include <libgnu/gnutls_int.h>
+#include <libgnu/gnutls_int.h>
+#include <libgnu/gnutls_mem.h>
 
 int _gnutls_set_datum(gnutls_datum_t * dat, const void *data,
 		      size_t data_size);

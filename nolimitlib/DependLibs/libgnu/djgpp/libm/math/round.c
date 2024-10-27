@@ -63,7 +63,7 @@ ANSI C, POSIX
 #define ROUND_MANTISSAH_TO_INTEGER(num, unbiased_exponent)                                                    \
 (__gnuc_extension__                                                                                           \
   ({                                                                                                          \
-     uint64_t rounded_mantissa = (uint64_t)(num).dt.mantissah + (0x00080000UL >> (unbiased_exponent));        \
+     uint64 rounded_mantissa = (uint64)(num).dt.mantissah + (0x00080000UL >> (unbiased_exponent));        \
      (num).dt.mantissah = rounded_mantissa & ~MANTISSAH_SIGNIFICANT_FRACTION_DIGITS_MASK(unbiased_exponent);  \
      (num).dt.mantissal = 0;                                                                                  \
      (num).dt.exponent += (rounded_mantissa & ~0x000FFFFUL) >> BIN_DIGITS_IN_MANTISSAH;                       \

@@ -17,6 +17,7 @@
 /* Written by Bruno Haible <haible@clisp.cons.org>.  */
 
 #include  <config_libgnu.h>
+#include "wchar_gnu.h"
 
 /* Specification.  */
 #include  "mbswidth.h"

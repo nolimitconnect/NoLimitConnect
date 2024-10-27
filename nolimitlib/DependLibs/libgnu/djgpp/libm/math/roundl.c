@@ -30,7 +30,7 @@
 #define ROUND_MANTISSAH_TO_INTEGER(num, unbiased_exponent)                                                     \
 (__gnuc_extension__                                                                                            \
   ({                                                                                                           \
-     uint64_t rounded_mantissa = (uint64_t)(num).ldt.mantissah + (0x40000000ULL >> (unbiased_exponent));       \
+     uint64 rounded_mantissa = (uint64)(num).ldt.mantissah + (0x40000000ULL >> (unbiased_exponent));       \
      if (CARRY_INTO_INTEGER_PART(rounded_mantissa))                                                            \
      {                                                                                                         \
        rounded_mantissa >>= 1;                                                                                 \

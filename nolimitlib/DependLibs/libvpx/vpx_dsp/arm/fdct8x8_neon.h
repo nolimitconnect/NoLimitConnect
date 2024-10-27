@@ -13,6 +13,8 @@
 
 #include <arm_neon.h>
 
+#include <vpx_config.h>
+
 static INLINE void vpx_fdct8x8_pass1_notranspose_neon(int16x8_t *in,
                                                       int16x8_t *out) {
   int16x8_t s[8], x[4], t[2];

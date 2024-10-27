@@ -1831,7 +1831,7 @@ it. */
 #define SAFE_DELETE(p)        { delete (p); p = nullptr;  }
 
 /* By default, we use the hardwired pathnames.  */
-# define relocate_gnu(pathname)_gnu (pathname) // renamed relocate to relocate_gnu because of name clash
+# define relocate_gnu(pathname) (pathname) // renamed relocate to relocate_gnu because of name clash
 # define GETTEXTDATADIR						".textdata/"
 # define GETTEXTJAR							".textjar/"
 # define PACKAGE_SUFFIX						".gnu"

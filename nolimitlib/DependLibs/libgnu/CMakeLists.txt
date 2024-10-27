@@ -573,7 +573,7 @@ list(APPEND gnu_SOURCES
     code-from-errno_gnu.c
     code-to-errno_gnu.c
     coding_gnu.c
-    color_gnu.c
+    #color_gnu.c #not needed
     concat-filename_gnu.c
     context_gnu.c
     copy-acl_gnu.c
@@ -731,7 +731,7 @@ list(APPEND gnu_SOURCES
     intl-exports_gnu.c
     iswblank_gnu.c
     itold_gnu.c
-    its_gnu.c
+    #FIXME its_gnu.c
     javacomp_gnu.c
     javaexec_gnu.c
     javaversion_gnu.c

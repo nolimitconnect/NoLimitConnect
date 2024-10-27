@@ -494,7 +494,7 @@ _GL_WARN_ON_USE (nl_langinfo, "nl_langinfo is not portable - "
 #endif //if 0
 #endif
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(TARGET_OS_ANDROID)
 NLC_BEGIN_CDECLARES
 
 char * nl_langinfo( nl_item item );

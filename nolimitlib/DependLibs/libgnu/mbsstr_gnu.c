@@ -27,6 +27,7 @@
 #include <stdbool.h>
 #include <stddef.h>  /* for NULL, in case a nonstandard string.h lacks it */
 
+#include "wchar_gnu.h"
 #include "malloca.h"
 #include "mbuiter.h"
 

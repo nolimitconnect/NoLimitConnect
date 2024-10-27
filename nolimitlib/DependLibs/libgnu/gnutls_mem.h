@@ -24,6 +24,7 @@
 #define GNUTLS_MEM_H
 
 #include <libgnu/config_libgnu.h>
+#include <memory.h>
 
 /* this realloc function will return ptr if size==0, and
  * will free the ptr if the new allocation failed.

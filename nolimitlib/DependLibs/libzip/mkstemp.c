@@ -38,8 +38,10 @@
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
-#ifdef _WIN32
+#ifdef TARGET_OS_WINDOWS
 #include <io.h>
+#else
+#include <unistd.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>

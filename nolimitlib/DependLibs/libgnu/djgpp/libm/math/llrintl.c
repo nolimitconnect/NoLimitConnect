@@ -20,7 +20,7 @@
 #define MAGNITUDE_IS_LESS_THAN_ONE_HALF(exp)                 ((exp) < -1)
 #define IS_ZERO(num)                                         ((((num).ldt.mantissah & 0xFFFFFFFFUL) == 0) && (((num).ldt.mantissal & 0xFFFFFFFFUL) == 0) && (((num).ldt.exponent & 0x7FFFU) == 0))
 
-#define ROUND_MANTISSAH(num, unbiased_exponent)              ((long long int)((uint64_t)(num).ldt.mantissah >> (BIN_DIGITS_IN_MANTISSAH - (unbiased_exponent))))
+#define ROUND_MANTISSAH(num, unbiased_exponent)              ((long long int)((uint64)(num).ldt.mantissah >> (BIN_DIGITS_IN_MANTISSAH - (unbiased_exponent))))
 #define ROUND_MANTISSAH_TO_INTEGER(num, unbiased_exponent)                                                                          \
 (__gnuc_extension__                                                                                                                 \
   ({                                                                                                                                \
@@ -33,7 +33,7 @@
   })                                                                                                                                \
 )
 
-#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         ((uint64_t)(num).ldt.mantissah << ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH))
+#define SHIFT_LEFT_MANTISSAH(num, unbiased_exponent)         ((uint64)(num).ldt.mantissah << ((unbiased_exponent) - BIN_DIGITS_IN_MANTISSAH))
 #define CONVERT_MANTISSA_TO_INTEGER(num, unbiased_exponent)  ((long long int)(SHIFT_LEFT_MANTISSAH(num, unbiased_exponent) | (num).ldt.mantissal << ((unbiased_exponent) - BIN_DIGITS_IN_FRACTION)))
 #define ROUND_MANTISSA(num, unbiased_exponent)               ((long long int)(SHIFT_LEFT_MANTISSAH(num, unbiased_exponent) | (num).ldt.mantissal >> (BIN_DIGITS_IN_FRACTION - (unbiased_exponent))))
 #define ROUND_MANTISSA_TO_INTEGER(num, unbiased_exponent)                                                                                          \

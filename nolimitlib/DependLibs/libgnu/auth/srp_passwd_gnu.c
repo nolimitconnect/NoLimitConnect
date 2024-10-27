@@ -417,9 +417,10 @@ static int _randomize_pwd_entry(SRP_PWD_ENTRY * entry,
 		gnutls_assert();
 		return GNUTLS_E_MEMORY_ERROR;
 	}
-
-	ret = _gnutls_mac_init(&ctx, me, sc->fake_salt_seed.data,
-			sc->fake_salt_seed.size);
+    // FIXME
+    return GNUTLS_E_MEMORY_ERROR;
+    //ret = _gnutls_mac_init(&ctx, me, sc->fake_salt_seed.data,
+    //		sc->fake_salt_seed.size);
 
 	if (ret < 0) {
 		gnutls_assert();
