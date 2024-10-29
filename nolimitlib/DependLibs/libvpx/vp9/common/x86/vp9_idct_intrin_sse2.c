@@ -9,6 +9,7 @@
  */
 
 #include "./vp9_rtcd.h"
+
 #include "vpx_dsp/x86/inv_txfm_sse2.h"
 
 void vp9_iht4x4_16_add_sse2(const tran_low_t *input, uint8_t *dest, int stride,

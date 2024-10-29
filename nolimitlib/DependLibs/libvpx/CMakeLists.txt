@@ -191,8 +191,15 @@ if(DEFINED TARGET_CPU_X86_64)
         if(DEFINED TARGET_OS_LINUX)
             list(APPEND vpx_SOURCES
                 vpx_dsp/sse.c
+                vpx_config_linux_x64.h
                 vpx_config_linux_x64.c
                 vpx_config_linux_x64.asm
+                vpx_config_linux_x64.h
+                vpx_config_linux_x64.c
+                vp8_rtcd_linux_x64.h
+                vp9_rtcd_linux_x64.h
+                vpx_dsp_rtcd_linux_x64.h
+                vpx_scale_rtcd_linux_x64.h
             )
         endif()
     endif()
