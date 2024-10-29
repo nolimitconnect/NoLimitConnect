@@ -36,7 +36,7 @@
 #include "x509_int.h"
 #include <gnutls_random.h>
 
-#ifdef ENABLE_PKCS12
+
 
 /* Decodes the PKCS #12 auth_safe, and returns the allocated raw data,
  * which holds them. Returns an ASN1_TYPE of authenticatedSafe.
@@ -1480,7 +1480,7 @@ gnutls_pkcs12_simple_parse(gnutls_pkcs12_t p12,
 			bag = NULL;
 			gnutls_assert();
 			goto done;
-		}
+        }
 
 		ret = gnutls_pkcs12_get_bag(p12, idx, bag);
 		if (ret == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
@@ -1922,4 +1922,4 @@ gnutls_pkcs12_mac_info(gnutls_pkcs12_t pkcs12, unsigned int *mac,
 
 }
 
-#endif // ENABLE_PKCS12
+

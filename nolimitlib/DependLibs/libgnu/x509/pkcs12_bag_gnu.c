@@ -32,7 +32,6 @@
 #include <common_gnu.h>
 #include "x509_int.h"
 
-#if defined(ENABLE_PKCS7) && defined(ENABLE_PKCS12)
 /**
  * gnutls_pkcs12_bag_init:
  * @bag: A pointer to the type to be initialized
@@ -907,4 +906,4 @@ gnutls_pkcs12_bag_set_privkey(gnutls_pkcs12_bag_t bag, gnutls_x509_privkey_t pri
 	return ret;
 }
 
-#endif // defined(ENABLE_PKCS7) && defined(ENABLE_PKCS12)
+
