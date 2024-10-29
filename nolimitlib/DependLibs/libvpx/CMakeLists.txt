@@ -196,6 +196,11 @@ if(DEFINED TARGET_CPU_X86_64)
                 vpx_config_linux_x64.asm
                 vpx_config_linux_x64.h
                 vpx_config_linux_x64.c
+
+                vp8/common/x86/mfqe_sse2.asm
+                vp8/common/mfqe.c
+                vp8/common/postproc.h
+                vp8/common/postproc.c
                 vp8_rtcd_linux_x64.h
                 vp9_rtcd_linux_x64.h
                 vpx_dsp_rtcd_linux_x64.h
