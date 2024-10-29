@@ -2,7 +2,7 @@
 
 #pragma once
 
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
 # if defined(FLATPAKBUILD)
 #  include "config_dav1d_aarch64_internal.h"
 # else

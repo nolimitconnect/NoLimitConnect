@@ -657,7 +657,7 @@
 #define CONFIG_LIBVPX_VP9_DECODER 0
 #else
 #define CONFIG_LIBVORBIS_DECODER 1
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
 // libvpx does not compile on raspberry pi
 #  define CONFIG_LIBVPX_VP8_DECODER 0
 #  define CONFIG_LIBVPX_VP9_DECODER 0
@@ -898,7 +898,7 @@
 #define CONFIG_LIBVORBIS_ENCODER 1
 
 // libvpx does not compile on android or raspberry pi or windows
-#if defined(TARGET_OS_LINUX) && !defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_LINUX) && !defined(TARGET_CPU_ARM64)
 #define CONFIG_LIBVPX_VP8_ENCODER 1
 #define CONFIG_LIBVPX_VP9_ENCODER 1
 #else

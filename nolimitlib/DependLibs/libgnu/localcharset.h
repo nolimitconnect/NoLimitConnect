@@ -31,6 +31,25 @@ extern "C" {
    name.  */
 extern const char * locale_charset (void);
 
+#undef DCHAR_CONV_FROM_ENCODING
+#define DCHAR_CONV_FROM_ENCODING dchar_conv_from_encoding_gnu
+
+// Handling of unconvertible characters.
+// enum iconv_ilseq_handler
+// {
+//     iconveh_error,                /* return and set errno = EILSEQ */
+//     iconveh_question_mark,        /* use one '?' per unconvertible character */
+//     iconveh_escape_sequence       /* use escape sequence \uxxxx or \Uxxxxxxxx */
+// };
+
+// caller must free the returned encoded string or will have memory leak
+extern char * dchar_conv_from_encoding_gnu(const char *toEncoding, int howHandleUnconvertableChars,
+                                         const char *fromString, size_t fromCharsLen, void* notUsed1,
+                                         void* notUsed2,
+                                         size_t* retEncodedLen);
+
+// caller must free the returned encoded string or will have memory leak
+extern char * convert_encoding_gnu(const char *textToConvert, const char *fromEncoding, const char *toEncoding);
 
 #ifdef __cplusplus
 }

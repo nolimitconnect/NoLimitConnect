@@ -6,6 +6,7 @@ project(asprintf, LANGUAGES C CXX)
 set(asprintf_SOURCES)
 
 list(APPEND asprintf_SOURCES 
+    config_libasprintf.h
     alloca.c
     asnprintf.c
     asprintf.c

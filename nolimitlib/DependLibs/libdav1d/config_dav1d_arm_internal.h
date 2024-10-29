@@ -5,13 +5,13 @@
 
 #pragma once
 
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
 #define ARCH_AARCH64 1
 #define ARCH_ARM 0
 #elif defined(TARGET_CPU_ARM32)
 #define ARCH_AARCH64 0
 #define ARCH_ARM 1
-#endif // defined(TARGET_CPU_AARCH64)
+#endif // defined(TARGET_CPU_ARM64)
 
 #define ARCH_PPC64LE 0
 

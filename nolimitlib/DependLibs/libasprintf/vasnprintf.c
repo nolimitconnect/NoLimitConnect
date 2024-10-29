@@ -56,6 +56,9 @@
 #ifndef IN_LIBINTL
 # include <libgnu/alloca_gnu.h>
 #endif
+#ifndef HAVE_LOCALE_CHARSET
+# include <libgnu/localcharset.h>
+#endif
 
 /* Specification.  */
 #ifndef VASNPRINTF

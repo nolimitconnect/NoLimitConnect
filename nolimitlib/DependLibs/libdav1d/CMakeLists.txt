@@ -20,8 +20,8 @@ endif()
 if(DEFINED TARGET_CPU_X86)
     message(STATUS "dav1d TARGET_CPU_X86 is defined")
 endif()
-if(DEFINED TARGET_CPU_AARCH64)
-    message(STATUS "dav1d TARGET_CPU_AARCH64 is defined")
+if(DEFINED TARGET_CPU_ARM64)
+    message(STATUS "dav1d TARGET_CPU_ARM64 is defined")
 endif()
 if(DEFINED TARGET_CPU_ARM32)
     message(STATUS "dav1d TARGET_CPU_ARM32 is defined")
@@ -58,7 +58,7 @@ elseif(DEFINED TARGET_OS_WINDOWS)
     string(APPEND CMAKE_ASM_NASM_FLAGS "-Pconfig_x86.asm")
 
 elseif(DEFINED TARGET_OS_LINUX)  
-    if(DEFINED TARGET_CPU_AARCH64)
+    if(DEFINED TARGET_CPU_ARM64)
         enable_language(ASM_NASM)
         string(APPEND CMAKE_ASM_NASM_FLAGS "-Fdwarf -DPIC -DARCH_AARCH64=1")
     else()
@@ -127,7 +127,7 @@ if(DEFINED TARGET_CPU_X86_64)
 
 endif()
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     list(APPEND dav1d_SOURCES 
         #included by others src/arm/asm.S
         src/arm/cpu.c

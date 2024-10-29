@@ -206,16 +206,16 @@ if(DEFINED TARGET_CPU_X86_64)
 endif()
 
 if(DEFINED TARGET_OS_LINUX)
-    if(NOT DEFINED TARGET_CPU_AARCH64)
+    if(NOT DEFINED TARGET_CPU_ARM64)
         list(APPEND avcodec_SOURCES
             x86/vc1dsp_init.c
             x86/vc1dsp_mmx.c
         )
-    endif() # if(NOT DEFINED TARGET_CPU_AARCH64)
+    endif() # if(NOT DEFINED TARGET_CPU_ARM64)
 endif()
 
-if(DEFINED TARGET_CPU_AARCH64)
-    message(STATUS "avcodec adding TARGET_CPU_AARCH64 files")
+if(DEFINED TARGET_CPU_ARM64)
+    message(STATUS "avcodec adding TARGET_CPU_ARM64 files")
     list(APPEND avcodec_SOURCES 
         aarch64/aacpsdsp_init_aarch64.c
         aarch64/fft_init_aarch64.c

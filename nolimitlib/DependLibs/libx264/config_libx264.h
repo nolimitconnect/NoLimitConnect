@@ -1,6 +1,6 @@
 #pragma once
 
-#if !defined(TARGET_OS_ANDROID) && !defined(TARGET_CPU_AARCH64)
+#if !defined(TARGET_OS_ANDROID) && !defined(TARGET_CPU_ARM64)
 # include <NlcDependLibrariesConfig.h>
 #endif // !defined(TARGET_OS_ANDROID)
 
@@ -11,7 +11,7 @@
 #elif defined(TARGET_OS_WINDOWS)
 # include "config_x264_w64.h"
 #else
-# if defined(TARGET_CPU_AARCH64)
+# if defined(TARGET_CPU_ARM64)
 #  include "config_x264_aarch64.h"
 # else
 #  include "config_x264_linux.h"

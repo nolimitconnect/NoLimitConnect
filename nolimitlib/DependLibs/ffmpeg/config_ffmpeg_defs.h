@@ -14,7 +14,7 @@
  #define CONFIG_THIS_YEAR 2021
  #define OS_NAME android
 
- #if defined(TARGET_CPU_AARCH64)
+ #if defined(TARGET_CPU_ARM64)
 	#define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug --extra-version='\"kodi-4.4.1-Nexus-Alpha1\"' --cc=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang --cxx=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang++ --pkg-config=/home/nolimit/kodi/android-tools/xbmc-depends/x86_64-linux-gnu-native/bin/pkg-config --pkg-config-flags=--static --enable-cross-compile --enable-pic --ar=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar --ranlib=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib --strip=/home/nolimit/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --disable-doc --disable-devices --disable-programs --disable-sdl2 --enable-gpl --enable-postproc --enable-runtime-cpudetect --enable-pthreads --extra-cflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -Og -g -D_DEBUG -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-cxxflags='-DANDROID -D__ANDROID_API__=24 -fexceptions -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fPIC -DPIC -march=armv8-a -mtune=cortex-a53 -frtti -Og -g -D_DEBUG -std=c++17 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include/android-21 -isystem /home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/include' --extra-ldflags='-L/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/lib -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -L/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/lib/android-21 ' --enable-neon --target-os=android --extra-libs=-liconv --disable-linux-perf --cpu=cortex-a53 --disable-armv5te --disable-armv6t2 --enable-gnutls --enable-libdav1d --arch=aarch64"
 	#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
 	#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/aarch64-linux-android-21-debug/share/ffmpeg"
@@ -24,7 +24,7 @@
 	#define FFMPEG_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/share/ffmpeg"
 	#define AVCONV_DATADIR "/home/nolimit/kodi/android-tools/xbmc-depends/arm-linux-android-21-debug/share/ffmpeg"
 	#define CC_IDENT "Android (7155654, based on r399163b1) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)"
- #endif // defined(TARGET_CPU_AARCH64)
+ #endif // defined(TARGET_CPU_ARM64)
 
 #else
 #define FFMPEG_CONFIGURATION "--prefix=/home/nolimit/ffmpegCheckout/ffmpeg_build --pkg-config-flags=--static --extra-cflags=-I/home/nolimit/ffmpegCheckout/ffmpeg_build/include --extra-ldflags=-L/home/nolimit/ffmpegCheckout/ffmpeg_build/lib --extra-libs='-lpthread -lm' --ld=g++ --bindir=/home/nolimit/ffmpegRun --enable-gpl --enable-gnutls --enable-libass --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libdav1d --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265"
@@ -49,15 +49,15 @@
 #define HAVE_MMX2 HAVE_MMXEXT
 #define SWS_MAX_FILTER_SIZE 256
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 # undef ARCH_ARM
-# if defined(TARGET_CPU_AARCH64)
+# if defined(TARGET_CPU_ARM64)
 #  define ARCH_AARCH64 1
 #  define ARCH_ARM 0
 # else
 #  define ARCH_AARCH64 0
 #  define ARCH_ARM 1
-# endif // defined(TARGET_CPU_AARCH64)
+# endif // defined(TARGET_CPU_ARM64)
 #endif // defined(TARGET_OS_ANDROID)
 
 // #define HAVE_MMX2 HAVE_MMXEXT
@@ -87,12 +87,12 @@
 #define ARCH_TILEGX 0
 #define ARCH_TILEPRO 0
 #define ARCH_TOMI 0
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 # define ARCH_X86 0
 # define ARCH_X86_32 0
 # undef ARCH_X86_64
 # define ARCH_X86_64 0
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
 # define HAVE_ARMV8 1
 # define HAVE_ARMV5TE 0
 # define HAVE_ARMV6T2 0
@@ -102,7 +102,7 @@
 # define HAVE_ARMV5TE 1
 # define HAVE_ARMV6T2 1
 # define HAVE_ARMV6 1
-#endif // defined(TARGET_CPU_AARCH64)
+#endif // defined(TARGET_CPU_ARM64)
 
 #define HAVE_NEON 1
 #define HAVE_VFP 1
@@ -129,7 +129,7 @@
 #define HAVE_VSX 0
 #define HAVE_RVV 0
 
-#if defined(TARGET_OS_ANDROID)  || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID)  || defined(TARGET_CPU_ARM64)
 #define HAVE_AESNI 0
 #define HAVE_AMD3DNOW 0
 #define HAVE_AMD3DNOWEXT 0
@@ -221,12 +221,12 @@
 #define HAVE_ARMV6_EXTERNAL 0
 #define HAVE_ARMV6T2_EXTERNAL 0
 
-#if defined(TARGET_OS_ANDROID)  || defined(TARGET_CPU_AARCH64)
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID)  || defined(TARGET_CPU_ARM64)
+#if defined(TARGET_CPU_ARM64)
 	#define HAVE_ARMV8_EXTERNAL 1
 #else
 	#define HAVE_ARMV8_EXTERNAL 0
-#endif // defined(TARGET_CPU_AARCH64)
+#endif // defined(TARGET_CPU_ARM64)
 
 #define HAVE_NEON_EXTERNAL 1
 #define HAVE_VFP_EXTERNAL 1
@@ -246,7 +246,7 @@
 #define HAVE_VSX_EXTERNAL 0
 #define HAVE_RVV_EXTERNAL 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 #define HAVE_AESNI_EXTERNAL 0
 #else
 #define HAVE_AESNI_EXTERNAL 1
@@ -255,7 +255,7 @@
 #define HAVE_AMD3DNOW_EXTERNAL 0
 #define HAVE_AMD3DNOWEXT_EXTERNAL 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 #define HAVE_AVX_EXTERNAL 0
 #define HAVE_AVX2_EXTERNAL 0
 #define HAVE_AVX512_EXTERNAL 0
@@ -271,7 +271,7 @@
 #define HAVE_FMA4_EXTERNAL 1
 #endif // defined(TARGET_OS_ANDROID)
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 #define HAVE_MMX_EXTERNAL 0
 #define HAVE_MMXEXT_EXTERNAL 0
 #define HAVE_SSE_EXTERNAL 0
@@ -292,7 +292,7 @@
 #define HAVE_SSSE3_EXTERNAL 1
 #endif // defined(TARGET_OS_WINDOWS)
 
-#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
+#if defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
 #define HAVE_XOP_EXTERNAL 0
 #else
 #define HAVE_XOP_EXTERNAL 1
@@ -318,20 +318,20 @@
 #define HAVE_ARMV6_INLINE 0
 #define HAVE_ARMV6T2_INLINE 0
 
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
  #define HAVE_ARMV8_INLINE 1
 #else
  #define HAVE_ARMV8_INLINE 0
-#endif // defined(TARGET_CPU_AARCH64)
+#endif // defined(TARGET_CPU_ARM64)
 
 // these are defined in CMakeLists.txt
-// #if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
+// #if defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
 // #define HAVE_NEON_INLINE 1
 // #define HAVE_VFP_INLINE 1
 // #else
 // #define HAVE_NEON_INLINE 0
 // #define HAVE_VFP_INLINE 0
-// #endif // defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+// #endif // defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 
 #define HAVE_VFPV3_INLINE 0
 #define HAVE_SETEND_INLINE 0
@@ -343,7 +343,7 @@
 #define HAVE_VSX_INLINE 0
 #define HAVE_RVV_INLINE 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64)
 #define HAVE_AESNI_INLINE 0
 #define HAVE_AMD3DNOW_INLINE 0
 #define HAVE_AMD3DNOWEXT_INLINE 0
@@ -451,7 +451,7 @@
 # define HAVE_FAST_FLOAT16 0
 #endif // defined(TARGET_OS_ANDROID)
 
-#if defined(TARGET_CPU_AARCH64) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_CPU_ARM64) || defined(TARGET_OS_ANDROID)
 # define HAVE_LOCAL_ALIGNED 0
 # define HAVE_SIMD_ALIGN_16 0
 # define HAVE_SIMD_ALIGN_32 0
@@ -461,13 +461,13 @@
 # define HAVE_SIMD_ALIGN_16 1
 # define HAVE_SIMD_ALIGN_32 1
 # define HAVE_SIMD_ALIGN_64 1
-#endif // defined(TARGET_CPU_AARCH64) || defined(TARGET_OS_ANDROID)
+#endif // defined(TARGET_CPU_ARM64) || defined(TARGET_OS_ANDROID)
 
 #define HAVE_ATOMIC_CAS_PTR 0
 #define HAVE_MACHINE_RW_BARRIER 0
 #define HAVE_MEMORYBARRIER 0
 
-#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_AARCH64) || defined(TARGET_OS_WINDOWS)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_CPU_ARM64) || defined(TARGET_OS_WINDOWS)
 #define HAVE_MM_EMPTY 0
 #else
 #define HAVE_MM_EMPTY 1
@@ -488,11 +488,11 @@
 #else // LINUX
 #define HAVE_INLINE_ASM 1
 #define HAVE_SYMVER 1
-#if defined(TARGET_CPU_AARCH64) || defined(TARGET_CPU_ARM32)
+#if defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
 #define HAVE_X86ASM 0
 #else
 #define HAVE_X86ASM 1
-#endif // defined(TARGET_CPU_AARCH64)
+#endif // defined(TARGET_CPU_ARM64)
 #endif // defined(TARGET_OS_ANDROID)
 
 #ifdef NLC_ARCH_BIG_ENDIAN

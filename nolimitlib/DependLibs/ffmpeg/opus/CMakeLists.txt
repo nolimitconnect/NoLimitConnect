@@ -25,7 +25,7 @@ if(DEFINED TARGET_OS_WINDOWS)
 endif()
 
 if(DEFINED TARGET_OS_LINUX)
-    if(DEFINED TARGET_CPU_AARCH64)
+    if(DEFINED TARGET_CPU_ARM64)
         list(APPEND ffmpegopus_SOURCES
         celt/arm/arm_celt_map.c
         celt/arm/armcpu.c
@@ -63,7 +63,7 @@ if(DEFINED TARGET_OS_LINUX)
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)
-    if(DEFINED TARGET_CPU_AARCH64)
+    if(DEFINED TARGET_CPU_ARM64)
         list(APPEND ffmpegopus_SOURCES
             celt/arm/arm_celt_map.c
             celt/arm/armcpu.c

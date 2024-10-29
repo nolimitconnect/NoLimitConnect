@@ -1053,7 +1053,7 @@ target_link_libraries(nolimitconnect
 )
 
 if (DEFINED TARGET_OS_LINUX)
-    if (DEFINED TARGET_CPU_AARCH64)
+    if (DEFINED TARGET_CPU_ARM64)
         #libvpx will not compile on raspberry pi
         target_link_libraries(nolimitconnect
             PUBLIC
@@ -1170,7 +1170,7 @@ if (DEFINED TARGET_OS_LINUX)
 
 elseif (DEFINED TARGET_OS_ANDROID)
     find_package(Qt6 COMPONENTS Quick Gui REQUIRED)
-    if (DEFINED TARGET_CPU_AARCH64)
+    if (DEFINED TARGET_CPU_ARM64)
         target_link_libraries(nolimitconnect
             PUBLIC
             # static nlc libraries

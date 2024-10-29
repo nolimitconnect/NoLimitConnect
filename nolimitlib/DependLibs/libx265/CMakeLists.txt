@@ -8,7 +8,7 @@ if(DEFINED TARGET_OS_ANDROID)
 elseif(DEFINED TARGET_OS_WINDOWS)
     enable_language(ASM_NASM)
 else()
-    if(NOT DEFINED TARGET_CPU_AARCH64)
+    if(NOT DEFINED TARGET_CPU_ARM64)
         enable_language(ASM_NASM)
     endif()
 endif()
@@ -47,7 +47,7 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     list(APPEND x265_SOURCES
         common/aarch64/arm64-utils.cpp
         common/aarch64/asm-primitives.cpp
@@ -141,7 +141,7 @@ list(APPEND x265_SOURCES
 
 add_library(x265 STATIC ${x265_SOURCES})
 
-if(DEFINED TARGET_OS_LINUX AND DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_OS_LINUX AND DEFINED TARGET_CPU_ARM64)
     message(STATUS "Adding x265 flags -flax-vector-conversions")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flax-vector-conversions")
 endif()
@@ -168,7 +168,7 @@ if(DEFINED TARGET_OS_WINDOWS)
         X86_64=1
     )
 else()
-    if(DEFINED TARGET_CPU_AARCH64)
+    if(DEFINED TARGET_CPU_ARM64)
         target_include_directories(x265 PRIVATE
             common
             common/aarch64

@@ -1033,6 +1033,7 @@
     <None Include="vpx.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\config_libvpx.h" />
     <ClInclude Include="..\..\vp8\common\ppflags.h" />
     <ClInclude Include="..\..\vp8\common\onyx.h" />
     <ClInclude Include="..\..\vp8\common\onyxd.h" />
@@ -1186,6 +1187,7 @@
     <ClInclude Include="..\..\vpx\vpx_integer.h" />
     <ClInclude Include="..\..\vpx\vpx_ext_ratectrl.h" />
     <ClInclude Include="..\..\vpx\vpx_tpl.h" />
+    <ClInclude Include="..\..\vpx_config_win_x64.h" />
     <ClInclude Include="..\..\vpx_dsp\vpx_dsp_common.h" />
     <ClInclude Include="..\..\vpx_dsp\x86\bitdepth_conversion_avx2.h" />
     <ClInclude Include="..\..\vpx_dsp\x86\bitdepth_conversion_sse2.h" />

@@ -2580,7 +2580,7 @@ config.h and <sys/mman.h>. */
 #endif // _MSC_VER
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
-#ifndef _MSC_VER
+#if !defined(_MSC_VER)
 # define HAVE_NETINET_IN_H 1
 #endif // _MSC_VER
 

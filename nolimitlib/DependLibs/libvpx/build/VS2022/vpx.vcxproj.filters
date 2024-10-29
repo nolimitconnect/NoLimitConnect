@@ -430,6 +430,8 @@
     <ClInclude Include="..\..\vpx_ports\vpx_once.h" />
     <ClInclude Include="vp8_rtcd_win_x64.h" />
     <ClInclude Include="vp9_rtcd_win_x64.h" />
+    <ClInclude Include="..\..\config_libvpx.h" />
+    <ClInclude Include="..\..\vpx_config_win_x64.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\vpx_dsp\x86\intrapred_sse2.asm" />

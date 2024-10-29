@@ -35,7 +35,7 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     list(APPEND swscale_SOURCES
        aarch64/rgb2rgb.c
        aarch64/swscale.c

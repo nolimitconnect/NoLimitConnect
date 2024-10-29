@@ -37,7 +37,7 @@ if(DEFINED TARGET_CPU_X86_64)
     )
     
 else()
-    if(DEFINED TARGET_CPU_AARCH64)
+    if(DEFINED TARGET_CPU_ARM64)
         list(APPEND x264_SOURCES
             common/aarch64/asm-offsets.c
             common/aarch64/bitstream-a.S

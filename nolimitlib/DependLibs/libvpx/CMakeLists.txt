@@ -368,14 +368,16 @@ else()
         list(APPEND vpx_SOURCES 
             ../androidNdk/android/cpufeatures/cpu-features_ndk.c
             )
-        if(DEFINED TARGET_CPU_AARCH64)
+        if(DEFINED TARGET_CPU_ARM64)
             list(APPEND vpx_SOURCES
                 vpx_config_android_arm64.c
+                vpx_config_android_arm64.h
                 vpx_ports/aarch64_cpudetect.c
                 )
         else()
             list(APPEND vpx_SOURCES
                 vpx_config_android_arm32.c
+                vpx_config_android_arm32.h
                 vpx_ports/aarch32_cpudetect.c
                 )
         endif()
@@ -390,19 +392,19 @@ list(APPEND vpx_SOURCES
     ivfenc.c
     md5_utils.c
     rate_hist.c
-    #tools_common.c
     video_reader.c
     video_writer.c
     vpxdec.c
     vpxenc.c
     vpxstats.c
-    #vpx_config_android_arm64.c
-    #vpx_config_linux_arm64.c
-    #vpx_config_linux_x64.c
-    #vpx_config_win_x64.c
     warnings.c
     y4menc.c
     y4minput.c
+
+    vp8_rtcd.h
+    vp9_rtcd.h
+    vpx_dsp_rtcd.h
+    vpx_scale_rtcd.h
 
     vp8/vp8_cx_iface.c
     vp8/vp8_dx_iface.c
@@ -773,8 +775,11 @@ list(APPEND vpx_SOURCES
     vpx_dsp/skin_detection.c
     vpx_dsp/skin_detection.h
     vpx_dsp/sse.c
-    vpx_dsp/ssim.c
-    vpx_dsp/ssim.h
+
+    # seems to be for statistics
+    #vpx_dsp/ssim.c
+    #vpx_dsp/ssim.h
+
     vpx_dsp/subtract.c
     vpx_dsp/sum_squares.c
     vpx_dsp/txfm_common.h
@@ -847,7 +852,7 @@ if(DEFINED TARGET_CPU_X86_64)
         )
     endif()
 endif()
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     if(DEFINED TARGET_OS_LINUX)
         list(APPEND vpx_SOURCES
             vpx_config_linux_arm64.h
@@ -868,7 +873,7 @@ if(DEFINED TARGET_CPU_X86_64)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
 endif()
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     if(DEFINED TARGET_OS_ANDROID)
     # android flags
     set(CMAKE_C_FLAGS "  -march=armv8.8-a -DNDEBUG -O3 -fPIC -Wdisabled-optimization -Wfloat-conversion -Wformat=2 -Wpointer-arith -Wtype-limits -Wcast-qual -Wvla -Wimplicit-function-declaration -Wmissing-declarations -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wuninitialized -Wunused -Wextra -Wundef -Wframe-larger-than=52000 -Winline" )
@@ -883,7 +888,7 @@ if(DEFINED TARGET_CPU_AARCH64)
 endif()
 
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     if(DEFINED TARGET_OS_ANDROID)
         # android flags
         #set(CMAKE_C_FLAGS "  -march=armv8-a -DNDEBUG -O3 -fPIC -Wdisabled-optimization -Wfloat-conversion -Wformat=2 -Wpointer-arith -Wtype-limits -Wcast-qual -Wvla -Wimplicit-function-declaration -Wmissing-declarations -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wuninitialized -Wunused -Wextra -Wundef -Wframe-larger-than=52000 -Winline" )

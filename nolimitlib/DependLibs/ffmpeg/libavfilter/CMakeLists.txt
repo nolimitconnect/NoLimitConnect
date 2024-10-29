@@ -100,7 +100,7 @@ if(DEFINED TARGET_CPU_X86_64)
     )
 endif()
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     list(APPEND avfilter_SOURCES 
         aarch64/vf_nlmeans_init.c
         aarch64/vf_nlmeans_neon.S

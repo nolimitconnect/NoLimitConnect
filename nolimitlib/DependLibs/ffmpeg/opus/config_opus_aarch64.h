@@ -122,11 +122,11 @@
 
 /* Define if binary requires Aarch64 Neon Intrinsics */
 /* #undef OPUS_ARM_PRESUME_AARCH64_NEON_INTR */
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
 # define OPUS_ARM_PRESUME_AARCH64_NEON_INTR 1
 #else
 # define OPUS_ARM_PRESUME_AARCH64_NEON_INTR 0
-#endif // defined(TARGET_CPU_AARCH64)
+#endif // defined(TARGET_CPU_ARM64)
 
 /* Define if binary requires EDSP instruction support */
 /* #undef OPUS_ARM_PRESUME_EDSP */

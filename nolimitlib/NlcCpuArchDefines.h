@@ -76,8 +76,8 @@
 #elif defined(TARGET_OS_ANDROID)
 # define NLC_ARCH_LITTLE_ENDIAN			1
 
-# if defined(TARGET_CPU_AARCH64) || defined(ARM64)
-#  define TARGET_CPU_AARCH64            1
+# if defined(TARGET_CPU_ARM64) || defined(ARM64)
+#  define TARGET_CPU_ARM64            1
 #  define ARCH_X86                      0
 #  define ARCH_AARCH64                  1
 #  define ARCH_ARM                      0
@@ -136,13 +136,13 @@
 # define ARCH_32_BITS					0
 # define ARCH_64_BITS                   1
 
-# if defined(TARGET_CPU_AARCH64)	
+# if defined(TARGET_CPU_ARM64)	
 #  define ARCH_AARCH64                  1
 # else
 #  define TARGET_CPU_X86_64			    1  // general cpu type
 #  define ARCH_X86                      1
 #  define ARCH_AARCH64                  0
-# endif // defined(TARGET_CPU_AARCH64)
+# endif // defined(TARGET_CPU_ARM64)
 
 
 #elif defined(TARGET_OS_APPLE)
@@ -219,7 +219,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 
 #endif // !ARCH_X86 && !ARCH_ARM
 
-#if !defined(TARGET_CPU_ARM32) && !defined(TARGET_CPU_AARCH64)
+#if !defined(TARGET_CPU_ARM32) && !defined(TARGET_CPU_ARM64)
 #if ARCH_32_BITS
 # define ARCH_X86_32 1
 # define ARCH_X86_64 0
@@ -235,7 +235,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 //============================================================================
 //============================================================================
 //=== cpu features ===//
-#if defined(TARGET_CPU_AARCH64)
+#if defined(TARGET_CPU_ARM64)
 # define HAVE_ARM_NEON				1 // both arm68-v8a and armeabi-v7a have neon extensions
 # define HAVE_ARMV7					1
 
@@ -318,7 +318,7 @@ echo Nlc CPU Config error mips processors not supported
 # define HAVE_ARM_NEON				1 // both arm68-v8a and both armeabi-v7a have neon extensions
 # define HAVE_ARMV7					1
 
-# if defined(TARGET_CPU_AARCH64)
+# if defined(TARGET_CPU_ARM64)
 #  define ARCH_32_BITS				0
 #  define ARCH_64_BITS				1
 
@@ -335,7 +335,7 @@ echo Nlc CPU Config error mips processors not supported
 #  define HAVE_ARMV5TE				1
 #  define HAVE_ARMV6				1
 #  define HAVE_ARMV6T2				1
-# endif // defined(TARGET_CPU_AARCH64)
+# endif // defined(TARGET_CPU_ARM64)
 
 #else
 echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported

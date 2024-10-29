@@ -703,7 +703,7 @@ if(DEFINED TARGET_CPU_X86_64)
             CONFIG_WMA_FREQS=1
             CONFIG_WMV2DSP=1
             )
-elseif(DEFINED TARGET_CPU_AARCH64)
+elseif(DEFINED TARGET_CPU_ARM64)
     list(APPEND ffmpeg_DEFINES
             #it seems the nasm -P does not work in flatpak so add all the defines here for ffmpeg etc.
             ARCH_AARCH64=1
@@ -1403,7 +1403,7 @@ elseif(DEFINED TARGET_CPU_AARCH64)
             )
 endif() # if(DEFINED TARGET_CPU_X86_64)
 
-if(DEFINED TARGET_CPU_AARCH64)
+if(DEFINED TARGET_CPU_ARM64)
     list(APPEND ffmpeg_DEFINES
         HAVE_ARMV8_INLINE=1
     )

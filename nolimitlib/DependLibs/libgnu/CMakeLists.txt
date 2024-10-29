@@ -576,6 +576,10 @@ list(APPEND gnu_SOURCES
     #color_gnu.c #not needed
     concat-filename_gnu.c
     context_gnu.c
+
+    #convert charset needed by libasprintf
+    convert_encoding_gnu.c
+
     copy-acl_gnu.c
     copy-file_gnu.c
     crypto-api_gnu.c
