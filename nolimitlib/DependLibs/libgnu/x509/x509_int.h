@@ -233,20 +233,17 @@ typedef struct gnutls_pkcs12_bag_int {
 #define FRIENDLY_NAME_OID "1.2.840.113549.1.9.20"
 #define KEY_ID_OID "1.2.840.113549.1.9.21"
 
-#ifdef ENABLE_PKCS12
 int
 _gnutls_pkcs12_string_to_key(const mac_entry_st * me,
 			     unsigned int id, const uint8_t * salt,
 			     unsigned int salt_size, unsigned int iter,
 			     const char *pw, unsigned int req_keylen,
 			     uint8_t * keybuf);
-#endif // ENABLE_PKCS12
 
-#ifdef ENABLE_PKCS7
 
 int _gnutls_pkcs7_decrypt_data(const gnutls_datum_t * data,
 			       const char *password, gnutls_datum_t * dec);
-#endif // ENABLE_PKCS7
+
 
 typedef enum schema_id {
 	PBES2_GENERIC=1,		/* when the algorithm is unknown, temporal use when reading only */

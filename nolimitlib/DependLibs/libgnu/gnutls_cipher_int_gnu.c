@@ -30,10 +30,6 @@
 #include <fips.h>
 #include <algorithms_gnu.h>
 
-int
-_gnutls_mac_init(mac_hd_st * mac, const mac_entry_st * e,
-                     const void *key, int keylen);
-
 #define SR_FB(x, cleanup) ret=(x); if ( ret<0 ) { \
   if (ret == GNUTLS_E_NEED_FALLBACK) { \
     if (handle->handle) \
