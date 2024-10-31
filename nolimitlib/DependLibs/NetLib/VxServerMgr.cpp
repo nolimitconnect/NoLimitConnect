@@ -42,10 +42,6 @@ VxServerMgr::VxServerMgr()
 , m_ListenLogicIpv4( *this, false )
 , m_ListenLogicIpv6( *this, true )
 {
-#if defined(TARGET_OS_ANDROID)
-    m_IsAndroidOs = true;
-#endif // defined(TARGET_OS_ANDROID)
-
 	m_iAcceptMgrCnt++;
 	m_iMgrId = m_iAcceptMgrCnt;
 	m_eSktMgrType = eSktMgrTypeTcpAccept;
@@ -462,6 +458,10 @@ bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
             m_LastUpnpPortIpv6 = port;
             m_LastUpnpIpAddrIpv6 = lclIp;
         }
+        else
+        {
+            LogMsg( LOG_ERROR, "%s Add ipv6 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
+        }
 
         return result;
     }
@@ -473,6 +473,10 @@ bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
             m_UpnpIsPortForwaredIpv4 = true;
             m_LastUpnpPortIpv4 = port;
             m_LastUpnpIpAddrIpv4 = lclIp;
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "%s Add ipv4 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
         }
 
         return result;
@@ -495,6 +499,11 @@ bool VxServerMgr::removePortForward( bool ipv6 )
             bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv6 );
             m_LastUpnpPortIpv6 = 0;
             m_LastUpnpIpAddrIpv6.clear();
+            if( !result )
+            {
+                LogMsg( LOG_ERROR, "%s Remove ipv6 port %d FAILED", __func__, m_LastUpnpPortIpv6 );
+            }
+
             return result;
         }
 
@@ -508,6 +517,11 @@ bool VxServerMgr::removePortForward( bool ipv6 )
             bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv4 );
             m_LastUpnpPortIpv4 = 0;
             m_LastUpnpIpAddrIpv4.clear();
+            if( !result )
+            {
+                LogMsg( LOG_ERROR, "%s Remove ipv4 port %d FAILED", __func__, m_LastUpnpPortIpv4 );
+            }
+
             return result;
         }
 

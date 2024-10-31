@@ -92,8 +92,6 @@ protected:
 
     int64_t						m_LastWatchdogKickMs{ 0 };
 
-    bool                        m_IsAndroidOs{ false };
-
     int64_t						m_LastListenActivityMs{ 0 };
     
 };
