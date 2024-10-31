@@ -103,7 +103,7 @@ signals:
 	void						signalMenuBottomButtonClicked( void );
 	void						signalExpandWindowButtonClicked( void );
 
-protected slots:
+public slots:
 	//=== bottom bar slots ===// 
 	virtual void				slotArrowLeftButtonClicked( void );
 	virtual void				slot30SecBackwardButtonClicked( void );

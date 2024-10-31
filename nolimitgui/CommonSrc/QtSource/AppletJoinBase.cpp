@@ -214,7 +214,14 @@ void AppletJoinBase::callbackGuiHostedListSearchResult( HostedId& hostedId, GuiH
 //============================================================================
 void AppletJoinBase::callbackGuiHostedListSearchComplete( EHostType hostType, VxGUID& sessionId )
 {
-	setStatusMsg( QObject::tr( "Host list from network host completed" ) );
+	if( ui.m_GuiHostedListWidget->count() == 0 )
+	{
+		setStatusMsg( QObject::tr( "NO HOSTS FOUND" ) );
+	}
+	else
+	{
+		setStatusMsg( QObject::tr( "Host list from network host completed" ) );
+	}
 }
 
 //============================================================================

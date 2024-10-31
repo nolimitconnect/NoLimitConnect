@@ -42,7 +42,7 @@ class HomeWindow : public QDialog
 	Q_OBJECT
 public:
 	HomeWindow( AppCommon&	appCommon, QString title );
-    ~HomeWindow() override;
+    ~HomeWindow() override = default;
 
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
 

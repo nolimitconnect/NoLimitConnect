@@ -419,7 +419,7 @@ void AppletNetworkSettings::slotRandomPortButtonClick( void )
 //============================================================================
 void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
 {
-    if( !verifyIpv6Capable() )
+    if( ui.m_UseIpv6Network->isChecked() && !verifyIpv6Capable() )
     {
         return;
     }

@@ -52,11 +52,7 @@ HomeWindow::HomeWindow( AppCommon&	appCommon, QString title )
 
     VxAppInfo appInfo;
     m_WindowSettings = new QSettings( appInfo.getCompanyDomain(), appInfo.getAppNameNoSpaces(), this );
-}
-
-//============================================================================
-HomeWindow::~HomeWindow()
-{
+    setWindowFlags( windowFlags() | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint );
 }
 
 //============================================================================

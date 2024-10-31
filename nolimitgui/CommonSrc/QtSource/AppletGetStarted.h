@@ -24,6 +24,17 @@ public:
     AppletGetStarted( AppCommon& app, QWidget* parent );
 	virtual ~AppletGetStarted();
 
+protected slots:
+
+    void slotExpandButton();
+    void slotShrinkButton();
+
+    void slotJoinGroup();
+    void slotJoinChatRoom();
+    void slotJoinRandomConnect();
+
+    void gotoWebsite();
+
 protected:
     Ui::AppletGetStartedUi&     ui;
 };
