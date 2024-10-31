@@ -360,24 +360,23 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktB
 	toClientContent = "1-";
 	toClientContent += strRmtAddr;
 	return m_NetServiceUtils.buildAndSendCmd( sktBase, eNetCmdIsMyPortOpenReply, toClientContent, eNetCmdErrorNone );
-
 }
 
 //============================================================================
 bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std::string& retPong, bool isClientPing )
 {
-	VxTimer	pingTimer;
-
+    int64_t pingStart = GetGmtTimeSec();
 	EIpAddrType addrType = VxGetIpAddrType( ipAddress );
 
 	LogModule( eLogIsPortOpenTest, LOG_INFO, "Test Client Connection send PING %s:%d", ipAddress, u16Port );
 	VxSktConnectSimple toClientConn;
 	if( INVALID_SOCKET != toClientConn.connectTo( ipAddress, u16Port, addrType, PORT_TEST_CONNECT_TO_CLIENT1_TIMEOUT ) )
-	{
-		double connectTime = pingTimer.elapsedSec();
+	{        
+        double connectTime = GetGmtTimeSec() - pingStart;
+        VxTimer	pingTimer;
 		LogModule( eLogIsPortOpenTest, LOG_INFO, "##P NetServicesMgr::doNetCmdPing connected to %s:%d in %3.3f sec thread 0x%x", ipAddress, u16Port, connectTime, VxGetCurrentThreadId() );
 		bool sndPingResult = sendAndRecievePing( pingTimer, toClientConn, retPong, isClientPing, PONG_RX_TIMEOUT );
-		double totalTime = pingTimer.elapsedSec();
+        double totalTime = GetGmtTimeSec() - pingStart;
 		if( sndPingResult )
 		{
 			LogModule( eLogIsPortOpenTest, LOG_INFO, "##P NetServicesMgr::doNetCmdPing SUCCESS rx PONG from %s:%d in %3.3f sec thread 0x%x", ipAddress, u16Port, totalTime, VxGetCurrentThreadId() );
@@ -391,7 +390,8 @@ bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std:
 		return sndPingResult;
 	}
 	
-	LogMsg( LOG_ERROR, "##P NetServicesMgr::doNetCmdPing:  timeout %d could not connect to %s:%d %3.3f sec FAIL", PORT_TEST_CONNECT_TO_CLIENT1_TIMEOUT, ipAddress, u16Port, pingTimer.elapsedSec() );
+    double failTime = GetGmtTimeSec() - pingStart;
+    LogMsg( LOG_ERROR, "##P NetServicesMgr::doNetCmdPing:  timeout %d could not connect to %s:%d %3.3f sec FAIL", PORT_TEST_CONNECT_TO_CLIENT1_TIMEOUT, ipAddress, u16Port, failTime );
 	return false;
 }
 
