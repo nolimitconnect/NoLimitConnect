@@ -191,10 +191,13 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletSoundSettings.h
     CommonSrc/QtSource/AppletStoryboardClient.h
     CommonSrc/QtSource/AppletStoryboardServerViewMine.h
+
     CommonSrc/QtSource/AppletTestAndDebug.h
     CommonSrc/QtSource/AppletTestBase.h
     CommonSrc/QtSource/AppletTestHostClient.h
     CommonSrc/QtSource/AppletTestHostService.h
+    CommonSrc/QtSource/AppletTestUpnp.h
+
     CommonSrc/QtSource/AppletTheme.h
     CommonSrc/QtSource/AppletUploads.h
     CommonSrc/QtSource/AppletUserConnections.h
@@ -590,10 +593,13 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletSoundSettings.cpp
     CommonSrc/QtSource/AppletStoryboardClient.cpp
     CommonSrc/QtSource/AppletStoryboardServerViewMine.cpp
+
     CommonSrc/QtSource/AppletTestAndDebug.cpp
     CommonSrc/QtSource/AppletTestBase.cpp
     CommonSrc/QtSource/AppletTestHostClient.cpp
     CommonSrc/QtSource/AppletTestHostService.cpp
+    CommonSrc/QtSource/AppletTestUpnp.cpp
+
     CommonSrc/QtSource/AppletTheme.cpp
     CommonSrc/QtSource/AppletUploads.cpp
     CommonSrc/QtSource/AppletUserConnections.cpp
@@ -907,6 +913,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletTestAndDebug.ui
     CommonSrc/Forms/AppletTestHostClient.ui
     CommonSrc/Forms/AppletTestHostService.ui
+    CommonSrc/Forms/AppletTestUpnp.ui
     CommonSrc/Forms/AppletTheme.ui
     CommonSrc/Forms/AppletUploads.ui
     CommonSrc/Forms/AppletUserConnections.ui

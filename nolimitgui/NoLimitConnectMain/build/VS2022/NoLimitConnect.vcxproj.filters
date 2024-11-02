@@ -1127,6 +1127,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.h">
       <Filter>Source Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -2269,6 +2272,9 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -3116,6 +3122,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\FileFilterSelectWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestUpnp.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

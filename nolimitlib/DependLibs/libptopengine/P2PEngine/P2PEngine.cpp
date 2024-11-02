@@ -539,23 +539,30 @@ bool P2PEngine::validateIdent( VxNetIdent* netIdent )
 	// validate port is reasonable value
 	if( 80 > netIdent->getOnlinePort() )
 	{
+		LogMsg( LOG_ERROR, "%s invalid port %d", __func__, netIdent->getOnlinePort() );
 		return false;
 	}
 
 	// validate online name
 	if( !validateArrayString( netIdent->getOnlineName(), 4, MAX_ONLINE_NAME_LEN ) )
 	{
-		LogMsg( LOG_ERROR, "validateIdent invalid name");
+		LogMsg( LOG_ERROR, "%s invalid name", __func__ );
 		return false;
 	}
 
 	if( !validateArrayString( netIdent->getOnlineDescription(), 4, MAX_ONLINE_DESC_LEN ) )
 	{
-		LogMsg( LOG_ERROR, "validateIdent invalid description" );
+		LogMsg( LOG_ERROR, "%s invalid description", __func__ );
 		return false;
 	}
 
-	return netIdent->getOnlinePort() > 0;
+	if( !netIdent->getMyOnlineId().isVxGUIDValid() )
+	{
+		LogMsg( LOG_ERROR, "%s invalid online id", __func__ );
+		return false;
+	}
+
+	return true;
 }
 
 //============================================================================

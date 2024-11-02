@@ -847,7 +847,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
         {
             // connected
             ::VxSetSktBlocking( sktHandle, true );
-            LogModule( eLogConnect, LOG_VERBOSE, "VxConnectToAddr: SUCCESS skt %d to %s in %d sec",
+            LogModule( eLogConnect, LOG_VERBOSE, "%s: SUCCESS skt %d to %s in %d sec", __func__,
                        sktHandle, ipAndPort.c_str(), TimeElapsedGmtSec( timeStartConnect ) );
             return sktHandle;
         }
@@ -857,7 +857,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
         if( VxIsFatalSktError( rc ) )
         {
             // some other error other than need more time
-            LogModule( eLogConnect, LOG_VERBOSE,  "VxConnectToAddr: skt %d connect error %s in %d seconds to %s",
+            LogModule( eLogConnect, LOG_VERBOSE,  "%s: skt %d connect error %s in %d seconds to %s", __func__,
                        sktHandle, VxDescribeSktError( rc ), TimeElapsedGmtSec( timeStartConnect ), ipAndPort.c_str() );
 
             VxCloseSktNow( sktHandle );
@@ -869,7 +869,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
         struct timeval tv;
         fd_set sktSet;
 
-		LogModule( eLogConnect, LOG_VERBOSE, "VxConnectToAddr: skt %d Attempt connect with timeout %d to %s", sktHandle, iConnectTimeoutMs, ipAndPort.c_str() );
+		LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d Attempt connect with timeout %d to %s", __func__, sktHandle, iConnectTimeoutMs, ipAndPort.c_str() );
 
         do
         {
@@ -885,27 +885,68 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
 
             if( iResult < 0 && TimeElapsedGmtMs( timeStartConnect ) < iConnectTimeoutMs)
             {
-                LogMsg( LOG_ERROR, "VxConnectToAddr: ERROR socket %d select time out is %d but %" PRId64 " ms elapsed to %s",
+                LogMsg( LOG_ERROR, "%s: ERROR socket %d select time out is %d but %" PRId64 " ms elapsed to %s", __func__,
                         sktHandle, iConnectTimeoutMs, TimeElapsedGmtMs( timeStartConnect ), ipAndPort.c_str() );
             }
 
-
-            if ( ( iResult > 0 ) && FD_ISSET( sktHandle, &sktSet ) )
+            if ( iResult > 0 )
             {
-                LogModule( eLogConnect, LOG_VERBOSE, "VxConnectToAddr: Connect Success skt %d to %s in %d sec",
-                           sktHandle, ipAndPort.c_str(), TimeElapsedGmtSec( timeStartConnect ));
+				// Socket selected for write
+				// Check if the socket is writable
+				int valopt = 0;
+				socklen_t len = sizeof(int);
+				if (getsockopt(sktHandle, SOL_SOCKET, SO_ERROR, (char*) & valopt, &len) < 0 ) 
+				{
+					rc = VxGetLastError();
+					if( retSktErr )
+					{
+						*retSktErr = rc;
+					}
 
-                return sktHandle;
+					LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d ERROR %d in getsockopt to %s in %d sec", __func__,
+                        sktHandle, rc, ipAndPort.c_str(), TimeElapsedGmtMs( timeStartConnect ) );
+					VxCloseSktNow( sktHandle );
+					sktHandle = INVALID_SOCKET;
+					break;
+				}
+				else 
+				{
+					if( valopt )
+					{
+						LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d valopt %d timeout %d ms to %s in %d sec", __func__,
+								   sktHandle, valopt, iConnectTimeoutMs, ipAndPort.c_str(), TimeElapsedGmtMs( timeStartConnect ) );
+						if( retSktErr )
+						{
+							#ifdef TARGET_OS_WINDOWS
+								* retSktErr = WSAETIMEDOUT;
+							#else
+								* retSktErr = ETIMEDOUT;
+							#endif // TARGET_OS_WINDOWS
+						}
+	
+						VxCloseSktNow( sktHandle );
+						sktHandle = INVALID_SOCKET;
+						break;
+					}
+					else
+					{
+						// Connection successful
+						LogModule( eLogConnect, LOG_VERBOSE, "%s: Connect Success skt %d to %s in %d sec", __func__,
+								   sktHandle, ipAndPort.c_str(), TimeElapsedGmtSec( timeStartConnect ) );
+						break;
+					}
+				} 
             }
-			else if( 0 == iResult && !FD_ISSET( sktHandle, &sktSet ) )
+			
+			if( 0 == iResult && !FD_ISSET( sktHandle, &sktSet ) )
 			{
 				// this means still in progress
 				int32_t timeElapsedSeconds = TimeElapsedGmtSec( timeStartConnect );
 				if( timeElapsedSeconds > MAX_CONNECT_SECONDS )
 				{
-					LogModule( eLogConnect, LOG_VERBOSE, "VxConnectTo: skt %d connect exceeded max timed out %d seconds.. canceling connect to %s",
-							   sktHandle, MAX_CONNECT_SECONDS, ipAndPort.c_str() );
-					if( nullptr != retSktErr )
+					LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d connect exceeded max timed out %d seconds.. canceling connect to %s",
+							   __func__, sktHandle, MAX_CONNECT_SECONDS, ipAndPort.c_str() );
+					if( retSktErr )
 					{
 						#ifdef TARGET_OS_WINDOWS
 							*retSktErr = WSAETIMEDOUT;

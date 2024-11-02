@@ -72,12 +72,12 @@ void AppletLog::setupApplet( void )
     getLogEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getLogEdit()->setReadOnly( true );
 
-    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardClicked() ) );
-    connect( ui.m_LogSettingsButton, SIGNAL(clicked()), this, SLOT( slotLogSettingButtonClick() ) );
+    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT(gotoWebsite()) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked()) );
+    connect( ui.m_LogSettingsButton, SIGNAL(clicked()), this, SLOT(slotLogSettingButtonClick()) );
 
-    connect( this, SIGNAL( signalLogMsg( const QString& ) ), this, SLOT( slotLogMsg( const QString& ) ) );
-    connect( this, SIGNAL( signalInfoMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );
+    connect( this, SIGNAL( signalLogMsg(const QString&)), this, SLOT(slotLogMsg(const QString&)) );
+    connect( this, SIGNAL( signalInfoMsg(const QString&)), this, SLOT(slotInfoMsg(const QString&)) );
 
     fillBasicInfo();
 }
@@ -106,7 +106,6 @@ void AppletLog::slotLogMsg( const QString& text )
 {
     getLogEdit()->appendPlainText( text ); // Adds the message to the widget
     getLogEdit()->verticalScrollBar()->setValue( getLogEdit()->verticalScrollBar()->maximum() ); // Scrolls to the bottom
-    //m_LogFile.write( text ); // Logs to file
 }
 
 //============================================================================
@@ -131,14 +130,14 @@ void AppletLog::slotCopyToClipboardClicked( void )
 //============================================================================
 void AppletLog::logMsg( const char* logMsg, ... )
 {
-    char as8Buf[ MAX_INFO_MSG_SIZE ];
-    va_list argList;
-    va_start( argList, logMsg );
-    vsnprintf( as8Buf, sizeof( as8Buf ), logMsg, argList );
-    as8Buf[ sizeof( as8Buf ) - 1 ] = 0;
-    va_end( argList );
+    std::array<char, MAX_INFO_MSG_SIZE> szBuffer;
+	va_list arg_ptr;
+	va_start(arg_ptr, logMsg);
+    vsnprintf(szBuffer.data(), MAX_INFO_MSG_SIZE, logMsg, arg_ptr);
+	szBuffer.data()[MAX_INFO_MSG_SIZE - 1] = 0;
+	va_end(arg_ptr);
 
-    onLogEvent( LOG_INFO, as8Buf );
+    onLogEvent( LOG_INFO, szBuffer.data() );
 }
 
 //============================================================================

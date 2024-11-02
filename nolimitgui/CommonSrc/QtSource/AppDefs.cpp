@@ -120,6 +120,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletTestAndDebug:	            return eMyIconDebug;
     case eAppletTestHostClient:	            return eMyIconDebug;
     case eAppletTestHostService:	        return eMyIconDebug;
+    case eAppletTestUpnp:	                return eMyIconDebug;
 
     case eAppletTheme:					    return eMyIconTheme;
 
@@ -308,6 +309,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletTestAndDebug:			    return QObject::tr( "Test And Debug" );
     case eAppletTestHostClient:			    return QObject::tr( "Test Host Client" );
     case eAppletTestHostService:			return QObject::tr( "Test Host Service" );
+    case eAppletTestUpnp:			        return QObject::tr( "Test UPNP Port Forward" );
 	case eAppletTheme:					    return QObject::tr( "Theme" );
 
     case eAppletUserConnections:			return QObject::tr( "User Connections" );

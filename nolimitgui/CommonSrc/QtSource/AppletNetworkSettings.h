@@ -94,8 +94,6 @@ protected:
     NetHostSetting              m_OriginalSettings;
     QTimer *                    m_UpdateTimer{ nullptr };
     QString                     m_OriginalNetworkKey;
-
-    bool                        m_OrigLogPortForward{ false };
 };
 
 

@@ -48,7 +48,7 @@ enum ELogModule
 	eLogStorage         = 0x0004, // 3
 	eLogAssets			= 0x0008, // 4
 
-	eLogUdp 		= 0x0010, // 5
+	eLogUdp 			= 0x0010, // 5
 	eLogConnect			= 0x0020, // 6 
 	eLogAcceptConn		= 0x0040, // 7
 	eLogRelay           = 0x0080, // 8
@@ -96,6 +96,11 @@ void LogModule2( ELogModule eLog, uint32_t u32MsgType, const char* msg );
 bool IsLogEnabled( ELogModule logModule );
 /// @brief enable/disable the given module
 void VxSetLogModuleEnable( ELogModule logModule, bool enable );
+
+/// @brief set all the log module flags
+void VxSetLogModuleFlags( uint64_t logModuleFlags );
+/// @brief return all the log module flags
+uint64_t VxGetLogModuleFlags( void );
 
 /// @brief enable/disable ALL logging
 void VxSetDebugLoggingEnable( bool enableDebug );

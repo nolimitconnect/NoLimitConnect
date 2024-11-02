@@ -33,6 +33,15 @@ protected slots:
     void slotJoinChatRoom();
     void slotJoinRandomConnect();
 
+    void slotPersonalNotes();
+    void slotLibrary();
+
+    void slotIdentity();
+    void slotAboutMe();
+    void slotStoryboard();
+
+    void slotWebCam();
+
     void gotoWebsite();
 
 protected:

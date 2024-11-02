@@ -147,6 +147,7 @@
 #include "AppletTestAndDebug.h"
 #include "AppletTestHostClient.h"
 #include "AppletTestHostService.h"
+#include "AppletTestUpnp.h"
 
 #include "AppletTheme.h"
 #include "AppletUploads.h"
@@ -480,6 +481,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletTestAndDebug:               if( launchAppletAllowed( eAppletTestAndDebug ) ) appletDialog = new AppletTestAndDebug( m_MyApp, parent ); break;
     case eAppletTestHostClient:             if( launchAppletAllowed( eAppletTestHostClient ) ) appletDialog = new AppletTestHostClient( m_MyApp, parent ); break;
     case eAppletTestHostService:            if( launchAppletAllowed( eAppletTestHostService ) ) appletDialog = new AppletTestHostService( m_MyApp, parent ); break;
+    case eAppletTestUpnp:                   if( launchAppletAllowed( eAppletTestUpnp ) ) appletDialog = new AppletTestUpnp( m_MyApp, parent ); break;
 
     case eAppletTheme:                      if( launchAppletAllowed( eAppletTheme ) ) appletDialog = new AppletTheme( m_MyApp, parent ); break;
 

@@ -111,6 +111,8 @@ public:
     std::string                 describePktHdr( void );
     static const char*          describePktType( uint16_t pktType );
 
+    bool						isValidPktHdr( void );
+
 private:
 	//=== vars ===//
 	VxGUID					    m_SrcOnlineId;

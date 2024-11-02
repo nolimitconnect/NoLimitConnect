@@ -29,7 +29,6 @@
 #include <NetLib/NetHostSetting.h>
 #include <NetLib/NetHostSettingDefs.h>
 #include <NetLib/VxGetRandomPort.h>
-#include <NetLib/VxPortForward.h>
 
 #include "ui_AppletNetworkSettings.h"
 
@@ -47,6 +46,7 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
     ui.m_NetworkKeyInfoButton->setIcon( eMyIconInformation );
     ui.m_ConnectTestUrlInfoButton->setIcon( eMyIconInformation );
     ui.m_ConnectIsOpenInfoButton->setIcon( eMyIconInformation );
+    ui.m_ConnectIsOpenInfoButton->setFixedSize( eButtonSizeMedium );
     ui.m_Ipv6InfoButton->setIcon( eMyIconInformation );
 
     ui.m_SaveSettingsButton->setIcon( eMyIconFileSave );
@@ -58,10 +58,6 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
 
     connectSignals();
 
-#if defined(DEBUG)
-    m_OrigLogPortForward = IsLogEnabled( eLogPortForward );
-#endif // defined(DEBUG)
-
 	m_MyApp.activityStateChange( this, true );
     fillMyNodeUrl( ui.m_NodeUrlLabel );
     m_UpdateTimer->setInterval( 2000 );
@@ -71,13 +67,6 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
 //============================================================================
 AppletNetworkSettings::~AppletNetworkSettings()
 {
-    #if defined(DEBUG)
-    if( m_OrigLogPortForward != IsLogEnabled( eLogPortForward ) )
-    {
-        VxSetLogModuleEnable( eLogPortForward, m_OrigLogPortForward );
-    }
-    #endif // defined(DEBUG)
-
     m_MyApp.activityStateChange( this, false );
 }
 
@@ -412,7 +401,7 @@ EFirewallTestType AppletNetworkSettings::getFirewallTestType( void )
 void AppletNetworkSettings::slotRandomPortButtonClick( void )
 {
     uint16_t u16TcpPort = VxGetRandomTcpPort();
-    ui.PortEdit->setText( std::to_string(u16TcpPort).c_str() );
+    ui.PortEdit->setText( std::to_string( u16TcpPort ).c_str() );
     updateSettingsFromDlg();
 }
 
@@ -443,19 +432,7 @@ void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
 //============================================================================
 void AppletNetworkSettings::slotTestUpnpButtonClick( void )
 {
-    uint16_t u16Port = ui.PortEdit->text().toUShort();
-    if( 0 != u16Port && ui.m_UseUpnpCheckBox->isChecked() )
-    {
-        m_MyApp.launchApplet( eAppletLogView, getParentPageFrame() );
-        updateSettingsFromDlg();
-        VxPortForward::setEnablePortForward( true );
-        VxPortForward::addPortForward( false, m_MyApp.getEngine().getNetStatusAccum().getLocalIpAddress(), u16Port );
-        VxPortForward::listPortForward( false );
-    }
-    else
-    {
-        QMessageBox::information( this, QObject::tr( "UPNP Error" ), QObject::tr( "UPNP must be enabled and Listen Port cannot be zero." ) );
-    }
+    m_MyApp.launchApplet( eAppletTestUpnp, getContentFrameOfOppositePageFrame() );
 }
 
 //============================================================================

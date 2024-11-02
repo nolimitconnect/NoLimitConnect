@@ -297,6 +297,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestHostClient.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestHostService.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTheme.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUploads.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserConnections.cpp" />
@@ -612,6 +613,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -1043,6 +1045,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestAndDebug.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestHostClient.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestHostService.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestUpnp.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTheme.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUploads.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUserConnections.ui" />

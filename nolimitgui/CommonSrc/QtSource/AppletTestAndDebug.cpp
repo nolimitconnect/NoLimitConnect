@@ -53,13 +53,10 @@ QPlainTextEdit *            AppletTestAndDebug::getInfoEdit( void )     { return
 AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_TEST_AND_DEBUG, app, parent )
 , ui(*(new Ui::AppletTestAndDebugUi))
-, m_SpinnerTimer( new QTimer( this ) )
 {
     setAppletType( eAppletTestAndDebug );
     ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
-
-    m_SpinnerTimer->setInterval( 5000 );
 
     getInfoEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getInfoEdit()->setReadOnly( true );
@@ -151,9 +148,6 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_TestUrlsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotNewUrlSelected(int)) );
     connect( &m_MyApp, SIGNAL(signalRunTestStatus(QString,ERunTestStatus,QString)),
         this, SLOT(slotRunTestStatus(QString,ERunTestStatus,QString)) );
-
-    connect( ui.m_TestSpinnerButton, SIGNAL(clicked()), this, SLOT(slotTestSpinnerButtonClicked()) );
-    connect( m_SpinnerTimer, SIGNAL(timeout()), this, SLOT(slotTestSpinnerTimeout()) );
 
     updateDlgFromSettings();
 
@@ -594,33 +588,4 @@ void AppletTestAndDebug::slotDeleteDbButtonClicked( void )
 	{
 		popupMenu->showDeleteDbMenu();
 	}
-}
-
-//============================================================================
-void AppletTestAndDebug::slotTestSpinnerButtonClicked( void )
-{
-    if( m_BusySpinner )
-    {
-        return;
-    }
-
-    m_BusySpinner = new WaitingSpinnerWidget( this );
-    m_BusySpinner->startWaiting(  m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline ) );
-    m_SpinnerTimer->start();
-}
-
-//============================================================================
-void AppletTestAndDebug::slotTestSpinnerTimeout( void )
-{
-    m_SpinnerTimer->stop();
-    if( !m_BusySpinner )
-	{
-		LogMsg( LOG_ERROR, "AppletTestAndDebug::%s Busy Spinner already exists", __func__ );
-		return;
-	}
-
-	m_BusySpinner->stopWaiting();
-	m_BusySpinner->close();
-	m_BusySpinner->deleteLater();
-	m_BusySpinner = nullptr;
 }

@@ -290,6 +290,20 @@ void VxSetLogModuleEnable( ELogModule logModule, bool enable )
 }
 
 //============================================================================
+/// @brief set all the log module flags
+void VxSetLogModuleFlags( uint64_t logModuleFlags )
+{
+    g_ModuleEnableLoggingFlags = logModuleFlags;
+}
+
+//============================================================================
+/// @brief return all the log module flags
+uint64_t VxGetLogModuleFlags( void )
+{
+    return g_ModuleEnableLoggingFlags;
+}
+
+//============================================================================
 NLC_BEGIN_CDECLARES
 void LogAppendLineFeed( char* buf, size_t sizeOfBuf );
 void                    default_log_output( void* userData, uint32_t u32MsgType, const char* pLogMsg );

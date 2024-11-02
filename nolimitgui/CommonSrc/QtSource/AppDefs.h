@@ -181,6 +181,7 @@ enum EApplet
 
     eAppletTestHostClient,
     eAppletTestHostService,
+    eAppletTestUpnp,
 
     eAppletLog,                     // logging window.. shown in other frame
     eAppletLogSettings,
