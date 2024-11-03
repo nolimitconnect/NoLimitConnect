@@ -241,11 +241,9 @@ RCODE VxSktConnectSimple::sendData(	const char*		pData,					// data to send
 RCODE VxSktConnectSimple::recieveData(	char *			pRetBuf,				// buffer to receive data into
 										int				iBufLenIn,				// length of buffer
 										int *			iRetBytesReceived,		// number of bytes actually received
-										int				iTimeoutMilliSeconds,	// milliseconds before receive attempt times out ( 0 = dont wait )
-										bool			bAbortIfCrLfCrLf,		// if true then abort receive when \r\n\r\n is received
-										bool *			pbRetGotCrLfCrLf )		// if received \r\n\r\n set to true
+										int				iTimeoutMilliSeconds )	// milliseconds before receive attempt times out ( 0 = dont wait )
 {
-	RCODE rc = VxReceiveSktData( m_Socket, pRetBuf, iBufLenIn, iRetBytesReceived, iTimeoutMilliSeconds, bAbortIfCrLfCrLf, pbRetGotCrLfCrLf );
+	RCODE rc = VxReceiveSktData( m_Socket, pRetBuf, iBufLenIn, iRetBytesReceived, iTimeoutMilliSeconds );
     setLastError( rc );
     if( VxIsFatalSktError( rc ) )
     {

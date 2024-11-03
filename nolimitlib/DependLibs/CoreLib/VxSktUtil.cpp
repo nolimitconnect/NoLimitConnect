@@ -1801,152 +1801,143 @@ RCODE VxReceiveSktData( SOCKET&			sktHandle,
 						char *			pRetBuf,				// buffer to receive data into
 						int				iBufLenIn,				// length of buffer
 						int *			iRetBytesReceived,		// number of bytes actually received
-						int				iTimeoutMilliSeconds,	// milliseconds before receive attempt times out ( 0 = dont wait )
-						bool			bAbortIfCrLfCrLf,		// if true then abort receive when \r\r is received
-						bool *			pbRetGotCrLfCrLf )		// if received \r\r set to true
+						int				iTimeoutMilliSeconds )	// milliseconds before receive attempt times out ( 0 = dont wait )
 {
 	RCODE m_rcLastError = 0; // clear out any previous error
 	*iRetBytesReceived = 0;
-	if ( pbRetGotCrLfCrLf )
-	{
-		*pbRetGotCrLfCrLf = 0;
-	}
-
-	int iBufLen = iBufLenIn;
-	if ( bAbortIfCrLfCrLf )
-	{
-		// reserve a little space for /r/n etc if doing strings.. else try to do exact amount
-		iBufLen -= 8;
-	}
 
 	int	iRecvResult;
 	vx_assert( pRetBuf );
-	vx_assert( iBufLen > 0 );
+	vx_assert( iBufLenIn > 0 );
 	vx_assert( iRetBytesReceived );
+	// use non blocking
 	::VxSetSktBlocking( sktHandle, false );
 
-	VxTimer		oTimer;
+	int bufLenRemaining = iBufLenIn;
+	int dataLenRxed = 0;
+
     int64_t timeStart = GetApplicationAliveMs();
-	do
+	while( !iTimeoutMilliSeconds || (iTimeoutMilliSeconds > GetApplicationAliveMs() - timeStart) )
 	{
-		iRecvResult = recv( sktHandle,		// socket
-							pRetBuf,		// buffer to read into
-							iBufLen,		// length of buffer space
-							0 );			// flags
+		iRecvResult = recv( sktHandle,			// socket
+							pRetBuf,			// buffer to read into
+							bufLenRemaining,	// length of buffer space
+							0 );				// flags
 
-		if ( 0 > iRecvResult )
-		{
-			iRecvResult = VxGetLastError();
-			if( !VxIsFatalSktError( iRecvResult ) )
-			{
-				// see if have timeout value
-				if ( iTimeoutMilliSeconds )
-				{
-					if ( iTimeoutMilliSeconds < oTimer.elapsedMs() )
-					{
-						// timeout
-						break;
-					}
-					else
-					{
-						VxSleep( 20 );
-						continue;
-					}
-				}
-				else
-				{
-					// no timeout.. if any data already received then bail with the data received
-					if ( *iRetBytesReceived > 0 )
-					{
-						break;
-					}
-				}
-
-				VxSleep( 50 );
-				continue;
-			}
-
-			// not in progress so is a bad error
-			m_rcLastError = iRecvResult;
-			return m_rcLastError;
-		}
-
-		if ( INVALID_SOCKET == sktHandle )
+		if( INVALID_SOCKET == sktHandle )
 		{
 			m_rcLastError = VxGetLastError();
-			LogMsg( LOG_INFO, "VxSktCode:recv error %d %s thread 0x%x", m_rcLastError, VxDescribeSktError( m_rcLastError ), VxGetCurrentThreadId() );
+			LogMsg( LOG_INFO, "%s :recv error %d %s", __func__, m_rcLastError, VxDescribeSktError( m_rcLastError ) );
 			return m_rcLastError;
 		}
 
-		if ( 0 == iRecvResult )
+		if( 0 > iRecvResult )
 		{
-			// may not of had time to get some data
-			// see if have timeout value
-			if ( iTimeoutMilliSeconds )
+			m_rcLastError = VxGetLastError();
+			if( VxIsFatalSktError( m_rcLastError ) )
 			{
-				if ( iTimeoutMilliSeconds < oTimer.elapsedMs() )
+				return m_rcLastError;
+			}
+
+			// see if have timeout value
+			if( iTimeoutMilliSeconds )
+			{
+				if( iTimeoutMilliSeconds < GetApplicationAliveMs() - timeStart )
 				{
 					// timeout
 					break;
 				}
 				else
 				{
-					VxSleep( 20 );
+					VxSleep( 50 );
 					continue;
 				}
 			}
-		}
-
-		// got some data
-		*iRetBytesReceived += iRecvResult;
-		iBufLen -= iRecvResult;
-		if ( bAbortIfCrLfCrLf )								// if abort when \r\r is received 
-		{
-			// null terminate the string
-			pRetBuf[ iRecvResult ] = 0;
-			if ( strstr( pRetBuf, "\r\r" ) )
+			else
 			{
-				// all done
-				if ( pbRetGotCrLfCrLf )
-				{
-					*pbRetGotCrLfCrLf = true;
-				}
+				// timeout with 0 timeout
+				break;
 			}
 		}
-
-		// advance to end of received data for next receive
-		pRetBuf += iRecvResult;
-		if( ( 0 >= iBufLen ) ||
-			( pbRetGotCrLfCrLf && *pbRetGotCrLfCrLf ) )
+		else if( 0 == iRecvResult )
 		{
-			// all full or got a CrLfCrLf
-			break;
-		}
-
-		if( iTimeoutMilliSeconds )
-		{
-			if( iTimeoutMilliSeconds < oTimer.elapsedMs() )
+			// may not of had time to get some data
+			// see if have timeout value
+			if( iTimeoutMilliSeconds )
 			{
-				// timeout
-				break;
+				if( iTimeoutMilliSeconds < GetApplicationAliveMs() - timeStart )
+				{
+					// timeout
+					break;
+				}
+				else
+				{
+					VxSleep( 50 );
+					continue;
+				}
 			}
 			else
 			{
-				continue;
+				// timeout with 0 timeout
+				break;
 			}
 		}
+		else
+		{
+			// got some data
+			// advance to end of received data for next receive
+			bufLenRemaining -= iRecvResult;
+			dataLenRxed += iRecvResult;
+			pRetBuf += iRecvResult;
 
-        if( iRecvResult > 0 )
-        {
-            // reset timeout if we have recieved at least some data this pass
-            oTimer.startTimer();
-        }
-	} while ( ( iRecvResult > 0 ) || ( iTimeoutMilliSeconds && ( iTimeoutMilliSeconds > oTimer.elapsedMs() ) ) );
+			if( bufLenRemaining < 0 )
+			{
+				// should not happen
+				m_rcLastError = VxGetLastError();
+				if( !m_rcLastError )
+				{
+					m_rcLastError = -1;
+				}
 
-    int64_t timeEnd = GetApplicationAliveMs();
-    LogModule( eLogSktData, LOG_VERBOSE, "VxReceiveSktData len %d in %" PRId64 " ms with timeout %d ms thread 0x%x", iRecvResult, timeEnd - timeStart, iTimeoutMilliSeconds, VxGetCurrentThreadId() );
+				LogMsg( LOG_INFO, "%s : invalid return value %d resulted in buf overflow %d rc = %d %s",
+						__func__, iRecvResult, bufLenRemaining, m_rcLastError, VxDescribeSktError( m_rcLastError ) );
+				return m_rcLastError;
+			}
+			else if( bufLenRemaining )
+			{
+				if( iTimeoutMilliSeconds )
+				{
+					if( iTimeoutMilliSeconds < GetApplicationAliveMs() - timeStart )
+					{
+						// timeout
+						break;
+					}
+					else
+					{
+						VxSleep( 50 );
+						continue;
+					}
+				}
+				else
+				{
+					// timeout with 0 timeout
+					break;
+				}
+			}
+			else
+			{
+				// no more room in buffer
+				break;
+			}
+		}
+	}
 
-	return m_rcLastError;
+	// fill results and return 0
+	*iRetBytesReceived = dataLenRxed;
+
+	int64_t timeEnd = GetApplicationAliveMs();
+    LogModule( eLogSktData, LOG_VERBOSE, "VxReceiveSktData rxed len %d in %" PRId64 " ms with timeout %d ms thread 0x%x", dataLenRxed, timeEnd - timeStart, iTimeoutMilliSeconds, VxGetCurrentThreadId() );
+	return 0;
 }
 
 //============================================================================

@@ -884,9 +884,7 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	netServConn->recieveData( rxPktBuf.data(),			// data buffer to read into
 							  pktHdrLen,				// length of data	
 							  &iRxed,					// number of bytes actually received
-							  rxHdrTimeout,				// timeout attempt to receive
-							  false, 					// if true then abort receive when \r\n\r\n is received
-							  nullptr );
+							  rxHdrTimeout );			// timeout attempt to receive
 
 	if( !netServConn->isConnected() )
 	{
@@ -951,12 +949,10 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 	{
 		// get the remaing pkt data
 		int rxedLen2{ 0 };
-		netServConn->recieveData(	&rxPktBuf.data()[iRxed],		// data buffer to read into
-									remainingLen,			// length of data	
-									&rxedLen2,				// number of bytes actually received
-									rxDataTimeout,			// timeout attempt to receive
-									false, 					// if true then abort receive when \r\n\r\n is received
-									nullptr );	
+		netServConn->recieveData( &rxPktBuf.data()[iRxed],		// data buffer to read into
+								  remainingLen,			// length of data	
+								  &rxedLen2,				// number of bytes actually received
+								  rxDataTimeout );			// timeout attempt to receive
 		if( rxedLen2 != remainingLen )
 		{
 			LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d timeout %3.3f failed to get remaining pkt len %d", 

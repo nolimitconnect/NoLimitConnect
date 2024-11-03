@@ -111,13 +111,11 @@ void							VxRefreshDefaultIps( void );
 bool							VxCanConnectUsingIPv6( void );
 SOCKET							VxConnectToIPv6( const char* ipv6, uint16_t u16Port, int iTimeoutMs = SKT_IPV6_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr );
 //! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-RCODE							VxReceiveSktData( SOCKET&			oSkt,
-												  char *			pRetBuf,				// buffer to receive data into
-												  int				iBufLenIn,				// length of buffer
-                                                  int *             iRetBytesReceived,		// number of bytes actually received
-												  int				iTimeoutMilliSeconds = SKT_RECEIVE_TIMEOUT,	// milliseconds before receive attempt times out ( 0 = do not wait )
-                                                  bool              bAbortIfCrLfCrLf = false,		// if true then abort receive when \r\n\r\n is received
-												  bool *			pbRetGotCrLfCrLf = nullptr );		// if received \r\n\r\n set to truevoid							VxFillHints( struct addrinfo& oHints, bool bUdpSkt = false, bool ipv6Only = false );
+RCODE							VxReceiveSktData( SOCKET& oSkt,
+												  char* pRetBuf,				// buffer to receive data into
+												  int	iBufLenIn,				// length of buffer
+												  int*  iRetBytesReceived,		// number of bytes actually received
+												  int	iTimeoutMilliSeconds = SKT_RECEIVE_TIMEOUT );	// milliseconds before receive attempt times out ( 0 = do not wait )
 
 bool							VxBindSkt( SOCKET oSocket, struct sockaddr_storage * poAddr );
 bool							VxIsIpPortInUse( uint16_t u16Port, const char* pLocalIp = nullptr, bool useBind = false);

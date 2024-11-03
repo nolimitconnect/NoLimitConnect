@@ -66,12 +66,10 @@ public:
 											int				timeoutMs = SKT_SEND_TIMEOUT );	// timeout attempt to send ( 0 = don't timeout )
 
 	//! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-	virtual RCODE				recieveData(	char *		pRetDataBuf,					// data buffer to read into
-												int			iBufLen,						// length of data	
-												int *		iRetBytesReceived,				// number of bytes actually received
-												int			timeoutMs = SKT_SEND_TIMEOUT,	// timeout attempt to received
-												bool		bAbortIfCrLfCrLf = false,		// if true then abort receive when \r\n\r\n is received
-												bool *		pbRetGotCrLfCrLf = NULL );		// if received \r\n\r\n set to true
+	virtual RCODE				recieveData( char* pRetDataBuf,					// data buffer to read into
+											 int   iBufLen,						// length of data	
+											 int*  iRetBytesReceived,				// number of bytes actually received
+											 int   timeoutMs = SKT_RECEIVE_TIMEOUT );	// timeout attempt to received
 
 	virtual void				closeSkt( int iInstance = 0 );
 
@@ -100,7 +98,6 @@ public:
 
 	InetAddrAndPort				m_LclIp;				// local ip address
 	InetAddrAndPort				m_RmtIp;				// remote (peer) ip address
-
 
 	VxKey						m_RxKey;				        // encryption key for receive
 	VxCrypto					m_RxCrypto;			            // encryption object for receive
