@@ -17,8 +17,6 @@
 
 #include <array>
 
-bool VxPortForward::m_ForwardEnable = false;
-
 namespace // anonymouse
 {
 	const int MAX_UPNP_CMD_ARGS = 10;
@@ -35,7 +33,7 @@ namespace // anonymouse
 			std::string strExePathAndFileName;
 			if( 0 == VxFileUtil::getExecuteFullPathAndName( strExePathAndFileName ) && !strExePathAndFileName.empty() )
 			{
-				LogModule( eLogPortForward, LOG_DEBUG, "UpnpCmdLine app exe: %s", strExePathAndFileName.c_str() );
+				LogModule( eLogPortForward, LOG_VERBOSE, "UpnpCmdLine app exe: %s", strExePathAndFileName.c_str() );
 				addArg( strExePathAndFileName.c_str() );
 			}
 			else
@@ -77,7 +75,31 @@ namespace // anonymouse
 		std::vector<std::string> cmdParams;
 	};
 
-} 
+} // namespace
+
+bool VxPortForward::m_ForwardEnable = false;
+bool VxPortForward::m_IsIpv6 = false;
+std::string VxPortForward::m_IpAddr("");
+uint16_t VxPortForward::m_Port = 0;
+std::thread VxPortForward::runUpnpThread;
+
+//============================================================================
+void VxPortForward::waitForThreadToFinish( void )
+{
+	if( runUpnpThread.joinable() )
+	{
+		runUpnpThread.join();
+	}
+}
+
+//============================================================================
+void VxPortForward::killThread( void )
+{
+	if( runUpnpThread.joinable() )
+	{
+		runUpnpThread.join();
+	}
+}
 
 //============================================================================
 void VxPortForward::setEnablePortForward( bool enable )
@@ -93,7 +115,7 @@ bool VxPortForward::getEnablePortForward( void )
 }
 
 //============================================================================
-bool VxPortForward::addPortForward( bool ipv6, std::string ipAddr, uint16_t externPort )
+bool VxPortForward::addPortForward( bool ipv6, std::string ipAddr, uint16_t port, bool runInThread )
 {
 	if( !m_ForwardEnable )
 	{
@@ -101,27 +123,53 @@ bool VxPortForward::addPortForward( bool ipv6, std::string ipAddr, uint16_t exte
 		return false;
 	}
 
-	if( externPort < 80 )
+	if( port < 80 )
 	{
-		LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::addPortForward invalid port %s", externPort );
+		LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::addPortForward invalid port %s", port );
 		return false;
 	}
 
-	UpnpCmdLine upnpCmdLine;
-	upnpCmdLine.setupUpnpCmdLine( ipv6 );
-	
-	upnpCmdLine.addArg( "-r" );
+	waitForThreadToFinish();
+	bool result = false;
 
-	std::string port = std::to_string( externPort );
+	m_IsIpv6 = ipv6;
+	m_Port = port;
+	if( runInThread )
+	{
+		runUpnpThread = std::thread( &doAddPortForward );
+		return true;
+	}
+	else
+	{
+		return doAddPortForward();
+	}
+}
+
+//============================================================================
+bool VxPortForward::doAddPortForward( void )
+{
+	LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::%s removing old port mapping for port %d ", __func__, m_Port );
+	doRemovePortForward();
+
+	LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::%s adding new port mapping for port %d ", __func__, m_Port );
+	UpnpCmdLine upnpCmdLine;
+	upnpCmdLine.setupUpnpCmdLine( m_IsIpv6 );
+	
+	upnpCmdLine.addArg( "-a" );
+
+	upnpCmdLine.addArg( m_IpAddr.c_str() );
+	
+	std::string port = std::to_string( m_Port );
+	upnpCmdLine.addArg( port.c_str() );
 	upnpCmdLine.addArg( port.c_str() );
 
-	upnpCmdLine.addArg( "TCP" );
+	upnpCmdLine.addArg( "tcp" );
 
 	return upnpCmdLine.runCmd();
 }
 
 //============================================================================
-bool VxPortForward::removePortForward( bool ipv6, uint16_t port )
+bool VxPortForward::removePortForward( bool ipv6, uint16_t port, bool runInThread )
 {
 	if( !m_ForwardEnable )
 	{
@@ -129,12 +177,29 @@ bool VxPortForward::removePortForward( bool ipv6, uint16_t port )
 		return false;
 	}
 
+	waitForThreadToFinish();
+	m_IsIpv6 = ipv6;
+	m_Port = port;
+	if( runInThread )
+	{
+		runUpnpThread = std::thread( &doRemovePortForward );
+		return true;
+	}
+	else
+	{
+		return doRemovePortForward();
+	}
+}
+
+//============================================================================
+bool VxPortForward::doRemovePortForward( void )
+{
 	UpnpCmdLine upnpCmdLine;
-	upnpCmdLine.setupUpnpCmdLine( ipv6 );
+	upnpCmdLine.setupUpnpCmdLine( m_IsIpv6 );
 
 	upnpCmdLine.addArg( "-d" );
 
-	std::string portStr = std::to_string( port );
+	std::string portStr = std::to_string( m_Port );
 	upnpCmdLine.addArg( portStr.c_str() );
 
 	upnpCmdLine.addArg( "tcp" );
@@ -144,17 +209,37 @@ bool VxPortForward::removePortForward( bool ipv6, uint16_t port )
 }
 
 //============================================================================
-bool VxPortForward::listPortForward( bool ipv6 )
+bool VxPortForward::listPortForward( std::string ipAddr, bool ipv6, bool runInThread )
 {
 	if( !m_ForwardEnable )
 	{
 		LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::listPortForward not enabled " );
 	}
 
+	waitForThreadToFinish();
+	m_IsIpv6 = ipv6;
+	m_IpAddr = ipAddr;
+	if( runInThread )
+	{
+		runUpnpThread = std::thread( &doListPortForward );
+		return true;
+	}
+	else
+	{
+		return doListPortForward();
+	}
+}
+
+//============================================================================
+bool VxPortForward::doListPortForward( void )
+{
 	UpnpCmdLine upnpCmdLine;
-	upnpCmdLine.setupUpnpCmdLine( ipv6 );
+	upnpCmdLine.setupUpnpCmdLine( m_IsIpv6 );
 
 	upnpCmdLine.addArg( "-l" );
+	upnpCmdLine.addArg( m_IpAddr.c_str() );
+	upnpCmdLine.addArg( "TCP");
+
 	return upnpCmdLine.runCmd();
 }
 

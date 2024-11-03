@@ -14,8 +14,6 @@
 #include "portlistingparse.h"
 #include "upnpreplyparse.h"
 
-#include "config_libminiupnpc.h"
-
 static UNSIGNED_INTEGER
 my_atoui(const char * s)
 {
@@ -317,7 +315,7 @@ UPNP_GetExternalIPAddress(const char * controlURL,
 	}
 	/*DisplayNameValueList(buffer, bufsize);*/
 	ParseNameValue(buffer, bufsize, &pdata);
-	free(buffer); 
+	free(buffer);
 	/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "external ip = %s\n", GetValueFromNameValueList(&pdata, "NewExternalIPAddress") );*/
 	p = GetValueFromNameValueList(&pdata, "NewExternalIPAddress");
 	if(p) {
@@ -390,7 +388,7 @@ UPNP_AddPortMapping(const char * controlURL, const char * servicetype,
 	free(buffer);
 	resVal = GetValueFromNameValueList(&pdata, "errorCode");
 	if(resVal) {
-		/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddPortMapping errorCode = '%s'\n", resVal); */
+		/*LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "AddPortMapping errorCode = '%s'\n", resVal); */
 		ret = UPNPCOMMAND_UNKNOWN_ERROR;
 		sscanf(resVal, "%d", &ret);
 	} else {
@@ -1048,7 +1046,7 @@ UPNP_AddPinhole(const char * controlURL, const char * servicetype,
 	resVal = GetValueFromNameValueList(&pdata, "errorCode");
 	if(resVal)
 	{
-		/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddPortMapping errorCode = '%s'\n", resVal);*/
+		/*LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "AddPortMapping errorCode = '%s'\n", resVal);*/
 		ret = UPNPCOMMAND_UNKNOWN_ERROR;
 		sscanf(resVal, "%d", &ret);
 	}
@@ -1092,7 +1090,7 @@ UPNP_UpdatePinhole(const char * controlURL, const char * servicetype,
 	resVal = GetValueFromNameValueList(&pdata, "errorCode");
 	if(resVal)
 	{
-		/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddPortMapping errorCode = '%s'\n", resVal); */
+		/*LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "AddPortMapping errorCode = '%s'\n", resVal); */
 		ret = UPNPCOMMAND_UNKNOWN_ERROR;
 		sscanf(resVal, "%d", &ret);
 	}
@@ -1238,4 +1236,3 @@ UPNP_GetPinholePackets(const char * controlURL, const char * servicetype,
 	ClearNameValueList(&pdata);
 	return ret;
 }
-

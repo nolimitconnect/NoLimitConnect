@@ -12,8 +12,6 @@
 #define USE_GETHOSTBYNAME
 #endif
 
-#include "config_libminiupnpc.h"
-
 #include <string.h>
 #include <stdio.h>
 #ifdef _WIN32
@@ -21,7 +19,7 @@
 #include <ws2tcpip.h>
 #include <io.h>
 #define MAXHOSTNAMELEN 64
-#define snprintf _snprintf
+#include "win32_snprintf.h"
 #define herror
 #define socklen_t int
 #else /* #ifdef _WIN32 */
@@ -43,18 +41,13 @@
 #include <sys/select.h>
 #endif /* #else _WIN32 */
 
-/* definition of PRINT_SOCKET_ERROR */
-#ifdef _WIN32
-#define PRINT_SOCKET_ERROR(x)    LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Socket error: %s, %d\n", x, WSAGetLastError());
-#else
-#define PRINT_SOCKET_ERROR(x) perror(x)
-#endif
-
 #if defined(__amigaos__) || defined(__amigaos4__)
-#define herror(A) LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%s\n", A)
+#define herror(A) LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "%s\n", A)
 #endif
 
 #include "connecthostport.h"
+
+#include <CoreLib/VxDebug.h>
 
 #ifndef MAXHOSTNAMELEN
 #define MAXHOSTNAMELEN 64
@@ -64,7 +57,7 @@
  * return a socket connected (TCP) to the host and port
  * or -1 in case of error */
 SOCKET connecthostport(const char * host, unsigned short port,
-                    unsigned int scope_id)
+                       unsigned int scope_id)
 {
 	SOCKET s;
 	int n;
@@ -205,7 +198,7 @@ SOCKET connecthostport(const char * host, unsigned short port,
 		if(!ISINVALID(s))
 			closesocket(s);
 #ifdef DEBUG
-		printf("ai_family=%d ai_socktype=%d ai_protocol=%d (PF_INET=%d, PF_INET6=%d)\n",
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "ai_family=%d ai_socktype=%d ai_protocol=%d (PF_INET=%d, PF_INET6=%d)\n",
 		       p->ai_family, p->ai_socktype, p->ai_protocol, PF_INET, PF_INET6);
 #endif
 		s = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
@@ -291,4 +284,3 @@ SOCKET connecthostport(const char * host, unsigned short port,
 #endif /* #ifdef USE_GETHOSTBYNAME */
 	return s;
 }
-

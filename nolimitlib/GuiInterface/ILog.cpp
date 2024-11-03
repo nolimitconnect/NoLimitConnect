@@ -43,31 +43,31 @@ void ILog::setCoreLogLevel( int level )
     switch( level )
     {
     case ILOG_LEVEL_INFO:
-        VxSetLogPriorityMask( LOG_STATUS | LOG_INFO | LOG_DEBUG | LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL );
+        VxSetLogLevelFlags( LOG_STATUS | LOG_INFO | LOG_DEBUG | LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL );
         break;
     case ILOG_LEVEL_FATAL:
-        VxSetLogPriorityMask( LOG_FATAL | LOG_INFO );
+        VxSetLogLevelFlags( LOG_FATAL | LOG_INFO );
         break;
     case ILOG_LEVEL_ASSERT:
-        VxSetLogPriorityMask( LOG_ASSERT | LOG_FATAL | LOG_INFO );
+        VxSetLogLevelFlags( LOG_ASSERT | LOG_FATAL | LOG_INFO );
         break;
     case ILOG_LEVEL_SEVERE:
-        VxSetLogPriorityMask( LOG_ASSERT | LOG_SEVERE | LOG_FATAL | LOG_INFO );
+        VxSetLogLevelFlags( LOG_ASSERT | LOG_SEVERE | LOG_FATAL | LOG_INFO );
         break;
     case ILOG_LEVEL_ERROR:
-        VxSetLogPriorityMask( LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL | LOG_INFO );
+        VxSetLogLevelFlags( LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL | LOG_INFO );
         break;
     case ILOG_LEVEL_WARN:
-        VxSetLogPriorityMask( LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL | LOG_INFO );
+        VxSetLogLevelFlags( LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL | LOG_INFO );
         break;
     case ILOG_LEVEL_DEBUG:
-        VxSetLogPriorityMask( LOG_DEBUG | LOG_ERROR | LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL );
+        VxSetLogLevelFlags( LOG_DEBUG | LOG_ERROR | LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL );
         break;
     case ILOG_LEVEL_VERBOSE:
-        VxSetLogPriorityMask( LOG_VERBOSE | LOG_STATUS | LOG_INFO | LOG_DEBUG | LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL );
+        VxSetLogLevelFlags( LOG_VERBOSE | LOG_STATUS | LOG_INFO | LOG_DEBUG | LOG_WARN | LOG_ERROR | LOG_ASSERT | LOG_SEVERE | LOG_FATAL );
         break;
     default:
-        VxSetLogPriorityMask( 0 );
+        VxSetLogLevelFlags( 0 );
         break;
     }
 }

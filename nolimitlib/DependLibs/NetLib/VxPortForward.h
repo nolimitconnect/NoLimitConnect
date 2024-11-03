@@ -12,22 +12,37 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <mutex>
+#include <thread>
 
 class VxPortForward
 {
 public:
-	VxPortForward() = default;
-	~VxPortForward() = default;
+	VxPortForward();
+	~VxPortForward();
 
 	static void setEnablePortForward( bool enable );
 	static bool getEnablePortForward( void );
 
+	static bool addPortForward( bool ipv6, std::string ipAddr, uint16_t port, bool runInThread = false );
+	static bool removePortForward( bool ipv6, uint16_t port, bool runInThread = false );
 
-	static bool addPortForward( bool ipv6, std::string ipAddr, uint16_t externPort );
-	static bool removePortForward( bool ipv6, uint16_t port );
+	static bool listPortForward( std::string ipAddr, bool ipv6 = false, bool runInThread = false );
 
-	static bool listPortForward( bool ipv6 = false );
+protected:
+	static bool doAddPortForward( void );
+	static bool doRemovePortForward( void );
+	static bool doListPortForward( void );
 
+	static void waitForThreadToFinish( void );
+	static void killThread( void );
 
 	static bool m_ForwardEnable;
+
+	static bool m_IsIpv6;
+	static std::string m_IpAddr;
+	static uint16_t m_Port;
+
+	static std::mutex runCmdMutex;
+	static std::thread runUpnpThread;
 };

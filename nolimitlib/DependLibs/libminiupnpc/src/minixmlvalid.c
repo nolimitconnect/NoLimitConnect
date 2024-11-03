@@ -6,8 +6,6 @@
  *
  * (c) 2006-2011 Thomas Bernard */
 
-#include "config_libminiupnpc.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

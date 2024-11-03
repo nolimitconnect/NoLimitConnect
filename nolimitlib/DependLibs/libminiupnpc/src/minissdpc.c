@@ -1,15 +1,11 @@
-/* $Id: minissdpc.c,v 1.49 2021/05/13 11:00:36 nanard Exp $ */
+/* $Id: minissdpc.c,v 1.51 2024/05/16 00:12:05 nanard Exp $ */
 /* vim: tabstop=4 shiftwidth=4 noexpandtab
  * Project : miniupnp
  * Web : http://miniupnp.free.fr/ or https://miniupnp.tuxfamily.org/
  * Author : Thomas BERNARD
- * copyright (c) 2005-2021 Thomas Bernard
+ * copyright (c) 2005-2024 Thomas Bernard
  * This software is subjet to the conditions detailed in the
  * provided LICENCE file. */
-/*#include <syslog.h>*/
-
-#include "config_libminiupnpc.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -24,8 +20,7 @@
 #include <ws2tcpip.h>
 #include <io.h>
 #include <iphlpapi.h>
-#include <winsock2.h>
-#define snprintf _snprintf
+#include "win32_snprintf.h"
 #if !defined(_MSC_VER)
 #include <stdint.h>
 #else /* !defined(_MSC_VER) */
@@ -69,12 +64,6 @@ struct sockaddr_un {
 #include <netdb.h>
 #include <net/if.h>
 #define closesocket close
-#endif
-
-#ifdef _WIN32
-#define PRINT_SOCKET_ERROR(x)    LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Socket error: %s, %d\n", x, WSAGetLastError());
-#else
-#define PRINT_SOCKET_ERROR(x) perror(x)
 #endif
 
 #include "miniupnpc_socketdef.h"
@@ -255,10 +244,10 @@ requestDevicesFromMiniSSDPD(int s, const char * devtype)
 	if(p + stsize > buffer + sizeof(buffer))
 	{
 		/* devtype is too long ! */
-#ifdef DEBUG
+
 		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "devtype is too long ! stsize=%u sizeof(buffer)=%u\n",
 		        stsize, (unsigned)sizeof(buffer));
-#endif /* DEBUG */
+
 		return MINISSDPC_INVALID_INPUT;
 	}
 	memcpy(p, devtype, stsize);
@@ -305,7 +294,7 @@ receiveDevicesFromMiniSSDPD(int s, int * error)
 			return devlist;
 		}
 #ifdef DEBUG
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  urlsize=%u", urlsize);
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "  urlsize=%u", urlsize);
 #endif /* DEBUG */
 		url = malloc(urlsize);
 		if(url == NULL) {
@@ -326,7 +315,7 @@ receiveDevicesFromMiniSSDPD(int s, int * error)
 			goto free_url_and_return;
 		}
 #ifdef DEBUG
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "   stsize=%u", stsize);
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "   stsize=%u", stsize);
 #endif /* DEBUG */
 		st = malloc(stsize);
 		if (st == NULL) {
@@ -347,9 +336,9 @@ receiveDevicesFromMiniSSDPD(int s, int * error)
 			goto free_url_and_st_and_return;
 		}
 #ifdef DEBUG
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "   usnsize=%u\n", usnsize);
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "   usnsize=%u\n", usnsize);
 #endif /* DEBUG */
-		tmp = (struct UPNPDev *)malloc(sizeof(struct UPNPDev)+urlsize+stsize+usnsize);
+		tmp = (struct UPNPDev *)malloc(sizeof(struct UPNPDev)+urlsize+stsize+usnsize+3);
 		if(tmp == NULL) {
 			if (error)
 				*error = MINISSDPC_MEMORY_ERROR;
@@ -559,7 +548,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 #ifdef _WIN32
 	unsigned long _ttl = (unsigned long)ttl;
 #endif
-	int linklocal = 1;
+	int linklocal = 0;	/* try first with site-local multicast */
 	int sentok;
 
 	if(error)
@@ -624,13 +613,13 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 				pAddresses = (IP_ADAPTER_ADDRESSES *) HeapAlloc(GetProcessHeap(), 0, outBufLen);
 				if (pAddresses == NULL) {
 					break;
-			}
+				}
 
 				dwRetVal = GetAdaptersAddresses(AF_INET, GAA_FLAG_INCLUDE_PREFIX, NULL, pAddresses, &outBufLen);
 
 				if (dwRetVal != ERROR_BUFFER_OVERFLOW) {
 					break;
-		}
+				}
 				HeapFree(GetProcessHeap(), 0, pAddresses);
 				pAddresses = NULL;
 			}
@@ -643,32 +632,32 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 					PIP_ADAPTER_MULTICAST_ADDRESS pMulticast = NULL;
 					PIP_ADAPTER_ANYCAST_ADDRESS pAnycast = NULL;
 
-					printf("\tIfIndex (IPv4 interface): %u\n", pCurrAddresses->IfIndex);
-					printf("\tAdapter name: %s\n", pCurrAddresses->AdapterName);
+					LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tIfIndex (IPv4 interface): %u\n", pCurrAddresses->IfIndex);
+					LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tAdapter name: %s\n", pCurrAddresses->AdapterName);
 					pUnicast = pCurrAddresses->FirstUnicastAddress;
 					if (pUnicast != NULL) {
 						for (i = 0; pUnicast != NULL; i++) {
-							LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\tIP Address[%d]:     \t%s\n", i, inet_ntoa(((PSOCKADDR_IN)pUnicast->Address.lpSockaddr)->sin_addr) );
+							LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tIP Address[%d]:     \t%s\n", i, inet_ntoa(((PSOCKADDR_IN)pUnicast->Address.lpSockaddr)->sin_addr) );
 							pUnicast = pUnicast->Next;
 						}
-						printf("\tNumber of Unicast Addresses: %d\n", i);
+						LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tNumber of Unicast Addresses: %d\n", i);
 					}
 					pAnycast = pCurrAddresses->FirstAnycastAddress;
 					if (pAnycast) {
 						for (i = 0; pAnycast != NULL; i++) {
-							LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\tAnycast Address[%d]:     \t%s\n", i, inet_ntoa(((PSOCKADDR_IN)pAnycast->Address.lpSockaddr)->sin_addr) );
+							LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tAnycast Address[%d]:     \t%s\n", i, inet_ntoa(((PSOCKADDR_IN)pAnycast->Address.lpSockaddr)->sin_addr) );
 							pAnycast = pAnycast->Next;
 						}
-						printf("\tNumber of Anycast Addresses: %d\n", i);
+						LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tNumber of Anycast Addresses: %d\n", i);
 					}
 					pMulticast = pCurrAddresses->FirstMulticastAddress;
 					if (pMulticast) {
 						for (i = 0; pMulticast != NULL; i++) {
-							LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\tMulticast Address[%d]:     \t%s\n", i, inet_ntoa(((PSOCKADDR_IN)pMulticast->Address.lpSockaddr)->sin_addr) );
+							LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\tMulticast Address[%d]:     \t%s\n", i, inet_ntoa(((PSOCKADDR_IN)pMulticast->Address.lpSockaddr)->sin_addr) );
               pMulticast = pMulticast->Next;
 						}
 					}
-					LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\n");
+					LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\n");
 #endif
 					pUnicast = pCurrAddresses->FirstUnicastAddress;
 					if (pCurrAddresses->IfIndex == ifbestidx && pUnicast != NULL) {
@@ -743,7 +732,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			{
 				if(error)
 					*error = MINISSDPC_INVALID_INPUT;
-				fprintf(stderr, "Invalid multicast interface name %s\n", multicastif);
+				LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Invalid multicast interface name %s\n", multicastif);
 				goto error;
 			}
 			if(setsockopt(sudp, IPPROTO_IPV6, IPV6_MULTICAST_IF, &ifindex, sizeof(ifindex)) < 0)
@@ -752,7 +741,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			}
 #else
 #ifdef DEBUG
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Setting of multicast interface not supported in IPv6 under Windows.\n");
+			LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Setting of multicast interface not supported in IPv6 under Windows.\n");
 #endif
 #endif
 		} else {
@@ -800,7 +789,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 				{
 					if(error)
 						*error = MINISSDPC_INVALID_INPUT;
-					fprintf(stderr, "Invalid multicast ip address / interface name %s\n", multicastif);
+					LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Invalid multicast ip address / interface name %s\n", multicastif);
 					goto error;
 				}
 				if(setsockopt(sudp, IPPROTO_IP, IP_MULTICAST_IF, (const char *)&reqn, sizeof(reqn)) < 0)
@@ -815,7 +804,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 #endif
 #else /* _WIN32 */
 #ifdef DEBUG
-				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Setting of multicast interface not supported with interface name.\n");
+				LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Setting of multicast interface not supported with interface name.\n");
 #endif
 #endif /* #ifdef HAS_IP_MREQN / !defined(_WIN32) */
 			}
@@ -858,8 +847,8 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			goto error;
 		}
 #ifdef DEBUG
-		/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Sending %s", bufr);*/
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Sending M-SEARCH request to %s with ST: %s\n",
+		/*LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Sending %s", bufr);*/
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Sending M-SEARCH request to %s with ST: %s\n",
 		       ipv6 ?
 		       (linklocal ? "[" UPNP_MCAST_LL_ADDR "]" :  "[" UPNP_MCAST_SL_ADDR "]")
 		       : UPNP_MCAST_ADDR,
@@ -910,23 +899,23 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			break;
 		} else {
 			struct addrinfo *p;
-		for(p = servinfo; p; p = p->ai_next) {
+			for(p = servinfo; p; p = p->ai_next) {
 				n = sendto(sudp, bufr, n, 0, p->ai_addr, MSC_CAST_INT p->ai_addrlen);
-			if (n < 0) {
+				if (n < 0) {
 #ifdef DEBUG
-				char hbuf[NI_MAXHOST], sbuf[NI_MAXSERV];
+					char hbuf[NI_MAXHOST], sbuf[NI_MAXSERV];
 					if (getnameinfo(p->ai_addr, (socklen_t)p->ai_addrlen, hbuf, sizeof(hbuf), sbuf,
-				                sizeof(sbuf), NI_NUMERICHOST | NI_NUMERICSERV) == 0) {
-					LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "host:%s port:%s\n", hbuf, sbuf);
-				}
+					                sizeof(sbuf), NI_NUMERICHOST | NI_NUMERICSERV) == 0) {
+						LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "host:%s port:%s\n", hbuf, sbuf);
+					}
 #endif
-				PRINT_SOCKET_ERROR("sendto");
-				continue;
-			} else {
-				sentok = 1;
+					PRINT_SOCKET_ERROR("sendto");
+					continue;
+				} else {
+					sentok = 1;
+				}
 			}
-		}
-		freeaddrinfo(servinfo);
+			freeaddrinfo(servinfo);
 		}
 		if(!sentok) {
 			if(error)
@@ -940,69 +929,69 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			struct timeval start = {0, 0}, current = {0, 0};
 			upnp_gettimeofday(&start);
 			do {
-			n = receivedata(sudp, bufr, sizeof(bufr), delay, &scope_id);
-			if (n < 0) {
-				/* error */
-				if(error)
-					*error = MINISSDPC_SOCKET_ERROR;
-				goto error;
-			} else if (n == 0) {
-				/* no data or Time Out */
-#ifdef DEBUG
-				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "NODATA or TIMEOUT\n");
-#endif /* DEBUG */
-				if (devlist && !searchalltypes) {
-					/* found some devices, stop now*/
+				n = receivedata(sudp, bufr, sizeof(bufr), delay, &scope_id);
+				if (n < 0) {
+					/* error */
 					if(error)
-						*error = MINISSDPC_SUCCESS;
+						*error = MINISSDPC_SOCKET_ERROR;
 					goto error;
-				}
-			} else {
-				const char * descURL=NULL;
-				int urlsize=0;
-				const char * st=NULL;
-				int stsize=0;
-				const char * usn=NULL;
-				int usnsize=0;
-				parseMSEARCHReply(bufr, n, &descURL, &urlsize, &st, &stsize, &usn, &usnsize);
-				if(st&&descURL) {
+				} else if (n == 0) {
+					/* no data or Time Out */
 #ifdef DEBUG
-					LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "M-SEARCH Reply:\n  ST: %.*s\n  USN: %.*s\n  Location: %.*s\n",
-					       stsize, st, usnsize, (usn?usn:""), urlsize, descURL);
+					LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "NODATA or TIMEOUT\n");
 #endif /* DEBUG */
-					for(tmp=devlist; tmp; tmp = tmp->pNext) {
-							if(strncmp(tmp->descURL, descURL, urlsize) == 0 &&
-						   tmp->descURL[urlsize] == '\0' &&
-							   strncmp(tmp->st, st, stsize) == 0 &&
-						   tmp->st[stsize] == '\0' &&
-							   (usnsize == 0 || strncmp(tmp->usn, usn, usnsize) == 0) &&
-						   tmp->usn[usnsize] == '\0')
-							break;
-					}
-					/* at the exit of the loop above, tmp is null if
-					 * no duplicate device was found */
-					if(tmp)
-						continue;
-						tmp = (struct UPNPDev *)malloc(sizeof(struct UPNPDev)+urlsize+stsize+usnsize+3);
-					if(!tmp) {
-						/* memory allocation error */
+					if (devlist && !searchalltypes) {
+						/* found some devices, stop now*/
 						if(error)
-							*error = MINISSDPC_MEMORY_ERROR;
+							*error = MINISSDPC_SUCCESS;
 						goto error;
 					}
-					tmp->pNext = devlist;
-					tmp->descURL = tmp->buffer;
-					tmp->st = tmp->buffer + 1 + urlsize;
-					tmp->usn = tmp->st + 1 + stsize;
-					memcpy(tmp->buffer, descURL, urlsize);
-					tmp->buffer[urlsize] = '\0';
-					memcpy(tmp->st, st, stsize);
-					tmp->buffer[urlsize+1+stsize] = '\0';
-					if(usn != NULL)
-						memcpy(tmp->usn, usn, usnsize);
-					tmp->buffer[urlsize+1+stsize+1+usnsize] = '\0';
-					tmp->scope_id = scope_id;
-					devlist = tmp;
+				} else {
+					const char * descURL=NULL;
+					int urlsize=0;
+					const char * st=NULL;
+					int stsize=0;
+					const char * usn=NULL;
+					int usnsize=0;
+					parseMSEARCHReply(bufr, n, &descURL, &urlsize, &st, &stsize, &usn, &usnsize);
+					if(st&&descURL) {
+#ifdef DEBUG
+						LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "M-SEARCH Reply:\n  ST: %.*s\n  USN: %.*s\n  Location: %.*s\n",
+						       stsize, st, usnsize, (usn?usn:""), urlsize, descURL);
+#endif /* DEBUG */
+						for(tmp=devlist; tmp; tmp = tmp->pNext) {
+							if(strncmp(tmp->descURL, descURL, urlsize) == 0 &&
+							   tmp->descURL[urlsize] == '\0' &&
+							   strncmp(tmp->st, st, stsize) == 0 &&
+							   tmp->st[stsize] == '\0' &&
+							   (usnsize == 0 || strncmp(tmp->usn, usn, usnsize) == 0) &&
+							   tmp->usn[usnsize] == '\0')
+								break;
+						}
+						/* at the exit of the loop above, tmp is null if
+						 * no duplicate device was found */
+						if(tmp)
+							continue;
+						tmp = (struct UPNPDev *)malloc(sizeof(struct UPNPDev)+urlsize+stsize+usnsize+3);
+						if(!tmp) {
+							/* memory allocation error */
+							if(error)
+								*error = MINISSDPC_MEMORY_ERROR;
+							goto error;
+						}
+						tmp->pNext = devlist;
+						tmp->descURL = tmp->buffer;
+						tmp->st = tmp->buffer + 1 + urlsize;
+						tmp->usn = tmp->st + 1 + stsize;
+						memcpy(tmp->buffer, descURL, urlsize);
+						tmp->buffer[urlsize] = '\0';
+						memcpy(tmp->st, st, stsize);
+						tmp->buffer[urlsize+1+stsize] = '\0';
+						if(usn != NULL)
+							memcpy(tmp->usn, usn, usnsize);
+						tmp->buffer[urlsize+1+stsize+1+usnsize] = '\0';
+						tmp->scope_id = scope_id;
+						devlist = tmp;
 					}
 					if (upnp_gettimeofday(&current) >= 0) {
 						/* exit the loop if delay is reached */
@@ -1010,17 +999,18 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 						interval += (current.tv_usec - start.tv_usec) / 1000;
 						if (interval > (long)delay)
 							break;
+					}
 				}
-			}
-		} while(n > 0);
+			} while(n > 0);
 		}
 		if(ipv6) {
 			/* switch linklocal flag */
 			if(linklocal) {
 				linklocal = 0;
-				--deviceIndex;
 			} else {
+				/* try again with linklocal multicast */
 				linklocal = 1;
+				--deviceIndex;
 			}
 		}
 	}
@@ -1028,4 +1018,3 @@ error:
 	closesocket(sudp);
 	return devlist;
 }
-

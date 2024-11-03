@@ -58,7 +58,7 @@ void LogMgr::shutdownLogMgr( void )
 void LogMgr::setLogLevels( uint32_t logLevelFlags )
 {
     m_MyApp.getAppSettings().setLogLevels( logLevelFlags );
-    VxSetLogFlags( logLevelFlags );
+    VxSetLogLevelFlags( logLevelFlags );
 }
 
 //============================================================================

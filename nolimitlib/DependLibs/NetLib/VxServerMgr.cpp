@@ -417,6 +417,7 @@ bool VxServerMgr::getUpnpEnable( void )
 //============================================================================
 bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
 {
+    m_PortForwardResult = false;
     if( !getUpnpEnable() )
     {
         return false;
@@ -435,96 +436,9 @@ bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
         return false;
     }
 
-    std::string prevAddr = ipv6 ? m_LastUpnpIpAddrIpv6 : m_LastUpnpIpAddrIpv4;
-    uint16_t prevPort = ipv6 ? m_LastUpnpPortIpv6 : m_LastUpnpPortIpv4;
-    if( isPortForwarded( ipv6 ) )
-    {      
-        if( lclIp == prevAddr && port == prevPort )
-        {
-            LogModule( eLogPortForward, LOG_VERBOSE, "VxServerMgr::%s port %d addr %s is already port forwarded", 
-                       __func__, port, lclIp.c_str() );
-            return true;
-        }
-
-        removePortForward( ipv6 );
-    }
-
-    if( ipv6 )
+    m_PortForwardResult = VxPortForward::addPortForward( ipv6, lclIp, port );
+    if( !m_PortForwardResult )
     {
-        bool result = VxPortForward::addPortForward( ipv6, lclIp, port );
-        if( result )
-        {
-            m_UpnpIsPortForwaredIpv6 = true;
-            m_LastUpnpPortIpv6 = port;
-            m_LastUpnpIpAddrIpv6 = lclIp;
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "%s Add ipv6 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
-        }
-
-        return result;
-    }
-    else
-    {
-        bool result = VxPortForward::addPortForward( ipv6, lclIp, port );
-        if( result )
-        {
-            m_UpnpIsPortForwaredIpv4 = true;
-            m_LastUpnpPortIpv4 = port;
-            m_LastUpnpIpAddrIpv4 = lclIp;
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "%s Add ipv4 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
-        }
-
-        return result;
-    }
-}
-
-//============================================================================
-bool VxServerMgr::removePortForward( bool ipv6 )
-{
-    if( !getUpnpEnable() )
-    {
-        return false;
-    }
-
-    if( ipv6 )
-    {
-        if( m_UpnpIsPortForwaredIpv6 )
-        {
-            m_UpnpIsPortForwaredIpv6 = false;
-            bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv6 );
-            m_LastUpnpPortIpv6 = 0;
-            m_LastUpnpIpAddrIpv6.clear();
-            if( !result )
-            {
-                LogMsg( LOG_ERROR, "%s Remove ipv6 port %d FAILED", __func__, m_LastUpnpPortIpv6 );
-            }
-
-            return result;
-        }
-
-        return true;
-    }
-    else
-    {
-        if( m_UpnpIsPortForwaredIpv4 )
-        {
-            m_UpnpIsPortForwaredIpv4 = false;
-            bool result = VxPortForward::removePortForward( ipv6, m_LastUpnpPortIpv4 );
-            m_LastUpnpPortIpv4 = 0;
-            m_LastUpnpIpAddrIpv4.clear();
-            if( !result )
-            {
-                LogMsg( LOG_ERROR, "%s Remove ipv4 port %d FAILED", __func__, m_LastUpnpPortIpv4 );
-            }
-
-            return result;
-        }
-
-        return true;
+        LogMsg( LOG_ERROR, "%s Add ipv6 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
     }
 }

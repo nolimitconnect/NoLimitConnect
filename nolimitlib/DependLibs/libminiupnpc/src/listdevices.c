@@ -42,7 +42,7 @@ void add_device(struct upnp_dev_list * * list_head, struct UPNPDev * dev)
 				elt->allocated_count += ADD_DEVICE_COUNT_STEP;
 				tmp = realloc(elt->array, elt->allocated_count * sizeof(struct UPNPDev *));
 				if(tmp == NULL) {
-					fprintf(stderr, "Failed to realloc(%p, %lu)\n", elt->array, (unsigned long)(elt->allocated_count * sizeof(struct UPNPDev *)));
+					LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Failed to realloc(%p, %lu)\n", elt->array, (unsigned long)(elt->allocated_count * sizeof(struct UPNPDev *)));
 					return;
 				}
 				elt->array = tmp;
@@ -53,20 +53,20 @@ void add_device(struct upnp_dev_list * * list_head, struct UPNPDev * dev)
 	}
 	elt = malloc(sizeof(struct upnp_dev_list));
 	if(elt == NULL) {
-		fprintf(stderr, "Failed to malloc(%lu)\n", (unsigned long)sizeof(struct upnp_dev_list));
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Failed to malloc(%lu)\n", (unsigned long)sizeof(struct upnp_dev_list));
 		return;
 	}
 	elt->next = *list_head;
 	elt->descURL = strdup(dev->descURL);
 	if(elt->descURL == NULL) {
-		fprintf(stderr, "Failed to strdup(%s)\n", dev->descURL);
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Failed to strdup(%s)\n", dev->descURL);
 		free(elt);
 		return;
 	}
 	elt->allocated_count = ADD_DEVICE_COUNT_STEP;
 	elt->array = malloc(ADD_DEVICE_COUNT_STEP * sizeof(struct UPNPDev *));
 	if(elt->array == NULL) {
-		fprintf(stderr, "Failed to malloc(%lu)\n", (unsigned long)(ADD_DEVICE_COUNT_STEP * sizeof(struct UPNPDev *)));
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Failed to malloc(%lu)\n", (unsigned long)(ADD_DEVICE_COUNT_STEP * sizeof(struct UPNPDev *)));
 		free(elt->descURL);
 		free(elt);
 		return;
@@ -168,17 +168,17 @@ int main(int argc, char * * argv)
 	}
 	if(devlist) {
 		for(dev = devlist, i = 1; dev != NULL; dev = dev->pNext, i++) {
-			printf("%3d: %-48s\n", i, dev->st);
-			printf("     %s\n", dev->descURL);
-			printf("     %s\n", dev->usn);
+			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%3d: %-48s\n", i, dev->st);
+			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "     %s\n", dev->descURL);
+			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "     %s\n", dev->usn);
 			add_device(&sorted_list, dev);
 		}
 		putchar('\n');
 		for (dev_array = sorted_list; dev_array != NULL ; dev_array = dev_array->next) {
-			printf("%s :\n", dev_array->descURL);
+			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%s :\n", dev_array->descURL);
 			for(i = 0; (unsigned)i < dev_array->count; i++) {
-				printf("%2d: %s\n", i+1, dev_array->array[i]->st);
-				printf("    %s\n", dev_array->array[i]->usn);
+				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%2d: %s\n", i+1, dev_array->array[i]->st);
+				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "    %s\n", dev_array->array[i]->usn);
 			}
 			putchar('\n');
 		}
@@ -189,7 +189,8 @@ int main(int argc, char * * argv)
 			free_device(dev_array);
 		}
 	} else {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "no device found.\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR,"No UPnP devices found\n");
+		return 1;
 	}
 
 	return 0;

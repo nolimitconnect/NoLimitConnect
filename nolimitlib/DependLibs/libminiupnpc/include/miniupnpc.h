@@ -1,8 +1,9 @@
-/* $Id: miniupnpc.h,v 1.50 2016/04/19 21:06:21 nanard Exp $ */
-/* Project: miniupnp
- * http://miniupnp.free.fr/
+/* $Id: miniupnpc.h,v 1.66 2024/06/08 22:13:14 nanard Exp $ */
+/* vim: tabstop=4 shiftwidth=4 noexpandtab
+ * Project: miniupnp
+ * http://miniupnp.free.fr/ or https://miniupnp.tuxfamily.org/
  * Author: Thomas Bernard
- * Copyright (c) 2005-2016 Thomas Bernard
+ * Copyright (c) 2005-2024 Thomas Bernard
  * This software is subjects to the conditions detailed
  * in the LICENCE file provided within this distribution */
 #ifndef MINIUPNPC_H_INCLUDED
@@ -12,6 +13,8 @@
 #include "igd_desc_parse.h"
 #include "upnpdev.h"
 
+#include <CoreLib/VxDebug.h>
+
 /* error codes : */
 #define UPNPDISCOVER_SUCCESS (0)
 #define UPNPDISCOVER_UNKNOWN_ERROR (-1)
@@ -19,11 +22,11 @@
 #define UPNPDISCOVER_MEMORY_ERROR (-102)
 
 /* versions : */
-#define MINIUPNPC_VERSION	"2.0"
-#define MINIUPNPC_API_VERSION	16
+#define MINIUPNPC_VERSION	"2.2.8"
+#define MINIUPNPC_API_VERSION	18
 
 /* Source port:
-   Using "1" as an alias for 1900 for backwards compatability
+   Using "1" as an alias for 1900 for backwards compatibility
    (presuming one would have used that for the "sameport" parameter) */
 #define UPNP_LOCAL_PORT_ANY     0
 #define UPNP_LOCAL_PORT_SAME    1
@@ -107,9 +110,11 @@ struct UPNPUrls {
  * return values :
  *     0 = NO IGD found
  *     1 = A valid connected IGD has been found
- *     2 = A valid IGD has been found but it reported as
+ *     2 = A valid connected IGD has been found but its
+ *         IP address is reserved (non routable)
+ *     3 = A valid IGD has been found but it reported as
  *         not connected
- *     3 = an UPnP device has been found but was not recognized as an IGD
+ *     4 = an UPnP device has been found but was not recognized as an IGD
  *
  * In any non zero return case, the urls and data structures
  * passed as parameters are set. Donc forget to call FreeUPNPUrls(urls) to
@@ -118,8 +123,9 @@ struct UPNPUrls {
 MINIUPNP_LIBSPEC int
 UPNP_GetValidIGD(struct UPNPDev * devlist,
                  struct UPNPUrls * urls,
-				 struct IGDdatas * data,
-				 char * lanaddr, int lanaddrlen);
+                 struct IGDdatas * data,
+                 char * lanaddr, int lanaddrlen,
+                 char * wanaddr, int wanaddrlen);
 
 /* UPNP_GetIGDFromUrl()
  * Used when skipping the discovery process.

@@ -6,14 +6,14 @@
  * This software is subject to the conditions detailed
  * in the LICENCE file provided within the distribution */
 
-#include "config_libminiupnpc.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 #include "upnpreplyparse.h"
 #include "minixml.h"
+
+#include <CoreLib/VxDebug.h>
 
 static void
 NameValueParserStartElt(void * d, const char * name, int l)

@@ -118,11 +118,36 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Log</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Log</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="m_VerboseCheckBox">
+       <property name="text">
+        <string>Verbose</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="m_DebugCheckBox">
+       <property name="text">
+        <string>Debug</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="m_ErrorCheckBox">
+       <property name="text">
+        <string>Error</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QPlainTextEdit" name="m_LogPlainTextEdit"/>

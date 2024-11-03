@@ -1,22 +1,19 @@
-/* $Id: minisoap.c,v 1.31 2023/06/15 21:47:50 nanard Exp $ */
+/* $Id: minisoap.c,v 1.32 2023/07/05 22:43:50 nanard Exp $ */
 /* vim: tabstop=4 shiftwidth=4 noexpandtab
  * Project : miniupnp
  * Author : Thomas Bernard
- * Copyright (c) 2005-2023 Thomas Bernard
+ * Copyright (c) 2005-2024 Thomas Bernard
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution.
  *
  * Minimal SOAP implementation for UPnP protocol.
  */
-
-#include "config_libminiupnpc.h"
-
 #include <stdio.h>
 #include <string.h>
 #ifdef _WIN32
 #include <io.h>
 #include <winsock2.h>
-#define snprintf _snprintf
+#include "win32_snprintf.h"
 #else
 #include <unistd.h>
 #include <sys/types.h>
@@ -25,14 +22,10 @@
 #include "minisoap.h"
 #include "miniupnpcstrings.h"
 
+#include <CoreLib/VxDebug.h>
+
 /* only for malloc */
 #include <stdlib.h>
-
-#ifdef _WIN32
-#define PRINT_SOCKET_ERROR(x)    LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Socket error: %s, %d\n", x, WSAGetLastError());
-#else
-#define PRINT_SOCKET_ERROR(x) perror(x)
-#endif
 
 /* httpWrite sends the headers and the body to the socket
  * and returns the number of bytes sent */
@@ -92,7 +85,7 @@ int soapPostSubmit(SOCKET fd,
 	 * Using HTTP/1.1 means we need to support chunked transfer-encoding :
 	 * When using HTTP/1.1, the router "BiPAC 7404VNOX" always use chunked
 	 * transfer encoding. */
-    /* Connection: Close is normally there only in HTTP/1.1 but who knows */
+    /* Connection: close is normally there only in HTTP/1.1 but who knows */
 	portstr[0] = '\0';
 	if(port != 80)
 		snprintf(portstr, sizeof(portstr), ":%hu", port);
@@ -101,24 +94,27 @@ int soapPostSubmit(SOCKET fd,
 	                   "Host: %s%s\r\n"
 					   "User-Agent: " OS_STRING " " UPNP_VERSION_STRING " MiniUPnPc/" MINIUPNPC_VERSION_STRING "\r\n"
 	                   "Content-Length: %d\r\n"
+#if (UPNP_VERSION_MAJOR == 1) && (UPNP_VERSION_MINOR == 0)
 					   "Content-Type: text/xml\r\n"
+#else
+					   "Content-Type: text/xml; charset=\"utf-8\"\r\n"
+#endif
 					   "SOAPAction: \"%s\"\r\n"
-					   "Connection: Close\r\n"
+					   "Connection: close\r\n"
 					   "Cache-Control: no-cache\r\n"	/* ??? */
-					   "Pragma: no-cache\r\n"
 					   "\r\n",
 					   url, httpversion, host, portstr, bodysize, action);
 	if ((unsigned int)headerssize >= sizeof(headerbuf))
 		return -1;
 #ifdef DEBUG
-	/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "SOAP request : headersize=%d bodysize=%d\n",
+	/*LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "SOAP request : headersize=%d bodysize=%d\n",
 	       headerssize, bodysize);
 	*/
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "SOAP request : POST %s HTTP/%s - Host: %s%s\n",
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "SOAP request : POST %s HTTP/%s - Host: %s%s\n",
 	        url, httpversion, host, portstr);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "SOAPAction: \"%s\" - Content-Length: %d\n", action, bodysize);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Headers :\n%s", headerbuf);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Body :\n%s\n", body);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "SOAPAction: \"%s\" - Content-Length: %d\n", action, bodysize);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Headers :\n%s", headerbuf);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Body :\n%s\n", body);
 #endif
 	return httpWrite(fd, body, bodysize, headerbuf, headerssize);
 }

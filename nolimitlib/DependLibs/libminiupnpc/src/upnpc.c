@@ -1,11 +1,9 @@
-/* $Id: upnpc.c,v 1.135 2023/06/29 09:55:14 nanard Exp $ */
+/* $Id: upnpc.c,v 1.141 2024/01/26 23:34:01 nanard Exp $ */
 /* Project : miniupnp
  * Author : Thomas Bernard
- * Copyright (c) 2005-2023 Thomas Bernard
+ * Copyright (c) 2005-2024 Thomas Bernard
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution. */
-
-#include "config_libminiupnpc.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +11,7 @@
 #include <time.h>
 #ifdef _WIN32
 #include <winsock2.h>
-#define snprintf _snprintf
+#include "win32_snprintf.h"
 #else
 /* for IPPROTO_TCP / IPPROTO_UDP */
 #include <netinet/in.h>
@@ -76,12 +74,12 @@ static void DisplayInfos(struct UPNPUrls * urls,
 	if(UPNP_GetConnectionTypeInfo(urls->controlURL,
 	                              data->first.servicetype,
 	                              connectionType) != UPNPCOMMAND_SUCCESS)
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetConnectionTypeInfo failed.\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetConnectionTypeInfo failed.\n");
 	else
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Connection Type : %s\n", connectionType);
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Connection Type : %s\n", connectionType);
 	if(UPNP_GetStatusInfo(urls->controlURL, data->first.servicetype,
 	                      status, &uptime, lastconnerr) != UPNPCOMMAND_SUCCESS)
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetStatusInfo failed.\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetStatusInfo failed.\n");
 	else
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Status : %s, uptime=%us, LastConnectionError : %s\n",
 		       status, uptime, lastconnerr);
@@ -92,29 +90,29 @@ static void DisplayInfos(struct UPNPUrls * urls,
 	}
 	if(UPNP_GetLinkLayerMaxBitRates(urls->controlURL_CIF, data->CIF.servicetype,
 	                                &brDown, &brUp) != UPNPCOMMAND_SUCCESS) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetLinkLayerMaxBitRates failed.\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetLinkLayerMaxBitRates failed.\n");
 	} else {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "MaxBitRateDown : %u bps", brDown);
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "MaxBitRateDown : %u bps", brDown);
 		if(brDown >= 1000000) {
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " (%u.%u Mbps)", brDown / 1000000, (brDown / 100000) % 10);
+			LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " (%u.%u Mbps)", brDown / 1000000, (brDown / 100000) % 10);
 		} else if(brDown >= 1000) {
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " (%u Kbps)", brDown / 1000);
+			LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " (%u Kbps)", brDown / 1000);
 		}
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "   MaxBitRateUp %u bps", brUp);
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "   MaxBitRateUp %u bps", brUp);
 		if(brUp >= 1000000) {
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " (%u.%u Mbps)", brUp / 1000000, (brUp / 100000) % 10);
+			LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " (%u.%u Mbps)", brUp / 1000000, (brUp / 100000) % 10);
 		} else if(brUp >= 1000) {
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " (%u Kbps)", brUp / 1000);
+			LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " (%u Kbps)", brUp / 1000);
 		}
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "\n");
 	}
 	r = UPNP_GetExternalIPAddress(urls->controlURL,
 	                          data->first.servicetype,
 							  externalIPAddress);
 	if(r != UPNPCOMMAND_SUCCESS) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetExternalIPAddress failed. (errorcode=%d)\n", r);
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetExternalIPAddress failed. (errorcode=%d)\n", r);
 	} else if(!externalIPAddress[0]) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetExternalIPAddress failed. (empty string)\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetExternalIPAddress failed. (empty string)\n");
 	} else {
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "ExternalIPAddress = %s\n", externalIPAddress);
 	}
@@ -129,8 +127,8 @@ static void GetConnectionStatus(struct UPNPUrls * urls,
 	bytesreceived = UPNP_GetTotalBytesReceived(urls->controlURL_CIF, data->CIF.servicetype);
 	packetssent = UPNP_GetTotalPacketsSent(urls->controlURL_CIF, data->CIF.servicetype);
 	packetsreceived = UPNP_GetTotalPacketsReceived(urls->controlURL_CIF, data->CIF.servicetype);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Bytes:   Sent: %8u\tRecv: %8u\n", bytessent, bytesreceived);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Packets: Sent: %8u\tRecv: %8u\n", packetssent, packetsreceived);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Bytes:   Sent: %8u\tRecv: %8u\n", bytessent, bytesreceived);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Packets: Sent: %8u\tRecv: %8u\n", packetssent, packetsreceived);
 }
 
 static void ListRedirections(struct UPNPUrls * urls,
@@ -164,15 +162,17 @@ static void ListRedirections(struct UPNPUrls * urls,
 									   rHost, duration);
 		if(r==0)
 		/*
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%02d - %s %s->%s:%s\tenabled=%s leaseDuration=%s\n"
+			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%02hu - %s %s->%s:%s\tenabled=%s leaseDuration=%s\n"
 			       "     desc='%s' rHost='%s'\n",
 			       i, protocol, extPort, intClient, intPort,
 				   enabled, duration,
 				   desc, rHost);
 				   */
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%2d %s %5s->%s:%-5s '%s' '%s' %s\n",
+			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "%2hu %s %5s->%s:%-5s '%s' '%s' %s\n",
 			       i, protocol, extPort, intClient, intPort,
 			       desc, rHost, duration);
+		else if(r==713)	/* ignore SpecifiedArrayIndexInvalid => we are at the end of the list */
+			break;
 		else
 			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetGenericPortMappingEntry() returned %d (%s)\n",
 			       r, strupnperror(r));
@@ -280,7 +280,7 @@ static int SetRedirectAndTest(struct UPNPUrls * urls,
 				      data->first.servicetype,
 				      externalIPAddress);
 	if(r!=UPNPCOMMAND_SUCCESS)
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetExternalIPAddress failed.\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetExternalIPAddress failed.\n");
 	else
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "ExternalIPAddress = %s\n", externalIPAddress);
 
@@ -291,14 +291,14 @@ static int SetRedirectAndTest(struct UPNPUrls * urls,
 		if(r==UPNPCOMMAND_SUCCESS)
 			eport = reservedPort;
 		else
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddAnyPortMapping(%s, %s, %s) failed with code %d (%s)\n",
+			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "AddAnyPortMapping(%s, %s, %s) failed with code %d (%s)\n",
 			       eport, iport, iaddr, r, strupnperror(r));
 	} else {
 		r = UPNP_AddPortMapping(urls->controlURL, data->first.servicetype,
 					eport, iport, iaddr, description,
 					proto, remoteHost, leaseDuration);
 		if(r!=UPNPCOMMAND_SUCCESS) {
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddPortMapping(%s, %s, %s) failed with code %d (%s)\n",
+			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "AddPortMapping(%s, %s, %s) failed with code %d (%s)\n",
 			       eport, iport, iaddr, r, strupnperror(r));
 			return -2;
 	}
@@ -310,7 +310,7 @@ static int SetRedirectAndTest(struct UPNPUrls * urls,
 					     intClient, intPort, NULL/*desc*/,
 					     NULL/*enabled*/, duration);
 	if(r!=UPNPCOMMAND_SUCCESS) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetSpecificPortMappingEntry() failed with code %d (%s)\n",
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetSpecificPortMappingEntry() failed with code %d (%s)\n",
 		       r, strupnperror(r));
 		return -2;
 	} else {
@@ -342,7 +342,7 @@ RemoveRedirect(struct UPNPUrls * urls,
 	}
 	r = UPNP_DeletePortMapping(urls->controlURL, data->first.servicetype, eport, proto, remoteHost);
 	if(r!=UPNPCOMMAND_SUCCESS) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "UPNP_DeletePortMapping() failed with code : %d\n", r);
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "UPNP_DeletePortMapping() failed with code : %d\n", r);
 		return -2;
 	}else {
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "UPNP_DeletePortMapping() returned : %d\n", r);
@@ -374,7 +374,7 @@ RemoveRedirectRange(struct UPNPUrls * urls,
 	}
 	r = UPNP_DeletePortMappingRange(urls->controlURL, data->first.servicetype, ePortStart, ePortEnd, proto, manage);
 	if(r!=UPNPCOMMAND_SUCCESS) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "UPNP_DeletePortMappingRange() failed with code : %d\n", r);
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "UPNP_DeletePortMappingRange() failed with code : %d\n", r);
 		return -2;
 	}else {
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "UPNP_DeletePortMappingRange() returned : %d\n", r);
@@ -403,7 +403,7 @@ static void GetFirewallStatus(struct UPNPUrls * urls, struct IGDdatas * data)
 /* Test function
  * 1 - Add pinhole
  * 2 - Check if pinhole is working from the IGD side */
-static void SetPinholeAndTest(struct UPNPUrls * urls, struct IGDdatas * data,
+static int SetPinholeAndTest(struct UPNPUrls * urls, struct IGDdatas * data,
 					const char * remoteaddr, const char * eport,
 					const char * intaddr, const char * iport,
 					const char * proto, const char * lease_time)
@@ -416,7 +416,7 @@ static void SetPinholeAndTest(struct UPNPUrls * urls, struct IGDdatas * data,
 	if(!intaddr || !remoteaddr || !iport || !eport || !proto || !lease_time)
 	{
 		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Wrong arguments\n");
-		return;
+		return -1;
 	}
 	if(atoi(proto) == 0)
 	{
@@ -435,22 +435,26 @@ static void SetPinholeAndTest(struct UPNPUrls * urls, struct IGDdatas * data,
 		else
 		{
 			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "invalid protocol\n");
-			return;
+			return -1;
 		}
 	}
 	r = UPNP_AddPinhole(urls->controlURL_6FC, data->IPv6FC.servicetype, remoteaddr, eport, intaddr, iport, proto, lease_time, uniqueID);
 	if(r!=UPNPCOMMAND_SUCCESS)
+	{
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddPinhole([%s]:%s -> [%s]:%s) failed with code %d (%s)\n",
 		       remoteaddr, eport, intaddr, iport, r, strupnperror(r));
+		return -2;
+	}
 	else
 	{
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "AddPinhole: ([%s]:%s -> [%s]:%s) / Pinhole ID = %s\n",
 		       remoteaddr, eport, intaddr, iport, uniqueID);
 		/*r = UPNP_CheckPinholeWorking(urls->controlURL_6FC, data->servicetype_6FC, uniqueID, &isWorking);
 		if(r!=UPNPCOMMAND_SUCCESS)
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "CheckPinholeWorking() failed with code %d (%s)\n", r, strupnperror(r));
+			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "CheckPinholeWorking() failed with code %d (%s)\n", r, strupnperror(r));
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "CheckPinholeWorking: Pinhole ID = %s / IsWorking = %s\n", uniqueID, (isWorking)? "Yes":"No");*/
 	}
+	return 0;
 }
 
 /* Test function
@@ -473,7 +477,7 @@ static void GetPinholeAndUpdate(struct UPNPUrls * urls, struct IGDdatas * data,
 	if(r==UPNPCOMMAND_SUCCESS)
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "CheckPinholeWorking: Pinhole ID = %s / IsWorking = %s\n", uniqueID, (isWorking)? "Yes":"No");
 	else
-		printf("CheckPinholeWorking(%s) failed with code %d (%s)\n", uniqueID, r, strupnperror(r));
+		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "CheckPinholeWorking(%s) failed with code %d (%s)\n", uniqueID, r, strupnperror(r));
 	/* 702 FirewallDisabled Firewall is disabled and this action is disabled
 	 * 703 InboundPinholeNotAllowed Creation of inbound pinholes by UPnP CPs
 	 *                              are not allowed and this action is disabled
@@ -508,7 +512,7 @@ static void GetPinholeOutboundTimeout(struct UPNPUrls * urls, struct IGDdatas * 
 
 	r = UPNP_GetOutboundPinholeTimeout(urls->controlURL_6FC, data->IPv6FC.servicetype, remoteaddr, eport, intaddr, iport, proto, &timeout);
 	if(r!=UPNPCOMMAND_SUCCESS)
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetOutboundPinholeTimeout([%s]:%s -> [%s]:%s) failed with code %d (%s)\n",
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetOutboundPinholeTimeout([%s]:%s -> [%s]:%s) failed with code %d (%s)\n",
 		       intaddr, iport, remoteaddr, eport, r, strupnperror(r));
 	else
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetOutboundPinholeTimeout: ([%s]:%s -> [%s]:%s) / Timeout = %d\n", intaddr, iport, remoteaddr, eport, timeout);
@@ -526,7 +530,7 @@ GetPinholePackets(struct UPNPUrls * urls,
 	}
 	r = UPNP_GetPinholePackets(urls->controlURL_6FC, data->IPv6FC.servicetype, uniqueID, &pinholePackets);
 	if(r!=UPNPCOMMAND_SUCCESS)
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetPinholePackets() failed with code %d (%s)\n", r, strupnperror(r));
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "GetPinholePackets() failed with code %d (%s)\n", r, strupnperror(r));
 	else
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "GetPinholePackets: Pinhole ID = %s / PinholePackets = %d\n", uniqueID, pinholePackets);
 }
@@ -543,12 +547,12 @@ CheckPinhole(struct UPNPUrls * urls,
 	}
 	r = UPNP_CheckPinholeWorking(urls->controlURL_6FC, data->IPv6FC.servicetype, uniqueID, &isWorking);
 	if(r!=UPNPCOMMAND_SUCCESS)
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "CheckPinholeWorking() failed with code %d (%s)\n", r, strupnperror(r));
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "CheckPinholeWorking() failed with code %d (%s)\n", r, strupnperror(r));
 	else
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "CheckPinholeWorking: Pinhole ID = %s / IsWorking = %s\n", uniqueID, (isWorking)? "Yes":"No");
 }
 
-static void
+static int
 RemovePinhole(struct UPNPUrls * urls,
                struct IGDdatas * data, const char * uniqueID)
 {
@@ -556,10 +560,45 @@ RemovePinhole(struct UPNPUrls * urls,
 	if(!uniqueID)
 	{
 		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "invalid arguments\n");
-		return;
+		return -1;
 	}
 	r = UPNP_DeletePinhole(urls->controlURL_6FC, data->IPv6FC.servicetype, uniqueID);
 	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "UPNP_DeletePinhole() returned : %d\n", r);
+	return r;
+}
+
+static void usage(FILE * out, const char * argv0) {
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Usage:\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -a ip port external_port protocol [duration] [remote host]\n    Add port mapping\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -r port1 [external_port1] protocol1 [port2 [external_port2] protocol2] [...]\n    Add multiple port mappings to the current host\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -d external_port protocol [remote host]\n    Delete port redirection\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -f external_port1 protocol1 [external_port2 protocol2] [...]\n    Delete multiple port redirections\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -s\n    Get Connection status\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -l\n    List redirections\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -L\n    List redirections (using GetListOfPortMappings (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -n ip port external_port protocol [duration] [remote host]\n    Add (any) port mapping allowing IGD to use alternative external_port (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -N external_port_start external_port_end protocol [manage]\n    Delete range of port mappings (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -A remote_ip remote_port internal_ip internal_port protocol lease_time\n    Add Pinhole (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -U uniqueID new_lease_time\n    Update Pinhole (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -C uniqueID\n    Check if Pinhole is Working (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -K uniqueID\n    Get Number of packets going through the rule (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -D uniqueID\n    Delete Pinhole (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -S\n    Get Firewall status (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -G remote_ip remote_port internal_ip internal_port protocol\n    Get Outbound Pinhole Timeout (for IGD:2 only)\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  %s [options] -P\n    Get Presentation URL\n", argv0);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\nNotes:\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  protocol is UDP or TCP.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  Use \"\" for any remote_host and 0 for any remote_port.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  @ can be used in option -a, -n, -A and -G to represent local LAN address.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\nOptions:\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -e description : set description for port mapping.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -6 : use IPv6 instead of IPv4.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -u URL : bypass discovery process by providing the XML root description URL.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -m address/interface : provide IPv4 address or interface name (IPv4 or IPv6) to use for sending SSDP multicast packets.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -z localport : SSDP packets local (source) port (1024-65535).\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -p path : use this path for MiniSSDPd socket.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -t ttl : set multicast TTL. Default value is 2.\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -i : ignore errors and try to use also disconnected IGD or non-IGD device.\n");
 }
 
 #if 0 // not needed for No Limit Connect
@@ -574,6 +613,7 @@ int runUpnp(int argc, char ** argv)
 	int commandargc = 0;
 	struct UPNPDev * devlist = 0;
 	char lanaddr[64] = "unset";	/* my ip address on the LAN */
+	char wanaddr[64] = "unsed";	/* up address of the IGD on the WAN */
 	int i;
 	const char * rootdescurl = 0;
 	const char * multicastif = 0;
@@ -586,26 +626,17 @@ int runUpnp(int argc, char ** argv)
 	unsigned char ttl = 2;	/* defaulting to 2 */
 	const char * description = 0;
 
-//#ifdef _WIN32
-//	WSADATA wsaData;
-//	int nResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-//	if(nResult != NO_ERROR)
-//	{
-//		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "WSAStartup() failed.\n");
-//		return -1;
-//	}
-//#endif
-    LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "upnpc : miniupnpc library test client, version %s.\n", MINIUPNPC_VERSION_STRING);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " (c) 2005-2016 Thomas Bernard.\n");
-    LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Go to http://miniupnp.free.fr/ or http://miniupnp.tuxfamily.org/\n"
-	       "for more information.\n");
+    LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "upnpc: miniupnpc library test client, version %s.\n", MINIUPNPC_VERSION_STRING);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " (c) 2005-2024 Thomas Bernard.\n");
+    LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "More information at https://miniupnp.tuxfamily.org/ or http://miniupnp.free.fr/\n\n");
+
 	/* command line processing */
 	for(i=1; i<argc; i++)
 	{
 		if(0 == strcmp(argv[i], "--help") || 0 == strcmp(argv[i], "-h"))
 		{
-			command = 0;
-			break;
+			usage(stdout, argv[0]);
+			return 0;
 		}
 		if(argv[i][0] == '-')
 		{
@@ -655,40 +686,24 @@ int runUpnp(int argc, char ** argv)
 
 	if(!command
 	   || (command == 'a' && commandargc<4)
-	   || (command == 'd' && argc<2)
-	   || (command == 'r' && argc<2)
+	   || (command == 'r' && commandargc<2)
 	   || (command == 'A' && commandargc<6)
+	   || (command == 'd' && commandargc<2)
+	   || (command == 'D' && commandargc<1)
+	   || (command == 'n' && commandargc<4)
+	   || (command == 'N' && commandargc<3)
 	   || (command == 'U' && commandargc<2)
-	   || (command == 'D' && commandargc<1))
+	   || (command == 'K' && commandargc<1)
+	   || (command == 'C' && commandargc<1)
+	   || (command == 'G' && commandargc<5))
 	{
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Usage :\t%s [options] -a ip port external_port protocol [duration] [remote host]\n\t\tAdd port mapping\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -r port1 [external_port1] protocol1 [port2 [external_port2] protocol2] [...]\n\t\tAdd multiple port mappings to the current host\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -d external_port protocol [remote host]\n\t\tDelete port redirection\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -s\n\t\tGet Connection status\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -l\n\t\tList redirections\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -L\n\t\tList redirections (using GetListOfPortMappings (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -n ip port external_port protocol [duration] [remote host]\n\t\tAdd (any) port mapping allowing IGD to use alternative external_port (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -N external_port_start external_port_end protocol [manage]\n\t\tDelete range of port mappings (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -A remote_ip remote_port internal_ip internal_port protocol lease_time\n\t\tAdd Pinhole (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -U uniqueID new_lease_time\n\t\tUpdate Pinhole (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -C uniqueID\n\t\tCheck if Pinhole is Working (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -K uniqueID\n\t\tGet Number of packets going through the rule (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -D uniqueID\n\t\tDelete Pinhole (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -S\n\t\tGet Firewall status (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -G remote_ip remote_port internal_ip internal_port protocol\n\t\tGet Outbound Pinhole Timeout (for IGD:2 only)\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "       \t%s [options] -P\n\t\tGet Presentation url\n", argv[0]);
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\nprotocol is UDP or TCP\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "@ can be used in option -a, -n, -A and -G to represent local LAN address.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Options:\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -e description : set description for port mapping.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -6 : use ip v6 instead of ip v4.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -u url : bypass discovery process by providing the XML root description url.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -m address/interface : provide ip address (ip v4) or interface name (ip v4 or v6) to use for sending SSDP multicast packets.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -z localport : SSDP packets local (source) port (1024-65535).\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -p path : use this path for MiniSSDPd socket.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -t ttl : set multicast TTL. Default value is 2.\n");
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "  -i : ignore errors and try to use also disconnected IGD or non-IGD device.\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Command line argument error.\n\n");
+		usage(stderr, argv[0]);
 		return 1;
+	}
+
+	if(ipv6 == 0 && (command == 'A' || command == 'D' || command == 'U' || command == 'K' || command == 'C' || command == 'G')) {
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Use IPv6 (option -6) GUA address to ensure UPnP IGDv2 pinholes are allowed\n\n");
 	}
 
 	if( rootdescurl
@@ -713,25 +728,28 @@ int runUpnp(int argc, char ** argv)
 		}
 		i = 1;
 		if( (rootdescurl && UPNP_GetIGDFromUrl(rootdescurl, &urls, &data, lanaddr, sizeof(lanaddr)))
-		  || (i = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr))))
+		  || (i = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr), wanaddr, sizeof(wanaddr))))
 		{
 			switch(i) {
 			case 1:
 				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Found valid IGD : %s\n", urls.controlURL);
 				break;
 			case 2:
-				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Found a (not connected?) IGD : %s\n", urls.controlURL);
-				if (ignore) printf("Trying to continue anyway\n");
+				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Found an IGD with a reserved IP address (%s) : %s\n", wanaddr, urls.controlURL);
 				break;
 			case 3:
+				LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Found a (not connected?) IGD : %s\n", urls.controlURL);
+				if (ignore) LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Trying to continue anyway\n");
+				break;
+			case 4:
 				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "UPnP device found. Is it an IGD ? : %s\n", urls.controlURL);
-				if (ignore) printf("Trying to continue anyway\n");
+				if (ignore) LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Trying to continue anyway\n");
 				break;
 			default:
 				LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Found device (igd ?) : %s\n", urls.controlURL);
-				if (ignore) printf("Trying to continue anyway\n");
+				if (ignore) LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Trying to continue anyway\n");
 			}
-            if(i==1 || ignore) {
+			if(i==1 || i==2 || ignore) {
 
 			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Local LAN ip address : %s\n", lanaddr);
 			#if 0
@@ -821,11 +839,35 @@ int runUpnp(int argc, char ** argv)
 					}
 				}
 				break;
+			case 'f':
+				i = 0;
+				while(i<commandargc)
+				{
+					if(!is_int(commandargv[i])) {
+						/* 1st parameter not an integer : error */
+						LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "command -f : %s is not an port number\n", commandargv[i]);
+						retcode = 1;
+						break;
+					} else if(i+1 == commandargc){
+						/* too few arguments */
+						LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "command -f : too few arguments\n");
+						retcode = 2;
+						break;
+					} else {
+						/* <port> <protocol> */
+						if (RemoveRedirect(&urls, &data,
+								commandargv[i], commandargv[i+1], NULL) < 0)
+							retcode = 3;
+						i+=2;	/* 2 parameters parsed */
+					}
+				}
+				break;
 			case 'A':
-				SetPinholeAndTest(&urls, &data,
+				if (SetPinholeAndTest(&urls, &data,
 				                  commandargv[0], commandargv[1],
 				                  commandargv[2], commandargv[3],
-				                  commandargv[4], commandargv[5]);
+				                  commandargv[4], commandargv[5]) < 0)
+					retcode = 2;
 				break;
 			case 'U':
 				GetPinholeAndUpdate(&urls, &data,
@@ -846,7 +888,8 @@ int runUpnp(int argc, char ** argv)
 			case 'D':
 				for(i=0; i<commandargc; i++)
 				{
-					RemovePinhole(&urls, &data, commandargv[i]);
+					if (RemovePinhole(&urls, &data, commandargv[i]) < 0)
+						retcode = 2;
 				}
 				break;
 			case 'S':
@@ -868,7 +911,7 @@ int runUpnp(int argc, char ** argv)
 			}
 
 			} else {
-				LogCModule( MODULE_PORT_FORWARD, LOG_ERROR,  "No valid UPNP Internet Gateway Device found.\n");
+				LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "No valid UPNP Internet Gateway Device found.\n");
 				retcode = 1;
 			}
 			FreeUPNPUrls(&urls);
@@ -885,12 +928,18 @@ int runUpnp(int argc, char ** argv)
 		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "No IGD UPnP Device found on the network !\n");
 		retcode = 1;
 	}
-//#ifdef _WIN32
-//	nResult = WSACleanup();
-//	if(nResult != NO_ERROR) {
-//		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "WSACleanup() failed.\n");
-//	}
-//#endif /* _WIN32 */
+
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "=== runUpnp ===");
+	if( retcode )
+	{
+		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "\n\nrunUpnp finished with retcode %d\n\n", retcode );
+	}
+	else
+	{
+		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "\n\nrunUpnp finished with no errors\n\n");
+	}
+	
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "*** runUpnp exit ***");
 	return retcode;
 }
 

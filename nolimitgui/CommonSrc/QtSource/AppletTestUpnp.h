@@ -45,6 +45,8 @@ protected slots:
     void                        slotRemovePortForward();
     void                        slotListPortForward();
     void                        slotCopyLogToClipboard();
+    
+    void                        slotUpdateLogFlags();
 
 protected:
     void                        clear();
@@ -57,8 +59,10 @@ protected:
     bool                        m_VerboseLog{ false };
 
     bool                        m_WasUpnpLogEnabled{ false };
-    uint64_t                    m_LogModuleFlags{ 0 };
     bool                        m_WasPortForwardEnabled{ false };
+
+    uint32_t                    m_LogLevelFlags{ 0 };
+    uint64_t                    m_LogModuleFlags{ 0 };
 
     bool                        m_IsIpv6{ false };
     std::string                 m_IpAddr;

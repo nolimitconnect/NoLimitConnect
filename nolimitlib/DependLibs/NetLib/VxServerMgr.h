@@ -59,10 +59,8 @@ public:
 	virtual void				unlockListenSettings( void )				{ m_ListenSettingsMutex.unlock(); }
 
 protected:
-
     bool                        addPortForward( bool ipv6, uint16_t port );
-    bool                        isPortForwarded( bool ipv6 ) { return ipv6 ? m_UpnpIsPortForwaredIpv6 : m_UpnpIsPortForwaredIpv4; }
-    bool                        removePortForward( bool ipv6 );
+    bool                        isPortForwarded( void ) { return m_PortForwardResult; }
 
     VxListenLogic               m_ListenLogicIpv4;
     VxListenLogic               m_ListenLogicIpv6;
@@ -73,13 +71,7 @@ protected:
     std::string                 m_LocalIpAddrIpv4;
     std::string                 m_LocalIpAddrIpv6;
 
-    uint16_t                    m_LastUpnpPortIpv4{ 0 };
-    std::string                 m_LastUpnpIpAddrIpv4;
-    bool                        m_UpnpIsPortForwaredIpv4{ false };
-
-    uint16_t                    m_LastUpnpPortIpv6{ 0 };
-    std::string                 m_LastUpnpIpAddrIpv6;
-    bool                        m_UpnpIsPortForwaredIpv6{ false };
+    bool                        m_PortForwardResult{ false };
 
     int							m_iMgrId{ 0 };			// unique id for this manager
 

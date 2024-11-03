@@ -5,9 +5,6 @@
  * copyright (c) 2005-2015 Thomas Bernard
  * This software is subjet to the conditions detailed in the
  * provided LICENSE file. */
-
-#include "config_libminiupnpc.h"
-
 #include <stdlib.h>
 #include "upnpdev.h"
 

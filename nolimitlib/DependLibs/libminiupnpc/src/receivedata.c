@@ -6,8 +6,6 @@
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution. */
 
-#include "config_libminiupnpc.h"
-
 #include <stdio.h>
 #include <string.h>
 #ifdef _WIN32
@@ -29,13 +27,9 @@
 #define MINIUPNPC_IGNORE_EINTR
 #endif /* _WIN32 */
 
-#ifdef _WIN32
-#define PRINT_SOCKET_ERROR(x)    LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Socket error: %s, %d\n", x, WSAGetLastError());
-#else
-#define PRINT_SOCKET_ERROR(x) perror(x)
-#endif
-
 #include "receivedata.h"
+
+#include <CoreLib/VxDebug.h>
 
 int
 receivedata(SOCKET socket,
@@ -95,9 +89,9 @@ receivedata(SOCKET socket,
 #ifdef MINIUPNPC_GET_SRC_ADDR
 	if (src_addr.ss_family == AF_INET6) {
 		const struct sockaddr_in6 * src_addr6 = (struct sockaddr_in6 *)&src_addr;
-#ifdef DEBUG
+
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "scope_id=%u\n", src_addr6->sin6_scope_id);
-#endif	/* DEBUG */
+
 		if(scope_id)
 			*scope_id = src_addr6->sin6_scope_id;
 	} else {

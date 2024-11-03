@@ -22,43 +22,46 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\addr_is_reserved.c" />
-    <ClCompile Include="..\..\connecthostport.c" />
-    <ClCompile Include="..\..\igd_desc_parse.c" />
-    <ClCompile Include="..\..\minisoap.c" />
-    <ClCompile Include="..\..\minissdpc.c" />
-    <ClCompile Include="..\..\miniupnpc.c" />
-    <ClCompile Include="..\..\miniwget.c" />
-    <ClCompile Include="..\..\minixml.c" />
-    <ClCompile Include="..\..\portlistingparse.c" />
-    <ClCompile Include="..\..\receivedata.c" />
-    <ClCompile Include="..\..\upnpc.c" />
-    <ClCompile Include="..\..\upnpcommands.c" />
-    <ClCompile Include="..\..\upnpdev.c" />
-    <ClCompile Include="..\..\upnperrors.c" />
-    <ClCompile Include="..\..\upnpreplyparse.c" />
+    <ClCompile Include="..\..\src\addr_is_reserved.c" />
+    <ClCompile Include="..\..\src\connecthostport.c" />
+    <ClCompile Include="..\..\src\igd_desc_parse.c" />
+    <ClCompile Include="..\..\src\listdevices.c" />
+    <ClCompile Include="..\..\src\minisoap.c" />
+    <ClCompile Include="..\..\src\minissdpc.c" />
+    <ClCompile Include="..\..\src\miniupnpc.c" />
+    <ClCompile Include="..\..\src\miniwget.c" />
+    <ClCompile Include="..\..\src\minixml.c" />
+    <ClCompile Include="..\..\src\portlistingparse.c" />
+    <ClCompile Include="..\..\src\receivedata.c" />
+    <ClCompile Include="..\..\src\upnpc.c" />
+    <ClCompile Include="..\..\src\upnpcommands.c" />
+    <ClCompile Include="..\..\src\upnpdev.c" />
+    <ClCompile Include="..\..\src\upnperrors.c" />
+    <ClCompile Include="..\..\src\upnpreplyparse.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\addr_is_reserved.h" />
-    <ClInclude Include="..\..\config_libminiupnpc.h" />
-    <ClInclude Include="..\..\connecthostport.h" />
-    <ClInclude Include="..\..\igd_desc_parse.h" />
-    <ClInclude Include="..\..\minisoap.h" />
-    <ClInclude Include="..\..\minissdpc.h" />
-    <ClInclude Include="..\..\miniupnpc.h" />
-    <ClInclude Include="..\..\miniupnpctypes.h" />
-    <ClInclude Include="..\..\miniupnpc_declspec.h" />
-    <ClInclude Include="..\..\miniupnpc_socketdef.h" />
-    <ClInclude Include="..\..\miniwget.h" />
-    <ClInclude Include="..\..\miniwget_private.h" />
-    <ClInclude Include="..\..\minixml.h" />
-    <ClInclude Include="..\..\portlistingparse.h" />
-    <ClInclude Include="..\..\receivedata.h" />
+    <ClInclude Include="..\..\include\igd_desc_parse.h" />
+    <ClInclude Include="..\..\include\miniupnpc.h" />
+    <ClInclude Include="..\..\include\miniupnpcstrings.h" />
+    <ClInclude Include="..\..\include\miniupnpctypes.h" />
+    <ClInclude Include="..\..\include\miniupnpc_declspec.h" />
+    <ClInclude Include="..\..\include\miniwget.h" />
+    <ClInclude Include="..\..\include\portlistingparse.h" />
+    <ClInclude Include="..\..\include\upnpcommands.h" />
+    <ClInclude Include="..\..\include\upnpdev.h" />
+    <ClInclude Include="..\..\include\upnperrors.h" />
+    <ClInclude Include="..\..\include\upnpreplyparse.h" />
+    <ClInclude Include="..\..\src\addr_is_reserved.h" />
+    <ClInclude Include="..\..\src\codelength.h" />
+    <ClInclude Include="..\..\src\connecthostport.h" />
+    <ClInclude Include="..\..\src\minisoap.h" />
+    <ClInclude Include="..\..\src\minissdpc.h" />
+    <ClInclude Include="..\..\src\miniupnpc_socketdef.h" />
+    <ClInclude Include="..\..\src\miniwget_private.h" />
+    <ClInclude Include="..\..\src\minixml.h" />
+    <ClInclude Include="..\..\src\receivedata.h" />
+    <ClInclude Include="..\..\src\win32_snprintf.h" />
     <ClInclude Include="..\..\upnpc.h" />
-    <ClInclude Include="..\..\upnpcommands.h" />
-    <ClInclude Include="..\..\upnpdev.h" />
-    <ClInclude Include="..\..\upnperrors.h" />
-    <ClInclude Include="..\..\upnpreplyparse.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>libminiupnpc</ProjectName>
@@ -162,8 +165,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\;..\..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>TARGET_OS_WINDOWS;LIB_STATIC;_DEBUG;WIN32;HAVE_CONFIG_H;_LIB;__STDC_CONSTANT_MACROS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\src;..\..\include;..\..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG;MINIUPNP_STATICLIB;TARGET_OS_WINDOWS;LIB_STATIC;_DEBUG;WIN32;HAVE_CONFIG_H;_LIB;__STDC_CONSTANT_MACROS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>
       </MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -216,8 +219,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\;..\..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>TARGET_OS_WINDOWS;LIB_STATIC;NDEBUG;WIN32;HAVE_CONFIG_H;_LIB;__STDC_CONSTANT_MACROS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\src;..\..\include;..\..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>MINIUPNP_STATICLIB;TARGET_OS_WINDOWS;LIB_STATIC;NDEBUG;WIN32;HAVE_CONFIG_H;_LIB;__STDC_CONSTANT_MACROS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>

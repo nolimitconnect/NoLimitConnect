@@ -7,9 +7,6 @@
  * http://miniupnp.free.fr/ or https://miniupnp.tuxfamily.org/
  * This software is subjet to the conditions detailed in the
  * provided LICENCE file. */
-
-#include "config_libminiupnpc.h"
-
 #include <string.h>
 #include "upnperrors.h"
 #include "upnpcommands.h"

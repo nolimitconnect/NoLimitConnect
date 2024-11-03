@@ -520,7 +520,9 @@ typedef __int64				off64_t;
 typedef __int64				fpos64_t;
 typedef __int64				__off64_t;
 typedef long				__off_t;
+#ifndef socklen_t
 typedef int					socklen_t;
+#endif // socklen_t
 typedef int					locale_t;
 typedef unsigned short		_ino_t;
 typedef	_ino_t				ino_t;
@@ -875,7 +877,9 @@ typedef struct _TIME_ZONE_INFORMATION {
 // Network
 #define SOCKADDR_IN         struct sockaddr_in
 #define IN_ADDR             struct in_addr
+#if !defined( SOCKET )
 typedef int					SOCKET;
+#endif // !defined( SOCKET )
 #define closesocket(s)		close(s)
 #if !defined( ioctlsocket )
 # define ioctlsocket(s, f, v) ioctl(s, f, v)

@@ -66,7 +66,18 @@ AppletTestUpnp::AppletTestUpnp( AppCommon& app, QWidget* parent )
     connect( ui.m_ListPortForwardButton, SIGNAL(clicked()), this, SLOT(slotListPortForward()) );
     connect( ui.m_CopyLogToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyLogToClipboard()) );
 
+    ui.m_DebugCheckBox->setChecked( true );
+    ui.m_ErrorCheckBox->setChecked( true );
+
+    connect( ui.m_VerboseCheckBox, SIGNAL(clicked()), this, SLOT(slotUpdateLogFlags()) );
+    connect( ui.m_DebugCheckBox, SIGNAL(clicked()), this, SLOT(slotUpdateLogFlags()) );
+    connect( ui.m_ErrorCheckBox, SIGNAL(clicked()), this, SLOT(slotUpdateLogFlags()) );
+
     VxAddLogHandler( this );
+
+    m_LogLevelFlags = VxGetLogLevelFlags();
+    VxSetLogLevelFlags( m_LogLevelFlags | LOG_ERROR | LOG_DEBUG );
+
     m_WasUpnpLogEnabled = IsLogEnabled( eLogPortForward );
     if( !m_WasUpnpLogEnabled )
     {
@@ -99,6 +110,8 @@ AppletTestUpnp::~AppletTestUpnp()
     {
         VxSetLogModuleFlags( m_LogModuleFlags );
     }
+
+    VxSetLogLevelFlags( m_LogLevelFlags );
 
     m_MyApp.activityStateChange( this, false );
 }
@@ -134,7 +147,9 @@ void AppletTestUpnp::slotAddPortForward()
 {
     if( validateIpAndPort() )
     {
-        VxPortForward::addPortForward( m_IsIpv6, m_IpAddr, m_Port );       
+        logMsg( "VxPortForward::addPortForward params %s IP %s port %d", 
+                m_IsIpv6 ? "ipv6" : "ipv4", m_IpAddr.c_str(), m_Port );
+        VxPortForward::addPortForward( m_IsIpv6, m_IpAddr.c_str(), m_Port, true );
     }
 }
 
@@ -143,7 +158,8 @@ void AppletTestUpnp::slotRemovePortForward()
 {
     if( validateIpAndPort() )
     {
-        VxPortForward::removePortForward( m_IsIpv6, m_Port );       
+        logMsg( "VxPortForward::removePortForward params %s port %d ", m_IsIpv6 ? "ipv6" : "ipv4", m_Port );
+        VxPortForward::removePortForward( m_IsIpv6, m_Port, true );
     }
 }
 
@@ -151,8 +167,9 @@ void AppletTestUpnp::slotRemovePortForward()
 void AppletTestUpnp::slotListPortForward()
 {
     if( validateIpAndPort() )
-    {
-        VxPortForward::listPortForward( m_IsIpv6 );
+    {      
+        logMsg( "VxPortForward::listPortForward prams %s ip %s", m_IsIpv6 ? "ipv6" : "ipv4", m_IpAddr.c_str() );
+        VxPortForward::listPortForward( m_IpAddr.c_str(), m_IsIpv6, true );
     }
 }
 
@@ -161,6 +178,40 @@ void AppletTestUpnp::slotCopyLogToClipboard()
 {
     QClipboard * clipboard = QApplication::clipboard();
     clipboard->setText( getLogEdit()->toPlainText() );
+}
+
+//============================================================================
+void AppletTestUpnp::slotUpdateLogFlags()
+{
+    uint32_t logLevelFlags = m_LogLevelFlags;
+    if( ui.m_VerboseCheckBox->isChecked() )
+    {
+        logLevelFlags |= LOG_VERBOSE;
+    }
+    else
+    {
+        logLevelFlags &= ~LOG_VERBOSE;
+    }
+
+    if( ui.m_DebugCheckBox->isChecked() )
+    {
+        logLevelFlags |= LOG_DEBUG;
+    }
+    else
+    {
+        logLevelFlags &= ~LOG_DEBUG;
+    }
+
+    if( ui.m_ErrorCheckBox->isChecked() )
+    {
+        logLevelFlags |= LOG_ERROR;
+    }
+    else
+    {
+        logLevelFlags &= ~LOG_ERROR;
+    }
+
+    VxSetLogLevelFlags( logLevelFlags );
 }
 
 //============================================================================

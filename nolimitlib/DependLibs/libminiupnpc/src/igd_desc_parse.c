@@ -6,11 +6,11 @@
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution. */
 
-#include "config_libminiupnpc.h"
-
 #include "igd_desc_parse.h"
 #include <stdio.h>
 #include <string.h>
+
+#include <CoreLib/VxDebug.h>
 
 /* Start element handler :
  * update nesting level counter and copy element name */
@@ -95,31 +95,31 @@ void IGDdata(void * d, const char * data, int l)
 #ifdef DEBUG
 void printIGD(struct IGDdatas * d)
 {
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "urlbase = '%s'\n", d->urlbase);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "WAN Device (Common interface config) :\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "urlbase = '%s'\n", d->urlbase);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "WAN Device (Common interface config) :\n");
 	/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " deviceType = '%s'\n", d->CIF.devicetype);*/
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " serviceType = '%s'\n", d->CIF.servicetype);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " controlURL = '%s'\n", d->CIF.controlurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " eventSubURL = '%s'\n", d->CIF.eventsuburl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " SCPDURL = '%s'\n", d->CIF.scpdurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "primary WAN Connection Device (IP or PPP Connection):\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " serviceType = '%s'\n", d->CIF.servicetype);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " controlURL = '%s'\n", d->CIF.controlurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " eventSubURL = '%s'\n", d->CIF.eventsuburl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " SCPDURL = '%s'\n", d->CIF.scpdurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "primary WAN Connection Device (IP or PPP Connection):\n");
 	/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " deviceType = '%s'\n", d->first.devicetype);*/
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " servicetype = '%s'\n", d->first.servicetype);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " controlURL = '%s'\n", d->first.controlurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " eventSubURL = '%s'\n", d->first.eventsuburl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " SCPDURL = '%s'\n", d->first.scpdurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "secondary WAN Connection Device (IP or PPP Connection):\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " servicetype = '%s'\n", d->first.servicetype);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " controlURL = '%s'\n", d->first.controlurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " eventSubURL = '%s'\n", d->first.eventsuburl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " SCPDURL = '%s'\n", d->first.scpdurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "secondary WAN Connection Device (IP or PPP Connection):\n");
 	/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " deviceType = '%s'\n", d->second.devicetype);*/
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " servicetype = '%s'\n", d->second.servicetype);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " controlURL = '%s'\n", d->second.controlurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " eventSubURL = '%s'\n", d->second.eventsuburl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " SCPDURL = '%s'\n", d->second.scpdurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "WAN IPv6 Firewall Control :\n");
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " servicetype = '%s'\n", d->second.servicetype);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " controlURL = '%s'\n", d->second.controlurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " eventSubURL = '%s'\n", d->second.eventsuburl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " SCPDURL = '%s'\n", d->second.scpdurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "WAN IPv6 Firewall Control :\n");
 	/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " deviceType = '%s'\n", d->IPv6FC.devicetype);*/
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " servicetype = '%s'\n", d->IPv6FC.servicetype);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " controlURL = '%s'\n", d->IPv6FC.controlurl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " eventSubURL = '%s'\n", d->IPv6FC.eventsuburl);
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, " SCPDURL = '%s'\n", d->IPv6FC.scpdurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " servicetype = '%s'\n", d->IPv6FC.servicetype);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " controlURL = '%s'\n", d->IPv6FC.controlurl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " eventSubURL = '%s'\n", d->IPv6FC.eventsuburl);
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, " SCPDURL = '%s'\n", d->IPv6FC.scpdurl);
 }
 #endif /* DEBUG */
 

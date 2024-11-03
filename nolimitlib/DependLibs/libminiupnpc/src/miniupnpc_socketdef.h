@@ -36,7 +36,7 @@
 
 /* definition of PRINT_SOCKET_ERROR */
 #ifdef _WIN32
-#define PRINT_SOCKET_ERROR(x)    fprintf(stderr, "Socket error: %s, %d\n", x, WSAGetLastError());
+#define PRINT_SOCKET_ERROR(x)    LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "Socket error: %s, %d\n", x, WSAGetLastError());
 #else
 #define PRINT_SOCKET_ERROR(x) perror(x)
 #endif

@@ -4,9 +4,6 @@
  * (c) 2011-2020 Thomas Bernard
  * This software is subject to the conditions detailed
  * in the LICENCE file provided within the distribution */
-
-#include "config_libminiupnpc.h"
-
 #include <string.h>
 #include <stdlib.h>
 #ifdef DEBUG
@@ -14,6 +11,8 @@
 #endif /* DEBUG */
 #include "portlistingparse.h"
 #include "minixml.h"
+
+#include <CoreLib/VxDebug.h>
 
 #if defined(__HAIKU__)
 /* rename our private function because Haiku already defines a atoui() function */
@@ -76,10 +75,10 @@ startelt(void * d, const char * name, int l)
 		if(pm == NULL)
 		{
 			/* malloc error */
-#ifdef DEBUG
+
 			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "%s: error allocating memory",
 			        "startelt");
-#endif /* DEBUG */
+
 			return;
 		}
 		pm->l_next = pdata->l_head;	/* insert in list */

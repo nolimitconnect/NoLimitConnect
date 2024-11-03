@@ -33,6 +33,9 @@
 
 typedef void ( *LOG_FUNCTION )( void *, uint32_t, const char * );
 
+// for c only call to LogCModule which is the c equivilent of LogModule
+#define MODULE_PORT_FORWARD 0x00020000 // must match enum eLogPortForward
+
 // protected by #ifdef __cplusplus so can be included in .c code
 #ifdef __cplusplus
 
@@ -123,17 +126,17 @@ void							VxRemoveLogHandler( ILogCallbackInterface * logHandler );
 extern "C" {
 #endif
 
-// set logging priority mask or 0 to disable logging example  VxSetLogPriorityMask( LOG_VERBOSE ) or VxSetLogPriorityMask( LOG_PRIORITY_MASK )
-void                            VxSetLogPriorityMask( uint32_t flags );
-uint32_t                        VxGetLogPriorityMask( void );
+// set mask of logging levels such as LOG_VERBOSE, LOG_DEBUG, LOG_ERROR etc
+void							VxSetLogLevelFlags( uint32_t logFlags );
+uint32_t						VxGetLogLevelFlags( void );
 
-// get module enable logging flags defined above
+// get module enable logging flags defined above in ELogModule
 void                            VxSetModuleLogFlags( uint64_t flags );
 uint64_t                        VxGetModuleLogFlags( void );
 
 // enable log to file
 void							VxSetLogToFile( const char* pFileName );
-void							VxSetLogFlags( uint32_t u32LogFlags );
+
 
 // enable/disable default log handler
 void                            VxEnableDefaultLogHandler( bool enableDefaultHandler );

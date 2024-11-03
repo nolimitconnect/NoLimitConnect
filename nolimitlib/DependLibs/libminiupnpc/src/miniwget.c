@@ -2,11 +2,9 @@
 /* Project : miniupnp
  * Website : http://miniupnp.free.fr/ or https://miniupnp.tuxfamily.org/
  * Author : Thomas Bernard
- * Copyright (c) 2005-2023 Thomas Bernard
+ * Copyright (c) 2005-2024 Thomas Bernard
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution. */
-
-#include "config_libminiupnpc.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +15,7 @@
 #include <ws2tcpip.h>
 #include <io.h>
 #define MAXHOSTNAMELEN 64
-#define snprintf _snprintf
+#include "win32_snprintf.h"
 #define socklen_t int
 #ifndef strncasecmp
 #if defined(_MSC_VER) && (_MSC_VER >= 1400)
@@ -55,6 +53,8 @@
 #include "miniwget.h"
 #include "connecthostport.h"
 #include "receivedata.h"
+
+#include <CoreLib/VxDebug.h>
 
 #ifndef MAXHOSTNAMELEN
 #define MAXHOSTNAMELEN 64
@@ -184,7 +184,7 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 								if(*status_code < 0)
 								{
 									if (header_buf[sp+1] >= '1' && header_buf[sp+1] <= '9')
-									*status_code = atoi(header_buf + sp + 1);
+										*status_code = atoi(header_buf + sp + 1);
 								}
 								else
 								{
@@ -196,14 +196,14 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 								}
 							}
 #ifdef DEBUG
-						LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "HTTP status code = %d, Reason phrase = %.*s\n",
+						LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "HTTP status code = %d, Reason phrase = %.*s\n",
 						       *status_code, reason_phrase_len, reason_phrase);
 #endif
 					}
 					else if(colon > linestart && valuestart > colon)
 					{
 #ifdef DEBUG
-						LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "header='%.*s', value='%.*s'\n",
+						LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "header='%.*s', value='%.*s'\n",
 						       colon-linestart, header_buf+linestart,
 						       i-valuestart, header_buf+valuestart);
 #endif
@@ -211,14 +211,14 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 						{
 							content_length = atoi(header_buf+valuestart);
 #ifdef DEBUG
-							LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Content-Length: %d\n", content_length);
+							LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "Content-Length: %d\n", content_length);
 #endif
 						}
 						else if(0==strncasecmp(header_buf+linestart, "transfer-encoding", colon-linestart)
 						   && 0==strncasecmp(header_buf+valuestart, "chunked", 7))
 						{
 #ifdef DEBUG
-							LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "chunked transfer-encoding!\n");
+							LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "chunked transfer-encoding!\n");
 #endif
 							chunked = 1;
 						}
@@ -237,100 +237,67 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 		}
 		/* if we get there, endofheaders != 0.
 		 * In the other case, there was a continue above */
-			/* content */
-			if(chunked)
+		/* content */
+		if(chunked)
+		{
+			int i = 0;
+			while(i < n)
 			{
-				int i = 0;
-				while(i < n)
+				if(chunksize == 0)
 				{
+					/* reading chunk size */
+					if(chunksize_buf_index == 0) {
+						/* skipping any leading CR LF */
+						if(buf[i] == '\r') i++;
+						if(i<n && buf[i] == '\n') i++;
+					}
+					while(i<n && isxdigit(buf[i])
+					     && chunksize_buf_index < (sizeof(chunksize_buf)-1))
+					{
+						chunksize_buf[chunksize_buf_index++] = buf[i];
+						chunksize_buf[chunksize_buf_index] = '\0';
+						i++;
+					}
+					while(i<n && buf[i] != '\r' && buf[i] != '\n')
+						i++; /* discarding chunk-extension */
+					if(i<n && buf[i] == '\r') i++;
+					if(i<n && buf[i] == '\n') {
+						unsigned int j;
+						for(j = 0; j < chunksize_buf_index; j++) {
+						if(chunksize_buf[j] >= '0'
+						   && chunksize_buf[j] <= '9')
+							chunksize = (chunksize << 4) + (chunksize_buf[j] - '0');
+						else
+							chunksize = (chunksize << 4) + ((chunksize_buf[j] | 32) - 'a' + 10);
+						}
+						chunksize_buf[0] = '\0';
+						chunksize_buf_index = 0;
+						i++;
+					} else {
+						/* not finished to get chunksize */
+						continue;
+					}
+#ifdef DEBUG
+					LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "chunksize = %u (%x)\n", chunksize, chunksize);
+#endif
 					if(chunksize == 0)
 					{
-						/* reading chunk size */
-						if(chunksize_buf_index == 0) {
-							/* skipping any leading CR LF */
-						    if(buf[i] == '\r') i++;
-							if(i<n && buf[i] == '\n') i++;
-						}
-						while(i<n && isxdigit(buf[i])
-						     && chunksize_buf_index < (sizeof(chunksize_buf)-1))
-						{
-							chunksize_buf[chunksize_buf_index++] = buf[i];
-							chunksize_buf[chunksize_buf_index] = '\0';
-							i++;
-						}
-						while(i<n && buf[i] != '\r' && buf[i] != '\n')
-							i++; /* discarding chunk-extension */
-						if(i<n && buf[i] == '\r') i++;
-						if(i<n && buf[i] == '\n') {
-							unsigned int j;
-							for(j = 0; j < chunksize_buf_index; j++) {
-							if(chunksize_buf[j] >= '0'
-							   && chunksize_buf[j] <= '9')
-								chunksize = (chunksize << 4) + (chunksize_buf[j] - '0');
-							else
-								chunksize = (chunksize << 4) + ((chunksize_buf[j] | 32) - 'a' + 10);
-							}
-							chunksize_buf[0] = '\0';
-							chunksize_buf_index = 0;
-							i++;
-						} else {
-							/* not finished to get chunksize */
-							continue;
-						}
 #ifdef DEBUG
-						LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "chunksize = %u (%x)\n", chunksize, chunksize);
+						LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "end of HTTP content - %d %d\n", i, n);
+						/*LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "'%.*s'\n", n-i, buf+i);*/
 #endif
-						if(chunksize == 0)
-						{
-#ifdef DEBUG
-							LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "end of HTTP content - %d %d\n", i, n);
-							/*LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "'%.*s'\n", n-i, buf+i);*/
-#endif
-							goto end_of_stream;
-						}
+						goto end_of_stream;
 					}
-					/* it is guaranteed that (n >= i) */
-					bytestocopy = (chunksize < (unsigned int)(n - i))?chunksize:(unsigned int)(n - i);
-					if((content_buf_used + bytestocopy) > content_buf_len)
-					{
-						char * tmp;
-						if((content_length >= 0) && ((unsigned int)content_length >= (content_buf_used + bytestocopy))) {
-							content_buf_len = content_length;
-						} else {
-							content_buf_len = content_buf_used + bytestocopy;
-						}
-						tmp = realloc(content_buf, content_buf_len);
-						if(tmp == NULL) {
-							/* memory allocation error */
-							free(content_buf);
-							free(header_buf);
-							*size = -1;
-							return NULL;
-						}
-						content_buf = tmp;
-					}
-					memcpy(content_buf + content_buf_used, buf + i, bytestocopy);
-					content_buf_used += bytestocopy;
-					i += bytestocopy;
-					chunksize -= bytestocopy;
 				}
-			}
-			else
-			{
-				/* not chunked */
-				if(content_length > 0
-				   && (content_buf_used + n) > (unsigned int)content_length) {
-					/* skipping additional bytes */
-					n = content_length - content_buf_used;
-				}
-				if(content_buf_used + n > content_buf_len)
+				/* it is guaranteed that (n >= i) */
+				bytestocopy = (chunksize < (unsigned int)(n - i))?chunksize:(unsigned int)(n - i);
+				if((content_buf_used + bytestocopy) > content_buf_len)
 				{
 					char * tmp;
-					if(content_length >= 0
-					   && (unsigned int)content_length >= (content_buf_used + n)) {
+					if((content_length >= 0) && ((unsigned int)content_length >= (content_buf_used + bytestocopy))) {
 						content_buf_len = content_length;
 					} else {
-						content_buf_len = content_buf_used + n;
+						content_buf_len = content_buf_used + bytestocopy;
 					}
 					tmp = realloc(content_buf, content_buf_len);
 					if(tmp == NULL) {
@@ -342,15 +309,48 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 					}
 					content_buf = tmp;
 				}
-				memcpy(content_buf + content_buf_used, buf, n);
-				content_buf_used += n;
+				memcpy(content_buf + content_buf_used, buf + i, bytestocopy);
+				content_buf_used += bytestocopy;
+				i += bytestocopy;
+				chunksize -= bytestocopy;
 			}
+		}
+		else
+		{
+			/* not chunked */
+			if(content_length > 0
+			   && (content_buf_used + n) > (unsigned int)content_length) {
+				/* skipping additional bytes */
+				n = content_length - content_buf_used;
+			}
+			if(content_buf_used + n > content_buf_len)
+			{
+				char * tmp;
+				if(content_length >= 0
+				   && (unsigned int)content_length >= (content_buf_used + n)) {
+					content_buf_len = content_length;
+				} else {
+					content_buf_len = content_buf_used + n;
+				}
+				tmp = realloc(content_buf, content_buf_len);
+				if(tmp == NULL) {
+					/* memory allocation error */
+					free(content_buf);
+					free(header_buf);
+					*size = -1;
+					return NULL;
+				}
+				content_buf = tmp;
+			}
+			memcpy(content_buf + content_buf_used, buf, n);
+			content_buf_used += n;
+		}
 		/* use the Content-Length header value if available */
 		if(content_length > 0 && content_buf_used >= (unsigned int)content_length)
 		{
-#ifdef DEBUG
-			LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "End of HTTP content\n");
-#endif
+
+			LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "End of HTTP content\n");
+
 			break;
 		}
 	}
@@ -406,7 +406,7 @@ miniwget3(const char * host,
 /*		if(WSAAddressToStringA((SOCKADDR *)&saddr, sizeof(saddr),
                             NULL, addr_str, (DWORD *)&addr_str_len))
 		{
-		    LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "WSAAddressToStringA() failed : %d\n", WSAGetLastError());
+		    LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "WSAAddressToStringA() failed : %d\n", WSAGetLastError());
 		}*/
 			/* the following code is only compatible with ip v4 addresses */
 			strncpy(addr_str, inet_ntoa(((struct sockaddr_in *)&saddr)->sin_addr), addr_str_len);
@@ -437,17 +437,16 @@ miniwget3(const char * host,
 			}
 #endif
 		}
-#ifdef DEBUG
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "address miniwget : %s\n", addr_str);
-#endif
+
+		LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "address miniwget : %s\n", addr_str);
+
 	}
 
 	len = snprintf(buf, sizeof(buf),
                  "GET %s HTTP/%s\r\n"
 			     "Host: %s:%d\r\n"
-				 "Connection: Close\r\n"
+				 "Connection: close\r\n"
 				 "User-Agent: " OS_STRING " " UPNP_VERSION_STRING " MiniUPnPc/" MINIUPNPC_VERSION_STRING "\r\n"
-
 				 "\r\n",
 			   path, httpversion, host, port);
 	if ((unsigned int)len >= sizeof(buf))
@@ -475,41 +474,6 @@ miniwget3(const char * host,
 	closesocket(s);
 	return content;
 }
-
-/* miniwget2() :
- * Call miniwget3(); retry with HTTP/1.1 if 1.0 fails. */
-static void *
-miniwget2(const char * host,
-          unsigned short port, const char * path,
-          int * size, char * addr_str, int addr_str_len,
-          unsigned int scope_id, int * status_code)
-{
-	char * respbuffer;
-
-#if 1
-	respbuffer = miniwget3(host, port, path, size,
-	                       addr_str, addr_str_len, "1.1",
-	                       scope_id, status_code);
-#else
-	respbuffer = miniwget3(host, port, path, size,
-	                       addr_str, addr_str_len, "1.0",
-	                       scope_id, status_code);
-	if (*size == 0)
-	{
-#ifdef DEBUG
-		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "Retrying with HTTP/1.1\n");
-#endif
-		free(respbuffer);
-		respbuffer = miniwget3(host, port, path, size,
-		                       addr_str, addr_str_len, "1.1",
-		                       scope_id, status_code);
-	}
-#endif
-	return respbuffer;
-}
-
-
-
 
 /* parseURL()
  * arguments :
@@ -637,11 +601,11 @@ miniwget(const char * url, int * size,
 	*size = 0;
 	if(!parseURL(url, hostname, &port, &path, &scope_id))
 		return NULL;
-#ifdef DEBUG
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "parsed url : hostname='%s' port=%hu path='%s' scope_id=%u\n",
+
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "parsed url : hostname='%s' port=%hu path='%s' scope_id=%u\n",
 	       hostname, port, path, scope_id);
-#endif
-	return miniwget2(hostname, port, path, size, 0, 0, scope_id, status_code);
+
+	return miniwget3(hostname, port, path, size, 0, 0, "1.1", scope_id, status_code);
 }
 
 void *
@@ -658,10 +622,9 @@ miniwget_getaddr(const char * url, int * size,
 		addr[0] = '\0';
 	if(!parseURL(url, hostname, &port, &path, &scope_id))
 		return NULL;
-#ifdef DEBUG
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "parsed url : hostname='%s' port=%hu path='%s' scope_id=%u\n",
-	       hostname, port, path, scope_id);
-#endif
-	return miniwget2(hostname, port, path, size, addr, addrlen, scope_id, status_code);
-}
 
+	LogCModule( MODULE_PORT_FORWARD, LOG_VERBOSE, "parsed url : hostname='%s' port=%hu path='%s' scope_id=%u\n",
+	       hostname, port, path, scope_id);
+
+	return miniwget3(hostname, port, path, size, addr, addrlen, "1.1", scope_id, status_code);
+}

@@ -424,9 +424,15 @@ NLC_BEGIN_CDECLARES
 //============================================================================
 
 //============================================================================
-void VxSetLogFlags( uint32_t u32LogFlags )
+void VxSetLogLevelFlags( uint32_t u32LogFlags )
 {
     g_u32LogFlags = u32LogFlags;
+}
+
+//============================================================================
+uint32_t VxGetLogLevelFlags( void )
+{
+    return g_u32LogFlags;
 }
 
 //============================================================================
@@ -446,23 +452,7 @@ uint64_t VxGetModuleLogFlags( void )
 //============================================================================
 void  VxSetModuleLogFlags( uint64_t flags )
 {
-#if !defined(LOG_IN_RELEASE_BUILD)
     g_ModuleEnableLoggingFlags = flags;
-#endif // !defined(LOG_IN_RELEASE_BUILD)
-}
-
-//============================================================================
-void  VxSetLogPriorityMask( uint32_t flags )
-{
-#if !defined(LOG_IN_RELEASE_BUILD)
-    g_u32LogFlags = flags;
-#endif // !defined(LOG_IN_RELEASE_BUILD)
-}
-
-//============================================================================
-uint32_t VxGetLogPriorityMask( void )
-{
-    return g_u32LogFlags;
 }
 
 //============================================================================

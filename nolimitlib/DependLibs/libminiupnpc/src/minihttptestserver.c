@@ -52,18 +52,18 @@ void handle_signal_int(int sig)
 /**
  * build a text/plain content of the specified length
  */
-void build_content(char * p, int n)
+void build_content(char * p, size_t n)
 {
 	char line_buffer[80];
 	int k;
 	int i = 0;
 
 	while(n > 0) {
-		k = snLogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, line_buffer, sizeof(line_buffer),
+		k = snprintf(line_buffer, sizeof(line_buffer),
 		             "%04d_ABCDEFGHIJKL_This_line_is_64_bytes_long_ABCDEFGHIJKL_%04d\r\n",
 		             i, i);
 		if(k != 64) {
-			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "snLogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, ) returned %d in build_content()\n", k);
+			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "snprintf() returned %d in build_content()\n", k);
 		}
 		++i;
 		if(n >= 64) {
@@ -150,7 +150,7 @@ char * build_chunked_response(size_t content_length, size_t * response_len)
 	*response_len += 5;
 	free(content_buffer);
 
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "resp_length=%d buffer_length=%d content_length=%d\n",
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "resp_length=%lu buffer_length=%lu content_length=%lu\n",
 	       *response_len, buffer_length, content_length);
 	return response_buffer;
 }
@@ -296,7 +296,7 @@ void send_response(int c, const char * buffer, size_t len)
 		} else {
 			len -= n;
 			buffer += n;
-		    usleep(10000); /* 10ms */
+			usleep(10000); /* 10ms */
 		}
 	}
 }
@@ -349,7 +349,7 @@ void handle_http_connection(int c)
 		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "no HTTP header found in the request\n");
 		return;
 	}
-	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "headers :\n%.*s", request_len, request_buffer);
+	LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "headers :\n%.*s", (int)request_len, request_buffer);
 	/* the request have been received, now parse the request line */
 	p = request_buffer;
 	for(i = 0; i < sizeof(request_method) - 1; i++) {
@@ -528,7 +528,7 @@ int main(int argc, char * * argv) {
 				LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "unknown command line switch '%s'\n", argv[i]);
 			}
 		} else {
-			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "unkown command line argument '%s'\n", argv[i]);
+			LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "unknown command line argument '%s'\n", argv[i]);
 		}
 	}
 
@@ -536,7 +536,7 @@ int main(int argc, char * * argv) {
 
 	r = server(port, expected_file_name, ipv6);
 	if(r != 0) {
-		LogCModule( MODULE_PORT_FORWARD, LOG_ERROR, "*** ERROR ***\n");
+		LogCModule( MODULE_PORT_FORWARD, LOG_DEBUG, "*** ERROR ***\n");
 	}
 	return r;
 }
