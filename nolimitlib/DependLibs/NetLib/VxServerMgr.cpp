@@ -73,7 +73,7 @@ std::shared_ptr<VxSktBase> VxServerMgr::makeNewAcceptSkt( bool ipv6 )
 bool VxServerMgr::startListening( bool ipv6, uint16_t port, bool usePortForwardIfEnabled )
 {
     setListenPort( port );
-    // no need to use upnp if we are sure of our external address
+    // no need to use upnp if we assume no firewall
     if( usePortForwardIfEnabled && ( GetPtoPEngine().getNetStatusAccum().getFirewallTestType() != eFirewallTestAssumeNoFirewall) )
     {
         addPortForward( ipv6, port );
@@ -441,5 +441,9 @@ bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
     if( !m_PortForwardResult )
     {
         LogMsg( LOG_ERROR, "%s Add ipv6 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
+        return false;
     }
+
+    return true;
 }
+
