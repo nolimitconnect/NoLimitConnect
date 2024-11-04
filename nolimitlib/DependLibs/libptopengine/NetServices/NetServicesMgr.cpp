@@ -319,7 +319,6 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReq( std::shared_ptr<VxSktBase>& s
 //============================================================================
 RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, std::string& fromClientNetCmdContent )
 {
-
 	InetAddrAndPort rmtAddr;
     VxGetRmtAddress( sktBase->m_Socket, rmtAddr );
 	std::string strRmtAddr = rmtAddr.toString().c_str();
@@ -353,13 +352,17 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktB
 	if( false == pingSuccess )
 	{
         LogModule( eLogIsPortOpenTest, LOG_ERROR, "handleNetCmdIsMyPortOpenReq: FAILED PING ip %s port %d %3.3f sec", strRmtAddr.c_str(), u16Port, cmdTimer.elapsedMs() );
-		return m_NetServiceUtils.buildAndSendCmd( sktBase, eNetCmdIsMyPortOpenReply, toClientContent, eNetCmdErrorPortIsClosed );
+        m_NetServiceUtils.buildAndSendCmd( sktBase, eNetCmdIsMyPortOpenReply, toClientContent, eNetCmdErrorPortIsClosed );
+        // always return true or might get marked as hacker due to timeout etc.
+        return true;
 	}
 
     LogModule( eLogIsPortOpenTest, LOG_ERROR, "handleNetCmdIsMyPortOpenReq: SUCCESS PING ip %s port %d %3.3f sec", strRmtAddr.c_str(), u16Port, cmdTimer.elapsedMs() );
 	toClientContent = "1-";
 	toClientContent += strRmtAddr;
-	return m_NetServiceUtils.buildAndSendCmd( sktBase, eNetCmdIsMyPortOpenReply, toClientContent, eNetCmdErrorNone );
+    m_NetServiceUtils.buildAndSendCmd( sktBase, eNetCmdIsMyPortOpenReply, toClientContent, eNetCmdErrorNone );
+    // always return true or might get marked as hacker due to timeout etc.
+    return true;
 }
 
 //============================================================================
@@ -384,7 +387,6 @@ bool NetServicesMgr::doNetCmdPing( const char* ipAddress, uint16_t u16Port, std:
 		else
 		{
 			LogModule( eLogIsPortOpenTest, LOG_INFO, "##P NetServicesMgr::doNetCmdPing FAILED rx PONG from %s:%d in %3.3f sec thread 0x%x", ipAddress, u16Port, totalTime, VxGetCurrentThreadId() );
-
 		}
 
 		return sndPingResult;
@@ -601,6 +603,8 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 {
     retMyExternalIp.clear();
 
+    setIsTestConnectionActive( true ); // so will accept net cmd ping for is port open test
+
 	uint16_t tcpListenPort = m_Engine.getMyPktAnnounce().getOnlinePort();
 	bool ipv6 = m_EngineSettings.getUseIpv6();
 	// for logging.. do not bind local ip
@@ -629,6 +633,8 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 			{
 				sendUserLog( "Your TCP Port %d IS ASSUMED OPEN ON IP %s)", tcpListenPort, retMyExternalIp.c_str() );
 			}
+
+            setIsTestConnectionActive( false );
             return eNetCmdErrorNone;
         }
         else
@@ -646,6 +652,8 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 			{
 				sendUserLog( "Test Port %d Is Open ERROR no external IP specified for Assume No Firewall", tcpListenPort );
 			}
+
+            setIsTestConnectionActive( false );
             return eNetCmdErrorBadParameter;
         }
     }
@@ -693,6 +701,8 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 			{
 				sendUserLog( "FAILED Connect lcl ip %s to connect test service %s error %s", lclIp.c_str(), netSrvUrl.c_str(), VxDescribeSktError( rc ) );
 			}
+
+            setIsTestConnectionActive( false );
             return eNetCmdErrorConnectFailed;
         }
         else
@@ -737,6 +747,7 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 		}
 
 		m_IsPortOpenMutex.unlock();
+        setIsTestConnectionActive( false );
 		return portOpenTestError;
     }
 
@@ -754,6 +765,7 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 			sendUserLog( "TCP Port %d Test site %s Timed out so will have to be tested manually", tcpListenPort, netSrvUrl.c_str() );
 		}
 		m_IsPortOpenMutex.unlock();
+        setIsTestConnectionActive( false );
 		return portOpenTestError;
 	}
 
@@ -794,6 +806,7 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 	}
 
 	m_IsPortOpenMutex.unlock();
+    setIsTestConnectionActive( false );
 	return portOpenTestError; 
 }
 
@@ -917,7 +930,7 @@ ENetCmdError NetServicesMgr::sendAndRecieveIsMyPortOpen( VxTimer&				portTestTim
 		LogMsg( LOG_ERROR, "Is TCP Port %d Open Test Invalid Content Parts (%3.3f sec) thread 0x%x", tcpListenPort, portTestTimer.elapsedSec(), VxGetCurrentThreadId() );
 		if( sendMsgToUser )
 		{
-			sendUserLog( "Is TCP Port %d Open Test Invalid Content Parts (%3.3f sec)", tcpListenPort, portTestTimer.elapsedSec()  );
+            sendUserLog( "Is TCP Port %d Open Test Invalid Content Parts (%3.3f sec)", tcpListenPort, portTestTimer.elapsedSec()  );
 		}
 
 		return eNetCmdErrorInvalidContent;
@@ -932,8 +945,8 @@ ENetCmdError NetServicesMgr::sendAndRecieveIsMyPortOpen( VxTimer&				portTestTim
 			   __func__, strPayload.c_str(), retMyExternalIp.c_str(), tcpListenPort, VxGetCurrentThreadId() );
 	if( sendMsgToUser )
 	{
-		sendUserLog( "NetActionIsMyPortOpen::%s: test can direct connect %s my ip %s:%d",
-					 __func__, strPayload.c_str(), retMyExternalIp.c_str(), tcpListenPort );
+        sendUserLog( "NetActionIsMyPortOpen::%s: test can direct connect %s my ip %s:%d response time %3.3f sec",
+                     __func__, strPayload.c_str(), retMyExternalIp.c_str(), tcpListenPort, portTestTimer.elapsedSec() );
 	}
 
 	return iIsOpen ? eNetCmdErrorNone : eNetCmdErrorPortIsClosed;
