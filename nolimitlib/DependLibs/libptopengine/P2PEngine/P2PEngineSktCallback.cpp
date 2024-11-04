@@ -83,24 +83,49 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
                     VxPktHdr* pktHdrNetServ = (VxPktHdr*)bufCopy;
                     if( pktHdrNetServ->isValidPkt() && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
                     {
+						sktBase->setIsNetServiceConnection( true );
                         wasNetServiceRequest = true;
                         pktType = pktHdrNetServ->getPktType();
                         if( getNetServicesMgr().shouldHandleNetServicePacket() )
-                        {
-                            sktBase->setIsNetServiceConnection( true );
+                        {                       
                             wasNetServiceRequest = getNetServicesMgr().handlePktNetService( sktBase, pktHdrNetServ, permissionError );
-                            if( !wasNetServiceRequest )
-                            {
-                                // probably a permission error
-                                // should this be considered a hack?
-                                sktBase->setIsNetServiceConnection( false );
-                            }
                         }
                         else
                         {
                             netServiceRequestRejected = true;
                             pktTypeDesc = pktHdrNetServ->describePktType( pktType );
+							LogMsg( LOG_ERROR, "P2PEngine::%s rejecting net service pkt %s from ip %s", pktTypeDesc.c_str(), sktBase->getRemoteIp().c_str() );
                         }
+
+						if( permissionError )
+						{
+							firstPktSignature.fromRawData( pSktBuf );
+							hackerOffense( eHackerLevelMedium, eHackerReasonAccessDenied, sktBase->getRemoteIpBinary(), firstPktSignature, "Hacker attempted disabled net service ip %s", sktBase->getRemoteIp().c_str() );
+							sktBase->closeSkt( eSktCloseNetServiceHandled );
+							delete[] bufCopy;
+							return;
+						}
+						else if( wasNetServiceRequest )
+						{
+							sktBase->sktBufAmountRead( iDataLen );  // release mutex
+							sktBase->setIsFirstRxPacket( false );
+							if( netServiceRequestRejected )
+							{
+								// this can happen if is port open test times out before net service ping request is received
+								LogMsg( LOG_DEBUG, "Rejected net service pkt type %s from ip %s", pktTypeDesc.c_str(), sktBase->getRemoteIp().c_str() );
+							}
+
+							delete[] bufCopy;
+							return;
+						}
+						else
+						{
+							// was a valid net service packet that returned false and was not a permission error
+							// might have been an incomplete pkt
+							LogMsg( LOG_DEBUG, "net service returned false for pkt type %s from ip %s", pktTypeDesc.c_str(), sktBase->getRemoteIp().c_str() );
+							delete[] bufCopy;
+							return;
+						}
                     }
                     else
                     {
@@ -112,44 +137,10 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
             }
             else
             {
+				// could not get crypto pwd for net services
                 // make a signature in case it needs to be recorded as hacker
                 firstPktSignature.fromRawData( pSktBuf );
             }
-
-            if( permissionError )
-            {
-                firstPktSignature.fromRawData( pSktBuf );
-                hackerOffense( eHackerLevelMedium, eHackerReasonAccessDenied, sktBase->getRemoteIpBinary(), firstPktSignature, "Hacker attempted disabled net service ip %s", sktBase->getRemoteIp().c_str() );
-                sktBase->closeSkt( eSktCloseNetServiceHandled );
-                return;
-            }
-            else if( wasNetServiceRequest )
-            {
-                sktBase->sktBufAmountRead( iDataLen );  // release mutex
-                sktBase->setIsFirstRxPacket( false );
-                if( netServiceRequestRejected )
-                {
-                    // this can happen if is port open test times out before net service ping request is received
-                    LogMsg( LOG_DEBUG, "Rejected net service pkt type %s from ip %s", pktTypeDesc.c_str(), sktBase->getRemoteIp().c_str() );
-                }
-
-                return;
-            }
-            else
-            {
-                // make a signature in case it needs to be recorded as hacker
-                firstPktSignature.fromRawData( pSktBuf );
-            }
-			
-			if( wasNetServiceRequest )
-			{
-				return;
-			}
-			else
-			{	
-				// make a signature in case it needs to be recorded as hacker
-				firstPktSignature.fromRawData( pSktBuf );
-			}
 		}
 		else
 		{
