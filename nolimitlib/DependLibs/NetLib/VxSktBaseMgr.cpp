@@ -278,7 +278,7 @@ void VxSktBaseMgr::handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase )
     uint64_t timeNow = GetTimeStampMs();
     for( auto& sktBase : m_aoSkts )
     {
-        if( sktBase )
+        if( sktBase && !sktBase->isNetServiceConnection() )
         {
             if( timeNow - sktBase->getLastActiveTimeMs() > SKT_ALIVE_TIMEOUT )
             {

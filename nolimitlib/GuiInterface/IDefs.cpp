@@ -716,6 +716,8 @@ namespace
         "Skt Close NetworkHost ",
         "Skt Close ConnectTest ",
 
+        "Skt Close NetServiceTimeout ",
+
         "eMaxSktCloseReason "
     };
 

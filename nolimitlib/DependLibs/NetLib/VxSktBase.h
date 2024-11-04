@@ -128,6 +128,9 @@ public:
 
 	uint16_t					getCryptoKeyPort( void )						{ return (eSktTypeTcpAccept == getSktType()) ? m_LclIp.getPort() : m_RmtIp.getPort(); }
 
+	virtual void				setIsNetServiceConnection( bool isNetSrv ); // also updates active times to avoid timeouts
+	virtual bool				isNetServiceConnection( void )					{ return m_IsNetServiceConnection; }
+
 	// PktImAlive activity time
 	virtual void				setLastImAliveTimeRxMs( int64_t gmtTimeMs )		{ lockTimeAccess(); m_LastActiveTimeGmtMs = gmtTimeMs; m_LastImAliveTimeGmtRxMs = gmtTimeMs; unlockTimeAccess(); }
 	virtual int64_t			    getLastImAliveTimeRxMs( void )					{ lockTimeAccess(); int64_t timeParam = m_LastImAliveTimeGmtRxMs; unlockTimeAccess(); return timeParam; }
@@ -380,5 +383,7 @@ protected:
     static std::string          m_SktDirLoopback;
     static std::string          m_SktDirUnknown;
 	static VxGUID				m_LoopbackSocketId;
+
+	bool						m_IsNetServiceConnection{ false };
 };
 

@@ -82,7 +82,14 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 						VxPktHdr* pktHdrNetServ = (VxPktHdr*)bufCopy;
 						if( pktHdrNetServ->isValidPkt() && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
 						{
+							sktBase->setIsNetServiceConnection( true );
 							wasNetServiceRequest = getNetServicesMgr().handlePktNetService( sktBase, pktHdrNetServ, permissionError );
+							if( !wasNetServiceRequest )
+							{
+								// probably a permission error
+								// should this be considered a hack?
+								sktBase->setIsNetServiceConnection( false );
+							}
 						}
 						else
 						{

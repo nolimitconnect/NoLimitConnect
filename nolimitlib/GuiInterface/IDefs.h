@@ -1250,6 +1250,8 @@ enum ESktCloseReason
 
     eSktClosePushToTalk,
 
+    eSktCloseNetServiceTimeout,
+
     eMaxSktCloseReason			// always last
 };
 

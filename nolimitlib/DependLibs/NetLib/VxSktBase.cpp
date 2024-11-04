@@ -41,6 +41,7 @@ namespace
 {
 	const int					SKT_RX_RETRY_SLEEP_TIME_MS		= 400;
 	const int64_t				IM_ALIVE_TIMEOUT_MS			    = 180000; // 3 minutes very long should be shortened to 65000 after no longer debugging connections
+	const int64_t				NET_SERVICE_TIMEOUT_MS			= 180000; 
 }
 
 //============================================================================
@@ -1700,6 +1701,20 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 	}
 
 	int64_t timeNow( GetGmtTimeMs() );
+	if( isNetServiceConnection() )
+	{
+		int64_t timeLastActive = getLastActiveTimeMs();
+		if( timeNow - timeLastActive > NET_SERVICE_TIMEOUT_MS )
+		{
+			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds net service timeout skt hande %d num %d id %s peer %s desc %s",
+					getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
+					describePeerUser().c_str(), describeSktConnection().c_str() );
+			closeSkt( eSktCloseNetServiceTimeout );
+		}
+	
+		return;
+	}
+
 	int64_t timeAliveRx( getLastImAliveTimeRxMs() );
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
 	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
@@ -1725,4 +1740,20 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 
 		setLastImAliveTimeTxMs( timeNow );
 	}
+}
+//============================================================================
+void VxSktBase::setIsNetServiceConnection( bool isNetSrv )
+{
+	if( !isNetSrv )
+	{
+		m_IsNetServiceConnection = false;
+		return;
+	}
+
+	m_IsNetServiceConnection = true;
+	int64_t timeNow( GetGmtTimeMs() );
+	setLastImAliveTimeRxMs( timeNow );
+	setLastImAliveTimeTxMs( timeNow );
+	setLastActiveTimeMs( timeNow );
+	setLastSessionTimeMs( timeNow );
 }
