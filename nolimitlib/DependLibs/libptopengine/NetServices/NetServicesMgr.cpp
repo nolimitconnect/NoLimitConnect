@@ -114,6 +114,20 @@ VxGUID& NetServicesMgr::getMyOnlineId( void )
 }
 
 //============================================================================
+void NetServicesMgr::setIsTestConnectionActive( bool isActive )      
+{
+	LogModule( eLogIsPortOpenTest, LOG_DEBUG, "%s %s", __func__, isActive ? "true" : "false" );
+	m_TestConnectionActive = isActive; 
+}
+
+//============================================================================
+bool NetServicesMgr::getIsTestConnectionActive( void )               
+{ 
+	LogModule( eLogIsPortOpenTest, LOG_DEBUG, "%s %s", __func__, m_TestConnectionActive ? "true" : "false" );
+	return m_TestConnectionActive; 
+}
+
+//============================================================================
 void NetServicesMgr::netServicesStartup( void )
 {
 	m_NetActionThread.startThread( (VX_THREAD_FUNCTION_T)NetServicesMgrThreadFunc, this, "NetServMgrThrd" );
@@ -410,7 +424,7 @@ bool NetServicesMgr::sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple&
 	
 	std::string netServChallengeHash;
 	uint16_t cryptoKeyPort = toClientConn.getCryptoKeyPort();
-    m_NetServiceUtils.generateNetServiceChallengeHash(netServChallengeHash, cryptoKeyPort, getNetworkKey() );
+    m_NetServiceUtils.generateNetServiceChallengeHash( netServChallengeHash, cryptoKeyPort, getNetworkKey() );
 
 	m_NetServiceUtils.buildNetCmd( strNetCmd, netCmdPingType, netServChallengeHash, strPing );
 
@@ -419,7 +433,7 @@ bool NetServicesMgr::sendAndRecievePing( VxTimer& pingTimer, VxSktConnectSimple&
 
     // startSendTime is also the time it took to connect
 	double startSendTime = pingTimer.elapsedSec();
-	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( netCmdPingType, &toClientConn, strNetCmd, 8000 );
+	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( netCmdPingType, &toClientConn, strNetCmd, NETSERVICE_TX_TIMEOUT );
 	if( !wasSent )
 	{
 		double failSendTime = pingTimer.elapsedSec();
@@ -542,10 +556,6 @@ bool NetServicesMgr::actionReqConnectToNetService( VxSktConnectSimple& sktSimple
 
 	if( false == sktSimple.connectToWebsite( netSrvUrl.c_str(), strHost, strFile, u16Port, eIpAddrTypeUnknown, NETSERVICE_CONNECT_TIMEOUT ) )
 	{
-#ifdef LOG_PORT_TEST
-		LogMsg( LOG_ERROR, "NetServicesMgr::%s: FAILED to Connect to %s", __func__, netSrvUrl.c_str() );
-#endif // LOG_PORT_TEST
-
 		return false;
 	}
 
@@ -885,10 +895,11 @@ ENetCmdError NetServicesMgr::sendAndRecieveIsMyPortOpen( VxTimer&				portTestTim
 													rxBuf, 
 													sizeof( rxBuf ) - 1, 
 													netServiceHdr, 
-													( PORT_TEST_CONNECT_TO_CLIENT1_TIMEOUT + // server connect to us
-													PONG_RX_TIMEOUT + // server wait for use to respond to ping
-													1000), // a second as fuge factor receiving
-													500 ) ) // rx content of message should not take long
+													( PORT_TEST_CONNECT_TO_CLIENT1_TIMEOUT + // server connect to client timeout
+													NETSERVICE_TX_TIMEOUT + // server send to client ping request timeout
+													PONG_RX_TIMEOUT + // server wait for client to respond to ping request timeout											
+													2000 ), // fudge factor receiving because may take server time to respond to request
+													500 ) ) // rx content of message after receiving header should not take long
 	{
 		if( sendMsgToUser )
 		{

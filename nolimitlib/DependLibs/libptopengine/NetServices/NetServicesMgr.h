@@ -66,8 +66,8 @@ public:
 	uint16_t					getRxNetServicePort( void );
     std::string					getRxNetIpAddress( bool isIpv6Connection );
 
-	void                        setIsTestConnectionActive( bool isActive )      { m_TestConnectionActive = isActive; }
-    bool                        getIsTestConnectionActive( void )               { return m_TestConnectionActive; }
+	void                        setIsTestConnectionActive( bool isActive );
+	bool                        getIsTestConnectionActive( void );
 	void                        setIsQueryUrlActive( bool isActive )			{ m_QueryUrlActive = isActive; }
     bool                        getIsQueryUrlActive( void )						{ return m_QueryUrlActive; }
 

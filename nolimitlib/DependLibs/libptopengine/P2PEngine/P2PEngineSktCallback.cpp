@@ -94,7 +94,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
                         {
                             netServiceRequestRejected = true;
                             pktTypeDesc = pktHdrNetServ->describePktType( pktType );
-							LogMsg( LOG_ERROR, "P2PEngine::%s rejecting net service pkt %s from ip %s", pktTypeDesc.c_str(), sktBase->getRemoteIp().c_str() );
+							LogMsg( LOG_ERROR, "P2PEngine::%s rejecting net service pkt %s from ip %s", __func__, pktTypeDesc.c_str(), sktBase->getRemoteIp().c_str() );
                         }
 
 						if( permissionError )
@@ -129,7 +129,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
                     }
                     else
                     {
-                        LogMsg( LOG_ERROR, "P2PEngine::handleTcpData Bad Encryption for Rx net service packet or is really PKT_ANNOUNCE from ip %s", sktBase->getRemoteIp().c_str() );
+                        LogMsg( LOG_WARN, "P2PEngine::handleTcpData Bad Encryption for Rx net service packet or is really PKT_ANNOUNCE from ip %s", sktBase->getRemoteIp().c_str() );
                     }
                 }
 
