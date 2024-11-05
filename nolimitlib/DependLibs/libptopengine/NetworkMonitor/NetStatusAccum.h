@@ -152,6 +152,11 @@ public:
     bool                        getIsConnectTestHost( void ) { return m_IsConnectTestHost; }
     bool                        getIsNetworkHost( void ) { return m_IsNetworkHost; }
 
+    // when using connection test host that is not us
+    void                        setConnectionTestHostUrl( std::string connectTestUrl );
+    std::string                 getConnectionTestHostUrl( void );
+    uint16_t                    getConnectionTestHostPort( void );
+
     void                        threadedSetupListen( void );
 
 protected:
@@ -198,6 +203,9 @@ protected:
 
     bool                        m_NetHostIdAvail{ false };
     VxGUID                      m_NetNostOnlineId;
+
+    std::string                 m_ConnectionTestUrl; // full connection test host url
+    uint16_t                    m_ConnectionTestPort{ 0 }; // connection test host port
 
     EFirewallTestType           m_FirewallTestType{ eFirewallTestUrlConnectionTest };
     EInternetStatus             m_InternetStatus{ eInternetNoInternet };

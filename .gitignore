@@ -7,7 +7,7 @@ build-staticlibs/
 .vs/
 build/Android*
 build/Desktop_Qt*
-
+nolimitgui/binLinux/
 
 /**/*.user
 /**/*.a

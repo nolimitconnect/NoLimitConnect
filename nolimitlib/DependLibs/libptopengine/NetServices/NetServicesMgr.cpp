@@ -1465,7 +1465,10 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
     std::string keyIpAddr = sktBase->isAcceptSocket() ? getRxNetIpAddress(sktBase->getIsIpv6Connection())  : sktBase->getRemoteIpAddress();
 	if( eNetCmdClientPong == netCmdRequestType )
 	{
-		//keyPort = m_Engine.getNetworkStateMachine().getNetServicePort();
+		// connection test server is requesting ping response to test is port open
+		// we need to use the server port and 0.0.0.0 as address ip (even in the case of ipv6)
+		
+		keyPort = m_Engine.getNetStatusAccum().getConnectionTestHostPort();
 		keyIpAddr = "0.0.0.0";
 	}
 

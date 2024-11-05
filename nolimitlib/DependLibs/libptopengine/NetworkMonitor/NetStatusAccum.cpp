@@ -914,3 +914,44 @@ uint16_t NetStatusAccum::getNetworkHostPort( void )
     unlockAccum();
     return netHostPort;
 }
+
+//============================================================================
+void NetStatusAccum::setConnectionTestHostUrl( std::string connectTestUrl )
+{
+    lockAccum();
+    m_ConnectionTestUrl = connectTestUrl;
+    unlockAccum();
+
+    std::string webHostName;
+    std::string webFileName;
+    uint16_t port = 0;
+    VxSplitHostAndFile( connectTestUrl.c_str(), webHostName, webFileName, port );
+    if( !webHostName.empty() )
+    {
+        lockAccum();
+        if( port )
+        {
+            m_ConnectionTestPort = port;
+        }
+
+        unlockAccum();
+    }
+}
+
+//============================================================================
+std::string NetStatusAccum::getConnectionTestHostUrl( void )
+{
+    lockAccum();
+    std::string connectTestUrl = m_ConnectionTestUrl;
+    unlockAccum();
+    return connectTestUrl;
+}
+
+//============================================================================
+uint16_t NetStatusAccum::getConnectionTestHostPort( void )
+{
+    lockAccum();
+    uint16_t connectTestPort = m_ConnectionTestPort;
+    unlockAccum();
+    return connectTestPort;
+}
