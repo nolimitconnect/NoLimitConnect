@@ -684,7 +684,7 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
         m_EngineSettings.getConnectTestUrl( netSrvUrl );
     }
 
-    LogModule( eLogIsPortOpenTest, LOG_DEBUG, "%s Starting IsPortOpen port %d test url %s app sec %d thread 0x%x", __func__, lclIp.c_str(), tcpListenPort, netSrvUrl.c_str(), GetApplicationAliveSec(), VxGetCurrentThreadId() );
+    LogModule( eLogIsPortOpenTest, LOG_DEBUG, "%s Starting IsPortOpen port %d test url %s app sec %d", __func__, tcpListenPort, netSrvUrl.c_str(), GetApplicationAliveSec() );
     m_Engine.sendToGuiStatusMessage( "Attempting Connect lcl ip %s to connect test service %s", lclIp.c_str(), netSrvUrl.c_str() );
 	if( userTest )
 	{
