@@ -723,7 +723,6 @@ RCODE DbBase::sqlExec( const char*		SQL_Statement,
 				needToFinalize = false;
 			}
 
-			sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
 			result = expectedResult = SQLITE_OK;
 
 		default:
