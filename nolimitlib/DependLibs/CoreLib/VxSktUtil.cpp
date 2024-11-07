@@ -815,8 +815,6 @@ std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool in
 //============================================================================
 SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs, RCODE * retSktErr)
 {
-	const int MAX_CONNECT_SECONDS = 20;
-
     if( INVALID_SOCKET == sktHandle )
     {
         LogModule( eLogConnect, LOG_ERROR, "VxConnectToAddr: invalid socket handle" );
@@ -942,28 +940,21 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
 			{
 				// this means still in progress
 				int32_t timeElapsedSeconds = TimeElapsedGmtSec( timeStartConnect );
-				if( timeElapsedSeconds > MAX_CONNECT_SECONDS )
-				{
-					LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d connect exceeded max timed out %d seconds.. canceling connect to %s",
-							   __func__, sktHandle, MAX_CONNECT_SECONDS, ipAndPort.c_str() );
-					if( retSktErr )
-					{
-						#ifdef TARGET_OS_WINDOWS
-							*retSktErr = WSAETIMEDOUT;
-						#else
-							*retSktErr = ETIMEDOUT;
-						#endif // TARGET_OS_WINDOWS
-					}
 
-					VxCloseSktNow( sktHandle );
-					sktHandle = INVALID_SOCKET;
-					break;
-				}
-				else
+				LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d connect exceeded max timed out %d seconds.. canceling connect to %s",
+							__func__, sktHandle, timeElapsedSeconds, ipAndPort.c_str() );
+				if( retSktErr )
 				{
-					// try again
-					continue;
+					#ifdef TARGET_OS_WINDOWS
+						*retSktErr = WSAETIMEDOUT;
+					#else
+						*retSktErr = ETIMEDOUT;
+					#endif // TARGET_OS_WINDOWS
 				}
+
+				VxCloseSktNow( sktHandle );
+				sktHandle = INVALID_SOCKET;
+				break;
 			}
             else if (iResult < 0 && errno == EINTR)
             {
