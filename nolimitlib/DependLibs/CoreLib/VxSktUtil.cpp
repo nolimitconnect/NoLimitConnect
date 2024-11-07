@@ -939,22 +939,29 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
 			if( 0 == iResult && !FD_ISSET( sktHandle, &sktSet ) )
 			{
 				// this means still in progress
-				int32_t timeElapsedSeconds = TimeElapsedGmtSec( timeStartConnect );
-
-				LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d connect exceeded max timed out %d seconds.. canceling connect to %s",
-							__func__, sktHandle, timeElapsedSeconds, ipAndPort.c_str() );
-				if( retSktErr )
+				if( GetGmtTimeMs() - timeStartConnect > iConnectTimeoutMs )
 				{
-					#ifdef TARGET_OS_WINDOWS
-						*retSktErr = WSAETIMEDOUT;
-					#else
-						*retSktErr = ETIMEDOUT;
-					#endif // TARGET_OS_WINDOWS
-				}
+					LogModule( eLogConnect, LOG_VERBOSE, "%s: skt %d connect exceeded max timed out %d seconds.. canceling connect to %s",
+							   __func__, sktHandle, TimeElapsedGmtSec( timeStartConnect ), ipAndPort.c_str() );
+					if( retSktErr )
+					{
+						#ifdef TARGET_OS_WINDOWS
+							*retSktErr = WSAETIMEDOUT;
+						#else
+							*retSktErr = ETIMEDOUT;
+						#endif // TARGET_OS_WINDOWS
+					}
 
-				VxCloseSktNow( sktHandle );
-				sktHandle = INVALID_SOCKET;
-				break;
+					VxCloseSktNow( sktHandle );
+					sktHandle = INVALID_SOCKET;
+					break;
+				}
+				else
+				{
+					// try again
+					VxSleep( 20 );
+					continue;
+				}
 			}
             else if (iResult < 0 && errno == EINTR)
             {
