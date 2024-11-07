@@ -417,6 +417,7 @@ void AppCommon::shutdownAppCommon( void )
 void AppCommon::setIsMaxScreenSize( bool isMessagerFrame, bool isFullSizeWindow )
 {
     m_HomeWindow->setIsMaxScreenSize( isMessagerFrame, isFullSizeWindow );
+	emit signalExpandWindowChanged( isMessagerFrame, isFullSizeWindow );
     emit signalMainWindowResized();
 }
 

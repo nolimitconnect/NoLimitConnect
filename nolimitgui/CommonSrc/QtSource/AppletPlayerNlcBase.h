@@ -142,6 +142,8 @@ protected:
 
     void                        onAboutToDestroyApplet( void );
 
+	void						setVisible( bool visible ) override;
+
 private:
 
 	//=== vars ===//
@@ -154,7 +156,8 @@ private:
 
 	bool						m_LastPlayedIsStream{ false };
 	bool						m_LastPlayedIsFile{ false };
-	std::string					m_LastPlayedMedia;
+	std::string					m_LastPlayedMediaName;
+	std::string					m_LastPlayedMediaFile;
 };
 
 

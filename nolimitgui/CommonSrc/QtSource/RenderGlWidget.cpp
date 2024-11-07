@@ -156,7 +156,6 @@ void RenderGlWidget::closeEvent( QCloseEvent * ev )
 {
     m_QtToPlayerNlc.fromGuiCloseEvent();
     setRenderPlayerNlcThreadShouldRun(false);
-    //aboutToDestroy();
     QWidget::closeEvent( ev );
 }
 

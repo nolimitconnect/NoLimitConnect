@@ -250,16 +250,8 @@ void AppletPlayerNlcBase::updateGuiPlayControls( bool isPlaying )
 		m_IsPlaying = isPlaying;
 		if( m_IsPlaying )
 		{
-			// start playing
-			//getPlayPauseButton()->setIcons(eMyIconPauseNormal);
 			setReadyForCallbacks( true );
 		}
-		//else
-		//{
-		//	// stop playing
-		//	getPlayPauseButton()->setIcons( eMyIconPlayNormal );
-		//	getPlayPosSlider()->setValue(0);
-		//}
 	}
 }
 
@@ -297,14 +289,14 @@ void AppletPlayerNlcBase::slotReplayButtonClick( void )
 {
 	if( m_LastPlayedIsFile )
 	{
-		if( VxFileUtil::fileExists( m_LastPlayedMedia.c_str() ) )
+		if( VxFileUtil::fileExists( m_LastPlayedMediaFile.c_str() ) )
 		{
 			startBusySpinner(getPlayControlWidget());
-			playFile( m_LastPlayedMedia.c_str(), 0, false, false );
+			playFile( m_LastPlayedMediaFile.c_str(), 0, false, false );
 		}
 		else
 		{
-			QMessageBox::information( this, QObject::tr( "File does not exist" ), QString(m_LastPlayedMedia.c_str()), QMessageBox::Ok );
+			QMessageBox::information( this, QObject::tr( "File does not exist" ), QString(m_LastPlayedMediaFile.c_str()), QMessageBox::Ok );
 		}
 	}
 }
@@ -359,7 +351,6 @@ void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId )
 void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
-	//onPlayStarted( feedId );
 }
 
 //============================================================================
@@ -442,7 +433,6 @@ void AppletPlayerNlcBase::slotInternalUpdatePlayPosition( VxGUID feedId, int pos
 void AppletPlayerNlcBase::onBackButtonClicked( void )
 {
 	stopMediaIfPlaying();
-    //onAboutToDestroyApplet();
 	AppletPlayerBase::onBackButtonClicked();
 }
 
@@ -563,7 +553,8 @@ void AppletPlayerNlcBase::updateLastPlayedFile( void )
 	if( m_AssetInfo.isValidFile() )
 	{
 		m_LastPlayedIsFile = true;
-		m_LastPlayedMedia = m_AssetInfo.getAssetName();
+		m_LastPlayedMediaName = m_AssetInfo.getAssetName();
+		m_LastPlayedMediaFile = m_AssetInfo.getAssetNameAndPath();
 	}
 }
 
@@ -572,4 +563,10 @@ void AppletPlayerNlcBase::onAboutToDestroyApplet( void )
 {
     getRenderConsumer()->aboutToDestroy();
 	IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eAppModulePlayerNlc );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::setVisible( bool visible )
+{
+	AppletPlayerBase::setVisible( visible );
 }

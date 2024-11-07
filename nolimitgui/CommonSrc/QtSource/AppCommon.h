@@ -736,6 +736,8 @@ signals:
     void                        signalInternalMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
     void                        signalInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg );
 
+    void						signalExpandWindowChanged( bool isMessengerFrame, bool isMaxScreenSize );
+
 private slots:
     void                        slotInternalNetAvailStatus( ENetAvailStatus netAvailStatus );
     void                        slotInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue );

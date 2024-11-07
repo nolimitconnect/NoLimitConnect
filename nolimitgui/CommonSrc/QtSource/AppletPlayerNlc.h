@@ -31,7 +31,7 @@ class AppletPlayerNlc : public AppletPlayerNlcBase
 	Q_OBJECT
 public:
 	AppletPlayerNlc( AppCommon& app, QWidget* parent );
-    virtual ~AppletPlayerNlc();
+    virtual ~AppletPlayerNlc() = default;
 
 	RenderGlWidget*				getRenderConsumer( void ) override;
 	QSlider*					getPlayPosSlider( void ) override;
@@ -57,9 +57,9 @@ protected slots:
 
 	void						slotFileWasSelected( QString fileName );
 
-protected:
-	void						initAppletPlayerNlc( void );
+	void						slotExpandWindowChanged( bool isMessengerFrame, bool isMaxScreenSize );
 
+protected:
 	void                        setupBottomMenu( VxMenuButton* menuButton );
 
 	void						browseForMovie( void );
@@ -72,6 +72,8 @@ protected:
 	void						updateRecentListVisibility( void );
 
     void                        stopMediaIfPlaying( void ) override;
+
+	void						setVisible( bool visible ) override;
 
 	//=== vars ===//
 	Ui::AppletPlayerNlcUi&		ui;

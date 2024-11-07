@@ -48,12 +48,6 @@ AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 : AppletPlayerNlcBase( OBJNAME_APPLET_PLAYER_NLC, app, parent )
 , ui(*(new Ui::AppletPlayerNlcUi))
 {
-	initAppletPlayerNlc();
-}
-
-//============================================================================
-void AppletPlayerNlc::initAppletPlayerNlc( void )
-{
 	setAppletType( eAppletPlayerNlc );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 
@@ -125,13 +119,9 @@ void AppletPlayerNlc::initAppletPlayerNlc( void )
 
 	connect( ui.m_RenderWidget, SIGNAL(signalLeftMouseButtonClick()), this, SLOT(slotLeftMouseButtonClick()));
 
+	connect( &m_MyApp, SIGNAL(signalExpandWindowChanged(bool,bool)), this, SLOT(slotExpandWindowChanged(bool,bool)));
+
 	onAppletInitialized();
-}
-
-//============================================================================
-AppletPlayerNlc::~AppletPlayerNlc()
-{
-
 }
 
 //============================================================================
@@ -200,7 +190,6 @@ void AppletPlayerNlc::browseForMovie( void )
 {
 	stopMediaIfPlaying();
 
-	//startBusySpinner();
 	QString launchParam( "Single File" );
 	ActivityBase* actBase = m_MyApp.getAppletMgr().launchApplet( eAppletBrowseFiles, getParentPageFrame(), launchParam);
     AppletBrowseFiles* fileBrowser = dynamic_cast<AppletBrowseFiles*>(actBase);
@@ -466,8 +455,28 @@ void AppletPlayerNlc::slotOpenAudioFileButtonClick( void )
 }
 
 //============================================================================
+void AppletPlayerNlc::slotExpandWindowChanged( bool isMessengerFrame, bool isMaxScreenSize )
+{
+	LogMsg( LOG_VERBOSE, "%s messenger frame ? %d is max screen size ? %d", __func__, isMessengerFrame, isMaxScreenSize );
+	if( isMessengerFrame && isMaxScreenSize )
+	{
+		ActivityBase::hide();
+	}
+	else
+	{
+		ActivityBase::show();
+	}
+}
+
+//============================================================================
 void AppletPlayerNlc::stopMediaIfPlaying( void )
 {
     AppletPlayerNlcBase::stopMediaIfPlaying();
     IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
+}
+
+//============================================================================
+void AppletPlayerNlc::setVisible( bool visible )
+{
+	AppletPlayerNlcBase::setVisible( visible );
 }
