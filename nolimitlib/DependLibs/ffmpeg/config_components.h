@@ -649,23 +649,18 @@
 
 #if defined(TARGET_OS_WINDOWS)
 #define CONFIG_LIBVORBIS_DECODER 0
-#define CONFIG_LIBVPX_VP8_DECODER 0
-#define CONFIG_LIBVPX_VP9_DECODER 0
-#elif defined(TARGET_OS_ANDROID)
-#define CONFIG_LIBVORBIS_DECODER 1
-#define CONFIG_LIBVPX_VP8_DECODER 0
-#define CONFIG_LIBVPX_VP9_DECODER 0
 #else
 #define CONFIG_LIBVORBIS_DECODER 1
-#if defined(TARGET_CPU_ARM64)
-// libvpx does not compile on raspberry pi
-#  define CONFIG_LIBVPX_VP8_DECODER 0
-#  define CONFIG_LIBVPX_VP9_DECODER 0
-# else
-#  define CONFIG_LIBVPX_VP8_DECODER 1
-#  define CONFIG_LIBVPX_VP9_DECODER 1
-# endif
-#endif // #if defined(TARGET_OS_WINDOWS)
+#endif
+
+#if defined(TARGET_CPU_ARM32)
+// libvpx does not compile on android arm32
+# define CONFIG_LIBVPX_VP8_DECODER 0
+# define CONFIG_LIBVPX_VP9_DECODER 0
+#else
+# define CONFIG_LIBVPX_VP8_DECODER 1
+# define CONFIG_LIBVPX_VP9_DECODER 1
+#endif // #if defined(TARGET_CPU_ARM32)
 
 #define CONFIG_LIBZVBI_TELETEXT_DECODER 0
 #define CONFIG_BINTEXT_DECODER 1
@@ -897,8 +892,8 @@
 #define CONFIG_LIBVO_AMRWBENC_ENCODER 0
 #define CONFIG_LIBVORBIS_ENCODER 1
 
-// libvpx does not compile on android or raspberry pi or windows
-#if defined(TARGET_OS_LINUX) && !defined(TARGET_CPU_ARM64)
+// libvpx does not compile on android arm32
+#if !defined(TARGET_CPU_ARM32)
 #define CONFIG_LIBVPX_VP8_ENCODER 1
 #define CONFIG_LIBVPX_VP9_ENCODER 1
 #else
@@ -2381,4 +2376,5 @@
 #define CONFIG_LIBZMQ_PROTOCOL 0
 #define CONFIG_IPFS_GATEWAY_PROTOCOL 1
 #define CONFIG_IPNS_GATEWAY_PROTOCOL 1
+
 #endif /* FFMPEG_CONFIG_COMPONENTS_H */

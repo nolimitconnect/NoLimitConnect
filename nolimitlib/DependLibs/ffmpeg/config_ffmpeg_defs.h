@@ -1124,10 +1124,8 @@
 
 #define CONFIG_LIBVORBIS 1
 
-#if defined(TARGET_OS_WINDOWS)
-#define CONFIG_LIBVPX 0
-#elif defined(TARGET_OS_ANDROID)
-#define CONFIG_LIBVPX 0 // BRJ TODO LIBVPX for android
+#if defined(TARGET_CPU_ARM32)
+#define CONFIG_LIBVPX 0 // BRJ TODO LIBVPX does not compile for android arm32
 #else
 #define CONFIG_LIBVPX 1
 #endif // defined(TARGET_OS_WINDOWS)

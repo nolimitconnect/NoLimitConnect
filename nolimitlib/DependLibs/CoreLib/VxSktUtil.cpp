@@ -959,7 +959,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
 				else
 				{
 					// try again
-					VxSleep( 20 );
+                    VxSleep( 100 );
 					continue;
 				}
 			}

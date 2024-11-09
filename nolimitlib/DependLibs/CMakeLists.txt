@@ -3,7 +3,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. $
 
 include(ConfigStaticDependLib)
 
+if(NOT DEFINED TARGET_CPU_ARM32)
 add_subdirectory(libvpx)
+endif()
 
 add_subdirectory(ffmpeg)
 
