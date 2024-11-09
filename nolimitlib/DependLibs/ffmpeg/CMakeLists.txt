@@ -1502,8 +1502,17 @@ if(DEFINED TARGET_OS_ANDROID)
         CONFIG_XLIB=0
         CONFIG_SNDIO=0
         CONFIG_V4L2_M2M=0
-        CONFIG_LIBVPX=0
     )
+
+    if(DEFINED TARGET_CPU_ARM32)
+        list(APPEND ffmpeg_DEFINES
+            CONFIG_LIBVPX=0
+        )
+    else()
+        list(APPEND ffmpeg_DEFINES
+            CONFIG_LIBVPX=1
+        )
+    endif()
 
 elseif(DEFINED TARGET_OS_LINUX)
     list(APPEND ffmpeg_DEFINES
