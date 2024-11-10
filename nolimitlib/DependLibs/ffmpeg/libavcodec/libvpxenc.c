@@ -24,7 +24,7 @@
  */
 
 #include "config_ffmpeg.h"
-#if !defined(TARGET_OS_ANDROID)
+
 #include "config_components.h"
 #if CONFIG_LIBVPX_VP8_ENCODER || CONFIG_LIBVPX_VP9_ENCODER
 
@@ -2013,4 +2013,4 @@ FFCodec ff_libvpx_vp9_encoder = {
 #endif /* CONFIG_LIBVPX_VP9_ENCODER */
 
 #endif // CONFIG_LIBVPX_VP8_ENCODER || CONFIG_LIBVPX_VP9_ENCODER || CONFIG_LIBVPX_VPX_ENCODER
-#endif // !defined(TARGET_OS_ANDROID)
+

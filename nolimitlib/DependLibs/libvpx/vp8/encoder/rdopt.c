@@ -1021,7 +1021,7 @@ static void rd_check_segment(VP8_COMP *cpi, MACROBLOCK *x, BEST_SEG_INFO *bsi,
         BLOCK *c;
         BLOCKD *e;
 
-        /* Is the best so far sufficiently good that we can't justify
+        /* Is the best so far sufficiently good that we cant justify
          * doing a new motion search.
          */
         if (best_label_rd < label_mv_thresh) break;
@@ -1564,34 +1564,21 @@ static void rd_update_mvcount(MACROBLOCK *x, int_mv *best_ref_mv) {
 
     for (i = 0; i < x->partition_info->count; ++i) {
       if (x->partition_info->bmi[i].mode == NEW4X4) {
-        const int row_val = ((x->partition_info->bmi[i].mv.as_mv.row -
-                              best_ref_mv->as_mv.row) >>
-                             1);
-        const int row_idx = mv_max + row_val;
-        const int col_val = ((x->partition_info->bmi[i].mv.as_mv.col -
-                              best_ref_mv->as_mv.col) >>
-                             1);
-        const int col_idx = mv_max + col_val;
-        if (row_idx >= 0 && row_idx < MVvals && col_idx >= 0 &&
-            col_idx < MVvals) {
-          x->MVcount[0][row_idx]++;
-          x->MVcount[1][col_idx]++;
-        }
+        x->MVcount[0][mv_max + ((x->partition_info->bmi[i].mv.as_mv.row -
+                                 best_ref_mv->as_mv.row) >>
+                                1)]++;
+        x->MVcount[1][mv_max + ((x->partition_info->bmi[i].mv.as_mv.col -
+                                 best_ref_mv->as_mv.col) >>
+                                1)]++;
       }
     }
   } else if (x->e_mbd.mode_info_context->mbmi.mode == NEWMV) {
-    const int row_val = ((x->e_mbd.mode_info_context->mbmi.mv.as_mv.row -
-                          best_ref_mv->as_mv.row) >>
-                         1);
-    const int row_idx = mv_max + row_val;
-    const int col_val = ((x->e_mbd.mode_info_context->mbmi.mv.as_mv.col -
-                          best_ref_mv->as_mv.col) >>
-                         1);
-    const int col_idx = mv_max + col_val;
-    if (row_idx >= 0 && row_idx < MVvals && col_idx >= 0 && col_idx < MVvals) {
-      x->MVcount[0][row_idx]++;
-      x->MVcount[1][col_idx]++;
-    }
+    x->MVcount[0][mv_max + ((x->e_mbd.mode_info_context->mbmi.mv.as_mv.row -
+                             best_ref_mv->as_mv.row) >>
+                            1)]++;
+    x->MVcount[1][mv_max + ((x->e_mbd.mode_info_context->mbmi.mv.as_mv.col -
+                             best_ref_mv->as_mv.col) >>
+                            1)]++;
   }
 }
 
@@ -1992,7 +1979,7 @@ void vp8_rd_pick_inter_mode(VP8_COMP *cpi, MACROBLOCK *x, int recon_yoffset,
         rd.distortion2 += distortion;
 
         /* If even the 'Y' rd value of split is higher than best so far
-         * then don't bother looking at UV
+         * then dont bother looking at UV
          */
         if (tmp_rd < best_mode.yrd) {
           /* Now work out UV cost and add it in */

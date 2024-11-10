@@ -114,7 +114,7 @@ static const vp8_prob Pcat6[] = { 254, 254, 243, 230, 196, 177,
       p[0] = p[1] = 0;
     }
 
-    void init_bit_trees(void) {
+    void init_bit_trees() {
       init_bit_tree(cat1, 1);
       init_bit_tree(cat2, 2);
       init_bit_tree(cat3, 3);

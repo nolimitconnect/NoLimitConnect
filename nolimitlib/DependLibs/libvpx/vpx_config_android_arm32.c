@@ -6,5 +6,5 @@
 /* in the file PATENTS.  All contributing project authors may */
 /* be found in the AUTHORS file in the root of the source tree. */
 #include "vpx/vpx_codec.h"
-static const char* const cfg = "--target=armv7-android-gcc --as=nasm --enable-vp8 --enable-vp9 --disable-examples --disable-tools --disable-docs --disable-unit-tests --disable-webm_io --disable-libyuv";
+static const char* const cfg = "--target=arm64-android-gcc --as=nasm --enable-vp8 --enable-vp9 --disable-examples --disable-tools --disable-docs --disable-unit-tests --disable-webm_io --disable-libyuv";
 const char *vpx_codec_build_config(void) {return cfg;}

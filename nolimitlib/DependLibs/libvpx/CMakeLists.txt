@@ -60,15 +60,16 @@ if(DEFINED TARGET_CPU_X86_64)
         #vp9/encoder/x86/highbd_temporal_filter_sse4.c
         #vp9/encoder/x86/highbd_temporal_filter_ssse3.c
 
-        vp9/encoder/x86/temporal_filter_avx2.c
+        # not in v1.13.1 vp9/encoder/x86/temporal_filter_avx2.c
         vp9/encoder/x86/temporal_filter_sse4.c
-        vp9/encoder/x86/temporal_filter_ssse3.c
+        # not in v1.13.1 vp9/encoder/x86/temporal_filter_ssse3.c
         vp9/encoder/x86/vp9_dct_intrin_sse2.c
         vp9/encoder/x86/vp9_dct_sse2.asm
 
-        vp9/encoder/x86/vp9_error_avx2.c
+        # not in v1.13.1 vp9/encoder/x86/vp9_error_avx2.c
+        # not in v1.13.1 vp9/encoder/x86/vp9_diamond_search_sad_avx2.c # only in v1.13.1
         vp9/encoder/x86/vp9_error_sse2.asm
-        vp9/encoder/x86/vp9_frame_scale_ssse3.c
+        # not in v1.13.1 vp9/encoder/x86/vp9_frame_scale_ssse3.c
         vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
         vp9/encoder/x86/vp9_quantize_avx2.c
         vp9/encoder/x86/vp9_quantize_sse2.c
@@ -77,7 +78,7 @@ if(DEFINED TARGET_CPU_X86_64)
         vpx_dsp/x86/add_noise_sse2.asm
         vpx_dsp/x86/avg_intrin_avx2.c
         vpx_dsp/x86/avg_intrin_sse2.c
-        vpx_dsp/x86/avg_pred_avx2.c
+        # not in v1.13.1 vpx_dsp/x86/avg_pred_avx2.c
         vpx_dsp/x86/avg_pred_sse2.c
         vpx_dsp/x86/avg_ssse3_x86_64.asm
         vpx_dsp/x86/bitdepth_conversion_avx2.h
@@ -124,7 +125,7 @@ if(DEFINED TARGET_CPU_X86_64)
 
         vpx_dsp/x86/intrapred_sse2.asm
         vpx_dsp/x86/intrapred_ssse3.asm
-        vpx_dsp/x86/inv_txfm_avx2.c
+        # not in v1.13.1 vpx_dsp/x86/inv_txfm_avx2.c
         vpx_dsp/x86/inv_txfm_sse2.c
         vpx_dsp/x86/inv_txfm_sse2.h
         vpx_dsp/x86/inv_txfm_ssse3.c
@@ -146,8 +147,8 @@ if(DEFINED TARGET_CPU_X86_64)
         vpx_dsp/x86/sad4d_sse2.asm
         vpx_dsp/x86/sad_avx2.c
         vpx_dsp/x86/sad_sse2.asm
-        vpx_dsp/x86/sse_avx2.c
-        vpx_dsp/x86/sse_sse4.c
+        # not in v1.13.1 vpx_dsp/x86/sse_avx2.c
+        # not in v1.13.1 vpx_dsp/x86/sse_sse4.c
         vpx_dsp/x86/ssim_opt_x86_64.asm
         vpx_dsp/x86/subpel_variance_sse2.asm
         vpx_dsp/x86/subtract_avx2.c
@@ -168,16 +169,27 @@ if(DEFINED TARGET_CPU_X86_64)
         vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm
         vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm
 
-
         vpx_ports/emms_mmx.asm
         vpx_ports/emms_mmx.c
+        vpx_ports/msvc.h  # only in v1.13.1
         vp8/encoder/denoising.c
         vp8/encoder/denoising.h
-        #vp9/encoder/vp9_denoiser.c
-        #vp9/encoder/vp9_denoiser.h
-        vp9/encoder/x86/vp9_denoiser_sse2.c
         vp8/encoder/x86/denoising_sse2.c
 
+        #vp9/encoder/vp9_denoiser.c
+        #vp9/encoder/vp9_denoiser.h
+
+        vp9/encoder/x86/vp9_denoiser_sse2.c
+        vp9/encoder/x86/vp9_diamond_search_sad_avx.c
+        vp9/encoder/x86/vp9_error_avx2.c
+        vp9/encoder/x86/vp9_error_sse2.asm
+        vp9/encoder/x86/vp9_frame_scale_ssse3.c
+
+        #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
+
+        vp9/encoder/x86/vp9_quantize_avx2.c
+        vp9/encoder/x86/vp9_quantize_sse2.c
+        vp9/encoder/x86/vp9_quantize_ssse3.c
     )
 
     if(DEFINED TARGET_OS_WINDOWS)
@@ -223,6 +235,7 @@ else()
         vp8/common/arm/neon/dequantizeb_neon.c
         vp8/common/arm/neon/dequant_idct_neon.c
         vp8/common/arm/neon/idct_blk_neon.c
+
         vp8/common/arm/neon/iwalsh_neon.c
         vp8/common/arm/neon/loopfiltersimplehorizontaledge_neon.c
         vp8/common/arm/neon/loopfiltersimpleverticaledge_neon.c
@@ -230,6 +243,10 @@ else()
         vp8/common/arm/neon/shortidct4x4llm_neon.c
         vp8/common/arm/neon/sixtappredict_neon.c
         vp8/common/arm/neon/vp8_loopfilter_neon.c
+
+        vp8/encoder/arm/neon/fastquantizeb_neon.c # only in libvpx 1.13.1
+        vp8/encoder/arm/neon/shortfdct_neon.c # only in libvpx 1.13.1
+        vp8/encoder/arm/neon/vp8_shortwalsh4x4_neon.c # only in libvpx 1.13.1
 
         #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
         #vp9/common/arm/neon/vp9_highbd_iht16x16_add_neon.c
@@ -257,7 +274,7 @@ else()
         #vp9/encoder/arm/neon/vp9_highbd_temporal_filter_neon.c
 
         vp9/encoder/arm/neon/vp9_quantize_neon.c
-        vp9/encoder/arm/neon/vp9_temporal_filter_neon.c
+        # not in v1.13.1 vp9/encoder/arm/neon/vp9_temporal_filter_neon.c
 
         vpx_dsp/arm/avg_neon.c
         vpx_dsp/arm/avg_pred_neon.c
@@ -275,34 +292,34 @@ else()
         vpx_dsp/arm/hadamard_neon.c
 
         #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        #vpx_dsp/arm/highbd_avg_neon.c
-        #vpx_dsp/arm/highbd_avg_pred_neon.c
-        #vpx_dsp/armhighbd_convolve8_neon.h
-        #vpx_dsp/armhighbd_convolve8_sve.h
-        #vpx_dsp/armhighbd_hadamard_neon.c
-        #vpx_dsp/armhighbd_idct16x16_add_neon.c
-        #vpx_dsp/armhighbd_idct32x32_1024_add_neon.c
-        #vpx_dsp/armhighbd_idct32x32_135_add_neon.c
-        #vpx_dsp/armhighbd_idct32x32_34_add_neon.c
-        #vpx_dsp/armhighbd_idct32x32_add_neon.c
-        #vpx_dsp/armhighbd_idct4x4_add_neon.c
-        #vpx_dsp/armhighbd_idct8x8_add_neon.c
-        #vpx_dsp/armhighbd_idct_neon.h
-        #vpx_dsp/armhighbd_intrapred_neon.c
-        #vpx_dsp/armhighbd_loopfilter_neon.c
-        #vpx_dsp/armhighbd_quantize_neon.c
-        #vpx_dsp/armhighbd_sad4d_neon.c
-        #vpx_dsp/armhighbd_sad_neon.c
-        #vpx_dsp/armhighbd_sse_neon.c
-        #vpx_dsp/armhighbd_subpel_variance_neon.c
-        #vpx_dsp/armhighbd_variance_neon.c
-        #vpx_dsp/armhighbd_variance_neon_dotprod.c
-        #vpx_dsp/armhighbd_variance_sve.c
-        #vpx_dsp/armhighbd_vpx_convolve8_neon.c
-        #vpx_dsp/armhighbd_vpx_convolve8_sve.c
-        #vpx_dsp/armhighbd_vpx_convolve8_sve2.c
-        #vpx_dsp/armhighbd_vpx_convolve_avg_neon.c
-        #vpx_dsp/armhighbd_vpx_convolve_copy_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_avg_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_avg_pred_neon.c
+        # not in v1.13.1 #vpx_dsp/armhighbd_convolve8_neon.h
+        # not in v1.13.1 #vpx_dsp/armhighbd_convolve8_sve.h
+        # not in v1.13.1 #vpx_dsp/armhighbd_hadamard_neon.c
+        #vpx_dsp/arm/highbd_idct16x16_add_neon# not in v1.13.1 .c
+        #vpx_dsp/arm/highbd_idct32x32_1024_add_neon.c
+        #vpx_dsp/arm/highbd_idct32x32_135_add_neon.c
+        #vpx_dsp/arm/highbd_idct32x32_34_add_neon.c
+        #vpx_dsp/arm/highbd_idct32x32_add_neon.c
+        #vpx_dsp/arm/highbd_idct4x4_add_neon.c
+        #vpx_dsp/arm/highbd_idct8x8_add_neon.c
+        #vpx_dsp/arm/highbd_idct_neon.h
+        #vpx_dsp/arm/highbd_intrapred_neon.c
+        #vpx_dsp/arm/highbd_loopfilter_neon.c
+        #vpx_dsp/arm/highbd_quantize_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_sad4d_neon.c
+        #vpx_dsp/arm/highbd_sad_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_sse_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_subpel_variance_neon.c
+        #vpx_dsp/arm/highbd_variance_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_variance_neon_dotprod.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_variance_sve.c
+        #vpx_dsp/arm/highbd_vpx_convolve8_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_vpx_convolve8_sve.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_vpx_convolve8_sve2.c
+        #vpx_dsp/arm/highbd_vpx_convolve_avg_neon.c
+        #vpx_dsp/arm/highbd_vpx_convolve_copy_neon.c
 
 
         vpx_dsp/arm/idct16x16_1_add_neon.c
@@ -328,23 +345,23 @@ else()
         vpx_dsp/arm/mem_neon.h
         vpx_dsp/arm/quantize_neon.c
         vpx_dsp/arm/sad4d_neon.c
-        vpx_dsp/arm/sad4d_neon_dotprod.c
+        # not in v1.13.1 vpx_dsp/arm/sad4d_neon_dotprod.c
         vpx_dsp/arm/sad_neon.c
-        vpx_dsp/arm/sad_neon_dotprod.c
+        # not in v1.13.1 vpx_dsp/arm/sad_neon_dotprod.c
         #vpx_dsp/arm/save_reg_neon.asm
-        vpx_dsp/arm/sse_neon.c
-        vpx_dsp/arm/sse_neon_dotprod.c
+        # not in v1.13.1 vpx_dsp/arm/sse_neon.c
+        # not in v1.13.1 vpx_dsp/arm/sse_neon_dotprod.c
         vpx_dsp/arm/subpel_variance_neon.c
         vpx_dsp/arm/subtract_neon.c
         vpx_dsp/arm/sum_neon.h
         vpx_dsp/arm/sum_squares_neon.c
 
         # sve not supported
-        #vpx_dsp/arm/sum_squares_sve.c
+        # not in v1.13.1 #vpx_dsp/arm/sum_squares_sve.c
 
         vpx_dsp/arm/transpose_neon.h
         vpx_dsp/arm/variance_neon.c
-        vpx_dsp/arm/variance_neon_dotprod.c
+        # not in v1.13.1 vpx_dsp/arm/variance_neon_dotprod.c
         #vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type1_neon.asm
         #vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type2_neon.asm
         #vpx_dsp/arm/vpx_convolve8_avg_vert_filter_type1_neon.asm
@@ -355,8 +372,8 @@ else()
         vpx_dsp/arm/vpx_convolve8_neon.h
         #vpx_dsp/arm/vpx_convolve8_neon_asm.c
         #vpx_dsp/arm/vpx_convolve8_neon_asm.h
-        vpx_dsp/arm/vpx_convolve8_neon_dotprod.c
-        vpx_dsp/arm/vpx_convolve8_neon_i8mm.c
+        # not in v1.13.1 vpx_dsp/arm/vpx_convolve8_neon_dotprod.c
+        # not in v1.13.1 vpx_dsp/arm/vpx_convolve8_neon_i8mm.c
         #vpx_dsp/arm/vpx_convolve8_vert_filter_type1_neon.asm
         #vpx_dsp/arm/vpx_convolve8_vert_filter_type2_neon.asm
         vpx_dsp/arm/vpx_convolve_avg_neon.c
@@ -364,15 +381,15 @@ else()
         vpx_dsp/arm/vpx_convolve_copy_neon.c
         #vpx_dsp/arm/vpx_convolve_copy_neon_asm.asm
         vpx_dsp/arm/vpx_convolve_neon.c
-        #vpx_dsp/arm/vpx_neon_sve2_bridge.h
-        #vpx_dsp/arm/vpx_neon_sve_bridge.h
+        # not in v1.13.1 #vpx_dsp/arm/vpx_neon_sve2_bridge.h
+        # not in v1.13.1 #vpx_dsp/arm/vpx_neon_sve_bridge.h
         vpx_dsp/arm/vpx_scaled_convolve8_neon.c
     )
 
     if(DEFINED TARGET_OS_LINUX)
         list(APPEND vpx_SOURCES
             vpx_config_linux_arm64.c
-            vpx_ports/aarch64_cpudetect.c
+            # not in v1.13.1 vpx_ports/aarch64_cpudetect.c
             )
     endif()
     
@@ -384,13 +401,13 @@ else()
             list(APPEND vpx_SOURCES
                 vpx_config_android_arm64.c
                 vpx_config_android_arm64.h
-                vpx_ports/aarch64_cpudetect.c
+                # not in v1.13.1 #vpx_ports/aarch64_cpudetect.c
                 )
         else()
             list(APPEND vpx_SOURCES
                 vpx_config_android_arm32.c
                 vpx_config_android_arm32.h
-                vpx_ports/aarch32_cpudetect.c
+                # not in v1.13.1 #vpx_ports/aarch32_cpudetect.c
                 )
         endif()
 
@@ -627,6 +644,8 @@ list(APPEND vpx_SOURCES
     vp9/common/vp9_reconintra.c
     vp9/common/vp9_reconintra.h
 
+    vp9/common/vp9_rtcd.c
+
     vp9/common/vp9_scale.c
     vp9/common/vp9_scale.h
     vp9/common/vp9_scan.c
@@ -672,7 +691,6 @@ list(APPEND vpx_SOURCES
     vp9/encoder/vp9_cost.h
     vp9/encoder/vp9_dct.c
 
-
     vp9/encoder/vp9_encodeframe.c
     vp9/encoder/vp9_encodeframe.h
     vp9/encoder/vp9_encodemb.c
@@ -689,7 +707,7 @@ list(APPEND vpx_SOURCES
     vp9/encoder/vp9_ext_ratectrl.h
     vp9/encoder/vp9_firstpass.c
     vp9/encoder/vp9_firstpass.h
-    vp9/encoder/vp9_firstpass_stats.h
+    # not in v1.13.1 vp9/encoder/vp9_firstpass_stats.h
     vp9/encoder/vp9_frame_scale.c
     vp9/encoder/vp9_job_queue.h
     vp9/encoder/vp9_lookahead.c
@@ -731,11 +749,11 @@ list(APPEND vpx_SOURCES
     vp9/encoder/vp9_svc_layercontext.h
     vp9/encoder/vp9_temporal_filter.c
     vp9/encoder/vp9_temporal_filter.h
-    vp9/encoder/vp9_temporal_filter_constants.h
+    # not in v1.13.1 vp9/encoder/vp9_temporal_filter_constants.h
     vp9/encoder/vp9_tokenize.c
     vp9/encoder/vp9_tokenize.h
-    vp9/encoder/vp9_tpl_model.c
-    vp9/encoder/vp9_tpl_model.h
+    # not in v1.13.1 vp9/encoder/vp9_tpl_model.c
+    # not in v1.13.1 vp9/encoder/vp9_tpl_model.h
     vp9/encoder/vp9_treewriter.c
     vp9/encoder/vp9_treewriter.h
 
@@ -786,14 +804,14 @@ list(APPEND vpx_SOURCES
     vpx_dsp/sad.c
     vpx_dsp/skin_detection.c
     vpx_dsp/skin_detection.h
-    vpx_dsp/sse.c
+    # not in v1.13.1 vpx_dsp/sse.c
 
     # seems to be for statistics
     #vpx_dsp/ssim.c
     #vpx_dsp/ssim.h
 
     vpx_dsp/subtract.c
-    vpx_dsp/sum_squares.c
+    # not in v1.13.1 vpx_dsp/sum_squares.c
     vpx_dsp/txfm_common.h
     vpx_dsp/variance.c
     vpx_dsp/variance.h
@@ -806,10 +824,11 @@ list(APPEND vpx_SOURCES
     vpx_mem/vpx_mem.c
     vpx_mem/vpx_mem.h
 
-    #vpx_ports/aarch32_cpudetect.c
-    #vpx_ports/aarch64_cpudetect.c
+    # not in v1.13.1 #vpx_ports/aarch32_cpudetect.c
+    # not in v1.13.1 #vpx_ports/aarch64_cpudetect.c
     vpx_ports/arm.h
-    vpx_ports/arm_cpudetect.h
+    # not in v1.13.1 vpx_ports/arm_cpudetect.h
+    vpx_ports/arm_cpudetect.c # only in v1.13.1
     vpx_ports/asmdefs_mmi.h
     vpx_ports/bitops.h
     vpx_ports/compiler_attributes.h
@@ -839,7 +858,7 @@ list(APPEND vpx_SOURCES
     vpx_util/vpx_atomics.h
     vpx_util/vpx_debug_util.c
     vpx_util/vpx_debug_util.h
-    vpx_util/vpx_pthread.h
+    # not in v1.13.1 vpx_util/vpx_pthread.h
     vpx_util/vpx_thread.c
     vpx_util/vpx_thread.h
     vpx_util/vpx_timestamp.h
@@ -847,16 +866,14 @@ list(APPEND vpx_SOURCES
     #vpx_util/vpx_write_yuv_frame.c
     #vpx_util/vpx_write_yuv_frame.h
 
+    vp9/common/vp9_rtcd.c
+    vp8/common/rtcd.c
+    vpx_dsp/vpx_dsp_rtcd.c
+    vpx_scale/vpx_scale_rtcd.c
+
 )
 
 if(DEFINED TARGET_CPU_X86_64)
-    list(APPEND vpx_SOURCES
-        vp9/common/vp9_rtcd.c
-        vp8/common/rtcd.c
-        vpx_dsp/vpx_dsp_rtcd.c
-        vpx_scale/vpx_scale_rtcd.c
-    )
-
     if(DEFINED TARGET_OS_LINUX)
         list(APPEND vpx_SOURCES
             vpx_config_linux_x64.h

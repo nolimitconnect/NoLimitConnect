@@ -16,6 +16,7 @@
 #include "vpx/vpx_codec.h"
 #include "vpx/vpx_image.h"
 #include "vpx/vpx_integer.h"
+#include "vpx_ports/msvc.h"
 
 #if CONFIG_ENCODERS
 #include "./y4minput.h"
@@ -31,12 +32,7 @@ typedef int64_t FileOffset;
 #define fseeko fseeko64
 #define ftello ftello64
 typedef off64_t FileOffset;
-#elif CONFIG_OS_SUPPORT &&                                                  \
-    !(defined(__ANDROID__) && __ANDROID_API__ < 24 && !defined(__LP64__) && \
-      defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-/* POSIX.1 has fseeko and ftello. fseeko and ftello are not available before
- * Android API level 24. See
- * https://android.googlesource.com/platform/bionic/+/main/docs/32-bit-abi.md */
+#elif CONFIG_OS_SUPPORT
 #include <sys/types.h> /* NOLINT */
 typedef off_t FileOffset;
 /* Use 32-bit file operations in WebM file format when building ARM
@@ -149,9 +145,9 @@ VPX_NO_RETURN void usage_exit(void);
 int read_yuv_frame(struct VpxInputContext *input_ctx, vpx_image_t *yuv_frame);
 
 typedef struct VpxInterface {
-  const char *name;
-  uint32_t fourcc;
-  vpx_codec_iface_t *(*codec_interface)(void);
+  const char *const name;
+  const uint32_t fourcc;
+  vpx_codec_iface_t *(*const codec_interface)();
 } VpxInterface;
 
 int get_vpx_encoder_count(void);

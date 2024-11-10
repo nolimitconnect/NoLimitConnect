@@ -24,11 +24,15 @@
 #include "vpx/vp8dx.h"
 #endif
 
-#include "vpx/vpx_codec.h"
-
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__OS2__)
 #include <io.h>
 #include <fcntl.h>
+
+#ifdef __OS2__
+#define _setmode setmode
+#define _fileno fileno
+#define _O_BINARY O_BINARY
+#endif
 #endif
 
 #define LOG_ERROR(label)               \
@@ -52,7 +56,7 @@ static size_t wrap_fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
 
 FILE *set_binary_mode(FILE *stream) {
   (void)stream;
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__OS2__)
   _setmode(_fileno(stream), _O_BINARY);
 #endif
   return stream;
@@ -73,8 +77,8 @@ void warn(const char *fmt, ...) { LOG_ERROR("Warning"); }
 void die_codec(vpx_codec_ctx_t *ctx, const char *s) {
   const char *detail = vpx_codec_error_detail(ctx);
 
-  fprintf(stderr, "%s: %s\n", s, vpx_codec_error(ctx));
-  if (detail) fprintf(stderr, "    %s\n", detail);
+  printf("%s: %s\n", s, vpx_codec_error(ctx));
+  if (detail) printf("    %s\n", detail);
   exit(EXIT_FAILURE);
 }
 
@@ -90,9 +94,9 @@ int read_yuv_frame(struct VpxInputContext *input_ctx, vpx_image_t *yuv_frame) {
     int w = vpx_img_plane_width(yuv_frame, plane);
     const int h = vpx_img_plane_height(yuv_frame, plane);
     int r;
-    // Assuming that for nv12 we read all chroma data at once
+    // Assuming that for nv12 we read all chroma data at one time
     if (yuv_frame->fmt == VPX_IMG_FMT_NV12 && plane > 1) break;
-    // Fixing NV12 chroma width if it is odd
+    // Fixing NV12 chroma width it is odd
     if (yuv_frame->fmt == VPX_IMG_FMT_NV12 && plane == 1) w = (w + 1) & ~1;
     /* Determine the correct plane based on the image format. The for-loop
      * always counts in Y,U,V order, but this may not match the order of
@@ -223,22 +227,17 @@ int vpx_img_plane_height(const vpx_image_t *img, int plane) {
 
 void vpx_img_write(const vpx_image_t *img, FILE *file) {
   int plane;
-  const int bytespp = (img->fmt & VPX_IMG_FMT_HIGHBITDEPTH) ? 2 : 1;
 
   for (plane = 0; plane < 3; ++plane) {
     const unsigned char *buf = img->planes[plane];
     const int stride = img->stride[plane];
-    int w = vpx_img_plane_width(img, plane);
+    const int w = vpx_img_plane_width(img, plane) *
+                  ((img->fmt & VPX_IMG_FMT_HIGHBITDEPTH) ? 2 : 1);
     const int h = vpx_img_plane_height(img, plane);
     int y;
 
-    // Assuming that for nv12 we write all chroma data at once
-    if (img->fmt == VPX_IMG_FMT_NV12 && plane > 1) break;
-    // Fixing NV12 chroma width if it is odd
-    if (img->fmt == VPX_IMG_FMT_NV12 && plane == 1) w = (w + 1) & ~1;
-
     for (y = 0; y < h; ++y) {
-      fwrite(buf, bytespp, w, file);
+      fwrite(buf, 1, w, file);
       buf += stride;
     }
   }
@@ -246,22 +245,17 @@ void vpx_img_write(const vpx_image_t *img, FILE *file) {
 
 int vpx_img_read(vpx_image_t *img, FILE *file) {
   int plane;
-  const int bytespp = (img->fmt & VPX_IMG_FMT_HIGHBITDEPTH) ? 2 : 1;
 
   for (plane = 0; plane < 3; ++plane) {
     unsigned char *buf = img->planes[plane];
     const int stride = img->stride[plane];
-    int w = vpx_img_plane_width(img, plane);
+    const int w = vpx_img_plane_width(img, plane) *
+                  ((img->fmt & VPX_IMG_FMT_HIGHBITDEPTH) ? 2 : 1);
     const int h = vpx_img_plane_height(img, plane);
     int y;
 
-    // Assuming that for nv12 we read all chroma data at once
-    if (img->fmt == VPX_IMG_FMT_NV12 && plane > 1) break;
-    // Fixing NV12 chroma width if it is odd
-    if (img->fmt == VPX_IMG_FMT_NV12 && plane == 1) w = (w + 1) & ~1;
-
     for (y = 0; y < h; ++y) {
-      if (fread(buf, bytespp, w, file) != (size_t)w) return 0;
+      if (fread(buf, 1, w, file) != (size_t)w) return 0;
       buf += stride;
     }
   }
@@ -381,7 +375,7 @@ static void highbd_img_upshift(vpx_image_t *dst, vpx_image_t *src,
     case VPX_IMG_FMT_I42216:
     case VPX_IMG_FMT_I44416:
     case VPX_IMG_FMT_I44016: break;
-    default: fatal("Unsupported image conversion");
+    default: fatal("Unsupported image conversion"); break;
   }
   for (plane = 0; plane < 3; plane++) {
     int w = src->d_w;
@@ -417,7 +411,7 @@ static void lowbd_img_upshift(vpx_image_t *dst, vpx_image_t *src,
     case VPX_IMG_FMT_I422:
     case VPX_IMG_FMT_I444:
     case VPX_IMG_FMT_I440: break;
-    default: fatal("Unsupported image conversion");
+    default: fatal("Unsupported image conversion"); break;
   }
   for (plane = 0; plane < 3; plane++) {
     int w = src->d_w;
@@ -458,7 +452,7 @@ void vpx_img_truncate_16_to_8(vpx_image_t *dst, vpx_image_t *src) {
     case VPX_IMG_FMT_I422:
     case VPX_IMG_FMT_I444:
     case VPX_IMG_FMT_I440: break;
-    default: fatal("Unsupported image conversion");
+    default: fatal("Unsupported image conversion"); break;
   }
   for (plane = 0; plane < 3; plane++) {
     int w = src->d_w;
@@ -493,7 +487,7 @@ static void highbd_img_downshift(vpx_image_t *dst, vpx_image_t *src,
     case VPX_IMG_FMT_I42216:
     case VPX_IMG_FMT_I44416:
     case VPX_IMG_FMT_I44016: break;
-    default: fatal("Unsupported image conversion");
+    default: fatal("Unsupported image conversion"); break;
   }
   for (plane = 0; plane < 3; plane++) {
     int w = src->d_w;
@@ -527,7 +521,7 @@ static void lowbd_img_downshift(vpx_image_t *dst, vpx_image_t *src,
     case VPX_IMG_FMT_I422:
     case VPX_IMG_FMT_I444:
     case VPX_IMG_FMT_I440: break;
-    default: fatal("Unsupported image conversion");
+    default: fatal("Unsupported image conversion"); break;
   }
   for (plane = 0; plane < 3; plane++) {
     int w = src->d_w;

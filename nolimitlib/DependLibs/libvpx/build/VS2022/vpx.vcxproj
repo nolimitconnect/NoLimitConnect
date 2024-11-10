@@ -287,6 +287,11 @@
       <ObjectFileName>$(IntDir)vp8_decoder_threading.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\vp9\common\vp9_rtcd.c" />
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_denoiser_sse2.c" />
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_diamond_search_sad_avx.c" />
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_error_avx2.c" />
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_frame_scale_ssse3.c" />
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_highbd_block_error_intrin_sse2.c" />
     <ClCompile Include="..\..\vp9\vp9_iface_common.c">
       <ObjectFileName>$(IntDir)vp9_vp9_iface_common.obj</ObjectFileName>
     </ClCompile>
@@ -467,21 +472,11 @@
     <ClCompile Include="..\..\vp9\encoder\vp9_temporal_filter.c">
       <ObjectFileName>$(IntDir)vp9_encoder_vp9_temporal_filter.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\vp9\encoder\vp9_tpl_model.c">
-      <ObjectFileName>$(IntDir)vp9_encoder_vp9_tpl_model.obj</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\..\vp9\encoder\vp9_mbgraph.c">
       <ObjectFileName>$(IntDir)vp9_encoder_vp9_mbgraph.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\vp9\encoder\x86\temporal_filter_ssse3.c">
-      <ObjectFileName>$(IntDir)vp9_encoder_x86_temporal_filter_ssse3.obj</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\..\vp9\encoder\x86\temporal_filter_sse4.c">
       <ObjectFileName>$(IntDir)vp9_encoder_x86_temporal_filter_sse4.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\vp9\encoder\x86\temporal_filter_avx2.c">
-      <ObjectFileName>$(IntDir)vp9_encoder_x86_temporal_filter_avx2.obj</ObjectFileName>
-      <AdditionalOptions>/arch:AVX</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="..\..\vp9\encoder\x86\vp9_quantize_sse2.c">
       <ObjectFileName>$(IntDir)vp9_encoder_x86_vp9_quantize_sse2.obj</ObjectFileName>
@@ -495,13 +490,6 @@
     </ClCompile>
     <ClCompile Include="..\..\vp9\encoder\x86\vp9_dct_intrin_sse2.c">
       <ObjectFileName>$(IntDir)vp9_encoder_x86_vp9_dct_intrin_sse2.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\vp9\encoder\x86\vp9_frame_scale_ssse3.c">
-      <ObjectFileName>$(IntDir)vp9_encoder_x86_vp9_frame_scale_ssse3.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\vp9\encoder\x86\vp9_error_avx2.c">
-      <ObjectFileName>$(IntDir)vp9_encoder_x86_vp9_error_avx2.obj</ObjectFileName>
-      <AdditionalOptions>/arch:AVX</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="..\..\vp9\vp9_dx_iface.c">
       <ObjectFileName>$(IntDir)vp9_vp9_dx_iface.obj</ObjectFileName>
@@ -553,13 +541,6 @@
       <ObjectFileName>$(IntDir)vpx_dsp_sse.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\vpx_dsp\vpx_dsp_rtcd.c" />
-    <ClCompile Include="..\..\vpx_dsp\x86\sse_sse4.c">
-      <ObjectFileName>$(IntDir)vpx_dsp_x86_sse_sse4.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\vpx_dsp\x86\sse_avx2.c">
-      <ObjectFileName>$(IntDir)vpx_dsp_x86_sse_avx2.obj</ObjectFileName>
-      <AdditionalOptions>/arch:AVX</AdditionalOptions>
-    </ClCompile>
     <ClCompile Include="..\..\vpx_dsp\bitreader.c">
       <ObjectFileName>$(IntDir)vpx_dsp_bitreader.obj</ObjectFileName>
     </ClCompile>
@@ -697,10 +678,6 @@
     <ClCompile Include="..\..\vpx_dsp\x86\inv_txfm_sse2.c">
       <ObjectFileName>$(IntDir)vpx_dsp_x86_inv_txfm_sse2.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\vpx_dsp\x86\inv_txfm_avx2.c">
-      <ObjectFileName>$(IntDir)vpx_dsp_x86_inv_txfm_avx2.obj</ObjectFileName>
-      <AdditionalOptions>/arch:AVX</AdditionalOptions>
-    </ClCompile>
     <CustomBuild Include="..\..\vpx_dsp\x86\inv_wht_sse2.asm">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Assembling %(Filename)%(Extension)</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">nasm -Xvc -gcv8 -f win64  -I"." -I"$(ProjectDir)../../" "%(FullPath)" -o $(IntDir)vpx_dsp_x86_inv_wht_sse2_asm.obj</Command>
@@ -803,10 +780,6 @@
     </ClCompile>
     <ClCompile Include="..\..\vpx_dsp\x86\avg_pred_sse2.c">
       <ObjectFileName>$(IntDir)vpx_dsp_x86_avg_pred_sse2.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\vpx_dsp\x86\avg_pred_avx2.c">
-      <ObjectFileName>$(IntDir)vpx_dsp_x86_avg_pred_avx2.obj</ObjectFileName>
-      <AdditionalOptions>/arch:AVX</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="..\..\vpx_dsp\x86\variance_sse2.c">
       <ObjectFileName>$(IntDir)vpx_dsp_x86_variance_sse2.obj</ObjectFileName>
@@ -1164,7 +1137,6 @@
     <ClInclude Include="..\..\vp9\encoder\vp9_noise_estimate.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_ext_ratectrl.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_temporal_filter.h" />
-    <ClInclude Include="..\..\vp9\encoder\vp9_tpl_model.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_mbgraph.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_temporal_filter_constants.h" />
     <ClInclude Include="..\..\vp9\vp9_dx_iface.h" />
@@ -1187,6 +1159,11 @@
     <ClInclude Include="..\..\vpx\vpx_integer.h" />
     <ClInclude Include="..\..\vpx\vpx_ext_ratectrl.h" />
     <ClInclude Include="..\..\vpx\vpx_tpl.h" />
+    <ClInclude Include="..\..\vpx_config.h" />
+    <ClInclude Include="..\..\vpx_config_android_arm32.h" />
+    <ClInclude Include="..\..\vpx_config_android_arm64.h" />
+    <ClInclude Include="..\..\vpx_config_linux_arm64.h" />
+    <ClInclude Include="..\..\vpx_config_linux_x64.h" />
     <ClInclude Include="..\..\vpx_config_win_x64.h" />
     <ClInclude Include="..\..\vpx_dsp\vpx_dsp_common.h" />
     <ClInclude Include="..\..\vpx_dsp\x86\bitdepth_conversion_avx2.h" />
@@ -1221,6 +1198,10 @@
     <ClInclude Include="..\..\vpx_dsp\variance.h" />
     <ClInclude Include="..\..\vpx_dsp\x86\mem_sse2.h" />
     <ClInclude Include="..\..\vpx_dsp\x86\transpose_sse2.h" />
+    <ClInclude Include="..\..\vpx_dsp_rtcd.h" />
+    <ClInclude Include="..\..\vpx_dsp_rtcd_arm64.h" />
+    <ClInclude Include="..\..\vpx_dsp_rtcd_linux_x64.h" />
+    <ClInclude Include="..\..\vpx_dsp_rtcd_win_x64.h" />
     <ClInclude Include="..\..\vpx_mem\vpx_mem.h" />
     <ClInclude Include="..\..\vpx_mem\include\vpx_mem_intrnl.h" />
     <ClInclude Include="..\..\vpx_scale\yv12config.h" />
@@ -1232,6 +1213,10 @@
     <ClInclude Include="..\..\vpx_ports\system_state.h" />
     <ClInclude Include="..\..\vpx_ports\vpx_timer.h" />
     <ClInclude Include="..\..\vpx_ports\x86.h" />
+    <ClInclude Include="..\..\vpx_scale_rtcd.h" />
+    <ClInclude Include="..\..\vpx_scale_rtcd_arm64.h" />
+    <ClInclude Include="..\..\vpx_scale_rtcd_linux_x64.h" />
+    <ClInclude Include="..\..\vpx_scale_rtcd_win_x64.h" />
     <ClInclude Include="..\..\vpx_util\vpx_atomics.h" />
     <ClInclude Include="..\..\vpx_util\vpx_pthread.h" />
     <ClInclude Include="..\..\vpx_util\vpx_thread.h" />
@@ -1242,6 +1227,7 @@
     <ClInclude Include="..\..\vpx_ports\mem_ops.h" />
     <ClInclude Include="..\..\vpx_ports\mem_ops_aligned.h" />
     <ClInclude Include="..\..\vpx_ports\vpx_once.h" />
+    <ClInclude Include="..\..\vpx_version.h" />
     <ClInclude Include="vp8_rtcd_win_x64.h" />
     <ClInclude Include="vp9_rtcd_win_x64.h" />
   </ItemGroup>

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nolimitconnect.nolimitconnect"
     android:installLocation="auto"
-    android:versionCode="1011"
-    android:versionName="1.0.11">
+    android:versionCode="10011"
+    android:versionName="1.00.11">
     <!-- %%INSERT_PERMISSIONS -->
     <!-- %%INSERT_FEATURES -->
     <uses-feature android:name="android.hardware.camera"/>

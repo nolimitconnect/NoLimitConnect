@@ -9,7 +9,6 @@
  */
 
 #include <arm_neon.h>
-#include <string.h>
 
 #include "./vpx_dsp_rtcd.h"
 #include "vpx/vpx_integer.h"
@@ -27,10 +26,10 @@ void vpx_convolve_copy_neon(const uint8_t *src, ptrdiff_t src_stride,
 
   if (w < 8) {  // copy4
     do {
-      memcpy(dst, src, 4);
+      *(uint32_t *)dst = *(const uint32_t *)src;
       src += src_stride;
       dst += dst_stride;
-      memcpy(dst, src, 4);
+      *(uint32_t *)dst = *(const uint32_t *)src;
       src += src_stride;
       dst += dst_stride;
       h -= 2;

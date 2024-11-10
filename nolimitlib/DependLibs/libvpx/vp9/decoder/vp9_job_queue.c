@@ -12,7 +12,6 @@
 #include <string.h>
 
 #include "vpx/vpx_integer.h"
-#include "vpx_util/vpx_pthread.h"
 
 #include "vp9/decoder/vp9_job_queue.h"
 

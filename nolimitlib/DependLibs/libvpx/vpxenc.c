@@ -444,9 +444,6 @@ static const arg_def_t tile_rows =
 
 static const arg_def_t enable_tpl_model =
     ARG_DEF(NULL, "enable-tpl", 1, "Enable temporal dependency model");
-static const arg_def_t enable_keyframe_filtering =
-    ARG_DEF(NULL, "enable-keyframe-filtering", 1,
-            "Enable key frame temporal filtering (0: off (default), 1: on)");
 
 static const arg_def_t lossless =
     ARG_DEF(NULL, "lossless", 1, "Lossless mode (0: false (default), 1: true)");
@@ -544,7 +541,6 @@ static const arg_def_t *vp9_args[] = { &cpu_used_vp9,
                                        &tile_cols,
                                        &tile_rows,
                                        &enable_tpl_model,
-                                       &enable_keyframe_filtering,
                                        &arnr_maxframes,
                                        &arnr_strength,
                                        &arnr_type,
@@ -581,7 +577,6 @@ static const int vp9_arg_ctrl_map[] = { VP8E_SET_CPUUSED,
                                         VP9E_SET_TILE_COLUMNS,
                                         VP9E_SET_TILE_ROWS,
                                         VP9E_SET_TPL,
-                                        VP9E_SET_KEY_FRAME_FILTERING,
                                         VP8E_SET_ARNR_MAXFRAMES,
                                         VP8E_SET_ARNR_STRENGTH,
                                         VP8E_SET_ARNR_TYPE,
@@ -888,7 +883,7 @@ static struct stream_state *new_stream(struct VpxEncoderConfig *global,
 
     /* Default lag_in_frames is 0 in realtime mode CBR mode*/
     if (global->deadline == VPX_DL_REALTIME &&
-        stream->config.cfg.rc_end_usage == VPX_CBR)
+        stream->config.cfg.rc_end_usage == 1)
       stream->config.cfg.g_lag_in_frames = 0;
   }
 
@@ -903,8 +898,8 @@ static int parse_stream_params(struct VpxEncoderConfig *global,
                                struct stream_state *stream, char **argv) {
   char **argi, **argj;
   struct arg arg;
-  const arg_def_t **ctrl_args = no_args;
-  const int *ctrl_args_map = NULL;
+  static const arg_def_t **ctrl_args = no_args;
+  static const int *ctrl_args_map = NULL;
   struct stream_config *config = &stream->config;
   int eos_mark_found = 0;
 #if CONFIG_VP9_HIGHBITDEPTH
@@ -1591,14 +1586,13 @@ static void test_decode(struct stream_state *stream,
   /* Get the internal reference frame */
   if (strcmp(codec->name, "vp8") == 0) {
     struct vpx_ref_frame ref_enc, ref_dec;
-    unsigned int aligned_width = (stream->config.cfg.g_w + 15u) & ~15u;
-    unsigned int aligned_height = (stream->config.cfg.g_h + 15u) & ~15u;
+    int width, height;
 
-    vpx_img_alloc(&ref_enc.img, VPX_IMG_FMT_I420, aligned_width, aligned_height,
-                  1);
+    width = (stream->config.cfg.g_w + 15) & ~15;
+    height = (stream->config.cfg.g_h + 15) & ~15;
+    vpx_img_alloc(&ref_enc.img, VPX_IMG_FMT_I420, width, height, 1);
     enc_img = ref_enc.img;
-    vpx_img_alloc(&ref_dec.img, VPX_IMG_FMT_I420, aligned_width, aligned_height,
-                  1);
+    vpx_img_alloc(&ref_dec.img, VPX_IMG_FMT_I420, width, height, 1);
     dec_img = ref_dec.img;
 
     ref_enc.frame_type = VP8_LAST_FRAME;
@@ -1975,9 +1969,10 @@ int main(int argc, const char **argv_) {
           } else {
             const int64_t input_pos = ftello(input.file);
             const int64_t input_pos_lagged = input_pos - lagged_count;
+            const int64_t limit = input.length;
 
             rate = cx_time ? input_pos_lagged * (int64_t)1000000 / cx_time : 0;
-            remaining = input.length - input_pos + lagged_count;
+            remaining = limit - input_pos + lagged_count;
           }
 
           average_rate =

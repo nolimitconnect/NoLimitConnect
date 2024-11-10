@@ -1185,7 +1185,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             x264
             x265
             dav1d
-            # vpx # needed but does not compile yet
+            vpx
             pcre
 
             opencore-amr
@@ -1244,7 +1244,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             x264
             #x265 #cannot compile x265 on arm7a
             dav1d
-            # vpx # needed but does not compile yet
+            vpx
             pcre
             opencore-amr
 
@@ -1438,7 +1438,7 @@ else()
     add_custom_command(TARGET nolimitconnect POST_BUILD
         COMMAND echo "echo CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
 
-    if(DEFINED TARGET_OS_LINUX)
+    if(DEFINED TARGET_OS_NONE) # CPACK is no longer used. flatpak is used for linux insted
         #=== after compile add qt libraries to bin-TargetOs directory ===#
         file(MAKE_DIRECTORY "${PROJECT_BIN_DIR}/usr/lib")
 

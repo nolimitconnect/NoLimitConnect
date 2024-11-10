@@ -17,7 +17,6 @@
 #include "vp9/encoder/vp9_multi_thread.h"
 #include "vp9/encoder/vp9_temporal_filter.h"
 #include "vpx_dsp/vpx_dsp_common.h"
-#include "vpx_util/vpx_pthread.h"
 
 static void accumulate_rd_opt(ThreadData *td, ThreadData *td_t) {
   int i, j, k, l, m, n;
@@ -56,7 +55,7 @@ static int enc_worker_hook(void *arg1, void *unused) {
     vp9_encode_tile(cpi, thread_data->td, tile_row, tile_col);
   }
 
-  return 1;
+  return 0;
 }
 
 static int get_max_tile_cols(VP9_COMP *cpi) {
@@ -95,10 +94,10 @@ static void create_enc_workers(VP9_COMP *cpi, int num_workers) {
   vp9_bitstream_encode_tiles_buffer_dealloc(cpi);
   vp9_encode_free_mt_data(cpi);
 
-  CHECK_MEM_ERROR(&cm->error, cpi->workers,
+  CHECK_MEM_ERROR(cm, cpi->workers,
                   vpx_malloc(num_workers * sizeof(*cpi->workers)));
 
-  CHECK_MEM_ERROR(&cm->error, cpi->tile_thr_data,
+  CHECK_MEM_ERROR(cm, cpi->tile_thr_data,
                   vpx_calloc(num_workers, sizeof(*cpi->tile_thr_data)));
 
   for (i = 0; i < num_workers; i++) {
@@ -107,13 +106,12 @@ static void create_enc_workers(VP9_COMP *cpi, int num_workers) {
 
     ++cpi->num_workers;
     winterface->init(worker);
-    worker->thread_name = "vpx enc worker";
 
     if (i < num_workers - 1) {
       thread_data->cpi = cpi;
 
       // Allocate thread data.
-      CHECK_MEM_ERROR(&cm->error, thread_data->td,
+      CHECK_MEM_ERROR(cm, thread_data->td,
                       vpx_memalign(32, sizeof(*thread_data->td)));
       vp9_zero(*thread_data->td);
 
@@ -123,7 +121,7 @@ static void create_enc_workers(VP9_COMP *cpi, int num_workers) {
       vp9_setup_pc_tree(cm, thread_data->td);
 
       // Allocate frame counters in thread data.
-      CHECK_MEM_ERROR(&cm->error, thread_data->td->counts,
+      CHECK_MEM_ERROR(cm, thread_data->td->counts,
                       vpx_calloc(1, sizeof(*thread_data->td->counts)));
 
       // Create threads
@@ -189,9 +187,7 @@ void vp9_encode_free_mt_data(struct VP9_COMP *cpi) {
     }
   }
   vpx_free(cpi->tile_thr_data);
-  cpi->tile_thr_data = NULL;
   vpx_free(cpi->workers);
-  cpi->workers = NULL;
   cpi->num_workers = 0;
 }
 
@@ -206,7 +202,8 @@ void vp9_encode_tiles_mt(VP9_COMP *cpi) {
   create_enc_workers(cpi, num_workers);
 
   for (i = 0; i < num_workers; i++) {
-    EncWorkerData *const thread_data = &cpi->tile_thr_data[i];
+    EncWorkerData *thread_data;
+    thread_data = &cpi->tile_thr_data[i];
 
     // Before encoding a frame, copy the thread data from cpi.
     if (thread_data->td != &cpi->td) {
@@ -268,7 +265,6 @@ static void accumulate_fp_tile_stat(TileDataEnc *tile_data,
   tile_data->fp_data.intra_count_high += tile_data_t->fp_data.intra_count_high;
   tile_data->fp_data.intra_skip_count += tile_data_t->fp_data.intra_skip_count;
   tile_data->fp_data.mvcount += tile_data_t->fp_data.mvcount;
-  tile_data->fp_data.new_mv_count += tile_data_t->fp_data.new_mv_count;
   tile_data->fp_data.sum_mvr += tile_data_t->fp_data.sum_mvr;
   tile_data->fp_data.sum_mvr_abs += tile_data_t->fp_data.sum_mvr_abs;
   tile_data->fp_data.sum_mvc += tile_data_t->fp_data.sum_mvc;
@@ -296,7 +292,7 @@ void vp9_row_mt_sync_mem_alloc(VP9RowMTSync *row_mt_sync, VP9_COMMON *cm,
   {
     int i;
 
-    CHECK_MEM_ERROR(&cm->error, row_mt_sync->mutex,
+    CHECK_MEM_ERROR(cm, row_mt_sync->mutex,
                     vpx_malloc(sizeof(*row_mt_sync->mutex) * rows));
     if (row_mt_sync->mutex) {
       for (i = 0; i < rows; ++i) {
@@ -304,7 +300,7 @@ void vp9_row_mt_sync_mem_alloc(VP9RowMTSync *row_mt_sync, VP9_COMMON *cm,
       }
     }
 
-    CHECK_MEM_ERROR(&cm->error, row_mt_sync->cond,
+    CHECK_MEM_ERROR(cm, row_mt_sync->cond,
                     vpx_malloc(sizeof(*row_mt_sync->cond) * rows));
     if (row_mt_sync->cond) {
       for (i = 0; i < rows; ++i) {
@@ -314,7 +310,7 @@ void vp9_row_mt_sync_mem_alloc(VP9RowMTSync *row_mt_sync, VP9_COMMON *cm,
   }
 #endif  // CONFIG_MULTITHREAD
 
-  CHECK_MEM_ERROR(&cm->error, row_mt_sync->cur_col,
+  CHECK_MEM_ERROR(cm, row_mt_sync->cur_col,
                   vpx_malloc(sizeof(*row_mt_sync->cur_col) * rows));
 
   // Set up nsync.
@@ -457,7 +453,7 @@ static int first_pass_worker_hook(void *arg1, void *arg2) {
                                         this_tile, &best_ref_mv, mb_row);
     }
   }
-  return 1;
+  return 0;
 }
 
 void vp9_encode_fp_row_mt(VP9_COMP *cpi) {
@@ -544,7 +540,7 @@ static int temporal_filter_worker_hook(void *arg1, void *arg2) {
                                         mb_col_start, mb_col_end);
     }
   }
-  return 1;
+  return 0;
 }
 
 void vp9_temporal_filter_row_mt(VP9_COMP *cpi) {
@@ -617,7 +613,7 @@ static int enc_row_mt_worker_hook(void *arg1, void *arg2) {
       vp9_encode_sb_row(cpi, thread_data->td, tile_row, tile_col, mi_row);
     }
   }
-  return 1;
+  return 0;
 }
 
 void vp9_encode_tiles_row_mt(VP9_COMP *cpi) {

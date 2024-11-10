@@ -14,7 +14,6 @@
  */
 #include <assert.h>
 #include <limits.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "vp8/common/blockd.h"
@@ -55,10 +54,6 @@ vpx_codec_err_t vpx_codec_enc_init_ver(vpx_codec_ctx_t *ctx,
     res = ctx->iface->init(ctx, NULL);
 
     if (res) {
-      // IMPORTANT: ctx->priv->err_detail must be null or point to a string
-      // that remains valid after ctx->priv is destroyed, such as a C string
-      // literal. This makes it safe to call vpx_codec_error_detail() after
-      // vpx_codec_enc_init_ver() failed.
       ctx->err_detail = ctx->priv ? ctx->priv->err_detail : NULL;
       vpx_codec_destroy(ctx);
     }
@@ -185,14 +180,14 @@ vpx_codec_err_t vpx_codec_enc_config_default(vpx_codec_iface_t *iface,
   while (0)
 
 #else
-static void FLOATING_POINT_INIT(void) {}
-static void FLOATING_POINT_RESTORE(void) {}
+static void FLOATING_POINT_INIT() {}
+static void FLOATING_POINT_RESTORE() {}
 #endif
 
 vpx_codec_err_t vpx_codec_encode(vpx_codec_ctx_t *ctx, const vpx_image_t *img,
                                  vpx_codec_pts_t pts, unsigned long duration,
                                  vpx_enc_frame_flags_t flags,
-                                 vpx_enc_deadline_t deadline) {
+                                 unsigned long deadline) {
   vpx_codec_err_t res = VPX_CODEC_OK;
 
   if (!ctx || (img && !duration))
@@ -201,10 +196,6 @@ vpx_codec_err_t vpx_codec_encode(vpx_codec_ctx_t *ctx, const vpx_image_t *img,
     res = VPX_CODEC_ERROR;
   else if (!(ctx->iface->caps & VPX_CODEC_CAP_ENCODER))
     res = VPX_CODEC_INCAPABLE;
-#if ULONG_MAX > UINT32_MAX
-  else if (duration > UINT32_MAX || deadline > UINT32_MAX)
-    res = VPX_CODEC_INVALID_PARAM;
-#endif
   else {
     unsigned int num_enc = ctx->priv->enc.total_encoders;
 

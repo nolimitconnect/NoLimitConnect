@@ -129,17 +129,12 @@
     <ClCompile Include="..\..\vp9\encoder\vp9_noise_estimate.c" />
     <ClCompile Include="..\..\vp9\encoder\vp9_ext_ratectrl.c" />
     <ClCompile Include="..\..\vp9\encoder\vp9_temporal_filter.c" />
-    <ClCompile Include="..\..\vp9\encoder\vp9_tpl_model.c" />
     <ClCompile Include="..\..\vp9\encoder\vp9_mbgraph.c" />
-    <ClCompile Include="..\..\vp9\encoder\x86\temporal_filter_ssse3.c" />
     <ClCompile Include="..\..\vp9\encoder\x86\temporal_filter_sse4.c" />
-    <ClCompile Include="..\..\vp9\encoder\x86\temporal_filter_avx2.c" />
     <ClCompile Include="..\..\vp9\encoder\x86\vp9_quantize_sse2.c" />
     <ClCompile Include="..\..\vp9\encoder\x86\vp9_quantize_ssse3.c" />
     <ClCompile Include="..\..\vp9\encoder\x86\vp9_quantize_avx2.c" />
     <ClCompile Include="..\..\vp9\encoder\x86\vp9_dct_intrin_sse2.c" />
-    <ClCompile Include="..\..\vp9\encoder\x86\vp9_frame_scale_ssse3.c" />
-    <ClCompile Include="..\..\vp9\encoder\x86\vp9_error_avx2.c" />
     <ClCompile Include="..\..\vp9\vp9_dx_iface.c" />
     <ClCompile Include="..\..\vp9\decoder\vp9_decodemv.c" />
     <ClCompile Include="..\..\vp9\decoder\vp9_decodeframe.c" />
@@ -156,8 +151,6 @@
     <ClCompile Include="..\..\vpx_dsp\bitwriter_buffer.c" />
     <ClCompile Include="..\..\vpx_dsp\psnr.c" />
     <ClCompile Include="..\..\vpx_dsp\sse.c" />
-    <ClCompile Include="..\..\vpx_dsp\x86\sse_sse4.c" />
-    <ClCompile Include="..\..\vpx_dsp\x86\sse_avx2.c" />
     <ClCompile Include="..\..\vpx_dsp\bitreader.c" />
     <ClCompile Include="..\..\vpx_dsp\bitreader_buffer.c" />
     <ClCompile Include="..\..\vpx_dsp\intrapred.c" />
@@ -176,7 +169,6 @@
     <ClCompile Include="..\..\vpx_dsp\x86\fwd_txfm_avx2.c" />
     <ClCompile Include="..\..\vpx_dsp\inv_txfm.c" />
     <ClCompile Include="..\..\vpx_dsp\x86\inv_txfm_sse2.c" />
-    <ClCompile Include="..\..\vpx_dsp\x86\inv_txfm_avx2.c" />
     <ClCompile Include="..\..\vpx_dsp\x86\inv_txfm_ssse3.c" />
     <ClCompile Include="..\..\vpx_dsp\quantize.c" />
     <ClCompile Include="..\..\vpx_dsp\x86\quantize_sse2.c" />
@@ -196,7 +188,6 @@
     <ClCompile Include="..\..\vpx_dsp\x86\subtract_avx2.c" />
     <ClCompile Include="..\..\vpx_dsp\variance.c" />
     <ClCompile Include="..\..\vpx_dsp\x86\avg_pred_sse2.c" />
-    <ClCompile Include="..\..\vpx_dsp\x86\avg_pred_avx2.c" />
     <ClCompile Include="..\..\vpx_dsp\x86\variance_sse2.c" />
     <ClCompile Include="..\..\vpx_dsp\x86\variance_avx2.c" />
     <ClCompile Include="..\..\vpx_mem\vpx_mem.c" />
@@ -219,6 +210,21 @@
       <Filter>vpx_scale</Filter>
     </ClCompile>
     <ClCompile Include="..\..\vpx_config_win_x64.c" />
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_diamond_search_sad_avx.c">
+      <Filter>vp9\encoder\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_denoiser_sse2.c">
+      <Filter>vp9\encoder\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_error_avx2.c">
+      <Filter>vp9\encoder\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_frame_scale_ssse3.c">
+      <Filter>vp9\encoder\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vp9\encoder\x86\vp9_highbd_block_error_intrin_sse2.c">
+      <Filter>vp9\encoder\x86</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vp8\common\ppflags.h" />
@@ -351,7 +357,6 @@
     <ClInclude Include="..\..\vp9\encoder\vp9_noise_estimate.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_ext_ratectrl.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_temporal_filter.h" />
-    <ClInclude Include="..\..\vp9\encoder\vp9_tpl_model.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_mbgraph.h" />
     <ClInclude Include="..\..\vp9\encoder\vp9_temporal_filter_constants.h" />
     <ClInclude Include="..\..\vp9\vp9_dx_iface.h" />
@@ -431,7 +436,51 @@
     <ClInclude Include="vp8_rtcd_win_x64.h" />
     <ClInclude Include="vp9_rtcd_win_x64.h" />
     <ClInclude Include="..\..\config_libvpx.h" />
-    <ClInclude Include="..\..\vpx_config_win_x64.h" />
+    <ClInclude Include="..\..\vpx_config.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_config_android_arm32.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_config_android_arm64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_config_linux_arm64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_config_linux_x64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_dsp_rtcd.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_dsp_rtcd_arm64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_dsp_rtcd_linux_x64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_dsp_rtcd_win_x64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_scale_rtcd.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_scale_rtcd_arm64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_scale_rtcd_linux_x64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_scale_rtcd_win_x64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_version.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vpx_config_win_x64.h">
+      <Filter>ConfigFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\vpx_dsp\x86\intrapred_sse2.asm" />
@@ -511,6 +560,21 @@
     </Filter>
     <Filter Include="vpx_scale">
       <UniqueIdentifier>{e973e33c-071b-4b57-a0a6-4457918bc089}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConfigFiles">
+      <UniqueIdentifier>{95d47d99-f46a-4547-873a-ae930973b130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vp8\encoder">
+      <UniqueIdentifier>{02181248-fd0a-4cd2-9000-a39e6d384031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vp8\encoder\x86">
+      <UniqueIdentifier>{74ce716c-2b56-4fb8-8962-62fddaf5714d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vp9\encoder">
+      <UniqueIdentifier>{07058ef9-1ed7-4d2c-aaf6-2d6b50be6321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vp9\encoder\x86">
+      <UniqueIdentifier>{7a4568e2-0b38-4df7-969b-5e30702ea5e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

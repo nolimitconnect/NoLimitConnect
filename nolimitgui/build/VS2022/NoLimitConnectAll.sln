@@ -314,6 +314,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libptopengine", "..\..\..\n
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvpx", "..\..\..\nolimitlib\DependLibs\libvpx\build\VS2022\vpx.vcxproj", "{DCE19DAF-69AC-46DB-B14A-39F0FAA5DB74}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "android", "android", "{0A4C7EF1-734D-4A1E-8041-5A3074E8F4E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\android\AndroidManifest.xml = ..\..\android\AndroidManifest.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "android32", "android32", "{83D54018-12A8-49BB-A3F9-053217A96F87}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\android34\AndroidManifest.xml = ..\..\android34\AndroidManifest.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -771,7 +781,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 		Qt5Version = 6.3.0_msvc2019_64
+		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 	EndGlobalSection
 EndGlobal

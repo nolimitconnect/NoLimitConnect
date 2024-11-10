@@ -19,8 +19,6 @@
 #include "vpx_dsp/arm/mem_neon.h"
 #include "vpx_dsp/txfm_common.h"
 
-#include "vp9/common/vp9_enums.h"
-
 void vp9_iht4x4_16_add_neon(const tran_low_t *input, uint8_t *dest, int stride,
                             int tx_type) {
   int16x8_t a[2];
