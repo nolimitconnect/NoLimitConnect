@@ -1067,7 +1067,7 @@ if (DEFINED TARGET_OS_LINUX)
             x264
             x265
             dav1d
-            #vpx
+            vpx
             pcre
 
             opencore-amr
