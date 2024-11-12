@@ -88,29 +88,16 @@ void AppProfile::loadProfile( void )
     VxSetRootUserDataDirectory( m_strRootUserDataDir.c_str() );
 
     //=== determine root path for data xfer like incomplete/downloads/uploads etc ===//
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-#ifdef TARGET_OS_WINDOWS
-        QString docsPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-#else
-        // linux hides document under .local so use desktop if possible
-        QString docsPath = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
-        if( docsPath.isEmpty() )
-        {
-            docsPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-        }
-#endif // TARGET_OS_WINDOWS
-#else
 #if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
     QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
 #else
-    // linux hides document under .local so use desktop if possible
-    QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    // linux hides document under .local so use home directory if possible
+    QString docsPath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
     if( docsPath.isEmpty() )
     {
-        docsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
     }
 #endif // TARGET_OS_WINDOWS
-#endif //QT_VERSION < QT_VERSION_CHECK
 
     m_strRootXferDir = docsPath.toUtf8().constData();
 

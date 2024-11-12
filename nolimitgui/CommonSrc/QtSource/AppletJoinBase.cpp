@@ -51,16 +51,16 @@ AppletJoinBase::AppletJoinBase( const char*name, AppCommon& app, QWidget* parent
 	ui.m_GuiGroupieListWidget->setIsHostView( false );
 
 	// so is actually destroyed
-	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
-	connect( ui.m_ChooseHostButton, SIGNAL(clicked()), this, SLOT( slotChooseHostModeButtonClick() ) );
-	connect( ui.m_IgnoredHostsButton, SIGNAL(clicked()), this, SLOT( slotShowIgnoredHostsListButtonClicked() ) );
+	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
+	connect( ui.m_ChooseHostButton, SIGNAL(clicked()), this, SLOT(slotChooseHostModeButtonClick()) );
+	connect( ui.m_IgnoredHostsButton, SIGNAL(clicked()), this, SLOT(slotShowIgnoredHostsListButtonClicked()) );
 
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalIconButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotIconButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalMenuButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotMenuButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalJoinButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotJoinButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalConnectButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotConnectButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalKickButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotKickButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalIgnoreButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ), this, SLOT( slotIgnoreButtonClicked( GuiHostedListSession*, GuiHostedListItem* ) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*)), this, SLOT(slotIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*)) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*)), this, SLOT(slotMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*)) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalJoinButtonClicked(GuiHostedListSession*,GuiHostedListItem*)), this, SLOT(slotJoinButtonClicked(GuiHostedListSession*,GuiHostedListItem*)) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalConnectButtonClicked(GuiHostedListSession*,GuiHostedListItem*)), this, SLOT(slotConnectButtonClicked(GuiHostedListSession*,GuiHostedListItem*)) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalKickButtonClicked(GuiHostedListSession*,GuiHostedListItem*)), this, SLOT(slotKickButtonClicked(GuiHostedListSession*,GuiHostedListItem*)) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalIgnoreButtonClicked(GuiHostedListSession*,GuiHostedListItem*)), this, SLOT(slotIgnoreButtonClicked(GuiHostedListSession*,GuiHostedListItem*)) );
 
 	m_MyApp.activityStateChange( this, true );
 	m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, true );
@@ -138,29 +138,26 @@ void AppletJoinBase::slotChooseHostModeButtonClick( void )
 //============================================================================
 void AppletJoinBase::changeGuiMode( bool userListMode )
 {
-	// if( userListMode != m_UserListMode )
+	m_UserListMode = userListMode;
+	if( userListMode )
 	{
-		m_UserListMode = userListMode;
-		if( userListMode )
-		{
-			setListLabel( QObject::tr( "User List" ) );
-			ui.m_ChooseHostButton->setVisible( true );
-			ui.m_HostAdminLabel->setVisible( true );
-			ui.m_HostAdminIdentWidget->setVisible( true );
+		setListLabel( QObject::tr( "User List" ) );
+		ui.m_ChooseHostButton->setVisible( true );
+		ui.m_HostAdminLabel->setVisible( true );
+		ui.m_HostAdminIdentWidget->setVisible( true );
 
-			ui.m_GuiHostedListWidget->setVisible( false );
-			ui.m_GuiGroupieListWidget->setVisible( true );
-		}
-		else
-		{
-			setListLabel( QObject::tr( "Host List" ) );
-			ui.m_ChooseHostButton->setVisible( false );
-			ui.m_HostAdminLabel->setVisible( false );
-			ui.m_HostAdminIdentWidget->setVisible( false );
+		ui.m_GuiHostedListWidget->setVisible( false );
+		ui.m_GuiGroupieListWidget->setVisible( true );
+	}
+	else
+	{
+		setListLabel( QObject::tr( "Host List" ) );
+		ui.m_ChooseHostButton->setVisible( false );
+		ui.m_HostAdminLabel->setVisible( false );
+		ui.m_HostAdminIdentWidget->setVisible( false );
 
-			ui.m_GuiHostedListWidget->setVisible( true );
-			ui.m_GuiGroupieListWidget->setVisible( false );
-		}
+		ui.m_GuiHostedListWidget->setVisible( true );
+		ui.m_GuiGroupieListWidget->setVisible( false );
 	}
 }
 

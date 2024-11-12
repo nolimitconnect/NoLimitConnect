@@ -30,8 +30,3 @@ AppletGroupJoin::AppletGroupJoin( AppCommon& app, QWidget* parent )
 
 	setHostType( eHostTypeGroup );
 }
-
-//============================================================================
-AppletGroupJoin::~AppletGroupJoin()
-{
-}

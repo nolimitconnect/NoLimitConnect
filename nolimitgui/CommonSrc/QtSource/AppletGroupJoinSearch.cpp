@@ -53,15 +53,15 @@ AppletGroupJoinSearch::AppletGroupJoinSearch(	AppCommon&		    app,
     connect( this, SIGNAL( signalLogMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );
     connect( this, SIGNAL( signalInfoMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );
 
-    connect( &m_MyApp, SIGNAL(signalHostJoinStatus( EHostType, VxGUID, EHostJoinStatus, QString )),
-        this, SLOT(slotHostJoinStatus( EHostType, VxGUID, EHostJoinStatus, QString )) );
-    connect( &m_MyApp, SIGNAL(signalHostSearchStatus( EHostType, VxGUID, EHostSearchStatus, QString )),
-        this, SLOT(slotHostSearchStatus( EHostType, VxGUID, EHostSearchStatus, QString )) );
+    connect( &m_MyApp, SIGNAL(signalHostJoinStatus(EHostType,VxGUID,EHostJoinStatus,QString)),
+        this, SLOT(slotHostJoinStatus(EHostType,VxGUID,EHostJoinStatus,QString)) );
+    connect( &m_MyApp, SIGNAL(signalHostSearchStatus(EHostType,VxGUID,EHostSearchStatus,QString)),
+        this, SLOT(slotHostSearchStatus(EHostType,VxGUID,EHostSearchStatus,QString)) );
 
 
-    connect( ui.m_GuiHostedListWidget,      SIGNAL( signalIconButtonClicked( GuiHostSession*, GuiHostedListItem* ) ),  this, SLOT( slotIconButtonClicked( GuiHostSession*, GuiHostedListItem* ) ) );
-    connect( ui.m_GuiHostedListWidget,      SIGNAL( signalMenuButtonClicked( GuiHostSession*, GuiHostedListItem* ) ),  this, SLOT( slotMenuButtonClicked( GuiHostSession*, GuiHostedListItem* ) ) );
-    connect( ui.m_GuiHostedListWidget,      SIGNAL( signalJoinButtonClicked( GuiHostSession*, GuiHostedListItem* ) ),  this, SLOT( slotJoinButtonClicked( GuiHostSession*, GuiHostedListItem* ) ) );
+    connect( ui.m_GuiHostedListWidget,      SIGNAL(signalIconButtonClicked(GuiHostSession*,GuiHostedListItem*)),  this, SLOT(slotIconButtonClicked(GuiHostSession*,GuiHostedListItem*)) );
+    connect( ui.m_GuiHostedListWidget,      SIGNAL(signalMenuButtonClicked(GuiHostSession*,GuiHostedListItem*)),  this, SLOT(slotMenuButtonClicked(GuiHostSession*,GuiHostedListItem*)) );
+    connect( ui.m_GuiHostedListWidget,      SIGNAL(signalJoinButtonClicked(GuiHostSession*,GuiHostedListItem*)),  this, SLOT(slotJoinButtonClicked(GuiHostSession*,GuiHostedListItem*)) );
 
     setStatusLabel( QObject::tr( "Search For Group Host To Join" ) );
     std::string lastHostSearchText;

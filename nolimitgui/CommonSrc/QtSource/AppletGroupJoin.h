@@ -16,7 +16,7 @@ class AppletGroupJoin : public AppletJoinBase
 	Q_OBJECT
 public:
     AppletGroupJoin( AppCommon& app, QWidget* parent );
-	virtual ~AppletGroupJoin();
+	virtual ~AppletGroupJoin() = default;
 
 };
 
