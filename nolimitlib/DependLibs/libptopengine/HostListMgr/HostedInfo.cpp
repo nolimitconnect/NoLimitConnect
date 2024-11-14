@@ -105,6 +105,7 @@ bool HostedInfo::fillSearchBlob( PktBlobEntry& blobEntry )
 bool HostedInfo::extractFromSearchBlob( PktBlobEntry& blobEntry )
 {
     bool result = blobEntry.getValue( m_HostInfoTimestampMs );
+    result &= blobEntry.getValue( m_HostInviteUrl );
     result &= blobEntry.getValue( m_HostTitle );
     result &= blobEntry.getValue( m_HostDesc );
     result &= blobEntry.getValue( m_ThumbId );

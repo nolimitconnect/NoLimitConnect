@@ -76,8 +76,7 @@ void AppletLog::setupApplet( void )
     connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked()) );
     connect( ui.m_LogSettingsButton, SIGNAL(clicked()), this, SLOT(slotLogSettingButtonClick()) );
 
-    connect( this, SIGNAL( signalLogMsg(const QString&)), this, SLOT(slotLogMsg(const QString&)) );
-    connect( this, SIGNAL( signalInfoMsg(const QString&)), this, SLOT(slotInfoMsg(const QString&)) );
+    connect( this, SIGNAL(signalLogMsg(const QString&)), this, SLOT(slotLogMsg(const QString&)) );
 
     fillBasicInfo();
 }
