@@ -67,7 +67,7 @@ bool ThumbnailEditWidget::loadFromAsset( ThumbInfo* thumbAsset )
     bool loadOk = false;
     if( thumbAsset )
     {
-        loadOk = ui.m_ThumbnailViewWidget->loadFromFile( thumbAsset->getAssetName().c_str() );
+        loadOk = ui.m_ThumbnailViewWidget->loadFromFile( thumbAsset->getAssetNameAndPath().c_str() );
         if( loadOk )
         {
             setAssetId( thumbAsset->getAssetUniqueId() );

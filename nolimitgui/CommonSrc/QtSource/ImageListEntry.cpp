@@ -37,7 +37,7 @@ bool ImageListEntry::loadFromAsset( AssetInfo * thumbAsset )
     bool loadOk = false;
     if( thumbAsset )
     {
-        loadOk = loadFromFile( thumbAsset->getAssetName().c_str() );
+        loadOk = loadFromFile( thumbAsset->getAssetNameAndPath().c_str() );
     }
 
     return loadOk;

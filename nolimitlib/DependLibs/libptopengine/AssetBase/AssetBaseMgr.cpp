@@ -198,10 +198,10 @@ void AssetBaseMgr::assetInfoMgrShutdown( void )
 }
 
 //============================================================================
-void AssetBaseMgr::generateHashForFile( std::string fileName )
+void AssetBaseMgr::generateHashForFile( std::string fileNameAndPath )
 {
 	m_GenHashMutex.lock();
-	m_GenHashList.push_back( fileName );
+    m_GenHashList.emplace_back( fileNameAndPath );
 	m_GenHashMutex.unlock();
 	m_GenHashSemaphore.signal();
 }
@@ -243,7 +243,7 @@ void AssetBaseMgr::generateHashIds( VxThread* genHashThread )
 				for( iter = m_WaitingForHastList.begin(); iter != m_WaitingForHastList.end(); ++iter )
 				{
 					AssetBaseInfo* inListAssetBaseInfo = *iter;
-					if( inListAssetBaseInfo->getAssetName() == thisFile )
+                    if( inListAssetBaseInfo->getFileNameAndPath() == thisFile )
 					{
 						assetInfo = inListAssetBaseInfo;
 						m_WaitingForHastList.erase( iter );
@@ -564,7 +564,7 @@ bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 	//	lockResources();
 	//	m_WaitingForHastList.push_back( assetInfo );
 	//	unlockResources();
-	//	generateHashForFile( assetInfo->getAssetName() );
+    //	generateHashForFile( assetInfo->getFileNameAndPath() );
 	//	result = true;
 	//}
 	//else
@@ -732,21 +732,21 @@ void AssetBaseMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUnique
 }
 
 //============================================================================
-bool AssetBaseMgr::removeAsset( std::string fileName, bool deleteFile )
+bool AssetBaseMgr::removeAsset( std::string fileNameAndPath, bool deleteFile )
 {
 	bool assetRemoved = false;
 	std::vector<AssetBaseInfo*>::iterator iter;
 	for( iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
 	{
-		if( fileName == (*iter)->getAssetNameAndPath() )
+        if( fileNameAndPath == (*iter)->getAssetNameAndPath() )
 		{
 			AssetBaseInfo* assetInfo = *iter;
 			m_AssetBaseInfoList.erase( iter );
-			m_AssetBaseInfoDb.removeAsset( fileName.c_str() );
+            m_AssetBaseInfoDb.removeAsset( fileNameAndPath.c_str() );
 			announceAssetRemoved( assetInfo );
             if( deleteFile && ( assetInfo->isThumbAsset() || assetInfo->isFileAsset() ) )
 			{
-				VxFileUtil::deleteFile( assetInfo->getAssetName().c_str() );
+                VxFileUtil::deleteFile( assetInfo->getFileNameAndPath().c_str() );
 			}
 
 			delete assetInfo;
@@ -769,7 +769,7 @@ bool AssetBaseMgr::removeAsset( VxGUID& assetUniqueId, bool deleteFile )
 		if( assetUniqueId == ( *iter )->getAssetUniqueId() )
 		{
 			AssetBaseInfo* assetInfo = *iter;
-			std::string fileName = assetInfo->getAssetName();
+            std::string fileName = assetInfo->getAssetNameAndPath();
 			m_AssetBaseInfoList.erase( iter );
 			m_AssetBaseInfoDb.removeAsset( assetInfo );
 			announceAssetRemoved( assetInfo );
@@ -843,7 +843,7 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 			{
 				m_WaitingForHastList.push_back( assetInfo );
 				m_AssetBaseInfoList.erase( iter );
-				generateHashForFile( assetInfo->getAssetName() );
+                generateHashForFile( assetInfo->getAssetNameAndPath() );
 				movedToGenerateHash = true;
 				break;
 			}
@@ -855,7 +855,7 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 		m_AssetBaseInfoDb.removeAsset( assetInfo );
 		if( assetInfo->isThumbAsset() || assetInfo->isFileAsset() )
 		{
-			GetVxFileShredder().shredFile( assetInfo->getAssetName() );
+            GetVxFileShredder().shredFile( assetInfo->getAssetNameAndPath() );
 		}
 	}
 
@@ -1037,7 +1037,7 @@ bool AssetBaseMgr::getFileHashId( std::string& fileFullName, VxSha1Hash& retFile
 	std::vector<AssetBaseInfo*>::iterator iter;
 	for( iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
 	{
-		if( fileFullName == (*iter)->getAssetName() )
+        if( fileFullName == (*iter)->getAssetNameAndPath() )
 		{
 			retFileHashId = (*iter)->getAssetHashId();
 			foundHash = retFileHashId.isHashValid();
@@ -1060,7 +1060,7 @@ bool AssetBaseMgr::getFileFullName( VxSha1Hash& fileHashId, std::string& retFile
 		if( fileHashId == (*iter)->getAssetHashId() )
 		{
 			isAssetBase = true;
-			retFileFullName = (*iter)->getAssetName();
+            retFileFullName = (*iter)->getAssetNameAndPath();
 			break;
 		}
 	}
@@ -1305,12 +1305,12 @@ bool AssetBaseMgr::fromGuiQueryFileHash( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash )
+void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash )
 {
 	lockResources();
 	for( auto* assetInfo : m_AssetBaseInfoList )
 	{
-		if( fileLen == assetInfo->getAssetLength() && fileName == assetInfo->getAssetName() )
+        if( fileLen == assetInfo->getAssetLength() && fileNameAndPath == assetInfo->getAssetNameAndPath() )
 		{
 			assetInfo->setAssetHashId( fileHash );
 			updateDatabase( assetInfo );

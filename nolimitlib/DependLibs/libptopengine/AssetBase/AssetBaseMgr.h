@@ -66,7 +66,7 @@ public:
 
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile );
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
-    virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash );
+    virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
 
     virtual void				announceAssetAdded( AssetBaseInfo* assetInfo );
     virtual void				announceAssetUpdated( AssetBaseInfo* assetInfo );

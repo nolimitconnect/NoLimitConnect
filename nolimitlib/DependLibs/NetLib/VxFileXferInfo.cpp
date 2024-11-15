@@ -47,22 +47,15 @@ bool VxFileXferInfo::calcProgress( void )
 //============================================================================
 std::string VxFileXferInfo::getDownloadIncompleteFileName( void )
 {
-	return m_strLocalFileName;
+    return m_LclFileNameAndPath;
 }
 
 //============================================================================
 std::string VxFileXferInfo::getDownloadCompleteFileName( void )
 {
     std::string completedFileName = eAssetTypeThumbnail == getAssetType() ? VxGetAppThumbnailDirectory() : VxGetDownloadsDirectory();
-	std::string strPath;
-	std::string strAssetNameOnly;
-	RCODE rc = VxFileUtil::seperatePathAndFile(	m_strLocalFileName,			
-												strPath,			
-												strAssetNameOnly );	
-	if( 0 == rc )
-	{
-		completedFileName += strAssetNameOnly;
-	}
+
+    completedFileName += m_strLocalFileName;
 
 	return completedFileName;
 }

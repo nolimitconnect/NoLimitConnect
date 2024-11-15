@@ -49,7 +49,7 @@ bool ThumbnailViewWidget::loadFromAsset( ThumbInfo* asset )
     if( asset && ( asset->isPhotoAsset() || asset->isThumbAsset() ) )
     {
         setThumbnailId( asset->getAssetUniqueId() );
-        return loadFromFile( asset->getAssetName().c_str() );
+        return loadFromFile( asset->getAssetNameAndPath().c_str() );
     }
 
     return false;
@@ -60,7 +60,7 @@ void ThumbnailViewWidget::updateAssetImage( ThumbInfo* thumbAsset )
 {
     if( !loadFromAsset( thumbAsset ) )
     {
-        LogMsg( LOG_ERROR, "ThumbnailViewWidget::updateAssetImage failed load %s", thumbAsset->getAssetName().c_str() );
+        LogMsg( LOG_ERROR, "ThumbnailViewWidget::updateAssetImage failed load %s", thumbAsset->getAssetNameAndPath().c_str() );
     }
 }
 

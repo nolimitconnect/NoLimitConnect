@@ -436,10 +436,10 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
 
     xferSession->setAssetBaseInfo( *assetInfo );
     std::string lclFileName = assetInfo->getAssetName();
-    std::string rmtFileName;
-    std::string rmtPath;
-    RCODE rc = VxFileUtil::seperatePathAndFile( lclFileName, rmtPath, rmtFileName );
-    if( rc || rmtFileName.empty() )
+    std::string lclFileNameAndPath = assetInfo->getAssetNameAndPath();
+    std::string rmtFileName = lclFileName;
+
+    if( lclFileNameAndPath.empty() || rmtFileName.empty() )
     {
         LogMsg( LOG_INFO, "AssetBaseXferMgr::onPktAssetBaseGetReq Asset File Name Error" );
         vx_assert( false );

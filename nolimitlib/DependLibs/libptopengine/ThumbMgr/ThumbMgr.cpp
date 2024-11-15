@@ -355,7 +355,7 @@ std::string ThumbMgr::fromGuiGetThumbFile( VxGUID& thumbId )
     {
         if( thumbInfo->getThumbId() == thumbId )
         {
-            fileName = thumbInfo->getAssetName();
+            fileName = thumbInfo->getAssetNameAndPath();
             break;
         }
     }
@@ -616,8 +616,8 @@ uint64_t ThumbMgr::fromGuiClearCache( ECacheType cacheType )
             if( inUseList.end() == std::find( inUseList.begin(), inUseList.end(), assetInfo->getAssetUniqueId() ) )
             {
                 assetDb.removeAsset( assetInfo );
-                cacheDeletedAmt += VxFileUtil::fileExists( assetInfo->getAssetName().c_str() );
-                VxFileUtil::deleteFile( assetInfo->getAssetName().c_str() );
+                cacheDeletedAmt += VxFileUtil::fileExists( assetInfo->getAssetNameAndPath().c_str() );
+                VxFileUtil::deleteFile( assetInfo->getAssetNameAndPath().c_str() );
                 iter = m_ThumbInfoList.erase( iter );
             }
             else

@@ -79,7 +79,7 @@ bool ThumbnailChooseWidget::loadFromAsset( ThumbInfo* thumbAsset )
     if( thumbAsset )
     {
         ui.m_ThumbnailViewWidget->setThumnailIsCircular( getThumbnailIsCircular() );
-        loadOk = ui.m_ThumbnailViewWidget->loadFromFile( thumbAsset->getAssetName().c_str() );
+        loadOk = ui.m_ThumbnailViewWidget->loadFromFile( thumbAsset->getAssetNameAndPath().c_str() );
         if( loadOk )
         {
             setAssetId( thumbAsset->getAssetUniqueId(), getThumbnailIsCircular() );

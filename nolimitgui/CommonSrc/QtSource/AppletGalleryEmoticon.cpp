@@ -72,6 +72,11 @@ void AppletGalleryEmoticon::showEvent( QShowEvent* ev )
     //LogMsg( LOG_DEBUG, "AppletGalleryEmoticon show event\n" );
     m_isShown = true;
     AppletBase::showEvent( ev );
+    if( m_isShown && !m_isLoaded )
+    {
+        m_isLoaded = true;
+        loadAssets();
+    }
 }
 
 //============================================================================

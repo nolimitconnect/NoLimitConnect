@@ -5,10 +5,12 @@
 **/build-dir/
 build-staticlibs/
 .vs/
+.gitmodules
+shared_modules/
 build/Android*
 build/Desktop_Qt*
-nolimitgui/binLinux/
-nolimitgui/bin-Windows
+nolimitgui/bin-Linux/
+nolimitgui/bin-Windows/
 
 aboutme_thumb.png
 favicon.ico

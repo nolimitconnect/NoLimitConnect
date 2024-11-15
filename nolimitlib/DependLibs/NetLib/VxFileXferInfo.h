@@ -49,6 +49,8 @@ public:
 
 	void						setLclFileName( const char* fileName )		{ m_strLocalFileName = fileName; }
 	std::string&				getLclFileName( void )						{ return m_strLocalFileName; }
+    void						setLclFileNameAndPath( const char* fileNameAndPath )	{ m_LclFileNameAndPath = fileNameAndPath; }
+    std::string&				getLclFileNameAndPath( void )				{ return m_LclFileNameAndPath; }
 	void						setRmtFileName( const char* fileName )		{ m_strRemoteFileName = fileName; }
 	std::string&				getRmtFileName( void )						{ return m_strRemoteFileName; }
 
@@ -82,6 +84,7 @@ protected:
 	VxSha1Hash					m_FileHashId;
     std::string					m_strRemoteFileName;
     std::string					m_strLocalFileName;
+    std::string					m_LclFileNameAndPath;
     EXferDirection				m_XferDirection{eXferDirectionRx};
     int							m_PercentProgress{0};
 	bool						m_IsStreaming{ false };
