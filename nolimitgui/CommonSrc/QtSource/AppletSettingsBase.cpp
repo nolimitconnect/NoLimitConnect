@@ -39,6 +39,7 @@ void AppletSettingsBase::loadPluginSetting()
         getPluginSettingsWidget()->getPermissionWidget()->setPermissionLevel( m_OrigPermissionLevel );
 
         m_PluginSetting.setPluginType( getPluginType() );// must set before get settings so engine will know which
+        m_PluginSetting.setUpdateTimestampToNow(); // in case it is updated it should have the current time
         m_MyApp.getEngine().getPluginSettingMgr().getPluginSetting( getPluginType(), m_PluginSetting );
         loadUiFromSetting();
     }

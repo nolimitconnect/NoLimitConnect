@@ -1,0 +1,3 @@
+1.) On very old computers when playing video you hear sound but screen is just solid blue
+Reason - Some video cards predate the shader programs on Graphics GPU support.
+Mitigation - No plan to support these very old machines but you could add a modern video card.
