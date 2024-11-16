@@ -508,11 +508,11 @@ void P2PEngine::fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directo
 	std::string strAbout		= "";
 	std::string strPicLabel		= "<h3><p align=\"center\">My Picture</p></h3>";
 	std::string strPicture		= "<p align=\"center\"><IMG SRC = \"me.png\" width=\"320\" height=\"240\"><br></p>";
-	std::string strFavWebsites	= "</h2><p align=\"center\"><font color=\"#007F00\">My Favorite Web Sites</font><br></p></h2>";
+	std::string strFavWebsites	= "</h2><p align=\"center\"><font color=\"#007F00\">My Favorite Web Sites</font></p></h2>";
 	std::string strUrl1			= "";
 	std::string strUrl2			= "";
 	std::string strUrl3			= "";
-    std::string strDonationInfo = "</h2><p align=\"center\"><font color=\"#007F00\">Donation Information</font><br></p></h2>";
+    std::string strDonationInfo = "</h2><p align=\"center\"><font color=\"#007F00\">Donation Information</font></p></h2>";
     std::string strDonation = "";
 
 	if( 0 !=  strlen( pGreeting ) )
@@ -527,34 +527,37 @@ void P2PEngine::fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directo
 
 	if( 0 !=  strlen( url1 ) )
 	{
-		StdStringFormat( strUrl1, "<h5><p align=\"center\"><font color=\"#0000FF\"><a href=\"%s\">%s</a></font><br></p><h5>", url1, url1 );
+		StdStringFormat( strUrl1, "<h5><p align=\"center\"><font color=\"#0000FF\"><a href=\"%s\">%s</a></font></p><h5>", url1, url1 );
 	}
 
 	if( 0 !=  strlen( url2 ) )
 	{
-		StdStringFormat( strUrl2, "<h5><p align=\"center\"><font color=\"#0000FF\"><a href=\"%s\">%s</a></font><br></p><h5>", url2, url2 );
+		StdStringFormat( strUrl2, "<h5><p align=\"center\"><font color=\"#0000FF\"><a href=\"%s\">%s</a></font></p><h5>", url2, url2 );
 	}
 
 	if( 0 !=  strlen( url3 ) )
 	{
-		StdStringFormat( strUrl3, "<h5><p align=\"center\"><font color=\"#0000FF\"><a href=\"%s\">%s</a></font><br></p><h5>", url3, url3 );
+		StdStringFormat( strUrl3, "<h5><p align=\"center\"><font color=\"#0000FF\"><a href=\"%s\">%s</a></font></p><h5>", url3, url3 );
 	}
 
     if( 0 != strlen( donation ) )
     {
         StdStringFormat( strDonation, "<h4><p align=\"center\">%s</p></h4>", donation );
     }
-
+	else
+	{
+		strDonationInfo = "";
+	}
 
 	std::string strTrailer = "</body></html>\r\r\r";
 
 	std::string strWebPage;
-    strWebPage = strWebPageHdr + strGreeting + strAbout + strPicLabel + strPicture + strFavWebsites + strUrl1 + strUrl2 + strUrl3 + strDonation + strTrailer;
+    strWebPage = strWebPageHdr + strGreeting + strAbout + strPicLabel + strPicture + strFavWebsites + strUrl1 + strUrl2 + strUrl3 + strDonationInfo + strDonation + strTrailer;
 
 	std::string strWebFile = pProfileDir;
 	strWebFile += "index.htm";
 
-	VxFileUtil::writeWholeFile( strWebFile.c_str(), (void *)strWebPage.c_str(), (uint32_t)(strWebPage.length() + 1) );
+	VxFileUtil::writeWholeFile( strWebFile.c_str(), (void *)strWebPage.c_str(), (uint32_t)(strWebPage.length() ) );
 }
 
 //============================================================================
