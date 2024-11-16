@@ -240,6 +240,8 @@ void HostedListMgr::announceHostInfoRemoved( enum EHostType hostType, VxGUID& ho
 //============================================================================
 void HostedListMgr::announceHostInfoSearchResult( HostedInfo* hostedInfo, VxGUID& sessionId )
 {
+    LogModule( eLogHostSearch, LOG_DEBUG, "HostedListMgr:%s url %s", __func__, hostedInfo->getHostInviteUrl().c_str() );
+
     if( hostedInfo )
     {
         lockClientList();

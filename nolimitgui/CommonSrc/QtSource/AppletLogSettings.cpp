@@ -59,7 +59,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogRunTest: return QObject::tr( "Log Run Test" );
     case eLogHostConnect: return QObject::tr( "Log Host Connect" );
 
-    case eLogHostSearch: return QObject::tr( "Log Host Search" );
+    case eLogHostSearch: return QObject::tr( "Log Host Announce/Search" );
     case eLogHackers: return QObject::tr( "Log Hackers" );
     case eLogMediaStream: return QObject::tr( "Log Media Streams" );
     case eLogPlayerNlc: return QObject::tr( "Log Media Player NLC" );

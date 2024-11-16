@@ -325,13 +325,12 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& 
     EHostType hostType = pktReq->getHostType();
     EPluginType pluginType = HostTypeToHostPlugin( hostType );
     VxGUID searchHostId = pktReq->getSpecificOnlineId();
-    LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::onPktHostInviteSearchReq %s %s", DescribeHostType( hostType ),
-        DescribePluginType( pluginType ) );
 
     pktReply.setHostType( hostType );
     pktReply.setSearchSessionId( pktReq->getSearchSessionId() );
     if( !haveHostAnnList( hostType ) )
     {
+
         pktReply.setCommError( eCommErrInvalidHostType );
     }
     else
@@ -390,6 +389,18 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& 
         m_SearchMutex.unlock();
     }
 
+    if( 0 == pktReply.getInviteCountThisPkt() )
+    {
+        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s NO hosts found %d of %s %s", __func__, DescribeHostType( hostType ),
+            DescribePluginType( pluginType ) );
+    }
+    else
+    {
+        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s found %d of %s %s", __func__, pktReply.getInviteCountThisPkt(), DescribeHostType( hostType ),
+            DescribePluginType( pluginType ) );
+    }
+
+
     pktReply.calcPktLen();
     EPluginType clientPluginType = HostTypeToClientPlugin( hostType );
     pktReply.setPluginNum( (uint8_t)clientPluginType );
@@ -402,7 +413,7 @@ void HostServerSearchMgr::onPktHostInviteSearchReply( std::shared_ptr<VxSktBase>
     PktHostInviteSearchReply* pktReply = ( PktHostInviteSearchReply* )pktHdr;
     if( pktReply->getCommError() )
     {
-        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::onPktHostInviteSearchReply comm err %s", DescribeCommError( pktReply->getCommError() ) );
+        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s comm err %s", __func__, DescribeCommError( pktReply->getCommError() ) );
         logCommError( pktReply->getCommError(), "PktHostInviteSearchReply", sktBase, netIdent );
         m_Engine.getHostedListMgr().hostSearchCompleted( pktReply->getHostType(), pktReply->getSearchSessionId(), sktBase, netIdent, pktReply->getCommError() );
     }
@@ -525,7 +536,7 @@ void HostServerSearchMgr::logCommError( ECommErr commErr, const char* desc, std:
 //============================================================================
 void HostServerSearchMgr::updateFromHostInviteSearchBlob( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, PktBlobEntry& blobEntry, int hostInfoCount )
 {
-    LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::updateFromHostInviteSearchBlob rxed %d hosts", hostInfoCount );
+    LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s rxed %d %s hosts", __func__, hostInfoCount, DescribeHostType( hostType ) );
     blobEntry.resetRead();
     for( int i = 0; i < hostInfoCount; i++ )
     {
@@ -556,12 +567,15 @@ bool HostServerSearchMgr::requestMoreHostInvitesFromNetworkHost( EHostType hostT
     pktReq.setNextSearchOnlineId( nextHostOnlineId );
     EPluginType clientPluginType = HostTypeToClientPlugin( hostType );
     pktReq.setPluginNum( (uint8_t)ePluginTypeHostNetwork );
+    LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr:%s %s ", __func__, DescribeHostType(hostType) );
+
     return m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq, ePluginTypeHostNetwork );
 }
 
 //============================================================================
 void HostServerSearchMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
+    LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr:%s %s url %s ", __func__, DescribeHostType(hostType), hostedInfo.getHostInviteUrl().c_str() );
     // NOTE: search mutex is still locked
     m_Engine.getHostedListMgr().onHostInviteAnnounceAdded( hostType, hostedInfo, netIdent, sktBase );
 }
@@ -569,6 +583,7 @@ void HostServerSearchMgr::onHostInviteAnnounceAdded( EHostType hostType, HostedI
 //============================================================================
 void HostServerSearchMgr::onHostInviteAnnounceUpdated( EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged )
 {
+    LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr:%s %s url %s ", __func__, DescribeHostType(hostType), hostedInfo.getHostInviteUrl().c_str() );
     // NOTE: search mutex is still locked
     m_Engine.getHostedListMgr().onHostInviteAnnounceUpdated( hostType, hostedInfo, netIdent, sktBase, infoChanged );
 }

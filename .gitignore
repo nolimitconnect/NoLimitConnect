@@ -6,7 +6,7 @@
 build-staticlibs/
 .vs/
 .gitmodules
-shared_modules/
+shared-modules/
 build/Android*
 build/Desktop_Qt*
 nolimitgui/bin-Linux/

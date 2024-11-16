@@ -188,6 +188,7 @@ void PluginSettingsWidget::saveUiToSetting()
 void PluginSettingsWidget::slotApplyServiceSettings()
 {
     saveUiToSetting();
+    m_PluginSetting.setUpdateTimestampToNow();
     m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting );
     if( getPluginType() == ePluginTypeCamServer )
     {

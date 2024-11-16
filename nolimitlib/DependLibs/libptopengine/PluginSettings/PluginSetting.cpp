@@ -97,6 +97,7 @@ bool PluginSetting::extractFromBlob( PktBlobEntry& blob )
     result &= blob.getValue( m_PluginType );
     result &= blob.getValue( m_SecondaryPluginType );
     result &= blob.getValue( m_UpdateTimestamp );
+
     result &= blob.getValue( m_PluginThumb );
     result &= blob.getValue( m_SecondaryPluginThumb );
     result &= blob.getValue( m_SecondaryIdentGuid );
@@ -152,6 +153,7 @@ bool PluginSetting::toBinary( BinaryBlob& binaryBlob, bool networkOrder )
     result &= binaryBlob.setValue( m_PluginType );
     result &= binaryBlob.setValue( m_SecondaryPluginType );
     result &= binaryBlob.setValue( m_UpdateTimestamp );
+
     result &= binaryBlob.setValue( m_PluginThumb );
     result &= binaryBlob.setValue( m_SecondaryPluginThumb );
     result &= binaryBlob.setValue( m_SecondaryIdentGuid );
@@ -229,6 +231,11 @@ bool PluginSetting::fromBinary( BinaryBlob& binaryBlob, bool networkOrder )
     result &= binaryBlob.getValue( m_KeyWords );
     result &= binaryBlob.getValue( m_Res1 );
 
+    if( 0 == m_UpdateTimestamp )
+    {
+        setUpdateTimestampToNow();
+    }
+
     if( !result )
     {
         LogMsg( LOG_ERROR, "PluginSetting::fromBinary failed" );
@@ -274,6 +281,11 @@ bool PluginSetting::setDefaultValues( P2PEngine& engine, EPluginType pluginType 
     m_PluginDesc = DescribePluginType( pluginType );
     m_PluginDesc += " - ";
     m_PluginDesc += onlineDesc;
+    if( 0 == m_UpdateTimestamp )
+    {
+        setUpdateTimestampToNow();
+    }
+
     return !m_PluginUrl.empty();
 }
 

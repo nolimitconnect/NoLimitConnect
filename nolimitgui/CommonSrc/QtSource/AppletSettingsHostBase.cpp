@@ -55,7 +55,8 @@ bool AppletSettingsHostBase::savePluginSetting()
     if( (ePluginTypeInvalid != getPluginType()) && (ePluginTypeInvalid != m_PluginSetting.getPluginType()) )
     {
         saveUiToSetting();
-        return m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting, m_MyApp.elapsedMilliseconds() );
+        m_PluginSetting.setUpdateTimestampToNow();
+        return m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting );
     }
     else
     {
@@ -66,9 +67,6 @@ bool AppletSettingsHostBase::savePluginSetting()
 //============================================================================
 void AppletSettingsHostBase::slotApplyServiceSettings()
 {
-    saveUiToSetting();
-    m_MyApp.getEngine().getPluginSettingMgr().setPluginSetting( m_PluginSetting );
-
     EFriendState newPermissionLevel = getPluginSettingsWidget()->getPermissionWidget()->getPermissionLevel();
     if( newPermissionLevel != m_OrigPermissionLevel )
     {

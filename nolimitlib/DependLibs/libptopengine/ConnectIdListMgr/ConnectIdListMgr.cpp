@@ -1341,11 +1341,11 @@ void ConnectIdListMgr::pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId )
 
     if( isUserExcluded( onlineId ) )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved exluded %s", onlineId.toOnlineIdString().c_str() );
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved excluded %s", onlineId.toOnlineIdString().c_str() );
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved skt %s user %s", sktConnectId.toHexString().c_str(), onlineId.toOnlineIdString().c_str() );
+    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved skt connect id %s user %s", sktConnectId.toHexString().c_str(), onlineId.toOnlineIdString().c_str() );
 
     lockOnlineIdList();
     auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
