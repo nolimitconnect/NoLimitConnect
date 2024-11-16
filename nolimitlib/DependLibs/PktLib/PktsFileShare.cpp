@@ -100,8 +100,16 @@ void PktFileSendReq::setFileName( const char* pFileName )
 //============================================================================
 PktFileSendReply::PktFileSendReply()
 { 
+	//LogMsg( LOG_DEBUG, "PktFileSendReq sizeof %d", sizeof( PktFileSendReq ) );
+	//LogMsg( LOG_DEBUG, "PktFileSendReply sizeof %d", sizeof( PktFileSendReply ) );
+	//LogMsg( LOG_DEBUG, "PktFileGetReq sizeof %d", sizeof( PktFileGetReq ) );
+	//LogMsg( LOG_DEBUG, "PktFileGetReply sizeof %d", sizeof( PktFileGetReply ) );
+	//LogMsg( LOG_DEBUG, "PktFileFindReq sizeof %d", sizeof( PktFileFindReq ) );
+	//LogMsg( LOG_DEBUG, "PktFileChunkReq sizeof %d", sizeof( PktFileChunkReq ) );
+	//LogMsg( LOG_DEBUG, "PktFileChunkReply sizeof %d", sizeof( PktFileChunkReply ) );
+	
 	setPktType( PKT_TYPE_FILE_SEND_REPLY ); 
-	setPktLength( sizeof( PktFileSendReq ) );
+	setPktLength( sizeof( PktFileSendReply ) );
 	m_FileName[0] = 0;
 	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 }

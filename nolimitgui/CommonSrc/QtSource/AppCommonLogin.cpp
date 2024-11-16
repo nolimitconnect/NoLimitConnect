@@ -20,8 +20,8 @@
 #include "HomeWindow.h"
 #include "AppletLaunchPage.h"
 
-#include <P2PEngine/EngineSettings.h>
 #include <P2PEngine/P2PEngine.h>
+#include <P2PEngine/EngineSettings.h>
 
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>

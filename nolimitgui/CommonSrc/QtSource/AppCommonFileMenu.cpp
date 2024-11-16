@@ -19,9 +19,9 @@
 
 #include "AppletPersonalRecorder.h"
 
+#include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/FileShareSettings.h>
 #include <P2PEngine/EngineSettings.h>
-#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxGlobals.h>
 

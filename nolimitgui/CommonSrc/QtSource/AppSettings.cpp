@@ -691,20 +691,6 @@ bool AppSettings::getRunOnStartupFileShareServer( void )
 }
 
 //============================================================================
-void AppSettings::setAllowLoopBackOfMyself( bool allowLoopback )
-{
-	setIniValue( getAppShortName(), "AllowLoopbackMyself", allowLoopback );
-}
-
-//============================================================================
-bool AppSettings::getAllowLoopBackOfMyself( void )
-{
-	bool allowLoopback = false;
-	getIniValue( getAppShortName(), "AllowLoopbackMyself", allowLoopback, false );
-	return allowLoopback;
-}
-
-//============================================================================
 void AppSettings::setEchoDelayParam( int delayMs )
 {
 	uint32_t delayVal = (uint32_t)delayMs;

@@ -135,9 +135,6 @@ public:
 	void						setRunOnStartupFileShareServer( bool runOnStartup );
 	bool						getRunOnStartupFileShareServer( void );
 
-	void						setAllowLoopBackOfMyself( bool allowLoopback );
-	bool						getAllowLoopBackOfMyself( void );
-
 	void						setEchoDelayParam( int delayMs );
 	int							getEchoDelayParam( void );
 

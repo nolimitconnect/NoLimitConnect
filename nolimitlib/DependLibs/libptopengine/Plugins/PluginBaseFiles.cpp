@@ -663,6 +663,7 @@ bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxG
 			result &= fileInfoSearchResult( searchSessionId, sktBase, onlineId, fileIInfo);
 			if( !result )
 			{
+				LogMsg( LOG_ERROR, "fileInfoSearchResult filed FileInfoListMgr::updateFromFileInfoSearchBlob" );
 				break;
 			}
 		}

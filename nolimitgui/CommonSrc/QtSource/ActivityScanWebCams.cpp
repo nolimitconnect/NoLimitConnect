@@ -17,6 +17,7 @@
 #include "VxLabel.h"
 
 #include <P2PEngine/P2PEngine.h>
+
 #include <PktLib/VxSearchDefs.h>
 
 #include <CoreLib/ObjectCommonDefs.h>

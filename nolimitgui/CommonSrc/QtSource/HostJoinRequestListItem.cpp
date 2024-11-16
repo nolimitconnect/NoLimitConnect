@@ -18,10 +18,10 @@
 #include "ui_HostJoinRequestListItem.h"
 
 VxPushButton*               HostJoinRequestListItem::getIdentAvatarButton( void )       { return ui.m_AvatarButton; }
-VxPushButton*               HostJoinRequestListItem::getIdentFriendshipButton( void )    { return ui.m_FriendshipButton; }
+VxPushButton*               HostJoinRequestListItem::getIdentFriendshipButton( void )   { return ui.m_FriendshipButton; }
 VxPushButton*               HostJoinRequestListItem::getIdentMenuButton( void )         { return ui.m_MenuButton; }
-VxPushButton*               HostJoinRequestListItem::getAcceptButton( void )                     { return ui.m_AcceptButton; }
-VxPushButton*               HostJoinRequestListItem::getRejectButton( void )                     { return ui.m_RejectButton; }
+VxPushButton*               HostJoinRequestListItem::getAcceptButton( void )            { return ui.m_AcceptButton; }
+VxPushButton*               HostJoinRequestListItem::getRejectButton( void )            { return ui.m_RejectButton; }
 
 QLabel*             HostJoinRequestListItem::getIdentLine1( void ) { return ui.m_TitlePart1; }
 QLabel*             HostJoinRequestListItem::getIdentLine2( void ) { return ui.m_DescPart1; }

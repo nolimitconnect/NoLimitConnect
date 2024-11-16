@@ -11,11 +11,10 @@
 #include "AppCommon.h"
 #include "SoundMgr.h"
 
-#include <MediaProcessor/MediaProcessor.h>
 #include <P2PEngine/P2PEngine.h>
+#include <MediaProcessor/MediaProcessor.h>
 
 #include <CoreLib/VxGlobals.h>
-
 
 //============================================================================
 bool AppCommon::toGuiIsMicrophoneDeviceAvailable( void )

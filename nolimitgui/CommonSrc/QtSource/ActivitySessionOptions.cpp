@@ -14,7 +14,6 @@
 #include "ActivitySessionOptions.h"
 #include "AppGlobals.h"
 #include "MyIcons.h"
-#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
 

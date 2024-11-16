@@ -177,10 +177,15 @@ VxGUID& FileInfo::initializeNewXferSessionId( void )
 //============================================================================
 bool FileInfo::isValid( bool includeHashValid )
 {
-    bool valid = !getFileNameAndPath().empty() && !getFileName().empty() && m_s64FileLen && m_u8FileType && m_AssetId.isVxGUIDValid();
+    bool valid = !getFileName().empty() && m_s64FileLen && m_u8FileType && m_AssetId.isVxGUIDValid();
 	if( includeHashValid )
 	{
+		// if using hash then is probably remote and does not require a local path (example web page files)
 		valid &= m_FileHash.isHashValid();
+	}
+	else
+	{
+		valid &= !getFileNameAndPath().empty();
 	}
 
 	return valid;

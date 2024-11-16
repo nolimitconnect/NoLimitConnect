@@ -13,7 +13,8 @@
 #include "ActivityScanStoryBoards.h"
 #include "MyIcons.h"
 
-#include <P2PEngine/P2PEngine.h>
+#include <GuiInterface/IFromGui.h>
+
 #include <PktLib/VxSearchDefs.h>
 
 #include <CoreLib/ObjectCommonDefs.h>

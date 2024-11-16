@@ -89,10 +89,10 @@ AppletEditAboutMe::AppletEditAboutMe( AppCommon& app, QWidget* parent )
         m_bUsingDefaultImage = true;
     }
 
-    connect( ui.m_BrowsePictureButton, SIGNAL(clicked()), this, SLOT( onBrowseButClick() ) );
-    connect( ui.m_TakeSnapshotButton, SIGNAL(clicked()), this, SLOT( onSnapshotButClick() ) );
-    connect( ui.m_ApplyAboutMeButton, SIGNAL(clicked()), this, SLOT( onApplyAboutMeButClick() ) );
-    connect( ui.m_ViewAboutMePageButton, SIGNAL(clicked()), this, SLOT( slotViewAboutMeButClick() ) );
+    connect( ui.m_BrowsePictureButton, SIGNAL(clicked()), this, SLOT(onBrowseButClick()) );
+    connect( ui.m_TakeSnapshotButton, SIGNAL(clicked()), this, SLOT(onSnapshotButClick()) );
+    connect( ui.m_ApplyAboutMeButton, SIGNAL(clicked()), this, SLOT(onApplyAboutMeButClick()) );
+    connect( ui.m_ViewAboutMePageButton, SIGNAL(clicked()), this, SLOT(slotViewAboutMeButClick()) );
 
     m_CameraSourceAvail = m_MyApp.getCamLogic().isCamAvailable();
 

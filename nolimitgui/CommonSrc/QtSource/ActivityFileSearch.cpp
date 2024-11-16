@@ -11,8 +11,6 @@
 #include "ActivityFileSearch.h"
 #include "AppCommon.h"
 
-#include <P2PEngine/P2PEngine.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
 
 #include "ui_ActivityFileSearch.h"

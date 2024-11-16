@@ -894,13 +894,18 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( VxGUID
 //============================================================================
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUID& onlineId )
 {
+    if( onlineId == m_Engine.getMyOnlineId() )
+    {
+        return m_Engine.getSktLoopback();
+    }
+
     std::vector<ConnectId> connectIdList;
     lockList();
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast< ConnectId& >( connectId ).getGroupieId().getHostOnlineId() == onlineId )
         {
-            connectIdList.push_back( connectId );
+            connectIdList.emplace_back( connectId );
         }
     }
 

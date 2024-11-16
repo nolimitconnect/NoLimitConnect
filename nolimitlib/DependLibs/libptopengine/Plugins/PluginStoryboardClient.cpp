@@ -47,9 +47,14 @@ void PluginStoryboardClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t
 }
 
 //============================================================================
-bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileName, VxGUID& assetId, VxSha1Hash& sha11Hash )
+bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileNameAndPath, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
-	bool result = onlineId.isVxGUIDValid() && sktBase && lclSessionId.isVxGUIDValid() && !fileName.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
+	std::string filePath;
+	std::string fileName;
+	VxFileUtil::seperatePathAndFile(fileNameAndPath,	// path and file name
+                                        filePath,		// return path to file
+                                        fileName );	// return file name
+	bool result = onlineId.isVxGUIDValid() && sktBase && lclSessionId.isVxGUIDValid() && !fileNameAndPath.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
 	if( result )
 	{
 		result = false;
@@ -62,8 +67,9 @@ bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shar
 			{
 				lockCompletedFileList();
 				fileInfo.setFileName( fileName );
+				fileInfo.setFileNameAndPath( fileNameAndPath );
 
-				m_CompletedFileInfoList.push_back( fileInfo );
+				m_CompletedFileInfoList.emplace_back( fileInfo );
 				m_InProgressFileInfoList.erase( iter );
 				result = true;
 				unlockCompletedFileList();
@@ -191,7 +197,7 @@ bool PluginStoryboardClient::fromGuiDownloadWebPage( EWebPageType webPageType, V
 			else
 			{
 				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgConnecting, "" );
-				connectForWebPageDownload( onlineId );
+				result = connectForWebPageDownload( onlineId );
 			}
 		}
 		else
@@ -232,8 +238,9 @@ bool PluginStoryboardClient::fileInfoSearchResult( VxGUID& searchSessionId, std:
 	bool result = fileInfo.isValid( true );
 	if( result )
 	{
+		fileInfo.setFileNameAndPath( m_DownloadFileFolder + fileInfo.getFileName() );
 		lockSearchFileList();
-		m_SearchFileInfoList.push_back( fileInfo );
+		m_SearchFileInfoList.emplace_back( fileInfo );
 		unlockSearchFileList();
 	}
 
@@ -249,7 +256,7 @@ void PluginStoryboardClient::fileInfoSearchCompleted( VxGUID& searchSessionId, s
 		bool webIndexFileFound{ false };
 		for( auto& fileInfo : m_SearchFileInfoList )
 		{
-			if( fileInfo.getFileName() == m_WebPageIndexFile )
+			if( fileInfo.getFileNameAndPath() == m_WebPageIndexFile )
 			{
 				webIndexFileFound = true;
 				break;

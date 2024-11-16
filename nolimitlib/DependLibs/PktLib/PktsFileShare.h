@@ -58,7 +58,7 @@ private:
 	uint8_t						m_u8Res1{ 0 };
 	uint16_t					m_u16Res2{ 0 };
 	uint32_t					m_u32Res3{ 0 };
-	char						m_FileName[ VX_MAX_PATH + 16 ];
+	char						m_FileName[ VX_MAX_PATH + 12 ];
 };
 
 class PktFileGetReply : public VxPktHdr
@@ -101,7 +101,7 @@ private:
 	uint8_t						m_IsStream{ 0 };
 	uint8_t						m_u8Res1{ 0 };
 	uint16_t					m_u16Res2{ 0 };
-	char						m_FileName[ VX_MAX_PATH + 16 ];
+	char						m_FileName[ VX_MAX_PATH + 12 ];
 };
 
 //============================================================================
@@ -175,7 +175,7 @@ private:
 	uint8_t						m_IsStream{ 0 };
 	uint8_t						m_u8Res3{ 0 };
 	uint16_t					m_u16Res4{ 0 };
-	char						m_FileName[ VX_MAX_PATH + 16 ];
+	char						m_FileName[ VX_MAX_PATH + 4 ];
 };
 
 class PktFileSendReply : public VxPktHdr
@@ -228,7 +228,7 @@ private:
 	VxSha1Hash					m_FileHashId;
 	uint32_t					m_u32Error{ 0 }; 
 	uint32_t					m_u32Res2{ 0 }; 
-	char						m_FileName[ VX_MAX_PATH + 16 ];
+	char						m_FileName[ VX_MAX_PATH + 4 ];
 };
 
 //============================================================================
