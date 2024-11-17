@@ -70,7 +70,7 @@ bool VxPktHdrPrefix::extractFromBlob( PktBlobEntry& blob )
 
 //============================================================================
 //=== return true if valid pkt type and length ===//
-bool VxPktHdrPrefix::isValidPkt( bool logIfInvalid )
+bool VxPktHdrPrefix::isValidPktPrefix( bool logIfInvalid )
 {
 	uint16_t u16PktLen = getPktLength();
 	uint16_t u16PktType = getPktType();

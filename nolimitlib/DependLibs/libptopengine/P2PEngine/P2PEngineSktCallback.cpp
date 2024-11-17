@@ -81,7 +81,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
                 if( 0 == netServCrypto->decrypt( bufCopy, iDataLen ) )
                 {
                     VxPktHdr* pktHdrNetServ = (VxPktHdr*)bufCopy;
-                    if( pktHdrNetServ->isValidPkt(false) && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
+                    if( pktHdrNetServ->isValidPktPrefix(false) && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
                     {
 						sktBase->setIsNetServiceConnection( true );
                         wasNetServiceRequest = true;
@@ -168,7 +168,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 			 ( pktHdr->getPktLength() < sizeof( PktAnnounce ) - 100 ) ||  
 			 ( pktHdr->getPktLength() > sizeof( PktAnnounce ) + 100 ) ) // leave room for expanding pkt announce in the future
 		{
-			if( pktHdr->isValidPkt() && pktHdr->getPktType() == PKT_TYPE_PING_REQ )
+			if( pktHdr->isValidPktPrefix() && pktHdr->getPktType() == PKT_TYPE_PING_REQ )
 			{
 				// ping request can happen depending on timing.. not really a hack attack so do not block the ip address
 				LogMsg( LOG_ERROR, "First packet is ping request pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
@@ -193,7 +193,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 				}
 			}
 
-			if( pktHdr->isValidPkt() && pktHdr->getPktType() == PKT_TYPE_IM_ALIVE_REQ )
+			if( pktHdr->isValidPktPrefix() && pktHdr->getPktType() == PKT_TYPE_IM_ALIVE_REQ )
 			{
 				// ping request can happen depending on timing.. not really a hack attack so do not block the ip address
 				LogMsg( LOG_ERROR, "First packet is im alive request pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
@@ -218,7 +218,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 				}
 			}
 
-			if( pktHdr->isValidPkt() && pktHdr->getPktType() == PKT_TYPE_HOST_INVITE_ANN_REQ )
+			if( pktHdr->isValidPktPrefix() && pktHdr->getPktType() == PKT_TYPE_HOST_INVITE_ANN_REQ )
 			{
 				// ping request can happen depending on timing.. not really a hack attack so do not block the ip address
 				LogMsg( LOG_ERROR, "First packet is host invite request pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
@@ -317,7 +317,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 		}
 
 		pktHdr = (VxPktHdr*)&pSktBuf[ u32UsedLen ];
-		if( false == pktHdr->isValidPkt() )
+		if( false == pktHdr->isValidPktPrefix() )
 		{
 			// invalid data
 			hackerOffense( eHackerLevelMedium, eHackerReasonPktHdrInvalid, nullptr, sktBase->getRemoteIpBinary(), "Invalid VxPktHdr" );
@@ -431,7 +431,7 @@ void P2PEngine::handleMulticastData( std::shared_ptr<VxSktBase>& sktBase )
 	// decrypt
 	VxPktHdr* poPkt = (VxPktHdr*)pSktBuf;
 	VxSymDecrypt( &sktBase->m_RxKey, pSktBuf, iDataLen );
-	if( poPkt->isValidPkt() )
+	if( poPkt->isValidPktPrefix() )
 	{
 		//LogMsg( LOG_INFO, "RcSysSktMgr::HandleUdpData: Skt %d valid packet\n", sktBase->m_SktNumber );
 		// valid pkt

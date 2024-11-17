@@ -513,7 +513,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     }
     else
     {
-        return attemptConnection( sessionId, url, onlineId, callback, retSktBase, connectReason );
+        return attemptConnection( sessionId, url, onlineId, callback, retSktBase, connectReason, hostType );
     }
 
     onConnectStatusChange( sessionId, eConnectStatusUnknown, connectReason, hostType );

@@ -951,7 +951,7 @@ void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase,
     pktReply.setHostType( hostType );
     pktReply.setHostOnlineId( m_Engine.getMyOnlineId() );
     pktReply.setCommError( commErr );
-    if( eCommErrNone == commErr && pktReq->isValidPkt() )
+    if( eCommErrNone == commErr && pktReq->isValidPktPrefix() )
     {
         pktReply.getBlobEntry().resetWrite();
 

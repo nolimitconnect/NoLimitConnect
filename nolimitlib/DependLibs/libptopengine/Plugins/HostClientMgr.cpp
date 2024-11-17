@@ -37,7 +37,7 @@ HostClientMgr::HostClientMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIden
 void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostJoinReply* hostReply = ( PktHostJoinReply* )pktHdr;
-    if( hostReply->isValidPkt() )
+    if( hostReply->isValidPktPrefix() )
     {
         if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
         {
@@ -101,7 +101,7 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 void HostClientMgr::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostLeaveReply* hostReply = ( PktHostLeaveReply* )pktHdr;
-    if( hostReply->isValidPkt() )
+    if( hostReply->isValidPktPrefix() )
     {
         if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
         {
@@ -145,7 +145,7 @@ void HostClientMgr::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 void HostClientMgr::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktHostUnJoinReply* hostReply = ( PktHostUnJoinReply* )pktHdr;
-    if( hostReply->isValidPkt() )
+    if( hostReply->isValidPktPrefix() )
     {
         if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
         {
@@ -389,7 +389,7 @@ bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionI
             m_SearchParamsList.erase( iter );
             m_SearchParamsMutex.unlock();
 
-            if( result && searchReq.isValidPkt() )
+            if( result && searchReq.isValidPktPrefix() )
             {
                 if( !m_Plugin.txPacket( onlineId, sktBase, &searchReq, m_Plugin.getDestinationPluginOverride( hostType ) ) )
                 {
@@ -574,7 +574,7 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
 {
     LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReply" );
     PktHostUserListReply* pktReply = (PktHostUserListReply*)pktHdr;
-    if( pktReply->isValidPkt() )
+    if( pktReply->isValidPktPrefix() )
     {
         PktBlobEntry& blobEntry = pktReply->getBlobEntry();
         blobEntry.resetRead();
@@ -675,7 +675,7 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
 {
     LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserInfoReply" );
     PktHostUserInfoReply* pktReply = (PktHostUserInfoReply*)pktHdr;
-    if( pktReply->isValidPkt() )
+    if( pktReply->isValidPktPrefix() )
     {
         m_ClientMutex.lock();
         m_SentUserInfoReqTime = 0;

@@ -43,7 +43,7 @@ public:
     bool                        extractFromBlob( PktBlobEntry& blob );
 
     //=== return true if valid pkt type and length ===//
-    bool						isValidPkt( bool logIfInvalid = true );
+    bool						isValidPktPrefix( bool logIfInvalid = true );
 	bool						isNetServicePkt( void );
 
     //! return true if data length is large enough to contain this packet

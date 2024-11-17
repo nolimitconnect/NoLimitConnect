@@ -426,7 +426,7 @@ void PluginBaseFiles::onPktFileInfoSearchReq( std::shared_ptr<VxSktBase>& sktBas
 	ECommErr commErr = getCommAccessState( netIdent );
 
 	PktFileInfoSearchReq* pktReq = ( PktFileInfoSearchReq* )pktHdr;
-	if( pktReq && pktReq->isValidPkt() )
+	if( pktReq && pktReq->isValidPktPrefix() )
 	{
 		uint8_t searchFileTypes = pktReq->getSearchFileTypes();
 		PktBlobEntry& blobEntry = pktReq->getBlobEntry();
@@ -492,7 +492,7 @@ void PluginBaseFiles::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktB
 {
 	PktFileInfoSearchReply* pktReply = ( PktFileInfoSearchReply* )pktHdr;
 
-	if( pktReply && pktReply->isValidPkt() )
+	if( pktReply && pktReply->isValidPktPrefix() )
 	{
 		uint8_t searchFileTypes = pktReply->getSearchFileTypes();
 		PktBlobEntry& blobEntry = pktReply->getBlobEntry();
@@ -546,7 +546,7 @@ void PluginBaseFiles::onPktFileInfoSearchReply( std::shared_ptr<VxSktBase>& sktB
 void PluginBaseFiles::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktFileInfoMoreReq* pktReq = ( PktFileInfoMoreReq* )pktHdr;
-	if( pktReq && pktReq->isValidPkt() )
+	if( pktReq && pktReq->isValidPktPrefix() )
 	{
 		uint8_t searchFileTypes = pktReq->getSearchFileTypes();
 		PktBlobEntry& blobEntry = pktReq->getBlobEntry();
@@ -612,7 +612,7 @@ void PluginBaseFiles::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase,
 void PluginBaseFiles::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktFileInfoMoreReply* pktReply = ( PktFileInfoMoreReply* )pktHdr;
-	if( pktReply && pktReply->isValidPkt() )
+	if( pktReply && pktReply->isValidPktPrefix() )
 	{
 		std::string searchStr;
 		if( pktReply->getCommError() )

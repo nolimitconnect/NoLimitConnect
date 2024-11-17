@@ -137,7 +137,7 @@ void PluginBaseHostClient::sendLeaveHost( HostedId& adminId, VxGUID& sessionId, 
 //============================================================================
 bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
 {
-    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostClient::sendLeaveHost groupie %s my online id %s",
+    LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostClient::sendLeaveHost groupie %s my online id %s",
                groupieId.describeGroupieId().c_str(), m_Engine.getMyOnlineId().describeVxGUID().c_str());
     bool pktSent{ false };
     std::shared_ptr<VxSktBase> sktBase =  m_Engine.getConnectIdListMgr().findHostConnection( groupieId );

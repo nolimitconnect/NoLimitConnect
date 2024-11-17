@@ -427,7 +427,7 @@ bool HostBaseMgr::onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url
     }
 
     std::shared_ptr<VxSktBase> sktBase( nullptr );
-    EConnectStatus connectStatus = m_ConnectionMgr.requestConnection( sessionId, url, onlineId, this, sktBase, connectReason );
+    EConnectStatus connectStatus = m_ConnectionMgr.requestConnection( sessionId, url, onlineId, this, sktBase, connectReason, hostType );
     if( eConnectStatusHandshaking == connectStatus )
     {
         if( sktBase )

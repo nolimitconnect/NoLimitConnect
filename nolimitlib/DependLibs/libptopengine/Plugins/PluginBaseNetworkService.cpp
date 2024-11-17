@@ -194,17 +194,17 @@ void PluginBaseNetworkService::onConnectionLost( std::shared_ptr<VxSktBase>& skt
 //============================================================================
 void PluginBaseNetworkService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseNetworkService PktHostJoinReq %s got PktHostJoinReq from %s %s", DescribeHostType( getHostType() ), 
+    LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseNetworkService PktHostJoinReq %s got PktHostJoinReq from %s %s", DescribeHostType( getHostType() ), 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
     PktHostJoinReq * joinReq = (PktHostJoinReq *)pktHdr;
     PktHostJoinReply joinReply;
-    if( joinReq->isValidPkt() )
+    if( joinReq->isValidPktPrefix() )
     {
         GroupieId rxedGroupieId = joinReq->getGroupieId();
         GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
         if( rxedGroupieId != groupieId )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseNetworkService::onPktHostJoinReq %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
+            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService::onPktHostJoinReq %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
         }
 
@@ -215,7 +215,7 @@ void PluginBaseNetworkService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& skt
 
         if( !sktBase->isConnected() )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseNetworkService::onPktHostJoinReq %s from %s groupie %s socket was close", DescribePluginType( getPluginType() ), 
+            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService::onPktHostJoinReq %s from %s groupie %s socket was close", DescribePluginType( getPluginType() ), 
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str() );
             return;
         }
@@ -240,14 +240,14 @@ void PluginBaseNetworkService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& skt
                     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
                     // even though friendship not high enough if admin has accepted then send accepted
                     joinReply.setAccessState( ePluginAccessOk );
-                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseNetworkService from %s %s host %s %s join granted", 
+                    LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseNetworkService from %s %s host %s %s join granted", 
                                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
                 }
                 else
                 {
                     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
                     sendPkt = true;
-                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseNetworkService from %s %s host %s %s join requested", 
+                    LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseNetworkService from %s %s host %s %s join requested", 
                                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
                 }
             }
@@ -304,16 +304,16 @@ void PluginBaseNetworkService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& skt
 //============================================================================
 void PluginBaseNetworkService::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_DEBUG, "PluginBaseNetworkService  %s got PktHostLeaveReq from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService  %s got PktHostLeaveReq from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
     PktHostLeaveReq* pktReq = ( PktHostLeaveReq* )pktHdr;
     PktHostLeaveReply pktReply;
-    if( pktReq->isValidPkt() )
+    if( pktReq->isValidPktPrefix() )
     {
         GroupieId rxedGroupieId = pktReq->getGroupieId();
         GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
         if( rxedGroupieId != groupieId )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseNetworkService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
+            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
         }
 
@@ -375,16 +375,16 @@ void PluginBaseNetworkService::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sk
 //============================================================================
 void PluginBaseNetworkService::onPktHostUnJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_DEBUG, "PluginBaseNetworkService %s got unjoin request from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService %s got unjoin request from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
     PktHostUnJoinReq* joinReq = ( PktHostUnJoinReq* )pktHdr;
     PktHostUnJoinReply joinReply;
-    if( joinReq->isValidPkt() )
+    if( joinReq->isValidPktPrefix() )
     {
         GroupieId rxedGroupieId = joinReq->getGroupieId();
         GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
         if( rxedGroupieId != groupieId )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseNetworkService %s unjoin request from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
+            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService %s unjoin request from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
         }
 
@@ -449,7 +449,7 @@ void PluginBaseNetworkService::onPktHostSearchReq( std::shared_ptr<VxSktBase>& s
     LogMsg( LOG_DEBUG, "PluginBaseNetworkService onPktHostSearchReq" );
     PktHostSearchReply searchReply;
     PktHostSearchReq* searchReq = (PktHostSearchReq*)pktHdr;
-    if( searchReq->isValidPkt() )
+    if( searchReq->isValidPktPrefix() )
     {
         EPluginAccess pluginAccess = m_HostServerMgr.getPluginAccessState( netIdent );
         searchReply.setAccessState( pluginAccess );

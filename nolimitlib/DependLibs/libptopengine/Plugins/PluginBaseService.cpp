@@ -31,7 +31,7 @@ PluginBaseService::PluginBaseService( P2PEngine& engine, PluginMgr& pluginMgr, V
 //============================================================================
 void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester )
 {
-    if( pktHdr && pktHdr->isValidPkt() )
+    if( pktHdr && pktHdr->isValidPktPrefix() )
     {
         bool sentToRequestor{ false };
         VxGUID requestorSktConnectionId;
@@ -106,7 +106,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
 //============================================================================
 void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId )
 {
-    if( pktHdr && pktHdr->isValidPkt() )
+    if( pktHdr && pktHdr->isValidPktPrefix() )
     {
         std::set<ConnectId> connectIdSet;
         std::set<ConnectId> relayedIdSet;

@@ -367,7 +367,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     pktReply->setRmtSessionId( rmtSessionId );
     pktReply->setAssetOffset( startOffs );
 
-    if( !pktGetReq->isValidPkt() )
+    if( !pktGetReq->isValidPktPrefix() )
     {
         LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetBaseGetReq Invalid Packet" );
         vx_assert( false );
@@ -494,7 +494,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
 void AssetBaseXferMgr::onPktAssetBaseGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     PktBaseGetReply * pktGetReply = (PktBaseGetReply *)pktHdr;
-    if( !pktGetReply->isValidPkt() )
+    if( !pktGetReply->isValidPktPrefix() )
     {
         LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetBaseGetReply Invalid Packet" );
         vx_assert( false );
@@ -613,7 +613,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
 
 	LogMsg( LOG_INFO, "AssetBaseXferMgr::onPktAssetSendReq");
 	PktBaseSendReq* poPkt = (PktBaseSendReq *)pktHdr;
-    if( !poPkt->isValidPkt() )
+    if( !poPkt->isValidPktPrefix() )
     {
         LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReq Invalid Packet" );
         vx_assert( false );

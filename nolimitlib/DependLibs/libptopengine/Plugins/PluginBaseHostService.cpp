@@ -202,126 +202,126 @@ void PluginBaseHostService::onConnectionLost( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService PktHostJoinReq %s got PktHostJoinReq from %s %s", DescribeHostType( getHostType() ), 
+    LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService PktHostJoinReq %s got PktHostJoinReq from %s %s", DescribeHostType( getHostType() ), 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
     PktHostJoinReq * joinReq = (PktHostJoinReq *)pktHdr;
-    PktHostJoinReply joinReply;
-    if( joinReq->isValidPkt() )
+    if( !joinReq->isValidPktPrefix() )
     {
-        GroupieId rxedGroupieId = joinReq->getGroupieId();
-        GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
-        if( rxedGroupieId != groupieId )
-        {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
-                netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
-        }
+        LogMsg( LOG_ERROR, "PluginBaseHostService: %s Invalid Packet", __func__ );
+        onInvalidRxedPacket( sktBase, pktHdr, netIdent );   
+        // should report hacker?
+        return;
+    }
 
-        joinReply.setGroupieId( groupieId );
-        joinReply.setPluginType( getPluginType() );
-        joinReply.setSessionId( joinReq->getSessionId() );
-        joinReply.setAccessState( m_HostServerMgr.getPluginAccessState( netIdent ) );
+    PktHostJoinReply joinReply;
 
-        if( !sktBase->isConnected() )
-        {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s socket was close", DescribePluginType( getPluginType() ), 
-                netIdent->getOnlineName(), groupieId.describeGroupieId().c_str() );
-            return;
-        }
+    GroupieId rxedGroupieId = joinReq->getGroupieId();
+    GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
+    if( rxedGroupieId != groupieId )
+    {
+        LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
+            netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
+    }
 
-        VxGUID sktConnectionId( sktBase->getSocketId() );
+    joinReply.setGroupieId( groupieId );
+    joinReply.setPluginType( getPluginType() );
+    joinReply.setSessionId( joinReq->getSessionId() );
+    joinReply.setAccessState( m_HostServerMgr.getPluginAccessState( netIdent ) );
 
-        bool broadcastPkt = false;
-        bool sendPkt = false;
-        if( ePluginAccessOk == joinReply.getAccessState() )
+    if( !sktBase->isConnected() )
+    {
+        LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s socket was close", DescribePluginType( getPluginType() ), 
+            netIdent->getOnlineName(), groupieId.describeGroupieId().c_str() );
+        return;
+    }
+
+    VxGUID sktConnectionId( sktBase->getSocketId() );
+
+    bool broadcastPkt = false;
+    bool sendPkt = false;
+    if( ePluginAccessOk == joinReply.getAccessState() )
+    {
+        broadcastPkt = true;
+        m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
+    }
+    else if( ePluginAccessLocked == joinReply.getAccessState() )
+    {
+        if( !netIdent->isIgnored() )
         {
-            broadcastPkt = true;
-            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
-        }
-        else if( ePluginAccessLocked == joinReply.getAccessState() )
-        {
-            if( !netIdent->isIgnored() )
+            if( m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinWasGranted ||
+                m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinIsGranted )
             {
-                if( m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinWasGranted ||
-                    m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinIsGranted )
-                {
-                    broadcastPkt = true;
-                    m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
-                    // even though friendship not high enough if admin has accepted then send accepted
-                    joinReply.setAccessState( ePluginAccessOk );
-                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join granted", 
-                               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
-                }
-                else
-                {
-                    m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
-                    sendPkt = true;
-                    LogModule( eLogHosts, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join requested", 
-                               netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
-                }
+                broadcastPkt = true;
+                m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
+                // even though friendship not high enough if admin has accepted then send accepted
+                joinReply.setAccessState( ePluginAccessOk );
+                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join granted", 
+                            netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
             }
             else
             {
-                // TODO .. should we drop the connection or just ignore ?
+                m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+                sendPkt = true;
+                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join requested", 
+                            netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
             }
         }
-        else if( ePluginAccessDisabled == joinReply.getAccessState() )
+        else
         {
-            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
-            // join request sent to disabled plugin.. this should not happen
-            LogMsg( LOG_ERROR, "PluginBaseHostService %s got join request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
-        }
-        else if( ePluginAccessIgnored == joinReply.getAccessState() )
-        {
-            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
-            // TODO .. should we drop the connection of ignored person?
-            LogMsg( LOG_ERROR, "PluginBaseHostService %s got join request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
-        }
-
-        if( broadcastPkt )
-        {
-            if( m_Engine.getUserOnlineMgr().updateUserJoinedFriendships( groupieId, netIdent ) )
-            {
-                m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
-                if( m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId ) )
-                {
-                    if( m_HostServerMgr.sendMemberListToClient( sktBase, netIdent ) )
-                    {
-                        if( txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply ) )
-                        {
-                            broadcastToClients( &joinReply, groupieId.getUserOnlineId(), sktBase );    
-                        }
-                    }
-                }         
-            }
-        }
-        else if( sendPkt )
-        {
-            m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
-            m_HostServerMgr.onJoinRequested( sktBase, netIdent, joinReq->getSessionId(), joinReq->getHostType() );
-            txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply );
+            // TODO .. should we drop the connection or just ignore ?
         }
     }
-    else
+    else if( ePluginAccessDisabled == joinReply.getAccessState() )
     {
-        LogMsg( LOG_DEBUG, "PluginBaseHostService onPktHostJoinReq Invalid Packet" );
-        joinReply.setCommError( eCommErrInvalidPkt );
-        onInvalidRxedPacket( sktBase, pktHdr, netIdent );   
+        m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+        // join request sent to disabled plugin.. this should not happen
+        LogMsg( LOG_ERROR, "PluginBaseHostService %s got join request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
+    }
+    else if( ePluginAccessIgnored == joinReply.getAccessState() )
+    {
+        m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+        // TODO .. should we drop the connection of ignored person?
+        LogMsg( LOG_ERROR, "PluginBaseHostService %s got join request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
+    }
+
+    if( broadcastPkt )
+    {
+        if( m_Engine.getUserOnlineMgr().updateUserJoinedFriendships( groupieId, netIdent ) )
+        {
+            m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
+            if( m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId ) )
+            {
+                if( m_HostServerMgr.sendMemberListToClient( sktBase, netIdent ) )
+                {
+                    if( txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply ) )
+                    {
+                        broadcastToClients( &joinReply, groupieId.getUserOnlineId(), sktBase );    
+                    }
+                }
+            }         
+        }
+    }
+    else if( sendPkt )
+    {
+        m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
+        m_HostServerMgr.onJoinRequested( sktBase, netIdent, joinReq->getSessionId(), joinReq->getHostType() );
+        txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply );
     }
 }
 
 //============================================================================
 void PluginBaseHostService::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService  %s got PktHostLeaveReq from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService  %s got PktHostLeaveReq from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
     PktHostLeaveReq* pktReq = ( PktHostLeaveReq* )pktHdr;
     PktHostLeaveReply pktReply;
-    if( pktReq->isValidPkt() )
+    if( pktReq->isValidPktPrefix() )
     {
         GroupieId rxedGroupieId = pktReq->getGroupieId();
         GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
         if( rxedGroupieId != groupieId )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
+            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
         }
 
@@ -383,16 +383,16 @@ void PluginBaseHostService::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sktBa
 //============================================================================
 void PluginBaseHostService::onPktHostUnJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService %s got unjoin request from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService %s got unjoin request from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
     PktHostUnJoinReq* joinReq = ( PktHostUnJoinReq* )pktHdr;
     PktHostUnJoinReply joinReply;
-    if( joinReq->isValidPkt() )
+    if( joinReq->isValidPktPrefix() )
     {
         GroupieId rxedGroupieId = joinReq->getGroupieId();
         GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
         if( rxedGroupieId != groupieId )
         {
-            LogModule( eLogHosts, LOG_DEBUG, "PluginBaseHostService %s unjoin request from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
+            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService %s unjoin request from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
                 netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
         }
 
@@ -457,7 +457,7 @@ void PluginBaseHostService::onPktHostSearchReq( std::shared_ptr<VxSktBase>& sktB
     LogMsg( LOG_DEBUG, "PluginBaseHostService onPktHostSearchReq" );
     PktHostSearchReply searchReply;
     PktHostSearchReq* searchReq = (PktHostSearchReq*)pktHdr;
-    if( searchReq->isValidPkt() )
+    if( searchReq->isValidPktPrefix() )
     {
         EPluginAccess pluginAccess = m_HostServerMgr.getPluginAccessState( netIdent );
         searchReply.setAccessState( pluginAccess );

@@ -50,7 +50,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogUserEvent: return QObject::tr( "Log User Event" );
 
     case eLogPlugins: return QObject::tr( "Log Plugins" );
-    case eLogHosts: return QObject::tr( "Log Hosts" );
+    case eLogHostJoin: return QObject::tr( "Log Host Join" );
     case eLogClients: return QObject::tr( "Log Clients" );
     case eLogHostedUser: return QObject::tr( "Log Hosted User" );
 

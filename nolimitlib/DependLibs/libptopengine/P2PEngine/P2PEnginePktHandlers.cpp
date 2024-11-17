@@ -1140,7 +1140,7 @@ void P2PEngine::onPktMembershipReply( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 	LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktMembershipReply" );
 
 	//PktMembershipReply* pktReply = ( PktMembershipReply* )pktHdr;
-	//if( pktReply && pktReply->isValidPkt() )
+	//if( pktReply && pktReply->isValidPktPrefix() )
 	//{
 	//	VxNetIdent* netIdent = pktHdr->getSrcOnlineId() == getMyOnlineId() ? getMyNetIdent() : m_BigListMgr.findBigListInfo( pktHdr->getSrcOnlineId() );
 	//	if( netIdent && !netIdent->isIgnored() && sktBase && sktBase->isConnected() )

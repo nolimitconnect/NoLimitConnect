@@ -579,7 +579,7 @@ void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shar
 //============================================================================
 void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester )
 {
-    if( pktHdr && pktHdr->isValidPkt() )
+    if( pktHdr && pktHdr->isValidPktPrefix() )
     {
         bool sentToRequestor{ false };
         VxGUID requestorSktConnectionId;
@@ -654,7 +654,7 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& request
 //============================================================================
 void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId )
 {
-    if( pktHdr && pktHdr->isValidPkt() )
+    if( pktHdr && pktHdr->isValidPktPrefix() )
     {
         std::set<ConnectId> connectIdSet;
         std::set<ConnectId> relayedIdSet;
