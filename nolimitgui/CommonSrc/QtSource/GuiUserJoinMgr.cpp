@@ -41,6 +41,8 @@ void GuiUserJoinMgr::onAppCommonCreated( void )
     connect( this, SIGNAL(signalInternalUserJoinOfferState(GroupieId,EJoinState)), this, SLOT(slotInternalUserJoinOfferState(GroupieId,EJoinState)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), this, SLOT(slotInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), Qt::QueuedConnection );
 
+    connect( this, SIGNAL(signalInternalUserJoinAHostStatus(EHostType,VxGUID&,EConnectStatus)), this, SLOT(slotInternalUserJoinAHostStatus(EHostType,VxGUID&,EConnectStatus)), Qt::QueuedConnection );
+
     m_MyApp.getEngine().getUserJoinMgr().addUserJoinMgrClient( this, true );
 }
 
@@ -477,6 +479,15 @@ void GuiUserJoinMgr::announceUserJoinedToHostState( EHostType hostType, bool isJ
 }
 
 //============================================================================
+void GuiUserJoinMgr::announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+    for( auto client : m_UserJoinClients )
+    {
+        client->callbackGuiUserJoinAHostStatus( hostType, sessionId, connectStatus );
+    }
+}
+
+//============================================================================
 EJoinState GuiUserJoinMgr::getUserJoinState( GroupieId& groupieId )
 {
     EJoinState joinState = m_MyApp.getEngine().getUserJoinMgr().getUserJoinState( groupieId );
@@ -606,4 +617,15 @@ void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
     }
 }
 
- 
+
+//============================================================================
+void GuiUserJoinMgr::callbackUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+    emit signalInternalUserJoinAHostStatus( hostType, sessionId, connectStatus );
+}
+
+//============================================================================
+void GuiUserJoinMgr::slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+    announceUserJoinAHostStatus( hostType, sessionId, connectStatus );
+}

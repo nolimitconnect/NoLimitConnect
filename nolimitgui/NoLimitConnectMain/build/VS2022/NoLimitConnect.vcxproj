@@ -351,6 +351,7 @@ libopenjpeg.lib
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHosted.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedByMeJoinMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedListItem.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedListSession.cpp" />
@@ -358,7 +359,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostSession.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.cpp" />
@@ -638,16 +638,16 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHelpers.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHosted.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedByMeJoinMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListCallback.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListItem.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListWidget.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostedListSession.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoin.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostSession.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.h" />

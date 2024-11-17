@@ -83,6 +83,8 @@ signals:
     void                        signalInternalUserJoinOfferState( GroupieId groupieId, EJoinState hostOfferState );
     void                        signalInternalUserJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId );
 
+    void				        signalInternalUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
+
 private slots:
     void                        slotInternalUserJoinRequested( UserJoinInfo* userJoinInfo );
     void                        slotInternalUserJoinUpdated( UserJoinInfo* userJoinInfo );
@@ -93,17 +95,21 @@ private slots:
 
     void                        slotReconnectToLastConnectedHost( void );
 
+    void				        slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
+
 protected:
     void                        removeUserJoin( GroupieId& groupieId );
     GuiUserJoin*                findUserJoin( GroupieId& groupieId );
     GuiUserJoin*                updateUserJoin( UserJoinInfo* userJoinInfo, bool unJoin = false );
     
-    virtual void				callbackUserJoinAdded( UserJoinInfo* userJoinInfo ) override;
-    virtual void				callbackUserJoinUpdated( UserJoinInfo* userJoinInfo ) override;
-    virtual void				callbackUserUnJoinUpdated( UserJoinInfo* userJoinInfo ) override;
-    virtual void				callbackUserJoinRemoved( GroupieId& groupieId ) override;
-    virtual void				callbackUserJoinOfferState( GroupieId& groupieId, EJoinState userOfferState ) override;
-    virtual void				callbackUserJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId ) override;
+    void				        callbackUserJoinAdded( UserJoinInfo* userJoinInfo ) override;
+    void				        callbackUserJoinUpdated( UserJoinInfo* userJoinInfo ) override;
+    void				        callbackUserUnJoinUpdated( UserJoinInfo* userJoinInfo ) override;
+    void				        callbackUserJoinRemoved( GroupieId& groupieId ) override;
+    void				        callbackUserJoinOfferState( GroupieId& groupieId, EJoinState userOfferState ) override;
+    void				        callbackUserJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId ) override;
+
+    void				        callbackUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) override;
 
     void                        announceUserJoinState( EJoinState joinState, GuiUserJoin* guiUserJoin );
 
@@ -116,6 +122,8 @@ protected:
     virtual void				announceUserJoinRemoved( GroupieId& groupieId );
 
     virtual void				announceUserJoinedToHostState( EHostType hostType, bool isJoined );
+
+    virtual void				announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
 
 
     AppCommon&                  m_MyApp;

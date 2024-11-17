@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiHostServerJoinMgr.h"
+#include "GuiHostedByMeJoinMgr.h"
 #include "GuiHostJoinCallback.h"
 #include "GuiParams.h"
 #include "AppCommon.h"

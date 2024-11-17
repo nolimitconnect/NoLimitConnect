@@ -834,11 +834,15 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
 
     if( iConnectTimeoutMs > 0 )
     {
+		// on windows a regular blocking connect does not timeout for 21 seconds
+		// chances are that if there is no connection in 7 seconds it will probably fail with
+		// timed out without establishing a connection. so use timed connect
+		
         //LogMsg( LOG_SKT, "VxConnectTo: timeout %d skt handle %d connect no block ip %s port %d", iConnectTimeoutMs, sktHandle, strRmtIp.c_str(), u16Port );
         // first try connect to the ip without timeout
         // set to non blocking
         ::VxSetSktBlocking( sktHandle, false );
-
+		 
         int iResult = connect( sktHandle, sktAddr, sktAddrLen );
 
         if( 0 == iResult )

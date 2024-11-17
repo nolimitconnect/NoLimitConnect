@@ -10,7 +10,7 @@
 
 #include "AppletHostSelect.h"
 
-#include "GuiHostServerJoinMgr.h"
+#include "GuiHostedByMeJoinMgr.h"
 #include "GuiHostJoin.h"
 #include "GuiHostJoinSession.h"
 

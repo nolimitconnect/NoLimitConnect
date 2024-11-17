@@ -118,6 +118,7 @@ void AppletJoinBase::setHostType( EHostType hostType )
 //============================================================================
 void AppletJoinBase::queryHostedList( void )
 {
+	m_ConnectStatus = eConnectStatusUnknown;
 	if( isNetworkHostUrlValid() )
 	{
 		setStatusMsg( QObject::tr( "Network Host list request is queued" ) );
@@ -211,6 +212,13 @@ void AppletJoinBase::callbackGuiHostedListSearchResult( HostedId& hostedId, GuiH
 
 //============================================================================
 void AppletJoinBase::callbackGuiHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+	m_ConnectStatus = connectStatus;
+	setStatusMsg( GuiParams::describeConnectStatus( connectStatus ) );
+}
+
+//============================================================================
+void AppletJoinBase::callbackGuiUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
 {
 	m_ConnectStatus = connectStatus;
 	setStatusMsg( GuiParams::describeConnectStatus( connectStatus ) );

@@ -59,6 +59,8 @@ public:
     virtual void				announceUserUnJoinUpdated( UserJoinInfo* userJoinInfo );
     virtual void				announceUserJoinRemoved( GroupieId& groupieId );
 
+    virtual void				announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
+
     VxMutex&					getResourceMutex( void )					{ return m_ResourceMutex; }
     void						lockResources( void )						{ m_ResourceMutex.lock(); }
     void						unlockResources( void )						{ m_ResourceMutex.unlock(); }

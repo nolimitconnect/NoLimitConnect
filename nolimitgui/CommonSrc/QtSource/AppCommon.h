@@ -22,7 +22,7 @@
 #include "GuiFileXferMgr.h"
 #include "GuiGroupieListMgr.h"
 #include "GuiHostedListMgr.h"
-#include "GuiHostServerJoinMgr.h"
+#include "GuiHostedByMeJoinMgr.h"
 
 #include "GuiOfferMgr.h"
 #include "GuiUserJoinMgr.h"

@@ -17,18 +17,19 @@
 #include <Network/NetworkMgr.h>
 #include <Network/NetworkStateMachine.h>
 #include <P2PEngine/P2PEngine.h>
+#include <UserJoinMgr/UserJoinMgr.h>
 
 #include <UrlMgr/UrlMgr.h>
 
-#include <NetLib/VxSktConnect.h>
-#include <NetLib/VxPeerMgr.h>
-#include <NetLib/VxSktCrypto.h>
 #include <CoreLib/VxSktUtil.h>
-
-#include <PktLib/PktsRelay.h>
-
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxUrl.h>
+
+#include <NetLib/VxPeerMgr.h>
+#include <NetLib/VxSktConnect.h>
+#include <NetLib/VxSktCrypto.h>
+
+#include <PktLib/PktsRelay.h>
 
 //============================================================================
 ConnectionMgr::ConnectionMgr( P2PEngine& engine )
@@ -1199,8 +1200,18 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
 //============================================================================
 void ConnectionMgr::onConnectStatusChange( VxGUID& sessionId, enum EConnectStatus connectStatus, enum EConnectReason connectReason, enum EHostType hostType )
 {
-    if( hostType != eHostTypeUnknown && connectReason == eConnectReasonNetworkHostListSearch )
+    if( hostType != eHostTypeUnknown )
     {
-        m_Engine.getHostedListMgr().hostSearchStatus( hostType, sessionId, connectStatus );
+        if( connectReason == eConnectReasonNetworkHostListSearch )
+        {
+            m_Engine.getHostedListMgr().hostSearchStatus( hostType, sessionId, connectStatus );
+        }
+        else if( connectReason == eConnectReasonGroupJoin ||
+                 connectReason == eConnectReasonChatRoomJoin ||
+                 connectReason == eConnectReasonRandomConnectJoin )
+        {
+            m_Engine.getUserJoinMgr().announceUserJoinAHostStatus( hostType, sessionId, connectStatus );
+        }
     }
+
 }

@@ -10,7 +10,7 @@
 
 #include "GuiHostJoin.h"
 #include "AppCommon.h"
-#include "GuiHostServerJoinMgr.h"
+#include "GuiHostedByMeJoinMgr.h"
 #include "GuiParams.h"
 #include "GuiUser.h"
 #include <HostServerJoinMgr/HostJoinInfo.h>

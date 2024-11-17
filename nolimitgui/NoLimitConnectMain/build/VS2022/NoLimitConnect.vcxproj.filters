@@ -977,14 +977,8 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListItem.h">
       <Filter>Header Files\GuiHosted</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h">
-      <Filter>Header Files\GuiHosted</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListWidget.h">
       <Filter>Header Files\GuiHosted</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.h">
-      <Filter>Header Files\GuiHostServerJoin</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.h">
       <Filter>Header Files\GuiMemberActive</Filter>
@@ -1135,6 +1129,12 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.h">
       <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedByMeJoinMgr.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h">
+      <Filter>Source Files\GuiHosted</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2134,9 +2134,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp">
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostServerJoinMgr.cpp">
-      <Filter>Source Files\GuiHostServerJoin</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -2280,6 +2277,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.cpp">
       <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedByMeJoinMgr.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

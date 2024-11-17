@@ -25,5 +25,7 @@ public:
     virtual void				callbackGuiUserJoinRemoved( GroupieId& groupieId ) {};
 
     virtual void                callbackGuiUserJoinToHostState( EHostType hostType, bool isJoined ) {}; ///< just my join to host state for me and not other members
+
+    virtual void				callbackGuiUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) {};
 };
 

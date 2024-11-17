@@ -44,42 +44,44 @@ public:
 	VxPtopUrl&					getNetworkHostPtopUrl( void )							{ return m_NetHostPtopUrl; }
 	bool						isNetworkHostUrlValid( void )							{ return m_NetHostPtopUrl.isValid(); }
 
-    virtual void                setStatusMsg( QString statusMsg );
-    virtual void                setListLabel( QString labelText );
+    void                        setStatusMsg( QString statusMsg );
+    void                        setListLabel( QString labelText );
 
-    virtual void				callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )  override;
+    void				        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )  override;
 
-    virtual void				callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override {};
-    virtual void				callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override {};
-    virtual void				callbackUserAdded( GuiUser* guiUser ) override;
-    virtual void				callbackUserUpdated( GuiUser* guiUser ) override;
-    virtual void				callbackUserRemoved( VxGUID& onlineId ) override {};
+    void				        callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override {};
+    void				        callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override {};
+    void				        callbackUserAdded( GuiUser* guiUser ) override;
+    void				        callbackUserUpdated( GuiUser* guiUser ) override;
+    void				        callbackUserRemoved( VxGUID& onlineId ) override {};
 
-    virtual void				callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId ) override;
-    virtual void				callbackGuiHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) override;
-    virtual void				callbackGuiHostedListSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
+    void				        callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId ) override;
+    void				        callbackGuiHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) override;
+    void				        callbackGuiHostedListSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
-    virtual void				callbackGuiGroupieListSearchResult( GroupieId& groupieId, GuiGroupie* guiGroupie, VxGUID& sessionId ) override;
-    virtual void				callbackGuiGroupieListSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
+    void				        callbackGuiGroupieListSearchResult( GroupieId& groupieId, GuiGroupie* guiGroupie, VxGUID& sessionId ) override;
+    void				        callbackGuiGroupieListSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
-    virtual void				callbackGuiHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
-    virtual void				callbackGuiHostJoinWasGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
-    virtual void				callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
-    virtual void				callbackGuiHostUnJoinGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+    void				        callbackGuiHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+    void				        callbackGuiHostJoinWasGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+    void				        callbackGuiHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+    void				        callbackGuiHostUnJoinGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
 
-    virtual void				callbackGuiHostJoinDenied( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
-    virtual void				callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
-    virtual void				callbackGuiHostUnJoin( GroupieId& groupieId ) override;
-    virtual void				callbackGuiHostJoinRemoved( GroupieId& groupieId ) override;
+    void				        callbackGuiHostJoinDenied( GroupieId& groupieId, GuiHostJoin* guiHostJoin ) override;
+    void				        callbackGuiHostJoinLeaveHost( GroupieId& groupieId ) override;
+    void				        callbackGuiHostUnJoin( GroupieId& groupieId ) override;
+    void				        callbackGuiHostJoinRemoved( GroupieId& groupieId ) override;
 
-    virtual void				callbackGuiUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
-    virtual void				callbackGuiUserJoinWasGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
-    virtual void				callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
-    virtual void				callbackGuiUserUnJoinGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
+    void				        callbackGuiUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
+    void				        callbackGuiUserJoinWasGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
+    void				        callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
+    void				        callbackGuiUserUnJoinGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
 
-    virtual void				callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
-    virtual void				callbackGuiUserJoinLeaveHost( GroupieId& groupieId ) override;
-    virtual void				callbackGuiUserJoinRemoved( GroupieId& groupieId ) override;
+    void				        callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
+    void				        callbackGuiUserJoinLeaveHost( GroupieId& groupieId ) override;
+    void				        callbackGuiUserJoinRemoved( GroupieId& groupieId ) override;
+
+    void				        callbackGuiUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) override;
 
 protected slots:
     void                        slotChooseHostModeButtonClick( void );

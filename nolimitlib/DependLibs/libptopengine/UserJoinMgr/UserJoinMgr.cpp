@@ -269,11 +269,21 @@ void UserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
     removeFromDatabase( groupieId, false );
     LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinRemoved %s", groupieId.describeGroupieId().c_str() );
 	lockClientList();
-	std::vector<UserJoinCallbackInterface *>::iterator iter;
-	for( iter = m_UserJoinClients.begin();	iter != m_UserJoinClients.end(); ++iter )
+	for( auto client : m_UserJoinClients )
 	{
-		UserJoinCallbackInterface * client = *iter;
 		client->callbackUserJoinRemoved( groupieId );
+	}
+
+	unlockClientList();
+}
+
+//============================================================================
+void UserJoinMgr::announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+	lockClientList();
+	for( auto client : m_UserJoinClients )
+	{
+		client->callbackUserJoinAHostStatus( hostType, sessionId, connectStatus );
 	}
 
 	unlockClientList();

@@ -24,5 +24,7 @@ public:
 
     virtual void				callbackUserJoinOfferState( GroupieId& groupieId, EJoinState userOfferState ) {};
     virtual void				callbackUserJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId ) {};
+
+    virtual void				callbackUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) {};
 };
 
