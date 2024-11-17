@@ -37,11 +37,11 @@ void GuiHostedListMgr::onAppCommonCreated( void )
 {
     m_MyApp.getAppSettings().getFavoriteHostGroupUrl( m_FavoriteHostGroup );
 
-    connect( this, SIGNAL( signalInternalHostedUpdated( HostedInfo* ) ), this, SLOT( slotInternalHostedUpdated( HostedInfo* ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalHostedRemoved( VxGUID, EHostType ) ), this, SLOT( slotInternalHostedRemoved( VxGUID, EHostType ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalHostSearchResult( HostedInfo*, VxGUID ) ), this, SLOT( slotInternalHostSearchResult( HostedInfo*, VxGUID ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalHostSearchComplete( EHostType, VxGUID) ), this, SLOT( slotInternalHostSearchComplete( EHostType, VxGUID ) ), Qt::QueuedConnection );
-
+    connect( this, SIGNAL(signalInternalHostedUpdated(HostedInfo*)), this, SLOT(slotInternalHostedUpdated(HostedInfo*)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalHostedRemoved(VxGUID,EHostType)), this, SLOT(slotInternalHostedRemoved(VxGUID,EHostType)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalHostSearchResult(HostedInfo*,VxGUID)), this, SLOT(slotInternalHostSearchResult(HostedInfo*,VxGUID)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalHostSearchStatus(EHostType,VxGUID,EConnectStatus)), this, SLOT(slotInternalHostSearchComplete(EHostType,VxGUID,EConnectStatus)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalHostSearchComplete(EHostType,VxGUID)), this, SLOT(slotInternalHostSearchComplete(EHostType,VxGUID)), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getHostedListMgr().wantHostedListCallback( dynamic_cast< HostedListCallbackInterface*>(this), true );
 }
@@ -109,6 +109,25 @@ void GuiHostedListMgr::slotInternalHostSearchResult( HostedInfo* hostedInfo, VxG
 {
     updateHostSearchResult( *hostedInfo, sessionId );
     delete hostedInfo;
+}
+
+//============================================================================
+void GuiHostedListMgr::callbackHostedInfoListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+    if( hostType != eHostTypeUnknown )
+    {
+        emit signalInternalHostSearchStatus( hostType, sessionId, connectStatus );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::callbackHostedInfoListSearchResult invalid host type" );
+    }
+}
+
+//============================================================================
+void GuiHostedListMgr::slotInternalHostSearchStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus )
+{
+    announceHostedListSearchStatus( hostType, sessionId, connectStatus );
 }
 
 //============================================================================
@@ -364,7 +383,7 @@ void GuiHostedListMgr::wantHostedListCallbacks( GuiHostedListCallback* client, b
 
     if( enable )
     {
-        m_HostedListClients.push_back( client );
+        m_HostedListClients.emplace_back( client );
     }
 }
 
@@ -401,6 +420,15 @@ void GuiHostedListMgr::announceHostedListSearchResult( HostedId& hostedId, GuiHo
     for( auto client : m_HostedListClients )
     {
         client->callbackGuiHostedListSearchResult( hostedId, guiHosted, sessionId );
+    }
+}
+
+//============================================================================
+void GuiHostedListMgr::announceHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+    for( auto client : m_HostedListClients )
+    {
+        client->callbackGuiHostedListSearchStatus( hostType, sessionId, connectStatus );
     }
 }
 

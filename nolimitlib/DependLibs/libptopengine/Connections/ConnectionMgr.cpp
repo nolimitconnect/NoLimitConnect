@@ -414,11 +414,13 @@ int ConnectionMgr::getQueryIdFailedCount( EHostType hostType )
 }
 
 //============================================================================
-EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason )
+EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, 
+                                                 std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason, enum EHostType hostType )
 {
     if( !onlineId.isVxGUIDValid() )
     {
         LogMsg( LOG_ERROR, "ConnectionMgr::requestConnection must have valid online id" );
+        onConnectStatusChange( sessionId, eConnectStatusBadParam, connectReason, hostType );
         return eConnectStatusBadParam;
     }
 
@@ -436,6 +438,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
             callback->onContactConnected( sessionId, retSktBase, onlineId, connectReason );
         }
 
+        onConnectStatusChange( sessionId, eConnectStatusBadParam, connectReason, hostType );
         return eConnectStatusReady;
     }
 
@@ -505,6 +508,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     if( sktBase )
     {
         retSktBase = sktBase;
+        onConnectStatusChange( sessionId, eConnectStatusReady, connectReason, hostType );
         return eConnectStatusReady;
     }
     else
@@ -512,13 +516,16 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
         return attemptConnection( sessionId, url, onlineId, callback, retSktBase, connectReason );
     }
 
+    onConnectStatusChange( sessionId, eConnectStatusUnknown, connectReason, hostType );
     return eConnectStatusUnknown;
 }
 
 //============================================================================
-EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason )
+EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, 
+                                                 std::shared_ptr<VxSktBase>& retSktBase, enum EConnectReason connectReason, enum EHostType hostType )
 {
     EConnectStatus connectStatus = eConnectStatusConnecting;
+    onConnectStatusChange( sessionId, connectStatus, connectReason, hostType );
     VxUrl connectUrl( url.c_str() );
     if( onlineId.isVxGUIDValid() && connectUrl.validateUrl( false ) )
     {
@@ -528,10 +535,13 @@ EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string 
             // connected but waiting for PktAnnounce reply
             connectStatus = eConnectStatusReady;
         }
+
+        onConnectStatusChange( sessionId, connectStatus, connectReason, hostType );
     }
     else
     {
         connectStatus = eConnectStatusBadAddress;
+        onConnectStatusChange( sessionId, connectStatus, connectReason, hostType );
     }
 
     return connectStatus;
@@ -671,17 +681,19 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 url,
                                                 std::shared_ptr<VxSktBase>& retSktBase,
                                                 VxGUID                      sessionId,
                                                 EConnectReason              connectReason,
-                                                int					        iConnectTimeoutMs )
+                                                int					        iConnectTimeoutMs,
+                                                enum EHostType              hostType )
 {
     VxUrl connectUrl( url.c_str() );
     std::string ipAddr = connectUrl.getHostString();
     uint16_t port = connectUrl.getPort();
     if( !ipAddr.empty() && port )
     {
-        return directConnectTo( ipAddr, port, onlineId, retSktBase, callback, sessionId, connectReason, iConnectTimeoutMs );
+        return directConnectTo( ipAddr, port, onlineId, retSktBase, callback, sessionId, connectReason, iConnectTimeoutMs, hostType );
     }
     else
     {
+        onConnectStatusChange( sessionId, eConnectStatusBadParam, connectReason, hostType );
         return eConnectStatusBadParam;
     }
 }
@@ -694,7 +706,8 @@ EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectI
                                                 bool				        bUseUdpIp,
                                                 bool				        bUseLanIp,
                                                 IConnectRequestCallback*    callback,
-                                                EConnectReason              connectReason )
+                                                EConnectReason              connectReason,
+                                                enum EHostType              hostType )
 {
     ppoRetSkt = nullptr;
 
@@ -702,7 +715,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectI
     EIpAddrType addrType{ eIpAddrTypeUnknown };
     connectInfo.m_DirectConnectId.getIpAddress( ipAddr, addrType );
 
-    return directConnectTo( ipAddr, connectInfo.getOnlinePort(), connectInfo.getMyOnlineId(), ppoRetSkt, callback, sessionId, connectReason, iConnectTimeoutMs );
+    return directConnectTo( ipAddr, connectInfo.getOnlinePort(), connectInfo.getMyOnlineId(), ppoRetSkt, callback, sessionId, connectReason, iConnectTimeoutMs, hostType );
 }
 
 //============================================================================-
@@ -713,9 +726,11 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
                                                 IConnectRequestCallback*    callback,
                                                 VxGUID                      sessionId, 
                                                 EConnectReason              connectReason,
-                                                int					        iConnectTimeoutMs )
+                                                int					        iConnectTimeoutMs,
+                                                enum EHostType              hostType )
 {
     EConnectStatus connectStatus = eConnectStatusConnecting;
+    onConnectStatusChange( sessionId, eConnectStatusConnecting, connectReason, hostType );
 
     lockConnectionList();
     std::shared_ptr<VxSktBase> sktBase = m_PeerMgr.connectTo(	ipAddr.c_str(),			// remote ip or url 
@@ -733,6 +748,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         {
             LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread", ipAddr.c_str(), port );
             unlockConnectionList();
+            onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
@@ -745,6 +761,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         {
             LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread after tx key generated", ipAddr.c_str(), port);
             unlockConnectionList();
+            onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
@@ -756,6 +773,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         {
             LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread after rx key generated", ipAddr.c_str(), port);
             unlockConnectionList();
+            onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
@@ -765,6 +783,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         {
             LogModule( eLogConnect, LOG_DEBUG, "NetworkMgr::DirectConnectTo: connect failed sending announce" );
             unlockConnectionList();
+            onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
@@ -772,6 +791,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         {
             LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed after pkt announce sent by rx thread", ipAddr.c_str(), port);
             unlockConnectionList();
+            onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
@@ -787,16 +807,18 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
             m_HandshakeMutex.unlock();
 
             unlockConnectionList();
+            onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
         connectStatus = eConnectStatusHandshaking;
-        retSktBase = (std::shared_ptr<VxSktBase>&)sktBase;
-        
+        onConnectStatusChange( sessionId, eConnectStatusHandshaking, connectReason, hostType );
+        retSktBase = (std::shared_ptr<VxSktBase>&)sktBase;        
     }
     else
     {
         connectStatus = eConnectStatusConnectFailed;
+        onConnectStatusChange( sessionId, eConnectStatusConnectFailed, connectReason, hostType );
 
         //LogMsg( LOG_INFO, "ConnectionMgr::directConnectTo: connect FAIL to %s:%d", strIpAddress.c_str(), connectInfo.getOnlinePort() );
         LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::DirectConnectTo: failed" );
@@ -847,7 +869,7 @@ void ConnectionMgr::addConnectRequestToQue( ConnectReqInfo& connectRequest, bool
     }
     else
     {
-        m_IdentsToConnectList.push_back( connectRequest );
+        m_IdentsToConnectList.emplace_back( connectRequest );
     }
 
     m_NetConnectorMutex.unlock();
@@ -1172,4 +1194,13 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
     LogMsg( LOG_INFO, "ConnectionMgr::doConnectRequest: connect fail  %s", m_Engine.describeContact( connectInfo ).c_str() );
 #endif // DEBUG_CONNECTIONS
     return false;
+}
+
+//============================================================================
+void ConnectionMgr::onConnectStatusChange( VxGUID& sessionId, enum EConnectStatus connectStatus, enum EConnectReason connectReason, enum EHostType hostType )
+{
+    if( hostType != eHostTypeUnknown && connectReason == eConnectReasonNetworkHostListSearch )
+    {
+        m_Engine.getHostedListMgr().hostSearchStatus( hostType, sessionId, connectStatus );
+    }
 }

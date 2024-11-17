@@ -166,10 +166,11 @@ namespace
         "Connect Status Connecting ",
         "Connect Status Connect Failed ",
         "Connect Status Send PktAnn Failed ",
-        "Connect Status Handshake ",
+        "Connect Status Handshaking ",
+        "Connect Status Handshake Timed Out ",
         "Connect Status Connect Success ",
         "Connect Status Dropped ",
-        "Connect Status Rx Ann Timeout ",
+        "Connect Status Rx PktAnn Timeout ",
 
         "Max Connect Status ",
     };

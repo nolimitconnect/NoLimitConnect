@@ -39,9 +39,14 @@ VxSktLoopback::VxSktLoopback( P2PEngine& engine )
     : VxSktBase()
     , m_Engine( engine )
 {
-    LogMsg( LOG_VERBOSE, "VxSktLoopback::VxSktLoopback" );
+    // LogMsg( LOG_VERBOSE, "VxSktLoopback::VxSktLoopback" );
 	m_eSktType = eSktTypeLoopback;
     m_ConnectionId = m_LoopbackSocketId;
+    const char* loopBackIp = "127.0.0.1";
+    m_LclIp.setIp( loopBackIp );
+    m_strLclIp = loopBackIp;
+    m_RmtIp.setIp( loopBackIp );
+    m_strRmtIp = loopBackIp;
 }
 
 //============================================================================

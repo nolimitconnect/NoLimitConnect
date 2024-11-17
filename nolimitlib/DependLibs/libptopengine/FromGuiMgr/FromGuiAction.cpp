@@ -194,11 +194,17 @@ FromGuiQueryHostListFromNetworkHostAction::FromGuiQueryHostListFromNetworkHostAc
 void FromGuiQueryHostListFromNetworkHostAction::executeAction( void )
 {
 	std::shared_ptr<VxSktBase> sktBase( nullptr );
-    EConnectStatus connectStatus = m_Engine.getConnectionMgr().requestConnection( m_SearchSessionId, m_PtopUrl.getUrl(), m_PtopUrl.getOnlineId(), &m_Engine.getHostedListMgr(), sktBase, eConnectReasonNetworkHostListSearch );
-    if( sktBase && eConnectStatusReady == connectStatus )
+    EConnectStatus connectStatus = m_Engine.getConnectionMgr().requestConnection( m_SearchSessionId, m_PtopUrl.getUrl(), 
+																				  m_PtopUrl.getOnlineId(), &m_Engine.getHostedListMgr(), 
+																				  sktBase, eConnectReasonNetworkHostListSearch, m_HostType );
+    if( sktBase )
     {
-
+		m_Engine.getHostedListMgr().hostSearchStatus( m_HostType, m_SearchSessionId, connectStatus );
     }
+	else
+	{
+		m_Engine.getHostedListMgr().hostSearchStatus( m_HostType, m_SearchSessionId, eConnectStatusConnectFailed );
+	}
 }
 
 //============================================================================	

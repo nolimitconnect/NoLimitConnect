@@ -1229,7 +1229,7 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
     VxGUID hostOnlineId = sktBase->getPeerOnlineId();
 
     LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onGroupRelayedUserAnnounce from %s id %s hosted by %s id %s",
-            netIdent->getOnlineName(), onlineId.describeVxGUID().c_str(), sktBase->getPeerOnlineName().c_str(), hostOnlineId.describeVxGUID().c_str());
+            netIdent->getOnlineName(), onlineId.describeVxGUID().c_str(), sktBase->getPeerOnlineName().c_str(), hostOnlineId.toOnlineIdString().c_str());
     if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid() && socketId.isVxGUIDValid() )
     {
         if( onlineId != hostOnlineId )
@@ -1302,7 +1302,7 @@ void ConnectIdListMgr::getOnlineMembers( HostedId& hostId, std::vector<VxGUID>& 
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
         if( connectId.getHostedId() == hostId )
         {
-            onlineIdList.push_back( connectId.getUserOnlineId() );
+            onlineIdList.emplace_back( connectId.getUserOnlineId() );
         }
     }
 

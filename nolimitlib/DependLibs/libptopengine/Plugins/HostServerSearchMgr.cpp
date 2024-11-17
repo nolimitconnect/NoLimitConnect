@@ -391,15 +391,14 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& 
 
     if( 0 == pktReply.getInviteCountThisPkt() )
     {
-        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s NO hosts found %d of %s %s", __func__, DescribeHostType( hostType ),
-            DescribePluginType( pluginType ) );
+        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s NO hosts found of %s for %s %s", __func__, DescribeHostType( hostType ),
+                    sktBase->getRemoteIpAddress(), netIdent->getOnlineName());
     }
     else
     {
-        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s found %d of %s %s", __func__, pktReply.getInviteCountThisPkt(), DescribeHostType( hostType ),
-            DescribePluginType( pluginType ) );
+        LogModule( eLogHostSearch, LOG_DEBUG, "HostServerSearchMgr::%s found %d of %s for %s %s", __func__, pktReply.getInviteCountThisPkt(),
+                    DescribeHostType( hostType ), sktBase->getRemoteIpAddress(), netIdent->getOnlineName() );
     }
-
 
     pktReply.calcPktLen();
     EPluginType clientPluginType = HostTypeToClientPlugin( hostType );

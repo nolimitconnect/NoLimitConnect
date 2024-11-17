@@ -56,7 +56,7 @@ public:
     EHostSearchStatus           lookupOrQuerySearchId( VxGUID& sessionId, std::string hostUrlIpv4, VxGUID& hostGuid, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
 
     EConnectStatus              requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, 
-                                                   enum EConnectReason connectReason = eConnectReasonUnknown );
+                                                   enum EConnectReason connectReason = eConnectReasonUnknown, enum EHostType hostType = eHostTypeUnknown );
     void                        doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason = eConnectReasonUnknown );
     // if failed to connect we will not have a socket id
     void                        doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason );
@@ -95,7 +95,8 @@ protected:
     /// keep a cache of urls to online id to avoid time consuming query host id
     void                        updateUrlCache( std::string& hostUrl, VxGUID& onlineId );
     bool                        urlCacheOnlineIdLookup( std::string& hostUrl, VxGUID& onlineId );
-    EConnectStatus              attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason );
+    EConnectStatus              attemptConnection( VxGUID& sessionId, std::string url, VxGUID& onlineId, IConnectRequestCallback* callback, 
+                                                   std::shared_ptr<VxSktBase>& retSktBase, enum EConnectReason connectReason, enum EHostType hostType = eHostTypeUnknown );
 
     //=== connection low level ===/
     EConnectStatus              directConnectTo( std::string                 url,
@@ -104,7 +105,8 @@ protected:
                                                  std::shared_ptr<VxSktBase>& retSktBase,
                                                  VxGUID                      sessionId,
                                                  enum EConnectReason         connectReason,
-                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT );  
+                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT,
+                                                 enum EHostType              hostType = eHostTypeUnknown );  
 
     EConnectStatus				directConnectTo(	VxConnectInfo&			    connectInfo,		 
                                                     std::shared_ptr<VxSktBase>& ppoRetSkt,		
@@ -113,7 +115,8 @@ protected:
                                                     bool					    useLanIp = false,
                                                     bool					    useUdpIp = false,
                                                     IConnectRequestCallback*    callback = nullptr,                                                
-                                                    enum EConnectReason         connectReason = eConnectReasonUnknown );
+                                                    enum EConnectReason         connectReason = eConnectReasonUnknown,
+                                                    enum EHostType              hostType = eHostTypeUnknown );
 
     EConnectStatus              directConnectTo(    std::string                 ipAddr,
                                                     uint16_t                    port,
@@ -122,7 +125,8 @@ protected:
                                                     IConnectRequestCallback*    callback,
                                                     VxGUID                      sessionId,
                                                     enum EConnectReason         connectReason,
-                                                    int					        iConnectTimeoutMs );
+                                                    int					        iConnectTimeoutMs,
+                                                    enum EHostType              hostType = eHostTypeUnknown );
 
     void                        addConnectRequestToQue( VxConnectInfo& connectInfo, enum EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting );
     void                        addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting );
@@ -142,6 +146,8 @@ protected:
 
     void                        setQueryIdFailedCount( enum EHostType hostType, int failedCount );
     int                         getQueryIdFailedCount( enum EHostType hostType );
+
+    void                        onConnectStatusChange( VxGUID& sessionId, enum EConnectStatus connectStatus, enum EConnectReason connectReason, enum EHostType hostType );
 
     //=== vars ===//
     P2PEngine&					m_Engine;

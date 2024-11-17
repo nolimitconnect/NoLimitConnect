@@ -81,7 +81,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
                 if( 0 == netServCrypto->decrypt( bufCopy, iDataLen ) )
                 {
                     VxPktHdr* pktHdrNetServ = (VxPktHdr*)bufCopy;
-                    if( pktHdrNetServ->isValidPkt() && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
+                    if( pktHdrNetServ->isValidPkt(false) && pktHdrNetServ->isNetServicePkt() && iDataLen >= pktHdrNetServ->getPktLength() )
                     {
 						sktBase->setIsNetServiceConnection( true );
                         wasNetServiceRequest = true;
@@ -127,10 +127,10 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 							return;
 						}
                     }
-                    else
-                    {
-                        LogMsg( LOG_WARN, "P2PEngine::handleTcpData Bad Encryption for Rx net service packet or is really PKT_ANNOUNCE from ip %s", sktBase->getRemoteIp().c_str() );
-                    }
+                    //else
+                    //{
+                    //    LogMsg( LOG_WARN, "P2PEngine::handleTcpData Bad Encryption for Rx net service packet or is really PKT_ANNOUNCE from ip %s", sktBase->getRemoteIp().c_str() );
+                    //}
                 }
 
                 delete[] bufCopy;

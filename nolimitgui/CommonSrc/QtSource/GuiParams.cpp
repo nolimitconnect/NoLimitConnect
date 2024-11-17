@@ -2135,6 +2135,40 @@ QString GuiParams::describeConnectType( enum EConnectType connectType )
 }
 
 //============================================================================
+QString GuiParams::describeConnectStatus( EConnectStatus connectStatus )
+{
+    switch( connectStatus )
+    {
+    case eConnectStatusReady:
+        return QObject::tr( "Connect Status Ready " );
+    case eConnectStatusBadParam:
+        return QObject::tr( "Connect Status Bad Param " );
+    case eConnectStatusBadAddress:
+        return QObject::tr( "Connect Status Bad Address " );
+    case eConnectStatusPermissionDenied:
+        return QObject::tr( "Connect Status Permission Denied " );
+    case  eConnectStatusConnecting:
+        return QObject::tr( "Connect Status Connecting " );
+    case eConnectStatusConnectFailed:
+        return QObject::tr( "Connect Status Connect Failed " );
+    case eConnectStatusSendPktAnnFailed:
+        return QObject::tr( "Connect Status Send PktAnn Failed " );
+    case eConnectStatusHandshaking:
+        return QObject::tr( "Connect Status Handshaking " );
+    case eConnectStatusHandshakeTimeout:
+        return QObject::tr( "Connect Status Handshake Timed Out " );
+    case eConnectStatusConnectSuccess:
+        return QObject::tr( "Connect Status Connect Success " );
+    case eConnectStatusDropped:
+        return QObject::tr( "Connect Status Dropped " );
+    case eConnectStatusRxAnnTimeout:
+        return QObject::tr( "Connect Status Rx PktAnn Timeout " );
+    default:
+        return QObject::tr( "Connect Status Unknown " );
+    }
+}
+
+//============================================================================
 bool GuiParams::isLaunchOnStartupApplet( EApplet applet )
 {
     return eAppletPlayerNlc == applet ||

@@ -258,6 +258,24 @@ void HostedListMgr::announceHostInfoSearchResult( HostedInfo* hostedInfo, VxGUID
     }
 }
 
+//============================================================================
+void HostedListMgr::announceHostInfoSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+    if( hostType != eHostTypeUnknown )
+    {
+        lockClientList();
+        for( auto client : m_HostedInfoListClients )
+        {
+            client->callbackHostedInfoListSearchStatus( hostType, sessionId, connectStatus );
+        }
+
+        unlockClientList();
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostInfoSearchResult invalid param" );
+    }
+}
 
 //============================================================================
 void HostedListMgr::announceHostInfoSearchComplete( enum EHostType hostType, VxGUID& sessionId )
@@ -845,6 +863,12 @@ void HostedListMgr::hostSearchResult( enum EHostType hostType, VxGUID& searchSes
 }
 
 //============================================================================
+void HostedListMgr::hostSearchStatus( enum EHostType hostType, VxGUID& searchSessionId, EConnectStatus connectStatus )
+{
+    announceHostInfoSearchStatus( hostType, searchSessionId, connectStatus );
+}
+
+//============================================================================
 void HostedListMgr::hostSearchCompleted( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr )
 {
     if( commErr )
@@ -863,14 +887,14 @@ void HostedListMgr::hostSearchCompleted( enum EHostType hostType, VxGUID& search
 //============================================================================
 void HostedListMgr::onHostInviteAnnounceAdded( enum EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-    LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceAdded %s from %s ", DescribeHostType( hostType), netIdent->getOnlineName() );
+    LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceAdded %s from %s %s ", DescribeHostType( hostType), sktBase->getRemoteIpAddress(), netIdent->getOnlineName() );
     updateHostInfo( hostType, hostedInfo, netIdent, sktBase );
 }
 
 //============================================================================
 void HostedListMgr::onHostInviteAnnounceUpdated( enum EHostType hostType, HostedInfo& hostedInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase, bool infoChanged )
 {
-    LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceUpdated %s from %s ", DescribeHostType( hostType ), netIdent->getOnlineName() );
+    LogMsg( LOG_VERBOSE, "HostedListMgr::onHostInviteAnnounceUpdated %s from %s %s ", DescribeHostType( hostType ), sktBase->getRemoteIpAddress(), netIdent->getOnlineName() );
     updateHostInfo( hostType, hostedInfo, netIdent, sktBase, infoChanged );
 }
 

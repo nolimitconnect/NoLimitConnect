@@ -67,12 +67,14 @@ signals:
     void                        signalInternalHostedUpdated( HostedInfo* hostedInfo );
     void                        signalInternalHostedRemoved( VxGUID hostOnlineId, EHostType hostType );
     void                        signalInternalHostSearchResult( HostedInfo* hostedInfo, VxGUID sessionId );
+    void                        signalInternalHostSearchStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus );
     void                        signalInternalHostSearchComplete( EHostType hostType, VxGUID sessionId );
 
 private slots:
     void                        slotInternalHostedUpdated( HostedInfo* hostedInfo );
     void                        slotInternalHostedRemoved( VxGUID hostOnlineId, EHostType hostType );
     void                        slotInternalHostSearchResult( HostedInfo* hostedInfo, VxGUID sessionId );
+    void                        slotInternalHostSearchStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus );
     void                        slotInternalHostSearchComplete( EHostType hostType, VxGUID sessionId );
 
     void                        slotNetAvailableStatus( ENetAvailStatus eNetAvailStatus );
@@ -87,12 +89,14 @@ protected:
     virtual void				callbackHostedInfoListUpdated( HostedInfo* hostedInfo ) override;
     virtual void				callbackHostedInfoListRemoved( VxGUID& hostOnlineId, EHostType hostType ) override;
     virtual void				callbackHostedInfoListSearchResult( HostedInfo* hostedInfo, VxGUID& hostOnlineId ) override;
+    virtual void				callbackHostedInfoListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) override;
     virtual void				callbackHostedInfoListSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
     void                        announceHostedListAdded( HostedId& hostedId, GuiHosted* guiHosted );
     void                        announceHostedListUpdated( HostedId& hostedId, GuiHosted* guiHosted );
     void                        announceHostedListRemoved( HostedId& hostedId );
     void                        announceHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId );
+    void                        announceHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
     void                        announceHostedListSearchComplete( EHostType hostType, VxGUID& sessionId );
 
     void                        checkAutoJoinGroupHost( void );

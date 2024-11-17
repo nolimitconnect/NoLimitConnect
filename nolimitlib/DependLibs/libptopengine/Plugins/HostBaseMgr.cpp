@@ -159,7 +159,7 @@ void HostBaseMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& sear
 
     if( url.empty() || hostType == eHostTypeUnknown )
     {
-        LogMsg( LOG_VERBOSE, "HostBaseMgr Invalid url or host type %d", hostType );
+        LogModule( eLogHostSearch, LOG_VERBOSE, "HostBaseMgr Invalid url or host type %d", hostType );
         m_Engine.getToGui().toGuiHostSearchStatus( hostType, searchParams.getSearchSessionId(), eHostSearchInvalidUrl );
         m_Engine.getToGui().toGuiHostSearchComplete( hostType, searchParams.getSearchSessionId() );
         return;
@@ -167,7 +167,7 @@ void HostBaseMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& sear
 
     if( !searchParams.getSearchSessionId().isVxGUIDValid() )
     {
-        LogMsg( LOG_VERBOSE, "HostBaseMgr Search GUID invalid" );
+        LogModule( eLogHostSearch, LOG_VERBOSE, "HostBaseMgr Search GUID invalid" );
         m_Engine.getToGui().toGuiHostSearchStatus( hostType, searchParams.getSearchSessionId(), eHostSearchInvalidParam );
         m_Engine.getToGui().toGuiHostSearchComplete( hostType, searchParams.getSearchSessionId() );
         return;
@@ -197,7 +197,7 @@ void HostBaseMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& sear
             break;
 
         default:
-            LogMsg( LOG_VERBOSE, "HostBaseMgr Unknown search type" );
+            LogMsg( LOG_ERROR, "HostBaseMgr Unknown search type" );
             m_Engine.getToGui().toGuiHostSearchStatus( hostType, searchParams.getSearchSessionId(), eHostSearchInvalidParam );
             m_Engine.getToGui().toGuiHostSearchComplete( hostType, searchParams.getSearchSessionId() );
             return;
@@ -205,7 +205,7 @@ void HostBaseMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& sear
 
         if( !enable )
         {
-            LogMsg( LOG_VERBOSE, "HostBaseMgr fromGuiSearchHost not enabled" );
+            LogMsg( LOG_ERROR, "HostBaseMgr fromGuiSearchHost not enabled" );
         }
         else
         {
@@ -262,7 +262,7 @@ bool HostBaseMgr::isSearchConnectReason( enum EConnectReason connectReason )
 //============================================================================
 void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionId, enum EConnectReason connectReason, enum EHostAnnounceStatus hostAnnStatus, std::string url )
 {
-    LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
+    LogModule( eLogHostConnect, LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
         DescribeHostAnnounceStatus(hostAnnStatus), url.c_str());
     m_Engine.getToGui().toGuiHostAnnounceStatus( hostType, sessionId, hostAnnStatus );
     removeSession( sessionId, connectReason );
@@ -271,7 +271,7 @@ void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionI
 //============================================================================
 void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionId, enum EConnectReason connectReason, enum EHostJoinStatus hostJoinStatus, std::string url )
 {
-    LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
+    LogModule( eLogHostConnect, LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
            DescribeHostJoinStatus(hostJoinStatus), url.c_str());
     m_Engine.getToGui().toGuiHostJoinStatus( hostType, sessionId, hostJoinStatus );
     removeSession( sessionId, connectReason );
@@ -280,7 +280,7 @@ void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionI
 //============================================================================
 void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionId, enum EConnectReason connectReason, enum EHostSearchStatus hostSearchStatus, std::string url )
 {
-    LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
+    LogModule( eLogHostConnect, LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s failed %s %s", DescribeConnectReason( connectReason ), DescribeHostType( hostType ),
         DescribeHostSearchStatus(hostSearchStatus), url.c_str());
     m_Engine.getToGui().toGuiHostSearchStatus( hostType, sessionId, hostSearchStatus );
     m_Engine.getToGui().toGuiHostSearchComplete( hostType, sessionId );
@@ -291,7 +291,7 @@ void HostBaseMgr::onConnectToHostFail( enum EHostType hostType, VxGUID& sessionI
 bool HostBaseMgr::onConnectToHostSuccess( enum EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
     bool result{ true };
-    LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s success ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
+    LogModule( eLogHostConnect, LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s success ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
     GroupieId groupieId( m_Engine.getMyOnlineId(), onlineId,  hostType );
     if( groupieId.isValid() )
     {
@@ -323,7 +323,8 @@ bool HostBaseMgr::onConnectToHostSuccess( enum EHostType hostType, VxGUID& sessi
         else if( isSearchConnectReason( connectReason ) )
         {
             m_Engine.getToGui().toGuiHostSearchStatus( hostType, sessionId, eHostSearchConnectSuccess );
-            LogMsg( LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s success Default function should be overridden", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
+            LogModule( eLogHostSearch, LOG_VERBOSE, "HostBaseMgr connect reason %s to host %s success Default function should be overridden", 
+                    DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
         }
         else
         {
@@ -343,7 +344,7 @@ bool HostBaseMgr::onConnectToHostSuccess( enum EHostType hostType, VxGUID& sessi
 //============================================================================
 void HostBaseMgr::onConnectionToHostDisconnect( enum EHostType hostType, VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
-    LogMsg( LOG_VERBOSE, "HostBaseMgr onConnectionToHostDisconnect reason %s to host %s ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
+    LogModule( eLogHostConnect, LOG_VERBOSE, "HostBaseMgr onConnectionToHostDisconnect reason %s to host %s ", DescribeConnectReason( connectReason ), DescribeHostType( hostType ) );
     removeSession( sessionId, connectReason );
 }
 
@@ -1034,12 +1035,12 @@ bool HostBaseMgr::connectToHost( enum EHostType hostType, VxGUID& sessionId, std
         }
         else
         {
-            LogMsg( LOG_VERBOSE, "HostBaseMgr unknown connect reason %d-%s", connectReason, DescribeConnectReason( connectReason ) );
+            LogMsg( LOG_WARN, "HostBaseMgr unknown connect reason %d-%s", connectReason, DescribeConnectReason( connectReason ) );
         }
     }
     else
     {
-        LogMsg( LOG_VERBOSE, "HostBaseMgr host %s url is empty", DescribeHostType( hostType ) );
+        LogMsg( LOG_ERROR, "HostBaseMgr host %s url is empty", DescribeHostType( hostType ) );
         if( isAnnounceConnectReason( connectReason ) || isSearchConnectReason( connectReason ) || isJoinConnectReason( connectReason ) || 
             isLeaveConnectReason( connectReason ) || isUnJoinConnectReason( connectReason ) )
         {

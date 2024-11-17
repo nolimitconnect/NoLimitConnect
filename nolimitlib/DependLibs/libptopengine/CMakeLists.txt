@@ -112,7 +112,6 @@ list(APPEND ptopengine_SOURCES
     Network/NetworkStateOnlineThroughRelay.cpp
     Network/NetworkStateTestConnection.cpp
     Network/NetworkStateWaitForRelay.cpp
-    Network/RcMulticast.cpp
     NetworkMonitor/NetStatusAccum.cpp
     NetworkMonitor/NetworkMonitor.cpp
 	NetworkTest/IsPortOpenTest.cpp

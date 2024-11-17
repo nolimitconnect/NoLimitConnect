@@ -20,6 +20,7 @@ public:
     virtual void				callbackGuiHostedListUpdated( HostedId& hostedId, GuiHosted* guiHosted ) {};
     virtual void				callbackGuiHostedListRemoved( HostedId& hostedId ) {};
     virtual void				callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId ) {};
+    virtual void				callbackGuiHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) {};
     virtual void				callbackGuiHostedListSearchComplete( EHostType hostType, VxGUID& sessionId ) {};
 };
 

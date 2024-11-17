@@ -55,6 +55,7 @@ public:
 
     void                        updateHostedList( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
     void                        hostSearchResult( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, HostedInfo& hostedInfo );
+    void                        hostSearchStatus( enum EHostType hostType, VxGUID& searchSessionId, EConnectStatus connectStatus );
     void                        hostSearchCompleted( enum EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, ECommErr commErr );
 
     void                        onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent, PluginBase* plugin );
@@ -94,6 +95,7 @@ protected:
 
     void                        announceHostInfoUpdated( HostedInfo* hostedInfo );
     void                        announceHostInfoSearchResult( HostedInfo* hostedInfo, VxGUID& sessionId );
+    void                        announceHostInfoSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
     void                        announceHostInfoSearchComplete( EHostType hostType, VxGUID& sessionId );
     void                        announceHostInfoRemoved( enum EHostType hostType, VxGUID& onlineId );
 

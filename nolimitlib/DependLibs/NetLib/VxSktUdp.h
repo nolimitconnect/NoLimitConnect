@@ -20,8 +20,6 @@ public:
 
 	//! open a udp port
 	virtual long				udpOpen( InetAddress& oLclIp, uint16_t u16Port = 54321, bool enableReceiveThread = true );
-	virtual long				udpOpenBroadcast( std::string broadcastIp, uint16_t u16Port, bool enableReceiveThread = true );
-	virtual long				udpOpenMulticast( std::string multicastGroupIp, uint16_t u16Port, bool enableReceiveThread = true );
 	virtual long				udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port );
 
 	//! send data to given ip 

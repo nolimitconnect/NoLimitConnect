@@ -20,6 +20,7 @@ public:
     virtual void				callbackHostedInfoListUpdated( HostedInfo* hostedInfo ){};
     virtual void				callbackHostedInfoListRemoved( VxGUID& userOnlineId, enum EHostType hostType ){};
     virtual void				callbackHostedInfoListSearchResult( HostedInfo* hostedInfo, VxGUID& sessionId ) {};
+    virtual void				callbackHostedInfoListSearchStatus( enum EHostType hostType, VxGUID& sessionId, enum EConnectStatus connectStatus ) {};
     virtual void				callbackHostedInfoListSearchComplete( enum EHostType hostType, VxGUID& sessionId ) {};
 };
 

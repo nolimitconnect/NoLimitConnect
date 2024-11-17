@@ -56,6 +56,7 @@ public:
     virtual void				callbackUserRemoved( VxGUID& onlineId ) override {};
 
     virtual void				callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId ) override;
+    virtual void				callbackGuiHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus ) override;
     virtual void				callbackGuiHostedListSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
     virtual void				callbackGuiGroupieListSearchResult( GroupieId& groupieId, GuiGroupie* guiGroupie, VxGUID& sessionId ) override;
@@ -112,6 +113,7 @@ protected:
 	VxGUID                      m_NetworkHostOnlineId;
 
 	EHostType                   m_HostType{ eHostTypeUnknown };
+    EConnectStatus              m_ConnectStatus{ eConnectStatusUnknown };
 };
 
 

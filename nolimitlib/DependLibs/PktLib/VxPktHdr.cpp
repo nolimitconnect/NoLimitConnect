@@ -70,7 +70,7 @@ bool VxPktHdrPrefix::extractFromBlob( PktBlobEntry& blob )
 
 //============================================================================
 //=== return true if valid pkt type and length ===//
-bool VxPktHdrPrefix::isValidPkt( void )
+bool VxPktHdrPrefix::isValidPkt( bool logIfInvalid )
 {
 	uint16_t u16PktLen = getPktLength();
 	uint16_t u16PktType = getPktType();
@@ -80,7 +80,11 @@ bool VxPktHdrPrefix::isValidPkt( void )
 		|| (1 > u16PktType) 
 		|| (250 < u16PktType) )
     {
-        LogMsg( LOG_ERROR, "%s invalid packet len %d type %d", __func__, u16PktLen, u16PktType );
+        if( logIfInvalid )
+        {
+            LogMsg( LOG_ERROR, "%s invalid packet len %d type %d", __func__, u16PktLen, u16PktType );
+        }
+        
 		return false;
     }
 

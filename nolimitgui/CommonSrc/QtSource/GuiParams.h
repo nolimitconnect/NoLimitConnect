@@ -73,6 +73,7 @@ public:
     static QString				describeCommError( ECommErr commErr );
 
     static QString				describeConnectType( EConnectType connectType );
+    static QString				describeConnectStatus( EConnectStatus connectStatus );
 
     static QString				describeContentCatagory( EContentCatagory content );
     static QString				describeContentRating( EContentRating content );

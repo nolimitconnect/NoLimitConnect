@@ -210,15 +210,28 @@ void AppletJoinBase::callbackGuiHostedListSearchResult( HostedId& hostedId, GuiH
 }
 
 //============================================================================
+void AppletJoinBase::callbackGuiHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+{
+	m_ConnectStatus = connectStatus;
+	setStatusMsg( GuiParams::describeConnectStatus( connectStatus ) );
+}
+
+//============================================================================
 void AppletJoinBase::callbackGuiHostedListSearchComplete( EHostType hostType, VxGUID& sessionId )
 {
-	if( ui.m_GuiHostedListWidget->count() == 0 )
+	// do not overwrite last status message if was not a success
+	if( m_ConnectStatus == eConnectStatusUnknown ||
+		m_ConnectStatus == eConnectStatusReady ||
+		m_ConnectStatus == eConnectStatusConnectSuccess )
 	{
-		setStatusMsg( QObject::tr( "NO HOSTS FOUND" ) );
-	}
-	else
-	{
-		setStatusMsg( QObject::tr( "Host list from network host completed" ) );
+		if( ui.m_GuiHostedListWidget->count() == 0 )
+		{
+			setStatusMsg( QObject::tr( "NO HOSTS FOUND" ) );
+		}
+		else
+		{
+			setStatusMsg( QObject::tr( "Host list from network host completed" ) );
+		}
 	}
 }
 
