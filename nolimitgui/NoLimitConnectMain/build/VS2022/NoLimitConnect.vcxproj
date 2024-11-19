@@ -328,6 +328,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileItemInfo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileListReplySession.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\FileMediaSelectWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileShareItemWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileXferWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FriendList.cpp" />
@@ -350,6 +351,7 @@ libopenjpeg.lib
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHelpersAndroidPermissions.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHosted.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedByMeJoinMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedListItem.cpp" />
@@ -622,6 +624,7 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FileItemInfo.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\FileMediaSelectWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendListDelegate.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListMgr.h" />
@@ -1067,6 +1070,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\FileActionMenu.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileDisplayWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileFilterSelectWidget.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\FileMediaSelectWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileShareItemWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileXferWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FriendListDlg.ui" />

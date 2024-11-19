@@ -190,7 +190,7 @@ void AppSettings::setLastBrowseFilter( EFileFilterType fileFilterType )
 //============================================================================
 EFileFilterType AppSettings::getLastBrowseFilter( void )
 {
-	uint32_t filterType = 0;
+	int32_t filterType = 0;
 	getIniValue( getAppShortName(), "LastBrowseFilter", filterType, (int)eFileFilterVideo );
 	return (EFileFilterType)filterType;	
 }
@@ -205,7 +205,7 @@ void AppSettings::setLastFileOfferFilter( EFileFilterType fileFilterType )
 //============================================================================
 EFileFilterType AppSettings::getLastFileOfferFilter( void )
 {
-	uint32_t filterType = 0;
+	int32_t filterType = 0;
 	getIniValue( getAppShortName(), "LastFileOfferFilter", filterType, (int)eFileFilterVideo );
 	return (EFileFilterType)filterType;	
 }
@@ -220,7 +220,7 @@ void AppSettings::setLastFileShareViewFilter( EFileFilterType fileFilterType )
 //============================================================================
 EFileFilterType AppSettings::getLastFileShareViewFilter( void )
 {
-	uint32_t filterType = 0;
+	int32_t filterType = 0;
 	getIniValue( getAppShortName(), "LastShareViewFilter", filterType, (int)eFileFilterVideo );
 	return (EFileFilterType)filterType;	
 }
@@ -235,9 +235,45 @@ void AppSettings::setLastLibraryFilter( EFileFilterType fileFilterType )
 //============================================================================
 EFileFilterType AppSettings::getLastLibraryFilter( void )
 {
-	uint32_t filterType = 0;
+	int32_t filterType = 0;
 	getIniValue( getAppShortName(), "LastLibraryFilter", filterType, (int)eFileFilterVideo );
 	return (EFileFilterType)filterType;	
+}
+
+//============================================================================
+void AppSettings::setLastLibraryAudioDir( std::string& browseDir )
+{
+	setIniValue( getAppShortName(), "LibAudioDir", browseDir );
+}
+
+//============================================================================
+void AppSettings::getLastLibraryAudioDir( std::string& browseDir )
+{
+	getIniValue( getAppShortName(), "LibAudioDir", browseDir, "" );
+}
+
+//============================================================================
+void AppSettings::setLastLibraryImageDir( std::string& browseDir )
+{
+	setIniValue( getAppShortName(), "LibImageDir", browseDir );
+}
+
+//============================================================================
+void AppSettings::getLastLibraryImageDir( std::string& browseDir )
+{
+	getIniValue( getAppShortName(), "LibImageDir", browseDir, "" );
+}
+
+//============================================================================
+void AppSettings::setLastLibraryVideoDir( std::string& browseDir )
+{
+	setIniValue( getAppShortName(), "LibVideoDir", browseDir );
+}
+
+//============================================================================
+void AppSettings::getLastLibraryVideoDir( std::string& browseDir )
+{
+	getIniValue( getAppShortName(), "LibVideoDir", browseDir, "" );
 }
 
 //============================================================================

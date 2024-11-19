@@ -41,7 +41,7 @@ void GuiUserJoinMgr::onAppCommonCreated( void )
     connect( this, SIGNAL(signalInternalUserJoinOfferState(GroupieId,EJoinState)), this, SLOT(slotInternalUserJoinOfferState(GroupieId,EJoinState)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), this, SLOT(slotInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), Qt::QueuedConnection );
 
-    connect( this, SIGNAL(signalInternalUserJoinAHostStatus(EHostType,VxGUID&,EConnectStatus)), this, SLOT(slotInternalUserJoinAHostStatus(EHostType,VxGUID&,EConnectStatus)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserJoinAHostStatus(EHostType,VxGUID,EConnectStatus)), this, SLOT(slotInternalUserJoinAHostStatus(EHostType,VxGUID,EConnectStatus)), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getUserJoinMgr().addUserJoinMgrClient( this, true );
 }
@@ -625,7 +625,7 @@ void GuiUserJoinMgr::callbackUserJoinAHostStatus( EHostType hostType, VxGUID& se
 }
 
 //============================================================================
-void GuiUserJoinMgr::slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
+void GuiUserJoinMgr::slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus )
 {
     announceUserJoinAHostStatus( hostType, sessionId, connectStatus );
 }

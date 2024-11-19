@@ -9,6 +9,8 @@
 //============================================================================
 
 #include "AppCommon.h"
+#include "GuiHelpers.h"
+
 #include <GuiInterface/IAudioDefs.h>
 
 #include <BlobXferMgr/BlobInfo.h>
@@ -42,6 +44,7 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<EContentCatagory>( "EContentCatagory" );
 	qRegisterMetaType<EContentRating>( "EContentRating" );
 	qRegisterMetaType<EFileFilterType>( "EFileFilterType" );
+
 	qRegisterMetaType<EFriendState>( "EFriendState" );
 	qRegisterMetaType<EFriendViewType>( "EFriendViewType" );
 	qRegisterMetaType<EGenderType>( "EGenderType" );
@@ -53,7 +56,9 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<EHostType>( "EHostType" );
 	qRegisterMetaType<EInternetStatus>( "EInternetStatus" );
 	qRegisterMetaType<EIsPortOpenStatus>( "EIsPortOpenStatus" );
-	qRegisterMetaType<ERunTestStatus>( "ERunTestStatus" );
+
+	qRegisterMetaType<EMediaFileType>( "EMediaFileType" );
+	qRegisterMetaType<EMSessionAction>( "EMSessionAction" );
 	qRegisterMetaType<ENetAvailStatus>( "ENetAvailStatus" );
 	qRegisterMetaType<ENetworkStateType>( "ENetworkStateType" );
 
@@ -67,7 +72,8 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<EPluginType>( "EPluginType" );
 	qRegisterMetaType<EPushToTalkStatus>( "EPushToTalkStatus" );
 	qRegisterMetaType<ERandomConnectStatus>( "ERandomConnectStatus" );
-	qRegisterMetaType<EMSessionAction>( "EMSessionAction" );
+	qRegisterMetaType<ERunTestStatus>( "ERunTestStatus" );
+
 	qRegisterMetaType<EScanType>( "EScanType" );
 	qRegisterMetaType<ESndDef>( "ESndDef" );
 	qRegisterMetaType<EXferError>( "EXferError" );

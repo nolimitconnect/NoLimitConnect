@@ -3,7 +3,7 @@
  <class>AppletLibraryUi</class>
  <widget class="QWidget" name="AppletLibraryUi">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModality::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -78,102 +78,107 @@
        <number>2</number>
       </property>
       <property name="leftMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
-      <item>
-       <widget class="FileFilterSelectWidget" name="m_FileFilterSelectWidget" native="true"/>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>2</number>
-        </property>
-        <item>
-         <widget class="VxPushButton" name="m_AddFileButton">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>48</width>
-            <height>48</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="VxLabel" name="m_AddFileLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Add A File</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="VxPushButton" name="m_BrowseButton">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="VxLabel" name="m_BrowseFilesLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Browse For Files</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item>
        <widget class="QLabel" name="m_StatusLabel">
         <property name="text">
          <string notr="true"/>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="FileMediaSelectWidget" name="m_FileMediaSelectWidget" native="true"/>
+      </item>
+      <item>
+       <widget class="FileFilterSelectWidget" name="m_FileFilterSelectWidget" native="true"/>
+      </item>
+      <item>
+       <widget class="QFrame" name="m_BrowseFrame">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="VxPushButton" name="m_AddFileButton">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>48</width>
+             <height>48</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxLabel" name="m_AddFileLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Add A File</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxPushButton" name="m_BrowseButton">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VxLabel" name="m_BrowseFilesLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Browse For Files</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -186,10 +191,10 @@
       <item>
        <widget class="QListWidget" name="m_FileItemList">
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+         <enum>QFrame::Shadow::Plain</enum>
         </property>
         <property name="lineWidth">
          <number>0</number>
@@ -201,10 +206,10 @@
          </size>
         </property>
         <property name="verticalScrollMode">
-         <enum>QAbstractItemView::ScrollPerPixel</enum>
+         <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>
         </property>
         <property name="resizeMode">
-         <enum>QListView::Adjust</enum>
+         <enum>QListView::ResizeMode::Adjust</enum>
         </property>
         <property name="uniformItemSizes">
          <bool>true</bool>
@@ -231,6 +236,12 @@
    <class>FileFilterSelectWidget</class>
    <extends>QWidget</extends>
    <header>FileFilterSelectWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FileMediaSelectWidget</class>
+   <extends>QWidget</extends>
+   <header>FileMediaSelectWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

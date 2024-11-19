@@ -74,6 +74,12 @@ public:
 
 	void						setLastLibraryFilter( EFileFilterType fileFilterType );
 	EFileFilterType				getLastLibraryFilter( void );
+	void						setLastLibraryAudioDir( std::string& browseDir );
+	void						getLastLibraryAudioDir( std::string& browseDir );
+	void						setLastLibraryImageDir( std::string& browseDir );
+	void						getLastLibraryImageDir( std::string& browseDir );
+	void						setLastLibraryVideoDir( std::string& browseDir );
+	void						getLastLibraryVideoDir( std::string& browseDir );
 
 	void						setLastGalleryDir( std::string& galleryDir );
 	void						getLastGalleryDir( std::string& galleryDir );

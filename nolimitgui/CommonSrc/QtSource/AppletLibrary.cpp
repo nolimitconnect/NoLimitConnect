@@ -36,7 +36,6 @@
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
 
-
 #include "ui_AppletLibrary.h"
 
 //============================================================================
@@ -64,8 +63,12 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
     connect( ui.m_AddFileLabel, SIGNAL(clicked()), this, SLOT(slotAddFileLabelClicked()) );
     connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseButtonClicked()) );
     connect( ui.m_BrowseFilesLabel, SIGNAL(clicked()), this, SLOT(slotBrowseLabelClicked()) );
+    ui.m_BrowseFrame->setVisible( false ); // might remove browse altogether if select media browse works out
 
     connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
+
+    connect( ui.m_FileMediaSelectWidget, SIGNAL(signalFileMediaSelected(EMediaFileType)), this, SLOT(slotFileMediaSelected(EMediaFileType)) );
+
     statusMsg( "Requesting Library File List " );
     m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
     slotApplyFileFilter( m_eFileFilterType );
@@ -577,4 +580,105 @@ void AppletLibrary::statusMsg( QString strMsg )
 {
     //LogMsg( LOG_INFO, strMsg.toStdString().c_str() );
     ui.m_StatusLabel->setText( strMsg );
+}
+
+//============================================================================
+void AppletLibrary::slotFileMediaSelected( EMediaFileType mediaFileType )
+{
+    browseForFile( mediaFileType );
+}
+
+//============================================================================
+void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
+{
+    std::string lastDir;
+    switch( mediaFileType )
+    {
+    case eMediaFileVideo:
+        m_MyApp.getAppSettings().getLastLibraryVideoDir( lastDir );
+        break;
+    case eMediaFileAudio:
+        m_MyApp.getAppSettings().getLastLibraryAudioDir( lastDir );
+        break;
+    case eMediaFileImage:
+        m_MyApp.getAppSettings().getLastLibraryImageDir( lastDir );
+        break;
+    default:
+        QMessageBox::information( this, QObject::tr( "Error" ), QObject::tr( "Unknown Media Type" ), QMessageBox::Ok );
+        return;
+    }
+
+    QString startDir;
+    if( !lastDir.empty() )
+    {
+        startDir = lastDir.c_str();
+    }
+    
+    VxFileInfoBase fileInfo;
+    if( GuiHelpers::browseForFile( this, mediaFileType, fileInfo, startDir ) )
+    {
+        std::string fileNameAndPath = fileInfo.getFileNameAndPath();
+        std::string justPath = fileInfo.getFilePath();
+        std::string justName = fileInfo.getFileName();
+        if( !justPath.empty() )
+        {
+            switch( mediaFileType )
+            {
+            case eMediaFileVideo:
+                m_MyApp.getAppSettings().setLastLibraryVideoDir( justPath );
+                break;
+            case eMediaFileAudio:
+                m_MyApp.getAppSettings().setLastLibraryAudioDir( justPath );
+                break;
+            case eMediaFileImage:
+                m_MyApp.getAppSettings().setLastLibraryImageDir( justPath );
+                break;
+            default:
+                QMessageBox::information( this, QObject::tr( "Error" ), QObject::tr( "Unknown Media Type" ), QMessageBox::Ok );
+                return;
+            }
+        }
+        
+        //m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileNameAndPath, true );
+
+        // see if file is already a asset
+        AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
+        assetMgr.lockResources();
+        AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
+        if( assetInfo )
+        {
+            if( assetInfo->isInLibary() )
+            {
+                assetMgr.unlockResources();
+                QMessageBox::information( this, QObject::tr("Already in library"), QObject::tr( "File is already in library " ), QMessageBox::Ok );
+            }
+            else
+            {
+                assetInfo->setIsInLibary( true );
+                FileInfo fileInfoInLibrary =  assetInfo->getFileInfo();
+                assetMgr.unlockResources();
+
+                addFile( fileInfoInLibrary );
+            }
+        }
+        else
+        {
+            assetMgr.unlockResources();
+
+            AssetInfo newAsset( fileInfo );
+            newAsset.setIsInLibary( true );
+
+            AssetBaseInfo* createdAsset{ nullptr };
+            bool result = assetMgr.addAsset( newAsset, createdAsset );
+            if( result && createdAsset )
+            {
+                FileInfo fileInfoInLibrary = createdAsset->getFileInfo();
+                addFile( fileInfoInLibrary );
+            }
+            else
+            {
+                QMessageBox::information( this, QObject::tr("File Error"), QObject::tr( "Could not add file to library " ), QMessageBox::Ok );
+            }
+        }
+    }
 }

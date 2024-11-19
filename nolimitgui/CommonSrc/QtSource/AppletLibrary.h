@@ -10,10 +10,11 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include <Plugins/FileInfo.h>
-#include "ToGuiFileXferInterface.h"
 
+#include "GuiHelpers.h"
+#include "ToGuiFileXferInterface.h"
 #include <PktLib/VxCommon.h>
+#include <Plugins/FileInfo.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -50,6 +51,8 @@ private slots:
 
     void						slotRequestFileList( void );
     void						slotApplyFileFilter( EFileFilterType eFileFilter );
+    void						slotFileMediaSelected( EMediaFileType mediaFileType );
+
     void						slotAddFileButtonClicked( void );
     void						slotAddFileLabelClicked( void );
     void						slotBrowseButtonClicked( void );
@@ -84,6 +87,8 @@ protected:
     void                        updateStorageSpace( std::string fileName );
 
     void                        statusMsg( QString strMsg );
+
+    void                        browseForFile( EMediaFileType mediaFileType );
 
     //=== vars ===//
     Ui::AppletLibraryUi&	    ui;

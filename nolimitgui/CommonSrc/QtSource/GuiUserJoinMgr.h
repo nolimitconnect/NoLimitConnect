@@ -83,7 +83,7 @@ signals:
     void                        signalInternalUserJoinOfferState( GroupieId groupieId, EJoinState hostOfferState );
     void                        signalInternalUserJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId );
 
-    void				        signalInternalUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
+    void				        signalInternalUserJoinAHostStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus );
 
 private slots:
     void                        slotInternalUserJoinRequested( UserJoinInfo* userJoinInfo );
@@ -95,7 +95,7 @@ private slots:
 
     void                        slotReconnectToLastConnectedHost( void );
 
-    void				        slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
+    void				        slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus );
 
 protected:
     void                        removeUserJoin( GroupieId& groupieId );

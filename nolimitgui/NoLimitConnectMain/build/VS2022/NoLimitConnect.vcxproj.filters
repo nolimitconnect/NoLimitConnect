@@ -1136,6 +1136,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiHostedListMgr.h">
       <Filter>Source Files\GuiHosted</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\FileMediaSelectWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -2281,6 +2284,12 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostedByMeJoinMgr.cpp">
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\FileMediaSelectWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHelpersAndroidPermissions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -3131,6 +3140,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestUpnp.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\FileMediaSelectWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

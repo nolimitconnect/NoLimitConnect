@@ -226,6 +226,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/FileActionMenu.h
     CommonSrc/QtSource/FileFilterSelectWidget.h
     CommonSrc/QtSource/FileListReplySession.h
+    CommonSrc/QtSource/FileMediaSelectWidget.h
     CommonSrc/QtSource/FileShareItemWidget.h   
     CommonSrc/QtSource/FileXferWidget.h
 
@@ -623,9 +624,10 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/EventsQtToNlc.cpp
     CommonSrc/QtSource/FileActionBarWidget.cpp
     CommonSrc/QtSource/FileActionMenu.cpp
-     CommonSrc/QtSource/FileFilterSelectWidget.cpp
+    CommonSrc/QtSource/FileFilterSelectWidget.cpp
     CommonSrc/QtSource/FileItemInfo.cpp
     CommonSrc/QtSource/FileListReplySession.cpp
+    CommonSrc/QtSource/FileMediaSelectWidget.cpp
     CommonSrc/QtSource/FileShareItemWidget.cpp
    
     CommonSrc/QtSource/FileXferWidget.cpp
@@ -643,6 +645,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiGroupieListSession.cpp
     CommonSrc/QtSource/GuiGroupieListWidget.cpp
     CommonSrc/QtSource/GuiHelpers.cpp
+    CommonSrc/QtSource/GuiHelpersAndroidPermissions.cpp
     CommonSrc/QtSource/GuiHosted.cpp
     CommonSrc/QtSource/GuiHostedListItem.cpp
     CommonSrc/QtSource/GuiHostedListMgr.cpp
@@ -935,6 +938,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/FileActionMenu.ui
     CommonSrc/Forms/FileDisplayWidget.ui
     CommonSrc/Forms/FileFilterSelectWidget.ui
+    CommonSrc/Forms/FileMediaSelectWidget.ui
     CommonSrc/Forms/FileShareItemWidget.ui
     CommonSrc/Forms/FileXferWidget.ui
     CommonSrc/Forms/FriendListDlg.ui

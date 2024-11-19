@@ -200,10 +200,6 @@ public:
     static uint64_t             saveToPngFile( QImage& image, QString& fileName ); // returns file length
     static uint64_t             saveToPngFile( QPixmap& pixmap, QString& fileName ); // returns file length
 
-    static bool                 requestFilePermission( enum EMediaFileType permissionType );
-    static void                 showFilePermissionError( void );
-    static bool                 requestPermission( QString permissionName );
-
     static void                 fillHostType( QComboBox* comboBox, bool excludePeerHost = true );
     static EHostType            comboIdxToHostType( int comboIdx );
 
@@ -215,5 +211,10 @@ public:
 
     static std::string          getRealFileName( QString selectedFile );
 
+    // android permissions
+    static bool                 havePermission( QString permissionName );
+    static bool                 requestFilePermission( enum EMediaFileType permissionType, bool showUserMsgIfDenied = true );
+    static bool                 requestPermission( QString permissionName );
+    static void                 showFilePermissionError( void );
 };
 
