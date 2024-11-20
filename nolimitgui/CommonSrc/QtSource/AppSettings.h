@@ -99,6 +99,12 @@ public:
     void						setLastHostSearchContentRating( ESearchType searchType, EContentRating contentRating );
     void						getLastHostSearchContentRating( ESearchType searchType, EContentRating& contentRating );
 
+	void						setMicMuted( bool isMuted );
+	bool						getMicMuted( void );
+
+	void						setSpeakerMuted( bool isMuted );
+	bool						getSpeakerMuted( void );
+
 	void						setCamSourceId( uint32_t camId );
 	uint32_t					getCamSourceId( void );
 

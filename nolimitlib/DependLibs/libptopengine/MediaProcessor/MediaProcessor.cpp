@@ -732,7 +732,6 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 												uint32_t		jpgDataLen,
 												int				motion0To100000 )
 {
-	m_Engine.callbackVideoJpgSmall( onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
 	if( m_VideoJpgSmallList.size() )
 	{
 		std::vector<MediaClient>::iterator iter;
@@ -745,9 +744,8 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 		#endif // DEBUG_PROCESSOR_LOCK
 		doVideoClientRemovals( m_VideoClientRemoveList );
 
-		for( iter = m_VideoJpgSmallList.begin(); iter != m_VideoJpgSmallList.end(); ++iter )
+		for( auto client : m_VideoJpgSmallList )
 		{
-			MediaClient& client = (*iter);
 			client.m_Callback->callbackVideoJpgSmall( onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
 		}
 

@@ -8,13 +8,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "FriendListEntryWidget.h"
 #include "FriendListWidget.h"
 
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "FriendListEntryWidget.h"
+#include "GuiHelpers.h"
+#include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -203,8 +204,7 @@ void FriendListWidget::slotFriendMenuButtonClicked( FriendListEntryWidget* item 
 	m_SelectedFriend = widgetToFriend( item );
 	if( m_SelectedFriend )
 	{
-		AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet(eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent())));
-		// emit signalFriendClicked( m_SelectedFriend );
+		AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ) );
         if( popupMenu )
         {
             popupMenu->showFriendMenu( m_SelectedFriend );

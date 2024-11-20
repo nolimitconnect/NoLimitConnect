@@ -8,17 +8,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "GuiOfferListItem.h"
+
+#include "AppCommon.h"
+#include "AppGlobals.h"
+#include "AppletPopupMenu.h"
+#include "GuiHelpers.h"
+#include "GuiParams.h"
 #include "GuiUser.h"
 #include "GuiOfferListWidget.h"
 #include "GuiOfferSession.h"
-
-#include "MyIcons.h"
-#include "AppletPopupMenu.h"
-#include "AppGlobals.h"
-#include "AppCommon.h"
-#include "GuiParams.h"
+#include "MyIconsDefs.h"
 #include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
@@ -534,7 +534,7 @@ void GuiOfferListWidget::onMenuButtonClicked( GuiOfferListItem* offerItem )
         GuiOfferSession* offerSession = offerItem->getOfferSession();
         if( offerSession )
         {
-            AppletPopupMenu* popupMenu = dynamic_cast< AppletPopupMenu* >( m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast< QWidget* >( this->parent() ) ) );
+            AppletPopupMenu* popupMenu = dynamic_cast< AppletPopupMenu* >( m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ) );
             if( popupMenu )
             {
                 if( getAppletType() == eAppletMultiMessenger )

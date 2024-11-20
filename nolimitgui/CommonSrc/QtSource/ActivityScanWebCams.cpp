@@ -10,10 +10,11 @@
 
 #include "ActivityScanWebCams.h"
 
-#include "AppletPopupMenu.h"
 #include "AppCommon.h"
+#include "AppletPopupMenu.h"
+#include "GuiHelpers.h"
 #include "GuiPlayerMgr.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "VxLabel.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -391,7 +392,7 @@ void ActivityScanWebCams::onCountdownTimer( void )
 //============================================================================
 void ActivityScanWebCams::slotIdentMenuClicked( void )
 {
-	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
 	if( popupMenu )
 	{
 		popupMenu->showFriendMenu( m_HisIdent );

@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "FriendListEntryWidget.h"
+
 #include "AppCommon.h"
 #include "AppletMgr.h"
 #include "AppletPopupMenu.h"
+#include "GuiHelpers.h"
 #include "GuiUser.h"
 
 //============================================================================
@@ -63,7 +65,7 @@ void FriendListEntryWidget::onIdentMenuButtonClicked()
 	GuiUser* selectedFriend = getUser();
 	if( selectedFriend )
 	{
-		AppletPopupMenu* applet = dynamic_cast<AppletPopupMenu*>(GetAppInstance().getAppletMgr().launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(parent()) ));
+		AppletPopupMenu* applet = dynamic_cast<AppletPopupMenu*>(GetAppInstance().getAppletMgr().launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
 		if( applet )
 		{
 			applet->showPersonOfferMenu( selectedFriend );

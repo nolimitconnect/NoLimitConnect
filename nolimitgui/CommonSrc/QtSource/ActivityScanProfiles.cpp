@@ -8,14 +8,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget> // must be declared first or Qt 6.2.4 will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-
 #include "ActivityScanProfiles.h"
 
 #include "AppGlobals.h"
 #include "AppCommon.h"
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
+#include "GuiHelpers.h"
+#include "MyIconsDefs.h"
 
 #include <GuiInterface/IFromGui.h>
 
@@ -312,7 +311,7 @@ void ActivityScanProfiles::onCountdownTimer( void )
 //============================================================================
 void ActivityScanProfiles::slotFriendMenuClicked( void )
 {
-	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
 	if( popupMenu )
 	{
 		popupMenu->showFriendMenu( m_Ident );

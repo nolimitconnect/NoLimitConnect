@@ -10,14 +10,15 @@
 
 
 #include "GuiHostedListItem.h"
-#include "GuiHostedListWidget.h"
-#include "GuiHostedListSession.h"
 
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "GuiHostedListWidget.h"
+#include "GuiHostedListSession.h"
+#include "MyIconsDefs.h"
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -420,8 +421,7 @@ void GuiHostedListWidget::onMenuButtonClicked( GuiHostedListItem* hostItem )
         GuiHostedListSession* hostSession = hostItem->getHostSession();
         if( hostSession )
         {
-            // emit signalMenuButtonClicked( hostSession, hostItem );
-            AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+            AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ) );
             if( popupMenu )
             {
                 popupMenu->showHostedListSessionMenu( hostSession );

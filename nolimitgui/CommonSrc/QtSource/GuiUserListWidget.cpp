@@ -10,15 +10,17 @@
 
 
 #include "GuiUserListItem.h"
+
+#include "AppCommon.h"
+#include "AppGlobals.h"
+#include "AppletPopupMenu.h"
+#include "GuiHelpers.h"
+#include "GuiMemberActiveMgr.h"
+#include "GuiParams.h"
 #include "GuiUser.h"
 #include "GuiUserListWidget.h"
 #include "GuiUserSessionBase.h"
 
-#include "AppletPopupMenu.h"
-#include "AppGlobals.h"
-#include "AppCommon.h"
-#include "GuiMemberActiveMgr.h"
-#include "GuiParams.h"
 #include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
@@ -676,7 +678,7 @@ void GuiUserListWidget::onMenuButtonClicked( GuiUserListItem* userItem )
         GuiUserSessionBase* userSession = userItem->getUserSession();
         if( userSession )
         {
-            AppletPopupMenu* popupMenu = dynamic_cast< AppletPopupMenu* >( m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast< QWidget* >( this->parent() ) ) );
+            AppletPopupMenu* popupMenu = dynamic_cast< AppletPopupMenu* >( m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ) );
             if( popupMenu )
             {
                 if( getAppletType() == eAppletMultiMessenger )

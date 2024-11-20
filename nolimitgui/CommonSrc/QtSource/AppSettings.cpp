@@ -427,6 +427,36 @@ uint32_t AppSettings::getCamRotation( uint32_t camId )
 }
 
 //============================================================================
+void AppSettings::setMicMuted( bool isMuted )
+{
+	uint32_t isMutedVal = isMuted ? 1 : 0;
+	setIniValue( getAppShortName(), "MicMuted", isMutedVal );
+}
+
+//============================================================================
+bool AppSettings::getMicMuted( void )
+{
+	uint32_t isMutedVal = 0;
+	getIniValue( getAppShortName(), "MicMuted", isMutedVal, 0 );
+	return isMutedVal ? true : false;
+}
+
+//============================================================================
+void AppSettings::setSpeakerMuted( bool isMuted )
+{
+	uint32_t isMutedVal = isMuted ? 1 : 0;
+	setIniValue( getAppShortName(), "SpeakerMuted", isMutedVal );
+}
+
+//============================================================================
+bool AppSettings::getSpeakerMuted( void )
+{
+	uint32_t isMutedVal = 0;
+	getIniValue( getAppShortName(), "SpeakerMuted", isMutedVal, 0 );
+	return isMutedVal ? true : false;
+}
+
+//============================================================================
 void AppSettings::setCamSourceId( uint32_t camId )
 {
 	setIniValue( getAppShortName(), "CamSourceId", camId );

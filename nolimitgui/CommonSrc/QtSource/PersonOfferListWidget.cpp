@@ -10,12 +10,12 @@
 
 #include "PersonOfferListWidget.h"
 
-#include "FriendListEntryWidget.h"
-
-#include "AppletPopupMenu.h"
-#include "AppGlobals.h"
 #include "AppCommon.h"
-#include "MyIcons.h"
+#include "AppGlobals.h"
+#include "AppletPopupMenu.h"
+#include "FriendListEntryWidget.h"
+#include "GuiHelpers.h"
+#include "MyIconsDefs.h"
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -207,7 +207,7 @@ void PersonOfferListWidget::slotFriendMenuButtonClicked( FriendListEntryWidget* 
 	{
 		emit signalFriendClicked( m_SelectedFriend );
 
-		AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+		AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
 		if( popupMenu )
 		{
 			popupMenu->showFriendMenu( m_SelectedFriend );

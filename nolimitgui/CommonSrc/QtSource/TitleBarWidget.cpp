@@ -10,8 +10,9 @@
 
 #include "TitleBarWidget.h"
 
-#include "AppletMgr.h"
 #include "AppCommon.h"
+#include "AppletMgr.h"
+#include "AppSettings.h"
 #include "AppletPopupMenu.h"
 #include "GuiOfferMgr.h"
 #include "GuiHelpers.h"
@@ -77,6 +78,9 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 	ui.m_NoLimitAppButton->setUseTheme( false );
 	ui.m_NoLimitAppButton->setProperty( "NoLimitConnectIcon", true );
 	ui.m_NoLimitAppButton->setAppIcon( eMyIconApp, parent );
+
+    m_MutedMic = m_MyApp.getAppSettings().getMicMuted();
+    m_MutedSpeaker = m_MyApp.getAppSettings().getSpeakerMuted();
 
 	setPowerButtonIcon();
 	setHomeButtonIcon();
@@ -347,6 +351,7 @@ void TitleBarWidget::slotMuteMicButtonClicked( void )
 {
 	m_MutedMic = !m_MutedMic;
     m_MyApp.fromGuiMuteMicrophone( m_MutedMic );
+    m_MyApp.getAppSettings().setMicMuted( m_MutedMic );
 }
 
 //============================================================================
@@ -354,6 +359,7 @@ void TitleBarWidget::slotMuteSpeakerButtonClicked( void )
 {
 	m_MutedSpeaker = !m_MutedSpeaker;
     m_MyApp.fromGuiMuteSpeaker( m_MutedSpeaker );
+    m_MyApp.getAppSettings().setSpeakerMuted( m_MutedSpeaker );
 }
 
 //============================================================================

@@ -8,17 +8,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
-#include "GuiUserJoinListItem.h"
 #include "GuiUserJoinListWidget.h"
-#include "GuiUserJoinMgr.h"
-#include "GuiUserJoinSession.h"
 
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "GuiUserJoinListItem.h"
+#include "GuiUserJoinMgr.h"
+#include "GuiUserJoinSession.h"
+#include "MyIconsDefs.h"
 #include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
@@ -208,7 +208,7 @@ void GuiUserJoinListWidget::onMenuButtonClicked( GuiUserJoinListItem* userItem )
 
             if( userSession->getGuiUser() )
             {
-                AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+                AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
                 if( popupMenu )
                 {
                     popupMenu->showFriendMenu( userSession->getGuiUser() );

@@ -967,26 +967,15 @@ RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr ) 		// packet to send
     // filter out im alive packets to declutter long
     if( pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REPLY && pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REQ )
     {
-#if defined(DEBUG)
-        LogMsg( LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
-                getSocketIdText().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
-                pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
-				getPeerOnlineId().isVxGUIDValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
-#else
         LogModule( eLogPkt, LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
                 getSocketIdText().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
                 pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
 				getPeerOnlineId().isVxGUIDValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
-#endif // defined(DEBUG)
     }
 
 	if( getPeerOnlineId().isVxGUIDValid() && getPeerOnlineId() != pktHdr->getDestOnlineId() )
 	{
-#if defined(DEBUG)
-		LogMsg( LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
-#else
 		LogModule( eLogPkt, LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
-#endif // defined(DEBUG)
 	}
 
 	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength() );

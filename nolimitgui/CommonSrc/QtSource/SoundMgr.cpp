@@ -89,9 +89,15 @@ bool SoundMgr::sndMgrStartup( void )
 	audioIoSystemStartup();
 
 	m_MyApp.wantToGuiHardwareCtrlCallbacks( this, true );
+
+	bool mutedMic = m_MyApp.getAppSettings().getMicMuted();
+	m_MyApp.fromGuiMuteMicrophone( mutedMic );
+
+	bool mutedSpeaker = m_MyApp.getAppSettings().getSpeakerMuted();
+	m_MyApp.fromGuiMuteSpeaker( mutedSpeaker );
+
 	return true;
 }
-
 
 //============================================================================
 bool SoundMgr::sndMgrShutdown( void )
@@ -104,7 +110,6 @@ bool SoundMgr::sndMgrShutdown( void )
 //============================================================================
 VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 {
-
 #ifdef DISABLE_AUDIO
     return 0;
 #endif // DISABLE_AUDIO

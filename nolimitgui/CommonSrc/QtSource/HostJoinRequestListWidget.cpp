@@ -326,7 +326,7 @@ void HostJoinRequestListWidget::onMenuButtonClicked( HostJoinRequestListItem* ho
         if( hostSession )
         {
             // emit signalMenuButtonClicked( hostSession, hostItem );
-            AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+            AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
             if( popupMenu )
             {
                 popupMenu->showHostSessionMenu( hostSession );

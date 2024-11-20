@@ -583,7 +583,7 @@ void AppletTestAndDebug::slotTestChooseUserButtonClicked( void )
 //============================================================================
 void AppletTestAndDebug::slotDeleteDbButtonClicked( void )
 {
-	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+	AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
 	if( popupMenu )
 	{
 		popupMenu->showDeleteDbMenu();

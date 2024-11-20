@@ -12,11 +12,12 @@
 #include "GuiGroupieListWidget.h"
 #include "GuiGroupieListSession.h"
 
-#include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
 #include "GuiParams.h"
+#include "MyIconsDefs.h"
 #include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
@@ -398,7 +399,7 @@ void GuiGroupieListWidget::onMenuButtonClicked( GuiGroupieListItem* hostItem )
         if( groupieSession )
         {
             // emit signalMenuButtonClicked( groupieSession, hostItem );
-            AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, dynamic_cast<QWidget*>(this->parent()) ));
+            AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
             if( popupMenu )
             {
                 popupMenu->showGroupieListSessionMenu( groupieSession, true );

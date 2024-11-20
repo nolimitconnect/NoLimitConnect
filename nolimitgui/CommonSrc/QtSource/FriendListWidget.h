@@ -75,7 +75,7 @@ protected:
 	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;
 	EFriendViewType				m_eFriendViewType;
-    GuiUser*					m_SelectedFriend;
+	GuiUser*					m_SelectedFriend{ nullptr };
 	VxTimer						m_ClickEventTimer; // avoid duplicate clicks
 	VxGUID						m_ViewingOnlineId;
 	bool						m_IsCurrentlyViewing;

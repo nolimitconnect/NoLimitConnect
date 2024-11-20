@@ -26,8 +26,7 @@ void IdentOfferWidget::onIdentMenuButtonClicked( void )
 {
     if( getGuiUser() )
     {
-        QWidget* parentFrame = GuiHelpers::getParentPageFrame( dynamic_cast<QWidget*>(this->parent()) );
-        AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, parentFrame ) );
+        AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ) );
         if( popupMenu )
         {
             popupMenu->showFriendMenu( getGuiUser() );
