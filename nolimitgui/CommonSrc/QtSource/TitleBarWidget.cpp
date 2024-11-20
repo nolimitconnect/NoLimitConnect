@@ -153,13 +153,16 @@ TitleBarWidget::~TitleBarWidget()
 //============================================================================
 void TitleBarWidget::wantCallbacks( bool enable )
 {
-    m_CallbacksRequested = enable;
-    m_MyApp.wantToGuiHardwareCtrlCallbacks( this, enable );
-    m_MyApp.wantToGuiActivityCallbacks( this, enable );
-    m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, enable );
-    m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, enable );
-    m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable );
-    m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, enable );
+    if( enable != m_CallbacksRequested )
+    {
+        m_CallbacksRequested = enable;
+        m_MyApp.wantToGuiHardwareCtrlCallbacks( this, enable );
+        m_MyApp.wantToGuiActivityCallbacks( this, enable );
+        m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, enable );
+        m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, enable );
+        m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable );
+        m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, enable );
+    }
 }
 
 //============================================================================

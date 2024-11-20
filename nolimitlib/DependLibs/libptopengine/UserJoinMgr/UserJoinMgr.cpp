@@ -191,7 +191,7 @@ void UserJoinMgr::announceUserJoinRequested( UserJoinInfo* userJoinInfo )
 {
     if( userJoinInfo )
     {
-        LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinRequested state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
+        LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::announceUserJoinRequested state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
 
         lockClientList();
@@ -222,7 +222,7 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
             m_Engine.getMemberActiveMgr().updateMemberActive( userJoinInfo->getGroupieId(), true );
         }
 
-        LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinUpdated state %s %s", DescribeJoinState( joinState ),
+        LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::announceUserJoinUpdated state %s %s", DescribeJoinState( joinState ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
         lockClientList();
         std::vector<UserJoinCallbackInterface *>::iterator iter;

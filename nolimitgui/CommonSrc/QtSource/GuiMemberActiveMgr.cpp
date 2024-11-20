@@ -89,7 +89,7 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "MemberActiveMgr::updateMemberActive groupieId %s active %d", GetAppInstance().describeGroupieId( groupieId ).c_str(), isActive );
+    LogModule( eLogMembership, LOG_VERBOSE, "MemberActiveMgr::updateMemberActive groupieId %s active %d", GetAppInstance().describeGroupieId( groupieId ).c_str(), isActive );
 
     bool wasMember = isMemberOfHostType( groupieId.getHostType(), groupieId.getUserOnlineId() );
 

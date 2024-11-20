@@ -216,10 +216,11 @@ void AppletMultiMessenger::callbackOnlineStatusChange( GuiUser* guiUser, bool is
 
     if( m_UserMgr.isUserInSession( guiUser->getMyOnlineId() ) || guiUser->isFriend() )
 	{
-		QString statMsg = guiUser->getOnlineName().c_str();
-		statMsg +=  m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ? QObject::tr( " is online" ) : QObject::tr( " went offline" );
-		setStatusMsg( statMsg );
-
+		//QString statMsg = guiUser->getOnlineName().c_str();
+		//statMsg +=  m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ? QObject::tr( " is online" ) : QObject::tr( " went offline" );
+		//setStatusMsg( statMsg );
+		LogModule( eLogUsers, LOG_DEBUG, "AppletMultiMessenger::%s user %s %s", __func__,
+                    guiUser->getOnlineName().c_str(), m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ?  " is online" : " went offline");
 		checkForSendAccess( false );
 	}
 }
@@ -278,7 +279,7 @@ bool AppletMultiMessenger::checkForSendAccess( bool sendOfferIfPossible )
 void AppletMultiMessenger::showEvent( QShowEvent* ev )
 {
 	AppletPeerBase::showEvent( ev );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
     if( m_HisIdent )
     {
         m_MyApp.toGuiAssetAction( eAssetActionRxViewingMsg, m_HisIdent->getMyOnlineId(), 1 );
@@ -293,7 +294,7 @@ void AppletMultiMessenger::hideEvent( QHideEvent* ev )
         m_MyApp.toGuiAssetAction( eAssetActionRxViewingMsg, m_HisIdent->getMyOnlineId(), 0 );
     }
 
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
     if( ePluginTypeInvalid != m_ePluginType )
     {
         m_MyApp.getPluginMgr().setPluginVisible( m_ePluginType, false );
@@ -536,4 +537,14 @@ bool AppletMultiMessenger::sendRandConnectSelected( VxGUID& onlineId, bool isSel
 	}
 
 	return getMyApp().getEngine().fromGuiSendRandConnectSelected( onlineId, isSelected );
+}
+
+//============================================================================
+void AppletMultiMessenger::wantActivityCallbacks( bool enable )
+{
+	if( enable != m_ActivityCallbacksRequested )
+	{
+		m_ActivityCallbacksRequested = enable;
+		m_MyApp.wantToGuiActivityCallbacks( this, enable );
+	}	
 }

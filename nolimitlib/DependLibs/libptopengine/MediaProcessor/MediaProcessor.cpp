@@ -1458,6 +1458,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 											EAppModule					appModule,
 											bool						wantInput )
 {
+	LogModule( eLogWebCam, LOG_DEBUG, "%s %s wantInput %d", __func__, DescribeAppModule( appModule ), wantInput );
 	if( false == wantInput )
 	{
 		// user wants to be removed but is probably being called from a callback function.
@@ -1465,7 +1466,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 		m_VideoRemoveMutex.lock();
 		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, mediaType, callback ) )
 		{
-			m_VideoClientRemoveList.push_back( ClientToRemove( mediaType, callback, appModule ) );
+			m_VideoClientRemoveList.emplace_back( ClientToRemove( mediaType, callback, appModule ) );
 			m_VideoSemaphore.signal();
 		}
 
@@ -1493,12 +1494,15 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 	{
 	case eMediaInputVideoPkts:
 		clientList = &m_VideoPktsList;
+		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoPkts %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
 		break;
 	case eMediaInputVideoJpgSmall:
 		clientList = &m_VideoJpgSmallList;
+		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpgSmall %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
 		break;
 	case eMediaInputVideoJpgBig:
 		clientList = &m_VideoJpgBigList;
+		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpgBig %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
 		break;
 
 	default:
@@ -1521,7 +1525,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 	}
 
 	MediaClient newClient( mediaType, callback );
-	clientList->push_back( newClient );
+	clientList->emplace_back( newClient );
 
 	int idsInVidPktListCnt = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
 	#ifdef DEBUG_PROCESSOR_LOCK
@@ -1535,7 +1539,7 @@ void MediaProcessor::wantVideoMediaInput(	EMediaInputType				mediaType,
 			testJpgSpeed();
 		#endif // TEST_JPG_SPEED
 		m_VidCaptureEnabled = true;
-		LogMsg( LOG_INFO, "starting video capture" );
+		LogModule( eLogWebCam, LOG_INFO, "starting video capture" );
 		IToGui::getIToGui().toGuiWantVideoCapture( appModule, true );
 	}
 }

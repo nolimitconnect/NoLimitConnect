@@ -41,7 +41,7 @@ static QString describeLogModule( ELogModule logModule )
 
     case eLogNetService: return QObject::tr( "Log Net Service" );
     case eLogThread : return QObject::tr( "Log Thread" );
-    case eLogStorage: return QObject::tr( "Log Storage" );
+    case eLogWebCam: return QObject::tr( "Log Web Cam" );
     case eLogAssets: return QObject::tr( "Log Assets" );
 
     case eLogStartup: return QObject::tr( "Log Startup" );
@@ -51,7 +51,7 @@ static QString describeLogModule( ELogModule logModule )
 
     case eLogPlugins: return QObject::tr( "Log Plugins" );
     case eLogHostJoin: return QObject::tr( "Log Host Join" );
-    case eLogClients: return QObject::tr( "Log Clients" );
+    case eLogUsers: return QObject::tr( "Log Users" );
     case eLogHostedUser: return QObject::tr( "Log Hosted User" );
 
     case eLogPortForward: return QObject::tr( "Log Port Forward" );

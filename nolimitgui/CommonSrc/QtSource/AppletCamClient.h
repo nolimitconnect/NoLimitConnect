@@ -50,9 +50,8 @@ protected:
     virtual void				closeEvent( QCloseEvent* ev ) override;
 
     void						resizeBitmapToFitScreen( QLabel* VideoScreen, QImage& oPicBitmap );
-    void						setMuteSpeakerVisibility( bool visible );
-    void						setMuteMicrophoneVisibility( bool visible );
-    void						setCameraButtonVisibility( bool visible );
+
+    void                        wantActivityCallbacks( bool enable );
 
     //=== vars ===//
     Ui::AppletCamClientUi&      ui;
@@ -63,6 +62,7 @@ protected:
     GuiUser*                    m_CamFeedIdent{ nullptr };
     VxGUID                      m_CamFeedId;
     bool                        m_CamFeedStarted{ false };
+    bool                        m_ActivityCallbacksRequested{ false };
 };
 
 

@@ -613,7 +613,7 @@ void GroupieListMgr::groupieSearchCompleted( EHostType hostType, VxGUID& searchS
     }
     else
     {
-        LogMsg( LOG_VERBOSE, "GroupieListMgr::hostSearchCompleted with no errors" );
+        LogModule( eLogHostSearch, LOG_VERBOSE, "GroupieListMgr::hostSearchCompleted with no errors" );
     }
 
     m_Engine.getConnectionMgr().doneWithConnection( sktBase->getSocketId(), searchSessionId, netIdent->getMyOnlineId(), this, eConnectReasonNetworkHostListSearch );
@@ -622,14 +622,14 @@ void GroupieListMgr::groupieSearchCompleted( EHostType hostType, VxGUID& searchS
 //============================================================================
 void GroupieListMgr::onGroupieAnnounceAdded( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-    LogMsg( LOG_VERBOSE, "GroupieListMgr::onGroupieAnnounceAdded %s from %s ", DescribeHostType( hostType), netIdent->getOnlineName() );
+    LogModule( eLogHostSearch, LOG_VERBOSE, "GroupieListMgr::onGroupieAnnounceAdded %s from %s ", DescribeHostType( hostType), netIdent->getOnlineName() );
     updateGroupieInfo( hostType, groupieInfo, netIdent, sktBase );
 }
 
 //============================================================================
 void GroupieListMgr::onGroupieAnnounceUpdated( EHostType hostType, GroupieInfo& groupieInfo, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-    LogMsg( LOG_VERBOSE, "GroupieListMgr::onGroupieAnnounceUpdated %s from %s ", DescribeHostType( hostType ), netIdent->getOnlineName() );
+    LogModule( eLogHostSearch, LOG_VERBOSE, "GroupieListMgr::onGroupieAnnounceUpdated %s from %s ", DescribeHostType( hostType ), netIdent->getOnlineName() );
     updateGroupieInfo( hostType, groupieInfo, netIdent, sktBase );
 }
 
@@ -661,7 +661,7 @@ bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupie
         }
     }
 
-    LogMsg( LOG_VERBOSE, "GroupieListMgr::hostSearchResult title %s desc %s time %lld host url ip %s", 
+    LogModule( eLogHostSearch, LOG_VERBOSE, "GroupieListMgr::hostSearchResult title %s desc %s time %lld host url ip %s", 
             groupieInfo.getGroupieTitle().c_str(), groupieInfo.getGroupieDescription().c_str(), groupieInfo.getGroupieInfoTimestamp(), 
             groupieInfo.getGroupieUrl().c_str() );
 

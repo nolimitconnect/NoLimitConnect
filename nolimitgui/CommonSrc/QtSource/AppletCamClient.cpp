@@ -33,7 +33,7 @@ AppletCamClient::AppletCamClient( AppCommon& app, QWidget* parent )
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet()) );
 
 	m_MyApp.activityStateChange( this, true );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 }
 
 //============================================================================
@@ -41,7 +41,7 @@ AppletCamClient::~AppletCamClient()
 {
     stopCamFeed();
     m_MyApp.activityStateChange( this, false );
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 }
 
 //============================================================================
@@ -92,14 +92,14 @@ void AppletCamClient::showEvent( QShowEvent* ev )
 {
     // don't call AppletPeerBase::showEvent ... we don't want plugin offer/response for web cam server or client
     AppletBase::showEvent( ev );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletCamClient::hideEvent( QHideEvent* ev )
 {
     // don't call AppletPeerBase::hideEvent ... we don't want plugin offer/response for web cam server or client
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     AppletBase::hideEvent( ev );
 }
 
@@ -107,27 +107,8 @@ void AppletCamClient::hideEvent( QHideEvent* ev )
 void AppletCamClient::closeEvent( QCloseEvent* ev )
 {
     // don't call AppletPeerBase::hideEvent ... we don't want plugin offer/response for web cam server or client
-
     stopCamFeed();
     AppletBase::closeEvent( ev );
-}
-
-//============================================================================
-void AppletCamClient::setMuteSpeakerVisibility( bool visible )
-{
-    //ui.m_TitleBarWidget->setMuteSpeakerVisibility( visible );
-}
-
-//============================================================================
-void AppletCamClient::setMuteMicrophoneVisibility( bool visible )
-{
-    //ui.m_TitleBarWidget->setMuteMicrophoneVisibility( visible );
-}
-
-//============================================================================
-void AppletCamClient::setCameraButtonVisibility( bool visible )
-{
-    //ui.m_TitleBarWidget->setCameraButtonVisibility( visible );
 }
 
 //============================================================================
@@ -143,7 +124,9 @@ void AppletCamClient::webCamSourceOffline()
     if( m_CamFeedIdent )
     {
         std::string statMsg = m_CamFeedIdent->getOnlineName();
-        statMsg += "Cam Is Offline";
+        statMsg += " Cam Is Offline";
+        LogModule( eLogWebCam, LOG_DEBUG, "AppletCamClient::%s %s", __func__, statMsg.c_str() );
+        setStatusText( statMsg.c_str() );
     }
 
     ui.m_CamVidWidget->showOfflineImage();
@@ -220,4 +203,14 @@ void AppletCamClient::setupCamFeed( GuiUser* feedNetIdent )
     ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eAppModuleCamClient );
 
     startCamFeed();
+}
+
+//============================================================================
+void AppletCamClient::wantActivityCallbacks( bool enable )
+{
+	if( enable != m_ActivityCallbacksRequested )
+	{
+		m_ActivityCallbacksRequested = enable;
+		m_MyApp.wantToGuiActivityCallbacks( this, enable );
+	}	
 }

@@ -74,6 +74,9 @@ void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture 
             m_CamIsStarted = isCamCaptureRunning();
         }
     }
+
+    LogModule( eLogWebCam, LOG_INFO, "CamLogic::%s %s wantCapture %d cam running ? %d", __func__,
+               DescribeAppModule(appModule), wantVidCapture, m_CamIsStarted );
 }
 
 //============================================================================

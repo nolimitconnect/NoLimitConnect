@@ -707,7 +707,7 @@ RCODE VxFileUtil::makeDirectory( const char* pDirectoryPath )
                 }
                 else
                 {
-                    // LogModule( eLogStorage, LOG_VERBOSE, "created directory %s", tempDir);
+                    // LogMsg( LOG_VERBOSE, "created directory %s", tempDir);
                     createdDirectories = true;
                 }
             }
@@ -721,7 +721,7 @@ RCODE VxFileUtil::makeDirectory( const char* pDirectoryPath )
 
    if( createdDirectories )
    {
-       LogModule( eLogStorage, LOG_VERBOSE, "created directory %s", tempDir);
+       LogMsg( LOG_VERBOSE, "created directory %s", tempDir);
    }
 
    return 0;

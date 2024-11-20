@@ -61,33 +61,33 @@ void PluginGroupClient::fromGuiSearchHost( EHostType hostType, SearchParams& sea
 //============================================================================
 void PluginGroupClient::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_DEBUG, "PluginGroupClient got join request" );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join request" );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_DEBUG, "PluginGroupClient got join reply" );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join reply" );
     m_HostClientMgr.onPktHostJoinReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_DEBUG, "PluginGroupClient got search reply" );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got search reply" );
     m_HostClientMgr.onPktHostSearchReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_DEBUG, "PluginGroupClient got join offer request" );
+    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join offer request" );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogMsg( LOG_ERROR, "PluginGroupClient got join offer reply" );
+    LogModule( eLogHostJoin, LOG_ERROR, "PluginGroupClient got join offer reply" );
 }
 
 //============================================================================

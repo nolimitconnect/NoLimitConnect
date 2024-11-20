@@ -48,7 +48,7 @@ enum ELogModule
 
 	eLogStartup			= 0x0001, // 1
 	eLogThread          = 0x0002, // 2
-	eLogStorage         = 0x0004, // 3
+	eLogWebCam          = 0x0004, // 3
 	eLogAssets			= 0x0008, // 4
 
 	eLogUdp 			= 0x0010, // 5
@@ -72,8 +72,8 @@ enum ELogModule
 	eLogRunTest			= 0x00080000, // 20
 
 	eLogPlugins			= 0x00100000, // 21
-	eLogHostJoin			= 0x00200000, // 22
-	eLogClients			= 0x00400000, // 23
+	eLogHostJoin		= 0x00200000, // 22
+	eLogUsers			= 0x00400000, // 23
 	eLogHostedUser		= 0x00800000, // 24
 
     eLogHostSearch      = 0x01000000, // 25
@@ -135,8 +135,7 @@ void                            VxSetModuleLogFlags( uint64_t flags );
 uint64_t                        VxGetModuleLogFlags( void );
 
 // enable log to file
-void							VxSetLogToFile( const char* pFileName );
-
+//void							VxSetLogToFile( const char* pFileName );
 
 // enable/disable default log handler
 void                            VxEnableDefaultLogHandler( bool enableDefaultHandler );

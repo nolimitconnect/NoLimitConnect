@@ -106,7 +106,7 @@ void UserOnlineMgr::announceUserOnlineAdded( User * userInfo, BaseSessionInfo& s
     User * userHostInfo = userInfo;
     if( userHostInfo )
     {
-	    LogMsg( LOG_INFO, "UserOnlineMgr::announceUserOnlineAdded start" );
+	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::announceUserOnlineAdded start" );
 	
 	    lockClientList();
 	    std::vector<UserOnlineCallbackInterface *>::iterator iter;
@@ -121,7 +121,7 @@ void UserOnlineMgr::announceUserOnlineAdded( User * userInfo, BaseSessionInfo& s
 	    }
 
 	    unlockClientList();
-	    LogMsg( LOG_INFO, "UserOnlineMgr::announceUserOnlineAdded done" );
+	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::announceUserOnlineAdded done user %s", userInfo->getNetIdent()->getOnlineName() );
     }
     else
     {

@@ -65,7 +65,7 @@ void GuiConnectIdListMgr::callbackRelayStatusChange( ConnectId& connectId, bool 
 {
     if( connectId.getUserOnlineId() == m_MyApp.getMyOnlineId() )
     {
-        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackRelayStatusChange updating myself" );
+        LogModule( eLogRelay, LOG_VERBOSE, "GuiConnectIdListMgr::callbackRelayStatusChange updating myself" );
     }
 
     emit signalInternalRelayStatusChange( connectId, isRelayed );

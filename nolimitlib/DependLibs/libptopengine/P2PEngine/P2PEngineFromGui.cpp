@@ -123,10 +123,10 @@ void P2PEngine::fromGuiAppShutdown( void )
 void P2PEngine::fromGuiDebugSettings( uint32_t u32LogFlags, const char* pLogFileName )
 {
 	VxSetLogLevelFlags( u32LogFlags );
-	if( pLogFileName && strlen( pLogFileName ) )
-	{
-		VxSetLogToFile( pLogFileName );
-	}
+	//if( pLogFileName && strlen( pLogFileName ) )
+	//{
+	//	VxSetLogToFile( pLogFileName );
+	//}
 }
 
 //============================================================================

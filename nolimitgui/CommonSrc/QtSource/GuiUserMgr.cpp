@@ -415,7 +415,7 @@ GuiUser* GuiUserMgr::getUser( VxGUID onlineId, bool queryFromEngineIfMissing )
     GuiUser* guiUser = nullptr;
     if( onlineId == getMyOnlineId() )
     {
-        LogMsg( LOG_WARNING, "GuiUserMgr::getUser getting my ident" );
+        // LogMsg( LOG_WARNING, "GuiUserMgr::getUser getting my ident" );
         guiUser = getMyIdent();
     }
     else
@@ -861,7 +861,7 @@ void GuiUserMgr::connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearby
             onUserUpdated( guiUser );
         }
  
-        LogMsg( LOG_VERBOSE, "GuiUserMgr::connnectIdNearbyStatusChange is online ? %d %s", guiUser->isOnline(), getUserOnlineName( onlineId ).c_str() );
+        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::connnectIdNearbyStatusChange is online ? %d %s", guiUser->isOnline(), getUserOnlineName( onlineId ).c_str() );
     }
 }
 

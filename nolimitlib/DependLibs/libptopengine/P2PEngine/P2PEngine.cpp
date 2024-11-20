@@ -296,8 +296,7 @@ bool P2PEngine::shouldInfoBeInDatabase( BigListInfo * poInfo )
 	EFriendState friendState =	poInfo->getMyFriendshipToHim();
 	if( eFriendStateIgnore == friendState || eFriendStateGuest < friendState )
 	{
-		LogMsg( LOG_INFO, "%s belongs in database. ", 
-						poInfo->getOnlineName() );
+		LogModule( eLogUsers, LOG_INFO, "%s belongs in database. ", poInfo->getOnlineName() );
 		return true;
 	}
 

@@ -93,7 +93,7 @@ void AppCommon::slotInternalPlayNlcMedia( AssetBaseInfo assetInfo )
 //============================================================================
 void AppCommon::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
 {
-	LogMsg( LOG_INFO, "#### AppCommon::toGuiWantVideoCapture %d", wantVidCapture );
+	LogModule( eLogWebCam, LOG_INFO, "#### AppCommon::toGuiWantVideoCapture %s wantCapture %d", DescribeAppModule( appModule ), wantVidCapture );
 	if( VxIsAppShuttingDown() )
 	{
 		return;
@@ -131,13 +131,12 @@ void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool enableV
         }
         else
         {
-            LogMsg( LOG_INFO, "AppCommon::slotEnableVideoCapture stopping capture" );
+           LogModule( eLogWebCam, LOG_INFO, "AppCommon::slotEnableVideoCapture stopping capture" );
         }
 
 		m_ToGuiHardwareCtrlBusy = true;
-		for( auto hardwareIter = m_ToGuiHardwareCtrlList.begin(); hardwareIter != m_ToGuiHardwareCtrlList.end(); ++hardwareIter )
+		for( auto toGuiClient : m_ToGuiHardwareCtrlList )
 		{
-			ToGuiHardwareControlInterface* toGuiClient = *hardwareIter;
 			toGuiClient->callbackToGuiWantVideoCapture( enableVidCapture );
 		}
 

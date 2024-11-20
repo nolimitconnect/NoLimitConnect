@@ -186,7 +186,7 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
     {   
         if( isListViewMatch( guiUser ) )
         {
-            LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser user %s %s", 
+            LogModule( eLogUsers, LOG_DEBUG, "GuiUserListWidget::%s user %s %s", __func__,
                     guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str());
             if( guiUser->getNetIdent().isValidNetIdent() )
             {
@@ -201,7 +201,7 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
                         if( guiUser->isOnline() || 
                             (!guiUser->isOnline() && ( eUserViewTypeOffline == m_ViewType || eUserViewTypeFriendsOffline == m_ViewType ) ) )
                         {
-                            LogMsg( LOG_DEBUG, "GuiUserListWidget::updateUser new user %s", guiUser->getOnlineName().c_str() );
+                            LogModule( eLogUsers, LOG_DEBUG, "GuiUserListWidget::updateUser new user %s", guiUser->getOnlineName().c_str() );
                             GuiUserSessionBase* userSession = makeSession( guiUser );
                             if( userSession )
                             {
@@ -209,12 +209,12 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
                                 GuiUserListItem* entryWidget = sessionToWidget( userSession );
                                 if( 0 == count() )
                                 {
-                                    LogMsg( LOG_INFO, "add user %s", guiUser->getOnlineName().c_str() );
+                                    LogModule( eLogUsers, LOG_INFO, "add user %s", guiUser->getOnlineName().c_str() );
                                     addItem( entryWidget );
                                 }
                                 else
                                 {
-                                    LogMsg( LOG_INFO, "insert user %s", guiUser->getOnlineName().c_str() );
+                                    LogModule( eLogUsers, LOG_INFO, "insert user %s", guiUser->getOnlineName().c_str() );
                                     insertItem( 0, (QListWidgetItem*)entryWidget );
                                 }
 

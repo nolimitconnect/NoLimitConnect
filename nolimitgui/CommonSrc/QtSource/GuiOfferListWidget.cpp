@@ -408,12 +408,12 @@ GuiOfferListItem* GuiOfferListWidget::addOrUpdateSession( GuiOfferSession* offer
         {
             GuiUser* guiUser = offerSession->getUserIdent();
             std::string userName = guiUser->getOnlineName();
-            LogMsg( LOG_VERBOSE, "add user %s", offerSession->getUserIdent()->getOnlineName().c_str() );
+            LogModule( eLogUsers, LOG_VERBOSE, "add user %s", offerSession->getUserIdent()->getOnlineName().c_str() );
             addItem( offerItem );
         }
         else
         {
-            LogMsg( LOG_VERBOSE, "insert user %s", offerSession->getUserIdent()->getOnlineName().c_str() );
+            LogModule( eLogUsers, LOG_VERBOSE, "insert user %s", offerSession->getUserIdent()->getOnlineName().c_str() );
             insertItem( 0, (QListWidgetItem*)offerItem );
         }
 

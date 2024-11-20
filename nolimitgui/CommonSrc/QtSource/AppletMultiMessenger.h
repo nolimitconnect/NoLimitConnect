@@ -98,6 +98,8 @@ protected:
 
 	bool						sendRandConnectSelected( VxGUID& onlineId, bool isSelected );
 
+	void						wantActivityCallbacks( bool enable );
+
 	//=== vars ===//
 	Ui::AppletMultiMessengerUi&	ui;
     TodGameLogic				m_TodGameLogic;
@@ -111,5 +113,6 @@ protected:
 	bool						m_OfferOrResponseIsSent{ false };
 	bool						m_CanSend{ false };    
 	GuiUser*					m_SelectedUser{ nullptr };
+	bool						m_ActivityCallbacksRequested{ false };
 };
 
