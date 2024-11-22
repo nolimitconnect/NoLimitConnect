@@ -36,7 +36,8 @@ public:
 	bool						playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, int pos0to100000 = 0 );
 	bool						playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 = 0 );
 
-	void                        wantPlayVideoCallbacks( GuiPlayerCallback* client, bool enable );
+	// if feedOnlineId is empty then want all callbacks
+	void                        wantPlayVideoCallbacks( VxGUID& feedOnlineId, GuiPlayerCallback* client, bool enable );
 
 	void						toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 );
 	virtual int				    toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight );
@@ -53,7 +54,7 @@ protected slots:
 
 protected:
 	bool						m_VideoPlayClientsBusy{ false };
-	std::vector<GuiPlayerCallback*>  m_VideoPlayClients;
+	std::vector<std::pair<VxGUID,GuiPlayerCallback*>>  m_VideoPlayClients;
 	QAtomicInt					m_BehindFeedFrameCnt;
 	QAtomicInt					m_BehindMotionFrameCnt;
 };

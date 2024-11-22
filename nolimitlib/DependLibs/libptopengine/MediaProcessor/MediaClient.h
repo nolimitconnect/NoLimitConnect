@@ -15,22 +15,28 @@
 class MediaClient
 {
 public:
-	MediaClient(	EMediaInputType				mediaType, 
+	MediaClient(	VxGUID&						onlineId,
+					EMediaInputType				mediaType, 
 					MediaCallbackInterface *	callback )
-	: m_MediaInputType( mediaType )
+	: m_OnlineId( onlineId )
+	, m_MediaInputType( mediaType )
 	, m_Callback( callback )
 	{
 	}
 
 	MediaClient( const MediaClient &rhs )
 	{
-		*this = rhs;
+		if( this != &rhs )
+		{
+			*this = rhs;
+		}
 	}
 
 	MediaClient&				operator =( const MediaClient &rhs )
 	{
 		if( this != &rhs )
 		{
+			m_OnlineId			= rhs.m_OnlineId;
 			m_MediaInputType	= rhs.m_MediaInputType;
 			m_Callback			= rhs.m_Callback;
 		}
@@ -38,6 +44,7 @@ public:
 		return *this;
 	}
 
+	VxGUID						m_OnlineId;
 	EMediaInputType				m_MediaInputType;
 	MediaCallbackInterface *	m_Callback; 
 };

@@ -65,7 +65,7 @@ AppletPlayerNlcBase::~AppletPlayerNlcBase()
 	stopMediaIfPlaying();
 	IMediaPlayerRequests::getNlcPlayer().wantMediaPlayerCallback( this, false );
 
-	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
+	//m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
 	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
 	m_MyApp.activityStateChange( this, false );
 }
@@ -112,7 +112,7 @@ void AppletPlayerNlcBase::onAppletInitialized( void )
 
 	m_MyApp.activityStateChange( this, true );
 	m_MyApp.getSoundMgr().setPlayerNlcActive( true );
-	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
+	//m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
 }
 
 //============================================================================

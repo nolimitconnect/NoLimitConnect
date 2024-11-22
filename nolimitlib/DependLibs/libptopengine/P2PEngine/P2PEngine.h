@@ -264,7 +264,7 @@ public:
     virtual bool				fromGuiAssetAction( enum EPluginType pluginType, enum EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
     virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
 
-    virtual void				fromGuiWantMediaInput( enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, bool wantInput ) override;
+    virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, bool wantInput ) override;
     virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, bool wantInput ) override;
 
     virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) override;

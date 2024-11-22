@@ -363,7 +363,6 @@ void AppCommon::slotGuiStartupTimer( void )
 	{
 		// load sounds to play and sound hardware
 		m_SoundMgr.sndMgrStartup();
-		m_PlayerMgr.playerMgrStartup();
 
 		connectSignals();
 		m_GuiStartupTimer->start();
@@ -382,6 +381,7 @@ void AppCommon::slotGuiStartupTimer( void )
 	}
 	else if( 4 == guiStartupStep )
 	{
+		m_PlayerMgr.playerMgrStartup();
 		m_OncePerSecondTimer->setInterval( 1000 ); 
 		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT(onOncePerSecond()) );
 		m_OncePerSecondTimer->start();
@@ -794,6 +794,11 @@ void AppCommon::toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, 
 		return;
 	}
 
+	if( !IsLogEnabled( eLogHostSearch ) )
+	{
+		return;
+	}
+
     const char* hostStatus = DescribeHostAnnounceStatus( annStatus );
 	const char* hostTypeStr = DescribeHostType( hostType );
     std::string formatedMsg;
@@ -816,6 +821,11 @@ void AppCommon::toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, 
 void AppCommon::toGuiHostJoinStatus( EHostType hostType, VxGUID& sessionId, EHostJoinStatus joinStatus, const char* msg )
 {
 	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	if( !IsLogEnabled( eLogHostJoin ) )
 	{
 		return;
 	}
@@ -844,6 +854,11 @@ void AppCommon::toGuiHostSearchStatus( EHostType hostType, VxGUID& sessionId, EH
     {
         return;
     }
+
+	if( !IsLogEnabled( eLogHostJoin ) )
+	{
+		return;
+	}
 
     QString hostStatus = GuiParams::describeHostSearchStatus( searchStatus );
     if( eCommErrNone != commErr )

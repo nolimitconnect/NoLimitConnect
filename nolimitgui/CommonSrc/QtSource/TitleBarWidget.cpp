@@ -161,7 +161,15 @@ void TitleBarWidget::wantCallbacks( bool enable )
         m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, enable );
         m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, enable );
         m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable );
-        m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, enable );
+        if( enable )
+        {
+            // check if my online id is valid before requesting cam callbacks
+            updateCamCallbackRequests();
+        }
+        else
+        {
+            m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
+        }  
     }
 }
 
@@ -196,7 +204,8 @@ void TitleBarWidget::slotSystemReady( bool isReady )
 {
     if( isReady )
     {
-        updateTitleBar();
+        updateTitleBar();        
+        updateCamCallbackRequests();
     }
 }
 
@@ -318,7 +327,6 @@ void TitleBarWidget::updateWebServerClientCount( void )
     {
         ui.m_CamClientCountLabel->setVisible( false );
     }
-
 }
 
 //============================================================================
@@ -883,4 +891,14 @@ void TitleBarWidget::callbackJoinRequestCount( int requestCnt )
     ui.m_HostJoinRequestListButton->setNotifyType( requestCnt > 0 ? eNotifyAttention : eNotifyOffline );
     ui.m_HostJoinRequestCountLabel->setVisible( requestCnt > 0 );
     ui.m_HostJoinRequestCountLabel->setText( QString::number( requestCnt ) );
+}
+
+//============================================================================
+void TitleBarWidget::updateCamCallbackRequests( void )
+{
+    if( !m_VidCallbacksRequested && m_MyApp.getMyOnlineId().isVxGUIDValid() )
+    {
+        m_VidCallbacksRequested = true;
+        m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, true );
+    }
 }

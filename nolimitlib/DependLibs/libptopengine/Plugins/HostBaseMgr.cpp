@@ -622,7 +622,7 @@ void HostBaseMgr::onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBa
 //============================================================================
 void HostBaseMgr::onContactSessionDone( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason )
 {
-    LogMsg( LOG_INFO, "onContactSessionDone  Reason %s", DescribeConnectReason( connectReason ) );
+    LogModule( eLogHostConnect, LOG_INFO, "onContactSessionDone  Reason %s", DescribeConnectReason( connectReason ) );
 }
 
 //============================================================================

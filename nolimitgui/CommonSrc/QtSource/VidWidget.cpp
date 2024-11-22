@@ -121,7 +121,7 @@ VidWidget::~VidWidget()
 		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, m_AppModule, false );
 	}
 
-	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
+	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
 }
 
 //============================================================================
@@ -151,7 +151,7 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EAppModule appModule )
 		if( m_VideoFeedId.isVxGUIDValid() )
 		{
 			// stop previous feed
-			m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, appModule, false );
+			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
 		}
 
 		m_VideoFeedId = feedOnlineId; 
@@ -162,7 +162,7 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EAppModule appModule )
 
 		if( m_VideoFeedId.isVxGUIDValid() )
 		{
-			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
+			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
 		}
 		else
 		{
@@ -309,18 +309,12 @@ void VidWidget::updatePreviewVisibility( void )
 	if( showPreview )
 	{
 		ui.m_CamPreviewButton->setIcon( eMyIconCamPreviewCancelNormal );
-		if( m_MyOnlineId != m_VideoFeedId )
-		{
-			m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpgSmall, getAppModule(), true );
-		}
+		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpgSmall, getAppModule(), true);
 	}
 	else
 	{
 		ui.m_CamPreviewButton->setIcons( eMyIconCamPreviewNormal );
-		if( m_MyOnlineId != m_VideoFeedId )
-		{
-			m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpgSmall, getAppModule(), false );
-		}
+		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpgSmall, getAppModule(), false );
 	}
 }
 

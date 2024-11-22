@@ -220,9 +220,9 @@ void HomeWindow::initializeNlcDynamicLayout( void )
 	//m_HomeFrameBottom->setFocusPolicy( Qt::FocusPolicy::TabFocus );
 	m_MainLayout->addWidget( m_HomeFrameBottom, 1, 0 );
 
-	connect( m_HomeFrameUpperLeft,	SIGNAL( signalFrameResized() ), this, SLOT( slotFrameResized() ) );
-	connect( m_HomeFrameRight,		SIGNAL( signalFrameResized( ) ), this, SLOT( slotFrameResized() ) );
-	connect( m_HomeFrameBottom,		SIGNAL( signalFrameResized() ), this, SLOT( slotFrameResized() ) );
+	connect( m_HomeFrameUpperLeft,	SIGNAL(signalFrameResized()), this, SLOT(slotFrameResized()) );
+	connect( m_HomeFrameRight,		SIGNAL(signalFrameResized()), this, SLOT(slotFrameResized()) );
+	connect( m_HomeFrameBottom,		SIGNAL(signalFrameResized()), this, SLOT(slotFrameResized()) );
 	setLayout( m_MainLayout );
 
     createAppletLaunchPage();

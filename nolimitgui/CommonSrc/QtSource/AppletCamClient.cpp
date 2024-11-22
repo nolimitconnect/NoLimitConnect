@@ -11,6 +11,7 @@
 #include "AppletCamClient.h"
 
 #include "AppCommon.h"
+#include "GuiParams.h"
 
 #include <GuiInterface/IFromGui.h>
 
@@ -213,4 +214,15 @@ void AppletCamClient::wantActivityCallbacks( bool enable )
 		m_ActivityCallbacksRequested = enable;
 		m_MyApp.wantToGuiActivityCallbacks( this, enable );
 	}	
+}
+
+//============================================================================
+void AppletCamClient::toGuiContactOffline( GuiUser* guiUser )
+{
+    if( m_CamFeedIdent && m_CamFeedIdent->getMyOnlineId() == guiUser->getMyOnlineId() )
+    {
+        QString statText = GuiParams::describeOnlineStatus( m_CamFeedIdent->getOnlineName().c_str(), false);
+        LogModule( eLogWebCam, LOG_DEBUG, statText.toUtf8().constData() );
+        ui.m_StatusMsgLabel->setText( statText );
+    }
 }

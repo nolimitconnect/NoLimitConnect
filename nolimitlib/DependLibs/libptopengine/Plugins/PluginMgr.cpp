@@ -917,7 +917,7 @@ void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		m_Engine.getMediaProcessor().wantMediaInput( mediaType, plugin, appModule, wantInput );
+		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), mediaType, plugin, appModule, wantInput );
 	}
 }
 

@@ -835,11 +835,11 @@ bool P2PEngine::fromGuiIsSpeakerMuted( void )
 }
 
 //============================================================================
-void P2PEngine::fromGuiWantMediaInput( EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput )
+void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-		m_MediaProcessor.wantMediaInput( mediaType, callback, appModule, wantInput );
+		m_MediaProcessor.wantMediaInput( onlineId, mediaType, callback, appModule, wantInput );
 	}
 }
 
@@ -854,24 +854,24 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaTy
 			if( ( eMediaInputVideoJpgSmall !=  mediaType ) // no need to activate cam if requesting other person's video feed
 				&& ( eMediaInputVideoJpgBig !=  mediaType ) )
 			{			
-				m_MediaProcessor.wantMediaInput( mediaType, this, appModule, wantInput );
+				m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, appModule, wantInput );
 			}
 		}
 		else
 		{
-			if( wantInput )
-			{
-				m_MediaProcessor.setMyIdInVidPktListCount( m_MediaProcessor.getMyIdInVidPktListCount() + 1 );
-			}
-			else
-			{
-				if( m_MediaProcessor.getMyIdInVidPktListCount() )
-				{
-					m_MediaProcessor.setMyIdInVidPktListCount( m_MediaProcessor.getMyIdInVidPktListCount() - 1 );
-				}
-			}
+			//if( wantInput )
+			//{
+			//	m_MediaProcessor.setMyIdInVidPktListCount( m_MediaProcessor.getMyIdInVidPktListCount() + 1 );
+			//}
+			//else
+			//{
+			//	if( m_MediaProcessor.getMyIdInVidPktListCount() )
+			//	{
+			//		m_MediaProcessor.setMyIdInVidPktListCount( m_MediaProcessor.getMyIdInVidPktListCount() - 1 );
+			//	}
+			//}
 
-			m_MediaProcessor.wantMediaInput( mediaType, this, appModule, wantInput );
+			m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, appModule, wantInput );
 		}
 	}
 }

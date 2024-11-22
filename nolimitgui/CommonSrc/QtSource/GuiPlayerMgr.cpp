@@ -20,8 +20,8 @@
 #include "HomeWindow.h"
 
 #include <AssetMgr/AssetInfo.h>
-
 #include <CoreLib/VxFileUtil.h>
+#include <P2PEngine/P2PEngine.h>
 
 namespace
 {
@@ -44,10 +44,13 @@ void GuiPlayerMgr::playerMgrStartup( void )
 {
 	connect( this, SIGNAL(signalInternalPlayVideoFrame(VxGUID,QImage*,int,int)), this, SLOT(slotInternalPlayVideoFrame(VxGUID,QImage*,int,int)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), this, SLOT(slotInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), Qt::QueuedConnection );
+	// tell engine to send all video jpeg inputs
+	VxGUID nullGuid;
+	GetPtoPEngine().fromGuiWantMediaInput( nullGuid, eMediaInputVideoJpgSmall, eAppModuleMediaPlayer, true );
 }
 
 //============================================================================
-void GuiPlayerMgr::wantPlayVideoCallbacks( GuiPlayerCallback* client, bool enable )
+void GuiPlayerMgr::wantPlayVideoCallbacks( VxGUID& feedOnlineId, GuiPlayerCallback* client, bool enable )
 {
 	if( m_VideoPlayClientsBusy )
 	{
@@ -56,7 +59,7 @@ void GuiPlayerMgr::wantPlayVideoCallbacks( GuiPlayerCallback* client, bool enabl
 
 	for( auto iter = m_VideoPlayClients.begin(); iter != m_VideoPlayClients.end(); ++iter )
 	{
-		if( *iter == client )
+		if( iter->second == client &&  iter->first == feedOnlineId )
 		{
 			m_VideoPlayClients.erase( iter );
 			break;
@@ -65,7 +68,7 @@ void GuiPlayerMgr::wantPlayVideoCallbacks( GuiPlayerCallback* client, bool enabl
 
 	if( enable )
 	{
-		m_VideoPlayClients.push_back( client );
+		m_VideoPlayClients.emplace_back( std::make_pair( feedOnlineId, client ) );
 	}
 }
 
@@ -113,9 +116,12 @@ void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage
 	m_BehindMotionFrameCnt--;
 
 	m_VideoPlayClientsBusy = true;
-	for( auto guiVidCallback : m_VideoPlayClients )
+	for( auto clientPair : m_VideoPlayClients )
 	{
-		guiVidCallback->callbackGuiPlayMotionVideoFrame( feedOnlineId, *vidFrame, motion0To100000 );
+		if( !clientPair.first.isVxGUIDValid() || clientPair.first == feedOnlineId )
+		{
+			clientPair.second->callbackGuiPlayMotionVideoFrame( feedOnlineId, *vidFrame, motion0To100000 );
+		}
 	}
 
 	m_VideoPlayClientsBusy = false;
@@ -169,9 +175,12 @@ void GuiPlayerMgr::slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidF
 	m_BehindFeedFrameCnt--;
 
 	m_VideoPlayClientsBusy = true;
-	for( auto guiVidCallback : m_VideoPlayClients )
+	for( auto clientPair : m_VideoPlayClients )
 	{
-		guiVidCallback->callbackGuiPlayVideoFrame( feedOnlineId, *vidFrame );
+		if( !clientPair.first.isVxGUIDValid() || clientPair.first == feedOnlineId )
+		{
+			clientPair.second->callbackGuiPlayVideoFrame( feedOnlineId, *vidFrame );
+		}
 	}
 
 	m_VideoPlayClientsBusy = false;

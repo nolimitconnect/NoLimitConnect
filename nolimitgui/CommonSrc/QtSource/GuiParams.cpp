@@ -2229,3 +2229,9 @@ QString GuiParams::describeDatabaseType( enum EDatabaseType databaseType )
         return QObject::tr( "Unkonwn Database Type" );
     }
 }
+
+//============================================================================
+QString GuiParams::describeOnlineStatus( QString onlineName, bool isOnline )
+{
+    return onlineName += isOnline ? QObject::tr( " is online" ) : QObject::tr( " is offline" );
+}

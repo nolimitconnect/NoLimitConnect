@@ -1391,6 +1391,34 @@ const char* DescribeNotifyType( enum ENotifyType notifyType )
 }
 
 //============================================================================
+const char* DescribeOfferResponse( enum EOfferResponse offerResponse )
+{
+    if(  offerResponse < 0 || eMaxOfferResponseType <= offerResponse )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( offerResponse )
+    {
+    case eOfferResponseAccept:
+        return "Offer Accepted ";
+    case eOfferResponseReject: 
+        return "Offer Rejected ";
+    case eOfferResponseBusy: 
+        return "Offer Response Busy ";
+    case eOfferResponseCancelSession:
+        return "Offer Response Session Canceled ";
+    case eOfferResponseEndSession:
+        return "Offer Response Session Ended ";
+    case eOfferResponseUserOffline:
+        return "Offer Response User Offline ";
+    case eOfferResponseNotSet:
+    default:
+        return "Offer Response Unknown ";
+    }
+}
+
+//============================================================================
 const char* DescribeOfferState( enum EOfferState offerState )
 {
     if(  offerState < 0 || eMaxOfferState <= offerState )

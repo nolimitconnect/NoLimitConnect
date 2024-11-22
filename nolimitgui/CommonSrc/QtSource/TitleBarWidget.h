@@ -185,6 +185,8 @@ protected:
 
 	void						wantCallbacks( bool enableCallbacks );
 
+	void						updateCamCallbackRequests( void );
+
 	Ui::TitleBarWidgetClass&	ui;
 	AppCommon&					m_MyApp;
     GuiOfferMgr&				m_OfferMgr;
@@ -202,4 +204,5 @@ protected:
 	uint64_t                    m_LastMicrophonePeekTimeMs{ 0 };
 
 	bool						m_IsPopupDialog{ false };
+	bool						m_VidCallbacksRequested{ false };
 };

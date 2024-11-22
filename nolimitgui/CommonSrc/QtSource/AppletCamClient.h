@@ -53,6 +53,8 @@ protected:
 
     void                        wantActivityCallbacks( bool enable );
 
+    void                        toGuiContactOffline( GuiUser* guiUser ) override;
+
     //=== vars ===//
     Ui::AppletCamClientUi&      ui;
     bool						m_IsMyself{ false };

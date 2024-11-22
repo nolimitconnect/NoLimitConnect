@@ -13,8 +13,6 @@
 //============================================================================
 TxSession::TxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
 : PluginSessionBase( sktBase, sendToId, pluginType )
-, m_iOutstandingAckCnt(0)
-, m_bSendingPkts( false )
 {
 	setSessionType(ePluginSessionTypeTx);
 }
@@ -22,13 +20,6 @@ TxSession::TxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPlu
 //============================================================================
 TxSession::TxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType )
 : PluginSessionBase( lclSessionId, sktBase, sendToId, pluginType )
-, m_iOutstandingAckCnt(0)
-, m_bSendingPkts( false )
 {
 	setSessionType(ePluginSessionTypeTx);
-}
-
-//============================================================================
-TxSession::~TxSession()
-{
 }

@@ -83,12 +83,15 @@ protected:
 
 	void						enableCamServerService( bool enable );
 
+    void                        updateTxSessionCount( void );
+
 	//=== vars ===//
 	PluginSessionMgr			m_PluginSessionMgr;					
 	VoiceFeedMgr				m_VoiceFeedMgr;
 	VideoFeedMgr				m_VideoFeedMgr;
 
 	bool						m_IsCamServiceEnabled{ false };
+    bool						m_RequestedVidPkts{ false };
 };
 
 

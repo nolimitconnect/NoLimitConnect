@@ -209,8 +209,6 @@ void ActivityScanWebCams::doCamConnect( GuiUser* guiUser )
 		setupIdentWidget( m_HisIdent );
 		startWebCamSession( m_HisIdent->getMyOnlineId(), true );
 		ui.m_CamVidWidget->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleCamClient );
-		m_Engine.fromGuiWantMediaInput( m_HisIdent->getMyOnlineId(), eMediaInputVideoJpgSmall, eAppModuleCamClient, true );
-        m_FromGui.fromGuiStartPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(), 0 );
 	}
 }
 
@@ -225,15 +223,13 @@ void ActivityScanWebCams::startWebCamSession( VxGUID& onlineId, bool startSessio
 		}
 
 		m_LclSessionId.initializeWithNewVxGUID();
-		m_Engine.fromGuiWantMediaInput( onlineId, eMediaInputVideoJpgSmall, eAppModuleCamClient, true );
         m_FromGui.fromGuiStartPluginSession( m_ePluginType, onlineId, 0, m_LclSessionId );
-		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
+		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( onlineId, this, true );
 	}
 	else
 	{
-		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
+		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( onlineId, this, false );
 		m_FromGui.fromGuiStopPluginSession( m_ePluginType, onlineId, 0, m_LclSessionId );
-		m_Engine.fromGuiWantMediaInput( onlineId, eMediaInputVideoJpgSmall, eAppModuleCamClient, false );
 		setCamViewToOfflineImage();			
 	}		
 }

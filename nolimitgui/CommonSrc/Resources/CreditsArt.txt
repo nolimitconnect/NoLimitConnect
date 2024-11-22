@@ -1,4 +1,10 @@
-gotv_icon.svg by Brett R. Jones
+nlc-icon.svg and dirivative works are owned by Brett R. Jones
+You may use this image for No Limit Connect and derivitive applications
+For other uses you must gain permission from Brett R. Jones
+
+ic_cam_black.png is owned by Brett R. Jones
+You may use this image for No Limit Connect and derivitive applications
+For other uses you must gain permission from Brett R. Jones
 
 "http://www.w3.org/2000/svg" 
 ## License

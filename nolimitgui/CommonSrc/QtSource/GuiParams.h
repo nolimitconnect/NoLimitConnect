@@ -140,6 +140,8 @@ public:
 
     static QString              describeOfferViewType( enum EOfferViewType offerViewType );
 
+    static QString              describeOnlineStatus( QString onlineName, bool isOnline );
+
     //! return true if applet can be relaunched on application startup
     static bool                 isLaunchOnStartupApplet( EApplet applet );
      //! return true if network ready for host search and connections etc.

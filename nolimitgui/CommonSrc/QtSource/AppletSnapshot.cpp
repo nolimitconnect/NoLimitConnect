@@ -68,7 +68,7 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 
     if( m_MyApp.getCamLogic().isCamAvailable() )
     {
-        m_MyApp.getEngine().fromGuiWantMediaInput( eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, true );
+        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, true );
     }
     else
     {
@@ -140,7 +140,7 @@ void AppletSnapshot::onCamFrontBackButClick( void )
 //============================================================================
 void AppletSnapshot::onCloseEvent( void )
 {
-    m_MyApp.getEngine().fromGuiWantMediaInput( eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, false );
+    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, false );
     AppletBase::onCloseEvent();
 }
 

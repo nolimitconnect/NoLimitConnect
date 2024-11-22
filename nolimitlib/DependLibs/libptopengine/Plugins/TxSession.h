@@ -16,7 +16,7 @@ class TxSession : public PluginSessionBase
 public:
 	TxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
 	TxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId, EPluginType pluginType );
-	virtual ~TxSession();
+	virtual ~TxSession() = default;
 
 	void						setOutstandingAckCnt( int cnt )				{ m_iOutstandingAckCnt = cnt; }
 	int							getOutstandingAckCnt( void )				{ return m_iOutstandingAckCnt; }
@@ -28,6 +28,6 @@ public:
 
 protected:
 	//=== vars ===//
-	int							m_iOutstandingAckCnt; // how many receive acks are outstanding
-	bool						m_bSendingPkts;
+	int							m_iOutstandingAckCnt{ 0 }; // how many receive acks are outstanding
+	bool						m_bSendingPkts{ false };
 };

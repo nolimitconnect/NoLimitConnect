@@ -36,10 +36,12 @@ class ClientToRemove
 {
 public:
 	ClientToRemove();
-	ClientToRemove( EMediaInputType				mediaType, 
+	ClientToRemove( VxGUID&						onlineId,
+					EMediaInputType				mediaType, 
 					MediaCallbackInterface *	callback,
 					EAppModule					appModule)
-	: m_MediaType( mediaType )
+	: m_OnlineId( onlineId )
+	, m_MediaType( mediaType )
 	, m_Callback( callback )
 	, m_AppModule( appModule )
 	{
@@ -47,17 +49,25 @@ public:
 
 	ClientToRemove( const ClientToRemove& rhs )
 	{
-		*this = rhs;
+		if( &rhs != this )
+		{
+			*this = rhs;
+		}
 	}
 
 	ClientToRemove&				operator =( const ClientToRemove& rhs )
 	{
-		m_MediaType		= rhs.m_MediaType;
-		m_Callback		= rhs.m_Callback;
-		m_AppModule		= rhs.m_AppModule;
+		if( &rhs != this )
+		{
+			m_OnlineId = rhs.m_OnlineId;
+			m_MediaType = rhs.m_MediaType;
+			m_Callback = rhs.m_Callback;
+			m_AppModule = rhs.m_AppModule;
+		}
 		return *this;
 	}
 
+	VxGUID						m_OnlineId;
 	EMediaInputType				m_MediaType;
 	MediaCallbackInterface *	m_Callback;
 	EAppModule					m_AppModule{ eAppModuleInvalid };
@@ -135,7 +145,8 @@ public:
 
 	virtual void				wantAppIdle( EPluginType pluginType, bool bWantAppIdle );
 
-	virtual void				wantMediaInput( EMediaInputType				mediaType, 
+	virtual void				wantMediaInput( VxGUID&						onlineId,
+												EMediaInputType				mediaType, 
 												MediaCallbackInterface *	callback, 
 												EAppModule					appModule,
 												bool						wantInput );
@@ -174,17 +185,20 @@ protected:
 	void						processRawAudioIn( RawAudio * rawAudio );
 	void						processRawVideoIn( RawVideo * rawVideo );
 	bool						isAudioMediaType( EMediaInputType mediaType );
-	void						wantAudioMediaInput(	EMediaInputType				mediaType, 
+	void						wantAudioMediaInput(	VxGUID&						onlineId,
+														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
 														EAppModule					appModule,
 														bool						wantInput );
 
-	void						wantMixerMediaInput(	EMediaInputType				mediaType, 
+	void						wantMixerMediaInput(	VxGUID&						onlineId,
+														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
 														EAppModule					appModule,
 														bool						wantInput );
 
-	void						wantVideoMediaInput(	EMediaInputType				mediaType, 
+	void						wantVideoMediaInput(	VxGUID&						onlineId,
+														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
 														EAppModule					appModule,
 														bool						wantInput );
@@ -194,18 +208,22 @@ protected:
 	void						doVideoClientRemovals( std::vector<ClientToRemove>& clientRemoveList );
 
 	bool						clientExistsInList(	std::vector<MediaClient>&		clientList, 
+													VxGUID&							onlineId,
 													EMediaInputType					mediaType, 
 													MediaCallbackInterface *		callback );
 
 	bool						removeClientFromListist( std::vector<MediaClient>& clientList,
-													EMediaInputType					mediaType,
-													MediaCallbackInterface*			callback );
+														 VxGUID&						onlineId,
+														EMediaInputType					mediaType,
+														MediaCallbackInterface*			callback );
 
 	bool						clientToRemoveExistsInList(	std::vector<ClientToRemove>&	clientRemoveList, 
+															VxGUID&							onlineId,
 															EMediaInputType					mediaType, 
 															MediaCallbackInterface *		callback );
 
 	bool						clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	clientRemoveList, 
+																VxGUID&							onlineId,
 																EMediaInputType					mediaType, 
 																MediaCallbackInterface *		callback );
 

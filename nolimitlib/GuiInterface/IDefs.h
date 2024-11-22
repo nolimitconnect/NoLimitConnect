@@ -629,7 +629,9 @@ enum EOfferResponse
     eOfferResponseBusy			= 3,	//!< Contact cannot accept session because already in session
     eOfferResponseCancelSession	= 4,	//!< Contact exited session
     eOfferResponseEndSession	= 5,	//!< Session end because of any reason
-    eOfferResponseUserOffline	= 6		//!< Session end because contact is not online
+    eOfferResponseUserOffline	= 6,	//!< Session end because contact is not online
+
+    eMaxOfferResponseType // must be last
 };
 
 //! public Enumeration of offer state
@@ -1385,6 +1387,8 @@ const char* DescribeNetCmdType( enum ENetCmdType netCmdType );
 const char* DescribeNetCmdError( enum ENetCmdError netCmdError );
 //! Notify enum as text
 const char* DescribeNotifyType( enum ENotifyType notifyType );
+//! Offer Response as test
+const char* DescribeOfferResponse( enum EOfferResponse offerResponse );
 //! Offer state as text
 const char* DescribeOfferState( enum EOfferState offerState );
 //! Offer type as text
