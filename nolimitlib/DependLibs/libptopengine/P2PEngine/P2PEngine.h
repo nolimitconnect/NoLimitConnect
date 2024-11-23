@@ -361,7 +361,6 @@ public:
 
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
-    virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ) override; // for remove before deletion
 
 	// returns -1 if unknown else percent downloaded
     virtual int					fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
@@ -403,7 +402,7 @@ public:
     virtual void				fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum EFriendState pluginPermission ) override;
 
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
-    virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) override;
+    virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash ) override;
 
     bool				        fromGuiDeleteDatabase( enum EDatabaseType databaseType ) override;
 

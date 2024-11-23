@@ -12,6 +12,7 @@
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/AssetDefs.h>
+#include <CoreLib/Sha1GeneratorCallback.h>
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxSha1Hash.h>
 #include <CoreLib/VxThread.h>
@@ -41,7 +42,7 @@ class P2PEngine;
 class PktFileListReply;
 class VxFileShredder;
 
-class AssetBaseMgr
+class AssetBaseMgr : public Sha1GeneratorCallback
 {
 public:
 	AssetBaseMgr( P2PEngine& engine, const char* dbName, const char* dbStateName, EAssetMgrType assetMgrType );
@@ -65,9 +66,13 @@ public:
     // startup when user specific directory has been set after user logs on
     virtual void				onPluginsInitialized( void );
 
-    virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile );
+    virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile );  // if not in asset list then add
+    virtual bool                fromGuiSetFileIsShared( std::string& fileNameAndPath, bool shareFile ); // if not in asset list then return false
+    virtual bool                fromGuiGetFileIsShared( std::string& fileNameAndPath );
+
     virtual bool                fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ); // if not in asset list then add
     virtual bool                fromGuiSetFileIsInLibrary( std::string& fileNameAndPath, bool isInLibrary ); // if not in asset list then return false
+    virtual bool                fromGuiGetFileIsInLibrary( std::string& fileNameAndPath );
 
     virtual void                fromGuiSendFileList( VxGUID& appInstId, uint8_t fileTypeFilter, bool inLibrary, bool isShared );
 
@@ -179,6 +184,9 @@ protected:
 	bool						insertNewInfo( AssetBaseInfo* assetInfo );
 	void						updateDatabase( AssetBaseInfo* assetInfo );
     void						updateAssetDatabaseSendState( VxGUID& assetUniqueId, enum EAssetSendState sendState );
+
+    void                        requestFileHash( AssetBaseInfo* assetInfo );
+    void                        callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info );
 
     //=== vars ===//
     P2PEngine&					m_Engine;

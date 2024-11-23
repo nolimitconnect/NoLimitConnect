@@ -251,8 +251,6 @@ public:
 	/// Return true if file is shared
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) = 0;
 
-    virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo ) = 0; // for remove before deletion
-
 	/// Returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId ) = 0;
 	/// Add/Remove file from library
@@ -338,7 +336,7 @@ public:
 	virtual void				fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission ) = 0;
 
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) = 0;
-	virtual void				fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash ) = 0;
+	virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash ) = 0;
 
 	virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) = 0;
 

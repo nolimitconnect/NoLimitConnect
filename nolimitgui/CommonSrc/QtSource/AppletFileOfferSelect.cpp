@@ -156,8 +156,8 @@ void AppletFileOfferSelect::slotApplyFileFilter( EFileFilterType fileFilter )
 void AppletFileOfferSelect::slotRequestFileList( void )
 {
     clearFileList();
+    // will get library and shared files.. even shared files not in library
     m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
-    m_FromGui.fromGuiGetSharedFiles( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
 }
 
 //============================================================================

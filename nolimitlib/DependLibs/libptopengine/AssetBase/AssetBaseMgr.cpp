@@ -27,11 +27,12 @@
 #include <PktLib/PktAnnounce.h>
 #include <PktLib/PktsFileList.h>
 
-#include <CoreLib/VxFileUtil.h>
+#include <CoreLib/Sha1GeneratorMgr.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
+#include <CoreLib/VxFileShredder.h>
+#include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
-#include <CoreLib/VxFileShredder.h>
 
 #include <algorithm>
 #include <time.h>
@@ -1026,8 +1027,11 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 			updateAssetFileTypes();
 			updateFileListPackets();
 			updateSharedFileTypes();
-			FileInfo fileInfo = assetInfo->getFileInfo();
-			m_Engine.getPluginFileShareServer().fromGuiSetFileIsShared( fileInfo, shareFile );
+			if( !assetInfo->getAssetHashId().isHashValid() )
+			{
+				requestFileHash( assetInfo );
+			}
+
 			return true;
 		}
 
@@ -1049,6 +1053,10 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 			insertNewInfo( assetInfo );
 			FileInfo fileInfo = assetInfo->getFileInfo();
 			m_Engine.getPluginFileShareServer().fromGuiSetFileIsShared( fileInfo, true );
+			if( !assetInfo->getAssetHashId().isHashValid() )
+			{
+				requestFileHash( assetInfo );
+			}
 		}
 	}
 	else
@@ -1059,6 +1067,48 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 
 	updateSharedFileTypes();
 	return true;
+}
+
+//============================================================================
+bool AssetBaseMgr::fromGuiSetFileIsShared( std::string& fileNameAndPath, bool shareFile )
+{
+	bool isFound{ false };
+	bool isChanged{ false };
+	lockResources();
+	AssetBaseInfo* assetInfo = findAsset( fileNameAndPath );
+	if( assetInfo )
+	{
+		isFound = true;
+		if( shareFile != assetInfo->isSharedFileAsset() )
+		{
+			isChanged = true;
+			assetInfo->setIsSharedFileAsset( shareFile );
+			updateDatabase( assetInfo );
+		}
+	}
+
+	unlockResources();
+	if( isChanged )
+	{
+		updateSharedFileTypes();
+	}
+
+	return isFound;
+}
+
+//============================================================================
+bool AssetBaseMgr::fromGuiGetFileIsShared( std::string& fileNameAndPath )
+{
+	bool isShared{ false };
+	lockResources();
+	AssetBaseInfo* assetInfo = findAsset( fileNameAndPath );
+	if( assetInfo )
+	{
+		isShared = assetInfo->isSharedFileAsset();
+	}
+
+	unlockResources();
+	return isShared;
 }
 
 //============================================================================
@@ -1089,6 +1139,10 @@ bool AssetBaseMgr::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibra
 		{
 			assetInfo->setIsInLibrary( true );
 			insertNewInfo( assetInfo );
+			if( !assetInfo->getAssetHashId().isHashValid() )
+			{
+				requestFileHash( assetInfo );
+			}
 		}
 	}
 	else
@@ -1119,6 +1173,21 @@ bool AssetBaseMgr::fromGuiSetFileIsInLibrary(  std::string& fileNameAndPath, boo
 	unlockResources();
 
 	return false;
+}
+
+//============================================================================
+bool AssetBaseMgr::fromGuiGetFileIsInLibrary( std::string& fileNameAndPath )
+{
+	bool isInLibrary{ false };
+	lockResources();
+	AssetBaseInfo* assetInfo = findAsset( fileNameAndPath );
+	if( assetInfo )
+	{
+		isInLibrary = assetInfo->isInLibrary();
+	}
+
+	unlockResources();
+	return isInLibrary;
 }
 
 //============================================================================
@@ -1370,7 +1439,7 @@ void AssetBaseMgr::addAssetMgrClient( AssetBaseCallbackInterface * client, bool 
     AutoResourceLock( this );
     if( enable )
     {
-        m_AssetClients.push_back( client );
+        m_AssetClients.emplace_back( client );
     }
     else
     {
@@ -1413,23 +1482,6 @@ bool AssetBaseMgr::fromGuiQueryFileHash( FileInfo& fileInfo )
 
 	unlockResources();
 	return result;
-}
-
-//============================================================================
-void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash )
-{
-	lockResources();
-	for( auto* assetInfo : m_AssetBaseInfoList )
-	{
-        if( fileLen == assetInfo->getAssetLength() && fileNameAndPath == assetInfo->getAssetNameAndPath() )
-		{
-			assetInfo->setAssetHashId( fileHash );
-			updateDatabase( assetInfo );
-			break;
-		}
-	}
-
-	unlockResources();
 }
 
 //============================================================================
@@ -1514,6 +1566,55 @@ void AssetBaseMgr::deleteFile( std::string fileNameAndPath, bool shredFile )
 	}
 
 	updateSharedFileTypes();
+}
+
+
+//============================================================================
+void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash )
+{
+	lockResources();
+	for( auto* assetInfo : m_AssetBaseInfoList )
+	{
+        if( fileLen == assetInfo->getAssetLength() && fileNameAndPath == assetInfo->getAssetNameAndPath() )
+		{
+			assetInfo->setAssetHashId( fileHash );
+			updateDatabase( assetInfo );
+			break;
+		}
+	}
+
+	unlockResources();
+}
+
+//============================================================================
+void AssetBaseMgr::requestFileHash( AssetBaseInfo* assetInfo )
+{
+	GetSha1GeneratorMgr().generateSha1( assetInfo->getAssetUniqueId(), assetInfo->getAssetName(), assetInfo->getFileNameAndPath(), this);
+}
+
+//============================================================================
+void AssetBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info )
+{
+	if( eSha1GenResultNoError == sha1GenResult )
+	{
+		lockResources();
+		for( auto* assetInfo : m_AssetBaseInfoList )
+		{
+			if( assetId == assetInfo->getAssetUniqueId() && sha1Info.getFileNameAndPath() == assetInfo->getAssetNameAndPath() )
+			{
+				assetInfo->setAssetHashId( sha1Info.getSha1Hash() );
+				updateDatabase( assetInfo );
+				break;
+			}
+		}
+
+		unlockResources();
+		m_Engine.getPluginFileShareServer().fromGuiFileHashGenerated( sha1Info.getFileNameAndPath(), sha1Info.getFileLen(), sha1Info.getSha1Hash() );
+	}
+	else
+	{
+		LogMsg( LOG_VERBOSE, "AssetBaseMgr::%s failed %s", __func__, DescribeSha1GenResult( sha1GenResult ) );
+	}
 }
 
 /*

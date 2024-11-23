@@ -1357,12 +1357,6 @@ bool P2PEngine::fromGuiGetIsFileShared( FileInfo& fileInfo )
 }
 
 //============================================================================
-bool P2PEngine::fromGuiRemoveSharedFile( FileInfo& fileInfo )
-{
-	return getPluginFileShareServer().fromGuiRemoveSharedFile( fileInfo );
-}
-
-//============================================================================
 // returns -1 if unknown else percent downloaded
 int P2PEngine::fromGuiGetFileDownloadState( uint8_t* fileHashId )
 {

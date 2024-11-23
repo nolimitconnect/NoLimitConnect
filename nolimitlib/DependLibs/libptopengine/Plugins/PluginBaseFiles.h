@@ -66,7 +66,6 @@ public:
 	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
 	virtual bool				fromGuiGetIsFileShared( std::string& fileNameAndPath );
 
-	virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo );
 	// returns -1 if unknown else percent downloaded
 	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId );
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
@@ -127,7 +126,6 @@ protected:
 	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
 
 	//=== vars ===//
-	VxFileShredder&				m_FileShredder;
 	PluginSessionMgr			m_PluginSessionMgr;
 	FileInfoBaseMgr&			m_FileInfoMgr;
 	FileInfoXferMgr&			m_FileInfoXferMgr;

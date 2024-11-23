@@ -70,7 +70,7 @@ void Sha1GeneratorMgr::generateSha1( VxGUID& fileId, std::string& fileName, std:
 		}
 	}
 
-	m_Sha1List.push_back( clienInfo );
+	m_Sha1List.emplace_back( clienInfo );
 	startThreadIfNotStarted();
 	m_Sha1ListMutex.unlock();	
 }

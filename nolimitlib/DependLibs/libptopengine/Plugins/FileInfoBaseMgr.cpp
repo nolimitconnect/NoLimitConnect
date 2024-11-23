@@ -603,12 +603,12 @@ bool FileInfoBaseMgr::fromGuiQueryFileHash( FileInfo& fileInfo )
 }
 
 //============================================================================
-void FileInfoBaseMgr::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen, VxSha1Hash& fileHash )
+void FileInfoBaseMgr::fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash )
 {
 	lockFileList();
 	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
 	{
-		if( fileLen == iter->second.getFileLength() && fileName == iter->second.getFileNameAndPath() )
+		if( fileLen == iter->second.getFileLength() && fileNameAndPath == iter->second.getFileNameAndPath() )
 		{
 			if( !iter->second.getFileHashId().isHashValid() || !iter->second.getFileHashId().isEqualTo( fileHash.getHashData() ) )
 			{

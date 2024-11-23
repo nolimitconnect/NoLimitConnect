@@ -36,7 +36,6 @@
 //============================================================================
 PluginBaseFiles::PluginBaseFiles( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType, FileInfoBaseMgr& fileInfoBaseMgr )
 : PluginBase( engine, pluginMgr, myIdent, pluginType ) 
-, m_FileShredder( GetVxFileShredder() )
 , m_PluginSessionMgr( engine, *this, pluginMgr)
 , m_FileInfoMgr( fileInfoBaseMgr )
 , m_FileInfoXferMgr( m_FileInfoMgr.getFileInfoXferMgr() )
@@ -158,37 +157,38 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 //============================================================================
 bool PluginBaseFiles::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-	return m_FileInfoMgr.fromGuiGetSharedFiles( appInstId, fileTypeFilter );
+	m_Engine.getAssetMgr().fromGuiSendFileList( appInstId, fileTypeFilter, false, true );
+	return true;
 }
 
 //============================================================================
 bool PluginBaseFiles::fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared )
 {
-	return m_FileInfoMgr.fromGuiSetFileIsShared( fileInfo, isShared );
+	return m_Engine.getAssetMgr().fromGuiSetFileIsShared( fileInfo, isShared );
 }
 
 //============================================================================
 bool PluginBaseFiles::fromGuiSetFileIsShared( std::string& fileName, bool isShared )
 {
-	return m_FileInfoMgr.fromGuiSetFileIsShared( fileName, isShared );
+	return m_Engine.getAssetMgr().fromGuiSetFileIsShared( fileName, isShared );
 }
 
 //============================================================================
 bool PluginBaseFiles::fromGuiGetFileIsShared( FileInfo& fileInfo )
 {
-	return m_FileInfoMgr.fromGuiGetFileIsShared( fileInfo );
+	return isFileShared( fileInfo.getFileNameAndPath() );
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiRemoveSharedFile( FileInfo& fileInfo )
+bool PluginBaseFiles::fromGuiGetIsFileShared( std::string& fileNameAndPath )
 {
-	return m_FileInfoMgr.fromGuiRemoveSharedFile( fileInfo );
+	return isFileShared( fileNameAndPath );
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiGetIsFileShared( std::string& fileName )
+bool PluginBaseFiles::isFileShared( std::string& fileNameAndPath )
 {
-	return isFileShared( fileName );
+	return m_Engine.getAssetMgr().fromGuiGetFileIsShared( fileNameAndPath );
 }
 
 //============================================================================
@@ -218,30 +218,15 @@ void PluginBaseFiles::fromGuiFileHashGenerated( std::string& fileName, int64_t f
 }
 
 //============================================================================
-bool PluginBaseFiles::isFileShared( std::string& fileName )
-{
-	return m_FileInfoMgr.isFileShared( fileName );
-}
-
-//============================================================================
 bool PluginBaseFiles::isServingFiles( void )
 {
 	return ( m_MyIdent->hasSharedFiles() && isPluginEnabled() );
 }
 
 //============================================================================
-void PluginBaseFiles::deleteFile( std::string fileName, bool shredFile )
+void PluginBaseFiles::deleteFile( std::string fileNameAndPath, bool shredFile )
 {
-	m_FileInfoXferMgr.fileAboutToBeDeleted( fileName );
-	m_FileInfoMgr.removeFromDbAndList( fileName );
-	if( shredFile )
-	{
-		m_FileShredder.shredFile( fileName );
-	}
-	else
-	{
-		VxFileUtil::deleteFile( fileName.c_str() );
-	}
+	m_Engine.getAssetMgr().deleteFile( fileNameAndPath, shredFile );
 }
 
 //============================================================================
