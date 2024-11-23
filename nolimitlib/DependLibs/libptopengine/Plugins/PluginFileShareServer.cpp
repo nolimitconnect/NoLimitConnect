@@ -70,14 +70,20 @@ void PluginFileShareServer::onFilesChanged( int64_t lastFileUpdateTime, int64_t 
 }
 
 //============================================================================
-void PluginFileShareServer::deleteFile( std::string fileName, bool shredFile )
+void PluginFileShareServer::deleteFile( std::string fileNameAndPath, bool shredFile )
 {
-	m_Engine.getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileName, false );
-	PluginBaseFilesServer::deleteFile( fileName, shredFile );
+	m_Engine.getAssetMgr().deleteFile( fileNameAndPath, shredFile );
 }
 
 //============================================================================
 void PluginFileShareServer::onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoSharedFilesMgr.getFileInfoXferMgr().onPktStreamCtrlReq( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginFileShareServer::fileAboutToBeDeleted( std::string fileNameAndPath )
+{
+	m_FileInfoXferMgr.fileAboutToBeDeleted( fileNameAndPath );
+	m_FileInfoMgr.removeFromDbAndList( fileNameAndPath );
 }

@@ -1177,7 +1177,7 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileNameAndPath, bool
 			// if already exists as asset be sure to use the same asset id
 			if( isLibraryServer() )
 			{
-				assetInfo->setIsInLibary( isShared );
+				assetInfo->setIsInLibrary( isShared );
 			}
 			else if( isFileShareServer() )
 			{

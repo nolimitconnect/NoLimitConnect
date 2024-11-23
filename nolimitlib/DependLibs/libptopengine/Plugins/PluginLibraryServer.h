@@ -11,35 +11,32 @@
 
 #include "PluginBaseFilesServer.h"
 
-class PluginLibraryServer : public PluginBaseFilesServer
+class PluginLibraryServer : public PluginBase
 {
 public:
 	PluginLibraryServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* netIdent, EPluginType pluginType );
 	virtual ~PluginLibraryServer() = default;
 
-	virtual void				onNetworkConnectionReady( bool requiresRelay ) override;
-
-	virtual void				updateSharedFilesInfo( void );
+	void						onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
+	void						onConnectionLost(std::shared_ptr<VxSktBase> &) override {};
+	void						onContactOnlineStatusChange(VxGUID &,bool) override {};
+	void						replaceConnection(VxNetIdent *,std::shared_ptr<VxSktBase> &,std::shared_ptr<VxSktBase> &) override {};	
 
 	virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary );
-	virtual bool				fromGuiSetFileIsInLibrary( std::string& fileName, bool inLibrary );
+	virtual bool				fromGuiSetFileIsInLibrary( std::string& fileNameAndPath, bool inLibrary );
 
 	virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo );
+	virtual bool				fromGuiGetFileIsInLibrary( std::string& fileNameAndPath );
+
 	virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter );
-	virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName );
 
-	virtual bool				fromGuiRemoveFromLibrary( std::string& fileName );
+	bool						isFileInLibrary( std::string& fileNameAndPath );
 
-	bool						isFileInLibrary( std::string& fileName );
-	bool						isFileInLibrary( VxSha1Hash& fileHashId );
-	bool						isFileInLibrary( VxGUID& assetId );
-
-	bool						addFileToLibrary( FileInfo& fileInfo );
-
-	void						deleteFile( std::string fileName, bool shredFile ) override;
+	void						deleteFile( std::string fileNameAndPath, bool shredFile );
 
 protected:
-	virtual void				onFilesChanged( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes ) override;
+
+	AssetMgr&					m_AssetMgr;
 };
 
 

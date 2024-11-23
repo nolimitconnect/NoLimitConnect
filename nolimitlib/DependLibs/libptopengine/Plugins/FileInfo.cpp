@@ -104,7 +104,7 @@ FileInfo::FileInfo( AssetBaseInfo& assetInfo )
 	, m_AssetId( assetInfo.getAssetUniqueId() )
 	, m_ThumbId( assetInfo.getThumbId() )
 	, m_FileTime( assetInfo.getCreationTime() )
-	, m_IsInLibrary( assetInfo.isInLibary() )
+	, m_IsInLibrary( assetInfo.isInLibrary() )
 	, m_IsSharedFile( assetInfo.isSharedFileAsset() )
 	, m_IsStreaming( assetInfo.getIsStream() )
 {

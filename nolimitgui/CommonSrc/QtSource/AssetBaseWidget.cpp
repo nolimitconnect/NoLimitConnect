@@ -371,8 +371,8 @@ void AssetBaseWidget::onAssetWidgetVisibleAndReady( bool isVisible, bool isReady
 		{
 			if( m_CallbacksRequested && (false == VxIsAppShuttingDown()) )
 			{
-				m_MyApp.wantToGuiActivityCallbacks( this, false );
 				m_CallbacksRequested = false;
+				m_MyApp.wantToGuiActivityCallbacks( this, false );
 			}
 		}
 	}

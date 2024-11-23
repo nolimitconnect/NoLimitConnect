@@ -14,7 +14,6 @@
 #include <Plugins/FileInfo.h>
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/PluginFileShareServer.h>
-#include <GuiInterface/IToGui.h>
 
 #include <PktLib/PktsFileShare.h>
 #include <PktLib/PktsPluginOffer.h>
@@ -30,86 +29,57 @@
 
 //============================================================================
 PluginLibraryServer::PluginLibraryServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
-: PluginBaseFilesServer( engine, pluginMgr, myIdent, pluginType, "LibraryService.db3" )
+: PluginBase( engine, pluginMgr, myIdent, pluginType )
+, m_AssetMgr( engine.getAssetMgr() )
 {
 	LogMsg( LOG_VERBOSE, "PluginLibraryServer::PluginLibraryServer" );
 	setPluginType( ePluginTypeLibraryServer );
 }
 
 //============================================================================
-void PluginLibraryServer::onNetworkConnectionReady( bool requiresRelay )
-{
-	if( isPluginEnabled() )
-	{
-		updateSharedFilesInfo();
-	}
-}
-
-//============================================================================
-void PluginLibraryServer::updateSharedFilesInfo( void )
-{
-	getFileInfoMgr().updateFileTypes();
-}
-
-//============================================================================
-void PluginLibraryServer::onFilesChanged( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes )
-{
-
-}
-
-//============================================================================
-bool PluginLibraryServer::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
-{
-	return fromGuiGetIsFileInLibrary( fileInfo.getFileNameAndPath() );
-}
-
-//============================================================================
 bool PluginLibraryServer::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary )
 {
-	fileInfo.setIsInLibrary( inLibrary );
-	if( inLibrary )
-	{
-		return m_FileInfoMgr.addFileToDbAndList( fileInfo );
-	}
-	else
-	{
-		return m_FileInfoMgr.removeFromDbAndList( fileInfo.getFileNameAndPath() );
-	}
+	return m_AssetMgr.fromGuiSetFileIsInLibrary( fileInfo, inLibrary );
 }
 
 //============================================================================
 bool PluginLibraryServer::fromGuiSetFileIsInLibrary( std::string& fileNameAndPath, bool inLibrary )
 {
-	return m_FileInfoMgr.fromGuiSetFileIsShared( fileNameAndPath, inLibrary );
+	return m_AssetMgr.fromGuiSetFileIsInLibrary( fileNameAndPath, inLibrary );
 }
 
 //============================================================================
-void PluginLibraryServer::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter )
+bool PluginLibraryServer::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
 {
-	m_FileInfoMgr.fromGuiGetSharedFiles( appInstId, fileTypeFilter );
+	return isFileInLibrary( fileInfo.getFileNameAndPath() );
 }
 
 //============================================================================
-bool PluginLibraryServer::fromGuiGetIsFileInLibrary( std::string& fileNameAndPath )
+bool PluginLibraryServer::fromGuiGetFileIsInLibrary( std::string& fileNameAndPath )
 {
 	return isFileInLibrary( fileNameAndPath );
 }
 
 //============================================================================
-bool PluginLibraryServer::fromGuiRemoveFromLibrary( std::string& fileNameAndPath )
-{
-	return m_FileInfoMgr.removeFromDbAndList( fileNameAndPath );
-}
-
-//============================================================================
 bool PluginLibraryServer::isFileInLibrary( std::string& fileNameAndPath )
 {
-	return m_FileInfoMgr.isFileShared( fileNameAndPath );
+	AssetBaseInfo* assetInfo = m_AssetMgr.findAsset( fileNameAndPath );
+	if( assetInfo )
+	{
+		return assetInfo->isInLibrary();
+	}
+
+	return false;
 }
 
 //============================================================================
-void PluginLibraryServer::deleteFile( std::string fileName, bool shredFile )
+void PluginLibraryServer::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
-	m_Engine.getPluginFileShareServer().fromGuiSetFileIsShared( fileName, false );
-	PluginBaseFilesServer::deleteFile( fileName, shredFile );
+	m_AssetMgr.fromGuiSendFileList( appInstId, fileTypeFilter, true, true );
+}
+
+//============================================================================
+void PluginLibraryServer::deleteFile( std::string fileNameAndPath, bool shredFile )
+{
+	m_AssetMgr.deleteFile( fileNameAndPath, shredFile );
 }

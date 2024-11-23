@@ -374,8 +374,6 @@ public:
 
     virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
 
-    virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) override; // for remove before deletion
-
     virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) override;
     virtual bool				fromGuiIsNoLimitAudioFile( const char* fileName ) override;
 

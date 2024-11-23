@@ -337,19 +337,11 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 	}
 	else if( eAssetActionShreadFile == assetAction )
 	{
-		bool isFileAsset = assetInfo.isAudioAsset() || assetInfo.isPhotoAsset() || assetInfo.isVideoAsset();
-		std::string fileName = assetInfo.getAssetName();
-		if( isFileAsset )
+		bool isFileAsset = assetInfo.isFileAsset();
+		std::string fileNameAndPath = assetInfo.getAssetNameAndPath();
+		if( isFileAsset && !fileNameAndPath.empty() )
 		{
-            FileInfo fileInfo = assetInfo.getFileInfo();
-            fromGuiRemoveSharedFile( fileInfo );
-			fromGuiRemoveFromLibrary( fileName );	
-		}
-
-		m_AssetMgr.removeAsset( assetInfo.getAssetUniqueId(), false );
-		if( isFileAsset )
-		{
-			GetVxFileShredder().shredFile( fileName );
+			m_AssetMgr.deleteFile( fileNameAndPath, true );
 		}
 
 		return true;
@@ -1401,15 +1393,9 @@ void P2PEngine::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFi
 }
 
 //============================================================================
-bool P2PEngine::fromGuiGetIsFileInLibrary( std::string& fileName )
+bool P2PEngine::fromGuiGetIsFileInLibrary( std::string& fileNameAndPath )
 {
-	return getPluginLibraryServer().fromGuiGetIsFileInLibrary( fileName );
-}
-
-//============================================================================
-bool P2PEngine::fromGuiRemoveFromLibrary( std::string& fileName )
-{
-	return getPluginLibraryServer().fromGuiRemoveFromLibrary( fileName );
+	return getPluginLibraryServer().fromGuiGetFileIsInLibrary( fileNameAndPath );
 }
 
 //============================================================================
@@ -1776,11 +1762,7 @@ bool P2PEngine::fromGuiQueryFileHash( FileInfo& fileInfo )
 {
 	if( fileInfo.getFileLength() && !fileInfo.getFileNameAndPath().empty() )
 	{
-		bool result = getPluginLibraryServer().fromGuiQueryFileHash( fileInfo );
-		if( !result )
-		{
-			result = getPluginFileShareServer().fromGuiQueryFileHash( fileInfo );
-		}
+		bool result = getPluginFileShareServer().fromGuiQueryFileHash( fileInfo );
 
 		if( !result )
 		{
@@ -1798,7 +1780,6 @@ void P2PEngine::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen
 {
 	if( fileLen && !fileName.empty() )
 	{
-		getPluginLibraryServer().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 		getPluginFileShareServer().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 		getAssetMgr().fromGuiFileHashGenerated( fileName, fileLen, fileHash );
 	}

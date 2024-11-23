@@ -120,6 +120,7 @@ AssetBaseMgr::AssetBaseMgr( P2PEngine& engine, const char* dbName, const char* d
 : m_Engine( engine )
 , m_AssetMgrType( assetMgrType )
 , m_AssetBaseInfoDb( createAssetInfoDb( dbName, assetMgrType ) )
+, m_FileShredder( GetVxFileShredder() )
 {
 }
 
@@ -573,7 +574,7 @@ bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 		if( !assetInfoExisting )
 		{
 			lockResources();
-			m_AssetBaseInfoList.push_back( assetInfo );
+			m_AssetBaseInfoList.emplace_back( assetInfo );
 			unlockResources();
 			announceAssetAdded( assetInfo );
 		}
@@ -615,9 +616,9 @@ bool AssetBaseMgr::updateAsset( FileInfo& fileInfo )
     if( existingAsset )
     {
 		bool updateDb{ false };
-		if( !existingAsset->isInLibary() && fileInfo.getIsInLibrary() )
+		if( !existingAsset->isInLibrary() && fileInfo.getIsInLibrary() )
 		{
-			existingAsset->setIsInLibary( fileInfo.getIsInLibrary() );
+			existingAsset->setIsInLibrary( fileInfo.getIsInLibrary() );
 			updateDb = true;
 		}
 
@@ -862,6 +863,7 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 	unlockResources();
 	updateFileListPackets();
 	updateAssetFileTypes();
+	updateSharedFileTypes();
 }
 
 //============================================================================
@@ -870,41 +872,60 @@ void AssetBaseMgr::updateAssetFileTypes( void )
 	uint16_t u16FileTypes = 0;
 	std::vector<AssetBaseInfo*>::iterator iter;
 	lockResources();
-	for( iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
+	for( auto assetInfo : m_AssetBaseInfoList )
 	{
-		if( (*iter)->isFileAsset() )
+		if( assetInfo->isFileAsset() )
 		{
-			u16FileTypes |= (*iter)->getAssetType();
+			u16FileTypes |= assetInfo->getAssetType();
 		}
 	}
 
 	unlockResources();
+
 	// ignore extended types
 	u16FileTypes = u16FileTypes & 0xff;
-	m_u16AssetBaseFileTypes = u16FileTypes;
-	bool fileTypesChanged = false;
-
-	m_Engine.lockAnnouncePktAccess();
-	PktAnnounce& pktAnn = m_Engine.getMyPktAnnounce();
-	if( pktAnn.getSharedFileTypes() != u16FileTypes )
+	if( m_u16AssetBaseFileTypes != u16FileTypes )
 	{
-		fileTypesChanged = true;
-		pktAnn.setSharedFileTypes( (uint8_t)u16FileTypes );
-	}
+		m_u16AssetBaseFileTypes = u16FileTypes;
 
-	m_Engine.unlockAnnouncePktAccess();
-	if( fileTypesChanged )
-	{
 		lockClientList();
-		std::vector<AssetBaseCallbackInterface *>::iterator iter;
-		for( iter = m_AssetClients.begin();	iter != m_AssetClients.end(); ++iter )
+		std::vector<AssetBaseCallbackInterface*>::iterator iter;
+		for( auto client : m_AssetClients )
 		{
-			AssetBaseCallbackInterface * client = *iter;
 			client->callbackAssetFileTypesChanged( u16FileTypes );
 		}
 
 		unlockClientList();
 	}
+}
+
+//============================================================================
+void AssetBaseMgr::updateSharedFileTypes( void )
+{
+	uint16_t u16FileTypes = 0;
+	std::vector<AssetBaseInfo*>::iterator iter;
+	lockResources();
+	for( auto assetInfo : m_AssetBaseInfoList )
+	{
+		if( assetInfo->isFileAsset() && assetInfo->isSharedFileAsset() )
+		{
+			u16FileTypes |= assetInfo->getAssetType();
+		}
+	}
+
+	unlockResources();
+
+	// ignore extended types
+	u16FileTypes = u16FileTypes & 0xff;
+
+	m_Engine.lockAnnouncePktAccess();
+	PktAnnounce& pktAnn = m_Engine.getMyPktAnnounce();
+	if( pktAnn.getSharedFileTypes() != u16FileTypes )
+	{
+		pktAnn.setSharedFileTypes( (uint8_t)u16FileTypes );
+	}
+
+	m_Engine.unlockAnnouncePktAccess();
 }
 
 //============================================================================
@@ -1004,8 +1025,15 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 			unlockResources();
 			updateAssetFileTypes();
 			updateFileListPackets();
+			updateSharedFileTypes();
+			FileInfo fileInfo = assetInfo->getFileInfo();
+			m_Engine.getPluginFileShareServer().fromGuiSetFileIsShared( fileInfo, shareFile );
 			return true;
 		}
+
+		// alread set to same
+		unlockResources();
+		return true;
 	}
 
 	unlockResources();
@@ -1019,6 +1047,48 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 		{
 			assetInfo->setIsSharedFileAsset( true );
 			insertNewInfo( assetInfo );
+			FileInfo fileInfo = assetInfo->getFileInfo();
+			m_Engine.getPluginFileShareServer().fromGuiSetFileIsShared( fileInfo, true );
+		}
+	}
+	else
+	{
+		updateSharedFileTypes();
+		return false;
+	}
+
+	updateSharedFileTypes();
+	return true;
+}
+
+//============================================================================
+bool AssetBaseMgr::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary )
+{
+	lockResources();
+	AssetBaseInfo* assetInfo = findAsset( fileInfo.getAssetId() );
+	if( assetInfo )
+	{
+		if( isInLibrary != assetInfo->isInLibrary() )
+		{
+			assetInfo->setIsInLibrary( isInLibrary );
+			updateDatabase( assetInfo );
+		}
+
+		unlockResources();
+		return true;
+	}
+
+	unlockResources();
+
+	if( isInLibrary )
+	{
+		// file is not currently AssetBase and should be
+		VxGUID guid;
+		AssetBaseInfo* assetInfo = createAssetInfo( fileInfo );
+		if( assetInfo )
+		{
+			assetInfo->setIsInLibrary( true );
+			insertNewInfo( assetInfo );
 		}
 	}
 	else
@@ -1030,16 +1100,57 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 }
 
 //============================================================================
+bool AssetBaseMgr::fromGuiSetFileIsInLibrary(  std::string& fileNameAndPath, bool isInLibrary )
+{
+	lockResources();
+	AssetBaseInfo* assetInfo = findAsset( fileNameAndPath );
+	if( assetInfo )
+	{
+		if( isInLibrary != assetInfo->isInLibrary() )
+		{
+			assetInfo->setIsInLibrary( isInLibrary );
+			updateDatabase( assetInfo );
+		}
+
+		unlockResources();
+		return true;
+	}
+
+	unlockResources();
+
+	return false;
+}
+
+//============================================================================
+void AssetBaseMgr::fromGuiSendFileList( VxGUID& appInstId, uint8_t fileTypeFilter, bool inLibrary, bool isShared )
+{
+	lockResources();
+	for( auto assetInfo : m_AssetBaseInfoList )
+	{
+		if( 0 != (fileTypeFilter & assetInfo->getFileType()) )
+		{
+			if( inLibrary && assetInfo->isInLibrary() || isShared && assetInfo->isSharedFileAsset() )
+			{
+				FileInfo fileInfo = assetInfo->getFileInfo();
+				IToGui::getIToGui().toGuiFileList( appInstId, fileInfo );
+			}
+		}
+	}
+
+	unlockResources();
+	IToGui::getIToGui().toGuiFileListCompleted( appInstId );
+}
+
+//============================================================================
 bool AssetBaseMgr::getFileHashId( std::string& fileFullName, VxSha1Hash& retFileHashId )
 {
 	bool foundHash = false;
 	lockResources();
-	std::vector<AssetBaseInfo*>::iterator iter;
-	for( iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
+	for( auto assetInfo : m_AssetBaseInfoList )
 	{
-        if( fileFullName == (*iter)->getAssetNameAndPath() )
+        if( fileFullName == assetInfo->getAssetNameAndPath() )
 		{
-			retFileHashId = (*iter)->getAssetHashId();
+			retFileHashId = assetInfo->getAssetHashId();
 			foundHash = retFileHashId.isHashValid();
 			break;
 		}
@@ -1092,7 +1203,7 @@ void AssetBaseMgr::fromGuiQuerySessionHistory( GroupieId& groupieId )
 	// if we send all now while in the gui thread we may overflow the stack because qt cannot process while in this call
 	// instead spin up a thread to send the assets
 	lockResources();
-	m_HistorySendList.push_back( groupieId );
+	m_HistorySendList.emplace_back( groupieId );
 	unlockResources();
 
 	if( !m_HistoryListThread.isThreadRunning() )
@@ -1384,6 +1495,25 @@ void AssetBaseMgr::getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles )
 	LogMsg( LOG_VERBOSE, "%s %d of %d assets are shared", __func__, assetIdx, m_AssetBaseInfoList.size() );
 
 	unlockResources();
+}
+
+//============================================================================
+void AssetBaseMgr::deleteFile( std::string fileNameAndPath, bool shredFile )
+{
+	// remove from library
+	m_Engine.getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileNameAndPath, false );
+	// remove from shared files
+	m_Engine.getPluginFileShareServer().fromGuiSetFileIsShared( fileNameAndPath, false );
+	// remove from transfers
+	m_Engine.getPluginFileShareServer().fileAboutToBeDeleted( fileNameAndPath );
+	// remove from assets
+	removeAsset( fileNameAndPath, !shredFile );
+	if( shredFile )
+	{
+		m_FileShredder.shredFile( fileNameAndPath );
+	}
+
+	updateSharedFileTypes();
 }
 
 /*

@@ -407,14 +407,14 @@ void AppletLibrary::slotAddFileButtonClicked( void )
         AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
         if( assetInfo )
         {
-            if( assetInfo->isInLibary() )
+            if( assetInfo->isInLibrary() )
             {
                 assetMgr.unlockResources();
                 QMessageBox::information( this, QObject::tr("Already in library"), QObject::tr( "File is already in library " ), QMessageBox::Ok );
             }
             else
             {
-                assetInfo->setIsInLibary( true );
+                assetInfo->setIsInLibrary( true );
                 FileInfo fileInfoInLibrary =  assetInfo->getFileInfo();
                 assetMgr.unlockResources();
 
@@ -426,7 +426,7 @@ void AppletLibrary::slotAddFileButtonClicked( void )
             assetMgr.unlockResources();
 
             AssetInfo newAsset( fileInfo );
-            newAsset.setIsInLibary( true );
+            newAsset.setIsInLibrary( true );
 
             AssetBaseInfo* createdAsset{ nullptr };
             bool result = assetMgr.addAsset( newAsset, createdAsset );
@@ -647,14 +647,14 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
         AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
         if( assetInfo )
         {
-            if( assetInfo->isInLibary() )
+            if( assetInfo->isInLibrary() )
             {
                 assetMgr.unlockResources();
                 QMessageBox::information( this, QObject::tr("Already in library"), QObject::tr( "File is already in library " ), QMessageBox::Ok );
             }
             else
             {
-                assetInfo->setIsInLibary( true );
+                assetInfo->setIsInLibrary( true );
                 FileInfo fileInfoInLibrary =  assetInfo->getFileInfo();
                 assetMgr.unlockResources();
 
@@ -666,7 +666,7 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
             assetMgr.unlockResources();
 
             AssetInfo newAsset( fileInfo );
-            newAsset.setIsInLibary( true );
+            newAsset.setIsInLibrary( true );
 
             AssetBaseInfo* createdAsset{ nullptr };
             bool result = assetMgr.addAsset( newAsset, createdAsset );

@@ -78,7 +78,7 @@ void FriendList::updateFriendList( GuiUser* guiUser, bool sessionTimeChange )
 	//memcpy( (VxNetIdent*) poFriend, guiUser, sizeof( VxNetIdent ) );
 	if( ( 0 == m_aoFriends.size() ) || ( 0 == guiUser->getLastSessionTimeMs() ) )
 	{
-		m_aoFriends.push_back( guiUser );
+		m_aoFriends.emplace_back( guiUser );
 	}
 	else
 	{

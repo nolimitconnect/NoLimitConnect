@@ -263,7 +263,7 @@ public:
 	virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) = 0;
 	/// Send to GUI file that are in library of the given file type mask
 	virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) = 0;
-	virtual bool				fromGuiRemoveFromLibrary( std::string& fileName ) = 0; // for remove before deletion
+
 	/// Return true if video file was created by No Limit Connect
 	virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) = 0;
 	/// Return true if audio file was created by No Limit Connect

@@ -23,9 +23,11 @@ public:
 
 	virtual void				updateSharedFilesInfo( void );
 
-	void						deleteFile( std::string fileName, bool shredFile ) override;
+	void						deleteFile( std::string fileNameAndPath, bool shredFile ) override;
 
 	void						onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+
+	void						fileAboutToBeDeleted( std::string fileNameAndPath );
 
 protected:
 	virtual void				onFilesChanged( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes ) override;

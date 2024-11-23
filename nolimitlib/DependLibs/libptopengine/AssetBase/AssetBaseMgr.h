@@ -39,6 +39,7 @@ class GroupieId;
 class IToGui;
 class P2PEngine;
 class PktFileListReply;
+class VxFileShredder;
 
 class AssetBaseMgr
 {
@@ -65,6 +66,11 @@ public:
     virtual void				onPluginsInitialized( void );
 
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile );
+    virtual bool                fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ); // if not in asset list then add
+    virtual bool                fromGuiSetFileIsInLibrary( std::string& fileNameAndPath, bool isInLibrary ); // if not in asset list then return false
+
+    virtual void                fromGuiSendFileList( VxGUID& appInstId, uint8_t fileTypeFilter, bool inLibrary, bool isShared );
+
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
     virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
 
@@ -98,6 +104,7 @@ public:
 
 	uint16_t					getAssetBaseFileTypes( void )				{ return m_u16AssetBaseFileTypes; }
 	void						updateAssetFileTypes( void );
+    void                        updateSharedFileTypes( void );
 
 	void						lockFileListPackets( void )					{ m_FileListPacketsMutex.lock(); }
 	void						unlockFileListPackets( void )				{ m_FileListPacketsMutex.unlock(); }
@@ -142,6 +149,8 @@ public:
 
     void                        getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets );
     void                        getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles );
+
+    void                        deleteFile( std::string fileNameAndPath, bool shredFile );
 
 protected:
     virtual AssetBaseInfo*      createAssetInfo( AssetBaseInfo& assetInfo ) = 0;
@@ -199,5 +208,7 @@ protected:
 
     VxThread					m_HistoryListThread;
     std::vector<GroupieId>      m_HistorySendList;
+
+    VxFileShredder&             m_FileShredder;
 };
 
