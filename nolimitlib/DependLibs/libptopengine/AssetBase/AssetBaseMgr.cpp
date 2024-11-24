@@ -1487,25 +1487,10 @@ void AssetBaseMgr::getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles )
 	{
 		if( assetInfo->isPhotoAsset() || assetInfo->isVideoAsset() || assetInfo->isAudioAsset() )
 		{
-            FileInfo fileInfo = assetInfo->getFileInfo();
-            if( pluginFileShareServer.fromGuiGetFileIsShared( fileInfo ) )
+			if( assetInfo->isSharedFileAsset() )
 			{
-				// FIXME TODO keep in sync
-				if( !assetInfo->isSharedFileAsset() )
-				{
-					LogMsg( LOG_WARN, "%s shared asset flag was not set", __func__ );
-					assetInfo->setIsSharedFileAsset( true );
-					updateDatabase( assetInfo );
-				}
-
 				sharedFiles.emplace_back( *assetInfo );
 				assetIdx++;
-			}
-			else if( assetInfo->isSharedFileAsset() )
-			{
-				LogMsg( LOG_WARN, "%s shared asset flag WAS set", __func__ );
-				assetInfo->setIsSharedFileAsset( false );
-				updateDatabase( assetInfo );
 			}
 		}
 	}
