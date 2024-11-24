@@ -134,6 +134,8 @@ protected:
 	bool						isFileShareServer( void );
 	bool						isLibraryServer( void );
 
+    void                        generateHashIfNeeded( FileInfo& fileInfoIn );
+
 	//=== vars ===//
 	PluginBase&					m_Plugin;
 

@@ -8,9 +8,10 @@
 
 // If compiling with MFC, you might want to add #include "StdAfx.h"
 
-#include "config_corelib.h"
+
 #include "SHA1.h"
 #include "VxThread.h"
+#include "VFile.h"
 
 #define SHA1_MAX_FILE_BUFFER (32 * 20 * 820)
 
@@ -146,23 +147,27 @@ bool CSHA1::HashFile(const char* tszFileName, VxThread* workThread )
 {
 	if(tszFileName == NULL) return false;
 
-    FILE* fpIn = fopen(tszFileName, "rb");
+    VFile*fpIn = VFileOpen( tszFileName, "rb" );
 	if(fpIn == NULL) return false;
 
 	UINT_8* pbData = new UINT_8[SHA1_MAX_FILE_BUFFER];
-	if(pbData == NULL) { fclose(fpIn); return false; }
+    if(pbData == NULL)
+    {
+        VFileClose(fpIn);
+        return false;
+    }
 
 	bool bSuccess = true;
 	while(true)
 	{
-		const size_t uRead = fread(pbData, 1, SHA1_MAX_FILE_BUFFER, fpIn);
+        const size_t uRead = VFileRead(pbData, 1, SHA1_MAX_FILE_BUFFER, fpIn);
 
 		if(uRead > 0)
 			Update(pbData, static_cast<UINT_32>(uRead));
 
 		if(uRead < SHA1_MAX_FILE_BUFFER)
 		{
-			if(feof(fpIn) == 0) bSuccess = false;
+            if(VFileEof(fpIn) == 0) bSuccess = false;
 			break;
 		}
 
@@ -174,7 +179,7 @@ bool CSHA1::HashFile(const char* tszFileName, VxThread* workThread )
 		}
 	}
 
-	fclose(fpIn);
+    VFileClose(fpIn);
 	delete[] pbData;
 	return bSuccess;
 }

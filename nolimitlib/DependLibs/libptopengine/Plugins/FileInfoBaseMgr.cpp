@@ -99,7 +99,7 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 			{
 				fileInfo.setFileLength( curFileLen );
 				
-				m_FileInfoNeedHashAndSaveList.push_back( fileInfo );
+                m_FileInfoNeedHashAndSaveList.emplace_back( fileInfo );
 				
 				addFileToGenHashQue( fileInfo.getAssetId(), fileInfo.getFileName(), fileInfo.getFileNameAndPath() );
 			}
@@ -552,6 +552,25 @@ void FileInfoBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, 
 	}
 
 	unlockFileList();
+
+    if( isFileShareServer() && eSha1GenResultNoError == sha1GenResult )
+    {
+        // file share server adds file directly to list even if not valid hash
+        lockFileList();
+        for( auto& fileInfoPair : m_FileInfoList )
+        {
+            FileInfo& fileInfo = fileInfoPair.second;
+            if( assetId == fileInfo.getAssetId() )
+            {
+                fileInfo.setFileHashId( sha1Info.getSha1Hash() );
+                fileInfo.setFileTime( GetHighResolutionTimeMs() );
+                break;
+            }
+        }
+
+        unlockFileList();
+    }
+
 	updateFileTypes();
 	checkForInitializeCompleted();
 }
@@ -1207,6 +1226,7 @@ void FileInfoBaseMgr::fileShareEnable( AssetBaseInfo* assetInfo, bool isShared )
 				iter->second = fileInfoIn;
 
 				unlockFileList();
+                generateHashIfNeeded( fileInfoIn );
 				return;
 			}
 		}
@@ -1230,6 +1250,7 @@ void FileInfoBaseMgr::fileShareEnable( AssetBaseInfo* assetInfo, bool isShared )
 		lockFileList();
 		m_FileInfoList[ assetId ] = fileInfoIn;
 		unlockFileList();
+        generateHashIfNeeded( fileInfoIn );
 		updateFileTypes();
 	}
 }
@@ -1262,4 +1283,13 @@ bool FileInfoBaseMgr::isLibraryServer( void )
 void FileInfoBaseMgr::sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID& onlineId, FileInfo& fileInfo )
 {
 	m_PrivateEngine.getToGui().toGuiSearchResultFileSearch( onlineId, m_Plugin.getPluginType(), searchSessionId, fileInfo );
+}
+
+//============================================================================
+void FileInfoBaseMgr::generateHashIfNeeded( FileInfo& fileInfoIn )
+{
+    if( fileInfoIn.getFileHashId().isHashValid() )
+    {
+        addFileToGenHashQue( fileInfoIn.getAssetId(), fileInfoIn.getFileName(), fileInfoIn.getFileNameAndPath() );
+    }
 }

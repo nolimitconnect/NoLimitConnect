@@ -215,12 +215,15 @@ bool FileInfo::determineFilePath( void )
 		}
         else if( !getFileNameAndPath().empty() )
 		{
+            // with android new permissions and obcsured file names it is not possible to get directory from path and name
+#if !defined(TARGET_OS_ANDROID)
 			std::string fileName;
             RCODE rc = VxFileUtil::seperatePathAndFile( getFileNameAndPath().c_str(), m_ContainedInDir, fileName );
 			if( 0 != rc || m_ContainedInDir.empty() )
 			{
                 LogMsg( LOG_ERROR, "FileInfo::determineFilePath Failed to get path from %s", getFileNameAndPath().c_str() );
 			}
+#endif // !defined(TARGET_OS_ANDROID)
 		}
 	}
 
