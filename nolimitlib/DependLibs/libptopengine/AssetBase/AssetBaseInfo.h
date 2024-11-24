@@ -138,6 +138,8 @@ public:
     virtual void				setAssetUniqueId( VxGUID& uniqueId )            { m_UniqueId = uniqueId; }
     virtual void				setAssetUniqueId( const char* guid )            { m_UniqueId.fromVxGUIDHexString( guid ); }
     virtual VxGUID&				getAssetUniqueId( void )                        { return m_UniqueId; }
+
+    virtual VxGUID&			    assureAssetUniqueId( void );
     virtual VxGUID&				generateNewUniqueId( bool ifNotValid = false ); // generates unique id, assigns it to asset and returns reference to it
 
     virtual void				setCreatorId( VxGUID creatorId )                { BaseInfo::setOnlineId( creatorId ); }

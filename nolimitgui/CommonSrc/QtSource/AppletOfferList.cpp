@@ -67,7 +67,6 @@ AppletOfferList::AppletOfferList(	AppCommon& app, QWidget* parent )
 //============================================================================
 AppletOfferList::~AppletOfferList()
 {
-    m_Engine.fromGuiNearbyBroadcastEnable( false );
     m_UserMgr.wantGuiUserUpdateCallbacks( this, false );
     m_MyApp.activityStateChange( this, false );
 }

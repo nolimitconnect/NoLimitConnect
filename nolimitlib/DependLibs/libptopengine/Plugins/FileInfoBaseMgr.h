@@ -18,6 +18,7 @@
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/Sha1GeneratorCallback.h>
 
+class AssetBaseInfo;
 class FileInfo;
 class IToGui;
 class PluginBase;
@@ -64,15 +65,12 @@ public:
 	
 	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, const char* dir, uint8_t fileFilterMask ) { return false; }
 
-	virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter );
-
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
 	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );
 	virtual bool				fromGuiSetFileIsShared( std::string& fileNameAndPath, bool isShared );
 	virtual bool				fromGuiGetFileIsShared( std::string& fileNameAndPath );
+	void						fileShareEnable( AssetBaseInfo* assetInfo, bool shareFile );
 	virtual bool				fromGuiAddSharedFile( FileInfo& fileInfo, bool isShared );
-	virtual bool				fromGuiRemoveSharedFile( FileInfo& fileInfo );
-
 
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
 	virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
@@ -97,8 +95,6 @@ public:
 	virtual bool				removeFromDbAndList( std::string& fileNameAndPath, bool listIsLocked = false );
 
 	bool						isAllowedFileOrDir( std::string strFileName );
-
-	void						clearLibraryFileList( void );
 
 	bool						getFileFullName( VxGUID& assetId, VxSha1Hash& fileHashId, std::string& retFileFullName );
 	bool						getFileHashId( std::string& fileFullName, VxSha1Hash& retFileHashId );
@@ -140,7 +136,6 @@ protected:
 
 	//=== vars ===//
 	PluginBase&					m_Plugin;
-	VxFileShredder&				m_FileShredder;
 
 	FileInfoDb&					m_FileInfoDb;
 	FileInfoXferMgr				m_FileInfoXferMgr;

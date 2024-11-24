@@ -352,12 +352,10 @@ public:
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) override;
     /// Get network status
     virtual ENetAvailStatus     fromGuiGetNetAvailStatus( void ) override;
-    virtual bool				fromGuiNearbyBroadcastEnable( bool enable ) override;
 
     virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName = nullptr ) override;
 
     virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
-    virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
 
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;

@@ -643,9 +643,6 @@
     <ClCompile Include="..\..\Plugins\FileInfoBaseMgr.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Plugins\FileInfoLibraryMgr.cpp">
-      <Filter>Source Files\Plugins</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Plugins\FileInfoSharedFilesMgr.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
@@ -1375,9 +1372,6 @@
       <Filter>Source Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Plugins\FileInfoBaseMgr.h">
-      <Filter>Source Files\Plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Plugins\FileInfoLibraryMgr.h">
       <Filter>Source Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Plugins\FileInfoSharedFilesMgr.h">

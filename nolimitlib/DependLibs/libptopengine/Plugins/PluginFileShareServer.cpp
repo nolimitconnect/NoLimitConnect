@@ -11,7 +11,9 @@
 #include "PluginFileShareServer.h"
 #include "PluginMgr.h"
 
+#include <AssetBase/AssetBaseInfo.h>
 #include <P2PEngine/P2PEngine.h>
+#include <Plugins/FileInfo.h>
 #include <GuiInterface/IToGui.h>
 
 #include <PktLib/PktsFileShare.h>
@@ -30,7 +32,7 @@
 PluginFileShareServer::PluginFileShareServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
 : PluginBaseFilesServer( engine, pluginMgr, myIdent, pluginType, "FileShareService.db3" )
 {
-	LogMsg( LOG_VERBOSE, "PluginFileShareServer::PluginFileShareServer" );
+	//LogMsg( LOG_VERBOSE, "PluginFileShareServer::PluginFileShareServer" );
 	setPluginType( ePluginTypeFileShareServer );
 }
 
@@ -86,4 +88,10 @@ void PluginFileShareServer::fileAboutToBeDeleted( std::string fileNameAndPath )
 {
 	m_FileInfoXferMgr.fileAboutToBeDeleted( fileNameAndPath );
 	m_FileInfoMgr.removeFromDbAndList( fileNameAndPath );
+}
+
+//============================================================================
+void PluginFileShareServer::fileShareEnable( AssetBaseInfo* assetInfo, bool shareFile )
+{
+	m_FileInfoMgr.fileShareEnable( assetInfo, shareFile );
 }

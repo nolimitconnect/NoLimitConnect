@@ -627,7 +627,6 @@
     <ClCompile Include="..\..\Plugins\FileInfoBaseMgr.cpp" />
     <ClCompile Include="..\..\Plugins\FileInfoClientFilesMgr.cpp" />
     <ClCompile Include="..\..\Plugins\FileInfoDb.cpp" />
-    <ClCompile Include="..\..\Plugins\FileInfoLibraryMgr.cpp" />
     <ClCompile Include="..\..\Plugins\FileInfoPersonFileXferMgr.cpp" />
     <ClCompile Include="..\..\Plugins\FileInfoSharedFilesMgr.cpp" />
     <ClCompile Include="..\..\Plugins\FileInfoXferMgr.cpp" />
@@ -885,7 +884,6 @@
     <ClInclude Include="..\..\Plugins\FileInfoBaseMgr.h" />
     <ClInclude Include="..\..\Plugins\FileInfoClientFilesMgr.h" />
     <ClInclude Include="..\..\Plugins\FileInfoDb.h" />
-    <ClInclude Include="..\..\Plugins\FileInfoLibraryMgr.h" />
     <ClInclude Include="..\..\Plugins\FileInfoPersonFileXferMgr.h" />
     <ClInclude Include="..\..\Plugins\FileInfoSharedFilesMgr.h" />
     <ClInclude Include="..\..\Plugins\FileInfoXferMgr.h" />

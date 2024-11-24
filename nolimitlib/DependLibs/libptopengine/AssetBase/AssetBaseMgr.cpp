@@ -250,7 +250,7 @@ void AssetBaseMgr::generateHashIds( VxThread* genHashThread )
 						assetInfo = inListAssetBaseInfo;
 						m_WaitingForHastList.erase( iter );
 						assetInfo->setAssetHashId( fileHash );
-						m_AssetBaseInfoList.push_back( assetInfo );
+						m_AssetBaseInfoList.emplace_back( assetInfo );
 						break;
 					}
 				}
@@ -683,10 +683,8 @@ void AssetBaseMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
 
     // LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetUpdated start" );
     lockClientList();
-    std::vector<AssetBaseCallbackInterface *>::iterator iter;
-    for( iter = m_AssetClients.begin();	iter != m_AssetClients.end(); ++iter )
+    for( auto client : m_AssetClients )
     {
-        AssetBaseCallbackInterface * client = *iter;
         client->callbackAssetAdded( assetInfo );
     }
 
@@ -705,10 +703,8 @@ void AssetBaseMgr::announceAssetRemoved( AssetBaseInfo* assetInfo )
 	}
 
 	lockClientList();
-	std::vector<AssetBaseCallbackInterface *>::iterator iter;
-	for( iter = m_AssetClients.begin();	iter != m_AssetClients.end(); ++iter )
-	{
-		AssetBaseCallbackInterface * client = *iter;
+    for( auto client : m_AssetClients )
+    {
 		client->callbackAssetRemoved( assetInfo );
 	}
 
@@ -721,10 +717,8 @@ void AssetBaseMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUnique
 {
 	LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetXferState state %d start", assetSendState );
 	lockClientList();
-	std::vector<AssetBaseCallbackInterface *>::iterator iter;
-	for( iter = m_AssetClients.begin();	iter != m_AssetClients.end(); ++iter )
-	{
-		AssetBaseCallbackInterface * client = *iter;
+    for( auto client : m_AssetClients )
+    {
 		client->callbackAssetSendState( sendToId, assetUniqueId, assetSendState, param );
 	}
 
@@ -819,14 +813,19 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 			if( !assetInfo->validateAssetExist() )
 			{
 				// add to list to remove from database and delete
-				toDeleteList.push_back( assetInfo );
+				toDeleteList.emplace_back( assetInfo );
 				continue;
 			}
 
 			if( !assetInfo->isValid() )
 			{
-				toDeleteList.push_back( assetInfo );
+				toDeleteList.emplace_back( assetInfo );
 				continue;
+			}
+
+			if( assetInfo->isSharedFileAsset() )
+			{
+				m_Engine.getPluginFileShareServer().fileShareEnable( assetInfo, true );
 			}
 
 			EAssetSendState sendState = assetInfo->getAssetSendState();
@@ -864,7 +863,6 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 	unlockResources();
 	updateFileListPackets();
 	updateAssetFileTypes();
-	updateSharedFileTypes();
 }
 
 //============================================================================
@@ -898,35 +896,6 @@ void AssetBaseMgr::updateAssetFileTypes( void )
 
 		unlockClientList();
 	}
-}
-
-//============================================================================
-void AssetBaseMgr::updateSharedFileTypes( void )
-{
-	uint16_t u16FileTypes = 0;
-	std::vector<AssetBaseInfo*>::iterator iter;
-	lockResources();
-	for( auto assetInfo : m_AssetBaseInfoList )
-	{
-		if( assetInfo->isFileAsset() && assetInfo->isSharedFileAsset() )
-		{
-			u16FileTypes |= assetInfo->getAssetType();
-		}
-	}
-
-	unlockResources();
-
-	// ignore extended types
-	u16FileTypes = u16FileTypes & 0xff;
-
-	m_Engine.lockAnnouncePktAccess();
-	PktAnnounce& pktAnn = m_Engine.getMyPktAnnounce();
-	if( pktAnn.getSharedFileTypes() != u16FileTypes )
-	{
-		pktAnn.setSharedFileTypes( (uint8_t)u16FileTypes );
-	}
-
-	m_Engine.unlockAnnouncePktAccess();
 }
 
 //============================================================================
@@ -1026,11 +995,12 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 			unlockResources();
 			updateAssetFileTypes();
 			updateFileListPackets();
-			updateSharedFileTypes();
 			if( !assetInfo->getAssetHashId().isHashValid() )
 			{
 				requestFileHash( assetInfo );
 			}
+
+			m_Engine.getPluginFileShareServer().fileShareEnable( assetInfo, shareFile );
 
 			return true;
 		}
@@ -1057,15 +1027,15 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 			{
 				requestFileHash( assetInfo );
 			}
+
+			m_Engine.getPluginFileShareServer().fileShareEnable( assetInfo, shareFile );
 		}
 	}
 	else
 	{
-		updateSharedFileTypes();
 		return false;
 	}
 
-	updateSharedFileTypes();
 	return true;
 }
 
@@ -1088,10 +1058,6 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( std::string& fileNameAndPath, bool sh
 	}
 
 	unlockResources();
-	if( isChanged )
-	{
-		updateSharedFileTypes();
-	}
 
 	return isFound;
 }
@@ -1564,10 +1530,7 @@ void AssetBaseMgr::deleteFile( std::string fileNameAndPath, bool shredFile )
 	{
 		m_FileShredder.shredFile( fileNameAndPath );
 	}
-
-	updateSharedFileTypes();
 }
-
 
 //============================================================================
 void AssetBaseMgr::fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash )

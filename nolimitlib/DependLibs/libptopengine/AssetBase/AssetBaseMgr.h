@@ -109,7 +109,6 @@ public:
 
 	uint16_t					getAssetBaseFileTypes( void )				{ return m_u16AssetBaseFileTypes; }
 	void						updateAssetFileTypes( void );
-    void                        updateSharedFileTypes( void );
 
 	void						lockFileListPackets( void )					{ m_FileListPacketsMutex.lock(); }
 	void						unlockFileListPackets( void )				{ m_FileListPacketsMutex.unlock(); }

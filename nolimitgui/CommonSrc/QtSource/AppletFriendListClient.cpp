@@ -97,7 +97,6 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
 //============================================================================
 AppletFriendListClient::~AppletFriendListClient()
 {
-    m_Engine.fromGuiNearbyBroadcastEnable( false );
     m_MyApp.activityStateChange( this, false );
 }
 

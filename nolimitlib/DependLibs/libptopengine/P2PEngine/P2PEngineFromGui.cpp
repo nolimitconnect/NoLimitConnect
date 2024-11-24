@@ -1173,16 +1173,6 @@ ENetAvailStatus P2PEngine::fromGuiGetNetAvailStatus( void )
 }
 
 //============================================================================
-bool P2PEngine::fromGuiNearbyBroadcastEnable( bool enable )
-{
-#if ENABLE_COMPONENT_NEARBY
-	return m_NetworkMgr.getNearbyMgr().fromGuiNearbyBroadcastEnable( enable );
-#else
-	return false;
-#endif // ENABLE_COMPONENT_NEARBY
-}
-
-//============================================================================
 void P2PEngine::fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
 {
 	if( fromThread )
@@ -1336,12 +1326,6 @@ void P2PEngine::fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const
 bool P2PEngine::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, uint8_t fileFilterMask )
 {
 	return getPluginFileShareServer().fromGuiBrowseFiles( appInstId, dir, fileFilterMask );
-}
-
-//============================================================================
-bool P2PEngine::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
-{
-	return getPluginFileShareServer().fromGuiGetSharedFiles( appInstId, fileTypeFilter );
 }
 
 //============================================================================

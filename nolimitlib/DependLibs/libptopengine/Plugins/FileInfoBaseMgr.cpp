@@ -36,7 +36,6 @@
 //============================================================================
 FileInfoBaseMgr::FileInfoBaseMgr( P2PEngine& engine, PluginBase& plugin, FileInfoDb& fileInfoDb )
 : m_Plugin( plugin )
-, m_FileShredder( GetVxFileShredder() )
 , m_FileInfoDb( fileInfoDb )
 , m_FileInfoXferMgr( engine, plugin, *this )
 , m_PrivateEngine( engine )
@@ -65,6 +64,13 @@ std::string FileInfoBaseMgr::getIncompleteFileXferDirectory( VxGUID& onlineId )
 //============================================================================
 void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 {
+	if( ePluginTypeFileShareServer == m_Plugin.getPluginType() )
+	{
+		// code has changed and now uses asset manager to manage shared files
+		m_FilesInitialized = true;
+		return;
+	}
+
 	// user specific directory should be set
 	std::string dbName = VxGetUserSpecificDataDirectory() + "settings/";
 	dbName += m_FileInfoDb.getFileInfoDbName();
@@ -101,7 +107,7 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 		else
 		{
 			// file no longer exists
-			toDeleteFiles.push_back( fileInfo.getFileNameAndPath() );
+			toDeleteFiles.emplace_back( fileInfo.getFileNameAndPath() );
 		}
 
 		if( VxIsAppShuttingDown() )
@@ -130,7 +136,6 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 void FileInfoBaseMgr::fileInfoMgrShutdown( void )
 {
 	lockFileList();
-	clearLibraryFileList();
 	m_FileInfoDb.dbShutdown();
 	unlockFileList();
 }
@@ -145,17 +150,6 @@ void FileInfoBaseMgr::addFileToGenHashQue( VxGUID& fileId, std::string fileName,
 void FileInfoBaseMgr::removeFileFromGenHashQue( VxGUID& fileId, std::string fileNameAndPath )
 {
 	GetSha1GeneratorMgr().cancelGenerateSha1( fileId, fileNameAndPath, this );
-}
-
-//============================================================================
-void FileInfoBaseMgr::clearLibraryFileList( void )
-{
-	m_u16FileTypes = 0;
-	m_s64TotalByteCnt = 0;
-
-	m_FileInfoList.clear();
-
-	m_FileInfoNeedHashAndSaveList.clear();
 }
 
 //============================================================================
@@ -448,7 +442,11 @@ bool FileInfoBaseMgr::removeFromDbAndList( std::string& fileNameAndPath, bool li
 	{
 		if( fileNameAndPath == iter->second.getFileNameAndPath() )
 		{
-			m_FileInfoDb.removeFile( fileNameAndPath );
+			if( ePluginTypeFileShareServer != m_Plugin.getPluginType() )
+			{
+				m_FileInfoDb.removeFile( fileNameAndPath );
+			}
+
 			m_FileInfoList.erase( iter );
 			wasRemoved = true;
 			break;
@@ -475,6 +473,7 @@ bool FileInfoBaseMgr::removeFromDbAndList( std::string& fileNameAndPath, bool li
 	if( !listIsLocked )
 	{
 		unlockFileList();
+		updateFileTypes();
 	}
 
 	return wasRemoved;
@@ -807,6 +806,22 @@ void FileInfoBaseMgr::updateFileTypes( void )
 			m_Plugin.onFilesChanged( newUpdateTime, newTotalBytes, newFileTypes );
 		}
 	}
+
+	if( ePluginTypeFileShareServer == m_Plugin.getPluginType() )
+	{
+		// update pktann with shared file types
+		// ignore extended types
+		uint16_t u16FileTypes = m_u16FileTypes & 0xff;
+
+		m_PrivateEngine.lockAnnouncePktAccess();
+		PktAnnounce& pktAnn = m_PrivateEngine.getMyPktAnnounce();
+		if( pktAnn.getSharedFileTypes() != u16FileTypes )
+		{
+			pktAnn.setSharedFileTypes( (uint8_t)u16FileTypes );
+		}
+
+		m_PrivateEngine.unlockAnnouncePktAccess();
+	}
 }
 
 //============================================================================
@@ -1064,49 +1079,6 @@ void FileInfoBaseMgr::toGuiFileUploadComplete( VxGUID& lclSessionId, std::string
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
-{
-	int sharedFilesCnt{ 0 };
-	lockFileList();
-
-	for( auto fileInfoMap : m_FileInfoList )
-	{
-		FileInfo& fileInfo = fileInfoMap.second;
-		if( 0 != (fileTypeFilter & fileInfo.getFileType()) )
-		{
-			bool isShared{ false };
-			bool isInLibrary{ false };
-			if( isFileShareServer() )
-			{
-				isShared = true;
-				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getFileNameAndPath() );
-			}
-			else if( isLibraryServer() )
-			{
-				isInLibrary = true;
-				isShared = getEngine().fromGuiGetIsFileShared( fileInfo );
-			}
-			else
-			{
-				isInLibrary = getEngine().fromGuiGetIsFileInLibrary( fileInfo.getFileNameAndPath() );
-				isShared = getEngine().fromGuiGetIsFileShared( fileInfo );
-			}
-
-			fileInfo.setIsInLibrary( isInLibrary );
-			fileInfo.setIsSharedFile( isShared );
-
-			IToGui::getIToGui().toGuiFileList( appInstId, fileInfo );
-
-			sharedFilesCnt++;
-		}
-	}
-
-	unlockFileList();
-	IToGui::getIToGui().toGuiFileListCompleted( appInstId );
-	return sharedFilesCnt;
-}
-
-//============================================================================
 bool FileInfoBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfoIn, bool isShared )
 {
 	std::string fileName = fileInfoIn.getFileNameAndPath();
@@ -1208,11 +1180,58 @@ bool FileInfoBaseMgr::fromGuiSetFileIsShared( std::string& fileNameAndPath, bool
 }
 
 //============================================================================
-bool FileInfoBaseMgr::fromGuiRemoveSharedFile( FileInfo& fileInfo )
+void FileInfoBaseMgr::fileShareEnable( AssetBaseInfo* assetInfo, bool isShared )
 {
-	m_FileInfoXferMgr.fileAboutToBeDeleted( fileInfo.getFileNameAndPath() );
+	assetInfo->setIsSharedFileAsset( isShared );
+	FileInfo fileInfoIn = assetInfo->getFileInfo();
+	std::string fileNameAndPath = fileInfoIn.getFileNameAndPath();
 
-	return fromGuiSetFileIsShared( fileInfo, false );
+	// add to file list but not db 
+	lockFileList();
+
+	for( auto iter = m_FileInfoList.begin(); iter != m_FileInfoList.end(); ++iter )
+	{
+		FileInfo& fileInfo = iter->second;
+		if( fileNameAndPath == fileInfo.getFileNameAndPath() )
+		{
+			if( !isShared )
+			{
+				//m_FileInfoDb.removeFile( fileNameAndPath );
+				m_FileInfoList.erase( iter );
+				unlockFileList();
+				updateFileTypes();
+				return;
+			}
+			else
+			{
+				iter->second = fileInfoIn;
+
+				unlockFileList();
+				return;
+			}
+		}
+	}
+
+	unlockFileList();
+
+	if( isShared )
+	{
+		// file is not currently shared and should be
+		uint64_t fileLen = VxFileUtil::fileExists( fileNameAndPath.c_str() );
+		if( (false == isAllowedFileOrDir( fileNameAndPath ))
+			|| (0 == fileLen) )
+		{
+			LogMsg( LOG_ERROR, "%s file does not exist or not allowed %s", __func__, fileNameAndPath.c_str() );
+			return;
+		}
+
+		VxGUID assetId = assetInfo->assureAssetUniqueId();
+
+		lockFileList();
+		m_FileInfoList[ assetId ] = fileInfoIn;
+		unlockFileList();
+		updateFileTypes();
+	}
 }
 
 //============================================================================

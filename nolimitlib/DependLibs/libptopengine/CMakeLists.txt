@@ -160,7 +160,6 @@ list(APPEND ptopengine_SOURCES
     Plugins/FileInfoBaseMgr.cpp
     Plugins/FileInfoClientFilesMgr.cpp
     Plugins/FileInfoDb.cpp
-    Plugins/FileInfoLibraryMgr.cpp
     Plugins/FileInfoSharedFilesMgr.cpp
     Plugins/FileInfoXferMgr.cpp
     Plugins/FileInfoPersonFileXferMgr.cpp

@@ -11,7 +11,7 @@
 
 #include "PluginBaseFilesServer.h"
 
-#include <Plugins/FileInfoLibraryMgr.h>
+class AssetBaseInfo;
 
 class PluginFileShareServer : public PluginBaseFilesServer
 {
@@ -28,6 +28,8 @@ public:
 	void						onPktStreamCtrlReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
 	void						fileAboutToBeDeleted( std::string fileNameAndPath );
+
+	void						fileShareEnable( AssetBaseInfo* assetInfo, bool shareFile );
 
 protected:
 	virtual void				onFilesChanged( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes ) override;

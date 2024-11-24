@@ -59,8 +59,6 @@ public:
 
 	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, uint8_t fileFilterMask );
 
-	virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter );
-
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared );
 	virtual bool				fromGuiSetFileIsShared( std::string& fileNameAndPath, bool isShared );
 	virtual bool				fromGuiGetFileIsShared( FileInfo& fileInfo );

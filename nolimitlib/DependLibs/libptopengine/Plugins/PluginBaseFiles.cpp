@@ -155,13 +155,6 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter )
-{
-	m_Engine.getAssetMgr().fromGuiSendFileList( appInstId, fileTypeFilter, false, true );
-	return true;
-}
-
-//============================================================================
 bool PluginBaseFiles::fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared )
 {
 	return m_Engine.getAssetMgr().fromGuiSetFileIsShared( fileInfo, isShared );

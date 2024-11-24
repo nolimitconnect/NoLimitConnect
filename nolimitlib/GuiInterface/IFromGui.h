@@ -242,9 +242,6 @@ public:
 
 	/// Send directory listing to GUI
 	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) = 0;
-	/// Send list of shared files to GUI
-	virtual bool				fromGuiGetSharedFiles( VxGUID& appInstId, uint8_t fileTypeFilter ) = 0;
-
 	
 	/// Share/Unshare a file
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool addFile ) = 0;
@@ -292,8 +289,6 @@ public:
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) = 0;
     /// Get network status
     virtual ENetAvailStatus     fromGuiGetNetAvailStatus( void ) = 0;
-
-	virtual bool				fromGuiNearbyBroadcastEnable( bool enable ) = 0;
 
 	enum ETestParam1
 	{

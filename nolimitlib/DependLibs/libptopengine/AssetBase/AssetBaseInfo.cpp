@@ -387,6 +387,17 @@ bool AssetBaseInfo::isMyHistory( void )
 }
 
 //============================================================================
+VxGUID& AssetBaseInfo::assureAssetUniqueId( void )
+{
+	if( !m_UniqueId.isVxGUIDValid() )
+	{
+		VxGUID::generateNewVxGUID( m_UniqueId );
+	}
+
+	return m_UniqueId;
+}
+
+//============================================================================
 // generates unique id, assigns it to asset and returns reference to it
 VxGUID& AssetBaseInfo::generateNewUniqueId( bool ifNotValid )
 {
