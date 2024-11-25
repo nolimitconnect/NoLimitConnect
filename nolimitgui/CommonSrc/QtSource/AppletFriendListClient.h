@@ -52,16 +52,12 @@ private slots:
     void                        slotFriendsInfoButtonClicked( void );
     void                        slotIgnoredButtonClicked( void );
     void                        slotIgnoredInfoButtonClicked( void );
-    void                        slotNearbyButtonClicked( void );
-    void                        slotNearbyInfoButtonClicked( void );
-
     void                        slotOfflineButtonClicked( void );
     void                        slotOfflineInfoButtonClicked( void );
 
     void                        onShowFriendTypeChanged( void );
     void                        onShowFriendList( void );
     void                        onShowIgnoreList( void );
-    void                        onShowNearbyList( void );
     void                        onShowOfflineList( void );
 
 protected:
@@ -75,5 +71,5 @@ protected:
 
     //=== vars ===//
     Ui::AppletFriendListClientUi& ui;
-    EUserViewType             m_FriendListType{ eUserViewTypeFriendsOnline };
+    EUserViewType               m_FriendListType{ eUserViewTypeFriendsOnline };
 };

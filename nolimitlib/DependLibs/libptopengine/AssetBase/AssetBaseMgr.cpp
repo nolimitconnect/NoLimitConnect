@@ -1458,17 +1458,8 @@ void AssetBaseMgr::getStreamableAssets( std::vector<AssetBaseInfo>& streamableAs
 	lockResources();
 	for( auto* assetInfo : m_AssetBaseInfoList )
 	{
-        FileInfo fileInfo = assetInfo->getFileInfo();
-        if( assetInfo->getIsAssetStreamable() && pluginFileShareServer.fromGuiGetFileIsShared( fileInfo ) )
+        if( assetInfo->getIsAssetStreamable() && assetInfo->isSharedFileAsset() )
 		{
-			// FIXME TODO keep in sync
-			if( !assetInfo->isSharedFileAsset() )
-			{
-				LogMsg( LOG_WARN, "%s shared asset flag was not set", __func__ );
-				assetInfo->setIsSharedFileAsset( true );
-				updateDatabase( assetInfo );
-			}
-
 			streamableAssets.emplace_back( *assetInfo );
 		}
 	}

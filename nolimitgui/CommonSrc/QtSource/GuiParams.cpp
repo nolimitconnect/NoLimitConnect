@@ -1832,9 +1832,6 @@ QString GuiParams::describeUserViewType( EUserViewType showFriendType )
     case eUserViewTypeOffline:
         return  QObject::tr( "Offline " );
 
-    case eUserViewTypeNearby:
-        return  QObject::tr( "Nearby " );
-
     case eUserViewTypeNone:
     default:
         return  QObject::tr( "Unknown " );

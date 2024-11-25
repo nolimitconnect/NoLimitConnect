@@ -1304,7 +1304,6 @@ enum EUserViewType
     eUserViewTypeOnline,
     eUserViewTypeDirectConnect,
     eUserViewTypeOffline,
-    eUserViewTypeNearby,
 
     eMaxUserViewType
 };

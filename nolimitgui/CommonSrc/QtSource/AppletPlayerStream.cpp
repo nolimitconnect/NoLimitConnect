@@ -199,8 +199,13 @@ bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 //============================================================================
 bool AppletPlayerStream::playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
-	GetVirtStreamMgr().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
-	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
+	bool canPlay = GetVirtStreamMgr().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
+	if( canPlay )
+	{
+		canPlay &= IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
+	}
+	
+	return canPlay;
 }
 
 //========================================================================

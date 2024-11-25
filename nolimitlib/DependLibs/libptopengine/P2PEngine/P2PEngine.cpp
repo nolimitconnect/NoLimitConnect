@@ -91,7 +91,6 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	, m_GroupieListMgr( *this )
 	, m_HostUrlListMgr( *this )
 	, m_HostedListMgr( *this )
-	, m_NearbyListMgr( *this )
 	, m_BigListMgr( *this )
 	, m_EngineSettings()
 	, m_EngineParams()

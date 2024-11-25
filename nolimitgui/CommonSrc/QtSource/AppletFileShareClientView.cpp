@@ -450,12 +450,19 @@ void AppletFileShareClientView::slotStreamButtonClicked( QListWidgetItem* item )
 	AssetBaseInfo assetInfo;
 	VxGUID lclSessionId;
 	xferSession->getAssetInfo( assetInfo, lclSessionId );
+	assetInfo.setIsStream( true );
+
 	assetInfo.setPluginType( ePluginTypeFileShareClient );
 	assetInfo.setDestUserId( xferSession->getIdent()->getMyOnlineId() );
 
 	if( m_MyApp.getPlayerMgr().playStream( assetInfo, lclSessionId, 0 ) )
 	{
 		((FileXferWidget*)item)->setXferState( eXferStateStreaming, eXferErrorNone, 0 );
+	}
+	else
+	{
+		ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, QObject::tr("Failed to play stream ") + assetInfo.getFileName().c_str() );
+		errMsgBox.exec();
 	}
 }
 

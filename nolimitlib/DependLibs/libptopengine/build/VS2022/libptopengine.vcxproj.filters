@@ -520,9 +520,6 @@
     <ClCompile Include="..\..\IdentListMgrs\IgnoreListMgr.cpp">
       <Filter>Source Files\IdentListMgrs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\IdentListMgrs\NearbyListMgr.cpp">
-      <Filter>Source Files\IdentListMgrs</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Plugins\PluginPushToTalk.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
@@ -1237,9 +1234,6 @@
       <Filter>Source Files\IdentListMgrs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\IdentListMgrs\IgnoreListMgr.h">
-      <Filter>Source Files\IdentListMgrs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\IdentListMgrs\NearbyListMgr.h">
       <Filter>Source Files\IdentListMgrs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\IdentListMgrs\IdentListCallbackInterface.h">

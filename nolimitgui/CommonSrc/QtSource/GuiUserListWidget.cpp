@@ -141,6 +141,7 @@ void GuiUserListWidget::clearUserList( void )
     }
 
     clear();
+    update();
 }
 
 //============================================================================
@@ -766,10 +767,6 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
             {
                  return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, guiUser->getMyOnlineId() );
             }
-        }
-        else if( eUserViewTypeNearby == viewType )
-        {
-            return guiUser->isNearby();
         }
         else if( eUserViewTypeOffline == viewType )
         {

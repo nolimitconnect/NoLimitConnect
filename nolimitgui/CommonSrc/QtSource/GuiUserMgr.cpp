@@ -79,13 +79,7 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
                 LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListUpdate is direct connect %s", guiUser->getNetIdent().getOnlineName() );
             }
             break;
-        case eUserViewTypeNearby:
-            //if( !guiUser->getNetIdent().isNearby() )
-            //{
-            //    guiUser->getNetIdent().setIsNearby( true );
-            //    LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListUpdate is nearby %s", guiUser->getNetIdent().getOnlineName() );
-            //}
-            break;
+
         case eUserViewTypeOnline:
             if( !guiUser->getNetIdent().isOnline() )
             {
@@ -135,14 +129,6 @@ void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId
             {
                 LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListRemove Was direct connect %s", guiUser->getNetIdent().getOnlineName() );
             }
-            break;
-
-        case eUserViewTypeNearby:
-            //if( guiUser->getNetIdent().isNearby() )
-            //{
-            //    guiUser->getNetIdent().setIsNearby( false );
-            //    LogMsg( LOG_VERBOSE, "GuiUserMgr::toGuiIndentListRemove Was nearby %s", guiUser->getNetIdent().getOnlineName() );
-            //}
             break;
 
         case eUserViewTypeOnline:

@@ -544,7 +544,6 @@
     <ClCompile Include="..\..\IdentListMgrs\IgnoredHostInfo.cpp" />
     <ClCompile Include="..\..\IdentListMgrs\IgnoredHostsDb.cpp" />
     <ClCompile Include="..\..\IdentListMgrs\IgnoreListMgr.cpp" />
-    <ClCompile Include="..\..\IdentListMgrs\NearbyListMgr.cpp" />
     <ClCompile Include="..\..\MediaProcessor\AudioUtil.cpp" />
     <ClCompile Include="..\..\MediaProcessor\MediaProcessor.cpp" />
     <ClCompile Include="..\..\Membership\MemberActiveMgr.cpp" />
@@ -813,7 +812,6 @@
     <ClInclude Include="..\..\IdentListMgrs\IgnoredHostInfo.h" />
     <ClInclude Include="..\..\IdentListMgrs\IgnoredHostsDb.h" />
     <ClInclude Include="..\..\IdentListMgrs\IgnoreListMgr.h" />
-    <ClInclude Include="..\..\IdentListMgrs\NearbyListMgr.h" />
     <ClInclude Include="..\..\MediaProcessor\AudioUtil.h" />
     <ClInclude Include="..\..\MediaProcessor\MediaClient.h" />
     <ClInclude Include="..\..\MediaProcessor\MediaProcessor.h" />

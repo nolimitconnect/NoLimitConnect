@@ -81,7 +81,6 @@ list(APPEND ptopengine_SOURCES
     IdentListMgrs/IgnoredHostInfo.cpp
     IdentListMgrs/IgnoredHostsDb.cpp
     IdentListMgrs/IgnoreListMgr.cpp
-    IdentListMgrs/NearbyListMgr.cpp
     MediaProcessor/AudioUtil.cpp
     MediaProcessor/MediaProcessor.cpp
     Membership/MemberActiveMgr.cpp

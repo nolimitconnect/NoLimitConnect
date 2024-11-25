@@ -631,7 +631,10 @@ void FileInfoBaseMgr::fromGuiFileHashGenerated( std::string& fileNameAndPath, in
 			if( !iter->second.getFileHashId().isHashValid() || !iter->second.getFileHashId().isEqualTo( fileHash.getHashData() ) )
 			{
 				iter->second.getFileHashId().setHashData( fileHash.getHashData() );
-				m_FileInfoDb.addFile( iter->second );
+				if( ePluginTypeFileShareServer != m_Plugin.getPluginType() )
+				{
+					m_FileInfoDb.addFile( iter->second );
+				}
 			}
 
 			break;

@@ -27,7 +27,6 @@
 #include <ConnectIdListMgr/ConnectIdListMgr.h>
 #include <IdentListMgrs/FriendListMgr.h>
 #include <IdentListMgrs/IgnoreListMgr.h>
-#include <IdentListMgrs/NearbyListMgr.h>
 
 #include <NetworkMonitor/NetStatusAccum.h>
 
@@ -132,7 +131,6 @@ public:
     IgnoreListMgr&              getIgnoreListMgr( void )                        { return m_IgnoreListMgr; }
     MemberActiveMgr&            getMemberActiveMgr( void )                      { return m_MemberActiveMgr; }
 
-    NearbyListMgr&              getNearbyListMgr( void )                        { return m_NearbyListMgr; }
     NetConnector&				getNetConnector( void )							{ return m_NetConnector; }
     NetStatusAccum&             getNetStatusAccum( void )                       { return m_NetStatusAccum; }
     NetworkMgr&					getNetworkMgr( void )							{ return m_NetworkMgr; }
@@ -772,8 +770,8 @@ protected:
     GroupieListMgr              m_GroupieListMgr;
     HostUrlListMgr              m_HostUrlListMgr;
     HostedListMgr               m_HostedListMgr;
-    NearbyListMgr               m_NearbyListMgr;
     BigListMgr					m_BigListMgr;
+
 	PktAnnounce					m_PktAnn;
     int64_t                     m_PktAnnLastModTime{ 0 };
     VxGUID                      m_MyOnlineId;
