@@ -28,7 +28,7 @@
 //============================================================================
 AppletPlayerVideo::AppletPlayerVideo( AppCommon& app, QWidget* parent )
 : AppletPlayerBase( OBJNAME_APPLET_PLAYER_PHOTO, app, parent )
-, ui(*(new Ui::AppletVideoPlayerClass))
+, ui(*(new Ui::AppletPlayerVideoUi))
 , m_ActivityCallbacksEnabled( false )
 , m_IsPlaying( false )
 , m_SliderIsPressed( false )
@@ -51,11 +51,6 @@ void AppletPlayerVideo::initAppletPlayerVideo( void )
     {
         setupBottomMenu( bottomBar->getMenuButton() );
     }
-
-
-	//ui.m_VidWidget->showAllControls( false );
-	//ui.m_VidWidget->disablePreview( true );
-	//ui.m_VidWidget->disableRecordControls( true );
 
 	ui.m_PlayPosSlider->setRange( 0, 100000 );
 
@@ -111,46 +106,8 @@ void AppletPlayerVideo::slotMenuItemSelected( int menuId, EMenuItemType menuItem
 void AppletPlayerVideo::setAssetInfo( AssetInfo& assetInfo )
 {
 	AppletPlayerBase::setAssetInfo( assetInfo );
-	//ui.m_FileNameLabel->setText( getAssetInfo().getRemoteAssetName().c_str() );
-	//ui.m_ShredButton->setShredFile( getAssetInfo().getRemoteAssetName().c_str() );
-	//ui.m_LeftAvatarBar->setShredFile( getAssetInfo().getRemoteAssetName().c_str() );
-	//ui.m_RightAvatarBar->setShredFile( getAssetInfo().getRemoteAssetName().c_str() );
 
     ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getAssetUniqueId(), eAppModuleMediaPlayer );
-	//if( ui.m_TagLabel->text().isEmpty() )
-	//{
-	//	ui.m_TagLabel->setVisible( false );
-	//	ui.m_TagTitleLabel->setVisible( false );
-	//	this->setSizeHint( QSize( 100, 224 - 16 ) );
-	//}
-	//else
-	//{
-	//	ui.m_TagLabel->setVisible( true );
-	//	ui.m_TagTitleLabel->setVisible( true );
-	//	this->setSizeHint( QSize( 100, 224 ) );
-	//}
-
-	//if( assetInfo.isMine() )
-	//{
-	//	ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime() );
-	//}
-	//else
-	//{
-	//	ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime() );
-	//}
-
-	//if( assetInfo.isFileAsset() )
-	//{
-	//	ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
-	//	ui.m_RightAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
-	//}
-	//else
-	//{
-	//	ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconTrash );
-	//	ui.m_RightAvatarBar->setShredButtonIcon( eMyIconTrash );
-	//}
-
-	//updateFromAssetInfo();
 }
 
 //============================================================================

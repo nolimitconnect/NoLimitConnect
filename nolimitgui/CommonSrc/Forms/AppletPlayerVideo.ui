@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AppletVideoPlayerClass</class>
- <widget class="QWidget" name="AppletVideoPlayerClass">
+ <class>AppletPlayerVideoUi</class>
+ <widget class="QWidget" name="AppletPlayerVideoUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -90,7 +90,7 @@
       </size>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>

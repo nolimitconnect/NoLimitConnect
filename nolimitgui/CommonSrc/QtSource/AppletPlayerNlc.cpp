@@ -53,6 +53,7 @@ AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 
 	ui.setupUi( getContentItemsFrame() );
 	ui.m_PlayControlWidget->setVisible( false );
+
     setMenuBottomVisibility( true );
 	ui.m_BrowseButton->setIcon( eMyIconFileBrowseNormal );
 	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeSmall );
@@ -77,6 +78,7 @@ AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 
     GuiHelpers::requestFilePermission( eMediaFileAny );
 
+#if 0
 	QStringList downloadPathList = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
 	for( auto downloadPath : downloadPathList )
 	{
@@ -89,7 +91,7 @@ AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 
 		addMediaFilesToRecentList( mediaDir );
 	}
-
+	
 	std::string lastPlayedMovie;
 	m_MyApp.getAppSettings().getLastPlayedMovie( lastPlayedMovie );
 	if( !lastPlayedMovie.empty() )
@@ -105,6 +107,16 @@ AppletPlayerNlc::AppletPlayerNlc( AppCommon& app, QWidget* parent )
 	refreshRecentFilesComboBox();
 
 	connect( ui.m_FilesComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMediaFileComboBoxSelectionChange(int)) );
+#else
+	std::string lastPlayedMovie;
+	m_MyApp.getAppSettings().getLastPlayedMovie( lastPlayedMovie );
+	if( !lastPlayedMovie.empty() )
+	{
+		ui.m_LastPlayedFileText->setText( lastPlayedMovie.c_str() );
+	}
+
+	ui.m_FilesComboBox->setVisible( false );
+#endif
 
 	connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseButtonClick()) );
 	connect( ui.m_ReplayButton, SIGNAL(clicked()), this, SLOT(slotReplayButtonClick()) );
@@ -249,10 +261,10 @@ void AppletPlayerNlc::slotReplayButtonClick( void )
 	{
         playSelectedMedia( movieFile );
 	}
-	else if( ui.m_FilesComboBox->currentIndex() >= 0 && ui.m_FilesComboBox->currentIndex() < m_RecentFiles.size() )
-	{
-        playSelectedMedia( m_RecentFiles.getFileNameAndPathAtIndex( ui.m_FilesComboBox->currentIndex() ) );
-	}
+	//else if( ui.m_FilesComboBox->currentIndex() >= 0 && ui.m_FilesComboBox->currentIndex() < m_RecentFiles.size() )
+	//{
+ //       playSelectedMedia( m_RecentFiles.getFileNameAndPathAtIndex( ui.m_FilesComboBox->currentIndex() ) );
+	//}
 }
 
 //============================================================================
@@ -291,7 +303,7 @@ void AppletPlayerNlc::playSelectedMedia( std::string fileNameAndPath )
 			//m_RecentFiles.dumpToLog( LOG_VERBOSE );
 			refreshRecentFilesComboBox();
 
-			ui.m_LastPlayedFileText->setText( justFileName.c_str() );
+			ui.m_LastPlayedFileText->setText( fileNameAndPath.c_str() );
 			m_MyApp.getAppSettings().setLastPlayedMovie( fileNameAndPath );
 			if( !m_MyApp.getPlayerMgr().playFile( fileNameAndPath.c_str(), 0, false, false ) )
 			{
@@ -356,14 +368,14 @@ bool AppletPlayerNlc::isMediaPlayerReady( bool notifyIfNotReady )
 //============================================================================
 void AppletPlayerNlc::updateRecentListVisibility( void )
 {
-	if( m_RecentFiles.size() && m_MediaPlayerReady )
-	{
-		ui.m_FilesComboBox->setVisible( true );
-	}
-	else
-	{
-		ui.m_FilesComboBox->setVisible( false );
-	}
+	//if( m_RecentFiles.size() && m_MediaPlayerReady )
+	//{
+	//	ui.m_FilesComboBox->setVisible( true );
+	//}
+	//else
+	//{
+	//	ui.m_FilesComboBox->setVisible( false );
+	//}
 
 	if( m_MediaPlayerReady )
 	{

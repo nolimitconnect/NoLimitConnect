@@ -64,6 +64,8 @@ void AppletPlayerStream::initAppletPlayerStream( void )
 
 	ui.setupUi( getContentItemsFrame() );
 	ui.m_PlayControlWidget->setVisible( false );
+	ui.m_ReplayButton->setVisible( false );
+
     setMenuBottomVisibility( true );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
@@ -72,7 +74,7 @@ void AppletPlayerStream::initAppletPlayerStream( void )
         setupBottomMenu( bottomBar->getMenuButton() );
     }
 
-#if defined(DEBUG)
+#if 0
 	ui.m_StreamsComboBox->setEnabled( false ); // do not enable until media player is ready
 	ui.m_StreamsComboBox->addItem( "Debug Streams" );
 
@@ -267,4 +269,5 @@ void AppletPlayerStream::onPlaybackEnded( VxGUID& feedId )
 {
 	GetVirtStreamMgr().onPlaybackEnded( feedId );
 	AppletPlayerNlcBase::onPlaybackEnded( feedId );
+	getRenderConsumer()->showAppIcon();
 }

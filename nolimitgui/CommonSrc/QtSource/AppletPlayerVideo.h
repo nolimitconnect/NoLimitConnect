@@ -16,7 +16,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class AppletVideoPlayerClass;
+    class AppletPlayerVideoUi;
 }
 QT_END_NAMESPACE
 
@@ -69,7 +69,7 @@ protected:
 	bool						m_IsPlaying;
 	bool						m_SliderIsPressed;
 
-	Ui::AppletVideoPlayerClass&	ui;
+	Ui::AppletPlayerVideoUi&	ui;
 };
 
 

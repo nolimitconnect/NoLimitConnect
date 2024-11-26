@@ -205,4 +205,5 @@ protected:
 
 	bool						m_IsPopupDialog{ false };
 	bool						m_VidCallbacksRequested{ false };
+	std::string					m_TitleText;
 };

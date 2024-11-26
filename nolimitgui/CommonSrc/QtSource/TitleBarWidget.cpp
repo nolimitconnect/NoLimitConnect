@@ -168,6 +168,7 @@ void TitleBarWidget::wantCallbacks( bool enable )
         }
         else
         {
+            m_VidCallbacksRequested = false;
             m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
         }  
     }
@@ -277,6 +278,7 @@ VxPushButton * TitleBarWidget::getAppIconPushButton( void )
 //============================================================================
 void TitleBarWidget::setTitleBarText( QString titleText )
 {
+    m_TitleText = titleText.toUtf8().constData();
 	ui.StyledDlgTitleLabel->setText( titleText );
 }
 

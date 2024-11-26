@@ -61,7 +61,6 @@ public:
     QAudioFormat&               getAudioOutFormat( void )                   { return m_AudioOutFormat; }
     QAudioFormat&               getAudioInFormat( void )                    { return m_AudioInFormat; }
 
-    //AudioMixer&                 getAudioOutMixer( void )                    { return m_AudioOutMixer; }
     MiniAudioIn&                getAudioInIo( void )                        { return m_AudioInIo; }
     MiniAudioOut&               getAudioOutIo( void )                       { return m_AudioOutIo; }
 

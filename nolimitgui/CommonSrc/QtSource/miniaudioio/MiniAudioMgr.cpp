@@ -896,24 +896,24 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
 {
     lockSpeakerRead();
     int processSampleCnt = m_SpeakerRequestSize ? m_SpeakerRequestSize : AUDIO_SAMPLES_PER_FRAME;
-        unlockSpeakerRead();
+    unlockSpeakerRead();
 
     // move player cache into module mixer so can be mixed and sent to speaker
     lockModuleMixerBuffer();
-        AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
 
     int mixerFreeSpace = mixerBuf.freeSpaceSampleCount();
  
-            lockPlayerCache();
-            int playerCacheSampleCnt = m_PlayerCacheBuf.getSampleCnt();
+    lockPlayerCache();
+    int playerCacheSampleCnt = m_PlayerCacheBuf.getSampleCnt();
     int samplesToXfer = std::min(mixerFreeSpace, playerCacheSampleCnt );
-                if( samplesToXfer > 0 )
-                {
+    if( samplesToXfer > 0 )
+    {
         mixerBuf.writeSamples( m_PlayerCacheBuf.getSampleBuffer(), samplesToXfer );
-                    m_PlayerCacheBuf.samplesWereRead( samplesToXfer );
-                }       
+        m_PlayerCacheBuf.samplesWereRead( samplesToXfer );
+    }       
 
-            unlockPlayerCache();
+    unlockPlayerCache();
         
     int mixerSampleCnt = mixerBuf.getSampleCnt();
     unlockModuleMixerBuffer();

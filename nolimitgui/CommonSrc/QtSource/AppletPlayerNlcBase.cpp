@@ -64,8 +64,6 @@ AppletPlayerNlcBase::~AppletPlayerNlcBase()
 {
 	stopMediaIfPlaying();
 	IMediaPlayerRequests::getNlcPlayer().wantMediaPlayerCallback( this, false );
-
-	//m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, false );
 	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
 	m_MyApp.activityStateChange( this, false );
 }
@@ -112,7 +110,6 @@ void AppletPlayerNlcBase::onAppletInitialized( void )
 
 	m_MyApp.activityStateChange( this, true );
 	m_MyApp.getSoundMgr().setPlayerNlcActive( true );
-	//m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( this, true );
 }
 
 //============================================================================
@@ -473,6 +470,7 @@ void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
+	getRenderConsumer()->showAppIcon();
 }
 
 //============================================================================
@@ -550,7 +548,11 @@ void AppletPlayerNlcBase::resetPlayerControls( void )
 //============================================================================
 void AppletPlayerNlcBase::updateLastPlayedFile( void )
 {
-	if( m_AssetInfo.isValidFile() )
+	if( m_AssetInfo.isStream() )
+	{
+		m_LastPlayedIsFile = false;
+	}
+	else if( m_AssetInfo.isValidFile() )
 	{
 		m_LastPlayedIsFile = true;
 		m_LastPlayedMediaName = m_AssetInfo.getAssetName();

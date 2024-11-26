@@ -83,7 +83,7 @@ bool SoundMgr::sndMgrStartup( void )
     {
         VxSndInstance* sndInstance = new VxSndInstance( (ESndDef)i, this );
         connect( sndInstance, SIGNAL(signalSndFinished(VxSndInstance*)), this, SLOT(slotSndFinished(VxSndInstance*)) );
-        m_SndList.push_back( sndInstance );
+        m_SndList.emplace_back( sndInstance );
     }
 
 	audioIoSystemStartup();
