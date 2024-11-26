@@ -185,6 +185,7 @@ OpusFileDecoder::OpusFileDecoder( P2PEngine& engine, MediaProcessor& mediaProces
 : m_Engine( engine )
 , m_MediaProcessor( mediaProcessor )
 {
+	m_MediaSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
@@ -254,7 +255,7 @@ void OpusFileDecoder::enableSpaceAvailCallback( bool enableCallback, bool lockRe
 	if( enableCallback != m_SpaceAvailCallbackEnabled )
 	{
 		m_SpaceAvailCallbackEnabled = enableCallback;
-		m_MediaProcessor.wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputMixer, this, eAppModuleMediaReader, m_SpaceAvailCallbackEnabled );
+		m_MediaProcessor.wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputMixer, this, eAppModuleMediaReader, m_MediaSessionId, m_SpaceAvailCallbackEnabled );
 	}
 
 	if( lockResources )

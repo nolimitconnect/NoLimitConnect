@@ -480,7 +480,7 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 		xferInfo.setLclFileName( strLclFileName.c_str() );
 		xferInfo.setRmtFileName(  rmtFileName.c_str() );
 		
-		m_TxSessions.push_back( xferSession );
+        m_TxSessions.emplace_back( xferSession );
 
 		pktReply.setLclSessionId( xferInfo.getLclSessionId() );
 		pktReply.setRmtSessionId( xferInfo.getRmtSessionId() );
@@ -1659,7 +1659,7 @@ EXferError FileInfoXferMgr::beginFileGet( FileRxSession* xferSession )
 		pktReq.setRmtSessionId( xferSession->m_FilesToXferList[0].getRmtSessionId() );
 		pktReq.setAssetId( xferSession->m_FilesToXferList[0].getAssetId() );
 		pktReq.setFileHashId( xferSession->m_FilesToXferList[0].getFileHashId() );
-		pktReq.setIsStream( xferSession->m_FilesToXferList[0].getIsStream() );
+		pktReq.setIsStream( xferSession->m_FilesToXferList[0].isStream() );
 		EXferError xferErr = m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(),
 												xferSession->getSendToId(), 
 												xferSession->getSkt(), 
@@ -1765,12 +1765,12 @@ bool FileInfoXferMgr::startDownload( FileInfo& fileInfo, VxGUID& lclSessionId, s
 	FileRxSession* fileRxSession = findOrCreateRxSession( lclSessionId, onlineId, sktBase );
 	if( fileRxSession )
 	{
-		fileRxSession->setIsStream( fileInfo.getIsStream() );
+		fileRxSession->setIsStream( fileInfo.isStream() );
 		fileRxSession->setAssetId( fileInfo.getAssetId() );
 		fileRxSession->setFileHashId( fileInfo.getFileHashId() );
 		FileToXfer fileToXfer( fileInfo, lclSessionId, lclSessionId );
 
-		fileRxSession->m_FilesToXferList.push_back( fileToXfer );
+		fileRxSession->m_FilesToXferList.emplace_back( fileToXfer );
 		result = beginFileGet( fileRxSession ) == eXferErrorNone;
 	}
 

@@ -86,4 +86,5 @@ protected:
 	std::vector<uint32_t>		m_PcmOffsetList;
 	AviAudioHdr					m_AviAudioHdr;
 	VxMutex						m_AviFileAccessMutex;
+	VxGUID						m_MediaSessionId;
 };

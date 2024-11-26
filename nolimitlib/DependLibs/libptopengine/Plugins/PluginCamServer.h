@@ -92,6 +92,7 @@ protected:
 
 	bool						m_IsCamServiceEnabled{ false };
     bool						m_RequestedVidPkts{ false };
+    VxGUID                      m_MediaSessionId;
 };
 
 

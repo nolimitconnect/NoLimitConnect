@@ -57,4 +57,5 @@ protected:
 	std::vector<std::pair<VxGUID,GuiPlayerCallback*>>  m_VideoPlayClients;
 	QAtomicInt					m_BehindFeedFrameCnt;
 	QAtomicInt					m_BehindMotionFrameCnt;
+	VxGUID						m_MediaSessionId;
 };

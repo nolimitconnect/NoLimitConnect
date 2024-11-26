@@ -449,8 +449,7 @@ void AppletFileShareClientView::slotStreamButtonClicked( QListWidgetItem* item )
 	EXferState xferState = xferSession->getXferState();
 	AssetBaseInfo assetInfo;
 	VxGUID lclSessionId;
-	xferSession->getAssetInfo( assetInfo, lclSessionId );
-	assetInfo.setIsStream( true );
+	xferSession->getAssetInfo( assetInfo, lclSessionId, true );
 
 	assetInfo.setPluginType( ePluginTypeFileShareClient );
 	assetInfo.setDestUserId( xferSession->getIdent()->getMyOnlineId() );
@@ -519,7 +518,7 @@ void AppletFileShareClientView::cancelDownload( GuiFileXferSession* xferSession,
     xferSession->setXferState(  eXferStateUserCanceledDownload, eXferErrorNone, 0 );
     ((FileXferWidget*)item)->setXferState( eXferStateUserCanceledDownload, eXferErrorNone, 0 );
 	m_MyApp.getFileXferMgr().cancelDownload( getAppletType(), xferSession );
-	if( xferSession->getIsStream() )
+    if( xferSession->isStream() )
 	{
 		xferSession->setIsStream( false );
 		removeDownload( xferSession, item );

@@ -39,11 +39,13 @@ public:
 	ClientToRemove( VxGUID&						onlineId,
 					EMediaInputType				mediaType, 
 					MediaCallbackInterface *	callback,
-					EAppModule					appModule)
+					EAppModule					appModule,
+					VxGUID&						sessionId)
 	: m_OnlineId( onlineId )
 	, m_MediaType( mediaType )
 	, m_Callback( callback )
 	, m_AppModule( appModule )
+	, m_SessionId( sessionId )
 	{
 	}
 
@@ -63,6 +65,7 @@ public:
 			m_MediaType = rhs.m_MediaType;
 			m_Callback = rhs.m_Callback;
 			m_AppModule = rhs.m_AppModule;
+			m_SessionId = rhs.m_SessionId;
 		}
 		return *this;
 	}
@@ -71,6 +74,7 @@ public:
 	EMediaInputType				m_MediaType;
 	MediaCallbackInterface *	m_Callback;
 	EAppModule					m_AppModule{ eAppModuleInvalid };
+	VxGUID						m_SessionId;
 };
 
 //#define DEBUG_PROCESSOR_LOCK 1
@@ -149,6 +153,7 @@ public:
 												EMediaInputType				mediaType, 
 												MediaCallbackInterface *	callback, 
 												EAppModule					appModule,
+												VxGUID&						sessionId,
 												bool						wantInput );
 
 	virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation );
@@ -189,18 +194,21 @@ protected:
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
 														EAppModule					appModule,
+														VxGUID&						sessionId,
 														bool						wantInput );
 
 	void						wantMixerMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
 														EAppModule					appModule,
+														VxGUID&						sessionId,
 														bool						wantInput );
 
 	void						wantVideoMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
 														EAppModule					appModule,
+														VxGUID&						sessionId,
 														bool						wantInput );
 	
 	void						doMixerClientRemovals( std::vector<ClientToRemove>& clientRemoveList );
@@ -210,21 +218,25 @@ protected:
 	bool						clientExistsInList(	std::vector<MediaClient>&		clientList, 
 													VxGUID&							onlineId,
 													EMediaInputType					mediaType, 
+													VxGUID&							sessionId,
 													MediaCallbackInterface *		callback );
 
-	bool						removeClientFromListist( std::vector<MediaClient>& clientList,
+	bool						removeClientFromListist( std::vector<MediaClient>&		clientList,
 														 VxGUID&						onlineId,
-														EMediaInputType					mediaType,
-														MediaCallbackInterface*			callback );
+														 EMediaInputType				mediaType,
+														 VxGUID&						sessionId,
+														 MediaCallbackInterface*		callback );
 
 	bool						clientToRemoveExistsInList(	std::vector<ClientToRemove>&	clientRemoveList, 
 															VxGUID&							onlineId,
 															EMediaInputType					mediaType, 
+															VxGUID&							sessionId,
 															MediaCallbackInterface *		callback );
 
 	bool						clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	clientRemoveList, 
 																VxGUID&							onlineId,
 																EMediaInputType					mediaType, 
+																VxGUID&							sessionId,
 																MediaCallbackInterface *		callback );
 
 	//=== vars ===//

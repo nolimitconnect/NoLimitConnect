@@ -46,6 +46,8 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 , ui(*(new Ui::AppletSnapshotUi))
 , m_CloseDlgTimer( new QTimer( this ) )
 {
+    m_MediaSessionId.initializeWithNewVxGUID();
+
     setAppletType( eAppletSnapshot );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
@@ -68,7 +70,7 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 
     if( m_MyApp.getCamLogic().isCamAvailable() )
     {
-        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, true );
+        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, m_MediaSessionId, true );
     }
     else
     {
@@ -140,7 +142,7 @@ void AppletSnapshot::onCamFrontBackButClick( void )
 //============================================================================
 void AppletSnapshot::onCloseEvent( void )
 {
-    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, false );
+    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, m_MediaSessionId, false );
     AppletBase::onCloseEvent();
 }
 

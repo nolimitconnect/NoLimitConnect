@@ -102,9 +102,9 @@ public:
 	virtual bool				fromGuiMovieDone( void  ) = 0;
 
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available
-	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, bool wantInput ) = 0;
+	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) = 0;
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available from specific user
-	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, bool wantInput ) = 0;
+	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) = 0;
 
 	/// Called when user changes his/her online name
 	virtual void				fromGuiOnlineNameChanged( const char* newOnlineName ) = 0;

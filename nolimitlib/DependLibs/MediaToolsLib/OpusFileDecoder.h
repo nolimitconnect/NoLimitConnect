@@ -110,5 +110,6 @@ protected:
 	bool						m_HeaderHasBeenRead{ false };
 	VxMutex						m_ResourceMutex;
 	bool						m_SpaceAvailCallbackEnabled{ false };
+	VxGUID						m_MediaSessionId;
 };
 

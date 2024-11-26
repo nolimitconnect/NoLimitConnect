@@ -177,16 +177,16 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
         return false;
     }
 
-	if( assetInfo.getIsStream() || assetInfo.isValidFile() )
+	if( assetInfo.isStream() || assetInfo.isValidFile() )
 	{
 		m_AssetInfo = assetInfo;
-		if( !assetInfo.getIsStream() || !m_FeedId.isVxGUIDValid() )
+		if( !assetInfo.isStream() || !m_FeedId.isVxGUIDValid() )
 		{
 			m_FeedId = m_AssetInfo.getAssetUniqueId();
 		}
 
         m_FileItem = CFileItem( assetInfo );
-        m_FileItem.setIsVirtualStream( assetInfo.getIsStream() );
+        m_FileItem.setIsVirtualStream( assetInfo.isStream() );
 		if( pos0to100000 )
 		{
 			std::string kodiPercent = std::to_string( 100000.0f / (float)pos0to100000 );

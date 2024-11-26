@@ -122,7 +122,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 					if( wantCamCapture && !m_VideoJpgRequesed )
 					{
 						m_VideoJpgRequesed = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, true, (void*)m_Plugin.getPluginType() );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, onlineId, true );
 					}
 				}
 				else
@@ -131,7 +131,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 					if( !m_VideoPktsRequested )
 					{
 						m_VideoPktsRequested = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, true, (void *)m_Plugin.getPluginType() );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, onlineId, true );
 					}
 				}
 			}
@@ -140,13 +140,13 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 				if( wantCamCapture && !m_VideoJpgRequesed )
 				{
 					m_VideoJpgRequesed = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, true, (void *)m_Plugin.getPluginType() );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, onlineId, true );
 				}
 
 				if( !m_VideoPktsRequested )
 				{
 					m_VideoPktsRequested = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, true, (void *)m_Plugin.getPluginType() );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, onlineId, true );
 				}
 			}
 		}
@@ -168,7 +168,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 					if( m_VideoPktsRequested && ( 0 == m_GuidList.size() ) )
 					{
 						m_VideoPktsRequested = false;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, false, (void *)m_Plugin.getPluginType() );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, onlineId, false );
 					}
 				}
 				else
@@ -179,7 +179,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 							|| ( m_CamServerEnabled && ( 1 == m_GuidList.size() ) ) )
 						{
 							m_VideoPktsRequested = false;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, false, (void *)m_Plugin.getPluginType() );
+							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, onlineId, false );
 						}
 					}
 
@@ -189,7 +189,7 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 							|| ( m_CamServerEnabled && ( 1 == m_GuidList.size() ) ) )
 						{
 							m_VideoJpgRequesed = false;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, false, (void *)m_Plugin.getPluginType() );
+							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, onlineId, false );
 						}
 					}
 				}
@@ -199,10 +199,10 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EAppModule
 				if(  0 == m_GuidList.size() ) 
 				{
                     LogModule( eLogMediaStream, LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoJpgSmall false %s", m_Engine.describeUser( onlineId ).c_str() );
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, false, (void *)m_Plugin.getPluginType() );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoJpgSmall, appModule, onlineId, false );
 					m_VideoJpgRequesed = false;
 					//LogMsg( LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoPkts false %s\n", netIdent->getOnlineName() );
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, false, (void *)&m_Engine.getMyPktAnnounce() );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, appModule, onlineId, false );
 					m_VideoPktsRequested = false;
 					//LogMsg( LOG_INFO, "VideoFeedMgr::enableCapture eMediaInputVideoPkts false done %s\n", netIdent->getOnlineName() );
 				}

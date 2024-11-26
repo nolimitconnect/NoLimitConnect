@@ -314,7 +314,11 @@ bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 		isValidAsset &= getPluginType() != ePluginTypeInvalid;
 	}
 
-	if( isFileAsset() )
+	if( isStream() )
+	{
+		isValidAsset &= 0 != m_CreationTime && 0 != m_InfoModifiedTime && !m_FileName.empty();
+	}
+	else if( isFileAsset() )
 	{
 		isValidAsset &= isValidFile( logErrIfInvalid ) && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}

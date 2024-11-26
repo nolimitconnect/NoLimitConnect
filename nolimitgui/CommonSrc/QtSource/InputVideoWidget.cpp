@@ -65,7 +65,7 @@ void InputVideoWidget::showEvent(QShowEvent* showEvent)
     if( m_GroupieId.isHostedIdValid() && ( false == VxIsAppShuttingDown() ) )
 	{
 		ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getCreatorId(), getAppModule() );
-		m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpgSmall, getAppModule(), true );
+		m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpgSmall, getAppModule(), m_AssetInfo.getCreatorId(), true );
         ui.m_VidWidget->setVidImageRotation( 0 );
 	}
 }
@@ -146,7 +146,7 @@ void InputVideoWidget::slotExitVideoWidget( void )
 
     if( m_ChatEntryWidget )
     {
-        //m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpgSmall, false );
+        //m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpgSmall, m_AssetInfo.getCreatorId(), false );
         this->setVisible( false );
         m_ChatEntryWidget->setEntryMode( eAssetTypeUnknown );
         m_ChatEntryWidget->setVisible( true );

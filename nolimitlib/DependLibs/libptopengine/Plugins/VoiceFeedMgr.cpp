@@ -71,7 +71,7 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 					if( !m_AudioPktsRequested )
 					{
 						m_AudioPktsRequested = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, true );
 					}
 				}
 				else
@@ -79,7 +79,7 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 					if( !m_MixerInputRequesed )
 					{
 						m_MixerInputRequesed = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, true );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, true );
 					}
 				}
 			}
@@ -89,14 +89,14 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 				{
 					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
 					m_AudioPktsRequested = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, true );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, true );
 				}
 
 				//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
 				if( !m_MixerInputRequesed )
 				{
 					m_MixerInputRequesed = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, true );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, true );
 					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture done\n" );
 				}
 			}
@@ -119,7 +119,7 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 					if( m_AudioPktsRequested && ( 0 == m_GuidList.size() ) )
 					{
 						m_AudioPktsRequested = false;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, false );
+						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, false );
 					}
 				}
 				else
@@ -130,7 +130,7 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 							|| ( m_CamServerEnabled && ( 1 == m_GuidList.size() ) ) )
 						{
 							m_MixerInputRequesed = false;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, false );
+							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, false );
 						}
 					}
 				}
@@ -142,10 +142,10 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 					m_Enabled = false;
 
                     LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputAudioPkts %d", enable );
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, false );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, false );
 					m_AudioPktsRequested = false;
                     LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputMixer %d", enable );
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, false );
+					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, false );
 					m_MixerInputRequesed = false;
                     LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false done" );
 				}

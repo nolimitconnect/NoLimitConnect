@@ -40,7 +40,7 @@ void GuiHostedListMgr::onAppCommonCreated( void )
     connect( this, SIGNAL(signalInternalHostedUpdated(HostedInfo*)), this, SLOT(slotInternalHostedUpdated(HostedInfo*)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalHostedRemoved(VxGUID,EHostType)), this, SLOT(slotInternalHostedRemoved(VxGUID,EHostType)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalHostSearchResult(HostedInfo*,VxGUID)), this, SLOT(slotInternalHostSearchResult(HostedInfo*,VxGUID)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalInternalHostSearchStatus(EHostType,VxGUID,EConnectStatus)), this, SLOT(slotInternalHostSearchComplete(EHostType,VxGUID,EConnectStatus)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalHostSearchStatus(EHostType,VxGUID,EConnectStatus)), this, SLOT(slotInternalHostSearchStatus(EHostType,VxGUID,EConnectStatus)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalHostSearchComplete(EHostType,VxGUID)), this, SLOT(slotInternalHostSearchComplete(EHostType,VxGUID)), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getHostedListMgr().wantHostedListCallback( dynamic_cast< HostedListCallbackInterface*>(this), true );

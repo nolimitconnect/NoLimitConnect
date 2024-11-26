@@ -37,6 +37,7 @@ PluginCamServer::PluginCamServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNet
 , m_VoiceFeedMgr( engine, *this, m_PluginSessionMgr )
 , m_VideoFeedMgr( engine, *this, m_PluginSessionMgr )
 {
+	m_MediaSessionId.initializeWithNewVxGUID();
 	m_ePluginType = ePluginTypeCamServer;
 }
 
@@ -392,7 +393,7 @@ void PluginCamServer::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, 
 			if( !m_RequestedVidPkts )
 			{
 				m_RequestedVidPkts = true;
-				m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoPkts, this, eAppModuleCamServer, true );
+				m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoPkts, this, eAppModuleCamServer, netIdent->getMyOnlineId(), true );
 			}
 		}
 		else
@@ -463,7 +464,7 @@ void PluginCamServer::onPktSessionStartReq( std::shared_ptr<VxSktBase>& sktBase,
 			if( !m_RequestedVidPkts )
 			{
 				m_RequestedVidPkts = true;
-				m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoPkts, this, eAppModuleCamServer, true );
+				m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoPkts, this, eAppModuleCamServer, m_MediaSessionId, true );
 			}
 		}
 	}
@@ -810,6 +811,6 @@ void PluginCamServer::updateTxSessionCount( void )
 	if( 0 == txSessionCnt && m_RequestedVidPkts )
 	{
 		m_RequestedVidPkts = false;
-		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoPkts, this, eAppModuleCamServer, false );
+		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoPkts, this, eAppModuleCamServer, m_MediaSessionId, false );
 	}
 }

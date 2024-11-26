@@ -106,9 +106,14 @@ QString GuiFileXferSession::describeXferState( void )
 }
 
 //============================================================================
-bool GuiFileXferSession::getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId )
+bool GuiFileXferSession::getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId, bool asStream )
 {
 	AssetBaseInfo assetBaseInfo( m_FileInfo );
+	if( asStream )
+	{
+		assetBaseInfo.setIsStream( true );
+	}
+
 	assetInfo = assetBaseInfo;
 	lclSessionId = m_LclSessionId;
 	return assetInfo.isValid();

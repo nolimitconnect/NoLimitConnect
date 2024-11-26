@@ -17,10 +17,12 @@ class MediaClient
 public:
 	MediaClient(	VxGUID&						onlineId,
 					EMediaInputType				mediaType, 
-					MediaCallbackInterface *	callback )
+					MediaCallbackInterface *	callback,
+					VxGUID						sessionId )
 	: m_OnlineId( onlineId )
 	, m_MediaInputType( mediaType )
 	, m_Callback( callback )
+	, m_SessionId( sessionId )
 	{
 	}
 
@@ -39,6 +41,7 @@ public:
 			m_OnlineId			= rhs.m_OnlineId;
 			m_MediaInputType	= rhs.m_MediaInputType;
 			m_Callback			= rhs.m_Callback;
+			m_SessionId			= rhs.m_SessionId;
 		}
 
 		return *this;
@@ -47,4 +50,5 @@ public:
 	VxGUID						m_OnlineId;
 	EMediaInputType				m_MediaInputType;
 	MediaCallbackInterface *	m_Callback; 
+	VxGUID						m_SessionId;
 };

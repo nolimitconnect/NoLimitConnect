@@ -88,7 +88,7 @@ public:
 	void						assureValidAssetId( void );
 
 	void						setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
-	bool 						getIsStream( void )						{ return m_IsStreaming; }
+	bool 						isStream( void )						{ return m_IsStreaming; }
 
 protected:
     bool						determineFilePath( void );

@@ -912,12 +912,12 @@ void PluginMgr::pluginApiWantAppIdle( EPluginType pluginType, bool bWantAppIdle 
 }
 
 //============================================================================
-void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, bool wantInput, void * userData )
+void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), mediaType, plugin, appModule, wantInput );
+		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), mediaType, plugin, appModule, mediaSessionId, wantInput );
 	}
 }
 

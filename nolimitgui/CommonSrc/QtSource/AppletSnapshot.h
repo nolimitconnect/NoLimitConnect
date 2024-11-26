@@ -50,4 +50,5 @@ protected:
     QTimer *                    m_CloseDlgTimer = nullptr;
     bool 					    m_SnapShotPending = false;
     QImage	                    m_ImageBitmap;
+    VxGUID                      m_MediaSessionId;
 };

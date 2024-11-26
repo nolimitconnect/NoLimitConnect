@@ -60,6 +60,7 @@ MJPEGReader::MJPEGReader( P2PEngine& engine, MediaProcessor& mediaProcessor )
 , m_IsStartThreadCommanded( false )
 , m_IsVidThreadRunning( false )
 {
+	m_MediaSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
@@ -110,7 +111,7 @@ void MJPEGReader::resetVariables( void )
 void MJPEGReader::setIsVidThreadRunning( bool isRunning )
 {
 	// LogMsg( LOG_INFO, "MJPEGReader::stopVideoRead wantMediaInput start %d", isRunning );
-    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputMixer, this, eAppModuleMediaReader, isRunning );
+    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputMixer, this, eAppModuleMediaReader, m_MediaSessionId, isRunning );
 	// LogMsg( LOG_INFO, "MJPEGReader::stopVideoRead wantMediaInput end" );
 	m_IsVidThreadRunning = isRunning; 
 }

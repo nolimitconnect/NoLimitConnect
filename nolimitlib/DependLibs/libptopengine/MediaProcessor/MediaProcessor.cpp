@@ -1041,22 +1041,23 @@ void MediaProcessor::wantMediaInput(	VxGUID&						onlineId,
 										EMediaInputType				mediaType, 
 										MediaCallbackInterface *	callback, 
 										EAppModule					appModule,
+										VxGUID&						sessionId,
 										bool						wantInput )
 {
 	if( isAudioMediaType( mediaType ) )
 	{
 		if( eMediaInputMixer == mediaType )
 		{
-			wantMixerMediaInput( onlineId, mediaType, callback, appModule, wantInput );
+			wantMixerMediaInput( onlineId, mediaType, callback, appModule, sessionId, wantInput );
 		}
 		else
 		{
-			wantAudioMediaInput( onlineId, mediaType, callback, appModule, wantInput );
+			wantAudioMediaInput( onlineId, mediaType, callback, appModule, sessionId, wantInput );
 		}
 	}
 	else
 	{
-		wantVideoMediaInput( onlineId, mediaType, callback, appModule, wantInput );
+		wantVideoMediaInput( onlineId, mediaType, callback, appModule, sessionId, wantInput );
 	}
 }
 
@@ -1064,13 +1065,15 @@ void MediaProcessor::wantMediaInput(	VxGUID&						onlineId,
 bool MediaProcessor::clientExistsInList(	std::vector<MediaClient>&		clientList, 
 											VxGUID&							onlineId,
 											EMediaInputType					mediaType, 
+											VxGUID&							sessionId,
 											MediaCallbackInterface *		callback )
 {
 	for( auto client : clientList )
 	{
 		if( client.m_OnlineId == onlineId &&
 			client.m_Callback == callback &&
-			client.m_MediaInputType == mediaType )
+			client.m_MediaInputType == mediaType &&
+			client.m_SessionId == sessionId )
 		{
 			return true;
 		}
@@ -1083,6 +1086,7 @@ bool MediaProcessor::clientExistsInList(	std::vector<MediaClient>&		clientList,
 bool MediaProcessor::removeClientFromListist(   std::vector<MediaClient>& clientList,
 											    VxGUID&					onlineId,
 												EMediaInputType			mediaType,
+											    VxGUID&					sessionId,
 												MediaCallbackInterface* callback )
 {
 	std::vector<MediaClient>::iterator iter;
@@ -1091,7 +1095,8 @@ bool MediaProcessor::removeClientFromListist(   std::vector<MediaClient>& client
 		MediaClient& client = *iter;
 		if( client.m_OnlineId == onlineId &&
 			client.m_Callback == callback &&
-			client.m_MediaInputType == mediaType )
+			client.m_MediaInputType == mediaType && 
+			client.m_SessionId == sessionId )
 		{
 			clientList.erase( iter );
 			return true;
@@ -1106,13 +1111,15 @@ bool MediaProcessor::removeClientFromListist(   std::vector<MediaClient>& client
 bool MediaProcessor::clientToRemoveExistsInList(	std::vector<ClientToRemove>&	clientRemoveList, 
 													VxGUID&							onlineId,
 													EMediaInputType					mediaType, 
+													VxGUID&							sessionId,
 													MediaCallbackInterface *		callback )
 {
 	for( auto client : clientRemoveList )
 	{
 		if( client.m_OnlineId == onlineId &&
 			client.m_Callback == callback &&
-			client.m_MediaType == mediaType )
+			client.m_MediaType == mediaType &&
+			client.m_SessionId == sessionId )
 		{
 			return true;
 		}
@@ -1125,6 +1132,7 @@ bool MediaProcessor::clientToRemoveExistsInList(	std::vector<ClientToRemove>&	cl
 bool MediaProcessor::clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	clientRemoveList, 
 												    VxGUID&							onlineId,
 													EMediaInputType					mediaType, 
+												    VxGUID&							sessionId,
 													MediaCallbackInterface *		callback )
 {
 	bool removed = false;
@@ -1134,7 +1142,8 @@ bool MediaProcessor::clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	
 		ClientToRemove& client = *iter;
 		if( client.m_OnlineId == onlineId &&
 			client.m_Callback == callback &&
-			client.m_MediaType == mediaType )
+			client.m_MediaType == mediaType &&
+			client.m_SessionId == sessionId )
 		{
 			clientRemoveList.erase( iter );
 			removed = true;
@@ -1150,6 +1159,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 											EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
 											EAppModule					appModule,
+											VxGUID&						sessionId,
 											bool						wantInput )
 {
 	if(  false == wantInput )
@@ -1157,9 +1167,9 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove not will crash because iterator may expect more items in array
 		m_MixerRemoveMutex.lock();
-		if( m_SpeakerOutputEnabled && !clientToRemoveExistsInList( m_MixerClientRemoveList, onlineId, mediaType, callback ) )
+		if( m_SpeakerOutputEnabled && !clientToRemoveExistsInList( m_MixerClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
-			m_MixerClientRemoveList.push_back( ClientToRemove( onlineId, mediaType, callback, appModule ) );
+			m_MixerClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
 		}
 
 		m_MixerRemoveMutex.unlock();
@@ -1179,12 +1189,12 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 	{
 		// if been commanded to remove and now adding remove the previous command
 		m_MixerRemoveMutex.lock();
-		bool wasRemoved = clientToRemoveRemoveFromList( m_MixerClientRemoveList, onlineId, mediaType, callback );
+		bool wasRemoved = clientToRemoveRemoveFromList( m_MixerClientRemoveList, onlineId, mediaType, sessionId, callback );
 		m_MixerRemoveMutex.unlock();
 		if( wasRemoved )
 		{
 			m_MixerClientsMutex.lock();
-			removeClientFromListist( m_MixerList, onlineId, mediaType, callback );
+			removeClientFromListist( m_MixerList, onlineId, mediaType, sessionId, callback );
 			m_MixerClientsMutex.unlock();
 		}
 	}
@@ -1197,7 +1207,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 		LogMsg( LOG_INFO, "wantAudioMediaInput m_MixerClientsMutex.lock done" );
 	#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 
-	if( clientExistsInList( m_MixerList, onlineId, mediaType, callback ) )
+	if( clientExistsInList( m_MixerList, onlineId, mediaType, sessionId, callback ) )
 	{
 		LogMsg( LOG_INFO, "WARNING. Ignoring New Mixer Media Client because already in list" );
 		#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -1208,7 +1218,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 	}
 
 	// not found add new client
-	MediaClient newClient( onlineId, mediaType, callback );
+	MediaClient newClient( onlineId, mediaType, callback, sessionId );
 	m_MixerList.emplace_back( newClient );
 
 	bool startSpeakerOutput = ( false == m_SpeakerOutputEnabled ) && ( 1 == m_MixerList.size() );
@@ -1242,6 +1252,7 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
 			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
 			EAppModule					appModule = clientRemoveList[i].m_AppModule;
+			VxGUID						sessionId = clientRemoveList[i].m_SessionId;
 
 			std::vector<MediaClient>* clientList = 0;
 			switch( mediaType )
@@ -1281,7 +1292,8 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 				MediaClient& client = *iter;
 				if( client.m_OnlineId == onlineId &&
 					client.m_Callback == callback &&
-					client.m_MediaInputType == mediaType )
+					client.m_MediaInputType == mediaType &&
+					client.m_SessionId == sessionId )
 				{
 					clientList->erase( iter );
 					break;
@@ -1308,6 +1320,7 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 											EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
 											EAppModule					appModule,
+											VxGUID&						sessionId,
 											bool						wantInput )
 {
 	if( false == wantInput )
@@ -1315,9 +1328,9 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove not will crash because iterator may expect more items in array or there may be a dead lock
 		m_AudioRemoveMutex.lock();
-		if( m_MicCaptureEnabled && !clientToRemoveExistsInList( m_AudioClientRemoveList, onlineId, mediaType, callback ) )
+		if( m_MicCaptureEnabled && !clientToRemoveExistsInList( m_AudioClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
-			m_AudioClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule ) );
+			m_AudioClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
 		}
 
 		m_AudioRemoveMutex.unlock();
@@ -1327,7 +1340,7 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 	{
 		// if been commanded to remove and now adding remove the previous command
 		m_AudioRemoveMutex.lock();
-		clientToRemoveRemoveFromList( m_AudioClientRemoveList, onlineId, mediaType, callback );
+		clientToRemoveRemoveFromList( m_AudioClientRemoveList, onlineId, mediaType, sessionId, callback );
 		m_AudioRemoveMutex.unlock();
 	}
 
@@ -1361,7 +1374,7 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 		return;
 	}
 
-	if( clientExistsInList( *clientList, onlineId, mediaType, callback ) )
+	if( clientExistsInList( *clientList, onlineId, mediaType, sessionId, callback ) )
 	{
 		LogMsg( LOG_INFO, "WARNING. Ignoring New Audio Media Client because already in list" );
 		#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -1372,7 +1385,7 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 	}
 
 	// add new client
-	MediaClient newClient( onlineId, mediaType, callback );
+	MediaClient newClient( onlineId, mediaType, callback, sessionId );
 	clientList->emplace_back( newClient );
 
 	bool startMicInput = ( false == m_MicCaptureEnabled ) && ( 1 == ( m_AudioPcmList.size() + m_AudioOpusList.size() + m_AudioPktsList.size() ) );
@@ -1406,6 +1419,7 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
 			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
 			EAppModule					appModule = clientRemoveList[i].m_AppModule;
+			VxGUID						sessionId = clientRemoveList[i].m_SessionId;
 
 			std::vector<MediaClient>* clientList = 0;
 			switch( mediaType )
@@ -1444,7 +1458,8 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 				MediaClient& client = *iter;
 				if( client.m_OnlineId == onlineId &&
 					client.m_Callback == callback &&
-					client.m_MediaInputType == mediaType )
+					client.m_MediaInputType == mediaType &&
+					client.m_SessionId == sessionId )
 				{
 					clientList->erase( iter );
 					break;
@@ -1471,6 +1486,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 										    EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
 											EAppModule					appModule,
+											VxGUID&						sessionId,
 											bool						wantInput )
 {
 	LogModule( eLogWebCam, LOG_DEBUG, "%s %s wantInput %d", __func__, DescribeAppModule( appModule ), wantInput );
@@ -1479,9 +1495,9 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove now it will crash because iterator may expect more items in array
 		m_VideoRemoveMutex.lock();
-		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, onlineId, mediaType, callback ) )
+		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
-			m_VideoClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule ) );
+			m_VideoClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
 			m_VideoSemaphore.signal();
 		}
 
@@ -1492,7 +1508,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 	{
 		// if has been commanded to remove previously and now want input then remove from the to be removed list
 		m_VideoRemoveMutex.lock();
-		clientToRemoveRemoveFromList( m_VideoClientRemoveList, onlineId, mediaType, callback );
+		clientToRemoveRemoveFromList( m_VideoClientRemoveList, onlineId, mediaType, sessionId, callback );
 		m_VideoRemoveMutex.unlock();
 	}
 
@@ -1529,7 +1545,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		return;
 	}
 
-	if( clientExistsInList( *clientList, onlineId, mediaType, callback ) )
+	if( clientExistsInList( *clientList, onlineId, mediaType, sessionId, callback ) )
 	{
 		LogMsg( LOG_INFO, "WARNING. Ignoring New Video Media Client because already in list" );
 		#ifdef DEBUG_PROCESSOR_LOCK
@@ -1539,7 +1555,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		return;
 	}
 
-	MediaClient newClient( onlineId, mediaType, callback );
+	MediaClient newClient( onlineId, mediaType, callback, sessionId );
 	clientList->emplace_back( newClient );
 
 	int idsInVidPktListCnt = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
@@ -1571,6 +1587,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
 			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
 			EAppModule					appModule = clientRemoveList[i].m_AppModule;
+			VxGUID						sessionId = clientRemoveList[i].m_SessionId;
 
 			std::vector<MediaClient>* clientList = 0;
 			switch( mediaType )
@@ -1609,7 +1626,8 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 				MediaClient& client = *iter;
 				if( client.m_OnlineId == onlineId &&
 					client.m_Callback == callback &&
-					client.m_MediaInputType == mediaType )
+					client.m_MediaInputType == mediaType &&
+					client.m_SessionId == sessionId )
 				{
 					clientList->erase( iter );
 					break;

@@ -99,9 +99,9 @@ public:
 	bool 						getStreamingEnable( void )					{ return m_StreamingEnable; }
 
 	void						setIsStream( bool isStreaming )				{ m_FileInfo.setIsStream( isStreaming ); }
-	bool 						getIsStream( void )							{ return m_FileInfo.getIsStream(); }
+	bool 						isStream( void )							{ return m_FileInfo.isStream(); }
 
-	bool						getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId );
+	bool						getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId, bool asStream = false );
 
 protected:
 	//=== vars ===//

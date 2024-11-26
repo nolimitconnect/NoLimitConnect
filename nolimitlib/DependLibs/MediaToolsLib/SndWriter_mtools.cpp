@@ -40,6 +40,7 @@ SndWriter::SndWriter( P2PEngine& engine, MediaProcessor& mediaProcessor )
 , m_OpusEncoder( * ( new OpusAudioEncoder( MY_OPUS_SAMPLE_RATE, 1 ) ) )
 , m_OpusFileEncoder( * ( new OpusFileEncoder() ) )
 {
+	m_MediaSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
@@ -151,7 +152,7 @@ bool SndWriter::startSndWrite( const char* fileName, bool beginInPausedState )
 	{
 		setIsRecordingPaused( beginInPausedState );
 		setIsRecording( true );
-		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioOpus, this,  eAppModuleMediaWriter, true );
+		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioOpus, this,  eAppModuleMediaWriter, m_MediaSessionId, true );
 	}
 
 	return result;
@@ -185,7 +186,7 @@ void SndWriter::stopSndWrite( void )
 	if( getIsRecording() )
 	{
 		setIsRecordingPaused( true );
-		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioOpus, this,  eAppModuleMediaWriter, false );
+		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioOpus, this,  eAppModuleMediaWriter, m_MediaSessionId, false );
 
 #ifdef MAKE_PCM_INSTEAD_OF_OPUS
 		if( m_FileHandle )

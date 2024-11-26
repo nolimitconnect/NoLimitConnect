@@ -78,4 +78,5 @@ protected:
 	VxMutex						m_RecMutex;
 	OpusAudioEncoder&			m_OpusEncoder;
 	OpusFileEncoder&			m_OpusFileEncoder;
+	VxGUID						m_MediaSessionId;
 };

@@ -37,6 +37,7 @@ namespace
 GuiPlayerMgr::GuiPlayerMgr()
 	: QObject()
 {
+	m_MediaSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
@@ -46,7 +47,7 @@ void GuiPlayerMgr::playerMgrStartup( void )
 	connect( this, SIGNAL(signalInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), this, SLOT(slotInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), Qt::QueuedConnection );
 	// tell engine to send all video jpeg inputs
 	VxGUID nullGuid;
-	GetPtoPEngine().fromGuiWantMediaInput( nullGuid, eMediaInputVideoJpgSmall, eAppModuleMediaPlayer, true );
+	GetPtoPEngine().fromGuiWantMediaInput( nullGuid, eMediaInputVideoJpgSmall, eAppModuleMediaPlayer, m_MediaSessionId, true );
 }
 
 //============================================================================
@@ -232,9 +233,9 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 		return false;
 	}
 
-	if( assetInfo.getIsStream() || !useExternPlayer )
+    if( assetInfo.isStream() || !useExternPlayer )
 	{
-		if( assetInfo.isPhotoAsset() || assetInfo.getIsStream() || !GetAppInstance().getAppSettings().getUseSystemMediaPlayer() )
+        if( assetInfo.isPhotoAsset() || assetInfo.isStream() || !GetAppInstance().getAppSettings().getUseSystemMediaPlayer() )
 		{
 			EApplet appletType = GuiHelpers::getAppletThatPlaysFile( GetAppInstance(), assetInfo );
 			if( appletType != eAppletUnknown )
@@ -249,7 +250,7 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 		}
 	}
 
-	if( !assetInfo.getIsStream() )
+    if( !assetInfo.isStream() )
 	{
 #ifdef TARGET_OS_WINDOWS
 		ShellExecuteA( 0, 0, assetInfo.getAssetName().c_str(), 0, 0, SW_SHOW );

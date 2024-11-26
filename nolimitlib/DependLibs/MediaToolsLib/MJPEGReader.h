@@ -149,4 +149,5 @@ protected:
 	bool						m_IsStartThreadCommanded;
 	bool						m_IsVidThreadRunning;
 	VxTimer						m_TempTimer;
+	VxGUID						m_MediaSessionId;
 };

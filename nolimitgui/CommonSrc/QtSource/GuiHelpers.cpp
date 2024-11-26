@@ -581,7 +581,7 @@ EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, AssetBaseInfo& ass
                                    GuiParams::assetTypeToFileType( assetInfo.getAssetType() ), 
                                    assetInfo.getAssetName().c_str(), 
                                    assetInfo.getAssetUniqueId(),
-                                   assetInfo.getIsStream() );
+                                   assetInfo.isStream() );
 }
 
 //============================================================================

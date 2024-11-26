@@ -109,6 +109,10 @@ public:
     virtual void				setIsDeleted( bool isDeleted )                  { if( isDeleted ) m_AttributeFlags |= ASSET_ATTRIB_DELETED; else m_AttributeFlags &= ~ASSET_ATTRIB_DELETED; }
     virtual bool				isDeleted( void )                               { return m_AttributeFlags & ASSET_ATTRIB_DELETED ? true : false; }
 
+    virtual bool 				getIsAssetStreamable( void )                    { return isAudioAsset() || isVideoAsset(); }
+    virtual void				setIsStream( bool isStreaming )			        { m_IsStreaming = isStreaming; }
+	virtual bool 				isStream( void )						        { return m_IsStreaming; }
+
     virtual bool                getIsQueued( void )                             { return eAssetSendStateQueued == m_AssetSendState; }
 
     // assetName is usually just the file name
@@ -191,10 +195,6 @@ public:
     virtual VxGUID&				getDestUserId( void )                           { return m_DestOnlineId; }
 
     virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isVxGUIDValid() ) return m_DestOnlineId; return m_HistoryId; }
-
-    virtual bool 				getIsAssetStreamable( void )            { return isAudioAsset() || isVideoAsset(); }
-    virtual void				setIsStream( bool isStreaming )			{ m_IsStreaming = isStreaming; }
-	virtual bool 				getIsStream( void )						{ return m_IsStreaming; }
 
 protected:
     void                        assureValidTimes( void ) override;

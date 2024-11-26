@@ -186,12 +186,11 @@ void AppletPlayerStream::slotMediaStreamComboBoxSelectionChange( int cbIdx )
 bool AppletPlayerStream::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	AppletPlayerBase::setAssetInfo( assetInfo );
-	if( assetInfo.getIsStream() )
+    if( assetInfo.isStream() )
 	{
 		m_LclSessionId.initializeWithNewVxGUID();
 		return playStream( assetInfo, m_LclSessionId, pos0to100000 );
 	}
-
 
 	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
 }

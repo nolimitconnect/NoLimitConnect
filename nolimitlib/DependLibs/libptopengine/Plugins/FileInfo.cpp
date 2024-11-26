@@ -106,9 +106,8 @@ FileInfo::FileInfo( AssetBaseInfo& assetInfo )
 	, m_FileTime( assetInfo.getCreationTime() )
 	, m_IsInLibrary( assetInfo.isInLibrary() )
 	, m_IsSharedFile( assetInfo.isSharedFileAsset() )
-	, m_IsStreaming( assetInfo.getIsStream() )
+	, m_IsStreaming( assetInfo.isStream() )
 {
-	setIsStream( assetInfo.getIsStream() );
     determineFilePath();
 	assureValidAssetId();
 }

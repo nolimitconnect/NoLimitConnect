@@ -438,7 +438,9 @@ bool PluginFileShareClient::startStream( std::shared_ptr<VxSktBase>& sktBase, As
 	fileInfo.setIsStream( true );
 	fileInfo.setXferSessionId( lclSessionId );
 
-	return m_FileInfoMgr.startDownload( fileInfo, lclSessionId, sktBase, assetInfo.getDestUserId() );
+	VxGUID destUserId = assetInfo.getDestUserId();
+
+	return m_FileInfoMgr.startDownload( fileInfo, lclSessionId, sktBase, destUserId );
 }
 
 //============================================================================
