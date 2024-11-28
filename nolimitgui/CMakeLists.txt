@@ -1061,6 +1061,7 @@ target_link_libraries(nolimitconnect
     ffmpegopus
     ptopengine
     miniaudio
+    wav-decoder
 )
 
 if (DEFINED TARGET_OS_LINUX)

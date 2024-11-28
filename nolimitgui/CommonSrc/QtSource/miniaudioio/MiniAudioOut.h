@@ -50,11 +50,11 @@ public:
 
     virtual int				    callbackAudioRead( int16_t* pcmData, int maxlen ) override;
 
-protected:
-    void                        startAudioOut( void );
     void                        stopAudioOut( void );
 
-private:
+protected:
+    void                        startAudioOut( void );
+   
     AppCommon&                  m_MyApp;
 
     bool                        m_initialized{ false };

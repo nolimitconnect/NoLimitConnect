@@ -104,12 +104,15 @@ void MiniAudioOut::wantSpeakerOutput( bool enableOutput )
 
     if( enableOutput )
     {
-        m_AudioOutDeviceIsStarted = startAudioOutDevice();
+        if( !m_AudioOutDeviceIsStarted )
+        {
+            m_AudioIoMgr.setNeedAudioOutDeviceStop( false );
+            m_AudioOutDeviceIsStarted = startAudioOutDevice();
+        }
     }
     else
     {
-        stopAudioOutDevice();
-        m_AudioOutDeviceIsStarted = false;
+        m_AudioIoMgr.setNeedAudioOutDeviceStop( true );
     }
 }
 
@@ -173,6 +176,7 @@ int MiniAudioOut::callbackAudioRead( int16_t* pcmData, int sampleCnt )
     }
 
     m_AudioIoMgr.callbackToSpeakerRead( pcmData, sampleCnt );
+
     return sampleCnt;
 
     /*

@@ -419,9 +419,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxScrollArea.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VxSndInstance.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VxSpinProgress.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -2612,6 +2609,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgr.h">
       <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\VxSndInstance.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

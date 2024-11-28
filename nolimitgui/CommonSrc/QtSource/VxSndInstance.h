@@ -11,50 +11,49 @@
 
 #include "SoundDefs.h"
 
+#include <CoreLib/MediaCallbackInterface.h>
+#include <CoreLib/VxGUID.h>
+
 #include <QObject>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-class QSoundEffect;
-#else
-class QSound;
-#endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#include <vector>
 
-class QTimer;
+class MediaProcessor;
 
-class VxSndInstance : public QObject
+class VxSndInstance : public QObject, public MediaCallbackInterface
 {
-	Q_OBJECT
 public:
-	VxSndInstance( ESndDef sndDef, QObject *parent = 0);
+	VxSndInstance( ESndDef sndDef, QObject* parent = nullptr );
 	virtual ~VxSndInstance();
 
-	void						setSndDef( ESndDef sndDef )				{ m_SndDef = sndDef; }
-	ESndDef						getSndDef( void )						{ return m_SndDef; }
+	void						setSndDef( ESndDef sndDef ) { m_SndDef = sndDef; }
+	ESndDef						getSndDef( void ) { return m_SndDef; }
 
-	bool						isPlaying( void )						{ return m_IsPlaying; }
-	
-	void						startPlay( bool loopContinuous = false );
+	bool						isPlaying( void ) { return m_IsPlaying; }
+
+	bool						startPlay( bool loopContinuous = false );
 	void						stopPlay( void );
 
-signals:
-	void						signalSndFinished( VxSndInstance * thisInstance );
-
-protected slots:
-	void						slotCheckForFinish( void );
-
 protected:
-	virtual void				initSndInstance( void );
+	bool						initSndInstance( void );
+
+	void						callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
+
+	void						wantAudioCallbacks( bool wantCallbacks );
 
 	//=== vars ===//
-	ESndDef						m_SndDef;
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-	QSoundEffect*				m_QSound;
-#else
-	QSound*						m_QSound;
-#endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+	ESndDef						m_SndDef{ eSndDefNone };
+	MediaProcessor*				m_MediaProcessor{ nullptr };
+	VxGUID						m_MyOnlineId;
 
-	QTimer *					m_CheckFinishTimer;
-	bool						m_IsPlaying;
-	bool						m_IsInitialized;
+	bool						m_IsPlaying{ false };
+	bool						m_IsInitialized{ false };
+	std::string					m_WavFileName;
+	VxGUID						m_MediaSessionId;
+	std::vector<int16_t>		m_WavSamples;
+	int							m_WavRate{ 0 };
+	int							m_WavChannels{ 0 };
+	int							m_PlaySndIdx{ 0 };
+	bool						m_AudioCallbacksRequested{ 0 };
 };
 

@@ -915,6 +915,8 @@ const char* DescribeAppModule( enum EAppModule eAppModule )
         return "eAppModuleTest";
     case eAppModuleMicrophone:
         return "eAppModuleMicrophone";
+    case eAppModuleSoundEffects:
+        return "eAppModuleSoundEffects";
     default:
         return "UNKNOWN EAppModule";
     }

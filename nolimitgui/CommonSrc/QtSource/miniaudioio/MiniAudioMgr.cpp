@@ -56,6 +56,7 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWi
 {
     memset( m_SilenceBuf, 0, sizeof( m_SilenceBuf ) );
 
+    m_SpeakerReadBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME * 2 ); // double because some slow systems may not process frames in time for speaker read
     m_PlayerCacheBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME * PLAYER_CACHE_FRAMES_CNT );
 
     m_AudioTestTimer->setInterval( 1200 );
@@ -202,11 +203,6 @@ void MiniAudioMgr::enableSpeakers( EAppModule appModule, bool enable )
     }
 
     m_AudioOutIo.wantSpeakerOutput( enable );
-
-    if( !enable )
-    {
-        resetSpeakerBuffers(appModule);
-    }
 }
 
 //============================================================================
@@ -896,12 +892,18 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
 {
     lockSpeakerRead();
     int processSampleCnt = m_SpeakerRequestSize ? m_SpeakerRequestSize : AUDIO_SAMPLES_PER_FRAME;
+    // miniaudio has just now read from speaker buf so unless thread is really slow free space should be valid
+    int speakerFreeSpaceSampleCnt = m_SpeakerReadBuf.freeSpaceSampleCount();
     unlockSpeakerRead();
+    if( speakerFreeSpaceSampleCnt < AUDIO_SAMPLES_PER_FRAME )
+    {
+        // not enough room to process a frame
+        return;
+    }
 
     // move player cache into module mixer so can be mixed and sent to speaker
     lockModuleMixerBuffer();
     AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
-
     int mixerFreeSpace = mixerBuf.freeSpaceSampleCount();
  
     lockPlayerCache();
@@ -914,7 +916,7 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
     }       
 
     unlockPlayerCache();
-        
+
     int mixerSampleCnt = mixerBuf.getSampleCnt();
     unlockModuleMixerBuffer();
 
@@ -925,21 +927,10 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
         return;
     }
 
-    lockSpeakerRead();
-    // miniaudio has just now read from speaker buf so unless thread is really slow free space should be valid
-    int speakerFreeSpace = m_SpeakerReadBuf.freeSpaceSampleCount();
-    unlockSpeakerRead();
-
-    if( speakerFreeSpace < AUDIO_SAMPLES_PER_FRAME )
-    {
-        //LogModule( eLogAudioIo, LOG_VERBOSE, "Waiting for speaker space" );
-        // wait until speaker buf can hold one frame
-        return;
-    }
-
     // mix inputs into buffer
     std::array<int16_t, AUDIO_SAMPLES_PER_FRAME> mixBuf;
-    bool firstFrameSet = false;
+    bool firstFrameSet{ false };
+    bool haveModuleMixerData{ false };
 
     lockModuleMixerBuffer();
 
@@ -951,6 +942,7 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
         {
             if( !mixerInBuf.isSilent() )
             {
+                haveModuleMixerData = true;
                 if( firstFrameSet )
                 {
                     AudioUtils::mixPcmAudio( mixBuf.data(), mixerInBuf.getSampleBuffer(), AUDIO_BUF_SIZE );
@@ -981,6 +973,20 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
     unlockSpeakerRead();
 
     fromGuiAudioOutSpaceAvaiThreaded( AUDIO_SAMPLES_PER_FRAME );
+
+    if( !playerCacheSampleCnt && !haveModuleMixerData && getNeedAudioOutDeviceStop() )
+    {
+        // see if all is read into speaker also
+        lockSpeakerRead();
+        int speakerSampleCnt = m_SpeakerReadBuf.getSampleCnt();
+        unlockSpeakerRead();
+
+        if( !speakerSampleCnt )
+        {
+            setNeedAudioOutDeviceStop( false );
+            m_AudioOutIo.stopAudioOut();
+        }
+    }
 
     /*
     AudioLoopbackFrame& audioFrame = getAudioWriteFrame();

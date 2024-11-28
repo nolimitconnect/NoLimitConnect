@@ -17,8 +17,8 @@
 #include <QDebug>
 
 //============================================================================
-VxResourceToRealFile::VxResourceToRealFile( const QString & resPath, QObject * parent )
-: QFile( parent )
+VxResourceToRealFile::VxResourceToRealFile( const QString & resPath )
+: QFile( nullptr )
 {
     setObjectName( "VxResourceToRealFile" );
 	QFileInfo resPathInfo( resPath );
@@ -44,6 +44,10 @@ VxResourceToRealFile::VxResourceToRealFile( const QString & resPath, QObject * p
 				{
 					qWarning() << "Could not write app resource file " << onDiskFileName;
 				}
+				else
+				{
+					m_FilePathAndName = onDiskFileName.toUtf8().constData();
+				}
 
 				close();
 			}
@@ -58,5 +62,9 @@ VxResourceToRealFile::VxResourceToRealFile( const QString & resPath, QObject * p
 		{
 			qWarning() << "Could not open resource file " << resPathInfo.fileName();
 		}
+	}
+	else
+	{
+		m_FilePathAndName = onDiskFileName.toUtf8().constData();
 	}
 }

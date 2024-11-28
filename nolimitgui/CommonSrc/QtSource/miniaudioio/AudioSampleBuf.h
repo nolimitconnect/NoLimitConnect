@@ -19,8 +19,6 @@
 class AudioSampleBuf
 {
 public:
-	static const int MAX_SAMPLES_BUFFER_SIZE = AUDIO_BUF_SIZE; // max samples before truncates beginning to make room at end of buffer
-
 	AudioSampleBuf();
 	AudioSampleBuf( const AudioSampleBuf& rhs );
 	~AudioSampleBuf() = default;
@@ -56,7 +54,7 @@ public:
 private:
 	std::vector<int16_t>		m_PcmData;
 
-	int							m_MaxSamples{ MAX_SAMPLES_BUFFER_SIZE };
+	int							m_MaxSamples{ AUDIO_SAMPLES_PER_FRAME };
 	int							m_SampleCnt{ 0 };
 	int							m_NotSilentCnt{ 0 };
 };

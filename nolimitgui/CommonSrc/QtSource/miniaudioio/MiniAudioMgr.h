@@ -202,6 +202,9 @@ public:
 
     void                        lockEchoCanceledBuffer( void )                      { m_EchoCanceledBufMutex.lock(); }
     void                        unlockEchoCanceledBuffer( void )                    { m_EchoCanceledBufMutex.unlock(); }
+   
+	void						setNeedAudioOutDeviceStop( bool needAudioOutStop ) { m_NeedAudioOutStop = needAudioOutStop; }
+	bool						getNeedAudioOutDeviceStop( void ) {  return m_NeedAudioOutStop; }
 
 signals:
     void                        signalNeedMoreAudioData( int requiredLen );
@@ -329,4 +332,6 @@ protected:
     int                         m_SpeakerRequestSize{0};
 
     ma_context_config           m_ContextConfig;
+
+    bool						m_NeedAudioOutStop{ false };
 };

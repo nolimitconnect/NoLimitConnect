@@ -12,15 +12,12 @@
 #include "SoundMgr.h"
 #include "VxResourceToRealFile.h"
 
+#include <MediaProcessor/MediaProcessor.h>
+#include <P2PEngine/P2PEngine.h>
+
+#include "libwav-decoder/WavMgr.h"
+
 #include <CoreLib/VxDebug.h>
-
-#include <QTimer>
-
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-#include <QSoundEffect>
-#else
-#include <QSound>
-#endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 
 namespace
 {
@@ -57,16 +54,10 @@ namespace
 };
 
 //============================================================================
-VxSndInstance::VxSndInstance( ESndDef sndDef, QObject * parent )
+VxSndInstance::VxSndInstance( ESndDef sndDef, QObject* parent )
 : QObject( parent )
 , m_SndDef( sndDef )
-, m_QSound( 0 )
-, m_CheckFinishTimer( new QTimer( this ) )
-, m_IsPlaying( false )
-, m_IsInitialized( false )
 {
-    setObjectName( "VxSndInstance" );
-	connect( m_CheckFinishTimer, SIGNAL( timeout() ), this, SLOT(slotCheckForFinish()) );
 }
 
 //============================================================================
@@ -76,34 +67,31 @@ VxSndInstance::~VxSndInstance()
 }
 
 //============================================================================
-void VxSndInstance::startPlay( bool loopContinuous )
+bool VxSndInstance::startPlay( bool loopContinuous )
 {
 	if( ( eSndDefNone >= m_SndDef )
 		|| ( eMaxSndDef <= m_SndDef ) )
 	{
 		// invalid or no sound
-		emit signalSndFinished( this );
-		return;
+		return false;
 	}
 
 	if( !m_IsInitialized )
 	{
-		m_IsInitialized = true;
-		initSndInstance();
+		if( !initSndInstance() )
+		{
+			return false;
+		}
 	}
 
 	if( !m_IsPlaying )
 	{
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-		m_QSound->setLoopCount(loopContinuous ? QSoundEffect::Infinite : 1);
-#else
-		m_QSound->setLoops(loopContinuous ? -1 : 1);
-#endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-		
-		m_QSound->play();
-		m_CheckFinishTimer->start( 100 );
 		m_IsPlaying = true;
+		m_PlaySndIdx = 0;
+		wantAudioCallbacks( true );
 	}
+
+	return true;
 }
 
 //============================================================================
@@ -111,53 +99,115 @@ void VxSndInstance::stopPlay( void )
 {
 	if( m_IsPlaying )
 	{
-		if( m_QSound )
-		{
-			m_QSound->stop();
-		}
-
-		slotCheckForFinish();
+		wantAudioCallbacks( false );
+		m_IsPlaying = false;
+		m_PlaySndIdx = 0;
 	}
 }
 
 //============================================================================
-void VxSndInstance::slotCheckForFinish( void )
+bool VxSndInstance::initSndInstance( void )
 {
-	if( m_IsPlaying )
+	if( m_IsInitialized )
 	{
-		if( 0 == m_QSound )
+		return true;
+	}
+
+	m_MediaSessionId.initializeWithNewVxGUID();
+	QString resourceFile = g_SndResourcePaths[ m_SndDef ];
+	VxResourceToRealFile realFile( resourceFile );
+
+	m_WavFileName = realFile.getRealFilePathAndName();
+	std::vector<int16_t> wavBytes;
+	int wavRate{ 0 };
+	int wavChannels{ 0 };
+	int wavBitsPerSample{ 0 };
+	m_IsInitialized = WavMgr::readWavFile( m_WavFileName, wavBytes, wavRate, wavChannels, wavBitsPerSample );
+	if( wavChannels != 1 )
+	{
+		m_IsInitialized = false;
+		LogMsg( LOG_ERROR, "%s only mono wav files allowed not %d channels", __func__, wavChannels );
+		return false;
+	}
+
+	if( wavBitsPerSample != 16 )
+	{
+		m_IsInitialized = false;
+		LogMsg( LOG_ERROR, "%s only 16 bit pcm wav files allowed", __func__ );
+		return false;
+	}
+
+	if( wavRate == 8000 )
+	{
+		m_WavSamples.clear();
+		int16_t* bytesAs16bit = (int16_t*)wavBytes.data();
+		for( int i = 0; i < wavBytes.size(); ++i )
 		{
-			m_CheckFinishTimer->stop();
-			emit signalSndFinished( this );
-			m_IsPlaying = false;
-			return;
-		}
-		
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-		if (!m_QSound->isPlaying())
-#elif QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-		if( m_QSound->isFinished() )
-#else
-		if( m_QSound->isAvailable()  )
-#endif // QT_5_OR_GREATER
-		{
-			m_CheckFinishTimer->stop();
-			emit signalSndFinished( this );
-			m_IsPlaying = false;
-			return;
+			m_WavSamples.emplace_back( *bytesAs16bit );
+			m_WavSamples.emplace_back( *bytesAs16bit );
+			bytesAs16bit += 1;
 		}
 	}
+	else if( wavRate == 16000 )
+	{
+		m_WavSamples.clear();
+		int16_t* bytesAs16bit = (int16_t*)wavBytes.data();
+		std::copy( bytesAs16bit, bytesAs16bit + wavBytes.size() / 2, std::back_inserter( m_WavSamples ) );
+	}
+	else
+	{
+		m_IsInitialized = false;
+		LogMsg( LOG_ERROR, "%s unknown rate %d", __func__, wavRate );
+		return false;
+	}
+
+	int fillCnt{ 0 };
+	int remainder = m_WavSamples.size() % AUDIO_SAMPLES_PER_FRAME;
+	if( remainder )
+	{
+		fillCnt = AUDIO_SAMPLES_PER_FRAME - remainder;
+	}
+
+	// fill with zeros to round up to an even frame
+	for( int i = 0; i < fillCnt; ++i )
+	{
+		m_WavSamples.emplace_back( 0 );
+	}
+
+	m_MyOnlineId = GetPtoPEngine().getMyOnlineId();
+	m_MediaProcessor = &GetPtoPEngine().getMediaProcessor();
+
+	return m_IsInitialized;
 }
 
 //============================================================================
-void VxSndInstance::initSndInstance( void )
+void VxSndInstance::callbackAudioOutSpaceAvail( int freeSpaceLen )
 {
-	QString resourceFile = g_SndResourcePaths[ m_SndDef ];
-	VxResourceToRealFile realFile( resourceFile, this );
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-	m_QSound = new QSoundEffect(this);
-	m_QSound->setSource(QUrl::fromLocalFile(realFile.fileName()));
-#else
-	m_QSound = new QSound( realFile.fileName(), this );
-#endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+	int samplesRequired = freeSpaceLen / AUDIO_BYTES_PER_SAMPLE;
+	if( samplesRequired <= m_WavSamples.size() - m_PlaySndIdx )
+	{
+		int16_t* buf = m_WavSamples.data();
+		buf += m_PlaySndIdx;
+		m_MediaProcessor->playAudio( buf, freeSpaceLen );
+		m_PlaySndIdx += samplesRequired;
+		if( m_PlaySndIdx < m_WavSamples.size() )
+		{
+			// still more to be read
+			return;
+		}
+	}
+
+	// all done
+	m_PlaySndIdx = 0;
+	wantAudioCallbacks( false );
+}
+
+//============================================================================
+void VxSndInstance::wantAudioCallbacks( bool wantCallbacks )
+{
+	if( m_AudioCallbacksRequested != wantCallbacks )
+	{
+		m_AudioCallbacksRequested = wantCallbacks;
+		m_MediaProcessor->wantMediaInput( m_MyOnlineId, eMediaInputMixer, this, eAppModuleSoundEffects, m_MediaSessionId, wantCallbacks );
+	}
 }

@@ -109,7 +109,7 @@ MediaProcessor::MediaProcessor( P2PEngine& engine )
 	int maxPicChuncsRequired = maxChunkPayloadNeeded / maxPicChunkPayload + ((maxChunkPayloadNeeded % maxPicChunkPayload) ? 1 : 0);
 	for( int i = 0; i < maxPicChuncsRequired; i++ )
 	{
-		m_VidChunkList.push_back( new PktVideoFeedPicChunk() );
+		m_VidChunkList.emplace_back( new PktVideoFeedPicChunk() );
 	}
 
 	m_ProcessAudioInThread.startThread( (VX_THREAD_FUNCTION_T)AudioInProcessThreadFunc, this, "AudioInProcessor" );
@@ -149,27 +149,7 @@ void MediaProcessor::playAudio( int16_t * pcmData, int dataLenInBytes )
 		if( m_MixerBufUsed )
 		{
 			// data already exists in buffer.. do mixing
-#if 0
-			int samples = dataLenInBytes >> 1;
-			int pcmVal;
-			int pcmMinVal = S16_MINVAL;
-			int pcmMaxVal = S16_MAXVAL;
-			for( int i = 0; i < samples; i++ )
-			{
-				pcmVal = (int)m_MixerBuf[i] + (int)pcmData[i];
-				m_MixerBuf[i] = (int16_t)pcmVal;
-				if( pcmVal < pcmMinVal )
-				{
-					m_MixerBuf[i] = S16_MINVAL;
-				}
-				else if( pcmVal > pcmMaxVal )
-				{
-					m_MixerBuf[i] = S16_MAXVAL;
-				}
-			}
-#else
 			AudioUtil::mixPcmAudio( pcmData, m_MixerBuf, AUDIO_SAMPLES_PER_FRAME );
-#endif// 0
 		}
 		else
 		{
@@ -490,7 +470,7 @@ void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataI
 		LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.lock()" );
 	#endif // DEBUG_PROCESSOR_LOCK
 	m_VideoQueInMutex.lock();
-	m_ProcessVideoQue.push_back( rawVideo );
+	m_ProcessVideoQue.emplace_back( rawVideo );
 	#ifdef DEBUG_PROCESSOR_LOCK
 		LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.unlock()" );
 	#endif // DEBUG_PROCESSOR_LOCK
@@ -578,7 +558,7 @@ void MediaProcessor::fromGuiYUV420CaptureImage(	uint8_t * yBytes, uint8_t * uByt
 	//	LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.lock()\n" );
 	//#endif // DEBUG_PROCESSOR_LOCK
 	m_VideoQueInMutex.lock();
-	m_ProcessVideoQue.push_back( rawVideo );
+	m_ProcessVideoQue.emplace_back( rawVideo );
 	//#ifdef DEBUG_PROCESSOR_LOCK
 	//	LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.unlock()\n" );
 	//#endif // DEBUG_PROCESSOR_LOCK
@@ -994,7 +974,7 @@ void MediaProcessor::wantAppIdle( EPluginType pluginType, bool bWantAppIdle )
 	if( bWantAppIdle )
 	{
 		LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle anding want idle plugin %d", pluginType );
-		m_aoWantAppIdle.push_back( m_PluginMgr.getPlugin( pluginType ) );
+		m_aoWantAppIdle.emplace_back( m_PluginMgr.getPlugin( pluginType ) );
 		if( 1 == m_aoWantAppIdle.size() )
 		{
 			LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle calling java to start idle" );
@@ -1671,7 +1651,7 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int s
 		RawAudio* rawAudio = new RawAudio( pcmData, AUDIO_BUF_SIZE, eAppModuleMicrophone );
 
 		m_AudioQueInMutex.lock();
-		m_ProcessAudioQue.push_back( rawAudio );
+		m_ProcessAudioQue.emplace_back( rawAudio );
 		m_AudioQueInMutex.unlock();
 	}
 	else

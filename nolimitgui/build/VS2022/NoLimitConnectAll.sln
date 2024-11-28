@@ -40,8 +40,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblzo", "..\..\..\nolimitl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libogg", "..\..\..\nolimitlib\DependLibs\libogg\build\VS2022\libogg.vcxproj", "{15CBFEFF-7965-41F5-B4E2-21E8795C9159}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwelsdec", "..\..\..\nolimitlib\DependLibs\libopenh264\build\VS2022\libwelsdec.vcxproj", "{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpcre", "..\..\..\nolimitlib\DependLibs\libpcre\build\VS2022\libpcre.vcxproj", "{4C075225-6767-4141-ADD0-AFED50CB8872}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpthread", "..\..\..\nolimitlib\DependLibs\libpthread\build\VS2022\libpthread.vcxproj", "{715CD025-1D10-4DAA-895B-BCA3E0045D01}"
@@ -125,7 +123,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QtPri", "QtPri", "{1BBBE95F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoLimitConnect", "..\..\NoLimitConnectMain\build\VS2022\NoLimitConnect.vcxproj", "{14347A1B-2425-4619-9F37-4B5EBB4476BE}"
 	ProjectSection(ProjectDependencies) = postProject
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5} = {01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}
 		{02F9F231-31D5-4989-9863-F757B20FCBAA} = {02F9F231-31D5-4989-9863-F757B20FCBAA}
 		{03207781-0D1C-4DB3-A71D-45C608F28DBD} = {03207781-0D1C-4DB3-A71D-45C608F28DBD}
 		{085FB718-9754-4DAD-ABA7-87150CFD1CBC} = {085FB718-9754-4DAD-ABA7-87150CFD1CBC}
@@ -186,7 +183,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libminiaudio", "..\..\..\no
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libplayer-nlc", "..\..\..\nolimitlib\DependLibs\libplayer-nlc\build\VS2022\libplayer-nlc.vcxproj", "{3B7DA875-86A2-3071-8282-D462756D3DD2}"
 	ProjectSection(ProjectDependencies) = postProject
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5} = {01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}
 		{02F9F231-31D5-4989-9863-F757B20FCBAA} = {02F9F231-31D5-4989-9863-F757B20FCBAA}
 		{03207781-0D1C-4DB3-A71D-45C608F28DBD} = {03207781-0D1C-4DB3-A71D-45C608F28DBD}
 		{085FB718-9754-4DAD-ABA7-87150CFD1CBC} = {085FB718-9754-4DAD-ABA7-87150CFD1CBC}
@@ -323,6 +319,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "android32", "android32", "{
 	ProjectSection(SolutionItems) = preProject
 		..\..\android34\AndroidManifest.xml = ..\..\android34\AndroidManifest.xml
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwav-decoder", "..\..\..\nolimitlib\DependLibs\libwav-decoder\build\VS2022\libwav-decoder.vcxproj", "{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -468,14 +466,6 @@ Global
 		{15CBFEFF-7965-41F5-B4E2-21E8795C9159}.Release|x64.Build.0 = Release|x64
 		{15CBFEFF-7965-41F5-B4E2-21E8795C9159}.Release|x86.ActiveCfg = Release|Win32
 		{15CBFEFF-7965-41F5-B4E2-21E8795C9159}.Release|x86.Build.0 = Release|Win32
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Debug|x64.ActiveCfg = Debug|x64
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Debug|x64.Build.0 = Debug|x64
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Debug|x86.ActiveCfg = Debug|Win32
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Debug|x86.Build.0 = Debug|Win32
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Release|x64.ActiveCfg = Release|x64
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Release|x64.Build.0 = Release|x64
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Release|x86.ActiveCfg = Release|Win32
-		{01B4AE41-6AD6-4CAF-AEB3-C42F7F9121D5}.Release|x86.Build.0 = Release|Win32
 		{4C075225-6767-4141-ADD0-AFED50CB8872}.Debug|x64.ActiveCfg = Debug|x64
 		{4C075225-6767-4141-ADD0-AFED50CB8872}.Debug|x64.Build.0 = Debug|x64
 		{4C075225-6767-4141-ADD0-AFED50CB8872}.Debug|x86.ActiveCfg = Debug|Win32
@@ -770,6 +760,14 @@ Global
 		{DCE19DAF-69AC-46DB-B14A-39F0FAA5DB74}.Release|x64.Build.0 = Release|x64
 		{DCE19DAF-69AC-46DB-B14A-39F0FAA5DB74}.Release|x86.ActiveCfg = Release|x64
 		{DCE19DAF-69AC-46DB-B14A-39F0FAA5DB74}.Release|x86.Build.0 = Release|x64
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Debug|x64.ActiveCfg = Debug|x64
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Debug|x64.Build.0 = Debug|x64
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Debug|x86.ActiveCfg = Debug|Win32
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Debug|x86.Build.0 = Debug|Win32
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Release|x64.ActiveCfg = Release|x64
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Release|x64.Build.0 = Release|x64
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Release|x86.ActiveCfg = Release|Win32
+		{24D1F2DD-FF7F-4DCC-8ADB-2DB3573ACA38}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -781,7 +779,7 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = 6.3.0_msvc2019_64
 		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
+		Qt5Version = 6.3.0_msvc2019_64
 	EndGlobalSection
 EndGlobal

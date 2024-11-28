@@ -82,7 +82,7 @@ bool SoundMgr::sndMgrStartup( void )
     for( int i = 0; i < eMaxSndDef; i++ )
     {
         VxSndInstance* sndInstance = new VxSndInstance( (ESndDef)i, this );
-        connect( sndInstance, SIGNAL(signalSndFinished(VxSndInstance*)), this, SLOT(slotSndFinished(VxSndInstance*)) );
+       // connect( sndInstance, SIGNAL(signalSndFinished(VxSndInstance*)), this, SLOT(slotSndFinished(VxSndInstance*)) );
         m_SndList.emplace_back( sndInstance );
     }
 
