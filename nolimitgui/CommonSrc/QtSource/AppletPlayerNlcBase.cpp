@@ -72,13 +72,13 @@ AppletPlayerNlcBase::~AppletPlayerNlcBase()
 void AppletPlayerNlcBase::showEvent( QShowEvent* showEvent )
 {
 	AppletBase::showEvent( showEvent );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletPlayerNlcBase::hideEvent( QHideEvent* hideEvent )
 {
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	AppletBase::hideEvent( hideEvent );
 }
 
@@ -118,7 +118,7 @@ void AppletPlayerNlcBase::setReadyForCallbacks( bool isReady )
 	if( m_ActivityCallbacksEnabled != isReady )
 	{
 		m_ActivityCallbacksEnabled = isReady;
-		m_MyApp.wantToGuiActivityCallbacks( this, isReady );
+		wantActivityCallbacks( isReady );
 	}
 }
 

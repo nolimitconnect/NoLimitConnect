@@ -430,6 +430,9 @@ void GuiConnectIdListMgr::wantGuiOnlineStatusCallbacks( GuiOnlineStatusCallback*
             return;
         }
     }
+
+    LogMsg( LOG_INFO, "WARNING. %s remove not found in list", __func__ );
+    return;
 }
 
 //============================================================================

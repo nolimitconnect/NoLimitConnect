@@ -98,13 +98,13 @@ void AppletChatRoomJoinSearch::setInfoLabel( QString strMsg )
 void AppletChatRoomJoinSearch::showEvent( QShowEvent* ev )
 {
 	ActivityBase::showEvent( ev );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletChatRoomJoinSearch::hideEvent( QHideEvent* ev )
 {
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	ActivityBase::hideEvent( ev );
 }
 

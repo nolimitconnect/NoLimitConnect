@@ -24,7 +24,7 @@ AppletCamServerViewMine::AppletCamServerViewMine( AppCommon& app, QWidget* paren
 //============================================================================
 AppletCamServerViewMine::~AppletCamServerViewMine()
 {
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	m_MyApp.activityStateChange( this, false );
 }
 

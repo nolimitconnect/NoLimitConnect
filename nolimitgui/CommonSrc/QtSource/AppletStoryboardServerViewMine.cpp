@@ -24,7 +24,7 @@ AppletStoryboardServerViewMine::AppletStoryboardServerViewMine( AppCommon& app, 
 AppletStoryboardServerViewMine::~AppletStoryboardServerViewMine()
 {
     m_MyApp.activityStateChange( this, false );
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
 }
 
 //============================================================================

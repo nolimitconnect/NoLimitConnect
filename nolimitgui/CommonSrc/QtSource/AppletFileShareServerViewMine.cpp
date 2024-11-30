@@ -22,7 +22,7 @@ AppletFileShareServerViewMine::AppletFileShareServerViewMine( AppCommon& app, QW
 AppletFileShareServerViewMine::~AppletFileShareServerViewMine()
 {
 	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	m_MyApp.activityStateChange( this, false );
 }
 

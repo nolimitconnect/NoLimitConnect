@@ -41,7 +41,7 @@ HistoryListWidget::~HistoryListWidget()
 {
 	if( m_CallbacksRequested && ( false == VxIsAppShuttingDown() ) )
 	{
-		m_MyApp.wantToGuiActivityCallbacks( this, false );
+		wantActivityCallbacks( false );
 		m_CallbacksRequested = false;
 	}
 }
@@ -54,7 +54,7 @@ void HistoryListWidget::showEvent(QShowEvent* showEvent)
 		&& ( false == VxIsAppShuttingDown() ) )
 	{
 		m_CallbacksRequested = true;
-		m_MyApp.wantToGuiActivityCallbacks( this, true );
+		wantActivityCallbacks( true );
 	}
 
 	if( !m_QueryHistoryCalled )
@@ -69,7 +69,7 @@ void HistoryListWidget::hideEvent( QHideEvent* ev )
 	if( m_CallbacksRequested )
 	{
 		m_CallbacksRequested = false;
-		m_MyApp.wantToGuiActivityCallbacks( this, false );
+		wantActivityCallbacks( false );
 	}
 
 	QListWidget::hideEvent( ev );
@@ -92,7 +92,7 @@ void HistoryListWidget::setGroupieId( GroupieId& groupieId )
 	LogMsg( LOG_VERBOSE, "HistoryListWidget::%s %p %s", __func__, this, m_MyApp.describeGroupieId( groupieId ).c_str() );
 	m_GroupieId = groupieId; 
 
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 
 	m_Engine.fromGuiQuerySessionHistory( m_GroupieId );
 }
@@ -285,4 +285,14 @@ void HistoryListWidget::slotStartupTimeout( void )
 		m_QueryHistoryCalled = true;
 		m_Engine.fromGuiQuerySessionHistory( m_GroupieId );
 	}
+}
+
+//============================================================================
+void HistoryListWidget::wantActivityCallbacks( bool enable )
+{
+	if( enable != m_ActivityCallbacksRequested )
+	{
+		m_ActivityCallbacksRequested = enable;
+		m_MyApp.wantToGuiActivityCallbacks( this, enable );
+	}	
 }

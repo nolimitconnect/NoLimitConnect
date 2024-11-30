@@ -301,7 +301,7 @@ void AppletPlayerCamClip::setReadyForCallbacks( bool isReady )
 	if( m_ActivityCallbacksEnabled != isReady )
 	{
 		m_ActivityCallbacksEnabled = isReady;
-		m_MyApp.wantToGuiActivityCallbacks( this, isReady );
+		wantActivityCallbacks( isReady );
 	}
 }
 
@@ -310,7 +310,7 @@ void AppletPlayerCamClip::slotShredAsset( void )
 {
 	if( confirmDeleteFile( m_AssetInfo ) )
 	{
-		m_MyApp.wantToGuiActivityCallbacks( this, false );
+		wantActivityCallbacks( false );
 		stopMediaIfPlaying();
 		m_Engine.fromGuiDeleteFile( m_AssetInfo.getAssetName().c_str(), true );
 		close();

@@ -207,16 +207,6 @@ void AppletCamClient::setupCamFeed( GuiUser* feedNetIdent )
 }
 
 //============================================================================
-void AppletCamClient::wantActivityCallbacks( bool enable )
-{
-	if( enable != m_ActivityCallbacksRequested )
-	{
-		m_ActivityCallbacksRequested = enable;
-		m_MyApp.wantToGuiActivityCallbacks( this, enable );
-	}	
-}
-
-//============================================================================
 void AppletCamClient::toGuiContactOffline( GuiUser* guiUser )
 {
     if( m_CamFeedIdent && m_CamFeedIdent->getMyOnlineId() == guiUser->getMyOnlineId() )

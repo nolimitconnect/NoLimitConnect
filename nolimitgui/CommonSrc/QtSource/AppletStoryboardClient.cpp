@@ -42,7 +42,7 @@ AppletStoryboardClient::AppletStoryboardClient( AppCommon& app, QWidget* parent 
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
     m_MyApp.activityStateChange( this, true );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
     m_MyApp.getWebPageMgr().wantWebPageCallbacks( this, true );
 }
 
@@ -52,7 +52,7 @@ AppletStoryboardClient::~AppletStoryboardClient()
     m_MyApp.getWebPageMgr().wantWebPageCallbacks( this, false );
     m_MyApp.getEngine().fromGuiCancelWebPage( eWebPageTypeStoryboard, m_HisOnlineId );
 
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     m_MyApp.activityStateChange( this, false );
 }
 

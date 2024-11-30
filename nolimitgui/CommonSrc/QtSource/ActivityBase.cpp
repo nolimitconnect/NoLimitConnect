@@ -1557,3 +1557,13 @@ std::string ActivityBase::getDefaultFolder( EFileFilterType fileFilter )
 	
 	return defaultDir;
 }
+
+//============================================================================
+void ActivityBase::wantActivityCallbacks( bool enable )
+{
+	if( enable != m_ActivityCallbacksRequested )
+	{
+		m_ActivityCallbacksRequested = enable;
+		m_MyApp.wantToGuiActivityCallbacks( this, enable );
+	}	
+}

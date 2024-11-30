@@ -538,13 +538,3 @@ bool AppletMultiMessenger::sendRandConnectSelected( VxGUID& onlineId, bool isSel
 
 	return getMyApp().getEngine().fromGuiSendRandConnectSelected( onlineId, isSelected );
 }
-
-//============================================================================
-void AppletMultiMessenger::wantActivityCallbacks( bool enable )
-{
-	if( enable != m_ActivityCallbacksRequested )
-	{
-		m_ActivityCallbacksRequested = enable;
-		m_MyApp.wantToGuiActivityCallbacks( this, enable );
-	}	
-}

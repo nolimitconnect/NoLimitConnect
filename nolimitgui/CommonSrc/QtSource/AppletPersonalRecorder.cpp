@@ -32,14 +32,14 @@ AppletPersonalRecorder::AppletPersonalRecorder( AppCommon& app, QWidget* parent 
 
     setupMultiSessionActivity();
 	m_MyApp.activityStateChange( this, true );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 AppletPersonalRecorder::~AppletPersonalRecorder()
 {
     ui.m_SessionWidget->onActivityStop();
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     m_MyApp.activityStateChange( this, false );
 }
 

@@ -81,13 +81,13 @@ void AppletOfferList::setStatusLabel( QString strMsg )
 void AppletOfferList::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletOfferList::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
 }
 

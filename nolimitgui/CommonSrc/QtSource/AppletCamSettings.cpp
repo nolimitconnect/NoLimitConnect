@@ -141,14 +141,14 @@ void AppletCamSettings::showEvent( QShowEvent* ev )
 {
     // don't call AppletPeerBase::showEvent ... we don't want plugin offer/response for web cam server or client
     AppletBase::showEvent( ev );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletCamSettings::hideEvent( QHideEvent* ev )
 {
     // don't call AppletPeerBase::hideEvent ... we don't want plugin offer/response for web cam server or client
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     AppletBase::hideEvent( ev );
 }
 

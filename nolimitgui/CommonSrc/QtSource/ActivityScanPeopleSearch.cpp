@@ -101,13 +101,13 @@ void ActivityScanPeopleSearch::toGuiClientScanSearchComplete( EScanType eScanTyp
 void ActivityScanPeopleSearch::showEvent( QShowEvent* ev )
 {
 	ActivityBase::showEvent( ev );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 }
 
 //============================================================================
 void ActivityScanPeopleSearch::hideEvent( QHideEvent* ev )
 {
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	ActivityBase::hideEvent( ev );
 }
 

@@ -66,7 +66,7 @@ QIcon& MyIcons::getIcon( enum EMyIcons eMyIcon )
     auto iter2 = m_Icons.find( eMyIcon );
     if( iter2 != m_Icons.end() )
     {
-        return iter->second;
+        return iter2->second;
     }
 
     LogMsg( LOG_ERROR, "MyIcons::%s map find failed for icon %s", __func__, strFileName.toUtf8().constData() );

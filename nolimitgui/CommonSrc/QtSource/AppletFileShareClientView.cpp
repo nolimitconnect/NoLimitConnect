@@ -56,7 +56,7 @@ AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	p
     connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
 
 	m_MyApp.activityStateChange( this, true );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
 
 	checkDiskSpace();
@@ -71,7 +71,7 @@ AppletFileShareClientView::~AppletFileShareClientView()
 	}
 
 	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	m_MyApp.activityStateChange( this, false );
 }
 

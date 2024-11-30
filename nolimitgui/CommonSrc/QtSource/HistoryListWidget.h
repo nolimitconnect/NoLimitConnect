@@ -56,6 +56,8 @@ protected:
 
     int							determinInsertIndex( AssetBaseInfo* assetInfo );
 	void						clearHistoryList( void );
+	
+	virtual void				wantActivityCallbacks( bool enable );
 
 	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;
@@ -63,6 +65,6 @@ protected:
 	bool						m_CallbacksRequested{ false };
 	QTimer*						m_StartupTimer{ nullptr };
 	bool						m_QueryHistoryCalled{ false };
-
+	bool						m_ActivityCallbacksRequested{ false };
 	GroupieId					m_GroupieId;
 };

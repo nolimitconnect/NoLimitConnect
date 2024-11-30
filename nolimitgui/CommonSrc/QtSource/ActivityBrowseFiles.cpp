@@ -422,7 +422,7 @@ void ActivityBrowseFiles::slotListItemDoubleClicked( QListWidgetItem* item )
 					m_SelectedFileInfo			= poInfo->getFileInfo();
 
 					m_MyApp.activityStateChange( this, false );
-					m_MyApp.wantToGuiActivityCallbacks( this, false );					
+					wantActivityCallbacks( false );					
 					m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
 
 					delayedCloseApplet();

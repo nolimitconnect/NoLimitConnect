@@ -52,7 +52,7 @@ AppletUploads::AppletUploads( AppCommon& app, QWidget*	parent )
 //============================================================================
 AppletUploads::~AppletUploads()
 {
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
     m_MyApp.activityStateChange( this, false );
 }
 

@@ -72,7 +72,7 @@ ActivityScanProfiles::ActivityScanProfiles(	AppCommon& app, QWidget* parent )
 
 	setTitle( "Scan Profiles" );
 	m_CountdownTimer->setInterval( COUNTDOWN_INTERVAL_MS );
-	m_MyApp.wantToGuiActivityCallbacks(  this, true );
+	wantActivityCallbacks( true );
 	slotStartScanClicked();
 }
 
@@ -92,13 +92,13 @@ void ActivityScanProfiles::setScanStatusText( QString strMsg )
 void ActivityScanProfiles::showEvent( QShowEvent* ev )
 {
 	ActivityBase::showEvent( ev );
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 }
 
 //============================================================================
 void ActivityScanProfiles::hideEvent( QHideEvent* ev )
 {
-	m_MyApp.wantToGuiActivityCallbacks(  this, false );
+	wantActivityCallbacks( false );
 	ActivityBase::hideEvent( ev );
 }
 

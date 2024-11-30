@@ -105,13 +105,13 @@ void AppletChatRoomListLocalView::setInfoLabel( QString strMsg )
 void AppletChatRoomListLocalView::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletChatRoomListLocalView::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
 }
 

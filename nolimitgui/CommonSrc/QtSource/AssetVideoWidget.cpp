@@ -259,7 +259,7 @@ void AssetVideoWidget::setReadyForCallbacks( bool isReady )
 	if( m_ActivityCallbacksEnabled != isReady )
 	{
 		m_ActivityCallbacksEnabled = isReady;
-		m_MyApp.wantToGuiActivityCallbacks( this, isReady );
+		wantActivityCallbacks( isReady );
 	}
 }
 

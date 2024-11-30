@@ -71,7 +71,7 @@ ActivityScanWebCams::ActivityScanWebCams(	AppCommon&	app,
 	setTitle( "Scan Web Cam Servers" );
 	m_CountdownTimer->setInterval( COUNTDOWN_INTERVAL_MS );
 	m_CountdownTimer->start();
-	m_MyApp.wantToGuiActivityCallbacks( this, true );
+	wantActivityCallbacks( true );
 
 	slotStartScanClicked();
 }
@@ -79,7 +79,7 @@ ActivityScanWebCams::ActivityScanWebCams(	AppCommon&	app,
 //============================================================================
 ActivityScanWebCams::~ActivityScanWebCams()
 {
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 }
 
 //============================================================================
@@ -246,7 +246,7 @@ void ActivityScanWebCams::setCamViewToOfflineImage( void )
 void ActivityScanWebCams::slotHomeButtonClicked( void )
 {
 	m_FromGui.fromGuiStopScan( m_eScanType );
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 	if( 0 != m_HisIdent )
 	{
 		startWebCamSession( m_HisIdent->getMyOnlineId(), false );

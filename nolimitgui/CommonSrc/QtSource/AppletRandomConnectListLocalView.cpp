@@ -105,13 +105,13 @@ void AppletRandomConnectListLocalView::setInfoLabel( QString strMsg )
 void AppletRandomConnectListLocalView::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletRandomConnectListLocalView::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
 }
 

@@ -93,13 +93,13 @@ void AppletFriendListClient::setStatusLabel( QString strMsg )
 void AppletFriendListClient::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );
-    m_MyApp.wantToGuiActivityCallbacks( this, true );
+    wantActivityCallbacks( true );
 }
 
 //============================================================================
 void AppletFriendListClient::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
 }
 

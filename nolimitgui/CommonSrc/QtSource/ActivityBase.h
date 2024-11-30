@@ -326,6 +326,7 @@ protected:
 
 	virtual std::string			getDefaultFolder( EFileFilterType fileFilter );
 
+	virtual void				wantActivityCallbacks( bool enable );
 
 	//=== vars ===//
     Ui::ActivityBaseClass&		ui;
@@ -358,4 +359,5 @@ protected:
 	WaitingSpinnerWidget*		m_BusySpinner{ nullptr };
 
 	VxGUID						m_AppInstId;
+	bool						m_ActivityCallbacksRequested{ false };
 };

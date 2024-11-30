@@ -36,7 +36,7 @@ AssetBaseWidget::~AssetBaseWidget()
 {
 	if( m_CallbacksRequested && ( false == VxIsAppShuttingDown() ) )
 	{
-		m_MyApp.wantToGuiActivityCallbacks( this, false );
+		wantActivityCallbacks( false );
 		m_CallbacksRequested = false;
 	}
 }
@@ -362,7 +362,7 @@ void AssetBaseWidget::onAssetWidgetVisibleAndReady( bool isVisible, bool isReady
 				&& (false == m_CallbacksRequested) )
 			{
 				m_CallbacksRequested = true;
-				m_MyApp.wantToGuiActivityCallbacks( this, true );
+				wantActivityCallbacks( true );
 			}
 
 			updateProgressBarVisibility();
@@ -372,8 +372,19 @@ void AssetBaseWidget::onAssetWidgetVisibleAndReady( bool isVisible, bool isReady
 			if( m_CallbacksRequested && (false == VxIsAppShuttingDown()) )
 			{
 				m_CallbacksRequested = false;
-				m_MyApp.wantToGuiActivityCallbacks( this, false );
+				wantActivityCallbacks( false );
 			}
 		}
 	}
 }
+
+//============================================================================
+void AssetBaseWidget::wantActivityCallbacks( bool enable )
+{
+	if( enable != m_ActivityCallbacksRequested )
+	{
+		m_ActivityCallbacksRequested = enable;
+		m_MyApp.wantToGuiActivityCallbacks( this, enable );
+	}	
+}
+

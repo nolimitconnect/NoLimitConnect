@@ -72,6 +72,9 @@ protected:
 
 	void						setResendAndFailVisible( bool visible );
 
+	virtual void				wantActivityCallbacks( bool enable );
+
+	//=== vars ===//
 	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;
     AssetBaseInfo				m_AssetInfo;
@@ -84,4 +87,5 @@ protected:
 	bool						m_HasBeenShown{ false };
 	QTimer*						m_AssetWidgetReadyTimer{ nullptr };
 	bool						m_AssetReadyForCallbacks{ false };
+	bool						m_ActivityCallbacksRequested{ false };
 };

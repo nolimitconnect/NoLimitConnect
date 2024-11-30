@@ -117,7 +117,7 @@ void AppletPlayerVideo::showEvent( QShowEvent* showEvent )
 	if( ( false == VxIsAppShuttingDown() )
 		&& !m_IsPlaying )
 	{
-        m_MyApp.wantToGuiActivityCallbacks( this, true );
+        wantActivityCallbacks( true );
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, true );
 		setReadyForCallbacks( true );
         if( m_AssetInfo.isValid() )
@@ -133,7 +133,7 @@ void AppletPlayerVideo::hideEvent( QHideEvent* hideEvent )
     AppletPlayerBase::hideEvent( hideEvent );
     setReadyForCallbacks( false );
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
-    m_MyApp.wantToGuiActivityCallbacks( this, false );
+    wantActivityCallbacks( false );
  }
 
 //============================================================================
@@ -262,7 +262,7 @@ void AppletPlayerVideo::setReadyForCallbacks( bool isReady )
 	if( m_ActivityCallbacksEnabled != isReady )
 	{
 		m_ActivityCallbacksEnabled = isReady;
-		m_MyApp.wantToGuiActivityCallbacks( this, isReady );
+		wantActivityCallbacks( isReady );
 	}
 }
 

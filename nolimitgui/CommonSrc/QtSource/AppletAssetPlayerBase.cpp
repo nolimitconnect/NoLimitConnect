@@ -31,7 +31,7 @@ AppletAssetPlayerBase::~AppletAssetPlayerBase()
 {
 	if( m_CallbacksRequested && ( false == VxIsAppShuttingDown() ) )
 	{
-		m_MyApp.wantToGuiActivityCallbacks( this, false );
+		wantActivityCallbacks( false );
 		m_CallbacksRequested = false;
 	}
 }
@@ -71,7 +71,7 @@ void AppletAssetPlayerBase::updateWantCallbacks( bool wantCallbacks )
 			&& (false == m_CallbacksRequested) )
 		{
 			m_CallbacksRequested = true;
-			m_MyApp.wantToGuiActivityCallbacks( this, true );
+			wantActivityCallbacks( true );
 		}
 
 		updateProgressBarVisibility();
@@ -80,7 +80,7 @@ void AppletAssetPlayerBase::updateWantCallbacks( bool wantCallbacks )
 	{
 		if( m_CallbacksRequested && (false == VxIsAppShuttingDown()) )
 		{
-			m_MyApp.wantToGuiActivityCallbacks( this, false );
+			wantActivityCallbacks( false );
 			m_CallbacksRequested = false;
 		}
 	}

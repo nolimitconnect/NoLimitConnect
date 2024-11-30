@@ -22,7 +22,7 @@ AppletAboutMeServerViewMine::AppletAboutMeServerViewMine( AppCommon& app, QWidge
 AppletAboutMeServerViewMine::~AppletAboutMeServerViewMine()
 {
 	m_MyApp.activityStateChange( this, false );
-	m_MyApp.wantToGuiActivityCallbacks( this, false );
+	wantActivityCallbacks( false );
 }
 
 //============================================================================

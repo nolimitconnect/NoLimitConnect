@@ -51,8 +51,6 @@ protected:
 
     void						resizeBitmapToFitScreen( QLabel* VideoScreen, QImage& oPicBitmap );
 
-    void                        wantActivityCallbacks( bool enable );
-
     void                        toGuiContactOffline( GuiUser* guiUser ) override;
 
     //=== vars ===//
