@@ -108,133 +108,132 @@ void PluginMgr::pluginMgrStartup( void )
 	PluginBase* poPlugin;
 	// invalid
 	poPlugin = new PluginInvalid( m_Engine, *this, &this->m_PktAnn, ePluginTypeInvalid );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-	LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create library plugin" );
-	m_aoPlugins.push_back( &m_Engine.getPluginLibraryServer() );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create library plugin" );
+    m_aoPlugins.emplace_back( &m_Engine.getPluginLibraryServer() );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create admin plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create admin plugin" );
 	poPlugin = new PluginInvalid( m_Engine, *this, &this->m_PktAnn, ePluginTypeAdmin );
 	poPlugin->setPluginType( ePluginTypeAdmin );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create file xfer plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create file xfer plugin" );
     poPlugin = new PluginPersonFileXfer( m_Engine, *this, &this->m_PktAnn, ePluginTypePersonFileXfer );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create messenger plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create messenger plugin" );
     poPlugin = new PluginMessenger( m_Engine, *this, &this->m_PktAnn, ePluginTypeMessenger );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create about me server plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create about me server plugin" );
 	poPlugin = new PluginAboutMePageServer( m_Engine, *this, &this->m_PktAnn, ePluginTypeAboutMePageServer );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create client peer user plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create client peer user plugin" );
     poPlugin = new PluginPeerUserClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeClientPeerUser );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create host peer user plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host peer user plugin" );
     poPlugin = new PluginPeerUserHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostPeerUser );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create connection test client plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create connection test client plugin" );
     poPlugin = new PluginConnectionTestClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeClientConnectTest );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create connection test host plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create connection test host plugin" );
     poPlugin = new PluginConnectionTestHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostConnectTest );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create file share plugin" );
-    m_aoPlugins.push_back( &m_Engine.getPluginFileShareServer() );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create file share plugin" );
+    m_aoPlugins.emplace_back( &m_Engine.getPluginFileShareServer() );
 
-	LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create file share client plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create file share client plugin" );
 	poPlugin = new PluginFileShareClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeFileShareClient );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create chat room client plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create chat room client plugin" );
     poPlugin = new PluginChatRoomClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeClientChatRoom );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create host chat room plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host chat room plugin" );
     poPlugin = new PluginChatRoomHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostChatRoom );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create host client plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host client plugin" );
     poPlugin = new PluginGroupClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeClientGroup );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create host group plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host group plugin" );
     poPlugin = new PluginGroupHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostGroup );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create host group listing plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host group listing plugin" );
     poPlugin = new PluginNetworkSearchList( m_Engine, *this, &this->m_PktAnn, ePluginTypeNetworkSearchList );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create host network plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host network plugin" );
     poPlugin = new PluginNetworkHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostNetwork );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create random connect client plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create random connect client plugin" );
     poPlugin = new PluginRandomConnectClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeClientRandomConnect );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create random connect host plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create random connect host plugin" );
     poPlugin = new PluginRandomConnectHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostRandomConnect );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create storyboard server plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create storyboard server plugin" );
     poPlugin = new PluginStoryboardServer( m_Engine, *this, &this->m_PktAnn, ePluginTypeStoryboardServer );
-    m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create cam server plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create cam server plugin" );
 	poPlugin = new PluginCamServer( m_Engine, *this, &this->m_PktAnn, ePluginTypeCamServer );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-	LogModule( eLogPlugins, LOG_VERBOSE, "pluginMgrStartup create cam client plugin" );
+    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create cam client plugin" );
 	poPlugin = new PluginCamClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeCamClient );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create voice phone plugin" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create voice phone plugin" );
 	poPlugin = new PluginVoicePhone( m_Engine, *this, &this->m_PktAnn, ePluginTypeVoicePhone );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-	LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create push to talk plugin" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create push to talk plugin" );
 	poPlugin = new PluginPushToTalk( m_Engine, *this, &this->m_PktAnn, ePluginTypePushToTalk );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create video phone plugin" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create video phone plugin" );
 	poPlugin = new PluginVideoPhone( m_Engine, *this, &this->m_PktAnn, ePluginTypeVideoPhone );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create truth or dare plugin" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create truth or dare plugin" );
 	poPlugin = new PluginTruthOrDare( m_Engine, *this, &this->m_PktAnn, ePluginTypeTruthOrDare );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-	LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create about me viewer plugin" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create about me viewer plugin" );
 	poPlugin = new PluginAboutMePageClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeAboutMePageClient );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-	LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup create about me viewer plugin" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create about me viewer plugin" );
 	poPlugin = new PluginStoryboardClient( m_Engine, *this, &this->m_PktAnn, ePluginTypeStoryboardClient );
-	m_aoPlugins.push_back( poPlugin );
+    m_aoPlugins.emplace_back( poPlugin );
 
-    LogModule( eLogPlugins, LOG_INFO, "pluginMgrStartup adding net services" );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup adding net services" );
 	// net services pre created by engine
-	m_aoPlugins.push_back( &m_Engine.getPluginNetServices() );
+    m_aoPlugins.emplace_back( &m_Engine.getPluginNetServices() );
 
 	m_PluginMgrInitialized = true;
 
     uint32_t endTime = ( uint32_t)GetApplicationAliveMs();
-    LogMsg( LOG_INFO, "pluginMgrStartup done in %d ms at %d ms", endTime - startTime, endTime );
+    LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup done in %d ms at %d ms", endTime - startTime, endTime );
 }
 
 //============================================================================
 void PluginMgr::pluginMgrShutdown( void )
 {
-	//SetRelayPluginInstance( NULL );
 	if( m_PluginMgrInitialized )
 	{
 		m_PluginMgrInitialized = false;

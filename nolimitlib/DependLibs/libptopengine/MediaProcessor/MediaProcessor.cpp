@@ -1159,7 +1159,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 		if( stopSpeakerOutput )
 		{
 			m_SpeakerOutputEnabled = false;
-			LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeAppModule( appModule ) );
+			LogModule( eLogAudioIo,LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeAppModule( appModule ) );
 			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, false );
 			IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
 		}
@@ -1215,7 +1215,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 
 	if( startSpeakerOutput )
 	{
-		LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeAppModule( appModule ) );
+		LogModule( eLogAudioIo, LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeAppModule( appModule ) );
 		IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, true );	
 	}
 }

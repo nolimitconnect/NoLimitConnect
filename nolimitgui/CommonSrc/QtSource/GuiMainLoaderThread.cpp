@@ -46,8 +46,8 @@ GuiMainLoaderThread::~GuiMainLoaderThread()
 //============================================================================
 void GuiMainLoaderThread::run()
 {
-    int64_t timeStart = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run start in %d ms", timeStart );
+    int timeStart = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run start at %d ms", timeStart );
 
     #ifdef TARGET_OS_ANDROID
     CJNIContext::createJniContext( GetJavaEnvCache().getJavaVM(),  GetJavaEnvCache().getJavaEnv() );
@@ -82,11 +82,15 @@ void GuiMainLoaderThread::run()
 
     result &= IMediaPlayerRequests::getOsInterface().initUserPaths( appCachePath, userWriteablePath );
 
-    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run os interface startup complete %d ms", GetApplicationAliveMs() );
+    int timePreStartupEnd = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run os interface startup took %d ms at %d ms",
+           timePreStartupEnd - timeStart, timePreStartupEnd );
 
 
     GetPtoPEngine(); // engine first.. there is some interdependencies
-    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run GetPtoPEngine complete in %" PRId64 " ms", m_ElapsedTimer.elapsed() );
+    int mainLoadThreadEnd = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run GetPtoPEngine complete in %d ms at %d",
+           mainLoadThreadEnd - timePreStartupEnd, mainLoadThreadEnd );
 
     setIsLoadComplete( true );
 }

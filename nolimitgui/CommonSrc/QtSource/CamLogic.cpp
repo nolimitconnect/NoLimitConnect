@@ -155,6 +155,8 @@ void CamLogic::cameraEnable( bool wantVidCapture )
 //============================================================================
 bool CamLogic::initializeCam( void )
 {
+    int startTime = GetApplicationAliveMs();
+    LogMsg( LOG_DEBUG, "CamLogic::%s begin at %d", __func__, startTime );
     if( VxIsAppShuttingDown() )
     {
         if( m_CamIsStarted )
@@ -165,6 +167,8 @@ bool CamLogic::initializeCam( void )
         return false;
     }
 
+    bool isRunning = false;
+    bool isValid = true;
     if( getCamStartupCompleted() )
     {
         if( !m_CamInitiated )
@@ -174,7 +178,7 @@ bool CamLogic::initializeCam( void )
 
         // there may have been want cam calls before was initialized
         bool wasRunning = isCamCaptureRunning();
-        bool isRunning = false;
+
         for( int i = 0; i < eMaxAppModule; i++ )
         {
             if( m_WantCamInput[i] )
@@ -190,10 +194,13 @@ bool CamLogic::initializeCam( void )
             m_CamIsStarted = isCamCaptureRunning();
         }
 
-        return  !m_camera.isNull() && m_camera->isAvailable();
+        isValid = !m_camera.isNull() && m_camera->isAvailable();
     }
     
-    return false;
+    int endTime = GetApplicationAliveMs();
+    LogMsg( LOG_DEBUG, " CamLogic::%s took %d ms at %d", __func__, endTime - startTime, endTime );
+
+    return isValid;
 }
 
 //============================================================================
@@ -216,6 +223,7 @@ bool CamLogic::getCamStartupCompleted( void )
 //============================================================================
 void CamLogic::setCamera( const QCameraDevice& cameraDevice )
 {
+    int timeStart = GetApplicationAliveMs();
     m_DesiredFrameSize = GuiParams::getSnapshotDesiredSize();
     bool isStarted = m_CamIsStarted;
     cameraEnable( false );
@@ -274,6 +282,9 @@ void CamLogic::setCamera( const QCameraDevice& cameraDevice )
     {
         cameraEnable( true );
     }
+
+    int timeEnd = GetApplicationAliveMs();
+    LogModule( eLogWebCam, LOG_DEBUG, "%s took %d ms at %d", __func__, timeEnd - timeStart, timeEnd );
 }
 
 #else
@@ -324,7 +335,7 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
         {
             auto defaultFormat = formats.first();
             bool defaultFormatInvalid = true;
-            LogMsg( LOG_VERBOSE, "Default camera resolution w %d h %d min fps %3.1f max fps %3.1f", defaultFormat.resolution().width(),
+            LogModule( eLogWebCam, LOG_VERBOSE, "Default camera resolution w %d h %d min fps %3.1f max fps %3.1f", defaultFormat.resolution().width(),
                 defaultFormat.resolution().height(), defaultFormat.minFrameRate(), defaultFormat.maxFrameRate() );
             if( defaultFormat.resolution().width() >= targetSize.width() && defaultFormat.resolution().height() >= targetSize.height() )
             {
@@ -355,12 +366,19 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
             }
 
             float desiredFps = 1000 / ( CAM_SNAPSHOT_INTERVAL_MS / 2 ); // request frame rate toughly twice as fast a snapshot interval
+#if defined(TARGET_OS_ANDROID)
+            if( desiredFps > 15 )
+            {
+                // android devices may have trouble keeping up
+                desiredFps = 15;
+            }
+#endif // defined(TARGET_OS_ANDROID)
             if( desiredFps > defaultFormat.maxFrameRate() )
             {
                 desiredFps = defaultFormat.maxFrameRate();
             }
 
-            LogMsg( LOG_VERBOSE, "Seting Format %d resolution w %d h %d min fps %3.1f max fps %3.1f desired fps %3.1f", formatNum, defaultFormat.resolution().width(),
+            LogMsg( LOG_VERBOSE, "Setting Format %d resolution w %d h %d min fps %3.1f max fps %3.1f desired fps %3.1f", formatNum, defaultFormat.resolution().width(),
                 defaultFormat.resolution().height(), defaultFormat.minFrameRate(), defaultFormat.maxFrameRate(), desiredFps);
 
             m_camera->setCameraFormat( defaultFormat );
@@ -775,7 +793,7 @@ void CamLogic::displayRecorderError()
 void CamLogic::displayCameraError()
 {
     //LogModule(eLogVideo, LOG_ERROR, "CamLogic Error %d %s", m_camera->error(), m_camera->errorString().toUtf8().constData() );
-    LogMsg(LOG_ERROR, "CamLogic Error %d %s", m_camera->error(), m_camera->errorString().toUtf8().constData() );
+    LogMsg( LOG_ERROR, "CamLogic Error %d %s", m_camera->error(), m_camera->errorString().toUtf8().constData() );
 
     // QMessageBox::warning( this, tr( "CamLogic Error" ), m_camera->errorString() );
 }

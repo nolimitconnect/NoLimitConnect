@@ -15,11 +15,10 @@
 
 #include <QIcon>
 
-#include <vector>
+#include <map>
 
 class AppCommon;
 class OfferBaseInfo;
-class QIcon;
 class QPainter;
 
 //! stores all icons
@@ -61,14 +60,16 @@ public:
 	//! get icon of host type for client
 	EMyIcons					getHostTypeClientIcon( enum EHostType hostType );
 
-	//! get path to icon file
-	QString						getIconFile( enum EMyIcons eMyIcon );
 	bool						isSvgFile( QString& iconFileName );
 
     //! draw a icon with given color
     void                        drawIcon( enum EMyIcons eIcon, QPainter* painter, const QRect& rect, QColor& iconColor );
 
+protected:
+    //! get path to icon file
+    QString						getIconFile( enum EMyIcons eMyIcon );
 
-    std::vector<QIcon>          m_aoIcons;
+    QIcon                       m_UnknownIcon;
+    std::map<EMyIcons,QIcon>    m_Icons;
 };
 

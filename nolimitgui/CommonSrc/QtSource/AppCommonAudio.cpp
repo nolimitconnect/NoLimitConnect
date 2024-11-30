@@ -19,7 +19,7 @@
 //============================================================================
 bool AppCommon::toGuiIsMicrophoneDeviceAvailable( void )
 {
-	LogMsg( LOG_INFO, "#### AppCommon::toGuiIsMicrophoneDeviceAvailable" );
+	LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s", __func__ );
 	if( VxIsAppShuttingDown() )
 	{
 		return false;
@@ -31,7 +31,7 @@ bool AppCommon::toGuiIsMicrophoneDeviceAvailable( void )
 //============================================================================
 void AppCommon::toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMicInput )
 {
-	LogMsg( LOG_INFO, "#### AppCommon::toGuiWantMicrophoneRecording %d", wantMicInput );
+	LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantMicInput );
 	if( VxIsAppShuttingDown() )
 	{
 		return;
@@ -50,7 +50,7 @@ void AppCommon::slotInternalWantMicrophoneRecording( EAppModule appModule, bool 
 //============================================================================
 void AppCommon::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput )
 {
-	LogMsg( LOG_INFO, "#### AppCommon::toGuiWantUserVoiceMicrophone %d", wantMicInput );
+	LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantMicInput );
 	if( VxIsAppShuttingDown() )
 	{
 		return;
@@ -79,14 +79,14 @@ void AppCommon::slotInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUI
 		}
 
 		m_ToGuiHardwareCtrlBusy = false;
-		LogMsg( LOG_INFO, "#### AppCommon::slotEnableMicrophoneRecording %d done", isMicAvailable );
+		LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d done", __func__, isMicAvailable );
 	}
 }
 
 //============================================================================
 void AppCommon::toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput )
 {
-	LogMsg( LOG_INFO, "#### AppCommon::toGuiWantSpeakerOutput %d", wantSpeakerOutput );
+	LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantSpeakerOutput );
 	if( VxIsAppShuttingDown() )
 	{
 		return;
@@ -105,7 +105,7 @@ void AppCommon::slotInternalWantSpeakerOutput( EAppModule appModule, bool wantSp
 //============================================================================
 void AppCommon::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput )
 {
-	LogMsg( LOG_INFO, "#### AppCommon::toGuiWantUserVoiceSpeaker %d", wantSpeakerOutput );
+	LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantSpeakerOutput );
 	if( VxIsAppShuttingDown() )
 	{
 		return;

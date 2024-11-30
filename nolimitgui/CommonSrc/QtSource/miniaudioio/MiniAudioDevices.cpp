@@ -11,34 +11,42 @@
 #include "MiniAudioDevices.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxTime.h>
 
 //============================================================================
 bool MiniAudioDevices::startupMiniAudio( void )
 {
+    int startTime = GetApplicationAliveMs();
+
     if( ma_context_init( NULL, 0, NULL, &m_MaContext ) != MA_SUCCESS ) 
     {
-        LogMsg( LOG_ERROR, "MiniAudioDevices::initMiniAudioContext Failed to initialize context." );
+        LogMsg( LOG_ERROR, "MiniAudioDevices::%s Failed to initialize context.", __func__ );
         return false;
     }
 
     ma_result result = ma_context_get_devices( &m_MaContext, &m_MaSpeakerDeviceInfos, &m_MaSpeakerDeviceCount, &m_MaMicDeviceInfos, &m_MaMicDeviceCount );
     if( result != MA_SUCCESS ) 
     {
-        LogMsg( LOG_ERROR, "MiniAudioDevices::initMiniAudioContext Failed to retrieve device information." );
+        LogMsg( LOG_ERROR, "MiniAudioDevices::%s Failed to retrieve device information.", __func__ );
         return false;
     }
 
     for( ma_uint32 iDevice = 0; iDevice < m_MaSpeakerDeviceCount; ++iDevice )
     {
-        LogMsg( LOG_VERBOSE, "MiniAudioDevices speaker index %u: %s", iDevice, m_MaSpeakerDeviceInfos[ iDevice ].name );
-        m_SpeakerDeviceDescriptions.push_back( m_MaSpeakerDeviceInfos[ iDevice ].name );
+        LogMsg( LOG_VERBOSE, "MiniAudioDevices::%s speaker index %u: %s", __func__, iDevice, m_MaSpeakerDeviceInfos[ iDevice ].name );
+        m_SpeakerDeviceDescriptions.emplace_back( m_MaSpeakerDeviceInfos[ iDevice ].name );
     }
 
     for( ma_uint32 iDevice = 0; iDevice < m_MaMicDeviceCount; ++iDevice )
     {
-        LogMsg( LOG_VERBOSE, "MiniAudioDevices Speaker index %u: %s", iDevice, m_MaMicDeviceInfos[ iDevice ].name );
-        m_MicDeviceDescriptions.push_back( m_MaMicDeviceInfos[ iDevice ].name );
+        LogMsg( LOG_VERBOSE, "MiniAudioDevices::%s Speaker index %u: %s", __func__, iDevice, m_MaMicDeviceInfos[ iDevice ].name );
+        m_MicDeviceDescriptions.emplace_back( m_MaMicDeviceInfos[ iDevice ].name );
     }
+
+    int endTime = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "MiniAudioDevices::%s took %d ms at %d", __func__, endTime - startTime, endTime );
+
+    onAudioDevicesInitialized( !m_SpeakerDeviceDescriptions.empty() );
 
     return !m_SpeakerDeviceDescriptions.empty();
 }

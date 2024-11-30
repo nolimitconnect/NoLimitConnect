@@ -135,6 +135,9 @@ const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
 //============================================================================
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
+    int timeStart = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "%s start at %d ms", __func__, timeStart );
+
     GuiMainLoaderThread mainLoaderThread;
     // register types first so connections made in construction have rergistered signal/slot values
     AppCommon::registerMetaData();
@@ -194,6 +197,9 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     VxFileUtil::makeForwardSlashPath( document );
     VxSetAppDirectory( eAppDocuments, document + "/" );
 
+    int64_t timeLoaderThreadStart = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "%s mainLoaderThread start at %d ms", __func__, timeLoaderThreadStart );
+
     mainLoaderThread.start();
 
     // initialize display scaling etc
@@ -203,14 +209,22 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 
     LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
 
+    int64_t waitLoaderThreadStart = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "%s wait loader thread end at %d ms", __func__, waitLoaderThreadStart );
     while( !mainLoaderThread.getIsLoadComplete() )
     {
         ProcessQtEvents(50);
     }
 
+    int64_t waitLoaderThreadEnd = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "%s waited for loader thread %d ms at %d ms", __func__,
+           waitLoaderThreadEnd - waitLoaderThreadStart,  waitLoaderThreadEnd );
+
     AppCommon& appCommon = CreateAppInstance( myApp );
 
-    LogMsg( LOG_VERBOSE, "runApplication appCommon create complete" );
+    int64_t createAppCommonEnd = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "%s create app common took %d ms at %d ms", __func__,
+           createAppCommonEnd - waitLoaderThreadEnd,  createAppCommonEnd );
 
     std::string fontDir = VxGetFontDirectory();
     std::string defaultFont = fontDir + "arial.ttf";
@@ -231,10 +245,9 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         return false;
     }
 
-    // send command line parameters to Kodi
-    IMediaPlayerRequests::getNlcPlayer().fromGuiInitCommandLine( argc, argv );
-
-    LogMsg( LOG_VERBOSE, "myApp->exec" );
+    int64_t execStart = GetApplicationAliveMs();
+    LogMsg( LOG_VERBOSE, "%s load %d ms myApp->exec start at %d ms", __func__,
+           execStart - timeStart, execStart );
 
     int result = myApp->exec();
 

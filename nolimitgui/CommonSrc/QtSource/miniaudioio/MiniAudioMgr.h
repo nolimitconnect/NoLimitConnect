@@ -27,7 +27,6 @@
 
 #include <QWidget>
 
-#include <atomic>
 #include <utility>
 #include <vector>
 
@@ -206,6 +205,9 @@ public:
 	void						setNeedAudioOutDeviceStop( bool needAudioOutStop ) { m_NeedAudioOutStop = needAudioOutStop; }
 	bool						getNeedAudioOutDeviceStop( void ) {  return m_NeedAudioOutStop; }
 
+    // bool                        isAudioDevicesInitialized( void ) { return m_AudioDevicesInitialized; }
+    //bool                        isAudioIoInitialized( void ) { return m_AudioIoInitialized; }
+
 signals:
     void                        signalNeedMoreAudioData( int requiredLen );
     void                        signalAudioTestState( EAudioTestState audioTestState );
@@ -237,10 +239,13 @@ protected:
 
     void                        calculateMicWriteBufferSize( int micSampleCnt );
 
+    void                        onAudioDevicesInitialized( bool hasDevices ) override;
+
     AppCommon&                  m_MyApp;
 
     IAudioCallbacks&            m_AudioCallbacks;
 
+    bool                        m_AudioDevicesInitialized{ false };
     bool                        m_AudioIoInitialized{ false };
 
     bool                        m_MicrophoneMuted{ false };

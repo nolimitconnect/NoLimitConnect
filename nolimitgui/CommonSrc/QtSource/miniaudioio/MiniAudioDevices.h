@@ -38,6 +38,8 @@ public:
 	ma_device_id*				getAudioInDeviceId( int deviceIdx );
 	ma_device_id*				getAudioOutDeviceId( int deviceIdx );
 
+    virtual void                onAudioDevicesInitialized( bool hasDevices ) {};
+
 protected:
 	ma_context					m_MaContext;
 	ma_device_info*				m_MaSpeakerDeviceInfos{ nullptr };

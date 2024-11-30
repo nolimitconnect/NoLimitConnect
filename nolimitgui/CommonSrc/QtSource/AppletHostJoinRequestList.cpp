@@ -40,14 +40,13 @@ AppletHostJoinRequestList::AppletHostJoinRequestList( AppCommon& app,  QWidget* 
 	ui.m_InviteAcceptButton->setFixedSize( eButtonSizeSmall );
 	ui.m_InviteAcceptButton->setIcon( eMyIconInvite );
 
-	//connect( &m_HostJoinMgr, SIGNAL( signalHostJoinRequested( GuiHostJoin * ) ), this, SLOT( slotHostJoinRequested( GuiHostJoin *) ) );
-	//connect( &m_HostJoinMgr, SIGNAL( signalHostJoinUpdated( GuiHostJoin* ) ), this, SLOT( slotlHostJoinUpdated( GuiHostJoin * ) ) );
-	//connect( &m_HostJoinMgr, SIGNAL( signalHostJoinRemoved( VxGUID&, EHostType ) ), this, SLOT( slotHostJoinRemoved( VxGUID&, EHostType ) ) );
-	connect( &m_HostJoinMgr, SIGNAL( signalHostJoinOfferStateChange( VxGUID&, EHostType, EJoinState ) ), this, SLOT( slotHostJoinOfferStateChange( VxGUID&, EHostType, EJoinState ) ) );
-	connect( &m_HostJoinMgr, SIGNAL( signalHostJoinOnlineStatus( GuiHostJoin *, bool ) ), this, SLOT( slotHostJoinOnlineStatus( GuiHostJoin*, bool ) ) );
+	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOfferStateChange(GroupieId,EJoinState)), this, SLOT(slotHostJoinOfferStateChange(GroupieId,EJoinState)) );
+	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOnlineStatus(GuiHostJoin*,bool)), this, SLOT(slotHostJoinOnlineStatus(GuiHostJoin*,bool)) );
 
-	connect( ui.m_HostJoinRequestList, SIGNAL( signalAcceptButtonClicked( GuiHostJoinSession *, HostJoinRequestListItem * ) ), this, SLOT( slotAcceptButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ) );
-	connect( ui.m_HostJoinRequestList, SIGNAL( signalRejectButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ), this, SLOT( slotRejectButtonClicked( GuiHostJoinSession*, HostJoinRequestListItem* ) ) );
+	connect( ui.m_HostJoinRequestList, SIGNAL(signalAcceptButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem *)), 
+			 this, SLOT(slotAcceptButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)) );
+	connect( ui.m_HostJoinRequestList, SIGNAL(signalRejectButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)), 
+			 this, SLOT(slotRejectButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)) );
 
 	connect( ui.m_RequestStateComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotJoinComboBoxSelectionChange(int)) );
 	connect( ui.m_InviteCreateButton, SIGNAL(clicked()), this, SLOT(slotInviteCreateButtonClicked()) );

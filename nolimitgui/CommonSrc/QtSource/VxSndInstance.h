@@ -9,12 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QWidget>
+
 #include "SoundDefs.h"
 
 #include <CoreLib/MediaCallbackInterface.h>
 #include <CoreLib/VxGUID.h>
-
-#include <QObject>
 
 #include <vector>
 

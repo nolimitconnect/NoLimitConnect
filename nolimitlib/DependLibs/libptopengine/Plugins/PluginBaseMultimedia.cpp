@@ -568,11 +568,11 @@ void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shar
 {
 	if( !netIdent->isMyself() )
 	{
-		LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline start" );
+        LogModule( eLogUsers, LOG_INFO, "PluginBaseMultimedia::%s %s start", __func__, netIdent->getOnlineName() );
 		m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent->getMyOnlineId() );
 		m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent->getMyOnlineId() );
 		m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
-		LogModule( eLogPlugins, LOG_INFO, "PluginBaseMultimedia::onContactWentOffline done" );
+        LogModule( eLogUsers, LOG_INFO, "PluginBaseMultimedia::%s %s done", __func__, netIdent->getOnlineName() );
 	}
 }
 

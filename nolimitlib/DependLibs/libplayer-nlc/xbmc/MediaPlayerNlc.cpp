@@ -94,12 +94,6 @@ bool MediaPlayerNlc::testQuitFlag()
 }
 
 //============================================================================
-void MediaPlayerNlc::fromGuiInitCommandLine( int argc, char** argv )
-{
-	//m_AppParamParser.Parse( argv, argc );
-}
-
-//============================================================================
 /// NOTE: called from RenderPlayerNlcThread::run()
 bool MediaPlayerNlc::fromThreadStartModule( EAppModule appModule )
 {

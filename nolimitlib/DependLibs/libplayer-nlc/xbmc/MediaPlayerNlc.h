@@ -31,8 +31,6 @@ public:
 	void						setIsPlayingVideo( bool isPlaying ) { m_IsPlayingVideo = isPlaying; }
 	bool						getIsPlayingVideo( void ) override { return m_IsPlayingVideo; }
 
-	void						fromGuiInitCommandLine( int argc, char** argv ) override;
-
 	bool						fromThreadStartModule( EAppModule appModule ) override;
 	bool						fromGuiStopModule( EAppModule appModule ) override;
 	bool						fromGuiIsModuleRunning( EAppModule appModule ) override;

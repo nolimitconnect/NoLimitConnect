@@ -44,14 +44,14 @@ bool MiniAudioInDevice::initializeAudioInDevice( int& deviceIndex, int preferred
     // first try with preferredRate
     if( initalizeDevice( deviceIndex, preferredRate ) )
     {
-        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::initializeAudioInDevice SUCCESS index %d rate %d", deviceIndex, preferredRate );
+        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::%s SUCCESS index %d rate %d", __func__, deviceIndex, preferredRate );
         retActualRate = preferredRate;
         m_AudioDeviceIndex = deviceIndex;
         return true;
     }
     else
     {
-        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::initializeAudioInDevice FAIL index %d rate %d.. will try 48000Hz", deviceIndex, preferredRate );
+        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::%s FAIL index %d rate %d.. will try 48000Hz", __func__, deviceIndex, preferredRate );
     }
 
     // most devices can at least run at 48000 .. this seems to be android's default
@@ -59,11 +59,11 @@ bool MiniAudioInDevice::initializeAudioInDevice( int& deviceIndex, int preferred
     {
         retActualRate = 48000;
         m_AudioDeviceIndex = deviceIndex;
-        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::initializeAudioInDevice SUCCESS index %d rate %d", deviceIndex, retActualRate );
+        LogMsg( LOG_VERBOSE, "MiniAudioInDevice::%s SUCCESS index %d rate %d", __func__, deviceIndex, retActualRate );
         return true;
     }
 
-    LogMsg( LOG_ERROR, "MiniAudioInDevice::initializeAudioInDevice FAILED index %d", deviceIndex );
+    LogMsg( LOG_ERROR, "MiniAudioInDevice::%s FAILED index %d", __func__, deviceIndex );
     return false;
 }
 

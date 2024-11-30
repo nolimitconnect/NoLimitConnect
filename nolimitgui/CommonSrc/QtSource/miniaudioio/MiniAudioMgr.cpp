@@ -56,7 +56,8 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWi
 {
     memset( m_SilenceBuf, 0, sizeof( m_SilenceBuf ) );
 
-    m_SpeakerReadBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME * 2 ); // double because some slow systems may not process frames in time for speaker read
+    // double because some slow systems may not process frames in time for speaker read
+    m_SpeakerReadBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME * 2 );
     m_PlayerCacheBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME * PLAYER_CACHE_FRAMES_CNT );
 
     m_AudioTestTimer->setInterval( 1200 );
@@ -65,15 +66,12 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWi
     memset( m_MyLastAudioOutSample, 0, sizeof( m_MyLastAudioOutSample ) );
 
     m_AudioOutFormat.setSampleRate( AUDIO_DEVICE_SAMPLE_RATE );
-    m_AudioOutFormat.setChannelCount( AUDIO_CHANNELS ); // use 1 channel unless using setBufferSize then use 2 to speed up processing
+    m_AudioOutFormat.setChannelCount( AUDIO_CHANNELS );
     m_AudioOutFormat.setSampleFormat( QAudioFormat::Int16 );
 
     m_AudioInFormat.setSampleRate( AUDIO_DEVICE_SAMPLE_RATE );
-    m_AudioInFormat.setChannelCount( AUDIO_CHANNELS ); // use 1 channel unless using setBufferSize then use 2 to speed up processing
+    m_AudioInFormat.setChannelCount( AUDIO_CHANNELS );
     m_AudioInFormat.setSampleFormat( QAudioFormat::Int16 );
-
-    //m_ContextConfig = ma_context_config_init();
-    //m_ContextConfig.threadPriority = ma_thread_priority_realtime;
 
     // setEchoCancelEnable( true ); // for now always enabled
 
@@ -122,7 +120,7 @@ void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& o
 
     if( wantMicInput && !found )
     {
-        m_WantMicList.push_back( std::make_pair( appModule, onlineId ) );
+        m_WantMicList.emplace_back( std::make_pair( appModule, onlineId ) );
     }
 
     bool enableMic = !m_WantMicList.empty();
@@ -180,7 +178,7 @@ void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onli
 
     if( wantSpeakerOutput && !found )
     {
-        m_WantSpeakerList.push_back( std::make_pair( appModule, onlineId ) );
+        m_WantSpeakerList.emplace_back( std::make_pair( appModule, onlineId ) );
     }
 
     bool enableSpeaker = !m_WantSpeakerList.empty();
@@ -210,6 +208,8 @@ void MiniAudioMgr::audioIoSystemStartup()
 {
     if( !m_AudioIoInitialized )
     {
+        int startTime = GetApplicationAliveMs();
+        LogMsg( LOG_DEBUG, "%s begin at %d", __func__, startTime );
         //m_EchoCancelEnabled = m_MyApp.getAppSettings().getEchoCancelEnable();
         //m_AudioEchoCancel.enableEchoCancel( m_EchoCancelEnabled );
 
@@ -234,6 +234,8 @@ void MiniAudioMgr::audioIoSystemStartup()
 
         m_AudioIoInitialized = true;
         m_ProcessAudioThread.startThread( (VX_THREAD_FUNCTION_T)AudioMiniAudioMgrProcessThreadFunc, this, "ProcessAudioThread" );
+        int endTime = GetApplicationAliveMs();
+        LogMsg( LOG_DEBUG, "%s took %d ms at %d", __func__, endTime - startTime, endTime );
     }
 }
 
@@ -483,7 +485,7 @@ bool MiniAudioMgr::handleAudioTestResult( int64_t soundOutTimeMs, int64_t soundD
 
     LogMsg( LOG_VERBOSE, "MiniAudioMgr::handleAudioTestResult %s", resultMsg.toUtf8().constData() );
 
-    m_EchoDelayResultList.push_back( (int)timeDif );
+    m_EchoDelayResultList.emplace_back( (int)timeDif );
     // to avoid to much sound thread cpu time used Qt::QueuedConnection when connecting to these signals
     emit signalAudioTestMsg( resultMsg );
     emit signalTestedSoundDelay( (int)timeDif );
@@ -752,7 +754,7 @@ void MiniAudioMgr::audioTestDetectTestSound( int16_t* sampleInData, int inSample
 
     if( samplePosVal && sampleTimeMs )
     {
-        m_DelayTestDetectList.push_back( std::make_pair( sampleTimeMs, samplePosVal ) );
+        m_DelayTestDetectList.emplace_back( std::make_pair( sampleTimeMs, samplePosVal ) );
     }
 }
 
@@ -1312,4 +1314,10 @@ void MiniAudioMgr::calculateMicWriteBufferSize( int micSampleCnt )
         m_AudioWriteBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME + micSampleCnt );
         unlockMicWriteBuffer();
     }
+}
+
+//============================================================================
+void MiniAudioMgr::onAudioDevicesInitialized( bool hasDevices )
+{
+    m_AudioDevicesInitialized = true;
 }

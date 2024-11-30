@@ -17,7 +17,7 @@
 #include <PktLib/VxSearchDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
-#include <CoreLib/VxTimer.h>
+#include <CoreLib/VxTime.h>
 
 #include <QFileInfo>
 #include <QPainter>
@@ -25,27 +25,52 @@
 //============================================================================
 void MyIcons::myIconsStartup( void )
 {
-	VxTimer timer;
-	for( int i = 0; i < eMaxMyIcon; i++ )
+	QString strFileName = getIconFile( eMyIconUnknown );
+    QFileInfo fileInfo( strFileName );
+    if( false == fileInfo.exists() )
+    {
+        LogMsg( LOG_ERROR, "MyIcons::%s missing icon file %s", __func__, strFileName.toUtf8().constData() );
+    }
+	else
 	{
-		QString strFileName = getIconFile((EMyIcons)i);
-		QFileInfo fileInfo( strFileName );
-		if( false == fileInfo.exists())
-		{
-			LogMsg( LOG_ERROR, "MyIcons::myIconsStartup missing icon file %s", strFileName.toUtf8().constData() );
-			continue;
-		}
-
-		QIcon oIcon( strFileName );
-		if( oIcon.isNull())
-		{
-			LogMsg( LOG_ERROR, "MyIcons::myIconsStartup could not get icon %d", i);
-		}
-
-		m_aoIcons.push_back( oIcon );
+		m_UnknownIcon =  QIcon( strFileName );
 	}
+}
 
-	LogMsg( LOG_INFO, "MyIcons took %3.3f ms to load", timer.elapsedMs() );
+//============================================================================
+QIcon& MyIcons::getIcon( enum EMyIcons eMyIcon )
+{
+    auto iter = m_Icons.find( eMyIcon );
+    if( iter != m_Icons.end() )
+    {
+        return iter->second;
+    }
+
+    QString strFileName = getIconFile( eMyIcon );
+    QFileInfo fileInfo( strFileName );
+    if( false == fileInfo.exists() )
+    {
+        LogMsg( LOG_ERROR, "MyIcons::%s missing icon file %s", __func__, strFileName.toUtf8().constData() );
+        return m_UnknownIcon;
+    }
+
+    QIcon loadIcon( strFileName );
+    if( loadIcon.isNull() )
+    {
+        LogMsg( LOG_ERROR, "MyIcons::%s could not get icon %s", __func__, strFileName.toUtf8().constData() );
+        return m_UnknownIcon;
+    }
+
+    m_Icons[ eMyIcon ] = loadIcon;
+
+    auto iter2 = m_Icons.find( eMyIcon );
+    if( iter2 != m_Icons.end() )
+    {
+        return iter->second;
+    }
+
+    LogMsg( LOG_ERROR, "MyIcons::%s map find failed for icon %s", __func__, strFileName.toUtf8().constData() );
+    return m_UnknownIcon;
 }
 
 //============================================================================
@@ -866,13 +891,6 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	default:
 		return ":/AppRes/Resources/question-mark.svg";// Icon with question mark
 	}
-}
-
-//============================================================================
-//! get preloaded icon
-QIcon& MyIcons::getIcon( enum EMyIcons eMyIcon )
-{
-	return m_aoIcons[ eMyIcon ];
 }
 
 //============================================================================

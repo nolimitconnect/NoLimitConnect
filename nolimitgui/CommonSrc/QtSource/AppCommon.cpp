@@ -114,6 +114,21 @@ namespace
 		//NOTE: do not translate or will cause new settings each time user changes languages
 		return APP_NAME;
 	}
+
+    //============================================================================
+    static void* AudioDevicesStartupThreadFunc( void* pvContext )
+    {
+        VxThread* poThread = (VxThread*)pvContext;
+        poThread->setIsThreadRunning( true );
+        AppCommon* appCommon = (AppCommon*)poThread->getThreadUserParam();
+        if( appCommon )
+        {
+            appCommon->getSoundMgr().audioIoSystemStartup();
+        }
+
+        poThread->threadAboutToExit();
+        return nullptr;
+    }
 }
 
 //============================================================================
@@ -218,9 +233,12 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 
 #if !defined(TARGET_OS_WINDOWS)
 	// make your application ignore SIGPIPE. that sometimes happens when socket connection is broken
-	// If you ignore the SIGPIPE signal, then the functions will return EPIPE erro
+    // If you ignore the SIGPIPE signal, then the functions will return EPIPE error
 	signal( SIGPIPE, SIG_IGN );
 #endif // !defined(TARGET_OS_WINDOWS)
+
+    // it can take up to 30 seconds on android to initialize sound devices so run in thread now
+    m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
 
 	// this just loads the ini file.
 	// the AppSettings database is not initialized until loadAccountSpecificSettings
@@ -236,7 +254,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 }
 
 //============================================================================
-int64_t AppCommon::elapsedMilliseconds( void )
+int AppCommon::elapsedMilliseconds( void )
 {
 	return GetApplicationAliveMs();
 }
@@ -358,6 +376,13 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 void AppCommon::slotGuiStartupTimer( void )
 {
 	static int guiStartupStep = 0;
+    if( !m_SoundMgr.isAudioInitialized() )
+    {
+        // on android audio devices can take up to 30 seconds
+        m_GuiStartupTimer->start();
+        return;
+    }
+
 	guiStartupStep++;
 	if( 1 == guiStartupStep )
 	{

@@ -48,6 +48,8 @@
 #include <BlobXferMgr/BlobInfo.h>
 #include <Plugins/FileInfo.h>
 
+#include <CoreLib/VxThread.h>
+
 class AccountMgr;
 
 class ActivityAppSetup;
@@ -115,10 +117,10 @@ public:
     IToGui&                     getIToGui( void ) { return *this; }
     IAudioRequests&             getIAudioRequests( void ) { return *this; }
 
-    // elapsed high resolution timer 
-    int64_t                     elapsedMilliseconds( void );
+    // elapsed high resolution timer
+    int                         elapsedMilliseconds( void );
 
-    int64_t                     elapsedSeconds( void ) { return elapsedMilliseconds() / 1000; }
+    int                         elapsedSeconds( void ) { return elapsedMilliseconds() / 1000; }
 
     bool                        loadWithoutThread( void );
     // cannot launch any applets until logon is completed
@@ -956,6 +958,8 @@ protected:
 
     bool                        m_LauchedAfterLogonApplets{ false };
     bool                        m_ConnectToLastConnectedHost{ false };
+
+    VxThread                    m_AudioDevicesThread;
 };
 
 AppCommon& CreateAppInstance( QApplication* myApp );

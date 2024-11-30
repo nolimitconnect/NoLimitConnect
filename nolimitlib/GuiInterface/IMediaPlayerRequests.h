@@ -27,8 +27,6 @@ public:
     static MediaPlayerNlc&      getNlcPlayer( void );
     static OsInterface&         getOsInterface( void );
 
-    virtual void				fromGuiInitCommandLine( int argc, char** arg ) = 0;
-
     virtual bool				fromThreadStartModule( EAppModule appModule ) = 0;
     virtual bool				fromGuiStopModule( EAppModule appModule ) = 0;
     virtual bool				fromGuiIsModuleRunning( EAppModule appModule ) = 0;

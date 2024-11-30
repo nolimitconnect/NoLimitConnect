@@ -651,7 +651,7 @@ void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase
     if( !m_Plugin.txPacket( netIdentHost->getMyOnlineId(), sktBase, &pktReq) )
     {
         clearUserInfoRequests();
-        LogModule( eLogUsers, LOG_VERBOSE, "HostClientMgr::requestHostUserInfo failed send" );
+        LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::requestHostUserInfo failed send" );
     }
 }
 
