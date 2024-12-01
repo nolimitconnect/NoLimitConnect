@@ -134,6 +134,9 @@ public:
                                                         std::shared_ptr<VxSktBase>& sktBase, 
                                                         std::string&        netCmd,
                                                         int                 txDataTimeout );
+
+	ENetCmdError				doRenewPortForward( void );
+
 protected:
 	bool						shouldAbort( void );
 

@@ -1257,6 +1257,9 @@ const char* DescribeNetAction( enum ENetActionType netAction )
     case eNetActionWaitForInternet:
         return "eNetActionWaitForInternet";
 
+    case eNetActionRenewPortForward:
+        return "eNetActionRenewPortForward";
+
     default:
         return "UNKNOWN ENetActionType";
     }

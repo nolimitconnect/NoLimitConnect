@@ -727,6 +727,9 @@
     <ClCompile Include="..\..\NetServices\NetActionResolveDefaultUserHosts.cpp">
       <Filter>Source Files\NetServices</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionRenewPortForward.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1519,6 +1522,9 @@
       <Filter>Source Files\NetServices</Filter>
     </ClInclude>
     <ClInclude Include="..\..\NetServices\NetActionResolveDefaultUserHosts.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionRenewPortForward.h">
       <Filter>Source Files\NetServices</Filter>
     </ClInclude>
   </ItemGroup>
