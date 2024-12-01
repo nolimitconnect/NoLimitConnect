@@ -32,6 +32,7 @@
 #include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxTime.h>
 
+#include <NetLib/VxPortForward.h>
 #include <NetLib/VxSktBase.h>
 
 #include <PktLib/PktsTestConnection.h>
@@ -1571,4 +1572,27 @@ void NetServicesMgr::sendUserLog( const char* msg, ... )
 	as8Buf[ as8Buf.size() - 1 ] = 0;
 	va_end( argList );
 	IToGui::getIToGui().toGuiIsPortOpenStatus( eIsPortOpenStatusLogMsg, as8Buf.data() );
+}
+
+//============================================================================
+ENetCmdError NetServicesMgr::doRenewPortForward( void )
+{
+	uint16_t port = m_Engine.getNetStatusAccum().getIpPort();
+	std::string ipAddr = m_Engine.getNetStatusAccum().getLocalIpAddress();
+	bool isIpv6{ false };
+	EIpAddrType addrType = VxGetIpAddrType( ipAddr.c_str() );
+	if( addrType != eIpAddrTypeUnknown )
+	{
+		isIpv6 = eIpAddrTypeIpv6 == addrType;
+	}
+
+	if( port && addrType != eIpAddrTypeUnknown )
+    {
+		bool result = VxPortForward::addPortForward( isIpv6, ipAddr.c_str(), port, false );
+		return result ? eNetCmdErrorNone : eNetCmdErrorConnectFailed;
+    }
+	else
+	{
+		return eNetCmdErrorBadParameter;
+	}
 }

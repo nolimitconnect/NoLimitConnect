@@ -102,14 +102,14 @@ bool WavMgr::readWavFile( std::string& fileName, std::vector<int16_t>& retBytes,
 		retRate = decoder.sample_rate();
 		retChannels = decoder.num_channels();
 		retBitsPerSample = decoder.bits_per_sample();
-		LogMsg( LOG_VERBOSE, "%s Sample rate: %d", __func__, retRate );
-		LogMsg( LOG_VERBOSE, "%s Channels: %d", __func__, retChannels );
-		LogMsg( LOG_VERBOSE, "%s Bits per samples: %d", __func__, retBitsPerSample );
+		// LogMsg( LOG_VERBOSE, "%s Sample rate: %d", __func__, retRate );
+		// LogMsg( LOG_VERBOSE, "%s Channels: %d", __func__, retChannels );
+		// LogMsg( LOG_VERBOSE, "%s Bits per samples: %d", __func__, retBitsPerSample );
 
 		std::size_t num_samples =
 			decoder.chunk_bytes_left() /
 			(decoder.num_channels() * (decoder.bits_per_sample() / 8));
-		LogMsg( LOG_VERBOSE, "%s Samples: %d", __func__, num_samples );
+		// LogMsg( LOG_VERBOSE, "%s Samples: %d", __func__, num_samples );
 
 		if( retChannels != 1 || retBitsPerSample != 16 )
 		{

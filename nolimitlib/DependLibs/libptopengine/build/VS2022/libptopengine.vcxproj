@@ -551,6 +551,7 @@
     <ClCompile Include="..\..\NetServices\NetActionBase.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionIdle.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionIsMyPortOpen.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionRenewPortForward.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionResolveConnectTestUrl.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionResolveDefaultUserHosts.cpp" />
     <ClCompile Include="..\..\NetServices\NetActionResolveNetworkHostUrl.cpp" />
@@ -823,6 +824,7 @@
     <ClInclude Include="..\..\NetServices\NetActionBase.h" />
     <ClInclude Include="..\..\NetServices\NetActionIdle.h" />
     <ClInclude Include="..\..\NetServices\NetActionIsMyPortOpen.h" />
+    <ClInclude Include="..\..\NetServices\NetActionRenewPortForward.h" />
     <ClInclude Include="..\..\NetServices\NetActionResolveConnectTestUrl.h" />
     <ClInclude Include="..\..\NetServices\NetActionResolveDefaultUserHosts.h" />
     <ClInclude Include="..\..\NetServices\NetActionResolveNetworkHostUrl.h" />

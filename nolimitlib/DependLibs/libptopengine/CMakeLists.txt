@@ -88,6 +88,8 @@ list(APPEND ptopengine_SOURCES
     NetServices/NetActionBase.cpp
     NetServices/NetActionIdle.cpp
     NetServices/NetActionIsMyPortOpen.cpp
+    NetServices/NetActionRenewPortForward.h
+    NetServices/NetActionRenewPortForward.cpp
     NetServices/NetActionResolveConnectTestUrl.cpp
     NetServices/NetActionResolveDefaultUserHosts.cpp
     NetServices/NetActionResolveNetworkHostUrl.cpp

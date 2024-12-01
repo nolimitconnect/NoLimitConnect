@@ -585,6 +585,7 @@ enum ENetActionType
     eNetActionResolveDefaultUserHosts,
     eNetActionResolveNetworkHostUrl,
     eNetActionWaitForInternet,
+    eNetActionRenewPortForward,
 
     eMaxNetAction
 };
