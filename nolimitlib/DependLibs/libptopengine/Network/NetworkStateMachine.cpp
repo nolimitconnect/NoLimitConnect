@@ -22,7 +22,7 @@
 #include "NetworkEventLost.h"
 
 #include <Network/NetworkMgr.h>
-#include <Network/NetConnector.h>
+#include <Network/StayConnected.h>
 #include <NetServices/NetServicesMgr.h>
 
 #include <P2PEngine/P2PEngine.h>
@@ -75,7 +75,7 @@ NetworkStateMachine::NetworkStateMachine(	P2PEngine& engine,
 , m_PktAnn( engine.getMyPktAnnounce() )
 , m_NetworkMgr( networkMgr )
 , m_NetServicesMgr( engine.getNetServicesMgr() )
-, m_NetConnector( engine.getNetConnector() )
+, m_StayConnected( engine.getStayConnected() )
 //, m_NetPortForward( *this )
 , m_DirectConnectTester( *this )
 {
@@ -121,8 +121,7 @@ void NetworkStateMachine::startupNetworkModules( void )
 	m_NetworkMgr.networkMgrStartup();
 
 	m_NetServicesMgr.netServicesStartup();
-	m_NetConnector.netConnectorStartup();
-	m_NetConnector.stayConnectedStartup();
+	m_StayConnected.stayConnectedStartup();
 }
 
 //============================================================================
@@ -143,17 +142,9 @@ void NetworkStateMachine::stateMachineShutdown( void )
 void NetworkStateMachine::shutdownNetworkModules( void )
 {
 	//m_NetPortForward.netPortForwardShutdown();
-	m_NetConnector.stayConnectedShutdown();
-	m_NetConnector.netConnectorShutdown();
+	m_StayConnected.stayConnectedShutdown();
 	m_NetServicesMgr.netServicesShutdown();
 	m_NetworkMgr.networkMgrShutdown();
-}
-
-//============================================================================
-bool NetworkStateMachine::isP2POnline( void )
-{
-	return ( eNetworkStateTypeOnlineDirect == m_eCurRunningStateType ) 
-			|| ( eNetworkStateTypeOnlineThroughRelay == m_eCurRunningStateType );
 }
 
 //============================================================================

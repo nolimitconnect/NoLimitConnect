@@ -91,12 +91,11 @@ void ConnectMgr::addConnectMgrClient( ConnectCallbackInterface * client, bool en
     lockClientList();
     if( enable )
     {
-        m_ConnectClients.push_back( client );
+        m_ConnectClients.emplace_back( client );
     }
     else
     {
-        std::vector<ConnectCallbackInterface *>::iterator iter;
-        for( iter = m_ConnectClients.begin(); iter != m_ConnectClients.end(); ++iter )
+        for( auto iter = m_ConnectClients.begin(); iter != m_ConnectClients.end(); ++iter )
         {
             if( *iter == client )
             {
@@ -115,22 +114,20 @@ void ConnectMgr::announceConnectAdded( ConnectInfo * assetInfo )
     ConnectInfo * userHostInfo = dynamic_cast<ConnectInfo *>( assetInfo );
     if( userHostInfo )
     {
-	    LogMsg( LOG_INFO, "ConnectMgr::announceConnectAdded start" );
+	    LogMsg( LOG_INFO, "ConnectMgr::%s start", __func__ );
 	
 	    lockClientList();
-	    std::vector<ConnectCallbackInterface *>::iterator iter;
-	    for( iter = m_ConnectClients.begin();	iter != m_ConnectClients.end(); ++iter )
+	    for( auto client : m_ConnectClients )
 	    {
-		    ConnectCallbackInterface * client = *iter;
 		    client->callbackConnectAdded( userHostInfo );
 	    }
 
 	    unlockClientList();
-	    LogMsg( LOG_INFO, "ConnectMgr::announceConnectAdded done" );
+	    LogMsg( LOG_INFO, "ConnectMgr::%s done", __func__ );
     }
     else
     {
-        LogMsg( LOG_ERROR, "ConnectMgr::announceConnectAdded dynamic_cast failed" );
+        LogMsg( LOG_ERROR, "ConnectMgr::%s dynamic_cast failed", __func__ );
     }
 }
 
@@ -141,10 +138,8 @@ void ConnectMgr::announceConnectUpdated( ConnectInfo * assetInfo )
     if( userHostInfo )
     {
         lockClientList();
-        std::vector<ConnectCallbackInterface *>::iterator iter;
-        for( iter = m_ConnectClients.begin();	iter != m_ConnectClients.end(); ++iter )
-        {
-            ConnectCallbackInterface * client = *iter;
+	    for( auto client : m_ConnectClients )
+	    {
             client->callbackConnectUpdated( userHostInfo );
         }
 
@@ -152,7 +147,7 @@ void ConnectMgr::announceConnectUpdated( ConnectInfo * assetInfo )
     }
     else
     {
-        LogMsg( LOG_ERROR, "ConnectMgr::announceConnectRemoved dynamic_cast failed" );
+        LogMsg( LOG_ERROR, "ConnectMgr::%s dynamic_cast failed", __func__ );
     }
 }
 
@@ -160,10 +155,8 @@ void ConnectMgr::announceConnectUpdated( ConnectInfo * assetInfo )
 void ConnectMgr::announceConnectRemoved( VxGUID& hostOnlineId )
 {
 	lockClientList();
-	std::vector<ConnectCallbackInterface *>::iterator iter;
-	for( iter = m_ConnectClients.begin();	iter != m_ConnectClients.end(); ++iter )
+	for( auto client : m_ConnectClients )
 	{
-		ConnectCallbackInterface * client = *iter;
 		client->callbackConnectRemoved( hostOnlineId );
 	}
 
@@ -173,33 +166,29 @@ void ConnectMgr::announceConnectRemoved( VxGUID& hostOnlineId )
 //============================================================================
 void ConnectMgr::announceConnectOfferState( VxGUID& hostOnlineId, enum EOfferState userHostOfferState )
 {
-	LogMsg( LOG_INFO, "ConnectMgr::announceConnectXferState state %d start", userHostOfferState );
+	LogMsg( LOG_INFO, "ConnectMgr::%s state %d start", __func__, userHostOfferState );
 	lockClientList();
-	std::vector<ConnectCallbackInterface *>::iterator iter;
-	for( iter = m_ConnectClients.begin();	iter != m_ConnectClients.end(); ++iter )
+	for( auto client : m_ConnectClients )
 	{
-		ConnectCallbackInterface * client = *iter;
 		client->callbackConnectOfferState( hostOnlineId, userHostOfferState );
 	}
 
 	unlockClientList();
-	LogMsg( LOG_INFO, "ConnectMgr::announceConnectXferState state %d done", userHostOfferState );
+	LogMsg( LOG_INFO, "ConnectMgr::%s state %d done", __func__, userHostOfferState );
 }
 
 //============================================================================
 void ConnectMgr::announceConnectOnlineState( VxGUID& hostOnlineId, enum EOnlineState onlineState, VxGUID& connectionId )
 {
-    LogMsg( LOG_INFO, "ConnectMgr::announceConnectOnlineState state %d start", onlineState );
+    LogMsg( LOG_INFO, "ConnectMgr::%s state %d start", __func__, onlineState );
     lockClientList();
-    std::vector<ConnectCallbackInterface *>::iterator iter;
-    for( iter = m_ConnectClients.begin();	iter != m_ConnectClients.end(); ++iter )
-    {
-        ConnectCallbackInterface * client = *iter;
+	for( auto client : m_ConnectClients )
+	{
         client->callbackConnectOnlineState( hostOnlineId, onlineState, connectionId );
     }
 
     unlockClientList();
-    LogMsg( LOG_INFO, "ConnectMgr::announceConnectOnlineState state %d done", onlineState );
+    LogMsg( LOG_INFO, "ConnectMgr::%s state %d done", __func__, onlineState );
 }
 
 //============================================================================

@@ -34,20 +34,16 @@ GuiUserJoinListWidget::GuiUserJoinListWidget( QWidget* parent )
 	QListWidget::setSortingEnabled( true );
 	sortItems( Qt::DescendingOrder );
 
-    connect( &m_UserJoinMgr, SIGNAL(signalMyIdentUpdated( GuiUserJoin*)),               this, SLOT(callbackMyIdentUpdated( GuiUserJoin*))) ;
+    connect( &m_UserJoinMgr, SIGNAL(signalMyIdentUpdated(GuiUserJoin*)),               this, SLOT(callbackMyIdentUpdated(GuiUserJoin*)) );
 
-    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinAdded( GuiUserJoin*)),                this, SLOT(slotUserJoinAdded( GuiUserJoin*))) ;
-    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinRemoved( VxGUID)),                    this, SLOT(slotUserJoinRemoved( VxGUID))) ;
-    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinUpdated( GuiUserJoin*)),              this, SLOT(slotUserJoinUpdated( GuiUserJoin*))) ;
-    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinOnlineStatus( GuiUserJoin*,bool)),    this, SLOT(slotUserJoinOnlineStatus( GuiUserJoin*,bool))) ;
+    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinAdded(GuiUserJoin*)),                this, SLOT(slotUserJoinAdded(GuiUserJoin*)) );
+    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinRemoved(VxGUID)),                    this, SLOT(slotUserJoinRemoved(VxGUID)) );
+    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinUpdated(GuiUserJoin*)),              this, SLOT(slotUserJoinUpdated(GuiUserJoin*)) );
+    connect( &m_UserJoinMgr, SIGNAL(signalUserJoinOnlineStatus(GuiUserJoin*,bool)),    this, SLOT(slotUserJoinOnlineStatus(GuiUserJoin*,bool)) );
 
-    connect( &m_ThumbMgr, SIGNAL( signalThumbAdded( GuiThumb* ) ),          this, SLOT( callbackThumbAdded( GuiThumb* ) ) );
-    connect( &m_ThumbMgr, SIGNAL(signalThumbUpdated( GuiThumb*)),           this, SLOT(callbackThumbUpdated( GuiThumb*))) ;
-    connect( &m_ThumbMgr, SIGNAL(signalThumbRemoved( VxGUID)),              this, SLOT(callbackThumbRemoved( VxGUID))) ;
-
-
-    //connect( this, SIGNAL(itemClicked(QListWidgetItem*)),          this, SLOT(slotItemClicked(QListWidgetItem*))) ;
-    //connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem*)),    this, SLOT(slotItemClicked(QListWidgetItem*))) ;
+    connect( &m_ThumbMgr, SIGNAL(signalThumbAdded(GuiThumb*)),              this, SLOT(callbackThumbAdded(GuiThumb*)) );
+    connect( &m_ThumbMgr, SIGNAL(signalThumbUpdated(GuiThumb*)),            this, SLOT(callbackThumbUpdated(GuiThumb*)) );
+    connect( &m_ThumbMgr, SIGNAL(signalThumbRemoved(VxGUID)),               this, SLOT(callbackThumbRemoved(VxGUID)) );
 
     setUserJoinViewType( eUserJoinViewTypeEverybody );
     m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, true );
@@ -68,9 +64,9 @@ GuiUserJoinListItem* GuiUserJoinListWidget::sessionToWidget( GuiUserJoinSession*
     userItem->setUserJoinSession( userSession );
     userItem->setSizeHint( userItem->calculateSizeHint() );
 
-    connect( userItem, SIGNAL(signalUserJoinListItemClicked(QListWidgetItem*)),	            this, SLOT(slotUserJoinListItemClicked(QListWidgetItem*)) );
+    connect( userItem, SIGNAL(signalUserJoinListItemClicked(QListWidgetItem*)),	        this, SLOT(slotUserJoinListItemClicked(QListWidgetItem*)) );
     connect( userItem, SIGNAL(signalAvatarButtonClicked(GuiUserJoinListItem*)),	        this, SLOT(slotAvatarButtonClicked(GuiUserJoinListItem*)) );
-    connect( userItem, SIGNAL(signalMenuButtonClicked(GuiUserJoinListItem*)),	            this, SLOT(slotMenuButtonClicked(GuiUserJoinListItem*)) );
+    connect( userItem, SIGNAL(signalMenuButtonClicked(GuiUserJoinListItem*)),	        this, SLOT(slotMenuButtonClicked(GuiUserJoinListItem*)) );
     connect( userItem, SIGNAL(signalFriendshipButtonClicked(GuiUserJoinListItem*)),		this, SLOT(slotFriendshipButtonClicked(GuiUserJoinListItem*)) );
 
     userItem->updateWidgetFromInfo();
@@ -280,7 +276,7 @@ void GuiUserJoinListWidget::refreshList( void )
     {
         // temporary for dev.. add ourself
         GuiUserJoin* myself = m_UserJoinMgr.updateUserJoin( &m_MyApp.getUserMgr().getMyIdent()->getNetIdent() );
-        userList.push_back( myself );
+        userList.emplace_back( myself );
     }
 
     std::map<GroupieId, GuiUserJoin*>& mgrList = m_UserJoinMgr.getUserJoinList();
@@ -288,7 +284,7 @@ void GuiUserJoinListWidget::refreshList( void )
     {
         if( isListViewMatch( iter->second->getUser() ) )
         {
-            userList.push_back( iter->second );
+            userList.emplace_back( iter->second );
         }
     }
 

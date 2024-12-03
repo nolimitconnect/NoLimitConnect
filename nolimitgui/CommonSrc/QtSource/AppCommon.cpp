@@ -1501,7 +1501,6 @@ void AppCommon::toGuiBlobSessionHistory( BlobInfo* blobInfo )
 	emit signalInternalBlobSessionHistory( *blobInfo );
 }
 
-
 //============================================================================
 void AppCommon::slotInternalBlobSessionHistory( BlobInfo blobInfo )
 {

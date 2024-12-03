@@ -82,6 +82,9 @@ public:
 
 	bool				        fromGuiDeleteUser( VxGUID& onlineId );
 
+    //! update which list person is in
+    void						updateVectorList( enum EFriendState oldFriendship, BigListInfo * poInfo ) override;
+
 protected:
 
 	//=== vars ===//

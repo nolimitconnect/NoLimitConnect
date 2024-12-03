@@ -71,7 +71,7 @@ enum ELogModule
 	eLogHostConnect		= 0x00040000, // 19
 	eLogRunTest			= 0x00080000, // 20
 
-	eLogPlugins			= 0x00100000, // 21
+	eLogUserConnect		= 0x00100000, // 21
 	eLogHostJoin		= 0x00200000, // 22
 	eLogUsers			= 0x00400000, // 23
 	eLogHostedUser		= 0x00800000, // 24

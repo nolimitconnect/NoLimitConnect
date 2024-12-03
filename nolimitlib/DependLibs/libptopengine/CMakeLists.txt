@@ -99,7 +99,6 @@ list(APPEND ptopengine_SOURCES
     Network/ConnectRequest.cpp
     Network/DirectConnectTester.cpp
     Network/Firewall.cpp
-    Network/NetConnector.cpp
     Network/NetworkEventAvail.cpp
     Network/NetworkEventBase.cpp
     Network/NetworkEventLost.cpp
@@ -113,6 +112,8 @@ list(APPEND ptopengine_SOURCES
     Network/NetworkStateOnlineThroughRelay.cpp
     Network/NetworkStateTestConnection.cpp
     Network/NetworkStateWaitForRelay.cpp
+    Network/StayConnected.h
+    Network/StayConnected.cpp
     NetworkMonitor/NetStatusAccum.cpp
     NetworkMonitor/NetworkMonitor.cpp
 	NetworkTest/IsPortOpenTest.cpp

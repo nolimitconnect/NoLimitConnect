@@ -568,7 +568,6 @@
     <ClCompile Include="..\..\Network\ConnectRequest.cpp" />
     <ClCompile Include="..\..\Network\DirectConnectTester.cpp" />
     <ClCompile Include="..\..\Network\Firewall.cpp" />
-    <ClCompile Include="..\..\Network\NetConnector.cpp" />
     <ClCompile Include="..\..\Network\NetworkEventAvail.cpp" />
     <ClCompile Include="..\..\Network\NetworkEventBase.cpp" />
     <ClCompile Include="..\..\Network\NetworkEventLost.cpp" />
@@ -582,6 +581,7 @@
     <ClCompile Include="..\..\Network\NetworkStateOnlineThroughRelay.cpp" />
     <ClCompile Include="..\..\Network\NetworkStateTestConnection.cpp" />
     <ClCompile Include="..\..\Network\NetworkStateWaitForRelay.cpp" />
+    <ClCompile Include="..\..\Network\StayConnected.cpp" />
     <ClCompile Include="..\..\OfferBase\OfferBaseInfo.cpp" />
     <ClCompile Include="..\..\OfferBase\OfferBaseInfoDb.cpp" />
     <ClCompile Include="..\..\OfferBase\OfferBaseMgr.cpp" />
@@ -775,7 +775,6 @@
     <ClInclude Include="..\..\BlobXferMgr\BlobXferSession.h" />
     <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallbackInterface.h" />
     <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListMgr.h" />
-    <ClInclude Include="..\..\ConnectIdListMgr\OnlineStatusCallbackInterface.h" />
     <ClInclude Include="..\..\Connections\ConnectedInfo.h" />
     <ClInclude Include="..\..\Connections\ConnectedListAll.h" />
     <ClInclude Include="..\..\Connections\ConnectedListBase.h" />
@@ -843,7 +842,6 @@
     <ClInclude Include="..\..\Network\ConnectRequest.h" />
     <ClInclude Include="..\..\Network\DirectConnectTester.h" />
     <ClInclude Include="..\..\Network\Firewall.h" />
-    <ClInclude Include="..\..\Network\NetConnector.h" />
     <ClInclude Include="..\..\Network\NetworkDefs.h" />
     <ClInclude Include="..\..\Network\NetworkEventAvail.h" />
     <ClInclude Include="..\..\Network\NetworkEventBase.h" />
@@ -858,6 +856,7 @@
     <ClInclude Include="..\..\Network\NetworkStateOnlineThroughRelay.h" />
     <ClInclude Include="..\..\Network\NetworkStateTestConnection.h" />
     <ClInclude Include="..\..\Network\NetworkStateWaitForRelay.h" />
+    <ClInclude Include="..\..\Network\StayConnected.h" />
     <ClInclude Include="..\..\OfferBase\OfferBaseInfo.h" />
     <ClInclude Include="..\..\OfferBase\OfferBaseInfoDb.h" />
     <ClInclude Include="..\..\OfferBase\OfferBaseMgr.h" />

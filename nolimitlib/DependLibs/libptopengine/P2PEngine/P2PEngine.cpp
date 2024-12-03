@@ -24,7 +24,7 @@
 #include <NetworkTest/RunUrlAction.h>
 #include <Network/NetworkMgr.h>
 #include <Network/NetworkStateMachine.h>
-#include <Network/NetConnector.h>
+#include <Network/StayConnected.h>
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <NetServices/NetServicesMgr.h>
 
@@ -108,7 +108,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	, m_NetworkMgr( *new NetworkMgr( *this, peerMgr, m_BigListMgr, m_ConnectionList ) )
 	, m_NetworkMonitor( *new NetworkMonitor( *this ) )
 	, m_NetServicesMgr( *new NetServicesMgr( *this ) )
-	, m_NetConnector( *new NetConnector( *this ) )
+	, m_StayConnected( *new StayConnected( *this ) )
 	, m_NetworkStateMachine( *new NetworkStateMachine( *this, m_NetworkMgr ) )
 	, m_PluginMgr( *new PluginMgr( *this ) )
 	, m_PluginSettingMgr( *this )
@@ -310,9 +310,9 @@ void P2PEngine::onBigListInfoRestored( BigListInfo * poInfo )
 
 	getConnectIdListMgr().updateOnlineExclusion( poInfo->getMyOnlineId(), poInfo->getMyFriendshipToHim() == eFriendStateIgnore);
 
-    if( isP2POnline() && ( poInfo->isFriend() || poInfo->isAdministrator() ) )
+    if( poInfo->canDirectConnectToUser() && ( poInfo->isFriend() || poInfo->isAdministrator() ) )
 	{
-		m_NetConnector.addConnectRequestToQue( poInfo->getConnectInfo() );
+        //m_StayConnected.addStayConnectedRequest( poInfo->getConnectInfo(), eConnectReasonStayConnected );
 	}
 }
 
@@ -322,6 +322,7 @@ void P2PEngine::onBigListInfoDelete( BigListInfo * poInfo )
 	LogMsg( LOG_INFO, "onBigListInfoDelete");
 	poInfo->debugDumpIdent();
     getToGui().toGuiContactRemoved( poInfo->getConnectIdent().getMyOnlineId() );
+    //m_StayConnected.removeStayConnectedRequest( poInfo->getConnectInfo() );
 	if( poInfo->isMyRelay() )
 	{
 		m_ConnectionList.removeContactInfo( poInfo->getConnectInfo() );

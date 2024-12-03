@@ -43,7 +43,7 @@ void GuiThumbMgr::onAppCommonCreated( void )
         if( guid.isVxGUIDValid() )
         {
             // LogMsg( LOG_VERBOSE, "GuiThumbMgr::onAppCommonCreated emoticon  %d is valid %s", emoticonNum, guid.toOnlineIdString().c_str() );
-            m_EmoticonList.push_back( guid );
+            m_EmoticonList.emplace_back( guid );
         }
         else
         {
@@ -548,7 +548,7 @@ void GuiThumbMgr::wantGuiThumbCallbacks( GuiThumbCallback* callback, bool wantCa
             }
         }
 
-        m_GuiThumbClientList.push_back( callback );
+        m_GuiThumbClientList.emplace_back( callback );
         return;
     }
 
@@ -562,5 +562,5 @@ void GuiThumbMgr::wantGuiThumbCallbacks( GuiThumbCallback* callback, bool wantCa
         }
     }
 
-    LogMsg( LOG_INFO, "WARNING. ToGuiUserUpdateInterface remove not found in list" );
+    LogMsg( LOG_INFO, "WARNING. wantToGuiUserUpdateCallbacks remove not found in list" );
 }

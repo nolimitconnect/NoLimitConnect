@@ -13,7 +13,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 #include <NetServices/NetServicesMgr.h>
-#include <Network/NetConnector.h>
+#include <Network/StayConnected.h>
 
 #include <Plugins/PluginCamServer.h>
 #include <BigListLib/BigListInfo.h>
@@ -172,7 +172,7 @@ void RcScan::fromGuiNextScan( EScanType eScanType )
 //============================================================================
 void RcScan::fromGuiStopScan( EScanType eScanType )
 {
-	LogMsg( LOG_INFO, "** fromGuiStopScan begin\n");
+	LogMsg( LOG_INFO, "** fromGuiStopScan begin");
 	m_bIsScanning = false;
 	m_ScanAction.fromGuiStopScan( eScanType );
 	LogMsg( LOG_INFO, "** fromGuiStopScan done");
@@ -222,7 +222,7 @@ void RcScan::onPktScanReq( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& skt
 			}
 			else
 			{
-				noMatchList.push_back( ident );
+				noMatchList.emplace_back( ident );
 			}
 		}
 	}
@@ -295,7 +295,10 @@ void RcScan::onPktScanReply( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& s
 			fromPktIdent = (VxNetIdent*)&pktPayload[ i * sizeof(VxNetIdent) ];
 			if( m_IdentsReqConnectList.addGuidIfDoesntExist( fromPktIdent->getMyOnlineId() ) )
 			{
-				m_Engine.getNetConnector().addConnectRequestToQue( fromPktIdent->getConnectInfo(), eConnectReasonOtherSearch );
+				if( fromPktIdent->canDirectConnectToUser() )
+				{
+                    //m_Engine.getStayConnected().addStayConnectedRequest( fromPktIdent->getConnectInfo(), eConnectReasonOtherSearch );
+				}		
 			}
 		}
 

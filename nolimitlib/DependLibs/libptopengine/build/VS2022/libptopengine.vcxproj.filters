@@ -67,9 +67,6 @@
     <ClCompile Include="..\..\Network\Firewall.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Network\NetConnector.cpp">
-      <Filter>Source Files\Network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Network\NetworkEventAvail.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
@@ -730,6 +727,9 @@
     <ClCompile Include="..\..\NetServices\NetActionRenewPortForward.cpp">
       <Filter>Source Files\NetServices</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Network\StayConnected.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -814,9 +814,6 @@
       <Filter>Source Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Network\Firewall.h">
-      <Filter>Source Files\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Network\NetConnector.h">
       <Filter>Source Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Network\NetworkDefs.h">
@@ -1413,9 +1410,6 @@
     <ClInclude Include="..\..\Membership\MemberActiveMgr.h">
       <Filter>Source Files\Membership</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ConnectIdListMgr\OnlineStatusCallbackInterface.h">
-      <Filter>Source Files\ConnectIdListMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\FromGuiMgr\FromGuiMgr.h">
       <Filter>Source Files\FromGuiMgr</Filter>
     </ClInclude>
@@ -1526,6 +1520,9 @@
     </ClInclude>
     <ClInclude Include="..\..\NetServices\NetActionRenewPortForward.h">
       <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Network\StayConnected.h">
+      <Filter>Source Files\Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

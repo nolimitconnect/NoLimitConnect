@@ -23,7 +23,7 @@ class P2PEngine;
 class EngineSettings;
 class PktAnnounce;
 class NetworkMgr;
-class NetConnector;
+class StayConnected;
 class NetworkStateLost;
 class VxNetIdent;
 class PktRelayServiceReply;
@@ -57,8 +57,6 @@ public:
 	uint16_t					getHostPort( void ) { return m_u16HostPort; }
 	std::string&				getNetServiceIp( void ) { return m_NetServiceIp; }
 	uint16_t					getNetServicePort( void ) { return m_u16NetServicePort; }
-
-	bool						isP2POnline( void );
 
 	bool						isUserLoggedOn( void ) { return m_bUserLoggedOn; }
 
@@ -116,7 +114,7 @@ protected:
 	PktAnnounce&				m_PktAnn;
 	NetworkMgr&					m_NetworkMgr;
 	NetServicesMgr&				m_NetServicesMgr;
-	NetConnector&				m_NetConnector;
+	StayConnected&				m_StayConnected;
 
 	bool						m_StateMachineInitialized{ false };
 

@@ -10,7 +10,7 @@
 
 #include "P2PEngine.h"
 #include <GuiInterface/IToGui.h>
-#include <Network/NetConnector.h>
+#include <Network/StayConnected.h>
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <Network/NetworkStateMachine.h>
 #include <Network/NetworkMgr.h>
@@ -36,7 +36,7 @@ bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo,
 									bool&				retIsNewConnection,
 									EConnectReason		connectReason )
 {
-	bool result = m_NetConnector.connectToContact( connectInfo, ppoRetSkt, retIsNewConnection, connectReason );
+	bool result = m_ConnectionMgr.connectToContact( connectInfo, ppoRetSkt, getMyOnlineId(), retIsNewConnection );
 	if(  true == result )
 	{
 		if( retIsNewConnection )
@@ -59,7 +59,7 @@ bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo,
 			if( bigListInfo )
 			{
                 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::connectToContact: success %s", bigListInfo->getOnlineName() );
-				m_NetConnector.handleConnectSuccess( bigListInfo, ppoRetSkt, retIsNewConnection, connectReason );
+				m_ConnectionMgr.handleConnectSuccess( bigListInfo, ppoRetSkt, retIsNewConnection, connectReason );
 
                 // nearby elevate to guest permission
                 updateOnFirstConnect( ppoRetSkt, bigListInfo, eConnectReasonNearbyLan == connectReason
@@ -181,7 +181,8 @@ bool P2PEngine::txPluginPkt( 	EPluginType			pluginType,
 void P2PEngine::attemptConnectionToRelayService( BigListInfo * poInfo )
 {
 	std::shared_ptr<VxSktBase> sktBase( nullptr );
-	m_NetConnector.directConnectTo( poInfo->getConnectInfo(), sktBase, eConnectReasonRelayService );
+    bool newConnection{false};
+    connectToContact( poInfo->getConnectInfo(), sktBase, newConnection, eConnectReasonRelayService );
 }
 
 //============================================================================

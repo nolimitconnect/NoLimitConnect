@@ -713,10 +713,9 @@ bool P2PEngine::isInternetAvailable( void )
 }
 
 //============================================================================
-bool P2PEngine::isP2POnline( void )
+bool P2PEngine::isNetworkOnline( void )
 { 
-	//assureUserSpecificDirIsSet( "P2PEngine::isP2POnline" );
-	return m_NetworkStateMachine.isP2POnline(); 
+	return m_NetStatusAccum.isNetworkOnline(); 
 }
 
 //============================================================================

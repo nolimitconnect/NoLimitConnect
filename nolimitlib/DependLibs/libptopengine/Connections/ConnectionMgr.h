@@ -26,13 +26,11 @@
 class BigListMgr;
 class HandshakeInfo;
 class P2PEngine;
+class P2PConnectList;
 class VxPeerMgr;
 class VxPktHdr;
 class VxSktBase;
 
-/**
-* NOTE: this class is being phased out in favor of NetConnector
-*/
 class ConnectionMgr : public NetAvailStatusCallbackInterface, public UrlActionResultInterface
 {
 public:
@@ -73,7 +71,16 @@ public:
                                                     bool				            requestReverseConnection,
                                                     bool				            requestSTUN );
 
+    bool                        connectToContact(   VxConnectInfo&		            connectInfo,
+                                                    std::shared_ptr<VxSktBase>&		ppoRetSkt,
+                                                    VxGUID&                         sessionId,
+                                                    bool&				            retIsNewConnection );
+
     bool                        connectUsingTcp( VxConnectInfo& connectInfo, std::shared_ptr<VxSktBase>& ppoRetSkt, VxGUID& sessionId );
+
+    void                        handleConnectSuccess( BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
+
+    void                        closeConnection( enum ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
 
 protected:
     virtual void				callbackInternetStatusChanged( EInternetStatus internetStatus ) override;
@@ -128,19 +135,9 @@ protected:
                                                     int					        iConnectTimeoutMs,
                                                     enum EHostType              hostType = eHostTypeUnknown );
 
-    void                        addConnectRequestToQue( VxConnectInfo& connectInfo, enum EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting );
-    void                        addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting );
-    bool                        connectToContact(   VxConnectInfo&		            connectInfo,
-                                                    std::shared_ptr<VxSktBase>&		ppoRetSkt,
-                                                    VxGUID&                         sessionId,
-                                                    bool&				            retIsNewConnection );
-
     bool                        txPacket( VxGUID&				        destinationId,
                                           std::shared_ptr<VxSktBase>&	sktBase,
                                           VxPktHdr*			            poPkt );
-
-    void                        handleConnectSuccess( BigListInfo * bigListInfo, std::shared_ptr<VxSktBase>& skt, bool isNewConnection, EConnectReason connectReason );
-    void                        closeConnection( enum ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& skt, BigListInfo * poInfo );
 
     bool                        doConnectRequest( ConnectReqInfo& connectRequest, bool ignoreToSoonToConnectAgain );
 
@@ -152,6 +149,9 @@ protected:
     //=== vars ===//
     P2PEngine&					m_Engine;
     BigListMgr&					m_BigListMgr;
+    P2PConnectList&             m_ConnectedList;
+    VxPeerMgr&					m_PeerMgr;
+
     VxMutex						m_ConnectionMutex;
     ConnectedListAll            m_AllList;
 
@@ -167,15 +167,5 @@ protected:
 
     HandshakeList               m_HandshakeList;
     VxMutex                     m_HandshakeMutex;
-
-    /// low level connect vars
-    VxThread					m_NetConnectThread;
-    VxThread					m_StayConnectedThread;
-
-    VxPeerMgr&					m_PeerMgr;
-
-    VxMutex						m_NetConnectorMutex;
-    VxSemaphore					m_WaitForConnectWorkSemaphore;
-    std::vector<ConnectReqInfo>	m_IdentsToConnectList;
 };
 

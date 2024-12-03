@@ -231,37 +231,11 @@ void P2PEngine::fromGuiSendContactList( EFriendViewType eFriendView, int maxCont
 	}
 
 	sendToGuiTheContactList( maxContactsToSend );
-
-	//int64_t timeNow = GetTimeStampMs();
-	//if( 60000 < ( timeNow - m_LastTimeAnnounceFromContactListCalled )  )
-	//{
-	//	if( m_NetworkStateMachine.isP2POnline() && ( false == getIsMyHostServiceEnabled( eHostServiceNetworkHost ) ) )
-	//	{
-	//		m_LastTimeAnnounceFromContactListCalled = timeNow;
-	//		m_NetServicesMgr.announceToHost( m_NetworkStateMachine.getHostIp(), m_NetworkStateMachine.getHostPort() );
-	//	}
-	//}
 }
 
 //============================================================================
 void P2PEngine::fromGuiRefreshContactList( int maxContactsToSend )
 {
- //   int64_t timeNow = GetTimeStampMs();
-	//if( 180000 < ( timeNow - m_LastTimeAnnounceFromContactListCalled )  )
-	//{
-	//	m_LastTimeAnnounceFromContactListCalled = timeNow;
-	//	// force reconnect etc
-	//	fromGuiNetworkSettingsChanged();
-	//}
-	//else if( 60000 < ( timeNow - m_LastTimeAnnounceFromContactListCalled )  )
-	//{
-	//	if( m_NetworkStateMachine.isP2POnline() && ( false == getIsMyHostServiceEnabled( eHostServiceNetworkHost ) ) )
-	//	{
-	//		m_LastTimeAnnounceFromContactListCalled = timeNow;
-	//		m_NetServicesMgr.announceToHost( m_NetworkStateMachine.getHostIp(), m_NetworkStateMachine.getHostPort() );
-	//	}
-	//}
-
 	sendToGuiTheContactList( maxContactsToSend );
 }
 

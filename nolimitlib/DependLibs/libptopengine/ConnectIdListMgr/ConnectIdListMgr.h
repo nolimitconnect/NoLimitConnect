@@ -91,7 +91,6 @@ public:
     void                        updateOnlineExclusion( VxGUID onlineId, bool excludeFromOnlineStatus, bool isNetworkHost = false );
 
     void                        wantConnectIdListCallback( ConnectIdListCallback* client, bool enable );
-    void                        wantOnlineStatusCallback( OnlineStatusCallback* client, bool enable );
 
 protected:
     void                        announceOnlineStatus( VxGUID& onlineId, bool isOnline );

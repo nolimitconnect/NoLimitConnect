@@ -56,7 +56,7 @@ public:
 	//! find contact
 	BigListInfo *				findBigListInfo( const char* pUserName, bool isAlreadyLocked = false );		// contact to look for
 	//! update which list person is in
-    void						updateVectorList( enum EFriendState oldFriendship, BigListInfo * poInfo );
+    virtual void				updateVectorList( enum EFriendState oldFriendship, BigListInfo * poInfo );
 
 	//=== vars ===//
 #ifdef TARGET_OS_ANDROID

@@ -35,8 +35,9 @@
 ConnectionMgr::ConnectionMgr( P2PEngine& engine )
     : m_Engine( engine )
     , m_BigListMgr( engine.getBigListMgr() )
-    , m_AllList( engine )
+    , m_ConnectedList( engine.getConnectList() )
     , m_PeerMgr( engine.getPeerMgr() )
+    , m_AllList( engine )   
 {
 }
 
@@ -831,57 +832,10 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
 }
 
 //============================================================================
-void ConnectionMgr::addConnectRequestToQue( VxConnectInfo& connectInfo, EConnectReason connectReason, bool addToHeadOfQue, bool replaceExisting )
-{
-    ConnectReqInfo connectRequest( connectInfo, connectReason );
-    addConnectRequestToQue( connectRequest, addToHeadOfQue, replaceExisting );
-}
-
-//============================================================================
-void ConnectionMgr::addConnectRequestToQue( ConnectReqInfo& connectRequest, bool addToHeadOfQue, bool replaceExisting  )
-{
-    m_NetConnectorMutex.lock();
-    if( m_IdentsToConnectList.size() )
-    {
-        // remove any previous that have the same id and reason
-        std::vector<ConnectReqInfo>::iterator iter;
-        for( iter = m_IdentsToConnectList.begin(); iter != m_IdentsToConnectList.end(); ++iter )
-        {
-            if( ( (*iter).getMyOnlineId() == connectRequest.getMyOnlineId() )
-                && ( (*iter).getConnectReason() == connectRequest.getConnectReason() ) )
-            {
-                if( replaceExisting )
-                {
-                    m_IdentsToConnectList.erase( iter );
-                    break;
-                }
-                else
-                {
-                    m_NetConnectorMutex.unlock();
-                    return;
-                }
-            }
-        }
-    }
-
-    if( addToHeadOfQue )
-    {
-        m_IdentsToConnectList.insert( m_IdentsToConnectList.begin(), connectRequest );
-    }
-    else
-    {
-        m_IdentsToConnectList.emplace_back( connectRequest );
-    }
-
-    m_NetConnectorMutex.unlock();
-    m_WaitForConnectWorkSemaphore.signal();
-}
-
-//============================================================================
-bool ConnectionMgr::connectToContact(	VxConnectInfo&		connectInfo, 
-                                        std::shared_ptr<VxSktBase>&		    ppoRetSkt,
-                                        VxGUID&             sessionId,
-                                        bool&				retIsNewConnection )
+bool ConnectionMgr::connectToContact(	VxConnectInfo&		            connectInfo, 
+                                        std::shared_ptr<VxSktBase>&		ppoRetSkt,
+                                        VxGUID&                         sessionId,
+                                        bool&				            retIsNewConnection )
 {
     bool gotConnected	= false;
     retIsNewConnection	 = false;
@@ -1075,12 +1029,9 @@ void ConnectionMgr::handleConnectSuccess( BigListInfo * bigListInfo, std::shared
 }
 
 //============================================================================
-void ConnectionMgr::closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, BigListInfo* poInfo )
+void ConnectionMgr::closeConnection( ESktCloseReason closeReason, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
-    if( nullptr == poInfo )
-    {
-        poInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
-    }
+    BigListInfo* poInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
 
     if( nullptr == poInfo )
     {
@@ -1121,7 +1072,7 @@ bool ConnectionMgr::doConnectRequest( ConnectReqInfo& connectRequest, bool ignor
 {
     int64_t timeNow = GetGmtTimeMs();
     VxConnectInfo& connectInfo = connectRequest.getConnectInfo();
-    if( false == m_Engine.getNetworkStateMachine().isP2POnline() )
+    if( false == m_Engine.getNetStatusAccum().isNetworkOnline() )
     {
          LogMsg( LOG_ERROR, "ConnectionMgr::doConnectRequest when not online" );
     }

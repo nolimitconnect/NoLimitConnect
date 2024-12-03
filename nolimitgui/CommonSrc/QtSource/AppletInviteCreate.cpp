@@ -179,7 +179,7 @@ void AppletInviteCreate::slotUpdateInvite( void )
 {
     updateUrls();
     bool canDirectConnect = m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen();
-    bool isOnline = m_MyApp.getEngine().getNetStatusAccum().isP2PAvailable();
+    bool isOnline = m_MyApp.getEngine().getNetStatusAccum().isNetworkOnline();
 
     bool haveInvite = false;
     ui.m_InviteTextEdit->clear();

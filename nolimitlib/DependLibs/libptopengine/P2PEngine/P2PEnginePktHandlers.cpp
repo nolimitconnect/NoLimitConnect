@@ -18,7 +18,7 @@
 #include <Plugins/PluginRandomConnectHost.h>
 #include <Plugins/PluginRandomConnectClient.h>
 
-#include <Network/NetConnector.h>
+#include <Network/StayConnected.h>
 
 #include <NetLib/VxSktCrypto.h>
 #include <NetLib/VxSktBase.h>
@@ -164,7 +164,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
         // if not first announce then was relayed through host and do not close the connection
         if( isFirstAnnounce )
 		{
-			m_NetConnector.closeConnection( eSktCloseUserIgnored, contactOnlineId, sktBase );
+            m_ConnectionMgr.closeConnection( eSktCloseUserIgnored, contactOnlineId, sktBase );
             getConnectList().onConnectionLost( sktBase );
 		}
 
@@ -187,16 +187,16 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( pktAnnReplyRequested )
 	{
-        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s %s at %s pktAnn reply requested", 
-				   pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-		if( !m_NetConnector.sendMyPktAnnounce( pktAnn->getMyOnlineId(),
+        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s pktAnn reply requested", 
+				   sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+        if( !m_ConnectionMgr.sendMyPktAnnounce( pktAnn->getMyOnlineId(),
 				sktBase,
 				false,
 				false,
 				false ) )
 		{
-			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s at %s send pktAnn reply failed",
-					   pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s at %s send pktAnn reply failed",
+					   sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 			sktBase->closeSkt( eSktClosePktAnnSendFail );
             getConnectList().onConnectionLost( sktBase );
 			return;
@@ -250,16 +250,16 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( !updateOk )
 	{
-		 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce from %s %s at %s failed to update", 
-					pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+		 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s failed to update", 
+					sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 		 sktBase->closeSkt( eSktClosePktAnnUpdateFailed ); // should we close? TODO investigate failed PktAnn update failed
 		 return; 
 	}
 
 	if( !sktBase->isTempConnection() )
 	{
-		LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce of %s %s by %s %s at %s skt id %s",
-				pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+		LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce %s of %s %s by %s %s at %s skt id %s",
+				sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
 				sktBase->getRemoteIp().c_str(), sktBase->getSocketIdText().c_str() );
 	}
@@ -702,13 +702,14 @@ void P2PEngine::onPktTcpPunch( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	PktTcpPunch * pktPunch = ( PktTcpPunch * )pktHdr;
 	std::shared_ptr<VxSktBase> poNewSkt;
-	if( 0 == m_NetConnector.directConnectTo( pktPunch->m_ConnectInfo, poNewSkt, eConnectReasonPktTcpPunch ) )
+    bool newConnection{false};
+    if( 0 == connectToContact( pktPunch->m_ConnectInfo, poNewSkt, newConnection, eConnectReasonPktTcpPunch ) )
 	{
 		LogMsg( LOG_INFO, "P2PEngine:: TcpPunch SUCCESS" );
 		if( nullptr != poNewSkt )
 		{
 			LogMsg( LOG_INFO, "sendMyPktAnnounce 7" ); 
-			m_NetConnector.sendMyPktAnnounce(	pktPunch->m_ConnectInfo.getMyOnlineId(), 
+            m_ConnectionMgr.sendMyPktAnnounce(	pktPunch->m_ConnectInfo.getMyOnlineId(),
 												poNewSkt,
 												true,
 												false,

@@ -21,7 +21,6 @@
 
 #include <Network/NetworkStateMachine.h>
 #include <Network/NetworkMgr.h>
-#include <Network/NetConnector.h>
 
 #include <P2PEngine/EngineSettingsDefaultValues.h>
 #include <P2PEngine/P2PEngine.h>

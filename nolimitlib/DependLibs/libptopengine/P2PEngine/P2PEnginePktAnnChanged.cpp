@@ -25,7 +25,7 @@ void P2PEngine::doPktAnnHasChanged( bool connectionListIsLocked )
     setPktAnnLastModTime( GetTimeStampMs() );
 	m_ConnectionList.setIsRelayRequired( m_PktAnn.requiresRelay() );
 	// announce to all our new announce
-	if( false == isP2POnline() )
+	if( false == isNetworkOnline() )
 	{
 		// don't announce to users until online
 		return;

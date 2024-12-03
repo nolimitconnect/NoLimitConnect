@@ -8,17 +8,19 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
 #include <BigListLib/BigListMgr.h>
+
 #include <BigListLib/BigListInfo.h>
-#include <P2PEngine/P2PEngine.h>
-#include <Network/NetworkMgr.h>
 #include <GuiInterface/IToGui.h>
+#include <Network/StayConnected.h>
+#include <Network/NetworkMgr.h>
+#include <P2PEngine/P2PEngine.h>
+
+#include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxParse.h>
+#include <CoreLib/VxTimeDefs.h>
 
 #include <PktLib/PktAnnList.h>
-#include <CoreLib/VxGlobals.h>
-#include <CoreLib/VxTimeDefs.h>
-#include <CoreLib/VxParse.h>
 
 #include <memory.h>
 #include <string.h>
@@ -638,4 +640,25 @@ bool BigListMgr::fromGuiDeleteUser( VxGUID& onlineId )
 	bigListInfo->setMyFriendshipToHim( eFriendStateIgnore );
 	bool wasDeleted = removeUserFromDatabase( onlineId ) == 0;
 	return wasDeleted;
+}
+
+//============================================================================
+void BigListMgr::updateVectorList( enum EFriendState oldFriendship, BigListInfo* poInfo )
+{
+	EFriendState newFriendship = poInfo->getMyFriendshipToHim();
+	BigList::updateVectorList( oldFriendship, poInfo );
+
+	if( newFriendship > eFriendStateGuest && oldFriendship <= eFriendStateGuest )
+	{
+		// became a friend we want to stay connected to
+		if( poInfo->canDirectConnectToUser() )
+		{
+            //m_Engine.getStayConnected().addStayConnectedRequest( poInfo->getConnectInfo(), eConnectReasonStayConnected );
+		}
+	}
+	else if( newFriendship <= eFriendStateGuest && oldFriendship > eFriendStateGuest )
+	{
+		// no longer a friend we want to stay connected to
+        //m_Engine.getStayConnected().removeStayConnectedRequest( poInfo->getConnectInfo(), eConnectReasonStayConnected );
+	}
 }

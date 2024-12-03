@@ -69,7 +69,7 @@ class MediaProcessor;
 class MemberActiveMgr;
 class NetworkMgr;
 class NetworkStateMachine;
-class NetConnector;
+class StayConnected;
 class NetworkMonitor;
 class NetServicesMgr;
 class PluginNetServices;
@@ -131,7 +131,7 @@ public:
     IgnoreListMgr&              getIgnoreListMgr( void )                        { return m_IgnoreListMgr; }
     MemberActiveMgr&            getMemberActiveMgr( void )                      { return m_MemberActiveMgr; }
 
-    NetConnector&				getNetConnector( void )							{ return m_NetConnector; }
+    StayConnected&				getStayConnected( void )							{ return m_StayConnected; }
     NetStatusAccum&             getNetStatusAccum( void )                       { return m_NetStatusAccum; }
     NetworkMgr&					getNetworkMgr( void )							{ return m_NetworkMgr; }
     NetworkStateMachine&		getNetworkStateMachine( void )					{ return m_NetworkStateMachine; }
@@ -164,7 +164,7 @@ public:
 
     bool						isInternetAvailable( void );        // is internet available
     bool						isDirectConnectTested( void );      // has direct connect test completed
-	bool						isP2POnline( void );
+	bool						isNetworkOnline( void );
     bool                        isDirectConnectReady( void );       // true if have open port and ready to recieve
     bool                        isNetworkHostEnabled( void );       // true if netowrk host plugin is enabled
 
@@ -793,7 +793,7 @@ protected:
     NetworkMgr&					m_NetworkMgr;
 	NetworkMonitor&				m_NetworkMonitor;
 	NetServicesMgr&				m_NetServicesMgr;
-	NetConnector&				m_NetConnector;
+	StayConnected&				m_StayConnected;
 	NetworkStateMachine&		m_NetworkStateMachine;
 
 	PluginMgr&					m_PluginMgr;

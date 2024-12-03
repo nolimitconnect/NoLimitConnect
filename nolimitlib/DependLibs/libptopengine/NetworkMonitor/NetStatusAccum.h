@@ -101,6 +101,10 @@ public:
     bool                        isNetHostAvailable( void )              { return m_NetworkHostAvail; };
 
     void                        setDirectConnectTested( bool isTested, bool requiresRelay, std::string& myExternalIp );
+    bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
+
+    bool                        isNetworkOnline( void )             { return m_InternetAvail && ( m_HasFixedIpAddr || m_DirectConnectTested ); };
+    bool                        isP2POnline( void )                 { return m_InternetAvail && ( m_HasFixedIpAddr || ( m_DirectConnectTested && ( !m_RequriesRelay || m_ConnectedToRelay ) ) ); }
 
     void                        setConnectToRelay( bool connectedToRelay );
 
@@ -108,8 +112,7 @@ public:
     EFirewallTestType           getFirewallTestType( void );
     
     bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
-    bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
-    bool                        isP2PAvailable( void )              { return m_HasFixedIpAddr || ( m_DirectConnectTested && (!m_RequriesRelay || m_ConnectedToRelay) ); };
+
     bool                        isRxPortOpen( void )                { return m_HasFixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
     bool                        requiresRelay( void )               { return m_RequriesRelay; };
     void                        getNodeUrl( std::string& retNodeUrl );
