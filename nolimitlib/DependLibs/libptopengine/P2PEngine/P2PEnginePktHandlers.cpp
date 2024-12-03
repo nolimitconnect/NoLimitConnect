@@ -188,7 +188,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	if( pktAnnReplyRequested )
 	{
         LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s pktAnn reply requested", 
-				   sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+				   sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
         if( !m_ConnectionMgr.sendMyPktAnnounce( pktAnn->getMyOnlineId(),
 				sktBase,
 				false,
@@ -196,7 +196,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 				false ) )
 		{
 			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s at %s send pktAnn reply failed",
-					   sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+					   sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 			sktBase->closeSkt( eSktClosePktAnnSendFail );
             getConnectList().onConnectionLost( sktBase );
 			return;
@@ -251,7 +251,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	if( !updateOk )
 	{
 		 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s failed to update", 
-					sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+					sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 		 sktBase->closeSkt( eSktClosePktAnnUpdateFailed ); // should we close? TODO investigate failed PktAnn update failed
 		 return; 
 	}
@@ -259,7 +259,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	if( !sktBase->isTempConnection() )
 	{
 		LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce %s of %s %s by %s %s at %s skt id %s",
-				sktBase->describeSktType(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+				sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
 				sktBase->getRemoteIp().c_str(), sktBase->getSocketIdText().c_str() );
 	}
