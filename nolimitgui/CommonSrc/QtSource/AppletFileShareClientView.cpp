@@ -57,7 +57,7 @@ AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	p
 
 	m_MyApp.activityStateChange( this, true );
 	wantActivityCallbacks( true );
-	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+	wantFileXferCallbacks( true );
 
 	checkDiskSpace();
 }
@@ -70,7 +70,7 @@ AppletFileShareClientView::~AppletFileShareClientView()
 		m_MyApp.getEngine().fromGuiDownloadFileListCancel( getPluginType(), m_HisOnlineId, m_LclSessionId );
 	}
 
-	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+	wantFileXferCallbacks( false );
 	wantActivityCallbacks( false );
 	m_MyApp.activityStateChange( this, false );
 }
@@ -100,7 +100,7 @@ void AppletFileShareClientView::showEvent( QShowEvent* ev )
 //============================================================================
 void AppletFileShareClientView::hideEvent( QHideEvent* ev )
 {
-	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+	wantFileXferCallbacks( false );
 	ActivityBase::hideEvent( ev );
 }
 
@@ -722,5 +722,15 @@ void AppletFileShareClientView::slotAcceptButtonClicked( QListWidgetItem* item )
 	{
 		m_MyApp.getFileXferMgr().acceptDownload( getAppletType(), xferSession );
 		ui.FileItemList->removeItemWidget( item );
+	}
+}
+
+//============================================================================
+void AppletFileShareClientView::wantFileXferCallbacks( bool enable )
+{
+	if( enable != m_FileXferCallbackRequested )
+	{
+		m_FileXferCallbackRequested = enable;
+		m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
 	}
 }

@@ -831,27 +831,6 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
 }
 
 //============================================================================
-void GuiUserMgr::connnectIdNearbyStatusChange( VxGUID& onlineId, uint64_t nearbyTimeOrZeroIfNot )
-{
-    GuiUser* guiUser = findUser( onlineId );
-    if( guiUser )
-    {
-        bool wasOnline = guiUser->isOnline();
-        guiUser->updateIsNearby();
-        if( wasOnline != guiUser->isOnline() )
-        {
-            onUserOnlineStatusChange( guiUser );
-        }
-        else
-        {
-            onUserUpdated( guiUser );
-        }
- 
-        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::connnectIdNearbyStatusChange is online ? %d %s", guiUser->isOnline(), getUserOnlineName( onlineId ).c_str() );
-    }
-}
-
-//============================================================================
 void GuiUserMgr::updateClientList( void )
 {
     // update client list from que of want callback that happened while client list was busy

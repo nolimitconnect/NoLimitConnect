@@ -35,8 +35,8 @@ IdentLogicInterface::IdentLogicInterface( QWidget* parent )
 //============================================================================
 IdentLogicInterface::~IdentLogicInterface()
 {
-	m_MyApp.getPushToTalkMgr().wantGuiPushToTalkCallbacks( this, false );
 	m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, false );
+	wantPushToTalkCallbacks( false );
 }
 
 //============================================================================
@@ -180,7 +180,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
 			if( !m_GuiUser  )
 			{
-				m_MyApp.getPushToTalkMgr().wantGuiPushToTalkCallbacks( this, true );
+				wantPushToTalkCallbacks( true );
 			}
 			else if( m_GuiUser != guiUser )
 			{
@@ -196,7 +196,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
 			bool isOnline = m_GuiUser->isOnline();
 			bool isRelayed = m_GuiUser->isRelayed();
-			bool isNearby = m_GuiUser->isNearby();
+
 			getIdentLine1()->setText( m_GuiUser->getOnlineName().c_str() );
 			getIdentLine2()->setText( m_GuiUser->getOnlineDescription().c_str() );
 			getIdentFriendshipButton()->setIcon( m_MyApp.getMyIcons().getFriendshipIcon( m_GuiUser->getMyFriendshipToHim() ) );
@@ -262,8 +262,8 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
 				getIdentFriendshipButton()->setNotifyType( notifyType );
 
-				getIdentFriendshipButton()->setNotifyDirectConnectEnabled( isNearby || ( notifyType == eNotifyOnline ) );
-				if( isNearby || ( notifyType == eNotifyOnline ) )
+                getIdentFriendshipButton()->setNotifyDirectConnectEnabled( notifyType == eNotifyOnline );
+                if( notifyType == eNotifyOnline )
 				{
 					getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( onlineIndicatorColor ) );
 				}
@@ -708,4 +708,14 @@ void IdentLogicInterface::callbackGuiRandConnect( VxGUID& onlineId, enum ERandAc
 			getIdentFriendshipButton()->setRandAction( randAction );
 		}
 	}
+}
+
+//============================================================================
+void IdentLogicInterface::wantPushToTalkCallbacks( bool enable )
+{
+    if( enable != m_PushToTalkCallbacksRequested )
+    {
+        m_PushToTalkCallbacksRequested = enable;
+        m_MyApp.getPushToTalkMgr().wantGuiPushToTalkCallbacks( this, enable );
+    }
 }

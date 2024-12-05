@@ -166,7 +166,7 @@ public:
 											int				iDataLen,						// length of data
 											bool			bDisconnectAfterSend = false );	// if true disconnect after data is sent
 
-	virtual void				closeSkt( ESktCloseReason  closeReason,  bool bFlushThenClose = false );
+    virtual void				closeSkt( ESktCloseReason  closeReason,  bool bFlushThenClose = false, bool sktMgrLocked = false );
     virtual std::string		    describeSktConnection( void );
 
 	bool						bindSocket( struct addrinfo * poResultAddr );

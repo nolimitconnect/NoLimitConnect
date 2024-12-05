@@ -41,7 +41,7 @@ GuiUser::GuiUser( const GuiUser& rhs )
 //============================================================================
 bool GuiUser::canDirectConnectToUser( void )
 {
-    return m_NetIdent.isValidNetIdent() && (isOnline() || isNearby()) && !isRelayed();
+    return m_NetIdent.isValidNetIdent() && isOnline() && !isRelayed();
 }
 
 //============================================================================

@@ -845,6 +845,13 @@ bool ConnectionMgr::connectToContact(	VxConnectInfo&		            connectInfo,
         return false;
     }
 
+    ppoRetSkt = m_Engine.getConnectIdListMgr().findAnyUserOnlineConnection( connectInfo.getMyOnlineId() );
+    if( ppoRetSkt.get() )
+    {
+        LogMsg( LOG_VERBOSE, "ConnectionMgr::connectToContact: already connected" );  
+        return true;
+    }
+
 #ifdef DEBUG_CONNECTIONS
     LogMsg( LOG_SKT, "connectToContact: id %s %s",  
         connectInfo.getOnlineName(),

@@ -134,6 +134,8 @@ protected:
     void						callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus ) override;
 	void						callbackGuiRandConnect( VxGUID& onlineId, enum ERandAction randAction ) override;
 
+	void						wantPushToTalkCallbacks( bool enable );
+
 	AppCommon&					m_MyApp;
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	EHostType					m_HostType{ eHostTypeUnknown };
@@ -142,4 +144,5 @@ protected:
 	GuiOfferSession*			m_OfferSession{ nullptr };
 	bool						m_IsSignalsConnected{ false };
 	bool						m_DisableFriendshipChange{ false };
+	bool						m_PushToTalkCallbacksRequested{ false };
 };

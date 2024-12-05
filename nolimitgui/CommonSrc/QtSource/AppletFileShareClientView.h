@@ -82,6 +82,8 @@ protected:
 	void						removeDownload( GuiFileXferSession* xferSession, QListWidgetItem* item );
 	bool						confirmDeleteFile( bool shredFile );
 
+	void						wantFileXferCallbacks( bool enable );
+
 	//=== vars ===//
 	Ui::AppletFileShareClientViewUi&	ui;
     GuiUser*				    m_Friend{ nullptr };
@@ -91,4 +93,5 @@ protected:
 	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
 	VxGUID						m_LclSessionId;
 	VxGUID                      m_HisOnlineId;
+	bool						m_FileXferCallbackRequested{ false };
 };

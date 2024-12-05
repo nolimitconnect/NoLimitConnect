@@ -40,10 +40,6 @@ public:
     void                        setSessionId( VxGUID& sessionId )       { m_SessionId = sessionId; }
     VxGUID&                     getSessionId( void )                    { return m_SessionId; }
 
-    bool                        updateIsNearby( void );
-    virtual bool                setNearbyStatus( int64_t nearbyTimeOrZeroIfNotd ); // return false if nearbyTime is zero
-    bool                        isNearby( void );
-
     virtual bool                isOnline( void );
     bool                        isDirectConnect( void );
     bool                        isRelayed( void );

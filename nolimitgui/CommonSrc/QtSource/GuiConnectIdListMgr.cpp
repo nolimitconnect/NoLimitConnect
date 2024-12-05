@@ -31,9 +31,6 @@ GuiConnectIdListMgr::GuiConnectIdListMgr( AppCommon& app )
 //============================================================================
 void GuiConnectIdListMgr::onAppCommonCreated( void )
 {
-#if ENABLE_COMPONENT_NEARBY
-    connect( this, SIGNAL( signalInternalNearbyStatusChange(VxGUID,int64_t) ),              this, SLOT( slotInternalNearbyStatusChange(VxGUID,int64_t) ), Qt::QueuedConnection );
-#endif // ENABLE_COMPONENT_NEARBY
     connect( this, SIGNAL( signalInternalRelayStatusChange( ConnectId,bool) ),              this, SLOT( slotInternalRelayStatusChange( ConnectId,bool) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalOnlineStatusChange(VxGUID,bool) ),                 this, SLOT( slotInternalOnlineStatusChange(VxGUID,bool) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalConnectionStatusChange(ConnectId,bool) ),          this, SLOT( slotInternalConnectionStatusChange(ConnectId,bool) ), Qt::QueuedConnection );
@@ -47,17 +44,6 @@ void GuiConnectIdListMgr::onAppCommonCreated( void )
 bool GuiConnectIdListMgr::isMessengerReady( void )
 {
     return m_MyApp.isMessengerReady();
-}
-
-//============================================================================
-void GuiConnectIdListMgr::callbackNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot )
-{
-    if( onlineId == m_MyApp.getMyOnlineId() )
-    {
-        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackNearbyStatusChange updating myself" );
-    }
-
-    emit signalInternalNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
 }
 
 //============================================================================
@@ -106,29 +92,9 @@ void GuiConnectIdListMgr::callbackConnectionLost( VxGUID& sktConnectId )
 }
 
 //============================================================================
-void GuiConnectIdListMgr::slotInternalNearbyStatusChange( VxGUID onlineId, int64_t nearbyTimeOrZeroIfNot )
-{
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalNearbyStatusChange nearby time %lld %s", nearbyTimeOrZeroIfNot, m_MyApp.getUserMgr().getUserOnlineName( onlineId ).c_str() );
-    auto iter = m_NearbyIdList.find( onlineId );
-    if( iter != m_NearbyIdList.end() )
-    {
-        if( iter->second != nearbyTimeOrZeroIfNot )
-        {
-            iter->second = nearbyTimeOrZeroIfNot;
-            onNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
-        }
-    }
-    else
-    {
-        m_NearbyIdList[ onlineId ] = nearbyTimeOrZeroIfNot;
-        onNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
-    }
-}
-
-//============================================================================
 void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bool isNowRelayed )
 {
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalRelayStatusChange user %s isRelayed %d", 
+    LogModule( eLogRelay, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalRelayStatusChange user %s isRelayed %d", 
             m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isNowRelayed );
     auto iter = m_RelayedIdList.find( connectId );
     if( iter != m_RelayedIdList.end() )
@@ -221,12 +187,6 @@ void GuiConnectIdListMgr::slotInternalConnectionLost( VxGUID socketId )
 }
 
 //============================================================================
-void GuiConnectIdListMgr::onNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot )
-{
-    announceNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
-}
-
-//============================================================================
 void GuiConnectIdListMgr::onRelayStatusChange( VxGUID& onlineId, bool isRelayed )
 {
     announceRelayStatusChange( onlineId, isRelayed );
@@ -260,31 +220,6 @@ void GuiConnectIdListMgr::announceOnlineStatusChange( VxGUID& onlineId, bool isO
     else
     {
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::announceOnlineStatusChange invalid onlineId" );
-    }
-}
-
-//============================================================================
-void GuiConnectIdListMgr::announceNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot )
-{
-    if( onlineId.isVxGUIDValid() )
-    {
-        m_MyApp.getUserMgr().connnectIdNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
-        for( auto iter = m_GuiConnectIdClientList.begin(); iter != m_GuiConnectIdClientList.end(); ++iter )
-        {
-            GuiConnectIdListCallback* client = *iter;
-            if( client )
-            {
-                client->callbackNearbyStatusChange( onlineId, nearbyTimeOrZeroIfNot );
-            }
-            else
-            {
-                LogMsg( LOG_ERROR, "GuiConnectIdListMgr::announceNearbyStatusChange invalid callback" );
-            }
-        }
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::announceNearbyStatusChange invalid onlineId" );
     }
 }
 
@@ -505,28 +440,6 @@ bool GuiConnectIdListMgr::isRelayed( VxGUID& onlineId )
     }
 
     return isRelayed;
-}
-
-//============================================================================
-bool GuiConnectIdListMgr::isNearby( VxGUID& onlineId )
-{
-    int64_t lastNearbyTime = isNearbyTime( onlineId );
-    return lastNearbyTime && m_MyApp.elapsedMilliseconds() - lastNearbyTime < GuiUserBase::NEARBY_TIMEOUT_MS;
-}
-
-//============================================================================
-int64_t GuiConnectIdListMgr::isNearbyTime( VxGUID& onlineId )
-{
-    if( onlineId.isVxGUIDValid() )
-    {
-        auto iter = m_NearbyIdList.find( onlineId );
-        if( iter != m_NearbyIdList.end() )
-        {
-            return iter->second;
-        }
-    }
-
-    return 0;
 }
 
 //============================================================================

@@ -85,7 +85,7 @@ public:
 	virtual bool				isSktActive( std::shared_ptr<VxSktBase>& sktBase );
 
     //! move to erase/delete when safe to do so
-    virtual void				moveToEraseList( std::shared_ptr<VxSktBase>& sktBase );
+    virtual void				moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked = false );
 
 	virtual void				lockSktList( void )								{ m_SktListMutex.lock(); }
     virtual void				unlockSktList( void )							{ m_SktListMutex.unlock(); }
@@ -99,6 +99,8 @@ public:
 	virtual bool				closeConnection( VxGUID& connectId, ESktCloseReason closeReason );
 
 	virtual void				onOncePer30Seconds( VxGUID& myOnlineId );
+
+    virtual void                sktWasClosed( VxSktBase* sktBase, bool sktMgrLocked );
 
 	//=== vars ===//
 	RCODE						m_rcLastError{ 0 };

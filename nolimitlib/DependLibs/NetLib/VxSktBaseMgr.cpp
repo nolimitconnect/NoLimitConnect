@@ -231,7 +231,7 @@ void VxSktBaseMgr::closeAllSkts( void )
 	{
 		if( (*iter)->isConnected() )
 		{
-			(*iter)->closeSkt(eSktCloseAll);
+            (*iter)->closeSkt(eSktCloseAll, false, true );
 		}
 	}
 
@@ -285,7 +285,7 @@ void VxSktBaseMgr::handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase )
                 LogModule( eLogSkt, LOG_DEBUG, "Closing due to alive timeout %s skt %d handle %d", DescribeSktType( sktBase->getSktType() ), sktBase->getSktNumber(), sktBase->getSktHandle() );
                 sktBase->dumpSocketStats();
 
-                sktBase->closeSkt( eSktCloseImAliveTimeout );
+                sktBase->closeSkt( eSktCloseImAliveTimeout, false, true );
             }
         }
     }
@@ -370,12 +370,16 @@ void VxSktBaseMgr::doSktDeleteCleanup()
 
 //============================================================================
 //! move to erase/delete when safe to do so
-void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase )
+void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked )
 {
 	bool found{ false };
 	if( sktBase )
 	{
-		m_SktMgrMutex.lock( __FILE__, __LINE__ ); // dont let other threads mess with array while we remove the socket
+        if( !sktMgrLocked )
+        {
+            m_SktMgrMutex.lock( __FILE__, __LINE__ ); // dont let other threads mess with array while we remove the socket
+        }
+
 
 		// make sure not allready in the lists to be deleted or will get deleted twice
 		for( auto& toDeleteSkt : m_aoSktsToDelete  )
@@ -383,7 +387,11 @@ void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase )
 			if( toDeleteSkt.get() == sktBase.get() )
 			{
 				LogMsg( LOG_ERROR, "%s socket %d handle %d alredy in to delete list", __func__, sktBase->getSktNumber(), sktBase->getSktHandle() );
-				m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+                if( !sktMgrLocked )
+                {
+                    m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+                }
+
 				return;
 			}
 		}
@@ -409,7 +417,10 @@ void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase )
 			m_aoSktsToDelete.emplace_back( sktBase );
 		}
 
-		m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+        if( !sktMgrLocked )
+        {
+            m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+        }
 	}
 	else
 	{
@@ -482,4 +493,27 @@ void VxSktBaseMgr::onOncePer30Seconds( VxGUID& myOnlineId )
 	}
 
 	sktBaseMgrUnlock();
+}
+
+//============================================================================
+void VxSktBaseMgr::sktWasClosed( VxSktBase* sktBaseIn, bool sktMgrLocked )
+{
+    if( !sktMgrLocked )
+    {
+        sktBaseMgrLock();
+    }
+
+    for( auto sktBase : m_aoSkts )
+    {
+        if( sktBase.get() == sktBaseIn )
+        {
+            moveToEraseList( sktBase, true );
+            break;
+        }
+    }
+
+    if( !sktMgrLocked )
+    {
+        sktBaseMgrUnlock();
+    }
 }

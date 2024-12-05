@@ -94,30 +94,6 @@ bool GuiUserBase::isRandomConnectHosted( void )
 }
 
 //============================================================================
-bool GuiUserBase::updateIsNearby( void )
-{
-    if( !isMyself() )
-    {
-        m_NearbyTimeOrZero = m_MyApp.getConnectIdListMgr().isNearbyTime( getMyOnlineId() );
-    }
-
-    return isNearby();
-}
-
-//============================================================================
-bool GuiUserBase::setNearbyStatus( int64_t nearbyTimeOrZeroIfNotd ) // return false if nearbyTime is zero
-{
-    m_NearbyTimeOrZero = nearbyTimeOrZeroIfNotd;
-    return isNearby();
-}
-
-//============================================================================
-bool GuiUserBase::isNearby( void )
-{
-    return m_NearbyTimeOrZero && m_MyApp.elapsedMilliseconds() - m_NearbyTimeOrZero < NEARBY_TIMEOUT_MS;
-}
-
-//============================================================================
 EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType, bool inGroup )
 { 
     if( m_MyApp.getMyOnlineId() == m_NetIdent.getMyOnlineId() )

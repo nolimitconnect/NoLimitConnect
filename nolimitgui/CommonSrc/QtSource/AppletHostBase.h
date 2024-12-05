@@ -41,6 +41,8 @@ public:
     virtual void                updateUser( GuiUser* guiUser );
     virtual void                removeUser( VxGUID& onlineId );
 
+    void                        wantUserUpdateCallbacks( bool enable );
+
 protected:
     virtual void				callbackIndentListUpdate( enum EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
     virtual void				callbackIndentListRemove( enum EUserViewType listType, VxGUID& onlineId ) override;
@@ -56,6 +58,7 @@ protected:
     GuiUserListWidget*          m_UserList{ nullptr };
     std::string                 m_HostUrl;
     VxGUID                      m_HostSessionId;
+    bool                        m_UserUpdateCallbacksRequested{ false };
 
     GuiHosted*                  m_LastGuiHosted{ nullptr };
 };

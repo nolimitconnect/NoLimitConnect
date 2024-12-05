@@ -15,7 +15,6 @@ class VxGUID;
 class GuiConnectIdListCallback
 {
 public:
-    virtual void				callbackNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot ) {};
     virtual void				callbackRelayStatusChange( VxGUID& onlineId, bool isRelayed ) {};
     virtual void				callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) {};
     virtual void				callbackConnectionStatusChange( ConnectId& connectId, bool isConnected ) {};

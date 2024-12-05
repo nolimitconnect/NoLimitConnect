@@ -339,6 +339,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 		}
 
 		uint16_t pktType = pktHdr->getPktType();
+
 		if( PKT_TYPE_IM_ALIVE_REQ != pktType && PKT_TYPE_IM_ALIVE_REPLY != pktType && PKT_TYPE_PING_REQ != pktType && PKT_TYPE_PING_REPLY != pktType )
 		{
 			sktBase->setLastSessionTimeMs( GetGmtTimeMs() );
@@ -350,6 +351,8 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 		}
 		else
 		{
+            LogModule( eLogRelay, LOG_VERBOSE, "%s Relay Pkt %s from %s ip %s", __func__,
+                   pktHdr->describePktHdr().c_str(), sktBase->describePeerUser().c_str(), sktBase->getRemoteIp().c_str() );
 			handleIncommingRelayData( sktBase, pktHdr );
 		}
 
@@ -364,88 +367,4 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 void P2PEngine::handleIncommingRelayData( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	getRelayMgr().handleRelayPkt( sktBase, pktHdr );
-	/*
-	// Relay now handled by a Relay Manager. TODO remove relay plugin if no longer needed
-	bool dataWasRelayed = false;
-	bool relayAvailable = false;
-	uint16_t pktType = pktHdr->getPktType();
-	std::string strSrcId;
-	pktHdr->getSrcOnlineId().getVxGUID( strSrcId );
-	std::string strDestId;
-	pktHdr->getDestOnlineId().getVxGUID( strDestId );
-	uint16_t pktLen = pktHdr->getPktLength();
-	LogMsg( LOG_ERROR, "handleIncommingRelayData pkt type %d len %d src id %s dest id %s", 
-									pktType, pktLen, strSrcId.c_str(), strDestId.c_str() );
-	if( false == pktHdr->getDestOnlineId().isVxGUIDValid() )
-	{
-		LogMsg( LOG_ERROR, "handleIncommingRelayData invalid dest id pkt type %d len %d", pktHdr->getPktType(), pktHdr->getPktLength() );
-		return;
-	}
-
-	RCODE rc = 0;
-	if( getPluginServiceRelay().isUserRelayOk( pktHdr->getSrcOnlineId(), pktHdr->getDestOnlineId() ) )
-	{
-		relayAvailable = true;
-		m_ConnectionList.connectListLock();
-		RcConnectInfo * connectInfo = m_ConnectionList.findConnection( pktHdr->getDestOnlineId(), true );
-		if( 0 != connectInfo )
-		{
-			rc = connectInfo->getSkt()->txPacket( pktHdr->getDestOnlineId(), pktHdr );
-			if( 0 == rc )
-			{
-				dataWasRelayed = true;
-			}
-		}
-
-		m_ConnectionList.connectListUnlock();
-	}
-
-	if( false == dataWasRelayed )
-	{
-		LogMsg( LOG_INFO, "Not Relayed data pkt type %d len %d relayAvail %d", pktHdr->getPktType(), pktHdr->getPktLength(), relayAvailable );
-		PktRelayUserDisconnect		relayReply;
-		relayReply.m_UserId			= pktHdr->getDestOnlineId();
-		relayReply.setSrcOnlineId( m_PktAnn.getMyOnlineId() );
-		sktBase->txPacket( pktHdr->getSrcOnlineId(), &relayReply );	
-	}
-	*/
-}
-
-//============================================================================
-void P2PEngine::handleMulticastData( std::shared_ptr<VxSktBase>& sktBase )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-	int	iDataLen		= sktBase->getSktBufDataLen();
-	char * pSktBuf		= (char *)sktBase->getSktReadBuf();
-	if( false == VxIsEncryptable( iDataLen ) )
-	{
-		//LogMsg( LOG_INFO, "RcSysSktMgr::HandleUdpData: Skt %d not encryptable len %d\n", sktBase->m_SktNumber, iDataLen );
-		sktBase->sktBufAmountRead( iDataLen );
-		return;
-	}
-
-	// decrypt
-	VxPktHdr* poPkt = (VxPktHdr*)pSktBuf;
-	VxSymDecrypt( &sktBase->m_RxKey, pSktBuf, iDataLen );
-	if( poPkt->isValidPktPrefix() )
-	{
-		//LogMsg( LOG_INFO, "RcSysSktMgr::HandleUdpData: Skt %d valid packet\n", sktBase->m_SktNumber );
-		// valid pkt
-		if( PKT_TYPE_ANNOUNCE == poPkt->getPktType() )
-		{
-			//LogMsg( LOG_INFO, "RcSysSktMgr::HandleUdpData: Skt %d from %s port %d PktAnnounce\n", sktBase->m_SktNumber, sktBase->m_strRmtIp.c_str(), sktBase->m_u16RmtPort );
-			//LogMsg( LOG_INFO, "RcSysSktMgr::HandleUdpData: ProcessingSktEvent\n" );
-			onPktAnnounce( sktBase, poPkt );
-		}
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "P2PEngine::handleMulticastData: Invalid Packet" );
-	}
-
-	sktBase->sktBufAmountRead( iDataLen );
 }

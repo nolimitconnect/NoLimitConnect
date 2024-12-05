@@ -42,7 +42,6 @@ public:
     void                        wantGuiConnectIdCallbacks( GuiConnectIdListCallback* callback, bool wantCallback );
     void                        wantGuiOnlineStatusCallbacks( GuiOnlineStatusCallback* callback, bool wantCallback );
 
-    virtual void				callbackNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot ) override;
     // callbackConnectionStatusChange should happen before callbackOnlineStatusChange when user disconnects from host
     virtual void				callbackConnectionStatusChange( ConnectId& connectId, bool isConnected ) override;
     virtual void				callbackRelayStatusChange( ConnectId& connectId, bool isRelayed ) override;
@@ -55,33 +54,27 @@ public:
     bool                        isOnline( VxGUID& onlineId )                { return isDirectConnect( onlineId ) || isRelayed( onlineId ); }
     bool                        isDirectConnect( VxGUID& onlineId );
     bool                        isRelayed( VxGUID& onlineId );
-    bool                        isNearby( VxGUID& onlineId );
-    int64_t                     isNearbyTime( VxGUID& onlineId );
     bool                        isConnected( GroupieId& groupieId );
 
 signals:
     void				        signalInternalOnlineStatusChange( VxGUID onlineId, bool isOnline );
     void				        signalInternalRelayStatusChange( ConnectId connectId, bool isRelayed );
-    void				        signalInternalNearbyStatusChange( VxGUID onlineId, int64_t nearbyTimeOrZeroIfNot );
     void				        signalInternalConnectionStatusChange( ConnectId connectId, bool isConnected );
     void				        signalInternalConnectionReason( VxGUID sktConnectId, EConnectReason connectReason, bool enableReason );
     void				        signalInternalConnectionLost( VxGUID sktConnectId );
 
 private slots:
     void				        slotInternalOnlineStatusChange( VxGUID onlineId, bool isOnline );
-    void				        slotInternalNearbyStatusChange( VxGUID onlineId, int64_t nearbyTimeOrZeroIfNot );
     void				        slotInternalRelayStatusChange( ConnectId connectId, bool isRelayed );
     void				        slotInternalConnectionStatusChange( ConnectId connectId, bool isConnected );
     void				        slotInternalConnectionReason( VxGUID sktConnectId, EConnectReason connectReaso, bool enableReasonn );
     void				        slotInternalConnectionLost( VxGUID sktConnectId );
 
 protected: 
-    void                        onNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot );
     void                        onRelayStatusChange( VxGUID& onlineId, bool isRelayed );
     void                        onOnlineStatusChange( VxGUID& onlineId, bool isOnline );
     void                        onConnectionStatusChange( ConnectId& connectId, bool isConnected );
 
-    void                        announceNearbyStatusChange( VxGUID& onlineId, int64_t nearbyTimeOrZeroIfNot );
     void                        announceRelayStatusChange( VxGUID& onlineId, bool isRelayed );
     void                        announceOnlineStatusChange( VxGUID& onlineId, bool isOnline );
     void                        announceConnectionStatusChange( ConnectId& connectId, bool isConnected );
@@ -93,6 +86,6 @@ protected:
 
     std::set<ConnectId>         m_ConnectIdList;
     std::set<ConnectId>         m_RelayedIdList;
-    std::map<VxGUID, int64_t>   m_NearbyIdList;
+
     std::map<VxGUID, std::set<EConnectReason>>      m_ConnectReasonList;
 };

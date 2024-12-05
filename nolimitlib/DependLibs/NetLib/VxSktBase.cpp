@@ -550,22 +550,28 @@ RCODE VxSktBase::doConnectTo( void )
 std::string	 VxSktBase::describeSktConnection( void )
 {
     std::string sktDesc;
-    StdStringFormat( sktDesc, "%snum %d handle %d %s:%d%s%s:%d skt id %s", DescribeSktType( getSktType() ), getSktNumber(), m_Socket,
+    StdStringFormat( sktDesc, "%s num %d handle %d %s:%d%s%s:%d skt id %s", DescribeSktType( getSktType() ), getSktNumber(), m_Socket,
 					 m_strLclIp.c_str(), m_LclIp.getPort(), 
 					 describeSktDirection().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(), getSocketIdText().c_str() );
     return sktDesc;
 }
 
 //============================================================================
-void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose )
+void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose, bool sktMgrLocked )
 {
 	if( INVALID_SOCKET == m_Socket )
 	{
 		return;
 	}
 
-	LogModule( eLogConnect, LOG_VERBOSE, "%s skt num %d handle %d id %s reason %s last err %d description %s", __func__, getSktNumber(), 
+    LogModule( eLogConnect, LOG_VERBOSE, "%s skt num %d handle %d id %s reason %s last err %d description %s", __func__, getSktNumber(),
 			   getSktHandle(), getSocketIdText().c_str(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
+    if( !isTempConnection() )
+    {
+        LogModule( eLogUserConnect, LOG_VERBOSE, "%s skt num %d handle %d id %s reason %s last err %d description %s", __func__, getSktNumber(),
+                  getSktHandle(), getSocketIdText().c_str(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
+    }
+
 	if( !m_HasBeenShutdown )
 	{
 		if( m_SktCloseReason == eSktCloseReasonUnknown )
@@ -624,6 +630,12 @@ void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose )
 			doCloseThisSocketHandle( bFlushThenClose );
 		}
 	}
+
+    m_SktRxThread.abortThreadRun( true );
+    if( m_SktMgr )
+    {
+        m_SktMgr->sktWasClosed( this, sktMgrLocked );
+    }
 }
 
 //============================================================================
@@ -913,6 +925,12 @@ RCODE VxSktBase::txPacket(	VxGUID				destOnlineId,
 //============================================================================
 RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr ) 		// packet to send
 {
+    if( !isConnected() )
+    {
+        LogMsg( LOG_ERROR, "%s no longer connected to %s", __func__, describePeerUser().c_str() );
+        return -1;
+    }
+
 	m_u8TxSeqNum = (uint8_t)rand();
 	pktHdr->setPktSeqNum( m_u8TxSeqNum );
 	vx_assert( pktHdr->getDestOnlineId().isVxGUIDValid() );
@@ -1667,7 +1685,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
 	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
 	{
-		LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds timeout skt hande %d num %d id %s peer %s desc %s",
+        LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds im alive timeout skt hande %d num %d id %s peer %s desc %s",
 				getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
 				describePeerUser().c_str(), describeSktConnection().c_str() );
 		closeSkt( eSktCloseImAliveTimeout );
@@ -1681,14 +1699,19 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 		RCODE rc = txPacketWithDestId( &pktImAliveReq );
 		if( rc )
 		{
-			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds tx im alive error %d skt hande %d num %d id %s peer %s",
-				rc, getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
+            LogMsg( LOG_VERBOSE, "VxSktBase::%s tx im alive error %d skt hande %d num %d id %s peer %s",
+                    __func__, rc, getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
 					describePeerUser().c_str() );
 		}
 
 		setLastImAliveTimeTxMs( timeNow );
 	}
+    else if( !isTempConnection() )
+    {
+        LogMsg( LOG_ERROR, "%s no peer user so cannot send PktImAliveReq to %s", __func__, getRemoteIp().c_str() );
+    }
 }
+
 //============================================================================
 void VxSktBase::setIsNetServiceConnection( bool isNetSrv )
 {

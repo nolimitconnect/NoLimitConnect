@@ -24,12 +24,13 @@
 AppletHostBase::AppletHostBase( const char* objName, AppCommon& app, QWidget* parent )
     : AppletBase( objName, app, parent )
 {
+    wantUserUpdateCallbacks( true );
 }
 
 //============================================================================
 AppletHostBase::~AppletHostBase()
 {
-    m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, false );
+    wantUserUpdateCallbacks( false );
 }
 
 //============================================================================
@@ -66,7 +67,7 @@ void AppletHostBase::manageUsers( GuiUserListWidget* userList )
     m_UserList = userList;
     if( m_UserList )
     {
-        m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, true );
+        wantUserUpdateCallbacks( true );
     }
 }
 
@@ -207,4 +208,14 @@ void AppletHostBase::removeUser( VxGUID& onlineId )
     {
         m_UserList->removeUser( onlineId );
     }   
+}
+
+//============================================================================
+void AppletHostBase::wantUserUpdateCallbacks( bool enable )
+{
+    if( enable != m_UserUpdateCallbacksRequested )
+    {
+        m_UserUpdateCallbacksRequested = enable;
+        m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, enable );
+    }
 }

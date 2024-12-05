@@ -23,31 +23,27 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 {
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
-        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onFirstPktAnnounce" );
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::%s", __func__ );
         sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
     bool updateOk{ true };
 
-    LogModule( eLogConnect, LOG_VERBOSE, "onFirstPktAnnounce %s %s at ip %s",
-               bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
+    LogModule( eLogUserConnect, LOG_VERBOSE, "%s name %s %s at ip %s pktAnn his friendship %s my friendship %s", __func__,
+                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
+                DescribeFriendState( pktAnn->getHisFriendshipToMe() ),
+                DescribeFriendState( bigListInfo->getMyFriendshipToHim() ) );
 
-    if( ShouldDebugUser( bigListInfo->getOnlineName() ) )
-    {
-        LogModule( eLogConnect, LOG_VERBOSE, "onFirstPktAnnounce %s %s at ip %s pktAnn his friendship %s my friendship %s",
-                   bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
-                   DescribeFriendState( pktAnn->getHisFriendshipToMe() ),
-                   DescribeFriendState( bigListInfo->getMyFriendshipToHim() ) );
-    }
 
     if( !sktBase->getIsPeerPktAnnSet() )
     {
+        LogModule( eLogUserConnect, LOG_VERBOSE, "%s set peer %s", __func__, pktAnn->describeUser().c_str() );
+
         if( sktBase->setPeerPktAnn( *pktAnn ) )
         {
             if( !sktBase->isTempConnection() )
             {
-                LogModule( eLogUserEvent, LOG_VERBOSE, "onFirstPktAnnounce %s", pktAnn->describeUser().c_str() );
 
                 GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), eHostTypePeerUser );
                 getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );

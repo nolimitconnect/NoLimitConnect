@@ -10,7 +10,33 @@
 //============================================================================
 
 #include <CoreLib/VxDefs.h>
-//! convert image to jpeg
+
+#include <memory>
+#include <inttypes.h>
+
+class CamImage
+{
+public:
+	CamImage() = delete;
+	CamImage( uint8_t* imgData, int dataLen, int imgWidth, int imgHeight, int camRotation )
+		: m_DataLen( dataLen )
+		, m_ImgWidth( imgWidth )
+		, m_ImgHeight( imgHeight )
+		, m_CamRotation( camRotation )
+	{
+		m_ImgData = std::make_shared<uint8_t*>(imgData);
+	}
+
+	
+	int m_DataLen;
+	int m_ImgWidth;
+	int m_ImgHeight;
+	int m_CamRotation;
+	std::shared_ptr<uint8_t*> m_ImgData;
+};
+
+
+
 
 //! convert image
 // NOTE 1: caller must delete the returned buffer

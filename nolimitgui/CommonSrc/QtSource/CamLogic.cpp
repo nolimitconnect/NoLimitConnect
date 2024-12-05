@@ -458,6 +458,7 @@ void CamLogic::processCapturedImage( int requestId, const QImage& imgIn )
     if( imgIn.format() == QImage::Format_RGB888 && imgIn.size() == m_DesiredFrameSize )
     {
         uint32_t imageLen = imgIn.bytesPerLine() * imgIn.height();
+        //CamImage( (uint8_t *)imgIn.bits(), imgIn.bytesPerLine() * imgIn.height(), imgIn.width(), imgIn.height(), m_MyApp.getCamCaptureRotation() );
         m_MyApp.getEngine().fromGuiVideoData( FOURCC_RGB, (uint8_t *)imgIn.bits(), imgIn.width(), imgIn.height(), imageLen, m_MyApp.getCamCaptureRotation() );
     }
     else 

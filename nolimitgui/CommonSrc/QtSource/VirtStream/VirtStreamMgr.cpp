@@ -49,6 +49,7 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 	m_LiveStream.m_StreamSessionId = lclSessionId;
 	if( !m_LiveStream.setConnection( m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( assetInfo.getDestUserId() ) ) )
 	{
+		LogModule( eLogMediaStream, LOG_ERROR, "%s failed to find online connection", __func__ );
 		unlockSteamMgr();
 		return false;
 	}
@@ -59,6 +60,7 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 	m_Plugin.wantFileXferCallback( this, true );
 	if( !m_Plugin.startStream( m_LiveStream.getConnection(), m_LiveStream.m_StreamAssetInfo, m_LiveStream.m_StreamSessionId ) )
 	{
+		LogModule( eLogMediaStream, LOG_ERROR, "%s failed to start stream", __func__ );
 		m_Plugin.wantFileXferCallback( this, false );
 		return false;
 	}

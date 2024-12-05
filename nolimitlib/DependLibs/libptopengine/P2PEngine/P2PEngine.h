@@ -473,7 +473,6 @@ public:
 	//========================================================================
 
 	void						handleTcpData( std::shared_ptr<VxSktBase>& sktBase );
-	void						handleMulticastData( std::shared_ptr<VxSktBase>& sktBase );
 
 	std::string					describeContact( BigListInfo * bigListInfo );
 	std::string					describeContact( VxConnectInfo& connectInfo );

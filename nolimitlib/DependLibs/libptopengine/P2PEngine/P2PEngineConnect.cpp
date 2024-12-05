@@ -286,41 +286,6 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 				poInfo->getOnlineName(), poInfo->getMyOnlineId().toOnlineIdString().c_str()  );
     }
 
-	// determine if is nearby
-#if ENABLE_COMPONENT_NEARBY
-		bool isNearby = false;
-	if( nearbyLanConnected || ( poInfo->getMyOnlineIPv4().isValid() && poInfo->getMyOnlineIPv4() == m_PktAnn.getMyOnlineIPv4() ) ) // uses same external ip
-	{
-		isNearby = true;
-	}
-	else if( poInfo->getLanIPv4().isValid() )
-	{
-		// see if broadcast addresses match
-		std::string hisLanIp = poInfo->getLanIPv4().toStdString();
-		std::string myLanIp = getNetStatusAccum().getLanIpAddress( false );
-		std::string hisBroadcast;
-		std::string myBroadcast;
-		if( VxMakeBroadcastIp( hisLanIp, hisBroadcast ) && VxMakeBroadcastIp( myLanIp, myBroadcast )
-			&& !myBroadcast.empty() && myBroadcast == hisBroadcast )
-		{
-			isNearby = true;
-		}
-	}
-
-	poInfo->setIsNearby( isNearby );
-	if( poInfo->isNearby() && poInfo->getMyFriendshipToHim() == eFriendStateAnonymous )
-	{
-		// elevate nearby to guest 
-		poInfo->setMyFriendshipToHim( eFriendStateGuest );
-	}
-
-	if( isNearby )
-	{
-		getNearbyListMgr().updateIdent( poInfo->getMyOnlineId(), timestamp );
-	}
-
-#endif // ENABLE_COMPONENT_NEARBY
-
 	if( poInfo->isFriend() || poInfo->isAdministrator() )
 	{
 		getFriendListMgr().updateIdent( poInfo->getMyOnlineId(), timestamp );

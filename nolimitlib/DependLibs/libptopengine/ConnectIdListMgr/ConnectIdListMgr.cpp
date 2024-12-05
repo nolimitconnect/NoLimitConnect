@@ -1065,7 +1065,6 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
 
     unlockOnlineStatusClientList();
 
-
     m_Engine.getPluginMgr().onContactOnlineStatusChange( onlineId, isOnline );
     if( !isOnline )
     {
@@ -1080,9 +1079,8 @@ void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isCo
 {
     lockConnectIdClientList();
 
-    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
+    for( auto client : m_ConnectIdCallbackClients )
     {
-        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackConnectionStatusChange( connectId, isConnected );
@@ -1101,9 +1099,8 @@ void ConnectIdListMgr::announceRelayStatus( ConnectId& connectId, bool isRelayed
 {
     lockConnectIdClientList();
 
-    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
+    for( auto client : m_ConnectIdCallbackClients )
     {
-        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackRelayStatusChange( connectId, isRelayed );
@@ -1122,9 +1119,8 @@ void ConnectIdListMgr::announceConnectionReason( VxGUID& sktConnectId, EConnectR
 {
     lockConnectIdClientList();
 
-    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
+    for( auto client : m_ConnectIdCallbackClients )
     {
-        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackConnectionReason( sktConnectId, connectReason, enableReason );
@@ -1143,9 +1139,8 @@ void ConnectIdListMgr::announceConnectionLost( VxGUID& sktConnectId )
 {
     lockConnectIdClientList();
 
-    for( auto iter = m_ConnectIdCallbackClients.begin(); iter != m_ConnectIdCallbackClients.end(); ++iter )
+    for( auto client : m_ConnectIdCallbackClients )
     {
-        ConnectIdListCallback* client = *iter;
         if( client )
         {
             client->callbackConnectionLost( sktConnectId );

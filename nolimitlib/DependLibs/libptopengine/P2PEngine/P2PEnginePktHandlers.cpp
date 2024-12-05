@@ -258,11 +258,22 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( !sktBase->isTempConnection() )
 	{
-		LogMsg( LOG_VERBOSE, "P2PEngine::onPktAnnounce %s of %s %s by %s %s at %s skt id %s",
-				sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+        LogMsg( LOG_VERBOSE, "P2PEngine::%s %s of %s %s by %s %s at %s skt id %s", __func__,
+                sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
 				sktBase->getRemoteIp().c_str(), sktBase->getSocketIdText().c_str() );
+
+		//BRJ
+        //if( !sktBase->getIsPeerPktAnnSet() )
+        //{
+        //    sktBase->setPeerPktAnn( *pktAnn );
+        //    LogMsg( LOG_VERBOSE, "P2PEngine::%s set peer to %s for %s", __func__, sktBase->describePeerUser().c_str(), sktBase->getRemoteIp().c_str() );
+        //}
 	}
+    else
+    {
+        LogMsg( LOG_VERBOSE, "P2PEngine::%s ignoring temp connection to %s", __func__, sktBase->getRemoteIp().c_str() );
+    }
 }
 
 //============================================================================
@@ -758,7 +769,6 @@ void P2PEngine::onPktPingReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* p
 	LogMsg( LOG_DEBUG, "Ping %s Time ms %d", onlineName.c_str(), timeDiff );
 }
 
-
 //============================================================================
 void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
@@ -769,7 +779,7 @@ void P2PEngine::onPktImAliveReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* 
 	// do not respond to temp connections so if something went wrong it will eventually die
 	if( !sktBase->isTempConnection() )
 	{
-		sktBase->setLastImAliveTimeTxMs(  GetGmtTimeMs() );
+        sktBase->setLastImAliveTimeTxMs( GetGmtTimeMs() );
 		PktImAliveReply pktImAliveReply;
 		pktImAliveReply.setSrcOnlineId( m_PktAnn.getMyOnlineId() );
 		pktImAliveReply.setDestOnlineId( pktHdr->getSrcOnlineId() );
