@@ -66,7 +66,6 @@ TxSession * PluginCamClient::createTxSession( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PluginCamClient::callbackVideoJpgSmall( VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
 {
-	//LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiVideoData sessions %d\n", m_PluginSessionMgr.m_aoSessions.size() );
 	m_PluginMgr.pluginApiPlayVideoFrame( m_ePluginType, jpgData, jpgDataLen, m_MyIdent, motion0to100000 );
 }
 
@@ -75,7 +74,6 @@ void PluginCamClient::sendVidPkt( VxPktHdr* vidPkt, bool requiresAck )
 {
 	if( m_PluginSessionMgr.getSessionCount() )
 	{
-		//LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiVideoData %d clients\n", m_PluginSessionMgr.m_TxSessions.size() );
 		std::map<VxGUID, PluginSessionBase*>&	sessionList = m_PluginSessionMgr.getSessions();
 		#if defined(DEBUG_PLUGIN_LOCK)
 			LogMsg( LOG_VERBOSE, "PluginCamClient::sendVidPkt lock" );

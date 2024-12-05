@@ -142,6 +142,7 @@ public:
 	VxMutex&					getAudioMutex( void )				{ return m_AudioMutex; }
 	VxMutex&					getVideoMutex( void )				{ return m_VideoMutex; }
 	MediaTools&					getMediaTools( void )				{ return m_MediaTools; }
+	size_t						getVideoQueueSize( void )			{ return m_ProcessVideoQue.size(); }
 
 	bool						isSpeakerOutputEnabled( void )		{ return m_SpeakerOutputEnabled; }
 	bool						isMicrophoneCaptureEnabled( void )	{ return m_MicCaptureEnabled; }

@@ -216,6 +216,9 @@
     <Filter Include="androidManifests\android34">
       <UniqueIdentifier>{10c56bc1-a01f-407e-874e-3423c8d71825}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Cam">
+      <UniqueIdentifier>{f14c3319-b667-42bc-8aaa-688867613337}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -1136,6 +1139,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\FileMediaSelectWidget.h">
       <Filter>Source Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.h">
+      <Filter>Source Files\Cam</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -1163,12 +1169,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppTranslate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamLogic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamTitleBarPreview.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ChatEntryWidget.cpp">
@@ -1345,9 +1345,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1433,9 +1430,6 @@
       <Filter>Source Files\NoLimitConnectMain</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.cpp">
@@ -2286,6 +2280,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHelpersAndroidPermissions.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamLogic.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamTitleBarPreview.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.cpp">
+      <Filter>Source Files\Cam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

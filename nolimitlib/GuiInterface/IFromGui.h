@@ -96,8 +96,6 @@ public:
 	//! play video or audio file
 	virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos ) = 0;
 
-	/// Called when raw camera capture video data is available ( u32FourCc is the video data format )
-	virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) = 0;
 	/// Called when cut scene movie has finished playing
 	virtual bool				fromGuiMovieDone( void  ) = 0;
 

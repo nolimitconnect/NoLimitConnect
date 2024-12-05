@@ -265,7 +265,6 @@ public:
     virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
     virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
 
-    virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation ) override;
     virtual bool				fromGuiMovieDone( void ) override							{ return true; };
 
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;

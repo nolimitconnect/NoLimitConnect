@@ -386,6 +386,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/ToGuiUserUpdateInterface.h
     CommonSrc/QtSource/ToGuiThumbUpdateInterface.h
     CommonSrc/QtSource/TitleBarWidget.h
+
+    CommonSrc/QtSource/VideoFrameProcessor.h
     CommonSrc/QtSource/VideoSinkGrabber.h
     CommonSrc/QtSource/VxAspectFrame.h
     CommonSrc/QtSource/VxContextMenu.h
@@ -775,6 +777,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ThumbnailEditWidget.cpp
     CommonSrc/QtSource/ThumbnailChooseWidget.cpp
     CommonSrc/QtSource/ThumbnailViewWidget.cpp
+
+    CommonSrc/QtSource/VideoFrameProcessor.cpp
     CommonSrc/QtSource/VideoSinkGrabber.cpp
     CommonSrc/QtSource/VxAspectFrame.cpp
     CommonSrc/QtSource/VxComboBox.cpp

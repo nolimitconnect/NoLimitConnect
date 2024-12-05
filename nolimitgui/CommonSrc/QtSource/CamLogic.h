@@ -13,6 +13,7 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include "VideoFrameProcessor.h"
 #include "VideoSinkGrabber.h"
 
 #include <QTimer>
@@ -37,8 +38,6 @@ class CamLogic : public QWidget
     Q_OBJECT
 
 public:
-    const int CAM_SNAPSHOT_INTERVAL_MS = 60;
-
     CamLogic( AppCommon& myApp );
     virtual ~CamLogic() = default;
 
@@ -86,23 +85,12 @@ public slots:
     void                        stop();
     void                        setMuted( bool );
 
-    void                        toggleLock();
- 
-    void                        configureCaptureSettings();
-    void                        configureVideoSettings();
-    void                        configureImageSettings();
-
     void                        displayRecorderError();
     void                        displayCameraError();
 
     void                        updateCameraDevice( QAction *action );
 
-    void                        updateCaptureMode( int );
-    void                        setExposureCompensation( int index );
-
     void                        updateRecordTime();
-
-    void                        processCapturedImage( int requestId, const QImage &img );
 
     void                        updateCameraActive( bool active );
     void                        updateRecorderState( QMediaRecorder::RecorderState state );
@@ -113,8 +101,6 @@ public slots:
 
     void                        readyForCapture( bool ready );
     void                        imageSaved( int id, const QString &fileName );
-
-    void                        slotTakeSnapshot( void );
 
 protected:
     bool                        initializeCam( void );
@@ -135,8 +121,6 @@ protected:
     uint32_t                    m_CamRotation{ 0 };
     uint32_t                    m_FeedRotation{ 0 };
 
-    QTimer *                    m_SnapshotTimer{ nullptr };
-
     QScopedPointer<QCamera>     m_camera;
 
     QString                     m_videoContainerFormat;
@@ -149,10 +133,13 @@ protected:
     QScopedPointer<QMediaRecorder> m_mediaRecorder;
 
     QString                     m_CamDescription;
-    VideoSinkGrabber            m_VideoSinkGrabber;
     int                         m_LastFrameNum{ 0 };
     QSize                       m_DesiredFrameSize;
     bool                        m_WantCamInput[ eMaxAppModule ];
+
+    VideoSinkGrabber            m_VideoSinkGrabber;
+    VideoFrameProcessor         m_VideoFrameProcessor;
+
 };
 
 
