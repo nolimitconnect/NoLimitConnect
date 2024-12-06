@@ -41,10 +41,9 @@ public:
     CamLogic( AppCommon& myApp );
     virtual ~CamLogic() = default;
 
-    void                        camLogicStartup( void );
-
     void                        cameraEnable( bool wantVidCapture );
 
+    bool                        isCamCaptureRequested( void );
     bool                        isCamCaptureRunning( void );
     bool                        isCamAvailable( void );
     bool                        updateCamAvailable( void ); // recheck devices for available cam
@@ -72,6 +71,8 @@ signals:
     void                        signalCameraDescription( QString camDescription );
 
 public slots:
+    void                        slotNetAvailStatus( ENetAvailStatus netAvailStatus );
+    void                        camLogicStartup( void );
 
     void                        setCamera( const QCameraDevice& cameraDevice );
 
@@ -88,19 +89,11 @@ public slots:
     void                        displayRecorderError();
     void                        displayCameraError();
 
-    void                        updateCameraDevice( QAction *action );
-
     void                        updateRecordTime();
 
     void                        updateCameraActive( bool active );
     void                        updateRecorderState( QMediaRecorder::RecorderState state );
     void                        displayCaptureError( int, QImageCapture::Error, const QString& errorString );
-
-    void                        displayViewfinder();
-    void                        displayCapturedImage();
-
-    void                        readyForCapture( bool ready );
-    void                        imageSaved( int id, const QString &fileName );
 
 protected:
     bool                        initializeCam( void );
@@ -123,12 +116,8 @@ protected:
 
     QScopedPointer<QCamera>     m_camera;
 
-    QString                     m_videoContainerFormat;
-    bool                        m_isCapturingImage{ false };
     bool                        m_CamIsStarted{ false };
-    bool                        m_ReadyForCapture{ false };
 
-    QImageCapture*              m_imageCapture;
     QMediaCaptureSession        m_captureSession;
     QScopedPointer<QMediaRecorder> m_mediaRecorder;
 

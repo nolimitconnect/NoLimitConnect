@@ -293,8 +293,13 @@ protected:
 public:
 	void						doCloseThisSocketHandle( bool bFlushThenClose );
 
+	void						setRxStartTimeMs( int64_t rxStartTime ) { m_RxStartTimeMs = rxStartTime; }
+	int64_t						getRxStartTimeMs( void )  { return m_RxStartTimeMs; }
+	void						setRxPktAnnTimeMs( int64_t rxPktAnnTime ) { m_RxPktAnnTimeMs = rxPktAnnTime; }
+	int64_t						getRxPktAnnTimeMs( void )  { return m_RxPktAnnTimeMs; }
+
     SOCKET						m_Socket{ INVALID_SOCKET };	    // handle to socket
-    int							m_SktNumber{ 0 };				    // socket unique id
+    int							m_SktNumber{ 0 };				// socket unique id
     VxGUID                      m_ConnectionId;                 // unique connection id 
 
 	InetAddrAndPort				m_LclIp;				        // local ip address
@@ -371,5 +376,7 @@ protected:
 	static VxGUID				m_LoopbackSocketId;
 
 	bool						m_IsNetServiceConnection{ false };
+	int64_t			    		m_RxStartTimeMs{ 0 };
+	int64_t			    		m_RxPktAnnTimeMs{ 0 };
 };
 

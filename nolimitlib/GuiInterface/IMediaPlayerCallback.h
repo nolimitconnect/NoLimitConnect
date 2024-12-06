@@ -20,7 +20,7 @@ public:
     virtual void				fromMediaPlayerInitLevel( int initLevel, bool success ) = 0;
     virtual void				fromMediaPlayerIsRunning( bool isRunning ) = 0;
 
-    virtual void				fromMediaPlayerPlayFile( VxGUID& feedId ) = 0;
+    virtual void				fromMediaPlayerPlayFile( VxGUID& feedId, bool fileOpened ) = 0;
 
     virtual void				fromMediaPlayerPlaybackStarted( VxGUID& feedId ) = 0;
     virtual void				fromMediaPlayerPlaybackStopped( VxGUID& feedId ) = 0;

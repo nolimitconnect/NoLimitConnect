@@ -1,4 +1,4 @@
-//============================================================================
+ //============================================================================
 // Copyright (C) 2020 Brett R. Jones
 //
 // Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
@@ -30,13 +30,27 @@ CamLogic::CamLogic( AppCommon& myApp )
 {
     memset( m_WantCamInput, 0, sizeof( m_WantCamInput ) );
     connect( &m_VideoSinkGrabber, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+    connect( &m_MyApp, SIGNAL(signalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotNetAvailStatus(ENetAvailStatus)) );
+}
+
+//============================================================================
+void CamLogic::slotNetAvailStatus( ENetAvailStatus netAvailStatus )
+{
+    // qt camera for android is very processor sensitive so start as late as possible
+    if( GuiParams::isNetStatusPtoPReady( netAvailStatus ) )
+    {
+        camLogicStartup();
+    }
 }
 
 //============================================================================
 void CamLogic::camLogicStartup( void )
 {
-    m_StartupWasCompleted = true;
-    initializeCam();
+    if( !m_StartupWasCompleted )
+    {
+        m_StartupWasCompleted = true;
+        initializeCam();
+    }
 }
 
 //============================================================================
@@ -47,15 +61,7 @@ void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture 
     if( getCamStartupCompleted() )
     {
         bool wasRunning = isCamCaptureRunning();
-        bool isRunning = false;
-        for( int i = 0; i < eMaxAppModule; i++ )
-        {
-            if( m_WantCamInput[i] )
-            {
-                isRunning = true;
-                break;
-            }
-        }
+        bool isRunning = isCamCaptureRequested();
 
         if( wasRunning != isRunning )
         {
@@ -66,6 +72,22 @@ void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture 
 
     LogModule( eLogWebCam, LOG_INFO, "CamLogic::%s %s wantCapture %d cam running ? %d", __func__,
                DescribeAppModule(appModule), wantVidCapture, m_CamIsStarted );
+}
+
+//============================================================================
+bool CamLogic::isCamCaptureRequested( void )
+{
+    bool isRequested{ false };
+    for( int i = 0; i < eMaxAppModule; i++ )
+    {
+        if( m_WantCamInput[i] )
+        {
+            isRequested = true;
+            break;
+        }
+    }
+
+    return isRequested;
 }
 
 //============================================================================
@@ -160,22 +182,20 @@ bool CamLogic::initializeCam( void )
     bool isValid = true;
     if( getCamStartupCompleted() )
     {
-        if( !m_CamInitiated )
+        if( !GuiHelpers::requestPermission( QLatin1String("android.permission.CAMERA") ) )
         {
+            QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
+            return false;
+        }
+
+        if( !m_CamInitiated )
+        {         
             setCamera( QMediaDevices::defaultVideoInput() );
         }
 
         // there may have been want cam calls before was initialized
         bool wasRunning = isCamCaptureRunning();
-
-        for( int i = 0; i < eMaxAppModule; i++ )
-        {
-            if( m_WantCamInput[i] )
-            {
-                isRunning = true;
-                break;
-            }
-        }
+        isRunning = isCamCaptureRequested();
 
         if( wasRunning != isRunning )
         {
@@ -218,31 +238,8 @@ void CamLogic::setCamera( const QCameraDevice& cameraDevice )
     m_camera.reset( new QCamera( cameraDevice ) );
     m_captureSession.setCamera( m_camera.data() );
 
-    connect( m_camera.data(), &QCamera::activeChanged, this, &CamLogic::updateCameraActive );
-    connect( m_camera.data(), &QCamera::errorOccurred, this, &CamLogic::displayCameraError );
-
     m_mediaRecorder.reset( new QMediaRecorder );
     m_captureSession.setRecorder( m_mediaRecorder.data() );
-    connect( m_mediaRecorder.data(), &QMediaRecorder::recorderStateChanged, this, &CamLogic::updateRecorderState );
-
-
-    m_imageCapture = new QImageCapture( m_mediaRecorder.data() );
-    m_captureSession.setImageCapture( m_imageCapture );
-
-    connect( m_mediaRecorder.data(), &QMediaRecorder::durationChanged, this, &CamLogic::updateRecordTime );
-    connect( m_mediaRecorder.data(), &QMediaRecorder::errorChanged, this, &CamLogic::displayRecorderError );
-
-    m_captureSession.setVideoSink(&m_VideoSinkGrabber);
-
-    updateCameraActive( m_camera->isActive() );
-    updateRecorderState( m_mediaRecorder->recorderState() );
-
-    connect( m_imageCapture, &QImageCapture::errorOccurred, this, &CamLogic::displayCaptureError );
-
-    readyForCapture( m_imageCapture->isReadyForCapture() );
-
-    selectVideoFormat( cameraDevice );
-
     if( m_captureSession.audioInput() )
     {
         m_captureSession.audioInput()->setMuted(true);
@@ -252,6 +249,19 @@ void CamLogic::setCamera( const QCameraDevice& cameraDevice )
     {
         m_captureSession.audioOutput()->setMuted(true);
     }
+
+    connect( m_camera.data(), &QCamera::activeChanged, this, &CamLogic::updateCameraActive );
+    connect( m_camera.data(), &QCamera::errorOccurred, this, &CamLogic::displayCameraError );
+    connect( m_mediaRecorder.data(), &QMediaRecorder::recorderStateChanged, this, &CamLogic::updateRecorderState );
+    connect( m_mediaRecorder.data(), &QMediaRecorder::durationChanged, this, &CamLogic::updateRecordTime );
+    connect( m_mediaRecorder.data(), &QMediaRecorder::errorChanged, this, &CamLogic::displayRecorderError );
+
+    m_captureSession.setVideoSink(&m_VideoSinkGrabber);
+
+    updateCameraActive( m_camera->isActive() );
+    updateRecorderState( m_mediaRecorder->recorderState() );
+
+    selectVideoFormat( cameraDevice );
 
     m_CamDescription = cameraDevice.description();
     emit signalCameraDescription( m_CamDescription );
@@ -509,52 +519,9 @@ void CamLogic::displayCameraError()
 }
 
 //============================================================================
-void CamLogic::updateCameraDevice( QAction *action )
-{
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    setCamera( qvariant_cast< QCameraInfo >( action->data() ) );
-#endif // #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-}
-
-//============================================================================
-void CamLogic::displayViewfinder()
-{
-    //ui->stackedWidget->setCurrentIndex(0);
-}
-
-//============================================================================
-void CamLogic::displayCapturedImage()
-{
-    //ui->stackedWidget->setCurrentIndex(1);
-}
-
-//============================================================================
-void CamLogic::readyForCapture( bool ready )
-{
-    m_ReadyForCapture = ready;
-    LogMsg( LOG_ERROR, "CamLogic::readyForCapture ? %d", ready );
-}
-
-//============================================================================
-void CamLogic::imageSaved( int id, const QString &fileName )
-{
-    Q_UNUSED( id );
-
-    m_isCapturingImage = false;
-}
-
-//============================================================================
 void CamLogic::closeEvent( QCloseEvent *event )
 {
-    if( m_isCapturingImage ) 
-    {
-        LogMsg( LOG_VERBOSE, "CamLogic::closeEvent while capturing image" );
-        event->ignore();
-    }
-    else 
-    {
-        event->accept();
-    }
+    event->accept();
 }
 
 //============================================================================

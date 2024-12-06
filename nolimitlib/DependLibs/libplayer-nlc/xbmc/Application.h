@@ -138,7 +138,7 @@ public:
     
     virtual void				onInitLevel( int initLevel, bool success ) {};
 
-    virtual void                onPlayFile( void ) {};
+    virtual void                onPlayFile( bool fileOpened ) {};
     virtual void                onPlayStarted( void ) {};
     virtual void                onPlaybackPaused( void ) {};
     virtual void                onPlaybackResumed( void ) {};

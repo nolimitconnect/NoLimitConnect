@@ -188,7 +188,7 @@ void TitleBarWidget::updateTitleBar( void )
     m_MutedSpeaker = sndMgr.getIsSpeakerMuted();
     callbackToGuiSpeakerMuted( m_MutedSpeaker );
 
-    bool isCamEnabled = m_MyApp.getCamLogic().isCamCaptureRunning();
+    bool isCamEnabled = m_MyApp.getCamLogic().isCamCaptureRequested();
     callbackToGuiWantVideoCapture( isCamEnabled );
 
     checkTitleBarIconsFit();
@@ -644,6 +644,8 @@ void TitleBarWidget::setBackButtonColor( QColor iconColor )
 void TitleBarWidget::slotToGuiNetAvailStatus( ENetAvailStatus eNetAvailStatus )
 {
     ui.m_NetAvailStatusWidget->toGuiNetAvailStatus( eNetAvailStatus );
+    bool isCamEnabled = m_MyApp.getCamLogic().isCamCaptureRequested();
+    callbackToGuiWantVideoCapture( isCamEnabled );
 }
 
 //============================================================================

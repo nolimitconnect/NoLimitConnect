@@ -318,6 +318,7 @@ enum EHackerReason
     eHackerReasonPktHdrInvalid,
     eHackerReasonInvalidPkt,
     eHackerReasonAccessDenied,
+    eHackerReasonLurkerDidNotSendPktAnn,
 
     eMaxHackerReason
 };
@@ -1254,6 +1255,8 @@ enum ESktCloseReason
     eSktClosePushToTalk,
 
     eSktCloseNetServiceTimeout,
+
+    eSktCloseWrongPktAnnSize,
 
     eMaxSktCloseReason			// always last
 };

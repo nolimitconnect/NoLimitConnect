@@ -292,7 +292,7 @@ static int dumpSktStatsCnt = 0;
     RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *acceptAddr );
 	if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == listenSkt )
 	{
-		sktBase->closeSkt(eSktCloseAcceptFailed);
+		sktBase->closeSkt( eSktCloseAcceptFailed );
 		LogMsg( LOG_ERROR, "VxServerMgr::%s error %d doing accept skt %d skt id %d thread 0x%x", __func__, rc, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
         moveToEraseList( sktBase );
 

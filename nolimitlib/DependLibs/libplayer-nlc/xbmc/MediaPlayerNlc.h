@@ -57,7 +57,7 @@ protected:
 	void						onInitLevel( int initLevel, bool success ) override;
 	void						onPlayerRunning( bool isRunning ) override;
 
-	void						onPlayFile( void ) override;
+	void						onPlayFile( bool fileOpened ) override;
     void						onPlayStarted( void ) override;
     void						onStopPlaying( void ) override;
 

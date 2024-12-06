@@ -1911,7 +1911,6 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
         item.FillInMimeType();
 
     const auto appPlayer = GetComponent<CApplicationPlayer>();
-    //const auto stackHelper = GetComponent<CApplicationStackHelper>();
 
     if( !bRestart )
     {
@@ -1924,7 +1923,6 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
         if( item.IsVideo() )
             CUtil::ClearSubtitles();
     }
-
 
     if( item.IsPlayList() )
         return false;
@@ -1951,207 +1949,37 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
         //if( item.HasVideoInfoTag() )
         //    options.state = item.GetVideoInfoTag()->GetResumePoint().playerState;
     }
-    //if( !bRestart || stackHelper->IsPlayingISOStack() )
-    //{
-    //    // the following code block is only applicable when bRestart is false OR to ISO stacks
-
-    //    if( item.IsVideo() )
-    //    {
-    //        // open the d/b and retrieve the bookmarks for the current movie
-    //        CVideoDatabase dbs;
-    //        dbs.Open();
-
-    //        std::string path = item.GetPath();
-    //        std::string videoInfoTagPath( item.GetVideoInfoTag()->m_strFileNameAndPath );
-    //        if( videoInfoTagPath.find( "removable://" ) == 0 || item.IsVideoDb() )
-    //            path = videoInfoTagPath;
-    //        dbs.LoadVideoInfo( path, *item.GetVideoInfoTag() );
-
-    //        if( item.HasProperty( "savedplayerstate" ) )
-    //        {
-    //            options.starttime = CUtil::ConvertMilliSecsToSecs( item.GetStartOffset() );
-    //            options.state = item.GetProperty( "savedplayerstate" ).asString();
-    //            item.ClearProperty( "savedplayerstate" );
-    //        }
-    //        else if( item.GetStartOffset() == STARTOFFSET_RESUME )
-    //        {
-    //            options.starttime = 0.0;
-    //            if( item.IsResumePointSet() )
-    //            {
-    //                options.starttime = item.GetCurrentResumeTime();
-    //                if( item.HasVideoInfoTag() )
-    //                    options.state = item.GetVideoInfoTag()->GetResumePoint().playerState;
-    //            }
-    //            else
-    //            {
-    //                CBookmark bookmark;
-    //                std::string path = item.GetPath();
-    //                if( item.HasVideoInfoTag() && StringUtils::StartsWith( item.GetVideoInfoTag()->m_strFileNameAndPath, "removable://" ) )
-    //                    path = item.GetVideoInfoTag()->m_strFileNameAndPath;
-    //                else if( item.HasProperty( "original_listitem_url" ) && URIUtils::IsPlugin( item.GetProperty( "original_listitem_url" ).asString() ) )
-    //                    path = item.GetProperty( "original_listitem_url" ).asString();
-    //                if( dbs.GetResumeBookMark( path, bookmark ) )
-    //                {
-    //                    options.starttime = bookmark.timeInSeconds;
-    //                    options.state = bookmark.playerState;
-    //                }
-    //            }
-
-    //            if( options.starttime == 0.0 && item.HasVideoInfoTag() )
-    //            {
-    //                // No resume point is set, but check if this item is part of a multi-episode file
-    //                const CVideoInfoTag* tag = item.GetVideoInfoTag();
-
-    //                if( tag->m_iBookmarkId > 0 )
-    //                {
-    //                    CBookmark bookmark;
-    //                    dbs.GetBookMarkForEpisode( *tag, bookmark );
-    //                    options.starttime = bookmark.timeInSeconds;
-    //                    options.state = bookmark.playerState;
-    //                }
-    //            }
-    //        }
-    //        else if( item.HasVideoInfoTag() )
-    //        {
-    //            const CVideoInfoTag* tag = item.GetVideoInfoTag();
-
-    //            if( tag->m_iBookmarkId > 0 )
-    //            {
-    //                CBookmark bookmark;
-    //                dbs.GetBookMarkForEpisode( *tag, bookmark );
-    //                options.starttime = bookmark.timeInSeconds;
-    //                options.state = bookmark.playerState;
-    //            }
-    //        }
-
-    //        dbs.Close();
-    //    }
-    //}
-
-
-    //// this really aught to be inside !bRestart, but since PlayStack
-    //// uses that to init playback, we have to keep it outside
-    //const PLAYLIST::Id playlistId = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
-    //if( item.IsAudio() && playlistId == PLAYLIST::TYPE_MUSIC )
-    //{ // playing from a playlist by the looks
-    //  // don't switch to fullscreen if we are not playing the first item...
-    //    options.fullscreen = !CServiceBroker::GetPlaylistPlayer().HasPlayedFirstFile() &&
-    //        CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(
-    //            CSettings::SETTING_MUSICFILES_SELECTACTION ) &&
-    //        !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-    //}
-    //else if( item.IsVideo() && playlistId == PLAYLIST::TYPE_VIDEO &&
-    //         CServiceBroker::GetPlaylistPlayer().GetPlaylist( playlistId ).size() > 1 )
-    //{ // playing from a playlist by the looks
-    //  // don't switch to fullscreen if we are not playing the first item...
-    //    options.fullscreen = !CServiceBroker::GetPlaylistPlayer().HasPlayedFirstFile() &&
-    //        CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_fullScreenOnMovieStart &&
-    //        !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-    //}
-    //else if( stackHelper->IsPlayingRegularStack() )
-    //{
-    //    //! @todo - this will fail if user seeks back to first file in stack
-    //    if( stackHelper->GetCurrentPartNumber() == 0 ||
-    //        stackHelper->GetRegisteredStack( item )->GetStartOffset() != 0 )
-    //        options.fullscreen = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->
-    //        m_fullScreenOnMovieStart && !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-    //    else
-    //        options.fullscreen = false;
-    //}
-    //else
-    //    options.fullscreen = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->
-    //    m_fullScreenOnMovieStart && !CMediaSettings::GetInstance().DoesMediaStartWindowed();
-
-    //// stereo streams may have lower quality, i.e. 32bit vs 16 bit
-    //options.preferStereo = CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_videoPreferStereoStream &&
-    //    CServiceBroker::GetActiveAE()->HasStereoAudioChannelCount();
-
-    //// reset VideoStartWindowed as it's a temp setting
-    //CMediaSettings::GetInstance().SetMediaStartWindowed( false );
-
-    //{
-    //    // for playing a new item, previous playing item's callback may already
-    //    // pushed some delay message into the threadmessage list, they are not
-    //    // expected be processed after or during the new item playback starting.
-    //    // so we clean up previous playing item's playback callback delay messages here.
-    //    int previousMsgsIgnoredByNewPlaying[] = {
-    //      GUI_MSG_PLAYBACK_STARTED,
-    //      GUI_MSG_PLAYBACK_ENDED,
-    //      GUI_MSG_PLAYBACK_STOPPED,
-    //      GUI_MSG_PLAYLIST_CHANGED,
-    //      GUI_MSG_PLAYLISTPLAYER_STOPPED,
-    //      GUI_MSG_PLAYLISTPLAYER_STARTED,
-    //      GUI_MSG_PLAYLISTPLAYER_CHANGED,
-    //      GUI_MSG_QUEUE_NEXT_ITEM,
-    //      0
-    //    };
-    //    int dMsgCount = CServiceBroker::GetGUI()->GetWindowManager().RemoveThreadMessageByMessageIds( &previousMsgsIgnoredByNewPlaying[0] );
-    //    if( dMsgCount > 0 )
-    //        CLog::LogF( LOGDEBUG, "Ignored %d playback thread messages", dMsgCount );
-    //}
-
+ 
     options.fullscreen = true;
-    appPlayer->OpenFile( item, options, m_ServiceManager->GetPlayerCoreFactory(), player, *this );
-    //appPlayer->SetVolume( appVolume->GetVolumeRatio() );
-    //appPlayer->SetMute( appVolume->IsMuted() );
+    bool openFileResult = appPlayer->OpenFile( item, options, m_ServiceManager->GetPlayerCoreFactory(), player, *this );
+    if( !openFileResult )
+    {
+        if( item.isVirtualStream() )
+        {
+            LogModule( eLogMediaStream, LOG_VERBOSE, "CApplication::%s open stream %s failed", __func__, item.getFileName().c_str() );
+        }
+        else
+        {
+            LogModule( eLogPlayerNlc, LOG_VERBOSE, "CApplication::%s open local file %s failed", __func__, item.getFileName().c_str() );
+        }
+    }
 
-//#if !defined(TARGET_POSIX)
-//    CGUIComponent* gui = CServiceBroker::GetGUI();
-//    if( gui )
-//        gui->GetAudioManager().Enable( false );
-//#endif
-
-
-    onPlayFile();
-    return true;
+    onPlayFile( openFileResult );
+    return openFileResult;
 }
 
 void CApplication::PlaybackCleanup()
 {
     const auto appPlayer = GetComponent<CApplicationPlayer>();
-    //const auto stackHelper = GetComponent<CApplicationStackHelper>();
 
     if( !appPlayer->IsPlaying() )
     {
         CGUIComponent* gui = CServiceBroker::GetGUI();
-        //if( gui )
-        //    CServiceBroker::GetGUI()->GetAudioManager().Enable( true );
         appPlayer->OpenNext( m_ServiceManager->GetPlayerCoreFactory() );
     }
 
-//    if( !appPlayer->IsPlayingVideo() )
-//    {
-//        if( CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_FULLSCREEN_VIDEO ||
-//            CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_FULLSCREEN_GAME )
-//        {
-//            CServiceBroker::GetGUI()->GetWindowManager().PreviousWindow();
-//        }
-//        else
-//        {
-//            //  resets to res_desktop or look&feel resolution (including refreshrate)
-//            CServiceBroker::GetWinSystem()->GetGfxContext().SetFullScreenVideo( false );
-//        }
-//#ifdef TARGET_DARWIN_EMBEDDED
-//        CDarwinUtils::SetScheduling( false );
-//#endif
-//    }
-
-    //const auto appPower = GetComponent<CApplicationPowerHandling>();
-
-    //if( !appPlayer->IsPlayingAudio() &&
-    //    CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist() == PLAYLIST::TYPE_NONE &&
-    //    CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_VISUALISATION )
-    //{
-    //    CServiceBroker::GetSettingsComponent()->GetSettings()->Save();  // save vis settings
-    //    appPower->WakeUpScreenSaverAndDPMS();
-    //    CServiceBroker::GetGUI()->GetWindowManager().PreviousWindow();
-    //}
-
-
-
     if( !appPlayer->IsPlaying() )
     {
-        //stackHelper->Clear();
         appPlayer->ResetPlayer();
     }
 }

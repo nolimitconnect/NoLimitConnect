@@ -1142,6 +1142,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
         sktBase = (VxSktBase*)poVxThread->getThreadUserParam();
         if( sktBase )
         {
+			sktBase->setRxStartTimeMs( GetGmtTimeMs() );
 			sktBase->incrementRunningRxSktThreadCnt();
             LogModule( eLogThread, LOG_VERBOSE, "%s rx thread 0x%x started for skt %d skt id %d ", __func__, VxGetCurrentThreadId(), sktBase->getSktHandle(), sktBase->getSktNumber() );
 
@@ -1155,7 +1156,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                 eSktTypeTcpAccept == sktBase->getSktType() )
             {
                 bIsUdpSkt = false;
-                sktBase->setLastImAliveTimeRxMs(  GetGmtTimeMs() ); // so we don't get closed if takes awhile for everything to get going
+                sktBase->setLastImAliveTimeRxMs( GetGmtTimeMs() ); // so we don't get closed if takes awhile for everything to get going
                 if( eSktTypeTcpConnect == sktBase->getSktType()  )
                 {
                     // we couldn't do callbacks in connect function ( mutex issues ) so
@@ -1581,11 +1582,18 @@ bool VxSktBase::setPeerPktAnn( PktAnnounce &peerAnn )
         memcpy( &m_PeerPktAnn, &peerAnn, m_PeerPktAnn.getPktLength() );
         m_PeerOnlineId = m_PeerPktAnn.getMyOnlineId();
         setIsPeerPktAnnSet( isSameSize );
+		setRxPktAnnTimeMs( GetGmtTimeMs() );
     }
 
     m_PeerAnnMutex.unlock();
-	LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::setPeerPktAnn: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
-				   getSktNumber(), getSktHandle(), getSocketIdText().c_str(), describePeerUser().c_str() );
+	
+	LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::setPeerPktAnn: skt %s num %d handle %d id %s peer %s ip %s", this->describeSktType().c_str(),
+				   getSktNumber(), getSktHandle(), getSocketIdText().c_str(), peerAnn.describeUser().c_str(), getRemoteIp().c_str() );
+	if( !isSameSize )
+	{
+		closeSkt( eSktCloseWrongPktAnnSize );
+	}
+
     return isSameSize;
 }
 
@@ -1685,7 +1693,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
 	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
 	{
-        LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds im alive timeout skt hande %d num %d id %s peer %s desc %s",
+        LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds im alive timeout skt handle %d num %d id %s peer %s desc %s",
 				getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
 				describePeerUser().c_str(), describeSktConnection().c_str() );
 		closeSkt( eSktCloseImAliveTimeout );
@@ -1709,6 +1717,16 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
     else if( !isTempConnection() )
     {
         LogMsg( LOG_ERROR, "%s no peer user so cannot send PktImAliveReq to %s", __func__, getRemoteIp().c_str() );
+		if( timeNow - getRxStartTimeMs() > 60000 )
+		{
+			// has been connected for at least a minute
+			if( !getRxPktAnnTimeMs() )
+			{
+				// failed to send us a PktAnnounce
+				VxReportHack( eHackerLevelSevere, eHackerReasonLurkerDidNotSendPktAnn, m_Socket, getRemoteIp().c_str(), "VxSktBase::onOncePer30Seconds" );
+				closeSkt( eSktCloseHackLevelSevere );
+			}
+		}
     }
 }
 

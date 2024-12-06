@@ -205,6 +205,10 @@ bool AppletPlayerStream::playStream( AssetBaseInfo& assetInfo, VxGUID lclSession
 	{
 		canPlay &= IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, lclSessionId, pos0to100000 );
 	}
+	else
+	{
+		LogModule( eLogMediaStream, LOG_VERBOSE, "%s VirtStreamMgr says cannot play", __func__ );
+	}
 	
 	return canPlay;
 }

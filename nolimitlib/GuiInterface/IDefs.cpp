@@ -203,6 +203,8 @@ namespace
         "Reason PktAnn Not First Packet ",
         "Reason PktHdr Invalid ",
         "Reason Pkt Invalid ",
+        "Reason Access Denied ",
+        "Reason Lurker Did Not Send Pkt Ann ",
 
         "Max Hacker Reason ",
     };
@@ -718,6 +720,8 @@ namespace
         "Skt Close ConnectTest ",
 
         "Skt Close NetServiceTimeout ",
+
+       "Skt Close Wrong Pkt Ann Size",
 
         "eMaxSktCloseReason "
     };

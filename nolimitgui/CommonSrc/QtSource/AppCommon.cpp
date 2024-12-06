@@ -1843,8 +1843,6 @@ bool AppCommon::checkSystemReady( void )
 		// one time only each application and user ready at startup
 		m_IsGuiSystemReady = true;
 		m_PushToTalkMgr.onSystemReady();
-
-		m_CamLogic.camLogicStartup();
 		
 		m_ThumbMgr.onSystemReady( m_IsGuiSystemReady );
 		m_UserMgr.onSystemReady( m_IsGuiSystemReady );
@@ -1857,6 +1855,9 @@ bool AppCommon::checkSystemReady( void )
 		emit signalSystemReady( m_IsGuiSystemReady );
 
 		checkReadyToLaunchAfterLogonApplets();
+
+		// qt camera for android is very processor sensitive so start as late as possible
+		//m_CamLogic.camLogicStartup();
 	}
 
 	return m_IsGuiSystemReady;

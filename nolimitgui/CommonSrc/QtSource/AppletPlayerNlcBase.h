@@ -49,7 +49,7 @@ public:
 	void						fromMediaPlayerInitLevel( int level, bool success ) override;
 	void						fromMediaPlayerIsRunning( bool isRunning ) override;
 
-	void						fromMediaPlayerPlayFile( VxGUID& feedId ) override;
+	void						fromMediaPlayerPlayFile( VxGUID& feedId, bool fileOpened ) override;
 
 	void						fromMediaPlayerPlaybackStarted( VxGUID& feedId ) override;
 	void						fromMediaPlayerPlaybackStopped( VxGUID& feedId ) override;
@@ -71,7 +71,7 @@ signals:
 	void						signalInternalInitLevel( int level, bool success );
 	void						signalInternalPlayerNlcIsRunning( bool isRunning );
 
-	void						signalInternalPlayFile( VxGUID feedId );
+	void						signalInternalPlayFile( VxGUID feedId, bool fileOpened );
 	void						signalInternalPlayStarted( VxGUID feedId );
 
 	void						signalInternalPlaybackStopped( VxGUID feedId );
@@ -84,7 +84,7 @@ protected slots:
 	void						slotInternalInitLevel( int level, bool success );
 	void						slotInternalPlayerNlcIsRunning( bool isRunning );
 
-	void						slotInternalPlayFile( VxGUID feedId );
+	void						slotInternalPlayFile( VxGUID feedId, bool fileOpened );
 	void						slotInternalPlayStarted( VxGUID feedId );
 
 	void						slotInternalPlaybackStopped( VxGUID feedId );

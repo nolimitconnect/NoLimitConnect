@@ -47,7 +47,7 @@ void AppletPlayerNlcBase::initAppletPlayerNlcBase( void )
 	connect( this, SIGNAL(signalInternalInitLevel(int,bool)), this, SLOT(slotInternalInitLevel(int,bool)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayerNlcIsRunning(bool)), this, SLOT(slotInternalPlayerNlcIsRunning(bool)), Qt::QueuedConnection );
 
-	connect( this, SIGNAL(signalInternalPlayFile(VxGUID)), this, SLOT(slotInternalPlayFile(VxGUID)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalPlayFile(VxGUID,bool)), this, SLOT(slotInternalPlayFile(VxGUID,bool)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalPlayStarted(VxGUID)), this, SLOT(slotInternalPlayStarted(VxGUID)), Qt::QueuedConnection );
 
 	connect( this, SIGNAL(signalInternalPlaybackStopped(VxGUID)), this, SLOT(slotInternalPlaybackStopped(VxGUID)), Qt::QueuedConnection );
@@ -339,15 +339,15 @@ void AppletPlayerNlcBase::slotInternalPlayerNlcIsRunning( bool isRunning )
 }
 
 //============================================================================
-void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId )
+void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId, bool fileOpened )
 {
-	emit signalInternalPlayFile( feedId );
+	emit signalInternalPlayFile( feedId, fileOpened );
 }
 
 //============================================================================
-void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId )
+void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId, bool fileOpened )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s file opened ? %d", __func__, fileOpened );
 }
 
 //============================================================================

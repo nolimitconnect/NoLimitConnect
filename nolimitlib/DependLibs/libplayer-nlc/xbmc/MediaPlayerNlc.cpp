@@ -167,7 +167,7 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
     bool result{ false };
     if( !assureInitialized() )
     {
-        LogModule( eLogPlayerNlc, LOG_ERROR, "media player not initialized" );
+        LogModule( eLogPlayerNlc, LOG_ERROR, "%s media player not initialized", __func__ );
         return false;
     }
 
@@ -214,6 +214,10 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 			result = playAudioFile( pos0to100000 );
 		}
 	}
+	else
+	{
+		LogModule( eLogPlayerNlc, LOG_ERROR, "%s assetInfo invalid", __func__ );
+	}
 
 	return result;
 }
@@ -221,6 +225,7 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 //============================================================================
 bool MediaPlayerNlc::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
+	LogModule( eLogMediaStream, LOG_VERBOSE, "%s file", __func__, assetInfo.getFileName().c_str() );
 	m_FeedId = lclSessionId;
 	return fromGuiPlayMedia( assetInfo, pos0to100000 );
 }
@@ -308,12 +313,12 @@ void MediaPlayerNlc::onPlayerRunning( bool isRunning )
 }
 
 //============================================================================
-void MediaPlayerNlc::onPlayFile( void )
+void MediaPlayerNlc::onPlayFile( bool fileOpened )
 {
 	lockClientList();
     for( auto client : m_MediaPlayerCallbackClients )
     {
-		client->fromMediaPlayerPlayFile( m_FeedId );
+		client->fromMediaPlayerPlayFile( m_FeedId, fileOpened );
     }
 
     unlockClientList();
