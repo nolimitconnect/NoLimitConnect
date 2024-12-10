@@ -13,7 +13,7 @@
 #include "../P2PEngine/P2PEngine.h"
 
 #include <NetServices/NetServicesMgr.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <UrlMgr/UrlMgr.h>
 
 #include <CoreLib/VxGlobals.h>
@@ -377,7 +377,6 @@ std::string NetworkMonitor::determineLocalIp( void )
             std::string oldIpAddr = m_Engine.getNetStatusAccum().getExternalIpAddress();
             if( newIpAddr != oldIpAddr )
             {
-                m_Engine.getNetworkStateMachine().externalIpAddressHasChanged( oldIpAddr, newIpAddr );
                 m_Engine.getNetStatusAccum().setExternalIpAddress( newIpAddr );
             }
         }
@@ -403,8 +402,8 @@ std::string NetworkMonitor::determineLocalIp( void )
 
         // connect to connection test service
         connectToGoogleCnt = 0;
-        std::string connTestServiceIp = m_Engine.getNetworkStateMachine().getNetServiceIp();
-        uint16_t connTestServicePort = m_Engine.getNetworkStateMachine().getNetServicePort();
+        std::string connTestServiceIp = m_Engine.getNetStatusAccum().getConnectionTestHostName().c_str();
+        uint16_t connTestServicePort =  m_Engine.getNetStatusAccum().getConnectionTestHostPort();
         LogModule( eLogNetworkState, LOG_WARNING, "Attempting conection to  ptop://%s port %d", connTestServiceIp.c_str(), connTestServicePort);
 
         // try using net connection service

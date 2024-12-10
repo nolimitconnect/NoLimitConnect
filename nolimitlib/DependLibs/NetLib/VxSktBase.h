@@ -68,6 +68,9 @@ public:
 	uint64_t					m_u64FileLen{ 0 };
 };
 
+typedef void (*VX_SKT_CALLBACK)(std::shared_ptr<VxSktBase>&, void *);
+typedef void (*VX_SKT_MGR_STATUS_CALLBACK)(const char*, SOCKET, void*);
+
 class VxSktBase : public VxSktBuf, public VxSktThrottle
 {
 public:	

@@ -19,7 +19,6 @@
 #include "NetActionResolveNetworkHostUrl.h"
 #include "NetActionWaitForInternet.h"
 
-#include <Network/NetworkStateMachine.h>
 #include <Network/NetworkMgr.h>
 
 #include <P2PEngine/EngineSettingsDefaultValues.h>
@@ -546,14 +545,7 @@ bool NetServicesMgr::actionReqConnectToNetService( VxSktConnectSimple& sktSimple
 {
 	sktSimple.closeSkt();
 	std::string netSrvUrl;
-	if( m_Engine.getNetworkStateMachine().isNetworkWebsitesResolved() )
-	{
-		VxMakePtopUrl( m_Engine.getNetworkStateMachine().getNetServiceIp(), m_Engine.getNetworkStateMachine().getNetServicePort(), netSrvUrl );
-	}
-	else
-	{
-		m_EngineSettings.getConnectTestUrl( netSrvUrl );
-	}
+	m_EngineSettings.getConnectTestUrl( netSrvUrl );
 
 	std::string strHost;
 	std::string strFile;
@@ -589,14 +581,7 @@ VxSktConnectSimple * NetServicesMgr::actionReqConnectToHost( void )
 bool NetServicesMgr::actionReqConnectToHost( VxSktConnectSimple& sktSimple )
 {
 	std::string anchorUrl;
-	if( m_Engine.getNetworkStateMachine().isNetworkWebsitesResolved() )
-	{
-		VxMakePtopUrl( m_Engine.getNetworkStateMachine().getHostIp(), m_Engine.getNetworkStateMachine().getHostPort(), anchorUrl );
-	}
-	else
-	{
-		m_EngineSettings.getNetworkHostUrl( anchorUrl );
-	}
+	m_EngineSettings.getNetworkHostUrl( anchorUrl );
 
 	std::string strHost;
 	std::string strFile;
@@ -725,15 +710,6 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
         }
         else
         {
-			if( lclIp.empty() )
-			{
-				lclIp = portOpenConn1.getLocalIpAddress();
-				if( !lclIp.empty() && m_NetworkMgr.getLocalIpAddress().empty() )
-				{
-					m_NetworkMgr.setLocalIpAddress( lclIp );
-				}
-			}
-
             m_Engine.sendToGuiStatusMessage( "Success Connect lcl ip %s to connect test service %s.. starting test", lclIp.c_str(), netSrvUrl.c_str() );
 			if( userTest )
 			{

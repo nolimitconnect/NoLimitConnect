@@ -27,9 +27,6 @@ public:
 
 	VxClientMgr&				getClientMgr( void )			                            { return m_ClientMgr; }
 
-	virtual void				lockSktList( void ) override								{ m_SktListMutex.lock(); m_ClientMgr.lockSktList(); }
-	virtual void				unlockSktList( void ) override								{ m_SktListMutex.unlock(); m_ClientMgr.unlockSktList(); }
-
 	virtual int					getActiveSktCnt( void ) override;
 	virtual int					getToDeleteSktCnt( void ) override;
 

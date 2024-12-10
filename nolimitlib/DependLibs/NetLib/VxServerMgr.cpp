@@ -99,7 +99,7 @@ void VxServerMgr::listenSktWasOpened( bool ipv6, SOCKET listenSkt )
 {
     if( m_pfnSktMgrStatus )
     {
-        m_pfnSktMgrStatus( "ListenOpen", (void*)listenSkt, m_pvSktMgrStatusCallbackUserData );
+        m_pfnSktMgrStatus( "ListenOpen", listenSkt, m_pvSktMgrStatusCallbackUserData );
     }
 }
 
@@ -108,7 +108,7 @@ void VxServerMgr::listenSktWasClosed( bool ipv6, SOCKET listenSkt )
 {
     if( m_pfnSktMgrStatus )
     {
-        m_pfnSktMgrStatus( "ListenClose", (void*)listenSkt, m_pvSktMgrStatusCallbackUserData );
+        m_pfnSktMgrStatus( "ListenClose", listenSkt, m_pvSktMgrStatusCallbackUserData );
     }
 }
 
@@ -279,13 +279,26 @@ static int dumpSktStatsCnt = 0;
 
 	// add a skt to our list	
 	std::shared_ptr<VxSktBase> sktBase = makeNewAcceptSkt( VxIsIPv6Address( rmtIp.c_str() ) );
-	m_SktMgrMutex.lock(__FILE__, __LINE__); // dont let other threads mess with array while we add
+    if( sktBase.get() == nullptr )
+    {
+        LogMsg( LOG_ERROR, "%s makeNewAcceptSkt returned null", __func__ );
+        VxCloseSktNow( acceptSkt );
+        return 0;
+    }
+
+    #if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxServerMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	lockSktBaseMgr(); // dont let other threads mess with array while we add
 	m_aoSkts.emplace_back( sktBase );
 	// do tell skt to do accept stuff
 	sktBase->m_Socket = acceptSkt;
 	sktBase->setReceiveCallback( m_pfnOurReceive, this );
 	sktBase->setTransmitCallback( m_pfnOurTransmit, this );
-	m_SktMgrMutex.unlock(__FILE__, __LINE__);
+    #if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxServerMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 
     LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s doing accept skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 

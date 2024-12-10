@@ -237,9 +237,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	signal( SIGPIPE, SIG_IGN );
 #endif // !defined(TARGET_OS_WINDOWS)
 
-    // it can take up to 30 seconds on android to initialize sound devices so run in thread now
-    m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
-
 	// this just loads the ini file.
 	// the AppSettings database is not initialized until loadAccountSpecificSettings
 	m_AppSettings.loadProfile();
@@ -278,6 +275,9 @@ bool AppCommon::loadWithoutThread( void )
 	{
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
+
+	// once settings has been loaded the audo can be started
+    m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
 
 	getQApplication().setStyle( &m_AppStyle );
 
@@ -421,6 +421,7 @@ void AppCommon::shutdownAppCommon( void )
     {
         hasBeenShutdown = true;
         VxSetAppIsShuttingDown( true );
+		m_CamLogic.camLogicShutdown();
         fromGuiCloseEvent( eAppModuleAll );
 		ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
 		if( appPlayer )
@@ -429,9 +430,7 @@ void AppCommon::shutdownAppCommon( void )
 			appPlayer->onActivityFinish();
 		}
 
-		VxSleep( 1000 );
 		m_SoundMgr.sndMgrShutdown();
-        VxSleep( 1000 );
 
         QApplication::closeAllWindows();
         getEngine().fromGuiAppShutdown();

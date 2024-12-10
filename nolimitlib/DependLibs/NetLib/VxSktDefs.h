@@ -15,9 +15,6 @@
 
 class VxSktBase;
 
-typedef void (*VX_SKT_CALLBACK)(std::shared_ptr<VxSktBase>&, void *);
-typedef void (*VX_SKT_MGR_STATUS_CALLBACK)(const char*, void*, void*);
-
 #define MAX_DISCONNECTED_SKT_TO_KEEP_AROUND				50
 
 enum ESktMgrType

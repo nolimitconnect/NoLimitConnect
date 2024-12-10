@@ -12,7 +12,7 @@
 
 #include <Membership/MemberConfirmMgr.h>
 #include <NetworkMonitor/NetworkMonitor.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <Network/NetworkMgr.h>
 #include <NetServices/NetServicesMgr.h>
 #include <Plugins/PluginMgr.h>
@@ -94,7 +94,6 @@ void P2PEngine::onOncePerSecond( void )
     }
 
     m_NetworkMonitor.onOncePerSecond();
-    m_NetworkMgr.onOncePerSecond();
     m_PluginMgr.onOncePerSecond();
     GetMemberConfirmMgr().onOncePerSecond();
 

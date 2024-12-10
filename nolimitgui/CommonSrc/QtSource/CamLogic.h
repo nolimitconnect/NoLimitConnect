@@ -41,6 +41,9 @@ public:
     CamLogic( AppCommon& myApp );
     virtual ~CamLogic() = default;
 
+    void                        camLogicStartup( void );
+    void                        camLogicShutdown( void );
+
     void                        cameraEnable( bool wantVidCapture );
 
     bool                        isCamCaptureRequested( void );
@@ -72,7 +75,6 @@ signals:
 
 public slots:
     void                        slotNetAvailStatus( ENetAvailStatus netAvailStatus );
-    void                        camLogicStartup( void );
 
     void                        setCamera( const QCameraDevice& cameraDevice );
 
@@ -100,7 +102,6 @@ protected:
 
     void                        keyPressEvent( QKeyEvent *event ) override;
     void                        keyReleaseEvent( QKeyEvent *event ) override;
-    void                        closeEvent( QCloseEvent *event ) override;
 
     void                        selectVideoFormat( const QCameraDevice& cameraDevice );
 

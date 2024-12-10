@@ -13,7 +13,6 @@
 #include <BigListLib/BigListInfo.h>
 
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
-#include <Network/NetworkStateMachine.h>
 
 #include <OfferBase/OfferMgr.h>
 #include <Plugins/PluginNetServices.h>
@@ -160,7 +159,6 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         // m_BlobMgr.fromGuiUserLoggedOn();
         m_ThumbMgr.onPluginsInitialized();
 
-        m_NetworkStateMachine.fromGuiUserLoggedOn();
         m_SendQueueMgr.fromGuiUserLoggedOn();
         LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn done" );
         m_IsEngineReady = true;

@@ -13,7 +13,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <NetServices/NetServiceHdr.h>
 #include <NetServices/NetServiceUtils.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <Network/NetworkMgr.h>
 
 #include <CoreLib/VxDebug.h>

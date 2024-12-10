@@ -749,14 +749,20 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
 //============================================================================
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID& connectId )
 {
-    m_Engine.getPeerMgr().lockSktList();
+    #if defined(DEBUG_SKT_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockSktBaseMgr", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    m_Engine.getPeerMgr().lockSktBaseMgr();
     std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( connectId );
     if( sktBase )
     {
         sktBase = sktBase->isConnected() ? sktBase : nullptr;
     }
 
-    m_Engine.getPeerMgr().unlockSktList();
+    #if defined(DEBUG_SKT_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockSktBaseMgr", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    m_Engine.getPeerMgr().unlockSktBaseMgr();
     return sktBase;
 }
 

@@ -68,16 +68,18 @@ AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, Q
 
     connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
     statusMsg( "Requesting File List " );
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+
     slotApplyFileFilter( m_eFileFilterType );
     connectBarWidgets();
 
+    wantFileXferCallbacks( true );
     m_MyApp.activityStateChange( this, true );
 }
 
 //============================================================================
 AppletFileOfferSelect::~AppletFileOfferSelect()
 {
+    wantFileXferCallbacks( false );
     m_MyApp.activityStateChange( this, false );
 }
 
@@ -107,14 +109,14 @@ void AppletFileOfferSelect::showEvent( QShowEvent* ev )
 {
     AppletBase::showEvent( ev );
     m_MyApp.setIsLibraryActivityActive( true );
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+    wantFileXferCallbacks( true );
     slotRequestFileList();
 }
 
 //============================================================================
 void AppletFileOfferSelect::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+    wantFileXferCallbacks( false );
     AppletBase::hideEvent( ev );
     m_MyApp.setIsLibraryActivityActive( false );
 }
@@ -539,4 +541,14 @@ void AppletFileOfferSelect::onFileRemoved( FileInfo& fileInfo )
         ui.m_Path->clear();
         ui.m_OfferSendWidget->clearOffer();
     }
+}
+
+//============================================================================
+void AppletFileOfferSelect::wantFileXferCallbacks( bool enable )
+{
+	if( enable != m_FileXferCallbacksRequested )
+	{
+		m_FileXferCallbacksRequested = enable;
+		m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
+	}
 }

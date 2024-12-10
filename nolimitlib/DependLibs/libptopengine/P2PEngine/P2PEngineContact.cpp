@@ -10,7 +10,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <NetServices/NetServicesMgr.h>
 
 #include <BigListLib/BigListInfo.h>

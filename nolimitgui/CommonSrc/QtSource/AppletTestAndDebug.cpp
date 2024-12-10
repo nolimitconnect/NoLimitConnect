@@ -146,8 +146,6 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( this, SIGNAL(signalInfoMsg(const QString&)), this, SLOT(slotInfoMsg(const QString&)) );
 
     connect( ui.m_TestUrlsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotNewUrlSelected(int)) );
-    connect( &m_MyApp, SIGNAL(signalRunTestStatus(QString,ERunTestStatus,QString)),
-        this, SLOT(slotRunTestStatus(QString,ERunTestStatus,QString)) );
 
     updateDlgFromSettings();
 

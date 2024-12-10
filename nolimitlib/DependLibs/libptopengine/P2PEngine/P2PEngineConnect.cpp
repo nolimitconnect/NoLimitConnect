@@ -12,7 +12,7 @@
 #include <GuiInterface/IToGui.h>
 #include <Network/StayConnected.h>
 #include <NetworkMonitor/NetworkMonitor.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <Network/NetworkMgr.h>
 #include <NetServices/NetServicesMgr.h>
 

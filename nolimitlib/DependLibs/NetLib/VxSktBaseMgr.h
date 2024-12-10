@@ -11,17 +11,16 @@
 
 #include "VxSktThrottle.h"
 #include "VxSktDefs.h"
+#include "VxSktBase.h"
 
 #include <CoreLib/InetAddress.h>
 #include <CoreLib/VxMutex.h>
 
 #include <vector>
-#include <string>
 #include <memory>
 
 #define SKT_ALIVE_TIMEOUT (2 * 60 * 1000)
 
-class VxSktBase;
 class VxGUID;
 
 // implements a manager to manage multiple sockets
@@ -41,8 +40,29 @@ public:
 	virtual void				sktMgrStartup( bool ipv6 ) = 0;
 	virtual void				sktMgrShutdown( void );
 
-	virtual int					getActiveSktCnt( void )		{ lockSktList(); int activeCnt = (int)m_aoSkts.size(); unlockSktList(); return activeCnt; }
-	virtual int					getToDeleteSktCnt( void )	{ lockSktList(); int toDeleteCnt = (int)m_aoSktsToDelete.size(); unlockSktList(); return toDeleteCnt; }
+	virtual void				lockSktBaseMgr( void ) { m_SktMgrMutex.lock(); }
+	virtual void				unlockSktBaseMgr( void ) { m_SktMgrMutex.unlock(); }
+
+	virtual int					getActiveSktCnt( void )		{ 
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		lockSktBaseMgr(); int activeCnt = (int)m_aoSkts.size(); 
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		unlockSktBaseMgr(); return activeCnt; 
+	}
+	virtual int					getToDeleteSktCnt( void )	{ 
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		lockSktBaseMgr(); int toDeleteCnt = (int)m_aoSktsToDelete.size(); 
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		unlockSktBaseMgr(); return toDeleteCnt; 
+	}
 
 	//! make a new socket... give derived classes a chance to override
 	virtual std::shared_ptr<VxSktBase>			makeNewSkt( void );
@@ -73,10 +93,7 @@ public:
 	virtual	void				doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase );
 	//! handle transmit callbacks from sockets
 	virtual	void				doTransmitCallback( std::shared_ptr<VxSktBase>& sktBase );
-	//! lock access from other threads
-	virtual void				sktBaseMgrLock( void );
-	//! unlock access from other threads
-	virtual void				sktBaseMgrUnlock( void );
+
 	//! add a new socket to manage
 	virtual void				addSkt( std::shared_ptr<VxSktBase>& sktBase );
 	//! remove a socket from management
@@ -87,8 +104,6 @@ public:
     //! move to erase/delete when safe to do so
     virtual void				moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked = false );
 
-	virtual void				lockSktList( void )								{ m_SktListMutex.lock(); }
-    virtual void				unlockSktList( void )							{ m_SktListMutex.unlock(); }
 	// find a socket.. assumes list has been locked
 	virtual std::shared_ptr<VxSktBase>	findSktBase( const VxGUID& connectId, bool acceptSktsOnly = false );
 
@@ -108,7 +123,6 @@ public:
 	std::vector<std::shared_ptr<VxSktBase>>		m_aoSkts;					        // array of sockets to manage
 	std::vector<std::shared_ptr<VxSktBase>>		m_aoSktsToDelete;			        // skts that will be deleted after 10 sec 
 	VxMutex						m_SktMgrMutex;			            // thread mutex
-	VxMutex						m_SktListMutex;			            // thread mutex
 
 	VX_SKT_CALLBACK				m_pfnUserReceive{ nullptr };		// receive function must be set by user
 	VX_SKT_CALLBACK				m_pfnOurReceive{ nullptr };		    // our receive function to receive Socket states etc

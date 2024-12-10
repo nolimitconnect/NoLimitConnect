@@ -15,7 +15,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <NetServices/NetServiceHdr.h>
 #include <NetServices/NetServiceUtils.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <Network/NetworkMgr.h>
 #include <UrlMgr/UrlMgr.h>
 #include <NetServices/NetServiceUtils.h>
@@ -354,7 +354,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         netServConn.closeSkt();
         LogModule( eLogRunTest, LOG_ERROR, "RunUrlAction: sendData error %d", netServConn.getLastError() );
         sendRunTestStatus( urlAction, actionName, eRunTestStatusConnectionDropped, eNetCmdErrorTxFailed,
-			"Connected to %s but connection was dropped (wrong network key ?) %s", nodeUrl.c_str(), m_Engine.getNetworkMgr().getNetworkKey() );
+                          "Connected to %s but connection was dropped (wrong network key ?) %s", nodeUrl.c_str(), m_Engine.getNetworkMgr().getNetworkKey().c_str() );
 		return doRunTestFailed( urlAction, actionName, eRunTestStatusConnectionDropped, eNetCmdErrorTxFailed );
 	}
 
@@ -493,11 +493,6 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         else
         {
             sendRunTestStatus(  urlAction, actionName, eRunTestStatusMyPortIsClosed, netServiceHdr.getError(), "My ip %s port %d is NOT open (Relay will be required)", retMyExternalIp.c_str(), myPort );
-            if( m_Engine.getNetStatusAccum().getLocalIpAddress().length()
-                && m_Engine.getNetworkStateMachine().isCellularNetwork() )
-            {
-                sendTestLog(  urlAction, actionName, "Cellular data network. Cell phone providers block all ports. Consider using a VPN with port forward feature");
-            }
         }
 
         if( urlAction.getResultInterface() )

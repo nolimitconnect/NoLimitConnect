@@ -96,30 +96,20 @@ list(APPEND ptopengine_SOURCES
     NetServices/NetActionWaitForInternet.cpp
     NetServices/NetServiceUtils.cpp
     NetServices/NetServicesMgr.cpp
+
     Network/ConnectRequest.cpp
-    Network/DirectConnectTester.cpp
     Network/Firewall.cpp
-    Network/NetworkEventAvail.cpp
-    Network/NetworkEventBase.cpp
-    Network/NetworkEventLost.cpp
     Network/NetworkMgr.cpp
-    Network/NetworkStateAvail.cpp
-    Network/NetworkStateBase.cpp
-    Network/NetworkStateIpChange.cpp
-    Network/NetworkStateLost.cpp
-    Network/NetworkStateMachine.cpp
-    Network/NetworkStateOnlineDirect.cpp
-    Network/NetworkStateOnlineThroughRelay.cpp
-    Network/NetworkStateTestConnection.cpp
-    Network/NetworkStateWaitForRelay.cpp
     Network/StayConnected.h
     Network/StayConnected.cpp
+
     NetworkMonitor/NetStatusAccum.cpp
     NetworkMonitor/NetworkMonitor.cpp
 	NetworkTest/IsPortOpenTest.cpp
     NetworkTest/NetworkTestBase.cpp
     NetworkTest/PingResponseServer.cpp
     NetworkTest/RunUrlAction.cpp
+
     OfferBase/OfferBaseInfo.cpp
     OfferBase/OfferBaseInfoDb.cpp
     OfferBase/OfferBaseMgr.cpp
@@ -261,7 +251,7 @@ list(APPEND ptopengine_SOURCES
 )
 
 if(DEFINED TARGET_OS_ANDROID)
-find_package(Qt6 REQUIRED COMPONENTS Core Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 endif()
 
 add_library(ptopengine STATIC ${ptopengine_SOURCES} ${ptopengine_HEADERS})
@@ -276,7 +266,7 @@ if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "ptopengine sdk root ${ANDROID_SDK_ROOT}")
     message(STATUS "ptopengine cpu ${NLC_CPU}")
 
-    target_link_libraries(ptopengine Qt::Core Qt::CorePrivate Qt6::Quick)
+    target_link_libraries(ptopengine Qt::Core Qt::CorePrivate)
 endif()
 
 target_compile_definitions(ptopengine

@@ -22,7 +22,7 @@
 class P2PEngine;
 class VxPeerMgr;
 class BigListMgr;
-class P2PConnectList;
+class EngineSettings;
 class VxNetIdentBase;
 class VxSktBase;
 class VxGUID;
@@ -34,48 +34,27 @@ class NetworkMgr
 public:
 	NetworkMgr( P2PEngine&		engine, 
 				VxPeerMgr&		peerMgr,
-				BigListMgr&		bigListMgr,
-				P2PConnectList&	connectionList );
+				BigListMgr&		bigListMgr );
 	virtual ~NetworkMgr() = default;
 
-	P2PEngine&					getEngine( void )											{ return m_Engine; }
-	VxPeerMgr&					getPeerMgr( void )											{ return m_PeerMgr; }
+	P2PEngine&					getEngine( void )								{ return m_Engine; }
+	VxPeerMgr&					getPeerMgr( void )								{ return m_PeerMgr; }
 
-	void						setLocalIpAddress( std::string lclIp )						{ m_strLocalIpAddr = lclIp; }
-	std::string					getLocalIpAddress( void )									{ return m_strLocalIpAddr; }
-	void						setNetworkKey( std::string networkName );
-	const char*					getNetworkKey( void )										{ return m_NetworkName.c_str(); }
+	void						setNetworkKey( std::string networkName )		{ m_NetworkName = networkName; }
+	std::string					getNetworkKey( void )							{ return m_NetworkName; }
 
-	void						networkMgrStartup( void );
-	void						networkMgrShutdown( void );
+	void						updateFromEngineSettings( EngineSettings& engineSettings );
 
-	virtual void				fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetwork = false );
-	virtual void				fromGuiNetworkLost( void );
-    virtual ENetLayerState	    fromGuiGetNetLayerState( ENetLayerType netLayer = eNetLayerTypeInternet );
-
-    virtual bool				isInternetAvailable( void )									{ return eNetLayerStateAvailable == fromGuiGetNetLayerState( eNetLayerTypeInternet ); }
-
-	virtual bool				isNetworkAvailable( void )									{ return m_bNetworkAvailable; }
-	virtual bool				isCellularNetwork( void )									{ return m_bIsCellularNetwork; }
-
-	virtual void				onPktAnnUpdated( void );
-	virtual void				onOncePerSecond( void );
-
-	virtual	void				handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase );
-	virtual	void				handleSktMgrStatusCallback( const char* statParam, void* statValue );
+	void						handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase );
+	void						handleSktMgrStatusCallback( const char* sktAction, SOCKET sktHandle );
 
 protected:
 	P2PEngine&					m_Engine;
     PktAnnounce&				m_PktAnn;
     VxPeerMgr&					m_PeerMgr;
 	BigListMgr&					m_BigListMgr;
-	P2PConnectList&				m_ConnectList;
 
 	std::string					m_NetworkName;
 
-    bool						m_bNetworkAvailable{ false };
-	bool						m_bIsCellularNetwork{ false };
-	std::string					m_strLocalIpAddr;
-	InetAddress					m_LocalIp;
 };
 

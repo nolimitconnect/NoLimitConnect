@@ -170,11 +170,6 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 		return;
 	}
 
-	if( m_Plugin.isAppPaused() )
-	{
-		return;
-	}
-
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
     LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK

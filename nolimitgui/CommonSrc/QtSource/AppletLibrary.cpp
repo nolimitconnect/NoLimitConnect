@@ -70,16 +70,18 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
     connect( ui.m_FileMediaSelectWidget, SIGNAL(signalFileMediaSelected(EMediaFileType)), this, SLOT(slotFileMediaSelected(EMediaFileType)) );
 
     statusMsg( "Requesting Library File List " );
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+
     slotApplyFileFilter( m_eFileFilterType );
     connectBarWidgets();
 
+    wantFileXferCallbacks( true );
     m_MyApp.activityStateChange( this, true );
 }
 
 //============================================================================
 AppletLibrary::~AppletLibrary()
 {
+    wantFileXferCallbacks( false );
     m_MyApp.activityStateChange( this, false );
 }
 
@@ -88,14 +90,14 @@ void AppletLibrary::showEvent( QShowEvent* ev )
 {
     AppletBase::showEvent( ev );
     m_MyApp.setIsLibraryActivityActive( true );
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+    wantFileXferCallbacks( true );
     slotRequestFileList();
 }
 
 //============================================================================
 void AppletLibrary::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+    wantFileXferCallbacks( false );
     AppletBase::hideEvent( ev );
     m_MyApp.setIsLibraryActivityActive( false );
 }
@@ -680,5 +682,15 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
                 QMessageBox::information( this, QObject::tr("File Error"), QObject::tr( "Could not add file to library " ), QMessageBox::Ok );
             }
         }
+    }
+}
+
+//============================================================================
+void AppletLibrary::wantFileXferCallbacks( bool enable )
+{
+    if( m_FileXferCallbacksRequested != enable )
+    {
+        m_FileXferCallbacksRequested = enable;
+        m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
     }
 }

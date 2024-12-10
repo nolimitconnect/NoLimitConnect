@@ -20,7 +20,7 @@
 #include <BlobXferMgr/BlobMgr.h>
 
 #include <Network/NetworkMgr.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <NetworkTest/IsPortOpenTest.h>
 #include <NetworkTest/RunUrlAction.h>
@@ -191,7 +191,7 @@ void P2PEngine::fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffe
 		if( bigListInfo->getHasTextOffers() != hasTextOffers )
 		{
 			bigListInfo->setHasTextOffers( hasTextOffers );
-			m_BigListMgr.updateBigListDatabase( bigListInfo, getNetworkMgr().getNetworkKey() );
+			m_BigListMgr.updateBigListDatabase( bigListInfo, getNetworkMgr().getNetworkKey().c_str() );
 		}
 	}
 }
@@ -200,20 +200,6 @@ void P2PEngine::fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffe
 void P2PEngine::fromGuiQueryMyIdent( VxNetIdent* poRetIdent )
 {
 	memcpy( poRetIdent, (VxNetIdent*)&m_PktAnn, sizeof( VxNetIdent ) );
-}
-
-//============================================================================
-void P2PEngine::fromGuiAppPause( void )
-{
-	m_AppIsPaused = true;
-	m_PluginMgr.fromGuiAppPause();
-}
-
-//============================================================================
-void P2PEngine::fromGuiAppResume( void )
-{
-	m_AppIsPaused = false;
-	m_PluginMgr.fromGuiAppResume();
 }
 
 //============================================================================
@@ -1839,16 +1825,12 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 		}
 
 		getNetStatusAccum().setNetworkKey( networkKey );
-
-		// TODO remove this and use status accum instead
-		getNetworkMgr().setNetworkKey( networkKey );
-
 		getNetStatusAccum().setNetworkHostUrl( netHostSetting.getNetworkHostUrl() );
 		getNetStatusAccum().setConnectionTestHostUrl( netHostSetting.getConnectTestUrl() );
 
 		m_EngineSettings.setNetHostSettings( netHostSetting );
 		// TODO remove NetworkStateMachine
-		m_NetworkStateMachine.updateFromEngineSettings( m_EngineSettings );
+		m_NetworkMgr.updateFromEngineSettings( m_EngineSettings );
 	}
 
 	getNetStatusAccum().setFirewallTestType( (EFirewallTestType)netHostSetting.getFirewallTestType() );

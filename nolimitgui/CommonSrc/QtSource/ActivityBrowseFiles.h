@@ -91,6 +91,8 @@ protected:
 
 	bool						fileExistsInList( QString fileName );
 
+	void						wantFileXferCallbacks( bool enable );
+
 	Ui::BrowseFilesWidget&		ui;
 
 	std::string					m_CurBrowseDirectory;
@@ -105,6 +107,7 @@ protected:
 	FileInfo					m_SelectedFileInfo;
 
 	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
+	bool                        m_FileXferCallbacksRequested{ false };
 };
 
 

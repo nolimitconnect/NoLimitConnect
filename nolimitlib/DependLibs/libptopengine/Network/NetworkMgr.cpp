@@ -44,12 +44,12 @@ namespace
 		}
 	}
 
-	void NetworkSktMgrStatusCallbackHandler( const char* statParam, void* statValue, void* pvUserCallbackData )
+	void NetworkSktMgrStatusCallbackHandler( const char* sktAction, SOCKET sktHandle, void* pvUserCallbackData )
 	{
 		if( pvUserCallbackData )
 		{
 			NetworkMgr* netMgr = (NetworkMgr*)pvUserCallbackData;
-			netMgr->handleSktMgrStatusCallback( statParam, statValue );
+			netMgr->handleSktMgrStatusCallback( sktAction, sktHandle );
 		}
 	}
 }
@@ -57,131 +57,48 @@ namespace
 //============================================================================
 NetworkMgr::NetworkMgr( P2PEngine&		engine, 
 						VxPeerMgr&		peerMgr,
-						BigListMgr&		bigListMgr,
-						P2PConnectList&	connectionList
+						BigListMgr&		bigListMgr
 						)
 : m_Engine( engine )
 , m_PktAnn( engine.getMyPktAnnounce() )
 , m_PeerMgr( peerMgr )
 , m_BigListMgr( bigListMgr )
-, m_ConnectList( connectionList )
 {
-	VxSetNetworkLoopbackAllowed( false );
-
 	m_PeerMgr.setReceiveCallback( NetworkPeerSktCallbackHandler, this );
 	m_PeerMgr.setSktMgrStatusCallback( NetworkSktMgrStatusCallbackHandler, this );
 }
 
 //============================================================================
-void NetworkMgr::networkMgrStartup( void )
+void NetworkMgr::updateFromEngineSettings( EngineSettings& engineSettings )
 {
-	// set the network key immediately so services like NetService has it available durring startup
-	//NetHostSetting netHostSettings;
-	//m_Engine.getEngineSettings().getNetHostSettings( netHostSettings );
-	//setNetworkKey( netHostSettings.getNetworkKey() );
-	//m_PeerMgr.sktMgrStartup(netHostSettings.getUseIpv6());
-}
+    // TODO: should probably use a mutex here
+	uint16_t u16TcpPort = engineSettings.getTcpIpPort();
+	m_PktAnn.setOnlinePort( u16TcpPort );
 
-//============================================================================
-void NetworkMgr::networkMgrShutdown( void )
-{
-	//m_PeerMgr.sktMgrShutdown();
-}
+    m_Engine.getNetStatusAccum().setIpPort( u16TcpPort );
+	m_Engine.getPeerMgr().setUpnpEnable( engineSettings.getUseUpnpPortForward() );
 
-//============================================================================
-void NetworkMgr::setNetworkKey( std::string networkName )					
-{ 
-	m_NetworkName = networkName;
-}
-
-//============================================================================
-void NetworkMgr::fromGuiNetworkAvailable( const char* lclIp, bool isCellularNetwork )
-{
-    if( !lclIp )
-    {
-        LogMsg( LOG_SEVERE, "fromGuiNetworkAvailable invalid param lclIp is null" );
-        return;
-    }
-
-    std::string strIp = lclIp;
-    if( strIp.empty() )
-    {
-        LogMsg( LOG_ERROR, "fromGuiNetworkAvailable param lclIp is empty" );
-        return;
-    }
-
-    if( m_bNetworkAvailable 
-        && ( m_strLocalIpAddr == strIp )
-        && ( m_bIsCellularNetwork == isCellularNetwork ) )
-    {
-        LogModule( eLogNetworkMgr, LOG_DEBUG, "fromGuiNetworkAvailable but network already set to %s\n", m_strLocalIpAddr.c_str() );
-        return;
-    }
-
-	m_bIsCellularNetwork = isCellularNetwork;
-	m_strLocalIpAddr = lclIp;
-	m_LocalIp.setIp( lclIp );
-    m_bNetworkAvailable = true;
-
-	if( m_LocalIp.isValid() )
+	bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
+	EFirewallTestType firewallTestType = engineSettings.getFirewallTestSetting();
+	m_Engine.getNetStatusAccum().setFirewallTestType( firewallTestType );
+	if( eFirewallTestAssumeNoFirewall == firewallTestType )
 	{
-		m_Engine.getNetStatusAccum().setLocalIpAddress( m_LocalIp.toString() );
+		std::string externIp;
+		engineSettings.getUserSpecifiedExternIpAddr( externIp, ipv6 );
+		if( !externIp.empty() )
+		{
+			m_Engine.getNetStatusAccum().setDirectConnectTested( true, false, externIp );
+		}
 	}
 
-#if ENABLE_COMPONENT_NEARBY
-	m_NearbyMgr.fromGuiNetworkAvailable( lclIp, isCellularNetwork );
-#endif // ENABLE_COMPONENT_NEARBY
-}
-
-//============================================================================
-void NetworkMgr::fromGuiNetworkLost( void )
-{
-	m_bNetworkAvailable =  false ;
-#if ENABLE_COMPONENT_NEARBY
-	m_NearbyMgr.fromGuiNetworkLost();
-#endif // ENABLE_COMPONENT_NEARBY
-}
-
-//============================================================================
-ENetLayerState NetworkMgr::fromGuiGetNetLayerState( ENetLayerType netLayer )
-{
-    ENetLayerState netState = eNetLayerStateWrongType;
-    if( netLayer == eNetLayerTypeInternet )
+	std::string networkKey;
+	engineSettings.getNetworkKey( networkKey );
+    if( !networkKey.empty() && ( networkKey != getNetworkKey() ) )
     {
-        NetworkMonitor&	netMonitor = m_Engine.getNetworkMonitor();
-
-        if( !netMonitor.getIsInitialized() )
-        {
-            netState = eNetLayerStateUndefined;
-        }
-        else
-        {
-            netState = netMonitor.getIsInternetAvailable() ? eNetLayerStateAvailable : eNetLayerStateFailed;
-        }
-    }
-
-    return netState;
-}
-
-//============================================================================
-void NetworkMgr::onPktAnnUpdated( void )
-{
-#if ENABLE_COMPONENT_NEARBY
-	m_NearbyMgr.onPktAnnUpdated();
-#endif // ENABLE_COMPONENT_NEARBY
-}
-
-//============================================================================
-void NetworkMgr::onOncePerSecond( void )
-{
-	if ( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-	
-#if ENABLE_COMPONENT_NEARBY
-	m_NearbyMgr.onOncePerSecond();
-#endif // ENABLE_COMPONENT_NEARBY
+        setNetworkKey( networkKey.c_str() );
+        // will restore only if network key has changed
+        m_Engine.getBigListMgr().dbRestoreAll();
+    }	
 }
 
 //============================================================================
@@ -239,14 +156,14 @@ void NetworkMgr::handleTcpSktCallback( std::shared_ptr<VxSktBase>& sktBase )
 }
 
 //============================================================================
-void NetworkMgr::handleSktMgrStatusCallback( const char* statParam, void* statValue )
+void NetworkMgr::handleSktMgrStatusCallback( const char* sktAction, SOCKET sktHandle )
 {
-	if( statParam )
+	if( sktAction )
 	{
-		std::string sktMgrParam( statParam );
+		std::string sktMgrParam( sktAction );
 		if( !sktMgrParam.empty() )
 		{
-			m_Engine.sktMgrStatusCallback( sktMgrParam, (int64_t)statValue );
+			m_Engine.sktMgrStatusCallback( sktMgrParam, sktHandle );
 		}
 	}
 }

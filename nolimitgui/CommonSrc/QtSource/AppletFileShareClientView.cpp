@@ -728,9 +728,9 @@ void AppletFileShareClientView::slotAcceptButtonClicked( QListWidgetItem* item )
 //============================================================================
 void AppletFileShareClientView::wantFileXferCallbacks( bool enable )
 {
-	if( enable != m_FileXferCallbackRequested )
+	if( enable != m_FileXferCallbacksRequested )
 	{
-		m_FileXferCallbackRequested = enable;
+		m_FileXferCallbacksRequested = enable;
 		m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
 	}
 }

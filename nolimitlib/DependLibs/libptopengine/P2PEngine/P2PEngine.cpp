@@ -23,7 +23,7 @@
 #include <NetworkTest/IsPortOpenTest.h>
 #include <NetworkTest/RunUrlAction.h>
 #include <Network/NetworkMgr.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <Network/StayConnected.h>
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <NetServices/NetServicesMgr.h>
@@ -105,11 +105,10 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	, m_ConnectionList( *this )
 	, m_MediaProcessor( *( new MediaProcessor( *this ) ) )
 	, m_MemberActiveMgr( memberActiveMgr )
-	, m_NetworkMgr( *new NetworkMgr( *this, peerMgr, m_BigListMgr, m_ConnectionList ) )
+	, m_NetworkMgr( *new NetworkMgr( *this, peerMgr, m_BigListMgr ) )
 	, m_NetworkMonitor( *new NetworkMonitor( *this ) )
 	, m_NetServicesMgr( *new NetServicesMgr( *this ) )
 	, m_StayConnected( *new StayConnected( *this ) )
-	, m_NetworkStateMachine( *new NetworkStateMachine( *this, m_NetworkMgr ) )
 	, m_PluginMgr( *new PluginMgr( *this ) )
 	, m_PluginSettingMgr( *this )
     , m_PluginFileShareServer( new PluginFileShareServer( *this, m_PluginMgr, &m_PktAnn, ePluginTypeFileShareServer ) )
@@ -175,7 +174,8 @@ void P2PEngine::startupEngine()
     iniitializePtoPEngine();
 
 	m_RandConnectMgr.onEngineStartup();
-	m_NetworkStateMachine.stateMachineStartup();
+	m_NetServicesMgr.netServicesStartup();
+	m_StayConnected.stayConnectedStartup();
 	m_PluginMgr.onAppStartup();
 	m_IsPortOpenTest.isPortOpenTestStartup();
     LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::%s done", __func__ );
@@ -210,19 +210,19 @@ void P2PEngine::shutdownEngine( void )
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: stop listening" );
 	m_PeerMgr.stopListening( false );
 	m_PeerMgr.stopListening( true );
-	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: remove asset client" );
+	//LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: remove asset client" );
 	//m_AssetMgr.addAssetMgrClient( this, false );
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: shutdown media processor" );
 	m_MediaProcessor.shutdownMediaProcessor();
-	//VxUpdateSystemTime();
-	//m_NetworkMgr.networkMgrShutdown();
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_PeerMgr.sktMgrShutdown" );
 	m_PeerMgr.sktMgrShutdown();
 
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_PluginMgr.onAppShutdown" );
 	m_PluginMgr.onAppShutdown();
-	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_NetworkStateMachine.stateMachineShutdown" );
-	m_NetworkStateMachine.stateMachineShutdown();
+	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_StayConnected.stayConnectedShutdown" );
+	m_StayConnected.stayConnectedShutdown();
+	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_NetServicesMgr.netServicesShutdown" );
+	m_NetServicesMgr.netServicesShutdown();
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: m_PluginMgr.pluginMgrShutdown" );
 	m_PluginMgr.pluginMgrShutdown();
 	//m_RcScan.scanShutdown();

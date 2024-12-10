@@ -90,27 +90,19 @@ void VxSktBaseMgr::setSktMgrStatusCallback( VX_SKT_MGR_STATUS_CALLBACK pfnSktMgr
 }
 
 //============================================================================
-//! lock access from other threads
-void VxSktBaseMgr::sktBaseMgrLock( void )
-{
-    m_SktMgrMutex.lock(__FILE__, __LINE__);
-}
-
-//============================================================================
-//! unlock access from other threads
-void VxSktBaseMgr::sktBaseMgrUnlock( void )
-{
-    m_SktMgrMutex.unlock(__FILE__, __LINE__);
-}
-
-//============================================================================
 //! add a new socket to manage
 void VxSktBaseMgr::addSkt( std::shared_ptr<VxSktBase>& sktBase )
 {
 	//LogMsg( LOG_INFO, "Adding %s to VxSktBaseMgr skt list\n", sktBase->describeSktType().c_str() );
-	sktBaseMgrLock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	lockSktBaseMgr();
 	m_aoSkts.emplace_back( sktBase );
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 }
 
 //============================================================================
@@ -122,8 +114,10 @@ RCODE VxSktBaseMgr::removeSkt(  std::shared_ptr<VxSktBase>&	sktBase,		// skt to 
 	if( sktBase.get() )
 	{
 		//LogMsg( LOG_INFO, "Removing Skt ID %d  type %s from VxSktBaseMgr skt list\n", sktBase->getSktNumber(), sktBase->describeSktType().c_str() );
-
-		sktBaseMgrLock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		lockSktBaseMgr();
 		for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 		{
 			if( (iter->get()) == sktBase.get() )
@@ -136,7 +130,10 @@ RCODE VxSktBaseMgr::removeSkt(  std::shared_ptr<VxSktBase>&	sktBase,		// skt to 
 			}
 		}
 
-		sktBaseMgrUnlock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		unlockSktBaseMgr();
 	}
 	else
 	{
@@ -162,7 +159,10 @@ bool VxSktBaseMgr::isSktActive( std::shared_ptr<VxSktBase>& sktBase )
         return true;
     }
 
-	sktBaseMgrLock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	lockSktBaseMgr();
 	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		if( (*iter) == sktBase )
@@ -173,7 +173,10 @@ bool VxSktBaseMgr::isSktActive( std::shared_ptr<VxSktBase>& sktBase )
 		}
 	}
 
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 	return isActive;
 }
 
@@ -182,7 +185,10 @@ bool VxSktBaseMgr::isSktActive( std::shared_ptr<VxSktBase>& sktBase )
 void VxSktBaseMgr::sendToAll(	char * pData,			// data to send
 								int iDataLen )			// length of data
 {
-	sktBaseMgrLock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	lockSktBaseMgr();
 	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		std::shared_ptr<VxSktBase>& skt = (*iter);
@@ -200,7 +206,10 @@ void VxSktBaseMgr::sendToAll(	char * pData,			// data to send
 		}
 	}
 
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 }
 
 //============================================================================
@@ -208,8 +217,10 @@ void VxSktBaseMgr::sendToAll(	char * pData,			// data to send
 int VxSktBaseMgr::getConnectedCount( void )
 {
 	int iConnectedCnt = 0;
-
-	sktBaseMgrLock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	lockSktBaseMgr();
 	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		if( (*iter)->isConnected() )
@@ -218,7 +229,10 @@ int VxSktBaseMgr::getConnectedCount( void )
 		}
 	}
 
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 	return iConnectedCnt;
 }
 
@@ -226,7 +240,10 @@ int VxSktBaseMgr::getConnectedCount( void )
 //! close all sockets
 void VxSktBaseMgr::closeAllSkts( void )
 {
-	sktBaseMgrLock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	VxSktBaseMgr::lockSktBaseMgr();
 	for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 	{
 		if( (*iter)->isConnected() )
@@ -235,7 +252,10 @@ void VxSktBaseMgr::closeAllSkts( void )
 		}
 	}
 
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	VxSktBaseMgr::unlockSktBaseMgr();
 }
 
 //============================================================================
@@ -274,7 +294,10 @@ void VxSktBaseMgr::doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase )
 void VxSktBaseMgr::handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase )
 {
 	//LogMsg( LOG_INFO, "VxSktBaseMgr::handleSktCloseEvent: for skt %d 0x%x \n", sktBase->m_SktNumber, sktBase );
-    sktBaseMgrLock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockSktBaseMgr();
     uint64_t timeNow = GetTimeStampMs();
     for( auto& sktBase : m_aoSkts )
     {
@@ -290,7 +313,10 @@ void VxSktBaseMgr::handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase )
         }
     }
 
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 
     // put this skt in delete list to be deleted later
     moveToEraseList( sktBase );
@@ -314,7 +340,10 @@ void VxSktBaseMgr::doSktDeleteCleanup()
     {
         std::shared_ptr<VxSktBase> sktToDelete;
         deletedSkt = false;
-        sktBaseMgrLock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+        lockSktBaseMgr();
         auto iter = m_aoSktsToDelete.begin();
         // to be deleted sockets delete after 10 seconds
         while( iter != m_aoSktsToDelete.end() )
@@ -351,7 +380,10 @@ void VxSktBaseMgr::doSktDeleteCleanup()
             }
         }
 
-        sktBaseMgrUnlock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+        unlockSktBaseMgr();
     }   
 
     for( auto sktBase : deleteSktList )
@@ -377,7 +409,10 @@ void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sk
 	{
         if( !sktMgrLocked )
         {
-            m_SktMgrMutex.lock( __FILE__, __LINE__ ); // dont let other threads mess with array while we remove the socket
+			#if defined(DEBUG_SKT_MGR_LOCK)
+				LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+			#endif // defined(DEBUG_SKT_MGR_LOCK)
+            lockSktBaseMgr(); // dont let other threads mess with array while we remove the socket
         }
 
 
@@ -389,7 +424,10 @@ void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sk
 				LogMsg( LOG_ERROR, "%s socket %d handle %d alredy in to delete list", __func__, sktBase->getSktNumber(), sktBase->getSktHandle() );
                 if( !sktMgrLocked )
                 {
-                    m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+					#if defined(DEBUG_SKT_MGR_LOCK)
+						LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+					#endif // defined(DEBUG_SKT_MGR_LOCK)
+                    unlockSktBaseMgr();
                 }
 
 				return;
@@ -419,7 +457,10 @@ void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sk
 
         if( !sktMgrLocked )
         {
-            m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+			#if defined(DEBUG_SKT_MGR_LOCK)
+				LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+			#endif // defined(DEBUG_SKT_MGR_LOCK)
+            unlockSktBaseMgr();
         }
 	}
 	else
@@ -437,7 +478,10 @@ void VxSktBaseMgr::dumpSocketStats( const char* reason, bool fullDump )
     {
         int sktCnt = 0;
         uint64_t timeNow = GetTimeStampMs();
-        m_SktMgrMutex.lock( __FILE__, __LINE__ ); 
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+        lockSktBaseMgr(); 
         for( auto& sktBase : m_aoSkts )
         {
             sktCnt++;
@@ -451,7 +495,10 @@ void VxSktBaseMgr::dumpSocketStats( const char* reason, bool fullDump )
             }
         }
 
-        m_SktMgrMutex.unlock( __FILE__, __LINE__ );
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+        unlockSktBaseMgr();
     }
 }
 
@@ -462,7 +509,10 @@ bool VxSktBaseMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReas
 	if( connectId.isVxGUIDValid() )
 	{
 		std::shared_ptr<VxSktBase> sktBase( nullptr );
-		sktBaseMgrLock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		lockSktBaseMgr();
 		for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); ++iter )
 		{
 			if( ( *iter )->getSocketId() == connectId )
@@ -472,7 +522,10 @@ bool VxSktBaseMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReas
 			}
 		}
 
-		sktBaseMgrUnlock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+		unlockSktBaseMgr();
 		if( sktBase )
 		{
 			sktBase->closeSkt( closeReason, true );
@@ -486,13 +539,27 @@ bool VxSktBaseMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReas
 //============================================================================
 void VxSktBaseMgr::onOncePer30Seconds( VxGUID& myOnlineId )
 {
-	sktBaseMgrLock();
-	for( auto sktBase : m_aoSkts )
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	lockSktBaseMgr();
+    for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end(); )
 	{
-		sktBase->onOncePer30Seconds( myOnlineId );
+        if( iter->get() == nullptr )
+        {
+            LogMsg( LOG_ERROR, "%s nullptr in m_aoSkts", __func__ );
+            iter = m_aoSkts.erase( iter );
+        }
+        else
+        {
+            (*iter)->onOncePer30Seconds( myOnlineId );
+        }
 	}
 
-	sktBaseMgrUnlock();
+	#if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	unlockSktBaseMgr();
 }
 
 //============================================================================
@@ -500,20 +567,26 @@ void VxSktBaseMgr::sktWasClosed( VxSktBase* sktBaseIn, bool sktMgrLocked )
 {
     if( !sktMgrLocked )
     {
-        sktBaseMgrLock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+        lockSktBaseMgr();
     }
 
-    for( auto sktBase : m_aoSkts )
-    {
-        if( sktBase.get() == sktBaseIn )
+    for( auto iter = m_aoSkts.begin(); iter != m_aoSkts.end();  )
+	{
+        if(  iter->get() == sktBaseIn )
         {
-            moveToEraseList( sktBase, true );
+            moveToEraseList( *iter, true );
             break;
         }
     }
 
     if( !sktMgrLocked )
     {
-        sktBaseMgrUnlock();
+		#if defined(DEBUG_SKT_MGR_LOCK)
+			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
+		#endif // defined(DEBUG_SKT_MGR_LOCK)
+        unlockSktBaseMgr();
     }
 }

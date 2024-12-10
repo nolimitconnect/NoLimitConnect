@@ -159,7 +159,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
         if( false == sktBase->isRxEncryptionKeySet() )
 		{
 			// this data has not been decrypted.. set encryption key and decrypt it
-			GenerateRxConnectionKey( sktBase, &m_PktAnn.m_DirectConnectId, m_NetworkMgr.getNetworkKey() );
+			GenerateRxConnectionKey( sktBase, &m_PktAnn.m_DirectConnectId, m_NetworkMgr.getNetworkKey().c_str() );
 			sktBase->decryptReceiveData();
 			iDataLen = sktBase->getRxDecryptedLen();
 		}

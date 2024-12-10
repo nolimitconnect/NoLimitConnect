@@ -58,7 +58,7 @@ AppletPersonOfferList::AppletPersonOfferList( AppCommon& app,  QWidget* parent )
 //============================================================================
 AppletPersonOfferList::~AppletPersonOfferList()
 {
-	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+	//m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
     m_MyApp.activityStateChange( this, false );
 }
 

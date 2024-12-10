@@ -929,6 +929,7 @@ void NetStatusAccum::setConnectionTestHostUrl( std::string connectTestUrl )
     if( !webHostName.empty() )
     {
         lockAccum();
+        m_ConnectionTestHostName = webHostName;
         if( port )
         {
             m_ConnectionTestPort = port;
@@ -945,6 +946,16 @@ std::string NetStatusAccum::getConnectionTestHostUrl( void )
     std::string connectTestUrl = m_ConnectionTestUrl;
     unlockAccum();
     return connectTestUrl;
+}
+
+
+//============================================================================
+std::string NetStatusAccum::getConnectionTestHostName( void ) 
+{
+    lockAccum();
+    std::string connectTestHostName = m_ConnectionTestHostName;
+    unlockAccum();
+    return connectTestHostName;
 }
 
 //============================================================================

@@ -79,7 +79,7 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app, EFileFilterType fileFi
 
 	setFileFilter( m_eFileFilterType );
 	
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, true );
+    wantFileXferCallbacks( true );
 	setActionEnable( false );
 
 	connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this,  SLOT(slotApplyFileFilter(EFileFilterType)) );
@@ -90,7 +90,7 @@ ActivityBrowseFiles::ActivityBrowseFiles( AppCommon& app, EFileFilterType fileFi
 //============================================================================
 ActivityBrowseFiles::~ActivityBrowseFiles()
 {
-	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+	wantFileXferCallbacks( false );
 	clearFileList();
 }
 
@@ -99,13 +99,12 @@ void ActivityBrowseFiles::showEvent( QShowEvent* ev )
 {
 	ActivityBase::showEvent( ev );
 	repositionToParent();
-	//slotRequestFileList();
 }
 
 //============================================================================
 void ActivityBrowseFiles::hideEvent( QHideEvent* ev )
 {
-    m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+	wantFileXferCallbacks( false );
 	ActivityBase::hideEvent( ev );
 }
 
@@ -423,7 +422,7 @@ void ActivityBrowseFiles::slotListItemDoubleClicked( QListWidgetItem* item )
 
 					m_MyApp.activityStateChange( this, false );
 					wantActivityCallbacks( false );					
-					m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
+					wantFileXferCallbacks( false );
 
 					delayedCloseApplet();
 				}
@@ -676,4 +675,14 @@ bool ActivityBrowseFiles::fileExistsInList( QString fileName )
 	}
 
 	return false;
+}
+
+//============================================================================
+void ActivityBrowseFiles::wantFileXferCallbacks( bool enable )
+{
+	if( enable != m_FileXferCallbacksRequested )
+	{
+		m_FileXferCallbacksRequested = enable;
+		m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
+	}
 }

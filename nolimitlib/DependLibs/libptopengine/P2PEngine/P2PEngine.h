@@ -68,7 +68,7 @@ class RcConnectInfo;
 class MediaProcessor;
 class MemberActiveMgr;
 class NetworkMgr;
-class NetworkStateMachine;
+
 class StayConnected;
 class NetworkMonitor;
 class NetServicesMgr;
@@ -131,10 +131,9 @@ public:
     IgnoreListMgr&              getIgnoreListMgr( void )                        { return m_IgnoreListMgr; }
     MemberActiveMgr&            getMemberActiveMgr( void )                      { return m_MemberActiveMgr; }
 
-    StayConnected&				getStayConnected( void )							{ return m_StayConnected; }
+    StayConnected&				getStayConnected( void )						{ return m_StayConnected; }
     NetStatusAccum&             getNetStatusAccum( void )                       { return m_NetStatusAccum; }
     NetworkMgr&					getNetworkMgr( void )							{ return m_NetworkMgr; }
-    NetworkStateMachine&		getNetworkStateMachine( void )					{ return m_NetworkStateMachine; }
 	NetworkMonitor&				getNetworkMonitor( void )						{ return m_NetworkMonitor; } 
 	NetServicesMgr&				getNetServicesMgr( void )						{ return m_NetServicesMgr; }
 	MediaProcessor&				getMediaProcessor( void )						{ return m_MediaProcessor; }
@@ -159,8 +158,6 @@ public:
     WebPageMgr&                 getWebPageMgr( void )                           { return m_WebPageMgr; }
 
     std::shared_ptr<VxSktBase>& getSktLoopback( void )                          { return m_SktLoopback; }
-
-	bool						isAppPaused( void )								{ return m_AppIsPaused; }
 
     bool						isInternetAvailable( void );        // is internet available
     bool						isDirectConnectTested( void );      // has direct connect test completed
@@ -223,8 +220,6 @@ public:
     virtual uint64_t			fromGuiGetDiskFreeSpace( const char* dir = nullptr  ) override;
     virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) override;
     virtual void				fromGuiAppShutdown( void  ) override;
-    virtual void				fromGuiAppPause( void ) override;
-    virtual void				fromGuiAppResume( void ) override;
 
     virtual void				fromGuiOnlineNameChanged( const char* newOnlineName ) override;
     virtual void				fromGuiMoodMessageChanged( const char* newMoodMessage ) override;
@@ -495,7 +490,7 @@ public:
 
 	bool						shouldInfoBeInDatabase( BigListInfo * poInfo );
 
-    void                        sktMgrStatusCallback( std::string& statParam, int64_t statValue );
+    void                        sktMgrStatusCallback( std::string& sktAction, SOCKET sktHandle );
 
 	//! called if hacker offense is detected
     void						hackerOffense(  enum EHackerLevel	hackerLevel,
@@ -792,7 +787,6 @@ protected:
 	NetworkMonitor&				m_NetworkMonitor;
 	NetServicesMgr&				m_NetServicesMgr;
 	StayConnected&				m_StayConnected;
-	NetworkStateMachine&		m_NetworkStateMachine;
 
 	PluginMgr&					m_PluginMgr;
     PluginSettingMgr			m_PluginSettingMgr;
@@ -821,7 +815,7 @@ protected:
 	unsigned int				m_iCurPreferredRelayConnectIdx{ 0 };
 	VxGUID						m_NextFileInstance;
     bool						m_AppStartupCalled{ false };
-	bool						m_AppIsPaused{ false };
+
 	bool						m_IsUserSpecificDirSet{ false };
     bool                        m_EngineInitialized{ false };
     bool                        m_IsEngineCreated{ false };

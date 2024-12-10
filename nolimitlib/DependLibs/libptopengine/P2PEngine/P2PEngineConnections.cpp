@@ -118,19 +118,19 @@ void P2PEngine::onContactDisconnected( RcConnectInfo * poInfo, bool connectionLi
 }
 
 //============================================================================
-void P2PEngine::sktMgrStatusCallback( std::string& statParam, int64_t statValue )
+void P2PEngine::sktMgrStatusCallback( std::string& sktAction, SOCKET sktHandle )
 {
 	if( !VxIsAppShuttingDown() )
 	{
-		LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::sktMgrStatusCallback param %s value %lld", statParam.c_str(), statValue );
+		LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::sktMgrStatusCallback param %s value %d", sktAction.c_str(), sktHandle );
 	}
 
-	if( statParam == "ListenClose" )
+	if( sktAction == "ListenClose" )
 	{
 		getEngineParams().setLastListenSocket( 0 );
 	}
-	else if( statParam == "ListenOpen" )
+	else if( sktAction == "ListenOpen" )
 	{
-		getEngineParams().setLastListenSocket( statValue );
+		getEngineParams().setLastListenSocket( sktHandle );
 	}
 }

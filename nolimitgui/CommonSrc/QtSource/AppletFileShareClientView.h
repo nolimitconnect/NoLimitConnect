@@ -93,5 +93,5 @@ protected:
 	EFileFilterType				m_eFileFilterType{ eFileFilterAll };
 	VxGUID						m_LclSessionId;
 	VxGUID                      m_HisOnlineId;
-	bool						m_FileXferCallbackRequested{ false };
+	bool						m_FileXferCallbacksRequested{ false };
 };

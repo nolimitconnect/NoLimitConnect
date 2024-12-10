@@ -84,7 +84,6 @@ public:
 
 	virtual bool				isAccessAllowed( VxNetIdent* netIdent, bool logAccessError = true, const char* accessReason = nullptr );
 
-	virtual bool				isAppPaused( void )										{ return m_AppIsPaused; }
 	virtual void				setIsPluginInSession( bool inSession )					{ m_bPluginIsInSession = inSession; }
 	virtual bool				getIsPluginInSession( void )							{ return m_bPluginIsInSession; }
 
@@ -155,8 +154,6 @@ public:
 
 	virtual void				onAppStartup( void );
 	virtual void				onAppShutdown( void );
-	virtual void				fromGuiAppPause( void );
-	virtual void				fromGuiAppResume( void );
 
 	virtual void				onSpeexData( uint16_t * pu16SpeexData, uint16_t u16SpeexDataLen )							{};
 	virtual void				fromGuiVideoData( uint8_t * pu8VidData, uint32_t u32VidDataLen, int iRotation )				{};
@@ -322,5 +319,4 @@ protected:
 
 	bool						m_bPluginIsInSession = false;
 	bool						m_ServerIsInSession = false;
-	bool						m_AppIsPaused = false;
 };

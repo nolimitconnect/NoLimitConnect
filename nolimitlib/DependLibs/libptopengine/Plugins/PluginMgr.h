@@ -61,8 +61,6 @@ public:
 
 	virtual void				onMyOnlineUrlIsValid( bool isValidUrl );
 
-	virtual void				fromGuiNetworkAvailable( void );
-
 	virtual void				fromGuiUserLoggedOn( void );
 
 	virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID& oOnlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
@@ -114,8 +112,6 @@ public:
 	virtual void				onAppStartup( void );
 	virtual void				onAppShutdown( void );
 
-	virtual void				fromGuiAppPause( void );
-	virtual void				fromGuiAppResume( void );
 	virtual void				fromGuiListAction( EListAction listAction );
 
 	virtual void				onOncePerSecond( void );

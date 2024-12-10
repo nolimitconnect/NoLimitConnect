@@ -1668,6 +1668,12 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 		return;
 	}
 
+    if( !isConnected() )
+    {
+        // do not send alive so connection will timeout if for some reason it never closed
+        return;
+    }
+
 	if( isTempConnection() )
 	{
 		// do not send alive so connection will timeout if for some reason it never closed

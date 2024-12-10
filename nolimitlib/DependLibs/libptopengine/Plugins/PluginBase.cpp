@@ -413,18 +413,6 @@ void PluginBase::onAppShutdown( void )
 }
 
 //============================================================================ 
-void PluginBase::fromGuiAppPause( void )
-{
-	m_AppIsPaused = true;
-}
-
-//============================================================================ 
-void PluginBase::fromGuiAppResume( void )
-{
-	m_AppIsPaused = false;
-}
-
-//============================================================================ 
 EPluginType PluginBase::getDestinationPluginOverride( EHostType hostType )
 {
     if( eHostTypeNetwork == hostType )

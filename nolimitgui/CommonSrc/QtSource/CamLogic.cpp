@@ -54,8 +54,29 @@ void CamLogic::camLogicStartup( void )
 }
 
 //============================================================================
+void CamLogic::camLogicShutdown( void )
+{
+    if( m_StartupWasCompleted )
+    {
+        m_StartupWasCompleted = false;
+        m_mediaRecorder->stop();
+        if( !m_camera.isNull() )
+        {
+            m_camera->stop();
+        }
+
+        m_VideoFrameProcessor.enableProcessing( false );
+    }
+}
+
+//============================================================================
 void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
     m_WantCamInput[appModule] = wantVidCapture;
 
     if( getCamStartupCompleted() )
@@ -215,22 +236,17 @@ bool CamLogic::initializeCam( void )
 //============================================================================
 bool CamLogic::getCamStartupCompleted( void )                          
 { 
-    if( VxIsAppShuttingDown() )
-    {
-        if( m_CamIsStarted )
-        {
-            stopCamera();
-        }
-
-        return false;
-    }
-
     return m_StartupWasCompleted; 
 }
 
 //============================================================================
 void CamLogic::setCamera( const QCameraDevice& cameraDevice )
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
     int timeStart = GetApplicationAliveMs();
     m_DesiredFrameSize = GuiParams::getSnapshotDesiredSize();
     bool isStarted = m_CamIsStarted;
@@ -279,6 +295,11 @@ void CamLogic::setCamera( const QCameraDevice& cameraDevice )
 //============================================================================
 void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
     if( m_camera->cameraFormat().isNull() ) 
     {
         // Setting default settings.
@@ -472,6 +493,11 @@ void CamLogic::displayCaptureError( int id, const QImageCapture::Error error, co
 //============================================================================
 void CamLogic::startCamera()
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
     if( getCamStartupCompleted() )
     {
         if( !m_camera.isNull() && !m_CamIsStarted )
@@ -519,14 +545,13 @@ void CamLogic::displayCameraError()
 }
 
 //============================================================================
-void CamLogic::closeEvent( QCloseEvent *event )
-{
-    event->accept();
-}
-
-//============================================================================
 void CamLogic::nextCamera( void )
 {
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
     const QList<QCameraDevice> availableCameras = QMediaDevices::videoInputs();
     bool foundDevice = false;
     bool setNewDevice = false;

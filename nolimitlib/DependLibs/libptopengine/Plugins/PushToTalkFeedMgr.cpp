@@ -205,11 +205,6 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 		return;
 	}
 
-	if( m_Plugin.isAppPaused() )
-	{
-		return;
-	}
-
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogModule( eLogMediaStream, LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq PluginBase::AutoPluginLock autoLock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK

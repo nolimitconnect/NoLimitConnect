@@ -31,7 +31,6 @@ void P2PEngine::doPktAnnHasChanged( bool connectionListIsLocked )
 		return;
 	}
 
-	m_NetworkMgr.onPktAnnUpdated();
 	PktAnnounce oPktAnn;
 	BigListInfo * poBigInfo;
 

@@ -247,16 +247,6 @@ void PluginMgr::pluginMgrShutdown( void )
 }
 
 //============================================================================
-void PluginMgr::fromGuiNetworkAvailable( void )
-{
-	std::vector<PluginBase* >::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
-	{
-		(*iter)->fromGuiAppResume();
-	}
-}
-
-//============================================================================
 //! get plugin state 
 EAppState PluginMgr::getPluginState( EPluginType pluginType )								
 { 
@@ -608,10 +598,10 @@ void PluginMgr::onAppStateChange( EAppState eAppState )
 		onAppShutdown();
 		break;
 	case eAppStatePause:
-		fromGuiAppPause();
+		//fromGuiAppPause();
 		break;
 	case eAppStateResume:
-		fromGuiAppResume();
+		//fromGuiAppResume();
 		break;
 	default:
 		break;
@@ -639,26 +629,6 @@ void PluginMgr::onAppShutdown( void )
 	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
 	{
 		(*iter)->onAppShutdown();
-	}
-}
-
-//============================================================================
-void PluginMgr::fromGuiAppPause( void )
-{
-	std::vector<PluginBase* >::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
-	{
-		(*iter)->fromGuiAppPause();
-	}
-}
-
-//============================================================================
-void PluginMgr::fromGuiAppResume( void )
-{
-	std::vector<PluginBase* >::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
-	{
-		(*iter)->fromGuiAppResume();
 	}
 }
 

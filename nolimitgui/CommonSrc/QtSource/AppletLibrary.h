@@ -90,6 +90,8 @@ protected:
 
     void                        browseForFile( EMediaFileType mediaFileType );
 
+    void                        wantFileXferCallbacks( bool enable );
+
     //=== vars ===//
     Ui::AppletLibraryUi&	    ui;
     EPluginType					m_ePluginType;
@@ -101,6 +103,7 @@ protected:
     bool						m_SelectedFileIsShared{ false };
     bool						m_SelectedFileIsInLibrary{ false };
     EFileFilterType				m_eFileFilterType{ eFileFilterAll };
+    bool                        m_FileXferCallbacksRequested{ false };
 };
 
 

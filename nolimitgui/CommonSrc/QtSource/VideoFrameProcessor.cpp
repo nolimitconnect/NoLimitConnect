@@ -17,6 +17,7 @@
 #include <MediaProcessor/MediaProcessor.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 namespace
 {
@@ -61,7 +62,7 @@ void VideoFrameProcessor::enableProcessing( bool enable )
 //============================================================================
 void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
 {
-    if( !m_ProcessFramesEnabled )
+    if( !m_ProcessFramesEnabled || VxIsAppShuttingDown() )
     {
         return;
     }
@@ -108,7 +109,7 @@ void VideoFrameProcessor::run( void )
     while( m_ProcessFramesEnabled )
     {
         m_FrameSemaphore.wait();
-        if( !m_ProcessFramesEnabled )
+        if( !m_ProcessFramesEnabled || VxIsAppShuttingDown() )
         {
             return;
         }

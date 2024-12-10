@@ -58,11 +58,6 @@ public:
 	/// deletes cached files and returns amount of disk space deleted
 	virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) = 0;
 
-	/// Call to engine when application is paused
-	virtual void				fromGuiAppPause( void  ) = 0;
-	/// Call to engine when application is resumed
-	virtual void				fromGuiAppResume( void  ) = 0; 
-
 	/// Axis orientation of device changed 
 	virtual bool				fromGuiOrientationEvent( float f32RotX, float f32RotY, float f32RotZ ) = 0;
 	/// Mouse or touch event

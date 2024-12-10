@@ -15,7 +15,7 @@
 #include <BigListLib/BigListMgr.h>
 #include <BigListLib/BigListInfo.h>
 #include <Network/NetworkMgr.h>
-#include <Network/NetworkStateMachine.h>
+
 #include <P2PEngine/P2PEngine.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 
@@ -769,7 +769,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
 
         LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating rx key" );
 
-        GenerateRxConnectionKey( sktBase, &m_Engine.getMyPktAnnounce().m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey() );
+        GenerateRxConnectionKey( sktBase, &m_Engine.getMyPktAnnounce().m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey().c_str() );
 
         if( !sktBase->isConnected() )
         {

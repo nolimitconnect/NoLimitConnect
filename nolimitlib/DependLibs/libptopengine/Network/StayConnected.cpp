@@ -10,7 +10,6 @@
 
 #include "StayConnected.h"
 #include <Network/NetworkMgr.h>
-#include <Network/NetworkStateMachine.h>
 
 #include <P2PEngine/P2PEngine.h>
 

@@ -148,7 +148,6 @@ public:
 
     void                        setNetworkHostUrl( std::string netHostUrl );
     std::string                 getNetworkHostUrl( void );
-
     std::string                 getNetworkHostName( void ); // just host name or ip
     uint16_t                    getNetworkHostPort( void );
 
@@ -158,6 +157,7 @@ public:
     // when using connection test host that is not us
     void                        setConnectionTestHostUrl( std::string connectTestUrl );
     std::string                 getConnectionTestHostUrl( void );
+    std::string                 getConnectionTestHostName( void ); // just connection test name or ip
     uint16_t                    getConnectionTestHostPort( void );
 
     void                        threadedSetupListen( void );
@@ -208,6 +208,7 @@ protected:
     VxGUID                      m_NetNostOnlineId;
 
     std::string                 m_ConnectionTestUrl; // full connection test host url
+    std::string                 m_ConnectionTestHostName; // just connect test name or ip
     uint16_t                    m_ConnectionTestPort{ 0 }; // connection test host port
 
     EFirewallTestType           m_FirewallTestType{ eFirewallTestUrlConnectionTest };

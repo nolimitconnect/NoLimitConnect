@@ -79,12 +79,15 @@ protected:
 
     bool                        verifyFile( void );
 
+    void                        wantFileXferCallbacks( bool enable );
+
     //=== vars ===//
     Ui::AppletFileOfferSelectUi&	ui;
     bool						m_IsSelectAFileMode{ false };
     bool						m_FileWasSelected{ false };
     FileInfo                    m_FileInfo;
     EFileFilterType				m_eFileFilterType{ eFileFilterAll };
+    bool                        m_FileXferCallbacksRequested{ false };
 };
 
 

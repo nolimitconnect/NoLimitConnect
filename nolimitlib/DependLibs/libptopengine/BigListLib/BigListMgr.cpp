@@ -299,7 +299,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 
 			if( m_Engine.shouldInfoBeInDatabase( poInfo ) )
 			{
-				updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey() );
+				updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey().c_str() );
 			}
 			else
 			{
@@ -325,7 +325,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 
 			if( m_Engine.shouldInfoBeInDatabase( poInfo ) )
 			{
-				updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey() );
+				updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey().c_str() );
 			}
 			else
 			{
