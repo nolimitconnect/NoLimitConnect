@@ -753,6 +753,9 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID& connectId )
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockSktBaseMgr", __func__ );
     #endif // defined(DEBUG_SKT_MGR_LOCK)
     m_Engine.getPeerMgr().lockSktBaseMgr();
+    #if defined(DEBUG_SKT_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockSktBaseMgr done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
     std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( connectId );
     if( sktBase )
     {

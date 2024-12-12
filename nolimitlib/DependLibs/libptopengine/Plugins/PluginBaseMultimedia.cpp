@@ -601,6 +601,9 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& request
 					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr", __func__ );
 				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 m_Engine.getPeerMgr().lockSktBaseMgr();
+				#if defined(DEBUG_SKT_MGR_LOCK)
+					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr locked", __func__ );
+				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {
@@ -680,6 +683,9 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& exclude
 					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr", __func__ );
 				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 m_Engine.getPeerMgr().lockSktBaseMgr();
+				#if defined(DEBUG_SKT_MGR_LOCK)
+					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr locked", __func__ );
+				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {

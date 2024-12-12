@@ -42,7 +42,7 @@ namespace
 	const char* ASSET_INFO_DB_NAME = "AssetBaseInfoDb.db3";
 
 	//============================================================================
-    static void * AssetBaseMgrGenHashIdsThreadFunc( void * pvContext )
+    static void * AssetBaseMgrStartupThreadFunc( void * pvContext )
 	{
 		VxThread* poThread = (VxThread*)pvContext;
 		poThread->setIsThreadRunning( true );
@@ -160,7 +160,7 @@ void AssetBaseMgr::onPluginsInitialized( void )
 	if( !m_Initialized )
 	{
 		m_Initialized = true;
-		m_GenHashThread.startThread( (VX_THREAD_FUNCTION_T)AssetBaseMgrGenHashIdsThreadFunc, this, "AssetBaseMgrGenHash" );			
+		m_AssetMgrStartupThread.startThread( (VX_THREAD_FUNCTION_T)AssetBaseMgrStartupThreadFunc, this, "AssetBaseMgrStartup" );			
 	}
 }
 
@@ -180,16 +180,12 @@ void AssetBaseMgr::assetInfoMgrStartup( VxThread* startupThread )
 		return;
 	updateAssetListFromDb( startupThread );
 	m_AssetBaseListInitialized = true;
-	if( startupThread->isAborted() )
-		return;
-	generateHashIds( startupThread );
 }
 
 //============================================================================
 void AssetBaseMgr::assetInfoMgrShutdown( void )
 {
-	m_GenHashThread.abortThreadRun( true );
-	m_GenHashSemaphore.signal();
+	m_AssetMgrStartupThread.abortThreadRun( true );
 	lockResources();
 	clearAssetInfoList();
 	clearAssetFileListPackets();
@@ -197,82 +193,6 @@ void AssetBaseMgr::assetInfoMgrShutdown( void )
 	unlockResources();
 	m_AssetBaseListInitialized = false;
 	m_Initialized = false;
-}
-
-//============================================================================
-void AssetBaseMgr::generateHashForFile( std::string fileNameAndPath )
-{
-	m_GenHashMutex.lock();
-    m_GenHashList.emplace_back( fileNameAndPath );
-	m_GenHashMutex.unlock();
-	m_GenHashSemaphore.signal();
-}
-
-//============================================================================
-void AssetBaseMgr::generateHashIds( VxThread* genHashThread )
-{
-	while( false == genHashThread->isAborted() )
-	{
-		m_GenHashSemaphore.wait(1000);
-		if( genHashThread->isAborted() )
-		{
-			return;
-		}
-
-		while( m_GenHashList.size() )
-		{
-			if( genHashThread->isAborted() )
-			{
-				return;
-			}
-
-			VxSha1Hash fileHash;
-			m_GenHashMutex.lock();
-			std::string thisFile = m_GenHashList[0];
-			m_GenHashList.erase( m_GenHashList.begin() );
-			m_GenHashMutex.unlock();
-			if( fileHash.generateHashFromFile( thisFile.c_str(), genHashThread ) )
-			{
-				if( genHashThread->isAborted() )
-				{
-					return;
-				}
-
-				std::vector<AssetBaseInfo*>::iterator iter;
-				AssetBaseInfo* assetInfo = 0;
-				lockResources();
-				// move from waiting to completed
-				for( iter = m_WaitingForHastList.begin(); iter != m_WaitingForHastList.end(); ++iter )
-				{
-					AssetBaseInfo* inListAssetBaseInfo = *iter;
-                    if( inListAssetBaseInfo->getFileNameAndPath() == thisFile )
-					{
-						assetInfo = inListAssetBaseInfo;
-						m_WaitingForHastList.erase( iter );
-						assetInfo->setAssetHashId( fileHash );
-						m_AssetBaseInfoList.emplace_back( assetInfo );
-						break;
-					}
-				}
-
-				unlockResources();
-				std::vector<AssetBaseCallbackInterface *>::iterator callbackIter;
-				lockClientList();
-				for( callbackIter = m_AssetClients.begin(); callbackIter != m_AssetClients.end(); ++callbackIter )
-				{
-					AssetBaseCallbackInterface * client = *callbackIter;
-					client->callbackHashIdGenerated( thisFile, fileHash );
-				}
-
-				unlockClientList();
-				if( assetInfo )
-				{
-					m_AssetBaseInfoDb.addAsset( assetInfo );
-					announceAssetAdded( assetInfo );
-				}
-			}
-		}
-	}
 }
 
 //============================================================================
@@ -842,9 +762,9 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 
 			if( assetInfo->needsHashGenerated() )
 			{
-				m_WaitingForHastList.push_back( assetInfo );
+				m_WaitingForHastList.emplace_back( assetInfo );
 				m_AssetBaseInfoList.erase( iter );
-                generateHashForFile( assetInfo->getAssetNameAndPath() );
+                requestFileHash( assetInfo );
 				movedToGenerateHash = true;
 				break;
 			}
@@ -1537,18 +1457,45 @@ void AssetBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxG
 	if( eSha1GenResultNoError == sha1GenResult )
 	{
 		lockResources();
-		for( auto* assetInfo : m_AssetBaseInfoList )
+
+		// move from waiting to completed
+		bool wasMoved{ false };
+		for( auto iter = m_WaitingForHastList.begin(); iter != m_WaitingForHastList.end(); ++iter )
 		{
-			if( assetId == assetInfo->getAssetUniqueId() && sha1Info.getFileNameAndPath() == assetInfo->getAssetNameAndPath() )
+			AssetBaseInfo* inListAssetBaseInfo = *iter;
+			if( assetId == inListAssetBaseInfo->getAssetUniqueId() && sha1Info.getFileNameAndPath() == inListAssetBaseInfo->getAssetNameAndPath() )
 			{
-				assetInfo->setAssetHashId( sha1Info.getSha1Hash() );
-				updateDatabase( assetInfo );
+				AssetBaseInfo* toMoveAssetInfo = inListAssetBaseInfo;
+				m_WaitingForHastList.erase( iter );
+				toMoveAssetInfo->setAssetHashId( sha1Info.getSha1Hash() );
+				m_AssetBaseInfoList.emplace_back( toMoveAssetInfo );
+				updateDatabase( toMoveAssetInfo );
+				announceAssetAdded( toMoveAssetInfo );
+				wasMoved = true;
 				break;
 			}
 		}
 
+		bool wasFound{ false };
+		if( !wasMoved )
+		{
+			for( auto* assetInfo : m_AssetBaseInfoList )
+			{
+				if( assetId == assetInfo->getAssetUniqueId() && sha1Info.getFileNameAndPath() == assetInfo->getAssetNameAndPath() )
+				{
+					assetInfo->setAssetHashId( sha1Info.getSha1Hash() );
+					updateDatabase( assetInfo );
+					wasFound = true;
+					break;
+				}
+			}
+		}
+
 		unlockResources();
-		m_Engine.getPluginFileShareServer().fromGuiFileHashGenerated( sha1Info.getFileNameAndPath(), sha1Info.getFileLen(), sha1Info.getSha1Hash() );
+		if( wasMoved || wasFound )
+		{
+			m_Engine.getPluginFileShareServer().fromGuiFileHashGenerated( sha1Info.getFileNameAndPath(), sha1Info.getFileLen(), sha1Info.getSha1Hash() );
+		}
 	}
 	else
 	{

@@ -9,6 +9,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
+// uncomment to show skt mgr lock/unlock
+#define DEBUG_SKT_MGR_LOCK 1
+// uncomment to show skt send lock/unlock
+#define DEBUG_SKT_TX_LOCK 1
+
 #include "VxSktDefs.h"
 #include "VxSktBuf.h"
 #include "VxSktThrottle.h"

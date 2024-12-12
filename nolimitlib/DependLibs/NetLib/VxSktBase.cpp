@@ -682,8 +682,10 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 	if( INVALID_SOCKET != m_Socket )
 	{
 		int iSentLen;
+		int tryCnt{ 0 };
 		while( true )
 		{
+			tryCnt++;
 			if( INVALID_SOCKET == m_Socket )
 			{
 				// socket was closed while sending
@@ -726,6 +728,11 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 				return getLastSktError();
 			}
 
+			if( iSentLen > 0 )
+			{
+				tryCnt = 0;
+			}
+
 			pData = pData + iSentLen;
 			iDataLen -= iSentLen;
 			TxedPkt( iSentLen );
@@ -749,10 +756,16 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 			if( VxIsFatalSktError( getLastSktError() ) )
 			{
 				closeSkt( eSktCloseSktWithError, false );
+				return -1;
 			}
 
 			// sleep and try again
 			VxSleep( 30 );
+			
+			if( tryCnt > 100 )
+			{
+				LogMsg( LOG_ERROR, "Tried send %d times skt %d sendData length %d to %s:%d", tryCnt, m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
+			}
 		}
 	}
 	else
@@ -821,7 +834,14 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 	memcpy( pu8Data, pDataIn, iDataLen );
 
     // protect in case we are sending from thread other than rx thread
+	#if defined(DEBUG_SKT_TX_LOCK)
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock", __func__ );
+    #endif // defined(DEBUG_SKT_TX_LOCK)
     m_TxMutex.lock();
+    #if defined(DEBUG_SKT_TX_LOCK)
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock done", __func__ );
+    #endif // defined(DEBUG_SKT_TX_LOCK)
+    
 	// encrypt
 	RCODE rc =	m_TxCrypto.encrypt( pu8Data, iDataLen );
 	if( rc )
@@ -836,6 +856,9 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 	}
 
     setLastSktError( rc );
+	#if defined(DEBUG_SKT_TX_LOCK)
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.unlock", __func__ );
+    #endif // defined(DEBUG_SKT_TX_LOCK)
     m_TxMutex.unlock();
 	delete[] pu8Data;
 
@@ -896,11 +919,20 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 	memcpy( pData, pDataIn, iDataLen );
 
     // protect in case we are sending from thread other than rx thread
+	#if defined(DEBUG_SKT_TX_LOCK)
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock", __func__ );
+    #endif // defined(DEBUG_SKT_TX_LOCK)
     m_TxMutex.lock();
+    #if defined(DEBUG_SKT_TX_LOCK)
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock done", __func__ );
+    #endif // defined(DEBUG_SKT_TX_LOCK)
 	// encrypt
 	VxSymEncrypt( poKey, (char *)pData, iDataLen );
 	// send
 	RCODE rc = this->sendData( (char *)pData, iDataLen );
+	#if defined(DEBUG_SKT_TX_LOCK)
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.unlock", __func__ );
+    #endif // defined(DEBUG_SKT_TX_LOCK)
     m_TxMutex.unlock();
 	
 	delete[] pData;

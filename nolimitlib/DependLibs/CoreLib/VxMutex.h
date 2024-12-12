@@ -20,27 +20,19 @@
 #endif // TARGET_OS_WINDOWS
 
 //#define DEBUG_VX_MUTEX 1
+#define DEBUG_VX_MUTEX_DEADLOCK 1
 
 #ifdef DEBUG_VX_MUTEX
 #define MAX_MUTEX_THREADS 50
 class VxMutexDebug
 {
 public:
-	VxMutexDebug()
-	{
-		m_u32ThreadId = 0;
-		m_pLastLockFile = "NOLOCKCALLED";
-		m_iLastLockLine = 0;
-		m_pLastUnlockFile = "NOUNLOCKCALLED";
-		m_iLastUnlockLine = 0;
-		m_iLockCnt = 0;
-	}
-	uint32_t		m_u32ThreadId;
-	char *	m_pLastLockFile;
-	int		m_iLastLockLine;
-	char *	m_pLastUnlockFile;
-	int		m_iLastUnlockLine;
-	int		m_iLockCnt;
+	uint32_t		m_u32ThreadId{ 0 };
+	const char*		m_pLastLockFile{ "NOLOCKCALLED" };
+	int				m_iLastLockLine{ 0 };
+	const char*		m_pLastUnlockFile{ "NOUNLOCKCALLED" };
+	int				m_iLastUnlockLine{ 0 };
+	int				m_iLockCnt{ 0 };
 };
 #endif // DEBUG_VX_MUTEX
 
@@ -64,16 +56,16 @@ public:
 
 	//=== vars ===//
 	#ifdef TARGET_OS_WINDOWS
-		HANDLE					m_hAccessLock;
+	HANDLE						m_hAccessLock;
 	#else // LINUX
 		pthread_mutex_t			m_Lock;
 		pthread_mutexattr_t		m_MutexAttr;
 	#endif
-	bool						m_IsLocked;
+	bool						m_IsLocked{ false };
 
 private:
 	VxMutex(const VxMutex& rhs);// don't allow copy constructor
-	VxMutex& operator=(const VxMutex& rhs);// don't allow copy operation
+	VxMutex& operator=(const VxMutex& rhs);// don't allow assign operation
 };
 
 

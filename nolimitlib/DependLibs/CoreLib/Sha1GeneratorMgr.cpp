@@ -24,19 +24,13 @@ namespace
 		vxThread->threadAboutToExit();
         return nullptr;
 	}
-
-	Sha1GeneratorMgr * g_Sha1GeneratorMgr = 0;
 }
 
 //============================================================================
 Sha1GeneratorMgr& GetSha1GeneratorMgr( void )
 {
-	if( 0 == g_Sha1GeneratorMgr )
-	{
-		g_Sha1GeneratorMgr = new Sha1GeneratorMgr();
-	}
-
-	return *g_Sha1GeneratorMgr;
+	static Sha1GeneratorMgr sha1Generator;
+	return sha1Generator;
 }
 
 //============================================================================

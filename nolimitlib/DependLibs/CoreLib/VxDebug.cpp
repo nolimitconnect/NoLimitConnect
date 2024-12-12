@@ -144,7 +144,12 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     uint64_t g_ModuleEnableLoggingFlags = (uint64_t)eLogHackers;
 #endif // defined(DEBUG)
 
-    VxMutex						g_oLogMutex;
+    VxMutex& getLogMutex( void )
+    {
+        static  VxMutex logMutex;
+        return logMutex;
+    }
+
     VxMutex						g_oFileLogMutex;
 #if defined(LOG_IN_RELEASE_BUILD)
     uint32_t				    g_u32LogFlags = LOG_PRIORITY_MASK & ~LOG_VERBOSE;
@@ -167,7 +172,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         {
             if( m_LogCallbackList.size() )
             {
-                g_oLogMutex.lock();
+                getLogMutex().lock();
                 if( m_LogCallbackList.size() && logMsg )
                 {
                     for( auto callback : m_LogCallbackList )
@@ -176,26 +181,26 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
                     }
                 }
 
-                g_oLogMutex.unlock();
+                getLogMutex().unlock();
             }
         }
 
         // add a log handler
         void addLogHandler( ILogCallbackInterface* callbackHandler )
         {
-            g_oLogMutex.lock();
+            getLogMutex().lock();
             if( callbackHandler && ((int)m_LogCallbackList.size() < MAX_LOG_FUNCTIONS) )
             {
                 m_LogCallbackList.push_back( callbackHandler );
             }
 
-            g_oLogMutex.unlock();
+            getLogMutex().unlock();
         }
 
         // remove a log handler
         void removeLogHandler( ILogCallbackInterface* callbackHandler )
         {
-            g_oLogMutex.lock();
+            getLogMutex().lock();
             if( callbackHandler && m_LogCallbackList.size() )
             {
                 for( auto iter = m_LogCallbackList.begin(); iter != m_LogCallbackList.end(); ++iter )
@@ -208,7 +213,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
                 }
             }
 
-            g_oLogMutex.unlock();
+            getLogMutex().unlock();
         }
 
         std::vector<ILogCallbackInterface*> m_LogCallbackList;

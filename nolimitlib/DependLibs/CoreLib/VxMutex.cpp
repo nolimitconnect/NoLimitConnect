@@ -7,14 +7,17 @@
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
-#include "config_corelib.h"
+
 #include "VxMutex.h"
+
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+# include "VxThread.h"
+#endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 
 //#define SHOW_LOCKS 1
 
 //============================================================================
 VxMutex::VxMutex( void )
-: m_IsLocked( false )
 {
 #ifdef TARGET_OS_WINDOWS
 	// windows event
@@ -69,13 +72,15 @@ int VxMutex::lock( void )
 {
 #ifdef TARGET_OS_WINDOWS
 
-#ifdef DEBUG_VX_MUTEX
+#if defined(DEBUG_VX_MUTEX)
 	vx_assert( m_uiLastLockThreadId != VxGetCurrentThreadId() );
-	// timeout after 10 minutes
-	DWORD dwResult = WaitForSingleObject(	m_hAccessLock, 600000	);
+#endif // defined(DEBUG_VX_MUTEX)
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+    // timeout after 1 minute
+	DWORD dwResult = WaitForSingleObject( m_hAccessLock, 60000 );
 #else
 	// wait infinite time
-	DWORD dwResult = WaitForSingleObject(	m_hAccessLock, INFINITE	);
+	DWORD dwResult = WaitForSingleObject( m_hAccessLock, INFINITE	);
 #endif
 	if( 0 == dwResult )
 	{
@@ -100,7 +105,14 @@ int VxMutex::lock( void )
 	m_uiLastLockThreadId = 0;
 #endif // DEBUG_VX_MUTEX
 	int iError;
+
+#if defined(DEBUG_VX_MUTEX_DEADLOCK)
+    // timeout after 3 minutes
+    static struct timespec locktimeout{180,0};
+    if( 0 != (iError = pthread_mutex_timedlock( &m_Lock, &locktimeout ) ) )
+#else
 	if( 0 != (iError = pthread_mutex_lock( &m_Lock ) ) )
+#endif // defined(DEBUG_VX_MUTEX_DEADLOCK)
 	{
 #ifdef DEBUG_VX_MUTEX
 		DoMutexError( this, pthread_self(), iError );

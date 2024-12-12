@@ -43,32 +43,13 @@ public:
 	virtual void				lockSktBaseMgr( void ) { m_SktMgrMutex.lock(); }
 	virtual void				unlockSktBaseMgr( void ) { m_SktMgrMutex.unlock(); }
 
-	virtual int					getActiveSktCnt( void )		{ 
-		#if defined(DEBUG_SKT_MGR_LOCK)
-			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
-		#endif // defined(DEBUG_SKT_MGR_LOCK)
-		lockSktBaseMgr(); int activeCnt = (int)m_aoSkts.size(); 
-		#if defined(DEBUG_SKT_MGR_LOCK)
-			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
-		#endif // defined(DEBUG_SKT_MGR_LOCK)
-		unlockSktBaseMgr(); return activeCnt; 
-	}
-	virtual int					getToDeleteSktCnt( void )	{ 
-		#if defined(DEBUG_SKT_MGR_LOCK)
-			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s lockSktBaseMgr", __func__ );
-		#endif // defined(DEBUG_SKT_MGR_LOCK)
-		lockSktBaseMgr(); int toDeleteCnt = (int)m_aoSktsToDelete.size(); 
-		#if defined(DEBUG_SKT_MGR_LOCK)
-			LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
-		#endif // defined(DEBUG_SKT_MGR_LOCK)
-		unlockSktBaseMgr(); return toDeleteCnt; 
-	}
+	virtual int					getActiveSktCnt( void );
+	virtual int					getToDeleteSktCnt( void );
 
 	//! make a new socket... give derived classes a chance to override
 	virtual std::shared_ptr<VxSktBase>			makeNewSkt( void );
 	//! make a new socket... give derived classes a chance to override
 	virtual std::shared_ptr<VxSktBase>			makeNewAcceptSkt( void );
-
 
 	//! User must Set Receive Callback
 	virtual void				setReceiveCallback( VX_SKT_CALLBACK pfnReceive, void* pvUserData = nullptr );

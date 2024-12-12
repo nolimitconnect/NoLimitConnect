@@ -290,6 +290,9 @@ static int dumpSktStatsCnt = 0;
 		LogMsg( LOG_DEBUG, "VxServerMgr::%s lockSktBaseMgr", __func__ );
 	#endif // defined(DEBUG_SKT_MGR_LOCK)
 	lockSktBaseMgr(); // dont let other threads mess with array while we add
+    #if defined(DEBUG_SKT_MGR_LOCK)
+		LogMsg( LOG_DEBUG, "VxServerMgr::%s lockSktBaseMgr locked", __func__ );
+	#endif // defined(DEBUG_SKT_MGR_LOCK)
 	m_aoSkts.emplace_back( sktBase );
 	// do tell skt to do accept stuff
 	sktBase->m_Socket = acceptSkt;

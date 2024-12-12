@@ -9,24 +9,9 @@
 //============================================================================
 
 #include "FileInfoClientFilesMgr.h"
-#include <Plugins/FileInfo.h>
 
 #include "PluginBase.h"
-
-#include <P2PEngine/P2PEngine.h>
-#include <Plugins/PluginBase.h>
-#include <GuiInterface/IToGui.h>
-
-#include <PktLib/PktAnnounce.h>
-#include <PktLib/PktsFileList.h>
-#include <PktLib/PktsFileInfo.h>
-
-#include <CoreLib/Sha1GeneratorMgr.h>
-#include <CoreLib/VxFileUtil.h>
-#include <CoreLib/VxFileIsTypeFunctions.h>
-#include <CoreLib/VxGlobals.h>
-#include <CoreLib/VxSha1Hash.h>
-#include <CoreLib/VxFileShredder.h>
+#include <Plugins/FileInfo.h>
 
 //============================================================================
 FileInfoClientFilesMgr::FileInfoClientFilesMgr( P2PEngine& engine, PluginBase& plugin, std::string clientdFilesDbName )
@@ -34,9 +19,4 @@ FileInfoClientFilesMgr::FileInfoClientFilesMgr( P2PEngine& engine, PluginBase& p
 	, FileInfoBaseMgr( engine, plugin, *this )
 {
 	LogMsg( LOG_VERBOSE, "FileInfoClientFilesMgr::FileInfoClientFilesMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
-}
-
-//============================================================================
-FileInfoClientFilesMgr::~FileInfoClientFilesMgr()
-{
 }

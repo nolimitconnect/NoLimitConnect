@@ -37,7 +37,7 @@ public:
 	FileInfoClientFilesMgr() = delete;
 	FileInfoClientFilesMgr( const FileInfoClientFilesMgr& rhs ) = delete;
 	FileInfoClientFilesMgr( P2PEngine& engine, PluginBase& plugin, std::string clientdFilesDbName );
-	virtual ~FileInfoClientFilesMgr();
+	virtual ~FileInfoClientFilesMgr() = default;
 
 	FileInfoClientFilesMgr& operator=( const FileInfoClientFilesMgr& rhs ) = delete;
 	//=== vars ===//

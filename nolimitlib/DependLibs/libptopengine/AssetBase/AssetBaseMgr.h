@@ -148,7 +148,6 @@ public:
 	void						fromGuiQuerySessionHistory( GroupieId& groupieId );
     void                        sendHistoryAssetsToGuiByThread( VxThread* poThread );
 
-	void						generateHashForFile( std::string fileName );
 	void						updateAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param = 0 );
 
     void                        getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets );
@@ -169,7 +168,7 @@ protected:
 
 
 	void						updateAssetListFromDb( VxThread* thread );
-	void						generateHashIds( VxThread* thread );
+
 	void						clearAssetFileListPackets( void );
 	void						clearAssetInfoList( void );
     AssetBaseInfo*				createAssetInfo(	enum EAssetType assetType,
@@ -198,10 +197,8 @@ protected:
 	bool						m_Initialized{ false };
 
 	std::vector<AssetBaseInfo*>	m_WaitingForHastList;
-	std::vector<std::string>	m_GenHashList;
-	VxMutex						m_GenHashMutex;
-	VxThread					m_GenHashThread;
-	VxSemaphore					m_GenHashSemaphore;
+
+	VxThread					m_AssetMgrStartupThread;
 
     uint16_t					m_u16AssetBaseFileTypes{ 0 };
 	VxMutex						m_FileListPacketsMutex;

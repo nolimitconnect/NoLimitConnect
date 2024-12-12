@@ -53,6 +53,9 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
 					LogMsg( LOG_DEBUG, "PluginBaseService::%s lockSktBaseMgr", __func__ );
 				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 m_Engine.getPeerMgr().lockSktBaseMgr();
+                #if defined(DEBUG_SKT_MGR_LOCK)
+					LogMsg( LOG_DEBUG, "PluginBaseService::%s lockSktBaseMgr locked", __func__ );
+				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {
