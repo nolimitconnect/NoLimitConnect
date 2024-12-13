@@ -107,8 +107,11 @@ int VxMutex::lock( void )
 	int iError;
 
 #if defined(DEBUG_VX_MUTEX_DEADLOCK)
-    // timeout after 3 minutes
-    static struct timespec locktimeout{180,0};
+    // timeout after 1 minute
+    struct timespec locktimeout;
+    clock_gettime(CLOCK_REALTIME, &locktimeout);  // Get the current time
+    locktimeout.tv_sec += 60;  // Add seconds to the current time
+    locktimeout.tv_nsec = 0;  // No additional nanoseconds
     if( 0 != (iError = pthread_mutex_timedlock( &m_Lock, &locktimeout ) ) )
 #else
 	if( 0 != (iError = pthread_mutex_lock( &m_Lock ) ) )
