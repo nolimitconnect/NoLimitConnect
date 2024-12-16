@@ -148,7 +148,7 @@ uint64_t VirtStreamMgr::fileExists( const char* fileName )
 		//error getting file info
 #if defined(DEBUG)
         int errCode = VxGetLastError();
-		LogMsg( LOG_DEBUG, "File Exists Error %d %s", errCode, fileName );
+		LogMsg( LOG_DEBUG, "VirtStreamMgr::fileExists Error %d %s", errCode, fileName );
 #endif // defined(DEBUG)etCurrentWorkingDirectory
 		return 0;
 	}

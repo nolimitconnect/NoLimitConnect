@@ -10,9 +10,9 @@
 //============================================================================
 
 // uncomment to show skt mgr lock/unlock
-#define DEBUG_SKT_MGR_LOCK 1
+//#define DEBUG_SKT_MGR_LOCK 1
 // uncomment to show skt send lock/unlock
-#define DEBUG_SKT_TX_LOCK 1
+//#define DEBUG_SKT_TX_LOCK 1
 
 #include "VxSktDefs.h"
 #include "VxSktBuf.h"
@@ -170,11 +170,9 @@ public:
 	virtual void				createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port );
 
 	//! send data without encrypting
-	virtual RCODE				sendData(	const char*		pData,							// data to send
-											int				iDataLen,						// length of data
-											bool			bDisconnectAfterSend = false );	// if true disconnect after data is sent
+	virtual RCODE				sendData( const char* pData, int iDataLen, bool sktMgrLocked );
 
-    virtual void				closeSkt( ESktCloseReason  closeReason,  bool bFlushThenClose = false, bool sktMgrLocked = false );
+    virtual void				closeSkt( ESktCloseReason  closeReason, bool sktMgrLocked = false );
     virtual std::string		    describeSktConnection( void );
 
 	bool						bindSocket( struct addrinfo * poResultAddr );
@@ -217,18 +215,14 @@ public:
 	virtual bool				isRxEncryptionKeySet( void )        { return m_RxKey.isKeySet(); }
 
 	//! encrypt then send data using session crypto
-	virtual RCODE				txEncrypted( const char*	pData, 					// data to send
-											 int			iDataLen );			// length of data
+	virtual RCODE				txEncrypted( const char* pData, int	iDataLen, bool sktMgrLocked = false );			// length of data
 
 	//! encrypt with given key then send.. does not affect session crypto
-	virtual RCODE				txEncrypted( VxKey*			poKey,					// key to encrypt with
-											 const char*	pData,					// data to send
-											 int			iDataLen );				// length of data
+	virtual RCODE				txEncrypted( VxKey* poKey, const char* pData, int iDataLen, bool sktMgrLocked = false );
 
-	virtual RCODE				txPacket( VxGUID	destOnlineId,			// online id of destination user
-										  VxPktHdr*	pktHdr );				// packet to send
+	virtual RCODE				txPacket( VxGUID destOnlineId, VxPktHdr* pktHdr, bool sktMgrLocked = false );				// packet to send
 
-	virtual RCODE				txPacketWithDestId( VxPktHdr* pktHdr );				// packet to send
+	virtual RCODE				txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked = false );				// packet to send
 
 	//! decrypt as much as possible in receive buffer
 	virtual RCODE				decryptReceiveData( void );
@@ -272,7 +266,7 @@ public:
 	void						addGroupieId( GroupieId& groupieId )				{ m_GroupieSet.insert( groupieId ); }
 	bool						removeGroupieId( GroupieId& groupieId )				{ m_GroupieSet.erase( groupieId ); return m_GroupieSet.empty(); }
 
-	void						onOncePer30Seconds( VxGUID& myOnlineId );
+	void						onOncePer30Seconds( VxGUID& myOnlineId, bool sktMgrLocked );
 
 	static bool					isFatalSocketError( RCODE rc );
 
@@ -299,12 +293,16 @@ protected:
 	void						unlockTimeAccess( void ) { m_TimeAccessMutex.unlock(); }
 
 public:
-	void						doCloseThisSocketHandle( bool bFlushThenClose );
+	void						doCloseThisSocketHandle( void );
 
 	void						setRxStartTimeMs( int64_t rxStartTime ) { m_RxStartTimeMs = rxStartTime; }
 	int64_t						getRxStartTimeMs( void )  { return m_RxStartTimeMs; }
 	void						setRxPktAnnTimeMs( int64_t rxPktAnnTime ) { m_RxPktAnnTimeMs = rxPktAnnTime; }
 	int64_t						getRxPktAnnTimeMs( void )  { return m_RxPktAnnTimeMs; }
+
+	void						setIsInEraseList( bool isInEraseList ) { m_IsInEraseList = isInEraseList; }
+	bool						getIsInEraseList( void ) { return m_IsInEraseList; }
+
 
     SOCKET						m_Socket{ INVALID_SOCKET };	    // handle to socket
     int							m_SktNumber{ 0 };				// socket unique id
@@ -386,5 +384,7 @@ protected:
 	bool						m_IsNetServiceConnection{ false };
 	int64_t			    		m_RxStartTimeMs{ 0 };
 	int64_t			    		m_RxPktAnnTimeMs{ 0 };
+
+	bool						m_IsInEraseList{ false };
 };
 

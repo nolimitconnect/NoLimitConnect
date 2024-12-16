@@ -33,7 +33,7 @@ void IgnoreListMgr::ignoredHostsListMgrStartup( std::string& dbFileName )
 bool IgnoreListMgr::isIgnored( VxGUID& onlineId )
 {
     bool isIgnored = false;
-    lockList();
+    lockIdentList();
     for( auto iter = m_IgnoreIdentList.begin(); iter != m_IgnoreIdentList.end(); ++iter )
     {
         if( iter->first == onlineId )
@@ -43,7 +43,7 @@ bool IgnoreListMgr::isIgnored( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    unlockIdentList();
     return isIgnored;
 }
 
@@ -65,7 +65,7 @@ void IgnoreListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
     bool wasInserted = false;
     bool wasErased = false;
     bool timestampUpdated = false;
-    lockList();
+    lockIdentList();
     for( auto iter = m_IgnoreIdentList.begin(); iter != m_IgnoreIdentList.end(); )
     {
         if( iter->first == onlineId )
@@ -102,7 +102,7 @@ void IgnoreListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
         m_IgnoreIdentList.push_back( std::make_pair( onlineId, timestamp ) );
     }
 
-    unlockList();
+    unlockIdentList();
 
     if( timestampUpdated || ( wasInserted && !wasErased ) )
     {
@@ -114,7 +114,7 @@ void IgnoreListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
 void IgnoreListMgr::removeIdent( VxGUID& onlineId )
 {
     bool wasRemoved = false;
-    lockList();
+    lockIdentList();
     for( auto iter = m_IgnoreIdentList.begin(); iter != m_IgnoreIdentList.end(); ++iter )
     {
         if( iter->first == onlineId )
@@ -125,7 +125,7 @@ void IgnoreListMgr::removeIdent( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    unlockIdentList();
 
     if( wasRemoved )
     {

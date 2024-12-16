@@ -42,7 +42,13 @@ bool ConnectIdListMgr::getConnections( HostedId& hostId, std::set<ConnectId>& di
 {
     directConnectIdSet.clear();
     relayConnectIdSet.clear();
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast<ConnectId&>(connectId).getHostedId() == hostId )
@@ -59,7 +65,10 @@ bool ConnectIdListMgr::getConnections( HostedId& hostId, std::set<ConnectId>& di
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return !directConnectIdSet.empty() || !relayConnectIdSet.empty();
 }
 
@@ -72,7 +81,13 @@ bool ConnectIdListMgr::isDirectConnected( VxGUID& onlineId )
     }
 
     bool isOnlined = false;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
@@ -82,7 +97,10 @@ bool ConnectIdListMgr::isDirectConnected( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return isOnlined;
 }
 
@@ -90,7 +108,13 @@ bool ConnectIdListMgr::isDirectConnected( VxGUID& onlineId )
 bool ConnectIdListMgr::isRelayed( VxGUID& onlineId )
 {
     bool isRelayed = false;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_RelayedIdList )
     {
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
@@ -100,7 +124,10 @@ bool ConnectIdListMgr::isRelayed( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return isRelayed;
 }
 
@@ -113,7 +140,13 @@ bool ConnectIdListMgr::isHosted( VxGUID& onlineId )
     }
 
     bool isHosted = false;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         ConnectId& noConstConnectId = const_cast< ConnectId& >( connectId );
@@ -137,7 +170,10 @@ bool ConnectIdListMgr::isHosted( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return isHosted;
 }
 
@@ -145,7 +181,13 @@ bool ConnectIdListMgr::isHosted( VxGUID& onlineId )
 bool ConnectIdListMgr::isOnline( GroupieId& groupieId )
 {
     bool isOnlined = false;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast< ConnectId& >( connectId ).getGroupieId() == groupieId )
@@ -167,7 +209,10 @@ bool ConnectIdListMgr::isOnline( GroupieId& groupieId )
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return isOnlined;
 }
 
@@ -222,7 +267,13 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
 
     if( relayed )
     {
-        lockList();
+        #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+        #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        lockConnectIdList();
+        #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+        #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         bool isInList = m_RelayedIdList.find( connectId ) != m_RelayedIdList.end();
         if( !isInList )
         {
@@ -230,13 +281,22 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
             m_RelayedIdList.insert( connectId );
         }
 
-        unlockList();
+        #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+        #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        unlockConnectIdList();
 
         announceRelayStatus(connectId, true);
     }
     else
     {
-        lockList();
+        #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+        #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        lockConnectIdList();
+        #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+        #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         bool isInList = m_ConnectIdList.find( connectId ) != m_ConnectIdList.end();
         if( !isInList )
         {
@@ -244,7 +304,10 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
             m_ConnectIdList.insert( connectId );
         }
 
-        unlockList();
+        #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+        #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        unlockConnectIdList();
 
         announceConnectionStatus( connectId, true );
     }
@@ -277,7 +340,13 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
 
     LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection ConnectId %s", connectId.describeConnectId().c_str() );
 
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     auto iter = m_ConnectIdList.find( connectId );
     if( iter != m_ConnectIdList.end() )
     {
@@ -292,7 +361,10 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
         wasRemovedFromRelayed = true;
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     if( wasRemovedFromDirectConnect )
     {
@@ -335,7 +407,7 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
 //============================================================================
 void ConnectIdListMgr::addConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason )
 {
-    lockList();
+    lockConnectReasonList();
     auto iter = m_ConnectReasonList.find( sktConnectId );
     if( iter != m_ConnectReasonList.end() )
     {
@@ -347,7 +419,7 @@ void ConnectIdListMgr::addConnectionReason( VxGUID& sktConnectId, EConnectReason
         m_ConnectReasonList[sktConnectId] = reasonSet;
     }
 
-    unlockList();
+    unlockConnectReasonList();
     announceConnectionReason( sktConnectId, connectReason, true );
 }
 
@@ -355,7 +427,7 @@ void ConnectIdListMgr::addConnectionReason( VxGUID& sktConnectId, EConnectReason
 void ConnectIdListMgr::removeConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason )
 {
     bool wasRemoved{ false };
-    lockList();
+    lockConnectReasonList();
     auto iter = m_ConnectReasonList.find( sktConnectId );
     if( iter != m_ConnectReasonList.end() )
     {
@@ -366,7 +438,7 @@ void ConnectIdListMgr::removeConnectionReason( VxGUID& sktConnectId, EConnectRea
         }
     }
 
-    unlockList();
+    unlockConnectReasonList();
     if( wasRemoved )
     {
         announceConnectionReason( sktConnectId, connectReason, false );
@@ -412,7 +484,13 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
     std::set<VxGUID> userList;
     std::set<ConnectId> lostConnectList;
     std::set<ConnectId> lostRelayList;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     auto iter = m_ConnectIdList.begin();
     while( iter != m_ConnectIdList.end() )
     {
@@ -447,7 +525,10 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     for( auto& connectId : lostConnectList )
     {
@@ -575,7 +656,13 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostConnection( EHostType ho
     }
 
     std::shared_ptr<VxSktBase> sktBase( nullptr );
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectIdConst : m_ConnectIdList )
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
@@ -590,7 +677,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostConnection( EHostType ho
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     return sktBase;
 }
@@ -610,7 +700,13 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
     }
 
     std::shared_ptr<VxSktBase> sktBase( nullptr );
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectIdConst : m_ConnectIdList )
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
@@ -642,7 +738,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     if( sktBase )
     {
@@ -693,7 +792,13 @@ bool ConnectIdListMgr::findConnectionId( GroupieId& groupieId, VxGUID& retSktCon
     }
 
     bool foundConnection = false;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast< ConnectId& >( connectId ).getGroupieId() == groupieId )
@@ -717,7 +822,10 @@ bool ConnectIdListMgr::findConnectionId( GroupieId& groupieId, VxGUID& retSktCon
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return foundConnection;
 }
 
@@ -731,7 +839,13 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
     }
 
     bool foundConnection = false;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_RelayedIdList )
     {
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
@@ -742,7 +856,10 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return foundConnection;
 }
 
@@ -784,7 +901,13 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( VxGUID
     }
 
     std::set<VxGUID> sktConnectIdList;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast<ConnectId& >( connectId ).getGroupieId().getHostOnlineId() == onlineId )
@@ -804,7 +927,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( VxGUID
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     for( auto sktConnectId : sktConnectIdList )
     {
@@ -843,7 +969,13 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( VxGUID
     }
 
     std::set<VxGUID> sktConnectIdList;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast<ConnectId& >( connectId ).getGroupieId().getUserOnlineId() == onlineId )
@@ -869,7 +1001,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( VxGUID
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     if( sktConnectIdList.empty() )
     {
@@ -909,7 +1044,13 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUI
     }
 
     std::vector<ConnectId> connectIdList;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast< ConnectId& >( connectId ).getGroupieId().getHostOnlineId() == onlineId )
@@ -918,7 +1059,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUI
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     VxGUID sktConnectId;
     // first check for direct connection
@@ -962,7 +1106,13 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
  
 
     std::vector<ConnectId> connectIdList;
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast< ConnectId& >( connectId ).getGroupieId().getUserOnlineId() == onlineId )
@@ -971,7 +1121,10 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 
     VxGUID sktConnectId;
     // first check for direct connection
@@ -1021,7 +1174,7 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallback* client,
 
     if( !foundClient && enable )
     {
-        m_ConnectIdCallbackClients.push_back( client );
+        m_ConnectIdCallbackClients.emplace_back( client );
     }
 
     unlockConnectIdClientList();
@@ -1182,7 +1335,13 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr
         {
             EHostType hostType{ eHostTypeUnknown };
 
-            lockList();
+            #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+            #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            lockConnectIdList();
+            #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+            #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
             for( auto& connectIdConst : m_ConnectIdList )
             {
                 ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
@@ -1197,7 +1356,10 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr
                 }
             }
 
-            unlockList();
+            #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+            #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            unlockConnectIdList();
 
             if( hostType != eHostTypeUnknown )
             {
@@ -1240,7 +1402,13 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
         {
             std::set<EHostType> hostTypes;
 
-            lockList();
+            #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+            #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            lockConnectIdList();
+            #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+            #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
             for( auto& connectIdConst : m_ConnectIdList )
             {
                 ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
@@ -1253,7 +1421,10 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
                 }
             }
 
-            unlockList();
+            #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+            #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+            unlockConnectIdList();
 
             if( !hostTypes.empty() )
             {
@@ -1300,7 +1471,13 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
 //============================================================================
 void ConnectIdListMgr::getOnlineMembers( HostedId& hostId, std::vector<VxGUID>& onlineIdList )
 {
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectIdConst : m_ConnectIdList )
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
@@ -1310,14 +1487,23 @@ void ConnectIdListMgr::getOnlineMembers( HostedId& hostId, std::vector<VxGUID>& 
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
 }
 
 //============================================================================
 bool ConnectIdListMgr::isMemberOnline( HostedId& hostId, VxGUID& onlineId )
 {
     bool isOnline{ false };
-    lockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    lockConnectIdList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     for( auto& connectIdConst : m_ConnectIdList )
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
@@ -1328,7 +1514,10 @@ bool ConnectIdListMgr::isMemberOnline( HostedId& hostId, VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
+    #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
+    unlockConnectIdList();
     return isOnline;
 }
 

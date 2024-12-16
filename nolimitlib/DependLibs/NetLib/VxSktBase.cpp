@@ -557,13 +557,18 @@ std::string	 VxSktBase::describeSktConnection( void )
 }
 
 //============================================================================
-void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose, bool sktMgrLocked )
+void VxSktBase::closeSkt( ESktCloseReason closeReason, bool sktMgrLocked )
 {
-	if( INVALID_SOCKET == m_Socket )
+	if( INVALID_SOCKET == m_Socket || getIsInEraseList() )
 	{
 		return;
 	}
 
+	if( !m_bClosingFromRxThread )
+	{
+		m_bClosingFromRxThread = VxGetCurrentThreadId() == m_SktRxThread.getThreadId();
+	}
+	
     LogModule( eLogConnect, LOG_VERBOSE, "%s skt num %d handle %d id %s reason %s last err %d description %s", __func__, getSktNumber(),
 			   getSktHandle(), getSocketIdText().c_str(), DescribeSktCloseReason( closeReason ), getLastSktError(),  describeSktConnection().c_str() );
     if( !isTempConnection() )
@@ -602,7 +607,7 @@ void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose, boo
 					LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::closeSkt: reason %s %s thread %d err %d %s", DescribeSktCloseReason( closeReason ), describeSktType().c_str(), VxGetCurrentThreadId(), getLastSktError(), describeSktError( getLastSktError() ) );
 				}
 
-				doCloseThisSocketHandle( bFlushThenClose );
+                doCloseThisSocketHandle();
 
 				//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d handle %d close done", m_SktNumber, oSocket );
 			}
@@ -627,19 +632,19 @@ void VxSktBase::closeSkt( ESktCloseReason closeReason, bool bFlushThenClose, boo
 				LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::closeSkt: reason %s %s err %d %s", DescribeSktCloseReason( closeReason ), describeSktType().c_str(), getLastSktError(), describeSktError( getLastSktError() ) );
 			}
 
-			doCloseThisSocketHandle( bFlushThenClose );
+            doCloseThisSocketHandle();
 		}
 	}
 
     m_SktRxThread.abortThreadRun( true );
-    if( m_SktMgr )
+    if( m_SktMgr && ! getIsInEraseList() )
     {
         m_SktMgr->sktWasClosed( this, sktMgrLocked );
     }
 }
 
 //============================================================================
-void VxSktBase::doCloseThisSocketHandle( bool bFlushThenClose )
+void VxSktBase::doCloseThisSocketHandle( void )
 {
 	// NOTE: if VxFlushThenCloseSkt is called instead of VxCloseSktNow then thread will not be released if waiting on
 	// blocking socket operation
@@ -649,22 +654,20 @@ void VxSktBase::doCloseThisSocketHandle( bool bFlushThenClose )
 		m_Socket = INVALID_SOCKET;
 		LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::doCloseThisSocketHandle: skt %s num %d handle %d id %s peer %s", this->describeSktType().c_str(),
 				   getSktNumber(), getSktHandle(), getSocketIdText().c_str(), getPeerPktAnn().describeUser().c_str() );
-		if( bFlushThenClose )
-		{
-			VxFlushThenCloseSkt( oSocket );
-		}
-		else
-		{
+		//if( bFlushThenClose )
+		//{
+		//	VxFlushThenCloseSkt( oSocket );
+		//}
+		//else
+		//{
 			VxCloseSktNow( oSocket );
-		}
+		//}
 	}
 }
 
 //============================================================================
 //! send data without encrypting
-RCODE VxSktBase::sendData(	const char*		pData,					// data to send
-							int				iDataLen,				// length of data	
-							bool			bDisconnectAfterSend )	// if true disconnect after data is sent
+RCODE VxSktBase::sendData(const char* pData, int iDataLen, bool sktMgrLocked )	// if true disconnect after data is sent
 {
 	if( m_Socket <= 0 )
 	{
@@ -720,10 +723,6 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 									m_SktNumber, 
 									m_Socket, 
 									VxDescribeSktError( m_rcLastSktError ) );
-				if( bDisconnectAfterSend )
-				{
-					closeSkt( eSktCloseDisconnectAfterSend, true );
-				}
 
 				return getLastSktError();
 			}
@@ -745,17 +744,12 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 			if( 0 >= iDataLen )
 			{
 				// all done
-				if( bDisconnectAfterSend )
-				{
-					closeSkt( eSktCloseSendComplete, true );
-				}
-
 				return 0;
 			}
 
 			if( VxIsFatalSktError( getLastSktError() ) )
 			{
-				closeSkt( eSktCloseSktWithError, false );
+				closeSkt( eSktCloseSktWithError, sktMgrLocked );
 				return -1;
 			}
 
@@ -773,23 +767,17 @@ RCODE VxSktBase::sendData(	const char*		pData,					// data to send
 		LogMsg( LOG_ERROR, "INVALID SKT skt %d sendData length %d to %s:%d", m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
 	}
 
-	if( bDisconnectAfterSend )
-	{
-		closeSkt( eSktCloseDisconnectAfterSend, true );
-	}
-
 	return -1;
 }
 
 //============================================================================
 //! encrypt then send data using session crypto
-RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
-								int				iDataLen )		// length of data
+RCODE VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLocked )	
 {
     if( !pDataIn )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted null data");
-        closeSkt( eSktCloseCryptoNullData );
+        closeSkt( eSktCloseCryptoNullData, sktMgrLocked );
 
         vx_assert( pDataIn );
         return -1;
@@ -798,7 +786,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
     if( !iDataLen )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid data len %d", iDataLen);
-        closeSkt( eSktCloseCryptoInvalidLength );
+        closeSkt( eSktCloseCryptoInvalidLength, sktMgrLocked );
 
         vx_assert( pDataIn );
         return -2;
@@ -813,7 +801,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 	if( 0 != (iDataLen & 0x0f) )
 	{
 		LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid pkt len %d (pkt type %d)", iDataLen, ((VxPktHdr*)pDataIn)->getPktType() );
-        closeSkt(eSktClosePktLengthInvalid);
+        closeSkt( eSktClosePktLengthInvalid, sktMgrLocked );
 
         vx_assert( 0 == (iDataLen & 0x0f) );
         return -3;
@@ -824,7 +812,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid crypto key");
         vx_assert( m_TxCrypto.isKeyValid() );
 
-        closeSkt(eSktCloseCryptoInvalidKey);
+        closeSkt( eSktCloseCryptoInvalidKey, sktMgrLocked );
 
         return -4;
     }
@@ -835,11 +823,13 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 
     // protect in case we are sending from thread other than rx thread
 	#if defined(DEBUG_SKT_TX_LOCK)
+		int lockStartMs = GetApplicationAliveMs();
         LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock", __func__ );
     #endif // defined(DEBUG_SKT_TX_LOCK)
     m_TxMutex.lock();
     #if defined(DEBUG_SKT_TX_LOCK)
-        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock done", __func__ );
+		int lockGainedMs = GetApplicationAliveMs();
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.lock done %d ms", __func__, lockGainedMs - lockStartMs );
     #endif // defined(DEBUG_SKT_TX_LOCK)
     
 	// encrypt
@@ -852,12 +842,13 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 	else
 	{
 		// send
-		rc = this->sendData( (char *)pu8Data, iDataLen );
+		rc = this->sendData( (char *)pu8Data, iDataLen, sktMgrLocked );
 	}
 
     setLastSktError( rc );
 	#if defined(DEBUG_SKT_TX_LOCK)
-        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.unlock", __func__ );
+		int unlockAfterMs = GetApplicationAliveMs();
+        LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.unlock after %d ms", __func__, unlockAfterMs - lockGainedMs );
     #endif // defined(DEBUG_SKT_TX_LOCK)
     m_TxMutex.unlock();
 	delete[] pu8Data;
@@ -865,7 +856,7 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
     if( rc && isFatalSocketError( rc ) )
     {
         LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: sendData error %d %s", rc, VxDescribeSktError( rc ) );
-		closeSkt( eSktCloseTxFailed );
+		closeSkt( eSktCloseTxFailed, sktMgrLocked );
     }
 
 	return rc;
@@ -873,14 +864,12 @@ RCODE VxSktBase::txEncrypted(	const char*		pDataIn, 		// data to send
 
 //============================================================================
 //! encrypt with given key then send.. does not affect session crypto
-RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
-								const char*		pDataIn,		// data to send
-								int				iDataLen )		// length of data
+RCODE VxSktBase::txEncrypted( VxKey* poKey,	const char*	pDataIn, int iDataLen, bool sktMgrLocked )		// length of data
 {
     if( !pDataIn )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 null data");
-        closeSkt( eSktCloseCryptoNullData );
+        closeSkt( eSktCloseCryptoNullData, sktMgrLocked );
 
         vx_assert( pDataIn );
         return -1;
@@ -889,7 +878,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
     if( !iDataLen )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 invalid data len %d", iDataLen);
-        closeSkt( eSktCloseCryptoInvalidLength );
+        closeSkt( eSktCloseCryptoInvalidLength, sktMgrLocked );
 
         vx_assert( pDataIn );
         return -2;
@@ -898,7 +887,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
     if( 0 != (iDataLen & 0x0f) )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 invalid pkt len %d (pkt type %d)", iDataLen, ((VxPktHdr*)pDataIn)->getPktType() );
-        closeSkt( eSktClosePktLengthInvalid );
+        closeSkt( eSktClosePktLengthInvalid, sktMgrLocked );
 
         vx_assert( 0 == (iDataLen & 0x0f) );
         return -3;
@@ -909,7 +898,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted2 invalid crypto key");
         vx_assert( m_TxCrypto.isKeyValid() );
 
-        closeSkt(eSktCloseCryptoInvalidKey);
+        closeSkt( eSktCloseCryptoInvalidKey, sktMgrLocked );
 
         return -4;
     }
@@ -929,7 +918,7 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 	// encrypt
 	VxSymEncrypt( poKey, (char *)pData, iDataLen );
 	// send
-	RCODE rc = this->sendData( (char *)pData, iDataLen );
+	RCODE rc = this->sendData( (char *)pData, iDataLen, sktMgrLocked );
 	#if defined(DEBUG_SKT_TX_LOCK)
         LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.unlock", __func__ );
     #endif // defined(DEBUG_SKT_TX_LOCK)
@@ -940,22 +929,21 @@ RCODE VxSktBase::txEncrypted(	VxKey *			poKey,			// key to encrypt with
 	if( rc && isFatalSocketError( rc ) )
 	{
 		LogModule( eLogSktData, LOG_ERROR, "VxSktBase::txEncrypted: error %d", rc );
-		closeSkt( eSktCloseTxFailed );
+		closeSkt( eSktCloseTxFailed, sktMgrLocked );
 	}
 
 	return rc;
 }
 
 //============================================================================
-RCODE VxSktBase::txPacket(	VxGUID				destOnlineId,
-							VxPktHdr*			pktHdr )		// packet to send
+RCODE VxSktBase::txPacket(	VxGUID destOnlineId, VxPktHdr* pktHdr, bool sktMgrLocked )		// packet to send
 {
 	pktHdr->setDestOnlineId( destOnlineId );
-	return txPacketWithDestId( pktHdr );
+	return txPacketWithDestId( pktHdr, sktMgrLocked );
 }
 
 //============================================================================
-RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr ) 		// packet to send
+RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// packet to send
 {
     if( !isConnected() )
     {
@@ -1028,7 +1016,7 @@ RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr ) 		// packet to send
 		LogModule( eLogPkt, LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
 	}
 
-	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength() );
+	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength(), sktMgrLocked );
 }
 
 //============================================================================
@@ -1692,7 +1680,7 @@ bool VxSktBase::isFatalSocketError( RCODE rc )
 }
 
 //============================================================================
-void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
+void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId, bool sktMgrLocked )
 {
 	if( eSktTypeTcpConnect != m_eSktType && eSktTypeTcpAccept != m_eSktType )
 	{
@@ -1721,7 +1709,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 			LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds net service timeout skt hande %d num %d id %s peer %s desc %s",
 					getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
 					describePeerUser().c_str(), describeSktConnection().c_str() );
-			closeSkt( eSktCloseNetServiceTimeout );
+            closeSkt( eSktCloseNetServiceTimeout, sktMgrLocked );
 		}
 	
 		return;
@@ -1734,7 +1722,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
         LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds im alive timeout skt handle %d num %d id %s peer %s desc %s",
 				getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
 				describePeerUser().c_str(), describeSktConnection().c_str() );
-		closeSkt( eSktCloseImAliveTimeout );
+        closeSkt( eSktCloseImAliveTimeout, sktMgrLocked );
 	}
 	else if( getIsPeerPktAnnSet() )
 	{
@@ -1742,7 +1730,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
 		pktImAliveReq.setSrcOnlineId( myOnlineId );
 		pktImAliveReq.setDestOnlineId( getPeerOnlineId() );
 
-		RCODE rc = txPacketWithDestId( &pktImAliveReq );
+		RCODE rc = txPacketWithDestId( &pktImAliveReq, sktMgrLocked );
 		if( rc )
 		{
             LogMsg( LOG_VERBOSE, "VxSktBase::%s tx im alive error %d skt hande %d num %d id %s peer %s",
@@ -1755,14 +1743,14 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId )
     else if( !isTempConnection() )
     {
         LogMsg( LOG_ERROR, "%s no peer user so cannot send PktImAliveReq to %s", __func__, getRemoteIp().c_str() );
-		if( timeNow - getRxStartTimeMs() > 60000 )
+		if( timeNow - getRxStartTimeMs() > 120000 )
 		{
 			// has been connected for at least a minute
 			if( !getRxPktAnnTimeMs() )
 			{
 				// failed to send us a PktAnnounce
 				VxReportHack( eHackerLevelSevere, eHackerReasonLurkerDidNotSendPktAnn, m_Socket, getRemoteIp().c_str(), "VxSktBase::onOncePer30Seconds" );
-				closeSkt( eSktCloseHackLevelSevere );
+				closeSkt( eSktCloseHackLevelSevere, sktMgrLocked );
 			}
 		}
     }

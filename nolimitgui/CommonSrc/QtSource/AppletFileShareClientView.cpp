@@ -321,10 +321,15 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 			if( xferSession )
 			{
 				EXferState xferState = xferSession->getXferState();
-				if( eXferStateUploadNotStarted == xferState || eXferStateDownloadNotStarted == xferState)
+				if( eXferStateDownloadNotStarted == xferState && xferSession->isStremable() )
+				{
+					xferSession->setStreamingEnable( true );
+					item->updateWidgetFromInfo();
+				}
+				else if( eXferStateUploadNotStarted == xferState || eXferStateDownloadNotStarted == xferState)
 				{
 					std::string fileName = xferSession->getFileNameAndPath().toUtf8().constData();
-                    int64_t fileLen = (int64_t)VxFileUtil::fileExists( fileName.c_str() );
+                    int64_t fileLen = (int64_t)VxFileUtil::fileExists( fileName.c_str(), false );
 					if( fileLen && fileLen == fileInfo.getFileLength() )
 					{
 						if( eXferStateUploadNotStarted == xferState )
@@ -337,11 +342,6 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 							xferSession->setXferState( eXferStateCompletedDownload, eXferErrorNone, 100 );
 							item->updateWidgetFromInfo();
 						}
-					}
-					else if( eXferStateDownloadNotStarted == xferState && xferSession->isStremable() )
-					{
-						xferSession->setStreamingEnable( true );
-						item->updateWidgetFromInfo();
 					}
 				}	
 			}

@@ -22,7 +22,7 @@ FriendListMgr::FriendListMgr( P2PEngine& engine )
 bool FriendListMgr::isFriend( VxGUID& onlineId )
 {
     bool isFriend = false;
-    lockList();
+    lockIdentList();
     for( auto iter = m_FriendIdentList.begin(); iter != m_FriendIdentList.end(); ++iter )
     {
         if( iter->first == onlineId )
@@ -32,7 +32,7 @@ bool FriendListMgr::isFriend( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    unlockIdentList();
     return isFriend;
 }
 
@@ -54,7 +54,7 @@ void FriendListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
     bool wasInserted = false;
     bool wasErased = false;
     bool timestampUpdated = false;
-    lockList();
+    lockIdentList();
     for( auto iter = m_FriendIdentList.begin(); iter != m_FriendIdentList.end(); )
     {
         if( iter->first == onlineId )
@@ -88,11 +88,11 @@ void FriendListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
 
     if( !wasInserted )
     {
-        m_FriendIdentList.push_back( std::make_pair( onlineId, timestamp ) );
+        m_FriendIdentList.emplace_back( std::make_pair( onlineId, timestamp ) );
         wasInserted = true;
     }
 
-    unlockList();
+    unlockIdentList();
 
     if( timestampUpdated || ( wasInserted && !wasErased ) )
     {
@@ -104,7 +104,7 @@ void FriendListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
 void FriendListMgr::removeIdent( VxGUID& onlineId )
 {
     bool wasRemoved = false;
-    lockList();
+    lockIdentList();
     for( auto iter = m_FriendIdentList.begin(); iter != m_FriendIdentList.end(); ++iter )
     {
         if( iter->first == onlineId )
@@ -115,7 +115,7 @@ void FriendListMgr::removeIdent( VxGUID& onlineId )
         }
     }
 
-    unlockList();
+    unlockIdentList();
 
     if( wasRemoved )
     {

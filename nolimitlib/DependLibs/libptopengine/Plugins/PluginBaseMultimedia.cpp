@@ -640,10 +640,16 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& request
 
                     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseService::broadcastToClients pkt %s to %s peer %s", pktHdr->describePktHdr().c_str(),
                                m_Engine.describeGroupieId(groupieId).c_str(), sktBase->getPeerPktAnn().describeUser().c_str() );
+					#if defined(DEBUG_SKT_MGR_LOCK)
+						LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s unlockSktBaseMgr before txPkt", __func__ );
+					#endif // defined(DEBUG_SKT_MGR_LOCK)
+					m_Engine.getPeerMgr().unlockSktBaseMgr();
                     if(  txPacket( memberOnlineId, sktBase, pktHdr, getClientPluginType() ) )
                     {
                         // should we log fail to send ?
                     }
+
+					continue;
                 }
 
 				#if defined(DEBUG_SKT_MGR_LOCK)

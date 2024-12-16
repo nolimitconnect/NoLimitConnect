@@ -9,6 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
+// uncomment to show user online mgr lock/unlock
+//#define DEBUG_USER_ONLINE_MGR_LOCK 1
+
 #include <ConnectIdListMgr/ConnectIdListCallback.h>
 
 #include <CoreLib/VxMutex.h>
@@ -33,10 +36,6 @@ public:
 
     void                        addUserOnlineMgrClient( UserOnlineCallbackInterface * client, bool enable );
 
-    VxMutex&					getResourceMutex( void )					{ return m_ResourceMutex; }
-    void						lockResources( void )						{ m_ResourceMutex.lock(); }
-    void						unlockResources( void )						{ m_ResourceMutex.unlock(); }
-
     bool                        isUserOnline( VxGUID& onlineId );
     bool                        isUserExcluded( VxGUID& onlineId );
 
@@ -52,7 +51,7 @@ public:
     virtual void                onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID& connectionId, VxGUID& peerOnlineId );
     virtual void                onUserOffline( VxGUID& onlineId );
 
-    User*                       findUser( VxGUID& onlineId );
+    std::shared_ptr<User>       findUser( VxGUID& onlineId );
 
     bool                        updateUserJoinedFriendships( GroupieId& groupieId, VxNetIdent* netIdent );
 
@@ -64,21 +63,24 @@ protected:
     void                        updateUserSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost = false );
     void                        updateUserSession( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost );
 
-    virtual void				announceUserOnlineAdded( User* userJoinInfo, BaseSessionInfo& sessionInfo );
-    virtual void				announceUserOnlineUpdated( User* userJoinInfo, BaseSessionInfo& sessionInfo );
+    virtual void				announceUserOnlineAdded( std::shared_ptr<User> userJoinInfo, BaseSessionInfo& sessionInfo );
+    virtual void				announceUserOnlineUpdated( std::shared_ptr<User> userJoinInfo, BaseSessionInfo& sessionInfo );
     virtual void				announceUserOnlineRemoved( VxGUID& hostOnlineId, EHostType hostType );
 
-    void				        announceUserOnlineState( User* userJoinInfo, bool isOnline );
-    void                        announceUserSessionState( User* user, bool isInSession );
+    void				        announceUserOnlineState( std::shared_ptr<User> userJoinInfo, bool isOnline );
+    void                        announceUserSessionState( std::shared_ptr<User> user, bool isInSession );
 
     void						lockClientList( void )						{ m_UserOnlineClientMutex.lock(); }
     void						unlockClientList( void )					{ m_UserOnlineClientMutex.unlock(); }
+
+    void						lockUserOnlineList( void )					{ m_UserOnlineMutex.lock(); }
+    void						unlockUserOnlineList( void )				{ m_UserOnlineMutex.unlock(); }
 
     P2PEngine&					m_Engine;
     VxMutex						m_ResourceMutex;
     bool						m_Initialized{ false };
  
-    std::vector<User*>	        m_UserOnlineList;
+    std::vector<std::shared_ptr<User>>	m_UserOnlineList;
     VxMutex						m_UserOnlineMutex;
     bool                        m_UserOnlineListInitialized{ false };
 

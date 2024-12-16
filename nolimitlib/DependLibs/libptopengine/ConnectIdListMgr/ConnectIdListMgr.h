@@ -9,6 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
+// uncomment to show ident list mgr lock/unlock
+//#define DEBUG_CONNECT_ID_LIST_MGR_LOCK 1
+
 #include <IdentListMgrs/IdentListMgrBase.h>
 #include <CoreLib/ConnectId.h>
 
@@ -116,9 +119,18 @@ protected:
     void						lockExclusionList( void )               { m_ConnectIdExclusionMutex.lock(); }
     void						unlockExclusionList( void )             { m_ConnectIdExclusionMutex.unlock(); }
 
+    void						lockConnectIdList( void )               { m_ConnectIdListMutex.lock(); }
+    void						unlockConnectIdList( void )             { m_ConnectIdListMutex.unlock(); }
+
+    void						lockConnectReasonList( void )           { m_ConnectReasonListMutex.lock(); }
+    void						unlockConnectReasonList( void )         { m_ConnectReasonListMutex.unlock(); }
+
     std::set<ConnectId>         m_ConnectIdList;
     std::set<ConnectId>         m_RelayedIdList;
+    VxMutex						m_ConnectIdListMutex;
+
     std::map<VxGUID, std::set<EConnectReason>>      m_ConnectReasonList;
+    VxMutex						m_ConnectReasonListMutex;
 
     std::vector<ConnectIdListCallback*>    m_ConnectIdCallbackClients;
     VxMutex						m_ConnectIdCallbackMutex;

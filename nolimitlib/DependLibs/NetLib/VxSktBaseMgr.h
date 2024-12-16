@@ -58,8 +58,7 @@ public:
 	virtual void				handleSktCloseEvent( std::shared_ptr<VxSktBase>& sktBase );
 	
 	//! Send to all connections.. if crypto is set send encrypted else send raw
-	virtual void				sendToAll(	char * pvData,			// data to send
-											int iDataLen );			// length of data
+	virtual void				sendToAll( char * pvData, int iDataLen, bool sktMgrLocked = false );			// length of data
 
 	//! get number of connected sockets
 	virtual int					getConnectedCount( void );
@@ -80,7 +79,7 @@ public:
 	//! remove a socket from management
 	virtual RCODE				removeSkt(	std::shared_ptr<VxSktBase>&	sktBase,				// skt to remove
 											bool		bDelete = true );	    // if true delete the skt
-	virtual bool				isSktActive( std::shared_ptr<VxSktBase>& sktBase );
+	virtual bool				isSktActive( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked = false );
 
     //! move to erase/delete when safe to do so
     virtual void				moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked = false );
@@ -101,9 +100,6 @@ public:
 	//=== vars ===//
 	RCODE						m_rcLastError{ 0 };
     ESktMgrType					m_eSktMgrType{ eSktMgrTypeNone };   // type of sockets we manage
-	std::vector<std::shared_ptr<VxSktBase>>		m_aoSkts;					        // array of sockets to manage
-	std::vector<std::shared_ptr<VxSktBase>>		m_aoSktsToDelete;			        // skts that will be deleted after 10 sec 
-	VxMutex						m_SktMgrMutex;			            // thread mutex
 
 	VX_SKT_CALLBACK				m_pfnUserReceive{ nullptr };		// receive function must be set by user
 	VX_SKT_CALLBACK				m_pfnOurReceive{ nullptr };		    // our receive function to receive Socket states etc
@@ -124,6 +120,9 @@ protected:
     virtual void                doSktDeleteCleanup( void );
 	virtual void				deleteAllSockets( void );
 
+	std::vector<std::shared_ptr<VxSktBase>>		m_aoSkts;					        // array of sockets to manage
+	std::vector<std::shared_ptr<VxSktBase>>		m_aoSktsToDelete;			        // skts that will be deleted after 10 sec 
+	VxMutex						m_SktMgrMutex;			            // thread mutex
     std::shared_ptr<VxSktBase>	m_SktLoopback;	        
 };
 

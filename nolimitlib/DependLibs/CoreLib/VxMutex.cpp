@@ -72,12 +72,10 @@ int VxMutex::lock( void )
 {
 #ifdef TARGET_OS_WINDOWS
 
-#if defined(DEBUG_VX_MUTEX)
-	vx_assert( m_uiLastLockThreadId != VxGetCurrentThreadId() );
-#endif // defined(DEBUG_VX_MUTEX)
 #if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
-    // timeout after 1 minute
-	DWORD dwResult = WaitForSingleObject( m_hAccessLock, 60000 );
+	vx_assert( m_uiLastLockThreadId != VxGetCurrentThreadId() );
+    // timeout if cannot aquire lock in specified time
+	DWORD dwResult = WaitForSingleObject( m_hAccessLock, 180000 );
 #else
 	// wait infinite time
 	DWORD dwResult = WaitForSingleObject( m_hAccessLock, INFINITE	);
@@ -101,16 +99,16 @@ int VxMutex::lock( void )
 	vx_assert( false );
 	return 0;
 #else // LINUX
-#ifdef DEBUG_VX_MUTEX
-	m_uiLastLockThreadId = 0;
-#endif // DEBUG_VX_MUTEX
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+	vx_assert( m_uiLastLockThreadId != VxGetCurrentThreadId() );
+#endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 	int iError;
 
 #if defined(DEBUG_VX_MUTEX_DEADLOCK)
-    // timeout after 1 minute
+    // timeout if cannot aquire lock in specified time
     struct timespec locktimeout;
     clock_gettime(CLOCK_REALTIME, &locktimeout);  // Get the current time
-    locktimeout.tv_sec += 60;  // Add seconds to the current time
+    locktimeout.tv_sec += 180;  // Add seconds to the current time
     locktimeout.tv_nsec = 0;  // No additional nanoseconds
     if( 0 != (iError = pthread_mutex_timedlock( &m_Lock, &locktimeout ) ) )
 #else
@@ -128,6 +126,9 @@ int VxMutex::lock( void )
 		vx_assert( false );
 	}
 
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+	m_uiLastLockThreadId = VxGetCurrentThreadId();
+#endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 	m_IsLocked = true;
 	return iError;
 #endif
@@ -137,6 +138,9 @@ int VxMutex::lock( void )
 int VxMutex::unlock( void )
 {
 	m_IsLocked = false;
+	#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+		m_uiLastLockThreadId = 0;
+	#endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 #ifdef TARGET_OS_WINDOWS
 	if( false == SetEvent( m_hAccessLock ) )
 	{
@@ -153,7 +157,6 @@ int VxMutex::unlock( void )
 		LogMsg( LOG_INFO, "VxMutex Unlock failure %d", err );
 		vx_assert( false );
 	}
-
 	return err;
 #endif
 }

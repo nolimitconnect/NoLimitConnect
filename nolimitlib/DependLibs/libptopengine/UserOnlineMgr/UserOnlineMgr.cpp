@@ -40,49 +40,82 @@ void UserOnlineMgr::fromGuiUserLoggedOn( void )
 //============================================================================
 void UserOnlineMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
-    lockResources();
-    User* user = findUser( onlineId );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockUserOnlineList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    std::shared_ptr<User> user = findUser( onlineId );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    unlockUserOnlineList();
+
     if( user && user->getNetIdent() )
     {
         announceUserOnlineState( user, isOnline );
     }
-
-    unlockResources();
 }
 
 //============================================================================
 void UserOnlineMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isConnected )
 {
-    lockResources();
-    User* user = findUser( connectId.getUserOnlineId() );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockUserOnlineList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    std::shared_ptr<User> user = findUser( connectId.getUserOnlineId() );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    unlockUserOnlineList();
+
     if( user && user->getNetIdent() )
     {
         announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isUserOnline( connectId.getUserOnlineId() ) );
     }
-
-    unlockResources();
 }
 
 //============================================================================
 void UserOnlineMgr::callbackRelayStatusChange( ConnectId& connectId, bool isRelayed )
 {
-    lockResources();
-    User* user = findUser( connectId.getUserOnlineId() );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockUserOnlineList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    std::shared_ptr<User> user = findUser( connectId.getUserOnlineId() );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    unlockUserOnlineList();
+
     if( user && user->getNetIdent() )
     {
         announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isUserOnline( connectId.getUserOnlineId() ) );
     }
-
-    unlockResources();
 }
 
 //============================================================================
 void UserOnlineMgr::addUserOnlineMgrClient( UserOnlineCallbackInterface * client, bool enable )
 {
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
     lockClientList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
     if( enable )
     {
-        m_UserOnlineClients.push_back( client );
+        m_UserOnlineClients.emplace_back( client );
     }
     else
     {
@@ -97,56 +130,70 @@ void UserOnlineMgr::addUserOnlineMgrClient( UserOnlineCallbackInterface * client
         }
     }
 
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
     unlockClientList();
 }
 
 //============================================================================
-void UserOnlineMgr::announceUserOnlineAdded( User * userInfo, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::announceUserOnlineAdded( std::shared_ptr<User> userInfo, BaseSessionInfo& sessionInfo )
 {
-    User * userHostInfo = userInfo;
-    if( userHostInfo )
+    if( userInfo.get() )
     {
-	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::announceUserOnlineAdded start" );
-	
-	    lockClientList();
-	    std::vector<UserOnlineCallbackInterface *>::iterator iter;
-	    for( iter = m_UserOnlineClients.begin();	iter != m_UserOnlineClients.end(); ++iter )
+	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::%s start", __func__ );
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+        lockClientList();
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+	    for( auto client : m_UserOnlineClients )
 	    {
-		    UserOnlineCallbackInterface * client = *iter;
-		    client->callbackUserOnlineAdded( userHostInfo );
+		    client->callbackUserOnlineAdded( userInfo );
             if( sessionInfo.isValid() )
             {
-                client->callbackUserSessionAdded( userHostInfo, sessionInfo );
+                client->callbackUserSessionAdded( userInfo, sessionInfo );
             }
 	    }
 
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
 	    unlockClientList();
-	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::announceUserOnlineAdded done user %s", userInfo->getNetIdent()->getOnlineName() );
+	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::%s done user %s", __func__, userInfo->getNetIdent()->getOnlineName() );
     }
     else
     {
-        LogMsg( LOG_ERROR, "UserOnlineMgr::announceUserOnlineAdded dynamic_cast failed" );
+        LogMsg( LOG_ERROR, "UserOnlineMgr::%s null usr" );
     }
 }
 
 //============================================================================
-void UserOnlineMgr::announceUserOnlineUpdated( User * userInfo, BaseSessionInfo& sessionInfo )
+void UserOnlineMgr::announceUserOnlineUpdated( std::shared_ptr<User> userInfo, BaseSessionInfo& sessionInfo )
 {
-    User * userHostInfo = userInfo;
-    if( userHostInfo )
+    if( userInfo.get() )
     {
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
         lockClientList();
-        std::vector<UserOnlineCallbackInterface *>::iterator iter;
-        for( iter = m_UserOnlineClients.begin();	iter != m_UserOnlineClients.end(); ++iter )
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+        for( auto client : m_UserOnlineClients )
         {
-            UserOnlineCallbackInterface * client = *iter;
-            client->callbackUserOnlineUpdated( userHostInfo );
+            client->callbackUserOnlineUpdated( userInfo );
             if( sessionInfo.isValid() )
             {
-                client->callbackUserSessionUpdated( userHostInfo, sessionInfo );
+                client->callbackUserSessionUpdated( userInfo, sessionInfo );
             }
         }
 
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
         unlockClientList();
     }
     else
@@ -158,33 +205,47 @@ void UserOnlineMgr::announceUserOnlineUpdated( User * userInfo, BaseSessionInfo&
 //============================================================================
 void UserOnlineMgr::announceUserOnlineRemoved( VxGUID& hostOnlineId, EHostType hostType )
 {
-	lockClientList();
-	std::vector<UserOnlineCallbackInterface *>::iterator iter;
-	for( iter = m_UserOnlineClients.begin();	iter != m_UserOnlineClients.end(); ++iter )
-	{
-		UserOnlineCallbackInterface * client = *iter;
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockClientList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    for( auto client : m_UserOnlineClients )
+    {
 		client->callbackUserOnlineRemoved( hostOnlineId );
 	}
 
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
 	unlockClientList();
 }
 
 //============================================================================
-void UserOnlineMgr::announceUserOnlineState( User* user, bool isOnline )
+void UserOnlineMgr::announceUserOnlineState( std::shared_ptr<User> userInfo, bool isOnline )
 {
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
     lockClientList();
-    std::vector<UserOnlineCallbackInterface *>::iterator iter;
-    for( iter = m_UserOnlineClients.begin(); iter != m_UserOnlineClients.end(); ++iter )
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    for( auto client : m_UserOnlineClients )
     {
-        UserOnlineCallbackInterface * client = *iter;
-        client->callbackUserOnlineState( user, isOnline );
+        client->callbackUserOnlineState( userInfo, isOnline );
     }
 
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
     unlockClientList();
 }
 
 //============================================================================
-void UserOnlineMgr::announceUserSessionState( User* user, bool isInSession )
+void UserOnlineMgr::announceUserSessionState( std::shared_ptr<User> userInfo, bool isInSession )
 {
     /*
     lockClientList();
@@ -209,16 +270,25 @@ void UserOnlineMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIden
 bool UserOnlineMgr::onUserOnline( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
     bool wasAdded = false;
-    lockResources();
-    User* user = findUser( netIdent->getMyOnlineId() );
-    if( !user )
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockUserOnlineList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    std::shared_ptr<User> user = findUser( netIdent->getMyOnlineId() );
+    if( !user.get() )
     {
         wasAdded = true;
-        user = new User( m_Engine, netIdent );
-        m_UserOnlineList.push_back( user );
+        user = std::make_shared<User>( User( m_Engine, netIdent ) );
+        m_UserOnlineList.emplace_back( user );
     }
 
-    unlockResources();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    unlockUserOnlineList();
     if( wasAdded && !sktBase->isTempConnection() )
     {
         m_Engine.getToGui().toGuiContactAdded( netIdent );
@@ -289,15 +359,30 @@ void UserOnlineMgr::updateUserSession( GroupieId& groupieId, std::shared_ptr<VxS
     bool wasAdded = false;
     bool wasInSession = false;
     bool isinSession = false;
-    lockResources();
-    User* user = findUser( groupieId.getUserOnlineId() );
-    if( !user )
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockUserOnlineList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    std::shared_ptr<User> user = findUser( groupieId.getUserOnlineId() );
+    if( !user.get() )
     {
-        user = new User( m_Engine, netIdent, sessionInfo );
+        user = std::make_shared<User>( User( m_Engine, netIdent, sessionInfo ) );
+        m_UserOnlineList.emplace_back( user );
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+        unlockUserOnlineList();
         wasAdded = true;
     }
     else
     {
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+        unlockUserOnlineList();
         wasInSession = user->isInSession();
         if( leftHost )
         {
@@ -310,8 +395,6 @@ void UserOnlineMgr::updateUserSession( GroupieId& groupieId, std::shared_ptr<VxS
         
         isinSession = user->isInSession();
     }
-
-    unlockResources();
 
     if( !leftHost )
     {
@@ -334,7 +417,7 @@ void UserOnlineMgr::updateUserSession( GroupieId& groupieId, std::shared_ptr<VxS
 }
 
 //============================================================================
-User* UserOnlineMgr::findUser( VxGUID& onlineId )
+std::shared_ptr<User> UserOnlineMgr::findUser( VxGUID& onlineId )
 {
     for( auto user : m_UserOnlineList )
     {
@@ -368,37 +451,58 @@ void UserOnlineMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUI
 //============================================================================
 void UserOnlineMgr::onUserOffline( VxGUID& onlineId )
 {
-    lockResources();
-    User* user = findUser( onlineId );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    lockUserOnlineList();
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockUserOnlineList done", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    std::shared_ptr<User> user = findUser( onlineId );
+    #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+        LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockUserOnlineList", __func__ );
+    #endif // defined(DEBUG_SKT_MGR_LOCK)
+    unlockUserOnlineList();
+
     if( !user )
     {
-        unlockResources();
-
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
         lockClientList();
-        std::vector<UserOnlineCallbackInterface *>::iterator iter;
-        for( iter = m_UserOnlineClients.begin(); iter != m_UserOnlineClients.end(); ++iter )
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+        for( auto client : m_UserOnlineClients )
         {
-            UserOnlineCallbackInterface * client = *iter;
             client->callbackUserOffline( onlineId );
         }
 
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
         unlockClientList();
     }
     else if( user->isInSession() )
     {
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
         lockClientList();
-        std::vector<UserOnlineCallbackInterface *>::iterator iter;
-        for( iter = m_UserOnlineClients.begin(); iter != m_UserOnlineClients.end(); ++iter )
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
+        for( auto client : m_UserOnlineClients )
         {
-            UserOnlineCallbackInterface * client = *iter;
             client->callbackUserOnlineState( user, false );
         }
 
+        #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
+            LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
+        #endif // defined(DEBUG_SKT_MGR_LOCK)
         unlockClientList();
-        unlockResources();
     }
 }
-
 
 //============================================================================
 bool UserOnlineMgr::updateUserJoinedFriendships( GroupieId& groupieId, VxNetIdent* netIdent )

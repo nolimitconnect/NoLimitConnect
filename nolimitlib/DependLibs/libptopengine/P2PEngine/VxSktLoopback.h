@@ -22,7 +22,7 @@ public:
 
     virtual bool				isConnected( void ) override                { return true; }
 
-    virtual RCODE				txPacketWithDestId(	VxPktHdr* pktHdr ) override;	
+    virtual RCODE				txPacketWithDestId(	VxPktHdr* pktHdr, bool sktMgrLocked = false ) override;	
 
     //! return true if transmit encryption key is set
     virtual bool				isTxEncryptionKeySet( void ) override       { return true; }

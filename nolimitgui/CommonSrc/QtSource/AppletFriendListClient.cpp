@@ -147,9 +147,9 @@ void AppletFriendListClient::onShowFriendList( void )
     std::vector<std::pair<VxGUID, int64_t>> friendList;
     FriendListMgr& friendMgr = m_Engine.getFriendListMgr();
 
-    friendMgr.lockList();
+    friendMgr.lockIdentList();
     friendList = friendMgr.getIdentList();
-    friendMgr.unlockList();
+    friendMgr.unlockIdentList();
     
     updateFriendList( eUserViewTypeFriendsOnline, friendList );
 }
@@ -160,9 +160,9 @@ void AppletFriendListClient::onShowIgnoreList( void )
     std::vector<std::pair<VxGUID, int64_t>> ignoreList;
     IgnoreListMgr& ignoreMgr = m_Engine.getIgnoreListMgr();
 
-    ignoreMgr.lockList();
+    ignoreMgr.lockIdentList();
     ignoreList = ignoreMgr.getIdentList();
-    ignoreMgr.unlockList();
+    ignoreMgr.unlockIdentList();
 
     updateFriendList( eUserViewTypeIgnored, ignoreList );
 }

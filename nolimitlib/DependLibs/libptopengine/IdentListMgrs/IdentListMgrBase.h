@@ -9,6 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
+// uncomment to show ident list mgr lock/unlock
+//#define DEBUG_IDENT_LIST_MGR_LOCK 1
+
 #include <GuiInterface/IDefs.h>
 #include <CoreLib/VxMutex.h>
 
@@ -20,8 +23,8 @@ public:
     IdentListMgrBase( P2PEngine& engine );
     virtual ~IdentListMgrBase() = default;
 
-    void                        lockList( void ) { m_ListMutex.lock(); }
-    void                        unlockList( void ) { m_ListMutex.unlock(); }
+    void                        lockIdentList( void ) { m_IdentListMutex.lock(); }
+    void                        unlockIdentList( void ) { m_IdentListMutex.unlock(); }
 
     virtual void                updateIdent( VxGUID& onlineId, int64_t timestamp ) {};
     virtual void                removeIdent( VxGUID& onlineId ) {};
@@ -34,7 +37,7 @@ protected:
     virtual void                onRemoveIdent( VxGUID& onlineId );
 
     P2PEngine&                  m_Engine;
-    VxMutex                     m_ListMutex;
+    VxMutex                     m_IdentListMutex;
     EUserViewType               m_ListType{ eUserViewTypeNone };
 };
 

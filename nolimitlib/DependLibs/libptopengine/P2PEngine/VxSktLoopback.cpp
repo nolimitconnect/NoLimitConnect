@@ -50,7 +50,7 @@ VxSktLoopback::VxSktLoopback( P2PEngine& engine )
 }
 
 //============================================================================
-RCODE VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn )
+RCODE VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn, bool sktMgrLocked )
 {
     if( !VxIsAppShuttingDown() && pktHdrIn )
     {
@@ -59,7 +59,7 @@ RCODE VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn )
         VxPktHdr* pktHdr = pktHdrIn->makeCopy();
 
         lockPktList();
-        m_PktList.push_back( pktHdr );
+        m_PktList.emplace_back( pktHdr );
         unlockPktList();
 
         enableSktLoopbackThread( true );

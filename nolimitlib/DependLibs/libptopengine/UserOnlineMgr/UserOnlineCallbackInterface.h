@@ -18,15 +18,15 @@ class BaseSessionInfo;
 class UserOnlineCallbackInterface
 {
 public:
-    virtual void				callbackUserOnlineState( User* user, bool online ){};
+    virtual void				callbackUserOnlineState( std::shared_ptr<User> user, bool online ){};
     virtual void				callbackUserOffline( VxGUID& onlineId ){};
 
-    virtual void				callbackUserOnlineAdded( User* user ){};
-    virtual void				callbackUserOnlineUpdated( User * user ){};
+    virtual void				callbackUserOnlineAdded( std::shared_ptr<User> user ){};
+    virtual void				callbackUserOnlineUpdated( std::shared_ptr<User> user ){};
     virtual void				callbackUserOnlineRemoved( VxGUID& user ){};
 
-    virtual void				callbackUserSessionAdded( User* user, BaseSessionInfo& sessionInfo ){};
-    virtual void				callbackUserSessionUpdated( User * user, BaseSessionInfo& sessionInfo ){};
+    virtual void				callbackUserSessionAdded( std::shared_ptr<User> user, BaseSessionInfo& sessionInfo ){};
+    virtual void				callbackUserSessionUpdated( std::shared_ptr<User> user, BaseSessionInfo& sessionInfo ){};
     virtual void				callbackUserSessionRemoved( VxGUID& user, BaseSessionInfo& sessionInfo ){};
 };
 
