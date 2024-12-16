@@ -812,3 +812,15 @@ void PluginBaseHostService::onContactOnlineStatusChange( VxGUID& onlineId, bool 
         broadcastToClients( &pktReply, onlineId );
     }
 }
+
+//============================================================================
+void PluginBaseHostService::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    m_HostServerMgr.onPktHostUserInfoReq( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginBaseHostService::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    LogMsg( LOG_ERROR, "PluginBaseHostService::%s only client should get reply", __func__ );
+}

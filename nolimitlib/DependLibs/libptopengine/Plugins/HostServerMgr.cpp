@@ -380,7 +380,7 @@ void HostServerMgr::onGroupDirectUserAnnounce( GroupieId& groupieId, std::shared
 //============================================================================
 void HostServerMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostServerMgr::onPktHostUserInfoReq" );
+    LogModule( eLogPkt, LOG_VERBOSE, "HostServerMgr::%s", __func__ );
     PktHostUserInfoReq* pktReq = (PktHostUserInfoReq*)pktHdr;
     if( pktReq->isValidPktPrefix() )
     {
