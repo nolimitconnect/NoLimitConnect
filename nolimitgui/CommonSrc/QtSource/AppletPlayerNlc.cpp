@@ -251,6 +251,8 @@ void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 	{       
 		getRenderConsumer()->showAppIcon();
 	}
+
+	AppletPlayerNlcBase::onMediaPlayerNlcReady( isReady );
 }
 
 //============================================================================
@@ -478,13 +480,6 @@ void AppletPlayerNlc::slotExpandWindowChanged( bool isMessengerFrame, bool isMax
 	{
 		ActivityBase::show();
 	}
-}
-
-//============================================================================
-void AppletPlayerNlc::stopMediaIfPlaying( void )
-{
-    AppletPlayerNlcBase::stopMediaIfPlaying();
-    IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
 }
 
 //============================================================================

@@ -71,7 +71,7 @@ void AppletPeerBase::callbackUserRemoved( VxGUID& onlineId )
 //============================================================================
 void AppletPeerBase::callbackUserUpdated( GuiUser* guiUser )
 {
-    LogMsg( LOG_DEBUG, "AppletPeerBase::%s", __func__ );
+    //LogMsg( LOG_DEBUG, "AppletPeerBase::%s", __func__ );
 }
 
 //============================================================================

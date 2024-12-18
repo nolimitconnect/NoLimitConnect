@@ -250,7 +250,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlc.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerPhoto.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerVideo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPopupMenu.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.cpp" />
@@ -612,7 +611,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h" />
@@ -1030,7 +1028,6 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerCamClip.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerNlc.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerPhoto.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerStream.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerVideo.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletPopupMenu.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletRandomConnectClient.ui" />

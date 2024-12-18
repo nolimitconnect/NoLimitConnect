@@ -20,6 +20,7 @@
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
+#include <VirtStream/VirtStreamMgr.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
@@ -125,15 +126,45 @@ void AppletPlayerNlcBase::setReadyForCallbacks( bool isReady )
 //============================================================================
 bool AppletPlayerNlcBase::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
 {
-	if( !waitForPlayerThread() )
+	if( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
 	{
-		return false;
+		// player not ready so queue for play when ready
+		m_PlayAssetQue.emplace_back( std::make_pair( assetInfo, pos0to100000 ) );
+		return true;
 	}
 
+	return playAsset( assetInfo, pos0to100000 );
+}
+
+//============================================================================
+bool AppletPlayerNlcBase::playAsset( AssetBaseInfo& assetInfo, int pos0to100000 )
+{
 	stopMediaIfPlaying();
 	AppletPlayerBase::setAssetInfo( assetInfo );
+	if( assetInfo.isStream() )
+	{
+		m_StreamSessionId.initializeWithNewVxGUID();
+		return playStream( assetInfo, m_StreamSessionId, pos0to100000 );
+	}
 
 	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
+}
+
+//============================================================================
+bool AppletPlayerNlcBase::playStream( AssetBaseInfo& assetInfo, VxGUID streamSessionId, int pos0to100000 )
+{
+	bool canPlay = GetVirtStreamMgr().fromGuiPlayStream( assetInfo, streamSessionId, pos0to100000 );
+	if( canPlay )
+	{
+		canPlay &= IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, streamSessionId, pos0to100000 );
+	}
+	else
+	{
+		LogModule( eLogMediaStream, LOG_VERBOSE, "%s VirtStreamMgr says cannot play", __func__ );
+	}
+	
+	setIsStreaming( canPlay );
+	return canPlay;
 }
 
 //============================================================================
@@ -264,6 +295,12 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	}
 
 	updateGuiPlayControls( false );
+	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
+	if( getIsStreaming() )
+	{
+		setIsStreaming( false );
+		GetVirtStreamMgr().onPlaybackStopped( m_StreamSessionId );
+	}
 }
 
 //============================================================================
@@ -456,6 +493,12 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	if( getIsStreaming() )
+	{
+		setIsStreaming( false );
+		GetVirtStreamMgr().onPlaybackStopped( feedId );
+	}
+
 	stopBusySpinner();
 	updateGuiPlayControls( false );
 	resetPlayerControls();
@@ -466,6 +509,12 @@ void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 {
 	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	if( getIsStreaming() )
+	{
+		setIsStreaming( false );
+		GetVirtStreamMgr().onPlaybackEnded( feedId );
+	}
+
 	stopBusySpinner();
 	updateGuiPlayControls( false );
 	resetPlayerControls();
@@ -571,4 +620,17 @@ void AppletPlayerNlcBase::onAboutToDestroyApplet( void )
 void AppletPlayerNlcBase::setVisible( bool visible )
 {
 	AppletPlayerBase::setVisible( visible );
+}
+
+//============================================================================
+void AppletPlayerNlcBase::onMediaPlayerNlcReady( bool isReady )
+{
+	if( isReady )
+	{
+		if( m_PlayAssetQue.size() )
+		{
+			playAsset( m_PlayAssetQue.at( 0 ).first, m_PlayAssetQue.at( 0 ).second );
+			m_PlayAssetQue.clear();
+		}
+	}
 }

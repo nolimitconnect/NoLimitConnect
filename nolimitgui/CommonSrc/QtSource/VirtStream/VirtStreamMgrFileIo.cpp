@@ -705,7 +705,7 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, readAttemptLen ) )
 	{
 		unlockSteamMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, readAttemptLen );
 		return retVal;
 	}
@@ -760,7 +760,7 @@ int VirtStreamMgr::virtFileGetC( VFile* fp )
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
 	{
 		unlockSteamMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
 		return retVal;
 	}
@@ -802,7 +802,7 @@ char* VirtStreamMgr::virtFileGetS( char* buf, int size, VFile* fp )
 	if( !waitForStream( m_LiveStream.m_VFile->m_FileOffs, 1 ) )
 	{
 		unlockSteamMgr();
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64,
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), m_LiveStream.m_VFile->m_FileOffs, 1 );
 		return nullptr;
 	}

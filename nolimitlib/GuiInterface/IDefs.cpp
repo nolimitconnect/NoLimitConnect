@@ -520,11 +520,11 @@ namespace
         "Plugin Personal Recorder ", // 53
         "Plugin Net Services ",     // 54
         "Plugin Search ",           // 55
-        "Plugin Sound Reader "      // 56
+        "Plugin Sound Reader ",      // 56
         "Plugin Sound Writer ",     // 57
-        "About Me Page Client ",    //!< about me web page plugin client
-        "Storyboard Client ",	    //!< storyboard web page plugin client
-        "FileShare Client ",        // 60
+        "About Me Page Client ",    // 58 about me web page plugin client
+        "Storyboard Client ",	    // 59 storyboard web page plugin client
+        "FileShare Client ",        // 60 shared files client
         "Web Cam Client ",          // 61
         "Plugin Library Server ",
     };

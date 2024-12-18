@@ -996,7 +996,7 @@ FileRxSession* FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxG
 	{
 		xferSession = new FileRxSession( lclSessionId, sktBase, sendToId );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
-		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s %p rxing %d", __func__, DescribePluginType( getPluginType() ), this, m_RxSessions.size() );
+		LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s rxing %d", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
 	}
 	else
 	{
@@ -1902,7 +1902,7 @@ bool FileInfoXferMgr::makeIncompleteFileName( std::string& strRemoteFileName, st
 	VxFileUtil::getFileName( strRemoteFileName.c_str(), justFileName );
 	//strRetIncompleteFileName = VxGetIncompleteDirectory() + justFileName;
 	strRetIncompleteFileName = m_FileInfoMgr.getIncompleteFileXferDirectory( sendToId ) + justFileName;
-	while( VxFileUtil::fileExists( strRetIncompleteFileName.c_str() ) )
+	while( VxFileUtil::fileExists( strRetIncompleteFileName.c_str(), false ) )
 	{
 		if( false == VxFileUtil::incrementFileName( strRetIncompleteFileName ) )
 		{

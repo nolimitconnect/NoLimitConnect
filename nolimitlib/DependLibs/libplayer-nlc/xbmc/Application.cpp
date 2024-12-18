@@ -2761,10 +2761,9 @@ void CApplication::PrintStartupLog()
     std::string hostname( "[unknown]" );
     //m_ServiceManager->GetNetwork().GetHostName( hostname );
     CLog::Log( LOGINFO, "Local hostname: %s", hostname.c_str() );
-    std::string lowerAppName = CCompileInfo::GetAppName();
-    StringUtils::ToLower( lowerAppName );
-    CLog::Log( LOGINFO, "Log File is located: %s.log",
-               CSpecialProtocol::TranslatePath( "special://logpath/" + lowerAppName ).c_str() );
+    std::string mediaPlayerLogName{ "mediaplayernlc" };
+    CLog::Log( LOGINFO, "Media Player Log File is located: %s.log",
+               CSpecialProtocol::TranslatePath( "special://logpath/" + mediaPlayerLogName ).c_str() );
     CRegExp::LogCheckUtf8Support();
     CLog::Log( LOGINFO, "-----------------------------------------------------------------------" );
 }

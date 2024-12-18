@@ -96,7 +96,6 @@
 #include "AppletPlayerPhoto.h"
 #include "AppletPlayerNlc.h"
 #include "AppletPlayerVideo.h"
-#include "AppletPlayerStream.h"
 
 #include "AppletPopupMenu.h"
 
@@ -188,15 +187,6 @@ RenderGlWidget* AppletMgr::getRenderConsumer( void )
     for( auto iter = m_ActivityList.begin(); iter != m_ActivityList.end(); ++iter )
     {
         if( eAppletPlayerNlc == (*iter)->getAppletType()  )
-        {
-            if( (*iter)->isVisible() )
-            {
-                renderConsumer = ( ( AppletPlayerNlc * )( *iter ) )->getRenderConsumer();
-            }
-
-            break;
-        }
-        else if( eAppletPlayerStream == (*iter)->getAppletType() )
         {
             if( (*iter)->isVisible() )
             {
@@ -504,7 +494,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletPlayerPhoto:                if( launchAppletAllowed( eAppletPlayerPhoto ) ) appletDialog = new AppletPlayerPhoto( m_MyApp, parent ); break;
     case eAppletPlayerVideo:                if( launchAppletAllowed( eAppletPlayerVideo ) ) appletDialog = new AppletPlayerVideo( m_MyApp, parent ); break;
     case eAppletPlayerNlc:                  if( launchAppletAllowed( eAppletPlayerNlc ) ) appletDialog = new AppletPlayerNlc( m_MyApp, parent ); break;
-    case eAppletPlayerStream:               if( launchAppletAllowed( eAppletPlayerStream ) ) appletDialog = new AppletPlayerStream( m_MyApp, parent ); break;
 
     case eAppletIsPortOpenTest:             if( launchAppletAllowed( eAppletIsPortOpenTest ) ) appletDialog = new AppletIsPortOpenTest( m_MyApp, parent ); break;
     case eAppletHackerList:                 if( launchAppletAllowed( eAppletHackerList ) ) appletDialog = new AppletHackerList( m_MyApp, parent ); break;

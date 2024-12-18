@@ -50,7 +50,6 @@ void AppletLaunchWidget::slotAppletIconPressed( void )
         || ( eAppletPlayerCamClip == m_AppletType )
         || ( eAppletPlayerPhoto == m_AppletType )
         || ( eAppletPlayerVideo == m_AppletType )
-        || ( ( eAppletPlayerStream == m_AppletType ) && m_MyApp.getLoginCompleted() )     
         )
     {
         if( eAppletUserConnections == m_AppletType || eAppletSocketList == m_AppletType )

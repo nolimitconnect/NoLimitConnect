@@ -1094,9 +1094,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.h">
-      <Filter>Header Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.h">
       <Filter>Header Files\GuiRandConnect</Filter>
     </QtMoc>
@@ -2212,9 +2209,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.cpp">
       <Filter>Source Files\GuiPushToTalk</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerStream.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -3131,9 +3125,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseUser.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletPlayerStream.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\PlayControlWidget.ui">

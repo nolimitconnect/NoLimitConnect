@@ -149,7 +149,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletPlayerVideo.h
     CommonSrc/QtSource/AppletPlayerNlc.h
     CommonSrc/QtSource/AppletPlayerNlcBase.h
-    CommonSrc/QtSource/AppletPlayerStream.h
+
     CommonSrc/QtSource/AppletPopupMenu.h
     CommonSrc/QtSource/AppletRandomConnectHostAdmin.h
     CommonSrc/QtSource/AppletRandomConnectJoin.h
@@ -554,7 +554,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletPlayerVideo.cpp
     CommonSrc/QtSource/AppletPlayerNlc.cpp
     CommonSrc/QtSource/AppletPlayerNlcBase.cpp
-    CommonSrc/QtSource/AppletPlayerStream.cpp
+
     CommonSrc/QtSource/AppletPopupMenu.cpp
     CommonSrc/QtSource/AppletRandomConnectHostAdmin.cpp
     CommonSrc/QtSource/AppletRandomConnectJoin.cpp
@@ -903,7 +903,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletPlayerCamClip.ui
     CommonSrc/Forms/AppletPlayerPhoto.ui
     CommonSrc/Forms/AppletPlayerNlc.ui
-    CommonSrc/Forms/AppletPlayerStream.ui
     CommonSrc/Forms/AppletPlayerVideo.ui
     CommonSrc/Forms/AppletPopupMenu.ui
     CommonSrc/Forms/AppletRandomConnectClient.ui

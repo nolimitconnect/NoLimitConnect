@@ -226,8 +226,6 @@ enum EApplet
 
     eAppletIsPortOpenTest,
 
-    eAppletPlayerStream, 
-
     eAppletHomeFrame, // left or top frame
     eAppletMessengerFrame, // right or bottom frame
 

@@ -113,7 +113,7 @@ bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 	
 	if( !result )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs%" PRId64 " len%s" PRId64, __func__,
+		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64, __func__,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), fileOffset, readLen );
 	}
 

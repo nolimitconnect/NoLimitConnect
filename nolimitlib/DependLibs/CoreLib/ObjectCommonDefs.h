@@ -134,7 +134,6 @@
 
 #define OBJNAME_APPLET_PLAYER_PHOTO						"AppletPlayerPhoto"
 #define OBJNAME_APPLET_PLAYER_NLC						"AppletPlayerNlc"
-#define OBJNAME_APPLET_PLAYER_STREAM					"AppletPlayerStream"
 #define OBJNAME_APPLET_PLAYER_VIDEO						"AppletPlayerVideo"
 
 #define OBJNAME_APPLET_POPUP_MENU						"AppletPopupMenu"

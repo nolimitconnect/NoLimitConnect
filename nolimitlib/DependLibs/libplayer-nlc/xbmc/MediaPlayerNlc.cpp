@@ -74,7 +74,7 @@ void MediaPlayerNlc::wantMediaPlayerCallback( IMediaPlayerCallback* client, bool
 
     if( !foundClient && wantCallback )
     {
-        m_MediaPlayerCallbackClients.push_back( client );
+        m_MediaPlayerCallbackClients.emplace_back( client );
     }
 
     unlockClientList();
@@ -225,7 +225,7 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 //============================================================================
 bool MediaPlayerNlc::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
-	LogModule( eLogMediaStream, LOG_VERBOSE, "%s file", __func__, assetInfo.getFileName().c_str() );
+	LogModule( eLogMediaStream, LOG_VERBOSE, "MediaPlayerNlc::%s file %s", __func__, assetInfo.getFileName().c_str() );
 	m_FeedId = lclSessionId;
 	return fromGuiPlayMedia( assetInfo, pos0to100000 );
 }

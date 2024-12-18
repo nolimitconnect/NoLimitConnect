@@ -71,8 +71,6 @@ protected:
 	void						refreshRecentFilesComboBox( void );
 	void						updateRecentListVisibility( void );
 
-    void                        stopMediaIfPlaying( void ) override;
-
 	void						setVisible( bool visible ) override;
 
 	//=== vars ===//

@@ -40,7 +40,7 @@ public:
 	virtual VxPushButton*		getPlayPauseButton( void ) = 0;
 	virtual PlayControlWidget*	getPlayControlWidget( void ) = 0;
 
-	virtual void				onMediaPlayerNlcReady( bool isReady ) {};
+	virtual void				onMediaPlayerNlcReady( bool isReady );
 
     void						toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
 
@@ -120,6 +120,8 @@ protected:
 	void						closeEvent( QCloseEvent* ev ) override;
 
 	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
+	virtual bool				playAsset( AssetBaseInfo& assetInfo, int pos0to100000 );
+	virtual bool				playStream( AssetBaseInfo& assetInfo, VxGUID streamSessionId, int pos0to100000 );
 	bool						playMediaFile( std::string fileStr, int pos0to100000, bool isStream );
 
 	void						setReadyForCallbacks( bool isReady );
@@ -144,6 +146,9 @@ protected:
 
 	void						setVisible( bool visible ) override;
 
+	void						setIsStreaming( bool isStreaming ) { m_IsStreaming = isStreaming; }
+	bool						getIsStreaming( void ) { return m_IsStreaming; }
+
 private:
 
 	//=== vars ===//
@@ -158,6 +163,10 @@ private:
 	bool						m_LastPlayedIsFile{ false };
 	std::string					m_LastPlayedMediaName;
 	std::string					m_LastPlayedMediaFile;
+
+	std::vector<std::pair<AssetBaseInfo, int>> m_PlayAssetQue;
+	VxGUID						m_StreamSessionId;
+	bool						m_IsStreaming{ false };
 };
 
 

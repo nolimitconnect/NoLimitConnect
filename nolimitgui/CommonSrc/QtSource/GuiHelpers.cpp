@@ -590,11 +590,7 @@ EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, 
     EApplet applet = eAppletUnknown;
     if( fileType & VXFILE_TYPE_VIDEO )
     {
-        if( isStream )
-        {
-            applet = eAppletPlayerStream;
-        }
-        else if( myApp.getFromGuiInterface().fromGuiIsNoLimitVideoFile( fullFileName.toUtf8().constData() ) )
+        if( myApp.getFromGuiInterface().fromGuiIsNoLimitVideoFile( fullFileName.toUtf8().constData() ) )
         {
             applet = eAppletPlayerCamClip;
         }
@@ -609,18 +605,7 @@ EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, 
     }
     else if( fileType & VXFILE_TYPE_AUDIO )
     {
-        if( isStream )
-        {
-            applet = eAppletPlayerStream;
-        }
-        else if( myApp.getFromGuiInterface().fromGuiIsNoLimitAudioFile( fullFileName.toUtf8().constData() ) )
-        {
-            applet = eAppletPlayerNlc; // should this be a specialized player ? for less cpu consuption ?
-        }
-        else
-        {
-            applet = eAppletPlayerNlc;
-        }
+        applet = eAppletPlayerNlc;
     }
 
     return applet;
