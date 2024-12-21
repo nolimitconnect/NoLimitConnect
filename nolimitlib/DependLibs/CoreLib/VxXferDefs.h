@@ -65,6 +65,7 @@ enum EXferState
     eXferStateDownloadError,
 
     eXferStateStreaming,
+    eXferStateStreamStopped,
 
     eMaxXferState
 };

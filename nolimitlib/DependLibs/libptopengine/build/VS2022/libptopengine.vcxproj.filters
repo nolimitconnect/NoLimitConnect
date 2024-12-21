@@ -691,6 +691,9 @@
     <ClCompile Include="..\..\P2PEngine\P2PEngineSktCallback.cpp">
       <Filter>Source Files\P2PEngine</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetPlaySession.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1445,6 +1448,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Network\StayConnected.h">
       <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetPlaySession.h">
+      <Filter>Source Files\AssetBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

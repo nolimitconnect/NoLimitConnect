@@ -188,7 +188,7 @@ RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addr
 		}
 	}
 
-	LogModule( eLogUdp, LOG_INFO, "VxSktUdp::%s Success port %d skt handle %d ip %s", __func__, u16Port, m_Socket, m_strLclIp.c_str() );
+	LogModule( eLogSkt, LOG_INFO, "VxSktUdp::%s Success port %d skt handle %d ip %s", __func__, u16Port, m_Socket, m_strLclIp.c_str() );
 
 	return m_rcLastSktError;
 }
@@ -230,17 +230,6 @@ RCODE  VxSktUdp::sendToMulticast(	const char*		pData,				// data to send
 {
 	InetAddress oAddr( muliticastGroupIp );
 	// it does not seem necessary to join a group to send to it.. just the send has to be to the group address
-	/*
-	struct ip_mreq mreq = {};
-	mreq.imr_multiaddr.s_addr = inet_addr( muliticastGroupIp );
-	mreq.imr_interface.s_addr = INADDR_ANY;
-	if( setsockopt( m_Socket, IPPROTO_IP, IP_ADD_MEMBERSHIP,(char*)&mreq, sizeof(mreq)) < 0)
-	{
-		m_rcLastSktError = VxGetLastError();
-		LogModule( eLogUdp, LOG_ERROR, "VxSktUdp::sendToMulticast setsockopt mreq failed %s", VxDescribeSktError( m_rcLastSktError ) );
-	}
-	*/
-
 	return sendTo( pData, iDataLen, oAddr, u16Port );
 }
 

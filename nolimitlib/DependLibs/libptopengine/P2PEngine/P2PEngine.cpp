@@ -639,3 +639,9 @@ std::string P2PEngine::describeUser( VxGUID& onlineId )
 	userDesc += onlineId.toOnlineIdString();
 	return userDesc;
 }
+
+//============================================================================
+void P2PEngine::onStreamStop( VxGUID& streamId )
+{
+	getToGui().toGuiFileXferState( ePluginTypeFileShareClient, streamId, eXferDirectionRx, eXferStateStreamStopped, eXferErrorNone, 0 );
+}

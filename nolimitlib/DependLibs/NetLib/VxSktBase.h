@@ -179,7 +179,6 @@ public:
 	bool						isIPv6Address (const char* addr );
 	int							getIPv6ScopeID( const char* addr );
 	const char*					stripIPv6ScopeID( const char* addr, std::string &buf );
-	RCODE						joinMulticastGroup( InetAddress& oLclAddress, const char*mcastAddr );
 
 	void						setTTL( uint8_t ttl );
 	void						setAllowLoopback( bool allowLoopback );

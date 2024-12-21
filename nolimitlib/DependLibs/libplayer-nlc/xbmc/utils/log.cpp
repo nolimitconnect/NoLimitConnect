@@ -93,7 +93,7 @@ void CLog::Log( int logLevel, const char* format, ... )
             LogMsg( nlcLogLevel, strData.c_str() );
         }
     }
-    else if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    else if( IsLogLevelLogged( logLevel ) && LogEnabled( eLogPlayerNlc ) )
     {
         std::string strData;
         strData.reserve( MAX_ERR_MSG_SIZE );
@@ -120,7 +120,7 @@ void CLog::Log( int logLevel, const char* format, ... )
 
 void CLog::Log( int logLevel, int component, const char* format, ... )
 {
-    if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    if( IsLogLevelLogged( logLevel ) && LogEnabled( eLogPlayerNlc ) )
     {
         std::string strData;
         strData.reserve( MAX_ERR_MSG_SIZE );
@@ -148,7 +148,7 @@ void CLog::Log( int logLevel, int component, const char* format, ... )
 
 void CLog::LogF( int logLevel, const char* format, ... )
 {
-    if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    if( IsLogLevelLogged( logLevel ) && LogEnabled( eLogPlayerNlc ) )
     {
         std::string strData;
         strData.reserve( MAX_ERR_MSG_SIZE );
@@ -175,7 +175,7 @@ void CLog::LogF( int logLevel, const char* format, ... )
 
 void CLog::LogFC( int logLevel, int component, const char* format, ... )
 {
-    if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    if( IsLogLevelLogged( logLevel ) && LogEnabled( eLogPlayerNlc ) )
     {
         std::string strData;
         strData.reserve( MAX_ERR_MSG_SIZE );
@@ -203,7 +203,7 @@ void CLog::LogFC( int logLevel, int component, const char* format, ... )
 
 void CLog::LogString( int logLevel, std::string&& logString )
 {
-    if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    if( IsLogLevelLogged( logLevel ) && LogEnabled( eLogPlayerNlc ) )
     {
         CSingleLock waitLock( g_logState.critSec );
         std::string strData( logString );
@@ -236,7 +236,7 @@ void CLog::LogString( int logLevel, std::string&& logString )
 
 void CLog::LogString( int logLevel, int component, std::string&& logString )
 {
-    if( IsLogLevelLogged( logLevel ) && IsLogEnabled( eLogPlayerNlc ) )
+    if( IsLogLevelLogged( logLevel ) && LogEnabled( eLogPlayerNlc ) )
         LogString( logLevel, std::move( logString ) );
 }
 
@@ -325,7 +325,7 @@ bool CLog::IsLogLevelLogged( int loglevel )
   // "m_logLevel" is "LOG_LEVEL_NORMAL"
   return (loglevel & LOGMASK) >= LOGNOTICE;
   */
-    return IsLogEnabled( eLogPlayerNlc );
+    return LogEnabled( eLogPlayerNlc );
 }
 
 

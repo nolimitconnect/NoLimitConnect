@@ -19,8 +19,9 @@
 #include "ToGuiActivityInterface.h"
 #include "ToGuiHardwareControlInterface.h"
 
-#include <VxVideoLib/VxVideoLib.h>
+#include <AssetBase/AssetPlaySession.h>
 #include <CoreLib/VxGlobals.h>
+#include <VxVideoLib/VxVideoLib.h>
 
 #include <QTimer>
 #include <QMessageBox>
@@ -87,7 +88,8 @@ void AppCommon::toGuiPlayNlcMedia( AssetBaseInfo* assetInfo )
 //============================================================================
 void AppCommon::slotInternalPlayNlcMedia( AssetBaseInfo assetInfo )
 {
-	m_PlayerMgr.playMedia( assetInfo, false );
+	AssetPlaySession playSession( assetInfo );
+	m_PlayerMgr.playMedia( playSession, false );
 }
 
 //============================================================================

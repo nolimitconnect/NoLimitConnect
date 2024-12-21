@@ -51,8 +51,8 @@ AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	p
 
     connectBarWidgets();
 
-    connect(ui.FileItemList, SIGNAL(itemClicked(QListWidgetItem*)),							this, SLOT(slotItemClicked(QListWidgetItem*)));
-    connect(ui.FileItemList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),					this, SLOT(slotItemClicked(QListWidgetItem*)));
+    connect( ui.FileItemList, SIGNAL(itemClicked(QListWidgetItem*)),						this, SLOT(slotItemClicked(QListWidgetItem*)));
+    connect( ui.FileItemList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),					this, SLOT(slotItemClicked(QListWidgetItem*)));
     connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
 
 	m_MyApp.activityStateChange( this, true );
@@ -92,19 +92,6 @@ void AppletFileShareClientView::setIdentity( GuiUser* guiUser )
 }
 
 //============================================================================
-void AppletFileShareClientView::showEvent( QShowEvent* ev )
-{
-	ActivityBase::showEvent( ev );
-}
-
-//============================================================================
-void AppletFileShareClientView::hideEvent( QHideEvent* ev )
-{
-	wantFileXferCallbacks( false );
-	ActivityBase::hideEvent( ev );
-}
-
-//============================================================================
 void AppletFileShareClientView::toGuiFileListReply( FileListReplySession* replySession )
 {
 	addFile( replySession->getIdent(), replySession->getPluginType(), replySession->getFileInfo() );
@@ -121,12 +108,18 @@ void AppletFileShareClientView::toGuiFileXferState( EPluginType pluginType, VxGU
 {
     if( eXferDirectionRx == xferDir )
     {
-        LogMsg( LOG_INFO, "Got Update File Download" );
         FileXferWidget* item = findListEntryWidget( lclSessionId );
         if( item )
         {
+            if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_DEBUG, "AppletFileShareClientView::%s session %s dir %s state %s error %s param %d",
+                      __func__, lclSessionId.toHexString().c_str(), DescribeXferDirection( xferDir ), DescribeXferState( xferState ), DescribeXferError( xferErr ), param1 );
             item->setXferState( xferState, xferErr, param1 );
         }
+		else
+		{
+			LogMsg( LOG_ERROR, "AppletFileShareClientView::%s item for session id %s not found", 
+					__func__, lclSessionId.toHexString().c_str() );
+		}
     }
 }
 
@@ -136,12 +129,24 @@ void AppletFileShareClientView::toGuiFileDownloadStart( GuiFileXferSession* xfer
 	GuiFileXferSession* xferSession = findSession( xferSessionIn->getLclSessionId() );
 	if( xferSession )
 	{
+		if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AppletFileShareClientView::%s session id %s file %s",
+				   __func__, xferSessionIn->getLclSessionId().toHexString().c_str(), xferSessionIn->getFileName().toUtf8().constData() );
         xferSession->setXferState( eXferStateInDownloadXfer, eXferErrorNone, 0 );
 		FileXferWidget* item = findListEntryWidget( xferSession->getLclSessionId() );
 		if( item )
 		{
 			item->updateWidgetFromInfo();
 		}
+		else
+		{
+			LogMsg( LOG_ERROR, "AppletFileShareClientView::%s item for session id %s not found", 
+					__func__, xferSessionIn->getLclSessionId().toHexString().c_str() );
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletFileShareClientView::%s session id %s not found", 
+				__func__, xferSessionIn->getLclSessionId().toHexString().c_str() );
 	}
 }
 
@@ -159,6 +164,7 @@ GuiFileXferSession* AppletFileShareClientView::findSession( VxGUID lclSessionId 
 		}
 	}
 
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_WARN, "AppletFileShareClientView::%s session id %s not found", __func__, lclSessionId.toHexString().c_str() );
 	return NULL;
 }
 
@@ -179,6 +185,11 @@ void AppletFileShareClientView::toGuiFileDownloadComplete( EPluginType pluginTyp
 		{
 			item->updateWidgetFromInfo();
 		}
+	}
+	else
+	{
+		if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_WARN, "AppletFileShareClientView::%s session id %s not found", 
+				__func__, lclSessionId.toHexString().c_str() );
 	}
 }
 
@@ -314,7 +325,6 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
         FileXferWidget* item = fileToWidget( guiUser, pluginType, fileInfo );
 		if( item )
 		{
-			//LogMsg( LOG_INFO, "AppletFileShareClientView::addFile: adding widget\n");
 			ui.FileItemList->addItem( item );
 			ui.FileItemList->setItemWidget( item, item );
 			GuiFileXferSession* xferSession = widgetToFileItemInfo( item );
@@ -325,6 +335,8 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 				{
 					xferSession->setStreamingEnable( true );
 					item->updateWidgetFromInfo();
+					if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AppletFileShareClientView::%s %s lcl session id %s streamable", __func__,
+							   fileInfo.getFileName().c_str(), xferSession->getLclSessionId().toHexString().c_str() );
 				}
 				else if( eXferStateUploadNotStarted == xferState || eXferStateDownloadNotStarted == xferState)
 				{
@@ -448,13 +460,16 @@ void AppletFileShareClientView::slotStreamButtonClicked( QListWidgetItem* item )
 
 	EXferState xferState = xferSession->getXferState();
 	AssetBaseInfo assetInfo;
-	VxGUID lclSessionId;
-	xferSession->getAssetInfo( assetInfo, lclSessionId, true );
+
+	xferSession->getAssetInfo( assetInfo, true );
 
 	assetInfo.setPluginType( ePluginTypeFileShareClient );
 	assetInfo.setDestUserId( xferSession->getIdent()->getMyOnlineId() );
 
-	if( m_MyApp.getPlayerMgr().playStream( assetInfo, lclSessionId, 0 ) )
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AppletFileShareClientView::%s session id %s file %s playStream",
+				   __func__, xferSession->getLclSessionId().toHexString().c_str(), xferSession->getFileName().toUtf8().constData() );
+
+	if( m_MyApp.getPlayerMgr().playStream( assetInfo, xferSession->getLclSessionId(), 0) )
 	{
 		((FileXferWidget*)item)->setXferState( eXferStateStreaming, eXferErrorNone, 0 );
 	}

@@ -348,7 +348,7 @@ bool CApplication::Create()
 
     m_ServiceManager.reset( new CServiceManager() );
 
-    if( IsLogEnabled( eLogPlayerNlc ) )
+    if( LogEnabled( eLogPlayerNlc ) )
     {
         CSpecialProtocol::LogPaths();
     }
@@ -1956,7 +1956,7 @@ bool CApplication::PlayFile( CFileItem item, const std::string& player, bool bRe
     {
         if( item.isVirtualStream() )
         {
-            LogModule( eLogMediaStream, LOG_VERBOSE, "CApplication::%s open stream %s failed", __func__, item.getFileName().c_str() );
+            LogModule( eLogStreams, LOG_VERBOSE, "CApplication::%s open stream %s failed", __func__, item.getFileName().c_str() );
         }
         else
         {

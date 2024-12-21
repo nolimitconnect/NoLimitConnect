@@ -41,7 +41,7 @@ public:
 
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
 
-	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+	virtual bool				playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer ) override;
 
 protected slots:
 	void						slotPlayButtonClicked( void );

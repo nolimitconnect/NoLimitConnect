@@ -294,7 +294,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletHostJoinRequestList:        return QObject::tr( "Join Host Requests" );
     case eAppletHostSelect:                 return QObject::tr( "Select A Host" );
     case eAppletPersonOfferList:            return QObject::tr( "Persons Offers" );
-	case eAppletPlayerVideo:			    return QObject::tr( "Movie Video Player" );
+	case eAppletPlayerVideo:			    return QObject::tr( "Video Player" );
     case eAppletPersonalRecorder:		    return QObject::tr( "Personal Notes And Records" );
 
     case eAppletRandomConnectHostAdmin:     return QObject::tr( "Random Connect Host Admin" );

@@ -51,7 +51,7 @@ enum ELogModule
 	eLogWebCam          = 0x0004, // 3
 	eLogAssets			= 0x0008, // 4
 
-	eLogUdp 			= 0x0010, // 5
+	eLogFileXfer 			= 0x0010, // 5
 	eLogConnect			= 0x0020, // 6 
 	eLogAcceptConn		= 0x0040, // 7
 	eLogRelay           = 0x0080, // 8
@@ -78,7 +78,7 @@ enum ELogModule
 
     eLogHostSearch      = 0x01000000, // 25
 	eLogHackers			= 0x02000000, // 26
-    eLogMediaStream     = 0x04000000, // 27
+    eLogStreams			= 0x04000000, // 27
 	eLogPlayerNlc		= 0x08000000, // 28
 
 	eLogFfmpeg			= 0x10000000, // 29
@@ -96,7 +96,7 @@ void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... );
 void LogModule2( ELogModule eLog, uint32_t u32MsgType, const char* msg );
 
 /// @brief return true if should log the given module
-bool IsLogEnabled( ELogModule logModule );
+bool LogEnabled( ELogModule logModule );
 /// @brief enable/disable the given module
 void VxSetLogModuleEnable( ELogModule logModule, bool enable );
 

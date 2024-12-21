@@ -87,23 +87,23 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 			{
 				if( wantAudioCapture && !m_AudioPktsRequested )
 				{
-					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
+					//LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
 					m_AudioPktsRequested = true;
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, true );
 				}
 
-				//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
+				//LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
 				if( !m_MixerInputRequesed )
 				{
 					m_MixerInputRequesed = true;
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, true );
-					//LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture done\n" );
+					//LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture done\n" );
 				}
 			}
 		}
 		else
 		{
-            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
+            LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 	else
@@ -141,23 +141,23 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 				{
 					m_Enabled = false;
 
-                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputAudioPkts %d", enable );
+                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputAudioPkts %d", enable );
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, false );
 					m_AudioPktsRequested = false;
-                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputMixer %d", enable );
+                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputMixer %d", enable );
 					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, false );
 					m_MixerInputRequesed = false;
-                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false done" );
+                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false done" );
 				}
 				else
 				{
-                    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", m_Engine.describeUser( onlineId ).c_str() );
+                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", m_Engine.describeUser( onlineId ).c_str() );
 				}
 			}
 		}
 		else
 		{
-            LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", m_Engine.describeUser( onlineId ).c_str() );
+            LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 }
@@ -171,11 +171,11 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream,  LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogStreams,  LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
 	PluginSessionMgr::SessionIter iter;
@@ -201,12 +201,12 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 				bool result = poSession->getAudioDecoder()->decodeToPcmData( pktReq->getCompressedData(), opusEncodedLenList, (int16_t *)audioBuf, (int32_t)MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 				if( !result )
 				{
-					LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to decode opus" );
+					LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to decode opus" );
 				}
 			}
 			else
 			{
-				LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to get jitter buffer" );
+				LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to get jitter buffer" );
 			}
 
 			//LogMsg( LOG_INFO, "VoiceFeedMgr::onPktVoiceReq jitterBuf.unlockResource\n" );
@@ -216,7 +216,7 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
@@ -224,11 +224,11 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
     //int sessionIdx = 0;
@@ -252,7 +252,7 @@ void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 		}
 		else
 		{
-			LogModule( eLogMediaStream, LOG_VERBOSE, "VoiceFeedMgr::callbackAudioOutSpaceAvail no buffer to read" );
+			LogModule( eLogStreams, LOG_VERBOSE, "VoiceFeedMgr::callbackAudioOutSpaceAvail no buffer to read" );
 		}
 
 		//LogMsg( LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail jitterBuf.unlockResource sessionIdx %d\n", sessionIdx );
@@ -261,7 +261,7 @@ void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream,  LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogStreams,  LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
@@ -274,11 +274,11 @@ void VoiceFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHd
 void VoiceFeedMgr::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
 	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
@@ -296,7 +296,7 @@ void VoiceFeedMgr::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogMediaStream, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 

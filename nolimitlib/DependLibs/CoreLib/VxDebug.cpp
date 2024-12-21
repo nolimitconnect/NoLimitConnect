@@ -41,7 +41,7 @@ namespace
 #if defined(LOG_IN_RELEASE_BUILD)
 uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     eLogHackers
-    // | eLogUdp
+    // | eLogFileXfer
     // | eLogConnect
     // | eLogAcceptConn
     // | eLogSkt
@@ -56,7 +56,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     // | eLogWindowPositions
      | eLogStartup
     // | eLogHostJoin
-    // | eLogMediaStream
+    // | eLogStreams
     // | eLogSktData
     //| eLogSktData
     //| eLogAcceptConn
@@ -65,7 +65,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     // | eLogRunTest
     // | eLogHostConnect
     // | eLogHostSearch
-    //| eLogMediaStream
+    //| eLogStreams
     | eLogPlayerNlc
     //| eLogFfmpeg
     //| eLogAudioIo
@@ -74,7 +74,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
 #elif defined(CAMERATESTBUILD)
         uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
-        // | eLogUdp
+        // | eLogFileXfer
         // | eLogConnect
         // | eLogAcceptConn
         // | eLogSkt
@@ -89,7 +89,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogWindowPositions
          | eLogStartup
         // | eLogHostJoin
-        // | eLogMediaStream
+        // | eLogStreams
         // | eLogSktData
         //| eLogSktData
         //| eLogAcceptConn
@@ -98,7 +98,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogRunTest
         // | eLogHostConnect
         // | eLogHostSearch
-        //| eLogMediaStream
+        //| eLogStreams
         //| eLogPlayerNlc
         //| eLogFfmpeg
         | eLogAudioIo
@@ -108,7 +108,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
 #elif defined(DEBUG) || defined(_DEBUG) || defined(FLATPAKBUILD)
     uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
-        // | eLogUdp
+        // | eLogFileXfer
         // | eLogConnect
         // | eLogAcceptConn
         // | eLogSkt
@@ -123,7 +123,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogWindowPositions
          | eLogStartup
         // | eLogHostJoin
-        // | eLogMediaStream
+        // | eLogStreams
         // | eLogSktData
         //| eLogSktData
         //| eLogAcceptConn
@@ -132,7 +132,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogRunTest
         // | eLogHostConnect
         // | eLogHostSearch
-        //| eLogMediaStream
+        //| eLogStreams
         //| eLogPlayerNlc
         //| eLogFfmpeg
         | eLogAudioIo
@@ -275,7 +275,7 @@ void VxRemoveLogHandler( ILogCallbackInterface* callbackHandler )
 
 //============================================================================
 /// @brief return true if should log the given module
-bool IsLogEnabled( ELogModule logModule )
+bool LogEnabled( ELogModule logModule )
 {
     return (g_ModuleEnableLoggingFlags & logModule) ? true : false;
 }
@@ -333,7 +333,7 @@ void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... )
             return; // don't log
         }
 
-        if( !IsLogEnabled( eLog ) )
+        if( !LogEnabled( eLog ) )
         {
             return;
         }
@@ -374,7 +374,7 @@ void LogModule2( ELogModule eLog, uint32_t u32MsgType, const char* msg )
             return; // don't log
         }
 
-        if( !IsLogEnabled( eLog ) )
+        if( !LogEnabled( eLog ) )
         {
             return;
         }
@@ -399,7 +399,7 @@ void LogCModule( int logModuleType, uint32_t u32MsgType, const char* msg, ... )
             return; // don't log
         }
 
-        if( !IsLogEnabled( (ELogModule)logModuleType ) )
+        if( !LogEnabled( (ELogModule)logModuleType ) )
         {
             return;
         }

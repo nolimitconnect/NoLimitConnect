@@ -89,6 +89,8 @@ public:
 	void						setXferProgress( int xferProgress )			{ m_XferProgress = xferProgress; }
 	int							getXferProgress( void ) const				{ return m_XferProgress; }
 
+	VxGUID						getXferSessionId( void ) 					{ return m_FileInfo.getXferSessionId(); }
+
 	QString						describeXferState( void );
 
 	bool						isDirectory( void )							{ return m_FileInfo.isDirectory(); }
@@ -101,7 +103,7 @@ public:
 	void						setIsStream( bool isStreaming )				{ m_FileInfo.setIsStream( isStreaming ); }
 	bool 						isStream( void )							{ return m_FileInfo.isStream(); }
 
-	bool						getAssetInfo( AssetBaseInfo& assetInfo, VxGUID& lclSessionId, bool asStream = false );
+	bool						getAssetInfo( AssetBaseInfo& assetInfo, bool asStream = false );
 
 protected:
 	//=== vars ===//

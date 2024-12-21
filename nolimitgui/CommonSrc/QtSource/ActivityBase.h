@@ -31,6 +31,7 @@ QT_END_NAMESPACE
 
 class AppCommon;
 class AssetBaseInfo;
+class AssetPlaySession;
 class BottomBarWidget;
 class GuiUserMgr;
 class GuiOfferSession;
@@ -113,7 +114,7 @@ public:
     virtual GuiUser*		    getUser( void )										{ return m_HisIdent; }
 
 	// override playMedia if is applet that plays media
-	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) { return false; };
+	virtual bool				playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer ) { return false; };
 
 	virtual void				okMessageBox( QString title, QString msg );
 	virtual void				okMessageBox2( QString title, const char* msg, ... );

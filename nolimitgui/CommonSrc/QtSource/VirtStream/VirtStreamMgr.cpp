@@ -43,24 +43,24 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 {
 	// called just before the media player starts playing stream
 
-	lockSteamMgr();
+	lockStreamMgr();
 	m_LiveStream.m_StreamAssetInfo = assetInfo;
 	m_LiveStream.m_StreamAssetInfo.setIsStream( true );
 	m_LiveStream.m_StreamSessionId = lclSessionId;
 	if( !m_LiveStream.setConnection( m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( assetInfo.getDestUserId() ) ) )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "%s failed to find online connection", __func__ );
-		unlockSteamMgr();
+		LogModule( eLogStreams, LOG_ERROR, "%s failed to find online connection", __func__ );
+		unlockStreamMgr();
 		return false;
 	}
 
-	unlockSteamMgr();
+	unlockStreamMgr();
 	setIsPlaying( true );
 
 	m_Plugin.wantFileXferCallback( this, true );
 	if( !m_Plugin.startStream( m_LiveStream.getConnection(), m_LiveStream.m_StreamAssetInfo, m_LiveStream.m_StreamSessionId ) )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "%s failed to start stream", __func__ );
+		LogModule( eLogStreams, LOG_ERROR, "%s failed to start stream", __func__ );
 		m_Plugin.wantFileXferCallback( this, false );
 		return false;
 	}
@@ -72,7 +72,8 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 {
 	bool result{ false };
-	const double maxTimeoutMs = 20000;
+	//const double maxTimeoutMs = 20000;
+	const double maxTimeoutMs = 60000;
 	//const double maxTimeoutMs = 800000; // temp for debug
 	VxTimer timer;
 	while( timer.elapsedMs() < maxTimeoutMs && !m_LiveStream.m_Error )
@@ -83,37 +84,42 @@ bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 			return false;
 		}
 
-		if( readLen == m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
-		{
-			result = true;
-			break;
-		}
-
-		if( readLen == m_LiveStream.m_FileTail.hasData( fileOffset, readLen ) )
-		{
-			result = true;
-			break;
-		}
-
-		if( !m_LiveStream.isConnected() )
-		{
-			LogMsg( LOG_WARN, "VirtStreamMgr::%s user %s is no longer connected", __func__,
-					m_Engine.describeUser( m_LiveStream.m_StreamAssetInfo.getDestUserId() ).c_str() );
-			return false;
-		}
-
 		if( !m_LiveStream.m_VFile )
 		{
 			LogMsg( LOG_WARN, "VirtStreamMgr::%s file was closed", __func__ );
 			return false;
 		}
 
+		lockStreamMgr();
+		if( !m_LiveStream.isConnected() )
+		{
+			LogMsg( LOG_WARN, "VirtStreamMgr::%s user %s is no longer connected", __func__,
+					m_Engine.describeUser( m_LiveStream.m_StreamAssetInfo.getDestUserId() ).c_str() );
+			unlockStreamMgr();
+			return false;
+		}
+
+		if( readLen == m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
+		{
+			result = true;
+			unlockStreamMgr();
+			break;
+		}
+
+		if( readLen == m_LiveStream.m_FileTail.hasData( fileOffset, readLen ) )
+		{
+			result = true;
+			unlockStreamMgr();
+			break;
+		}
+
+		unlockStreamMgr();
 		VxSleep( 300 );
 	}
 	
 	if( !result )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64, __func__,
+		LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64, __func__,
 				   m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), fileOffset, readLen );
 	}
 
@@ -141,10 +147,13 @@ void VirtStreamMgr::onPlaybackEnded( VxGUID& feedId )
 //============================================================================
 void VirtStreamMgr::onStreamStop( void )
 {
+	VxGUID streamSessionId = m_LiveStream.m_StreamSessionId;
+	m_Engine.onStreamStop( streamSessionId );
+
 	setIsPlaying( false );
-	lockSteamMgr();
+	lockStreamMgr();
 	m_LiveStream.clear();
-	unlockSteamMgr();
+	unlockStreamMgr();
 }
 
 //============================================================================
@@ -155,11 +164,11 @@ bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
 	pktReq.setDestOnlineId( m_LiveStream.m_StreamAssetInfo.getDestUserId() );
 	pktReq.setPluginNum( ePluginTypeFileShareServer );
 
-	lockSteamMgr();
+	lockStreamMgr();
 	pktReq.setLclSessionId( m_LiveStream.m_StreamSessionId );
 	pktReq.setRmtSessionId( m_LiveStream.m_ServerSessionId );
 	pktReq.setAssetId(  m_LiveStream.m_StreamAssetInfo.getAssetUniqueId() );
-	unlockSteamMgr();
+	unlockStreamMgr();
 
 	pktReq.setStartOffset( newPos );
 	pktReq.setStreamCtrl( eStreamSeek );
@@ -171,16 +180,24 @@ void VirtStreamMgr::onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPk
 {
 	switch( pktHdr->getPktType() )
 	{
-	case  PKT_TYPE_FILE_GET_REPLY:
-		onPktFileGetReply( sktBase, pktHdr );
-		break;
-
 	case  PKT_TYPE_FILE_CHUNK_REQ:
 		onPktFileChunkReq( sktBase, pktHdr );
 		break;
 
+	case  PKT_TYPE_FILE_GET_REPLY:
+		onPktFileGetReply( sktBase, pktHdr );
+		break;
+
+	case  PKT_TYPE_FILE_GET_COMPLETE_REQ:
+		onPktFileGetCompleteReq( sktBase, pktHdr );
+		break;
+
 	case  PKT_TYPE_FILE_GET_COMPLETE_REPLY:
 		onPktFileGetCompleteReply( sktBase, pktHdr );
+		break;
+
+	case  PKT_TYPE_FILE_SEND_COMPLETE_REQ:
+		onPktFileSendCompleteReq( sktBase, pktHdr );
 		break;
 
 	case  PKT_TYPE_FILE_SHARE_ERR:
@@ -204,14 +221,17 @@ void VirtStreamMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	VxGUID rmtSessionId = pktReply->getRmtSessionId();
 	if( rmtSessionId != m_LiveStream.m_StreamSessionId )
 	{
+		if(LogEnabled(eLogStreams)) LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s wrong session id %s", __func__, rmtSessionId.toHexString().c_str() );
 		return;
 	}
 
+	if(LogEnabled(eLogStreams)) LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s stream session %s server session %s", __func__, 
+										   rmtSessionId.toHexString().c_str(),  lclSessionId.toHexString().c_str() );
 	if( lclSessionId.isVxGUIDValid() )
 	{
-		lockSteamMgr();
+		lockStreamMgr();
 		m_LiveStream.m_ServerSessionId = lclSessionId;
-		unlockSteamMgr();
+		unlockStreamMgr();
 	}
 }
 
@@ -222,32 +242,53 @@ void VirtStreamMgr::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	VxGUID rmtSessionId = pktReq->getRmtSessionId();
 	if( rmtSessionId != m_LiveStream.m_StreamSessionId )
 	{
+		if(LogEnabled(eLogStreams)) LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s wrong session id %s", __func__, rmtSessionId.toHexString().c_str() );
 		return;
 	}
 
+	if(LogEnabled(eLogStreams)) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s offs %" PRId64  "len %d", __func__, 
+										   pktReq->getChunkOffset(), pktReq->getDataLen() );
 	m_LiveStream.m_StreamCache.writeData( pktReq->getChunkOffset(), (char*)pktReq->getChunkBuffer(), pktReq->getDataLen() );
+}
+
+//============================================================================
+void VirtStreamMgr::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
+	//PktFileGetCompleteReq* pktReply = (PktFileGetCompleteReq*)pktHdr;
 }
 
 //============================================================================
 void VirtStreamMgr::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	PktFileGetCompleteReply* pktReply = (PktFileGetCompleteReply*)pktHdr;
+	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
+	//PktFileGetCompleteReply* pktReply = (PktFileGetCompleteReply*)pktHdr;
+}
+
+//============================================================================
+void VirtStreamMgr::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
+    //PktFileSendCompleteReq* pktReply = (PktFileSendCompleteReq*)pktHdr;
 }
 
 //============================================================================
 void VirtStreamMgr::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	PktFileShareErr* pktReply = (PktFileShareErr*)pktHdr;
+	PktFileShareErr* pktError = (PktFileShareErr*)pktHdr;
+	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s error %d rx session id %s tx session id %s",
+				   __func__, pktError->getError(), pktError->getRxInstance().toHexString().c_str(), pktError->getTxInstance().toHexString().c_str() );
 }
 
 //============================================================================
 void VirtStreamMgr::onPktStreamCtrlReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
+	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
 	PktStreamCtrlReply* pktReply = (PktStreamCtrlReply*)pktHdr;
 	if( pktReply->getStreamCtrl() == eStreamReadTail )
 	{
-		lockSteamMgr();
+		lockStreamMgr();
 		m_LiveStream.m_FileTail.writeData( pktReply->getStartOffset(), pktReply->getDataBuf(), pktReply->getEndOffset() - pktReply->getStartOffset() );
-		unlockSteamMgr();
+		unlockStreamMgr();
 	}
 }

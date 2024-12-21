@@ -13,6 +13,7 @@
 
 #include "GuiPlayerCallback.h"
 
+#include <AssetBase/AssetPlaySession.h>
 #include <GuiInterface/IMediaPlayerCallback.h>
 
 #include <QElapsedTimer>
@@ -67,6 +68,8 @@ public:
 
 	void						updateLastPlayedFile( void );
 
+	virtual bool				playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer ) override;
+
 signals:
 	void						signalInternalInitLevel( int level, bool success );
 	void						signalInternalPlayerNlcIsRunning( bool isRunning );
@@ -119,10 +122,9 @@ protected:
 	void						resizeEvent( QResizeEvent* ev ) override;
 	void						closeEvent( QCloseEvent* ev ) override;
 
-	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
-	virtual bool				playAsset( AssetBaseInfo& assetInfo, int pos0to100000 );
-	virtual bool				playStream( AssetBaseInfo& assetInfo, VxGUID streamSessionId, int pos0to100000 );
-	bool						playMediaFile( std::string fileStr, int pos0to100000, bool isStream );
+	virtual bool				playAsset( VxGUID& sessionId, AssetBaseInfo& assetInfo, int pos0to100000 );
+	virtual bool				playStream( VxGUID& sessionId, AssetBaseInfo& assetInfo, int pos0to100000 );
+	bool						playMediaFile( VxGUID& sessionId, std::string fileStr, int pos0to100000, bool isStream );
 
 	void						setReadyForCallbacks( bool isReady );
 	virtual void				updateGuiPlayControls( bool isPlaying );
@@ -164,8 +166,8 @@ private:
 	std::string					m_LastPlayedMediaName;
 	std::string					m_LastPlayedMediaFile;
 
-	std::vector<std::pair<AssetBaseInfo, int>> m_PlayAssetQue;
-	VxGUID						m_StreamSessionId;
+	std::vector<AssetPlaySession> m_PlayAssetQue;
+	VxGUID						m_SessionId;
 	bool						m_IsStreaming{ false };
 };
 

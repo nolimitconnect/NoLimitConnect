@@ -442,6 +442,7 @@
     <ClCompile Include="..\..\AssetBase\AssetBaseXferMgr.cpp" />
     <ClCompile Include="..\..\AssetBase\AssetBaseXferPktCreate.cpp" />
     <ClCompile Include="..\..\AssetBase\AssetBaseXferSession.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetPlaySession.cpp" />
     <ClCompile Include="..\..\AssetMgr\AssetInfo.cpp">
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ForcedIncludeFiles>
@@ -733,6 +734,7 @@
     <ClInclude Include="..\..\AssetBase\AssetBaseXferDb.h" />
     <ClInclude Include="..\..\AssetBase\AssetBaseXferMgr.h" />
     <ClInclude Include="..\..\AssetBase\AssetBaseXferSession.h" />
+    <ClInclude Include="..\..\AssetBase\AssetPlaySession.h" />
     <ClInclude Include="..\..\AssetBase\AssetXferCallback.h" />
     <ClInclude Include="..\..\AssetBase\BaseXferInterface.h" />
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h" />

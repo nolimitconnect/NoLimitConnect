@@ -17,6 +17,7 @@
 #include "GuiPlayerMgr.h"
 #include "VxMenuButton.h"
 
+#include <AssetBase/AssetPlaySession.h>
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
@@ -86,9 +87,9 @@ void AppletPlayerPhoto::setupBottomMenu( VxMenuButton * menuButton )
 }
 
 //============================================================================
-bool AppletPlayerPhoto::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
+bool AppletPlayerPhoto::playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer)
 {
-	std::string fullFileName = assetInfo.getFileNameAndPath();
+	std::string fullFileName = assetPlaySession.getFileNameAndPath();
 
 	QPixmap pixmap;
 	pixmap.load( fullFileName.c_str() );

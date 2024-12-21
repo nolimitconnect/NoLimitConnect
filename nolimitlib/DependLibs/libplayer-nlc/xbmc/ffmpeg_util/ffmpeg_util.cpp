@@ -71,7 +71,7 @@ void ff_avutil_log(void* ptr, int level, const char* format, va_list va)
         return;
     }
 
-    if( !IsLogEnabled( eLogFfmpeg ) )
+    if( !LogEnabled( eLogFfmpeg ) )
     {
         logMutex.unlock();
         return;

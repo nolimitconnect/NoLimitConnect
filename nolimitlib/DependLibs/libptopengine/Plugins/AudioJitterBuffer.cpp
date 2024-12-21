@@ -65,7 +65,7 @@ char * AudioJitterBuffer::getBufToFill( void )
 	if( !retBuf )
 	{
 		// throw away a buffer
-		LogModule( eLogMediaStream, LOG_VERBOSE, "AudioJitterBuffer::getBufToFill overflow this %p throw away idx %d", this, m_TailIdx );
+		LogModule( eLogStreams, LOG_VERBOSE, "AudioJitterBuffer::getBufToFill overflow this %p throw away idx %d", this, m_TailIdx );
 		getBufToRead();
 	}
 #ifdef DEBUG_AUDIO_JITTER_BUF
@@ -97,7 +97,7 @@ char * AudioJitterBuffer::getBufToRead( void )
 
 	if( !retBuf )
 	{
-		LogModule( eLogMediaStream, LOG_VERBOSE, "AudioJitterBuffer::getBufToRead underflow this %p", this );
+		LogModule( eLogStreams, LOG_VERBOSE, "AudioJitterBuffer::getBufToRead underflow this %p", this );
 	}
 #ifdef DEBUG_AUDIO_JITTER_BUF
 	else

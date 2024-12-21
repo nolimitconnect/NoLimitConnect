@@ -1656,7 +1656,7 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int s
 	}
 	else
 	{
-		LogModule( eLogMediaStream, LOG_WARN, "MediaProcessor::fromGuiEchoCanceledSamplesThreaded queue full" );
+		LogModule( eLogStreams, LOG_WARN, "MediaProcessor::%s queue full", __func__ );
 	}
 
 	m_AudioInSemaphore.signal();

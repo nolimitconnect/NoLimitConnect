@@ -82,7 +82,7 @@ void AppCommon::toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId
 //============================================================================
 void AppCommon::slotInternalToGuiFileXferState( EPluginType pluginType, VxGUID lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 )
 {
-    getFileXferMgr().toGuiFileXferState(pluginType, lclSessionId, xferDir, xferState, xferErr, param1 );
+    getFileXferMgr().toGuiFileXferState( pluginType, lclSessionId, xferDir, xferState, xferErr, param1 );
 }
 
 //============================================================================

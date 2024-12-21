@@ -1155,7 +1155,7 @@ int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFlo
 
         unlockPlayerCache();
 /*
-        if( IsLogEnabled( eLogAudioIo ) )
+        if( LogEnabled( eLogAudioIo ) )
         {
             float cachedTime = toGuiGetAudioDelaySeconds( appModule );
             float totalCache = toGuiGetAudioCacheTotalSeconds( appModule );

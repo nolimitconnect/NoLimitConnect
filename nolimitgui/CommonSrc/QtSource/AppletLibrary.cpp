@@ -25,9 +25,10 @@
 #include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 
-#include <P2PEngine/P2PEngine.h>
+#include <AssetBase/AssetPlaySession.h>
 #include <AssetMgr/AssetMgr.h>
 #include <AssetMgr/AssetInfo.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
@@ -283,7 +284,8 @@ void AppletLibrary::slotListPlayIconClicked( QListWidgetItem* item )
                     m_MyApp.getEngine().fromGuiAssetAction( eAssetActionAddToAssetMgr, assetInfo );
                 }
 
-                m_MyApp.getPlayerMgr().playMedia( assetInfo, false );
+                AssetPlaySession playSession( assetInfo );
+                m_MyApp.getPlayerMgr().playMedia( playSession, false );
             }
             else
             {
@@ -315,7 +317,8 @@ void AppletLibrary::slotListPlayExternIconClicked( QListWidgetItem* item )
                     m_MyApp.getEngine().fromGuiAssetAction( eAssetActionAddToAssetMgr, assetInfo );
                 }
 
-                m_MyApp.getPlayerMgr().playMedia( assetInfo, true );
+                AssetPlaySession playSession( assetInfo );
+                m_MyApp.getPlayerMgr().playMedia( playSession, true );
             }
             else
             {

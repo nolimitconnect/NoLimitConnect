@@ -1189,7 +1189,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 
 				{ 
 					// error
-                    if( IsLogEnabled( eLogSkt ) )
+                    if( LogEnabled( eLogSkt ) )
 					    LogMsg( LOG_INFO, "VxConnectTo: skt handle %d timeout %d select error %d", sktHandle, iConnectTimeoutMs, errno );
 
 					if( 0 != retSktErr )
@@ -1208,7 +1208,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 					socklen_t valopt = 0;
 					if( getsockopt(sktHandle, SOL_SOCKET, SO_ERROR, (char*)(&valopt), &iSktLen) < 0 )
 					{ 
-                        if( IsLogEnabled( eLogSkt ) )
+                        if( LogEnabled( eLogSkt ) )
 						    LogMsg( LOG_INFO, "VxConnectTo: skt handle %d Error %d in getsockopt() to ip %s", sktHandle, VxGetLastError(), strRmtIp.c_str() );
 
 						VxCloseSktNow( sktHandle );
@@ -1220,7 +1220,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 						// Check the value returned... 
 						if( valopt ) 
 						{ 
-                            if( IsLogEnabled( eLogSkt ) )
+                            if( LogEnabled( eLogSkt ) )
 							    LogMsg( LOG_DEBUG, "VxConnectTo: skt handle %d Error %d in delayed connection to ip %s", sktHandle, valopt, strRmtIp.c_str() );
 
 							VxCloseSktNow( sktHandle );
@@ -1229,7 +1229,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 						else
 						{
 							// connected
-                            if( IsLogEnabled( eLogSkt ) )
+                            if( LogEnabled( eLogSkt ) )
 							    LogMsg( LOG_INFO, "VxConnectTo: SUCCESS skt handle %d connected in delayed connection to ip %s", sktHandle, strRmtIp.c_str() );
 
 							::VxSetSktBlocking( sktHandle, true );
@@ -1240,7 +1240,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 				} 
 				else 
 				{ 
-                    if( IsLogEnabled( eLogSkt ) )
+                    if( LogEnabled( eLogSkt ) )
 					    LogMsg( LOG_DEBUG, "VxConnectTo: skt handle %d connect to %s port %d timed out.. canceling", sktHandle, strRmtIp.c_str(), u16Port );
 
 					VxCloseSktNow( sktHandle );
@@ -1254,7 +1254,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 		}
 		else
 		{
-            if( IsLogEnabled( eLogSkt ) )
+            if( LogEnabled( eLogSkt ) )
 			    LogMsg( LOG_DEBUG, "VxConnectTo: NO TIMEOUT skt handle %d connect no block ip %s port %d", sktHandle, strRmtIp.c_str(), u16Port );
 
 			// connect to the ip without timeout
@@ -1263,7 +1263,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 			{
 				// connect error
 				rc = VxGetLastError();
-                if( IsLogEnabled( eLogSkt ) )
+                if( LogEnabled( eLogSkt ) )
 				    LogMsg( LOG_DEBUG, "VxConnectTo: skt handle %d connect to %s error %s",
 					        sktHandle,
 					        strRmtIp.c_str(),

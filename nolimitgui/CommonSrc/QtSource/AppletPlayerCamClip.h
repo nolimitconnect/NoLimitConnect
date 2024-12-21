@@ -19,9 +19,10 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class ThumbnailViewWidget;
 class AssetMgr;
+class AssetPlaySession;
 class IVxVidCap;
+class ThumbnailViewWidget;
 
 class AppletPlayerCamClip : public AppletAssetPlayerBase, public MediaCallbackInterface
 {
@@ -31,7 +32,7 @@ public:
 	virtual ~AppletPlayerCamClip() override;
 
 	// override playMedia if is applet that plays media
-	virtual bool				playMedia( AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+	virtual bool				playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer ) override;
 
 	virtual void				setAssetInfo( AssetBaseInfo& assetInfo ) override;
 	virtual void				setAssetInfo( AssetInfo& assetInfo ) override;

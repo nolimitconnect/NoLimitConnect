@@ -1084,19 +1084,24 @@ void FileInfoBaseMgr::toGuiFileDownloadStart( VxGUID& onlineId, VxGUID& lclSessi
 //============================================================================
 void FileInfoBaseMgr::updateToGuiFileXferState( VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param )
 {
-	LogMsg( LOG_VERBOSE, "%s xferState %s xferErr %s param %d", __func__, DescribeXferState( xferState ), DescribeXferError( xferErr ), param );
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoBaseMgr::%s session id %s %s %s param %d", __func__, 
+			lclSessionId.toHexString().c_str(), DescribeXferState( xferState ), DescribeXferError( xferErr ), param );
 	m_Plugin.toGuiFileXferState( lclSessionId, xferDir, xferState, xferErr, param );
 }
 
 //============================================================================
 void FileInfoBaseMgr::toGuiFileDownloadComplete( VxGUID& lclSessionId, std::string fileName, EXferError xferError )
 {
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoBaseMgr::%s session id %s file name %s xferError %s ", __func__, 
+			lclSessionId.toHexString().c_str(), fileName.c_str(), DescribeXferError( xferError ) );
 	m_Plugin.toGuiFileDownloadComplete( lclSessionId, fileName, xferError );
 }
 
 //============================================================================
 void FileInfoBaseMgr::toGuiFileUploadComplete( VxGUID& lclSessionId, std::string fileName, EXferError xferError )
 {
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoBaseMgr::%s session id %s file name %s xferError %s ", __func__, 
+			lclSessionId.toHexString().c_str(), fileName.c_str(), DescribeXferError( xferError ) );
 	m_Plugin.toGuiFileUploadComplete( lclSessionId, fileName, xferError );
 }
 

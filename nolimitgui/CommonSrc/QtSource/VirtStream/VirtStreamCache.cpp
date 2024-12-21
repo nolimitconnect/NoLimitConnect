@@ -134,7 +134,7 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 {
 	if( hasData( offset, len ) )
 	{
-		LogModule( eLogMediaStream, LOG_ERROR, "VirtStreamCache::%s data already exist", __func__ );
+		LogModule( eLogStreams, LOG_ERROR, "VirtStreamCache::%s data already exist", __func__ );
 		vx_assert( false );
 		return false;
 	}
@@ -143,7 +143,7 @@ int64_t VirtStreamCache::writeData( int64_t offset, char* data, int64_t len )
 	lockCache();
 	if( offset != 0 && offset != m_CacheEndOffs )
 	{
-		LogModule( eLogMediaStream, LOG_WARN, "VirtStreamCache::%s data is not consistent.. flushing cache", __func__ );
+		LogModule( eLogStreams, LOG_WARN, "VirtStreamCache::%s data is not consistent.. flushing cache", __func__ );
 		clearCache( true );
 		m_CacheStartOffs = offset;
 	}
@@ -209,7 +209,7 @@ int64_t VirtStreamCache::readData( int64_t offset, char* data, int64_t len )
 		}
 		else if( foundData )
 		{
-			LogModule( eLogMediaStream, LOG_WARN, "VirtStreamCache::%s only 0x%" PRIx64 " of data in the cache", __func__, lenRead );
+			LogModule( eLogStreams, LOG_WARN, "VirtStreamCache::%s only 0x%" PRIx64 " of data in the cache", __func__, lenRead );
 			break;
 		}
 

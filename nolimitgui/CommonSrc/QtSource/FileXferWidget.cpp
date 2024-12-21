@@ -288,6 +288,21 @@ void FileXferWidget::updateXferInfo( void )
 		ui.m_StreamButton->setEnabled( false );
 		ui.m_StreamButton->setNotifyType( eNotifyOnline );
 	}
+    else if( eXferStateStreamStopped == xferState )
+    {
+        ui.m_StreamButton->setNotifyType( eNotifyNone );
+        ui.m_StreamButton->setVisible( true );
+        ui.m_StreamButton->setEnabled( true );
+
+        ui.m_FileAcceptButton->setVisible( false );
+        ui.m_FileCancelButton->setVisible( true );
+        ui.m_FileProgressBar->setVisible( false );
+		ui.m_FileCancelButton->setIcons( eMyIconFileDownloadNormal );
+
+		// back to default state
+		xferState = eXferStateDownloadNotStarted;
+		xferSession->setXferState( xferState );
+    }
 
 	bool enableCancel = false;
 	bool enablePlay = false;

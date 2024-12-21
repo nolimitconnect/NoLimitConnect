@@ -89,6 +89,7 @@ namespace
 		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
 	}
 
+	//============================================================================
 	QString GetAppTitle( EDefaultAppMode appMode )
 	{
 		switch( appMode )
@@ -109,6 +110,7 @@ namespace
 		}
 	}
 
+	//============================================================================
 	QString GetAppShortName( EDefaultAppMode appMode )
 	{
 		//NOTE: do not translate or will cause new settings each time user changes languages
@@ -818,7 +820,7 @@ void AppCommon::toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, 
 		return;
 	}
 
-	if( !IsLogEnabled( eLogHostSearch ) )
+	if( !LogEnabled( eLogHostSearch ) )
 	{
 		return;
 	}
@@ -849,7 +851,7 @@ void AppCommon::toGuiHostJoinStatus( EHostType hostType, VxGUID& sessionId, EHos
 		return;
 	}
 
-	if( !IsLogEnabled( eLogHostJoin ) )
+	if( !LogEnabled( eLogHostJoin ) )
 	{
 		return;
 	}
@@ -879,7 +881,7 @@ void AppCommon::toGuiHostSearchStatus( EHostType hostType, VxGUID& sessionId, EH
         return;
     }
 
-	if( !IsLogEnabled( eLogHostJoin ) )
+	if( !LogEnabled( eLogHostJoin ) )
 	{
 		return;
 	}

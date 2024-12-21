@@ -29,7 +29,7 @@ static QString describeLogModule( ELogModule logModule )
     {
     case eLogNone: return QObject::tr( "Log None" );
 
-    case eLogUdp: return QObject::tr( "Log Multicast" );
+    case eLogFileXfer: return QObject::tr( "Log File Xfer" );
     case eLogConnect: return QObject::tr( "Log Connect" );
     case eLogAcceptConn: return QObject::tr( "Log Accept Connection" );
     case eLogRelay : return QObject::tr( "Log Relay" );
@@ -61,14 +61,13 @@ static QString describeLogModule( ELogModule logModule )
 
     case eLogHostSearch: return QObject::tr( "Log Host Announce/Search" );
     case eLogHackers: return QObject::tr( "Log Hackers" );
-    case eLogMediaStream: return QObject::tr( "Log Media Streams" );
+    case eLogStreams: return QObject::tr( "Log Media Streams" );
     case eLogPlayerNlc: return QObject::tr( "Log Media Player NLC" );
 
     case eLogFfmpeg: return QObject::tr( "Log FFMPEG" );
     case eLogAudioIo: return QObject::tr( "Log Audio IO" );
     case eLogVideoIo: return QObject::tr( "Log Video IO" );
     case eLogMembership: return QObject::tr( "Log Membership" );
-
 
     default:
         return QObject::tr( "Unused Log Module" );

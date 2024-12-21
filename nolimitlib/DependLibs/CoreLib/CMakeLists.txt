@@ -117,7 +117,6 @@ list(APPEND CoreLib_SOURCES
     Invite.cpp
     VFile.cpp
     VFileMgr.cpp
-    VFileMgrFileIo.cpp
 
     VxBuffer.cpp
     VxChop.cpp

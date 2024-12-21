@@ -12,6 +12,7 @@
 
 #include "ActivityBase.h"
 #include "AppCommon.h"
+#include "AppletPlayerNlc.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiPlayerCallback.h"
@@ -213,7 +214,19 @@ bool GuiPlayerMgr::playFile( QString fileNameAndPath, int pos0to100000, bool isS
 //============================================================================
 bool GuiPlayerMgr::playStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
-	return playMedia( assetInfo, false, pos0to100000 );
+	// launch the applet that plays this file
+	ActivityBase* applet = GetAppInstance().launchApplet( eAppletPlayerNlc, &GetAppInstance().getHomeWindow(), "", assetInfo.getAssetUniqueId() );
+	if( applet )
+	{
+		AppletPlayerNlc* player = dynamic_cast<AppletPlayerNlc*>(applet);
+		if( player )
+		{
+			AssetPlaySession playSession( assetInfo, lclSessionId, pos0to100000 );
+			return player->playMedia( playSession, false );
+		}		
+	}
+
+	return false;
 }
 
 //============================================================================
@@ -242,7 +255,9 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
 				ActivityBase* applet = GetAppInstance().launchApplet( appletType, &GetAppInstance().getHomeWindow(), "", assetInfo.getAssetUniqueId() );
 				if( applet )
 				{
-					return applet->playMedia( assetInfo, pos0to100000 );
+					AssetPlaySession assetPlaySession( assetInfo );
+					assetPlaySession.setPlayPosition( pos0to100000 );
+					return applet->playMedia( assetPlaySession, false );
 				}
 			}
 		}

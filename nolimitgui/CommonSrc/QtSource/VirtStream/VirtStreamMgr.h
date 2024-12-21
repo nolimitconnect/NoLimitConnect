@@ -38,8 +38,8 @@ public:
     bool                        qtFileInfoToVxFileInfo( const QFileInfo& fileInfo, VxFileInfoBase& retFileInfo,
                                                         uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO ) override;
 
-	bool						seperatePathAndFile( const char* pFullPath,		// path and file name			
-													 std::string& strRetPath,	// return path of file
+	bool						seperatePathAndFile( const char* pFullPath,					// path and file name			
+													 std::string& strRetPath,				// return path of file
 													 std::string& strRetFile ) override;	// return file name
 
 	VFile*						fileOpen( const char* fileName, const char* fileMode )  override;
@@ -73,8 +73,8 @@ protected:
 	void						lockProviderMgr() { m_ProviderMgrMutex.lock(); }
 	void						unlockProviderMgr() { m_ProviderMgrMutex.unlock(); }
 
-	void						lockSteamMgr() { m_StreamMgrMutex.lock(); }
-	void						unlockSteamMgr() { m_StreamMgrMutex.unlock(); }
+	void						lockStreamMgr() { m_StreamMgrMutex.lock(); }
+	void						unlockStreamMgr() { m_StreamMgrMutex.unlock(); }
 
     //=== provider functions ===//
     int							isProviderFile( struct VFile* vFile ) { return vFile->m_ProviderFileType > 0; }
@@ -136,7 +136,10 @@ protected:
 
 	virtual void				onPktFileChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
+	virtual void				onPktFileGetCompleteReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 	virtual void				onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
+	virtual void				onPktFileSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 	virtual void				onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 

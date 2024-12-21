@@ -718,6 +718,8 @@ public:
     std::string                 describeHostedId( HostedId& hostedId );
     std::string                 describeUser( VxGUID& onlineId );
 
+    void                        onStreamStop( VxGUID& streamId );
+
 protected:
     //========================================================================
     //========================================================================

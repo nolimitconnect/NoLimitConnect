@@ -589,7 +589,7 @@ bool NetServicesMgr::actionReqConnectToHost( VxSktConnectSimple& sktSimple )
 
 	if( false == sktSimple.connectToWebsite( anchorUrl.c_str(), strHost, strFile, u16Port, eIpAddrTypeUnknown, NETSERVICE_CONNECT_TIMEOUT ) )
 	{
-        if( IsLogEnabled( eLogNetworkState ) )
+        if( LogEnabled( eLogNetworkState ) )
         {
             LogMsg( LOG_ERROR, "### ERROR NetServicesMgr::%s: FAILED to Connect to %s timeout %d", __func__, anchorUrl.c_str(), NETSERVICE_CONNECT_TIMEOUT );
         }
@@ -813,7 +813,7 @@ bool NetServicesMgr::testLoobackPing( std::string localIP, uint16_t tcpListenPor
 
 	if( INVALID_SOCKET == toClientConn.connectTo( ipAddress.c_str(), tcpListenPort, VxGetIpAddrType( ipAddress.c_str() ), 2000 ) )
 	{
-        if( IsLogEnabled( eLogNetworkState ) )
+        if( LogEnabled( eLogNetworkState ) )
         {
 		    LogMsg( LOG_ERROR, "##P NetServicesMgr::testLoobackPing: could not connect to %s:%d %3.3f sec", ipAddress.c_str(), tcpListenPort, pingTimer.elapsedSec() );
         }

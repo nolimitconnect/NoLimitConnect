@@ -308,13 +308,13 @@ void PluginBaseFiles::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& skt
 //============================================================================
 void PluginBaseFiles::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	m_FileInfoXferMgr.onPktFileGetCompleteReq( sktBase, pktHdr, netIdent );
+	m_FileInfoXferMgr.onPktFileSendCompleteReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void PluginBaseFiles::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	m_FileInfoXferMgr.onPktFileGetCompleteReply( sktBase, pktHdr, netIdent );
+	m_FileInfoXferMgr.onPktFileSendCompleteReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================

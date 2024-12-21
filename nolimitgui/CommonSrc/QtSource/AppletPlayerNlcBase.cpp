@@ -124,43 +124,49 @@ void AppletPlayerNlcBase::setReadyForCallbacks( bool isReady )
 }
 
 //============================================================================
-bool AppletPlayerNlcBase::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
+bool AppletPlayerNlcBase::playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer )
 {
 	if( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
 	{
 		// player not ready so queue for play when ready
-		m_PlayAssetQue.emplace_back( std::make_pair( assetInfo, pos0to100000 ) );
+		m_PlayAssetQue.emplace_back( assetPlaySession );
+		startBusySpinner( this );
 		return true;
 	}
 
-	return playAsset( assetInfo, pos0to100000 );
+	return playAsset( assetPlaySession.getSessionId(), assetPlaySession, assetPlaySession.getPlayPosition() );
 }
 
 //============================================================================
-bool AppletPlayerNlcBase::playAsset( AssetBaseInfo& assetInfo, int pos0to100000 )
+bool AppletPlayerNlcBase::playAsset( VxGUID& sessionId, AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	stopMediaIfPlaying();
 	AppletPlayerBase::setAssetInfo( assetInfo );
 	if( assetInfo.isStream() )
 	{
-		m_StreamSessionId.initializeWithNewVxGUID();
-		return playStream( assetInfo, m_StreamSessionId, pos0to100000 );
+		m_SessionId = sessionId;
+		return playStream( sessionId, assetInfo, pos0to100000 );
 	}
 
 	return IMediaPlayerRequests::getNlcPlayer().fromGuiPlayMedia( assetInfo, pos0to100000 );
 }
 
 //============================================================================
-bool AppletPlayerNlcBase::playStream( AssetBaseInfo& assetInfo, VxGUID streamSessionId, int pos0to100000 )
+bool AppletPlayerNlcBase::playStream( VxGUID& sessionId, AssetBaseInfo& assetInfo, int pos0to100000 )
 {
-	bool canPlay = GetVirtStreamMgr().fromGuiPlayStream( assetInfo, streamSessionId, pos0to100000 );
+	if( sessionId.isVxGUIDValid() )
+	{
+		m_SessionId = sessionId;
+	}
+
+	bool canPlay = GetVirtStreamMgr().fromGuiPlayStream( assetInfo, sessionId, pos0to100000 );
 	if( canPlay )
 	{
-		canPlay &= IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, streamSessionId, pos0to100000 );
+		canPlay &= IMediaPlayerRequests::getNlcPlayer().fromGuiPlayStream( assetInfo, sessionId, pos0to100000 );
 	}
 	else
 	{
-		LogModule( eLogMediaStream, LOG_VERBOSE, "%s VirtStreamMgr says cannot play", __func__ );
+		LogModule( eLogStreams, LOG_VERBOSE, "%s VirtStreamMgr says cannot play", __func__ );
 	}
 	
 	setIsStreaming( canPlay );
@@ -168,7 +174,7 @@ bool AppletPlayerNlcBase::playStream( AssetBaseInfo& assetInfo, VxGUID streamSes
 }
 
 //============================================================================
-bool AppletPlayerNlcBase::playMediaFile( std::string mediaFile, int pos0to100000, bool isStream )
+bool AppletPlayerNlcBase::playMediaFile( VxGUID& sessionId, std::string mediaFile, int pos0to100000, bool isStream )
 {
 	if( !waitForPlayerThread() )
 	{
@@ -295,12 +301,13 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	}
 
 	updateGuiPlayControls( false );
-	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
 	if( getIsStreaming() )
 	{
 		setIsStreaming( false );
-		GetVirtStreamMgr().onPlaybackStopped( m_StreamSessionId );
+		GetVirtStreamMgr().onPlaybackStopped( m_SessionId );
 	}
+
+	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
 }
 
 //============================================================================
@@ -481,7 +488,7 @@ void AppletPlayerNlcBase::onActivityFinish( void )
 //============================================================================
 void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	stopBusySpinner();
 	updateGuiPlayControls( true );
 	resetPlayerControls();
@@ -492,7 +499,7 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	if( getIsStreaming() )
 	{
 		setIsStreaming( false );
@@ -508,7 +515,7 @@ void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	if( getIsStreaming() )
 	{
 		setIsStreaming( false );
@@ -627,10 +634,15 @@ void AppletPlayerNlcBase::onMediaPlayerNlcReady( bool isReady )
 {
 	if( isReady )
 	{
+		stopBusySpinner();
 		if( m_PlayAssetQue.size() )
 		{
-			playAsset( m_PlayAssetQue.at( 0 ).first, m_PlayAssetQue.at( 0 ).second );
+			bool playResult = playAsset( m_PlayAssetQue.at( 0 ).getSessionId(), m_PlayAssetQue.at( 0 ), m_PlayAssetQue.at( 0 ).getPlayPosition() );
 			m_PlayAssetQue.clear();
+			if( !playResult )
+			{
+				LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s play failed", __func__ );
+			}
 		}
 	}
 }

@@ -25,6 +25,8 @@ list(APPEND ptopengine_SOURCES
     AssetBase/AssetBaseXferMgr.cpp
     AssetBase/AssetBaseXferPktCreate.cpp
     AssetBase/AssetBaseXferSession.cpp
+    AssetBase/AssetPlaySession.h
+    AssetBase/AssetPlaySession.cpp
     AssetMgr/AssetInfo.cpp
     AssetMgr/AssetInfoDb.cpp
     AssetMgr/AssetMgr.cpp

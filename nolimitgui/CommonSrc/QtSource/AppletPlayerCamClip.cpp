@@ -20,8 +20,9 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
-#include <P2PEngine/P2PEngine.h>
+#include <AssetBase/AssetPlaySession.h>
 #include <AssetMgr/AssetMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
@@ -400,8 +401,8 @@ void AppletPlayerCamClip::setXferProgress( int xferProgress )
 }
 
 //============================================================================
-bool AppletPlayerCamClip::playMedia( AssetBaseInfo& assetInfo, int pos0to100000 )
+bool AppletPlayerCamClip::playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer )
 {
-	setAssetInfo( assetInfo );
-	return startMediaPlay( pos0to100000 );
+	setAssetInfo( assetPlaySession );
+	return startMediaPlay( assetPlaySession.getPlayPosition() );
 }

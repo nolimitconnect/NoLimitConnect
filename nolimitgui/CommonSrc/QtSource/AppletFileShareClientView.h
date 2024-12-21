@@ -56,8 +56,6 @@ private slots:
 	void						slotShredButtonClicked( QListWidgetItem* item );
 
 protected:
-    virtual void				showEvent( QShowEvent* ev ) override;
-    virtual void				hideEvent( QHideEvent* ev ) override;
 
     virtual void				toGuiFileListReply(	FileListReplySession* replySession ) override;
     virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
@@ -75,7 +73,7 @@ protected:
 
 	void						clearFileList( void );
 	void						moveUpOneFolder( void );
-	void						promptForDownload( GuiFileXferSession* poInfo );
+	void						promptForDownload( GuiFileXferSession* xferSession );
 	void						beginDownload( GuiFileXferSession* xferSession, QListWidgetItem* item );
 	void						cancelDownload( GuiFileXferSession* xferSession, QListWidgetItem* item );
 	void						cancelUpload( GuiFileXferSession* xferSession, QListWidgetItem* item );

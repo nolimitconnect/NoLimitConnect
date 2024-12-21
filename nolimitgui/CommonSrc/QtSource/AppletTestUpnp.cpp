@@ -78,7 +78,7 @@ AppletTestUpnp::AppletTestUpnp( AppCommon& app, QWidget* parent )
     m_LogLevelFlags = VxGetLogLevelFlags();
     VxSetLogLevelFlags( m_LogLevelFlags | LOG_ERROR | LOG_DEBUG );
 
-    m_WasUpnpLogEnabled = IsLogEnabled( eLogPortForward );
+    m_WasUpnpLogEnabled = LogEnabled( eLogPortForward );
     if( !m_WasUpnpLogEnabled )
     {
         m_LogModuleFlags = VxGetLogModuleFlags();

@@ -630,7 +630,7 @@ bool CVideoPlayerAudio::ProcessDecoderOutput( DVDAudioFrame& audioframe )
             m_messageParent.Put( std::make_shared<CDVDMsg>( CDVDMsg::PLAYER_AVCHANGE ) );
         }
     }
-    else if( IsLogEnabled( eLogAudioIo ) )
+    else if( LogEnabled( eLogAudioIo ) )
     {
         double cachetotal = m_audioSink.GetCacheTotal();
         double cachetime = m_audioSink.GetCacheTime();
