@@ -148,8 +148,6 @@ public:
 	bool						isMicrophoneCaptureEnabled( void )	{ return m_MicCaptureEnabled; }
 	bool						isVideoCaptureEnabled( void )		{ return m_VidCaptureEnabled; }
 
-	virtual void				wantAppIdle( EPluginType pluginType, bool bWantAppIdle );
-
 	virtual void				wantMediaInput( VxGUID&						onlineId,
 												EMediaInputType				mediaType, 
 												MediaCallbackInterface *	callback, 
@@ -242,7 +240,6 @@ protected:
 
 	//=== vars ===//
 	P2PEngine&					m_Engine;
-	PluginMgr&					m_PluginMgr;
 	
 	MediaTools&					m_MediaTools;
 	VxMutex						m_AudioMutex;

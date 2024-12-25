@@ -42,8 +42,8 @@ namespace
 }
 
 //============================================================================
-MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWidget* parent )
-    : QWidget( parent )
+MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QObject* parent )
+    : QObject( parent )
     , m_MiniAudioDevices()
     , m_MyApp( app )
     , m_AudioCallbacks( audioCallbacks )

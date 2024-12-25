@@ -110,7 +110,7 @@ void AppCommon::connectSignals( void )
 {
     connect( this, SIGNAL( signalPlaySound(ESndDef) ), this, SLOT( slotPlaySound(ESndDef) ) );
     connect( this, SIGNAL( signalStatusMsg(QString) ), this, SLOT( slotStatusMsg(QString) ) );
-    connect( this, SIGNAL( signalUserMsg(QString) ), this, SLOT( slotStatusMsg(QString) ) );
+
     connect( this, SIGNAL( signalAppErr(EAppErr,QString) ), this, SLOT( slotAppErr(EAppErr,QString) ) );
     connect( this, SIGNAL( signalNetworkStateChanged(ENetworkStateType) ), this, SLOT( slotNetworkStateChanged(ENetworkStateType) ) );
 

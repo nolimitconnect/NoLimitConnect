@@ -1374,7 +1374,7 @@ bool AssetBaseMgr::fromGuiQueryFileHash( FileInfo& fileInfo )
 void AssetBaseMgr::getStreamableAssets( std::vector<AssetBaseInfo>& streamableAssets )
 {
 	streamableAssets.clear();
-	PluginFileShareServer& pluginFileShareServer = m_Engine.getPluginFileShareServer();
+
 	lockResources();
 	for( auto* assetInfo : m_AssetBaseInfoList )
 	{
@@ -1392,7 +1392,7 @@ void AssetBaseMgr::getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles )
 {
 	sharedFiles.clear();
 	int assetIdx{ 0 };
-	PluginFileShareServer& pluginFileShareServer = m_Engine.getPluginFileShareServer();
+
 	lockResources();
 	for( auto* assetInfo : m_AssetBaseInfoList )
 	{

@@ -86,7 +86,7 @@ VidWidget::VidWidget(QWidget* parent)
 	ui.m_MotionBar->setRange( 0, 100000 );
 	ui.m_MotionSensitivitySlider->setRange( 0, 100000 );
 
-	connect( &m_MyApp,					SIGNAL(signalUserMsg(QString)),			this, SLOT(slotStatusMsg(QString)) );
+	connect( &m_MyApp,					SIGNAL(signalStatusMsg(QString)),		this, SLOT(slotStatusMsg(QString)) );
 
 	connect( ui.m_VidFilesButton,		SIGNAL(clicked()),						this, SLOT(slotVidFilesButtonClicked()) );
 	connect( ui.m_PictureSnapshotButton,SIGNAL(clicked()),						this, SLOT(slotPictureSnapshotButton()) );

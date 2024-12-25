@@ -875,12 +875,6 @@ void PluginMgr::pluginApiPlayVideoFrame( EPluginType pluginType, uint8_t * pu8Vi
 }
 
 //============================================================================
-void PluginMgr::pluginApiWantAppIdle( EPluginType pluginType, bool bWantAppIdle )
-{
-	m_Engine.getMediaProcessor().wantAppIdle( pluginType, bWantAppIdle );
-}
-
-//============================================================================
 void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	PluginBase* plugin = getPlugin( pluginType );

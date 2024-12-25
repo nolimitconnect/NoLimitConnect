@@ -90,8 +90,6 @@ public:
 
 	virtual void				pluginApiPlayVideoFrame( EPluginType pluginType, uint8_t * pu8VidData, uint32_t u32VidDataLen, VxNetIdent* netIdent, int iRotation );
 
-	virtual void				pluginApiWantAppIdle( EPluginType pluginType, bool bWantAppIdle );
-
 	virtual void				pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput );
 
 	virtual bool				pluginApiSktConnectTo(	EPluginType			pluginType,		// plugin id

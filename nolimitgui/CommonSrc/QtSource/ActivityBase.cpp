@@ -122,7 +122,6 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
 	connect( &m_MyApp,			SIGNAL( signalMainWindowResized() ),			this, SLOT( slotRepositionToParent() ) );
     connect( &m_MyApp,          SIGNAL( signalMainWindowMoved() ),              this, SLOT( slotRepositionToParent() ) );
 
-	connect( &m_MyApp,			SIGNAL(signalUserMsg(QString)),					this, SLOT(slotStatusMsg(QString)) );
 	connect( &m_MyApp,			SIGNAL(signalStatusMsg(QString)),				this, SLOT(slotStatusMsg(QString)) );
 	connect( this,				SIGNAL(signalShowShouldExitMsgBox(QString)),	this, SLOT(slotShowShouldExitMsgBox(QString)), Qt::QueuedConnection );
 	connect( this,				SIGNAL(finished(int)),							this, SLOT(slotActivityFinished(int)) );

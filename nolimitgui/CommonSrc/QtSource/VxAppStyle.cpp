@@ -11,7 +11,6 @@
 #include "VxAppStyle.h"
 
 #include "AppCommon.h"
-#include "AppGlobals.h"
 #include "GuiParams.h"
 #include "MyIcons.h"
 #include "VxAppTheme.h"

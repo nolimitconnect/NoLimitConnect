@@ -638,7 +638,6 @@ signals:
     void						signalLog( int iPluginNum, QString strMsg );
     void						signalAppErr( EAppErr eAppErr, QString errMsg );
     void						signalStatusMsg( QString strMsg );
-    void						signalUserMsg( QString strMsg );
 
     void						signalHostAnnounceStatus( EHostType hostType, VxGUID sessionId, EHostAnnounceStatus hostStatus, QString strMsg );
     void						signalHostJoinStatus( EHostType hostType, VxGUID sessionId, EHostJoinStatus hostStatus, QString strMsg );

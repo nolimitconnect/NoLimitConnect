@@ -91,7 +91,6 @@ namespace
 //============================================================================
 MediaProcessor::MediaProcessor( P2PEngine& engine )
 : m_Engine( engine )
-, m_PluginMgr( engine.getPluginMgr() )
 , m_MediaTools( * ( new MediaTools( engine, *this ) ) )
 {
 	memset( m_QuietAudioBuf, 0, sizeof( m_QuietAudioBuf ) );
@@ -966,39 +965,6 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 	}
 
 	//LogMsg( LOG_INFO, "PluginMgr::fromGuiVideoData done\n" );
-}
-
-//============================================================================
-void MediaProcessor::wantAppIdle( EPluginType pluginType, bool bWantAppIdle )
-{
-	if( bWantAppIdle )
-	{
-		LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle anding want idle plugin %d", pluginType );
-		m_aoWantAppIdle.emplace_back( m_PluginMgr.getPlugin( pluginType ) );
-		if( 1 == m_aoWantAppIdle.size() )
-		{
-			LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle calling java to start idle" );
-			// idle runs all the time.. TODO remove all idle code ?
-			//IToGui::getIToGui().toGuiStartAppIdle();
-		}
-	}
-	else
-	{
-		std::vector<PluginBase* >::iterator iter;
-		for( iter = m_aoWantAppIdle.begin(); iter != m_aoWantAppIdle.end(); ++iter )
-		{
-			if( pluginType == (*iter)->getPluginType() )
-			{
-				m_aoWantAppIdle.erase(iter);
-				break;
-			}
-		}
-		if( 0 == m_aoWantAppIdle.size() )
-		{
-			LogMsg( LOG_INFO, "PluginMgr::pluginApiWantAppIdle calling java to stop idle" );
-			//IToGui::getIToGui().toGuiStopAppIdle();
-		}
-	}
 }
 
 //============================================================================

@@ -25,7 +25,7 @@
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxThread.h>
 
-#include <QWidget>
+#include <QObject>
 
 #include <utility>
 #include <vector>
@@ -35,11 +35,11 @@ class AppCommon;
 // Qt is unuseable for audio echo cancelation because both input and output are done in the ui thread which affects timing
 // Use minaudio from https://miniaud.io/ as alternative
 
-class MiniAudioMgr : public QWidget, public MiniAudioDevices, public IAudioRequests
+class MiniAudioMgr : public QObject, public MiniAudioDevices, public IAudioRequests
 {
     Q_OBJECT
 public:
-    explicit MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QWidget* parent );
+    explicit MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QObject* parent );
 
     ~MiniAudioMgr() override = default;
 

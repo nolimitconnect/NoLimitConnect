@@ -91,9 +91,6 @@ public:
 	//! play video or audio file
 	virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos ) = 0;
 
-	/// Called when cut scene movie has finished playing
-	virtual bool				fromGuiMovieDone( void  ) = 0;
-
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available
 	virtual void				fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) = 0;
 	/// Add/Remove callback from MediaProcessor when given media type is processed and available from specific user

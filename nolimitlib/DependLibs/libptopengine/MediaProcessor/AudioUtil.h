@@ -13,7 +13,7 @@
 
 namespace AudioUtil
 {
-static NLC_INLINE int16_t FloatToPcmS16( float v ) 
+static int16_t FloatToPcmS16( float v ) 
 {
 	if (v > 0)
 		return v >= 1.0f ? S16_MAXVAL
@@ -22,7 +22,7 @@ static NLC_INLINE int16_t FloatToPcmS16( float v )
 		: static_cast<int16_t>(-v * S16_MINVAL - 0.5f);
 }
 
-static NLC_INLINE float PcmS16ToFloat( int16_t v ) 
+static float PcmS16ToFloat( int16_t v ) 
 {
 	static const float kMaxInt16Inverse = 1.f / S16_MAXVAL;
 	static const float kMinInt16Inverse = 1.f / S16_MINVAL;
