@@ -16,6 +16,7 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
+#include <QFile>
 #include <QMessageBox>
 
 #include "ui_ActivityShowHelp.h"

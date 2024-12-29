@@ -54,6 +54,6 @@ protected:
 
     VxMutex                     m_FrameQueueMutex;
     VxSemaphore                 m_FrameSemaphore;
-    QVideoFrame                 m_VideoFrame;
+    QImage                      m_CamImage;
     bool                        m_FrameProcessed{ true };
 };

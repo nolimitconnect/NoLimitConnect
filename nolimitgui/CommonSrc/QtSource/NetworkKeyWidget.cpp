@@ -15,6 +15,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QMessageBox>
+
 #include "ui_NetworkKeyWidget.h"
 
 QString						NetworkKeyWidget::getNetworkKey( void ) { return ui.m_NetworkKeyEdit->text();  }

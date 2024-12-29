@@ -266,7 +266,7 @@ public:
     virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
 
     //============================================================================
-    //=== from gui audio callbacks ===//
+    //=== from gui audio/camera callbacks ===//
     //============================================================================
 
     /// Mute/Unmute microphone
@@ -280,6 +280,8 @@ public:
 
     virtual void				fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence );
     virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
+
+    virtual void				fromGuiCameraEnable( bool enableCamera );
 
     //============================================================================
     //=== to gui media/render ===//
@@ -922,7 +924,7 @@ protected:
     std::vector<QString>		m_AppErrLogQue;
     ENetworkStateType			m_LastNetworkState;
 
-    uint32_t					m_CamSourceId;
+    std::string					m_CamSourceId;
     uint32_t					m_CamCaptureRotation;
 
     bool	                    m_ToGuiActivityInterfaceBusy{ false };

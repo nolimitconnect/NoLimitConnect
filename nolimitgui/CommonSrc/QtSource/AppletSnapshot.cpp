@@ -66,6 +66,8 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
     connect( ui.m_CamFrontBackButton, SIGNAL(clicked()), this, SLOT( onCamFrontBackButClick() ) );
     connect( &m_MyApp.getCamLogic(), SIGNAL( signalCameraDescription(QString) ), this, SLOT( slotCameraDescription( QString ) ) );
 
+    ui.m_CamFrontBackButton->setEnabled( m_MyApp.getCamLogic().getCameraCount() > 1 );
+
     ui.m_CamNameLabel->setText( m_MyApp.getCamLogic().getCamDescription() );
 
     if( m_MyApp.getCamLogic().isCamAvailable() )

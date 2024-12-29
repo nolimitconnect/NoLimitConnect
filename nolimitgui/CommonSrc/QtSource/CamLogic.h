@@ -1,6 +1,5 @@
-#pragma once
 //============================================================================
-// Copyright (C) 2020 Brett R. Jones
+// Copyright (C) 2024 Brett R. Jones
 //
 // Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
 // See file COPYING and LEGAL in root of the No Limit Connect project
@@ -8,128 +7,70 @@
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
+#pragma once
 
-#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
+#include "VideoFrameProcessor.h"
 
 #include <GuiInterface/IDefs.h>
 
-#include "VideoFrameProcessor.h"
-#include "VideoSinkGrabber.h"
+#include <QCoreApplication>
+#include <QCamera>
+#include <QMediaCaptureSession>
+#include <QMediaDevices>
+#include <QVideoSink>
+#include <QImage>
 
-#include <QTimer>
-#include <QKeyEvent>
-#include <QMediaMetaData>
-#include <QMessageBox>
-#include <QPalette>
-#include <QtWidgets>
-#include <QMediaRecorder>
-
-# include <QCamera>
-# include <QCameraDevice>
-# include <QCameraFormat>
-# include <QImageCapture>
-# include <QMediaCaptureSession>
+#include <string>
 
 class AppCommon;
-class QVideoWidget;
 
-class CamLogic : public QWidget
-{
+class CamLogic : public QObject {
     Q_OBJECT
 
 public:
-    CamLogic( AppCommon& myApp );
-    virtual ~CamLogic() = default;
+    CamLogic( AppCommon& myApp, QObject* parent = nullptr );
+    ~CamLogic();
 
-    void                        camLogicStartup( void );
-    void                        camLogicShutdown( void );
+    void                        startupCamLogic( void );
+    void                        shutdownCamLogic( void );
 
-    void                        cameraEnable( bool wantVidCapture );
-
+    int                         getCameraCount( void ) { return m_AvailableCameras.size(); }
+    bool                        isCamAvailable( void ) { return m_AvailableCameras.size(); }
     bool                        isCamCaptureRequested( void );
     bool                        isCamCaptureRunning( void );
-    bool                        isCamAvailable( void );
-    bool                        updateCamAvailable( void ); // recheck devices for available cam
-
-    /// TODO implement option to select cam hardware
-    void						setCamSourceId( uint32_t camId )                        { m_CamId = camId; }
-    uint32_t					getCamSourceId( void )                                  { return m_CamId; }
-
-    void						setCamShowPreview( bool showPreview )                   { m_ShowPreview = showPreview; };
-    bool						getCamShowPreview( void )                               { return m_ShowPreview; }
-
-    void						setCamRotation( uint32_t camId, uint32_t camRotation )  { m_CamRotation = camRotation; };
-    uint32_t					getCamRotation( uint32_t camId )                        { return m_CamRotation; }
-
-    void						setVidFeedRotation( uint32_t feedRotation )             { m_FeedRotation = feedRotation; };
-    uint32_t					getVidFeedRotation( void )                              { return m_FeedRotation; }
 
     void                        toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture );
 
-    QString                     getCamDescription( void )                               { return m_CamDescription; }
+    void                        updateCameraDevices( void );
+    void                        getAvailableCameras( std::vector<QString>& retCamList );
+    bool                        selectDefaultCamera( void );
+    bool                        selectCamera( QString camDescription );
 
-    bool                        getCamStartupCompleted( void );
+    QString                     getCamDescription( void ) { return m_Camera ? m_Camera->cameraDevice().description() : ""; }
+    std::string                 getCamId( void ) { return m_Camera ? m_Camera->cameraDevice().description().toUtf8().constData() : ""; }
 
-signals:
-    void                        signalCameraDescription( QString camDescription );
+    bool                        cameraExists( QString camId );
 
-public slots:
-    void                        slotNetAvailStatus( ENetAvailStatus netAvailStatus );
+    void                        setCameraEnable( bool camEnable );
+    bool                        getCameraEnable( void ) { return m_CameraEnabled; }
 
-    void                        setCamera( const QCameraDevice& cameraDevice );
+    QString                     getCameraBackgroundFile( void );
 
-    void                        startCamera();
-    void                        stopCamera();
-
-    void                        nextCamera( void );
-
-    void                        record();
-    void                        pause();
-    void                        stop();
-    void                        setMuted( bool );
-
-    void                        displayRecorderError();
-    void                        displayCameraError();
-
-    void                        updateRecordTime();
-
-    void                        updateCameraActive( bool active );
-    void                        updateRecorderState( QMediaRecorder::RecorderState state );
-    void                        displayCaptureError( int, QImageCapture::Error, const QString& errorString );
+    bool                        nextCamera( void );
 
 protected:
-    bool                        initializeCam( void );
-
-    void                        keyPressEvent( QKeyEvent *event ) override;
-    void                        keyReleaseEvent( QKeyEvent *event ) override;
-
+    bool                        setCamera( const QCameraDevice& cameraDevice );
     void                        selectVideoFormat( const QCameraDevice& cameraDevice );
+    bool                        isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
 
     AppCommon&                  m_MyApp;
-
-    bool                        m_StartupWasCompleted{ false };
-    uint32_t                    m_CamId{ 1 };
-    bool                        m_CamsEnumerated{ false };
-    bool                        m_CamInitiated{ false };
-    bool                        m_ShowPreview{ false };
-    uint32_t                    m_CamRotation{ 0 };
-    uint32_t                    m_FeedRotation{ 0 };
-
-    QScopedPointer<QCamera>     m_camera;
-
-    bool                        m_CamIsStarted{ false };
-
-    QMediaCaptureSession        m_captureSession;
-    QScopedPointer<QMediaRecorder> m_mediaRecorder;
-
-    QString                     m_CamDescription;
-    int                         m_LastFrameNum{ 0 };
-    QSize                       m_DesiredFrameSize;
     bool                        m_WantCamInput[ eMaxAppModule ];
+    QCamera*                    m_Camera{ nullptr };
+    QMediaCaptureSession *      m_CaptureSession{ nullptr };
+    QVideoSink *                m_CamFrameSink{ nullptr };
 
-    VideoSinkGrabber            m_VideoSinkGrabber;
+    QList<QCameraDevice>        m_AvailableCameras;
+    bool                        m_CameraEnabled{ false };
+
     VideoFrameProcessor         m_VideoFrameProcessor;
-
 };
-
-

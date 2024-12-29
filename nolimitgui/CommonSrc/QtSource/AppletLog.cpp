@@ -25,11 +25,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QClipboard>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QPlainTextEdit>
 
 #include "ui_AppletLog.h"
@@ -89,11 +87,9 @@ void AppletLog::onLogEvent( uint32_t u32LogFlags, const char* logMsg )
         || ( u32LogFlags & ~LOG_VERBOSE ) )
     {
         QString logStr( logMsg );
-#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
         logStr.remove(QRegularExpression("[\\n\\r]"));
-#else
-        logStr.remove(QRegExp("[\\n\\r]"));
-#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
         emit signalLogMsg( logStr );
     }
 

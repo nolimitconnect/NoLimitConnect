@@ -34,7 +34,6 @@
 # include "OsAndroid/IAndroid.cpp"
 # include <CoreLib/VxJava.h>
 
-# include "platform/qt/qtandroid/jni/Context.h"
 
 #else 
 echo traget os is not defined

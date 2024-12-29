@@ -25,6 +25,9 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
+#include <QMessageBox>
+#include <QSlider>
+
 namespace
 {
 	constexpr int PROCESS_QT_DEFAULT_MS = 50;

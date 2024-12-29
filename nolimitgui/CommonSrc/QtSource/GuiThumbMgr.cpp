@@ -24,6 +24,8 @@
 
 #include <algorithm>
 
+#include <QPainter>
+
 //============================================================================
 GuiThumbMgr::GuiThumbMgr( AppCommon& app )
     : QObject( &app )

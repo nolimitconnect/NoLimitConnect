@@ -29,8 +29,8 @@ class AppletDownloads : public AppletPeerBase, public ToGuiFileXferInterface
 {
 	Q_OBJECT
 public:
-	AppletDownloads(	AppCommon&	app, 
-						QWidget*		parent = nullptr );
+    AppletDownloads(	AppCommon&	app,
+                        QWidget*		parent = nullptr );
 	virtual ~AppletDownloads() override;
 
 	bool						isXferInProgress( VxGUID fileInstance );

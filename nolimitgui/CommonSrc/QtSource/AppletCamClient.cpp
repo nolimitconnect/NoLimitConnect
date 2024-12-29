@@ -19,6 +19,8 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include <QTimer>
+
 #include "ui_AppletCamClient.h"
 
 //============================================================================

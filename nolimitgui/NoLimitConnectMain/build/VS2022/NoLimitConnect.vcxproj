@@ -482,7 +482,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameLogic.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStorageProvider.cpp" />
@@ -736,7 +735,6 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiThumbUpdateInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiUserUpdateInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\UserProfile.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStorageProvider.h" />

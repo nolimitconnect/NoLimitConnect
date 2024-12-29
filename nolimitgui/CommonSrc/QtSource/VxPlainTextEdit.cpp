@@ -12,6 +12,8 @@
 #include "AppCommon.h"
 #include "VxAppTheme.h"
 
+#include <QMenu>
+
 //============================================================================
 VxPlainTextEdit::VxPlainTextEdit( QWidget* parent )
 : QPlainTextEdit( parent )

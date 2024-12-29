@@ -42,11 +42,9 @@ class AudioLoopback : public QObject, public AudioMixerInterface
 {
 	Q_OBJECT
 public:
-#if defined(USE_MINI_AUDIO)
+
 	AudioLoopback( MiniAudioMgr& audioIoMgr, QObject* parent = nullptr);
-#else
-	AudioLoopback( AudioIoMgr& audioIoMgr, QObject* parent = nullptr );
-#endif // defined(USE_MINI_AUDIO)
+
 	void						audioLoopbackShutdown( void );
 
 	void                        lockMixer( void )									{ m_MixerMutex.lock(); }

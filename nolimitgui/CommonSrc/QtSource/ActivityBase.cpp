@@ -37,6 +37,7 @@
 #include <QLabel>
 #include <QTimer>
 #include <QResizeEvent>
+#include <QStandardPaths>
 
 #include <stdio.h>
 #include <array>

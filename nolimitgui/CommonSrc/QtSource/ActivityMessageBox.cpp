@@ -17,6 +17,8 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include <QClipboard>
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <array>

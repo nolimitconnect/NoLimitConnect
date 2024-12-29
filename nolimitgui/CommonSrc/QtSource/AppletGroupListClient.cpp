@@ -22,6 +22,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include <QLineEdit>
+
 #include "ui_AppletGroupListClient.h"
 
 namespace

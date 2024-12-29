@@ -124,7 +124,7 @@ void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool enableV
                     return;
                 }
 
-                m_CamSourceId = m_CamLogic.getCamSourceId();
+                m_CamSourceId = m_CamLogic.getCamId();
 
                 setCamCaptureRotation( m_AppSettings.getCamRotation( m_CamSourceId ) );
 

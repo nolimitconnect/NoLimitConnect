@@ -20,6 +20,8 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QFrame>
+
 #include "ui_AppletGroupClient.h"
 
 //============================================================================

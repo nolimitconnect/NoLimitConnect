@@ -188,14 +188,17 @@ void TitleBarWidget::updateTitleBar( void )
     m_MutedSpeaker = sndMgr.getIsSpeakerMuted();
     callbackToGuiSpeakerMuted( m_MutedSpeaker );
 
-    bool isCamEnabled = m_MyApp.getCamLogic().isCamCaptureRequested();
-    callbackToGuiWantVideoCapture( isCamEnabled );
+    bool isCamRequested = m_MyApp.getCamLogic().isCamCaptureRequested();
+    callbackToGuiWantVideoCapture( isCamRequested );
 
     checkTitleBarIconsFit();
 
-    ui.m_CamPreviewScreen->setImageFromFile( ":/AppRes/Resources/ic_cam_black.png" );
+    ui.m_CamPreviewScreen->setImageFromFile( m_MyApp.getCamLogic().getCameraBackgroundFile() );
 
     updateWebServerClientCount();
+
+    bool isCamEnabled = m_MyApp.getCamLogic().getCameraEnable();
+    callbackToGuiCameraEnable( isCamEnabled );
 
     update();
 }
@@ -253,7 +256,7 @@ void TitleBarWidget::slotCamTimeout()
     if( GetApplicationAliveMs() - m_LastCamFrameTimeMs > 3000 )
     {
         m_CamTimer->stop();
-        ui.m_CamPreviewScreen->setImageFromFile( ":/AppRes/Resources/ic_cam_black.png" );
+        ui.m_CamPreviewScreen->setImageFromFile( m_MyApp.getCamLogic().getCameraBackgroundFile() );
     }
 }
 
@@ -802,7 +805,7 @@ void TitleBarWidget::callbackToGuiWantVideoCapture( bool wantVideoCapture )
     else
     {
         m_CamTimer->stop();
-        ui.m_CamPreviewScreen->setImageFromFile( ":/AppRes/Resources/ic_cam_black.png" );
+        ui.m_CamPreviewScreen->setImageFromFile( m_MyApp.getCamLogic().getCameraBackgroundFile() );
     }
 
     checkTitleBarIconsFit();
@@ -820,6 +823,21 @@ void TitleBarWidget::callbackToGuiSpeakerMuted( bool isMuted )
 {
     m_MutedSpeaker = isMuted;
     setSpeakerIcon( m_MutedSpeaker ? eMyIconSpeakerOff : eMyIconSpeakerOn );
+}
+
+//============================================================================
+void TitleBarWidget::callbackToGuiCameraEnable( bool enableCamera )
+{
+    if( m_CamEnabled == enableCamera )
+    {
+        return;
+    }
+
+    m_CamEnabled = enableCamera;
+    if( !m_CamEnabled )
+    {
+        ui.m_CamPreviewScreen->setImageFromFile( m_MyApp.getCamLogic().getCameraBackgroundFile() );
+    }
 }
 
 //============================================================================

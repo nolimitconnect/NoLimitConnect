@@ -17,6 +17,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QDesktopServices>
+
 #include "ui_AppletGetStarted.h"
 
 //============================================================================

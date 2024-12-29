@@ -409,24 +409,6 @@ void AppSettings::getLastHostSearchContentRating( ESearchType searchType, EConte
 }
 
 //============================================================================
-void AppSettings::setCamRotation( uint32_t camId, uint32_t camRotation )
-{
-	std::string camKey;
-	StdStringFormat( camKey, "CamRotation%d", camId );
-	setIniValue( getAppShortName(), camKey.c_str(), camRotation );
-}
-
-//============================================================================
-uint32_t AppSettings::getCamRotation( uint32_t camId )
-{
-	uint32_t camRotation = 0;
-	std::string camKey;
-	StdStringFormat( camKey, "CamRotation%d", camId );
-	getIniValue( getAppShortName(), camKey.c_str(), camRotation, 0 );
-	return camRotation;
-}
-
-//============================================================================
 void AppSettings::setMicMuted( bool isMuted )
 {
 	uint32_t isMutedVal = isMuted ? 1 : 0;
@@ -457,16 +439,49 @@ bool AppSettings::getSpeakerMuted( void )
 }
 
 //============================================================================
-void AppSettings::setCamSourceId( uint32_t camId )
+void AppSettings::setCamRotation( std::string camId, uint32_t camRotation )
+{
+	std::string camKey;
+	StdStringFormat( camKey, "CamRotation%s", camId.c_str() );
+	setIniValue( getAppShortName(), camKey.c_str(), camRotation );
+}
+
+//============================================================================
+uint32_t AppSettings::getCamRotation( std::string camId )
+{
+	uint32_t camRotation = 0;
+	std::string camKey;
+	StdStringFormat( camKey, "CamRotation%s", camId.c_str() );
+	getIniValue( getAppShortName(), camKey.c_str(), camRotation, 0 );
+	return camRotation;
+}
+
+//============================================================================
+void AppSettings::setCamEnable( bool camEnableIn )
+{
+	uint32_t camEnable = camEnableIn ? 1 : 0;
+	setIniValue( getAppShortName(), "CamEnable", camEnable );
+}
+
+//============================================================================
+bool AppSettings::getCamEnable( void )
+{
+	uint32_t camEnable = 0;
+	getIniValue( getAppShortName(), "CamEnable", camEnable, 1 );
+	return camEnable ? true : false;
+}
+
+//============================================================================
+void AppSettings::setCamSourceId( std::string camId )
 {
 	setIniValue( getAppShortName(), "CamSourceId", camId );
 }
 
 //============================================================================
-uint32_t AppSettings::getCamSourceId( void )
+std::string AppSettings::getCamSourceId( void )
 {
-	uint32_t camSourceId = 0;
-	getIniValue( getAppShortName(), "CamSourceId", camSourceId, 0 );
+	std::string camSourceId;
+	getIniValue( getAppShortName(), "CamSourceId", camSourceId, "" );
 	return camSourceId;
 }
 

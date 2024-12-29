@@ -18,6 +18,7 @@
 
 #include <GuiInterface/IDefs.h>
 
+#include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxSettings.h>
 
 class AppSettings : public VxSettings, public AppProfile
@@ -105,14 +106,17 @@ public:
 	void						setSpeakerMuted( bool isMuted );
 	bool						getSpeakerMuted( void );
 
-	void						setCamSourceId( uint32_t camId );
-	uint32_t					getCamSourceId( void );
+	void						setCamEnable( bool camEnable );
+	bool						getCamEnable( void );
+
+	void						setCamSourceId( std::string camId );
+	std::string					getCamSourceId( void );
 
 	void						setCamShowPreview( bool showPreview );
 	bool						getCamShowPreview( void );
 
-	void						setCamRotation( uint32_t camId, uint32_t camRotation );
-	uint32_t					getCamRotation( uint32_t camId );
+	void						setCamRotation( std::string camId, uint32_t camRotation );
+	uint32_t					getCamRotation( std::string camId );
 
 	void						setVidFeedRotation( uint32_t feedRotation );
 	uint32_t					getVidFeedRotation( void );

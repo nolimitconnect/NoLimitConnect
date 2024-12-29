@@ -15,8 +15,12 @@
 
 #include <GuiInterface/IFromGui.h>
 
+#include <QMessageBox>
+
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
+
+#include <QTimer>
 
 #include "ui_AppletCamSettings.h"
 

@@ -71,9 +71,12 @@
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <QDesktopServices>
-#include <QDebug>
+#include <QFrame>
+#include <QMessageBox>
+#include <QRegularExpression>
 #include <QSettings>
 
+#include "HomeWindow.h"
 #include "RenderGlWidget.h"
 
 #include <signal.h>
@@ -225,7 +228,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_eLastSelectedWhichContactsToView( eFriendViewEverybody )
 , m_bUserCanceledCreateProfile( false )
 , m_LastNetworkState( eNetworkStateTypeUnknown )
-, m_CamSourceId( 1 )
 , m_CamCaptureRotation( 0 )
 , m_AppletMgr( *( new AppletMgr( *this, this) ) )
 , m_GuiStartupTimer( new QTimer( this ) )
@@ -357,13 +359,13 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 
     m_AppCommonInitialized = true;
 
-	m_AppletDownloads = new AppletDownloads( *this, appletFrame );
+    m_AppletDownloads = new AppletDownloads( *this, appletFrame );
     m_AppletDownloads->hide();
 
-	m_AppletUploads = new AppletUploads( *this, appletFrame );
+    m_AppletUploads = new AppletUploads( *this, appletFrame );
 	m_AppletUploads->hide();
 
-	m_CreateAccountDlg = new ActivityCreateAccount( *this, appletFrame );
+    m_CreateAccountDlg = new ActivityCreateAccount( *this, appletFrame );
 
 	std::string strAssetDir = m_AppSettings.m_strRootUserDataDir + "assets/";
 	VxFileUtil::makeDirectory( strAssetDir );
@@ -423,7 +425,7 @@ void AppCommon::shutdownAppCommon( void )
     {
         hasBeenShutdown = true;
         VxSetAppIsShuttingDown( true );
-		m_CamLogic.camLogicShutdown();
+        m_CamLogic.shutdownCamLogic();
         fromGuiCloseEvent( eAppModuleAll );
 		ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
 		if( appPlayer )
@@ -1670,8 +1672,7 @@ void AppCommon::clearToGuiActivityInterfaceList( void )
 }
 
 //============================================================================
-void AppCommon::wantToGuiHardwareCtrlCallbacks(	ToGuiHardwareControlInterface *	callback, 
-												bool							wantCallback )
+void AppCommon::wantToGuiHardwareCtrlCallbacks(	ToGuiHardwareControlInterface *	callback, bool wantCallback )
 {
 static bool actCallbackShutdownComplete = false;
 	if( VxIsAppShuttingDown() )
@@ -1693,9 +1694,8 @@ static bool actCallbackShutdownComplete = false;
 
 	if( wantCallback )
 	{
-		for( auto iter = m_ToGuiHardwareCtrlList.begin(); iter != m_ToGuiHardwareCtrlList.end(); ++iter )
+		for( auto client : m_ToGuiHardwareCtrlList )
 		{
-			ToGuiHardwareControlInterface* client = *iter;
 			if( client == callback )
 			{
 				LogMsg( LOG_INFO, "WARNING. Ignoring New wantToGuiHardwareCtrlCallbacks because already in list" );
@@ -1703,7 +1703,7 @@ static bool actCallbackShutdownComplete = false;
 			}
 		}
 
-		m_ToGuiHardwareCtrlList.push_back( callback );
+		m_ToGuiHardwareCtrlList.emplace_back( callback );
 		return;
 	}
 

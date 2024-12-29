@@ -21,9 +21,9 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
 
-//#include <QDebug>
-
 #include <time.h>
+
+#include <QMessageBox>
 
 #include "ui_InputPhotoWidget.h"
 
@@ -105,7 +105,7 @@ void InputPhotoWidget::slotSnapShotButtonClicked( void )
 //============================================================================
 void InputPhotoWidget::slotRotateCamButtonClicked( void )
 {
-	uint32_t camId = m_MyApp.getAppSettings().getCamSourceId();
+    std::string camId = m_MyApp.getAppSettings().getCamSourceId();
 	int camRotation = m_MyApp.getAppSettings().getCamRotation( camId );
 	camRotation += 90;
 	if( camRotation >= 360 )

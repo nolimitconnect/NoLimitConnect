@@ -67,25 +67,16 @@ void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
         return;
     }
 
-    int64_t elapsedMs = m_ElapsedTimer.elapsed();
-    if( elapsedMs < CAM_SNAPSHOT_INTERVAL_MS )
+    if( !frame.isValid() )
     {
-        //LogModule( eLogWebCam, LOG_WARN, "%s skip frame at %lld ms", __func__, elapsedMs );
+        LogModule( eLogWebCam, LOG_WARN, "%s frame not valid", __func__ );
         return;
     }
-   
-    m_ElapsedTimer.start();
 
     size_t vidQueSize = m_MediaProcessor.getVideoQueueSize();
     if( vidQueSize > 2 )
     {
         LogModule( eLogWebCam, LOG_WARN, "%s media processor behind.. queue size is %d ", __func__, vidQueSize );
-        return;
-    }
-
-    if( !frame.isValid() )
-    {
-        LogModule( eLogWebCam, LOG_WARN, "%s frame not valid", __func__ );
         return;
     }
 
@@ -95,8 +86,17 @@ void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
         return;
     }
 
+    int64_t elapsedMs = m_ElapsedTimer.elapsed();
+    if( elapsedMs < CAM_SNAPSHOT_INTERVAL_MS )
+    {
+        //LogModule( eLogWebCam, LOG_WARN, "%s skip frame at %lld ms", __func__, elapsedMs );
+        return;
+    }
+   
+    m_ElapsedTimer.start();
+
     lockFrameQueue();
-    m_VideoFrame = frame;
+    m_CamImage = frame.toImage();
     m_FrameProcessed = false;
     unlockFrameQueue();
 
@@ -115,11 +115,9 @@ void VideoFrameProcessor::run( void )
         }
 
         lockFrameQueue();
-        QImage camImg = m_VideoFrame.toImage();
-        m_FrameProcessed = true;
+        processCapturedImage( m_CamImage );
+        m_FrameProcessed = true;  
         unlockFrameQueue();
-
-        processCapturedImage( camImg );
     }
 }
 

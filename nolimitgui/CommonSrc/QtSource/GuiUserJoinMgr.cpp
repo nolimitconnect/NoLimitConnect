@@ -21,6 +21,8 @@
 #include <CoreLib/VxPtopUrl.h>
 #include <PktLib/VxCommon.h>
 
+#include <QTimer>
+
 //============================================================================
 GuiUserJoinMgr::GuiUserJoinMgr( AppCommon& app )
     : QObject( &app )

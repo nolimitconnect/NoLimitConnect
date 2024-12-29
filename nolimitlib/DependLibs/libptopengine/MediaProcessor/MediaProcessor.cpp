@@ -377,9 +377,9 @@ void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataI
 		return;
 	}
 
-	if( m_ProcessVideoQue.size() > 4 )
+	if( m_ProcessVideoQue.size() > 2 )
 	{
-		//LogMsg( LOG_INFO, "WARNING MediaProcessor::fromGuiVideoData dropping video because que size %d\n", m_ProcessVideoQue.size() );
+		LogModule( eLogWebCam, LOG_VERBOSE, "MediaProcessor::%s dropping video because que size %d", __func__, m_ProcessVideoQue.size() );
 		m_VideoSemaphore.signal();
 		return;
 	}
@@ -391,17 +391,6 @@ void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataI
 
 	uint8_t * pu8VidData = pu8VidDataIn;
 	bool bConvert =  ( FOURCC_RGB != u32FourCc );
-
-// windows no longer needs this when source is from QT instead of raw vid capture
-//#ifdef TARGET_OS_WINDOWS
-//	if( FOURCC_RGB == u32FourCc )
-//	{
-//		// windows the red and blue are swapped and image is upside down convert anyway.. converter will know what to do
-//		u32FourCc = FOURCC_BGR;
-//		bConvert = true;
-//		iRotation += 180;
-//	}
-//#endif // TARGET_OS_WINDOWS
 
 	if( bConvert )
 	{
@@ -893,9 +882,8 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			#ifdef DEBUG_PROCESSOR_LOCK
 			LogMsg( LOG_INFO, "m_VideoJpgSmallList VideoProcessorLock done" );
 			#endif // DEBUG_PROCESSOR_LOCK
-			for( iter = m_VideoJpgSmallList.begin(); iter != m_VideoJpgSmallList.end(); ++iter )
+			for( auto client : m_VideoJpgSmallList )
 			{
-				MediaClient& client = (*iter);
 				client.m_Callback->callbackVideoJpgSmall( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen, motion0To100000 );
 			}
 

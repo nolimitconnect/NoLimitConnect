@@ -18,6 +18,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QFrame>
+
 //============================================================================
 AppletSearchPage::AppletSearchPage( AppCommon& app, QWidget* parent )
 : AppletLaunchPage( app, parent, eAppletSearchPage, OBJNAME_APPLET_SEARCH_PAGE )

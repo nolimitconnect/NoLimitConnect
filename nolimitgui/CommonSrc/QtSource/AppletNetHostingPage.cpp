@@ -18,6 +18,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QFrame>
+
 //============================================================================
 AppletNetHostingPage::AppletNetHostingPage( AppCommon& app, QWidget* parent )
 : AppletLaunchPage( app, parent, eAppletNetHostingPage, OBJNAME_APPLET_NET_HOSTING_PAGE )

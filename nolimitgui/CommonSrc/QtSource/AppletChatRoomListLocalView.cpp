@@ -22,6 +22,8 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include <QTimer>
+
 #include "ui_AppletChatRoomListLocalView.h"
 
 namespace

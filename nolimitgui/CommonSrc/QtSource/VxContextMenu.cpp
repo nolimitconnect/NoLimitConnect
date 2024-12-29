@@ -14,6 +14,7 @@
 #include "VxMenu.h"
 #include "GuiParams.h"
 
+#include <QLabel>
 #include <QWidgetAction>
 #include <CoreLib/VxDebug.h>
 

@@ -71,7 +71,7 @@ VidWidget::VidWidget(QWidget* parent)
     m_ThumbnailPreview->setImageFromFile( ":/AppRes/Resources/web_cam_buffering.png" );
 
 	ui.m_CamSourceButton->setIcon( eMyIconCamSelectNormal );
-	ui.m_CamSourceButton->setEnabled( false );
+	ui.m_CamSourceButton->setEnabled( m_MyApp.getCamLogic().getCameraCount() > 1 );
 	ui.m_CamRotateButton->setIcon( eMyIconCamRotateNormal );
 	ui.m_ImageRotateButton->setIcon( eMyIconImageRotateNormal );
 
@@ -103,6 +103,9 @@ VidWidget::VidWidget(QWidget* parent)
 	connect( ui.m_CamPreviewButton,		SIGNAL(clicked()),			this, SLOT(slotCamPreviewButtonClicked()) );	
 	connect( ui.m_CamRotateButton,		SIGNAL(clicked()),			this, SLOT(slotCamRotateButtonClicked()) );	
 	connect( ui.m_ImageRotateButton,	SIGNAL(clicked()),			this, SLOT(slotFeedRotateButtonClicked()) );
+
+	connect( ui.m_CamSourceButton,		SIGNAL(clicked()),			this, SLOT(slotCamSourceButtonClicked()) );
+	ui.m_CamSourceButton->setEnabled( m_MyApp.getCamLogic().getCameraCount() > 1 );
 
     showUserMsgLabel( false );
 	showOfflineImage();
@@ -189,6 +192,7 @@ void VidWidget::showAllControls( bool showCtrls )
 	showFeedControls( showCtrls );
 	showRecordControls( showCtrls );
 	showMotionSensitivityControls( showCtrls );
+	
 }
 
 //============================================================================
@@ -344,7 +348,7 @@ void VidWidget::updateVidFeedImageRotation( void )
 //============================================================================
 void VidWidget::slotCamRotateButtonClicked( void )
 {
-	uint32_t camId = m_AppSettings.getCamSourceId();
+    std::string camId = m_AppSettings.getCamSourceId();
 	int camRotation = m_AppSettings.getCamRotation( camId );
 	camRotation += 90;
 	if( camRotation >= 360 )
@@ -697,4 +701,10 @@ void VidWidget::slotRecNormalButtonClicked( void )
 			}
 		}
 	}
+}
+
+//============================================================================
+void VidWidget::slotCamSourceButtonClicked( void )
+{
+	m_MyApp.getCamLogic().nextCamera();
 }

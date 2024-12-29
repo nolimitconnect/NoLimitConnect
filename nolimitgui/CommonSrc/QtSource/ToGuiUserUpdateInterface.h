@@ -14,6 +14,7 @@
 #endif // defined(TARGET_OS_LINUX)
 
 #include <GuiInterface/IDefs.h>
+#include <stdint.h>
 
 class VxGUID;
 class VxNetIdent;

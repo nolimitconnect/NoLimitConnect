@@ -13,6 +13,7 @@
 // does not mean you have narrow permissions like "android.permission.READ_MEDIA_VIDEO"
 
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxDebug.h>
@@ -94,7 +95,7 @@ bool GuiHelpers::requestFilePermission( enum EMediaFileType permissionType, bool
 
     for( auto permission : permissionList )
     {
-        if( !requestPermission( permission ) )
+        if( !GuiParams::requestPermission( permission ) )
         {
             LogMsg( LOG_ERROR, "%s permission denied %s", __func__, permission.toUtf8().constData() );
             result = false;
@@ -120,23 +121,6 @@ void GuiHelpers::showFilePermissionError( void )
     QString deniedPermMsg = QObject::tr("Access File Permissions Denied By User");
     QMessageBox warnStorage( QMessageBox::Icon::Information, deniedPermMsg, deniedPermMsg, QMessageBox::Ok);
     warnStorage.exec();
-}
-
-//============================================================================
-bool GuiHelpers::requestPermission( QString permissionName ) // returns false if user denies permission to use android hardware
-{
-#if defined (Q_OS_ANDROID)
-    if( QtAndroidPrivate::Authorized != QtAndroidPrivate::checkPermission(permissionName).result() )
-    {
-        QtAndroidPrivate::PermissionResult result = QtAndroidPrivate::requestPermission(permissionName).result();
-        if( QtAndroidPrivate::Denied == result )
-        {
-            return false;
-        }
-    }
-#endif // defined (Q_OS_ANDROID)
-
-    return true;
 }
 
 //============================================================================

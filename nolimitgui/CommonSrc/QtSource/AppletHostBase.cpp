@@ -20,6 +20,9 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <QDesktopServices>
+#include <QMessageBox>
+
 //============================================================================
 AppletHostBase::AppletHostBase( const char* objName, AppCommon& app, QWidget* parent )
     : AppletBase( objName, app, parent )

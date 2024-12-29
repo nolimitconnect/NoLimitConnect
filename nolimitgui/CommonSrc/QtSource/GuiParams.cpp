@@ -17,9 +17,13 @@
 
 #include <QApplication>
 #include <QScreen>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined (Q_OS_ANDROID)
+# if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#  include <QtAndroid>
+# else
+#  include <QtCore/private/qandroidextras_p.h>
+# endif
+#endif //defined (Q_OS_ANDROID)
 
 #include <CoreLib/VxDebug.h>
 
@@ -168,67 +172,6 @@ QString GuiParams::describeAge( int age )
     return ageStr;
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-//============================================================================
-QString GuiParams::describeCamStatus( QCamera::Status camStatus )
-{
-    QString camDesc = QObject::tr( "Unknown Cam Status" );
-    switch(camStatus)
-    {
-
-    case QCamera::Status::UnavailableStatus:
-        camDesc =  QObject::tr( "Cam Status Unavailable" );
-        break;
-    case QCamera::Status::UnloadedStatus:
-        camDesc =  QObject::tr( "Cam Status Unloaded" );
-        break;
-    case QCamera::Status::LoadingStatus:
-        camDesc =  QObject::tr( "Cam Status Loading" );
-        break;
-    case QCamera::Status::UnloadingStatus:
-        camDesc =  QObject::tr( "Cam Status Unloading" );
-        break;
-    case QCamera::Status::LoadedStatus:
-        camDesc =  QObject::tr( "Cam Status Loaded" );
-        break;
-    case QCamera::Status::StandbyStatus:
-        camDesc =  QObject::tr( "Cam Status Standby" );
-        break;
-    case QCamera::Status::StartingStatus:
-        camDesc =  QObject::tr( "Cam Status Starting" );
-        break;
-    case QCamera::Status::StoppingStatus:
-        camDesc =  QObject::tr( "Cam Status Stopping" );
-        break;
-    case QCamera::Status::ActiveStatus:
-        camDesc =  QObject::tr( "Cam Status Active" );
-        break;
-    }
-
-    return camDesc;
-}
-
-//============================================================================
-QString GuiParams::describeCamState( QCamera::State camState )
-{
-    QString camDesc = QObject::tr( "Unknown Cam State" );
-    switch(camState)
-    {
-    case QCamera::State::UnloadedState:
-        camDesc =  QObject::tr( "Cam State Unloaded" );
-        break;
-    case QCamera::State::LoadedState:
-        camDesc =  QObject::tr( "Cam State Loaded" );
-        break;
-    case QCamera::State::ActiveState:
-        camDesc =  QObject::tr( "Cam State Active" );
-        break;
-    }
-
-    return camDesc;
-}
-
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
 //============================================================================
 QString GuiParams::describeCommError( ECommErr commErr )
@@ -2231,4 +2174,21 @@ QString GuiParams::describeDatabaseType( enum EDatabaseType databaseType )
 QString GuiParams::describeOnlineStatus( QString onlineName, bool isOnline )
 {
     return onlineName += isOnline ? QObject::tr( " is online" ) : QObject::tr( " is offline" );
+}
+
+//============================================================================
+bool GuiParams::requestPermission( QString permissionName ) // returns false if user denies permission to use android hardware
+{
+#if defined (Q_OS_ANDROID)
+    if( QtAndroidPrivate::Authorized != QtAndroidPrivate::checkPermission(permissionName).result() )
+    {
+        QtAndroidPrivate::PermissionResult result = QtAndroidPrivate::requestPermission(permissionName).result();
+        if( QtAndroidPrivate::Denied == result )
+        {
+            return false;
+        }
+    }
+#endif // defined (Q_OS_ANDROID)
+
+    return true;
 }

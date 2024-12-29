@@ -22,6 +22,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
+#include <QTimer>
+
 #include "ui_AppletRandomConnectListLocalView.h"
 
 namespace

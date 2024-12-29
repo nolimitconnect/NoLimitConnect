@@ -24,6 +24,8 @@
 #include "VidWidget.h"
 #include "VxPushButton.h"
 
+#include <QLabel>
+
 #include <P2PEngine/P2PEngine.h>
 
 

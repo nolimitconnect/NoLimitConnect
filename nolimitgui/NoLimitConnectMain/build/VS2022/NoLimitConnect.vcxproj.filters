@@ -440,9 +440,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ListWidgetBase.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HostedPluginWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -2279,9 +2276,6 @@
       <Filter>Source Files\Cam</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\CamTitleBarPreview.cpp">
-      <Filter>Source Files\Cam</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoSinkGrabber.cpp">
       <Filter>Source Files\Cam</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp">

@@ -235,6 +235,20 @@ void AppCommon::fromGuiMuteSpeaker( bool muteSpeaker )
 }
 
 //============================================================================
+void AppCommon::fromGuiCameraEnable( bool enableCamera )
+{
+    m_CamLogic.setCameraEnable( enableCamera );
+
+	m_ToGuiHardwareCtrlBusy = true;
+	for( auto toGuiClient : m_ToGuiHardwareCtrlList )
+	{
+		toGuiClient->callbackToGuiCameraEnable( enableCamera );
+	}
+
+	m_ToGuiHardwareCtrlBusy = false;
+}
+
+//============================================================================
 /// Returns true if speaker is muted
 bool AppCommon::fromGuiIsSpeakerMuted( void )
 {

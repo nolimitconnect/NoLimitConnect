@@ -16,6 +16,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QMessageBox>
+
 #include "ui_AppletSettingsHostBase.h"
 
 PluginSettingsWidget*       AppletSettingsHostBase::getPluginSettingsWidget() { return ui.m_PluginSettingsWidget; }

@@ -42,10 +42,10 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFile>
-
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPainter>
+#include <QPlainTextEdit>
 #include <QStandardPaths>
 #include <QUrl>
 

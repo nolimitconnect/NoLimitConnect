@@ -18,6 +18,7 @@
 #include <CoreLib/VxGlobals.h>
 
 #include <QProgressBar>
+#include <QTimer>
 
 //============================================================================
 AssetBaseWidget::AssetBaseWidget( AppCommon& appCommon, QWidget* parent)

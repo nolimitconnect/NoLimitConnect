@@ -17,6 +17,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QFrame>
+
 #include "ui_AppletChatRoomClient.h"
 
 //============================================================================

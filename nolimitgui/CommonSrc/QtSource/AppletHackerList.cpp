@@ -29,9 +29,7 @@
 #include <QClipboard>
 #include <QScrollBar>
 #include <QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QStandardItemModel>
 
 #include "ui_AppletHackerList.h"
 

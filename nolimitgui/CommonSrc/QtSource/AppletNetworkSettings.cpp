@@ -30,6 +30,10 @@
 #include <NetLib/NetHostSettingDefs.h>
 #include <NetLib/VxGetRandomPort.h>
 
+#include <QClipboard>
+#include <QLabel>
+#include <QMessageBox>
+
 #include "ui_AppletNetworkSettings.h"
 
 //============================================================================

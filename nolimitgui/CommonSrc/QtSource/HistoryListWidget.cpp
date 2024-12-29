@@ -24,6 +24,8 @@
 
 #include <CoreLib/VxGlobals.h>
 
+#include <QTimer>
+
 //============================================================================
 HistoryListWidget::HistoryListWidget(QWidget* parent)
 : QListWidget( parent )

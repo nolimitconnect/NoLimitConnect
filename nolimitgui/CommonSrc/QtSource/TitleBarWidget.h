@@ -167,6 +167,8 @@ protected:
 	virtual void				callbackToGuiMicrophoneMuted( bool isMuted ) override;
 	virtual void				callbackToGuiSpeakerMuted( bool isMuted ) override;
 
+	virtual void				callbackToGuiCameraEnable( bool enableCamera ) override;
+
 	virtual void				callbackActiveOfferCount( int activeCnt ) override;
 	virtual void				callbackJoinRequestCount( int requestCnt ) override;
 
@@ -192,6 +194,8 @@ protected:
     GuiOfferMgr&				m_OfferMgr;
 	bool						m_MutedMic{ false };
 	bool						m_MutedSpeaker{ false };
+	bool						m_CamEnabled{ false };
+
     VxGUID                      m_MyOnlineId;
 	bool                        m_CallbacksRequested{ false };
 

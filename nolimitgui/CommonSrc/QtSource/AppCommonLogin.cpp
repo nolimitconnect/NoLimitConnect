@@ -28,6 +28,7 @@
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxPtopUrl.h>
 
+#include <QTimer>
 #include <QUuid>
 
 //============================================================================

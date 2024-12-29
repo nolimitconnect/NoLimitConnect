@@ -19,6 +19,9 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QDesktopServices>
+#include <QTimer>
+
 #include "ui_AppletHostNetworkStatus.h"
 
 PermissionWidget*           AppletHostRandomConnectStatus::getRandomConnectHostPermissionWidget()    { return ui.m_HostPermissionWidget; }

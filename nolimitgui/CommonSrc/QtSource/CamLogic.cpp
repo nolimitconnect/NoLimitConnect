@@ -1,5 +1,5 @@
- //============================================================================
-// Copyright (C) 2020 Brett R. Jones
+//============================================================================
+// Copyright (C) 2024 Brett R. Jones
 //
 // Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
 // See file COPYING and LEGAL in root of the No Limit Connect project
@@ -10,94 +10,33 @@
 
 #include "CamLogic.h"
 #include "AppCommon.h"
-
-#include "GuiHelpers.h"
+#include "AppSettings.h"
 #include "GuiParams.h"
-
-#include <QMediaDevices>
-#include <QAudioInput>
-#include <QAudioOutput>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================
-CamLogic::CamLogic( AppCommon& myApp )
-    : QWidget(&myApp)
-    , m_MyApp( myApp )
-    , m_VideoSinkGrabber( this )
-    , m_VideoFrameProcessor( myApp, this )
+CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
+    : QObject(parent)
+    , m_MyApp(myApp)
+    , m_VideoFrameProcessor(myApp, this )
 {
     memset( m_WantCamInput, 0, sizeof( m_WantCamInput ) );
-    connect( &m_VideoSinkGrabber, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
-    connect( &m_MyApp, SIGNAL(signalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotNetAvailStatus(ENetAvailStatus)) );
 }
 
 //============================================================================
-void CamLogic::slotNetAvailStatus( ENetAvailStatus netAvailStatus )
-{
-    // qt camera for android is very processor sensitive so start as late as possible
-    if( GuiParams::isNetStatusPtoPReady( netAvailStatus ) )
+CamLogic::~CamLogic() {
+    if (m_Camera) 
     {
-        camLogicStartup();
+        m_Camera->stop();
     }
-}
-
-//============================================================================
-void CamLogic::camLogicStartup( void )
-{
-    if( !m_StartupWasCompleted )
-    {
-        m_StartupWasCompleted = true;
-        initializeCam();
-    }
-}
-
-//============================================================================
-void CamLogic::camLogicShutdown( void )
-{
-    if( m_StartupWasCompleted )
-    {
-        m_StartupWasCompleted = false;
-        m_mediaRecorder->stop();
-        if( !m_camera.isNull() )
-        {
-            m_camera->stop();
-        }
-
-        m_VideoFrameProcessor.enableProcessing( false );
-    }
-}
-
-//============================================================================
-void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
-{
-    if( VxIsAppShuttingDown() )
-    {
-        return;
-    }
-
-    m_WantCamInput[appModule] = wantVidCapture;
-
-    if( getCamStartupCompleted() )
-    {
-        bool wasRunning = isCamCaptureRunning();
-        bool isRunning = isCamCaptureRequested();
-
-        if( wasRunning != isRunning )
-        {
-            cameraEnable( isRunning );
-            m_CamIsStarted = isCamCaptureRunning();
-        }
-    }
-
-    LogModule( eLogWebCam, LOG_INFO, "CamLogic::%s %s wantCapture %d cam running ? %d", __func__,
-               DescribeAppModule(appModule), wantVidCapture, m_CamIsStarted );
 }
 
 //============================================================================
 bool CamLogic::isCamCaptureRequested( void )
 {
+    return true;
     bool isRequested{ false };
     for( int i = 0; i < eMaxAppModule; i++ )
     {
@@ -112,184 +51,234 @@ bool CamLogic::isCamCaptureRequested( void )
 }
 
 //============================================================================
-bool CamLogic::isCamAvailable( void )
+void CamLogic::startupCamLogic( void )
 {
-    if( getCamStartupCompleted() )
+    updateCameraDevices();
+    m_CameraEnabled = m_MyApp.getAppSettings().getCamEnable();
+    m_MyApp.fromGuiCameraEnable( m_CameraEnabled );
+    std::string camId = m_MyApp.getAppSettings().getCamSourceId();
+    if( !camId.empty() )
     {
-        if( !GuiHelpers::requestPermission( QLatin1String("android.permission.CAMERA") ) )
-        {
-            QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
-            return false;
-        }
+        selectCamera( camId.c_str() );
+    }
+}
 
-        return !m_camera.isNull() && m_camera->isAvailable();
+//============================================================================
+void CamLogic::shutdownCamLogic( void )
+{
+    if( m_Camera )
+    {
+        m_Camera->stop();
+    }
+}
+
+//============================================================================
+void CamLogic::updateCameraDevices( void )
+{
+    m_AvailableCameras = QMediaDevices::videoInputs();
+}
+
+//============================================================================
+void CamLogic::getAvailableCameras( std::vector<QString>& retCamList )
+{
+    for( auto device : m_AvailableCameras )
+    {
+        retCamList.emplace_back( device.description() );
+    }
+}
+
+//============================================================================
+bool CamLogic::selectDefaultCamera( void )
+{
+    // try back facing camera first
+    for( auto device : m_AvailableCameras )
+    {
+        if( device.position() == device.BackFace )
+        {
+            return setCamera( device );
+        }
+    }
+    // try front facing camera next
+    for( auto device : m_AvailableCameras )
+    {
+        if( device.position() == device.FrontFace )
+        {
+            return setCamera( device );
+        }
+    }
+
+    // try first available if exists
+    if( m_AvailableCameras.size() )
+    {
+        return setCamera( m_AvailableCameras.front() );
     }
 
     return false;
 }
 
 //============================================================================
-bool CamLogic::updateCamAvailable( void )
+bool CamLogic::selectCamera( QString camDescription )
 {
-    if( getCamStartupCompleted() && isCamAvailable() )
+    if( m_Camera && m_Camera->cameraDevice().description() == camDescription )
     {
-        // force update.. a camera device may have become available
-        if( m_CamIsStarted )
-        {
-            stopCamera();
-        }
-        else
-        {
-            setCamera( QMediaDevices::defaultVideoInput() );
-        }
+        return true;
+    }
 
-        if( !m_CamInitiated )
+    for( auto device : m_AvailableCameras )
+    {
+        if( device.description() == camDescription )
         {
-            m_CamInitiated = true;
+            return setCamera( device );
         }
-
-        return !m_camera.isNull() && m_camera->isAvailable();
     }
 
     return false;
 }
+
+//============================================================================
+bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
+{
+    if( m_Camera )
+    {
+        m_Camera->stop();
+        m_Camera->deleteLater();
+        m_Camera = nullptr;
+    }
+
+    if( m_CaptureSession )
+    {
+        m_CaptureSession->deleteLater();
+        m_CaptureSession = nullptr;
+    }
+
+    if( m_CamFrameSink )
+    {
+        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+        m_CamFrameSink->deleteLater();
+        m_CamFrameSink = nullptr;
+    }
+
+    m_Camera = new QCamera(cameraDevice);
+    selectVideoFormat( cameraDevice );
+
+    m_CaptureSession = new QMediaCaptureSession();
+    m_CaptureSession->setCamera(m_Camera);
+
+    m_CamFrameSink = new QVideoSink();
+    m_CaptureSession->setVideoSink( m_CamFrameSink );
+    connect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+    m_VideoFrameProcessor.enableProcessing( true );
+    if( m_CameraEnabled )
+    {
+        m_Camera->start();
+    }
+    
+    std::string camId = cameraDevice.description().toUtf8().constData();
+    if( !camId.empty() )
+    {
+        m_MyApp.getAppSettings().setCamSourceId( cameraDevice.description().toUtf8().constData() );
+        m_MyApp.setCamCaptureRotation( m_MyApp.getAppSettings().getCamRotation( camId ) );
+    }
+
+    return m_Camera->isActive();
+}
+
+////============================================================================
+//void CamLogic::slotCaptureTimeout( void )
+//{
+//    if( m_ImageCapture )
+//    {
+//        m_ImageCapture->capture();
+//    }
+//}
 
 //============================================================================
 bool CamLogic::isCamCaptureRunning( void )
 {
-    if( getCamStartupCompleted() )
-    {
-        return m_CamIsStarted && !m_camera.isNull() && m_camera->isAvailable();
-    }
+    //if( getCamStartupCompleted() )
+    //{
+    //    return m_CamIsStarted && !m_camera.isNull() && m_camera->isAvailable();
+    //}
 
     return false;
 }
 
 //============================================================================
-void CamLogic::cameraEnable( bool wantVidCapture )
-{
-    if( getCamStartupCompleted() )
-    {
-        if( wantVidCapture != m_CamIsStarted )
-        {
-            if( wantVidCapture )
-            {
-                startCamera();
-            }
-            else
-            {
-                stopCamera();
-            }
-        }
-    }
-}
-
-//============================================================================
-bool CamLogic::initializeCam( void )
-{
-    int startTime = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "CamLogic::%s begin at %d", __func__, startTime );
-    if( VxIsAppShuttingDown() )
-    {
-        if( m_CamIsStarted )
-        {
-            stopCamera();
-        }
-
-        return false;
-    }
-
-    bool isRunning = false;
-    bool isValid = true;
-    if( getCamStartupCompleted() )
-    {
-        if( !GuiHelpers::requestPermission( QLatin1String("android.permission.CAMERA") ) )
-        {
-            QMessageBox( QMessageBox::Information, QObject::tr( "Camera Permission" ), QObject::tr( "Cannot use camera without user permission" ), QMessageBox::Ok );
-            return false;
-        }
-
-        if( !m_CamInitiated )
-        {         
-            setCamera( QMediaDevices::defaultVideoInput() );
-        }
-
-        // there may have been want cam calls before was initialized
-        bool wasRunning = isCamCaptureRunning();
-        isRunning = isCamCaptureRequested();
-
-        if( wasRunning != isRunning )
-        {
-            cameraEnable( isRunning );
-            m_CamIsStarted = isCamCaptureRunning();
-        }
-
-        isValid = !m_camera.isNull() && m_camera->isAvailable();
-    }
-    
-    int endTime = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, " CamLogic::%s took %d ms at %d", __func__, endTime - startTime, endTime );
-
-    return isValid;
-}
-
-//============================================================================
-bool CamLogic::getCamStartupCompleted( void )                          
-{ 
-    return m_StartupWasCompleted; 
-}
-
-//============================================================================
-void CamLogic::setCamera( const QCameraDevice& cameraDevice )
+void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
 {
     if( VxIsAppShuttingDown() )
     {
         return;
     }
 
-    int timeStart = GetApplicationAliveMs();
-    m_DesiredFrameSize = GuiParams::getSnapshotDesiredSize();
-    bool isStarted = m_CamIsStarted;
-    cameraEnable( false );
-    m_camera.reset( new QCamera( cameraDevice ) );
-    m_captureSession.setCamera( m_camera.data() );
+    m_WantCamInput[appModule] = wantVidCapture;
 
-    m_mediaRecorder.reset( new QMediaRecorder );
-    m_captureSession.setRecorder( m_mediaRecorder.data() );
-    if( m_captureSession.audioInput() )
+    //if( getCamStartupCompleted() )
+    //{
+    //    bool wasRunning = isCamCaptureRunning();
+    //    bool isRunning = isCamCaptureRequested();
+
+    //    if( wasRunning != isRunning )
+    //    {
+    //        cameraEnable( isRunning );
+    //        m_CamIsStarted = isCamCaptureRunning();
+    //    }
+    //}
+
+    //LogModule( eLogWebCam, LOG_INFO, "CamLogic::%s %s wantCapture %d cam running ? %d", __func__,
+    //           DescribeAppModule(appModule), wantVidCapture, m_CamIsStarted );
+}
+
+//============================================================================
+bool CamLogic::cameraExists( QString camId )
+{
+    for( auto device : m_AvailableCameras )
     {
-        m_captureSession.audioInput()->setMuted(true);
+        if( device.description() == camId )
+        {
+            return true;
+        }
     }
 
-    if( m_captureSession.audioOutput() )
+    return false;
+}
+
+//============================================================================
+void CamLogic::setCameraEnable( bool camEnable )
+{
+    if( camEnable == m_CameraEnabled )
     {
-        m_captureSession.audioOutput()->setMuted(true);
+        return;
     }
 
-    connect( m_camera.data(), &QCamera::activeChanged, this, &CamLogic::updateCameraActive );
-    connect( m_camera.data(), &QCamera::errorOccurred, this, &CamLogic::displayCameraError );
-    connect( m_mediaRecorder.data(), &QMediaRecorder::recorderStateChanged, this, &CamLogic::updateRecorderState );
-    connect( m_mediaRecorder.data(), &QMediaRecorder::durationChanged, this, &CamLogic::updateRecordTime );
-    connect( m_mediaRecorder.data(), &QMediaRecorder::errorChanged, this, &CamLogic::displayRecorderError );
-
-    m_captureSession.setVideoSink(&m_VideoSinkGrabber);
-
-    updateCameraActive( m_camera->isActive() );
-    updateRecorderState( m_mediaRecorder->recorderState() );
-
-    selectVideoFormat( cameraDevice );
-
-    m_CamDescription = cameraDevice.description();
-    emit signalCameraDescription( m_CamDescription );
-
-    m_CamInitiated = true;
-    if( isStarted )
+    m_CameraEnabled = camEnable;
+    if( m_Camera )
     {
-        cameraEnable( true );
+        if( camEnable )
+        {
+            m_Camera->start();
+        }
+        else
+        {
+            m_Camera->stop();
+        }
     }
 
-    int timeEnd = GetApplicationAliveMs();
-    LogModule( eLogWebCam, LOG_DEBUG, "%s took %d ms at %d", __func__, timeEnd - timeStart, timeEnd );
+    m_MyApp.getAppSettings().setCamEnable( camEnable );
+    m_MyApp.fromGuiCameraEnable( camEnable );
+}
+
+//============================================================================
+QString CamLogic::getCameraBackgroundFile( void )
+{
+    if( m_CameraEnabled )
+    {
+        return ":/AppRes/Resources/ic_cam_black.png";
+    }
+    else
+    {
+        return ":/AppRes/Resources/ic_cam_disabled.png";
+    }
 }
 
 //============================================================================
@@ -300,281 +289,120 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
         return;
     }
 
-    if( m_camera->cameraFormat().isNull() ) 
+    QSize targetSize = GuiParams::getSnapshotDesiredSize();
+    auto formats = cameraDevice.videoFormats();
+    if( !formats.isEmpty() ) 
     {
-        // Setting default settings.
-        // The biggest resolution and the max framerate
-        QSize targetSize( GuiParams::getSnapshotDesiredSize() );
-        auto formats = cameraDevice.videoFormats();
-        if( !formats.isEmpty() ) 
+        auto chooseFormat = formats.first();
+        bool chooseFormatInvalid = true;
+        //LogModule( eLogWebCam, LOG_VERBOSE, "Default camera resolution w %d h %d min fps %3.1f max fps %3.1f", chooseFormat.resolution().width(),
+        //    chooseFormat.resolution().height(), chooseFormat.minFrameRate(), chooseFormat.maxFrameRate() );
+        if( chooseFormat.resolution().width() >= targetSize.width() && chooseFormat.resolution().height() >= targetSize.height() )
         {
-            auto defaultFormat = formats.first();
-            bool defaultFormatInvalid = true;
-            LogModule( eLogWebCam, LOG_VERBOSE, "Default camera resolution w %d h %d min fps %3.1f max fps %3.1f", defaultFormat.resolution().width(),
-                defaultFormat.resolution().height(), defaultFormat.minFrameRate(), defaultFormat.maxFrameRate() );
-            if( defaultFormat.resolution().width() >= targetSize.width() && defaultFormat.resolution().height() >= targetSize.height() )
+            chooseFormatInvalid = false;
+        }
+
+        int formatNum = 0;
+
+        for( const auto& format : formats ) 
+        {
+            formatNum++;
+            if( formatNum == 1 )
             {
-                defaultFormatInvalid = false;
+                // no need to check the first format
+                continue;
             }
 
-            int formatNum = 0;
-
-            for( const auto& format : formats ) 
+            if( format.resolution().width() >= targetSize.width() && format.resolution().height() >= targetSize.height() )
             {
-                formatNum++;
-                //LogMsg( LOG_VERBOSE, "Format %d camera resolution w %d h %d min fps %3.1f max fps %3.1f", formatNum, format.resolution().width(),
-                //    format.resolution().height(), format.minFrameRate(), format.maxFrameRate() );
-                if( format.resolution().width() >= targetSize.width() && format.resolution().height() >= targetSize.height() )
+                QVideoFrameFormat::PixelFormat pixelFormat = chooseFormat.pixelFormat();
+                LogMsg( LOG_VERBOSE, "%s format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, format.resolution().width(),
+                       format.resolution().height(), format.minFrameRate(), format.maxFrameRate(), pixelFormat );
+                if( isBetterVideoFormat( targetSize, format, chooseFormat ) )
                 {
-                    if( defaultFormatInvalid || ( format.resolution().width() - targetSize.width() < defaultFormat.resolution().width() - targetSize.width() )
-                        || ( format.resolution().height() - targetSize.height() < defaultFormat.resolution().height() - targetSize.height() ) )
-                    {
-                        //LogMsg( LOG_VERBOSE, "Found better camera resolution %d w %d h %d min fps %3.1f max fps %3.1f", formatNum, format.resolution().width(),
-                        //    format.resolution().height(), format.minFrameRate(), format.maxFrameRate() );
-                        defaultFormat = format;
-                        if( defaultFormat.resolution().width() >= targetSize.width() && defaultFormat.resolution().height() >= targetSize.height() )
-                        {
-                            defaultFormatInvalid = false;
-                       }
-                    }
+                    chooseFormat = format;
+                    chooseFormatInvalid = false;
                 }
             }
-
-            float desiredFps = 1000 / ( VideoFrameProcessor::CAM_SNAPSHOT_INTERVAL_MS / 2 ); // request frame rate toughly twice as fast a snapshot interval
-#if defined(TARGET_OS_ANDROID)
-            if( desiredFps > 15 )
-            {
-                // android devices may have trouble keeping up
-                desiredFps = 15;
-            }
-#endif // defined(TARGET_OS_ANDROID)
-            if( desiredFps > defaultFormat.maxFrameRate() )
-            {
-                desiredFps = defaultFormat.maxFrameRate();
-            }
-
-            LogMsg( LOG_VERBOSE, "Setting Format %d resolution w %d h %d min fps %3.1f max fps %3.1f desired fps %3.1f", formatNum, defaultFormat.resolution().width(),
-                defaultFormat.resolution().height(), defaultFormat.minFrameRate(), defaultFormat.maxFrameRate(), desiredFps);
-
-            m_camera->setCameraFormat( defaultFormat );
-
-            if( desiredFps >= defaultFormat.minFrameRate() && desiredFps <= defaultFormat.maxFrameRate() )
-            {
-                m_mediaRecorder->setVideoFrameRate( desiredFps );
-            }
-            else if( desiredFps >= defaultFormat.maxFrameRate() )
-            {
-                m_mediaRecorder->setVideoFrameRate( defaultFormat.maxFrameRate() );
-            }
-            else if( desiredFps <= defaultFormat.minFrameRate()  )
-            {
-                m_mediaRecorder->setVideoFrameRate( defaultFormat.minFrameRate() );
-            }
         }
+
+        QVideoFrameFormat::PixelFormat pixelFormat = chooseFormat.pixelFormat();
+        LogMsg( LOG_VERBOSE, "%s Setting Format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, chooseFormat.resolution().width(),
+            chooseFormat.resolution().height(), chooseFormat.minFrameRate(), chooseFormat.maxFrameRate(), pixelFormat );
+
+        m_Camera->setCameraFormat( chooseFormat );
     }
 }
 
 //============================================================================
-void CamLogic::keyPressEvent( QKeyEvent * event )
+bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat )
 {
-    if( event->isAutoRepeat() )
-        return;
-
-    switch( event->key() ) {
-    case Qt::Key_CameraFocus:
-        //displayViewfinder();
-        //m_camera->searchAndLock();
-        event->accept();
-        break;
-    case Qt::Key_Camera:
-        //if( m_camera->captureMode() == QCamera::CaptureStillImage ) 
-        //{
-        //    slotTakeSnapshot();
-        //}
-        event->accept();
-        break;
-    default:
-        QWidget::keyPressEvent( event );
-    }
-}
-
-//============================================================================
-void CamLogic::keyReleaseEvent( QKeyEvent *event )
-{
-    if( event->isAutoRepeat() )
-        return;
-
-    switch( event->key() ) {
-    case Qt::Key_CameraFocus:
-        //m_camera->unlock();
-        break;
-    default:
-        QWidget::keyReleaseEvent( event );
-    }
-}
-
-//============================================================================
-void CamLogic::updateRecordTime()
-{
-    //QString str = QString( "Recorded %1 sec" ).arg( m_mediaRecorder->duration() / 1000 );
-    //ui->statusbar->showMessage(str);
-}
-
-//============================================================================
-void CamLogic::record()
-{
-    //m_mediaRecorder->record();
-    //updateRecordTime();
-}
-
-//============================================================================
-void CamLogic::pause()
-{
-//    m_mediaRecorder->pause();
-}
-
-//============================================================================
-void CamLogic::stop()
-{
-//    m_mediaRecorder->stop();
-}
-
-//============================================================================
-void CamLogic::setMuted( bool muted )
-{
-//    m_mediaRecorder->setMuted( muted );
-}
-
-//============================================================================
-void CamLogic::updateCameraActive( bool active )
-{
-    if( active ) 
+    if( newFormat.resolution() == targetSize )
     {
-        LogMsg( LOG_VERBOSE, "updateCameraActive is active " );
-    }
-    else 
-    {
-        LogMsg( LOG_VERBOSE, "updateCameraActive is NOT active " );
-    }
-}
-
-//============================================================================
-void CamLogic::updateRecorderState( QMediaRecorder::RecorderState state )
-{
-    switch( state ) 
-    {
-    case QMediaRecorder::StoppedState:
-        LogMsg( LOG_VERBOSE, "QMediaRecorder stopped " );
-        break;
-    case QMediaRecorder::PausedState:
-        LogMsg( LOG_VERBOSE, "QMediaRecorder paused " );
-        break;
-    case QMediaRecorder::RecordingState:
-        LogMsg( LOG_VERBOSE, "QMediaRecorder recording " );
-        break;
-    }
-}
-
-//============================================================================
-void CamLogic::displayCaptureError( int id, const QImageCapture::Error error, const QString& errorString )
-{
-    Q_UNUSED( id );
-    //m_ReadyForCapture = false;
-    //m_isCapturingImage = false;
-
-    //LogModule(eLogVideo, LOG_VERBOSE, "displayCaptureError %d %s", error, errorString.toUtf8().constData());
-    LogMsg( LOG_VERBOSE, "displayCaptureError %d %s", error, errorString.toUtf8().constData() );
-    if( QImageCapture::NotReadyError != error )
-    {
-        QMessageBox::warning( this, QObject::tr( "Image Capture Error" ), errorString );
-    }
-}
-
-//============================================================================
-void CamLogic::startCamera()
-{
-    if( VxIsAppShuttingDown() )
-    {
-        return;
+        LogMsg( LOG_VERBOSE, "%s new resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
+                newFormat.resolution().width(), newFormat.resolution().height(), newFormat.minFrameRate(), newFormat.maxFrameRate(), newFormat.pixelFormat() );
+        LogMsg( LOG_VERBOSE, "%s old resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
+                oldFormat.resolution().width(), oldFormat.resolution().height(), oldFormat.minFrameRate(), oldFormat.maxFrameRate(), oldFormat.pixelFormat() );
     }
 
-    if( getCamStartupCompleted() )
+    QSize sizeDifNew = newFormat.resolution() - targetSize;
+    QSize sizeDifOld = oldFormat.resolution() - targetSize;
+    if( (std::abs( sizeDifNew.width() ) + std::abs( sizeDifNew.height() ) ) < (std::abs( sizeDifOld.width() ) + std::abs( sizeDifOld.height() )) )
     {
-        if( !m_camera.isNull() && !m_CamIsStarted )
+        // better resolution match
+        LogMsg( LOG_VERBOSE, "%s new is better resolution match", __func__ );
+        return true;
+    }
+    else if( oldFormat.resolution() == targetSize && newFormat.resolution() != targetSize )
+    {
+        // resolution is most important.. if we have a matching resolution then do not consider others
+        return false;
+    }
+
+    // 15 fps is a decent rate without overtaxing low resource devices
+    static float targetRate{ 15.0f }; 
+    if( newFormat.maxFrameRate() >= targetRate &&
+        std::abs( targetRate - newFormat.maxFrameRate() ) < std::abs( targetRate - oldFormat.maxFrameRate() ) )
+    {
+        LogMsg( LOG_VERBOSE, "%s new has better frame rate %3.1f", __func__, newFormat.maxFrameRate() );
+        return true;
+    }
+
+    if( newFormat.maxFrameRate() == targetRate )
+    {
+        if( newFormat.pixelFormat() == QVideoFrameFormat::Format_YUV420P )
         {
-            m_CamIsStarted = true;
-            m_VideoFrameProcessor.enableProcessing( true );
-            m_camera->start();
-        }
-        else if( m_camera.isNull() )
-        {
-            LogMsg( LOG_ERROR, "CamLogic::startCamera camera is null" );
+            // some cameras have a faster rate with this format + used to be standard for android
+            LogMsg( LOG_VERBOSE, "%s new is better format match %d", __func__, newFormat.pixelFormat() );
+            return true;
         }
     }
+
+    return false;
 }
 
 //============================================================================
-void CamLogic::stopCamera()
+bool CamLogic::nextCamera( void )
 {
-    if( getCamStartupCompleted() )
+    updateCameraDevices();
+    if(m_AvailableCameras.size() < 2 || !m_Camera )
     {
-        if( m_CamIsStarted )
-        {
-            m_CamIsStarted = false;
-            if( !m_camera.isNull() )
-            {
-                m_camera->stop();
-            }
-        }
+        return false;
     }
-}
 
-//============================================================================
-void CamLogic::displayRecorderError()
-{
-    //QMessageBox::warning( this, tr( "Capture Error" ), m_mediaRecorder->errorString() );
-}
-
-//============================================================================
-void CamLogic::displayCameraError()
-{
-    //LogModule(eLogVideo, LOG_ERROR, "CamLogic Error %d %s", m_camera->error(), m_camera->errorString().toUtf8().constData() );
-    LogMsg( LOG_ERROR, "CamLogic Error %d %s", m_camera->error(), m_camera->errorString().toUtf8().constData() );
-
-    // QMessageBox::warning( this, tr( "CamLogic Error" ), m_camera->errorString() );
-}
-
-//============================================================================
-void CamLogic::nextCamera( void )
-{
-    if( VxIsAppShuttingDown() )
+    QString camDesc = getCamDescription();
+    bool foundCurrent{false};
+    for( auto device : m_AvailableCameras )
     {
-        return;
-    }
-
-    const QList<QCameraDevice> availableCameras = QMediaDevices::videoInputs();
-    bool foundDevice = false;
-    bool setNewDevice = false;
-    if( availableCameras.size() > 1 )
-    {
-        for( const QCameraDevice& cameraDevice : availableCameras )
+        if(foundCurrent)
         {
-            if( cameraDevice.description() == m_CamDescription )
-            {
-                foundDevice = true;
-            }
-
-            if( foundDevice && !( m_CamDescription == cameraDevice.description() ) )
-            {
-                setCamera( cameraDevice );
-                setNewDevice = true;
-                return;
-            }
+            return setCamera( device );
         }
-
-        if( !foundDevice || !setNewDevice )
+        else if(device.description() == camDesc)
         {
-            setCamera( availableCameras.front() );
+            foundCurrent = true;
         }
     }
+
+    return setCamera( m_AvailableCameras.front() );
 }

@@ -93,7 +93,7 @@ void InputVideoWidget::hideEvent(QHideEvent* hideEvent)
 //============================================================================
 void InputVideoWidget::slotRotateCamButtonClicked( void )
 {
-	uint32_t camId = m_MyApp.getAppSettings().getCamSourceId();
+    std::string camId = m_MyApp.getAppSettings().getCamSourceId();
 	int camRotation = m_MyApp.getAppSettings().getCamRotation( camId );
 	camRotation += 90;
 	if( camRotation >= 360 )

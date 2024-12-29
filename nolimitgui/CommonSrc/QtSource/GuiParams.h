@@ -149,6 +149,8 @@ public:
     //! return client applet for host type which is a relay for user
     static EApplet              hostTypeToClientApplet( EHostType hostType );
 
+    static bool                 requestPermission( QString permissionName );
+
 protected:
 
     static QColor				m_OnlineBkgColor;

@@ -275,7 +275,7 @@ protected:
 	VxMutex						m_VideoQueInMutex;
 	VxThread					m_ProcessVideoThread;
 	VxSemaphore					m_VideoSemaphore;
-	PktVideoFeedPic *			m_PktVideoFeedPic;
+	PktVideoFeedPic *			m_PktVideoFeedPic{ nullptr };
 	std::vector<PktVideoFeedPicChunk *> m_VidChunkList;
 
 	VxMutex						m_MixerBufferMutex;

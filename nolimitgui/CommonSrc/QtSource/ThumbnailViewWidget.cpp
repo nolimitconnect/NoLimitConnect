@@ -22,10 +22,11 @@
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 
-#include <QMessageBox>
-#include <QUuid>
 #include <QFileDialog>
+#include <QMessageBox>
+#include <QPainter>
 #include <QResizeEvent>
+#include <QUuid>
 
 //============================================================================
 ThumbnailViewWidget::ThumbnailViewWidget( QWidget* parent )

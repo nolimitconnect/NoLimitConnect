@@ -14,6 +14,8 @@
 #include "AppletPopupMenu.h"
 #include "GuiHelpers.h"
 
+#include <QFrame>
+
 //============================================================================
 IdentOfferWidget::IdentOfferWidget( QWidget* parent )
 : IdentWidget(parent)

@@ -388,7 +388,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/TitleBarWidget.h
 
     CommonSrc/QtSource/VideoFrameProcessor.h
-    CommonSrc/QtSource/VideoSinkGrabber.h
+
     CommonSrc/QtSource/VxAspectFrame.h
     CommonSrc/QtSource/VxContextMenu.h
     CommonSrc/QtSource/VxComboBox.h
@@ -779,7 +779,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ThumbnailViewWidget.cpp
 
     CommonSrc/QtSource/VideoFrameProcessor.cpp
-    CommonSrc/QtSource/VideoSinkGrabber.cpp
+
     CommonSrc/QtSource/VxAspectFrame.cpp
     CommonSrc/QtSource/VxComboBox.cpp
 

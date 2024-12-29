@@ -18,6 +18,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QFrame>
+
 //============================================================================
 AppletSettingsPage::AppletSettingsPage( AppCommon& app, QWidget* parent )
 : AppletLaunchPage(  app, parent, eAppletSettingsPage, OBJNAME_APPLET_SETTINGS_PAGE )

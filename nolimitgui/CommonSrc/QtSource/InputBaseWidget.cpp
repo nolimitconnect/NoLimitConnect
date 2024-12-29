@@ -26,6 +26,7 @@
 
 #include <MediaToolsLib/OpusAudioDecoder.h>
 
+#include <QFrame>
 #include <QTimer>
 
 //============================================================================

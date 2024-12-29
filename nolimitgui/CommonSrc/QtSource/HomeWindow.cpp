@@ -109,7 +109,21 @@ void HomeWindow::moveEvent( QMoveEvent * )
 void HomeWindow::showEvent( QShowEvent* ev )
 {
     QDialog::showEvent( ev );
-
+    static bool firstShow{ true };
+    if( firstShow )
+    {
+        firstShow = false;
+        m_MyApp.getCamLogic().startupCamLogic();
+        std::string camId = m_MyApp.getAppSettings().getCamSourceId();
+        if( m_MyApp.getCamLogic().cameraExists( camId.c_str() ) )
+        {
+            m_MyApp.getCamLogic().selectCamera( camId.c_str() );
+        }
+        else
+        {
+            m_MyApp.getCamLogic().selectDefaultCamera();
+        }
+    }
 }
 
 //============================================================================

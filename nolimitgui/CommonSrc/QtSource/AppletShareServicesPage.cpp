@@ -18,6 +18,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <QFrame>
+
 //============================================================================
 AppletShareServicesPage::AppletShareServicesPage( AppCommon& app, QWidget* parent )
 : AppletLaunchPage( app, parent, eAppletShareServicesPage, OBJNAME_APPLET_SERVICE_SHARE_PAGE )

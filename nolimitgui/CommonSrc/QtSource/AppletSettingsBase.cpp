@@ -17,6 +17,8 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <QPushButton>
+
 //============================================================================
 AppletSettingsBase::AppletSettingsBase( const char* ObjName, AppCommon& app, QWidget* parent )
     : AppletBase( ObjName, app, parent )

@@ -22,6 +22,9 @@
 
 #include "PermissionWidget.h"
 
+#include <QDesktopServices>
+#include <QTimer>
+
 #include "ui_AppletHostNetworkStatus.h"
 
 PermissionWidget*           AppletHostGroupStatus::getGroupHostPermissionWidget()    { return ui.m_HostPermissionWidget; }

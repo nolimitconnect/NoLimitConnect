@@ -12,6 +12,8 @@
 #include "AppletLaunchPage.h"
 #include "AppCommon.h"
 
+#include <QMessageBox>
+
 #include "ui_AppletLaunchWidget.h"
 
 //============================================================================

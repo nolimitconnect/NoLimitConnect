@@ -21,6 +21,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QFrame>
 #include <QTimer>
 
 //========================================================================

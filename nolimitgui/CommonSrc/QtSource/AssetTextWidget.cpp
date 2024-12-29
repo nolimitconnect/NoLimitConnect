@@ -15,6 +15,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QClipboard>
+
 #include "ui_AssetTextWidget.h"
 
 //============================================================================

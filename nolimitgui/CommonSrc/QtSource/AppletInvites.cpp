@@ -22,14 +22,12 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxUrl.h>
 
-#include <QDesktopServices>
-#include <QUrl>
-#include <QClipboard>
-#include <QScrollBar>
 #include <QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QClipboard>
+#include <QDesktopServices>
+#include <QRegularExpression>
+#include <QScrollBar>
+#include <QUrl>
 
 #include "ui_AppletInvites.h"
 

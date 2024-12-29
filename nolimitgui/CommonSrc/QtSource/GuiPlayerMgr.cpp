@@ -22,6 +22,10 @@
 #include <CoreLib/VxFileUtil.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <QDesktopServices>
+#include <QUrl>
+#include <QPainter>
+
 namespace
 {
 	const int PROCESS_QT_DEFAULT_MS = 50;

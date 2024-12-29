@@ -25,11 +25,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QClipboard>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
 #include "ui_AppletInviteAccept.h"
 
@@ -75,13 +73,10 @@ AppletInviteAccept::~AppletInviteAccept()
 //============================================================================
 void AppletInviteAccept::toGuiInfoMsg( char * infoMsg )
 {
-
     QString infoStr( infoMsg );
-#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
     infoStr.remove(QRegularExpression("[\\n\\r]"));
-#else
-    infoStr.remove(QRegExp("[\\n\\r]"));
-#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
     emit signalInfoMsg( infoStr );
 }
 

@@ -24,6 +24,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QLabel>
+
 //============================================================================
 IdentLogicInterface::IdentLogicInterface( QWidget* parent )
 	: QWidget( parent )

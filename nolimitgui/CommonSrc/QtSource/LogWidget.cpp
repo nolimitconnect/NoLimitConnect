@@ -13,8 +13,9 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include <QScrollBar>
 #include <QClipboard>
+#include <QRegularExpression>
+#include <QScrollBar>
 
 #include "ui_LogWidget.h"
 
@@ -61,11 +62,9 @@ void LogWidget::onLogEvent( uint32_t u32LogFlags, const char* logMsg )
 {
     m_LogMutex.lock();
     QString logStr( logMsg );
-#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
     logStr.remove(QRegularExpression("[\\n\\r]"));
-#else
-    logStr.remove(QRegExp("[\\n\\r]"));
-#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
+
     emit signalLogMsg( logStr );
 
     m_LogMutex.unlock();

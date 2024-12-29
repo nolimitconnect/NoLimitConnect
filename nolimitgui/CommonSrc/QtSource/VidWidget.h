@@ -99,10 +99,13 @@ protected slots:
 	void						slotMotionAlarmButtonClicked( void );
 	void						slotRecMotionButtonClicked( void );
 	void						slotRecNormalButtonClicked( void );
+	void						slotCamSourceButtonClicked( void );
 
 	void						slotIconToggleTimeout( void );
 	void						slotMotionAlarmTimeout( void );
 	void						slotMotionRecordTimeout( void );
+
+	
 
 protected:
     virtual void				showEvent( QShowEvent* ev ) override;

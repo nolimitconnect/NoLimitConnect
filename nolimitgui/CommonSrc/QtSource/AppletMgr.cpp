@@ -173,6 +173,8 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 
+#include <QApplication>
+
 //============================================================================
 AppletMgr::AppletMgr( AppCommon& myMpp, QWidget* parent )
 : QWidget( parent )

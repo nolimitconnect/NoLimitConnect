@@ -214,7 +214,7 @@ public:
     // android permissions
     static bool                 havePermission( QString permissionName );
     static bool                 requestFilePermission( enum EMediaFileType permissionType, bool showUserMsgIfDenied = true );
-    static bool                 requestPermission( QString permissionName );
+
     static void                 showFilePermissionError( void );
 };
 

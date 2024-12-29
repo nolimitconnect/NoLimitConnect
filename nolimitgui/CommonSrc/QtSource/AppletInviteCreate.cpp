@@ -33,11 +33,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QClipboard>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
 #include "ui_AppletInviteCreate.h"
 
