@@ -16,6 +16,18 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include <QAudioInput>
+#include <QAudioOutput>
+
+namespace
+{
+    const int PROCESS_QT_DEFAULT_MS = 50;
+    void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
+    {
+        QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+    }
+};
+
 //============================================================================
 CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
     : QObject(parent)
@@ -66,9 +78,28 @@ void CamLogic::startupCamLogic( void )
 //============================================================================
 void CamLogic::shutdownCamLogic( void )
 {
+    m_VideoFrameProcessor.enableProcessing( false );
+
     if( m_Camera )
     {
         m_Camera->stop();
+        m_Camera->deleteLater();
+        m_Camera = nullptr;
+    }
+
+    if( m_CaptureSession )
+    {
+        m_CaptureSession->deleteLater();
+        m_CaptureSession = nullptr;
+    }
+
+    if( m_CamFrameSink )
+    {
+        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+        
+
+        m_CamFrameSink->deleteLater();
+        m_CamFrameSink = nullptr;
     }
 }
 
@@ -154,15 +185,27 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
     if( m_CamFrameSink )
     {
         disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+        m_VideoFrameProcessor.enableProcessing( false );
         m_CamFrameSink->deleteLater();
         m_CamFrameSink = nullptr;
     }
+
+    ProcessQtEvents( 300 ); // give qt time to clean up old capture
 
     m_Camera = new QCamera(cameraDevice);
     selectVideoFormat( cameraDevice );
 
     m_CaptureSession = new QMediaCaptureSession();
     m_CaptureSession->setCamera(m_Camera);
+    if( m_CaptureSession->audioInput() )
+    {
+        m_CaptureSession->audioInput()->setMuted(true);
+    }
+
+    if( m_CaptureSession->audioOutput() )
+    {
+        m_CaptureSession->audioOutput()->setMuted(true);
+    }
 
     m_CamFrameSink = new QVideoSink();
     m_CaptureSession->setVideoSink( m_CamFrameSink );

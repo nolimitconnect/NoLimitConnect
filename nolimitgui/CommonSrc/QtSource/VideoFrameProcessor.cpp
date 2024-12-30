@@ -54,7 +54,6 @@ void VideoFrameProcessor::enableProcessing( bool enable )
         else
         {
             m_FrameSemaphore.signal();
-            wait();
         }
     }
 }

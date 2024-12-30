@@ -36,6 +36,7 @@
 #include "GuiAppLoaderThread.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiOfferSession.h"
+#include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 #include "GuiPluginMgr.h"
 #include "GuiPushToTalkMgr.h"
@@ -280,6 +281,7 @@ bool AppCommon::loadWithoutThread( void )
 		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
 	}
 
+	GuiParams::requestPermission("android.permission.RECORD_AUDIO");
 	// once settings has been loaded the audo can be started
     m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
 

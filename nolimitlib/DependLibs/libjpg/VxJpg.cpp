@@ -123,7 +123,7 @@ static void jpeg_buffer_dest (j_compress_ptr cinfo, (char *)pu8RetJpg, int iJpgB
 * RGB color and is described by:
 */
 
-RCODE VxBmp2Jpg(	int	iBitsPerPixel,		//number of bits each pixel..(For now must be 24)
+int32_t VxBmp2Jpg(	int	iBitsPerPixel,		//number of bits each pixel..(For now must be 24)
 					unsigned char * pu8Bits, //bits of bmp to convert
 					int iWidth,		//width of image in pixels
 					int iHeight,	//height of image in pixels
@@ -363,7 +363,7 @@ my_error_exit (j_common_ptr cinfo)
 }
 
 
-RCODE VxWriteJpg(	const char *    pFileName,
+int32_t VxWriteJpg(	const char *    pFileName,
                     int             iBitsPerPixel,		//number of bits each pixel..(For now must be 24)
                     unsigned char * pu8Bits, //bits of bmp to convert
                     int             iWidth,		//width of image in pixels
@@ -380,7 +380,7 @@ RCODE VxWriteJpg(	const char *    pFileName,
 	unsigned char * pu8Jpg = new unsigned char[ iJpgBufLen ];
 	long s32JpgLen = 0; //length of jpeg image
 	
-	RCODE rc = VxBmp2Jpg(	iBitsPerPixel,	//number of bits each pixel..(For now must be 24)
+	int32_t rc = VxBmp2Jpg(	iBitsPerPixel,	//number of bits each pixel..(For now must be 24)
 							pu8Bits,		//bits of bmp to convert
 							iWidth,			//width of image in pixels
 							iHeight,		//height of image in pixels
@@ -438,7 +438,7 @@ my_term_source(j_decompress_ptr cinfo)
 }
 }
 
-RCODE VxJpg2Bmp(	unsigned char * pu8Bits,		// bits of jpg to convert
+int32_t VxJpg2Bmp(	unsigned char * pu8Bits,		// bits of jpg to convert
 					unsigned long	u32DataLen,		// length of jpg data
 					int				iWidth,			// width of image in pixels
 					int				iHeight,		// height of image in pixels
