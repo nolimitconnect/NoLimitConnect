@@ -13,6 +13,7 @@ Note: Using Ubuntu 22.4 there seems to be some qt ssl issuses when configuring s
 6.) Other Qt specifically required for online installer
 	a. sudo apt install build-essential
 	b. sudo apt install -y libxcb-xinerama0
+	c. sudo apt install -y libxcb-cursor0
 7.) Optional if you plan on compiling using the docker image
 	a. sudo apt install docker
 	Give current user docker login privileges (optional)

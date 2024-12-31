@@ -139,12 +139,12 @@ bool ThumbnailEditWidget::updateThumbAsset( ThumbInfo& thumbInfo )
     VxGUID assetGuid = thumbInfo.getAssetUniqueId();
     if( assetGuid.isVxGUIDValid() )
     {
-        QString fileName = thumbInfo.getAssetName().c_str();
+        QString fileName = thumbInfo.getAssetNameAndPath().c_str();
         if( !VxFileUtil::fileExists( fileName.toUtf8().constData() ) )
         {
             if( GuiHelpers::createThumbFileName( assetGuid, fileName ) )
             {
-                thumbInfo.setAssetName( fileName.toUtf8().constData() );
+                thumbInfo.setAssetNameFromFileNameAndPath( fileName.toUtf8().constData() );
             }
         }
 

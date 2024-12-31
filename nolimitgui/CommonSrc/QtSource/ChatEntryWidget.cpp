@@ -209,7 +209,7 @@ void ChatEntryWidget::slotAllGalleryButtonClicked( void )
 				return;
 			}
 
-			assetInfo.setAssetName( filename.toUtf8().constData() );
+			assetInfo.setAssetNameFromFileNameAndPath( filename.toUtf8().constData() );
             assetInfo.setCreatorId( GetAppInstance().getUserMgr().getMyOnlineId() );
             assetInfo.setAdminId( m_GroupieId.getHostOnlineId() );
             assetInfo.setHistoryId( m_GroupieId.getUserOnlineId() );
@@ -296,7 +296,7 @@ void ChatEntryWidget::setEntryMode( EAssetType inputMode )
 		if( eAssetTypeVideo == m_InputMode )
 		{
 			AppCommon& myApp = GetAppInstance();
-			QString useMsg = QObject::tr( "Use camcorder button on left to start and stop recording video." );
+			QString useMsg = QObject::tr( "Use camcorder button on right to start and stop recording video." );
 			myApp.toGuiUserMessage( useMsg.toUtf8().constData() );
 			//QMessageBox::information( this, QObject::tr( "Information" ), QObject::tr( "Use camcorder button on left to start and stop recording video." ), QObject::tr( "OK" ) );
 		}

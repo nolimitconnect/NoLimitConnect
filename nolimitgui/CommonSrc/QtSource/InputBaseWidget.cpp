@@ -105,7 +105,7 @@ bool InputBaseWidget::voiceRecord( EAssetAction action )
         m_AssetInfo.generateNewUniqueId();
         if( generateFileName( assetType, m_AssetInfo.getAssetUniqueId() ) )
         {
-            m_AssetInfo.setAssetName( m_FileName );
+            m_AssetInfo.setAssetNameFromFileNameAndPath( m_FileName );
             actionResult = m_MyApp.getEngine().fromGuiSndRecord( eSndRecordStateStartRecording, m_AssetInfo.getCreatorId(), m_FileName.c_str() );
             if( true == actionResult )
             {
@@ -189,7 +189,7 @@ bool InputBaseWidget::videoRecord( EAssetAction action )
 		m_AssetInfo.generateNewUniqueId();
         if( generateFileName( assetType, m_AssetInfo.getAssetUniqueId() ) )
         {
-		    m_AssetInfo.setAssetName( m_FileName );
+		    m_AssetInfo.setAssetNameFromFileNameAndPath( m_FileName );
 		    actionResult = m_MyApp.getEngine().fromGuiVideoRecord( eVideoRecordStateStartRecording, m_AssetInfo.getCreatorId(), m_FileName.c_str() );
 		    if( true == actionResult )
 		    {

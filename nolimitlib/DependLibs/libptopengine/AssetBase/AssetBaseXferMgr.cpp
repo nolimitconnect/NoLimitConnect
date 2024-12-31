@@ -2271,7 +2271,7 @@ void AssetBaseXferMgr::onAssetBaseReceived( AssetBaseRxSession* xferSession, Ass
 		RCODE rc = 0;
 		if( 0 == ( rc = VxFileUtil::moveAFile( incompleteAsset.c_str(), completedAssetBase.c_str() ) ) )
 		{
-			assetInfo.setAssetName( completedAssetBase.c_str() );
+			assetInfo.setAssetNameAndPath( completedAssetBase.c_str() );
 			//BRJ ?? assetInfo.setHistoryId( xferSession->getIdent()->getMyOnlineId() );
 
 			if( eXferErrorNone == error )

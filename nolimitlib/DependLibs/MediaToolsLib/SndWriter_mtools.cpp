@@ -56,14 +56,14 @@ bool SndWriter::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction asset
 	switch( assetAction )
 	{
 	case eAssetActionRecordBegin:
-		return fromGuiSndRecord( eSndRecordStateStartRecording, assetInfo.getHistoryId(), assetInfo.getAssetName().c_str() );
+		return fromGuiSndRecord( eSndRecordStateStartRecording, assetInfo.getHistoryId(), assetInfo.getAssetNameAndPath().c_str() );
 
 	case eAssetActionRecordEnd:
-		return fromGuiSndRecord( eSndRecordStateStopRecording, assetInfo.getHistoryId(), assetInfo.getAssetName().c_str() );
+		return fromGuiSndRecord( eSndRecordStateStopRecording, assetInfo.getHistoryId(), assetInfo.getAssetNameAndPath().c_str() );
 
 	case eAssetActionRecordCancel:
-		fromGuiSndRecord( eSndRecordStateStopRecording, assetInfo.getHistoryId(), assetInfo.getAssetName().c_str() );
-		GetVxFileShredder().shredFile( assetInfo.getAssetName() );
+		fromGuiSndRecord( eSndRecordStateStopRecording, assetInfo.getHistoryId(), assetInfo.getAssetNameAndPath().c_str() );
+		GetVxFileShredder().shredFile( assetInfo.getAssetNameAndPath() );
 		break;
 
 	default:

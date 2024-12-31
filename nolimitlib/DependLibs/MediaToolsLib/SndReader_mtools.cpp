@@ -94,7 +94,7 @@ bool SndReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction asset
 			fromGuiSndPlay( eSndPlayStateStopPlaying, m_AssetId, 0 );
 		}
 
-		m_FileName	= assetInfo.getAssetName();
+		m_FileName	= assetInfo.getAssetNameAndPath();
 		m_AssetId	= assetInfo.getAssetUniqueId();
 		return fromGuiSndPlay( eSndPlayStateStartPlaying, assetInfo.getAssetUniqueId(), pos0to100000 );
 

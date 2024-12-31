@@ -76,10 +76,6 @@ int64_t GetHighResolutionTimeUs( void ) /* O  time in usec*/
 
 	return timeNow;
 #endif // CLOCK_MONOTONIC
-
-	struct timeval tv;
-	gettimeofday( &tv, 0 );
-	return((tv.tv_sec * 1000000) + (tv.tv_usec));
 }
 #endif
 

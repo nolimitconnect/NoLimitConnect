@@ -191,7 +191,7 @@ bool MJPEGReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction ass
 		if( !getIsPlaying() 
 			|| (getIsPlaying() && m_AssetId == assetInfo.getAssetUniqueId() ) )
 		{
-			result = startVideoRead( assetInfo.getAssetName().c_str(), assetInfo.getAssetUniqueId(), pos0to100000 );
+			result = startVideoRead( assetInfo.getAssetNameAndPath().c_str(), assetInfo.getAssetUniqueId(), pos0to100000 );
 		}
 		else
 		{
@@ -202,7 +202,7 @@ bool MJPEGReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction ass
 		break;
 
 	case eAssetActionPlayOneFrame:
-		result = playOneFrame( assetInfo.getAssetName().c_str(), assetInfo.getAssetUniqueId() );
+		result = playOneFrame( assetInfo.getAssetNameAndPath().c_str(), assetInfo.getAssetUniqueId() );
 		break;
 
 	case eAssetActionPlayPause:

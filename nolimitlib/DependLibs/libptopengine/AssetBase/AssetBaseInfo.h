@@ -117,6 +117,7 @@ public:
 
     // assetName is usually just the file name
     virtual void				setAssetName( std::string assetName )           { setFileName( assetName ); }
+    virtual void				setAssetNameFromFileNameAndPath( std::string fullFileName );
     virtual std::string&		getAssetName( void )                            { return getFileName(); }
 
     virtual void				setAssetNameAndPath( std::string assetNameAndPath ) { setFileNameAndPath( assetNameAndPath ); }

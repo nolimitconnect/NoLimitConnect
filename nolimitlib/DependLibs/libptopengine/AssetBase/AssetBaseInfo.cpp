@@ -624,3 +624,16 @@ void AssetBaseInfo::assureValidTimes( void )
         m_InfoModifiedTime = GetTimeStampMs();
     }
 }
+
+//============================================================================
+void AssetBaseInfo::setAssetNameFromFileNameAndPath( std::string fullFileName )
+{
+	setAssetNameAndPath( fullFileName );
+	std::string justFileName;
+	std::string justPath;
+	VxFileUtil::seperatePathAndFile( fullFileName, justPath, justFileName );
+	if( !justFileName.empty() )
+	{
+		setFileName( justFileName );
+	}
+}

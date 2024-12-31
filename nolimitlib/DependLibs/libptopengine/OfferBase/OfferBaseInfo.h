@@ -34,7 +34,9 @@ public:
 	virtual EOfferType			getOfferType( void )					{ return (EOfferType)getAssetType(); }
 
     virtual void				setOfferName( std::string& assetName )  { setAssetName( assetName ); }
+    virtual void				setOfferFile( std::string& fullFileName )  { setAssetNameFromFileNameAndPath( fullFileName ); }
     virtual std::string&        getOfferName( void )                    { return getAssetName(); }
+    virtual std::string&        getOfferFile( void )                    { return getAssetName(); }
 
     virtual void				setOfferLength( int64_t assetLength )   { setAssetLength( assetLength ); }
     virtual int64_t				getOfferLength( void )                  { return getAssetLength(); }

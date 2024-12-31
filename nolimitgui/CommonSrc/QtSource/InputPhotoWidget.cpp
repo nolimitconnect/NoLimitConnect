@@ -72,7 +72,9 @@ void InputPhotoWidget::slotSnapShotButtonClicked( void )
 		if( fillAssetBaseInfo( true ) )
 		{
 			generateFileName( eAssetTypePhoto, m_AssetInfo.getAssetUniqueId() );
-			m_AssetInfo.setAssetName( m_FileName );
+
+			m_AssetInfo.setAssetNameFromFileNameAndPath( m_FileName );
+
 			if( false == m_PicImage.save( m_FileName.c_str() ) )
 			{
 				QString msgText = QObject::tr( "Failed to write photo to file " ) + m_FileName.c_str();

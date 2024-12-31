@@ -57,7 +57,7 @@ void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 {
 	AssetBaseWidget::setAssetInfo( assetInfo );
 	this->setSizeHint( QSize( 100, 224 - 16 ) );
-	ui.m_VidWidget->setImageFromFile( assetInfo.getAssetName().c_str() );
+	ui.m_VidWidget->setImageFromFile( assetInfo.getAssetNameAndPath().c_str() );
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getHistoryId() );
