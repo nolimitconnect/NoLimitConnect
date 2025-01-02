@@ -79,9 +79,9 @@ public:
     virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo );
     virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
 
-    virtual void				announceAssetAdded( AssetBaseInfo* assetInfo );
+    virtual void				announceAssetAdded( AssetBaseInfo* assetInfo, bool resourceLocked = false );
     virtual void				announceAssetUpdated( AssetBaseInfo* assetInfo );
-    virtual void				announceAssetRemoved( AssetBaseInfo* assetInfo );
+    virtual void				announceAssetRemoved( AssetBaseInfo* assetInfo, bool resourceLocked = false );
     virtual void				announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState assetSendState, int param );
 
     virtual void                onQueryHistoryAsset( AssetBaseInfo* assetInfo ); // should be overriden
@@ -108,12 +108,12 @@ public:
 	AssetBaseInfo*				findAsset( VxGUID& assetId );
 
 	uint16_t					getAssetBaseFileTypes( void )				{ return m_u16AssetBaseFileTypes; }
-	void						updateAssetFileTypes( void );
+	void						updateAssetFileTypes( bool resourceLocked = false );
 
 	void						lockFileListPackets( void )					{ m_FileListPacketsMutex.lock(); }
 	void						unlockFileListPackets( void )				{ m_FileListPacketsMutex.unlock(); }
 	std::vector<PktFileListReply*>&	getFileListPackets( void )				{ return m_FileListPackets; }
-	void						updateFileListPackets( void );
+	void						updateFileListPackets( bool resourceLocked = false );
 
     AssetBaseInfo* 			    addAssetFile( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen );
     AssetBaseInfo*				addAssetFile( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId );

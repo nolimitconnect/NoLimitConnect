@@ -566,7 +566,7 @@ bool AssetBaseMgr::updateAsset( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AssetBaseMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
+void AssetBaseMgr::announceAssetAdded( AssetBaseInfo* assetInfo, bool resourceLocked )
 {
 	if( !assetInfo->isValid() )
 	{
@@ -576,8 +576,8 @@ void AssetBaseMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
 	// LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetAdded start" );
 	if( assetInfo->isFileAsset() )
 	{
-		updateFileListPackets();
-		updateAssetFileTypes();
+		updateFileListPackets(resourceLocked);
+		updateAssetFileTypes(resourceLocked);
 	}
 	
 	lockClientList();
@@ -614,12 +614,12 @@ void AssetBaseMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
 }
 
 //============================================================================
-void AssetBaseMgr::announceAssetRemoved( AssetBaseInfo* assetInfo )
+void AssetBaseMgr::announceAssetRemoved( AssetBaseInfo* assetInfo, bool resourceLocked )
 {
 	//if( assetInfo->getIsAssetBase() )
 	{
-		updateFileListPackets();
-		updateAssetFileTypes();
+		updateFileListPackets(resourceLocked);
+		updateAssetFileTypes(resourceLocked);
 	}
 
 	lockClientList();
@@ -786,11 +786,14 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 }
 
 //============================================================================
-void AssetBaseMgr::updateAssetFileTypes( void )
+void AssetBaseMgr::updateAssetFileTypes( bool resourceLocked )
 {
 	uint16_t u16FileTypes = 0;
-	std::vector<AssetBaseInfo*>::iterator iter;
-	lockResources();
+	if( !resourceLocked )
+	{
+		lockResources();
+	}
+
 	for( auto assetInfo : m_AssetBaseInfoList )
 	{
 		if( assetInfo->isFileAsset() )
@@ -799,7 +802,10 @@ void AssetBaseMgr::updateAssetFileTypes( void )
 		}
 	}
 
-	unlockResources();
+	if( !resourceLocked )
+	{
+		unlockResources();
+	}
 
 	// ignore extended types
 	u16FileTypes = u16FileTypes & 0xff;
@@ -808,7 +814,6 @@ void AssetBaseMgr::updateAssetFileTypes( void )
 		m_u16AssetBaseFileTypes = u16FileTypes;
 
 		lockClientList();
-		std::vector<AssetBaseCallbackInterface*>::iterator iter;
 		for( auto client : m_AssetClients )
 		{
 			client->callbackAssetFileTypesChanged( u16FileTypes );
@@ -819,13 +824,17 @@ void AssetBaseMgr::updateAssetFileTypes( void )
 }
 
 //============================================================================
-void AssetBaseMgr::updateFileListPackets( void )
+void AssetBaseMgr::updateFileListPackets( bool resourceLocked )
 {
 	bool hadAssetBaseFiles = m_FileListPackets.size() ? true : false;
 	PktFileListReply * pktFileList = 0;
 	clearAssetFileListPackets();
 	lockFileListPackets();
-	lockResources();
+	if( !resourceLocked )
+	{
+		lockResources();
+	}
+
 	std::vector<AssetBaseInfo*>::iterator iter;
 	for( iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
 	{
@@ -863,7 +872,7 @@ void AssetBaseMgr::updateFileListPackets( void )
 		if( pktFileList->getFileCount() )
 		{
 			pktFileList->setIsListCompleted( true ); // last pkt in list
-			m_FileListPackets.push_back( pktFileList );
+			m_FileListPackets.emplace_back( pktFileList );
 		}
 		else
 		{
@@ -871,7 +880,11 @@ void AssetBaseMgr::updateFileListPackets( void )
 		}
 	}
 
-	unlockResources();
+	if( !resourceLocked )
+	{
+		unlockResources();
+	}
+
 	unlockFileListPackets();
 	if( hadAssetBaseFiles || m_FileListPackets.size() )
 	{
@@ -1470,7 +1483,7 @@ void AssetBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxG
 				toMoveAssetInfo->setAssetHashId( sha1Info.getSha1Hash() );
 				m_AssetBaseInfoList.emplace_back( toMoveAssetInfo );
 				updateDatabase( toMoveAssetInfo );
-				announceAssetAdded( toMoveAssetInfo );
+				announceAssetAdded( toMoveAssetInfo, true );
 				wasMoved = true;
 				break;
 			}

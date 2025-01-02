@@ -138,7 +138,7 @@ bool ThumbMgr::addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAss
 }
 
 //============================================================================
-void ThumbMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
+void ThumbMgr::announceAssetAdded( AssetBaseInfo* assetInfo, bool resourceLocked )
 {
     if( !assetInfo || !assetInfo->isValidThumbnail() )
     {
@@ -146,17 +146,15 @@ void ThumbMgr::announceAssetAdded( AssetBaseInfo* assetInfo )
         vx_assert( false );
     }
 
-    AssetBaseMgr::announceAssetAdded( assetInfo );
+    AssetBaseMgr::announceAssetAdded( assetInfo, resourceLocked );
     ThumbInfo* thumbInfo = dynamic_cast<ThumbInfo*>( assetInfo );
     if( thumbInfo )
     {
 	    LogMsg( LOG_INFO, "ThumbMgr::announceThumbAdded start" );
 	
 	    lockClientList();
-	    std::vector<ThumbCallbackInterface *>::iterator iter;
-	    for( iter = m_ThumbClients.begin();	iter != m_ThumbClients.end(); ++iter )
+	    for( auto client : m_ThumbClients )
 	    {
-		    ThumbCallbackInterface * client = *iter;
 		    client->callbackThumbAdded( thumbInfo );
 	    }
 
@@ -183,10 +181,8 @@ void ThumbMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
     if( thumbInfo )
     {
         lockClientList();
-        std::vector<ThumbCallbackInterface *>::iterator iter;
-        for( iter = m_ThumbClients.begin();	iter != m_ThumbClients.end(); ++iter )
-        {
-            ThumbCallbackInterface * client = *iter;
+ 	    for( auto client : m_ThumbClients )
+	    {
             client->callbackThumbUpdated( thumbInfo );
         }
 
@@ -199,17 +195,15 @@ void ThumbMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
 }
 
 //============================================================================
-void ThumbMgr::announceAssetRemoved( AssetBaseInfo* assetInfo )
+void ThumbMgr::announceAssetRemoved( AssetBaseInfo* assetInfo, bool resourceLocked )
 {
-    AssetBaseMgr::announceAssetRemoved( assetInfo );
+    AssetBaseMgr::announceAssetRemoved( assetInfo, resourceLocked );
     ThumbInfo* thumbInfo = dynamic_cast<ThumbInfo*>( assetInfo );
     if( thumbInfo && thumbInfo->isThumbAsset() )
     {
 	    lockClientList();
-	    std::vector<ThumbCallbackInterface *>::iterator iter;
-	    for( iter = m_ThumbClients.begin();	iter != m_ThumbClients.end(); ++iter )
+	    for( auto client : m_ThumbClients )
 	    {
-		    ThumbCallbackInterface * client = *iter;
 		    client->callbackThumbRemoved( thumbInfo->getThumbId() );
 	    }
 
@@ -242,10 +236,8 @@ void ThumbMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, 
 void ThumbMgr::announceThumbAdded( ThumbInfo& thumbInfo )
 {
     lockClientList();
-    std::vector<ThumbCallbackInterface *>::iterator iter;
-    for( iter = m_ThumbClients.begin();	iter != m_ThumbClients.end(); ++iter )
-    {
-        ThumbCallbackInterface * client = *iter;
+	for( auto client : m_ThumbClients )
+	{
         client->callbackThumbAdded( &thumbInfo );
     }
 
@@ -262,10 +254,8 @@ void ThumbMgr::announceThumbUpdated( ThumbInfo& thumbInfo )
     }
 
     lockClientList();
-    std::vector<ThumbCallbackInterface *>::iterator iter;
-    for( iter = m_ThumbClients.begin();	iter != m_ThumbClients.end(); ++iter )
-    {
-        ThumbCallbackInterface * client = *iter;
+	for( auto client : m_ThumbClients )
+	{
         client->callbackThumbUpdated( &thumbInfo );
     }
 
