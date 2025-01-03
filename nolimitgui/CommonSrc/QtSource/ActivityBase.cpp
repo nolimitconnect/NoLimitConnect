@@ -1342,7 +1342,7 @@ bool ActivityBase::confirmDeleteFile( QString fileName, bool shredFile )
 //============================================================================
 bool ActivityBase::confirmDeleteFile( AssetBaseInfo& assetInfo, bool shredFile )
 {
-	return confirmDeleteFile( assetInfo.getAssetName().c_str(), shredFile );
+	return confirmDeleteFile( assetInfo.getAssetNameAndPath().c_str(), shredFile );
 }
 
 //============================================================================

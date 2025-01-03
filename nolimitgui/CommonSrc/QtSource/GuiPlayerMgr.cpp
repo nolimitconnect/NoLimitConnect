@@ -270,9 +270,9 @@ bool GuiPlayerMgr::playMedia( AssetBaseInfo& assetInfo, bool useExternPlayer, in
     if( !assetInfo.isStream() )
 	{
 #ifdef TARGET_OS_WINDOWS
-		ShellExecuteA( 0, 0, assetInfo.getAssetName().c_str(), 0, 0, SW_SHOW );
+		ShellExecuteA( 0, 0, assetInfo.getAssetNameAndPath().c_str(), 0, 0, SW_SHOW );
 #else
-		QDesktopServices::openUrl( QUrl::fromLocalFile( assetInfo.getAssetName().c_str() ) );
+		QDesktopServices::openUrl( QUrl::fromLocalFile( assetInfo.getAssetNameAndPath().c_str() ) );
 #endif // TARGET_OS_WINDOWS
 	}
 	return true;

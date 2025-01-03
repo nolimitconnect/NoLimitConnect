@@ -348,7 +348,7 @@ void AppletFileOfferSelect::slotListShredIconClicked( QListWidgetItem* item )
                 {
                     onFileRemoved( poInfo->getFileInfo() );
                     ui.m_FileItemList->removeItemWidget( item );
-                    m_Engine.fromGuiDeleteFile( assetInfo.getAssetName().c_str(), true );
+                    m_Engine.fromGuiDeleteFile( assetInfo.getAssetNameAndPath().c_str(), true );
                 }
             }
         }
@@ -524,7 +524,7 @@ void AppletFileOfferSelect::onFileSelected( FileInfo& fileInfo )
     offerInfo.setOfferMgr( eOfferMgrHost );
 
     ui.m_OfferSendWidget->setOfferInfo( offerInfo );
-    std::string fullFileName = offerInfo.getAssetName();
+    std::string fullFileName = offerInfo.getAssetNameAndPath();
     std::string justFileName;
     std::string justPath;
     if( 0 == VxFileUtil::seperatePathAndFile( fullFileName, justPath, justFileName ) )

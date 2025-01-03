@@ -119,7 +119,7 @@ bool AppletOfferView::setOfferInfo( OfferBaseInfo& offerInfo )
     ui.m_OfferBarWidget->setOfferInfo( offerInfo );
     if( m_OfferInfo.isValid() && m_OfferInfo.isFileAsset() )
     {
-        std::string fileName = m_OfferInfo.getAssetName();
+        std::string fileName = m_OfferInfo.getAssetNameAndPath();
         std::string justFileName;
         std::string justPath;
         if( 0 == VxFileUtil::seperatePathAndFile( fileName, justPath, justFileName ) )

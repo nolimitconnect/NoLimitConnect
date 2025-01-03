@@ -313,7 +313,7 @@ void AppletPlayerCamClip::slotShredAsset( void )
 	{
 		wantActivityCallbacks( false );
 		stopMediaIfPlaying();
-		m_Engine.fromGuiDeleteFile( m_AssetInfo.getAssetName().c_str(), true );
+		m_Engine.fromGuiDeleteFile( m_AssetInfo.getAssetNameAndPath().c_str(), true );
 		close();
 	}
 }

@@ -86,9 +86,9 @@ bool GuiThumb::isEqualTo( GuiThumb* guiThumb )
 bool GuiThumb::createImage( QImage& retAvatarImage )
 {
     bool status = false;
-    if( !m_ThumbInfo.getAssetName().empty() )
+    if( !m_ThumbInfo.getAssetNameAndPath().empty() )
     {
-        QString filename = m_ThumbInfo.getAssetName().c_str();
+        QString filename = m_ThumbInfo.getAssetNameAndPath().c_str();
         status = retAvatarImage.load( filename ) && !retAvatarImage.isNull();
     }
 

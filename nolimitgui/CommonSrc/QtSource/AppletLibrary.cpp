@@ -347,7 +347,7 @@ void AppletLibrary::slotListShredIconClicked( QListWidgetItem* item )
                 if( confirmDeleteFile( assetInfo, true ) )
                 {
                     ui.m_FileItemList->removeItemWidget( item );
-                    m_Engine.fromGuiDeleteFile( assetInfo.getAssetName().c_str(), true );
+                    m_Engine.fromGuiDeleteFile( assetInfo.getAssetNameAndPath().c_str(), true );
                 }
             }
         }
