@@ -383,12 +383,14 @@ void AppletUserIdentity::updateAvatarImage( VxGUID& thumbId, int64_t thumbModifi
     if( !thumbImage.isNull() )
     {
         ui.m_AvatarImageButton->setIconOverrideImage( thumbImage );
+        ui.m_AvatarImageButton->update();
     }
 }
 
 //============================================================================
 void AppletUserIdentity::slotAvatarImageChanged( ThumbInfo* avatarThumb )
 {
+    m_MyApp.getThumbMgr().addThumbIfDoesNotExist( avatarThumb );
     updateAvatarImage( avatarThumb->getAssetUniqueId(), avatarThumb->getModifiedTime() );
 }
 

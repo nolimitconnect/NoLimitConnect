@@ -64,6 +64,8 @@ public:
     bool                        getThumbImage( VxGUID& thumbId, QImage& image );
     GuiThumbList&               getThumbList( void )             { return m_ThumbList; }
 
+    void				        addThumbIfDoesNotExist( ThumbInfo* thumbInfo );
+
 signals:
     void                        signalInternalThumbAdded( ThumbInfo thumbInfo );
     void                        signalInternalThumbUpdated( ThumbInfo thumbInfo );

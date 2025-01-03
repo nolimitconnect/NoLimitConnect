@@ -566,3 +566,23 @@ void GuiThumbMgr::wantGuiThumbCallbacks( GuiThumbCallback* callback, bool wantCa
 
     LogMsg( LOG_INFO, "WARNING. wantToGuiUserUpdateCallbacks remove not found in list" );
 }
+
+//============================================================================
+void GuiThumbMgr::addThumbIfDoesNotExist( ThumbInfo* thumbInfo )
+{
+    GuiThumb* guiThumb = m_ThumbList.findThumb( thumbInfo->getAssetUniqueId() ); 
+    if( guiThumb )
+    {
+        return;
+    }
+    else
+    {
+        guiThumb = new GuiThumb( m_MyApp );
+        guiThumb->setThumbInfo( *thumbInfo );
+        if( m_ThumbList.addThumbIfDoesntExist( guiThumb ) )
+        {
+            m_MyApp.getEngine().getThumbMgr().fromGuiThumbCreated( *thumbInfo );
+            onThumbAdded( guiThumb );
+        }
+    }
+}
