@@ -9,14 +9,16 @@
 //============================================================================
 
 #include "VxCommon.h"
+
+#include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/PktBlobEntry.h>
-
-#include <NetLib/VxSktBase.h>
-
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxSktUtil.h>
+
+#include <NetLib/VxSktBase.h>
 
 #include <memory.h>
 #include <stdio.h>
@@ -429,7 +431,7 @@ bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType, bool inGroup 
 		friendState = eFriendStateGuest;
 	}
 
-	return ( ePluginAccessOk == getPluginAccessState( pluginType, friendState ) );
+    return ( ePluginAccessOk == GetPtoPEngine().getMyPktAnnounce().getPluginAccessState( pluginType, friendState ) );
 }
 
 //============================================================================
