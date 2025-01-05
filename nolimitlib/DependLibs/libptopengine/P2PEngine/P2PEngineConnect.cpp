@@ -297,6 +297,7 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 		// make sure user identity is updated first before updating connection info
 		if( getUserOnlineMgr().onUserOnline( groupieId, sktBase, poInfo->getVxNetIdent() ) )
 		{
+            // must use client instead of host
 			getThumbMgr().queryThumbIfNeeded( sktBase, poInfo->getVxNetIdent(), eHostTypePeerUser );
 		}
 

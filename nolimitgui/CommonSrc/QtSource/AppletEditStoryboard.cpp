@@ -35,7 +35,6 @@
 #include <CoreLib/VxGlobals.h>
 
 #include "ui_AppletEditStoryBoard.h"
-//#include "ui_StoryWidget.h"
 
 //============================================================================
 AppletEditStoryboard::AppletEditStoryboard( AppCommon& app, QWidget* parent )

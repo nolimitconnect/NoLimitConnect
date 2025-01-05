@@ -15,11 +15,9 @@
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AccountMgr.h"
+#include "DialogConfirmRemoveMessage.h"
 #include "GuiHelpers.h"
-
-#include <QMessageBox>
-#include <QUuid>
-#include <QFileDialog>
+#include "MyIconsDefs.h"
 
 #include <P2PEngine/EngineSettings.h>
 #include <P2PEngine/P2PEngine.h>
@@ -31,6 +29,9 @@
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "ui_AppletEditAvatarImage.h"
 
@@ -47,6 +48,10 @@ AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
     ui.m_ServiceSettingsWidget->setViewServiceVisible( false );
     ui.m_ThumbnailEditWidget->setThumnailIsCircular( true );
     ui.m_StatusLabel->setVisible( false );
+    //ui.m_DeleteFrame->setVisible( false );
+
+    ui.m_ShredButton->setFixedSize( eButtonSizeMedium );
+    ui.m_ShredButton->setIcon( eMyIconShredderNormal );
 
     m_MyIdent = m_MyApp.getAppGlobals().getMyNetIdent();
     m_strOrigOnlineName = m_MyIdent->getOnlineName();
@@ -62,6 +67,7 @@ AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
 
     connect( ui.m_ApplyAvatarButton, SIGNAL(clicked()), this, SLOT( onApplyButClick() ) );
     connect( ui.m_RemoveAvatarButton, SIGNAL(clicked()), this, SLOT( onRemoveButClick() ) );
+    connect( ui.m_ShredButton,		 SIGNAL(clicked()),	this, SLOT(slotShredAsset()) );
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -130,16 +136,7 @@ void AppletEditAvatarImage::onRemoveButClick( void )
     QString removeConfirmmsgText = QObject::tr( "Are you sure you want to remove your avatar image? " );
     if( QMessageBox::Yes == QMessageBox::question( this, QObject::tr( "Remove Avatar Image" ), removeConfirmmsgText ) )
     {
-        // setup identity with null avatar image
-        VxGUID nullGuid;
-        m_MyIdent->setAvatarGuid( nullGuid, 0 );
-
-        // technically this should have resource lock but because there is no damage if read wrong by another thread during write it is ok to set directly
-        m_Engine.getMyNetIdent()->setAvatarGuid( nullGuid, 0 );
-
-        // notify others of change to identity
-        m_MyApp.updateMyIdent( m_MyIdent );
-        emit signalAvatarImageRemoved();
+        removeAvatarImage();
 
         QString msgText = QObject::tr( "Remove Avatar Image Success" );
         QMessageBox::information( this, QObject::tr( "Remove Avatar Image" ), msgText );  
@@ -148,6 +145,53 @@ void AppletEditAvatarImage::onRemoveButClick( void )
     else
     {
         QString msgText = QObject::tr( "Remove Avatar Image canceled " );
+        QMessageBox::information( this, msgText, msgText );
+    }
+}
+
+//============================================================================
+void AppletEditAvatarImage::removeAvatarImage( void )
+{
+    // setup identity with null avatar image
+    VxGUID nullGuid;
+    m_MyIdent->setAvatarGuid( nullGuid, 0 );
+
+    // technically this should have resource lock but because there is no damage if read wrong by another thread during write it is ok to set directly
+    m_Engine.getMyNetIdent()->setAvatarGuid( nullGuid, 0 );
+
+    // notify others of change to identity
+    m_MyApp.updateMyIdent( m_MyIdent );
+    emit signalAvatarImageRemoved();
+}
+
+//============================================================================
+void AppletEditAvatarImage::slotShredAsset( void )
+{
+    ThumbInfo* assetInfo{ nullptr };
+    bool assetExists = ui.m_ThumbnailEditWidget->isAssetIdValid();
+    if( assetExists )
+    {
+        assetInfo = dynamic_cast<ThumbInfo*>(m_ThumbMgr.findAsset( ui.m_ThumbnailEditWidget->getAssetId() ));
+    }
+
+    if( assetInfo && assetInfo->isFileAsset() )
+    {
+	    DialogConfirmRemoveMessage dlg( *assetInfo, true, this );
+	    dlg.exec();
+	    EAssetAction removeAssetAction = dlg.getAssetActionResult();
+	    if( eAssetActionShreadFile == removeAssetAction )
+	    {
+            removeAvatarImage();
+;
+            ui.m_ThumbnailEditWidget->clearAssetId();
+		    m_MyApp.playSound( eSndDefPaperShredder );
+		    m_Engine.fromGuiAssetAction(  eAssetActionShreadFile, *assetInfo, 0 );
+            m_ThumbMgr.removeAsset( assetInfo->getThumbId() );
+	    }
+    }
+    else
+    {
+        QString msgText = QObject::tr( "Cannot shred image " );
         QMessageBox::information( this, msgText, msgText );
     }
 }

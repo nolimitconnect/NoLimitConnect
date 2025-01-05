@@ -95,8 +95,7 @@ void CamLogic::shutdownCamLogic( void )
 
     if( m_CamFrameSink )
     {
-        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
-        
+        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );      
 
         m_CamFrameSink->deleteLater();
         m_CamFrameSink = nullptr;
@@ -226,15 +225,6 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
     return m_Camera->isActive();
 }
 
-////============================================================================
-//void CamLogic::slotCaptureTimeout( void )
-//{
-//    if( m_ImageCapture )
-//    {
-//        m_ImageCapture->capture();
-//    }
-//}
-
 //============================================================================
 bool CamLogic::isCamCaptureRunning( void )
 {
@@ -255,21 +245,6 @@ void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture 
     }
 
     m_WantCamInput[appModule] = wantVidCapture;
-
-    //if( getCamStartupCompleted() )
-    //{
-    //    bool wasRunning = isCamCaptureRunning();
-    //    bool isRunning = isCamCaptureRequested();
-
-    //    if( wasRunning != isRunning )
-    //    {
-    //        cameraEnable( isRunning );
-    //        m_CamIsStarted = isCamCaptureRunning();
-    //    }
-    //}
-
-    //LogModule( eLogWebCam, LOG_INFO, "CamLogic::%s %s wantCapture %d cam running ? %d", __func__,
-    //           DescribeAppModule(appModule), wantVidCapture, m_CamIsStarted );
 }
 
 //============================================================================
@@ -359,7 +334,7 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
             if( format.resolution().width() >= targetSize.width() && format.resolution().height() >= targetSize.height() )
             {
                 QVideoFrameFormat::PixelFormat pixelFormat = chooseFormat.pixelFormat();
-                LogMsg( LOG_VERBOSE, "%s format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, format.resolution().width(),
+                if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, format.resolution().width(),
                        format.resolution().height(), format.minFrameRate(), format.maxFrameRate(), pixelFormat );
                 if( isBetterVideoFormat( targetSize, format, chooseFormat ) )
                 {
@@ -370,7 +345,7 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
         }
 
         QVideoFrameFormat::PixelFormat pixelFormat = chooseFormat.pixelFormat();
-        LogMsg( LOG_VERBOSE, "%s Setting Format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, chooseFormat.resolution().width(),
+        if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s Setting Format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, chooseFormat.resolution().width(),
             chooseFormat.resolution().height(), chooseFormat.minFrameRate(), chooseFormat.maxFrameRate(), pixelFormat );
 
         m_Camera->setCameraFormat( chooseFormat );
@@ -382,9 +357,9 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
 {
     if( newFormat.resolution() == targetSize )
     {
-        LogMsg( LOG_VERBOSE, "%s new resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
+        if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s new resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
                 newFormat.resolution().width(), newFormat.resolution().height(), newFormat.minFrameRate(), newFormat.maxFrameRate(), newFormat.pixelFormat() );
-        LogMsg( LOG_VERBOSE, "%s old resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
+        if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s old resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
                 oldFormat.resolution().width(), oldFormat.resolution().height(), oldFormat.minFrameRate(), oldFormat.maxFrameRate(), oldFormat.pixelFormat() );
     }
 
@@ -393,7 +368,7 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
     if( (std::abs( sizeDifNew.width() ) + std::abs( sizeDifNew.height() ) ) < (std::abs( sizeDifOld.width() ) + std::abs( sizeDifOld.height() )) )
     {
         // better resolution match
-        LogMsg( LOG_VERBOSE, "%s new is better resolution match", __func__ );
+        if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s new is better resolution match", __func__ );
         return true;
     }
     else if( oldFormat.resolution() == targetSize && newFormat.resolution() != targetSize )
@@ -407,7 +382,7 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
     if( newFormat.maxFrameRate() >= targetRate &&
         std::abs( targetRate - newFormat.maxFrameRate() ) < std::abs( targetRate - oldFormat.maxFrameRate() ) )
     {
-        LogMsg( LOG_VERBOSE, "%s new has better frame rate %3.1f", __func__, newFormat.maxFrameRate() );
+        if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s new has better frame rate %3.1f", __func__, newFormat.maxFrameRate() );
         return true;
     }
 
@@ -416,7 +391,7 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
         if( newFormat.pixelFormat() == QVideoFrameFormat::Format_YUV420P )
         {
             // some cameras have a faster rate with this format + used to be standard for android
-            LogMsg( LOG_VERBOSE, "%s new is better format match %d", __func__, newFormat.pixelFormat() );
+            if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s new is better format match %d", __func__, newFormat.pixelFormat() );
             return true;
         }
     }

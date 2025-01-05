@@ -341,3 +341,10 @@ VxGUID ThumbnailEditWidget::updateAndGetThumbnailId( void )
     VxGUID nullGuid;
     return nullGuid;
 }
+
+//============================================================================
+void ThumbnailEditWidget::clearAssetId( void )                            
+{ 
+    m_AsssetId.clearVxGUID(); 
+    ui.m_ThumbnailViewWidget->clear();
+}

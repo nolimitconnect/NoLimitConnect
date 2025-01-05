@@ -3,7 +3,7 @@
  <class>ConfirmRemoveMessageClass</class>
  <widget class="QDialog" name="ConfirmRemoveMessageClass">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModality::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -117,7 +117,7 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -194,7 +194,7 @@
          <string>Click trash can to just remove message from chat history</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -235,7 +235,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="m_RemoveButtonTextLabel">
           <property name="text">
            <string>Remove Message</string>
           </property>
@@ -252,10 +252,10 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Click shredder to write random data to the file and PERMENENTLY delete the file and remove message from chat history</string>
+         <string>Click shredder to write random data to the file and PERMENENTLY delete the file</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -298,7 +298,7 @@
         <item>
          <widget class="QLabel" name="m_ShreadButtonTextLabel">
           <property name="text">
-           <string>Shred File And Remove Message</string>
+           <string>Shred File And Remove</string>
           </property>
          </widget>
         </item>
@@ -313,10 +313,10 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Cancel - Do nothing and return to chat.</string>
+         <string>Cancel - Do nothing</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -368,7 +368,7 @@
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>

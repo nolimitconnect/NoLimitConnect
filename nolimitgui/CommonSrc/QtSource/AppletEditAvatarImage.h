@@ -35,8 +35,10 @@ signals:
 public slots:
     void						onApplyButClick( void );
     void						onRemoveButClick( void );
+    void                        slotShredAsset( void );
 
 protected:
+    void                        removeAvatarImage( void );
 
     //=== constants ===//
     static const int SELECT_IMAGE = 0; // selector for image gallery call

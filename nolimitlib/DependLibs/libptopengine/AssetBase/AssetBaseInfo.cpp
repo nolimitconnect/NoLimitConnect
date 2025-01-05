@@ -416,7 +416,7 @@ VxGUID& AssetBaseInfo::generateNewUniqueId( bool ifNotValid )
 //============================================================================
 bool AssetBaseInfo::isFileAsset( void )
 {
-	return (0 != ( m_u16AssetType & ( eAssetTypePhoto | eAssetTypeAudio | eAssetTypeVideo | eAssetTypeDocument | eAssetTypeArchives | eAssetTypeExe | eAssetTypeOtherFiles ) ) );
+	return (0 != ( m_u16AssetType & ( eAssetTypeThumbnail | eAssetTypePhoto | eAssetTypeAudio | eAssetTypeVideo | eAssetTypeDocument | eAssetTypeArchives | eAssetTypeExe | eAssetTypeOtherFiles ) ) );
 }
 
 //============================================================================

@@ -53,6 +53,8 @@ public:
 	AssetBaseXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface );
 	virtual ~AssetBaseXferMgr();
 
+	EPluginType					getPluginType( void )							{ return m_XferInterface.getPluginType(); }
+
 	VxMutex&					getAssetBaseQueMutex( void )					{ return m_AssetBaseSendQueMutex; }
 	void						lockAssetBaseQue( void )						{ m_AssetBaseSendQueMutex.lock(); }
 	void						unlockAssetBaseQue( void )						{ m_AssetBaseSendQueMutex.unlock(); }
@@ -86,9 +88,6 @@ public:
 	virtual void				onPktAssetBaseSendCompleteReply	    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktAssetBaseXferErr			    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
-	//virtual void				onPktMultiSessionReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-	//virtual void				onPktMultiSessionReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
-
 	void						assetXferThreadWork( VxThread* workThread );
 protected:
 	virtual void				onAssetBaseReceived( AssetBaseRxSession* xferSession, AssetBaseInfo& assetInfo, EXferError error, bool pluginIsLocked );
@@ -101,9 +100,10 @@ protected:
 	virtual void				updateAssetMgrSendState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState sendState, int param );
 
 	virtual AssetBaseRxSession*		findRxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
-	virtual AssetBaseRxSession*		findRxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId );
+    virtual AssetBaseRxSession*		findRxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId, bool logIfNotFound = true );
 	virtual AssetBaseRxSession*		findOrCreateRxSession( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 	virtual AssetBaseRxSession*		findOrCreateRxSession( bool pluginIsLocked, VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+
 	virtual AssetBaseTxSession*		findTxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
 	virtual AssetBaseTxSession*		findTxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId );
 	virtual AssetBaseTxSession*		createTxSession( VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );

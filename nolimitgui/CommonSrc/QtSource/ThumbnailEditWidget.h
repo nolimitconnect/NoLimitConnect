@@ -44,7 +44,7 @@ public:
 
     void                        setAssetId( VxGUID& assetGuid )                 { m_AsssetId = assetGuid; }
     VxGUID&                     getAssetId( void )                              { return m_AsssetId; }
-    void                        clearAssetId( void )                            { m_AsssetId.clearVxGUID(); }
+    void                        clearAssetId( void );
     bool                        isAssetIdValid( void )                          { return m_AsssetId.isVxGUIDValid(); }
 
     bool                        generateThumbAsset( ThumbInfo& assetInfo );
@@ -76,7 +76,7 @@ protected:
     AppletBase*                 m_ParentApplet{ nullptr };
     bool 					    m_CameraSourceAvail{ false };
     bool 					    m_ThumbnailIsCircular = false;
-    QPixmap                     m_SquarePixmap;
+
     VxGUID                      m_AsssetId;
     bool                        m_WasModifiedByUser = false;
     uint8_t *					m_pu8BitmapData = nullptr;	// snapshot bitmap

@@ -1847,6 +1847,7 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
     case ePluginTypeTruthOrDare:
     case ePluginTypeHostPeerUser:   // host side avatar and search and group management services
     case ePluginTypeClientPeerUser: // client side avatar and search and group management services
+    case ePluginTypePersonalRecorder:
         return eHostTypePeerUser;
 
     case ePluginTypeNetServices:

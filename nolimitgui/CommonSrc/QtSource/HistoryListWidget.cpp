@@ -169,21 +169,19 @@ void HistoryListWidget::slotShreddingAsset( AssetBaseWidget * assetWidget )
 		{
 			// found the widget being shredded;
             AssetBaseInfo& assetInfo = assetWidget->getAssetInfo();
-			DialogConfirmRemoveMessage dlg( assetInfo, this );
+            DialogConfirmRemoveMessage dlg( assetInfo, false, this );
 			dlg.exec();
 			EAssetAction removeAssetAction = dlg.getAssetActionResult();
 			if( eAssetActionShreadFile == removeAssetAction )
 			{
 				m_MyApp.playSound( eSndDefPaperShredder );
 				m_Engine.fromGuiAssetAction(  eAssetActionShreadFile, assetInfo, 0 );
-				//removeItemWidget( item );
 				takeItem( i );
 			}
 			else if( eAssetActionRemoveFromAssetMgr  == removeAssetAction )
 			{
 				m_MyApp.playSound( eSndDefNeckSnap );
 				m_Engine.fromGuiAssetAction( eAssetActionRemoveFromAssetMgr, assetInfo, 0 );
-				//removeItemWidget( item );
 				takeItem( i );
 			}
 

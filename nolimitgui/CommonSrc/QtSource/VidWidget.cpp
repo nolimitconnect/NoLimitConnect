@@ -105,14 +105,18 @@ VidWidget::VidWidget(QWidget* parent)
 	connect( ui.m_ImageRotateButton,	SIGNAL(clicked()),			this, SLOT(slotFeedRotateButtonClicked()) );
 
 	connect( ui.m_CamSourceButton,		SIGNAL(clicked()),			this, SLOT(slotCamSourceButtonClicked()) );
+	connect( ui.m_CamEnableButton,		SIGNAL(clicked()),			this, SLOT(slotCamEnableButtonClicked()) );
+
 	ui.m_CamSourceButton->setEnabled( m_MyApp.getCamLogic().getCameraCount() > 1 );
 
     showUserMsgLabel( false );
 	showOfflineImage();
 	updateVidFeedImageRotation();
+	updateCamEnable();
 
 	// BRJ temp for testing
-	ui.m_VidFilesButton->setEnabled( true );
+	//ui.m_VidFilesButton->setEnabled( true );
+	ui.m_VidFilesButton->setVisible( false );
 }
 
 //============================================================================
@@ -466,7 +470,6 @@ void VidWidget::slotMotionRecordTimeout( void )
 //============================================================================
 void VidWidget::updateVidFeedMotion( int motion0To100000 )
 {
-	// qDebug() << "motion " << motion0To100000;
 	ui.m_MotionBar->setValue( motion0To100000 );
 	ui.m_MotionBar->update();
 	if( motion0To100000 >= ui.m_MotionSensitivitySlider->value() )
@@ -584,10 +587,6 @@ void VidWidget::slotMotionAlarmButtonClicked( void )
 	else
 	{
 		m_MyApp.toGuiUserMessage( "Motion Alarm Disabled" );
-		//if( false == m_MotionRecordOn )
-		//{
-		//	showMotionSensitivityControls( false );
-		//}
 	}
 }
 
@@ -707,4 +706,24 @@ void VidWidget::slotRecNormalButtonClicked( void )
 void VidWidget::slotCamSourceButtonClicked( void )
 {
 	m_MyApp.getCamLogic().nextCamera();
+}
+
+//============================================================================
+void VidWidget::slotCamEnableButtonClicked( void )
+{
+	m_MyApp.getCamLogic().setCameraEnable(!m_MyApp.getCamLogic().getCameraEnable());
+	updateCamEnable();
+}
+
+//============================================================================
+void VidWidget::updateCamEnable( void )
+{
+	if( m_MyApp.getCamLogic().getCameraEnable() )
+	{
+		ui.m_CamEnableButton->setIcon( eMyIconCamcorderCancel );
+	}
+	else
+	{
+		ui.m_CamEnableButton->setIcon( eMyIconCamcorderNormal );
+	}
 }

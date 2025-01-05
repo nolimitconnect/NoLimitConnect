@@ -1166,7 +1166,7 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 
 	if( eXferErrorNone == xferErr )
 	{
-		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "rb" ); 
+		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileNameAndPath().c_str(), "rb" ); 
 		if( NULL == xferInfo.m_hFile )
 		{
 			// open file failed
@@ -1909,7 +1909,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 				}
 				else
 				{
-					xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
+					xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileNameAndPath().c_str(), "a+" ); // pointer to name of the file
 					if( NULL == xferInfo.m_hFile )
 					{
 						// failed to open file
@@ -1919,7 +1919,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 
 						LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR:(File Rx) %d File %s could not be created",
 								rc,
-								(const char*)xferInfo.getLclFileName().c_str() );
+								(const char*)xferInfo.getLclFileNameAndPath().c_str() );
 					}
 					else
 					{
@@ -1933,7 +1933,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 							xferInfo.m_hFile = nullptr;
 							LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR: (File Rx) could not seek to position %d in file %s",
 									xferInfo.m_u64FileOffs,
-									(const char*)xferInfo.getLclFileName().c_str() );
+									(const char*)xferInfo.getLclFileNameAndPath().c_str() );
 						}
 					}
 				}
@@ -1941,7 +1941,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 			else
 			{
 				// open file and truncate if exists
-				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
+				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileNameAndPath().c_str(), "wb+" ); // pointer to name of the file
 				if( !xferInfo.m_hFile )
 				{
 					xferErr = eXferErrorFileOpenError;
@@ -1949,7 +1949,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 					RCODE rc = VxGetLastError();
 					LogMsg( LOG_INFO, "FileInfoXferMgr: ERROR: %d File %s could not be created",
 							rc,
-							(const char*)xferInfo.getLclFileName().c_str() );
+							(const char*)xferInfo.getLclFileNameAndPath().c_str() );
 				}
 			}
 		}

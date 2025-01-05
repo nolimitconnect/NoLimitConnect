@@ -1310,7 +1310,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 
 	if( eXferErrorNone == xferErr )
 	{
-		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "rb" ); 
+		xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileNameAndPath().c_str(), "rb" ); 
 		if( NULL == xferInfo.m_hFile )
 		{
 			// open file failed
@@ -1430,7 +1430,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 		VxFileUtil::makeDirectory( strPath );
 		xferInfo.m_u64FileLen = poPkt->getOfferLen();
 		xferInfo.m_u64FileOffs = poPkt->getOfferOffset();
-		u64FileLen = VxFileUtil::getFileLen( xferInfo.getLclFileName().c_str() );
+		u64FileLen = VxFileUtil::getFileLen( xferInfo.getLclFileNameAndPath().c_str() );
 
 		if( 0 != xferInfo.m_u64FileOffs )
 		{
@@ -1439,11 +1439,11 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 				xferErr  = eXferErrorFileSeekError;
 				LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR:(OfferBase Send) %d OfferBase %s could not be resumed because too short", 
 					rc,
-					(const char*)xferInfo.getLclFileName().c_str() );
+					(const char*)xferInfo.getLclFileNameAndPath().c_str() );
 			}
 			else
 			{
-				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "a+" ); // pointer to name of the file
+				xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileNameAndPath().c_str(), "a+" ); // pointer to name of the file
 				if( NULL == xferInfo.m_hFile )
 				{
 					// failed to open file
@@ -1454,7 +1454,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 
 					LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR:(OfferBase Send) %d OfferBase %s could not be created", 
 						rc,
-						(const char*)xferInfo.getLclFileName().c_str() );
+						(const char*)xferInfo.getLclFileNameAndPath().c_str() );
 				}
 				else
 				{
@@ -1476,7 +1476,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 		else
 		{
 			// open file and truncate if exists
-			xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileName().c_str(), "wb+" ); // pointer to name of the file
+			xferInfo.m_hFile = VFileOpen( xferInfo.getLclFileNameAndPath().c_str(), "wb+" ); // pointer to name of the file
 			if( NULL == xferInfo.m_hFile )
 			{
 				// failed to open file

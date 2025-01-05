@@ -843,7 +843,7 @@ void TitleBarWidget::callbackToGuiCameraEnable( bool enableCamera )
 //============================================================================
 void TitleBarWidget::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )
 {
-    if( !isVisible() )
+    if( !m_CamEnabled || !isVisible() )
     {
         return;
     }

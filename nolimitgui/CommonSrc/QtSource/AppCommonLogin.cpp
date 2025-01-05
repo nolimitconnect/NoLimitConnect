@@ -438,17 +438,11 @@ void AppCommon::slotListViewTypeChanged( int viewSelectedIdx )
         statMsg = QObject::tr( "List View People I Ignore" );
         break;
 
-        //case eFriendViewRefresh: // Refresh all
-        //	break;
-        //default:
-        //	LogMsg( LOG_ERROR, "onMenuPeopleSelected: ERROR unknown menu id %d\n", iMenuId );
     default:
         break;
     }
 
-    //ui.m_ListViewTypeButton->setIcon(  getMyIcons().getIcon( whichIcon ) );
     toGuiStatusMessage( statMsg.toUtf8().constData() );
-    //ui.mainFriendList->refreshFriendList( m_eLastSelectedWhichContactsToView );
 }
 
 //============================================================================

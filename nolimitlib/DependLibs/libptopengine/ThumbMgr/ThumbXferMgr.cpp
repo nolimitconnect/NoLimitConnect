@@ -14,7 +14,7 @@
 
 #include "../Plugins/PluginBase.h"
 #include "../Plugins/PluginMgr.h"
-#include "../Plugins/PluginMessenger.h"
+
 #include "ThumbTxSession.h"
 #include "ThumbRxSession.h"
 
@@ -34,7 +34,6 @@
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdarg.h>
-#include <string.h>
 #include <stdio.h>
 
 //============================================================================
@@ -106,7 +105,7 @@ void ThumbXferMgr::onPktThumbSendCompleteReply( std::shared_ptr<VxSktBase>& sktB
 //============================================================================
 void ThumbXferMgr::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	LogMsg( LOG_INFO, "ThumbXferMgr::onPktThumbXferErr");
+    LogMsg( LOG_INFO, "ThumbXferMgr::%s", __func__ );
     AssetBaseXferMgr::onPktAssetBaseXferErr( sktBase, pktHdr, netIdent );
 }
 
@@ -115,14 +114,14 @@ bool ThumbXferMgr::requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNe
 {
     if( !netIdent || !thumbId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "ThumbXferMgr::requestPluginThumb invalid param" );
+        LogMsg( LOG_ERROR, "ThumbXferMgr::%s invalid param", __func__ );
         vx_assert( false );
         return false;
     }
 
     if( !sktBase || !sktBase->isConnected() )
     {
-        LogMsg( LOG_ERROR, "ThumbXferMgr::requestPluginThumb skt not connected" );
+        LogMsg( LOG_ERROR, "ThumbXferMgr::%s skt not connected", __func__ );
         return false;
     }
 

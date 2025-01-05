@@ -378,7 +378,7 @@ void ThumbMgr::queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIde
 {
     if( !lookupThumbInfo( thumbId, thumbModifiedTime ) )
     {
-        EPluginType pluginType = HostTypeToHostPlugin( hostType );
+        EPluginType pluginType = HostTypeToClientPlugin( hostType );
         if( pluginType != ePluginTypeInvalid )
         {
             queryThumbIfNeeded( sktBase, netIdent, pluginType, thumbId, thumbModifiedTime );
@@ -502,14 +502,15 @@ bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase
 {
     if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "ThumbMgr::requestPluginThumb invalid param " );
+        LogMsg( LOG_ERROR, "ThumbMgr::%s invalid param ", __func__ );
         vx_assert( false );
         return false;
     }
 
     if( IsHostPluginType( pluginType ) )
     {
-        LogMsg( LOG_ERROR, "ThumbMgr::requestPluginThumb You must request thumb using Client plugin instead of Host plugin %s ", DescribePluginType( pluginType ) );
+        LogMsg( LOG_ERROR, "ThumbMgr::%s You must request thumb using Client plugin instead of Host plugin %s ", 
+                __func__, DescribePluginType( pluginType ) );
         vx_assert( false );
         return false;
     }
@@ -521,7 +522,7 @@ bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase
     }
     else
     {
-        LogMsg( LOG_ERROR, "ThumbMgr::requestPluginThumb invalid plugin " );
+        LogMsg( LOG_ERROR, "ThumbMgr::%s invalid plugin ", __func__ );
         vx_assert( false );
         return false;
     }

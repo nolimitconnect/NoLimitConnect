@@ -282,7 +282,7 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 			}
 			else
 			{
-				toRemoveList.push_back( assetInfo );
+				toRemoveList.emplace_back( assetInfo );
 			}
 		}
 

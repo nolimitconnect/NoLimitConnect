@@ -100,18 +100,19 @@ protected slots:
 	void						slotRecMotionButtonClicked( void );
 	void						slotRecNormalButtonClicked( void );
 	void						slotCamSourceButtonClicked( void );
+	void						slotCamEnableButtonClicked( void );
 
 	void						slotIconToggleTimeout( void );
 	void						slotMotionAlarmTimeout( void );
 	void						slotMotionRecordTimeout( void );
-
-	
 
 protected:
     virtual void				showEvent( QShowEvent* ev ) override;
     virtual void				hideEvent( QHideEvent* ev ) override;
 	void						updatePreviewVisibility( void );
 	void						updateVidFeedImageRotation( void );
+	void						updateCamEnable( void );
+
 	void						playMotionAlarm( void );
 	void						updateMotionBarColor( void );
 	void						enableVidFilesButton( bool enable );

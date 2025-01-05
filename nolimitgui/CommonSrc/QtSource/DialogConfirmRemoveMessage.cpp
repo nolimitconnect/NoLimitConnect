@@ -10,7 +10,7 @@
 
 #include "DialogConfirmRemoveMessage.h"
 
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
 
@@ -19,12 +19,12 @@
 #include "ui_DialogConfirmRemoveMessage.h"
 
 //============================================================================
-DialogConfirmRemoveMessage::DialogConfirmRemoveMessage( AssetBaseInfo& assetInfo, QWidget* parent )
+DialogConfirmRemoveMessage::DialogConfirmRemoveMessage( AssetBaseInfo& assetInfo, bool shredOnly, QWidget* parent )
 : QDialog( parent, Qt::Popup )
 , ui(*(new Ui::ConfirmRemoveMessageClass))
 , m_MyApp( GetAppInstance() )
 , m_AssetInfo( assetInfo )
-, m_AssetAction( eAssetActionUnknown )
+, m_ShredOnly(shredOnly)
 {
 	ui.setupUi(this);
 	// dialog does not get pallette from parent.. force pallette update
@@ -52,12 +52,13 @@ DialogConfirmRemoveMessage::DialogConfirmRemoveMessage( AssetBaseInfo& assetInfo
         ui.m_ShreadButtonTextLabel->setVisible( false );
 		ui.m_ShredTextLabel->setVisible( false );
 	}
-}
 
-//============================================================================
-MyIcons& DialogConfirmRemoveMessage::getMyIcons( void )
-{
-	return m_MyApp.getMyIcons();
+	if( m_ShredOnly )
+	{
+		ui.m_RemoveButton->setVisible( false );
+		ui.m_RemoveButtonTextLabel->setVisible( false );
+		ui.m_TrashTextLabel->setVisible( false );
+	}
 }
 
 //============================================================================
