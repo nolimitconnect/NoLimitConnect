@@ -134,6 +134,10 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
 
                 m_Engine.getPeerMgr().lockSktBaseMgr();
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
+#if defined(DEBUG_SKT_MGR_LOCK)
+                LogMsg( LOG_DEBUG, "PluginBaseService::%s unlockSktBaseMgr", __func__ );
+#endif // defined(DEBUG_SKT_MGR_LOCK)
+                m_Engine.getPeerMgr().unlockSktBaseMgr();
                 if( sktBase && sktBase->isConnected() )
                 {
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
@@ -150,10 +154,6 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
                     bool isExcludeId = excludedOnlineId == sktBase->getPeerOnlineId();
                     if( isExcludeId )
                     {
-                        #if defined(DEBUG_SKT_MGR_LOCK)
-					        LogMsg( LOG_DEBUG, "PluginBaseService::%s unlockSktBaseMgr", __func__ );
-				        #endif // defined(DEBUG_SKT_MGR_LOCK)
-                        m_Engine.getPeerMgr().unlockSktBaseMgr();
                         continue;
                     }
 
@@ -165,11 +165,6 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOn
                         // logging ?
                     }
                 }
-
-                #if defined(DEBUG_SKT_MGR_LOCK)
-					LogMsg( LOG_DEBUG, "PluginBaseService::%s unlockSktBaseMgr", __func__ );
-				#endif // defined(DEBUG_SKT_MGR_LOCK)
-                m_Engine.getPeerMgr().unlockSktBaseMgr();
             }
         }
     }

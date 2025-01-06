@@ -645,10 +645,9 @@ void PluginMgr::fromGuiListAction( EListAction listAction )
 //============================================================================
 void PluginMgr::onMyOnlineUrlIsValid( bool iValid )
 {
-	std::vector<PluginBase* >::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
+	for( auto& pluginBase : m_aoPlugins )
 	{
-		( *iter )->onMyOnlineUrlIsValid( iValid );
+		pluginBase->onMyOnlineUrlIsValid( iValid );
 	}
 }
 
@@ -700,20 +699,18 @@ void PluginMgr::onAfterUserLogOnThreaded( void )
 //============================================================================
 void PluginMgr::onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	std::vector<PluginBase* >::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
+	for( auto& pluginBase : m_aoPlugins )
 	{
-		(*iter)->onContactWentOnline( netIdent, sktBase );
+		pluginBase->onContactWentOnline( netIdent, sktBase );
 	}
 }
 
 //============================================================================
 void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	std::vector<PluginBase* >::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
+	for( auto& pluginBase : m_aoPlugins )
 	{
-		(*iter)->onContactWentOffline( netIdent, sktBase );
+		pluginBase->onContactWentOffline( netIdent, sktBase );
 	}
 }
 

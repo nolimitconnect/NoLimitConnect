@@ -693,6 +693,11 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& exclude
 					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr locked", __func__ );
 				#endif // defined(DEBUG_SKT_MGR_LOCK)
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
+				#if defined(DEBUG_SKT_MGR_LOCK)
+					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s unlockSktBaseMgr", __func__ );
+				#endif // defined(DEBUG_SKT_MGR_LOCK)
+                m_Engine.getPeerMgr().unlockSktBaseMgr();
+
                 if( sktBase && sktBase->isConnected() )
                 {
                     if( sktBase->getPeerOnlineId() != memberOnlineId )
@@ -709,10 +714,6 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& exclude
                     bool isExcludeId = excludedOnlineId == sktBase->getPeerOnlineId();
                     if( isExcludeId )
                     {
-						#if defined(DEBUG_SKT_MGR_LOCK)
-							LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s unlockSktBaseMgr", __func__ );
-						#endif // defined(DEBUG_SKT_MGR_LOCK)
-                        m_Engine.getPeerMgr().unlockSktBaseMgr();
                         continue;
                     }
 
@@ -724,11 +725,6 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& exclude
                         // logging ?
                     }
                 }
-
-				#if defined(DEBUG_SKT_MGR_LOCK)
-					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s unlockSktBaseMgr", __func__ );
-				#endif // defined(DEBUG_SKT_MGR_LOCK)
-                m_Engine.getPeerMgr().unlockSktBaseMgr();
             }
         }
     }
