@@ -1808,7 +1808,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
                 VFileClose( xferInfo.m_hFile );
                 xferInfo.m_hFile = NULL;
                 LogMsg( LOG_INFO, "AssetBaseXferMgr::beginAssetBaseSend: AssetBase %s could not be resumed because too short",
-                    (const char*)xferInfo.getLclFileNameAndPath().c_str() );
+                    xferInfo.getLclFileNameAndPath().c_str() );
                 xferErr  = eXferErrorFileSeekError;
             }
 
@@ -1823,7 +1823,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
                     xferInfo.m_hFile = NULL;
                     LogMsg( LOG_INFO, "AssetBaseXferMgr::beginAssetBaseSend: could not seek to position %d in file %s",
                         xferInfo.m_u64FileOffs,
-                        (const char*)xferInfo.getLclFileName().c_str() );
+                        xferInfo.getLclFileNameAndPath().c_str() );
                     xferErr  = eXferErrorFileSeekError;
                     xferSession->setErrorCode( rc );
                 }
@@ -1856,7 +1856,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
     if( eXferErrorNone == xferErr )
     {
         LogMsg( LOG_INFO, "AssetBaseXferMgr::(AssetBase Send) start recieving file %s",
-            (const char*)xferInfo.getLclFileName().c_str() );
+            xferInfo.getLclFileNameAndPath().c_str() );
         poPkt->fillAssetFromPkt( xferSession->getAssetBaseInfo() );
     }
 
@@ -1939,7 +1939,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
             {
                 xferErr  = eXferErrorFileSeekError;
                 LogMsg( LOG_INFO, "AssetBaseXferMgr: ERROR:(AssetBase Send) %d AssetBase %s could not be resumed because too short",
-                        rc, (const char*)xferInfo.getLclFileNameAndPath().c_str() );
+                        rc, xferInfo.getLclFileNameAndPath().c_str() );
             }
             else
             {
@@ -1953,7 +1953,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
                     xferErr  = eXferErrorFileOpenError;
 
                     LogMsg( LOG_INFO, "AssetBaseXferMgr: ERROR:(AssetBase Send) %d AssetBase %s could not be created",
-                            rc, (const char*)xferInfo.getLclFileName().c_str() );
+                            rc, xferInfo.getLclFileNameAndPath().c_str() );
                 }
                 else
                 {
@@ -1966,7 +1966,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
                         VFileClose( xferInfo.m_hFile );
                         xferInfo.m_hFile = NULL;
                         LogMsg( LOG_INFO, "AssetBaseXferMgr::%s ERROR: could not seek to position %d in file %s", __func__,
-                                xferInfo.m_u64FileOffs, (const char*)xferInfo.getLclFileName().c_str() );
+                                xferInfo.m_u64FileOffs, xferInfo.getLclFileNameAndPath().c_str() );
                     }
                 }
             }
@@ -1986,7 +1986,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
                 xferErr = eXferErrorFileCreateError;
 
                 LogMsg( LOG_ERROR, "AssetBaseXferMgr::%s ERROR: %d AssetBase %s could not be created",
-                        __func__, rc, (const char*)xferInfo.getLclFileNameAndPath().c_str() );
+                        __func__, rc, xferInfo.getLclFileNameAndPath().c_str() );
             }
         }
     }
@@ -2020,7 +2020,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
     if( 0 != remoteErr )
     {
         // canceled download by remote user
-        LogMsg( LOG_INFO, "AssetBaseXferMgr:: Cancel Sending file %s", xferInfo.getLclFileName().c_str() );
+        LogMsg( LOG_INFO, "AssetBaseXferMgr:: Cancel Sending file %s", xferInfo.getLclFileNameAndPath().c_str() );
         onAssetBaseSent( xferSession->getSendToId(), sktBase, assetInfo, eXferErrorCanceled, pluginIsLocked);
         endAssetBaseXferSession( xferSession, true, false );
         if( false == pluginIsLocked )
@@ -2107,7 +2107,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
                     rc,
                     xferInfo.m_u64FileOffs,
                     xferInfo.m_u64FileLen,
-                    (const char*)xferInfo.getLclFileName().c_str() );
+                    xferInfo.getLclFileNameAndPath().c_str() );
     }
     else
     {
@@ -2207,7 +2207,7 @@ EXferError AssetBaseXferMgr::rxAssetBaseChunk( bool pluginIsLocked, AssetBaseRxS
 
             LogMsg( LOG_INFO, "VxPktHandler::RxAssetBaseChunk: ERROR %d: writing to file %s",
                             rc,
-                            (const char*)xferInfo.getLclFileName().c_str() );
+                            xferInfo.getLclFileNameAndPath().c_str() );
         }
         else
         {

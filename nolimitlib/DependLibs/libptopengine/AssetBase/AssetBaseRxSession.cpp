@@ -52,5 +52,4 @@ void AssetBaseRxSession::cancelDownload( VxGUID& lclSessionId )
 	}
 
 	VxFileUtil::deleteFile( xferInfo.getLclFileNameAndPath().c_str() );
-
 }

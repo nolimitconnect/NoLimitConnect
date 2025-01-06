@@ -45,6 +45,6 @@ void OfferBaseRxSession::cancelDownload( VxGUID& lclSessionId )
 		VFileClose( xferInfo.m_hFile );
 	}
 
-	VxFileUtil::deleteFile( xferInfo.getLclFileName().c_str() );
+	VxFileUtil::deleteFile( xferInfo.getLclFileNameAndPath().c_str() );
 
 }

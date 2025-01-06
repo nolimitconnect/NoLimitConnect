@@ -167,7 +167,7 @@ bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
 	lockStreamMgr();
 	pktReq.setLclSessionId( m_LiveStream.m_StreamSessionId );
 	pktReq.setRmtSessionId( m_LiveStream.m_ServerSessionId );
-	pktReq.setAssetId(  m_LiveStream.m_StreamAssetInfo.getAssetUniqueId() );
+    pktReq.setAssetId( m_LiveStream.m_StreamAssetInfo.getAssetUniqueId() );
 	unlockStreamMgr();
 
 	pktReq.setStartOffset( newPos );

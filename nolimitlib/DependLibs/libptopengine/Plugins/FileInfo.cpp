@@ -134,7 +134,7 @@ FileInfo::FileInfo( OfferBaseInfo& offerInfo )
 
 //============================================================================
 FileInfo::FileInfo( VxFileXferInfo& xferInfo, VxGUID onlineId )
-	: VxFileInfoBase( xferInfo.getRmtFileName().c_str(), xferInfo.getLclFileName().c_str(), (uint8_t)xferInfo.getAssetType(), xferInfo.getFileLength() )
+	: VxFileInfoBase( xferInfo.getRmtFileName().c_str(), xferInfo.getLclFileNameAndPath().c_str(), (uint8_t)xferInfo.getAssetType(), xferInfo.getFileLength() )
 	, m_OnlineId( onlineId )
 	, m_FileHash( xferInfo.getFileHashId() )
     , m_AssetId( xferInfo.getAssetId() )

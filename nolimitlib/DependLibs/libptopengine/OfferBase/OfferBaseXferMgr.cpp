@@ -623,7 +623,7 @@ void OfferBaseXferMgr::onPktOfferSendCompleteReply( std::shared_ptr<VxSktBase>& 
 	if( xferSession )
 	{
 		VxFileXferInfo xferInfo = xferSession->getXferInfo();
-		LogMsg( LOG_INFO, "OfferBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
+		LogMsg( LOG_INFO, "OfferBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileNameAndPath().c_str() );
 		//m_PluginMgr.getToGui().toGuiOfferBaseUploadComplete( xferInfo.getLclSessionId(), 0 );
 		onOfferBaseSent( xferSession, xferSession->getOfferInfo(), (EXferError)poPkt->getError(), true );
 	}
@@ -1291,17 +1291,17 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 		xferInfo.setRmtSessionId( xferSession->getRmtSessionId() );
 		xferInfo.setFileHashId( xferSession->getFileHashId() );
 
-		xferInfo.m_u64FileLen = VxFileUtil::getFileLen( xferInfo.getLclFileName().c_str() );
+		xferInfo.m_u64FileLen = VxFileUtil::getFileLen( xferInfo.getLclFileNameAndPath().c_str() );
 		if( 0 == xferInfo.m_u64FileLen )
 		{
 			// no file found to send
-			LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: OfferBase %s not found to send", xferInfo.getLclFileName().c_str() );
+			LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: OfferBase %s not found to send", xferInfo.getLclFileNameAndPath().c_str() );
 			xferErr = eXferErrorFileNotFound;
 		}
 		else if( false == xferInfo.getFileHashId().isHashValid() )
 		{
 			// see if we can get hash from shared files
-			//if( !m_SharedOfferBasesMgr.getOfferHashId( xferInfo.getLclFileName(), xferInfo.getFileHashId() ) )
+			//if( !m_SharedOfferBasesMgr.getOfferHashId( xferInfo.getLclFileNameAndPath(), xferInfo.getFileHashId() ) )
 			//{
 			//	// TODO.. que for hash
 			//}
@@ -1315,7 +1315,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 		{
 			// open file failed
 			xferInfo.m_hFile = NULL;
-			LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: Could not open OfferBase %s", xferInfo.getLclFileName().c_str() );
+			LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: Could not open OfferBase %s", xferInfo.getLclFileNameAndPath().c_str() );
 			xferErr = eXferErrorFileOpenError;
 			xferSession->setErrorCode( VxGetLastError() );
 		}
@@ -1330,7 +1330,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 				VFileClose( xferInfo.m_hFile );
 				xferInfo.m_hFile = NULL;
 				LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: OfferBase %s could not be resumed because too short", 
-					(const char*)xferInfo.getLclFileName().c_str() );
+					xferInfo.getLclFileNameAndPath().c_str() );
 				xferErr  = eXferErrorFileSeekError;
 			}
 
@@ -1345,7 +1345,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 					xferInfo.m_hFile = NULL;
 					LogMsg( LOG_INFO, "OfferBaseXferMgr::beginOfferBaseSend: could not seek to position %d in file %s",
 						xferInfo.m_u64FileOffs,
-						(const char*)xferInfo.getLclFileName().c_str() );
+						xferInfo.getLclFileNameAndPath().c_str() );
 					xferErr  = eXferErrorFileSeekError;
 					xferSession->setErrorCode( rc );
 				}
@@ -1424,7 +1424,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 		VxFileUtil::makeFullPath( strRmtOfferBaseNameOnly.c_str(), VxGetIncompleteDirectory().c_str(), xferInfo.getLclFileName() );
 		std::string strPath;
 		std::string strOfferBaseNameOnly;
-		RCODE rc = VxFileUtil::seperatePathAndFile(	xferInfo.getLclFileName(),			
+		RCODE rc = VxFileUtil::seperatePathAndFile(	xferInfo.getLclFileNameAndPath(),			
 													strPath,			
 													strOfferBaseNameOnly );	
 		VxFileUtil::makeDirectory( strPath );
@@ -1439,7 +1439,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 				xferErr  = eXferErrorFileSeekError;
 				LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR:(OfferBase Send) %d OfferBase %s could not be resumed because too short", 
 					rc,
-					(const char*)xferInfo.getLclFileNameAndPath().c_str() );
+					xferInfo.getLclFileNameAndPath().c_str() );
 			}
 			else
 			{
@@ -1454,7 +1454,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 
 					LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR:(OfferBase Send) %d OfferBase %s could not be created", 
 						rc,
-						(const char*)xferInfo.getLclFileNameAndPath().c_str() );
+						xferInfo.getLclFileNameAndPath().c_str() );
 				}
 				else
 				{
@@ -1468,7 +1468,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 						xferInfo.m_hFile = NULL;
 						LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR: (OfferBase Send) could not seek to position %d in file %s",
 							xferInfo.m_u64FileOffs,
-							(const char*)xferInfo.getLclFileName().c_str() );
+							xferInfo.getLclFileNameAndPath().c_str() );
 					}
 				}
 			}
@@ -1487,7 +1487,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 
 				LogMsg( LOG_INFO, "OfferBaseXferMgr: ERROR: %d OfferBase %s could not be created", 
 					rc,
-					(const char*)xferInfo.getLclFileName().c_str() );
+					xferInfo.getLclFileNameAndPath().c_str() );
 			}
 		}
 	}
@@ -1495,7 +1495,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 	if( eXferErrorNone == xferErr )
 	{
 		LogMsg( LOG_INFO, "OfferBaseXferMgr::(OfferBase Send) start recieving file %s", 
-			(const char*)xferInfo.getLclFileName().c_str() );
+			xferInfo.getLclFileNameAndPath().c_str() );
 		poPkt->fillOfferFromPkt( xferSession->getOfferInfo() );
 	}
 
@@ -1523,7 +1523,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 	if( 0 != remoteErr )
 	{
 		// canceled download by remote user
-		LogMsg( LOG_INFO, "OfferBaseXferMgr:: Cancel Sending file %s", xferInfo.getLclFileName().c_str() );
+		LogMsg( LOG_INFO, "OfferBaseXferMgr:: Cancel Sending file %s", xferInfo.getLclFileNameAndPath().c_str() );
 		onOfferBaseSent( xferSession, xferSession->getOfferInfo(), eXferErrorCanceled, pluginIsLocked );
 		return eXferErrorCanceled;
 	}
@@ -1545,7 +1545,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 		oPkt.setOfferId( xferSession->getOfferInfo().getOfferId() );
 		m_Plugin.txPacket(  xferSession->getSendToId(), xferSession->getSkt(), &oPkt );
 
-		LogMsg( LOG_ERROR, "OfferBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileName().c_str() );
+		LogMsg( LOG_ERROR, "OfferBaseXferMgr:: Done Sending file %s", xferInfo.getLclFileNameAndPath().c_str() );
 		onOfferBaseSent( xferSession, xferSession->getOfferInfo(), eXferErrorNone, pluginIsLocked );
 		return eXferErrorNone;
 	}
@@ -1582,7 +1582,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 					rc,
 					xferInfo.m_u64FileOffs,
 					xferInfo.m_u64FileLen,
-					(const char*)xferInfo.getLclFileName().c_str() );
+					xferInfo.getLclFileNameAndPath().c_str() );
 	}
 	else
 	{
@@ -1647,7 +1647,7 @@ EXferError OfferBaseXferMgr::rxOfferBaseChunk( bool pluginIsLocked, OfferBaseRxS
 
 			LogMsg( LOG_INFO, "VxPktHandler::RxOfferBaseChunk: ERROR %d: writing to file %s",
 							rc,
-							(const char*)xferInfo.getLclFileName().c_str() );
+							xferInfo.getLclFileNameAndPath().c_str() );
 		}
 		else
 		{
