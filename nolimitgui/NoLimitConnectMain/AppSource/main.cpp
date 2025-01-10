@@ -10,10 +10,12 @@
 
 #include <QWidget> // must be declared first or Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
-#include "GuiMainLoaderThread.h"
+#include "GuiThreadMainLoader.h"
+#include "GuiThreadSettingsLoader.h"
 #include "NlcCommonConfig.h"
 
 #include <CommonSrc/QtSource/AppCommon.h>
+#include <CommonSrc/QtSource/AppSettings.h>
 #include <CommonSrc/QtSource/HomeWindow.h>
 #include <CommonSrc/QtSource/GuiParams.h>
 
@@ -44,115 +46,56 @@
 
 #include <NetLib/VxPeerMgr.h>
 
-#include "MediaPlayerNlc.h"
+//#include "MediaPlayerNlc.h"
+//
+//#include <libplayer-nlc/xbmc/filesystem/Directory.h>
+//#include <libplayer-nlc/xbmc/filesystem/SpecialProtocol.h>
+//#include <libplayer-nlc/xbmc/filesystem/File.h>
+//#include <libplayer-nlc/xbmc/platform/Environment.h>
+//#include <libplayer-nlc/xbmc/utils/log.h>
 
-#include <libplayer-nlc/xbmc/filesystem/Directory.h>
-#include <libplayer-nlc/xbmc/filesystem/SpecialProtocol.h>
-#include <libplayer-nlc/xbmc/filesystem/File.h>
-#include <libplayer-nlc/xbmc/platform/Environment.h>
-#include <libplayer-nlc/xbmc/utils/log.h>
-
-using namespace XFILE;
+//using namespace XFILE;
 
 
-namespace{
+namespace {
+
     void ProcessQtEvents( int ms = 100 )
-	{
-		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-	}
-
-    void qtLogMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
     {
-        QByteArray localMsg = msg.toLocal8Bit();
-        const char *file = context.file ? context.file : "";
-        const char *function = context.function ? context.function : "";
-        switch (type) {
-        case QtDebugMsg:
-            LogMsg( LOG_DEBUG, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-            break;
-        case QtInfoMsg:
-            //LogMsg( LOG_INFO, "Info: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-            break;
-        case QtWarningMsg:
-            LogMsg( LOG_WARN, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-            break;
-        case QtCriticalMsg:
-            LogMsg( LOG_SEVERE, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-            break;
-        case QtFatalMsg:
-            LogMsg( LOG_FATAL, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-            break;
-        }
+        QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
     }
 
-    //============================================================================
-    bool setupRootStorageDirectory()
-    {
-        std::string strRootUserDataDir;
 
-        //=== determine root path to store all application data and settings etc ===//
-        QString dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
-
-        strRootUserDataDir = dataPath.toUtf8().constData();
-
-#ifdef DEBUG
-        // remove the D from the end so release and debug builds use the same storage directory
-        if( !strRootUserDataDir.empty() && ( strRootUserDataDir.c_str()[ strRootUserDataDir.length() - 1 ] == 'D' ) )
-        {
-            strRootUserDataDir = strRootUserDataDir.substr( 0, strRootUserDataDir.length() - 1 );
-        }
-#endif // DEBUG
-
-        VxFileUtil::makeForwardSlashPath( strRootUserDataDir );
-        strRootUserDataDir += "/";
-        VxSetAppDirectory( eAppData, strRootUserDataDir );
-
-        // No need to put application in path because when call QCoreApplication::setApplicationName("AppName")
-        // it made it a sub directory of DataLocation
-        VxSetRootDataStorageDirectory( strRootUserDataDir.c_str() );
-
-        return VxFileUtil::testIsWritablePath( strRootUserDataDir );
-    }
-}
 
 #if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QtAndroid>
-const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
-                                    "android.permission.WRITE_EXTERNAL_STORAGE",
-                                    "android.permission.INTERNET",
-                                    "android.permission.ACCESS_WIFI_STATE",
-                                    "android.permission.CHANGE_WIFI_STATE",
-                                    "android.permission.ACCESS_NETWORK_STATE",
-                                    "android.permission.CHANGE_NETWORK_STATE",
-                                    "android.permission.RECORD_AUDIO",
-                                    "android.permission.CAMERA",
-                                    "android.permission.VIBRATE",
-                                    "android.permission.READ_PHONE_STATE",
-                                    "android.permission.KILL_BACKGROUND_PROCESSES"});
+    const QVector<QString> permissions( { "android.permission.READ_EXTERNAL_STORAGE",
+                                        "android.permission.WRITE_EXTERNAL_STORAGE",
+                                        "android.permission.INTERNET",
+                                        "android.permission.ACCESS_WIFI_STATE",
+                                        "android.permission.CHANGE_WIFI_STATE",
+                                        "android.permission.ACCESS_NETWORK_STATE",
+                                        "android.permission.CHANGE_NETWORK_STATE",
+                                        "android.permission.RECORD_AUDIO",
+                                        "android.permission.CAMERA",
+                                        "android.permission.VIBRATE",
+                                        "android.permission.READ_PHONE_STATE",
+                                        "android.permission.KILL_BACKGROUND_PROCESSES" } );
 
 #endif //  defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
+}
 
 //============================================================================
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
     int timeStart = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "%s start at %d ms", __func__, timeStart );
 
-    GuiMainLoaderThread mainLoaderThread;
-    // register types first so connections made in construction have rergistered signal/slot values
+    static AppSettings appSettings;
+    GuiThreadSettingsLoader threadSettingsLoader(appSettings);
+    threadSettingsLoader.start();
+
+    // register types first so connections made in construction have registered signal/slot values
     AppCommon::registerMetaData();
-
-#if defined (Q_OS_ANDROID)
-    const QString externStoragePemission(QLatin1String ("android.permission.READ_EXTERNAL_STORAGE"));
-    auto storagePermissionResult = QtAndroidPrivate::checkPermission(externStoragePemission).result();
-    if( storagePermissionResult != QtAndroidPrivate::Authorized )
-    {
-        if( QtAndroidPrivate::Authorized != QtAndroidPrivate::requestPermission(externStoragePemission).result() )
-        {
-            LogMsg(LOG_WARN, "NO external storage permission");
-        }
-    }
-#endif // defined (Q_OS_ANDROID)
+    int timeRegisterMetadata = GetApplicationAliveMs();
 
     // NOTE OrganizationName and ApplicationName become part of data storage location path
     QCoreApplication::setOrganizationName( "" ); // leave blank or will become part of data storage path
@@ -160,17 +103,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
     QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
     QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
-
-    // TODO allow user to change where the data is stored
-    if( !setupRootStorageDirectory() )
-    {
-        QString warnWritableTitle = QObject::tr( "No Writable Location for application data" );
-        QString warnWritableBody = QObject::tr( "No location found to store application data.\n Application will exit" );
-
-        QMessageBox warnStorage( QMessageBox::Icon::Information, warnWritableTitle, warnWritableBody, QMessageBox::Ok );
-        warnStorage.exec();
-        return -1;
-    }
 
     QStringList downloadPath =  QStandardPaths::standardLocations(QStandardPaths::DownloadLocation );
     std::string download = downloadPath[0].toUtf8().constData();
@@ -197,34 +129,77 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     VxFileUtil::makeForwardSlashPath( document );
     VxSetAppDirectory( eAppDocuments, document + "/" );
 
-    int64_t timeLoaderThreadStart = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "%s mainLoaderThread start at %d ms", __func__, timeLoaderThreadStart );
-
-    mainLoaderThread.start();
-
     // initialize display scaling etc
     // the best method I have found to scale the gui is to use the default font height as the scaling factor
     QFontMetrics fontMetrics( myApp->font() );
     GuiParams::initGuiParams(fontMetrics.height());
 
-    LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
-
-    int64_t waitLoaderThreadStart = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "%s wait loader thread end at %d ms", __func__, waitLoaderThreadStart );
-    while( !mainLoaderThread.getIsLoadComplete() )
+    int timeSetAppDirs = GetApplicationAliveMs();
+    if( !threadSettingsLoader.getIsRootStorageSet() )
     {
-        ProcessQtEvents(50);
+        LogMsg( LOG_VERBOSE, "%s waiting for root storage setup", __func__ );
+        while( !threadSettingsLoader.getIsRootStorageSet() )
+        {
+            ProcessQtEvents(50);
+        }
+
+        int timeWaitRoot = GetApplicationAliveMs();
+        LogMsg( LOG_VERBOSE, "%s waited %d ms for root storage setup", __func__, timeWaitRoot - timeSetAppDirs );
     }
 
-    int64_t waitLoaderThreadEnd = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "%s waited for loader thread %d ms at %d ms", __func__,
-           waitLoaderThreadEnd - waitLoaderThreadStart,  waitLoaderThreadEnd );
+    GuiThreadMainLoader mainLoaderThread;
+    mainLoaderThread.start();
 
-    AppCommon& appCommon = CreateAppInstance( myApp );
+    int timeInitFonts = GetApplicationAliveMs();
 
-    int64_t createAppCommonEnd = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "%s create app common took %d ms at %d ms", __func__,
-           createAppCommonEnd - waitLoaderThreadEnd,  createAppCommonEnd );
+    LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
+
+    bool haveWaitTime{ false };
+    if( !mainLoaderThread.getIsLoadComplete() )
+    {
+        haveWaitTime = true;
+        LogMsg( LOG_VERBOSE, "%s waiting for main loader thread", __func__ );
+        while( !mainLoaderThread.getIsLoadComplete() )
+        {
+            ProcessQtEvents(50);
+        }
+
+        int waitMainLoaderThread = GetApplicationAliveMs();
+        LogMsg( LOG_VERBOSE, "%s waited for main loader thread %d ms", __func__, waitMainLoaderThread - timeInitFonts );
+    }
+
+    if( !threadSettingsLoader.getIsSettingsLoaded() )
+    {
+        haveWaitTime = true;
+        int waitStart = GetApplicationAliveMs();
+        while( !threadSettingsLoader.getIsSettingsLoaded() )
+        {
+            ProcessQtEvents(50);
+        }
+
+        // now that settings are loaded we can start using LogModule
+        if( LogEnabled( eLogStartup ) )
+        {
+            int waitEnd = GetApplicationAliveMs();
+            LogMsg( LOG_VERBOSE, "%s waited for settings loader thread %d ms", __func__, waitEnd - waitStart );
+        }
+    }
+
+    int timePreStartApp = GetApplicationAliveMs();
+    if( LogEnabled( eLogStartup ) )
+    {     
+        if( haveWaitTime )
+        {
+            LogMsg( LOG_VERBOSE, "%s time waiting for loaders %d ms", __func__, timePreStartApp - timeInitFonts );
+        }
+
+        LogMsg( LOG_VERBOSE, "%s time register %d app dirs %d fonts %d", __func__, timeRegisterMetadata - timeStart,
+                timeSetAppDirs - timeRegisterMetadata, timeInitFonts - timeSetAppDirs );
+    }
+
+    AppCommon& appCommon = CreateAppInstance( myApp, appSettings );
+
+    int createAppCommon = GetApplicationAliveMs();
 
     std::string fontDir = VxGetFontDirectory();
     std::string defaultFont = fontDir + "arial.ttf";
@@ -239,15 +214,20 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         GuiHelpers::copyResourceToOnDiskFile( ":/AppRes/Resources/teletext.ttf", teletextFont.c_str() );
     }
 
-    if( !appCommon.loadWithoutThread() )
+    int copyFonts = GetApplicationAliveMs();
+
+    if( !appCommon.loadWithThread() )
     {
-        LogMsg( LOG_VERBOSE, "runApplication user is not of legal age " );
+        LogMsg( LOG_ERROR, "%s user is not of legal age ", __func__ );
         return false;
     }
 
-    int64_t execStart = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "%s load %d ms myApp->exec start at %d ms", __func__,
-           execStart - timeStart, execStart );
+    if( LogEnabled( eLogStartup ) )
+    {
+        int timeNow = GetApplicationAliveMs();
+        LogMsg( LOG_VERBOSE, "%s setup %d create AppCommon %d font copy %d load %d total %d ms", __func__,
+           timePreStartApp - timeStart, createAppCommon - timePreStartApp, copyFonts - createAppCommon, timeNow - copyFonts, timeNow - timeStart );
+    }
 
     int result = myApp->exec();
 

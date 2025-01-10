@@ -61,13 +61,13 @@ void AppletPeerBase::setupAppletPeerBase( void )
 //============================================================================
 void AppletPeerBase::callbackUserAdded( GuiUser* guiUser )
 {
-    LogMsg( LOG_DEBUG, "AppletPeerBase::%s", __func__ );
+    //LogMsg( LOG_DEBUG, "AppletPeerBase::%s", __func__ );
 }
 
 //============================================================================
 void AppletPeerBase::callbackUserRemoved( VxGUID& onlineId )
 {
-    LogMsg( LOG_DEBUG, "AppletPeerBase::%s", __func__ );
+    //LogMsg( LOG_DEBUG, "AppletPeerBase::%s", __func__ );
 }
 
 //============================================================================
@@ -79,7 +79,7 @@ void AppletPeerBase::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletPeerBase::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-    LogMsg( LOG_DEBUG, "AppletPeerBase::%s online ? %d user %s", __func__, isOnline, guiUser->getOnlineName().c_str() );
+    if(LogEnabled(eLogUsers))LogMsg( LOG_DEBUG, "AppletPeerBase::%s online ? %d user %s", __func__, isOnline, guiUser->getOnlineName().c_str() );
     if( !isOnline )
     {
         m_OfferSessionLogic.toGuiContactOffline( guiUser );

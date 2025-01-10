@@ -14,21 +14,6 @@
 
 #include <QString>
 
-enum EAppFeatures
-{
-	eAppFeatureUnknown,
-	eAppFeatureKodi,
-    eAppFeatureChatRoom,
-    eAppFeatureRandomConnect,
-    eAppFeatureStoryboard,
-    eAppFeatureAboutMePage,
-    eAppFeatureTheme,
-    eAppFeatureLanguageChoice,
-    eAppFeaturePreferredContent,
-
-	eMaxAppFeatures
-};
-
 enum EApplet
 {
 	eAppletUnknown = 0,             // do not setup base class ui in the case of unknown
@@ -242,18 +227,6 @@ enum EButtonSize
     eMaxButtonSize
 };
 
-enum EDefaultAppMode
-{
-	eAppModeUnknown,
-	eAppModeDefault,
-	eAppModeNlcViewer,
-	eAppModeNlcProvider,
-	eAppModeNlcStation,
-	eAppModeNlcNetworkHost,
-
-	eMaxAppModeNlc
-};
-
 enum EExpireTime
 {
     eExpireTimeWhenResponseRxed = 0,
@@ -297,9 +270,6 @@ enum EThemeType
 
 	eMaxThemeType
 };
-
-// returns feature name ( never translated )
-const char*					    DescribeAppFeature( enum EAppFeatures appFeature );
 
 // returns applet icon
 EMyIcons						GetAppletIcon( enum EApplet applet );

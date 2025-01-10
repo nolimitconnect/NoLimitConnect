@@ -718,15 +718,8 @@ void AppletPopupMenu::showTitleBarUserMenu( void )
 	setTitle( QObject::tr( "Show List" ) );
 	addMenuItem( 0, getMyIcons().getIcon( eMyIconFriendJoined ), QObject::tr( "Friends List" ) );
 	addMenuItem( 1, getMyIcons().getIcon( eMyIconGroupJoined ), QObject::tr( "Groups List" ) );
-	if( m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureChatRoom ) )
-	{
-		addMenuItem( 2, getMyIcons().getIcon( eMyIconServiceChatRoom ), QObject::tr( "Chat Room List" ) );
-	}
-
-	if( m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureRandomConnect ) )
-	{
-		addMenuItem( 3, getMyIcons().getIcon( eMyIconServiceRandomConnect ), QObject::tr( "Random Connect List" ) );
-	}
+	addMenuItem( 2, getMyIcons().getIcon( eMyIconServiceChatRoom ), QObject::tr( "Chat Room List" ) );
+	addMenuItem( 3, getMyIcons().getIcon( eMyIconServiceRandomConnect ), QObject::tr( "Random Connect List" ) );
 }
 
 //============================================================================

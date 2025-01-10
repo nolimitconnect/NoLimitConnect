@@ -90,15 +90,6 @@ AppletUserIdentity::AppletUserIdentity( AppCommon& app, QWidget* parent )
     connect( ui.m_AccountComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotAccountSelectionChanged( int ) ) );
 
     resetComboIdxToOriginalAccount();
-    if( !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureAboutMePage ) )
-    {
-        ui.m_AboutMeGroupBox->setVisible( false );
-    }
-
-    if( !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureStoryboard ) )
-    {
-        ui.m_StoryBoardGroupBox->setVisible( false );
-    }
 
     loadIdentity( *curIdent );
 

@@ -44,17 +44,8 @@ void AppletSettingsPage::setupAppletSettingsgPage( void )
         // create launchers for the basic applets
         for( int i = int( eMaxBasicApplets + 1 ); i < eMaxSettingsApplets; i++ )
         {
-            bool shouldShow = true;
-            if( i == eAppletTheme && !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureTheme ) )
-            {
-                shouldShow = false;
-            }
-
-            if( shouldShow )
-            {
-                AppletLaunchWidget* applet = new AppletLaunchWidget( m_MyApp, (EApplet)i, this );
-                m_AppletList.push_back( applet );
-            }
+            AppletLaunchWidget* applet = new AppletLaunchWidget( m_MyApp, (EApplet)i, this );
+            m_AppletList.emplace_back( applet );
         }
 
         m_IsInitialized = true;

@@ -43,7 +43,7 @@ class LogMgr : public QObject, public ILogCallbackInterface
     Q_OBJECT
 public:
     LogMgr( QObject* parent = nullptr );
-    virtual ~LogMgr() override;
+    virtual ~LogMgr() override = default;
 
     void                        startupLogMgr( void );
     void                        shutdownLogMgr( void );

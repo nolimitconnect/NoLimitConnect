@@ -12,36 +12,6 @@
 #include <QObject>
 
 //============================================================================
-// returns feature name ( never translated )
-const char* DescribeAppFeature( EAppFeatures appFeature )
-{
-	// do NOT translate
-	switch( appFeature )
-	{
-	case eAppFeatureKodi:
-		return "FeatureKodi";
-	case eAppFeatureChatRoom:
-		return "FeatureChatRoom";
-	case eAppFeatureRandomConnect:
-		return "FeatureRandomConnnect";
-    case eAppFeatureAboutMePage:
-        return "FeatureAboutMePage";
-    case eAppFeatureStoryboard:
-        return "FeatureStoryboard";
-    case eAppFeatureTheme:
-        return "FeatureTheme";
-    case eAppFeatureLanguageChoice:
-        return "FeatureLanguageChoice";
-    case eAppFeaturePreferredContent:
-        return "FeaturePreferredContent";
-
-	case eAppFeatureUnknown:
-	default:
-		return "FeatureUnknown";
-	}
-}
-
-//============================================================================
 EMyIcons GetAppletIcon( EApplet applet )
 {
 	switch( applet )

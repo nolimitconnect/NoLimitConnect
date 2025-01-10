@@ -71,13 +71,12 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 		return;
 	}
 
-	// user specific directory should be set
+	int timeStart = GetApplicationAliveMs();	// user specific directory should be set
 	std::string dbName = VxGetUserSpecificDataDirectory() + "settings/";
 	dbName += m_FileInfoDb.getFileInfoDbName();
 	std::vector<std::string> toDeleteFiles;
 	std::map<VxGUID, FileInfo>	dbFileList;
 
-	// LogMsg( LOG_VERBOSE, "onAfterUserLogOnThreadedr::onAfterUserLogOnThreaded lock" );
 	lockFileList();
 	m_FileInfoDb.dbShutdown();
 	m_FileInfoDb.dbStartup( 1, dbName );
@@ -117,7 +116,6 @@ void FileInfoBaseMgr::onAfterUserLogOnThreaded( void )
 		}
 	}
 
-	//LogMsg( LOG_VERBOSE, "onAfterUserLogOnThreadedr::onAfterUserLogOnThreaded unlock" );
 	unlockFileList();
 	updateFileTypes();
 

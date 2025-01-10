@@ -36,17 +36,10 @@ LogMgr::LogMgr( QObject* parent )
 }
 
 //============================================================================
-LogMgr::~LogMgr()
-{
-    //VxRemoveLogHandler( this );
-}
-
-//============================================================================
 void LogMgr::startupLogMgr( void )
 {
     VxAddLogHandler( this );
-    setLogLevels( m_MyApp.getAppSettings().getLogLevels() );
-    setLogModules( m_MyApp.getAppSettings().getLogModules() );
+
 }
 
 //============================================================================

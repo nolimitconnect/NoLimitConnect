@@ -1079,12 +1079,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.h">
       <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.h">
-      <Filter>Source Files\GuiLoaderThread</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.h">
-      <Filter>Source Files\GuiLoaderThread</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.h">
       <Filter>Source Files\GuiPushToTalk</Filter>
     </QtMoc>
@@ -1135,6 +1129,15 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.h">
       <Filter>Source Files\Cam</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadMainLoader.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadSettingsLoader.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadAppLoader.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2197,12 +2200,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.cpp">
       <Filter>Source Files\InputWidgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.cpp">
-      <Filter>Source Files\GuiLoaderThread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.cpp">
-      <Filter>Source Files\GuiLoaderThread</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.cpp">
       <Filter>Source Files\GuiPushToTalk</Filter>
     </ClCompile>
@@ -2283,6 +2280,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.cpp">
       <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadAppLoader.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadMainLoader.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadSettingsLoader.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

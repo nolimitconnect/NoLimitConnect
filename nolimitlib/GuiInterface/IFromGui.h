@@ -296,8 +296,6 @@ public:
 	virtual bool				fromGuiTestCmd(	IFromGui::ETestParam1		eTestParam1, 
 												int							testParam2 = 0, 
 												const char*				testParam3 = nullptr ) = 0;
-	/// Debug only set which logging to filter
-	virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char* pLogFileName = nullptr ) = 0;
 
 	virtual int					fromGuiGetJoinedListCount( EPluginType pluginType ) = 0;
 	virtual void				fromGuiListAction( EListAction listAction ) = 0;

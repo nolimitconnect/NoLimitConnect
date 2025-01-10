@@ -13,16 +13,14 @@
 
 class AppCommon;
 
-class GuiAppLoaderThread : public QThread
+class GuiThreadAppLoader : public QThread
 {
     Q_OBJECT
 
 public:
-    GuiAppLoaderThread( AppCommon& myApp, QObject *parent = nullptr);
-    ~GuiAppLoaderThread();
+    GuiThreadAppLoader( AppCommon& myApp, QObject *parent = nullptr);
+    ~GuiThreadAppLoader() = default;
 
-    void                setIsSettingsLoaded( bool isLoaded )     { m_SettingsLoaded = isLoaded; }
-    bool                getIsSettingsLoaded( void )              { return m_SettingsLoaded; }
 
     void                setIsAccountMgrLoaded( bool isLoaded )   { m_AccountMgrLoaded = isLoaded; }
     bool                getIsAccountMgrLoaded( void )            { return m_AccountMgrLoaded; }
@@ -38,7 +36,7 @@ protected:
 
 private:
     AppCommon&          m_MyApp;
-    QElapsedTimer       m_ElapsedTimer;
+
     bool                m_SettingsLoaded{ false };
     bool                m_AccountMgrLoaded{ false };
     bool                m_IconsLoaded{ false };

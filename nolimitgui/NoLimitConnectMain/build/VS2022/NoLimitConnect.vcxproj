@@ -334,7 +334,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FriendListDelegate.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FriendListEntryWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FriendListWidget.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.cpp" />
@@ -361,7 +360,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostSession.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferInfo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferListItem.cpp" />
@@ -376,6 +374,9 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiPushToTalkMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiSendQueueMgr.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadAppLoader.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadMainLoader.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadSettingsLoader.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThumb.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThumbList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThumbMgr.cpp" />
@@ -626,7 +627,6 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendListDelegate.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListMgr.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiAppLoaderThread.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.h" />
@@ -651,7 +651,6 @@ libopenjpeg.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiHostSession.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgrBase.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMainLoaderThread.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveCallback.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiOfferMgr.h" />
@@ -671,6 +670,9 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiRandConnectMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiSendQueueCallback.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiSendQueueMgr.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadAppLoader.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadMainLoader.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadSettingsLoader.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumb.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiThumbList.h" />

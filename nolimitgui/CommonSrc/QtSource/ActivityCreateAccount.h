@@ -34,7 +34,7 @@ public:
 	TitleBarWidget*				getTitleBarWidget( void ) override;
 	BottomBarWidget*			getBottomBarWidget( void ) override;
 
-	void						setRootUserDataDirectory( const char* userDir ) { m_strRootUserDataDir = userDir; };
+	void						setRootUserDataDirectory( std::string userDir ) { m_strRootUserDataDir = userDir; };
 	//! validate user input
 	bool						accountValidate( void );
     bool						wasLoginNameEntered( void );
