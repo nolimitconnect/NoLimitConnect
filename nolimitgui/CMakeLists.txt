@@ -232,7 +232,6 @@ list(APPEND nlc_HEADERS
 
     CommonSrc/QtSource/FriendListEntryWidget.h
     CommonSrc/QtSource/FriendListWidget.h
-    CommonSrc/QtSource/GuiAppLoaderThread.h
     CommonSrc/QtSource/GuiConnectIdListMgr.h
     CommonSrc/QtSource/GuiConnectIdListCallback.h
     CommonSrc/QtSource/GuiFileXferMgr.h
@@ -257,7 +256,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiHostedByMeJoinMgr.h
     CommonSrc/QtSource/GuiHostJoinSession.h
     CommonSrc/QtSource/GuiHostSession.h
-    CommonSrc/QtSource/GuiMainLoaderThread.h
+
     CommonSrc/QtSource/GuiMemberActiveCallback.h
     CommonSrc/QtSource/GuiMemberActiveMgr.h
     CommonSrc/QtSource/GuiOfferCallback.h
@@ -280,6 +279,11 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiThumb.h
     CommonSrc/QtSource/GuiThumbList.h
     CommonSrc/QtSource/GuiThumbMgr.h
+
+    CommonSrc/QtSource/GuiThreadAppLoader.h
+    CommonSrc/QtSource/GuiThreadMainLoader.h
+    CommonSrc/QtSource/GuiThreadSettingsLoader.h
+
     CommonSrc/QtSource/GuiUser.h
     CommonSrc/QtSource/GuiUserBase.h
     CommonSrc/QtSource/GuiUserJoin.h
@@ -636,7 +640,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/FriendList.cpp
     CommonSrc/QtSource/FriendListDelegate.cpp
     CommonSrc/QtSource/FriendListWidget.cpp
-    CommonSrc/QtSource/GuiAppLoaderThread.cpp
+
     CommonSrc/QtSource/GuiConnectIdListMgr.cpp
     CommonSrc/QtSource/GuiFileXferMgr.cpp
     CommonSrc/QtSource/GuiFileXferSession.cpp
@@ -658,7 +662,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiHostedByMeJoinMgr.cpp
     CommonSrc/QtSource/GuiHostJoinSession.cpp
     CommonSrc/QtSource/GuiHostSession.cpp
-    CommonSrc/QtSource/GuiMainLoaderThread.cpp
+
     CommonSrc/QtSource/GuiMemberActiveMgr.cpp
     CommonSrc/QtSource/GuiOfferInfo.cpp
     CommonSrc/QtSource/GuiOfferListItem.cpp
@@ -673,6 +677,11 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiPushToTalkMgr.cpp
     CommonSrc/QtSource/GuiRandConnectMgr.cpp
     CommonSrc/QtSource/GuiSendQueueMgr.cpp
+
+    CommonSrc/QtSource/GuiThreadAppLoader.cpp
+    CommonSrc/QtSource/GuiThreadMainLoader.cpp
+    CommonSrc/QtSource/GuiThreadSettingsLoader.cpp
+
     CommonSrc/QtSource/GuiThumb.cpp
     CommonSrc/QtSource/GuiThumbList.cpp
     CommonSrc/QtSource/GuiThumbMgr.cpp

@@ -19,15 +19,12 @@ namespace
 {
 	#define APP_SETTINGS_DBVERSION		1
 	#define SELECTED_THEME_TYPE			"SELECTED_THEME_TYPE"
-	#define HOME_LAYOUT_TYPE			"HOME_LAYOUT_TYPE"
 }
 
 //============================================================================
 AppSettings::AppSettings()
 : VxSettings( "AppSettingsDb" )
 {
-	// mark all values as not cached
-	memset( m_AppFeatureIsCached, 0, sizeof( m_AppFeatureIsCached ) );
 }
 
 //============================================================================
@@ -37,13 +34,12 @@ const char* AppSettings::getAppShortName( void )
 }
 
 //============================================================================
-RCODE AppSettings::appSettingStartup( const char* dbSettingsFile, EDefaultAppMode appDefaultMode )
+RCODE AppSettings::appSettingStartup( std::string dbSettingsFile )
 {
 	RCODE rc = dbStartup( APP_SETTINGS_DBVERSION, dbSettingsFile );
-	if( ( 0 == rc )
-		&& ( false == appModeSettingsAreInitialize() ) )
+	if( 0 == rc )
 	{
-		setupAppModeSettings( appDefaultMode );
+		m_AppSettingsInitialized = true;
 	}
 
 	return rc;
@@ -70,70 +66,6 @@ bool AppSettings::getIsMessengerFullScreen( void )
 }
 
 //============================================================================
-void AppSettings::setFeatureEnable( EAppFeatures appFeature, bool enable )
-{
-	setIniValue( getAppShortName(), DescribeAppFeature( appFeature ), enable );
-	m_AppFeatureValue[appFeature] = enable;
-	m_AppFeatureIsCached[appFeature] = true;
-}
-
-//============================================================================
-bool AppSettings::getFeatureEnable( EAppFeatures appFeature )
-{
-	// for now app features are used for disable
-	// in the future if features are enabled then should let this code work
-	if( eAppFeatureAboutMePage == appFeature )
-	{
-		return true;
-	}
-
-	if( eAppFeatureStoryboard == appFeature )
-	{
-		return true;
-	}
-
-	if( eAppFeatureTheme == appFeature )
-	{
-		return true;
-	}
-
-	if( eAppFeatureLanguageChoice == appFeature )
-	{
-		return true;
-	}
-
-	if( eAppFeaturePreferredContent == appFeature )
-	{
-		return true;
-	}
-
-	if( eAppFeatureChatRoom == appFeature )
-	{
-		return true;
-	}
-
-	if( eAppFeatureRandomConnect == appFeature )
-	{
-		return true;
-	}
-
-	return false;
-
-	if( m_AppFeatureIsCached[appFeature] )
-	{
-		// pull from cache
-		return m_AppFeatureValue[ appFeature ];
-	}
-	
-	// get feature from db
-	bool featureValue = false;
-	getIniValue( getAppShortName(), DescribeAppFeature( appFeature ), featureValue, 0 );
-	m_AppFeatureValue[appFeature] = featureValue;
-	m_AppFeatureIsCached[appFeature] = true;
-	return m_AppFeatureValue[appFeature];
-}
-
-//============================================================================
 void AppSettings::setLastSelectedTheme( EThemeType selectedTheme )
 {
 	uint32_t themeType = (uint32_t)selectedTheme;
@@ -146,21 +78,6 @@ EThemeType AppSettings::getLastSelectedTheme( void )
 	uint32_t themeType = 1;
 	getIniValue( getAppShortName(), SELECTED_THEME_TYPE, themeType, (uint32_t)eThemeTypeDark );
 	return (EThemeType)themeType;
-}
-
-//============================================================================
-void AppSettings::setHomePageLayout( EHomeLayout homeLayout )
-{
-	uint32_t homeLayoutType = (uint32_t)homeLayout;
-	setIniValue( getAppShortName(), HOME_LAYOUT_TYPE, homeLayoutType );
-}
-
-//============================================================================
-EHomeLayout AppSettings::getHomeWindowLayout( void )
-{
-	uint32_t homeLayoutType = 1;
-	getIniValue( getAppShortName(), HOME_LAYOUT_TYPE, homeLayoutType, 1 );
-	return (EHomeLayout)homeLayoutType;
 }
 
 //============================================================================
@@ -640,55 +557,11 @@ bool AppSettings::getIsConfirmDeleteDisabled( void )
 }
 
 //============================================================================
-bool AppSettings::appModeSettingsAreInitialize( void )
-{
-	bool confirmIsInitialized = false;
-	getIniValue( getAppShortName(), "AppDefaultInited", confirmIsInitialized, false );
-	return confirmIsInitialized;
-}
-
-//============================================================================
 std::string AppSettings::getAppendedType( const char* key, ESearchType searchType )
 {
     std::string result;
     StdStringFormat( result, "%s%d", key, (int)searchType );
     return result;
-}
-
-//============================================================================
-void AppSettings::setupAppModeSettings( EDefaultAppMode appDefaultMode )
-{
-	// set all features to false
-	for( int i = 0; i < eMaxAppFeatures; i++ )
-	{
-		setFeatureEnable( (EAppFeatures)i, false );
-	}
-
-	setFeatureEnable( eAppFeatureKodi, true );
-
-	//// enable app mode specific features
-	//switch( appDefaultMode )
-	//{
- //   case eAppModeNlcViewer:
-	//	// setFeatureEnable( eAppFeatureViewer, true );
-	//	break;
- //   case eAppModeNlcProvider:
-	//	// setFeatureEnable( eAppFeatureProvider, true );
-	//	break;
- //   case eAppModeNlcStation:
-	//	// setFeatureEnable( eAppFeatureStation, true );
-	//	break;
- //   case eAppModeNlcNetworkHost:
-	//	// setFeatureEnable( eAppFeatureNetworkHost, true );
-	//	break;
- //   default:
- //       break;
-	//}
-
-	// mark database as intialized with app mode settings
-	uint32_t u32Value = 1;
-	setIniValue( getAppShortName(), "AppDefaultInited", u32Value );
-	m_AppSettingsInitialized = true;
 }
 
 //============================================================================

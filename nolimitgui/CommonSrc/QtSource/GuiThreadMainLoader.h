@@ -11,13 +11,13 @@
 
 #include <QThread>
 
-class GuiMainLoaderThread : public QThread
+class GuiThreadMainLoader : public QThread
 {
     Q_OBJECT
 
 public:
-    GuiMainLoaderThread(QObject *parent = nullptr);
-    ~GuiMainLoaderThread();
+    GuiThreadMainLoader(QObject *parent = nullptr);
+    ~GuiThreadMainLoader() = default;
 
     void                setIsLoadComplete( bool isComplete )    { m_LoadComplete = isComplete; }
     bool                getIsLoadComplete( void )               { return m_LoadComplete; }
@@ -26,6 +26,5 @@ protected:
     void run() override;
 
 private:
-    QElapsedTimer       m_ElapsedTimer;
     bool                m_LoadComplete{ false };
 };

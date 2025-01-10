@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiMainLoaderThread.h"
+#include "GuiThreadMainLoader.h"
 
 #include "GuiHelpers.h"
 
@@ -31,23 +31,15 @@
 #include <QStandardPaths>
 
 //============================================================================
-GuiMainLoaderThread::GuiMainLoaderThread( QObject* parent )
+GuiThreadMainLoader::GuiThreadMainLoader( QObject* parent )
     : QThread(parent)
 {
-    m_ElapsedTimer.start();
 }
 
 //============================================================================
-GuiMainLoaderThread::~GuiMainLoaderThread()
-{
-
-}
-
-//============================================================================
-void GuiMainLoaderThread::run()
+void GuiThreadMainLoader::run()
 {
     int timeStart = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run start at %d ms", timeStart );
 
     #ifdef TARGET_OS_ANDROID
     CJNIContext::createJniContext( GetJavaEnvCache().getJavaVM(),  GetJavaEnvCache().getJavaEnv() );
@@ -83,13 +75,13 @@ void GuiMainLoaderThread::run()
     result &= IMediaPlayerRequests::getOsInterface().initUserPaths( appCachePath, userWriteablePath );
 
     int timePreStartupEnd = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run os interface startup took %d ms at %d ms",
+    LogMsg( LOG_VERBOSE, "GuiThreadMainLoader::run os interface startup took %d ms at %d ms",
            timePreStartupEnd - timeStart, timePreStartupEnd );
 
 
     GetPtoPEngine(); // engine first.. there is some interdependencies
     int mainLoadThreadEnd = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "GuiMainLoaderThread::run GetPtoPEngine complete in %d ms at %d",
+    LogMsg( LOG_VERBOSE, "GuiThreadMainLoader::run GetPtoPEngine complete in %d ms at %d",
            mainLoadThreadEnd - timePreStartupEnd, mainLoadThreadEnd );
 
     setIsLoadComplete( true );

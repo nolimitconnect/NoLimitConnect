@@ -139,7 +139,7 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
     if( fromThread )
     {
         //assureUserSpecificDirIsSet( "P2PEngine::fromGuiUserLoggedOn" );
-        LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn" );
+        if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn" );
         memcpy( ( VxNetIdent* )&m_PktAnn, netIdent, sizeof( VxNetIdent ) );
         m_PktAnn.setSrcOnlineId( netIdent->getMyOnlineId() );
         m_MyOnlineId = netIdent->getMyOnlineId();
@@ -160,15 +160,15 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         m_ThumbMgr.onPluginsInitialized();
 
         m_SendQueueMgr.fromGuiUserLoggedOn();
-        LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn done" );
+        if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn done" );
         m_IsEngineReady = true;
 
         m_PluginMgr.onAfterUserLogOnThreaded();
-        LogMsg( LOG_INFO, "P2PEngine PluginMgr onAfterUserLogOnThreaded done" );
+        if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine PluginMgr onAfterUserLogOnThreaded done" );
     }
     else
     {
-        LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn queued" );
+        if(LogEnabled(eLogStartup))LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn queued" );
         m_FromGuiMgr.fromGuiUserLoggedOn( netIdent );
     }
 }

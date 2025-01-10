@@ -96,7 +96,7 @@ doover:
     {
         applySoundSettings( true );
         // user needs to create login and profile
-        m_CreateAccountDlg->setRootUserDataDirectory( m_AppSettings.m_strRootUserDataDir.c_str() );
+        m_CreateAccountDlg->setRootUserDataDirectory( VxGetRootUserDataDirectory() );
         
         if( QDialog::Rejected == m_CreateAccountDlg->exec() )
         {
@@ -207,11 +207,6 @@ void AppCommon::createAccountForUser( std::string& strUserName, VxNetIdent& user
     uint64_t u64HiPart = getQuuidHiPart( uuidTmp );
     uint64_t u64LoPart = getQuuidLoPart( uuidTmp );
     userAccountIdent.m_DirectConnectId.setVxGUID( u64HiPart, u64LoPart );
-
-    if( getAppSettings().m_strUserGuid.length() )
-    {
-        userAccountIdent.m_DirectConnectId.setVxGUID( getAppSettings().m_strUserGuid.c_str() );
-    }
 
     SafeStrCopy( userAccountIdent.getOnlineName(), strUserName.c_str(), MAX_ONLINE_NAME_LEN );
     SafeStrCopy( userAccountIdent.getOnlineDescription(), moodMsg, MAX_ONLINE_DESC_LEN );
@@ -369,13 +364,6 @@ void AppCommon::copyAssetsToFoldersIfRequired( void )
 //============================================================================
 void AppCommon::sendAppSettingsToEngine( void )
 {
-    if( m_AppSettings.m_u32EnableDebug )
-    {
-        getEngine().fromGuiDebugSettings(
-            m_AppSettings.m_u32LogFlags,
-            m_AppSettings.m_strDebugFileName.c_str() );
-    }
-
     // TODO figure out how engine network settings can be out of sync with gui network settings
     // for now assure engine has correct settings before log in
     bool validDbSettings = false;

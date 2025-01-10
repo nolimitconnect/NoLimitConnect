@@ -21,7 +21,7 @@
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxSettings.h>
 
-class AppSettings : public VxSettings, public AppProfile
+class AppSettings : public VxSettings
 {
 public:
 	AppSettings();
@@ -29,7 +29,7 @@ public:
 
 	const char*					getAppShortName( void );
 
-	RCODE						appSettingStartup( const char* dbSettingsFile, EDefaultAppMode appDefaultMode );
+	RCODE						appSettingStartup( std::string dbSettingsFile );
 	void						appSettingShutdown( void );
 
 	bool						getIsAppSettingInitialized( void )			{ return m_AppSettingsInitialized; }
@@ -37,14 +37,8 @@ public:
 	void						setIsMessengerFullScreen( bool isFullScreen );
 	bool						getIsMessengerFullScreen( void );
 
-	void						setFeatureEnable( EAppFeatures appFeature, bool enable );
-	bool						getFeatureEnable( EAppFeatures appFeature );
-
 	void						setLastSelectedTheme( EThemeType selectedTheme );
 	EThemeType					getLastSelectedTheme( void );
-
-	void						setHomePageLayout( EHomeLayout homeLayout );
-	EHomeLayout					getHomeWindowLayout( void );
 
 	void						setMutePhoneRing( bool bMutePhoneRing );
 	bool						getMutePhoneRing( void );
@@ -197,13 +191,8 @@ public:
 	void						getLastPlayedMovie( std::string& movieFile );
 
 protected:
-	bool						appModeSettingsAreInitialize( void );
-	void						setupAppModeSettings( EDefaultAppMode appDefaultMode );
     std::string                 getAppendedType( const char* key, ESearchType searchType );
 
-	// caching of feature settings
-	bool						m_AppFeatureIsCached[ eMaxAppFeatures ];
-	bool						m_AppFeatureValue[eMaxAppFeatures];
 	bool						m_AppSettingsInitialized{ false };
 
 	bool						m_DisableSoundEffectsCached{ false };

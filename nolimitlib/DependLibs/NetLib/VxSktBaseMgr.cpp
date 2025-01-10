@@ -40,8 +40,6 @@ VxSktBaseMgr::VxSktBaseMgr()
 //============================================================================
 VxSktBaseMgr::~VxSktBaseMgr()
 {
-	closeAllSkts();
-	deleteAllSockets();
 }
 
 //============================================================================
@@ -75,7 +73,8 @@ int VxSktBaseMgr::getToDeleteSktCnt( void )
 	#if defined(DEBUG_SKT_MGR_LOCK)
         LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr to delete cnt %d", __func__, toDeleteCnt );
 	#endif // defined(DEBUG_SKT_MGR_LOCK)
-	unlockSktBaseMgr(); return toDeleteCnt; 
+	unlockSktBaseMgr(); 
+	return toDeleteCnt; 
 }
 
 //============================================================================
@@ -318,6 +317,8 @@ void VxSktBaseMgr::closeAllSkts( void )
 	#if defined(DEBUG_SKT_MGR_LOCK)
 		LogMsg( LOG_DEBUG, "VxSktBaseMgr::%s unlockSktBaseMgr", __func__ );
 	#endif // defined(DEBUG_SKT_MGR_LOCK)
+	m_aoSkts.clear();
+	m_aoSktsToDelete.clear();
 	VxSktBaseMgr::unlockSktBaseMgr();
 }
 

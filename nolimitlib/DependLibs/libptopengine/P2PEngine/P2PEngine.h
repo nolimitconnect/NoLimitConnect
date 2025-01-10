@@ -343,8 +343,6 @@ public:
     /// Get network status
     virtual ENetAvailStatus     fromGuiGetNetAvailStatus( void ) override;
 
-    virtual void				fromGuiDebugSettings( uint32_t u32LogFlags, const char*	pLogFileName = nullptr ) override;
-
     virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
 
     virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;

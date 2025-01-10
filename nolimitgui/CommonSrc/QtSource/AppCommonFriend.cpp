@@ -35,7 +35,7 @@ void AppCommon::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId,
 //============================================================================
 void AppCommon::slotInternalToGuiIndentListUpdate( EUserViewType listType, VxGUID onlineId, uint64_t timestamp )
 {
-    LogMsg( LOG_INFO, "AppCommon::toGuiIndentListUpdate %d", listType );
+    if(LogEnabled(eLogUsers))LogMsg( LOG_INFO, "AppCommon::toGuiIndentListUpdate %d", listType );
     m_ToGuiUserUpdateClientBusy = true;
     for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
     {

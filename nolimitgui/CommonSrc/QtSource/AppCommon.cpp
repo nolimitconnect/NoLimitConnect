@@ -33,7 +33,7 @@
 
 #include "FileListReplySession.h"
 
-#include "GuiAppLoaderThread.h"
+#include "GuiThreadAppLoader.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
@@ -94,28 +94,13 @@ namespace
 	}
 
 	//============================================================================
-	QString GetAppTitle( EDefaultAppMode appMode )
+	QString GetAppTitle( void )
 	{
-		switch( appMode )
-		{
-		case eAppModeDefault:
-			return QObject::tr( "No Limit Connect" );
-		case eAppModeNlcViewer:
-			return QObject::tr( "NoLimitConnect Player" );
-		case eAppModeNlcProvider:
-			return QObject::tr( "NoLimitConnect Provider" );
-		case eAppModeNlcStation:
-			return QObject::tr( "NoLimitConnect Station" );
-		case eAppModeNlcNetworkHost:
-			return QObject::tr( "NoLimitConnect Network Host" );
-		case eAppModeUnknown:
-		default:
-			return QObject::tr( "NoLimitConnect Unknown App" );	
-		}
+		return QObject::tr( "No Limit Connect" );
 	}
 
 	//============================================================================
-	QString GetAppShortName( EDefaultAppMode appMode )
+	QString GetAppShortName( void )
 	{
 		//NOTE: do not translate or will cause new settings each time user changes languages
 		return APP_NAME;
@@ -138,10 +123,9 @@ namespace
 }
 
 //============================================================================
-AppCommon& CreateAppInstance( QApplication* myApp )
+AppCommon& CreateAppInstance( QApplication* myApp, AppSettings& appSettings )
 {
 static AppModuleState appModuleState;
-static AppSettings appSettings;
 static AccountMgr accountMgr;
 static GuiMemberActiveMgr memberActiveMgr;
 static GuiPlayerMgr playerMgr;
@@ -156,7 +140,7 @@ static MyIcons myIcons;
 		VxSocketsStartup();
 
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, eAppModeDefault, appModuleState, appSettings, accountMgr, 
+        new AppCommon( *myApp, appModuleState, appSettings, accountMgr, 
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
 					   sendQueueMgr, myIcons );
     }
@@ -179,7 +163,6 @@ void DestroyAppInstance()
 
 //============================================================================
 AppCommon::AppCommon(	QApplication&	myQApp,
-						EDefaultAppMode appDefaultMode,
 						AppModuleState& appModuleState,
 						AppSettings&	appSettings, 
                         AccountMgr&	    accountMgr,
@@ -192,12 +175,11 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						MyIcons& myIcons )
 : QWidget()
 , m_QApp( myQApp )
-, m_AppDefaultMode( appDefaultMode )
 , m_AppModuleState(appModuleState)
 , m_AppGlobals( *this )
 , m_AppSettings( appSettings )
-, m_AppShortName( GetAppShortName( appDefaultMode ) )
-, m_AppTitle( GetAppTitle( appDefaultMode ) )
+, m_AppShortName( GetAppShortName() )
+, m_AppTitle( GetAppTitle() )
 , m_AccountMgr( accountMgr )
 , m_ConnectIdListMgr( *this )
 , m_FileXferMgr( *this )
@@ -242,15 +224,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	signal( SIGPIPE, SIG_IGN );
 #endif // !defined(TARGET_OS_WINDOWS)
 
-	// this just loads the ini file.
-	// the AppSettings database is not initialized until loadAccountSpecificSettings
-	m_AppSettings.loadProfile();
-	// sets root of application data and transfer directories
-	VxSetRootUserDataDirectory( m_AppSettings.m_strRootUserDataDir.c_str() );
-
-	// Documents Directory/appshortName/xfer/		app data transfer directory
-	VxSetRootXferDirectory( m_AppSettings.m_strRootXferDir.c_str() );
-
     connect( m_CheckSetupTimer, SIGNAL(timeout()), this, SLOT(slotCheckSetupTimer()) );
 	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()) );
 }
@@ -268,18 +241,13 @@ IFromGui& AppCommon::getFromGuiInterface( void )
 }
 
 //============================================================================
-bool AppCommon::loadWithoutThread( void )
+bool AppCommon::loadWithThread( void )
 {
-	GuiAppLoaderThread appLoaderThread( *this );
+	GuiThreadAppLoader appLoaderThread( *this );
 	appLoaderThread.start();
 
     // asset database and user specific setting database will be created in sub directory of account login
     // after user has logged into account
-
-	while( !appLoaderThread.getIsSettingsLoaded() )
-	{
-		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
-	}
 
 	GuiParams::requestPermission("android.permission.RECORD_AUDIO");
 	// once settings has been loaded the audo can be started
@@ -369,7 +337,7 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 
     m_CreateAccountDlg = new ActivityCreateAccount( *this, appletFrame );
 
-	std::string strAssetDir = m_AppSettings.m_strRootUserDataDir + "assets/";
+	std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
 	VxFileUtil::makeDirectory( strAssetDir );
 
 	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()), Qt::QueuedConnection );
@@ -406,8 +374,8 @@ void AppCommon::slotGuiStartupTimer( void )
 	}
 	else if( 3 == guiStartupStep )
 	{
-		std::string strAssetDir = m_AppSettings.m_strRootUserDataDir + "assets/";
-		getEngine().fromGuiAppStartup( strAssetDir.c_str(), m_AppSettings.m_strRootUserDataDir.c_str() );
+		std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
+		getEngine().fromGuiAppStartup( strAssetDir.c_str(), VxGetRootUserDataDirectory().c_str() );
 		m_GuiStartupTimer->start();
 	}
 	else if( 4 == guiStartupStep )

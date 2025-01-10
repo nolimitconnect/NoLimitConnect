@@ -98,7 +98,6 @@ class AppCommon : public QWidget, public IToGui, public INlcRender, public INlcE
 
 public:
     AppCommon( QApplication& myQApp,
-               EDefaultAppMode appDefaultMode,
                AppModuleState& appModuleState,
                AppSettings& appSettings,
                AccountMgr& myDataHelper,
@@ -122,7 +121,7 @@ public:
 
     int                         elapsedSeconds( void ) { return elapsedMilliseconds() / 1000; }
 
-    bool                        loadWithoutThread( void );
+    bool                        loadWithThread( void );
     // cannot launch any applets until logon is completed
     void                        setLoginCompleted( bool completed ) { m_LoginComplete = completed; }
     bool                        getLoginCompleted( void ) { return m_LoginComplete; }
@@ -134,8 +133,6 @@ public:
     // diagnose to much cpu usage in gui thread
     void                        setGuiCpuTimeEnable( bool enable ) { m_GuiCpuTimeEnable = enable; }
     bool                        getGuiCpuTimeEnable( void ) { return m_GuiCpuTimeEnable; }
-
-    EDefaultAppMode             getAppDefaultMode( void ) { return m_AppDefaultMode; }
 
     AccountMgr&                 getAccountMgr( void ) { return m_AccountMgr; }
     VxAppDisplay&               getAppDisplay( void ) { return m_AppDisplay; }
@@ -867,7 +864,7 @@ protected:
 
     //=== vars ===//
     QApplication&               m_QApp;
-    EDefaultAppMode				m_AppDefaultMode;
+
     AppModuleState&             m_AppModuleState;
 
     AppGlobals					m_AppGlobals;
@@ -963,7 +960,7 @@ protected:
     VxThread                    m_AudioDevicesThread;
 };
 
-AppCommon& CreateAppInstance( QApplication* myApp );
+AppCommon& CreateAppInstance( QApplication* myApp, AppSettings& appSettings );
 
 AppCommon& GetAppInstance( void );
 

@@ -53,29 +53,8 @@ void AppletSearchPage::setupAppletSearchPage( void )
         // create launchers for the basic applets
         for( int i = int( eMaxSettingsApplets + 1 ); i < eMaxSearchApplets; i++ )
         {
-            bool shouldShow = true;
-            if( eAppletChatRoomJoinSearch == i && !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureChatRoom ) )
-            {
-                shouldShow = false;
-            }
-            else if( eAppletRandomConnectJoinSearch == i && !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureRandomConnect ) )
-            {
-                shouldShow = false;
-            }
-            else if( eAppletScanStoryboard == i && !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureStoryboard ) )
-            {
-                shouldShow = false;
-            }
-            else if( eAppletRandomConnectClient == i && !m_MyApp.getAppSettings().getFeatureEnable( eAppFeatureRandomConnect ) )
-            {
-                shouldShow = false;
-            }
-
-            if( shouldShow )
-            {
-                AppletLaunchWidget* applet = new AppletLaunchWidget( m_MyApp, (EApplet)i, this );
-                m_AppletList.push_back( applet );
-            }
+            AppletLaunchWidget* applet = new AppletLaunchWidget( m_MyApp, (EApplet)i, this );
+            m_AppletList.emplace_back( applet );
         }
 
         m_IsInitialized = true;
