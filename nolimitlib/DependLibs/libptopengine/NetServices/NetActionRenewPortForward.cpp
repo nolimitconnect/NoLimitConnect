@@ -24,6 +24,12 @@ NetActionRenewPortForward::NetActionRenewPortForward( NetServicesMgr& netService
 //============================================================================
 void NetActionRenewPortForward::doAction( void )
 {
+	if( eFirewallTestAssumeNoFirewall == m_Engine.getEngineSettings().getFirewallTestSetting() )
+	{
+		// if no firewall then no need to port forward
+		return;
+	}
+
 	ENetCmdError eResult = m_NetServicesMgr.doRenewPortForward();
 	if( eResult != eNetCmdErrorNone )
 	{

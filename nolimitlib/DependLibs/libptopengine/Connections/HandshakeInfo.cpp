@@ -24,7 +24,8 @@
 #include <algorithm>
 
 //============================================================================
-HandshakeInfo::HandshakeInfo(std::shared_ptr<VxSktBase>&sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, uint64_t timeStamp)
+HandshakeInfo::HandshakeInfo(std::shared_ptr<VxSktBase>&sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, 
+                              EConnectReason connectReason, uint64_t timeStamp, EHostType hostType )
     : m_SktBase(sktBase)
     , m_SocketId( sktBase->getSocketId() )
     , m_SessionId(sessionId)
@@ -32,6 +33,7 @@ HandshakeInfo::HandshakeInfo(std::shared_ptr<VxSktBase>&sktBase, VxGUID& session
     , m_Callback(callback)
     , m_ConnectReason(connectReason)
     , m_TimeStamp(timeStamp)
+    , m_HostType(hostType)
 {
 }
 
@@ -45,6 +47,7 @@ HandshakeInfo::HandshakeInfo( const HandshakeInfo& rhs )
     , m_ConnectReason( rhs.m_ConnectReason )
     , m_TimeStamp( rhs.m_TimeStamp )
     , m_HanshakeComplete( rhs.m_HanshakeComplete )
+    , m_HostType( rhs.m_HostType )
 {
 }
 
@@ -61,6 +64,7 @@ HandshakeInfo& HandshakeInfo::operator=( const HandshakeInfo& rhs )
         m_ConnectReason = rhs.m_ConnectReason;
         m_TimeStamp = rhs.m_TimeStamp;
         m_HanshakeComplete = rhs.m_HanshakeComplete;
+        m_HostType = rhs.m_HostType;
     }
 
     return *this;

@@ -43,9 +43,6 @@
     <ClInclude Include="..\..\VxUrl.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\AppDefines.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\AppErr.h">
       <Filter>Source Files</Filter>
     </ClInclude>

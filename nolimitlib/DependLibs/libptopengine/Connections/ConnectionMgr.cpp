@@ -189,6 +189,11 @@ void ConnectionMgr::onSktConnectedWithPktAnn( std::shared_ptr<VxSktBase>& sktBas
         {
             for( auto& shakeInfo : shakeList )
             {
+                if( shakeInfo.getSocketId() == sktBase->getSocketId() && shakeInfo.getOnlineId() == bigListInfo->getMyOnlineId() )
+                {
+                    onConnectStatusChange( shakeInfo.getSessionId(), eConnectStatusConnectSuccess, shakeInfo.getConnectReason(), shakeInfo.getHostType() );
+                }
+
                 shakeInfo.onContactConnected();
             }
         }
@@ -471,7 +476,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
                     if( sktBase->isConnected() )
                     {
                         uint64_t timeNow = GetTimeStampMs();
-                        HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow );
+                        HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow, hostType );
                         connectInfo->addConnectReason( shakeInfo );
                         isDisconnected = false;
                     }
@@ -531,7 +536,7 @@ EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string 
     VxUrl connectUrl( url.c_str() );
     if( onlineId.isVxGUIDValid() && connectUrl.validateUrl( false ) )
     {
-        connectStatus = directConnectTo( url, onlineId, callback, retSktBase, sessionId, connectReason );
+        connectStatus = directConnectTo( url, onlineId, callback, retSktBase, sessionId, connectReason, hostType );
         if( connectStatus == eConnectStatusConnectSuccess )
         {
             // connected but waiting for PktAnnounce reply
@@ -683,15 +688,16 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 url,
                                                 std::shared_ptr<VxSktBase>& retSktBase,
                                                 VxGUID                      sessionId,
                                                 EConnectReason              connectReason,
-                                                int					        iConnectTimeoutMs,
-                                                enum EHostType              hostType )
+                                                enum EHostType              hostType,
+                                                int					        iConnectTimeoutMs
+                                                 )
 {
     VxUrl connectUrl( url.c_str() );
     std::string ipAddr = connectUrl.getHostString();
     uint16_t port = connectUrl.getPort();
     if( !ipAddr.empty() && port )
     {
-        return directConnectTo( ipAddr, port, onlineId, retSktBase, callback, sessionId, connectReason, iConnectTimeoutMs, hostType );
+        return directConnectTo( ipAddr, port, onlineId, retSktBase, callback, sessionId, connectReason, hostType, iConnectTimeoutMs );
     }
     else
     {
@@ -717,7 +723,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  VxConnectInfo&		        connectI
     EIpAddrType addrType{ eIpAddrTypeUnknown };
     connectInfo.m_DirectConnectId.getIpAddress( ipAddr, addrType );
 
-    return directConnectTo( ipAddr, connectInfo.getOnlinePort(), connectInfo.getMyOnlineId(), ppoRetSkt, callback, sessionId, connectReason, iConnectTimeoutMs, hostType );
+    return directConnectTo( ipAddr, connectInfo.getOnlinePort(), connectInfo.getMyOnlineId(), ppoRetSkt, callback, sessionId, connectReason, hostType, iConnectTimeoutMs );
 }
 
 //============================================================================-
@@ -728,8 +734,8 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
                                                 IConnectRequestCallback*    callback,
                                                 VxGUID                      sessionId, 
                                                 EConnectReason              connectReason,
-                                                int					        iConnectTimeoutMs,
-                                                enum EHostType              hostType )
+                                                enum EHostType              hostType,
+                                                int					        iConnectTimeoutMs )
 {
     EConnectStatus connectStatus = eConnectStatusConnecting;
     onConnectStatusChange( sessionId, eConnectStatusConnecting, connectReason, hostType );
@@ -799,7 +805,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
 
         m_Engine.getConnectIdListMgr().addConnectionReason( sktBase->getSocketId(), connectReason );
         m_HandshakeMutex.lock();
-        m_HandshakeList.addHandshake(sktBase, sessionId, onlineId, callback, connectReason);
+        m_HandshakeList.addHandshake( sktBase, sessionId, onlineId, callback, connectReason, hostType );
         m_HandshakeMutex.unlock();
         if( !sktBase->isConnected() )
         {

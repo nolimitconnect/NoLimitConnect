@@ -11,9 +11,9 @@
 #include "GuiThreadSettingsLoader.h"
 
 #include "AppSettings.h"
-#include "LogMgr.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
 

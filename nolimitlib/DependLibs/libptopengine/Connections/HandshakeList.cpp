@@ -74,10 +74,11 @@ void HandshakeList::removeHandshakeSession( const VxGUID& sessionId )
 }
 
 //============================================================================
-void HandshakeList::addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason )
+void HandshakeList::addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, 
+                                  EConnectReason connectReason, EHostType hostType )
 {
     uint64_t timeNow = GetTimeStampMs();
-    HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow );
+    HandshakeInfo shakeInfo( sktBase, sessionId, onlineId, callback, connectReason, timeNow, hostType );
     std::pair<VxGUID, VxGUID> socketIdSessionIdPair( std::make_pair( sktBase->getSocketId(), sessionId ) );
     m_ShakeList[ socketIdSessionIdPair ] = shakeInfo;
 }

@@ -14,7 +14,6 @@
 #endif // defined(TARGET_OS_LINUX)
 
 #include "AppDefs.h"
-#include "AppProfile.h"
 
 #include <GuiInterface/IDefs.h>
 

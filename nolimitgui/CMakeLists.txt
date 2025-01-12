@@ -62,7 +62,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppDefs.h
     CommonSrc/QtSource/AppCommon.h
     CommonSrc/QtSource/AppGlobals.h
-    CommonSrc/QtSource/AppProfile.h
     CommonSrc/QtSource/AppSettings.h
     CommonSrc/QtSource/AppSetup.h
     CommonSrc/QtSource/AppletAboutApp.h
@@ -471,7 +470,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppDefs.cpp
     CommonSrc/QtSource/AppGlobals.cpp
     CommonSrc/QtSource/AppModuleState.cpp
-    CommonSrc/QtSource/AppProfile.cpp
     CommonSrc/QtSource/AppSettings.cpp
     CommonSrc/QtSource/AppSetup.cpp
     CommonSrc/QtSource/AppletAboutApp.cpp

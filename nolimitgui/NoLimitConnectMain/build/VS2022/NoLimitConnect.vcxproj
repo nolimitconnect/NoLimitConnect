@@ -303,7 +303,6 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppModuleState.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppProfile.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSettings.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSetup.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppTranslate.cpp" />

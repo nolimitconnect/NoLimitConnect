@@ -23,7 +23,8 @@ class HandshakeInfo
 {
 public:
     HandshakeInfo() = default;
-    HandshakeInfo( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason, uint64_t timeStamp );
+    HandshakeInfo( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, 
+                   EConnectReason connectReason, uint64_t timeStamp, EHostType hostType );
     HandshakeInfo( const HandshakeInfo& rhs );
     virtual ~HandshakeInfo() = default;
 
@@ -33,16 +34,18 @@ public:
 
     void                        setHanshakeComplete( bool complete ) { m_HanshakeComplete = complete; }
 
-    uint64_t                    getTimeStamp( void ) const      { return m_TimeStamp; }
-    VxGUID&                     getSocketId( void )             { return m_SocketId; }
-    VxGUID&                     getSessionId( void )            { return m_SessionId; }
-    std::shared_ptr<VxSktBase>& getSktBase( void )              { return m_SktBase; }
     IConnectRequestCallback*    getCallback( void )             { return m_Callback; }
     EConnectReason              getConnectReason( void )        { return m_ConnectReason; }
+    EHostType                   getHostType( void )             { return m_HostType; }
+    VxGUID&                     getOnlineId( void )             { return m_OnlineId; }
+    VxGUID&                     getSessionId( void )            { return m_SessionId; }
+    std::shared_ptr<VxSktBase>& getSktBase( void )              { return m_SktBase; }
+    VxGUID&                     getSocketId( void )             { return m_SocketId; }
+    uint64_t                    getTimeStamp( void ) const      { return m_TimeStamp; }
 
     void                        onContactConnected( void );
-    void                        onHandshakeTimeout( void );
     void                        onContactSessionDone( void );
+    void                        onHandshakeTimeout( void );
     void                        onSktDisconnected( void );
 
 protected:
@@ -53,6 +56,7 @@ protected:
     IConnectRequestCallback*    m_Callback{ nullptr };
     EConnectReason              m_ConnectReason{ eConnectReasonUnknown };
     uint64_t                    m_TimeStamp{ 0 };
+    EHostType                   m_HostType;
     bool                        m_HanshakeComplete{ false };
 };
 

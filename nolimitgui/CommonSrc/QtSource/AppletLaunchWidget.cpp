@@ -9,8 +9,12 @@
 //============================================================================
 
 #include "AppletLaunchWidget.h"
-#include "AppletLaunchPage.h"
+
 #include "AppCommon.h"
+#include "AppletLaunchPage.h"
+
+#include <P2PEngine/P2PEngine.h>
+#include <NetworkMonitor/NetStatusAccum.h>
 
 #include <QMessageBox>
 
@@ -42,6 +46,17 @@ VxPushButton * AppletLaunchWidget::getButton( void )
 //============================================================================
 void AppletLaunchWidget::slotAppletIconPressed( void )
 {
+    if( eAppletGroupJoin == m_AppletType ||
+        eAppletChatRoomJoin == m_AppletType ||
+        eAppletRandomConnectJoin == m_AppletType )
+    {
+        if( !m_MyApp.getEngine().getNetStatusAccum().isNetworkOnline() )
+        {
+             QMessageBox::information( this, QObject::tr( "Application Not Ready" ), QObject::tr( "Cannot launch applet until network is available" ) );
+             return;
+        }
+    }
+
     if( m_MyApp.getIsAppInitialized()
         || ( ( eAppletPlayerNlc == m_AppletType ) && m_MyApp.getLoginCompleted() )
         || ( eAppletCreateAccount == m_AppletType )

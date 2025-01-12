@@ -27,7 +27,8 @@ public:
     HandshakeList() = default;
     virtual ~HandshakeList() = default;
 
-    void                        addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason );
+    void                        addHandshake( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sessionId, VxGUID onlineId, 
+                                              IConnectRequestCallback* callback, EConnectReason connectReason, EHostType hostType );
     void                        removeHandshake( std::shared_ptr<VxSktBase>& sktBase ); // for removal before even used
 
     void                        getAndRemoveHandshakeInfo( const VxGUID& socketId, VxGUID onlineId, std::vector<HandshakeInfo>& shakeList, std::vector<HandshakeInfo>& timedOutList );

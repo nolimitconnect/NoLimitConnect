@@ -69,7 +69,6 @@ void AppletLaunchPage::setupAppletLaunchPage( void )
 void AppletLaunchPage::resizeEvent( QResizeEvent* ev )
 {
     ActivityBase::resizeEvent( ev );
-	//LogMsg( LOG_DEBUG, "AppletLaunchPage::resizeEvent total height %d contentsFrame height %d\n", this->height(), getContentItemsFrame()->height() );
 	VxTilePositioner::repositionTiles( m_AppletList, getContentItemsFrame(), 2 );
 }
 
@@ -105,7 +104,6 @@ void AppletLaunchPage::stopSpinner( void )
     {
         m_BusySpinner->stopWaiting();
 	    m_BusySpinner->close();
-	    //m_BusySpinner->deleteLater();
 	    m_BusySpinner = nullptr;
     }
 }

@@ -112,8 +112,8 @@ protected:
                                                  std::shared_ptr<VxSktBase>& retSktBase,
                                                  VxGUID                      sessionId,
                                                  enum EConnectReason         connectReason,
-                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT,
-                                                 enum EHostType              hostType = eHostTypeUnknown );  
+                                                 enum EHostType              hostType = eHostTypeUnknown,
+                                                 int					     iConnectTimeoutMs = DIRECT_CONNECT_TIMEOUT );  
 
     EConnectStatus				directConnectTo(	VxConnectInfo&			    connectInfo,		 
                                                     std::shared_ptr<VxSktBase>& ppoRetSkt,		
@@ -125,15 +125,15 @@ protected:
                                                     enum EConnectReason         connectReason = eConnectReasonUnknown,
                                                     enum EHostType              hostType = eHostTypeUnknown );
 
-    EConnectStatus              directConnectTo(    std::string                 ipAddr,
-                                                    uint16_t                    port,
-                                                    VxGUID                      onlineId,
-                                                    std::shared_ptr<VxSktBase>& retSktBase,
-                                                    IConnectRequestCallback*    callback,
-                                                    VxGUID                      sessionId,
-                                                    enum EConnectReason         connectReason,
-                                                    int					        iConnectTimeoutMs,
-                                                    enum EHostType              hostType = eHostTypeUnknown );
+    EConnectStatus              directConnectTo( std::string                 ipAddr,
+                                                 uint16_t                    port,
+                                                 VxGUID                      onlineId,
+                                                 std::shared_ptr<VxSktBase>& retSktBase,
+                                                 IConnectRequestCallback*    callback,
+                                                 VxGUID                      sessionId,
+                                                 enum EConnectReason         connectReason,
+                                                 enum EHostType              hostType,
+                                                 int					     iConnectTimeoutMs );
 
     bool                        txPacket( VxGUID&				        destinationId,
                                           std::shared_ptr<VxSktBase>&	sktBase,

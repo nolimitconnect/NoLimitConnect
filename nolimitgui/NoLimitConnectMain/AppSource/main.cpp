@@ -46,42 +46,11 @@
 
 #include <NetLib/VxPeerMgr.h>
 
-//#include "MediaPlayerNlc.h"
-//
-//#include <libplayer-nlc/xbmc/filesystem/Directory.h>
-//#include <libplayer-nlc/xbmc/filesystem/SpecialProtocol.h>
-//#include <libplayer-nlc/xbmc/filesystem/File.h>
-//#include <libplayer-nlc/xbmc/platform/Environment.h>
-//#include <libplayer-nlc/xbmc/utils/log.h>
-
-//using namespace XFILE;
-
-
 namespace {
-
     void ProcessQtEvents( int ms = 100 )
     {
         QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
     }
-
-
-
-#if defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QtAndroid>
-    const QVector<QString> permissions( { "android.permission.READ_EXTERNAL_STORAGE",
-                                        "android.permission.WRITE_EXTERNAL_STORAGE",
-                                        "android.permission.INTERNET",
-                                        "android.permission.ACCESS_WIFI_STATE",
-                                        "android.permission.CHANGE_WIFI_STATE",
-                                        "android.permission.ACCESS_NETWORK_STATE",
-                                        "android.permission.CHANGE_NETWORK_STATE",
-                                        "android.permission.RECORD_AUDIO",
-                                        "android.permission.CAMERA",
-                                        "android.permission.VIBRATE",
-                                        "android.permission.READ_PHONE_STATE",
-                                        "android.permission.KILL_BACKGROUND_PROCESSES" } );
-
-#endif //  defined (Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
 }
 
 //============================================================================
@@ -225,7 +194,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     if( LogEnabled( eLogStartup ) )
     {
         int timeNow = GetApplicationAliveMs();
-        LogMsg( LOG_VERBOSE, "%s setup %d create AppCommon %d font copy %d load %d total %d ms", __func__,
+        LogMsg( LOG_VERBOSE, "%s setup %d md create AppCommon %d font copy %d load %d total %d ms", __func__,
            timePreStartApp - timeStart, createAppCommon - timePreStartApp, copyFonts - createAppCommon, timeNow - copyFonts, timeNow - timeStart );
     }
 
@@ -237,18 +206,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 //============================================================================
 int main( int argc, char** argv )
 {
-    // filter out gralloc4: messages
-
-    // THIS SHOULD WORK BUT DOES NOT
-    // turn off android log messages except critical
-    // QLoggingCategory::setFilterRules("*.debug=false\n"
-    //                                  "*.info=false\n"
-    //                                  "*.warning=false\n"
-    //                                  "*.critical=true");
-
-    // THIS ALSO DOES NOT WORK.. must be a logcat thing
-    //qInstallMessageHandler(qtLogMessageOutput);
-
     int retVal{ 0 };
 
     VxSetGuiThreadId();

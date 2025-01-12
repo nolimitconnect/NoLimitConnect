@@ -1156,9 +1156,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppGlobals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppProfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

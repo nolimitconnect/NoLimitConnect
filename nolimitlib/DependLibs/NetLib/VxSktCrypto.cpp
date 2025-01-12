@@ -46,8 +46,12 @@ bool GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&		sktBase,
 		result = GenerateConnectionKey( &sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName);
 		if( result )
 		{
-            // LogMsg( LOG_VERBOSE, "GenerateRxConnectionKey %s skt %d id %d", sktBase->m_RxKey.describeKey().c_str(), sktBase->getSktHandle(), sktBase->getSktNumber() );
 			sktBase->m_RxCrypto.importKey( &sktBase->m_RxKey );
+		}
+		else
+		{
+            LogMsg( LOG_ERROR, "%s FAILED skt %d id %d port %d online id %s", __func__, sktBase->getSktHandle(), sktBase->getSktNumber(),
+					sktBase->getCryptoKeyPort(), poConnectId->getOnlineId().toOnlineIdString().c_str() );
 		}
 
 		vx_assert( result );

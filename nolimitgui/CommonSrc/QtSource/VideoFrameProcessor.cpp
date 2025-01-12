@@ -31,6 +31,8 @@ VideoFrameProcessor::VideoFrameProcessor( AppCommon& myApp, QObject* widget )
     , m_MyApp( myApp )
     , m_MediaProcessor( GetPtoPEngine().getMediaProcessor() )
 {
+    // 
+    setPriority(QThread::HighPriority);
 }
 
 //============================================================================

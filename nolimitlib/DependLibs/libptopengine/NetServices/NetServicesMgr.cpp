@@ -556,7 +556,6 @@ bool NetServicesMgr::actionReqConnectToNetService( VxSktConnectSimple& sktSimple
 		return false;
 	}
 
-	//LogMsg( LOG_VERBOSE, "actionReqConnectToNetService: SUCCESS\n" );
 	return true;
 }
 
@@ -597,7 +596,6 @@ bool NetServicesMgr::actionReqConnectToHost( VxSktConnectSimple& sktSimple )
 		return false;
 	}
 
-	//LogMsg( LOG_INFO, "actionReqConnectToHost: SUCCESS\n" );
 	return true;
 }
 
